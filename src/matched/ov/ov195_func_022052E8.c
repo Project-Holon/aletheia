@@ -27,9 +27,10 @@ extern void func_02031140(struct S02031140 *p);
 extern void func_02045808(struct U16Vec *vec);
 struct Rec;
 extern void func_02045C04(struct Rec *rec);
-extern void func_0203FB44(unsigned, unsigned short, unsigned short);
+typedef unsigned int   u32;
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020452E8(struct Descriptor *d);
-void func_022052E8(int task, char *p)
+void func_022052E8(int task, int *p)
 {
     func_02028604(((struct Obj02240 *)p)->f84);
     if (((struct Obj02240 *)p)->f64) func_0201CE48((struct Rec3 *)(((struct Obj02240 *)p)->f64));
@@ -37,7 +38,7 @@ void func_022052E8(int task, char *p)
     if (((struct Obj02240 *)p)->f80) func_02045808((struct U16Vec *)(((struct Obj02240 *)p)->f80));
     func_02045C04(((struct Obj02240 *)p)->f78);
     func_02045C04(((struct Obj02240 *)p)->f7C);
-    func_0203FB44(1, ((struct Obj02240 *)p)->f74, ((struct Obj02240 *)p)->f74 >> 16);
+    func_0203FB44(1, (unsigned short)(((struct Obj02240 *)p)->f74), (unsigned short)(((struct Obj02240 *)p)->f74 >> 16));
     func_020452E8((struct Descriptor *)(((struct Obj02240 *)p)->f6C));
     func_020452E8((struct Descriptor *)(((struct Obj02240 *)p)->f70));
 }

@@ -18,7 +18,8 @@ typedef unsigned int u32;
 struct QG;
 extern void *func_021C7CF4(int *p, int i);
 extern u8 func_021D5448(struct QG *p);
-extern u8 func_021D5584(void *, u8);
+struct UtilWork;
+extern u8 func_021D5584(struct UtilWork *p, u32 i);
 u8 func_021DD368(void *a, int b)
 {
     void *m;
@@ -26,7 +27,7 @@ u8 func_021DD368(void *a, int b)
     m = func_021C7CF4(a, b);
     n = func_021D5448(m);
     for (i = 0; i < n; i++) {
-        if (func_021D5584(m, i) == 0) return (u8)i;
+        if (func_021D5584(m, (u8)i) == 0) return (u8)i;
     }
     return 4;
 }

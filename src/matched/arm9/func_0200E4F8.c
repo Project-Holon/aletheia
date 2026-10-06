@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0200E4F8(int a0, int a1, int a2, int a3){ int t0; if ((unsigned int)(a2) == (unsigned int)(0)) {  return 0; } else { t0 = func_0200E488((int)(a1 + 0), (int)(a2 + 0)); return *(unsigned short *)(((char *)(((a0 + 0) + (t0 << 1))) + ((int)((0x55 << 2)) << 0))); } }
+int func_0200E4F8(int a0, int a1, int a2){ int t0; if ((unsigned int)(a2) == (unsigned int)(0)) {  return 0; } else { t0 = func_0200E488((int)(a1 + 0), (int)(a2 + 0)); return *(unsigned short *)(((char *)(((a0 + 0) + (t0 << 1))) + ((int)((0x55 << 2)) << 0))); } }

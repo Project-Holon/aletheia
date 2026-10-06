@@ -19,7 +19,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u8 func_021D5440(u8 *p);
-extern void func_021E9728(void *p, u32 v);
+struct QU;
+extern void func_021E9728(struct QU *p, u32 v);
 extern int func_021E96C4(char *p, int *st);
 
 void func_021E98BC(char *p, u8 *a, int b)
@@ -27,5 +28,5 @@ void func_021E98BC(char *p, u8 *a, int b)
     *(u8 * *)&((struct Obj10105 *)p)->fBC = a;
     ((struct Obj10105 *)p)->fC0 = func_021D5440(a);
     ((struct Obj10105 *)p)->fB8 = b;
-    func_021E9728(p, (u32)func_021E96C4);
+    func_021E9728((struct QU *)p, (u32)func_021E96C4);
 }

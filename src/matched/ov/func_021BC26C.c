@@ -15,9 +15,9 @@
  * Tail call to the ARM9 function at 0x020307B0: loads the pointer from the pool and branches through it.
  */
 
-extern void func_020307B0(void);
+extern void func_020307B0(void *p);
 
-void func_021BC26C(void)
+void func_021BC26C(void *p)
 {
-    func_020307B0();
+    func_020307B0(p);
 }

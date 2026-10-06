@@ -39,7 +39,9 @@ struct Blk37;
 struct MsgBank;
 struct U16Vec;
 extern u16 func_0200CA8C(struct Blk37 *p);
-extern void *func_021B7754(struct Template *,u32);
+struct S;
+struct Tmpl;
+extern struct S *func_021B7754(struct Tmpl *tmpl, u32 heap);
 extern void func_021B7A10(u8 *p, u32 a, u32 b, u32 c, u32 index);
 extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
@@ -68,7 +70,7 @@ void func_021BC9A8(struct Context *p)
             break;
         }
     }
-    p->list=func_021B7754(&tmpl,107);
+    p->list=func_021B7754((struct Tmpl *)(&tmpl),107);
     if(p->in->count<7)p->visible=p->in->count;else p->visible=7;
     func_021B7A10(p->list,(u32)arc,66,0,0);
     func_021B7A10(p->list,(u32)arc,67,0,1);

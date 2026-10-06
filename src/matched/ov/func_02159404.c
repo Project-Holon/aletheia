@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02011398();
+struct Ring;
+extern u32 func_02011398(struct Ring *r);
 extern u16 *func_02159AE8(void *a0, void *a1);
 
 int func_02159404(int a0, int a1)
@@ -30,7 +31,7 @@ int func_02159404(int a0, int a1)
 
 t5 = a0 + 0;
 t6 = a1 + 0;
-    a0 = func_02011398(a0, a1);
+    a0 = func_02011398((struct Ring *)a0);
 loc_0215940E:
 t4 = a0 + 0;
 a0 = t5 + 0;

@@ -38,7 +38,8 @@ extern struct Sub02008700Obj *sub_0200873C(void *sys);
 extern void *sub_020082EC(int a0);
 extern void sub_02008314(void *a0, void *a1);
 extern void *sub_0200CA1C(void *a);
-extern void sub_02013980(S *p, void *a);
+struct ZoneData;
+extern void sub_02013980(struct ZoneData *o, u32 heap);
 extern void sub_02082BCC(void *p, int c, int n);
 
 void sub_020138C4(S *p, int a1, void *a2)
@@ -60,5 +61,5 @@ void sub_020138C4(S *p, int a1, void *a2)
     sub_02008314((void *)t, (void *)v);
     p->f68 = (int)sub_0200CA1C((void *)a1);
     p->b23 = 1;
-    sub_02013980(p, a2);
+    sub_02013980((struct ZoneData *)p, (u32)a2);
 }

@@ -21,8 +21,10 @@ typedef struct { char pad[0x774]; int *list; } Obj;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 u32 func_021A2C28(u8 *p);
-void func_0204B53C(int a, Pt *p);
-void func_0204B528(int a, Pt *p);
+struct Actor;
+struct Pt;
+void func_0204B53C(const struct Actor *actor, struct Pt *out);
+void func_0204B528(struct Actor *actor, const struct Pt *src);
 
 void func_021A2564(Obj *obj, int px, int py)
 {
@@ -37,10 +39,10 @@ void func_021A2564(Obj *obj, int px, int py)
         y = (short)py;
         do {
             h = func_021A2C28((u8 *)((int)p));
-            func_0204B53C(h, &pt);
+            func_0204B53C((const struct Actor *)h, (struct Pt *)(&pt));
             pt.x = pt.x - x;
             pt.y = pt.y - y;
-            func_0204B528(h, &pt);
+            func_0204B528((struct Actor *)h, (const struct Pt *)(&pt));
             p = (int *)p[0x34 / 4];
         } while (p != obj->list);
     }

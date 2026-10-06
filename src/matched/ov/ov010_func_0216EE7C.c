@@ -59,7 +59,7 @@ extern void func_02165424(void *name);
 extern void func_02165468(void *name);
 extern void func_021654F0(void *name);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0216EE40(BattleEnd *st, int which);
+extern void func_0216EE40(void *p, int which);
 extern void func_0216EE20(u16 id, int col);
 
 void func_0216EE7C(BattleEndCtx *c)

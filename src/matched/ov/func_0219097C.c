@@ -24,7 +24,7 @@ typedef signed char    s8;
 struct Handle;
 extern struct Handle *func_02190960(u16 *a, const u8 *b, u32 c, u16 d, u16 e);
 
-int func_0219097C(u32 a, u32 b, u32 c, u32 d)
+u32 func_0219097C(u32 a, const void *b, u32 c)
 {
 return (int)func_02190960((u16 *)a, (const u8 *)b, c, 0, 0);
 }

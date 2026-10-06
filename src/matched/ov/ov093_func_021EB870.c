@@ -45,7 +45,9 @@ extern int func_021EB660(u8 *, int *);
 extern u8 func_021B8ED8(u8 *p, u8 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 extern u8 func_021D5440(u8 *p);
-extern void func_021ED798(u8 *);
+struct E;
+struct T;
+extern void func_021ED798(struct S *s);
 extern int func_021ED814(struct S *);
 struct Work;
 extern void *func_021D5864(struct Work *p);
@@ -56,11 +58,11 @@ extern int func_021F7EB4(void);
 extern int func_021EB820(u8 *);
 extern void func_021EEE24(u32 a, u16 k, u32 n, ...);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
-extern int func_021ECF68(u8 *);
-extern void func_021EDA04(u8 *);
+extern int func_021ECF68(struct T *p);
+extern void func_021EDA04(struct E *e);
 extern void *func_021B86B8(void ***);
 extern void func_021F7998(u32);
-extern u8 func_021B8DE4(u8 *, int);
+extern int func_021B8DE4(char *p, int i);
 extern u16 func_021BA020(char *, int);
 extern void func_021F7F58(int, u32, u32, u32, u32);
 extern void func_021EE104(u8 *, u32 *, u32, u32, u32);
@@ -78,14 +80,14 @@ int func_021EB870(int *state, u8 *p)
     switch (*state) {
     case 0:
         a = func_021B8ED8(*(u8 * *)&((struct Obj01695 *)p)->f134, 1);
-        i = func_021B8DE4(*(u8 * *)&((struct Obj01695 *)p)->f134, a);
+        i = func_021B8DE4((char *)(*(u8 * *)&((struct Obj01695 *)p)->f134), a);
         func_021F7F58(func_021BA020(*(char * *)&((struct Obj01695 *)p)->f134, i), 9, 0, 0, 0);
         b[5] = 1;
         b[7] = i;
         b[4] = a;
         *(u8 * *)&((struct Obj00579 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj01695 *)p)->f138, b[4]);
         b[6] = func_021D5440(*(u8 * *)&((struct Obj00579 *)b)->f0);
-        func_021ED798(p + 0x154);
+        func_021ED798((struct S *)(p + 0x154));
         (*state)++;
         break;
     case 1:
@@ -105,9 +107,9 @@ int func_021EB870(int *state, u8 *p)
         }
         break;
     case 3:
-        if (func_021ECF68(p)) {
+        if (func_021ECF68((struct T *)p)) {
             func_021F7A28(b[5], 0x238);
-            func_021ED798(p + 0x154);
+            func_021ED798((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
@@ -119,11 +121,11 @@ int func_021EB870(int *state, u8 *p)
         }
         break;
     case 5:
-        if (func_021ECF68(p)) {
+        if (func_021ECF68((struct T *)p)) {
             func_021F7EE8(func_021D5864(((struct Obj00579 *)b)->f0), b[5]);
             func_021F7A28(b[5], 0x239);
             func_021F8260(1);
-            func_021ED798(p + 0x154);
+            func_021ED798((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
@@ -135,7 +137,7 @@ int func_021EB870(int *state, u8 *p)
         }
         break;
     case 7:
-        func_021EDA04(p + 0x48 + b[4] * 12);
+        func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
         func_021F7998(0x232);
         (*state)++;
         break;
@@ -153,9 +155,9 @@ int func_021EB870(int *state, u8 *p)
         }
         break;
     case 9:
-        if (func_021ECF68(p)) {
+        if (func_021ECF68((struct T *)p)) {
             func_021F8260(0);
-            func_021ED798(p + 0x154);
+            func_021ED798((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
@@ -164,7 +166,7 @@ int func_021EB870(int *state, u8 *p)
         break;
     case 11:
         if (!func_021F7EB4()) {
-            func_021EDA04(p + 0x48 + b[4] * 12);
+            func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
             return 1;
         }
         break;

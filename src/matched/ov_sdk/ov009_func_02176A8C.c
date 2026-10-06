@@ -18,7 +18,7 @@
 extern char g_021AAA20[];
 extern unsigned long long func_020870D0(int a);
 
-void func_02176A8C(int a)
+void func_02176A8C(int a, int b)
 {
     unsigned long long v = func_020870D0(a);
 

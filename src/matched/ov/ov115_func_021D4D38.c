@@ -41,16 +41,18 @@ extern void func_020435F4(u32);
 extern void func_0204363C(u32);
 extern void func_0207D46C(void);
 extern void func_0203F8F4(u16);
-extern void func_020433E0(void *);
-extern void func_0203FC28(void *);
+struct DispConfig;
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021D4FA4(void *,u32);
 extern void func_021D5214(void *,u32);
-extern void func_021D57D0(void *);
+extern void func_021D57D0(u8 *p);
 extern void func_021D5598(u8 *p);
 extern void func_021D4E58(u32 unused, unsigned long base);
 extern void func_021D50BC(void *,u32);
-extern void func_021D532C(void *);
-u8 *func_021D4D38(u16 heap, u32 mode) {
+extern void func_021D532C(char *p);
+u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
     u8 *p;
     p=func_02030734(heap,0x14bc,1,(const char *)d_021D6614,146);
     ((struct Obj00198 *)p)->fC=heap;
@@ -62,8 +64,8 @@ u8 *func_021D4D38(u16 heap, u32 mode) {
     *(volatile u32 *)0x04001000 |= 0x10000;
     func_0207D46C();
     func_0203F8F4(((struct Obj00198 *)p)->fC);
-    func_020433E0(d_021D65E4);
-    func_0203FC28(d_021D65D4);
+    func_020433E0((const struct DispVram *)d_021D65E4);
+    func_0203FC28((struct DispConfig *)d_021D65D4);
     switch (((struct Obj00198 *)p)->f8) {
     case 1:
         func_021D4FA4(p,0);
@@ -74,7 +76,7 @@ u8 *func_021D4D38(u16 heap, u32 mode) {
     case 0:
         func_021D4E58((u32)p,0);
         func_021D50BC(p,4);
-        func_021D532C(p);
+        func_021D532C((char *)p);
         break;
     }
     func_020435F4(31);

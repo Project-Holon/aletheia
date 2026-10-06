@@ -15,5 +15,5 @@
  */
 #include "../include/Obj25752.h"
 extern void func_0204A648(void);
-void func_021F6624(void){func_0204A648();}
+void func_021F6624(void *a0){func_0204A648();}
 int func_021F662C(void *p){return ((struct Obj25752 *)p)->f0;}

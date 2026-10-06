@@ -23,12 +23,12 @@ extern u32 func_021CC8D8(u8 *p, int line);
 extern void func_021C7008(u8 *p, u8 *q);
 extern int func_021C88E4(u8 *p);
 extern void func_021C5750(u8 *p, u8 *q);
-extern void func_021CC95C(u8 *p, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 void func_021C6FC0(u8 *p, u8 *q)
 {
     u32 v = func_021CC8D8(p + 0x1D74, 12246);
     func_021C7008(p, q);
     if (func_021C88E4(p) != 2) func_021C5750(p, q);
-    func_021CC95C(p + 0x1D74, v, 12253);
+    func_021CC95C((u32 *)(p + 0x1D74), v, 12253);
 }

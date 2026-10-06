@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02012F20(int p0, int p1, int p2, int p3){ return *(int *)((p0 + (0x684 << 0))); }
+int func_02012F20(int p0){ return *(int *)((p0 + (0x684 << 0))); }

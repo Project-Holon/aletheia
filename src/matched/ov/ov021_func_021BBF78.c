@@ -21,13 +21,13 @@ typedef struct {
 extern int d_021DE320;
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_021BBFB0(Obj *p);
+extern void func_021BBFB0(void);
 
 Obj *func_021BBF78(int a, int b)
 {
     Obj *q = func_02030734(b, 4, 1, (const char *)&d_021DE320, 0x78);
 
     q->f0 = a;
-    func_021BBFB0(q);
+    func_021BBFB0();
     return q;
 }

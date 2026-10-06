@@ -29,4 +29,4 @@ extern void func_0204B270(struct Bank *);
 extern void func_020434DC(u32,u32);
 extern void func_02043598(u32,u32);
 typedef enum { OFFSET=14 } Offset;
-void func_021B7658(u8 *p) {Offset off;struct Bank *b;func_0204A48C(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=func_0204B100(14,0,79);off+=242;*(struct Bank **)(p+off)=b;func_0204B270(b);func_020434DC(16,1);func_02043598(16,1);}
+void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;func_0204A48C(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=func_0204B100(14,0,79);off+=242;*(struct Bank **)(p+off)=b;func_0204B270(b);func_020434DC(16,1);func_02043598(16,1);}

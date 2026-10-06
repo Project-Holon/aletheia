@@ -57,7 +57,7 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern u32 func_0202136C(u16);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_020450F0(int,u8,u8,int,u8,u8,u8);
-extern void func_021B9C1C(u8 *,u32,u32,u16,s16,u16);
+extern void func_021B9C1C(u8 *p, u32 win, u32 id, int x, s16 y, u16 color);
 extern u32 func_02018430(void *p);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -111,8 +111,8 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
     gx=(u32)x>>3;
     s[1]=func_020450F0(4,(u8)gx+3,gy,3,2,13,1);
     if(egg==0) {
-        if(special==0) func_021B9C1C(p,s[1],7,z+4,0,0x14c0);
-        else if(special==1) func_021B9C1C(p,s[1],8,z+4,0,0xc80);
+        if(special==0) func_021B9C1C(p,s[1],7,(u16)(z+4),0,0x14c0);
+        else if(special==1) func_021B9C1C(p,s[1],8,(u16)(z+4),0,0xc80);
     }
     level=func_02018430((void *)((int)mon));
     z=rem;

@@ -44,9 +44,9 @@ int func_021B8494(int a, int *b, C *c, u8 *d)
     extern u8 *func_0203159C(int, int, int);
     extern void func_02082BCC(void *, int, int);
     extern void func_021B8650(void);
-    extern void func_021B86BC(Q *);
+    extern void func_021B86BC(char *p);
     extern void func_021B86E8(Q *, u8 *);
-    extern void func_021B8764(Q *, u8 *);
+    extern void func_021B8764(void *p, char *q);
     extern void *func_02045770(struct Descriptor *p);
     extern u32 func_0201C6C4(struct PrintSys *p, void *v);
     extern void func_02045334(struct Descriptor *d);
@@ -61,9 +61,9 @@ int func_021B8494(int a, int *b, C *c, u8 *d)
         m = func_0203159C(a, 0x28, 0x61);
         func_02082BCC(m, 0, 0x28);
         func_021B8650();
-        func_021B86BC(c->f4);
+        func_021B86BC((char *)c->f4);
         func_021B86E8(c->f4, m);
-        func_021B8764(c->f4, m);
+        func_021B8764(c->f4, (char *)m);
         m[0x24] = 0xff;
         *b = *b + 1;
         break;

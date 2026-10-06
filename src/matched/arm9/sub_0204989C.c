@@ -33,12 +33,12 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A1BC(u32 a0, u32 a1, u32 a2, u16 a3);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void func_02049A18(void *buf, u32 a1, u32 a2, u32 a3, u32 a4,
                           u32 flag);
 
 void sub_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags)
 {
-    func_02049A18(func_0204A1BC(a0, a1, a5, (flags & 0x7FFF) | 0x8000),
+    func_02049A18((void *)func_0204A1BC((u32)a0, (u32)a1, (u32)a5, (u16)((flags & 0x7FFF) | 0x8000)),
                   a2, a3, 0, a4, 0);
 }

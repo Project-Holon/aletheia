@@ -34,34 +34,35 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 extern void func_021B8FB8(void *,char *);
 extern void func_021BBE5C(void *,char *);
-extern void func_021BA8C4(void *,char *);
+typedef unsigned short u16;
+extern void func_021BA8C4(u16 *a0, char *p);
 extern void func_021B8CC8(void *,char *);
-extern void func_021BBA94(void *,char *);
-extern void func_021BA2C4(void *,char *);
-extern void func_0202223C(int,int);
+extern void func_021BBA94(void *a0, u8 *p);
+extern void func_021BA2C4(void *a0, u8 *p);
+extern void func_0202223C(u32 a, u32 color);
 extern void func_021B8084(void *,char *);
-extern void func_021B7578(void *,char *);
-extern void func_021B7B80(void *,char *);
+extern void func_021B7578(int x, char *p);
+extern void func_021B7B80(int x, char *p);
 void func_021BDCB8(u8 *p)
 {
     switch (*(u32 *)(p+8)) {
     case 1: func_021B8FB8(p,*(char **)(p+0x1e8)); break;
     case 2: func_021BBE5C(p,*(char **)(p+0x1f0)); break;
-    case 3: func_021BA8C4(p,*(char **)(p+0x1ec)); break;
+    case 3: func_021BA8C4((u16 *)p,*(char **)(p+0x1ec)); break;
     }
     *(u32 *)(p+8)=*(u32 *)(p+12);
     switch (*(u32 *)(p+8)) {
     case 0: break;
     case 1: func_021B8CC8(p,*(char **)(p+0x1e8)); break;
-    case 2: func_021BBA94(p,*(char **)(p+0x1f0)); break;
-    case 3: func_021BA2C4(p,*(char **)(p+0x1ec)); break;
+    case 2: func_021BBA94(p,(u8 *)(*(char **)(p+0x1f0))); break;
+    case 3: func_021BA2C4(p,(u8 *)(*(char **)(p+0x1ec))); break;
     case 5:
         func_0202223C(0,0);
         func_0202223C(1,0);
     case 4:
         func_021B8084(p,*(char **)(p+0x1e4));
-        func_021B7578(p,*(char **)(p+0x1e0));
-        func_021B7B80(p,*(char **)(p+0x1e0));
+        func_021B7578((int)p,*(char **)(p+0x1e0));
+        func_021B7B80((int)p,*(char **)(p+0x1e0));
         break;
     }
 }

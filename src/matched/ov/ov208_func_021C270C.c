@@ -73,7 +73,8 @@ extern void func_020414AC(u8);
 extern void func_0204047C(int,u16);
 extern void func_0204B688(struct Actor *,u32);
 extern int func_02012BF8(int,int);
-extern void func_021C2C44(u16 *,u8 *,int);
+struct S;
+extern void func_021C2C44(u16 *heap, struct S *st, int a2);
 extern void func_021C2E6C(u16 *,u8 *,int,u32);
 extern void func_021C3218(u16 *,u8 *,int);
 extern void func_021C3280(u16 *,u8 *,struct Key *);
@@ -105,7 +106,7 @@ extern void func_021BDAE8(char *p, int v);
 extern void func_021C2BF4(void *,u8 *,void *);
 extern void func_021C3514(u16 *,u8 *,int);
 extern void func_021C3B14(void *,u8 *,int);
-extern void func_021BC508(int,u32 *);
+extern void func_021BC508(int flag, int *p);
 extern void func_021C3380(u16 *,u8 *,int);
 extern void func_021C3650(u16 *,u8 *,int);
 extern void func_021C301C(u16 *,u8 *,int);
@@ -139,7 +140,7 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
         func_0204047C(0,3);
         func_0204047C(6,1);
         func_0204047C(4,3);
-        func_021C2C44(heap,p,key);
+        func_021C2C44(heap,(struct S *)p,key);
         func_021C2E6C(heap,p,key,W(0x5c));
         func_0204B688((struct Actor *)(*(u32 *)((p+W(0x5c)*4)+0x54)),1);
         func_021C3218(heap,p,key);
@@ -202,8 +203,8 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
     case 6:
         *seq=7;
         func_021C3B14(heap,p,key);
-        func_021BC508(0,(u32 *)W(0xc0));
-        func_021BC508(1,(u32 *)W(0xc4));
+        func_021BC508(0,(int *)W(0xc0));
+        func_021BC508(1,(int *)W(0xc4));
         break;
     case 7:
         return 1;

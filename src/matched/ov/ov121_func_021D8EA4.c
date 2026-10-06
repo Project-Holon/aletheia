@@ -35,10 +35,11 @@ extern int func_021D6D6C(void **,int);
 extern void func_02040588(u32,u32);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021D694C(u16 *,int);
-extern void func_021DAB50(int,void *,u16,int,void *,void *);
+extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 struct Obj;
 extern void func_021D9254(char *p, int n);
-extern void func_0204B404(void *,Position *,int);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020061E4(u32 a);
 void func_021D8EA4(u8 *p)
@@ -62,8 +63,8 @@ void func_021D8EA4(u8 *p)
         u32 n=(((struct Obj00184 *)p)->f18*16u)/120u;
         *(volatile u16 *)0x04000052=(s16)n|((s16)(16-n)<<8);
         ((struct Obj00184 *)p)->f30=(((struct Obj00184 *)p)->f18*32767u)/120u;
-        func_021DAB50(15,p+50,((struct Obj00184 *)p)->f30,0,p+114,p+146);
-        func_021DAB50(31,p+82,((struct Obj00184 *)p)->f30,0,p+114,p+146);
+        func_021DAB50((void *)15,(u16 *)(p+50),((struct Obj00184 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        func_021DAB50((void *)31,(u16 *)(p+82),((struct Obj00184 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
         if((((struct Obj00184 *)p)->f18)++>120) {
             *(volatile u16 *)0x04000050=0;
             ((struct Obj00184 *)p)->f18=0;
@@ -96,7 +97,7 @@ void func_021D8EA4(u8 *p)
     case 4:
         pos.x=128;
         pos.y=118-((struct Obj00184 *)p)->f128;
-        func_0204B404(((struct Obj00184 *)p)->f4,&pos,0);
+        func_0204B404(((struct Obj00184 *)p)->f4,(const struct Vec2 *)(&pos),0);
         func_0204B3DC(((struct Obj00184 *)p)->f4,1);
         ((struct Obj00184 *)p)->f1C=0;
         ((struct Obj00184 *)p)->f20=5;
@@ -129,7 +130,7 @@ void func_021D8EA4(u8 *p)
         break;
     case 9:
         ((struct Obj00184 *)p)->f30=(((struct Obj00184 *)p)->f18*32767u)/120u;
-        func_021DAB50(14,p+178,((struct Obj00184 *)p)->f30,14,p+242,p+210);
+        func_021DAB50((void *)14,(u16 *)(p+178),((struct Obj00184 *)p)->f30,14,(const u16 *)(p+242),(const u16 *)(p+210));
         if((((struct Obj00184 *)p)->f18)++>120) {
             func_021D9254(((struct Obj00184 *)p)->f28,0);
             ((struct Obj00184 *)p)->f18=0;

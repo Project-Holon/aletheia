@@ -22,7 +22,9 @@
 struct SBL { char pad0[4]; void *servers; };
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *a, int n);
-extern void func_0219F738(struct SBL *l, void *s);
+struct SBServer;
+struct SBServerList;
+extern void func_0219F738(struct SBServerList *slist, struct SBServer *server);
 extern void func_0218452C(void *a);
 extern void func_0219F7D8(struct SBL *l);
 void func_0219F830(struct SBL *slist)
@@ -31,7 +33,7 @@ void func_0219F830(struct SBL *slist)
 	int nservers;
 	nservers = func_02184200(slist->servers);
 	for (i = 0; i < nservers; i++)
-		func_0219F738(slist, *(void **)func_02184208(slist->servers, i));
+		func_0219F738((struct SBServerList *)slist, *(void **)func_02184208(slist->servers, i));
 	func_0218452C(slist->servers);
 	func_0219F7D8(slist);
 }

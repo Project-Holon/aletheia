@@ -54,7 +54,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02190764(u32 a, u16 b, u32 c, void *d, u16 e, u32 f);
-extern int func_02190740(u32 a, u16 b, u32 c, u32 d);
+extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_021CD050(Obj *p, void *party)
@@ -96,9 +96,9 @@ void func_021CD050(Obj *p, void *party)
             continue;
         }
         if (v6e == 0) {
-            func_02190740(p->fB4, x + 0x1f, 0x10, 5);
+            func_02190740(p->fB4, (u16)(x + 0x1f), 0x10, 5);
         } else {
-            func_02190740(p->fB4, x + 0x1f, 0x10, 6);
+            func_02190740(p->fB4, (u16)(x + 0x1f), 0x10, 6);
         }
     }
     func_02045808(buf1);

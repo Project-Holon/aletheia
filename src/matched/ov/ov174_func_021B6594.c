@@ -42,7 +42,7 @@ extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
 extern void func_02049238(void *);

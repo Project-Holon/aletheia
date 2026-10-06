@@ -22,7 +22,7 @@ struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
 extern void func_02027858(struct TaskMenu *m);
-extern void func_02036270(unsigned, unsigned);
+extern int func_02036270(int a0, int a1);
 typedef struct { int (*a)(char *); int (*b)(char *); } Pair;
 extern const Pair d_021EFA4C[];
 #define W(p) (*(char **)((p) + 0x2C))

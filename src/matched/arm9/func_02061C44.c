@@ -43,15 +43,16 @@ typedef struct Rec {
 
 extern Rec g_02146B80;
 extern u32 func_02061BB0(u8 *p);
-extern u32   func_02061BD0(Rec *rec);
-extern void  func_02061B2C(Node *n);
+struct Obj02061BD0;
+extern u32 func_02061BD0(struct Obj02061BD0 *p);
+extern void func_02061B2C(u32 *s);
 
 void func_02061C44(void)
 {
     Node *n = (Node *)func_02061BB0((u8 *)(&g_02146B80));
 
-    while (func_02061BD0(&g_02146B80) != 0) {
-        func_02061B2C(n);
+    while (func_02061BD0((struct Obj02061BD0 *)(&g_02146B80)) != 0) {
+        func_02061B2C((u32 *)n);
         g_02146B80.f10 -= n->f0c;
         n = (Node *)func_02061BB0((u8 *)(&g_02146B80));
     }

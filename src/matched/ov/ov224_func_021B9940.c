@@ -34,7 +34,8 @@ extern char file[], vram[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02082BCC(void *, u32, u32);
 extern void func_0204335C(u32);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -44,7 +45,7 @@ extern void *func_020056A0(void (*)(void *,char *),void *,u32);
 extern void func_021B9A6C(void *,u32);
 extern void func_021B9B10(unsigned char *,int,int);
 extern void func_021B9A58(void *,char *);
-extern void func_021B9B7C(void *,u32);
+extern void func_021B9B7C(void **p, u32 heap);
 static inline void G2_BlendNone(void) { *(volatile u16 *)0x04000050 = 0; }
 static inline void G2S_BlendNone(void) { *(volatile u16 *)0x04001050 = 0; }
 static inline void GX_SetVisibleWnd(int window) {
@@ -62,7 +63,7 @@ void *func_021B9940(u32 swap, u32 heap)
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     func_0204335C(0);
-    func_020433E0(vram);
+    func_020433E0((const struct DispVram *)vram);
     func_0204363C(swap);
     func_0204361C();
     func_020434CC();
@@ -70,7 +71,7 @@ void *func_021B9940(u32 swap, u32 heap)
     func_0201DD60();
     func_021B9A6C(p, heap);
     func_021B9B10((unsigned char *)p + 4, (int)vram, heap);
-    func_021B9B7C(p + 8, heap);
+    func_021B9B7C((void **)(p + 8), heap);
     ((struct Obj26109 *)p)->fC = func_020056A0(func_021B9A58, p, 0);
     return p;
 }

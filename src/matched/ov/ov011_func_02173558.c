@@ -15,9 +15,10 @@
  */
 #include "../include/Obj19162.h"
 typedef struct { void *sys; void *obj; } Work;
-extern void func_02167688(Work *);
+struct Work;
+extern void func_02167688(struct Work *w);
 void func_02173558(int a, char *p)
 {
     if (p != 0)
-        func_02167688(*(Work * *)&((struct Obj19162 *)p)->f8);
+        func_02167688((struct Work *)(*(Work * *)&((struct Obj19162 *)p)->f8));
 }

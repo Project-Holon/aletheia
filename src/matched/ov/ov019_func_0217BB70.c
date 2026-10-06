@@ -62,10 +62,10 @@ extern u32   func_020362DC(void);
 extern int   func_0217AEE8(u16 t);
 extern u16   func_0217AEFC(u32 t);
 extern int   func_0217AF38(u16 t);
-extern int   func_0217AF4C(u8 *w, u16 t);
-extern void  func_0217B8E4(u8 *w, int v);
-extern void  func_0217BAF0(u8 *w, void *q, int v);
-extern int   func_0217BB04(u8 *w);
+extern int func_0217AF4C(char *a, u16 key);
+extern int func_0217B8E4(char *p, char v);
+extern void func_0217BAF0(char *p, int x, unsigned int v);
+extern int func_0217BB04(char *p);
 extern int func_0217F7E4(u32 arg);
 
 int func_0217BB70(u8 *w, u8 *obj, void *q)
@@ -81,7 +81,7 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
 
     a = func_02188CB4(q);
     b = func_02188C7C(q);
-    if (func_0217BB04(w) == 1) {
+    if (func_0217BB04((char *)w) == 1) {
         return 1;
     }
     if (func_02172D68(w) == 1) {
@@ -101,7 +101,7 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
             return 0;
         }
         t = func_0216D588(r);
-        if (func_0217AF38(t) == 0 || func_0217AF4C(w, t) == 0) {
+        if (func_0217AF38(t) == 0 || func_0217AF4C((char *)w, t) == 0) {
             return 0;
         }
         ((struct Obj12522 *)obj)->f58 = t;
@@ -110,24 +110,24 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
         if (func_0217AEE8(t) == 0) {
             if (((Work *)w)->entries[n].bB == 0) {
                 func_021734A8(w, 1, (u32)(&((Work *)w)->entries[n]));
-                func_0217B8E4(w, 5);
+                func_0217B8E4((char *)w, 5);
             } else {
-                func_0217B8E4(w, 0xB);
+                func_0217B8E4((char *)w, 0xB);
             }
         } else {
-            func_0217B8E4(w, 0xC);
+            func_0217B8E4((char *)w, 0xC);
         }
-        func_0217BAF0(w, q, 1);
+        func_0217BAF0((char *)w, (int)q, 1);
         return 1;
     }
     if (w[0x282E] == 1) {
-        func_0217B8E4(w, 4);
+        func_0217B8E4((char *)w, 4);
         return 1;
     }
     if (func_0217F7E4((u32)q) == 1) {
         if (((struct Obj07382 *)w)->f3564 == 1) {
-            func_0217BAF0(w, q, 1);
-            func_0217B8E4(w, 3);
+            func_0217BAF0((char *)w, (int)q, 1);
+            func_0217B8E4((char *)w, 3);
         }
     } else {
         ((struct Obj07382 *)w)->f3564 = 1;

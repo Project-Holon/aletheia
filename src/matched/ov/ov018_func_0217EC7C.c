@@ -87,23 +87,28 @@ typedef struct {
     u8 f169;
 } Obj;
 
-extern int func_0201210C(int a0);
-extern int func_02188CCC(int a0);
-extern int func_02012138(int a0);
-extern int func_020120F4(int a0);
+struct Actor;
+struct BigObj;
+struct Ctx;
+struct Obj;
+struct PtS;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02188CCC(u8 *p);
+extern u32 func_02012138(const struct Ctx *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021A0F94(u32 a);
-extern int func_02012B58(int a0);
-extern int func_0204B3F4(int a0);
-extern void func_0204B454(int a0, s16 *a1, int a2);
+extern u8 func_02012B58(const struct BigObj *p);
+extern u32 func_0204B3F4(struct Obj *p);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
 extern Mon *func_0217BEA8(int a0);
-extern int func_0217F284(Obj *p);
+extern int func_0217F284(u8 *p);
 extern void func_0217EC44(int x, int y, int w, int h, Rect *r);
 extern int func_0217EC5C(u32 x, u32 y, Rect *r);
 extern int func_02013DD0(int a0);
 extern void func_020061E4(u32 a);
 extern u32 func_02013D5C(u32 id);
-extern int func_020257C4(int a0);
+extern int func_020257C4(const int *p);
 extern const Ent d_02176AA0[];
 
 void func_0217EC7C(Q *q, Obj *p, int id)
@@ -121,13 +126,13 @@ void func_0217EC7C(Q *q, Obj *p, int id)
     const Ent *e;
     Mon *m;
 
-    x = func_02188CCC(func_0201210C(p->f00));
-    func_02012138(p->f00);
-    h = func_020120F4(p->f00);
+    x = func_02188CCC(func_0201210C((const struct Ctx *)p->f00));
+    func_02012138((const struct Ctx *)p->f00);
+    h = (int)func_020120F4((const struct Ctx *)p->f00);
     if (p->f112 != 0 || p->f106 == 1 || !func_02035D20(&tx, &ty) || func_021A0F94(x) != 0) {
         return;
     }
-    sel = func_02012B58(h);
+    sel = func_02012B58((const struct BigObj *)h);
     for (i = 0; i < 3; i++) {
         if (i == sel) {
             continue;
@@ -136,10 +141,10 @@ void func_0217EC7C(Q *q, Obj *p, int id)
             continue;
         }
         w = p->f8C[i];
-        if (func_0204B3F4(w) != 1) {
+        if (func_0204B3F4((struct Obj *)w) != 1) {
             continue;
         }
-        func_0204B454(w, pt, 0);
+        func_0204B454((struct Actor *)w, (struct PtS *)pt, 0);
         if (tx - 12 > pt[0] || tx + 12 < pt[0]) {
             continue;
         }
@@ -155,10 +160,10 @@ void func_0217EC7C(Q *q, Obj *p, int id)
         p->f169 = i;
         return;
     }
-    if (func_0217F284(p) == 1) {
+    if (func_0217F284((u8 *)p) == 1) {
         return;
     }
-    if (p->fD8 != func_02012B58(h)) {
+    if (p->fD8 != func_02012B58((const struct BigObj *)h)) {
         for (i = 0; i < 8; i++) {
             e = &d_02176AA0[i];
             func_0217EC44(e->x, e->y, 0x10, 0x10, &rect);
@@ -185,7 +190,7 @@ void func_0217EC7C(Q *q, Obj *p, int id)
             return;
         }
     }
-    if (p->fD8 != func_02012B58(h)) {
+    if (p->fD8 != func_02012B58((const struct BigObj *)h)) {
         func_0217EC44(0x80, 0x5C, 0x10, 0x10, &rect);
         if (func_0217EC5C(tx, ty, &rect) == 1) {
             if (func_02013D5C(id) == 1) {
@@ -198,7 +203,7 @@ void func_0217EC7C(Q *q, Obj *p, int id)
             return;
         }
     }
-    if (p->f168 == 0 && func_020257C4(p->fC4) == 1) {
+    if (p->f168 == 0 && func_020257C4((const int *)p->fC4) == 1) {
         func_0217EC44(0xE0, 0x80, 0x1E, 0xC, &rect);
         if (func_0217EC5C(tx, ty, &rect) == 1) {
             p->f168 = 1;

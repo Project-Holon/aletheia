@@ -36,7 +36,8 @@ typedef struct CPSSoc {
     CPSSslConnection *con;              /* +0xc */
 } CPSSoc;
 
-extern unsigned long func_0215ABB0(CPSSoc *soc);
+struct Soc;
+extern unsigned long func_0215ABB0(struct Soc *soc);
 extern void func_02163C9C(void *ctx);
 extern void func_021633F0(void *ctx);
 extern int func_0216289C(CPSSoc *soc);
@@ -48,7 +49,7 @@ unsigned long func_02162968(CPSSoc *soc)
 
     con = soc->con;
     if (soc->state != 4) {
-        if (func_0215ABB0(soc) != 0)
+        if (func_0215ABB0((struct Soc *)soc) != 0)
             return 1;
     }
     con->f455 = 0;

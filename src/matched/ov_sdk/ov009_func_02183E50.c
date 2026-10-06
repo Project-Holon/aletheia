@@ -18,8 +18,8 @@
 typedef unsigned int u32;
 
 extern void *func_020923B0(void *p, int c, u32 n);
-extern int func_021837A4(void *a, int b, void *p, int n, u32 *out);
-extern int func_0217E934(void *p);
+extern int func_021837A4(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut);
+extern int func_0217E934(char *p);
 
 int func_02183E50(void *a, int b, int *c)
 {
@@ -27,7 +27,7 @@ int func_02183E50(void *a, int b, int *c)
     u32 k;
 
     func_020923B0(c, 0, 0x104);
-    if (func_021837A4(a, b, c + 1, 0x200, &n) == 0)
+    if (func_021837A4(a, (char *)b, (unsigned char *)(c + 1), 0x200, (int *)(&n)) == 0)
         return 0;
 
     k = n >> 2;
@@ -35,7 +35,7 @@ int func_02183E50(void *a, int b, int *c)
     if (n & 3)
         c[0] = k + 1;
 
-    if (func_0217E934(c) == 0)
+    if (func_0217E934((char *)c) == 0)
         return 0;
     return 1;
 }

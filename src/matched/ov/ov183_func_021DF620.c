@@ -35,15 +35,22 @@ struct State { u8 pad[0x14]; u16 shared0,shared1; u16 indices[5][6]; int cursor;
 struct Rec { u32 w[9]; };
 struct Entries { u32 species[6],form[6],gender[6]; };
 struct Sub { u8 pad[16]; u32 size,data; };
-extern u32 func_0204B3F4(void *),func_0204B714(void *);
-extern void func_0204B7C8(const char *,struct Rec *),func_0204B784(char *,const struct Rec *);
 struct Obj;
-extern void func_0204B6F4(void *,u32,u32),func_0204B3DC(struct Obj *,unsigned int);
+struct Struct36;
+struct Sub0204A9D0;
+extern u32 func_0204B3F4(struct Obj *p);
+extern u32 func_0204B714(struct Obj *o);
+extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void func_0204B784(char *dst, const struct Struct36 *src);
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void *func_020490F4(u32,u16);
 extern void func_021DF838(int,char *);
 extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
 extern void *func_02049E74(void *,u32,u32,u32,u16);
-extern void func_0204A9D0(int,struct Sub *),func_0204AB84(u32,struct Rec *);
+extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
+extern void func_0204AB84(u32,struct Rec *);
 extern void func_020307B0(void *),func_02049238(void *);
 void func_021DF620(struct State *p,int first,short step,u16 heap)
 {
@@ -59,20 +66,20 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
         for(j=0;j<6;j++) {
             if(step==1 && i!=4) {
                 src=p->sprites[i+1][j]; dst=p->sprites[i][j];
-                if(func_0204B3F4(src)) {
-                    func_0204B7C8(src,&forward);
-                    value=func_0204B714(src);
-                    func_0204B784(dst,&forward);
-                    func_0204B6F4(dst,value,0);
+                if(func_0204B3F4((struct Obj *)src)) {
+                    func_0204B7C8(src,(struct Struct36 *)(&forward));
+                    value=func_0204B714((struct Obj *)src);
+                    func_0204B784(dst,(const struct Struct36 *)(&forward));
+                    func_0204B6F4((struct Obj *)dst,value,0);
                     func_0204B3DC((struct Obj *)dst,1);
                 } else func_0204B3DC((struct Obj *)dst,0);
             } else if(step==-1 && i!=4) {
                 src=p->sprites[3-i][j]; dst=p->sprites[4-i][j];
-                if(func_0204B3F4(src)) {
-                    func_0204B7C8(src,&back);
-                    value=func_0204B714(src);
-                    func_0204B784(dst,&back);
-                    func_0204B6F4(dst,value,0);
+                if(func_0204B3F4((struct Obj *)src)) {
+                    func_0204B7C8(src,(struct Struct36 *)(&back));
+                    value=func_0204B714((struct Obj *)src);
+                    func_0204B784(dst,(const struct Struct36 *)(&back));
+                    func_0204B6F4((struct Obj *)dst,value,0);
                     func_0204B3DC((struct Obj *)dst,1);
                 } else func_0204B3DC((struct Obj *)dst,0);
             }
@@ -86,10 +93,10 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
         func_021DF838((int)((u32)p->source+(i+first)*0xc4),(char *)&entries);
         if(entries.species[j]) {
             handle=func_02049E74(archive,func_0201BABC(entries.species[j],entries.form[j],entries.gender[j],0),0,(u32)&data,mode);
-            func_0204A9D0(p->indices[p->cursor][j],data);
+            func_0204A9D0(p->indices[p->cursor][j],(struct Sub0204A9D0 *)data);
             func_0204AB84(p->indices[p->cursor][j],&loaded);
-            func_0204B784(p->sprites[i][j],&loaded);
-            func_0204B6F4(p->sprites[i][j],func_0201BB5C(entries.species[j],entries.form[j],entries.gender[j],0),0);
+            func_0204B784(p->sprites[i][j],(const struct Struct36 *)(&loaded));
+            func_0204B6F4((struct Obj *)p->sprites[i][j],func_0201BB5C(entries.species[j],entries.form[j],entries.gender[j],0),0);
             func_020307B0(handle);
             func_0204B3DC((struct Obj *)p->sprites[i][j],1);
         } else func_0204B3DC((struct Obj *)p->sprites[i][j],0);

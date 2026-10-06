@@ -24,7 +24,8 @@ typedef struct {
     char *end;
 } Buf;
 extern char g_021A2694[];
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_0217A15C(char *http, Buf *buf, int size);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
 
@@ -36,7 +37,7 @@ int func_0217A044(char *http, char *data)
     Buf *temp_buffer;
 
     temp_buffer = (Buf *)(http + 0x1a34);
-    result_len = func_0209477C(data);
+    result_len = func_0209477C((const u8 *)data);
     buf_remain = temp_buffer->end - temp_buffer->cur;
     if (result_len > buf_remain) {
         if (func_0217A15C(http, temp_buffer, result_len - buf_remain + 1) == 0) {

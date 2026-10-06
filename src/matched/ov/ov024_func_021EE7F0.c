@@ -26,7 +26,7 @@ int func_021A240C(int *p);
 void func_021A22E0(u32 *p, int a, int b, int c);
 int func_021A23F4(int *p);
 int func_021A2418(int *p);
-void func_021A2114(int p, int a, int b);
+int func_021A2114(u32 a, int b, u32 c);
 
 int func_021EE7F0(int p, int v)
 {

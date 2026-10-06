@@ -77,7 +77,7 @@ void func_020640B0(s32 *tbl)
     }
 }
 
-void func_020640CC(s32 *tbl, u32 i, s32 v)
+void func_020640CC(s32 *tbl, u32 i, u32 v)
 {
     tbl[i] = v;
 }

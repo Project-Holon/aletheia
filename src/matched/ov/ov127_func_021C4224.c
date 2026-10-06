@@ -18,9 +18,9 @@
 
 typedef unsigned char u8;
 
-extern int func_0204B838(void *);
+extern int func_0204B838(int a0);
 
 int func_021C4224(u8 *p)
 {
-    return func_0204B838(((struct Obj23015 *)p)->f4);
+    return func_0204B838((int)(((struct Obj23015 *)p)->f4));
 }

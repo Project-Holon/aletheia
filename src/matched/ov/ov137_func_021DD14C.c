@@ -28,7 +28,7 @@ extern const u8 d_021E1AEE[];
 extern const u8 d_021E1AEF[];
 extern void func_0207E51C(void *, int, int);
 #pragma opt_propagation off
-void func_021DD14C(int unused, u8 *p)
+void func_021DD14C(void *unused, u8 *p)
 {
     struct State *v = (struct State *)(p + 24);
     int c;

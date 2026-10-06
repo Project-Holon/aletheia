@@ -40,7 +40,7 @@ extern void func_021C1CD4(void *);
 extern void func_021C2090(char *);
 extern int func_021C1C10(void *);
 extern void func_021C19DC(char *, int);
-int func_021C1B04(char *p, int heap)
+u8 func_021C1B04(char *p, int heap)
 {
     u32 first, second;
     first = func_021B9800(p + 0x274);

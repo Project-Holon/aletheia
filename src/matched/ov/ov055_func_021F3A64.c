@@ -19,8 +19,8 @@
 
 extern void func_02189A68(char *a, int b);
 extern void func_021F3CE4(char *);
-extern void func_021F3F20(char *);
-extern void func_021F4430(char *);
+extern void func_021F3F20(unsigned char *p);
+extern void func_021F4430(unsigned char *p);
 
 void func_021F3A64(int a, int b, char *c)
 {
@@ -29,8 +29,8 @@ void func_021F3A64(int a, int b, char *c)
     func_02189A68((char *)b, 0);
     for (i = 0; i < 0x20; i++)
         func_021F3CE4(c + 8 + i * 0x18);
-    func_021F3F20(c + 0x308);
-    func_021F4430(c + 0x348);
+    func_021F3F20((unsigned char *)(c + 0x308));
+    func_021F4430((unsigned char *)(c + 0x348));
     ((struct Obj13119 *)c)->f0 = 0;
     ((struct Obj13119 *)c)->f4 = 0;
 }

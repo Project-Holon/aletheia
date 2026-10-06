@@ -40,7 +40,9 @@ typedef struct {
 } TK;
 
 extern void *func_021D54C4(void *queue);
-extern void func_021D7750(int kind, TCB *tcb);
+typedef unsigned int   u32;
+struct StructR4;
+extern void func_021D7750(u32 idx, struct StructR4 *r4);
 extern TK *g_021DE6E4;
 
 void func_021D75D0(int kind)
@@ -56,6 +58,6 @@ void func_021D75D0(int kind)
 		t = (TCB *)func_021D54C4(g_021DE6E4[kind].delque);
 		if (t == 0)
 			return;
-		func_021D7750(kind, t);
+		func_021D7750(kind, (struct StructR4 *)t);
 	}
 }

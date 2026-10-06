@@ -87,7 +87,7 @@ extern void func_021C4218(u8 *, u8 *, u8 *, u8 *, u32, u32, u32, u32);
 extern void func_021C1C88(u8 *, u8 *, u32, u8 *, u32);
 extern int func_021C4F64(u8 *, u8 *);
 extern int func_021C88E4(u8 *);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 void func_021C3438(u8 *p, u16 *q, u8 *a, u8 *out)
 {
@@ -159,6 +159,6 @@ void func_021C3438(u8 *p, u16 *q, u8 *a, u8 *out)
         } else if (!func_021C88E4(p)) {
             func_021C572C(p, b, *q);
         }
-        func_021CC95C(p + 0x1d74, lock, 0x219c);
+        func_021CC95C((u32 *)(p + 0x1d74), lock, 0x219c);
     }
 }

@@ -25,7 +25,7 @@ struct Ctx;
 struct Rec;
 extern void *func_0216D67C(void *a0);
 extern u16 func_0216D590(void *p);
-extern int func_021AE884(int a);
+extern int func_021AE884(u32 a);
 extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0219BCC0(int a, u8 *b, int c);
 

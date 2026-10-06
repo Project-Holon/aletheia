@@ -50,10 +50,10 @@ extern void func_021EA878(unsigned char *, int);
 extern void func_021EBCB4(unsigned char *, int, int);
 extern void func_021ECB20(char *p, int f, int c);
 extern void func_021EC5A0(char **p, int flag);
-extern void func_021EE364(unsigned char *, int, int);
-extern int func_021EA83C(unsigned char *, int);
+extern void func_021EE364(char **p, int idx, int v);
+extern int func_021EA83C(char *p, int a);
 extern int func_021E8F50(char *p, int v);
-extern int func_021E8FC0(unsigned char *, int (*)(unsigned char *), int);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0190(char *p);
 extern int func_021E01B0(unsigned char *);
 extern void func_021EBC58(unsigned char *, int, int, int);
@@ -69,14 +69,14 @@ int func_021E4470(unsigned char *p)
         func_021EF3A0(MGR(p));
         func_020061E4(0x669);
         STEP(p)++;
-        return func_021E8FC0(p, func_021E01B0, 0x22);
+        return func_021E8FC0((char *)p, (int)func_021E01B0, 0x22);
     case 1:
         func_020061E4(0x669);
         p[0x19] = p[0x14];
         STEP(p)++;
-        return func_021EA83C(p, 0x22);
+        return func_021EA83C((char *)p, 0x22);
     case 2:
-        func_021EE364(p, 4, 0x27);
+        func_021EE364((char **)p, 4, 0x27);
         func_021EF670(WORK(p));
         *(int *)(WORK(p) + 0xa168) = 0x27;
         STEP(p) = 0;

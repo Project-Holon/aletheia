@@ -58,18 +58,19 @@ typedef struct
     int flags;
 } BN_MONT_CTX;
 
-extern BIGNUM *func_021CAE20(BIGNUM *, const BIGNUM *);
-extern void func_021CACD0(BIGNUM *);
+typedef unsigned char  u8;
+extern u8 *func_021CAE20(u8 *a, u8 *b);
+extern void func_021CACD0(int a);
 extern int func_021CAB94(const BIGNUM *);
-extern int func_021CAEC8(BIGNUM *, BN_ULONG);
+extern int func_021CAEC8(u8 *a, unsigned long w);
 extern int func_021CB0C8(BIGNUM *, int);
 extern BN_ULONG func_021CC4A0(BN_ULONG);
 extern int func_021CB1A8(BIGNUM *, const BIGNUM *, int);
 extern int func_021CB494(BIGNUM *, BN_ULONG);
 extern BN_ULONG func_021CDAE8(BN_ULONG, BN_ULONG, BN_ULONG);
-extern int func_021CC0FC(BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
+extern void func_021CC0FC(int a, int b, int c, int d);
 extern BIGNUM *func_021CAC24(BIGNUM *, int);
-extern void func_021CABDC(BIGNUM *);
+extern void func_021CABDC(u8 *p);
 
 int func_021CC80C(BN_MONT_CTX *mont, const BIGNUM *mod, BN_CTX *ctx)
 {
@@ -80,19 +81,19 @@ int func_021CC80C(BN_MONT_CTX *mont, const BIGNUM *mod, BN_CTX *ctx)
     ret = 0;
     if (mod->top == 0)
         return ret;
-    if (func_021CAE20(&mont->N, mod) == 0)
+    if (func_021CAE20((u8 *)(&mont->N), (u8 *)mod) == 0)
         return ret;
 
-    func_021CACD0(&Ri);
+    func_021CACD0((int)(&Ri));
     mont->use_word = 1;
     mont->ri = (func_021CAB94(mod) + 31) / 32;
-    if (!func_021CAEC8(&mont->RR, 0))
+    if (!func_021CAEC8((u8 *)(&mont->RR), 0))
         return ret;
     if (!func_021CB0C8(&mont->RR, 32))
         goto err;
 
     w = mod->d[0];
-    if (!func_021CAEC8(&Ri, func_021CC4A0(w)))
+    if (!func_021CAEC8((u8 *)(&Ri), func_021CC4A0(w)))
         goto err;
     if (!func_021CB1A8(&Ri, &Ri, 32))
         goto err;
@@ -100,21 +101,21 @@ int func_021CC80C(BN_MONT_CTX *mont, const BIGNUM *mod, BN_CTX *ctx)
     {
         func_021CB494(&Ri, 1);
     }
-    else if (!func_021CAEC8(&Ri, 0xffffffff))
+    else if (!func_021CAEC8((u8 *)(&Ri), 0xffffffff))
     {
         goto err;
     }
 
     mont->n0 = func_021CDAE8((Ri.top >= 2) ? Ri.d[1] : 0, (Ri.top >= 1) ? Ri.d[0] : 0, w);
 
-    func_021CAEC8(&mont->RR, 0);
+    func_021CAEC8((u8 *)(&mont->RR), 0);
     if (!func_021CB0C8(&mont->RR, mont->ri * 64))
         goto err;
-    func_021CC0FC(&mont->RR, &mont->RR, &mont->N, ctx);
+    func_021CC0FC((int)(&mont->RR), (int)(&mont->RR), (int)(&mont->N), (int)ctx);
     if (func_021CAC24(&mont->RR, mont->ri))
         ret = 1;
 
 err:
-    func_021CABDC(&Ri);
+    func_021CABDC((u8 *)(&Ri));
     return ret;
 }

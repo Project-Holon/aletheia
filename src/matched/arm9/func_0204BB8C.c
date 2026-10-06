@@ -48,7 +48,8 @@ struct Sys {
 
 extern struct Sys *g_02146A74;
 
-extern void func_0204C944(struct Bank *b);
+struct Ring;
+extern void func_0204C944(struct Ring *b);
 
 void func_0204BB8C(void)
 {
@@ -60,7 +61,7 @@ void func_0204BB8C(void)
     }
 
     do {
-        func_0204C944(cur);
+        func_0204C944((struct Ring *)cur);
         cur = cur->next;
     } while (cur != g_02146A74->head);
 }

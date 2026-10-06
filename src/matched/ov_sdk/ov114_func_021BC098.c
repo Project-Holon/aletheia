@@ -28,7 +28,8 @@ typedef struct {
 } Con;
 
 extern Con *func_021BEBE0(void *mutexInfo_p, Req *req_p);
-extern int func_021BEC74(void *mutexInfo_p, Con *connection_p, char *label_p, int offset);
+struct Conn;
+extern int func_021BEC74(void *mutexInfo_p, struct Conn *connection_p, char *label_p, int offset);
 extern int func_021BA25C(char *p_p, int len);
 
 int func_021BC098(void *mutexInfo_p, Req *req_p, char *label_p, unsigned long *contentLength, int sendtype)
@@ -49,7 +50,7 @@ int func_021BC098(void *mutexInfo_p, Req *req_p, char *label_p, unsigned long *c
             return 0;
         }
         connection_p->length = 0;
-        if (func_021BEC74(mutexInfo_p, connection_p, label_p, offset) < 0) {
+        if (func_021BEC74(mutexInfo_p, (struct Conn *)connection_p, label_p, offset) < 0) {
             return 0;
         }
         length = connection_p->length;

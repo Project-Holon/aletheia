@@ -49,7 +49,8 @@ extern char g_021A5AF8[];
 extern char g_021A5B30[];
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_02199FB4(int cookie);
-extern void func_02199394(NATNegotiator *neg);
+struct NATNegotiator;
+extern void func_02199394(struct NATNegotiator *neg);
 extern unsigned int func_0217F264(void);
 
 void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr)
@@ -65,7 +66,7 @@ void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *re
         func_02199FB4(neg->cookie);
     } else {
         func_0217D254(7, (char *)3, 8, g_021A5B30, neg->cookie);
-        func_02199394(neg);
+        func_02199394((struct NATNegotiator *)neg);
         neg->state = 7;
         neg->timeout = func_0217F264() + 500;
         neg->retryCount = 0;

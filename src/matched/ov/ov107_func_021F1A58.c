@@ -26,14 +26,19 @@ struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 typedef unsigned char  u8;
 struct CharBuf;
-extern void func_0201CE48(void *);
-extern void func_02045808(void *);
+struct Rec;
+struct Rec3;
+struct U16Vec;
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
-extern void func_02045C04(void *);
-extern void func_02028470(void *,int);
+extern void func_02045C04(struct Rec *rec);
+extern void func_02028470(u8 *p, u32 v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *),*func_02045EC0(void *,int),*func_0201CCE4(void *,int,int,void *,void *,int,void *,int,int,int);
+extern void * func_02045770(struct Descriptor *);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_0201CCE4(void *,int,int,void *,void *,int,void *,int,int,int);
 #define P(k) (*(void **)(p+(k)))
 #define I(k) (*(int *)(p+(k)))
 void func_021F1A58(char *p,int a)
@@ -48,5 +53,5 @@ void func_021F1A58(char *p,int a)
     P(0x18)=func_0201CCE4(P(0x10),0,0,P(0x20),P(0x14),a,P(12),2,((struct Obj13767 *)p)->f0,15);
     func_0201F73C(P(0x10),1,1,13);
     func_02045C04(s);
-    if(I(8)==1)func_02028470(p+0x28,6);else func_02028470(p+0x28,4);
+    if(I(8)==1)func_02028470((u8 *)(p+0x28),6);else func_02028470((u8 *)(p+0x28),4);
 }

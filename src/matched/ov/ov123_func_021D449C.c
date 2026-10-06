@@ -23,7 +23,7 @@ extern u8 func_02027A04(const u8 *p);
 extern void func_020414EC(u32 i);
 extern void func_02027858(struct TaskMenu *m);
 extern void func_021D4244(char *, void *, int);
-extern void func_021D4FB8(void);
+extern void func_021D4FB8(char *p);
 extern void func_021D4A04(char *p);
 extern void func_021D4D40(char *, int);
 void func_021D449C(char *p)

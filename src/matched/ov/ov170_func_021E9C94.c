@@ -21,7 +21,7 @@
  */
 
 struct WinMgr;
-extern void func_021DD16C(char *p, int dir);
+extern void func_021DD16C(unsigned char *p, int dir);
 extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021EBA5C(char *w, int v);
@@ -34,7 +34,7 @@ extern int func_021E00C4(char *p);
 
 void func_021E9C94(char *p, int a, int n)
 {
-    func_021DD16C(p, 0);
+    func_021DD16C((unsigned char *)p, 0);
     if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 1) {
         func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
         func_021EBA5C(WORK(p), 0x18);

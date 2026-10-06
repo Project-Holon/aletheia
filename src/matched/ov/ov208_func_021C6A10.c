@@ -29,10 +29,12 @@ typedef struct {
     s16 y;
 } Ov208Pos;
 
-extern void func_0204B404(u32 obj, Ov208Pos *pos, u16 flag);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B878(u32 obj, u8 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void ov208_func_021C6A10(void *unused, u8 *p)
 {
@@ -54,25 +56,25 @@ void ov208_func_021C6A10(void *unused, u8 *p)
     if (show && multi) {
         pos.x = 0;
         pos.y = 0;
-        func_0204B404(((struct Obj02258 *)p)->f5EC, &pos, 0);
+        func_0204B404((struct Obj *)(((struct Obj02258 *)p)->f5EC), (const struct Vec2 *)(&pos), 0);
         pos.x = 0x80;
         pos.y = 0;
-        func_0204B404(((struct Obj02258 *)p)->f5F0, &pos, 0);
+        func_0204B404((struct Obj *)(((struct Obj02258 *)p)->f5F0), (const struct Vec2 *)(&pos), 0);
     } else if (show) {
         pos.x = 0x40;
         pos.y = 0;
-        func_0204B404(((struct Obj02258 *)p)->f5EC, &pos, 0);
+        func_0204B404((struct Obj *)(((struct Obj02258 *)p)->f5EC), (const struct Vec2 *)(&pos), 0);
     }
     if (*(u32 *)(p + ((struct Obj02258 *)p)->f54E * 16 + 0x14c) == 2)
         v = 1;
     else
         v = 0;
     func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5EC, 1);
-    func_0204B878(((struct Obj02258 *)p)->f5EC, v);
+    func_0204B878((struct Obj *)(((struct Obj02258 *)p)->f5EC), (u8)v);
     if (multi) {
         w = *(u32 *)(p + ((struct Obj02258 *)p)->f550 * 16 + 0x14c) == 2;
         func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5F0, 1);
-        func_0204B878(((struct Obj02258 *)p)->f5F0, w);
+        func_0204B878((struct Obj *)(((struct Obj02258 *)p)->f5F0), (u8)w);
     } else {
         func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5F0, 0);
     }

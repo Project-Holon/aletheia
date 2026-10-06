@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern void func_02040588(u32,u32);
 extern void func_020061E4(u32);
 extern void func_021BB200(u8 *,u8 *,int,int);
-extern int func_02051614(u32);
+extern int func_02051614(int **p);
 extern int func_02006238(void);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
@@ -52,7 +52,7 @@ void func_021BD9C8(u8 *p)
             W(0x26c) = 1;
         }
     }
-    if (func_02051614(W(0x260)) <= 0 && func_02006238() == 0) {
+    if (func_02051614((int **)W(0x260)) <= 0 && func_02006238() == 0) {
         if (W(0x270) == 0) {
             species = func_02017E1C((void *)W(0x38),5,0);
             form = func_02017E1C((void *)W(0x38),0x6f,0);

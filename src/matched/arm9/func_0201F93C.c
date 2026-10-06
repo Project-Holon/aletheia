@@ -72,8 +72,9 @@ typedef struct {
 extern char sBmpMenuFile[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02020D18(u32 heap);
-extern void  func_02020DC8(void *cursor, u32 heap);
-extern u8    func_0201FC1C(BmpMenu *m);
+struct Obj;
+extern void func_02020DC8(char *p, int a);
+extern u32 func_0201FC1C(struct Obj *o);
 extern void  func_0201FC5C(BmpMenu *m);
 extern void  func_0201FD18(BmpMenu *m);
 
@@ -85,11 +86,11 @@ BmpMenu *func_0201F93C(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap,
     m->cursor = func_02020D18(heap);
     m->cancel = cancel;
     m->pos = pos;
-    m->width = func_0201FC1C(m);
+    m->width = func_0201FC1C((struct Obj *)m);
     m->heap = heap;
     m->px = px;
     m->py = py;
-    func_02020DC8(m->cursor, heap);
+    func_02020DC8(m->cursor, (u32)heap);
     m->xmax = m->hdr.unk0c;
     m->ymax = m->hdr.unk0e;
     func_0201FC5C(m);

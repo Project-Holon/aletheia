@@ -13,14 +13,15 @@
 #include "../include/Obj02818.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02040618(u8, u8, int);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 void func_021BC828(void *unused, u8 *p)
 {
     if (((struct Obj02818 *)p)->f14) {
         ((struct Obj02818 *)p)->f8 += ((struct Obj02818 *)p)->f10;
-        func_02040618(((struct Obj02818 *)p)->f0, ((struct Obj02818 *)p)->f4, ((struct Obj02818 *)p)->f8>>12);
+        func_02040618((u8)(((struct Obj02818 *)p)->f0), (u8)(((struct Obj02818 *)p)->f4), (int)(((struct Obj02818 *)p)->f8>>12));
         --((struct Obj02818 *)p)->f14;
     } else {
-        func_02040618(((struct Obj02818 *)p)->f0, ((struct Obj02818 *)p)->f4, ((struct Obj02818 *)p)->fC);
+        func_02040618((u8)(((struct Obj02818 *)p)->f0), (u8)(((struct Obj02818 *)p)->f4), (int)(((struct Obj02818 *)p)->fC));
     }
 }

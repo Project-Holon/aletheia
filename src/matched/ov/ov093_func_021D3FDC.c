@@ -32,15 +32,15 @@ struct Q {
     u8 unk3;
     u16 delay, current, target, maximum, tick;
 };
-extern void func_021EAE74(void *,u16,u16);
+extern void func_021EAE74(char *p, u32 a, u32 b);
 extern int func_021EAE64(void *);
-extern void func_021EAE04(void *);
-extern void func_021EAECC(void *,u32,u32);
+extern void func_021EAE04(u32 *p);
+extern void func_021EAECC(u8 *p, int v, int w);
 extern void func_02005E30(u32);
 extern void func_02005CA4(int,u32);
 extern void func_02006734(u8);
 extern int func_021F8B10(void);
-extern void func_021B92A0(u32);
+extern void func_021B92A0(u8 *p);
 extern int func_021EAE14(void *);
 void func_021D3FDC(u8 *p, struct Q *q)
 {
@@ -82,7 +82,7 @@ void func_021D3FDC(u8 *p, struct Q *q)
             func_02005CA4(0,62);
             func_02006734(0);
             func_021F8B10();
-            func_021B92A0(*(u32 *)p);
+            func_021B92A0((u8 *)(*(u32 *)p));
             break;
         case 0:
             if (q->target > 1) { --q->target; adjusted = 1; }

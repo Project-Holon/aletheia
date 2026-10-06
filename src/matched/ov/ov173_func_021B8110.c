@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
 extern u32 func_02028230(u8 *p);
-extern void func_021B7EB0(u8 *,int);
+extern void func_021B7EB0(char *p, int flag);
 int func_021B8110(u8 *p)
 {
     u8 *s;
@@ -28,7 +28,7 @@ int func_021B8110(u8 *p)
         if(func_0204B98C(*(void **)(p+260+((struct Obj05452 *)s)->f6*4))==0) return ((struct Obj05452 *)s)->f8;
     } else if(((struct Obj05452 *)s)->fA==1) {
         if(func_02028230(*(void **)(p+544+((struct Obj05452 *)s)->f6*4))!=0) {
-            func_021B7EB0(p,0);
+            func_021B7EB0((char *)p,0);
             return ((struct Obj05452 *)s)->f8;
         }
     }

@@ -22,7 +22,7 @@ int func_0216D3CC(int a0);
 typedef unsigned short u16;
 u16 func_0216D5F8(void *p);
 
-int func_021A4254(u32 *p, int a)
+int func_021A4254(u32 *p, u32 a)
 {
     void *h = func_021A3960((unsigned char *)p[3]);
 

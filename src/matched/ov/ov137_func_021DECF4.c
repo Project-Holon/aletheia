@@ -17,14 +17,15 @@
 typedef unsigned char u8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void *func_021DEB10(void *);
-extern int func_021841A0(void *);
-extern int func_0203D4D0(void *, u8, int, int, void *, int, int, int);
+typedef unsigned int   u32;
+extern void *func_021DEB10(char *p);
+extern unsigned char func_021841A0(unsigned char *p);
+extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 int func_021DECF4(u8 *p)
 {
     void *q;
     q = func_020399A8();
-    if (func_0203D4D0(q, func_021841A0(func_021DEB10(p)), 10255, 1428, ((struct Obj01753 *)p)->f24, 1, 1, 1))
+    if ((int)func_0203D4D0((u32)q, (u8)((int)func_021841A0(func_021DEB10((char *)p))), (int)10255, (int)1428, (u32)(((struct Obj01753 *)p)->f24), (int)1, (int)1, (int)1))
         ((struct Obj01753 *)p)->f0 = 14;
     return 0;
 }

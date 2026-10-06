@@ -34,7 +34,7 @@ extern void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2);
 extern void func_021EAA6C(u32 a, int b, int c);
 extern int func_021EAAD8(u32 a);
 extern int func_021B9F70(u8 *p, int i);
-extern void func_021EA678(u32 a, u16 b, u32 *c);
+extern void func_021EA678(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
 
 static inline u16 sel(u32 u, u32 k)
@@ -68,7 +68,7 @@ int func_021D31A0(u32 *a, int *b, u32 *c)
                 return 1;
             }
             k = func_021B9F70((u8 *)a[0], (u8)c[0]);
-            func_021EA678(a[0x15], sel(u, k), c);
+            func_021EA678((char *)a[0x15], sel(u, k), (int *)c);
             (*b)++;
         }
         break;

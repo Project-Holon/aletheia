@@ -37,7 +37,8 @@ typedef struct {
 	unsigned short y;
 } COORD;
 
-extern int func_021D6B64(COORD *c);
+struct tagCOORD;
+extern int func_021D6B64(struct tagCOORD *c);
 extern void func_021CEEE8(int pos);
 extern SB *g_021DE63C;
 extern unsigned char g_021DA8BB[];
@@ -48,7 +49,7 @@ void func_021CECC8(void)
 	int pos;
 	int s;
 
-	func_021D6B64(&c);
+	func_021D6B64((struct tagCOORD *)(&c));
 	s = g_021DA8BB[g_021DE63C->bar];
 	pos = c.y - g_021DE63C->y - ((unsigned)s >> 1);
 	if (pos < 0)

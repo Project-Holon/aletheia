@@ -43,7 +43,8 @@
 typedef unsigned int u32;
 
 extern void *func_0200C40C(void *p);
-extern void  func_0200C418(void *p, u32 a, u32 b);
+typedef unsigned char  u8;
+extern void func_0200C418(u8 *a, u32 id, u32 on);
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 

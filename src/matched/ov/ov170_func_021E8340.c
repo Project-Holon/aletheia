@@ -17,9 +17,9 @@
  */
 #include "../include/Obj00000.h"
 extern int func_021EC9D8(char *p);
-extern void func_021ECA38(char *p);
-extern void func_021DE7B4(unsigned char *p);
-extern void func_021ED588(unsigned char *p);
+extern void func_021ECA38(int *p);
+extern void func_021DE7B4(char *p);
+extern void func_021ED588(char *p);
 extern void func_021EBBC8(unsigned char *p, unsigned kind, int i);
 extern int func_021E912C(unsigned char *p);
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -31,9 +31,9 @@ int func_021E8340(unsigned char *p)
     case 0:
         if (func_021EC9D8(SLOT(p)) != 0)
             break;
-        func_021ECA38(SLOT(p));
-        func_021DE7B4(p);
-        func_021ED588(p);
+        func_021ECA38((int *)SLOT(p));
+        func_021DE7B4((char *)p);
+        func_021ED588((char *)p);
         func_021EBBC8(p, 4, 0x18);
         ((struct Obj00000 *)p)->f28 = 0x5C;
         STEP(p)++;

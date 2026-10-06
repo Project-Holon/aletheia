@@ -37,11 +37,11 @@ extern void func_020409B4(u32 index);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045C04(struct Rec *rec);
 extern int func_02190728(u32 a);
-extern u32 func_02190788(u32, u32, u32, u32);
+extern void func_02190788(u8 *p);
 
 int func_021B7494(u32 a, u32 b, u32 c, u32 d)
 {
-func_02190788(((struct Obj04890 *)((u8 *)(a)))->fC, b, c, d);
+func_02190788((u8 *)(((struct Obj04890 *)((u8 *)(a)))->fC));
 func_02190728(((struct Obj04890 *)((u8 *)(a)))->fC);
 func_020409B4(1);
 func_02045808((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f18));

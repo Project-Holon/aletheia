@@ -16,5 +16,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021BF71C(u8 *);
-extern int func_021BCFF0(u8 *,u8);
-int func_021BAC0C(u8 *p) { if(func_021BCFF0(*(u8 * *)&((struct Obj13776 *)p)->f64,func_021BF71C(*(u8 * *)&((struct Obj13776 *)p)->f18))) return 1; return -1; }
+typedef unsigned int   u32;
+extern u32 func_021BCFF0(char *p, u32 index);
+int func_021BAC0C(u8 *p) { if((int)func_021BCFF0((char *)(*(u8 * *)&((struct Obj13776 *)p)->f64),(u8)func_021BF71C(*(u8 * *)&((struct Obj13776 *)p)->f18))) return 1; return -1; }

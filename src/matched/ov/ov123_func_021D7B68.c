@@ -23,7 +23,7 @@ extern u32 func_0200C6E4(void);
 extern u32 func_0200E8B0(void);
 extern char *func_021D5B10(int heap, int size);
 extern int func_021D5BD4(char *p);
-extern void func_021D6EE0(char *, int, int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D7A5C(u8 *p);
 extern void func_021D6FF0(char *p);
 void func_021D7B68(char *p)
@@ -34,9 +34,9 @@ void func_021D7B68(char *p)
     case 2: ((struct Obj03271 *)p)->f8 = func_021D5B10(((struct Obj03271 *)p)->f0, func_0200E8B0() + 4); break;
     }
     if (func_021D5BD4(((struct Obj03271 *)p)->f8)) {
-        func_021D6EE0(p, (int)func_021D7A5C, 0x458);
+        func_021D6EE0((u8 *)p, (int)func_021D7A5C, 0x458);
         return;
     }
     ((struct Obj03271 *)p)->f80 = 0xfff0;
-    func_021D6EE0(p, (int)func_021D6FF0, 0x45c);
+    func_021D6EE0((u8 *)p, (int)func_021D6FF0, 0x45c);
 }

@@ -22,7 +22,9 @@ typedef struct {u8 bytes[76];} Record;
 extern const Pair d_02211D34;
 extern int func_022110D4(u8 *,int);
 extern void func_0220E7CC(u8 *,unsigned);
-extern void func_0220EA30(u16,u8 *,Pair *);
+typedef unsigned int   u32;
+struct Vec2;
+extern void func_0220EA30(u32 mode, u8 *p, const struct Vec2 *q);
 void func_0220EBCC(Record *records)
 {
     u8 *p=(u8 *)records;
@@ -33,5 +35,5 @@ void func_0220EBCC(Record *records)
     func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(unsigned)&pair);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(*(u16 *)(p+i*0x4c+0x1e),*(u8 **)((char *)p+i*4+0x1ebc),&pair);
+    func_0220EA30(*(u16 *)(p+i*0x4c+0x1e),*(u8 **)((char *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
 }

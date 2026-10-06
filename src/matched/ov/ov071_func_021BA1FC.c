@@ -36,8 +36,8 @@ extern void func_02082BCC(void *p, int v, int n);
 extern void func_021BA3B4(void);
 extern void func_021BA420(char *p);
 extern void func_021BA44C(void *a, void *b);
-extern void func_021BA4EC(void *a, void *b);
-extern void func_021BA528(void *a, void *b, void *c);
+extern void func_021BA4EC(char *p, char *q);
+extern void func_021BA528(u32 **a, u8 *b, u8 *c);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct PrintSys;
@@ -63,8 +63,8 @@ int func_021BA1FC(int a, int *b, u8 *o, u8 *c)
         func_021BA3B4();
         func_021BA420(((struct Obj07706 *)o)->f4);
         func_021BA44C(((struct Obj07706 *)o)->f4, m);
-        func_021BA4EC(((struct Obj07706 *)o)->f4, m);
-        func_021BA528(o, ((struct Obj07706 *)o)->f4, m);
+        func_021BA4EC(((struct Obj07706 *)o)->f4, (char *)m);
+        func_021BA528((u32 **)o, ((struct Obj07706 *)o)->f4, m);
         *b = *b + 1;
         break;
     case 1:

@@ -56,8 +56,8 @@ struct PrintSys;
 struct Obj;
 struct Actor;
 
-extern u16 func_021BE00C(void *c);
-extern void *func_021BE004(void *c);
+extern u16 func_021BE00C(u16 *p);
+extern u32 func_021BE004(void *p);
 extern u32 func_021BE010(void *c);
 extern u32 func_021BE02C(void *c);
 extern void func_021BE030(void *c, u32 v);
@@ -65,43 +65,43 @@ extern u32 func_021BE044(void *c);
 extern u8 func_021BE054(void *c);
 extern u32 func_021BE0D0(void *c);
 extern u32 func_021BE0EC(void *c);
-extern void func_021BE0F0(void *c);
-extern void func_021BE318(void *c, void *d);
+extern void func_021BE0F0(u8 *c);
+extern void func_021BE318(char *a0, void *a1);
 extern void func_021BE34C(void *c);
 extern u32 func_021BDFDC(void *c);
 extern u32 func_021BDFE4(void *c);
 extern void func_021B7578(int x, char *p);
 extern int func_021B7590(int x, char *p);
-extern void func_021B7B64(void *c, u32 v);
-extern void func_021B80DC(void *c, u32 v, u32 k);
-extern void func_021B80EC(void *c, u32 v, char *s);
-extern u8 *func_021B8B7C(void *c, u32 v);
-extern void func_021B8C14(void *c, u32 v);
-extern u32 func_021B8C20(void *c, u32 v);
-extern void func_021BC5E8(void *c, char *p);
-extern void func_021BC7FC(void *c, char *p);
+extern void func_021B7B64(int x, char *p);
+extern void func_021B80DC(int unused, char *p, u32 v);
+extern void func_021B80EC(int unused, char *p, const u8 *src);
+extern u8 *func_021B8B7C(void *c, u8 *x);
+extern void func_021B8C14(void *c, u8 *x);
+extern u32 func_021B8C20(void *c, u8 *x);
+extern void func_021BC5E8(void *ctx, u8 *list);
+extern void func_021BC7FC(void *ctx, u8 *list);
 extern void func_021BCE2C(void *c, char *p, char *r, u8 i);
 extern void func_021BD038(void *c, char *p);
 extern void func_021BD0C4(void *c, char *p, int msg);
 extern void func_021BD134(void *c, char *p, u32 msg);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
-extern u32 func_02035C60(void);
+extern int func_02035C60(void);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern u32 func_02028230(void *p);
-extern void func_02028148(void *p);
-extern void func_02028178(void *p);
+extern u32 func_02028230(u8 *p);
+extern void func_02028148(u8 *p);
+extern void func_02028178(u8 *p);
 extern void func_02006210(void);
 extern void func_020061E4(u32 id);
-extern void func_0200616C(u32 id, int i);
+extern void func_0200616C(void *arg, int i);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_020456F8(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_020452E8(struct Descriptor *d);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void *func_02045770(struct Descriptor *w);
@@ -129,7 +129,7 @@ int func_021BBF2C(void *a0, char *p)
     struct Descriptor *d;
 
     v = func_021BE00C(a0);
-    st = func_021BE004(a0);
+    st = (u32 *)func_021BE004(a0);
     switch (W(8)) {
     case 0:
         if (func_021BE02C(a0) == 1)
@@ -140,7 +140,7 @@ int func_021BBF2C(void *a0, char *p)
         break;
     case 1:
         if (func_020221A4() == 1) {
-            u32 *s = func_021BE004(a0);
+            u32 *s = (u32 *)func_021BE004(a0);
             if (func_021BE0EC(a0) == 1)
                 W(8) = 11;
             else if (s[1] == 2 || s[1] == 3)
@@ -169,7 +169,7 @@ int func_021BBF2C(void *a0, char *p)
         }
         break;
     case 5:
-        func_021BC5E8(a0, p);
+        func_021BC5E8(a0, (u8 *)p);
         func_021BD038(a0, p);
         break;
     case 6:
@@ -185,8 +185,8 @@ int func_021BBF2C(void *a0, char *p)
             break;
         if (W(0x18) == 2) {
             t = func_021BDFE4(a0);
-            func_021B80DC(a0, t, 4);
-            func_021B80EC(a0, t, p + 0x1fd + B(3) * 0x24);
+            func_021B80DC((int)a0, (char *)t, 4);
+            func_021B80EC((int)a0, (char *)t, (const u8 *)(p + 0x1fd + B(3) * 0x24));
             func_021BD134(a0, p, 0x18);
             W(0x38) = 1;
             W(8) = 7;
@@ -200,10 +200,10 @@ int func_021BBF2C(void *a0, char *p)
             func_021BD134(a0, p, 0x14);
             W(0x38) = 1;
             H(0x36) = 0;
-            func_021B80DC(a0, t2, 3);
+            func_021B80DC((int)a0, (char *)t2, 3);
             func_02028148((void *)W(0x1c));
             W(0x1c) = 0;
-            ip = func_021B8B7C(a0, t2);
+            ip = func_021B8B7C(a0, (u8 *)t2);
             for (i = 0; i < 3; i++) {
                 if (B(i) == 0xff) {
                     for (j = 0; j < 6; j++)
@@ -214,7 +214,7 @@ int func_021BBF2C(void *a0, char *p)
                 }
             }
             ip[0x21] |= 2;
-            func_021B8C14(a0, t2);
+            func_021B8C14(a0, (u8 *)t2);
         }
         func_0204B878(OBJ, 0xf);
         break;
@@ -227,7 +227,7 @@ int func_021BBF2C(void *a0, char *p)
                 t = func_021BDFDC(a0);
                 func_02006210();
                 func_020061E4(0x73e);
-                func_021B7B64(a0, t);
+                func_021B7B64((int)a0, (char *)t);
             }
             W(8) = 2;
         }
@@ -235,19 +235,19 @@ int func_021BBF2C(void *a0, char *p)
             H(0x36)++;
             if (H(0x36) >= 0x78) {
                 H(0x36) = 0;
-                func_0200616C(0x73d, 2);
+                func_0200616C((void *)0x73d, 2);
             }
         }
         if (W(8) == 9) {
-            if (func_021B8C20(a0, func_021BDFE4(a0)) == 1) {
-                func_021B80DC(a0, func_021BDFE4(a0), 2);
+            if (func_021B8C20(a0, (u8 *)func_021BDFE4(a0)) == 1) {
+                func_021B80DC((int)a0, (char *)func_021BDFE4(a0), 2);
                 func_021BD134(a0, p, 0x27);
                 W(8) = 10;
             }
         } else if (W(8) == 7 || W(8) == 8) {
             H(0x34)++;
             if (H(0x34) >= 0x4b0) {
-                func_021B80DC(a0, func_021BDFE4(a0), 2);
+                func_021B80DC((int)a0, (char *)func_021BDFE4(a0), 2);
                 func_021BD134(a0, p, 0x28);
                 W(8) = 10;
             }
@@ -316,7 +316,7 @@ int func_021BBF2C(void *a0, char *p)
         break;
     }
     if (st[1] != 3 && func_021BE0EC(a0) == 0) {
-        func_021BC7FC(a0, p);
+        func_021BC7FC(a0, (u8 *)p);
         for (i = 0; i < 15; i++) {
             r = p + i * 0x1c;
             if (*(u32 *)(r + 0x44) == 1) {

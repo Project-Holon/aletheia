@@ -42,8 +42,10 @@ typedef struct Obj_02073438 {
 } Obj_02073438;
 
 extern void func_020735EC(Obj_02073438 *p);
-extern void func_02075BAC(void *fader, int target, int frames);
-extern void func_02073760(Obj_02073438 *p, u32 prio);
+struct A;
+struct Obj02075BAC;
+extern void func_02075BAC(struct Obj02075BAC *o, u32 a, u32 b);
+extern void func_02073760(struct A *o, u32 v);
 
 void func_02073438(Obj_02073438 *p, int fadeFrame)
 {
@@ -53,7 +55,7 @@ void func_02073438(Obj_02073438 *p, int fadeFrame)
         func_020735EC(p);
         return;
     }
-    func_02075BAC(&p->env, 0, fadeFrame);
-    func_02073760(p, 0);
+    func_02075BAC((struct Obj02075BAC *)(&p->env), 0, fadeFrame);
+    func_02073760((struct A *)p, 0);
     p->b2c = 2;
 }

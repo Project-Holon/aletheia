@@ -19,12 +19,13 @@
 typedef unsigned int   u32;
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_0220C688(char *p);
-extern void func_0220E27C(void *);
+typedef unsigned char  u8;
+extern void func_0220E27C(u8 *p);
 
 int func_02211378(char *p)
 {
     func_0201F7A8(((struct Obj25281 *)p)->f1F68, 0);
     func_0220C688(p);
-    func_0220E27C(p);
+    func_0220E27C((u8 *)p);
     return 8;
 }

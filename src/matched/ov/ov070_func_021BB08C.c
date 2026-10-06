@@ -19,5 +19,6 @@ struct Descriptor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020456F8(struct Descriptor *d);
-extern void func_021BAFC4(void *);
-void func_021BB08C(char *p) { func_0204B3DC(((struct Obj09883 *)p)->f710, 0); func_0204B3DC(((struct Obj09883 *)p)->f714, 0); func_020456F8(((struct Obj09883 *)p)->f504); func_021BAFC4(p); }
+typedef unsigned char  u8;
+extern void func_021BAFC4(u8 *p);
+void func_021BB08C(char *p) { func_0204B3DC(((struct Obj09883 *)p)->f710, 0); func_0204B3DC(((struct Obj09883 *)p)->f714, 0); func_020456F8(((struct Obj09883 *)p)->f504); func_021BAFC4((u8 *)p); }

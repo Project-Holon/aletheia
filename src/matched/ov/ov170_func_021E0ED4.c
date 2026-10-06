@@ -21,7 +21,7 @@ extern void func_021EBFEC(char *p, int i);
 extern void func_021ED108(char *, int);
 extern void func_021EBFA8(char *, int, int);
 extern void func_021EC000(char *, int, int);
-extern int func_021E0190(unsigned char *);
+extern int func_021E0190(char *p);
 #define W(p) (*(char **)((p) + 0x2C))
 int func_021E0ED4(unsigned char *p)
 {
@@ -35,7 +35,7 @@ int func_021E0ED4(unsigned char *p)
         (((struct Obj08236 *)b)->fC)++;
         /* fall through */
     case 1:
-        if (!func_021E0190(p))
+        if (!func_021E0190((char *)p))
             (((struct Obj08236 *)b)->fC)++;
         break;
     case 2:

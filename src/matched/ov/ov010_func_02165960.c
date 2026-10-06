@@ -41,7 +41,7 @@ struct Queue {
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
-int func_02165960(struct Queue *q, struct Rec *rec, u16 tag, int mode)
+int func_02165960(struct Queue *q, struct Rec *rec, int tag, int mode)
 {
     int i;
 

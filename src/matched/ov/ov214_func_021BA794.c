@@ -73,7 +73,8 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021BA4E8(Obj *, Ent *);
+struct S;
+extern void func_021BA4E8(void *unused, struct S *p);
 
 void func_021BA794(Obj *obj, Ent *e, unsigned int v)
 {
@@ -134,5 +135,5 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
 
     e->fBC = state;
     e->fC0 = v;
-    func_021BA4E8(obj, e);
+    func_021BA4E8(obj, (struct S *)e);
 }

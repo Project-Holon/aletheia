@@ -13,7 +13,10 @@
  */
 typedef struct { short x,y; } Pt;
 extern const int d_021E7DA0[6][2];
-extern void func_0204B404(int,const Pt *,unsigned int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021E6440(int p, int a, int b) {
     int i,j;
     Pt pos;
@@ -22,7 +25,7 @@ void func_021E6440(int p, int a, int b) {
             if (*(int *)(p+i*12+j*4+0x1008)) {
                 pos.x=d_021E7DA0[i*3+j][0]; pos.y=d_021E7DA0[i*3+j][1];
                 if (i==a && j==b) pos.y-=4;
-                func_0204B404(*(int *)(p+i*12+j*4+0x1008),&pos,1);
+                func_0204B404((struct Obj *)(*(int *)(p+i*12+j*4+0x1008)),(const struct Vec2 *)(&pos),1);
             }
         }
     }

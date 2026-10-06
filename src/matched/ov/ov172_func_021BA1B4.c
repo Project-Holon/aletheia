@@ -27,7 +27,7 @@ typedef signed int     s32;
 extern int  func_02072A44(int size);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_021BA1B4(char *p)
+void func_021BA1B4(char *p, u32 a1)
 {
     u32 v = func_02072A44(7);
 

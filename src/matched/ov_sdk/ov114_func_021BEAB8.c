@@ -29,7 +29,7 @@ typedef struct Conn {
 extern Conn *g_021CF984;
 extern Conn *g_021CF984_hdr;
 
-extern void func_021BEFCC(void *mutexInfo_p);
+extern void func_021BEFCC(void);
 extern void func_021BEFD8(void *mutexInfo_p);
 
 Conn *func_021BEAB8(void *mutexInfo_p, Conn *handle_p, unsigned long order)
@@ -38,7 +38,7 @@ Conn *func_021BEAB8(void *mutexInfo_p, Conn *handle_p, unsigned long order)
     Conn **connection_pp;
     Conn *connection_p;
 
-    func_021BEFCC(mutexInfo_p);
+    func_021BEFCC();
     if (order == 3) {
         ret_p = handle_p;
         handle_p->next = g_021CF984;

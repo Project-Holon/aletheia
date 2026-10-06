@@ -46,11 +46,11 @@ extern int func_02175E90(void *p, u8 *q);
 struct VecFx32;
 extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_020120D8(char *p);
-extern void func_021A3044(void *, Vec *);
+extern void func_021A3044(u8 *p, void *v);
 extern void func_02175274(u8 *, int);
 extern u16 func_02039338(void);
 extern void func_02175710(u8 *o, u32 v);
-extern void func_02161FEC(u8 *, u8);
+extern void func_02161FEC(char *p, u16 v);
 
 void func_0217BAB4(int a0, void *a1, void *a2, u8 *p)
 {
@@ -69,7 +69,7 @@ void func_0217BAB4(int a0, void *a1, void *a2, u8 *p)
     x = func_02012138(a1);
     flag = 0;
     func_020120F4(a1);
-    if (func_02026454(x) != 2)
+    if ((int)func_02026454(x) != 2)
         return;
     if (p == 0)
         return;
@@ -110,5 +110,5 @@ void func_0217BAB4(int a0, void *a1, void *a2, u8 *p)
         return;
     func_02175710(p, idx);
     p[0x900] = 1;
-    func_02161FEC(p + 0x35C, idx);
+    func_02161FEC((char *)(p + 0x35C), (u8)idx);
 }

@@ -104,7 +104,10 @@ struct P {
     void *w70; u8 workspace[1];
 };
 extern char ov196_id[], ov197_id[];
-extern int func_021B614C(void *);
+typedef signed int     s32;
+struct Obj;
+struct W;
+extern int func_021B614C(int *p);
 extern int func_021B6140(void *);
 extern void func_021B6364(u8 *, u32);
 extern int func_021B6504(char *);
@@ -113,22 +116,22 @@ extern void func_021B69C4(int, int);
 extern int func_021B6A3C(u8 *);
 extern int func_021B6B74(u8 *);
 extern void func_022025D8(char *, int);
-extern int func_022026FC(void *);
-extern void func_0220266C(void *);
+extern int func_022026FC(struct W *p);
+extern void func_0220266C(struct Obj *p);
 extern void func_0220C834(u8 *);
 extern void func_021F7CFC(u32, u16, u8, int, int);
 extern int func_021F7EB4(void);
 extern void func_021F7C0C(void);
-extern int func_02034AC4(void *);
-extern void func_02034A5C(void *);
+extern int func_02034AC4(s32 handle);
+extern void func_02034A5C(s32 handle);
 extern u32 func_02007F1C(u8 *, u16, u16, u16);
 extern void func_02005D90(u32, u16);
 extern int func_02005F38(void);
-extern void *func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_0204E720(u32, int, int, int);
 extern int func_0204E804(void);
-extern u32 func_0202142C(int);
+extern unsigned short func_0202142C(int a0);
 extern void func_02017E40(void *, u32, u32);
 int func_021B6578(struct P *p)
 {
@@ -146,20 +149,20 @@ int func_021B6578(struct P *p)
         p->w48 = p->workspace;
         p->w5c = 1;
         func_022025D8(p->window, 1);
-        func_02034AC4(ov196_id);
+        func_02034AC4((s32)ov196_id);
         (p->state)++;
         break;
     case 1:
-        if (!func_022026FC(p->window)) {
-            func_02034AC4(ov197_id);
+        if (!func_022026FC((struct W *)p->window)) {
+            func_02034AC4((s32)ov197_id);
             func_0220C834((u8 *)&p->b1c);
             (p->state)++;
         }
         break;
     case 2:
         if (p->b35) {
-            func_02034A5C(ov196_id); func_02034A5C(ov197_id);
-            func_0220266C(p->window);
+            func_02034A5C((s32)ov196_id); func_02034A5C((s32)ov197_id);
+            func_0220266C((struct Obj *)p->window);
             if (p->h32 == 0) p->state = 3;
             else {
                 func_02007F1C((u8 *)func_021B614C(p->parent), p->h32, 1, p->heap);
@@ -168,10 +171,10 @@ int func_021B6578(struct P *p)
         }
         break;
     case 3:
-        if (!func_022026FC(p->window)) func_021B6364((u8 *)p, (u32)func_021B6504);
+        if (!func_022026FC((struct W *)p->window)) func_021B6364((u8 *)p, (u32)func_021B6504);
         break;
     case 4:
-        if (!func_022026FC(p->window)) {
+        if (!func_022026FC((struct W *)p->window)) {
             func_021B6988((int)p->object, (int)p->parent);
             (p->state)++;
         }

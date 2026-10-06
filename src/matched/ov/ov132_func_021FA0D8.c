@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_0215725C(u8 *, int);
-extern int func_02005728(int);
+extern u32 func_02005728(u32 range);
 extern void func_021FA3A8(char *, u8 *, unsigned);
 #pragma opt_common_subs off
 void func_021FA0D8(char *p, char *q)

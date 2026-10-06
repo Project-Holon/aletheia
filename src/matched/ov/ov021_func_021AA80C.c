@@ -79,8 +79,8 @@ extern u32 func_0200C234(struct Blk34 *p, u32 bit);
 extern u32 func_02188CFC(u8 *p);
 extern int func_021AABC4(struct Entry *p, struct Enc *e);
 extern u32 func_02005728(u32 v);
-extern void func_021AABEC(struct Entry *p);
-extern void func_021AACD4(struct Ctx *ctx, struct Enc *e);
+extern void func_021AABEC(u8 *p);
+extern void func_021AACD4(void **ctx, struct Enc *e);
 extern void func_021AAE34(struct Ctx *ctx, struct Enc *e);
 
 void func_021AA80C(struct Ctx *ctx)
@@ -113,10 +113,10 @@ void func_021AA80C(struct Ctx *ctx)
     if (func_021AABC4(p, e) == 0)
         return;
     if (func_02005728(1000) >= e->f5BA * 10) {
-        func_021AABEC(p);
+        func_021AABEC((u8 *)p);
         return;
     }
-    func_021AACD4(ctx, e);
+    func_021AACD4((void **)ctx, e);
     if (e->f04 != 0)
         func_021AAE34(ctx, e);
 }

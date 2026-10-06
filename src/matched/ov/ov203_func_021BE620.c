@@ -18,4 +18,4 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 extern u32 func_0201160C(void *);
-u32 func_021BE620(char *p) { return func_0201160C(((struct Obj25315 *)p)->f18); }
+int func_021BE620(char *p) { return func_0201160C(((struct Obj25315 *)p)->f18); }

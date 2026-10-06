@@ -63,8 +63,8 @@ u32 func_0201283C(const struct BigObj *p);
 u32 func_0201058C(void *key);
 void func_02037174(void);
 int func_02158344(int a0);
-void func_0217F008(u8 *w, u8 *p);
-u8 func_02012B70(const struct BigObj *p);
+void func_0217F008(char *p, char *q);
+int func_02012B70(const struct BigObj *p);
 void func_020061E4(u32 a);
 void func_020310C4(struct Tcbl *p);
 u32 func_0201C4E4(struct PrintSys *ps);
@@ -76,8 +76,8 @@ int func_0217F0FC(u8 *w);
 void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 void func_0217EC7C(u8 *p, u8 *w, int q);
 int func_0215841C(void *);
-int func_0203D1C0(u8);
-int func_021746AC(u8 *p, u8);
+u32 func_0203D1C0(u32 index);
+int func_021746AC(char *a, int b);
 u8 func_02158428(u8 *p);
 void *func_0201210C(const struct Ctx *p);
 u32 func_02188CCC(u8 *p);
@@ -102,7 +102,7 @@ void func_0217D1C0(u8 *w, int b)
     func_0201058C((void *)func_0201283C(s2));
     func_02037174();
     if (p == 0 || (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 0)) {
-        func_0217F008(w, p);
+        func_0217F008((char *)w, (char *)p);
     }
     if (w[0x11E] < w[0xDA]) {
         if (func_02012B70(s2) == 1) {
@@ -146,13 +146,13 @@ void func_0217D1C0(u8 *w, int b)
     }
     if (p != 0 && w[0x106] == 1) {
         v = func_0215841C(s2);
-        if (func_0203D1C0(v) == 0) {
+        if ((int)func_0203D1C0((u8)v) == 0) {
             w[0x106] = 0;
             return;
         }
         switch (w[0x107]) {
         case 0:
-            if (func_021746AC(p, v) == 1) {
+            if (func_021746AC((char *)p, (u8)v) == 1) {
                 w[0x107]++;
             }
             break;

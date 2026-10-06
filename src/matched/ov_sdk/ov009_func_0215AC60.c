@@ -18,8 +18,10 @@
  */
 
 extern char g_02150FEC[];
-extern unsigned long func_02162968(void *soc);
-extern unsigned long func_0215ABB0(void *soc);
+struct CPSSoc;
+struct Soc;
+extern unsigned long func_02162968(struct CPSSoc *soc);
+extern unsigned long func_0215ABB0(struct Soc *soc);
 
 unsigned long func_0215AC60(void)
 {
@@ -27,8 +29,8 @@ unsigned long func_0215AC60(void)
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 9) != 0)
-            return func_02162968(soc);
-        return func_0215ABB0(soc);
+            return func_02162968((struct CPSSoc *)soc);
+        return func_0215ABB0((struct Soc *)soc);
     }
     return 1;
 }

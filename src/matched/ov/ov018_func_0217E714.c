@@ -121,8 +121,11 @@ struct WordSet;
 struct MsgBank;
 u32 func_02012138(const struct Ctx *p);
 void *func_020120F4(const struct Ctx *p);
-u8 func_02012B58(const void *p);
-u8 func_02012B70(const void *p);
+struct BigObj;
+struct VecFx32;
+u8 func_02012B58(const struct BigObj *p);
+struct BigObj;
+int func_02012B70(const struct BigObj *p);
 void *func_0201210C(const struct Ctx *p);
 u32 func_02013D5C(u32 id);
 u32 func_02013D9C(u32 id);
@@ -135,16 +138,16 @@ void func_0201EE0C(struct WordSet *p, u32 i, void *src, u32 n, u32 f, u32 g);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_0201C724(int a0, int a1, int a2, int a3, void *a4, int a5, int a6);
-int func_02026608(u32 p, void *out);
+int func_02026608(u8 *p, u8 *out);
 int func_021585BC(u8 *p);
-void *func_021583EC(void *a0, int a1);
-void func_021762C0(void *win, u32 slot, void *src, u16 heap);
+int func_021583EC(void *a0, int a1);
+void func_021762C0(void *win, u32 slot, u8 *src, u16 heap);
 void func_021762D8(const void *obj, void *a1, void *a2, void *a3);
-void *func_02188CB4(void *p);
-void func_021A3038(void *p, Vec3 *out);
+void *func_02188CB4(u8 *p);
+void func_021A3038(u8 *p, struct VecFx32 *out);
 int func_021D3554(void *arg0, int arg1);
 Mon *func_0217BEA8(int a0);
-int func_0217EC08(int a, u16 b, u16 c);
+int func_0217EC08(u16 a, u16 b, u16 c);
 
 void func_0217E714(W *w, u8 *p, u16 q)
 {
@@ -224,7 +227,7 @@ void func_0217E714(W *w, u8 *p, u16 q)
         }
     }
     if (done == 0 && p != 0 && w->f169 != 4 && func_021583EC(h, w->f169) != 0) {
-        t = func_021583EC(h, w->f169);
+        t = (void *)func_021583EC(h, w->f169);
         if (((Fld *)(p + w->f169 * 0x1C + 0xA2))->b == 2) {
             msg = 0x36;
         } else {
@@ -241,7 +244,7 @@ void func_0217E714(W *w, u8 *p, u16 q)
             Mon *mm;
             t = func_0201210C((const struct Ctx *)w->f00);
             ep = (u32 *)(p + 0x8C + w->fE4->f28 * 0x1C);
-            func_021A3038(func_02188CB4(t), &v);
+            func_021A3038(func_02188CB4(t), (struct VecFx32 *)(&v));
             func_021762C0(w->f24, 0, w->fE4->f18, 0x70);
             mm = func_0217BEA8(((u16 *)ep)[10]);
             if (w->fD8 == w->fE8 && mm != 0
@@ -312,7 +315,7 @@ void func_0217E714(W *w, u8 *p, u16 q)
             done = 1;
         }
     } else {
-        if (func_02026608(sys, &b) == 1) {
+        if (func_02026608((u8 *)sys, (u8 *)(&b)) == 1) {
             w->f10D = 0;
             func_02045CAC((struct MsgBank *)w->f2C, b.msg, w->f38);
             done = 1;

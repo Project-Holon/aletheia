@@ -56,7 +56,8 @@ struct MsgBank {
     u8                    resident;
 };
 
-extern void  sub_02046180(struct MsgBank *bank);
+struct Obj;
+extern void sub_02046180(struct Obj *o);
 extern void  sub_0204960C(void *stream, u32 offset);
 struct ArcFile;
 struct U16Vec;
@@ -69,7 +70,7 @@ void *sub_02045EC0(struct MsgBank *bank, u32 index)
     struct MsgEntry *e;
     void *buf;
 
-    sub_02046180(bank);
+    sub_02046180((struct Obj *)bank);
 
     if (bank->resident == 0) {
         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];

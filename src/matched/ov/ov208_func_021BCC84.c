@@ -40,14 +40,15 @@ extern void *d_021C8508[];
 extern void *d_021C8590[];
 extern void *d_021C86F0[];
 extern void *d_021C881C[];
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct Ov208Obj;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern void func_021BC26C(void *p);
-extern void *func_021BC240(void *owner, void *mem, u32 heap);
+extern struct Ov208Obj *func_021BC240(void *owner, int val, u32 heap);
 extern void func_021BEA00(void *mem, u32 heap);
-extern void func_021BF784(void *mem, u32 heap);
-extern void func_021C255C(void *mem, u32 heap);
-extern void func_021C3B68(void *mem, u32 heap);
+extern void func_021BF784(u16 *p, u16 v);
+extern void func_021C255C(u16 *dst, u16 value);
+extern void func_021C3B68(u16 *p, u32 value);
 void func_021BCC84(struct Ov208Mode *m, struct Ov208Slot *s)
 {
     void **tbl;
@@ -82,5 +83,5 @@ void func_021BCC84(struct Ov208Mode *m, struct Ov208Slot *s)
         tbl = d_021C881C;
         break;
     }
-    s->obj = func_021BC240(tbl, s->mem, s->heap);
+    s->obj = func_021BC240(tbl, (int)s->mem, s->heap);
 }

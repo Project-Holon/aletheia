@@ -43,9 +43,9 @@ extern u32   func_0201AB08(void *box);
 extern void *func_0201AB28(void *box, u32 idx);
 struct Sav;
 extern u32 func_02017D30(struct Sav *p);
-extern u32   func_02017E1C(void *p, int field, int arg);
-extern u32   func_0201C158(u16 move, u8 ppUps);
-extern void  func_02017E40(void *p, int field, u32 v);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u8 func_0201C158(u16 move, u32 ppUp);
+extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017D70(struct Sav *p, u32 f);
 extern void  func_02010F50(int idx);
 
@@ -64,15 +64,15 @@ u32 func_020110CC(void *box)
         p = func_0201AB28(box, idx);
         h = func_02017D30(p);
         for (i = 0; i < 4; i++) {
-            move = func_02017E1C(p, 0x36 + i, 0);
+            move = func_02017E1C(p, (int)(0x36 + i), (int)0);
             if (move != 0) {
-                max = func_0201C158(move, func_02017E1C(p, 0x3e + i, 0));
-                v = func_02017E1C(p, 0x3a + i, 0);
+                max = (u32)func_0201C158(move, (u8)func_02017E1C(p, (int)(0x3e + i), (int)0));
+                v = func_02017E1C(p, (int)(0x3a + i), (int)0);
                 v += *(u16 *)(g_02146228 + 0xe);
                 if (v > max) {
                     v = max;
                 }
-                func_02017E40(p, 0x3a + i, v);
+                func_02017E40(p, (int)(0x3a + i), v);
             }
         }
         func_02017D70(p, h);

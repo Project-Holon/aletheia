@@ -18,5 +18,5 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern u32 func_0201134C(struct Cursor *);
-extern void func_0201DD78(u8,u8,u8);
-int func_021FC570(int unused,char *p) { u32 a,b,c; a=func_0201134C(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); b=func_0201134C(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); c=func_0201134C(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); func_0201DD78(a,b,c); return 0; }
+extern void func_0201DD78(u32 r, u32 g, u32 b);
+int func_021FC570(int unused,char *p) { u32 a,b,c; a=func_0201134C(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); b=func_0201134C(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); c=func_0201134C(*(struct Cursor * *)&((struct Obj10564 *)p)->f4); func_0201DD78((u8)a,(u8)b,(u8)c); return 0; }

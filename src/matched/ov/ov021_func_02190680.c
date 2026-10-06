@@ -41,7 +41,8 @@ typedef struct Obj {
 
 extern char d_021DDA50[];
 
-extern void func_02192F74(Fx *a);
+struct W;
+extern void func_02192F74(struct W *w);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021930C0(int a, int unused, int b, int c, u16 d, u16 e, u16 f);
 struct Slot;
@@ -56,7 +57,7 @@ Obj *func_02190680(Fx *a, u32 b, u16 c, u16 d, u16 e, u16 f, u16 g)
     Obj *r;
 
     k = a->f02;
-    func_02192F74(a);
+    func_02192F74((struct W *)a);
     if (g == 0xe) {
         k = a->f04;
     }

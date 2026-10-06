@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 #define W(o) (*(u32 *)(p + (o)))
 
 extern void func_021BB7A4(void *p, u32 *s);
-extern void func_021BB97C(u8 *p, u32 obj);
+extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB9CC(int a, int b, int c, int d);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021BB98C(void *p, u32 s);
@@ -51,7 +51,7 @@ void func_021B9EC0(u8 *p, u32 state)
         func_021B9788(p, 0x27, 1, (int)func_021B9E3C);
         return;
     }
-    func_021BB97C(p, W(0x150));
+    func_021BB97C((u16 *)p, W(0x150));
     func_021BB9CC((int)p, W(0x150), 1, *(u16 *)(W(0x280) + 0x46));
     func_021B9788(p, 0x23, 0, (int)func_021B9F34);
     func_021BB98C(p, W(0x150));

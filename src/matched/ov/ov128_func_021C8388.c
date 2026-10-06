@@ -24,4 +24,4 @@ extern u32 func_0201283C(const struct BigObj *);
 extern int func_021C87A0(s16 *);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *,int);
 extern unsigned long long func_020598C4(void *);
-void func_021C8388(s16 *p,u8 *q) {u32 base;base=func_0201283C(*(const struct BigObj * *)&((struct Obj10485 *)q)->f4);func_020598C4(func_020099C8((struct Sub020097BCObj *)base,*(u8 *)(q+24+func_021C87A0(p))));}
+unsigned long long func_021C8388(s16 *p,u8 *q) {u32 base;base=func_0201283C(*(const struct BigObj * *)&((struct Obj10485 *)q)->f4);return func_020598C4(func_020099C8((struct Sub020097BCObj *)base,*(u8 *)(q+24+func_021C87A0(p))));}

@@ -13,14 +13,15 @@
  *   func_0200F7B8 0x0200F7B8 thumb
  */
 #include "../include/Obj08367.h"
-extern int func_02213754(int);
+struct S;
+extern int func_02213754(struct S *s);
 extern int func_02213800(char *p);
 extern void func_0200F7B8(int);
 int func_022126F4(int unused,int *state,int unused2,char *p)
 {
     switch(*state) {
     case 0:
-        if(func_02213754(((struct Obj08367 *)p)->f18)) *state=1;
+        if(func_02213754((struct S *)(((struct Obj08367 *)p)->f18))) *state=1;
         if(((struct Obj08367 *)p)->f1CC) --((struct Obj08367 *)p)->f1CC;
         {
             int x=func_02213800((char *)(((struct Obj08367 *)p)->f18));

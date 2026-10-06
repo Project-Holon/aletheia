@@ -27,10 +27,15 @@
  * evidence class: `label` / `sole-ref/code` refused (target not a traced
  * function start).
  *
+ * 2026-10-06: layout/function_starts.txt now seeds the ov132 and ov186
+ * heads at 0x021FD904 and 0x021FD938, so both calls resolve; the region
+ * hint ov132 (the overlay holding the 021FD904 accessor) picks the
+ * 021FD938 witness among the overlapping overlays.
+ *
  * symbols:
  *   func_021F675C  0x021F675C  thumb
  *   func_021FD904  0x021FD904  thumb
- *   func_021FD938  0x021FD938  thumb
+ *   func_021FD938  0x021FD938  thumb  ov132
  */
 #include "../include/Obj05850.h"
 

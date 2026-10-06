@@ -33,13 +33,16 @@ typedef unsigned int u32;
 struct NetEntry;
 
 extern void       *func_0203D788(void);
-extern struct NetEntry *func_0203996C(u32 index);
-extern u32         func_020399B8(struct NetEntry *e);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
+extern u32 func_020399B8(u8 *p);
 
 u32 func_0203D1C0(u32 index)
 {
     if (func_0203D788() == 0) {
         return 0;
     }
-    return func_020399B8(func_0203996C(index));
+    return func_020399B8((u8 *)func_0203996C(index));
 }

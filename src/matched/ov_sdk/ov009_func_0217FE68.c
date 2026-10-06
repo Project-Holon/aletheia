@@ -53,7 +53,7 @@ extern void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs);
 extern void func_0217FF94(void *theTask);
 extern void func_0218005C(void *theTask);
 extern int func_0217FF70(void *theTask);
-extern int func_02180080(void *theTask);
+extern int func_02180080(int *p);
 extern void func_0218002C(void *theTask);
 
 GSSoapTask *func_0217FE68(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void (*theCustomFunc)(void *, void *), void *theUserData)
@@ -77,7 +77,7 @@ GSSoapTask *func_0217FE68(char *theURL, char *theService, void *theRequestSoap, 
     aCoreTask->callback = func_0218005C;
     aCoreTask->execute = func_0217FF94;
     aCoreTask->think = func_0217FF70;
-    aCoreTask->cleanup = func_02180080;
+    aCoreTask->cleanup = (int (*)(void *))func_02180080;
     aCoreTask->cancel = func_0218002C;
     aCoreTask->obj = aSoapTask;
     aSoapTask->coreTask = aCoreTask;

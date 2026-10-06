@@ -37,12 +37,12 @@ typedef struct {
     u16 f;
 } S;
 
-extern u8 *func_0216D6BC();
+extern void *func_0216D6BC(int a0, int a1, int a2);
 extern void func_02163F10();
-extern void func_0219E370(u32, u16, u32);
+extern void func_0219E370(u32 a, u32 b, u32 c);
 extern void func_0219E6C8(u32, u16);
 extern void func_0216D568(void *p, u32 v);
-extern void func_0216D60C(u32, u16);
+extern int func_0216D60C(int a0, int a1);
 extern void func_0216D674(void *p, u16 v);
 extern void func_0216D7CC(u8 *p);
 extern void func_020061E4(u32 a);
@@ -51,7 +51,7 @@ void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
 {
     u8 *e;
 
-    e = func_0216D6BC(o, 0x10);
+    e = func_0216D6BC(o, 0x10, p);
     e[0xc] = id;
     ((struct Obj05013 *)e)->f0 = p;
     e[0xd] = q;
@@ -61,11 +61,11 @@ void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
     if (p == 0) {
         func_02163F10(o);
     } else {
-        func_0219E370(o, id, 8);
+        func_0219E370(o, (u16)id, 8);
         func_0219E6C8(o, id);
     }
     func_0216D568((void *)o, 0xa0);
-    func_0216D60C(o, id);
+    func_0216D60C((u32)o, (u16)id);
     func_0216D674((void *)o, s.a);
     func_0216D7CC((u8 *)o);
     if (fn) {

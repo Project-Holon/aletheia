@@ -52,7 +52,7 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021FE594(void *, void *);
+extern void func_021FE594(void *h, int *s);
 extern void func_021FE690(void *);
 extern const char d_0220AE68[];
 #define FX(x) ((int)(((x) > 0) ? (0.5f + (float)((x) << 12)) : ((float)((x) << 12) - 0.5f)))
@@ -86,6 +86,6 @@ void func_021F9948(void *vm, u32 a, int mode, int c, int x, int dest, int e, int
         ff = (float)(j->f << 12) - 0.5f;
     fd = FX(j->dest - j->x);
     j->delta = func_0207C768(fd, (int)ff);
-    func_021F896C(func_02030DA8(w->owner, func_021FE594, j, 0), func_021FE690, 1);
+    func_021F896C(func_02030DA8(w->owner, (void (*)(void *, void *))func_021FE594, j, 0), func_021FE690, 1);
     w->flags |= 8;
 }

@@ -13,12 +13,13 @@
  */
 #include "../include/Obj00287.h"
 typedef unsigned char u8;
-extern void func_02202940(void *);
+struct Obj;
+extern void func_02202940(struct Obj *p);
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 void func_021F5940(u8 *p)
 {
-    func_02202940(p + 0xfa0);
+    func_02202940((struct Obj *)(p + 0xfa0));
     func_020452E8(((struct Obj00287 *)p)->fDE0);
     func_020452E8(((struct Obj00287 *)p)->fDD0);
     func_020452E8(((struct Obj00287 *)p)->fD54);

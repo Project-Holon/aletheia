@@ -43,7 +43,7 @@ int func_021D5B68(void *p);
 int func_021D775C(int a);
 int func_021D5814(void *p, int k);
 void func_021C88B4(void *a, int k, int b);
-void *func_021C88A4(int a, int k, int b);
+void *func_021C88A4(char *p, int a, int b);
 void func_021C88C8(void *a, void *b);
 int func_021E8CF0(int k);
 
@@ -65,7 +65,7 @@ void func_021D9FC4(void *a, int b, int c)
     if (func_021D5814(r, k) != 0)
         return;
     func_021C88B4((void *)b, 2, c);
-    p = func_021C88A4(b, 0x14, c);
+    p = func_021C88A4((char *)b, 0x14, c);
     ((struct Obj12144 *)p)->f4 = func_021E8CF0(k);
     ((struct Obj12144 *)p)->f6 = c;
     func_021C88C8((void *)b, p);

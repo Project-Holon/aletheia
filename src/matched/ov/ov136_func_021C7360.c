@@ -29,20 +29,23 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02008FC8(void *, u8);
+struct Obj0202DC98;
+struct Sub02008F80Entry;
+struct Sub02008F80Obj;
+extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
 extern int func_02024450(const u16 *p);
-extern void func_0202DC9C(void *, u8, int);
+extern void func_0202DC9C(struct Obj0202DC98 *o, int i, u32 a1);
 extern void func_020414EC(u32);
 void func_021C7360(u8 *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (func_02024450(func_02008FC8(*(void **)(*(u8 * *)&((struct Obj01066 *)p)->f8 + p[0x1F]*4 + 0x298), i)) != 0) {
-            func_0202DC9C(((struct Obj23643 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f35C, i, 0);
+        if (func_02024450((const u16 *)func_02008FC8(*(void **)(*(u8 * *)&((struct Obj01066 *)p)->f8 + p[0x1F]*4 + 0x298), (u8)i)) != 0) {
+            func_0202DC9C(((struct Obj23643 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f35C, (u8)i, (int)0);
         }
     }
     if (((struct Obj23644 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f364 != 0) {
-        func_0202DC9C(((struct Obj23645 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f35C, i, 0);
+        func_0202DC9C(((struct Obj23645 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f35C, (u8)i, (int)0);
     }
     func_020414EC(4);
     func_020414EC(5);

@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021E0570(u8 *p);
-extern void func_021E07A4(void *);
+extern void func_021E07A4(char *p);
 extern u8 *func_021E0A44(void *);
 int func_021DF370(u8 *p)
 {
@@ -36,7 +36,7 @@ int func_021DF370(u8 *p)
         }
         ((struct Obj04539 *)p)->f1C = values[1];
         func_021E0570(p);
-        func_021E07A4(p);
+        func_021E07A4((char *)p);
         *(u8 * *)&((struct Obj04539 *)p)->f28 = func_021E0A44(p);
         ((struct Obj04539 *)p)->f0 = 35;
     }

@@ -20,9 +20,10 @@
  *   func_021C4C50  0x021C4C50  thumb  ov093
  */
 
-extern void func_021C4C50(void *arg, int result, int result2);
+typedef unsigned char  u8;
+extern void func_021C4C50(u8 *p, int k);
 
 void CallbackForJpeg(int result, void *arg)
 {
-    func_021C4C50(arg, result, result);
+    func_021C4C50(arg, result);
 }

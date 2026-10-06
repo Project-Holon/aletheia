@@ -40,8 +40,8 @@ extern void func_020414AC(int a);
 extern void func_021BC5D4(u8 *p);
 extern u32 func_02188C54(u8 *p);
 extern void func_021904D0(u8 *p);
-extern void func_021F56E4(void *p);
-extern void func_021F56FC(void *p);
+extern void func_021F56E4(u8 *p);
+extern void func_021F56FC(int *p);
 extern void func_020307B0(void *p);
 extern u32 *func_02189A60(int a);
 
@@ -69,8 +69,8 @@ void func_021F5648(int a0, Cfg *p)
     func_021BC5D4((u8 *)t);
     func_021904D0((u8 *)func_02188C54((u8 *)a0));
     reg_G2_BLDCNT = 0;
-    func_021F56E4(p);
-    func_021F56FC(p);
+    func_021F56E4((u8 *)p);
+    func_021F56FC((int *)p);
     func_020307B0(p);
     *func_02189A60(a0) = 0;
 }

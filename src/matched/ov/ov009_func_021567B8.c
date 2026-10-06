@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern u8 *g_021A8264;
 extern int func_0205912C(u8 *);
-extern u32 func_02168848(u8 *, u8 *, int *);
+extern unsigned char func_02168848(void *p, int a, int b);
 extern void func_02082BCC(u8 *, u32, u32);
 
 void func_021567B8(void)
@@ -33,7 +33,7 @@ void func_021567B8(void)
         int n;
         if (func_0205912C(*(u8 **)(g_021A8264 + 0x100) + o) != 0) {
             u32 r = func_02168848(*(u8 **)(g_021A8264 + 0x100) + o,
-                                  g_021A8264 + 0x34c + i * 32, &n);
+                                  (int)(g_021A8264 + 0x34c + i * 32), (int)(&n));
             if (n < 1) {
                 (g_021A8264 + i)[0x32c] = 0;
                 func_02082BCC(g_021A8264 + 0x34c + i * 32, 0, 0x20);

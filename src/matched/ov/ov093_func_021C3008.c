@@ -28,7 +28,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 enum Kind { K0, K1, K10 = 10 };
 extern int func_021C312C(u8 *, u8 *, enum Kind, u8, u16, int);
-extern int func_021D5D14(void *, u32, int);
+typedef signed char    s8;
+extern int func_021D5D14(s8 *p, int i, int sign);
 extern void func_021C5A4C(u8 *p, u8 *a, int b, int c);
 extern u32 func_021D6D7C(u8 *p);
 extern u8 func_021D5440(u8 *p);
@@ -37,14 +38,14 @@ extern int func_021C77B0(u8 *, u8 *, u32, u32, u32, u32);
 extern void func_021C5A8C(u8 *p, u8 *a, int c, int d, u16 msg, int flag);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021C785C(u8 *, u32, u8 *, u32, u32);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C7820(u8 *, u8 *, u32);
 int func_021C3008(u8 *p, u8 b, u8 *a, enum Kind kind, int value, u8 f, u16 g, u32 h, int i, u32 j)
 {
     int result;
     u32 lock;
     value = func_021C312C(p, a, kind, f, g, value);
-    if (!func_021D5D14(a, kind, value)) {
+    if (!func_021D5D14((s8 *)a, kind, value)) {
         if (i) {
             func_021C5A4C(p, a, kind, value);
             ((struct Obj00003 *)p)->f78A |= 0x10;
@@ -64,12 +65,12 @@ int func_021C3008(u8 *p, u8 b, u8 *a, enum Kind kind, int value, u8 f, u16 g, u3
         func_021C5A8C(p, a, kind, value, g, j);
         lock = func_021CC8D8(p + 0x1d74, 8349);
         func_021C785C(p, b, a, kind, value);
-        func_021CC95C(p + 0x1d74, lock, 8351);
+        func_021CC95C((u32 *)(p + 0x1d74), lock, 8351);
     } else {
         if (i) {
             lock = func_021CC8D8(p + 0x1d74, 8358);
             func_021C7820(p, a, h);
-            func_021CC95C(p + 0x1d74, lock, 8360);
+            func_021CC95C((u32 *)(p + 0x1d74), lock, 8360);
         }
         result = 0;
     }

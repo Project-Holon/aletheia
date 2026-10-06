@@ -25,7 +25,8 @@ extern int func_021E8844(const int *p);
 extern void func_021E8AB8(unsigned);
 extern void func_021E8AB4(unsigned,unsigned);
 extern void func_021E8738(int *,int,int,int);
-extern void func_021D6550(char *,int);
+typedef unsigned int   u32;
+extern void func_021D6550(u32 *p, int mode);
 extern int func_021D65DC(char *);
 extern void func_021D65C8(char *);
 extern void func_021DA36C(void *);
@@ -40,7 +41,7 @@ void func_021D5634(unsigned sys,int *state,int *p)
         state[0]=3;
         func_021E8AB4(sys,1);
         break;
-    case 1: func_021D6550((char *)p,0); state[0]=2; break;
+    case 1: func_021D6550((u32 *)p,0); state[0]=2; break;
     case 2:
         result=func_021D65DC((char *)p);
         if(result!=-1) {

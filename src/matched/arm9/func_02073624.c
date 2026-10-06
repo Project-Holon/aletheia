@@ -51,25 +51,27 @@ struct Voice { u8 p00[0x3d]; u8 b3d; };
 extern char g_0214E00C[];
 extern char g_0214E018[];
 
-extern struct Voice *func_02060614(void *list, void *curr);
-extern void func_020605B4(void *list, void *node);
+struct DList;
+struct Obj_02073548;
+extern void *func_02060614(struct DList *list, void *elem);
+extern void func_020605B4(volatile struct DList *list, void *elem);
 extern void func_020735EC(struct Voice *v);
-extern void func_02073598(struct Voice *v);
+extern void func_02073598(struct Obj_02073548 *obj);
 
 struct Voice *func_02073624(s32 pri)
 {
     struct Voice *v;
 
-    v = func_02060614(g_0214E00C, 0);
+    v = func_02060614((struct DList *)g_0214E00C, 0);
     if (v == 0) {
-        v = func_02060614(g_0214E018, 0);
+        v = func_02060614((struct DList *)g_0214E018, 0);
         if (pri < v->b3d) {
             return 0;
         }
         func_020735EC(v);
     }
-    func_020605B4(g_0214E00C, v);
+    func_020605B4((volatile struct DList *)g_0214E00C, v);
     v->b3d = (u8)pri;
-    func_02073598(v);
+    func_02073598((struct Obj_02073548 *)v);
     return v;
 }

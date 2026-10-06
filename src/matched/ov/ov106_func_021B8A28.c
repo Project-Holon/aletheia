@@ -18,9 +18,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_021B9298(u32,u32,int,int,u16,u16,u16,u16);
+struct Bmp;
+extern void func_021B9298(const struct Bmp *a, const struct Bmp *b, int x, int y, u16 sx, u16 sy, u16 w, u16 h);
 extern void func_021B8B5C(u8 *,u32,int,u8);
 void func_021B8A28(u32 *p,u32 a,u32 b,u16 c) {
-    func_021B9298(p[1],(u32)func_02045770((struct Descriptor *)a),0,0,0,c,32,3);
+    func_021B9298((const struct Bmp *)p[1],(const struct Bmp *)((u32)func_02045770((struct Descriptor *)a)),0,0,0,c,32,3);
     func_021B8B5C((u8 *)p[7],b,c,(*(u32 *)(p[0]+4)<<7)>>24);
 }

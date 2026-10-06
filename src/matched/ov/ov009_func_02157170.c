@@ -56,17 +56,18 @@ typedef struct Status {
 } Status;
 
 extern int func_0203CD98(void);
-extern Status *func_0203CA98(void);
-extern int func_0200FB24(void);
+typedef unsigned int   u32;
+extern u32 func_0203CA98(void);
+extern u32 func_0200FB24(void);
 extern void func_02157160(void);
 extern void func_0200F83C(void);
 extern void func_0200FBA0(void);
 extern void func_02059F18(void);
 extern void func_0200FB38(void);
-extern void func_0200FB4C(int);
-extern void func_0200F7C0(int);
+extern void func_0200FB4C(unsigned int x);
+extern void func_0200F7C0(u32 value);
 extern void func_0200FAAC(void);
-extern void func_0203C554(int);
+extern void func_0203C554(u32 a);
 extern void func_0203CA04(void);
 extern void func_0203C968(void);
 
@@ -76,7 +77,7 @@ int func_02157170(int a0, int a1)
     int v;
 
     if (func_0203CD98() != 0) {
-        st = func_0203CA98();
+        st = (Status *)func_0203CA98();
         if (func_0200FB24() != 0) {
             switch (st->f4) {
             case 0:

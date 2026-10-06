@@ -26,7 +26,7 @@ extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_020185F4(void *p);
 struct Sub020075B0Entry;
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
-extern void func_021DD314(char *, int, unsigned);
+extern void func_021DD314(char **p, int a, unsigned b);
 extern void func_021EDAB0(char *, int);
 void func_021DD3DC(char *p, unsigned char *a)
 {
@@ -34,6 +34,6 @@ void func_021DD3DC(char *p, unsigned char *a)
                                         ((struct Obj09221 *)a)->f4 - 0x1e));
     func_020075B0((void *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f0 + 4)), ((struct Obj00000 *)p)->f14,
                   ((struct Obj09221 *)a)->f2, (const struct Sub020075B0Entry *)x);
-    func_021DD314(p, ((struct Obj00000 *)p)->f14, ((struct Obj09221 *)a)->f4);
+    func_021DD314((char **)p, ((struct Obj00000 *)p)->f14, ((struct Obj09221 *)a)->f4);
     func_021EDAB0(p, ((struct Obj00000 *)p)->f14);
 }

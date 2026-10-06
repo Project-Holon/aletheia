@@ -32,7 +32,7 @@ struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
 extern void func_020452E8(struct Descriptor *d);
-extern void func_0203FB44(u32,u16,u16);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_0201DD68(void);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
@@ -50,11 +50,11 @@ void func_021D941C(u8 *p)
 {
     u32 a;
     int i;
-    func_0203FB44(1,((struct Obj00534 *)p)->f0,((struct Obj00534 *)p)->f0>>16);
+    func_0203FB44(1,(u16)(((struct Obj00534 *)p)->f0),(u16)(((struct Obj00534 *)p)->f0>>16));
     a=((struct Obj00534 *)p)->f8>>16;
-    func_0203FB44(5,((struct Obj00534 *)p)->f8,a);
+    func_0203FB44(5,(u16)(((struct Obj00534 *)p)->f8),(u16)a);
     a=((struct Obj00534 *)p)->f4>>16;
-    func_0203FB44(6,((struct Obj00534 *)p)->f4,a);
+    func_0203FB44(6,(u16)(((struct Obj00534 *)p)->f4),(u16)a);
     func_021D92B8(p);
     func_0201DD68();
     func_02045C04(((struct Obj00534 *)p)->f20);

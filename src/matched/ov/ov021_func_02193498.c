@@ -17,15 +17,18 @@
 typedef struct { int w[0x41]; } B104;
 
 extern void func_02082BCC(void *, int, int);
-extern void func_021D14C4(void *, int, void *, void *, int, int);
+struct Map021D14C4;
+struct Plane021D14C4;
+struct VecFx32_021D14C4;
+extern void func_021D14C4(struct Plane021D14C4 *out, int idx, struct Map021D14C4 *map, struct VecFx32_021D14C4 *pos, int size, int base);
 
 void func_02193498(B104 *dst, const int *src, void *c, int d, int e)
 {
     B104 buf;
 
     func_02082BCC(&buf, 0, sizeof(buf));
-    func_021D14C4(&buf, 0, (char *)src + src[2], c, d, e);
-    func_021D14C4(&buf, 1, (char *)src + src[3], c, d, e);
+    func_021D14C4((struct Plane021D14C4 *)(&buf), 0, (struct Map021D14C4 *)((char *)src + src[2]), c, d, e);
+    func_021D14C4((struct Plane021D14C4 *)(&buf), 1, (struct Map021D14C4 *)((char *)src + src[3]), c, d, e);
     *dst = buf;
     dst->w[0x40] = 2;
 }

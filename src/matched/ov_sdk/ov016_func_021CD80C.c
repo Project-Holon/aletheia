@@ -26,7 +26,7 @@
  */
 
 extern void func_021CEF50(void);
-extern void func_021C0EA0(void **param2, void **param3);
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern void func_021CD870(void);
 extern int func_021BD060(int messageId, int n, int num);
 extern void func_021BD6D4(void);
@@ -38,7 +38,7 @@ void func_021CD80C(void)
 {
     int prm;
     func_021CEF50();
-    func_021C0EA0(0, (void **)&prm);
+    func_021C0EA0(0, (unsigned int *)((void **)&prm));
     func_021CD870();
     func_021BD060(49, -1, 0);
     if (prm != 2)

@@ -15,7 +15,7 @@
 
 void func_0204A600(void);
 
-void func_02201AF0(void)
+void func_02201AF0(void *a0)
 {
     func_0204A600();
 }

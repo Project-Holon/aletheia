@@ -46,7 +46,8 @@ typedef struct {
 extern void *func_02188C58(void *o);
 extern void func_0218ECC4(void *o, VecFx32 *out);
 extern void func_0218ECD4(void *o, VecFx32 *v);
-extern void func_020520A4(const VecFx32 *v, fx32 s, VecFx32 *o);
+struct Vec3;
+extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *dst);
 extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *c);
 
 #define FX32_ONE 0x1000
@@ -69,8 +70,8 @@ int func_021C7B1C(Work *w)
     case 1:
         w->cnt++;
         t = FX_F32_TO_FX32((f32)w->cnt / (f32)w->max);
-        func_020520A4(&w->from, FX32_ONE - t, &a);
-        func_020520A4(&w->to, t, &b);
+        func_020520A4((const struct Vec3 *)(&w->from), FX32_ONE - t, (struct Vec3 *)(&a));
+        func_020520A4((const struct Vec3 *)(&w->to), t, (struct Vec3 *)(&b));
         func_0207C9D0(&a, &b, &c);
         func_0218ECD4(o, &c);
         if (w->max <= w->cnt)

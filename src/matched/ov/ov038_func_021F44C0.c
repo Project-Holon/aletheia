@@ -48,14 +48,14 @@ extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(void *p, int i);
-extern void func_021BE700(void *p, int i, int j, u16 k, int flag);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *p, int i, unsigned int j, u16 k);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6CC(int p, int i, int j, u16 k, int v);
 extern V3 *func_021BE480(void *p, int i, u16 j);
 extern int func_021BE6BC(int *p);
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
-extern int func_021587B0(void *p, u16 b, int c, int d);
+extern int func_02158780(void *p, int b, int c, int d, u16 e);
+extern int func_021587B0(int a0, int a1, int a2, int a3);
 extern const V3 d_021F465C[];
 
 int func_021F44C0(void *a, int *state)
@@ -73,7 +73,7 @@ int func_021F44C0(void *a, int *state)
     switch (*state) {
     case 0:
         for (i = 0; i < 2; i++) {
-            func_021BE700(h, 0, 0x20, i, 1);
+            func_021BE700(h, 0, 0x20, (u16)i, 1);
             func_021BE6B0(func_021BE674(h, 0, 0x20, i), 0);
             func_021BE6CC((int)h, 0, 0x20, i, 0);
         }
@@ -84,7 +84,7 @@ int func_021F44C0(void *a, int *state)
         id = 4;
         if (s[2] == 0)
             id = 3;
-        func_02158780(a, id, 0, 0, 0x8015);
+        func_02158780(a, (u16)id, 0, 0, 0x8015);
         *state = *state + 1;
         break;
     case 2:
@@ -92,7 +92,7 @@ int func_021F44C0(void *a, int *state)
             id = 6;
             if (s[2] == 0)
                 id = 5;
-            func_021587B0(a, id, 0, 0x8015);
+            func_021587B0((int)a, (u16)id, 0, 0x8015);
             *state = *state + 1;
         }
         break;

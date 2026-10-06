@@ -38,7 +38,7 @@ struct U16Vec;
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern u32 func_0201DC6C(struct Font *p, u16 ch);
 
-u32 func_0201D528(void *s, u32 b, void *c, u32 d)
+u32 func_0201D528(void *s, u8 b, void *c, u32 d)
 {
     u32 acc = 0;
     u16 *p;

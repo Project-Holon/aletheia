@@ -21,12 +21,12 @@ typedef unsigned int u32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void sub_0201C724(void *, u32, u32, u32, u32, u32, u16);
-extern void func_021BDAA0(char *, char *, int *);
+extern void func_021BDAA0(u8 *p, int arg, int *counter);
 void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f)
 {
     void *handle;
     handle = ((struct Obj14721 *)owner)->f12C;
     sub_0201C724(handle, (u32)func_02045770((struct Descriptor *)((struct Obj08427 *)record)->f8), b, c, d, ((struct Obj14721 *)owner)->f128, f);
     ((struct Obj08427 *)record)->fC = 1;
-    func_021BDAA0(owner, record, (int *)(owner + 12));
+    func_021BDAA0((u8 *)owner, (int)record, (int *)(owner + 12));
 }

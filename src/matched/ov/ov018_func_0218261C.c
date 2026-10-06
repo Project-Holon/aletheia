@@ -87,7 +87,7 @@ extern int   func_0217F40C(u8 *);
 extern int   func_0217F420();
 extern void  func_0217F4C4(u8 *);
 extern void func_0217F4D8(void **p, int a);
-extern int   func_0217F508(u8 *);
+extern int func_0217F508(void **p);
 extern void  func_0217FE38(u8 *, Outer *);
 
 int func_0218261C(void *a, int *state, Outer *c)
@@ -138,7 +138,7 @@ int func_0218261C(void *a, int *state, Outer *c)
         }
         break;
     case 3:
-        r = func_0217F508((u8 *)c + 0x10);
+        r = func_0217F508((void **)((u8 *)c + 0x10));
         flag = 0;
         switch (r) {
         case 0:

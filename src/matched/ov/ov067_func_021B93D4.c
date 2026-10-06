@@ -39,22 +39,22 @@ struct S {
     s16 f62;
 };
 
-extern void func_021B92F0(struct S *p, u16 a1, u16 a2);
+extern void func_021B92F0(struct S *p, u32 a1, u32 a2);
 
-void func_021B93D4(struct S *s, s16 v)
+void func_021B93D4(struct S *s, int v)
 {
     s->f60 = s->f5c;
     s->f5c = v;
-    func_021B92F0(s, s->f5c, s->f60);
+    func_021B92F0(s, (u16)s->f5c, (u16)s->f60);
     s->f20->f4(s->f24, s->f5c + s->f62, 1);
 }
 
 void func_021B940C(struct S *s)
 {
-    func_021B92F0(s, s->f5c, 0xff);
+    func_021B92F0(s, (u16)s->f5c, (u16)0xff);
 }
 
 void func_021B941C(struct S *s)
 {
-    func_021B92F0(s, 0xff, s->f5c);
+    func_021B92F0(s, (u16)0xff, (u16)s->f5c);
 }

@@ -27,7 +27,8 @@ typedef short s16;
 typedef unsigned int u32;
 extern void func_02082BCC(void *,int,int);
 extern void func_0204335C(u32 keep);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -36,4 +37,4 @@ extern void func_021B7994(void *,int);
 extern void func_021B7980(u32 unused, u8 *p);
 extern void *func_020056A0(void (*)(void *),void *,int);
 extern const u8 d_021B8F78[];
-void func_021B78EC(u8 *p,int a) { func_02082BCC(p,0,0xbc); func_0204335C(0); func_020433E0(d_021B8F78); func_0204363C(0); func_0204361C(); func_020434CC(); func_021B7B2C(p+4,d_021B8F78,a); func_021B7994(p,a); ((struct Obj22215 *)p)->fB8=func_020056A0((void (*)(void *))func_021B7980,p,0); }
+void func_021B78EC(u8 *p,int a) { func_02082BCC(p,0,0xbc); func_0204335C(0); func_020433E0((const struct DispVram *)d_021B8F78); func_0204363C(0); func_0204361C(); func_020434CC(); func_021B7B2C(p+4,d_021B8F78,a); func_021B7994(p,a); ((struct Obj22215 *)p)->fB8=func_020056A0((void (*)(void *))func_021B7980,p,0); }

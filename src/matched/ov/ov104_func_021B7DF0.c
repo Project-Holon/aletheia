@@ -39,7 +39,7 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
-extern void func_021B80B8(Rec *p);
+extern void func_021B80B8(u8 *p);
 void func_021B7DF0(Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 size)
 {
     void *q;
@@ -49,7 +49,7 @@ void func_021B7DF0(Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 size)
     p->fC = func_020457B0(0xff, size);
     p->f4 = p->f0;
     p->f8 = 0;
-    func_021B80B8(p);
+    func_021B80B8((u8 *)p);
     q = p->f0;
     func_02045334(q);
     func_02045374(q);

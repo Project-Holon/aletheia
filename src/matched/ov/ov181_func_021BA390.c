@@ -20,7 +20,9 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Bmp { void *pixels; u16 width, height, depth, kind; };
 extern void *func_020437D4(const struct Bmp *);
-extern void func_021BA354(void *, void *, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021BA354(u8 *p, u8 *out, u32 n);
 extern void func_021B9DCC(char *, unsigned);
 void func_021BA390(char *p)
 {
@@ -37,19 +39,19 @@ void func_021BA390(char *p)
     a = func_020437D4(func_02045770(((struct Obj04570 *)p)->f2BC));
     b = func_020437D4(func_02045770(((struct Obj04570 *)p)->f2C4));
     x = 0;
-    for (i = 0; i < 32; i++, x += 32) func_021BA354(a + x, 0, n);
+    for (i = 0; i < 32; i++, x += 32) func_021BA354((u8 *)(a + x), 0, n);
     for (j = 1; j < 25; j++) {
         x = j * 1024;
         y = (j - 1) * 1024;
-        for (k = 0; k < 32; k++, x += 32, y += 32) func_021BA354(a + x, a + y, n);
+        for (k = 0; k < 32; k++, x += 32, y += 32) func_021BA354((u8 *)(a + x), (u8 *)(a + y), n);
     }
     x = 0;
     y = 0x6000;
-    for (l = 0; l < 32; l++, x += 32, y += 32) func_021BA354(b + x, a + y, n);
+    for (l = 0; l < 32; l++, x += 32, y += 32) func_021BA354((u8 *)(b + x), (u8 *)(a + y), n);
     for (m = 1; m < 28; m++) {
         x = m * 1024;
         y = (m - 1) * 1024;
-        for (o = 0; o < 32; o++, x += 32, y += 32) func_021BA354(b + x, b + y, n);
+        for (o = 0; o < 32; o++, x += 32, y += 32) func_021BA354((u8 *)(b + x), (u8 *)(b + y), n);
     }
     func_021B9DCC(p, 3);
 }

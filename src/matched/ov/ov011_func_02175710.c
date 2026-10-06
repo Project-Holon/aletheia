@@ -31,7 +31,7 @@ typedef struct Lo3 {
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_02012B8C(void *p, u32 v);
-extern void func_02161FEC(void *p, u8 v);
+extern void func_02161FEC(char *p, u16 v);
 
 void func_02175710(u8 *o, u32 v)
 {
@@ -40,7 +40,7 @@ void func_02175710(u8 *o, u32 v)
     p = func_020120F4(((struct Obj00269 *)o)->f0);
     ((Lo3 *)(o + 0x86))->v = v;
     func_02012B8C(p, v);
-    func_02161FEC(o + 0x35c, v);
+    func_02161FEC((char *)(o + 0x35c), (u8)v);
 }
 
 typedef struct Flags {

@@ -40,9 +40,17 @@ typedef struct {s16 y,x;u16 limit;} Scale;
 extern const Vec d_021BA5A0;
 extern u32 func_021BA218(u8 *p);
 extern u8 *func_021F5450(u8 *,int);
-extern int func_021B8BB4(u8 *,void *,const int *,u16 *),func_021B8B78(u8 *,int),func_021F4B24(u8 *);
-extern void func_021BA21C(u8 *,Pair *),func_021BA254(u8 *,int),func_020061E4(u32);
-extern void func_021F4EE8(int,int,int),func_021F4E8C(int,int,Vec *),func_021F4ED4(int,int,u16),func_021F4EC4(int,int,s16 *,s16 *),func_021F4EB4(int,int,s16,s16);
+extern int func_021B8BB4(u8 *,void *,const int *,u16 *);
+extern int func_021B8B78(unsigned char *p, unsigned int id);
+extern int func_021F4B24(u8 *);
+extern void func_021BA21C(u8 *p, const u8 *src);
+extern void func_021BA254(char *p, int v);
+extern void func_020061E4(u32);
+extern void func_021F4EE8(int,int,int);
+extern void func_021F4E8C(int,int,Vec *);
+extern void func_021F4ED4(u32 unused, u32 p, u16 v);
+extern void func_021F4EC4(u32 unused, u32 p, s16 *a, s16 *b);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 void func_021B7F54(u8 *p,int sound)
 {
     Vec v;
@@ -62,7 +70,7 @@ void func_021B7F54(u8 *p,int sound)
         rotation=((struct Obj06497 *)q)->f36;func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,1);
         if(func_021F4B24(sprite)==1)v.z=0x1a000;
         if(func_021B8B78(p,((struct Obj00004 *)p)->f34)==0){((struct Obj00004 *)p)->f40=3;((struct Obj00004 *)p)->f44=pos.x;((struct Obj00004 *)p)->f48=pos.y;}
-        func_021BA254(*(u8 * *)&((struct Obj00004 *)p)->f38,((struct Obj00004 *)p)->f34);
+        func_021BA254((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj00004 *)p)->f34);
         if(old!=((struct Obj00004 *)p)->f34 && sound==1)func_020061E4(0x627);
     }else{
         ((struct Obj00004 *)p)->f34=10;pos.x=((struct Obj00004 *)p)->f1C;pos.y=*(int *)&((struct Obj00004 *)p)->f20;
@@ -71,7 +79,7 @@ void func_021B7F54(u8 *p,int sound)
     if(pos.x>0)v.x=(int)(0.5f+(float)(int)((u32)pos.x<<12));else v.x=(int)((float)(int)((u32)pos.x<<12)-0.5f);
     if(pos.y>0)v.y=(int)(0.5f+(float)(int)((u32)pos.y<<12));else v.y=(int)((float)(int)((u32)pos.y<<12)-0.5f);
     func_021F4E8C(*(int *)(p+0x1884),(int)sprite,&v);
-    func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,&pos);
+    func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&pos));
     q=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);func_021F4ED4(*(int *)(p+0x1884),(int)q,rotation);
     func_021F4EC4(*(int *)(p+0x1884),(int)sprite,&scale.x,&scale.y);
     if(scale.x<4096 || scale.y<4096){

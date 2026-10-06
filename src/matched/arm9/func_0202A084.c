@@ -31,7 +31,8 @@ extern const u8 tbl_0209FED4[][4];
 extern void func_02072788(int vol);
 extern void func_0202A02C(u32 *p, int on);
 extern void func_0202A01C(u32 *p);
-extern void func_02029FF8(u32 *p);
+typedef unsigned short u16;
+extern void func_02029FF8(u16 *p);
 
 void func_0202A084(u32 *p, int event)
 {
@@ -46,7 +47,7 @@ void func_0202A084(u32 *p, int event)
     case 1:
         func_02072788(0x7f);
         func_0202A02C(p, 1);
-        func_02029FF8(p);
+        func_02029FF8((u16 *)p);
         break;
     case 2:
         func_02072788(0);
@@ -55,7 +56,7 @@ void func_0202A084(u32 *p, int event)
     case 3:
         func_02072788(0x7f);
         func_0202A02C(p, 1);
-        func_02029FF8(p);
+        func_02029FF8((u16 *)p);
         break;
     }
     *p = v;

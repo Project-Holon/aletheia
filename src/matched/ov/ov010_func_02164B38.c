@@ -28,4 +28,4 @@ extern void *func_020124E8(struct Obj *p);
 extern int func_02164A2C(void *,u32 *,struct SeqWork2 *);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
-void *func_02164B38(void *a,void *b,u32 c){void *t=func_020122C0(a,0,(void *)func_02164A2C,0x1c);u8 *p=func_020124E8(t);void *v=func_020120F4(a);((struct Obj07302 *)p)->f4=v;((struct Obj07302 *)p)->f8=func_02012EBC(v);((struct Obj07302 *)p)->f0=a; p[0x18]=c;return t;}
+void *func_02164B38(void *a, void *b, u8 c){void *t=func_020122C0(a,0,(void *)func_02164A2C,0x1c);u8 *p=func_020124E8(t);void *v=func_020120F4(a);((struct Obj07302 *)p)->f4=v;((struct Obj07302 *)p)->f8=func_02012EBC(v);((struct Obj07302 *)p)->f0=a; p[0x18]=c;return t;}

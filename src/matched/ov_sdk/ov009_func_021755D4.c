@@ -44,7 +44,7 @@ typedef struct NodeInfo {
 
 extern int func_02175F3C(void);
 extern int func_02175530(void);
-extern NodeInfo *func_02176344(void);
+extern char *func_02176344(void);
 extern void func_02175F4C(int status);
 extern void func_02175F84(int status);
 extern int func_0216F20C(int matchType);
@@ -58,7 +58,7 @@ void func_021755D4(int init)
 
     if (init) {
         ((MatchCnt *)func_02175F3C())->f790 = func_02175530();
-        pMyNodeInfo = func_02176344();
+        pMyNodeInfo = (NodeInfo *)func_02176344();
         pMyNodeInfo->f16 = 0;
         ((MatchCnt *)func_02175F3C())->f7C4 = 1;
     }

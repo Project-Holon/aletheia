@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02029E58(int a0, int a1, int a2, int a3){ int t0 = func_020127A4(a0); int t1 = func_02012B28((int)t0); return t1; }
+int func_02029E58(void *a0){ int t0 = func_020127A4(a0); int t1 = func_02012B28((int)t0); return t1; }

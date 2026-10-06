@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021BB7A4(void *a, int *s, int k);
+extern void func_021BB7A4(void *p, u32 *s);
 struct PrintSys;
 struct Rec3;
 struct S02031140;
@@ -41,7 +41,7 @@ extern void func_020307B0(void *p);
 void func_021BB5FC(void *a, int *s)
 {
     if (s[0] != 4) {
-        func_021BB7A4(a, s, s[0]);
+        func_021BB7A4(a, (u32 *)s);
     }
     if (s[13] != 0) {
         func_0202F038((u8 *)s[13]);

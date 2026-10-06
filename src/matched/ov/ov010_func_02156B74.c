@@ -36,11 +36,13 @@ typedef struct Work {
     void *f3C;          /* 0x3C */
 } Work;
 
-extern u32 func_021FD954(void *p);
-extern u32 func_021FD95C(void *p);
-extern void *func_02157028(u32 heap, void *p, u32 a);
-extern void func_02157278(void *p, u32 v);
-extern void func_021572A8(void *p, u32 v);
+struct Deal;
+struct Src;
+extern u32 func_021FD954(char *p);
+extern u32 func_021FD95C(char *p);
+extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
+extern void func_02157278(u8 *p, u32 v);
+extern void func_021572A8(struct Deal *d, u32 v);
 
 void func_02156B74(Work *w)
 {

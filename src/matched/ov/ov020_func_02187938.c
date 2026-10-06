@@ -10,6 +10,6 @@
  * status:   EXACT*
  */
 
-void func_02187938(void)
+void func_02187938(char *p)
 {
 }

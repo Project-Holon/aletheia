@@ -33,7 +33,7 @@ extern u8 *func_021E9100(u8 *p, int n);
 extern u32 func_021CD9E0(u8 *p);
 extern int func_021EA230(int *st, char *ctx);
 
-void func_021EA1B8(struct S *s, u16 a, u8 b, int c)
+void func_021EA1B8(struct S *s, u32 a, int b, int c)
 {
     u8 *t;
 

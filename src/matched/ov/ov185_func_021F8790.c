@@ -33,13 +33,15 @@ typedef unsigned short u16;
 typedef struct Cfg {u16 heap;unsigned char rest[6];} Cfg;
 typedef struct Pair {int x,y;} Pair;
 extern void func_02082BCC(void *,int,unsigned);
-extern void func_021FF54C(char *,int,Cfg *);
+typedef unsigned int   u32;
+extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *),func_021FF72C(char *,int *),func_021FF660(char *,int,int,int *);
 extern void func_021FD860(int,int,Pair *);
 extern void func_021FD73C(int *,int);
 extern void func_021FD170(char *p, char *q, void *text);
-extern int func_02035C60(void),func_02035D20(int *,int *);
-extern void func_020061E4(int);
+extern int func_02035C60(void);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void func_020061E4(u32 a);
 extern void func_021F88B0(int a, int *state, char *p);
 extern void func_021F8A0C(int *sys, int *state, char *p);
 void func_021F8790(int *task,unsigned *state,char *p)
@@ -52,7 +54,7 @@ void func_021F8790(int *task,unsigned *state,char *p)
         func_02082BCC(&cfg,0,8);
         cfg.heap=((struct Obj01276 *)p)->f8;
         ((struct Obj01276 *)p)->fA=0;
-        func_021FF54C(*(char * *)&((struct Obj24723 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,1,&cfg);
+        func_021FF54C(*(char * *)&((struct Obj24723 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,1,(const int *)(&cfg));
         *state=1; break;
     case 1:
         ((struct Obj01276 *)p)->fA=((struct Obj01276 *)p)->fA+1;
@@ -77,7 +79,7 @@ void func_021F8790(int *task,unsigned *state,char *p)
         break;
     case 3:
         if(func_02035C60()) {
-            func_02035D20(&x,&y);
+            func_02035D20((u32 *)(&x),(u32 *)(&y));
             pair.x=x;pair.y=y;
             func_021FD860(((struct Obj01276 *)p)->f3C,1,&pair);
             func_020061E4(0x703);

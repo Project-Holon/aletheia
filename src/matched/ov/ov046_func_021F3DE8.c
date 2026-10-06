@@ -43,10 +43,10 @@ extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern u8 *func_0200B3A4(void *a, int b);
-extern void func_021BE700(u32 a, int b, u16 c, u8 d, int e);
-extern u8 *func_021BE674(u32 a, int b, u16 c, u16 d);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
-extern int func_021BE6BC(u8 *p);
+extern int func_021BE6BC(int *p);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern void func_020061E4(u32 a);
 extern void func_02006210(void);
@@ -68,20 +68,20 @@ int func_021F3DE8(void *a, int *st)
     case 0:
         k = w[0];
         for (i = 0; i < w[2]; i++) {
-            func_021BE6B0(func_021BE674(t, 0, k, i), 1);
-            func_021BE700(t, 0, k, i, 0);
+            func_021BE6B0(func_021BE674((char *)t, 0, (u16)k, (u16)i), 1);
+            func_021BE700((void *)t, 0, (u16)k, (u8)i, 0);
         }
         for (i = 0; i < w[1]; i++) {
             v = *(int *)(w + 0xc + i * 4);
-            func_021BE6B0(func_021BE674(t, 0, k, v), 0);
-            func_021BE700(t, 0, k, v, 1);
+            func_021BE6B0(func_021BE674((char *)t, 0, (u16)k, (u16)v), 0);
+            func_021BE700((void *)t, 0, (u16)k, (u8)v, 1);
             func_021BE6CC(t, 0, k, v, 0);
             func_020061E4(((struct Obj03644 *)w)->f10);
         }
         (*st)++;
         break;
     case 1:
-        if (func_021BE6BC(func_021BE674(t, 0, w[0], ((struct Obj03644 *)w)->fC))) {
+        if (func_021BE6BC(func_021BE674((char *)t, 0, (u16)w[0], (u16)(((struct Obj03644 *)w)->fC)))) {
             func_02006210();
             if (((struct Obj03644 *)w)->f14 != -1)
                 func_020061E4(((struct Obj03644 *)w)->f14);

@@ -15,5 +15,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { short x,y; } Pair;
-extern void func_0204B0C8(u32,int,Pair *);
-void func_021BB56C(u32 p,int x,int y,u16 *out) { Pair pos; func_0204B0C8(((struct Obj20885 *)p)->f24,0,&pos); out[0]=x-pos.x; out[1]=y-pos.y; }
+struct Owner;
+struct Pt;
+extern void func_0204B0C8(struct Owner *owner, u32 index, struct Pt *out);
+void func_021BB56C(u32 p,int x,int y,u16 *out) { Pair pos; func_0204B0C8((struct Owner *)(((struct Obj20885 *)p)->f24),0,(struct Pt *)(&pos)); out[0]=x-pos.x; out[1]=y-pos.y; }

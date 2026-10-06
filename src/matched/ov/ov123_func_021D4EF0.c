@@ -35,7 +35,7 @@ extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(void *, int, int, void *, void *, void *, void *, int, u16, int);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_0201F73C(void *, int, u16, int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -54,7 +54,7 @@ void func_021D4EF0(char *p, int n, int flag)
     } else {
         func_0201C7A4(func_02045770(obj), 0, 0, ((struct Obj02473 *)p)->f38, ((struct Obj02473 *)p)->f30);
     }
-    func_0201F73C(obj, 1, ((struct Obj02473 *)p)->f3C, 12);
+    func_0201F73C(obj, 1, (u16)(((struct Obj02473 *)p)->f3C), 12);
     func_02045334(obj);
     func_02045374(obj);
     func_02041B6C(5);

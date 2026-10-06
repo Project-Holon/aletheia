@@ -44,7 +44,7 @@ extern u16 func_0200BDF8(struct Rec1B0 *p);
 extern u16 func_0200BDFC(struct Rec1B0 *p);
 extern int func_021F3870(int x);
 extern V *func_021BE480(void *p, int i, u16 j);
-extern void func_021BE4B4(void *p, int i, u16 j, int v);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 
 u8 func_021F3880(void *a, void *b, void *unused)
 {
@@ -77,7 +77,7 @@ u8 func_021F3880(void *a, void *b, void *unused)
     p->a = r4;
     p->b = 0x20000;
     p->c = 0x1B8000;
-    func_021BE4B4(b, 0, r5 + 10, 0);
-    func_021BE4B4(b, 0, r7, 0);
+    func_021BE4B4(b, 0, (u16)(r5 + 10), 0);
+    func_021BE4B4(b, 0, (u16)r7, 0);
     return r6;
 }

@@ -70,13 +70,13 @@ extern void func_02082A7C(u32 val, void *dst, u32 n);
 typedef signed int     s32;
 struct NitroFileHeader;
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern int func_02062A4C(void *h, struct res0 **out);
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_020862F0(void *p, u32 n);
 extern void func_02082A60(void *dst, const void *src, u32 n);
 extern void func_020307B0(void *h);
-extern int func_02062B30(void *h, struct res1 **out);
+extern int func_02062B30(void *file, void **out);
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern int func_02062A98(void *h, struct res2 **out);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
 void sub_02010068(u32 a0)
 {
@@ -91,7 +91,7 @@ void sub_02010068(u32 a0)
 
     id = g0209DEA0[a0].f0;
     h = (void *)func_0204A1BC(id, g0209DEA0[a0].f2, 0, 1);
-    if (func_02062A4C(h, &r0p) != 0) {
+    if (func_02062A4C(h, (void **)(&r0p)) != 0) {
         u32 n;
         void *src;
         func_020862F0(r0p->ptr, r0p->len);
@@ -102,7 +102,7 @@ void sub_02010068(u32 a0)
     func_020307B0(h);
 
     h = (void *)func_0204A1BC(id, g0209DEA0[a0].f4, 0, 1);
-    if (func_02062B30(h, &r1p) != 0) {
+    if (func_02062B30(h, (void **)(&r1p)) != 0) {
         u32 n;
         void *src;
         func_020862F0(r1p->buf, r1p->len);
@@ -114,7 +114,7 @@ void sub_02010068(u32 a0)
 
     h = (void *)func_0204A1BC(id, g0209DEA0[a0].f6, 0, 1);
     func_02062AD4(h, (void **)(&sp0));
-    if (func_02062A98(h, &r2p) != 0) {
+    if (func_02062A98(h, (void **)(&r2p)) != 0) {
         func_020862F0(r2p->ptr, 0x20);
         func_02082A60(r2p->ptr, (void *)0x05000000, 0x20);
     }

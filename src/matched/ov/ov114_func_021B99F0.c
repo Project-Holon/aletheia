@@ -11,4 +11,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u8 func_021B99F0(u8 *p) { return *p; }
+int func_021B99F0(u8 *p) { return *p; }

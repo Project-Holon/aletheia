@@ -39,7 +39,7 @@ struct Ctx {
 
 extern void func_02028618(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern u16  func_020437DC(const struct Bmp *bmp);
-extern u16  func_020437E4(const struct Bmp *bmp);
+extern u32 func_020437E4(const struct Bmp *bmp);
 extern void func_020439A0(void *a, const struct Bmp *b, u32 c, u32 d,
                           u32 e, u32 f, u32 g, u32 h, u32 i);
 

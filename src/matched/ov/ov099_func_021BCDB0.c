@@ -20,7 +20,8 @@ typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern void func_021BC06C(char *p);
 extern int func_021BCBBC(int a, int b, int *out);
-extern void func_021BBEB4(char *p, int a, u8 b, int c);
+struct O;
+extern void func_021BBEB4(struct O *p, int mask, u32 a, int mode);
 
 int func_021BCDB0(char *p, int v)
 {
@@ -29,7 +30,7 @@ int func_021BCDB0(char *p, int v)
         if (*(int *)(p + 0xCC) != 0) {
             int out;
             func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xCC), &out);
-            func_021BBEB4(p, out, *(u8 *)(*(char **)(p + 0x248) + 0x48), 3);
+            func_021BBEB4((struct O *)p, out, *(u8 *)(*(char **)(p + 0x248) + 0x48), 3);
             *(int *)(p + 0x1CC) = 0x78;
         } else {
             switch (*(int *)(p + 0x135C)) {

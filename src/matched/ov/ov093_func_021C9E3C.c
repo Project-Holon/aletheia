@@ -41,8 +41,8 @@ extern void func_021DCF9C(void *n);
 extern int func_021CD4FC(void *p, int k);
 extern void func_021CD568(void *p, int a, int k, u32 b);
 extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021CC95C(void *lock, u32 v, int line);
-extern void func_021C6E00(void *w, int a, u8 b);
+extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void func_021C6E00(u8 *p, u8 *a, u8 k);
 extern int func_021C88E4(u8 *p);
 
 int func_021C9E3C(u8 *w, struct Cmd *c)
@@ -56,11 +56,11 @@ int func_021C9E3C(u8 *w, struct Cmd *c)
         if (x != 0) {
             t = func_021CD4FC(((struct Obj00003 *)w)->fC, 0x42);
             s = func_021CC8D8(w + 0x1D74, 15755);
-            func_021C6E00(w, r, c->id);
+            func_021C6E00(w, (u8 *)r, c->id);
             if (func_021C88E4(w) == 2) {
                 func_021CD568(((struct Obj00003 *)w)->fC, t, 0x42, c->b4);
             }
-            func_021CC95C(w + 0x1D74, s, 15762);
+            func_021CC95C((u32 *)(w + 0x1D74), s, 15762);
             func_021DCF9C((void *)x);
             return 1;
         }

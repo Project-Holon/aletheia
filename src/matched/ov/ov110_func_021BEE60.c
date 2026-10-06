@@ -23,7 +23,7 @@ typedef int (*Handler)(u8 *,void *);
 extern int func_021BF208(u8 *,u32);
 extern void func_020061E4(u32);
 extern void func_021B9BEC(u8 *,int);
-extern int func_021BE4C0(u8 *,void *);
+extern int func_021BE4C0(u8 *p, unsigned *q);
 extern int func_021BD894(u8 *,void *);
 extern int func_021BF444(u8 *);
 void func_021BEE60(u8 *p,u32 *q) {
@@ -34,11 +34,11 @@ void func_021BEE60(u8 *p,u32 *q) {
     }
     if(((struct Obj01394 *)p)->f34&2) {
         func_020061E4(1361); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,13);
-        *(Handler *)&((struct Obj01394 *)p)->f28=func_021BE4C0; *q=4; return;
+        *(Handler *)&((struct Obj01394 *)p)->f28=(Handler)func_021BE4C0; *q=4; return;
     } else if(((struct Obj01394 *)p)->f34&1) {
         if(((struct Obj01394 *)p)->f60!=0) {
             func_020061E4(1361); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,13);
-            *(Handler *)&((struct Obj01394 *)p)->f28=func_021BE4C0; *q=4; return;
+            *(Handler *)&((struct Obj01394 *)p)->f28=(Handler)func_021BE4C0; *q=4; return;
         } else {
             func_020061E4(1356); ((struct Obj01394 *)p)->f62=65535;
             func_021BF444(p);

@@ -29,7 +29,7 @@ struct Blk34;
 struct Queue;
 struct Rec;
 extern int func_021658D4(struct Queue *q, struct Rec *out, u16 *tag);
-extern void func_021F1268(u8 *p);
+extern void func_021F1268(char *this);
 extern int func_02165B5C(struct Rec *r);
 extern int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag);
 extern int func_021659F0(u8 *q, int delta);
@@ -41,7 +41,7 @@ int func_021F0140(u8 *p)
     u8 t;
 
     if (func_021658D4((struct Queue *)(((struct Obj00188 *)p)->f38), (struct Rec *)(((struct Obj00188 *)p)->f4C), (u16 *)(p + 0x4A)) == 0) {
-        func_021F1268(p);
+        func_021F1268((char *)p);
         return 0;
     }
     if (func_02165B5C((struct Rec *)(((struct Obj00188 *)p)->f4C)) != 0)

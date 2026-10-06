@@ -44,7 +44,8 @@ typedef struct {
 
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, void *addr, int *fromlen);
-extern int func_0217C848(char *packet, int len, SOCSockAddrIn *address, int *disabledservices);
+struct SOCSockAddrIn;
+extern int func_0217C848(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
 extern int func_0217EB2C(int sock);
 extern unsigned int func_0217F264(void);
 extern void func_0217C704(void);
@@ -65,7 +66,7 @@ int func_0217C900(void)
     }
     if (func_0217EF50(g_021ACF7C.sock)) {
         rcode = func_0217EC60(g_021ACF7C.sock, packet, 64, 0, &address, &len);
-        if (func_0217C848(packet, rcode, &address, &disabledservices) == 0) {
+        if (func_0217C848(packet, rcode, (struct SOCSockAddrIn *)(&address), &disabledservices) == 0) {
             func_0217EB2C(g_021ACF7C.sock);
             if (disabledservices & 1) {
                 g_021ACEF8 = 2;

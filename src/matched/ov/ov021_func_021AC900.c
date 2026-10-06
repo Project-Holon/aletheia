@@ -38,7 +38,7 @@ typedef struct B {
 } B;
 
 extern int func_0216E1C4(int a0, int a1);
-extern int func_021AC9D8(B *p);
+extern int func_021AC9D8(u8 *p);
 extern u16 func_0216D608(void *p);
 extern void func_021AC154(u32 a);
 extern u32 func_020508EC(u8 *p, int i, u16 *out);
@@ -56,7 +56,7 @@ void func_021AC900(u32 a, B *b)
     case 0:
         if (d_021D90C0[b->blk.w[8]] == 1) {
             m = b->blk.w[1];
-            if (func_0216E1C4(m, (int)b->f28) == 1 && func_021AC9D8(b) == 0 && func_0216D608((void *)m) == 1) {
+            if (func_0216E1C4(m, (int)b->f28) == 1 && func_021AC9D8((u8 *)b) == 0 && func_0216D608((void *)m) == 1) {
                 func_021AC154(a);
                 return;
             }
@@ -79,7 +79,7 @@ void func_021AC900(u32 a, B *b)
             func_021AC154(a);
             return;
         }
-        if (func_021AC9D8(b) == 0)
+        if (func_021AC9D8((u8 *)b) == 0)
             func_021AC154(a);
         break;
     }

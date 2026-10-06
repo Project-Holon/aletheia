@@ -27,14 +27,15 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
-extern unsigned char func_021B8DE4(char *p, int i);
+extern int func_021B8DE4(char *p, int i);
 extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(void *pp, unsigned int b);
 struct Q1;
 extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_0218A308(void *, u32);
 extern int func_021D5B68(void *);
-extern int func_021D62A8(void *);
+struct Unk021D62A8;
+extern int func_021D62A8(struct Unk021D62A8 *p);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 
 void func_02188FCC(int a, int b, int c)
@@ -54,7 +55,7 @@ void func_02188FCC(int a, int b, int c)
         u8 *t = func_0218A308(handle, (unsigned char)i);
 
         if (func_021D5B68(t) == 0) {
-            if (func_0218A0F4((u8 *)a, c, func_021D62A8(t), 0, t1) != 0)
+            if (func_0218A0F4((u8 *)a, c, func_021D62A8((struct Unk021D62A8 *)t), 0, t1) != 0)
                 break;
         }
     }

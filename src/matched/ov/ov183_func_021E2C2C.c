@@ -52,15 +52,23 @@ typedef unsigned short u16;
 typedef unsigned long long u64;
 typedef struct Pair {int x,y;} Pair;
 typedef union Config {u64 wide;Pair pair;} Config;
-extern void *func_021FD12C(int,int,u16);
-extern void func_021FD170(void *,int,int),func_021FD860(int,int,Pair *),func_021FE784(int,int,int,int);
-extern int func_021FE7B0(int *),func_021D7540(int,int,unsigned char,u16 *,int,u16);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_021FD12C(int a, void *owner, u16 heap);
+extern void func_021FD170(char *p, char *q, void *text);
+extern void func_021FD860(int,int,Pair *);
+extern void func_021FE784(int,int,int,int);
+extern int func_021FE7B0(int *);
+extern int func_021D7540(int a, int x, int mode, u16 *state, int b, u16 c);
 extern void func_02082BCC(void *,int,unsigned);
-extern void *func_0200B928(void);
-extern u64 func_0200B98C(void *,int,int);
-extern void func_021FF54C(char *,int,Config *);
-extern int func_021FF648(char *),func_02035C60(void),func_02035D20(int *,int *);
-extern void func_020061E4(int),func_021FD15C(void *,int);
+extern u8 *func_0200B928(void);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern void func_021FF54C(char *p, int kind, const int *values);
+extern int func_021FF648(char *);
+extern int func_02035C60(void);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void func_020061E4(u32 a);
+extern void func_021FD15C(void *,int);
 extern int func_021FD744(int);
 void func_021E2C2C(int task,unsigned *state,char *p)
 {
@@ -71,8 +79,8 @@ void func_021E2C2C(int task,unsigned *state,char *p)
     int r;
     switch(*state) {
     case 0:
-        if(!*(void **)(p+8)) *(void **)(p+8)=func_021FD12C(*(int *)(*(char **)(p+0x3c)+8),*(int *)(p+4),*(u16 *)(p+0x38));
-        func_021FD170(*(void **)(p+8),*(int *)(*(char **)(p+0x3c)+8),0x13d);
+        if(!*(void **)(p+8)) *(void **)(p+8)=func_021FD12C(*(int *)(*(char **)(p+0x3c)+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
+        func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13d);
         initial.x=0x80;initial.y=0x60;
         func_021FD860(*(int *)(p+0x30),4,&initial);
         func_021FE784(**(int **)(p+0x3c),2,3,0);++*state;break;
@@ -82,7 +90,7 @@ void func_021E2C2C(int task,unsigned *state,char *p)
         *(u16 *)(p+0x40)=0;*(u16 *)(p+0x42)=0;
         ++*state;break;
     case 3:
-        r=func_021D7540(*(int *)(*(char **)(p+0x3c)+0x14),*(int *)(p+0x10)+1,*(int *)(*(char **)(p+0x3c)+0x24),(u16 *)(p+0x40),(int)(p+0x42),*(u16 *)(p+0x38));
+        r=func_021D7540(*(int *)(*(char **)(p+0x3c)+0x14),*(int *)(p+0x10)+1,(unsigned char)(*(int *)(*(char **)(p+0x3c)+0x24)),(u16 *)(p+0x40),(int)(p+0x42),*(u16 *)(p+0x38));
         if((unsigned)(r-2)<=1) {
             *(int *)(*(char **)(p+0x3c)+0x28)=1;
             *(int *)(*(char **)(p+0x3c)+0x2c)=*(int *)(p+0x10)+1;
@@ -92,21 +100,21 @@ void func_021E2C2C(int task,unsigned *state,char *p)
     case 4:
         func_02082BCC(&cfg,0,8);
         cfg.wide=func_0200B98C(func_0200B928(),4,0);
-        func_021FF54C(*(char **)(*(char **)(p+0x3c)+12),8,&cfg);
-        func_021FD170(*(void **)(p+8),*(int *)(*(char **)(p+0x3c)+8),0x13f);
+        func_021FF54C(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
+        func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13f);
         *(int *)(p+0x48)=0;++*(int *)(p+0x44);++*state;break;
     case 5:
         ++*(unsigned *)(p+0x44);++*(unsigned *)(p+0x48);
         if(func_021FF648(*(char **)(*(char **)(p+0x3c)+12)) && *(unsigned *)(p+0x44)>0x60 && *(unsigned *)(p+0x48)>0x3c) {
             func_021FD860(*(int *)(p+0x30),0,0);
-            func_021FD170(*(void **)(p+8),*(int *)(*(char **)(p+0x3c)+8),0x140);
+            func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x140);
             ++*state;
         }break;
     case 6:
         if(func_02035C60()) {
-            func_02035D20(&x,&y);pair.x=x;pair.y=y;
+            func_02035D20((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
             func_021FD860(*(int *)(p+0x34),1,&pair);
-            func_020061E4(0x703);++*state;
+            func_020061E4((int)0x703);++*state;
         }break;
     case 7:func_021FE784(**(int **)(p+0x3c),2,3,1);++*state;break;
     case 8:if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;break;

@@ -24,7 +24,7 @@ extern char str_021F01C0[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021F0058(void *p);
 
-char *func_021F00C8(u32 a, u32 b, u32 c)
+char *func_021F00C8(u32 a, u32 *b, u32 c)
 {
     char *w;
 

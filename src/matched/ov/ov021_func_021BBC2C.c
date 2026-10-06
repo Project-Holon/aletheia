@@ -21,13 +21,16 @@ typedef struct {
 
 extern char d_021D9AE0[];
 
-extern int func_0203EFC8(const char *a, const char *b, int n);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 Entry *func_021BBC2C(Entry *tab, unsigned int i)
 {
     Entry *e = &tab[i % 30];
 
-    if (func_0203EFC8(e->s1A, d_021D9AE0, 6) == 0) {
+    if (func_0203EFC8((const u8 *)e->s1A, (const u8 *)d_021D9AE0, 6) == 0) {
         e = 0;
     }
     return e;

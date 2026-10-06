@@ -52,7 +52,7 @@ extern char g_0214E018[];
 extern struct Chan g_0214E024[];
 extern struct Slot g_0214E464[];
 
-extern void func_02060468(void *list, u32 size);
+extern void func_02060468(int p0, int p1);
 extern void func_020604AC(void *list, void *node);
 
 void func_0207312C(void)
@@ -61,8 +61,8 @@ void func_0207312C(void)
     struct Chan *c;
     struct Slot *s;
 
-    func_02060468(g_0214E018, 0x14);
-    func_02060468(g_0214E00C, 0x14);
+    func_02060468((int)g_0214E018, 0x14);
+    func_02060468((int)g_0214E00C, 0x14);
 
     for (i = 0, c = g_0214E024; i < 0x10; i++, c++) {
         c->b2c = 0;
@@ -71,8 +71,8 @@ void func_0207312C(void)
     }
 
     for (i = 0, s = g_0214E464; i < 0x20; i++, s++) {
-        func_02060468(s, 0xc);
-        func_02060468(&s->p0c, 0);
+        func_02060468((int)s, 0xc);
+        func_02060468((int)(&s->p0c), 0);
         s->b20 = 0x7f;
         s->f18 = 1;
         s->f1c = 0;

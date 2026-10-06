@@ -45,7 +45,7 @@ extern u32   func_02017E88(void *p, u32 id, u32 v);
 extern u32   func_02017EB4(void *p);
 extern void *func_020185F4(void *p);
 
-extern u32 func_0202D060(u32 a, u32 b, u32 c, u32 d);
+extern int func_0202D060(void);
 typedef signed int     s32;
 extern s32 func_0202D09C(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
@@ -91,7 +91,7 @@ void func_02017114(void *p, struct Stats *out, u32 lvl)
 void func_02017168(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, struct Stats *out,
                    u32 a6)
 {
-    out->unk00 = func_0202D060(a0, a1, a2, a3);
+    out->unk00 = func_0202D060();
     out->unk04 = func_0202D09C(out->unk00, a0, a1, a2, a3, a6, a4);
     out->unk08 = func_0202D0D4(out->unk00, a0, a1, a2, a3, a6, a4);
     out->unk0C = func_0202D110(out->unk00, a0, a1, a2, a3, a6, a4);

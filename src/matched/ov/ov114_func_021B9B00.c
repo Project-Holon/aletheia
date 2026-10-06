@@ -22,7 +22,7 @@ struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern int func_020084F4(int);
+extern const void *func_020084F4(const void *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 
 void func_021B9B00(u8 *p, int a)
@@ -33,7 +33,7 @@ void func_021B9B00(u8 *p, int a)
     p[2] = func_0200856C((const struct Sub0200852CObj *)a);
     p[3] = func_02008570((const struct Sub0200852CObj *)a);
     ((struct Obj03764 *)p)->f4 = func_02008530((const struct Sub0200852CObj *)a);
-    func_0201F41C((const u16 *)func_020084F4(a), (u16 *)(p + 8), 8);
+    func_0201F41C((const u16 *)func_020084F4((const void *)a), (u16 *)(p + 8), 8);
     ((struct Obj03764 *)p)->f18 = 0;
     ((struct Obj03764 *)p)->f24 = 0;
     ((struct Obj03764 *)p)->f5C = 0;

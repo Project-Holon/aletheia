@@ -78,11 +78,11 @@ typedef struct Owner {
     Work *work;
 } Owner;
 
-extern void func_02207868(Grid *g, u16 heap);
+extern void func_02207868(char *p, u16 heap);
 extern int func_022083DC(Grid *g, u16 heap);
 struct Fade;
 extern void func_022083EC(struct Fade *p, int x);
-extern void func_02208420(Grid *g, u16 heap);
+extern int func_02208420(char *p, u16 heap);
 extern void func_0220851C(Quad *q, u16 heap);
 
 void func_022076A0(Owner *o)
@@ -100,7 +100,7 @@ void func_022076A0(Owner *o)
     if (w->f00 != 1)
         return;
 
-    func_02207868(w->cur, heap);
+    func_02207868((char *)w->cur, heap);
     s = w->cur;
     d = w->prev;
     d->f68 = s->f68;
@@ -157,7 +157,7 @@ void func_022076A0(Owner *o)
         func_022083EC((struct Fade *)s, heap);
         func_022083EC((struct Fade *)d, heap);
     }
-    func_02208420(s, heap);
+    func_02208420((char *)s, heap);
     if (w->quad != 0) {
         w->quad->f4e = w->cur->rows;
         func_0220851C(w->quad, heap);

@@ -50,7 +50,7 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
-extern u8 *func_021897BC(void *p, int idx);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188CB4(u8 *p);
 struct Big;
 extern void *func_02188C80(void *p);
@@ -80,7 +80,7 @@ int func_021F3F40(int a0, int *a1)
 
     sys = func_0201210C(func_020124E4((void *)a0));
     h = func_02188D2C(sys);
-    s = func_021897BC(sys, 1);
+    s = (u8 *)func_021897BC(sys, 1);
     func_02188CB4(sys);
     p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4(func_02188C80(sys))), 6);
     if (*(int *)((char *)p + s[3] * 4 + 0x48) == 0) {

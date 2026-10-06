@@ -28,7 +28,7 @@ extern void *func_0204A6C8(void *,int,int,int,u16);
 extern void *func_0204AF28(void *,int,int,u16);
 extern void func_02049238(void *);
 extern void *func_021BAC78(void *,void *,int,int,int,int);
-extern void func_021BD0F8(void *,int,int);
+extern void func_021BD0F8(u8 *p, int i, int flag);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -45,7 +45,7 @@ void func_021BD044(Object *p) {
         x=24*i;
         if(i==7) x=0;
         p->items[i]=func_021BAC78(p->root,(u8 *)p+0x10,x,168,0,1);
-        func_021BD0F8(p,i,0);
+        func_021BD0F8((u8 *)p,i,0);
         func_0204B3DC(p->items[i],0);
     }
 }

@@ -27,7 +27,7 @@ typedef enum { FALSE, TRUE } BOOL;
 extern void func_0203064C(u32,u32,u32);
 extern u8 *func_0203159C(void *,int,int);
 extern void func_02082BCC(void *,int,unsigned);
-extern void *func_021D4D38(u16,int,int);
+extern u8 *func_021D4D38(u16 heap, u32 mode, int a2);
 extern u8 *func_021D5984(u32 heap, u32 bank, u32 mode);
 extern void func_021D6134(void *,void (*)(void),int);
 extern void func_021D6150(u8 *p);

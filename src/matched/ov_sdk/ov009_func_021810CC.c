@@ -80,7 +80,9 @@ extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void 
 extern void *func_02184208(void *array, int n);
 extern int func_02195E00(const int *p);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_02195B44(void *socket, void **connection, char *remoteAddress, unsigned char *message, int len, int timeout, GT2ConnectionCallbacks *callbacks, int blocking);
+typedef unsigned char  u8;
+struct GTI2Connection;
+extern int func_02195B44(void *socket, struct GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
 extern void func_02184234(void *array, void *newElem);
 extern int func_02184200(const int *p);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
@@ -144,7 +146,7 @@ int func_021810CC(unsigned int theIp, unsigned short thePort, char *theInitMsg, 
         aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))func_021806A8;
         aCallbacks.ping = (void (*)(void *, int))func_02180924;
         aCallbacks.received = (void (*)(void *, unsigned char *, int, int))func_02180A64;
-        func_02195B44(aUdp->mSocket, &aRemotePeer.mConnection, anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
+        func_02195B44(aUdp->mSocket, (struct GTI2Connection **)(&aRemotePeer.mConnection), anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
         func_02184234(aUdp->mRemotePeers, &aRemotePeer);
         *(GSUdpHdr *)aHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;
         index = func_021843E8(aUdp->mMsgHandlers, &aHandler, func_02180420, 0, 0);

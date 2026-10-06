@@ -38,7 +38,7 @@ void *func_020120F4(const struct Ctx *p);
 void *func_020127A4(struct SaveBlock *p);
 void func_02012B2C(struct Rec44 *p, u32 v);
 int func_02184504(int a, int *state, u8 *p);
-void func_02184CEC(void *obj, void *p);
+void func_02184CEC(void **o, void *p);
 void func_02185EB0(int a, u16 *p);
 
 void *func_021854CC(void *p, int u, int u2, const S7 *src, u16 h)
@@ -50,7 +50,7 @@ void *func_021854CC(void *p, int u, int u2, const S7 *src, u16 h)
     func_02012B2C(func_020127A4(r7), 0);
     r0v = func_020122C0(p, 0, func_02184504, 0x9c);
     r4 = func_020124E8(r0v);
-    func_02184CEC(r4, p);
+    func_02184CEC((void **)r4, p);
     *(S7 *)(r4 + 0x10) = *src;
     ((struct Obj00248 *)r4)->f18 = h;
     ((struct Obj00248 *)r4)->f2C = 0;

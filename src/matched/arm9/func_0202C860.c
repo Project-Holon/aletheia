@@ -46,18 +46,19 @@ typedef unsigned int   u32;
 
 extern int func_0215E6A8(void *a, int x);
 extern u32 func_0215E6F8(u8 *a0);
-extern u32 func_02012994(u8 *a0);
+struct BigObj;
+extern u8 func_02012994(const struct BigObj *p);
 struct BigObj;
 extern void func_020129A0(struct BigObj *p, u8 v);
 extern u32 func_02013C10(u32 id);
 
-void func_0202C860(u8 *a0, u32 a1)
+void func_0202C860(u8 *a0, int a1)
 {
     u32 v;
     u16 r;
 
     v = func_0215E6A8(a0, (u16)a1);
-    r = (u16)func_02012994(a0);
+    r = (u16)(u32)func_02012994((const struct BigObj *)a0);
     if (v != 0xffff) {
         func_020129A0((struct BigObj *)a0, (u8)v);
         return;

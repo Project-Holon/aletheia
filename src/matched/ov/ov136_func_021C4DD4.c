@@ -15,8 +15,9 @@
  *   d_021C77C4 0x021C77C4 data a1
  */
 extern const char d_021C77C4[];
-extern void func_020433E0(const char *p);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 void func_021C4DD4(void)
 {
-    func_020433E0(d_021C77C4);
+    func_020433E0((const struct DispVram *)d_021C77C4);
 }

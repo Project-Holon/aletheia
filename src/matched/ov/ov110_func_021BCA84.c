@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern void func_02028178(u8 *p);
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_021BD348(u8 *);
+extern void func_021BD348(char *p);
 void func_021BCA84(u8 *p)
 {
     int i;
@@ -29,5 +29,5 @@ void func_021BCA84(u8 *p)
     case 2: if (!func_0204B98C(((struct Obj06388 *)p)->f28)) ((struct Obj06388 *)p)->f2C=3; break;
     case 3: ((struct Obj06388 *)p)->f2C=0; break;
     }
-    func_021BD348(p);
+    func_021BD348((char *)p);
 }

@@ -19,7 +19,7 @@
  *   g_021A826C               0x021A826C  data
  */
 
-extern unsigned long func_021579BC(void *s1, void *s2);
+extern int func_021579BC(unsigned short *a, unsigned short *b);
 extern void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry);
 extern void func_02158BB8(unsigned char *buf);
 extern unsigned char g_021A82D4[6];
@@ -44,7 +44,7 @@ void func_02158C68(unsigned char *buf, unsigned long len)
 
 	if (len < 0x1c)
 		return;
-	if (func_021579BC(buf + 8, g_021A82D4) == 0 || NV(0x50, long) == 0)
+	if (func_021579BC((short unsigned int *)(buf + 8), (short unsigned int *)g_021A82D4) == 0 || NV(0x50, long) == 0)
 		return;
 	if (*(unsigned short *)buf != 0x100 || *(unsigned short *)(buf + 2) != 8 || *(unsigned short *)(buf + 4) != 0x406)
 		return;

@@ -34,7 +34,7 @@ typedef struct {
 } PalFile;
 
 extern void *func_020185F0(void);
-extern void *func_0202D6F4(PalFile **out, void *src, u32 a2, u32 heap);
+extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
 extern void func_020862F0(void *p, u32 n);
 extern void func_0207E780(void *src, u32 dst, u32 n);
 extern void func_020307B0(void *p);
@@ -55,7 +55,7 @@ void func_021FCB54(void *mon)
     u32 shiny;
     u32 id;
 
-    h = func_0202D6F4(&pal, func_020185F0(), 0, 0x48);
+    h = (void *)func_0202D6F4(&pal, func_020185F0(), 0, 0x48);
     func_020862F0(pal->data, 0x1200);
     func_0207E780(pal->data, 0x3F80, 0x1200);
     func_020307B0(h);

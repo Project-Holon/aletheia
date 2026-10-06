@@ -32,10 +32,11 @@
 #include "../include/Obj03749.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021BCEE4(u8 *,int);
+typedef unsigned int   u32;
+extern void func_021BCEE4(char *p, u32 mode);
 extern void func_021BB9C0(u8 *,int);
 extern int func_021BBB0C(u8 *,int);
-extern int func_021BCF38(u8 *,int);
+extern int func_021BCF38(char *p, u32 mode);
 extern void func_021BCF70(u8 *,int);
 extern void func_021BF7E0(u8 *);
 extern void func_021BCC58(u8 *);
@@ -43,7 +44,7 @@ extern void func_021BB658(u8 *,int);
 extern void func_021BB8D8(u8 *);
 extern void func_021BB8B8(u8 *);
 extern u8 func_021BF6DC(u8 *);
-extern void func_021BB958(u8 *);
+extern void func_021BB958(char *p);
 extern void func_021BAD68(u8 *,int);
 extern int func_021BB954(u8 *);
 extern u16 func_021BF724(u8 *);
@@ -54,13 +55,13 @@ void func_021BA3F0(void *unused,u8 *p) {
     int a,b;
     switch(((struct Obj03749 *)p)->f14) {
     case 0:
-        func_021BCEE4(*(u8 * *)&((struct Obj01711 *)q)->f64,1);
+        func_021BCEE4((char *)(*(u8 * *)&((struct Obj01711 *)q)->f64),1);
         func_021BB9C0(*(u8 * *)&((struct Obj01711 *)q)->f58,0);
         ++((struct Obj03749 *)p)->f14;
         break;
     case 1:
         a=func_021BBB0C(*(u8 * *)&((struct Obj01711 *)q)->f58,0);
-        b=func_021BCF38(*(u8 * *)&((struct Obj01711 *)q)->f64,1);
+        b=func_021BCF38((char *)(*(u8 * *)&((struct Obj01711 *)q)->f64),1);
         if(a && b) {
             func_021BCF70(*(u8 * *)&((struct Obj01711 *)q)->f64,1);
             func_021BF7E0(*(u8 * *)&((struct Obj03749 *)p)->f4);
@@ -68,7 +69,7 @@ void func_021BA3F0(void *unused,u8 *p) {
             func_021BB658(*(u8 * *)&((struct Obj01711 *)q)->f58,0);
             func_021BB8D8(*(u8 * *)&((struct Obj01711 *)q)->f58);
             func_021BB8B8(*(u8 * *)&((struct Obj01711 *)q)->f58);
-            if(func_021BF6DC(*(u8 * *)&((struct Obj03749 *)p)->f4)==1) func_021BB958(*(u8 * *)&((struct Obj01711 *)q)->f58);
+            if(func_021BF6DC(*(u8 * *)&((struct Obj03749 *)p)->f4)==1) func_021BB958((char *)(*(u8 * *)&((struct Obj01711 *)q)->f58));
             if(func_021BF6DC(*(u8 * *)&((struct Obj03749 *)p)->f4)==0) func_021BAD68(p,2);
             else func_021BAD68(p,4);
             ++((struct Obj03749 *)p)->f14;

@@ -59,11 +59,12 @@ typedef struct {
     u16 f8;
 } S;
 
-extern void func_021C57E8(void *p);
-extern int func_021C5834(void *p);
-extern void func_021C5840(void *p, int a);
-extern int func_021C49A4(void *p, int i);
-extern int func_0203F5FC(u16 a);
+extern void func_021C57E8(char *p);
+extern int func_021C5834(char *p);
+extern void func_021C5840(char *p, int a);
+extern int func_021C49A4(u8 *p, unsigned int i);
+typedef unsigned int   u32;
+extern int func_0203F5FC(u32 x);
 extern void func_021C5814(void *p, P2 v);
 extern void func_021C5898(void *p, P2 v);
 

@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
-extern void func_021D5C98(void *);
+extern void func_021D5C98(u8 *p);
 extern int func_021D5B58(u8 *,int);
 extern int func_021D62E4(char *);
 extern void func_020061E4(u32);
@@ -40,7 +40,7 @@ int func_021D52D4(char *p)
     int max;
     if (func_0203633C() & 0x80) {
         if (func_021D5B58((u8 *)p,1)==1) {
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_0204B878(((struct Obj00039 *)p)->f188,3);
             func_0204B878(((struct Obj00039 *)p)->f18C,10);
             ((struct Obj00039 *)p)->f48=0;
@@ -51,7 +51,7 @@ int func_021D52D4(char *p)
         }
     } else if (func_0203633C() & 0x40) {
         if (func_021D5B58((u8 *)p,0)==1) {
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_0204B878(((struct Obj00039 *)p)->f188,11);
             func_0204B878(((struct Obj00039 *)p)->f18C,2);
             ((struct Obj00039 *)p)->f48=1;
@@ -65,7 +65,7 @@ int func_021D52D4(char *p)
         if (((struct Obj00039 *)p)->f40==0) max=1;
         if (((struct Obj00039 *)p)->f58<max && ((struct Obj00039 *)p)->f38==0) {
             ((struct Obj00039 *)p)->f58=(int)((u32)((struct Obj00039 *)p)->f58+1);
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_020061E4(1637);
             ((struct Obj00039 *)p)->f1C=0;
             return 1;
@@ -73,7 +73,7 @@ int func_021D52D4(char *p)
     } else if (func_0203633C() & 0x20) {
         if (((struct Obj00039 *)p)->f58>0 && ((struct Obj00039 *)p)->f38==0) {
             ((struct Obj00039 *)p)->f58=(int)((u32)((struct Obj00039 *)p)->f58-1);
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_020061E4(1637);
             ((struct Obj00039 *)p)->f1C=0;
             return 1;

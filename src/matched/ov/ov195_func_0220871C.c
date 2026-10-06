@@ -44,7 +44,7 @@ extern char d_02208ED0[];
 struct Ptc;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ptc *func_0220887C(u16 heap, u16 a, void *b);
-extern void func_02208A54(Anim *p);
+extern void func_02208A54(char *a);
 extern void func_02208AB0(Anim *p);
 
 Anim *func_0220871C(u16 heap, u32 x)
@@ -59,7 +59,7 @@ Anim *func_0220871C(u16 heap, u32 x)
         p->f08 = 7;
     p->f0c = 0;
     p->ptc = func_0220887C(p->heap, 9, d_02208ED0);
-    func_02208A54(p);
+    func_02208A54((char *)p);
     func_02208AB0(p);
     return p;
 }

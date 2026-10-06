@@ -44,7 +44,9 @@ extern int func_021AC1AC(u32 a);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern u32 func_02050340(u32, u32, Desc *, u32, u32);
+struct BbActDesc;
+struct BbActSys;
+extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 extern void func_021AC154(u32 a);
 extern void func_02050804(void *p, int idx, u32 v, u16 h);
 extern void func_0205082C(void *p, int idx, u16 h);
@@ -74,7 +76,7 @@ void func_021C4A3C(u32 a, Res *r)
     d.pos = pos;
     d.f1c = 0;
     d.f20 = (u32)r;
-    r->h8 = func_02050340(t, 0, &d, 1, 3);
+    r->h8 = func_02050340((struct BbActSys *)t, 0, (const struct BbActDesc *)(&d), 1, 3);
     if (r->h8 == 0xFFFF) {
         func_021AC154(a);
         return;

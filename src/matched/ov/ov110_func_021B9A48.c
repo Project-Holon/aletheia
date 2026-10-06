@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-int func_021B9A48(void) { return 0xffff; }
+int func_021B9A48(u32 a0) { return 0xffff; }

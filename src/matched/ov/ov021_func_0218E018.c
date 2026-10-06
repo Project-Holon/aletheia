@@ -26,7 +26,8 @@ typedef unsigned short u16;
 
 extern void *func_02030734(u16, int, int, void *, int);
 extern int d_021DDA28;
-extern int func_02048B78(int a);
+struct Light;
+extern int func_02048B78(struct Light *l);
 extern void func_02048B88(int a, int *out);
 extern u16 func_0207D184(int a);
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -59,7 +60,7 @@ char *func_0218E018(int a0, int a1, int a2, int a3, u16 heap)
     ((struct Obj00519 *)p)->f78 = 0;
     ((struct Obj00519 *)p)->f7C = 0x78;
     ((struct Obj00519 *)p)->fE9 = 1;
-    if (func_02048B78(a2) == 0) {
+    if (func_02048B78((struct Light *)a2) == 0) {
         func_02048B88(a2, &t);
         ((struct Obj00519 *)p)->f80 = func_0207D184(t);
     }

@@ -19,7 +19,7 @@
 
 extern char g_021AA878[];
 extern int func_0216C82C(void);
-extern unsigned char *func_021763AC(int pid);
+extern char *func_021763AC(int pid);
 
 unsigned char func_0216B838(void)
 {
@@ -28,7 +28,7 @@ unsigned char func_0216B838(void)
     if (*(char **)(g_021AA878 + 4) == 0 || func_0216C82C() == 0) {
         return 0xff;
     }
-    node = func_021763AC(*(int *)(*(char **)(g_021AA878 + 4) + 0x64));
+    node = (unsigned char *)func_021763AC(*(int *)(*(char **)(g_021AA878 + 4) + 0x64));
     if (node == 0) {
         return 0xff;
     }

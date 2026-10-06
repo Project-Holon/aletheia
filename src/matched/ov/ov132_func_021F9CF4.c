@@ -17,7 +17,8 @@
 #include "../include/Obj14086.h"
 
 typedef unsigned short u16;
-extern char *func_021F9EDC(char *p, u16 a);
+typedef unsigned int   u32;
+extern char *func_021F9EDC(char *p, u32 a);
 
 void func_021F9CF4(char *p)
 {

@@ -19,4 +19,4 @@ typedef unsigned int u32;
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void func_0200F83C(void),func_0200FBA0(void);
-int func_021DE5F8(void) {int r=0; if(func_0200FB24()) {func_0200FBB0();func_0200F83C();func_0200FBA0();r=1;} return r;}
+int func_021DE5F8(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();func_0200F83C();func_0200FBA0();r=1;} return r;}

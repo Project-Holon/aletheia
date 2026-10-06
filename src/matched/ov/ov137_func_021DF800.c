@@ -19,12 +19,13 @@
  *   func_021DF998 0x021DF998 thumb ov137
  */
 extern void func_021DF984(char *);
-extern void func_021DFAD8(char *);
+typedef unsigned char  u8;
+extern void func_021DFAD8(u8 *p);
 extern void func_021DFB60(char *);
 extern void func_021DFEC4(char *);
-extern void func_021DFF44(char *);
+extern void func_021DFF44(u8 *p);
 extern void func_021DFC74(char *);
-extern void func_021DFFF8(char *);
-extern void func_021DFF70(char *);
+extern void func_021DFFF8(u8 *p);
+extern void func_021DFF70(u8 *p);
 extern void func_021DF998(char *);
-void func_021DF800(char *p){func_021DF984(p);func_021DFAD8(p);func_021DFB60(p);func_021DFEC4(p);func_021DFF44(p);func_021DFC74(p);func_021DFFF8(p);func_021DFF70(p);func_021DF998(p);}
+void func_021DF800(char *p){func_021DF984(p);func_021DFAD8((u8 *)p);func_021DFB60(p);func_021DFEC4(p);func_021DFF44((u8 *)p);func_021DFC74(p);func_021DFFF8((u8 *)p);func_021DFF70((u8 *)p);func_021DF998(p);}

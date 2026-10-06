@@ -29,7 +29,7 @@ typedef struct {
     short y;
 } Entry;
 
-extern void func_021ECBD8(char *p, int i);
+extern void func_021ECBD8(unsigned char *p, int i);
 extern void func_021EC768(char *p, unsigned i, int flag);
 
 void func_021DE66C(char *p, Entry *e)
@@ -55,7 +55,7 @@ void func_021DE66C(char *p, Entry *e)
         }
     }
     if (save != 0xFFFF)
-        func_021ECBD8(*(char * *)&((struct Obj00000 *)p)->f2C, save);
+        func_021ECBD8((unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C), save);
     for (i = 0; i < 0x24; i++)
         func_021EC768(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
 }

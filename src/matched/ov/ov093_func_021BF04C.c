@@ -24,7 +24,7 @@ extern int func_021BF0B4(int c);
 extern void func_021BF0C4(int c, int x);
 extern int func_021BF0D4(int c);
 extern int func_021BFA00(u8 *p, u8 *a, u8 *b, void *item);
-extern void func_021C572C(u8 *p, int x, u32 v);
+extern void func_021C572C(u8 *p, u8 *a, u32 v);
 
 void func_021BF04C(u8 *p, u16 *b, int s, int c)
 {
@@ -34,7 +34,7 @@ void func_021BF04C(u8 *p, u16 *b, int s, int c)
     while (x != 0) {
         if (func_021BFA00(p, (u8 *)s, (u8 *)x, (void *)(*b)) != 0) {
             func_021BF0C4(c, x);
-            func_021C572C(p, x, *b);
+            func_021C572C(p, (u8 *)x, *b);
             p[0x78a] |= 0x10;
         }
         x = func_021BF0D4(c);

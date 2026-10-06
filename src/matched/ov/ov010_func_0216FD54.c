@@ -72,14 +72,16 @@ typedef struct {
 extern TE d_021726A0[];
 
 extern void *func_02043678(u32 a, u32 b, u32 c, u16 d);
-extern void func_0216FC74(u32 a, u16 b, u16 c, u16 d, void *e, void *f);
+extern void func_0216FC74(void *a, u16 b, u16 c, u16 d, void *e, void *f);
 extern void func_0216FCA0(void *a, void *b);
-extern void *func_020437D4(const void *p);
+struct Bmp;
+struct Obj020437AC;
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_0207F7A0(void);
 extern void func_020862F0(void *p, int n);
 extern void func_0207F7FC(void *p, int src, int n);
 extern void func_0207F9B4(void);
-extern void func_020437AC(void *p);
+extern void func_020437AC(struct Obj020437AC *p);
 
 void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
 {
@@ -98,7 +100,7 @@ void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
     wi = (u32)d_021726A0[*(u16 *)a].w >> 3;
     tmp = func_02043678(wi, hi, 0x20, f);
     buf = func_02043678(wi, hi, 0x20, f);
-    func_0216FC74(b, c, d, e, buf, *(void **)(a + 0x14));
+    func_0216FC74((void *)b, c, d, e, buf, *(void **)(a + 0x14));
     func_0216FCA0(buf, tmp);
     vram = func_020437D4(tmp);
     base = *(u32 *)(a + 0xc);

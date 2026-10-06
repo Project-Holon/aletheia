@@ -102,15 +102,16 @@ typedef struct Self {
     Sub   f3548;
 } Self;
 
-extern int   func_0200FB24(void);
-extern void  func_02183C3C(void *p, Self *self);
+struct Evt;
+extern u32 func_0200FB24(void);
+extern void func_02183C3C(u8 *s, u8 *c);
 struct BigObj;
 struct Ctx;
 struct IcaAnime;
 struct Rec20;
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void  func_02012374(void *obj, void *out);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_020144DC(int a0, int a1);
 extern int   func_02034AC4(signed int id);
 extern void  func_02034A5C(int id);
@@ -121,15 +122,15 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
 extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
-extern int   func_02173E1C(void);
+extern u32 func_02173E1C(void);
 extern u8 func_02183F84(u8 *p);
 extern int   func_02173EC8(void);
-extern int   func_0218401C(void *p);
+extern int func_0218401C(u8 *p);
 extern unsigned char func_021841A0(unsigned char *p);
 extern int   func_02173F90(u8 a, u32 b);
-extern int   func_0218402C(void *p);
+extern int func_0218402C(u8 *p);
 extern int   func_02174084(u8 a, u32 b);
-extern void  func_021840AC(void *p);
+extern void func_021840AC(u8 *s);
 extern void func_021736E0(unsigned int x);
 extern void func_0203D1E8(u32 unused, void *arg);
 extern void  func_0203D7BC(int a0);
@@ -137,7 +138,7 @@ extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020120F0(const struct Ctx *p);
 extern u8 func_02012984(const struct BigObj *p);
 extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
-extern void  func_02005DA4(u16 a, int b, int c, int d);
+extern void func_02005DA4(unsigned int a, unsigned short b, int c, int d);
 extern int   func_02005E50(void);
 extern void  func_02183BE0(void *p);
 extern void *func_020145CC(void *a0);
@@ -158,7 +159,7 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
     if (func_0200FB24() != 0 && *state > 2 && *state <= 13)
         *state = 16;
     if (self->f3528 != 0)
-        func_02183C3C(self->f3528, self);
+        func_02183C3C(self->f3528, (u8 *)self);
 
     switch (*state) {
     case 0:
@@ -247,7 +248,7 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
             break;
         if (l->f0 == 0x19) {
             if (sub->f8->f14 == 1) {
-                func_02005DA4(func_02029DF4((void *)self->f0->f8, 0x1a6, func_02012984((const struct BigObj *)self->f0->f8)), 0xffff, 6, 0x3c);
+                func_02005DA4((u16)func_02029DF4((void *)self->f0->f8, 0x1a6, func_02012984((const struct BigObj *)self->f0->f8)), (int)0xffff, 6, 0x3c);
                 *state = 15;
             } else {
                 *state = 16;

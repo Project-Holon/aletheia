@@ -27,8 +27,9 @@ extern int func_021D5B68(void *m);
 extern u16 func_021D57FC(void *m);
 struct QG;
 extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(void *m, u8 i);
-extern u8 func_021D5584(void *m, u8 i);
+struct UtilWork;
+extern u16 func_021D54C0(u8 *p, int i);
+extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern u32 func_0201C314(void *p);
 extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
 extern u8 func_0201C1C8(void *p);
@@ -45,8 +46,8 @@ int func_021D0644(void *g, void *m, void *a, int b)
         x = func_021D57FC(a);
         n = func_021D5448(m);
         for (i = 0; i < n; i++) {
-            q = func_021D54C0(m, i);
-            if (func_021D5584(m, i) && func_0201C314((void *)q)
+            q = func_021D54C0(m, (u8)i);
+            if (func_021D5584(m, (u8)i) && func_0201C314((void *)q)
                 && func_021CF5B0(g, m, q, 0) == 0) {
                 if (func_021D799C(func_0201C1C8((void *)q), x) >= b)
                     return 1;

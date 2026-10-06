@@ -34,7 +34,7 @@ typedef struct { u8 x,y; s16 b,a; } Scale;
 struct Trip { u32 a,b,c; };
 struct Manager0204F684;
 extern void func_021F4F60(u8 *,Offset *);
-extern void func_021F4AC8(Entry *,u8 *,u8 *);
+extern void func_021F4AC8(u8 *p, u8 *a, u8 *b);
 extern void func_0204F638(u8 *,int,struct Trip *);
 extern void func_0204F684(struct Manager0204F684 *,int,const s16 *,const s16 *);
 extern void func_0204F7C4(u8 *,int,u16 *);
@@ -63,7 +63,7 @@ void func_021F4990(Object *p)
             v.b=(0xC0000-(e->y-y))/16;
             v.c=e->z;
             func_0204F638(p->board,e->index,&v);
-            func_021F4AC8(e,&scale.y,&scale.x);
+            func_021F4AC8((u8 *)e,&scale.y,&scale.x);
             scale.a=e->a*scale.y;
             scale.b=e->b*scale.x;
             func_0204F684((struct Manager0204F684 *)p->board,e->index,&scale.a,&scale.b);
@@ -72,6 +72,6 @@ void func_021F4990(Object *p)
         }
     }
 }
-void func_021F4AA4(void)
+void func_021F4AA4(void *a0)
 {
 }

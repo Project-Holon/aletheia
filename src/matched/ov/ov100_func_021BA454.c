@@ -34,11 +34,11 @@ struct CharBuf;
 struct MsgBank;
 struct Sub020097BCObj;
 struct WordSet;
-extern int func_020450F0(int,int,int,int,unsigned char,unsigned char,unsigned char);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern void func_02045374(struct Cfg *cfg);
-extern void func_0201F73C(int,int,unsigned short,int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -47,10 +47,10 @@ extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045334(struct Descriptor *);
 void func_021BA454(int text,int a) {
  if(((struct Obj01246 *)a)->f280==0) {
-  int v=func_020450F0(5,1,8,18,4,13,0);
+  int v=(int)func_020450F0((int)5,(int)1,(int)8,(int)18,4,13,0);
   ((struct Obj01246 *)a)->f280=v;
   func_02045374((struct Cfg *)v);
-  func_0201F73C(((struct Obj01246 *)a)->f280,0,((struct Obj01246 *)a)->f304,14);
+  func_0201F73C((void *)(((struct Obj01246 *)a)->f280),0,(unsigned short)(((struct Obj01246 *)a)->f304),14);
  }
  func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj01246 *)a)->f280)),255);
  func_02045CAC((struct MsgBank *)(((struct Obj01246 *)a)->f288),text,(void *)(((struct Obj01246 *)a)->f294));

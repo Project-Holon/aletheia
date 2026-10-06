@@ -43,7 +43,8 @@
 #include "../include/Obj01577.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern int func_021F32D8(char *,u16 *),func_021F4390(char *);
+extern int func_021F32D8(char *,u16 *);
+extern unsigned func_021F4390(unsigned char *p);
 extern u16 func_021F32FC(char *);
 extern u32 func_020362DC(void);
 extern void func_021F3DE0(char *,int,u32,u32,u16);
@@ -60,7 +61,7 @@ extern int func_021F4480(void *,int,int);
 extern void func_021F4524(char *),func_021F3EF0(char *,char *,int *,u32),func_021F462C(unsigned char *,u32);
 extern void func_021F46F4(unsigned char *a, int *state, char *p);
 extern void func_021F46B4(unsigned char *p, int *state);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_02045808(struct U16Vec *vec);
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern void func_021F31F4(char *,char *),func_021F1FB4(char *),func_021F42E8(char *),func_021F3E78(char *);
@@ -71,7 +72,7 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     u32 action=func_021F32D8(p+0xfc,&selected);
     u16 value=func_021F32FC(p+0xfc);
     if(((struct Obj01287 *)p)->f2C8==1) {
-        if(action!=0 || func_021F4390(p+0x264)!=0 || (func_020362DC()&~1u)!=0) {
+        if(action!=0 || func_021F4390((unsigned char *)(p+0x264))!=0 || (func_020362DC()&~1u)!=0) {
             int *q=*(int * *)&((struct Obj01287 *)p)->f2C4;
             if(q[0]==1) {
                 if(q[2]==0) func_021F3DE0(p+0x230,q[0],((struct Obj01577 *)q)->f4,((struct Obj01577 *)q)->f6,30);
@@ -102,7 +103,7 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
             }
         }
     } else {func_021F235C(p+0x68);func_020061E4(0x54d);} break;
-    case 0: if(func_021F4390(p+0x264)) {
+    case 0: if(func_021F4390((unsigned char *)(p+0x264))) {
         int text=func_021F4480(p,**(int * *)&((struct Obj01287 *)p)->f2C4,30);
         func_021F2394(p+0x68);
         if(text) {func_021F23B8(p+0x68,func_02045A90((struct U16Vec *)text));func_02045808((struct U16Vec *)text);}

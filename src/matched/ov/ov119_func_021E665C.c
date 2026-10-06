@@ -18,7 +18,10 @@ typedef struct { short x,y; } Pt;
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
-extern void func_0204B404(int,const Pt *,unsigned int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_021E66E8(void *);
 struct Curve;
 extern int func_021E729C(struct Curve *c);
@@ -34,7 +37,7 @@ int func_021E665C(char *p) {
             func_021E729C((struct Curve *)(p+0x1190));
             pos.x=((struct Obj00001 *)p)->f1190/4096;
             pos.y=((struct Obj00001 *)p)->f1194/4096;
-            func_0204B404(((struct Obj00001 *)p)->fF20,&pos,1);
+            func_0204B404((struct Obj *)(((struct Obj00001 *)p)->fF20),(const struct Vec2 *)(&pos),1);
         }
     }
     return 0;

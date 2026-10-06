@@ -88,12 +88,13 @@ struct Samp {
     u16 t;
 };
 
-extern struct Work *func_02035750(void *p);
+extern int func_02035750(void);
 extern void func_02082BCC(void *dst, u32 val, u32 size);
 extern void func_0208AB1C(void);
-extern u32  func_0208ABB8(void *p);
-extern void func_0208ADB4(void *p);
-extern void func_0208B104(void *dst, void *src);
+struct TPData;
+extern u32 func_0208ABB8(struct TPData *result);
+extern void func_0208ADB4(struct TPData *result);
+extern void func_0208B104(struct TPData *disp, const struct TPData *raw);
 
 void func_020358A0(struct Tp *ctx)
 {
@@ -102,7 +103,7 @@ void func_020358A0(struct Tp *ctx)
     struct Work *w;
     u32 done = 0;
     u32 n;
-    struct Work *sio = func_02035750(ctx);
+    struct Work *sio = (struct Work *)func_02035750();
 
     w = sio;
     if (w == 0) {
@@ -115,7 +116,7 @@ void func_020358A0(struct Tp *ctx)
     if (w->f74 == 0) {
         n = 0;
         func_0208AB1C();
-        if (func_0208ABB8(&raw) != 0) {
+        if (func_0208ABB8((struct TPData *)(&raw)) != 0) {
             do {
                 n = (n + 1) & 0xff;
                 if (n >= 0x20) {
@@ -124,13 +125,13 @@ void func_020358A0(struct Tp *ctx)
                     break;
                 }
                 func_0208AB1C();
-            } while (func_0208ABB8(&raw) != 0);
+            } while (func_0208ABB8((struct TPData *)(&raw)) != 0);
         }
     } else {
-        func_0208ADB4(&raw);
+        func_0208ADB4((struct TPData *)(&raw));
     }
     if (done == 0) {
-        func_0208B104(&cal, &raw);
+        func_0208B104((struct TPData *)(&cal), (const struct TPData *)(&raw));
     }
     if (cal.t == 0) {
         w->f5c = cal.x;

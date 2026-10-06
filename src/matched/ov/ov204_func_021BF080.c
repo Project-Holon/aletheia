@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021BF080(char *p, int i)
+void func_021BF080(char *p, u8 i)
 {
     char *q;
 

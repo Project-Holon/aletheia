@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Blk37;
 extern u32 func_0200CED4(struct Blk37 *p, u16 id);
-extern int func_0200C780(u16 v);
+extern int func_0200C780(u32 v);
 
 u16 func_0200D2D8(void *a0)
 {
@@ -24,7 +24,7 @@ u16 func_0200D2D8(void *a0)
     u16 n = 0;
 
     for (i = 1; i <= 0x289; i++) {
-        if (func_0200CED4(a0, i) == 1 && func_0200C780(i) == 1)
+        if (func_0200CED4(a0, i) == 1 && func_0200C780((u16)i) == 1)
             n++;
     }
     return n;

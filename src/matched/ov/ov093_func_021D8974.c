@@ -24,7 +24,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void *func_021C88A4(int a, int k, int b);
+void *func_021C88A4(char *p, int a, int b);
 void func_021C8838(void *p, int a, int b);
 struct S;
 void func_021C8860(struct S *p, u32 a);
@@ -38,7 +38,7 @@ void func_021D8974(void *a, int b, int c, int *d)
     d[1] = 0;
     d[2] = 0;
     d[3] = 1;
-    p = func_021C88A4(b, 4, c);
+    p = func_021C88A4((char *)b, 4, c);
     ((struct Obj21270 *)p)->f0 |= 4 << 21;
     func_021C8838(p + 4, 2, 0x1f0);
     func_021C8860((struct S *)(p + 4), c);

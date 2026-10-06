@@ -43,26 +43,26 @@ struct Cluster {
     void  *bottom;
 };
 
-extern void func_02022390(void **slot, void *screen);
+extern void func_02022390(u32 *obj, void *arg);
 
 u32 func_02022340(struct Cluster *p, void *top, void *bottom)
 {
     switch (p->mode) {
     case 0:
-        func_02022390(&p->top, top);
-        func_02022390(&p->bottom, bottom);
+        func_02022390((u32 *)(&p->top), top);
+        func_02022390((u32 *)(&p->bottom), bottom);
         break;
     case 1:
         if (p->top != 0)
-            func_02022390(&p->top, top);
+            func_02022390((u32 *)(&p->top), top);
         else
-            func_02022390(&p->bottom, bottom);
+            func_02022390((u32 *)(&p->bottom), bottom);
         break;
     case 2:
         if (p->bottom != 0)
-            func_02022390(&p->bottom, bottom);
+            func_02022390((u32 *)(&p->bottom), bottom);
         else
-            func_02022390(&p->top, top);
+            func_02022390((u32 *)(&p->top), top);
         break;
     }
     if (p->top == 0 && p->bottom == 0)

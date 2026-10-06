@@ -21,13 +21,14 @@ extern void func_0206E0C4(int,int,Vec *,Vec *);
 extern void func_0207CA00(Vec *,Vec *,Vec *);
 extern void func_0207CCA4(Vec *,Vec *);
 extern void func_0207CEE4(int,Vec *,Vec *,Vec *);
-extern void func_021B7F50(void *,Vec *);
+struct V3;
+extern void func_021B7F50(char *p, struct V3 *q);
 void func_021B8CB0(u8 *p,int i,int x,int y) {
  Vec a,b,c;
  switch(i) {
  case 0:
-  func_0206E0C4(x,y,&a,&b);func_0207CA00(&b,&a,&c);func_0207CCA4(&c,&c);func_0207CEE4(0x40000,&c,&a,&a);func_021B7F50(*(void **)(p+i*4),&a);((struct Obj04430 *)p)->f8=x;((struct Obj04430 *)p)->fC=y;break;
+  func_0206E0C4(x,y,&a,&b);func_0207CA00(&b,&a,&c);func_0207CCA4(&c,&c);func_0207CEE4(0x40000,&c,&a,&a);func_021B7F50(*(void **)(p+i*4),(struct V3 *)(&a));((struct Obj04430 *)p)->f8=x;((struct Obj04430 *)p)->fC=y;break;
  case 1:
-  func_0206E0C4(((struct Obj04430 *)p)->f8+(x-((struct Obj04430 *)p)->f8)*2,((struct Obj04430 *)p)->fC+(y-((struct Obj04430 *)p)->fC)*2,&a,&b);func_0207CA00(&b,&a,&c);func_0207CCA4(&c,&c);func_0207CEE4(0x40000,&c,&a,&a);func_021B7F50(*(void **)(p+i*4),&a);break;
+  func_0206E0C4(((struct Obj04430 *)p)->f8+(x-((struct Obj04430 *)p)->f8)*2,((struct Obj04430 *)p)->fC+(y-((struct Obj04430 *)p)->fC)*2,&a,&b);func_0207CA00(&b,&a,&c);func_0207CCA4(&c,&c);func_0207CEE4(0x40000,&c,&a,&a);func_021B7F50(*(void **)(p+i*4),(struct V3 *)(&a));break;
  }
 }

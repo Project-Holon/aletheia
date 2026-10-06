@@ -31,19 +31,20 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_020490F4(int, int);
+typedef signed int     s32;
+extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049238(int);
-extern int func_0204A6C8(int, u32, u32, u32, u16);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0204ABF0(int, u32, u32, u32, u16);
-extern int func_0204ACEC(int, u32, u32, u32, u16);
-extern int func_0204AF28(int, u32, u32, u32);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_0201BABC(u32, u32, u32, u32);
-extern u32 func_0201BC3C(void);
-extern u32 func_0201BC40(void);
-extern u32 func_0201BC78(void);
-extern u32 func_0201BCB4(void);
-extern u32 func_0201BCEC(void);
-extern int func_020275E4(void);
+extern int func_0201BC3C(void);
+extern int func_0201BC40(void);
+extern int func_0201BC78(void);
+extern int func_0201BCB4(void);
+extern int func_0201BCEC(void);
+extern u32 func_020275E4(void);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
@@ -64,36 +65,36 @@ void func_021BD9B4(struct R *p)
     for (k = 0; k < 6; k++) p->b[k] = -1;
     for (k = 0; k < 6; k++) p->c[k] = -1;
 
-    h = func_020490F4(0x9f, 0x806B);
-    p->a[0x23] = func_0204A6C8(h, 0x37, 0, 0, 0x6b);
+    h = (int)func_020490F4(0x9f, 0x806B);
+    p->a[0x23] = func_0204A6C8((void *)h, 0x37, 0, 0, 0x6b);
     p->b[5] = func_0204ABF0(h, 0x33, 0, 0, 0x6b);
-    p->c[5] = func_0204AF28(h, 0x3d, 0x47, 0x6b);
+    p->c[5] = func_0204AF28((void *)h, 0x3d, 0x47, 0x6b);
     func_02049238(h);
 
-    h2 = func_020490F4(7, 0x806B);
+    h2 = (int)func_020490F4(7, 0x806B);
     arr = p->a;
     pb = &p->b[0];
     pc = &p->c[0];
     for (i = 0; i < 0x10; i++)
-        arr[i] = func_0204A6C8(h2, func_0201BABC(0, 0, 0, 0), 0, 0, 0x6b);
-    *pb = func_0204ACEC(h2, func_0201BC3C(), 0, 0x80, 0x6b);
+        arr[i] = func_0204A6C8((void *)h2, func_0201BABC(0, 0, 0, 0), 0, 0, 0x6b);
+    *pb = func_0204ACEC((void *)h2, func_0201BC3C(), 0, 0x80, 0x6b);
     a = func_0201BC40();
-    *pc = func_0204AF28(h2, a, func_0201BCB4(), 0x6b);
+    *pc = func_0204AF28((void *)h2, a, func_0201BCB4(), 0x6b);
 
     arr = &p->a[0x10];
     pb = &p->b[1];
     pc = &p->c[1];
     for (i = 0; i < 0x10; i++)
-        arr[i] = func_0204A6C8(h2, func_0201BABC(0, 0, 0, 0), 0, 1, 0x6b);
-    *pb = func_0204ACEC(h2, func_0201BC3C(), 1, 0, 0x6b);
+        arr[i] = func_0204A6C8((void *)h2, func_0201BABC(0, 0, 0, 0), 0, 1, 0x6b);
+    *pb = func_0204ACEC((void *)h2, func_0201BC3C(), 1, 0, 0x6b);
     a = func_0201BC78();
-    *pc = func_0204AF28(h2, a, func_0201BCEC(), 0x6b);
+    *pc = func_0204AF28((void *)h2, a, func_0201BCEC(), 0x6b);
     func_02049238(h2);
 
-    h3 = func_020490F4(func_020275E4(), 0x806B);
-    p->a[0x22] = func_0204A6C8(h3, func_02027618(), 0, 0, 0x6b);
+    h3 = (int)func_020490F4(func_020275E4(), 0x806B);
+    p->a[0x22] = func_0204A6C8((void *)h3, func_02027618(), 0, 0, 0x6b);
     p->b[4] = func_0204ABF0(h3, func_02027614(), 0, 0xe0, 0x6b);
     a = func_0202761C(2);
-    p->c[4] = func_0204AF28(h3, a, func_02027620(2), 0x6b);
+    p->c[4] = func_0204AF28((void *)h3, a, func_02027620(2), 0x6b);
     func_02049238(h3);
 }

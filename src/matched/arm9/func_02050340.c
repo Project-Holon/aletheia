@@ -81,9 +81,9 @@ struct BbActSys {
 
 struct AreaMan;
 extern s32 func_02033CA8(struct AreaMan *p, u32 len);
-extern void func_020500B8(struct BbActEntry *e);
+extern void func_020500B8(u32 *p);
 extern s32  func_0204F428(void *board, u32 id, s16 v12, s16 v14, const struct Vec3 *src, u8 k, u32 w, u32 mode);
-extern void func_0204F720(void *board, u32 idx, const u32 *flag);
+extern void func_0204F720(void *p, u32 idx, u32 *flag);
 
 u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode)
 {
@@ -101,13 +101,13 @@ u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 c
         e = &o->f18[idx + i];
         p = &d[i];
 
-        func_020500B8(e);
+        func_020500B8((u32 *)e);
         e->f04 = base + p->slot;
         r = func_0204F428(o->f04, o->f0C[e->f04].id, p->v12, p->v14, &p->pos, p->k, p->w, mode);
         e->f00 = r;
         e->f20 = p->f1c;
         e->f24 = p->f20;
-        func_0204F720(o->f04, r, &p->flag);
+        func_0204F720(o->f04, r, (u32 *)(&p->flag));
         e->f1C = 0x3FFF;
     }
     return idx;

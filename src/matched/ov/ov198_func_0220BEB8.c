@@ -48,20 +48,25 @@ struct Ov198Hdr { char pad[0xC]; u32 font; u16 f10; };
 struct Ov198P { struct Ov198Hdr *hdr; char pad[0x1E9C]; void *f1EA0; void *f1EA4; void *pad8; u32 f1EAC; };
 #define P ((struct Ov198P *)p)
 
-extern u32 func_02045778(void *);
+struct Descriptor;
+struct MsgBank;
+struct StrObj;
+struct U16Vec;
+struct WordSet;
+extern u8 func_02045778(struct Descriptor *p);
 extern int func_022110D4(u8 *, int);
-extern void *func_020457B0(u32, u32);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_0201EEF4(void *p, u32 i, void *mon);
-extern void func_0201F250(void *ws, void *dst, void *src);
-extern void *func_02045770(void *p);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32, u32, s16, s16, void *, u32, u32);
-extern void func_02045808(void *);
-extern u32 func_02045738(void *);
-extern u32 func_0201D304(void *, u32, u32);
+extern void func_02045808(struct U16Vec *vec);
+extern u8 func_02045738(struct Descriptor *p);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 d_02211B68[];
 
-void func_0220BEB8(u8 *p, int slot, u16 a2, s16 a3, u8 extra)
+void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
 {
     u32 w2;
     u32 w;

@@ -19,4 +19,4 @@ typedef unsigned int u32;
 extern void func_020403F4(u32 layer);
 extern void func_0203F9B4(void);
 extern const u32 d_021BA60C[];
-void func_021B9888(void) { u32 i; for(i=0;i<5;i++) func_020403F4((u8)d_021BA60C[i]); func_0203F9B4(); }
+void func_021B9888(void *p) { u32 i; for(i=0;i<5;i++) func_020403F4((u8)d_021BA60C[i]); func_0203F9B4(); }

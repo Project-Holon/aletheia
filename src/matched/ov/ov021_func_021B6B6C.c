@@ -34,7 +34,7 @@ extern void *func_0215A6C4(void *);
 extern u16 func_0215A5D0(void *);
 struct Ctx;
 extern int func_021B6AB0(void *a);
-extern u16 *func_021B6AA4(void *, u32);
+extern int func_021B6AA4(u32 a, u32 b);
 extern void *func_0215A5F4(void *p);
 extern void *func_02158F54(void *);
 extern void *func_0201210C(const struct Ctx *p);
@@ -48,7 +48,7 @@ u32 func_021B6B6C(void *a, void *b)
 
     func_0215A5D0(b);
     if (idx < func_021B6AB0(tab)) {
-        const u16 *e = func_021B6AA4(tab, idx);
+        const u16 *e = (const u16 *)func_021B6AA4((u32)tab, idx);
         void *r5 = func_0215A5F4(b);
         void *r6 = func_02158F54(r5);
         void *cur = func_0201210C(r6);

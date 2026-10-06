@@ -38,7 +38,8 @@ extern u32 func_02006B94(u32 i);
 extern u32 func_02006B3C(u32 i);
 extern u32 func_02006B78(u32 i);
 extern s8 func_02006B20(u32 i);
-extern void func_02043B5C(struct Bmp *b, u8 v);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02043AF4(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 color);
 
 void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
@@ -64,7 +65,7 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
     ((struct Obj01010 *)p)->f38 = (u32)(1000.0f * (32768.0f * (float)func_02006B78(((struct Obj01010 *)p)->f64)
                                            / (float)(int)ca
                                            / (float)(int)cb) + 0.5f);
-    func_02043B5C(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C, 0);
+    func_02043B5C((struct CharBuf *)(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C), 0);
     k = 0;
     i = 0;
     while (i < func_02006B78(((struct Obj01010 *)p)->f64)) {

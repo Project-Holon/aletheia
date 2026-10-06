@@ -26,7 +26,7 @@ extern int func_021AE79C(u32 a);
 extern int func_0216D63C(char *a0, int a1);
 extern void func_0216D828(int a, int *b);
 extern u16 func_0216D5F8(void *p);
-extern int func_021AE348(int a, int b, int *c, int *d);
+extern int func_021AE348(int idx, int a, const s16 *p, const s16 *q);
 extern int func_021AE7A8(u32 a, u32 dir, int n, void *p);
 
 int func_021AE288(int a, int b, int c, u16 *d)
@@ -44,14 +44,14 @@ int func_021AE288(int a, int b, int c, u16 *d)
         func_0216D828(c, p);
         if (r4 == 1) {
             sc = func_0216D5F8((void *)b);
-            r4 = func_021AE348(sc, r7, q, p);
+            r4 = func_021AE348(sc, r7, (const s16 *)q, (const s16 *)p);
             if (r4 != r5 - 1 && func_021AE7A8(b, sc, r4, (void *)a) == 0) {
                 *d = sc;
                 return r4;
             }
         } else {
             do {
-                r4 = func_021AE348(r5, r7, q, p);
+                r4 = func_021AE348(r5, r7, (const s16 *)q, (const s16 *)p);
                 if (r4 != -1 && func_021AE7A8(b, r5, r4, (void *)a) == 0) {
                     *d = r5;
                     return r4;

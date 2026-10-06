@@ -36,7 +36,7 @@ extern void func_021E8738(int *, int, int, int);
 extern void func_021E8AB4(u32, u32);
 extern void func_021DB3A4(char *, u32, int, u32);
 extern int func_021DB478(char *);
-extern int func_021D646C(u32, u32, u32 *);
+extern int func_021D646C(u32 save, u32 kind, u32 obj);
 extern void func_021D6724(u32 *, u32 *);
 extern int func_021D9F04(char *, void *, void *);
 extern void func_021D63DC(char *);
@@ -49,9 +49,9 @@ extern void func_021DBFA4(char *);
 extern int func_021DBFB4(char *);
 extern u32 func_021D63BC(char *);
 extern void func_021D639C(char *);
-extern void func_021D62A4(char *, u32);
+extern void func_021D62A4(u32 *p, u32 mode);
 extern u32 func_021D63B0(char *);
-extern void func_021D4B3C(void);
+extern void func_021D4B3C(unsigned sys, int *state, char *p);
 extern int func_021E8844(const int *);
 extern void func_021E8AB8(u32);
 void func_021D495C(u32 sys, int *state, u32 *p)
@@ -72,7 +72,7 @@ void func_021D495C(u32 sys, int *state, u32 *p)
         result = func_021DB478((char *)p[12]);
         if (result == 1) {
             *(u32 *)((u32 *)p[16])[8] = 1800;
-            p[60] = func_021D646C(ctx[4], ((u32 *)ctx[2])[1], p);
+            p[60] = func_021D646C(ctx[4], ((u32 *)ctx[2])[1], (u32)p);
             func_021D6724((u32 *)ctx[5], p);
             *(u32 *)((u32 *)p[16])[10] = ((u32 *)((u32 *)p[16])[14])[21];
             *state = 3;
@@ -125,7 +125,7 @@ void func_021D495C(u32 sys, int *state, u32 *p)
             func_021D639C((char *)p); *state = 8;
         }
         break;
-    case 8: func_021D62A4((char *)p, 0); *state = 9; break;
+    case 8: func_021D62A4((u32 *)p, 0); *state = 9; break;
     case 9: if (func_021D63B0((char *)p)) *state = 10; break;
     case 10: func_021E8AA0((int *)sys, (int)func_021D4B3C); break;
     case 11: if (func_021E8844((int *)p[9])) func_021E8AB8(sys); break;

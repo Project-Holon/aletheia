@@ -31,12 +31,13 @@
  *       --func func_020172AC --addr 0x020172AC --cc 1.1p1 --thumb
  */
 
-extern void sub_02014CF0(int a0, int a1, int a2);
+struct Obj02014CF0;
+extern void sub_02014CF0(struct Obj02014CF0 *o, int v1, int v2);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_020172BC(u8 *a0, u8 **a1, u32 a2);
 
 void func_020172AC(int a0, int a1)
 {
-    sub_02014CF0(a0, (int)func_020172BC, a1);
+    sub_02014CF0((struct Obj02014CF0 *)a0, (int)func_020172BC, a1);
 }

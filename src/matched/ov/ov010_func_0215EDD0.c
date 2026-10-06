@@ -27,7 +27,7 @@ struct C {
 };
 
 extern int func_02158780(void *p, int b, int c, int d, u16 e);
-extern void func_02159058(int a, int b, int c, int d, u16 e);
+extern int func_02159058(int a, int b, int c, int d, u16 e);
 extern void *func_02184EEC(void *p);
 struct S0201235C;
 extern void func_0201235C(struct S0201235C *o, u32 *out);

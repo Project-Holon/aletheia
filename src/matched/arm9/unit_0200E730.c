@@ -93,7 +93,7 @@ u8 sub_0200E780(const void *obj, u32 idx)
     return *((const u8 *)obj + idx * 0x20 + 0x1b);
 }
 
-u32 sub_0200E788(u32 unused, u32 a, u32 b)
+u32 sub_0200E788(const void *unused, u32 a, u32 b)
 {
     if (a == 1) {
         return 0x23c;

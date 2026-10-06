@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 void func_021DEC64(int a, int b, int c, int d, int e)
 {
-    func_021DEB40(a, b, d);
+    func_021DEB40((int)a, b, d);
     func_021DEB70(a, b, e);
     func_021DEB90(a, b, c, d, e);
     func_02041B6C(3);

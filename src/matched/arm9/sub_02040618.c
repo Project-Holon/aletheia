@@ -33,7 +33,8 @@ struct BgLayer {
 
 extern struct BgLayer *g_02146A44;
 
-extern void func_02042360(void *p, u32 a, u32 b);
+struct Obj;
+extern void func_02042360(struct Obj *p, u32 op, u32 value);
 extern void func_020423D4(u32 layer);
 extern void func_0203D814(u32 x, u32 y);
 
@@ -45,7 +46,7 @@ void sub_02040618(u32 layer, u32 a, u32 b)
     u32 hmask = mask << 16;
     u32 x, y;
 
-    func_02042360((u8 *)g_02146A44 + 8 + layer * sizeof(struct BgLayer), a, b);
+    func_02042360((struct Obj *)((u8 *)g_02146A44 + 8 + layer * sizeof(struct BgLayer)), a, b);
 
     x = g_02146A44[layer].scrollX;
     y = g_02146A44[layer].scrollY;

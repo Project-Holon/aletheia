@@ -39,7 +39,7 @@ extern int func_02080D24(u8 a);
 extern int func_0203D1B4(void);
 extern void func_0203D7BC(int a);
 extern u32 func_0203D378(void);
-extern void func_02172D38(Work *w);
+extern void func_02172D38(u8 *p);
 
 void func_02172EEC(Work *w)
 {
@@ -66,11 +66,11 @@ void func_02172EEC(Work *w)
     case 2:
         if (func_0203D378() == 1) {
             if (func_0203D1B4() <= 1) {
-                func_02172D38(w);
+                func_02172D38((u8 *)w);
                 s->step++;
             }
         } else {
-            func_02172D38(w);
+            func_02172D38((u8 *)w);
             s->step++;
         }
         break;

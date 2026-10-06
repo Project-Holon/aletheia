@@ -32,17 +32,17 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_021BB98C(void *p);
 extern void func_021BB990(void *p);
-extern void func_021BBB60(struct S *p);
+extern void func_021BBB60(u8 *p);
 extern void func_021BC2D8(struct S *p);
-extern void func_021BC338(struct S *p);
-extern void func_021BC43C(struct S *p);
+extern void func_021BC338(u8 *p);
+extern void func_021BC43C(u8 *p);
 extern void func_021BC168(unsigned int p);
-extern void func_021BC014(struct S *p);
-extern void func_021BBF60(struct S *p);
+extern void func_021BC014(u8 *p);
+extern void func_021BBF60(u8 *p);
 extern int func_021BC2FC(void *p);
 extern u32 func_021BC5B8(u32 a0, u32 a1);
 extern void func_021BC72C(u8 *a0, u32 a1, u8 *a2);
-extern void func_021BC50C(struct S *p);
+extern void func_021BC50C(char *p);
 extern u32 func_021BC55C(u32 a0);
 extern void func_021BB91C(void *p);
 extern void func_021C1038(u8 *p, u8 palette);
@@ -51,16 +51,16 @@ void func_021BB784(struct S *p)
 {
     switch (func_021BB98C(p)) {
     case 0:
-        func_021BBB60(p);
+        func_021BBB60((u8 *)p);
         func_021BB990(p);
         break;
     case 1:
         func_021BC2D8(p);
-        func_021BC338(p);
-        func_021BC43C(p);
+        func_021BC338((u8 *)p);
+        func_021BC43C((u8 *)p);
         func_021BC168((unsigned int)p);
-        func_021BC014(p);
-        func_021BBF60(p);
+        func_021BC014((u8 *)p);
+        func_021BBF60((u8 *)p);
         if (func_021BC2FC(p) != 0) {
             func_021BB990(p);
         }
@@ -70,8 +70,8 @@ void func_021BB784(struct S *p)
             func_021BC72C((u8 *)p, 0, 0);
             func_021BC72C((u8 *)p, 1, 0);
             func_021BC72C((u8 *)p, 2, 0);
-            func_021BBF60(p);
-            func_021BC50C(p);
+            func_021BBF60((u8 *)p);
+            func_021BC50C((char *)p);
             func_021BB990(p);
         }
         break;

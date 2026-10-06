@@ -71,7 +71,7 @@ extern char g_020A7EA8[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_0206E9A4(u8 *p, u32 idx);
-extern int  func_02047554(struct G3dOwner *a0);
+extern int func_02047554(int *p);
 extern unsigned char *func_0206E964(unsigned char *p);
 extern u32  func_0206E364(struct G3dCtx *a0, int a1, u32 a2);
 extern void func_02069C74(u32 a0, int a1, u32 a2, int a3);
@@ -88,7 +88,7 @@ struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int
     r->unk_08 = a1;
     x = (int)func_0206E9A4((u8 *)a1->f04, a2);
     y = a0->f04->handle;
-    if (func_02047554(a0) != 0)
+    if (func_02047554((int *)a0) != 0)
         z = (int)func_0206E964((unsigned char *)a0->f0c->handle);
     r->unk_04 = func_0206E364(g_02146A5C, x, y);
     func_02069C74(r->unk_04, x, y, z);

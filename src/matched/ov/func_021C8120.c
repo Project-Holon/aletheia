@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 *func_021C8120(u8 *p)
+u8 *func_021C8120(u8 *p, int b)
 {
     return p + 0x1fec;
 }

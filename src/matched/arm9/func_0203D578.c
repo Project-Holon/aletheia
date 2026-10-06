@@ -23,7 +23,7 @@ struct Entry;
 extern int func_020395EC(struct Entry *a);
 extern void func_02039468(u32 b, u32 r);
 
-void func_0203D578(u32 a, u32 b)
+void func_0203D578(int a, u32 b)
 {
     u32 r = func_020395EC((void *)a);
 

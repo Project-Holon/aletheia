@@ -19,12 +19,13 @@
 
 typedef unsigned long u32;
 
-extern void func_021D965C(char *obj);
+struct Obj;
+extern void func_021D965C(struct Obj *obj);
 extern u32 func_021D97B8(char *obj);
 
 void func_021D97D0(char *obj)
 {
-    func_021D965C(obj);
+    func_021D965C((struct Obj *)obj);
     while (func_021D97B8(obj) == 0)
         ;
 }

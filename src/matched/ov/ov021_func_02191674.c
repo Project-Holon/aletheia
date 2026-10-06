@@ -44,13 +44,13 @@ typedef struct R {
 
 struct Slot;
 extern void func_02190538(struct Slot *s);
-extern void *func_021904EC(Fx *p, u32 a, u32 b);
+extern struct Slot *func_021904EC(u32 *p, u32 a, u32 b);
 extern void func_02190604(struct Slot *s, int x, int y, u32 z, u16 w);
 
 void func_02191674(R *r, int b, int c, u32 d, u16 e)
 {
     if (r->f20 != 0)
         func_02190538(r->f20);
-    r->f20 = func_021904EC(r->f0c, 0, r->f18);
+    r->f20 = func_021904EC((u32 *)r->f0c, 0, r->f18);
     func_02190604(r->f20, b, c, d, e);
 }

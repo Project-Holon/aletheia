@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 struct S;
 extern void func_021D8904(void *a, struct S *s);
-extern void func_021D9A04(void *,void *);
+extern void func_021D9A04(u8 *a, u8 *p);
 extern void func_021D7BF0(void *a, unsigned char *p);
 extern void func_021D6808(void *,void *);
 typedef unsigned int   u32;
@@ -32,7 +32,7 @@ void func_021D4F24(char *p)
 {
     u8 i;
     func_021D8904(p,((struct Obj08143 *)p)->f94);
-    func_021D9A04(p,((struct Obj08143 *)p)->f90);
+    func_021D9A04((u8 *)p,((struct Obj08143 *)p)->f90);
     func_021D7BF0(p,((struct Obj08143 *)p)->f8C);
     func_021D6808(p,((struct Obj08143 *)p)->f88);
     for(i=0;i<=11;i++) func_0204ADA4((u32)(*(void **)(p+i*4+0x98)));

@@ -26,7 +26,7 @@ extern void func_021C7298(void *p, int v);
 extern void func_021C5C64(u8 *);
 extern void func_021C62BC(u8 *);
 extern void func_021C6284(u8 *);
-extern void func_021C71A8(u8 *, int, int);
+extern int func_021C71A8(char *p, int v, int w);
 void func_021C6E64(u8 *p)
 {
     func_021C66B8(*(u8 * *)&((struct Obj00127 *)p)->f8, 2, 0);
@@ -34,5 +34,5 @@ void func_021C6E64(u8 *p)
     func_021C5C64(p);
     func_021C62BC(p);
     func_021C6284(p);
-    func_021C71A8(p, 0, 0xD);
+    func_021C71A8((char *)p, 0, 0xD);
 }

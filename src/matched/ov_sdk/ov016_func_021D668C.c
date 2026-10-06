@@ -59,8 +59,9 @@ typedef struct {
 } InputStatics;
 
 extern u16 func_0208AF08(void);
-extern void func_0208B104(TPData *disp, TPData *raw);
-extern void func_021D5FE8(unsigned short a, unsigned short b, unsigned short *p);
+struct TPData;
+extern void func_0208B104(struct TPData *disp, const struct TPData *raw);
+extern void func_021D5FE8(int a, int b, unsigned short *p);
 extern s32 func_0207C994(s32 a, s32 b);
 extern InputStatics g_021DE688;
 
@@ -80,7 +81,7 @@ void func_021D668C(void)
     for (i = 0; i < 4; i++, idx = func_0207C994(idx + 4, 5)) {
         if (g_021DE688.work->tp[idx].touch == 1 && g_021DE688.work->tp[idx].validity == 0) {
             touch = 1;
-            func_0208B104(&p, &g_021DE688.work->tp[idx]);
+            func_0208B104((struct TPData *)(&p), (const struct TPData *)(&g_021DE688.work->tp[idx]));
             func_021D5FE8(p.x, p.y, (short unsigned int *)(&g_021DE688.work->coord));
             break;
         }

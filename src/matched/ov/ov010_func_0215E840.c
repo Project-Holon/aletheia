@@ -107,7 +107,7 @@ extern u32 func_02013FFC(u32 id);
 extern u32 func_0201400C(u32 id);
 extern u32 func_02014018(u32 id);
 extern u32 func_02013E04(u32 id);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 
 extern const Area d_021711EC;
 extern const Area d_021711F4;

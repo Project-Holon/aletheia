@@ -30,7 +30,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 struct S;
 extern int func_021B7AB0(struct S *p);
-extern int func_021C014C(u8 *p);
+extern int func_021C014C(char *ctx);
 extern u8 func_020355C4(void);
 extern void func_020061E4(u32 id);
 extern void func_021BE0E4(u8 *p, u32 v);
@@ -57,7 +57,7 @@ u32 func_021BD568(u8 *p)
             break;
         }
     } else {
-    r5 = func_021C014C(p);
+    r5 = func_021C014C((char *)p);
     switch (r5) {
     case 0:
         func_020061E4(0x551);

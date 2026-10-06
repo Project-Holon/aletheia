@@ -11,5 +11,6 @@
  * symbols:
  *   func_021F47BC 0x021F47BC thumb ov048
  */
-extern void func_021F47BC(void *p, int n);
+struct M;
+extern void func_021F47BC(struct M *p, int v);
 void func_021F3870(int *p) { func_021F47BC((void *)p[5], p[6] << 12); }

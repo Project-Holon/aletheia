@@ -19,7 +19,9 @@ typedef struct {u32 objects[3]; u16 current[3]; u16 bound[3]; int step[3]; u8 pa
 typedef struct {s16 x,y;} Pair;
 extern void func_02082BCC(void *,int,int);
 extern u32 func_021B78C8(u8 *p, int i);
-extern void func_0204B404(u32,Pair *,int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_021B8440(Display *,unsigned);
@@ -33,7 +35,7 @@ void func_021B8348(Display *p,void *a,int n)
   else if(n>=0 && n<10) pos.x=56+i*36;
   else pos.x=92+i*36;
   pos.y=84;
-  func_0204B404(p->objects[i],&pos,0);
+  func_0204B404((struct Obj *)p->objects[i],(const struct Vec2 *)(&pos),0);
   func_0204B3DC((struct Obj *)p->objects[i],0);
   p->current[i]=0;p->bound[i]=60;
   p->step[i]=4079/p->bound[i];

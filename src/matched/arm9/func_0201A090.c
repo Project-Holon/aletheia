@@ -44,7 +44,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_0201AA50(void *p);
-extern int   func_0200AE54(void *rules, u32 k);
+struct Reg;
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32   func_0201AA18(void *party);
 extern void *func_0201AB28(void *p, u32 idx);
 extern int   func_02019FD0(void *rules, void *mon, u32 *mask);
@@ -74,7 +75,7 @@ int func_0201A090(void *rules, void *party, u32 *mask)
         item[i] = 0;
     }
     total = func_0201AA50(party);
-    if (total < func_0200AE54(rules, 2)) {
+    if (total < (int)func_0200AE54(rules, 2)) {
         *mask |= 1;
         err = 4;
     }
@@ -89,7 +90,7 @@ int func_0201A090(void *rules, void *party, u32 *mask)
             n += func_02017E1C(mon, 0x9e, 0);
         }
     }
-    if (func_0200AE54(rules, 7) == 0 && total > 1) {
+    if ((int)func_0200AE54(rules, 7) == 0 && total > 1) {
         for (i = 0; i < 5; i++) {
             for (k = i + 1; k < 6; k++) {
                 if (species[i] == species[k] && species[i] != 0) {
@@ -99,7 +100,7 @@ int func_0201A090(void *rules, void *party, u32 *mask)
             }
         }
     }
-    if (func_0200AE54(rules, 8) == 0 && total > 1) {
+    if ((int)func_0200AE54(rules, 8) == 0 && total > 1) {
         for (i = 0; i < 5; i++) {
             for (k = i + 1; k < 6; k++) {
                 if (item[i] == item[k] && species[i] != 0 && item[i] != 0) {
@@ -109,8 +110,8 @@ int func_0201A090(void *rules, void *party, u32 *mask)
             }
         }
     }
-    want_s = func_0200AE54(rules, 0xb);
-    want_f = func_0200AE54(rules, 0xc);
+    want_s = (int)func_0200AE54(rules, 0xb);
+    want_f = (int)func_0200AE54(rules, 0xc);
     i = 0;
     if (want_s != 0 && total > 1) {
         for (i = 0; i < 6; i++) {

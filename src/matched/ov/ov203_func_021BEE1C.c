@@ -19,6 +19,6 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 extern int func_021BF7AC(char *,int);
-extern void func_02005DF8(u16);
-extern void func_02005E30(u16);
-void func_021BEE1C(char *p,int unused,int *s) { int x;x=func_021BF7AC(p,s[1]);if(s[0]==0)func_02005DF8(x);else func_02005E30(x); }
+extern void func_02005DF8(u32 a);
+extern void func_02005E30(u32 a);
+void func_021BEE1C(char *p,int unused,int *s) { int x;x=func_021BF7AC(p,s[1]);if(s[0]==0)func_02005DF8((u16)x);else func_02005E30((u16)x); }

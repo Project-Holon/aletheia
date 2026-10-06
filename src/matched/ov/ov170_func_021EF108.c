@@ -14,7 +14,9 @@
 typedef struct { unsigned char a,b,c,d; } Bytes;
 typedef struct { Bytes first, second; } Object;
 extern const Bytes d_021F0020;
-extern int func_02035D40(const void *, int, int);
+typedef unsigned int   u32;
+struct Ctx;
+extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
 int func_021EF108(const char *p, unsigned n, int a, int b)
 {
     Object obj;
@@ -22,7 +24,7 @@ int func_021EF108(const char *p, unsigned n, int a, int b)
     obj.second=d_021F0020;
     for(i=0;i<n;i++) {
         obj.first=*(Bytes *)(p+i*12+8);
-        if(func_02035D40(&obj,a,b)!=-1) return i;
+        if(func_02035D40((struct Ctx *)(&obj),a,b)!=-1) return i;
     }
     return -1;
 }

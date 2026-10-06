@@ -33,14 +33,16 @@ struct Big;
 
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern u8 *func_020124E8(struct Desc *p);
+struct Obj;
+struct Work;
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC();
 extern u32 func_020173EC(void);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern int func_0203F1FC(const u8 *src, u32 len);
 extern void *func_02012EBC(struct Big *p);
-extern int func_0200E2BC();
+extern u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode);
 extern void func_021AA304();
-extern int func_0216B004();
+extern int func_0216B004(void *evt, u32 *state, struct Work *w);
 
 struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5)
 {
@@ -50,7 +52,7 @@ struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5)
 
     h = func_020120F4((const struct Ctx *)a0);
     r = func_020122C0((void *)a0, 0, (void *)func_0216B004, 0x3C);
-    p = func_020124E8(r);
+    p = func_020124E8((struct Obj *)r);
     func_02082BCC(p, 0, 0x3C);
     ((struct Obj03543 *)p)->f0 = a1;
     *(u16 * *)&((struct Obj03543 *)p)->f28 = a4;
@@ -58,7 +60,7 @@ struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5)
     ((struct Obj03543 *)p)->fC = a2;
     *(int *)&((struct Obj03543 *)p)->f20 = a3;
     ((struct Obj03543 *)p)->f2C = func_0203F1FC((const u8 *)a2, func_020173EC());
-    if (func_0200E2BC(func_02012EBC(h), &a3, a5, 0) == 0)
+    if (func_0200E2BC(func_02012EBC(h), (u32 *)(&a3), (void *)a5, 0) == 0)
         ((struct Obj03543 *)p)->f20 = (((struct Obj03543 *)p)->f20 & 0xFFFFF800) | 0x28B;
     func_021AA304(p + 0x10, h, a1);
     return r;

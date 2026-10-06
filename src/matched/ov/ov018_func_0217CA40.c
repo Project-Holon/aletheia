@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern void func_02175710(u8 *o, u32 v);
 extern void *func_0217CA1C(void *p);
 
-void func_0217CA40(int a0)
+void *func_0217CA40(int a0)
 {
     int h;
     void *c;
@@ -46,5 +46,5 @@ void func_0217CA40(int a0)
     } else {
         func_02012B8C(c, func_02012B58(c));
     }
-    func_0217CA1C((void *)a0);
+    return func_0217CA1C((void *)a0);
 }

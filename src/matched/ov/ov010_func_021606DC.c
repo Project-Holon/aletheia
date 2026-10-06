@@ -21,7 +21,7 @@ typedef unsigned short u16;
 struct Desc;
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 extern int func_021589D0(int a0);
-extern void func_02159058(int a, int b, int c, int d, u16 e);
+extern int func_02159058(int a, int b, int c, int d, u16 e);
 
 void *func_021606DC(void *p, u32 a)
 {

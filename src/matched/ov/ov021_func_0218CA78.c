@@ -27,9 +27,12 @@ extern void func_0218DD70(void *p);
 typedef unsigned int   u32;
 struct Elem;
 extern void func_0218D1D0(char *p, void *a, struct Elem *e);
-extern void func_0218D304(void *p, void *q, void *r);
-extern void func_0218D444(void *p, void *q, void *r);
-extern void func_0218D570(void *p, void *q, void *r);
+struct Cam;
+struct Cell;
+struct Obj;
+extern void func_0218D304(char *p, int *v, struct Elem *e);
+extern void func_0218D444(char *p, int *a, struct Elem *e);
+extern void func_0218D570(struct Obj *p, struct Cam *cam, struct Cell *cells);
 struct Cell;
 struct Obj;
 extern int func_0218D7A8(struct Obj *p, struct Cell *nc);
@@ -52,13 +55,13 @@ void func_0218CA78(char *p)
         break;
     case 1:
     default:
-        func_0218D304(p, p + 0x34, ((struct Obj00806 *)p)->f28);
+        func_0218D304(p, (int *)(p + 0x34), ((struct Obj00806 *)p)->f28);
         break;
     case 2:
-        func_0218D444(p, p + 0x34, ((struct Obj00806 *)p)->f28);
+        func_0218D444(p, (int *)(p + 0x34), ((struct Obj00806 *)p)->f28);
         break;
     case 3:
-        func_0218D570(p, p + 0x34, ((struct Obj00806 *)p)->f28);
+        func_0218D570((struct Obj *)p, (struct Cam *)(p + 0x34), ((struct Obj00806 *)p)->f28);
         break;
     }
     func_0218D7A8((struct Obj *)p, ((struct Obj00806 *)p)->f28);

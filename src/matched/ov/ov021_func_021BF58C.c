@@ -28,7 +28,7 @@ struct Obj;
 extern void *func_020124E8(struct Obj *p);
 int func_021BF694(int a, int *s, int *q);
 
-void *func_021BF58C(int a, void *p, u32 c)
+void *func_021BF58C(int a, void *p, int c)
 {
     void *task = func_020122C0(p, (void *)a, func_021BF694, 0x68);
     Work *w = func_020124E8(task);

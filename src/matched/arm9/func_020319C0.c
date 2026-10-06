@@ -24,10 +24,11 @@ extern void func_020307B0(void *p);
 extern void func_020339B4(int *p);
 extern u32 func_02033B68(u8 *p, u32 i);
 extern void func_020339D0(u32 a, u32 b);
-extern void func_02033410(u8 *p, u32 v);
+struct Obj02033410;
+extern void func_02033410(struct Obj02033410 *p, u32 val);
 
 void func_020319C0(u8 *p)
 {
     func_020339D0(((struct Obj02604 *)p)->f34, *(u32 *)&((struct Obj02604 *)p)->f2C);
-    func_02033410(p, 1);
+    func_02033410((struct Obj02033410 *)p, 1);
 }

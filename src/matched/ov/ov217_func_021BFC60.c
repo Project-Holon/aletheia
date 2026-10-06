@@ -58,15 +58,16 @@ extern u8 d_021C3D44[][17];
 extern u8 d_021C386C[];
 extern u8 d_021C3900[];
 extern u8 d_021C3994[];
-extern void *func_021BF740(void *p);
-extern u8 func_021BF8B0(void *p);
-extern void *func_02012EBC(void *p);
+struct Big;
+extern u32 func_021BF740(u8 *a0);
+extern u8 func_021BF8B0(u8 *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E394(void *a0);
-extern u8 func_0200E44C(void *h, u32 i);
-extern u16 func_0200E458(void *h, u32 i);
-extern u32 func_0200E47C(void *h, u32 i);
-extern u32 func_0200E4B0(void *h, u32 g, u32 j);
-extern u32 func_0200E4F8(void *h, u32 g, u32 j);
+extern int func_0200E44C(int p0, int p1);
+extern u16 func_0200E458(const u16 *p, int i);
+extern u32 func_0200E47C(u8 *p, int i);
+extern u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2);
+extern int func_0200E4F8(int a0, int a1, int a2);
 void func_021BFC60(char *p)
 {
     u16 sh[3][17];
@@ -80,12 +81,12 @@ void func_021BFC60(char *p)
     int i, j, k;
     void *h;
     u8 first;
-    h = func_0200E394(func_02012EBC(func_021BF740(p)));
-    first = func_021BF8B0(p);
+    h = func_0200E394(func_02012EBC((struct Big *)func_021BF740((u8 *)p)));
+    first = func_021BF8B0((u8 *)p);
     i = 0;
-    grp[0] = func_0200E44C(h, 0);
-    grp[1] = func_0200E44C(h, 1);
-    grp[2] = func_0200E44C(h, 2);
+    grp[0] = func_0200E44C((int)h, 0);
+    grp[1] = func_0200E44C((int)h, 1);
+    grp[2] = func_0200E44C((int)h, 2);
     cnt[0] = d_021C367C[grp[0]];
     cnt[1] = d_021C367C[grp[1]];
     cnt[2] = d_021C367C[grp[2]];
@@ -101,7 +102,7 @@ void func_021BFC60(char *p)
         for (j = 0; j < n; j++) {
             sh[i][j] = d_021C3D44[g][j];
             A[i][j] = func_0200E4B0(h, g, j + 1);
-            B[i][j] = func_0200E4F8(h, g, j + 1);
+            B[i][j] = func_0200E4F8((int)h, g, j + 1);
         }
     }
     *(u8 *)(p + 0x38) = first;

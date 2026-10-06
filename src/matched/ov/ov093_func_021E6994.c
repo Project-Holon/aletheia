@@ -22,10 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern int func_021E896C(u32 a, u32 b);
-extern void func_021E8BD0(void *p, int a);
+union U;
+extern void func_021E8BD0(union U *p, int v);
 
 struct S { int w0; int w4; int w8; u8 bc; u8 bd; u8 be; u8 bf; };
 
@@ -44,7 +45,7 @@ void func_021E6994(int x, void *a, int c)
         r = func_021E896C(1, t);
         q = &p->w8;
         *q = r;
-        func_021E8BD0(q, 1);
+        func_021E8BD0((union U *)q, 1);
         func_021C88C8(a, p);
     }
 }

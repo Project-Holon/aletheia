@@ -17,29 +17,30 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern u8 *func_021C7CF4(void *a, int b);
-extern int func_021D62A8(u8 *p);
-extern int func_021D62C4(u8 *p, int i);
-extern int func_021D7E10(u8 *p);
+struct Unk021D62A8;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D62A8(struct Unk021D62A8 *p);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int func_021D7E10(struct Unk021D62A8 *p);
 
 int func_021DD1D8(u8 *a, int b, int c)
 {
-    u8 *m = func_021C7CF4(a, b);
+    u8 *m = func_021C7CF4((int *)a, b);
     switch (c) {
     case 0x25:
-        if (func_021D62A8(m) == 0 && func_021D62C4(m, 6) == 0)
+        if (func_021D62A8((struct Unk021D62A8 *)m) == 0 && func_021D62C4((struct Unk021D62A8 *)m, 6) == 0)
             break;
         return 1;
     case 0x24:
-        if (func_021D62A8(m) != 0)
+        if (func_021D62A8((struct Unk021D62A8 *)m) != 0)
             return 1;
         return 0;
     case 0x26:
-        if (func_021D7E10(m) != 0)
+        if (func_021D7E10((struct Unk021D62A8 *)m) != 0)
             return 1;
         return 0;
     default:
-        return func_021D62C4(m, c);
+        return func_021D62C4((struct Unk021D62A8 *)m, c);
     }
     return 0;
 }

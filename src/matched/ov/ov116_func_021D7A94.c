@@ -16,8 +16,8 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int func_021D70EC(u8 *, int *);
-void func_021D7A94(u8 *p)
+int func_021D7A94(u8 *p)
 {
     int result;
-    func_021D70EC(p + 0x182c, &result);
+    return func_021D70EC(p + 0x182c, &result);
 }

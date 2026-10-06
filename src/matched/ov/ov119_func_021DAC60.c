@@ -24,14 +24,14 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct MsgBank;
-extern void func_0203D34C(int,int);
+extern void func_0203D34C(u32 a, u32 b);
 extern void func_0215642C(int);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E0FF4(void *,int,int);
-extern void func_021E1030(void *);
-extern void func_02043534(int);
-extern void func_020435F4(int);
-extern void func_02022230(int);
+extern void func_021E1030(char *p);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_02022230(u32 which);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D8E84(void *,int),func_021DAC20(void *);
 void func_021DAC60(char *p) {

@@ -18,7 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02202840(void *),func_02035C60(void);
+extern u32 func_02202840(u8 *p);
+extern int func_02035C60(void);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
 int func_022021C0(u8 *p) { if((func_02202840(p+0xfa0)==0 && (func_020362DC()&1)) || func_02035C60()) { func_020061E4(0x547); ((struct Obj14179 *)p)->f28=((struct Obj14179 *)p)->f2C; } return 2; }

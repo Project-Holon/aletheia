@@ -31,7 +31,8 @@ struct Sub {
     u32 bound;   /* 0x1c */
 };
 
-extern void func_0206343C(struct Sub *s, u32 bound);
+struct NNSG2dOamManagerInstance;
+extern void func_0206343C(struct NNSG2dOamManagerInstance *pMan, u32 bound);
 
 void func_0204BD64(struct Sub *s)
 {
@@ -39,5 +40,5 @@ void func_0204BD64(struct Sub *s)
         return;
     }
 
-    func_0206343C(s, s->bound);
+    func_0206343C((struct NNSG2dOamManagerInstance *)s, s->bound);
 }

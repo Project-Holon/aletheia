@@ -88,7 +88,9 @@ typedef struct { u16 h[4]; } Row;
 typedef struct { u8 b[16]; } Tmp;
 extern const Row data_021DF86E[];
 struct Obj;
-extern void *func_020490F4(int, int);
+struct Actor;
+struct Cfg;
+extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern unsigned int func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
@@ -99,7 +101,7 @@ extern void func_0201F5BC(u32, u32, u32, u32, u16);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *, u32, u32, u32, u16);
 extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
-extern void func_02045374(void *);
+extern void func_02045374(struct Cfg *cfg);
 extern void *func_021D99A4(u32, u32, u16, u16, u8, u8, u8, u32, u16);
 extern s32 func_0204AC18(void *, u32, u32, u32, u16, u16, u16);
 extern s32 func_0204AF28(void *, u32, u32, u32);
@@ -109,7 +111,7 @@ extern void func_02082BCC(void *, int, int);
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B604(struct Obj *, u32, u32);
+extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
 extern void func_02040588(u32, u32);
 #pragma opt_dead_assignments off
 void func_021DB018(u8 *p, u16 heap)
@@ -197,8 +199,8 @@ void func_021DB018(u8 *p, u16 heap)
         *(struct Obj **)(q + 0xAB4 + 0x40) = o;
         func_0204B92C(*(struct Obj **)(q + 0xAB4 + 0x40), 1);
         func_0204B3DC(*(struct Obj **)(q + 0xAB4 + 0x40), k);
-        if (j == 0) func_0204B604(*(struct Obj **)(q + 0xAB4 + 0x40), 1, 1);
-        else func_0204B604(*(struct Obj **)(q + 0xAB4 + 0x40), 1, 0);
+        if (j == 0) func_0204B604((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 1);
+        else func_0204B604((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 0);
     }
     func_02040588(2, 1);
 }

@@ -22,18 +22,18 @@
 
 typedef unsigned int u32;
 
-extern int func_021DD694(char *, int);
+extern int func_021DD694(void ***p, unsigned skip);
 extern u32 func_02017E1C(void *, u32, u32);
 typedef unsigned short u16;
 extern u32 func_0202136C(u16 v);
-extern int func_021DD694(char *, int);
+extern int func_021DD694(void ***p, unsigned skip);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_0202136C(u16 v);
 int func_021EA8CC(unsigned char *p)
 {
     int i = p[0x16] - 0x1e;
-    if (func_021DD694((char *)p, i) == 0)
+    if (func_021DD694((void ***)p, i) == 0)
         return 1;
     if (func_0202136C((unsigned short)func_02017E1C(
             func_0201AB28(*(void **)(((struct Obj12168 *)p)->f0 + 8), i), 6, 0)) == 1)

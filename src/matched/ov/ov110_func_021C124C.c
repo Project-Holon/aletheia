@@ -24,15 +24,20 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_02024910(void *,u8);
-extern u16 func_0202452C(void *);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+struct PmsDraw;
+struct T;
+extern void *func_02024910(char *p, int idx);
+extern int func_0202452C(const u16 *p);
 extern void func_021C080C(u8 *,int,int,int);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,unsigned);
-extern void func_0202DE64(void *,u16);
-extern void func_0202DE5C(void *,unsigned);
-extern int func_02024464(void *,u16);
-extern void func_0202DC48(void *,void *,void *,int);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0202DE64(struct PmsDraw *p, u16 v);
+extern void func_0202DE5C(struct PmsDraw *p, u8 v);
+extern int func_02024464(struct T *p, u32 a1);
+extern void func_0202DC48(u32 a, u32 b, u32 c, u32 d);
 void func_021C124C(u8 *p,int index,u8 which,int flag) {
     void *item;
     item=func_02024910(*(void **)(p+0x20),which);
@@ -47,7 +52,7 @@ void func_021C124C(u8 *p,int index,u8 which,int flag) {
         func_0202DE5C(*(void **)(p+0x8c),13);
     }
     if (func_02024464(item,*(u16 *)(p+4))==1) {
-        func_0202DC48(*(void **)(p+0x8c),*(void **)(p+0x6c+index*4),item,index);
+        func_0202DC48((u32)(*(void **)(p+0x8c)),(u32)(*(void **)(p+0x6c+index*4)),(u32)item,index);
         *(int *)(p+0x7c+index*4)=1;
     }
 }

@@ -26,7 +26,7 @@ struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
 extern u32 *func_0217BEA8(u16);
-extern void *func_02184D38(void *, void *, u16, V12 *, int, int);
+extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
 
 void *func_0217CE6C(void *a0, void *a1, int a2)
 {
@@ -44,5 +44,5 @@ void *func_0217CE6C(void *a0, void *a1, int a2)
     s = (*q << 2) >> 22;
     v = *(V12 *)(p + a2 * 0x1C + 0x90);
     v.z += 0x20000;
-    return func_02184D38(a0, a1, s, &v, 0, 0);
+    return func_02184D38(a0, (int)a1, s, (const int *)(&v), 0, 0);
 }

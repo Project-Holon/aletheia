@@ -60,18 +60,18 @@ extern int func_02173758(int a, int b, ...);
 extern void func_02174AE0(u8 *);
 extern void func_0217546C(u8 *);
 extern void func_02174E3C(u8 *);
-extern void func_02173828(u8 *);
+extern int func_02173828(char *p);
 extern void func_02174B2C(u8 *);
 extern void func_02174B7C(u8 *);
 extern void func_02174BC4(u8 *);
-extern int func_021743B4(u8 *);
+extern int func_021743B4(char *p);
 extern void func_021757C4(u8 *, u8 *);
-extern int func_02174374(u8 *);
+extern int func_02174374(int *a);
 extern void func_02174C38(u8 *);
 extern void func_02174CCC(u8 *);
 extern void func_02174DF4(u8 *);
 extern int func_021752DC(u8 *);
-extern int func_02173984(u8 *, u8 *);
+extern int func_02173984(char *p, int b);
 extern u8 func_02012E40(const u8 *o);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
@@ -100,16 +100,16 @@ void func_02174978(u8 *s)
     func_0217546C(s);
     if (s[0x8fe] == 1) {
         func_02174E3C(s);
-        func_02173828(s);
+        func_02173828((char *)s);
     }
     func_02174B2C(s);
     func_02174B7C(s);
     func_02174BC4(s);
-    if (s[0x93e] == 1 && func_021743B4(s) == 1) {
+    if (s[0x93e] == 1 && func_021743B4((char *)s) == 1) {
         s[0x93e] = 0;
     }
     func_021757C4(s, s + 0x1ac);
-    if (s[0x907] == 1 && func_02174374(s) == 1) {
+    if (s[0x907] == 1 && func_02174374((int *)s) == 1) {
         s[0x907] = 0;
     }
     func_02174C38(s);
@@ -118,7 +118,7 @@ void func_02174978(u8 *s)
     if (func_021752DC(s) == 1) {
         s[0x900] = 1;
     }
-    if (s[0x900] == 1 && ((Bits *)(s + 0x904))->b1 == 0 && func_02173984(s, s + 0x70) == 1) {
+    if (s[0x900] == 1 && ((Bits *)(s + 0x904))->b1 == 0 && func_02173984((char *)s, (int)(s + 0x70)) == 1) {
         s[0x900] = 0;
     }
     if (func_02012E40((const u8 *)h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {

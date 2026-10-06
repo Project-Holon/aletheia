@@ -30,7 +30,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D775C(int a);
-void *func_021C88A4(void *b, int m, int c);
+void *func_021C88A4(char *p, int a, int b);
 void func_021C8838(void *p, int a, int b);
 void func_021C88C8(void *b, void *p);
 

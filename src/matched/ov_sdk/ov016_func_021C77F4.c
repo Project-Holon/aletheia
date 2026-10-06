@@ -36,9 +36,9 @@ typedef struct MemSsea {
 extern void func_021BD138();
 extern void func_021D6F38(unsigned int *obj);
 extern void func_021D5CA8(int a);
-extern void func_021BD1D4();
+extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern void func_021D6090(int lcd, int plane);
-extern void func_021C0EA0();
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E8C(unsigned int a, unsigned int b);
 extern void func_021C0E40(unsigned int v);
@@ -55,10 +55,10 @@ void func_021C77F4(void)
     func_021BD138();
     func_021D6F38(g_021DE5E4->caret);
     func_021D5CA8(0);
-    func_021BD1D4(g_021DB550, func_0207E51C);
+    func_021BD1D4((char *)g_021DB550, func_0207E51C);
     func_021D6090(1, 1);
     func_021D6090(0, 0x15);
-    func_021C0EA0(&prm, 0);
+    func_021C0EA0((unsigned int *)(&prm), 0);
     if (prm >= 3)
         prm++;
     func_021C0E50(2, 1);

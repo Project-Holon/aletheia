@@ -22,9 +22,9 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern char *func_021C4954(unsigned *p, unsigned id);
-extern void func_021C4C88(void *, void *);
+extern void func_021C4C88(char *p, char *q);
 
 void func_021C48D4(void *a, u8 *q)
 {
-    func_021C4C88(func_021C4954(a, q[7]), q);
+    func_021C4C88(func_021C4954(a, q[7]), (char *)q);
 }

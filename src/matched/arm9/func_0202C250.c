@@ -24,12 +24,13 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_0202C24C(u32 *p);
+struct Obj0202C244;
+extern u32 sub_0202C24C(struct Obj0202C244 *p);
 extern u32 sub_0202C348(void *a, void *b);
 
 u32 func_0202C250(u32 *p, u32 v)
 {
-    u32 f = sub_0202C24C(p);
+    u32 f = sub_0202C24C((struct Obj0202C244 *)p);
 
     if (f == 0) {
         return 0;

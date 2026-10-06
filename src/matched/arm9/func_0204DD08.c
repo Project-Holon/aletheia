@@ -44,8 +44,8 @@ struct Holder { u8 pad_00[0xc]; struct Ent *ents; };
 typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern int  func_02062A98(void *p, struct Surf **out);
-extern void func_020637D4(struct Ent *ent);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern void func_020637D4(u32 *p);
 extern u32 func_0204D9B4(u32 a, u32 b);
 extern void func_02063E54(struct Surf *s, u32 size, int mode,
                          struct Ent *ent);
@@ -81,10 +81,10 @@ void func_0204DD08(struct Holder *h, int idx, void *src, void *sel,
     }
 
     func_02062AD4(src, &tmp);
-    if (!func_02062A98(src, &surf)) {
+    if (!func_02062A98(src, (void **)(&surf))) {
         return;
     }
-    func_020637D4((struct Ent *)(ents + off));
+    func_020637D4((u32 *)(ents + off));
 
     if (head != 0) {
         unsigned long long ofs = head * 32;

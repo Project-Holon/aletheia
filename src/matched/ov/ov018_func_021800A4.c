@@ -90,7 +90,7 @@ void func_0217F3C4(Ov018Obj *p, int a);
 int func_0216D3CC(int a0);
 void func_0216D410(void *, int);
 int func_0216D480(char *p);
-int func_02174258(u8 *);
+int func_02174258(char *a);
 int func_02175C40(void *p);
 int func_02173AE0(int a, int b, int c, int d);
 int func_0217F40C(Ov018Obj *p);
@@ -158,7 +158,7 @@ int func_021800A4(void *a, int *state, Outer *c)
         }
         break;
     case 3:
-        if (func_02174258(v) == 1) {
+        if (func_02174258((char *)v) == 1) {
             (*state)++;
         }
         break;

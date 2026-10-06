@@ -49,7 +49,7 @@ struct Ctx {
 extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
 
 extern s32 func_02035C38(void);
-extern s32 func_02035BA4(s32);
+extern int func_02035BA4(const void *p);
 extern s32 func_02035C08(s32);
 extern s32 func_02035C60(void);
 
@@ -64,7 +64,7 @@ s32 func_02051C88(struct Ctx *c)
     a = 0;
     h = func_02035C38();
     if (h != 0) {
-        a = func_02035BA4(c->f00);
+        a = func_02035BA4((const void *)c->f00);
         b = func_02035C08(c->f00);
         sel = func_02035C60();
 

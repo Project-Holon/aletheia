@@ -21,8 +21,10 @@
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
 typedef unsigned char u8;
-extern u8 *func_020124E8(void *);
-extern void *func_02012444(void *, unsigned int, unsigned int, unsigned int);
+typedef unsigned int   u32;
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern const unsigned int d_021BA39C[];
 extern unsigned char ov220_id[];
 int func_02168EB0(void *a, int *state)

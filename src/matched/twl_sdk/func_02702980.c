@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u32 func_027026DC(void);
 
-u16 func_02702980(void) {
+u32 func_02702980(void) {
     u32 base = func_027026DC();
     u32 ptr = *(u32 *)(base + 0x2278);
     return *(u16 *)(ptr + 0x9E);

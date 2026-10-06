@@ -33,7 +33,8 @@ extern const Tbl3 d_021D3F9C;
 struct Actor;
 extern void func_02196CD8(u8 *p);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204BA00(void *, Req *);
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_02196034(Obj *, void (*)(), u32);
 extern void func_02196D20();
@@ -49,7 +50,7 @@ void func_02196D24(Obj *a)
     r.a = a;
     r.cb = func_02196CD8;
     func_0204B92C(a->objs[i], 1);
-    func_0204BA00(a->objs[i], &r);
+    func_0204BA00(a->objs[i], (const struct Cmd *)(&r));
     func_0204B9A0(a->objs[i]);
     func_02196034(a, func_02196D20, 0x504);
 }

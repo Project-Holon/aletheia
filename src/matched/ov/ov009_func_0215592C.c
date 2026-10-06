@@ -51,7 +51,7 @@ void func_02155374(int);
 int func_0216B65C(void);
 void func_02155904(void);
 void *func_0203D798(void);
-void func_02156344(u16);
+void func_02156344(void *a);
 int func_02155F58(void);
 int func_021561C0(void);
 
@@ -87,7 +87,7 @@ int func_0215592C(int a)
     case 9: {
         u8 *p = func_0203D798();
         if (d_021A8264->s782 != 0)
-            func_02156344(((struct Obj18649 *)p)->f56);
+            func_02156344((void *)(((struct Obj18649 *)p)->f56));
         d_021A8264->h794 = 0;
         func_02155374(10);
         return SetErr(1000);

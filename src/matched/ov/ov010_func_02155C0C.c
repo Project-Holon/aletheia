@@ -92,40 +92,48 @@ extern u8 d_02172724[];
 extern u8 d_02172748[];
 extern u8 d_021F8360[];
 
-extern void func_02156BAC(Seq *s);
+struct Big;
+struct Ctx;
+struct Deal;
+struct IcaAnime;
+struct L0200ED54;
+struct Src;
+struct Sub0200852CObj;
+struct Work;
+extern void func_02156BAC(void *p);
 extern void func_021567D8(void *evt, Seq *s);
-extern void func_02155F24(Seq *s);
-extern void func_02156888(void *evt, Seq *s, int msg);
+extern void func_02155F24(int *p);
+extern void func_02156888(void *a0, void *a1, int a2);
 extern int func_02156770(void *evt, Seq *s);
 extern void func_02155F9C(Seq *s);
-extern void func_02155FB4(Seq *s);
+extern void func_02155FB4(struct Work *w);
 extern int func_02156710(void *evt, Seq *s);
-extern void func_02155FC8(Seq *s);
-extern void func_02156074(Seq *s);
-extern void func_0215611C(Seq *s);
-extern void func_02156530(Seq *s);
-extern void func_02156420(Seq *s);
+extern void func_02155FC8(struct Work *w);
+extern void func_02156074(struct Work *w);
+extern void func_0215611C(struct Work *w);
+extern void func_02156530(struct Work *w);
+extern void func_02156420(struct Work *w);
 extern void func_02155F4C(Seq *s);
 extern void func_02156824(void *evt, Seq *s);
-extern void func_02156B74(Seq *s);
-extern void *func_02157028(u32 heap, void *src, u16 lim);
+extern void func_02156B74(struct Work *w);
+extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
 extern u32 func_02157260(const u8 *p);
 extern u32 func_02157298(const u8 *p);
-extern int func_021FD908(void *sess);
-extern int func_021FD904(void *sess);
-extern void func_021FD918(void *sess, u32 a, u32 b);
-extern u8 func_021FD8D4(void *sess);
-extern u8 func_021FD8EC(void *sess, int i);
-extern void *func_021FCE28(void *sess, int i);
-extern int func_021FD83C(void *sess);
-extern u16 func_0200A81C(void *p);
+extern u32 func_021FD908(u8 *p);
+extern int func_021FD904(int *p);
+extern void func_021FD918(char *p, u32 a, int b);
+extern u32 func_021FD8D4(char *p);
+extern u8 func_021FD8EC(char *p, int index);
+extern int func_021FCE28(char *p, u32 index);
+extern u32 func_021FD83C(char *p);
+extern u16 func_0200A81C(struct Big *p);
 extern void *func_0200ED48(void *p);
-extern void func_0200ED54(void *list, u32 v);
-extern u32 func_02008530(void *p);
-extern void func_020120B4(void *w, u32 id, void *data, void *arg);
-extern int func_020120F0(void *w);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
 extern void func_0200FB38(void);
-extern void func_02030B50(u32 heap);
+extern void func_02030B50(void *p);
 extern void func_020306F0(u32 heap);
 
 int func_02155C0C(void *evt, void *unused, Seq *s)
@@ -149,7 +157,7 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
             list = func_0200ED48(s->f1c);
             for (i = 0; i < 4; i++) {
                 if (func_021FD8D4(s->link->sess) != func_021FD8EC(s->link->sess, i)) {
-                    void *p = func_021FCE28(s->link->sess, i);
+                    void *p = (void *)func_021FCE28(s->link->sess, i);
                     if (p != 0)
                         func_0200ED54(list, func_02008530(p));
                 }
@@ -166,7 +174,7 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
             for (i = 0; i < 4; i++)
                 s->f44[i] = func_021FD8EC(s->link->sess, i);
             s->f4c = func_021FD8D4(s->link->sess);
-            func_02156B74(s);
+            func_02156B74((struct Work *)s);
         } else if (s->f50 == 1) {
             s->state = 0x17;
         }
@@ -176,7 +184,7 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
         s->state = 14;
         break;
     case 14:
-        func_02155F24(s);
+        func_02155F24((int *)s);
         func_02156888(evt, s, 3);
         s->state = 0;
         break;
@@ -198,7 +206,7 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
         break;
     case 4:
         if (func_020120F0(s->f00) == 0) {
-            func_02155FB4(s);
+            func_02155FB4((struct Work *)s);
             s->state = 0x10;
         }
         break;
@@ -223,20 +231,20 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
         }
         break;
     case 5:
-        func_02155FC8(s);
+        func_02155FC8((struct Work *)s);
         func_020120B4(s->f00, ~0u, d_02172748, s->f30);
         s->state = 6;
         break;
     case 6:
         if (func_020120F0(s->f00) == 0) {
-            func_02156074(s);
+            func_02156074((struct Work *)s);
             s->state = 7;
             if (s->f50 == 1)
                 s->state = 0x16;
         }
         break;
     case 7:
-        func_0215611C(s);
+        func_0215611C((struct Work *)s);
         func_020120B4(s->f00, ~0u, d_021F8360, s->f34);
         s->state = 8;
         break;
@@ -251,8 +259,8 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
         if (func_02156710(evt, s) == 1) {
             s->f10 = 0;
             s->state = 0x14;
-            func_02156530(s);
-            func_02156420(s);
+            func_02156530((struct Work *)s);
+            func_02156420((struct Work *)s);
         }
         break;
     case 20:
@@ -273,7 +281,7 @@ int func_02155C0C(void *evt, void *unused, Seq *s)
         s->state = 10;
         break;
     case 10:
-        func_02030B50(4);
+        func_02030B50((void *)4);
         func_020306F0(0x2C);
         return 1;
     case 22:

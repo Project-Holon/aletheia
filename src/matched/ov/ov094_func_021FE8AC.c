@@ -18,11 +18,13 @@ typedef struct {
     int k24;                /* 0x24 */
 } Ctx;
 
-extern Ctx *func_02030EE8(void *h);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 
 void func_021FE8AC(void *h)
 {
-    Ctx *c = func_02030EE8(h);
+    Ctx *c = (Ctx *)func_02030EE8(h);
 
     if (c->k24 == 0)
         *(volatile unsigned int *)0x04000000 &= ~0xE000u;

@@ -25,13 +25,14 @@
 struct WinMgr;
 extern void func_021ED55C(char **p, int flag);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
-extern int func_021E0190(unsigned char *p);
-extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
-extern void func_021EBD1C(unsigned char *p, int a, int b);
-extern int func_021E8F50(unsigned char *p, int v);
-extern int func_021DD908(unsigned char *p, unsigned idx);
-extern void func_021ECB20(unsigned char *p, int f, int c);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
+extern void func_021EBD1C(char *p, int row, int b);
+extern int func_021E8F50(char *p, int v);
+typedef unsigned int   u32;
+extern int func_021DD908(char *p, u32 a);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021ECB60(char *w, int i, int f);
 extern void func_021EBD50(unsigned char *p);
 extern int func_021E8FE8(unsigned char *p, int sel);
@@ -44,19 +45,19 @@ int func_021E7904(unsigned char *p)
         func_021ED55C((char **)p, 0);
         func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
         STEP(p)++;
-        return func_021E8FC0(p, func_021E0190, 0x4D);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 0x4D);
     case 1:
-        if (func_021DD25C(p, p[0x16], p[0x14], 0x4C, 0) != 0) {
-            func_021EBD1C(p, 4, 0x18);
+        if (func_021DD25C((void ***)p, p[0x16], p[0x14], 0x4C, 0) != 0) {
+            func_021EBD1C((char *)p, 4, 0x18);
             ((struct Obj00000 *)p)->f28 = 0xE;
-            return func_021E8F50(p, 6);
+            return func_021E8F50((char *)p, 6);
         }
-        if (func_021DD908(p, p[0x16]) == 0) {
-            func_021EBD1C(p, 6, 0x1B);
+        if (func_021DD908((char *)p, p[0x16]) == 0) {
+            func_021EBD1C((char *)p, 6, 0x1B);
             ((struct Obj00000 *)p)->f28 = 0xE;
-            return func_021E8F50(p, 6);
+            return func_021E8F50((char *)p, 6);
         }
-        func_021ECB20(p, 1, 1);
+        func_021ECB20((char *)p, 1, 1);
         func_021ECB60(WORK(p), p[0x16], 0);
         func_021EBD50(p);
         STEP(p) = 0;

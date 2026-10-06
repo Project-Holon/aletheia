@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern u32 func_021C4914(u8 *);
-extern char *func_021C4980(char **,u16);
-extern void func_021C4CB4(char *);
-void func_021C48E8(u8 *p) { u32 i,n; char *q; n=func_021C4914(p);for(i=0;i<n;i++){q=func_021C4980((char **)p,i);if(q)func_021C4CB4(q);} }
+extern char *func_021C4980(char **p, int i);
+extern void func_021C4CB4(u8 *p);
+void func_021C48E8(u8 *p) { u32 i,n; char *q; n=func_021C4914(p);for(i=0;i<n;i++){q=func_021C4980((char **)p,(u16)i);if(q)func_021C4CB4((u8 *)q);} }

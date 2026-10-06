@@ -70,7 +70,8 @@ typedef unsigned int   u32;
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 /* The three sub-object constructors, each in a file of its own. */
-extern void sub_02008320(void *p);
+struct Flags02008320;
+extern void sub_02008320(struct Flags02008320 *p);
 struct Sub0200852CObj;
 extern void sub_020084A0(struct Sub0200852CObj *obj);
 struct PlayTime;
@@ -128,7 +129,7 @@ u32 sub_02008700(void)
 void sub_02008704(struct Sub02008700Obj *obj)
 {
     MIi_CpuClear32(0, obj, sizeof(struct Sub02008700Obj));
-    sub_02008320(&obj->unk00);
+    sub_02008320((struct Flags02008320 *)(&obj->unk00));
     sub_020084A0(&obj->unk04);
     sub_020085A0(&obj->unk24);
     obj->unk2C = 0;

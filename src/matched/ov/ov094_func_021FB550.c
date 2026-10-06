@@ -17,11 +17,11 @@
  */
 #include "../include/Obj13587.h"
 extern int func_0201134C(void *);
-extern void func_0204047C(int, unsigned char);
+extern void func_0204047C(int idx, unsigned short val);
 
 int func_021FB550(void *a, char *s)
 {
-    func_0204047C(3, func_0201134C(a));
+    func_0204047C(3, (unsigned char)func_0201134C(a));
     ((struct Obj13587 *)s)->f0 |= 0x10;
     return ((struct Obj13587 *)s)->f23C;
 }

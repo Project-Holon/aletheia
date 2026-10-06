@@ -26,13 +26,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02023F60();
-extern void func_02012444();
+struct Evt;
+struct Obj;
+extern void func_02023F60(u32 a0, u32 a1, u32 mask);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u8 d_021B9EC0[];
 extern u8 ov_id_00CD[];
 extern int func_0215FA1C();
-extern void func_02012374();
-extern void func_02158780();
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int func_02158780(void *p, int b, int c, int d, u16 e);
 
 int func_0215F64C(int a0, int *st, int *a2)
 {
@@ -40,19 +42,19 @@ int func_0215F64C(int a0, int *st, int *a2)
     case 0:
         func_02023F60(-16, 0x37, 1);
         func_02023F60(-16, 0x3f, 2);
-        func_02012444(a0, ov_id_00CD, d_021B9EC0, a2);
+        func_02012444((struct Obj *)a0, (u32)ov_id_00CD, (u32)d_021B9EC0, (u32)a2);
         (*st)++;
         break;
     case 1:
         func_02023F60(0, 0x3f, 3);
-        func_02012374(a0, func_0215FA1C(a2[0]));
+        func_02012374((struct Evt *)a0, (struct Evt **)func_0215FA1C(a2[0]));
         (*st)++;
         break;
     case 2:
         if (a2[1] == 0) {
-            func_02158780(a0, 3, 0, 0, 0x15);
+            func_02158780((void *)a0, 3, 0, 0, 0x15);
         } else {
-            func_02158780(a0, 0x7d1, 0, 0, 0x15);
+            func_02158780((void *)a0, 0x7d1, 0, 0, 0x15);
         }
         (*st)++;
         break;

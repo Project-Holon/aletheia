@@ -11,5 +11,7 @@
  *   func_021627C8 0x021627C8 thumb ov010
  */
 typedef unsigned short u16;
-extern u16 *func_021627C8(void *, void *, int, int);
-u16 func_02162928(void *p, void *q, int key, int mode) { u16 *r=func_021627C8(p,q,key,mode); if(r) return *r; return 0xffff; }
+struct Ctx;
+struct Rec;
+extern struct Rec *func_021627C8(struct Ctx *c, void *a, int key, int mode);
+u16 func_02162928(void *p, void *q, int key, int mode) { u16 *r=(u16 *)func_021627C8(p,q,key,mode); if(r) return *r; return 0xffff; }

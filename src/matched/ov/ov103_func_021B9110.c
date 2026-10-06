@@ -16,11 +16,12 @@
 typedef unsigned char u8;
 extern void func_02082BCC(void *,int,int);
 extern int func_021B793C(u8 *p, int i);
-extern void func_021B9184(void *,int,int,u8);
+struct Obj;
+extern void func_021B9184(u8 *p, struct Obj *q, int v, u8 w);
 void func_021B9110(u8 *p,void *q,int a,int b,int c,u8 d) {
  int i;
  func_02082BCC(p,0,0x590);
  ((struct Obj07985 *)p)->f580=a;((struct Obj07985 *)p)->f584=b;
  ((struct Obj07985 *)p)->f588=0;((struct Obj07985 *)p)->f58C=10;
- for(i=0;i<32;i++)func_021B9184(p+i*0x2c,func_021B793C(q,c+i),b,d);
+ for(i=0;i<32;i++)func_021B9184(p+i*0x2c,(struct Obj *)func_021B793C(q,c+i),b,d);
 }

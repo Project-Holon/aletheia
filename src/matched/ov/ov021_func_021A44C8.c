@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_021A3960(unsigned char *p);
-extern int func_021A5610(u8 *);
+extern int func_021A5610(u32 *p);
 extern int func_021A53BC(u8 *);
 extern int func_021A46F0(u8 *, u32);
 extern int func_021A4544(u8 *p, u32 r, u8 *q);
@@ -41,7 +41,7 @@ int func_021A44C8(u8 *p, u32 s)
 
     a = func_021A3960(((struct Obj09565 *)p)->fC);
     r = 0;
-    if (func_021A5610(p) == 1 || func_021A53BC(p) == 1) {
+    if (func_021A5610((u32 *)p) == 1 || func_021A53BC(p) == 1) {
         return func_021A46F0(p, s);
     }
     switch (((struct Obj09565 *)p)->f0) {

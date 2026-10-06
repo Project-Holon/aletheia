@@ -15,7 +15,7 @@
 extern void func_021E36D8(void *, int);
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-void func_021E2054(char *p, int a, int b)
+void func_021E2054(char *p, void *a, int b, int a3)
 {
     func_021E36D8(p, b);
     if (((struct Obj00001 *)p)->f6B4) {

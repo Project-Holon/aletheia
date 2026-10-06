@@ -30,7 +30,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_021D9E60(char *,int);
+extern void func_021D9E60(u8 *p, int n);
 extern void func_021D9E98(char *,int);
 extern void func_021D9E48(char *,int,int);
 void func_021D9BEC(char *p)
@@ -41,7 +41,7 @@ void func_021D9BEC(char *p)
     ((struct Obj00501 *)p)->f194=(int)func_0204B294((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
     ((struct Obj00501 *)p)->f1B0=(int)func_0204B294((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
     ((struct Obj00501 *)p)->f1CC=(int)func_0204B294((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
-    func_021D9E60(p,0);
+    func_021D9E60((u8 *)p,0);
     func_0204B878((struct Obj *)(((struct Obj00501 *)p)->f194),0);
     func_0204B92C((struct Obj *)((struct Obj00501 *)p)->f194,1);
     ((struct Obj00501 *)p)->f1B8=0; ((struct Obj00501 *)p)->f1BA=0;

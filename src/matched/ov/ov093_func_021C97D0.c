@@ -27,9 +27,10 @@ struct Cmd {
     u8 b12;
 };
 
-extern void func_021C7BA8(void *w, u8 id, u32 a, u32 b, u32 *out);
+extern void func_021C7BA8(u8 *p, u8 a, u32 b, u32 c, u32 *out);
 extern int func_021C9818(u32 b, u32 a, u32 v);
-extern int func_021C99A0(void *w, const void *c);
+struct Msg;
+extern int func_021C99A0(void *w, const struct Msg *m);
 
 int func_021C97D0(void *w, const struct Cmd *c)
 {
@@ -39,7 +40,7 @@ int func_021C97D0(void *w, const struct Cmd *c)
     pv = &v;
     func_021C7BA8(w, c->id, c->w4, c->b12, pv);
     if (func_021C9818(c->b12, c->w4, ((struct Obj09973 *)pv)->f0) != 0) {
-        func_021C99A0(w, (u8 *)c + 0x10);
+        func_021C99A0(w, (const struct Msg *)((u8 *)c + 0x10));
         return 1;
     }
     return 0;

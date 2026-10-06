@@ -23,7 +23,7 @@ typedef signed int     s32;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 
-void func_021C9EB4(u8 *p)
+void func_021C9EB4(u8 *p, void *a1)
 {
     int i;
     for (i = 0; i < 10; i++)

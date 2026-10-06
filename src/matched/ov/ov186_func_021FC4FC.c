@@ -27,7 +27,8 @@ extern void func_02082BCC(void *,int,int);
 extern void func_0203F8F4(unsigned);
 extern void func_02045088(unsigned);
 extern void func_0203FC28(DispConfig *);
-extern void func_0203FCA0(unsigned char,const BgTemplate *,unsigned char);
+typedef unsigned int   u32;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char,unsigned char);
 void func_021FC4FC(void *p,unsigned heap)
@@ -41,7 +42,7 @@ void func_021FC4FC(void *p,unsigned heap)
     func_0203FC28(&d_02200900);
     for(i=0;i<7;i++){
         r=&d_0220099C[i];id=r->id;
-        func_0203FCA0(id,&r->template,r->type);
+        func_0203FCA0((unsigned char)id,&r->template,(unsigned char)r->type);
         func_020414AC(id);
         func_02040588(id,r->enable);
     }

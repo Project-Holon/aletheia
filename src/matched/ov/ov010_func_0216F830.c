@@ -42,7 +42,8 @@ struct Rec1B0;
 extern void *func_02012EF0(void **p);
 extern void *func_02012F44(void *save);
 extern void *func_020127B8(void *save);
-extern void *func_0201296C(void *save);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *bitmap, int id);
 extern void *func_0200CA1C(void *save);
 extern int func_0200D298(void *p);
@@ -62,7 +63,7 @@ int func_0216F830(void *save)
     a = func_02012EF0(save);
     b = func_02012F44(save);
     c = func_020127B8(save);
-    if (func_020142E8(func_0201296C(save), 0x960))
+    if (func_020142E8((void *)func_0201296C(save), 0x960))
         n++;
     if (func_0200D298(func_0200CA1C(save)))
         n++;

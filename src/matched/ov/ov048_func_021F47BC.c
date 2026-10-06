@@ -70,9 +70,13 @@ struct M {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern int func_0209C0A4(int a, int b);
-extern void func_0204784C(u32 h, u16 i, int *v);
-extern void func_020477A4(u32 h, u16 i);
-extern void func_020477D4(u32 h, u16 i);
+typedef signed int     s32;
+struct AnmCtl;
+struct G3dSys;
+struct Owner;
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern int func_020477D4(struct Owner *owner, u32 index);
 extern char d_021F523C[];
 
 void func_021F47BC(struct M *p, int v)
@@ -113,17 +117,17 @@ void func_021F47BC(struct M *p, int v)
             b[i] = 0;
         }
         e->f18 = b[i] << 12;
-        func_0204784C(e->f10, e->h14, &e->f18);
+        func_0204784C((struct AnmCtl *)e->f10, e->h14, &e->f18);
         if (e->f4) {
-            func_020477A4(e->f10, e->h14);
+            func_020477A4((struct G3dSys *)e->f10, e->h14);
         } else {
-            func_020477D4(e->f10, e->h14);
+            func_020477D4((struct Owner *)e->f10, e->h14);
         }
     }
     if (p->b2 != 0 && q == 0) {
         e = p->f8[0];
         e->f4 = 1;
-        func_020477A4(e->f10, e->h14);
+        func_020477A4((struct G3dSys *)e->f10, e->h14);
     }
     for (i = 0; i < p->b2; i++) {
         j = (i + 1) % p->b2;

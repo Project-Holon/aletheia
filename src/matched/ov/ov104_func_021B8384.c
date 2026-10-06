@@ -42,7 +42,7 @@ extern int func_021B8768(u8 *,const Block *);
 extern int func_021B8880(u8 *);
 extern void func_021B87F4(u8 *,Block *);
 extern void func_020061E4(u32 a);
-extern void func_021B817C(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B817C(char *p, u32 v);
 extern void func_021B8528(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
 void func_021B8384(u8 *p,u16 *state) {
@@ -72,5 +72,5 @@ void func_021B8384(u8 *p,u16 *state) {
  case 7: func_021B818C(p); return;
  }
  if(*state>=1 && *state<=5) { if(((struct Obj04432 *)p)->f80A<=60) ++((struct Obj04432 *)p)->f80A; }
- if(*state<3) { if(func_021B6480(*(int **)(CTX(p)+4))) func_021B817C(p,func_021B8528); }
+ if(*state<3) { if(func_021B6480(*(int **)(CTX(p)+4))) func_021B817C((char *)p,(u32)func_021B8528); }
 }

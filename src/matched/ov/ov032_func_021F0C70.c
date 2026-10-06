@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern u32 func_0202846C(u8 *p);
 extern void func_02028178(u8 *p);
-extern u32 func_0202824C(u32 *w);
+extern u32 func_0202824C(void **p);
 extern void func_0202822C(char *p, int v);
 extern void func_021F0DD8(unsigned int a);
 
@@ -49,7 +49,7 @@ int func_021F0C70(char *p, int flag)
         }
     }
     for (i = 0; i < n; i++) {
-        if (func_0202824C(*(u32 **)(q + i * 16)) != 0) {
+        if (func_0202824C((void **)(*(u32 **)(q + i * 16))) != 0) {
             if (i < n - 1) {
                 func_021F0DD8(0x54c);
                 s = i;

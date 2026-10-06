@@ -40,7 +40,7 @@ extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void func_0219A054(struct _NATNegotiator *neg);
 
-void func_0219A4A4(void)
+void func_0219A4A4(void *p)
 {
     int i;
 

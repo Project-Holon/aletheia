@@ -58,7 +58,8 @@ extern int func_02158318(int a0);
 extern u32   func_02035390(void);
 extern int func_020353B0(void);
 extern struct Sub02009210Obj *func_0200921C(void *p);
-extern u8    func_020090E0(void *obj);
+struct Sub020090B0Obj;
+extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
 
 u32 func_02012164(struct IcaAnime *p)
 {
@@ -72,7 +73,7 @@ u32 func_02012164(struct IcaAnime *p)
      && func_0201214C((const struct Ctx *)p) == 1
      && func_02158318((int)p) == 1
      && !(func_02035390() == 1 && func_020353B0() == 1)) {
-        if (func_020090E0(func_0200921C(p->f1c)) != 0) {
+        if (func_020090E0((const struct Sub020090B0Obj *)func_0200921C(p->f1c)) != 0) {
             return 1;
         }
     }

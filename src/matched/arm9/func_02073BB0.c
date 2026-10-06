@@ -29,11 +29,12 @@ typedef unsigned int   u32;
 struct X { u8 pad00[0x2c]; u32 f2c; u8 pad2[0x48 - 0x30]; u32 f48; };
 extern char g_0214E8E8[];
 extern void func_02072A08(u32);
-extern void func_020605B4(void *, void *);
+struct DList;
+extern void func_020605B4(volatile struct DList *list, void *elem);
 
 void func_02073BB0(struct X *x)
 {
     func_02072A08(x->f48);
-    func_020605B4(g_0214E8E8, x);
+    func_020605B4((volatile struct DList *)g_0214E8E8, x);
     x->f2c &= ~1;
 }

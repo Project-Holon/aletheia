@@ -18,7 +18,7 @@
  *  *  register clear and the epilogue with moveq/strbeq/popeq.
  */
 
-extern void func_02094798(void *p);
+extern char *func_02094798(char *dst, const char *src);
 
 void func_021DF948(char *obj, int v)
 {
@@ -26,6 +26,6 @@ void func_021DF948(char *obj, int v)
         obj[0x84] = 0;
         return;
     }
-    func_02094798(obj + 0x84);
+    func_02094798(obj + 0x84, (const char *)v);
 }
 

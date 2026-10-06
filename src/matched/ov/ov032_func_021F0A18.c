@@ -22,7 +22,8 @@ typedef unsigned int u32;
 
 struct Obj;
 extern u16 func_0204B898(struct Obj *p);
-extern int func_02035D40(u8 *b, u32 x, u32 y);
+struct Ctx;
+extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
 extern void func_021F0DD8(u32 v);
 extern u16 d_021F3530[];
 
@@ -39,7 +40,7 @@ int func_021F0A18(u8 *p, u32 *v)
             b[1] = b[0] + 0x18;
             b[2] = i * 32 + 0x84;
             b[3] = b[2] + 0x18;
-            if (func_02035D40(b, v[0], v[1]) != -1) {
+            if (func_02035D40((struct Ctx *)b, v[0], v[1]) != -1) {
                 func_021F0DD8(d_021F3530[i]);
                 return i;
             }

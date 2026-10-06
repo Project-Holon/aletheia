@@ -38,11 +38,12 @@ extern const Pair d_02211D5C;
 extern const Pair d_02211D90;
 extern int func_022110D4(u8 *,int);
 extern void func_0220E7CC(u8 *,u32);
-extern void func_0220E974(int,u8 *,const Pair *);
+struct Vec2;
+extern void func_0220E974(int mode, u8 *p, const struct Vec2 *q);
 extern void func_0220E9A0(char *,u8 *,Pair *);
-extern void func_0220EA30(u32,u8 *,const Pair *);
+extern void func_0220EA30(u32 mode, u8 *p, const struct Vec2 *q);
 extern void func_0220E8B4(char *,int,int,int);
-extern int func_0201BD28(int,int);
+extern u32 func_0201BD28(u16 id, u32 field);
 void func_0220EECC(u8 *p)
 {
     int i;
@@ -53,11 +54,11 @@ void func_0220EECC(u8 *p)
     rec=p+4+i*0x4c;
     pair=d_02211D34.fourth;
     func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(u32)&pair);
-    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),&d_02211D3C);
+    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D3C));
     func_0220E9A0((char *)p,rec,(Pair *)&d_02211D90);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),&pair);
+    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
     if(((Fl *)(p+0x2175))->a==0) func_0220E7CC(*(u8 **)(p+((*(u8 **)p)[0x4b]+0x22)*4+0x1ebc),(u32)&d_02211D40);
     else func_0220E7CC(*(u8 **)(p+((*(u8 **)p)[0x4b]+0x1d)*4+0x1ebc),(u32)&d_02211D40);
     if(((Fl *)(p+0x2175))->b==0) func_0220E7CC(*(u8 **)(p+0x1F58),(u32)&d_02211D5C);

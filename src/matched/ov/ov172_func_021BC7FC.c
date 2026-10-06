@@ -75,20 +75,21 @@ struct Bits2 {
 };
 
 extern u32 func_021BDFE4(void *p);
-extern int func_021B8108(void *ctx, u32 p);
+extern int func_021B8108(void *unused, void *p);
 extern u32 func_0203CF10(u32 a);
 extern void *func_0203CF3C(u32 a);
 extern u8 func_02177B80(int i);
-extern u32 func_020084F4(void *p);
-extern u8 func_02008550(void *p);
-extern u32 func_02008530(void *p);
+struct Sub0200852CObj;
+extern const void *func_020084F4(const void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_02087C6C(void *p);
 extern int func_021B85D0(unsigned char *p, unsigned char *q);
 extern u32 func_02013D5C(u32 id);
 extern u32 func_02013D9C(u32 id);
-extern int func_021BD0A4(void *ctx, u8 *list, u32 a, u32 b, u32 c);
+extern int func_021BD0A4(void *ctx, u32 unused, u32 a, u32 b, u32 c);
 extern void func_02082D44(const void *src, void *dst, u32 n);
-extern void func_021BCB88(void *ctx, u8 *list);
+extern void func_021BCB88(void *ctx, char *list);
 extern void func_021BCEF8(void *ctx, u8 *list);
 
 struct Slot {
@@ -136,7 +137,7 @@ void func_021BC7FC(void *ctx, u8 *list)
 
     changed = 0;
     refresh = 0;
-    if (!func_021B8108(ctx, func_021BDFE4(ctx)))
+    if (!func_021B8108(ctx, (void *)func_021BDFE4(ctx)))
         return;
     for (i = 0; i < 15; i++) {
         e = list + i * 0x24;
@@ -158,14 +159,14 @@ void func_021BC7FC(void *ctx, u8 *list)
                 continue;
             ok = 0;
             if (kind == 0x20) {
-                a = func_020084F4(p);
-                b = func_02008550(p);
-                c = func_02008530(p);
+                a = (u32)func_020084F4(p);
+                b = func_02008550((const struct Sub0200852CObj *)p);
+                c = func_02008530((const struct Sub0200852CObj *)p);
                 func_02087C6C(buf);
                 if (p->f21_1 == 0 || func_021B85D0((u8 *)p, buf) == 1)
-                    ok = func_021BD0A4(ctx, list, a, c, b);
+                    ok = func_021BD0A4(ctx, (u32)list, a, c, b);
             } else if (func_02013D5C((u16)p->fC_17) == 0 && func_02013D9C((u16)p->fC_17) == 0) {
-                ok = func_021BD0A4(ctx, list, (u32)((u8 *)p + 0x1a), p->f4, p->bB_7);
+                ok = func_021BD0A4(ctx, (u32)list, (u32)((u8 *)p + 0x1a), p->f4, p->bB_7);
             }
             if (ok == 0)
                 continue;
@@ -271,7 +272,7 @@ void func_021BC7FC(void *ctx, u8 *list)
         }
     }
     if (changed == 1) {
-        func_021BCB88(ctx, list);
+        func_021BCB88(ctx, (char *)list);
         refresh = 1;
         *(u32 *)(list + 0xc) = 1;
     }

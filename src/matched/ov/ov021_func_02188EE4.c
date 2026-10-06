@@ -57,7 +57,8 @@ extern void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap);
 extern u32 func_02050080(u32 *p);
 extern void func_0204EDBC(u8 *dst, u8 val);
 extern void func_0204EDC4(u8 *dst, int a, int b);
-extern void func_0204ED70(u8 *dst, Vec12 *src);
+struct Blk3;
+extern void func_0204ED70(u8 *dst, struct Blk3 *src);
 extern void func_0204EDB0(u8 *dst, u8 *src);
 extern void func_021891C0(u8 *p);
 extern u32 func_021C63AC(u16 heap, int a, int b);
@@ -82,7 +83,7 @@ void func_02188EE4(u8 *p)
     ((struct Obj01344 *)p)->fB8 = (u32)func_0204FE94(0x1E, 0x28, (u32)func_02189140, ((struct Obj01344 *)p)->f0);
     h = (u8 *)func_02050080((u32 *)(((struct Obj01344 *)p)->fB8));
     v30 = d_021D36F4;
-    func_0204ED70(h, &v30);
+    func_0204ED70(h, (struct Blk3 *)(&v30));
     v20 = 0;
     func_0204EDB0(h, &v20);
     func_021891C0(p);

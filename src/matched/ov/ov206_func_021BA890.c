@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Tab16 { u8 b[16]; };
 extern const struct Tab16 d_021BC174;
-extern int func_0204A39C(void *a, int b, int c, u32 d, int *e);
+extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct CharBuf;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -35,7 +35,7 @@ void func_021BA890(char *p)
     int out;
     int r6;
     int i;
-    ((struct Obj00022 *)p)->f2B0 = func_0204A39C(((struct Obj00022 *)p)->f1C8, 0, 0, ((struct Obj00022 *)p)->f0, &out);
+    ((struct Obj00022 *)p)->f2B0 = (int)func_0204A39C(((struct Obj00022 *)p)->f1C8, 0, 0, ((struct Obj00022 *)p)->f0, (u32 *)(&out));
     r6 = 0;
     if (*(int *)&((struct Obj00022 *)p)->f1C != 0) r6 = 4;
     func_02049B68(((struct Obj00022 *)p)->f1CC, 5, r6, 0x60, 0x20, ((struct Obj00022 *)p)->f0);

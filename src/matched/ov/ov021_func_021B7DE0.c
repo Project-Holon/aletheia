@@ -47,7 +47,7 @@ typedef struct {
 } Obj;
 
 extern int func_021B9278(u8 *, void *, Tbl *);
-extern int func_021B9280(u8 *, int, int, Tbl *);
+extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
 
 int func_021B7DE0(Obj *o, Arg *a)
 {
@@ -76,7 +76,7 @@ int func_021B7DE0(Obj *o, Arg *a)
         y = a->h4 << 4;
 
         v = func_021B9278(base + (off + pad), o->x1c, t);
-        w = func_021B9280(base + off, x, v, o->x24);
+        w = func_021B9280(base + off, x, v, (u8 *)o->x24);
         if (-w > y || y > w) {
             return 0;
         }

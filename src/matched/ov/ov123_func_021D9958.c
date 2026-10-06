@@ -50,10 +50,12 @@ extern void func_0203F8F4(u16 heapId);
 struct Cfg;
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_020433E0(const void *);
-extern void func_0203FC28(const void *);
+struct DispConfig;
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021D9AE8(void *);
-extern void func_021D9D3C(void *);
+extern void func_021D9D3C(char *p);
 extern void func_021D9D34(void);
 extern void *func_020056A0(void *,void *,int);
 char *func_021D9958(int heap)
@@ -70,8 +72,8 @@ char *func_021D9958(int heap)
     func_0203F8F4(((struct Obj05370 *)p)->f9E4);
     func_0204A48C((const struct Cfg *)d_020A1464,(u32)d_021DABCC,((struct Obj05370 *)p)->f9E4);
     ((struct Obj05370 *)p)->f97C=func_0204B100(40,0,((struct Obj05370 *)p)->f9E4);
-    func_020433E0(d_021DABCC);
-    func_0203FC28(d_021DABBC);
+    func_020433E0((const struct DispVram *)d_021DABCC);
+    func_0203FC28((struct DispConfig *)d_021DABBC);
     func_021D9AE8(p);
     func_021D9D3C(p);
     ((struct Obj05370 *)p)->f980=func_020056A0(func_021D9D34,p,0);

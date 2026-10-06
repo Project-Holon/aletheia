@@ -21,7 +21,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern u32 func_02017E1C(void *h, u32 k, u32 z);
 extern u8 func_02017F00(void *h);
 
-void func_021D52B4(u8 *p, void *h, int flag)
+void func_021D52B4(u8 *p, void *h, u32 flag)
 {
     if (flag) {
         p[0xf8] = func_02017E1C(h, 0xae, 0);

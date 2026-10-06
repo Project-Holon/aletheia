@@ -15,9 +15,10 @@
 
 typedef unsigned int u32;
 
-u32 func_02008530(void);
+struct Sub0200852CObj;
+u32 func_02008530(const struct Sub0200852CObj *obj);
 
 void func_021C4018(int a, char *p)
 {
-    ((struct Obj20193 *)p)->f30 = func_02008530();
+    ((struct Obj20193 *)p)->f30 = func_02008530((const struct Sub0200852CObj *)a);
 }

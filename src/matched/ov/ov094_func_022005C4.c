@@ -27,11 +27,11 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 
 int func_022005C4(Work *w, int key)
 {
-    int i = func_022019F4(w, key);
+    int i = func_022019F4((char *)w, key);
     int r;
 
     if (i == -1)

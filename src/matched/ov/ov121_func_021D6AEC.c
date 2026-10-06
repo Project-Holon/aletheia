@@ -44,7 +44,7 @@ extern void func_02082BCC(void *,int,int);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u32 func_02005728(u32 range);
-void func_021D6AEC(char *p,u32 owner,u16 heap)
+void func_021D6AEC(char *p, void *owner, u16 heap)
 {
     void *res;
     Record point;

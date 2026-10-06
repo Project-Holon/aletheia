@@ -18,12 +18,12 @@
  */
 typedef unsigned long u32;
 
-extern void func_021BEFCC(void *mutexInfo_p);
+extern void func_021BEFCC(void);
 extern void func_021BEFD8(void *mutexInfo_p);
 
 int NHTTPi_addRef(void *mutexInfo_p, char *connection_p)
 {
-    func_021BEFCC(mutexInfo_p);
+    func_021BEFCC();
     ++*(u32 *)(connection_p + 0x8048);
     func_021BEFD8(mutexInfo_p);
     return *(u32 *)(connection_p + 0x8048);

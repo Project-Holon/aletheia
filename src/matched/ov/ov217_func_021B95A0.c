@@ -40,8 +40,8 @@ extern void func_0204363C(u32 swap);
 extern void func_021B985C(void *p, u32 value);
 extern void func_021B9874(u32 a0);
 extern void func_021B9894(u32 a0);
-extern u32 func_021B98B8();
-extern u32 func_021B9920();
+extern void func_021B98B8(unsigned short heapId);
+extern void func_021B9920(u32 heap);
 extern void func_021B9A24(u32 heap);
 u32 func_021B95A0(u32 a0, u32 a1, u8 *a2, u32 a3)
 {

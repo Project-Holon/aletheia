@@ -67,7 +67,10 @@ extern const double pow_10[8];
 extern const char s_020A8B90[];     /* "179769313486231580793728714053034151" */
 
 extern double func_0209A368(double x, double y);                        /* copysign */
-extern void func_020968F4(decimal *d, const char *s, short exp);        /* __str2dec */
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct P020968F4;
+extern void func_020968F4(struct P020968F4 *p, const u8 *s, u16 v);        /* __str2dec */
 extern int func_02096DF0(const decimal *x, const decimal *y);           /* __less_dec */
 extern int func_02096D10(const decimal *x, const decimal *y);           /* __equals_dec */
 extern void func_02096ED0(decimal *z, const decimal *x, const decimal *y); /* __minus_dec */
@@ -114,7 +117,7 @@ double func_0209739C(const decimal *d)
         {
             decimal max;
 
-            func_020968F4(&max, s_020A8B90, 308);
+            func_020968F4((struct P020968F4 *)(&max), (const u8 *)s_020A8B90, 308);
             if (func_02096DF0(&max, &dec))
                 return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
         }

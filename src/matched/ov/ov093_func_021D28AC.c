@@ -20,7 +20,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021B8DC0(void *p, void *a, u8 b);
+extern unsigned char func_021B8DC0(unsigned char *p, void *a, unsigned int b);
 struct Unk021D6C50;
 extern int func_021D6C50(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
 extern void func_021EA8B4(char *ctx, u32 a, u32 b);
@@ -32,8 +32,8 @@ int func_021D28AC(u8 *p, int *st, u32 *c)
     case 0: {
         u8 *a = func_021B9934(*(char * *)&((struct Obj03693 *)p)->f4, (u8)c[0]);
         u8 *b = func_021B9934(*(char * *)&((struct Obj03693 *)p)->f4, (u8)c[1]);
-        int d = func_021B8DC0(((struct Obj03693 *)p)->f0, ((struct Obj03693 *)p)->f4, c[0]);
-        int e = func_021B8DC0(((struct Obj03693 *)p)->f0, ((struct Obj03693 *)p)->f4, c[1]);
+        int d = (int)func_021B8DC0(((struct Obj03693 *)p)->f0, ((struct Obj03693 *)p)->f4, (u8)c[0]);
+        int e = (int)func_021B8DC0(((struct Obj03693 *)p)->f0, ((struct Obj03693 *)p)->f4, (u8)c[1]);
         func_021D6C50((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b);
         func_021EA8B4(((struct Obj03693 *)p)->f54, d, e);
         (*st)++;

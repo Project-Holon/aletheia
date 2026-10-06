@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void *func_021BA184(char *p);
 extern int func_021BA25C(u8 *, int, int);
-extern u32 *func_021BA228(u8 *);
+extern u8 *func_021BA228(u8 *p);
 extern u32 func_021BA208(u8 *p);
 extern void func_020061E4(u32);
 int func_021B7F00(u8 *p, void *q, u32 a)
@@ -27,7 +27,7 @@ int func_021B7F00(u8 *p, void *q, u32 a)
     u32 *v;
     while (e) {
         if (func_021BA25C(e, ((struct Obj04522 *)p)->f1C, ((struct Obj04522 *)p)->f20) == 1) {
-            v = func_021BA228(e);
+            v = (u32 *)func_021BA228(e);
             ((struct Obj04522 *)p)->f3C = 2;
             *(u8 * *)&((struct Obj04522 *)p)->f38 = e;
             func_020061E4(0x623);

@@ -24,12 +24,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-int func_0217BB20(u8 *w);
+int func_0217BB20(char *p);
 void func_0217F074(void *p);
-int func_0217B8E4(u8 *w, int v);
+int func_0217B8E4(char *p, char v);
 void func_0217F210(u8 *p, int a, u32 b);
 u32 func_0217F1EC(u8 *p);
-int func_02174E20(void);
+u32 func_02174E20(void);
 u32 func_02174E64(void);
 u32 func_020362DC(void);
 
@@ -38,12 +38,12 @@ int func_0217E378(u8 *w, void *obj, int a2, u8 *state)
     u8 *p;
 
     p = *(u8 * *)&((struct Obj19428 *)w)->f355C;
-    if (func_0217BB20(w) == 1) {
+    if (func_0217BB20((char *)w) == 1) {
         func_0217F074(w);
         return 1;
     }
     if (p[0xcb] == 1) {
-        func_0217B8E4(w, 0x2f);
+        func_0217B8E4((char *)w, 0x2f);
         p[0xcb] = 0;
         p[0xdf] = 0;
         return 1;
@@ -69,7 +69,7 @@ int func_0217E378(u8 *w, void *obj, int a2, u8 *state)
         break;
     case 101:
         if (p[0xdf] == 0) {
-            func_0217B8E4(w, 0x2c);
+            func_0217B8E4((char *)w, 0x2c);
             return 1;
         }
         break;

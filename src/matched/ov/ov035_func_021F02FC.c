@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern int func_0202784C(void *, int);
-extern void func_02027CD8(int, int);
+extern int func_0202784C(int a0, int a1);
+extern int func_02027CD8(int a0, int a1);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_021F02FC(char *p, int a1)
@@ -36,7 +36,7 @@ void func_021F02FC(char *p, int a1)
     d[3] = a1;
     d[8] = (int)func_02045EC0((struct MsgBank *)(((struct Obj06146 *)p)->f38), 5);
     d[11] = (int)func_02045EC0((struct MsgBank *)(((struct Obj06146 *)p)->f38), 6);
-    ((struct Obj06146 *)p)->f44 = func_0202784C(d_021F064C, ((struct Obj06146 *)p)->f40);
+    ((struct Obj06146 *)p)->f44 = func_0202784C((int)d_021F064C, ((struct Obj06146 *)p)->f40);
     func_02027CD8(((struct Obj06146 *)p)->f44, 1);
     func_02045808((struct U16Vec *)d[8]);
     func_02045808((struct U16Vec *)d[11]);

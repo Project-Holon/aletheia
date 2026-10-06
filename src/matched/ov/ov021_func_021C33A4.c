@@ -25,7 +25,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
-extern int func_0201AA14(void *p);
+extern u32 func_0201AA14(void *p);
 extern u32 func_020143CC(u32 a, u32 b);
 
 void func_021C33A4(void *a)
@@ -34,6 +34,6 @@ void func_021C33A4(void *a)
     void *ev = (void *)func_0201296C(g);
     void *party = func_02012934(g);
 
-    if ((int)func_0201AA18(party) < func_0201AA14(party))
+    if ((int)func_0201AA18(party) < (int)func_0201AA14(party))
         *((u16 *)func_020143CC((u32)ev, 0x4139)) = 1;
 }

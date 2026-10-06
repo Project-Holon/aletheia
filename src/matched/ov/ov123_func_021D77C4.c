@@ -20,8 +20,9 @@ typedef unsigned short u16;
 extern int func_021D5BA0(char *p);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern int func_0200C5C8(int,void *,int,u16);
-extern void func_021D6EE0(int,int,int);
+struct MusicalDist;
+extern struct MusicalDist *func_0200C5C8(void *sys, const void *src, u32 size, u32 heap);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6FF0(char *p);
 extern void func_021D7798(u8 *p);
 void func_021D77C4(int a,int n)
@@ -34,16 +35,16 @@ void func_021D77C4(int a,int n)
     h=n/2;
     if(n>0x1fc0e) {
         ((struct Obj02837 *)a)->f80=0xfff0;
-        func_021D6EE0(a,(int)func_021D6FF0,0x39d);
+        func_021D6EE0((u8 *)a,(int)func_021D6FF0,0x39d);
         return;
     }
     checksum=func_0203F1FC(p,n);
     if(checksum!=*(u16 *)(p+h*2)) {
         ((struct Obj02837 *)a)->f80=0xfff0;
-        func_021D6EE0(a,(int)func_021D6FF0,0x3a3);
+        func_021D6EE0((u8 *)a,(int)func_021D6FF0,0x3a3);
         return;
     }
     ((struct Obj02837 *)a)->fAE=1;
-    ((struct Obj02837 *)a)->f30=func_0200C5C8(((struct Obj02837 *)a)->f2C,p,n,((struct Obj02837 *)a)->f0);
-    func_021D6EE0(a,(int)func_021D7798,0x3a9);
+    ((struct Obj02837 *)a)->f30=(int)func_0200C5C8((void *)(((struct Obj02837 *)a)->f2C),p,n,((struct Obj02837 *)a)->f0);
+    func_021D6EE0((u8 *)a,(int)func_021D7798,0x3a9);
 }

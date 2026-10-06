@@ -30,7 +30,7 @@ extern u32 func_021CC8D8(void *, int);
 extern int func_021C88E4(u8 *p);
 extern int func_021C4304(u8 *, u16 *, u8 *, u8 *, int *);
 extern void func_021CD64C(void *w, u8 id, ...);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 void func_021C3D08(u8 *p, u16 *b, u8 *a, u8 *c)
 {
     int out;
@@ -63,6 +63,6 @@ void func_021C3D08(u8 *p, u16 *b, u8 *a, u8 *c)
         if (r <= 1 && out != 0 && ((ByteFlag *)(p + 0x78a))->b == 0) {
             func_021CD64C(((struct Obj03191 *)p)->fC, 0x5a, 0x47, 0xffff0000);
         }
-        func_021CC95C(p + 0x1d74, s, 9113);
+        func_021CC95C((u32 *)(p + 0x1d74), s, 9113);
     }
 }

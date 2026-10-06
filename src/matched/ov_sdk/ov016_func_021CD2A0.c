@@ -30,12 +30,14 @@ typedef struct { unsigned char pad[0xF4]; unsigned char ap; } SettingInfo;
 typedef struct { unsigned char pad0[10]; unsigned char channel; unsigned char pad1[9]; } ACConfig;
 
 extern ACConfig g_021DA898;
-extern SettingInfo *func_021CF404(void);
+struct NCFGApInfo;
+struct tagDWCACConfig;
+extern char *func_021CF404(void);
 extern void func_02082A90(void *srcp, void *destp, unsigned long size);
-extern void func_021C0EA0(void **param2, void **param3);
-extern int func_0205B98C(ACConfig *config);
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
+extern int func_0205B98C(struct tagDWCACConfig *config);
 extern void func_02088234(void);
-extern void func_0205BFEC(int no, void *info);
+extern void func_0205BFEC(int no, struct NCFGApInfo *info);
 extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern void func_021CD4F4(void *task);
 
@@ -44,16 +46,16 @@ void func_021CD2A0(void)
     SettingInfo *info;
     ACConfig config;
     int scene;
-    info = func_021CF404();
+    info = (SettingInfo *)func_021CF404();
     func_02082A90(&g_021DA898, &config, 0x14);
-    func_021C0EA0(0, (void **)&scene);
+    func_021C0EA0(0, (unsigned int *)((void **)&scene));
     if (scene == 2)
         config.channel = 4;
     else
         config.channel = info->ap + 1;
-    if (func_0205B98C(&config) == 0)
+    if (func_0205B98C((struct tagDWCACConfig *)(&config)) == 0)
         func_02088234();
     if (scene == 0)
-        func_0205BFEC(info->ap, info);
+        func_0205BFEC(info->ap, (struct NCFGApInfo *)info);
     func_021D7680(0, func_021CD4F4, 0, 0x78);
 }

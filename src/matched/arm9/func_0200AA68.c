@@ -100,7 +100,7 @@ typedef struct {
     u32   f348;
 } Rec;
 
-extern Entry *sub_0200ACD0(Entry *base, s32 n, u32 key);
+extern char *sub_0200ACD0(char *base, int count, int target);
 extern void   sub_0200AC14(Entry *dst, const void *src, u32 a2, u32 a3,
                            u32 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7);
 extern u8     sub_0200AB50(Entry *list, s32 n, Entry *dst);
@@ -114,7 +114,7 @@ u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u32 a3,
     Entry *hit;
     u16 count = 0;
 
-    hit = sub_0200ACD0(r->entries, 30, s2);
+    hit = (Entry *)sub_0200ACD0((char *)r->entries, 30, s2);
     if (hit != 0) {
         count = hit->b1;
     }

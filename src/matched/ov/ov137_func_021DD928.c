@@ -13,5 +13,5 @@
  *   func_021DD924 0x021DD924 thumb ov137
  */
 #include "../include/Obj23715.h"
-extern void func_021DD924(void *);
+extern void func_021DD924(char *p);
 int func_021DD928(char *p,int state) {((struct Obj23715 *)p)->f118=2;func_021DD924(p);return state;}

@@ -19,7 +19,7 @@
 extern void func_02155374(int v);
 extern void func_02155C8C(void);
 
-void func_02155D2C(void)
+void func_02155D2C(int e)
 {
     func_02155374(9);
     func_02155C8C();

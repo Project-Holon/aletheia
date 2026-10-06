@@ -56,19 +56,19 @@ extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 typedef unsigned int   u32;
 extern int func_02186278(char *p, int which);
-extern Ent *func_02158F58(void *a);
+extern int func_02158F58(int a0);
 extern u32 func_02188C98(u8 *p);
 extern void *func_0218DC70(u8 *p);
 extern void *func_02188CB4(u8 *p);
 extern void *func_02188C7C(u8 *p);
-extern void *func_020127F0(void *a);
+extern int func_020127F0(int a0);
 extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
 extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
 extern int func_02186090(void *p);
 extern u16 func_0216D588(void *p);
 extern int func_02193904(void *p);
 extern void *func_0219390C(void *a, unsigned int b);
-extern int *func_02193C00(void *a);
+extern char *func_02193C00(char *p);
 extern void *func_02193C04(u8 *p);
 extern int func_021867B4(u8 *p);
 extern int func_021867A8(void *a);
@@ -106,11 +106,11 @@ int func_02186D48(int a0, int a1)
     if (kind == 3) {
         *out = func_02186278((char *)c, 0);
     } else {
-    ent = func_02158F58(m);
+    ent = (Ent *)func_02158F58((int)m);
     m = func_0218DC70((u8 *)func_02188C98((u8 *)ent->f4));
     d = func_02188CB4((u8 *)ent->f4);
     w = func_02188C7C((u8 *)ent->f4);
-    s = func_020127F0(b);
+    s = (void *)func_020127F0((int)b);
     func_021A3460((u32)d, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
     obj = func_0216DDC0((u32)w, v[2], v[0], 0);
     if (obj != 0) {
@@ -119,7 +119,7 @@ int func_02186D48(int a0, int a1)
         func_02193904(m);
         sub = func_0219390C(m, cur);
         if (sub != 0) {
-            rec = func_02193C00(sub);
+            rec = (int *)func_02193C00(sub);
             id = func_02193C04(sub);
         }
     }

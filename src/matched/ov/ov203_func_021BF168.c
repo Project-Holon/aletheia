@@ -21,12 +21,13 @@ extern struct TcblNode *func_020311B8(struct Tcbl *,void (*)(struct TcblNode *,v
 extern void *func_02031290(struct S02030FB4 *);
 extern void func_02082BCC(void *,int,int);
 extern void func_021BF1CC(void *task, char *work);
-extern void func_021BEFC4(char *,int,int,int,int,int,int *);
+struct Owner;
+extern void func_021BEFC4(struct Owner *owner, int mask, int kind, int start, int end, int duration, int *counter);
 void func_021BF168(char *p,unsigned char index,signed char a,signed char b,signed char c,int start,int end)
 {
     Task *t;
     t=func_02031290((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF1CC,32,1));
     func_02082BCC(t,0,32);
     t->owner=p;t->a=a;t->b=b;t->c=c;t->index=index;t->mask=63;t->start=start;t->end=end;
-    func_021BEFC4(p,t->index,t->mask,a,b,start,&t->count);
+    func_021BEFC4((struct Owner *)p,t->index,t->mask,a,b,start,&t->count);
 }

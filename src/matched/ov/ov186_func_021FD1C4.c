@@ -209,40 +209,61 @@ extern const Pair d_02200B6C;
 extern const u8 d_02200AFC[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,u32);
-extern u32 func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
+typedef signed int     s32;
+struct Actor;
+struct GdsProfile;
+struct GdsRecord;
+struct MsgBank;
+struct Obj;
+struct Obj0202DCC4;
+struct PmsDraw;
+struct RecGet;
+struct U16Vec;
+struct WordSet;
+extern u32 func_021FC20C(char *);
+extern int func_021FC214(char *p);
+extern int func_021FC21C(char *p);
 extern void func_021FB964(void *,u32,u16);
 extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
-extern void func_021FC868(void *,u32,u32,u32);
-extern void func_021FC7C4(void *,void *,void *,u16);
-extern void *func_0202DB0C(u32,u32,u32,u32,u8,u8,u16);
-extern void func_0202DCFC(void *,u32,u32);
-extern void func_0202DE5C(void *,u8);
-extern void func_0202DE64(void *,u16);
-extern void func_0202DC60(void *,void *,void *,int,Pair *);
+extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
+extern void func_021FC7C4(char *p, void *text, void *font, unsigned short value);
+extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void func_0202DCFC(struct Obj0202DCC4 *p, u32 i, u32 val);
+extern void func_0202DE5C(struct PmsDraw *p, u8 v);
+extern void func_0202DE64(struct PmsDraw *p, u16 v);
+extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern void *func_0200D6D0(const void *,u32);
-extern u32 func_0200D6EC(void *),func_0200D6FC(void *),func_0200D70C(void *),func_0200D72C(void *),func_0200D73C(void *);
-extern u32 func_0200D74C(void *),func_0200D760(void *),func_0200D810(void *),func_0200D820(void *);
-extern void *func_0200D774(void *,void *,u32);
-extern void *func_020457B0(u32,u16);
-extern void *func_02045EC0(void *,u32);
-extern void func_02045808(void *);
-extern void *func_02045874(const void *,u32);
+extern u32 func_0200D6EC(struct RecGet *p);
+extern u32 func_0200D6FC(struct RecGet *p);
+extern u32 func_0200D70C(struct RecGet *p);
+extern u32 func_0200D72C(struct RecGet *p);
+extern u32 func_0200D73C(struct RecGet *p);
+struct GdsProfile;
+extern u32 func_0200D74C(struct GdsProfile *p);
+extern u32 func_0200D760(void *);
+extern u32 func_0200D810(struct GdsProfile *p);
+extern u32 func_0200D820(struct GdsProfile *p);
+extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 extern void func_0201EE0C(void *,u32,const void *,u32,u32,u32);
-extern void func_0201F250(void *,void *,void *);
-extern void func_0201F230(void *,u32,u32);
-extern void func_0201F048(void *,u32,u32);
-extern void func_0201F094(void *,u32,u32,u32);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_020490F4(u32,u16);
 extern void func_02049238(void *);
 extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
 extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
 extern int func_0204ACEC(void *,u32,u32,u32,u16);
-extern int func_0204AF28(void *,u32,u32,u16);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
-extern void *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void *func_0204B6F4(void *,u32,u32);
-extern void func_0204B688(void *,u32);
+extern void func_0204B688(struct Actor *actor, u32 value);
 char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
 {
     char *p;
@@ -261,8 +282,8 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     *(void **)(p+0x20)=func_0202DB0C((u32)a2,0,(u32)a3,(u32)font,7,1,heap);
     func_0202DCFC(*(void **)(p+0x20),0,1);
     func_021FB964(*(void **)(p+0x1c),8,heap);
-    bank=(void *)func_021FC214(q);
-    words=(void *)func_021FC21C(q);
+    bank=(void *)(u32)func_021FC214(q);
+    words=(void *)(u32)func_021FC21C(q);
     {
     Pair b=d_02200B6C;
     for(i=0;i<7;i++) {
@@ -274,7 +295,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             {
             void *name;
             void *msg;
-            text=func_020457B0(0x80,heap);
+            text=func_020457B0(0x80,(u16)heap);
             name=func_0200D6D0(prof,heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201EE0C(words,0,name,func_0200D6EC(prof),1,2);
@@ -288,7 +309,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             u32 v;
             void *msg;
             v=func_0200D810(prof);
-            text=func_020457B0(0x80,heap);
+            text=func_020457B0(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201F230(words,0,v);
             func_0201F250(words,text,msg);
@@ -300,7 +321,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             u32 v;
             void *msg;
             v=func_0200D74C(prof);
-            text=func_020457B0(0x80,heap);
+            text=func_020457B0(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201F048(words,0,v);
             func_0201F250(words,text,msg);
@@ -314,7 +335,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             void *msg;
             v=func_0200D74C(prof);
             w=func_0200D760(prof);
-            text=func_020457B0(0x80,heap);
+            text=func_020457B0(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201F094(words,0,v,w);
             func_0201F250(words,text,msg);
@@ -326,7 +347,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             {
             u16 rec[4];
             void *msg;
-            msg=func_0200D774(prof,rec,heap);
+            msg=func_0200D774(prof,(struct GdsRecord *)rec,heap);
             if(msg) {
                 text=func_02045874(msg,heap);
                 func_02045808(msg);
@@ -335,7 +356,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
                 Pair c=d_02200B6C;
                 func_0202DE5C(*(void **)(p+0x20),0);
                 func_0202DE64(*(void **)(p+0x20),0x3da0);
-                func_0202DC60(*(void **)(p+0x20),*(void **)(*(char **)(p+i*4)+0xc),rec,0,&c);
+                func_0202DC60(*(void **)(p+0x20),(u32)(*(void **)(*(char **)(p+i*4)+0xc)),rec,0,(u32)(&c));
                 ready=0;
             }
             break;
@@ -361,7 +382,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         hf=(heap&0x7fff)|0x8000;
         h=func_020490F4(7,hf);
         *(int *)(p+0x2c)=func_0204ACEC(h,func_0201BC3C(),0,0x80,hf);
-        *(int *)(p+0x34)=func_0204AF28(h,func_0201BC40(),func_0201BCB4(),hf);
+        *(int *)(p+0x34)=func_0204AF28(h,func_0201BC40(),func_0201BCB4(),(u16)hf);
         *(int *)(p+0x30)=func_0204A6C8(h,func_0201BABC(B,C,D,A),0,0,hf);
         func_02049238(h);
         func_02082BCC(&r,0,8);
@@ -381,7 +402,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         }
         h=func_020490F4(0x1f,(heap&0x7fff)|0x8000);
         *(int *)(p+0x38)=func_0204AC18(h,k3,0,0x1a0,0,1,heap);
-        *(int *)(p+0x40)=func_0204AF28(h,k2,k4,heap);
+        *(int *)(p+0x40)=func_0204AF28(h,k2,k4,(u16)heap);
         *(int *)(p+0x3c)=func_0204A6C8(h,k1,0,0,heap);
         func_02049238(h);
         break;
@@ -393,7 +414,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         k=func_0200D820(prof);
         h=func_020490F4(0x20,(heap&0x7fff)|0x8000);
         *(int *)(p+0x38)=func_0204AC18(h,0,0,0x1a0,d_02200AFC[k],1,heap);
-        *(int *)(p+0x40)=func_0204AF28(h,0x41,0x42,heap);
+        *(int *)(p+0x40)=func_0204AF28(h,0x41,0x42,(u16)heap);
         *(int *)(p+0x3c)=func_0204A6C8(h,k+0x31,0,0,heap);
         func_02049238(h);
         break;

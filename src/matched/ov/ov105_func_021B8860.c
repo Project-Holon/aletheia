@@ -41,13 +41,14 @@ struct T0200A9A4;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A8A0(void *);
-extern u32 func_02008530(void *);
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0200A9A4(struct T0200A9A4 *o, u32 v);
 extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_02007FB8(u8 *,u16,u16);
 extern u32 func_02007E50(u8 *,u16,u16,u16);
 extern void *func_020084F4(void *);
-extern u8 func_02008550(void *);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_0200AA68(void *,const void *,u16,u32,u8,u8,u32,u16,u8,u8,u8);
 extern void *func_02012F2C(int *);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
@@ -65,7 +66,7 @@ int func_021B8860(u8 *p)
     record=func_0200A8A0(func_02012EBC(func_020120F4(*(void **)ARG)));
     detail=*(u8 **)(ARG+8);
     key=detail+12;
-    if(!func_0200A9A4(record,func_02008530(key)) && *(void **)ARG) {
+    if(!func_0200A9A4(record,func_02008530((const struct Sub0200852CObj *)key)) && *(void **)ARG) {
         bag=func_0201292C(func_020120F4(*(void **)ARG));
         quantity=func_02007FB8(bag,134,60);
         switch(quantity) {
@@ -79,8 +80,8 @@ int func_021B8860(u8 *p)
     }
     if(*(void **)(ARG+8)) {
         src=func_020084F4(key);
-        flag=func_02008550(key)?0:1;
-        func_0200AA68(record,src,ARG[12],(u8)flag,detail[4],detail[5],func_02008530(key),((struct Obj05280 *)detail)->f6,detail[8],detail[9],detail[10]);
+        flag=func_02008550((const struct Sub0200852CObj *)key)?0:1;
+        func_0200AA68(record,src,ARG[12],(u8)flag,detail[4],detail[5],func_02008530((const struct Sub0200852CObj *)key),((struct Obj05280 *)detail)->f6,detail[8],detail[9],detail[10]);
     }
     if(*(void **)ARG) func_02008DF0(func_02012F2C(func_020120F4(*(void **)ARG)),113);
     return result;

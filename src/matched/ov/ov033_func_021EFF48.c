@@ -31,7 +31,7 @@ typedef struct {
 } T;
 
 extern char *func_0216476C(unsigned short *);
-extern int func_021EFEEC(T *, Rec *);
+extern int func_021EFEEC(char *p, int *q);
 extern unsigned func_021CFB68(unsigned, unsigned *);
 
 int func_021EFF48(T *p, unsigned *out, int mode)
@@ -50,7 +50,7 @@ int func_021EFF48(T *p, unsigned *out, int mode)
         while (p->h4 < cnt) {
             rec.kind = 1;
             rec.a = (unsigned)(tbl + p->h4 * 10);
-            if (func_021EFEEC(p, &rec)) {
+            if (func_021EFEEC((char *)p, (int *)(&rec))) {
                 out[0] = rec.kind;
                 out[1] = rec.a;
                 found = 1;
@@ -66,7 +66,7 @@ int func_021EFF48(T *p, unsigned *out, int mode)
         while (v != 0) {
             rec.b = v;
             rec.kind = 2;
-            if (func_021EFEEC(p, &rec)) {
+            if (func_021EFEEC((char *)p, (int *)(&rec))) {
                 out[0] = rec.kind;
                 out[2] = rec.b;
                 found = 1;

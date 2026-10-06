@@ -32,10 +32,11 @@ extern void func_0202428C(void *p);
 struct Obj;
 extern struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
 extern void func_02024104(u16 *p, u16 v);
-extern void func_02024570(void *dst, const void *src);
+struct Rec8;
+extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
 extern int func_02024450(const u16 *p);
 extern void func_020242A4(void *obj, u32 id);
-extern void func_02024108(void *o, void *src);
+extern void func_02024108(u16 *dst, const u16 *src);
 void func_021C3FC8(u8 *ctx, u8 *arg)
 {
     u8 *p = *(u8 * *)&((struct Obj01412 *)ctx)->f10;
@@ -48,14 +49,14 @@ void func_021C3FC8(u8 *ctx, u8 *arg)
         ((struct Obj01412 *)ctx)->f8 = func_02024044(0, 0, 0, 1, ((struct Obj10598 *)arg)->f10, ((struct Obj01412 *)ctx)->f0);
         func_02024104(((struct Obj01412 *)ctx)->f8, ((struct Obj23491 *)(*(u8 * *)&((struct Obj01412 *)ctx)->f10))->f32);
     } else if (*(p + k + 0x2e) == 1) {
-        func_02024570(ctx + 0x14, p + 0x16 + k * 8);
+        func_02024570((struct Rec8 *)(ctx + 0x14), (const struct Rec8 *)(p + 0x16 + k * 8));
         ((struct Obj01412 *)ctx)->f8 = func_02024044(2, 0, ctx + 0x14, 1, ((struct Obj10598 *)arg)->f10, ((struct Obj01412 *)ctx)->f0);
     } else {
         ((struct Obj01412 *)ctx)->f8 = func_02024044(2, 0, 0, 1, ((struct Obj10598 *)arg)->f10, ((struct Obj01412 *)ctx)->f0);
         if (func_02024450((u16 *)(*(u8 * *)&((struct Obj01412 *)ctx)->f10 + 0x16 + (*(u8 **)(ctx + 0x10))[2] * 8)))
-            func_02024570(ctx + 0x14, *(u8 * *)&((struct Obj01412 *)ctx)->f10 + 0x16 + (*(u8 **)(ctx + 0x10))[2] * 8);
+            func_02024570((struct Rec8 *)(ctx + 0x14), (const struct Rec8 *)(*(u8 * *)&((struct Obj01412 *)ctx)->f10 + 0x16 + (*(u8 **)(ctx + 0x10))[2] * 8));
         else
             func_020242A4(ctx + 0x14, 0);
-        func_02024108(((struct Obj01412 *)ctx)->f8, ctx + 0x14);
+        func_02024108(((struct Obj01412 *)ctx)->f8, (const u16 *)(ctx + 0x14));
     }
 }

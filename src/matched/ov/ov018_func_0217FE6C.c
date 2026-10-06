@@ -102,9 +102,9 @@ void func_02182A08(void *, void *);
 void func_02182998(void *, void *);
 void func_02181BE8(void *, void *);
 void func_02182988(void *, void *);
-int func_02174258(u8 *);
+int func_02174258(char *a);
 int func_02175C40(void *p);
-int func_0217C914(u8 *, Outer *, u8 *);
+int func_0217C914(u8 *v, u8 *w, u8 *state);
 void func_0217553C(u8 *);
 int func_02173C04(int, int);
 u8 *func_0217537C(u8 *);
@@ -163,7 +163,7 @@ int func_0217FE6C(void *a, int *state, Outer *c)
         }
         break;
     case 1:
-        if (func_02174258(v) == 1) {
+        if (func_02174258((char *)v) == 1) {
             (*state)++;
         }
         break;
@@ -179,7 +179,7 @@ int func_0217FE6C(void *a, int *state, Outer *c)
         }
         break;
     case 3:
-        switch (func_0217C914(v, c, &c->f98)) {
+        switch (func_0217C914(v, (u8 *)c, &c->f98)) {
         case 1:
             func_0217553C(v);
             *state = 4;

@@ -35,7 +35,7 @@ struct S {
     u8 f46d;
 };
 
-extern u8 func_021B8BEC(struct S *s, u32 k, u8 n);
+extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
 extern int (*d_021EFD1C[7])(struct S *, u32 *);
 
 int func_021B734C(u32 *pp, struct S *s)
@@ -45,7 +45,7 @@ int func_021B734C(u32 *pp, struct S *s)
         s->f428[0] = 0;
         s->f428[1] = 1;
         s->f46c = s->f00->f21;
-        s->f46d = func_021B8BEC(s, s->f46c, 0);
+        s->f46d = func_021B8BEC((u8 *)s, s->f46c, 0);
         *pp = *pp + 1;
         return 0;
     }

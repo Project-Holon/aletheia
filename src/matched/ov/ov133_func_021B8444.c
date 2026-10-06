@@ -55,14 +55,14 @@ extern void func_021B7458(void *,int *);
 extern void func_021BA148(u8 *p, u8 *q);
 extern void func_021BA124(u8 *p, u8 *q);
 extern u8 *func_021BA228(u8 *p);
-extern void func_021BA22C(u8 *,const Pair *);
+extern void func_021BA22C(u8 *p, const u8 *src);
 extern void func_021F4E8C(int,int,Vec *);
 extern void func_021F4ED4(u32 unused, u32 p, u16 v);
-extern void func_021BA21C(u8 *,const Pair *);
+extern void func_021BA21C(u8 *p, const u8 *src);
 extern void func_021BA24C(u8 *,int);
 extern void func_021F4EA4(int,int,Vec *);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021BA254(u8 *,int);
+extern void func_021BA254(char *p, int v);
 extern int func_021F4B24(u8 *);
 void func_021B8444(u8 *p)
 {
@@ -94,10 +94,10 @@ void func_021B8444(u8 *p)
             else v.x=(int)((float)(pos.x<<12)-0.5f);
             if(pos.y>0) v.y=(int)(0.5f+(float)(pos.y<<12));
             else v.y=(int)((float)(pos.y<<12)-0.5f);
-            func_021BA22C(entry,old);
+            func_021BA22C(entry,(const u8 *)old);
             func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,&v);
             func_021F4ED4(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,0);
-            func_021BA21C(entry,&pos);
+            func_021BA21C(entry,(const u8 *)(&pos));
             func_021BA24C(entry,10);
             depth=0;
             entry=func_021BA184(((struct Obj00004 *)p)->f1820);
@@ -114,7 +114,7 @@ void func_021B8444(u8 *p)
     func_021BA148(((struct Obj00004 *)p)->f1820,*(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021BA124(((struct Obj00004 *)p)->f1824,*(u8 * *)&((struct Obj00004 *)p)->f38);
     func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,4096,4096);
-    func_021BA254(*(u8 * *)&((struct Obj00004 *)p)->f38,((struct Obj00004 *)p)->f34);
+    func_021BA254((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj00004 *)p)->f34);
     entry=func_021BA184(((struct Obj00004 *)p)->f1824);
     depth=0;
     while(entry) {

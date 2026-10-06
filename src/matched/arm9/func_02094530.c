@@ -27,11 +27,12 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020944CC(char *dst, u32 n, u32 v, u32 *ap);
+typedef unsigned char  u8;
+extern u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap);
 
 u32 func_02094530(char *dst, u32 n, ...)
 {
     u32 *p = (u32 *)((u32)&n & ~3u);
 
-    return func_020944CC(dst, 0xFFFFFFFFu, n, p + 1);
+    return func_020944CC((u8 *)dst, 0xFFFFFFFFu, (const u8 *)n, (u8 *)(p + 1));
 }

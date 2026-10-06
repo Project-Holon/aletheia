@@ -20,8 +20,11 @@
 typedef struct {int x,y,z;} Vec;
 extern void func_02048AFC(void *,Vec *);
 extern void func_02048B44(void *,Vec *);
-extern void func_02048B60(void *,int *);
-extern void func_02048B6C(void *,int *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Light;
+extern void func_02048B60(struct Light *l, const u32 *in);
+extern void func_02048B6C(struct Light *l, const u32 *in);
 extern void func_02048B20(void *,Vec *);
 void func_021E2BD0(char *p) {
     Vec a;
@@ -32,10 +35,10 @@ void func_021E2BD0(char *p) {
     b.x=0; b.y=0; b.z=0;
     func_02048AFC(((struct Obj06427 *)p)->f83C,&a);
     func_02048B44(((struct Obj06427 *)p)->f83C,&b);
-    func_02048B60(((struct Obj06427 *)p)->f83C,&d);
-    func_02048B6C(((struct Obj06427 *)p)->f83C,&c);
+    func_02048B60(((struct Obj06427 *)p)->f83C,(const u32 *)(&d));
+    func_02048B6C(((struct Obj06427 *)p)->f83C,(const u32 *)(&c));
     b.x=0; b.y=0x10000; b.z=0x1000;
     func_02048B20(((struct Obj06427 *)p)->f83C,&b);
 }
-extern void func_021E3A40(char *);
-void func_021E2C34(char *p) {func_021E3A40(p);}
+extern void func_021E3A40(const u8 *p);
+void func_021E2C34(char *p) {func_021E3A40((const u8 *)p);}

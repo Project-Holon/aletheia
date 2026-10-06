@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern void func_021E8738(int *, int, int, int);
 extern int func_021E8844(const int *);
 extern void func_021E8AA0(int *, int);
-extern void func_021D62A4(char *, u32);
+extern void func_021D62A4(u32 *p, u32 mode);
 extern unsigned long func_021D63B0(char *);
 extern void func_021D6788(char *, void *);
 extern unsigned long func_021D679C(char *);
@@ -46,7 +46,7 @@ void func_021D57BC(unsigned sys, int *state, int *p)
     switch (*state) {
     case 0:
         func_021E8738((int *)p[9], p[4], 26, 1);
-        func_021D62A4((char *)p, 1);
+        func_021D62A4((u32 *)p, 1);
         *state = 1;
         break;
     case 1:

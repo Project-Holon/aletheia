@@ -66,7 +66,8 @@ struct Party {
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
-extern void func_02017528(void *rec);
+struct Sav;
+extern void func_02017528(struct Sav *p);
 extern void sub_0201ACDC(void *p, u32 pos, u32 mode);
 
 extern const char sub_0201A920_File[];
@@ -97,7 +98,7 @@ void sub_0201A954(struct Party *p, s32 capacity)
     p->count = 0;
     p->unk530 = 0;
     for (i = 0; i < 6; i++) {
-        func_02017528(&p->mon[i]);
+        func_02017528((struct Sav *)(&p->mon[i]));
     }
 }
 
@@ -119,7 +120,7 @@ u32 sub_0201A9C8(struct Party *p, s32 idx)
     for (i = idx; i < p->count - 1; i++) {
         p->mon[i] = p->mon[i + 1];
     }
-    func_02017528(&p->mon[i]);
+    func_02017528((struct Sav *)(&p->mon[i]));
     p->count = p->count - 1;
     return 1;
 }

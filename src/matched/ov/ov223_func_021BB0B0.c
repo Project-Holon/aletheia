@@ -27,7 +27,7 @@ extern void func_0201CE38(void *p);
 extern unsigned int func_0203630C(void);
 extern int func_02035C38(void);
 extern u32 func_020362DC(void);
-extern u32 func_02035C60(void);
+extern int func_02035C60(void);
 
 int func_021BB0B0(char *a)
 {

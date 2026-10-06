@@ -105,25 +105,29 @@ extern void *gMsgBank;
 
 extern u32 func_020056EC(u32 range);
 extern u8 *func_02012944(void *p);
-extern u32 func_02008530(const u8 *p);
+struct Mon;
+struct MsgBank;
+struct Sub0200852CObj;
+struct U16Vec;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
 extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
-extern void func_02017588(void *p, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017FA8(void *p);
-extern u16 func_0201808C(void *p, u16 move);
+extern u32 func_02017FA8(void *p);
+extern u32 func_0201808C(void *p, u32 move);
 extern void func_020180F4(void *p, u16 move);
 extern void func_02018A00(void *p, u32 species, u32 arg);
 extern u16 func_02045A98(void);
-extern u16 *func_020084F4(const u8 *p);
-extern u32 func_02008550(const u8 *p);
+extern const void *func_020084F4(const void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_020307B0(void *p);
 extern void *func_020185F0(void *p);
 extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void func_020185C4(void *p);
-extern void *func_02045EC0(void *bank, u32 idx);
-extern void func_02045808(void *p);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
 
 static inline int chk1(const struct Rec *r)
 {
@@ -226,7 +230,7 @@ int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
             if (level == 0)
                 level = (u16)(func_020056EC(0x64) + 1);
             if (r->f0 == 0)
-                id = func_02008530(func_02012944(gs));
+                id = func_02008530((const struct Sub0200852CObj *)func_02012944(gs));
             if (gender == 0xff)
                 gender = 2;
             for (i = 0; i < 6; i++) {
@@ -331,7 +335,7 @@ int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
                 if (v <= 2)
                     func_02017E40(mon, 0x9a, v);
                 else {
-                    v = func_02008550(func_02012944(gs));
+                    v = func_02008550((const struct Sub0200852CObj *)func_02012944(gs));
                     func_02017E40(mon, 0x9a, v);
                 }
             }

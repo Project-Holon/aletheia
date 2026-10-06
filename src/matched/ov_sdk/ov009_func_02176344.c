@@ -18,8 +18,8 @@
 extern int func_02175F3C(void);
 extern char *func_021763AC(int pid);
 
-void func_02176344(void)
+char *func_02176344(void)
 {
-    func_021763AC(*(int *)(func_02175F3C() + 0x678));
+    return func_021763AC(*(int *)(func_02175F3C() + 0x678));
 }
 

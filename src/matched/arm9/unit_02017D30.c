@@ -19,8 +19,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02019A50(void *p, u32 size, u32 seed);
-extern u16  func_02019A9C(const void *p, u32 size);
+extern void func_02019A50(u16 *p, u32 size, u32 seed);
+extern u16 func_02019A9C(const u16 *p, u32 size);
 
 
 struct Sav {
@@ -41,8 +41,8 @@ u32 func_02017D30(struct Sav *p)
         r = 1;
         p->b0 = 1;
         p->b1 = 1;
-        func_02019A50(p->unk88, 0x54, p->unk00);
-        func_02019A50(p->unk08, 0x80, p->unk06);
+        func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
+        func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
     }
     return r;
 }
@@ -55,9 +55,9 @@ u32 func_02017D70(struct Sav *p, u32 f)
         p->b0 = 0;
         p->b1 = 0;
         r = 1;
-        func_02019A50(p->unk88, 0x54, p->unk00);
-        p->unk06 = func_02019A9C(p->unk08, 0x80);
-        func_02019A50(p->unk08, 0x80, p->unk06);
+        func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
+        p->unk06 = func_02019A9C((const u16 *)p->unk08, 0x80);
+        func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
     }
     return r;
 }
@@ -69,7 +69,7 @@ u32 func_02017DBC(struct Sav *p)
     if (p->b1 == 0) {
         p->b1 = 1;
         r = 1;
-        func_02019A50(p->unk08, 0x80, p->unk06);
+        func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
     }
     return r;
 }
@@ -81,8 +81,8 @@ u32 func_02017DE4(struct Sav *p, u32 f)
     if (p->b1 == 1 && f == 1) {
         r = 1;
         p->b1 = 0;
-        p->unk06 = func_02019A9C(p->unk08, 0x80);
-        func_02019A50(p->unk08, 0x80, p->unk06);
+        p->unk06 = func_02019A9C((const u16 *)p->unk08, 0x80);
+        func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
     }
     return r;
 }

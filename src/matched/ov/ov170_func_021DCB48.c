@@ -17,7 +17,7 @@ extern void func_020434DC(unsigned, unsigned);
 extern void func_02043598(unsigned, unsigned);
 extern void func_020403F4(unsigned);
 extern void func_0203F9B4(void);
-void func_021DCB48(void)
+void func_021DCB48(void *p)
 {
     func_020434DC(15, 0);
     func_02043598(7, 0);

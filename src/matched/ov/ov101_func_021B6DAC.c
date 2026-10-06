@@ -41,11 +41,12 @@ struct T0200A9A4;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A8A0(void *);
-extern u32 func_02008530(void *);
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0200A9D4(struct T0200A9A4 *o, u32 v);
 extern void func_021B658C(void *,Data *);
 extern u32 func_0203D378(void);
-extern int func_021B6ECC(u32,u32,int,int,void *,void *,int,u32,int);
+extern int func_021B6ECC(u32 a, u32 b, int c, int d, char *x, char *y, int flag, u32 id, int a8);
 void *func_021B6DAC(u32 heap,char *p)
 {
     Data data;
@@ -62,13 +63,13 @@ void *func_021B6DAC(u32 heap,char *p)
         name=*(char * *)&((struct Obj01387 *)p)->f3C+12;
         func_020120F4(**(void ** *)&((struct Obj01387 *)p)->f10);
         token=func_0200A8A0(func_02012EBC(func_020120F4(**(void ** *)&((struct Obj01387 *)p)->f10)));
-        if(func_0200A9D4(token,func_02008530(name))==0) flag=1;
+        if(func_0200A9D4(token,func_02008530((const struct Sub0200852CObj *)name))==0) flag=1;
         both=0;
         if(((struct Obj01387 *)p)->f30 && flag) both=1;
         func_021B658C(**(void ** *)&((struct Obj01387 *)p)->f10,&data);
         if(func_0203D378()) id=data.f00;
         else id=**(u32 * *)&((struct Obj01387 *)p)->f3C;
-        ((struct Obj07971 *)out)->fC=func_021B6ECC(((struct Obj01387 *)p)->f2C,((struct Obj01387 *)p)->f2E,((struct Obj01387 *)p)->f2D,((struct Obj01387 *)p)->f2F,&data,((struct Obj01387 *)p)->f3C,both,id,58);
+        ((struct Obj07971 *)out)->fC=func_021B6ECC(((struct Obj01387 *)p)->f2C,((struct Obj01387 *)p)->f2E,((struct Obj01387 *)p)->f2D,((struct Obj01387 *)p)->f2F,(char *)(&data),((struct Obj01387 *)p)->f3C,both,id,58);
     }
     return out;
 }

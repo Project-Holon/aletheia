@@ -43,7 +43,7 @@ extern int  sub_02005CE0(void *arg);
 extern int  sub_02006148(u32 a);
 extern void sub_020062BC(int i, u32 b);
 extern u32 func_020755A8(u32 a, int b, int c, int d, u32 e);
-extern void func_02072E7C(u32 *req, int a);
+extern void func_02072E7C(void **r0, int fadeFrame);
 extern u32 func_02075560(u32 a, u32 b);
 
 void sub_020061A4(u32 a, u32 b);
@@ -90,7 +90,7 @@ void sub_020061F0(u32 a, u32 b)
 
 void sub_020061F8(int i)
 {
-    func_02072E7C(&sub_0200616C_Table[i].unk04, 0);
+    func_02072E7C((void **)(&sub_0200616C_Table[i].unk04), 0);
 }
 
 void sub_02006210(void)

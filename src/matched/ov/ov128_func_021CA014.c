@@ -17,12 +17,12 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern u16 func_02045A98(void *);
+extern u16 func_02045A98(void);
 struct U16Vec;
 extern u16 *func_02045A90(struct U16Vec *vec);
 u64 func_021CA014(void *p,int *ok)
 {
-    u16 end=func_02045A98(p);
+    u16 end=func_02045A98();
     u16 *text=func_02045A90(p);
     u64 value;
     u16 i;

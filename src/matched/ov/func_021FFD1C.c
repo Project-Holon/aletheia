@@ -32,7 +32,7 @@ typedef struct {
 
 extern const Pos tbl_022038A2[];
 
-extern void func_021FFAEC(u32 a, u16 b, int c);
+extern void func_021FFAEC(u32 a, int b, int c);
 
 void func_021FFD1C(Obj *p, int i, int dy)
 {

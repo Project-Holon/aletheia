@@ -37,7 +37,7 @@ extern void func_021E219C(char *p, void *mon, int side, int flag);
 extern int func_021D8AA8(void *);
 extern void func_021E5998(char *p);
 extern void func_021E3F30(char *p);
-extern void func_021E2A98(void *,void *);
+extern void func_021E2A98(void *a, char *p);
 extern void func_020056A0(void (*)(void *,void *),void *,int);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 void func_021E1D68(char *p,void *a)
@@ -56,7 +56,7 @@ void func_021E1D68(char *p,void *a)
         func_020435F4(31);
         func_0207D658(0x04001050,26,-8);
         p[0x11f9]=1;
-        func_020056A0(func_021E2A98,p,0);
+        func_020056A0((void (*)(void *, void *))func_021E2A98,p,0);
     }
     func_021B6558((unsigned char *)(((struct Obj03775 *)p)->f9C0),1,1);
 }

@@ -165,7 +165,8 @@ extern void func_02048B30(struct Camera *cam, VecFx32 *out);
 
 struct Lights;
 extern void func_02048C80(struct Lights *l, u8 i, VecFx16 *out);
-extern void func_02048CCC(struct Lights *l, u8 i, u16 *out);
+struct LightSlot;
+extern void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out);
 
 struct Slot {
     u32 f00;
@@ -288,7 +289,7 @@ void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights)
     if (lights != 0) {
         for (j = 0; j < 4; j++) {
             func_02048C80(lights, j, &lvec);
-            func_02048CCC(lights, j, &lcol);
+            func_02048CCC((struct LightSlot *)lights, j, &lcol);
             G3_LightVector(j, lvec.x, lvec.y, lvec.z);
             G3_LightColor(j, lcol);
         }

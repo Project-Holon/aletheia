@@ -34,7 +34,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E394(void *a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0200E4F8();
+extern int func_0200E4F8(int a0, int a1, int a2);
 extern u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2);
 extern u8 d_0217219C[];
 extern u8 d_021721BC[];
@@ -56,7 +56,7 @@ int func_0216B720(int c, int vm)
     n = d_0217219C[r5];
     best = -1;
     for (i = 0; i < n; i++) {
-        int a = func_0200E4F8(r6, r5, i + 1);
+        int a = func_0200E4F8((int)r6, r5, i + 1);
         int b = func_0200E4B0(r6, r5, i + 1);
         int s = a + b;
         if (best < s) {

@@ -57,7 +57,7 @@ void sub_0204AEC0(u32 idx, struct Record *dest)
     *dest = g_02146A74->slots[idx].record;
 }
 
-void sub_0204AEF4(u32 idx, u32 alternate)
+int sub_0204AEF4(u32 idx, u32 alternate)
 {
     struct Record record;
     u32 selector;
@@ -68,5 +68,5 @@ void sub_0204AEF4(u32 idx, u32 alternate)
     }
 
     sub_0204AEC0(idx, &record);
-    func_02063800((char *)(&record), selector);
+    return func_02063800((char *)(&record), selector);
 }

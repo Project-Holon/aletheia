@@ -32,7 +32,7 @@ struct _CPSSoc {
 };
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_021593A8(struct _CPSSoc *soc, unsigned char flag);
+extern void func_021593A8(char *soc, unsigned char flag);
 extern struct _CPSSoc g_021A8484;
 
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
@@ -50,12 +50,12 @@ void func_021594A4(unsigned char *iphdr, unsigned char *tcphdr, unsigned long le
 	soc->remote_ip = GET32(iphdr + 0xc);
 	if (tcphdr[0xd] & 0x10) {
 		soc->seqno = GET32(tcphdr + 8);
-		func_021593A8(soc, 4);
+		func_021593A8((char *)soc, 4);
 		return;
 	}
 	soc->seqno = 0;
 	soc->ackno = GET32(tcphdr + 4) + len;
 	if (tcphdr[0xd] & 3)
 		soc->ackno++;
-	func_021593A8(soc, 0x14);
+	func_021593A8((char *)soc, 0x14);
 }

@@ -33,12 +33,13 @@ typedef unsigned int u32;
 typedef struct { void *prevObject; void *nextObject; } NNSFndLink;
 typedef struct { void *headObject; void *tailObject; u16 numObjects; u16 offset; } NNSFndList;
 #define GetLink(list, obj) ((NNSFndLink *)(((u32)(obj)) + (list)->offset))
-extern void func_02060480(NNSFndList *list, void *object);
+struct DList;
+extern void func_02060480(volatile struct DList *list, void *elem);
 void func_020604AC(NNSFndList *list, void *object)
 {
     if (list->headObject == 0)
     {
-        func_02060480(list, object);
+        func_02060480((volatile struct DList *)list, object);
     }
     else
     {

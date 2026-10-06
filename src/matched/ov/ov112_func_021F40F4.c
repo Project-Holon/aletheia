@@ -52,7 +52,8 @@ extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(struct Rec *rec);
-extern void func_02045924(void *,const void *);
+struct Strbuf;
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_020409B4(u32);
@@ -83,7 +84,7 @@ void func_021F40F4(u8 *p)
     func_0201ED04(t);
     func_02045C04(f);
     buf=func_020457B0(37,((struct Obj00669 *)p)->f0);
-    func_02045924(buf,*(u8 * *)&((struct Obj00669 *)p)->f4+356);
+    func_02045924(buf,(const u16 *)(*(u8 * *)&((struct Obj00669 *)p)->f4+356));
     func_0201C7D0(func_02045770(((struct Obj00669 *)p)->f58),0,0,buf,((struct Obj00669 *)p)->f60,15424);
     func_02045808(buf);
     func_02045334(((struct Obj00669 *)p)->f54);

@@ -43,7 +43,9 @@ struct Sub02016078Word {
 };
 
 extern void func_02016BA0(void *b);
-extern void func_020163C4(void *a, u32 arg1, void *arg2);
+struct Ctx;
+struct Src;
+extern void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2);
 
 void sub_02016078(void *a, void *b, int mode)
 {
@@ -56,6 +58,6 @@ void sub_02016078(void *a, void *b, int mode)
         ((struct Sub02016078Word *)(pb + 0x140))->mode = mode;
 
         func_02016BA0(b);
-        func_020163C4(a, ((struct Obj16729 *)pb)->f148, pb + 0x150);
+        func_020163C4(a, ((struct Obj16729 *)pb)->f148, (const struct Src *)(pb + 0x150));
     }
 }

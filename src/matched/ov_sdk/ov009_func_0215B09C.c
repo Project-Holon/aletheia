@@ -32,7 +32,10 @@ struct NetVars {
 	unsigned short send_win;
 };
 
-extern unsigned long func_02158714(unsigned char *data, unsigned long len, struct Soc *soc, unsigned char flag);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct _CPSSoc;
+extern u32 func_02158714(u8 *data, u32 len, struct _CPSSoc *soc, u8 flag);
 extern void func_020858D8(void);
 extern struct NetVars g_021A826C;
 
@@ -70,7 +73,7 @@ unsigned long func_0215B09C(unsigned char *buf, unsigned long len, struct Soc *s
 			thislen = 0;
 		if (thislen == 0)
 			break;
-		thislen = func_02158714(buf, thislen, soc, 0x18);
+		thislen = func_02158714(buf, thislen, (struct _CPSSoc *)soc, 0x18);
 		func_020858D8();
 		remote_win -= thislen;
 		buf += thislen;

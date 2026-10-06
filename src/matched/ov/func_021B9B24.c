@@ -27,7 +27,7 @@ typedef int BOOL;
 
 extern int func_021B9BC4(void *p);
 extern int func_021B984C(void *p);
-extern void func_021BA794(char *p, u8 b);
+extern void func_021BA794(u8 *p, u8 b);
 
 void func_021B9B24(char *p)
 {
@@ -35,6 +35,6 @@ void func_021B9B24(char *p)
         s8 x = (s8)func_021B984C(p);
         s8 y = x - 3;
 
-        func_021BA794(p + 0x574, y);
+        func_021BA794((u8 *)(p + 0x574), y);
     }
 }

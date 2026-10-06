@@ -45,7 +45,7 @@ struct UtilWork {
     u8 f157[5];
 };
 
-u8 func_021D55A0(struct UtilWork *p, u16 id)
+int func_021D55A0(struct UtilWork *p, int id)
 {
     u32 i;
     for (i = 0; i < *(volatile u8 *)&p->n140; i++) {

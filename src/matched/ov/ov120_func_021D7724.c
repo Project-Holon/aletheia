@@ -32,7 +32,8 @@ extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_02045B38(u32,u32,u16,u16);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201EC74(u32,u32,u32);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_0201F5DC(void *,u32,u32,u32);
@@ -49,7 +50,7 @@ char *func_021D7724(u32 heap,u32 n)
     ((struct Obj00496 *)p)->f18=func_020457B0(240,((struct Obj00496 *)p)->fC8);
     ((struct Obj00496 *)p)->f20=func_020457B0(240,((struct Obj00496 *)p)->fC8);
     ((struct Obj00496 *)p)->f14=func_0201D7EC(23,0,0,0,((struct Obj00496 *)p)->fC8);
-    ((struct Obj00496 *)p)->fC=func_02045B38(0,2,n,((struct Obj00496 *)p)->fC8);
+    ((struct Obj00496 *)p)->fC=func_02045B38(0,2,(u16)n,(u16)(((struct Obj00496 *)p)->fC8));
     ((struct Obj00496 *)p)->f10=func_0201EC74(6,64,((struct Obj00496 *)p)->fC8);
     ((struct Obj00496 *)p)->fC0=func_02027F60(5,9,*(u32 *)&((struct Obj00496 *)p)->f14,*(u32 *)&((struct Obj00496 *)p)->fA4,((struct Obj00496 *)p)->fC8);
     ((struct Obj00496 *)p)->f4=func_0201F5DC((void *)1,12,0,((struct Obj00496 *)p)->fC8);

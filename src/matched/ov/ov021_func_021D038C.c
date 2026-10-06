@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021D03C4(void *p);
+struct W;
+extern void func_021D03C4(struct W *p);
 extern char d_021DE618[];
 
 void *func_021D038C(u32 v, u32 heap)
@@ -28,6 +29,6 @@ void *func_021D038C(u32 v, u32 heap)
     u32 *p = func_02030734(heap, 0xc, 1, d_021DE618, 0x6b);
 
     p[1] = v;
-    func_021D03C4(p);
+    func_021D03C4((struct W *)p);
     return p;
 }

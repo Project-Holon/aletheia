@@ -34,7 +34,7 @@ extern void func_021A3AD8(u8 *p, int a);
 extern u32 func_021A398C(u8 *);
 extern u16 func_021A3190(int, int);
 extern void func_021A3980(u8 *, int);
-extern void func_021A4114(u8 *);
+extern void func_021A4114(u32 *p);
 extern u32 func_021A3AD4(u8 *);
 extern void func_021A3AD0(u8 *, u32);
 extern void func_021AC154(u32 a);
@@ -54,7 +54,7 @@ int func_021A3DA0(u8 *p)
         func_021A3AD8(p, a);
     }
     func_021A3980(p, 0);
-    func_021A4114(p);
+    func_021A4114((u32 *)p);
     if ((o = func_021A3AD4(p)) != 0) {
         func_021AC154(o);
         func_021A3AD0(p, 0);

@@ -26,13 +26,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021BCBD8(void *p, int b);
-extern void func_021BBEB4(void *p, int a, int b, int c);
+extern u32 func_021BCBD8(char *p, int m);
+struct O;
+extern void func_021BBEB4(struct O *p, int mask, u32 a, int mode);
 
 int func_021BCE80(char *p, int v)
 {
     func_021BCBD8(p, 1);
-    func_021BBEB4(p, 0, ((struct Obj18202 *)(*(char * *)&((struct Obj12113 *)p)->f248))->f20, 0);
+    func_021BBEB4((struct O *)p, 0, ((struct Obj18202 *)(*(char * *)&((struct Obj12113 *)p)->f248))->f20, 0);
     ((struct Obj12113 *)p)->f1CC = 0x5D;
     return v;
 }

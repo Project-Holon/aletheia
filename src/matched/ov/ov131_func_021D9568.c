@@ -46,7 +46,7 @@ typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_0204B6F4(void *,u8,u32);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern u32 func_021DBF2C(u32,u32);
@@ -74,7 +74,7 @@ void func_021D9568(u8 *a,u8 *p)
     pos.flags=0;
     pos.z=0;
     *(u32 *)&((struct Obj02484 *)p)->f1C=(u32)func_0204B294((void *)((struct Obj03816 *)a)->f174,((struct Obj02484 *)p)->f18,((struct Obj03816 *)a)->fB4,((struct Obj03816 *)a)->f128,&pos,1,((struct Obj03816 *)a)->f0);
-    func_0204B6F4(((struct Obj02484 *)p)->f1C,func_021DBF2C(index,2),1);
+    func_0204B6F4(((struct Obj02484 *)p)->f1C,(u8)func_021DBF2C(index,2),1);
     func_0204B3DC(((struct Obj02484 *)p)->f1C,1);
     func_02040AE0(6,*(u8 * *)&((struct Obj02484 *)p)->f38+12,((struct Obj23157 *)(*(u8 * *)&((struct Obj02484 *)p)->f38))->f8);
     func_02041B6C(6);

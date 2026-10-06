@@ -35,12 +35,12 @@ typedef unsigned int u32;
 typedef struct { s16 x,y; } Point;
 typedef struct { s16 kind,x,y; } Output;
 extern void func_0204B84C(void *,u8);
-extern void func_021DAB50(int,void *,u16,u8,void *,void *);
+extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
 extern void func_0204B454(void *,Point *,u16);
 struct Actor;
 extern u16 func_0204B5FC(const struct Actor *actor);
-extern void func_021DE128(void *,int,int,int);
+extern void func_021DE128(u8 *p, u16 b, int c, int d);
 extern int func_021DE154(void *,void *,void *);
 extern void func_0204B404(void *,const Point *,u16);
 extern u32 func_02006BD0(u32 i);
@@ -63,7 +63,7 @@ void func_021DD9CC(char *p)
         *(u16 *)(p+0xdc)=2;
         break;
     case 2:
-        func_021DAB50(layer,q+0x24,(*(u16 *)(p+0xde)*0x7fff)/60,*(u32 *)(q+0x88),q+0x64,q+0x44);
+        func_021DAB50((void *)layer,(u16 *)(q+0x24),(*(u16 *)(p+0xde)*0x7fff)/60,(u8)(*(u32 *)(q+0x88)),(const u16 *)(q+0x64),(const u16 *)(q+0x44));
         tick=*(u16 *)(p+0xde);
         a=tick*14/60;
         b=tick*-12/60;
@@ -78,7 +78,7 @@ void func_021DD9CC(char *p)
         if(!*(int *)(p+0xe0))
             *(u32 *)(p+0xe8)=func_02006984(*(u16 *)(p+0xe4),*(u16 *)(p+0xe6),64,0,0,0,0,0);
         func_0204B454(*(void **)(q+0x20),&pos,*(u32 *)(q+0x98));
-        func_021DE128(p+0xec,func_0204B5FC(*(void **)(q+0x20)),pos.x,pos.y);
+        func_021DE128((u8 *)(p+0xec),func_0204B5FC(*(void **)(q+0x20)),pos.x,pos.y);
         *(u16 *)(p+0xdc)=5;
         break;
     case 5:
@@ -95,7 +95,7 @@ void func_021DD9CC(char *p)
         if(done) *(u16 *)(p+0xdc)=6;
         break;
     case 6:
-        func_021DAB50(layer,q+0x24,0x7fff-(*(u16 *)(p+0xde)*0x7fff)/60,*(u32 *)(q+0x88),q+0x64,q+0x44);
+        func_021DAB50((void *)layer,(u16 *)(q+0x24),0x7fff-(*(u16 *)(p+0xde)*0x7fff)/60,(u8)(*(u32 *)(q+0x88)),(const u16 *)(q+0x64),(const u16 *)(q+0x44));
         tick=*(u16 *)(p+0xde);
         a=tick*-14/60;
         b=tick*12/60;

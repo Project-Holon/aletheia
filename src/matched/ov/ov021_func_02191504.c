@@ -25,7 +25,9 @@ typedef unsigned int   u32;
 extern void func_02193170(u32);
 extern void func_02193044(u32);
 extern u32 func_02194A00(u32, u8, u8, u8, u8, u32);
-extern void func_021927C0(u32 *, u16 *);
+struct Fx;
+struct G;
+extern void func_021927C0(struct G *g, struct Fx *a);
 
 void func_02191504(u16 *a, u32 *b, u32 c, u32 d, u16 e, u16 f, u32 g)
 {
@@ -34,5 +36,5 @@ void func_02191504(u16 *a, u32 *b, u32 c, u32 d, u16 e, u16 f, u32 g)
     func_02193170(a[0]);
     func_02193044(0);
     b[6] = func_02194A00(b[4], c, d, e, f, g);
-    func_021927C0(b, a);
+    func_021927C0((struct G *)b, (struct Fx *)a);
 }

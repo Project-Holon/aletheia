@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F05E8(u8 *, int, u32);
-extern int func_021F0668(u8 *, int);
+extern int func_021F0668(char *p, int i);
 int func_021F25D4(u8 *p, int *st)
 {
     switch (st[0]) {
@@ -24,7 +24,7 @@ int func_021F25D4(u8 *p, int *st)
         st[0]++;
         return 0;
     case 1:
-        if (func_021F0668(p, st[6]) != 0)
+        if (func_021F0668((char *)p, st[6]) != 0)
             return 0;
         break;
     }

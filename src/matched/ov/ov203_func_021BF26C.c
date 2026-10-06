@@ -12,5 +12,5 @@
  *   func_021BDF88 0x021BDF88 thumb ov203
  */
 struct Triple{unsigned short x,y,z;};
-extern void func_021BDF88(char *,unsigned char,int);
-void func_021BF26C(unsigned unused,char **q,unsigned *v){struct Triple t;t.x=v[1];t.y=v[2];t.z=v[3];func_021BDF88(*q,v[0],(int)&t);}
+extern void func_021BDF88(char *p, int a, int b);
+void func_021BF26C(unsigned unused,char **q,unsigned *v){struct Triple t;t.x=v[1];t.y=v[2];t.z=v[3];func_021BDF88(*q,(unsigned char)v[0],(int)&t);}

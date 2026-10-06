@@ -49,12 +49,12 @@ typedef signed int s32;
 struct Sub0200852CObj;
 struct PltData { u32 fmt; u32 ext; u32 size; u8 *raw; };
 struct CellCfg { u16 a; u16 b; u16 c; u8 d; u8 e; };
-extern void *func_02012944(void *p);
+extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_020490F4(u32 id, u16 heap);
 struct Obj;
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 index);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -94,7 +94,7 @@ void func_021BD844(u8 *p)
     int z;
     struct CellCfg cfg;
     struct PltData *pal;
-    t = func_02012944(*(void **)W(0x1f8));
+    t = (struct Sub0200852CObj *)func_02012944(*(void **)W(0x1f8));
     BG = func_020490F4(0xac, HEAP);
     if (func_02008550(t) == 0) {
         func_02049B68(BG, 7, 4, 0, 0xc0, HEAP);

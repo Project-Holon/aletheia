@@ -17,14 +17,15 @@
 
 typedef unsigned int u32;
 
-extern void func_021DFD30(void *, u32);
+typedef unsigned char  u8;
+extern void func_021DFD30(u8 *p, u32 v);
 extern void func_021D8E84(void *, int);
 extern void func_021E08E8(char *p);
 
 void func_021E0008(char *p)
 {
     if (((struct Obj22754 *)p)->fF2C >= 0x1a4) {
-        func_021DFD30(p, 0);
+        func_021DFD30((u8 *)p, 0);
         func_021D8E84(p, (int)func_021E08E8);
     }
 }

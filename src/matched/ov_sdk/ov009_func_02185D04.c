@@ -31,8 +31,8 @@ typedef struct GPIConnection GPIConnection;
 extern void func_02193734(int *p, int b);
 extern void func_0219327C(char *p, int b, int n);
 extern int func_02189300(void **connection, int id, int isDeleted);
-extern int func_0218946C(void **connection, void *outputBuffer, char *buffer);
-extern int func_0218949C(void **connection, void *outputBuffer, int num);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
 extern char g_021A4024[];
 extern char g_021A4054[];
 extern char g_021A4064[];
@@ -63,13 +63,13 @@ int func_02185D04(void **connection, int profile, char *reason)
         if (reasonFixed[i] == '\\') reasonFixed[i] = '/';
     }
     func_02189300(connection, profile, 0);
-    func_0218946C(connection, (char *)iconnection + 0x210, g_021A4064);
-    func_0218946C(connection, (char *)iconnection + 0x210, g_021A4070);
-    func_0218949C(connection, (char *)iconnection + 0x210, *(int *)((char *)iconnection + 0x198));
-    func_0218946C(connection, (char *)iconnection + 0x210, g_021A407C);
-    func_0218949C(connection, (char *)iconnection + 0x210, profile);
-    func_0218946C(connection, (char *)iconnection + 0x210, g_021A408C);
-    func_0218946C(connection, (char *)iconnection + 0x210, reasonFixed);
-    func_0218946C(connection, (char *)iconnection + 0x210, g_021A4098);
+    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4064);
+    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4070);
+    func_0218949C((int *)connection, (int *)((char *)iconnection + 0x210), *(int *)((char *)iconnection + 0x198));
+    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A407C);
+    func_0218949C((int *)connection, (int *)((char *)iconnection + 0x210), profile);
+    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A408C);
+    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), reasonFixed);
+    func_0218946C((int *)connection, (int *)((char *)iconnection + 0x210), g_021A4098);
     return 0;
 }

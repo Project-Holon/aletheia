@@ -25,7 +25,8 @@ extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int spa
 extern void func_0204B404(void *, const Pt *, unsigned short);
 extern void func_020061E4(unsigned);
 extern unsigned func_0209C2B0(unsigned, unsigned);
-extern void func_02041EE4(unsigned char, int, int);
+typedef unsigned int   u32;
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 int func_021E65FC(Work *w)
 {
     int ret = 0;
@@ -54,7 +55,7 @@ int func_021E65FC(Work *w)
         w->count = 0;
         ret = 1;
     }
-    func_02041EE4(w->bg + 1, 0, level);
-    func_02041EE4(w->bg, 0, level);
+    func_02041EE4((unsigned char)(w->bg + 1), (int)0, (int)level);
+    func_02041EE4((unsigned char)w->bg, (int)0, (int)level);
     return ret;
 }

@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 
-u32 func_021845AC(u32 n) { if(n<=150)return 0;if(n>=151 && n<=162)return 1;if(n>=163 && n<=176)return 2;if(n>=177 && n<=197)return 3;if(n>=198)n=4;return n; }
+int func_021845AC(u8 n) { if(n<=150)return 0;if(n>=151 && n<=162)return 1;if(n>=163 && n<=176)return 2;if(n>=177 && n<=197)return 3;if(n>=198)n=4;return n; }

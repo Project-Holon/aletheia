@@ -32,7 +32,7 @@ extern int func_021A4664(int a, int b, u8 *c);
 extern int func_021A4698(u8 *, void *, u32);
 extern int func_021A482C(u8 *, void *, u32);
 extern int func_021A4890(u8 *a, u32 b, u32 c);
-extern int func_021A48A4(u8 *, void *, u32);
+extern int func_021A48A4(u32 a, u32 b, u32 c);
 
 int ov021_func_021A46F0(u8 *a, u32 b)
 {
@@ -59,7 +59,7 @@ int ov021_func_021A46F0(u8 *a, u32 b)
         ret = func_021A4890(a, (u32)r, b);
         break;
     case 7:
-        ret = func_021A48A4(a, r, b);
+        ret = func_021A48A4((u32)a, (u32)r, b);
         break;
     }
     return ret;

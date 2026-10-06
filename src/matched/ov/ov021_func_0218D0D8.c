@@ -29,7 +29,7 @@ typedef signed int     s32;
 struct Tagged;
 extern void *func_02046F48(struct Tagged *p);
 extern unsigned char *func_0206E964(unsigned char *p);
-extern void func_02022040(void *src, u32 size, void *dst);
+extern void func_02022040(u16 *pal, int n, const u8 *table);
 
 int func_0218D0D8(void *a, void *b)
 {
@@ -38,7 +38,7 @@ int func_0218D0D8(void *a, void *b)
         u32 size = ((struct Obj12581 *)p)->f30 << 3;
         u32 off = ((struct Obj12581 *)p)->f38;
         if (b != 0)
-            func_02022040(p + off, size >> 1, b);
+            func_02022040((u16 *)(p + off), size >> 1, b);
         return 1;
     }
     return 0;

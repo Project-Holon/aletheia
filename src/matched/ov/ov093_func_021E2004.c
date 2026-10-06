@@ -20,14 +20,14 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 typedef struct Word { unsigned int v; } Word;
 extern int func_021D775C(int key);
-extern u32 func_021C7D00(int a, int b);
+extern int func_021C7D00(u8 *p, int b);
 extern Word func_021E89D4(int a);
 extern int func_021D76BC(int a, Word b);
 
 void func_021E2004(int u, int a, int b)
 {
     if (b == func_021D775C(3)) {
-        Word t = func_021E89D4(func_021C7D00(a, b));
+        Word t = func_021E89D4(func_021C7D00((u8 *)a, b));
         func_021D76BC(0x1e, t);
     }
 }

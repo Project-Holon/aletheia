@@ -33,7 +33,7 @@ extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern void func_021FBE54(char *base, u32 idx, u32 area);
-extern void func_021E02F8(char *, char *);
+extern void func_021E02F8(char *p, int *q);
 int func_021DF920(void *obj, int unused, char *q)
 {
     char *p;
@@ -53,6 +53,6 @@ int func_021DF920(void *obj, int unused, char *q)
     ((struct Obj02230 *)q)->f17 = 0xFF;
     ((struct Obj02230 *)q)->f18 = 0x13;
     func_021FBE54((char *)(((struct Obj02230 *)q)->f8), 6, ((struct Obj01765 *)p)->f54);
-    func_021E02F8(p, q);
+    func_021E02F8(p, (int *)q);
     return 1;
 }

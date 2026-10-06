@@ -82,7 +82,8 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B954(struct Actor *a, u32 v);
 extern u32 func_02013D5C(u32 id);
 extern u8 *func_0217BEA8(u16);
-extern void func_0204B404(void *, Pos *, int);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 func_0204B714(struct Obj *o);
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
@@ -157,11 +158,11 @@ void func_0217E0F4(Work *p, Mon *m)
                     l.p.y = i * 0x18 + 0x50;
                     l.p2 = l.p;
                     l.p2.x = 0xf0;
-                    func_0204B404(b, &l.p2, 0);
+                    func_0204B404(b, (const struct Vec2 *)(&l.p2), 0);
                     func_0204B3DC(b, 1);
                 }
             }
-            func_0204B404(a, &l.p, 0);
+            func_0204B404(a, (const struct Vec2 *)(&l.p), 0);
             p->fec[i].ptr = obj;
             p->fec[i].id = e->f14;
         } else {
@@ -178,7 +179,7 @@ void func_0217E0F4(Work *p, Mon *m)
             }
             l.p.x += d_021836A4[i][0];
             l.p.y += d_021836A4[i][1];
-            func_0204B404(a, &l.p, 0);
+            func_0204B404(a, (const struct Vec2 *)(&l.p), 0);
         }
         func_0204B3DC(a, 1);
     }

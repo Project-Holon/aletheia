@@ -32,22 +32,25 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021CF8D4(u8 *, void *, u8 *, u16 *);
-extern u8 func_021B9B98(void *);
+typedef signed char    s8;
+struct G;
+struct R4;
+extern u8 func_021B9B98(u8 *p);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
-extern u8 *func_021CFD50(void *, int);
-extern int func_021D6C24(void *);
+extern u8 *func_021CFD50(struct G *g, int k);
+extern int func_021D6C24(struct R4 *p);
 extern u8 *func_021B937C(int, char *, u8 *);
 extern int func_021CFDCC(void *, void *);
-extern int func_021CFE08(void *, void *, void *);
-extern int func_021CFE98(void *, void *, void *);
-extern int func_021CFFAC(void *, void *, void *);
-extern int func_021D0100(void *, void *, void *, u8 *);
-extern int func_021D0248(void *, void *, u8 *);
-extern int func_021D0304(void *, void *, void *, u8 *);
+extern int func_021CFE08(struct G *g, void *a, void *b);
+extern int func_021CFE98(struct G *g, void *a, void *b);
+extern int func_021CFFAC(struct G *g, void *mon, void *target);
+extern int func_021D0100(struct G *g, void *mon, void *target, u8 *out);
+extern int func_021D0248(struct G *g, void *m, u8 *out);
+extern int func_021D0304(struct G *g, void *mon, void *target, u8 *out);
 extern u8 func_021D0980(u8 *, u8 *);
-extern void func_021D09E0(void *, u8 *, u8, void *);
-extern int func_021CFBBC(void *, u8);
+extern void func_021D09E0(u8 *p, u8 *order, u8 count, void *target);
+extern int func_021CFBBC(s8 *p, int v);
 extern void func_021CFBE0(u8 *p, u32 i, u32 v);
 int func_021CFBF0(u8 *g, void *m, u32 slot, u8 *out)
 {
@@ -62,24 +65,24 @@ int func_021CFBF0(u8 *g, void *m, u32 slot, u8 *out)
     choice = 6;
     if (func_021CF8D4(g, m, &id, &k) != 4) return 0;
     if (func_021B9B98(((struct Obj00489 *)g)->f118) <= g[0x11c]) return 0;
-    q = func_021CFD50(g, func_021B8D8C(((struct Obj00489 *)g)->f0, ((struct Obj00489 *)g)->f4, func_021D5440(m)));
+    q = func_021CFD50((struct G *)g, func_021B8D8C(((struct Obj00489 *)g)->f0, ((struct Obj00489 *)g)->f4, func_021D5440(m)));
     if (!q) return 0;
-    if (func_021D6C24(q))
+    if (func_021D6C24((struct R4 *)q))
         q = func_021B937C(*(int *)&((struct Obj00489 *)g)->f0, *(char * *)&((struct Obj00489 *)g)->f4, q);
     if (func_021CFDCC(g, m)) ok = 1;
-    else if (func_021CFE08(g, m, q)) ok = 1;
-    else if (func_021CFE98(g, m, q)) ok = 1;
-    else if (func_021CFFAC(g, m, q)) ok = 1;
-    else if (func_021D0100(g, m, q, &choice)) ok = 1;
-    else if (func_021D0248(g, m, &choice)) ok = 1;
-    else if (func_021D0304(g, m, q, &choice)) ok = 1;
+    else if (func_021CFE08((struct G *)g, m, q)) ok = 1;
+    else if (func_021CFE98((struct G *)g, m, q)) ok = 1;
+    else if (func_021CFFAC((struct G *)g, m, q)) ok = 1;
+    else if (func_021D0100((struct G *)g, m, q, &choice)) ok = 1;
+    else if (func_021D0248((struct G *)g, m, &choice)) ok = 1;
+    else if (func_021D0304((struct G *)g, m, q, &choice)) ok = 1;
     else return 0;
     if (!ok) return 0;
     if (choice == 6) {
         n = func_021D0980(g, buf);
         func_021D09E0(g, buf, n, q);
         for (i = 0; i < n; i++) {
-            if (!func_021CFBBC(g, buf[i])) {
+            if (!func_021CFBBC((s8 *)g, buf[i])) {
                 choice = buf[i];
                 break;
             }

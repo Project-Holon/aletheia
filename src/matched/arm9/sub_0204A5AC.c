@@ -52,19 +52,22 @@ typedef unsigned int  u32;
 extern u8 *g_02146A74;
 
 extern void func_0204BAEC(u32 which);
-extern void func_0204BCD8(void *p);
-extern void func_0204BE28(void *p);
-extern void func_0204C6E4(void *p);
-extern void func_0204D8AC(void *p);
+struct Obj;
+struct Pool;
+struct Res;
+extern void func_0204BCD8(struct Obj *o);
+extern void func_0204BE28(int *p);
+extern void func_0204C6E4(struct Pool *p);
+extern void func_0204D8AC(struct Res *res);
 extern void sub_020307B0(void *p);
 
 void sub_0204A5AC(void)
 {
     func_0204BAEC(0);
-    func_0204BCD8(g_02146A74);
-    func_0204BE28(g_02146A74 + 0x40);
-    func_0204C6E4(g_02146A74 + 0xe0);
-    func_0204D8AC(g_02146A74 + 0x104);
+    func_0204BCD8((struct Obj *)g_02146A74);
+    func_0204BE28((int *)(g_02146A74 + 0x40));
+    func_0204C6E4((struct Pool *)(g_02146A74 + 0xe0));
+    func_0204D8AC((struct Res *)(g_02146A74 + 0x104));
     sub_020307B0(g_02146A74);
     g_02146A74 = 0;
 }

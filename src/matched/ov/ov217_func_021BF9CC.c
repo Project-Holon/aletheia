@@ -37,8 +37,8 @@ extern u16 func_0200E458(const u16 *, int);
 extern void *func_02012EBC(struct Big *);
 extern u32 func_021BF740(u8 *);
 extern u32 func_021BF7CC(void *);
-void func_021BF9CC(u32 a0)
+u16 func_021BF9CC(u32 a0)
 {
-    func_0200E458((const u16 *)func_0200E394(func_02012EBC((struct Big *)func_021BF740((u8 *)a0))), func_021BF7CC((void *)a0));
+    return func_0200E458((const u16 *)func_0200E394(func_02012EBC((struct Big *)func_021BF740((u8 *)a0))), func_021BF7CC((void *)a0));
 }
 

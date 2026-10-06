@@ -34,7 +34,9 @@ struct Ov208Main {
 };
 struct State;
 extern int func_021BC274(struct State *p, int arg);
-extern void func_021BCC84(struct Ov208Args *a, struct Ov208Main *m);
+struct Ov208Mode;
+struct Ov208Slot;
+extern void func_021BCC84(struct Ov208Mode *m, struct Ov208Slot *s);
 struct Ov208Fade;
 struct Ov208Icon;
 struct PrintSys;
@@ -58,7 +60,7 @@ int func_021BCBB4(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main 
     if (func_021BC274(m->obj, (int)m->fsm) != 0) {
         if (m->f28 != 0) {
             a->f4 = m->f28;
-            func_021BCC84(a, m);
+            func_021BCC84((struct Ov208Mode *)a, (struct Ov208Slot *)m);
             m->f28 = 0;
             done = 1;
         } else {

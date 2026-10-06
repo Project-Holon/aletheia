@@ -10,7 +10,7 @@
  * status: EXACT
  */
 #include "../include/Obj01674.h"
-void func_02186860(char *p, int x, unsigned char y)
+void func_02186860(char *p, int x, int y)
 {
     if (((struct Obj01674 *)p)->f9270 == 0) {
         ((struct Obj01674 *)p)->f9270 = x;

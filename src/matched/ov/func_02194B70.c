@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02194B70(u16 *p)
+void func_02194B70(u16 *p, int i)
 {
     *p = 2;
 }

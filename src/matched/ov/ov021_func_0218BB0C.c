@@ -27,7 +27,7 @@ extern u16 func_0204961C(void *obj);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void func_02049238(void *h);
 
-void func_0218BB0C(u8 *s, u32 a, u32 n)
+void func_0218BB0C(u8 *s, u16 a, u32 n)
 {
     void *h;
     u8 *r;

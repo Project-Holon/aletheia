@@ -22,24 +22,24 @@ typedef unsigned int u32;
 
 typedef struct Obj Obj;
 
-extern int func_021BADF0(Obj *o);
+extern int func_021BADF0(int p);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021B80C4(struct Obj *o, int flag);
-extern void func_021B6100(Obj *o, void *fn);
+extern void func_021B6100(char *p, int k);
 extern void func_021B7CD0(struct Obj *o);
 
 void func_021B7C88(Obj *o)
 {
-    if (func_021BADF0(o) == 0)
+    if (func_021BADF0((int)o) == 0)
         return;
     if (func_020362DC() & 3) {
         func_021B80C4(o, 1);
-        func_021B6100(o, (void *)func_021B7CD0);
+        func_021B6100((char *)o, (int)((void *)func_021B7CD0));
         return;
     }
     if (func_02035C60() != 0) {
         func_021B80C4(o, 0);
-        func_021B6100(o, (void *)func_021B7CD0);
+        func_021B6100((char *)o, (int)((void *)func_021B7CD0));
     }
 }

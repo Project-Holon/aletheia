@@ -12,7 +12,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_0204F2FC(u8 *p, u32 i, u32 value)
+void func_0204F2FC(u8 *p, int i, u32 value)
 {
     u32 off = i * 40;
     *(u32 *)(*(u8 **)(p + 4) + off + 32) = value;

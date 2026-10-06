@@ -17,8 +17,8 @@
 
 
 
-extern void func_021ECA6C(char *, int, int, int, int);
+extern void func_021ECA6C(unsigned char *p, int flag, int i, unsigned end, int mode);
 void func_021ECB74(char *a, int b)
 {
-    func_021ECA6C(a, 1, b, b + 1, 1);
+    func_021ECA6C((unsigned char *)a, 1, b, b + 1, 1);
 }

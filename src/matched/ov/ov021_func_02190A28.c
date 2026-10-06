@@ -26,7 +26,8 @@ typedef struct Pair {
 } Pair;
 
 extern u32 func_02190A20(int n, u32 d);
-extern void func_0201F878(u32 obj, u32 c, u32 a, u32 b, u32 d);
+struct Slot;
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 
 u32 func_02190A28(const Pair *arr, int n, u32 c, u16 d)
 {
@@ -35,6 +36,6 @@ u32 func_02190A28(const Pair *arr, int n, u32 c, u16 d)
 
     obj = func_02190A20(n, d);
     for (i = 0; i < n; i++)
-        func_0201F878(obj, c, arr[i].a, arr[i].b, d);
+        func_0201F878((struct Slot *)obj, c, arr[i].a, arr[i].b, d);
     return obj;
 }

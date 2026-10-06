@@ -15,11 +15,12 @@
 #include "../include/Obj03351.h"
 #include "../include/Obj25233.h"
 
-extern int func_02210C88(void *, int);
+typedef unsigned char  u8;
+extern int func_02210C88(u8 *p, unsigned mode);
 
 int func_022101FC(char *p)
 {
-    if (func_02210C88(p, 4) == 0)
+    if (func_02210C88((u8 *)p, 4) == 0)
     {
         return 0xf;
     }

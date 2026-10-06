@@ -24,10 +24,10 @@ typedef struct { u32 w[49]; } Rec;
 extern int *func_021D85E8(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, int, u32);
-extern int func_0203F1FC(void *, int);
+extern int func_0203F1FC(const u8 *src, u32 len);
 extern char d_021D8D2C[];
 
-int func_021D7414(int unused, char *dst, int n)
+int func_021D7414(char *unused, char *dst, int n)
 {
     int *g = func_021D85E8();
     int *hdr = g + 1;
@@ -48,7 +48,7 @@ int func_021D7414(int unused, char *dst, int n)
         u64 id = *(u64 *)(e + 4);
         if (*(u64 *)(e + 0xC4) != id) {
             *(u64 *)(e + 0xC4) = id;
-            *(u16 *)(e + 0xCC) = func_0203F1FC(e + 0x8C, 0x38);
+            *(u16 *)(e + 0xCC) = func_0203F1FC((const u8 *)(e + 0x8C), 0x38);
         }
         *(Rec *)(dst + i * 0xC4) = *(Rec *)(e + 0xC);
     }

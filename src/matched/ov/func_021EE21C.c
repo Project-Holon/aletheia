@@ -23,7 +23,8 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern int func_021ECF68(u8 *);
+struct T;
+extern int func_021ECF68(struct T *p);
 
-int func_021EE21C(u8 *p) { return func_021ECF68(p); }
+int func_021EE21C(u8 *p) { return func_021ECF68((struct T *)p); }
 

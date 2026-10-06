@@ -26,7 +26,7 @@ extern void func_021BAFE4(u32 p);
 struct MsgBank;
 struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_021B6C74(void **,u32,u16);
+extern u32 *func_021B6C74(u32 *src, u32 n, u16 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern const char d_021C3C34[];
 extern const u16 d_021C3770[];
@@ -39,7 +39,7 @@ u8 *func_021BAEDC(void *p,void *q,u16 heap) {
     ((struct Obj03750 *)result)->f8=heap;
     func_021BAFE4((u32)result);
     for(i=0;i<27;i++) *(void **)(result+12+i*4)=func_02045B38(1,2,d_021C3770[i],heap);
-    ((struct Obj03750 *)result)->f78=func_021B6C74((void **)(result+12),27,((struct Obj03750 *)result)->f8);
+    ((struct Obj03750 *)result)->f78=func_021B6C74((u32 *)(result+12),27,((struct Obj03750 *)result)->f8);
     ((struct Obj03750 *)result)->fAD0=func_020457B0(27,heap);
     return result;
 }

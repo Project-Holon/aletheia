@@ -54,7 +54,7 @@ extern u32 func_0201AB34(void *p, u32 idx);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_02019CA0(void *p, u32 v);
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 int func_02176454(int a0, int a1, Arg *arg)
 {
@@ -83,7 +83,7 @@ int func_02176454(int a0, int a1, Arg *arg)
         }
     }
     if (cnt <= 0) {
-        func_02034714(d_02177010, 0, d_02177010);
+        func_02034714((const char *)d_02177010, 0, (const char *)d_02177010);
     }
     return 1;
 }

@@ -57,7 +57,7 @@ typedef struct {
     u8 b1 : 1;
 } Obj;
 
-extern int func_0217BB04(u8 *a);
+extern int func_0217BB04(char *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -75,10 +75,10 @@ extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
 extern void func_020307B0(void *p);
 extern u32 func_0200FB24(void);
-extern void func_0217B8E4(u8 *a, int b);
+extern int func_0217B8E4(char *p, char v);
 extern void func_02172D50(u8 *a);
 extern int func_02172D68(u8 *a);
-extern int func_02173D38(u8 *a);
+extern u32 func_02173D38(u8 *p);
 extern u16 func_0217EE10(int i);
 extern u16 func_0217EDEC(int i);
 extern u16 func_0217EE1C(int i);
@@ -91,7 +91,7 @@ extern u8 d_021807E8[];
 int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
 {
     int *p;
-    if (*d != 4 && *d != 5 && *d != 8 && func_0217BB04(a) == 1)
+    if (*d != 4 && *d != 5 && *d != 8 && func_0217BB04((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -132,7 +132,7 @@ int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
             func_020307B0(*(int * *)&((struct Obj00033 *)a)->f3558);
             *(int * *)&((struct Obj00033 *)a)->f3558 = 0;
             if (func_0200FB24() != 0) {
-                func_0217B8E4(a, 1);
+                func_0217B8E4((char *)a, 1);
                 return 1;
             }
             func_02172D50(a);

@@ -64,9 +64,12 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_02160A28(void *r, u32 tag, u32 x, u32 y, u32 w, u32 h);
-extern void func_02164480(void *f, void *a, void *b);
-extern void func_0215E840(void *p, void *out);
+struct Flags;
+struct Info;
+struct Rect;
+extern void func_02160A28(struct Rect *r, u32 tag, u32 x, u32 y, u32 w, u32 h);
+extern void func_02164480(struct Flags *f, void *a, void *b);
+extern void func_0215E840(void *field, struct Info *out);
 extern int func_021607E0(void *evt, u32 *state, struct Task *t);
 
 void *func_0216075C(Owner *o, u16 id)
@@ -87,8 +90,8 @@ void *func_0216075C(Owner *o, u16 id)
     t->f60 = 0;
     t->f62 = 0;
     t->f68 = 0;
-    func_02160A28(t->rect, (u32)t->owner, t->owner->f14, t->owner->f18, t->owner->f1c, t->owner->f20);
-    func_02164480(t->flags, t->owner->f00, t->owner->f04);
-    func_0215E840(t->owner->f04, t->info);
+    func_02160A28((struct Rect *)t->rect, (u32)t->owner, t->owner->f14, t->owner->f18, t->owner->f1c, t->owner->f20);
+    func_02164480((struct Flags *)t->flags, t->owner->f00, t->owner->f04);
+    func_0215E840(t->owner->f04, (struct Info *)t->info);
     return h;
 }

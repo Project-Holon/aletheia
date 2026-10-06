@@ -54,10 +54,10 @@ struct Font {
 };
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0201DC44(const struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
+extern void func_0201DC44(struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
 
 void func_0201DBBC(const struct Font *f, u32 i, void *d, u8 *out)
 {
     MI_CpuCopy8(f->body + i * f->mapSize, f->scratch, f->mapSize);
-    func_0201DC44(f, f->scratch, f->lastCols, d, out);
+    func_0201DC44((struct Font *)f, f->scratch, f->lastCols, d, out);
 }

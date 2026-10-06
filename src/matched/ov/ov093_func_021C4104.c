@@ -33,7 +33,7 @@ typedef struct { int a; u8 b; } S;
 extern u8 func_021D5440(u8 *p);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021C5D88(u8 *p, u8 *a, int b);
-extern void func_021C5840(u8 *p, int k, void *x, void *y, int z);
+extern void func_021C5840(u8 *p, u32 count, int *v, u8 **a, int flag);
 extern void func_021C59C4(u8 *p, u32 n, u8 **a, u8 *b, int flag);
 extern int func_021D6D9C(u8 *c, u16 *d);
 extern void func_021C41C0(u8 *p, u8 *a);
@@ -48,7 +48,7 @@ u16 func_021C4104(u8 *p, u32 q, u8 *c, u16 d, S s, u16 *e)
     int m = func_021D5440(c);
     func_021CD4B0(((struct Obj00003 *)p)->fC, 0x54, m, sa, ev);
     func_021C5D88(p, c, 0x317);
-    func_021C5840(p, 1, &s, &c, 0);
+    func_021C5840(p, 1, (int *)(&s), &c, 0);
     func_021C59C4(p, 1, &c, &s.b, 0);
     if (func_021D6D9C(c, &d))
         func_021C41C0(p, c);

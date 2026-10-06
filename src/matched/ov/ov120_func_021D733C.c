@@ -21,13 +21,15 @@ struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern int func_021D72C8(u8 *, int, int);
-extern void func_0204B404(void *, const Vec *, u32);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021D733C(u8 *p, int index, int count)
 {
     Vec pos;
     if (((struct Obj10399 *)p)->f140 != 0) {
         func_0204B454(((struct Obj10399 *)p)->f140, (struct PtS *)&pos, 1);
         pos.y = func_021D72C8(p, index, count) + 26;
-        func_0204B404(((struct Obj10399 *)p)->f140, &pos, 1);
+        func_0204B404(((struct Obj10399 *)p)->f140, (const struct Vec2 *)(&pos), 1);
     }
 }

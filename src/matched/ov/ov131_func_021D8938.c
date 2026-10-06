@@ -33,7 +33,7 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern s16 func_021D9440(u8 *,u32);
 struct Bmp;
 extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern void *func_021DBAD0(void *,struct Grid *);
+extern u8 *func_021DBAD0(u8 *a, const u8 *b);
 extern void func_021DBCA4(u8 *p, int v);
 void func_021D8938(u8 *a,u8 *p)
 {
@@ -60,7 +60,7 @@ void func_021D8938(u8 *a,u8 *p)
         g.f6=func_021D9440(p,i);
         e=p+i*0x14;
         g.f0=((struct Obj10515 *)e)->f7C=func_02043754((void *)(base-(i+1)*0x660),0x11,3,0x20,((struct Obj04509 *)a)->f0);
-        ((struct Obj10515 *)e)->f80=func_021DBAD0(((struct Obj10514 *)p)->f6C,&g);
+        ((struct Obj10515 *)e)->f80=func_021DBAD0(((struct Obj10514 *)p)->f6C,(const u8 *)(&g));
         func_021DBCA4(((struct Obj10515 *)e)->f80,0);
     }
 }

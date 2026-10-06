@@ -24,8 +24,9 @@ typedef unsigned short u16;
 struct RecDC;
 extern void *func_021DEB10(char *p);
 extern u16 func_02039338(void);
-extern void *func_02184180(void *, u8);
-extern void func_0202F190(void *, int, void *, int, int);
+typedef unsigned int   u32;
+extern char *func_02184180(unsigned char *p, int i);
+extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 void func_021E1784(char *p, int i)
 {
@@ -41,6 +42,6 @@ void func_021E1784(char *p, int i)
     a = func_0201AB28(party, (*(int **)(p + 0xd8))[1]);
     b = func_0201AB28(other, slot);
     q = func_021DEB10(p);
-    func_0202F190(b, 6, func_02184180(q, func_02039338()), 30002, 114);
+    func_0202F190(b, (int)6, (u32)func_02184180(q, (u8)func_02039338()), (int)30002, (int)114);
     func_02019CE0(b, a);
 }

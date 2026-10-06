@@ -27,8 +27,9 @@
 typedef unsigned int   u32;
 struct Up;
 extern unsigned char *func_0206E964(unsigned char *p);
-extern int func_02047260(int a, int *b, int *c);
-extern int func_020472F8(int a, int *b);
+struct Layer;
+extern int func_02047260(u32 a0, u32 *a1, u32 *a2);
+extern int func_020472F8(struct Layer *layer, u32 *out);
 extern void func_02069FF8(char *p, int a, int b);
 extern void func_0206A124(int *p, int v);
 extern void func_020862F0(int a, int b);
@@ -47,9 +48,9 @@ int func_02046FF8(int *self)
     p = (int)func_0206E964((unsigned char *)h);
     if (p == 0)
         goto fail;
-    if (func_02047260(p, &v8, &v4) == 0)
+    if (func_02047260(p, (u32 *)(&v8), (u32 *)(&v4)) == 0)
         return 0;
-    if (func_020472F8(p, &v0) == 0)
+    if (func_020472F8((struct Layer *)p, (u32 *)(&v0)) == 0)
         return 0;
     func_02069FF8((char *)p, v8, v4);
     func_0206A124((int *)p, v0);

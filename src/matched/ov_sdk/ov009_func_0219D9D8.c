@@ -74,7 +74,8 @@ extern void func_0219D5C4(_SBQueryEngine *engine, _SBServer *server);
 extern int func_0219F978(char *buf, int len);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
-extern int func_020949F4(const char *s1, const char *s2, unsigned int n);
+typedef unsigned char  u8;
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern void func_0219E5B8(_SBServer *server, char *data, int len);
 extern void func_0219E3CC(_SBServer *server, char *data, int len);
 extern unsigned int func_0217F264(void);
@@ -109,7 +110,7 @@ void func_0219D9D8(_SBQueryEngine *engine, _SBServer *server, char *data, int le
         }
         server->state |= 0x01 | 0x40;
     } else {
-        if (*data && func_020949F4(g_021A8104, data, 8) == 0) {
+        if (*data && func_020949F4((const u8 *)g_021A8104, (const u8 *)data, 8) == 0) {
             func_0219E5B8(server, data, len);
             if (server->splitResponseBitmap != 0xFF)
                 return;

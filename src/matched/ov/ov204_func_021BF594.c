@@ -24,15 +24,16 @@
 
 extern const char site[];
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
-extern void *func_02014B08(int, unsigned int);
+typedef unsigned int   u32;
+extern void *func_02014B08(u32 id, void *heap);
 extern void func_02016020(void *, unsigned int);
-extern void func_02016024(void *, unsigned int);
+extern void func_02016024(char *p, unsigned int v);
 extern void func_02015BF0(void *);
 
 void *func_021BF594(unsigned int heap, int kind)
 {
     char *p = func_02030734(heap, 108, 1, site, 98);
-    *(void **)(p + 4) = func_02014B08(8, heap);
+    *(void **)(p + 4) = func_02014B08(8, (void *)heap);
     *(unsigned short *)p = heap;
     if (kind != 7)
         func_02016020(*(void **)(p + 4), 7 << 16);

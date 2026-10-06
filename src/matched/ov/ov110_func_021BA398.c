@@ -23,7 +23,7 @@ extern void func_021BCC58(u8 *);
 extern void func_021BB8D8(u8 *);
 extern void func_021BB8B8(u8 *);
 extern u8 func_021BF6DC(u8 *);
-extern void func_021BB958(u8 *);
+extern void func_021BB958(char *p);
 extern int func_021BB954(u8 *);
 extern void func_021B9CBC(u8 *);
 void func_021BA398(int unused, u8 *p) {
@@ -35,7 +35,7 @@ void func_021BA398(int unused, u8 *p) {
         func_021BCC58(*(u8 * *)&((struct Obj06385 *)q)->f64);
         func_021BB8D8(*(u8 * *)&((struct Obj06385 *)q)->f58);
         func_021BB8B8(*(u8 * *)&((struct Obj06385 *)q)->f58);
-        if (func_021BF6DC(*(u8 * *)&((struct Obj06384 *)p)->f4) == 1) func_021BB958(*(u8 * *)&((struct Obj06385 *)q)->f58);
+        if (func_021BF6DC(*(u8 * *)&((struct Obj06384 *)p)->f4) == 1) func_021BB958((char *)(*(u8 * *)&((struct Obj06385 *)q)->f58));
         ++((struct Obj06384 *)p)->f14;
         break;
     case 2:

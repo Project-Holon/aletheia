@@ -107,11 +107,11 @@ extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
 extern void func_02059F54(int error, int errorCode);
 extern int func_02178F4C(void *cal);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern void func_02179CF4(DWCHttp *http);
+extern void func_02179CF4(char *http);
 extern int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int func_0217967C(DWCHttp *http);
+extern int func_0217967C(char *http);
 extern unsigned long func_02085A30(OSThread *thread);
-extern void func_02179718(DWCHttp *http, unsigned long prio);
+extern void func_02179718(char *http, unsigned long prio);
 
 extern DWCSvlIntWorkarea *g_021ACEF4;
 extern DWCAuthHttpParam g_021A2358;
@@ -149,27 +149,27 @@ int func_0217C144(char *svc, DWCSvlResult *result)
     }
 
     if (!func_02178F4C(&calinfo) || !func_02179218(&g_021ACEF4->http, &calinfo, 0)) {
-        func_02179CF4(&g_021ACEF4->http);
+        func_02179CF4((char *)(&g_021ACEF4->http));
         func_02059F54(9, -24100);
         return 0;
     }
 
     if (func_02179F3C(&g_021ACEF4->http, g_021A2860, g_021A2868, 6) != 0
         || func_02179F3C(&g_021ACEF4->http, g_021A2870, svc, 4) != 0) {
-        func_02179CF4(&g_021ACEF4->http);
+        func_02179CF4((char *)(&g_021ACEF4->http));
         func_02059F54(9, -24100);
         return 0;
     }
 
-    if (func_0217967C(&g_021ACEF4->http) != 0) {
-        func_02179CF4(&g_021ACEF4->http);
+    if (func_0217967C((char *)(&g_021ACEF4->http)) != 0) {
+        func_02179CF4((char *)(&g_021ACEF4->http));
         func_02059F54(9, -24100);
         return 0;
     }
 
-    func_02179718(&g_021ACEF4->http, func_02085A30(g_02150FEC.current) - 1);
+    func_02179718((char *)(&g_021ACEF4->http), func_02085A30(g_02150FEC.current) - 1);
     if (g_021ACEF4->http.thread.id == 0) {
-        func_02179CF4(&g_021ACEF4->http);
+        func_02179CF4((char *)(&g_021ACEF4->http));
         func_02059F54(9, -24100);
         return 0;
     }

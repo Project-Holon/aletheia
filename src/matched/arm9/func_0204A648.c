@@ -43,8 +43,10 @@ extern struct Sys *g_02146A74;
 
 extern u32  func_0204BB04(void);
 extern void func_0204BB20(u32 v);
-extern void func_0204BCF4(struct Sys *sys);
-extern void func_0204C7A4(void *p);
+struct Obj;
+struct Table;
+extern void func_0204BCF4(struct Obj *o);
+extern void func_0204C7A4(struct Table *t);
 
 void func_0204A648(void)
 {
@@ -53,10 +55,10 @@ void func_0204A648(void)
     if (func_0204BB04() == 0)
         return;
 
-    func_0204BCF4(g_02146A74);
+    func_0204BCF4((struct Obj *)g_02146A74);
 
     if (g_02146A74->unk_0ec != 0)
-        func_0204C7A4((char *)g_02146A74 + 0xe0);
+        func_0204C7A4((struct Table *)((char *)g_02146A74 + 0xe0));
 
     func_0204BB20(1);
 }

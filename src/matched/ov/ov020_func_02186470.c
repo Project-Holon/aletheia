@@ -31,13 +31,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020127A4(int a);
-extern u32 func_02012AC8(u32 p);
+struct Rec44;
+struct SaveBlock;
+extern void *func_020127A4(struct SaveBlock *p);
+extern u16 func_02012AC8(const struct Rec44 *p);
 extern char *func_020127C4(int a);
 extern int func_02161ECC(char *p);
-extern int func_02186BA8(char *p);
-extern int func_02013DE0(u16 id);
-extern void func_02186B2C(char *q, char *src);
+extern int func_02186BA8(u8 *p);
+extern int func_02013DE0(int a0);
+extern char *func_02186B2C(char *p, char *src);
 extern void func_02161E78(char *p);
 extern void func_02161E60(char *p, int a);
 
@@ -50,14 +52,14 @@ void func_02186470(int a0)
     u16 key;
     int i;
 
-    id = func_02012AC8(func_020127A4(a0));
+    id = func_02012AC8(func_020127A4((struct SaveBlock *)a0));
     base = func_020127C4(a0);
     i = 0;
     q = base + 0xF8;
     items = base + 8;
     key = id;
     for (; i < 10; i++) {
-        if (func_02161ECC(items + i * 0x18) != 0 && func_02186BA8(items + i * 0x18) != 0 && func_02013DE0(key) == 0) {
+        if (func_02161ECC(items + i * 0x18) != 0 && func_02186BA8((u8 *)(items + i * 0x18)) != 0 && func_02013DE0(key) == 0) {
             func_02186B2C(q, base + 8 + i * 0x18);
             func_02161E78(base + 8 + i * 0x18);
         }

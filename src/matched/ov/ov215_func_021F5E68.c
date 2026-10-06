@@ -22,7 +22,7 @@ struct S021F5E68
     void *slots[6];
 };
 
-extern void func_0204B908(void *, int);
+extern void func_0204B908(int a0, int a1);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
@@ -34,7 +34,7 @@ void func_021F5E68(int unused, struct S021F5E68 *p)
     unsigned char i;
     for (i = 0; i < 6; i++)
     {
-        func_0204B908(p->slots[i], 0);
+        func_0204B908((int)p->slots[i], 0);
         func_0204B92C(p->slots[i], 1);
     }
 }

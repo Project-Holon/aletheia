@@ -17,7 +17,7 @@
 
 extern void func_020419E4(void);
 
-void func_021BD034(void)
+void func_021BD034(char *a0)
 {
     func_020419E4();
 }

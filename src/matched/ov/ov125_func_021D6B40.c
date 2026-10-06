@@ -62,36 +62,40 @@ extern char *func_021D7700(void);
 extern int func_021D7154(int, int, int *, int *);
 extern void func_021D75C0(void);
 extern int func_021D860C(void *, u32);
-extern int func_021D8654(u16, u32);
+struct Big;
+struct MsgData;
+struct RecC4;
+struct Sub0200852CObj;
+extern int func_021D8654(int value, int n);
 extern int func_021D8694(u32, void *, u32, u32);
 extern int func_021D8754(void *, u32);
-extern int func_021D879C(u32, u32);
-extern int func_021D87FC(u32, u32);
-extern int func_021D885C(u32, u32);
+extern int func_021D879C(int value, int n);
+extern int func_021D87FC(int value, int n);
+extern int func_021D885C(int value, int n);
 extern int func_021D88BC(u32, u32, u32, u32);
 extern int func_021D88F0(u32, u32, u32);
 extern int func_021B9748(u8 *);
 extern void func_021B9774(u8 *);
 extern int func_021B9790(u8 *);
 extern u8 *func_021B97F4(u8 *);
-extern u8 *func_021B9800(u16, u32, u32);
+extern u8 *func_021B9800(int a, int b, int c);
 extern void func_021B9838(u8 *);
-extern void func_021B98A0(u8 *, u16, u32, u32);
-extern void func_021B98D8(u8 *, void *, u32);
+extern void func_021B98A0(u8 *p, int a, int b, int c);
+extern void func_021B98D8(u8 *p, int a, int n);
 extern int func_021B98F8(u8 *);
 extern void func_021B99B8(u8 *);
 extern int func_021B99DC(u8 *);
 extern int func_021B99F0(u8 *);
-extern u32 func_021B99F4(u8 *, int);
-extern void *func_021B9A14(u8 *, u8);
+extern u32 func_021B99F4(u32 p, u32 i);
+extern u8 *func_021B9A14(u8 *p, u32 i);
 extern void func_02082D44(const void *, void *, u32);
-extern u32 func_0200853C(void *);
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern void func_0200B784(u16, int *, int *);
 extern u8 *func_0200B91C(void);
-extern void func_0200BA44(void *);
-extern void *func_02012944(u32);
-extern void func_02012EBC(u32);
-extern void func_02045F5C(void *, u32, void *, u32);
+extern void func_0200BA44(struct RecC4 *p);
+extern u8 *func_02012944(void *p);
+extern void *func_02012EBC(struct Big *p);
+extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -128,12 +132,12 @@ int func_021D6B40(u8 *p, int *done)
             base = func_021D7700();
             if (OBJ != 0)
                 func_02034714(d_021D8D28, ret, d_021D8D28);
-            OBJ = func_021B9800((u16)W(0x13c), func_0200853C(func_02012944(W(0))), W(0x494));
+            OBJ = func_021B9800((u16)W(0x13c), func_0200853C((const struct Sub0200852CObj *)func_02012944((void *)W(0))), W(0x494));
             func_021B98A0(OBJ, (u16)W(0x13c), 0x540, 3);
             func_0200B784(*(u16 *)(base + 0xa6), &n, &m);
             B(0x490) = 0;
             for (i = 0; i < n; i++) {
-                func_021B98D8(OBJ, base + 0xd00 + i * 0x2a4, *(u16 *)(base + i * 0x2a4 + 0xcfe) * 0x70);
+                func_021B98D8(OBJ, (int)(base + 0xd00 + i * 0x2a4), *(u16 *)(base + i * 0x2a4 + 0xcfe) * 0x70);
                 B(0x490) += (u8)*(u16 *)(base + i * 0x2a4 + 0xcfe);
             }
             if (!func_021B98F8(OBJ))
@@ -165,7 +169,7 @@ int func_021D6B40(u8 *p, int *done)
                     B(0x492) = 0;
                     func_02082D44(func_021B9A14(h, B(0x490)), p + 0x40a, 0x80);
                     for (i = 0; i < B(0x490); i++)
-                        W(0x48c) = func_021B99F4(h, i);
+                        W(0x48c) = func_021B99F4((u32)h, i);
                     B(0x402)++;
                 } else {
                     base2 = func_021D7700();
@@ -173,19 +177,19 @@ int func_021D6B40(u8 *p, int *done)
                         B(0x492) = 1;
                     func_0200B784(*(u16 *)(base2 + 0xa6), &n2, &m2);
                     for (i = 0; i < B(0x490); i++) {
-                        W(0x48c) = func_021B99F4(h, i);
+                        W(0x48c) = func_021B99F4((u32)h, i);
                         if (W(0x48c) != 0 && B(0x403) == 0) {
                             if (!func_021D7154((int)p, i, &idx, &sub))
                                 break;
                             {
                                 char *e = base2 + 0xd00 + idx * 0x2a4 + sub * 0x70;
-                                func_02045F5C(d_020A7370, *(u16 *)(e + 6), e + 0x32, 11);
+                                func_02045F5C(d_020A7370, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
                             }
                             W(0x5a0) = 1;
                         }
                     }
                     if (B(0x403) == 0) {
-                        func_0200BA44(func_0200B91C());
+                        func_0200BA44((struct RecC4 *)func_0200B91C());
                         B(0x402) = 0;
                         B(0x403)++;
                     } else {
@@ -206,7 +210,7 @@ int func_021D6B40(u8 *p, int *done)
             }
             return 0;
         case 2:
-            func_02012EBC(W(0));
+            func_02012EBC((struct Big *)W(0));
             func_021D75C0();
             B(0x402)++;
             break;

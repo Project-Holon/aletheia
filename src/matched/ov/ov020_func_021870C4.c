@@ -64,7 +64,7 @@ u32 func_02188C98(u8 *p);
 void *func_0218DC70(u8 *p);
 void *func_02188CB4(u8 *p);
 void *func_02188C7C(u8 *p);
-void func_020127F0(void *a);
+int func_020127F0(int a0);
 int func_021A3460(u32 a, u32 b, u32 c, u32 d);
 void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
 struct Actor;
@@ -113,7 +113,7 @@ void *func_021870C4(void *a0, void *a1)
     a = func_0218DC70((u8 *)func_02188C98(a1));
     b = func_02188CB4(a1);
     c = func_02188C7C(a1);
-    func_020127F0(func_020120F4(a0));
+    func_020127F0((int)func_020120F4(a0));
     func_021A3460((u32)b, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
     d = (int)func_0216DDC0((u32)c, v[2], v[0], 0);
     func_0216D88C((const struct Actor *)d, (struct VecFx32 *)(o + 0x34));

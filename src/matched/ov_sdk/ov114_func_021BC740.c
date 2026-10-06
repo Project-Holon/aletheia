@@ -66,20 +66,20 @@ typedef struct {
 
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
-extern NHTTPReqInfo *func_021BEF48();
-extern NHTTPThreadInfo *func_021BEF50(void *sysInfo_p);
+extern void *func_021BEF48(int p);
+extern void *func_021BEF50(int p);
 extern NHTTPBgnEndInfo *func_021BEF3C(void *sysInfo_p);
 extern void *func_021BEF58(int p);
 extern int func_021B9F94(void *mutexInfo_p, NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
-extern int func_021BA448(char *p_p, int len);
+extern int func_021BA448(signed char *s, int len);
 extern int func_021BA150(const char *p1_p, const char *p2_p, int size);
 extern char g_021CE4A8[];
 
 static int func_021BC740(void)
 {
     void *sysInfo_p = func_021BEF08();
-    NHTTPReqInfo *reqInfo_p = func_021BEF48(sysInfo_p);
-    NHTTPThreadInfo *threadInfo_p = func_021BEF50(sysInfo_p);
+    NHTTPReqInfo *reqInfo_p = func_021BEF48((int)sysInfo_p);
+    NHTTPThreadInfo *threadInfo_p = func_021BEF50((int)sysInfo_p);
     NHTTPBgnEndInfo *bgnEndInfo_p = func_021BEF3C(sysInfo_p);
     void *mutexInfo_p = func_021BEF58((int)sysInfo_p);
     char *commBuf_p;
@@ -100,7 +100,7 @@ static int func_021BC740(void)
         recvbyte = func_021B9F94(mutexInfo_p, req_p, bgnEndInfo_p->socket, &tmpbuf[totalRecvbyte],
                                  512 - totalRecvbyte, 0);
         totalRecvbyte += recvbyte;
-        res_p->httpStatus = func_021BA448(&tmpbuf[9], 3);
+        res_p->httpStatus = func_021BA448((signed char *)(&tmpbuf[9]), 3);
         if (func_021BA150(tmpbuf, g_021CE4A8, 5) == 0 && tmpbuf[8] == ' ' && res_p->httpStatus == 200)
             connectFlag = 1;
         for (endFlag = i = 0; i < totalRecvbyte; i++) {

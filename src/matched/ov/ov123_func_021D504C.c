@@ -36,7 +36,7 @@ extern void func_02027858(struct TaskMenu *m);
 extern void func_021D4FAC(char *);
 extern void func_021D4244(char *,void *,int);
 extern void func_021D4EF0(char *,int,int);
-extern void func_021D4384(char *);
+extern void func_021D4384(u8 *p);
 extern void func_021D4D40(char *,int);
 extern void func_021D4AFC(char *);
 extern void func_021D5020(char *);
@@ -52,7 +52,7 @@ void func_021D504C(char *p)
             } else {
                 func_02045CAC(((struct Obj00273 *)p)->f24,6,((struct Obj00273 *)p)->f38);
                 func_021D4EF0(p,4,0);
-                func_021D4384(p);
+                func_021D4384((u8 *)p);
                 func_021D4244(p,func_021D5020,0x519);
             }
         } else {

@@ -26,7 +26,8 @@ struct CodeIn;
 struct Row;
 extern void func_021BB398(int p, u32 val);
 extern void func_0202EB04(struct CodeIn *p);
-extern void func_0202EA40(struct Row *p);
+typedef signed int     s32;
+extern s32 func_0202EA40(struct Row *p);
 extern void func_021B6100(char *p, int k);
 extern void func_021B7128(struct Obj *o);
 

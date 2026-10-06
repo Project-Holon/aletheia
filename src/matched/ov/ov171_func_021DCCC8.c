@@ -45,19 +45,27 @@
  *   func_020072A4 0x020072A4 thumb
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
-extern void *func_020457B0(u32 size, u32 heap);
-extern void *func_02012F68(void *a);
-extern int func_0200EC14(void *a);
-extern void func_0200EC98(void *a, void *b);
-extern void func_0200EC2C(void *a, int i, void *dst);
-extern void *func_02012EBC(void *a);
-extern u32 func_0200725C(void *c, u32 id, u32 heap);
-extern void *func_020073D8(void *c, u32 id, u32 v);
+struct Big;
+struct Ctrl;
+struct Dst0200EC2C;
+struct Out0200EC98;
+struct Src0200EC2C;
+struct Sub020072A4Ctrl;
+struct Sub020073D8Ctrl;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02012F68(void **h);
+extern int func_0200EC14(char *p);
+extern void func_0200EC98(const u8 *o, struct Out0200EC98 *out);
+extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
+extern void *func_02012EBC(struct Big *p);
+extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_0200ECD0(void *o, int i);
-extern int func_0200ECC4(void *o, int i);
-extern void func_0200ED14(void *o, int i, void *dst);
-extern void func_0200ECF0(void *o, int i, int k, void *dst);
-extern void func_020072A4(void *c, u32 id);
+extern u32 func_0200ECC4(char *o, u32 n);
+extern void func_0200ED14(u8 *o, int idx, void *out);
+extern void func_0200ECF0(void *a0, u32 a1, void *a2, void *a3);
+extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 
 struct S { void *f0; u16 f4; };
 struct Ent { void *a; void *b; u8 pad[0x14]; };
@@ -82,9 +90,9 @@ void func_021DCCC8(struct P *p)
     if (s->f4 == 0) {
         void *h = func_02012F68(s->f0);
         p->rows[0].cnt = func_0200EC14(h);
-        func_0200EC98(h, p->rows[0].hdr);
+        func_0200EC98(h, (struct Out0200EC98 *)p->rows[0].hdr);
         for (k = 0; k < p->rows[0].cnt; k++)
-            func_0200EC2C(h, k, &p->rows[0].ents[k]);
+            func_0200EC2C(h, k, (struct Dst0200EC2C *)(&p->rows[0].ents[k]));
         p->n = 1;
     } else {
         u32 id;
@@ -99,7 +107,7 @@ void func_021DCCC8(struct P *p)
                     func_0200ED14(o, j, p->rows[j].hdr);
                     if (p->rows[j].cnt != 0) {
                         for (k = 0; k < p->rows[j].cnt; k++)
-                            func_0200ECF0(o, j, k, &p->rows[j].ents[k]);
+                            func_0200ECF0(o, j, (void *)k, &p->rows[j].ents[k]);
                         p->n++;
                     }
                 }

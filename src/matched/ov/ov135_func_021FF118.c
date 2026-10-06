@@ -17,7 +17,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020221A4(void);
-extern void func_021F4EC0(void *, unsigned, unsigned);
+typedef unsigned char  u8;
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 int func_021FF118(char *p)
@@ -28,7 +29,7 @@ int func_021FF118(char *p)
         ((struct Obj05418 *)p)->fD3C = -16;
         if (((struct Obj05418 *)p)->fE1A) {
             ((struct Obj05418 *)p)->f28 = 2;
-            func_021F4EC0(p, 3, 16);
+            func_021F4EC0((u8 *)p, 3, 16);
             ((struct Obj05418 *)p)->fD4 = 0;
         }
         func_0204B3DC((struct Obj *)((struct Obj05418 *)p)->fD38, 0);

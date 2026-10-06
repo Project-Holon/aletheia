@@ -37,7 +37,7 @@ extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
 extern void *d_021F6398;
 
-void func_021EED90(void *win, u32 slot, int k)
+void func_021EED90(void *win, u8 slot, u8 k)
 {
     u32 t;
     int v;

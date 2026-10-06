@@ -57,21 +57,23 @@ struct Sub020075B0Header {
 
 extern const char sub_020075B0_File[];
 
-extern struct Sub020075B0Header *sub_020074CC(void *save);
-extern struct Sub020075B0Entry  *sub_02007AF4(void *save, u32 box);
+struct Sub02007454Header;
+struct Sub02007AC8Entry;
+extern struct Sub02007454Header *sub_020074CC(void **save);
+extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
 extern void sub_020181A0(void *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 int sub_020075B0(void *save, u32 box, u32 slot,
                  const struct Sub020075B0Entry *src)
 {
-    struct Sub020075B0Header *h = sub_020074CC(save);
+    struct Sub020075B0Header *h = (struct Sub020075B0Header *)sub_020074CC(save);
 
     if (box == -1) {
         box = h->unk00;
     }
     if (box < h->unk3DD && slot < 30) {
-        struct Sub020075B0Entry *base = sub_02007AF4(save, box);
+        struct Sub020075B0Entry *base = (struct Sub020075B0Entry *)sub_02007AF4(save, box);
 
         base[slot] = *src;
         sub_020181A0(&base[slot]);
@@ -84,8 +86,8 @@ int sub_020075B0(void *save, u32 box, u32 slot,
 void sub_02007610(void *save, u32 box1, u32 slot1, u32 box2, u32 slot2)
 {
     struct Sub020075B0Entry tmp;
-    struct Sub020075B0Entry *p1 = sub_02007AF4(save, box1);
-    struct Sub020075B0Entry *p2 = sub_02007AF4(save, box2);
+    struct Sub020075B0Entry *p1 = (struct Sub020075B0Entry *)sub_02007AF4(save, box1);
+    struct Sub020075B0Entry *p2 = (struct Sub020075B0Entry *)sub_02007AF4(save, box2);
 
     tmp = p1[slot1];
     p1[slot1] = p2[slot2];

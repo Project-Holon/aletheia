@@ -17,7 +17,9 @@
 typedef struct {int x,y,z;} Vec;
 extern void func_02048AFC(void *,Vec *);
 extern void func_02048B44(void *,Vec *);
-extern void func_02048B6C(void *,int *);
+typedef unsigned int   u32;
+struct Light;
+extern void func_02048B6C(struct Light *l, const u32 *in);
 extern void func_02048B20(void *,Vec *);
 void func_021E2B78(char *p) {
     Vec a;
@@ -27,7 +29,7 @@ void func_021E2B78(char *p) {
     func_02048AFC(((struct Obj08066 *)p)->f83C,&a);
     func_02048B44(((struct Obj08066 *)p)->f83C,&b);
     a.z-=0x1000;
-    func_02048B6C(((struct Obj08066 *)p)->f83C,&a.z);
+    func_02048B6C(((struct Obj08066 *)p)->f83C,(const u32 *)(&a.z));
     b.x=0; b.y=0x1000; b.z=0;
     func_02048B20(((struct Obj08066 *)p)->f83C,&b);
 }

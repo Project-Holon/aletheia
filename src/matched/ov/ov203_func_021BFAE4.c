@@ -17,7 +17,7 @@
 #include "../include/Obj04607.h"
 #include "../include/Obj14600.h"
 struct Obj; struct Vec2 { short x, y; };
-extern int func_021BE620(void *);
+extern int func_021BE620(char *p);
 extern void func_0204B404(struct Obj *, const struct Vec2 *, unsigned);
 extern void func_0204B3DC(struct Obj *, unsigned);
 extern const struct Vec2 d_021C3BD0[];

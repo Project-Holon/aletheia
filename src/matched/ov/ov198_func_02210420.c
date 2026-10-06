@@ -38,10 +38,11 @@ extern void sub_0201C6EC(struct PrintSys *);
 extern u32 func_020221A4(void);
 extern void func_020221B8(void);
 extern void sub_0201CE48(struct Rec3 *);
-extern void func_0202CA0C(struct Obj *);
-extern void func_02210774(char *);
+struct WinMgr;
+extern void func_0202CA0C(struct WinMgr *obj);
+extern void func_02210774(u8 *p);
 extern void func_0220E74C(char *);
-extern void func_0220BE04(char *);
+extern void func_0220BE04(u8 *p);
 extern void func_022105E4(void);
 extern void sub_02031140(struct S02031140 *);
 extern u32 func_022119E8(u8 *);
@@ -60,10 +61,10 @@ int func_02210420(struct Node *task,char *p)
             else return 0;
         }
         if(*(struct Rec3 * *)&((struct Obj01006 *)p)->f1EB0) sub_0201CE48(*(struct Rec3 * *)&((struct Obj01006 *)p)->f1EB0);
-        if(*(struct Obj * *)&((struct Obj01006 *)p)->f2194) func_0202CA0C(*(struct Obj * *)&((struct Obj01006 *)p)->f2194);
-        func_02210774(p);
+        if(*(struct Obj * *)&((struct Obj01006 *)p)->f2194) func_0202CA0C((struct WinMgr *)(*(struct Obj * *)&((struct Obj01006 *)p)->f2194));
+        func_02210774((u8 *)p);
         func_0220E74C(p);
-        func_0220BE04(p);
+        func_0220BE04((u8 *)p);
         func_022105E4();
         sub_02031140(*(struct S02031140 * *)&((struct Obj01006 *)p)->f1D4);
         func_022119E8((u8 *)p);

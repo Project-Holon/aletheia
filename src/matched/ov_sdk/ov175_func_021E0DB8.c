@@ -93,7 +93,7 @@ extern char g_021E42E8[];
 extern char g_021E52B4[];
 extern char g_021E4398[];
 
-extern void *func_021819B0(char **namespaces, int count);
+extern void *func_021819B0(const char **namespaces, int count);
 extern int func_021829AC(void *stream, char *namespaceName, char *tag);
 struct SCIRequest;
 extern int func_021E2874(struct GSLoginCertificate *cert, char *aNamespace, void *writer);
@@ -106,7 +106,7 @@ extern void func_02181D84(void **p);
 extern void *func_0217FE68(char *theURL, char *theService, void *theRequestSoap,
                            void (*theCallbackFunc)(int, void *, void *, void *),
                            void (*theRequestFunc)(void *, void *), void *theUserData);
-extern void func_021E0D84(void *theRequest, void *theUserData);
+extern void func_021E0D84(char *a, char *b);
 extern void func_021E0FE8(int theHttpResult, int unused, void *theResponseData, struct SCIRequest *theUserData);
 
 int func_021E0DB8(SCWebServices *theWebServices, unsigned int theGameId, char *theSessionId,
@@ -120,7 +120,7 @@ int func_021E0DB8(SCWebServices *theWebServices, unsigned int theGameId, char *t
         return 6;
     if (theReport->mBuffer.mPos < 0x44)
         return 12;
-    aRequest = func_021819B0(g_021E41B8, 1);
+    aRequest = func_021819B0((const char **)g_021E41B8, 1);
     if (aRequest == 0)
         return 5;
     if (!func_021829AC(aRequest, g_021E41E4, g_021E4388) ||
@@ -143,6 +143,6 @@ int func_021E0DB8(SCWebServices *theWebServices, unsigned int theGameId, char *t
     theWebServices->mSubmitReportUserData = theUserData;
     theWebServices->mSubmitReportPending = 1;
     func_0217FE68(g_021E52B4, g_021E4398, aRequest, (void (*)(int, void *, void *, void *))func_021E0FE8,
-                  func_021E0D84, theWebServices);
+                  (void (*)(void *, void *))func_021E0D84, theWebServices);
     return 0;
 }

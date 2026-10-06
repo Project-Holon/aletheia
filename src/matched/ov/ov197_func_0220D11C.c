@@ -82,7 +82,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_0220BBD8(unsigned);
-extern void func_02045CAC(void *, unsigned, void *);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0220B904(char *);
 extern unsigned func_02020FE4(void *, unsigned, unsigned);
 int func_0220D11C(char *p)

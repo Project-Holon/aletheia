@@ -37,7 +37,7 @@ struct Unit {
     u32 b13 : 1;
 };
 
-extern u8 func_021A9B68(struct Unit *u, struct Spec *specs, u32 type);
+extern u8 func_021A9B68(u8 *u, struct Spec *specs, u32 type);
 extern void func_021A9B00(struct Spec *spec, struct Slot14 *s);
 extern void func_021A9BE8(const struct Unit *u, const struct Spec *specs, struct Slot14 *s);
 extern u32 (*const data_021D8DD8[])(u8 n);
@@ -47,9 +47,9 @@ void func_021A9C58(struct Unit *u, struct Spec *specs, struct Slot14 *s)
     u8 idx = 0xFF;
 
     if (u->b12)
-        idx = func_021A9B68(u, specs, 8);
+        idx = func_021A9B68((u8 *)u, specs, 8);
     else if (u->b13)
-        idx = func_021A9B68(u, specs, 12);
+        idx = func_021A9B68((u8 *)u, specs, 12);
     if (idx == 0xFF)
         idx = data_021D8DD8[u->f10](u->f14);
     func_021A9B00(&specs[idx], s);

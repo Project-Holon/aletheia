@@ -41,10 +41,10 @@ typedef struct Work {
     void *field;        /* 0x08 */
 } Work;
 
-extern void *func_02188D2C(void *field);
+extern int func_02188D2C(int *p);
 extern VecFx32 *func_021BE480(void *p, int a, int b);
-extern void *func_02188CB4(void *field);
-extern void func_021A3044(void *q, const VecFx32 *pos);
+extern void *func_02188CB4(u8 *p);
+extern void func_021A3044(u8 *p, void *v);
 
 #pragma opt_propagation off
 void func_0216C2A4(Work *w)
@@ -57,7 +57,7 @@ void func_0216C2A4(Work *w)
     fx32 z;
     fx32 k;
 
-    pos = func_021BE480(func_02188D2C(w->field), 0, 0);
+    pos = func_021BE480((void *)func_02188D2C(w->field), 0, 0);
     q = func_02188CB4(w->field);
     z = pos->z;
     y = pos->y;

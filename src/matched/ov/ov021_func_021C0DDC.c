@@ -34,7 +34,7 @@ extern u32 func_021A395C(u8 *p);
 extern u32 func_02188C98(u8 *p);
 extern int func_021C0D08(void *obj, u32 dir, void *map);
 extern u32 func_021639C0(u32 a, u32 b);
-extern int func_021C0E4C(u32 a, u32 b, u32 c, u32 d);
+extern void *func_021C0E4C(u32 a, u32 b, u32 c, u32 d);
 
 int func_021C0DDC(u32 a, u32 b, int c)
 {
@@ -55,7 +55,7 @@ int func_021C0DDC(u32 a, u32 b, int c)
                     int k = 0;
                     if (r4 == 3)
                         k = 1;
-                    return func_021C0E4C(a, b, r6, k);
+                    return (int)func_021C0E4C(a, b, r6, k);
                 }
             }
         }

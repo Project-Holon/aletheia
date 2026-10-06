@@ -97,7 +97,7 @@ extern void *func_02031290(struct S02030FB4 *p);
 struct U16Vec;
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern void  func_0201CEE0(void *task, struct Rec *p);
-extern void  func_0201C808(struct PrintCtx *c, void *w, void *x, s16 y, s16 z);
+extern void func_0201C808(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
 extern void  sub_0201CDF4(s32 v, u8 *out);
 
 struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,

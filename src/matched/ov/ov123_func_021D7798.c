@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct MusicalDist;
 extern u32 func_0200C5F8(struct MusicalDist *p);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D751C(int a);
-void func_021D7798(u8 *p) { if(func_0200C5F8(((struct Obj10445 *)p)->f30)) { p[174]=0; ((struct Obj10445 *)p)->f30=0; func_021D6EE0((char *)p,(int)func_021D751C,0x38e); } }
+void func_021D7798(u8 *p) { if(func_0200C5F8(((struct Obj10445 *)p)->f30)) { p[174]=0; ((struct Obj10445 *)p)->f30=0; func_021D6EE0((u8 *)p,(int)func_021D751C,0x38e); } }

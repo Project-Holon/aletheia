@@ -16,6 +16,7 @@
 #include "../include/Obj10451.h"
 typedef unsigned char  u8;
 extern void func_021D62B4(u8 *p, unsigned int i);
-extern void func_021D6EE0(char *,int,int);
+typedef unsigned int   u32;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8D98(char *p);
-void func_021D8DFC(char *p) { if(--((struct Obj10451 *)p)->f60==0) { func_021D62B4(((struct Obj10451 *)p)->f14,4); ((struct Obj10451 *)p)->f60=60; func_021D6EE0(p,(int)func_021D8D98,0x9b9); } }
+void func_021D8DFC(char *p) { if(--((struct Obj10451 *)p)->f60==0) { func_021D62B4(((struct Obj10451 *)p)->f14,4); ((struct Obj10451 *)p)->f60=60; func_021D6EE0((u8 *)p,(int)func_021D8D98,0x9b9); } }

@@ -16,11 +16,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021D5584(u8 *, u32);
+struct UtilWork;
+extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern void func_021C08CC(u8 *, u8 *, int, u32);
 int func_021C0898(u8 *p, u8 *a, u32 b, u32 c)
 {
-    u32 limit = (u8)func_021D5584(a, b);
+    u32 limit = (u8)(u32)func_021D5584((struct UtilWork *)a, b);
     if (c >= limit) c = limit;
     if (c != 0) {
         func_021C08CC(p, a, b, c);

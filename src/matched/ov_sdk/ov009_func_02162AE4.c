@@ -39,9 +39,10 @@ typedef struct CPSSslConnection {
 } CPSSslConnection;
 
 extern unsigned char *(*g_021A8280)(unsigned long size);
-extern unsigned char *func_0215AE18(unsigned long *len, CPSSoc *soc);
+struct _CPSSoc;
+extern unsigned char *func_0215AE18(unsigned long *len, char *soc);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void func_0215AF14(unsigned long len, CPSSoc *soc);
+extern void func_0215AF14(unsigned long len, struct _CPSSoc *soc);
 extern void func_02161C80(CPSSslConnection *con, unsigned char *buf);
 
 void func_02162AE4(CPSSoc *soc)
@@ -53,7 +54,7 @@ void func_02162AE4(CPSSoc *soc)
 
     if (con->inbuf == 0) {
         if (soc->rcvbufp < 5) return;
-        s = func_0215AE18(&len, soc);
+        s = func_0215AE18(&len, (char *)soc);
         len = (s[3] << 8) + s[4] + 5;
         if (len > 0x4805) {
             con->state = 9;
@@ -70,7 +71,7 @@ void func_02162AE4(CPSSoc *soc)
     } else if (soc->rcvbufp == 0) {
         return;
     }
-    s = func_0215AE18(&len, soc);
+    s = func_0215AE18(&len, (char *)soc);
     if (len >= (unsigned long)(con->inbuf_len - con->inbuf_pnt)) {
         len = con->inbuf_len - con->inbuf_pnt;
         got_all = 1;
@@ -78,7 +79,7 @@ void func_02162AE4(CPSSoc *soc)
         got_all = 0;
     }
     MI_CpuCopy8(s, con->inbuf + con->inbuf_pnt, len);
-    func_0215AF14(len, soc);
+    func_0215AF14(len, (struct _CPSSoc *)soc);
     if (got_all) {
         func_02161C80(con, con->inbuf);
         if (con->inbuf_decrypted == 0) con->inbuf = 0;

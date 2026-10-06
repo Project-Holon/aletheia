@@ -43,7 +43,7 @@ typedef struct {
 
 extern int func_021E2290(void);
 extern void *func_0217EAB0(unsigned long size);
-extern void *func_021819B0(char **namespaces, int count);
+extern void *func_021819B0(const char **namespaces, int count);
 extern int func_021829AC(void *stream, char *namespaceName, char *tag);
 extern int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
@@ -77,7 +77,7 @@ int func_021E2510(int partnerCode, int namespaceId, char *authtoken, char *partn
         return 0x68;
     requestData->mUserCallback = userCallback;
     requestData->mUserData = userData;
-    writer = func_021819B0(g_021E49A4, 1);
+    writer = func_021819B0((const char **)g_021E49A4, 1);
     if (writer == 0)
         return 0x68;
     if (!func_021829AC(writer, g_021E4A58, g_021E4AAC)

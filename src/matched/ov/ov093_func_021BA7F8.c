@@ -14,12 +14,12 @@
  */
 
 typedef unsigned char u8;
-extern int func_021B8B9C(void *, u8);
+extern int func_021B8B9C(unsigned char *p, unsigned char k);
 extern void func_021CD9B0(u8 *p);
 void func_021BA7F8(char *p)
 {
  unsigned int i;
  for (i = 0; i < 4; i++) {
-  if (func_021B8B9C(p, i)) func_021CD9B0(*(void **)(p + i * 4 + 0x10));
+  if (func_021B8B9C((unsigned char *)p, i)) func_021CD9B0(*(void **)(p + i * 4 + 0x10));
  }
 }

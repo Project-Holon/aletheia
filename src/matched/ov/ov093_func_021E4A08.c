@@ -18,24 +18,27 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 func_021B9B94(u8 *x);
-extern u8 *func_021B9C00(void *p, u32 i);
-extern int func_021D62A8(void *m);
+struct Q1;
+struct S2;
+struct Unk021D62A8;
+extern u8 func_021B9B94(struct Q1 *p);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
+extern int func_021D62A8(struct Unk021D62A8 *p);
 extern u8 func_021D5440(u8 *p);
 
 u8 func_021E4A08(u8 *x, u8 idx, u8 lim, u8 *buf)
 {
     u8 j;
     u8 i;
-    u8 n = func_021B9B94(x);
+    u8 n = func_021B9B94((struct Q1 *)x);
     u8 *h;
 
     j = 0;
     for (i = 0; i < n; i++) {
         if (idx >= lim)
             break;
-        h = func_021B9C00(x, i);
-        if (func_021D62A8(h) != 0) {
+        h = func_021B9C00((struct S2 *)x, i);
+        if (func_021D62A8((struct Unk021D62A8 *)h) != 0) {
             buf[idx] = func_021D5440(h);
             idx = idx + 1;
             j = j + 1;

@@ -13,12 +13,12 @@
  * Caller sign-extends r3 to 16 bits before EE38; existing callee uses u16.
  */
 extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BEE38(char *, int, unsigned short, short, unsigned short);
+extern void func_021BEE38(char *p, int idx, unsigned short a, int b, unsigned short c);
 void func_021BFA7C(char *p, int i, int flag)
 {
     func_021BEDF0((int)p, 9, flag);
     func_021BEDF0((int)p, 11, 0);
     func_021BEDF0((int)p, 13, 0);
     if (flag == 1)
-        func_021BEE38(p, 9, 0x8c, i * 40 + 20, 0);
+        func_021BEE38(p, 9, 0x8c, (short)(i * 40 + 20), 0);
 }

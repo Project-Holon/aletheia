@@ -32,7 +32,7 @@ typedef struct {
 } S;
 
 extern u32 func_021ABE18(u32 a);
-extern V3 *func_021C6658(u32 o, u16 id);
+extern int func_021C6658(u32 a, u32 b);
 extern void func_021AC1B8(void *a, V3 *v);
 extern void func_021C67F4(u32 o, u16 id);
 
@@ -40,7 +40,7 @@ void func_021C4CDC(void *a, S *s)
 {
     u16 id = s->id;
     u32 o = func_021ABE18(*s->owner);
-    V3 *dst = func_021C6658(o, id);
+    V3 *dst = (V3 *)func_021C6658(o, id);
     V3 t;
 
     func_021AC1B8(a, &t);

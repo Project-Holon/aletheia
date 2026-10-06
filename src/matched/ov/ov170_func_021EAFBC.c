@@ -28,7 +28,7 @@ struct StrObj;
 struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_021EAAE4(char *,u32);
+extern void func_021EAAE4(unsigned char *p, unsigned i);
 extern void func_021EAC28(char *,int,void *,u32,int,int,u32,u16);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -49,7 +49,7 @@ void func_021EAFBC(char *p,const Entry *e,u32 i)
             text=func_0201D304(*(void **)(W(p)+136),*(u32 *)(W(p)+120),0);
             func_0201EFA4(*(void **)(W(p)+132),0,n,3,2,1);
             func_021EAC28(W(p),i,*(void **)(W(p)+128),104,text,0,*(u32 *)(W(p)+120),1088);
-        } else { func_021EAAE4(W(p),i); return; }
-    } else { func_021EAAE4(W(p),i); return; }
+        } else { func_021EAAE4((unsigned char *)W(p),i); return; }
+    } else { func_021EAAE4((unsigned char *)W(p),i); return; }
     func_021EABA0((void **)(W(p)+148+i*8));
 }

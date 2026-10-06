@@ -64,15 +64,16 @@ extern int func_021E5548(int *);
 extern void func_02082BCC(void *, int, u32);
 extern u8 *func_0200B074(struct Reg2 *);
 extern void func_02082D44(const void *, void *, u32);
-extern Row *func_0200EA00(void *);
+struct Sub0200852CObj;
+extern int func_0200EA00(int p);
 extern u16 func_0200DFD8(Row *, int, int);
-extern u8 *func_02008554(u8 *);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern int func_0200B078(struct Reg2 *, u32);
-extern void *func_021E5D68(Rec *, int, u8 *, int, int, int, int, int, int, struct Rec1E *, int, int);
-extern const u8 *func_0200EA08(void *);
+extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
+extern int func_0200EA08(int p);
 extern u8 func_0200E918(const u8 *, u32);
 extern u32 func_0200AE54(struct Reg *, u32);
-extern void *func_021E6118(Rec *, u8 *, int, int, int, int, int, int, struct Rec1E *, int, int);
+extern char *func_021E6118(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
 extern int func_0217DFF0(int, int);
 void func_0217DC28(int *p)
 {
@@ -98,34 +99,34 @@ void func_0217DC28(int *p)
             int total, a, b, c, d;
             func_02082BCC(&rec, 0, 0xac);
             func_02082D44(func_0200B074(obj), &rec, 0x92);
-            table = func_0200EA00(stats);
+            table = (u16 (*)[3])func_0200EA00((int)stats);
             rec.a0 = func_0200DFD8(table, 10, 0);
             total = func_0200DFD8(table, 10, 1);
             rec.v.total = total + func_0200DFD8(table, 10, 2);
-            rec.user = func_02008554(win);
+            rec.user = (u8 *)func_02008554((const struct Sub0200852CObj *)win);
             a = func_0200B078(obj, 6); b = func_0200B078(obj, 5); c = func_0200B078(obj, 4);
             rec.color0 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             a = func_0200B078(obj, 9); b = func_0200B078(obj, 8); d = func_0200B078(obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             rec.aa = func_0200B078(obj, 11);
-            p[2] = (int)func_021E5D68(&rec, 0, win, flag, p[10], p[7], p[9], p[0], p[1], sub, 1, *(u16 *)((char *)p + 0x34));
+            p[2] = (int)func_021E5D68((char *)(&rec), 0, win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         } else {
             Rec rec;
             const u8 *table;
             int a, b, c, d;
             func_02082BCC(&rec, 0, 0xac);
             func_02082D44(func_0200B074(obj), &rec, 0x92);
-            table = func_0200EA08(stats);
+            table = (const u8 *)func_0200EA08((int)stats);
             rec.a0 = func_0200E918(table, 1); rec.a2 = func_0200E918(table, 2);
             rec.v.h.a4 = func_0200E918(table, 0);
             rec.v.h.a6 = func_0200AE54(reg, 22);
-            rec.user = func_02008554(win);
+            rec.user = (u8 *)func_02008554((const struct Sub0200852CObj *)win);
             a = func_0200B078(obj, 6); b = func_0200B078(obj, 5); c = func_0200B078(obj, 4);
             rec.color0 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             a = func_0200B078(obj, 9); b = func_0200B078(obj, 8); d = func_0200B078(obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             rec.a8 = func_0200B078(obj, 11);
-            p[2] = (int)func_021E6118(&rec, win, flag, p[10], p[7], p[9], p[0], p[1], sub, 1, *(u16 *)((char *)p + 0x34));
+            p[2] = (int)func_021E6118((char *)(&rec), win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         }
         func_0217DFF0((int)p, 0);
     }

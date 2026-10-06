@@ -44,7 +44,7 @@ extern T2 d_021D89F4[];
 extern T2 d_021D8A2C[];
 
 extern int func_021A3974(u32);
-extern u32 func_021A5318(u8 *, u32);
+extern int func_021A5318(u32 *p, u32 m);
 extern void *func_021A3960(unsigned char *p);
 extern int func_02163E34(void *, int, u32 *);
 extern u16 func_021AB0F8(u32);
@@ -65,7 +65,7 @@ int func_021A428C(u8 *o, int unused, int c, int flag, int kind)
     mode = 0;
     if (func_021A3974(*(u32 *)&((struct Obj00656 *)o)->fC) == 1) {
         mode = 2;
-    } else if (func_021A5318(o, 0x20) != 0) {
+    } else if (func_021A5318((u32 *)o, 0x20) != 0) {
         mode = 1;
     }
     if (mode == 0) {

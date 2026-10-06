@@ -25,11 +25,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Flags { u32 a:1; u32 b:31; };
 extern u32 func_021B8588(void **p);
-extern u8 func_021CB214(u8 *, u8 *, const u8 *);
+extern u8 func_021CB214(u8 *p, u8 *a, u8 *b);
 extern void func_021CA8C8(void *);
-extern int func_021CAA58(u8 *, u8 *, u16, const u8 *, int, void *);
-extern int func_021CACF4(u8 *, u8 *, u16, const u8 *, int, void *);
-extern int func_021CA8F8(u8 *, u8 *, u16, const u8 *, int, void *);
+extern int func_021CAA58(u8 *p, u8 *a, u16 move, u8 *q, int id, void *out);
+extern int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, long id, void *out);
+extern int func_021CA8F8(u8 *p, u8 *a, int unused, u8 *q, int id, void *out);
 extern u8 *func_021CA8D8(void *, int);
 extern u8 func_021D5440(u8 *p);
 extern u8 func_021CA8E8(void *, u8);
@@ -38,21 +38,21 @@ int func_021CA7F4(u8 *p, u8 *a, u16 b, const u8 *q, void *out)
 {
     u32 mode = func_021B8588(((struct Obj09976 *)p)->f4);
     u32 id = 31;
-    if (!((struct Flags *)(q + 16))->a) id = func_021CB214(p, a, q);
+    if (!((struct Flags *)(q + 16))->a) id = func_021CB214(p, a, (u8 *)q);
     func_021CA8C8(out);
     p[0x77f] = 6;
     switch (mode) {
     case 0: default:
-        id = func_021CA8F8(p, a, b, q, id, out);
+        id = func_021CA8F8(p, a, b, (u8 *)q, id, out);
         break;
     case 1:
-        id = func_021CAA58(p, a, b, q, id, out);
+        id = func_021CAA58(p, a, b, (u8 *)q, id, out);
         break;
     case 2:
-        id = func_021CACF4(p, a, b, q, id, out);
+        id = func_021CACF4(p, a, b, (u8 *)q, id, out);
         break;
     case 3:
-        id = func_021CA8F8(p, a, b, q, id, out);
+        id = func_021CA8F8(p, a, b, (u8 *)q, id, out);
         break;
     }
     if (id == 1) {

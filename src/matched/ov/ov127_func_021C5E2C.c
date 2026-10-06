@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-char *func_021C5E2C(char *p,int x,int y,unsigned mode,s16 w,s16 h,u16 *out)
+char *func_021C5E2C(char *p, u8 x, int y, unsigned mode, s16 w, s16 h, u16 *out)
 {
     u16 offset;
     switch(mode) {

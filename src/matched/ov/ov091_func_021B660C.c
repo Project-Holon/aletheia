@@ -48,9 +48,9 @@ extern u8 func_020355C4(void);
 extern u16 func_020212B0(u16 id);
 extern void func_021B6D90(u8 *p);
 extern void func_021B7298(u8 *p);
-extern void func_021B71E4(u8 *p);
+extern void func_021B71E4(char *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern int func_021BA6A0(u8 *p, int k, int e);
+extern u8 *func_021BA6A0(u8 *p, int k, void *mon);
 extern int func_021BA81C(u8 *p, int k);
 struct R;
 extern int func_021BB43C(int *p);
@@ -126,11 +126,11 @@ int func_021B660C(u8 *p)
         *(u16 *)(W(0x280) + 0x46) = func_020212B0(((struct Obj04352 *)q)->f44);
     func_021B6D90(p);
     func_021B7298(p);
-    func_021B71E4(p);
+    func_021B71E4((char *)p);
     for (i = 0; i < 6; i++) {
         if (i < n) {
             e = (int)func_0201AB28(*(void **)W(0x280), i);
-            *(int *)(p + i * 4 + 0x160) = func_021BA6A0(p, i, e);
+            *(int *)(p + i * 4 + 0x160) = (int)func_021BA6A0(p, i, (void *)e);
         } else
             *(int *)(p + i * 4 + 0x160) = func_021BA81C(p, i);
         if (func_021BB43C((int *)(*(int *)(p + i * 4 + 0x160))) <= 5)

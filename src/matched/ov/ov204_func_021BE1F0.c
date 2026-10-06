@@ -15,13 +15,15 @@
 #include "../include/Obj10872.h"
 typedef struct Row { unsigned tag; char data[20]; } Row;
 extern Row *func_021BF094(unsigned);
-extern int func_021BF00C(void *, void *);
+struct Q021BF00C;
+struct S021BF00C;
+extern int func_021BF00C(struct S021BF00C *p, struct Q021BF00C *q);
 extern int (*const d_021C09D0[])(void *);
 int func_021BE1F0(char *p, int unused, unsigned *q)
 {
     Row *row = func_021BF094(((struct Obj10872 *)p)->f1C) + ((struct Obj10872 *)p)->fA0;
     if (!d_021C09D0[*q](p)) row++;
-    if (row) func_021BF00C(p, row);
+    if (row) func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)row);
     ((struct Obj10872 *)p)->fA0 += 2;
     return 1;
 }

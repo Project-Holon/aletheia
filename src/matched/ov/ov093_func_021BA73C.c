@@ -34,14 +34,15 @@
 
 typedef unsigned char u8;
 
-extern int func_021B6818(int *);
+struct T;
+extern unsigned int func_021B6818(unsigned int *p);
 extern void func_021D787C(void *);
-extern void func_021B68D8(void *, void *);
+extern void func_021B68D8(u8 *s, struct T *t);
 typedef unsigned int   u32;
 struct QA;
 extern void func_021B9424(char *p);
-extern int func_021B8B9C(void *, u8);
-extern void func_021B9460(void *, void *, u8);
+extern int func_021B8B9C(unsigned char *p, unsigned char k);
+extern void func_021B9460(char *a, char *b, u8 c);
 extern void func_021CD984(void *, int);
 typedef unsigned short u16;
 struct Scene;
@@ -56,13 +57,13 @@ void func_021BA73C(char *p, int x)
     unsigned int i;
     int t;
 
-    t = func_021B6818(*(int * *)&((struct Obj02131 *)p)->f0);
+    t = func_021B6818((unsigned int *)(*(int * *)&((struct Obj02131 *)p)->f0));
     func_021D787C(p + 0x3f0);
-    func_021B68D8(p, ((struct Obj02131 *)p)->f0);
+    func_021B68D8((u8 *)p, ((struct Obj02131 *)p)->f0);
     func_021B9424(p + 0xc8);
     func_021B9424(p + 0x1b0);
     for (i = 0; i < 4; i++) {
-        if (func_021B8B9C(p, i)) {
+        if (func_021B8B9C((unsigned char *)p, i)) {
             func_021B9460(p + 0x1b0, p, i);
             func_021B9460(p + 0xc8, p, i);
             func_021CD984(*(void **)(p + i * 4 + 0x10), x);

@@ -103,8 +103,9 @@ extern const MtxFx32 g_020A18AC;              /* mtxIdentity_ */
 extern const u16 tbl_020A17F0[3][4];
 extern const u16 tbl_020A17D8[3][4];
 extern void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans);
-extern BOOL func_02067B50(const NNSG2dRndCoreInstance *pRnd);
-extern BOOL func_02067B64(const NNSG2dRndCoreInstance *pRnd);
+struct G2dOamState;
+extern u32 func_02067B50(const struct G2dOamState *p);
+extern u32 func_02067B64(const struct G2dOamState *p);
 
 static inline GXOamShape NNS_G2dGetOAMSize(const GXOamAttr *oamAttr)
 {
@@ -218,8 +219,8 @@ static inline u16 LoadMtxCacheAsAffineParams_(NNSG2dRndCore2DMtxCache *pMtxCache
 static inline void OverwriteOamFlipFlag_(GXOamAttr *pOam)
 {
     {
-        const BOOL bFlipH = func_02067B50(g_02148B48) ^ NNSi_G2dGetOamFlipH(pOam);
-        const BOOL bFlipV = func_02067B64(g_02148B48) ^ NNSi_G2dGetOamFlipV(pOam);
+        const BOOL bFlipH = func_02067B50((const struct G2dOamState *)g_02148B48) ^ NNSi_G2dGetOamFlipH(pOam);
+        const BOOL bFlipV = func_02067B64((const struct G2dOamState *)g_02148B48) ^ NNSi_G2dGetOamFlipV(pOam);
 
         pOam->attr01 &= ~0x10000000;
         pOam->attr01 |= bFlipH << 28;
@@ -235,11 +236,11 @@ static inline void DoFlipTransforme_(GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans)
 
         OverwriteOamFlipFlag_(pOam);
 
-        if (func_02067B50(g_02148B48)) {
+        if (func_02067B50((const struct G2dOamState *)g_02148B48)) {
             pOam->x = -pOam->x - NNS_G2dGetOamSizeX(&shape);
         }
 
-        if (func_02067B64(g_02148B48)) {
+        if (func_02067B64((const struct G2dOamState *)g_02148B48)) {
             pOam->y = (u8)(-pOam->y - NNS_G2dGetOamSizeY(&shape));
         }
     }

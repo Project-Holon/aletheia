@@ -31,7 +31,8 @@ extern void func_0207CA00(u8 *a, u8 *b, V *c);
 extern void func_02048AFC(u32 o, V *a);
 extern void func_02048B20(u32 o, V *a);
 extern void func_02048B44(u32 o, V *a);
-extern void func_02048B60(u32 o, int *a);
+struct Light;
+extern void func_02048B60(struct Light *l, const u32 *in);
 struct Light;
 extern void func_02048AD0(struct Light *l);
 extern void func_0207D7C4(V *a, V *b, V *c, int d, int e);
@@ -61,7 +62,7 @@ void func_021953D4(u8 *p, int m)
         func_02048AFC(((struct Obj01351 *)p)->f4, &a);
         func_02048B20(((struct Obj01351 *)p)->f4, &b);
         func_02048B44(((struct Obj01351 *)p)->f4, &c);
-        func_02048B60(((struct Obj01351 *)p)->f4, &f);
+        func_02048B60((struct Light *)(((struct Obj01351 *)p)->f4), (const u32 *)(&f));
         func_02048AD0((struct Light *)(((struct Obj01351 *)p)->f4));
         return;
     }

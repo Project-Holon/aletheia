@@ -34,9 +34,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern int func_0203F1FC(const u8 *src, u32 len);
 
-void sub_0200E684(void *obj, void *unused)
+void sub_0200E684(void *obj)
 {
     u32 id = 0x5c6;
     if (*(u16 *)((u8 *)obj + id) == func_0203F1FC(obj, id)) {

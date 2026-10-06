@@ -33,19 +33,21 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short s16;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 void func_02014184(void *d, s16 a, s16 b, int c, int e, int f);
-int func_020142A4(int x);
-void func_02184504(void);
-void func_02184CEC(void *obj, void *p);
+u32 func_020142A4(u32 idx);
+int func_02184504(int a, int *state, u8 *p);
+void func_02184CEC(void **o, void *p);
 
 void *func_02185458(void *p, int u, int b, s16 a, const int *s, u16 x)
 {
     void *r0v = func_020122C0(p, 0, func_02184504, 0x9c);
     char *r4 = func_020124E8(r0v);
 
-    func_02184CEC(r4, p);
+    func_02184CEC((void **)r4, p);
     x = func_020142A4(x);
     func_02014184(r4 + 0x10, a, x, s[0], s[1], s[2]);
     *(int *)(r4 + 0x2c) = 0;

@@ -92,11 +92,13 @@ extern struct PrintCtx g_0214655C;
 
 extern u32   func_0203D1B4(struct PrintSys *p);
 extern u32   func_0201D6B8(void *s);
-extern u32   func_0201D6C4(const struct PrintSys *p);
+struct Rec2;
+struct Ring;
+extern u32 func_0201D6C4(const struct Ring *p);
 extern void  func_0201D6D8(struct PrintSys *p, void *a, void *b);
 
 extern void sub_0201C808(struct PrintCtx *c, u32 a, u32 b, u32 d, u32 e);
-extern void sub_0201C8A4(struct PrintCtx *c, u16 v);
+extern void sub_0201C8A4(struct Rec2 *p, u16 v);
 extern void sub_0201C8BC(u8 *a0, int a1);
 
 void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
@@ -111,7 +113,7 @@ void sub_0201C724(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e,
                   u16 f)
 {
     sub_0201C808(&g_0214655C, e, a, b, c);
-    sub_0201C8A4(&g_0214655C, f);
+    sub_0201C8A4((struct Rec2 *)(&g_0214655C), f);
     sub_0201C758(p, &g_0214655C, s);
 }
 
@@ -125,7 +127,7 @@ void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s)
         return;
     }
     need = func_0201D6B8(s);
-    if (need <= func_0201D6C4(p)) {
+    if (need <= func_0201D6C4((const struct Ring *)p)) {
         func_0201D6D8(p, c, s);
     }
 }

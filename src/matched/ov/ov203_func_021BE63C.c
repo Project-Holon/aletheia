@@ -44,7 +44,8 @@ struct Record {
 struct Context { void *owner; u8 pad04[0x70]; struct Record *record; };
 struct Config { u8 pad[0xd],hour,minute; u8 second:7,spare:1; };
 extern void func_0201493C(u32,u32,u32,u32,u32,u16 *,u16);
-extern void func_021BDF3C(void *,u16 *,int);
+struct Obj;
+extern void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2);
 extern void func_0207DCF8(const u16 *);
 extern void func_0207DC44(BOOL,GXFogBlend,GXFogSlope,int);
 extern void func_0207DD10(const u32 *);

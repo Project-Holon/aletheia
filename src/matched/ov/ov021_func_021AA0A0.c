@@ -50,10 +50,14 @@ typedef struct {
 extern void *func_02188CB4(unsigned char *p);
 extern u32 func_02188C6C(u8 *p);
 extern u16 func_021A1BF4(u8 *p);
-extern void func_021A9350(Buf *buf, int a, int b, int c, int d);
+struct Ctx;
+struct Sel;
+struct Slot14;
+struct Unit;
+extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02013090(u32 heap);
-extern void func_021AA490(S *s, Buf *buf, int h, int n, Opts *o);
+extern void func_021AA490(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
 extern void func_02013144(char *p, int v);
 extern void func_0216E7C8(int a, int b, int h, int c, int d);
 
@@ -65,7 +69,7 @@ void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
     Opts *o;
 
     func_02188CB4((unsigned char *)s->f0);
-    func_021A9350(&buf, s->f8, 0xff, 0, func_021A1BF4((u8 *)func_02188C6C((u8 *)s->f0)));
+    func_021A9350((struct Sel *)(&buf), (void *)s->f8, 0xff, 0, func_021A1BF4((u8 *)func_02188C6C((u8 *)s->f0)));
     o = &opts;
     func_02082BCC(o, 0, 0x28);
     opts.h0 = a;
@@ -89,7 +93,7 @@ void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
         o->b10 = 2;
     }
     h = (int)func_02013090(4);
-    func_021AA490(s, &buf, h, 4, &opts);
+    func_021AA490((struct Ctx *)s, (struct Unit *)(&buf), (void *)h, 4, (struct Slot14 *)(&opts));
     if (flags & 1) {
         func_02013144((char *)h, 4);
     } else if (flags & 0x80) {

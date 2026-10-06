@@ -29,7 +29,7 @@ typedef struct {
 } Work;
 
 extern void func_02005D90(u32 a, u32 b);
-extern void func_021F4EC0(Work *p, u32 a, u32 b);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 
 int func_021F8A44(Work *p)
 {
@@ -37,6 +37,6 @@ int func_021F8A44(Work *p)
     p->x28 = 1;
     p->xEB2 = 1;
     p->x30 = 0;
-    func_021F4EC0(p, 1, 0);
+    func_021F4EC0((u8 *)p, 1, 0);
     return 2;
 }

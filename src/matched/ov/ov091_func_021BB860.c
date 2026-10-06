@@ -39,7 +39,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021BBA28(int a, int b);
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_02028470(void *a, u32 b);
+extern void func_02028470(u8 *p, u32 v);
 extern signed char func_02012FFC(void);
 extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern int func_021BB910(int k);
@@ -63,7 +63,7 @@ void func_021BB860(u8 *a, u32 *s, u32 x, u32 y)
     }
     s[8] = y;
     s[4] = t;
-    func_02028470(s + 6, 6);
+    func_02028470((u8 *)(s + 6), 6);
     s[3] = (u32)func_0201CD10(s[1], 0, 0, s[4], ((struct Obj06213 *)a)->f138, func_02012FFC(), s[2], 0,
                          ((struct Obj06213 *)a)->f0, 0xf, (u32)func_021BB910);
 }

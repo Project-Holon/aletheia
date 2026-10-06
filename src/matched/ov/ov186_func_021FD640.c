@@ -20,15 +20,16 @@
  */
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204ADA4(int);
-extern void func_0204A8D4(int);
-extern void func_0204AFD8(int);
+typedef unsigned int   u32;
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
 extern void func_0202DC08(struct Obj *p);
-extern void func_021FBDA4(int,int);
+extern void func_021FBDA4(int a, unsigned mode);
 extern void func_020307B0(void *);
-extern void func_020409B4(int);
+extern void func_020409B4(u32 index);
 void func_021FD640(int *p)
 {
     int i;

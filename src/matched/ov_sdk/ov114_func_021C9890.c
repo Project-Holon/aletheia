@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-void func_021C9890(u16 v)
+void func_021C9890(u32 v)
 {
     *(u32 *)0x021D4228 = v | ((u32)v << 16);
 }

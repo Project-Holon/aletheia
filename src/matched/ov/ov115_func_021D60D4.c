@@ -19,5 +19,9 @@
 #include "../include/Obj22603.h"
 typedef unsigned char u8;typedef unsigned int u32;
 struct S020315D4;
-extern void func_021D5D3C(void *),func_021D5A9C(u8 *),func_021D4E04(u8 *),func_020315D4(struct S020315D4 *),func_020306F0(u32);
+extern void func_021D5D3C(u8 *p);
+extern void func_021D5A9C(u8 *);
+extern void func_021D4E04(u8 *);
+extern void func_020315D4(struct S020315D4 *);
+extern void func_020306F0(u32);
 int func_021D60D4(void *a,int b,u8 *c,u8 *p) { if(!((struct Obj22603 *)c)->f4)func_021D5D3C(((struct Obj10336 *)p)->f8);func_021D5A9C(*(u8 * *)&((struct Obj10336 *)p)->f8);func_021D4E04(*(u8 * *)&((struct Obj10336 *)p)->f4);func_020315D4(a);func_020306F0(121);return 1; }

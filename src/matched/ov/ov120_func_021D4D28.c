@@ -41,7 +41,8 @@ extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_020355D8(u8 v);
-extern void func_021D4474(int, u8 *);
+struct S;
+extern void func_021D4474(int n, char *p);
 extern void func_020061E4(u32 a);
 extern int func_021D6A9C(u8 *p, u32 n);
 extern void func_0202822C(char *p, int v);
@@ -49,7 +50,7 @@ extern void func_021D4244(int, int, int);
 extern void func_021D4CC4(u8 *);
 extern u32 func_02035C08(const void *);
 extern const u32 d_021D88D0[];
-extern void func_021B63D0(u8 *);
+extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *);
 extern void func_02040588(u32, u32);
 extern void func_021D7EC4(u8 *p);
@@ -70,8 +71,8 @@ void func_021D4D28(u8 *p)
                 func_020355D8(changed);
                 return;
             }
-            if (func_020362DC() == 0x20) func_021D4474(0, p);
-            if (func_020362DC() == 0x10) func_021D4474(1, p);
+            if (func_020362DC() == 0x20) func_021D4474(0, (char *)p);
+            if (func_020362DC() == 0x10) func_021D4474(1, (char *)p);
             if (func_020362DC() == 0x40) {
                 func_020061E4(0x548);
                 changed = 1;
@@ -99,7 +100,7 @@ void func_021D4D28(u8 *p)
                 return;
             }
         }
-        func_021B63D0((u8 *)func_021D6988(((struct Obj00495 *)p)->f3C));
+        func_021B63D0((struct S *)func_021D6988(((struct Obj00495 *)p)->f3C));
         if (func_021B6448((u8 *)func_021D6988(((struct Obj00495 *)p)->f3C)) == 1) done = 1;
         if (done) {
             int zero = 0;

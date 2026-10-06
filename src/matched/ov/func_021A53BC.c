@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021A5318(u32, u32, u32, u32);
+extern int func_021A5318(u32 *p, u32 m);
 
 int func_021A53BC(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021A5318(a, 16, c, d) != 0) {
+if (func_021A5318((u32 *)a, 16) != 0) {
     return 1;
 }
 return 0;

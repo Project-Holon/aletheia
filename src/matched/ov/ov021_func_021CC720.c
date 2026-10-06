@@ -50,7 +50,7 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_021CCEB8(Obj *p);
 extern void func_021CC8DC(Obj *p);
 extern void func_021CCA00(Obj *p);
-extern void func_021CCC50(Obj *p);
+extern void func_021CCC50(u8 *p);
 extern void func_021CCCE4(Obj *p);
 extern const char d_021DE5BC[];
 extern const char d_021DE5C0[];
@@ -73,7 +73,7 @@ Obj *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap)
     func_021CCEB8(p);
     func_021CC8DC(p);
     func_021CCA00(p);
-    func_021CCC50(p);
+    func_021CCC50((u8 *)p);
     func_021CCCE4(p);
     return p;
 }

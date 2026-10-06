@@ -71,7 +71,8 @@ extern void func_022044C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
 extern void func_02204838(Main *, int);
 extern void func_02206A58(char *p);
-extern void func_02204698(Main *, int, int);
+struct Obj;
+extern void func_02204698(struct Obj *p, int a, int b);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_0220687C(char *, void *);
 extern void func_02206A14(char *p);
@@ -93,7 +94,7 @@ void func_02203C2C(void *task, Ctx *c)
         break;
     case 1:
         if (c->mode == 2 || c->mode == 5)
-            func_02204698(c->main, 0, 1);
+            func_02204698((struct Obj *)c->main, 0, 1);
         c->state++;
         c->timer = 4;
         break;

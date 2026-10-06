@@ -25,7 +25,7 @@ extern void *func_0215A5F4(void *p);
 typedef unsigned short u16;
 extern int func_02158F58(int a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern u32 *func_02159124(void *a, u32 b);
+extern char *func_02159124(char *p, int i);
 extern u16 func_0215A5CC(void *a0);
 extern u32 func_021AE454(void *a, u32 b, u32 *c, u32 d);
 
@@ -40,9 +40,9 @@ int func_021AE948(u32 a, u32 b)
     q = (u32 *)func_02158F58((int)p);
     k = func_02159B10((void *)a, (void *)b);
     if (k == 0) {
-        e = func_02159124(p, 0);
+        e = (u32 *)func_02159124(p, 0);
     } else if (k == 1) {
-        e = func_02159124(p, 1);
+        e = (u32 *)func_02159124(p, 1);
     }
     e[6] = func_021AE454((void *)func_0215A5CC((void *)b), q[1], e, k);
     return 0;

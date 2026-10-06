@@ -47,14 +47,14 @@ struct Big;
 struct Ctx;
 extern void *func_02188C80(void *p);
 extern int *func_021897BC(char *p, int idx);
-extern int func_021F381C(Obj *p);
+extern int func_021F381C(int *p);
 extern void func_0216D8E0(u8 *p, Rec12 *src);
 typedef unsigned int   u32;
 extern u32 func_02005728(u32 range);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern s16 *func_0200B3A4(unsigned int, unsigned int);
-extern s32 func_0203F684(u16 a);
+extern int func_0203F684(s32 x);
 extern int _fflt(int a);
 extern int _fadd(int a, int b);
 extern int _fsub(int a, int b);
@@ -70,7 +70,7 @@ void func_021F3740(int a)
 
     p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x1f);
     o = (Obj *)func_021897BC((char *)a, 1);
-    if (func_021F381C(o) == 0) {
+    if (func_021F381C((int *)o) == 0) {
         o->r.b = 0;
         p[0] = 0;
         func_0216D8E0(o->f04, &o->r);
@@ -86,7 +86,7 @@ void func_021F3740(int a)
         r = _fsub(_fflt(v << 12), 0x3f000000);
     }
     r = _ffix(r);
-    x = func_0203F684(p[0]);
+    x = func_0203F684((u16)p[0]);
     o->r.b = (s32)(((s64)x * r + 0x800) >> 12);
     func_0216D8E0(o->f04, &o->r);
     p[0] = (p[0] + 8) % 360;

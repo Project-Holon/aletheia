@@ -31,7 +31,7 @@ struct O;
 extern void func_021A2050(struct O *p, u32 a, u32 b);
 extern int func_021A21B0(u32 obj);
 extern void func_021A1C04(u8 *p);
-extern void func_021A1BF8(void *p, u32 v);
+extern void func_021A1BF8(u32 *p, u32 v);
 extern void func_021A1FEC(struct O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g);
 
 void func_021A1C68(u8 *p, int x)
@@ -50,7 +50,7 @@ void func_021A1C68(u8 *p, int x)
         }
         break;
     case 3:
-        func_021A1BF8(p, d_021D886C[((struct Obj00755 *)p)->fE * 2]);
+        func_021A1BF8((u32 *)p, d_021D886C[((struct Obj00755 *)p)->fE * 2]);
         ((struct Obj00755 *)p)->fA = 4;
         break;
     case 4:

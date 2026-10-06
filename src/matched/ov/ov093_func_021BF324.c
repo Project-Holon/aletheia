@@ -24,8 +24,10 @@ extern u8 func_021D5440(u8 *p);
 extern int func_021BF3B8(u8 *q, int k, u32 n);
 extern int func_021BF3C8(u8 *q, int k, u32 n);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021D62C4(u8 *p, int i);
-extern u16 func_021D62D8(u8 *p, int i);
+struct Unk021D62A8;
+struct UtilSlots;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern u16 func_021D62D8(struct UtilSlots *p, int i);
 
 int func_021BF324(u8 *p, u8 *a, u8 *b)
 {
@@ -38,10 +40,10 @@ int func_021BF324(u8 *p, u8 *a, u8 *b)
         if (func_021D59B4(b, 0x11) == 0x63)
             return 1;
     }
-    if (func_021D62C4(a, 0x1c) != 0)
+    if (func_021D62C4((struct Unk021D62A8 *)a, 0x1c) != 0)
         return 1;
-    if (func_021D62C4(a, 0x1d) != 0) {
-        t = func_021D62D8(a, 0x1d);
+    if (func_021D62C4((struct Unk021D62A8 *)a, 0x1d) != 0) {
+        t = func_021D62D8((struct UtilSlots *)a, 0x1d);
         if (t == func_021D5440(b))
             return 1;
     }

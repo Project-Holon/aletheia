@@ -30,7 +30,7 @@
 #include "../include/Obj24206.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021B7180(u8 *,u8 *,int);
+extern void func_021B7180(char *p, char *q, int id);
 extern void func_021B71A0(int,int *,int,int,int);
 extern void func_020307B0(void *);
 typedef unsigned int   u32;
@@ -39,8 +39,12 @@ struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_02045334(struct Descriptor *d);
 extern unsigned func_020056EC(unsigned);
-extern void func_0204B95C(void *),func_0204B9A0(void *),func_0204B974(void *);
-extern int func_0204B98C(void *),func_0204B918(void *);
+struct Actor;
+extern void func_0204B95C(struct Actor *a);
+extern void func_0204B9A0(struct Actor *a);
+extern void func_0204B974(struct Actor *a);
+extern u32 func_0204B98C(struct Actor *a);
+extern int func_0204B918(void *);
 extern const u8 d_021B7485[],d_021B7481[];
 void func_021B6D3C(u8 *p,u8 *q)
 {
@@ -54,7 +58,7 @@ void func_021B6D3C(u8 *p,u8 *q)
     switch(((struct Obj00185 *)q)->f8) {
     case 1:
         q[1]=0;
-        func_021B7180(p,q,q[4]+d_021B7485[q[2]*3]);
+        func_021B7180((char *)p,(char *)q,q[4]+d_021B7485[q[2]*3]);
         ((struct Obj00185 *)q)->f8=2;
         break;
     case 2:
@@ -69,7 +73,7 @@ void func_021B6D3C(u8 *p,u8 *q)
         break;
     case 3:
         q[1]=0;
-        func_021B7180(p,q,(q[5]+d_021B7481[q[3]*2])+(((struct Obj00152 *)p)->f10*2));
+        func_021B7180((char *)p,(char *)q,(q[5]+d_021B7481[q[3]*2])+(((struct Obj00152 *)p)->f10*2));
         ((struct Obj00185 *)q)->f8=4;
         break;
     case 4:

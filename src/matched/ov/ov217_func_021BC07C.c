@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021C0F5C(u32 object,u32 value);
 extern const u8 d_021C309E[],d_021C3094[],d_021C30D0[],d_021C30A8[],d_021C3080[],d_021C308A[];
-u32 func_021BC07C(u8 *p,u32 index)
+int func_021BC07C(u8 *p, u8 index)
 {
     func_021C0F5C(((struct Obj05558 *)p)->fE4,d_021C309E[index]);
     func_021C0F5C(((struct Obj05558 *)p)->fE8,d_021C3094[index]);

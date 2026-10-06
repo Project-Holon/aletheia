@@ -35,7 +35,8 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int *func_020124E8(struct Desc *p);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 struct Ctx;
 struct Orbit;
 extern void *func_0201210C(const struct Ctx *p);
@@ -61,7 +62,7 @@ int func_0216A884(int a0, int a1)
     r4 = func_0215A5DC((void *)a1);
     r6 = func_02159B10((void *)a0, (void *)a1);
     r7 = func_020122C0((void *)r4, 0, (void *)func_0216A8F0, 0x14);
-    r5 = func_020124E8(r7);
+    r5 = func_020124E8((struct Obj *)r7);
     r5[0] = 0;
     m = func_0216DE94((void *)func_02188C7C(func_0201210C((void *)r4)), r6);
     func_0216D88C((const struct Actor *)m, (struct VecFx32 *)(r5 + 2));

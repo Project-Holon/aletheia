@@ -16,6 +16,7 @@
  */
 extern const unsigned int d_021F0C24[];
 extern int func_021D775C(int);
-extern void func_021D7324(char *);
-void func_021DB224(char *a, int b, int c, int *d) { if (c == func_021D775C(2) && *d == 1) { func_021D7324(a); *d = 0; } }
+typedef unsigned char  u8;
+extern void func_021D7324(u8 *p);
+void func_021DB224(char *a, int b, int c, int *d) { if (c == func_021D775C(2) && *d == 1) { func_021D7324((u8 *)a); *d = 0; } }
 const unsigned int *func_021DB248(int *n) { *n = 5; return d_021F0C24; }

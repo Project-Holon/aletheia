@@ -15,12 +15,12 @@
  */
 #include "../include/Obj04486.h"
 typedef unsigned char u8;
-extern int func_021D6E50(void *, void *);
+extern int func_021D6E50(void *unused, int *p);
 extern void func_021D6FF8(u8 *p, int state);
 extern void func_021D82D8(char *p, void *q, int n);
 int func_021D5230(u8 *p)
 {
-    int result = func_021D6E50(((struct Obj04486 *)p)->f3C, p + 0x150);
+    int result = func_021D6E50(((struct Obj04486 *)p)->f3C, (int *)(p + 0x150));
     switch (result) {
     case 0: break;
     case 1:

@@ -22,7 +22,8 @@
  */
 typedef unsigned short u16;
 extern void func_021E15DC(int *, int);
-extern int func_0203F5FC(u16);
+typedef unsigned int   u32;
+extern int func_0203F5FC(u32 x);
 extern void func_02082BCC(void *, int, unsigned);
 void func_021E0FAC(int *p)
 {
@@ -37,7 +38,7 @@ void func_021E0FAC(int *p)
         p[3] = 0x14000;
         p[1]++;
     case 1:
-        amount = func_0203F5FC(p[4] / 4096) * (p[2] / 4096);
+        amount = func_0203F5FC((u16)(p[4] / 4096)) * (p[2] / 4096);
         q[13] = 0;
         func_021E15DC(q + 13, amount);
         old = p[4];

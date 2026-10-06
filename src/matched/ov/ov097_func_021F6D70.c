@@ -31,15 +31,20 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void *func_020457B0(u32 size, u32 heap);
-extern void *func_02045EC0(void *bank, u32 index);
-extern u32   func_02045770(u32 h);
-extern void  func_02045808(void *a);
-extern u32   func_0201D304(void *s, u32 a, u32 b);
+struct Descriptor;
+struct MsgBank;
+struct StrObj;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045808(struct U16Vec *vec);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void  func_0201C724(u32 a, u32 b, s16 c, u32 d, void *e, u32 f, u16 g);
-extern u32   func_02017E1C(u32 mon, u32 id, u32 v);
-extern void  func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void  func_0201F250(u32 a, void *b, void *c);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 static inline u8 center_x(u32 w)
 {
@@ -67,33 +72,33 @@ void func_021F6D70(char *p, int idx)
     {
         u32 y;
         f1 = *(u32 *)(p + 0x1c);
-        y = func_02045770(*(u32 *)(p + 0x20 + idx * 8));
+        y = (u32)func_02045770((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
         func_0201C724(f1, y, (s16)r7, 0x20, t1, *(u32 *)(p + 0x10), 0x3dc0);
     }
     *(u8 *)(p + 0x24 + idx * 8) = 1;
     func_02045808(t1);
 
     t2 = func_02045EC0(*(void **)(p + 0x14), 0xd);
-    func_0201EFA4(*(u32 *)(p + 0x18), 0, func_02017E1C(*(u32 *)(p + 0xf8 + idx * 4), 0xa0, 0), 3, 0, 1);
-    func_0201F250(*(u32 *)(p + 0x18), buf, t2);
+    func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x18)), 0, func_02017E1C((void *)(*(u32 *)(p + 0xf8 + idx * 4)), 0xa0, 0), 3, 0, 1);
+    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x18)), buf, t2);
     {
         u32 y;
         h = *(u32 *)(p + 0x10);
         x = r7 - func_0201D304(buf, h, 0);
         f2 = *(u32 *)(p + 0x1c);
-        y = func_02045770(*(u32 *)(p + 0x20 + idx * 8));
+        y = (u32)func_02045770((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
         func_0201C724(f2, y, x, 0x20, buf, h, 0x3dc0);
     }
     *(u8 *)(p + 0x24 + idx * 8) = 1;
     func_02045808(t2);
 
     t3 = func_02045EC0(*(void **)(p + 0x14), 0xd);
-    func_0201EFA4(*(u32 *)(p + 0x18), 0, func_02017E1C(*(u32 *)(p + 0xf8 + idx * 4), 0xa1, 0), 3, 0, 1);
-    func_0201F250(*(u32 *)(p + 0x18), buf, t3);
+    func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x18)), 0, func_02017E1C((void *)(*(u32 *)(p + 0xf8 + idx * 4)), 0xa1, 0), 3, 0, 1);
+    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x18)), buf, t3);
     {
         u32 y;
         f3 = *(u32 *)(p + 0x1c);
-        y = func_02045770(*(u32 *)(p + 0x20 + idx * 8));
+        y = (u32)func_02045770((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
         func_0201C724(f3, y, (s16)(r7 + w8), 0x20, buf, *(u32 *)(p + 0x10), 0x3dc0);
     }
     *(u8 *)(p + 0x24 + idx * 8) = 1;

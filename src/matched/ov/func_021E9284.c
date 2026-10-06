@@ -21,12 +21,12 @@
 
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern void func_021DE898(char *);
+extern void func_021DE898(int *q);
 extern int func_021E8F90(void *p, int a);
-void func_021E9284(char *p)
+int func_021E9284(char *p)
 {
     func_020061E4(0x55D);
-    func_021DE898(p);
+    func_021DE898((int *)p);
     ((struct Obj18472 *)p)->f28 = 0x69;
-    func_021E8F90(p, 1);
+    return func_021E8F90(p, 1);
 }

@@ -31,9 +31,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0203FCA0(u32 bgId, const void *tmpl, u32 type);
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_0204162C(int channel);
 extern void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
@@ -56,9 +57,9 @@ void func_021F0250(void *p, u32 h)
     u8 *out;
     void *res;
 
-    func_0203FCA0(5, d_021F1050, 0);
-    func_0203FCA0(6, d_021F1070, 0);
-    func_0203FCA0(7, d_021F1090, 0);
+    func_0203FCA0(5, (const struct BgTemplate *)d_021F1050, 0);
+    func_0203FCA0(6, (const struct BgTemplate *)d_021F1070, 0);
+    func_0203FCA0(7, (const struct BgTemplate *)d_021F1090, 0);
     func_02082A7C(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;

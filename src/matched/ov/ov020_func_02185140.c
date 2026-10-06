@@ -45,22 +45,28 @@ typedef unsigned long long u64;
 typedef struct { int f0; int f4; int f8; } S3;
 typedef struct { int f[7]; } S7;
 
-int func_0201210C(void *p);
-void *func_020120F4(void *p);
-void func_020128E4(void *p, S7 *s);
-void *func_02012EBC(void *p);
-void *func_0200BE48(void *p);
-void *func_02012FCC(void *p);
-u64 func_0200BFA4(void *p, void *x, int n);
-void *func_02012138(void *p);
-int func_02012B58(void *p);
-int func_020142A4(int v);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Big;
+struct BigObj;
+struct Ctx;
+struct Rec1C;
+void *func_0201210C(const struct Ctx *p);
+void *func_020120F4(const struct Ctx *p);
+void func_020128E4(struct BigObj *p, const struct Rec1C *src);
+void *func_02012EBC(struct Big *p);
+u16 *func_0200BE48(void *sys);
+int func_02012FCC(int p0);
+unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
+u32 func_02012138(const struct Ctx *p);
+u8 func_02012B58(const struct BigObj *p);
+u32 func_020142A4(u32 idx);
 void func_02014184(S7 *out, int b, s16 c, int d, int e, int f);
-void func_021852F0(S7 *s, int v);
+void func_021852F0(void *dst, int x);
 void *func_02185BFC(void *p, int a1, S7 *a2, int a3, int a4);
-u8 *func_02158344(void *p);
+int func_02158344(int a0);
 int func_02158590(void *p);
-int func_02176230(u8 *a, u8 *b);
+u8 func_02176230(u8 *p, u8 *q);
 
 void *func_02185140(void *a, int b, S3 *c, int d)
 {
@@ -75,15 +81,15 @@ void *func_02185140(void *a, int b, S3 *c, int d)
     void *q;
     u8 *r7;
 
-    h = func_0201210C(a);
+    h = (int)func_0201210C(a);
     r4 = func_020120F4(a);
     t = *c;
     r6 = 0;
     func_021852F0(&w, h);
-    func_020128E4(r4, &w);
+    func_020128E4(r4, (const struct Rec1C *)(&w));
     q = func_0200BE48(func_02012EBC(r4));
-    func_0200BFA4(q, func_02012FCC(r4), 0);
-    r7 = func_02158344(func_02012138(a));
+    func_0200BFA4(q, (void *)func_02012FCC((int)r4), 0);
+    r7 = (u8 *)func_02158344(func_02012138(a));
     if (r7 == 0 || func_02158590(r4) == 0) {
         r5 = 0;
         r2 = 0;

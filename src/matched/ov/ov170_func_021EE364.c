@@ -28,23 +28,23 @@ typedef unsigned int   u32;
 struct Sound;
 struct Struct_02025D1C;
 extern u32 func_020260F0(struct Sound *obj);
-extern void func_021EE3CC(char **p);
+extern void func_021EE3CC(int *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Struct_02025CD0;
 extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern void func_02025D1C(struct Struct_02025D1C *obj);
-extern void func_021EE408(char **p, int v);
+extern void func_021EE408(char *p, int v);
 extern void func_021ED55C(char **p, int flag);
 extern const Pair d_021F02F0[];
 
 void func_021EE364(char **p, int idx, int v)
 {
     int r = func_020260F0(((struct Obj24031 *)(p[11]))->f70);
-    func_021EE3CC(p);
+    func_021EE3CC((int *)p);
     ((struct Obj24032 *)(p[11]))->f70 = func_02025CD0(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
     func_02025D1C(((struct Obj24033 *)(p[11]))->f70);
-    func_021EE408(p, v);
+    func_021EE408((char *)p, v);
     func_021ED55C(p, r);
     ((struct Obj24034 *)(p[11]))->fA168 = v;
 }

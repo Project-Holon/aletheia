@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021C253C(void *p, u8 a, u8 b, u16 c, u32 d)
+void func_021C253C(void *p, u8 a, u8 b, u32 c, u32 d)
 {
     ((struct Obj04642 *)p)->fE = a;
     ((struct Obj04642 *)p)->f0 = 0;

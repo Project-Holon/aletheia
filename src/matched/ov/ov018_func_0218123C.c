@@ -97,7 +97,7 @@ void *func_020124E4(struct Obj *p);
 struct Ctx;
 u32 func_02012138(const struct Ctx *);
 int func_02158344(int a0);
-int func_0215839C(void *, int, int);
+int func_0215839C(u8 *p, int m, int a2);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_0217F2B4(Ov018Obj *p, void *);

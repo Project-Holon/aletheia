@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_021ABFDC();
 
-void func_021ABE04(void)
+void func_021ABE04(u32 a)
 {
     func_021ABFDC();
 }

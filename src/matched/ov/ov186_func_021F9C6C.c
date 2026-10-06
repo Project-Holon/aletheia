@@ -18,10 +18,10 @@ typedef struct {
     int  unk_64;
 } S;
 
-extern void func_021F9BA0(S *);
+extern void func_021F9BA0(unsigned *ctx);
 
 void func_021F9C6C(S *p)
 {
     while (p->unk_64 != 0)
-        func_021F9BA0(p);
+        func_021F9BA0((unsigned int *)p);
 }

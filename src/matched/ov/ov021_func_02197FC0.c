@@ -24,8 +24,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_0216D6BC(u8 *, u32);
-extern void func_02163E7C(u8 *, u16);
+extern void *func_0216D6BC(int a0, int a1, int a2);
+extern void func_02163E7C(int a, int b);
 extern void func_0216D60C(u8 *, u16);
 extern void func_0216D674(void *p, u16 v);
 extern void func_0216D568(void *p, u32 v);
@@ -35,12 +35,12 @@ void func_02197FC0(u8 *a, u32 b, u32 c, u16 d, u16 e)
 {
     u16 *r;
 
-    r = func_0216D6BC(a, 12);
+    r = func_0216D6BC((int)a, (u32)12, c);
     r[0] = e;
     r[1] = d;
     ((struct Obj07465 *)r)->f4 = b;
     ((struct Obj07465 *)r)->f8 = c;
-    func_02163E7C(a, b);
+    func_02163E7C((int)a, (u16)b);
     func_0216D60C(a, b);
     func_0216D674(a, e);
     func_0216D568(a, 0x20);

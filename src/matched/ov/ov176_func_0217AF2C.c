@@ -23,9 +23,10 @@
 #include "../include/Obj10695.h"
 
 extern int func_021E5548(int *p);
-extern int func_021E567C(int, int, int);
+typedef unsigned int   u32;
+extern u32 *func_021E567C(int unused, int mode, int heap);
 
 void func_0217AF2C(int *p)
 {
-    ((struct Obj10695 *)p)->f20 = func_021E567C(func_021E5548((int *)(((struct Obj10695 *)p)->f24)), 1, ((struct Obj10695 *)p)->f0);
+    ((struct Obj10695 *)p)->f20 = (int)func_021E567C(func_021E5548((int *)(((struct Obj10695 *)p)->f24)), 1, ((struct Obj10695 *)p)->f0);
 }

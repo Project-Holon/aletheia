@@ -17,12 +17,13 @@
  */
 #include "../include/Obj07675.h"
 extern void *func_021B6600(unsigned char *p, unsigned int id);
-extern unsigned int func_021B69F8(void *p);
+typedef unsigned int   u32;
+extern u32 func_021B69F8(u32 p);
 extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 
-unsigned int func_021B65A8(unsigned char *p, unsigned int id)
+int func_021B65A8(unsigned char *p, int id)
 {
-    return func_021B69F8(func_021B6600(p, id));
+    return func_021B69F8((u32)func_021B6600(p, id));
 }
 
 int func_021B65B4(unsigned char *p, unsigned int id)

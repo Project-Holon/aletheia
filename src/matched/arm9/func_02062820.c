@@ -14,7 +14,7 @@
 typedef unsigned int   u32;
 struct NitroFileHeader;
 extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
-extern void func_02062884(void *p);
+extern void func_02062884(int *p);
 int func_02062820(int a, int *out)
 {
     char *o = (char *)func_02062B64((struct NitroFileHeader *)a, 0x4345424b);
@@ -22,7 +22,7 @@ int func_02062820(int a, int *out)
         *out = 0;
         return 0;
     }
-    func_02062884(o + 8);
+    func_02062884((int *)(o + 8));
     *out = (int)(o + 8);
     return 1;
 }

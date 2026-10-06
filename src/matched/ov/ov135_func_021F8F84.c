@@ -13,7 +13,8 @@
 #include "../include/Obj10580.h"
 typedef unsigned char u8;
 typedef signed short s16;
-extern void func_021D5B5C(void *, void *, int);
+struct MsgBank;
+extern void func_021D5B5C(char *p, struct MsgBank *a, int b);
 int func_021F8F84(u8 *p, void *dialog)
 {
     int text;

@@ -16,7 +16,8 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_021F63B8(void *,int,u32,u32);
+typedef unsigned char  u8;
+extern void func_021F63B8(u8 *a, int index, u32 *res, u32 mode);
 extern const char d_021F83D4[];
 #define SLOT (*(char ***)(a+4))[i]
 char *func_021F611C(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g)
@@ -35,7 +36,7 @@ char *func_021F611C(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g)
             *(u32 *)(SLOT+216)=4096;
             *(u32 *)(SLOT+220)=4096;
             *(u32 *)(SLOT+248)=f;
-            func_021F63B8(a,i,e,g);
+            func_021F63B8((u8 *)a,i,(u32 *)e,g);
             break;
         }
     }

@@ -20,11 +20,14 @@ typedef struct { int x,y,z; } Vec;
 extern const Vec d_021F5B64;
 extern int func_02189A08(unsigned char *p);
 extern void func_021CF580(void *);
-extern void *func_021F5260(void *, const Vec *, void (*)(void), void (*)(void));
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Vec;
+extern void *func_021F5260(void *a, struct Vec *src, u32 b, u32 c);
 extern void func_021F5ABC(void *a);
-extern void func_021F582C(void);
+extern void func_021F582C(u8 *p);
 void *func_021F5A80(void *p, int b) {
     Vec v = d_021F5B64;
     func_021CF580((void *)func_02189A08((unsigned char *)b));
-    return func_021F5260(p, &v, (void (*)(void))func_021F5ABC, func_021F582C);
+    return func_021F5260(p, (struct Vec *)(&v), (u32)((void (*)(void))func_021F5ABC), (u32)func_021F582C);
 }

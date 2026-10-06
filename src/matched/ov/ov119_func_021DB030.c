@@ -26,8 +26,13 @@ typedef unsigned char  u8;
 struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
-extern void func_021E12F8(void *),func_021E1098(void *),func_021E4E64(int,void *,int),func_021E6700(void *);
-extern void func_021D8E84(void *,int),func_021DAFB8(void *),func_021DBE70(void *);
+extern void func_021E12F8(char *p);
+extern void func_021E1098(char *p);
+extern void func_021E4E64(int a, char *p, int b);
+extern void func_021E6700(void *);
+extern void func_021D8E84(void *,int);
+extern void func_021DAFB8(char *p);
+extern void func_021DBE70(char *p);
 void func_021DB030(char *p) {
  int v;
  if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) {

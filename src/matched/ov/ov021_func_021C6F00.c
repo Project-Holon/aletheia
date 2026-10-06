@@ -24,12 +24,12 @@ typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R;
 typedef struct { u32 f0; u8 f4; u8 f5; u16 f6; u16 f8; u16 fA; u32 fC; u32 f10; } W;
 extern u16 func_02188C84(u8 *p);
 extern Q *func_021C6C70(u32 heap, u32 size, void *fn);
-extern W *func_021C6CCC(Q *q);
+extern u32 func_021C6CCC(u8 *p);
 extern void func_021C6F30(void);
 Q *func_021C6F00(u32 a, u16 b, u32 c)
 {
     Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x14, func_021C6F30);
-    W *w = func_021C6CCC(q);
+    W *w = (W *)func_021C6CCC((u8 *)q);
     w->f4 = 0;
     w->f0 = a;
     w->f6 = 0;

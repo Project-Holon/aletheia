@@ -35,19 +35,20 @@ extern int func_021B86E4(unsigned int **p);
 extern u32 func_021CF918(u8 *, u8 *, u16 *);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, u16 id);
-extern void func_021EAF50(u8 *, u32);
+struct H;
+extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *, u8);
 extern void func_021CE3B4(u8 *p, void *q);
 extern int func_021EA710(u32 *p);
 extern void func_021CE0F8(u8 *, u8 *, u8 *);
-extern void func_021EA65C(void *, u8 *);
+extern void func_021EA65C(char *p, struct H *h);
 extern int func_021EA720(void *);
 extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
 extern int func_021EAC54(void *, int *);
 extern int func_021CE08C(u8 *);
 extern void func_021D8414(u32 *p);
 extern void func_021CE150(u8 *p, void *q);
-extern void func_021CE4D0(void);
+extern int func_021CE4D0(u8 *p, u32 *st);
 extern int func_021CE3C8(u8 *p, int *state);
 extern u32 func_021CF220(u8 *p, int *st);
 u32 func_021CF078(u8 *p, u32 *st)
@@ -66,8 +67,8 @@ u32 func_021CF078(u8 *p, u32 *st)
             }
             if (k) {
                 func_021EAF18((struct L *)(p + 0x58), 2, 0x365);
-                func_021EAF50(p + 0x58, id);
-                func_021EAF50(p + 0x58, k);
+                func_021EAF50((struct L *)(p + 0x58), id);
+                func_021EAF50((struct L *)(p + 0x58), k);
             } else {
                 func_021EAF18((struct L *)(p + 0x58), 1, 0x4a);
             }
@@ -90,7 +91,7 @@ u32 func_021CF078(u8 *p, u32 *st)
     case 1:
         if (func_021EA710(((struct Obj02136 *)p)->f54)) {
             func_021CE0F8(p, *(u8 * *)&((struct Obj02136 *)p)->f8, p + 0x58);
-            func_021EA65C(((struct Obj02136 *)p)->f54, p + 0x58);
+            func_021EA65C(((struct Obj02136 *)p)->f54, (struct H *)(p + 0x58));
             *st = 2;
         }
         break;

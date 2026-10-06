@@ -61,8 +61,9 @@ extern void func_021E8AB8(unsigned);
 extern void func_021E8AA8(int);
 extern void func_021E8AC0(int, int);
 extern void func_021DA5B0(char *, int, int, u32, u32 *, u32);
-extern int func_021DA6B8(void *, u32 *);
-extern u32 func_021DADAC(char *);
+struct Record;
+extern int func_021DA6B8(char *p, u32 *out);
+extern u32 func_021DADAC(u8 *p);
 extern int func_021D9F04(char *, void *, void *);
 extern void func_021DA36C(int);
 extern void func_021DA384(char *);
@@ -72,7 +73,7 @@ extern void *func_0200ED48(void *);
 extern void func_0200ED54(struct L0200ED54 *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_02082BCC(void *, int, unsigned);
-extern void func_021DBC04(char *, unsigned, void *);
+extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 extern int func_02012DAC(int);
 extern int func_02012DD0(u8 *);
@@ -114,7 +115,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
                 func_021E8AC0(*(int *)Q(8), *(int *)Q(0x2c));
         }
         if (P(0xfc) == 1) {
-            ((u32 *)Q(0x2c))[5] = func_021DADAC((char *)P(0x30));
+            ((u32 *)Q(0x2c))[5] = func_021DADAC((u8 *)P(0x30));
             *state = 4;
         }
         if (P(0xfc) != 0) {
@@ -159,7 +160,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         func_02082BCC(&rec, 0, 0x54);
         rec.data = *(Rec80 *)((int *)P(0x40))[9];
         rec.last = *(u32 *)((int *)P(0x40))[10];
-        func_021DBC04((char *)P(0x30), 3, &rec);
+        func_021DBC04((u8 *)P(0x30), 3, (struct Record *)(&rec));
         *state = 9;
         break;
     case 9:

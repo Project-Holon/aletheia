@@ -13,7 +13,8 @@
  */
 typedef int s32;
 extern void func_021E1BA8(char *);
-extern s32 func_02051C88(void *);
+struct Ctx;
+extern s32 func_02051C88(struct Ctx *c);
 s32 func_021E13D8(char *p)
 {
     if (*(s32 *)(p + 0x234) == 0) {

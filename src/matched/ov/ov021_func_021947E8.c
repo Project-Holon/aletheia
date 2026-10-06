@@ -30,7 +30,7 @@ typedef struct {
     u32 f10;
 } Cfg;
 
-extern void func_02194AC8(u8 *p, u8 *e, u32 a, u32 b, Cfg *s);
+extern void func_02194AC8(u8 *p, u8 *e, u32 a, u32 b, u8 *s);
 
 void func_021947E8(u8 *p, int i, u32 a, u8 b, u8 c, u8 d, u8 f, u32 g, u32 h, u32 k, u8 m, u8 n)
 {
@@ -47,7 +47,7 @@ void func_021947E8(u8 *p, int i, u32 a, u8 b, u8 c, u8 d, u8 f, u32 g, u32 h, u3
     s.fe = h;
     s.f10 = k;
     e = p + 0x18 + i * 100;
-    func_02194AC8(p, e, 0, a, &s);
+    func_02194AC8(p, e, 0, a, (u8 *)(&s));
     e[0x5C] = m;
     e[0x5D] = n;
     e[2] = 1;

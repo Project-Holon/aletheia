@@ -23,9 +23,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021B8ED8(u8 *p, u8 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
-extern void *func_021D5864(void *m);
+struct E;
+struct Work;
+extern void *func_021D5864(struct Work *p);
 extern void func_021F7EE8(void *, int);
-extern void func_021EDA04(u8 *);
+extern void func_021EDA04(struct E *e);
 extern void func_021EB584(int);
 extern int func_021F7EB4(void);
 int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n)
@@ -38,8 +40,8 @@ int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n)
         for (i = 0; i < n; i++) {
             c = src[i];
             k = func_021B8ED8(*(u8 * *)&((struct Obj10117 *)p)->f134, c);
-            func_021F7EE8(func_021D5864(func_021B98AC(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
-            func_021EDA04(p + 0x48 + k * 12);
+            func_021F7EE8(func_021D5864((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
+            func_021EDA04((struct E *)(p + 0x48 + k * 12));
         }
         *state = *state + 1;
         break;

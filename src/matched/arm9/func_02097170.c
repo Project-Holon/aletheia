@@ -89,11 +89,12 @@ extern int func_020921F4(double v);
 extern double func_0209AF34(double a, double b);
 extern double func_0209A6E8(double x, int *eptr);
 extern u32 func_02092144(u64 x);
-extern void func_02096990(DB *p, int n);
+struct decimal;
+extern void func_02096990(struct decimal *result, long exp);
 extern double func_0209A7A8(double x, int n);
 extern u64 func_0209C554(double x);
-extern void func_020966B0(DB *p, u64 v);
-extern void func_02096774(DB *r, DB *a, DB *b);
+extern void func_020966B0(struct decimal *result, unsigned long long val);
+extern void func_02096774(struct decimal *result, const struct decimal *x, const struct decimal *y);
 
 void func_02097170(DB *r, double x)
 {
@@ -127,8 +128,8 @@ void func_02097170(DB *r, double x)
     g = f;
     v = *(u64 *)&g | 0x0010000000000000ULL;
     k = 0x35 - func_02092144((v & -v) - 1);
-    func_02096990(&b, e - k);
-    func_020966B0(&a, func_0209C554(func_0209A7A8(f, k)));
-    func_02096774(r, &a, &b);
+    func_02096990((struct decimal *)(&b), e - k);
+    func_020966B0((struct decimal *)(&a), func_0209C554(func_0209A7A8(f, k)));
+    func_02096774((struct decimal *)r, (const struct decimal *)(&a), (const struct decimal *)(&b));
     r->f0 = neg;
 }

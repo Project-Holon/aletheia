@@ -38,21 +38,21 @@ typedef struct {
     Obj *obj;
 } Work;
 
-extern int func_02172D7C(Work *w);
+extern int func_02172D7C(u8 *p);
 extern int func_0203CD98(void);
 extern void func_0217778C(void);
-extern void func_021730C8(Work *w);
+extern void func_021730C8(u8 *self);
 extern void func_0217303C(Work *w);
-extern void func_02172FF0(Work *w);
+extern void func_02172FF0(u8 *w);
 extern void func_02172EEC(Work *w);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern u32 func_0203D378(void);
-extern void func_02172D38(Work *w);
+extern void func_02172D38(u8 *p);
 
 void func_02172E48(int a, int b, Work *w)
 {
-    if (func_02172D7C(w) == 1) {
+    if (func_02172D7C((u8 *)w) == 1) {
         return;
     }
     if (func_0203CD98() == 0) {
@@ -62,13 +62,13 @@ void func_02172E48(int a, int b, Work *w)
         func_0217778C();
         w->f2829 = 0;
     }
-    func_021730C8(w);
+    func_021730C8((u8 *)w);
     func_0217303C(w);
-    func_02172FF0(w);
+    func_02172FF0((u8 *)w);
     func_02172EEC(w);
     if (func_0200FB24() != 0 && func_0203D378() == 1 && w->obj != 0
         && w->obj->f0 == 1 && w->f2831 == 0x2a && w->obj->f1 == 0) {
-        func_02172D38(w);
+        func_02172D38((u8 *)w);
         w->obj->f1 = 1;
     }
 }

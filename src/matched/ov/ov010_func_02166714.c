@@ -11,7 +11,7 @@
 #include "../include/Obj07308.h"
 typedef signed short s16;
 typedef unsigned char u8;
-void func_02166714(u8 *p, s16 n) {
+void func_02166714(u8 *p, int n) {
     int q;
     ((struct Obj07308 *)p)->f4 = n;
     q = ((struct Obj07308 *)p)->f4 / 1350;

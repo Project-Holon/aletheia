@@ -9,4 +9,4 @@
  * status: EXACT*
  */
 typedef unsigned short u16;
-void func_021C9BEC(u16 *p,int b,int c,int flag,int value) { if(flag==0) *p=value; }
+void func_021C9BEC(u16 *p, void *b, void *c, int flag, int value, int a5) { if(flag==0) *p=value; }

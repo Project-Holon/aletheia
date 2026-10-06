@@ -17,6 +17,6 @@
 
 void func_021B878C(void *p)
 {
-    void func_021B6EEC(void *);
-    func_021B6EEC((char *)p + 0x18);
+    void func_021B6EEC(void **p);
+    func_021B6EEC((void **)((char *)p + 0x18));
 }

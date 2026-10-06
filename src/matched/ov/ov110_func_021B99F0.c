@@ -38,4 +38,4 @@ u16 func_021B99F0(int unused, int id, int index) {
     }
     return 0;
 }
-int func_021B9A3C(u8 *p) { return func_02024810(*(u8 * *)&((struct Obj22314 *)p)->f4); }
+int func_021B9A3C(u8 *p, u16 a1, int a2) { return func_02024810(*(u8 * *)&((struct Obj22314 *)p)->f4); }

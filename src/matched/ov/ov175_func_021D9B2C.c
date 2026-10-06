@@ -35,8 +35,8 @@ extern u32 func_020173EC(void);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u8 *func_021B9A64(int a, int b, int c);
-extern void func_021B9A94(void *buf, void *entry, u32 size, int i);
-extern u32 func_021B9A1C(void *buf, u32 size, u32 count, char *dst, u16 heap);
+extern void func_021B9A94(int p, int a, u32 b, int n);
+extern int func_021B9A1C(void *a, int b, int c, char *d, u16 e);
 extern void func_021B9A8C(void *buf);
 
 u32 func_021D9B2C(char *obj, void *list, u32 heapId)
@@ -49,7 +49,7 @@ u32 func_021D9B2C(char *obj, void *list, u32 heapId)
 
     for (i = 0; i < (int)func_0201AA18(list); i++) {
         void *e = func_0201AB28(list, i);
-        func_021B9A94(buf, e, func_020173EC(), i);
+        func_021B9A94((int)buf, (int)e, func_020173EC(), i);
     }
     size = func_020173EC();
     ret = func_021B9A1C(buf, size, func_0201AA18(list), obj + 0x54, (u16)heap);

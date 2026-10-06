@@ -17,9 +17,10 @@
  *   func_02018488  0x02018488  thumb
  */
 
-extern int func_02018488(void *p, int q);
+typedef unsigned int   u32;
+extern u32 func_02018488(void *p, void *mail);
 
 int func_02018480(void *p, int q)
 {
-    return func_02018488(p, q);
+    return func_02018488(p, (void *)q);
 }

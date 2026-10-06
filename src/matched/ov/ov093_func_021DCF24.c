@@ -21,14 +21,14 @@ typedef struct Node Node;
 extern u8 func_021D5440(u8 *p);
 extern struct Node *func_021D732C(int id, int sub);
 extern struct Node *func_021D7360(struct Node *n);
-extern u32 func_021D70B4(Node *, int);
+extern u32 func_021D70B4(u8 *p, int i);
 extern void func_021D7040(struct Node *n);
 void func_021DCF24(u8 *p)
 {
     Node *n = func_021D732C(5, func_021D5440(p));
     while (n != 0) {
         Node *next = func_021D7360(n);
-        if (func_021D70B4(n, 6) == 0)
+        if (func_021D70B4((u8 *)n, 6) == 0)
             func_021D7040(n);
         n = next;
     }

@@ -55,7 +55,8 @@ struct Ctx {
 };
 
 extern u32 func_0203521C(u32 *p);
-extern struct Ctx *func_02035224(void);
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
 
 u32 sub_020362EC(struct Ctx *ctx);
 u32 sub_0203631C(struct Ctx *ctx);
@@ -73,7 +74,7 @@ u32 sub_020362EC(struct Ctx *ctx)
 
 u32 sub_0203630C(void)
 {
-    return sub_020362EC(func_02035224());
+    return sub_020362EC((struct Ctx *)func_02035224());
 }
 
 u32 sub_0203631C(struct Ctx *ctx)
@@ -88,7 +89,7 @@ u32 sub_0203631C(struct Ctx *ctx)
 
 u32 sub_0203633C(void)
 {
-    return sub_0203631C(func_02035224());
+    return sub_0203631C((struct Ctx *)func_02035224());
 }
 
 void sub_0203634C(struct Ctx *ctx, u32 *outA, u32 *outB)
@@ -101,5 +102,5 @@ void sub_0203634C(struct Ctx *ctx, u32 *outA, u32 *outB)
 
 void sub_02036370(u32 *outA, u32 *outB)
 {
-    sub_0203634C(func_02035224(), outA, outB);
+    sub_0203634C((struct Ctx *)func_02035224(), outA, outB);
 }

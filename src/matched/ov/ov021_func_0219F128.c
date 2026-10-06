@@ -35,7 +35,7 @@ extern void *func_0216D6F0(void *p);
 extern int func_0216D910(int a0);
 extern u32 func_0219C9DC(u8 *p);
 extern void func_02197CCC(u8 *p, s32 *out);
-extern void func_0219FFBC(u32, s32 *);
+extern void func_0219FFBC(u32 a, u32 *p);
 extern u32 func_02050080(u32 *p);
 extern void func_0204F638(u8 *a0, int i, struct Trip *src);
 extern void func_0219FEB0(u8 *s, u32 a, u32 r, u16 id);
@@ -50,7 +50,7 @@ void func_0219F128(u32 a)
         r = func_0219C9DC((u8 *)func_0216D910(a));
         func_0219FEB0((u8 *)(q + 2), a, r, *q);
     func_02197CCC((u8 *)a, buf);
-    func_0219FFBC(a, buf);
+    func_0219FFBC(a, (u32 *)buf);
     r = func_02050080((u32 *)r);
     func_0204F638((u8 *)r, *q, (struct Trip *)buf);
     }

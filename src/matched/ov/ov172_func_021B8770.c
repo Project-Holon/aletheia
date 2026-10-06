@@ -33,8 +33,8 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
-extern void func_021BE210(u8 *p, u32 arg);
-extern void *func_021BDFEC(void *p);
+extern void func_021BE210(char *a, u8 idx);
+extern int func_021BDFEC(void *p);
 extern void func_021BE2E0(void *p);
 extern void func_021BA234(void *p);
 extern u32 func_021BDFFC(void *p);
@@ -63,9 +63,9 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
         v = msg[0];
         ((struct Obj00593 *)q)->f3AE = v;
         if (v != 0xff) {
-            func_021BE210(*(u8 * *)&((struct Obj00593 *)q)->f3DC, (u8)v);
+            func_021BE210((char *)(*(u8 * *)&((struct Obj00593 *)q)->f3DC), (u8)v);
         } else {
-            r = func_021BDFEC(((struct Obj00593 *)q)->f3DC);
+            r = (void *)func_021BDFEC(((struct Obj00593 *)q)->f3DC);
             func_021BE2E0(((struct Obj00593 *)q)->f3DC);
             func_021BA234(r);
         }
@@ -99,7 +99,7 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
         ((struct Obj00593 *)q)->f3B0 = 1;
         break;
     case 7:
-        r = func_021BDFEC(((struct Obj00593 *)q)->f3DC);
+        r = (void *)func_021BDFEC(((struct Obj00593 *)q)->f3DC);
         if (id == self)
             func_021BA1E8(r, *(char * *)&((struct Obj00593 *)q)->f1A4, ((struct Obj00593 *)q)->f19C, 0, ((struct Obj00593 *)q)->f1A0);
         else

@@ -27,13 +27,16 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 
-extern void *func_02045770(void *a);
-extern void func_02043B5C(void *a, int b);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern int func_021C1090(u8 *p, void *text);
 extern void func_0201C7D0(void *w, s16 x, s16 y, void *text, void *font, u16 color);
-extern void func_02045334(void *a);
-extern void func_02045374(void *a);
-extern unsigned int func_02045730(void *a);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned int bit);
 
 void func_021C0F78(u8 *p, void *text)

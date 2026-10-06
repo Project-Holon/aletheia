@@ -24,7 +24,8 @@
 #include "../include/Obj23701.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021E1694(void *,void *),func_021E1814(void *,void *);
+extern void func_021E1694(void *,void *);
+extern void func_021E1814(unsigned char *p, u16 *q);
 extern void func_021E180C(int *p, int a, int b);
 void func_021DCD8C(int a,int b,void *c,u8 *p) { if(a==0) func_021E1694(((struct Obj23693 *)(*(u8 * *)&((struct Obj23692 *)p)->f0))->f1C,c); }
 void func_021DCDA0(int a,int b,int *c,u8 *p) { func_021E180C(((struct Obj23696 *)(*(u8 * *)&((struct Obj23695 *)p)->f0))->f1C,a,*c); }

@@ -129,7 +129,8 @@ extern u8 func_020355C4(void);
 extern signed char func_02012FFC(void);
 extern int func_0203D1B4(void);
 extern void func_0203F8F4(u16 heap);
-extern void func_020433E0(const void *cfg);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), void *ctx, int pri);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
@@ -191,7 +192,7 @@ int func_021C3CC0(void *man, int *state, Args *args)
     }
     func_0203F8F4(p->heap);
     func_021C41C4(p);
-    func_020433E0(d_021C8564);
+    func_020433E0((const struct DispVram *)d_021C8564);
     func_021C43E8();
     func_021C453C(p);
     func_021C6D9C(&p->anim, d_021C8564);

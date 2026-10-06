@@ -28,7 +28,7 @@ extern unsigned func_021DE7F4(void);
 extern void func_020061E4(u32 a);
 extern void func_021DD924(char *);
 extern u32 func_0201FEBC(u8 *p);
-extern void *func_021DCF50(void *);
+extern void *func_021DCF50(u8 *p);
 extern void func_02184134(u8 *p);
 extern u16 func_02039338(void);
 int func_021DDBE8(char *p, int state) {
@@ -42,7 +42,7 @@ int func_021DDBE8(char *p, int state) {
     result = func_0201FEBC(((struct Obj05426 *)p)->fE8);
     if (result != -1) {
         if (result == -2) {
-            func_02184134(func_021DCF50(p));
+            func_02184134(func_021DCF50((u8 *)p));
             ((struct Obj05426 *)p)->f118 = 0;
         } else {
             if (func_02039338() == 0) {

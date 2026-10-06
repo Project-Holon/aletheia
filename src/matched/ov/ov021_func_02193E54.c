@@ -17,9 +17,10 @@
 #include "../include/Obj07441.h"
 #include "../include/Obj12617.h"
 
-extern void func_0218609C(void *p);
-extern void func_021860B8(void *p);
-extern void func_02193FD4(void *a, void *b);
+typedef unsigned short u16;
+extern void func_0218609C(char *p);
+extern void func_021860B8(char *p);
+extern void func_02193FD4(u16 *a, void *b);
 
 void func_02193E54(unsigned char *p, unsigned char *q)
 {
@@ -28,14 +29,14 @@ void func_02193E54(unsigned char *p, unsigned char *q)
     ((struct Obj12617 *)q)->f0 = 1;
     ((struct Obj12617 *)q)->f2 = p[0];
     if (p[1] == 0) {
-        func_0218609C(q);
+        func_0218609C((char *)q);
         q += 8;
         for (i = 0; i < 10; i++)
-            func_02193FD4(*(unsigned char * *)&((struct Obj07441 *)p)->f4 + i * 0x50, q + i * 0x18);
+            func_02193FD4((u16 *)(*(unsigned char * *)&((struct Obj07441 *)p)->f4 + i * 0x50), q + i * 0x18);
     } else {
-        func_021860B8(q);
+        func_021860B8((char *)q);
         q += 0xf8;
         for (i = 0; i < 10; i++)
-            func_02193FD4(*(unsigned char * *)&((struct Obj07441 *)p)->f4 + i * 0x50, q + i * 0x18);
+            func_02193FD4((u16 *)(*(unsigned char * *)&((struct Obj07441 *)p)->f4 + i * 0x50), q + i * 0x18);
     }
 }

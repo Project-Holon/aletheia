@@ -26,20 +26,22 @@
  *   func_021F3B40  0x021F3B40  thumb  ov053
  */
 
-extern int *func_021897BC(int, int);
-extern int func_02188C58(int);
+typedef unsigned char  u8;
+struct Obj;
+extern int *func_021897BC(char *p, int idx);
+extern void *func_02188C58(void *p);
 extern void func_0218ECE4(int, int *);
 extern void func_0218ECB4(int, int *);
-extern void func_0202B93C(int, int *, int *);
-extern void func_021F3A5C(int *, int);
+extern void func_0202B93C(int a, void *b, void *c);
+extern int func_021F3A5C(char *p, int i);
 extern int func_021C4DE4(int, int);
-extern void func_021F3A38(int *, int);
-extern void func_021F3A7C(int *, int);
+extern void func_021F3A38(char *a, int i);
+extern void func_021F3A7C(char *p, int a);
 extern void func_021F3A6C(int *);
-extern int func_02188D2C(int);
+extern int func_02188D2C(int *p);
 extern void func_021BE580(int);
-extern int func_02188CB4(int);
-extern void func_021F3B40(int *, int, int);
+extern void *func_02188CB4(u8 *p);
+extern void func_021F3B40(struct Obj *o, int h, int a2);
 
 void func_021F3778(int a)
 {
@@ -50,8 +52,8 @@ void func_021F3778(int a)
     int v2[3];
 
     i = 0;
-    p = func_021897BC(a, 0);
-    h = func_02188C58(a);
+    p = func_021897BC((char *)a, 0);
+    h = (int)func_02188C58((void *)a);
     func_0218ECE4(h, v1);
     func_0218ECB4(h, v2);
     func_0202B93C(p[1], v1, v2);
@@ -59,7 +61,7 @@ void func_021F3778(int a)
         int *q = p + i;
         if (q[7] > 0) {
             if (--q[7] <= 0) {
-                func_021F3A5C(p, i);
+                func_021F3A5C((char *)p, i);
                 switch (i) {
                 case 0:
                     p[8] = 1;
@@ -70,11 +72,11 @@ void func_021F3778(int a)
                 }
             }
         } else if (func_021C4DE4(q[2], 0x1000)) {
-            func_021F3A38(p, i);
+            func_021F3A38((char *)p, i);
         }
     }
-    func_021F3A7C(p, a);
+    func_021F3A7C((char *)p, a);
     func_021F3A6C(p);
-    func_021BE580(func_02188D2C(a));
-    func_021F3B40(p + 0x1a, h, func_02188CB4(a));
+    func_021BE580(func_02188D2C((int *)a));
+    func_021F3B40((struct Obj *)(p + 0x1a), h, (int)func_02188CB4((u8 *)a));
 }

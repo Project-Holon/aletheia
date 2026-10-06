@@ -25,7 +25,7 @@ typedef struct {
 
 extern E d_021F40F0[];
 
-u8 func_021F3EE4(u16 a, u16 b)
+u8 func_021F3EE4(int a, int b)
 {
     u8 i;
 

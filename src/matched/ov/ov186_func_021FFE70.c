@@ -14,5 +14,8 @@
  *   func_021FFF1C 0x021FFF1C thumb ov186
  */
 #include "../include/Obj14486.h"
-extern void func_022000D0(char *),func_021FFFCC(char *),func_021FFF1C(char *);
-void func_021FFE70(char *p) {((struct Obj14486 *)p)->f6C=0;if(((struct Obj14486 *)p)->f70==1)func_022000D0(p);else func_021FFFCC(p);func_021FFF1C(p);}
+typedef unsigned char  u8;
+extern void func_022000D0(u8 *p);
+extern void func_021FFFCC(u8 *p);
+extern void func_021FFF1C(char *);
+void func_021FFE70(char *p) {((struct Obj14486 *)p)->f6C=0;if(((struct Obj14486 *)p)->f70==1)func_022000D0((u8 *)p);else func_021FFFCC((u8 *)p);func_021FFF1C(p);}

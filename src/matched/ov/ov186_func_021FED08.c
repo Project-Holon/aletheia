@@ -14,10 +14,11 @@
  *   func_021FEB1C 0x021FEB1C thumb ov186
  *   func_021FEC14 0x021FEC14 thumb ov186
  */
-extern int func_021FE90C(void *, int *);
-extern int func_021FE970(void *, int *);
+typedef unsigned int   u32;
+extern int func_021FE90C(u32 *p, u32 *state);
+extern int func_021FE970(u32 *p, u32 *state);
 extern int func_021FE9D4(char *p, int *state);
-extern int func_021FEB1C(void *, int *);
+extern int func_021FEB1C(char *p, int *state);
 extern int func_021FEC14(char *p, int *state);
 void *func_021FED08(unsigned index)
 {

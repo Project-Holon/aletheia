@@ -20,8 +20,8 @@
 
 typedef unsigned char u8;
 
-extern void func_021F1218(u8 *e, short x, short y);
-extern void func_021F0EDC(u8 *e);
+extern void func_021F1218(char *p, short x, short y);
+extern void func_021F0EDC(char *p);
 struct TcblNode;
 extern void func_02031194(struct TcblNode *n);
 
@@ -41,10 +41,10 @@ void func_021F1704(void *h, char *t)
             int y = ((struct Obj00710 *)t)->f18 + ((struct Obj00710 *)t)->f20;
             ((struct Obj00710 *)t)->f14 = x;
             ((struct Obj00710 *)t)->f18 = y;
-            func_021F1218(*(u8 * *)&((struct Obj00710 *)t)->f8, (short)(x >> 12), (short)(y >> 12));
+            func_021F1218((char *)(*(u8 * *)&((struct Obj00710 *)t)->f8), (short)(x >> 12), (short)(y >> 12));
             return;
         }
-        func_021F1218(*(u8 * *)&((struct Obj00710 *)t)->f8, ((struct Obj00710 *)t)->f10, ((struct Obj00710 *)t)->f12);
+        func_021F1218((char *)(*(u8 * *)&((struct Obj00710 *)t)->f8), ((struct Obj00710 *)t)->f10, ((struct Obj00710 *)t)->f12);
         e = *(u8 * *)&((struct Obj00710 *)t)->f8;
         if (e[2] == 0 || e[2] == 5) {
             ((struct Obj00710 *)t)->f0 = ((struct Obj00710 *)t)->f0 + 1;
@@ -56,7 +56,7 @@ void func_021F1704(void *h, char *t)
         e = *(u8 * *)&((struct Obj00710 *)t)->f8;
         if (((struct Obj00225 *)e)->f2C != 0)
             return;
-        func_021F0EDC(e);
+        func_021F0EDC((char *)e);
         break;
     }
     **(int * *)&((struct Obj00710 *)t)->f24 = **(int * *)&((struct Obj00710 *)t)->f24 - 1;

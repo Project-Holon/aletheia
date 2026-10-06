@@ -53,7 +53,7 @@ typedef unsigned int u32;
 typedef struct {u32 x,y,z;} Vec;
 extern const Vec d_021DC204,d_021DC21C,d_021DC1B0,d_021DC1A4,d_021DC18C,d_021DC1BC;
 extern void *func_021D6064(u8 *);
-extern void *func_021D60A4(void *);
+extern int func_021D60A4(char *p);
 struct Cfg;
 struct Descriptor;
 struct Light;
@@ -79,7 +79,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_0201B28C(void *);
 extern u32 func_02017EB4(void *);
 extern u32 func_02017F90(void *);
-extern int func_020276C4(void *);
+extern int func_020276C4(int a0);
 extern u32 func_0201B268(void *);
 extern void func_02015C78(void *,u32 *);
 extern void func_02015D30(void *,u32 *);
@@ -92,7 +92,7 @@ void func_021D6A38(u8 *p,u8 *q)
     u32 form,archive,status;
     u8 i,mask;
     mon=func_021D6064(p);
-    other=func_021D60A4(p);
+    other=(void *)func_021D60A4((char *)p);
     func_021D785C(p,q,mon);
     window=((struct Obj00472 *)q)->f18;
     func_02045334(window);
@@ -146,7 +146,7 @@ void func_021D6A38(u8 *p,u8 *q)
         ((struct Obj00472 *)q)->f8=2;
     }
     if((u8)func_02017F90(other)!=0) {
-        func_0204B878(((struct Obj00472 *)q)->f48,func_020276C4(other));
+        func_0204B878(((struct Obj00472 *)q)->f48,func_020276C4((int)other));
         func_0204B3DC(((struct Obj00472 *)q)->f48,1);
         func_0204B3DC(((struct Obj00472 *)q)->f44,0);
     } else {

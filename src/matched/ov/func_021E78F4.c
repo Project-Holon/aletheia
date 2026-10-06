@@ -17,9 +17,9 @@
 
 
 
-extern void func_021EBC58(char *, int, int, int);
+extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
 int func_021E78F4(char *p)
 {
-    func_021EBC58(p, (unsigned char)p[0x16], 1, 0x18);
+    func_021EBC58((unsigned char *)p, (unsigned char)p[0x16], 1, 0x18);
     return 0x4b;
 }

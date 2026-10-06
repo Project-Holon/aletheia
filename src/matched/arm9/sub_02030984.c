@@ -55,7 +55,7 @@ extern void *sub_020304C0(void *p);
 extern u16 sub_0203046C(u32 heapId);
 extern int sub_020308B8(u8 *buf, const char *name);
 
-void sub_02030984(void *p)
+void sub_02030984(void *p, u32 size)
 {
     u8 buf[0x13];
     void *rec;

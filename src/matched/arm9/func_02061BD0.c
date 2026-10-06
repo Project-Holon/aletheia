@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02061840(u8 *p, u32 v);
 
-int func_02061BD0(struct Obj02061BD0 *p)
+u32 func_02061BD0(struct Obj02061BD0 *p)
 {
     if (func_02061878(p) != 0) {
         return 0;

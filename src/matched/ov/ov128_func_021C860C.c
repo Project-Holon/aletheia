@@ -19,18 +19,18 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern void func_021CA40C(u8 *, int);
+extern void func_021CA40C(char *p, int n);
 extern void func_021C88C0(s16 *, void *, u8 *);
-extern void func_021C8904(u8 *, u8 *, u8 *, void *, u8 *, u8 *, int, u16);
-extern void func_021CA2DC(u8 *);
+extern void func_021C8904(char *p, char *q, void *r, void *s, int t, char *table, int page, u16 heap);
+extern void func_021CA2DC(char *p);
 void func_021C860C(u8 *p, u8 *a, u8 *b, int x, int y, u16 c)
 {
     ((struct Obj00179 *)p)->f4 = y;
     ((struct Obj00179 *)p)->f0 = x;
-    func_021CA40C(p, x);
+    func_021CA40C((char *)p, x);
     func_021C88C0((s16 *)(p + 12), b, b + 0x16c);
-    func_021C8904(p + 12, a, b, ((struct Obj00179 *)p)->f104, b + 0x16c, a + 16, x, c);
-    func_021CA2DC(p);
+    func_021C8904((char *)(p + 12), (char *)a, b, ((struct Obj00179 *)p)->f104, (int)(b + 0x16c), (char *)(a + 16), x, c);
+    func_021CA2DC((char *)p);
 }
 void func_021C8660(void) {}
 void func_021C8664(void) {}

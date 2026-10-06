@@ -24,16 +24,18 @@ struct DWCAuthResult {
 	unsigned char pad1[0x44];
 };
 
-extern void func_02178224(struct DWCAuthResult *result);
-extern char *func_02094860(char *dst, char *src, unsigned long n);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02178224(int *result);
+extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 
 void func_02178EA0(char *authtoken, char *partnerchallenge)
 {
 	struct DWCAuthResult result;
 
-	func_02178224(&result);
-	func_02094860(authtoken, result.authtoken, 0x12d);
+	func_02178224((int *)(&result));
+	func_02094860((u8 *)authtoken, (const u8 *)result.authtoken, 0x12d);
 	authtoken[0x12c] = 0;
-	func_02094860(partnerchallenge, result.partnerchallenge, 9);
+	func_02094860((u8 *)partnerchallenge, (const u8 *)result.partnerchallenge, 9);
 	partnerchallenge[8] = 0;
 }

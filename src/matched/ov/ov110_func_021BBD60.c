@@ -35,7 +35,7 @@ struct WinMgr;
 extern void func_021BC068(u8 *,void *);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02040618(u32,u32,u32);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);

@@ -45,9 +45,12 @@ typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern void func_020637D4(struct Ent *ent);
+struct List02063F4C;
+struct Out02063F4C;
+struct Self02063F4C;
+extern void func_020637D4(u32 *p);
 extern u32 func_0204D9B4(u32 a, u32 b);
-extern void func_02063F4C(void *b, void *a, u32 size, int mode, struct Ent *ent);
+extern void func_02063F4C(struct Self02063F4C *self, struct List02063F4C *list, u32 base, int sel, struct Out02063F4C *out);
 extern u16 func_02080C34(void);
 extern u16 func_02080C74(void);
 extern void func_0208068C(void);
@@ -76,18 +79,18 @@ void func_0204DEE8(struct Holder *h, int idx, void *src, void *sel, u32 size)
     if (!func_02062A98(src, &b)) {
         return;
     }
-    func_020637D4(ent);
+    func_020637D4((u32 *)ent);
 
     if (func_0204D9B4((u32)sel, 0)) {
         saved = func_02080C34();
         if (flag) func_0208068C();
-        func_02063F4C(b, a, size, 1, ent);
+        func_02063F4C(b, a, size, 1, (struct Out02063F4C *)ent);
         if (flag) func_020801F8(saved);
     }
     if (func_0204D9B4((u32)sel, 1)) {
         saved = func_02080C74();
         if (flag) func_0208068C();
-        func_02063F4C(b, a, size, 2, ent);
+        func_02063F4C(b, a, size, 2, (struct Out02063F4C *)ent);
         if (flag) func_0208083C(saved);
     }
 

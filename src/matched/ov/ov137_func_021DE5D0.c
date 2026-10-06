@@ -26,12 +26,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern u8 func_02008550(const void *);
-extern u8 func_02008554(const void *);
+struct Obj;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u16 func_02039338(void);
 extern void func_021DE6EC(u8 *,u8 *,int,int,int);
-extern void func_0204B878(void *,u16);
-extern void func_0204B3DC(void *,u32);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020061E4(u32);
 void func_021DE5D0(u8 *p)
 {

@@ -43,7 +43,7 @@ typedef struct {
 } Desc;
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern int func_0204B838(void *a);
+extern int func_0204B838(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
@@ -60,7 +60,7 @@ extern const signed char d_021EFCC8[];
 
 static inline void setup(Desc *dp, void **res)
 {
-    dp->b6 = func_0204B838(*res) + 1;
+    dp->b6 = func_0204B838((int)(*res)) + 1;
     dp->b7 = func_0204B864(*res);
 }
 
@@ -87,7 +87,7 @@ void func_021ED1C8(char *w)
             func_021EC000(w, j + 0x58, 0);
         }
     } else {
-        int n6 = func_0204B838(((struct Obj08247 *)w)->f9E9C);
+        int n6 = func_0204B838((int)(((struct Obj08247 *)w)->f9E9C));
         int n7 = func_0204B864(((struct Obj08247 *)w)->f9E9C);
         for (; j < 8u; j++) {
             func_021EC08C(w, j + 0x58, xy[1] + d_021EFCD0[j], xy[0] + d_021EFCC8[j], 0);

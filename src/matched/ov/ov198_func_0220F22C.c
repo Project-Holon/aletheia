@@ -17,21 +17,24 @@ typedef struct {short x,y;} Pair;
 extern int func_022110D4(u8 *,int);
 struct Actor; struct PtS;
 extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
-extern void func_0204B404(void *,void *,int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_0220F22C(u8 *p,int a,short delta)
 {
     int i=func_022110D4(p,a);
     Pair pair;
     func_0204B454(*(void **)(p+0x1ebc+i*4),(struct PtS *)&pair,1);
     pair.x+=delta;
-    func_0204B404(*(void **)(p+0x1ebc+i*4),&pair,1);
+    func_0204B404(*(void **)(p+0x1ebc+i*4),(const struct Vec2 *)(&pair),1);
     func_0204B454(*(void **)(p+0x1ed8+i*4),(struct PtS *)&pair,1);
     pair.x+=delta;
-    func_0204B404(*(void **)(p+0x1ed8+i*4),&pair,1);
+    func_0204B404(*(void **)(p+0x1ed8+i*4),(const struct Vec2 *)(&pair),1);
     func_0204B454(*(void **)(p+0x1ef0+i*4),(struct PtS *)&pair,1);
     pair.x+=delta;
-    func_0204B404(*(void **)(p+0x1ef0+i*4),&pair,1);
+    func_0204B404(*(void **)(p+0x1ef0+i*4),(const struct Vec2 *)(&pair),1);
     func_0204B454(*(void **)(p+0x1f08+i*4),(struct PtS *)&pair,1);
     pair.x+=delta;
-    func_0204B404(*(void **)(p+0x1f08+i*4),&pair,1);
+    func_0204B404(*(void **)(p+0x1f08+i*4),(const struct Vec2 *)(&pair),1);
 }

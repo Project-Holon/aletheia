@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_021D18E0(u8 *p)
+u32 func_021D18E0(u8 *p, u32 a1, u32 a2, u32 a3)
 {
     if (p[0x19a] == 0) {
         return 1;

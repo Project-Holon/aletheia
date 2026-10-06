@@ -28,11 +28,13 @@ typedef struct Obj02075BAC {
     u32 unk0c;
 } Obj02075BAC;
 
-extern u32 func_02075BD4(Obj02075BAC *o);
+typedef signed int     s32;
+struct Obj;
+extern s32 func_02075BD4(struct Obj *o);
 
 void func_02075BAC(Obj02075BAC *o, u32 a, u32 b)
 {
-    o->unk00 = func_02075BD4(o);
+    o->unk00 = func_02075BD4((struct Obj *)o);
     o->unk04 = a;
     o->unk0c = b;
     o->unk08 = 0;

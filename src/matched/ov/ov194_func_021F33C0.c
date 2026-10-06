@@ -20,9 +20,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern void func_02040804(int);
-extern void func_02040618(int, int, int);
-extern void func_02040588(int, int);
+extern u32 func_02040804(u32 layer);
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_021F35A8(char *, u32);
 int func_021F33C0(char *p) {
     int c;

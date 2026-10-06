@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02082D44(int,int,int);
-void func_021B9A94(int p,int a,int b,int n) { func_02082D44(a,p+b*n,b); }
+void func_021B9A94(int p, int a, u32 b, int n) { func_02082D44(a,p+b*n,b); }

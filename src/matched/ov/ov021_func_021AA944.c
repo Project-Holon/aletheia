@@ -66,7 +66,8 @@ extern u32 func_02005728(u32 v);
 extern u16 func_021AB070(void);
 extern int func_021AB0AC(Self *self, u16 v);
 extern u16 func_021AB018(void);
-extern int func_021A9F40(Self *self, u32 v);
+struct Ctx;
+extern int func_021A9F40(struct Ctx *ctx, int mode);
 extern void func_021AAFA0(Self *self, void *p);
 extern void func_021AAB1C(Self *self, int v);
 extern int func_021A3624(void *p);
@@ -98,20 +99,20 @@ int func_021AA944(Self *self)
     r = func_02005728(1000);
     if (e->b == 7) {
         if (r < 200) {
-            x = func_021A9F40(self, 1);
+            x = func_021A9F40((struct Ctx *)self, 1);
         } else {
             x = func_021AB0AC(self, func_021AB070());
             flag = 1;
         }
     } else if (e->b == 4) {
         if (r < 400) {
-            x = func_021A9F40(self, 1);
+            x = func_021A9F40((struct Ctx *)self, 1);
         } else {
             x = func_021AB0AC(self, func_021AB018());
             flag = 1;
         }
     } else {
-        x = func_021A9F40(self, 1);
+        x = func_021A9F40((struct Ctx *)self, 1);
     }
     if (x == 0) {
         func_021AAFA0(self, arg);

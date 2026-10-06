@@ -26,11 +26,12 @@ typedef signed int s32;
 
 /* 021D3900  shape F4: (u8) of a word arg, then func_021D61F0 */
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D61F0(void *p);
+struct UtilSlots;
+extern void func_021D61F0(struct UtilSlots *p);
 
 int func_021D3900(u8 *p, int b, u32 *q)
 {
-    func_021D61F0(func_021B9934(*(char * *)&((struct Obj18387 *)p)->f4, (u8)*q));
+    func_021D61F0((struct UtilSlots *)func_021B9934(*(char * *)&((struct Obj18387 *)p)->f4, (u8)*q));
     return 1;
 }
 

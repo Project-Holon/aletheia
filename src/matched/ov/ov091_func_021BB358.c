@@ -25,7 +25,7 @@ typedef struct S {
 } S;
 
 extern void func_021BB050(int unused, u8 *s, int k);
-extern void func_021BB2E0(u8 *p, S *s);
+extern void func_021BB2E0(u8 *a, u8 *s);
 
 int func_021BB358(u8 *p, S *s)
 {
@@ -43,7 +43,7 @@ int func_021BB358(u8 *p, S *s)
                 s->a = cur + (u16)st;
             }
         }
-        func_021BB2E0(p, s);
+        func_021BB2E0(p, (u8 *)s);
         return 0;
     }
     if (s->a > s->b) {
@@ -53,7 +53,7 @@ int func_021BB358(u8 *p, S *s)
         } else {
             s->a = s->a + (u16)st;
         }
-        func_021BB2E0(p, s);
+        func_021BB2E0(p, (u8 *)s);
         return 0;
     }
     return 1;

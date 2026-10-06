@@ -22,22 +22,22 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct WinMgr;
 extern u8 data_02212550[];
-extern struct WinMgr *func_0202C9B4(u32 a, u32 n, u16 heap);
+extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
 extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 a, u32 b, u32 c);
-extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, void *src);
+extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern int func_0202CE40(struct WinMgr *mgr, u32 idx);
+extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
 extern void func_0202CA0C(struct WinMgr *mgr);
-extern void *func_02030734(u16 heap, u32 size, u32 c, void *d, u32 e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 extern void func_022113B8(u8 *dst, unsigned bg, unsigned which);
 extern void func_0221139C(u8 *, u8 *, unsigned);
 extern void func_022113FC(u8 *p, int a, int b);
 extern void func_022110A4(u8 *p, int a, int b);
-extern void func_0220F2DC(u8 *p, int a, int b);
+extern void func_0220F2DC(char *p, int a1, int a2);
 
 #define MGR (*(struct WinMgr **)(p + 0x2194))
 
@@ -54,7 +54,7 @@ int func_02211420(u8 *p)
         func_0202CA3C(MGR, 1, 6, 0x10, 6);
         func_0202CA3C(MGR, 2, 5, 0x10, 6);
         func_0202CA3C(MGR, 3, 6, 0x10, 6);
-        buf = func_02030734((u16)(0x8000 | (*(u16 *)(*(u8 **)p + 0x10) & 0x7fff)), 0xc0, 0, data_02212550, 0xb89);
+        buf = func_02030734((u16)(0x8000 | (*(u16 *)(*(u8 **)p + 0x10) & 0x7fff)), 0xc0, 0, (const char *)data_02212550, 0xb89);
         func_022113B8(buf, 5, p[0x2499]);
         func_0202CAC4(MGR, 0, buf);
         func_022113B8(buf, 6, p[0x2499]);
@@ -103,7 +103,7 @@ int func_02211420(u8 *p)
         func_0202CB4C(MGR, 1, pos[1], pos[0]);
         func_0202CB4C(MGR, 2, pos[3], pos[2]);
         func_0202CB4C(MGR, 3, pos[3], pos[2]);
-        func_0220F2DC(p, p[0x2499], p[0x249a]);
+        func_0220F2DC((char *)p, p[0x2499], p[0x249a]);
         p[0x1e98]++;
         break;
     }

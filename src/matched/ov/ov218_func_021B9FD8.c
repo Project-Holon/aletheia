@@ -27,8 +27,12 @@
 #include "../include/Obj02931.h"
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_021B7AB0(void *),func_021B93A4(char *),func_021B93B0(char *);
-extern void func_021B9280(void *,unsigned short,u32);
+struct S;
+extern int func_021B7AB0(struct S *p);
+extern int func_021B93A4(char *);
+extern int func_021B93B0(char *);
+typedef unsigned char  u8;
+extern void func_021B9280(u8 *p, int a, u32 b);
 extern void func_020061E4(u32);
 extern void func_021B61F8(unsigned char *,int);
 extern void func_021B9890(void *);
@@ -46,7 +50,7 @@ int func_021B9FD8(unsigned char *task,char *p)
         selected=func_021B93A4(*(char * *)&((struct Obj02931 *)p)->f2C);
         if(*(u32 *)((u32)p+0x34+(u32)selected*4)==1){
             ((struct Obj02931 *)p)->f30=selected;
-            func_021B9280(((struct Obj02931 *)p)->f2C,func_021B93B0(*(char * *)&((struct Obj02931 *)p)->f2C),3);
+            func_021B9280(((struct Obj02931 *)p)->f2C,(unsigned short)func_021B93B0(*(char * *)&((struct Obj02931 *)p)->f2C),3);
             func_020061E4(1356);
             func_021B61F8(task,**(unsigned char * *)&((struct Obj02931 *)p)->f20==131-selected ? 2 : 1);
             return 1;

@@ -29,5 +29,5 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02159B10(void *,void *);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
-extern void func_02008E68(void *,u8);
-int func_0216A5C4(void *a,void *b) { void *sys; u32 n; func_0215A5F4(b); sys=func_020120F4(func_0215A5DC(b)); n=func_02159B10(a,b); func_02008E68(func_02008C58(func_02012EBC(sys)),n); return 0; }
+extern void func_02008E68(struct Sub02008C20Obj *obj, u32 value);
+int func_0216A5C4(void *a,void *b) { void *sys; u32 n; func_0215A5F4(b); sys=func_020120F4(func_0215A5DC(b)); n=func_02159B10(a,b); func_02008E68(func_02008C58(func_02012EBC(sys)),(u8)n); return 0; }

@@ -24,7 +24,8 @@ typedef unsigned int u32;
 struct Blk34;
 struct Sub02008C20Obj;
 extern u32 func_0200C29C(struct Blk34 *p, u32 v);
-extern void func_0200DA98(u32, u16);
+struct Blk1AC;
+extern void func_0200DA98(struct Blk1AC *p, u16 v);
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
@@ -34,7 +35,7 @@ void func_021B3568(u8 *w, u32 b)
         func_0200C29C((struct Blk34 *)(((struct Obj05049 *)w)->fC), b);
         func_02008DAC((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x16, b);
     } else {
-        func_0200DA98(((struct Obj05049 *)w)->f18, b);
+        func_0200DA98((struct Blk1AC *)(((struct Obj05049 *)w)->f18), b);
         func_02008DAC((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x22, b);
     }
     func_02008DF0((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x15);

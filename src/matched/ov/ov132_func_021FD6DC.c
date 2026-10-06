@@ -17,7 +17,7 @@
 #include "../include/Obj23293.h"
 
 typedef unsigned int   u32;
-extern void func_021FCEA8(int unused, int kind, u32 value, u32 id);
+extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
 
 void func_021FD6DC(char *p)
 {

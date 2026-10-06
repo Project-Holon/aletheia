@@ -45,17 +45,18 @@ extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8C4(u32 *p);
 extern void func_021DA8B0(u32 *p, u32 a);
-extern void func_021D9288(void *,int);
-extern void func_021D8380(void *);
+typedef unsigned short u16;
+extern void func_021D9288(unsigned *p, unsigned v);
+extern void func_021D8380(char *p);
 extern void func_021D9E04(u8 *p);
 extern unsigned func_021D9744(char *p);
 extern void *func_021DAC18(Desc *,int);
 extern void func_021DAEF0(struct Obj *obj);
 extern int func_021DB008(char *p);
 extern void func_021DAE1C(struct Obj *obj);
-extern void func_021D694C(void *,int);
+extern void func_021D694C(u16 *p, int mode);
 extern void func_021D6C60(u8 *p, int heap);
-extern void *func_021D9CA4(int,int,void *,void *,int);
+extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
 extern void func_021D81B0(u8 *p, u32 which, int heap);
 extern void func_021DAFCC(char *p);
@@ -70,8 +71,8 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         *state=8;
         break;
     case 1:
-        func_021D9288(p+312,0);
-        func_021D8380(p);
+        func_021D9288((unsigned int *)(p+312),0);
+        func_021D8380((char *)p);
         func_021D9E04(((struct Obj00989 *)p)->f284);
         ((struct Obj00989 *)p)->f284=0;
         func_02082BCC(&d,0,36);
@@ -101,10 +102,10 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         *state=8;
         break;
     case 5:
-        func_021D9288(p+312,1);
+        func_021D9288((unsigned int *)(p+312),1);
         func_021DAE1C(((struct Obj00989 *)p)->f8);
         ((struct Obj00989 *)p)->f8=0;
-        func_021D694C(p+912,0);
+        func_021D694C((u16 *)(p+912),0);
         func_021D6C60(p+660,29);
         ((struct Obj00989 *)p)->f284=func_021D9CA4(1,15,((struct Obj00989 *)p)->f39C,((struct Obj00989 *)p)->f398,29);
         func_021D9FFC(((struct Obj00989 *)p)->f284,10,14);

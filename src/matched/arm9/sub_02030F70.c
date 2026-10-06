@@ -54,7 +54,9 @@ struct TcblNode {
 };
 
 extern void sub_020307B0(void *p);
-extern void sub_02030F34(struct Tcbl *p, struct TcblNode *n);
+struct Node02030F34;
+struct S02030F34;
+extern void sub_02030F34(struct S02030F34 *p, struct Node02030F34 *node);
 
 void sub_02030F70(struct TcblNode *n)
 {
@@ -64,5 +66,5 @@ void sub_02030F70(struct TcblNode *n)
     }
     n->prev->next = n->next;
     n->next->prev = n->prev;
-    sub_02030F34(n->owner, n);
+    sub_02030F34((struct S02030F34 *)n->owner, (struct Node02030F34 *)n);
 }

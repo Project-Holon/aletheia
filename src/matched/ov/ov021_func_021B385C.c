@@ -30,7 +30,7 @@ extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Slot;
 extern void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag);
-extern void func_0201F878(void *, int, int, int, int);
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 
 void func_021B385C(char *p, int idx, int mode, int val, int arg)
 {
@@ -40,6 +40,6 @@ void func_021B385C(char *p, int idx, int mode, int val, int arg)
         func_0201F250(((struct Obj00037 *)p)->f190, ((struct Obj00037 *)p)->f198, ((struct Obj00037 *)p)->f19C);
         func_0201F898((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + idx * 8), (u32)(((struct Obj00037 *)p)->f198), idx, ((struct Obj00037 *)p)->f4);
     } else {
-        func_0201F878(*(char * *)&((struct Obj00037 *)p)->f180 + idx * 8, arg, val, idx, ((struct Obj00037 *)p)->f4);
+        func_0201F878((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + idx * 8), arg, val, idx, ((struct Obj00037 *)p)->f4);
     }
 }

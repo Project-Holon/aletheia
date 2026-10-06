@@ -14,5 +14,5 @@
 
 typedef unsigned int u32;
 struct E { u32 a,b,c,d; unsigned short h; };
-extern void func_0217FCA4(struct E *e);
-void func_0217FCE4(struct E *p) { int i; for(i=0;i<10;i++) { struct E *e=&p[i]; if(e->d != 0) func_0217FCA4(e); } }
+extern void func_0217FCA4(u32 *p);
+void func_0217FCE4(struct E *p) { int i; for(i=0;i<10;i++) { struct E *e=&p[i]; if(e->d != 0) func_0217FCA4((u32 *)e); } }

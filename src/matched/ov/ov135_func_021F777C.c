@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned u32;
 typedef struct { u8 pad0[0xD40]; void *win; u8 padD44[0xD90-0xD44]; void *wins[6]; } Work;
 extern const u16 tbl_02202EC0[][2];
-extern void *func_020450F0(u32 bg, u8 x, u8 y, u8 w, u8 h, u8 pal, u16 base);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -33,24 +33,24 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 layer);
-extern void func_02200BAC(void *p, u32 mode);
+extern void func_02200BAC(u8 *p, u32 k);
 void func_021F777C(Work *p)
 {
     void *w;
     int i;
-    p->win = func_020450F0(0, 2, 21, 27, 2, 13, 1);
+    p->win = (void *)func_020450F0(0, (u8)2, (u8)21, (u8)27, 2, 13, (u16)1);
     func_02043B5C(func_02045770(p->win), 0);
     w = p->win;
     func_02045334(w);
     func_02045374(w);
     func_020409B4(func_02045730(w));
     for (i = 0; i < 6; i++) {
-        p->wins[i] = func_020450F0(3, tbl_02202EC0[i][0], tbl_02202EC0[i][1], 12, 2, 13, 1);
+        p->wins[i] = (void *)func_020450F0(3, (u8)tbl_02202EC0[i][0], (u8)tbl_02202EC0[i][1], (u8)12, 2, 13, (u16)1);
         func_02043B5C(func_02045770(p->wins[i]), 0);
         w = p->wins[i];
         func_02045334(w);
         func_02045374(w);
         func_020409B4(func_02045730(w));
     }
-    func_02200BAC(p, 3);
+    func_02200BAC((u8 *)p, 3);
 }

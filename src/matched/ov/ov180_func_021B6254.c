@@ -25,8 +25,10 @@ typedef unsigned long u32;
 typedef struct {u32 w[8];} Template;
 typedef struct {int m[4];} Mtx;
 extern const Template d_021B80E8;
-extern void func_0203FCA0(u32,const Template *,u32);
-extern void func_02051E74(Mtx *,u32,const void *,const void *,u8);
+struct BgTemplate;
+struct Mtx22;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,Mtx *,u32,u32,u32,u32);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_02041FB0(u32,u32,u16);
@@ -35,8 +37,8 @@ void func_021B6254(void)
 {
     Template t=d_021B80E8;
     Mtx m;
-    func_0203FCA0(3,&t,2);func_0203FCA0(7,&t,2);
-    func_02051E74(&m,0,(void *)4096,(void *)4096,0);
+    func_0203FCA0(3,(const struct BgTemplate *)(&t),2);func_0203FCA0(7,(const struct BgTemplate *)(&t),2);
+    func_02051E74((struct Mtx22 *)(&m),0,(void *)4096,(void *)4096,0);
     func_0207D59C((void *)0x04000030,&m,0,0,0,0);
     func_0207D59C((void *)0x04001030,&m,0,0,0,0);
     func_02041EE4(3,0,160);func_02041EE4(3,3,112);

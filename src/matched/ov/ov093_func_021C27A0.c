@@ -29,7 +29,7 @@ typedef struct { u32 v; } S;
 extern int func_021C282C(u8 *p, u32 x, u32 z, S a, u8 b);
 extern void func_021C5C74(u8 *p, u8 *a, int kind, u32 v);
 extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern int func_021C2B3C(u8 *p, u8 *a, u8 *b, u32 c);
 extern void func_021C2BA4(u8 *p, u8 *a, u8 *b, u32 c);
 
@@ -50,6 +50,6 @@ int func_021C27A0(u8 *p, u32 x, u32 y, u32 z, S a, u8 b, u32 c)
         func_021C2BA4(p, (u8 *)x, (u8 *)y, z);
         p[0x78A] |= 0x10;
     }
-    func_021CC95C(p + 0x1D74, s, 7792);
+    func_021CC95C((u32 *)(p + 0x1D74), s, 7792);
     return t;
 }

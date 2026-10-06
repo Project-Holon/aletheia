@@ -35,7 +35,8 @@ typedef unsigned int u32;
 typedef struct {u32 a,b;u8 c,d,e,f;u32 g;u16 h[6];} Config;
 extern const Config d_020A1448;
 extern u8 d_021CA5CC[],d_021CA7D0[];
-extern void func_0204A48C(const Config *,u32,u32);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 struct Obj;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
@@ -59,7 +60,7 @@ void func_021C67A8(char *p,int heap)
     u32 first,second;
     config.c=16;
     config.d=112;
-    func_0204A48C(&config,(u32)d_021CA5CC,heap);
+    func_0204A48C((const struct Cfg *)(&config),(u32)d_021CA5CC,heap);
     bank=func_0204B100(32,0,heap);
     ((struct Obj01936 *)p)->f138=bank;
     func_0204B270(bank);

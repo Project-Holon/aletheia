@@ -22,13 +22,15 @@
  *   func_02189A48 0x02189A48 thumb ov021
  */
 extern unsigned int func_020221A4(void);
-extern int func_0207D55C(unsigned short *);
-extern unsigned int func_0201210C(void *);
-extern int func_02189A48(unsigned int);
+typedef unsigned short u16;
+struct Ctx;
+extern int func_0207D55C(volatile u16 *reg);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_02189A48(char *p);
 int func_021F0D48(char *p)
 {
     if (!func_020221A4()) return 0;
     if (func_0207D55C((unsigned short *)0x0400106c)) return 0;
-    if (!func_02189A48(func_0201210C(*(void **)(p + 0x1c)))) return 1;
+    if (!func_02189A48((char *)func_0201210C(*(void **)(p + 0x1c)))) return 1;
     return 0;
 }

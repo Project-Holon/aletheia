@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02194760(void)
+void func_02194760(u32 a)
 {
 }
 

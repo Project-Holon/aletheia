@@ -16,11 +16,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021B8ED8(u8 *p, u8 k);
-extern u8 func_021B8DE4(u8 *, int);
+extern int func_021B8DE4(char *p, int i);
 int func_021B994C(u8 *p, u32 i, void **out)
 {
     void *v;
-    u32 n = func_021B8DE4(p, func_021B8ED8(p, i));
+    u32 n = func_021B8DE4((char *)p, func_021B8ED8(p, i));
     v = *(void **)(p + n * 4 + 0x3e0);
     if (v != 0) {
         *out = v;

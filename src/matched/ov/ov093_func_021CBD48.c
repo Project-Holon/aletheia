@@ -32,9 +32,9 @@ extern int func_021BA1A8(char **p, int m);
 extern char *func_021B8714(char **);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021B8724(char *p, void *m);
-extern int func_020113F0(u8,u8);
+extern int func_020113F0(int row, int col);
 extern int func_021CBE98(u16);
-int func_021CBD48(u8 *p,int unused,void *q,int k)
+int func_021CBD48(u8 *p, void *unused, void *q, int k)
 {
     u16 n;
     float f;

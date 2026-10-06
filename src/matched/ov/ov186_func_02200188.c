@@ -20,7 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0200D064(void *, u16);
+struct Blk37;
+extern u32 func_0200D064(struct Blk37 *p, u16 id);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02082BCC(void *, u8, u32);
 extern const u16 d_02200C94[];

@@ -27,11 +27,12 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02005C44(u32 v);
+typedef unsigned short u16;
+extern u16 func_02005C44(void);
 
 u32 sub_0202C2D0(u32 v)
 {
-    return func_02005C44(v);
+    return func_02005C44();
 }
 
 u32 sub_0202C2D8(u32 *p)

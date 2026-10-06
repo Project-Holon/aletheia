@@ -38,8 +38,8 @@ extern u32 func_02018488(void *p, void *mail);
 extern void func_0202F2F4(void *a0, u32 a1);
 extern void func_0202F30C(void *a0, u32 a1, u32 a2);
 extern void func_0202F3AC(void *a0, u32 a1);
-extern void func_0202F41C(u32 a, u32 c, u32 e);
-extern void func_0202F464(u32 a);
+extern int func_0202F41C(int a0, int a1, int a2);
+extern int func_0202F464(int a0);
 extern void func_0202F47C(void *p);
 void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e)
 {

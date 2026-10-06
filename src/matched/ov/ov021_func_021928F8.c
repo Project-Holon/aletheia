@@ -31,7 +31,7 @@ extern struct T3 d_021D3E58;
 
 struct Bmp;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u32 func_020437E4(const struct Bmp *bmp);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 
 void func_021928F8(u8 *a, u32 b, u32 c)

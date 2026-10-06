@@ -21,12 +21,12 @@
  */
 #include "../include/Obj00000.h"
 
-extern void func_02025D14(int);
+extern void func_02025D14(void);
 
 void func_021EE3CC(int *p)
 {
     if (*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70)) {
-        func_02025D14(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70));
+        func_02025D14();
         *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70) = 0;
     }
 }

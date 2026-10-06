@@ -37,7 +37,7 @@ extern void func_02173518(u8 *p);
 extern void func_02087C6C(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u32 func_02008550(void *s);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
 void func_02173524(Work *w, u8 *p)
 {
@@ -48,7 +48,7 @@ void func_02173524(Work *w, u8 *p)
     r = (Rec *)(p + 0x1c);
     func_02087C6C(r);
     r->f6 = func_02008554(w->head->f0);
-    r->b0 = func_02008550(w->head->f0);
+    r->b0 = (u32)func_02008550(w->head->f0);
     r->b1 = 1;
     ((struct Obj19230 *)p)->f44 = 0xFFFF;
 }

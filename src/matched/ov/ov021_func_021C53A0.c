@@ -34,7 +34,7 @@ extern unsigned char func_02045730(struct Descriptor *d);
 extern void func_020409B4(unsigned int index);
 extern void func_021C58CC(char *p, u16 a, u16 b, u32 heap);
 
-void func_021C53A0(int *a, const u16 *b, int c, int d, int e, int f, int *g, u16 h)
+void func_021C53A0(int *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, int *g, u16 h)
 {
     int i = 0;
     int r;

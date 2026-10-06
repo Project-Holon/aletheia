@@ -55,7 +55,7 @@ extern int func_0201C1E8(int);
 extern int func_021FF348(void *h, int a);
 extern int func_021F935C(int a);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021F8BAC(void *, void *);
+extern void func_021F8BAC(void *h, int *p);
 extern void func_021F8C78(void *);
 
 void func_021F7C2C(int a, int b)
@@ -73,5 +73,5 @@ void func_021F7C2C(int a, int b)
     else
         o->f10 = 0x6318;
     d_0220AF20->m |= func_021F935C(a);
-    func_021F896C(func_02030DA8(d_0220AF20->owner, func_021F8BAC, o, 0), func_021F8C78, 0);
+    func_021F896C(func_02030DA8(d_0220AF20->owner, (void (*)(void *, void *))func_021F8BAC, o, 0), func_021F8C78, 0);
 }

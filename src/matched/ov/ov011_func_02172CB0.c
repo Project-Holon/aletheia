@@ -54,13 +54,15 @@ extern const T70 d_021768C8;
 
 extern u32 func_02026478(void *obj);
 extern u8 func_02012E40(const u8 *o);
-extern u32 func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+typedef unsigned short u16;
+struct Req;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02158590(void *p);
-extern void func_0203CBAC(void *req, u32 a2, u32 a3);
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_020307B0(void *p);
-extern void func_0203D10C(int a);
+extern int func_0203D10C(int a0);
 extern void func_0203CFF0(void *p);
-extern void func_02173568(void);
+extern void func_02173568(u8 *w);
 
 int func_02172CB0(int *a, Param *b, Work *c)
 {
@@ -78,7 +80,7 @@ int func_02172CB0(int *a, Param *b, Work *c)
             if (func_02158590(h) == 0)
                 *((u8 *)p + 0x60) = 2;
         }
-        func_0203CBAC(p, (u32)func_02173568, (u32)c);
+        func_0203CBAC((struct Req *)p, (u32)func_02173568, (u32)c);
         func_020307B0(p);
         *a = *a + 1;
         break;

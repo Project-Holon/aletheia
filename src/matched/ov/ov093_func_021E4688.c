@@ -27,13 +27,16 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern u8 *func_021C7CF4(u8 *s, int k);
+struct Unk021D62A8;
+struct UtilWork;
+extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D67B8(u8 *q);
-extern int func_021D62C4(u8 *p, int i);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021E4738(int w);
-extern int func_021D55A0(u8 *q, int w);
-extern int func_021D5BB0(u8 *q, u32 n);
-extern u8 *func_021C88A4(u8 *p, int a, int b);
+struct UtilWork;
+extern int func_021D55A0(struct UtilWork *p, int id);
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
+extern void *func_021C88A4(char *p, int a, int b);
 typedef struct Word { u32 v; } Word;
 typedef enum { K_0 } KType;
 struct Rec { u32 f0; u32 f4; Word f8; u8 fc; u8 fd; u8 fe; u8 ff; };
@@ -54,12 +57,12 @@ void func_021E4688(int a0, u8 *s, int k)
 
     if (k == func_021D775C(3)) {
         v = func_021D775C(6);
-        q = func_021C7CF4(s, v);
+        q = func_021C7CF4((int *)s, v);
         w = func_021D67B8(q);
-        if (func_021D62C4(q, 0x17) == 0 && func_021E4738(w) == 0 && func_021D55A0(q, w) != 0) {
-            if (func_021D5BB0(q, 1) != 0)
+        if (func_021D62C4((struct Unk021D62A8 *)q, 0x17) == 0 && func_021E4738(w) == 0 && func_021D55A0((struct UtilWork *)q, w) != 0) {
+            if (func_021D5BB0((struct UtilWork *)q, 1) != 0)
                 c = (u8)(c + 1);
-            e = (struct Rec *)func_021C88A4(s, 12, k);
+            e = (struct Rec *)func_021C88A4((char *)s, 12, k);
             e->f4 = 0x17;
             e->f8 = func_021E896C(c, w);
             e->ff = v;

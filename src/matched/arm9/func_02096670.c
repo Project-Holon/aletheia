@@ -32,8 +32,8 @@ typedef struct {
     u8 unk04;
 } Obj02096670;
 
-extern int  func_020965B4(Obj02096670 *p, int v);
-extern void func_02096620(Obj02096670 *p, int v);
+extern int func_020965B4(u8 *p, int i);
+extern void func_02096620(u8 *p, int idx);
 
 void func_02096670(Obj02096670 *p, int v)
 {
@@ -45,10 +45,10 @@ void func_02096670(Obj02096670 *p, int v)
     if (v >= p->unk04) {
         return;
     }
-    r = func_020965B4(p, v);
+    r = func_020965B4((u8 *)p, v);
     p->unk04 = v;
     if (r < 0) {
         return;
     }
-    func_02096620(p, v);
+    func_02096620((u8 *)p, v);
 }

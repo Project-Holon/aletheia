@@ -18,11 +18,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct WordSet;
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
-extern void func_0217EE90(void *p);
+struct Self;
+extern void func_0217EE90(struct Self *self);
 void func_0217F020(u8 *p)
 {
     if (((struct Obj00484 *)p)->f2804 == 0) {
         ((struct Obj00484 *)p)->f2804 = func_0201EC74(5, 0x40, 0x41);
-        func_0217EE90(p);
+        func_0217EE90((struct Self *)p);
     }
 }

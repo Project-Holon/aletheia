@@ -93,7 +93,8 @@ extern u32 func_0215FEC8(u32 n);
 extern void func_0215E840(void *field, Info *out);
 extern void func_0215EA30(Query *q, u16 a, u16 b, u32 c);
 extern void *func_0215EA38(u32 kind, Query *q, Info *info);
-extern void *func_0216075C(void *req, u16 id);
+struct Owner;
+extern void *func_0216075C(struct Owner *o, u16 id);
 extern int func_021644F4(int i, void *a, void *p);
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -158,7 +159,7 @@ int func_0215FD0C(void *task, void *unused, Ctx *c)
         func_0201235C(c->f04, next);
         break;
     case 5:
-        func_02012374(task, func_0216075C(c->req, c->f00));
+        func_02012374(task, func_0216075C((struct Owner *)c->req, c->f00));
         c->state = 6;
         break;
     case 6:

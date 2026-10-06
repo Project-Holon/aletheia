@@ -21,5 +21,6 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021D5B5C(void *, u32, int);
-void func_021D5B50(void *p, int b) { func_021D5B5C(p, ((struct Obj22602 *)p)->f1C, b); }
+struct MsgBank;
+extern void func_021D5B5C(char *p, struct MsgBank *a, int b);
+void func_021D5B50(void *p, int b) { func_021D5B5C(p, (struct MsgBank *)(((struct Obj22602 *)p)->f1C), b); }

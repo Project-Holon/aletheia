@@ -38,7 +38,8 @@ extern u32 func_021CD9E0(u8 *p);
 extern void func_021EB32C(u8 *p, u32 flag);
 extern int func_021EB52C(u8 *p);
 extern u32 func_021CD9C8(u8 *p);
-extern u16 func_021CD9DC(u8 *p);
+struct QD;
+extern u16 func_021CD9DC(struct QD *p);
 extern void func_021E91D8(void *a, void *b);
 
 int func_021E9104(u8 *p, int *st)
@@ -63,7 +64,7 @@ int func_021E9104(u8 *p, int *st)
             if (func_021CD9C8(*(u8 * *)&((struct Obj01136 *)p)->f4) != 0) {
                 ((struct Obj01136 *)p)->f160 = 1;
                 ((struct Obj01136 *)p)->f164 = 1;
-                ((struct Obj01136 *)p)->f168 = func_021CD9DC(*(u8 * *)&((struct Obj01136 *)p)->f4);
+                ((struct Obj01136 *)p)->f168 = func_021CD9DC((struct QD *)(*(u8 * *)&((struct Obj01136 *)p)->f4));
                 ((struct Obj01136 *)p)->f16C = 0;
                 if (func_021CD9E0(*(u8 * *)&((struct Obj01136 *)p)->f4) == 0) {
                     func_021E91D8(((struct Obj01136 *)p)->f180, p + 0x160);

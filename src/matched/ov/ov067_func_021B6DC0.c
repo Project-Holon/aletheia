@@ -113,7 +113,9 @@ extern void func_020414AC(u32 a);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
-extern int func_02062A98(void *p, Pltt **out);
+typedef signed int     s32;
+struct NitroFileHeader;
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void func_020307B0(void *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
@@ -184,7 +186,7 @@ S *func_021B6DC0(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u32 a7
     h = func_020490F4(0x53, p->heap);
     buf = func_02030734(p->heap, func_020493D4(h, 0xa3), 0, d_021B9564, 0x10d);
     func_0204932C(h, 0xa3, buf);
-    func_02062A98(buf, &pl);
+    func_02062A98(buf, (void **)(&pl));
     src = (u16 *)pl->data;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 16; j++) {

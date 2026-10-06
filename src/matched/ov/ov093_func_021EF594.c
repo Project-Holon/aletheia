@@ -40,7 +40,7 @@ typedef struct {
 } D;
 
 extern u8 func_021B8FF4(u8 *p);
-extern int func_021B9F70(char *p, int i);
+extern int func_021B9F70(u8 *p, int i);
 struct MsgBank;
 struct WordSet;
 extern void func_021EEFE0(void *s, const u32 *values, void *w);
@@ -54,7 +54,7 @@ void func_021EF594(u32 a, u32 b, u32 *p)
     int k;
 
     if (id != func_021B8FF4((u8 *)d_021F6398.f0)) {
-        if (func_021B9F70((char *)d_021F6398.f0, id))
+        if (func_021B9F70((u8 *)d_021F6398.f0, id))
             k = 0x23;
         else
             k = 0x22;

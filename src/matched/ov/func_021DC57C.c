@@ -40,7 +40,7 @@ int func_021D5B68(void *p);
 extern int func_021D5B48(u8 *p);
 extern int func_021D7B74(u8 *p, u32 k);
 extern int func_021D59B4(u8 *p, int k);
-void *func_021C88A4(int a, int k, int b);
+void *func_021C88A4(char *p, int a, int b);
 void func_021C88C8(void *a, void *b);
 
 void func_021DC57C(void *a, int b, int c)
@@ -60,7 +60,7 @@ void func_021DC57C(void *a, int b, int c)
     m = func_021D59B4(r, 0xe) - func_021D59B4(r, 0xd);
     if (n > m)
         n = m;
-    p = func_021C88A4(b, 8, c);
+    p = func_021C88A4((char *)b, 8, c);
     ((struct Obj07235 *)p)->f7 = c;
     ((struct Obj07235 *)p)->f10 = n;
     ((struct Obj07235 *)p)->f4 = 1;

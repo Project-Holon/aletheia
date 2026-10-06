@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02157394(int a0, int a1)
+u16 func_02157394(int a0, int a1)
 {
 
 a0 = a0 + a1;

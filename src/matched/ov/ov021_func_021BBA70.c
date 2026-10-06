@@ -86,7 +86,7 @@ struct L0200EDC4;
 struct Sub0200852CObj;
 u32 func_020084F8(void *dst, u32 value, u32 size);
 u8 func_02008550(const struct Sub0200852CObj *obj);
-void func_0201F41C(const void *src, void *dst, int n);
+void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 void func_02087C6C(void *p);
 void func_02082D44(const void *src, void *dst, int n);
 void *func_020120F4(const struct Ctx *p);
@@ -131,7 +131,7 @@ void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
         e->flag = func_02008550((const struct Sub0200852CObj *)a);
         e->rel = 0;
     } else {
-        func_0201F41C(src->id, e->id, 8);
+        func_0201F41C((const u16 *)src->id, (u16 *)e->id, 8);
         e->v[0] = src->v[0];
         e->v[1] = src->v[1];
         e->v[2] = src->v[2];

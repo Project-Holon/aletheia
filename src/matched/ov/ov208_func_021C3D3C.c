@@ -99,7 +99,7 @@ struct Ctx;
 struct McssFade;
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_02015EA0(void *p);
-extern void func_02015F50(struct McssFade *w, u8 cur, u8 target, s32 step, u32 e);
+extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern u32  ov208_func_021BC9BC(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs,
                                 u32 arc, u32 chr, u32 scr, u32 cell, u32 chrOfs);
 extern u32  ov208_func_021BC844(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);

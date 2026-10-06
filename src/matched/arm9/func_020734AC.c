@@ -59,17 +59,18 @@ struct Node { u8 pad00[8]; void *f08; void *f0c; };
 struct Slot { u8 pad00[0x0c]; u8 list[0x24 - 0x0c]; };
 
 extern struct Slot g_0214E464[];
-extern struct Node *func_02060614(void *list, void *curr);
-extern void func_020605B4(void *list, void *node);
+struct DList;
+extern void *func_02060614(struct DList *list, void *elem);
+extern void func_020605B4(volatile struct DList *list, void *elem);
 struct Obj;
 extern void func_02074770(struct Obj *o);
 
 void *func_020734AC(s32 idx, void *owner)
 {
     struct Slot *s = &g_0214E464[idx];
-    struct Node *n = func_02060614(s->list, 0);
+    struct Node *n = func_02060614((struct DList *)s->list, 0);
     if (n == 0) return 0;
-    func_020605B4(s->list, n);
+    func_020605B4((volatile struct DList *)s->list, n);
     n->f0c = owner;
     ((struct Node *)owner)->f08 = n;
     func_02074770(n->f08);

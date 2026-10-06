@@ -52,7 +52,7 @@ extern void func_021E36C8(void *p, int a, int b, void *mon, int c);
 extern void func_02015C94(void *p, u32 *out);
 extern void func_02015EA0(void *p);
 extern void func_021E2F34(void *w);
-extern void func_021E2FB0(void *w);
+extern void func_021E2FB0(char *p);
 extern void func_021E2D70(void *w, int a);
 extern void func_021D6738(u8 *p, u32 v);
 extern void func_021D8E84(void *p, int next);
@@ -91,7 +91,7 @@ void func_021D6F90(u8 *p)
     func_02015EA0((void *)OBJ(2));
     func_02015EA0((void *)OBJ(3));
     func_021E2F34(WORK);
-    func_021E2FB0(WORK);
+    func_021E2FB0((char *)WORK);
     func_021E2D70(WORK, 0);
     func_021D6738(p, 0);
     func_021D8E84(p, (int)func_021D7100);

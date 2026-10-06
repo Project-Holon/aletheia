@@ -28,7 +28,7 @@ u32 func_02026454(void *obj);
 u32 func_02026474(void *obj);
 int func_0203CDBC(void);
 
-int func_0215870C(void *p)
+int func_0215870C(void *p, int b)
 {
     u8 *q;
 

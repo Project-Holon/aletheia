@@ -26,7 +26,7 @@ struct Container {
     const struct Item *items;
 };
 
-u8 func_0202BFC4(const struct Container *c, u16 key)
+u32 func_0202BFC4(const struct Container *c, u32 key)
 {
     u8 i;
 

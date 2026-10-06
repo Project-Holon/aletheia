@@ -16,9 +16,9 @@
  * relocation now attests as `matched` (ov093) with no C change.
  */
 
-void func_021D53DC(char *);
+int func_021D53DC(signed char *p);
 
 void func_021D5EFC(char *p)
 {
-    func_021D53DC(p + 0xfc);
+    func_021D53DC((signed char *)(p + 0xfc));
 }

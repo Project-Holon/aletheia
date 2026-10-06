@@ -23,33 +23,33 @@ typedef unsigned char u8;
 struct Sound;
 extern int func_02025DE8(struct Sound *obj);
 extern void func_020061E4(unsigned);
-extern int func_021E8F50(u8 *, int);
-extern int func_021E949C(u8 *, int, int);
-extern int func_021E8FE0(u8 *, int);
-extern int func_021E8FD0(u8 *, int);
+extern int func_021E8F50(char *p, int v);
+extern int func_021E949C(char *p, int a, int b);
+extern int func_021E8FE0(char *p, int v);
+extern int func_021E8FD0(char *p, int a);
 int func_021E8508(u8 *p)
 {
     unsigned v = func_02025DE8(((struct Obj23929 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
     switch (v) {
     case 0:
         func_020061E4(0x54c);
-        return func_021E949C(p, 2, func_021E8F50(p, 0x60));
+        return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x60));
     case 1:
         func_020061E4(0x54c);
         ((struct Obj23930 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA17C = 0;
-        return func_021E949C(p, 3, func_021E8F50(p, 0x64));
+        return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x64));
     case 2:
         func_020061E4(0x54c);
-        return func_021E949C(p, 4, 0x67);
+        return func_021E949C((char *)p, 4, 0x67);
     case 3:
         func_020061E4(0x551);
-        return func_021E949C(p, 5, func_021E8F50(p, 0x5f));
+        return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x5f));
     case -2:
         func_020061E4(0x551);
-        return func_021E949C(p, 5, func_021E8F50(p, 0x5f));
+        return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x5f));
     case -3:
         func_020061E4(0x548);
-        return func_021E8FD0(p, func_021E8FE0(p, 0x5e));
+        return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x5e));
     }
     return 0x5e;
 }

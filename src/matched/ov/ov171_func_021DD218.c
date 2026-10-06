@@ -27,10 +27,10 @@ struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int func_021DE914(char *);
 extern int func_021DD558(char *, s8);
-extern void func_021DD620(char *, s8);
+extern void func_021DD620(char *p, int step);
 extern void func_020061E4(u32 a);
 extern int func_021DD500(char *, int, int, int);
-extern int func_021DD5A8(char *, int);
+extern int func_021DD5A8(u8 *p, int i);
 extern u8 func_021DD5D4(char *, s8, int, s8);
 extern const u8 d_021DEB50[];
 int func_021DD218(char *p) {
@@ -42,7 +42,7 @@ int func_021DD218(char *p) {
     case 0:
         if (func_021DD558(p, 1) == 1) {
             ((struct Obj00347 *)p)->fC61 = -d_021DEB50[*(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4) - 1];
-            func_021DD620(p, -1);
+            func_021DD620(p, (s8)(-1));
             func_020061E4(0x57b);
             return 9;
         }
@@ -50,7 +50,7 @@ int func_021DD218(char *p) {
     case 1:
         if (func_021DD558(p, -1) == 1) {
             ((struct Obj00347 *)p)->fC61 = d_021DEB50[*(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4) - 1];
-            func_021DD620(p, 1);
+            func_021DD620(p, (s8)1);
             func_020061E4(0x57b);
             return 9;
         }
@@ -62,12 +62,12 @@ int func_021DD218(char *p) {
         old = ((struct Obj00347 *)p)->fC5C;
         if (choice - 5 == old) break;
         ((struct Obj00347 *)p)->fC5C = choice - 5;
-        if (func_021DD5A8(p, choice - 5) == 1) {
+        if (func_021DD5A8((u8 *)p, choice - 5) == 1) {
             ((struct Obj00347 *)p)->fC61 = -d_021DEB50[*(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4) - 1];
-            func_021DD620(p, -func_021DD5D4(p, old, (s8)(choice - 5), 1));
+            func_021DD620(p, (s8)(-func_021DD5D4(p, old, (s8)(choice - 5), 1)));
         } else {
             ((struct Obj00347 *)p)->fC61 = d_021DEB50[*(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4) - 1];
-            func_021DD620(p, func_021DD5D4(p, old, (s8)(choice - 5), -1));
+            func_021DD620(p, (s8)func_021DD5D4(p, old, (s8)(choice - 5), -1));
         }
         func_020061E4(0x57b);
         return 9;

@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
-void func_021E26AC(void)
+void func_021E26AC(void *a0)
 {
     u32 v;
 

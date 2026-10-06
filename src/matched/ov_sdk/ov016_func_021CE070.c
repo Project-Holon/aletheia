@@ -46,7 +46,8 @@ extern unsigned char g_021DE62C;
 extern void func_021CE108(void);
 extern void func_021BD674(int idx);
 extern void func_021BD214(int step);
-extern void func_02087C88(OwnerInfo *info);
+struct OSOwnerInfo;
+extern void func_02087C88(struct OSOwnerInfo *info);
 extern void func_02082A48(unsigned short value, void *destp, unsigned long size);
 extern void func_02082A60(void *srcp, void *destp, unsigned long size);
 extern void func_021BD310(unsigned short *name, int msgId);
@@ -65,7 +66,7 @@ void func_021CE070(void)
     func_021CE108();
     func_021BD674(8);
     func_021BD214(2);
-    func_02087C88(&info);
+    func_02087C88((struct OSOwnerInfo *)(&info));
     func_02082A48(0, buf, 0x16);
     func_02082A60(info.nickName, buf, info.nickNameLength * 2);
     func_021BD310(buf, 40);

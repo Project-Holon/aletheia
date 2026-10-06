@@ -37,7 +37,9 @@ typedef struct GHIConnection {
     GHIPostData *postData;
 } GHIConnection;
 
-extern int func_020916D4(void *, int, int, void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3);
 extern int func_021C07B8(GHIConnection *, char *, int);
 
 int func_021C2F10(GHIPostState *state, GHIConnection *connection)
@@ -47,7 +49,7 @@ int func_021C2F10(GHIPostState *state, GHIConnection *connection)
     int result;
 
     do {
-        len = func_020916D4(buffer, 1, 4096, state->file);
+        len = func_020916D4(buffer, 1, 4096, (u32)state->file);
         if (len <= 0) {
             connection->state = 14;
             connection->completed = 1;

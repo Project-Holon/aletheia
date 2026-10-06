@@ -24,9 +24,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021B8B9C(unsigned char *p, unsigned char k);
 extern char *func_021B9AEC(char *,int);
-extern u8 func_021B9B94(void *);
-extern u8 func_021B9B98(char *);
-extern u8 func_021B8BC4(void *,u8);
+struct Q1;
+extern u8 func_021B9B94(struct Q1 *p);
+extern u8 func_021B9B98(u8 *p);
+extern unsigned char func_021B8BC4(int unused, unsigned int b);
 extern u8 func_021B8FF4(u8 *p);
 extern int func_021BA534(void ***p);
 extern int func_021CC758(void *);
@@ -46,14 +47,14 @@ int func_021CC668(u8 *p)
     for (i = 0; i < 4; i++) {
         if (func_021B8B9C(((struct Obj05196 *)p)->f4, i)) {
             list = func_021B9AEC(*(char * *)&((struct Obj05196 *)p)->f8,i);
-            if (func_021B9B94(list)) {
-                side = func_021B8BC4(((struct Obj05196 *)p)->f4,i);
-                live[side] += func_021B9B98(list);
-                counts[side] += func_021B9B94(list);
+            if (func_021B9B94((struct Q1 *)list)) {
+                side = func_021B8BC4((int)(((struct Obj05196 *)p)->f4),(u8)i);
+                live[side] += func_021B9B98((u8 *)list);
+                counts[side] += func_021B9B94((struct Q1 *)list);
             }
         }
     }
-    side = func_021B8BC4(((struct Obj05196 *)p)->f4,func_021B8FF4(((struct Obj05196 *)p)->f4));
+    side = func_021B8BC4((int)(((struct Obj05196 *)p)->f4),(u8)func_021B8FF4(((struct Obj05196 *)p)->f4));
     other = side ^ 1;
     if (live[side] == 0 && live[other] != 0) return 0;
     if (live[other] == 0 && live[side] != 0) return 1;

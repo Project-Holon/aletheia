@@ -47,7 +47,8 @@ extern s32  func_0202ECB0(struct Slot *t, void *b);
 extern void func_0202ED00(struct Slot *t, u32 n);
 extern void func_0202ED60(u32 a, void *b, u32 c);
 extern u32  func_0202EC44(struct Slot *t, u32 a);
-extern u32  func_0202EC24(struct Slot *t);
+struct Ent0202EC24;
+extern u32 func_0202EC24(const struct Ent0202EC24 *p);
 extern s32 func_0202EC7C(struct Slot *a0, u32 a1);
 
 u32 func_0202EB9C(u32 a, void *b)
@@ -71,7 +72,7 @@ u32 func_0202EB9C(u32 a, void *b)
 
     v = func_0200856C(b);
     if (func_0202EC44(t, v) < 5) {
-        if (func_0202EC24(t) >= 0x14)
+        if (func_0202EC24((const struct Ent0202EC24 *)t) >= 0x14)
             func_0202ED00(t, 0);
         func_0202ED60(a, b, 0);
     } else {

@@ -44,7 +44,7 @@ extern void func_0201CE48(struct Rec3 *p);
 extern void func_021D5D3C(u8 *p);
 extern u32 func_021D5FA0(u32);
 extern u32 func_021D5FC4(u32);
-extern void func_0203FB44(u32,u16,u16);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_0201DD68(void);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(struct Rec *rec);
@@ -63,9 +63,9 @@ void func_021D5A9C(u8 *p) {
     if (((struct Obj00724 *)p)->f38) { func_0201CE48(((struct Obj00724 *)p)->f38); ((struct Obj00724 *)p)->f38=0; }
     func_021D5D3C(p);
     n=((struct Obj00724 *)p)->f0;
-    func_0203FB44(func_021D5FA0(((struct Obj00724 *)p)->f50),n,n>>16);
+    func_0203FB44(func_021D5FA0(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     n=((struct Obj00724 *)p)->f4;
-    func_0203FB44(func_021D5FC4(((struct Obj00724 *)p)->f50),n,n>>16);
+    func_0203FB44(func_021D5FC4(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     func_0201DD68();
     func_0201ED04(((struct Obj00724 *)p)->f20);
     func_02045C04(((struct Obj00724 *)p)->f1C);

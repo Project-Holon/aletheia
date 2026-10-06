@@ -29,7 +29,7 @@ struct UtilWork;
 extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D70A8(struct QQ *p);
 extern u8 func_021D5778(struct UtilWork *p, u16 id);
-extern int func_021D5584(void *q, int i);
+extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern int func_021D76BC(int key, u32 val);
 extern u16 d_021F2860[];
 extern u8 d_021F24BC[];
@@ -44,7 +44,7 @@ void func_021E2D5C(int u, void *p, int k)
         q = func_021C7CF4(p, k);
         r = func_021D5778(q, func_021D70A8((void *)u));
         if (r != 4) {
-            n = (u8)func_021D5584(q, r);
+            n = (u8)(int)func_021D5584(q, (int)r);
             if (n >= 5)
                 n = 4;
             v = d_021F2860[n];

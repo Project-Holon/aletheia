@@ -58,7 +58,8 @@ struct Obj {
     int f0C;
 };
 
-extern int func_021AA3E0(struct Ctx *t, int i, int add);
+struct Tab;
+extern int func_021AA3E0(struct Tab *t, int i, int add);
 extern u32 func_02188C6C(u8 *p);
 struct Unit;
 extern u16 func_021A1BF4(u8 *p);
@@ -70,7 +71,7 @@ extern u16 func_02188C9C(u8 *p);
 extern int func_021A954C(void *a0, void *u, u16 id, void *slots);
 extern void *func_02013090(u32 heap);
 extern void func_021AA490(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
-extern void func_02013144(void *p, int v);
+extern void func_02013144(char *p, int v);
 
 struct Obj *func_021AA180(struct Ctx *ctx, int mode)
 {
@@ -86,7 +87,7 @@ struct Obj *func_021AA180(struct Ctx *ctx, int mode)
     k = 6;
     if (mode != 1)
         k = 5;
-    m = func_021AA3E0(ctx, k, 0);
+    m = func_021AA3E0((struct Tab *)ctx, k, 0);
     if (m == 0)
         return 0;
     func_021A9350(&sel, ctx->f08, k, mode, func_021A1BF4((u8 *)func_02188C6C(ctx->f00)));
@@ -101,7 +102,7 @@ struct Obj *func_021AA180(struct Ctx *ctx, int mode)
         return h;
     h = func_02013090(4);
     func_021AA490(ctx, (struct Unit *)(&sel), h, 4, slots);
-    func_02013144(h, 1);
+    func_02013144((char *)h, 1);
     h->f0C = 6;
     return h;
 }

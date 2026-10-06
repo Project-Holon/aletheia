@@ -29,7 +29,7 @@ typedef struct W {
 extern s16 tbl_020A1B38[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_021BC944(W *w)
+s32 func_021BC944(W *w)
 {
     s32 n = w->f18 + 0x400;
     s32 v;
@@ -46,5 +46,5 @@ void func_021BC944(W *w)
     r = (u8)(0x19 + (s * -0x14 >> 12));
     g = (u8)(0x1e + (s * -0xf >> 12));
     w->f1a = r | (g << 5) | (b << 10);
-    func_02061CA4((void *)0xf, 0x6c, (u32)(&w->f1a), 2);
+    return func_02061CA4((void *)0xf, 0x6c, (u32)(&w->f1a), 2);
 }

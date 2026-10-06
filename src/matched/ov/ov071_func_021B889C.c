@@ -47,9 +47,9 @@ int func_021B889C(int a, int *b, C *c, u8 *d)
     extern u8 *func_0203159C(int, int, int);
     extern void func_02082BCC(void *, int, int);
     extern void func_021B8A70(void);
-    extern void func_021B8ADC(Q *);
+    extern void func_021B8ADC(char *p);
     extern void func_021B8B08(Q *, u8 *);
-    extern void func_021B8EC4(C *, u8 *);
+    extern void func_021B8EC4(void *p, int a);
     extern void func_021B8C0C(C *, Q *, u8 *);
     extern void *func_02045770(struct Descriptor *p);
     extern u32 func_0201C6C4(struct PrintSys *p, void *v);
@@ -65,9 +65,9 @@ int func_021B889C(int a, int *b, C *c, u8 *d)
         m = func_0203159C(a, 0x50, 0x61);
         func_02082BCC(m, 0, 0x50);
         func_021B8A70();
-        func_021B8ADC(c->f4);
+        func_021B8ADC((char *)c->f4);
         func_021B8B08(c->f4, m);
-        func_021B8EC4(c, m);
+        func_021B8EC4(c, (int)m);
         func_021B8C0C(c, c->f4, m);
         *b = *b + 1;
         break;

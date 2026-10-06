@@ -11,4 +11,4 @@
  * lever: add the byte index to the base before applying the constant offset.
  */
 typedef unsigned char u8;
-void func_021C831C(u8 *p, u8 v) { unsigned int n; n=p[0x788]; if(n<6) { p[0x788]=n+1; (p+n)[0x78b]=v; } }
+void func_021C831C(u8 *p, int v) { unsigned int n; n=p[0x788]; if(n<6) { p[0x788]=n+1; (p+n)[0x78b]=v; } }

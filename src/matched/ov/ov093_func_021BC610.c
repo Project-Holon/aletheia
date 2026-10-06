@@ -45,18 +45,19 @@ typedef struct { u32 x; void *m; } Q;
 typedef struct { u8 *a; B b; u32 c; u8 d; u8 e; u8 f; } E2;
 typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[6]; } S;
 
-extern Q *func_021BB85C(u32 p, u8 i);
+struct S2;
+extern u8 *func_021BB85C(u8 *p, unsigned int i);
 extern u8 func_021BB8A8(u8 *p, u8 i);
 extern B func_021BB8B0(u8 *p, u8 i, u8 j);
 extern int func_021D83E0(B *p);
 extern u32 func_021D8454(B *p);
 extern u8 func_021B9AB0(u8 k);
-extern u8 *func_021B9BF0(void *m, u8 i);
-extern void *func_021B86B8(void *p);
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
+extern void *func_021B86B8(void ***p);
 extern int func_021BC8EC(u8 *p, u32 x, u8 *a);
 extern u16 func_021BC948(u8 *p, u8 *x, int flag);
 extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021BC874(E *e, u32 n);
 extern u8 func_021C6350(u8 *p, u8 *a);
 
@@ -76,7 +77,7 @@ u8 func_021BC610(S *p, u8 *o, E *e)
 
     flag = 0;
     for (i = 0, cnt = 0; i < 4; i++) {
-        q = func_021BB85C(*(u32 *)p, i);
+        q = (Q *)func_021BB85C((u8 *)(*(u32 *)p), i);
         if (q != 0) {
             u8 r5;
             n = func_021BB8A8(o, i);
@@ -91,15 +92,15 @@ u8 func_021BC610(S *p, u8 *o, E *e)
                 switch (t) {
                 case 6:
                     r5 = func_021B9AB0(r->b.sub);
-                    r->a = func_021B9BF0(q->m, r5);
+                    r->a = (u8 *)func_021B9BF0(q->m, (u8)r5);
                     flag = 1;
                     break;
                 case 3:
-                    r->a = func_021B9BF0(q->m, r->b.sub);
+                    r->a = (u8 *)func_021B9BF0(q->m, (u8)r->b.sub);
                     r5++;
                     break;
                 default:
-                    r->a = func_021B9BF0(q->m, r5);
+                    r->a = (u8 *)func_021B9BF0(q->m, (u8)r5);
                     r5++;
                     break;
                 }
@@ -165,7 +166,7 @@ u8 func_021BC610(S *p, u8 *o, E *e)
             sub = 0;
         }
         k = func_021BC948((u8 *)p, a, 1);
-        func_021CC95C((u8 *)p + 0x1d74, lock, 0x678);
+        func_021CC95C((u32 *)((u8 *)p + 0x1d74), lock, 0x678);
         r->c = (k & m) | ((m + 1) | (((r5 & 7) << 22) | ((sub & 0x3f) << 16)));
     }
     func_021BC874(e, cnt);
@@ -176,7 +177,7 @@ u8 func_021BC610(S *p, u8 *o, E *e)
                 u32 lock = func_021CC8D8((u8 *)p + 0x1d74, 0x68A);
                 u32 v = func_021C6350((u8 *)p, r->a);
                 r->c = (r->c & 0xFFFF1FFF) | ((v & 7) << 13);
-                func_021CC95C((u8 *)p + 0x1d74, lock, 0x68A + 3);
+                func_021CC95C((u32 *)((u8 *)p + 0x1d74), lock, 0x68A + 3);
             }
         }
         func_021BC874(e, cnt);

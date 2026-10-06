@@ -113,7 +113,9 @@ extern s64  OS_GetOwnerRtcOffset(void);
 extern u32  RTC_ConvertDateToDay(const struct RTCDate *date);
 extern u64  RTC_ConvertDateTimeToSecond(const struct RTCDate *date,
                                         const struct RTCTime *time);
-extern void sub_0203F49C(struct RTCDate *date, struct RTCTime *time);
+struct RtcDate;
+struct RtcTime;
+extern void sub_0203F49C(struct RtcDate *date, struct RtcTime *time);
 
 struct Sub02008AECSession {
     u32 unk00;
@@ -170,7 +172,7 @@ u8 sub_02008B98(const struct Sub02008AECObj *obj)
 void sub_02008B9C(struct Sub02008AECSession *s)
 {
     s->unk00 = 1;
-    sub_0203F49C(&s->date, &s->time);
+    sub_0203F49C((struct RtcDate *)(&s->date), (struct RtcTime *)(&s->time));
     s->unk20 = RTC_ConvertDateToDay(&s->date);
     s->unk24 = RTC_ConvertDateTimeToSecond(&s->date, &s->time);
     s->unk2C = 0;
@@ -201,6 +203,6 @@ void sub_02008BE0(struct Sub02008AECSession *s, u32 n)
 void sub_02008C00(struct Sub02008AECSession *s)
 {
     s->unk34 = 0x5A0;
-    sub_0203F49C(&s->date, &s->time);
+    sub_0203F49C((struct RtcDate *)(&s->date), (struct RtcTime *)(&s->time));
     s->unk20 = RTC_ConvertDateToDay(&s->date);
 }

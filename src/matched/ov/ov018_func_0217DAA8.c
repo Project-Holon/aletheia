@@ -31,7 +31,7 @@ extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern const Rect d_021836CC;
 extern const Ent d_02176AA0[];
 
-void func_0217DAA8(int *p)
+void func_0217DAA8(int *p, void *a1)
 {
     Rect r;
     int i;

@@ -73,7 +73,7 @@ typedef struct {
 
 extern int func_02047788(int *p);
 extern u16   func_0204779C(void *obj);
-extern void *func_02047790(void *obj, u16 idx);
+extern int func_02047790(int *p, int i);
 struct Rec;
 struct Tagged;
 extern void func_0204762C(struct Rec *p);
@@ -98,7 +98,7 @@ void func_02048918(Util *util, u16 unitIdx)
         rnd = (void *)func_02047788(obj);
         anmCount = func_0204779C(obj);
         for (j = 0; j < anmCount; j++)
-            func_0204762C(func_02047790(obj, j));
+            func_0204762C((struct Rec *)func_02047790(obj, (u16)j));
         if (util->objStat[objIdx + i] & 0xfd) {
             void *tex = (void *)func_02047554(rnd);
             func_020470D0(tex);

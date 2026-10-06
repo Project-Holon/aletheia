@@ -53,7 +53,8 @@ struct Res {
     u32 unk_14;
 };
 
-extern s32 func_02062A4C(void *buf, struct Res **out);
+struct NitroFileHeader;
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern u32 func_02040B58(u32 index, const void *src, u32 size);
 
 u32 sub_0204979C(void *buf, u32 a1, u32 a2)
@@ -61,7 +62,7 @@ u32 sub_0204979C(void *buf, u32 a1, u32 a2)
     struct Res *res;
     s32 slot;
 
-    if (func_02062A4C(buf, &res) == 0) {
+    if (func_02062A4C(buf, (void **)(&res)) == 0) {
         goto fail;
     }
 

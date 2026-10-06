@@ -26,7 +26,7 @@ typedef struct {
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
 extern void func_021ED310(char *w);
-extern void func_021ED588(unsigned char *p);
+extern void func_021ED588(char *p);
 extern void func_021ED7C4(char *w, int i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -51,6 +51,6 @@ void func_021ECC1C(unsigned char *p)
         return;
     }
     if (*(void **)(WORK(p) + 0x9FD4) == 0)
-        func_021ED588(p);
+        func_021ED588((char *)p);
     func_021ED7C4(WORK(p), 0x24);
 }

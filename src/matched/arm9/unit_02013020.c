@@ -34,13 +34,13 @@ extern const signed char data_0209DFB0[];
 
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *sub_0200873C(void *sys);
-extern u32 sub_02008374(void *obj);
+extern unsigned int sub_02008374(int a0);
 
 signed char sub_02013080(u32 idx);
 
 signed char sub_02013020(void)
 {
-    u32 val = sub_02008374(sub_0200873C(ptr_020A7298));
+    u32 val = sub_02008374((int)sub_0200873C(ptr_020A7298));
     switch (val) {
     case 0:
         val = 1;
@@ -57,7 +57,7 @@ signed char sub_02013020(void)
 
 signed char sub_02013050(void)
 {
-    u32 val = sub_02008374(sub_0200873C(ptr_020A7298));
+    u32 val = sub_02008374((int)sub_0200873C(ptr_020A7298));
     switch (val) {
     case 0:
         val = 4;

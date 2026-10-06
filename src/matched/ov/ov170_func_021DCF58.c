@@ -36,7 +36,9 @@ typedef struct {
 struct Sound;
 extern u32 func_020260F0(struct Sound *obj);
 extern void func_020355D8(u8 v);
-extern void *func_02027778(MenuTmpl *tmpl, void *arg1);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_02027CFC(u8 *p, int sel);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -56,6 +58,6 @@ void func_021DCF58(unsigned char *p, int sel)
         func_020355D8(0);
     else
         func_020355D8(1);
-    *(void **)(WORK(p) + 0x1A0) = func_02027778(&t, *(void **)(WORK(p) + 0x19C));
+    *(void **)(WORK(p) + 0x1A0) = func_02027778((struct TaskMenuTmpl *)(&t), *(void **)(WORK(p) + 0x19C));
     func_02027CFC(*(void **)(WORK(p) + 0x1A0), sel);
 }

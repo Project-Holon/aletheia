@@ -30,13 +30,13 @@
 
 struct Ctx02035C48;
 
-extern void func_02035750(struct Ctx02035C48 *ctx);
+extern int func_02035750(void);
 typedef unsigned short u16;
 struct Kind;
 extern u16 func_020357C0(struct Kind *p);
 
 u16 func_02035C48(struct Ctx02035C48 *ctx)
 {
-    func_02035750(ctx);
+    func_02035750();
     return func_020357C0((struct Kind *)ctx);
 }

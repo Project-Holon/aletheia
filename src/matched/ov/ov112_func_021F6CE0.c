@@ -25,7 +25,10 @@ typedef struct { short x, y; } Point;
 typedef unsigned char  u8;
 extern u16 func_021F9E04(u8 *p);
 extern int func_021F9E18(char *p);
-extern void func_0204B404(int, Point *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 void func_021F6CE0(char *p, char *q) {
@@ -38,7 +41,7 @@ void func_021F6CE0(char *p, char *q) {
     if (((struct Obj05317 *)q)->f0 == 1) {
         point.x = (short)((float)((struct Obj05317 *)q)->f8 / 4096.0f - (float)(unsigned)n);
         point.y = (short)((float)((struct Obj05317 *)q)->fC / 4096.0f);
-        func_0204B404(((struct Obj05317 *)q)->f1C, &point, 0);
+        func_0204B404((struct Obj *)(((struct Obj05317 *)q)->f1C), (const struct Vec2 *)(&point), 0);
         if (*(int *)&((struct Obj00771 *)p)->f4 != 0 && func_021F9E18((char *)(*(int *)&((struct Obj00771 *)p)->f4)) != 4) {
             func_0204B3DC((struct Obj *)((struct Obj05317 *)q)->f1C, 0);
             return;

@@ -40,11 +40,11 @@ extern void func_02005DAC(void *arg);
 extern void func_021B98F4(void);
 extern void func_021B9908(void);
 extern void func_021B99F8(void);
-extern void func_021B9B1C(void *p);
-extern void func_021B9D34(void *p);
-extern void func_021B9E14(void *p);
-extern void func_021B9D04(void *p);
-extern void func_021B9AF8(void *p);
+extern void func_021B9B1C(char *p);
+extern void func_021B9D34(char *p);
+extern void func_021B9E14(char *p);
+extern void func_021B9D04(char *p);
+extern void func_021B9AF8(char *p);
 extern u8 ov067_id[];
 
 int func_021B9630(u8 *p)
@@ -60,11 +60,11 @@ int func_021B9630(u8 *p)
     func_021B98F4();
     func_021B9908();
     func_021B99F8();
-    func_021B9B1C(p);
-    func_021B9D34(p);
-    func_021B9E14(p);
-    func_021B9D04(p);
-    func_021B9AF8(p);
+    func_021B9B1C((char *)p);
+    func_021B9D34((char *)p);
+    func_021B9E14((char *)p);
+    func_021B9D04((char *)p);
+    func_021B9AF8((char *)p);
     func_02005DAC((void *)0x3f8);
     return 3;
 }

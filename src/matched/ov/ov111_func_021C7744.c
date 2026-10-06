@@ -107,7 +107,8 @@ extern void *func_02047CFC(int a, int b, int heap);
 extern u16 func_02047E88(void *p, const void *q);
 extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
-extern void func_020477A4(void *mdl, u16 i);
+struct G3dSys;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
 extern const unsigned char d_021C8834[];
 extern const VecFx32 d_021C8950;
@@ -129,7 +130,7 @@ void func_021C7744(Work *p)
     mdl = (void *)func_02048A18(p->fF8, p->fFC);
     n = func_0204779C(mdl);
     for (i = 0; i < n; i++) {
-        func_020477A4(mdl, i);
+        func_020477A4(mdl, (u16)i);
     }
     a = d_021C8950;
     b = d_021C8938;

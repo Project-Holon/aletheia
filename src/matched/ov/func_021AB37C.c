@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-BOOL func_021AB37C(u16 id)
+BOOL func_021AB37C(u32 id)
 {
     if (id == 0xc || id == 0xb || id == 0x23) {
         return 1;

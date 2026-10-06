@@ -20,8 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0202A298(u16 key, u16 want, u32 heap);
-extern void func_0202A310(u16 key, u16 want, void *dest, u32 heap);
+extern u32 func_0202A298(u32 key, u32 want, u32 heap);
+extern void func_0202A310(int key, int want, void *dest, u32 heap);
 extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 
 int func_021EA6B0(char *p, u16 a, u16 b)

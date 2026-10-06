@@ -38,8 +38,10 @@ typedef struct {
     unsigned long key4;
 } Session;
 extern Session g_021CF7AC;
-extern unsigned long func_0209477C(const char *s);
-extern char *func_02094860(char *dst, const char *src, unsigned long n);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
+extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 
 int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4)
 {
@@ -48,10 +50,10 @@ int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, uns
     unsigned int n;
 
     g_021CF7AC.valid = 0;
-    if (func_0209477C(gamename) >= 0x20) {
+    if ((unsigned long)func_0209477C((const u8 *)gamename) >= 0x20) {
         return 0;
     }
-    if (func_0209477C(secretkey) != 0x14) {
+    if ((unsigned long)func_0209477C((const u8 *)secretkey) != 0x14) {
         return 0;
     }
     if ((key1 - 5) & 7) {
@@ -68,7 +70,7 @@ int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, uns
     if (bitcount != 1) {
         return 0;
     }
-    func_02094860(g_021CF7AC.gamename, gamename, 0x20);
+    func_02094860((u8 *)g_021CF7AC.gamename, (const u8 *)gamename, 0x20);
     {
         unsigned char *d = g_021CF7AC.secretkey;
         unsigned char *s = (unsigned char *)secretkey;

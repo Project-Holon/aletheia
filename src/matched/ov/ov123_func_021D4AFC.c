@@ -20,7 +20,8 @@
 typedef unsigned int u32;
 extern int func_021D4E7C(char *);
 extern int func_02035C60(void);
-extern void func_021D4E64(void *);
+typedef unsigned char  u8;
+extern void func_021D4E64(u8 *p);
 extern void func_020061E4(u32 a);
 extern void func_021D4D40(char *, int);
 extern void func_021D4244(char *, void *, int);
@@ -28,7 +29,7 @@ extern void func_021D4A04(char *);
 void func_021D4AFC(char *p)
 {
     if (func_021D4E7C(p) != 0 && func_02035C60() != 0) {
-        func_021D4E64(p);
+        func_021D4E64((u8 *)p);
         ((struct Obj00273 *)p)->f27C = 0;
         func_020061E4(0x73b);
         func_021D4D40(p, 0);

@@ -31,7 +31,7 @@ typedef unsigned char  u8;
 extern int func_021C49A4(u8 *p, unsigned int i);
 extern void func_021C57D8(u8 *p, int v);
 extern void func_021C57DC(u8 *p);
-extern void func_021BA5B4(void *o, int n, Ent *e);
+extern void func_021BA5B4(void *a, int b, u8 **p);
 
 void func_021B99F4(void *o, Ent *e)
 {
@@ -42,5 +42,5 @@ void func_021B99F4(void *o, Ent *e)
     e->fc = 2;
     func_021C57D8(e->f4, 0);
     func_021C57DC(e->f4);
-    func_021BA5B4(o, 4, e);
+    func_021BA5B4(o, 4, (u8 **)e);
 }

@@ -89,7 +89,7 @@ typedef signed int     s32;
 struct ArcFile;
 struct NitroFileHeader;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void func_02062A98(void *res, u8 **out);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
 extern void DC_FlushAll(void);
 extern void func_02049238(void *h);
@@ -112,10 +112,10 @@ void func_021F2D20(Work *p, void *h)
     func_020216B4((struct PalAnmSlot *)p->fac, h, 0, p->heap, 3, 0x1c0, 0);
     func_02021640((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
     p->r3c4.res = func_02049250(h, 4, p->heap2);
-    func_02062A98(p->r3c4.res, &p->r3c4.hdr);
+    func_02062A98(p->r3c4.res, (void **)(&p->r3c4.hdr));
     p->r3c4.data = ((struct Obj20461 *)(p->r3c4.hdr))->fC;
     p->r3b8.res = func_02049250(h2, 0, p->heap2);
-    func_02062A98(p->r3b8.res, &p->r3b8.hdr);
+    func_02062A98(p->r3b8.res, (void **)(&p->r3b8.hdr));
     p->r3b8.data = ((struct Obj20462 *)(p->r3b8.hdr))->fC;
     for (i = 0; i < 16; i++) {
         p->e1[i].res = func_02049250(h2, i + 0x31, p->heap2);

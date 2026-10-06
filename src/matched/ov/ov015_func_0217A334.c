@@ -55,12 +55,12 @@ typedef struct {
 } St;
 extern St d_0217ABA8;
 
-extern u32 func_0217A7AC(u8 *buf);
+extern int func_0217A7AC(u8 *buf);
 extern int func_0217A178(u32 n);
 extern int func_0217A1FC(void);
 extern int func_0217A280(u32 n);
 extern u64 func_020870D0(void);
-extern void func_0217A034(int a0, int a1, int a2, int a3);
+extern void func_0217A034(unsigned char *data, unsigned char size, int command, unsigned char id);
 extern void func_02179F28(void);
 extern void func_0217A174(void);
 

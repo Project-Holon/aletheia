@@ -20,12 +20,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 *func_0204162C(u8 bg);
-extern void func_02041B6C(u8 bg);
+extern u32 func_0204162C(int channel);
+extern void func_02041B6C(u32 bit);
 
 void func_021C59DC(u32 bg, int mode)
 {
-    u16 *map = func_0204162C(bg);
+    u16 *map = (u16 *)func_0204162C((u8)bg);
     u8 x, y;
     u16 n;
 
@@ -64,5 +64,5 @@ void func_021C59DC(u32 bg, int mode)
         }
         break;
     }
-    func_02041B6C(bg);
+    func_02041B6C((u8)bg);
 }

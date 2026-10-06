@@ -25,13 +25,13 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern void func_02015F2C(void *h, int idx, void (*fn)(int), int v);
 extern void func_02201894(int i);
 
 void func_02200468(Work *w, int key)
 {
-    int idx = func_022019F4(w, key);
+    int idx = func_022019F4((char *)w, key);
 
     if (idx == -1)
         return;

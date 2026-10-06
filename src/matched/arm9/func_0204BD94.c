@@ -42,22 +42,22 @@ struct Obj {
 
 extern const char s_clact_c[];
 
-extern void  func_02065AA8(struct Obj *p);
+extern void func_02065AA8(u8 *o);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0204BE84(void *dst, void *src);
-extern void  func_02065B64(struct Obj *p, void *slot);
+extern void func_02065B64(int p0, void *p1);
 
 void func_0204BD94(struct Obj *obj, u8 *src, int count, u32 heap)
 {
     u32 i;
 
-    func_02065AA8(obj);
+    func_02065AA8((u8 *)obj);
     obj->f80 = 1;
     obj->f98 = (u32)func_02030734(heap, count * 0x48, 0, s_clact_c, 0xfc7);
     obj->f9c = count;
     for (i = 0; i < count; i++) {
         func_0204BE84((void *)(obj->f98 + i * 0x48), src + i * 0x10);
-        func_02065B64(obj, (void *)(obj->f98 + i * 0x48));
+        func_02065B64((int)obj, (void *)(obj->f98 + i * 0x48));
     }
 }

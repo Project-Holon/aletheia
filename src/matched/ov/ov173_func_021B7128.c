@@ -21,10 +21,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021B6FB4(char *);
+struct ScanContext;
+struct Slot;
+extern u32 func_021B6FB4(struct ScanContext *p);
 extern void func_021B70D8(char *);
 extern void *func_0201F81C(u32, u32);
-extern void func_0201F878(void *, u32, u32, u32, u32);
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -34,7 +36,7 @@ void func_021B7128(char *p)
     u32 i;
     u16 move;
     void *bank;
-    ((struct Obj00180 *)p)->f1B8 = func_021B6FB4(p);
+    ((struct Obj00180 *)p)->f1B8 = func_021B6FB4((struct ScanContext *)p);
     ((struct Obj00180 *)p)->f58 = func_0201F81C(((struct Obj00180 *)p)->f1B8, 0x4f);
     i = 0;
     bank = func_02045B38(0, 2, 0xcb, 0x4f);

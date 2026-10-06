@@ -21,7 +21,8 @@ typedef unsigned int u32;
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_021BE2DC(char *p, int a, int b);
-extern u32 func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+typedef unsigned short u16;
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 
 void func_021BE53C(char *p, int v)

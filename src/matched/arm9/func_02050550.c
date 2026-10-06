@@ -51,10 +51,13 @@ typedef struct Own {
     u8  *f0c;
 } Own;
 
-extern u32  func_02050920(Cmd *c);
-extern u32  func_02050944(Ent *e, Cmd *c);
-extern void func_020506B8(Own *o, u8 *p, u32 a2);
-extern void func_0204F66C(u32 res, u32 id, u16 *v);
+struct Entry;
+struct Owner;
+struct S14;
+extern int func_02050920(struct S14 *p);
+extern int func_02050944(void *p, struct S14 *q);
+extern void func_020506B8(struct Owner *o, struct Entry *e, u32 a2);
+extern void func_0204F66C(int p0, int p1, int p2);
 extern void func_0204F764(void *p, u32 idx, u32 *val);
 extern void func_0204F794(void *p, u32 idx, u32 *val);
 
@@ -76,8 +79,8 @@ void func_02050550(Own *o, Ent *e)
     }
 
     c = (Cmd *)((u8 *)e->f08[e->f0e] + e->f10 * 4);
-    while (func_02050920(c)) {
-        if (func_02050944(e, c)) {
+    while (func_02050920((struct S14 *)c)) {
+        if (func_02050944(e, (struct S14 *)c)) {
             return;
         }
         c = (Cmd *)((u8 *)e->f08[e->f0e] + e->f10 * 4);
@@ -90,9 +93,9 @@ void func_02050550(Own *o, Ent *e)
     p = (u8 *)(e->f04 * 8);
     p = p + (u32)o->f0c;
     if (((struct Obj06991 *)p)->f4 != 0) {
-        func_020506B8(o, p, s0);
+        func_020506B8((struct Owner *)o, (struct Entry *)p, s0);
     } else {
-        func_0204F66C(o->f04, e->f00, &s0);
+        func_0204F66C(o->f04, e->f00, (int)(&s0));
     }
 
     if (c->b) {

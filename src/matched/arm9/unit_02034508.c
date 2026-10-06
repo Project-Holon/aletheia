@@ -27,11 +27,12 @@ struct Obj02034508 {
     u32 unk08;
 };
 
-extern void func_020344C8(struct Obj02034508 *p);
+struct Struct_020344C8;
+extern void func_020344C8(struct Struct_020344C8 *param);
 
 void sub_02034508(struct Obj02034508 *p)
 {
     if (p->unk08 != 0) {
-        func_020344C8(p);
+        func_020344C8((struct Struct_020344C8 *)p);
     }
 }

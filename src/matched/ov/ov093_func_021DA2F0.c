@@ -19,7 +19,7 @@
 #include "../include/Obj07811.h"
 extern unsigned char d_021F07F0[];
 extern int func_021D775C(int);
-extern void *func_021C88A4(void *, int, int);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *, void *);
 
 void func_021DA2F0(int a, void *b, int c)

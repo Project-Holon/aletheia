@@ -40,7 +40,7 @@ extern void func_0204B3DC(struct Obj *p, unsigned int a);
 extern u32 func_02005728(u32 range);
 extern void func_0204B8C4(struct Obj *p, u32 value);
 
-void func_021B8810(int a0, int b, int c)
+void func_021B8810(int a0, int b, int c, int a3)
 {
     u16 tmp[2];
 

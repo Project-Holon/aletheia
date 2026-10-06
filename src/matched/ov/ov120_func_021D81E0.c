@@ -15,16 +15,17 @@
  */
 typedef unsigned int   u32;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern int func_021D7C48(char *,int,int,int,int,int);
+typedef unsigned char  u8;
+extern int func_021D7C48(u8 *p, int n, int a, int b, int c, int d);
 extern void *func_021D4F70(void **p, int i);
-extern void func_021D8118(char *,void *,int);
+extern int func_021D8118(char *p, void *r, int n);
 extern void func_02041B6C(u32 bit);
 void func_021D81E0(char *p,void *q)
 {
     int i;
     void *r;
     func_0201DD78(15,2,0);
-    func_021D7C48(p,30,0,0,20,5);
+    func_021D7C48((u8 *)p,30,0,0,20,5);
     for(i=0;i<3;i++) {
         r=func_021D4F70(q,i);
         if(r) func_021D8118(p,r,i+2);

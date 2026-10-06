@@ -10,7 +10,7 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-int func_021B69F8(u32 p) {
+u32 func_021B69F8(u32 p) {
     int r = 1;
     if (*(u32 *)(p+8) != *(u16 *)(p+42) && *(u32 *)(p+8) != *(u16 *)(p+44)) r = 0;
     return r;

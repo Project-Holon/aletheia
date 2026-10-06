@@ -18,19 +18,21 @@
 typedef unsigned short u16;
 typedef struct Util Util;
 extern int d_021BB320;
-extern int *func_02048A18(Util *util, unsigned index);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
-extern int func_02047910(void *a, u16 idx, int amount);
+extern int func_02047910(void *a, int idx, int amount);
 int func_021BA9D0(unsigned char *p)
 {
     int result=1;
     int *object;
     int count,i;
     if(p[14]) return 0;
-    object=func_02048A18(*(Util * *)&((struct Obj08420 *)p)->f8, ((struct Obj08420 *)p)->fC);
+    object=(int *)func_02048A18((u8 *)(*(Util * *)&((struct Obj08420 *)p)->f8), ((struct Obj08420 *)p)->fC);
     count=func_0204779C(object);
     for(i=0;i<count;i++) {
-        result=func_02047910(object,i,d_021BB320<<12);
+        result=func_02047910(object,(u16)i,d_021BB320<<12);
         if(!result) p[14]=1;
     }
     return result;

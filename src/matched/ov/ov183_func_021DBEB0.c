@@ -29,12 +29,13 @@
 #include "../include/Obj24554.h"
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
-extern int func_021FC20C(char *),func_021FC214(char *);
+extern unsigned func_021FC20C(char *p);
+extern int func_021FC214(char *);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);
 extern void func_021DCE48(char *,char *),func_021DCDD8(char *,char *),func_021DCE28(char *,char *);
-extern void func_021DC8EC(char *,int);
+extern void func_021DC8EC(char *p, char *q);
 extern void func_021FD73C(int *,int);
-extern void func_021DBD7C(void);
+extern void func_021DBD7C(int *task, int *state, char *p);
 void func_021DBEB0(int *task,int *state,char *p)
 {
     int a,b;
@@ -55,7 +56,7 @@ void func_021DBEB0(int *task,int *state,char *p)
         }else{
             func_021DCE28(p,*(char * *)&((struct Obj00050 *)p)->fD0);
             func_021FC754(*(char * *)&((struct Obj00050 *)p)->f28,(void *)b,(void *)0x71,(void *)a,0x3da0);
-            func_021DC8EC(p,*(int *)&((struct Obj00050 *)p)->fD0);
+            func_021DC8EC(p,(char *)(*(int *)&((struct Obj00050 *)p)->fD0));
         }
         func_021FE784(((struct Obj24553 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC,2,1,0);
         (*state)++;break;

@@ -79,11 +79,12 @@ extern void func_02193734(int *p, int b);
 extern int func_020948E0(const char *a, const char *b);
 extern void *func_0217EAB0(unsigned long size);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, void *operation, int type);
-extern int func_0219359C(void **connection, char *buffer, int *index, char *key, char *value);
+typedef unsigned char  u8;
+extern int func_0219359C(int *connection, const char *buffer, int *index, char *key, char *value);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_020964E0(u32 a0);
-extern unsigned long func_0209477C(const char *s);
+extern int func_0209477C(const u8 *s);
 extern void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType);
 extern char *func_0217F1E0(char *src);
 extern int func_0218D9A8(void **connection, void *keys, char *keyName, char **keyValue);
@@ -140,7 +141,7 @@ int func_02188BA0(void **connection, GPIPeer *peer, char *buffer)
         index = 0;
         checkKey = 0;
 
-        func_0219359C(connection, buffer, &index, keyName, keyVal);
+        func_0219359C((int *)connection, buffer, &index, keyName, keyVal);
         if (func_020948E0(keyName, g_021A4480) != 0) {
             func_02193710((int *)connection, 1, (int)g_021A4488);
             func_02189D78((int *)connection, 3, 0);
@@ -170,10 +171,10 @@ int func_02188BA0(void **connection, GPIPeer *peer, char *buffer)
             keys = func_0217EAB0(sizeof(char *) * numKeys);
             values = func_0217EAB0(sizeof(char *) * numKeys);
             for (i = 0; i < numKeys; i++) {
-                func_0219359C(connection, buffer, &index, keyName, keyVal);
-                func_0217F8B4(keyName, decodeKey, (int)func_0209477C(keyName), &decodedLen, 2);
+                func_0219359C((int *)connection, buffer, &index, keyName, keyVal);
+                func_0217F8B4(keyName, decodeKey, (int)func_0209477C((const u8 *)keyName), &decodedLen, 2);
                 decodeKey[decodedLen] = '\0';
-                func_0217F8B4(keyVal, decodeVal, (int)func_0209477C(keyVal), &decodedLen, 2);
+                func_0217F8B4(keyVal, decodeVal, (int)func_0209477C((const u8 *)keyVal), &decodedLen, 2);
                 decodeVal[decodedLen] = '\0';
                 keys[i] = func_0217F1E0(decodeKey);
                 values[i] = func_0217F1E0(decodeVal);

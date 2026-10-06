@@ -62,10 +62,10 @@ extern int  func_021BA65C(u8 *p, int *out);
 extern void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3, void *a4);
 extern void func_021BA448(u8 *p, u8 *a, u8 *b);
 extern int  func_021BA730(u8 *p);
-extern void func_021BA9C0(u8 *p, u8 *w);
+extern void func_021BA9C0(u8 *p, char *q);
 extern u32  func_021BA668(u8 *p);
 extern void func_021BA9E0(u8 *p, Blk *out);
-extern int  func_021BB0E4(u8 *p, Blk *b);
+extern int func_021BB0E4(const u8 *p, const u8 *q);
 extern void func_021BB138(void *p, int v);
 extern void func_021BA694(u8 *p);
 extern void func_021BB4D4(void *a, u32 b, u8 *p);
@@ -102,7 +102,7 @@ void func_021BB1C4(void *a, u32 *st, u8 *w)
             func_021BA7C0(w + 0x148, w + 0xE4, w + 0x1A0, w, w + 0x104);
         func_021BA448(w + 0x104, w + 0xE4, w + 0x148);
         if (func_021BA730(w + 0x104))
-            func_021BA9C0(w + 0x148, w);
+            func_021BA9C0(w + 0x148, (char *)w);
         if (func_021BA65C(w + 0x104, &k)) {
             switch (k) {
             case 0:
@@ -112,7 +112,7 @@ void func_021BB1C4(void *a, u32 *st, u8 *w)
             case 2:
                 **(int * *)&((struct Obj09875 *)w)->f26C = 1;
                 func_021BA9E0(w + 0x148, &b50);
-                if (func_021BB0E4(w + 0x248, &b50)) {
+                if (func_021BB0E4(w + 0x248, (const u8 *)(&b50))) {
                     func_021BB138(a, (int)func_021BB4A4);
                 } else {
                     func_021BA694(w + 0x104);
@@ -122,7 +122,7 @@ void func_021BB1C4(void *a, u32 *st, u8 *w)
             case 1:
                 if (func_021BA668(w + 0x104)) {
                     func_021BA9E0(w + 0x148, &b44);
-                    if (func_021BB0E4(w + 0x248, &b44)) {
+                    if (func_021BB0E4(w + 0x248, (const u8 *)(&b44))) {
                         func_021BB138(a, (int)func_021BB4A4);
                     } else {
                         func_021BA694(w + 0x104);

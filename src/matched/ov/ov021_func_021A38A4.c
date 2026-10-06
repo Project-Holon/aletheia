@@ -39,8 +39,8 @@ u16 func_0216D854(u32 h);
 void func_0216D818(void *p, u16 v);
 u16 func_0216D86C(u32 h);
 void func_0216D824(void *p, u16 v);
-void func_0216D844(u32 h, short v);
-void func_0216D85C(u32 h, short v);
+void func_0216D844(void *p, short v);
+void func_0216D85C(void *p, int v);
 void func_0216D874(int a0, int a1);
 void func_0216D89C(u32 h, Vec021A38A4 *v);
 
@@ -54,8 +54,8 @@ void func_021A38A4(u8 *p, Vec021A38A4 *v)
     func_0216D80C((void *)h, func_0216D83C(h));
     func_0216D818((void *)h, func_0216D854(h));
     func_0216D824((void *)h, func_0216D86C(h));
-    func_0216D844(h, (short)x);
-    func_0216D85C(h, (short)y);
+    func_0216D844((void *)h, (short)x);
+    func_0216D85C((void *)h, (short)y);
     func_0216D874(h, (short)z);
     func_0216D89C(h, v);
 }

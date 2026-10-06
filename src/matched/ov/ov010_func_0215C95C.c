@@ -78,18 +78,22 @@ typedef struct ProfileWork {
 } ProfileWork;
 
 extern void *func_0215A5DC(void *vm);
-extern void *func_02012138(void *sys);
-extern void *func_020120F4(void *sys);
+struct Big;
+struct BigObj;
+struct Ctx;
+struct Out;
+extern u32 func_02012138(const struct Ctx *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0215A5F4(void *vm);
-extern LinkState *func_02158344(void *p);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
-extern u32 func_02012B58(void *p);
+extern int func_02158344(int a0);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u8 func_02012B58(const struct BigObj *p);
 extern u8 func_0215841C(void *p);
-extern int func_02175FB4(Rec28 *r);
+extern int func_02175FB4(u8 *p);
 extern Name20 *func_0215840C(LinkState *s, int idx);
-extern void *func_02012EBC(void *p);
-extern void func_0200BE48(void *p);
-extern void func_02175648(void *p, Profile16 *out);
+extern void *func_02012EBC(struct Big *p);
+extern u16 *func_0200BE48(void *sys);
+extern void func_02175648(void *sv, struct Out *o);
 extern void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char d_021728F0[];
 extern const u8 d_021BA758[];
@@ -105,13 +109,13 @@ int func_0215C95C(void *c, void *vm)
     u8 idx;
 
     sys = func_0215A5DC(vm);
-    p = func_02012138(sys);
+    p = (void *)func_02012138(sys);
     q = func_020120F4(sys);
     func_0215A5F4(vm);
-    st = func_02158344(p);
+    st = (LinkState *)func_02158344((int)p);
     w = func_02030734(4, sizeof(ProfileWork), 1, d_021728F0, 0x1BC);
     if (st != 0 && st->self != func_02012B58(q)
-        && func_02175FB4(&st->recs[func_0215841C(q)]) == 1
+        && func_02175FB4((u8 *)(&st->recs[func_0215841C(q)])) == 1
         && ((u8 *)st)[0x922] == 1) {
         idx = func_0215841C(q);
         w->name = *func_0215840C(st, idx);
@@ -119,7 +123,7 @@ int func_0215C95C(void *c, void *vm)
         w->remote = 1;
     } else {
         func_0200BE48(func_02012EBC(q));
-        func_02175648(q, &w->profile);
+        func_02175648(q, (struct Out *)(&w->profile));
         idx = 0;
         w->remote = 0;
     }

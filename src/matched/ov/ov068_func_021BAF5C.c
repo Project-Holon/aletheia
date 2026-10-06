@@ -30,10 +30,10 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern u32 func_02008374(u32 a);
+extern unsigned int func_02008374(int a0);
 extern u32 func_020083AC(u32 a);
 extern u32 func_020083C8(u32 a);
-extern u32 func_02008390(u32 a);
+extern unsigned int func_02008390(char *a0);
 extern u32 func_02008428(u32 a);
 
 void func_021BAF5C(u8 *p, u32 a)
@@ -44,6 +44,6 @@ void func_021BAF5C(u8 *p, u32 a)
     p[0] = func_02008374(a);
     p[1] = func_020083AC(a);
     p[2] = func_020083C8(a);
-    p[3] = func_02008390(a);
+    p[3] = func_02008390((char *)a);
     p[4] = func_02008428(a);
 }

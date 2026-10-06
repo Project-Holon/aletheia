@@ -20,7 +20,7 @@ extern void func_02045CAC(struct MsgBank *,u32,void *);
 extern void func_0201EEF4(struct WordSet *,u32,void *);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
 extern void func_0201F250(struct WordSet *,void *,void *);
-void func_021D57D0(void *p,u32 msg,u32 n,void *mon) {
+void func_021D57D0(void *p, int msg, int n, void *mon) {
 func_02045CAC(*(void **)((unsigned)p+0x20),msg,*(void **)((unsigned)p+0x30));
 func_0201EEF4(*(void **)((unsigned)p+0x24),0,mon);
 func_0201EFA4(*(void **)((unsigned)p+0x24),1,n,3,1,1);

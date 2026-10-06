@@ -24,7 +24,7 @@ extern const Table d_021BAC20;
 extern void func_02082BCC(void *, u32, u32);
 extern R *func_021B62E0(A *, int);
 extern void func_021B64F8(u8 *, u32);
-extern void func_021B6568(R *, u32, u32);
+extern void func_021B6568(unsigned char *p, unsigned int id, int v);
 R *func_021B9820(int heap, int id)
 {
     Table table = d_021BAC20;
@@ -40,7 +40,7 @@ R *func_021B9820(int heap, int id)
     config.f18 = 0;
     p = func_021B62E0(&config, id);
     func_021B64F8((u8 *)p, 1);
-    func_021B6568(p, 4, 0);
-    func_021B6568(p, 5, 0);
+    func_021B6568((unsigned char *)p, 4, 0);
+    func_021B6568((unsigned char *)p, 5, 0);
     return p;
 }

@@ -36,8 +36,8 @@ typedef struct Rec {
 } Rec;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_02013B38(int a);
-extern Rec *func_0204A39C(void *h, u32 id, u32 c, u16 heap, u32 *size);
+extern u32 func_02013B38(u32 id);
+extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_020307B0(void *p);
@@ -56,8 +56,8 @@ void func_021D3478(u8 *a, u32 id, int c, int d, u16 heap)
     found = 0;
     hv = (heap & 0x7fff) | 0x8000;
     h = func_020490F4(0xe0, hv);
-    v = (func_02013B38(c) - 2) / 4 + 1;
-    p = func_0204A39C(h, id, 0, hv, &size);
+    v = ((int)func_02013B38((int)c) - 2) / 4 + 1;
+    p = func_0204A39C(h, (u32)id, (u32)0, (u16)hv, &size);
     for (i = 1; i < size / 0x24; i++) {
         if ((v == p[i].k0 || p[i].k0 == 0xff) && (d == p[i].k1 || p[i].k1 == 0xff)) {
             found = 1;

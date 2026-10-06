@@ -28,7 +28,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 func_0202ABF8(void *obj);
-extern void func_0202ACFC(u8 *p);
+extern int func_0202ACFC(int a0);
 extern void func_0202AD10(void *obj);
 extern void func_0202AD44(void *obj);
 
@@ -36,7 +36,7 @@ void func_0202ACCC(u8 *p)
 {
     switch (func_0202ABF8(p)) {
     case 0:
-        func_0202ACFC(p);
+        func_0202ACFC((int)p);
         break;
     case 1:
         func_0202AD10(p);

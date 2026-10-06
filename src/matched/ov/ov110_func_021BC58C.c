@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { s16 x, y; } Vec2;
-extern void func_021BC564(const Vec2 *, Vec2 *);
+extern void func_021BC564(s16 *p, s16 *out);
 struct Bmp;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -25,6 +25,6 @@ extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 void func_021BC58C(void *p, const Vec2 *a)
 {
     Vec2 pos;
-    func_021BC564(a, &pos);
+    func_021BC564((s16 *)a, (s16 *)(&pos));
     func_02043AF4(func_02045770(p), pos.x, pos.y, 0x60, 16, 14);
 }

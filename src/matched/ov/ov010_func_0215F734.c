@@ -66,24 +66,30 @@ typedef struct Work {
     int timer;          /* 0x78 */
 } Work;
 
-extern void *func_02012EBC(void *p);
-extern void *func_0201210C(void *sys);
-extern void *func_02012138(void *sys);
-extern void func_02012374(void *evt, void *task);
-extern void func_020120B4(void *sys, u32 id, void *data, void *arg);
-extern int func_020120F0(void *sys);
-extern void func_02012444(void *evt, u32 id, void *data, void *arg);
-extern void func_02012158(void *sys, u32 v);
-extern void *func_02014554(void *sys, void *proc);
+struct Big;
+struct Comm;
+struct Ctx;
+struct Evt;
+struct IcaAnime;
+struct Obj;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02012138(const struct Ctx *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void func_02012158(char *p, unsigned int v);
+extern int func_02014554(int a0, int a1);
 extern void func_02005E30(u32 v);
-extern void func_02026400(void *p);
-extern int func_02026454(void *p);
+extern void func_02026400(struct Comm *p);
+extern u32 func_02026454(void *obj);
 extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
 extern u32 func_0215F9C4(void);
 extern void func_0215F9DC(Work *w, u32 *i);
 extern void func_0215F9EC(Work *w);
 extern void func_02158A20(void *sys, u32 v);
-extern void *func_02161B90(void *sys, void *evt, u32 a, u32 b, u32 c);
+extern void *func_02161B90(void *p, void *a1, int kind, int sub, int flag);
 extern u8 ov180_id[];
 extern u8 ov181_id[];
 extern u8 ov205_id[];
@@ -101,7 +107,7 @@ int func_0215F734(void *evt, u32 *i, Work *w)
 
     func_02012EBC(w->f04);
     proc = func_0201210C(w->sys);
-    save = func_02012138(w->sys);
+    save = (void *)func_02012138(w->sys);
     switch (w->step) {
     case 0:
         if (w->f08 == 1)
@@ -123,7 +129,7 @@ int func_0215F734(void *evt, u32 *i, Work *w)
             func_0215F9DC(w, i);
         break;
     case 4:
-        func_02012374(evt, func_02014554(sys, proc));
+        func_02012374(evt, (void *)func_02014554((int)sys, (int)proc));
         func_0215F9DC(w, i);
         break;
     case 5:
@@ -151,7 +157,7 @@ int func_0215F734(void *evt, u32 *i, Work *w)
         func_0215F9DC(w, i);
         break;
     case 11:
-        func_02012444(evt, (u32)ov205_id, d_021B9E54, w->f14);
+        func_02012444(evt, (u32)ov205_id, (u32)d_021B9E54, (u32)w->f14);
         func_0215F9DC(w, i);
         break;
     case 12:
@@ -162,7 +168,7 @@ int func_0215F734(void *evt, u32 *i, Work *w)
         w->timer++;
         break;
     case 13:
-        func_02012444(evt, (u32)ov182_id, d_021B9BA0, w->f30);
+        func_02012444(evt, (u32)ov182_id, (u32)d_021B9BA0, (u32)w->f30);
         func_02012158(sys, 0);
         func_0215F9DC(w, i);
         break;

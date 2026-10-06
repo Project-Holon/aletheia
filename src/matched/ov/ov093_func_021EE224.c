@@ -12,6 +12,6 @@
  *           trailing alignment padding, no byte difference.
  */
 
-void func_021EE224(void)
+void func_021EE224(char *p)
 {
 }

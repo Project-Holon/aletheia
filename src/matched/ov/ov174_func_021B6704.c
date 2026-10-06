@@ -21,7 +21,8 @@ typedef unsigned int   u32;
 struct Actor;
 struct Obj;
 extern unsigned func_021B7360(unsigned char *p);
-extern void func_0204B404(void *, u16 *, int);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B9A0(struct Actor *a);
 extern const u8 d_021B7380[][2];
@@ -37,7 +38,7 @@ void func_021B6704(u8 *p, int index)
     point[0] = x;
     y = (d_021B7380[index][1] * 8) + 16;
     point[1] = y;
-    func_0204B404(*((void **) (p + 84)), point, 0);
+    func_0204B404(*((void **) (p + 84)), (const struct Vec2 *)point, 0);
     func_0204B3DC(*((void **) (p + 84)), 1);
     func_0204B9A0(*((void **) (p + 84)));
 }

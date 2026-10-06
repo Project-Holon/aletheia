@@ -17,7 +17,7 @@
 #include "../include/Obj10939.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0201F73C(void *, int, u16, int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Cfg;
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
@@ -28,7 +28,7 @@ extern void func_020409B4(u32 index);
 void func_021F6164(void *unused, char *p)
 {
     void *obj;
-    func_0201F73C(((struct Obj10939 *)p)->f58, 0, ((struct Obj10939 *)p)->f60, 2);
+    func_0201F73C(((struct Obj10939 *)p)->f58, 0, (u16)(((struct Obj10939 *)p)->f60), 2);
     obj = ((struct Obj10939 *)p)->f58;
     func_02045334(obj);
     func_02045374(obj);

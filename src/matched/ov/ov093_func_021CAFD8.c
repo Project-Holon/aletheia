@@ -38,13 +38,14 @@ extern void *func_021CB144(void *, int);
 extern void func_021CB154(void *, void *);
 extern void func_021CB164(void *, void *);
 extern int func_021D5B68(void *);
-extern u8 func_021D5440(void *);
+struct Unk021B8CB0;
+extern u8 func_021D5440(u8 *p);
 extern int func_021B9A24(u32, u32);
 extern int func_021B8D8C(void *, void *, u32);
 extern u32 func_0201BEB8(u16, u32);
-extern u8 func_021B8778(void *, int, u8 *);
-extern void *func_021B98A4(void *, u8);
-extern int func_021D59B4(void *, int);
+extern u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out);
+extern u8 *func_021B98A4(char * const *q, u8 b);
+extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021D78AC(u32);
 int func_021CAFD8(u8 *p, u32 mode, void *m, const u16 *item, u8 self, void *out)
 {

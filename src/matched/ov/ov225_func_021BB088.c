@@ -40,7 +40,7 @@ extern void func_0202843C(u8 *);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u16 func_021BB044(u16 **);
-extern void func_0202815C(u8 *);
+extern void func_0202815C(void);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern u32 *func_0202804C(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
@@ -73,7 +73,7 @@ void func_021BB088(char *p)
         func_0204B3DC(*(void **)(p+i*4+0x60),0);
     }
     for(i=first;i<=last;i++) {
-        if (*(u8 **)(p+i*4+0xc)) func_0202815C(*(u8 **)(p+i*4+0xc));
+        if (*(u8 **)(p+i*4+0xc)) func_0202815C();
         e.resource=func_02045EC0(*(struct MsgBank * *)&((struct Obj26221 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f20,*(u16 *)(*(char * *)&((struct Obj26222 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+2));
         if(i==0 || i==7) e.tag=0x3da3; else e.tag=0x39e3;
         e.flags=0;

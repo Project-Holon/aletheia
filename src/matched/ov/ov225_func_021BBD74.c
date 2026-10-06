@@ -42,7 +42,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *p, void *q, int a, int b, void *c, int d, int e);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_021BBD28(char *p);
+extern void func_021BBD28(u8 *p);
 extern void func_021B9E80(char *p, unsigned id);
 
 void func_021BBD74(char *p)
@@ -57,7 +57,7 @@ void func_021BBD74(char *p)
                   4, 6, r, ((struct Obj26325 *)(*(char * *)&((struct Obj02267 *)p)->f4))->fC, 0x440);
     func_02045808(r);
     ((struct Obj02267 *)p)->f30 = 1;
-    func_021BBD28(p);
+    func_021BBD28((u8 *)p);
     func_021B9E80(((struct Obj02267 *)p)->f4,
                   *(u16 *)(*(char * *)&((struct Obj02267 *)p)->f0 + (((struct Obj02267 *)p)->f8 << 2) + 4));
 }

@@ -10,4 +10,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021BA39C(void){}
+void func_021BA39C(int unused, char *p){}

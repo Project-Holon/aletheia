@@ -27,8 +27,9 @@ typedef unsigned char  u8;
 extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 extern const int d_021C377C[];
 extern void func_021C1C9C(u32 a, int b, u32 p);
-extern void *func_0201EC64(u16);
-extern void func_021C1D1C(char *, int, int);
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void func_021C1D1C(u8 *p, void *a, int heap);
 extern void func_021C208C(char *);
 extern void func_021C2090(char *);
 void func_021C1A58(char *p, int a, int heap)
@@ -37,8 +38,8 @@ void func_021C1A58(char *p, int a, int heap)
     func_02043598(7, 1);
     func_02043598(8, 0);
     ((struct Obj10212 *)p)->f8C8 = func_02051B84((u8 *)d_021C377C, (int)func_021C1C9C, (int)p, heap);
-    ((struct Obj10212 *)p)->f8B0 = func_0201EC64(heap);
-    func_021C1D1C(p, a, heap);
+    ((struct Obj10212 *)p)->f8B0 = func_0201EC64((u16)heap);
+    func_021C1D1C((u8 *)p, (void *)a, heap);
     ((struct Obj10212 *)p)->f8F4 = 1;
     func_021C208C(p);
     func_021C2090(p);

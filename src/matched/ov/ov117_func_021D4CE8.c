@@ -56,13 +56,13 @@ extern void func_021D49C4(void *);
 struct McssFade;
 extern void func_021D49F4(void *obj, void *p);
 extern void func_021D4A48(u8 *p, int idx);
-extern void func_02015F50(struct McssFade *w, u8 cur, u8 target, s32 step, u32 e);
+extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern void func_02015EA0(void *p);
 extern void func_02015EB0(void *p);
 extern void func_02015E4C(void *p);
-extern void func_02015C30(u32, Vec *);
-extern void func_02015C48(u32, Vec *);
-extern void func_02015C94(u32, Vec *);
+extern void func_02015C30(void *p, u32 *out);
+extern void func_02015C48(void *p, u32 *src);
+extern void func_02015C94(void *p, u32 *out);
 extern void func_02015CAC(void *p, u32 *src);
 extern int func_020515CC(int *p, int a, int b, int c);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -70,7 +70,7 @@ extern void func_020307B0(void *p);
 extern void func_021E71F0(void *, int);
 extern void func_021E7208(void *, int);
 extern void func_021DFD24(u32 *p);
-extern u32 func_021DFB84(u32, int, Vec *, u32);
+extern void *func_021DFB84(void *a0, void *a1, void *a2, u32 heapId);
 extern void func_021DFA98(int);
 extern void func_021DFC68(void *p, int a1);
 extern void func_021E3230(void *);
@@ -137,13 +137,13 @@ void func_021D4CE8(u8 *p)
         v.x = -0x32000;
         v.y = -0x1F4000;
         v.z = 0xA000;
-        func_02015C48(OBJ(2), &v);
+        func_02015C48((void *)OBJ(2), (u32 *)(&v));
         v.x = -0x32000;
         v.y = 0x12C000;
         v.z = 0xA000;
         func_021DFD24((u32 *)(((struct Obj00342 *)p)->f85C));
-        ((struct Obj00342 *)p)->f85C = func_021DFB84(OBJ(2), func_021D4480(0x96), &v, HEAP);
-        func_02015C94(OBJ(2), &v);
+        ((struct Obj00342 *)p)->f85C = (unsigned int)func_021DFB84((void *)OBJ(2), (void *)func_021D4480(0x96), &v, HEAP);
+        func_02015C94((void *)OBJ(2), (u32 *)(&v));
         v.x = v.x * 2;
         v.y = v.y * 2;
         func_02015CAC((void *)OBJ(2), (u32 *)(&v));
@@ -153,18 +153,18 @@ void func_021D4CE8(u8 *p)
         v2.x = 0x3C000;
         v2.y = 0x12C000;
         v2.z = -0xA000;
-        func_02015C48(OBJ(3), &v2);
+        func_02015C48((void *)OBJ(3), (u32 *)(&v2));
         v2.x = 0x3C000;
         v2.y = -0x172000;
         v2.z = -0xA000;
         func_021DFD24((u32 *)(((struct Obj00342 *)p)->f860));
-        ((struct Obj00342 *)p)->f860 = func_021DFB84(OBJ(3), func_021D4480(0x96), &v2, HEAP);
+        ((struct Obj00342 *)p)->f860 = (unsigned int)func_021DFB84((void *)OBJ(3), (void *)func_021D4480(0x96), &v2, HEAP);
         func_02015CAC((void *)OBJ(3), (u32 *)((u8 *)WORK + 0x54));
-        func_02015C94(OBJ(3), &v2);
+        func_02015C94((void *)OBJ(3), (u32 *)(&v2));
         *(s32 *)((u8 *)WORK + 0x48) = v2.x;
         *(s32 *)((u8 *)WORK + 0x4C) = v2.y;
         *(s32 *)((u8 *)WORK + 0x50) = v2.z;
-        func_02015C94(OBJ(3), &v3);
+        func_02015C94((void *)OBJ(3), (u32 *)(&v3));
     }
     if (FRAME == func_021D4480(0xFC)) {
     }
@@ -188,8 +188,8 @@ void func_021D4CE8(u8 *p)
     }
     if (func_021D4480(0x267) < FRAME && ((struct Obj00342 *)p)->f11EE != 0 && *(u32 *)&((struct Obj00342 *)p)->f868 != 0
         && *(u32 *)(*(u32 *)&((struct Obj00342 *)p)->f868 + 8) == 9) {
-        func_02015C30(OBJ(1), &v4);
-        func_02015C48(OBJ(3), &v4);
+        func_02015C30((void *)OBJ(1), (u32 *)(&v4));
+        func_02015C48((void *)OBJ(3), (u32 *)(&v4));
         func_02015EB0((void *)OBJ(3));
         func_02015EA0((void *)OBJ(1));
         **(u32 * *)&((struct Obj00342 *)p)->f868 = OBJ(3);

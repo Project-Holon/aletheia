@@ -20,11 +20,12 @@
 typedef unsigned short u16;
 typedef struct { int v[8]; } Table;
 extern const Table d_021C390C;
-extern int func_021BCBD8(char *, int);
+typedef unsigned int   u32;
+extern u32 func_021BCBD8(char *p, int m);
 extern int func_021BDDF4(char *);
 extern void func_021BAAB8(char *, int, int);
-extern void func_021C18C8(char *, int, u16);
-extern void func_021C23C8(void *a, void *b);
+extern void func_021C18C8(char *p, int kind, int value);
+extern int func_021C23C8(void *a, void *b);
 extern void func_021C23D8(char *, int);
 int func_021BDC44(char *p, int v)
 {
@@ -36,7 +37,7 @@ int func_021BDC44(char *p, int v)
         return v;
     }
     t = d_021C390C;
-    func_021C18C8(p, 2, t.v[((struct Obj07953 *)p)->f134E + ((struct Obj07953 *)p)->f134C * 2]);
+    func_021C18C8(p, 2, (u16)t.v[((struct Obj07953 *)p)->f134E + ((struct Obj07953 *)p)->f134C * 2]);
     func_021C23C8(p, (void *)(-1));
     ((struct Obj07953 *)p)->f1CC = 0x9e;
     func_021C23D8(p, 1);

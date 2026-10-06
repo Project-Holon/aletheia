@@ -19,10 +19,11 @@
 
 extern char *func_02094A28(const char *s, int c);
 extern int func_02168454(const char *key, const char *value, char *string, char sep);
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 
 int func_0216848C(const char *key, const char *value, char *string, char sep)
 {
     func_02168454(key, value, func_02094A28(string, 0), sep);
-    return func_0209477C(string);
+    return func_0209477C((const u8 *)string);
 }

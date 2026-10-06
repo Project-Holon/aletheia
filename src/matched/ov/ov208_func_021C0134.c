@@ -64,7 +64,9 @@ extern const Row7 data_021C8558;
 extern const Row7 data_021C8560;
 extern const Row7 data_021C8568;
 
-extern void *func_0204B034(const BankDesc *desc, unsigned int a1, unsigned int heap);
+struct Obj;
+struct Vec2;
+extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 struct Actor;
 struct Bank;
 struct Node;
@@ -87,7 +89,7 @@ extern void func_0204B84C(u32 obj, int v);
 extern void func_0204B800(struct Node *node, u32 val);
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B404(u32 obj, Pt *pos, int n);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define WP(o) (*(void **)(p + (o)))
@@ -103,7 +105,7 @@ void func_021C0134(u16 *heap, u8 *p, int key)
     u8 i;
 
     desc = data_021C8580;
-    WP(0x1d4) = func_0204B034(&desc, 1, *heap);
+    WP(0x1d4) = func_0204B034((u8 *)(&desc), 1, *heap);
     W(0x1d0) = (u32)func_0204B100(0x10, 0, *heap);
     func_0204B258((struct Bank *)W(0x1d0), WP(0x1d4));
 
@@ -147,7 +149,7 @@ void func_021C0134(u16 *heap, u8 *p, int key)
     pt.x = 0x80;
     pt.y = 0x60;
     for (i = 0; i < 4; i++)
-        func_0204B404(OBJ(i), &pt, 0);
+        func_0204B404((struct Obj *)OBJ(i), (const struct Vec2 *)(&pt), 0);
 
     p[0xd8] = 7;
 }

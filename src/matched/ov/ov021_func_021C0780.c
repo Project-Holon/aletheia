@@ -35,7 +35,7 @@ extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 extern void func_0200FBA0(void);
 struct IcaAnime;
-extern void func_02012124(struct Ctx *p, u8 v);
+extern void func_02012124(struct Ctx *p, u32 v);
 extern u32 func_020121CC(struct IcaAnime *p);
 extern u32 func_02026474(void *obj);
 extern u32 func_02026454(void *obj);

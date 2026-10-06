@@ -37,7 +37,8 @@ struct Sub02008F80Obj;
 extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
-extern void func_02045924(void *, void *);
+struct Strbuf;
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern u8 func_02008F9C(const struct Sub02008F80Obj *obj);
@@ -62,7 +63,7 @@ void func_021C6028(u8 *p, u32 a1, int idx, int sel)
 
     func_02043B5C(b0, 4);
     func_02043B5C(b1, 4);
-    func_02045924(((struct Obj23549 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1D8, func_02008F84(mon));
+    func_02045924(((struct Obj23549 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1D8, (const u16 *)func_02008F84(mon));
     for (i = 0; i < 8; i++) {
         func_020439A0(func_02045770(win), b0, 0, 0, i * 8, 0, 8, 8, 0xFFFF);
         func_020439A0(func_02045770(win), b1, 0, 0, i * 8, 8, 8, 8, 0xFFFF);

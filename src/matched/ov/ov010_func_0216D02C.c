@@ -14,9 +14,9 @@
  */
 #include "../include/Obj19118.h"
 typedef unsigned char u8;
-extern void func_0216D0F8(int, u8 *);
-extern void func_021642F8(int);
+extern void func_0216D0F8(void *obj, const u8 *a1);
+extern void func_021642F8(void *a0);
 void func_0216D02C(int a, u8 *p) {
-    if (((struct Obj19118 *)p)->f18 == 0) func_0216D0F8(a, p);
-    else func_021642F8(a);
+    if (((struct Obj19118 *)p)->f18 == 0) func_0216D0F8((void *)a, p);
+    else func_021642F8((void *)a);
 }

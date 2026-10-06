@@ -22,7 +22,8 @@ extern int func_021BA928(char *p, int result);
 extern u32 func_020362DC(void);
 extern void func_021BA8EC(char *p);
 extern int func_021BCBBC(int a, int b, int *out);
-extern void func_021BBEB4(char *p, int a, u8 b, int c);
+struct O;
+extern void func_021BBEB4(struct O *p, int mask, u32 a, int mode);
 int func_021BD500(char *p, int result)
 {
     int out;
@@ -30,7 +31,7 @@ int func_021BD500(char *p, int result)
     if (func_020362DC() != 0) {
         func_021BA8EC(p);
         func_021BCBBC(((struct Obj07949 *)p)->f1348, ((struct Obj07949 *)p)->fCC, &out);
-        func_021BBEB4(p, out, ((struct Obj22037 *)(*(u8 * *)&((struct Obj07949 *)p)->f248))->f48, 3);
+        func_021BBEB4((struct O *)p, out, ((struct Obj22037 *)(*(u8 * *)&((struct Obj07949 *)p)->f248))->f48, 3);
         ((struct Obj07949 *)p)->f1CC = 0x6d;
     }
     return result;

@@ -50,10 +50,11 @@ struct Sio {
     u8 unk75;
 };
 
-extern struct Sio *func_02035224(void);
-extern struct Sio *func_02035750(struct Sio *p);
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
+extern int func_02035750(void);
 extern void func_0208AC0C(u32 a, u32 b, void *c, u32 d);
-extern void func_0208AD14(u32 h);
+extern void func_0208AD14(void);
 extern void func_0208B220(u32 slot);
 extern u32 func_0208B238(u32 slot);
 
@@ -67,7 +68,7 @@ u32 sub_02035D5C(struct Sio *p)
     if (p->unk58 == 0) {
         return 1;
     }
-    func_0208AD14(p->unk58);
+    func_0208AD14();
     func_0208B220(4);
     if (func_0208B238(4) != 0) {
         return 2;
@@ -77,7 +78,7 @@ u32 sub_02035D5C(struct Sio *p)
 
 void sub_02035D98(struct Sio *p)
 {
-    struct Sio *sio = func_02035750(p);
+    struct Sio *sio = (struct Sio *)func_02035750();
 
     if (sio != 0 && sio->unk5a != 0 && sio->unk58 != 0) {
         sub_02035E18(sio);
@@ -87,12 +88,12 @@ void sub_02035D98(struct Sio *p)
 
 void sub_02035DC8(void)
 {
-    sub_02035D98(func_02035224());
+    sub_02035D98((struct Sio *)func_02035224());
 }
 
 void sub_02035DD8(struct Sio *p)
 {
-    struct Sio *sio = func_02035750(p);
+    struct Sio *sio = (struct Sio *)func_02035750();
 
     if (sio != 0 && sio->unk5a != 1 && sio->unk58 != 0) {
         sub_02035D5C(sio);
@@ -102,7 +103,7 @@ void sub_02035DD8(struct Sio *p)
 
 void sub_02035E08(void)
 {
-    sub_02035DD8(func_02035224());
+    sub_02035DD8((struct Sio *)func_02035224());
 }
 
 u32 sub_02035E18(struct Sio *p)

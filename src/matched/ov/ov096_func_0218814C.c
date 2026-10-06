@@ -30,7 +30,8 @@ extern u8 *func_0218A2FC(u8 *, u8);
 extern void func_0218A310(unsigned int a);
 extern void func_0218A324(u8 *);
 extern void func_021885BC(int, u8 *);
-extern u8 func_021D5448(u8 *);
+struct QG;
+extern u8 func_021D5448(struct QG *p);
 extern u64 func_020870D0(void);
 extern u32 func_0203F0A8(void);
 inline static u32 draw_below(u32 n) { u64 random=func_0203F0A8(); if(n!=0) random=(random*n)>>32; return random; }
@@ -79,7 +80,7 @@ int func_0218814C(int a, Obj *b)
         scores[0] = b->scores[0];
         ids[0] = 0;
         for (i = 1; i < 4; i++) {
-            if (i < func_021D5448(b->fbc)) {
+            if (i < func_021D5448((struct QG *)b->fbc)) {
                 v = b->scores[i];
                 if (scores[0] == v) {
                     scores[n] = v;

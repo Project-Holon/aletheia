@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021BBB3C(char *, int, int);
 extern const u16 d_021C8670[];
-void func_021C0048(void *unused, char *p)
+void func_021C0048(u16 *unused, char *p, int a2)
 {
     u8 i;
     for (i = 0; i < 61; i++) {

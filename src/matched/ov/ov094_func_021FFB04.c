@@ -51,17 +51,17 @@ typedef struct {
 extern const char d_0220AE7C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
-extern void func_02015C30(void *p, int *out);
+extern void func_02015C30(void *p, u32 *out);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern int func_021F935C(int x);
 extern void func_022010D0(void *task, char *q);
 extern void func_022011FC(void *p);
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 
 void func_021FFB04(Work *w, Obj *s)
 {
     Obj *o = sub_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x2c, 0, d_0220AE7C, 0x660);
-    int idx = func_022019F4(w, s->key);
+    int idx = func_022019F4((char *)w, s->key);
 
     if (idx == -1)
         return;
@@ -69,7 +69,7 @@ void func_021FFB04(Work *w, Obj *s)
         return;
     *o = *s;
     o->w = w;
-    func_02015C30(w->e[idx].h, o->v);
+    func_02015C30(w->e[idx].h, (u32 *)o->v);
     w->cnt[0][o->key]++;
     o->f28 = w->cnt[0][o->key];
     func_021F896C(func_02030DA8(w->owner, (void *)func_022010D0, o, 0), func_022011FC, 2);

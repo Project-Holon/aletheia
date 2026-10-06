@@ -21,7 +21,7 @@ extern int func_0215A61C(int a0);
 extern void func_021B0B08(void *a, int b);
 extern u32 func_02191388(u32 *a);
 
-int func_021B0CEC(u32 a, u32 b)
+int func_021B0CEC(int a, int b)
 {
     u32 t;
 

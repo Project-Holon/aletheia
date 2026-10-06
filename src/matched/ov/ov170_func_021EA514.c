@@ -30,11 +30,11 @@ typedef struct {
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
-extern void func_021ED6E4(Obj *p, int v);
+extern void func_021ED6E4(char **p, int v);
 extern int func_021EA4DC(Obj *p);
-extern int func_021DDE80(Obj *p, unsigned a, unsigned b);
-extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
-extern int func_021E1458(Obj *p);
+extern int func_021DDE80(unsigned char *p, unsigned a, unsigned b);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E1458(char *p);
 
 #define SEL(p) (*(unsigned char *)((p)->work + 0xA17E))
 
@@ -45,10 +45,10 @@ int func_021EA514(Obj *p, unsigned i)
     p->b18 = 0;
     func_021EC0B0(p->work, 4, &t[1], &t[0], 0);
     func_021EC08C(p->work, 10, t[1], t[0] + 8, 0);
-    func_021ED6E4(p, 0);
+    func_021ED6E4((char **)p, 0);
     if (SEL(p) == 0xFF)
         return func_021EA4DC(p);
-    if (func_021DDE80(p, p->b16, i) == 0)
+    if (func_021DDE80((unsigned char *)p, p->b16, i) == 0)
         return func_021EA4DC(p);
-    return func_021E8FC0(p, func_021E1458, 0x45);
+    return func_021E8FC0((char *)p, (int)func_021E1458, 0x45);
 }

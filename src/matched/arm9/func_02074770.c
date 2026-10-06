@@ -62,8 +62,9 @@ struct Node {
 
 struct Obj { u32 f00; u8 list[4]; };
 
-extern void *func_0206062C(void *list, void *cur);
-extern void  func_020605B4(void *list, void *node);
+struct DList;
+extern void *func_0206062C(struct DList *list, void *elem);
+extern void func_020605B4(volatile struct DList *list, void *elem);
 struct Table;
 extern void func_02061158(void *p, int flags);
 extern void  func_02074A34(void);
@@ -76,7 +77,7 @@ void func_02074770(struct Obj *o)
     struct Node *n;
 
     any = 0;
-    a = func_0206062C(o->list, 0);
+    a = func_0206062C((struct DList *)o->list, 0);
     while (a != 0) {
         n = (struct Node *)func_0206062C(a, 0);
         while (n != 0) {
@@ -86,8 +87,8 @@ void func_02074770(struct Obj *o)
             }
             n = (struct Node *)func_0206062C(a, n);
         }
-        func_020605B4(o->list, a);
-        a = func_0206062C(o->list, 0);
+        func_020605B4((volatile struct DList *)o->list, a);
+        a = func_0206062C((struct DList *)o->list, 0);
     }
 
     func_02061158((void *)o->f00, 3);

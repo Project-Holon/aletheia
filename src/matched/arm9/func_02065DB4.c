@@ -107,11 +107,14 @@ extern void func_02066E10(fx32 step);   /* NNSi_G2dSetOamSoftEmuAutoZOffsetStep 
 extern void func_02066DFC(void);        /* NNSi_G2dResetOamSoftEmuAutoZOffset */
 extern void func_0206615C(void);        /* NNS_G2dPushMtx */
 extern void func_02066380(int n);            /* NNS_G2dPopMtx */
-extern BOOL func_02067B50(const void *pRnd);   /* NNS_G2dIsRndCoreFlipH */
-extern BOOL func_02067B64(const void *pRnd);   /* NNS_G2dIsRndCoreFlipV */
+struct Cmd020659D4;
+struct G2dOamState;
+struct Obj02065878;
+extern u32 func_02067B50(const struct G2dOamState *p);   /* NNS_G2dIsRndCoreFlipH */
+extern u32 func_02067B64(const struct G2dOamState *p);   /* NNS_G2dIsRndCoreFlipV */
 extern void func_020663D0(fx32 x, fx32 y, fx32 z);    /* NNS_G2dTranslate */
-extern void func_02065878(const NNSG2dCellAnimation *pCellAnim);   /* DrawCellAnimationImpl_ */
-extern void func_020659D4(const NNSG2dNode *pNode);   /* DrawNode_ */
+extern void func_02065878(struct Obj02065878 *c);   /* DrawCellAnimationImpl_ */
+extern void func_020659D4(struct Cmd020659D4 *c);   /* DrawNode_ */
 
 static inline u16 NNSi_G2dGetMC2NodeCellAinmIdx(const NNSG2dMultiCellHierarchyData *pNodeData)
 {
@@ -120,8 +123,8 @@ static inline u16 NNSi_G2dGetMC2NodeCellAinmIdx(const NNSG2dMultiCellHierarchyDa
 
 static inline void FlipTranslate_(int x, int y)
 {
-    const int x_ = func_02067B50(&g_02147B88.pCurrentInstance_->rendererCore) ? -x : x;
-    const int y_ = func_02067B64(&g_02147B88.pCurrentInstance_->rendererCore) ? -y : y;
+    const int x_ = func_02067B50((const struct G2dOamState *)(&g_02147B88.pCurrentInstance_->rendererCore)) ? -x : x;
+    const int y_ = func_02067B64((const struct G2dOamState *)(&g_02147B88.pCurrentInstance_->rendererCore)) ? -y : y;
 
     func_020663D0(x_ << 12, y_ << 12, 0);
 }
@@ -135,7 +138,7 @@ static inline void DrawNode2_(const NNSG2dMultiCellInstance *pMC, const NNSG2dMu
     func_0206615C();
     FlipTranslate_(pNodeData->posX, pNodeData->posY);
     {
-        func_02065878(&cellAnimArray[cellAnimIdx].cellAnim);
+        func_02065878((struct Obj02065878 *)(&cellAnimArray[cellAnimIdx].cellAnim));
     }
     func_02066380(1);
 }
@@ -184,7 +187,7 @@ void func_02065DB4(const NNSG2dMultiCellInstance *pMC)
             func_02066E10(g_02147B88.pCurrentInstance_->spriteZoffsetStep);
 
             for (i = 0; i < pMC->pCurrentMultiCell->numNodes; i++) {
-                func_020659D4(&pNode[i]);
+                func_020659D4((struct Cmd020659D4 *)(&pNode[i]));
             }
 
             func_02066DEC(0);
@@ -192,7 +195,7 @@ void func_02065DB4(const NNSG2dMultiCellInstance *pMC)
             func_02066DFC();
         } else {
             for (i = 0; i < pMC->pCurrentMultiCell->numNodes; i++) {
-                func_020659D4(&pNode[i]);
+                func_020659D4((struct Cmd020659D4 *)(&pNode[i]));
             }
         }
     }

@@ -21,7 +21,7 @@
  *   func_0201D83C 0x0201D83C thumb
  */
 extern int func_021BB3AC(int *);
-extern void func_021BAEE0(int *);
+extern void func_021BAEE0(char *p);
 extern void func_021BAB74(int *);
 extern void func_021B9848(int *);
 extern void func_021BC498(unsigned *);
@@ -33,7 +33,7 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
 int func_021BC30C(int *p)
 {
-    func_021BB3AC(p); func_021BAEE0(p); func_021BAB74(p); func_021B9848(p);
+    func_021BB3AC(p); func_021BAEE0((char *)p); func_021BAB74(p); func_021B9848(p);
     func_02030EAC((void *)p[8]); func_0201C6EC((struct PrintSys *)p[7]); func_0201C4C0((struct PrintSys *)p[7]);
     func_0201D83C((void *)p[6]); func_021BC498((unsigned *)p[5]);
     return 13;

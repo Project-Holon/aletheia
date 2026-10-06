@@ -36,7 +36,7 @@ void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
     func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }
 
-unsigned int func_021BF77C(char *p, unsigned int i)
+unsigned int func_021BF77C(char *p, u8 i)
 {
     return *(unsigned int *)(p + i * 12 + 12);
 }

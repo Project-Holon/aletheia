@@ -32,7 +32,7 @@ struct H {
     int f8;
 };
 
-extern void func_021EEE80(int a, u16 b, int *c);
+extern void func_021EEE80(u32 a, u16 k, u32 *p);
 extern void func_021EEEF4(u32 a, u32 b, u32 c);
 extern void func_021EF694(u32 a, u32 b);
 extern void func_021EF6A8(u32 a, u32 b, u32 c);
@@ -44,7 +44,7 @@ void func_021EA55C(struct H *p, int a)
 {
     switch (p->op) {
     case 1:
-        func_021EEE80(a, p->h0, &p->f4);
+        func_021EEE80(a, p->h0, (u32 *)(&p->f4));
         break;
     case 2:
         func_021EEEF4(a, p->h0, (u32)(&p->f4));

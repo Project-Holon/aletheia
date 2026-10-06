@@ -59,7 +59,8 @@ extern u32   func_020056EC(u32 x);
 extern u32   func_02007B50(void *p);
 struct PerapVoice;
 extern u8 *func_02007B64(struct PerapVoice *p);
-extern u32   func_02007B68(void *p, void *q);
+typedef signed char    s8;
+extern void func_02007B68(s8 *dest, const s8 *src);
 extern void  func_02048F4C(void *dst, u32 archive_id, u32 member);
 
 u32 func_02006C2C(u32 species, u32 form, void **rec, void **owner,
@@ -73,7 +74,7 @@ u32 func_02006C2C(u32 species, u32 form, void **rec, void **owner,
         return 0;
     }
     if (species == 441 && form == 0 && func_02007B50(rec[0]) == 1) {
-        func_02007B68(owner[0], func_02007B64(rec[0]));
+        func_02007B68(owner[0], (const s8 *)func_02007B64(rec[0]));
         *rate1 = 0x1FF4;
         *rate2 = 0x1FF4;
         *cryPitch = 0x78;

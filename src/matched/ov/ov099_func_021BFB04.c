@@ -38,10 +38,11 @@ extern void func_021BE900(char *);
 extern int func_02156A3C(void);
 extern void func_021BAAB8(char *, int, int);
 extern int func_021BA928(char *);
-extern int func_020362DC(void);
+typedef unsigned int   u32;
+extern u32 func_020362DC(void);
 extern void func_021BA8EC(char *);
 extern void func_021BAADC(char *, int, int);
-extern void func_021C18C8(char *, int, unsigned);
+extern void func_021C18C8(char *p, int kind, int value);
 extern void func_021C24A4(char *, int);
 extern int func_021BFB90(char *, int);
 int func_021BFB04(char *p, int ret)

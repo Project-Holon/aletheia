@@ -23,8 +23,9 @@ typedef struct {
     u16 h42;
 } Obj;
 
-extern int func_021BD0C0(Obj *p);
-extern void func_021BCEB4(Obj *p);
+typedef unsigned char  u8;
+extern u8 func_021BD0C0(u8 *p);
+extern void func_021BCEB4(char *p);
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_021BD0D0(Obj *p);
@@ -32,9 +33,9 @@ extern void func_021BCB9C(void *p, int keep);
 
 void func_021BCD34(Obj *p)
 {
-    switch (func_021BD0C0(p)) {
+    switch (func_021BD0C0((u8 *)p)) {
     case 0:
-        func_021BCEB4(p);
+        func_021BCEB4((char *)p);
         func_02040588(3, 1);
         func_021BD0D0(p);
         break;

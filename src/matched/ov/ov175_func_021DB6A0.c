@@ -17,7 +17,7 @@
 
 extern void DWC_GdbShutdown(void);
 
-void func_021DB6A0(void)
+void func_021DB6A0(char *obj)
 {
     DWC_GdbShutdown();
 }

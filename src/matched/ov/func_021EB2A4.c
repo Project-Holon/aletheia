@@ -33,7 +33,7 @@ extern void func_021EB098(char *p, unsigned char *e, int i);
 extern void func_021EB114(char *p, unsigned char *e, int i);
 extern void func_021EB190(char *p, unsigned char *e, int i);
 extern void func_021EB208(void *q, int a, int i);
-extern void func_021EABA0(void *q);
+extern void func_021EABA0(void **p);
 
 void func_021EB2A4(u8 *p, int a)
 {
@@ -46,8 +46,8 @@ void func_021EB2A4(u8 *p, int a)
     func_021EB114(((struct Obj00000 *)p)->f2C, (unsigned char *)a, 7);
     func_021EB190(((struct Obj00000 *)p)->f2C, (unsigned char *)a, 8);
     func_021EB208(((struct Obj00000 *)p)->f2C, a, 9);
-    func_021EABA0((u8 *)((struct Obj00000 *)p)->f2C + 0xe4);
-    func_021EABA0((u8 *)((struct Obj00000 *)p)->f2C + 0xec);
-    func_021EABA0((u8 *)((struct Obj00000 *)p)->f2C + 0xf4);
-    func_021EABA0((u8 *)((struct Obj00000 *)p)->f2C + 0xfc);
+    func_021EABA0((void **)((u8 *)((struct Obj00000 *)p)->f2C + 0xe4));
+    func_021EABA0((void **)((u8 *)((struct Obj00000 *)p)->f2C + 0xec));
+    func_021EABA0((void **)((u8 *)((struct Obj00000 *)p)->f2C + 0xf4));
+    func_021EABA0((void **)((u8 *)((struct Obj00000 *)p)->f2C + 0xfc));
 }

@@ -35,10 +35,10 @@ typedef struct {
 struct McssFade;
 extern void func_02015FBC(char *p, int v);
 extern void func_02015EB0(void *);
-extern void func_02015C48(void *, Vec *);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_02015E04(void *);
-extern void func_02015CAC(void *, void *);
-extern void func_02015F50(struct McssFade *w, u8 cur, u8 target, s32 step, u32 e);
+extern void func_02015CAC(void *p, u32 *src);
+extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 
 void func_021D49F4(void *obj, void *p)
 {
@@ -48,8 +48,8 @@ void func_021D49F4(void *obj, void *p)
     v.x = 0;
     v.y = -0x17000;
     v.z = 0xa000;
-    func_02015C48(obj, &v);
+    func_02015C48(obj, (u32 *)(&v));
     func_02015E04(obj);
-    func_02015CAC(obj, (char *)((struct Obj22645 *)p)->fC + 0x48);
+    func_02015CAC(obj, (u32 *)((char *)((struct Obj22645 *)p)->fC + 0x48));
     func_02015F50(obj, 0x10, 0x10, 0, 0x7fff);
 }

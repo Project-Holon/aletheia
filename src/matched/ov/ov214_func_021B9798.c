@@ -28,12 +28,13 @@
 #include "../include/Obj00636.h"
 struct Rec;
 extern const char ov067_id[];
-extern void func_021BAF30(int unused,char *p);
+typedef unsigned char  u8;
+extern void func_021BAF30(int unused, u8 *p);
 extern void func_021BA43C(int unused,char *p);
 extern void func_021BA39C(int unused,char *p);
 extern void func_021BA018(int unused,char *p);
 extern void func_021BAE10(int unused,char *p);
-extern void func_021BAC3C(int unused,char *p);
+extern void func_021BAC3C(int unused, u8 *p);
 extern void func_02045C04(struct Rec *p);
 struct Node;
 struct PrintSys;
@@ -48,12 +49,12 @@ extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int handle);
 int func_021B9798(void *owner,int unused,int state,char *p)
 {
-    func_021BAF30(state,p);
+    func_021BAF30(state,(u8 *)p);
     func_021BA43C(state,p);
     func_021BA39C(state,p);
     func_021BA018(state,p);
     func_021BAE10(state,p);
-    func_021BAC3C(state,p);
+    func_021BAC3C(state,(u8 *)p);
     func_02045C04(*(struct Rec * *)&((struct Obj00636 *)p)->f58);
     func_02030EAC((struct Node *)(((struct Obj00636 *)p)->f4C));
     func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->f18));

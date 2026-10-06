@@ -21,13 +21,14 @@ typedef struct {
     int e0;
 } Unit;
 
-extern Unit *func_02011324(int a);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 extern int func_021F7F1C(int i);
 extern int func_021FD070(int a, int b);
 
 int func_021FCF2C(int a, int idx)
 {
-    Unit *s = func_02011324(a);
+    Unit *s = func_02011324((struct ScriptVm *)a);
     int v;
 
     switch (idx) {

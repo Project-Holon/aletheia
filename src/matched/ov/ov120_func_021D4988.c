@@ -47,7 +47,7 @@ extern int func_0203C3EC(void);
 extern void func_0203D7B0(int);
 extern void func_0203D7BC(int);
 extern void func_021D7B38(char *p);
-extern void func_021D7A74(int, int);
+extern void func_021D7A74(u8 *p, int n);
 extern void func_021D8648(int);
 
 void func_021D4988(int a)
@@ -71,7 +71,7 @@ void func_021D4988(int a)
         func_0203D7BC(1);
     }
     func_021D7B38((char *)(((struct Obj05343 *)a)->f40));
-    func_021D7A74(((struct Obj05343 *)a)->f40, 0x10);
+    func_021D7A74((u8 *)(((struct Obj05343 *)a)->f40), 0x10);
     ((struct Obj05343 *)a)->f14 = 0xb4;
     func_021D8648(((struct Obj05343 *)a)->f40);
     func_021D4244(a, 0x021D4931, 0x377);

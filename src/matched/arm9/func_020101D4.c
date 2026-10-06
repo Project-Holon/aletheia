@@ -77,7 +77,7 @@ extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *p);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_020437AC(struct Obj020437AC *p);
-extern u32  sub_02010158(void *p, u32 a);
+extern u32 sub_02010158(u8 *obj, u32 a);
 
 void func_020101D4(u32 a0, u32 a1)
 {

@@ -19,7 +19,8 @@ struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_021BB534(char *,int,int,int);
 extern void func_021BB79C(char *,int,int,int,int);
-extern void func_021BB980(char *);
+struct State;
+extern void func_021BB980(struct State *p);
 void func_021BB4E0(char *p,int mode,int which)
 {
     int mon=((struct Obj25405 *)p)->f26C;
@@ -28,5 +29,5 @@ void func_021BB4E0(char *p,int mode,int which)
     if(first==second) second=17;
     if(mode==6) func_021BB534(p,first,second,which);
     else func_021BB79C(p,first,second,mode,which);
-    func_021BB980(p);
+    func_021BB980((struct State *)p);
 }

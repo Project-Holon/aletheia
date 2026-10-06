@@ -36,9 +36,9 @@ extern u32 func_0200FB24(void);
 extern u32 func_0203D378(void);
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(struct Entry *,u16,u16,u32);
-extern void func_02012124(struct Ctx *,u8);
+extern void func_02012124(struct Ctx *p, u32 v);
 extern void func_021FCDEC(int,int);
-extern int func_021FCE00(void *,int);
+extern int func_021FCE00(char *p, int id);
 int func_021FC6EC(int *state,u8 *p)
 {
  switch(*state) {
@@ -49,7 +49,7 @@ int func_021FC6EC(int *state,u8 *p)
   else *state=2;
   break;
  case 1:
-  if(func_021FCE00(p,0x41)==1) *state=2;
+  if(func_021FCE00((char *)p,0x41)==1) *state=2;
   if(func_0203D1B4()<=1 || func_0200FB24()!=0) *state=10;
   break;
  case 2:

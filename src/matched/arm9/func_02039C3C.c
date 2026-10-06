@@ -42,13 +42,14 @@ struct Rec {
     u8  remote;
 };
 
-extern int func_020395EC(struct Rec *p);
+struct Entry;
+extern int func_020395EC(struct Entry *a);
 
 void func_02039C3C(struct Rec *p, u16 tag)
 {
     p->tag = tag;
     p->slot = 0xff;
-    if (func_020395EC(p) == 0xff) {
+    if (func_020395EC((struct Entry *)p) == 0xff) {
         p->remote = 0;
     } else {
         p->remote = 1;

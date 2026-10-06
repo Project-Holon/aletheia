@@ -59,7 +59,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0203F1FC(const void *src, u32 size);
+extern int func_0203F1FC(const u8 *src, u32 len);
 
 struct QRec {
     u16 unk00[0x0C];
@@ -145,7 +145,7 @@ u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
         r = &p->unkC4;
         func_0200B7D8(h, q, r, c, d);
         q->unk28 = 0xE281;
-        q->unk40 = func_0203F1FC(q, 0x38);
+        q->unk40 = func_0203F1FC((const u8 *)q, 0x38);
         r->unk17D8 = 0xE281;
         func_0200BA44(r);
         v = r->unk17DC;

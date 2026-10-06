@@ -24,9 +24,9 @@ extern void func_021E9964(u32);
 extern int func_021E9974(u32);
 extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
 extern u32 func_021CF470(u8 *, void *, u8 *);
-extern void func_021D8434(u8 *);
+extern void func_021D8434(u32 *p);
 extern void func_021CE150(u8 *p, void *q);
-extern void func_021CE4D0(void);
+extern int func_021CE4D0(u8 *p, u32 *st);
 typedef signed int     s32;
 extern u32 func_021CF2F0(u8 *p, s32 *st);
 u32 func_021CF220(u8 *p, int *st)
@@ -49,7 +49,7 @@ u32 func_021CF220(u8 *p, int *st)
                 while (p[0x11d] < p[0x11c]) {
                     q = func_021B990C((char *)(((struct Obj00888 *)p)->f4), p[0x1a6], p[0x11d]);
                     if (!func_021CF470(p, q, p + 0x124 + p[0x11d] * 4))
-                        func_021D8434(p + 0x124 + p[0x11d] * 4);
+                        func_021D8434((u32 *)(p + 0x124 + p[0x11d] * 4));
                     ++p[0x11d];
                 }
             }

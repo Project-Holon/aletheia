@@ -19,7 +19,7 @@ typedef unsigned int  u32;
 
 struct Obj;
 extern void func_0200A49C(struct Obj *p);
-extern u32  func_02009F50(u8 *p, u32 a);
+extern int func_02009F50(char *p, unsigned int idx);
 extern void func_0200A480(struct Obj *p);
 
 u32 func_0200A0E4(u8 *p, u32 a)
@@ -27,7 +27,7 @@ u32 func_0200A0E4(u8 *p, u32 a)
     u32 r;
 
     func_0200A49C((struct Obj *)p);
-    r = func_02009F50(p, a);
+    r = func_02009F50((char *)p, a);
     func_0200A480((struct Obj *)p);
     return r;
 }

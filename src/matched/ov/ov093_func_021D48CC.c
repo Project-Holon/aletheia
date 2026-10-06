@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *d_021F3B88;
 extern u8 func_021D4394(u32);
-void *func_021D48CC(u32 a)
+void *func_021D48CC(u8 a)
 {
     int i = func_021D4394(a);
     void *p;

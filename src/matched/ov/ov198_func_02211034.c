@@ -33,7 +33,7 @@ void func_02211034(u8 *p)
         *(u16 *)(p+i*4+0x249E)=255;
     }
 }
-void func_022110A4(u8 *p,unsigned a,unsigned b)
+void func_022110A4(u8 *p, int a, int b)
 {
     u8 *q=p+0x1CC;
     u8 t=q[a];

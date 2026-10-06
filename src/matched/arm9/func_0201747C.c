@@ -81,8 +81,9 @@ typedef unsigned int   u32;
  * ldm/stm step and 0x11 trip count are what the copy loop below proves */
 struct Mon { u32 w[0x22]; };
 
-extern u32   func_02017DBC(void *p);
-extern u32   func_02017DE4(void *p, u32 f);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32   func_02017E88(void *p, u32 id, u32 v);
 extern void  func_02017E40(void *p, u32 id, u32 v);
 extern void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
@@ -92,14 +93,14 @@ extern void  func_020185C4(void *p);
 
 void *func_0201747C(struct Mon *p, u32 heap)
 {
-    u32 t = func_02017DBC(p);
+    u32 t = func_02017DBC((struct Sav *)p);
     u16 species = (u16)func_02017E88(p, 5, 0);
     u16 level = (u16)func_02017E88(p, 0x9e, 0);
     u32 otId = func_02017E88(p, 7, 0);
     void *q = func_020173F0(species, level, otId, 0, heap);
     void *m;
 
-    func_02017DE4(p, t);
+    func_02017DE4((struct Sav *)p, t);
 
     *(struct Mon *)q = *p;
 

@@ -40,17 +40,18 @@ extern int func_0216D7F8(void *p);
 extern int func_0216D83C(void *p);
 extern int func_0216D86C(void *p);
 extern u16 func_0216D608(void *p);
-extern u32 func_021642A4(u16);
+typedef signed char    s8;
+extern u16 func_021642A4(int i);
 extern void func_0216D600(u32, u16);
 extern int func_0219B358(u32);
-extern void func_0216D5E0(u32, u16);
+extern void func_0216D5E0(int a0, int a1);
 extern int func_021639C0(u32, u16);
 extern int func_0219B334(u32);
 extern int func_0219B060(void);
 extern int func_02164168(int a);
-extern u32 func_02197E7C(u16, u16);
-extern void func_0216D438(u32, u16);
-extern void func_0219B390(u32, u8 *);
+extern int func_02197E7C(int a, int b);
+extern void func_0216D438(int a0, int a1);
+extern void func_0219B390(int a, s8 *b);
 extern void func_0216DA44(u32);
 
 int func_0219A900(u32 a, u8 *b)
@@ -72,10 +73,10 @@ int func_0219A900(u32 a, u8 *b)
         tx = func_0216D83C((void *)a);
         ty = func_0216D86C((void *)a);
         if (x == tx && y == ty) {
-            u = func_021642A4(func_0216D608((void *)a));
+            u = (u32)func_021642A4((u16)func_0216D608((void *)a));
             func_0216D600(a, u);
             if (func_0219B358(a) == 0)
-                func_0216D5E0(a, u);
+                func_0216D5E0((u32)a, (u16)u);
             b[1] = 0;
         }
     }
@@ -83,7 +84,7 @@ int func_0219A900(u32 a, u8 *b)
     r = func_021639C0(a, d);
     if (r & 1) {
         b[1] = 1;
-        d = func_021642A4(d);
+        d = (u32)func_021642A4((u16)d);
         r = func_021639C0(a, d);
     }
     k = 12;
@@ -91,9 +92,9 @@ int func_0219A900(u32 a, u8 *b)
         k = 16;
     if (r != 0)
         k = 32;
-    func_0216D438(a, func_02197E7C(d, k));
+    func_0216D438((u32)a, (u16)((u32)func_02197E7C((u16)d, (u16)k)));
     if (func_0219B358(a) == 1)
-        func_0219B390(a, b + 4);
+        func_0219B390((u32)a, (s8 *)(b + 4));
     func_0216DA44(a);
     b[0] = 2;
     return 1;

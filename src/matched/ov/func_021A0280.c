@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A0280(u32 a, u32 b, u32 c)
+int func_021A0280(u32 a)
 {
 if (((struct Obj07213 *)((u8 *)(a)))->f0 < ((struct Obj07213 *)((u8 *)(a)))->f2) {
     ((struct Obj07213 *)((u8 *)(a)))->f0 = (((struct Obj07213 *)((u8 *)(a)))->f0 + 1);

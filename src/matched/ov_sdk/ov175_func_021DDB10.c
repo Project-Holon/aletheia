@@ -17,7 +17,8 @@
  * back empty, tear the object down and report 0.
  */
 
-extern int func_021DD98C(void);
+struct SAKERequestInternal;
+extern int func_021DD98C(struct SAKERequestInternal *request);
 struct SAKERequestInternal;
 extern void func_021DDA98(struct SAKERequestInternal *request);
 
@@ -26,7 +27,7 @@ int func_021DDB10(void *p, int v)
     int r;
 
     *(int *)((char *)p + 0x20) = v;
-    r = func_021DD98C();
+    r = func_021DD98C(p);
     if (r)
         return r;
     func_021DDA98(p);

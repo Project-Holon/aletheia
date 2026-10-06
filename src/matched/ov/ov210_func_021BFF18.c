@@ -14,14 +14,14 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_02025D14(int h);
+extern void func_02025D14(void);
 
 void func_021BFF18(int p)
 {
     int *q = (int *)p;
 
     if (q[0xac] != 0) {
-        func_02025D14(q[0xac]);
+        func_02025D14();
         q[0xac] = 0;
     }
 }

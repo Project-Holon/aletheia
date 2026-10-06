@@ -16,7 +16,7 @@ struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 typedef unsigned int   u32;
 extern u32 func_02026454(void *obj);
-extern void func_021D4244(char *, void *, int);
+extern void func_021D4244(void *p, u32 a, int a2);
 void func_021D4B30(char *p)
 {
     if (func_020221A4(p)) {

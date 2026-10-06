@@ -18,7 +18,8 @@
 typedef unsigned char  u8;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_0220D98C(char *p, int b);
+typedef unsigned int   u32;
+extern void func_0220D98C(u8 *p, u32 idx);
 extern void func_0220D974(char *p, int b);
 
 void func_0220D9DC(char *p, int b)
@@ -27,6 +28,6 @@ void func_0220D9DC(char *p, int b)
         func_020260E4((struct Sound *)(*(int *)&((struct Obj06649 *)p)->f144), 0);
         b = 0;
     }
-    func_0220D98C(p, b);
+    func_0220D98C((u8 *)p, b);
     func_0220D974(p, 1);
 }

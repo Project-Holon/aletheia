@@ -18,11 +18,11 @@
 #include "../include/Obj00001.h"
 typedef unsigned int u32;
 extern void func_021B65B4(u32 *p, u32 a1);
-extern void func_021B6558(u32 *p, u32 a1, u32 a2);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern int func_021B6548(unsigned char *p, unsigned int id, int v);
-void func_021D8980(char *p)
+int func_021D8980(char *p)
 {
     func_021B65B4(*(u32 * *)&((struct Obj00001 *)p)->f9C0, 1);
-    func_021B6558(*(u32 * *)&((struct Obj00001 *)p)->f9C0, 1, 1);
-    func_021B6548((unsigned char *)(*(u32 * *)&((struct Obj00001 *)p)->f9C0), 1, 1);
+    func_021B6558((unsigned char *)(*(u32 * *)&((struct Obj00001 *)p)->f9C0), 1, 1);
+    return func_021B6548((unsigned char *)(*(u32 * *)&((struct Obj00001 *)p)->f9C0), 1, 1);
 }

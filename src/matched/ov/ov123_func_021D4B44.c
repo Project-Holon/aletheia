@@ -23,7 +23,8 @@ typedef struct { u16 value; char *object; void (*callback)(char *); } Callback;
 struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204BA00(void *, Callback *);
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_021D4244(char *, void *, int);
 extern void func_021D451C(char *);
@@ -35,7 +36,7 @@ void func_021D4B44(char *p)
     cb.object = p;
     cb.callback = func_021D451C;
     func_0204B92C(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0), 1);
-    func_0204BA00(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0), &cb);
+    func_0204BA00(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0), (const struct Cmd *)(&cb));
     func_0204B9A0(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0));
     func_021D4244(p, func_021D45F0, 0x376);
 }

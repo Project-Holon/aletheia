@@ -30,7 +30,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern char *func_021B9AEC(char *, int);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern void func_021B9D10(char *, void *, int);
+struct Arr;
+extern void func_021B9D10(char *a, struct Arr *arr, int k);
 struct S2;
 extern void func_021B9C10(u32 *p, int a, int b);
 extern u32 func_021B9BF0(struct S2 *p, u32 i);
@@ -41,7 +42,7 @@ extern void *func_021DCF5C(void *p);
 extern void func_021D63EC(u8 *p, u16 n);
 extern void func_021D6580(void *);
 extern u32 func_021B8588(void **p);
-extern u32 func_021B99B8(void *, int);
+extern int func_021B99B8(void *pp, unsigned int b);
 extern u8 func_021B8BEC(u8 *, u32, u8);
 extern void func_021BD9C4(void *, int, u8, void *);
 void func_021BD8F0(u8 *p, u8 i, u8 a, u8 b)
@@ -52,7 +53,7 @@ void func_021BD8F0(u8 *p, u8 i, u8 a, u8 b)
     u8 *flags;
     arr = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, i);
     func_021CD4B0(((struct Obj00003 *)p)->fC, 42, i);
-    func_021B9D10(*(char * *)&((struct Obj00003 *)p)->f4, arr, i);
+    func_021B9D10(*(char * *)&((struct Obj00003 *)p)->f4, (struct Arr *)arr, i);
     if (a != b) func_021B9C10((u32 *)arr, a, b);
     m = (u8 *)func_021B9BF0((struct S2 *)arr, a);
     id = func_021D5440(m);
@@ -64,7 +65,7 @@ void func_021BD8F0(u8 *p, u8 i, u8 a, u8 b)
     flags = p + 0x7c1;
     flags[id] = 1;
     if (func_021B8588(((struct Obj00003 *)p)->f4) == 3) {
-        if (func_021B99B8(((struct Obj00003 *)p)->f4, i) <= a) flags[id] = 0;
+        if ((u32)func_021B99B8(((struct Obj00003 *)p)->f4, (int)i) <= a) flags[id] = 0;
     }
     func_021CD4B0(((struct Obj00003 *)p)->fC, 18, i, a, b, (u16)((struct Obj00003 *)p)->f10);
     func_021BD9C4(p + 0x1ab8, func_021B8BEC(*(u8 * *)&((struct Obj00003 *)p)->f4, i, a), id, ((struct Obj00003 *)p)->f8);

@@ -24,7 +24,7 @@ struct Obj;
 extern void func_02041570(int channel, u16 val);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
-void func_021D7EAC(unsigned char *p)
+void func_021D7EAC(unsigned char *p, void *a1)
 {
     func_02041300(1, 0, 0, 0, 19, 21, 16);
     func_02041B6C(1);

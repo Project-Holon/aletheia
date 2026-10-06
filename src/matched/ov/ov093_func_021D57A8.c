@@ -16,11 +16,12 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D62C4(void *p, int i);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 
 void func_021D57A8(u8 *p, u8 *a, u8 *b)
 {
-    int r = func_021D62C4(p, 0x18);
+    int r = func_021D62C4((struct Unk021D62A8 *)p, 0x18);
     u8 v;
     v = p[0xF8];
     if (v == 2 && r) *a = 0x11;

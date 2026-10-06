@@ -19,8 +19,10 @@
  */
 
 extern char g_02150FEC[];
-extern unsigned char *func_0215ADC4(unsigned long *len, void *soc);
-extern unsigned char *func_021629BC(unsigned long *len, void *soc);
+struct CPSSoc;
+struct soc;
+extern unsigned char *func_0215ADC4(unsigned long *len, struct soc *soc);
+extern unsigned char *func_021629BC(unsigned long *len, struct CPSSoc *soc);
 extern unsigned char *func_0215AE18(unsigned long *len, char *soc);
 
 unsigned char *func_0215AEB0(unsigned long *len)
@@ -29,9 +31,9 @@ unsigned char *func_0215AEB0(unsigned long *len)
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 8) == 10 || *(unsigned char *)(soc + 8) == 11)
-            return func_0215ADC4(len, soc);
+            return func_0215ADC4(len, (struct soc *)soc);
         if (*(unsigned char *)(soc + 9) != 0)
-            return func_021629BC(len, soc);
+            return func_021629BC(len, (struct CPSSoc *)soc);
         return func_0215AE18(len, soc);
     }
     *len = 0;

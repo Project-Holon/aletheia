@@ -15,6 +15,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021F3DE4(void *p, u8 delta, u16 i);
+extern int func_021F3DE4(void *p, u16 delta, u16 i);
 extern const u16 d_021F4BE4[];
-int func_021F4894(void *p, int i, int j) { if (func_021F3DE4(p, i, j + 1) <= (int)(d_021F4BE4[i] << 12)) return 1; return 0; }
+int func_021F4894(void *p, int i, u8 j) { if (func_021F3DE4(p, (u8)i, j + 1) <= (int)(d_021F4BE4[i] << 12)) return 1; return 0; }

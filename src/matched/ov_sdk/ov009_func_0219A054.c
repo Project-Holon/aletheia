@@ -87,11 +87,12 @@ extern int func_0217ED54(int sock);
 extern void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr);
 extern unsigned long func_0217F264(void);
 extern void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
-extern void func_021995E4(NATNegotiator *neg);
+struct NATNegotiator;
+extern void func_021995E4(struct NATNegotiator *neg);
 extern void func_0219972C(NATNegotiator *neg);
-extern void func_02199A90(NATNegotiator *neg);
-extern void func_02199394(NATNegotiator *neg);
-extern void func_0219A034(NATNegotiator *neg);
+extern void func_02199A90(struct NATNegotiator *neg);
+extern void func_02199394(struct NATNegotiator *neg);
+extern void func_0219A034(int *p);
 
 extern char g_021A5E88[];
 extern char g_021A5EAC[];
@@ -152,11 +153,11 @@ void func_0219A054(NATNegotiator *neg)
             neg->retryCount++;
             func_0217D254(7, 0, 8, g_021A5F5C, neg->cookie, neg->retryCount);
             if ((unsigned int)neg->state <= ns_preinitack)
-                func_021995E4(neg);
+                func_021995E4((struct NATNegotiator *)neg);
             else if (neg->state == ns_initsent)
                 func_0219972C(neg);
             else
-                func_02199A90(neg);
+                func_02199A90((struct NATNegotiator *)neg);
         }
     }
 
@@ -172,7 +173,7 @@ void func_0219A054(NATNegotiator *neg)
         } else {
             neg->retryCount++;
             func_0217D254(7, 0, 8, g_021A6028, neg->cookie, neg->retryCount);
-            func_02199A90(neg);
+            func_02199A90((struct NATNegotiator *)neg);
             neg->retryTime = func_0217F264() + 700;
         }
     }
@@ -182,7 +183,7 @@ void func_0219A054(NATNegotiator *neg)
             func_0217D254(7, (char *)3, 8, g_021A606C, neg->cookie);
             neg->state = ns_finished;
         } else {
-            func_02199394(neg);
+            func_02199394((struct NATNegotiator *)neg);
             neg->retryCount++;
             func_0217D254(7, 0, 8, g_021A60B8, neg->cookie, neg->retryCount);
             neg->retryTime = func_0217F264() + 500;
@@ -194,7 +195,7 @@ void func_0219A054(NATNegotiator *neg)
             func_0217D254(7, (char *)3, 8, g_021A60FC, neg->cookie);
         else if (func_0217F264() > neg->retryTime)
             func_0217D254(7, (char *)3, 8, g_021A6150, neg->cookie);
-        func_0219A034(neg);
+        func_0219A034((int *)neg);
     }
 
     if (neg->state == ns_canceled) {

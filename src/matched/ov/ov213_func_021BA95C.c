@@ -22,19 +22,21 @@ typedef struct Util Util;
 typedef struct { void *resTbl; u16 resCount; void *objTbl; u16 objCount; } Setup;
 struct G3dSys;
 extern const Setup d_021BB0F8[];
-extern void func_021BA9AC(unsigned char *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021BA9AC(char *p);
 extern u16 func_02047E88(Util *util, const Setup *setup);
-extern int *func_02048A18(Util *util, unsigned index);
+extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
-extern unsigned func_020477A4(struct G3dSys *sys, u16 idx);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 void func_021BA95C(unsigned char *p, int index)
 {
     int *object;
     int i, count;
-    if (p[15]) func_021BA9AC(p);
+    if (p[15]) func_021BA9AC((char *)p);
     ((struct Obj02551 *)p)->fC=func_02047E88(*(Util * *)&((struct Obj02551 *)p)->f8, &d_021BB0F8[index]);
     p[15]=1;
-    object=func_02048A18(*(Util * *)&((struct Obj02551 *)p)->f8, ((struct Obj02551 *)p)->fC);
+    object=(int *)func_02048A18((u8 *)(*(Util * *)&((struct Obj02551 *)p)->f8), ((struct Obj02551 *)p)->fC);
     count=func_0204779C(object);
-    for(i=0;i<count;i++) func_020477A4((struct G3dSys *)object,i);
+    for(i=0;i<count;i++) func_020477A4((struct G3dSys *)object,(u16)i);
 }

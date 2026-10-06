@@ -24,7 +24,8 @@ extern const char d_021C8DFC[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void func_02040618(unsigned,unsigned,unsigned);
 extern void func_0204047C(int,u16);
-extern void func_021BE868(struct Ov208Icon *);
+struct Ov208Gfx;
+extern void func_021BE868(struct Ov208Gfx *g);
 extern void func_021BE920(struct Ov208Icon *);
 extern void func_021BE864(void *);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
@@ -35,7 +36,7 @@ struct Ov208Icon *func_021BE710(u16 heap,unsigned arg)
     p->heap=heap;p->f4=arg;p->f8=0;p->fc=5;
     func_02040618(5,3,24);
     func_0204047C(5,0);
-    func_021BE868(p);
+    func_021BE868((struct Ov208Gfx *)p);
     func_021BE920(p);
     p->f28=(unsigned)func_020056A0((unsigned)func_021BE864,(unsigned)p,1);
     p->f2c=func_0201C440((void *)(unsigned)p->heap);

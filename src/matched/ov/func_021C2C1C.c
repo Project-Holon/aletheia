@@ -17,14 +17,14 @@
 #include "../include/Obj00146.h"
 
 
-extern int func_02005E50(int);
+extern int func_02005E50(void);
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 
 void func_021C2C1C(int unused, char *p)
 {
     if (((struct Obj00146 *)p)->fB8 == 1) {
-        if (func_02005E50(((struct Obj00146 *)p)->fB8) == 0) {
+        if (func_02005E50() == 0) {
             func_02005DE4((void *)1);
             func_02005E64();
             ((struct Obj00146 *)p)->fB8 = 2;

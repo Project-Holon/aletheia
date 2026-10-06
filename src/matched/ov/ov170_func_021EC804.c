@@ -23,7 +23,7 @@
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC428(char *p, int a, int i, int b);
 extern void func_021EC000(char *p, int i, int v);
-extern void func_021ECB74(char **a, int b);
+extern void func_021ECB74(char *a, int b);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
 
 void func_021EC804(char **p, short dx)
@@ -49,7 +49,7 @@ void func_021EC804(char **p, short dx)
             func_021EC428(p[11], (int)(p[11] + 0x1B4 + i * 0x200), k, *(unsigned char *)(p[11] + i + 0x3DB4));
             func_021EC000(p[11], k, *(int *)(p[11] + i * 4 + 0x3DF8));
             if (((struct Obj24013 *)(p[11]))->fA17A == 0 && (((struct Obj24014 *)(p[0]))->f24 == 3 || ((struct Obj24015 *)(p[0]))->f24 == 5))
-                func_021ECB74(p, i);
+                func_021ECB74((char *)p, i);
         }
         func_021EC08C(p[11], k, t[1], t[0], 0);
     }

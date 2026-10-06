@@ -57,7 +57,7 @@ extern u32 func_021D775C(int);
 extern void func_021D7540(int);
 extern u16 func_021C728C(u8 *, u8 *, u8 *, u8 *);
 extern u16 func_021C7374(u8 *p, u8 *a, u8 *b, u8 *c, int flag);
-extern u32 func_021C7474(u8 *, u8 *, u8 *, u8 *, u32);
+extern u16 func_021C7474(u8 *p, u8 *a, u8 *b, u8 *c, u32 flag);
 extern int func_021D59B4(u8 *, int);
 extern u32 func_021D7A44(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_021D7B10(u32, u32);
@@ -67,7 +67,8 @@ extern int func_021B911C(void *, int);
 extern u32 func_021D78AC(u32);
 extern int func_021C75EC(u8 *, u8 *, int);
 extern u32 func_021D7A6C(u32, u32);
-extern int func_021D62A8(u8 *);
+struct Unk021D62A8;
+extern int func_021D62A8(struct Unk021D62A8 *p);
 int func_021C1E74(u8 *p, u8 *a, u8 *b, u8 *c, u32 d, u32 e, u32 f, int g, u16 *out)
 {
     int category = func_0201C1E8(*(u16 *)c);
@@ -109,7 +110,7 @@ int func_021C1E74(u8 *p, u8 *a, u8 *b, u8 *c, u32 d, u32 e, u32 f, int g, u16 *o
         }
         if (c[6] != 17) value = func_021D7B10(value, func_021C75EC(p, a, c[6]));
         value = func_021D7A6C(value, d);
-        if (category == 1 && func_021D62A8(a) == 4 && func_021D59B4(a, 17) != 62) {
+        if (category == 1 && func_021D62A8((struct Unk021D62A8 *)a) == 4 && func_021D59B4(a, 17) != 62) {
             value = (u32)(50u * value) / 100u;
         }
         if (!value) value = 1;

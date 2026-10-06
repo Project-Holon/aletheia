@@ -32,7 +32,7 @@ extern int func_021F7B9C(u8 *p, int event);
 extern void func_021FF318(void *,int,int,int,int);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-void func_021FE264(u8 *p,u32 mode)
+void func_021FE264(u8 *p, int mode)
 {
     u32 h,v;
     switch(mode) {

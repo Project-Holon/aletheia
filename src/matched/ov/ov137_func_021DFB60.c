@@ -32,7 +32,7 @@ extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
 extern void func_02040B94(u32,u32,u32,u32);
-void func_021DFB60(void)
+void func_021DFB60(char *a0)
 {
     func_0203F8F4(114);
     *(volatile u16 *)0x04000304 |= 0x8000;

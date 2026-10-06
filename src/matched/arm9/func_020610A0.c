@@ -12,4 +12,4 @@
  */
 #include "../include/Obj04082.h"
 
-void func_020610A0(int p0, int p1, int p2, int p3){ ((struct Obj04082 *)p0)->f24 = (int)((struct Obj04082 *)p0)->f18; ((struct Obj04082 *)p0)->f2C = (int)0; }
+void func_020610A0(void *p0){ ((struct Obj04082 *)p0)->f24 = (int)((struct Obj04082 *)p0)->f18; ((struct Obj04082 *)p0)->f2C = (int)0; }

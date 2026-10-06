@@ -59,7 +59,8 @@ extern int func_02199D60(void);
 extern NATNegotiator *func_02199138(void);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern void func_021991C8(NATNegotiator *neg);
-extern void func_021995E4(NATNegotiator *neg);
+struct NATNegotiator;
+extern void func_021995E4(struct NATNegotiator *neg);
 extern int func_0217ED0C(int sock, void *addr, int *len);
 
 extern int g_021ACEF8;
@@ -114,7 +115,7 @@ int func_02199DFC(int gamesocket, int cookie, int clientindex,
     neg->retryCount = 0;
     neg->maxRetryCount = 0;
 
-    func_021995E4(neg);
+    func_021995E4((struct NATNegotiator *)neg);
 
     namelen = sizeof(saddr);
     func_0217ED0C(neg->negotiateSock, &saddr, &namelen);

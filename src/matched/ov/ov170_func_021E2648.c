@@ -16,9 +16,9 @@
  * func_021E9284.
  */
 
-extern int func_021E9284(unsigned char *p);
+extern int func_021E9284(char *p);
 
 int func_021E2648(unsigned char *p)
 {
-    return func_021E9284(p);
+    return func_021E9284((char *)p);
 }

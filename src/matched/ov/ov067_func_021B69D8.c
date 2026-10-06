@@ -29,7 +29,7 @@ struct S {
 };
 extern void func_0204B878(struct Obj *p, u16 value);
 
-void func_021B69D8(struct S *p, int v)
+void func_021B69D8(struct S *p, u32 v)
 {
     if (v != 0)
         p->f8 = p->f2a;

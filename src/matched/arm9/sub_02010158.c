@@ -34,7 +34,7 @@ extern u8  g_0214617C[];
 extern const u16 tbl_0209DEB0[];
 extern const u16 tbl_0209DED0[];
 
-u32 sub_02010158(u8 *obj)
+u32 sub_02010158(u8 *obj, u32 a)
 {
     u32 v;
 

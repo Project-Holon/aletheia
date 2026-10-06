@@ -67,25 +67,26 @@ extern char d_02200D1C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
-extern void *func_02025538(u32 heap, int a);
-extern u32 func_0201C440(u32 heap);
-extern void func_02045808(void *);
+struct U16Vec;
+extern void *func_02025538(u32 a0, void *a1);
+extern u32 func_0201C440(void *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void *func_021FB5E4(int *ctx, int heap);
 extern unsigned func_021FB788(void *);
 extern unsigned short func_021FB760(void *, int);
-extern void *func_021FB704(void *ctx, int section, unsigned short item);
-extern void *func_021FB7D0(void *ctx, void *record, int archive, unsigned short heap);
-extern void func_021FBE54(int base, u32 idx, u32 area);
+extern void *func_021FB704(char *ctx, int section, unsigned item);
+extern void *func_021FB7D0(unsigned * const *p, void *record, int archive, unsigned short heap);
+extern void func_021FBE54(char *base, u32 idx, u32 area);
 extern void func_021FAC20(void *ctx, void *object, int a, void *b, int owner, void *arg, int index, u32 heap);
-extern void func_021FA020(void *ctx, void *p, int mode);
-extern void func_021FAEC0(char *p, unsigned short index);
+extern void func_021FA020(u8 *ctx, int a1, int a2);
+extern void func_021FAEC0(char *p, unsigned index);
 extern void func_021FAF08(char *p, int a1);
-extern int func_021FC214(int);
+extern int func_021FC214(char *p);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021FD73C(int *p, int v);
-extern void func_021FA274(void);
-extern void func_021FA920(void);
-extern void func_021FAAD0(void);
+extern void func_021FA274(void *p);
+extern void func_021FA920(int *task, int *state, u8 *ctx);
+extern void func_021FAAD0(void *p, int *state, unsigned char *ctx);
 struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
 {
     struct Obj *p;
@@ -101,8 +102,8 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
     p->f8 = b;
     p->heap = heap;
     p->f5c = (struct Set *)e;
-    p->f48 = func_02025538(heap, b);
-    p->f4c = func_0201C440(heap);
+    p->f48 = func_02025538(heap, (void *)b);
+    p->f4c = func_0201C440((void *)heap);
     p->f58 = f;
     p->f14 = 1;
     func_02082BCC(&tmp, 0, 4);
@@ -110,8 +111,8 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
     p->f44 = func_021FB5E4(&tmp, heap);
     if (a >= 10) p->f10 = 2;
     else p->f10 = 0;
-    func_021FBE54(p->f4, p->f10, heap);
-    func_021FBE54(p->f4, p->f10 + 1, heap);
+    func_021FBE54((char *)p->f4, p->f10, heap);
+    func_021FBE54((char *)p->f4, p->f10 + 1, heap);
     p->f38 = func_021FB788(p->f44);
     size = p->f38 * 0x44;
     p->f40 = func_02030734(heap, size, 0, d_02200D1C, 0x167);
@@ -121,24 +122,24 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
     func_02082BCC(p->f3c, 0, 0x198);
     p->fC = func_021FD6D8((int)p, (int)func_021FA274, heap);
     if (p->f5c->count != 0) {
-        arch = func_021FC214(c);
+        arch = func_021FC214((char *)c);
         for (i = 0; i < p->f5c->count; i++) {
-            void *q = func_021FB704(p->f44, p->f5c->rec[i].a, p->f5c->rec[i].b);
+            void *q = func_021FB704(p->f44, p->f5c->rec[i].a, (unsigned short)p->f5c->rec[i].b);
             void *rec = func_021FB7D0(p->f44, q, arch, (heap & 0x7FFF) | 0x8000);
             func_02082BCC(buf, 0, 0x44);
             func_021FAC20(buf, q, b, p->f48, c, rec, p->f10, heap);
-            func_021FA020(p, buf, 0);
+            func_021FA020((u8 *)p, (int)buf, 0);
             func_02045808(rec);
         }
         for (i = 0; i < p->f3b; i++)
-            func_021FAEC0(p->f3c + (p->f3b - i - 1) * 0x44, i);
+            func_021FAEC0(p->f3c + (p->f3b - i - 1) * 0x44, (unsigned short)i);
         func_021FD73C(p->fC, (int)func_021FA920);
         p->f1C = 2;
     } else {
-        arch = func_021FC214(c);
+        arch = func_021FC214((char *)c);
         p->f39 = func_021FB760(p->f44, a);
         for (i = 0; i < p->f39; i++) {
-            void *q = func_021FB704(p->f44, a, i);
+            void *q = func_021FB704(p->f44, a, (unsigned short)i);
             void *rec = func_021FB7D0(p->f44, q, arch, (heap & 0x7FFF) | 0x8000);
             func_021FAC20(p->f40 + i * 0x44, q, b, p->f48, c, rec, p->f10, heap);
             func_02045808(rec);

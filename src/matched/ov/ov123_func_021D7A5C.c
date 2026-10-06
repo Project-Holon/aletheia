@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern int func_021D5C0C(char *p);
 extern int func_021D5C2C(char *p);
-extern int func_021D5C64(void *, const char *, int);
+extern int func_021D5C64(char *p, void *arg, int value);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6FF0(char *p);
 extern void func_021D7A18(int a);
@@ -38,7 +38,7 @@ void func_021D7A5C(u8 *p)
         }
         switch (p[0xa7]) {
         case 0:
-            if (func_021D5C64(((struct Obj01934 *)p)->f8, d_021DAB88, p[0xa5])) {
+            if (func_021D5C64(((struct Obj01934 *)p)->f8, (void *)d_021DAB88, p[0xa5])) {
                 func_021D6EE0(p, (int)func_021D7A18, 0x42b);
                 return;
             }
@@ -46,7 +46,7 @@ void func_021D7A5C(u8 *p)
             func_021D6EE0(p, (int)func_021D6FF0, 0x42f);
             return;
         case 1:
-            if (func_021D5C64(((struct Obj01934 *)p)->f8, d_021DAB90, p[0xa4])) {
+            if (func_021D5C64(((struct Obj01934 *)p)->f8, (void *)d_021DAB90, p[0xa4])) {
                 func_021D6EE0(p, (int)func_021D7A18, 0x434);
                 return;
             }
@@ -54,7 +54,7 @@ void func_021D7A5C(u8 *p)
             func_021D6EE0(p, (int)func_021D6FF0, 0x438);
             return;
         case 2:
-            if (func_021D5C64(((struct Obj01934 *)p)->f8, d_021DAB9C, p[0xa6])) {
+            if (func_021D5C64(((struct Obj01934 *)p)->f8, (void *)d_021DAB9C, p[0xa6])) {
                 func_021D6EE0(p, (int)func_021D7A18, 0x43d);
                 return;
             }

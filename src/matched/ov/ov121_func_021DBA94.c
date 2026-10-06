@@ -21,7 +21,9 @@ typedef unsigned int u32;
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B404(void *,void *,u32);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02040618(u32,u32,u32);
@@ -35,7 +37,7 @@ int func_021DBA94(char *p)
         if(*(void **)(p+i*4+0xb28)) {
             func_0204B454(*(void **)(p+i*4+0xb28),(struct PtS *)(xy+2),0);
             xy[2]-=(s16)amount;
-            func_0204B404(*(void **)(p+i*4+0xb28),xy+2,0);
+            func_0204B404(*(void **)(p+i*4+0xb28),(const struct Vec2 *)(xy+2),0);
             func_0204B454(*(void **)(p+i*4+0xb28),(struct PtS *)xy,0);
             if(xy[0]>=-16 && xy[0]<=272 && xy[1]>=-16 && xy[1]<=208)
                 func_0204B3DC(*(void **)(p+i*4+0xb28),1);
@@ -45,7 +47,7 @@ int func_021DBA94(char *p)
     if(((struct Obj02834 *)p)->fAE0) {
         func_0204B454(((struct Obj02834 *)p)->fAF0,(struct PtS *)(xy+2),0);
         xy[2]-=(s16)amount;
-        func_0204B404(((struct Obj02834 *)p)->fAF0,xy+2,0);
+        func_0204B404(((struct Obj02834 *)p)->fAF0,(const struct Vec2 *)(xy+2),0);
         if(xy[2]>=-96 && xy[2]<=352 && xy[3]>=-96 && xy[3]<=288)
             func_0204B3DC(((struct Obj02834 *)p)->fAF0,1);
         else func_0204B3DC(((struct Obj02834 *)p)->fAF0,0);

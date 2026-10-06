@@ -61,9 +61,11 @@ struct Rec {
     u32 unk_90;   /* 0x90 */
 };
 
-extern void func_02067AB8(struct Rec *r, u32 v);
-extern u32  func_0204B658(struct Elem *e, u32 which);
-extern void func_02067B78(struct Rec *r, u32 a, u32 b);
+struct Actor;
+struct G2dOamState;
+extern void func_02067AB8(struct G2dOamState *p, u32 mode);
+extern u32 func_0204B658(const struct Actor *actor, u32 which);
+extern void func_02067B78(struct G2dOamState *p, u32 h, u32 v);
 
 void func_0204CBB0(struct Elem *e, struct Rec *r)
 {
@@ -71,12 +73,12 @@ void func_0204CBB0(struct Elem *e, struct Rec *r)
     int n;
     u8  m;
 
-    func_02067AB8(r, e->f_12);
+    func_02067AB8((struct G2dOamState *)r, e->f_12);
 
     if (e->f_12 == 0) {
-        a = func_0204B658(e, 0);
-        b = func_0204B658(e, 1);
-        func_02067B78(r, b, a);
+        a = func_0204B658((const struct Actor *)e, 0);
+        b = func_0204B658((const struct Actor *)e, 1);
+        func_02067B78((struct G2dOamState *)r, b, a);
     }
 
     m = e->f_08;

@@ -12,6 +12,6 @@
  * symbols:
  *   func_021C61D0 0x021C61D0 thumb
  */
-void func_021C61D0(void)
+void func_021C61D0(void *a0)
 {
 }

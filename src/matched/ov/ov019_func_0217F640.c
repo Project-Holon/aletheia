@@ -51,21 +51,25 @@ typedef struct Self {
     Tiles *f3530;
 } Self;
 
-extern u32   func_02188C54(u32 a);
+struct Fx;
+struct R;
+struct Reg;
+struct U16Vec;
+extern u32 func_02188C54(u8 *p);
 extern void  func_02034714(const char *a, u32 b, const char *c);
-extern void *func_02191558(u32 h, void *msg, int a, int b, int c, int d, int e);
-extern Tiles *func_0201A4D4(void *a, void *b, int c, int d);
+extern struct R *func_02191558(struct Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g);
+extern u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3);
 extern void  func_0217EE90(Self *self);
-extern void *func_0200AE3C(void *a, int b);
-extern void  func_02191648(void *a, int b, int c, void *d);
-extern void  func_02045808(void *s);
-extern void  func_0219161C(void *a, int b, int c, int d);
+extern void *func_0200AE3C(struct Reg *p, u32 heap);
+extern void func_02191648(struct R *r, int b, int c, u32 d);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0219161C(struct R *r, int b, int c, u32 d);
 extern void  func_02191674(void *a, int b, u16 c, u32 d, int e);
 extern u32 d_021807F8[];
 
 void func_0217F640(Self *self, u32 a1, u32 mask, int mode, int msg)
 {
-    u32 h = func_02188C54(a1);
+    u32 h = func_02188C54((u8 *)a1);
     void *s;
     long i;
     int flag;
@@ -80,13 +84,13 @@ void func_0217F640(Self *self, u32 a1, u32 mask, int mode, int msg)
     flag = 1;
     if (mode != 1)
         flag = 0;
-    self->f2818 = func_02191558(h, self->msg2808, 0, 1, 1, 0x1a, 0x10);
-    self->f3530 = func_0201A4D4(self->f352C, self->win2804, 0x41, flag);
+    self->f2818 = func_02191558((struct Fx *)h, (u32)self->msg2808, 0, 1, 1, 0x1a, 0x10);
+    self->f3530 = (Tiles *)func_0201A4D4(self->f352C, (u32)self->win2804, 0x41, flag);
     func_0217EE90(self);
 
     if (msg == 0) {
         s = func_0200AE3C(self->f352C, 0x41);
-        func_02191648(self->f2818, 0, 0, s);
+        func_02191648(self->f2818, 0, 0, (u32)s);
         func_02045808(s);
     } else {
         func_0219161C(self->f2818, 0, 0, msg == 1 ? 0x14f : 0x150);

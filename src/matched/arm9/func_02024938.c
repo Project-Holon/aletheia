@@ -37,7 +37,7 @@ struct PmsWord {
 };
 
 extern const u8 tbl_0209F784[][2];
-extern void func_020249A0(void *p, int bit);
+extern void func_020249A0(int *p, int bit);
 
 void func_02024938(struct PmsWord *p)
 {
@@ -52,7 +52,7 @@ void func_02024938(struct PmsWord *p)
     }
     for (k = 0; k < 7; k++) {
         if (tbl_0209F784[k][0] == 2) {
-            func_020249A0(p, tbl_0209F784[k][1]);
+            func_020249A0((int *)p, tbl_0209F784[k][1]);
             return;
         }
     }

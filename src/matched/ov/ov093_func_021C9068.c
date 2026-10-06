@@ -94,7 +94,7 @@ typedef struct {
     u8 gap[2];
     struct Msg msg;
 } Ent;
-extern u8 *func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021C5A1C(u8 *, u8 *);
 extern void func_021C5A34(u8 *, u8 *);
 extern int func_021D5B7C(void *);
@@ -102,7 +102,7 @@ extern int func_021C56A8(u8 *, int *);
 extern void func_021C5620(u8 *, u8 *, int, struct Slot *);
 extern int func_021C9168(int, struct Slot, u8 *, unsigned long, struct Msg *);
 extern int func_021C99A0(void *, const struct Msg *);
-extern void func_021C8810(struct Msg *);
+extern void func_021C8810(u8 *p);
 extern void func_021C195C(u8 *, u8 *, u32);
 
 u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
@@ -116,11 +116,11 @@ u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
     int k;
     struct Slot slot;
     struct Msg *w;
-    first = (u8 *)func_021B9934(*(char **)(p + 8), e->idx);
+    first = (u8 *)func_021B9934(*(char **)(p + 8), (u8)e->idx);
     result = 0;
     if (e->fl) func_021C5A1C(p, first);
     for (i = 0; i < e->count; i++) {
-        a = (u8 *)func_021B9934(*(char **)(p + 8), e->targets[i]);
+        a = (u8 *)func_021B9934(*(char **)(p + 8), (u8)e->targets[i]);
         if (func_021D5B7C(a)) {
           value = e->value;
           k = func_021C56A8(a, &value);
@@ -132,7 +132,7 @@ u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
             if (!e->flag) {
                 if (func_021C9168(k, slot, a, arg, w)) {
                     func_021C99A0(p, (struct Msg *)(p + 0x1ae4));
-                    func_021C8810((struct Msg *)(p + 0x1ae4));
+                    func_021C8810((u8 *)(p + 0x1ae4));
                 }
             } else {
                 func_021C99A0(p, msg);

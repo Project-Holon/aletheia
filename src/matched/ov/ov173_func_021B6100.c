@@ -30,7 +30,7 @@ struct Tcbl;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern void func_021B63AC(u8 *p);
-extern void func_021B7ADC(u8 *,u8,int);
+extern void func_021B7ADC(unsigned char *p, u32 idx, int unused);
 extern void func_0203D34C(u32 a, u32 b);
 int func_021B6100(u32 obj, int unused, u8 *input)
 {
@@ -42,7 +42,7 @@ int func_021B6100(u32 obj, int unused, u8 *input)
     ((struct Obj06563 *)p)->f60=(u32)func_0201D7EC(23,0,0,0,79);
     ((struct Obj06563 *)p)->f64=(u32)func_0203101C(79,79,32,32);
     func_021B63AC(p);
-    func_021B7ADC(p,((struct Obj24149 *)(*(u8 * *)&((struct Obj06563 *)p)->f0))->f14,3);
+    func_021B7ADC(p,(u8)(((struct Obj24149 *)(*(u8 * *)&((struct Obj06563 *)p)->f0))->f14),3);
     ((struct Obj06563 *)p)->f1B0=1;
     func_0203D34C(1,79);
     return 1;

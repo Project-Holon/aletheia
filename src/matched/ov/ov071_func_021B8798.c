@@ -73,7 +73,7 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     extern void *func_02045770(struct Descriptor *p);
     extern void func_02043B5C(struct CharBuf *buf, u8 value);
     extern int func_02175B14(u8 *);
-    extern Obj *func_02175B34(u8 *);
+    extern u8 *func_02175B34(u8 *p);
     extern void *func_02045EC0(struct MsgBank *bank, u32 index);
     extern void func_021762D8(Obj *, void *, void *, int);
     extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -91,7 +91,7 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     func_02043B5C(func_02045770(d->h[0]), 0);
     func_02043B5C(func_02045770(d->h[1]), 0);
     if (v == 6 && r != 0 && func_02175B14(r + 0x1AC) == 1) {
-        e = func_02175B34(r + 0x1AC);
+        e = (Obj *)func_02175B34(r + 0x1AC);
         src = (u8 *)e + 0x18;
     } else {
         if (v > 6) {

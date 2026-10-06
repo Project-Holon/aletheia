@@ -114,7 +114,8 @@ extern char g_021A4F2C[];
 
 extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer,
                          int *closed, int mustSend);
-extern int func_0218E91C(void **connection, GPIPeer *peer);
+struct GPIPeer;
+extern int func_0218E91C(void **connection, struct GPIPeer *peer);
 extern long func_02184098(long *timer);
 extern int func_02189BE4(void **connection, GPIBuffer *inputBuffer, char **message, int *type, int *plen);
 extern void *func_0217EAB0(unsigned long size);
@@ -122,9 +123,9 @@ extern void func_02193734(int *p, int b);
 extern char *func_0217F1E0(char *src);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, void *operation, int type);
 extern int func_021889A0(void **connection, int profileid, int type, char *message, int sendOption, void *op);
-extern int func_02188B0C(void **connection, GPIPeer *peer);
-extern int func_02188BA0(void **connection, GPIPeer *peer, char *buffer);
-extern void func_02192FD0(void **connection, GPIPeer *peer, int type, char *headers, char *buffer, int len);
+extern int func_02188B0C(void **connection, struct GPIPeer *peer);
+extern int func_02188BA0(void **connection, struct GPIPeer *peer, char *buffer);
+extern void func_02192FD0(void **connection, void *peer, int unused, char *headers, char *buffer, int len);
 extern int func_02189D28(void **connection, GPIBuffer *buffer);
 extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
 
@@ -152,7 +153,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
 
     if (!peer->outputBuffer.len) {
         {
-            int __result__ = func_0218E91C(connection, peer);
+            int __result__ = func_0218E91C(connection, (struct GPIPeer *)peer);
             if (__result__ != 0)
                 return __result__;
         }
@@ -218,7 +219,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
 
             case 0x68:
                 {
-                    int __result__ = func_02188B0C(connection, peer);
+                    int __result__ = func_02188B0C(connection, (struct GPIPeer *)peer);
                     if (__result__ != 0)
                         return __result__;
                 }
@@ -226,7 +227,7 @@ int func_0218E9E8(void **connection, GPIPeer *peer)
 
             case 0x69:
                 {
-                    int __result__ = func_02188BA0(connection, peer, buffer);
+                    int __result__ = func_02188BA0(connection, (struct GPIPeer *)peer, buffer);
                     if (__result__ != 0)
                         return __result__;
                 }

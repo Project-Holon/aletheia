@@ -18,7 +18,8 @@
 typedef unsigned char u8;
 
 extern char d_021B4C0C;
-extern void func_021B2848(void *o, u8 *p, int n);
+struct Msg;
+extern int func_021B2848(u8 *o, struct Msg *p, int n);
 extern int func_021B2620(int *o, u8 *p);
 
 void func_021B26DC(int x)
@@ -26,7 +27,7 @@ void func_021B26DC(int x)
     u8 buf[16];
 
     buf[4] = 0xff;
-    func_021B2848(&d_021B4C0C, buf, 4);
+    func_021B2848((u8 *)(&d_021B4C0C), (struct Msg *)buf, 4);
     buf[10] = x;
     func_021B2620((int *)(&d_021B4C0C), buf);
 }

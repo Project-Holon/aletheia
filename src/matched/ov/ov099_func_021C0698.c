@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void func_021C18C8(char *p, int kind, int value);
 extern void func_021BA8EC(char *);
-extern void func_021C23C8(void *a, void *b);
+extern int func_021C23C8(void *a, void *b);
 extern void func_021C23D8(char *,int);
 extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);

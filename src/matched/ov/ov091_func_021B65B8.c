@@ -30,7 +30,7 @@ typedef struct {
     Q *q;
 } P;
 
-extern int func_021B68F0(P *p);
+extern int func_021B68F0(u8 *p);
 extern u8 d_021BED80;
 
 int func_021B65B8(int a0, int a1, int a2, P *p)
@@ -47,7 +47,7 @@ int func_021B65B8(int a0, int a1, int a2, P *p)
             }
         }
     }
-    if (func_021B68F0(p) == 1)
+    if (func_021B68F0((u8 *)p) == 1)
         return 1;
     return 0;
 }

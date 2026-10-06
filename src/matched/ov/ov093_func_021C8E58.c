@@ -28,7 +28,7 @@ extern int func_021C8F14(int a, u8 b);
 extern int func_021D5B68(void *p);
 struct UtilWork;
 extern int func_021D5C30(struct UtilWork *p);
-extern int func_021C20BC(int a, int b, int c);
+extern int func_021C20BC(u8 *p, u8 *a, int r);
 extern int func_021C20D0(u8 *p, u8 *a, int c, u8 *l);
 extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021C5A34(u8 *p, u8 *a);
@@ -53,7 +53,7 @@ int func_021C8E58(int p, const Ent *e)
             b = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, (u8)i);
         if (func_021D5B68((void *)a) == 0) {
             if (!e->f7a || func_021D5C30((struct UtilWork *)a) == 0) {
-                if (func_021C20BC(p, a, e->h4)) {
+                if (func_021C20BC((u8 *)p, (u8 *)a, e->h4)) {
                     if (e->fl)
                         func_021C5A1C((u8 *)p, b);
                     if (e->f7b)

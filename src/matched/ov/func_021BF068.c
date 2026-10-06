@@ -30,7 +30,7 @@ typedef int BOOL;
 
 extern int func_0203C3EC(void);
 
-BOOL func_021BF068(void)
+BOOL func_021BF068(char *a0)
 {
     int v = func_0203C3EC();
 

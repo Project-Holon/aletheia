@@ -44,9 +44,10 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_0202AF74(void);
+typedef signed int     s32;
+extern u8 func_0202AF74(u8 *obj, s32 *pos);
 
-void func_0202AF34(void)
+void func_0202AF34(int a, u32 b)
 {
-    func_0202AF74();
+    func_0202AF74((u8 *)a, (s32 *)b);
 }

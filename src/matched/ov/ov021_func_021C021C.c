@@ -28,7 +28,7 @@ struct Evt;
 extern u32 func_02188D38(u8 *p);
 extern void func_021C029C(u8 *p);
 extern void func_021C02F8(u8 *p);
-extern u32 func_021C0374(u8 *p);
+extern int func_021C0374(u32 *p);
 extern void func_021C0360(u8 *p);
 extern int func_021C6E48(u32 a);
 extern void func_020061E4(u32 a);
@@ -52,7 +52,7 @@ int func_021C021C(u32 a, int *st, u8 *p)
         n = ((struct Obj05073 *)p)->f74;
         ((struct Obj05073 *)p)->f74 = n + 1;
         if (n > 0x23) {
-            func_02012374((struct Evt *)a, (struct Evt **)func_021C0374(p));
+            func_02012374((struct Evt *)a, (struct Evt **)func_021C0374((u32 *)p));
             *st = *st + 1;
             break;
         }

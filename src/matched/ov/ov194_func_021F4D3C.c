@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern const char d_021F5798[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02082BCC(void *, u32, u32);
-extern u32 func_021F4D20(u32, u32);
+extern int func_021F4D20(u32 a, u32 b);
 u32 *func_021F4D3C(u32 heap)
 {
     u32 *p;

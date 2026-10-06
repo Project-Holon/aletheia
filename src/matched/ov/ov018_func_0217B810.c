@@ -24,7 +24,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void func_0217B82C();
 extern void func_02082BCC(void *, int, int);
 extern void *func_021A3074(u8 *p);
-void *func_0217B810(void *a) {
+void *func_0217B810(void *a, u8 *pos) {
     void *t;
     u8 *p;
     t = func_020122C0(a, 0, func_0217B82C, 0x20);

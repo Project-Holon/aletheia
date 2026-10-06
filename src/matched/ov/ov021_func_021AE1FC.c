@@ -28,7 +28,9 @@ extern u32 func_02188CE8(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern void *func_02188C7C(unsigned char *p);
-extern int func_0216DD1C(void *a, void **b, int *c);
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 struct S;
 extern int func_021AE288(int a, int b, int c, u16 *d);
 extern int func_021AE890(void *a, void *b);
@@ -49,7 +51,7 @@ int func_021AE1FC(int a, void *b, int c)
     r7 = func_02188C7C((void *)a);
     s14 = 0;
     s10 = 0;
-    while (func_0216DD1C(r7, &s14, &s10) == 1) {
+    while (func_0216DD1C(r7, (struct Rec **)(&s14), (u32 *)(&s10)) == 1) {
         if (s14 != r4 && (b == 0 || b != s14)) {
             s8 = func_021AE288(s4, (int)s14, (int)r4, &sc);
             if (s8 != -1 && func_021AE890((void *)a, s14) == 0) {

@@ -59,17 +59,19 @@ typedef struct LinkRecord {
     u32 rest : 8;
 } LinkRecord;
 
-extern void *func_020120F4(void *sys);
-extern void *func_02012EBC(void *p);
+struct Big;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E0B0(void *p);
-extern void *func_02012138(void *sys);
+extern u32 func_02012138(const struct Ctx *p);
 extern u8 func_021767A0(void *field, void *p);
 extern int func_02012FB0(u8 *p);
-extern void *func_02030734(u16 heap, u32 size, int flags, const char *file, u16 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u16 func_0216749C(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
 extern u8 func_021673C4(u8 *st);
 extern u8 func_021673A8(u8 *st);
-extern void *func_02158344(void *field);
+extern int func_02158344(int a0);
 extern u8 *func_02176880(u8 *link);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern const char d_021729EC[];
@@ -86,7 +88,7 @@ LinkRecord *func_021664CC(u16 heap, void *sys, u32 *start)
 
     p = func_020120F4(sys);
     st = func_0200E0B0(func_02012EBC(p));
-    field = func_02012138(sys);
+    field = (void *)func_02012138(sys);
     if (func_021767A0(field, p) == 4) {
         page = func_02012FB0(p);
         rec = func_02030734(heap, sizeof(LinkRecord), 1, d_021729EC, 0x1C9);
@@ -98,7 +100,7 @@ LinkRecord *func_021664CC(u16 heap, void *sys, u32 *start)
         rec->page = page;
         return rec;
     }
-    link = func_02158344(field);
+    link = (void *)func_02158344((int)field);
     if (link == 0)
         return 0;
     rec = func_02030734(heap, sizeof(LinkRecord), 1, d_021729EC, 0x1DC);

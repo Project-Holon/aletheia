@@ -26,7 +26,8 @@ extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern u8 func_021D5440(u8 *p);
 extern int func_021D5B7C(void *m);
-extern int func_021D62A8(u8 *p);
+struct Unk021D62A8;
+extern int func_021D62A8(struct Unk021D62A8 *p);
 
 u8 *func_021E60A8(void *a, u32 b, u8 c)
 {
@@ -44,7 +45,7 @@ u8 *func_021E60A8(void *a, u32 b, u8 c)
         t = func_021B9C00(s, (u8)i);
         if (b == func_021D5440(t))
             r = 1;
-        else if (func_021D5B7C(t) != 0 && func_021D62A8(t) == 0)
+        else if (func_021D5B7C(t) != 0 && func_021D62A8((struct Unk021D62A8 *)t) == 0)
             r = 1;
         if (r != 0) {
             if (c == 0)

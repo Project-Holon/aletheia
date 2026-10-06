@@ -15,11 +15,13 @@
 
  */
 
-extern void func_02094860(char *p, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 
 void func_0219327C(char *p, int b, int n)
 {
-    func_02094860(p, b);
+    func_02094860((u8 *)p, (const u8 *)b, n);
     *(char *)(p + n - 1) = 0;
 }
 

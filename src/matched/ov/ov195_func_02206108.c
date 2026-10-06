@@ -59,8 +59,8 @@ extern fx32 func_022060C8(void *res);
 extern void func_02206274(Owner *o);
 extern void *func_02017270(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
 extern void func_02015FF0(char *p, int v);
-extern void func_020173B4(void *obj);
-extern void func_02015CAC(void *obj, VecFx32 *scale);
+extern int func_020173B4(int a0);
+extern void func_02015CAC(void *p, u32 *src);
 extern void func_02015EA0(void *obj);
 extern void func_02015E04(void *obj);
 
@@ -81,8 +81,8 @@ void func_02206108(Owner *o)
             else
                 o->obj[i] = func_02017270(o->sys, o->res1, 0, 0, func_022060C8(o->res1), 0);
             func_02015FF0(o->obj[i], 1);
-            func_020173B4(o->obj[i]);
-            func_02015CAC(o->obj[i], &scale);
+            func_020173B4((int)o->obj[i]);
+            func_02015CAC(o->obj[i], (u32 *)(&scale));
             if (i != 0) {
                 func_02015EA0(o->obj[i]);
                 func_02015E04(o->obj[i]);
@@ -91,8 +91,8 @@ void func_02206108(Owner *o)
     } else {
         o->obj[1] = func_02017270(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
         func_02015FF0(o->obj[1], 1);
-        func_020173B4(o->obj[1]);
-        func_02015CAC(o->obj[1], &scale);
+        func_020173B4((int)o->obj[1]);
+        func_02015CAC(o->obj[1], (u32 *)(&scale));
     }
     func_02206274(o);
 }

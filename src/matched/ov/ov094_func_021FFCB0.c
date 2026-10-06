@@ -36,8 +36,8 @@ typedef struct {
     int m530;               /* 0x530 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
-extern int func_021FFD9C(Work *w, int key);
+extern int func_022019F4(char *p, int key);
+extern int func_021FFD9C(char *p, int key);
 extern int func_0201600C(void *h);
 extern int func_021F935C(int x);
 
@@ -45,8 +45,8 @@ int func_021FFCB0(Work *w, int key)
 {
     int r = 0;
 
-    if (func_021FFD9C(w, key))
-        r = func_0201600C(w->e[func_022019F4(w, key)].h);
+    if (func_021FFD9C((char *)w, key))
+        r = func_0201600C(w->e[func_022019F4((char *)w, key)].h);
     if (func_021F935C(key) & w->m514
         || func_021F935C(key) & w->m518
         || func_021F935C(key) & w->m524

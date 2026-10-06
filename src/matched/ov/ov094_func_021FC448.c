@@ -102,7 +102,7 @@ extern int func_021F8694(void);
 extern int func_021FFD9C(char *p, int key);
 extern int func_021FFF38(char *p, int key);
 extern void func_02040588(u32 which, u32 enable);
-extern void func_0201127C(void *, char *);
+extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
 extern void func_021FF374(void *, int, int);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 
@@ -174,7 +174,7 @@ int func_021FC448(void *a, State *s)
         func_02040588(2, 0);
         func_02040588(3, 0);
         s->f4 = 0;
-        func_0201127C(a, s->f1e8 + *(int *)(p + off));
+        func_0201127C(a, (u8 *)(s->f1e8 + *(int *)(p + off)));
         return 1;
     }
     b = s->flags.bit.b17;
@@ -186,7 +186,7 @@ int func_021FC448(void *a, State *s)
         s->flags.bit.b6 = 1;
         s->f4 = 0;
         s->flags.bit.b17 = 0;
-        func_0201127C(a, p + ((struct Obj13598 *)p)->f4);
+        func_0201127C(a, (u8 *)(p + ((struct Obj13598 *)p)->f4));
         return 1;
     }
     id2 = s->h258;
@@ -200,7 +200,7 @@ int func_021FC448(void *a, State *s)
         s->flags.bit.b6 = 1;
         s->f4 = 0;
         s->flags.bit.b17 = 0;
-        func_0201127C(a, p + ((struct Obj13598 *)p)->f4);
+        func_0201127C(a, (u8 *)(p + ((struct Obj13598 *)p)->f4));
         return 1;
     }
     if (id2 != 0x27e) {

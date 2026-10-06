@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern int func_0203CD98(void);
 extern void func_021F2CF4(u8 *);
 extern void func_021F2D10(u8 *);
-extern void func_021F2CD8(u8 *);
+extern void func_021F2CD8(char *p);
 extern void func_021F2D30(u8 *);
 
 void func_021F3144(u8 *p, u8 v)
@@ -35,7 +35,7 @@ void func_021F3144(u8 *p, u8 v)
         func_021F2D10(p);
     if (p[0x454] != v) {
         if (v == 0)
-            func_021F2CD8(p);
+            func_021F2CD8((char *)p);
         else
             func_021F2D30(p);
         p[0x454] = v;

@@ -41,18 +41,24 @@ typedef struct {
  u8 a,b,c,active,pad[2];
 } Item;
 extern const char d_021B9680[];
-extern void *func_02012EBC(void *);
+typedef signed int     s32;
+struct Big;
+struct Entry;
+struct Rec;
+struct Strbuf;
+struct U16Vec;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A8A0(void *);
-extern int func_0200A8AC(void *);
+extern s32 func_0200A8AC(struct Rec *r);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32);
-extern u8 func_0200A930(void *);
-extern void *func_020457B0(u32,u32);
-extern const u16 *func_0200A8C8(void *,u32);
-extern void func_02045924(void *,const u16 *);
-extern u8 func_0200A8D0(void *,u32);
-extern u16 func_0200A8E4(void *,u32);
-extern u32 func_0200A8F8(void *,u32);
+extern u8 func_0200A930(char *p);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct Entry *func_0200A8C8(struct Rec *r, u32 index);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern u8 func_0200A8D0(struct Rec *r, u32 index);
+extern u16 func_0200A8E4(struct Rec *r, u32 index);
+extern u32 func_0200A8F8(struct Rec *r, u32 index);
 extern void func_0200A908(void *,u32,u16 *,u8 *,u8 *,u8 *);
 void *func_021B8B9C(void *sys,u16 heap) {
  void *src; u16 count; u8 *out; Item *item; u32 i; u8 prev,seq,active;
@@ -66,7 +72,7 @@ void *func_021B8B9C(void *sys,u16 heap) {
   for(i=0;i<*(u32 *)out;i++) {
    item=(Item *)(out+4+i*16);
    item->text=func_020457B0(8,heap);
-   func_02045924(item->text,func_0200A8C8(src,i));
+   func_02045924(item->text,(const u16 *)func_0200A8C8(src,i));
    item->id=func_0200A8D0(src,i);
    item->value=func_0200A8E4(src,i);
    if(item->id<prev) item->seq=i+1;

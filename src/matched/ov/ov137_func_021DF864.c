@@ -34,7 +34,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02048B6C(void *,const u32 *),func_02048AD0(void *);
+struct Descriptor;
+struct Light;
+extern void func_02048B6C(struct Light *l, const u32 *in);
+extern void func_02048AD0(struct Light *l);
 extern void func_02047964(void),func_020479D8(void),func_02047970(void),func_0204A600(void);
 extern void func_0206AA3C(int,int,int,int),func_0206AA78(int,u32),func_0206AA8C(u32,u32,u32),func_0206AAB0(u32,u32,u32);
 extern void func_021E0698(u8 *),func_021E05D4(u8 *),func_021E0848(u8 *);
@@ -43,7 +46,8 @@ struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(void *),func_0202F0B0(void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_0202F0B0(u8 *p);
 void func_021DF864(u8 *p)
 {
     u32 flags=0x1000000;

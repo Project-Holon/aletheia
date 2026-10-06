@@ -19,7 +19,7 @@
 #include "../include/Obj05374.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021C58B8(void *);
+extern int func_021C58B8(char *p);
 extern void func_021C5704(u8 *p);
 extern void func_021C40B4(u8 *p);
 extern void func_021C5658(void *);
@@ -30,7 +30,7 @@ void func_021C5608(u8 *p)
     int i;
     for (i = 0; i < ((struct Obj05374 *)p)->f8; i++) {
         int offset = i * 20;
-        if (!func_021C58B8(*(u8 * *)&((struct Obj05374 *)p)->f4+offset))
+        if (!func_021C58B8((char *)(*(u8 * *)&((struct Obj05374 *)p)->f4+offset)))
             func_021C5704(*(u8 * *)&((struct Obj05374 *)p)->f4+offset);
     }
     func_021C40B4(((struct Obj05374 *)p)->f0);

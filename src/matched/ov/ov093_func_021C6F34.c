@@ -26,8 +26,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern void func_021D74F8(int line);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int key, u32 val);
-extern void func_021D7630(int key, u8 val);
-extern void func_021D70F0(u8 *p, int k);
+extern void func_021D7630(int key, u32 val);
+extern void func_021D70F0(void *a, int id);
 extern int func_021D775C(int key);
 extern void func_021D7540(int line);
 extern int func_021D5814(void *p, int k);
@@ -44,8 +44,8 @@ int func_021C6F34(u8 *p, u8 *a, int f)
     }
     func_021D74F8(12220);
     func_021D75EC(2, func_021D5440(a));
-    func_021D7630(0x51, t);
-    func_021D7630(0x41, 0);
+    func_021D7630(0x51, (u8)t);
+    func_021D7630(0x41, (u8)0);
     func_021D70F0(p, 0x12);
     func_021C6FB0(p, a);
     x = func_021D775C(0x51);

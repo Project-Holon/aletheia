@@ -52,7 +52,7 @@ typedef signed short   s16;
 extern u16 func_02015F0C(void *p);
 extern s16 func_02015F1C(void *p);
 extern s16 func_02015F14(void *p);
-extern void func_02015C78(void *obj, VecFx32 *pos);
+extern void func_02015C78(void *p, u32 *src);
 
 void func_02206274(Owner *o)
 {
@@ -76,7 +76,7 @@ void func_02206274(Owner *o)
             pos.x = FX_F32_TO_FX32(y);
             pos.y = FX_F32_TO_FX32(x);
             pos.z = 0;
-            func_02015C78(o->obj[i], &pos);
+            func_02015C78(o->obj[i], (u32 *)(&pos));
         }
     }
 }

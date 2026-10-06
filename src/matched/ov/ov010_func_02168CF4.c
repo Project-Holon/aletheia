@@ -33,8 +33,11 @@ typedef struct {
     void *save;
     Offset kind;
 } Record;
-extern void *func_0201210C(void *);
-extern void *func_021681C8(void *, void *, int, const void *, const void *, int);
+struct Bs;
+struct Ctx;
+struct Rec;
+extern void *func_0201210C(const struct Ctx *p);
+extern struct Bs *func_021681C8(void *sys, void *partyA, u32 mode0, struct Rec *recA, struct Rec *recB, int n);
 extern int func_0216E910(void *, void *, void *);
 int func_02168CF4(void *a, Record *p)
 {
@@ -44,5 +47,5 @@ int func_02168CF4(void *a, Record *p)
     b = func_0201210C(a);
     off = KIND_OFF;
     kind = (Offset)*(int *)((u8 *)p + off);
-    return func_0216E910(a, b, func_021681C8(a, *(void *const *)((u8 *)p + (off - 4)), kind, p, 0, *(int *)((u8 *)p + (off - 8))));
+    return func_0216E910(a, b, func_021681C8(a, *(void *const *)((u8 *)p + (off - 4)), kind, (struct Rec *)p, 0, *(int *)((u8 *)p + (off - 8))));
 }

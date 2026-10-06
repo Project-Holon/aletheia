@@ -37,13 +37,13 @@ extern const Pair d_021F331C;
 extern const Ent d_021F3410[];
 extern const u16 d_021F31D4[];
 extern void func_021F0B00(void *q, void *p, u8 a, int b, int c, u16 d);
-extern int func_021F0A68(void *p);
+extern int func_021F0A68(char *p);
 typedef unsigned int   u32;
 extern void func_021F0A38(unsigned char *p);
 extern u32 func_021F2B9C(u8 *p, int row, int col);
-extern void func_021F0FB0(void *p);
-extern void func_021F1A44(void *p, int a);
-extern int func_021F1000(void *p);
+extern void func_021F0FB0(char *p);
+extern void func_021F1A44(char *p, int flag);
+extern int func_021F1000(char *p);
 
 int func_021F1060(u8 *p)
 {
@@ -65,7 +65,7 @@ int func_021F1060(u8 *p)
         p[0x455]++;
         break;
     case 1:
-        if (func_021F0A68(p) == 0)
+        if (func_021F0A68((char *)p) == 0)
             p[0x455]++;
         break;
     case 2:
@@ -79,14 +79,14 @@ int func_021F1060(u8 *p)
             }
         }
         if (p[0x456] >= 4) {
-            func_021F0FB0(p);
-            func_021F1A44(p, 1);
+            func_021F0FB0((char *)p);
+            func_021F1A44((char *)p, 1);
             p[0x455]++;
         }
         p[0x456]++;
         break;
     case 3:
-        if (func_021F0A68(p) == 0 && func_021F1000(p) == 0)
+        if (func_021F0A68((char *)p) == 0 && func_021F1000((char *)p) == 0)
             return 1;
         break;
     }

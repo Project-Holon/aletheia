@@ -18,14 +18,15 @@
 
 typedef unsigned char u8;
 extern void func_021EE8B4(u8 *, int);
-extern int func_021EE8D8(u8 *, int *, int);
+typedef unsigned int   u32;
+extern u8 *func_021EE8D8(u8 *p, u32 *out, int flag);
 extern void func_021BB724(u8 *, int, int, int);
 int func_021BB5FC(u8 *p, int b)
 {
  int n;
  int r;
  func_021EE8B4(p + 0x68, 1);
- r = func_021EE8D8(p + 0x68, &n, b);
+ r = (int)func_021EE8D8(p + 0x68, (u32 *)(&n), b);
  func_021BB724(p, 10, r, n);
  return 1;
 }

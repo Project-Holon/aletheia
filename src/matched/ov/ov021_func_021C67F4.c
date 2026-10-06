@@ -34,15 +34,16 @@ typedef struct {
 } Elem;
 typedef struct { u8 pad[0x2c]; } Item;
 typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item *f8; Elem *fC; } Mgr;
-extern void func_02047AC8(u32 h, V *v);
-extern void func_02047A60(u32 h, V *v);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
+extern void func_02047A60(void *a0, struct Arg *a1);
 void func_021C67F4(Mgr *m, int idx)
 {
     Elem *e = &m->fC[idx];
     if (e->k == 1 && e->b3 == 0) {
         if (e->b2 == 1)
-            func_02047AC8(e->f44, &e->f8);
+            func_02047AC8((void *)e->f44, (struct Arg *)(&e->f8));
         else
-            func_02047A60(e->f44, &e->f8);
+            func_02047A60((void *)e->f44, (struct Arg *)(&e->f8));
     }
 }

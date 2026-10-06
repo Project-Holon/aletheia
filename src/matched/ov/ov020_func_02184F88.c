@@ -35,7 +35,7 @@ struct BigObj;
 struct Rec1C;
 struct Rec1C *func_02012894(const struct BigObj *p);
 int func_02184A14(int ctx, int *state, u8 *p);
-void func_02184CEC(void *obj, void *p);
+void func_02184CEC(void **o, void *p);
 
 void *func_02184F88(void *p)
 {
@@ -43,7 +43,7 @@ void *func_02184F88(void *p)
     char *r4 = func_020124E8(r0v);
     S7 *src;
 
-    func_02184CEC(r4, p);
+    func_02184CEC((void **)r4, p);
     src = (S7 *)func_02012894((const struct BigObj *)(*(int *)&((struct Obj00248 *)r4)->f4));
     *(S7 *)(r4 + 0x10) = *src;
     ((struct Obj00248 *)r4)->f10 = 1;

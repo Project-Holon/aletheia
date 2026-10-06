@@ -26,7 +26,7 @@ typedef signed int s32;
 
 typedef struct { u32 id; u32 template[8]; u32 type; u32 enable; } Entry;
 extern const Entry d_021E8B5C[];
-extern void func_020403F4(u8 id);
+extern void func_020403F4(u32 i);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern void func_02082BCC(void *p, u32 v, u32 n);
@@ -35,7 +35,7 @@ void func_021E55C8(void *p)
 {
     u32 i;
     for (i = 0; i < 8; i++)
-        func_020403F4(d_021E8B5C[i].id);
+        func_020403F4((u8)d_021E8B5C[i].id);
     func_020450C8();
     func_0203F9B4();
     func_02082BCC(p, 0, 4);

@@ -24,10 +24,10 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Desc;
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-extern u32 func_02188C80(u32, u32, u32, u32);
+extern void *func_02188C80(void *p);
 
 int func_021AE930(u32 a, u32 b, u32 c, u32 d)
 {
-return (int)func_02158768(func_02188C80(a, b, c, d), (226 << 4), b, 1);
+return (int)func_02158768((int)func_02188C80((void *)a), (226 << 4), b, 1);
 }
 

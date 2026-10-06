@@ -20,8 +20,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_021F05E8(u8 *p, int a, u32 b);
-extern void func_021F029C(u8 *p, int a);
-extern void func_021F1A08(u8 *p);
+extern void func_021F029C(char *p, int flag);
+extern void func_021F1A08(char *p);
 
 int func_021F03EC(u8 *p)
 {
@@ -30,13 +30,13 @@ int func_021F03EC(u8 *p)
     switch (s) {
     case 0:
         func_021F05E8(p, 0, 1);
-        func_021F029C(p, 1);
-        func_021F1A08(p);
+        func_021F029C((char *)p, 1);
+        func_021F1A08((char *)p);
         ((struct Obj00007 *)p)->f6C = ((struct Obj00007 *)p)->f6C + 1;
         break;
     case 1:
         if (((struct Obj00007 *)p)->fA8 == 0) {
-            func_021F029C(p, 0);
+            func_021F029C((char *)p, 0);
             ((struct Obj00007 *)p)->f6C = 0;
             return 1;
         }

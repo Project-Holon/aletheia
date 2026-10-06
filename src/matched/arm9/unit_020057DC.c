@@ -89,8 +89,8 @@ extern struct Sub020057DCCur  sub_020057DC_Cur;
 extern struct Sub020057DCSlot sub_020057DC_Table[];
 
 extern void func_02072DB0(int idx, int v);
-extern void  func_02072E9C(u32 *info);
-extern void  func_02072EA8(u32 *info);
+extern void func_02072E9C(void **r0);
+extern void func_02072EA8(u32 * volatile *pp);
 struct S;
 extern int   func_02074894(struct S *a);
 extern void  func_020748E0(u32 *a, u32 b);
@@ -108,7 +108,7 @@ void sub_020057E8(u32 i)
 {
     sub_020057DC_Table[i].unk00 = 0;
     sub_020057DC_Table[i].unk04 = 0xFFFF;
-    func_02072EA8(&sub_020057DC_Table[i].unk08);
+    func_02072EA8((u32 * volatile*)(&sub_020057DC_Table[i].unk08));
     sub_020057DC_Table[i].unk0C = -1;
     sub_020057DC_Table[i].unk10 = -1;
     sub_020057DC_Table[i].unk14 = -1;
@@ -132,7 +132,7 @@ void sub_02005858(void)
     struct Sub020057DCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
 
-    func_02072EA8(&slot->unk08);
+    func_02072EA8((u32 * volatile*)(&slot->unk08));
     func_020748E0(*sub_020057DC_Cur.unk08, slot->unk0C);
     sub_020057E8(sub_020057DC_Cur.index);
 }
@@ -145,7 +145,7 @@ void sub_02005888(u16 a)
     sub_020057DC_Cur.index = 0;
     for (i = 0; i < 6; i++) {
         sub_020057E8(i);
-        func_02072E9C(&sub_020057DC_Table[i].unk08);
+        func_02072E9C((void **)(&sub_020057DC_Table[i].unk08));
     }
     func_02072DB0(sub_020057DC_Cur.unk00, 6);
     sub_02005834(func_02074894((struct S *)*sub_020057DC_Cur.unk08));

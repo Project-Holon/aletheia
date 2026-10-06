@@ -37,12 +37,12 @@ extern u32 func_020143CC(u32 a, u32 b);
 extern void func_020307B0(void *);
 extern void func_021F0E40(void *);
 extern void func_021F1520(char *p);
-extern void func_021EF080(void *);
+extern void func_021EF080(char *p);
 void func_021EE824(u8 *p) {
  void *q; u16 *a,*b;
  func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();func_020370C8();
  if(p[40]==1) func_02005D28();
  else { q=(void *)func_0201296C(((struct Obj22274 *)(*(u8 * *)&((struct Obj00979 *)p)->f8))->f4); a=(u16 *)func_020143CC((u32)q,16384);b=(u16 *)func_020143CC((u32)q,16385);*a=((struct Obj00979 *)p)->f38;*b=((struct Obj00979 *)p)->f3A; }
  if(((struct Obj00979 *)p)->f60) func_020307B0(((struct Obj00979 *)p)->f60);
- func_021F0E40(((struct Obj00979 *)p)->fC);func_021F1520(((struct Obj00979 *)p)->f68);func_021EF080(p);
+ func_021F0E40(((struct Obj00979 *)p)->fC);func_021F1520(((struct Obj00979 *)p)->f68);func_021EF080((char *)p);
 }

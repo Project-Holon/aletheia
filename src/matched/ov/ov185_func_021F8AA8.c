@@ -21,7 +21,7 @@ extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *,int);
 extern void func_021F8790(int *task, unsigned *state, char *p);
-extern void func_021F8F58(char *,int *);
+extern void func_021F8F58(char *p, char *q);
 extern void func_021F8F88(char *,int *);
 extern void func_021FD860(void *,int,int *);
 void func_021F8AA8(int *sys,int *state,char *p)
@@ -31,7 +31,7 @@ void func_021F8AA8(int *sys,int *state,char *p)
     case 0: func_021FE784(**(int * *)&((struct Obj04582 *)p)->f34,2,3,1); *state=1; break;
     case 1: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj04582 *)p)->f34)) *state=2; break;
     case 2:
-        func_021F8F58(p,*(int * *)&((struct Obj04582 *)p)->f34);
+        func_021F8F58(p,(char *)(*(int * *)&((struct Obj04582 *)p)->f34));
         func_021F8F88(p,*(int * *)&((struct Obj04582 *)p)->f34);
         pair[0]=0x80;pair[1]=0x60;
         func_021FD860(((struct Obj04582 *)p)->f38,4,pair); *state=3; break;

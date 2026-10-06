@@ -21,11 +21,11 @@ typedef unsigned int u32;
 
 extern u32 func_021CC8D8(void *, int);
 extern void func_021C1910(u8 *p, u8 *a, u8 *q, u32 v);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 void func_021C18D4(u8 *p, u8 *a, u8 *q, u32 v)
 {
     u32 s = func_021CC8D8(p + 0x1d74, 6802);
     func_021C1910(p, a, q, v);
-    func_021CC95C(p + 0x1d74, s, 6802 + 3);
+    func_021CC95C((u32 *)(p + 0x1d74), s, 6802 + 3);
 }

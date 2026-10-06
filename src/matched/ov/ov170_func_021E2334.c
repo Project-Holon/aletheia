@@ -39,11 +39,11 @@ extern void func_021EA878(unsigned char *p, int v);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021EB988(unsigned char *p, const void *e, unsigned n);
 extern void func_021ED888(char *w, int a);
-extern void func_021ECB20(unsigned char *p, int f, int c);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021EF534(struct WinMgr *mgr);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
-extern int func_021E0190(unsigned char *p);
-extern void func_021ED55C(unsigned char *p, int flag);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
+extern void func_021ED55C(char **p, int flag);
 extern void func_021ED508(unsigned char *p, int a, int b);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
 extern void func_021EBCB4(unsigned char *p, int kind, int i);
@@ -89,26 +89,26 @@ int func_021E2334(unsigned char *p)
             *(unsigned char *)(WORK(p) + 0xA170) = 0;
             if (MODE(p) == 3) {
                 if (p[0x16] >= 0x1E) {
-                    func_021ECB20(p, 0x82, 0);
+                    func_021ECB20((char *)p, 0x82, 0);
                 } else {
                     func_021ED888(WORK(p), 1);
-                    func_021ECB20(p, 0x81, 0);
+                    func_021ECB20((char *)p, 0x81, 0);
                 }
             } else {
                 if (p[0x16] >= 0x1E) {
-                    func_021ECB20(p, 2, 0);
+                    func_021ECB20((char *)p, 2, 0);
                 } else {
                     func_021ED888(WORK(p), 1);
-                    func_021ECB20(p, 1, 0);
+                    func_021ECB20((char *)p, 1, 0);
                 }
             }
         }
         func_021EF534(MGR(p));
         STEP(p)++;
-        return func_021E8FC0(p, func_021E0190, 0xE);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 0xE);
     case 1:
         STEP(p) = 0;
-        func_021ED55C(p, 1);
+        func_021ED55C((char **)p, 1);
         func_021ED508(p, 0xE, 1);
         switch (MODE(p)) {
         case 1:

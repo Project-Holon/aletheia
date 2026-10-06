@@ -53,7 +53,7 @@ typedef struct {
 } W;
 
 extern u16 func_02039338(void);
-extern int  func_02186170(W *p);
+extern int func_02186170(char *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Bmp;
@@ -79,7 +79,7 @@ void func_02185F74(u32 *win, u16 color, W *p)
     u32 t;
 
     sel = func_02039338();
-    if (!func_02186170(p))
+    if (!func_02186170((char *)p))
         return;
     for (i = 0; i < 5; i++) {
         if (p->e1c8[i].w == 0)

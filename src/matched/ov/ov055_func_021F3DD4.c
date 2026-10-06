@@ -171,13 +171,13 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct R { u16 h0, h2, h4, h6; };
-extern u32 func_0216D5F8(u32);
+extern u16 func_0216D5F8(void *p);
 extern int func_0216D83C(void *);
 extern int func_0216D86C(void *);
-extern u32 func_021642A4(u32);
-extern int func_021641E8(u32);
-extern int func_021641F8(u32);
-extern void func_0216D410(void *, u32);
+extern u16 func_021642A4(int i);
+extern int func_021641E8(int a);
+extern int func_021641F8(int a);
+extern void func_0216D410(void *a0, u16 a1);
 extern u32 func_020056EC(u32);
 #pragma opt_lifetimes off
 void func_021F3DD4(u8 *p, u32 x)
@@ -188,7 +188,7 @@ void func_021F3DD4(u8 *p, u32 x)
     int yy;
     int y0;
     struct R *r;
-    t0 = func_0216D5F8(x);
+    t0 = func_0216D5F8((void *)x);
     xx = func_0216D83C(*(void **)(p + 0xc));
     y0 = func_0216D86C(*(void **)(p + 0xc));
     if (*(u16 *)(p + 0x14) != 0) {

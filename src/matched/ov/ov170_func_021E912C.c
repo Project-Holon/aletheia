@@ -21,25 +21,25 @@
  *   func_021E0190 0x021E0190 thumb ov170
  */
 #define WORK(p) (*(char **)((p)+0x2C))
-extern void func_021ED6E4(unsigned char *,int);
+extern void func_021ED6E4(char **p, int v);
 extern void func_021EBA70(char *,int);
-extern void func_021DD14C(unsigned char *);
+extern void func_021DD14C(char *p);
 extern void func_021ED888(char *,int);
-extern void func_021ECB20(unsigned char *,int,int);
+extern void func_021ECB20(char *p, int f, int c);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Struct_02025CD0;
 extern u8 func_020355C4(void);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
-extern void func_021ED55C(unsigned char *,int);
-extern int func_021E8F50(unsigned char *,int);
-extern int func_021E8FC0(unsigned char *,int (*)(unsigned char *),int);
-extern int func_021E0190(unsigned char *);
+extern void func_021ED55C(char **p, int flag);
+extern int func_021E8F50(char *p, int v);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
 int func_021E912C(unsigned char *p) {
- func_021ED6E4(p,1); func_021EBA70(WORK(p),0x18); func_021DD14C(p);
- if(p[0x16]<0x1E) { func_021ED888(WORK(p),1); func_021ECB20(p,1,0); }
- else func_021ECB20(p,2,0);
+ func_021ED6E4((char **)p,1); func_021EBA70(WORK(p),0x18); func_021DD14C((char *)p);
+ if(p[0x16]<0x1E) { func_021ED888(WORK(p),1); func_021ECB20((char *)p,1,0); }
+ else func_021ECB20((char *)p,2,0);
  if(func_020355C4()==1) func_020260F4(*(void **)(WORK(p)+0x70),0);
- else { func_020260F4(*(void **)(WORK(p)+0x70),1); func_021ED55C(p,0); }
- return func_021E8FC0(p,func_021E0190,func_021E8F50(p,0xE));
+ else { func_020260F4(*(void **)(WORK(p)+0x70),1); func_021ED55C((char **)p,0); }
+ return func_021E8FC0((char *)p,(int)func_021E0190,func_021E8F50((char *)p,0xE));
 }

@@ -28,7 +28,8 @@ extern void func_021D3FD0(unsigned char *p);
 typedef unsigned short u16;
 struct L;
 extern void func_021EAF18(struct L *p, int kind, u16 id);
-extern void func_021EA614(void *,void *);
+struct H;
+extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 int func_021CE1B0(u8 *p,int *state)
 {
@@ -49,7 +50,7 @@ int func_021CE1B0(u8 *p,int *state)
             func_021D3FD0(p+0x18);
             if (((struct Obj01893 *)p)->f54) {
                 func_021EAF18((struct L *)(p+0x58),1,0xb7);
-                func_021EA614(((struct Obj01893 *)p)->f54,p+0x58);
+                func_021EA614(((struct Obj01893 *)p)->f54,(struct H *)(p+0x58));
                 (*state)++;
             } else {
                 func_021CE2E8(p);
@@ -61,7 +62,7 @@ int func_021CE1B0(u8 *p,int *state)
             func_021D3FD0(p+0x18);
             if (((struct Obj01893 *)p)->f54) {
                 func_021EAF18((struct L *)(p+0x58),1,0xb8);
-                func_021EA614(((struct Obj01893 *)p)->f54,p+0x58);
+                func_021EA614(((struct Obj01893 *)p)->f54,(struct H *)(p+0x58));
                 *state += 2;
             } else {
                 func_021CE2E8(p);

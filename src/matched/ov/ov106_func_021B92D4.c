@@ -26,8 +26,11 @@ extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_020457B0(int,u16);
 extern void *func_02043678(unsigned,unsigned,unsigned,u16);
-extern void *func_020255A0(void *,Param *);
-void *func_021B92D4(const u8 *pos,u16 a,u16 b,int c,u8 d,int e,void *sys,void *owner,u16 heap) {
+struct Grid;
+struct Param;
+struct Sys;
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+void *func_021B92D4(const u8 *pos, u8 a, u8 b, int c, u8 d, int e, void *sys, void *owner, u16 heap) {
  u8 *p; Param cfg;
  p=func_02030734(heap,36,0,d_021B9680,3402);
  func_02082BCC(p,0,36);
@@ -37,6 +40,6 @@ void *func_021B92D4(const u8 *pos,u16 a,u16 b,int c,u8 d,int e,void *sys,void *o
  func_02082BCC(&cfg,0,24);
  cfg.bmp=((struct Obj06376 *)p)->f0;cfg.x=((struct Obj07992 *)pos)->f0;cfg.y=((struct Obj07992 *)pos)->f2;
  cfg.f8=c;cfg.f10=pos[6];cfg.f12=e;cfg.f14=e;cfg.f11=pos[7];cfg.fc=d;
- ((struct Obj06376 *)p)->f1C=func_020255A0(sys,&cfg);
+ ((struct Obj06376 *)p)->f1C=func_020255A0(sys,(const struct Param *)(&cfg));
  return p;
 }

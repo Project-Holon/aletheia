@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021B9A3C(u8 *,u16,int);
-int func_021BB1CC(u32 p,u32 i,int c) { return func_021B9A3C(*(u8 * *)&((struct Obj22356 *)p)->f4,*(u16 *)(p+i*2+0x8bc),c); }
+int func_021BB1CC(u8 *p, u8 i, int c) { return func_021B9A3C(*(u8 * *)&((struct Obj22356 *)p)->f4,*(u16 *)(p+i*2+0x8bc),c); }

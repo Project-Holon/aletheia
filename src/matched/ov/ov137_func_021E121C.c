@@ -22,9 +22,10 @@ struct Actor;
 extern const Table d_021E203C;
 struct Node;
 extern void func_020061E4(u32 a);
-extern void func_0204B8D4(struct Actor *, int);
+struct Obj;
+extern void func_0204B8D4(struct Obj *p, u32 arg);
 extern u32 func_0204B98C(struct Actor *);
-extern void func_0204B3B4(struct Actor *);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_020307B0(void *);
 extern void func_02030EAC(struct Node *n);
 void func_021E121C(void *task, int *p)
@@ -40,11 +41,11 @@ void func_021E121C(void *task, int *p)
                 p[3]++;
             }
         }
-        func_0204B8D4((struct Actor *)p[5], 0x1800);
+        func_0204B8D4((struct Obj *)p[5], 0x1800);
         if (func_0204B98C((struct Actor *)p[5]) == 0) p[0]++;
         break;
     case 1:
-        func_0204B3B4((struct Actor *)p[5]);
+        func_0204B3B4((struct Obj *)p[5]);
         func_020307B0(p);
         func_02030EAC(task);
         break;

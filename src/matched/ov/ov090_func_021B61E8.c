@@ -14,5 +14,6 @@
 typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_02039C68(void *, u32, u32);
-void func_021B61E8(void *a, u32 b) { func_02039C68(func_020399A8(), b, 45); }
+struct Link;
+extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
+void func_021B61E8(void *a, int b) { func_02039C68((struct Link *)func_020399A8(), b, 45); }

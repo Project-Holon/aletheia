@@ -16,12 +16,12 @@
 
 typedef unsigned int u32;
 typedef struct { u32 v; int n; } St;
-extern St *func_0216D69C(u32);
+extern void *func_0216D69C(void *p);
 extern void func_0216D5E0(int a0, int a1);
 
 void func_0219A54C(u32 a)
 {
-    St *p = func_0216D69C(a);
+    St *p = func_0216D69C((void *)a);
     switch (p->n) {
     case 0:
         func_0216D5E0(a, (unsigned short)p->v);

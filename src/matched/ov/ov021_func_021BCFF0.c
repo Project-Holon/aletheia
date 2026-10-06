@@ -18,12 +18,14 @@ typedef struct {
     void *f14;
 } Obj;
 
-extern unsigned short func_021BD090(Obj *p);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern u16 func_021BD090(u8 *p);
 typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 void func_021BCFF0(Obj *p)
 {
-    p->f14 = func_02045B38(0, 2, 0x59, func_021BD090(p));
+    p->f14 = func_02045B38(0, 2, 0x59, func_021BD090((u8 *)p));
 }

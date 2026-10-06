@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D5C98(void *);
+extern void func_021D5C98(u8 *p);
 extern int func_021D5B58(u8 *,int);
 extern int func_021D62E4(char *);
 struct Obj;
@@ -32,7 +32,7 @@ void func_021D54A8(char *p)
     case 0:
         if (((struct Obj00039 *)p)->f58!=0) {
             ((struct Obj00039 *)p)->f58=0;
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_020061E4(1637);
             ((struct Obj00039 *)p)->f1C=1;
         }
@@ -40,7 +40,7 @@ void func_021D54A8(char *p)
     case 1:
         if (((struct Obj00039 *)p)->f58!=1 && ((struct Obj00039 *)p)->f38==0) {
             ((struct Obj00039 *)p)->f58=1;
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_020061E4(1637);
             ((struct Obj00039 *)p)->f1C=1;
         }
@@ -48,7 +48,7 @@ void func_021D54A8(char *p)
     case 2:
         if (((struct Obj00039 *)p)->f58!=2 && ((struct Obj00039 *)p)->f38==0 && ((struct Obj00039 *)p)->f40==1) {
             ((struct Obj00039 *)p)->f58=2;
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_020061E4(1637);
             ((struct Obj00039 *)p)->f1C=1;
         }
@@ -68,7 +68,7 @@ void func_021D54A8(char *p)
         break;
     case 4:
         if (func_021D5B58((u8 *)p,0)==1) {
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_0204B878(((struct Obj00039 *)p)->f188,11);
             func_0204B878(((struct Obj00039 *)p)->f18C,2);
             ((struct Obj00039 *)p)->f48=1;
@@ -79,7 +79,7 @@ void func_021D54A8(char *p)
         break;
     case 5:
         if (func_021D5B58((u8 *)p,1)==1) {
-            func_021D5C98(p);
+            func_021D5C98((u8 *)p);
             func_0204B878(((struct Obj00039 *)p)->f188,3);
             func_0204B878(((struct Obj00039 *)p)->f18C,10);
             ((struct Obj00039 *)p)->f48=0;

@@ -79,7 +79,8 @@ typedef struct {
 } Ctrl;
 
 extern s32 func_02091588(s32 x);
-extern void func_02062BF4(Ctrl *p);
+struct Slider;
+extern void func_02062BF4(struct Slider *s);
 
 static inline s32 FX_Mul(s32 a, s32 b)
 {
@@ -150,7 +151,7 @@ BOOL func_02062D4C(Ctrl *p, s32 frames)
         else
             p->pCurrent--;
         if (IsReachedEdge_(p))
-            func_02062BF4(p);
+            func_02062BF4((struct Slider *)p);
         if (p->pCurrent->frames != 0)
             p->pActiveCurrent = p->pCurrent;
         if (p->callback.type != 0)

@@ -19,14 +19,15 @@ typedef unsigned short u16;
 
 extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern u32 func_02005728(u32 n);
-extern u32 func_021C452C(u16 a, u16 b, u16 c, u32 d);
+typedef unsigned char  u8;
+extern u8 func_021C452C(u32 a, u32 b, u32 c, u32 d);
 
 void func_021C3D1C(u32 *p, u32 *q, u32 d)
 {
     u32 a = func_02017E1C((void *)p[1], 5, 0);
     u32 b = func_02017E1C((void *)p[1], 0x6f, 0);
     u32 c = func_02017E1C((void *)p[1], 0xa, 0);
-    u32 k = func_021C452C(a, b, c, d);
+    u32 k = (u32)func_021C452C((u16)a, (u16)b, (u16)c, d);
     u32 r = func_02005728(100);
 
     switch (k) {

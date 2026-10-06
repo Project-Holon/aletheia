@@ -35,7 +35,8 @@ struct Slot {
     u8  pad2;
 };
 
-extern u32 func_02008530(void *p);
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 
@@ -49,7 +50,7 @@ s32 func_0202ECB0(struct Slot *a0, void *b)
         u32 w, x;
         if (!a0[i].flag)
             break;
-        w = func_02008530(&a0[i]);
+        w = func_02008530((const struct Sub0200852CObj *)(&a0[i]));
         if (w == v0) {
             x = func_0200856C((const struct Sub0200852CObj *)(&a0[i]));
             if (x == v1)

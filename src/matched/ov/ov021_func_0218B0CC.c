@@ -31,11 +31,12 @@ typedef unsigned char  u8;
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern void func_0219E2F4(void *o, void *out);
-extern int func_02162598(void *a, int *b);
-extern void *func_021625CC(void *a, u16 b);
+struct Q;
+extern int func_02162598(char *p, struct Q *q);
+extern void *func_021625CC(char *p, unsigned i);
 extern int func_021626EC(u16 *p);
 extern int func_0218AEAC(u8 *p);
-extern void func_0218B2A8(char *p, int a, int *b);
+extern void func_0218B2A8(char *p, int s, u16 *v);
 extern int func_0218B2E8(char *p, void *x, int a, int *b);
 
 int func_0218B0CC(char *p, void *unused, void *x)
@@ -45,12 +46,12 @@ int func_0218B0CC(char *p, void *unused, void *x)
     void *r6;
 
     func_0219E2F4(func_021A3074(func_02188CB4(x)), buf);
-    r4 = func_02162598(((struct Obj04982 *)p)->fC, buf);
+    r4 = func_02162598(((struct Obj04982 *)p)->fC, (struct Q *)buf);
     if (r4 == 0xFFFF)
         return 0;
-    r6 = func_021625CC(((struct Obj04982 *)p)->fC, r4);
+    r6 = func_021625CC(((struct Obj04982 *)p)->fC, (u16)r4);
     if (func_021626EC(r6) == 1 || func_0218AEAC(r6) == 0)
         return 0;
-    func_0218B2A8(p, r4, buf);
+    func_0218B2A8(p, r4, (u16 *)buf);
     return func_0218B2E8(p, x, r4, buf);
 }

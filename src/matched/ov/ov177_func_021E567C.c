@@ -33,15 +33,16 @@ typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern const char d_021E8DBC[];
-extern void *func_02030734(u32 heap, u32 size, u32 c, const char *d, u32 e);
+typedef signed int     s32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, u32, u32);
 extern void func_02082D44(const void *, void *, u32);
 extern void *func_020490F4(u32, u16);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_0204ABF0(void *, u32, u32, u32, u16);
-extern u32 func_0204A6C8(void *, u32, u32, u32, u16);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern u32 func_0204AF28(void *, u32, u32, u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_020307B0(void *);
@@ -49,9 +50,9 @@ extern void func_02049238(void *);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_021E58A4(void *w, u32 mode, u32 heap);
+extern void func_021E58A4(int unused, int mode, unsigned color);
 
-u32 *func_021E567C(u32 unused, u32 mode, u32 heap)
+u32 *func_021E567C(int unused, int mode, int heap)
 {
     u32 *w;
     u32 c;
@@ -70,7 +71,7 @@ u32 *func_021E567C(u32 unused, u32 mode, u32 heap)
     func_02049B68(h, 0, 4, 0, 0, c);
     func_02049658(h, 2, 3, 0, 0, 0, c);
     func_02049658(h, 2, 7, 0, 0, 0, c);
-    func_021E58A4(w, mode, heap);
+    func_021E58A4((int)w, mode, heap);
     w[0] = func_0204ABF0(h, 1, 0, 0, c);
     w[2] = func_0204A6C8(h, 3, 0, 0, c);
     w[4] = func_0204AF28(h, 4, 0xb, c);

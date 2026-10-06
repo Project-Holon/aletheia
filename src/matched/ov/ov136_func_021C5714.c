@@ -16,7 +16,7 @@ typedef unsigned int u32;
 extern void func_020403F4(u32 bgId);
 extern void func_0203F9B4(void);
 
-void func_021C5714(void)
+void func_021C5714(void *a0)
 {
     func_020403F4(3);
     func_020403F4(2);

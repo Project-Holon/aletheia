@@ -17,10 +17,11 @@
 #include "../include/Obj18463.h"
 
 
-extern int func_020221A4(char *);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 int func_021E2020(char *p)
 {
-    if (func_020221A4(p) == 1)
+    if (func_020221A4() == 1)
         return *(int *)(((struct Obj18463 *)p)->f2C + 0xA188);
     return 2;
 }

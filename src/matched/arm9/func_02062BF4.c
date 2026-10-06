@@ -114,7 +114,8 @@ struct Slider {
     Callback cb_28;  /* 0x28 */
 };
 
-extern void func_02062F90(struct Slider *s);
+struct NNSG2dAnimController;
+extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
 
 static inline u32 getMode(struct Slider *s) {
     u32 m = s->field_18;
@@ -139,7 +140,7 @@ void func_02062BF4(struct Slider *s)
             }
             mode = getMode(s);
             if (mode == 2 || mode == 4) {
-                func_02062F90(s);
+                func_02062F90((struct NNSG2dAnimController *)s);
             } else {
                 s->field_0C = 0;
             }
@@ -150,7 +151,7 @@ void func_02062BF4(struct Slider *s)
         }
         mode = getMode(s);
         if (mode == 2 || mode == 4) {
-            func_02062F90(s);
+            func_02062F90((struct NNSG2dAnimController *)s);
         } else {
             s->field_0C = 0;
         }

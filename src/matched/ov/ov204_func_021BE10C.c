@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021BE10C(char *p, int b, int *c)
+int func_021BE10C(char *p, u32 b, int *c)
 {
     ((struct Obj10870 *)p)->f1C = *c;
     ((struct Obj10870 *)p)->fA0 = 0;

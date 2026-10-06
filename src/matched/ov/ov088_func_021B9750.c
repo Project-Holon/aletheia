@@ -38,18 +38,18 @@ typedef unsigned int   u32;
 
 extern void func_021B98BC(void);
 extern void func_021B9910(void);
-extern void func_021B997C(void *p, int heap);
+extern void func_021B997C(int *p, int heap);
 extern void func_021B9A1C(void *p, int heap);
 extern void func_021B9C2C(void *p, int heap);
-extern void func_021B9EC4(void *p, int heap);
-extern void func_021B9928(void *p);
+extern void func_021B9EC4(int *p, int heap);
+extern void func_021B9928(unsigned char *p);
 typedef signed int     s32;
 extern void func_021B965C(char *p);
 extern void func_021B95CC(char *p);
-extern void func_021B9F70(void *p);
-extern void func_021B9E54(void *p);
-extern void func_021B9C08(void *p);
-extern void func_021B99EC(void *p);
+extern void func_021B9F70(int *p);
+extern void func_021B9E54(int *p);
+extern void func_021B9C08(int *p);
+extern void func_021B99EC(int *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int  func_0204E804(void);
 extern void func_02005DAC(void *arg);
@@ -67,10 +67,10 @@ int func_021B9750(int a0, int a1, int a2, char *p)
         ((struct Obj00462 *)p)->f0 = 1;
         break;
     case 1:
-        func_021B997C(p + 8, ((struct Obj00462 *)p)->f2);
+        func_021B997C((int *)(p + 8), ((struct Obj00462 *)p)->f2);
         func_021B9A1C(p + 0x14, ((struct Obj00462 *)p)->f2);
         func_021B9C2C(p + 0x40, ((struct Obj00462 *)p)->f2);
-        func_021B9EC4(p + 0x54, ((struct Obj00462 *)p)->f2);
+        func_021B9EC4((int *)(p + 0x54), ((struct Obj00462 *)p)->f2);
         func_0204E720(3, 0x10, 0, 2);
         ((struct Obj00462 *)p)->f8C = 0;
         ((struct Obj00462 *)p)->f0 = 2;
@@ -80,10 +80,10 @@ int func_021B9750(int a0, int a1, int a2, char *p)
         if (func_0204E804() == 0) {
             ((struct Obj00462 *)p)->f0 = 3;
         }
-        func_021B9928(p);
+        func_021B9928((unsigned char *)p);
         break;
     case 3:
-        func_021B9928(p);
+        func_021B9928((unsigned char *)p);
         func_021B965C(p);
         func_021B95CC(p);
         break;
@@ -91,12 +91,12 @@ int func_021B9750(int a0, int a1, int a2, char *p)
         if (func_02006BD0(*(u32 *)&((struct Obj00462 *)p)->f90) == 0) {
             ((struct Obj00462 *)p)->f0 = 5;
         }
-        func_021B9928(p);
+        func_021B9928((unsigned char *)p);
         break;
     case 5:
         func_0204E720(3, 0, 0x10, 2);
         ((struct Obj00462 *)p)->f0 = 6;
-        func_021B9928(p);
+        func_021B9928((unsigned char *)p);
         func_02005E30(0x10);
         break;
     case 6:
@@ -104,13 +104,13 @@ int func_021B9750(int a0, int a1, int a2, char *p)
             func_02005D28();
             ((struct Obj00462 *)p)->f0 = 7;
         }
-        func_021B9928(p);
+        func_021B9928((unsigned char *)p);
         break;
     case 7:
-        func_021B9F70(p + 0x54);
-        func_021B9E54(p + 0x40);
-        func_021B9C08(p + 0x14);
-        func_021B99EC(p + 8);
+        func_021B9F70((int *)(p + 0x54));
+        func_021B9E54((int *)(p + 0x40));
+        func_021B9C08((int *)(p + 0x14));
+        func_021B99EC((int *)(p + 8));
         return 1;
     case 8:
         return 1;

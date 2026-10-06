@@ -30,7 +30,7 @@ extern void func_021C6ADC(u8 *,u8 *,unsigned);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02041B6C(u32);
 extern void func_021C991C(u8 *p, u8 *q, u8 *ctx, u16 heap);
-extern void func_021C9BEC(u8 *,void *,void *,int,s16,int);
+extern void func_021C9BEC(u16 *p, void *b, void *c, int flag, int value, int a5);
 extern int func_021C9D88(u8 *,int);
 extern void func_021C6E18(u8 *p, int i, u16 a);
 extern void func_021C6DD8(u8 *p, u32 a);
@@ -46,7 +46,7 @@ void func_021C97A0(u8 *p,u8 *q,u8 *r,u16 heap)
     func_02041090(2,(u32)((u8 *)t+12),0,0,(u32)t[0]>>3,(u32)t[1]>>3);
     func_02041B6C(2);
     func_021C991C(p,(u8 *)q,r,heap);
-    func_021C9BEC(p,(u8 *)q,r,0,*(s16 *)&((struct Obj00773 *)p)->f0,heap);
+    func_021C9BEC((u16 *)p,(u8 *)q,r,0,*(s16 *)&((struct Obj00773 *)p)->f0,heap);
     if(func_021C9D88((u8 *)q,0)==1) {
         func_021C6E18(r,1,3);
         func_021C6E18(r,0,2);

@@ -15,5 +15,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021BA408(void *);
-extern void func_021B61F8(u8 *,u16);
+extern void func_021B61F8(unsigned char *task, int value);
 int func_021B9A68(u8 *task,void *p) {func_021BA408(p);func_021B61F8(task,65534);return 1;}

@@ -23,7 +23,8 @@
 #include "../include/Obj00507.h"
 
 extern int func_0220C60C(char *, int);
-extern int func_0220D884(char *);
+typedef unsigned char  u8;
+extern void func_0220D884(u8 *p);
 extern int func_0220D9B4(char *);
 extern int func_0220DCA8(char *);
 extern int func_0220DC04(char *);
@@ -37,7 +38,7 @@ int func_0220BE2C(char *a, int idx)
     switch (idx) {
     case 0: {
         unsigned char c;
-        func_0220D884(a);
+        func_0220D884((u8 *)a);
         c = *(unsigned char *)(*(int *)&((struct Obj00507 *)a)->f0 + 0x1f);
         if (c == 3)
             return func_0220C60C(a, 7);
@@ -46,7 +47,7 @@ int func_0220BE2C(char *a, int idx)
         return func_0220C60C(a, 6);
     }
     case 8:
-        func_0220D884(a);
+        func_0220D884((u8 *)a);
         return func_0220C60C(a, 0xa);
     case 1:
         return func_0220D9B4(a);

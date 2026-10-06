@@ -21,10 +21,10 @@
 typedef unsigned char u8;
 
 extern int func_021B85A8(u8 *);
-extern u8 func_021B8DE4(u8 *, int);
+extern int func_021B8DE4(char *p, int i);
 extern u8 func_021B8FF4(u8 *);
 extern char *func_021B9AEC(char *, int);
-extern u8 func_021B9B98(char *);
+extern u8 func_021B9B98(u8 *p);
 
 int func_021BB040(u8 *p)
 {
@@ -32,10 +32,10 @@ int func_021BB040(u8 *p)
 
     if (func_021B85A8(*(u8 * *)&((struct Obj01235 *)p)->fC) != 0 && p[0xcba] != 0) {
         for (i = 0; i < p[0xcba]; i++) {
-            if (func_021B8DE4(*(u8 * *)&((struct Obj01235 *)p)->fC, p[0xcb4 + i]) == 0)
+            if (func_021B8DE4((char *)(*(u8 * *)&((struct Obj01235 *)p)->fC), p[0xcb4 + i]) == 0)
                 return 0;
         }
-        if (func_021B9B98(func_021B9AEC(*(char * *)&((struct Obj01235 *)p)->f10, func_021B8FF4(*(u8 * *)&((struct Obj01235 *)p)->fC))) < 2)
+        if (func_021B9B98((u8 *)func_021B9AEC(*(char * *)&((struct Obj01235 *)p)->f10, func_021B8FF4(*(u8 * *)&((struct Obj01235 *)p)->fC))) < 2)
             return 0;
         return 1;
     }

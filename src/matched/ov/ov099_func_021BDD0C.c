@@ -22,7 +22,9 @@ typedef struct {
 
 extern Snd d_021C3B9C;
 extern int func_02085D3C(void);
-extern void func_0203CBAC(Snd *s, int a, void *b);
+typedef unsigned int   u32;
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_0203D844(void *dst);
 
 void func_021BDD0C(void *p, int on)
@@ -32,7 +34,7 @@ void func_021BDD0C(void *p, int on)
     else
         d_021C3B9C.f48 = 0x5e400;
     if (on)
-        func_0203CBAC(&d_021C3B9C, 0, p);
+        func_0203CBAC((struct Req *)(&d_021C3B9C), 0, (u32)p);
     else
         func_0203D844(&d_021C3B9C);
 }

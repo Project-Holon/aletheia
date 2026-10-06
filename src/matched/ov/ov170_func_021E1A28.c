@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
 extern void func_021EE008(char *p, int a, int b);
-extern void func_021EDF5C(char *p);
+extern void func_021EDF5C(unsigned char *p);
 extern void func_021EDD38(char *p, int d);
 
 int func_021E1A28(char *p)
@@ -39,7 +39,7 @@ int func_021E1A28(char *p)
             func_021EE008(p, r - 0x22, 1);
         else
             func_021EE008(p, 0, 0);
-        func_021EDF5C(p);
+        func_021EDF5C((unsigned char *)p);
         b->fE = 0;
         return 0;
     }

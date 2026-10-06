@@ -39,11 +39,11 @@
 struct WinMgr;
 extern void func_021EF670(char *);
 extern void func_021EA75C(int p);
-extern void func_021ECB20(unsigned char *,int,int);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021ED888(char *,int);
-extern void func_021EE364(unsigned char *,int,int);
+extern void func_021EE364(char **p, int idx, int v);
 extern void func_021EF68C(char *);
-extern void func_021ED588(unsigned char *);
+extern void func_021ED588(char *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -56,7 +56,7 @@ extern void func_021EBC58(unsigned char *,int,int,int);
 extern unsigned func_0202136C(unsigned short);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void func_021DD2B4(int a, int b, int c, int d, int e);
-extern int func_021DD718(unsigned char *,void *);
+extern int func_021DD718(void **pp, void *mon);
 extern void func_021DD8A8(void **pp, u32 idx);
 extern void func_021EC48C(unsigned char *,int,int,int);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
@@ -67,22 +67,22 @@ extern void func_021EA770(int p);
 extern void func_02026124(struct Sound *obj, u32 idx);
 extern void func_021ECB84(char *,unsigned);
 extern void func_021E072C(unsigned char *);
-extern void func_021ED75C(unsigned char *,int);
-extern void func_021ED594(unsigned char *,unsigned);
+extern void func_021ED75C(char **p, int i);
+extern void func_021ED594(char *p, unsigned i);
 int func_021E9B74(unsigned char *p)
 {
     switch(p[0x13]) {
     case 0:
         func_021EB988(p,data_021EF918,4);
         func_021EF4E4(*(struct WinMgr **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
-        func_021EE364(p,0xd,0x25); func_021ED588(p); return 0x23;
+        func_021EE364((char **)p,0xd,0x25); func_021ED588((char *)p); return 0x23;
     case 1:
         func_021EB988(p,data_021EF918,4);
         func_021EF4E4(*(struct WinMgr **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
-        func_021ECB20(p,1,1); func_021ED888(WORK,0);
-        func_021EE364(p,0xe,0xa); func_021EA75C((int)p); func_021ED588(p); return 0x27;
+        func_021ECB20((char *)p,1,1); func_021ED888(WORK,0);
+        func_021EE364((char **)p,0xe,0xa); func_021EA75C((int)p); func_021ED588((char *)p); return 0x27;
     case 4:
-        func_021EA770((int)p); func_021EE364(p,6,p[0x16]);
+        func_021EA770((int)p); func_021EE364((char **)p,6,p[0x16]);
         func_02026124(*(void **)(WORK+0x70),0x27);
         p[0x16]=0xff; return 0x20;
     case 5:
@@ -90,9 +90,9 @@ int func_021E9B74(unsigned char *p)
         if(p[0x16]<0x1e && p[0x14]!=p[0x17])
             func_021EC48C(p,p[0x17],p[0x16],*(unsigned char *)(WORK+0x3df6));
         else func_021ECB84(WORK,p[0x16]);
-        func_021E072C(p); func_021ED75C(p,0x24);
-        func_021EE364(p,6,p[0x1d]); func_02026124(*(void **)(WORK+0x70),0x27);
-        func_021ED594(p,0x24); return 0x20;
+        func_021E072C(p); func_021ED75C((char **)p,0x24);
+        func_021EE364((char **)p,6,p[0x1d]); func_02026124(*(void **)(WORK+0x70),0x27);
+        func_021ED594((char *)p,0x24); return 0x20;
     }
     return 0;
 }

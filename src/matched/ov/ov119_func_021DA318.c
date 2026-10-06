@@ -61,7 +61,9 @@ typedef unsigned char u8;
 struct TaskMenu;
 struct S;
 struct Obj;
-extern u32 func_02027A20(void *),func_02035C60(void),func_02035C38(void);
+extern unsigned func_02027A20(char *p);
+extern int func_02035C60(void);
+extern int func_02035C38(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8),func_021D8C84(void *),func_021B63D0(struct S *);
 extern int func_021B6470(u8 *),func_021B6448(u8 *);
@@ -80,10 +82,16 @@ extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021DBB6C(char *);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_021E5EF8(void *);
-extern void func_021E4174(void *);
-extern void func_021E12F8(void *);
+extern void func_021E4174(char *p);
+extern void func_021E12F8(char *p);
 extern void func_02041B6C(u32);
-extern void func_021DA158(void *),func_021DA0CC(void *),func_021DA110(void *),func_021D9E54(void *),func_021DA27C(void *),func_021DA1DC(void *),func_021DA2F4(void *);
+extern void func_021DA158(char *p);
+extern void func_021DA0CC(char *p);
+extern void func_021DA110(char *p);
+extern void func_021D9E54(char *p);
+extern void func_021DA27C(char *p);
+extern void func_021DA1DC(char *p);
+extern void func_021DA2F4(void *);
 #define I(o) (*(int *)(p+(o)))
 #define P(o) (*(void **)(p+(o)))
 void func_021DA318(char *p)

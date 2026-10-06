@@ -25,7 +25,7 @@ typedef signed char s8;
 extern unsigned int func_02035CB8(u32 *a, u32 *b);
 extern void func_021C83DC(u8 *p, int value);
 extern void func_021C840C(u8 *p);
-extern void func_021C8414(void *p, int idx);
+extern void func_021C8414(u8 *p, int idx);
 
 typedef struct {
     u8 pad0[0x17C];
@@ -88,7 +88,7 @@ void func_021C842C(Work *p, int idx)
             }
         }
         if (hit) {
-            func_021C8414(p, idx);
+            func_021C8414((u8 *)p, idx);
         }
     }
     PREV_X = x;

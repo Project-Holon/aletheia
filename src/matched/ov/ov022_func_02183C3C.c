@@ -33,14 +33,16 @@ extern u32 func_0200FB24(void);
 extern void func_02172D38(u8 *p);
 extern int func_02172D68(u8 *p);
 extern u32 func_0203D378(void);
-extern void func_02183EE0(u8 *s, u8 *c);
+struct C;
+struct S;
+extern void func_02183EE0(struct S *s, struct C *c);
 extern void func_02183D34(u8 *s);
 extern void func_02183CC0(u8 *s);
 extern void func_02183D4C(u8 *s);
 extern void func_02183D94(u8 *s);
 extern void func_02183DAC(u8 *s);
 extern void func_02183DDC(u8 *s);
-extern void func_02183E48(u8 *s, u8 *c);
+extern void func_02183E48(struct S *s, struct C *c);
 
 void func_02183C3C(u8 *s, u8 *c)
 {
@@ -64,7 +66,7 @@ void func_02183C3C(u8 *s, u8 *c)
         return;
     }
     if (func_0203D378() == 1) {
-        func_02183EE0(s, c);
+        func_02183EE0((struct S *)s, (struct C *)c);
         func_02183D34(s);
         func_02183CC0(s);
         func_02183D4C(s);
@@ -72,5 +74,5 @@ void func_02183C3C(u8 *s, u8 *c)
     }
     func_02183DAC(s);
     func_02183DDC(s);
-    func_02183E48(s, c);
+    func_02183E48((struct S *)s, (struct C *)c);
 }

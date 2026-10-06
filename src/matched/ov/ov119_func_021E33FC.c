@@ -55,7 +55,7 @@ extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u8 func_02017F00(void *p);
 extern u16 func_02015F04(void *p);
 extern s16 func_02015F14(void *p);
-extern void func_02015C78(void *p, Vec *v);
+extern void func_02015C78(void *p, u32 *src);
 
 #define F32_TO_FX32(f) ((int)(((f) > 0) ? ((f) * 4096.0f + 0.5f) : ((f) * 4096.0f - 0.5f)))
 
@@ -98,5 +98,5 @@ void func_021E33FC(void *p0, int *dir, int p2, void *mon)
         v.y = 0;
         v.z = 0;
     }
-    func_02015C78(p0, &v);
+    func_02015C78(p0, (u32 *)(&v));
 }

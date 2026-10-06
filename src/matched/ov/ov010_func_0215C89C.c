@@ -56,7 +56,7 @@ extern u32 func_02159B10(void *c, void *vm);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *list, u32 i);
 extern u8 *func_02012944(void *p);
-extern void *func_0216F948(void *mon, u32 heap);
+extern u16 *func_0216F948(void *mon, u32 heap);
 extern void *func_0216F918(u32 heap);
 extern void *func_02030734(u32 heap, u32 size, int flags, const char *file, u16 line);
 extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);

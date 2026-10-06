@@ -32,7 +32,8 @@ typedef struct Triple { int a,b,c; } Triple;
 typedef struct Date { int a,b,c,weekday; } Date;
 typedef struct Bytes { u8 a,b; } Bytes;
 extern void func_02082BCC(void *,int,unsigned);
-extern unsigned func_0200853C(const void *);
+struct Sub0200852CObj;
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned func_0201AA18(void *);
 extern void *func_0201AB28(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
@@ -51,7 +52,7 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
     Triple time;
     Bytes bytes;
     func_02082BCC(p,0,0x50);
-    ((struct Obj06660 *)p)->f0=func_0200853C(save);
+    ((struct Obj06660 *)p)->f0=func_0200853C((const struct Sub0200852CObj *)save);
     ((struct Obj06660 *)p)->f4=((struct Obj25296 *)save)->f48;
     for(i=0;i<(int)func_0201AA18(party2);i++) {
         mon=func_0201AB28(party2,i);

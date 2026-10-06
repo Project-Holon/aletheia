@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021FCDEC(int,int);
-void func_021FD918(char *p,int a,int b) {func_021FCDEC((int)p,0x40);((struct Obj10568 *)p)->f4C=6;((struct Obj10568 *)p)->f144=a;((struct Obj10568 *)p)->f148=b;}
+void func_021FD918(char *p, u32 a, int b) {func_021FCDEC((int)p,0x40);((struct Obj10568 *)p)->f4C=6;((struct Obj10568 *)p)->f144=a;((struct Obj10568 *)p)->f148=b;}

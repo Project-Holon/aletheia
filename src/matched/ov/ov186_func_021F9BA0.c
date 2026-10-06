@@ -14,7 +14,7 @@
  */
 typedef unsigned int u32;
 typedef struct { u32 words[4]; } Info;
-extern void func_021F9C84(Info *, unsigned, void *);
+extern void func_021F9C84(char *p, int a, int b);
 extern void func_021F9CA4(void *);
 void func_021F9BA0(unsigned *ctx)
 {
@@ -23,7 +23,7 @@ void func_021F9BA0(unsigned *ctx)
         ctx[25]--;
         if (ctx[25] != 0) {
             unsigned idx = (unsigned short)((unsigned *)((char *)ctx + 0x48))[ctx[25]];
-            func_021F9C84(&info, idx, (char *)ctx[1] + idx * 20);
+            func_021F9C84((char *)(&info), idx, (int)((char *)ctx[1] + idx * 20));
             *(Info *)((char *)ctx + 0x3c) = info;
         } else {
             func_021F9CA4((char *)ctx + 0x3c);

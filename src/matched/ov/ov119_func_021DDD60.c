@@ -25,11 +25,11 @@ struct Link;
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_021DD24C(void *);
-extern void func_021DD294(void *,int,int);
+extern int func_021DD24C(char *p);
+extern void func_021DD294(char *p, int a, int b);
 extern void func_021DDCF0(unsigned char *p);
 
 void func_021DDD60(unsigned char *p)
 {
-    if(func_021D8A24(p)==0){p[0x11e0]=13;p[0x11e1]=13;func_021D8E84(p,(int)func_021DDBF0);return;} if(func_02039CB4((struct Link *)func_020399A8(),30,8)==0){func_021DD24C(p);return;}func_021DD294(p,0,0);func_021D8E84(p,(int)func_021DDCF0);
+    if(func_021D8A24(p)==0){p[0x11e0]=13;p[0x11e1]=13;func_021D8E84(p,(int)func_021DDBF0);return;} if(func_02039CB4((struct Link *)func_020399A8(),30,8)==0){func_021DD24C((char *)p);return;}func_021DD294((char *)p,0,0);func_021D8E84(p,(int)func_021DDCF0);
 }

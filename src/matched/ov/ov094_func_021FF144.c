@@ -33,16 +33,17 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
-extern void func_02015C48(void *h, VecFx32 *v);
+typedef unsigned int   u32;
+extern int func_022019F4(char *p, int key);
+extern void func_02015C48(void *p, u32 *src);
 
 void func_021FF144(Work *w, int key, fx32 x, fx32 y, fx32 z)
 {
-    int idx = func_022019F4(w, key);
+    int idx = func_022019F4((char *)w, key);
     VecFx32 v;
 
     v.x = x;
     v.y = y;
     v.z = z;
-    func_02015C48(w->e[idx].h, &v);
+    func_02015C48(w->e[idx].h, (u32 *)(&v));
 }

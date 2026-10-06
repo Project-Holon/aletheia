@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern u8 d_021AAA40[];
 
-int func_02173AD8(void)
+u8 func_02173AD8(void)
 {
     u8 i;
 

@@ -33,7 +33,8 @@ extern void func_021B7F64(char *);
 extern void func_021B7FD0(u8 *,int);
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021B7ADC(u8 *,u8,int);
+typedef unsigned int   u32;
+extern void func_021B7ADC(unsigned char *p, u32 idx, int unused);
 #define S(p) (*(char **)(p))
 void func_021B7C90(char *p,int row,int old)
 {
@@ -69,5 +70,5 @@ void func_021B7C90(char *p,int row,int old)
             func_020260E4(*(void **)(p+0x1C8),3);
         }
     } else func_020061E4(0x54C);
-    func_021B7ADC((u8 *)p,row,3);
+    func_021B7ADC((u8 *)p,(u8)row,3);
 }

@@ -53,7 +53,7 @@ struct Obj {
 
 extern void SND_PrepareSeq(int playerNo, const void *seqBase, u32 seqOffset, const void *bankData);
 extern void SND_SetTrackAllocatableChannel(int playerNo, u32 trackBitMask, u32 chBitMask);
-extern void func_02073500(struct Obj *o);
+extern int func_02073500(int a0);
 extern u32  SND_GetCurrentCommandTag(void);
 
 void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData)
@@ -63,7 +63,7 @@ void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void
     if (s->f1c != 0) {
         SND_SetTrackAllocatableChannel(o->b3c, 0xFFFF, s->f1c);
     }
-    func_02073500(o);
+    func_02073500((int)o);
     o->f30 = SND_GetCurrentCommandTag();
     o->b2f = 1;
     o->b2c = 1;

@@ -29,7 +29,8 @@ typedef signed int    s32;
 extern u8  g_02150190[];
 extern u8  g_0214EA90[];
 
-extern void func_02075A94(u8 *o);
+struct SndObj2;
+extern void func_02075A94(struct SndObj2 *obj);
 extern void func_02075AB8(void *a, u32 v);
 extern void func_02075968(u8 *o);
 
@@ -46,7 +47,7 @@ void func_02075A2C(struct Obj *o)
     u8 *p;
 
     if (o->b0 == 0) return;
-    func_02075A94((u8 *)o);
+    func_02075A94((struct SndObj2 *)o);
     o->f170((u8 *)o);
     func_02075AB8(g_02150190, (u32)((u8 *)o));
     p = *(u8 **)(g_0214EA90 + 4);

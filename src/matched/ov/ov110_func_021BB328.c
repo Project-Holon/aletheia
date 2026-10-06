@@ -33,7 +33,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_02049658(u32, u32, u32, u32, u32, u32, u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u8 *func_021BB3F4(u8 *, u8 *);
 extern u8 *func_021BB4F4(u8 *, u8 *);
 extern u8 *func_021BB5A0(u8 *, u8 *);
@@ -62,7 +62,7 @@ void func_021BB328(u8 *p, u32 data)
 {
     u32 bytes, q;
     func_020498F4((void *)data, 27, 1, 0, 0, 0, 42);
-    bytes = func_02049658(data, 15, 1, 0, 0, 0, 42);
+    bytes = func_02049658((void *)data, 15, 1, 0, 0, 0, 42);
     q = (u32)func_021BB3F4(p, (u8 *)(bytes / 32));
     q = (u32)func_021BB4F4(p, (u8 *)q);
     func_021BB5A0(p, (u8 *)q);

@@ -27,11 +27,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02045CAC(void *bank, u32 index, void *dest);
-extern void func_0201EFA4(void *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(void *ws, void *dst, void *src);
+struct MsgBank;
+struct StrObj;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern u32 func_0201D2C8(u32 v);
+extern u32 func_0201D2C8(struct StrObj *s);
 void func_021B9AE4(u8 *p, u8 *a, u32 b, unsigned long long cd)
 {
     u32 c = (u32)cd; u32 d = (u32)(cd >> 32);
@@ -42,6 +45,6 @@ void func_021B9AE4(u8 *p, u8 *a, u32 b, unsigned long long cd)
     func_0201F250(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
     func_021B6AE4(a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
-    if (func_0201D2C8(*(u32 *)(p + d * 4)) > 1) r = 4;
+    if (func_0201D2C8((struct StrObj *)(*(u32 *)(p + d * 4))) > 1) r = 4;
     func_021B6AE4(a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
 }

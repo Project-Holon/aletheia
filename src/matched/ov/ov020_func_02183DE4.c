@@ -64,34 +64,41 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef short s16;
 
-extern int func_020120F4(int a);
-extern int func_0201296C(int a);
-extern int func_02012B38(int a);
-extern void func_0201445C(int a, int b);
-extern u8 *func_02012894(int a);
-extern void func_02185B70(int a);
-extern void func_02185A68(int a, int b);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+struct Evt;
+struct Obj;
+struct Rec1C;
+struct Sub02014444Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
+extern void *func_02012B38(const struct BigObj *p);
+extern void func_0201445C(struct Sub02014444Obj *o, u8 v);
+extern struct Rec1C *func_02012894(const struct BigObj *p);
+extern void func_02185B70(void *p);
+extern void func_02185A68(void *a, int b);
 extern void func_0218601C(int a);
-extern void func_021857C0(int a, u8 *b);
-extern void func_0202735C(int a, int b);
+extern void func_021857C0(void *a, int b);
+extern void func_0202735C(u32 a0, u32 a1);
 extern void func_02168EEC(int a);
 extern void func_02164474(int a, int b);
-extern void func_0202C860(int a, int b);
-extern int func_0201405C(int a);
-extern int func_02012964(int a);
-extern void func_0216E29C(int a, int b);
-extern void func_0216CCCC(int a);
-extern int func_02012984(int a);
-extern int func_02029DF4(int a, int b, int c);
-extern int func_020298A0(int a, int b, int c, int d);
-extern void func_02012374(int a, int b);
+extern void func_0202C860(u8 *a0, int a1);
+extern u8 func_0201405C(u32 id);
+extern u32 func_02012964(const struct BigObj *p);
+extern void func_0216E29C(struct Obj *o, int v);
+extern void func_0216CCCC(struct Obj *o);
+extern u8 func_02012984(const struct BigObj *p);
+extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
+extern void *func_020298A0(void *a, u32 b, u16 c, u16 d);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_020145FC(int a);
-extern u16 *func_020143CC(int a, int b);
-extern void func_02158780(int a, int b, int c, int d, int e);
-extern int func_0201210C(int a);
+extern u32 func_020143CC(u32 a, u32 b);
+extern int func_02158780(void *p, int b, int c, int d, u16 e);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_021BE92C(int a, int b, int c, int d, int e, int f, int g);
-extern int func_02188D20(int a);
-extern void func_021BC578(int a, int b);
+extern u32 func_02188D20(u8 *p);
+extern void func_021BC578(void *p, int v);
 
 int func_02183DE4(int ctx, int *state, u8 *p)
 {
@@ -103,57 +110,57 @@ int func_02183DE4(int ctx, int *state, u8 *p)
     int t;
 
     a = *(int *)(p + 0);
-    s = func_020120F4(a);
-    m = func_0201296C(s);
+    s = (int)func_020120F4((const struct Ctx *)a);
+    m = func_0201296C((const struct BigObj *)s);
 
     switch (*state) {
     case 0:
-        func_0201445C(func_02012B38(s), 1);
+        func_0201445C(func_02012B38((const struct BigObj *)s), 1);
         if (*(int *)(p + 0xc) != 0) {
-            q = func_02012894(s);
+            q = (u8 *)func_02012894((const struct BigObj *)s);
             *(s16 *)(p + 8) = *(s16 *)(q + 4);
-            func_02185B70(a);
-            func_02185A68(a, *(u16 *)(p + 8));
+            func_02185B70((void *)a);
+            func_02185A68((void *)a, *(u16 *)(p + 8));
             func_0218601C(s);
-            func_021857C0(a, q);
+            func_021857C0((void *)a, (int)q);
             func_0202735C(*(u16 *)(q + 4), s);
         } else {
-            func_02185A68(a, *(u16 *)(p + 8));
+            func_02185A68((void *)a, *(u16 *)(p + 8));
             func_0218601C(s);
             func_02168EEC(s);
             func_02164474(s, *(u16 *)(p + 8));
-            func_0202C860(s, *(u16 *)(p + 8));
+            func_0202C860((u8 *)s, *(u16 *)(p + 8));
             n = func_0201405C(*(u16 *)(p + 8));
-            t = func_02012964(s);
+            t = func_02012964((const struct BigObj *)s);
             if (n < 16) {
-                func_0216E29C(t, n);
+                func_0216E29C((struct Obj *)t, n);
             } else {
-                func_0216CCCC(t);
+                func_0216CCCC((struct Obj *)t);
             }
         }
         (*state)++;
         break;
     case 1:
-        func_02012374(ctx, func_020298A0(a, func_02029DF4(s, *(u16 *)(p + 8), func_02012984(s)), 0, 0x3c));
+        func_02012374((struct Evt *)ctx, func_020298A0((void *)a, func_02029DF4((void *)s, *(u16 *)(p + 8), func_02012984((const struct BigObj *)s)), 0, 0x3c));
         (*state)++;
         break;
     case 2:
-        func_02012374(ctx, func_020145FC(a));
+        func_02012374((struct Evt *)ctx, (struct Evt **)func_020145FC(a));
         (*state)++;
         break;
     case 3:
-        if (*(int *)(p + 0xc) != 0 && *func_020143CC(m, 0x4041) != 0) {
-            func_02158780(ctx, 0x83b, 0, 0, 0x15);
+        if (*(int *)(p + 0xc) != 0 && *((u16 *)func_020143CC(m, 0x4041)) != 0) {
+            func_02158780((void *)ctx, 0x83b, 0, 0, 0x15);
         } else {
-            n = func_02012984(s);
-            func_02012374(ctx, func_021BE92C(a, func_0201210C(a), 3, 0, 0, n, n));
+            n = func_02012984((const struct BigObj *)s);
+            func_02012374((struct Evt *)ctx, (struct Evt **)func_021BE92C(a, (int)func_0201210C((const struct Ctx *)a), 3, 0, 0, n, n));
         }
         (*state)++;
         break;
     case 4:
-        t = func_0201210C(a);
-        if (func_02188D20(t) != 0) {
-            func_021BC578(func_02188D20(t), *(u16 *)(p + 8));
+        t = (int)func_0201210C((const struct Ctx *)a);
+        if (func_02188D20((u8 *)t) != 0) {
+            func_021BC578((void *)func_02188D20((u8 *)t), *(u16 *)(p + 8));
         }
         return 1;
     }

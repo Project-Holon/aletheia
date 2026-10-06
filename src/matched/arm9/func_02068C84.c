@@ -50,7 +50,7 @@ struct Surface {
 };
 
 extern int func_020681E4(int tx, int ty, int w, int h, int sx, int sy);
-extern void func_020682F8(char *tile, int xo, int yo, int tw, int th, u32 px, int bpp);
+extern void func_020682F8(u32 *dst, int x, int y, int w, int h, u32 val, int bpp);
 
 void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h)
 {
@@ -109,7 +109,7 @@ void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h)
             if (tw > 8)
                 tw = 8;
             tw -= xo;
-            func_020682F8(base + tilesz * off, xo, yo, tw, th, arg, bpp);
+            func_020682F8((u32 *)(base + tilesz * off), xo, yo, tw, th, arg, bpp);
             tx = tx + 1;
         }
         ty = ty + 1;

@@ -31,7 +31,8 @@
 #include "../include/Obj25018.h"
 #include "../include/Obj25019.h"
 typedef unsigned short u16;
-extern unsigned func_0202F138(unsigned);
+typedef unsigned int   u32;
+extern u16 func_0202F138(u32 i);
 extern unsigned func_02020F08(void),func_02020E60(unsigned,unsigned);
 extern void *func_020490F4(unsigned,u16);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
@@ -45,7 +46,7 @@ void func_0220C0B4(char *p)
     void *arc;
     unsigned first,second;
     int a;
-    if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=func_0202F138(0);first=3;second=4;}
+    if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=(unsigned)func_0202F138(0);first=3;second=4;}
     else {first=1;item=1;second=2;}
     arc=func_020490F4(func_02020F08(),(((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000);
     for(i=0;i<7;i++) {

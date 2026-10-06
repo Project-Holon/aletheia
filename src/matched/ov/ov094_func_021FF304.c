@@ -37,7 +37,7 @@ typedef struct {
     Entry e[14];
 } Work;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern void func_02015E04(void *p);
 extern void func_02015E28(void *p);
 extern void func_02015E70(void *p);
@@ -45,7 +45,7 @@ extern void func_02015E4C(void *p);
 
 void func_021FF304(Work *w, int key, int mode)
 {
-    int idx = func_022019F4(w, key);
+    int idx = func_022019F4((char *)w, key);
 
     if (idx == -1)
         return;

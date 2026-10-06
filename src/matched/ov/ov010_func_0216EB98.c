@@ -124,14 +124,22 @@ extern u8 d_021EFDAC[];
 extern u8 d_021B9D94[];
 extern u32 g_0214624C;
 
-extern void *func_0201210C(const void *p);
-extern void func_02012374(void *evt, void **out);
-extern void func_0201235C(void *o, u32 *out);
-extern void func_02012444(void *obj, u32 a1, u32 a2, u32 a3);
-extern void *func_02012B38(const void *p);
+struct BigObj;
+struct Ctx;
+struct Evt;
+struct Obj;
+struct Record;
+struct Result;
+struct S0201235C;
+struct Sub02014444Obj;
+extern void *func_0201210C(const struct Ctx *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void func_0201235C(struct S0201235C *o, u32 *out);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void *func_02012B38(const struct BigObj *p);
 extern int func_02012F20(int p0);
 extern void *func_02012F50(void *base);
-extern u8 func_0201447C(void *o, u8 v);
+extern u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
 extern int func_020144DC(int a0, int a1);
 extern void *func_020145CC(void *sys);
 extern void *func_02029B28(void *a, u16 b);
@@ -139,14 +147,14 @@ extern void *func_02029BCC(void *a, u32 b);
 extern void *func_02029C00(void *a);
 extern void *func_02029CC0(void *a);
 extern void func_0202E79C(u8 *p);
-extern void func_0202E80C(void *p);
+extern void func_0202E80C(u32 *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern void *func_020056A0(void (*callback)(void *, void *), void *work, u32 key);
 extern void func_02011D34(void);
 extern void *func_0215F6E8(void *sys);
-extern void func_02168D30(void *r, void *s);
-extern int func_0216EFDC(Work *w);
+extern void func_02168D30(struct Record *r, struct Result *s);
+extern int func_0216EFDC(int *w);
 extern void func_0216EFF0(int *p, void *a);
 extern int func_0216F054(int a0);
 extern int func_0216E680(int a0);
@@ -157,7 +165,7 @@ extern int func_02189A08(unsigned char *p);
 extern u32 func_021882DC(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_02188354(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_02188390(void (*a)(void), void (*b)(void), u32 c);
-extern void func_021CF498(void *c, u32 x, int idx);
+extern void func_021CF498(struct Ctx *c, u32 x, int idx);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 int func_0216EB98(void *evt, u32 *state, Work *w)
@@ -206,7 +214,7 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
         sum += ok ? 0 : 0x3D1;
         func_0216EFF0((int *)w, p04);
         if (w->f1c != 0)
-            func_02168D30(*(void **)func_02012F50(p04), w->f08);
+            func_02168D30(*(void **)func_02012F50(p04), (struct Result *)w->f08);
         (*state)++;
         ok = 0;
         if (func_02188354((void (*)(void))func_0216E680, (void (*)(void))func_0216F070, 0) == ~(u32)func_0216F070)
@@ -222,7 +230,7 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
         else
             ok = 0;
         sum += ok * 0x9D;
-        if (w->f18 == 0 && func_0216EFDC(w) == 1)
+        if (w->f18 == 0 && func_0216EFDC((int *)w) == 1)
             func_02012374(evt, func_02029B28(sys, 0x1E));
         else
             func_02012374(evt, func_02029C00(sys));
@@ -231,7 +239,7 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
         break;
     }
     case 8:
-        if (w->f18 == 0 && func_0216EFDC(w) == 1) {
+        if (w->f18 == 0 && func_0216EFDC((int *)w) == 1) {
             if (w->f14 == 1) {
                 func_0216F054((int)w);
                 return 1;

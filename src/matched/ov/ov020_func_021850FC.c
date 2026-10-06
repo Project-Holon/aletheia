@@ -37,15 +37,15 @@ struct Rec1C;
 void *func_020120F4(const struct Ctx *p);
 struct Rec1C *func_02012894(const struct BigObj *p);
 int func_02184BF8(void *ctx, int *st, int *p);
-void func_02184CEC(void *obj, void *p);
+void func_02184CEC(void **o, void *p);
 
-void *func_021850FC(void *p)
+void *func_021850FC(void *p, u8 *pos)
 {
     S7 *r5 = (S7 *)func_02012894(func_020120F4(p));
     void *r0v = func_020122C0(p, 0, func_02184BF8, 0x9C);
     char *r4 = func_020124E8(r0v);
 
-    func_02184CEC(r4, p);
+    func_02184CEC((void **)r4, p);
     *(S7 *)(r4 + 0x10) = *r5;
     return r0v;
 }

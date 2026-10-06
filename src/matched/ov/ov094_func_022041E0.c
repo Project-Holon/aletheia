@@ -47,20 +47,21 @@ extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *d);
 extern void func_020409B4(u32 index);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
-extern void func_02206A58(Main *);
+struct Obj;
+extern void func_02206A58(char *p);
 extern void func_022044C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
 extern void func_02204838(Main *, int);
-extern void func_02204698(Main *, int, int);
+extern void func_02204698(struct Obj *p, int a, int b);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
-extern void func_0220687C(Main *, void *);
+extern void func_0220687C(char *p, void *q);
 void func_022041E0(void *h, Ctx *c)
 {
     switch (c->state) {
     case 0:
         func_020498F4((void *)c->main->f48, 0x64, 4, 0, 0, 0, c->main->h240);
         func_02045374(c->main->obj228);
-        func_02206A58(c->main);
+        func_02206A58((char *)c->main);
         func_020409B4(6);
         func_022044C0(c->main, d_0220A4EC[c->main->mode].a, d_0220A4EC[c->main->mode].b, 8, 8);
         func_022045A8(c->main, 0, 0);
@@ -71,7 +72,7 @@ void func_022041E0(void *h, Ctx *c)
         break;
     case 1:
         if (--c->timer == 0) {
-            func_02204698(c->main, 0, 0);
+            func_02204698((struct Obj *)c->main, 0, 0);
             c->state++;
         }
         break;
@@ -81,7 +82,7 @@ void func_022041E0(void *h, Ctx *c)
             func_02045334(c->main->obj228);
             func_0204B22C(c->main->obj1f8, 1);
             func_02204960(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
-            func_0220687C(c->main, h);
+            func_0220687C((char *)c->main, h);
         }
         break;
     }

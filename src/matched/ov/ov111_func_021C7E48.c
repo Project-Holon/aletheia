@@ -100,7 +100,7 @@ typedef struct {
 
 extern int func_02035C08(const void *rects);
 extern int func_02035BA4(const void *rects);
-extern void func_02035CB8(int *x, int *y);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 a);
 extern void func_021C7F2C(Work *p, int sel, int flag);
@@ -123,7 +123,7 @@ int func_021C7E48(Work *p)
     a = func_02035BA4(d_021C898C);
     b = func_02035C08(d_021C8808);
     c = func_02035BA4(d_021C8808);
-    func_02035CB8(&x, &y);
+    func_02035CB8((u32 *)(&x), (u32 *)(&y));
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
         flag = 1;

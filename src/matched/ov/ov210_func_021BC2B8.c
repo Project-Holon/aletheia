@@ -22,14 +22,15 @@ struct S_02021D50;
 extern unsigned d_02FE0000[];
 extern void func_020419E4(void);
 extern void func_0204A648(void);
-extern void func_02021D50(struct S_02021D50 *);
+struct S02021D50;
+extern void func_02021D50(struct S02021D50 *p);
 extern void func_020434DC(unsigned,unsigned);
 extern void func_02043598(unsigned,unsigned);
 void func_021BC2B8(void *unused,unsigned char *p)
 {
     func_020419E4();
     func_0204A648();
-    func_02021D50(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC);
+    func_02021D50((struct S02021D50 *)(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC));
     if (p[0x2b8]==1) {
         func_020434DC(10,1);
         func_02043598(2,1);

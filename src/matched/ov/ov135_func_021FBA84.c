@@ -46,7 +46,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_0204B92C(struct Obj *,u32);
 extern void func_021F9260(void *,u32);
-extern int func_021F8908(void *,void *,int);
+extern int func_021F8908(void **menu, void *msg, int id);
 extern void func_021FB364(void *,int,int);
 extern u32 func_021F9EEC(u8 *p, u32 n);
 extern void func_021FBF04(void *,void *,void *,int,u32);
@@ -57,7 +57,7 @@ int func_021FBA84(u8 *p)
     u8 pages;
     func_0202CAE4(((struct Obj00437 *)p)->f18,0,0x60,0x18,1);
     func_021F9260(p,3);
-    ((struct Obj00437 *)p)->f58=func_021F8908(p+0x30,((struct Obj00437 *)p)->f28,((struct Obj00437 *)p)->f3A+tbl_02203324[((struct Obj00437 *)p)->f38]);
+    ((struct Obj00437 *)p)->f58=func_021F8908((void **)(p+0x30),((struct Obj00437 *)p)->f28,((struct Obj00437 *)p)->f3A+tbl_02203324[((struct Obj00437 *)p)->f38]);
     func_021FB364(p,0,((struct Obj00437 *)p)->f58);
     ((struct Obj00437 *)p)->f56=0;
     pages=func_021F9EEC((u8 *)(((struct Obj00437 *)p)->f58),5);

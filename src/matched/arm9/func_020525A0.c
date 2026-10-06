@@ -42,9 +42,14 @@ struct Scratch {
     u32 c;
 };
 
-extern void *func_02058380(void *p);
-extern void func_02053A60(void *node, void *slot, struct Scratch *scratch);
-extern void func_020583CC(void *a, void *b);
+struct Cfg;
+struct List;
+struct Node;
+struct Obj;
+struct Vec3;
+extern struct Node *func_02058380(struct List *list);
+extern void func_02053A60(volatile struct Obj *o, struct Cfg *cfg, const struct Vec3 *pos);
+extern void func_020583CC(volatile struct List *list, volatile struct Node *node);
 
 int func_020525A0(char *p, int b, void (*fn)(void *))
 {
@@ -53,11 +58,11 @@ int func_020525A0(char *p, int b, void (*fn)(void *))
     if (((struct Obj11461 *)p)->f10 != 0) {
         struct Scratch scratch = { 0, 0, 0 };
 
-        r = func_02058380(p + 0x10);
-        func_02053A60(r, (void *)(((struct Obj11461 *)p)->f28 + (b << 5)), &scratch);
+        r = func_02058380((struct List *)(p + 0x10));
+        func_02053A60(r, (void *)(((struct Obj11461 *)p)->f28 + (b << 5)), (const struct Vec3 *)(&scratch));
         if (fn != 0)
             fn(r);
-        func_020583CC(p + 4, r);
+        func_020583CC((volatile struct List *)(p + 4), r);
         if ((*(u32 *)(*(u32 *)(*(u32 *)&((struct Obj00077 *)r)->f20)) << 0x11 >> 0x1f) != 0)
             r = 0;
     }

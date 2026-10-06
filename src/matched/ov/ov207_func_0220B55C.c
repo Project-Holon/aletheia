@@ -60,7 +60,8 @@ extern void *func_02045EC0(struct MsgBank *,u32);
 extern struct U16Vec *func_020457B0(u32,u32);
 extern void func_0201F250(struct WordSet *,void *,void *);
 extern void func_02045808(struct U16Vec *);
-extern void func_02045C04(struct MsgBank *);
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201ED04(struct WordSet *);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void *func_02045770(struct Descriptor *p);
@@ -75,7 +76,7 @@ extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void *func_0201F5DC(void *,u32,u32,u32);
 extern u8 func_020355C4(void);
 extern void func_0220B954(u32 *);
-extern void func_0220B944(void *,char *);
+extern void func_0220B944(void *a, u32 *p);
 extern void *func_020056A0(u32,u32,u32);
 char *func_0220B55C(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h)
 {
@@ -106,7 +107,7 @@ char *func_0220B55C(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h)
     *(struct U16Vec * *)&((struct Obj00174 *)p)->f2C=func_020457B0(64,((struct Obj00174 *)p)->f0);
     func_0201F250(ws,((struct Obj00174 *)p)->f2C,str);
     func_02045808(str);
-    func_02045C04(bank);
+    func_02045C04((struct Rec *)bank);
     func_0201ED04(ws);
     *(u32 *)&((struct Obj00174 *)p)->f38=func_020450F0(3,0,0,1,1,9,0);
     func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj00174 *)p)->f38),0);

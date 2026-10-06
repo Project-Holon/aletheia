@@ -54,7 +54,8 @@ struct Obj {
 
 struct Obj0206469C;
 extern void func_0206469C(struct Obj0206469C *o, void *bank);
-extern void func_020643A4(void *p);
+struct CellAnim;
+extern void func_020643A4(struct CellAnim *anim);
 
 void func_02064CBC(struct Obj *x)
 {
@@ -68,7 +69,7 @@ void func_02064CBC(struct Obj *x)
         void *base = x->f40;
 
         for (i = 0; i < ((struct NodeHdr *)x->f34)->count; i++) {
-            func_020643A4((u8 *)base + i * 0x5c);
+            func_020643A4((struct CellAnim *)((u8 *)base + i * 0x5c));
         }
     } else {
         void *base = x->f40;

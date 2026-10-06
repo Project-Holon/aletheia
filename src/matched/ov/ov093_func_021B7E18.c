@@ -61,14 +61,15 @@ extern int func_021D4270(void);
 struct Copy24;
 struct QB;
 extern u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap);
-extern int func_021CD6F0(void *, void *, int, int, u16, u8, u8, int, u8, void *, u16);
+struct S;
+extern u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, int g, struct Copy24 *h, u16 heap);
 extern u32 func_021CD978(struct QB *p);
 extern void func_021BAA94(char *p, int b, int c, u8 d);
-extern void func_021BAACC(int, int, int, u8, u8);
+extern void func_021BAACC(char *p, int a, int b, int c, u8 d);
 extern int func_021B8B9C(u8 *, u8);
-extern int func_021B6994(u8 *, u8);
+extern int func_021B6994(struct S **pp, u32 b);
 extern void func_021BAB10(int, u8, int);
-extern void func_021CD960(int, int);
+extern void func_021CD960(u8 *p, u32 v);
 extern u8 func_021B9010(u8 *, u8);
 int func_021B7E18(u8 *p)
 {
@@ -88,29 +89,29 @@ int func_021B7E18(u8 *p)
     }
     if (p[0x46e]) {
         *(int *)(p + 8) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
-        ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, mode, 0, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
+        ((int *)(p + 0x10))[idx] = (int)func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, (u8)mode, 0, t, (u8)0, (struct Copy24 *)(p + 0x3f0), *(u16 *)(p + 0x468));
         func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(((int *)(p + 0x10))[idx])), idx, mode);
         if (q[0x22] == 2) {
             x = func_021B9010(p, idx);
-            *(int *)(p + 0x14) = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), 1, mode, 1, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
+            *(int *)(p + 0x14) = (int)func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), 1, (u8)mode, 1, t, (u8)0, (struct Copy24 *)(p + 0x3f0), *(u16 *)(p + 0x468));
             func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(*(int *)(p + 0x14))), 1, mode);
-            *(int *)(p + 0x1c) = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), 3, mode, 1, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
+            *(int *)(p + 0x1c) = (int)func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), 3, (u8)mode, 1, t, (u8)0, (struct Copy24 *)(p + 0x3f0), *(u16 *)(p + 0x468));
             func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(*(int *)(p + 0x1c))), 3, mode);
-            func_021BAACC(*(int *)(p + 8), q[0x20], *(int *)(q + 0x1c), x, mode);
+            func_021BAACC((char *)(*(int *)(p + 8)), q[0x20], *(int *)(q + 0x1c), (u8)x, mode);
         } else {
             for (i = 0; i < p[0x46b]; i++) {
                 if (i != idx)
-                    func_021BAACC(*(int *)(p + 8), q[0x20], *(int *)(q + 0x1c), i, mode);
+                    func_021BAACC((char *)(*(int *)(p + 8)), q[0x20], *(int *)(q + 0x1c), (u8)i, mode);
             }
         }
     } else {
-        ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, mode, 0, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
+        ((int *)(p + 0x10))[idx] = (int)func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, (u8)mode, 0, t, (u8)0, (struct Copy24 *)(p + 0x3f0), *(u16 *)(p + 0x468));
         *(int *)(p + 0xc) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
         for (i = 0; i < 4; i++) {
             if (func_021B8B9C(p, i))
-                func_021BAB10(*(int *)(p + 0xc), i, func_021B6994(p, i));
+                func_021BAB10(*(int *)(p + 0xc), i, func_021B6994((struct S **)p, (u8)i));
         }
-        func_021CD960(((int *)(p + 0x10))[idx], *(int *)(p + 0xc));
+        func_021CD960((u8 *)(((int *)(p + 0x10))[idx]), (int)(*(int *)(p + 0xc)));
     }
     return 1;
 }

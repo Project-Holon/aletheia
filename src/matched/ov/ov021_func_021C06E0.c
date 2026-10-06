@@ -42,7 +42,7 @@ extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern u32 func_0202647C(void *obj);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_0200FB38(void);

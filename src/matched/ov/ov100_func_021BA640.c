@@ -19,4 +19,4 @@ typedef int s32;
 
 extern void func_0203F9B4(void);
 extern void func_020450C8(void);
-void func_021BA640(void) { func_0203F9B4(); func_020450C8(); }
+void func_021BA640(int a0) { func_0203F9B4(); func_020450C8(); }

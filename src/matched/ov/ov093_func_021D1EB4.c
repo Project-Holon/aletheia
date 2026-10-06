@@ -26,8 +26,8 @@ typedef struct {
     void *win;            /* 0x54 */
 } Seq;
 
-extern u32 func_021CD9E0(void *s);
-extern void func_021EA678(void *win, u16 a, void *b);
+extern u32 func_021CD9E0(u8 *p);
+extern void func_021EA678(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
 extern int func_021EA720(void *win);
 extern void func_020061E4(unsigned int arg);
@@ -36,10 +36,10 @@ int func_021D1EB4(Seq *s, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
-        if (func_021CD9E0(s)) {
+        if (func_021CD9E0((u8 *)s)) {
             return 1;
         }
-        func_021EA678(s->win, a[0], a + 2);
+        func_021EA678(s->win, a[0], (int *)(a + 2));
         *state = *state + 1;
         break;
     case 1:

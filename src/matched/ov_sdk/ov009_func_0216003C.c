@@ -30,9 +30,11 @@ typedef struct {
 	int second;
 } RTCTime;
 
-extern int func_02088864(RTCDate *date);
-extern int func_0208890C(RTCTime *time);
-extern long long func_02089004(RTCDate *date, RTCTime *time);
+struct RTCDate;
+struct RTCTime;
+extern int func_02088864(struct RTCDate *date);
+extern int func_0208890C(struct RTCTime *time);
+extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
 
 unsigned long func_0216003C(void)
 {
@@ -40,8 +42,8 @@ unsigned long func_0216003C(void)
 	RTCDate date;
 	RTCTime time;
 
-	func_02088864(&date);
-	func_0208890C(&time);
-	sec = func_02089004(&date, &time);
+	func_02088864((struct RTCDate *)(&date));
+	func_0208890C((struct RTCTime *)(&time));
+	sec = func_02089004((struct RTCDate *)(&date), (struct RTCTime *)(&time));
 	return sec + 946684800;
 }

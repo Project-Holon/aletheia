@@ -62,7 +62,7 @@ int func_0217F40C(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
 struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 int func_021589D0(int a0);
-void func_02159058(int a, int b, int c, int d, u16 e);
+int func_02159058(int a, int b, int c, int d, u16 e);
 void func_02012374(struct Evt *evt, struct Evt **out);
 void func_0217FE38(int v, Ov018Outer *c);
 int func_0217CA84(void *a, int b);

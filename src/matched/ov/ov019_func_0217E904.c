@@ -57,7 +57,7 @@ typedef unsigned int   u32;
 u32 func_0217F1EC(u8 *p);
 void func_0217F210(u8 *p, int a, u32 b);
 void func_0217F074(void *p);
-void func_0217BAF0(u8 *w, int a, int v);
+void func_0217BAF0(char *p, int x, unsigned int v);
 int func_0217FEB8(u8 *p);
 void func_0217AE20(u8 *w);
 int func_02174F34(void);
@@ -68,10 +68,10 @@ void func_02173408(u8 *w);
 void func_02173524(u8 *w, u8 *q);
 void func_0217422C(u8 *p, int a, int b);
 int func_02174268(u8 *w);
-void func_0217505C(u8 *p, int a);
+void func_0217505C(int *p, int x);
 u32 func_0200FB24(void);
 struct Ctx;
-void func_02012124(struct Ctx *p, u8 v);
+void func_02012124(struct Ctx *p, u32 v);
 struct Entry;
 struct Entry *func_020399A8(void);
 struct Link;
@@ -81,7 +81,7 @@ void func_0203D7BC(int a);
 u32 func_0203D378(void);
 int func_020392B8(void);
 u16 func_02039338(void);
-int func_0203D1C0(u8 i);
+u32 func_0203D1C0(u32 index);
 
 int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
 {
@@ -91,12 +91,12 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
 
     p = *(u8 * *)&((struct Obj00033 *)w)->f355C;
     if (*state < 7 && func_0200FB24() != 0 && func_0217F1EC(w) == 1) {
-        func_0217BAF0(w, a2, 1);
+        func_0217BAF0((char *)w, a2, (int)1);
         *state = 7;
     }
     switch (*state) {
     case 0:
-        func_0217BAF0(w, a2, 1);
+        func_0217BAF0((char *)w, a2, (int)1);
         if (p[0xde] == 2) {
             if (func_0217F1EC(w) == 1)
                 *state = 6;
@@ -136,7 +136,7 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
             }
             for (i = 0; i < 5; i++) {
                 if (i != func_02039338() && ((1 << i) & m)) {
-                    if (func_0203D1C0(i) == 1)
+                    if ((int)func_0203D1C0((u8)i) == 1)
                         break;
                 }
             }
@@ -172,7 +172,7 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
     case 10:
         if (func_02174268(w) == 0) {
             if (*(u8 **)(w + 0x355C) != 0) {
-                func_0217505C(*(u8 **)(w + 0x355C), (*(Sys * *)&((struct Obj00033 *)w)->f0)->fc);
+                func_0217505C((int *)(*(u8 **)(w + 0x355C)), (*(Sys * *)&((struct Obj00033 *)w)->f0)->fc);
                 *(u8 **)(w + 0x355C) = 0;
             }
             func_02172D50(w);

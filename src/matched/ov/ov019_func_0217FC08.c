@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02034714(const char *a, u32 b, const char *c);
-extern u32 func_0217FD88(char *p);
+extern u8 *func_0217FD88(u8 *base);
 extern void func_0217FC64(char *self, u32 *out, u32 a2, u16 a3, int flag);
 extern u32 d_02180814[];
 
@@ -35,6 +35,6 @@ void func_0217FC08(char *p, u32 a1, u32 a2)
     if (((struct Obj05959 *)p)->fCC == 0) {
         func_02034714((const char *)d_02180814, 0, (const char *)d_02180814);
     }
-    func_0217FC64(p, (u32 *)func_0217FD88(p), a1, ((struct Obj05959 *)p)->fD0, a2);
+    func_0217FC64(p, (u32 *)func_0217FD88((u8 *)p), a1, ((struct Obj05959 *)p)->fD0, a2);
     ((struct Obj05959 *)p)->fD0 = ((struct Obj05959 *)p)->fD0 + 1;
 }

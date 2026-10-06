@@ -16,6 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020433E0(const void *p);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern const u32 d_021BA620[];
-void func_021B97D4(void) { func_020433E0(d_021BA620); *(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000); }
+void func_021B97D4(void) { func_020433E0((const struct DispVram *)d_021BA620); *(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000); }

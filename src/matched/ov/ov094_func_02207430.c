@@ -45,7 +45,7 @@ extern void func_0204ADA4(u32);
 typedef signed int     s32;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int func_021F86E0(void);
-extern u32 func_0204AEF4(u32, int);
+extern int func_0204AEF4(u32 idx, u32 alternate);
 struct PalAnmSlot;
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);

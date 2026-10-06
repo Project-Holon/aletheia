@@ -18,7 +18,8 @@
  */
 #include "../include/Obj20670.h"
 
-extern int func_020221A4();
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 extern int func_021BB690(const char *p);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
@@ -26,7 +27,7 @@ extern void func_021B8AF4(void *p);
 
 void func_021B8688(int p)
 {
-    int a = func_020221A4(p);
+    int a = func_020221A4();
     int b = func_021BB690((const char *)p);
     if (a == 1 && b == 0) {
         func_0204B92C((struct Obj *)((struct Obj20670 *)p)->f6A8, 1);

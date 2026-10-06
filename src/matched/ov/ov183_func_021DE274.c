@@ -29,15 +29,16 @@
 typedef unsigned int u32;
 struct Pair { int x,y; };
 extern void func_021FE784(int,int,int,int);
-extern int func_021FE7B0(int *),func_02035D20(int *,int *);
+extern int func_021FE7B0(int *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021DE940(char *,int,int),func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,struct Pair *);
 extern void func_021DE780(char *,char *),func_021DE404(char *,char *),func_021DE55C(char *,char *),func_021DE66C(char *,char *);
 typedef unsigned char  u8;
 struct PrintSys;
-extern void func_021F9BA0(void *);
+extern void func_021F9BA0(unsigned *ctx);
 extern int func_021FC830(u8 *p);
-extern void func_021FD854(void *);
+extern void func_021FD854(char *p);
 extern void func_021FD1BC(void *);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_021DE274(void *unused,u32 *state,char *q,char *p)
@@ -48,7 +49,7 @@ int func_021DE274(void *unused,u32 *state,char *q,char *p)
  case 0:func_021FE784(*(int *)&((struct Obj00440 *)q)->f4,2,3,0);*state=1;break;
  case 1:if(func_021FE7B0(*(int * *)&((struct Obj00440 *)q)->f4)) *state=2;break;
  case 2:
-  if(func_02035D20(&x,&y)){
+  if(func_02035D20((u32 *)(&x),(u32 *)(&y))){
    ((struct Obj00785 *)p)->f68=func_021DE940(p,x,y);
    if(((struct Obj00785 *)p)->f68) *state=3;
    if(func_021FB4B4(((struct Obj00785 *)p)->fC,x,y)){

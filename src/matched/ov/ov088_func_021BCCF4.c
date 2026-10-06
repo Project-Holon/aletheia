@@ -28,7 +28,8 @@ extern void func_021BCDD0(void *, int *);
 extern void func_021BCDEC(void *, int *);
 extern void func_021BCE20(void *, int *);
 extern void func_021BCE3C(char *p, int *out);
-extern void func_021BCE80(void *, int *);
+typedef unsigned char  u8;
+extern void func_021BCE80(u8 *p, int *a1);
 extern void func_021BCF18(void *, int *);
 
 int func_021BCCF4(int a, int *st, int c, void *p)

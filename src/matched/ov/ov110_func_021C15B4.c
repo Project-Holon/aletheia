@@ -23,9 +23,11 @@
  *   func_020240FC 0x020240FC thumb
  */
 typedef unsigned char u8;
-extern int func_02024120(void *);
-extern void func_02024134(void *, void *);
-extern void func_02024918(void *, u8, void *);
+extern int func_02024120(u8 *p);
+typedef signed int     s32;
+struct Obj02024838;
+extern void func_02024134(char *a, void *b);
+extern void func_02024918(const struct Obj02024838 *p, s32 idx, void *dest);
 extern void func_020240FC(void *);
 int func_021C15B4(int *state, u8 *p) {
     unsigned pair[2];

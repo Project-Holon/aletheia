@@ -27,10 +27,10 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021DD240(void **p);
 extern void func_021DDF84(char *);
-extern int func_021DBF04(void *);
+extern int func_021DBF04(int *p);
 extern void func_021DE0AC(u8 *p, u32 b);
 extern void func_021DE0DC(char *p);
-extern void func_021DCFA4(char *,int,int,u16);
+extern void func_021DCFA4(u8 *p, int b, int c, u16 d);
 void func_021DAEF0(Obj *obj)
 {
     char *p=(char *)obj;
@@ -45,7 +45,7 @@ void func_021DAEF0(Obj *obj)
             func_021DDF84(*(char * *)&((struct Obj01153 *)p)->fAAC);
             *(char * *)&((struct Obj01153 *)p)->fAAC=0;
         }
-        if(obj->index<4 && func_021DBF04(&obj->items[obj->index+((struct Obj01153 *)p)->fAC8*4])) {
+        if(obj->index<4 && func_021DBF04((int *)(&obj->items[obj->index+((struct Obj01153 *)p)->fAC8*4]))) {
             flag=1;
             func_021DE0AC(*(void **)(p+0xa7c+(((struct Obj01153 *)p)->fACC+((struct Obj01153 *)p)->fAC8*4)*4),1);
         }
@@ -58,6 +58,6 @@ void func_021DAEF0(Obj *obj)
         ((struct Obj01153 *)p)->fBAC=old-0xfc00;
     else
         ((struct Obj01153 *)p)->fBAC=angle;
-    func_021DCFA4(p+0xbae,14,0,((struct Obj01153 *)p)->fBAC);
-    func_021DCFA4(p+0xc0e,14,2,((struct Obj01153 *)p)->fBAC);
+    func_021DCFA4((u8 *)(p+0xbae),14,0,((struct Obj01153 *)p)->fBAC);
+    func_021DCFA4((u8 *)(p+0xc0e),14,2,((struct Obj01153 *)p)->fBAC);
 }

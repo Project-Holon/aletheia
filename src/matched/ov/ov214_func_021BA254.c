@@ -32,7 +32,7 @@ extern void func_0201CE48(struct Rec3 *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern int func_021BA2B8(void*,char*);
+extern u32 func_021BA2B8(int unused, u8 *p);
 void func_021BA254(void*obj,char*p,unsigned entry)
 {
     func_02043B5C(func_02045770(*(void* *)&((struct Obj01082 *)p)->f6C),15);
@@ -42,5 +42,5 @@ void func_021BA254(void*obj,char*p,unsigned entry)
     *(void* *)&((struct Obj01082 *)p)->f78=func_02045EC0(*(void* *)&((struct Obj01082 *)p)->f58,entry);
     *(int *)&((struct Obj01082 *)p)->f7C=0;
     func_0201C6FC(*(void* *)&((struct Obj01082 *)p)->fC,(unsigned)func_02045770(*(void* *)&((struct Obj01082 *)p)->f6C),0,0,*(void* *)&((struct Obj01082 *)p)->f78,((struct Obj01082 *)p)->f8);
-    func_021BA2B8(obj,p);
+    func_021BA2B8((int)obj,(u8 *)p);
 }

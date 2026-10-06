@@ -28,7 +28,7 @@ extern void *func_02046DB8(u32 a0, u32 a1);
 extern int func_02046FF8(int *self);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern int func_0204767C(int, int *, int);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 void func_021F6FB0(Cleanup *p, char *q) {
     u8 i, j;
@@ -40,7 +40,7 @@ void func_021F6FB0(Cleanup *p, char *q) {
     if (func_02046FF8((int *)p->single) != 0) {
         p->b = (int)func_02047400((void *)p->single, 0, (void *)p->single);
         for (i = 0; i < 3; i++) p->c[i] = (int)func_02047564((struct G3dOwner *)p->b, (const struct G3dOwner *)p->a[i], 0);
-        p->d = func_0204767C(p->b, p->c, 3);
+        p->d = (int)func_0204767C(p->b, (u32 *)p->c, 3);
         for (j = 0; j < 3; j++) func_020477A4((struct G3dSys *)p->d, j);
     }
 }

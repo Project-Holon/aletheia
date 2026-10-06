@@ -42,24 +42,24 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern u32 func_021BDFE4(void *);
-extern u32 func_021BE054(void *);
-extern u32 func_021B9DF8(void *, void *);
+extern u8 func_021BE054(void *p);
+extern int func_021B9DF8(void *p, int *out);
 extern u32 func_021BE0B4(void *);
 extern u32 func_021BDFDC(void *);
-extern void func_021B7B3C(void *, u32, int);
-extern u32 func_021BA270(u32);
+extern void func_021B7B3C(int x, int y, int z);
+extern int func_021BA270(void *p);
 extern u32 func_021B8B5C(void *, u32);
-extern u8 func_021B8B68(void *, u32);
-extern u32 func_021B8740(void *, u32, u8, u32);
-extern u32 func_021B9F4C(void *, void *, int);
+extern u32 func_021B8B68(int unused, char *p);
+extern u32 func_021B8740(int a, int b, u8 c, u32 d);
+extern int func_021B9F4C(int a, int b, int mode);
 extern void func_021BE0B8(void *);
 extern u32 func_021BE0A4(void *);
-extern u32 func_021B77B4(void *, u32);
+extern u32 func_021B77B4(int unused, void *p);
 extern void func_021BE08C(void *);
-extern void func_021B99F4(void *, void *);
+extern void func_021B99F4(void *unused, u8 *q);
 extern u32 func_020362DC(void);
 extern int func_02035C08(const void *);
-extern void func_020355D8(u32);
+extern void func_020355D8(u8 v);
 extern void func_020061E4(u32);
 extern void func_0204B878(struct Obj *, u16);
 extern void func_0204B92C(struct Obj *, u32);
@@ -72,33 +72,33 @@ void func_021B9580(u8 *c, u8 *q)
     u32 b = func_021BE054(c);
     int r6;
 
-    if (func_021B9DF8(c, q) == 1)
+    if (func_021B9DF8(c, (int *)q) == 1)
         return;
     if (*(int *)q <= 8 && func_021BE0B4(c) == 0) {
         u32 s = func_021BDFDC(c);
-        if (func_020362DC() & 0x40) func_021B7B3C(c, s, 0);
-        if (func_020362DC() & 0x10) func_021B7B3C(c, s, 5);
-        if (func_020362DC() & 0x80) func_021B7B3C(c, s, 1);
-        if (func_020362DC() & 0x20) func_021B7B3C(c, s, 3);
+        if (func_020362DC() & 0x40) func_021B7B3C((int)c, s, 0);
+        if (func_020362DC() & 0x10) func_021B7B3C((int)c, s, 5);
+        if (func_020362DC() & 0x80) func_021B7B3C((int)c, s, 1);
+        if (func_020362DC() & 0x20) func_021B7B3C((int)c, s, 3);
     }
-    if (b == 1 || func_021BA270(*(u32 *)(q + 0x10)) == 0) {
+    if (b == 1 || func_021BA270((void *)(*(u32 *)(q + 0x10))) == 0) {
         *(int *)(q + 0xa4) = 2;
     } else {
         u32 t = func_021B8B5C(c, a);
-        u32 u = func_021B8B68(c, a);
+        u32 u = func_021B8B68((int)c, (char *)a);
         if (u != 0xff) {
             if (u == t) {
                 u32 k = q[0xc];
                 if (k) {
                     k--;
                     q[0xc] = k;
-                } else if (func_021B8740(c, a, 9, 0) == 1) {
+                } else if (func_021B8740((int)c, a, 9, 0) == 1) {
                     q[0xc] = 8;
                 }
             }
             *(int *)(q + 0xa4) = 2;
         } else {
-            u32 r = func_021B9F4C(c, q, 0);
+            u32 r = func_021B9F4C((int)c, (int)q, 0);
             if ((func_020362DC() & 0x101) || r == 1) {
                 *(int *)q = 6;
                 func_020061E4(0x66C);
@@ -134,7 +134,7 @@ void func_021B9580(u8 *c, u8 *q)
         }
     }
     if (func_021BE0A4(c) == 0 && (func_020362DC() & 0x200)) {
-        if (func_021B77B4(c, func_021BDFDC(c)) == 0) {
+        if (func_021B77B4((int)c, (void *)func_021BDFDC(c)) == 0) {
             func_021BE08C(c);
             func_020061E4(0x66C);
         }

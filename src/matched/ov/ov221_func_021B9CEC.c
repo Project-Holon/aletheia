@@ -21,8 +21,9 @@
 struct Obj;
 struct Vec2 { short x,y; };
 extern struct Vec2 d_021BA140;
-extern void func_02040618(int,int,int);
-extern void func_0204B404(struct Obj *,struct Vec2 *,unsigned);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B9CEC(char *p)
 {
     if(*(unsigned *)(*(unsigned char **)(p+4)+4)==0) {

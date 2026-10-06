@@ -35,7 +35,7 @@ extern void func_02040588(u32 which, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void func_02005E30(u32 a);
-extern void  func_021B9E7C(void *a, int b);
+extern void func_021B9E7C(int *p, int x);
 extern void  func_021B9A14(u16 *p, u16 a, u16 b);
 
 void func_021B965C(char *p)
@@ -45,7 +45,7 @@ void func_021B965C(char *p)
         func_02040588(6, 1);
         func_02040588(3, 1);
         func_02043598(0x10, 1);
-        func_021B9E7C(p + 0x40, 0x14B5);
+        func_021B9E7C((int *)(p + 0x40), 0x14B5);
         ((struct Obj00462 *)p)->f94 = 2;
         return;
     }
@@ -53,7 +53,7 @@ void func_021B965C(char *p)
         ((struct Obj00462 *)p)->f4 = 0;
         ((struct Obj00462 *)p)->f0 = 4;
         ((struct Obj00462 *)p)->f90 = (void *)func_02006984(0x283, 0, 0x40, 0, 0, 0, 0, 0);
-        func_021B9E7C(p + 0x40, 0x1389);
+        func_021B9E7C((int *)(p + 0x40), 0x1389);
         func_0204363C(0);
         func_02040588(6, 1);
         func_02043598(0x10, 0);

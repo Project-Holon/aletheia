@@ -31,7 +31,8 @@ struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void func_021D6934(struct Obj *p);
 extern int func_021D6EA4(char *);
-extern int func_021D6E70(char *);
+typedef unsigned int   u32;
+extern int func_021D6E70(u8 *p);
 extern int func_021D5950(u8 *,int);
 extern void func_021D59E4(char *);
 extern void func_021D5A60(char *);
@@ -40,7 +41,7 @@ extern int func_021D6E08(char *,int);
 extern int func_021B99DC(u8 *p);
 extern int func_021B9790(u8 *p);
 extern char *func_021B97F4(void *);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8B7C(char *);
 extern void func_021D6FF0(char *);
 void func_021D8C04(char *p)
@@ -62,7 +63,7 @@ void func_021D8C04(char *p)
         }
         ++((struct Obj00063 *)p)->f74;
     }
-    if (func_021D6E70(p)) {
+    if (func_021D6E70((u8 *)p)) {
         if (((struct Obj00063 *)p)->f70<50) ++((struct Obj00063 *)p)->f70;
         func_021D66D0(*(u8 * *)&((struct Obj00063 *)p)->f14,((struct Obj00063 *)p)->f70);
         if (func_021D6E08(p,func_021B99DC(((struct Obj00063 *)p)->f10))) return;
@@ -71,17 +72,17 @@ void func_021D8C04(char *p)
         if (func_021D6EA4(p)) func_021D5A60(*(char * *)&((struct Obj00063 *)p)->f18);
         state=((struct Obj22982 *)q)->f0;
         if (state==0) {
-            func_021D6EE0(p,(int)func_021D8B7C,0x955);
+            func_021D6EE0((u8 *)p,(int)func_021D8B7C,0x955);
             return;
         }
         ((struct Obj00063 *)p)->f80=state;
-        func_021D6EE0(p,(int)func_021D6FF0,0x959);
+        func_021D6EE0((u8 *)p,(int)func_021D6FF0,0x959);
         return;
     } else {
         func_021D66D0(*(u8 * *)&((struct Obj00063 *)p)->f14,((struct Obj00063 *)p)->f68);
         if (++((struct Obj00063 *)p)->f68==100) {
             if (func_021D6EA4(p)) func_021D5A60(*(char * *)&((struct Obj00063 *)p)->f18);
-            func_021D6EE0(p,(int)func_021D8B7C,0x967);
+            func_021D6EE0((u8 *)p,(int)func_021D8B7C,0x967);
         }
     }
 }

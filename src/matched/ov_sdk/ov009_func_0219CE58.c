@@ -96,7 +96,8 @@ extern int func_0219B628(qr2_buffer_s *outbuf, int value);
 extern void *func_02092344(void *dst, const void *src, unsigned int n);
 extern void func_0219BE80(qr2_implementation_s *qrec, qr2_buffer_s *buf, int serverkeycount, unsigned char *serverkeys,
                           int playerkeycount, unsigned char *playerkeys, int teamkeycount, unsigned char *teamkeys);
-extern int func_0217ECA4(int sock, char *buf, int len, int flags, void *addr, int tolen);
+struct SOCSockAddr;
+extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern unsigned int func_0217F264(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
@@ -146,7 +147,7 @@ void func_0219CE58(qr2_implementation_s *qrec, int statechanged)
         if (0x578 - buf.len >= 1)
             buf.buffer[buf.len++] = 0;
     }
-    func_0217ECA4(qrec->hbsock, buf.buffer, buf.len, 0, &qrec->hbaddr, sizeof(SOCSockAddrIn));
+    func_0217ECA4(qrec->hbsock, buf.buffer, buf.len, 0, (struct SOCSockAddr *)(&qrec->hbaddr), sizeof(SOCSockAddrIn));
     qrec->lastheartbeat = func_0217F264();
     qrec->lastka = qrec->lastheartbeat;
     if (statechanged)

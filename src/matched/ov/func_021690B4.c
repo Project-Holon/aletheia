@@ -28,7 +28,7 @@ extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 struct BigObj;
 extern u8 func_02012984(const struct BigObj *p);
-extern u8 func_020113F0(int row, int col);
+extern int func_020113F0(int row, int col);
 
 int func_021690B4(int a0, int a1)
 {

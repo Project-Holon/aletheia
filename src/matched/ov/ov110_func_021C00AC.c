@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B404(void *, const Vec2 *, unsigned);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B878(struct Obj *p, u16 value);
 void func_021C00AC(u8 *p, unsigned i) {
     Vec2 pos;
@@ -32,7 +33,7 @@ void func_021C00AC(u8 *p, unsigned i) {
     if (i != -1) {
         pos.x=0x70*(i&1)+0x3e;
         pos.y=0x18*((i>>1)+1);
-        func_0204B404(((struct Obj06393 *)p)->f14,&pos,0);
+        func_0204B404(((struct Obj06393 *)p)->f14,(const struct Vec2 *)(&pos),0);
         func_0204B878(((struct Obj06393 *)p)->f14,0x1c);
     }
 }

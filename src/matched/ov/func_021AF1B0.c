@@ -32,11 +32,11 @@ struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028BDC(struct S *s, u32 mask);
 extern void func_02159168(int n);
-extern void *func_0215A5DC();
+extern void *func_0215A5DC(void *a0);
 
 int func_021AF1B0(u32 a, u32 b, u32 c, u32 d)
 {
-func_02028BDC((struct S *)func_02012A30((const struct BigObj *)func_020120F4(func_0215A5DC(b, b, c, d))), 2);
+func_02028BDC((struct S *)func_02012A30((const struct BigObj *)func_020120F4(func_0215A5DC((void *)b))), 2);
 func_02159168(13);
 return 0;
 }

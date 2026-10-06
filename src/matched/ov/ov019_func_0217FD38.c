@@ -25,7 +25,7 @@ struct B60 { u32 w[15]; };
 struct E { u32 a, b, c, d; u16 h; };
 extern void MTX_Identity33_(void *m);
 extern int func_0216DA30(u32 a);
-extern void func_0217FCC4(struct E *e, struct B60 *b);
+extern void func_0217FCC4(u32 *p, u32 *b);
 extern struct B60 d_02180758;
 
 void func_0217FD38(struct E *p)
@@ -37,7 +37,7 @@ void func_0217FD38(struct E *p)
     for (i = 0; i < 10; i++) {
         struct E *e = &p[i];
         if (e->d != 0 && func_0216DA30(e->a) == 1) {
-            func_0217FCC4(e, &b);
+            func_0217FCC4((u32 *)e, (u32 *)(&b));
         }
     }
 }

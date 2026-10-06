@@ -42,14 +42,14 @@ extern void func_0204ADA4(u32);
 extern void func_0204AFD8(u32);
 extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
-extern void func_02186694(u8 *);
-extern void func_02185004(u8 *);
+extern void func_02186694(char *p);
+extern void func_02185004(char *p);
 extern void func_02184B34(void);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_0201D83C(void *ptr);
 extern int  func_02186558(u8 *);
-extern void func_02184B04(u8 *);
+extern void func_02184B04(char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32);
@@ -71,9 +71,9 @@ int func_021847C8(u32 a, int *seq, u8 *c, u8 *d)
         func_0204B1CC((struct Bank *)(((struct Obj01361 *)d)->f38));
         func_0204A5AC();
         if (((struct Obj01361 *)d)->f178 != 0) {
-            func_02186694(d);
+            func_02186694((char *)d);
         }
-        func_02185004(d);
+        func_02185004((char *)d);
         func_02184B34();
         func_02045C04((struct Rec *)(((struct Obj01361 *)d)->f14));
         func_0201ED04((struct WordSet *)(((struct Obj01361 *)d)->f10));
@@ -93,7 +93,7 @@ int func_021847C8(u32 a, int *seq, u8 *c, u8 *d)
         }
         break;
     case 3:
-        func_02184B04(d);
+        func_02184B04((char *)d);
         func_020315D4((struct S020315D4 *)a);
         func_020306F0(0x28);
         return 1;

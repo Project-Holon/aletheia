@@ -31,12 +31,12 @@ typedef struct {
 } Pt;
 
 extern u32 func_020056EC(u32 v);
-extern void func_0204B908(int, u16);
+extern void func_0204B908(int a0, int a1);
 extern int *func_021A21B8(int *p);
-extern int func_021A21C8(int, int);
+extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
-extern void func_021A2654(int, Pt *);
+extern void func_021A2654(int obj, unsigned short *src);
 
 void func_021EF2D4(int a, int n, int idx)
 {
@@ -52,7 +52,7 @@ void func_021EF2D4(int a, int n, int idx)
 
     func_021A21B8((int *)a);
     for (i = 0; i < n; i++) {
-        obj = func_021A21C8(a, idx);
+        obj = (int)func_021A21C8((void *)a, idx);
         if (obj == 0) {
             return;
         }
@@ -68,7 +68,7 @@ void func_021EF2D4(int a, int n, int idx)
         } else if (t < 100) {
             m = 2;
         }
-        func_0204B908(h, 2 - m);
+        func_0204B908(h, (u16)(2 - m));
         k = r % 23;
         e[2] = k + (m + 1) * 10;
         if (m == 2) {
@@ -82,7 +82,7 @@ void func_021EF2D4(int a, int n, int idx)
         e[1] = (r & 3) + 1;
         pt.x = r % 270 + (m * 15 - 0x40);
         pt.y = (r & 0xF) - 8;
-        func_021A2654(obj, &pt);
+        func_021A2654(obj, (short unsigned int *)(&pt));
         e[6] = r;
     }
 }

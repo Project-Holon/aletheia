@@ -33,13 +33,13 @@ extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u8 *func_02012ED0(struct Big *p);
-extern void *func_0215A5DC();
+extern void *func_0215A5DC(void *a0);
 extern void *func_02188C80(void *p);
 extern u32 func_021C8810(u32);
 
 int func_021C8960(u32 a, u32 b, u32 c, u32 d)
 {
-func_021C8810(((struct Obj18341 *)((u8 *)(func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC(b, b, c, d))))))))->f0);
+func_021C8810(((struct Obj18341 *)((u8 *)(func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)b))))))))->f0);
 return 0;
 }
 

@@ -46,9 +46,9 @@ extern int func_021BE480(char *p, unsigned i, int j);
 extern void *func_021C4D14(int a, int b, int c, int d, int e);
 extern void func_021C4DC0(int, int, int, int);
 extern void func_020307B0(void *p);
-extern void func_021F3874(O *);
+extern void func_021F3874(char *p);
 
-void func_021F37B4(O *o, int q)
+void func_021F37B4(O *o, u32 q)
 {
     int i;
     int t8;
@@ -74,5 +74,5 @@ void func_021F37B4(O *o, int q)
     func_020307B0(p);
     for (i = 0; i < 2; i++)
         o->w[i] = 0;
-    func_021F3874(o);
+    func_021F3874((char *)o);
 }

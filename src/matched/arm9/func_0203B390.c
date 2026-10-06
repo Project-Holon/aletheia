@@ -48,8 +48,8 @@ extern void *func_0203D788(void);
 extern u32   func_02037A6C(u32 a, u32 b, u32 c, u32 d);
 typedef unsigned short u16;
 extern u32 func_02037928(u32 a0, u16 a1);
-extern u32   func_0203B2FC(void *p);
-extern u32   func_0203B344(void *p);
+extern u32 func_0203B2FC(char *p);
+extern u32 func_0203B344(char *p);
 extern void  func_0203AD80(u32 ctx, void *tag, u32 val, u32 line);
 
 struct Vt {
@@ -82,11 +82,11 @@ void func_0203B390(struct Slot *p)
 
     if (func_02037A6C(1, (u32)&p->f57, n, (u32)func_0203B01C) == 0)
         return;
-    func_0203AD80(g_021469DC, str_0203B950, func_0203B2FC(p), n + 0x45);
+    func_0203AD80(g_021469DC, str_0203B950, func_0203B2FC((char *)p), n + 0x45);
     return;
 
 alt:
     if (func_02037928(1, n) == 0)
         return;
-    func_0203AD80(g_021469DC, str_0203B950, func_0203B344(p), n + 0x4a);
+    func_0203AD80(g_021469DC, str_0203B950, func_0203B344((char *)p), n + 0x4a);
 }

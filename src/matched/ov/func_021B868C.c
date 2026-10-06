@@ -19,7 +19,7 @@ typedef unsigned int  u32;
 
 u8 *func_021B87D8(u8 *p, u32 idx);
 
-int func_021B868C(u8 *p, u32 *q, u32 v)
+int func_021B868C(u8 *p, u32 *q, void *v)
 {
     return func_021B87D8(p, q[1]) == (u8 *)v;
 }

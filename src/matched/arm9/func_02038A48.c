@@ -42,14 +42,15 @@ typedef unsigned char u8;
 extern u8   g_020A7A20[];
 extern u8   g_020A7A24[];
 extern u8   g_020A7A50[];
-extern void func_02034714(u8 *a, unsigned int b, u8 *c);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 int func_02038A48(int a)
 {
     if (a != 0 && g_020A7A20[1] == 2) {
         g_020A7A20[1] = 4;
     } else {
-        func_02034714(g_020A7A24, 0x5C0, g_020A7A50);
+        func_02034714((const char *)g_020A7A24, 0x5C0, (const char *)g_020A7A50);
     }
     return 1;
 }

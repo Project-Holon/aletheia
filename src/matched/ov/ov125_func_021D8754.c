@@ -14,7 +14,7 @@
  */
 typedef struct { unsigned words[4]; } Data;
 typedef struct { unsigned short a,b; Data data; unsigned tail[2]; } Packet;
-extern int func_021D7A10(int, const void *, int, int);
+extern int func_021D7A10(int id, void *buf, int x, int sz);
 int func_021D8754(Data *data, int n) {
  Packet p;
  p.a = 0;

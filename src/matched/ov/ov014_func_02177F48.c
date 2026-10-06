@@ -29,7 +29,7 @@ extern u8 d_02179678[3];
 int func_02177AA8(void);
 u32 func_020056EC(u32 n);
 void func_0217778C(void);
-int func_02179288(int mode, u16 a, u16 b, u16 c);
+int func_02179288(int mode, u16 a, int b, u16 c);
 void func_0217727C(u32 *p, u32 v);
 void func_02177EFC(u8 *a);
 

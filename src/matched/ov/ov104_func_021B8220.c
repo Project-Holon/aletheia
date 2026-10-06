@@ -27,7 +27,7 @@ typedef short s16;
 typedef unsigned int u32;
 extern void func_021B816C(u8 *);
 extern u32 func_021B8178(u8 *);
-extern void func_021B817C(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B817C(char *p, u32 v);
 extern void func_021B818C(u8 *);
 extern int func_021B7250(int *p);
 extern int func_021B6480(int *p);
@@ -37,4 +37,4 @@ extern void func_021B8104(u32 *);
 extern void func_021B85E4(u8 *p);
 extern void func_021B8F00(void *);
 extern void func_021B829C(u8 *,u16 *);
-void func_021B8220(u8 *p,u16 *state) { func_021B8104((u32 *)(p+0x7b0)); if(func_021B8178(p+0x7b0)) { ((struct Obj13745 *)p)->f8A8=1; func_021B85E4(p+0x814); func_021B8F00(p+0x7cc); func_021B817C(p,func_021B829C); } if(func_021B7250(((struct Obj13745 *)p)->f7AC)==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); } if(func_021B6480(*(void **)(CTX(p)+4))!=0) func_021B817C(p,func_021B8528); }
+void func_021B8220(u8 *p,u16 *state) { func_021B8104((u32 *)(p+0x7b0)); if(func_021B8178(p+0x7b0)) { ((struct Obj13745 *)p)->f8A8=1; func_021B85E4(p+0x814); func_021B8F00(p+0x7cc); func_021B817C((char *)p,(u32)func_021B829C); } if(func_021B7250(((struct Obj13745 *)p)->f7AC)==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); } if(func_021B6480(*(void **)(CTX(p)+4))!=0) func_021B817C((char *)p,(u32)func_021B8528); }

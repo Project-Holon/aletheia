@@ -46,23 +46,25 @@
  */
 typedef unsigned short u16;
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
-extern void func_021FD170(void *,int,int);
-extern void func_021FE784(int *,int,int,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021FD170(char *p, char *q, void *text);
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern int func_021D7630(int,int,u16 *,int,u16);
 extern void func_021FD73C(int *,int);
-extern void func_021DBC68(int *,int *,char *);
+extern void func_021DBC68(int a, int b, char *p);
 extern char d_021E3960[];
-extern void func_02034714(void *,int,void *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_0200B490(void);
-extern long long func_0200B98C(void *,int,long);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
 void func_021DC4FC(int *a,int *state,char *p)
 {
     switch(*state) {
     case 0:
         func_021DD0AC(p,*(char **)(p+0xd0));
-        func_021FD170(*(void **)(p+0x18),*(int *)(*(char **)(p+0xd0)+0x10),0x152);
-        func_021FE784(*(int **)(*(char **)(p+0xd0)+12),2,3,0);
+        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
+        func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);
         *state=1;break;
     case 1: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
     case 2: *state=3;break;
@@ -75,7 +77,7 @@ void func_021DC4FC(int *a,int *state,char *p)
             *state=5;
         }
         break;
-    case 5: func_021FE784(*(int **)(*(char **)(p+0xd0)+12),2,3,1);*state=6;break;
+    case 5: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=6;break;
     case 6: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=7;break;
     case 7: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
     }

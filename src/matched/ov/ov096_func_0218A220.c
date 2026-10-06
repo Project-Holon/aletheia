@@ -29,10 +29,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern int func_0218A2FC(u8 *, int);
-extern int func_021D62C4(void *, int);
+struct QF;
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021F8AFC(int);
-extern int func_021D59B4(void *, int);
-extern int func_021D5444(void *);
+extern int func_021D59B4(u8 *p, int k);
+extern u16 func_021D5444(struct QF *p);
 extern u32 func_02019C90(u16, u16, u32);
 extern u32 func_0203F0A8(void);
 static inline u32 draw_below(u32 n)

@@ -31,55 +31,64 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02012FFC(void);
+typedef signed short   s16;
+typedef unsigned char  u8;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct PrintSys;
+struct Rec3;
+struct WordSet;
+extern signed char func_02012FFC(void);
 extern void func_021BA8D4(char *p);
-extern u32 func_021BA8BC(u32 a);
-extern int func_0201C6B4(u32 a);
-extern void func_0201C6EC(u32 a);
-extern void func_0201CE48(u32 a);
-extern u32 func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02045CAC(u32 a, u32 b, u32 c);
-extern void func_0201F250(u32 a, u32 b, u32 c);
-extern u32 func_02045770(u32 a);
-extern void func_02043B5C(u32 a, u32 b);
-extern void func_0201F73C(u32 a, u32 b, u16 c, u32 d);
-extern void func_0201C7A4(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern int func_021BA8BC(void *p);
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201CE48(struct Rec3 *p);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern u32 func_0201CCE4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 j);
-extern void func_02028470(char *a, u32 b);
-extern void func_02045334(u32 a);
-extern void func_02045374(u32 a);
+extern void func_02028470(u8 *p, u32 v);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
 
-void func_021BA978(char *p, u32 a1, int a2, int a3)
+void func_021BA978(char *p, int a1, int a2, int a3)
 {
     int k, e;
     func_02012FFC();
     func_021BA8D4(p);
-    *(u32 *)(p + 0x190) = func_021BA8BC(*(u32 *)(p + 0x190));
-    if (func_0201C6B4(*(u32 *)(p + 0x1B8)) == 0)
-        func_0201C6EC(*(u32 *)(p + 0x1B8));
+    *(u32 *)(p + 0x190) = (u32)func_021BA8BC((void *)(*(u32 *)(p + 0x190)));
+    if ((int)func_0201C6B4((const struct PrintSys *)(*(u32 *)(p + 0x1B8))) == 0)
+        func_0201C6EC((struct PrintSys *)(*(u32 *)(p + 0x1B8)));
     if (*(u32 *)(p + 0x1BC) != 0) {
-        func_0201CE48(*(u32 *)(p + 0x1BC));
+        func_0201CE48((struct Rec3 *)(*(u32 *)(p + 0x1BC)));
         *(u32 *)(p + 0x1BC) = 0;
     }
-    *(u32 *)(p + 0x190) = func_020450F0(2, 2, 0x13, 0x1B, 4, 0xF, 1);
+    *(u32 *)(p + 0x190) = func_020450F0(2, 2, 0x13, 0x1B, (u32)4, (u32)0xF, (u32)1);
     if (a2)
-        func_02045CAC(*(u32 *)(p + 0xE4), a1, *(u32 *)(p + 0xF0));
+        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0xE4)), a1, (void *)(*(u32 *)(p + 0xF0)));
     else
-        func_02045CAC(*(u32 *)(p + 0xE0), a1, *(u32 *)(p + 0xF0));
-    func_0201F250(*(u32 *)(p + 0xDC), *(u32 *)(p + 0xF4), *(u32 *)(p + 0xF0));
+        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0xE0)), a1, (void *)(*(u32 *)(p + 0xF0)));
+    func_0201F250((struct WordSet *)(*(u32 *)(p + 0xDC)), (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xF0)));
     k = 0xFF;
-    func_02043B5C(func_02045770(*(u32 *)(p + 0x190)), k);
+    func_02043B5C(func_02045770((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)k);
     e = 0xE;
-    func_0201F73C(*(u32 *)(p + 0x190), 1, *(u32 *)(p + 0x1334), e);
+    func_0201F73C((void *)(*(u32 *)(p + 0x190)), (u32)1, (u16)(*(u32 *)(p + 0x1334)), (u32)e);
     if (a3 == 0) {
-        func_0201C7A4(func_02045770(*(u32 *)(p + 0x190)), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8));
+        func_0201C7A4(func_02045770((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)0, (u32)0, (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xE8)));
     } else {
         u32 t = func_02012FFC();
         *(u32 *)(p + (k + 0xBD)) = func_0201CCE4(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8), t, *(u32 *)(p + e * 0x20), 2, 0x21, 0xF);
-        func_02028470(p + 0x26C, 2);
+        func_02028470((u8 *)(p + 0x26C), 2);
     }
-    func_02045334(*(u32 *)(p + 0x190));
-    func_02045374(*(u32 *)(p + 0x190));
+    func_02045334((struct Descriptor *)(*(u32 *)(p + 0x190)));
+    func_02045374((struct Cfg *)(*(u32 *)(p + 0x190)));
     func_02041B6C(2);
 }

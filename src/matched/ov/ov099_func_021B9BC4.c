@@ -31,7 +31,8 @@ extern Pos func_021C4AC4(void *v);
 typedef unsigned char  u8;
 extern int func_021C49A4(u8 *p, unsigned int i);
 extern Pos func_021C4A54(Pos p, int n);
-extern int func_021C4864(void *o, u16 x, u16 y);
+typedef unsigned int   u32;
+extern u32 func_021C4864(u8 *p, u16 x, u16 y);
 
 int func_021B9BC4(Work *w)
 {

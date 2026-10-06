@@ -38,7 +38,8 @@ extern void func_021DD294(char *p, int a, int b);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DA76C(void *),func_021DAEF0(void *);
+extern void func_021DA76C(void *);
+extern void func_021DAEF0(char *p);
 void func_021DA798(char *p) {
  int i, j, v;
  unsigned char a, b;

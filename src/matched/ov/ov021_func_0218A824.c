@@ -39,7 +39,8 @@ struct FieldCtx {
     u32 f2C;
 };
 
-extern int func_0218A784(struct FieldCtx *p, int dir);
+struct Ctx784;
+extern int func_0218A784(struct Ctx784 *c, int a);
 
 int func_0218A824(struct FieldCtx *p)
 {
@@ -64,5 +65,5 @@ int func_0218A824(struct FieldCtx *p)
     case 2:
         return 0;
     }
-    return func_0218A784(p, dir);
+    return func_0218A784((struct Ctx784 *)p, dir);
 }

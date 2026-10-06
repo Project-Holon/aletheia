@@ -13,11 +13,14 @@
  *   func_02047828  0x02047828  arm
  */
 
-int func_02047828(int h, unsigned short id, int *out);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct AnmCtl;
+u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
 
 int func_0218C47C(int *p, int id)
 {
     int out;
-    func_02047828(*p, id, &out);
+    func_02047828((struct AnmCtl *)(*p), (unsigned short)id, &out);
     return out;
 }

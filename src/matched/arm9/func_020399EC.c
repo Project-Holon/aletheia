@@ -37,7 +37,9 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void *func_0203D788(void);
-extern unsigned char *func_0203996C(int i);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_020399B8(u8 *p);
 
 int func_020399EC(void)
@@ -48,7 +50,7 @@ int func_020399EC(void)
     if (func_0203D788() != 0) {
         c = 0;
         for (i = 0; i < 8; i++) {
-            if (func_020399B8(func_0203996C(i)) != 0)
+            if (func_020399B8((u8 *)func_0203996C(i)) != 0)
                 c++;
         }
     } else {

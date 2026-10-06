@@ -27,7 +27,7 @@ typedef struct {
 } S;
 
 extern void sub_020307B0(void *p);
-extern void sub_02013270(void *p);
+extern int sub_02013270(int a0);
 extern void sub_02082BCC(void *p, int c, int n);
 
 void sub_020130DC(S *p)
@@ -38,7 +38,7 @@ void sub_020130DC(S *p)
         if (p->a24[i] != 0)
             sub_020307B0(p->a24[i]);
         if (p->a48[i] != 0)
-            sub_02013270(p->a48[i]);
+            sub_02013270((int)p->a48[i]);
         if (i != 0 && p->a34[i] != 0)
             sub_020307B0(p->a34[i]);
     }

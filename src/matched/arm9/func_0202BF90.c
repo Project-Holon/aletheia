@@ -51,7 +51,8 @@ struct Obj {
     u16 f14;
 };
 
-extern u32 func_0202BFC4(u8 *p, u32 key);
+struct Container;
+extern u32 func_0202BFC4(const struct Container *c, u32 key);
 
 void func_0202BF90(struct Obj *o, u32 key)
 {
@@ -60,7 +61,7 @@ void func_0202BF90(struct Obj *o, u32 key)
     const struct Rec *base;
 
     sel = o->sel;
-    idx = func_0202BFC4((u8 *)o, key);
+    idx = func_0202BFC4((const struct Container *)o, key);
     base = (const struct Rec *)o->base;
     if (idx == 0xff) {
         return;

@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 extern int func_021C7330(u8 *, u8 *);
-int func_021C20BC(u8 *p, u8 *a)
+int func_021C20BC(u8 *p, u8 *a, int r)
 {
     if (func_021C7330(p, a))
         return 1;

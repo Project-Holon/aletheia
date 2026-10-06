@@ -51,7 +51,7 @@ struct BufHdr {
     u32 size;
 };
 
-extern void *func_0206E964(struct BufHdr *buf);
+extern unsigned char *func_0206E964(unsigned char *p);
 struct Up;
 extern void func_0206A00C(struct Up *u, u32 wrap);
 extern void  func_0206A12C(void *rec, u32 flag);
@@ -60,7 +60,7 @@ extern void  DC_FlushRange(void *addr, u32 size);
 u32 func_02047204(struct Tagged *p)
 {
     struct BufHdr *buf = p->buf;
-    void          *last = func_0206E964(buf);
+    void          *last = func_0206E964((unsigned char *)buf);
 
     if (last == 0) {
         return 0;

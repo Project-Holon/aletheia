@@ -23,7 +23,7 @@ extern int func_0203CD98(void);
 typedef unsigned char  u8;
 extern int func_021B99DC(u8 *p);
 extern int func_021B9790(u8 *p);
-extern int *func_021B97F4(void *);
+extern u8 *func_021B97F4(u8 *p);
 extern int func_021D9FD4(char *,int);
 extern void func_021D9634(char *p);
 extern void func_021DA034(char *p, int n, int unused);
@@ -33,7 +33,7 @@ void func_021DA328(char *p)
 {
     int *q;
     if (func_0203CD98() && !func_021D9FD4(p,func_021B99DC(((struct Obj03804 *)p)->f8)) && !func_021B9790(((struct Obj03804 *)p)->f8)) {
-        q = func_021B97F4(((struct Obj03804 *)p)->f8);
+        q = (int *)func_021B97F4(((struct Obj03804 *)p)->f8);
         func_021D9634(((struct Obj03804 *)p)->f10);
         if (*q == 2) { func_021DA034(p,(int)func_021DA1A0,0x1d4); return; }
         if (*q == 0) { func_021DA034(p,(int)func_021DA1A0,0x1d7); return; }

@@ -16,13 +16,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned int func_021CD9E0(void *);
+typedef unsigned int   u32;
+extern u32 func_021CD9E0(u8 *p);
 extern void func_021F7998(unsigned int);
 extern int func_021F7EB4(void);
 int func_021D34B0(char *p, int *state, unsigned int *q)
 {
     if (*state == 0) {
-        if (func_021CD9E0(p) != 0) return 1;
+        if (func_021CD9E0((u8 *)p) != 0) return 1;
         func_021F7998(q[0]);
         (*state)++;
     } else {

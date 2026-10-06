@@ -24,7 +24,7 @@ extern u8 *d_021B3C80;
 extern int func_021B2180(int a, int b);
 extern int func_021B0614(void *p);
 
-int func_021AECC4(void)
+int func_021AECC4(int x)
 {
     u8 *p = *(u8 **)(d_021B3C80 + 0x1A1C);
     int r;

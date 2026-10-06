@@ -32,7 +32,7 @@ extern u8 func_021D4394(u32 a);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 
-void *func_021D47A4(u32 a)
+void *func_021D47A4(u8 a)
 {
     u32 idx = func_021D4394(a);
     void *p;

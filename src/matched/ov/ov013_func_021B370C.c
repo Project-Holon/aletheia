@@ -42,7 +42,8 @@ extern u8   d_021B60D8[];
 extern void func_02004EB0(const void *symbol);
 extern void func_02082BCC(void *dst, int c, int n);
 extern int  func_021B0508(void);
-extern int  func_021B22B4(Param *p);
+struct Config;
+extern int func_021B22B4(struct Config *cfg);
 extern void func_021B23C8(void);
 typedef unsigned int   u32;
 struct E;
@@ -76,7 +77,7 @@ int func_021B370C(Param *p)
         func_021B2F98();
         return 0;
     }
-    if (func_021B22B4(p) == 0) {
+    if (func_021B22B4((struct Config *)p) == 0) {
         func_021B2F98();
         return 0;
     }

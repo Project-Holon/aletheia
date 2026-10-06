@@ -52,7 +52,7 @@ extern void func_021B9BA0(void *a);
 extern void func_021B9B3C(char *p);
 extern void func_021B9BC8(char *p);
 extern void func_021B9C1C(char *p);
-extern void func_021B9694(void *a);
+extern void func_021B9694(unsigned int *p);
 extern void func_021B9734(char *p);
 extern void func_021B95CC(void);
 extern void func_02045C04(struct Rec *rec);
@@ -76,7 +76,7 @@ int func_021B94CC(void *a, void *b, char *c, char *d)
     func_021B9B3C(d);
     func_021B9BC8(d);
     func_021B9C1C(d);
-    func_021B9694(d);
+    func_021B9694((unsigned int *)d);
     func_021B9734(d);
     func_021B95CC();
     func_02045C04(((struct Obj03177 *)d)->f20);

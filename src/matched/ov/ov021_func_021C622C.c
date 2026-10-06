@@ -28,8 +28,8 @@ typedef struct {
     void *f4;
 } Ctx;
 
-extern void func_021C62F0(Ctx *c);
-extern void func_021C6368(Ctx *c);
+extern void func_021C62F0(u8 *p);
+extern void func_021C6368(u8 *p);
 typedef unsigned int   u32;
 struct St021D3244;
 struct St021D325C;
@@ -42,7 +42,7 @@ int func_021C622C(void *unused, int *st, Ctx *c)
 {
     switch (*st) {
     case 0:
-        func_021C62F0(c);
+        func_021C62F0((u8 *)c);
         func_020061E4(0x683);
         *st = *st + 1;
         break;
@@ -77,7 +77,7 @@ int func_021C622C(void *unused, int *st, Ctx *c)
         *st = *st + 1;
         break;
     default:
-        func_021C6368(c);
+        func_021C6368((u8 *)c);
         return 1;
     }
     return 0;

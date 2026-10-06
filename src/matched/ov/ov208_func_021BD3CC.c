@@ -30,7 +30,9 @@ struct Ov208Mgr {
 };
 
 extern struct Ov208Rec *ov208_func_021BD404(struct Ov208Mgr *p, int key);
-extern void func_0204B404(u32 obj, u16 *pos, u16 flag);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void ov208_func_021BD3CC(struct Ov208Mgr *p, int key, u16 *pos)
 {
@@ -38,5 +40,5 @@ void ov208_func_021BD3CC(struct Ov208Mgr *p, int key, u16 *pos)
 
     r->x = pos[0];
     r->y = pos[1];
-    func_0204B404(r->f0, pos, p->f20 >= 4 ? 1 : 0);
+    func_0204B404((struct Obj *)r->f0, (const struct Vec2 *)pos, (u16)(p->f20 >= 4 ? 1 : 0));
 }

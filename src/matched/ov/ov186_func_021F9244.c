@@ -41,7 +41,9 @@ extern void func_021FE734(char *p);
 extern void func_021F9A6C(int *);
 extern void *func_02012F08(int *p);
 extern int func_021FC238(char *p);
-extern void func_0200C3EC(int,unsigned char);
+typedef unsigned int   u32;
+struct Blk34;
+extern void func_0200C3EC(struct Blk34 *p, u32 v);
 extern void func_021FBDA4(int,unsigned);
 extern void func_021FB92C(char *p);
 extern void func_021FC474(char *);
@@ -63,7 +65,7 @@ int func_021F9244(int sys,int unused,int unused2,int *p)
     if(nested[0]==0) {
         int a=(int)func_02012F08((int *)nested[1]);
         int b=func_021FC238((char *)p[1]);
-        func_0200C3EC(a,b);
+        func_0200C3EC((struct Blk34 *)a,(unsigned char)b);
     }
     func_021FBDA4(p[1],0);
     func_021FBDA4(p[1],1);

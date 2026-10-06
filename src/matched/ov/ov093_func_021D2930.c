@@ -24,7 +24,8 @@ typedef unsigned int u32;
 extern u32 func_021CD9E0(u8 *p);
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern int func_021D7AD4(int a);
-extern void func_021EA1B8(u32 a, u32 b, int c, int d);
+struct S;
+extern void func_021EA1B8(struct S *s, u32 a, int b, int c);
 struct S;
 extern int func_021EA1F0(struct S *s);
 
@@ -36,7 +37,7 @@ int func_021D2930(u32 *a, int *b, u32 *c)
     case 0:
         if (func_021CD9E0((u8 *)a) == 0) {
             t = func_021B8D8C((void *)a[0], (void *)a[1], (u8)c[0]);
-            func_021EA1B8(a[0x15], (u16)c[2], t, func_021D7AD4(c[1]));
+            func_021EA1B8((struct S *)a[0x15], (u16)c[2], t, func_021D7AD4(c[1]));
             (*b)++;
             break;
         }

@@ -24,7 +24,7 @@ extern char g_021AA878[];
 extern int func_02059F38(void);
 struct GTI2Connection;
 extern int func_0216BAF4(int aid);
-extern unsigned char *func_02176410(unsigned char aid);
+extern char *func_02176410(unsigned char aid);
 extern void func_0216C230(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
 extern void func_02195DC4(int conn);
 
@@ -40,7 +40,7 @@ int func_0216BEA4(unsigned char aid)
     }
     conn = func_0216BAF4(aid);
     if (conn == 0) {
-        node = func_02176410(aid);
+        node = (unsigned char *)func_02176410(aid);
         if (node == 0) {
             return -2;
         }

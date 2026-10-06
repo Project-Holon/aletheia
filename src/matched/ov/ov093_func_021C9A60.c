@@ -35,16 +35,18 @@ extern int func_021D59B4(u8 *p, int k);
 extern int func_021C9BA8(u16);
 extern int func_021D5B68(void *);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern int func_021C99A0(void *, const void *);
+struct Msg;
+struct Unk021D62A8;
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C7B3C(u8 *, u32, u32, u32);
 extern void func_021C7B7C(u8 *p, unsigned int i);
 extern void func_021D8510(void *p);
 struct QJ;
 extern void func_021D66D0(struct QJ *p, u32 v);
 extern void *func_021D8484(void *);
-extern int func_021D62C4(void *, int);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern void func_021C195C(u8 *p, u8 *q, u32 n);
 extern void func_021C3FDC(u8 *, u8 *);
 int func_021C9A60(u8 *p, const Ent *e)
@@ -61,11 +63,11 @@ int func_021C9A60(u8 *p, const Ent *e)
     if (e->a || e->value != x) {
         if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 87, (u8)e->index);
         func_021CD4B0(((struct Obj00003 *)p)->fC, 73, e->id, e->value);
-        func_021C99A0(p, e->msg);
+        func_021C99A0(p, (const struct Msg *)e->msg);
         line = 15561;
         s = func_021CC8D8(p + 0x1d74, line);
         func_021C7B3C(p, e->id, x, e->value);
-        func_021CC95C(p + 0x1d74, s, line + 2);
+        func_021CC95C((u32 *)(p + 0x1d74), s, line + 2);
         func_021D8510(a);
         func_021D66D0((struct QJ *)a, e->value);
         func_021CD4B0(((struct Obj00003 *)p)->fC, 29, e->id, e->value);
@@ -75,10 +77,10 @@ int func_021C9A60(u8 *p, const Ent *e)
             t = func_021CC8D8(p + 0x1d74, line + 16);
             func_021C7B7C(p, e->id);
             line += 18;
-            func_021CC95C(p + 0x1d74, t, line);
+            func_021CC95C((u32 *)(p + 0x1d74), t, line);
         }
         if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 88, (u8)e->index);
-        if (!func_021D62C4(a, 16)) {
+        if (!func_021D62C4((struct Unk021D62A8 *)a, 16)) {
             if (x == 103) func_021C195C(p, a, 0);
             if (x == 127) func_021C3FDC(p, a);
         }

@@ -35,7 +35,7 @@ extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_021928F8(u32 *sub, u32 a, u32 b);
+extern void func_021928F8(u8 *a, u32 b, u32 c);
 extern void func_02045334(struct Descriptor *a);
 
 int func_021926D8(U *u)
@@ -44,7 +44,7 @@ int func_021926D8(U *u)
     func_0203630C();
     if (v & 3)
         return 1;
-    func_021928F8(u->sub, (u32)func_02045770((struct Descriptor *)u->f00), u->f0c);
+    func_021928F8((u8 *)u->sub, (u32)func_02045770((struct Descriptor *)u->f00), u->f0c);
     func_02045334((struct Descriptor *)u->f00);
     return 0;
 }

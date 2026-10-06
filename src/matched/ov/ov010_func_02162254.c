@@ -13,7 +13,7 @@
 #include "../include/Obj18954.h"
 typedef unsigned short u16;
 extern void func_02082D44(void *, void *, unsigned);
-int func_02162254(char *p, int index, void *out)
+int func_02162254(char *p, u16 index, u16 *out)
 {
     int result = 0;
     if (((struct Obj18954 *)p)->f2 & (1 << index)) {

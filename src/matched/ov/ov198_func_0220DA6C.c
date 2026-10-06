@@ -48,10 +48,12 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(void *vec);
-extern u32 func_0201D304(void *, u32, u32);
-extern int func_02045738(void *);
-extern u32 func_02045770(void *);
+struct Descriptor;
+struct StrObj;
+extern void func_02045808(struct U16Vec *vec);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u8 func_02045738(struct Descriptor *p);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *, u32, short, u32, void *, u32, u16);
 extern u32 d_02211B68[];
 
@@ -62,11 +64,11 @@ static inline u8 center_x(int w)
 
 static inline void put(u8 *p, void *win, void *sel, short x, u32 y, void *h, u16 color)
 {
-    func_0201C724(win, func_02045770(sel), x, y, h, *(u32 *)(*(u8 **)p + 0xc), color);
+    func_0201C724(win, (u32)func_02045770(sel), x, y, h, *(u32 *)(*(u8 **)p + 0xc), color);
     *(u8 *)(p + 0x1F74) = 1;
 }
 
-void func_0220DA6C(u8 *p, u32 idx)
+void func_0220DA6C(u8 *p, int idx)
 {
     void *msg;
     u32 off;

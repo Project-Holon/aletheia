@@ -36,7 +36,9 @@ typedef struct Conn {
 
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
-extern int func_02196558(Conn *c, int type, unsigned char *msg, int len);
+typedef unsigned char  u8;
+struct GTI2Connection;
+extern int func_02196558(struct GTI2Connection *connection, int type, u8 *message, int len);
 extern void func_0219681C(Conn *c, Hold *m, int index);
 
 int func_021968A0(Conn *c)
@@ -48,7 +50,7 @@ again:
 	for (i = func_02184200(c->holds) - 1; i >= 0; i--) {
 		m = (Hold *)func_02184208(c->holds, i);
 		if (m->id == c->expectedId) {
-			if (!func_02196558(c, m->type, c->data + m->start, m->len))
+			if (!func_02196558((struct GTI2Connection *)c, m->type, c->data + m->start, m->len))
 				return 0;
 			func_0219681C(c, m, i);
 			goto again;

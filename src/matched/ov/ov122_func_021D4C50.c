@@ -20,7 +20,7 @@ extern int func_02158630(int a);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void func_021D4BF4(char *p);
-extern void func_021D4244(char *, void *, int);
+extern void func_021D4244(void *p, u32 a, int a2);
 int func_021D4C50(int value, char *p)
 {
     void *obj;
@@ -32,18 +32,18 @@ int func_021D4C50(int value, char *p)
         ((struct Obj22931 *)(*(char * *)&((struct Obj05359 *)p)->f344))->f28 = func_02158630((int)obj);
         ((struct Obj05359 *)p)->f8 = 0;
         func_020061E4(0x73b);
-        func_021D4244(p, func_021D4BF4, 0x3c4);
+        func_021D4244(p, (u32)func_021D4BF4, 0x3c4);
         break;
     case 1:
     case 4:
         ((struct Obj05359 *)p)->f8 = 1;
         func_020061E4(0x73b);
-        func_021D4244(p, func_021D4BF4, 0x3cd);
+        func_021D4244(p, (u32)func_021D4BF4, 0x3cd);
         break;
     case 2:
         func_020061E4(0x73c);
         ((struct Obj05359 *)p)->f8 = 2;
-        func_021D4244(p, func_021D4BF4, 0x3d3);
+        func_021D4244(p, (u32)func_021D4BF4, 0x3d3);
         break;
     }
     return 1;

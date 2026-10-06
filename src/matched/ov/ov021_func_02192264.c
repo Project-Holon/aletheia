@@ -31,7 +31,9 @@ typedef struct CharData {
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern int func_02062A4C(void *buf, CharData **out);
+typedef signed int     s32;
+struct NitroFileHeader;
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_02082EA4(void *dst, void *src, u32 n);
 extern void func_020307B0(void *p);
 
@@ -44,7 +46,7 @@ void func_02192264(u32 a, u32 unused, u32 heap, u32 idx)
 
     src = func_020437D4((const struct Bmp *)a);
     buf = (void *)func_0204A1BC(5, 8, 0, heap);
-    func_02062A4C(buf, &cd);
+    func_02062A4C(buf, (void **)(&cd));
     func_02082EA4(cd->raw + i * 32 + idx * 32, src, 0x20);
     func_020307B0(buf);
 }

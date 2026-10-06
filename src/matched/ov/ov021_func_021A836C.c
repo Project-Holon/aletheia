@@ -110,10 +110,10 @@ extern void func_021A8874(struct Obj *p, void *q, int r, u32 unused);
 extern void func_021A8BB8(struct Obj *p, void *q, int r);
 extern void func_02049238(void *q);
 extern void func_02040588(u32 which, u32 enable);
-extern void func_021A90E0(Obj *p);
+extern void func_021A90E0(struct W *w);
 extern void func_021A8DD8(Obj *p);
 extern u8 func_020129C4(const struct BigObj *p);
-extern void func_021A8E20(Obj *p, u32 v);
+extern void func_021A8E20(struct W *w, u32 v);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0203D34C(u32 a, u32 b);
 
@@ -156,10 +156,10 @@ Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
         p->f1E = 0;
         p->f1F = 0;
         p->f24 = 1;
-        func_021A90E0(p);
+        func_021A90E0((struct W *)p);
         func_021A8DD8(p);
     } else {
-        func_021A8E20(p, func_020129C4((const struct BigObj *)y));
+        func_021A8E20((struct W *)p, func_020129C4((const struct BigObj *)y));
         p->f24 = 1;
         if (p->f2C != 0) {
             func_0204B3DC((struct Obj *)p->f124, 1);

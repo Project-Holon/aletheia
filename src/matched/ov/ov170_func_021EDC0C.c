@@ -27,16 +27,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02007A18(void *save, u32 box, u32 slot);
-extern u32 func_02017DBC(void *p);
+struct Personal;
+struct Sav;
+struct Sub020079BCEntry;
+extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_0201ADE4(u32 a, int b, u32 c);
-extern u32 func_0201AE1C(const void *p, u32 field);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
-extern u32 func_02017DE4(void *p, u32 f);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern void func_02082A48(u32 value, void *dest, u32 size);
 
-void func_021EDC0C(int **a, u32 box, u8 *dest)
+void func_021EDC0C(int **a, int box, u8 *dest)
 {
     void *e;
     u32 sv;

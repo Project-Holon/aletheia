@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32  func_02029434(u8 *p);
-extern void func_0202939C(u8 *p);
+struct T;
+extern void func_0202939C(struct T *p);
 extern void func_02029344(void *obj, u32 value);
 extern void func_02029364(u8 *p);
 
@@ -27,7 +28,7 @@ void func_020292E8(u8 *p)
     if (func_02029434(p) == 0) {
         return;
     }
-    func_0202939C(p);
+    func_0202939C((struct T *)p);
     func_02029344(p, 0);
     func_02029364(p);
 }

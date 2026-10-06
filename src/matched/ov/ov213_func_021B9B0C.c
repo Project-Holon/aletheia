@@ -38,20 +38,23 @@ struct V {int x,y,z;};
 extern const struct V d0,d1,d2,d3,d4,d5;
 extern u32 func_021B61FC(const unsigned char*);
 extern void func_021B6200(unsigned char*);
-extern void func_021BA444(void*),func_021BA650(void*);
+extern void func_021BA444(void*);
+extern void func_021BA650(char *p);
 extern int func_021B9E50(u32);
 extern void func_021BA95C(unsigned char*,int),func_021BA81C(unsigned char*,u32),func_021BA480(void*);
 extern int func_021BA9D0(unsigned char*),func_021B98DC(int,int);
 extern void func_020061E4(u32 a);
 struct Obj;
-extern void func_021BA68C(void*,int,int),func_0204B3DC(struct Obj *p, unsigned int v),func_0204E720(u32,int,int,int);
-extern void func_021BA8E8(void*,u32,const struct V*);
+extern void func_021BA68C(char *p, unsigned i, int kind);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void func_0204E720(u32,int,int,int);
+extern int func_021BA8E8(char *p, int b, int c);
 int func_021B9B0C(unsigned char *state,unsigned char *p)
 {
     int stage,x,y,index;
     struct V v0,v1,v2,v3,v4,v5;
     stage=func_021B61FC(state);
-    func_021BA444(p);func_021BA650(p+0x498c);
+    func_021BA444(p);func_021BA650((char *)(p+0x498c));
     switch(stage){
     case 0:
         if(func_021B9E50(p[0x49c8]))func_021BA95C(p+0x24,1);
@@ -68,13 +71,13 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
         if(((struct Obj01295 *)p)->f49D0==15){
             index=((struct Obj01295 *)p)->f49CC!=0;
             func_020061E4(func_021B98DC(2,((struct Obj25690 *)(*(unsigned char* *)&((struct Obj01295 *)p)->f4))->f50));
-            func_021BA68C(p+0x498c,index,0);
+            func_021BA68C((char *)(p+0x498c),index,0);
         }else if(((struct Obj01295 *)p)->f49D0==24){
             index=((struct Obj01295 *)p)->f49CC!=0;
             func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
         }else if(((struct Obj01295 *)p)->f49D0==45){
             index=((struct Obj01295 *)p)->f49CC!=1;
-            func_021BA68C(p+0x498c,index,1);
+            func_021BA68C((char *)(p+0x498c),index,1);
         }else if(((struct Obj01295 *)p)->f49D0==54){
             index=((struct Obj01295 *)p)->f49CC!=1;
             func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
@@ -83,12 +86,12 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
         if(((struct Obj01295 *)p)->f49D0%180==0){
             if(((struct Obj01295 *)p)->f49CC==1){x=-0x2800;y=0x2000;}
             else{x=0x2800;y=-0x1800;}
-            v0=d0;v0.x=x;v0.y=y;func_021BA8E8(p+0x24,0,&v0);
-            v1=d1;v1.x=x;v1.y=y;func_021BA8E8(p+0x24,1,&v1);
-            v2=d2;v2.x=x;v2.y=y;func_021BA8E8(p+0x24,2,&v2);
-            v3=d3;v3.x=x;v3.y=y;func_021BA8E8(p+0x24,3,&v3);
-            v4=d4;v4.x=x;v4.y=y;func_021BA8E8(p+0x24,4,&v4);
-            v5=d5;v5.x=x;v5.y=y;func_021BA8E8(p+0x24,5,&v5);
+            v0=d0;v0.x=x;v0.y=y;func_021BA8E8((char *)(p+0x24),0,(int)(&v0));
+            v1=d1;v1.x=x;v1.y=y;func_021BA8E8((char *)(p+0x24),1,(int)(&v1));
+            v2=d2;v2.x=x;v2.y=y;func_021BA8E8((char *)(p+0x24),2,(int)(&v2));
+            v3=d3;v3.x=x;v3.y=y;func_021BA8E8((char *)(p+0x24),3,(int)(&v3));
+            v4=d4;v4.x=x;v4.y=y;func_021BA8E8((char *)(p+0x24),4,(int)(&v4));
+            v5=d5;v5.x=x;v5.y=y;func_021BA8E8((char *)(p+0x24),5,(int)(&v5));
         }
         (((struct Obj01295 *)p)->f49D0)++;break;
     }

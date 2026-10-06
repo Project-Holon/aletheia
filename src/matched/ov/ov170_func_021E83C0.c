@@ -44,7 +44,7 @@ struct WinMgr;
 typedef struct { unsigned short a; unsigned short b; } Ent;
 typedef struct { u8 pad[0x1c]; u8 lo : 4; u8 hi : 4; } Flags;
 extern void func_021EC000(char *, int, int);
-extern void func_021ED508(char *, int, int);
+extern void func_021ED508(unsigned char *p, int a, int b);
 extern void func_021ED888(char *, int);
 extern int func_021EF5E8(struct WinMgr *mgr);
 extern int func_021EC01C(char *, int);
@@ -66,7 +66,7 @@ extern void func_021EB988(char *, Ent *, unsigned);
 extern void func_021EF534(struct WinMgr *mgr);
 extern void func_021ECB20(char *, int, int);
 extern void func_021EBC28(u8 *, int, int);
-extern void func_021EE364(char *, int, int);
+extern void func_021EE364(char **p, int idx, int v);
 extern void func_021ED544(char *, int);
 extern Ent d_021EF908[];
 #define W (*(char **)(p + 0x2c))
@@ -78,7 +78,7 @@ int func_021E83C0(char *p)
     case 0:
         S++;
         func_021EC000(W, 4, 0);
-        func_021ED508(p, 14, 0);
+        func_021ED508((unsigned char *)p, 14, 0);
         func_021ED888(W, 0);
         if (func_021EF5E8(M) == 1) {
             if (func_021EC01C(W, 10) == 1)
@@ -108,7 +108,7 @@ int func_021E83C0(char *p)
         S = 0;
         func_021ECB20(p, 1, 1);
         func_021EBC28((u8 *)p, 0, 24);
-        func_021EE364(p, 10, 0);
+        func_021EE364((char **)p, 10, 0);
         ((Flags *)p)->lo = 0;
         func_021ED544(p, 6);
         return 0x5e;

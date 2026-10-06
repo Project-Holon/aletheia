@@ -41,7 +41,7 @@ void func_021D54F4(struct Work *src, struct Work *dst)
     dst->n140 = src->n140;
 }
 
-u16 func_021D5528(u8 *p, int i, u8 *a, u8 *b)
+u16 func_021D5528(u8 *p, u8 i, u8 *a, u8 *b)
 {
     u8 *q = p + i * 14;
     *a = q[0x10c];

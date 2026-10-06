@@ -32,10 +32,11 @@ extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int key, u32 val);
 extern void func_021D75A8(int key, u32 val);
 extern void func_021D7674(int key, u32 a, u32 b, u32 c);
-extern void func_021D70F0(u8 *p, int k);
+struct Unk021D62A8;
+extern void func_021D70F0(void *a, int id);
 extern int func_021D775C(int key);
 extern u32 func_021D7B10(u32 a, u32 b);
-extern int func_021D62A8(u8 *t);
+extern int func_021D62A8(struct Unk021D62A8 *p);
 extern void func_021D7540(int line);
 
 u16 func_021BC948(u8 *p, u8 *x, int flag)
@@ -52,7 +53,7 @@ u16 func_021BC948(u8 *p, u8 *x, int flag)
     func_021D7674(0x35, one << 12, 410, one << 17);
     func_021D70F0(p, 0x13);
     r = func_021D7B10(func_021D775C(0x2f), func_021D775C(0x35));
-    if (func_021D62A8(x) == 1 && func_021D775C(0x51) != 0)
+    if (func_021D62A8((struct Unk021D62A8 *)x) == 1 && func_021D775C(0x51) != 0)
         r = r * 25 / 100;
     if (r > 10000)
         r = 10000;

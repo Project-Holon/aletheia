@@ -56,7 +56,7 @@ typedef struct DWCHttp {
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern int func_0217A0D4(DWCHttp *http, DWCHttpBuffer *buf, unsigned long size);
 extern int func_0217A1FC(DWCHttp *http, char *url);
-extern int func_02179DA0(DWCHttp *http);
+extern int func_02179DA0(char *http);
 
 int func_0217956C(DWCHttp *http, DWCHttpParam *param)
 {
@@ -85,7 +85,7 @@ int func_0217956C(DWCHttp *http, DWCHttpParam *param)
         http->error = 1;
         return 1;
     }
-    http->error = func_02179DA0(http);
+    http->error = func_02179DA0((char *)http);
     if (http->error == 0)
         http->initflag = 0xff;
     return http->error;

@@ -41,11 +41,11 @@ typedef unsigned int   u32;
 struct Ctx;
 struct Desc;
 extern void *func_0201210C(const struct Ctx *p);
-extern W *func_021897BC(void *p, int i);
+extern int *func_021897BC(char *p, int idx);
 extern int func_02188D2C(int *p);
 extern V *func_021BE480(void *p, int i, u16 j);
 extern void func_021BE4B4(char *p, int i, int j, int v);
-extern u8 *func_021BE674(void *p, int i, u16 j, u16 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE700(void *p, int i, u16 j, u16 k, int flag);
 extern void func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
@@ -61,7 +61,7 @@ void func_021F3CFC(void *a, V *b, u16 c, u16 d)
     u16 *q;
 
     t = func_0201210C(a);
-    w = func_021897BC(t, 1);
+    w = (W *)func_021897BC(t, 1);
     s = (void *)func_02188D2C(t);
     q = w->p24;
     q[0] = c;
@@ -69,7 +69,7 @@ void func_021F3CFC(void *a, V *b, u16 c, u16 d)
     *func_021BE480(s, 0, 2) = *b;
     func_021BE4B4(s, 0, 2, 0);
     for (i = 0; i < 3; i++) {
-        func_021BE6B0(func_021BE674(s, 0, 2, i), 0);
+        func_021BE6B0(func_021BE674(s, 0, (u16)2, (u16)i), 0);
         func_021BE700(s, 0, 2, i, 1);
         func_021BE6CC(s, 0, 2, i, 0);
     }

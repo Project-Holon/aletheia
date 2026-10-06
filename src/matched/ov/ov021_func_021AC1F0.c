@@ -24,7 +24,7 @@ typedef struct X { u8 pad[0x24]; u32 f24; } X;
 
 struct Tagged;
 extern void *func_02046F48(struct Tagged *p);
-extern Res *func_0206E964(void *p);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_02022040(u16 *pal, int n, const u8 *table);
 
 void func_021AC1F0(X *x, void *b)
@@ -32,7 +32,7 @@ void func_021AC1F0(X *x, void *b)
     Res *p;
 
     if (x->f24 != 0) {
-        p = func_0206E964(func_02046F48(b));
+        p = (Res *)func_0206E964(func_02046F48(b));
         func_02022040((u16 *)((u8 *)p + p->f38), p->h30 * 8u / 2, (const u8 *)x->f24);
     }
 }

@@ -26,7 +26,8 @@
 struct Node; struct PrintSys;
 typedef enum { LAYER_FIRST=0,LAYER_LIMIT=1 } Layer;
 extern const unsigned d_021BA148[][11];
-extern void func_020403F4(unsigned char);
+typedef unsigned int   u32;
+extern void func_020403F4(u32 i);
 extern void func_021B9CCC(char *);
 extern void func_021B9AEC(char *);
 extern void func_021B9960(char *);
@@ -42,7 +43,7 @@ int func_021B9748(void *owner,void *unused1,void *unused2,char *p)
 {
     Layer i=LAYER_FIRST;
     do {
-        func_020403F4(d_021BA148[i][0]);
+        func_020403F4((unsigned char)d_021BA148[i][0]);
         i++;
     } while((unsigned)i<1);
     *(volatile unsigned short *)0x04001050=0;

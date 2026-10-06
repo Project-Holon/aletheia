@@ -56,14 +56,14 @@ typedef struct {
 
 extern TextCtx *g_02146A78;
 
-extern u32   func_020463C0(void);
+extern int func_020463C0(void);
 struct Bmp;
 struct Obj020437AC;
 extern int func_020463D8(void);
 extern void  func_020463E0(u32 fg, u32 bg);
 extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern u16   func_02045A98(void);
-extern void  func_02046300(u32 idx, TextCtx *out);
+extern void func_02046300(int idx, u8 *out);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void func_020437AC(struct Obj020437AC *p);
 
@@ -97,7 +97,7 @@ void func_0204E180(const u16 *str, TextParam *pp)
             g_02146A78->x += (u16)(width / 2);
             break;
         default:
-            func_02046300((u16)(c - 4), g_02146A78);
+            func_02046300((u16)(c - 4), (u8 *)g_02146A78);
             func_020439A0(glyph, pp->bmp, 0, 0, g_02146A78->x, g_02146A78->y,
                           g_02146A78->width, height, 0);
             g_02146A78->x += (u16)(g_02146A78->width + pp->letterSpace);

@@ -35,11 +35,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u8 *func_0216D6BC(u32, u32);
+extern void *func_0216D6BC(int a0, int a1, int a2);
 extern void func_0216D5E0(int a0, int a1);
 extern u32 func_0216D600(u32, u32);
 extern void func_0216D674(void *p, u16 v);
-extern u32 func_0216DA70(u32);
+extern void func_0216DA70(void *a0);
 extern int func_0216D83C(void *p);
 extern u32 func_0216D80C(u32, u32);
 extern int func_0216D854(void *p);
@@ -57,7 +57,7 @@ void func_02199888(u32 a, int b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u8 i)
     int dir;
 
     dir = 1;
-    q = func_0216D6BC(a, 16);
+    q = func_0216D6BC(a, 16, c);
     q[0] = e;
     ((struct Obj04222 *)q)->f4 = b;
     q[2] = g;
@@ -67,7 +67,7 @@ void func_02199888(u32 a, int b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u8 i)
     func_0216D5E0(a, (u16)c);
     func_0216D600(a, (u16)d);
     func_0216D674((void *)a, f);
-    func_0216DA70(a);
+    func_0216DA70((void *)a);
     func_0216D80C(a, func_0216D83C((void *)a));
     func_0216D818(a, func_0216D854((void *)a));
     func_0216D824(a, func_0216D86C((void *)a));

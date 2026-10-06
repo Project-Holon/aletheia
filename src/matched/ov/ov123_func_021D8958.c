@@ -29,7 +29,8 @@ struct Sub02009448Obj;
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 extern int func_02008BD0(const struct Sub02008AECSession *s);
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern u32 func_020093C8(void *);
+struct Sub02009210Obj;
+extern u32 func_020093C8(const struct Sub02009210Obj *obj);
 extern void func_0203F4E4(struct RtcDate *);
 extern int func_0203F540(struct RtcDate *);
 extern int func_0203CD98(void);
@@ -37,7 +38,7 @@ extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern int func_021B95D4(int index, u8 *p);
 extern int func_021B9748(u8 *p);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D81E4(char *);
 extern void func_021D88C0(char *);
 void func_021D8958(char *p)
@@ -46,10 +47,10 @@ void func_021D8958(char *p)
     u32 value;
     int day;
     if (func_02008BD0(func_02008B14(((struct Obj06468 *)p)->f28)) && ((struct Obj06468 *)p)->fAC) {
-        func_021D6EE0(p,(int)func_021D81E4,0x85c);
+        func_021D6EE0((u8 *)p,(int)func_021D81E4,0x85c);
         return;
     }
-    value=func_020093C8(func_02009448(((struct Obj06468 *)p)->f28));
+    value=func_020093C8((const struct Sub02009210Obj *)func_02009448(((struct Obj06468 *)p)->f28));
     saved.year=(u8)(value>>24);
     saved.month=(u8)(value>>16);
     saved.day=(u8)(value>>8);
@@ -57,14 +58,14 @@ void func_021D8958(char *p)
     func_0203F4E4(&current);
     day=func_0203F540(&saved);
     if (day==func_0203F540(&current)) {
-        func_021D6EE0(p,(int)func_021D81E4,0x869);
+        func_021D6EE0((u8 *)p,(int)func_021D81E4,0x869);
         return;
     }
     if (func_0203CD98()) {
         if (func_021B95D4(1,((struct Obj06468 *)p)->f10) && !func_021B9748(((struct Obj06468 *)p)->f10))
-            func_021D6EE0(p,(int)func_021D88C0,0x871);
+            func_021D6EE0((u8 *)p,(int)func_021D88C0,0x871);
     } else {
         if (func_020362DC() || func_02035C60())
-            func_021D6EE0(p,(int)func_021D88C0,0x878);
+            func_021D6EE0((u8 *)p,(int)func_021D88C0,0x878);
     }
 }

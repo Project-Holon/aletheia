@@ -33,7 +33,7 @@ extern u32 func_021CD4FC(u8 *, u32);
 extern u32 func_021C0F04(u8 *);
 extern u32 func_021C11A4(u8 *, u8 *, u8 *, u8 *, u8 *, u8 *, u32, Flags);
 extern int func_021BEC08(u8 *p, u8 *a);
-extern void func_021BA1B4(u8 *, int);
+extern void func_021BA1B4(char **p, int i);
 extern u32 func_021C0F14(u8 *);
 u32 func_021C0D90(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *out, u32 d)
 {
@@ -53,7 +53,7 @@ u32 func_021C0D90(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *out, u32 d)
     if (func_021C0F04(*(u8 * *)&((struct Obj01373 *)p)->f858) != 0) {
         result += func_021C11A4(p, q, a, *(u8 * *)&((struct Obj01373 *)p)->f858, *(u8 * *)&((struct Obj01373 *)p)->f86C, *(u8 * *)&((struct Obj01373 *)p)->f4B4, k, f);
         if (result != 0 && func_021BEC08(p, a) != 0)
-            func_021BA1B4(*(u8 * *)&((struct Obj01373 *)p)->f4, 0x4d);
+            func_021BA1B4((char **)(*(u8 * *)&((struct Obj01373 *)p)->f4), 0x4d);
     }
     if (func_021C0F14(*(u8 * *)&((struct Obj01373 *)p)->f85C) != 0)
         result += func_021C11A4(p, q, a, *(u8 * *)&((struct Obj01373 *)p)->f85C, *(u8 * *)&((struct Obj01373 *)p)->f870, *(u8 * *)&((struct Obj01373 *)p)->f4B4, k, f);

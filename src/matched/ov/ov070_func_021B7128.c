@@ -64,11 +64,11 @@ extern void func_021B61F4(Obj *o, int a, unsigned int b);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BADAC(void *p);
 extern void func_021BB3F4(int p, int mode);
-extern void func_021BB580(Obj *o, int v);
+extern void func_021BB580(char *p, int v);
 extern void func_021B7688(struct Obj *o);
 extern void func_021B795C(struct Obj *o);
 extern void func_021B832C(int p);
-extern void func_021BADB8(Obj *o, unsigned int v);
+extern void func_021BADB8(char *p, unsigned v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021B6EF8(u8 *p);
 
@@ -96,7 +96,7 @@ void func_021B7128(Obj *o)
         func_0201F250(o->f520, o->f528, (void *)o->f524);
         func_021BADAC(o);
         func_021BB3F4((int)o, 0);
-        func_021BB580(o, 0);
+        func_021BB580((char *)o, 0);
         func_021B6100((char *)o, (int)((void *)func_021B7688));
     } else if (s == 5) {
         o->f844 = 1;
@@ -105,7 +105,7 @@ void func_021B7128(Obj *o)
         func_021B6100((char *)o, (int)((void *)func_021B795C));
     } else {
         func_021B832C((int)o);
-        func_021BADB8(o, o->f84C);
+        func_021BADB8((char *)o, o->f84C);
         func_021BADAC(o);
         func_0204B92C(o->f6A8, 0);
         func_021B6100((char *)o, (int)((void *)func_021B6EF8));

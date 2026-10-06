@@ -26,12 +26,12 @@ struct Work {u8 pad[0x1c]; struct Slot slots[36]; u8 counters[36]; u8 padD0[0x2c
 extern int func_021D66A0(u32);
 struct UtilWork;
 extern int func_021D5BDC(struct UtilWork *p, u32 n);
-extern void func_021D5FE4(void *, u32);
+extern void func_021D5FE4(u8 *p, unsigned int n);
 extern int func_021D58A8(u8 *, int);
 extern void func_021D5970(u8 *, int, u16);
 extern void func_021D6D70(u8 *);
 extern void func_021D63B8(u8 *p, int all);
-extern void func_021D53C0(char *);
+extern void func_021D53C0(unsigned char *p);
 extern void func_02082BCC(void *, u8, u32);
 void func_021D65C8(struct Work *p, struct Work *q)
 {
@@ -47,15 +47,15 @@ void func_021D65C8(struct Work *p, struct Work *q)
         }
     }
     if (func_021D5BDC((void *)q, 10)) {
-        func_021D5FE4(p, 10);
+        func_021D5FE4((u8 *)p, 10);
         t = func_021D58A8((u8 *)p, 8);
         t2 = func_021D58A8((u8 *)p, 9);
         func_021D5970((u8 *)p, 8, t2);
         func_021D5970((u8 *)p, 9, t);
     }
-    if (func_021D5BDC((void *)q, 9)) func_021D5FE4(p, 9);
+    if (func_021D5BDC((void *)q, 9)) func_021D5FE4((u8 *)p, 9);
     func_021D6D70((u8 *)q);
     func_021D63B8((void *)q, 0);
-    func_021D53C0((char *)q + 0xfc);
+    func_021D53C0((unsigned char *)((char *)q + 0xfc));
     func_02082BCC((u8 *)q + 0x155, 0, 2);
 }

@@ -36,7 +36,7 @@ typedef struct {
 extern void func_021D56F0(u8 *p);
 extern void func_02016028(void *a, u32 flag);
 extern void func_02015EA0(void *p);
-extern void func_02015C48(u32, Vec *);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_021E71F0(void *p, int a);
 extern void func_021E7208(void *p, int a);
 extern void func_021D54F0(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy);
@@ -53,7 +53,7 @@ void func_021D59B0(u8 *p)
     func_02015EA0((void *)(((struct Obj03770 *)p)->f848));
     if (((struct Obj03770 *)p)->f118C == 6) {
         Vec v = d_021D7CA8;
-        func_02015C48(((struct Obj03770 *)p)->f844, &v);
+        func_02015C48((void *)(((struct Obj03770 *)p)->f844), (u32 *)(&v));
     }
     func_021E71F0(p, 0x11);
     func_021E7208(p, 0);

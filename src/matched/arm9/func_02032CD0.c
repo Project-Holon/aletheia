@@ -68,19 +68,23 @@ extern struct SaveMain *g_02146994;
 extern const char str_020A7848[];
 extern const char str_020A7888[];
 
-extern u32  func_020332FC(Save *p, u32 idx);
-extern void func_0203331C(Save *p, u32 idx, u32 v);
-extern u32  sub_02032A9C(Save *p, u32 id, u32 mode, u32 *pa, u32 *pb, u32 *pc, u32 *pd);
+struct Obj020332FC;
+struct Obj0203335C;
+struct Obj02033BF0;
+struct SaveBackup;
+extern u32 func_020332FC(struct Obj020332FC *p, u32 idx);
+extern void func_0203331C(struct Obj020332FC *p, u32 idx, u32 val);
+extern u32 sub_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *pa, u32 *pb, u32 *pc, u32 *pd);
 extern void func_02034714(const char *file, u32 line, const char *msg);
-extern u16  sub_02033264(Save *p, u32 id);
-extern u32  func_02033BF0(u8 *tbl);
+extern u16 sub_02033264(struct SaveBackup *p, u32 id);
+extern u32 func_02033BF0(struct Obj02033BF0 *p);
 extern u16  sub_02032BF8(Save *p, u32 id, u32 v, u32 f);
 extern int func_020337B8(u16 a0, u32 *a1, u32 a2);
 extern u32  func_02033BAC(u8 *tbl, u32 idx);
-extern int  sub_02032C84(Save *p, u32 v);
-extern int  sub_020328E0(Save *p, u32 v);
-extern int  sub_02032930(Save *p, u32 v);
-extern void sub_0203335C(Save *p);
+extern int sub_02032C84(struct SaveBackup *p, u32 sel);
+extern int sub_020328E0(struct SaveBackup *p, u32 sel);
+extern int sub_02032930(struct SaveBackup *p, u32 sel);
+extern void sub_0203335C(struct Obj0203335C *p);
 extern void func_020333F8(Save *p);
 
 int func_02032CD0(Save *p, u32 *out)
@@ -102,10 +106,10 @@ int func_02032CD0(Save *p, u32 *out)
         do {
             if (done == 1)
                 return 0;
-            if (func_020332FC(p, p->f14) == 0) {
-                r = sub_02032A9C(p, p->f14, 1, &p->f148, &p->f14c, &p->f150, &done);
+            if (func_020332FC((struct Obj020332FC *)p, p->f14) == 0) {
+                r = sub_02032A9C((struct SaveBackup *)p, p->f14, 1, &p->f148, &p->f14c, &p->f150, &done);
                 if (r == 1) {
-                    func_0203331C(p, p->f14, 1);
+                    func_0203331C((struct Obj020332FC *)p, p->f14, 1);
                 } else if (r == 0) {
                     if (done != 1)
                         func_02034714(str_020A7848, 0x72A, str_020A7888);
@@ -114,25 +118,25 @@ int func_02032CD0(Save *p, u32 *out)
                     goto next;
                 }
             }
-            sub_02033264(p, p->f14);
+            sub_02033264((struct SaveBackup *)p, p->f14);
         next:
             p->f14++;
-        } while (p->f14 < func_02033BF0(p->f2c));
+        } while (p->f14 < func_02033BF0((struct Obj02033BF0 *)p->f2c));
         p->f18++;
         break;
     case 2:
         p->f14 = 0;
         p->f18++;
     case 3:
-        for (; p->f14 < func_02033BF0(p->f2c); p->f14++) {
-            v = func_020332FC(p, p->f14);
+        for (; p->f14 < func_02033BF0((struct Obj02033BF0 *)p->f2c); p->f14++) {
+            v = func_020332FC((struct Obj020332FC *)p, p->f14);
             if (v != 0) {
                 g_02146994->unk20C = sub_02032BF8(p, p->f14, v, p->f19);
                 p->f18++;
                 break;
             }
         }
-        if (p->f14 >= func_02033BF0(p->f2c)) {
+        if (p->f14 >= func_02033BF0((struct Obj02033BF0 *)p->f2c)) {
             p->f14 = 0;
             p->f18 = 5;
         }
@@ -147,12 +151,12 @@ int func_02032CD0(Save *p, u32 *out)
         p->f18 = 3;
         break;
     case 5:
-        v = func_020332FC(p, func_02033BF0(p->f2c));
+        v = func_020332FC((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c));
         if (v == 0) {
             v = 1;
-            func_0203331C(p, func_02033BF0(p->f2c), v);
+            func_0203331C((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c), v);
         }
-        g_02146994->unk20C = sub_02032C84(p, v);
+        g_02146994->unk20C = sub_02032C84((struct SaveBackup *)p, v);
         p->f18++;
     case 6:
         if (func_020337B8(g_02146994->unk20C, &st, g_02146994->unk208) == 0)
@@ -162,12 +166,12 @@ int func_02032CD0(Save *p, u32 *out)
         p->f18++;
         break;
     case 7:
-        v = func_020332FC(p, func_02033BF0(p->f2c) + 1);
+        v = func_020332FC((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c) + 1);
         if (v == 0) {
             v = 1;
-            func_0203331C(p, func_02033BF0(p->f2c) + 1, v);
+            func_0203331C((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c) + 1, v);
         }
-        g_02146994->unk20C = sub_020328E0(p, v);
+        g_02146994->unk20C = sub_020328E0((struct SaveBackup *)p, v);
         p->f18++;
     case 8:
         if (func_020337B8(g_02146994->unk20C, &st, g_02146994->unk208) == 0)
@@ -177,7 +181,7 @@ int func_02032CD0(Save *p, u32 *out)
         p->f18++;
         return 1;
     case 9:
-        g_02146994->unk20C = sub_02032930(p, func_020332FC(p, func_02033BF0(p->f2c) + 1));
+        g_02146994->unk20C = sub_02032930((struct SaveBackup *)p, func_020332FC((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c) + 1));
         p->f18++;
     case 10:
         if (func_020337B8(g_02146994->unk20C, &st, g_02146994->unk208) == 0)
@@ -185,7 +189,7 @@ int func_02032CD0(Save *p, u32 *out)
         if (st == 0)
             return p->f19 == 0 ? 3 : 2;
         if (++p->f19 == 1 && p->f00 != p->f04) {
-            sub_0203335C(p);
+            sub_0203335C((struct Obj0203335C *)p);
             p->f18 = 2;
             *out = 1;
             return 0;

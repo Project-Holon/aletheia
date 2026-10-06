@@ -48,7 +48,7 @@ extern void func_02208550(O *, E *);
 extern int func_021F8720(void);
 extern void func_02208650(O *, E *);
 extern void *func_021F86D4(void);
-extern void func_02208B10(void *, void *);
+extern void func_02208B10(void *h, struct E *e);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 void func_0220785C(O *o, int unused, int idx, void *data)
 {
@@ -66,5 +66,5 @@ void func_0220785C(O *o, int unused, int idx, void *data)
         func_02208650(o, &o->e[idx]);
     o->e[idx].b3 = 1;
     o->e[idx].mode = 2;
-    o->e[idx].f7c = func_02030DA8(func_021F86D4(), func_02208B10, &o->e[idx], 0);
+    o->e[idx].f7c = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))func_02208B10, &o->e[idx], 0);
 }

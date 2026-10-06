@@ -30,7 +30,7 @@ typedef struct {
 
 typedef unsigned char  u8;
 void func_02169308(u8 *p);
-void func_0218DEF0(S *p);
+void func_0218DEF0(char *p);
 
 void func_0218CC34(S *p)
 {
@@ -38,6 +38,6 @@ void func_0218CC34(S *p)
     if (p->f1C != 0) {
         for (i = 0; i < p->n; i++)
             func_02169308((u8 *)p->f24[i].h);
-        func_0218DEF0(p);
+        func_0218DEF0((char *)p);
     }
 }

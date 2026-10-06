@@ -26,25 +26,25 @@
 #include "../include/Obj23872.h"
 
 struct WinMgr;
-extern void func_021ED55C(char *p, int flag);
+extern void func_021ED55C(char **p, int flag);
 extern int func_021EF770(struct WinMgr *mgr);
-extern void func_021EDF5C(char *p);
+extern void func_021EDF5C(unsigned char *p);
 extern void func_02041EE4(unsigned index, unsigned a, unsigned b);
-extern void func_021EC804(char *p, short dx);
+extern void func_021EC804(char **p, short dx);
 extern void func_021EE26C(char *p, int d);
 extern int func_021EF5C4(struct WinMgr *mgr);
 
 int func_021E00C4(char *p)
 {
     if (((struct Obj23868 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66 == 0x17) {
-        func_021ED55C(p, 1);
+        func_021ED55C((char **)p, 1);
         if (func_021EF770(*(struct WinMgr * *)&((struct Obj23869 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 1)
-            func_021EDF5C(p);
+            func_021EDF5C((unsigned char *)p);
         ((struct Obj23870 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66 = 0;
         return 0;
     }
     func_02041EE4(3, 2, 8);
-    func_021EC804(p, 8);
+    func_021EC804((char **)p, 8);
     func_021EE26C(*(char * *)&((struct Obj00000 *)p)->f2C, 8);
     func_021EF5C4(*(struct WinMgr * *)&((struct Obj23871 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74);
     (((struct Obj23872 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66)++;

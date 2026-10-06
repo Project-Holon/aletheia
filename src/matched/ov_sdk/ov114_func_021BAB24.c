@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-signed char func_021BAB24(unsigned int c)
+char func_021BAB24(u8 c)
 {
     c = (c + 1) & 0xff;
     if (c == 0x7b)

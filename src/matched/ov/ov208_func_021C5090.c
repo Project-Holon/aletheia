@@ -31,7 +31,7 @@ typedef struct {
 
 typedef signed short   s16;
 extern s16 func_02015F14(void *p);
-extern void func_02015C78(u32 obj, Vec *v);
+extern void func_02015C78(void *p, u32 *src);
 
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
                                   ((x) * (1 << 12) + 0.5f) : \
@@ -46,5 +46,5 @@ void ov208_func_021C5090(u32 obj)
     v.x = FX_F32_TO_FX32(y);
     v.y = 0;
     v.z = 0;
-    func_02015C78(obj, &v);
+    func_02015C78((void *)obj, (u32 *)(&v));
 }

@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021CF128(u32 a)
+u32 func_021CF128(void)
 {
 return 132;
 }

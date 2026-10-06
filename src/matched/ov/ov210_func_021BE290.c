@@ -22,19 +22,19 @@ typedef unsigned short u16;
 struct S;
 extern int func_021B93B8(char *);
 extern void func_021B93D4(struct S *, int);
-extern void func_021BFA7C(char *, u16, int);
-extern void func_021BF618(u8 *);
+extern void func_021BFA7C(char *p, int i, int flag);
+extern void func_021BF618(char *p);
 void func_021BE290(u8 *p, int index)
 {
     int sum = index + func_021B93B8(*(char * *)&((struct Obj10919 *)p)->f1E0);
     u8 *data = *(u8 * *)&((struct Obj25612 *)(*(u8 * *)&((struct Obj10919 *)p)->f0))->f8;
     if (data[6] == sum) {
         data[6] = 255;
-        func_021BFA7C((char *)p, index, 0);
+        func_021BFA7C((char *)p, (u16)index, 0);
     } else {
         data[6] = sum;
-        func_021BFA7C((char *)p, index, 1);
+        func_021BFA7C((char *)p, (u16)index, 1);
     }
     func_021B93D4(*(struct S * *)&((struct Obj10919 *)p)->f1E0, index);
-    func_021BF618(p);
+    func_021BF618((char *)p);
 }

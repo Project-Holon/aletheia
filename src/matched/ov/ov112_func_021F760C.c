@@ -41,7 +41,10 @@ extern void *func_021F4B3C(int type);
 extern void *func_021F4B88(void *,int,u32,int *);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
-extern int func_0204F428(void *,u32,u16,u16,int *,u8,u32,u32);
+typedef signed int     s32;
+struct Board;
+struct Vec3;
+extern s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *,u32,u32 *);
 extern u32 func_020056EC(u32);
 void func_021F760C(u8 *p,u8 *input)
@@ -105,7 +108,7 @@ void func_021F760C(u8 *p,u8 *input)
             *(int *)&((struct Obj02824 *)row)->f84=0;
         }
     }
-    *(int *)&((struct Obj00723 *)q)->f5C=func_0204F428(((struct Obj03762 *)p)->f8,((struct Obj03762 *)p)->f438,1024,768,(int *)(q+24),30,0,0);
+    *(int *)&((struct Obj00723 *)q)->f5C=func_0204F428(((struct Obj03762 *)p)->f8,((struct Obj03762 *)p)->f438,1024,768,(struct Vec3 *)(q+24),30,0,0);
     flag=1;
     func_0204F720(((struct Obj03762 *)p)->f8,((struct Obj00723 *)q)->f5C,&flag);
     ((struct Obj00723 *)q)->f50=func_020056EC(150)>>1;

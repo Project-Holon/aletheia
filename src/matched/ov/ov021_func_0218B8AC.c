@@ -29,11 +29,11 @@ struct Sub020140BCObj;
 extern u32 func_02013B38(u32 id);
 extern unsigned short func_0218BC1C(int x);
 extern u8 func_020140D8(struct Sub020140BCObj *p);
-extern void func_0218BB0C(char *p, u16 k, void *s);
-extern void func_0218BC40(char *p, u16 k, void *s, int c);
-extern void func_0218BB78(char *p, int k);
+extern void func_0218BB0C(u8 *s, u16 a, u32 n);
+extern void func_0218BC40(unsigned char *p, int a, int b, int c);
+extern void func_0218BB78(u8 *s, int k);
 extern void func_0218BD28(char *p, int c);
-extern void func_0218BDD8(char *p, char *q);
+extern void func_0218BDD8(u8 *s, u32 *out);
 
 void func_0218B8AC(char *p, int a, int b, int c)
 {
@@ -52,9 +52,9 @@ void func_0218B8AC(char *p, int a, int b, int c)
         k2 = 0xB1;
         k3 = 0x14;
     }
-    func_0218BB0C(p, k1, s);
-    func_0218BC40(p, k2, s, c);
-    func_0218BB78(p, k3);
+    func_0218BB0C((u8 *)p, k1, (u32)s);
+    func_0218BC40((unsigned char *)p, (u16)k2, (int)s, c);
+    func_0218BB78((u8 *)p, k3);
     func_0218BD28(p, c);
-    func_0218BDD8(p, p + 0x1B0);
+    func_0218BDD8((u8 *)p, (u32 *)(p + 0x1B0));
 }

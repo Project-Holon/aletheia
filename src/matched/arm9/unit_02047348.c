@@ -57,11 +57,11 @@ struct Ctl {
     u16 unk_32;
 };
 
-extern struct Ctl *func_0206E964(void *p);
+extern unsigned char *func_0206E964(unsigned char *p);
 
 int func_02047348(struct Layer *layer)
 {
-    struct Ctl *p = func_0206E964(layer->unk_04);
+    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
 
     if ((p->unk_10 & 1) || (p->unk_20 & 1) || (p->unk_32 & 1))
         return 1;
@@ -70,7 +70,7 @@ int func_02047348(struct Layer *layer)
 
 u32 func_02047388(struct Layer *layer)
 {
-    struct Ctl *p = func_0206E964(layer->unk_04);
+    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
 
     if (p->unk_10 & 1)
         return p->unk_08;
@@ -81,7 +81,7 @@ u32 func_02047388(struct Layer *layer)
 
 u32 func_020473B8(struct Layer *layer)
 {
-    struct Ctl *p = func_0206E964(layer->unk_04);
+    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
 
     if (p->unk_32 & 1)
         return p->unk_2c;

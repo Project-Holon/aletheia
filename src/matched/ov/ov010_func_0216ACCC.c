@@ -36,7 +36,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E0B0(void *p);
 extern void *func_0216AED0(void *p, u32 id);
 extern int func_0217C294(char *a0);
-extern int func_0216628C();
+extern int func_0216628C(u32 *obj, u32 slot);
 extern void func_0216AF3C(int a0);
 
 int func_0216ACCC(int a0, int a1)

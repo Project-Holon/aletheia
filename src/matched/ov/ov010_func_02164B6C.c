@@ -35,7 +35,7 @@ extern u32 func_02012138(const struct Ctx *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0202647C(void *obj);
 extern u32 func_0202648C(void *obj);
-extern void  func_02164FC4(u8 *p);
+extern void func_02164FC4(char *p);
 extern const char d_021729BC[];
 
 u8 *func_02164B6C(void *unused, void *arg)
@@ -46,7 +46,7 @@ u8 *func_02164B6C(void *unused, void *arg)
     ((struct Obj12361 *)p)->f0 = v;
     ((struct Obj12361 *)p)->fA = 0x1ab;
     if (func_0202647C(w) == 2 && func_0202648C(w) == 5) {
-        func_02164FC4(p);
+        func_02164FC4((char *)p);
     }
     return p;
 }

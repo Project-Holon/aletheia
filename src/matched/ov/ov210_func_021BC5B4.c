@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void func_0204047C(int idx, unsigned short val);
 
-void func_021BC5B4(void)
+void func_021BC5B4(u32 a0)
 {
     func_0204047C(0, 1);
     func_0204047C(1, 0);

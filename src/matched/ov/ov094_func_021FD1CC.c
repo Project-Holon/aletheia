@@ -107,7 +107,10 @@ typedef struct {
 } Obj;
 extern char d_0220AE68[];
 extern const s16 d_020A1B38[];
-extern Rec *func_02051774(void *p);
+struct Obj;
+struct S12;
+struct Vec3;
+extern u32 func_02051774(void);
 extern int func_021FD070(int a, int b);
 extern int func_021FCF2C(int a, int idx);
 extern int func_021FD088(int a, int *out);
@@ -115,15 +118,15 @@ struct ScriptVm;
 extern int func_021F8694(void);
 extern int func_021F8710(void);
 extern void func_021FF3FC(const Vec *def, Vec *out, int idx, int kind);
-extern void func_021FF3F4(void *obj, Vec *out, int idx);
+extern void func_021FF3F4(void *obj, void *out, int idx);
 extern void func_021FE1B8(Vec *v, const Vec *ofs);
 extern void func_021FD8CC(void *p, int active);
 extern void *func_02011324(struct ScriptVm *vm);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
-extern void func_02051A2C(void *p, Obj *o);
+extern void func_02051A2C(void *p, int v);
 extern void func_02051A24(void *p, int v);
-extern int func_0207C768(int a, int b);
+extern u32 func_0207C768(u32 a, u32 b);
 extern int func_0207CF3C(const Vec *a, const Vec *b);
 extern void func_0207CCA4(const Vec *a, Vec *b);
 extern int func_0207CA68(const Vec *a, const Vec *b);
@@ -131,25 +134,25 @@ extern u16 func_0207D184(int a);
 extern void func_0207CAE8(const Vec *a, const Vec *b, Vec *c);
 extern void func_0207B65C(void *m, const Vec *axis, int s, int c);
 extern void func_0207BC08(const Vec *a, const void *m, Vec *out);
-extern void func_020519C4(void *p, Vec *v);
-extern void func_02051A04(void *p, Vec *v);
+extern void func_020519C4(void *p, struct S12 *q);
+extern void func_02051A04(void *p, struct S12 *q);
 extern void func_020517B4(void *p, Vec16 *v);
-extern void func_020519E4(void *p, Dir *d);
-extern void func_02051880(void *p, const Vec16 *v);
-extern int func_020517D0(void *p);
+extern void func_020519E4(void *p, u16 *q);
+extern void func_02051880(struct Obj *o, const struct Vec3 *v);
+extern int func_020517D0(char *p);
 extern unsigned short func_02051830(char *p);
 extern short func_02051820(char *p);
-extern int func_020517E0(void *p);
-extern void func_020517D8(void *p, int v);
-extern void func_020517E8(void *p, int v);
-extern void func_020518A4(void *p, u16 v);
-extern void func_0205189C(void *p, int v);
+extern int func_020517E0(char *p);
+extern void func_020517D8(char *p, int v);
+extern void func_020517E8(char *p, int v);
+extern void func_020518A4(struct Obj *o, u16 v);
+extern void func_0205189C(struct Obj *o, u32 v);
 extern void func_02051790(void *p, Vec *v);
 extern void func_020517A4(void *p, const Vec *v);
 extern short func_020517F0(char *p);
-extern void func_02051800(void *p, int v);
+extern void func_02051800(char *p, int v);
 extern short func_02051808(char *p);
-extern void func_02051818(void *p, int v);
+extern void func_02051818(char *p, int v);
 extern void func_02051838(void *p, const Vec *v);
 #define MUL(a, b) ((int)(((s64)(a) * (b) + 0x800) >> 12))
 
@@ -176,7 +179,7 @@ void func_021FD1CC(void *p)
     int n;
     int tx, ty, tz;
 
-    r = func_02051774(p);
+    r = (Rec *)func_02051774();
     flip = r->flip;
     switch (r->k1) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
@@ -268,7 +271,7 @@ void func_021FD1CC(void *p)
         s = func_02011324((struct ScriptVm *)r->vm);
         *(Obj **)(s + 0x1f4 + ((struct Obj07881 *)s)->f234 * 4) = func_02030734((u16)((((struct Obj07881 *)s)->f238 & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         o = *(Obj **)(s + 0x1f4 + ((struct Obj07881 *)s)->f234 * 4);
-        func_02051A2C(p, o);
+        func_02051A2C(p, (int)o);
         func_02051A24(p, (int)func_021FD8CC);
         ((struct Obj07881 *)s)->f234 += 1;
         o->f38 = 0;
@@ -325,8 +328,8 @@ void func_021FD1CC(void *p)
         b.x -= a.x;
         b.y -= a.y;
         b.z -= a.z;
-        func_020519C4(p, &b);
-        func_02051A04(p, &b);
+        func_020519C4(p, (struct S12 *)(&b));
+        func_02051A04(p, (struct S12 *)(&b));
         v2.x = b.x;
         v2.y = 0;
         v2.z = b.z;
@@ -354,8 +357,8 @@ void func_021FD1CC(void *p)
         dir.dir.z = v1.z;
         if (ang < 0x2000 || (ang > 0x6000 && ang < 0xa000) || ang > 0xe000)
             dir.on = 0;
-        func_020519E4(p, &dir);
-        func_02051880(p, &dir.dir);
+        func_020519E4(p, (u16 *)(&dir));
+        func_02051880(p, (const struct Vec3 *)(&dir.dir));
     }
     if ((r->mode != 0 && (r->k1 & 1)) || r->mode == 0 || (u32)(r->mode - 2) <= 1) {
         t0 = func_020517D0(p);

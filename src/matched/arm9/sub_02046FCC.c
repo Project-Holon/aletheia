@@ -45,13 +45,13 @@ struct Record {
     u32 size;
 };
 
-extern struct Record *func_0206E964(void *buf);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_020307E0(void *p, u32 size);
 
 void func_02046FCC(struct Tagged *p)
 {
     void          *buf = p->buf;
-    struct Record *last = func_0206E964(buf);
+    struct Record *last = (struct Record *)func_0206E964(buf);
 
     func_020307E0(buf, (u32)((u8 *)last + last->size - (u8 *)buf));
 }

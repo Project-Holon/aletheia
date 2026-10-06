@@ -15,14 +15,14 @@
  *   func_02015BA4  0x02015BA4  thumb
  */
 
-extern void func_02015BA4(int, int);
+extern void func_02015BA4(void *sys, void *obj);
 
 void func_021B6984(char *p)
 {
     int v = *(int *)(p + 0x1c);
 
     if (v != 0) {
-        func_02015BA4(*(int *)(p + 0x18), v);
+        func_02015BA4((void *)(*(int *)(p + 0x18)), (void *)v);
         *(int *)(p + 0x1c) = 0;
     }
 }

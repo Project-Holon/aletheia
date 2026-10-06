@@ -31,7 +31,8 @@ extern int func_021BDD54(char *, void *);
 extern void func_021BC104(char *);
 extern void func_021C24A4(void *, int);
 extern void func_021BAADC(char *, int, int);
-extern int func_021BCB70(int, int, int *);
+struct BigObj;
+extern int func_021BCB70(void *rules, const struct BigObj *obj, u32 *mask);
 extern int func_021BCBBC(int, int, int *);
 extern void func_021BAAB8(char *, int, int);
 extern void *func_0203D798(void);
@@ -65,7 +66,7 @@ int func_021BDB30(char *p, int v)
     default:
         func_0203D1E8((u32)func_020399A8(), 0);
         if (func_0203D378()) {
-            if (func_021BCB70(((struct Obj02155 *)p)->f1348, ((struct Obj02155 *)p)->fC4, &out) &&
+            if (func_021BCB70((void *)(((struct Obj02155 *)p)->f1348), (const struct BigObj *)(((struct Obj02155 *)p)->fC4), (u32 *)(&out)) &&
                 func_021BCBBC(((struct Obj02155 *)p)->f1348, ((struct Obj02155 *)p)->fCC, &out)) {
                 func_021BAAB8(p, 0x68, 0);
                 ((struct Obj02155 *)p)->f1CC = 0x74;

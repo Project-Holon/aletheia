@@ -98,7 +98,7 @@ struct Evt;
 extern void *func_02188C58(void *p);
 extern void *func_02189A00(u8 *p);
 extern u32 func_02188C5C(u8 *p);
-extern void func_0218F1AC(u8 *p, u8 v);
+extern void func_0218F1AC(u8 *p, u32 v);
 extern u32 func_0218EC5C(u8 *p);
 extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
@@ -112,7 +112,7 @@ extern void func_0218F900(u32 h, Param *p, int n);
 extern int func_0218FE50(u8 *a);
 extern void *func_02188C7C(u8 *p);
 extern void func_0216D9A0(void *map);
-extern u32 func_021C1CB0(u32 a, char *b, u8 c);
+extern int func_021C1CB0(int a, char *b, int c);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_0216D9E4(void *c);
 extern void *func_021A3074(u8 *p);
@@ -126,7 +126,7 @@ extern u32 func_02043658(void);
 extern void func_02188DA0(void);
 extern void func_02043534(u32 planes);
 extern void func_02188DB0(u8 *a);
-extern void func_0216D5E0(u32 o, u32 b);
+extern void func_0216D5E0(int a0, int a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021C85CC(void *task, int *state);
 extern void func_021BC578(void *p, int v);
@@ -187,7 +187,7 @@ int func_021C82C4(u32 a, int *st, Ctx *c)
         if (func_0218FE50((u8 *)h) != 0)
             break;
         func_0216D9A0(func_02188C7C(sys));
-        v = func_021C1CB0((u32)c->w0, y, c->f28);
+        v = (u32)func_021C1CB0((u32)c->w0, y, (u8)c->f28);
         if (v != 0)
             func_02012374((struct Evt *)a, (struct Evt **)v);
         (*st)++;
@@ -245,13 +245,13 @@ int func_021C82C4(u32 a, int *st, Ctx *c)
         break;
     case 8:
         func_0216D9A0(func_02188C7C(sys));
-        v = func_021C1CB0((u32)c->w0, y, c->f2c);
+        v = (u32)func_021C1CB0((u32)c->w0, y, (u8)c->f2c);
         if (v != 0) {
             func_02012374((struct Evt *)a, (struct Evt **)v);
         } else {
             o = func_021A3074(func_02188CB4(sys));
             func_0216DAC8(o, 0);
-            func_0216D5E0((u32)o, 1);
+            func_0216D5E0((u32)o, (u32)1);
             func_02012374((struct Evt *)a, (struct Evt **)func_020122C0(c->w0, (void *)a, func_021C85CC, 0));
         }
         (*st)++;

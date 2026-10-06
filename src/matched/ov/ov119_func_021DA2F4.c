@@ -12,10 +12,11 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DBE70 0x021DBE70 thumb ov119
  */
-extern int func_02035CB8(int *,int *);
+typedef unsigned int   u32;
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern void func_021D8E84(void *,int);
 extern void func_021DBE70(char *p);
 void func_021DA2F4(void *p) {
  int a,b;
- if(!func_02035CB8(&a,&b)) func_021D8E84(p,(int)func_021DBE70);
+ if(!func_02035CB8((u32 *)(&a),(u32 *)(&b))) func_021D8E84(p,(int)func_021DBE70);
 }

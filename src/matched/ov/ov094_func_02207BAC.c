@@ -40,7 +40,8 @@ extern int func_021D59B4(u8 *p, int k);
 struct QF;
 extern u16 func_021D5444(struct QF *p);
 extern u32 func_02018584(u16, u16, u16);
-extern void func_02207EA8(E *, int);
+struct S;
+extern void func_02207EA8(struct S *p, int a);
 void func_02207BAC(O *o, void *q, int idx)
 {
     int delta;
@@ -57,5 +58,5 @@ void func_02207BAC(O *o, void *q, int idx)
     o->e[idx].b2 = 1;
     o->e[idx].f8 = 0;
     o->e[idx].b28 = 1;
-    func_02207EA8(&o->e[idx], delta);
+    func_02207EA8((struct S *)(&o->e[idx]), delta);
 }

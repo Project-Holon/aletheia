@@ -23,7 +23,8 @@ extern int func_021B9790(u8 *p);
 extern u8 *func_021B97F4(u8 *p);
 extern int func_021D6E08(char *,int);
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern void func_021D6EE0(char *,int,int);
+typedef unsigned int   u32;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D72D8(char *);
 void func_021D7390(char *p)
 {
@@ -32,7 +33,7 @@ void func_021D7390(char *p)
             func_021B97F4(((struct Obj06464 *)p)->f10);
             func_02009448(((struct Obj06464 *)p)->f28);
             ((struct Obj06464 *)p)->fAE=1;
-            func_021D6EE0(p,(int)func_021D72D8,0x2ae);
+            func_021D6EE0((u8 *)p,(int)func_021D72D8,0x2ae);
         }
     }
 }

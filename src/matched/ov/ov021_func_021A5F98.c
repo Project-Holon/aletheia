@@ -31,7 +31,7 @@ extern void func_021A62D8(void *a, void *b, int c, int d, int e, int f);
 extern void func_021A62FC(void *a, void *b, int c, int d, int e, int f);
 extern void func_021A6338(void *a, void *b, int c, int d, int e, int f);
 
-void func_021A5F98(int *a, int sel, int c, int d, int e, int f)
+void func_021A5F98(int *a, u32 sel, u32 c, u32 d, u32 e, u32 f)
 {
     void *p = ((void **)a)[7];
     switch (sel) {

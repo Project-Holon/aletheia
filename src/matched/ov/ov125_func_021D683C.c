@@ -17,7 +17,7 @@
 #include "../include/Obj06472.h"
 #include "../include/Obj22996.h"
 typedef unsigned short u16;
-extern char *func_021D7700(int);
+extern char *func_021D7700(void);
 typedef unsigned int   u32;
 struct ObjC4;
 extern int func_021D730C(char *p);
@@ -34,7 +34,7 @@ int func_021D683C(char *p, void *dst)
     int outer, inner;
     int n, m;
     int i;
-    r = func_021D7700((int)p);
+    r = func_021D7700();
     if (!func_021D730C(p)) return 0;
     func_0200B784(((struct Obj22996 *)r)->fA6, &n, &m);
     base = r + 0xd00;

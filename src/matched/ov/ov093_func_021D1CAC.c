@@ -27,7 +27,7 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern u8 func_021B8E70(void *p, u8 k);
+extern u8 func_021B8E70(u8 *p, u32 k);
 extern void func_021EA458(char *ctx, u16 a, u16 b);
 extern int func_021EA478(void *win);
 
@@ -35,7 +35,7 @@ int func_021D1CAC(BattleSeq *s, int *state, int *pp)
 {
     switch (*state) {
     case 0:
-        func_021EA458(s->msgWin, func_021B8E70(s->battle, pp[0]), (u16)pp[1]);
+        func_021EA458(s->msgWin, func_021B8E70(s->battle, (u8)pp[0]), (u16)pp[1]);
         (*state)++;
         break;
     case 1:

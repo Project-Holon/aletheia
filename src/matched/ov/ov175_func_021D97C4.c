@@ -20,7 +20,7 @@ typedef unsigned long u32;
 
 extern u32 func_021E65FC(u32 p);
 
-u32 func_021D97C4(char *obj)
+int func_021D97C4(char *obj)
 {
     return func_021E65FC(((struct Obj24303 *)obj)->f1C);
 }

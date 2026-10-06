@@ -32,7 +32,8 @@ struct StrObj {
     u16 slots[1];
 };
 
-extern u16 *sub_02045A90(struct StrObj *s);
+struct U16Vec;
+extern u16 *sub_02045A90(struct U16Vec *vec);
 
 u32 sub_0201D2C8(struct StrObj *s)
 {
@@ -40,7 +41,7 @@ u32 sub_0201D2C8(struct StrObj *s)
     u32 n;
     u16 c;
 
-    p = sub_02045A90(s);
+    p = sub_02045A90((struct U16Vec *)s);
     c = *p;
     n = 1;
     while (c != 0xFFFF) {

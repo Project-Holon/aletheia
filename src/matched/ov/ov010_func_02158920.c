@@ -23,11 +23,13 @@
 struct Desc;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
-extern void *func_020124E8(struct Desc *p);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 typedef unsigned int   u32;
 extern void *func_02158804(u32 heap);
-extern int *func_02158E7C(int, int, struct Desc *, int, int, int);
-extern void func_02158F94(void *, int);
+typedef unsigned short u16;
+extern int *func_02158E7C(u16 a, int b, int c, int d, int e, int f);
+extern void func_02158F94(void *p, void *q);
 extern int func_021588D0(int);
 extern int func_021589A0(int a, int b, int c);
 extern int func_021588DC(int a0, int a1, int a2);
@@ -35,10 +37,10 @@ extern int func_021588DC(int a0, int a1, int a2);
 struct Desc *func_02158920(int a, int b, int c, int d, int e)
 {
     struct Desc *h = func_020122C0((void *)a, 0, (void *)func_021588DC, 8);
-    void **w = func_020124E8(h);
+    void **w = func_020124E8((struct Obj *)h);
     w[1] = func_02158804(4);
-    w[0] = func_02158E7C(4, a, h, c, e, 0);
-    func_02158F94(w[0], d);
+    w[0] = func_02158E7C(4, a, (int)h, c, e, 0);
+    func_02158F94(w[0], (void *)d);
     func_021589A0((int)w[0], func_021588D0(a), c);
     return h;
 }

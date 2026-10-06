@@ -17,12 +17,13 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern int func_021D580C(char *);
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
-extern void func_021D6EE0(char *, int, int);
+typedef unsigned char  u8;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6EE8(char *);
 void func_021D6F04(char *p)
 {
     if (func_021D580C(*(char * *)&((struct Obj13984 *)p)->f18)) {
         func_0202208C(0,0,0,0,6,1,((struct Obj13984 *)p)->f0);
-        func_021D6EE0(p,(int)func_021D6EE8,0x16b);
+        func_021D6EE0((u8 *)p,(int)func_021D6EE8,0x16b);
     }
 }

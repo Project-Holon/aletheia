@@ -23,9 +23,14 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *,unsigned,unsigned);
-extern int func_021DD24C(void *),func_020173EC(void);
-extern void func_021DD294(void *,int,int),func_021E1098(void *),func_02082BCC(void *,int,int);
-extern void func_021D8E84(void *,int),func_021DBA80(void *);
+typedef unsigned int   u32;
+extern int func_021DD24C(char *p);
+extern u32 func_020173EC(void);
+extern void func_021DD294(char *p, int a, int b);
+extern void func_021E1098(char *p);
+extern void func_02082BCC(void *,int,int);
+extern void func_021D8E84(void *,int);
+extern void func_021DBA80(char *p);
 void func_021DAE2C(char *p) {
  int i;
  if(func_02039CB4((struct Link *)func_020399A8(),25,8)==0) {func_021DD24C(p);return;}

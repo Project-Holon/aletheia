@@ -18,12 +18,12 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02088168(void *);
+extern void func_02088168(u32 *buffer);
 extern void func_02162248(void *, int);
 extern u8 g_021CF964[];
 
 void func_021B9C80(void)
 {
-    func_02088168(g_021CF964);
+    func_02088168((u32 *)g_021CF964);
     func_02162248(g_021CF964, 0x20);
 }

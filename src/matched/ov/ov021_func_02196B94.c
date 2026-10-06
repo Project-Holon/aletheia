@@ -30,7 +30,8 @@ typedef struct { u16 x0; Obj *a; void (*cb)(); } Req;
 struct Actor;
 extern void func_02196B7C(u8 *p);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204BA00(void *, Req *);
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_02196034(Obj *, void (*)(), u32);
 extern void func_02196B90();
@@ -43,7 +44,7 @@ void func_02196B94(Obj *a)
     r.a = a;
     r.cb = func_02196B7C;
     func_0204B92C(a->objs[a->mode], 1);
-    func_0204BA00(a->objs[a->mode], &r);
+    func_0204BA00(a->objs[a->mode], (const struct Cmd *)(&r));
     func_0204B9A0(a->objs[a->mode]);
     func_02196034(a, func_02196B90, 0x492);
 }

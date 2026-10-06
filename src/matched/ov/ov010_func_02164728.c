@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 
 extern u8 func_0201440C(u8 *a);
 extern u32 func_020056EC(u32 range);
-extern void func_0201433C(void *a, u16 b);
+extern void func_0201433C(char *a0, int a1);
 extern u8 d_02171534[];
 
 void func_02164728(void *o)
@@ -39,7 +39,7 @@ void func_02164728(void *o)
             u8 *p = d_02171534 + i * 10;
             if (p[3] != 0) {
                 if (func_020056EC(100) < 20) {
-                    func_0201433C(o, ((struct Obj12359 *)p)->f0 + 900);
+                    func_0201433C(o, (u16)(((struct Obj12359 *)p)->f0 + 900));
                 }
             }
         }

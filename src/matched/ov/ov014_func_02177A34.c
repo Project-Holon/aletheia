@@ -22,7 +22,7 @@ extern int func_02178E4C(void);
 typedef unsigned short u16;
 extern u16 func_02178E38(void);
 
-int func_02177A34(u32 n)
+int func_02177A34(u16 n)
 {
     if (g_021797A4 == 0)
         return 0;

@@ -66,10 +66,11 @@ typedef struct _NHTTPBgnEndInfo {
 typedef struct _NHTTPMutexInfo NHTTPMutexInfo;
 typedef struct _NHTTPSysInfo NHTTPSysInfo;
 
-extern NHTTPSysInfo *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern NHTTPBgnEndInfo *func_021BEF3C(void);
-extern NHTTPReqInfo *func_021BEF48(NHTTPSysInfo *sysInfo_p);
-extern NHTTPMutexInfo *func_021BEF58(NHTTPSysInfo *sysInfo_p);
+extern void *func_021BEF48(int p);
+extern void *func_021BEF58(int p);
 extern int func_021B9CA4(int socket);
 extern int func_021B9CFC(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
 extern int func_021B9CE4(NHTTPReq *req_p);
@@ -77,15 +78,15 @@ extern void func_021BEFCC(NHTTPMutexInfo *mutexInfo_p);
 extern void func_021BEFD8(NHTTPMutexInfo *mutexInfo_p);
 extern int func_021B9D8C(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPMutexInfo *mutexInfo_p,
                          NHTTPReq *req_p, int socket, u32 hostaddr, int port);
-extern int func_021BA884(NHTTPBgnEndInfo *bgnEndInfo_p);
+extern u32 func_021BA884(u8 *p);
 
 int func_021BD548(NHTTPThreadData *threadData_p)
 {
-    NHTTPSysInfo *sysInfo_p = func_021BEF08();
+    NHTTPSysInfo *sysInfo_p = (NHTTPSysInfo *)func_021BEF08();
     NHTTPBgnEndInfo *bgnEndInfo_p = func_021BEF3C();
-    NHTTPReqInfo *reqInfo_p = func_021BEF48(sysInfo_p);
+    NHTTPReqInfo *reqInfo_p = func_021BEF48((int)sysInfo_p);
     NHTTPReq *req_p = reqInfo_p->reqCurrent->req_p;
-    NHTTPMutexInfo *mutexInfo_p = func_021BEF58(sysInfo_p);
+    NHTTPMutexInfo *mutexInfo_p = func_021BEF58((int)sysInfo_p);
 
     if (threadData_p->isKeepAlive == 1) {
         if (func_021B9CA4(bgnEndInfo_p->socket) == -1)
@@ -115,7 +116,7 @@ int func_021BD548(NHTTPThreadData *threadData_p)
                 threadData_p->result = 13;
                 return 0;
             }
-            if (func_021BA884(bgnEndInfo_p)) {
+            if (func_021BA884((u8 *)bgnEndInfo_p)) {
                 threadData_p->result = 14;
                 return 0;
             } else {

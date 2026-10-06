@@ -48,7 +48,7 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void func_021F54A0(Work *w);
+extern void func_021F54A0(char *p);
 extern void func_0204047C(int idx, u16 val);
 extern u32 func_021899F0(u8 *p);
 extern u16 func_02080C44(void);
@@ -73,7 +73,7 @@ int func_021F5518(void *task, int *st, Work *w)
     v = func_0201210C(t);
     switch (*st) {
     case 0:
-        func_021F54A0(w);
+        func_021F54A0((char *)w);
         *st = *st + 1;
         break;
     case 1:

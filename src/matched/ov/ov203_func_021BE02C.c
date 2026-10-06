@@ -18,7 +18,8 @@
  */
 extern const unsigned d_021BFC24[][11];
 extern void func_02040DA8(unsigned, unsigned, unsigned);
-extern void func_02040588(unsigned char, unsigned);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_020403F4(unsigned char);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
@@ -30,7 +31,7 @@ void func_021BE02C(void *ctx)
     func_02040DA8(1, 1, 0);
     for (; i < 4; i++) {
         layer = d_021BFC24[i][0];
-        func_02040588(layer, 0);
+        func_02040588((unsigned char)layer, 0);
         func_020403F4(layer);
     }
     func_020450C8();

@@ -43,7 +43,8 @@
 extern void func_021BA67C(unsigned);
 extern void func_021BA5BC(unsigned);
 extern void func_021BA5F8(char *self);
-extern void func_021BA63C(void *);
+typedef unsigned char  u8;
+extern void func_021BA63C(u8 *self);
 extern void func_021BA560(char *);
 extern void func_021BA698(char *);
 extern void func_021BA768(char *);
@@ -72,7 +73,7 @@ void func_021B9B98(char *p)
 {
     unsigned kind;
     func_021BA67C((unsigned)p);func_021BA5BC((unsigned)p);
-    func_021BA5F8(p);func_021BA63C(p);func_021BA560(p);
+    func_021BA5F8(p);func_021BA63C((u8 *)p);func_021BA560(p);
     func_021BA698(p);func_021BA768(p);func_021BA7B8(p);
     func_021BA7E0(p);func_021BA830(p);func_021BA86C(p);
     func_021BA910((struct Context *)p);func_021BA978((struct Context *)p);

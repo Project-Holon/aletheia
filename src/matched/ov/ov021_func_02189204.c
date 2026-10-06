@@ -54,7 +54,7 @@ extern u32 func_02012138(const struct Ctx *p);
 extern u8 func_0217C0A8(int a0);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *p);
-extern u16 func_021A31A4(int i, u16 v);
+extern int func_021A31A4(int i, int v);
 extern void func_0219C658(u32 a, u32 b);
 extern void func_0219D448(int a, int b);
 extern u8 *func_0218ED50(u8 *p);

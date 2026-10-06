@@ -37,11 +37,11 @@ struct Queue {
     u8 count;
 };
 
-extern int func_021659F0(struct Queue *q, int delta);
+extern int func_021659F0(u8 *q, int delta);
 
 int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta)
 {
-    int idx = func_021659F0(q, delta);
+    int idx = func_021659F0((u8 *)q, delta);
 
     if (q->r[idx].f00 == 0)
         return 0;

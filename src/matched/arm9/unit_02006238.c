@@ -73,9 +73,10 @@ extern int sub_02006224(u32 a0);
 extern void sub_02006368(void);
 extern int  func_02072EE0(u32 a);
 extern void func_02072F34(u32 *req, u32 level);
-extern void func_02073018(u32 *req, u32 a, u32 b);
-extern void func_02073038(u32 *req, u32 a, u32 b);
-extern void func_02073098(u32 *req, u32 a);
+struct Obj;
+extern void func_02073018(struct Obj *o, u32 v, u32 w);
+extern void func_02073038(struct Obj *o, u32 v, u32 w);
+extern void func_02073098(struct Obj *o, u32 v);
 extern u32 func_02074AC4(u32 a, u32 b, u32 c);
 extern void func_020853C0(u32 *thread, void (*entry)(void *), void *arg,
                           u32 *stack, u32 size, u32 prio);
@@ -107,13 +108,13 @@ int sub_02006254(u32 a)
 void sub_02006268(int i, u32 a, u32 b, u32 c)
 {
     if (a != -1) {
-        func_02073098(&sub_02006238_Table[i].unk04, a);
+        func_02073098((struct Obj *)(&sub_02006238_Table[i].unk04), a);
     }
     if (b != -1) {
-        func_02073018(&sub_02006238_Table[i].unk04, 0xFFFF, b);
+        func_02073018((struct Obj *)(&sub_02006238_Table[i].unk04), 0xFFFF, b);
     }
     if (c != -1) {
-        func_02073038(&sub_02006238_Table[i].unk04, 0xFFFF, c);
+        func_02073038((struct Obj *)(&sub_02006238_Table[i].unk04), 0xFFFF, c);
     }
 }
 

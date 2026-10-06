@@ -27,7 +27,9 @@ extern const unsigned short d_021BFB7C[][4];
 extern void func_0204044C(unsigned);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207DD24(unsigned short, int, int, int, int);
-extern void func_02046A94(unsigned char, const unsigned short *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02046A94(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned, unsigned);
 void func_021BDD40(void)
 {
@@ -41,6 +43,6 @@ void func_021BDD40(void)
     func_0207DC44(0, 0, 0, 0);
     func_0207DD24(0, 0, 32767, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
-    for (; i < 4; i++) func_02046A94(i, d_021BFB7C[i]);
+    for (; i < 4; i++) func_02046A94((unsigned char)i, d_021BFB7C[i]);
     func_02046BE0(0, 0);
 }

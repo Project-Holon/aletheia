@@ -123,22 +123,24 @@ typedef struct {
 extern int d_021BB550[];
 extern int d_021BB560[];
 
-extern int  func_021BA190(void *p);
+struct Obj;
+struct S;
+extern int func_021BA190(const int *p);
 extern int  func_021BA9DC(void *p);
-extern void func_021BA194(void *p, int which, int *out);
+extern void func_021BA194(const u8 *p, int which, int *out);
 extern int  func_021BB508(int *rect, void *b);
-extern void func_02040588(int a, int b);
-extern void func_020061E4(int id);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_020061E4(u32 a);
 extern void func_020061E4_2(int id);
-extern int  func_020355C4(void);
-extern void func_020355D8(int v);
-extern void func_02028218(u32 a, u32 b);
-extern void func_0202822C(u32 a, u32 b);
-extern void func_021B63D0(int a);
-extern int  func_021B6470(int a);
-extern int  func_021B6448(int a);
-extern int  func_021B65A8(int a, int b);
-extern void func_02012BE0(int a, int b, int c);
+extern u8 func_020355C4(void);
+extern void func_020355D8(u8 v);
+extern void func_02028218(struct Obj *obj, u32 a);
+extern void func_0202822C(char *p, int v);
+extern void func_021B63D0(struct S *p);
+extern int func_021B6470(u8 *p);
+extern int func_021B6448(u8 *p);
+extern int func_021B65A8(unsigned char *p, int id);
+extern void func_02012BE0(void *p, u32 a, u32 b);
 
 void func_021BA448(W *p, void *obj, void *arg)
 {
@@ -225,20 +227,20 @@ void func_021BA448(W *p, void *obj, void *arg)
     }
     if (flag) {
         if (p->fC == 3) {
-            func_02028218(p->f34[0], 0);
-            func_02028218(p->f34[1], 0);
+            func_02028218((struct Obj *)p->f34[0], 0);
+            func_02028218((struct Obj *)p->f34[1], 0);
         } else if (p->f10 != 0) {
-            func_02028218(p->f34[p->fC], 0);
-            func_0202822C(p->f34[p->fC], 1);
-            func_02028218(p->f34[p->fC ^ 1], 0);
+            func_02028218((struct Obj *)p->f34[p->fC], 0);
+            func_0202822C((char *)p->f34[p->fC], 1);
+            func_02028218((struct Obj *)p->f34[p->fC ^ 1], 0);
         } else {
-            func_02028218(p->f34[p->fC], 1);
-            func_02028218(p->f34[p->fC ^ 1], 0);
+            func_02028218((struct Obj *)p->f34[p->fC], 1);
+            func_02028218((struct Obj *)p->f34[p->fC ^ 1], 0);
         }
     }
     if (p->f10 == 0) {
-        func_021B63D0(p->f8);
-        r = func_021B6470(p->f8);
+        func_021B63D0((struct S *)p->f8);
+        r = func_021B6470((u8 *)p->f8);
         if (r != 0) {
             if (r == 6 && func_020355C4() == 1)
                 p->f40 = 1;
@@ -246,13 +248,13 @@ void func_021BA448(W *p, void *obj, void *arg)
             if (func_020355C4() == 1)
                 p->f40 = 1;
         }
-        r = func_021B6448(p->f8);
+        r = func_021B6448((u8 *)p->f8);
         if (r != 0) {
             if (r == 6) {
-                if (func_021B65A8(p->f8, 6))
-                    func_02012BE0(p->f3C, 0x18, 1);
+                if (func_021B65A8((unsigned char *)p->f8, 6))
+                    func_02012BE0((void *)p->f3C, 0x18, 1);
                 else
-                    func_02012BE0(p->f3C, 0x18, 0);
+                    func_02012BE0((void *)p->f3C, 0x18, 0);
                 p->fC = 3;
             }
         } else {

@@ -31,12 +31,12 @@ struct LightSlot;
 extern void func_02048AD0(struct Light *l);
 extern void func_02048C58(struct LightSlot *slots);
 extern u32 func_0218CC64(u32, u32, u32);
-extern u32 func_021A0170(u32, u32, u32, u32);
+extern void func_021A0170(u8 *p, u32 a1, u32 a2, u32 a3);
 extern void func_021A0568(u8 *p, int force);
 
 int func_021897DC(u32 a, u32 b, u32 c, u32 d)
 {
-func_021A0170(((struct Obj04887 *)((u8 *)(a)))->f18, b, c, d);
+func_021A0170((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f18), b, c, d);
 func_021A0568((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f14), 0);
 func_02048AD0((struct Light *)(*(u32 *)((u8 *)((a + 164)))));
 func_02048C58((struct LightSlot *)(*(u32 *)((u8 *)((a + 168)))));

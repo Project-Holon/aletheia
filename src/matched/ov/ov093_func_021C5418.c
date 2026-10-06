@@ -22,10 +22,12 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D5BDC(u8 *p, u32 n);
+struct Unk021D62A8;
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern u8 func_021D5440(u8 *p);
 extern void func_021C6110(u8 *p, u8 *a, unsigned int n);
-extern int func_021D62C4(u8 *p, int i);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 struct Slot { u32 kind : 3; u32 rest : 29; };
 extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
@@ -34,11 +36,11 @@ extern void func_021BD1D0(u8 *p, u8 n);
 int func_021C5418(u8 *p, u8 *a, int b)
 {
     u8 n;
-    if (func_021D5BDC(a, b)) {
+    if (func_021D5BDC((struct UtilWork *)a, b)) {
         n = func_021D5440(a);
         func_021C6110(p, a, b);
         b = 0x1a;
-        if (func_021D62C4(a, 0x1a)) {
+        if (func_021D62C4((struct Unk021D62A8 *)a, 0x1a)) {
             func_021C5620(p, a, b, 0);
         }
         func_021CD4B0(((struct Obj00003 *)p)->fC, 0x31, n, 0);

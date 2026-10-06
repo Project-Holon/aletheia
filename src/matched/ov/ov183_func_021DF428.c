@@ -39,14 +39,22 @@ struct State { u8 pad[0x14]; u16 shared0,shared1; u16 indices[5][6]; int cursor;
 struct Pos { u16 x; short y; u16 z; u8 a,b; };
 struct Entries { u32 species[6],form[6],gender[6]; };
 extern void *func_020490F4(u32,u16);
-extern u32 func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
-extern u32 func_0204ACEC(void *,u32,u32,u32,u32),func_0204AF28(void *,u32,u32,u32);
+typedef signed int     s32;
+struct Actor;
+struct Obj;
+extern int func_0201BC3C(void);
+extern int func_0201BC40(void);
+extern int func_0201BCB4(void);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02082BCC(void *,u32,u32);
-extern void func_021DF838(char *,struct Entries *);
+extern void func_021DF838(int p, char *out);
 extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
-extern u32 func_0204A6C8(void *,u32,u32,u32,u32);
-extern void *func_0204B294(u32,u32,u32,u32,struct Pos *,u32,u32);
-extern void func_0204B6F4(void *,u32,u32),func_0204B688(void *,u32),func_0204B3DC(void *,u32);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02049238(void *);
 void func_021DF428(struct State *p,u32 mgr,u16 heap)
 {
@@ -68,7 +76,7 @@ void func_021DF428(struct State *p,u32 mgr,u16 heap)
     pos.a=i;
     pos.b=i;
     for(i=0;i<n;i++) {
-        func_021DF838(p->source+i*0xc4,&e);
+        func_021DF838((int)(p->source+i*0xc4),(char *)(&e));
         for(j=0;j<6;j++) {
             species=e.species[j];
             if(species==0) species=1;
@@ -76,7 +84,7 @@ void func_021DF428(struct State *p,u32 mgr,u16 heap)
             pos.x=j*0x18+0x6e;
             pos.y=i*0x18+0x48;
             pos.a=6-j;
-            p->sprites[i][j]=func_0204B294(mgr,p->indices[i][j],p->shared0,p->shared1,&pos,0,heap);
+            p->sprites[i][j]=func_0204B294((void *)mgr,p->indices[i][j],p->shared0,p->shared1,&pos,0,heap);
             func_0204B6F4(p->sprites[i][j],func_0201BB5C(species,e.form[j],e.gender[j],0),0);
             func_0204B688(p->sprites[i][j],1);
             if(e.species[j]==0) func_0204B3DC(p->sprites[i][j],0);

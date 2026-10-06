@@ -73,22 +73,24 @@ extern void *func_021D5844(void *mon);
 extern u16 func_02018328(void *p, u32 *idx, u32 heap);
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021D6BFC(u8 *p);
-extern void func_021EAF18(MsgParam *msg, int a, int id);
-extern void func_021EAF50(MsgParam *msg, int v);
-extern void func_021EAF78(MsgParam *msg, int v);
-extern void func_021EA614(void *win, MsgParam *msg);
-extern void func_021EA638(void *win, MsgParam *msg, void (*cb)(void));
+struct H;
+struct L;
+extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF50(struct L *p, u32 val);
+extern void func_021EAF78(u8 *p, u8 v);
+extern void func_021EA614(char *p, struct H *h);
+extern void func_021EA638(char *p, struct H *h, int c);
 extern int func_021EA720(void *win);
 extern int func_021EA710(u32 *p);
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 extern void func_02005D90(int a, int b);
 extern int func_02005F38(void);
 extern void func_02005E9C(void);
-extern void func_021EABC4(void *win, MsgParam *a, MsgParam *b, int c);
+extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
 extern int func_021EAC54(void *win, int *sel);
 extern char *func_021B9AF8(char *p, int i);
-extern int func_021B9CBC(void *p, int idx);
+extern int func_021B9CBC(u8 *p, int v);
 extern void func_021EAC64(u8 *p, u8 a, int c);
 extern int func_021EAC80(u8 *p, u8 *out);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -121,10 +123,10 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         void *p = func_021B9934(s->party, idx);
         func_021D5844(p);
         func_021D6BFC(p);
-        func_021EAF18(&s->msg, 5, 3);
-        func_021EAF50(&s->msg, idx);
-        func_021EAF50(&s->msg, g_021F3B64.move);
-        func_021EA614(s->msgWin, &s->msg);
+        func_021EAF18((struct L *)(&s->msg), 5, 3);
+        func_021EAF50((struct L *)(&s->msg), idx);
+        func_021EAF50((struct L *)(&s->msg), g_021F3B64.move);
+        func_021EA614(s->msgWin, (struct H *)(&s->msg));
         *state = 3;
     }
     case 3:
@@ -144,18 +146,18 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         }
         break;
     case 5:
-        func_021EAF18(&s->msg, 5, 4);
-        func_021EAF50(&s->msg, idx);
-        func_021EAF50(&s->msg, g_021F3B64.move);
-        func_021EAF78(&s->msg, 255);
-        func_021EA614(s->msgWin, &s->msg);
+        func_021EAF18((struct L *)(&s->msg), 5, 4);
+        func_021EAF50((struct L *)(&s->msg), idx);
+        func_021EAF50((struct L *)(&s->msg), g_021F3B64.move);
+        func_021EAF78((u8 *)(&s->msg), 255);
+        func_021EA614(s->msgWin, (struct H *)(&s->msg));
         *state = 6;
     case 6:
         if (func_021EA720(s->msgWin)) {
             MsgParam yes, no;
-            func_021EAF18(&yes, 6, 2);
-            func_021EAF18(&no, 6, 3);
-            func_021EABC4(s->msgWin, &yes, &no, 1);
+            func_021EAF18((struct L *)(&yes), 6, 2);
+            func_021EAF18((struct L *)(&no), 6, 3);
+            func_021EABC4(s->msgWin, (u32)(&yes), (u32)(&no), 1);
         }
         if (func_021EA710(s->msgWin))
             *state = 7;
@@ -164,7 +166,7 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         int sel;
         if (func_021EAC54(s->msgWin, &sel)) {
             if (sel == 0) {
-                func_021EAC64(s->msgWin, func_021B9CBC(func_021B9AF8(s->party, s->side), idx), g_021F3B64.move);
+                func_021EAC64(s->msgWin, func_021B9CBC((u8 *)func_021B9AF8(s->party, s->side), idx), g_021F3B64.move);
                 *state = 8;
             } else {
                 *state = 10;
@@ -185,10 +187,10 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         pp = func_021D5844(func_021B9934(s->party, idx));
         old = func_02017E1C(pp, slot + 54, 0);
         func_020181F4(pp, g_021F3B64.move, slot);
-        func_021EAF18(&s->msg, 5, 5);
-        func_021EAF50(&s->msg, idx);
-        func_021EAF50(&s->msg, old);
-        func_021EA638(s->msgWin, &s->msg, (void (*)(void))func_021D2C7C);
+        func_021EAF18((struct L *)(&s->msg), 5, 5);
+        func_021EAF50((struct L *)(&s->msg), idx);
+        func_021EAF50((struct L *)(&s->msg), old);
+        func_021EA638(s->msgWin, (struct H *)(&s->msg), (int)((void (*)(void))func_021D2C7C));
         *state = 9;
         break;
     }
@@ -197,21 +199,21 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
             *state = 2;
         break;
     case 10:
-        func_021EAF18(&s->msg, 5, 7);
-        func_021EAF50(&s->msg, idx);
-        func_021EAF50(&s->msg, g_021F3B64.move);
-        func_021EAF78(&s->msg, 255);
-        func_021EA614(s->msgWin, &s->msg);
+        func_021EAF18((struct L *)(&s->msg), 5, 7);
+        func_021EAF50((struct L *)(&s->msg), idx);
+        func_021EAF50((struct L *)(&s->msg), g_021F3B64.move);
+        func_021EAF78((u8 *)(&s->msg), 255);
+        func_021EA614(s->msgWin, (struct H *)(&s->msg));
         *state = 11;
         break;
     case 11:
         if (func_021EA720(s->msgWin)) {
             MsgParam yes, no;
-            func_021EAF18(&yes, 6, 4);
-            func_021EAF50(&yes, g_021F3B64.move);
-            func_021EAF18(&no, 6, 5);
-            func_021EAF50(&no, g_021F3B64.move);
-            func_021EABC4(s->msgWin, &yes, &no, 1);
+            func_021EAF18((struct L *)(&yes), 6, 4);
+            func_021EAF50((struct L *)(&yes), g_021F3B64.move);
+            func_021EAF18((struct L *)(&no), 6, 5);
+            func_021EAF50((struct L *)(&no), g_021F3B64.move);
+            func_021EABC4(s->msgWin, (u32)(&yes), (u32)(&no), 1);
         }
         if (func_021EA710(s->msgWin))
             *state = 12;
@@ -220,10 +222,10 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         int sel;
         if (func_021EAC54(s->msgWin, &sel)) {
             if (sel == 0) {
-                func_021EAF18(&s->msg, 5, 8);
-                func_021EAF50(&s->msg, idx);
-                func_021EAF50(&s->msg, g_021F3B64.move);
-                func_021EA614(s->msgWin, &s->msg);
+                func_021EAF18((struct L *)(&s->msg), 5, 8);
+                func_021EAF50((struct L *)(&s->msg), idx);
+                func_021EAF50((struct L *)(&s->msg), g_021F3B64.move);
+                func_021EA614(s->msgWin, (struct H *)(&s->msg));
                 *state = 13;
             } else {
                 *state = 5;

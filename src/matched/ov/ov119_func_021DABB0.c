@@ -14,7 +14,10 @@
  *   func_021DAB34 0x021DAB34 thumb ov119
  */
 #include "../include/Obj00001.h"
-extern void func_021E5098(char *,int),func_021E4E64(int,void *,int),func_021D8E84(char *,int),func_021DAB34(char *);
+extern void func_021E5098(char *,int);
+extern void func_021E4E64(int a, char *p, int b);
+extern void func_021D8E84(void *p, int v);
+extern void func_021DAB34(char *);
 void func_021DABB0(char *p) {
  func_021E5098(p,((struct Obj00001 *)p)->fF2C-1);
  if(((struct Obj00001 *)p)->fF2C>25) {

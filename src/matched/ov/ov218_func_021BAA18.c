@@ -13,4 +13,4 @@
 
  */
 
-void func_021BAA18(void) {}
+void func_021BAA18(void *a0) {}

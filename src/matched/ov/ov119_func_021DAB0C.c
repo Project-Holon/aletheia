@@ -14,7 +14,8 @@
  */
 #include "../include/Obj13892.h"
 extern int func_021E3E00(char *,int);
-extern void func_021D8E84(char *,int),func_021DAAE4(char *);
+extern void func_021D8E84(void *p, int v);
+extern void func_021DAAE4(char *);
 void func_021DAB0C(char *p) {
  if(func_021E3E00(p,((struct Obj13892 *)p)->fF2C-1)) {
   ((struct Obj13892 *)p)->fF2C=0;

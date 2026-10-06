@@ -15,13 +15,13 @@
  * the full callee body reads only entry r0.
  */
 #include "../include/Obj01594.h"
-extern void func_021B9914(void *, int, int);
+extern void func_021B9914(char *p);
 extern void func_0204E720(unsigned, int, int, int);
 extern int func_0204E804(void);
 int func_021BBC6C(char *p, int *state)
 {
     if (((struct Obj01594 *)p)->f50 != 258)
-        func_021B9914(p, 258, ((struct Obj01594 *)p)->f50);
+        func_021B9914(p);
     switch (*state) {
     case 0:
         func_0204E720(12, 0, 16, 3);

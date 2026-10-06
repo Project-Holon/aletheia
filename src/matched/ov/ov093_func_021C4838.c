@@ -27,29 +27,29 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern void func_021C48E0(u8 *a);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021C4910(u8 *p, u32 a, int k);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern int func_021BC2B0(u8 *p);
 extern u8 *func_021C48F0(u8 *a);
 extern u8 func_021D5440(u8 *p);
-extern void func_021C4F64(u8 *p, u8 *q);
+extern int func_021C4F64(u8 *p, u8 *a);
 extern u8 *func_021C4900(u8 *a);
 extern int func_021C5200(u8 *p);
 
-void func_021C4838(u8 *p, u8 *a, u8 *b)
+int func_021C4838(u8 *p, u8 *a, u8 *b)
 {
     u32 s;
     u8 *q;
     func_021C48E0(a);
     s = func_021CC8D8(p + 0x1D74, 9644);
     func_021C4910(p, 0x1f, (int)b);
-    func_021CC95C(p + 0x1D74, s, 9646);
+    func_021CC95C((u32 *)(p + 0x1D74), s, 9646);
     if (func_021BC2B0(p) == 0) {
         q = func_021C48F0(a);
         if (q != 0) {
             do {
                 s = func_021CC8D8(p + 0x1D74, 9652);
                 func_021C4910(p, func_021D5440(q), (int)b);
-                func_021CC95C(p + 0x1D74, s, 9654);
+                func_021CC95C((u32 *)(p + 0x1D74), s, 9654);
                 func_021C4F64(p, q);
                 if (func_021BC2B0(p) != 0) {
                     break;
@@ -58,5 +58,5 @@ void func_021C4838(u8 *p, u8 *a, u8 *b)
             } while (q != 0);
         }
     }
-    func_021C5200(p);
+    return func_021C5200(p);
 }

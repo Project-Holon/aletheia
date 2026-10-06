@@ -39,7 +39,7 @@ typedef struct {
 } Param;
 
 extern u8 func_0218F1B4(u8 *p);
-extern void func_0218F1AC(u8 *p, u8 v);
+extern void func_0218F1AC(u8 *p, u32 v);
 extern void func_0218F848(u8 *a);
 extern void *func_02188CB4(unsigned char *p);
 extern u16 func_021A3050(u8 *p);

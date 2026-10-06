@@ -37,8 +37,9 @@ struct S {
     u16 *p124;
 };
 
-extern struct S *func_020124E8(void *a);
-extern void func_02012444(void *a, void *b, void *c, void *d);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern char ov_id_DA[];
 extern char d_021BAB5C[];
 
@@ -47,7 +48,7 @@ int func_02166908(void *a, int *st)
     struct S *s = func_020124E8(a);
     switch (*st) {
     case 0:
-        func_02012444(a, ov_id_DA, d_021BAB5C, s);
+        func_02012444(a, (u32)ov_id_DA, (u32)d_021BAB5C, (u32)s);
         *st = *st + 1;
         break;
     case 1:

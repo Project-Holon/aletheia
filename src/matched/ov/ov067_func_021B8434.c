@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021B8434(u8 *p, u8 a, u8 b, u16 c, u32 d)
+void func_021B8434(u8 *p, int a, u8 b, u16 c, u32 d)
 {
     p[0x67] = a;
     p[0x68] = b;

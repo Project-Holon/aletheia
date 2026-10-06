@@ -23,7 +23,7 @@ struct Ov208Blend {
     int wait;
 };
 
-extern void func_021BC520(int sub, struct Ov208Blend *p);
+extern void func_021BC520(int flag, int *p);
 
 void ov208_func_021BC46C(struct Ov208Blend *main, struct Ov208Blend *sub)
 {
@@ -48,7 +48,7 @@ void ov208_func_021BC46C(struct Ov208Blend *main, struct Ov208Blend *sub)
                     p->ev = 0;
                     p->step = 0;
                 }
-                func_021BC520(i, p);
+                func_021BC520(i, (int *)p);
             } else {
                 p->wait--;
             }

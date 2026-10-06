@@ -44,8 +44,8 @@ typedef struct {
 extern void func_021C57F4(u8 *p);
 extern void func_021C57D8(u8 *p, int v);
 extern int func_021C49A4(u8 *p, unsigned int i);
-extern void func_021BA228(W *w, S *s);
-extern void func_021BA5F0(W *w, S *s, u8 c);
+extern void func_021BA228(void *w, u8 *s);
+extern void func_021BA5F0(void *a, char *b, u8 c);
 
 int func_021BA4C8(W *w, S *s)
 {
@@ -59,9 +59,9 @@ int func_021BA4C8(W *w, S *s)
         a = func_021C49A4(*w->f570, 4);
         b = func_021C49A4(s->f0, 4);
         if (b == a) {
-            func_021BA228(w, s);
+            func_021BA228(w, (u8 *)s);
         } else {
-            func_021BA5F0(w, s, s->fb);
+            func_021BA5F0(w, (char *)s, s->fb);
         }
     }
     return 0;

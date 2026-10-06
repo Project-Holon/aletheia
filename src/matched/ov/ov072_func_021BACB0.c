@@ -23,7 +23,7 @@ typedef struct {
     int f40;
 } W;
 
-extern int func_021BA774(W *p, int i);
+extern int func_021BA774(char *p, int i);
 
 int func_021BACB0(W *p, int *c, int *o, u32 *out)
 {
@@ -34,8 +34,8 @@ int func_021BACB0(W *p, int *c, int *o, u32 *out)
     int a;
     int lim;
 
-    x = o[0] + func_021BA774(p, 4);
-    y = o[1] + func_021BA774(p, 5);
+    x = o[0] + func_021BA774((char *)p, 4);
+    y = o[1] + func_021BA774((char *)p, 5);
     dx = x - c[0];
     dx = dx * dx;
     dy = y - c[1];

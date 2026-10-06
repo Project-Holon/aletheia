@@ -30,9 +30,9 @@ struct CharBuf;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *, u8);
 extern int func_022110D4(u8 *, int);
-extern void func_0220BEB8(u8 *, int, int, u8, u8);
+extern void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra);
 extern void func_0220D920(u8 *, int);
-extern int func_020276C4(void *);
+extern int func_020276C4(int a0);
 extern void func_0220D988(u8 *, int);
 extern u8 d_02211AFF[];
 typedef struct { u8 pad0[4]; void *obj; u16 cnt; u8 pad1[0x1B-0xA]; Bits fl; u8 pad2[0x4C-0x1C]; } Rec;
@@ -52,7 +52,7 @@ void func_0220D884(u8 *p)
             if (!((Rec *)p)[idx].fl.hi) {
                 func_0220D920(p, (u8)i);
             }
-            if (func_020276C4(((Rec *)p)[idx].obj) == 8) {
+            if (func_020276C4((int)(((Rec *)p)[idx].obj)) == 8) {
                 func_0220D988(p, (u8)i);
             }
         }

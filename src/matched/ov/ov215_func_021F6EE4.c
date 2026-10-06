@@ -13,5 +13,5 @@
  *   func_02050BE8 0x02050BE8 arm
  */
 
-extern void func_02050BE8(void *);
-void func_021F6EE4(char *p){func_02050BE8(p);}
+extern void func_02050BE8(void);
+void func_021F6EE4(char *p){func_02050BE8();}

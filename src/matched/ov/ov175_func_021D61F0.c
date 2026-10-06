@@ -20,7 +20,8 @@ typedef unsigned int u32;
 extern void func_02082BCC(void *,int,int);
 extern void func_02082D44(const void *,void *,int);
 extern void func_021DCB58(char *p, void *q, int mode);
-extern int func_021DCC28(void *,void *);
+typedef unsigned char  u8;
+extern int func_021DCC28(char *p, u8 *out);
 extern void func_021E8AA8(int a);
 void func_021D61F0(u32 sys,int *state,char *p)
 {
@@ -37,7 +38,7 @@ void func_021D61F0(u32 sys,int *state,char *p)
         (*state)++;
         break;
     case 2:
-        result=func_021DCC28(((struct Obj03317 *)p)->f30,p+0x44);
+        result=func_021DCC28(((struct Obj03317 *)p)->f30,(u8 *)(p+0x44));
         if(result==1) *state=3;
         else if(result==2) { ((struct Obj03317 *)p)->f3C=2; *state=4; }
         else if(result==3) { ((struct Obj03317 *)p)->f3C=3; *state=4; }

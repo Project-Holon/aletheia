@@ -56,11 +56,13 @@ typedef struct {
 extern unsigned int func_0217F264(void);
 extern void *func_0217EAB0(unsigned long size);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen);
+struct GHIBuffer;
+struct GHIConnection;
+extern int func_021C04D4(struct GHIConnection *connection, char *buffer, int *bufferLen);
 extern void func_021C4E68(int a);
-extern int func_021BFCEC(GHIBuffer *buffer, char *data, int dataLen);
-extern int func_021C0378(GHIConnection *connection);
-extern int func_021C4C50(GHIConnection *connection, char *data, int len);
+extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
+extern int func_021C0378(struct GHIConnection *connection);
+extern int func_021C4C50(struct GHIConnection *connection, char *data, int len);
 extern char g_021CF310[];
 extern char g_021CF320[];
 
@@ -90,7 +92,7 @@ void func_021C5430(GHIConnection *connection)
     while (!connection->completed && running_time < connection->maxRecvTime)
     {
         bufferLen = 0x2000;
-        result = func_021C04D4(connection, buffer, &bufferLen);
+        result = func_021C04D4((struct GHIConnection *)connection, buffer, &bufferLen);
         if (result == 1)
         {
             func_021C4E68((int)buffer);
@@ -125,13 +127,13 @@ void func_021C5430(GHIConnection *connection)
 
         if (connection->encryptEngine != 0 && connection->sessionEstablished == 1)
         {
-            if (!func_021BFCEC(&connection->decodeBuffer, buffer, bufferLen))
+            if (!func_021BFCEC((struct GHIBuffer *)(&connection->decodeBuffer), buffer, bufferLen))
             {
                 func_021C4E68((int)buffer);
                 return;
             }
             connection->recvBuffer.len = connection->recvBuffer.pos;
-            if (!func_021C0378(connection))
+            if (!func_021C0378((struct GHIConnection *)connection))
             {
                 connection->completed = 1;
                 connection->result = 0x11;
@@ -141,7 +143,7 @@ void func_021C5430(GHIConnection *connection)
             decryptedLen = connection->recvBuffer.len - connection->recvBuffer.pos;
             if (decryptedLen != 0)
             {
-                if (!func_021C4C50(connection, connection->recvBuffer.data + connection->recvBuffer.pos, decryptedLen))
+                if (!func_021C4C50((struct GHIConnection *)connection, connection->recvBuffer.data + connection->recvBuffer.pos, decryptedLen))
                 {
                     func_021C4E68((int)buffer);
                     return;
@@ -150,7 +152,7 @@ void func_021C5430(GHIConnection *connection)
         }
         else
         {
-            if (!func_021C4C50(connection, buffer, bufferLen))
+            if (!func_021C4C50((struct GHIConnection *)connection, buffer, bufferLen))
             {
                 func_021C4E68((int)buffer);
                 return;

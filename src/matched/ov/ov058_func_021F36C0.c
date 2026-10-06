@@ -35,7 +35,7 @@ extern u8 *func_02012EC4(struct Big *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern int *func_021897BC(char *p, int idx);
 extern void func_021BE760(int a, void *b, int c);
-extern void func_021F38F4(void *a, int b);
+extern void func_021F38F4(void *unused, void *a);
 extern char d_021F3B60[];
 
 void func_021F36C0(int a)
@@ -49,5 +49,5 @@ void func_021F36C0(int a)
     func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 0x20);
     r6 = func_021897BC((char *)a, 1);
     func_021BE760(r4, d_021F3B60, 0);
-    func_021F38F4(r6, a);
+    func_021F38F4(r6, (void *)a);
 }

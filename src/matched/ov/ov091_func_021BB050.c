@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 func_021BB554(u8 *s);
+extern int func_021BB554(u32 p);
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 id);
 extern const u8 d_021BEC74[];
@@ -33,9 +33,9 @@ extern const u8 d_021BEC75[];
 
 void func_021BB050(int unused, u8 *s, int k)
 {
-    if (k == 3 && func_021BB554(s) == 3)
+    if (k == 3 && func_021BB554((u32)s) == 3)
         func_020413B0(2, d_021BEC74[s[4] * 2] + 0x10, d_021BEC75[s[4] * 2], 0x10, 6, 4);
-    else if (k == 6 && func_021BB554(s) == 3)
+    else if (k == 6 && func_021BB554((u32)s) == 3)
         func_020413B0(2, d_021BEC74[s[4] * 2] + 0x10, d_021BEC75[s[4] * 2], 0x10, 6, 7);
     else
         func_020413B0(2, d_021BEC74[s[4] * 2] + 0x10, d_021BEC75[s[4] * 2], 0x10, 6, k);

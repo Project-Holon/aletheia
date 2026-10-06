@@ -25,7 +25,7 @@ typedef signed int s32;
 
 extern void func_021D4CEC(void);
 
-void func_021D4C58(void)
+void func_021D4C58(u32 a)
 {
     func_021D4CEC();
 }

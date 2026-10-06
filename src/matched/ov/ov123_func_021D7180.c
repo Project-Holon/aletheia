@@ -33,13 +33,13 @@ extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D5A60(char *p);
-extern void func_021D57D0(int, int, int, int);
+extern void func_021D57D0(void *p, int msg, int n, void *mon);
 extern void func_021D56FC(char *p, int mode);
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 extern void func_02005D90(int, int);
 extern void func_021D70BC(char *p);
-extern void func_021D7130(void);
+extern void func_021D7130(char *p);
 
 void func_021D7180(int a)
 {
@@ -52,8 +52,8 @@ void func_021D7180(int a)
         return;
     }
     func_021D5A60((char *)(((struct Obj03792 *)a)->f18));
-    func_021D57D0(((struct Obj03792 *)a)->f18, 0x16, ((struct Obj03792 *)a)->f6C,
-                 ((struct Obj03792 *)a)->fC);
+    func_021D57D0((void *)(((struct Obj03792 *)a)->f18), 0x16, ((struct Obj03792 *)a)->f6C,
+                 (void *)(((struct Obj03792 *)a)->fC));
     func_021D56FC((char *)(((struct Obj03792 *)a)->f18), 0);
     func_02005DE4((void *)1);
     func_02005E64();

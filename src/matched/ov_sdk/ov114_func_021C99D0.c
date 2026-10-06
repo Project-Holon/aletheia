@@ -53,7 +53,7 @@ extern void func_0205A1B0(int name, void *ptr, u32 size);
 extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
 extern u32 func_021C9858(u32 len);
 extern void func_020816B8(void *digest, void *data, u32 len);
-extern int func_020949F4(const char *a, const char *b, u32 n);
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern Session g_021CF7AC;
 typedef struct { char c[20]; } Key20;
 
@@ -83,7 +83,7 @@ int func_021C99D0(char *buf, int len)
         hashhex[i * 2 + 1] = hextbl[hash[i] & 15];
     }
     hashhex[40] = '\0';
-    if (func_020949F4(&buf[len - 40], hashhex, 40) != 0)
+    if (func_020949F4((const u8 *)(&buf[len - 40]), (const u8 *)hashhex, 40) != 0)
         return 0;
     g_021CF7AC.decodedbuf = buf;
     g_021CF7AC.decodedbuflen = len - 40u;

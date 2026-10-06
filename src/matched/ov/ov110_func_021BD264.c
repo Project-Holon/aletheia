@@ -22,9 +22,9 @@ typedef unsigned int   u32;
 struct MsgBank;
 struct T;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02027FEC(void *,void *,u8,int,u8,u16);
+extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_020282AC(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4);
-extern void func_021BCD80(void *);
+extern void func_021BCD80(u8 *p);
 extern void func_020409B4(u32 index);
 void func_021BD264(Object *p) {
     int i;
@@ -32,9 +32,9 @@ void func_021BD264(Object *p) {
         p->records[i].s=func_02045EC0(p->bank,i+18);
         p->records[i].x=0x39e3;
         p->records[i].flag=i==2;
-        p->windows[i]=func_02027FEC(p->a[i],&p->records[i],5+9*i,21,9,42);
+        p->windows[i]=(void *)func_02027FEC((u32)p->a[i],(u32)(&p->records[i]),(u8)(5+9*i),(int)21,9,42);
         func_020282AC(p->windows[i],p->a[i],8,0x3545,0x7b2c);
     }
-    func_021BCD80(p);
+    func_021BCD80((u8 *)p);
     func_020409B4(0);
 }

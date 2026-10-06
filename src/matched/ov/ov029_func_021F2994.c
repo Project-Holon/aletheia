@@ -20,8 +20,9 @@
 typedef unsigned int   u32;
 extern void func_0202223C(u32 a, u32 color);
 extern void func_02022230(u32 which);
-extern void func_021F26E0(int *p);
-extern void func_021F251C(int *p, int a, int b, int c, int d);
+typedef unsigned char  u8;
+extern void func_021F26E0(char *p);
+extern void func_021F251C(u8 *p, int a1, int a2, int a3, int e);
 extern void func_021F2180(char *p);
 
 int func_021F2994(int *p)
@@ -32,8 +33,8 @@ int func_021F2994(int *p)
 
     if (p[0] == (int)func_021F2180) {
         func_0202223C(1, 0);
-        func_021F26E0(p);
-        func_021F251C(p, a, b, c, 0);
+        func_021F26E0((char *)p);
+        func_021F251C((u8 *)p, a, b, c, 0);
         func_02022230(1);
         return 1;
     }

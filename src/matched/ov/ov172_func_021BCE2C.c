@@ -35,7 +35,7 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B878(struct Obj *p, u16 value);
 
-void func_021BCE2C(void *ctx, char *list, char *cur, int idx)
+void func_021BCE2C(void *ctx, char *list, char *cur, u8 idx)
 {
     struct SpritePos pos;
     s16 y;

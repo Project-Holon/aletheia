@@ -16,7 +16,7 @@
 
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
-extern void func_02036290(int a, const void *p);
+extern int func_02036290(int a0, const void *a1);
 
 void func_020362A4(const void *p)
 {

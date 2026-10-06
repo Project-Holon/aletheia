@@ -43,12 +43,12 @@ struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void func_021D7710(char *);
+extern void func_021D7710(u8 *p);
 extern void func_0201DD68(void);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_021D846C(char *);
+extern void func_021D846C(u8 *p);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_02028148(u8 *p);
@@ -72,14 +72,14 @@ void func_021D7898(char *p)
     func_0203FB44(1,(u16)t,decode(t));
     t=((struct Obj00286 *)p)->f0;
     func_0203FB44(6,(u16)t,decode(t));
-    func_021D7710(p);
+    func_021D7710((u8 *)p);
     func_0201DD68();
     func_02045C04(((struct Obj00286 *)p)->fC);
     func_0201D83C(((struct Obj00286 *)p)->f14);
     func_02045808(((struct Obj00286 *)p)->f18);
     func_02045808(((struct Obj00286 *)p)->f1C);
     func_02045808(((struct Obj00286 *)p)->f20);
-    func_021D846C(p);
+    func_021D846C((u8 *)p);
     if(((struct Obj00286 *)p)->f9C) {func_0201CE48(((struct Obj00286 *)p)->f9C);((struct Obj00286 *)p)->f9C=0;}
     func_0201ED04(((struct Obj00286 *)p)->f10);
     if(((struct Obj00286 *)p)->fC4) {func_02028148(((struct Obj00286 *)p)->fC4);((struct Obj00286 *)p)->fC4=0;}

@@ -21,7 +21,7 @@ struct Obj {
     u32 flags;
 };
 
-void func_02028748(struct Obj *obj, u32 n, u32 mask)
+void func_02028748(struct Obj *obj, int n, int mask)
 {
     obj->flags = obj->flags | (mask << n);
 }

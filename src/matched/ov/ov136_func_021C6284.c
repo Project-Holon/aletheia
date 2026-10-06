@@ -23,7 +23,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C61D4(void *, u32);
+extern void func_021C61D4(u8 *p, u32 a1);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;

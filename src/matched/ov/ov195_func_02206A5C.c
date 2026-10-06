@@ -55,8 +55,9 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
 typedef struct SC { s16 s; s16 c; } SC;
 extern const SC d_020A1B38[];
 extern int FX_Sqrt(int);
-extern int func_0207C768(int a, int b);
-extern void func_02206E2C(void *p);
+struct Grid;
+extern u32 func_0207C768(u32 a, u32 b);
+extern void func_02206E2C(struct Grid *p, u16 heap);
 
 typedef struct Vec3 {
     s32 x, y, z;
@@ -87,7 +88,7 @@ typedef struct Grid {
     u8 count;
 } Grid;
 
-void func_02206A5C(Grid *p)
+void func_02206A5C(Grid *p, u16 heap)
 {
     u8 i;
     u8 q;
@@ -102,7 +103,7 @@ void func_02206A5C(Grid *p)
     Ent *row;
     long long lx, ly, lz;
 
-    func_02206E2C(p);
+    func_02206E2C(p, heap);
     p->f28 = 0;
     for (i = 0; i < 16; i++)
         p->h2c[i] = 0x7FFF;

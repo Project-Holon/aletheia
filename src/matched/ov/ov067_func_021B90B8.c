@@ -37,9 +37,9 @@ extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
 extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
 extern void func_020410D0(u8 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_02041B6C(u8 id);
+extern void func_02041B6C(u32 bit);
 
-void func_021B90B8(struct S *p, u32 a1, s8 a2)
+void func_021B90B8(struct S *p, int a1, s8 a2)
 {
     u32 t;
     u32 id;
@@ -55,5 +55,5 @@ void func_021B90B8(struct S *p, u32 a1, s8 a2)
         func_020410D0(id, p->f2, (u8)a2, p->f4, 1, t, 0, j, p->f4, p->f5);
         a2++;
     }
-    func_02041B6C(id);
+    func_02041B6C((u8)id);
 }

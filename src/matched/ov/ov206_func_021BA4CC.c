@@ -17,12 +17,13 @@
 #include "../include/Obj00173.h"
 extern void func_021BAF50(char *p);
 extern void func_021BA934(char *p);
-extern void func_021BBBD8(void *,int);
+struct S;
+extern void func_021BBBD8(struct S *p, int i);
 extern void func_021BB92C(char *p, int index);
 void func_021BA4CC(char *p)
 {
     func_021BAF50(p);
     func_021BA934(p);
-    func_021BBBD8(p,((struct Obj00173 *)p)->f190);
+    func_021BBBD8((struct S *)p,((struct Obj00173 *)p)->f190);
     func_021BB92C(p,((struct Obj00173 *)p)->fE0);
 }

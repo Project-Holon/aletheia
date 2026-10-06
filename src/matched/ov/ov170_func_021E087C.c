@@ -45,20 +45,20 @@ typedef struct {
 struct WinMgr;
 extern int func_021EF770(struct WinMgr *mgr);
 extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
-extern void func_021EE008(unsigned char *p, int a, int b);
+extern void func_021EE008(char *p, int a, int b);
 extern void func_021EF75C(struct WinMgr *mgr);
 extern void func_020061E4(unsigned se);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
-extern void func_021EC35C(unsigned char *p, int box);
-extern int func_021DEDCC(unsigned char *p, int box);
-extern void func_021DEC98(unsigned char *p, int a, int dir);
-extern void func_021ED544(unsigned char *p, int b);
-extern int func_021E00C4(unsigned char *p);
-extern int func_021E0128(unsigned char *p);
+extern void func_021EC35C(char **p, int box);
+extern int func_021DEDCC(char *p, int box);
+extern void func_021DEC98(char *p, int a, int dir);
+extern void func_021ED544(char *p, int b);
+extern int func_021E00C4(char *p);
+extern int func_021E0128(char *p);
 extern int func_021DD930(unsigned char *p);
 extern void func_021DE66C(unsigned char *p, void *e);
-extern void func_021ED6E4(unsigned char *p, int v);
-extern int func_021E01E0(unsigned char *p);
+extern void func_021ED6E4(char **p, int v);
+extern int func_021E01E0(char *p);
 extern void func_021EF35C(struct WinMgr *mgr);
 extern void func_021EF36C(struct WinMgr *mgr);
 extern int func_021E01B0(unsigned char *p);
@@ -76,7 +76,7 @@ int func_021E087C(unsigned char *p)
     case 0:
         if (p[0x16] >= 0x1E && func_021EF770(MGR(p)) == 1) {
             if (HELD(p) < 0x1E || HELD(p) == 0xFF || func_021DE158(p, p[0x16], HELD(p)) == 0) {
-                func_021EE008(p, 0, 0);
+                func_021EE008((char *)p, 0, 0);
                 func_021EF75C(MGR(p));
                 func_020061E4(0x669);
                 b->state = 5;
@@ -87,8 +87,8 @@ int func_021E087C(unsigned char *p)
             if (HELD(p) == 0xFF || func_021DE158(p, p[0x16], HELD(p)) == 0) {
                 r = func_021DD210(p, p[0x14], p[0x17]);
                 p[0x14] = p[0x17];
-                func_021EC35C(p, p[0x14]);
-                func_021DEC98(p, func_021DEDCC(p, p[0x14]), r);
+                func_021EC35C((char **)p, p[0x14]);
+                func_021DEC98((char *)p, func_021DEDCC((char *)p, p[0x14]), r);
                 if (r == 0)
                     b->state = 2;
                 else
@@ -97,30 +97,30 @@ int func_021E087C(unsigned char *p)
             }
         }
     case 1:
-        func_021ED544(p, 7);
+        func_021ED544((char *)p, 7);
         func_021DE158(p, p[0x16], HELD(p));
         b->state = 4;
         break;
     case 2:
-        if (func_021E00C4(p) == 0)
+        if (func_021E00C4((char *)p) == 0)
             b->state = 1;
         break;
     case 3:
-        if (func_021E0128(p) == 0)
+        if (func_021E0128((char *)p) == 0)
             b->state = 1;
         break;
     case 4:
         if (func_021DD930(p) == 0) {
             func_021DE66C(p, b->moves);
-            func_021ED544(p, 6);
-            func_021ED6E4(p, 0);
+            func_021ED544((char *)p, 6);
+            func_021ED6E4((char **)p, 0);
             func_020061E4(0x667);
             b->state = 0;
             return 0;
         }
         break;
     case 5:
-        if (func_021E01E0(p) == 0) {
+        if (func_021E01E0((char *)p) == 0) {
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
             func_020061E4(0x669);

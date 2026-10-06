@@ -44,7 +44,7 @@ extern int func_0218A378(Conn *, int, int);
 typedef signed int     s32;
 extern u16 func_021D57FC(void *p);
 extern u8 func_021E8CFC(s32 v);
-extern unsigned char func_021E8D04(int x);
+extern int func_021E8D04(int x);
 
 int func_02188CA0(int a, Conn *b)
 {

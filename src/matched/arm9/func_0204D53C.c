@@ -17,9 +17,10 @@
 
 typedef unsigned char  u8;
 
-extern void func_020643A4(u8 *p);
+struct CellAnim;
+extern void func_020643A4(struct CellAnim *anim);
 
 void func_0204D53C(u8 *a0)
 {
-    func_020643A4(a0 + 0xc);
+    func_020643A4((struct CellAnim *)(a0 + 0xc));
 }

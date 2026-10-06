@@ -22,7 +22,7 @@ struct Sub020075B0Entry;
 struct Sub02009210Obj;
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern int func_02009228(void *);
+extern u32 func_02009228(void);
 extern void func_02082D44(void *, void *, int);
 extern void func_020307B0(void *);
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
@@ -36,7 +36,7 @@ void func_021D8F58(char *p)
     void *q;
     v=func_02009448(((struct Obj02476 *)p)->f28);
     if (((struct Obj02476 *)p)->f34) {
-        func_02082D44(((struct Obj02476 *)p)->f34,v,func_02009228(((struct Obj02476 *)p)->f34));
+        func_02082D44(((struct Obj02476 *)p)->f34,v,func_02009228());
         func_020307B0(((struct Obj02476 *)p)->f34);
         ((struct Obj02476 *)p)->f34=0;
     }

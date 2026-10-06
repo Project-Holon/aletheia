@@ -29,16 +29,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *ov208_func_021BC3B4(int key);
-extern u32 func_0204B3F4(void *obj);
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
 extern u32 func_020362DC(void);
 extern u32 func_0203633C(void);
-extern int func_02035D20(u32 *x, u32 *y);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020355D8(int v);
 extern void ov208_func_021BDC48(void *scene, u32 on);
-extern void func_0204B878(void *obj, u16 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_020061E4(u32 v);
-extern void func_0204B92C(void *obj, int v);
-extern void func_0204B8C4(void *obj, int v);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B8C4(struct Obj *p, u32 value);
 
 #define F32(b, o) (*(u32 *)((b) + (o)))
 

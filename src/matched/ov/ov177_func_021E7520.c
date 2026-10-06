@@ -40,9 +40,10 @@ extern void func_0202DE68(struct PmsDraw *p, u32 v);
 extern void func_0202DE5C(struct PmsDraw *p, u8 v);
 extern u32 func_021E7CF0(void *, u32, u32);
 extern void func_021E78B0(Work *, const Record *, void *, void *, void *, void *, int, u16);
-extern u32 func_02008554(const Record *);
-extern void func_021E7B68(Work *, u32, void *, u32);
-extern void func_021E7C3C(Work *, const Record *, void *, void *, u32);
+struct Sub0200852CObj;
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern void func_021E7B68(char *p, unsigned idx, unsigned owner, unsigned heap);
+extern void func_021E7C3C(char *p, char *q, void *x, void *data, unsigned heap);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern u32 func_0204162C(int);
@@ -67,12 +68,12 @@ Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, v
     if (mode - 2 <= 1)
         alt = kind == 5;
     func_021E78B0(w, rec, a3, a4, a5, a6, alt, heap);
-    func_021E7B68(w, func_02008554(rec), a1, heap);
+    func_021E7B68((char *)w, func_02008554((const struct Sub0200852CObj *)rec), (unsigned int)a1, heap);
     func_0204989C(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
     switch (mode) {
     case 2:
     case 3:
-        func_021E7C3C(w, rec, a1, a2, heap);
+        func_021E7C3C((char *)w, (char *)rec, a1, a2, heap);
         func_020413B0(2, 0, 0, 0x20, 2, 1);
         func_020413B0(2, 0, 3, 0x20, 0x20, kind + 3);
         func_020413B0(2, 0, 3, 1, 2, 1);

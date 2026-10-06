@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02061860(u8 *p)
+int func_02061860(u8 *p)
 {
     u16 a = ((struct Obj04778 *)p)->fC;
     u32 b = ((struct Obj04778 *)p)->f4;

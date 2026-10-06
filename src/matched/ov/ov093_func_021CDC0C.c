@@ -35,7 +35,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int (*Callback)(u8 *,int *);
-extern void func_021D3FDC(u8 *,u8 *);
+struct Q;
+extern void func_021D3FDC(u8 *p, struct Q *q);
 extern int func_021D3F98(u8 *);
 extern u8 func_021EEBE8(void *);
 extern Callback func_021CDD50(u8 *,u32,int *);
@@ -49,7 +50,7 @@ extern void *func_021F8678(void);
 extern int func_021EEC4C(void *,void *,u32);
 extern int func_021EAE34(u8 *p);
 extern int func_02005E50(void);
-extern int func_021D3FA8(u8 *);
+extern u16 func_021D3FA8(u8 *p);
 extern void func_021EAE74(char *p, u32 a, u32 b);
 extern void func_021BA7F8(char *p);
 int func_021CDC0C(u8 *p)
@@ -57,7 +58,7 @@ int func_021CDC0C(u8 *p)
     u32 id;
     u16 n;
     int zero;
-    func_021D3FDC(p,p+0x18);
+    func_021D3FDC(p,(struct Q *)(p+0x18));
     switch (p[0x1a8]) {
     case 0:
         p[0x1a8] = 1;
@@ -102,7 +103,7 @@ int func_021CDC0C(u8 *p)
         if (((struct Obj00818 *)p)->f54) {
             if (func_021EAE34(((struct Obj00818 *)p)->f54)) {
                 if (!func_02005E50()) {
-                    n = func_021D3FA8(p+0x18);
+                    n = (int)func_021D3FA8(p+0x18);
                     func_021EAE74(((struct Obj00818 *)p)->f54,n,n);
                     func_021BA7F8(((struct Obj00818 *)p)->f0);
                 }

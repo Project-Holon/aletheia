@@ -64,10 +64,14 @@ extern struct Pool g_021B4BE0;
 extern int func_021B2DD0(struct Pkt *pkt, struct Event *ev);
 struct N;
 extern struct N *func_021B2A20(int id);
-extern int func_021B2894(struct Node *node, struct Pkt *pkt);
-extern int func_021B279C(struct Pkt *pkt, struct Node *node);
+typedef unsigned char  u8;
+struct Ctx;
+struct Msg;
+struct Q;
+extern int func_021B2894(struct Ctx *c, struct Msg *m);
+extern int func_021B279C(u8 *o, struct Q *q);
 extern struct Node *func_021B24FC(unsigned int idx);
-extern void func_021B2724(struct Node *list, unsigned char id);
+extern void func_021B2724(u8 *p, u8 v);
 extern int func_021B25B0(int a, int b);
 extern int func_021B1F54(struct Node *p);
 
@@ -84,7 +88,7 @@ int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
     }
     node = (struct Node *)func_021B2A20(pkt->f8);
     if (node) {
-        r = func_021B2894(node, pkt);
+        r = func_021B2894((struct Ctx *)node, (struct Msg *)pkt);
         switch (r) {
         case -1:
             return 0;
@@ -94,23 +98,23 @@ int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
             ev->node = node;
             return 1;
         }
-        ev->type = func_021B279C(pkt, node);
+        ev->type = func_021B279C((u8 *)pkt, (struct Q *)node);
         ev->node = node;
         node->fc = r;
         return ev->type != 0;
     }
     node = func_021B24FC(pkt->f8);
     if (node == 0) {
-        func_021B2724(&g_021B4BE0.freeList, pkt->f8);
+        func_021B2724((u8 *)(&g_021B4BE0.freeList), pkt->f8);
         func_021B25B0((int)(&g_021B4BE0.freeList), 3);
         return 0;
     }
-    r = func_021B2894(node, pkt);
+    r = func_021B2894((struct Ctx *)node, (struct Msg *)pkt);
     if (r == -2 || r == -1) {
         func_021B1F54(node);
         return 0;
     }
-    ev->type = func_021B279C(pkt, node);
+    ev->type = func_021B279C((u8 *)pkt, (struct Q *)node);
     ev->node = node;
     node->fc = r;
     return ev->type != 0;

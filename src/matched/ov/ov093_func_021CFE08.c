@@ -31,14 +31,14 @@ struct G {
 extern u32 func_021B8588(void **p);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021D0644(void *g, void *m, void *a, int b);
-extern int func_021D055C(void *g, void *a, int b);
+extern int func_021D055C(u8 *g, void *a, int b);
 
 int func_021CFE08(struct G *g, void *a, void *b)
 {
     if (func_021B8588(g->p0) != 0)
         return 0;
     if (func_021D59B4(b, 0x11) == 0x19) {
-        if (func_021D0644(g, a, b, 4) == 0 && func_021D055C(g, b, 4) != 0) {
+        if (func_021D0644(g, a, b, 4) == 0 && func_021D055C((u8 *)g, b, 4) != 0) {
             g->seed = g->mul * g->seed + g->add;
             if ((u32)(((g->seed >> 32) * 3) >> 32) < 2)
                 return 1;

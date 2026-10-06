@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
-extern void func_020477A4(void *,u16);
+struct G3dSys;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 void func_021E324C(char *p,int n) {
     void *q;
     int i,count;
@@ -32,7 +33,7 @@ void func_021E324C(char *p,int n) {
     if(((struct Obj03779 *)p)->f824!=0xffff) {
         q=(void *)func_02048A18(((struct Obj03779 *)p)->f820,((struct Obj03779 *)p)->f824);
         count=func_0204779C(q);
-        for(i=0;i<count;i++) func_020477A4(q,i);
+        for(i=0;i<count;i++) func_020477A4(q,(u16)i);
     }
     *(int *)&((struct Obj03779 *)p)->f109C=n;
 }

@@ -18,7 +18,7 @@ typedef unsigned char u8;
 struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 int func_0217F1E8(u8 *p)
 {
     if (func_02012B70(func_020120F4(((struct Obj00092 *)p)->f0)) == 1) {

@@ -93,14 +93,15 @@ extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
 extern void func_0217F528(void *, void *, int, int, int, int);
 extern void func_021762D8(Info *, void *, int, u16);
-extern void func_0217F574(void *, u16, int, int);
+struct BigObj;
+extern void func_0217F574(void **p, unsigned int index, int a, int b);
 extern void *func_02029830(void *a, u32 b);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_02005F38(void);
-extern void *func_02029620(void *a, u16 b, u16 c);
+extern void *func_02029620(void *a, u32 b, u32 c);
 extern void func_0217F58C(void *);
 extern void *func_020120F4(const struct Ctx *p);
-extern int func_02012B58(void *);
+extern u8 func_02012B58(const struct BigObj *p);
 extern void func_0217C658(Rec *, void *, int, u16, u8, u8);
 extern int func_0217C688(Rec *, void *);
 extern int func_02173FC0(int a, u8 *b);
@@ -129,8 +130,8 @@ int func_0217C4D0(void *task, int *state, Work *w)
         func_0217F528(w->f08, sys, 1, 1, 0x1E, 0x10);
         func_021762D8(&w->f38, w->f38.f18, *(int *)w->f08, w->f00);
         hi = w->f38.f04.hi;
-        func_0217F574(w->f08, w->f38.f04.lo, 8, 0);
-        func_0217F574(w->f08, hi, 8, 0x10);
+        func_0217F574((void **)w->f08, (u16)w->f38.f04.lo, 8, 0);
+        func_0217F574((void **)w->f08, (u16)hi, 8, 0x10);
         (*state)++;
         break;
     case 1:
@@ -148,7 +149,7 @@ int func_0217C4D0(void *task, int *state, Work *w)
         (*state)++;
         break;
     case 4:
-        t = func_02012B58(func_020120F4(sys));
+        t = (int)func_02012B58(func_020120F4(sys));
         func_0217C658(&w->f6C, sys, w->f04, w->f38.f0A[t], w->f38.f10[t],
                       w->f38.f08.mask & (1 << t));
         (*state)++;

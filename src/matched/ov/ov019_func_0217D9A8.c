@@ -79,13 +79,13 @@ struct Link;
 extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 extern u8 *func_02012944(void *p);
-extern int func_0217BB20(Ctx *ctx);
+extern int func_0217BB20(char *p);
 extern void func_0217F074(void *p);
-extern u8 func_0217F060(int i);
+extern int func_0217F060(int i);
 extern void func_0217F210(Ctx *ctx, int a, int msg);
 extern int func_0217F1EC(Ctx *ctx);
-extern int func_0217B8E4(Ctx *ctx, int v);
-extern void func_0217BAF0(Ctx *ctx, int a, int v);
+extern int func_0217B8E4(char *p, char v);
+extern void func_0217BAF0(char *p, int x, unsigned int v);
 extern void func_0217DC64(u8 *base, int obj, int x);
 extern void func_0217DC94(u8 *base, int obj, int x);
 extern int func_02173CB4(void);
@@ -105,7 +105,7 @@ int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
     if (w == 0)
         func_02034714(d_021807E4, 0, d_021807E4);
 
-    if (func_0217BB20(ctx) == 1) {
+    if (func_0217BB20((char *)ctx) == 1) {
         if (w->f168 != 0)
             func_021CD5A4(w->f168);
         func_0217F074(ctx);
@@ -187,7 +187,7 @@ int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         break;
     case 100:
         w->fde = 1;
-        func_0217B8E4(ctx, 0x29);
+        func_0217B8E4((char *)ctx, 0x29);
         return 1;
     case 200:
         func_0217F210(ctx, a2, 0x14c);
@@ -196,15 +196,15 @@ int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         break;
     case 201:
         if (func_0217F1EC(ctx) == 1) {
-            func_0217B8E4(ctx, 0x32);
-            func_0217BAF0(ctx, a2, 1);
+            func_0217B8E4((char *)ctx, 0x32);
+            func_0217BAF0((char *)ctx, a2, 1);
             return 1;
         }
         break;
     case 300:
         w->fde = 2;
-        func_0217B8E4(ctx, 0x32);
-        func_0217BAF0(ctx, a2, 1);
+        func_0217B8E4((char *)ctx, 0x32);
+        func_0217BAF0((char *)ctx, a2, 1);
         return 1;
     }
     return 0;

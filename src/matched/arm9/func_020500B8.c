@@ -21,7 +21,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020500A0(void *p);
+extern void func_020500A0(int p0);
 
 void func_020500B8(u32 *p)
 {
@@ -29,7 +29,7 @@ void func_020500B8(u32 *p)
     p[2] = 0;
     ((struct Obj02015 *)p)->fC = 0;
     ((struct Obj02015 *)p)->fE = 0;
-    func_020500A0(p);
+    func_020500A0((int)p);
     p[6] = 0;
     p[8] = 0;
     p[9] = 0;

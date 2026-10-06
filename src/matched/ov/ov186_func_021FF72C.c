@@ -24,7 +24,7 @@
 extern int func_021D72EC(char *,int **);
 extern void func_021D72F8(char *);
 extern void func_02006210(void);
-extern void func_0200FB4C(int);
+extern void func_0200FB4C(unsigned int x);
 int func_021FF72C(char *p,int *out)
 {
     const int *event;

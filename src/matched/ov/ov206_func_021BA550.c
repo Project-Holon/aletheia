@@ -29,9 +29,10 @@ extern void func_0201AE14(void *p);
 extern void func_021BB160(char *p, int i);
 extern void func_021BA4F4(char *p);
 extern void func_021BB0FC(void *obj);
-extern void func_021BBC38(char *p);
+struct S;
+extern void func_021BBC38(struct S *p);
 extern void func_021BB13C(void *a0, void *a1, void *a2, void *a3);
-extern void func_021BBE34(char *p, int v);
+extern void func_021BBE34(struct S *p, int v);
 void func_021BA550(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6)
 {
     int x;
@@ -53,7 +54,7 @@ void func_021BA550(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6)
     h = (u16)func_0201AE1C(((struct Obj00598 *)p)->f26C, 0x20);
     if (((struct Obj00598 *)p)->fE >= h) ((struct Obj00598 *)p)->fE = 0;
     func_021BB0FC(p);
-    func_021BBC38(p);
+    func_021BBC38((struct S *)p);
     switch (((struct Obj00598 *)p)->f18) {
     case 0:
     case 2:
@@ -66,5 +67,5 @@ void func_021BA550(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6)
         break;
     }
     func_021BB13C(p, (void *)x, (void *)((u16)(y + ((struct Obj00598 *)p)->f1B4)), (void *)(((struct Obj00598 *)p)->fB4));
-    func_021BBE34(p, (((struct Obj00598 *)p)->f44 != 0) ? 0 : 1);
+    func_021BBE34((struct S *)p, (((struct Obj00598 *)p)->f44 != 0) ? 0 : 1);
 }

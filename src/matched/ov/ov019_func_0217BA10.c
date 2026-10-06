@@ -19,14 +19,14 @@
  */
 extern int func_0217B908(int);
 extern int func_0217B974(int);
-extern void func_0201A364(int, void *);
+extern void func_0201A364(int a, unsigned int b);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Reg;
 extern void func_0200AEE8(struct Reg *p, u32 id, s32 value);
 void func_0217BA10(char *p, int x)
 {
-    func_0201A364(func_0217B908(x), *(void **)(p + 0x352c));
+    func_0201A364(func_0217B908(x), (unsigned int)(*(void **)(p + 0x352c)));
     if (func_0217B974(x) == 1) func_0200AEE8(*(void **)(p + 0x352c), 13, 1);
     else func_0200AEE8(*(void **)(p + 0x352c), 13, 0);
 }

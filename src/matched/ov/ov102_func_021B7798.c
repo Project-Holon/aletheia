@@ -31,8 +31,8 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021B87FC(int *);
 extern void func_02005D90(u32, u16);
 extern void func_021B89F0(u8 *);
-extern void func_021B87C8(void *);
-extern void func_021B842C(void *);
+extern void func_021B87C8(u8 *p);
+extern void func_021B842C(unsigned char *p);
 int func_021B7798(void *unused, u32 *state, int unused2, char *p)
 {
     switch (*state) {
@@ -53,7 +53,7 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
         break;
     case 3:
         func_021B89F0((u8 *)(p + 0x118));
-        func_021B87C8(p + 0xfc);
+        func_021B87C8((u8 *)(p + 0xfc));
         (*(void (**)(char *, char *))(p + 0x480))(p, p + 0x484);
         if (((struct Obj22139 *)p)->f488 != 0) *state = 4;
         break;
@@ -67,6 +67,6 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
     case 6:
         return 1;
     }
-    func_021B842C(p);
+    func_021B842C((unsigned char *)p);
     return 0;
 }

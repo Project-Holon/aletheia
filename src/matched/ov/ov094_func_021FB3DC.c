@@ -29,7 +29,8 @@ typedef unsigned int   u32;
 extern void func_0204047C(int idx, unsigned short val);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern void func_020215EC(int a, int b, int c, u16 d, int e, int f, int g, int h);
+struct PalAnmSlot;
+extern void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern u32 func_020407E8(u32 layer);
 extern u32 func_02040804(u32 layer);
 extern int func_021F86E0(void);
@@ -44,7 +45,7 @@ int func_021FB3DC(int a, char *b)
     func_0204047C(3, 1);
     func_02049624((void *)0x5f, (void *)(t + 1), (void *)3, 0, 0, 0, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000);
     func_0204989C(0x5f, t, 3, 0, 0, 0, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000);
-    func_020215EC(func_021F86E0(), 0x5f, t + 2, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000, 0, 0, 0x80, 0);
+    func_020215EC((struct PalAnmSlot *)func_021F86E0(), (int)0x5f, (int)(t + 2), (u16)((((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
     ((struct Obj04398 *)b)->f264 = func_020407E8(3);
     ((struct Obj04398 *)b)->f268 = func_02040804(3);
     func_02209784(func_021F8700(), 0, 0);

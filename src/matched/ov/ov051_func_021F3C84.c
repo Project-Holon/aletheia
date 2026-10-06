@@ -13,4 +13,4 @@
  */
 
 extern int func_021F3BC4(int *, int *, int, unsigned short, unsigned int *);
-unsigned int func_021F3C84(int *a, int *b, int c) { unsigned int out; func_021F3BC4(a,b,c,32,&out); return out; }
+int func_021F3C84(int *a, int *b, int c) { unsigned int out; func_021F3BC4(a,b,c,32,&out); return out; }

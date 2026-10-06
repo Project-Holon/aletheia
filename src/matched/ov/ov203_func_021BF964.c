@@ -13,16 +13,17 @@
  */
 #include "../include/Obj10867.h"
 typedef struct { int kind;unsigned limit;int values[8]; } Record;
-extern Record *func_021BE990(int);
-extern void func_021BF9B8(char *,char *,Record *);
+typedef unsigned int   u32;
+extern u32 func_021BE990(u32 id);
+extern void func_021BF9B8(unsigned a, unsigned b, char *p);
 int func_021BF964(char *p,char *owner,int *index)
 {
     Record *r;
     int i;
-    r=func_021BE990(((struct Obj10867 *)owner)->f78);
+    r=(Record *)func_021BE990(((struct Obj10867 *)owner)->f78);
     for(i=0;i<9999;i++) {
         if(r[i].kind==18) return 1;
-        if(r[i].limit==-1) func_021BF9B8(p,owner,&r[i]);
+        if(r[i].limit==-1) func_021BF9B8((unsigned int)p,(unsigned int)owner,(char *)(&r[i]));
         else if(r[i].limit>=((struct Obj10867 *)owner)->f7C) {*index=i;return 0;}
     }
     return 0;

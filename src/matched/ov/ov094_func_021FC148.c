@@ -37,7 +37,7 @@ typedef struct {
 } Pt;
 
 extern int func_0201134C(int);
-extern int func_0202142C(int);
+extern unsigned short func_0202142C(int a0);
 extern void func_0206DF3C(Pt *p, int *a, int *b);
 extern int func_021F8694(void);
 extern int func_021F86F0(void);

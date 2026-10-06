@@ -28,7 +28,7 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern char *d_0220AF20;
-extern void func_020066E8(void *);
+extern void func_020066E8(void);
 extern void func_021F8B6C(void);
 typedef unsigned int   u32;
 struct Node;
@@ -54,7 +54,7 @@ extern void func_020307B0(void *);
 void func_021F7808(void)
 {
     if (d_0220AF20 != 0) {
-        func_020066E8(d_0220AF20);
+        func_020066E8();
         func_021F8B6C();
         func_020215A0(FIELD(0x18c), 0);
         func_020215A0(FIELD(0x18c), 1);

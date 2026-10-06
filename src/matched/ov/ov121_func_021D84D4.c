@@ -144,13 +144,18 @@ extern void func_02082BCC(void *,int,int);
 extern void *func_02049F34(u32,u32,u32,u32);
 extern void func_02082D44(const void *,void *,int);
 extern void func_020307B0(void *);
-extern void *func_021D6C58(void *,int);
-extern void func_0204B6F4(void *,u8,u32);
+struct Actor;
+struct MsgBank;
+struct Obj;
+struct Sub0200852CObj;
+struct U16Vec;
+extern void *func_021D6C58(u8 *p, int i);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern u32 func_020056EC(u32);
-extern void *func_02012944(void *);
-extern u32 func_02008530(const void *);
+extern u8 *func_02012944(void *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *func_020173F0(u16,u16,u32,u32,u32);
-extern u32 func_020186C8(u32,u16,int,int,int,int);
+extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void func_02017588(void *,u16,u32,u64,u32,u64);
 extern void func_02017E40(void *,u32,u32);
 extern u32 func_02017FA8(void *);
@@ -158,10 +163,10 @@ extern u32 func_0201808C(void *,u32);
 extern void func_020180F4(void *,u32);
 extern void func_02018A00(void *,u32,u32);
 extern u16 func_02045A98(void);
-extern void *func_020084F4(void *);
-extern u8 func_02008550(const void *);
-extern void *func_02045EC0(void *,u32);
-extern void func_02045808(void *);
+extern const void *func_020084F4(const void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
 extern void *func_020185F0(void *);
 extern void func_0202F2AC(void *,u32,u32,u32,u32);
 extern void func_020185C4(void *);
@@ -174,14 +179,14 @@ extern int func_0202D934(int,void *,int,int,u16);
 extern unsigned func_021D94C4(int,int);
 extern void func_02049238(void *);
 extern void *func_020490F4(u32,u16);
-extern u32 func_02020E60(u16,u32);
+extern u32 func_02020E60(u32 item, u32 which);
 extern u32 func_0204ABF0(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern void func_02082A48(u32,void *,u32);
-extern void *func_0204B294(u32,u32,u32,u32,Point *,u16,u16);
-extern void func_0204B3DC(void *,u32);
-extern void func_0204B688(void *,u32);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern const u16 d_021DF4F2[];
 extern const u32 d_021DF4FC[];
 extern const u8 d_0209DF08,d_0209DF0C;
@@ -220,7 +225,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     func_02082D44(base,out+146,32);
     func_02082D44(base+palette*32,out+114,32);
     func_020307B0(buf);
-    for(i=0;i<32;i++) func_0204B6F4(func_021D6C58(list,i+1),palette,0);
+    for(i=0;i<32;i++) func_0204B6F4(func_021D6C58(list,i+1),(u8)palette,0);
     switch(desc[179]) {
     case 1:
         mon=0;
@@ -231,7 +236,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         work.move[0]=H(18);work.move[1]=H(20);work.move[2]=H(22);work.move[3]=H(24);
         if(desc[179]!=1 || species>649 || species==0 || level>100 || H(16)>626) goto image;
         if(level==0) level=(u16)(func_020056EC(100)+1);
-        if(D(0)==0) otId=func_02008530(func_02012944(save));
+        if(D(0)==0) otId=func_02008530((const struct Sub0200852CObj *)func_02012944(save));
         if(gender==255) gender=2;
         for(i=0;i<6;i++) if(work.iv[i]==255) work.iv[i]=func_020056EC(32);
         id=otId;
@@ -248,9 +253,9 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         }
         if(D(8)!=0) random=D(8);
         else {
-            if(desc[55]==0) random=func_020186C8(otId,species,desc[28],gender,selector,0);
-            else if(desc[55]==1) random=func_020186C8(otId,species,desc[28],gender,selector,2);
-            else if(desc[55]==2) random=func_020186C8(otId,species,desc[28],gender,selector,1);
+            if(desc[55]==0) random=func_020186C8(otId,(u16)species,desc[28],gender,selector,0);
+            else if(desc[55]==1) random=func_020186C8(otId,(u16)species,desc[28],gender,selector,2);
+            else if(desc[55]==2) random=func_020186C8(otId,(u16)species,desc[28],gender,selector,1);
         }
         func_02017588(allocated,H(26),level,id,packed,random);
         func_02017E40(allocated,6,H(16));func_02017FA8(allocated);
@@ -285,7 +290,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         else func_02017E40(allocated,142,(u32)(desc+74));
         value=desc[90];
         if(value<=2) func_02017E40(allocated,154,value);
-        else {value=func_02008550(func_02012944(save));func_02017E40(allocated,154,value);}
+        else {value=func_02008550((const struct Sub0200852CObj *)func_02012944(save));func_02017E40(allocated,154,value);}
         if(desc[92]) {
             func_02017E40(allocated,76,1);
             str=func_02045EC0(g_020A7370,650);
@@ -313,9 +318,9 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         break;
     case 2:
         arc=(u32)func_020490F4(25,heap);
-        O(12)=func_0204ABF0((void *)arc,func_02020E60(D(0),2),0,448,heap);
+        O(12)=func_0204ABF0((void *)arc,func_02020E60((u16)D(0),2),0,448,heap);
         O(20)=func_0204AF28((void *)arc,1,0,heap);
-        O(16)=func_0204A6C8((void *)arc,func_02020E60(D(0),1),0,0,heap);
+        O(16)=func_0204A6C8((void *)arc,func_02020E60((u16)D(0),1),0,0,heap);
         func_02049238((void *)arc);OH(298)=4;OH(296)=8;
         break;
     case 3:
@@ -333,7 +338,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     }
     func_02082BCC(&work.point,0,8);
     work.point.x=*(s16 *)(out+298)+128;work.point.y=-96;work.point.b=2;
-    O(4)=(u32)func_0204B294((u32)owner,O(16),O(12),O(20),&work.point,0,heap);
+    O(4)=(u32)func_0204B294((void *)((u32)owner),O(16),O(12),O(20),&work.point,0,heap);
     func_0204B3DC((void *)O(4),0);
     if(desc[714]) func_0204B688((void *)O(4),1);
 }

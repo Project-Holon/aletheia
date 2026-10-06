@@ -30,7 +30,8 @@ typedef unsigned int   u32;
 struct AnmCtl;
 struct SoundSys2;
 extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
-extern int func_021AAA4C(int a, u16 *v);
+struct Self;
+extern int func_021AAA4C(struct Self *self, short *out);
 extern u16 func_0209C0A4(int a, int b);
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *p);
@@ -47,7 +48,7 @@ void func_021ADC04(u8 *w, u8 *o)
 
     v = 0;
     func_02047828(*(void **)(o + 0x28 + w[0x1c] * 0x18), 0, &z);
-    if (z == 0 && func_021AAA4C(((struct Obj05043 *)w)->f34, &v) != 0) {
+    if (z == 0 && func_021AAA4C((struct Self *)(((struct Obj05043 *)w)->f34), (short int *)(&v)) != 0) {
         v = func_0209C0A4(v, 5);
         if (v > 3)
             v = 3;

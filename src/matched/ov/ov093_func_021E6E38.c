@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int);
-extern u32 func_021C7D00(void *, int);
+extern int func_021C7D00(u8 *p, int b);
 extern int func_021C815C(void *);
 extern u8 func_021B8C20(int, u32, u32);
 struct UtilWork;

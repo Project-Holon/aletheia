@@ -48,7 +48,7 @@ struct Ctx;
 struct Sys;
 extern u32 sub_020120F0(const struct Ctx *p);
 extern u32 sub_020289B8(struct Sys *s);
-extern void  func_0215FA44(void *a);
+extern void func_0215FA44(void);
 extern void func_02188BD8(u8 *obj);
 
 int sub_02014488(void *a0, u32 *a1, u8 *a2)
@@ -72,7 +72,7 @@ int sub_02014488(void *a0, u32 *a1, u8 *a2)
             break;
         }
         if (((struct Obj05792 *)a2)->fC != 0) {
-            func_0215FA44((void *)((struct Obj05792 *)a2)->fC);
+            func_0215FA44();
         }
         return 1;
     }

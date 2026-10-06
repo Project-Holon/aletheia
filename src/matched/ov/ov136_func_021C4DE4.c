@@ -30,7 +30,7 @@ extern void func_0203FC28(struct DispConfig *);
 extern void func_0204363C(u32);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32);
-extern void func_02040B94(u32, u32, u32, u16);
+extern void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId);
 
 void func_021C4DE4(u32 *p)
 {
@@ -53,9 +53,9 @@ void func_021C4DE4(u32 *p)
     func_020414EC(2);
     func_020414EC(3);
     func_020414EC(4);
-    func_02040B94(0, 0x20, 0, *p);
-    func_02040B94(1, 0x20, 0, *p);
-    func_02040B94(2, 0x20, 0, *p);
-    func_02040B94(3, 0x20, 0, *p);
-    func_02040B94(4, 0x20, 0, *p);
+    func_02040B94(0, 0x20, 0, (u16)(*p));
+    func_02040B94(1, 0x20, 0, (u16)(*p));
+    func_02040B94(2, 0x20, 0, (u16)(*p));
+    func_02040B94(3, 0x20, 0, (u16)(*p));
+    func_02040B94(4, 0x20, 0, (u16)(*p));
 }

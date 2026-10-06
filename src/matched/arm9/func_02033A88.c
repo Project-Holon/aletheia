@@ -43,9 +43,9 @@ struct Save {
 extern const u8 str_020A78CC[];
 extern const u8 str_020A78F0[];
 extern const u8 str_020A7908[];
-extern u32  func_02033A3C(struct Save *p, u32 i);
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
-extern void func_02034734(const u8 *file, int line, const u8 *msg, u32 v, u32 max);
+extern u32 func_02033A3C(u32 *p, u32 i);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_02034734(const char *expr, u32 line, const char *file, ...);
 void func_02033A88(struct Save *p, u32 v)
 {
     struct Src *src;
@@ -64,10 +64,10 @@ void func_02033A88(struct Save *p, u32 v)
 
     for (i = 0; i < count; i++) {
         if (i != src[i].id) {
-            func_02034714(str_020A78CC, 0x9e, str_020A78F0);
+            func_02034714((const char *)str_020A78CC, 0x9e, (const char *)str_020A78F0);
         }
         dst[i].id = src[i].id;
-        size = func_02033A3C(p, i);
+        size = func_02033A3C((u32 *)p, i);
         dst[i].size = size;
         dst[i].offset = total;
         off = v + size;
@@ -80,6 +80,6 @@ void func_02033A88(struct Save *p, u32 v)
     }
     p->f0c = p->f08 + (total + p->f18);
     if (p->f0c > p->f10) {
-        func_02034734(str_020A78CC, 0xb3, str_020A7908, p->f0c, p->f10);
+        func_02034734((const char *)str_020A78CC, 0xb3, (const char *)str_020A7908, p->f0c, p->f10);
     }
 }

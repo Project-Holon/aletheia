@@ -13,7 +13,8 @@
  * note: 2026-10-05 integrator: label left open after the pengy waves; written from the listing.
  */
 
-extern void func_021FC830(void *p);
+typedef unsigned char  u8;
+extern int func_021FC830(u8 *p);
 
 void func_021FD1BC(void *p)
 {

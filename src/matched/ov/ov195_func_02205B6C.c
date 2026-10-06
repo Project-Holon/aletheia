@@ -29,7 +29,7 @@ extern void func_0204B270(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 
-void func_02205B6C(unsigned char *p, int a, int b)
+void func_02205B6C(unsigned char *p, int a, u32 b)
 {
     func_02082BCC(p, 0, 4);
     func_0204A48C(0x02208CB0, a, b);

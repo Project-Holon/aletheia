@@ -16,10 +16,12 @@
 
 typedef unsigned int u32;
 
-extern int func_02013B10(u32 a, const char *tbl, u32 n);
+typedef signed int     s32;
+typedef unsigned short u16;
+extern u32 func_02013B10(u32 id, const u16 *table, s32 count);
 extern const char d_0209DFD2[];
 
 int func_02014024(u32 a)
 {
-    return func_02013B10(a, d_0209DFD2, 5);
+    return func_02013B10(a, (const u16 *)d_0209DFD2, 5);
 }

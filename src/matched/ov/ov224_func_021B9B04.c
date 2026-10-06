@@ -10,4 +10,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021B9B04(void) {}
+void func_021B9B04(void *a0) {}

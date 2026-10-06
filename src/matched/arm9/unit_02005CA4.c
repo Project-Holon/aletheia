@@ -47,8 +47,8 @@ extern u32 *sub_0200590C(void);
 extern void sub_020059C8(void);
 extern int  sub_02005C64(void);
 extern void sub_02005F90(void);
-extern void func_02072D98(int channel, u32 value);
-extern void func_02072E7C(u32 *info, int a);
+extern void func_02072D98(u32 idx, u32 val);
+extern void func_02072E7C(void **r0, int fadeFrame);
 
 void sub_02005CBC(u32 value, u32 mask);
 void sub_02005D14(void);
@@ -91,7 +91,7 @@ void sub_02005D08(int (*hook)(void *arg))
 
 void sub_02005D14(void)
 {
-    func_02072E7C(sub_0200590C(), 0);
+    func_02072E7C((void **)sub_0200590C(), 0);
     sub_020059C8();
 }
 

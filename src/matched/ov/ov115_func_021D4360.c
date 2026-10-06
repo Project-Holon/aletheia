@@ -31,9 +31,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_0203C600(void);
-extern void func_021D5D3C(int);
-extern void func_021D5C94(int);
-extern void func_021D5ED8(int,int);
+extern void func_021D5D3C(u8 *p);
+extern void func_021D5C94(u8 *p);
+extern void func_021D5ED8(u8 *p, u32 n);
 extern u32 func_0202EB0C(void);
 extern void func_021D426C(u8 *,u32);
 extern void func_021D4310(u8 *);
@@ -43,5 +43,5 @@ extern int func_021D4644(u8 *);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))
 void func_021D4360(u8 *p) {
- if(func_0203C600()) { if(W(0x20)) { func_021D5D3C(W(0x38)); func_021D5C94(W(0x38)); if(func_0202EB0C()) func_021D5ED8(W(0x38),44); else func_021D5ED8(W(0x38),19); func_021D426C(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { func_021D426C(p,(u32)func_021D4BB4); } else { func_021D426C(p,(u32)func_021D4AB0); } } else func_021D4644(p);
+ if(func_0203C600()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); func_021D426C(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { func_021D426C(p,(u32)func_021D4BB4); } else { func_021D426C(p,(u32)func_021D4AB0); } } else func_021D4644(p);
 }

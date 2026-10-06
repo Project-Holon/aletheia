@@ -22,7 +22,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-int func_021AB140(u16 x)
+int func_021AB140(int x)
 {
     if ((u16)(x + 0xFFF8) <= 1)
         return 1;

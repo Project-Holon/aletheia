@@ -75,7 +75,8 @@ struct Sys {
 extern u8 g_0209FD90[][8];
 
 extern struct Cmd *func_02028D8C(struct Sys *s);
-extern u32 func_02028FD0(struct Sys *s, u32 kind);
+struct SoundParam;
+extern u32 func_02028FD0(struct SoundParam *obj, u32 kind);
 
 u32 func_02028E48(struct Sys *s, u32 kind)
 {
@@ -89,5 +90,5 @@ u32 func_02028E48(struct Sys *s, u32 kind)
     if (state != 0) {
         return g_0209FD90[state][kind];
     }
-    return func_02028FD0(s, kind);
+    return func_02028FD0((struct SoundParam *)s, kind);
 }

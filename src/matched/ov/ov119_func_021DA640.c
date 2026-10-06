@@ -31,7 +31,7 @@ extern void func_021DF7AC(void *,int);
 typedef unsigned int   u32;
 struct TaskMenu;
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
-extern void func_021E1410(void *,Pair *,int);
+extern void func_021E1410(void *p, int *ids, int count);
 extern void *func_021D8D4C(void **a, int b, int c, char *p);
 extern void func_021E1E00(char *p, int mode, void *mon);
 extern void func_020307B0(void *p);
@@ -53,7 +53,7 @@ void func_021DA640(char *p) {
     func_021B6558((unsigned char *)(((struct Obj02826 *)p)->f9C0),7,0);
     func_021B6558((unsigned char *)(((struct Obj02826 *)p)->f9C0),9,1);
     t=d_021E7594;
-    func_021E1410(p,&t,2);
+    func_021E1410(p,(int *)(&t),2);
     n=(int)func_021D8D4C(*(void ** *)&((struct Obj02826 *)p)->f828,((struct Obj02826 *)p)->fF98,((struct Obj02826 *)p)->fF94,p);
     ((struct Obj02826 *)p)->f10A0=zero;
     func_021E1E00(p,0,(void *)n);

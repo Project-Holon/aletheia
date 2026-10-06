@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { short x, y; u16 id; u8 a, b; } Request;
 extern const u8 d_021B7481[];
-extern void func_021B7180(u8 *, u8 *, int);
+extern void func_021B7180(char *p, char *q, int id);
 extern void func_021B71A0(int, int *, int, int, int);
 extern void func_020307B0(void *);
 extern int func_0204ACEC(void *, u32, u32, u32, u16);
@@ -49,10 +49,10 @@ void func_021B7004(u8 *p, u8 *q)
     Request req;
     if (((struct Obj01422 *)p)->f8 == 2) { step = 0x6000; base = 0; }
     else { step = 0x3000; base = 0x1c00; }
-    func_021B7180(p, q, (d_021B7481 + 4)[q[2] * 3]);
+    func_021B7180((char *)p, (char *)q, (d_021B7481 + 4)[q[2] * 3]);
     func_021B71A0((int)p, (int *)q, base, step * q[0] + 0x10000, step);
     func_020307B0(((struct Obj00476 *)q)->f10);
-    func_021B7180(p, q, d_021B7481[q[3] * 2] + ((struct Obj01422 *)p)->f10 * 2);
+    func_021B7180((char *)p, (char *)q, d_021B7481[q[3] * 2] + ((struct Obj01422 *)p)->f10 * 2);
     func_021B71A0((int)p, (int *)q, base, step * q[0] + 0x28000, step);
     func_020307B0(((struct Obj00476 *)q)->f10);
     *(int *)&((struct Obj00476 *)q)->f1C = func_0204ACEC(((struct Obj01422 *)p)->f18, (d_021B7481 + 5)[q[2] * 3], 0, (u16)((q[0] * 2 + 4) << 5), ((struct Obj01422 *)p)->f0);

@@ -26,7 +26,7 @@ struct S {
 
 extern u32 func_0201AA18(void *party);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_0216E62C(u32 a, void *mon, int c);
+extern void func_0216E62C(int a, int p, int id);
 
 void func_021B9C34(struct S *s, void *party, int c)
 {
@@ -35,7 +35,7 @@ void func_021B9C34(struct S *s, void *party, int c)
     if (*(u32 *)s->f04 - 2 > 1) {
         for (i = 0; i < (int)func_0201AA18(party); i++) {
             if (s->f04[0xc2 + i] != 0) {
-                func_0216E62C(s->f00, func_0201AB28(party, i), c);
+                func_0216E62C(s->f00, (int)func_0201AB28(party, i), c);
             }
         }
     }

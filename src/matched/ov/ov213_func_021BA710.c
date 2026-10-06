@@ -10,5 +10,5 @@
  * symbols:
  *   func_021B6284 0x021B6284 thumb ov067
  */
-extern void func_021B6284(void *);
-void func_021BA710(char *p){func_021B6284(p+8);}
+extern void func_021B6284(unsigned int *p);
+void func_021BA710(char *p){func_021B6284((unsigned int *)(p+8));}

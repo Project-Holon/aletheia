@@ -42,7 +42,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8  *func_02031EE8(void *p, void *buf);
+extern int func_02031EE8(int p0, int p1);
 struct SaveBackup;
 extern u16 func_02031E7C(struct SaveBackup *p, u8 *buf);
 
@@ -50,7 +50,7 @@ u32 func_02031EF8(void *p, void *buf, u32 sel)
 {
     u8 *q;
 
-    q = func_02031EE8(p, buf);
+    q = (u8 *)func_02031EE8((int)p, (int)buf);
 
     if (((struct Obj08816 *)q)->f4 != ((struct Obj03443 *)p)->f30)
         return 2;

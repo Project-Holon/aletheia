@@ -52,11 +52,12 @@ struct Glob
 
 typedef signed int     s32;
 extern void *func_0203D798(void);
-extern int func_020395EC(struct Peer *a);
-extern void func_0203A118(struct Peer *);
+struct Entry;
+extern int func_020395EC(struct Entry *a);
+extern void func_0203A118(u8 *p);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern struct Peer *func_0203996C(u32);
-extern void func_0203DAC4(void *);
+extern void func_0203DAC4(const u8 *mac);
 extern void OS_GetMacAddress(u8 *);
 
 void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
@@ -66,7 +67,7 @@ void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
     u32 id;
 
     g = func_0203D798();
-    id = func_020395EC(peer);
+    id = func_020395EC((struct Entry *)peer);
     if (id == 0xff)
     {
         peer->f4a = 5;
@@ -76,23 +77,23 @@ void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
     if (g->f6e != 0)
     {
         if (g->f6e != msg->f0f)
-            func_0203A118(peer);
+            func_0203A118((u8 *)peer);
         if (g->f6e != msg->f0e)
-            func_0203A118(peer);
+            func_0203A118((u8 *)peer);
     }
     else
     {
         if (g->f67 != msg->f0f)
-            func_0203A118(peer);
+            func_0203A118((u8 *)peer);
         if (g->f67 != msg->f0e)
-            func_0203A118(peer);
+            func_0203A118((u8 *)peer);
     }
 
     OS_GetMacAddress(mac);
     if (func_0203EFC8(msg->mac, mac, 6) == 0)
     {
-        if (msg->f0c != func_020395EC(peer))
-            func_0203A118(peer);
+        if (msg->f0c != func_020395EC((struct Entry *)peer))
+            func_0203A118((u8 *)peer);
     }
 
     if (peer->f4a == 7)
@@ -104,5 +105,5 @@ void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
         g->f0c(a3, msg->f0c);
 
     func_0203DAC4(msg->mac);
-    func_0203DAC4(msg);
+    func_0203DAC4((const u8 *)msg);
 }

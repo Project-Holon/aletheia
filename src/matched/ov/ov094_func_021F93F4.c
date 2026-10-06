@@ -40,7 +40,8 @@ extern char d_02209DCC[];
 
 struct ScriptVm;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0201121C(u32 heap, void *params);
+struct ScriptVmParams;
+extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
 extern void func_0201126C(struct ScriptVm *vm, void *user);
 
 void *func_021F93F4(void *a, u32 b)
@@ -60,7 +61,7 @@ void *func_021F93F4(void *a, u32 b)
         t->vcc[i] = -1;
     for (i = 0; i < 6; i++)
         t->e26c[i] = -1;
-    vm = func_0201121C(b, d_02209DCC);
+    vm = func_0201121C(b, (const struct ScriptVmParams *)d_02209DCC);
     func_0201126C(vm, t);
     return vm;
 }

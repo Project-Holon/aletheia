@@ -90,7 +90,7 @@ extern u32   func_0201D6B8(void *s);
 extern u32 func_0201D6C4(const struct Ring *p);
 extern void  func_0201D6D8(struct PrintSys *p, void *a, void *b);
 
-extern void sub_0201C808(struct PrintCtx *p, void *w, void *x, s16 y, s16 z);
+extern void sub_0201C808(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
 extern void sub_0201C8A4(struct Rec2 *p, u16 v);
 extern void sub_0201C8BC(u8 *a0, int a1);
 

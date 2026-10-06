@@ -47,7 +47,8 @@ struct GPIPeer {
     int timeout;
 };
 
-extern int func_0209477C(char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_02084F40(char *dst, char *fmt, ...);
 extern int func_02189750(void **connection, struct GPIPeer *peer, char *string);
 extern int func_0218964C(void **connection, struct GPIPeer *peer, char *string, int stringLen);
@@ -66,7 +67,7 @@ int func_0218F51C(void **connection, struct GPIPeer *peer, char *message, int le
     if (message == 0)
         message = g_021A4FEC;
     if (len == -1)
-        len = func_0209477C(message);
+        len = func_0209477C((const u8 *)message);
     func_02084F40(buffer, g_021A4FF0, len);
     result = func_02189750(connection, peer, buffer);
     if (result != 0)

@@ -36,7 +36,8 @@ extern u32 d_021BA2CC[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void*,int,u32);
 extern void func_0204335C(u32);
-extern void func_020433E0(const void*);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -59,7 +60,7 @@ void* func_021B9F10(u32 swap,u32 heap)
  *(volatile u32*)0x04001000 &= ~0xe000u;
  func_0204335C(0);
  g=d_021BA2CC;
- func_020433E0(g);
+ func_020433E0((const struct DispVram *)g);
  func_0204363C(swap);
  func_0204361C();
  func_020434CC();

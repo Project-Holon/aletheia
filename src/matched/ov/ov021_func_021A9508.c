@@ -25,8 +25,10 @@ typedef signed int     s32;
 
 struct Slot14 { u8 pad00[4]; u8 f04; u8 pad05[0xF]; };
 
-extern void func_021A9C58(void *u, void *arg, struct Slot14 *s);
-extern int func_021A996C(void *u, u8 n);
+struct Spec;
+struct Unit;
+extern void func_021A9C58(struct Unit *u, struct Spec *specs, struct Slot14 *s);
+extern int func_021A996C(struct Unit *u, u8 n);
 
 int func_021A9508(u8 *u, void *arg, struct Slot14 *slots)
 {
@@ -35,8 +37,8 @@ int func_021A9508(u8 *u, void *arg, struct Slot14 *slots)
 
     for (i = 0; i < u[0x15]; i++) {
         struct Slot14 *s = &slots[n];
-        func_021A9C58(u, arg, s);
-        if (func_021A996C(u, s->f04) == 0)
+        func_021A9C58((struct Unit *)u, arg, s);
+        if (func_021A996C((struct Unit *)u, s->f04) == 0)
             n++;
     }
     return n;

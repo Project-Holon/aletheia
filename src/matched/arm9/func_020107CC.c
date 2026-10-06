@@ -46,13 +46,13 @@ struct WihCtx {
 extern struct WihCtx g_021461E0;
 extern u8 sWihDwc;
 
-extern void func_02034714(void *dst, u32 val, void *dst2);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_0205FAA8(u8 *p, u32 v);
 
 void func_020107CC(void)
 {
     if (g_021461E0.f4 == 0) {
-        func_02034714(&sWihDwc, 0, &sWihDwc);
+        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
     }
     func_0205FAA8(g_021461E0.f4 + 0x600, 0);
 }

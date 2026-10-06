@@ -16,13 +16,14 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct Info { u8 language, color, month, day; u16 name[11], nameLength, comment[27], commentLength; u8 country, padding; } Info;
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern void func_02087D28(Info *);
+struct OSOwnerInfoEx;
+extern void func_02087D28(struct OSOwnerInfoEx *info);
 int func_0215ABEC(int a, int b) {
  u16 *p, *q;
  Info info;
  p = func_02159AE8((void *)a, (void *)b);
  q = func_02159AE8((void *)a, (void *)b);
- func_02087D28(&info);
+ func_02087D28((struct OSOwnerInfoEx *)(&info));
  *p = info.month;
  *q = info.day;
  return 0;

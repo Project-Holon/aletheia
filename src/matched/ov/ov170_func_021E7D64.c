@@ -42,21 +42,21 @@ struct WinMgr;
 extern void func_021EC000(char *, int, int);
 extern void func_021ED508(u8 *, int, int);
 extern void func_021EBA5C(char *, int);
-extern void func_021DD14C(u8 *);
+extern void func_021DD14C(char *p);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021E8FC0(u8 *, int (*)(u8 *), int);
-extern int func_021E0190(u8 *);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
 extern unsigned func_021DD25C(void ***, unsigned short, int, unsigned, unsigned);
-extern void func_021DF110(u8 *, unsigned);
+extern void func_021DF110(char *p, int b);
 extern void func_021EF6A8(struct WinMgr *mgr);
 extern void func_020061E4(unsigned);
-extern int func_021E01A8(u8 *);
+extern int func_021E01A8(char *p);
 extern void func_021EE364(char **, int, int);
 extern void func_021ED888(char *, int);
-extern void func_021ECB20(u8 *, int, int);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021ECB60(char *, int, int);
-extern void func_021EBBBC(u8 *, int);
-extern int func_021E8F50(u8 *, int);
+extern void func_021EBBBC(char *p, int b);
+extern int func_021E8F50(char *p, int v);
 int func_021E7D64(u8 *p)
 {
     switch (((struct Obj23918 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194) {
@@ -64,25 +64,25 @@ int func_021E7D64(u8 *p)
         func_021EC000(*(char * *)&((struct Obj00000 *)p)->f2C, 4, 0);
         func_021ED508(p, 14, 0);
         func_021EBA5C(*(char * *)&((struct Obj00000 *)p)->f2C, 24);
-        func_021DD14C(p);
+        func_021DD14C((char *)p);
         func_021EF57C(*(struct WinMgr * *)&((struct Obj23919 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f74);
         (((struct Obj23920 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194)++;
-        return func_021E8FC0(p, func_021E0190, 85);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 85);
     case 1:
         ((struct Obj23921 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA174 = func_021DD25C((void ***)p, p[22], p[20], 11, 0);
-        func_021DF110(p, ((struct Obj23922 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA174);
+        func_021DF110((char *)p, ((struct Obj23922 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA174);
         func_021EF6A8(*(struct WinMgr * *)&((struct Obj23923 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f74);
         func_020061E4(0x669);
         (((struct Obj23924 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194)++;
-        return func_021E8FC0(p, func_021E01A8, 85);
+        return func_021E8FC0((char *)p, (int)((int (*)(u8 *))func_021E01A8), 85);
     case 2:
         func_021EE364((char **)p, 9, 0);
         func_021ED888(*(char * *)&((struct Obj00000 *)p)->f2C, 0);
-        func_021ECB20(p, 1, 1);
-        func_021ECB20(p, 2, 1);
+        func_021ECB20((char *)p, 1, 1);
+        func_021ECB20((char *)p, 2, 1);
         func_021ECB60(*(char * *)&((struct Obj00000 *)p)->f2C, p[22], 0);
-        func_021EBBBC(p, 24);
-        return func_021E8F50(p, 86);
+        func_021EBBBC((char *)p, 24);
+        return func_021E8F50((char *)p, 86);
     }
     return 85;
 }

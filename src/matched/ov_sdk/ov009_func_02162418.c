@@ -52,8 +52,10 @@ extern unsigned long func_0216003C(void);
 extern void func_02162128(unsigned char *d, int len);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned short port);
-extern unsigned long func_0215B198(unsigned char *buf, unsigned long len, unsigned char *buf2,
-                                   unsigned long len2, CPSSoc *soc);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct _CPSSoc;
+extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 extern void func_02161C54(CPSSslConnection *con, unsigned char *s, unsigned long len);
 
 static void func_02162418(CPSSoc *soc)
@@ -108,7 +110,7 @@ static void func_02162418(CPSSoc *soc)
     buf[6] = (i - 4) >> 16;
     buf[7] = (i - 4) >> 8;
     buf[8] = i - 4;
-    func_0215B198(buf, i + 5, 0, 0, soc);
+    func_0215B198(buf, i + 5, 0, 0, (struct _CPSSoc *)soc);
     func_02161C54(con, buf + 5, i);
     g_021A82B0(buf);
 }

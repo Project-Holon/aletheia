@@ -35,7 +35,7 @@ extern void func_021F3C40(char *,int *);
 extern int func_021F33C0(char *),func_021F23E4(char *),func_021F3304(char *);
 extern int func_021F2828(const char *,int,Pair *);
 extern void func_021F2818(char *a, int b, int c);
-extern void func_021F1BFC(char *,int,const Rect *);
+extern void func_021F1BFC(char *p, int sel, const void *rect);
 void func_021F31F4(char *p,char *q)
 {
     int out0[4];

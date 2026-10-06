@@ -66,7 +66,8 @@ extern void func_0219F058(u32 a, u16 *o1, u16 *o2);
 extern void func_021A35E0(u32 *p, u32 heap);
 extern void func_021A3664(u32 *p, u32 heap);
 extern void func_021A305C(char *p, u32 b);
-extern VecFx32 *func_02012AB8(void *r);
+struct H4;
+extern struct H4 *func_02012AB8(struct Rec44 *p);
 extern void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16 g);
 extern void *func_0216D888(void *m);
 extern void func_02188D40(u8 *p, u32 v);
@@ -97,7 +98,7 @@ void func_021A6E30(void *o, VecFx32 *pos, u16 e)
         func_021A305C(h->f04, e);
         func_021A7258(o, h, mode, pos, e, anim[0], anim[1]);
     } else {
-        anchor = func_02012AB8(r);
+        anchor = (VecFx32 *)func_02012AB8(r);
         func_021A3664(h->f04, heap);
         func_021A35E0(h->f04, heap);
         func_021A305C(h->f04, e);

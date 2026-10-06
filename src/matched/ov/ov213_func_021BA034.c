@@ -30,8 +30,8 @@ extern int func_021B9E50(u32),func_021B9E80(u32);
 extern void func_021BA8F4(char *p, int v);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B84C(void*,u32);
-extern void func_021BA1C8(struct C*,void*,const u8*,int);
-void func_021BA034(struct C *p,int time)
+extern void func_021BA1C8(char *p, void *list, const u8 *flags, int index);
+void func_021BA034(struct C *p, u32 time)
 {
     int i=p->step-time;
     int x,y;
@@ -50,7 +50,7 @@ void func_021BA034(struct C *p,int time)
         pos=zero; pos.x=x; pos.y=y;
         func_021BA8F4(p->parent,(int)(&pos));
         if(func_021B9E80(p->kind)) func_0204B3DC(p->obj[i],1);
-        else func_021BA1C8(p,p->owner,p->types,p->count-1-i);
+        else func_021BA1C8((char *)p,p->owner,p->types,p->count-1-i);
     } else {
         for(i=0;i<p->count;i++) func_0204B84C(p->obj[i],1);
         p->active=0;

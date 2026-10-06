@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef struct {unsigned char a,b,c,pad;u16 first,second,third;} Config;
 struct ArcFile;struct NitroFileHeader;
 extern const Config configA,configB;
-extern u32 func_0202DA04(int);
+extern int func_0202DA04(int a0);
 extern void func_021BC3E4(u16 *,int *,const Config *,u32);
 extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02049250(struct ArcFile *,u32,u32);
@@ -42,7 +42,8 @@ extern int func_02062A98(struct NitroFileHeader *,void **);
 extern int func_02062A00(struct NitroFileHeader *,void **);
 extern void func_02049238(void *);
 extern u32 func_0202DA48(u32,u32,u32,u32);
-extern u32 func_0202DA18(u32,u32,u32,u16,u16);
+typedef signed int     s32;
+extern s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern int func_0202DA6C(int,int,int,int);
 void func_021BC454(char *p,u32 handle)
 {
@@ -66,7 +67,7 @@ void func_021BC454(char *p,u32 handle)
     for(i=0;i<2;i++){
         char *q=p+i*12;
         ((struct Obj10946 *)q)->f6C=func_0202DA48(((struct Obj01783 *)p)->f58,i+2,1,((struct Obj01783 *)p)->f0);
-        ((struct Obj10946 *)q)->f68=func_0202DA18(((struct Obj01783 *)p)->f58,i+2,1,(i+8)<<5,((struct Obj01783 *)p)->f0);
+        ((struct Obj10946 *)q)->f68=(u32)func_0202DA18(((struct Obj01783 *)p)->f58,i+2,1,(u16)((i+8)<<5),((struct Obj01783 *)p)->f0);
         ((struct Obj10946 *)q)->f70=func_0202DA6C(i+2,0,1,((struct Obj01783 *)p)->f0);
     }
 }

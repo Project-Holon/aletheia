@@ -23,8 +23,9 @@ typedef struct {u16 index,member;} Entry;
 extern const Entry d_02185E18[];
 extern void *func_02046DB8(unsigned,unsigned),*func_02047400(void *,unsigned,void *),*func_0204767C(unsigned,unsigned *,int);
 extern int func_02046FF8(int *);
-extern void func_02185728(void *),func_02185824(void *);
-void func_02185580(char *p)
+extern void func_02185728(char *p);
+extern void func_02185824(char *p);
+void func_02185580(char *p, void *arc)
 {
     unsigned i;
     char *row;

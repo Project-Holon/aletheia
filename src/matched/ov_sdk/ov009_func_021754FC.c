@@ -17,12 +17,12 @@
  */
 
 extern int func_02175F3C(void);
-extern int *func_0217637C(int index);
+extern char *func_0217637C(int index);
 
 int func_021754FC(void)
 {
     int r = 0;
-    int *node = func_0217637C(r);
+    int *node = (int *)func_0217637C(r);
 
     if (node != 0 && *node == *(int *)(func_02175F3C() + 0x678)) {
         r = 1;

@@ -23,8 +23,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern u8 *func_02048F60(u32, u32, u32);
-extern u16 *func_020081DC(void *, int, u16);
+struct Item;
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern struct Item *func_020081DC(u8 *base, u32 id, u32 index);
 extern void func_020307B0(void *);
 extern const u8 d_0220DB3C[];
 extern const u8 d_0220DB3F[];
@@ -40,7 +41,7 @@ void func_0220BA2C(u8 *p)
     do {
         j = 0;
         for (;;) {
-            r = func_020081DC(**(void ***)p, d_0220DB3C[i], (u16)j);
+            r = (u16 *)func_020081DC(**(void ***)p, d_0220DB3C[i], (u16)j);
             if (r == 0)
                 break;
             if (r[0] != 0 && r[1] != 0) {

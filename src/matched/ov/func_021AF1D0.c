@@ -24,7 +24,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020120F4(u32, u32, u32, u32);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *);
 struct S;
@@ -32,7 +33,7 @@ extern void func_02028BDC(struct S *s, u32 mask);
 
 int func_021AF1D0(u32 a, u32 b, u32 c, u32 d)
 {
-func_02028BDC((struct S *)func_02012A30((const struct BigObj *)func_020120F4(((struct Obj18089 *)((u8 *)(a)))->f0, b, c, d)), 2);
+func_02028BDC((struct S *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)(((struct Obj18089 *)((u8 *)(a)))->f0))), 2);
 return 1;
 }
 

@@ -18,9 +18,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Q Q;
 typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R;
-extern void func_021C6CBC(Q *q);
+extern void func_021C6CBC(void);
 void func_021C6E94(R *r, int i)
 {
     if (r->f4[i] != 0)
-        func_021C6CBC(r->f4[i]);
+        func_021C6CBC();
 }

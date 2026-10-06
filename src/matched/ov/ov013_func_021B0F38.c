@@ -96,7 +96,9 @@ extern void func_021B1720(u32 x);
 extern void func_021B133C(u32 x);
 extern void func_021B1790(void);
 extern void func_021B1398(void);
-extern int func_021B1B94(Chan *ch, Voice *v);
+struct Pkt;
+struct Src;
+extern int func_021B1B94(struct Src *s, struct Pkt *pkt);
 struct Node;
 extern int func_021B1404(struct Node *n);
 extern void func_021B2FE4(Voice *v);
@@ -164,7 +166,7 @@ int func_021B0F38(u32 id, Frame *hdr, u32 size, u64 tick)
     v->f45C = hdr->f5 & 0x80;
     v->f460 = hdr->f8;
     v->f18 = hdr->f6;
-    if (func_021B1B94(ch, v) == 0) {
+    if (func_021B1B94((struct Src *)ch, (struct Pkt *)v) == 0) {
         func_021B2FE4(v);
         return 0;
     }

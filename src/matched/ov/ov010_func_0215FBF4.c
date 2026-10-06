@@ -34,7 +34,8 @@ extern void func_0201232C(char *p, int a1, int a2);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
-extern void func_0215FA54();
+struct Work;
+extern int func_0215FA54(void *evt, u32 *state, struct Work *w);
 
 /* record behind the descriptor: owner, its context, the context's head */
 struct Rec {

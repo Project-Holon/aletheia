@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { u16 h[6]; u8 f0c; };
-extern void func_021D5208(void *, u32, u32);
+extern void func_021D5208(struct S *p, u32 a, u32 b);
 void func_021D51DC(struct S *p, u32 a, u32 b, u32 c)
 {
     if (c != 0) {
@@ -25,7 +25,7 @@ void func_021D51DC(struct S *p, u32 a, u32 b, u32 c)
             p->h[5] = p->h[2];
         }
     } else {
-        func_021D5208(p->h + 3, a, b);
+        func_021D5208((struct S *)(p->h + 3), a, b);
         p->f0c = 0;
     }
 }

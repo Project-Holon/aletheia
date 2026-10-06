@@ -29,7 +29,7 @@ extern u32 func_021BF7CC(void *);
 extern u32 func_021BF968(u8 *);
 extern u32 func_0200E3A4(const u8 *, int);
 extern u32 func_021C2644(void *, u32, u8);
-u32 func_021BF910(u8 *p)
+u32 func_021BF910(u8 *p, u32 a1)
 {
     void *bits;
     u32 index;

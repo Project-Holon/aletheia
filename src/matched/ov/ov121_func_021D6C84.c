@@ -16,7 +16,8 @@
 #include "../include/Obj13938.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021DAAA4(int, u16 *, u16, int, u8, u16, u16);
+typedef signed int     s32;
+extern s32 func_021DAAA4(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
 static inline int wrap(int n, u16 *p)
 {
     if (*p + n >= 65536) return *p + n - 65536;

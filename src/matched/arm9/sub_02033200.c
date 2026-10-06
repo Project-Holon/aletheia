@@ -45,14 +45,14 @@ struct SaveBackup {
 extern struct { u8 pad000[0x208]; u32 unk208; } *unk_02146994;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern u32 func_02031EAC(struct SaveBackup *p, u32 id);
+extern u32 func_02031EAC(u32 *p, u32 sel);
 extern u32 func_020335AC(u32 a, u32 b, u32 c, u32 d);
 
-void sub_02033200(struct SaveBackup *p, u32 id)
+u32 sub_02033200(struct SaveBackup *p, u32 id)
 {
     u8 tmp[0x10];
 
     MI_CpuFill8(tmp, 0xFF, sizeof(tmp));
-    func_020335AC(p->unk30 + func_02031EAC(p, id) - 0x10, (u32)tmp, sizeof(tmp),
+    return func_020335AC(p->unk30 + func_02031EAC((u32 *)p, id) - 0x10, (u32)tmp, sizeof(tmp),
                   unk_02146994->unk208);
 }

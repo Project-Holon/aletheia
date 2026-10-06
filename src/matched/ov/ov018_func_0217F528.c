@@ -35,14 +35,16 @@ extern unsigned char d_02183B2C[];
 
 struct Ctx;
 void *func_0201210C(const struct Ctx *p);
-void func_02034714(void *, int, void *);
-void *func_02190708(void *, void *, u16, u16, u16, u16);
+typedef unsigned int   u32;
+struct Fx;
+void func_02034714(const char *expr, u32 line, const char *file);
+void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
 
 void func_0217F528(Ov018Obj *p, int a, int b, int c, int d, int e)
 {
     func_0201210C((void *)a);
     if (p->f20 != 0) {
-        func_02034714(d_02183B2C, 0, d_02183B2C);
+        func_02034714((const char *)d_02183B2C, (int)0, (const char *)d_02183B2C);
     }
-    p->f20 = func_02190708(p->f24, p->f0C, b, c, d, e);
+    p->f20 = func_02190708(p->f24, (u32)p->f0C, (u16)b, (u16)c, d, e);
 }

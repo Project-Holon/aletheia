@@ -15,5 +15,7 @@
 typedef unsigned int u32;
 typedef struct { short x,y; } Pt;
 extern int func_021BA774(char *p, int i);
-extern void func_0204B404(void *,void *,int);
-void func_021BAF3C(u32 *p,const u32 *v) { Pt t; if(p[1]!=0) { t.x=v[0]+func_021BA774((char *)p[1],2); t.y=v[1]+func_021BA774((char *)p[1],3); } func_0204B404((void *)p[0],&t,0); }
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+void func_021BAF3C(u32 *p,const u32 *v) { Pt t; if(p[1]!=0) { t.x=v[0]+func_021BA774((char *)p[1],2); t.y=v[1]+func_021BA774((char *)p[1],3); } func_0204B404((void *)p[0],(const struct Vec2 *)(&t),0); }

@@ -30,7 +30,7 @@ typedef unsigned short u16;
 extern void func_021F26F0(char *p, char *target, void *window, void *font, u16 heap);
 extern void func_02040AE0(unsigned,const void *,unsigned);extern void func_02040588(unsigned,unsigned);extern void func_020409B4(unsigned);
 extern void func_021F2884(int *,int,int);
-void func_021F35A8(char *p,int mode) {
+void func_021F35A8(char *p, u32 mode) {
  int index;
  if(((struct Obj01773 *)p)->f100==mode)return;
  func_021F2608(p);

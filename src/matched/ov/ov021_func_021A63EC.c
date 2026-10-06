@@ -14,6 +14,6 @@
  * symbols:
  */
 
-void func_021A63EC(void)
+void func_021A63EC(void *a, void *b, int c, int d, int e, int f)
 {
 }

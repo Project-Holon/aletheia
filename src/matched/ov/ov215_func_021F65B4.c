@@ -11,4 +11,4 @@
  * extent: two-byte alignment padding follows the body.
  */
 
-void func_021F65B4(void){}
+void func_021F65B4(void *a0){}

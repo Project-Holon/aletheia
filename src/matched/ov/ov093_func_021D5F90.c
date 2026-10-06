@@ -14,7 +14,7 @@
 #include "../include/Obj07797.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_021D5F90(u8 *p, unsigned int n)
+void func_021D5F90(u8 *p, u16 n)
 {
     if (((struct Obj07797 *)p)->f10 > n) {
         ((struct Obj07797 *)p)->f10 = ((struct Obj07797 *)p)->f10 - n;

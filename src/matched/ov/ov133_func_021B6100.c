@@ -33,15 +33,23 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_021BA600[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_021B69AC(u8 *),func_021B6BA4(u8 *),func_021B6E74(u8 *),func_021B6F00(u8 *),func_021B9DE8(u8 *),func_021B9B48(u8 *),func_021B6884(u8 *);
+struct Big;
+extern void func_021B69AC(u8 *);
+extern void func_021B6BA4(u8 *);
+extern void func_021B6E74(u8 *);
+extern void func_021B6F00(u8 *);
+extern void func_021B9DE8(u8 *);
+extern void func_021B9B48(u8 *);
+extern void func_021B6884(void *unused, u8 *p);
 extern void *func_020056A0(void *,void *,int);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021B9028(u8 *,int,u16);
-extern u32 func_0200A828(u32);
-extern void func_0200A834(u32,u32);
+struct Big;
+extern u32 func_0200A828(struct Big *p);
+extern void func_0200A834(struct Big *p, u8 value);
 extern void func_02005D90(int,int);
 extern void func_0203D34C(u32,u32);
-u8 *func_021B6100(u8 *parent, u16 heap)
+u8 *func_021B6100(u8 *parent, int heap)
 {
     u8 *p = func_02030734(heap, 0x18f0, 1, d_021BA600, 0x1de);
     u32 t, m;
@@ -94,8 +102,8 @@ u8 *func_021B6100(u8 *parent, u16 heap)
     *(u32 *)(p + 0x98) = 1;
     *(u32 *)(p + 0x9c) = 0;
     *(u32 *)(p + 0xa0) = *(u16 *)(p + 0x182c) % 0x1249 + 0x10000;
-    if (func_0200A828(*(u32 *)(*(u8 **)(p + 4) + 8)) == 0) {
-        func_0200A834(*(u32 *)(*(u8 **)(p + 4) + 8), 1);
+    if (func_0200A828((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8))) == 0) {
+        func_0200A834((struct Big *)(*(u32 *)(*(u8 **)(p + 4) + 8)), 1);
         *(u32 *)(p + 0x1840) = 1;
     } else {
         *(u32 *)(p + 0x1840) = 0;

@@ -45,9 +45,19 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 extern int func_021B7268(char *,int),func_021B723C(char *,int,int),func_021B7210(char *,int),func_021B72B0(char *,int),func_021B74B4(char *,int);
 extern void func_020061E4(u32);
-extern int func_02006254(u32),func_02006A64(u32),func_02006BD0(u32);
+typedef signed short   s16;
+extern int func_02006254(u32);
+extern int func_02006A64(u32);
+extern u32 func_02006BD0(u32 i);
 extern void func_021B654C(char *),func_021B65A0(char *),func_021B6778(char *),func_021B67EC(char *),func_021B761C(char *),func_021B78E0(char *),func_021B7C08(char *),func_021B7750(char *),func_021B727C(char *);
-extern void func_021B67C4(char *,int),func_021B682C(int *,int),func_021B7408(char *,int,short *,short *),func_021B7438(char *,int,short,short),func_021B746C(int *,int,int),func_021B7488(char *,int,u16),func_021B681C(int *),func_021B67B4(int *);
+extern void func_021B67C4(char *,int);
+extern void func_021B682C(int *,int);
+extern void func_021B7408(u8 *p, int n, s16 *x, s16 *y);
+extern void func_021B7438(u8 *p, int n, int x, int y);
+extern void func_021B746C(int *,int,int);
+extern void func_021B7488(u8 *p, int n, int v);
+extern void func_021B681C(int *);
+extern void func_021B67B4(int *);
 int func_021B6BAC(char *p) {
     short coords[12];
     int busy;
@@ -59,30 +69,30 @@ int func_021B6BAC(char *p) {
         func_020061E4(0x79A);func_021B654C(p);func_021B65A0(p);func_021B6778(p);func_021B67EC(p);func_021B761C(p);func_021B78E0(p);func_021B7C08(p);func_021B7750(p);
         ++((struct Obj00299 *)p)->f9190;return func_021B7210(p,5);
     }break;
-    case 4: if(((struct Obj00299 *)p)->f9188==22){++((struct Obj00299 *)p)->f9190;return func_021B7268(p,8);}else{func_021B7438(p,1,-16,0);++((struct Obj00299 *)p)->f9188;}break;
+    case 4: if(((struct Obj00299 *)p)->f9188==22){++((struct Obj00299 *)p)->f9190;return func_021B7268(p,8);}else{func_021B7438((u8 *)p,1,-16,0);++((struct Obj00299 *)p)->f9188;}break;
     case 5: func_021B67C4(p,0);func_021B67C4(p,1);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,8);
     case 6: func_021B682C((int *)p,1);++((struct Obj00299 *)p)->f9190;
     case 7:
-        func_021B7408(p,2,&coords[11],&coords[10]);
-        if(coords[11]!=168)func_021B7438(p,2,16,0);
+        func_021B7408((u8 *)p,2,&coords[11],&coords[10]);
+        if(coords[11]!=168)func_021B7438((u8 *)p,2,16,0);
         else{func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[11];((struct Obj00299 *)p)->f9162=coords[10];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
     case 8: func_021B682C((int *)p,0);++((struct Obj00299 *)p)->f9190;
     case 9:
-        busy=func_021B72B0(p,2);func_021B7408(p,3,&coords[9],&coords[8]);
-        if(coords[9]!=88)func_021B7438(p,3,-16,0);
+        busy=func_021B72B0(p,2);func_021B7408((u8 *)p,3,&coords[9],&coords[8]);
+        if(coords[9]!=88)func_021B7438((u8 *)p,3,-16,0);
         else if(busy==0){func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[9];((struct Obj00299 *)p)->f9162=coords[8];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
     case 10:
-        busy=func_021B72B0(p,3);func_021B7408(p,0,&coords[7],&coords[6]);
-        if(coords[7]!=48)func_021B7438(p,0,16,0);
+        busy=func_021B72B0(p,3);func_021B7408((u8 *)p,0,&coords[7],&coords[6]);
+        if(coords[7]!=48)func_021B7438((u8 *)p,0,16,0);
         else if(busy==0){func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[7];((struct Obj00299 *)p)->f9162=coords[6];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
-    case 11: if(func_021B72B0(p,0)==0){func_02006A64(((struct Obj00299 *)p)->f9184);func_021B746C((int *)p,4,1);func_021B7488(p,4,6);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,128);}break;
+    case 11: if(func_021B72B0(p,0)==0){func_02006A64(((struct Obj00299 *)p)->f9184);func_021B746C((int *)p,4,1);func_021B7488((u8 *)p,4,6);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,128);}break;
     case 12: if(func_02006BD0(((struct Obj00299 *)p)->f9184)==0 && func_021B74B4(p,4)==0)++((struct Obj00299 *)p)->f9190;break;
-    case 13: func_021B7408(p,0,&coords[5],&coords[4]);if(coords[5]!=-48)func_021B7438(p,0,-16,0);else ++((struct Obj00299 *)p)->f9190;break;
-    case 14: func_021B7408(p,3,&coords[3],&coords[2]);if(coords[3]!=264)func_021B7438(p,3,16,0);else ++((struct Obj00299 *)p)->f9190;func_021B7C08(p);break;
-    case 15: func_021B7408(p,2,&coords[1],&coords[0]);if(coords[1]!=-8){func_021B7438(p,2,-16,0);func_021B7C08(p);}else{++((struct Obj00299 *)p)->f9190;return func_021B723C(p,5,6);}break;
+    case 13: func_021B7408((u8 *)p,0,&coords[5],&coords[4]);if(coords[5]!=-48)func_021B7438((u8 *)p,0,-16,0);else ++((struct Obj00299 *)p)->f9190;break;
+    case 14: func_021B7408((u8 *)p,3,&coords[3],&coords[2]);if(coords[3]!=264)func_021B7438((u8 *)p,3,16,0);else ++((struct Obj00299 *)p)->f9190;func_021B7C08(p);break;
+    case 15: func_021B7408((u8 *)p,2,&coords[1],&coords[0]);if(coords[1]!=-8){func_021B7438((u8 *)p,2,-16,0);func_021B7C08(p);}else{++((struct Obj00299 *)p)->f9190;return func_021B723C(p,5,6);}break;
     case 16: func_021B681C((int *)p);func_021B67B4((int *)p);++((struct Obj00299 *)p)->f915D;if(((struct Obj00299 *)p)->f915D==((struct Obj00299 *)p)->f915E){((struct Obj00299 *)p)->f915D=0;((struct Obj00299 *)p)->f9190=0;return 6;}else ((struct Obj00299 *)p)->f9190=3;break;
     }
     return 5;

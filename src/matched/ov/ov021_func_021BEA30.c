@@ -30,13 +30,14 @@ typedef unsigned char  u8;
 struct Desc;
 int func_021BEE74(u32 p0, int *st, u8 *q);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-Ent *func_020124E8(int h);
+struct Obj;
+void *func_020124E8(struct Obj *p);
 int func_021BEA6C(int a);
 
-int func_021BEA30(int a, int b, int c, int d)
+u32 func_021BEA30(u32 a, u32 b, u32 c, u32 d)
 {
     int h = (int)func_020122C0((void *)a, 0, func_021BEE74, 0x2c);
-    Ent *e = func_020124E8(h);
+    Ent *e = func_020124E8((struct Obj *)h);
     e->f0 = a;
     e->f4 = b;
     e->f8 = c;

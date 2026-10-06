@@ -33,7 +33,7 @@ typedef int BOOL;
 
 extern int func_02156B8C(void);
 
-BOOL func_021BF050(void)
+BOOL func_021BF050(char *p)
 {
     if (func_02156B8C() != -1) {
         return 1;

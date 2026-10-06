@@ -18,8 +18,8 @@ typedef struct {unsigned short heap,alternate;int config;int ended;int done;int 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021BF8E8(Context *);
-extern int func_021BF964(Context *,char *,int *);
+extern void func_021BF8E8(char *p);
+extern int func_021BF964(char *p, char *owner, int *index);
 extern const char d_021C3D4C[];
 Context *func_021BF7C0(char *owner,unsigned heap)
 {
@@ -27,7 +27,7 @@ Context *func_021BF7C0(char *owner,unsigned heap)
     p=func_02030734(heap,0x30,1,d_021C3D4C,78);
     p->owner=owner;p->heap=heap;p->alternate=(heap&0x7FFF)|0x8000;
     p->config=((struct Obj10867 *)owner)->f78;p->previous=-1;
-    func_021BF8E8(p);
-    p->ended=func_021BF964(p,owner,&p->index);
+    func_021BF8E8((char *)p);
+    p->ended=func_021BF964((char *)p,owner,&p->index);
     return p;
 }

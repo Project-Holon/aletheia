@@ -78,20 +78,24 @@ extern const char str_020A7848[];
 extern void  func_020333F8(Save *self);
 static inline u16 cnt16(u8 *p){ return ((struct Obj15881 *)p)->f0; }
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern u32   func_02031EAC(Save *self, u32 sel);
+struct MATHCRC16Table;
+struct Obj020332FC;
+struct Obj02033410;
+struct Obj02033BF0;
+extern u32 func_02031EAC(u32 *p, u32 sel);
 extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
-extern void  func_02033410(Save *self, u32 a);
+extern void func_02033410(struct Obj02033410 *p, u32 val);
 extern void  func_02082A7C(u32 v, void *dst, u32 size);
 extern void  func_020307B0(void *p);
 extern void  func_02082A60(const void *src, void *dst, u32 size);
 extern void func_02031F9C(u32 *out, void *p, void *buf, u32 sel);
-extern u32   func_02033BF0(u8 *tbl);
-extern void  func_0203331C(Save *self, u32 idx, u32 v);
+extern u32 func_02033BF0(struct Obj02033BF0 *p);
+extern void func_0203331C(struct Obj020332FC *p, u32 idx, u32 val);
 extern u32   func_02033B68(u8 *tbl, u32 idx);
 extern u32   func_02033BAC(u8 *tbl, u32 idx);
-extern u16   func_02081B8C(const void *table, const void *p, u32 size);
-extern u32   func_020332FC(Save *self, u32 idx);
-extern void  func_02031F94(Save *self, u32 gen);
+extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
+extern u32 func_020332FC(struct Obj020332FC *p, u32 idx);
+extern void func_02031F94(int *p, int v);
 
 int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
 {
@@ -118,19 +122,19 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
     func_020333F8(self);
     h = self->f34;
     buf = func_02030734((u16)heap, self->f30, 0, str_020A7848, 0x429);
-    okA = func_020335E8(func_02031EAC(self, 1), (u32)h, self->f30, (void (*)(void))g_02146994->unk204);
-    okB = func_020335E8(func_02031EAC(self, 2), (u32)buf, self->f30, (void (*)(void))g_02146994->unk204);
+    okA = func_020335E8(func_02031EAC((u32 *)self, 1), (u32)h, self->f30, (void (*)(void))g_02146994->unk204);
+    okB = func_020335E8(func_02031EAC((u32 *)self, 2), (u32)buf, self->f30, (void (*)(void))g_02146994->unk204);
     if (okA == 0 && okB == 0) {
-        func_02033410(self, 1);
+        func_02033410((struct Obj02033410 *)self, 1);
         func_02082A7C(0, h, self->f30);
         func_020307B0(buf);
         return 0;
     }
     if (okA == 1 && okB == 0) {
-        func_02033410(self, 2);
+        func_02033410((struct Obj02033410 *)self, 2);
         func_02082A60(h, buf, self->f30);
     } else if (okA == 0 && okB == 1) {
-        func_02033410(self, 1);
+        func_02033410((struct Obj02033410 *)self, 1);
         func_02082A60(buf, h, self->f30);
     }
 
@@ -145,25 +149,25 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
 
     if (pairA[0] == 0) {
         if (pairB[0] != 0) {
-        func_0203331C(self, func_02033BF0(self->f2c), 2);
-        func_0203331C(self, func_02033BF0(self->f2c) + 1, 2);
+        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 2);
+        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 2);
         off = self->f30 - 0x10 - self->f140;
         func_02082A60(h + off, buf + off, self->f140 + 0x10);
         }
     } else if (pairB[0] == 0) {
         if (pairA[0] != 0) {
-        func_0203331C(self, func_02033BF0(self->f2c), 1);
-        func_0203331C(self, func_02033BF0(self->f2c) + 1, 1);
+        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 1);
+        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 1);
         off = self->f30 - 0x10 - self->f140;
         func_02082A60(buf + off, h + off, self->f140 + 0x10);
         }
     } else {
         if (pairA[0] == 1 || pairB[0] == 1) {
-            func_02033410(self, 1);
+            func_02033410((struct Obj02033410 *)self, 1);
             func_020307B0(buf);
             return 3;
         }
-        func_02033410(self, 1);
+        func_02033410((struct Obj02033410 *)self, 1);
         func_020307B0(buf);
         return 0;
     }
@@ -190,69 +194,69 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
         off = self->f30 - 0x10 - self->f140;
         cur = bufs[k];
         tbl = (u16 *)(bufs[k] + off);
-        for (i = 0; i < func_02033BF0(self->f2c); i++) {
+        for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++) {
             A = func_02033B68(self->f2c, i);
             B = func_02033BAC(self->f2c, i);
             AB = A + B;
             pa = h + AB;
             pb = buf + AB;
-            func_0203331C(self, i, 0);
+            func_0203331C((struct Obj020332FC *)self, i, 0);
             if (((struct Obj08817 *)pa)->f2 != tbl[i]
                 && ((struct Obj08818 *)pb)->f2 != tbl[i])
                 break;
             if (((struct Obj08817 *)pa)->f2 == tbl[i]) {
-                if (((struct Obj08817 *)pa)->f2 != func_02081B8C((u8 *)g_02146994 + 4, h + A, B))
-                    func_0203331C(self, i, 1);
+                if (((struct Obj08817 *)pa)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)g_02146994 + 4), h + A, B))
+                    func_0203331C((struct Obj020332FC *)self, i, 1);
             } else {
-                func_0203331C(self, i, 1);
+                func_0203331C((struct Obj020332FC *)self, i, 1);
             }
             if (((struct Obj08818 *)pb)->f2 == tbl[i]) {
-                if (((struct Obj08818 *)pb)->f2 != func_02081B8C((u8 *)g_02146994 + 4, buf + A, B)) {
-                    if (func_020332FC(self, i) == 1)
+                if (((struct Obj08818 *)pb)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)g_02146994 + 4), buf + A, B)) {
+                    if (func_020332FC((struct Obj020332FC *)self, i) == 1)
                         break;
-                    func_0203331C(self, i, 2);
+                    func_0203331C((struct Obj020332FC *)self, i, 2);
                 }
             } else {
-                if (func_020332FC(self, i) == 1)
+                if (func_020332FC((struct Obj020332FC *)self, i) == 1)
                     break;
-                func_0203331C(self, i, 2);
+                func_0203331C((struct Obj020332FC *)self, i, 2);
             }
-            if (func_020332FC(self, i) == 0) {
+            if (func_020332FC((struct Obj020332FC *)self, i) == 0) {
                 if (cnt16(pa) != *(u16 *)(bufs[k] + AB))
-                    func_0203331C(self, i, 1);
+                    func_0203331C((struct Obj020332FC *)self, i, 1);
                 if (cnt16(pb) != *(u16 *)(bufs[k] + AB)) {
-                    if (func_020332FC(self, i) == 1)
+                    if (func_020332FC((struct Obj020332FC *)self, i) == 1)
                         break;
-                    func_0203331C(self, i, 2);
+                    func_0203331C((struct Obj020332FC *)self, i, 2);
                 }
             }
         }
-        if (i >= func_02033BF0(self->f2c)) {
+        if (i >= func_02033BF0((struct Obj02033BF0 *)self->f2c)) {
             u32 id = ids[k ^ 1];
 
-            func_0203331C(self, func_02033BF0(self->f2c) + 1, id);
-            func_0203331C(self, func_02033BF0(self->f2c), id);
+            func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, id);
+            func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), id);
             break;
         }
     }
     if (k >= 2) {
-        func_02033410(self, 1);
+        func_02033410((struct Obj02033410 *)self, 1);
         func_020307B0(buf);
         return 3;
     }
 
     off = self->f30 - 0x10 - self->f140;
     func_02082A60(bufs[k] + off, h + off, self->f140 + 0x10);
-    for (i = 0; i < func_02033BF0(self->f2c); i++) {
-        if (func_020332FC(self, i) == 1) {
+    for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++) {
+        if (func_020332FC((struct Obj020332FC *)self, i) == 1) {
             A = func_02033B68(self->f2c, i);
             B = func_02033BAC(self->f2c, i);
             func_02082A60(buf + A, h + A, B + 4);
         }
     }
-    func_02031F94(self, gens[k]);
+    func_02031F94((int *)self, gens[k]);
     func_020307B0(buf);
-    for (i = 0; i < func_02033BF0(self->f2c); i++)
-        func_020332FC(self, i);
+    for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++)
+        func_020332FC((struct Obj020332FC *)self, i);
     return 1;
 }

@@ -61,8 +61,10 @@ struct Pltt {
 typedef void (*LoadFn)(u32 data, u32 dest, u32 size);
 extern const LoadFn g_020A1364[];
 
-extern int  func_02062AD4(void *file, u16 **pmcp);
-extern int  func_02062A98(void *file, struct Pltt **pltt);
+typedef signed int     s32;
+struct NitroFileHeader;
+extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void func_020862F0(u32 addr, u32 size);
 extern void func_0207F308(void);
 extern void func_0207F428(void);
@@ -82,8 +84,8 @@ void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size)
 
     if (file == 0)
         return;
-    cmp = func_02062AD4(file, &pmcp);
-    if (func_02062A98(file, &pltt) != 0) {
+    cmp = func_02062AD4(file, (void **)(&pmcp));
+    if (func_02062A98(file, (void **)(&pltt)) != 0) {
         pltt->data += offset;
         if (size == 0) {
             if (cmp == 0)

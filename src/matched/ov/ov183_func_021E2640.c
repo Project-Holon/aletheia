@@ -32,7 +32,7 @@ extern void func_021FD71C(u8 *p);
 extern int func_021FD72C(int *p);
 extern void func_021FD854(char *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_021FD1BC(int);
+extern void func_021FD1BC(void *p);
 extern int func_021FC830(u8 *p);
 int func_021E2640(int a,int b,int c,char *p)
 {
@@ -45,7 +45,7 @@ int func_021E2640(int a,int b,int c,char *p)
     if (func_021FD72C((int *)(((struct Obj03883 *)p)->fC))) return 1;
     for (i=0;i<2;i++) func_021FD854((char *)(*(int *)(p+i*4+0x30)));
     func_0201C4E4((struct PrintSys *)(((struct Obj03883 *)p)->f4));
-    if (((struct Obj03883 *)p)->f8) func_021FD1BC(((struct Obj03883 *)p)->f8);
+    if (((struct Obj03883 *)p)->f8) func_021FD1BC((void *)(((struct Obj03883 *)p)->f8));
     for (i=0;i<2;i++) if (*(int *)(p+i*4+0x28)) func_021FC830((u8 *)(*(int *)(p+i*4+0x28)));
     return 0;
 }

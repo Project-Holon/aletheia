@@ -15,14 +15,17 @@
 typedef unsigned short u16;
 typedef struct { char f00[8]; u16 f08, f0a; } Entry;
 typedef struct { char pad00[0x64]; Entry f64[16]; } Object;
-extern int func_0203EFC8(const void *, const void *, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(const void *, void *, int);
 void func_021D5278(Object *p, const char *data, int value, int tag)
 {
     int i;
     if (value >= 20 && value <= 27) {
         for (i = 0; i < 16; i++) {
-            if (p->f64[i].f08 && !func_0203EFC8(p->f64[i].f00, data + 4, 6)) {
+            if (p->f64[i].f08 && !func_0203EFC8((const u8 *)p->f64[i].f00, (const u8 *)(data + 4), 6)) {
                 p->f64[i].f08 = 600;
                 p->f64[i].f0a = tag;
                 return;

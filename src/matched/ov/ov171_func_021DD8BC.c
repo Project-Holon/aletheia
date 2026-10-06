@@ -19,7 +19,7 @@ typedef unsigned int u32;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *);
 extern void func_020450C8(void);
-void func_021DD8BC(u8 *p)
+void func_021DD8BC(int *p)
 {
     func_020452E8(*(struct Descriptor * *)&((struct Obj08249 *)p)->fB48);
     func_020452E8(*(struct Descriptor * *)&((struct Obj08249 *)p)->fB50);

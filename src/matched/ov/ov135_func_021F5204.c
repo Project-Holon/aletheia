@@ -23,25 +23,25 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_0207D55C(volatile u16 *reg);
-extern void func_021FFD74(u8 *);
+extern void func_021FFD74(char *p);
 extern void func_021F577C(u8 *);
-extern void func_021F59E8(u8 *);
+extern void func_021F59E8(char *p);
 extern void func_021F5940(u8 *);
 extern void func_021F5358(void);
-extern void func_022000E4(u8 *);
+extern void func_022000E4(char *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021F4EC8(u8 *);
 int func_021F5204(u8 *p)
 {
     if (func_0207D55C((u16 *)0x0400106c)) {
-        func_021FFD74(p);
+        func_021FFD74((char *)p);
     }
     func_021F577C(p);
-    func_021F59E8(p);
+    func_021F59E8((char *)p);
     func_021F5940(p);
     func_021F5358();
-    func_022000E4(p);
+    func_022000E4((char *)p);
     func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00287 *)p)->fD38, 0);
     func_021F4EC8(p);
     return 0;

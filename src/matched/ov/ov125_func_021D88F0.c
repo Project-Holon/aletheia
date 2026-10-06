@@ -15,8 +15,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct {int a,b;} Pair;
-extern int func_021D7A10(int, const void *, int, int);
-int func_021D88F0(int a, int b, int n)
+extern int func_021D7A10(int id, void *buf, int x, int sz);
+int func_021D88F0(u32 a, u32 b, u32 n)
 {
     Pair p;
     p.a=a; p.b=b;

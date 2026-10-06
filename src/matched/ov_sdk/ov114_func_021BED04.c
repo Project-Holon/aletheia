@@ -38,7 +38,7 @@ typedef struct Conn {
 } Conn;
 
 extern Conn *func_021BEC00(void *mutexInfo_p, Conn *connection_p);
-extern Res *func_021BEBC8(void *mutexInfo_p, Conn *connection_p);
+extern int func_021BEBC8(int a, int b);
 extern int func_021BEE74(void *mutexInfo_p, void *handle, void *buf_p, unsigned long length, unsigned long offset);
 
 void func_021BED04(void *mutexInfo_p, Conn *connection_p)
@@ -47,7 +47,7 @@ void func_021BED04(void *mutexInfo_p, Conn *connection_p)
     Res *res_p;
 
     if (func_021BEC00(mutexInfo_p, connection_p) != 0) {
-        res_p = func_021BEBC8(mutexInfo_p, connection_p);
+        res_p = (Res *)func_021BEBC8((int)mutexInfo_p, (int)connection_p);
         if (res_p != 0 && connection_p->callback != 0) {
             arg.buf = res_p->buf;
             arg.length = res_p->length;

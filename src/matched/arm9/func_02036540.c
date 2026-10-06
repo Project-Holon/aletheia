@@ -40,7 +40,7 @@ typedef unsigned int   u32;
 
 extern u32 func_02036500(u32 a);
 
-u16 func_02036540(u32 a)
+u32 func_02036540(u32 a)
 {
     u16 hi;
     u32 lo;

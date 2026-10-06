@@ -47,7 +47,7 @@ extern const Tbl d_0220A598;
 extern int func_02209A7C(int a, int b, int c);
 extern int func_02209B60(int h, int x, int y, int k, int m, int n);
 extern int func_02209C2C(int h);
-extern void func_02206B30(Main *m);
+extern void func_02206B30(char *p);
 
 int func_02203040(Main *m)
 {
@@ -67,7 +67,7 @@ int func_02203040(Main *m)
     case 1:
         r = func_02209C2C(m->f60);
         if (r == 1)
-            func_02206B30(m);
+            func_02206B30((char *)m);
         break;
     }
     return r;

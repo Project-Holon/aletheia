@@ -19,9 +19,10 @@ typedef struct BgTemplate {unsigned words[8];} BgTemplate;
 typedef struct Record {unsigned id;BgTemplate template;unsigned type,enable;} Record;
 extern const Record d_0220099C[];
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
-extern void func_0203FCA0(unsigned char,const BgTemplate *,unsigned char);
+typedef unsigned int   u32;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
-extern void func_02040588(unsigned char,unsigned char);
+extern void func_02040588(u32 which, u32 enable);
 void func_021FC640(void)
 {
     unsigned i,id;
@@ -31,7 +32,7 @@ void func_021FC640(void)
     func_0207D4B0(1,0,0);
     for(i=0;i<7;i++){
         r=&d_0220099C[i];id=r->id;
-        if(id<4){func_0203FCA0(id,&r->template,r->type);func_020414AC(id);}
-        func_02040588(id,r->enable);
+        if(id<4){func_0203FCA0((unsigned char)id,&r->template,(unsigned char)r->type);func_020414AC(id);}
+        func_02040588((unsigned char)id,(unsigned char)r->enable);
     }
 }

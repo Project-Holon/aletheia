@@ -12,5 +12,6 @@
  *   func_0204A380 0x0204A380 arm
  */
 #include "../include/Obj03859.h"
-extern void *func_0204A380(void *,unsigned,unsigned,unsigned short);
+typedef unsigned int   u32;
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 void func_021B655C(char *p) {unsigned char *q=func_0204A380(((struct Obj03859 *)p)->f18,**(unsigned short * *)&((struct Obj03859 *)p)->f30+62,0,((struct Obj03859 *)p)->f0);((struct Obj03859 *)p)->f38=q;((struct Obj03859 *)p)->f3C=q;((struct Obj03859 *)p)->f40=q+8;if(q[2]==255 && q[3]==255) ((struct Obj03859 *)p)->f8=2;else ((struct Obj03859 *)p)->f8=4;}

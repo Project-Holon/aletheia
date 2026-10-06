@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_020746B0(int p0, int p1, int p2, int p3){ *(int *)((*(int *)(0x214EA50) + 148)) = (int)p0; }
+void func_020746B0(int p0){ *(int *)((*(int *)(0x214EA50) + 148)) = (int)p0; }

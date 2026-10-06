@@ -81,7 +81,7 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern int func_0204ABF0(void * a, int b, int c, int d, u16 e);
 extern int func_021F86E0(void);
-extern u32 func_0204AEF4(int, int);
+extern int func_0204AEF4(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020275E4(void);
 extern u32 func_020276B8(void);

@@ -41,10 +41,11 @@ extern int func_021C3B8C(void *w, u32 a, u32 b);
 extern void func_021C3BB8(u8 *p, u32 a, u32 b);
 extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021C5A34(u8 *p, u8 *a);
-extern int func_021C99A0(void *w, void *c);
+struct Msg;
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021C7BF8(u8 *p);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 u8 func_021C98E4(u8 *w, struct Cmd *c)
 {
@@ -55,16 +56,16 @@ u8 func_021C98E4(u8 *w, struct Cmd *c)
         if (func_021C3B8C(w, c->b4, c->b5) != 0) {
             if (c->flag) func_021C5A1C(w, id);
             func_021C3BB8(w, c->b4, c->b5);
-            func_021C99A0(w, (u8 *)c + 8);
+            func_021C99A0(w, (const struct Msg *)((u8 *)c + 8));
             r = 1;
             if (c->flag) func_021C5A34(w, id);
         }
     } else if (c->b6 != 0) {
         if (c->flag) func_021C5A1C(w, id);
-        func_021C99A0(w, (u8 *)c + 8);
+        func_021C99A0(w, (const struct Msg *)((u8 *)c + 8));
         s = func_021CC8D8(w + 0x1D74, 15467);
         func_021C7BF8(w);
-        func_021CC95C(w + 0x1D74, s, 15469);
+        func_021CC95C((u32 *)(w + 0x1D74), s, 15469);
         r = 1;
         if (c->flag) func_021C5A34(w, id);
     }

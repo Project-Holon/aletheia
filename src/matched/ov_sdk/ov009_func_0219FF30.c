@@ -21,7 +21,8 @@
 struct SBL { char pad0[0x80]; int errlen; char pad1[0x6b4 - 0x84]; int sock; };
 extern int func_0217EC90(int sock, char *buf, int len, int flags);
 extern void func_021A02E0(struct SBL *slist);
-extern int func_0219FFD4(struct SBL *slist, char *fieldList, char *serverFilter, int options, int maxServers);
+struct SBServerList;
+extern int func_0219FFD4(struct SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern void func_0219FAAC(struct SBL *slist);
 int func_0219FF30(struct SBL *slist, char *data, int len)
 {
@@ -35,7 +36,7 @@ int func_0219FF30(struct SBL *slist, char *data, int len)
 		if (ret > 0 || retryCount < 0 || slist->errlen > 0)
 			break;
 		func_021A02E0(slist);
-		err = func_0219FFD4(slist, 0, 0, 2, 0);
+		err = func_0219FFD4((struct SBServerList *)slist, 0, 0, 2, 0);
 		if (err != 0) {
 			func_0219FAAC(slist);
 			return err;

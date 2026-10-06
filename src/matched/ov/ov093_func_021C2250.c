@@ -28,11 +28,12 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 func_021D5440(u8 *p);
-extern int func_021D5B40(u8 *a);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 struct QI;
 extern void func_021D5B44(struct QI *p, u16 v);
 extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C7AD0(u8 *p, u8 *a, u32 b);
 extern void func_021C7B0C(u8 *p, u8 *a);
 extern void func_021C60EC(u8 *p, u8 *a, u32 n);
@@ -49,10 +50,10 @@ void func_021C2250(u8 *p, u8 *a, u16 b, u32 c)
     u16 t;
     int name;
     name = func_021D5440(a);
-    t = (u16)func_021D5B40(a);
+    t = (u16)(int)func_021D5B40((struct QI *)a);
     s = func_021CC8D8(p + 0x1D74, 7469);
     func_021C7AD0(p, a, b);
-    func_021CC95C(p + 0x1D74, s, 7471);
+    func_021CC95C((u32 *)(p + 0x1D74), s, 7471);
     if (b == 0)
         func_021C60EC(p, a, 15);
     func_021DCF24(a);
@@ -62,7 +63,7 @@ void func_021C2250(u8 *p, u8 *a, u16 b, u32 c)
         func_021DCF5C(a);
     s = func_021CC8D8(p + 0x1D74, 7485);
     func_021C7B0C(p, a);
-    func_021CC95C(p + 0x1D74, s, 7487);
+    func_021CC95C((u32 *)(p + 0x1D74), s, 7487);
     if (c != 0) {
         func_021D6730((struct QK *)a, t);
         func_021CD4B0(((struct Obj00003 *)p)->fC, 0x17, name, t);

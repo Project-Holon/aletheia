@@ -33,7 +33,7 @@ extern void func_021A2724(O *p, u32 v, int z);
 extern void func_021A2924(O *p);
 extern void func_021A28A0(O *p);
 extern void func_021A284C(O *p);
-extern void func_021A26D8(O *p);
+extern void func_021A26D8(int *p);
 
 void func_021A20C8(O *p)
 {
@@ -48,5 +48,5 @@ void func_021A20C8(O *p)
         func_021A28A0(p);
         func_021A284C(p);
     }
-    func_021A26D8(p);
+    func_021A26D8((int *)p);
 }

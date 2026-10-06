@@ -45,7 +45,8 @@ extern int func_020949F4(const char *s1, const char *s2, int n);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
-extern int func_02094B20(const char *s1, const char *s2);
+typedef unsigned char  u8;
+extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern char g_021A5718[];
 extern char g_021A5720[];
@@ -64,7 +65,7 @@ int func_0219329C(int *connection, const char *input, int fatal)
     if (!func_02193418(input, g_021A5728, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {
-        int b = func_02094B20(input, g_021A5734) != 0;
+        int b = func_02094B20((const u8 *)input, (const u8 *)g_021A5734) != 0;
         func_02189D78(connection, 4, b != 0);
     }
     return 1;

@@ -34,10 +34,12 @@ typedef struct {
 } Pt;
 
 extern u32 func_020056EC(u32 v);
-extern void func_0204B908(int, u16);
-extern void func_0204B404(int, Pt *, int);
+extern void func_0204B908(int a0, int a1);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int *func_021A21B8(int *p);
-extern int func_021A21C8(int, int);
+extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
 extern const int d_021EF780[];
@@ -60,7 +62,7 @@ void func_021EEE04(int a, int n, u16 idx)
     }
     k = q[1] / 256;
     for (i = 0; i < n; i++) {
-        obj = func_021A21C8(a, idx);
+        obj = (int)func_021A21C8((void *)a, idx);
         if (obj == 0) {
             return;
         }
@@ -69,7 +71,7 @@ void func_021EEE04(int a, int n, u16 idx)
         e[0] = 0;
         e[1] = func_020056EC(3) + 9;
         m = func_020056EC(4);
-        func_0204B908(h, m);
+        func_0204B908(h, (u16)m);
         e[4] = (m + 1) * d_021EF770[k];
         e[2] = d_021EF780[k] * (m + 1);
         e[3] = 0;
@@ -80,6 +82,6 @@ void func_021EEE04(int a, int n, u16 idx)
         e[5] = d_021EF770[k];
         pt.x = -func_020056EC(0x18);
         pt.y = func_020056EC(0xA8) - 0x20;
-        func_0204B404(h, &pt, 0);
+        func_0204B404((struct Obj *)h, (const struct Vec2 *)(&pt), 0);
     }
 }

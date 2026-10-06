@@ -32,12 +32,12 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern int func_02015F24(void *h);
 
 int func_021FFFAC(Work *w, int key)
 {
-    int idx = func_022019F4(w, key);
+    int idx = func_022019F4((char *)w, key);
 
     if (idx == -1)
         return 0;

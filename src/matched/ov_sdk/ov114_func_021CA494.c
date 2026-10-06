@@ -37,12 +37,13 @@ typedef struct bignum_ctx BN_CTX;
 extern void *func_021CAD1C(void);
 extern void func_021CACD0(int a);
 extern BIGNUM *func_021CAF24(const unsigned char *, int, BIGNUM *);
-extern int func_021CAEC8(BIGNUM *, unsigned int);
+typedef unsigned char  u8;
+extern int func_021CAEC8(u8 *a, unsigned long w);
 extern int func_021CC124(BIGNUM *, const BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
 extern int func_021CAB94(const BIGNUM *);
 extern int func_021CB010(const BIGNUM *, unsigned char *);
-extern void func_021CABDC(BIGNUM *);
-extern void func_021CAD6C(BN_CTX *);
+extern void func_021CABDC(u8 *p);
+extern void func_021CAD6C(u8 *ctx);
 
 int func_021CA494(void *dst_ptr, int dst_len, void *src_ptr, int src_len, void *mod_ptr, int mod_len, unsigned long exp_num)
 {
@@ -72,7 +73,7 @@ int func_021CA494(void *dst_ptr, int dst_len, void *src_ptr, int src_len, void *
         ret = -2;
         goto end;
     }
-    if (func_021CAEC8(&exp, exp_num) == 0)
+    if (func_021CAEC8((u8 *)(&exp), exp_num) == 0)
     {
         ret = -2;
         goto end;
@@ -95,11 +96,11 @@ int func_021CA494(void *dst_ptr, int dst_len, void *src_ptr, int src_len, void *
     ret = func_021CB010(&dst, (unsigned char *)dst_ptr);
 
 end:
-    func_021CABDC(&src);
-    func_021CABDC(&dst);
-    func_021CABDC(&exp);
-    func_021CABDC(&mod);
+    func_021CABDC((u8 *)(&src));
+    func_021CABDC((u8 *)(&dst));
+    func_021CABDC((u8 *)(&exp));
+    func_021CABDC((u8 *)(&mod));
     if (ctx != 0)
-        func_021CAD6C(ctx);
+        func_021CAD6C((u8 *)ctx);
     return ret;
 }

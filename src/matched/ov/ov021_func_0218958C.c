@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 u32 func_02188C68(u8 *p);
 void func_021A0358(int a);
-int func_02013EEC(unsigned short id);
+u32 func_02013EEC(u32 id);
 int func_02013F2C(unsigned short id);
 void func_021A0338(u8 *p, u32 id, u32 c, u8 d);
 
@@ -30,6 +30,6 @@ void func_0218958C(unsigned char *p, int id)
 {
     int a;
     func_021A0358(func_02188C68(p));
-    a = func_02013EEC(id);
+    a = (int)func_02013EEC((unsigned short)id);
     func_021A0338((u8 *)(((struct Obj19498 *)p)->f1C), a, func_02013F2C(id), 1);
 }

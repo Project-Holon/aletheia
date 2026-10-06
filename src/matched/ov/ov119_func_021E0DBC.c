@@ -30,7 +30,7 @@ extern u32 func_020275E8(void);
 extern u32 func_020275F8(u32);
 extern u32 func_020275FC(u32);
 extern u32 func_02027600(u32);
-extern u8 func_020275EC(u8 i);
+extern u8 func_020275EC(int i);
 extern void func_021B6208(void *,Descriptor *,int,u16);
 extern int func_021B629C(void *,int,u8,u8,u8,u16);
 struct Obj;

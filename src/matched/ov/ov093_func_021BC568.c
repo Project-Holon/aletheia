@@ -31,10 +31,10 @@ typedef struct { u8 *a; B b; u32 c; u32 d; } E;
 typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[6]; } S;
 
 extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021E02DC(u8 *a, u16 key, u32 sub_pri);
-extern void func_021C6394(S *p, u8 *a, u16 key);
+extern void func_021C6394(u8 *p, u8 *a, unsigned int n);
 extern void func_021E0394(u8 *a, int b);
 
 void func_021BC568(S *p)
@@ -53,10 +53,10 @@ void func_021BC568(S *p)
         if (id != 0) {
             a = p->e[i].a;
             if (func_021E02DC(a, id, func_021D59B4(a, 12))) {
-                func_021C6394(p, a, id);
+                func_021C6394((u8 *)p, a, id);
                 func_021E0394(a, id);
             }
         }
     }
-    func_021CC95C((u8 *)p + 0x1d74, lk, 0x5a0);
+    func_021CC95C((u32 *)((u8 *)p + 0x1d74), lk, 0x5a0);
 }

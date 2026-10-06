@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_0202A128(int);
-extern int func_02019D30(u16, u8);
+extern u32 func_02019D30(u32 a, u32 n);
 extern int func_02019C90(u16, int, int);
 extern int func_02019D58(u16, int);
 extern u32 func_020056EC(u32 range);
@@ -46,7 +46,7 @@ void func_021D7D18(u8 *p, int unused, int species, int gender, int form, int n, 
     if (species == 0 || species > 493) return;
     h = func_0202A128(((struct Obj10446 *)p)->f0);
     kind = 3;
-    f = func_02019D30(species, form);
+    f = (int)func_02019D30((u16)species, (u8)form);
     g = func_02019C90(species, f, 20);
     mapped = func_02019D58(species, f);
     switch (g) {

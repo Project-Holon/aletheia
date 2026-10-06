@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021F9DFC(void *p);
 extern unsigned func_02005728(unsigned);
-extern void func_021FA3A8(char *, char *, unsigned);
+extern void func_021FA3A8(char *p, u8 *rec, unsigned type);
 extern void func_021FA4AC(char *);
 extern void func_021FA27C(char *);
 void func_021FA064(char *p)
@@ -31,7 +31,7 @@ void func_021FA064(char *p)
             for (i = 0; i < 3; i++) {
                 u8 a = func_02005728(4);
                 u8 b = func_02005728(60);
-                func_021FA3A8(p, p + 0x204 + b * 8, a);
+                func_021FA3A8(p, (u8 *)(p + 0x204 + b * 8), a);
             }
         }
     } else {

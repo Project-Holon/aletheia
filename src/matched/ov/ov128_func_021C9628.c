@@ -32,7 +32,7 @@ extern const u32 d_021CA538[], d_021CA7E0[];
 extern const u8 d_021CA521[];
 extern void func_021C9E10(u8 *, u8 *, u16);
 extern void func_021C9E6C(u8 *, void *);
-extern void func_021C63AC(void *, u32 *, u32, u8, u8, u8, u8, u8, u32, u8);
+extern void func_021C63AC(void *p, u32 *out, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u32 unused, u8 g);
 extern void func_021C9ED0(u32, int, const u16 *, u32, u16);
 extern void func_021C9EF4(u32, int, u32, u32, u32, u16);
 static inline int absolute(s16 value) { if (value < 0) return -value; return value; }
@@ -46,7 +46,7 @@ void func_021C9628(u8 *p, void *unused, u8 *q, u16 heap)
         row = d_021CA564[k];
         y = absolute(row[1]);
         x = absolute(row[0]);
-        func_021C63AC(q, (u32 *)(p + 0x118 + k * 8), 3, x + 2, y + 1, 26, 18, 10, 0, 0);
+        func_021C63AC(q, (u32 *)(p + 0x118 + k * 8), 3, (u8)(x + 2), y + 1, 26, 18, 10, 0, 0);
     }
     for (i = 0; i < 3; i++) {
         func_021C9ED0((u32)(p + 20 + i * 0x4c), (int)q, (const u16 *)d_021CA564[i], d_021CA538[i], heap);

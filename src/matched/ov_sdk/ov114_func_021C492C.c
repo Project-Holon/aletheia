@@ -57,13 +57,15 @@ typedef struct {
 } GHIConnection;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen);
-extern int func_021BFCEC(GHIBuffer *buffer, char *data, int dataLen);
-extern int func_021C0378(GHIConnection *connection);
+struct GHIBuffer;
+struct GHIConnection;
+extern int func_021C04D4(struct GHIConnection *connection, char *buffer, int *bufferLen);
+extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
+extern int func_021C0378(struct GHIConnection *connection);
 extern char *func_02094B20(const char *s, const char *find);
-extern int func_021C4830(GHIConnection *connection);
+extern int func_021C4830(struct GHIConnection *connection);
 extern void func_021C00FC(GHIBuffer *buffer);
-extern void func_021C02C8(GHIConnection *connection, char *buffer, int bufferLen);
+extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bufferLen);
 extern int func_0217ED54(int socket);
 extern char g_021CF220[];
 extern char g_021CF194[];
@@ -80,7 +82,7 @@ void func_021C492C(GHIConnection *connection)
     func_0217D254(8, (char *)3, 0x10, g_021CF220);
 
     bufferLen = sizeof(buffer);
-    result = func_021C04D4(connection, buffer, &bufferLen);
+    result = func_021C04D4((struct GHIConnection *)connection, buffer, &bufferLen);
     if (result == 3 || result == 1)
         return;
 
@@ -88,9 +90,9 @@ void func_021C492C(GHIConnection *connection)
     {
         if (connection->encryptEngine != 0 && connection->sessionEstablished == 1)
         {
-            if (!func_021BFCEC(&connection->decodeBuffer, buffer, bufferLen))
+            if (!func_021BFCEC((struct GHIBuffer *)(&connection->decodeBuffer), buffer, bufferLen))
                 return;
-            if (!func_021C0378(connection))
+            if (!func_021C0378((struct GHIConnection *)connection))
             {
                 connection->completed = 1;
                 connection->result = 0x11;
@@ -99,7 +101,7 @@ void func_021C492C(GHIConnection *connection)
         }
         else
         {
-            if (!func_021BFCEC(&connection->recvBuffer, buffer, bufferLen))
+            if (!func_021BFCEC((struct GHIBuffer *)(&connection->recvBuffer), buffer, bufferLen))
                 return;
         }
     }
@@ -110,7 +112,7 @@ void func_021C492C(GHIConnection *connection)
         *endOfStatus = '\0';
         statusLength = endOfStatus - connection->recvBuffer.data;
 
-        if (!func_021C4830(connection))
+        if (!func_021C4830((struct GHIConnection *)connection))
             return;
 
         connection->headerStringIndex = statusLength + 2;
@@ -120,13 +122,13 @@ void func_021C492C(GHIConnection *connection)
             connection->waitingForContinue = 0;
             func_021C00FC(&connection->recvBuffer);
             connection->state = 6;
-            func_021C02C8(connection, 0, 0);
+            func_021C02C8((struct GHIConnection *)connection, 0, 0);
             func_0217D254(8, 0, 0x10, g_021CF234);
         }
         else
         {
             connection->state = 9;
-            func_021C02C8(connection, 0, 0);
+            func_021C02C8((struct GHIConnection *)connection, 0, 0);
         }
     }
     else if (result == 2)

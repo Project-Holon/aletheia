@@ -75,17 +75,22 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef struct {s16 x,y,z;u8 a,b;} Position;
 typedef struct {s16 x,y;} Pair;
-extern void *func_020490F4(unsigned,unsigned);
+typedef signed int     s32;
+struct Actor;
+struct Obj;
+extern void *func_020490F4(u32 id, u16 heap);
 extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
-extern void *func_0204ACEC(void *,unsigned,int,int,unsigned);
-extern void *func_0204AF28(void *,u32,u32,u32);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_021DD228(void *);
-extern unsigned long long func_0200B98C(void *,int,int);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
 extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
-extern u32 func_0204A6C8(void *,u32,u32,u32,u32);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02082BCC(void *,int,unsigned);
-extern void *func_0204B294(void *,void *,void *,void *,Position *,u16,u16);
-extern void func_0204B688(void *,int),func_0204B6F4(void *,int,int),func_02049238(void *);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_02049238(void *);
 extern const Pair d_021E32F0[];
 void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
 {
@@ -104,9 +109,9 @@ void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
     char *slot;
     int mapping;
     archive=func_020490F4(7,(u16)((heap&0x7fff)|0x8000));
-    *(void **)(p+0x48)=func_0204ACEC(archive,func_0201BC3C(),0,128,heap);
+    *(void **)(p+0x48)=(void *)func_0204ACEC(archive,func_0201BC3C(),0,128,heap);
     mapping=func_0201BC40();
-    *(void **)(p+0x4c)=func_0204AF28(archive,mapping,func_0201BCB4(),heap);
+    *(void **)(p+0x4c)=(void *)func_0204AF28(archive,mapping,func_0201BCB4(),heap);
     n=0;
     step=6;start=0;end=6;mode=0;
     if(func_021DD228(party)==1) {step=3;end=3;mode=1;}
@@ -136,7 +141,7 @@ void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
             *(u32 *)(slot+0x50)=func_0204A6C8(archive,func_0201BABC(v2,f2,h2,0),0,0,heap);
             func_02082BCC(&pos,0,8);
             pos.x=coords[j].x+8;pos.y=coords[j].y-12;pos.z=1;pos.a=12-count;
-            *(void **)(p+count*4+0x80)=func_0204B294(manager,*(void **)(slot+0x50),*(void **)(p+0x48),*(void **)(p+0x4c),&pos,0,heap);
+            *(void **)(p+count*4+0x80)=func_0204B294(manager,(u32)(*(void **)(slot+0x50)),(u32)(*(void **)(p+0x48)),(u32)(*(void **)(p+0x4c)),&pos,0,heap);
             func_0204B688(*(void **)(count*4+p+0x80),1);
             func_0204B6F4(*(void **)(p+count*4+0x80),func_0201BB5C(v2,f2,h2,0),0);
             count++;

@@ -43,24 +43,32 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0200DC08(void *);
+typedef signed int     s32;
+struct Blk1AC;
+extern u8 func_0200DC08(struct Blk1AC *p);
 extern void func_021D69A8(u8 *,u8 *,u16),func_021D69EC(u8 *,u8 *,u16);
 extern int func_021D69C0(u8 *,u8 *),func_021D6A10(u8 *,u8 *);
 extern u16 func_021D6A40(u8 *),func_021D6A44(u8 *),func_021D6A48(u8 *);
-extern void *func_021D6A4C(u8 *);
+extern int func_021D6A4C(unsigned char *p);
 extern void func_021D6A5C(u8 *),func_021D6AF0(u8 *,void *),func_021D6B30(u8 *,void *);
-extern void func_021D7278(u8 *,int),func_021D730C(void *);
+extern void func_021D7278(u8 *,int);
+extern void func_021D730C(u8 *p);
 extern u32 func_021D7324(u8 *);
 extern void func_021D7B70(u8 *,u32),func_021D7C58(u8 *),func_021D8010(void *,u32);
-extern int func_021D80CC(void *),func_021D8168(void *),func_021D81EC(u8 *),func_0204E804(void);
+extern int func_021D80CC(void *);
+extern u32 func_021D8168(u8 *p);
+extern int func_021D81EC(u8 *);
+extern int func_0204E804(void);
 extern void func_021D8118(u8 *p, u32 i, u32 a, u32 b);
-extern void func_021D8134(void *);
-extern void func_021D8190(void *);
-extern void func_021D81B4(void *);
+extern void func_021D8134(u8 *p);
+extern void func_021D8190(u8 *p);
+extern void func_021D81B4(u8 *p);
 extern void func_021D81D0(u8 *);
-extern void func_0204E720(int,int,int,int);
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_02167ED8(void *date, void *time);
-extern int func_0200DDD0(void *,u8,u8,void *);
+struct BlkB90;
+struct Stamp;
+extern int func_0200DDD0(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
 int func_021D7550(u8 *p,int heap)
 {
     int v,box;
@@ -68,22 +76,22 @@ int func_021D7550(u8 *p,int heap)
     u8 extra[12];
     u8 record[16];
     switch(((struct Obj00494 *)p)->fB6C) {
-    case 0: func_021D69A8(p+0xb74,p+0x182c,func_0200DC08(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
+    case 0: func_021D69A8(p+0xb74,p+0x182c,(u32)func_0200DC08(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
     case 1: if(func_021D69C0(p+0xb74,p+0x182c)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 2:
         func_021D81B4(p+4); v=func_021D6A48(p+0xb74);
         func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); func_021D8010(p+4,0); ++((struct Obj00494 *)p)->fB6C; break;
     case 3: if(func_021D80CC(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
-    case 4: func_0204E720(3,0,16,1); ++((struct Obj00494 *)p)->fB6C; break;
+    case 4: func_0204E720((int)3,0,16,1); ++((struct Obj00494 *)p)->fB6C; break;
     case 5: if(func_0204E804()==0) { func_021D7C58(p+4); ++((struct Obj00494 *)p)->fB6C; } break;
     case 6: func_021D7278(p,heap); ++((struct Obj00494 *)p)->fB6C; break;
-    case 7: ((struct Obj00494 *)p)->fB70=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); func_0204E720(3,16,0,1); ++((struct Obj00494 *)p)->fB6C; break;
+    case 7: ((struct Obj00494 *)p)->fB70=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); func_0204E720((int)3,16,0,1); ++((struct Obj00494 *)p)->fB6C; break;
     case 8:
         if(func_0204E804()==0) {
             box=func_021D6A40(p+0xb74); n=((struct Obj00494 *)p)->fB70; v=func_021D6A48(p+0xb74);
             func_02167ED8(record,extra);
             if(n<1 || n>(u32)v) { ((struct Obj00494 *)p)->fB6C=16; break; }
-            if(func_0200DDD0(((struct Obj00494 *)p)->f1854,box,n,record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
+            if(func_0200DDD0(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
             func_021D69EC(p+0xb74,p+0x182c,((struct Obj00494 *)p)->fB70);
             v=func_021D6A44(p+0xb74); func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74));
             func_021D8118(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); func_021D8010(p+4,1); func_021D8190(p+4); ++((struct Obj00494 *)p)->fB6C;
@@ -98,7 +106,7 @@ int func_021D7550(u8 *p,int heap)
     case 16: func_021D8010(p+4,4); ++((struct Obj00494 *)p)->fB6C; break;
     case 17: if(func_021D80CC(p+4)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 18: func_021D8134(p+4); ++((struct Obj00494 *)p)->fB6C; break;
-    case 19: v=func_021D8168(p+4); if(v==0) return 2; if(v==-2) ((struct Obj00494 *)p)->fB6C=2; break;
+    case 19: v=(int)func_021D8168(p+4); if(v==0) return 2; if(v==-2) ((struct Obj00494 *)p)->fB6C=2; break;
     }
     return 0;
 }

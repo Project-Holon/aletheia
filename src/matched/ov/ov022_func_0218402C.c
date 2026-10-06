@@ -15,14 +15,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_0203D1C0(u8);
+extern u32 func_0203D1C0(u32 index);
 int func_0218402C(u8 *p)
 {
     int i;
     u32 m;
     for (i = 0; i < 5; i++) {
         m = 1 << i;
-        if ((p[1] & m) && func_0203D1C0(i) == 1 && !(p[14] & m)) return 0;
+        if ((p[1] & m) && func_0203D1C0((u8)i) == 1 && !(p[14] & m)) return 0;
     }
     return 1;
 }

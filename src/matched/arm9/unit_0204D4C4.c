@@ -52,7 +52,8 @@ typedef void (*DispatchFn)(struct Obj *o, u32 arg);
 
 extern DispatchFn const gUnk_020A7F3C[];
 
-extern void sub_020643C4(void *p, u32 arg);
+struct MultiCellAnim;
+extern void sub_020643C4(struct MultiCellAnim *mca, u32 value);
 
 void sub_0204D4C4(struct Obj *o, u32 arg)
 {
@@ -61,11 +62,11 @@ void sub_0204D4C4(struct Obj *o, u32 arg)
 
 void sub_0204D4E0(struct Obj *o, u32 arg)
 {
-    sub_020643C4(&o->unk_0c, arg);
+    sub_020643C4((struct MultiCellAnim *)(&o->unk_0c), arg);
 }
 
 void sub_0204D4F0(struct Obj *o, u32 arg)
 {
-    sub_020643C4(&o->unk_0c, arg);
+    sub_020643C4((struct MultiCellAnim *)(&o->unk_0c), arg);
 }
 

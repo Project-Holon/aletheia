@@ -56,7 +56,7 @@ extern u16 func_02188C84(u8 *p);
 extern void func_02158780(int a0, u16 id, int b, int c, int d);
 extern int func_02158590(void *p);
 extern void func_02026400(struct Comm *p);
-extern int func_02026454(int h);
+extern u32 func_02026454(void *obj);
 extern void func_02026484(void *obj);
 extern void func_0217574C(u8 *o, u32 v);
 extern void func_02175710(u8 *o, u32 v);
@@ -100,7 +100,7 @@ int func_02185D38(int a0, int *state, Ctx *c)
         break;
     case 1:
         if (func_02158590((void *)c->f20) == 0) {
-            if (func_02026454(h) != 0)
+            if (func_02026454((void *)h) != 0)
                 break;
             func_02026484((void *)h);
         }

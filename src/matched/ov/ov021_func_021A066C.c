@@ -42,7 +42,8 @@ typedef struct {
 } W;
 
 extern void func_02048CA4(u32, u8, const V3s *);
-extern void func_02048CDC(u32, u8, const u16 *);
+struct LightSlot;
+extern void func_02048CDC(struct LightSlot *slots, u32 i, u16 *in);
 extern void func_0206AA8C(u32 v, u32 bits, u32 flag);
 extern void func_0206AAB0(u32 v, u32 bits, u32 flag);
 extern int func_021A01C4(u32 a, u32 b);
@@ -60,10 +61,10 @@ void func_021A066C(const W *w, u32 a, u32 p)
     for (i = 0; i < 4; i++) {
         if (w->used[i]) {
             func_02048CA4(p, i, &w->b[i]);
-            func_02048CDC(p, i, &w->c[i]);
+            func_02048CDC((struct LightSlot *)p, (u8)i, (u16 *)(&w->c[i]));
         } else {
             func_02048CA4(p, i, &zb);
-            func_02048CDC(p, i, &zc);
+            func_02048CDC((struct LightSlot *)p, (u8)i, &zc);
         }
     }
     func_0206AA8C(w->f37E, w->f380, 1);

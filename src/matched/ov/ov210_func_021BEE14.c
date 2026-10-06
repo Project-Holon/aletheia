@@ -37,7 +37,7 @@ void func_021BEE14(char *p, int idx, int flag)
     }
 }
 
-void func_021BEE38(char *p, int idx, unsigned short a, unsigned short b, unsigned short c)
+void func_021BEE38(char *p, int idx, unsigned short a, int b, unsigned short c)
 {
     unsigned short buf[2];
     buf[0] = a;

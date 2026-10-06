@@ -58,8 +58,8 @@ extern void func_021848A8(int a, int unused, char *p);
 extern void func_021848CC(void);
 extern void func_02184560(char *p, int a);
 extern void func_02185F74(void *win, int color, char *p);
-extern int func_02186324(char *p);
-extern void func_02185F10(void *p);
+extern int func_02186324(u8 *p);
+extern void func_02185F10(u16 *p);
 extern void func_0203A5E4(u32 key);
 extern void func_02184174(u8 *p);
 extern u32 func_0218417C(u8 *p);
@@ -97,12 +97,12 @@ int func_02184674(void *task, int *state, int a2, char *p)
         }
         func_02185F74(p + 0x104, 0x44f, p);
         if (func_02039338() == 0) {
-            r = func_02186324(p);
+            r = func_02186324((u8 *)p);
             if (*state == 1) {
                 *state = r;
             }
         }
-        func_02185F10(p + 0x4208);
+        func_02185F10((u16 *)(p + 0x4208));
         break;
     case 2:
         fn = d_02186E80[*(int *)(p + 0x198)].fn;

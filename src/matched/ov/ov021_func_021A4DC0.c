@@ -30,8 +30,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_021A3A20(u32);
-extern void func_021A5304(u32, u32);
-extern void func_021A530C(u32, u32);
+extern int func_021A5304(u32 a, u32 b);
+extern int func_021A530C(u32 a, u32 b);
 struct VecFx32;
 extern void func_021A3898(unsigned char *, struct VecFx32 *);
 extern int func_02163E34(u32, int *, u32 *);

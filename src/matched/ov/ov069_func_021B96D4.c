@@ -49,7 +49,7 @@ extern void  func_021B96C8(void);
 extern void *func_02012EFC(void **p);
 extern struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap);
 extern u32 func_0200DF94(struct Buf3FC *b);
-extern void  func_021BA350(void *p);
+extern void func_021BA350(char *p);
 
 void func_021B96D4(u8 *p, u32 a)
 {
@@ -70,5 +70,5 @@ void func_021B96D4(u8 *p, u32 a)
     *(void **)(p + 0x150) = func_020056A0((void *)func_021B96C8, p, 0);
     *(void **)(p + 8) = func_0200DF58(func_02012EFC(**(void ***)(p + 0x154)), 0x80);
     *(u32 *)(p + 0x164) = func_0200DF94(*(void **)(p + 8));
-    func_021BA350(p);
+    func_021BA350((char *)p);
 }

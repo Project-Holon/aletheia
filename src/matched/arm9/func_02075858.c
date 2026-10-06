@@ -73,12 +73,16 @@ struct Slot {
 extern struct Slot data_0214EAC0[4];
 extern const s16 data_020A5D08[];
 
-extern void func_02073A60(struct Slot *);
+struct A;
+struct LerpObj;
+struct Obj;
+struct Obj75994;
+extern void func_02073A60(struct A *a);
 extern void func_02073AD0(struct Slot *, s32);
-extern void func_02075994(struct Slot *);
-extern s32 func_02075BD4(void *);
-extern void func_02075C08(void *);
-extern s32 func_02075C20(void *);
+extern void func_02075994(struct Obj75994 *o);
+extern s32 func_02075BD4(struct Obj *o);
+extern void func_02075C08(struct LerpObj *obj);
+extern int func_02075C20(struct LerpObj *obj);
 
 void func_02075858(void)
 {
@@ -90,18 +94,18 @@ void func_02075858(void)
     for (i = 0; i < 4; i++) {
         if (s->b0) {
             if (s->f11c == 0) {
-                func_02075994(s);
+                func_02075994((struct Obj75994 *)s);
                 goto next;
             } else {
                 if (s->b2 && s->f120 != 0) {
-                    func_02073A60(s);
+                    func_02073A60((struct A *)s);
                     s->b1 = 1;
                     s->b2 = 0;
                 }
                 if (s->b1) {
-                    func_02075C08(s->lerp);
+                    func_02075C08((struct LerpObj *)s->lerp);
                     a = data_020A5D08[s->f15c];
-                    b = func_02075BD4(s->lerp) >> 8;
+                    b = func_02075BD4((struct Obj *)s->lerp) >> 8;
                     c = s->f160;
                     d = data_020A5D08[b];
                     v = data_020A5D08[c] + (d + a);
@@ -111,8 +115,8 @@ void func_02075858(void)
                         s->f164 = v;
                     }
                     if (s->b3) {
-                        if (func_02075C20(s->lerp) != 0) {
-                            func_02075994(s);
+                        if (func_02075C20((struct LerpObj *)s->lerp) != 0) {
+                            func_02075994((struct Obj75994 *)s);
                         }
                     }
                 }

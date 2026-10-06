@@ -54,8 +54,10 @@
 #include "../include/Obj04783.h"
 
 extern int func_02062D4C(char *self, int a1);
-extern void func_02064934(char *self, int a1);
-extern char *func_02062D40(char *self);
+struct CellAnim;
+struct Root;
+extern void func_02064934(struct Root *p, int arg);
+extern void *func_02062D40(struct CellAnim *anim);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct MCInstance;
@@ -81,7 +83,7 @@ void func_020649D4(char *self, int a1)
     ((struct Obj04783 *)self)->f30 += t;
     if (*(unsigned short *)(((struct Obj04783 *)self)->f4 + 4) == 0)
         return;
-    p = func_02062D40(self);
+    p = func_02062D40((struct CellAnim *)self);
     r7 = (int)func_020629E8((struct MultiCellBank *)(((struct Obj04783 *)self)->f44), ((struct Obj03474 *)p)->f0);
     kind = *(int *)(((struct Obj04783 *)self)->f1C + 4) & 0xff;
     func_02064140(self + 0x48, 1);
@@ -100,5 +102,5 @@ void func_020649D4(char *self, int a1)
     func_020643CC((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)r7, ((struct Obj04783 *)self)->f30);
     return;
 miss:
-    func_02064934(self + 0x34, a1);
+    func_02064934((struct Root *)(self + 0x34), a1);
 }

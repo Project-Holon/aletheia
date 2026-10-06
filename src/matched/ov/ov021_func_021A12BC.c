@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern int func_021A0F90(u32 *);
+extern u32 func_021A0F90(u8 *p);
 struct W;
 extern void func_021A8E20(struct W *w, u32 v);
 
 void func_021A12BC(u32 *p, u32 a)
 {
-    if (func_021A0F90(p) == 1)
+    if (func_021A0F90((u8 *)p) == 1)
         func_021A8E20((struct W *)p[8], a);
 }

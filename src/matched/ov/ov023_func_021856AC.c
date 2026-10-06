@@ -18,11 +18,12 @@
 extern void func_02185354(char *p);
 typedef unsigned int   u32;
 extern void func_02186444(char *p, u32 v);
-extern void func_021861C4(char *p, int a, int b);
+typedef unsigned char  u8;
+extern void func_021861C4(u8 *w, u32 msg, int mode);
 
 int func_021856AC(char *p, int a1)
 {
-    func_021861C4(p, 6, 1);
+    func_021861C4((u8 *)p, 6, 1);
     func_02186444(p, 0xd);
     func_02185354(p);
     return a1;

@@ -43,7 +43,7 @@ typedef signed int     s32;
 struct Blk37;
 struct Ov208Gfx;
 extern u32 func_0200D288(struct Blk37 *p, u32 which);
-extern u32 func_0202D7C8(u32);
+extern int func_0202D7C8(int a0);
 extern u32 func_0202D81C(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
 extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);

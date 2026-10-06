@@ -44,8 +44,8 @@ typedef unsigned char  u8;
 struct V3;
 extern u16 func_021694FC(u8 *p);
 extern void func_02169510(u8 *src, struct V3 *dst);
-extern void func_02169800(Hits *h, int o, int *pos, int size);
-extern void func_0218DDB4(char *p, int *pos, List *l);
+extern void func_02169800(void *a, char *b, u32 c, u32 d);
+extern void func_0218DDB4(const char *p, int *q, char *r);
 
 int func_0218D9E8(char *p, int *pos, List *dst)
 {
@@ -77,7 +77,7 @@ int func_0218D9E8(char *p, int *pos, List *dst)
             z1 = z + h;
             if (pos[0] >= x0 && pos[0] < x1 && pos[2] >= z0 && pos[2] < z1) {
                 u32 j;
-                func_02169800(&buf, *(int *)(*(char * *)&((struct Obj02370 *)p)->f24 + i * 0x28), pos, ((struct Obj02370 *)p)->f4);
+                func_02169800(&buf, (char *)(*(int *)(*(char * *)&((struct Obj02370 *)p)->f24 + i * 0x28)), (u32)pos, ((struct Obj02370 *)p)->f4);
                 if (buf.count != 0) {
                     if (n + buf.count >= 16)
                         break;
@@ -94,7 +94,7 @@ int func_0218D9E8(char *p, int *pos, List *dst)
         }
     }
     dst->count = n;
-    func_0218DDB4(p, pos, dst);
+    func_0218DDB4(p, pos, (char *)dst);
     if (dst->count != 0)
         return 1;
     return 0;

@@ -25,7 +25,8 @@ void *func_02188C80(void *p);
 void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 u32 func_02012A30(const struct BigObj *x);
-int func_02188C9C(u32 x);
+typedef unsigned char  u8;
+u16 func_02188C9C(u8 *p);
 void func_02029D8C(u32 a0, u32 a1, u32 a2);
 
 void func_021A4114(u32 *p)
@@ -33,5 +34,5 @@ void func_021A4114(u32 *p)
     int a = (int)func_020120F4(func_02188C80((void *)p[2]));
     int b = func_02012A30((const struct BigObj *)a);
 
-    func_02029D8C(b, a, (u16)func_02188C9C(p[2]));
+    func_02029D8C(b, a, (u16)(int)func_02188C9C((u8 *)p[2]));
 }

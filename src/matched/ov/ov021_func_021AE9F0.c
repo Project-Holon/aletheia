@@ -23,7 +23,7 @@ typedef unsigned short u16;
 extern void *func_0215A5F4(void *p);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 *func_02159124(void *a, u32 b);
+extern char *func_02159124(char *p, int i);
 
 int func_021AE9F0(u32 a, u32 b)
 {
@@ -37,9 +37,9 @@ int func_021AE9F0(u32 a, u32 b)
     out = func_02159AE8((void *)a, (void *)b);
     e = 0;
     if (k == 0) {
-        e = func_02159124(p, 0);
+        e = (u32 *)func_02159124(p, 0);
     } else if (k == 1) {
-        e = func_02159124(p, 1);
+        e = (u32 *)func_02159124(p, 1);
     }
     *out = e ? e[4] : 0;
     return 0;

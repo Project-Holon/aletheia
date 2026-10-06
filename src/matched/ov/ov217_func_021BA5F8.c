@@ -17,7 +17,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02045B38(int, int, u16, u16);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 d_021C2ED8[];
 
 void func_021BA5F8(char *self)
@@ -25,7 +26,7 @@ void func_021BA5F8(char *self)
     int i = 0;
     do {
         int o = i * 4;
-        *(u32 *)(self + o + 0xc) = func_02045B38(0, 2, *(u32 *)((char *)d_021C2ED8 + o), ((struct Obj25830 *)self)->f4);
+        *(u32 *)(self + o + 0xc) = (u32)func_02045B38((int)0, (int)2, (u16)(*(u32 *)((char *)d_021C2ED8 + o)), (u16)(((struct Obj25830 *)self)->f4));
         i++;
     } while (i < 2);
 }

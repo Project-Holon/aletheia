@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-int func_020921F4(u64 v)
+int func_020921F4(double v)
 {
     if ((*(u32 *)((char *)&v + 4) & 0x7FF00000u) != 0) {
         if ((*(u32 *)((char *)&v + 4) & 0x7FF00000u) == 0x7FF00000u)

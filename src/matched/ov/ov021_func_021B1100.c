@@ -47,7 +47,8 @@ extern void *func_02158F74(void *p);
 extern u32 func_02158F7C(u8 *p);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02191830(u16 *, u32, u8 *, u8 *);
+struct Q;
+extern void func_02191830(struct Q *q, u32 a, u8 *w, u8 *h);
 extern void func_021918DC(u16 *a, u32 b, u32 c, u8 d, u8 e, u8 f, u8 g);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02159144(int n);
@@ -75,7 +76,7 @@ int func_021B1100(void *a, u32 b)
     w = func_02158F7C(o);
     func_02045CAC((struct MsgBank *)y, x1, (void *)w);
     func_0201F250((struct WordSet *)z, (void *)h, (void *)w);
-    func_02191830(*q, h, &buf[1], &buf[0]);
+    func_02191830((struct Q *)(*q), h, &buf[1], &buf[0]);
     t = buf[1];
     if (k0 + t > 0x1f) {
         k0 = (u16)(0x1f - t);

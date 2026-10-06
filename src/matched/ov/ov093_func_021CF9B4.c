@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
-extern u8 func_021B8D38(void *, int, u16, u8 *);
+extern u8 func_021B8D38(void *p, int a, int k, u8 *out);
 struct Unk021D62A8;
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D59B4(u8 *p, int k);
@@ -39,7 +39,7 @@ u32 func_021CF9B4(u8 *g, void *m, u8 *a, u16 *b)
     u8 i;
     u8 *q;
     u16 k;
-    n = func_021B8D38(((struct Obj01894 *)g)->f0, *(int *)&((struct Obj01894 *)g)->f4, func_021B8D8C(((struct Obj01894 *)g)->f0, ((struct Obj01894 *)g)->f4, func_021D5440(m)) | 0x100, buf);
+    n = func_021B8D38(((struct Obj01894 *)g)->f0, *(int *)&((struct Obj01894 *)g)->f4, (u16)(func_021B8D8C(((struct Obj01894 *)g)->f0, ((struct Obj01894 *)g)->f4, func_021D5440(m)) | 0x100), buf);
     for (i = 0; i < n; i++) {
         q = func_021B9934(((struct Obj01894 *)g)->f4, buf[i]);
         k = func_021D59B4(q, 0x11);

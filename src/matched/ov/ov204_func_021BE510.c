@@ -11,5 +11,6 @@
  *   func_021BF720 0x021BF720 thumb ov204
  */
 #include "../include/Obj25353.h"
-extern void func_021BF720(void *,int,unsigned char);
+typedef unsigned char  u8;
+extern void func_021BF720(u8 *p, int flag, u8 index);
 int func_021BE510(char *p,int *state,int *q){func_021BF720(((struct Obj25353 *)p)->f8,q[1],q[0]);return 1;}

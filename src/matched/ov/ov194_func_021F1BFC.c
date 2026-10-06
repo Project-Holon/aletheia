@@ -29,7 +29,7 @@ struct Vec2 { s16 x, y; };
 struct Obj;
 extern u32 d_021F5780[];
 extern void func_021F1A1C(char *p, int mode, const Rect *rect, int flag, int selected);
-extern void func_021F1D58(u16 *a, u16 *b, u32 c, u32 d, u8 i, u16 e, u16 f);
+extern int func_021F1D58(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
 extern u8 func_020355C4(void);
 extern u32 func_02040804(u32 layer);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);

@@ -42,15 +42,15 @@ typedef struct {
     u32 kind;
 } Rec;
 
-extern void func_021C2AA0(Rec *);
-extern void func_021C2B10(Rec *);
-extern void func_021C2B80(Rec *);
-extern void func_021C2BF0(Rec *);
-extern void func_021C2C30(Rec *);
-extern void func_021C2C70(Rec *);
-extern void func_021C2CB0(Rec *);
+extern void func_021C2AA0(u8 *p);
+extern void func_021C2B10(u8 *p);
+extern void func_021C2B80(u8 *p);
+extern void func_021C2BF0(u8 *p);
+extern void func_021C2C30(u8 *p);
+extern void func_021C2C70(char *p);
+extern void func_021C2CB0(char *p);
 extern void func_021C2CF0(void *p);
-extern void func_021C2D28(Rec *);
+extern void func_021C2D28(char *p);
 extern void func_021C2D68(void *p);
 
 void func_021C2A30(Rec *p)
@@ -61,31 +61,31 @@ void func_021C2A30(Rec *p)
         return;
     switch (p->kind) {
     case 0:
-        func_021C2AA0(p);
+        func_021C2AA0((u8 *)p);
         break;
     case 1:
-        func_021C2B10(p);
+        func_021C2B10((u8 *)p);
         break;
     case 2:
-        func_021C2B80(p);
+        func_021C2B80((u8 *)p);
         break;
     case 3:
-        func_021C2BF0(p);
+        func_021C2BF0((u8 *)p);
         break;
     case 4:
-        func_021C2C30(p);
+        func_021C2C30((u8 *)p);
         break;
     case 5:
-        func_021C2C70(p);
+        func_021C2C70((char *)p);
         break;
     case 6:
-        func_021C2CB0(p);
+        func_021C2CB0((char *)p);
         break;
     case 7:
         func_021C2CF0(p);
         break;
     case 8:
-        func_021C2D28(p);
+        func_021C2D28((char *)p);
         break;
     case 9:
         func_021C2D68(p);

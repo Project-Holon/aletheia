@@ -25,7 +25,8 @@ extern void func_02082BCC(void *, unsigned, unsigned);
 extern void func_0203F8F4(unsigned);
 extern void func_02045088(unsigned);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(unsigned char, const struct BgTemplate *, unsigned char);
+typedef unsigned int   u32;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 void func_021BACB4(void *p, unsigned heap)
@@ -39,7 +40,7 @@ void func_021BACB4(void *p, unsigned heap)
     for (i = 0; i < 6; i++) {
         row = d_021BB1F8[i];
         layer = row[0];
-        func_0203FCA0(layer, (const struct BgTemplate *)(row + 1), row[9]);
+        func_0203FCA0((unsigned char)layer, (const struct BgTemplate *)(row + 1), (unsigned char)row[9]);
         func_020414AC(layer);
         func_02040588(layer, row[10]);
     }

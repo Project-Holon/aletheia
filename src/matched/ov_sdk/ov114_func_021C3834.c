@@ -64,13 +64,16 @@ typedef struct {
 typedef struct GHIPostState GHIPostState;
 
 extern int func_02184200(const int *p);
-extern int func_021C011C(GHIConnection *connection);
+typedef unsigned char  u8;
+struct GHIBuffer;
+struct GHIConnection;
+extern int func_021C011C(struct GHIConnection *connection);
 extern void func_021C00FC(GHIBuffer *buffer);
-extern int func_0209477C(const char *s);
-extern int func_021C07B8(GHIConnection *connection, const char *buffer, int len);
+extern int func_0209477C(const u8 *s);
+extern int func_021C07B8(struct GHIConnection *connection, char *buffer, int len);
 extern void *func_02184208(void *array, int n);
 extern int func_021C3218(GHIPostState *state, GHIConnection *connection, int first, int last);
-extern int func_021BFDEC(GHIBuffer *buffer, char *data, int dataLen);
+extern int func_021BFDEC(struct GHIBuffer *buffer, const char *data, int dataLen);
 extern char g_021CEFAC[];
 extern char g_021CEFB0[];
 
@@ -85,7 +88,7 @@ int func_021C3834(GHIConnection *connection)
 
     if (connection->sendBuffer.pos < connection->sendBuffer.len)
     {
-        if (!func_021C011C(connection))
+        if (!func_021C011C((struct GHIConnection *)connection))
             return 0;
         if (connection->sendBuffer.pos < connection->sendBuffer.len)
             return 2;
@@ -100,7 +103,7 @@ int func_021C3834(GHIConnection *connection)
     {
         if (connection->post->hasFiles || connection->post->useDIME)
         {
-            result = func_021C07B8(connection, g_021CEFAC, func_0209477C(g_021CEFAC));
+            result = func_021C07B8((struct GHIConnection *)connection, g_021CEFAC, func_0209477C((const u8 *)g_021CEFAC));
             if (result == 0)
                 return 0;
             if (result == 2)
@@ -127,14 +130,14 @@ int func_021C3834(GHIConnection *connection)
 
     if (connection->encryptEngine != 0 && connection->encodeBuffer.len > 0)
     {
-        if (!func_021BFDEC(&connection->sendBuffer, connection->encodeBuffer.data, connection->encodeBuffer.len))
+        if (!func_021BFDEC((struct GHIBuffer *)(&connection->sendBuffer), connection->encodeBuffer.data, connection->encodeBuffer.len))
             return 0;
         func_021C00FC(&connection->encodeBuffer);
     }
 
     if (connection->post->hasFiles && !connection->post->hasSoap)
     {
-        if (!func_021C07B8(connection, g_021CEFB0, func_0209477C(g_021CEFB0)))
+        if (!func_021C07B8((struct GHIConnection *)connection, g_021CEFB0, func_0209477C((const u8 *)g_021CEFB0)))
             return 0;
     }
 

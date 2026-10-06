@@ -25,9 +25,10 @@
 typedef unsigned int   u32;
 u32 func_02026478(void *obj);
 int func_020127C4(int h);
-int func_02174734(void *p, int b, int c);
-void func_02174D5C(void *p, void *e);
-int func_021748CC(void *p, int i);
+typedef unsigned char  u8;
+int func_02174734(char *p, int b, void *c);
+void func_02174D5C(int *p, const u8 *q);
+int func_021748CC(char *p, int a);
 u32 func_02174954(u32 p);
 
 void func_02174CCC(unsigned char *p)
@@ -39,7 +40,7 @@ void func_02174CCC(unsigned char *p)
 
     h = func_02026478((void *)(((struct Obj04951 *)p)->f4));
     if (p[0x908] != 0) {
-        if (func_02174734(p, p[0x908], func_020127C4(h)) == 1) {
+        if (func_02174734((char *)p, p[0x908], (void *)func_020127C4(h)) == 1) {
             p[0x908] = 0;
         }
     }
@@ -47,8 +48,8 @@ void func_02174CCC(unsigned char *p)
     for (i = 0; i < 3; i++) {
         q = p + i * 4;
         if (q[0x8D5] == 1) {
-            func_02174D5C(p, e + i * 4);
-            if (func_021748CC(p, i) == 1) {
+            func_02174D5C((int *)p, e + i * 4);
+            if (func_021748CC((char *)p, i) == 1) {
                 q[0x8D5] = 0;
             }
         }

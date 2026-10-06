@@ -26,7 +26,7 @@ struct Ov208Pal {
 extern s16 tbl_020A1B38[];
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-void func_021BE20C(struct Ov208Pal *m)
+s32 func_021BE20C(struct Ov208Pal *m)
 {
     s16 t;
     u8 i;
@@ -49,5 +49,5 @@ void func_021BE20C(struct Ov208Pal *m)
         u8 b = b1 + ((b2 - b1) * t >> 12);
         m->out[i] = r | g << 5 | b << 10;
     }
-    func_02061CA4((void *)14, 0x1a0, (u32)m->out, 0x20);
+    return func_02061CA4((void *)14, 0x1a0, (u32)m->out, 0x20);
 }

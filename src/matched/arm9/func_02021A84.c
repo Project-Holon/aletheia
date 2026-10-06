@@ -45,8 +45,8 @@ struct S02021A84 {
     u8  latch;
 };
 
-extern void func_02021B2C(struct S02021A84 *p);
-extern void func_02021B4C(struct S02021A84 *p);
+extern void func_02021B2C(u8 *p);
+extern void func_02021B4C(u8 *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
@@ -66,8 +66,8 @@ void func_02021A84(void *a, struct S02021A84 *p)
     }
 
     p->b_lo = p->a_big;
-    func_02021B2C(p);
-    func_02021B4C(p);
+    func_02021B2C((u8 *)p);
+    func_02021B4C((u8 *)p);
     if (p->a_big == 0) {
         p->b_x = 0;
         func_02030EAC(a);

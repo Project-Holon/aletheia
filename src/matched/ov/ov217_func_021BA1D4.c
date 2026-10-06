@@ -26,14 +26,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_020270E0();
-extern u32 func_021BA328();
+extern u8 func_020270E0(void);
+extern u32 func_021BA328(u32 a0);
 void func_021BA1D4(u32 a0)
 {
     if (((struct Obj00511 *)((u8*)a0))->f84 == 0) {
-    if (func_020270E0(((struct Obj00511 *)((u8*)a0))->f84) == 1) {
+    if (func_020270E0() == 1) {
     ((struct Obj00511 *)((u8*)a0))->f84 = 1;
-    func_021BA328(a0, 1);
+    func_021BA328(a0);
     }
     }
 }

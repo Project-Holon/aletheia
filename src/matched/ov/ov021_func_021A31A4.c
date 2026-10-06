@@ -31,7 +31,7 @@ typedef struct {
 
 extern const Row data_021D890C[];
 
-u16 func_021A31A4(int i, u16 v)
+int func_021A31A4(int i, int v)
 {
     const Pair *e;
     int k;

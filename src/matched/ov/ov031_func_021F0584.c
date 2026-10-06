@@ -27,7 +27,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
-extern void func_021F0628(int *p, int i);
+extern void func_021F0628(char *p, int sel);
 extern void func_020061E4(u32 se);
 
 int func_021F0584(int *p, u8 *flag)
@@ -54,7 +54,7 @@ int func_021F0584(int *p, u8 *flag)
                 flag[0x282E] = 1;
                 return 0;
             }
-            func_021F0628(p, i);
+            func_021F0628((char *)p, i);
             func_020061E4(0x54B);
             return 1;
         }

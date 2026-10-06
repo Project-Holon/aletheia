@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0203FA08(u32 a, u32 b, u32 c);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_0204162C(int channel);
 extern void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
 extern void func_02082D44(void *src, void *dst, int n);

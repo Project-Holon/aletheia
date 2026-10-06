@@ -21,7 +21,7 @@
  */
 
 extern int func_02161ECC(char *);
-extern void func_02161E78(char *);
+extern void func_02161E78(void *a0);
 extern void func_02082D44(char *, char *, int);
 
 #pragma opt_propagation off

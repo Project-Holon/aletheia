@@ -25,9 +25,10 @@
  *   g_021AE21C   0x021AE21C  data
  */
 
-extern char *func_020948B0(char *dst, const char *src);
+typedef unsigned char  u8;
+extern u8 *func_020948B0(u8 *dest, const u8 *src);
 extern char *func_02094B20(const char *s, const char *sub);
-extern int func_0209477C(const char *s);
+extern int func_0209477C(const u8 *s);
 extern char g_021A1A64[];
 extern int g_021ADFE0[];
 extern char g_021A5894[];
@@ -40,12 +41,12 @@ char *func_02193F00(char *s, char *key)
     char *pos2;
 
     g_021ADFE0[8] ^= 1;
-    func_020948B0(keyspec, key);
-    func_020948B0(keyspec, g_021A5894);
+    func_020948B0((u8 *)keyspec, (const u8 *)key);
+    func_020948B0((u8 *)keyspec, (const u8 *)g_021A5894);
     pos = func_02094B20(s, keyspec);
     if (pos == 0)
         return 0;
-    pos += func_0209477C(keyspec);
+    pos += func_0209477C((const u8 *)keyspec);
     pos2 = g_021AE21C + g_021ADFE0[8] * 256;
     while (*pos != 0 && *pos != 0x5c)
         *pos2++ = *pos++;

@@ -19,7 +19,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_020215BC(int slots, void *src, u32 idx, u16 off, u16 size);
+struct PalAnmSlot;
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern const u8 d_021F31A8[];
 
 struct W {
@@ -46,6 +47,6 @@ void func_021F08BC(struct W *p, int i, int j, int k)
             b = ((p->unk_272[p->unk_26C[i]][n] >> (m * 5)) & 0x1f) - a;
             p->unk_24E[i][n] |= ((a + b * j / k) & 0x1f) << (m * 5);
         }
-        func_020215BC(p->unk_210, &p->unk_24E[i][n], 1, d_021F31A8[i] + (n + 1) * 16, 2);
+        func_020215BC((struct PalAnmSlot *)p->unk_210, &p->unk_24E[i][n], 1, (u16)(d_021F31A8[i] + (n + 1) * 16), 2);
     }
 }

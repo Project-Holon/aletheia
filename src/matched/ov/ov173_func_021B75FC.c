@@ -14,11 +14,12 @@
  */
 #include "../include/Obj14317.h"
 
-extern void func_021B7460(int *, int);
+typedef unsigned int   u32;
+extern void func_021B7460(char *p, u32 kind);
 
 int func_021B75FC(int *p)
 {
-    func_021B7460(p, 8);
+    func_021B7460((char *)p, 8);
     ((struct Obj14317 *)p)->f1B0 = 8;
     *(unsigned char *)(((struct Obj14317 *)p)->f0 + 0x1a) = 1;
     return 2;

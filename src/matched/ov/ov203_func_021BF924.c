@@ -18,7 +18,16 @@
  *   func_02031140 0x02031140 arm
  */
 #include "../include/Obj02250.h"
-extern void func_021BE9E8(int),func_0203115C(void *),func_02005DE4(void *),func_02005DF8(int),func_02049238(void *),func_0201D83C(void *),func_02031140(void *);
+typedef unsigned int   u32;
+struct S02031140;
+struct Tcbl;
+extern void func_021BE9E8(int);
+extern void func_0203115C(struct Tcbl *p);
+extern void func_02005DE4(void *);
+extern void func_02005DF8(u32 a);
+extern void func_02049238(void *);
+extern void func_0201D83C(void *);
+extern void func_02031140(struct S02031140 *p);
 extern int func_02005E9C(int);
 void func_021BF924(char *p)
 {

@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct Sound;
 extern int func_02025DE8(struct Sound *);
 extern void func_02211970(u8 **,u32);
-extern void func_0220B760(u8 *,u8);
+extern void func_0220B760(u8 *p, unsigned int state);
 extern u32 func_02210F1C(u8 *p);
 extern u32 func_02021ED8(const char *);
 int func_0220FED0(u8 *p)
@@ -37,18 +37,18 @@ int func_0220FED0(u8 *p)
         (*(u8 **)p)[0x4B]=value;
         p[0x2191]=value;
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,sel+22);
+        func_0220B760(p,(u8)(sel+22));
         ((struct Obj08361 *)p)->f217C=17;
         return 29;
     case 5:
         func_02211970((u8 **)p,1362);
         (*(u8 **)p)[0x4B]=4;
-        func_0220B760(p,6);
+        func_0220B760(p,(u8)6);
         return 31;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
         (*(u8 **)p)[0x4B]=4;
-        func_0220B760(p,6);
+        func_0220B760(p,(u8)6);
         return 31;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);

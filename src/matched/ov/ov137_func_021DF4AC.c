@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Range { u32 low, high; };
 extern struct Range d_021E1F34[];
-extern void func_021E14E4(void *);
+extern void func_021E14E4(const char *p);
 struct BigObj;
 extern void func_021E026C(u8 *p, int message, unsigned value);
 extern void func_021E1988(unsigned int n);
@@ -37,7 +37,7 @@ int func_021DF4AC(u8 *p)
 {
     u32 low, high, value;
     int count;
-    func_021E14E4(p);
+    func_021E14E4((const char *)p);
     if ((((struct Obj05430 *)p)->f1C & (1 << (*(int **)(p + 40))[3])) == 0) {
         ((struct Obj05430 *)p)->f0 = 42;
         return 0;

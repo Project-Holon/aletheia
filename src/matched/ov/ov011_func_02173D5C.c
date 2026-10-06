@@ -23,7 +23,9 @@ typedef unsigned int   u32;
 struct Link;
 struct SaveBlock;
 u32 func_02026478(void *obj);
-void func_02175938(void *a, void *b, int c);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+void func_02175938(u8 *p, const u16 *src, int index);
 struct Entry;
 struct Entry *func_020399A8(void);
 u32 func_0203D1A4(struct Link *p);
@@ -37,7 +39,7 @@ void func_02173D5C(int a, int b, char *c, char *d)
 
     v = func_02026478((void *)(((struct Obj19172 *)d)->f4));
     t = (unsigned char)c[0x24];
-    func_02175938(d + 0x1AC, c, t);
+    func_02175938((u8 *)(d + 0x1AC), (const u16 *)c, t);
     if (t != func_0203D1A4((struct Link *)((int)func_020399A8()))) {
         func_02082D44(c, (int)func_020127AC((struct SaveBlock *)v, t), 0x10);
     }

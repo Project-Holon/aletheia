@@ -75,8 +75,9 @@ extern struct Rig *g_02148B48;
 extern const u16 tbl_020A17F0[3][4];
 extern const u16 tbl_020A17D8[3][4];
 extern void func_0207D8E0(const void *m);
-extern u32 func_02067B50(const struct Rig *r);
-extern u32 func_02067B64(const struct Rig *r);
+struct G2dOamState;
+extern u32 func_02067B50(const struct G2dOamState *p);
+extern u32 func_02067B64(const struct G2dOamState *p);
 extern void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6);
 
 static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
@@ -102,7 +103,7 @@ static inline int OamY(const GXOamAttr *oam)
 
 static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
 {
-    if (func_02067B50(g_02148B48)) {
+    if (func_02067B50((const struct G2dOamState *)g_02148B48)) {
         int x = OamX(oam);
         return -(x + *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
     } else
@@ -110,7 +111,7 @@ static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
 }
 static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
 {
-    if (func_02067B64(g_02148B48)) {
+    if (func_02067B64((const struct G2dOamState *)g_02148B48)) {
         int y = OamY(oam);
         return -(y + *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
     } else
@@ -125,9 +126,9 @@ void func_0206775C(GXOamAttr *oam)
         s16 y = PosY_(oam, shape);
         int hf; u32 vf;
         hf = oam->a.f.flipH;
-        hf = func_02067B50(g_02148B48) ^ hf;
+        hf = func_02067B50((const struct G2dOamState *)g_02148B48) ^ hf;
         vf = oam->a.f.flipV;
-        vf = func_02067B64(g_02148B48) ^ vf;
+        vf = func_02067B64((const struct G2dOamState *)g_02148B48) ^ vf;
         oam->a.attr01 &= ~0x10000000;
         oam->a.attr01 |= hf << 28;
         oam->a.attr01 &= ~0x20000000;

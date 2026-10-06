@@ -30,7 +30,7 @@ extern u32 func_02012138(const struct Ctx *);
 extern void func_021EFF78(char *p, int a1);
 extern int func_0202EB44(void);
 extern u32 func_0201214C(const struct Ctx *);
-extern void func_021EFF3C(void *, int);
+extern void func_021EFF3C(char *p, int a1);
 
 void *func_021EFEC0(int a0, int a1, int a2)
 {

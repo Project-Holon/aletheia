@@ -28,10 +28,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0215A460(u32);
-extern u32 func_0216D5B8(u32, u32, u32, u32);
+extern u32 func_0216D5B8(void *p);
 
-int func_021AE884(u32 a, u32 b, u32 c, u32 d)
+int func_021AE884(u32 a)
 {
-return func_0215A460(func_0216D5B8(a, b, c, d));
+return func_0215A460(func_0216D5B8((void *)a));
 }
 

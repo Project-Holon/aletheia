@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021D5440(u8 *p);
-int func_021B9CBC(u8 *p,u8 v) {
+int func_021B9CBC(u8 *p, int v) {
     int i;
     for(i=0;i<p[24];i++) if(v==func_021D5440(*(void **)((u32)p+(u32)i*4))) return i;
     return -1;

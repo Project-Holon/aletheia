@@ -39,7 +39,8 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct {u32 a,b;} Pair;
-extern u32 func_02035D20(u32 *,u32 *),func_02035C60(void);
+extern u32 func_02035D20(u32 *,u32 *);
+extern int func_02035C60(void);
 extern int func_021E24F8(char *,int,int),func_021E2538(char *,int,int);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FE784(int,int,int,int);
@@ -47,7 +48,7 @@ extern int func_021FE7B0(int *);
 extern void func_021E24C4(char *,char *),func_021FD860(int,int,Pair *);
 extern void func_021D76A8(int,int,int);
 extern int func_021D76D8(char *p, int id);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_021FD73C(int *p, int v);
 extern void func_021E2194(int task, int *state, char *p);
 void func_021E21E0(int task,int *state,char *p) {

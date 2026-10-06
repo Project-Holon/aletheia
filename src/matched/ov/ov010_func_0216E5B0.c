@@ -27,12 +27,14 @@ typedef struct VecFx32 {
     fx32 z;
 } VecFx32;
 
-extern void *func_0216DDDC(void *map, s16 x, s16 z, fx32 y, fx32 h, int flag);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
 extern int func_0216E51C(void *hit);
 
 int func_0216E5B0(void *map, const VecFx32 *pos)
 {
-    void *hit = func_0216DDDC(map, (pos->x >> 4) / 4096, (pos->z >> 4) / 4096, pos->y, 0x20000, 0);
+    void *hit = func_0216DDDC((u32)map, (s16)((pos->x >> 4) / 4096), (s16)((pos->z >> 4) / 4096), pos->y, 0x20000, (int)0);
 
     if (hit != 0 && func_0216E51C(hit) == 1)
         return 1;

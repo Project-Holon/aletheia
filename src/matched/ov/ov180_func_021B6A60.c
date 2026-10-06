@@ -25,13 +25,13 @@ extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_021B6210(void);
 extern void func_021B6418(char *);
 extern void func_021B64AC(char *);
-extern void func_021B64DC(char *);
+extern void func_021B64DC(unsigned char *p);
 int func_021B6A60(char *p) {
     func_02043534(0); func_020435F4(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     func_0207D534((void *)0x0400006c,-16);
     func_0207D534((void *)0x0400106c,-16);
-    func_021B6210(); func_021B6418(p); func_021B64AC(p); func_021B64DC(p);
+    func_021B6210(); func_021B6418(p); func_021B64AC(p); func_021B64DC((unsigned char *)p);
     return 4;
 }

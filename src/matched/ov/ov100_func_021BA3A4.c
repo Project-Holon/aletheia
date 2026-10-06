@@ -31,7 +31,7 @@ struct Cfg;
 struct CharBuf;
 struct MsgBank;
 extern void func_02045374(struct Cfg *cfg);
-extern void func_0201F73C(int,int,unsigned short,int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -44,7 +44,7 @@ void func_021BA3A4(struct Word *p,int a) {
   int v=func_020450F0(5,1,1,30,5,13,0);
   *(int *)&((struct Obj00060 *)a)->f27C=v;
   func_02045374((struct Cfg *)v);
-  func_0201F73C(*(int *)&((struct Obj00060 *)a)->f27C,0,((struct Obj00060 *)a)->f304,14);
+  func_0201F73C((void *)(*(int *)&((struct Obj00060 *)a)->f27C),0,(unsigned short)(((struct Obj00060 *)a)->f304),14);
  }
  func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C)),255);
  ((struct Obj00060 *)a)->fCB0=p->x;

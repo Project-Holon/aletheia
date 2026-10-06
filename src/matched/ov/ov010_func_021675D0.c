@@ -54,7 +54,7 @@ static inline void cpy(Blk12 *d, Blk12 *s)
     *d = *s;
 }
 
-void func_021675D0(Work *w, int idx, u16 a2, Src *src)
+void func_021675D0(Work *w, int idx, int a2, Src *src)
 {
     if (w->obj != 0 && w->e[idx].used != 1) {
         cpy(&w->e[idx].pos, &src->pos);

@@ -22,12 +22,13 @@ typedef struct {
     R *f0;
 } S;
 
-extern int func_021A8268(S *s);
+typedef unsigned int   u32;
+extern int func_021A8268(u32 a);
 
 int func_021A834C(S *s)
 {
     R *p = s->f0;
-    if (func_021A8268(s)) {
+    if (func_021A8268((u32)s)) {
         return 0;
     }
     if (p->f38 != 2) {

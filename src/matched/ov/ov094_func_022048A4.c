@@ -31,7 +31,9 @@ extern const int d_0220A3B4[][2];
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B404(void *h, s16 *in, int k);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0220687C(char *p, void *q);
 
 void func_022048A4(int a0, Ctx *c)
@@ -62,7 +64,7 @@ void func_022048A4(int a0, Ctx *c)
                 v[1] = v[1] + 4;
                 changed = 1;
             }
-            func_0204B404(*(void **)(p + j * 8), v, 1);
+            func_0204B404(*(void **)(p + j * 8), (const struct Vec2 *)v, 1);
         }
     }
     if (changed == 0) {

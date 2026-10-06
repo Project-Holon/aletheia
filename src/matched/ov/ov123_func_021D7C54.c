@@ -17,7 +17,10 @@
 struct Sub02009210Ent;
 struct Sub02009210Obj;
 extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
-extern int func_0203EFC8(const void *, const void *, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_020093A8(struct Sub02009210Obj *obj, int i, const void *src);
 extern void func_020093F0(struct Sub02009210Obj *obj, int value);
 void func_021D7C54(void *p, char *q)
@@ -25,7 +28,7 @@ void func_021D7C54(void *p, char *q)
     int changed = 0;
     int i;
     for (i = 0; i < 5; i++) {
-        if (func_0203EFC8(func_02009390(p, i), q + 0x98 + i * 26, 26)) {
+        if (func_0203EFC8((const u8 *)func_02009390(p, i), (const u8 *)(q + 0x98 + i * 26), 26)) {
             changed = 1;
             break;
         }

@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 struct BigObj;
 extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern int func_02158344(int a0);
 extern int func_0217BED4();
 extern void *func_02185140();

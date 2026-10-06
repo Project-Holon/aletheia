@@ -31,8 +31,8 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u32 func_020056EC(u32 n);
 extern int *func_021867C4(int a, int id);
 extern char *func_0218682C(char *p);
-extern void *func_02186B60(void *p);
-extern char *func_021869E0(u16 *p, int r, int h, int *out);
+extern char *func_02186B60(char *p);
+extern char *func_021869E0(char *a, int limit, char *h, int *out);
 extern void func_02186B84(void *slot, u8 a, int b, u16 c, int d);
 extern void func_02186804(void **p);
 
@@ -58,8 +58,8 @@ void func_021860D4(u16 *p, int a1, int id)
     func_0218682C((char *)h);
     for (i = 0; i < 10; i++) {
         r = func_020056EC(rem);
-        slot = func_02186B60(p + 4);
-        e = func_021869E0(p, r, h, &out);
+        slot = func_02186B60((char *)(p + 4));
+        e = func_021869E0((char *)p, r, (char *)h, &out);
         if (p[1] == 0) {
             v = ((struct Obj07401 *)e)->f6;
             flag = 1;
@@ -73,7 +73,7 @@ void func_021860D4(u16 *p, int a1, int id)
     for (j = 0; j < 3; j++) {
         r = func_020056EC(rem);
         slot = func_02186B60((char *)p + 0xf8);
-        e = func_021869E0(p, r, h, &out);
+        e = func_021869E0((char *)p, r, (char *)h, &out);
         func_02186B84(slot, (u8)out, a1, 0, flag);
         rem -= ((struct Obj07401 *)e)->f2C;
     }

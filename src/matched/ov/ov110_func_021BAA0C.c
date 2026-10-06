@@ -19,7 +19,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021BF71C(u8 *);
-extern void func_021BCFBC(u8 *,u8,int);
+typedef unsigned int   u32;
+extern void func_021BCFBC(char *p, u32 index, int value);
 extern void func_021B9CBC(u8 *);
-void func_021BAA0C(int a,u8 *p) { u8 *q; q=*(u8 * *)&((struct Obj00135 *)p)->f0; func_021BCFBC(*(u8 * *)&((struct Obj22334 *)q)->f64,func_021BF71C(*(u8 * *)&((struct Obj00135 *)p)->f4),1); func_021B9CBC(p); }
+void func_021BAA0C(int a,u8 *p) { u8 *q; q=*(u8 * *)&((struct Obj00135 *)p)->f0; func_021BCFBC((char *)(*(u8 * *)&((struct Obj22334 *)q)->f64),(u8)func_021BF71C(*(u8 * *)&((struct Obj00135 *)p)->f4),1); func_021B9CBC(p); }
 void func_021BAA30(int a,u8 *p) { func_021B9CBC(p); }

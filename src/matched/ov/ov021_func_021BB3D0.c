@@ -12,5 +12,6 @@
  *   func_021B7D68  0x021B7D68  thumb ov021
  */
 
-extern void func_021B7D68(void *o, void *r);
+struct Obj;
+extern void func_021B7D68(struct Obj *o, void *r);
 void func_021BB3D0(void **h, void *r) { func_021B7D68(*h, r); }

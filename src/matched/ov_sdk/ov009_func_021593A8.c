@@ -23,14 +23,17 @@
 extern char g_02150FEC[];
 extern char g_021A86A4[];
 extern unsigned long func_0215938C(unsigned long ip);
-extern unsigned long func_02158714(unsigned char *data, unsigned long len, void *soc, unsigned char flag);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct _CPSSoc;
+extern u32 func_02158714(u8 *data, u32 len, struct _CPSSoc *soc, u8 flag);
 extern unsigned long func_021578C8(unsigned long ip);
 extern void func_02157E54(unsigned long ip);
 
 void func_021593A8(char *soc, unsigned char flag)
 {
     if (func_0215938C(*(unsigned long *)(soc + 0x1c)) != 0 || *(char **)(g_02150FEC + 4) != g_021A86A4) {
-        func_02158714(0, 0, soc, flag);
+        func_02158714(0, 0, (struct _CPSSoc *)soc, flag);
     } else {
         func_02157E54(func_021578C8(*(unsigned long *)(soc + 0x1c)));
     }

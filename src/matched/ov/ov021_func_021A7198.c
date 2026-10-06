@@ -28,7 +28,7 @@ typedef struct V { u32 x, y, z; } V;
 extern u32 func_02188C98(u8 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *b);
-extern void func_02164208(u32 a, V *b, u32 c);
+extern void func_02164208(int dir, int *p, int amt);
 extern int func_021AB0D4(void *a, void *b);
 extern int func_021AB11C(u32 attr);
 
@@ -39,7 +39,7 @@ int func_021A7198(u32 a, u32 *b, V *c, u32 d)
     h = func_02188C98((u8 *)a);
     func_021A3038((unsigned char *)b[1], (struct VecFx32 *)c);
     v = *c;
-    func_02164208(d, &v, 0x10000);
+    func_02164208(d, (int *)(&v), 0x10000);
     if (func_021AB11C(func_021AB0D4((void *)h, &v)) == 0)
         return 1;
     return 0;

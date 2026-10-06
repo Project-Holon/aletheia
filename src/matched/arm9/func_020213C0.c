@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u16 sub_0209E968_Map[];
 
-int func_020213C0(u16 a)
+int func_020213C0(u32 a)
 {
     u32 i;
 

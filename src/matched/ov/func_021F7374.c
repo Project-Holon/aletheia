@@ -47,7 +47,7 @@ extern void *func_0201AB28(void *p, u32 idx);
 extern void func_0220262C(u32 a, u32 b);
 struct Sub02007454Entry;
 extern void func_02007664(void *save, u32 box, u32 slot);
-extern int func_020076D0(u32 s, u32 *a, u32 *b);
+extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern void *func_020185F4(void *p);
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 
@@ -64,7 +64,7 @@ void func_021F7374(Obj *p)
         a = 0;
         b = 0;
         func_02007664((void *)p->ctx->storage, p->box, p->slot);
-        func_020076D0(p->ctx->storage, &a, &b);
+        func_020076D0((void *)p->ctx->storage, (int *)(&a), (int *)(&b));
         func_0200752C((void **)p->ctx->storage, a, (const struct Sub02007454Entry *)((u32)func_020185F4((void *)e)));
     }
 }

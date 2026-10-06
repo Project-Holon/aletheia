@@ -37,13 +37,15 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *vm);
 extern void *func_0215A5DC(void *vm);
-extern void *func_020120F4(void *sys);
-extern void *func_0201210C(void *sys);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
-extern u32 func_02159AE8(void *c, void *vm);
-extern void *func_02014840(void *sys, void *x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
+struct Ctx;
+struct Rec;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void func_0215897C(void *p, void *v);
-extern void func_0215C7C4(void);
+extern void func_0215C7C4(struct Rec *r);
 extern const char d_021728F0[];
 extern const u8 d_021C78A4[];
 extern u8 ov136_id[];
@@ -65,7 +67,7 @@ int func_0215C7E0(void *c, void *vm)
     b = func_02030734(4, 8, 0, d_021728F0, 0x150);
     a[0] = (u32)w;
     b[0] = (u32)a;
-    b[1] = func_02159AE8(c, vm);
-    func_0215897C(slot, func_02014840(sys, x, (u32)ov136_id, d_021C78A4, a, (void *)func_0215C7C4, b));
+    b[1] = (u32)func_02159AE8(c, vm);
+    func_0215897C(slot, func_02014840(sys, (int)x, (u32)ov136_id, (int)d_021C78A4, (int)a, (int)((void *)func_0215C7C4), (int)b));
     return 1;
 }

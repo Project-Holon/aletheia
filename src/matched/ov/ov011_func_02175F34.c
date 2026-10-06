@@ -39,7 +39,7 @@ typedef struct {
 } Half8;
 
 extern u32 func_02026478(void *obj);
-extern Half8 *func_021583CC(int sv, int i);
+extern int func_021583CC(void *a0, int a1);
 struct Sub0200852CObj;
 extern int func_021583EC(void *a0, int a1);
 extern u8 func_0200855C(const struct Sub0200852CObj *obj);
@@ -59,7 +59,7 @@ void func_02175F34(void *w, Ent *tbl, u32 arg, int idx)
     sv = func_02026478(((void **)w)[1]);
     e = (Ent *)((u8 *)tbl + idx * 0x28);
     if (e->f10 != 1) {
-        src = func_021583CC(sv, idx);
+        src = (Half8 *)func_021583CC((void *)sv, idx);
         t = func_021583EC((void *)sv, idx);
         u = func_0200855C((const struct Sub0200852CObj *)t);
         flag = func_021584F4(u, func_02008530((const struct Sub0200852CObj *)t)) == 0x15;

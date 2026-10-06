@@ -74,7 +74,8 @@ struct Big;
 struct Sub020071CCCtrl;
 extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *sub_02012EBC(struct Big *p);
-extern void sub_02024570(void *entry, void *arg);
+struct Rec8;
+extern void sub_02024570(struct Rec8 *dst, const struct Rec8 *src);
 
 struct Sub02008F80Entry {
     u8 unk00[8];
@@ -170,7 +171,7 @@ struct Sub02008F80Entry *sub_02008FC8(struct Sub02008F80Obj *obj, u32 i)
 void sub_02008FD8(struct Sub02008F80Obj *obj, void *arg, u32 i)
 {
     if (i < 3) {
-        sub_02024570(&obj->unk20[i], arg);
+        sub_02024570((struct Rec8 *)(&obj->unk20[i]), arg);
     }
 }
 

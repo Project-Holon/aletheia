@@ -31,7 +31,7 @@ typedef signed short   s16;
 
 extern void *func_021A3960(unsigned char *p);
 extern u32 func_02188CFC(u8 *p);
-extern void func_021A330C(u32 *, int, s16 *, s16 *, s16 *);
+extern void func_021A330C(unsigned char **a, u32 b, s16 *c, s16 *d, s16 *e);
 extern void func_02164280(int x, int y, int *p);
 extern u32 func_02188C5C(u8 *p);
 extern void *func_021BB480(void *p);
@@ -54,7 +54,7 @@ void func_021A3364(u32 *a, int b, int *out)
 
     e = func_021A3960((void *)a[1]);
     if (func_02188CFC((u8 *)a[0]) == 0) {
-        func_021A330C(a, b, &z, &y, &x);
+        func_021A330C((unsigned char **)a, b, &z, &y, &x);
         func_02164280(z, x, out);
         out[1] = y << 16;
         return;

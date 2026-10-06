@@ -21,7 +21,7 @@ extern void func_021B99B8(u8 *p);
 extern void func_021B9774(u8 *p);
 extern void func_021B9838(u8 *p);
 
-void func_021D7124(char *p, int unused, int k)
+void func_021D7124(char *p, int unused, int k, int a3)
 {
     if ((k == 3 || k == 6) && *(u8 **)(p + 0x404) != 0) {
         func_021B99B8(*(u8 **)(p + 0x404));

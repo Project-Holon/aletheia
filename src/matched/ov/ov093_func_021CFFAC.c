@@ -32,7 +32,7 @@ extern u32 func_0201C314(void *p);
 extern u8 func_0201C1C8(void *p);
 extern u16 func_021D57FC(void *);
 extern int func_021D799C(int, int);
-extern int func_021D055C(void *, void *, int);
+extern int func_021D055C(u8 *g, void *a, int b);
 int func_021CFFAC(struct G *g, void *mon, void *target)
 {
     u32 id;
@@ -46,11 +46,11 @@ int func_021CFFAC(struct G *g, void *mon, void *target)
             valid = func_0201C314((void *)id);
             kind = func_0201C1C8((void *)id);
             if (func_021D799C(kind, func_021D57FC(target)) == 0 && valid) {
-                if (func_021D055C(g, target, 4)) {
+                if (func_021D055C((u8 *)g, target, 4)) {
                     g->seed = g->mul * g->seed + g->add;
                     return (u32)(((g->seed >> 32) * 3) >> 32) < 2;
                 }
-                if (func_021D055C(g, target, 3)) {
+                if (func_021D055C((u8 *)g, target, 3)) {
                     g->seed = g->mul * g->seed + g->add;
                     return (u32)(((g->seed >> 32) * 2) >> 32) < 1;
                 }

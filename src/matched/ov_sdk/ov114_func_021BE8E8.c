@@ -33,7 +33,7 @@ extern char g_021CE53C[];
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern void *func_021BEF58(void);
-extern Req *func_021BEC10(void *mutexInfo_p, void *handle_p);
+extern int func_021BEC10(int a, int d);
 extern int func_021BA124(char *s, int max);
 extern void func_021BA13C(int a, int b);
 extern void func_021BA100(void *dst_p, void *src_p, int size);
@@ -49,7 +49,7 @@ int func_021BE8E8(void *handle, char *username_p, char *password_p)
 
     func_021BEF08();
     mutexInfo_p = func_021BEF58();
-    req_p = func_021BEC10(mutexInfo_p, handle);
+    req_p = (Req *)func_021BEC10((int)mutexInfo_p, (int)handle);
     if (req_p == 0 || username_p == 0 || password_p == 0) {
         return -1;
     }

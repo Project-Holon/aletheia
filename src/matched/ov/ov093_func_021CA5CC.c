@@ -27,17 +27,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cmd { u32 a:8; u32 id:5; u32 b:19; };
-extern int func_021B8D8C(void *, void *, u8);
+struct Unk021D62A8;
+struct UtilWork;
+extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u8 func_021C7F68(void *, u16, u8 *);
 typedef signed int     s32;
 struct Slot;
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D5BDC(u8 *, u32);
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern int func_021C5418(u8 *, u8 *, int);
 extern u8 func_021D69AC(u8 *, int);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern int func_021C6F34(u8 *, u8 *, int);
-extern int func_021D62C4(u8 *, int);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
 extern void func_021CD64C(void *, u8, ...);
 int func_021CA5CC(const u8 *p, const struct Cmd *q)
@@ -48,14 +50,14 @@ int func_021CA5CC(const u8 *p, const struct Cmd *q)
     u8 *a;
     int changed;
     u8 t;
-    n = func_021C7F68((u8 *)p, func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, q->id) | 0x800, buf);
+    n = func_021C7F68((u8 *)p, func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, (u8)q->id) | 0x800, buf);
     i = 0;
     if (i >= n) goto done;
 loop:
     {
         a = (u8 *)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, buf[i]);
         changed = 0;
-        if (func_021D5BDC(a, 3)) {
+        if (func_021D5BDC((struct UtilWork *)a, 3)) {
             func_021C5418((u8 *)p, a, 3);
             t = func_021D69AC(a, 4);
             if (!(t && (t = (u8)(t - 1)) < 24)) t = 31;
@@ -63,11 +65,11 @@ loop:
             changed = 1;
         }
         if (func_021C6F34((u8 *)p, a, 1)) changed = 1;
-        if (func_021D62C4(a, 30)) {
+        if (func_021D62C4((struct Unk021D62A8 *)a, 30)) {
             func_021C5620((u8 *)p, a, 30, 0);
             changed = 1;
         }
-        if (func_021D62C4(a, 32)) {
+        if (func_021D62C4((struct Unk021D62A8 *)a, 32)) {
             func_021C5620((u8 *)p, a, 32, 0);
             changed = 1;
         }

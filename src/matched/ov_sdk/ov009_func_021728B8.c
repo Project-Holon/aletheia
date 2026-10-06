@@ -48,7 +48,7 @@ extern int func_02175F3C(void);
 extern void func_02172A58(void);
 extern int func_0216BB6C(void);
 extern void func_02199FB4(int cookie);
-extern void func_02195DE4(GTI2Socket *socket);
+extern void func_02195DE4(int *p);
 extern int func_02171F68(int arg);
 extern int func_021719A4(int error);
 extern int func_02172B08(void);
@@ -75,7 +75,7 @@ static void func_021728B8(void)
         }
         ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
         if (anyGT2ConnectionExist) {
-            func_02195DE4(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket);
+            func_02195DE4((int *)(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket));
         } else {
             result = func_021719A4(func_02171F68(0));
             if (result)
@@ -103,7 +103,7 @@ static void func_021728B8(void)
     }
     if (anyGT2ConnectionExist) {
         ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
-        func_02195DE4(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket);
+        func_02195DE4((int *)(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket));
     }
     func_02172A58();
 }

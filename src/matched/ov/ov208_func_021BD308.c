@@ -14,10 +14,10 @@
  */
 struct Ov208Item { char b[0x38]; };
 struct Ov208Mgr { int idx; unsigned count; int state; int fc; int f10; char f14[0x14]; struct Ov208Item items[1]; };
-extern int func_021BD7F8(struct Ov208Item *it);
+extern int func_021BD7F8(char *p);
 int func_021BD308(struct Ov208Mgr *m)
 {
     if (m->state == 1 && m->idx != -1)
-        return func_021BD7F8(&m->items[m->idx]);
+        return func_021BD7F8((char *)(&m->items[m->idx]));
     return -1;
 }

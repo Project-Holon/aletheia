@@ -53,7 +53,7 @@ extern unsigned char func_02175FB8(void);
 extern void func_02175F4C(int state);
 extern int func_02172E18(int profileID);
 extern int func_0217603C(void);
-extern struct DWCstNodeInfo *func_0217637C(int index);
+extern char *func_0217637C(int index);
 extern int func_02173614(int profileID, unsigned char command);
 extern void func_02172BB8(int level);
 extern int func_02176674(void);
@@ -79,7 +79,7 @@ int func_02171FD4(int clientPid, int resetLevel)
         ((struct DWCstMatchControl *)func_02175F3C())->f632 = 0;
         func_02172E18(clientPid);
         for (i = 1; i < func_0217603C(); i++) {
-            pNodeInfo = func_0217637C(i);
+            pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
             if (!func_02173614(pNodeInfo->profileID, 0xd))
                 return 0;
         }

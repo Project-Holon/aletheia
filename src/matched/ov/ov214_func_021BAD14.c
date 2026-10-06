@@ -36,17 +36,18 @@ struct BgTemplate;
 extern const u32 d_021BB498[][11];
 extern u32 d_021BB640[][3];
 extern u8 *func_02012944(void *p);
-extern u32 func_02008550(void *);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02043588(void);
 extern void func_0207D518(u32);
 extern void func_02043558(void);
-extern void func_0203FCA0(u8,const struct BgTemplate *,u8);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void func_02043598(u32,u32);
 extern void *func_020490F4(u32,u16);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
 extern void func_020409B4(u32);
@@ -58,7 +59,7 @@ void func_021BAD14(void **a,char *p)
     u32 layer;
     u16 heap;
     void *arc;
-    gender=(u8)func_02008550(func_02012944(*a));
+    gender=(u8)(u32)func_02008550((const struct Sub0200852CObj *)func_02012944(*a));
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |=0x10000;
@@ -68,7 +69,7 @@ void func_021BAD14(void **a,char *p)
     for (i=0;i<1U;i++) {
         row=d_021BB498[i];
         layer=row[0];
-        func_0203FCA0(layer,(const struct BgTemplate *)(row+1),row[9]);
+        func_0203FCA0((u8)layer,(const struct BgTemplate *)(row+1),(u8)row[9]);
         func_020414AC(layer);
         func_02040588(layer,row[10]);
     }

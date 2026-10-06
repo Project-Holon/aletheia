@@ -52,7 +52,7 @@ extern int func_021D5814(void *, int);
 extern void func_021D7674(int, u32, u32, u32);
 extern u32 func_021D7B10(u32 a, u32 b);
 
-u16 func_021C7474(u8 *p, u8 *a, u8 *b, u8 *c, int flag)
+u16 func_021C7474(u8 *p, u8 *a, u8 *b, u8 *c, u32 flag)
 {
     int k;
     u32 field;

@@ -28,7 +28,7 @@
 #include "../include/Obj23933.h"
 #include "../include/Obj23934.h"
 struct WinMgr;
-extern void func_021ED55C(char *, int);
+extern void func_021ED55C(char **p, int flag);
 extern void func_021EBA5C(char *, int);
 extern void func_021DD14C(char *);
 extern void func_021EE038(char *, int, int, int);
@@ -36,17 +36,17 @@ extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(char *, int, int);
 extern int func_021E0190(char *);
 extern void func_021ED888(char *, int);
-extern void func_021ED508(char *, int, int);
+extern void func_021ED508(unsigned char *p, int a, int b);
 extern void func_021ECB20(char *, int, int);
 extern void func_021EF670(char *);
-extern void func_021EE364(char *, int, int);
+extern void func_021EE364(char **p, int idx, int v);
 #define W (*(char **)(p + 0x2c))
 #define S (*(int *)(W + 0xA194))
 int func_021E85F0(char *p)
 {
     switch (S) {
     case 0:
-        func_021ED55C(p, 0);
+        func_021ED55C((char **)p, 0);
         func_021EBA5C(W, 24);
         func_021DD14C(p);
         func_021EE038(p, 0, 0, 1);
@@ -56,25 +56,25 @@ int func_021E85F0(char *p)
     case 1:
         S = 0;
         func_021ED888(W, 1);
-        func_021ED508(p, 14, 1);
+        func_021ED508((unsigned char *)p, 14, 1);
         if (((struct Obj23931 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 2) {
             func_021ECB20(p, 1, 0);
             func_021EF670(W);
-            func_021EE364(p, 3, 30);
+            func_021EE364((char **)p, 3, 30);
             return 17;
         } else if (((struct Obj23932 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 1) {
             func_021ECB20(p, 1, 0);
-            func_021EE364(p, 2, 30);
+            func_021EE364((char **)p, 2, 30);
             return 44;
         } else if (((struct Obj23933 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 3) {
             func_021ECB20(p, 0x81, 1);
             func_021EF670(W);
-            func_021EE364(p, 7, 30);
+            func_021EE364((char **)p, 7, 30);
             return 57;
         } else if (((struct Obj23934 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 4) {
             func_021ECB20(p, 1, 0);
             func_021EF670(W);
-            func_021EE364(p, 13, 30);
+            func_021EE364((char **)p, 13, 30);
             return 35;
         }
     }

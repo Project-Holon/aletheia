@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef struct Pair{int x,y;} Pair;
 extern void func_02082BCC(void *,int,int);
 extern int func_021FE2F8(char *,int *,int);
-void func_021FE2BC(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration)
+int func_021FE2BC(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration)
 {
     int x;
     func_02082BCC(p,0,28);
@@ -31,5 +31,5 @@ void func_021FE2BC(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration
     ((struct Obj01284 *)p)->f0=x;
     ((struct Obj01284 *)p)->f18=duration;
     ((struct Obj01284 *)p)->f4=origin->y;
-    func_021FE2F8((char *)p,(int *)(p+8),0);
+    return func_021FE2F8((char *)p,(int *)(p+8),0);
 }

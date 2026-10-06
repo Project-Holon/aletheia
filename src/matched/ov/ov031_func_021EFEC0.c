@@ -48,16 +48,16 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021F01F0(u32 *p);
 struct Obj;
 extern void func_021F0250(void *p, u32 h);
-extern void func_021F0430(u32 *p);
+extern void func_021F0430(struct Obj *p);
 extern void func_021F0490(char *p, u32 heap);
-extern void func_021F04EC(u32 *p, void *h);
+extern void func_021F04EC(int *p, void *h);
 extern void func_021F0378(u32 *p);
 extern void func_02049238(void *h);
 extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void func_0202DE5C(struct PmsDraw *p, u8 v);
 extern u32 func_02026474(void *obj);
 extern u8 func_02173940(u8 *p);
-extern void func_021F09A0(void *a, u8 *b);
+extern void func_021F09A0(void *a, char *b);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_02037174(void);
@@ -80,9 +80,9 @@ u32 *func_021EFEC0(void *a)
     h = func_020490F4(0x59, 0x15);
     func_021F01F0(w);
     func_021F0250(w, (u32)h);
-    func_021F0430(w);
+    func_021F0430((struct Obj *)w);
     func_021F0490((char *)w, (u32)h);
-    func_021F04EC(w, h);
+    func_021F04EC((int *)w, h);
     func_021F0378(w);
     func_02049238(h);
     w[0x1F] = (u32)func_0202DB0C(w[5], 1, w[0x10], w[0x11], 9, 3, 0x15);
@@ -90,7 +90,7 @@ u32 *func_021EFEC0(void *a)
     q = (u8 *)func_02026474(s);
     if (q != 0) {
         *((u8 *)w + 0x30) = func_02173940(q);
-        func_021F09A0(w, q + 0x30E0);
+        func_021F09A0(w, (char *)(q + 0x30E0));
         if (*((u8 *)w + 0x30) != 0) {
             for (i = 0; (i < 5) ? 1 : 0; i++) {
                 if (d_021F1038[i] == *((u8 *)w + 0x30)) {

@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
-void func_021C0950(void *unused, u8 *p)
+void func_021C0950(void *unused, u8 *p, void *a2)
 {
     u32 v = ((struct Obj25499 *)p)->f68;
     func_0203FB44(7, (u16)v, (u16)(v >> 16));

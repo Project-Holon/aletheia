@@ -21,7 +21,9 @@ typedef struct { u32 handle; u16 value; u16 pad; u32 zero; } Item;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02027778(Descriptor *,u32);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_02045808(struct U16Vec *vec);
 u32 func_021BE11C(u8 *p)
 {
@@ -42,7 +44,7 @@ u32 func_021BE11C(u8 *p)
     x.c=8;
     x.d=3;
     x.zero=0;
-    result=func_02027778(&x,((struct Obj08262 *)p)->f1D4);
+    result=(u32)func_02027778((struct TaskMenuTmpl *)(&x),(void *)(((struct Obj08262 *)p)->f1D4));
     func_02045808((struct U16Vec *)items[0].handle);
     func_02045808((struct U16Vec *)items[1].handle);
     return result;

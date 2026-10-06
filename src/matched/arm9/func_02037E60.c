@@ -44,7 +44,7 @@ struct State {
 
 extern void *func_0203D788(void);
 extern u32           func_0203D6BC(void);
-extern u32           func_02039338(u32 a);
+extern u16 func_02039338(void);
 extern u32           func_02039160(u32 a);
 extern int func_02038A48(int a);
 typedef signed int     s32;
@@ -61,13 +61,13 @@ void func_02037E60(void)
     r = c->f340->f70();
     if (r == 0)
         return;
-    r = func_02039338(r);
+    r = func_02039338();
     r = func_02039160(r);
     if (r == 0)
         return;
     if (g_020A7A20[1] != 0)
         return;
-    if (func_02039338(g_020A7A20[1]) != 0) {
+    if (func_02039338() != 0) {
         r = c->f340->f64(g_021469D0->f0, v, 0, func_02038A48);
         if (r == 0)
             return;

@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0202F488(int a0, int a1, int a2, int a3){ int t0 = func_020185F0(); int t1 = func_0202F498((int)t0, (int)((a1 + 0) + 0)); return t1; }
+int func_0202F488(int a0, int a1){ int t0 = func_020185F0(); int t1 = func_0202F498((int)t0, (int)((a1 + 0) + 0)); return t1; }

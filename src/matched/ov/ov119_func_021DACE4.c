@@ -23,11 +23,16 @@
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern void func_021E36D8(void *,int);
-extern void func_021DD1B8(void *);
-extern int func_021D8AA8(void *),func_020173EC(void);
+typedef unsigned int   u32;
+extern void func_021DD1B8(char *p);
+extern int func_021D8AA8(void *);
+extern u32 func_020173EC(void);
 struct Obj;
-extern void func_02082BCC(void *,int,int),func_0204B3DC(struct Obj *,unsigned int),func_021E1098(void *);
-extern void func_021D8E84(void *,int),func_021DAC60(void *);
+extern void func_02082BCC(void *,int,int);
+extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void func_021E1098(char *p);
+extern void func_021D8E84(void *,int);
+extern void func_021DAC60(char *p);
 void func_021DACE4(char *p) {
  int i;
  func_02039338();((struct Obj04477 *)p)->fF88=-1;((struct Obj04477 *)p)->fF84=-1;((struct Obj04477 *)p)->f800=0;((struct Obj04477 *)p)->fF60=0;((struct Obj04477 *)p)->f1060=0;

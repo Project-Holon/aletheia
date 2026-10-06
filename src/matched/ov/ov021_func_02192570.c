@@ -45,7 +45,9 @@ extern void func_02192264(u32 a, u32 b, u32 c, u32 d);
 extern void func_021922A4(u32 a, u32 b, u32 c);
 extern void func_02192244(u32 a, u32 b, u32 c);
 extern void func_020409B4(u32 layer);
-extern void func_021927C0(u32 *p, u16 *a);
+struct Fx;
+struct G;
+extern void func_021927C0(struct G *g, struct Fx *a);
 extern void func_02193044(u32 a);
 
 u32 *func_02192570(u16 *a, u32 b, u32 c, u16 d, u16 e, u16 f)
@@ -62,7 +64,7 @@ u32 *func_02192570(u16 *a, u32 b, u32 c, u16 d, u16 e, u16 f)
     func_02045374((struct Cfg *)t[0]);
     func_02045334((struct Descriptor *)t[0]);
     func_020409B4((u8)a[1]);
-    func_021927C0(t + 4, a);
+    func_021927C0((struct G *)(t + 4), (struct Fx *)a);
     a[3] = 0xB;
     func_02193044(0);
     return t;

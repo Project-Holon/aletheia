@@ -26,7 +26,7 @@ typedef struct Ent { u16 a; u16 b; u8 c; u8 d; u8 e; u8 f; } Ent;
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021E1AE4(void *m, int x, Ent *out);
-extern int func_021C7D00(void *a, int b);
+extern int func_021C7D00(u8 *p, int b);
 extern int func_021C7D44(char *p, int i);
 extern int func_021C8030(u8 *p, int v, u16 k);
 extern int func_021D76BC(int key, u32 val);

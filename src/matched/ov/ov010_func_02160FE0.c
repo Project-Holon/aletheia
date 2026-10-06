@@ -29,7 +29,7 @@ struct Ctx;
 struct MyItemSave;
 extern void *func_020120F4(const struct Ctx *);
 extern int func_02160FB4(void *);
-extern int *func_0202E474(int, int, int, int);
+extern void *func_0202E474(int a0, int a1, int a2, int a3);
 extern void func_02008298(struct MyItemSave *, u16);
 
 int *func_02160FE0(u8 *a0, int a1, int a2, const int *a3)

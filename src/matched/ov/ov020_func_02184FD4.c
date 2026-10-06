@@ -40,19 +40,27 @@ typedef short s16;
 
 typedef struct { int w[7]; } V28;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
+struct BigObj;
+struct Desc;
+struct Obj;
+struct Rec1C;
+struct Rec44;
+struct SaveBlock;
+struct Vec12;
+struct t;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 void func_02014184(void *d, int a, int b, int c, int e, int f);
-void func_02014204(void *p, int id);
-int func_020127A4(void *p);
-int *func_02012AA0(int a);
-int func_02012AC8(int);
-int func_02012AE4(int);
-void func_0201289C(void *, V28 *);
-void func_02184AB4(void);
-void func_02184CEC(void *obj, void *p);
+void func_02014204(struct t *p, int id);
+void *func_020127A4(struct SaveBlock *p);
+struct Vec12 *func_02012AA0(struct Rec44 *p);
+u16 func_02012AC8(const struct Rec44 *p);
+u32 func_02012AE4(const struct Rec44 *p);
+void func_0201289C(struct BigObj *p, const struct Rec1C *src);
+int func_02184AB4(int ctx, int *state, u8 *p);
+void func_02184CEC(void **o, void *p);
 
-void *func_02184FD4(void *p, int id)
+void *func_02184FD4(void *p, u16 id)
 {
     V28 v;
     void *r0v = func_020122C0(p, 0, func_02184AB4, 0x9c);
@@ -60,14 +68,14 @@ void *func_02184FD4(void *p, int id)
     int r6, r7;
     int *r4;
 
-    func_02184CEC(r5, p);
-    func_02014204(r5 + 0x10, id);
+    func_02184CEC((void **)r5, p);
+    func_02014204((struct t *)(r5 + 0x10), id);
     *(int *)(r5 + 0x2c) = 0;
     *(u16 *)(r5 + 0x18) = 1;
-    r6 = func_020127A4(*(void **)(r5 + 4));
-    r4 = func_02012AA0(r6);
-    r7 = func_02012AC8(r6);
-    func_02014184(&v, r7, (s16)func_02012AE4(r6), r4[0], r4[1], r4[2]);
-    func_0201289C(*(void **)(r5 + 4), &v);
+    r6 = (int)func_020127A4(*(void **)(r5 + 4));
+    r4 = (int *)func_02012AA0((struct Rec44 *)r6);
+    r7 = func_02012AC8((const struct Rec44 *)r6);
+    func_02014184(&v, r7, (s16)func_02012AE4((const struct Rec44 *)r6), r4[0], r4[1], r4[2]);
+    func_0201289C(*(void **)(r5 + 4), (const struct Rec1C *)(&v));
     return r0v;
 }

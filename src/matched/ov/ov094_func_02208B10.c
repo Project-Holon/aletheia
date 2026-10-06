@@ -25,7 +25,10 @@ typedef struct E {
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B404(void *, s16 *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 void func_02208B10(void *h, E *e)
@@ -36,22 +39,22 @@ void func_02208B10(void *h, E *e)
     else step = -8;
     func_0204B454(e->f0, (struct PtS *)v, 0);
     v[0] += (s16)step;
-    func_0204B404(e->f0, v, 0);
+    func_0204B404(e->f0, (const struct Vec2 *)v, 0);
     func_0204B454(e->f8, (struct PtS *)v, 0);
     v[0] += (s16)step;
-    func_0204B404(e->f8, v, 0);
+    func_0204B404(e->f8, (const struct Vec2 *)v, 0);
     func_0204B454(e->f14, (struct PtS *)v, 0);
     v[0] += (s16)step;
-    func_0204B404(e->f14, v, 0);
+    func_0204B404(e->f14, (const struct Vec2 *)v, 0);
     if (e->f44 == 0) {
         func_0204B454(e->f4, (struct PtS *)v, 0);
         v[0] += (s16)step;
-        func_0204B404(e->f4, v, 0);
+        func_0204B404(e->f4, (const struct Vec2 *)v, 0);
     }
     if (e->f10 != 0) {
         func_0204B454(e->f10, (struct PtS *)v, 0);
         v[0] += (s16)step;
-        func_0204B404(e->f10, v, 0);
+        func_0204B404(e->f10, (const struct Vec2 *)v, 0);
     }
     e->count--;
     if (e->count == 0) {

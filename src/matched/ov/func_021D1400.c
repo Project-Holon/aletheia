@@ -26,11 +26,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02040588(u32, u32);
 extern void func_02041B6C(u32 bit);
-extern u32 func_02045374(u32, u32, u32, u32);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
 
 int func_021D1400(u32 a, u32 b, u32 c, u32 d)
 {
-func_02045374(((struct Obj18372 *)((u8 *)(a)))->f4, b, c, d);
+func_02045374((struct Cfg *)(((struct Obj18372 *)((u8 *)(a)))->f4));
 func_02041B6C(3);
 return func_02040588(3, 1);
 }

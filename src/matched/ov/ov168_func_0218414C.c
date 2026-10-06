@@ -24,7 +24,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
-extern void func_0203FC28(void *);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 typedef unsigned int   u32;
 struct GfFont;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
@@ -40,7 +41,7 @@ void func_0218414C(char *p, int heap)
     unsigned bg;
     func_0203F8F4(heap);
     func_02045088(heap);
-    func_0203FC28(d_02184878);
+    func_0203FC28((struct DispConfig *)d_02184878);
     ((struct Obj23821 *)p)->f10 = func_0201D7EC(23, 0, 0, 0, (u16)heap);
     for (i = 0; i < 5; i++) {
         bg = d_02184964[i * 0x24 + 0x20];

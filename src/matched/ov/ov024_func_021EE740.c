@@ -22,7 +22,8 @@ int *func_021A21B8(int *p);
 int func_021A23E8(int *p);
 int func_021A2400(int *p);
 int func_021A240C(int *p);
-void func_021A22E0(int *p, int a, int b, int c);
+typedef unsigned int   u32;
+void func_021A22E0(u32 *p, int a, int b, int c);
 
 int func_021EE740(int *p, int v)
 {
@@ -32,7 +33,7 @@ int func_021EE740(int *p, int v)
     *func_021A21B8(p) = 0;
     if (func_021A23E8(p)) {
         func_021A2400(p);
-        func_021A22E0(p, func_021A240C(p), 0x7FFF, v);
+        func_021A22E0((u32 *)p, func_021A240C(p), 0x7FFF, v);
     }
     return 1;
 }

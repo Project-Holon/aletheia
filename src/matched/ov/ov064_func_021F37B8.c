@@ -43,7 +43,7 @@ typedef unsigned int   u32;
 struct Desc;
 extern int func_021BE480(char *p, unsigned i, int j);
 extern void func_021BE4B4(char *p, int i, int j, int v);
-extern u8 *func_021BE674(int a, int b, int c, u16 d);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE700(int a, int b, int c, u16 d, int e);
 extern void func_021BE6CC(int a, int b, int c, u16 d, int e);
@@ -63,7 +63,7 @@ void func_021F37B8(int a)
     *(V3 *)func_021BE480((char *)s, 0, 0) = v;
     func_021BE4B4((char *)s, 0, 0, 0);
     for (i = 0; i < 4; i++) {
-        func_021BE6B0(func_021BE674(s, 0, 0, i), 0);
+        func_021BE6B0(func_021BE674((char *)s, 0, (int)0, (u16)i), 0);
         func_021BE700(s, 0, 0, i, 1);
         func_021BE6CC(s, 0, 0, i, 0);
     }

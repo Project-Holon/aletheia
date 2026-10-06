@@ -27,7 +27,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_02041300(u32,int,u8,u8,u8,u8,u8);
 static inline int ab(int v) {return v<0?-v:v;}
-void func_021C89C4(char *p,void *q) {
+void func_021C89C4(char *p, void *q, void *a2) {
  void *v;
  func_021C8A50(p,(int)q);
  v=**(void ** *)&((struct Obj03282 *)p)->f8;func_020456F8(v);func_02041B6C(func_02045730(v));

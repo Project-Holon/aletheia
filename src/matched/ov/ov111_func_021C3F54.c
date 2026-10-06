@@ -95,7 +95,7 @@ extern void func_021C3F18(Work *p, int speed);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern int func_021C4B9C(Work *p);
-extern int func_021C4E0C(Work *p);
+extern int func_021C4E0C(char *p);
 extern void func_0204A600(void);
 extern void func_0202DBC4(u8 *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
@@ -139,7 +139,7 @@ int func_021C3F54(void *proc, int *seq, int c, Work *p)
         }
         break;
     case 9:
-        if (func_021C4E0C(p)) {
+        if (func_021C4E0C((char *)p)) {
             *seq = 1;
         }
         break;

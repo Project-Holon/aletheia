@@ -65,8 +65,8 @@ struct Pkt {
     unsigned long long play;    /* 0x46C */
 };
 
-extern void func_021B1AA0(struct Src *s, unsigned short seq);
-extern int func_021B1AC0(struct Src *s, struct Pkt *pkt, unsigned short seq);
+extern void func_021B1AA0(char *p, unsigned short v);
+extern int func_021B1AC0(char *p, char *pkt, unsigned short seq);
 extern unsigned long long func_020870D0(void);
 
 int func_021B1B94(struct Src *s, struct Pkt *pkt)
@@ -80,9 +80,9 @@ int func_021B1B94(struct Src *s, struct Pkt *pkt)
     unsigned long long now;
 
     if (s->probation != 0) {
-        func_021B1AA0(s, pkt->seq);
+        func_021B1AA0((char *)s, pkt->seq);
     } else {
-        if (!func_021B1AC0(s, pkt, pkt->seq)) {
+        if (!func_021B1AC0((char *)s, (char *)pkt, pkt->seq)) {
             s->dropped++;
             return flag;
         }

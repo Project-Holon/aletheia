@@ -40,16 +40,19 @@ struct G {
     u32 f20;
     u32 f24;
 };
-extern int func_020307B0(void *p);
+struct Bmp;
+struct MsgBank;
+struct Obj020437AC;
+extern void func_020307B0(void *p);
 struct S { char pad0[8]; u16 h8; char pad1[2]; u32 f0c; u32 arr[0x144 / 4 - 4]; void *f144; };
 extern int _s32_div_f(int, int);
 extern const struct Tab d_021C3350;
 extern const struct G d_021C349C;
-extern void *func_0204384C(u32 a, u32 b, u32 c, u32 d);
-extern void func_020439A0(void *dst, void *src, u32 sx, u32 sy, u32 dx, u32 dy, u32 w, u32 h, u32 z);
-extern void func_020437AC(void *p);
-extern void *func_02045EC0(void *h, u32 idx);
-extern void func_0201C7D0(void *a, u32 b, u32 c, void *d, u32 e, u32 f);
+extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void func_020437AC(struct Obj020437AC *p);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 
 #define G ((const struct G *)gb)
 void func_021BD178(struct S *p)
@@ -71,6 +74,6 @@ void func_021BD178(struct S *p)
     func_020437AC(heap);
     color = (G->f1e & 0x1f) | (((G->f1c & 0x1f) << 10) | ((G->f1d & 0x1f) << 5));
     res = func_02045EC0((void *)p->arr[G->f0c], G->f10);
-    func_0201C7D0(p->f144, (s16)G->f14, (s16)G->f18, res, p->f0c, color);
+    func_0201C7D0(p->f144, (s16)G->f14, (s16)G->f18, res, (void *)p->f0c, color);
     func_020307B0(res);
 }

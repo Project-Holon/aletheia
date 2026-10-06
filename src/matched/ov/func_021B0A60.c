@@ -31,12 +31,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void func_02159168(int n);
 extern u32 func_0215A614(u32, u32);
-extern u32 func_0215A61C(u32, u32, u32, u32);
+extern int func_0215A61C(int a0);
 extern u32 func_021912F8(u32);
 
 int func_021B0A60(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021912F8(func_0215A61C(b, b, c, d)) == 1) {
+if (func_021912F8(func_0215A61C(b)) == 1) {
     func_0215A614(b, 0);
     func_02159168(2);
     return 1;

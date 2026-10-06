@@ -74,10 +74,10 @@ extern u32      g_02148B4C[];
 extern u32      g_02148B98[];
 extern u32      g_02148C08[];
 
-extern void func_020467EC(Blk32 *p);
-extern void func_02046858(Blk32 *p);
-extern void func_02046AFC(Blk36 *p);
-extern void func_02046B40(Blk36 *p);
+extern void func_020467EC(int p0);
+extern void func_02046858(const u32 *src);
+extern void func_02046AFC(u8 *dst);
+extern void func_02046B40(u8 *a0);
 extern void func_020479D8(void);
 struct Head;
 struct Light;
@@ -95,8 +95,8 @@ void func_02051414(u8 *a0)
     Blk36    g;
 
     if (((struct Obj06994 *)a0)->f20 != 0) {
-        func_020467EC(&b);
-        func_02046AFC(&g);
+        func_020467EC((int)(&b));
+        func_02046AFC((u8 *)(&g));
         {
             VecFx32  v = g_020A159C;
             MtxFx33  m;
@@ -114,8 +114,8 @@ void func_02051414(u8 *a0)
     func_020526A8((struct Head *)(((struct Obj06994 *)a0)->f0), (u32)g_02148B98);
     if (((struct Obj06994 *)a0)->f20 == 0)
         return;
-    func_02046858(&b);
-    func_02046B40(&g);
+    func_02046858((const u32 *)(&b));
+    func_02046B40((u8 *)(&g));
     func_020479D8();
     func_0206DB80();
 }

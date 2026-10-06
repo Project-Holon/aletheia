@@ -31,8 +31,12 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { int w[9]; } Struct36;
 typedef struct { void *f0; char p4[0x40]; int f44; } E;
-extern void *func_020457B0(u32, u16);
-extern void *func_02043678(u32, u32, u32, u16);
+struct Bmp;
+struct StrObj;
+struct Struct36;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 struct Bmp;
 struct CharBuf;
 struct Obj020437AC;
@@ -41,10 +45,10 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_02017E1C(void *, u32, u32);
 extern void func_0201DE00(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern int func_0201D304(void *, void *, int);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_0204B7C8(void *, Struct36 *);
+extern void func_0204B7C8(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020437AC(struct Obj020437AC *p);
@@ -55,19 +59,19 @@ void func_022080F4(char *o, E *e, void *data)
     Struct36 buf;
     u8 c[3];
     enum { VRAM_BASE = 0x06400000 } vram;
-    v = func_020457B0(12, (((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000);
-    bmp = func_02043678(8, 2, 32, (((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000);
+    v = func_020457B0(12, (u16)((((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000));
+    bmp = func_02043678(8, 2, 32, (u16)((((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000));
     func_02043B5C(bmp, 0);
     func_02017E1C(data, 0x73, (u32)v);
     func_0201DE00(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 4, 0);
-    if (func_0201D304(v, ((struct Obj01911 *)o)->f8, 0) > 48)
+    if ((int)func_0201D304(v, (u32)(((struct Obj01911 *)o)->f8), (int)0) > 48)
         func_0201C7A4(bmp, 2, 5, v, ((struct Obj01911 *)o)->f8);
     else
         func_0201C7A4(bmp, 8, 5, v, ((struct Obj01911 *)o)->f8);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
-    func_0204B7C8(e->f0, &buf);
+    func_0204B7C8(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         vram = VRAM_BASE;
         func_02082A60(pixels, (void *)(vram + 0x40 + buf.w[1]), 0xc0);

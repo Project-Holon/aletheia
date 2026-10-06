@@ -88,62 +88,77 @@ typedef struct { void *save, *party; u16 species; u8 slot, method; u32 x, flag; 
 extern const u8 data_0220BAB0[], data_021F5580[], data_02208C40[], data_021B9DC0[];
 extern const u8 ov207_id[], ov194_id[], ov195_id[];
 extern u32 func_02031330(void *);
-extern void *func_02012934(void *);
+typedef signed int     s32;
+struct Big;
+struct BigObj;
+struct Blk34;
+struct Blk37;
+struct MsgBank;
+struct Party;
+struct PartyMon;
+struct Rec;
+struct Rec44;
+struct Rec534;
+struct S;
+struct SaveBlock;
+struct Sub02007454Entry;
+struct Sub02008C20Obj;
+extern void *func_02012934(const struct BigObj *p);
 extern u8 *func_02012944(void *);
 extern void *func_0200CA1C(void *);
-extern void *func_0201293C(void *);
-extern void func_021B9A14(u8 *, u8 *);
-extern void func_0201AC2C(void *, void *);
+extern u32 func_0201293C(const struct BigObj *p);
+extern void func_021B9A14(u8 *a0, struct S *s);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_0201B038(void *);
 extern void func_0201B170(void *);
 extern void func_021B9AA0(void *);
 extern u32 func_021B9C80(u32, u32);
-extern void func_021B9C34(u8 *, void *, int);
-extern void func_021B9CA4(u8 *, void *);
-extern void *func_02012F08(void *);
-extern u32 func_0200C278(void *, u32);
-extern u32 func_0200C29C(void *, u32);
+extern void func_021B9C34(struct S *s, void *party, int c);
+extern void func_021B9CA4(struct S *s, void *party);
+extern void *func_02012F08(int *p);
+extern u32 func_0200C278(struct Blk34 *p, u32 v);
+extern u32 func_0200C29C(struct Blk34 *p, u32 v);
 extern void func_021B9BD8(void *);
 extern void *func_0201AB28(void *, u32);
 extern void func_02008500(void *, void *);
 extern void func_02017E40(void *, u32, u32);
-extern int func_0201AA18(void *);
-extern int func_0201AA14(void *);
+extern u32 func_0201AA18(void *p);
+extern u32 func_0201AA14(void *p);
 extern u32 func_02007698(void *);
 extern int func_020076D0(void *, int *, int *);
-extern void *func_02045B38(u32, u32, u32, u32);
-extern u32 func_0201296C(void *);
-extern u32 func_020142E8(u32, int);
-extern void *func_02045EC0(void *, u32);
-extern void func_02045C04(void *);
-extern void *func_020127A4(void *);
-extern u16 func_02012AC8(void *);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern u32 func_0201296C(const struct BigObj *p);
+extern u32 func_020142E8(void *bitmap, s32 id);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045C04(struct Rec *rec);
+extern void *func_020127A4(struct SaveBlock *p);
+extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013E4C(u32);
 extern void func_0202F190(void *, u32, u32, u32, u16);
-extern u32 func_0200CA38(void *);
+extern u32 func_0200CA38(struct Blk37 *p);
 extern u32 func_02017E1C(void *, u32, u32);
-extern u32 func_0200CED4(void *, u16);
-extern void func_0200CFA0(void *, void *);
-extern void func_0200CDE0(void *, void *);
+extern u32 func_0200CED4(struct Blk37 *p, u16 id);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
+extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern void func_02031348(void *, u32, const u8 *, void *);
-extern void *func_02012EBC(void *);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *);
-extern void *func_0216C0A4(u16, void *, int, int, void *, void *, int, void *);
-extern int func_0216C0E4(void *);
-extern void func_0216C0D4(void *, u32);
-extern void *func_02012F2C(void *);
-extern u32 func_02008DF0(void *, int);
-extern void func_0216C0C0(void *);
+extern int *func_0216C0A4(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
+extern int func_0216C0E4(int *p);
+extern void func_0216C0D4(int *p, int a1);
+extern void *func_02012F2C(int *p);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern int func_0216C0C0(int a0);
 extern void func_021B9D04(void *);
-extern u32 func_0201A98C(void *, void *);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_020185F0(void *);
-extern int func_020074D8(void *, void *);
+extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void func_02005E30(u32);
 extern int func_02005E50(void);
 extern void func_02005D28(void);
-extern u8 func_02012984(void *);
+extern u8 func_02012984(const struct BigObj *p);
 extern u16 func_0201B2B0(void *, void *, u32, u32, u8, u32 *, u16);
-extern void *func_02030734(u32, u32, int, const u8 *, u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
 {
@@ -167,17 +182,17 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
         party = func_02012934((*(void **)((u8 *)(s)+( 0))));
         buf = func_02012944((*(void **)((u8 *)(s)+( 0))));
         dex = func_0200CA1C((*(void **)((u8 *)(s)+( 0))));
-        save = func_0201293C((*(void **)((u8 *)(s)+( 0))));
+        save = (void *)func_0201293C((*(void **)((u8 *)(s)+( 0))));
         (((Rec *)r)->idx) = 0;
         (((Rec *)r)->mask) = 0;
         if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 0))) <= 1) {
-            func_021B9A14(r, (u8 *)s);
+            func_021B9A14(r, (struct S *)s);
             func_0201AC2C((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 36))), party);
             func_0201B038(party);
             func_0201B170(party);
             if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 1) func_021B9AA0(party);
-            func_021B9C34((u8 *)s, party, func_021B9C80((u32)(*(void **)((u8 *)(s)+( 4))) + 8, (*(u16 *)((u8 *)(r)+( 60)))));
-            func_021B9CA4((u8 *)s, party);
+            func_021B9C34((struct S *)s, party, func_021B9C80((u32)(*(void **)((u8 *)(s)+( 4))) + 8, (*(u16 *)((u8 *)(r)+( 60)))));
+            func_021B9CA4((struct S *)s, party);
             amount = (*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 136)));
             if (amount > 0) func_0200C278(func_02012F08((*(void **)((u8 *)(s)+( 0)))), amount);
             else if (amount < 0) func_0200C29C(func_02012F08((*(void **)((u8 *)(s)+( 0)))), -amount);
@@ -187,13 +202,13 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
             (*(void **)((u8 *)(r)+( 8))) = func_0201AB28((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 40))), *((u8 *)(*(void **)((u8 *)(s)+( 4))) + 144));
             func_02008500(buf, (*(void **)((u8 *)(r)+( 4))));
             func_02017E40((*(void **)((u8 *)(r)+( 8))), 141, (*(u32 *)((u8 *)(r)+( 4))));
-            used = func_0201AA18(party);
-            if (used >= func_0201AA14(party)) {
+            used = (int)func_0201AA18(party);
+            if (used >= (int)func_0201AA14(party)) {
                 box = func_02007698(save); bslot = 0;
                 func_020076D0(save, &box, &bslot);
                 (*(u32 *)((u8 *)(r)+( 48))) = box;
                 bank = func_02045B38(0, 2, 234, 82);
-                index = func_020142E8(func_0201296C((*(void **)((u8 *)(s)+( 0)))), 0x96d) ? 177 : 176;
+                index = func_020142E8((void *)func_0201296C((*(void **)((u8 *)(s)+( 0)))), 0x96d) ? 177 : 176;
                 (*(void **)((u8 *)(r)+( 44))) = func_02045EC0(bank, index);
                 func_02045C04(bank);
             }
@@ -216,12 +231,12 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
         break;
     case 1:
         if (busy != 1) {
-        save = func_0201293C((*(void **)((u8 *)(s)+( 0))));
+        save = (void *)func_0201293C((*(void **)((u8 *)(s)+( 0))));
         flag = 0;
         if ((*(u32 *)((u8 *)(r)+( 40))) == 1) flag = 1;
         if (flag) {
             bank = func_0200C0F0(func_02012EBC((*(void **)((u8 *)(s)+( 0)))));
-            (*(void **)((u8 *)(r)+( 0))) = func_0216C0A4((*(u16 *)((u8 *)(r)+( 60))), (*(void **)((u8 *)(r)+( 8))), 10, 0, (*(void **)((u8 *)(r)+( 44))), save, (*(u32 *)((u8 *)(r)+( 48))), bank);
+            (*(void **)((u8 *)(r)+( 0))) = func_0216C0A4((*(u16 *)((u8 *)(r)+( 60))), (int)(*(void **)((u8 *)(r)+( 8))), 10, 0, (int)(*(void **)((u8 *)(r)+( 44))), (int)save, (*(u32 *)((u8 *)(r)+( 48))), (int)bank);
             func_02031348((*(void **)((u8 *)(r)+( 64))), (u32)ov194_id, data_021F5580, (*(void **)((u8 *)(r)+( 0))));
             ++*step;
         } else *step = 3;
@@ -231,11 +246,11 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
     case 2:
         if (busy != 1) {
         if (!func_0216C0E4((*(void **)((u8 *)(r)+( 0))))) {
-            func_0216C0D4((*(void **)((u8 *)(r)+( 0))), (*(u32 *)((u8 *)(r)+( 4))));
+            func_0216C0D4((*(void **)((u8 *)(r)+( 0))), (u32)(*(u32 *)((u8 *)(r)+( 4))));
             func_02017E40((*(void **)((u8 *)(r)+( 8))), 115, (*(u32 *)((u8 *)(r)+( 4))));
             func_02008DF0(func_02012F2C((*(void **)((u8 *)(s)+( 0)))), 30);
         }
-        func_0216C0C0((*(void **)((u8 *)(r)+( 0))));
+        func_0216C0C0((int)(*(void **)((u8 *)(r)+( 0))));
         (*(void **)((u8 *)(r)+( 0))) = 0;
         ++*step;
         break;
@@ -246,7 +261,7 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
         func_021B9D04((*(void **)((u8 *)(r)+( 8))));
         if (!(*(void **)((u8 *)(r)+( 44)))) func_0201A98C(party, (*(void **)((u8 *)(r)+( 8))));
         else {
-            save = func_0201293C((*(void **)((u8 *)(s)+( 0))));
+            save = (void *)func_0201293C((*(void **)((u8 *)(s)+( 0))));
             func_020074D8(save, func_020185F0((*(void **)((u8 *)(r)+( 8)))));
         }
         ++*step;
@@ -277,7 +292,7 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
                 (((Rec *)r)->mask) = (((Rec *)r)->mask) >> 1;
                 (((Rec *)r)->idx)++;
                 if (species) {
-                    e = func_02030734((*(u16 *)((u8 *)(r)+( 60))), 20, 0, data_021B9DC0, 0x1ca);
+                    e = func_02030734((*(u16 *)((u8 *)(r)+( 60))), 20, 0, (const char *)data_021B9DC0, 0x1ca);
                     e->save = (*(void **)((u8 *)(s)+( 0))); e->party = party; e->species = species; e->slot = slot; e->method = method; e->x = 0; e->flag = 1;
                     (*(void **)((u8 *)(r)+( 52))) = e;
                     func_02031348((*(void **)((u8 *)(r)+( 64))), (u32)ov195_id, data_02208C40, e);

@@ -34,7 +34,7 @@ typedef struct {
 extern void func_021D4490(u8 *p);
 extern void func_02016028(void *a, u32 flag);
 extern void func_02015E04(void *p);
-extern void func_02015C48(u32, Vec *);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_021D4484(u8 *p, u32 v);
 extern void func_021D8E84(void *p, int next);
 extern void func_021D449C(u8 *p);
@@ -48,7 +48,7 @@ void func_021D4B88(u8 *p)
     func_02015E04((void *)(((struct Obj06419 *)p)->f844));
     if (((struct Obj06419 *)p)->f118C == 4) {
         Vec v = d_021D51DC;
-        func_02015C48(((struct Obj06419 *)p)->f844, &v);
+        func_02015C48((void *)(((struct Obj06419 *)p)->f844), (u32 *)(&v));
     }
     func_021D4484(p, 0);
     func_021D8E84(p, (int)func_021D449C);

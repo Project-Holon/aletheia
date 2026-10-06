@@ -31,7 +31,7 @@ struct Descriptor;
 struct CharBuf;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0220B78C(char *p, unsigned i);
+extern void func_0220B78C(u8 *p, u32 idx);
 extern void func_0220B3EC(char *p, u32 i, int id, int w, int unused, int y, int unused2);
 extern void func_0220B814(char *p, int n);
 extern void func_0220B1D4(char *p, int i, int id, int y, u16 colour);
@@ -46,7 +46,7 @@ void func_0220B880(char *p)
     off = *(u8 *)(p + 0x533) * 2;
     x = *(short *)(*(char **)p + 0x30 + off);
     y = *(short *)(*(char **)p + 0x38 + off) * 6;
-    func_0220B78C(p, x + y);
+    func_0220B78C((u8 *)p, x + y);
     func_0220B3EC(p, x + y, 0, 32, 0, 0, 0);
     func_0220B814(p, x + y);
     func_0220B1D4(p, 34, 31, 0, 0x3c40);

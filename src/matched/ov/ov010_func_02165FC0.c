@@ -28,7 +28,7 @@ typedef struct Row {
 
 extern const Row d_02171CE8[];
 
-u8 func_02165FC0(u16 type)
+u8 func_02165FC0(u32 type)
 {
     return d_02171CE8[type].b;
 }

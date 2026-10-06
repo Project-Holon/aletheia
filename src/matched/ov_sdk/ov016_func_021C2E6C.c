@@ -36,7 +36,8 @@ typedef struct {
 
 extern signed char func_021BCB14(void);
 extern void func_021CFFAC(unsigned int v);
-extern void func_02058518(WiFiInfoT *buf);
+struct tagDWCWiFiInfo;
+extern void func_02058518(struct tagDWCWiFiInfo *buf);
 extern void func_021BCB44(int idx);
 extern void func_021C3130(void);
 extern void func_021C0E40(unsigned int v);
@@ -52,7 +53,7 @@ void func_021C2E6C(void)
 		func_021CFFAC(7);
 		break;
 	case 1:
-		func_02058518(&info);
+		func_02058518((struct tagDWCWiFiInfo *)(&info));
 		if (g_021DE5A8.idx != 0 && info.a == 0) {
 			func_021CFFAC(9);
 			func_021BCB44(-1);

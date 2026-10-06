@@ -27,7 +27,8 @@ typedef unsigned int   u32;
 struct Ctx;
 extern int func_02034AC4(s32 handle);
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern u8 *func_021BD5C4(void *,int);
+struct Obj0203159C;
+extern u8 *func_021BD5C4(struct Obj0203159C *owner, u8 *input);
 extern void func_021B9BEC(u8 *p, int id);
 extern int func_021B9C74(unsigned int a);
 extern int func_021BABE8(void *);
@@ -43,7 +44,7 @@ int func_021BD484(void *a,int *state,int c,void *p) {
         func_02034AC4((int)d_00000043);
         func_0203064C(1,41,0x18000);
         func_0203064C(1,42,0x32000);
-        obj=func_021BD5C4(a,c);
+        obj=func_021BD5C4(a,(u8 *)c);
         func_021B9BEC(((struct Obj03242 *)obj)->f14,0);
         ++*state;
         break;

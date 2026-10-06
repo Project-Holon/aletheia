@@ -21,7 +21,7 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
 extern int func_021587B0(int a0, int a1, int a2, int a3);
-extern void func_02159058(int,int,int,int,u16);
+extern int func_02159058(int a, int b, int c, int d, u16 e);
 int func_0215EA94(void *a,void *b,void *c)
 {
  int h;

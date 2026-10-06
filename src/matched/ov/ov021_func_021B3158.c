@@ -62,10 +62,10 @@ extern u32 func_0218F0E8(u8 *a);
 extern void func_021B30C8(u32 *p, u32 b, void *h);
 extern int func_0218FE50(u8 *a);
 extern void func_02193060(u32 a);
-extern int func_021B35A4(void *a, u8 *p, u8 c, u8 d);
-extern void func_0218F9C4(void *h, Buf24 *src, u16 v);
-extern void func_0218EC60(void *a);
-extern void func_0218F1AC(void *a, u32 b);
+extern int func_021B35A4(u32 a, char *p, u32 c, u8 d);
+extern void func_0218F9C4(u8 *p, u8 *src, u16 v);
+extern int func_0218EC60(u32 a);
+extern void func_0218F1AC(u8 *p, u32 v);
 extern void func_0218F05C(unsigned char *a);
 extern void func_0218F878(u8 *a);
 extern void func_020307B0(void *p);
@@ -107,19 +107,19 @@ int func_021B3158(u32 a, u32 b)
         }
         break;
     case 4:
-        if (func_021B35A4(t, &w->f08, w->b2, w->b3)) {
+        if (func_021B35A4((u32)t, (char *)(&w->f08), w->b2, w->b3)) {
             w->state++;
         }
         break;
     case 5:
         buf = d_021D9738;
-        func_0218F9C4(h, &buf, 8);
+        func_0218F9C4(h, (u8 *)(&buf), 8);
         w->state++;
         w->sub = 0;
         break;
     case 6:
         if (func_0218FE50(h) == 0) {
-            func_0218EC60(h);
+            func_0218EC60((u32)h);
             func_0218F1AC(h, w->f04);
             func_0218F05C(h);
             func_0218F878(h);

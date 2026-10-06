@@ -43,11 +43,12 @@ struct Obj {
 typedef unsigned int   u32;
 struct Obj0204D324;
 extern void func_0204D324(struct Obj0204D324 *obj, u32 arg);
-extern void func_0204B95C(struct Obj *p);
+struct Actor;
+extern void func_0204B95C(struct Actor *a);
 
 void sub_0204B878(struct Obj *p, u16 value)
 {
     p->unk_5a = value;
     func_0204D324((struct Obj0204D324 *)(&p->unk_68), value);
-    func_0204B95C(p);
+    func_0204B95C((struct Actor *)p);
 }

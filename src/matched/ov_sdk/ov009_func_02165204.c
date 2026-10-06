@@ -37,7 +37,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02165A4C(unsigned char phase);
 
-long func_02165204(void)
+long func_02165204(int a, int b)
 {
     unsigned long e;
 

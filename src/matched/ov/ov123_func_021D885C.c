@@ -21,7 +21,8 @@
 typedef unsigned int u32;
 extern int func_021D580C(char *);
 extern void func_021D584C(char *);
-extern void func_021D6EE0(char *, int, int);
+typedef unsigned char  u8;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6F04(char *p);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
@@ -31,7 +32,7 @@ void func_021D885C(char *p)
         if (func_020362DC() || func_02035C60()) {
             ((struct Obj22976 *)(*(char * *)&((struct Obj10450 *)p)->f20))->f1C8 = 1;
             func_021D584C(*(char * *)&((struct Obj10450 *)p)->f18);
-            func_021D6EE0(p, (int)func_021D6F04, 0x808);
+            func_021D6EE0((u8 *)p, (int)func_021D6F04, 0x808);
         }
     }
 }

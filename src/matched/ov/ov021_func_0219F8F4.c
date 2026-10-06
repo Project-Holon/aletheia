@@ -41,15 +41,16 @@ typedef struct {
     u32 f8;
 } St;
 
-extern St *func_0216D6F0(u32);
+typedef signed int     s32;
+extern void *func_0216D6F0(void *p);
 extern int func_0216D910(int a0);
 struct Trip;
 extern u16 func_0216D5F8(void *p);
-extern void func_0216D8B0(u32, V3 *);
+extern void func_0216D8B0(u8 *p, u8 *q);
 extern u32 func_0219C9DC(u8 *p);
 extern void func_0219F990(u32, St *, u8);
 extern void func_0219FFBC(u32, u32 *);
-extern void func_02197CCC(u32, u32 *);
+extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 extern void func_0205082C(void *p, int idx, u16 h);
 extern u32 func_02050080(u32 *p);
@@ -64,7 +65,7 @@ void func_0219F8F4(u32 a)
     u32 buf[3];
     u32 v[3];
 
-    p = func_0216D6F0(a);
+    p = func_0216D6F0((void *)a);
     if (p->id != 0xFFFF) {
         flag = 0;
         h = func_0219C9DC((u8 *)func_0216D910(a));
@@ -80,11 +81,11 @@ void func_0219F8F4(u32 a)
                 pv->x = 0;
                 pv->y = 0;
                 pv->z = 0;
-                func_0216D8B0(a, pv);
+                func_0216D8B0((u8 *)a, (u8 *)pv);
             }
         }
         func_0219F990(a, p, n);
-        func_02197CCC(a, buf);
+        func_02197CCC((u8 *)a, (s32 *)buf);
         func_0219FFBC(a, buf);
         func_0204F638((u8 *)func_02050080((u32 *)h), p->id, (struct Trip *)buf);
         func_021A000C(a, h, p->id, flag, 0);

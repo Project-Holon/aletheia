@@ -23,7 +23,8 @@ struct gsLargeInt_s {
     unsigned int mData[64];
 };
 
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
 extern char g_021A3728[];
 extern char g_021A3720[];
@@ -36,7 +37,7 @@ int func_0217E848(struct gsLargeInt_s *lint, char *hexstream)
     int byteIndex = 0;
     unsigned int n;
 
-    len = func_0209477C(hexstream);
+    len = func_0209477C((const u8 *)hexstream);
     if (len == 0) {
         lint->mLength = 0;
         lint->mData[0] = 0;

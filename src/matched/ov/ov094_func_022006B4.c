@@ -49,10 +49,10 @@ typedef struct {
     fx32 x, y, z;
 } VecFx32;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern int func_02201934(Work *w, int i, int mode);
-extern void func_02015CAC(void *p, VecFx32 *src);
-extern void func_02015D30(void *p, VecFx32 *src);
+extern void func_02015CAC(void *p, u32 *src);
+extern void func_02015D30(void *p, u32 *src);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
@@ -61,7 +61,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
 
 void func_022006B4(Work *w, int i)
 {
-    int idx = func_022019F4(w, i);
+    int idx = func_022019F4((char *)w, i);
     fx32 v;
     VecFx32 s;
 
@@ -77,10 +77,10 @@ void func_022006B4(Work *w, int i)
     s.x = v;
     s.y = v;
     s.z = 0x1000;
-    func_02015CAC(w->e[idx].h, &s);
+    func_02015CAC(w->e[idx].h, (u32 *)(&s));
     v = func_02201934(w, i, 0);
     s.x = v;
     s.y = v;
     s.z = 0x1000;
-    func_02015D30(w->e[idx].h, &s);
+    func_02015D30(w->e[idx].h, (u32 *)(&s));
 }

@@ -36,9 +36,9 @@ extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,c
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern int func_021D62E4(char *);
-extern void func_021D6810(void *,void *);
-extern void func_021D8938(void *,void *);
-extern void func_021D9A4C(void *,void *);
+extern void func_021D6810(u8 *a, u8 *p);
+extern void func_021D8938(u8 *a, u8 *p);
+extern void func_021D9A4C(u8 *a, u8 *p);
 void func_021D4FBC(struct Context *ctx)
 {
     char *p=(char *)ctx;
@@ -62,7 +62,7 @@ void func_021D4FBC(struct Context *ctx)
     for(j=0;j<2;j++)func_0204B3DC(*(void **)(p+0x198+j*4),0);
     if((*(u8 **)(p+8))[13]==2)for(i=0;i<8;i++)if(i!=7)func_0204B3DC(*(void **)(p+0x178+i*4),0);
     if(func_021D62E4(p)==0){func_0204B3DC(((struct Obj00591 *)p)->f190,0);func_0204B3DC(((struct Obj00591 *)p)->f184,0);}
-    func_021D6810(p,((struct Obj00591 *)p)->f88);
-    func_021D8938(p,((struct Obj00591 *)p)->f94);
-    func_021D9A4C(p,((struct Obj00591 *)p)->f90);
+    func_021D6810((u8 *)p,((struct Obj00591 *)p)->f88);
+    func_021D8938((u8 *)p,((struct Obj00591 *)p)->f94);
+    func_021D9A4C((u8 *)p,((struct Obj00591 *)p)->f90);
 }

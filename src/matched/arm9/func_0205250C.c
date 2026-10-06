@@ -36,8 +36,10 @@
  *       --flags "-O4,p -proc arm946e"
  */
 
-extern void *func_02058380(void *p);
-extern void func_020583CC(void *a, void *b);
+struct List;
+struct Node;
+extern struct Node *func_02058380(struct List *list);
+extern void func_020583CC(volatile struct List *list, volatile struct Node *node);
 struct List;
 struct Node;
 extern struct Node *func_02058300(struct List *list, struct Node *node);
@@ -46,22 +48,22 @@ void func_0205250C(char *p, char *q)
 {
     void *n;
 
-    n = func_02058380(q + 8);
+    n = func_02058380((struct List *)(q + 8));
     while (n != 0) {
         char *head = p + 0x1c;
         char *list = q + 8;
-        func_020583CC(head, n);
-        n = func_02058380(list);
+        func_020583CC((volatile struct List *)head, n);
+        n = func_02058380((struct List *)list);
     }
 
-    n = func_02058380(q + 0x14);
+    n = func_02058380((struct List *)(q + 0x14));
     while (n != 0) {
         char *head = p + 0x1c;
         char *list = q + 0x14;
-        func_020583CC(head, n);
-        n = func_02058380(list);
+        func_020583CC((volatile struct List *)head, n);
+        n = func_02058380((struct List *)list);
     }
 
     func_02058300((struct List *)(p + 4), (struct Node *)q);
-    func_020583CC(p + 0x10, q);
+    func_020583CC((volatile struct List *)(p + 0x10), (volatile struct Node *)q);
 }

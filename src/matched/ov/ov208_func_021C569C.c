@@ -44,8 +44,8 @@ struct Blk37;
 extern u32 func_0200D288(struct Blk37 *p, u32 which);
 extern void ov208_func_021C5128(struct Ov208Mdl *m, u32 heap, u32 sys, u32 species, u32 a4,
                                 u32 a5, u32 a6, u32 a7, u32 a8, u32 a9);
-extern void func_021C80AC(struct Ov208Mdl *m, int k, Vec *v);
-extern void func_02015C48(u32 obj, Vec *v);
+extern void func_021C80AC(int a, int b, int c);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_02015EA0(void *p);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -69,15 +69,15 @@ void ov208_func_021C569C(u16 *heap, u8 *p, int key, int a, int b, int pose, u16 
         extra = func_0200D288(func_0200CA1C((void *)func_021BC3A4((int *)key)), extra);
     if (a != 4) {
         ov208_func_021C5128(MDL(a), *heap, W(8), species, form, f152, f153, 0, 0, extra);
-        func_021C80AC(MDL(a), pose, &v);
-        func_02015C48(MDL(a)->obj, &v);
+        func_021C80AC((int)MDL(a), pose, (int)(&v));
+        func_02015C48((void *)MDL(a)->obj, (u32 *)(&v));
         if (W(0x124) == 0)
             func_02015EA0((void *)MDL(a)->obj);
     }
     if (b != 4) {
         ov208_func_021C5128(MDL(b), *heap, W(8), species, form, f152, f153, 0, 1, extra);
-        func_021C80AC(MDL(b), pose, &v);
-        func_02015C48(MDL(b)->obj, &v);
+        func_021C80AC((int)MDL(b), pose, (int)(&v));
+        func_02015C48((void *)MDL(b)->obj, (u32 *)(&v));
         if (W(0x124) != 0)
             func_02015EA0((void *)MDL(b)->obj);
     }

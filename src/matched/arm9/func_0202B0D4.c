@@ -15,13 +15,13 @@ typedef int s32;
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern s32 func_0202B154(u8 *a0);
+extern s32 func_0202B154(u32 *a0);
 
 u32 func_0202B0D4(u8 *a0, s32 *a1)
 {
     s32 i;
     s32 v = a1[1] >> 12;
-    s32 d = v - func_0202B154(a0);
+    s32 d = v - func_0202B154((u32 *)a0);
 
     if (d < 0) d = -d;
     for (i = 0; i < 6; i++) {

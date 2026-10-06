@@ -57,7 +57,7 @@ extern int func_021BA31C(u8 *p);
 extern void func_021BAD58(void *p);
 extern const u16 d_021BB570[][4];
 
-void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3)
+void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3, void *a4)
 {
     int pos[2];
     int r;

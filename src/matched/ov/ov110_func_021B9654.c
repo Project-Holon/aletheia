@@ -17,8 +17,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02024148(void *);
-extern u32 func_0200D064(void *,u16);
+struct Blk37;
+extern void *func_02024148(char *p);
+extern u32 func_0200D064(struct Blk37 *p, u16 id);
 u32 func_021B9654(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     void *save;

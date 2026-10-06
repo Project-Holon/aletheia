@@ -34,13 +34,13 @@ extern u32 func_021B8220(u8 *p);
 extern u32 *func_021B830C(u32);
 extern u32 func_021B821C(u8 *p);
 extern void func_0218E124(u8 *a, u32 s);
-extern void func_0218EC60(u32);
+extern int func_0218EC60(u32 a);
 extern void func_021B8050(struct Sub *o, s16 *out);
 extern int func_0207CFB8(int, int);
 extern int func_0207CC30(s16 *);
 extern void func_0218ED34(u8 *p, u16 v);
 extern void func_0218ED58(u8 *p, u32 v);
-extern void func_0218ED48(u8 *p, u16 v);
+extern void func_0218ED48(u8 *p, u32 v);
 
 void func_021BAA9C(u32 a)
 {
@@ -62,5 +62,5 @@ void func_021BAA9C(u32 a)
     y = func_0207CFB8(-b[4], func_0207CC30(b));
     func_0218ED34((u8 *)h, y + r[2]);
     func_0218ED58((u8 *)h, r[3]);
-    func_0218ED48((u8 *)h, x + r[1]);
+    func_0218ED48((u8 *)h, (u16)(x + r[1]));
 }

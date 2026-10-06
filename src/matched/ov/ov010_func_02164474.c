@@ -16,9 +16,9 @@
  *   func_0215E364  0x0215E364  thumb  ov010
  */
 
-void func_0215E364(int a, int b);
+void func_0215E364(void *a);
 
 void func_02164474(int a, int b)
 {
-    func_0215E364(a, b);
+    func_0215E364((void *)a);
 }

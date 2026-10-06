@@ -37,13 +37,13 @@ struct s_aba0 {
 extern struct s_aba0 d_0217ABA0;
 extern struct s_ab40 d_0217AB40;
 
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021798DC(void *dst, int n, u8 a, u8 b);
 
 void func_02179A4C(void *dst, u8 a, u8 b)
 {
     if (d_0217AB80[0xE] != 1)
-        func_02034714(d_0217AAAC, 0, d_0217AAAC);
+        func_02034714((const char *)d_0217AAAC, 0, (const char *)d_0217AAAC);
     func_021798DC(dst, a, b, (u8)(d_0217ABA0.b2 | (d_0217ABA0.b3 << 4)));
     d_0217AB40.f44 = (u32)dst;
     d_0217AB80[0x1E] = a;

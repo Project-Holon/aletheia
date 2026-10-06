@@ -26,9 +26,9 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02188D38(u8 *p);
-extern void func_021C0140(void **q);
-extern void func_021C017C(void **q);
-extern void *func_021C01F8(void **q);
+extern void func_021C0140(u32 *p);
+extern void func_021C017C(u8 *p);
+extern int func_021C01F8(u32 *p);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021C6E48(void *p);
@@ -44,15 +44,15 @@ int func_021C00C8(void *task, int *state, void **q)
 
     switch (*state) {
     case 0:
-        func_021C0140(q);
-        func_021C017C(q);
+        func_021C0140((u32 *)q);
+        func_021C017C((u8 *)q);
         (*state)++;
         break;
     case 1:
         t = (int)q[29];
         q[29] = (void *)(t + 1);
         if (t > 35) {
-            func_02012374(task, func_021C01F8(q));
+            func_02012374(task, (struct Evt **)func_021C01F8((u32 *)q));
             (*state)++;
             break;
         }

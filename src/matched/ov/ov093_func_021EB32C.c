@@ -29,7 +29,7 @@ typedef unsigned int u32;
 typedef int (*Cb)(int *, u8 *);
 extern void *func_021B86B8(void ***);
 extern u32 func_021B8588(void **p);
-extern int func_021B86C8(u8 *);
+extern int func_021B86C8(unsigned char **p);
 extern int func_021EB690(int *, u8 *);
 extern int func_021EB870(int *, u8 *);
 extern int func_021EBAC0(int *, u8 *);
@@ -63,11 +63,11 @@ void func_021EB32C(u8 *p, u32 flag)
         switch (type) {
         case 0: set(p, func_021EBB20); return;
         case 3:
-            if (!func_021B86C8(*(u8 * *)&((struct Obj05227 *)p)->f134)) set(p, func_021EBE28);
+            if (!func_021B86C8((unsigned char **)(*(u8 * *)&((struct Obj05227 *)p)->f134))) set(p, func_021EBE28);
             else set(p, func_021EBE88);
             return;
         case 1: case 2:
-            if (!func_021B86C8(*(u8 * *)&((struct Obj05227 *)p)->f134)) set(p, func_021EBD90);
+            if (!func_021B86C8((unsigned char **)(*(u8 * *)&((struct Obj05227 *)p)->f134))) set(p, func_021EBD90);
             else set(p, func_021EBDDC);
             return;
         }

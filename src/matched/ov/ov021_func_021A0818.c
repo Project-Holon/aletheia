@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-void func_021A0818(s16 *o, s32 a, s32 b)
+void func_021A0818(s16 *o, s32 a, u32 b)
 {
     o[0] = a & 0x1f;
     o[1] = (s16)(b & 0x1f) - (u16)o[0];

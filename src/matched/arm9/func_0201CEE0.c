@@ -107,9 +107,9 @@ struct Rec {
 struct Bmp;
 struct CharBuf;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u32 func_020437E4(const struct Bmp *bmp);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
-extern void  func_02043AF4(u32 win, u32 x, s16 y, u32 w, u32 h, u32 c);
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void  func_02045334(struct Descriptor *a);
@@ -154,7 +154,7 @@ void func_0201CEE0(void *task, struct Rec *p)
                 w = func_020437DC((const struct Bmp *)p->win);
                 h = func_020437E4((const struct Bmp *)p->win) - k;
                 func_020439A0((struct Bmp *)p->win, (struct Bmp *)p->win, 0, k, 0, 0, w, h, 0xFFFF);
-                func_02043AF4(p->win, 0, h, w, k, p->color);
+                func_02043AF4((struct Bmp *)p->win, 0, (s16)h, w, k, p->color);
                 func_02045334((struct Descriptor *)p->f08);
                 return;
             }

@@ -23,11 +23,12 @@
 #include "../include/Obj03918.h"
 struct Rec; struct S020315D4;
 extern void func_021BFCD0(char *);
-extern void func_021BF5E0(char *);
+typedef unsigned char  u8;
+extern void func_021BF5E0(u8 *p);
 extern void func_021BF9D0(char *);
 extern void func_02045C04(struct Rec *);
 extern void func_0201D83C(void *);
-extern void func_021BEF74(char *);
+extern void func_021BEF74(u8 *p);
 extern void func_021BDCF0(unsigned char *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
@@ -38,11 +39,11 @@ int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
 {
     unsigned short heap;
     func_021BFCD0(*(char * *)&((struct Obj03918 *)p)->f20);
-    func_021BF5E0(*(char * *)&((struct Obj03918 *)p)->f18);
+    func_021BF5E0((u8 *)(*(char * *)&((struct Obj03918 *)p)->f18));
     func_021BF9D0(*(char * *)&((struct Obj03918 *)p)->f1C);
     func_02045C04(*(struct Rec * *)&((struct Obj03918 *)p)->f10);
     func_0201D83C(((struct Obj03918 *)p)->fC);
-    func_021BEF74(*(char * *)&((struct Obj03918 *)p)->f14);
+    func_021BEF74((u8 *)(*(char * *)&((struct Obj03918 *)p)->f14));
     func_021BDCF0(*(unsigned char * *)&((struct Obj03918 *)p)->f8);
     heap = ((struct Obj03918 *)p)->f0;
     func_020315D4(owner);

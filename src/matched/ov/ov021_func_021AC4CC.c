@@ -29,7 +29,7 @@ extern u32 func_021ABE18(u32 a);
 extern u32 func_021ABE24(u8 *p);
 extern void func_021C6AE0(u32 a);
 extern int func_021C6AF0(u32 a, u32 b, u32 c);
-extern void func_021C6AF8(u32 *a, u32 b);
+extern void func_021C6AF8(u8 *p, u32 v);
 extern void func_021C6AFC(u32 *a, u32 b);
 extern int func_021C6574(u32 a, u32 b, u32 c);
 
@@ -40,7 +40,7 @@ void func_021AC4CC(u32 *a)
     u32 r4 = func_021ABE24((u8 *)a[0]);
     func_021C6AE0((u32)buf);
     func_021C6AF0((u32)buf, r4, 0x30);
-    func_021C6AF8(buf, r4);
+    func_021C6AF8((u8 *)buf, r4);
     func_021C6AFC(buf, 0x60);
     ((struct Obj07513 *)a)->f4 = func_021C6574(r6, (u32)buf, 0);
 }

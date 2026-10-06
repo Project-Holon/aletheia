@@ -54,7 +54,7 @@ struct Loc {
 struct S { char pad0[8]; u16 h8; char pad1[2]; u32 f0c; u32 arr[0x28]; };
 extern const struct Ent d_021C33C8[];
 extern const struct Ent d_021C3520[];
-extern int func_021BC6DC(struct S *p);
+extern u32 func_021BC6DC(void *p);
 struct Config;
 struct Record;
 extern struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap);
@@ -81,7 +81,7 @@ void func_021BCC68(struct S *p)
         p->arr[0xdc / 4 - 4 + i] = (u32)func_021C0EF4((const struct Config *)(&l1), p->f0c, p->arr[e->idx], p->h8);
         func_021C0F5C(p->arr[0xdc / 4 - 4 + i], e->arg);
     }
-    for (i = 0; i < func_021BC6DC(p); i++) {
+    for (i = 0; i < (int)func_021BC6DC(p); i++) {
         const struct Ent *e = &d_021C3520[i];
         struct Loc l2;
         l2.b0 = e->b0;

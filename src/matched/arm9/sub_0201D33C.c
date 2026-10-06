@@ -34,7 +34,8 @@ struct StrObj {
     u16 slots[1];
 };
 
-extern u16 *sub_02045A90(struct StrObj *s);
+struct U16Vec;
+extern u16 *sub_02045A90(struct U16Vec *vec);
 extern u32 sub_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
 
 u32 sub_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max)
@@ -42,7 +43,7 @@ u32 sub_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max)
     u16 *p;
     u32 i;
 
-    p = sub_02045A90(s);
+    p = sub_02045A90((struct U16Vec *)s);
     i = 0;
     while (i < max) {
         if (*p == 0xFFFF) {

@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef struct { s16 x,y; } Pair;
 typedef struct { void *root; u8 *state; int pad; void *desc[2]; u8 gap0[8]; void *items[2][2]; u8 gap[12]; Pair pos[2]; int pad40; int count; } Obj;
-extern void func_021BC0CC(void *);
+extern void func_021BC0CC(u8 *p);
 typedef unsigned int   u32;
 struct CharBuf;
 struct Descriptor;
@@ -44,7 +44,7 @@ extern void func_02041B6C(unsigned);
 void func_021BC23C(Obj *p)
 {
     int i,j;
-    func_021BC0CC(p);
+    func_021BC0CC((u8 *)p);
     for(i=0;i<2;i++) {
         for(j=0;j<2;j++) {
             if(p->items[j][i]) func_0204B3DC(p->items[j][i],0);

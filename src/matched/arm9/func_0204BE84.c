@@ -59,8 +59,9 @@ typedef struct {
     int f34;
 } D;
 
-extern void func_02065B74(D *a0, const T *a1);
-extern void func_0204BF28(D *a0, u32 idx);
+struct Obj;
+extern void func_02065B74(struct Obj *p);
+extern void func_0204BF28(u8 *p, u32 idx);
 extern S12  g_020A1418[];
 extern u32  g_020A13F4[];
 
@@ -70,14 +71,14 @@ void func_0204BE84(D *a0, const T *a1)
     s16 y;
     s16 x;
 
-    func_02065B74(a0, a1);
+    func_02065B74((struct Obj *)a0);
     x = a1->f2;
     a0->f00 = (int)a1->f0 << 12;
     y = a1->f6;
     a0->f04 = (int)x << 12;
     a0->f08 = (int)a1->f4 << 12;
     a0->f0c = (int)y << 12;
-    func_0204BF28(a0, a1->f8);
+    func_0204BF28((u8 *)a0, a1->f8);
     t = g_020A1418[a1->f8];
     t.w2 = g_020A13F4[a1->fC];
     a0->f28 = (int)t.w0;

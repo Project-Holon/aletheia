@@ -54,28 +54,30 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020127A4(int a);
-extern u32 func_02012AC8(u32 p);
+struct Rec44;
+struct SaveBlock;
+extern void *func_020127A4(struct SaveBlock *p);
+extern u16 func_02012AC8(const struct Rec44 *p);
 extern char *func_020127C4(int a);
-extern u32 func_020127E0(int a);
-extern u32 func_020127F0(int a);
-extern u32 func_02186278(char *base, int a);
+extern int func_020127E0(int a0);
+extern int func_020127F0(int a0);
+extern int func_02186278(char *p, int which);
 extern int func_02161ECC(char *p);
-extern int func_02186BB8(char *p, int a);
+extern int func_02186BB8(u8 *p, int delta);
 extern void func_02186BE0(char *p, int a);
 extern int func_02013DE0(u16 id);
-extern void func_02186B2C(char *q, char *src);
+extern char *func_02186B2C(char *p, char *src);
 extern void func_02161E78(char *p);
 extern void func_02161E60(char *p, int a);
 extern void func_02161EEC(u32 p);
-extern int func_021867C4(int a, u32 b);
-extern void func_02186818(int h, int a);
-extern u16 *func_0218682C(int h);
+extern int *func_021867C4(int a, int id);
+extern void func_02186818(u32 *p, u32 member);
+extern char *func_0218682C(char *p);
 extern u32 func_020056EC(u32 n);
-extern int func_02186878(u32 p, u16 v, int i);
-extern void func_021869D4(u32 p, u32 a);
-extern void func_021869DC(u32 p, u32 a);
-extern void func_02186804(int h);
+extern int func_02186878(u16 *p, u16 v, int i);
+extern void func_021869D4(char *p, u16 v);
+extern void func_021869DC(u16 *p, u16 v);
+extern void func_02186804(void **p);
 
 void func_021862A8(int a0, int n, u32 flags)
 {
@@ -95,7 +97,7 @@ void func_021862A8(int a0, int n, u32 flags)
     u32 acc;
     u32 t;
 
-    id = func_02012AC8(func_020127A4(a0));
+    id = func_02012AC8(func_020127A4((struct SaveBlock *)a0));
     base = func_020127C4(a0);
     p1 = func_020127E0(a0);
     p2 = func_020127F0(a0);
@@ -115,7 +117,7 @@ void func_021862A8(int a0, int n, u32 flags)
             int r;
             p = base + i * 0x18;
             p[0xb] = 7;
-            r = func_02186BB8(items + i * 0x18, mul);
+            r = func_02186BB8((u8 *)(items + i * 0x18), mul);
             if (r != 0 && cnt + j >= 10) {
                 func_02186BE0(items + i * 0x18, 1);
             } else if (r != 0) {
@@ -132,16 +134,16 @@ void func_021862A8(int a0, int n, u32 flags)
     i = 0;
     func_02161E60(base, 0);
     func_02161EEC(p1);
-    h = func_021867C4(0, (u16)((flags & 0x7FFF) | 0x8000));
+    h = (int)func_021867C4(0, (u16)((flags & 0x7FFF) | 0x8000));
     if (*(u16 *)(base + 2) == 1) {
         for (i = 0; i < 10; i++) {
             char *e = base + 8 + i * 0x18;
             if (func_02161ECC(e) != 0) {
-                func_02186818(h, *(u8 *)(base + i * 0x18 + 9));
-                q = func_0218682C(h);
+                func_02186818((u32 *)h, *(u8 *)(base + i * 0x18 + 9));
+                q = (u16 *)func_0218682C((char *)h);
                 if ((u16)func_020056EC(100) < q[0x26 / 2]) {
                     u16 v = func_020056EC(10);
-                    func_02186878(p1, q[0x24 / 2], v);
+                    func_02186878((u16 *)p1, q[0x24 / 2], v);
                 }
             }
         }
@@ -155,15 +157,15 @@ void func_021862A8(int a0, int n, u32 flags)
                 if (func_02161ECC(base + 8 + off) != 0) {
                     acc += 3;
                     if (acc > t) {
-                        func_02186818(h, *(u8 *)(base + off + 9));
-                        q = func_0218682C(h);
-                        func_021869D4(p2, (q + 4)[t % 3]);
-                        func_021869DC(p2, q[0x24 / 2]);
+                        func_02186818((u32 *)h, *(u8 *)(base + off + 9));
+                        q = (u16 *)func_0218682C((char *)h);
+                        func_021869D4((char *)p2, (q + 4)[t % 3]);
+                        func_021869DC((u16 *)p2, q[0x24 / 2]);
                         break;
                     }
                 }
             }
         }
     }
-    func_02186804(h);
+    func_02186804((void **)h);
 }

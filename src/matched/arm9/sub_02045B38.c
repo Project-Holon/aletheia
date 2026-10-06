@@ -89,7 +89,8 @@ extern struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId);
 typedef signed int     s32;
 struct Header;
 extern s32 func_020461B8(struct Header *h);
-extern void func_02046110(struct MsgBank *bank);
+struct MsgData;
+extern void func_02046110(struct MsgData *msg);
 
 struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId)
 {
@@ -108,7 +109,7 @@ struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId)
     if (bank->resident != 0) {
         bank->base = sub_02030734(bank->heapId, bank->file->size, 0,
                                   g_020A7E8C, 0x7b);
-        func_02046110(bank);
+        func_02046110((struct MsgData *)bank);
     } else {
         bank->base = 0;
     }

@@ -20,7 +20,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020173EC(void);
 extern void func_02082D44(const void *,void *,u32);
-extern void *func_0203996C(int);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
 u32 func_021FD400(const char *p)
 {

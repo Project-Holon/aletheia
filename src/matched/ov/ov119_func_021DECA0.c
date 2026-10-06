@@ -44,7 +44,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern int func_021B6548(unsigned char *p, unsigned int id, int v);
-extern void func_021E24E8(void *,int);
+extern void func_021E24E8(char *p, int a1);
 extern void func_021E6B90(char *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D8E84(void *,int);

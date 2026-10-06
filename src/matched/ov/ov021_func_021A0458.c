@@ -32,7 +32,7 @@ extern void func_021A0974(u32 a1, u32 a2, u32 a3);
 extern void func_021A0B14(void *a);
 extern int func_021A0B34(u32 a);
 extern void func_021A0B4C(const u8 *a, u8 *b);
-extern s32 func_021A0C74(void *a, void *b, void *c, void *d);
+extern s32 func_021A0C74(u16 *a, void *b, void *c, void *d);
 
 void func_021A0458(u8 *a, s32 b)
 {
@@ -68,7 +68,7 @@ void func_021A0458(u8 *a, s32 b)
         }
         break;
     case 1:
-        if (func_021A0C74(a + 0x484, a + 0x390, a + 0x356, a + 0x10 + ((struct Obj01497 *)a)->f350 * 0x34))
+        if (func_021A0C74((u16 *)(a + 0x484), a + 0x390, a + 0x356, a + 0x10 + ((struct Obj01497 *)a)->f350 * 0x34))
             ((struct Obj01497 *)a)->f0 = 0;
         break;
     }

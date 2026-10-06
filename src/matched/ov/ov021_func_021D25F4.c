@@ -35,9 +35,9 @@ typedef struct {
 typedef unsigned char  u8;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern u32 func_0202D7C8(u32 heap);
+extern int func_0202D7C8(int a0);
 extern u32 func_0202D81C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 heap);
-extern u32 func_0202D7D8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 heap);
+extern int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
 extern void func_02049238(u32 a);
 extern u32 func_0202D898(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 heap);
 struct Obj;
@@ -52,7 +52,7 @@ void func_021D25F4(u32 *p, int a, int b, int c, int s0, int s1)
     p[1] = (u32)func_0204B100(1, 0, 0x8015);
     t = func_0202D7C8(0x8015);
     p[3] = func_0202D81C(t, a, b, c, s0, 0, 0, s1, 0, 0x8015);
-    p[4] = func_0202D7D8(t, a, b, c, s0, 0, 0, 0, 0, 0x8015);
+    p[4] = (u32)func_0202D7D8((u32)t, (u32)a, (u32)b, (u32)c, (u32)s0, (u32)0, (u32)0, (u32)0, (u32)0, (u32)0x8015);
     func_02049238(t);
     p[5] = func_0202D898(a, b, c, s0, 0, 0, 1, 0, 0x8015);
     loc = d_021DD710;

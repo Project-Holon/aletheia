@@ -15,10 +15,11 @@
  */
 #include "../include/Obj21566.h"
 extern void func_021F8A40(int a);
-extern void func_021EE200(char *p);
+typedef unsigned char  u8;
+extern void func_021EE200(u8 *p);
 
 void func_021EA7FC(char *p)
 {
     func_021F8A40(3);
-    func_021EE200(*(char * *)&((struct Obj21566 *)p)->f17C);
+    func_021EE200((u8 *)(*(char * *)&((struct Obj21566 *)p)->f17C));
 }

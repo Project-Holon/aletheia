@@ -27,7 +27,7 @@ struct G {
     u64 add;
 };
 
-extern u8 func_021B8D38(void *p, void *a, u16 k, u8 *out);
+extern u8 func_021B8D38(void *p, int a, int k, u8 *out);
 extern u8 *func_021B9934(char *p, int i);
 
 u8 *func_021CFD50(struct G *g, int k)
@@ -36,7 +36,7 @@ u8 *func_021CFD50(struct G *g, int k)
     u8 n;
     u32 v;
 
-    n = func_021B8D38(g->p0, g->p1, k | 0x100, buf);
+    n = func_021B8D38(g->p0, (int)g->p1, (u16)(k | 0x100), buf);
     if (n) {
         g->seed = g->mul * g->seed + g->add;
         if (n == 0) {

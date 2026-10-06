@@ -25,8 +25,10 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 struct Slot;
 extern u8 func_021D5440(u8 *p);
 extern void func_021CD64C(void *w, u8 id, ...);
-extern int func_021D62C4(u8 *p, int i);
-extern int func_021D61A8(u8 *p);
+struct Unk021D62A8;
+struct UtilSlots;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int func_021D61A8(struct UtilSlots *p);
 extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
 extern void func_021C54C8(u8 *p, u8 *a);
 extern int func_021D7AF0(u32 pct);
@@ -37,8 +39,8 @@ int func_021C031C(u8 *p, u8 *a)
         func_021CD64C(((struct Obj04359 *)p)->fC, 0x5a, 0xbc, func_021D5440(a), 0xffff0000);
         return 1;
     }
-    if (func_021D62C4(a, k) != 0) {
-        if (func_021D61A8(a) != 0) {
+    if (func_021D62C4((struct Unk021D62A8 *)a, k) != 0) {
+        if (func_021D61A8((struct UtilSlots *)a) != 0) {
             func_021C5620(p, a, k, 0);
             func_021CD64C(((struct Obj04359 *)p)->fC, 0x5b, 0x15f, func_021D5440(a), 0xffff0000);
             return 0;

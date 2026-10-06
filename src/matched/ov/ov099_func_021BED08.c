@@ -17,7 +17,7 @@
 #include "../include/Obj13699.h"
 extern void func_021BA8EC(char *);
 extern unsigned int func_0202EB0C(void);
-extern void func_021BAB04(char *,int);
+extern void func_021BAB04(void *p, int message);
 int func_021BED08(char *p,int ret) {
  func_021BA8EC(p);
  if (func_0202EB0C()) func_021BAB04(p,44);

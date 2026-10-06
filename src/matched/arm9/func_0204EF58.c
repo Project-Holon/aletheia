@@ -60,8 +60,10 @@ struct Desc {
     int          count;
 };
 
-extern int  func_0204EE0C(struct Desc *desc, u32 *out);
-extern void func_0204EE64(struct Slot *slot, u32 handle);
+struct Struct_0204EE0C;
+struct Struct_0204EE64;
+extern int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index);
+extern void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId);
 typedef signed int     s32;
 struct Cell;
 extern void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
@@ -70,8 +72,8 @@ u32 func_0204EF58(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5)
 {
     u32 idx;
 
-    if (func_0204EE0C(desc, &idx) == 1) {
-        func_0204EE64(&desc->slots[idx], a1);
+    if (func_0204EE0C((struct Struct_0204EE0C *)desc, (int *)(&idx)) == 1) {
+        func_0204EE64((struct Struct_0204EE64 *)(&desc->slots[idx]), a1);
         func_0204EEC8((struct Cell *)(&desc->slots[idx]), a2, a3, a4, a5);
     }
     return idx;

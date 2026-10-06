@@ -24,13 +24,13 @@
 struct WinMgr;
 extern void func_021ED55C(char **p, int flag);
 extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(unsigned char *p);
+extern void func_021DD14C(char *p);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
-extern int func_021E0190(unsigned char *p);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
 extern void func_020061E4(unsigned se);
-extern int func_021EA83C(unsigned char *p, int sel);
-extern void func_021EE008(unsigned char *p, int a, int b);
+extern int func_021EA83C(char *p, int a);
+extern void func_021EE008(char *p, int a, int b);
 extern void func_021EE364(char **p, int idx, int v);
 extern void func_021EBC28(unsigned char *p, int a, int b);
 extern void func_021EE038(char *p, int a, int b, int c);
@@ -43,18 +43,18 @@ int func_021E86EC(unsigned char *p)
         *(unsigned char *)(WORK(p) + 0xA17A) = 1;
         func_021ED55C((char **)p, 0);
         func_021EBA5C(WORK(p), 0x18);
-        func_021DD14C(p);
+        func_021DD14C((char *)p);
         func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
         STEP(p)++;
-        return func_021E8FC0(p, func_021E0190, 0x60);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 0x60);
     case 1:
         p[0x19] = p[0x14];
         STEP(p)++;
         func_020061E4(0x669);
-        return func_021EA83C(p, 0x60);
+        return func_021EA83C((char *)p, 0x60);
     case 2:
         STEP(p) = 0;
-        func_021EE008(p, 0, 1);
+        func_021EE008((char *)p, 0, 1);
         func_021EE364((char **)p, 0xC, 1);
         *(int *)(WORK(p) + 0xA168) = 1;
         func_021EBC28(p, 1, 0x19);

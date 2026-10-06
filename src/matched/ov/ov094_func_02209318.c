@@ -43,7 +43,8 @@ struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u64 func_020870D0(void);
-extern void func_022094BC(void *, int, int, int);
+typedef unsigned char  u8;
+extern void func_022094BC(u8 *p, int i, int a, int b);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void func_02209744(int unused, int x);
@@ -80,7 +81,7 @@ void func_02209318(Work *m, int a, int b)
     m->left[1] = b;
     m->time[1] = func_020870D0();
     m->time[0] = m->time[1];
-    func_022094BC(m, 0, 0, 0);
-    func_022094BC(m, 1, 0, 0);
+    func_022094BC((u8 *)m, 0, 0, 0);
+    func_022094BC((u8 *)m, 1, 0, 0);
     m->task = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))func_02209744, m, 0);
 }

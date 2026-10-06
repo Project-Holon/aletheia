@@ -15,10 +15,10 @@
  *   func_021B38B0 0x021B38B0 arm ov013
  */
 extern void *d_021B3C80;
-extern int func_021B38B0(unsigned char, int, int);
+extern int func_021B38B0(int a, int b, int c);
 int func_021AEF44(int a, int b, int c)
 {
     if (d_021B3C80 == 0) return 0;
-    if (func_021B38B0(a, b, c) != 0) return 1;
+    if (func_021B38B0((unsigned char)a, b, c) != 0) return 1;
     return 0;
 }

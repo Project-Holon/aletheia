@@ -21,8 +21,13 @@ typedef signed short s16;
 typedef struct {s16 x,y;} Pt;
 extern unsigned func_02040804(unsigned);
 extern void func_02041EE4(unsigned,unsigned,unsigned);
-extern void func_0204B454(void*,Pt*,unsigned);
-extern void func_0204B404(void*,const Pt*,unsigned);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+struct PtS;
+struct Vec2;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B9DD0(char*p)
 {
     int v;
@@ -33,9 +38,9 @@ void func_021B9DD0(char*p)
             if(((struct Obj02560 *)p)->f44==0){
                 if(v>=2)v=2;
                 func_02041EE4(1,5,v);func_02041EE4(2,5,v);
-                func_0204B454(*(void* *)&((struct Obj02560 *)p)->f54,&pos,0);
+                func_0204B454(*(void* *)&((struct Obj02560 *)p)->f54,(struct PtS *)(&pos),0);
                 pos.y=pos.y+(s16)v;
-                func_0204B404(*(void* *)&((struct Obj02560 *)p)->f54,&pos,0);
+                func_0204B404(*(void* *)&((struct Obj02560 *)p)->f54,(const struct Vec2 *)(&pos),0);
                 ((struct Obj02560 *)p)->f44=0;
             }else --((struct Obj02560 *)p)->f44;
         }

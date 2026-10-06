@@ -64,8 +64,8 @@ struct ExpHeap {
     u16               feature;
 };
 
-extern void           func_02060764(int *out, struct MBlock *blk);
-extern struct MBlock *func_02060790(struct MBlockList *list, struct MBlock *node);
+extern void func_02060764(int *out, int *blk);
+extern void *func_02060790(int *p, int *node);
 extern int            func_02060B6C(struct MBlockList *list, int *info);
 
 void func_02060E30(struct ExpHeap *heap, void *block)
@@ -74,7 +74,7 @@ void func_02060E30(struct ExpHeap *heap, void *block)
     int            end;
     int            start;
 
-    func_02060764(&start, hdr);
-    func_02060790(&heap->usedList, hdr);
+    func_02060764(&start, (int *)hdr);
+    func_02060790((int *)(&heap->usedList), (int *)hdr);
     func_02060B6C(&heap->freeList, &end - 1);
 }

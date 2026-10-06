@@ -52,7 +52,7 @@ struct Light;
 extern void func_02048AD0(struct Light *l);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_02046A94(u8, const void *);
+extern void func_02046A94(u32 idx, const u16 *src);
 struct IcaAnime;
 struct Rec12;
 extern u32 func_02011610(struct IcaAnime *t, struct Rec12 *out);
@@ -84,7 +84,7 @@ void func_021E2C3C(Work *w, Transform *t)
     func_0207DC44(1, 0, 0, 0);
     func_0207DD24(0, 0, 0x7fff, 0x3f, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
-    for (i = 0; i < 4; i++) func_02046A94(i, d_021E79C8 + i * 8);
+    for (i = 0; i < 4; i++) func_02046A94((u8)i, (const u16 *)(d_021E79C8 + i * 8));
     if (w->sub != 0) {
         if (w->sub->objA0 != 0) {
             func_02011610((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&v1);

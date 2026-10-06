@@ -50,12 +50,12 @@ extern u32 func_0200A0E4(u8 *p, u32 a);
 extern int func_0200A000(char *p, int idx, void *buf);
 extern void func_021DBDF4(char *,const Record *,char *,u16);
 extern void *func_021DA854(void *,void *,u16);
-extern void func_021DB018(char *,u16);
+extern void func_021DB018(u8 *p, u16 heap);
 extern void func_021DB478(char *,int,int,int,u16);
 extern void *func_021DA1BC(void *,const char *,u32,u16,u16,u32,u32,int,u16);
 extern void *func_021DCFC8(const Desc *,u16);
 extern u32 func_021DBDBC(u32 p);
-extern int func_021DBF04(void *);
+extern int func_021DBF04(int *p);
 extern char *func_021DC02C(void *);
 extern void *func_021DD24C(void *,void *,void *,u16);
 extern void func_021DE0AC(u8 *p, u32 b);
@@ -90,7 +90,7 @@ char *func_021DAC18(const Input *src,u16 heap)
     callback=(void *)func_021DC08C;
     if(((struct Obj00910 *)out)->f0) callback=(void *)func_021DCEC4;
     ((struct Obj00910 *)out)->fAC4=func_021DA854(out,callback,heap);
-    func_021DB018(out,heap);
+    func_021DB018((u8 *)out,heap);
     func_021DB478(out,1,0,((struct Obj00910 *)out)->fAC8,heap);
     if(count) {table=d_021DF8FC;n=3;}
     else {table=d_021DF890;n=2;}
@@ -102,7 +102,7 @@ char *func_021DAC18(const Input *src,u16 heap)
     ((struct Obj00910 *)out)->fAB0=func_021DCFC8(&d,heap);
     if(func_021DBDBC((u32)out)) {
         for(j=0;j<12;j++) {
-            if(func_021DBF04(out+40+j*0xdc))
+            if(func_021DBF04((int *)(out+40+j*0xdc)))
                 *(void **)(out+0xa7c+j*4)=func_021DD24C(func_021DC02C(out+40+j*0xdc),((struct Obj00910 *)out)->fAB0,(void *)src->w[8],heap);
         }
         func_021DE0AC(((struct Obj00910 *)out)->fA7C,0);

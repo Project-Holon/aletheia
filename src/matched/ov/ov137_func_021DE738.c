@@ -23,7 +23,7 @@ typedef struct { u8 pad[0x4804]; volatile int previous; } Obj;
 extern int func_021DE354(void *);
 extern void *func_021DCF50(u8 *p);
 extern int func_02184114(unsigned char *p);
-extern unsigned func_021841A4(void *);
+extern int func_021841A4(unsigned char *p);
 extern unsigned char func_021841A0(unsigned char *p);
 extern void func_0201FEF4(u8 *o);
 int func_021DE738(Obj *obj)
@@ -38,7 +38,7 @@ int func_021DE738(Obj *obj)
     switch (state) {
     case 0: break;
     case 1:
-        if (func_021841A4(func_021DCF50(p)) > 1 || func_021841A0(func_021DCF50(p)) > 1) return 1;
+        if ((unsigned)func_021841A4(func_021DCF50(p)) > 1 || func_021841A0(func_021DCF50(p)) > 1) return 1;
         *(int *)&((struct Obj00170 *)p)->f118 = 17;
         if (((struct Obj00170 *)p)->fE8) {
             func_0201FEF4(((struct Obj00170 *)p)->fE8);
@@ -47,7 +47,7 @@ int func_021DE738(Obj *obj)
         return 2;
     case 2: case 3: case 4:
         if (state < obj->previous)
-            ((struct Obj23738 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f2C = func_021841A4(func_021DCF50(p));
+            ((struct Obj23738 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f2C = (unsigned)func_021841A4(func_021DCF50(p));
         break;
     case 5: break;
     }

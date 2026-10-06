@@ -29,11 +29,11 @@ struct Ov208Mdl {
     u32 f4;
     u8 pos[0x3c];
 };
-extern void func_02014CEC(u32 cam, u32 v);
+extern void func_02014CEC(u8 *p, u32 value);
 extern void ov208_func_021C569C(u16 *heap, u8 *p, int key, int a, int b, int pose, u16 idx);
 extern void func_021C51C8(u32 st, int i, u8 *p);
-extern void func_021C80AC(struct Ov208Mdl *m, int k, Vec *v);
-extern void func_02015C48(u32 obj, Vec *v);
+extern void func_021C80AC(int a, int b, int c);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_021C7534(u16 *heap, u8 *p, int key);
 #define W(o) (*(u32 *)(p + (o)))
 #define MDL(i) ((struct Ov208Mdl *)(p + 0xc + (i) * 0x44))
@@ -44,7 +44,7 @@ void func_021C595C(u16 *heap, u8 *p, int key)
     int b;
     int pose;
     a = 0;
-    func_02014CEC(W(8), 0);
+    func_02014CEC((u8 *)W(8), 0);
     if (MDL(0)->obj != 0) a = 4;
     b = 1;
     if (MDL(1)->obj != 0) b = 4;
@@ -58,13 +58,13 @@ skip:
     ov208_func_021C569C(heap, p, key, a, b, pose, *(u16 *)(p + 0x54E));
     if (a != 4) func_021C51C8(MDL(0)->f4, 0, p);
     else if (MDL(0)->obj != 0) {
-        func_021C80AC(MDL(0), pose, &v);
-        func_02015C48(MDL(0)->obj, &v);
+        func_021C80AC((int)MDL(0), pose, (int)(&v));
+        func_02015C48((void *)MDL(0)->obj, (u32 *)(&v));
     }
     if (b != 4) func_021C51C8(MDL(1)->f4, 1, p);
     else if (MDL(1)->obj != 0) {
-        func_021C80AC(MDL(1), pose, &v);
-        func_02015C48(MDL(1)->obj, &v);
+        func_021C80AC((int)MDL(1), pose, (int)(&v));
+        func_02015C48((void *)MDL(1)->obj, (u32 *)(&v));
     }
     if (W(0x6B8) == 4 && *(u16 *)(p + 0x548) >= 2) {
         a = 2;
@@ -74,16 +74,16 @@ skip:
         ov208_func_021C569C(heap, p, key, a, b, 2, *(u16 *)(p + 0x550));
         if (a != 4) func_021C51C8(MDL(2)->f4, 2, p);
         else if (MDL(2)->obj != 0) {
-            func_021C80AC(MDL(2), 2, &v);
-            func_02015C48(MDL(2)->obj, &v);
+            func_021C80AC((int)MDL(2), 2, (int)(&v));
+            func_02015C48((void *)MDL(2)->obj, (u32 *)(&v));
         }
         if (b != 4) func_021C51C8(MDL(3)->f4, 3, p);
         else if (MDL(3)->obj != 0) {
-            func_021C80AC(MDL(3), 2, &v);
-            func_02015C48(MDL(3)->obj, &v);
+            func_021C80AC((int)MDL(3), 2, (int)(&v));
+            func_02015C48((void *)MDL(3)->obj, (u32 *)(&v));
         }
     }
-    func_02014CEC(W(8), W(0x120));
+    func_02014CEC((u8 *)W(8), W(0x120));
     if (W(0x6B8) == 0) {
         W(0x6C8) = 1;
         func_021C7534(heap, p, key);

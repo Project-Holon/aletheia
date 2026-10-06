@@ -49,14 +49,19 @@ typedef struct {
     int f38;
 } Work;
 
-extern int  func_020120F4(int a);
-extern int  func_02188C54(int a);
-extern int  func_02188C7C(int a);
-extern int  func_02010F7C(int a);
-extern int  func_02045B38(int a, int b, int c, int d);
-extern int  func_0201EC64(int a);
-extern int  func_020457B0(int a, int b);
-extern void func_0216D9A0(int a);
+typedef unsigned char  u8;
+struct Ctx;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02188C54(u8 *p);
+extern void *func_02188C7C(u8 *p);
+extern void *func_02010F7C(u32 heap);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0216D9A0(void *map);
 
 void func_021F5390(Work *p, int a1, int a2)
 {
@@ -64,13 +69,13 @@ void func_021F5390(Work *p, int a1, int a2)
     p->f4 = (p->f2 & 0x7FFF) | 0x8000;
     p->f10 = a2;
     p->f8 = a1;
-    p->fC = func_020120F4(a1);
-    p->f14 = func_02188C54(p->f10);
-    p->f1C = func_02188C7C(p->f10);
-    p->f30 = func_02010F7C(p->f2);
-    p->f28 = func_02045B38(0, 3, 0x108, p->f2);
-    p->f2C = func_0201EC64(p->f2);
-    p->f34 = func_020457B0(0x81, p->f2);
-    p->f38 = func_020457B0(0x81, p->f2);
-    func_0216D9A0(p->f1C);
+    p->fC = (int)func_020120F4((const struct Ctx *)a1);
+    p->f14 = func_02188C54((u8 *)p->f10);
+    p->f1C = (int)func_02188C7C((u8 *)p->f10);
+    p->f30 = (int)func_02010F7C(p->f2);
+    p->f28 = (int)func_02045B38(0, 3, 0x108, p->f2);
+    p->f2C = (int)func_0201EC64(p->f2);
+    p->f34 = (int)func_020457B0(0x81, p->f2);
+    p->f38 = (int)func_020457B0(0x81, p->f2);
+    func_0216D9A0((void *)p->f1C);
 }

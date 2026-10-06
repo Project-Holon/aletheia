@@ -33,7 +33,7 @@ extern int func_021D4294(u8);
 extern int func_021D4348(void);
 extern int func_021D4360(void);
 extern u8 func_021D4378(void);
-extern int func_021BA1A8(void *,int);
+extern int func_021BA1A8(char **p, int m);
 extern u32 func_021D43B8(u32 a);
 extern int func_021D440C(void *);
 int func_021B75A8(u8 *p,u32 *state)
@@ -61,7 +61,7 @@ int func_021B75A8(u8 *p,u32 *state)
         ((struct Obj00966 *)p)->f420 = ((struct Obj20944 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f86;
         ((struct Obj00966 *)p)->f422 = ((struct Obj20945 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f74;
         ((struct Obj00966 *)p)->f424 = ((struct Obj20946 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f76;
-        if (func_021BA1A8(p,0x1000)) {
+        if (func_021BA1A8((char **)p,0x1000)) {
             p[0x426] = ((struct Obj00966 *)p)->f43C;
             ((Nibbles *)(p + 0x427))->a = ((Bits *)(p + 0x473))->c;
         } else {

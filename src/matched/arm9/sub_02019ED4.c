@@ -56,7 +56,8 @@ extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern int func_02019DA4(void *ctx, void *mon);
-extern int func_0200AE54(void *ctx, u32 k);
+struct Reg;
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern int func_0201A59C(void *a0, void *a1, void *a2);
 
 int sub_02019ED4(void *ctx, void *q)
@@ -85,7 +86,7 @@ int sub_02019ED4(void *ctx, void *q)
         }
     }
 
-    if (func_0200AE54(ctx, 7) == 0 && n > 1) {
+    if ((int)func_0200AE54(ctx, 7) == 0 && n > 1) {
         i = 0;
         lim = n - 1;
         for (; i < lim; i++) {
@@ -102,7 +103,7 @@ int sub_02019ED4(void *ctx, void *q)
         }
     }
 
-    if (cnt < func_0200AE54(ctx, 2)) {
+    if (cnt < (int)func_0200AE54(ctx, 2)) {
         return 4;
     }
 

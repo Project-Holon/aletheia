@@ -14,10 +14,10 @@
  *   func_021D7704 0x021D7704 thumb ov093
  */
 extern int func_021D775C(int);
-extern int func_0201C1E8(unsigned short);
+extern int func_0201C1E8(int a);
 extern void func_021D7704(int,int);
 
 void func_021D8844(int a, int b, int c)
 {
-    if(c==func_021D775C(3) && func_0201C1E8(func_021D775C(0x12))==1) func_021D7704(0x35,0xCCD);
+    if(c==func_021D775C(3) && func_0201C1E8((unsigned short)func_021D775C(0x12))==1) func_021D7704(0x35,0xCCD);
 }

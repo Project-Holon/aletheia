@@ -85,32 +85,40 @@ extern u8 ov227_id[];
 extern u8 d_021B6D74[];
 extern u8 d_021B98A4[];
 
-extern void *func_020124E4(void *evt);
-extern void *func_020120F4(void *h);
-extern void *func_02029BCC(void *h, u16 v);
-extern void func_02012374(void *evt, void *task);
+typedef signed int     s32;
+struct Big;
+struct BigObj;
+struct Ctx;
+struct Evt;
+struct Obj;
+struct P;
+struct Sub02008700Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02029BCC(void *a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_02012EBC(void *sys);
-extern u32 func_0200E2BC(void *sv, Key *key, u32 heap, u32 mode);
-extern void *func_020144DC(void *h, void *proc);
-extern void *func_0201292C(void *sys);
-extern void func_02007E50(void *p, u32 a, u32 b, u32 heap);
-extern void func_02034AC4(u32 id);
-extern void func_02034A5C(u32 id);
-extern void *func_02012944(void *sys);
-extern void *func_0200873C(void *sv);
+extern void *func_02012EBC(struct Big *p);
+extern u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode);
+extern int func_020144DC(int a0, int a1);
+extern void *func_0201292C(const struct BigObj *p);
+extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
+extern int func_02034AC4(s32 handle);
+extern void func_02034A5C(s32 handle);
+extern u8 *func_02012944(void *p);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *func_0200CA10(void *sv);
-extern void func_02012444(void *evt, u32 id, void *data, void *arg);
-extern void func_02007F1C(void *p, u32 a, u32 b, u32 heap);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern void *func_02029C00(void *h);
 extern void *func_020145CC(void *h);
 extern void *func_02029CC0(void *h);
 extern void func_020307B0(void *p);
-extern void *func_02189A08(void *p);
-extern void func_021CF498(void *p, void *evt, void *arg);
-extern void *func_021B6100(void *sys, void *mon, void *out, void *a, void *b, void *c, void *d, u32 heap);
+extern int func_02189A08(unsigned char *p);
+extern void func_021CF498(struct Ctx *c, u32 x, int idx);
+extern struct P *func_021B6100(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 heap);
 extern int func_021B6158(void *p);
-extern void *func_021B95A0(void *sys, int ok, void *mon, u32 heap);
+extern void *func_021B95A0(u32 a, int b, u32 c, u32 heap);
 extern void func_021B95C8(void *p);
 
 int func_0216B004(void *evt, u32 *state, Work *w)
@@ -134,9 +142,9 @@ int func_0216B004(void *evt, u32 *state, Work *w)
 
         key.species = func_02017E1C(mon, 5, 0);
         key.form = func_02017E1C(mon, 0x6F, 0);
-        if (func_0200E2BC(func_02012EBC(sys), &key, heap, 1) == 0)
+        if (func_0200E2BC(func_02012EBC(sys), (u32 *)(&key), (void *)heap, 1) == 0)
             w->f20.form = 12;
-        func_021CF498(func_02189A08(w->f00), evt, 0);
+        func_021CF498((struct Ctx *)func_02189A08(w->f00), (u32)evt, 0);
         (*state)++;
         break;
     }
@@ -144,7 +152,7 @@ int func_0216B004(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 3:
-        func_02012374(evt, func_020144DC(h, w->f00));
+        func_02012374(evt, (struct Evt **)func_020144DC((int)h, (int)w->f00));
         (*state)++;
         break;
     case 4: {
@@ -152,9 +160,9 @@ int func_0216B004(void *evt, u32 *state, Work *w)
 
         func_02007E50(func_0201292C(sys), 0x240, 1, w->f24);
         func_02034AC4((u32)ov098_id);
-        w->f04 = func_021B6100(sys, w->f0c, w->f10, func_02012944(sys), func_0201292C(sys),
-                               func_0200873C(sv), func_0200CA10(sv), w->f24);
-        func_02012444(evt, -1, d_021B6D74, w->f04);
+        w->f04 = func_021B6100((u32)sys, (u32)w->f0c, (u32)w->f10, (u32)func_02012944(sys), (u32)func_0201292C(sys),
+                               (u32)func_0200873C(sv), (u32)func_0200CA10(sv), w->f24);
+        func_02012444(evt, -1, (u32)d_021B6D74, (u32)w->f04);
         (*state)++;
         break;
     }
@@ -169,8 +177,8 @@ int func_0216B004(void *evt, u32 *state, Work *w)
 
         key.species = func_02017E1C(mon, 5, 0);
         key.form = func_02017E1C(mon, 0x6F, 0);
-        if (func_0200E2BC(func_02012EBC(sys), &key, heap, 1) == 0
-            || func_0200E2BC(func_02012EBC(sys), &w->f20, w->f24, 0) == 0)
+        if (func_0200E2BC(func_02012EBC(sys), (u32 *)(&key), (void *)heap, 1) == 0
+            || func_0200E2BC(func_02012EBC(sys), (u32 *)(&w->f20), (void *)w->f24, 0) == 0)
             ok = 0;
         if (ok == 1)
             *w->f28 = 1;
@@ -178,8 +186,8 @@ int func_0216B004(void *evt, u32 *state, Work *w)
             *w->f28 = 0;
         func_02034A5C((u32)ov098_id);
         func_02034AC4((u32)ov227_id);
-        w->f08 = func_021B95A0(sys, ok, w->f0c, w->f24);
-        func_02012444(evt, -1, d_021B98A4, w->f08);
+        w->f08 = func_021B95A0((u32)sys, ok, (u32)w->f0c, w->f24);
+        func_02012444(evt, -1, (u32)d_021B98A4, (u32)w->f08);
         func_02007F1C(func_0201292C(sys), 0x240, 1, w->f24);
         (*state)++;
         break;

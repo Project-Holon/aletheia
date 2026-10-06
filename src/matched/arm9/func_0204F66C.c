@@ -13,4 +13,4 @@
 #include "../include/Obj16141.h"
 #include "../include/Obj16142.h"
 
-void func_0204F66C(int p0, int p1, int p2, int p3){ *(unsigned short *)(((p1 * 0x1c + ((struct Obj16141 *)p0)->f8) + 16)) = (unsigned short)((struct Obj16142 *)p2)->f0; }
+void func_0204F66C(int p0, int p1, int p2){ *(unsigned short *)(((p1 * 0x1c + ((struct Obj16141 *)p0)->f8) + 16)) = (unsigned short)((struct Obj16142 *)p2)->f0; }

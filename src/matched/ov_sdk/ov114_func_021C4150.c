@@ -63,7 +63,8 @@ extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bu
 extern int func_021C011C(struct GHIConnection *connection);
 extern void func_021C00FC(GHIBuffer *buffer);
 extern int func_021C04D4(struct GHIConnection *connection, char *buffer, int *bufferLen);
-extern int func_021BFCEC(GHIBuffer *buffer, char *data, int dataLen);
+struct GHIBuffer;
+extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
 extern int func_021C0378(struct GHIConnection *connection);
 extern char g_021CF138[];
 
@@ -130,7 +131,7 @@ void func_021C4150(GHIConnection *connection)
     }
     if (result != 0)
         return;
-    if (!func_021BFCEC(&connection->decodeBuffer, buffer, bufferLen))
+    if (!func_021BFCEC((struct GHIBuffer *)(&connection->decodeBuffer), buffer, bufferLen))
         return;
     if (!func_021C0378(connection))
     {

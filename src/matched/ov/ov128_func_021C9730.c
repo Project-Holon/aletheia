@@ -18,8 +18,8 @@
  *   func_021C9E54 0x021C9E54 thumb ov128
  */
 typedef unsigned char u8;
-extern void func_021CA444(void *);
-extern void func_021CA458(void *,void *);
+extern void func_021CA444(char *p);
+extern void func_021CA458(char *p, void *q);
 extern void func_021C9EFC(void *,int);
 extern void func_021C9EF0(void *);
 struct Descriptor;
@@ -31,8 +31,8 @@ void func_021C9730(u8 *p,void *unused,u8 *q)
     u8 *base;
     int j;
     int i;
-    func_021CA444(q);
-    func_021CA458(q,q+12);
+    func_021CA444((char *)q);
+    func_021CA458((char *)q,q+12);
     base=p+20;
     for(i=0;i<3;i++) {
         for(j=0;j<8;j++) func_021C9EFC(base+i*76,j);

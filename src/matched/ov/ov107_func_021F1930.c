@@ -21,7 +21,9 @@ typedef struct {u32 f00;u8 f04;Entry *f08;u32 f0C;u8 f10,f11,f12,f13;} Config;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02027778(Config *,void *);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_02045808(struct U16Vec *vec);
 void func_021F1930(char *p,int kind)
 {
@@ -38,6 +40,6 @@ void func_021F1930(char *p,int kind)
     case 2:config.f10=24;config.f11=18;break;
     }
     config.f12=8;config.f13=3;
-    ((struct Obj06379 *)p)->f3C=func_02027778(&config,((struct Obj06379 *)p)->f40);
+    ((struct Obj06379 *)p)->f3C=func_02027778((struct TaskMenuTmpl *)(&config),((struct Obj06379 *)p)->f40);
     func_02045808(entries[0].f00);func_02045808(entries[1].f00);
 }

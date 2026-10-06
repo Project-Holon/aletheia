@@ -19,12 +19,13 @@ typedef unsigned int u32;
 typedef struct { u32 w[7]; } Tbl;
 extern const Tbl d_021C0990;
 
-extern u32 func_021BC3E8(void);
-extern void func_0204A48C(void *dst, u32 src, int n);
+struct Cfg;
+extern void *func_021BC3E8(void);
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 
 void func_021BEE94(void)
 {
     Tbl tbl = d_021C0990;
 
-    func_0204A48C(&tbl, func_021BC3E8(), 0x7b);
+    func_0204A48C((const struct Cfg *)(&tbl), (u32)func_021BC3E8(), 0x7b);
 }

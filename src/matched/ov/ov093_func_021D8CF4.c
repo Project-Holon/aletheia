@@ -23,14 +23,14 @@ extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
 extern int func_021D62A8(struct Unk021D62A8 *p);
-extern int func_0201C1E8(u16 x);
+extern int func_0201C1E8(int a);
 extern void func_021D7704(int a, int b);
 
 void func_021D8CF4(int u, int a, int b)
 {
     if (b == func_021D775C(3)) {
         if (func_021D62A8(func_021C7CF4((int *)a, b)) != 0) {
-            if (func_0201C1E8(func_021D775C(0x12)) == 1)
+            if (func_0201C1E8((u16)func_021D775C(0x12)) == 1)
                 func_021D7704(0x35, 3 << 11);
         }
     }

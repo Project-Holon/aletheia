@@ -31,8 +31,8 @@ extern void func_021C0C04(u8 *);
 extern u8 *func_021C0C14(u8 *);
 extern u8 *func_021C0C24(u8 *);
 extern u8 func_021D5440(u8 *p);
-extern int func_021C6BF8(u8 *, u8 *, u8 *, u32);
-extern int func_021CC8B8(const u32 *, u8);
+extern int func_021C6BF8(u8 *p, u8 *a, u8 *b, u16 q);
+extern u32 func_021CC8B8(u32 *p, u32 i);
 extern int func_021C1E74(u8 *, u8 *, u8 *, const u8 *, u32, u16, u32, u32, u16 *);
 extern u32 func_021D6D7C(u8 *p);
 extern u32 func_021C15D4(void *p, u32 n);
@@ -50,8 +50,8 @@ void func_021C0A4C(u8 *p, u8 *a, u8 *b, const u8 *q, const u32 *c, u16 k, struct
     if (r != 0) {
         do {
             out->entries[i].id = func_021D5440(r);
-            out->entries[i].marked = (u16)func_021C6BF8(p, a, r, ((struct Obj21063 *)q)->f0);
-            out->entries[i].mode = (u16)func_021CC8B8(c, out->entries[i].id);
+            out->entries[i].marked = (u16)func_021C6BF8(p, a, r, (u32)(((struct Obj21063 *)q)->f0));
+            out->entries[i].mode = (u16)(int)func_021CC8B8((u32 *)c, (u8)out->entries[i].id);
             out->entries[i].special = (u16)func_021C1E74(p, a, r, q, out->entries[i].mode, k, out->entries[i].marked, 0, &temp.y);
             out->entries[i].value = temp.y;
             if (out->entries[i].special) {

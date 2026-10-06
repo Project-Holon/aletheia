@@ -26,12 +26,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int func_0216D804(void *p);
 extern int func_0216D81C(void *p);
-extern u32 func_0216D83C(u32, u32, u32, u32);
+extern int func_0216D83C(void *p);
 extern int func_0216D86C(void *p);
 
 int func_0219B494(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0216D83C(a, b, c, d) != func_0216D804((void *)a)) {
+if (func_0216D83C((void *)a) != func_0216D804((void *)a)) {
     return 1;
 }
 if (func_0216D86C((void *)a) != func_0216D81C((void *)a)) {

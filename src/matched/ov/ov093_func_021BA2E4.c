@@ -46,7 +46,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B97A0(char *, char *, int);
 extern int func_021B985C(char *, int);
-extern u32 func_021BA020(char *, int);
+struct Unk021D62A8;
+extern unsigned short func_021BA020(char *p, int i);
 extern int func_021D7F60(u32);
 extern char *func_021B8714(char **);
 struct Rec534;
@@ -59,7 +60,7 @@ struct Q1;
 struct S2;
 extern u32 func_021D805C(void *p, u32 n);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern u32 func_021B9064(u8 *, u8, int);
+extern u32 func_021B9064(u8 *p, int k, int x);
 extern void func_021B969C(char *, char *, int, int);
 extern u8 func_021BA710(int, int);
 extern int func_021B8B9C(u8 *, u8);
@@ -69,7 +70,7 @@ extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern u8 func_021D5440(u8 *p);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021D5B68(void *);
-extern int func_021D62A8(void *);
+extern int func_021D62A8(struct Unk021D62A8 *p);
 extern const u8 data_021EFCF0[];
 extern u32 _u32_div_f(u32, u32);
 void func_021BA2E4(char *p)
@@ -85,7 +86,7 @@ void func_021BA2E4(char *p)
     if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 <= 1) {
         func_021B97A0(p + 0x1b0, p, (u8)p[0x46c]);
         list = (void *)func_021B985C(p + 0x1b0, (u8)p[0x46c]);
-        if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1 && func_021D7F60((u16)func_021BA020(p, 1)))
+        if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1 && func_021D7F60((u16)(u32)func_021BA020(p, 1)))
             func_0201B818(list, *(u16 *)(func_021B8714((char **)p) + 10), (u16)((((struct Obj00324 *)p)->f468 & 0x7fff) | 0x8000));
         if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1) {
             n = func_0201AA18(list);
@@ -122,7 +123,7 @@ void func_021BA2E4(char *p)
                 total += func_021D59B4(m, 13);
                 maximum += func_021D59B4(m, 14);
                 if (func_021D5B68(m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp = slot * 6; *(u8 *)(i + (tmp + *(u32 *)&((struct Obj00324 *)p)->f0) + 0xc8) = 2; }
-                else if (func_021D62A8(m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp2 = slot * 6; *(u8 *)(i + (tmp2 + obj) + 0xc8) = 1; }
+                else if (func_021D62A8((struct Unk021D62A8 *)m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp2 = slot * 6; *(u8 *)(i + (tmp2 + obj) + 0xc8) = 1; }
             }
             *(u32 *)(*(char * *)&((struct Obj00324 *)p)->f0 + slot * 4 + 0xe0) = _u32_div_f(total * 100, maximum);
         }

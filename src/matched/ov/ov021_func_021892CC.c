@@ -28,8 +28,8 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_0218932C(void *a);
-extern u32 func_02189370(void *a);
+extern int func_0218932C(char *p);
+extern u32 func_02189370(char *p);
 extern void func_021893C0(u8 *p);
 struct BigObj;
 extern u32 func_02012844(const struct BigObj *p);
@@ -41,7 +41,7 @@ u32 func_021892CC(u8 *a)
 {
     u32 h;
 
-    if (func_0218932C(a) == 1 && func_02189370(a) == 1) {
+    if (func_0218932C((char *)a) == 1 && func_02189370((char *)a) == 1) {
         func_021893C0(a);
         return 1;
     }

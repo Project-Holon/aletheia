@@ -27,11 +27,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082BCC(void *, int, u32);
-extern int func_0200A8AC(void *);
+typedef signed int     s32;
+struct Rec;
+extern s32 func_0200A8AC(struct Rec *r);
 extern u32 func_021B78EC(void *, int);
 extern u32 func_02005728(u32);
-extern u32 func_0200A8F8(void *, u32);
-extern void func_021B8810(void *, u32, u32, int);
+extern u32 func_0200A8F8(struct Rec *r, u32 index);
+extern void func_021B8810(int a0, int b, int c, int a3);
 
 void func_021B8934(u8 *a, void *b, void *c, int d)
 {
@@ -48,6 +50,6 @@ void func_021B8934(u8 *a, void *b, void *c, int d)
             u = func_02005728(2);
         else
             u = (func_0200A8F8(c, i) == 1);
-        func_021B8810(a + i * 0x1c, t, u, d);
+        func_021B8810((int)(a + i * 0x1c), t, u, d);
     }
 }

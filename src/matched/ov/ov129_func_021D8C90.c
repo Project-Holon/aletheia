@@ -35,15 +35,18 @@ extern void func_021D9E48(char *,int,int);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B404(void *,Pair *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B5AC(void *,Scale *);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021DA158(int x, int flag);
 extern void func_021DA320(char *);
-extern int func_021D97CC(char *,int);
-extern int func_021D97FC(char *,int);
-extern void func_021D9E60(char *,int);
+extern int func_021D97CC(u8 *p, int value);
+extern int func_021D97FC(u8 *p, int value);
+extern void func_021D9E60(u8 *p, int n);
 extern void func_021D97B8(char *);
 extern void func_021D8AF4(char *,int);
 int func_021D8C90(char *p)
@@ -61,7 +64,7 @@ int func_021D8C90(char *p)
                 func_0204B454(((struct Obj00411 *)q)->fC,(struct PtS *)&first,0);
                 first.x+=((struct Obj00411 *)q)->f14;
                 first.y+=((struct Obj00411 *)q)->f16;
-                func_0204B404(((struct Obj00411 *)q)->fC,&first,0);
+                func_0204B404(((struct Obj00411 *)q)->fC,(const struct Vec2 *)(&first),0);
                 (((struct Obj00411 *)q)->f18)--;
                 if(i>=((struct Obj00361 *)p)->f248 && i<((struct Obj00361 *)p)->f24C) {
                     scale.x=d_021DA830[((struct Obj00411 *)q)->f19];
@@ -83,7 +86,7 @@ int func_021D8C90(char *p)
                 func_0204B454(((struct Obj00411 *)q)->f15C,(struct PtS *)&second,0);
                 second.x+=((struct Obj00411 *)q)->f164;
                 second.y+=((struct Obj00411 *)q)->f166;
-                func_0204B404(((struct Obj00411 *)q)->f15C,&second,0);
+                func_0204B404(((struct Obj00411 *)q)->f15C,(const struct Vec2 *)(&second),0);
                 (((struct Obj00411 *)q)->f168)--;
             }
         }
@@ -124,9 +127,9 @@ int func_021D8C90(char *p)
         break;
     default:
         func_021DA320(p);
-        if(((struct Obj00361 *)p)->f324==0) n=func_021D97CC(p,((struct Obj00361 *)p)->f320);
-        else n=func_021D97FC(p,((struct Obj00361 *)p)->f320);
-        func_021D9E60(p,n);
+        if(((struct Obj00361 *)p)->f324==0) n=func_021D97CC((u8 *)p,((struct Obj00361 *)p)->f320);
+        else n=func_021D97FC((u8 *)p,((struct Obj00361 *)p)->f320);
+        func_021D9E60((u8 *)p,n);
         if(((struct Obj00361 *)p)->f240) func_021D9E48(p,0,1);
         func_021D97B8(p);
         func_021D8AF4(p,1);

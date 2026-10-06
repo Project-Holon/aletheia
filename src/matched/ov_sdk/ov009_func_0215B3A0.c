@@ -36,10 +36,14 @@ struct ThreadInfo {
 	struct Thread *current;
 };
 
-extern void func_021585D8(unsigned char *data, unsigned long len, struct Soc *soc);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CPSSoc;
+struct _CPSSoc;
+extern void func_021585D8(unsigned char *data, unsigned long len, struct _CPSSoc *soc);
 extern void func_02158524(unsigned char *pattern, unsigned long len, struct Soc *soc);
-extern unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct Soc *soc);
-extern unsigned long func_0215B198(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct Soc *soc);
+extern unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct CPSSoc *soc);
+extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 extern struct ThreadInfo g_02150FEC;
 extern unsigned char g_021A826C;
 
@@ -52,9 +56,9 @@ unsigned long func_0215B3A0(unsigned char *buf, unsigned long len, unsigned char
 	if (soc != 0) {
 		if (soc->state == 10) {
 			if (len)
-				func_021585D8(buf, len, soc);
+				func_021585D8(buf, len, (struct _CPSSoc *)soc);
 			if (len2)
-				func_021585D8(buf2, len2, soc);
+				func_021585D8(buf2, len2, (struct _CPSSoc *)soc);
 			total_written = len + len2;
 		} else if (soc->state == 11) {
 			if (len)
@@ -63,9 +67,9 @@ unsigned long func_0215B3A0(unsigned char *buf, unsigned long len, unsigned char
 				func_02158524(buf2, len2, soc);
 			total_written = len + len2;
 		} else if (soc->ssl) {
-			total_written = func_02162CA0(buf, len, buf2, len2, soc);
+			total_written = func_02162CA0(buf, len, buf2, len2, (struct CPSSoc *)soc);
 		} else {
-			total_written = func_0215B198(buf, len, buf2, len2, soc);
+			total_written = func_0215B198(buf, len, buf2, len2, (struct _CPSSoc *)soc);
 		}
 		if (!g_021A826C)
 			return total_written;

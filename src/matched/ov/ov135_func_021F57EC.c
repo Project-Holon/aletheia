@@ -51,7 +51,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 layer);
 extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
-extern void func_02200BAC(Work *p, u32 k);
+extern void func_02200BAC(u8 *p, u32 k);
 
 void func_021F57EC(Work *p)
 {
@@ -87,8 +87,8 @@ void func_021F57EC(Work *p)
 
     func_021F91A0(p->win3, (u32)p->strs, 0, 1, 1, 0x3DC4, (u32)p->g);
     if (p->mode == 5) {
-        func_02200BAC(p, 3);
+        func_02200BAC((u8 *)p, 3);
     } else {
-        func_02200BAC(p, 1);
+        func_02200BAC((u8 *)p, 1);
     }
 }

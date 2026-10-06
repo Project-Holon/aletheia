@@ -14,7 +14,8 @@
 
 typedef unsigned int u32;
 
-extern int func_020189D8(void *m, int b);
+typedef signed char    s8;
+extern s8 func_020189D8(void *m, u32 a1);
 
 int func_020189D0(void *m, int b)
 {

@@ -28,7 +28,7 @@ typedef unsigned short u16;
 
 extern int func_02026478();
 struct BigObj;
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern u8 func_02012B80(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern int func_02026454();
@@ -37,7 +37,8 @@ typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 extern u8 *func_02012950();
 extern u8 *func_02012944(void *p);
-extern u8 func_02008550(u8 *obj);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
 u8 func_0217C0A8(int a0)
 {
@@ -62,5 +63,5 @@ u8 func_0217C0A8(int a0)
             obj = func_02012950(h, func_02012B80((const struct BigObj *)h));
         }
     }
-    return func_02008550(obj);
+    return func_02008550((const struct Sub0200852CObj *)obj);
 }

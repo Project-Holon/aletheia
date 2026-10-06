@@ -32,7 +32,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_020A1448[];
 extern void func_02082BCC(void *,u8,u32);
-extern void func_0204A48C(const void *,u32,u32);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 struct Obj;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
@@ -54,7 +55,7 @@ void func_021B7B3C(struct State *p,const void *config,u16 heap)
     int i;
     u16 point[4];
     func_02082BCC(p,0,0x94);
-    func_0204A48C(d_020A1448,(u32)config,heap);
+    func_0204A48C((const struct Cfg *)d_020A1448,(u32)config,heap);
     p->bank=func_0204B100(128,0,heap);
     func_0204B270(p->bank);
     func_020434DC(16,1);

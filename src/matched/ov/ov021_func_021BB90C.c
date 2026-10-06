@@ -27,7 +27,7 @@ typedef struct {
     void *f14;
 } Obj;
 
-extern void func_021BBA1C(E18 *e);
+extern void func_021BBA1C(int *p);
 extern void func_020307B0(void *p);
 
 void func_021BB90C(Obj *p)
@@ -35,7 +35,7 @@ void func_021BB90C(Obj *p)
     int i;
 
     for (i = 0; i < p->n; i++) {
-        func_021BBA1C(&p->arr[i]);
+        func_021BBA1C((int *)(&p->arr[i]));
     }
     func_020307B0(p->arr);
     func_020307B0(p->f10);

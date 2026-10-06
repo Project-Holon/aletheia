@@ -34,7 +34,7 @@ extern unsigned short func_02012AC8(const struct Rec44 *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_021A8B18(void *a, void *b, u32 c);
-extern void func_02024DCC(void);
+extern int func_02024DCC(void);
 extern void func_021A84BC(struct Obj *p);
 extern void func_020403F4(u32);
 

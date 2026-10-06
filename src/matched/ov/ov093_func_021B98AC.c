@@ -19,7 +19,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern u8 func_021B8CFC(char *p, int i);
 struct Q1;
 extern u8 func_021B9B94(struct Q1 *p);
-extern u8 *func_021B9C00(void *p, u32 i);
+struct S2;
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 
 u8 *func_021B98AC(char *const *q, u8 b)
 {
@@ -37,6 +38,6 @@ u8 *func_021B98AC(char *const *q, u8 b)
     }
     g = (char *)q + 4 + a * 0x1c;
     if (cnt < func_021B9B94((struct Q1 *)g))
-        return func_021B9C00(g, cnt);
+        return func_021B9C00((struct S2 *)g, cnt);
     return 0;
 }

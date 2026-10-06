@@ -27,16 +27,16 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_021F4D20(u32 a, u32 b);
-extern u8 *func_021F4F50(u32 a);
+extern int func_021F4D20(u32 a, u32 b);
+extern int func_021F4F50(int a);
 extern u32 func_021F4DA4(u8 *p, u16 a, u16 b);
-extern u32 func_021F4D9C(u8 *p);
-extern u32 func_021F4DA0(u8 *p);
-extern int func_021F4F68(u8 *p);
-extern u32 func_021F4F6C(u8 *base, u32 i, u32 j);
-extern void func_021F4F60(u8 *p);
-extern void func_021F4D34(u8 *p);
-extern u32 func_02045A98(void);
+extern u32 func_021F4D9C(const u16 *p);
+extern u16 func_021F4DA0(const u16 *p);
+extern int func_021F4F68(const u16 *p);
+extern unsigned short func_021F4F6C(char *base, int i, int j);
+extern void func_021F4F60(void *p);
+extern void func_021F4D34(void *p);
+extern u16 func_02045A98(void);
 u32 func_021F5004(u16 *s, u32 x)
 {
     u8 *bufs[4];
@@ -49,8 +49,8 @@ u32 func_021F5004(u16 *s, u32 x)
     u32 found;
     u8 *p;
     v = (x & 0x7FFF) | 0x8000;
-    for (i = 0; i < 4; i++) bufs[i] = func_021F4D20(i, (u16)v);
-    h = func_021F4F50(v & 0xFFFF);
+    for (i = 0; i < 4; i++) bufs[i] = (u8 *)func_021F4D20(i, (u16)v);
+    h = (u8 *)func_021F4F50(v & 0xFFFF);
     ret = 1;
     idx = 0;
     while (s[idx] != func_02045A98()) {
@@ -58,15 +58,15 @@ u32 func_021F5004(u16 *s, u32 x)
         for (k = 0; (u32)k < 4; k++) {
             j = 0;
             p = bufs[k];
-            for (; j < (int)func_021F4DA0(p) && found == 0; j++) {
-                for (m = 0; m < (int)func_021F4D9C(p) && found == 0; m++) {
+            for (; j < (int)func_021F4DA0((const u16 *)p) && found == 0; j++) {
+                for (m = 0; m < (int)func_021F4D9C((const u16 *)p) && found == 0; m++) {
                     if (s[idx] == func_021F4DA4(p, m, j)) found = 1;
                 }
             }
         }
-        for (t = 0; t < func_021F4F68(h); t++) {
+        for (t = 0; t < func_021F4F68((const u16 *)h); t++) {
             for (m = 0; m < 3; m++) {
-                if (s[idx] == func_021F4F6C(h, (u16)t, (u16)m)) found = 1;
+                if (s[idx] == func_021F4F6C((char *)h, (u16)t, (u16)m)) found = 1;
             }
         }
         if (found == 0) {

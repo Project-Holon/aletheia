@@ -44,7 +44,7 @@ extern void func_020061E4(u32 a);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(void *, int *);
+extern void func_021A3044(u8 *p, void *v);
 extern int d_021F4130[];
 
 int func_021F3EFC(u32 a, int *b)

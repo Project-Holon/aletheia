@@ -26,9 +26,12 @@ typedef struct { Pair first,second,third; } Table;
 typedef struct { int x,y;char pad8[4];int heap;int *task;char pad14[4];char record[12][32];Pair positions[12];void *handles[12];int timer,flag,done[12]; } Motion;
 extern const Table d_02200AD0;
 extern void func_021FE444(int *,Pair *,const Pair *,int,int),func_021FE4D8(int *,int,const int *,int);
-extern int func_021FE478(int *,Pair *,int),func_021FE54C(int *,Pair *);
-extern void func_021FE3B4(void *,void *,u16,u16,int);
-extern int func_021FE3E4(void *,Pair *,int);
+extern int func_021FE478(int *,Pair *,int);
+extern int func_021FE54C(char *p, int *out);
+typedef unsigned char  u8;
+struct Pair;
+extern int func_021FE3B4(u8 *p, const struct Pair *origin, u16 a, u16 b, int duration);
+extern int func_021FE3E4(char *p, int *out, int step);
 struct Obj;
 extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B404(void *,const ShortPair *,u16);
 void func_021FDBF4(int unused,int *state,Motion *p)
@@ -50,7 +53,7 @@ void func_021FDBF4(int unused,int *state,Motion *p)
         *state=1;
     case 1:
         p->done[1]=func_021FE478((int *)p->record[0],&p->positions[0],p->timer);
-        for(i=1;i<6;i++) p->done[i+1]=func_021FE54C((int *)p->record[i],&p->positions[i]);
+        for(i=1;i<6;i++) p->done[i+1]=func_021FE54C((char *)p->record[i],(int *)(&p->positions[i]));
         for(i=0;i<6;i++) {
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
             func_0204B404(p->handles[i],&pos,p->heap);
@@ -61,14 +64,14 @@ void func_021FDBF4(int unused,int *state,Motion *p)
     case 2:
         p->timer=0;
         for(i=6;i<12;i++) {
-            func_021FE3B4(p->record[i],(void *)&d_02200AD0.second,15,(i*0xffff-0x5fffa)/6,90);
+            func_021FE3B4((u8 *)p->record[i],(void *)&d_02200AD0.second,15,(i*0xffff-0x5fffa)/6,90);
             func_0204B3DC(p->handles[i],1);
         }
         *state=3;
     case 3:
-        for(i=6;i<12;i++) func_021FE3E4(p->record[i],&p->positions[i],p->timer);
+        for(i=6;i<12;i++) func_021FE3E4(p->record[i],(int *)(&p->positions[i]),p->timer);
         for(i=1;i<6;i++) {
-            p->done[i+1]=func_021FE54C((int *)p->record[i],&p->positions[i]);
+            p->done[i+1]=func_021FE54C((char *)p->record[i],(int *)(&p->positions[i]));
             if(p->done[i+1]) func_0204B3DC(p->handles[i],0);
         }
         for(i=0;i<12;i++) {

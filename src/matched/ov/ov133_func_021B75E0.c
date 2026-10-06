@@ -21,7 +21,8 @@ extern void func_021B8A30(u8 *);
 extern void func_021B7A70(u8 *);
 extern void func_021B8AC8(u8 *);
 extern void func_021B8FA8(u8 *);
-extern void func_021B765C(u8 *, u16, int, int, int);
+typedef signed short   s16;
+extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
 void func_021B75E0(u8 *p)
 {
     if (((struct Obj00004 *)p)->f98 == 1) func_021B8A30(p);

@@ -17,11 +17,12 @@
  */
 
 extern void func_0219EFF0(char *p);
-extern void func_0219F830(void *p);
+struct SBL;
+extern void func_0219F830(struct SBL *slist);
 
 void func_0219F00C(char *p)
 {
     func_0219EFF0(p);
-    func_0219F830(p + 0x60);
+    func_0219F830((struct SBL *)(p + 0x60));
 }
 

@@ -25,7 +25,7 @@ extern int func_021B9A24(unsigned int a, unsigned int b);
 extern int func_021C804C(int a, int b, u32 *out);
 extern int func_021C8010(u8 *p, unsigned int v);
 extern int func_021C8290(u8 *p, int a, int b, void *item);
-extern int func_021C831C(int a, int b);
+extern void func_021C831C(u8 *p, int v);
 
 void func_021E1D20(int u, int a, int b)
 {
@@ -38,7 +38,7 @@ void func_021E1D20(int u, int a, int b)
             func_021C8010((u8 *)a, k);
             func_021C8010((u8 *)a, b);
             if (func_021C8290((u8 *)a, b, k, 0) == 0)
-                func_021C831C(a, b);
+                func_021C831C((u8 *)a, b);
         }
     }
 }

@@ -20,7 +20,9 @@
 typedef struct { unsigned short x, y; } Pos;
 typedef unsigned int   u32;
 extern u32 func_021BC720(void *p, u32 i);
-extern void func_0204B404(int obj, Pos *pos, int c);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *a, unsigned int b);
 
@@ -30,6 +32,6 @@ void func_021BD588(void *p)
     Pos pos;
     pos.x = 0x80;
     pos.y = 0x60;
-    func_0204B404(obj, &pos, 0);
+    func_0204B404((struct Obj *)obj, (const struct Vec2 *)(&pos), 0);
     func_0204B3DC((struct Obj *)obj, 1);
 }

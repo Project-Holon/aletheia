@@ -89,15 +89,17 @@ extern char d_021BBBCC;
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_0203F8F4(u16 heap);
 extern void func_02045088(u16 heap);
-extern void func_0203FC28(void *p);
-extern void func_0203FCA0(u8 bg, void *tmpl, u8 mode);
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u8 bg, int on);
 extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02040C14(int, int, int, int);
+extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02049238(void *h);
 
 void func_021BB820(void *p, u16 heap)
@@ -110,10 +112,10 @@ void func_021BB820(void *p, u16 heap)
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
     func_02045088(heap);
-    func_0203FC28(&d_021BBBCC);
+    func_0203FC28((struct DispConfig *)(&d_021BBBCC));
     for (; i < 7; i++) {
         id = d_021BBC28[i].id;
-        func_0203FCA0(id, &d_021BBC28[i].tmpl, d_021BBC28[i].mode);
+        func_0203FCA0((u8)id, (const struct BgTemplate *)(&d_021BBC28[i].tmpl), (u8)d_021BBC28[i].mode);
         func_02040588(id, 1);
     }
     h = func_020490F4(0x55, heap);
@@ -128,6 +130,6 @@ void func_021BB820(void *p, u16 heap)
     func_020498F4(h, 0xf, 5, 0, 0, 0, heap);
     func_02049B40(0x17, 5, 0, 0x1c0, 0x20, heap);
     func_02049B40(0x17, 5, 4, 0x1c0, 0x20, heap);
-    func_02040C14(1, 0, 1, 0);
+    func_02040C14((int)1, (int)0, (int)1, (int)0);
     func_02049238(h);
 }

@@ -46,7 +46,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021CA3E8(int);
-void func_021C867C(u8 *p,u8 *a,int n,u16 heap)
+void func_021C867C(u8 *p, u8 *a, int n, int heap)
 {
     void *text;
     void *q;

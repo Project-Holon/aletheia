@@ -21,7 +21,7 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern void  func_021550DC(void);
+extern int func_021550DC(int u, int *st, int *o);
 
 void *func_021550B0(void *a0, int a1, int a2, int a3)
 {

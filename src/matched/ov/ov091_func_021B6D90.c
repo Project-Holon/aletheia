@@ -76,20 +76,23 @@ extern char d_021BEB9C[];
 extern char d_021BEBBC[];
 extern char d_021BEBDC[];
 
-extern int func_021B9A84(u8 *p);
+struct Cfg;
+struct DispConfig;
+struct DispVram;
+extern int func_021B9A84(u32 p);
 extern void func_021B7078(const void *p, unsigned id, unsigned type);
 extern void func_021B6F0C(u8 *p);
 extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_0202223C(u32 a, u32 color);
 extern void func_02022224(int a);
-extern void func_020433E0(void *p);
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(u16 heapId);
 extern void func_02045088(u16 heapId);
-extern void func_0203FC28(void *p);
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207D63C(u32 r, int a, int b, int c, int d);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_0204A48C(void *a, void *b, int c);
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_02061C30(void);
@@ -121,7 +124,7 @@ void func_021B6D90(u8 *p)
     B28 b;
 
     a = d_021BEC3C;
-    if (func_021B9A84(p) == 1) {
+    if (func_021B9A84((u32)p) == 1) {
         a.w[6] = 8;
         a.w[8] = 0;
     } else {
@@ -136,10 +139,10 @@ void func_021B6D90(u8 *p)
     func_02022224(0);
     func_02022224(1);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
-    func_020433E0(&a);
+    func_020433E0((const struct DispVram *)(&a));
     func_0203F8F4(*(u16 *)p);
     func_02045088(*(u16 *)p);
-    func_0203FC28(d_021BEAEC);
+    func_0203FC28((struct DispConfig *)d_021BEAEC);
     func_021B7078(d_021BEBDC, 3, 0);
     func_021B7078(d_021BEBBC, 2, 0);
     func_021B7078(d_021BEB9C, 1, 0);
@@ -153,7 +156,7 @@ void func_021B6D90(u8 *p)
     func_02040618(2, 0, 0x80);
     func_02040618(1, 0, 0x80);
     b = d_020A1448;
-    func_0204A48C(&b, &a, *(u16 *)p);
+    func_0204A48C((const struct Cfg *)(&b), (u32)(&a), *(u16 *)p);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
     func_02061C30();

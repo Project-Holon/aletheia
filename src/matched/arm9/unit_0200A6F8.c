@@ -209,7 +209,7 @@ u16 func_0200A81C(struct Big *p)
     return p->unk256;
 }
 
-u8 func_0200A828(struct Big *p)
+u32 func_0200A828(struct Big *p)
 {
     return p->unk29F;
 }

@@ -25,8 +25,8 @@ extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 fl
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-extern int func_0217F1E8(int *);
-extern void func_0217F240(int *, int);
+extern int func_0217F1E8(u8 *p);
+extern void func_0217F240(u8 *p, int mode);
 
 void func_0217EEB4(int *p)
 {
@@ -50,8 +50,8 @@ void func_0217EEB4(int *p)
         func_02045374((struct Cfg *)p[0x44 / 4]);
         func_02045374((struct Cfg *)p[0x4c / 4]);
         func_02041B6C(6);
-        if (func_0217F1E8(p) == 1) {
-            func_0217F240(p, 1);
+        if (func_0217F1E8((u8 *)p) == 1) {
+            func_0217F240((u8 *)p, 1);
         }
     }
 }

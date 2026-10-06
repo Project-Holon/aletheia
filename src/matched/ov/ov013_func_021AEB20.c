@@ -33,7 +33,8 @@ extern unsigned int func_0208BEF0(unsigned int status);
 extern unsigned int func_0208BF38(unsigned int gain);
 extern void func_021B0CD8(int x);
 extern void func_020726D0(void);
-extern void func_020737C0(void *p);
+struct S;
+extern void func_020737C0(struct S *p);
 extern void func_02082AC0(int v, void *p, u32 n);
 extern void func_021B0D08(int x);
 
@@ -45,7 +46,7 @@ void func_021AEB20(void)
     func_0208BF38(3);
     func_021B0CD8(1);
     func_020726D0();
-    func_020737C0(d_021B3C80 + 0x19B8);
+    func_020737C0((struct S *)(d_021B3C80 + 0x19B8));
     func_02082AC0(0, d_021B3C80 + 0x1104, 0x880);
     *(u32 *)(d_021B3C80 + 0x1A44) = 0;
     func_021B0D08(1);

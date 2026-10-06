@@ -39,8 +39,8 @@ extern void func_021D6F54(u8 *,u8 *);
 extern void func_021D79A8(void *,u8 *,int);
 extern void func_02015EB0(void *);
 extern void func_02015EA0(void *);
-extern void func_02015C78(void *,Vec *);
-extern void func_02015D30(void *,Vec *);
+extern void func_02015C78(void *p, u32 *src);
+extern void func_02015D30(void *p, u32 *src);
 extern void func_02048AFC(void *,const Vec *);
 struct Light;
 extern void func_02048AD0(struct Light *l);
@@ -77,9 +77,9 @@ void func_021D6614(u8 *a,u8 *p) {
             if(((struct Obj00200 *)p)->f10==1) v30.y=0;
             func_021D79A8(a,p,v30.y);
         }
-        func_02015C78(((struct Obj00200 *)p)->f0,&v30);
-        func_02015C78(((struct Obj00200 *)p)->f4,&v30);
-        func_02015D30(((struct Obj00200 *)p)->f0,&v3c);
+        func_02015C78(((struct Obj00200 *)p)->f0,(u32 *)(&v30));
+        func_02015C78(((struct Obj00200 *)p)->f4,(u32 *)(&v30));
+        func_02015D30(((struct Obj00200 *)p)->f0,(u32 *)(&v3c));
         func_02048AFC(((struct Obj05385 *)a)->f70,&v48);
         func_02048AD0(((struct Obj05385 *)a)->f70);
     } else if(st==1) {
@@ -98,11 +98,11 @@ void func_021D6614(u8 *a,u8 *p) {
             v24.x=t3.v[k];
             func_02048AFC(((struct Obj05385 *)a)->f70,&v24);
             func_02048AD0(((struct Obj05385 *)a)->f70);
-            func_02015D30(((struct Obj00200 *)p)->f0,&v18);
+            func_02015D30(((struct Obj00200 *)p)->f0,(u32 *)(&v18));
         } else {
             func_02015EA0(((struct Obj00200 *)p)->f0);
             func_02015EB0(((struct Obj00200 *)p)->f4);
-            func_02015D30(((struct Obj00200 *)p)->f4,&v18);
+            func_02015D30(((struct Obj00200 *)p)->f4,(u32 *)(&v18));
             func_02048AFC(((struct Obj05385 *)a)->f70,&v24);
             func_02048AD0(((struct Obj05385 *)a)->f70);
             ((struct Obj00200 *)p)->fC=0;

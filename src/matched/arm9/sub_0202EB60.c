@@ -36,13 +36,14 @@ struct Info0202EB60 {
     u8 pad[0x50];
 };
 
-extern void func_02087C88(struct Info0202EB60 *p);
+struct OSOwnerInfo;
+extern void func_02087C88(struct OSOwnerInfo *info);
 
 void sub_0202EB60(u8 *a, u8 *b)
 {
     struct Info0202EB60 info;
 
-    func_02087C88(&info);
+    func_02087C88((struct OSOwnerInfo *)(&info));
     *a = info.unk02;
     *b = info.unk03;
 }

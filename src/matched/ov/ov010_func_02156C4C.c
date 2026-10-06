@@ -22,7 +22,8 @@
  *   func_021FD52C  0x021FD52C  thumb ov132
  */
 
-extern int func_021B6100(int, int);
+typedef unsigned char  u8;
+extern u8 *func_021B6100(u8 *parent, int heap);
 extern int func_021B63BC(int);
 extern void func_021B6294(char *p);
 extern int func_021FD904(int *);
@@ -33,7 +34,7 @@ int func_02156C4C(int a, int *state, int c, int *d)
 {
     switch (*state) {
     case 0:
-        d[1] = func_021B6100(d[0], 0x2d);
+        d[1] = (int)func_021B6100((u8 *)d[0], 0x2d);
         *state = 1;
         if (*(int *)d[3] != 0) {
             if (func_021FD904((int *)*(int *)d[3]) == 1)

@@ -119,7 +119,7 @@ extern struct Sub020097BCEnt *sub_020099D4(struct Sub020097BCObj *obj, int i);
 
 extern u32 sub_02008530(const struct Sub0200852CObj *obj);
 extern u8  sub_02008550(const struct Sub0200852CObj *obj);
-extern const void *sub_020084F4(struct Sub0200852CObj *p);
+extern const void *sub_020084F4(const void *p);
 
 int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
                  u32 kind, u32 *out);

@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021CBC94(int kind)
+int func_021CBC94(u32 kind)
 {
     int id = 20;
 

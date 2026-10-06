@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021BE10C(u8 *, u32, u32 *);
+extern int func_021BE10C(char *p, u32 b, int *c);
 
 u32 func_021BE11C(u8 *p)
 {
@@ -29,7 +29,7 @@ u32 func_021BE11C(u8 *p)
     if (t == 0) {
         t = t + 1;
     }
-    func_021BE10C(p, 0, &t);
+    func_021BE10C((char *)p, 0, (int *)(&t));
     return 1;
 }
 

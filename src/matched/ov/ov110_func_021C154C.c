@@ -26,9 +26,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_02024044(unsigned, unsigned, void *, unsigned, void *, unsigned);
-extern void *func_02024910(void *, u8);
-extern void func_02024108(void *, const void *);
+typedef unsigned int   u32;
+struct Obj;
+extern struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
+extern void *func_02024910(char *p, int idx);
+extern void func_02024108(u16 *dst, const u16 *src);
 extern void func_02031348(void *, int, void *, void *);
 extern const unsigned d_021C39B8[];
 int func_021C154C(int *state, u8 *p) {

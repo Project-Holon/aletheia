@@ -14,4 +14,4 @@
  * symbols:
  */
 typedef unsigned int u32;
-u32 func_02024994(const u32 *p, u32 idx){return (*p >> idx) & 1;}
+int func_02024994(const u32 *p, u32 idx){return (*p >> idx) & 1;}

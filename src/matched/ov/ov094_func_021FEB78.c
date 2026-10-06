@@ -30,7 +30,7 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_021FFD9C(Work *w, int key);
+extern int func_021FFD9C(char *p, int key);
 extern void func_021FF0F8(Work *w, int key);
 typedef unsigned char  u8;
 extern void func_02014BA8(u8 *a0);
@@ -41,7 +41,7 @@ void func_021FEB78(Work *w)
     Key i;
 
     for (i = 0; i < 14; i++) {
-        if (func_021FFD9C(w, i))
+        if (func_021FFD9C((char *)w, i))
             func_021FF0F8(w, i);
     }
     func_02014BA8(w->obj);

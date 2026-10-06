@@ -62,7 +62,8 @@ extern u8 *func_02012944(void *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_020084BC(const u16 *values);
 extern void func_02008500(void *a, void *b);
-extern u32   func_02008550(u32 h);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
 void func_02026504(struct Obj *o, u32 id0, u32 id1, u32 v)
 {
@@ -96,9 +97,9 @@ void func_02026504(struct Obj *o, u32 id0, u32 id1, u32 v)
     s->f00 = (u16)v;
     s->b0 = 1;
     func_02008500((void *)h0, (void *)s->f04);
-    s->b1 = (u8)func_02008550(h0);
+    s->b1 = (u8)(u32)func_02008550((const struct Sub0200852CObj *)h0);
     func_02008500((void *)h1, (void *)s->f08);
-    s->b2 = (u8)func_02008550(h1);
+    s->b2 = (u8)(u32)func_02008550((const struct Sub0200852CObj *)h1);
     r->cursor = (u8)(r->cursor + 1);
     if (r->cursor >= 6) {
         r->cursor = 0;

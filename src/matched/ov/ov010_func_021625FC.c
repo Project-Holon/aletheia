@@ -32,8 +32,10 @@ extern void *func_021625CC(char *p, unsigned i);
 extern void func_020140F8(int p0);
 extern void func_02014110(int *, u16, s16, u16, int, unsigned, unsigned, unsigned);
 extern void func_02014134(int *, u16, s16, u16, int, u16, u16, s16);
-extern void func_02162C84(u8 *, int, A *);
-extern void func_02162D90(u8 *, int, B *);
+struct Box;
+struct Out;
+extern void func_02162C84(struct Box *b, int q, int *out);
+extern void func_02162D90(const struct Box *b, int q, struct Out *o);
 int func_021625FC(const u8 *q, int *out, int id, int k)
 {
     u8 *r;
@@ -45,10 +47,10 @@ int func_021625FC(const u8 *q, int *out, int id, int k)
     if (((struct Obj07294 *)r)->f2 == 0x100) *out = 3;
     else *out = 2;
     if (((struct Obj07294 *)r)->f6 == 0) {
-        func_02162C84(r, k, &s);
+        func_02162C84((struct Box *)r, k, (int *)(&s));
         func_02014110(out, ((struct Obj07293 *)q)->f10, id, r[4], k, s.x, s.y, s.z);
     } else {
-        func_02162D90(r, k, &t);
+        func_02162D90((const struct Box *)r, k, (struct Out *)(&t));
         func_02014134(out, ((struct Obj07293 *)q)->f10, id, r[4], k, t.a, t.d, t.c);
     }
     return 1;

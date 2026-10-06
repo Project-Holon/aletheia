@@ -33,7 +33,7 @@ extern void func_020307B0(void *);
 extern void func_02049238(void *);
 extern unsigned func_0201BB5C(unsigned,unsigned,unsigned,unsigned);
 extern void func_0204B6F4(struct Obj *,unsigned,unsigned);
-void func_021BE1B8(char *p,int index,unsigned species,unsigned form,u16 half,int mode)
+void func_021BE1B8(char *p, int index, unsigned species, u16 form, u16 half, int mode)
 {
     void *owner;
     void *data;

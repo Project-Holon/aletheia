@@ -52,9 +52,10 @@ struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_020437EC(const struct Bmp *bmp);
 extern void  func_020862F0(void *p, u32 n);
-extern u32   func_020437DC(void *bmp);
-extern u32   func_020437E4(void *bmp);
-extern void *func_0204ABBC(u32 a, u32 b);
+typedef unsigned short u16;
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u32 func_020437E4(const struct Bmp *bmp);
+extern int func_0204ABBC(u32 idx, u32 flag);
 extern void  GX_LoadOBJ(void *src, u32 off, u32 n);
 extern void  GXS_LoadOBJ(void *src, u32 off, u32 n);
 
@@ -81,9 +82,9 @@ void func_020257D0(struct Obj *o)
     } else {
         load = GXS_LoadOBJ;
     }
-    cols = (s32)(func_020437DC(o->bmp) >> 3);
+    cols = (s32)((u32)func_020437DC(o->bmp) >> 3);
     rows = (s32)(func_020437E4(o->bmp) >> 3);
-    last = (u32)((((s32)func_020437DC(o->bmp) % 32) / 8) * 32);
+    last = (u32)((((s32)(u32)func_020437DC(o->bmp) % 32) / 8) * 32);
     if (last == 0) {
         last = 0x80;
     }
@@ -105,7 +106,7 @@ void func_020257D0(struct Obj *o)
             } else {
                 n = 0x80;
             }
-            src = func_0204ABBC(o->cell[x + y * o->cols], o->engine);
+            src = (void *)func_0204ABBC(o->cell[x + y * o->cols], o->engine);
             vram = (u32)src;
             load(base + off, vram, n);
             if (y == o->rows - 1 && odd != 0) {

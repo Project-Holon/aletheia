@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
-extern void func_021C24D4(char *, int);
+extern void func_021C24D4(u8 *p, int v);
 extern int func_02156A3C(void);
 struct Sub020097BCObj;
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
@@ -43,7 +43,7 @@ extern void func_02005D90(int, int);
 int func_021BE600(char *p, int ret)
 {
     if (((struct Obj22044 *)(*(char * *)&((struct Obj03733 *)p)->f248))->fC) {
-        func_021C24D4(p, 4);
+        func_021C24D4((u8 *)p, 4);
         func_02009B80(((struct Obj03733 *)p)->f4, func_02156A3C());
         if ((unsigned)(((struct Obj03733 *)p)->f135C - 3) <= 1 && !func_02156D84()) {
             func_021563D0();
@@ -58,7 +58,7 @@ int func_021BE600(char *p, int ret)
         }
     } else {
         ((struct Obj03733 *)p)->f1CC = 9;
-        func_021C24D4(p, 1);
+        func_021C24D4((u8 *)p, 1);
     }
     if (func_02005C4C() != 0x424) func_02005D90(0x424, 0xffff);
     return ret;

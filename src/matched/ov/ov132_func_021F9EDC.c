@@ -22,7 +22,7 @@ extern int func_02050C04(int a, int b, int c, int d);
 extern int func_0205121C(u32 a, u32 b, u32 c);
 extern unsigned func_020056BC(void);
 extern void func_02051230(void *, void *, unsigned, unsigned);
-char *func_021F9EDC(char *p, u16 a)
+char *func_021F9EDC(char *p, u32 a)
 {
     char *q = 0;
     void *v;

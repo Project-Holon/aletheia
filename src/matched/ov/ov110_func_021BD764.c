@@ -38,7 +38,8 @@ extern void func_02030DA4(void *);
 extern void func_020307B0(void *);
 extern void func_021B95F4(char *);
 extern void func_021BAF4C(unsigned);
-extern void func_020315D4(void *);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 void func_021BD764(u8 *p,void *a)
 {
     func_02024224(*(void **)p,*(void **)(p+0x70));

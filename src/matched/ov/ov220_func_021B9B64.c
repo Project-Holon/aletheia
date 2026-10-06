@@ -38,7 +38,8 @@ extern u32 func_021BA1E0(u8 *p);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
-extern void func_0204B878(void*,u16),func_0204B92C(struct Obj*,u32);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B92C(struct Obj*,u32);
 void func_021B9B64(char *p)
 {
     void *owner;

@@ -37,7 +37,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021C00FC(u8 *);
-extern void func_021BCB50(u8 *);
+struct Object;
+extern void func_021BCB50(struct Object *p);
 extern void func_021BFC20(u8 *, unsigned);
 extern void func_021BFB7C(u8 *p);
 extern void func_021BBEF4(u8 *, u8);
@@ -68,7 +69,7 @@ void func_021BA7CC(void *unused, u8 *p)
         break;
     case 1:
         if (func_021C00FC(*(u8 * *)&((struct Obj01247 *)q)->f5C)) {
-            func_021BCB50(*(u8 * *)&((struct Obj01247 *)q)->f64);
+            func_021BCB50((struct Object *)(*(u8 * *)&((struct Obj01247 *)q)->f64));
             func_021BFC20(*(u8 * *)&((struct Obj01247 *)q)->f5C, 0);
             func_021BFB7C(*(u8 * *)&((struct Obj01247 *)q)->f5C);
             func_021BBEF4(*(u8 * *)&((struct Obj01247 *)q)->f54, 1);

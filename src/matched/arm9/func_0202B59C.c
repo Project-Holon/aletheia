@@ -31,12 +31,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0202B5FC(u8 *p);
-extern void func_0202B610(u8 *p);
-extern void func_0202B624(u8 *p);
-extern void func_0202B63C(u8 *p);
-extern void func_0202B64C(u8 *p);
-extern void func_0202B65C(u8 *p);
+struct Obj;
+extern void func_0202B5FC(struct Obj *o);
+extern void func_0202B610(struct Obj *o);
+extern void func_0202B624(struct Obj *o);
+extern void func_0202B63C(struct Obj *o);
+extern void func_0202B64C(struct Obj *o);
+extern void func_0202B65C(struct Obj *o);
 
 struct SaveBlock;
 
@@ -47,10 +48,10 @@ void func_0202B59C(u8 *p, struct SaveBlock *a, u32 b)
     ((struct Obj00563 *)p)->f0  = (u16)b;
     ((struct Obj00563 *)p)->fC = 0;
 
-    func_0202B5FC(p);
-    func_0202B610(p);
-    func_0202B624(p);
-    func_0202B63C(p);
-    func_0202B64C(p);
-    func_0202B65C(p);
+    func_0202B5FC((struct Obj *)p);
+    func_0202B610((struct Obj *)p);
+    func_0202B624((struct Obj *)p);
+    func_0202B63C((struct Obj *)p);
+    func_0202B64C((struct Obj *)p);
+    func_0202B65C((struct Obj *)p);
 }

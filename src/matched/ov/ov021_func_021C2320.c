@@ -33,7 +33,7 @@ typedef unsigned short u16;
 int func_021C1A48(int a);
 void func_021C24F0(char *q, int d, u16 e);
 void func_021C1C24(char *p, char *q);
-int func_021C1A98(int a, int b, int c);
+void *func_021C1A98(u16 *p, int a, int b);
 typedef unsigned int   u32;
 int func_021C1AA8(u32 a, u32 b, u32 c, u32 d);
 int func_020489F4(int a, u16 b);
@@ -63,7 +63,7 @@ void func_021C2320(int a, char *p, char *q, int d)
     func_021C24F0(q, d, ((struct Obj00616 *)p)->f10);
     func_021C1C24(p, q + 0x10);
     if (((struct Obj00456 *)q)->f28 != 0xFFFF) {
-        t = func_021C1A98(((struct Obj00616 *)p)->f0, 0x73, ((struct Obj00456 *)q)->f28);
+        t = (int)func_021C1A98((u16 *)(((struct Obj00616 *)p)->f0), 0x73, ((struct Obj00456 *)q)->f28);
         func_021C1AA8(((struct Obj00616 *)p)->f0, t, 1, 0);
     } else {
         t = 0;

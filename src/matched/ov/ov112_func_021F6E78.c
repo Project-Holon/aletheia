@@ -18,7 +18,7 @@ struct Obj;
 typedef struct { u16 x; u16 y; u16 z; u8 a; u8 b; } Pos;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-u8 *func_021F6E78(u8 *p, u32 v)
+u8 *func_021F6E78(u8 *p, int v)
 {
     u8 i = 0;
     u8 *q;

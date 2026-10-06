@@ -36,8 +36,8 @@ void func_0216D5E0(int a0, int a1);
 typedef unsigned int   u32;
 void func_021A35E0(u32 *p, u32 heap);
 void *func_0216D888(void *a);
-void func_02188D40(int a, void *b);
-void func_02188CAC(int a, void *b);
+void func_02188D40(u8 *p, u32 v);
+void func_02188CAC(u8 *p, u32 v);
 
 void func_021A2D88(int obj, int unused, int y)
 {
@@ -54,6 +54,6 @@ void func_021A2D88(int obj, int unused, int y)
     b = func_021A3074((void *)a);
     func_0216D5E0((int)b, y);
     func_021A35E0(a, h);
-    func_02188D40(obj, func_0216D888(b));
-    func_02188CAC(obj, p);
+    func_02188D40((u8 *)obj, (u32)func_0216D888(b));
+    func_02188CAC((u8 *)obj, (u32)p);
 }

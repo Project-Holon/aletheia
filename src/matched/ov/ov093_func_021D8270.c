@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 n; u8 v[4]; } List4;
-extern int func_021B902C(u8 x, u8 y);
+extern int func_021B902C(int a, int b);
 int func_021D8270(List4 *l, u8 y, u32 k)
 {
     int miss = 0;

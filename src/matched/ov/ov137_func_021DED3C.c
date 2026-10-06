@@ -14,14 +14,14 @@
  */
 #include "../include/Obj03304.h"
 typedef unsigned char u8;
-extern int func_021E17EC(void *);
-extern int func_021E1910(void *);
+extern int func_021E17EC(char *p);
+extern int func_021E1910(char *p);
 typedef unsigned int   u32;
 extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
 int func_021DED3C(u8 *p)
 {
-    if (((struct Obj03304 *)p)->f30 == func_021E17EC(p)) {
-        if (func_021E1910(p) == 1) {
+    if (((struct Obj03304 *)p)->f30 == func_021E17EC((char *)p)) {
+        if (func_021E1910((char *)p) == 1) {
             func_021DCBC4(((struct Obj03304 *)p)->fDC, 10253, 0, 0);
             ((struct Obj03304 *)p)->f0 = 45;
         } else {

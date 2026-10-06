@@ -43,7 +43,8 @@ typedef unsigned int u32;
 struct Record { u16 n0, n1; u8 ids[6]; };
 extern u8 func_021D5440(u8 *);
 extern int func_021B8D8C(void *, void *, u32);
-extern u8 *func_021B99E0(int);
+struct Unk021EFD70;
+extern struct Unk021EFD70 *func_021B99E0(int i);
 extern int func_021CAA24(u8 *, u8 *, int, int, int);
 extern u8 *func_021B98A4(void *, int);
 extern u32 func_021D78AC(u32);
@@ -67,7 +68,7 @@ int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, long id, void *out)
 {
     u32 i, count;
     u32 n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a));
-    u8 *b = func_021B99E0(n);
+    u8 *b = (u8 *)func_021B99E0(n);
     int key = func_021CAA24((u8 *)p, q, (int)a, n, move);
     u8 selected;
     switch (*(u32 *)(q + 12)) {

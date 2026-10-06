@@ -71,7 +71,7 @@ extern void func_021BDFA4(void *,u32);
 extern void func_0201DD60(void);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021BDD84(u32,u8 *);
-void *func_021BDC18(u32 swap,int mode,u16 heap)
+void *func_021BDC18(int swap, int mode, u16 heap)
 {
     u8 *p;
     p=func_02030734(heap,20,0,d_021C09C0,406);

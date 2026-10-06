@@ -21,8 +21,8 @@ extern void func_021D74F8(int);
 extern void func_021D7540(int);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D75A8(int, u32);
-extern void func_021D70E4(u8 *, int);
-void func_021C6E00(u8 *p, u8 *a, u32 k)
+extern void func_021D70E4(void *a, int id);
+void func_021C6E00(u8 *p, u8 *a, u8 k)
 {
     int line = 12093;
     func_021D74F8(line);

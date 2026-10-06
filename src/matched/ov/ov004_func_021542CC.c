@@ -71,7 +71,7 @@ u32 func_0200CA38(struct Blk37 *p);
 int func_02009CC0(int p);
 u32 func_02154390(void *obj, u32 *mode, u32 *args);
 
-int func_021542CC(int a, int b)
+int func_021542CC(int a, int b, int c)
 {
     int r6;
     int h;

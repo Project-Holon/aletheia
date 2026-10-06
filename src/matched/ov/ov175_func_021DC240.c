@@ -22,7 +22,7 @@
 
 typedef unsigned long u32;
 
-extern u32  func_0201A918(u32 v);
+extern int func_0201A918(void);
 extern void func_02082D44(char *dst, u32 arg, u32 src);
 
 u32 func_021DC240(char *obj, u32 arg)
@@ -31,7 +31,7 @@ u32 func_021DC240(char *obj, u32 arg)
 
     if (v != 0) {
         ((struct Obj14345 *)obj)->f144 = 0;
-        func_02082D44(obj + 0x218, arg, func_0201A918(0));
+        func_02082D44(obj + 0x218, arg, func_0201A918());
     }
     return v;
 }

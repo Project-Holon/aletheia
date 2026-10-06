@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct S020315D4;
 extern void func_0221372C(char *p);
-extern void func_022133D0(char *);
+extern void func_022133D0(u8 *p);
 extern void func_0200B424(void);
 extern void func_020307B0(void *);
 extern void func_02012704(u8 *p);
@@ -34,7 +34,7 @@ extern void func_02005D28(void);
 int func_0221268C(void *sys, int unused, void *data, char *p)
 {
     func_0221372C(((struct Obj03352 *)p)->f18);
-    func_022133D0(p);
+    func_022133D0((u8 *)p);
     func_0200B424();
     func_020307B0(((struct Obj03352 *)p)->f3C);
     func_020307B0(((struct Obj03352 *)p)->f38);

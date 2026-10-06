@@ -32,7 +32,7 @@ typedef struct Rec {
 } Rec;
 
 extern int func_021587B0(int a0, int a1, int a2, int a3);
-extern void func_02159058(int a, int b, int c, int d, u16 e);
+extern int func_02159058(int a, int b, int c, int d, u16 e);
 struct U16Vec;
 extern void *func_02158F74(void *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);

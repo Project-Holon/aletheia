@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern void func_021D8090(u32 v, u8 *out);
 extern u32 func_021D3A10(u32 i);
-extern u8 *func_021B9934(u8 *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 union Slot;
 extern int func_021D5B68(void *p);
 extern int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed);
@@ -47,7 +47,7 @@ int func_021D39A8(u8 *a, int b, u32 *s)
         if (t == 0)
             break;
         for (j = 0; j < m; j++) {
-            q = func_021B9934(*(u8 * *)&((struct Obj21181 *)a)->f4, buf[j]);
+            q = func_021B9934((char *)(*(u8 * *)&((struct Obj21181 *)a)->f4), buf[j]);
             if (func_021D5B68(q) == 0)
                 func_021D6064(q, t, 0, 0);
         }

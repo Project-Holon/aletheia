@@ -122,54 +122,59 @@ struct CharBuf;
 extern u32 func_020362DC(void);
 extern u32 func_0203630C(void);
 extern int func_02035BA4(const void *a);
-extern int func_02035CB8(void *a, void *b);
+typedef signed int     s32;
+struct MsgBank;
+struct Obj;
+struct PrintSys;
+struct Rec;
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern int func_02035C60(void);
-extern int func_02035D20(void *a, void *b);
-extern void *func_02045B38(u32, u32, u16, u16);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_020490F4(u32, u16);
 extern void func_02049238(void *);
 extern void func_02040588(unsigned, unsigned);
 extern void func_02043B5C(struct CharBuf *, u8);
 extern void func_02045334(struct Descriptor *);
 extern void *func_02045770(struct Descriptor *);
-extern void func_02045C04(void *);
-extern void func_0202208C(int a, int b, int c, int d, int e, int f, u32 heap);
-extern int func_020221A4(void);
-extern int func_0201C6B4(void *a);
-extern int func_0201C6C4(void *a, void *b);
-extern int func_020200CC(void *a);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 func_020221A4(void);
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern s32 func_020200CC(struct Obj *o);
 extern void *func_0201FDA0(const void *a, int b, int c, int d, u16 heap);
-extern int func_0201FEBC(void *a);
-extern void *func_02025BE8(void);
-extern void func_02025C44(void *a, u8 **b, u32 *c);
-extern u32 func_02025B94(void *a);
+extern u32 func_0201FEBC(u8 *p);
+extern int func_02025BE8(void);
+extern int func_02025C44(u32 a0, u32 *a1, u32 *a2);
+extern u32 func_02025B94(u32 a);
 extern void func_0200947C(u32 a, u32 b, u32 c, u32 d);
 extern void func_02027120(u8 a, u8 b);
-extern int func_02028230(void *a);
+extern u32 func_02028230(u8 *p);
 extern void func_020061E4(u32 a);
 extern void func_02183CBC(u8 *p, u32 i);
 extern void func_02184734(u8 *p);
-extern void func_02184798(u8 *p);
-extern void func_021849A4(u8 *p, void *arc);
-extern void func_02184C2C(u8 *p, int i);
+extern void func_02184798(char *p);
+extern void func_021849A4(char *p, void *arc);
+extern void func_02184C2C(char *p, int i);
 extern void func_02184C8C(u8 *p, u32 i);
-extern void func_02184CB0(u8 *p);
-extern int func_02184D70(u8 *p, u32 message, int force);
+extern void func_02184CB0(char *p);
+extern int func_02184D70(char *p, u32 message, int force);
 extern void func_02184EC0(u8 *p, const u8 *d, const struct Src *s, const void *e);
 extern void func_02185074(u8 *p, const u8 *a, u32 b, u32 c);
-extern void func_021850EC(u8 *p, const u8 *d, const struct Src *cfg, unsigned file, const u8 *ids, unsigned count);
+extern void func_021850EC(char *p, const unsigned char *descriptor, const struct Src *cfg, unsigned file, const unsigned char *ids, unsigned count);
 extern void func_0218516C(u8 *p);
-extern void func_0218519C(u8 *p);
-extern void func_02185254(u8 *p, unsigned key, unsigned member);
-extern void func_02185310(u8 *p);
-extern int func_0218532C(u8 *p, u32 *out);
-extern void func_0218544C(u8 *p);
-extern void func_02185580(u8 *p, void *arc);
-extern void func_0218562C(u8 *p);
+extern void func_0218519C(char *p);
+extern void func_02185254(char *p, unsigned key, unsigned member);
+extern void func_02185310(char *p);
+extern int func_0218532C(char *p, u32 *out);
+extern void func_0218544C(char *p);
+extern void func_02185580(char *p, void *arc);
+extern void func_0218562C(char *p);
 extern void func_021856CC(u8 *p);
-extern void func_02185794(u8 *p);
+extern void func_02185794(char *p);
 extern int func_02185934(u8 *p, u32 key, u32 b);
-extern int func_02185AC8(u8 *p);
+extern int func_02185AC8(char *p);
 extern int func_02185CF4(int i);
 
 extern const u8 d_02185DE6[];
@@ -187,7 +192,7 @@ extern const u8 d_02185ECC[];
 static inline void close_win(u8 *p, int d, int f)
 {
     void *win = *(void **)(p + 0xC080);
-    if (B(f) != 0 && func_0201C6C4(win, func_02045770(*(struct Descriptor **)(p + d))) == 0) {
+    if (B(f) != 0 && (int)func_0201C6C4(win, func_02045770(*(struct Descriptor **)(p + d))) == 0) {
         func_02045334(*(struct Descriptor **)(p + d));
         B(f) = 0;
     }
@@ -210,24 +215,24 @@ int func_02183D14(u8 *p, int *state)
     W(0xC354) = func_020362DC();
     W(0xC358) = func_0203630C();
     if (func_02035BA4(d_02185DE6) != -1) {
-        W(0xC360) = func_02035CB8(p + 0xC364, p + 0xC368);
+        W(0xC360) = (int)func_02035CB8((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
     } else {
         W(0xC360) = 0;
     }
     if (W(0xC360) == 1) {
         W(0xC35C) = func_02035C60();
     } else {
-        W(0xC35C) = func_02035D20(p + 0xC364, p + 0xC368);
+        W(0xC35C) = (int)func_02035D20((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
     }
     switch (*state) {
     case 0:
-        *(void **)(p + 0xC070) = func_02045B38(0, 2, 0xCF, W(0));
+        *(void **)(p + 0xC070) = func_02045B38(0, 2, (u16)0xCF, (u16)W(0));
         arc = func_020490F4(0xC5, W(0));
-        func_02185580(p, arc);
-        func_021849A4(p, arc);
+        func_02185580((char *)p, arc);
+        func_021849A4((char *)p, arc);
         func_02049238(arc);
         W(0xC314) = 0;
-        func_0202208C(0, 1, 1, 0, 6, 1, W(0));
+        func_0202208C(0, (int)1, (int)1, (int)0, (int)6, (int)1, W(0));
         func_02040588(6, 1);
         func_02040588(2, 1);
         func_02040588(7, 1);
@@ -240,7 +245,7 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 2:
-        if (func_02184D70(p, 0, 1) == 1) {
+        if (func_02184D70((char *)p, 0, 1) == 1) {
             if (W(0xC33C) == 0) {
                 *state = 3;
             } else {
@@ -249,13 +254,13 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 3:
-        if (func_02184D70(p, 1, 1) == 1) {
+        if (func_02184D70((char *)p, 1, 1) == 1) {
             func_02184EC0(p, d_02185DB6, &d_02185E98, d_02185E28);
             *state = 4;
         }
         break;
     case 4:
-        if (func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
+        if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
             break;
         }
         r = func_020200CC(*(void **)(p + 0xC04C));
@@ -278,16 +283,16 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 5:
-        if (func_02184D70(p, 2, 1) == 1) {
+        if (func_02184D70((char *)p, 2, 1) == 1) {
             *(void **)(p + 0xC054) = func_0201FDA0(d_02185DB0, 0x22, 7, 0, W(0));
             *state = 6;
         }
         break;
     case 6:
-        switch ((u32)func_0201FEBC(*(void **)(p + 0xC054))) {
+        switch ((u32)(int)func_0201FEBC(*(void **)(p + 0xC054))) {
         case 0:
             if (W(0xC318) == 1) {
-                *(void **)(p + 0xC344) = func_02025BE8();
+                *(void **)(p + 0xC344) = (void *)func_02025BE8();
                 *state = 0xA;
             } else {
                 *state = 7;
@@ -304,12 +309,12 @@ int func_02183D14(u8 *p, int *state)
         *state = 8;
         break;
     case 8:
-        if (func_02184D70(p, 3, 1) == 1) {
+        if (func_02184D70((char *)p, 3, 1) == 1) {
             *state = 9;
         }
         break;
     case 9:
-        if (func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
+        if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
             break;
         }
         r = func_020200CC(*(void **)(p + 0xC04C));
@@ -337,17 +342,17 @@ int func_02183D14(u8 *p, int *state)
         break;
     case 10:
         W(0xC348) = 0;
-        func_02025C44(*(void **)(p + 0xC344), &ids, &count);
-        func_021850EC(p, d_02185DC4, (const struct Src *)d_02185ECC, func_02025B94(*(void **)(p + 0xC344)), ids, count);
+        func_02025C44((u32)(*(void **)(p + 0xC344)), (u32 *)(&ids), &count);
+        func_021850EC((char *)p, d_02185DC4, (const struct Src *)d_02185ECC, func_02025B94((u32)(*(void **)(p + 0xC344))), ids, count);
         *state = 0xB;
         break;
     case 11:
-        if (func_02184D70(p, 4, 1) == 1) {
+        if (func_02184D70((char *)p, 4, 1) == 1) {
             *state = 0xC;
         }
         break;
     case 12:
-        if (func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
+        if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
             break;
         }
         r = func_020200CC(*(void **)(p + 0xC04C));
@@ -374,19 +379,19 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 13:
-        func_02185254(p, W(0xC344), W(0xC348));
+        func_02185254((char *)p, W(0xC344), W(0xC348));
         *state = 0xE;
         break;
     case 14:
-        if (func_02184D70(p, 5, 1) == 1) {
+        if (func_02184D70((char *)p, 5, 1) == 1) {
             *(void **)(p + 0xC054) = func_0201FDA0(d_02185DB0, 0x22, 7, 0, W(0));
             *state = 0xF;
         }
         break;
     case 15:
-        switch ((u32)func_0201FEBC(*(void **)(p + 0xC054))) {
+        switch ((u32)(int)func_0201FEBC(*(void **)(p + 0xC054))) {
         case 0:
-            func_02185310(p);
+            func_02185310((char *)p);
             func_0200947C(W(0x10), W(0xC), W(0xC344), W(0xC348));
             func_02027120(W(0xC344), W(0xC348));
             W(0xC33C) = W(0xC344);
@@ -394,7 +399,7 @@ int func_02183D14(u8 *p, int *state)
             *state = 0x10;
             break;
         case 0xFFFFFFFE:
-            func_02185310(p);
+            func_02185310((char *)p);
             *state = 3;
             break;
         }
@@ -407,26 +412,26 @@ int func_02183D14(u8 *p, int *state)
         }
         func_021856CC(p);
         func_02184734(p);
-        func_02185794(p);
+        func_02185794((char *)p);
         func_02043B5C(func_02045770(*(struct Descriptor **)(p + 0xC01C)), 0xF);
         func_02045334(*(struct Descriptor **)(p + 0xC01C));
-        func_02184C2C(p, 1);
+        func_02184C2C((char *)p, 1);
         if (W(0xC33C) != 0) {
-            func_0218519C(p);
+            func_0218519C((char *)p);
         }
-        func_0218544C(p);
+        func_0218544C((char *)p);
         W(0xC350) = 0;
         W(0xC310) = 1;
         *state = 0x11;
         break;
     case 17:
         old = H(0xC30C);
-        if (func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
+        if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
             break;
         }
-        func_02184798(p);
-        if (func_0218532C(p, &tmp)) {
-            func_02184C2C(p, 0);
+        func_02184798((char *)p);
+        if (func_0218532C((char *)p, &tmp)) {
+            func_02184C2C((char *)p, 0);
         } else {
             func_02184C8C(p, 0);
         }
@@ -443,7 +448,7 @@ int func_02183D14(u8 *p, int *state)
         if (((v & 0x400) || (w & 0x400)) && W(0xC350) == 0) {
             W(0xC350) = 1;
             func_02183CBC(p, 0);
-            func_0218544C(p);
+            func_0218544C((char *)p);
             if (W(0xC350) != 1) {
                 break;
             }
@@ -451,12 +456,12 @@ int func_02183D14(u8 *p, int *state)
         }
         if (((v & 0x403) || (w & 0x400)) && W(0xC350) == 1) {
             W(0xC350) = 0;
-            func_0218544C(p);
+            func_0218544C((char *)p);
             break;
         }
         if (func_02185934(p, v, W(0xC358)) == 1 && W(0xC350) == 1) {
             W(0xC350) = 0;
-            func_0218544C(p);
+            func_0218544C((char *)p);
         }
         if (old != H(0xC30C)) {
             *state = 0x12;
@@ -468,34 +473,34 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 19:
-        if (func_02028230(*(void **)(p + 0xC060)) == 0) {
+        if ((int)func_02028230(*(void **)(p + 0xC060)) == 0) {
             break;
         }
         if (W(0xC33C) == 0) {
             W(0xC310) = 2;
             *state = 3;
         } else {
-            func_02185310(p);
+            func_02185310((char *)p);
             *state = 0x14;
         }
         func_02184C8C(p, 1);
         break;
     case 18:
-        if (func_02185AC8(p) == 1) {
+        if (func_02185AC8((char *)p) == 1) {
             *state = 0x11;
         }
         break;
     case 20:
         W(0xC314) = 0;
-        func_0202208C(0, 0, 0, 0, 6, 1, W(0));
+        func_0202208C(0, (int)0, (int)0, (int)0, (int)6, (int)1, W(0));
         *state = 0x15;
         break;
     case 21:
         if (func_020221A4() == 1) {
             ret = 1;
             W(0xC310) = 1;
-            func_02184CB0(p);
-            func_0218562C(p);
+            func_02184CB0((char *)p);
+            func_0218562C((char *)p);
             func_02045C04(*(void **)(p + 0xC070));
             *state = 0;
         }

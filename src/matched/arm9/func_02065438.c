@@ -116,15 +116,18 @@ extern Mtx            g_02147D18[];
 extern fx32           g_02147B98[];
 
 extern void func_02064EDC(void);
-extern void func_02067B28(Mtx *m, struct Aff *aff);
-extern void func_02067AC0(Mtx *m);
+struct Ctx;
+struct G2dOamState;
+struct Src02067AC0;
+extern void func_02067B28(u32 a, u32 b);
+extern void func_02067AC0(struct Src02067AC0 *src);
 typedef signed int     s32;
 extern void func_02067DC8(u32 a0, s32 a1);
 extern void func_02067D14(u32 arg0);
-extern void func_02067B40(struct Obj *o, fx32 v);
+extern void func_02067B40(struct G2dOamState *p, u32 v);
 extern void func_02067B48(u32 *p, u32 v);
-extern void func_02067AAC(struct Obj *o, int x, int y);
-extern void func_02067BA4(struct Obj *o);
+extern void func_02067AAC(int *p, int a, int b);
+extern void func_02067BA4(struct Ctx *c);
 extern void func_02067CB0(void);
 
 static inline Mtx *GetMtx(void)
@@ -179,10 +182,10 @@ static inline void DrawA(void *a, struct Node *p)
 
     q->f74 = p;
     func_02067B48((u32 *)q, (u32)p);
-    func_02067AAC(q, p->f28, p->f2c);
-    func_02067BA4(q);
+    func_02067AAC((int *)q, p->f28, p->f2c);
+    func_02067BA4((struct Ctx *)q);
     aff = GetAff();
-    func_02067B28(GetMtx(), aff);
+    func_02067B28((u32)GetMtx(), (u32)aff);
     Finish(a);
     g_02147B88.obj->f74 = 0;
     func_02067CB0();
@@ -194,9 +197,9 @@ static inline void DrawB(void *a, struct Obj *o, struct Node *p)
 
     q->f74 = p;
     func_02067B48((u32 *)q, (u32)p);
-    func_02067BA4(q);
-    func_02067B40(o, g_02147B98[g_02147B88.slot]);
-    func_02067AC0(GetMtx());
+    func_02067BA4((struct Ctx *)q);
+    func_02067B40((struct G2dOamState *)o, g_02147B98[g_02147B88.slot]);
+    func_02067AC0((struct Src02067AC0 *)GetMtx());
     Finish(a);
     g_02147B88.obj->f74 = 0;
     func_02067CB0();
@@ -210,11 +213,11 @@ void func_02065438(void *a)
     if ((o->f7c & 2) != 0) {
         if (p->f14 != 0) {
             struct Aff *aff = GetAff();
-            func_02067B28(GetMtx(), aff);
+            func_02067B28((u32)GetMtx(), (u32)aff);
             Finish(a);
         } else {
-            func_02067B40(o, g_02147B98[g_02147B88.slot]);
-            func_02067AC0(GetMtx());
+            func_02067B40((struct G2dOamState *)o, g_02147B98[g_02147B88.slot]);
+            func_02067AC0((struct Src02067AC0 *)GetMtx());
             Finish(a);
         }
         return;

@@ -70,10 +70,10 @@ typedef struct {
 
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
-extern ReqInfo *func_021BEF48(void *sysInfo);
+extern void *func_021BEF48(int p);
 extern int func_021BA118(char *s);
 extern int func_021BA130(char *a, char *b);
-extern u32 func_021BA098(Req *req, char *hostname);
+extern unsigned long func_021BA098(int unused, char *hostname_p);
 extern void func_021BA13C(int a, int b);
 extern int func_021BA124(char *s, int max);
 extern void func_021BA100(void *dst, void *src, int n);
@@ -86,14 +86,14 @@ static int func_021BD430(ThreadData *threadData_p)
     char *hostname_p;
 
     sysInfo_p = func_021BEF08();
-    reqInfo_p = func_021BEF48(sysInfo_p);
+    reqInfo_p = func_021BEF48((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     hostname_p = req_p->hostname_p;
     if (req_p->isProxy) {
         hostname_p = req_p->proxyAddr;
     }
     if (func_021BA118(hostname_p) == 0 || func_021BA130(hostname_p, threadData_p->preHostname) != 0) {
-        threadData_p->hostaddr = func_021BA098(req_p, hostname_p);
+        threadData_p->hostaddr = func_021BA098((int)req_p, hostname_p);
         if (threadData_p->hostaddr == 0) {
             if (req_p->isProxy) {
                 threadData_p->result = 12;

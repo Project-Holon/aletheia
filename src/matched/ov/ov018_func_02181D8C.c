@@ -27,12 +27,17 @@
 
 typedef unsigned char u8;
 
-void *func_020120F4(void *);
-void *func_02012F20(void *);
-void *func_020122C0(void *, int, int (*)(), int);
-u8 *func_020124E8(void *);
-void *func_0200846C(void *);
-void *func_0202E82C(void *);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct S;
+void *func_020120F4(const struct Ctx *p);
+int func_02012F20(int p0);
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
+void *func_0200846C(int a0);
+void *func_0202E82C(struct S *p);
 void func_02008494(void *, void *);
 void func_0217F2B4(void *, void *);
 int func_02181DD4();
@@ -43,10 +48,10 @@ void *func_02181D8C(void *a, void *b)
     void *r;
     u8 *t;
 
-    w = func_02012F20(func_020120F4(a));
+    w = (void *)func_02012F20((int)func_020120F4(a));
     r = func_020122C0(a, 0, func_02181DD4, 0x34);
     t = func_020124E8(r);
-    *(void **)(t + 0x30) = func_0200846C(b);
+    *(void **)(t + 0x30) = func_0200846C((int)b);
     func_02008494(func_0202E82C(w), *(void **)(t + 0x30));
     func_0217F2B4(t, a);
     return r;

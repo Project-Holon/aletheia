@@ -36,7 +36,8 @@ typedef struct {
 
 extern u16 func_02188C84(u8 *p);
 extern int func_021C6C70(int, int, int (*)(Obj *));
-extern Obj *func_021C6CCC(int);
+typedef unsigned int   u32;
+extern u32 func_021C6CCC(u8 *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
@@ -58,7 +59,7 @@ int func_021C78DC(int a, int b, const Vec *c, int d)
     int h;
 
     h = func_021C6C70(func_02188C84((u8 *)a), 0x2c, func_021C7A7C);
-    o = func_021C6CCC(h);
+    o = (Obj *)func_021C6CCC((u8 *)h);
     o->f0 = 0;
     o->f4 = a;
     o->f28 = d;

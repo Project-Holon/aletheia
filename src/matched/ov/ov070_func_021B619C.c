@@ -15,11 +15,12 @@
  *   func_02020FE4 0x02020FE4 thumb
  */
 typedef unsigned short u16;
-extern int func_02020FE4(u16, unsigned int, unsigned int);
+typedef unsigned int   u32;
+extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 int func_021B619C(int a, int b, unsigned int id)
 {
     typedef enum { HALF_ZERO } Half;
     Half half;
-    half = (Half)(func_02020FE4((u16)a, 0, id) / 2);
+    half = (Half)((int)func_02020FE4((void *)((u16)a), 0, id) / 2);
     return (int)((unsigned int)half * (unsigned int)b);
 }

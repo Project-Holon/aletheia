@@ -28,7 +28,7 @@ extern void func_021FD15C(void *,int);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021FD714(void *p);
 extern void func_02025588(void *p);
-extern void func_021F9BA0(int);
+extern void func_021F9BA0(unsigned *ctx);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
 int func_021E25E4(int obj,int b,int c,char *p)
@@ -43,7 +43,7 @@ int func_021E25E4(int obj,int b,int c,char *p)
     func_0201C4C0((struct PrintSys *)(((struct Obj03333 *)p)->f4));
     func_021FD714((void *)(((struct Obj03333 *)p)->fC));
     func_02025588((void *)(((struct Obj03333 *)p)->f0));
-    func_021F9BA0(((struct Obj24672 *)(*(char * *)&((struct Obj03333 *)p)->f3C))->f10);
+    func_021F9BA0((unsigned int *)(((struct Obj24672 *)(*(char * *)&((struct Obj03333 *)p)->f3C))->f10));
     func_020315D4((struct S020315D4 *)obj);
     return 1;
 }

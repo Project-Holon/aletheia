@@ -16,14 +16,16 @@
 typedef unsigned char u8;
 typedef signed short s16;
 typedef struct { s16 x, y; } Vec2;
-extern unsigned func_021BFD94(u8 *, Vec2 *);
+typedef unsigned int   u32;
+struct Vec2;
+extern u32 func_021BFD94(u8 *p, struct Vec2 *out);
 unsigned func_021BFE60(u8 *p, unsigned n)
 {
     int i;
     unsigned result;
     Vec2 pos;
     s16 y;
-    func_021BFD94(p, &pos);
+    func_021BFD94(p, (struct Vec2 *)(&pos));
     if (n == 0) goto zero;
     else {
         y = pos.y;

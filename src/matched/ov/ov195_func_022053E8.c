@@ -36,7 +36,7 @@ extern void func_020061E4(u32 a);
 extern unsigned int func_0203630C(void);
 extern int func_02035C38(void);
 extern u32 func_020362DC(void);
-extern u32 func_02035C60(void);
+extern int func_02035C60(void);
 extern void func_020355D8(u8 v);
 
 int func_022053E8(char *a)

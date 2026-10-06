@@ -38,9 +38,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
-extern void func_020181F4(void *p, u16 move, u8 slot);
+extern void func_020181F4(void *p, u16 move, u32 slot);
 extern void func_02017BC8(u8 *p, u32 i);
-extern void func_02017988(void *p, u16 idx);
+extern u32 func_02017988(void *p, u32 a);
 
 struct MoveTbl { u16 v[6]; };
 extern const struct MoveTbl sMoveTbl;
@@ -62,7 +62,7 @@ u32 func_02017A20(void *p, u32 idx, u32 val)
         for (k = 1; k < 6; k++) {
             if (r != 0 && r == tbl.v[k]) {
                 if (v != 0) {
-                    func_020181F4(p, v, i);
+                    func_020181F4(p, v, (u8)i);
                     v = 0;
                 } else {
                     func_02017BC8(p, i);
@@ -76,15 +76,15 @@ u32 func_02017A20(void *p, u32 idx, u32 val)
     if (v != 0) {
         for (i = 0; i < 4; i++) {
             if (func_02017E1C(p, i + 0x36, 0) == 0) {
-                func_020181F4(p, v, i);
+                func_020181F4(p, v, (u8)i);
                 break;
             }
         }
         if (i == 4)
-            func_020181F4(p, v, val);
+            func_020181F4(p, v, (u8)val);
     }
     if (func_02017E1C(p, 0x36, 0) == 0)
-        func_020181F4(p, 0x54, 0);
-    func_02017988(p, idx);
+        func_020181F4(p, 0x54, (u8)0);
+    func_02017988(p, (u16)idx);
     return 1;
 }

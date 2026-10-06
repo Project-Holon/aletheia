@@ -38,7 +38,8 @@ extern void func_021E9984(u8 *, u8 *, int, u8, int);
 extern u32 func_021D3D7C(u8 *p);
 extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D62C4(void *, int);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 
 void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
 {
@@ -78,7 +79,7 @@ void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
     list = (void *)func_021D3D7C(((struct Obj00056 *)p)->f4);
     n = func_021B9B94(list);
     for (i = 0; i < n; i++)
-        p[0x144 + i] = func_021D62C4(func_021B9C00(list, (u8)i), 0x13);
+        p[0x144 + i] = func_021D62C4((struct Unk021D62A8 *)func_021B9C00(list, (u8)i), 0x13);
     for (; i < 6; i++) p[0x144 + i] = 0;
     p[0x174] = 1;
 }

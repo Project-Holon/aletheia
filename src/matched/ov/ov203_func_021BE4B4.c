@@ -24,8 +24,8 @@ struct IcaAnime;
 struct Rec;
 extern void func_021BF810(char *p);
 extern void func_021BE158(void *);
-extern void func_0200566C(void *);
-extern void func_0204EA0C(void);
+extern void func_0200566C(void);
+extern int func_0204EA0C(void);
 extern void func_02011558(struct IcaAnime *p);
 extern void func_020480E4(struct Ctx *c, u32 i);
 extern void func_02047E54(struct Rec *p);
@@ -36,7 +36,7 @@ void func_021BE4B4(char *ctx)
     func_021BF810(((struct Obj03354 *)ctx)->f6C);
     func_021BE158(((struct Obj03354 *)ctx)->f20);
     if (((struct Obj03354 *)ctx)->f10) {
-        func_0200566C(((struct Obj03354 *)ctx)->f10);
+        func_0200566C();
         func_0204EA0C();
     }
     func_02011558(((struct Obj03354 *)ctx)->f18);

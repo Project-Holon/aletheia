@@ -43,8 +43,11 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02067F9C(void *font, u32 code);
-extern s8 *func_02067FE4(void *font, u32 idx);
+struct Obj;
+extern u32 func_02067F9C(struct Obj **a0, u32 key);
+struct NNSG2dCharWidths;
+struct NNSG2dFont;
+extern const struct NNSG2dCharWidths *func_02067FE4(const struct NNSG2dFont *pFont, u32 idx);
 
 struct Hdr { u16 f0; u16 stride; u8 pad[3]; u8 kind; };
 struct Fnt { struct Hdr *hdr; };
@@ -58,10 +61,10 @@ s8 func_02068EA0(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 
     s8 *g;
     u8 k;
 
-    idx = func_02067F9C(font, code);
+    idx = func_02067F9C((struct Obj **)font, code);
     if (idx == 0xffff)
         idx = (*font)->dflt;
-    out[0] = func_02067FE4(font, idx);
+    out[0] = (s8 *)func_02067FE4((const struct NNSG2dFont *)font, idx);
     out[1] = (s8 *)((char *)(*font)->hdr + 8 + idx * (*font)->hdr->stride);
     g = out[0];
     k = (*font)->hdr->kind;

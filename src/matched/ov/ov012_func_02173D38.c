@@ -27,9 +27,9 @@ extern u8 *func_02012944(void *p);
 typedef unsigned int   u32;
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-void func_02173D38(u8 *p)
+u32 func_02173D38(u8 *p)
 {
     p[0x282B] = 0;
-    func_0203D3F8((u32)func_020399A8(), 0, 0x140A, func_02008468(),
+    return func_0203D3F8((u32)func_020399A8(), 0, 0x140A, func_02008468(),
                   (u32)func_02012944((void *)(((struct Obj19262 *)(*(u8 * *)&((struct Obj12448 *)p)->f0))->f8)), 1, 0, 0);
 }

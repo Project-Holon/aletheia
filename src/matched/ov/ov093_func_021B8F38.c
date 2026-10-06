@@ -12,6 +12,6 @@
  *   func_021B86C8 0x021B86C8 thumb ov093
  *   func_021B86B8 0x021B86B8 thumb ov093
  */
-extern int func_021B86C8(unsigned char *);
+extern int func_021B86C8(unsigned char **p);
 extern void *func_021B86B8(void ***p);
-int func_021B8F38(unsigned char *p) { unsigned int v; if(func_021B86C8(p)) { v=(unsigned int)func_021B86B8((void ***)p); if(v!=1 && v!=0) return 1; } return 0; }
+int func_021B8F38(unsigned char *p) { unsigned int v; if(func_021B86C8((unsigned char **)p)) { v=(unsigned int)func_021B86B8((void ***)p); if(v!=1 && v!=0) return 1; } return 0; }

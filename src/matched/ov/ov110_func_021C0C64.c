@@ -31,34 +31,36 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0202DC98(void *);
+struct Obj0202DC98;
+struct Obj0202DCC4;
+extern u32 func_0202DC98(struct Obj0202DC98 *o);
 extern void func_02041570(int,u16);
-extern void *func_02024910(void *,u8);
-extern u16 func_0202452C(const u16 *);
-extern void func_021C09E8(u8 *,int);
-extern u32 sub_0202DCC4(const void *,u8);
-extern void func_0202DC9C(void *,u8,u32);
-extern void func_021C124C(u8 *,u8,u8,int);
-extern void func_021C11B8(u8 *,u8,int,int);
+extern void *func_02024910(char *p, int idx);
+extern int func_0202452C(const u16 *p);
+extern void func_021C09E8(char *p, int pal);
+extern u32 sub_0202DCC4(const struct Obj0202DCC4 *p, u32 i);
+extern void func_0202DC9C(struct Obj0202DC98 *o, int i, u32 a1);
+extern void func_021C124C(u8 *p, int index, u8 which, int flag);
+extern void func_021C11B8(u8 *p, int index, int unused, int flag);
 void func_021C0C64(u8 *p,int flag)
 {
     int i;
     if(flag && !func_0202DC98(*(void **)(p+0x8c))) return;
     func_02041570(2,0);
     if(p[0x96]) {
-        func_021C09E8(p+0x24,func_0202452C(func_02024910(*(void **)(p+0x20),p[0x96]-1)));
+        func_021C09E8((char *)(p+0x24),func_0202452C(func_02024910(*(void **)(p+0x20),(u8)(p[0x96]-1))));
     }
     for(i=0;i<4;i++) {
-        if(sub_0202DCC4(*(void **)(p+0x8c),i)) func_0202DC9C(*(void **)(p+0x8c),i,0);
+        if(sub_0202DCC4(*(void **)(p+0x8c),(u8)i)) func_0202DC9C(*(void **)(p+0x8c),(u8)i,0);
     }
     for(i=0;p[0x96]+i<p[0x97] && i<4;i++) {
         u8 which;
         which=p[0x96]+i;
-        func_021C124C(p,i,which,which==p[0x95]);
+        func_021C124C(p,(u8)i,which,which==p[0x95]);
     }
     if(p[0x97]<20 && i<4) {
         u8 which;
         which=p[0x96]+i;
-        func_021C11B8(p,i,0,which==p[0x95]);
+        func_021C11B8(p,(u8)i,0,which==p[0x95]);
     }
 }

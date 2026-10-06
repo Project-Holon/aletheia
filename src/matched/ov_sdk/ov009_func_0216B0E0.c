@@ -47,7 +47,7 @@ extern Root g_021AA878;
 
 extern int func_02059F38(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern u32 func_021686E0(u16 *str);
+extern int func_021686E0(unsigned short *p);
 extern void MIi_CpuCopy16(void *srcp, void *destp, u32 size);
 extern int func_0205CA20(void);
 extern void func_0216A3B8(int error, int errorCode);
@@ -68,7 +68,7 @@ int func_0216B0E0(u16 *ingamesn, int reserved, void (*callback)(int, int, void *
         len = 0;
     } else {
         MIi_CpuClear16(0, g_021AA878.ctl->ingamesn, 0x34);
-        len = func_021686E0(ingamesn) > 25 ? 25 : func_021686E0(ingamesn);
+        len = (u32)func_021686E0(ingamesn) > 25 ? 25 : (u32)func_021686E0(ingamesn);
         MIi_CpuCopy16(ingamesn, g_021AA878.ctl->ingamesn, len * 2);
     }
     g_021AA878.ctl->ingamesn[len] = 0;

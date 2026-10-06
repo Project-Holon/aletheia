@@ -17,11 +17,14 @@ typedef unsigned char u8;
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012F44(void *);
-extern u8 *func_0200A750(void *,u8);
+typedef unsigned int   u32;
+struct Big;
+struct BigSub4;
+extern struct BigSub4 *func_0200A750(struct Big *p, u32 index);
 int func_0215DADC(void *a,void *b)
 {
  int i = func_02159B10(a,b);
- u8 *p = func_0200A750(func_02012F44(func_0215A5E4(b)), i);
+ u8 *p = (u8 *)func_0200A750(func_02012F44(func_0215A5E4(b)), (u8)i);
  p[1] = 0;
  return 0;
 }

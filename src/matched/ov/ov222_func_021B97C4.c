@@ -26,15 +26,15 @@
 #include "../include/Obj26077.h"
 #include "../include/Obj26078.h"
 typedef unsigned int u32;
-extern int func_021B9BFC(unsigned char*);
-extern int func_021B9E44(unsigned char*);
-extern void func_021B9BB0(unsigned char*);
-extern void func_021B9DD0(unsigned char*);
+extern int func_021B9BFC(char *p);
+extern int func_021B9E44(char *p);
+extern void func_021B9BB0(char *p);
+extern void func_021B9DD0(char *p);
 struct PrintSys;
 extern void func_021BA014(char *p);
 extern int func_02005E50(void);
 extern void func_02005DE4(void*);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 extern void func_02005D90(u32,unsigned short);
 extern int func_02005F38(void);
 extern void func_02005E9C(void);
@@ -52,7 +52,7 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  switch(*state) {
  case 0:
   ready=1;
-  if(func_021B9BFC(p)==0) ready=0;
+  if(func_021B9BFC((char *)p)==0) ready=0;
   if(ready && ((struct Obj26077 *)(*(char* *)&((struct Obj02560 *)p)->f4))->f4==0) {
    if(func_02005E50()) ready=0;
    else {func_02005DE4((void*)1);func_02005E64();func_02005D90(0x524,0xffff);}
@@ -62,7 +62,7 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  case 1:
   if(!func_0204E804()) {if(((struct Obj26078 *)(*(char* *)&((struct Obj02560 *)p)->f4))->f4!=0) *state=4;else *state=2;}
   break;
- case 2: if(func_021B9E44(p)) *state=3; break;
+ case 2: if(func_021B9E44((char *)p)) *state=3; break;
  case 3:
   if(!func_02005F38()) {func_02005E9C();func_02005DE4(0);func_02005DF8(6);*state=4;}
   break;
@@ -76,8 +76,8 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  case 6: return 1;
  }
  func_0201C4E4(*(void* *)&((struct Obj02560 *)p)->f10);
- func_021B9BB0(p);
- if(*state>=1 && *state<=5) func_021B9DD0(p);
+ func_021B9BB0((char *)p);
+ if(*state>=1 && *state<=5) func_021B9DD0((char *)p);
  func_021BA014(*(void* *)&((struct Obj02560 *)p)->f8);
  return 0;
 }

@@ -28,7 +28,7 @@ extern unsigned short func_021795A4(void);
 extern u16 func_02178E38(void);
 extern int func_02178D20(u32 a, u32 b, u32 c);
 
-BOOL func_02179368(int a, int b, int c)
+BOOL func_02179368(int a, u16 b, int c)
 {
     if (func_021795A4() == 0 && (func_02178E38() & 0xFE) == 0)
         return 0;

@@ -19,35 +19,37 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  func_022110D4(void *p, int a);
+struct Obj;
+struct Vec2;
+extern int func_022110D4(u8 *p, int i);
 struct Actor; struct PtS;
 extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
-extern void func_0204B404(void *h, void *out, int n);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_0220F2DC(char *p, int a1, int a2)
 {
-    int i1 = func_022110D4(p, a1);
-    int i2 = func_022110D4(p, a2);
+    int i1 = func_022110D4((u8 *)p, a1);
+    int i2 = func_022110D4((u8 *)p, a2);
     u32 x;
     u32 y;
 
     func_0204B454(((void **)(p + 0x1ebc))[i1], (struct PtS *)&x, 1);
     func_0204B454(((void **)(p + 0x1ebc))[i2], (struct PtS *)&y, 1);
-    func_0204B404(((void **)(p + 0x1ebc))[i1], &y, 1);
-    func_0204B404(((void **)(p + 0x1ebc))[i2], &x, 1);
+    func_0204B404(((void **)(p + 0x1ebc))[i1], (const struct Vec2 *)(&y), 1);
+    func_0204B404(((void **)(p + 0x1ebc))[i2], (const struct Vec2 *)(&x), 1);
 
     func_0204B454(((void **)(p + 0x1ed8))[i1], (struct PtS *)&x, 1);
     func_0204B454(((void **)(p + 0x1ed8))[i2], (struct PtS *)&y, 1);
-    func_0204B404(((void **)(p + 0x1ed8))[i1], &y, 1);
-    func_0204B404(((void **)(p + 0x1ed8))[i2], &x, 1);
+    func_0204B404(((void **)(p + 0x1ed8))[i1], (const struct Vec2 *)(&y), 1);
+    func_0204B404(((void **)(p + 0x1ed8))[i2], (const struct Vec2 *)(&x), 1);
 
     func_0204B454(((void **)(p + 0x1ef0))[i1], (struct PtS *)&x, 1);
     func_0204B454(((void **)(p + 0x1ef0))[i2], (struct PtS *)&y, 1);
-    func_0204B404(((void **)(p + 0x1ef0))[i1], &y, 1);
-    func_0204B404(((void **)(p + 0x1ef0))[i2], &x, 1);
+    func_0204B404(((void **)(p + 0x1ef0))[i1], (const struct Vec2 *)(&y), 1);
+    func_0204B404(((void **)(p + 0x1ef0))[i2], (const struct Vec2 *)(&x), 1);
 
     func_0204B454(((void **)(p + 0x1f08))[i1], (struct PtS *)&x, 1);
     func_0204B454(((void **)(p + 0x1f08))[i2], (struct PtS *)&y, 1);
-    func_0204B404(((void **)(p + 0x1f08))[i1], &y, 1);
-    func_0204B404(((void **)(p + 0x1f08))[i2], &x, 1);
+    func_0204B404(((void **)(p + 0x1f08))[i1], (const struct Vec2 *)(&y), 1);
+    func_0204B404(((void **)(p + 0x1f08))[i2], (const struct Vec2 *)(&x), 1);
 }

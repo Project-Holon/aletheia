@@ -30,7 +30,7 @@ extern int func_0216D86C(void *p);
 extern int func_0216D804(void *p);
 extern int func_0216D81C(void *p);
 extern u16 func_021642B4(int x0, int y0, int x1, int y1);
-extern u32 func_021641E8(u16);
+extern int func_021641E8(int a);
 extern u32 func_021641F8(u16);
 extern u32 func_02197E7C(u16, u32);
 extern void func_0216D438(int a0, int a1);
@@ -48,7 +48,7 @@ int func_0219BD30(u32 a, u32 b)
         return 0;
     }
     r = func_021642B4(x, y, pz, pw);
-    x += func_021641E8(r);
+    x += (u32)func_021641E8((u16)r);
     y += func_021641F8(r);
     if (x != px || y != py) {
         func_0216D438(a, (u16)func_02197E7C(r, 12));

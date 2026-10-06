@@ -19,7 +19,7 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 extern void func_021BD958(char *p, u32 idx, s16 *x, s16 *y, u16 space);
 extern int func_021B8AE4(struct S *s, unsigned int v);
-extern void func_021BD934(char *,int,short,short,u16);
+extern void func_021BD934(char *p, int idx, int a, int b, unsigned short c);
 void func_021BE588(char *p)
 {
     short pos[2];
@@ -27,5 +27,5 @@ void func_021BE588(char *p)
     func_021BD958(p,0,&pos[1],&pos[0],0);
     value=func_021B8AE4(*(struct S * *)&((struct Obj00088 *)p)->fC2C,pos[0]);
     if(value<12)value=12;else if(value>156)value=156;
-    func_021BD934(p,0,252,value,0);
+    func_021BD934(p,0,(short)252,(short)value,0);
 }

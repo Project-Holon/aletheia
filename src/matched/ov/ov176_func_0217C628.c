@@ -61,8 +61,8 @@ typedef signed int     s32;
 struct Reg;
 struct Reg2;
 extern void func_0217CEAC(u8 *p, int mode);
-extern int func_0217CFDC(u8 *);
-extern void func_0217CFD0(u8 *);
+extern int func_0217CFDC(int *p);
+extern void func_0217CFD0(int *p);
 extern void func_021E8AA0(int *,int);
 extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
 extern void * func_0200AE14(void *);
@@ -90,7 +90,7 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *,u32,u32);
 extern u32 func_02039CB4(struct Link *,u32,u32);
-extern int func_0217E2C0(void *,u32 *);
+extern u32 func_0217E2C0(int unused, int a);
 extern int func_0217E2F8(u8 *p, const void *q);
 extern int func_0217E1B8(int *);
 extern int func_0217E1C0(int *);
@@ -114,8 +114,8 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     case 6:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_0217CFE8(p,21,1);*state=40;func_021E8AB4((u32)sys,7);break;
     case 7:func_0217CEAC(p,0);*state=8;break;
     case 8:{
-        int v=func_0217CFDC(p);
-        if(v!=-1){func_0217CFD0(p);switch(v){
+        int v=func_0217CFDC((int *)p);
+        if(v!=-1){func_0217CFD0((int *)p);switch(v){
         case 0:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_021E8AA0(sys,(int)func_0217C2EC);break;
         case 1:*state=1;break;
         }}break;
@@ -139,7 +139,7 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
         break;
     case 16:func_02039C68((struct Link *)func_020399A8(),0x48,0x1f);*state=17;break;
     case 17:if(func_02039CB4((struct Link *)func_020399A8(),0x48,0x1f))*state=18;break;
-    case 18:if(func_0217E2C0(((struct Obj00241 *)p)->fC,(u32 *)(p+0x1d4)))*state=19;break;
+    case 18:if(func_0217E2C0((int)(((struct Obj00241 *)p)->fC),(int)((u32 *)(p+0x1d4))))*state=19;break;
     case 19:if(func_0217E2F8(((struct Obj00241 *)p)->fC,(u32 *)(p+0x1d8)))*state=20;break;
     case 20:
         func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_02006210();

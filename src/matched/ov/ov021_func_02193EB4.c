@@ -42,7 +42,7 @@ typedef struct V {
     Tbl *f08;
 } V;
 
-extern void func_02193FBC(E50 *a, E18 *b);
+extern void func_02193FBC(u16 *a, void *b);
 
 void func_02193EB4(V *v)
 {
@@ -50,6 +50,6 @@ void func_02193EB4(V *v)
 
     if (v->f01 == 0 && v->f08 != 0) {
         for (i = 0; i < 10; i++)
-            func_02193FBC(&v->f04[i], &v->f08->e[i]);
+            func_02193FBC((u16 *)(&v->f04[i]), &v->f08->e[i]);
     }
 }

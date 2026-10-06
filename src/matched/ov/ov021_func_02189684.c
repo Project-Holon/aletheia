@@ -25,7 +25,7 @@
 typedef unsigned short u16;
 
 extern int func_02013FA8(u16 id);
-extern int func_02013C80(u16 id);
+extern int func_02013C80(int a0);
 extern void func_021AB650(void *p);
 extern void func_021AB868(void *p);
 extern void func_021AB840(void *p, int a, int b, int c);
@@ -52,7 +52,7 @@ void func_02189684(char *p, unsigned int id)
         func_021AB634(((struct Obj03105 *)p)->f40, a, b, func_021AB888(((struct Obj03105 *)p)->f44));
         return;
     }
-    if (func_02013C80(id) == 0) {
+    if (func_02013C80((u16)id) == 0) {
         func_021AB650(((struct Obj03105 *)p)->f40);
         func_021AB868(((struct Obj03105 *)p)->f44);
     }

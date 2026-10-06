@@ -85,7 +85,9 @@ typedef struct {
 typedef struct { u32 year, month, day, week; } RTCDate;
 typedef struct { u32 hour, minute, second; } RTCTime;
 
-extern void func_0203F49C(RTCDate *date, RTCTime *time);
+struct RtcDate;
+struct RtcTime;
+extern void func_0203F49C(struct RtcDate *date, struct RtcTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
 struct Sub020089A8Obj;
@@ -104,7 +106,7 @@ void func_021C8208(Work *p)
 
     saved = sub_02008A44(p->f184);
     RTC_ConvertSecondToDateTime(&date2, &time2, saved);
-    func_0203F49C(&date, &time);
+    func_0203F49C((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     hours = (RTC_ConvertDateTimeToSecond(&date, &time) - saved) / 3600;
     if (hours < 0) {
         hours = 0;

@@ -36,14 +36,14 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *func_02031EE8(void *p, void *buf);
+extern int func_02031EE8(int p0, int p1);
 extern u32 func_02031EF8(void *p, void *buf, u32 sel);
 
 void func_02031F9C(u32 *out, void *p, void *buf, u32 sel)
 {
     u8 *q;
 
-    q = func_02031EE8(p, buf);
+    q = (u8 *)func_02031EE8((int)p, (int)buf);
     out[0] = func_02031EF8(p, buf, sel);
     out[1] = ((struct Obj16793 *)q)->f0;
 }

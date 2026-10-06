@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-u32 func_021FF028(u32 *p){return *p;}
+int func_021FF028(u32 *p){return *p;}

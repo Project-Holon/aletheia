@@ -25,12 +25,12 @@ typedef struct { char pad[0xfd8]; void *obj[2][3]; } State;
 extern int func_020221A4(void *);
 typedef unsigned int   u32;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_021E1D68(void *,void *);
+extern void func_021E1D68(char *p, void *a);
 extern void func_021E6440(int p, int a, int b);
 extern void func_021DEBD4(void *);
 extern void func_0202208C(int,int,int,int,int,int,int);
-extern void func_021D8980(void *);
-extern void func_021DD09C(void *);
+extern int func_021D8980(char *p);
+extern void func_021DD09C(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DE3E8(char *p);
 void func_021DE518(State *p)
@@ -47,11 +47,11 @@ void func_021DE518(State *p)
         obj=p->obj[other][col];
         b[0x11f3]=1;
         if(obj && func_02017E1C(obj,169,0)) {
-            func_021E1D68(p,obj); func_021E6440((int)p,row,col);
+            func_021E1D68((char *)p,obj); func_021E6440((int)p,row,col);
         }
         func_021DEBD4(p);
         func_0202208C(3,1,1,0,6,1,((struct Obj03775 *)b)->f5F4);
-        func_021D8980(p); func_021DD09C(p);
+        func_021D8980((char *)p); func_021DD09C((char *)p);
         func_021D8E84(p,(int)func_021DE3E8);
     }
 }

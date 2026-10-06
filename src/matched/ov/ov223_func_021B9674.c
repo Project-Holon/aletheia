@@ -21,8 +21,9 @@ typedef unsigned int u32;
 typedef int s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_020355D8(u32 v);
-extern void func_0204E6F4(u32 v);
-extern void func_020315D4(void *p);
+struct S020315D4;
+extern void func_0204E6F4(s32 a);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 int func_021B9674(void *a, int unused1, int unused2, u8 *ctx)
 {

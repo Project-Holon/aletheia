@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT*
  */
-int func_021B8CE8(int a, unsigned char b, int c) { int r=1; if ((b&1)==(c&1)) r=0; return r; }
+int func_021B8CE8(int a, int b, int c) { int r=1; if ((b&1)==(c&1)) r=0; return r; }

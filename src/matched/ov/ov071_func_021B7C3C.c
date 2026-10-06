@@ -48,10 +48,10 @@ int func_021B7C3C(int a, int *b, C *c)
     extern void *func_0203159C(int, int, int);
     extern void func_02082BCC(void *, int, int);
     extern void func_021B7D6C(void);
-    extern void func_021B7DAC(C *, Inner *);
-    extern int func_021B6F2C(C *);
+    extern void func_021B7DAC(void *a, unsigned *b);
+    extern void *func_021B6F2C(u8 **p);
     extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-    extern void *func_020084F4(int);
+    extern const void *func_020084F4(const void *p);
     extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
     extern u8 func_02008550(const struct Sub0200852CObj *obj);
     extern void func_0201EE0C(int, unsigned, void *, int, unsigned, unsigned);
@@ -69,10 +69,10 @@ int func_021B7C3C(int a, int *b, C *c)
         m = func_0203159C(a, 0x24, 0x61);
         func_02082BCC(m, 0, 0x24);
         func_021B7D6C();
-        func_021B7DAC(c, c->f4);
-        h = func_021B6F2C(c);
+        func_021B7DAC(c, (unsigned int *)c->f4);
+        h = (int)func_021B6F2C((u8 **)c);
         s = func_020457B0(8, 0x61);
-        func_02045994(s, func_020084F4(h), 8);
+        func_02045994(s, func_020084F4((const void *)h), 8);
         func_0201EE0C(c->f4->f10, 0, s, func_02008550((const struct Sub0200852CObj *)h), 1, 2);
         func_02045808(s);
         func_021B6E1C(c->f4, m, 0, 0x80, 0xc, 0x1e, 2, 0, c->f4->f10);

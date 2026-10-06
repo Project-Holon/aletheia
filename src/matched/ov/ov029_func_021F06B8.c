@@ -21,8 +21,9 @@ struct E {
     u8 b[10];
 };
 
-extern void func_021F08BC(u8 *p, int i, int j, int k);
-extern void func_021F0D00(void *e, int i);
+struct W;
+extern void func_021F08BC(struct W *p, int i, int j, int k);
+extern void func_021F0D00(unsigned short *p, int i);
 
 void func_021F06B8(u8 *p, int a, int b)
 {
@@ -32,12 +33,12 @@ void func_021F06B8(u8 *p, int a, int b)
     int k;
 
     for (i = 0; i < 3; i++) {
-        func_021F08BC(p, i, 0, 0x1f);
+        func_021F08BC((struct W *)p, i, 0, 0x1f);
     }
     q = (struct E *)(p + 0x418);
     for (j = 0; j < 5; j++) {
         for (k = 0; k < 3; k++) {
-            func_021F0D00(&q[j], k);
+            func_021F0D00((short unsigned int *)(&q[j]), k);
         }
     }
     p[0x461] = a;

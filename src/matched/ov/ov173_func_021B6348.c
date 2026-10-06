@@ -17,7 +17,7 @@
 #include "../include/Obj00362.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_021B7EB0(u8 *, int);
+extern void func_021B7EB0(char *p, int flag);
 struct PrintSys;
 struct TaskMenuState;
 struct U16Vec;
@@ -26,7 +26,7 @@ extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_0201C4C0(struct PrintSys *p);
 void func_021B6348(u8 *p)
 {
-    func_021B7EB0(p, 0);
+    func_021B7EB0((char *)p, 0);
     func_02045808((struct U16Vec *)(((struct Obj00362 *)p)->f1E4));
     func_02045808((struct U16Vec *)(((struct Obj00362 *)p)->f1F0));
     func_02045808((struct U16Vec *)(((struct Obj00362 *)p)->f1FC));

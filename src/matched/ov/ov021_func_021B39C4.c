@@ -50,7 +50,8 @@ struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045C04(struct Rec *rec);
 extern Entry *func_0201F81C(u32 a, u32 b);
-extern void func_0201F878(Entry *a, u32 b, u32 c, int d, u32 e);
+struct Slot;
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void func_021B385C(char *p, int idx, int mode, int val, int arg);
 
 void func_021B39C4(Obj *p, int idx)
@@ -71,6 +72,6 @@ void func_021B39C4(Obj *p, int idx)
         p->list[i].val = tbl[i].val;
     }
     p->count = i;
-    func_0201F878(p->buf + i, p->win, 0xb, -2, p->heap);
+    func_0201F878((struct Slot *)(p->buf + i), p->win, 0xb, -2, p->heap);
     func_02045C04((struct Rec *)h);
 }

@@ -51,7 +51,7 @@ typedef struct {
 } Obj;
 
 struct WinMgr;
-extern unsigned func_021DD25C(Obj *p, unsigned short a, int box, unsigned id, unsigned v);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021EBA5C(char *w, int v);
 typedef unsigned char  u8;
 struct Sound;
@@ -64,18 +64,18 @@ extern void func_021EE038(char *p, int a, int b, int c);
 extern void func_021EC01C(char *p, int i);
 extern void func_021ED6E4(char **p, int v);
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
-extern int func_021E8FE0(Obj *p, int v);
-extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
+extern int func_021E8FE0(char *p, int v);
+extern int func_021E8FC0(char *p, int a, int b);
 extern void func_021EF508(struct WinMgr *mgr);
 extern void func_021EF534(struct WinMgr *mgr);
 extern void func_021EA728(void *p);
 extern void func_021EA878(Obj *p, int v);
-extern void func_021DEFEC(Obj *p, int b);
+extern void func_021DEFEC(char *p, int b);
 extern u8 func_020260E0(struct Sound *obj);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EEF74(char *w, int k, int v);
 extern int func_021E0ABC(unsigned char *p);
-extern int func_021E0A40(Obj *p);
+extern int func_021E0A40(char *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 #define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
@@ -86,8 +86,8 @@ int func_021EA2DC(Obj *p, int i)
     p->b16 = i;
     p->b17 = p->b14;
     p->work[0xA172] = 1;
-    func_021DEFEC(p, p->b16);
-    CNT(p) = func_021DD25C(p, p->b16, p->b14, 6, 0);
+    func_021DEFEC((char *)p, p->b16);
+    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
     func_021EA878(p, (short)CNT(p));
     func_021EF534(MGR(p));
     if (CNT(p) != 0) {
@@ -101,5 +101,5 @@ int func_021EA2DC(Obj *p, int i)
         func_021EEF74(p->work, 0x25, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), 0x25);
     }
-    return func_021E8FC0(p, func_021E0A40, func_021E8FE0(p, 0x39));
+    return func_021E8FC0((char *)p, (int)func_021E0A40, func_021E8FE0((char *)p, 0x39));
 }

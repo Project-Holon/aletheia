@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  func_020355C4(void *p);
+extern u8 func_020355C4(void);
 struct S;
 extern void func_02027B30(u32 a0, struct S *s, int mode);
 
@@ -28,7 +28,7 @@ void func_02027CFC(u8 *p, int sel)
     int i;
 
     *p = sel;
-    if (func_020355C4(p) != 0) {
+    if (func_020355C4() != 0) {
         return;
     }
     i = 0;

@@ -29,7 +29,8 @@ typedef struct {
 
 struct L;
 extern void func_021EAF18(struct L *p, int kind, u16 id);
-extern void func_021EA614(void *win, void *msg);
+struct H;
+extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 
 int func_021D1A18(BattleSeq *s, int *state)
@@ -37,7 +38,7 @@ int func_021D1A18(BattleSeq *s, int *state)
     switch (*state) {
     case 0:
         func_021EAF18((struct L *)s->msg, 1, 0xb7);
-        func_021EA614(s->msgWin, s->msg);
+        func_021EA614(s->msgWin, (struct H *)s->msg);
         (*state)++;
         break;
     case 1:

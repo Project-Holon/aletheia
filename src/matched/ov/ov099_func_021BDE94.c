@@ -49,7 +49,7 @@ extern void func_0204363C(u32);
 extern void func_021BE030(void);
 extern void func_021BE040(u16 heap);
 extern void func_02045088(u16);
-extern void func_021BE53C(char *, void *);
+extern void func_021BE53C(char *p, int v);
 extern void func_021BE028(void);
 extern void *func_020056A0(u32, u32, u32);
 extern void func_021BE5B4(void *);
@@ -73,7 +73,7 @@ void func_021BDE94(char *p)
     func_021BE030();
     func_021BE040(0x21);
     func_02045088(0x21);
-    func_021BE53C(p, h);
+    func_021BE53C(p, (int)h);
     ((struct Obj03222 *)p)->f0 = func_020056A0((u32)func_021BE028, (u32)p, 1);
     func_021BE5B4(((struct Obj03222 *)p)->f0);
     func_021BE5B8(p, h);

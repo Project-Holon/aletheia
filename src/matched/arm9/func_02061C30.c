@@ -25,10 +25,11 @@
  *   g_02146B80     0x02146B80  data
  */
 
-extern void func_02061B5C(void *);
+typedef unsigned char  u8;
+extern void func_02061B5C(u8 *p);
 extern char g_02146B80[];
 
 void func_02061C30(void)
 {
-    func_02061B5C(g_02146B80);
+    func_02061B5C((u8 *)g_02146B80);
 }

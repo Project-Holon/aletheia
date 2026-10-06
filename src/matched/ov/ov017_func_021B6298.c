@@ -59,7 +59,7 @@ extern int func_02062A4C(void *file, Chr **out);
 extern void func_020862F0(void *p, u32 size);
 extern void func_02082A60(void *src, void *dst, u32 size);
 extern void func_020307B0(void *p);
-extern int func_02062B30(void *file, Scr **out);
+extern int func_02062B30(void *file, void **out);
 extern void *func_0207DFB4(void);
 typedef signed int     s32;
 struct NitroFileHeader;
@@ -89,7 +89,7 @@ void func_021B6298(void)
     func_020307B0(file);
 
     file = (void *)func_0204A1BC(0x16, 2, 0, 1);
-    if (func_02062B30(file, &scr)) {
+    if (func_02062B30(file, (void **)(&scr))) {
         func_020862F0(scr->f0c, scr->f08);
         Copy(scr->f0c, func_0207DFB4(), scr->f08);
     }

@@ -58,15 +58,17 @@ struct TaskMenu;
 struct WordSet;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
-extern void func_021BB1AC(Obj *o);
+struct Blk34;
+struct MsgBank;
+extern void func_021BB1AC(char *p);
 extern int func_021B619C(int a, int b, unsigned int id);
 extern void func_021B7D20(struct Obj *o, int x);
 extern void *func_02012F08(int *p);
-extern void func_0200C278(unsigned int a, unsigned int b);
+extern u32 func_0200C278(struct Blk34 *p, u32 v);
 extern void func_020061E4(unsigned int id);
-extern void func_021BAFC4(Obj *o);
-extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
-extern void func_021B6204(Obj *o, int a, unsigned int b, int c, int d);
+extern void func_021BAFC4(u8 *p);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_021B6204(u8 *p, int a, unsigned int b, int c, int d);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BADAC(void *p);
@@ -86,16 +88,16 @@ void func_021B7B80(Obj *o)
     if (func_020279E8(o->f77C) == 0)
         return;
     r = func_02027A04(o->f77C);
-    func_021BB1AC(o);
+    func_021BB1AC((char *)o);
     switch (r) {
     case 0:
         v = func_021B619C(o->f84C, o->f7F4, o->f544);
         func_021B7D20(o, o->f7F4);
-        func_0200C278((unsigned int)func_02012F08(o->f000), v);
+        func_0200C278((struct Blk34 *)((unsigned int)func_02012F08(o->f000)), v);
         func_020061E4(0x655);
-        func_021BAFC4(o);
-        func_02045CAC(o->f51C, 0x50, o->f524);
-        func_021B6204(o, 0, o->f84C, o->f7F4 > 1, 0);
+        func_021BAFC4((u8 *)o);
+        func_02045CAC(o->f51C, 0x50, (void *)o->f524);
+        func_021B6204((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);
         func_0201EFA4(o->f520, 1, v, 7, 0, 1);
         func_0201F250(o->f520, o->f528, (void *)o->f524);
         func_021BADAC(o);

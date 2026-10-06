@@ -18,7 +18,8 @@ typedef short s16;
 typedef struct { s16 a,b,c,d; } Rect;
 typedef struct { Rect rows[12]; } Rects;
 extern const Rects d_021DA798;
-extern void func_021D958C(unsigned,int,unsigned);
+typedef unsigned int   u32;
+extern void func_021D958C(u32 n, int touch, char *p);
 extern void *func_02051B84(u8 *,int,int,int);
 void func_021D9490(char *p)
 {

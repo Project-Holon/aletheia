@@ -31,7 +31,7 @@ struct SBL {
 extern void func_0217EAE0(void *p);
 extern int func_0217EB2C(int sock);
 extern void func_021A027C(struct SBL *slist);
-extern void func_021A0238(struct SBL *slist);
+extern void func_021A0238(char *slist);
 void func_021A02E0(struct SBL *slist)
 {
 	if (slist->errstr != 0)
@@ -44,5 +44,5 @@ void func_021A02E0(struct SBL *slist)
 	slist->state = 1;
 	func_021A027C(slist);
 	slist->f484 = -1;
-	func_021A0238(slist);
+	func_021A0238((char *)slist);
 }

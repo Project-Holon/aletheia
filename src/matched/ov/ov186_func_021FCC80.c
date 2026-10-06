@@ -21,7 +21,8 @@ struct Descriptor;
 struct Obj;
 extern void func_021FD860(int,int,void *);
 extern void func_0204B3B4(struct Obj *p);
-extern void func_020437AC(int,int);
+struct Obj020437AC;
+extern void func_020437AC(struct Obj020437AC *p);
 extern void func_020456F8(struct Descriptor *d);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_021FC0C8(char *p, unsigned i);
@@ -32,7 +33,7 @@ void func_021FCC80(char *p)
     if(((struct Obj01571 *)p)->f1C) func_021FD860(((struct Obj01571 *)p)->f1C,0,0);
     for(i=0;i<4;i++) func_0204B3B4((struct Obj *)(*(int *)(p+0x28+i*4)));
     for(i=0;(unsigned)i<((struct Obj01571 *)p)->f4;i++) {
-        if(*(int *)(p+0x8C+i*4) && *(int *)(((struct Obj01571 *)p)->f0+i*8)) func_020437AC(*(int *)(p+0x8C+i*4),*(int *)(((struct Obj01571 *)p)->f0+i*8));
+        if(*(int *)(p+0x8C+i*4) && *(int *)(((struct Obj01571 *)p)->f0+i*8)) func_020437AC((struct Obj020437AC *)(*(int *)(p+0x8C+i*4)));
     }
     func_020456F8((struct Descriptor *)(((struct Obj01571 *)p)->f38));func_020452E8((struct Descriptor *)(((struct Obj01571 *)p)->f38));
     if(((struct Obj01571 *)p)->fD<4) func_021FC0C8((char *)(((struct Obj01571 *)p)->f14),7);

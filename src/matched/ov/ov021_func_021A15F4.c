@@ -25,11 +25,12 @@ typedef unsigned int u32;
 typedef struct { u32 w[16]; } S64;
 extern S64 d_02148B54;
 typedef unsigned char  u8;
-extern u8 func_021A1780(u8 *p);
+extern u32 func_021A1780(u8 *p);
 extern void func_021A1784(u32 *, u32 *, u32 *, S64 *);
-extern void func_021A1934(u32 *);
+typedef signed int     s32;
+extern void func_021A1934(u8 *p);
 extern void func_021A195C(u32 *);
-extern void func_021A1848(u32 *);
+extern void func_021A1848(const s32 *a);
 extern void func_0206DB80(void);
 extern void func_0207D8C4(S64 *);
 
@@ -47,9 +48,9 @@ void ov021_func_021A15F4(u32 *p)
         r[5] = 0;
         r[1] = 0;
         func_021A1784(p + 11, p, p + 8, &buf);
-        func_021A1934(p);
+        func_021A1934((u8 *)p);
         func_021A195C(p);
-        func_021A1848(p + 11);
+        func_021A1848((const s32 *)(p + 11));
         r[2] = 1;
     }
 }

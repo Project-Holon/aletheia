@@ -37,7 +37,9 @@ extern int func_021EB660(u8 *, int *);
 extern u8 func_021B8ED8(u8 *p, u8 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 extern u8 func_021D5440(u8 *p);
-extern void func_021ED798(u8 *);
+struct E;
+struct T;
+extern void func_021ED798(struct S *s);
 extern int func_021ED814(struct S *);
 struct Work;
 extern void *func_021D5864(struct Work *p);
@@ -48,8 +50,8 @@ extern int func_021F7EB4(void);
 extern int func_021EB820(u8 *);
 extern void func_021EEE24(u32, u32, u32, ...);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
-extern int func_021ECF68(u8 *);
-extern void func_021EDA04(u8 *);
+extern int func_021ECF68(struct T *p);
+extern void func_021EDA04(struct E *e);
 extern void *func_021B86B8(void ***);
 extern void func_021F7998(u32);
 int func_021EB690(int *state, u8 *p)
@@ -62,7 +64,7 @@ int func_021EB690(int *state, u8 *p)
         b[4] = func_021B8ED8(*(u8 * *)&((struct Obj02793 *)p)->f134, b[5]);
         *(u8 * *)&((struct Obj00765 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj02793 *)p)->f138, b[4]);
         b[6] = func_021D5440(*(u8 * *)&((struct Obj00765 *)b)->f0);
-        func_021ED798(p + 0x154);
+        func_021ED798((struct S *)(p + 0x154));
         (*state)++;
         break;
     case 1:
@@ -81,9 +83,9 @@ int func_021EB690(int *state, u8 *p)
         }
         break;
     case 3:
-        if (func_021ECF68(p)) {
-            func_021EDA04(p + 0x48 + b[4] * 12);
-            func_021ED798(p + 0x154);
+        if (func_021ECF68((struct T *)p)) {
+            func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
+            func_021ED798((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
@@ -108,8 +110,8 @@ int func_021EB690(int *state, u8 *p)
         }
         break;
     case 6:
-        if (func_021ECF68(p)) {
-            func_021ED798(p + 0x154);
+        if (func_021ECF68((struct T *)p)) {
+            func_021ED798((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
@@ -118,7 +120,7 @@ int func_021EB690(int *state, u8 *p)
         break;
     case 8:
         if (!func_021F7EB4()) {
-            func_021EDA04(p + 0x48 + b[4] * 12);
+            func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
             return 1;
         }
         break;

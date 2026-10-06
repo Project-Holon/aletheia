@@ -15,4 +15,4 @@
  *   func_020409B4 0x020409B4 arm
  */
 struct BgTemplate;extern void func_0203FCA0(unsigned,const struct BgTemplate *,unsigned);extern void func_02040588(unsigned,unsigned),func_020414AC(unsigned),func_020409B4(unsigned);
-void func_021B6538(const struct BgTemplate *p,unsigned i,unsigned type) {func_0203FCA0(i,p,type);func_02040588(i,1);func_020414AC(i);func_020409B4(i);}
+void func_021B6538(const struct BgTemplate *p, int i, int type) {func_0203FCA0(i,p,type);func_02040588(i,1);func_020414AC(i);func_020409B4(i);}

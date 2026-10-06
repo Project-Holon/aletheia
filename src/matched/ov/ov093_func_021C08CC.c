@@ -22,18 +22,20 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021B911C(void *p, int k);
 extern u8 func_021D5440(u8 *p);
-extern void func_021D5608(u8 *a, int i, u8 n);
+struct UtilWork;
+extern void func_021D5608(struct UtilWork *p, int i, u8 n);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern void func_021D56CC(u8 *a, int i);
+struct Work;
+extern void func_021D56CC(struct Work *p, int i);
 
 void func_021C08CC(u8 *p, u8 *a, int b, u8 c)
 {
     u32 n;
     if (func_021B911C(((struct Obj09966 *)p)->f4, 5) == 0) {
         n = func_021D5440(a);
-        func_021D5608(a, b, c);
+        func_021D5608((struct UtilWork *)a, b, c);
         func_021CD4B0(((struct Obj09966 *)p)->fC, 4, n, b, c);
-        func_021D56CC(a, b);
+        func_021D56CC((struct Work *)a, b);
         func_021CD4B0(((struct Obj09966 *)p)->fC, 6, n, b);
     }
 }

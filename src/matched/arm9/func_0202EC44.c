@@ -37,7 +37,7 @@ struct Slot {
 struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 
-s32 func_0202EC44(struct Slot *a0, u32 a1)
+u32 func_0202EC44(struct Slot *a0, u32 a1)
 {
     u32 i;
     u32 n = 0;

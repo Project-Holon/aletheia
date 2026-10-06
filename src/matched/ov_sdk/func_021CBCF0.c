@@ -49,7 +49,7 @@ typedef struct {
 
 extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern unsigned char *func_021BD170(unsigned char *name);
-extern int func_021D4B68(int, int, int);
+extern void *func_021D4B68(char *path, unsigned long *size, int alignment);
 extern void func_021D603C(int lcd, int plane);
 
 extern T22 dat_021DA7BC;
@@ -75,7 +75,7 @@ void func_021CBCF0(void)
     func_021BD1D4((char *)((int)dat_021DB734), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
     func_021BD1D4((char *)((int)dat_021DB74C), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
 
-    r = func_021D4B68((int)func_021BD170((unsigned char *)(&buf)), 0, 4);
+    r = (int)func_021D4B68((char *)((int)func_021BD170((unsigned char *)(&buf))), 0, 4);
     *(int *)(*(int *)(dat_021DE60C + 4)) = r;
     func_021D603C(1, 0x10);
 

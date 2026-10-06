@@ -27,7 +27,7 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern void func_021E3BB0(void *p);
+extern void func_021E3BB0(char *p);
 extern void func_021E3230(void *p);
 extern int func_021D8A24(void *p);
 struct Entry;
@@ -41,7 +41,7 @@ extern void func_021D67F8(u8 *p);
 
 void func_021D6750(u8 *p)
 {
-    func_021E3BB0(p);
+    func_021E3BB0((char *)p);
     if (((struct Obj00001 *)p)->f854 == 1) {
         func_021D6544(p, p + 0x11ED, p + 0x11EF, ((struct Obj00001 *)p)->f834, 1);
         func_021D6544(p, p + 0x11EE, p + 0x11F0, ((struct Obj00001 *)p)->f830, 0);

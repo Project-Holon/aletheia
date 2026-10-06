@@ -15,9 +15,10 @@
  */
 
 char *func_021B9AF8(char *, int);
-unsigned char func_021B9B98(char *);
+typedef unsigned char  u8;
+u8 func_021B9B98(u8 *p);
 
 unsigned char func_021B9B04(int a, int b)
 {
-    return func_021B9B98(func_021B9AF8((char *)a, b));
+    return func_021B9B98((u8 *)func_021B9AF8((char *)a, b));
 }

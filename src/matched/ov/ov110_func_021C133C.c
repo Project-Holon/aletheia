@@ -38,9 +38,11 @@ extern int func_021B6470(u8 *);
 extern int func_021B6448(u8 *);
 extern u8 func_020355C4(void);
 extern int func_021C0F14(u8 *);
-extern void func_020061E4(int);
-extern void *func_02024910(void *,int);
-extern int func_02024464(void *,unsigned);
+typedef unsigned int   u32;
+struct T;
+extern void func_020061E4(u32 a);
+extern void *func_02024910(char *p, int idx);
+extern int func_02024464(struct T *p, u32 a1);
 int func_021C133C(void *unused,u8 *p)
 {
     int result=-1;

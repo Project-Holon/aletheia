@@ -46,8 +46,8 @@ typedef struct {
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern BgnEnd *func_021BEF3C();
-extern ThreadInfo *func_021BEF50(void *sysInfo_p);
-extern ReqInfo *func_021BEF48(void *sysInfo_p);
+extern void *func_021BEF50(int p);
+extern void *func_021BEF48(int p);
 extern int func_021BBF44(void *req_p, char *commBuf_p, int socket, int *bufwp_p, char *src_p, int srclen);
 
 int func_021BC384(ThreadData *threadData_p, char *src_p, int srclen)
@@ -62,8 +62,8 @@ int func_021BC384(ThreadData *threadData_p, char *src_p, int srclen)
 
     sysInfo_p = func_021BEF08();
     bgnEndInfo_p = func_021BEF3C();
-    threadInfo_p = func_021BEF50(sysInfo_p);
-    reqInfo_p = func_021BEF48(sysInfo_p);
+    threadInfo_p = func_021BEF50((int)sysInfo_p);
+    reqInfo_p = func_021BEF48((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     commBuf_p = threadInfo_p->commBuf;
     if (srclen == 0) {

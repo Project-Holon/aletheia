@@ -30,7 +30,8 @@ extern void func_020355D8(u8),func_020061E4(unsigned);
 extern int func_021F2828(const char *,int,Pair *);
 extern int func_021F2818(char *,int,int);
 extern void func_021F26E0(char *,int,int);
-extern void func_021F1A1C(char *,int,const Rect *,int,int);
+struct Rect;
+extern void func_021F1A1C(char *p, int mode, const struct Rect *rect, int flag, int selected);
 int func_021F36E8(char *p,int *out)
 {
     Rect rect;
@@ -49,14 +50,14 @@ int func_021F36E8(char *p,int *out)
         if(func_020355C4()==1){
             if(func_021F2818(p,(int)(p+0xD8),(int)&rect)){
                 func_020355D8(0);
-                func_021F1A1C(p+0x24,1,&rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
+                func_021F1A1C(p+0x24,1,(const struct Rect *)(&rect),((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
                 func_020061E4(1352);
             }
         }else{
             func_021F26E0(p,(int)p+0xD8,(int)&delta);
             if(func_021F2818(p,(int)(p+0xD8),(int)&rect)){
                 func_020061E4(1352);
-                func_021F1A1C(p+0x24,1,&rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
+                func_021F1A1C(p+0x24,1,(const struct Rect *)(&rect),((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
             }
         }
     }

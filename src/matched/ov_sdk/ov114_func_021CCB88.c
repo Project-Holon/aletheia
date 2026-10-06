@@ -53,9 +53,10 @@ typedef struct
 } BN_RECP_CTX;
 
 extern int func_021CB078(const BIGNUM *, const BIGNUM *);
-extern int func_021CAEC8(BIGNUM *, BN_ULONG);
-extern BIGNUM *func_021CAE20(BIGNUM *, const BIGNUM *);
-extern int func_021CAB94(const BIGNUM *);
+typedef unsigned char  u8;
+extern int func_021CAEC8(u8 *a, unsigned long w);
+extern u8 *func_021CAE20(u8 *a, u8 *b);
+extern char *func_021CAB94(u8 *p);
 extern int func_021CCDFC(BIGNUM *, const BIGNUM *, int, BN_CTX *);
 extern int func_021CB2A4(BIGNUM *, const BIGNUM *, int);
 extern int func_021CB9BC(BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
@@ -81,13 +82,13 @@ int func_021CCB88(BIGNUM *dv, BIGNUM *rem, BIGNUM *m, BN_RECP_CTX *recp, BN_CTX 
 
     if (func_021CB078(m, &(recp->N)) < 0)
     {
-        func_021CAEC8(d, 0);
-        func_021CAE20(r, m);
+        func_021CAEC8((u8 *)d, 0);
+        func_021CAE20((u8 *)r, (u8 *)m);
         ctx->tos = tos;
         return 1;
     }
 
-    i = func_021CAB94(m);
+    i = (int)func_021CAB94((u8 *)m);
 
     j = recp->num_bits * 2;
     if (j > i)

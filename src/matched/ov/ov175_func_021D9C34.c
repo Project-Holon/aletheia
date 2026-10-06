@@ -36,7 +36,7 @@ typedef unsigned long u32;
 extern u32 func_020362DC(void);
 extern void func_021E8738(int *p, int a, int b, int c);
 extern int func_021E8844(const int *p);
-extern void func_021D98E4(char *obj, u32 kind);
+extern void func_021D98E4(u32 *p, int mode);
 extern int func_021D9A08(char *obj);
 extern void func_021D99F4(char *obj);
 extern int func_021DA434(u32 h);
@@ -68,7 +68,7 @@ int func_021D9C34(char *obj, int trigger, int go)
         ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
         break;
     case 3:
-        func_021D98E4(obj, 0);
+        func_021D98E4((u32 *)obj, 0);
         ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
         break;
     case 4:

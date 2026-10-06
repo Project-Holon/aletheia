@@ -37,7 +37,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
-extern void func_02019A50(void *p, u32 size, u32 seed);
+extern void func_02019A50(u16 *p, u32 size, u32 seed);
 
 struct Sav {
     u32 unk00;
@@ -50,13 +50,13 @@ struct Sav {
 void func_02017528(struct Sav *p)
 {
     MIi_CpuClearFast(0, p, sizeof(struct Sav));
-    func_02019A50(p->unk08, 0x80, p->unk06);
-    func_02019A50(p->unk88, 0x54, p->unk00);
+    func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
+    func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
 }
 
 void func_02017550(struct Sav *p)
 {
     MIi_CpuClearFast(0, p, 0x88);
-    func_02019A50(p->unk08, 0x80, p->unk06);
+    func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
 }
 

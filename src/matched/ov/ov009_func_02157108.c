@@ -29,8 +29,8 @@ extern void func_02157048(u32 a, u32 b);
 extern int func_02059F6C(void *a, u32 b, void *c, void *d);
 extern void func_021570B8(void);
 extern u32 func_02156F5C(u32 a, u32 b, u32 c);
-extern void func_02156FDC(u32 a, void *p);
-int func_02157108(u32 a)
+extern void func_02156FDC(u32 a, void *p, int b);
+int func_02157108(u16 a)
 {
     int r;
     func_02157048(a, 0x40000);

@@ -29,23 +29,28 @@ typedef struct {
     int w[7];
 } V28;
 
-extern int func_0215A5E4(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct BigObj;
+struct Rec1C;
+struct Rec44;
+extern void *func_0215A5E4(void *a0);
 extern int func_020127A4(void);
 extern int *func_02012AA0(void);
-extern int func_02012AC8(int);
-extern int func_02012AE4(int);
+extern u16 func_02012AC8(const struct Rec44 *p);
+extern u32 func_02012AE4(const struct Rec44 *p);
 extern void func_02014184(V28 *, int, short, int, int, int);
-extern void func_0201289C(int, V28 *);
+extern void func_0201289C(struct BigObj *p, const struct Rec1C *src);
 
 int func_0215AD7C(int a, int b)
 {
     V28 v;
-    int t = func_0215A5E4(b);
+    int t = (int)func_0215A5E4((void *)b);
     int r5 = func_020127A4();
     int *r4 = func_02012AA0();
-    int r7 = func_02012AC8(r5);
+    int r7 = func_02012AC8((const struct Rec44 *)r5);
 
-    func_02014184(&v, r7, func_02012AE4(r5), r4[0], r4[1], r4[2]);
-    func_0201289C(t, &v);
+    func_02014184(&v, r7, func_02012AE4((const struct Rec44 *)r5), r4[0], r4[1], r4[2]);
+    func_0201289C((struct BigObj *)t, (const struct Rec1C *)(&v));
     return 0;
 }

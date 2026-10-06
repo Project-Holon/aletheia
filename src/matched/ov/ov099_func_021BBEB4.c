@@ -35,17 +35,19 @@ struct Cfg;
 struct CharBuf;
 struct MsgBank;
 extern int func_021BA8BC(void *);
-extern u32 func_020450F0(u32,u32,u32,u32,u32,u8,u8);
+struct Reg;
+struct U16Vec;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *,u8);
 extern void func_020456F8(struct Descriptor *);
 extern void func_02045374(struct Cfg *);
 extern void func_0201F73C(void *,int,int,int);
 extern void func_0201DD68(void);
-extern void *func_0201A4D4(void *,void *,u32,u32);
-extern void *func_0200AE3C(void *,u32);
+extern u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3);
+extern void *func_0200AE3C(struct Reg *p, u32 heap);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
 extern void func_0201C7D0(void *,int,s16,void *,void *,u32);
 extern void func_02045334(struct Descriptor *);
@@ -60,7 +62,7 @@ struct O {
     void **f1344;
     void **f1348;
 };
-void func_021BBEB4(struct O *p, u32 mask, u32 a, u32 mode)
+void func_021BBEB4(struct O *p, int mask, u32 a, int mode)
 {
     int base;
     int i;
@@ -77,9 +79,9 @@ void func_021BBEB4(struct O *p, u32 mask, u32 a, u32 mode)
     func_02045374(p->f19c);
     func_0201F73C(p->f19c, 1, (u16)p->f1334, 14);
     func_0201DD68();
-    p->f1344 = func_0201A4D4(p->f1348, p->fdc, 33, a);
+    p->f1344 = (void **)func_0201A4D4((u8 *)p->f1348, (u32)p->fdc, 33, a);
     if (mode == 0) {
-        t = func_0200AE3C(p->f1348, 33);
+        t = func_0200AE3C((struct Reg *)p->f1348, 33);
         func_0201C7A4(func_02045770(p->f19c), 0, 0, t, p->fe8);
         func_02045808(t);
     } else if (mode != 1) {

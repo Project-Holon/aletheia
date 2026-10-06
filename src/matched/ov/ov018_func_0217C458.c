@@ -42,10 +42,11 @@ typedef struct {
     u8 pad85[3];
 } Obj;
 
-extern B52 *func_02175B34();
+struct Obj;
+extern u8 *func_02175B34(u8 *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern Obj *func_020124E8();
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *, int, int);
 extern void func_0217F2B4();
 extern void func_02174E14(u8 *p, int a);
@@ -57,10 +58,10 @@ struct Desc *func_0217C458(void *a0, void *a1, u8 *a2, int a3)
     Obj *o;
     struct Desc *x;
 
-    src = func_02175B34(a2 + 0x1AC);
+    src = (B52 *)func_02175B34(a2 + 0x1AC);
     func_020120F4(a0);
     x = func_020122C0(a0, 0, func_0217C4D0, 0x88);
-    o = func_020124E8(x);
+    o = func_020124E8((struct Obj *)x);
     func_02082BCC(o, 0, 0x88);
     o->h0 = a3;
     o->w4 = a1;

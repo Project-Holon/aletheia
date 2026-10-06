@@ -28,7 +28,7 @@ extern int func_020477D4(struct Owner *owner, u32 index);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
-extern void func_0204B908(void *,int);
+extern void func_0204B908(int a0, int a1);
 void func_021B9C90(char *p,unsigned next)
 {
     void *object;
@@ -48,7 +48,7 @@ void func_021B9C90(char *p,unsigned next)
             func_020477A4(object,i);
             func_0204784C(object,i,&frame);
         }
-        func_0204B908(((struct Obj02938 *)p)->f224,0);
+        func_0204B908((int)(((struct Obj02938 *)p)->f224),0);
     }
     ((struct Obj02938 *)p)->f22C=next;
 }

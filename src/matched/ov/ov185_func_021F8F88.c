@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Pair;struct PrintSys;
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
-void func_021F8F88(char *p,char *q) { if(!((struct Obj06624 *)p)->f4)((struct Obj06624 *)p)->f4=func_021FD12C((int)(((struct Obj14448 *)q)->fC),(void *)(((struct Obj06624 *)p)->f2C),((struct Obj06624 *)p)->f30);func_021FD170(((struct Obj06624 *)p)->f4,((struct Obj14448 *)q)->fC,(void *)0x146); }
+void func_021F8F88(char *p, int *q) { if(!((struct Obj06624 *)p)->f4)((struct Obj06624 *)p)->f4=func_021FD12C((int)(((struct Obj14448 *)q)->fC),(void *)(((struct Obj06624 *)p)->f2C),((struct Obj06624 *)p)->f30);func_021FD170(((struct Obj06624 *)p)->f4,((struct Obj14448 *)q)->fC,(void *)0x146); }

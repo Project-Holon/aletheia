@@ -25,9 +25,9 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_020307B0(void);
+extern void sub_020307B0(void *p);
 
-void func_020240FC(void)
+void func_020240FC(void *t)
 {
-    sub_020307B0();
+    sub_020307B0(t);
 }

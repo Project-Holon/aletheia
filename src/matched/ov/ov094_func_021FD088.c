@@ -25,13 +25,14 @@ typedef struct {
     unsigned char kind;
 } Unit;
 
-extern Unit *func_02011324(int a);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 extern int func_021F8710(void);
 extern const int d_0220AD58[];
 
 int func_021FD088(int a, int *out)
 {
-    Unit *s = func_02011324(a);
+    Unit *s = func_02011324((struct ScriptVm *)a);
     int mode = func_021F8710();
     int v;
 

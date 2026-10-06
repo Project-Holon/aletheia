@@ -61,7 +61,7 @@ typedef struct {
     Sys *sys;
 } Ctx;
 
-int func_0217BB04(Ctx *ctx);
+int func_0217BB04(char *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct BigObj;
@@ -76,7 +76,7 @@ int func_0217F1EC(Ctx *ctx);
 void func_0217F360(Ctx *ctx, int a);
 void func_0217F378(void *p);
 int func_0217F380(void *ctx, int a);
-int func_0217B8E4(Ctx *ctx, int v);
+int func_0217B8E4(char *p, char v);
 void *func_02012934(const struct BigObj *p);
 struct Ctx;
 void *func_020120F4(const struct Ctx *p);
@@ -89,7 +89,7 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
     void *h;
     int r;
 
-    if (func_0217BB04(ctx) == 1)
+    if (func_0217BB04((char *)ctx) == 1)
         return 1;
 
     switch (*state) {
@@ -121,7 +121,7 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
         if (r == -2 || r == 0) {
             func_0217F210(ctx, a2, func_0217EC28(obj->f14->flag));
             obj->f2d = 0;
-            func_0217B8E4(ctx, 8);
+            func_0217B8E4((char *)ctx, 8);
             return 1;
         }
         if (r == 0x18) {
@@ -143,11 +143,11 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
             }
         }
         if (r == 0x1b) {
-            func_0217B8E4(ctx, 10);
+            func_0217B8E4((char *)ctx, 10);
             return 1;
         }
         obj->f2d = r;
-        func_0217B8E4(ctx, 8);
+        func_0217B8E4((char *)ctx, 8);
         return 1;
     case 4:
         if (func_0217F1EC(ctx) == 1)

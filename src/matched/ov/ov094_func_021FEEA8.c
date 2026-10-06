@@ -60,13 +60,13 @@ extern u32 func_02019C90(u16, u16, u32);
 extern int func_0202D034(u32, u32);
 extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 extern void func_02015FD4(char *p, int v);
-extern void func_02015D94(void *, Vec *);
+extern void func_02015D94(char *p, int *src);
 extern void func_02015D88(char *p, u16 value);
 extern void func_02015F2C(void *, u32, void *, u32);
 extern void func_022003EC(void *, void *, int *, int);
 extern void func_022018A8(void *, Vec *, int);
 extern void func_0220055C(void *, int, int);
-extern int func_02201A20(int, int, Vec *, u16 *, int *);
+extern int func_02201A20(int a, int b, int *o1, u16 *o2, int *o3);
 extern void func_022006B4(void *, int);
 extern void func_02201718(int i);
 void func_021FEEA8(char *w, void *src, int key)
@@ -103,7 +103,7 @@ void func_021FEEA8(char *w, void *src, int key)
         a = func_02017E1C(src, 0xa0, 0);
         b = func_02017E1C(src, 0xa1, 0);
         *(u16 *)(w + 0x42 + off) = func_0202D034(a, b);
-        if (func_02201A20(*(int *)(w + 0x34 + off), key, &vectors.orient, &angle, &visible) == 0) {
+        if (func_02201A20(*(int *)(w + 0x34 + off), key, (int *)(&vectors.orient), &angle, &visible) == 0) {
             vectors.orient.x = -0x400;
             vectors.orient.y = 0;
             vectors.orient.z = -0x600;
@@ -113,7 +113,7 @@ void func_021FEEA8(char *w, void *src, int key)
         if (visible == 0)
             func_02015FD4(*(void **)(w + 8 + off), 0);
         else {
-            func_02015D94(*(void **)(w + 8 + off), &vectors.orient);
+            func_02015D94(*(void **)(w + 8 + off), (int *)(&vectors.orient));
             func_02015D88(*(void **)(w + 8 + off), angle);
         }
         ((Flags *)(w + 0x54 + off))->b34 = 3;

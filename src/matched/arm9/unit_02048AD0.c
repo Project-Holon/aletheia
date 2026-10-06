@@ -74,13 +74,13 @@ struct Light {
     VecFx32 unk38;
 };
 
-extern void func_02046858(struct Light *l);
-extern void func_02046B40(VecFx32 *v);
+extern void func_02046858(const u32 *src);
+extern void func_02046B40(u8 *a0);
 
 void func_02048AD0(struct Light *l)
 {
-    func_02046858(l);
-    func_02046B40(&l->unk20);
+    func_02046858((const u32 *)l);
+    func_02046B40((u8 *)(&l->unk20));
 }
 
 void func_02048AE8(struct Light *l, VecFx32 *out)
@@ -128,7 +128,7 @@ void func_02048B6C(struct Light *l, const u32 *in)
     l->unk18 = *in;
 }
 
-u32 func_02048B78(struct Light *l)
+int func_02048B78(struct Light *l)
 {
     return l->unk00;
 }

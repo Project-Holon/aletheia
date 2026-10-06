@@ -30,7 +30,7 @@ typedef struct {
 extern const u8 data_021EFF14[];
 extern s32 data_021F3B44[];
 extern u16 func_021CCB18(void *r);
-extern u8 func_021CCAD4(void *r);
+extern u8 func_021CCAD4(u8 *p);
 extern void func_021CCC0C(void *w, u32 id, int cmd, s32 *a);
 
 void func_021CD568(Buf *w, u32 x, u32 id, ...)
@@ -48,7 +48,7 @@ void func_021CD568(Buf *w, u32 x, u32 id, ...)
     pos = w->rpos;
     w->rpos = x;
     func_021CCB18(w);
-    func_021CCAD4(w);
+    func_021CCAD4((u8 *)w);
     w->rpos = pos;
     if (id != 0x5f) {
         pos = w->wpos;

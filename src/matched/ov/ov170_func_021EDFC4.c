@@ -18,7 +18,7 @@
 #include "../include/Obj24025.h"
 #include "../include/Obj24026.h"
 extern const short d_021EFCD8[];
-extern void func_021EC08C(char *, int, short, short, short);
+extern void func_021EC08C(char *p, int i, unsigned short a, int b, unsigned short c);
 extern void func_021EC000(char *, int, int);
 typedef signed short   s16;
 typedef unsigned int   u32;

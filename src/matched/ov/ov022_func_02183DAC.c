@@ -22,7 +22,7 @@ struct Link;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *);
-extern int func_02174010(u32, void *);
+extern u32 func_02174010(u32 a, void *p);
 void func_02183DAC(u8 *p)
 {
     u32 i;

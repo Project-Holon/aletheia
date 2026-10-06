@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 *func_021E9100(u8 *p, int n);
-extern void func_021ED268(char *p, u8 k, u32 a);
+extern void func_021ED268(u8 *p, u8 k, u32 x);
 extern int func_021ED280(char *p);
-extern void func_021EA32C(char *p, int k);
+extern void func_021EA32C(u8 *p, int k);
 
 int func_021EA230(int *st, char *ctx)
 {
@@ -34,8 +34,8 @@ int func_021EA230(int *st, char *ctx)
     t = func_021E9100((u8 *)ctx, 0xc);
     switch (*st) {
     case 0:
-        func_021ED268(*(char * *)&((struct Obj13556 *)ctx)->f17C, t[0xa], ((struct Obj10111 *)t)->f0);
-        func_021EA32C(ctx, ((struct Obj10111 *)t)->f4);
+        func_021ED268((u8 *)(*(char * *)&((struct Obj13556 *)ctx)->f17C), t[0xa], ((struct Obj10111 *)t)->f0);
+        func_021EA32C((u8 *)ctx, ((struct Obj10111 *)t)->f4);
         *st = *st + 1;
         break;
     case 1:

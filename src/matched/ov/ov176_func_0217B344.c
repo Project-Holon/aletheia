@@ -17,5 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021E8A78(void *);
-extern void func_02045C04(void *),func_020307B0(void *);
-void func_0217B344(u8 *p) {func_021E8A78(((struct Obj14356 *)p)->f0);func_02045C04(((struct Obj14356 *)p)->fC);func_020307B0(p);}
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
+extern void func_020307B0(void *);
+void func_0217B344(int *p) {func_021E8A78(((struct Obj14356 *)p)->f0);func_02045C04(((struct Obj14356 *)p)->fC);func_020307B0(p);}

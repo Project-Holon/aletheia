@@ -77,12 +77,15 @@ typedef struct {
 
 extern E d_021F4490[];
 
-extern void *func_020124E4(void *a);
-extern void *func_0201210C(void *a);
+struct Ctx;
+struct Obj;
+struct Rec;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 struct Big;
 struct Ctx;
 extern int func_02188D2C(int *p);
-extern int *func_021897BC(void *a, int b);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188C58(void *p);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -92,33 +95,33 @@ extern void *func_02188C7C(unsigned char *p);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *v);
-extern int func_0216DD1C(void *m, u32 *cur, int *it);
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0216D83C(void *p);
 extern int func_0216D86C(void *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern Vec *func_0216D888(u32 o);
-extern void func_0216D85C(u32 o, s16 v);
+extern void func_0216D85C(void *p, int v);
 extern void func_0216D89C(u32 o, Vec *v);
 extern int func_021F3EEC(u8 i, int x, int y);
-extern void func_021F41B8(u8 a0, int a1, int a2, u32 a3, void *s);
-extern int func_021F4210(void *s);
+extern void func_021F41B8(int a0, int a1, int a2, int a3, u8 *s);
+extern int func_021F4210(u8 *s);
 extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
 extern void func_0218F05C(unsigned char *a);
-extern void func_020061E4(int id);
+extern void func_020061E4(u32 a);
 extern int func_021F3ECC(int *p);
-extern int *func_021BE480(void *p, int i, u16 j);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void func_021BE6B0(void *p, int v);
-extern int func_021BE6BC(void *p);
+extern int func_021BE480(char *p, unsigned i, int j);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE6B0(unsigned char *p, int v);
+extern int func_021BE6BC(int *p);
 extern int func_021F3FBC(int *a, int i);
 extern u32 func_02188C98(u8 *p);
 extern void *func_0218CEE0(void *p);
 extern void func_021C06C0(u8 i, int v, int *p);
 extern void func_021F3F38(int *a, void *b, int c);
-extern u32 func_02188C64(void *a);
+extern u32 func_02188C64(u8 *p);
 extern int func_021A0244(u32 a);
 extern void func_021F3FE8(void *a);
 
@@ -161,7 +164,7 @@ int func_021F3AC0(void *a, int *b)
             w[17 + i] = 0;
         }
         func_021A3038(func_02188CB4((void *)s), (struct VecFx32 *)&pos);
-        while (func_0216DD1C(m, &cur, &it) == 1) {
+        while (func_0216DD1C(m, (struct Rec **)(&cur), (u32 *)(&it)) == 1) {
             x = func_0216D83C((void *)cur);
             y = func_0216D86C((void *)cur);
             if (func_021F3EEC(w[0], x, y)) {
@@ -171,11 +174,11 @@ int func_021F3AC0(void *a, int *b)
                 }
             }
         }
-        func_021F41B8(w[0], w[3], 1, h, w + 8);
+        func_021F41B8((u8)w[0], w[3], 1, (u32)h, (u8 *)(w + 8));
         (*b)++;
         break;
     case 1:
-        if (func_021F4210(w + 8)) {
+        if (func_021F4210((u8 *)(w + 8))) {
             (*b)++;
         }
         break;
@@ -187,7 +190,7 @@ int func_021F3AC0(void *a, int *b)
         if (func_0218F0E8((u8 *)h) != 0) {
             break;
         }
-        func_020061E4(0x6ca);
+        func_020061E4((int)0x6ca);
         (*b)++;
     case 4:
         if (w[6] == 0) {
@@ -195,35 +198,35 @@ int func_021F3AC0(void *a, int *b)
         }
         if (func_021F3ECC(w)) {
             w[1] = w[2];
-            func_021F41B8(w[0], w[3], 0, h, w + 8);
-            func_020061E4(0x6cb);
+            func_021F41B8((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
+            func_020061E4((int)0x6cb);
             (*b)++;
         }
-        func_021BE480(r, 0, w[0])[1] = w[1];
+        ((int *)func_021BE480(r, (int)0, (u16)w[0]))[1] = w[1];
         for (i = 0; i < 5; i++) {
             o = w[17 + i];
             if (o != 0) {
                 vec2 = *func_0216D888(o);
                 vec2.y = w[1];
-                func_0216D85C(o, (vec2.y >> 4) / 4096);
+                func_0216D85C((void *)o, (s16)((vec2.y >> 4) / 4096));
                 func_0216D89C(o, &vec2);
             }
         }
         break;
     case 5:
-        if (func_021F4210(w + 8)) {
+        if (func_021F4210((u8 *)(w + 8))) {
             (*b)++;
         }
         break;
     case 6:
         func_0218F05C((unsigned char *)h);
         k = w[0];
-        func_021BE6B0(func_021BE674(r, 0, k, func_021F3FBC(q, k)), 0);
+        func_021BE6B0(func_021BE674(r, 0, (u16)k, (u16)func_021F3FBC(q, k)), 0);
         (*b)++;
         break;
     case 7:
         k = w[0];
-        e = func_021BE674(r, 0, k, func_021F3FBC(q, k));
+        e = func_021BE674(r, 0, (u16)k, (u16)func_021F3FBC(q, k));
         f = 0;
         if (func_021BE6BC(e) == 0) {
             break;

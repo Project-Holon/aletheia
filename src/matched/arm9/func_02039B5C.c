@@ -67,7 +67,7 @@ extern struct Votes *g_021469D4;
 typedef signed int     s32;
 extern int func_020395EC(struct Entry *a);
 extern struct Entry *sub_0203996C(s32 idx);
-extern u32 func_020399B8(struct Entry *e);
+extern u32 func_020399B8(u8 *p);
 extern u32 func_02039160(u16 mode);
 
 void func_02039B5C(u32 slot, u32 a1, struct Msg *msg, u32 a3, u32 link)
@@ -91,7 +91,7 @@ void func_02039B5C(u32 slot, u32 a1, struct Msg *msg, u32 a3, u32 link)
     one = 1;
 
     for (; i < 8; i++) {
-        if (func_020399B8(sub_0203996C(i)) != 0) {
+        if (func_020399B8((u8 *)sub_0203996C(i)) != 0) {
             if (mask == g_021469D4->mask[i]) {
                 if (tag != g_021469D4->tag[i]) {
                     return;

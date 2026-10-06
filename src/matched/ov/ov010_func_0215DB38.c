@@ -93,30 +93,32 @@ extern u16 *func_02159AE8(void *c, void *vm);
 extern void func_02156BAC(void *p);
 extern u32 func_02156BCC(void *p);
 extern void func_0215DDC8(void *evt, void *h);
-extern void func_0215DE0C(Link *l, void *h);
-extern void func_0215DE38(Link *l, void *proc, void *a, u16 arg);
-extern void func_0215DE44(Link *l);
+struct Ctx;
+extern void func_0215DE0C(void *w, void *h);
+extern void func_0215DE38(int a, void *b, void *c, int d);
+extern void func_0215DE44(int a0);
 extern void func_0215897C(void *evt, void *task);
-extern int func_0215DF78();
-extern int func_0215DFB4();
-extern int func_0215E010();
-extern int func_0215E068();
-extern int func_0215E0B0();
-extern int func_0215E0EC();
-extern int func_0215E130();
-extern int func_0215E184();
-extern void *func_0201210C(void *proc);
-extern void func_02012124(void *proc, u32 v);
-extern void *func_02012138(void *proc);
-extern void *func_02012944(void *h);
-extern Link *func_02012F80(void *h);
-extern void func_020113D0(void *c, int (*fn)());
-extern void *func_02014808(void *proc, void *sys, u32 a, void *data, void *out, int (*fn)(), void *arg);
-extern int func_0200FB24(void);
-extern Wait *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void func_0215DF78(int a0, int a1, int a2);
+extern int func_0215DFB4(int a0, int a1);
+extern int func_0215E010(void *a, void *b);
+extern int func_0215E068(int a0, int a1);
+extern int func_0215E0B0(int a0, int a1);
+extern int func_0215E0EC(int a0, int a1);
+extern int func_0215E130(void *a, void *b);
+extern int func_0215E184(int a0, int a1);
+extern void *func_0201210C(const struct Ctx *p);
+struct Ctx;
+extern void func_02012124(struct Ctx *p, u32 v);
+extern u32 func_02012138(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern int func_02012F80(char *base);
+extern void func_020113D0(char *p, int val);
+extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern u32 func_0200FB24(void);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_021CD48C(void *a, void *sys, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_021FCDEC(void *sess, u8 v);
-extern u32 func_021FDA6C(void *h);
+extern void func_021FCDEC(int a, int b);
+extern unsigned char *func_021FDA6C(void *h);
 
 int func_0215DB38(void *c, void *vm)
 {
@@ -141,7 +143,7 @@ int func_0215DB38(void *c, void *vm)
     busy = 0;
     l = 0;
     if (cmd != 0 && cmd != 0x15) {
-        l = func_02012F80(h);
+        l = (Link *)func_02012F80(h);
         if (l->f00 != 0) {
             func_02156BAC(l->f00);
             if (func_02156BCC(l->f00) == 1)
@@ -156,52 +158,52 @@ int func_0215DB38(void *c, void *vm)
         func_0215DE0C(l, h);
         break;
     case 10:
-        func_0215DE38(l, proc, func_02012138(proc), arg);
+        func_0215DE38((int)l, proc, (void *)func_02012138(proc), arg);
         break;
     case 11:
-        func_0215DE44(l);
-        func_020113D0(c, func_0215E130);
+        func_0215DE44((int)l);
+        func_020113D0(c, (int)func_0215E130);
         return 1;
     case 12:
         l->f30 = dst;
         l->f08 = func_021CD48C(func_02012944(h), sys, 2, 4, 4, 0, 1, 0);
-        func_020113D0(c, func_0215DFB4);
+        func_020113D0(c, (int)func_0215DFB4);
         return 1;
     case 13:
         l->f30 = dst;
         l->f08 = func_021CD48C(func_02012944(h), sys, 2, 4, 4, 1, 1, 0);
-        func_020113D0(c, func_0215E010);
+        func_020113D0(c, (int)func_0215E010);
         return 1;
     case 14:
         if (l->sess == 0 || busy != 0)
             break;
         l->f34 = arg;
-        func_021FCDEC(l->sess, l->f34);
-        func_020113D0(c, func_0215E068);
+        func_021FCDEC((int)l->sess, (u8)l->f34);
+        func_020113D0(c, (int)func_0215E068);
         return 1;
     case 15:
         if (l->sess == 0 || busy != 0)
             break;
-        func_020113D0(c, func_0215E0B0);
+        func_020113D0(c, (int)func_0215E0B0);
         return 1;
     case 16:
-        func_020113D0(c, func_0215E0EC);
+        func_020113D0(c, (int)func_0215E0EC);
         return 1;
     case 17:
         if (l->sess == 0 || busy != 0)
             break;
-        func_020113D0(c, func_0215E184);
+        func_020113D0(c, (int)func_0215E184);
         return 1;
     case 18: {
-        Wait *w = func_02030734(0x8004, 8, 1, d_02172914, 0x3C8);
+        Wait *w = func_02030734(0x8004, 8, (u32)1, d_02172914, (u32)0x3C8);
 
         w->vm = vm;
         w->link = l;
         l->f30 = dst;
         l->f0c = h;
-        l->f2c = func_021FDA6C(h);
+        l->f2c = (u32)func_021FDA6C(h);
         l->f28 = arg == 0 ? 9 : 10;
-        func_0215897C(evt, func_02014808(proc, sys, (u32)ov100_id, d_021BB6A4, &l->f0c, func_0215DF78, w));
+        func_0215897C(evt, func_02014808(proc, (int)sys, (u32)ov100_id, (int)d_021BB6A4, (int)(&l->f0c), (int)func_0215DF78, (int)w));
         return 1;
     }
     case 19:

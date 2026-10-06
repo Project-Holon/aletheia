@@ -29,7 +29,7 @@ extern void func_021D6E84(u8 *);
 extern void func_021D6EF4(u8 *, int);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_02049EF4(void *, u32, u32, void **, u16);
-extern void func_02049BDC(void *, u32, u32, u32, u32, u32, u16);
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_02049238(void *);
 void func_021D6BB0(u8 *p, int n)
 {

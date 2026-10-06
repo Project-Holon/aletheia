@@ -42,10 +42,10 @@ inline static int Find(const u16 *pv, const E *tbl)
   return i;
 }
 
-extern void func_02169998(void *p);
-extern void func_02169550(void *p);
-extern void func_02169568(void *p);
-extern void func_02169880(void *p);
+extern int func_02169998(int a0, int a1);
+extern void func_02169550(char *p);
+extern void func_02169568(char *p);
+extern void func_02169880(u8 *p);
 struct ArcFile;
 extern void func_0204944C(struct ArcFile *h, u32 b, u32 c, u32 d, void *out);
 void func_02169470(u8 *p, u32 b)
@@ -54,9 +54,9 @@ void func_02169470(u8 *p, u32 b)
   const E *tbl;
   int i;
   E *tmp;
-  func_02169998(*((void **) (p + 0x2c)));
-  func_02169550(p);
-  func_02169568(p);
+  func_02169998((int)(*((void **) (p + 0x2c))), b);
+  func_02169550((char *)p);
+  func_02169568((char *)p);
   func_02169880(p);
   *((u32 *) (p + 0x14)) = b;
   func_0204944C((struct ArcFile *)*((u32 *) (p + 0x10)), b, 0, 2, &v);

@@ -18,11 +18,11 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern void func_021C4564(u8 *p, u32 a, u32 b, u32 heap);
 extern void func_021C45AC(u8 *p, u32 heap);
-extern void func_021C435C(u8 *, int, int, int, int, int);
+extern void func_021C435C(char *p, int i, int a, int b, int c, int mode);
 void func_021C4044(u8 *p,int a,int b,int c,int d)
 {
     int i;
     func_021C4564(p,a,c,d);
     func_021C45AC(p,d);
-    for(i=0;i<16;i++)func_021C435C(p,i,a,b,d,1);
+    for(i=0;i<16;i++)func_021C435C((char *)p,i,a,b,d,1);
 }

@@ -15,5 +15,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021FF028(char *); extern void func_021FF074(char *);
-void func_021FEE9C(char *p) { int i; for(i=0;i<12;i++) if(func_021FF028((char *)((u32)p+i*0x4c))) func_021FF074((char *)((u32)p+i*0x4c)); }
+extern int func_021FF028(u32 *p); extern void func_021FF074(char *);
+void func_021FEE9C(char *p) { int i; for(i=0;i<12;i++) if(func_021FF028((u32 *)((u32)p+i*0x4c))) func_021FF074((char *)((u32)p+i*0x4c)); }

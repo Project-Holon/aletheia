@@ -23,8 +23,8 @@
 #include "../include/Obj06158.h"
 
 extern void *func_021F3D6C(int a);
-extern int func_021F3C98(char *a, char *b);
-extern int func_021F3C84(char *a, char *b, int c);
+extern int func_021F3C98(int *a, int *b);
+extern int func_021F3C84(int *a, int *b, int c);
 extern int func_021F39F8(int a, int *s, int *t);
 extern int func_021F3AB4(int a, int *s, int *t);
 extern int func_02188C80(int a);
@@ -56,9 +56,9 @@ int func_021F3958(int a, int id, int arg)
     if (i >= 12)
         i = 0;
     r7 = r5 + 12 + i * 8;
-    if (func_021F3C98(r5, r7) == 1)
+    if (func_021F3C98((int *)r5, (int *)r7) == 1)
         return 0;
-    sp3 = func_021F3C84(r5, r7, arg);
+    sp3 = func_021F3C84((int *)r5, (int *)r7, arg);
     if (sp3 == 0)
         sp1 = (int)func_020122C0((void *)sp8, 0, func_021F3AB4, 0x10);
     else

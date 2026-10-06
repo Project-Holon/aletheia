@@ -31,13 +31,14 @@ extern void *func_0216D67C(void *a);
 extern int func_0216D948(int a0);
 extern int func_0216DAA0(void *a);
 extern void func_0216D76C(void *a);
-extern void func_0216D594(void *a, u16 v);
+typedef unsigned int   u32;
+extern void func_0216D594(void *p, u32 v);
 extern void func_0216E39C(int a0, int a1, int a2);
 extern void func_0216DA94(void *a);
 extern void func_0216E190(void *a);
 extern void func_0216E114(void *a);
 
-void func_0216E204(char *a, u16 v)
+void func_0216E204(char *a, u32 v)
 {
     void *ctx;
     char *p;

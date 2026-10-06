@@ -19,10 +19,10 @@ struct MsgBank;
 struct WordSet;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02190758(void *, u16, u16, void *);
+extern int func_02190758(u32 a, u32 b, u32 c, u32 d);
 void func_0217F470(void **p, void *bank, void *handle, unsigned int index, int a, int b)
 {
     func_02045CAC(bank, index, p[2]);
     func_0201F250(p[0], p[1], p[2]);
-    func_02190758(handle, a, b, p[1]);
+    func_02190758((u32)handle, (u16)a, (u16)b, (u32)p[1]);
 }

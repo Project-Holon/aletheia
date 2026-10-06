@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021ED55C(char *, int);
+extern void func_021ED55C(char **p, int flag);
 struct PalAnmSlot;
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020056BC(void);
@@ -40,7 +40,7 @@ int func_021E8E24(char *p)
 {
     switch (S) {
     case 0:
-        func_021ED55C(p, 0);
+        func_021ED55C((char **)p, 0);
         func_020216D4(*(void **)(W + 0x6c), 0, 0, 0x200);
         func_0202173C(*(void **)(W + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
         ((struct Obj00000 *)p)->f28 = 0x66;
@@ -58,7 +58,7 @@ int func_021E8E24(char *p)
         S++;
         return 3;
     case 3:
-        func_021ED55C(p, 1);
+        func_021ED55C((char **)p, 1);
         S = 0;
         return 0x65;
     }

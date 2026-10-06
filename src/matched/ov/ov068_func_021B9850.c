@@ -33,7 +33,8 @@ typedef unsigned int u32;
 
 extern void func_02082BCC(void *p, u32 a, u32 b);
 extern void func_0204335C(u32 keep);
-extern void func_020433E0(void *p);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 v);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -41,7 +42,7 @@ extern void func_02043588(void);
 extern void func_0201DD60(void);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_021B9980(void *p, u32 a);
-extern void func_021B9E28(void *p, void *q, u32 a);
+extern void func_021B9E28(int *p, void *res, u32 heap);
 extern void func_021B996C(void *task, char *p);
 extern u32 func_020056A0(void (*fn)(void), void *arg, u32 z);
 extern int d_021BB598[];
@@ -54,7 +55,7 @@ void func_021B9850(u8 *p, u32 a)
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     func_0204335C(0);
-    func_020433E0(d_021BB598);
+    func_020433E0((const struct DispVram *)d_021BB598);
     func_0204363C(0);
     func_0204361C();
     func_020434CC();
@@ -62,6 +63,6 @@ void func_021B9850(u8 *p, u32 a)
     func_0201DD60();
     func_0201DD78(0xf, 0xe, 0);
     func_021B9980(p, a);
-    func_021B9E28(p + 0x7c, d_021BB598, a);
+    func_021B9E28((int *)(p + 0x7c), d_021BB598, a);
     ((struct Obj20634 *)p)->fD0 = func_020056A0((void (*)(void))func_021B996C, p, 0);
 }

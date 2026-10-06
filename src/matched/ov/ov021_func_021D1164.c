@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021D11F4(u32 *p, u32 b);
-extern void func_021D1264(void *p);
+extern void func_021D1264(u8 *p);
 extern char d_021DE684[];
 
 void *func_021D1164(u32 heap, u32 v)
@@ -31,6 +31,6 @@ void *func_021D1164(u32 heap, u32 v)
 
     p[0] = v;
     func_021D11F4(p, heap);
-    func_021D1264(p);
+    func_021D1264((u8 *)p);
     return p;
 }

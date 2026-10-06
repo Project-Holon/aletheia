@@ -29,7 +29,7 @@ extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap)
 extern void func_0203D7BC(int);
 extern void func_0203D7B0(int);
 extern void func_0203A5E4(unsigned);
-extern void *func_021DEB10(void *);
+extern void *func_021DEB10(char *p);
 extern void func_02184174(u8 *p);
 int func_021DF6FC(u8 *p)
 {
@@ -40,7 +40,7 @@ int func_021DF6FC(u8 *p)
             ((struct Obj03305 *)p)->fDA8 = func_0202EE30(((struct Obj03305 *)p)->fD98, ((struct Obj03305 *)p)->fCF0, 15, 16, 114);
             func_0203D7BC(0);
             func_0203A5E4(10240);
-            func_02184174(func_021DEB10(p));
+            func_02184174(func_021DEB10((char *)p));
             ((struct Obj03305 *)p)->f0 = 49;
         }
     } else {

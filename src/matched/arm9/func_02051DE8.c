@@ -17,12 +17,12 @@
  */
 #include "../include/Obj04767.h"
 
-extern void func_02051E64(void *p, int a, int b);
+extern void func_02051E64(void *p, int a);
 
 int func_02051DE8(void *p, int a, int b)
 {
     if (((struct Obj04767 *)p)->f1 == 0 || b == 0)
         return -1;
-    func_02051E64(p, 1, b);
+    func_02051E64(p, 1);
     return 0;
 }

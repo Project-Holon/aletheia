@@ -28,7 +28,7 @@ extern void *func_021BEF58(int p);
 extern int func_021BEC10(int, int);
 extern int func_021BE9F8(u8 *, int, int);
 
-void func_021BE9C8(int a, int b, int c)
+int func_021BE9C8(int a, int b, int c)
 {
-    func_021BE9F8((u8 *)func_021BEC10((int)func_021BEF58((int)func_021BEF08()), a), b, c);
+    return func_021BE9F8((u8 *)func_021BEC10((int)func_021BEF58((int)func_021BEF08()), a), b, c);
 }

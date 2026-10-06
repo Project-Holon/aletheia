@@ -27,7 +27,9 @@ typedef struct
 
 extern int   g_02153FB4;
 extern Ent   g_02153FB8[];
-extern int   func_0209D850(int a, int b, Ent *p);
+typedef unsigned int   u32;
+struct Node;
+extern void func_0209D850(u32 a, u32 b, struct Node *node);
 
 int func_0209D728(int a)
 {
@@ -36,6 +38,6 @@ int func_0209D728(int a)
     if (g_02153FB4 == 0x40)
         return -1;
 
-    func_0209D850(r, a, &g_02153FB8[g_02153FB4++]);
+    func_0209D850(r, a, (struct Node *)(&g_02153FB8[g_02153FB4++]));
     return r;
 }

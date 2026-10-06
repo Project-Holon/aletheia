@@ -52,12 +52,12 @@ extern u16 func_02188C9C(u8 *p);
 extern void func_021F388C(int *o, int a);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE580(int a);
-extern int func_021BE6BC(u8 *p);
+extern int func_021BE6BC(int *p);
 extern void func_021BE4B4(char *p, int i, int j, int v);
 extern int func_021F3868(void *unused, void *x);
 extern u16 func_021A3050(u8 *p);
-extern void func_021A3364(void *g, int b, V3 *out);
-extern int func_02162478(int h, V3 *v);
+extern void func_021A3364(u32 *a, int b, int *out);
+extern int func_02162478(char *p, int *v);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern void func_021BE6B0(u8 *p, int v);
 
@@ -82,17 +82,17 @@ void func_021F376C(u8 *a)
     }
     e = func_021BE674((char *)s, 0, 0, 0);
     func_021BE580(s);
-    if (o[0] != 0 && func_021BE6BC(e) != 0) {
+    if (o[0] != 0 && func_021BE6BC((int *)e) != 0) {
         func_021BE4B4((char *)s, 0, 0, 1);
         o[0] = 0;
     }
     if (func_021F3868(o, g) == 0) {
         return;
     }
-    func_021A3364(g, func_021A3050(g), &v);
+    func_021A3364(g, func_021A3050(g), (int *)(&v));
     v.a -= 0x8000;
     v.c -= 0x8000;
-    if (func_02162478(h, &v) == 0) {
+    if (func_02162478((char *)h, (int *)(&v)) == 0) {
         return;
     }
     o[0] = 1;

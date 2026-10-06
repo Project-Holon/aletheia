@@ -22,7 +22,7 @@ extern void func_021DA36C(u32);
 extern void func_021D97D0(char *);
 extern void func_021D6C54(u32 sys, int *state, u32 *p);
 extern void func_021D8904(u32 sys, int *state, char *p);
-extern void func_021D8BC4(void);
+extern void func_021D8BC4(int *a, int *state, char *ctx);
 void func_021D6BF4(u32 sys,void *unused,char *p)
 {
     switch (((u32 *)((struct Obj14328 *)p)->f104)[3]) {

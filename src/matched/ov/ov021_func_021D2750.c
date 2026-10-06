@@ -95,18 +95,19 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012844(const struct BigObj *p);
-extern Rec *func_02162740(u32 a);
+struct Rec;
+extern u32 func_02162740(u8 *p);
 extern u16 func_02162744(u8 *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_02188CB4(unsigned char *p);
 extern u16 func_02188C9C(u8 *p);
-extern int func_02013C60(u16 id);
+extern u32 func_02013C60(u32 id);
 extern int func_021A3098(void *a);
 struct Record;
-extern void func_0216E2E8(const char *a, u16 b, struct Record *c);
-extern void func_021A35FC(void *o, s16 *z, s16 *y, s16 *x);
+extern void func_0216E2E8(const char *ctx, u32 id, struct Record *out);
+extern void func_021A35FC(unsigned char **p, u16 *a, u16 *b, u16 *c);
 extern u32 func_02188CFC(u8 *p);
 extern void func_021A36BC(void *o, Loc *l);
 extern void *func_021A3074(unsigned char *p);
@@ -114,7 +115,7 @@ extern u32 func_0201296C(const struct BigObj *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void *func_02162890(u32 c, u32 a, V3 *v);
+extern struct Rec *func_02162890(struct Ctx *c, void *a, int key);
 extern int *func_021867C4(int a, int id);
 extern void *func_02186830(struct ArcFile **p, int b, unsigned int heap);
 extern u8 *func_02186844(u8 *t, int i);
@@ -145,13 +146,13 @@ int func_021D2750(u32 a)
 
     h = (u32)func_020120F4((const struct Ctx *)a);
     f = func_02012844((const struct BigObj *)h);
-    list = func_02162740(f);
+    list = (Rec *)func_02162740((u8 *)f);
     n = func_02162744((u8 *)f);
     y = func_0201210C((void *)a);
     x = func_02188C7C((void *)y);
     o = func_02188CB4((void *)y);
     id = func_02188C9C(y);
-    if (func_02013C60(id) == 0) {
+    if ((int)func_02013C60((u16)id) == 0) {
         return 0;
     }
     if ((u32)(func_021A3098(o) - 2) <= 1) {
@@ -165,7 +166,7 @@ int func_021D2750(u32 a)
         if (e->kind == 0) {
             q = &e->sub;
             func_0216E2E8(x, e->f2, (struct Record *)&info);
-            func_021A35FC(o, &pos.z, &pos.y, &pos.x);
+            func_021A35FC(o, (u16 *)(&pos.z), (u16 *)(&pos.y), (u16 *)(&pos.x));
             if (e->sub.a <= pos.z && pos.z < e->sub.a + info.w) {
                 if (q->b - info.h < pos.x && pos.x <= q->b) {
                     return 0;
@@ -185,14 +186,14 @@ int func_021D2750(u32 a)
         r4 = func_021A3074((void *)o);
         r5 = func_0201296C((const struct BigObj *)h);
         func_0216D88C(r4, (struct VecFx32 *)&v);
-        if (func_02162890(f, r5, &v)) {
+        if (func_02162890((struct Ctx *)f, (void *)r5, (int)(&v))) {
             return 0;
         }
     }
     if (id == 0 || id == 0x1A8) {
         int j;
         u8 *t;
-        func_021A35FC(o, &pos.z, &pos.y, &pos.x);
+        func_021A35FC(o, (u16 *)(&pos.z), (u16 *)(&pos.y), (u16 *)(&pos.x));
         hdl = (int)func_021867C4(0, 0x8015);
         t = func_02186830((struct ArcFile **)hdl, id != 0, 0x8015);
         for (j = 0; j < 10; j++) {

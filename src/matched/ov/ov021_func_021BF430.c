@@ -18,7 +18,7 @@
  *   func_020221A4 0x020221A4 thumb
  */
 
-extern void func_021BF564(int);
+extern void func_021BF564(void);
 extern void func_021BF584(int);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -36,7 +36,7 @@ int func_021BF430(int a, int *s, int *q)
 
     switch (k) {
     case 0:
-        func_021BF564(v);
+        func_021BF564();
         func_021BF584(q[1]);
         func_0204E720(q[3], 16, 0, -1);
         s[0] = s[0] + 1;

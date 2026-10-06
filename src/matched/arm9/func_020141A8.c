@@ -47,7 +47,7 @@ struct t {
 extern u32 func_02014274(u32 a);
 extern u8 func_0201441C(int i);
 
-void func_020141A8(struct t *p, u16 b, u16 d, u16 g, u16 i, s16 h)
+void func_020141A8(struct t *p, int b, u16 d, u16 g, u16 i, s16 h)
 {
     p->a = 1;
     p->b = b;

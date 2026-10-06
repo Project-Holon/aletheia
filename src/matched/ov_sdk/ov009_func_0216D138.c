@@ -34,7 +34,7 @@ extern void func_0216F5FC(int a0);
 extern int func_02175F3C(void);
 extern void func_02175560(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 extern void func_02175F4C(int a0);
-extern void func_0216F20C(int a0);
+extern int func_0216F20C(int status);
 extern int  func_02173D28(void);
 extern void func_02175F84(int a0);
 extern int  func_0216CD8C(int a0);

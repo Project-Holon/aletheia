@@ -16,11 +16,11 @@
 #include "../include/Obj21004.h"
 typedef unsigned char u8;
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
-extern int func_021B6818(int *);
+extern unsigned int func_021B6818(unsigned int *p);
 BOOL func_021BA1EC(char **p)
 {
     BOOL result = FALSE;
-    if (func_021B6818((int *)*p) == 1) {
+    if (func_021B6818((unsigned int *)((int *)*p)) == 1) {
         if (((struct Obj21004 *)(*p))->f7F) result = TRUE;
     }
     return result;

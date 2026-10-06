@@ -33,15 +33,17 @@
  *   func_0206434C  0x0206434C  arm
  */
 #include "../include/Obj11539.h"
-extern void func_02064140(char *p, int v);
-extern void func_02062F38(char *self);
+typedef unsigned int   u32;
+struct O02064140;
+extern void func_02064140(struct O02064140 *o, u32 a);
+extern int func_02062F38(int a0);
 extern void func_0206434C(char *self, int v);
 
 void func_0206428C(char *self, int a1, char *c)
 {
     *(char * *)&((struct Obj11539 *)self)->f34 = c;
     ((struct Obj11539 *)self)->f38 = -1;
-    func_02064140(self + 0x3c, 1);
-    func_02062F38(self);
+    func_02064140((struct O02064140 *)(self + 0x3c), 1);
+    func_02062F38((int)self);
     func_0206434C(self, a1);
 }

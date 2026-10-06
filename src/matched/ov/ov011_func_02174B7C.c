@@ -17,7 +17,7 @@
 
 typedef unsigned int   u32;
 u32 func_0203D378(void);
-int func_0203D1C0(unsigned char a);
+u32 func_0203D1C0(u32 index);
 void func_021738E4(void *p, int i);
 
 void func_02174B7C(unsigned char *p)
@@ -26,7 +26,7 @@ void func_02174B7C(unsigned char *p)
 
     if (func_0203D378() != 0) {
         for (i = 0; i < p[0x902]; i++) {
-            if (func_0203D1C0(i) == 0 && (p[0x8FB] & (1 << i))) {
+            if ((int)func_0203D1C0((unsigned char)i) == 0 && (p[0x8FB] & (1 << i))) {
                 func_021738E4(p, i);
             }
         }

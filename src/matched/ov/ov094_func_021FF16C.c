@@ -38,7 +38,7 @@ typedef struct {
 } Work;
 
 extern void sub_02015BF0(void *obj);
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern void func_022006B4(Work *w, int i);
 
 void func_021FF16C(Work *w)
@@ -49,7 +49,7 @@ void func_021FF16C(Work *w)
     sub_02015BF0(w->obj);
     w->active = 1;
     for (i = 0; i < 14; i++) {
-        idx = func_022019F4(w, i);
+        idx = func_022019F4((char *)w, i);
         if (idx != -1) {
             w->e[idx].flip = 1;
             func_022006B4(w, i);

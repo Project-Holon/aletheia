@@ -16,10 +16,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_020433E0(void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern char d_021CA5CC[];
 
-void func_021C6698(void)
+void func_021C6698(void *a0)
 {
-    func_020433E0(d_021CA5CC);
+    func_020433E0((const struct DispVram *)d_021CA5CC);
 }

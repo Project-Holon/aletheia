@@ -30,13 +30,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02163F10(u32);
-extern u32 func_0216D5E0(u32, u32, u32, u32);
+extern void func_0216D5E0(int a0, int a1);
 extern void func_0216D674(void *p, u16 v);
 extern u32 func_0216D7CC(u32);
 
 int func_0219DC34(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D5E0(a, ((b << 16) >> 16), c, d);
+func_0216D5E0(a, ((b << 16) >> 16));
 func_0216D674((void *)a, 0);
 func_02163F10(a);
 return func_0216D7CC(a);

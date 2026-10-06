@@ -111,11 +111,11 @@ extern void *func_021BE674(char *base, int i, u8 j, u8 k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021BE6BC(int *p);
 extern void *func_021BE4C4(void *p, u32 i, int delta);
-extern int func_021BE748(void *p);
+extern int func_021BE748(u32 a);
 extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
-extern int func_021F3DE4(void *p, u8 delta, u16 i);
-extern void func_021F48C0(u8 *a, int idx, int x, Vec *out);
-extern u32 func_02011428(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
+extern int func_021F3DE4(void *p, u16 delta, u16 i);
+extern void func_021F48C0(u8 *a, int idx, int x, int *out);
+extern void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void func_02011558(struct IcaAnime *p);
 extern void func_020061E4(u32 a);
 extern void func_020061F8(int i);
@@ -124,16 +124,16 @@ extern void func_02006210(void);
 extern void func_02028A7C(struct SoundSys2 *s, u32 id);
 extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
 extern void func_02028B50(u8 *p, int a0);
-extern void func_02072F34(void *o, u8 v);
+extern void func_02072F34(struct Obj *o, u8 v);
 extern unsigned int func_0203630C(void);
-extern void *func_02047790(void *h, u16 i);
-extern Res *func_02047674(void *p);
+extern int func_02047790(int *p, int i);
+extern int func_02047674(int p);
 extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
 extern int func_0207CBD0(const Vec *a);
 extern int func_02158780(void *p, int b, int c, int d, u16 e);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
-extern void func_021A3044(void *q, Vec *v);
+extern void func_021A3044(u8 *p, void *v);
 extern void func_0216DAC8(void *o, u32 v);
 extern void func_0216D5E0(void *o, u32 v);
 
@@ -177,7 +177,7 @@ int func_021F41A8(void *a0, int *a1)
     func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
     switch (*a1) {
     case 0:
-        s->anim = func_02011428(0x8015, 0x6b, d_021F4C38[s->sel], s->f1c, 0x21C0);
+        s->anim = (u32)func_02011428(0x8015, 0x6b, (u16)d_021F4C38[s->sel], (u32)s->f1c, 0x21C0);
         func_021F3E04((void *)h, j, 0, 0);
         func_021BE6B0(o, 0);
         func_020061E4(0x687);
@@ -208,7 +208,7 @@ int func_021F41A8(void *a0, int *a1)
         s->hold = -1;
         func_02028A7C((struct SoundSys2 *)w, 0x68A);
         func_020061E4(0x6DB);
-        func_02072F34(func_02006138(snd), 0);
+        func_02072F34((struct Obj *)func_02006138(snd), 0);
         func_02028B18((struct SoundSys2 *)w, 0x68A, 0x7f);
         s->active = 1;
         *a1 = *a1 + 1;
@@ -317,16 +317,16 @@ int func_021F41A8(void *a0, int *a1)
     }
     q = func_021BE4C4((void *)h, 0, j);
     k = s->sel + 1;
-    n = func_021BE748(func_021BE674((char *)h, 0, j, k));
+    n = func_021BE748((u32)func_021BE674((char *)h, 0, j, k));
     f = func_021F3DE4((void *)h, j, k);
     f2 = f + 0x1000;
     if (f2 >= n) {
         f2 = 0;
     }
-    r = func_02047674(func_02047790(q, k));
+    r = (Res *)func_02047674(func_02047790(q, (u16)k));
     vol = 0;
-    func_021F48C0(r->mdl, 0, f, &a);
-    func_021F48C0(r->mdl, 0, f2, &b);
+    func_021F48C0(r->mdl, 0, f, (int *)(&a));
+    func_021F48C0(r->mdl, 0, f2, (int *)(&b));
     func_0207CA00(&a, &b, &e);
     d = func_0207CBD0(&e);
     if (d >= 0x20000) {
@@ -338,6 +338,6 @@ int func_021F41A8(void *a0, int *a1)
     } else if (d >= 0x8000) {
         vol = 0x1e;
     }
-    func_02072F34(func_02006138(snd), vol);
+    func_02072F34((struct Obj *)func_02006138(snd), vol);
     return 0;
 }

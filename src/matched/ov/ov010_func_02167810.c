@@ -43,11 +43,11 @@ typedef struct Work {
 } Work;
 
 extern u8 d_02172A28[];
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 u16 func_02167810(Work *w, int i)
 {
     if (w == 0 || i >= 4 || w->e[i].used != 1)
-        func_02034714(d_02172A28, 0, d_02172A28);
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     return w->e[i].f12;
 }

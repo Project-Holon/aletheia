@@ -70,17 +70,21 @@ typedef struct Work {
     u32 f18;        /* 0x18 */
 } Work;
 
-extern Work *func_020124E8(void *obj);
-extern void  func_02012444(void *obj, void *a1, void *a2, void *a3);
-extern int   func_0202411C(void *t);
+struct Big;
+struct Ctx;
+struct Obj;
+struct Rec0200E714;
+extern void *func_020124E8(struct Obj *p);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern int func_0202411C(unsigned char *p);
 extern void  func_02024128(void *t, Res4 *out);
-extern u16   func_02024124(void *t);
-extern void  func_02024134(void *t, Res8 *out);
-extern void *func_020124E4(void *obj);
-extern void *func_020120F4(void *p);
-extern void *func_02012EBC(void *p);
-extern void *func_0200E6F0(void *p);
-extern void  func_0200E714(void *p, u32 a, Res8 *r);
+extern unsigned int func_02024124(unsigned short *p);
+extern void func_02024134(char *a, void *b);
+extern void *func_020124E4(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E6F0(u32 a);
+extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
 extern void  func_020240FC(void *t);
 
 extern char ov110_id[];
@@ -100,7 +104,7 @@ u32 func_02166E50(void *obj, u32 *mode)
         if (t == 0) {
             return 1;
         }
-        func_02012444(obj, ov110_id, d_021C39B8, t);
+        func_02012444(obj, (u32)ov110_id, (u32)d_021C39B8, (u32)t);
         (*mode)++;
         break;
     case 1:
@@ -117,7 +121,7 @@ u32 func_02166E50(void *obj, u32 *mode)
             } else {
                 func_02024134(t, &r8);
                 if (w->f18 != 0) {
-                    func_0200E714(func_0200E6F0(func_02012EBC(func_020120F4(func_020124E4(obj)))), w->f14, &r8);
+                    func_0200E714(func_0200E6F0((u32)func_02012EBC(func_020120F4(func_020124E4(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
                 }
                 *w->out0 = r8.a;
                 v = r8.b;

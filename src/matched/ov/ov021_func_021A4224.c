@@ -34,17 +34,17 @@ typedef struct {
 } Arg021A4224;
 
 void func_021A3AC4(u32 a, u32 b);
-void func_021A536C(Obj021A4224 *p);
-void func_021A530C(Obj021A4224 *p, int a);
-void func_021A5360(Obj021A4224 *p);
+void func_021A536C(u32 a);
+int func_021A530C(u32 a, u32 b);
+void func_021A5360(u32 a);
 
 void func_021A4224(Obj021A4224 *p, int mode, const Arg021A4224 *q)
 {
     p->mode = mode;
     func_021A3AC4(p->h, q->v);
-    func_021A536C(p);
-    func_021A530C(p, 0x20);
+    func_021A536C((u32)p);
+    func_021A530C((u32)p, 0x20);
     if (mode == 2)
-        func_021A5360(p);
+        func_021A5360((u32)p);
     p->x1c = 0;
 }

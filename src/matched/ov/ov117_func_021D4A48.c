@@ -40,7 +40,7 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02006984(u32, u32, u32, u32, u32, u32, u32, u32);
 extern void func_02015C30(void *p, u32 *out);
 extern void func_021DFD24(u32 *p);
-extern u32 func_021DFBB4(u32, u32, void *, const void *, u16);
+extern void *func_021DFBB4(void *a0, void *a1, void *a2, void *a3, u16 heapId);
 extern const Quad d_021D5200;
 extern const u8 d_021D52F8[];
 extern const u8 d_021D53D0[];
@@ -60,9 +60,9 @@ void func_021D4A48(u8 *p, int idx)
         func_02015C30((void *)(((u32 *)(p + 0x844))[idx]), buf);
         func_021DFD24((u32 *)(*(u32 *)&((struct Obj00342 *)p)->f868));
         if (((struct Obj00342 *)p)->f11F0 != 0) {
-            *(u32 *)&((struct Obj00342 *)p)->f868 = func_021DFBB4(((u32 *)(p + 0x844))[idx], 0x14, buf, d_021D5600, ((struct Obj00342 *)p)->f5F4);
+            *(u32 *)&((struct Obj00342 *)p)->f868 = (u32)func_021DFBB4((void *)(((u32 *)(p + 0x844))[idx]), (void *)0x14, buf, d_021D5600, ((struct Obj00342 *)p)->f5F4);
         } else {
-            *(u32 *)&((struct Obj00342 *)p)->f868 = func_021DFBB4(((u32 *)(p + 0x844))[idx], 0x28, buf, d_021D53D0, ((struct Obj00342 *)p)->f5F4);
+            *(u32 *)&((struct Obj00342 *)p)->f868 = (u32)func_021DFBB4((void *)(((u32 *)(p + 0x844))[idx]), (void *)0x28, buf, (void *)d_021D53D0, ((struct Obj00342 *)p)->f5F4);
         }
     } else {
         Quad t = d_021D5200;
@@ -70,9 +70,9 @@ void func_021D4A48(u8 *p, int idx)
         func_02015C30((void *)(((u32 *)(p + 0x844))[idx]), buf);
         func_021DFD24((u32 *)(*(u32 *)&((struct Obj00342 *)p)->f868));
         if (((struct Obj00342 *)p)->f11F0 != 0) {
-            *(u32 *)&((struct Obj00342 *)p)->f868 = func_021DFBB4(obj, 0x14, buf, d_021D5600, ((struct Obj00342 *)p)->f5F4);
+            *(u32 *)&((struct Obj00342 *)p)->f868 = (u32)func_021DFBB4((void *)obj, (void *)0x14, buf, d_021D5600, ((struct Obj00342 *)p)->f5F4);
         } else {
-            *(u32 *)&((struct Obj00342 *)p)->f868 = func_021DFBB4(obj, 0x12, buf, d_021D52F8, ((struct Obj00342 *)p)->f5F4);
+            *(u32 *)&((struct Obj00342 *)p)->f868 = (u32)func_021DFBB4((void *)obj, (void *)0x12, buf, (void *)d_021D52F8, ((struct Obj00342 *)p)->f5F4);
         }
     }
 }

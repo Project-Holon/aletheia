@@ -21,7 +21,7 @@ typedef signed char    s8;
 
 extern int func_021AC1E0(u32 a);
 
-void func_021ADB5C(u32 a, u8 v)
+void func_021ADB5C(int a, int v)
 {
     if (a != 0)
         ((u8 *)func_021AC1E0(a))[3] = v;

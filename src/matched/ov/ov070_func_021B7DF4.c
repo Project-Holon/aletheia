@@ -56,13 +56,13 @@ typedef struct HitTbl {
 
 extern HitTbl d_021BB960;
 
-extern int func_021B61B8(Obj *o);
-extern Item *func_021B616C(Obj *o, int v);
+extern int func_021B61B8(u8 *p);
+extern void *func_021B616C(u8 *p, int i);
 extern int func_02035BA4(const void *p);
 extern unsigned int func_0203633C(void);
 extern void func_020061E4(unsigned int id);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021BB260(Obj *o, int val);
+extern void func_021BB260(u8 *p, int val);
 
 int func_021B7DF4(Obj *o)
 {
@@ -75,7 +75,7 @@ int func_021B7DF4(Obj *o)
 
     changed = 0;
     saved = o->num;
-    e = func_021B616C(o, func_021B61B8(o));
+    e = func_021B616C((u8 *)o, func_021B61B8((u8 *)o));
     tbl = d_021BB960;
     hit = func_02035BA4(&tbl);
     if (hit != -1) {
@@ -131,7 +131,7 @@ int func_021B7DF4(Obj *o)
             func_0204B878((struct Obj *)o->winA, 0xB);
         else
             func_0204B878((struct Obj *)o->winB, 0xA);
-        func_021BB260(o, o->num);
+        func_021BB260((u8 *)o, o->num);
     }
     return changed;
 }

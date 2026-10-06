@@ -45,7 +45,8 @@ struct Rec {
 extern void VEC_Subtract(const struct Vec *a, const struct Vec *b,
                          struct Vec *out);
 extern s32  VEC_Mag(const struct Vec *v);
-extern s32  sub_0207C768(s32 num, s32 den);
+typedef unsigned int   u32;
+extern u32 sub_0207C768(u32 a, u32 b);
 
 s32 func_0202BBFC(struct Rec *r, const struct Vec *p)
 {
@@ -58,6 +59,6 @@ s32 func_0202BBFC(struct Rec *r, const struct Vec *p)
     if (r->radius < mag) {
         return 0;
     }
-    q = (float)sub_0207C768(r->radius - mag, r->radius) / 4096.0f;
+    q = (float)(s32)sub_0207C768((s32)(r->radius - mag), (s32)r->radius) / 4096.0f;
     return (s32)((float)r->amp * q);
 }

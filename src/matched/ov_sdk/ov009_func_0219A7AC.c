@@ -64,7 +64,8 @@ typedef struct _NatNegPacket {
 
 extern char *func_0215FA9C(unsigned int in);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_02199A90(NATNegotiator *neg);
+struct NATNegotiator;
+extern void func_02199A90(struct NATNegotiator *neg);
 extern void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
 
 extern char g_021A6330[];
@@ -90,7 +91,7 @@ void func_0219A7AC(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
     neg->gotRemoteData = 1;
     neg->sendGotRemoteData = p->gotyourdata ? 1 : 0;
 
-    func_02199A90(neg);
+    func_02199A90((struct NATNegotiator *)neg);
 
     if (neg->state == 4 && neg->sendGotRemoteData) {
         func_0217D254(7, 0, 8, g_021A640C, neg->cookie);

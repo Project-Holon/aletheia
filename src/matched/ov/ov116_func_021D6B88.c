@@ -33,7 +33,7 @@ struct U16Vec;
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
-extern void func_0217BC44(void *, int, int, int, void *, void *, int);
+extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
 extern void func_02045808(struct U16Vec *vec);
 void func_021D6B88(u8 *p, void *save, int id)
 {
@@ -52,6 +52,6 @@ void func_021D6B88(u8 *p, void *save, int id)
     }
     ((struct Obj04469 *)p)->f208 = p + 0x1f0;
     ((struct Obj04469 *)p)->f210 = 0;
-    func_0217BC44(p + 0x208, 1, 0, 0, p + 0x20c, p + 0x210, 128);
+    func_0217BC44((short unsigned int **)(p + 0x208), 1, 0, 0, (char *)(p + 0x20c), (int *)(p + 0x210), 128);
     func_02045808(str);
 }

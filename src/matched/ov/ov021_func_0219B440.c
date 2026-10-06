@@ -18,12 +18,14 @@
  *   data_021D5278  0x021D5278  data   ov021  a4
  */
 
-extern unsigned short func_0216D5A8(char *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_0216D5A8(u8 *p);
 extern int (*const data_021D5278[])(char *);
 
 int func_0219B440(char *a)
 {
-    int i = func_0216D5A8(a);
+    int i = func_0216D5A8((u8 *)a);
 
     return data_021D5278[i](a);
 }

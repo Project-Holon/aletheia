@@ -50,11 +50,12 @@ extern struct Sub02005E30State sub_02005E30_State;
 
 extern void sub_02005FBC(void);
 extern u32 *sub_0200590C(void);
-extern void func_02072F5C(u32 *req, u32 a, u32 b);
+struct Obj02072F5C;
+extern void func_02072F5C(struct Obj02072F5C * volatile *pp, u32 a, u32 b);
 
 void sub_02005E30(u32 a)
 {
     sub_02005FBC();
-    func_02072F5C(sub_0200590C(), 0, a);
+    func_02072F5C((struct Obj02072F5C * volatile*)sub_0200590C(), 0, a);
     sub_02005E30_State.unk08 = a;
 }

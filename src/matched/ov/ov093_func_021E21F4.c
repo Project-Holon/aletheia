@@ -35,7 +35,7 @@ struct QQ;
 struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u32 func_021D78AC(u32 range);
-extern void *func_021C88A4(int a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern Word func_021E896C(int a, int b);
 extern u16 func_021D70A8(struct QQ *p);
 extern void func_021C88C8(void *a, void *b);
@@ -48,7 +48,7 @@ void func_021E21F4(void *u, int a, int b, int *p)
     if (b == func_021D775C(2)) {
         if (func_021D62C4(func_021C7CF4((int *)a, b), 0x19) == 0 && p[6] == 0) {
             t = func_021D78AC(2) + 2;
-            r = func_021C88A4(a, 0xc, b);
+            r = func_021C88A4((char *)a, 0xc, b);
             ((struct Obj10075 *)r)->f4 = 0x19;
             *(Word *)(r + 8) = func_021E896C(t, func_021D70A8(u));
             r[0xc] = 0;

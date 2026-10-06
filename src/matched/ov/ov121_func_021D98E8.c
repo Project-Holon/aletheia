@@ -14,5 +14,5 @@
  *   func_0204A648 0x0204A648 arm
  */
 extern void func_0204A648(void);
-void func_021D98E8(void) { func_0204A648(); }
+void func_021D98E8(void *a0) { func_0204A648(); }
 unsigned func_021D98F0(unsigned *p) { return *p; }

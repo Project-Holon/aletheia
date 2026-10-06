@@ -34,12 +34,12 @@ extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02009210Obj *func_02009210(void *sys);
-extern u32 func_021F00C8(u32, u32 *, u32);
+extern char *func_021F00C8(u32 a, u32 *b, u32 c);
 
 void func_021A1144(u32 *p)
 {
     u32 x;
     func_02034AC4((int)abs_id_1e);
     x = (u32)func_02009210(func_02012EBC(func_020120F4(func_02188C80((void *)p[5]))));
-    p[8] = func_021F00C8(x, p, (u32)func_02188C80((void *)p[5]));
+    p[8] = (u32)func_021F00C8(x, p, (u32)func_02188C80((void *)p[5]));
 }

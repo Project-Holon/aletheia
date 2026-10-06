@@ -11,9 +11,10 @@
  *   func_0203FC28 0x0203FC28 arm
  *   d_021E7D20 0x021E7D20 data a4
  */
-extern void func_0203FC28(const void *);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern const char d_021E7D20[];
 void func_021E57E8(int i)
 {
-    func_0203FC28(d_021E7D20 + i * 16);
+    func_0203FC28((struct DispConfig *)(d_021E7D20 + i * 16));
 }

@@ -92,15 +92,16 @@ extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned 
 extern int func_02195408(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
 extern int func_020923F0();
-extern int func_021954F4(struct GTI2Socket *socket, unsigned int ip, unsigned short port,
-                         unsigned char *message, int len, int *handled);
-extern int func_02197BD4(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
+struct Conn;
+struct Sock;
+extern int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5);
+extern int func_02197BD4(struct Sock *sock, unsigned int ip, unsigned short port);
 extern int func_021955C0(struct GTI2Socket *socket, struct GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
 extern int func_02197BB8(struct GTI2Connection *connection);
-extern int func_02196098(struct GTI2Connection *connection, unsigned char *message, int len);
+extern int func_02196098(struct Conn *c, unsigned char *msg, int len);
 extern int func_02196948(struct GTI2Connection *connection, int type, unsigned char *message, int len);
-extern int func_02196D00(struct GTI2Connection *connection, int type, unsigned char *message, int len);
+extern int func_02196D00(struct Conn *c, int type, unsigned char *message, int len);
 
 int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, unsigned int ip, unsigned short port)
 {
@@ -125,14 +126,14 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
     magicString = (actualLength > 2) && !func_020923F0(actualMessage, g_021A5948, 2);
 
     if (!connection) {
-        if (!func_021954F4(socket, ip, port, message, len, &handled))
+        if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
             return 0;
         if (handled)
             return 1;
 
         if (!magicString || actualMessage[2] != 1) {
             if (!magicString || actualMessage[2] != 0x68) {
-                if (!func_02197BD4(socket, ip, port))
+                if (!func_02197BD4((struct Sock *)socket, ip, port))
                     return 0;
             }
             return 1;
@@ -142,7 +143,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
         result = func_021955C0(socket, &connection, ip, port);
         if (result != 0) {
             if (result != 5) {
-                if (!func_02197BD4(socket, ip, port))
+                if (!func_02197BD4((struct Sock *)socket, ip, port))
                     return 0;
             }
             return 1;
@@ -168,10 +169,10 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
 
     if (!magicString) {
         if (connection->state < 5) {
-            if (!func_021954F4(socket, ip, port, message, len, &handled))
+            if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
                 return 0;
         } else {
-            if (!func_02196098(connection, message, len))
+            if (!func_02196098((struct Conn *)connection, message, len))
                 return 0;
         }
         return 1;
@@ -180,7 +181,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
     type = actualMessage[2];
     if (type < 8)
         return func_02196948(connection, type, message, len) != 0;
-    if (!func_02196D00(connection, type, message, len))
+    if (!func_02196D00((struct Conn *)connection, type, message, len))
         return 0;
     return 1;
 }

@@ -17,15 +17,15 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_0207C768(int a, int b);
+extern u32 func_0207C768(u32 a, u32 b);
 extern int func_0207C994(int a, int b);
 
 int func_0218D980(u32 a, int b, int c)
 {
-    int r = (func_0207C768(c, b) >> 12) - (a >> 1);
+    int r = ((int)func_0207C768((int)c, (int)b) >> 12) - (a >> 1);
     if ((a & 1) == 0) {
         int m = func_0207C994(c, b);
-        if (func_0207C768(b, 0x2000) < m)
+        if ((int)func_0207C768((int)b, (int)0x2000) < m)
             r++;
     }
     return r;

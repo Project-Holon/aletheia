@@ -32,16 +32,24 @@
  */
 
 void func_0218562C(int a);
-int func_020120F4(int a);
-int func_020127A4(int a);
-void func_02012B2C(int a, int b);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+struct Ctx;
+struct Evt;
+struct Rec44;
+struct SaveBlock;
+void *func_020120F4(const struct Ctx *p);
+void *func_020127A4(struct SaveBlock *p);
+void func_02012B2C(struct Rec44 *p, u32 v);
 int func_02012134(int a);
-int func_0202B578(int a);
+u32 func_0202B578(u32 *p);
 void func_0202C110(void *p);
-int func_02012984(int a);
-int func_02029DF4(int a, int b, int c);
-int func_020298A0(int a, int b, int c, int d);
-void func_02012374(int a, int b);
+u8 func_02012984(const struct BigObj *p);
+unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
+void *func_020298A0(void *a, u32 b, u16 c, u16 d);
+void func_02012374(struct Evt *evt, struct Evt **out);
 int func_020145FC(int a);
 
 int func_02185694(int a0, int *st, int *p)
@@ -54,16 +62,16 @@ int func_02185694(int a0, int *st, int *p)
         st[0]++;
         break;
     case 1:
-        func_02012B2C(func_020127A4(func_020120F4(p[0])), 0);
-        func_0202C110((void *)func_0202B578(func_02012134(p[0])));
-        r = func_02029DF4(p[1], ((short *)p)[6], func_02012984(p[1]));
-        r = func_020298A0(p[0], r, 0, 0x3c);
-        func_02012374(a0, r);
+        func_02012B2C(func_020127A4(func_020120F4((const struct Ctx *)p[0])), 0);
+        func_0202C110((void *)func_0202B578((u32 *)func_02012134(p[0])));
+        r = func_02029DF4((void *)p[1], ((short *)p)[6], func_02012984((const struct BigObj *)p[1]));
+        r = (int)func_020298A0((void *)p[0], r, 0, 0x3c);
+        func_02012374((struct Evt *)a0, (struct Evt **)r);
         st[0]++;
         break;
     case 2:
         r = func_020145FC(p[0]);
-        func_02012374(a0, r);
+        func_02012374((struct Evt *)a0, (struct Evt **)r);
         st[0]++;
         break;
     case 3:

@@ -78,7 +78,8 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 struct Actor;
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_02049238(void *);
-extern void func_0204B404(u32, Pos *, u16);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021F07F4(Obj *p)
 {
@@ -107,12 +108,12 @@ void func_021F07F4(Obj *p)
 
         pt.x = 0x50;
         pt.y = 0x60;
-        func_0204B404(p->rec[0].obj, &pt, 1);
+        func_0204B404((struct Obj *)p->rec[0].obj, (const struct Vec2 *)(&pt), 1);
         pt.x = 0xB0;
         pt.y = 0x60;
-        func_0204B404(p->rec[1].obj, &pt, 1);
+        func_0204B404((struct Obj *)p->rec[1].obj, (const struct Vec2 *)(&pt), 1);
         pt.x = 0x80;
         pt.y = 0x60;
-        func_0204B404(p->rec[3].obj, &pt, 1);
+        func_0204B404((struct Obj *)p->rec[3].obj, (const struct Vec2 *)(&pt), 1);
     }
 }

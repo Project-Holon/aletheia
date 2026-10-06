@@ -30,7 +30,7 @@ static inline u16 blend(int angle,u16 c1,u16 c2) {
  dg=(factor*((u8)((c2&0x3e0)>>5)-g1))>>12;
  return ((u8)(b1+db)<<10)|((u8)(r1+dr)|((u8)(g1+dg)<<5));
 }
-void func_021DAAA4(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
+s32 func_021DAAA4(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
  *p=blend(angle,c1,c2);
- func_02061CA4((void *)a,bank*32+index*2,(u32)p,2);
+ return func_02061CA4((void *)a,bank*32+index*2,(u32)p,2);
 }

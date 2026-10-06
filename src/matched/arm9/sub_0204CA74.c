@@ -38,14 +38,14 @@ struct Node {
     void        *payload;
 };
 
-extern u32 sub_0204B838(struct Node *n);
+extern int sub_0204B838(int a0);
 
 void *sub_0204CA74(struct Node *head, u32 key)
 {
     struct Node *n = head;
 
     do {
-        if (sub_0204B838(n) > key) {
+        if (sub_0204B838((int)n) > key) {
             return n->payload;
         }
         n = n->prev;

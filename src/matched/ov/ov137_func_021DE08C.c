@@ -24,7 +24,7 @@ typedef unsigned char u8;
 extern void func_021DE5C0(u8 *);
 extern void func_021DE4B4(char *,int,int);
 extern int func_021DE55C(char *);
-extern void *func_021DCF50(void *);
+extern void *func_021DCF50(u8 *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct WordSet;
@@ -53,7 +53,7 @@ void func_021DE08C(char *p,int state,int player) {
         break;
     case 19:
         if (((struct Obj01261 *)p)->f4810==1) return;
-        func_0201F02C(((struct Obj01261 *)p)->f3C,0,func_02184180(func_021DCF50(p),player));
+        func_0201F02C(((struct Obj01261 *)p)->f3C,0,func_02184180(func_021DCF50((u8 *)p),player));
         if (player==func_02039338()) return;
         if (((struct Obj01261 *)p)->fE8) {
             func_0201FEF4(((struct Obj01261 *)p)->fE8);

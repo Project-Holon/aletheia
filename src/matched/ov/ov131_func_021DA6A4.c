@@ -37,7 +37,7 @@ extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_021D9EE8(u8 *,u8 *);
 extern void func_021DB7D4(u8 *p, u8 *q, u8 *entry);
 extern void func_021D614C(u8 *,int,int,int,s16,u16);
-extern u8 *func_021DBAD0(void *,Descriptor *);
+extern u8 *func_021DBAD0(u8 *a, const u8 *b);
 extern void func_021DBCA4(u8 *,int);
 void func_021DA6A4(u8 *a,u8 *p)
 {
@@ -61,7 +61,7 @@ void func_021DA6A4(u8 *a,u8 *p)
         desc.c=0;
         desc.d=0;
         desc.bmp=((struct Obj01940 *)p)->fA8;
-        *(u8 * *)&((struct Obj01940 *)p)->fAC=func_021DBAD0(((struct Obj01940 *)p)->fA4,&desc);
+        *(u8 * *)&((struct Obj01940 *)p)->fAC=func_021DBAD0(((struct Obj01940 *)p)->fA4,(const u8 *)(&desc));
         func_021DBCA4(*(u8 * *)&((struct Obj01940 *)p)->fAC,0);
     }
     p[41]=255;

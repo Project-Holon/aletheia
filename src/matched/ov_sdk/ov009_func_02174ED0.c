@@ -44,7 +44,7 @@ struct DWCstBinaryMessage {
 extern int func_0216B994(void);
 extern int func_02175F3C(void);
 extern void func_02082D44(void *srcp, void *dstp, u32 size);
-extern int func_020949F4(const char *s1, const char *s2, u32 n);
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern int func_021702A0(u8 command, int srcPid, u32 srcIP, u16 srcPort, u32 *data, int len);
 extern char g_021A2188[];
 
@@ -64,7 +64,7 @@ void func_02174ED0(char *data, int len)
     while (offset + 0x14 <= len) {
         func_02082D44(data, &sbMsg, 0x14);
         *(volatile int *)&sbMsg.pid = sbMsg.pid;
-        if (func_020949F4(sbMsg.keyword, g_021A2188, 4) != 0 || sbMsg.identifier != 0x5a)
+        if (func_020949F4((const u8 *)sbMsg.keyword, (const u8 *)g_021A2188, 4) != 0 || sbMsg.identifier != 0x5a)
             return;
         func_02082D44(data + 0x14, payload, sbMsg.size);
         boolResult = func_021702A0(sbMsg.command, sbMsg.pid, sbMsg.ip, sbMsg.port, payload, sbMsg.size >> 2);

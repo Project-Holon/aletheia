@@ -37,12 +37,12 @@ typedef struct {
     ReqList *reqCurrent;
 } ReqInfo;
 
-extern ReqInfo *func_021BEF48(void *sysInfo_p);
+extern void *func_021BEF48(int p);
 typedef unsigned int   u32;
 extern void *func_021BEF40(int p);
 extern void *func_021BEF58(int p);
-extern void func_021BEFCC(void *mutexInfo_p);
-extern void func_021BA068(void *mutexInfo_p, Req *req_p, int arg);
+extern void func_021BEFCC(void);
+extern void func_021BA068(int a, int b, int c);
 extern void func_021BAE90(u32 **p, int v);
 extern void func_021BEFD8(void *mutexInfo_p);
 
@@ -53,15 +53,15 @@ void func_021BBAAC(void *sysInfo_p)
     void *mutexInfo_p;
     ReqList *reqCurrent_p;
 
-    reqInfo_p = func_021BEF48(sysInfo_p);
+    reqInfo_p = func_021BEF48((int)sysInfo_p);
     listInfo_p = func_021BEF40((int)sysInfo_p);
     mutexInfo_p = func_021BEF58((int)sysInfo_p);
     reqCurrent_p = reqInfo_p->reqCurrent;
-    func_021BEFCC(mutexInfo_p);
+    func_021BEFCC();
     if (reqCurrent_p) {
         if (reqCurrent_p->req_p->doCancel == 0) {
             reqCurrent_p->req_p->doCancel = 1;
-            func_021BA068(mutexInfo_p, reqCurrent_p->req_p, reqCurrent_p->arg);
+            func_021BA068((int)mutexInfo_p, (int)reqCurrent_p->req_p, reqCurrent_p->arg);
         }
     }
     func_021BAE90(listInfo_p, (int)mutexInfo_p);

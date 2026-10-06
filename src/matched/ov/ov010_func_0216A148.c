@@ -58,7 +58,7 @@ typedef struct Desc {
     u8 f13;             /* 0x13 */
 } Desc;
 
-extern void *func_0202784C(Desc *d, void *p);
+extern int func_0202784C(int a0, int a1);
 
 void func_0216A148(Work *w)
 {
@@ -72,5 +72,5 @@ void func_0216A148(Work *w)
     d.f11 = 12;
     d.f12 = 8;
     d.f13 = 3;
-    w->f18->f40 = func_0202784C(&d, w->f18->f3C);
+    w->f18->f40 = (void *)func_0202784C((int)(&d), (int)w->f18->f3C);
 }

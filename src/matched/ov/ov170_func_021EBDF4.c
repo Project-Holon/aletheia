@@ -13,4 +13,4 @@
  *   d_021EFD64 0x021EFD64 data a4
  */
 typedef struct {unsigned a,b,c,d,e,f,g;} Template; extern const Template d_021EFD64;extern unsigned func_021DC9D8(void);extern void func_0204A48C(Template *,unsigned,unsigned);
-void func_021EBDF4(void){Template t=d_021EFD64;unsigned n=func_021DC9D8();func_0204A48C(&t,n,76);}
+void func_021EBDF4(void *a0){Template t=d_021EFD64;unsigned n=func_021DC9D8();func_0204A48C(&t,n,76);}

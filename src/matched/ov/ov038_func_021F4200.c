@@ -48,8 +48,9 @@ struct Big;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(unsigned int, unsigned int);
-extern unsigned short *func_0200B3A8(unsigned int, unsigned int);
-extern void func_021BE700(void *p, int i, int j, u16 k, int flag);
+struct Rec94;
+extern u8 *func_0200B3A8(struct Rec94 *p, u32 a1);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *base, int i, int j, u16 k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021BE6BC(int *p);
@@ -70,12 +71,12 @@ int func_021F4200(int a0, int *a1)
     s = (u8 *)func_021897BC(sys, 1);
     t = (unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys)));
     p = func_0200B3A4(t, 6);
-    q = func_0200B3A8(t, 6);
+    q = (short unsigned int *)func_0200B3A8((struct Rec94 *)t, 6);
     switch (*a1) {
     case 0:
         c = *s;
         for (i = 0; i < 2; i++) {
-            func_021BE700((void *)h, 0, c, i, 1);
+            func_021BE700((void *)h, 0, c, (u16)i, 1);
             func_021BE6B0(func_021BE674((char *)h, 0, c, i), 0);
         }
         *a1 = *a1 + 1;

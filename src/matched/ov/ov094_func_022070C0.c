@@ -62,8 +62,8 @@ extern int func_021D62A8(struct Unk021D62A8 *p);
 extern void func_02208814(struct O *obj, int k, int idx);
 extern void func_022079C0(char *, int, Pt *);
 extern void func_02208D50(W *, int, int);
-extern void func_0220793C(S *);
-extern void func_0220785C(char *, int, int, void *);
+extern void func_0220793C(char *p);
+extern void func_0220785C(struct O *o, int unused, int idx, void *data);
 
 void func_022070C0(W *p, void *a, void *q, int mode, int i)
 {
@@ -104,6 +104,6 @@ void func_022070C0(W *p, void *a, void *q, int mode, int i)
     func_02208814((O *)p, item, i);
     func_022079C0((char *)p, i, 0);
     func_02208D50(p, i, 1);
-    func_0220793C((S *)&p->rows[i]);
-    func_0220785C((char *)p, mode, i, func_021D5864(q));
+    func_0220793C((char *)((S *)&p->rows[i]));
+    func_0220785C((struct O *)p, mode, i, func_021D5864(q));
 }

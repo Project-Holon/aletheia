@@ -54,7 +54,7 @@ extern u32 func_02013D5C(u32 id);
 struct VecFx32;
 extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern u32 func_02026454(void *obj);
-extern int func_0217B930(Vec *);
+extern int func_0217B930(int *p);
 extern void func_0217BA54(void *);
 extern int func_020392B8(void);
 extern u32 func_02026474(void *obj);
@@ -83,11 +83,11 @@ void func_0217B968(int a0, void *a1, void *a2, void *a3)
     func_021A3038(a3, (struct VecFx32 *)&v);
     switch (func_02026454(a2)) {
     case 0:
-        if (func_0217B930(&v) == 1)
+        if (func_0217B930((int *)(&v)) == 1)
             func_0217BA54(a1);
         break;
     case 2:
-        if (func_0217B930(&v) != 0)
+        if (func_0217B930((int *)(&v)) != 0)
             return;
         if (func_020392B8() > 1)
             return;
@@ -96,7 +96,7 @@ void func_0217B968(int a0, void *a1, void *a2, void *a3)
         func_02026400(a2);
         break;
     case 1:
-        if (func_0217B930(&v) == 1)
+        if (func_0217B930((int *)(&v)) == 1)
             func_0202640C(a2, (u32)func_0217BA48, (u32)a1);
         break;
     }

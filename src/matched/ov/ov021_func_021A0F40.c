@@ -36,7 +36,7 @@ extern const Entry d_021D872C[];
 
 extern u32 func_021A0EE4(u32 *);
 
-void func_021A0F40(u32 *p)
+void func_021A0F40(u32 *p, u32 v)
 {
     u32 n = func_021A0EE4(p);
     d_021D872C[p[0]].exit(p);

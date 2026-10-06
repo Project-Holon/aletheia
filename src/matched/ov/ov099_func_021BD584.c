@@ -18,7 +18,8 @@
 #include "../include/Obj00008.h"
 typedef unsigned short u16;
 extern int func_021BA928(void *);
-extern int func_0203D378(int);
+typedef unsigned int   u32;
+extern u32 func_0203D378(void);
 extern void func_021BA874(void *, int);
 extern void func_021BAAB8(char *, int, int);
 struct Entry;
@@ -30,7 +31,7 @@ int func_021BD584(char *p, int v)
     int t;
     t = func_021BA928(p);
     if (t == 0) return v;
-    if (func_0203D378(t) == 0) {
+    if (func_0203D378() == 0) {
         func_021BA874(p, ((struct Obj00008 *)p)->f242 - 1);
         func_021BAAB8(p, 0x77, 0);
         ((struct Obj00008 *)p)->f1CC = 0x6f;

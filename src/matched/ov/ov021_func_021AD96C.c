@@ -40,7 +40,9 @@ typedef struct P {
 typedef unsigned int   u32;
 extern u8 func_021ABE28(u8 *p);
 extern u8 func_021ABE2C(u8 *p);
-extern void func_021AD82C(void *a, void *b, int c);
+struct A;
+struct B;
+extern void func_021AD82C(struct A *a, struct B *b, int c);
 extern void *func_02046E24(u32 a0, u32 a1);
 extern int func_02046FF8(int *self);
 
@@ -64,6 +66,6 @@ void func_021AD96C(P *a, Desc *d, int c)
         for (j = 0; j < d->n; j++) {
             a->f18[i * d->n + j] = (int)func_02046E24(c, t + d->tab[j]);
         }
-        func_021AD82C((char *)a + 0x28 + i * 0x18, a, (u8)i);
+        func_021AD82C((struct A *)((char *)a + 0x28 + i * 0x18), (struct B *)a, (u8)i);
     }
 }

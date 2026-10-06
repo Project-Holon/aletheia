@@ -21,8 +21,9 @@ typedef struct Rec {
     u32 w[13];
 } Rec;
 
-extern int func_0203EFC8(const void *a, const void *b, u32 n);
-extern int func_02175C78(void *a, void *b, int c);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
+extern int func_02175C78(u8 *p, void *b, int c);
 
 int func_02175C88(u8 *a, Rec *b, int c)
 {
@@ -30,7 +31,7 @@ int func_02175C88(u8 *a, Rec *b, int c)
     int r;
 
     dst = (Rec *)(a + 0xac);
-    if (func_0203EFC8(a + 0x78, b, 0x30) != 0) {
+    if (func_0203EFC8(a + 0x78, (const u8 *)b, 0x30) != 0) {
         (a + c)[0x197] = 2;
         return 0;
     }

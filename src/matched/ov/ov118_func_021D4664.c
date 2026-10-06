@@ -57,18 +57,18 @@ extern int func_021D4480(int);
 extern void func_021E71F0(void *p, int a);
 extern void func_021E7208(void *p, int a);
 extern void func_021E64B8(void *p);
-extern void func_021E4888(void *p);
-extern void func_021E2680(void *p);
+extern void func_021E4888(char *p);
+extern void func_021E2680(char *p);
 extern void func_021D4484(u8 *p, u32 v);
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *, int);
 extern u32 func_02017E1C(void *, u32, u32);
-extern void func_02006CAC(void *buf);
+extern void func_02006CAC(void **out);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void func_020307B0(void *p);
-extern void func_02015C30(u32, Vec *);
+extern void func_02015C30(void *p, u32 *out);
 extern void func_021DFD24(u32 *p);
-extern u32 func_021DFBB4(u32, u32, Vec *, const void *, u16);
+extern void *func_021DFBB4(void *a0, void *a1, void *a2, void *a3, u16 heapId);
 extern void func_021E36C8(void *p, int a, int b, void *mon, int c);
 extern void func_02015E04(void *p);
 extern void func_02015EA0(void *p);
@@ -99,15 +99,15 @@ void func_021D4664(u8 *p)
         func_021E71F0(p, 0x11);
         func_021E7208(p, 0);
         func_021E64B8(p);
-        func_021E4888(p);
-        func_021E2680(p);
+        func_021E4888((char *)p);
+        func_021E2680((char *)p);
         func_021D4484(p, 0);
         mon = func_021D8FA4(p, func_021D8AA8(p));
         func_02017E1C(mon, 7, 0);
         if (func_02017E1C(mon, 0x4C, 0) == 0) {
             a = func_02017E1C(mon, 0xAB, 0);
             b = func_02017E1C(mon, 0x6F, 0);
-            func_02006CAC(&buf);
+            func_02006CAC((void **)(&buf));
             func_02006984(a, b, 0x40, 0, 0, 0, 0, (u32)(&buf));
         }
         if (SLOT0 != 0) {
@@ -115,23 +115,23 @@ void func_021D4664(u8 *p)
             SLOT0 = 0;
         }
         if (((struct Obj05324 *)p)->f11ED == 0) {
-            func_02015C30(OBJ(0), &v1);
+            func_02015C30((void *)OBJ(0), (u32 *)(&v1));
             func_021DFD24((u32 *)SLOT0);
             if (((struct Obj05324 *)p)->f11EF != 0) {
-                SLOT0 = func_021DFBB4(OBJ(0), 0x14, &v1, d_021D86A0, HEAP);
+                SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x14, &v1, d_021D86A0, HEAP);
             } else {
-                SLOT0 = func_021DFBB4(OBJ(0), 0x12, &v1, d_021D7D00, HEAP);
+                SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x12, &v1, (void *)d_021D7D00, HEAP);
             }
             func_021E36C8(p, 2, 0, func_021D8FA4(p, func_021D8AA8(p)), 1);
             func_02015E04((void *)OBJ(2));
             func_02015EA0((void *)OBJ(2));
         } else {
-            func_02015C30(OBJ(0), &v2);
+            func_02015C30((void *)OBJ(0), (u32 *)(&v2));
             func_021DFD24((u32 *)SLOT0);
             if (((struct Obj05324 *)p)->f11EF != 0) {
-                SLOT0 = func_021DFBB4(OBJ(0), 0x14, &v2, d_021D86A0, HEAP);
+                SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x14, &v2, d_021D86A0, HEAP);
             } else {
-                SLOT0 = func_021DFBB4(OBJ(0), 0x28, &v2, d_021D7DD8, HEAP);
+                SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x28, &v2, (void *)d_021D7DD8, HEAP);
             }
         }
         func_021D8E84(p, (int)func_021D48F0);

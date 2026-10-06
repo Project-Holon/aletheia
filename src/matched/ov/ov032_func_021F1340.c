@@ -22,8 +22,9 @@ typedef unsigned char u8;
 
 extern void func_021F029C(char *this, int a);
 extern void func_021F0DF4(void *p, unsigned short v);
-extern void func_021F05E8(char *this, int a, int b);
-extern void func_021F12B8(char *this, int dir);
+typedef unsigned int   u32;
+extern void func_021F05E8(u8 *p, int a, u32 b);
+extern void func_021F12B8(u8 *this, int dir);
 
 void func_021F1340(char *this, int a, u8 b)
 {
@@ -37,6 +38,6 @@ void func_021F1340(char *this, int a, u8 b)
         func_021F0DF4((void *)(((struct Obj00188 *)this)->f2D0), 0x13);
     else
         func_021F0DF4((void *)(((struct Obj00188 *)this)->f2CC), 0xf);
-    func_021F05E8(this, 4, 2);
-    func_021F12B8(this, a);
+    func_021F05E8((u8 *)this, 4, 2);
+    func_021F12B8((u8 *)this, a);
 }

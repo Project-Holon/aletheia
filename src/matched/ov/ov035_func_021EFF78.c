@@ -30,7 +30,7 @@ extern int func_0201C440(int);
 typedef unsigned int   u32;
 extern void func_021F000C(char *p, u32 heap);
 extern void func_021F0140(void *, int);
-extern void func_021F0168(void *, int);
+extern void func_021F0168(int *p, int a1);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_021A12D4(int, int);
 
@@ -42,7 +42,7 @@ void func_021EFF78(char *p, int a1)
     *(int *)&((struct Obj04315 *)p)->f3C = func_0201C440(a1);
     func_021F000C(p, a1);
     func_021F0140(p, a1);
-    func_021F0168(p, a1);
+    func_021F0168((int *)p, a1);
     func_0203D34C(0, a1);
     func_021A12D4(((struct Obj04315 *)p)->fC, a1);
 }

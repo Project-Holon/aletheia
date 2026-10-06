@@ -39,10 +39,11 @@ typedef unsigned int   u32;
 extern void func_02029D44(u32 a, u32 b, u32 c, u32 d);
 extern void func_02029D7C(int a, int b);
 extern void *func_02184360(u8 *p, int value);
-extern int func_02188D20(int a);
+struct Rec44;
+extern u32 func_02188D20(u8 *p);
 extern void func_021BC550(void *p, int v);
 extern void *func_020127A4(struct SaveBlock *p);
-extern void func_02012B2C(int a, int b);
+extern void func_02012B2C(struct Rec44 *p, u32 v);
 extern void *func_021BF61C(int a, int b, int c);
 extern void *func_021BFDD0(int a0, void *p, int a2, int a3);
 
@@ -68,7 +69,7 @@ int func_0218495C(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 2:
-        func_02012B2C((int)func_020127A4((struct SaveBlock *)y), 0);
+        func_02012B2C((struct Rec44 *)((int)func_020127A4((struct SaveBlock *)y)), 0);
         func_02029D44(v, y, ((struct Obj04977 *)p)->f14, (u8)((struct Obj04977 *)p)->f4A);
         func_02029D7C(v, y);
         (*state)++;
@@ -82,7 +83,7 @@ int func_0218495C(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 5:
-        func_021BC550((void *)func_02188D20(z), *(s16 *)&((struct Obj04977 *)p)->f14);
+        func_021BC550((void *)func_02188D20((u8 *)z), *(s16 *)&((struct Obj04977 *)p)->f14);
         return 1;
     }
     return 0;

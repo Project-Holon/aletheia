@@ -18,4 +18,4 @@ typedef unsigned int u32;
 extern void func_020355D8(int);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-void func_021C6420(u8 *p) { func_020355D8(((struct Obj10482 *)p)->f0); func_02045808(((struct Obj10482 *)p)->f58); func_02045808(((struct Obj10482 *)p)->f5C); }
+void func_021C6420(u8 *p, void *a1) { func_020355D8(((struct Obj10482 *)p)->f0); func_02045808(((struct Obj10482 *)p)->f58); func_02045808(((struct Obj10482 *)p)->f5C); }

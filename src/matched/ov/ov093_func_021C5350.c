@@ -22,12 +22,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Entry { u32 value; u8 flag; u8 a, b, c, d, e, f, pad; };
-extern u8 *func_021B9BF0(u8 *, u8);
+struct Obj;
+struct Result;
+struct S2;
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 func_021D5440(u8 *p);
 extern void func_021CD64C(void *, u8, ...);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern int func_021D69B8(u8 *, u32 *, u8 *);
+extern int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r);
 extern void func_021BA1CC(char **p, int i, u32 delta);
 int func_021C5350(u8 *p, u8 *g, const struct Entry *q)
 {
@@ -42,7 +45,7 @@ int func_021C5350(u8 *p, u8 *g, const struct Entry *q)
     for (i = 0; i < 6; i++) {
         entry = &q[i];
         if (!entry->value) continue;
-        a = func_021B9BF0(g, i);
+        a = (u8 *)func_021B9BF0((struct S2 *)g, (u8)i);
         if (func_021D59B4(a, 15) >= 100) continue;
         value = entry->value;
         cmd = entry->flag ? 0x2b : 0x2a;
@@ -50,7 +53,7 @@ int func_021C5350(u8 *p, u8 *g, const struct Entry *q)
         func_021CD64C(((struct Obj05193 *)p)->fC, 0x5a, (u16)cmd, k, value, 0xffff0000);
         func_021CD4B0(((struct Obj05193 *)p)->fC, 0x3e, k, q->a, q->b, q->c, q->d, q->e, q->f);
         remaining = value;
-        while (func_021D69B8(a, &remaining, p + 0x4c0)) {}
+        while (func_021D69B8((struct Obj *)a, &remaining, (struct Result *)(p + 0x4c0))) {}
         func_021CD4B0(((struct Obj05193 *)p)->fC, 0x45, k, value);
         func_021BA1CC(((struct Obj05193 *)p)->f4, 0x1b, value);
         result = 1;

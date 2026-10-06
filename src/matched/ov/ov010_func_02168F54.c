@@ -28,14 +28,17 @@ typedef struct {
     int f20;
 } A;
 
-extern s64 func_02089004(Date *, Time *);
-extern int func_02088F58(Date *);
+typedef signed int     s32;
+struct RTCDate;
+struct RTCTime;
+extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
+extern s32 func_02088F58(struct RTCDate *date);
 
 int func_02168F54(A *a, Date *b, Time *c, int *d, int *e)
 {
-    s64 sa = func_02089004(&a->date, &a->time);
-    s64 sb = func_02089004(b, c);
-    int day = func_02088F58(b);
+    s64 sa = func_02089004((struct RTCDate *)(&a->date), (struct RTCTime *)(&a->time));
+    s64 sb = func_02089004((struct RTCDate *)b, (struct RTCTime *)c);
+    int day = func_02088F58((struct RTCDate *)b);
     int q;
     *d = 0;
     *e = 0;

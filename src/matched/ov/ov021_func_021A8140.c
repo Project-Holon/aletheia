@@ -31,7 +31,8 @@ extern void *func_02188CB4(u8 *p);
 extern u16 func_021A3050(u8 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3484(void *p, int k, V *out);
+typedef signed int     s32;
+extern void func_021A3484(unsigned char **a, int b, s32 *c);
 extern void func_0207CEE4(int a, V *b, V *c, V *d);
 extern void *func_021A3074(u8 *p);
 extern void func_02163E58(void *p, V *in, int *out);
@@ -48,7 +49,7 @@ void func_021A8140(void *a, V *out)
     ctx = func_02188CB4(a);
     k = func_021A3050(ctx);
     func_021A3038(ctx, (struct VecFx32 *)&v0);
-    func_021A3484(ctx, k, &v1);
+    func_021A3484(ctx, k, (s32 *)(&v1));
     func_0207CEE4(0x10000, &v1, &v0, &v2);
     func_02163E58(func_021A3074(ctx), &v2, &t);
     v2.y = t;

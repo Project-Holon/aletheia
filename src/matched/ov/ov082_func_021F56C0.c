@@ -12,5 +12,6 @@
  *   func_020416D4 0x020416D4 arm
  */
 typedef unsigned char u8;
-extern u8 func_020416D4(u8 layer);
-void func_021F56C0(u8 *p) { int i; for(i=0;i<4;i++) p[i]=func_020416D4(i); }
+typedef unsigned int   u32;
+extern u8 func_020416D4(u32 layer);
+void func_021F56C0(u8 *p) { int i; for(i=0;i<4;i++) p[i]=func_020416D4((u8)i); }

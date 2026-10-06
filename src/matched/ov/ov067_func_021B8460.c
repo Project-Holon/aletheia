@@ -99,24 +99,25 @@ struct S {
  u8 count:5; u8 ready:1; u8 drag:1; u8 trigger:1;
  u8 f87,f88,f89; u16 f8a; u32 f8c,f90;
 };
-extern int func_0201C6B4(int);
-extern int func_02035BA4(void *);
-extern int func_021B841C(struct S *,int);
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern int func_02035BA4(const void *p);
+extern int func_021B841C(u8 *p, int n);
 extern void func_021B92F0(struct S *,u32,u32);
 extern int func_021B8EA0(struct S *);
-extern u8 func_021B8404(struct S *,int);
+extern u8 func_021B8404(u8 *p, int n);
 extern s8 func_021B9190(const s8 *,int);
 extern void func_021B91D0(struct S *,int,int);
 extern s8 func_021B91BC(s8,s8,int);
-extern void func_021B9228(struct S *,int,s8);
+extern void func_021B9228(struct S *p, int i, int a2);
 extern void func_020061E4(u32);
-extern void func_02041EE4(u32,u32,int);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern const u8 d_021B94F8[];
 #pragma opt_propagation off
 int func_021B8460(struct S *s)
 {
  int r,n,v,a; const u8 *q; int o;
- if(func_0201C6B4(s->f34)==0) return 1;
+ if((int)func_0201C6B4((const struct PrintSys *)s->f34)==0) return 1;
  if(s->f50==3 && s->f70==1) {
   r=func_02035BA4(s->f2c);
   if(s->drag==1) {
@@ -145,7 +146,7 @@ int func_021B8460(struct S *s)
    if(r!=-1 && (o=r*8, q=(const u8 *)s->f1c+4, *(u32 *)(q+o)==0) && s->ready==1 && *(u32 *)(q+o)==0 &&
      ((s->f85<0 && s->f87<r)||(s->f85>0 && s->f87>r))) {
     s->ready=0;
-    n=func_021B841C(s,s->f67);
+    n=func_021B841C((u8 *)s,s->f67);
     if(n!=0) {
      v=s->f87-r;
      if(v<0) v=-v;
@@ -194,7 +195,7 @@ int func_021B8460(struct S *s)
      return 0;
     }
     if(s->f68==1) {
-     n=func_021B841C(s,s->f67);
+     n=func_021B841C((u8 *)s,s->f67);
      s->f89++;
      if(s->f89!=6) {
       if(s->f67<0) s->f67=-*((u8 *)s+s->f89+11);
@@ -205,7 +206,7 @@ int func_021B8460(struct S *s)
     }
    }
   }
-  s->f69=func_021B8404(s,s->f67);
+  s->f69=func_021B8404((u8 *)s,s->f67);
   s->f68--;
   if(s->f67<0) {
    s->f62--;
@@ -213,7 +214,7 @@ int func_021B8460(struct S *s)
    func_021B91D0(s,s->f62,v);
    s->f46=func_021B91BC(s->f46,s->f48,-1);
    v=func_021B9190((s8 *)s,-1);
-   func_021B9228(s,s->f62-(u8)s->f49,s->f4a+v);
+   func_021B9228(s,s->f62-(u8)s->f49,(s8)(s->f4a+v));
    s->f47=func_021B91BC(s->f47,s->f49,-1);
   } else {
    s->f62++;
@@ -221,7 +222,7 @@ int func_021B8460(struct S *s)
    func_021B91D0(s,s->f62+((u8)s->f48-1),v);
    s->f46=func_021B91BC(s->f46,s->f48,1);
    v=func_021B9190((s8 *)s,1);
-   func_021B9228(s,s->f62-1,s->f4a+v);
+   func_021B9228(s,s->f62-1,(s8)(s->f4a+v));
    s->f47=func_021B91BC(s->f47,s->f49,1);
   }
   s->f20->b(s->f24,s->f5c+s->f62,1);
@@ -231,8 +232,8 @@ int func_021B8460(struct S *s)
   }
  }
  s->f66=s->f66+s->f67;
- func_02041EE4(s->f0,3,s->f66);
- if(s->f1!=255) func_02041EE4(s->f1,3,s->f66);
+ func_02041EE4(s->f0,3,(int)s->f66);
+ if(s->f1!=255) func_02041EE4(s->f1,3,(int)s->f66);
  s->f20->c(s->f24,s->f67);
  s->f69--;
  return 1;

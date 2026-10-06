@@ -55,8 +55,8 @@ extern void func_021F899C(u8 *);
 extern void func_021F8BD4(u8 *);
 extern void func_021F92CC(u8 *);
 extern void func_021F8DC4(u8 *);
-extern void func_021F8E58(u8 *);
-extern void func_021F8E88(u8 *);
+extern void func_021F8E58(char *p);
+extern void func_021F8E88(char *p);
 extern void *func_021F6BD8(u16,void *);
 extern char *func_021F9FEC(u32,void *,u32);
 extern char *func_021FA5B0(u32,void *,char *);
@@ -64,7 +64,7 @@ extern void *func_021FAAF4(u32,void *);
 extern void func_021F9CF4(char *);
 extern void func_0203D34C(u32,u32);
 extern void func_021F8D88(u8 *,u32);
-u8 *func_021F8480(u8 *input,u32 heap)
+u8 *func_021F8480(u8 *input, int heap)
 {
     u8 *p;
     u8 i;
@@ -113,8 +113,8 @@ u8 *func_021F8480(u8 *input,u32 heap)
     func_021F8BD4(p);
     func_021F92CC(p);
     func_021F8DC4(p);
-    func_021F8E58(p);
-    func_021F8E88(p);
+    func_021F8E58((char *)p);
+    func_021F8E88((char *)p);
     *(void **)(p+0x90)=func_021F6BD8(*(u16 *)p,p);
     *(void **)(p+0xb8)=func_021F9FEC(*(u16 *)p,p,*(u32 *)(p+0x30));
     *(void **)(p+0xa4)=func_021FA5B0(*(u16 *)p,p,*(char **)(*(u8 **)(p+0x30)+p[0xa]*4+4));

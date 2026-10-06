@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 struct VecFx32;
 extern void func_021A3038(unsigned char *, struct VecFx32 *);
-extern int func_0217B94C(Vec *);
+extern int func_0217B94C(int *p);
 extern u16 *func_02159B48(int a);
 extern int func_02159B94(int a0, int a1, int a2, int a3);
 extern void func_02159BBC(int);
@@ -64,7 +64,7 @@ void func_0217BBD8(int a, int b, u8 *c)
         return;
     func_021A3038(h, (struct VecFx32 *)&v);
     v.x = v.x % 0x400000;
-    if (func_0217B94C(&v) == 1)
+    if (func_0217B94C((int *)(&v)) == 1)
         return;
     buf = (int)func_02159B48(0x8015);
     func_02159B94(buf, 0x76, 0x76 + 0xa1, 0x8015);

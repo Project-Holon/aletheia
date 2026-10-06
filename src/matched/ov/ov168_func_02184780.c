@@ -29,9 +29,11 @@ typedef signed short s16;
 typedef unsigned short u16;
 extern void func_0204B3DC(void *, int);
 extern void func_0207C9D0(void *, void *, void *);
-extern int func_0203F5FC(u16);
+typedef unsigned int   u32;
+extern int func_0203F5FC(u32 x);
 extern void func_0204B550(void *, s16, int);
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 void func_02184780(void *task, int *p)
 {
     s16 x;
@@ -49,7 +51,7 @@ void func_02184780(void *task, int *p)
     p[8] += p[9];
     while (p[8] > 0x168000)
         p[8] -= 0x168000;
-    angle = func_0203F5FC(p[8] >> 12);
+    angle = func_0203F5FC((u16)(p[8] >> 12));
     x += (s16)((p[10] * angle) >> 12);
     func_0204B550((void *)p[0], x, 0);
     func_0204B550((void *)p[0], y, 1);

@@ -43,8 +43,9 @@ extern u32 func_02046F50(struct Tagged *p, u32 sel);
 extern int func_02046FF8(int *self);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern int func_0204767C(int a, int *b, int c);
-extern void func_020477A4(int a, u16 b);
+struct G3dSys;
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 
 extern int d_021DB95C[3];
 extern int d_021DB950;
@@ -70,8 +71,8 @@ void func_021D0648(S *p)
     for (i = 0; i < 2; i++) {
         p->b[i] = (int)func_02047564((struct G3dOwner *)p->f10, (const struct G3dOwner *)p->a[d_021DB954[i]], k);
     }
-    p->f1c = func_0204767C(p->f10, p->b, 2);
+    p->f1c = (int)func_0204767C((int)p->f10, (u32 *)p->b, 2);
     for (k = 0; k < 2; k++) {
-        func_020477A4(p->f1c, k);
+        func_020477A4((struct G3dSys *)p->f1c, (u16)k);
     }
 }

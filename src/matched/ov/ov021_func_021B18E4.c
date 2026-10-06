@@ -36,10 +36,10 @@ void *func_020127A4(struct SaveBlock *p);
 struct Rec44;
 unsigned short func_02012AC8(const struct Rec44 *p);
 unsigned int func_02159B10(void *a0, void *a1);
-void *func_0201296C(void *a);
-int func_02162740(int a);
+u32 func_0201296C(const struct BigObj *p);
+u32 func_02162740(u8 *p);
 int func_0216CEE4(int a, int b, int c, int d, void *e, int f);
-void func_0216DAF8(int a);
+void func_0216DAF8(void *a0);
 
 int func_021B18E4(int a, int b)
 {
@@ -58,10 +58,10 @@ int func_021B18E4(int a, int b)
     s10 = func_02012AC8((const struct Rec44 *)func_020127A4(r4));
     r6 = func_02159B10((void *)a, (void *)b);
     if (r5 != 0) {
-        r4 = func_0201296C(r4);
-        r0 = func_0216CEE4(s8, func_02162740(sc), s10, r5, r4, r6);
+        r4 = (void *)func_0201296C(r4);
+        r0 = func_0216CEE4(s8, func_02162740((u8 *)sc), s10, r5, r4, r6);
         if (r0 != 0) {
-            func_0216DAF8(r0);
+            func_0216DAF8((void *)r0);
         }
     }
     return 0;

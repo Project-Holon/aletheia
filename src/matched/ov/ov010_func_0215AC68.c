@@ -33,7 +33,8 @@ struct Blk34;
 struct Sub020089A8Obj;
 extern void *func_02012F08(int *p);
 extern void func_0200C248(struct Blk34 *p, u32 bit);
-extern void func_0203F4E4(V4 *);
+struct RtcDate;
+extern void func_0203F4E4(struct RtcDate *date);
 extern void *func_02012F5C(void **h);
 extern void func_02008A7C(struct Sub020089A8Obj *obj, u32 i, u32 a, u32 b, u32 c);
 
@@ -44,7 +45,7 @@ int func_0215AC68(int a, int b)
     void *r5 = func_0215A5E4((void *)b);
 
     func_0200C248(func_02012F08(r5), r4);
-    func_0203F4E4(&v);
+    func_0203F4E4((struct RtcDate *)(&v));
     func_02008A7C(func_02012F5C(r5), r4, v.a, v.b, v.c);
     return 0;
 }

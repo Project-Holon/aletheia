@@ -52,7 +52,7 @@ extern void func_02028148(u8 *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_021BD0C4(void *ctx, u8 *st, int msgId);
+extern void func_021BD0C4(void *a0, char *a1, int a2);
 
 static inline u8 func_021BCEF8_show(u32 win)
 {
@@ -112,7 +112,7 @@ void func_021BCEF8(void *ctx, u8 *st)
             ((struct Obj00543 *)st)->f1C = 0;
         }
         if (st[0x14] != 0)
-            func_021BD0C4(ctx, st, 0x11);
+            func_021BD0C4(ctx, (char *)st, 0x11);
         ((struct Obj00543 *)st)->f18 = 0;
     }
 }

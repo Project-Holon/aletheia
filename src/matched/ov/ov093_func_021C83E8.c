@@ -16,7 +16,7 @@
 #include "../include/Obj13342.h"
 extern void *func_021B86B8(void ***);
 extern void func_021BB908(int *, int);
-int func_021C83E8(unsigned char *p, int i)
+int func_021C83E8(unsigned char *p, int i, int b)
 {
     if ((unsigned int)func_021B86B8(*(void *** *)&((struct Obj13342 *)p)->f4) <= 1) {
         func_021BB908(*(int * *)&((struct Obj13342 *)p)->f0, i);

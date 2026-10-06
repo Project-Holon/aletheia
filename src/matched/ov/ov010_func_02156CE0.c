@@ -62,9 +62,10 @@ extern Stage *func_02156F68(u32 heap, void *p);
 extern void func_02156FD0(Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y);
 extern void func_0215700C(Stage *s, u8 idx, u8 j, u16 id, s16 a, u8 b);
 extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
-extern void func_02157174(u32 heap, void *d, Stage *s);
+struct Party;
+extern void func_02157174(u32 heap, struct Deal *d, struct Party *party);
 extern void *func_021F685C(u32 a);
-extern void func_021F68BC(void *p, u32 a, u32 b, u32 c, u32 d);
+extern void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
 
 int func_02156CE0(void *proc, void *unused, Stage *prev)
 {
@@ -99,7 +100,7 @@ int func_02156CE0(void *proc, void *unused, Stage *prev)
         w->stage->f18 = func_021F685C(1);
         func_021F68BC(w->stage->f18, 0, 0, 0, 0x2C);
         w->stage->f14 = func_02157028(0x2E, w->stage->f18, 0);
-        func_02157174(0x2E, w->stage->f14, w->stage);
+        func_02157174(0x2E, w->stage->f14, (struct Party *)w->stage);
         w->stage->f04[0]->total = 75;
         w->stage->f04[1]->total = 45;
         w->stage->f04[2]->total = 30;

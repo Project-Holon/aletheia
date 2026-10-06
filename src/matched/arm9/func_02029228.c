@@ -17,14 +17,14 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_02005E50(u8 *p);
+extern int func_02005E50(void);
 extern u32  func_0202947C(u8 *p);
 extern u32 func_02029408(u8 *p);
 extern void func_02029344(void *obj, u32 value);
 
 void func_02029228(u8 *p)
 {
-    if (func_02005E50(p) != 0) {
+    if (func_02005E50() != 0) {
         return;
     }
     if (func_0202947C(p) != 0) {

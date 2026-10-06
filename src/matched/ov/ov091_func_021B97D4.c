@@ -24,7 +24,7 @@ typedef unsigned char u8;
 extern void func_021BBBD8(int unused, int *q);
 extern unsigned int func_021BBBE4(int a, unsigned char *b);
 extern void func_021BBBA0(unsigned char *a, unsigned char *b);
-extern void func_021BBB40(u8 *p, int *q);
+extern void func_021BBB40(u8 *a, u8 *b);
 
 #define W(o) (*(int *)(p + (o)))
 
@@ -44,5 +44,5 @@ void func_021B9804(u8 *p, int a1)
 {
     p[0xc] = 9;
     W(0x14c) = a1;
-    func_021BBB40(p, (int *)W(0x154));
+    func_021BBB40(p, (u8 *)W(0x154));
 }

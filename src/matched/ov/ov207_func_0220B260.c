@@ -25,7 +25,7 @@ extern void func_0204047C(int idx, unsigned short val);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern void func_020498F4(void *,int,int,u16,int,int,unsigned);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049238(void *);
 extern void func_020409B4(u32 index);
 void func_0220B260(unsigned *p)
@@ -38,7 +38,7 @@ void func_0220B260(unsigned *p)
     r=func_020490F4(159,((struct Obj00162 *)p)->f0);
     func_02049B68(r,7,0,0,32,((struct Obj00162 *)p)->f0);
     p[12]=func_02049740(r,17,1,2048,0,((struct Obj00162 *)p)->f0);
-    func_020498F4(r,39,1,p[12],1536,0,((struct Obj00162 *)p)->f0);
+    func_020498F4(r,(int)39,(int)1,(u16)p[12],(int)1536,(int)0,(unsigned)(((struct Obj00162 *)p)->f0));
     func_02049238(r);
     func_020409B4(1);
 }

@@ -50,7 +50,8 @@ struct Sub02009448Obj;
 struct WordSet;
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern int func_02009370(void *p);
+struct Sub02009210Obj;
+extern u32 func_02009370(const struct Sub02009210Obj *obj);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_021B76F8(void *p, int key, void *q);
 extern void *func_021B7794(void *p);
@@ -78,13 +79,13 @@ int func_0215E1C0(void *c, void *vm)
     sys = func_0215A5DC(vm);
     x = func_0215A5E4(vm);
     blk = func_02009448(func_02012EBC(x));
-    lim = func_02009370(blk);
+    lim = (int)func_02009370(blk);
     if (func_0201210C(sys) == 0 && cmd != 0) {
         return 0;
     }
     switch (cmd) {
     case 0:
-        *dst = func_02009370(blk) > 0 ? 1 : 0;
+        *dst = (int)func_02009370(blk) > 0 ? 1 : 0;
         break;
     case 1:
         if (func_021B76F8(x, v, blk) < lim) {

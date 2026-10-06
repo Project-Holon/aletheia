@@ -48,19 +48,20 @@ struct Mon;
 extern void *func_0201747C(struct Mon *p, u32 heap);
 extern void func_021D46EC(char *);
 extern void *func_021D65D8(void *);
-extern void *func_021D7B00(void *);
+struct Context;
+extern void **func_021D7B00(u16 *a);
 extern u8 *func_021D96B0(u8 *);
-extern void *func_021D87E0(void *);
-extern void func_021D4964(void *);
+extern void *func_021D87E0(u16 *a);
+extern void func_021D4964(u8 *p);
 extern void func_021D51DC(char *);
-extern void func_021D4FBC(char *);
+extern void func_021D4FBC(struct Context *ctx);
 extern void func_021D46E4(void);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_02082A60(const void *,void *,u32);
 extern void func_021D5C4C(u8 *);
 extern void func_021D697C(u8 *,int *);
-extern void func_021DA6A4(void *,void *);
-extern void func_021D911C(void *,void *);
+extern void func_021DA6A4(u8 *a, u8 *p);
+extern void func_021D911C(u8 *a, u8 *p);
 extern int func_02012BF8(int a0, int a1);
 extern void func_021D9C3C(void *,u8 *);
 extern void func_021D8F50(void *,u8 *);
@@ -94,12 +95,12 @@ int func_021D4240(char *p)
     else ((struct Obj00238 *)p)->f258=0;
     func_021D46EC(p);
     ((struct Obj00238 *)p)->f88=func_021D65D8(p);
-    ((struct Obj00238 *)p)->f8C=func_021D7B00(p);
+    ((struct Obj00238 *)p)->f8C=func_021D7B00((u16 *)p);
     ((struct Obj00238 *)p)->f90=func_021D96B0((u8 *)p);
-    ((struct Obj00238 *)p)->f94=func_021D87E0(p);
-    func_021D4964(p);
+    ((struct Obj00238 *)p)->f94=func_021D87E0((u16 *)p);
+    func_021D4964((u8 *)p);
     func_021D51DC(p);
-    func_021D4FBC(p);
+    func_021D4FBC((struct Context *)p);
     ((struct Obj00238 *)p)->f4=func_020056A0((u32)func_021D46E4,(u32)p,8);
     ((struct Obj00238 *)p)->f1A4=0;
     func_02082A60((void *)0x0500026c,p+0x1a6,12);
@@ -110,15 +111,15 @@ int func_021D4240(char *p)
     if ((*(u8 **)(p+8))[13]==2) {
         ((struct Obj00238 *)p)->f58=3;
         func_021D697C((u8 *)p,*(int * *)&((struct Obj00238 *)p)->f88);
-        func_021DA6A4(p,((struct Obj00238 *)p)->f90);
-        func_021D911C(p,((struct Obj00238 *)p)->f94);
+        func_021DA6A4((u8 *)p,((struct Obj00238 *)p)->f90);
+        func_021D911C((u8 *)p,((struct Obj00238 *)p)->f94);
     } else {
         ((struct Obj00238 *)p)->f58=(*(u8 **)(p+8))[16];
         if (((struct Obj00238 *)p)->f58<3) {
             for(i=0;i<3;i++) *(int *)(p+0x60+i*4)=func_02012BF8((int)(((struct Obj23119 *)(*(char * *)&((struct Obj00238 *)p)->f8))->f8),i+7);
         }
         func_021D697C((u8 *)p,*(int * *)&((struct Obj00238 *)p)->f88);
-        func_021D911C(p,((struct Obj00238 *)p)->f94);
+        func_021D911C((u8 *)p,((struct Obj00238 *)p)->f94);
         switch (((struct Obj00238 *)p)->f58) {
         case 0: func_021D7C38(p,*(u8 * *)&((struct Obj00238 *)p)->f8C); break;
         case 1: func_021D9C3C(p,*(u8 * *)&((struct Obj00238 *)p)->f90); break;

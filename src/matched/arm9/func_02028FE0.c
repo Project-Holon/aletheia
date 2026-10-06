@@ -18,10 +18,11 @@ struct T {
 };
 
 extern void func_02029344(void *obj, u32 value);
-extern void func_02029364(struct T *p);
-extern void func_02029374(struct T *p);
+typedef unsigned char  u8;
+extern void func_02029364(u8 *p);
+extern void func_02029374(u8 *p);
 extern void func_020293D8(struct T *p);
-extern void func_0202945C(struct T *p);
+extern void func_0202945C(u8 *p);
 
 void func_02028FE0(struct T *p)
 {
@@ -33,7 +34,7 @@ void func_02028FE0(struct T *p)
         break;
     case 4:
         func_020293D8(p);
-        func_02029374(p);
+        func_02029374((u8 *)p);
         func_02029344(p, 7);
         break;
     case 5:
@@ -43,9 +44,9 @@ void func_02028FE0(struct T *p)
         func_02029344(p, 0xd);
         break;
     case 7:
-        func_0202945C(p);
+        func_0202945C((u8 *)p);
         func_02029344(p, 1);
-        func_02029364(p);
+        func_02029364((u8 *)p);
         break;
     }
 }

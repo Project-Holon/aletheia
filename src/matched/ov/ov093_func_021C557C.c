@@ -20,14 +20,15 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 func_021D5440(u8 *p);
-extern void func_021D61F0(u8 *p);
+struct UtilSlots;
+extern void func_021D61F0(struct UtilSlots *p);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021CD64C(void *w, u8 id, ...);
 
 void func_021C557C(u8 *p, u8 *a, int k, int flag)
 {
     u8 n = func_021D5440(a);
-    func_021D61F0(a);
+    func_021D61F0((struct UtilSlots *)a);
     func_021CD4B0(((struct Obj06227 *)p)->fC, 0x10, n);
     func_021CD4B0(((struct Obj06227 *)p)->fC, 0x35, n, 0);
     if (flag != 0) {

@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct ArcFile;
 void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 
-void func_021F3190(int a0, int a1, int a2)
+void func_021F3190(int a0, int a1, int a2, int d)
 {
     int x = func_020091FC(a0);
 

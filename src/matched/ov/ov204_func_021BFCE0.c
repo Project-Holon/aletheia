@@ -12,4 +12,4 @@
  *   func_02050BE8 0x02050BE8 arm
  */
 extern void func_02050BE8(void);
-void func_021BFCE0(void) { func_02050BE8(); }
+void func_021BFCE0(int a0) { func_02050BE8(); }

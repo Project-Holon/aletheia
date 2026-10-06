@@ -33,9 +33,9 @@ struct S {
     u8 f7f;
 };
 
-extern int func_02035BA4(void *p);
-extern void func_02035CB8(int *a, int *b);
-extern void func_021B8A88(struct S *s, u8 *b, u8 *a);
+extern int func_02035BA4(const void *p);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern void func_021B8A88(u8 *p, u8 *a, u8 *b);
 extern u32 func_0202EE0C(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 int func_021B8AE4(struct S *s, unsigned int v)
@@ -46,12 +46,12 @@ int func_021B8AE4(struct S *s, unsigned int v)
 
     if (s->f7f == 1) {
         if (func_02035BA4(&s->f74) != -1) {
-            func_02035CB8(&o1, &o2);
+            func_02035CB8((u32 *)(&o1), (u32 *)(&o2));
             return o2;
         }
         return v;
     }
-    func_021B8A88(s, &b, &a);
+    func_021B8A88((u8 *)s, &b, &a);
     lo = func_0202EE0C(s->f64, s->f62, b, a, s->f12);
     if (s->f64 == s->f62)
         hi = a;

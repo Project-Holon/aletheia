@@ -72,7 +72,7 @@ extern void sub_0200FD38(u32 a, u32 b);
 extern BOOL GX_VBlankIntr(BOOL on);
 extern void func_02037174(void);
 extern u32 func_02037200(void);
-extern void func_0201034C(void);
+extern int func_0201034C(void);
 extern void sub_0200F824(void);
 extern void sub_0200FEBC(BOOL a);
 extern void func_02037190(void);

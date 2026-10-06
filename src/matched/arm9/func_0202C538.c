@@ -10,4 +10,4 @@
  * status:   EXACT
  */
 
-int func_0202C538(int a0, int a1, int a2, int a3){ int t0, t1; t0 = func_0202C590(a0); t1 = func_0202C5B4((int)t0); return ((t0 + 0) + 0); }
+int func_0202C538(int a0){ int t0, t1; t0 = func_0202C590(a0); t1 = func_0202C5B4((int)t0); return ((t0 + 0) + 0); }

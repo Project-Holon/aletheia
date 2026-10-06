@@ -102,56 +102,62 @@ extern u16 d_021F4094[];
 extern u16 d_021F409C[];
 extern u16 d_021F40B4[];
 
-extern void *func_020124E4(void *p);
-extern void *func_0201210C(void *p);
-extern void *func_02188D2C(void *);
-extern u8 *func_021897BC(void *, int);
+struct Big;
+struct Ctx;
+struct IcaAnime;
+struct Obj;
+struct Rec12;
+struct VecFx32;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_02188D2C(int *p);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188C58(void *);
 extern void *func_02188C80(void *);
-extern void *func_020120F4(void *);
-extern void *func_02012EC4(void *);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern void func_0200B3A4(void *, int);
-extern void func_0218F0A8(void *);
+extern void func_0218F0A8(u8 *a);
 extern void func_021F3FEC(u8 *);
-extern int func_0218F0E8(void *);
+extern u32 func_0218F0E8(u8 *a);
 extern int func_021F3F44(int);
 extern int func_021F3FC0(u32, int);
 extern u16 func_021F3F18(int);
-extern u32 func_02011428(int, int, int, u8 *, int);
+extern void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
 extern u16 func_02011608(u32);
-extern void func_021BE700(void *, int, u16, u16, int);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6CC(void *, int, u16, u16, int);
-extern int func_021BE6E8(void *, int, u16, u16);
-extern void *func_021BE674(void *, int, u16, u16);
-extern void func_021BE6B0(void *, int);
-extern void func_0218F818(void *);
+extern int func_021BE6E8(int a, int b, int c, int d);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE6B0(unsigned char *p, int v);
+extern void func_0218F818(u8 *a);
 extern void func_020061E4(u32);
-extern void func_02158780(void *, int, int, int, int);
+extern int func_02158780(void *p, int b, int c, int d, u16 e);
 extern void func_0218F900(void *, Req *, u8);
-extern int func_0218FE50(void *);
-extern void func_0218E13C(void *, int);
-extern void *func_02188CB4(void *);
-extern void *func_021A3074(void *);
-extern void func_0216DAC8(void *, int);
-extern void func_0216D548(void *, int);
-extern void func_0216D568(void *, int);
+extern int func_0218FE50(u8 *a);
+extern void func_0218E13C(u8 *a, u32 s);
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
+extern void func_0216DAC8(unsigned int *p, unsigned int v);
+extern void func_0216D548(u32 *p, u32 v);
+extern void func_0216D568(void *p, u32 v);
 extern void func_021F3FD8(u8 *);
-extern void func_021A3044(void *, Vec *);
-extern void func_0216D550(void *, int);
-extern void func_02011558(u32);
-extern void func_0218F05C(void *);
-extern void func_0218F878(void *);
-extern int func_02011688(u32, Vec *, u16);
-extern void func_021A3038(void *, Vec *);
-extern void func_0218EC54(void *);
+extern void func_021A3044(u8 *p, void *v);
+extern void func_0216D550(u32 *p, u32 v);
+extern void func_02011558(struct IcaAnime *p);
+extern void func_0218F05C(unsigned char *a);
+extern void func_0218F878(u8 *a);
+extern u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
+extern void func_021A3038(u8 *p, struct VecFx32 *out);
+extern void func_0218EC54(u8 *p);
 extern void func_0218ECE4(void *, Vec *);
-extern void func_0218F930(void *, Vec *, Vec *, Six *, u16);
-extern u8 *func_0218FE70(void *);
-extern void func_0218EC60(void *);
-extern void func_0218F9C4(void *, Six *, u16);
-extern void func_0216D570(void *, int);
-extern int func_0216D57C(void *, int);
-extern void func_021F4000(u8 *, void *);
+extern void func_0218F930(u8 *p, u8 *a, u8 *b, u32 *c, u16 v);
+extern u8 *func_0218FE70(u8 *p);
+extern int func_0218EC60(u32 a);
+extern void func_0218F9C4(u8 *p, u8 *src, u16 v);
+extern void func_0216D570(char *p, u32 v);
+extern u32 func_0216D57C(void *p, u32 v);
+extern void func_021F4000(u8 *p, u8 *obj);
 
 int func_021F3884(void *a0, int *state)
 {
@@ -177,8 +183,8 @@ int func_021F3884(void *a0, int *state)
     void *m;
 
     ctx = func_0201210C(func_020124E4(a0));
-    s = func_02188D2C(ctx);
-    w = func_021897BC(ctx, 1);
+    s = (void *)func_02188D2C(ctx);
+    w = (u8 *)func_021897BC(ctx, 1);
     obj = func_02188C58(ctx);
     func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(ctx))), 5);
     switch (*state) {
@@ -188,14 +194,14 @@ int func_021F3884(void *a0, int *state)
         (*state)++;
         break;
     case 1:
-        if (func_0218F0E8(obj) != 0)
+        if ((int)func_0218F0E8(obj) != 0)
             break;
         row = w[0];
         sel = func_021F3F44(w[1]);
         v = d_021F4320[w[0]][sel].id;
         if (v == -1)
             return 1;
-        *(u32 *)(w + 0x714) = func_02011428(0x8015, 0x79, v, w + 4, 0x708);
+        *(u32 *)(w + 0x714) = (u32)func_02011428((int)0x8015, (int)0x79, (int)v, (u32)(w + 4), (int)0x708);
         *(u16 *)(w + 0x71A) = func_02011608(*(u32 *)(w + 0x714));
         idx = (u16)d_021F4320[row][sel].k;
         c = d_021F4198[idx].c;
@@ -211,8 +217,8 @@ int func_021F3884(void *a0, int *state)
         w[3] = 0;
         b0 = w[0];
         i1 = func_021F3F18(func_021F3FC0(w[1], b0));
-        func_021BE700(s, 0, b0, i1, 1);
-        func_021BE700(s, 0, b0, i1 + 1, 1);
+        func_021BE700(s, 0, (u16)b0, (u16)i1, 1);
+        func_021BE700(s, 0, (u16)b0, (u16)(i1 + 1), 1);
         func_021BE6CC(s, 0, b0, i1, 0);
         func_021BE6CC(s, 0, b0, i1 + 1, 0);
         func_0218F818(obj);
@@ -221,15 +227,15 @@ int func_021F3884(void *a0, int *state)
     case 2:
         b0 = w[0];
         r = func_021F3FC0(w[1], b0);
-        v = func_021BE6E8(s, 0, b0, func_021F3F18(r));
+        v = func_021BE6E8((int)s, 0, (u16)b0, (u16)func_021F3F18(r));
         if (v / 4096 == d_021F4084[r])
             func_020061E4(0x698);
         if (v / 4096 < d_021F408C[r])
             break;
         i3 = func_021F3F18(r);
-        func_021BE6B0(func_021BE674(s, 0, b0, i3), 1);
-        func_021BE6B0(func_021BE674(s, 0, b0, i3 + 1), 1);
-        func_02158780(a0, 2, 0, 0, 0x8015);
+        func_021BE6B0(func_021BE674(s, 0, (u16)b0, (u16)i3), 1);
+        func_021BE6B0(func_021BE674(s, 0, (u16)b0, (u16)(i3 + 1)), 1);
+        func_02158780(a0, 2, 0, 0, (int)0x8015);
         idx = (u16)d_021F4320[w[0]][func_021F3F44(w[1])].k;
         {
         Req req;
@@ -247,22 +253,22 @@ int func_021F3884(void *a0, int *state)
     case 3:
         if (func_0218FE50(obj) != 0)
             break;
-        func_0218E13C(obj, 2);
+        func_0218E13C(obj, (int)2);
         m = func_021A3074(func_02188CB4(ctx));
-        func_0216DAC8(m, 1);
-        func_0216D548(m, 0x200);
-        func_0216D568(m, 0x8000);
+        func_0216DAC8(m, (int)1);
+        func_0216D548(m, (int)0x200);
+        func_0216D568(m, (int)0x8000);
         b0 = w[0];
         i4 = func_021F3F18(func_021F3FC0(w[1], b0));
-        func_021BE6B0(func_021BE674(s, 0, b0, i4), 0);
-        func_021BE6B0(func_021BE674(s, 0, b0, i4 + 1), 0);
+        func_021BE6B0(func_021BE674(s, 0, (u16)b0, (u16)i4), 0);
+        func_021BE6B0(func_021BE674(s, 0, (u16)b0, (u16)(i4 + 1)), 0);
         func_020061E4(0x699);
         (*state)++;
         break;
     case 4:
         b0 = w[0];
         r = func_021F3FC0(w[1], b0);
-        v = func_021BE6E8(s, 0, b0, func_021F3F18(r));
+        v = func_021BE6E8((int)s, 0, (u16)b0, (u16)func_021F3F18(r));
         if (v / 4096 < d_021F409C[r])
             break;
         func_020061E4(0x6A0);
@@ -273,14 +279,14 @@ int func_021F3884(void *a0, int *state)
     case 5:
         b0 = w[0];
         r = func_021F3FC0(w[1], b0);
-        v = func_021BE6E8(s, 0, b0, func_021F3F18(r));
+        v = func_021BE6E8((int)s, 0, (u16)b0, (u16)func_021F3F18(r));
         if (v / 4096 == d_021F4094[r]) {
             func_020061E4(0x696);
             if (w[3] == 0) {
                 func_021F3FD8(w);
-                func_0218E13C(obj, 1);
+                func_0218E13C(obj, (int)1);
             }
-            func_0216DAC8(func_021A3074(func_02188CB4(ctx)), 0);
+            func_0216DAC8(func_021A3074(func_02188CB4(ctx)), (int)0);
         }
         if (w[2] != 0)
             break;
@@ -296,12 +302,12 @@ int func_021F3884(void *a0, int *state)
         (*state)++;
         break;
     case 6:
-        func_0216D550(func_021A3074(func_02188CB4(ctx)), 0x200);
-        func_02011558(*(u32 *)(w + 0x714));
+        func_0216D550(func_021A3074(func_02188CB4(ctx)), (int)0x200);
+        func_02011558((struct IcaAnime *)(*(u32 *)(w + 0x714)));
         b0 = w[0];
         i6 = func_021F3F18(func_021F3FC0(w[1], b0));
-        func_021BE700(s, 0, b0, i6, 0);
-        func_021BE700(s, 0, b0, i6 + 1, 0);
+        func_021BE700(s, 0, (u16)b0, (u16)i6, 0);
+        func_021BE700(s, 0, (u16)b0, (u16)(i6 + 1), 0);
         func_0218F05C(obj);
         func_0218F878(obj);
         return 1;
@@ -310,7 +316,7 @@ int func_021F3884(void *a0, int *state)
         {
             Vec base = {0, 0, 0};
             b0 = w[0];
-            if (func_02011688(*(u32 *)(w + 0x714), &base, *(u16 *)(w + 0x718)) != 0) {
+            if (func_02011688((struct IcaAnime *)(*(u32 *)(w + 0x714)), (struct Rec12 *)(&base), *(u16 *)(w + 0x718)) != 0) {
                 base.x += (d_021F40F0[b0].a << 16) + 0x8000;
                 base.y += d_021F40F0[b0].pad << 16;
                 base.z += (d_021F40F0[b0].b << 16) + 0x8000;
@@ -321,7 +327,7 @@ int func_021F3884(void *a0, int *state)
             Vec end;
             Vec start;
             Six path;
-            func_021A3038(func_02188CB4(ctx), &end);
+            func_021A3038(func_02188CB4(ctx), (struct VecFx32 *)(&end));
             if (*(int *)(w + 0x728) == 0) {
                 func_0218EC54(obj);
                 func_0218ECE4(obj, &start);
@@ -331,7 +337,7 @@ int func_021F3884(void *a0, int *state)
                 path.b = 0;
                 path.c = 0;
                 path.d = 0;
-                func_0218F930(obj, &start, &end, &path, *(u16 *)(w + 0x71C) - *(u16 *)(w + 0x718));
+                func_0218F930(obj, (u8 *)(&start), (u8 *)(&end), (u32 *)(&path), *(u16 *)(w + 0x71C) - *(u16 *)(w + 0x718));
                 *(int *)(w + 0x728) = 1;
             } else {
                 *(Vec *)(func_0218FE70(obj) + 0xC) = end;
@@ -340,8 +346,8 @@ int func_021F3884(void *a0, int *state)
         if (*(u16 *)(w + 0x718) == *(u16 *)(w + 0x71C)) {
             if (*(int *)(w + 0x720) != 0)
                 *(int *)(w + 0x720) = 0;
-            func_0218EC60(obj);
-            func_0218E13C(obj, 0);
+            func_0218EC60((u32)obj);
+            func_0218E13C(obj, (int)0);
             {
             Six fin;
             fin.a = 1;
@@ -350,7 +356,7 @@ int func_021F3884(void *a0, int *state)
             fin.d = 1;
             fin.e = 1;
             fin.f = 0;
-            func_0218F9C4(obj, &fin, *(u16 *)(w + 0x71E));
+            func_0218F9C4(obj, (u8 *)(&fin), *(u16 *)(w + 0x71E));
             }
             w[3] = 1;
         }
@@ -358,15 +364,15 @@ int func_021F3884(void *a0, int *state)
         idx = (u16)d_021F4320[row][func_021F3F44(w[1])].k;
         m2 = func_021A3074(func_02188CB4(ctx));
         if (*(u16 *)(w + 0x718) == *(u16 *)(w + 0x71A) - 1 - d_021F40B4[idx] && idx != 11) {
-            func_0216D570(m2, 0x8000);
+            func_0216D570(m2, (int)0x8000);
             func_020061E4(0x697);
         }
         if (idx == 11) {
             if (*(u16 *)(w + 0x718) == 0x46)
                 func_020061E4(0x6A1);
             if (*(u16 *)(w + 0x718) + 8 >= *(u16 *)(w + 0x71A)) {
-                if (func_0216D57C(m2, 0x8000) != 0)
-                    func_0216D570(m2, 0x8000);
+                if ((int)func_0216D57C(m2, (int)0x8000) != 0)
+                    func_0216D570(m2, (int)0x8000);
             }
         }
         *(u16 *)(w + 0x718) += 1;

@@ -26,8 +26,11 @@ extern void *func_0203159C(void *, unsigned, unsigned);
 extern void func_02082AC0(unsigned, void *, unsigned);
 extern signed char func_02012FFC(void);
 extern void func_021C4184(void *, u8 *);
-extern void *func_0201D7EC(unsigned, unsigned, unsigned, unsigned, u16);
-extern void *func_0203101C(u16, u16, unsigned, unsigned);
+typedef unsigned int   u32;
+struct GfFont;
+struct Tcbl;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0203F8F4(u16);
 int func_021C41E0(void *a, void *b, u8 *p)
 {
@@ -48,8 +51,8 @@ int func_021C41E0(void *a, void *b, u8 *p)
     ((struct Obj08198 *)p)->f0 = 0xFFFF;
     q[0x15] = func_02012FFC();
     func_021C4184(q, *(u8 * *)&((struct Obj01064 *)q)->f1C);
-    ((struct Obj01064 *)q)->f24 = func_0201D7EC(0x17, 0, 0, 0, ((struct Obj01064 *)q)->f0);
-    ((struct Obj01064 *)q)->f100 = func_0203101C(((struct Obj01064 *)q)->f0, ((struct Obj01064 *)q)->f0, 0x20, 0x20);
+    ((struct Obj01064 *)q)->f24 = func_0201D7EC((unsigned)0x17, (unsigned)0, (unsigned)0, (unsigned)0, (u16)(((struct Obj01064 *)q)->f0));
+    ((struct Obj01064 *)q)->f100 = func_0203101C((u16)(((struct Obj01064 *)q)->f0), ((struct Obj01064 *)q)->f0, 0x20, 0x20);
     q[0xA] = 1;
     func_0203F8F4(((struct Obj01064 *)q)->f0);
     return 1;

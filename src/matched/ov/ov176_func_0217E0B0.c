@@ -24,7 +24,7 @@ extern int func_0203CD98(void);
 typedef unsigned int   u32;
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_021799C0(int);
-extern void func_0203D0DC(int);
+extern int func_0203D0DC(int a0);
 extern int func_0203D1B4(void);
 extern const unsigned d_0217E564[];
 extern int d_0217E630;

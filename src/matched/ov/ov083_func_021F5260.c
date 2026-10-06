@@ -52,17 +52,19 @@ struct Ctx;
 struct Rec02010F94;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02010F7C(u32 heap);
-extern void *func_02158768(void *p, u32 msg, u32 a, u32 b);
-extern void *func_021589D0(void *h);
+struct BigObj;
+struct Desc;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+extern int func_021589D0(int a0);
 extern unsigned int func_02010F94(struct Rec02010F94 *p, int idx);
 extern void sub_02010E14(int slot, u8 *rec, int select);
-extern void  func_02159058(void *p, u16 a, u16 b, u16 c, u32 d);
+extern int func_02159058(int a, int b, int c, int d, u16 e);
 extern void *func_02158F74(void *p);
 extern void  func_021F5488(void *a0, void *a1, int a2);
 extern u16   func_02010FA0(void *rec, int slot);
-extern u32   func_0201292C(void *a);
-extern u32   sub_02007F1C(u32 base, u16 id, u16 qty, u16 d);
-extern void  func_021652C4(int a0);
+extern void *func_0201292C(const struct BigObj *p);
+extern u32 sub_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
+extern void func_021652C4(void *a0);
 extern void  func_021657B0(int a0);
 extern void  func_02010F8C(void *p);
 
@@ -79,23 +81,23 @@ void *func_021F5260(void *a0, int *a1)
     obj = func_020120F4(a0);
     rec = func_02010F7C(0x8015);
     id = a1[0];
-    h = func_02158768(a0, 0x28B9, 0, 0x15);
-    s = func_021589D0(h);
+    h = func_02158768((int)a0, 0x28B9, 0, 0x15);
+    s = (void *)func_021589D0((int)h);
     if (id == 0x30 || id > 0x2D) {
         id = 0;
     }
     x = func_02010F94(rec, id);
     sub_02010E14(id, rec, a1[1]);
     if (id == 0x27) {
-        func_02159058(s, id, 0xB, a1[1], 0);
+        func_02159058((int)s, (u16)id, (u16)0xB, (u16)a1[1], (u32)0);
     } else {
-        func_02159058(s, id, x, a1[1], 0);
+        func_02159058((int)s, (u16)id, (u16)x, (u16)a1[1], (u32)0);
     }
     func_021F5488(a0, func_02158F74(s), x);
     if (a1[1] != 0) {
         q = func_02010FA0(rec, id);
         sub_02007F1C(func_0201292C(obj), 0x23F, q, 0x8015);
-        func_021652C4(id);
+        func_021652C4((void *)id);
     } else {
         func_021657B0(id);
     }

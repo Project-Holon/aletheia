@@ -62,7 +62,7 @@ extern u32  func_021BDFDC(void *c);
 extern u32  func_021BDFE4(void *c);
 extern void func_021BE0B0(void *c, u32 v);
 extern u32  func_021BE0B4(void *c);
-extern u8   func_021BE0A4(void *c);
+extern u32 func_021BE0A4(void *p);
 extern void func_021BE08C(void *c);
 extern u32  func_021BE044(void *c);
 struct Cfg;
@@ -76,15 +76,15 @@ extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern void func_021B8B34(void *c, u32 v, u32 k);
 extern int  func_021B8B48(void *c, u32 v, u32 k);
 extern u32 func_021B77B4(int unused, void *p);
-extern void func_021BB938(void *c, char *q, int id);
-extern int  func_021BB8F4(void *c, char *q);
-extern void func_021BAE58(void *c, char *q);
-extern void func_021BAEE0(void *c, char *q);
-extern void func_021BB4D0(void *c, char *q);
-extern void func_021BB288(void *c, char *q);
+extern void func_021BB938(void *p, u8 *q, int id);
+extern int func_021BB8F4(void *a0, int *out);
+extern void func_021BAE58(void *p, u8 *q);
+extern void func_021BAEE0(void *ctx, u8 *p);
+extern void func_021BB4D0(void *unused, u8 *q);
+extern void func_021BB288(void *ctx, u8 *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32  func_020221A4(void);
-extern u32  func_02035C60(void);
+extern int func_02035C60(void);
 extern u32  func_020362DC(void);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
@@ -149,18 +149,18 @@ int func_021BA9EC(void *a0, char *p)
         }
         break;
     case 4:
-        if (func_021BB8F4(a0, p) == 0) {
-            func_021BAE58(a0, p);
+        if (func_021BB8F4(a0, (int *)p) == 0) {
+            func_021BAE58(a0, (u8 *)p);
         }
         break;
     case 5:
-        if (func_021BB8F4(a0, p) == 0) {
-            func_021BAEE0(a0, p);
+        if (func_021BB8F4(a0, (int *)p) == 0) {
+            func_021BAEE0(a0, (u8 *)p);
         }
         break;
     case 6:
         func_021B8084(a0, (char *)func_021BDFE4(a0));
-        func_021BB938(a0, p, 0x24);
+        func_021BB938(a0, (u8 *)p, 0x24);
         flag = 1;
         func_021BE0B0(a0, 1);
         ((struct Obj00140 *)p)->f0 = 7;
@@ -183,7 +183,7 @@ int func_021BA9EC(void *a0, char *p)
         break;
     case 9:
         func_021B8084(a0, (char *)func_021BDFE4(a0));
-        func_021BB938(a0, p, 0x25);
+        func_021BB938(a0, (u8 *)p, 0x25);
         flag = 1;
         func_021BE0B0(a0, 1);
         ((struct Obj00140 *)p)->f0 = 10;
@@ -213,7 +213,7 @@ int func_021BA9EC(void *a0, char *p)
         break;
     case 13:
         func_021B8084(a0, (char *)func_021BDFE4(a0));
-        func_021BB938(a0, p, 0x26);
+        func_021BB938(a0, (u8 *)p, 0x26);
         flag = 1;
         func_021BE0B0(a0, 1);
         ((struct Obj00140 *)p)->f0 = 14;
@@ -230,9 +230,9 @@ int func_021BA9EC(void *a0, char *p)
         }
         break;
     }
-    func_021BB4D0(a0, p);
+    func_021BB4D0(a0, (u8 *)p);
     if (((struct Obj00140 *)p)->f18 == 1) {
-        func_021BB288(a0, p);
+        func_021BB288(a0, (u8 *)p);
     }
     if (((struct Obj00140 *)p)->f38 == 1) {
         t = func_021BE044(a0);

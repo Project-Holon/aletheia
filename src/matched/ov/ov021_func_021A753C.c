@@ -29,7 +29,7 @@ typedef struct Ctx { u32 flags; u32 *buf; u32 v; } Ctx;
 
 struct Tagged;
 extern void *func_02046F48(struct Tagged *p);
-extern Res *func_0206E954(u32 a);
+extern int func_0206E954(int p0);
 extern u32 func_02047250(u32 a);
 extern void func_02082BCC(u32 *p, u32 v, u32 n);
 extern void func_02069C74(u32 *a, u32 b, u32 c, u32 d);
@@ -57,7 +57,7 @@ static inline u32 res0(Res *x)
 void func_021A753C(Ctx *s, u32 b, u32 c, u32 d)
 {
     u32 r6;
-    r6 = res0(func_0206E954((u32)func_02046F48((struct Tagged *)b)));
+    r6 = res0((Res *)func_0206E954((u32)func_02046F48((struct Tagged *)b)));
     if (c != 0)
         c = func_02047250(c);
     else

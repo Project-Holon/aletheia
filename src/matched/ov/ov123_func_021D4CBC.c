@@ -27,7 +27,9 @@ struct PalAnmSlot;
 extern void *func_02021518(u32 heap);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void func_02021FD8(void *, int, int, u16, int, int);
+typedef unsigned char  u8;
+struct Chan02021FD8;
+extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int func_02021730(char *p, int i);
 extern void func_020862F0(void *, int);
 extern void func_0207E5D0(void *, int, int);
@@ -43,7 +45,7 @@ void func_021D4CBC(char *p, int n, int count)
     func_0202155C(obj, n, 0x200, ((struct Obj13970 *)p)->fC);
     bytes = count * 32;
     func_020216D4(obj, n, 0, bytes);
-    func_02021FD8(obj, n, 0, count * 16, 6, 0);
+    func_02021FD8(obj, (int)n, (int)0, (u16)(count * 16), (int)6, (int)0);
     buffer = (void *)func_02021730(obj, n);
     func_020862F0(buffer, bytes);
     switch (n) {

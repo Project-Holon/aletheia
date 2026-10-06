@@ -27,7 +27,7 @@ typedef struct {
 extern void func_020061E4(unsigned se);
 extern int func_020077B8(void *save, unsigned box);
 extern void func_021EA1C0(void *p);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E087C(unsigned char *p);
 
 int func_021EA14C(unsigned char *p, unsigned i, int v)
@@ -49,5 +49,5 @@ int func_021EA14C(unsigned char *p, unsigned i, int v)
     p[0x1A] = 2;
     ((struct Obj00000 *)p)->f28 = v;
     func_021EA1C0(p);
-    return func_021E8FC0(p, func_021E087C, 0x17);
+    return func_021E8FC0((char *)p, (int)func_021E087C, 0x17);
 }

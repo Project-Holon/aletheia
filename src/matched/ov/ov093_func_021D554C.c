@@ -11,4 +11,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u8 func_021D554C(u8 *p, u32 i) { u8 *q = (u8 *)((u32)p + i * 14); return q[0x10d] - q[0x10c]; }
+u8 func_021D554C(u8 *p, u8 i) { u8 *q = (u8 *)((u32)p + i * 14); return q[0x10d] - q[0x10c]; }

@@ -25,7 +25,8 @@
 
 typedef unsigned int u32;
 
-extern u32 func_021CE760(void *p);
+typedef unsigned char  u8;
+extern u32 func_021CE760(u8 *p);
 extern void func_021CE81C(u32 *p);
 extern int func_021909BC(u32 a);
 struct U16Vec;
@@ -42,7 +43,7 @@ u32 func_021CD5A4(u32 *p)
 {
     u32 r;
 
-    r = func_021CE760(p);
+    r = func_021CE760((u8 *)p);
     func_021CE81C(p);
     if (p[0x4c]) {
         func_021909BC(p[0x4c]);

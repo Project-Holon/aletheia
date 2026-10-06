@@ -110,9 +110,10 @@ typedef struct {
 
 struct LightSlot;
 extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
-extern void *func_02048BC4(const void *p, int heap);
+struct LightSet;
+extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_02048C58(struct LightSlot *slots);
-extern void func_02046858(Camera *c);
+extern void func_02046858(const u32 *src);
 extern void func_02040588(u32 which, u32 enable);
 extern const void *const d_021C8810;
 extern const Camera d_021C896C;
@@ -124,13 +125,13 @@ void func_021C76A4(Work *p)
     void *light;
 
     func_02046440(0, 1, 0, 1, 0x1000, 0x27, 0);
-    light = func_02048BC4(&d_021C8810, 0x27);
+    light = func_02048BC4((const struct LightSet *)(&d_021C8810), 0x27);
     p->f100 = light;
     func_02048C58(light);
     cam = d_021C896C;
     cam.f4 = FX_SinCosTable_[0x16C];
     cam.f8 = FX_SinCosTable_[0x16D];
-    func_02046858(&cam);
+    func_02046858((const u32 *)(&cam));
     func_02040588(0, 1);
     *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~(0x2000 | 0x1000)) | 0x8);
 }

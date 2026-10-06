@@ -62,8 +62,8 @@ extern void func_021A2130(u8 *p, u32 b, u32 c, u32 d);
 extern void func_021A2154(u8 *p, u32 b, u32 c);
 extern void func_021A25DC(u8 *p, int a);
 extern int func_021A213C(u8 *p);
-extern void func_021EFBA4(Obj *p);
-extern void func_021EFBFC(Obj *p);
+extern void func_021EFBA4(u16 *p);
+extern void func_021EFBFC(u16 *p);
 extern void func_021EFC3C(Obj *p);
 extern u16 func_021EFCD4(Obj *p);
 extern u8 d_021EFCF9[];
@@ -87,18 +87,18 @@ void func_021EF9D8(Obj *p, int b)
             }
         }
         if (p->mode == 0) {
-            func_021EFBA4(p);
+            func_021EFBA4((u16 *)p);
         } else {
             switch (i) {
             case 0:
                 if (p->mode == 1) {
-                    func_021EFBA4(p);
+                    func_021EFBA4((u16 *)p);
                 } else {
-                    func_021EFBFC(p);
+                    func_021EFBFC((u16 *)p);
                 }
                 break;
             case 1:
-                func_021EFBFC(p);
+                func_021EFBFC((u16 *)p);
                 break;
             case 2:
                 func_021EFC3C(p);

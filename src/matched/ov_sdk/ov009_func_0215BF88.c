@@ -76,7 +76,7 @@ extern unsigned long long OS_GetTick(void);
 extern long func_0215B504(void);
 extern void func_02157390(void);
 extern u8 *func_0215AEB0(u32 *len);
-extern int func_021579BC(u8 *a, u8 *b);
+extern int func_021579BC(unsigned short *a, unsigned short *b);
 extern void func_0215B064(u32 len);
 
 #define TICK() ((u32)(OS_GetTick() >> 16))
@@ -105,7 +105,7 @@ int func_0215BF88(u32 id, int retry)
             continue;
         }
         s = func_0215AEB0(&len);
-        if (len > 0xf0 && s[0] == 2 && NTOHL(s + 4) == id && func_021579BC(s + 0x1c, g_021A82D4) == 0) {
+        if (len > 0xf0 && s[0] == 2 && NTOHL(s + 4) == id && func_021579BC((short unsigned int *)(s + 0x1c), (short unsigned int *)g_021A82D4) == 0) {
             myip_tmp = G32(s + 0x10);
             end = s + len;
             result = 3;

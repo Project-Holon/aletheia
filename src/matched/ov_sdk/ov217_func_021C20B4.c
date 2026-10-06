@@ -17,9 +17,10 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021C2288(int, int, int, int, int);
+typedef unsigned char  u8;
+extern void func_021C2288(u8 *p, int a, int b, int c, int d);
 
 void func_021C20B4(int a0, int a1, int a2, int a3, int a4)
 {
-    func_021C2288(a0, a1, a2, a3, a4);
+    func_021C2288((u8 *)a0, a1, a2, a3, a4);
 }

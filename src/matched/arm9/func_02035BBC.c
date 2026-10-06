@@ -19,7 +19,7 @@
 
 typedef unsigned int u32;
 
-extern void func_02035750(void *ctx);
+extern int func_02035750(void);
 typedef unsigned short u16;
 struct Kind;
 extern u16 func_020357C0(struct Kind *p);
@@ -33,7 +33,7 @@ int func_02035BBC(void *ctx, void *param)
     void *a;
     void *b;
 
-    func_02035750(ctx);
+    func_02035750();
     if (func_020357C0(ctx) == 0) {
         return -1;
     }

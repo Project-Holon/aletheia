@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern int func_0203CD98(void);
-extern void func_02157700(void *);
+extern void func_02157700(int *p);
 struct Req;
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_021576C4(char *p, int v, int line);
@@ -39,7 +39,7 @@ int func_021578A0(u32 *p)
         return 0;
     d_021727E0[7] = *p;
     *((u8 *)p + 0x31B8) = 0xFF;
-    func_02157700(p);
+    func_02157700((int *)p);
     func_0203CBAC((struct Req *)d_02172780, (u32)func_0215788C, (u32)p);
     func_021576C4((char *)p, (int)func_021576CC, 0x1F2);
     return 1;

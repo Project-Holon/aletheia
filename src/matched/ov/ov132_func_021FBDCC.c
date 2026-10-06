@@ -23,5 +23,6 @@ extern unsigned int func_0201134C(struct Cursor *);
 struct Object; struct Entry;
 extern void *func_021F9DAC(void *p);
 extern struct Entry *func_021F6B18(struct Object *,unsigned short);
-extern void func_021F9DB8(void *,struct Entry *,unsigned char);
-int func_021FBDCC(int unused,char *p) { char *obj; unsigned int a,b; struct Entry *entry;obj=*(char * *)&((struct Obj10555 *)p)->f0;a=func_0201134C(*(struct Cursor * *)&((struct Obj10555 *)p)->f4);b=func_0201134C(*(struct Cursor * *)&((struct Obj10555 *)p)->f4);entry=func_021F6B18(func_021F9DAC(((struct Obj14112 *)obj)->f34),b);func_021F9DB8(((struct Obj14112 *)obj)->f34,entry,a);return 0; }
+typedef unsigned int   u32;
+extern void func_021F9DB8(void *p, void *v, u32 i);
+int func_021FBDCC(int unused,char *p) { char *obj; unsigned int a,b; struct Entry *entry;obj=*(char * *)&((struct Obj10555 *)p)->f0;a=func_0201134C(*(struct Cursor * *)&((struct Obj10555 *)p)->f4);b=func_0201134C(*(struct Cursor * *)&((struct Obj10555 *)p)->f4);entry=func_021F6B18(func_021F9DAC(((struct Obj14112 *)obj)->f34),b);func_021F9DB8(((struct Obj14112 *)obj)->f34,entry,(unsigned char)a);return 0; }

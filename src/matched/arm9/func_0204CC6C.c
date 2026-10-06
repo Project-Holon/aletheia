@@ -96,7 +96,8 @@ extern void func_020664CC(s32 x, s32 y, s32 z);
 extern void func_02066620(s32 a, s32 b);
 extern void func_02065CE4(void *a0);
 extern void func_02065D4C(void *p);
-extern void func_02066080(void *p);
+struct Obj02066080;
+extern void func_02066080(struct Obj02066080 *c);
 
 #define CONV(d, v) do { s32 _t = (v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
 
@@ -136,7 +137,7 @@ void func_0204CC6C(struct Obj *o)
         func_02065D4C(o->unk_74);
         break;
     case 2:
-        func_02066080(o->unk_74);
+        func_02066080((struct Obj02066080 *)o->unk_74);
         break;
     }
 }

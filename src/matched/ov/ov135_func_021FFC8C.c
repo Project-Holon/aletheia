@@ -21,7 +21,7 @@ extern const u16 d_02203884[];
 extern const u8 d_02203892[];
 extern void func_0207E804(void *, int, int);
 extern void func_0207E5D0(void *, int, int);
-void func_021FFC8C(u8 **p, u8 *q, int k, int n)
+void func_021FFC8C(u8 **p, u8 *q, int k, int n, int a4)
 {
     u8 *dst;
     if (n > 16) n = 16;

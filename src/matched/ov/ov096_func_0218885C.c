@@ -24,7 +24,8 @@ extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
-extern int func_021D62A8(void *);
+struct Unk021D62A8;
+extern int func_021D62A8(struct Unk021D62A8 *p);
 
 void func_0218885C(int a, int b, int c)
 {
@@ -36,6 +37,6 @@ void func_0218885C(int a, int b, int c)
     t1 = func_0201134C(a);
     t3 = func_0201134C(a);
     s = func_0218A160((u8 *)b, t1);
-    r = func_021D62A8(func_0218A2FC((u8 *)b, s));
+    r = func_021D62A8((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, s));
     func_0218A0F4((u8 *)a, c, r, 0, t3);
 }

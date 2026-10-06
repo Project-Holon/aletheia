@@ -32,18 +32,18 @@ typedef unsigned char u8;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
-extern int func_021B3B14(u8 *, int);
+extern int func_021B3B14(char *p, int a);
 extern void *func_02012F08(int *p);
 extern int func_0200C258(void);
-extern void func_021B38E0(u8 *, int, int, int);
+extern void func_021B38E0(char *p, int a, int b, int c);
 extern void func_021B39C4(u8 *, int);
-extern void func_021B3A64(u8 *, int);
+extern void func_021B3A64(char *p, int i);
 extern void func_021B331C(u8 *, int);
-extern void func_021B3BD8(u8 *);
-extern void func_021B3FA0(u8 *);
+extern void func_021B3BD8(char *p);
+extern void func_021B3FA0(char *w);
 extern void func_021B3F00(u8 *);
-extern void func_021B40D4(u8 *);
-extern void func_021B43EC(u8 *);
+extern void func_021B40D4(char *w);
+extern void func_021B43EC(char *w);
 
 void func_021B3258(int ctx, u8 *a, int b, int c)
 {
@@ -52,12 +52,12 @@ void func_021B3258(int ctx, u8 *a, int b, int c)
 
     func_02012944(t);
     a[354] = 0;
-    b = func_021B3B14(a, b);
+    b = func_021B3B14((char *)a, b);
     r = b;
     switch (r) {
     case 255:
         func_02012F08(t);
-        func_021B38E0(a, r, c, func_0200C258());
+        func_021B38E0((char *)a, r, c, func_0200C258());
         break;
     case 254:
         func_021B39C4(a, 0);
@@ -73,16 +73,16 @@ void func_021B3258(int ctx, u8 *a, int b, int c)
     case 249:
     case 250:
     case 251:
-        func_021B3A64(a, r);
+        func_021B3A64((char *)a, r);
         break;
     default:
-        func_021B38E0(a, r, c, 0);
+        func_021B38E0((char *)a, r, c, 0);
         break;
     }
     func_021B331C(a, a[355]);
-    func_021B3BD8(a);
-    func_021B3FA0(a);
+    func_021B3BD8((char *)a);
+    func_021B3FA0((char *)a);
     func_021B3F00(a);
-    func_021B40D4(a);
-    func_021B43EC(a);
+    func_021B40D4((char *)a);
+    func_021B43EC((char *)a);
 }

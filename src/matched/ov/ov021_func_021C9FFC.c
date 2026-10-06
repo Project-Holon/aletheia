@@ -40,7 +40,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void func_021CA2DC(u8 *p, u32 h, int flag, u16 v);
 extern void func_0200DA14(struct Blk3C *p);
 
-void func_021C9FFC(u8 *p)
+void func_021C9FFC(u8 *p, u32 x)
 {
     u8 kind = p[9];
     u16 v = func_021CA234(p);

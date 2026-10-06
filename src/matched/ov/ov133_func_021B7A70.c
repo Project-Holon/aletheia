@@ -35,14 +35,28 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_02035C60(void),func_02035CB8(int *,int *);
-extern void func_021B7F54(u8 *,int),func_021BA148(void *,u8 *),func_021BA100(void *,u8 *);
-extern int func_021B7F00(u8 *,void *,u32),func_021B8930(u8 *),func_021B8FF4(int,int,int,float),func_021BA18C(void *);
-extern void func_021B7CFC(u8 *,int,int),func_021B8140(u8 *),func_021BA098(u8 *),func_021B8444(u8 *),func_021B82E8(u8 *,int),func_021B8680(u8 *),func_021B8254(u8 *),func_021B765C(u8 *,u16,s16,int,u16),func_020061E4(u32);
+extern int func_02035C60(void);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern void func_021B7F54(u8 *,int);
+extern void func_021BA148(u8 *p, u8 *q);
+extern void func_021BA100(u8 *p, u8 *q);
+extern int func_021B7F00(u8 *,void *,u32);
+extern int func_021B8930(u8 *);
+extern int func_021B8FF4(int,int,int,float);
+extern int func_021BA18C(char *p);
+extern void func_021B7CFC(u8 *,int,int);
+extern void func_021B8140(u8 *);
+extern void func_021BA098(u8 *);
+extern void func_021B8444(u8 *);
+extern void func_021B82E8(u8 *,int);
+extern void func_021B8680(u8 *);
+extern void func_021B8254(u8 *);
+extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
+extern void func_020061E4(u32);
 void func_021B7A70(u8 *p)
 {
     int moved=0,other=0,hit=0,outer,n,dx,dy;
-    if(((struct Obj00004 *)p)->f183C==0){((struct Obj00004 *)p)->f14=func_02035C60();((struct Obj00004 *)p)->f18=func_02035CB8((int *)(p+0x1c),(int *)(p+0x20));}
+    if(((struct Obj00004 *)p)->f183C==0){((struct Obj00004 *)p)->f14=func_02035C60();((struct Obj00004 *)p)->f18=func_02035CB8((u32 *)(p+0x1c),(u32 *)(p+0x20));}
     if(((struct Obj00004 *)p)->f14!=0 || ((struct Obj00004 *)p)->f18!=0){
         if(((struct Obj00004 *)p)->f20>176)((struct Obj00004 *)p)->f20=176;
         if(((struct Obj00004 *)p)->f20<16)((struct Obj00004 *)p)->f20=16;

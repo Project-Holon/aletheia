@@ -33,35 +33,48 @@
 #include "../include/Obj06564.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021B68B0(void *),func_021B68C8(void *),func_021B69F8(void *);
-extern int func_021B6A64(void *),func_021B6AAC(void *),func_021B6B0C(void *);
-extern int func_021B6B54(void *),func_021B6B6C(void *),func_021B6BA0(void *);
-extern int func_021B7B60(void *),func_021B7B8C(void *),func_021B7C00(void *);
-extern int func_021B8110(void *),func_021B815C(void *),func_021B817C(void *);
-extern void func_021B6390(void *),func_0204A600(void),func_020310C4(void *);
+struct Tcbl;
+extern int func_021B68B0(int *p);
+extern int func_021B68C8(char *p);
+extern int func_021B69F8(char *p);
+extern int func_021B6A64(u8 *p);
+extern int func_021B6AAC(u8 *p);
+extern int func_021B6B0C(char **p);
+extern int func_021B6B54(int *p);
+extern int func_021B6B6C(char *p);
+extern int func_021B6BA0(char *p);
+extern int func_021B7B60(u8 *p);
+extern int func_021B7B8C(char *p);
+extern int func_021B7C00(void *);
+extern int func_021B8110(u8 *p);
+extern int func_021B815C(char *p);
+extern int func_021B817C(char *p);
+extern void func_021B6390(int *p);
+extern void func_0204A600(void);
+extern void func_020310C4(struct Tcbl *p);
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_021B6174(void *unused0,u32 *state,void *unused2,u8 *p)
 {
     switch(*state) {
-    case 0: *state=func_021B68B0(p);break;
-    case 1: *state=func_021B68C8(p);break;
-    case 2: *state=func_021B69F8(p);break;
+    case 0: *state=func_021B68B0((int *)p);break;
+    case 1: *state=func_021B68C8((char *)p);break;
+    case 2: *state=func_021B69F8((char *)p);break;
     case 3: *state=func_021B6A64(p);break;
     case 4: *state=func_021B6AAC(p);break;
-    case 5: *state=func_021B6B0C(p);break;
-    case 6: *state=func_021B6B54(p);break;
-    case 7: *state=func_021B6B6C(p);break;
-    case 8: *state=func_021B6BA0(p);break;
+    case 5: *state=func_021B6B0C((char **)p);break;
+    case 6: *state=func_021B6B54((int *)p);break;
+    case 7: *state=func_021B6B6C((char *)p);break;
+    case 8: *state=func_021B6BA0((char *)p);break;
     case 9: return 1;
     case 10: *state=func_021B7B60(p);break;
-    case 11: *state=func_021B7B8C(p);return 0;
+    case 11: *state=func_021B7B8C((char *)p);return 0;
     case 12: *state=func_021B7C00(p);return 0;
     case 13: *state=func_021B8110(p);break;
-    case 14: *state=func_021B815C(p);break;
-    case 15: *state=func_021B817C(p);break;
+    case 14: *state=func_021B815C((char *)p);break;
+    case 15: *state=func_021B817C((char *)p);break;
     }
-    func_021B6390(p);
+    func_021B6390((int *)p);
     func_0204A600();
     func_020310C4(((struct Obj06564 *)p)->f64);
     func_0201C4E4(((struct Obj06564 *)p)->f218);

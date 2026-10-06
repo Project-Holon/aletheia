@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02049030(u32 a);
-u32 func_021F4AA8(int i)
+u16 func_021F4AA8(int i)
 {
     u32 n = (u16)func_02049030(45) - 2;
     if (i >= (int)n) return 100;

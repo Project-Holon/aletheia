@@ -74,7 +74,8 @@ extern u32 func_02188C98(u8 *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_0218D168(char *p);
 extern int func_0218DBD4(char *p, int i);
-extern void func_021AABF4(void *ctx, struct Enc *e, struct Area *a);
+struct Ctx;
+extern void func_021AABF4(struct Ctx *ctx, void *unused, struct Area *a);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
@@ -101,7 +102,7 @@ void func_021AACD4(void **ctx, struct Enc *e)
     idx = func_0218D168((char *)m);
     if (func_0218DBD4((char *)m, idx) == 0)
         return;
-    func_021AABF4(ctx, e, &a);
+    func_021AABF4((struct Ctx *)ctx, e, &a);
     y = a.y0;
     if ((y << 4) > 0)
         r = func_0209C95C(0x3f000000, func_0209BDBC(y << 16));

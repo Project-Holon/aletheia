@@ -23,7 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern void func_020456F8(u32 a, int kind);
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
 struct Descriptor;
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
@@ -31,7 +32,7 @@ extern void func_02041B6C(u32 bit);
 
 void func_02202644(u32 a, int kind)
 {
-    func_020456F8(a, kind);
+    func_020456F8((struct Descriptor *)a);
     switch (kind) {
     case 0:
         func_020409B4(func_02045730((struct Descriptor *)a));

@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02188E30(u8 *p);
 extern void func_021D324C();
-extern void func_021A0F40();
+extern void func_021A0F40(u32 *p, u32 v);
 
 int func_0217CF0C(int a0, int *state, Obj *o)
 {
@@ -38,7 +38,7 @@ int func_0217CF0C(int a0, int *state, Obj *o)
         }
         break;
     case 1:
-        func_021A0F40(o->f4, 0);
+        func_021A0F40((u32 *)o->f4, 0);
         *state += 1;
         break;
     case 2:

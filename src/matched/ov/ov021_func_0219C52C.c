@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u16 func_02050330(u8 *p, int i);
 extern u32 func_02050080(u32 *p);
-extern void func_02050304(u32, u32);
+extern int func_02050304(int a0, int a1);
 extern void func_0204F214(u8 *a0, int i);
 
 void func_0219C52C(u32 a, u32 b)

@@ -20,7 +20,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203F9B4(void *a);
+extern void func_0203F9B4(void);
 struct S02031140;
 extern void func_02031140(struct S02031140 *p);
 extern void func_0201D83C(void *ptr);
@@ -31,7 +31,7 @@ extern void func_020306F0(u32 v);
 int func_021C4290(void *a, void *b, void *c, u32 *p)
 {
     u32 h;
-    func_0203F9B4(a);
+    func_0203F9B4();
     func_02031140((struct S02031140 *)p[0x40]);
     func_0201D83C((void *)p[9]);
     h = p[0];

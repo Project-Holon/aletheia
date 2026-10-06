@@ -73,8 +73,8 @@ void *func_020124E4(struct Obj *p);
 struct Ctx;
 u32 func_02012138(const struct Ctx *p);
 int func_02158344(int a0);
-int func_0217405C(void *, void *);
-int func_02175CF4(void *, void *);
+int func_0217405C(char *a, char *b);
+int func_02175CF4(char *p, u8 *q);
 int func_0217456C(int a, int b, int c, ...);
 void func_021762D8(void *, void *, void *, u32);
 void func_0217F3C4(Ov018Obj *p, u16 a);
@@ -101,12 +101,12 @@ int func_02181C0C(void *a, int *state, Ov018Outer *c)
     }
     switch (*state) {
     case 0:
-        if (func_0217405C(v, v + 0x1AC) == 1) {
+        if (func_0217405C((char *)v, (char *)(v + 0x1AC)) == 1) {
             (*state)++;
         }
         break;
     case 1:
-        r = c->fA0 = func_02175CF4(v, v + 0x1AC);
+        r = c->fA0 = func_02175CF4((char *)v, v + 0x1AC);
         switch (r) {
         case 1:
             *state = 2;

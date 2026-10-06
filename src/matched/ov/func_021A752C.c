@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020307B0(u32, u32, u32, u32);
+extern void func_020307B0(void *p);
 
 int func_021A752C(u32 a, u32 b, u32 c, u32 d)
 {
-func_020307B0(((struct Obj12091 *)((u8 *)(a)))->f4, b, c, d);
+func_020307B0((void *)(((struct Obj12091 *)((u8 *)(a)))->f4));
 ((struct Obj12091 *)((u8 *)(a)))->f4 = 0;
 return 0;
 }

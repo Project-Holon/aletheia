@@ -40,7 +40,8 @@ extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *func_021EEA58(u32, int, u32, u32);
 extern char *func_021B9AF8(char *, int);
 extern int func_021CDA18(u8 *);
-extern u32 func_021BA08C(void *);
+struct Q2;
+extern u32 func_021BA08C(struct Q2 *p);
 extern void func_021D8230(u8 *);
 extern void func_021D3F04(u8 *);
 extern void func_021D3D9C(u8 *);
@@ -87,7 +88,7 @@ u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, in
     ((Flags *)(p + 0x1b2))->f1 = 0;
     ((Flags *)(p + 0x1b2))->f4 = 0;
     ((Flags *)(p + 0x1b2))->f5 = 0;
-    *(u32 *)(p + 0x34) = func_021BA08C(a);
+    *(u32 *)(p + 0x34) = func_021BA08C((struct Q2 *)a);
     p[0x1aa] = f;
     func_021D8230(p + 0x2c);
     func_021D3F04(p + 0x18);

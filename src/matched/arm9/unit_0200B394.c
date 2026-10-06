@@ -49,7 +49,8 @@ struct BattleRec;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_0200B37C(void *p);
+struct Struct_0200B37C;
+extern void func_0200B37C(struct Struct_0200B37C *p);
 extern void func_0200B448(struct BattleRec *p);
 extern const char func_0200B3DC_File[];
 
@@ -61,7 +62,7 @@ struct Rec94 {
 
 s32 *func_0200B394(struct Rec94 *p, s32 value)
 {
-    func_0200B37C(p);
+    func_0200B37C((struct Struct_0200B37C *)p);
     p->unk00 = value;
     return p->unk04;
 }
@@ -71,7 +72,7 @@ s32 *func_0200B3A4(struct Rec94 *p)
     return p->unk04;
 }
 
-u8 *func_0200B3A8(struct Rec94 *p)
+u8 *func_0200B3A8(struct Rec94 *p, u32 a1)
 {
     return p->unk84;
 }

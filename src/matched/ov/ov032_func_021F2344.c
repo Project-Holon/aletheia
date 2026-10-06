@@ -24,15 +24,16 @@
  */
 #include "../include/Obj00007.h"
 
-extern void func_021F0208(char *, int);
+typedef unsigned char  u8;
+extern void func_021F0208(u8 *p, int flag);
 extern void func_021F2544(char *);
 struct Tcbl;
 extern void func_020310C4(struct Tcbl *p);
 extern int func_021F2674(char *);
-extern int func_021F26D8(char *);
-extern int func_021F26F0(char *);
+extern int func_021F26D8(u8 *p);
+extern int func_021F26F0(u8 *p);
 extern int func_021F2714(char *);
-extern int func_021F27B4(char *);
+extern int func_021F27B4(u8 *p);
 extern int func_021F27CC(char *);
 extern int func_02165888(int a0);
 
@@ -54,7 +55,7 @@ void func_021F2344(char *p, int a1)
             if (a1 != 0) {
                 f = 0;
             }
-            func_021F0208(p, f);
+            func_021F0208((u8 *)p, f);
         }
     }
     if (((struct Obj00007 *)p)->f70 != 0) {
@@ -71,16 +72,16 @@ void func_021F2344(char *p, int a1)
             ((struct Obj00007 *)p)->f68 = func_021F2674(p);
             break;
         case 1:
-            ((struct Obj00007 *)p)->f68 = func_021F26D8(p);
+            ((struct Obj00007 *)p)->f68 = func_021F26D8((u8 *)p);
             break;
         case 2:
-            ((struct Obj00007 *)p)->f68 = func_021F26F0(p);
+            ((struct Obj00007 *)p)->f68 = func_021F26F0((u8 *)p);
             break;
         case 3:
             ((struct Obj00007 *)p)->f68 = func_021F2714(p);
             break;
         case 4:
-            ((struct Obj00007 *)p)->f68 = func_021F27B4(p);
+            ((struct Obj00007 *)p)->f68 = func_021F27B4((u8 *)p);
             break;
         case 5:
             ((struct Obj00007 *)p)->f68 = func_021F27CC(p);

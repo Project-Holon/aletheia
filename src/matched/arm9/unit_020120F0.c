@@ -123,7 +123,7 @@ u32 func_02012114(const struct Ctx *p)
     return 0;
 }
 
-void func_02012124(struct Ctx *p, u8 v)
+void func_02012124(struct Ctx *p, u32 v)
 {
     p->unk30 = v;
 }
@@ -143,7 +143,7 @@ u32 func_02012138(const struct Ctx *p)
     return p->unk24;
 }
 
-void func_0201213C(struct Ctx *p, u8 v)
+void func_0201213C(struct Ctx *p, u32 v)
 {
     p->unk32 = v;
 }

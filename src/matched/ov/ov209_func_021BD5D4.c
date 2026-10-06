@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Blk37;
 extern u32 func_0200CA70(struct Blk37 *p);
 extern void func_021BD440(char *, unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned);
-extern void func_021BD4DC(char *);
+extern void func_021BD4DC(void **p);
 void func_021BD5D4(char *p)
 {
     func_021BD4F4(p, 0);
@@ -28,5 +28,5 @@ void func_021BD5D4(char *p)
         func_021BD440(p, 0, 1, 0, 4, 0x39e0, 0);
     else
         func_021BD440(p, 0, 0, 0, 4, 0x39e0, 0);
-    func_021BD4DC(p + 32);
+    func_021BD4DC((void **)(p + 32));
 }

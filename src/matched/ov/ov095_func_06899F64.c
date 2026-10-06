@@ -23,7 +23,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_06899E48(void *, void *, void *);
+struct Q;
+extern void func_06899E48(struct Q *p, void *a, void *b);
 extern void func_06899FA4(void *);
 extern void func_06899FB4(void *);
 extern void func_06899FC4(void *);
@@ -39,5 +40,5 @@ void func_06899F64(u8 *s, u8 *a, void *b)
     func_06899FA4(b);
     func_06899FB4(a + 0x18);
     func_06899FC4(a + 0x1c);
-    func_06899E48(s, (void *)func_0689AB48, (void *)func_0689ABA0);
+    func_06899E48((struct Q *)s, (void *)func_0689AB48, (void *)func_0689ABA0);
 }

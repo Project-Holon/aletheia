@@ -32,7 +32,7 @@ int func_02178E4C(void);
 int func_02178524(u32 a, const u16 *b, u32 c);
 void func_021795C0(unsigned v);
 void func_0217933C(void *fn);
-void func_0217727C(u8 *p, u32 v);
+void func_0217727C(u32 *p, u32 v);
 int func_0217771C(u8 *obj);
 int func_021775AC(int a, int b, int c);
 
@@ -47,6 +47,6 @@ void func_02177DB0(void)
         func_021795C0((unsigned int)func_0217771C);
         func_0217933C(func_021775AC);
         g_021797A4[0xCE8] = 1;
-        func_0217727C(g_021797A4, 0);
+        func_0217727C((u32 *)g_021797A4, 0);
     }
 }

@@ -24,7 +24,9 @@ extern void func_021DF5B8(char *);
 struct Obj020437AC;
 struct WordSet;
 extern int func_021FCE0C(char *p, unsigned field);
-extern void *func_021FCDE8(void *, u16);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021FCDE8(u8 *p, u16 i);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_021FCC80(char *p);
@@ -35,7 +37,7 @@ void func_021DF388(char *p)
     unsigned int i;
     func_021DF5B8(p);
     for (i = 0; i < func_021FCE0C(((struct Obj02522 *)p)->f4, 3); i++) {
-        func_020437AC(func_021FCDE8(((struct Obj02522 *)p)->f4, i));
+        func_020437AC((struct Obj020437AC *)func_021FCDE8(((struct Obj02522 *)p)->f4, i));
     }
     func_0201ED04(((struct Obj02522 *)p)->f8);
     func_021FCC80(((struct Obj02522 *)p)->f4);

@@ -142,9 +142,19 @@ typedef struct S5 {
 #define F6C_(s) (*(F6C *)((s) + 0x6c))
 #define HEAP(s) ((u16)((*(u16 *)((s) + 0x240) & 0x7fff) | 0x8000))
 
-extern void func_022056B4(char *);
-extern void func_022043C0(char *, int, int, int, int);
-extern void func_02204960(char *, int, int, int, int, int, int, int);
+struct Bank;
+struct Cfg;
+struct Ctx;
+struct Info;
+struct Main;
+struct MsgBank;
+struct Out;
+struct Slots;
+struct U16Vec;
+struct Work;
+extern void func_022056B4(struct Main *m);
+extern void func_022043C0(struct Main *m, int a1, int a2, int a3, int a4);
+extern void func_02204960(struct Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
 extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
@@ -154,42 +164,42 @@ extern void func_0220684C(char *p, int a, int b);
 extern void func_021F8A78(void);
 extern void func_02205E30(char *);
 extern void func_02205AB8(char *);
-extern int func_0204B248(void *);
-extern void func_0204B22C(void *, int);
+extern u32 func_0204B248(struct Bank *bank);
+extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_022067E8(char *);
 extern void func_021F8A40(int);
 extern void func_0220680C(char *);
 extern int func_021F8914(void);
-extern void func_022057CC(char *, void *);
+extern void func_022057CC(struct Main *m, struct Info *q);
 extern void func_02205B90(char *, int);
 extern int func_02206A7C(char *);
-extern void func_02206728(char *, void *);
+extern void func_02206728(char *s, char *b);
 extern void func_02205B80(char *, int);
 extern void func_02205D58(char *, int);
-extern void func_02204CC0(char *, void *);
+extern void func_02204CC0(struct Work *p, const struct Slots *q);
 extern void func_021F8AC0(int);
 extern void func_021F7998(u32);
-extern void func_022050F0(char *, void *, void *);
-extern void func_02205340(char *, void *);
+extern void func_022050F0(char *s, struct Out *out, const struct Info *p);
+extern void func_02205340(struct Main *m, const int *c);
 extern void func_022053DC(char *);
-extern void func_0220558C(char *, void *);
+extern void func_0220558C(char *s, const int *b);
 extern void func_0201DD78(u32, u32, u32);
-extern void *func_02045EC0(void *, u32);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045808(void *);
-extern void func_02045374(void *);
-extern void func_020409B4(int);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_020409B4(u32 index);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *);
 
 extern void func_022043AC(void *);
 extern void func_02203BC0(int a0, struct Ctx *c);
-extern void func_02203C2C(void *, void *);
-extern void func_02203978(void *, void *);
-extern void func_022035C0(void *, void *);
+extern void func_02203C2C(void *task, struct Ctx *c);
+extern void func_02203978(void *task, struct Ctx *c);
+extern void func_022035C0(void *task, struct Ctx *c);
 extern void func_02203B08(int a0, struct Ctx *c);
-extern void func_022036C4(void *, void *);
-extern void func_02203880(void *, void *);
+extern void func_022036C4(void *task, struct Ctx *c);
+extern void func_02203880(void *task, struct Ctx *c);
 extern void func_02203A78(int a0, struct Ctx *c);
 extern void func_02203D40(void *, void *);
 extern void func_02203E30(void *, void *);
@@ -206,15 +216,15 @@ void func_0220270C(char *s, int mode, void *arg)
     int i;
     int j;
 
-    func_022056B4(s);
+    func_022056B4((struct Main *)s);
     F68_(s).b23 = 0;
     F6C_(s).b0 = 1;
     switch (mode) {
     case 0:
         S_INT(0x70) = -1;
         if (S_INT(0x58) == 0) {
-            func_022043C0(s, 0x3000, 0x3000, 0, 0x98);
-            func_02204960(s, -1, 0, 0, 0, 0, 2, 1);
+            func_022043C0((struct Main *)s, 0x3000, 0x3000, 0, 0x98);
+            func_02204960((struct Main *)s, -1, 0, 0, 0, 0, 2, 1);
             func_0202173C(S_PTR(0x64), 2, 3, 1, 12, 12, 0x842, S_PTR(0));
         } else {
             t = func_02030734(HEAP(s), 0x24, 1, d_0220AEB0, 0x549);
@@ -228,7 +238,7 @@ void func_0220270C(char *s, int mode, void *arg)
                 func_0220684C(s, (int)func_02030DA8(S_PTR(0), (void (*)(void *, void *))func_02203BC0, t, 1), (int)func_022043AC);
             } else {
                 t->f20 = S_INT(0x58);
-                func_0220684C(s, (int)func_02030DA8(S_PTR(0), func_02203C2C, t, 1), (int)func_022043AC);
+                func_0220684C(s, (int)func_02030DA8(S_PTR(0), (void (*)(void *, void *))func_02203C2C, t, 1), (int)func_022043AC);
             }
             func_02021848(S_PTR(0x64), 2, 3, 1, 0, 12, 0x842, S_PTR(0));
             if (func_0204B248(S_PTR(0x17c)) != 0) {
@@ -263,19 +273,19 @@ void func_0220270C(char *s, int mode, void *arg)
             s[0x25a + j] = 1;
         s[0x25b] = func_021F8914();
         func_02205AB8(s);
-        func_022057CC(s, a);
+        func_022057CC((struct Main *)s, (struct Info *)a);
         func_02205B90(s, a->bc5);
         t1->fc = func_02206A7C(s);
-        func_02206728(s, a);
+        func_02206728(s, (char *)a);
         if (S_INT(0x58) == 2 || S_INT(0x58) == 5) {
             func_02205B80(s, 0);
-            func_0220684C(s, (int)func_02030DA8(S_PTR(0), func_02203978, t1, 1), (int)func_022043AC);
+            func_0220684C(s, (int)func_02030DA8(S_PTR(0), (void (*)(void *, void *))func_02203978, t1, 1), (int)func_022043AC);
         } else {
             func_02205D58(s, 0);
             if (a->f94 != 0)
                 func_02205D58(s, 1);
             F68_(s).b14 = a->f94;
-            func_0220684C(s, (int)func_02030DA8(S_PTR(0), func_022035C0, t1, 1), (int)func_022043AC);
+            func_0220684C(s, (int)func_02030DA8(S_PTR(0), (void (*)(void *, void *))func_022035C0, t1, 1), (int)func_022043AC);
         }
         break;
     }
@@ -283,7 +293,7 @@ void func_0220270C(char *s, int mode, void *arg)
         Arg2 *a = arg;
         Task *t2;
         t2 = func_02030734(HEAP(s), 0x24, 1, d_0220AEB0, 0x5bd);
-        func_02204CC0(s, a);
+        func_02204CC0((struct Work *)s, (const struct Slots *)a);
         F68_(s).b0 = 1;
         t2->s = s;
         t2->f8 = a->f10;
@@ -301,16 +311,16 @@ void func_0220270C(char *s, int mode, void *arg)
             func_02205D58(s, 0);
             if (F68_(s).b14)
                 func_02205D58(s, 1);
-            func_0220684C(s, (int)func_02030DA8(S_PTR(0), func_022036C4, t2, 1), (int)func_022043AC);
+            func_0220684C(s, (int)func_02030DA8(S_PTR(0), (void (*)(void *, void *))func_022036C4, t2, 1), (int)func_022043AC);
         } else {
             func_02205AB8(s);
-            func_0220684C(s, (int)func_02030DA8(S_PTR(0), func_02203880, t2, 1), (int)func_022043AC);
+            func_0220684C(s, (int)func_02030DA8(S_PTR(0), (void (*)(void *, void *))func_02203880, t2, 1), (int)func_022043AC);
         }
         break;
     }
     case 3:
         t = func_02030734(HEAP(s), 0x24, 1, d_0220AEB0, 0x5ec);
-        func_022050F0(s, t, arg);
+        func_022050F0(s, (struct Out *)t, arg);
         F68_(s).b0 = 1;
         t->s = s;
         t->f8 = ((u8 *)arg)[0x48];
@@ -318,7 +328,7 @@ void func_0220270C(char *s, int mode, void *arg)
         break;
     case 4:
         t = func_02030734(HEAP(s), 0x24, 1, d_0220AEB0, 0x5f8);
-        func_02205340(s, arg);
+        func_02205340((struct Main *)s, arg);
         F68_(s).b0 = 1;
         t->s = s;
         F6C_(s).b0 = ((int *)arg)[2];
@@ -355,7 +365,7 @@ void func_0220270C(char *s, int mode, void *arg)
         w = 0;
         for (j = 0; j < 3; j++)
             s[0x25a + j] = 1;
-        func_0220558C(s, a);
+        func_0220558C(s, (const int *)a);
         switch (a->fc) {
         case 0:
             break;
@@ -381,9 +391,9 @@ void func_0220270C(char *s, int mode, void *arg)
             func_0220684C(s, (int)func_02030DA8(S_PTR(0), func_02203FDC, t, 1), (int)func_022043AC);
         } else {
             if (a->fc == 0)
-                func_02204960(s, 4, 0, 0x100, 2, 2, 2, 2);
+                func_02204960((struct Main *)s, 4, 0, 0x100, 2, 2, 2, 2);
             else
-                func_02204960(s, 4, 0x100, 0, 2, 2, 2, 2);
+                func_02204960((struct Main *)s, 4, 0x100, 0, 2, 2, 2, 2);
             if (w != 0) {
                 func_0201C7A4((void *)S_INT(0x22c), 0x18, 0x38, w, (void *)S_INT(0x224));
                 func_02045808(w);

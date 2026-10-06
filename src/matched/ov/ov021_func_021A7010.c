@@ -46,10 +46,11 @@ extern u32 func_021A3128(u32 *a, u32 b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021BB1A0(int x);
 extern int func_021AB11C(u32 attr);
-extern u32 func_021A7198(u32 a, u32 *b, u16 *c, u32 d);
+struct V;
+extern int func_021A7198(u32 a, u32 *b, struct V *c, u32 d);
 extern void func_021A712C(u32 a, u32 *b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern u32 func_021A3698(u32 a);
-extern void func_021A3674(u32 a, u32 b, u32 c);
+extern void func_021A3674(u8 *p, u32 b, u32 c);
 
 void func_021A7010(u32 a, u32 *b)
 {
@@ -77,7 +78,7 @@ void func_021A7010(u32 a, u32 *b)
             v1c = func_021A3128((u32 *)b[1], r4);
             if (func_021BB1A0(func_021AB0F0(v18)) != 0) {
                 if (func_021AB11C(v1c) != 0) {
-                    if (func_021A7198(a, b, out, r4) != 0) {
+                    if (func_021A7198(a, b, (struct V *)out, r4) != 0) {
                         func_021A712C(a, b, r4, r7, (u32)out, v14, r6);
                         b[2] = 0;
                         return;
@@ -87,5 +88,5 @@ void func_021A7010(u32 a, u32 *b)
         }
     }
     b[2] = func_021A3698(b[1]);
-    func_021A3674(b[1], v14, r6);
+    func_021A3674((u8 *)b[1], v14, r6);
 }

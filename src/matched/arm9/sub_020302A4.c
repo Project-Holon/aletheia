@@ -93,7 +93,7 @@ extern struct EnvModule g_EnvModule;
 extern void *sub_0202FBAC(u32 idx);
 struct HeapHead;
 extern u32 sub_02060CD0(struct HeapHead *heap, void *memBlock, u32 size);
-extern u32 sub_02060F90(void *block);
+extern int sub_02060F90(char *p);
 
 u32 sub_020302A4(void *p, u32 size)
 {
@@ -113,7 +113,7 @@ u32 sub_020302A4(void *p, u32 size)
         g_EnvModule.error = 3;
         goto fail;
     }
-    oldSize = sub_02060F90(hdr);
+    oldSize = sub_02060F90((char *)hdr);
     ret = sub_02060CD0(arena, hdr, size + 0x1c);
     g_EnvModule.error = 0;
     ok = 1;

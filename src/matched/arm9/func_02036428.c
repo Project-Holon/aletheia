@@ -38,7 +38,7 @@ typedef struct {
     volatile short tail;
 } NetRingBuff;
 
-extern int  func_02036640(NetRingBuff *r);
+extern int func_02036640(char *p);
 extern void func_02039548(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int func_02036624(void *p, int v);
@@ -50,7 +50,7 @@ void func_02036428(NetRingBuff *r, const u8 *src, int len)
     int i;
     int k;
 
-    if (func_02036640(r) <= len) {
+    if (func_02036640((char *)r) <= len) {
         func_02039548();
         return;
     }

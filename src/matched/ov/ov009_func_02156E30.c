@@ -53,11 +53,12 @@ extern Obj *d_021A8268;
 extern char d_021A1C78[];
 extern char d_021A1C7C[];
 
-extern void func_02034714(void *file, int line, void *msg);
-extern u32 func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
-extern u32 func_02060C5C(u32 a, u32 b, u32 c);
-extern void func_02060F18(u32 a, u32 b);
-extern void func_02060F40(u32 a, u32 b);
+typedef unsigned short u16;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02060C5C(void *start, u32 size, u32 attr);
+extern u32 func_02060F18(char *p, u32 v);
+extern u16 func_02060F40(char *p, u16 v);
 
 void func_02156E30(u32 a, u32 b, u32 c, u32 d)
 {
@@ -70,10 +71,10 @@ void func_02156E30(u32 a, u32 b, u32 c, u32 d)
     if (d_021A8268->f8 != 0) {
         func_02034714(d_021A1C78, 0, d_021A1C78);
     }
-    d_021A8268->fC = func_02030734(d, b - 0x80, 0, d_021A1C7C, 0x62);
-    d_021A8268->f8 = func_02060C5C((d_021A8268->fC + 0x1f) & ~0x1f, b - 0xc0, 0);
+    d_021A8268->fC = (u32)func_02030734(d, b - 0x80, 0, d_021A1C7C, 0x62);
+    d_021A8268->f8 = (u32)func_02060C5C((void *)((d_021A8268->fC + 0x1f) & ~0x1f), b - 0xc0, 0);
     d_021A8268->f10 = a;
-    func_02060F18(d_021A8268->f8, 1);
-    func_02060F40(d_021A8268->f8, 0xea);
+    func_02060F18((char *)d_021A8268->f8, 1);
+    func_02060F40((char *)d_021A8268->f8, 0xea);
     d_021A8268->f18 = c;
 }

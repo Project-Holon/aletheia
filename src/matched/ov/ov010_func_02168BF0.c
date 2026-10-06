@@ -44,7 +44,8 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern R *func_020124E8(struct Desc *p);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_02012EBC(struct Big *p);
@@ -61,7 +62,7 @@ struct Desc *func_02168BF0(int a, int b, int c, int d, u16 *e)
     void *v;
     h = func_020120F4((void *)a);
     hd = func_020122C0((void *)a, 0, (void *)func_02168C74, 0x34);
-    p = func_020124E8(hd);
+    p = func_020124E8((struct Obj *)hd);
     p->f0 = (void *)a;
     p->f4 = func_0201210C((void *)a);
     p->fc = e;

@@ -43,7 +43,7 @@ extern int func_021B7F50(char *);
 extern int func_021B80EC(char *,u16);
 extern int func_021B80A4(char *,u16);
 extern void func_021B7EB0(char *,int);
-extern int func_021B80C4(char *,u16);
+extern int func_021B80C4(u8 *p, u16 n);
 extern u16 func_021B7438(char **);
 extern void func_021B71C4(char *,int);
 extern void func_021B70D8(char *);
@@ -78,7 +78,7 @@ int func_021B68C8(char *p)
     case 7:
         if(func_021B7F50(p)) {
             func_020061E4(0x54c);
-            return func_021B80C4(p,15);
+            return func_021B80C4((u8 *)p,15);
         }
         break;
     case -8:

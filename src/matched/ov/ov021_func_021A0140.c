@@ -24,14 +24,14 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern int func_021A0250(u8 *);
-extern void func_021A0280(u8 *);
+extern int func_021A0280(u32 a);
 extern u32 func_021A0290(u8 *);
 extern u16 func_021A02A8(u8 *);
 
 void func_021A0140(u8 *p)
 {
     if (func_021A0250(p + 0x2c)) {
-        func_021A0280(p + 0x2c);
+        func_021A0280((u32)(p + 0x2c));
         ((struct Obj09536 *)p)->f4 = func_021A0290(p + 0x2c);
         p[2] = func_021A02A8(p + 0x2c);
         ((struct Obj09536 *)p)->f40 = 1;

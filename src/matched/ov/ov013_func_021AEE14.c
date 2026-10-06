@@ -49,7 +49,7 @@ extern unsigned char func_0216B838(void);
 extern int func_021AEC74(int x);
 extern int func_021AECC4(int x);
 
-void func_021AEE14(u16 input)
+void func_021AEE14(int input)
 {
     u64 tick;
 

@@ -33,7 +33,7 @@ typedef struct {
 struct IcaAnime;
 extern u32 func_02011590(struct IcaAnime *p, s32 v);
 extern void func_021C4E34(R *r);
-extern void func_021C4E6C(R *r);
+extern void func_021C4E6C(char *p);
 
 u32 func_021C4DE4(R *r, s32 dv)
 {
@@ -43,6 +43,6 @@ u32 func_021C4DE4(R *r, s32 dv)
         return 0;
     v = func_02011590((struct IcaAnime *)r->task, dv);
     func_021C4E34(r);
-    func_021C4E6C(r);
+    func_021C4E6C((char *)r);
     return v;
 }

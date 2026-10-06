@@ -22,8 +22,9 @@ typedef unsigned short u16;
 
 char *func_021B9AEC(char *p, int i);
 int func_021EEA58(int, int, int, int);
-void func_021BB840(char *, int, int, int);
-void func_021BB848(char *, char *, u8);
+struct Q4;
+void func_021BB840(struct Q4 *p, int a, int b, int c);
+void func_021BB848(u8 *p, void *q, u8 v);
 
 void func_021BAACC(char *p, int a, int b, int c, u8 d)
 {
@@ -36,6 +37,6 @@ void func_021BAACC(char *p, int a, int b, int c, u8 d)
     y = func_021EEA58(b, c, 1, ((struct Obj13288 *)p)->fCC0);
     q = p + 0x14;
     off = c * 12;
-    func_021BB840(q + off, c, y, 0);
-    func_021BB848(q + off, x, d);
+    func_021BB840((struct Q4 *)(q + off), c, y, 0);
+    func_021BB848((u8 *)(q + off), x, d);
 }

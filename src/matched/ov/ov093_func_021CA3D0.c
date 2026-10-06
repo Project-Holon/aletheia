@@ -27,9 +27,10 @@ extern u8 func_021B8DDC(u32 x);
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
 extern char *func_021B9AEC(char *p, int i);
-extern int func_021B9C98(char *p, u8 *a);
+struct Msg;
+extern int func_021B9C98(u8 *p, u32 v);
 extern void func_021BD43C(u8 *p, int i, u8 a, u8 b, int c);
-extern int func_021C99A0(u8 *p, u8 *q);
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern void func_021BD4E4(u8 *p, int i, u8 a, u8 b);
 
 int func_021CA3D0(u8 *p, u8 *q)
@@ -46,11 +47,11 @@ int func_021CA3D0(u8 *p, u8 *q)
             m2 = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[5]);
             if (!func_021D5B68(m1) && !func_021D5B68(m2)) {
                 o = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, a);
-                i = func_021B9C98(o, m1);
-                j = func_021B9C98(o, m2);
+                i = func_021B9C98((u8 *)o, (u32)m1);
+                j = func_021B9C98((u8 *)o, (u32)m2);
                 if (i >= 0 && j >= 0) {
                     func_021BD43C(p, a, i, j, 0);
-                    func_021C99A0(p, q + 8);
+                    func_021C99A0(p, (const struct Msg *)(q + 8));
                     func_021BD4E4(p, a, i, j);
                     return 1;
                 }

@@ -20,13 +20,13 @@ typedef struct { struct { void *f0; } *head; } Work;
 extern void func_02173524(Work *w, u8 *p);
 extern void func_021734A8(u8 *self, u32 id, u32 v);
 extern void func_0217F074(void *ctx);
-extern void func_0217BAF0(void *ctx, int a, int v);
+extern void func_0217BAF0(char *p, int x, unsigned int v);
 int func_0217BB3C(u8 *ctx, u8 *obj, int a)
 {
     func_02173524((Work *)ctx, obj + 0x14);
     func_021734A8(ctx, 4, 0);
     func_0217F074(ctx);
-    func_0217BAF0(ctx, a, 0);
+    func_0217BAF0((char *)ctx, a, 0);
     ctx[0x282E] = 0;
     return 1;
 }

@@ -16,16 +16,16 @@
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23913.h"
-extern void func_021DF040(unsigned char *p);
+extern void func_021DF040(char *p);
 extern void func_021EE364(char **p, int idx, int v);
 extern void func_021EF670(char *w);
-extern void func_021ECB20(unsigned char *p, int f, int c);
+extern void func_021ECB20(char *p, int f, int c);
 extern int func_021E22B8(int p);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 int func_021E7C58(unsigned char *p)
 {
-    func_021DF040(p);
+    func_021DF040((char *)p);
     switch (((struct Obj23913 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24) {
     case 1:
         func_021EE364((char **)p, 2, 0x1E);
@@ -39,7 +39,7 @@ int func_021E7C58(unsigned char *p)
         *(int *)(WORK(p) + 0xA198) = 0x11;
         break;
     case 3:
-        func_021ECB20(p, 0x81, 1);
+        func_021ECB20((char *)p, 0x81, 1);
         func_021EF670(WORK(p));
         func_021EE364((char **)p, 7, 0x1E);
         *(int *)(WORK(p) + 0xA168) = 0x1E;

@@ -29,13 +29,14 @@ typedef struct S {
     u8 rows[6][0x14];
 } S;
 
-extern void func_021D08D8(void *row, int v);
+struct Row;
+extern void func_021D08D8(struct Row *r, int a);
 
 void func_021D07D8(void *a, S *s)
 {
     int i;
 
     for (i = 0; i < 6; i++) {
-        func_021D08D8(s->rows[i], s->f0[7]);
+        func_021D08D8((struct Row *)s->rows[i], s->f0[7]);
     }
 }

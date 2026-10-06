@@ -74,7 +74,7 @@ struct Obj;
 extern u8 func_020355C4(void);
 extern void func_021BB220(u32 *,void *);
 extern void func_021BA7A4(char *,void *);
-extern void func_021BA3F4(void *,int,Pos *);
+extern void func_021BA3F4(int *p, int a, int *b);
 extern void func_021BB5AC(int *p, int x);
 extern void func_021BB3D0(void **);
 extern void func_021BB5B4(u32 *,u32);
@@ -144,7 +144,7 @@ int func_021B99E8(int *a,int unused,char *p)
                     func_020061E4(0x548);
                     func_021BB220(R(0xb0),(void *)w); func_021BA7A4(R(0x50),(void *)w);
                     W(0x134)=w; func_021BA69C(R(0x50),&o3.x);
-                    func_021BA3F4(R(0x38),w,&o3);
+                    func_021BA3F4(R(0x38),w,(int *)(&o3));
                     if (W(0x138)==0) func_021BB5AC(R(0xd4),w);
                 } else if (w==0 && W(0x134)!=0) {
                     func_021BB3D0(R(0xb0)); func_021BB5B4(R(0xd4),0); func_021BA7D4(R(0x50));

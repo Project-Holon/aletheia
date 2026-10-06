@@ -15,5 +15,6 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 d_021F761C;
-extern void func_020433E0(const void *);
-void func_021F682C(void) { func_020433E0(&d_021F761C); }
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
+void func_021F682C(void) { func_020433E0((const struct DispVram *)(&d_021F761C)); }

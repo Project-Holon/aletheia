@@ -75,7 +75,7 @@ extern void func_02008B20(struct Sub02008AECObj *obj);
 extern u8 func_02012984(const struct BigObj *p);
 extern void func_0216AAE4(void *sys, void *party, int season);
 extern void func_02183DD4(void *p);
-extern void func_02183DE4(void);
+extern int func_02183DE4(int ctx, int *state, u8 *p);
 extern void func_02021444(void);
 extern void func_0208068C(int a);
 extern void func_02082AC0(int v, int dst, int size);

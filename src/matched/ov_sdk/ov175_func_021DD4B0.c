@@ -19,13 +19,13 @@
 typedef unsigned long u32;
 
 extern u32 g_021E4C08[];
-extern void func_02094798(u32);
+extern char *func_02094798(char *dst, const char *src);
 
 int func_021DD4B0(char *a, char *b)
 {
     if (a == 0 || b == 0)
         return 0;
-    func_02094798((u32)g_021E4C08);
+    func_02094798((char *)((u32)g_021E4C08), b);
     return 1;
 }
 

@@ -31,7 +31,7 @@ extern void func_021BA8EC(char *);
 extern void func_021C18C8(char *p, int kind, int value);
 extern void func_0203C554(u32 a);
 extern void func_021BDD0C(void *p, int on);
-extern int func_021B96CC(char *);
+extern int func_021B96CC(int *p);
 extern int func_021BE4F0(char *,int);
 extern void func_021C19A8(char *);
 extern void func_021BAEDC(char *);
@@ -43,7 +43,7 @@ int func_021BFFE0(char *p,int ret) {
     func_021C18C8(p,1,2);
     func_0203C554(1);
     func_021BDD0C(p,0);
-    if(!func_021B96CC(p+0x274)){
+    if(!func_021B96CC((int *)(p+0x274))){
         ((struct Obj00008 *)p)->f1CC=func_021BE4F0(p,0);
     } else {
         func_021C19A8(p);

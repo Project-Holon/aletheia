@@ -50,21 +50,22 @@ typedef struct {
     unsigned rest : 9;
 } B02052FC8;
 
-extern void func_02053044(S02052FC8 *o);
-extern void func_0205312C(S02052FC8 *o);
+struct Obj;
+extern void func_02053044(struct Obj *o);
+extern void func_0205312C(struct Obj *o);
 
 void func_02052FC8(S02052FC8 *o)
 {
     B02052FC8 *v = (B02052FC8 *)((u32 **)o->f40[8])[0];
 
     if (v->b21) {
-        func_02053044(o);
+        func_02053044((struct Obj *)o);
         if (v->b22)
             return;
-        func_0205312C(o);
+        func_0205312C((struct Obj *)o);
         return;
     }
     if (v->b22 == 0)
-        func_0205312C(o);
-    func_02053044(o);
+        func_0205312C((struct Obj *)o);
+    func_02053044((struct Obj *)o);
 }

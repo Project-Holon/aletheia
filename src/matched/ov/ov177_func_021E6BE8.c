@@ -51,7 +51,8 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02045924(void *, const void *);
+struct Strbuf;
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02008500(void *, void *);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
@@ -88,7 +89,7 @@ void func_021E6BE8(Work *w, const Info *info, void *a3, int a4, void *a5, void *
         color = 0x440;
         switch (j) {
         case 0:
-            func_02045924(s2, info);
+            func_02045924(s2, (const u16 *)info);
             color = 0x3c40;
             break;
         case 1:

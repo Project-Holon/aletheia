@@ -32,10 +32,10 @@ extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
-extern void func_021A2654(int, Pt *);
+extern void func_021A2654(int obj, unsigned short *src);
 extern void func_021A26C4(int, Pt *);
 extern void func_021A21E0(u32 *p);
-extern void func_0204B908(int, u16);
+extern void func_0204B908(int a0, int a1);
 extern int func_0204B918(int);
 
 void func_021EF1C4(int a)
@@ -54,12 +54,12 @@ void func_021EF1C4(int a)
             p[0] = (p[6] % 4) * 2 + 8;
             p[4] = 2;
             p[2] = 2;
-            func_0204B908(h, func_0204B918(h) + 3);
+            func_0204B908(h, (u16)(func_0204B918(h) + 3));
             return;
         }
         pt.x = pt.x + (s16)p[4];
         pt.y = pt.y + (s16)p[2];
-        func_021A2654(a, &pt);
+        func_021A2654(a, (short unsigned int *)(&pt));
         break;
     case 1:
         pt.x = pt.x + (s16)p[4];

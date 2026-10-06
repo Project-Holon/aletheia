@@ -17,7 +17,7 @@
 #include "../include/Obj00056.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021E9984(char *a, char *b, int c, u8 d, int e);
+extern void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y);
 extern u32 func_021E9AF4(u8 *p);
 extern u8 func_021E9B04(u8 *p, u8 i);
 
@@ -27,7 +27,7 @@ void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r)
     u32 n;
 
     if (x < 0) x = 0;
-    func_021E9984(p, p + 0x10c, q[0xb], x, y);
+    func_021E9984((u8 *)p, (u8 *)(p + 0x10c), q[0xb], x, y);
     n = func_021E9AF4(r);
     for (i = 0; i < n; i++) {
         if (i >= 2) break;

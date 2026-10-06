@@ -23,7 +23,8 @@
 typedef struct tagAREA { unsigned short x, y, w, h; } AREA;
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 
-extern int func_021D696C(RECT *r);
+typedef unsigned short u16;
+extern int func_021D696C(u16 *a);
 
 int func_021D6B04(const AREA *a)
 {
@@ -35,5 +36,5 @@ int func_021D6B04(const AREA *a)
     r.t = a->y;
     r.r = a->x + a->w;
     r.b = a->y + a->h;
-    return func_021D696C(&r);
+    return func_021D696C((u16 *)(&r));
 }

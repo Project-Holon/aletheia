@@ -40,7 +40,7 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
-extern u8 *func_021897BC(void *a, int b);
+extern int *func_021897BC(char *p, int idx);
 struct Big;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -64,7 +64,7 @@ int func_021F38D4(void *a, int *st)
 
     s = func_0201210C(func_020124E4(a));
     t = func_02188D2C(s);
-    p = func_021897BC(s, 1);
+    p = (u8 *)func_021897BC(s, 1);
     func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(s))), 4);
     switch (*st) {
     case 0:

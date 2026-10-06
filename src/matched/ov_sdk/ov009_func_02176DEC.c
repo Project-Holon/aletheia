@@ -15,7 +15,7 @@
  *   func_02176DFC  0x02176DFC  arm
  */
 
-extern void func_02176DFC(int a, int b);
+extern int func_02176DFC(int aid, int type);
 
 void func_02176DEC(int a)
 {

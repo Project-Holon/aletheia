@@ -21,14 +21,14 @@
 
 typedef unsigned int u32;
 
-extern void func_02050ED4(void *);
+extern void func_02050ED4(void);
 extern void func_020307B0(void *);
 
-void func_021E3034(u32 *p)
+void func_021E3034(u32 *p, int a1)
 {
     int i;
 
-    func_02050ED4(p);
+    func_02050ED4();
     if (p[0x2d] != 0) {
         func_020307B0((void *)p[0x2d]);
         p[0x2d] = 0;

@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021BF7FC(u8 *);
-extern void func_021BD000(u8 *);
+extern int func_021BD000(char *p);
 extern int func_021BD028(u8 *);
 extern void func_021BCC58(u8 *);
 extern void func_021BFC20(u8 *, unsigned);
@@ -63,7 +63,7 @@ void func_021BA6BC(void *unused, u8 *p)
     enabled = func_021BF7FC(*(u8 * *)&((struct Obj02164 *)p)->f4);
     switch (((struct Obj02164 *)p)->f14) {
     case 0:
-        func_021BD000(*(u8 * *)&((struct Obj01531 *)q)->f64);
+        func_021BD000((char *)(*(u8 * *)&((struct Obj01531 *)q)->f64));
         ++((struct Obj02164 *)p)->f14;
         break;
     case 1:

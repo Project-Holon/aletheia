@@ -30,7 +30,8 @@ struct CharBuf;
 struct MsgBank;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C6FC(int, int, s16, s16, int, int);
+struct PrintSys;
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 void func_021B7DFC(u8 *p, void *q, int n, int x, s16 y)
 {
     int a, b, c;
@@ -39,6 +40,6 @@ void func_021B7DFC(u8 *p, void *q, int n, int x, s16 y)
     c = func_021B7CBC(q);
     func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj05269 *)p)->f0)), ((struct Obj05269 *)p)->f10);
     func_02045CAC((struct MsgBank *)a, n, (void *)(((struct Obj05269 *)p)->fC));
-    func_0201C6FC(b, (int)func_02045770((struct Descriptor *)((struct Obj05269 *)p)->f4), x, y, ((struct Obj05269 *)p)->fC, c);
+    func_0201C6FC((struct PrintSys *)b, (int)func_02045770((struct Descriptor *)((struct Obj05269 *)p)->f4), (s16)x, (s16)y, (void *)(((struct Obj05269 *)p)->fC), (int)c);
     p[8] = 1;
 }

@@ -34,10 +34,11 @@ extern u16 func_0200D0CC(struct Blk37 *p);
 extern u16 func_0200CF28(struct Blk37 *p);
 extern u16 func_0200D0F8(struct Blk37 *p, u32 heap);
 extern u16 func_0200CF54(struct Blk37 *p, u32 heap);
-extern void func_021BD4F4(char *, unsigned);
+typedef unsigned char  u8;
+extern void func_021BD4F4(u8 *p, u32 idx);
 extern void func_021BD440(char *, unsigned, unsigned, unsigned, unsigned, u16, unsigned);
 extern void func_021BD488(char *, unsigned, unsigned, unsigned, unsigned, u16, unsigned);
-extern void func_021BD4DC(char *);
+extern void func_021BD4DC(void **p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_021BD628(char *p)
 {
@@ -49,14 +50,14 @@ void func_021BD628(char *p)
         a = func_0200D0F8(((struct Obj25564 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
         b = func_0200CF54(((struct Obj25565 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
     }
-    func_021BD4F4(p, 1);
-    func_021BD4F4(p, 2);
+    func_021BD4F4((u8 *)p, 1);
+    func_021BD4F4((u8 *)p, 2);
     func_021BD440(p, 1, 2, 0x48, 4, 0x31a0, 1);
     func_0201EFA4(*(WordSet * *)&((struct Obj00123 *)p)->f40, 0, a, 3, 0, 1);
     func_021BD488(p, 1, 5, 0x68, 4, 0x31a0, 1);
     func_021BD440(p, 2, 3, 0x58, 4, 0x31a0, 1);
     func_0201EFA4(*(WordSet * *)&((struct Obj00123 *)p)->f40, 0, b, 3, 0, 1);
     func_021BD488(p, 2, 5, 0x78, 4, 0x31a0, 1);
-    func_021BD4DC(p + 0x28);
-    func_021BD4DC(p + 0x30);
+    func_021BD4DC((void **)(p + 0x28));
+    func_021BD4DC((void **)(p + 0x30));
 }

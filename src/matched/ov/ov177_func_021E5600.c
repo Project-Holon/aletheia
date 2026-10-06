@@ -17,6 +17,6 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021E5600(void)
+void func_021E5600(void *p)
 {
 }

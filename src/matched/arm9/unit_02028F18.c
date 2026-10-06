@@ -27,11 +27,12 @@ struct SoundParam2 {
     u32 kind;     /* +0x1c */
 };
 
-extern u32 func_02028FD0(struct SoundParam2 *obj, u32 kind);
+struct SoundParam;
+extern u32 func_02028FD0(struct SoundParam *obj, u32 kind);
 
 void func_02028F18(struct SoundParam2 *obj, u16 a1)
 {
-    if (func_02028FD0(obj, 1)) {
+    if (func_02028FD0((struct SoundParam *)obj, 1)) {
         obj->kind = 1;
         obj->val18 = a1;
     }
@@ -39,7 +40,7 @@ void func_02028F18(struct SoundParam2 *obj, u16 a1)
 
 void func_02028F30(struct SoundParam2 *obj, u16 a1)
 {
-    if (func_02028FD0(obj, 2)) {
+    if (func_02028FD0((struct SoundParam *)obj, 2)) {
         obj->kind = 2;
         obj->val1a = a1;
     }
@@ -47,7 +48,7 @@ void func_02028F30(struct SoundParam2 *obj, u16 a1)
 
 void func_02028F48(struct SoundParam2 *obj, u16 a1)
 {
-    if (func_02028FD0(obj, 3)) {
+    if (func_02028FD0((struct SoundParam *)obj, 3)) {
         obj->kind = 3;
         obj->val1a = a1;
     }
@@ -55,7 +56,7 @@ void func_02028F48(struct SoundParam2 *obj, u16 a1)
 
 void func_02028F60(struct SoundParam2 *obj, u16 a1, u16 a2)
 {
-    if (func_02028FD0(obj, 4)) {
+    if (func_02028FD0((struct SoundParam *)obj, 4)) {
         obj->kind = 4;
         obj->val18 = a2;
         obj->val1a = a1;
@@ -64,7 +65,7 @@ void func_02028F60(struct SoundParam2 *obj, u16 a1, u16 a2)
 
 void func_02028F7C(struct SoundParam2 *obj, u32 a1, u16 a2, u16 a3)
 {
-    if (func_02028FD0(obj, 5)) {
+    if (func_02028FD0((struct SoundParam *)obj, 5)) {
         obj->kind = 5;
         obj->valC = a1;
         obj->val18 = a3;
@@ -74,7 +75,7 @@ void func_02028F7C(struct SoundParam2 *obj, u32 a1, u16 a2, u16 a3)
 
 void func_02028F9C(struct SoundParam2 *obj, u32 a1, u16 a2)
 {
-    if (func_02028FD0(obj, 6)) {
+    if (func_02028FD0((struct SoundParam *)obj, 6)) {
         obj->kind = 6;
         obj->valC = a1;
         obj->val1a = a2;
@@ -83,7 +84,7 @@ void func_02028F9C(struct SoundParam2 *obj, u32 a1, u16 a2)
 
 void func_02028FB8(struct SoundParam2 *obj, u32 a1)
 {
-    if (func_02028FD0(obj, 7)) {
+    if (func_02028FD0((struct SoundParam *)obj, 7)) {
         obj->kind = 7;
         obj->valC = a1;
     }

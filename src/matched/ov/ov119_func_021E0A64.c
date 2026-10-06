@@ -41,9 +41,9 @@ extern void func_021D9434(void *);
 extern void func_021DFD64(void *);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
-extern void func_021E1030(void *);
+extern void func_021E1030(char *p);
 extern void func_021E0BA4(void *);
-extern void func_021E0C78(void *);
+extern void func_021E0C78(char *p);
 extern void func_021DFD3C(void *);
 void func_021E0A64(char *p)
 {

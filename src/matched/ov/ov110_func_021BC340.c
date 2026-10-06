@@ -37,14 +37,18 @@ struct Descriptor;
 struct StrObj;
 struct U16Vec;
 extern void func_021BC458(u8 *p, u8 *a);
-extern int func_021BC490(void *,void *);
+struct Cursor;
+struct Obj;
+struct Strbuf;
+struct Vec2;
+extern int func_021BC490(struct Cursor *p, struct Strbuf *out);
 extern void func_0201DD78(u32,u32,u32);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_021BC58C(void *,Pair *);
 extern u32 func_021BF6F0(u8 *p, u32 i);
-extern void func_021BC5BC(u8 *,void *,Pair *,int,void *);
+extern void func_021BC5BC(u8 *p, struct Descriptor *window, const struct Vec2 *input, u32 id, struct Obj *sprite);
 extern void func_021BC484(u8 *p);
 extern void func_02045808(struct U16Vec *vec);
 int func_021BC340(Obj *p,void *desc,u8 bank)
@@ -59,7 +63,7 @@ int func_021BC340(Obj *p,void *desc,u8 bank)
     count=0; y=0; x=0;
     func_021BC458(p->parser,(u8 *)p);
     do {
-        switch(func_021BC490(p->parser,str)) {
+        switch(func_021BC490((struct Cursor *)p->parser,str)) {
         case 0:
             func_0201DD78(1,2,15);
             func_0201C7A4(func_02045770(desc),x,y,str,(void *)font);
@@ -71,7 +75,7 @@ int func_021BC340(Obj *p,void *desc,u8 bank)
             p->pos[count].x=x+50;
             p->pos[count].y=y+8;
             func_021BC58C(desc,&p->pos[count]);
-            func_021BC5BC((u8 *)p,desc,&p->pos[count],func_021BF6F0(p->state,id),p->items[count][bank]);
+            func_021BC5BC((u8 *)p,desc,(const struct Vec2 *)(&p->pos[count]),func_021BF6F0(p->state,id),p->items[count][bank]);
             count++;
             x+=100;
             break;

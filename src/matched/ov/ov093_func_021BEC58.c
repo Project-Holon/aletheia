@@ -89,7 +89,8 @@ extern int func_021BF01C(struct S *);
 extern int func_021BF02C(struct S *);
 extern void func_021BF03C(struct O *);
 extern u32 func_021CD4FC(struct Buf *, u32);
-extern void func_021BD200(struct State *, u8 *, u8 *, int);
+struct Unk021BD200;
+extern void func_021BD200(struct Unk021BD200 *p, u8 *q, u8 *a, int t);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(u32 *, u32, int);
 extern int func_021C65A8(u8 *, u8 *, u32, u8 *);
@@ -98,7 +99,7 @@ extern void func_021BF04C(u8 *, u16 *, int, int);
 extern void func_021BF0E4(int, u8 *, int, u8 *, int);
 extern void func_021C5718(u8 *, u8 *, u32);
 extern void func_021BF83C(u8 *, u16 *, u8 *, int);
-extern void func_021CC8A0(void *);
+extern void func_021CC8A0(u32 *p);
 extern int func_021BF168(u8 *, u16 *, u8 *);
 extern void func_021BF3D8(u8 *, int, u8 *, int, void *);
 extern void func_021BF4AC(u8 *, u8 *, u8 *, void *, void *);
@@ -142,7 +143,7 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
     }
     func_021BEFEC(((struct Obj00003 *)p)->f860);
     pos = func_021CD4FC(*(struct Buf * *)&((struct Obj00003 *)p)->fC, 0x30);
-    func_021BD200(*(struct State * *)&((struct Obj00003 *)p)->f4A8, p, a, (int)d);
+    func_021BD200((struct Unk021BD200 *)(*(struct State * *)&((struct Obj00003 *)p)->f4A8), p, a, (int)d);
     lock = func_021CC8D8(p + 0x1d74, 0x10a8);
     result = func_021C65A8(p, a, key, d);
     func_021CC95C((u32 *)(p + 0x1d74), lock, 0x10aa);
@@ -172,7 +173,7 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
     }
     if (active != 0) {
         if (action != 9) func_021BF83C(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, (int)d);
-        func_021CC8A0(p + 0x1f88);
+        func_021CC8A0((u32 *)(p + 0x1f88));
         if (forced != 0 || func_021BF168(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a))
             func_021BF3D8(p, *(int *)&((struct Obj00003 *)p)->f1AB0, a, (int)d, p + 0x1f88);
         func_021BF4AC(p, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, a, d, p + 0x1f88);

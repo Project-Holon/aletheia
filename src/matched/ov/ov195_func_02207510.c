@@ -77,7 +77,7 @@ typedef struct Grid {
     u8 rows;
 } Grid;
 
-void func_02207510(Grid *w)
+void func_02207510(Grid *w, u16 heap)
 {
     int j;
     int i;

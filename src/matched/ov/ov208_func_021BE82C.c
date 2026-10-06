@@ -21,12 +21,12 @@ struct Ov208Icon {
     int fc;
 };
 
-extern void func_021BE9C8(struct Ov208Icon *p);
+extern void func_021BE9C8(void);
 extern void ov208_func_021BE920(struct Ov208Icon *p);
 
 void ov208_func_021BE82C(struct Ov208Icon *p, int kind)
 {
     p->fc = kind;
-    func_021BE9C8(p);
+    func_021BE9C8();
     ov208_func_021BE920(p);
 }

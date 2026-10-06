@@ -44,15 +44,15 @@ typedef struct Work {
 } Work;
 
 extern u8 d_02172A28[];
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Tbl;
 extern u32 func_021943EC(struct Tbl *t, u32 key);
 
 u32 func_02167A14(Work *w, int i)
 {
     if (w->obj == 0)
-        func_02034714(d_02172A28, 0, d_02172A28);
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (w->e[i].used != 1)
-        func_02034714(d_02172A28, 0, d_02172A28);
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     return func_021943EC(w->obj, i);
 }

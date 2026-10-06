@@ -30,16 +30,16 @@ typedef struct {
     u16 done;
 } Obj021A3D6C;
 
-int func_021A3B94(Obj021A3D6C *p);
-u32 func_021A398C(Obj021A3D6C *p);
+int func_021A3B94(u32 *p);
+u32 func_021A398C(u8 *p);
 u16 func_021A3190(int i, int j);
-void func_021A3AD8(Obj021A3D6C *p, int v);
+void func_021A3AD8(u8 *p, int a);
 
 int func_021A3D6C(Obj021A3D6C *p, int a)
 {
-    if (func_021A3B94(p) == 1) {
+    if (func_021A3B94((u32 *)p) == 1) {
         p->count++;
-        func_021A3AD8(p, func_021A3190(func_021A398C(p), a));
+        func_021A3AD8((u8 *)p, func_021A3190(func_021A398C((u8 *)p), a));
         p->done = 1;
         return 1;
     }

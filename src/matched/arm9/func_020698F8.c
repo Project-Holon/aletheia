@@ -45,7 +45,8 @@ typedef struct {
 } Res;
 
 extern void func_02069AC4(Res *base);
-extern void *func_02062B64(void *base, u32 sig);
+struct NitroFileHeader;
+extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
 extern void func_02088234(void);
 
 static inline BOOL IsNftr(const Res *r)
@@ -78,7 +79,7 @@ u32 func_020698F8(Res *res, void **out)
         legacy = 1;
     }
     func_02069AC4(res);
-    finf = func_02062B64(res, 0x46494e46u);
+    finf = func_02062B64((struct NitroFileHeader *)res, 0x46494e46u);
     if (finf == 0) {
         *out = 0;
         return 0;

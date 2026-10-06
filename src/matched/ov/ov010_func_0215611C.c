@@ -137,21 +137,26 @@ struct RtcDate {
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void func_0203F4E4(struct RtcDate *date);
-extern u8 func_02157364(void *p);
-extern void *func_02156914(Work *w, u32 heap);
-extern void func_02045A38(void *str, void *out, u32 n);
-extern void func_02045808(void *str);
+struct Big;
+struct Ctx;
+struct MsgBank;
+struct Table;
+struct U16Vec;
+extern u8 func_02157364(char *a0);
+extern void *func_02156914(int a0, int a1);
+extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
+extern void func_02045808(struct U16Vec *vec);
 extern u8 func_021568E8(Work *w, u8 idx);
 extern u8 func_021568A8(Work *w, u8 n);
-extern u8 func_02157384(void *t, int i);
+extern u8 func_02157384(struct Table *t, int i);
 extern u8 *func_02012944(void *p);
-extern void *func_021FCE28(void *sess, int i);
+extern int func_021FCE28(char *p, u32 index);
 extern void func_02082D44(void *src, void *dst, u32 size);
-extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02045C04(void *bank);
-extern void *func_020120F4(void *p);
-extern void *func_02012EBC(void *p);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045C04(struct Rec *rec);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A5F8(void *p);
 
 extern const char d_02172714[];
@@ -186,7 +191,7 @@ void func_0215611C(Work *w)
     d->b = date.year;
     d->c = date.month;
     d->d = date.day;
-    str = func_02156914(w, 4);
+    str = func_02156914((int)w, 4);
     func_02045A38(str, d->text, 0x25);
     func_02045808(str);
     d->g = 0;
@@ -214,7 +219,7 @@ void func_0215611C(Work *w)
         if (i == w->f4C)
             x = func_02012944(w->f04);
         else if (w->f14 == 1)
-            x = func_021FCE28(w->f28, func_021568E8(w, i));
+            x = (void *)func_021FCE28(w->f28, func_021568E8(w, i));
         if (x != 0) {
             func_02082D44(x, d->recs[i].name, 0x10);
         } else {
@@ -222,7 +227,7 @@ void func_0215611C(Work *w)
 
             bank = func_02045B38(0, 2, 0x4C, 4);
             str = func_02045EC0(bank, val);
-            func_02045A38(str, d->recs[i].name, 8);
+            func_02045A38(str, (u16 *)d->recs[i].name, 8);
             func_02045808(str);
             func_02045C04(bank);
         }

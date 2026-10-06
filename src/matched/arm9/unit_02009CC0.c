@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 
 extern void *func_02009860(void *p);
-extern void  func_02009CB0(void *p, void *buf);
+extern int func_02009CB0(int a0, int a1);
 struct DWCstAccUserData;
 extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 
@@ -30,6 +30,6 @@ void func_02009CC0(void *a0)
     u8 buf[12];
     void *h = func_02009860(a0);
 
-    func_02009CB0(a0, buf);
+    func_02009CB0((int)a0, (int)buf);
     func_020598EC(h, buf);
 }

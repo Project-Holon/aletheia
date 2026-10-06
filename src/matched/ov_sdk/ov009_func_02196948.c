@@ -82,10 +82,11 @@ struct GTI2Socket {
 
 extern int func_02195F5C(struct GTI2Connection *connection);
 extern unsigned short func_02195E80(unsigned char *buffer, int pos);
-extern int func_02195F9C(struct GTI2Connection *connection, unsigned short ESN);
+struct Conn;
+extern int func_02195F9C(struct Conn *connection, unsigned short ESN);
 extern void func_02196920(struct GTI2Connection *connection);
 extern int func_02196558(struct GTI2Connection *connection, int type, unsigned char *message, int len);
-extern int func_021968A0(struct GTI2Connection *connection);
+extern int func_021968A0(struct Conn *c);
 extern int func_02195EB4(unsigned short SN1, unsigned short SN2);
 extern int func_0219666C(struct GTI2Connection *connection, int type, unsigned short SN,
                          unsigned char *message, int len, int *overflow);
@@ -115,14 +116,14 @@ int func_02196948(struct GTI2Connection *connection, int type, unsigned char *me
         len -= headerLength;
     }
 
-    if (!func_02195F9C(connection, ESN))
+    if (!func_02195F9C((struct Conn *)connection, ESN))
         return 0;
 
     if (SN == connection->expectedSerialNumber) {
         func_02196920(connection);
         if (!func_02196558(connection, type, message, len))
             return 0;
-        if (!func_021968A0(connection))
+        if (!func_021968A0((struct Conn *)connection))
             return 0;
         return 1;
     }

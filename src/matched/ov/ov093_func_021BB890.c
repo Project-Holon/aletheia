@@ -13,4 +13,4 @@
  */
 typedef unsigned char u8;
 extern int func_021BB830(u8 *);
-int func_021BB890(u8 *p, unsigned int i) { if (i < 4) return func_021BB830(p+20+i*12); return 0; }
+int func_021BB890(u8 *p, u8 i) { if (i < 4) return func_021BB830(p+20+i*12); return 0; }

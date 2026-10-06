@@ -25,7 +25,7 @@ extern u8 ov231_id[];
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
 extern int func_021809D8(void);
-extern int func_021BA1A8(u32 **p, int k);
+extern int func_021BA1A8(char **p, int m);
 
 int func_021B85EC(u32 **p)
 {
@@ -37,7 +37,7 @@ int func_021B85EC(u32 **p)
         if (r == 0) {
             return 0;
         }
-        if (func_021BA1A8(p, 0x200) == 0) {
+        if (func_021BA1A8((char **)p, 0x200) == 0) {
             return 1;
         }
     }

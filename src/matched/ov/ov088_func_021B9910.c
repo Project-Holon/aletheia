@@ -16,13 +16,15 @@
  *   d_021BD420     0x021BD420  data  a4  ov088
  */
 
-extern void func_020433E0(void *p);
-extern void func_0203FC28(void *p);
+struct DispConfig;
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
+extern void func_0203FC28(struct DispConfig *cfg);
 extern char d_021BD508[];
 extern char d_021BD420[];
 
 void func_021B9910(void)
 {
-    func_020433E0(d_021BD508);
-    func_0203FC28(d_021BD420);
+    func_020433E0((const struct DispVram *)d_021BD508);
+    func_0203FC28((struct DispConfig *)d_021BD420);
 }

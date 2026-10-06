@@ -24,7 +24,8 @@ extern void func_02082BCC(void *,int,unsigned);
 extern void func_0204335C(unsigned);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_021B7AB4(void *,const void *,unsigned);
 extern void func_021B78FC(unsigned,void *);
 extern unsigned func_020056A0(void (*)(unsigned,void *),void *,unsigned);
@@ -38,7 +39,7 @@ void func_021B7860(char *p,unsigned b) {
  func_0204335C(0);
  func_0204363C(0);
  func_0204361C();
- func_020433E0(d_021B8B2C);
+ func_020433E0((const struct DispVram *)d_021B8B2C);
  func_021B7AB4(p,d_021B8B2C,b);
  ((struct Obj22140 *)p)->f90=func_020056A0(func_021B78FC,p,0);
 }

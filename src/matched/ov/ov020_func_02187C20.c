@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
 void func_02187860(char *p);
-u8 func_0202E8A4(s32 x);
+u8 func_0202E8A4(u8 x);
 void func_0218794C(int a, int b);
 void func_02040588(u32 which, u32 enable);
 void func_0207D534(volatile u16 *reg, int brightness);

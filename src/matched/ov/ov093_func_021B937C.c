@@ -23,14 +23,17 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D6C24(void *m);
+struct R4;
+struct S2;
+struct Work;
+extern int func_021D6C24(struct R4 *p);
 extern u8 func_021D5440(u8 *p);
 extern u8 func_021B8DDC(u32 x);
-extern void *func_021D5864(void *m);
+extern void *func_021D5864(struct Work *p);
 extern char *func_021B9AF8(char *p, int i);
 struct Q1;
 extern u8 func_021B9B94(struct Q1 *p);
-extern u8 *func_021B9C00(void *p, u32 i);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern void *func_021D5844(void *m);
 
 u8 *func_021B937C(int a, char *b, u8 *c)
@@ -43,13 +46,13 @@ u8 *func_021B937C(int a, char *b, u8 *c)
     u32 n;
     u32 i;
 
-    if (func_021D6C24(c)) {
+    if (func_021D6C24((struct R4 *)c)) {
         e = func_021B8DDC(func_021D5440(c));
-        k = func_021D5864(c);
+        k = func_021D5864((struct Work *)c);
         g = func_021B9AF8(b, e);
         n = func_021B9B94((struct Q1 *)g);
         for (i = 0; i < n; i++) {
-            t = func_021B9C00(g, (u8)i);
+            t = func_021B9C00((struct S2 *)g, (u8)i);
             v = func_021D5844(t);
             if (v == k)
                 return t;

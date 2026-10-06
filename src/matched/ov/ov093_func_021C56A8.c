@@ -17,14 +17,15 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D62A8(u8 *p);
-extern int func_021D62C4(u8 *p, int i);
-extern int func_021D7E10(u8 *p);
+struct Unk021D62A8;
+extern int func_021D62A8(struct Unk021D62A8 *p);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int func_021D7E10(struct Unk021D62A8 *p);
 
 int func_021C56A8(u8 *p, int *pv)
 {
     int ret = 0;
-    int r = func_021D62A8(p);
+    int r = func_021D62A8((struct Unk021D62A8 *)p);
     int t;
     switch (*pv) {
     case 0:
@@ -38,17 +39,17 @@ int func_021C56A8(u8 *p, int *pv)
             ret = r;
             *pv = 6;
         } else {
-            if (func_021D62C4(p, 6)) ret = 6;
+            if (func_021D62C4((struct Unk021D62A8 *)p, 6)) ret = 6;
             *pv = 0;
         }
         break;
     case 0x26:
-        t = func_021D7E10(p);
+        t = func_021D7E10((struct Unk021D62A8 *)p);
         if (t) return t;
         *pv = ret;
         return t;
     default:
-        if (func_021D62C4(p, *pv)) ret = *pv;
+        if (func_021D62C4((struct Unk021D62A8 *)p, *pv)) ret = *pv;
         *pv = 0;
         break;
     }

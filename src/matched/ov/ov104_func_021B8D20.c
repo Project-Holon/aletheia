@@ -29,7 +29,8 @@ extern void func_0207CCA4(Vec *,Vec *);
 extern void func_0207CEE4(int,Vec *,Vec *,Vec *);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B404(void *,u16 *,u16);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B8D20(u8 *p) {
  u16 xy[2]; Vec delta; Vec pos; int length;
  if(((struct Obj02453 *)p)->f8) {
@@ -41,6 +42,6 @@ void func_021B8D20(u8 *p) {
    xy[0]=((struct Obj02453 *)p)->f18; xy[1]=((struct Obj02453 *)p)->f1C;
    func_0204B3DC(((struct Obj02453 *)p)->f0,0); ((struct Obj02453 *)p)->f8=0;
   }
-  func_0204B404(((struct Obj02453 *)p)->f0,xy,((struct Obj02453 *)p)->f4);
+  func_0204B404(((struct Obj02453 *)p)->f0,(const struct Vec2 *)xy,(u16)(((struct Obj02453 *)p)->f4));
  }
 }

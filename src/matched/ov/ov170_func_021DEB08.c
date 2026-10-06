@@ -15,9 +15,9 @@
  * Steps the object with mode 0 (sibling of func_021DEAFC, which passes 1).
  */
 
-extern int func_021DEA6C(unsigned char *p, int mode);
+extern int func_021DEA6C(char *p, int a);
 
 int func_021DEB08(unsigned char *p)
 {
-    return func_021DEA6C(p, 0);
+    return func_021DEA6C((char *)p, 0);
 }

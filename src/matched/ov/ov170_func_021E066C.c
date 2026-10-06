@@ -20,7 +20,7 @@ typedef struct {
 } Motion;
 extern void func_021EC08C(char *w, int i, short x, short y, short z);
 extern void func_021EC0B0(char *w, int i, short *x, short *y, unsigned short z);
-extern void func_021ECC1C(char *p);
+extern void func_021ECC1C(unsigned char *p);
 #define WORK(p) (*(char **)((p) + 0x2C))
 int func_021E066C(char *p)
 {
@@ -29,7 +29,7 @@ int func_021E066C(char *p)
     m = *(Motion **)(WORK(p) + 0x60);
     if (m->count == 0) {
         func_021EC08C(WORK(p), 4, m->x, m->y, 0);
-        func_021ECC1C(p);
+        func_021ECC1C((unsigned char *)p);
         return 0;
     }
     m->count--;
@@ -43,6 +43,6 @@ int func_021E066C(char *p)
     else
         xy[0] -= m->dy;
     func_021EC08C(WORK(p), 4, xy[1], xy[0], 0);
-    func_021ECC1C(p);
+    func_021ECC1C((unsigned char *)p);
     return 1;
 }

@@ -46,7 +46,8 @@ typedef struct SBServer SBServer;
 
 extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
-extern char *func_0219E0C0(SBServer *server, char *keyname, char *def);
+struct _SBServer;
+extern char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def);
 extern int func_020948E0(const char *a, const char *b);
 extern int func_0209ABF8(const char *a, const char *b);
 extern SBSortGlobals g_021AEB04;
@@ -73,10 +74,10 @@ int func_0219F0E0(SBServer *server1, SBServer *server2)
             return -1;
         return 0;
     case 2:
-        diff = func_020948E0(func_0219E0C0(server1, prevsortkey, g_021A8230), func_0219E0C0(server2, prevsortkey, g_021A8230));
+        diff = func_020948E0(func_0219E0C0((struct _SBServer *)server1, prevsortkey, g_021A8230), func_0219E0C0((struct _SBServer *)server2, prevsortkey, g_021A8230));
         break;
     case 3:
-        diff = func_0209ABF8(func_0219E0C0(server1, prevsortkey, g_021A8230), func_0219E0C0(server2, prevsortkey, g_021A8230));
+        diff = func_0209ABF8(func_0219E0C0((struct _SBServer *)server1, prevsortkey, g_021A8230), func_0219E0C0((struct _SBServer *)server2, prevsortkey, g_021A8230));
         break;
     default:
         return 0;

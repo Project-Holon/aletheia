@@ -42,7 +42,10 @@ typedef struct {
 typedef unsigned int   u32;
 struct Bmp;
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
-extern void *func_020255A0(void *, Tmpl *);
+struct Grid;
+struct Param;
+struct Sys;
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern const Tmpl d_021BAB10;
 
 void func_021B9AE4(Work *p, Src *s)
@@ -55,6 +58,6 @@ void func_021B9AE4(Work *p, Src *s)
     for (i = 0; i < 7; i++) {
         p->a2bc[i] = func_02043678(0x17, 2, 0x20, 0x61);
         t.f00 = p->a2bc[i];
-        p->a2a0[i] = func_020255A0(s->f2c, &t);
+        p->a2a0[i] = func_020255A0(s->f2c, (const struct Param *)(&t));
     }
 }

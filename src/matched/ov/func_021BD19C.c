@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021BD2C4(u32, u32, u32, u32);
+extern void func_021BD2C4(u8 *p, u32 v);
 extern void func_021BD2D0(u8 *p, u16 v);
 extern void func_021BD30C(char *p);
 extern u32 func_021BD554(u32, u32);
@@ -36,7 +36,7 @@ extern void func_021BD588(u32 *p);
 
 int func_021BD19C(u32 a, u32 b, u32 c, u32 d)
 {
-func_021BD2C4(a, ((struct Obj12115 *)((u8 *)(b)))->f20, c, d);
+func_021BD2C4((u8 *)a, ((struct Obj12115 *)((u8 *)(b)))->f20);
 func_021BD2D0((u8 *)a, ((struct Obj12115 *)((u8 *)(b)))->f24);
 func_021BD30C((char *)a);
 func_021BD57C((u8 *)a);

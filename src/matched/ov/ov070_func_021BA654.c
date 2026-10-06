@@ -25,7 +25,9 @@ extern u32 func_02035CB8(u32 *outA, u32 *outB);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern void func_0204B404(int, Pt *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021BA654(char *p)
 {
@@ -40,6 +42,6 @@ void func_021BA654(char *p)
         }
         func_0204B454((struct Actor *)((struct Obj13158 *)p)->f6A8, (struct PtS *)&pt, 0xFFFF);
         pt.b = v;
-        func_0204B404(((struct Obj13158 *)p)->f6A8, &pt, 0xFFFF);
+        func_0204B404((struct Obj *)(((struct Obj13158 *)p)->f6A8), (const struct Vec2 *)(&pt), 0xFFFF);
     }
 }

@@ -45,9 +45,10 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int func_020083E4(unsigned short *p);
-extern int *func_021F3880(int a);
-extern void func_021F392C(int *p);
-extern void func_021F3BC0(int *p);
+struct Obj;
+extern struct Obj *func_021F3880(int a);
+extern void func_021F392C(struct Obj *o);
+extern void func_021F3BC0(u8 *p);
 extern void func_021F37FC(int *p);
 extern void func_021F3908(int *p);
 extern void func_021F3818(int *p);
@@ -74,9 +75,9 @@ void func_021F36C0(int a)
         r4 = 1;
     }
     func_021BE760(r6, d_021F4E94 + r4 * 16, 1);
-    p = func_021F3880(a);
-    func_021F392C(p);
-    func_021F3BC0(p);
+    p = (int *)func_021F3880(a);
+    func_021F392C((struct Obj *)p);
+    func_021F3BC0((u8 *)p);
     func_021F37FC(p);
     if (p[4] == 0) {
         func_021F3908(p);

@@ -16,12 +16,13 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct S { void *f00; u8 pad04[0x17]; u8 lo : 5; u8 flag : 1; };
 extern void func_021D4EFC(struct S *, void *, u32, u32);
-extern void func_021D5150(struct S *);
+struct Work;
+extern void func_021D5150(struct Work *p);
 void func_021D533C(struct S *p)
 {
     if (p->flag != 0) {
         func_021D4EFC(p, p->f00, 0, 1);
-        func_021D5150(p);
+        func_021D5150((struct Work *)p);
         p->flag = 0;
     }
 }

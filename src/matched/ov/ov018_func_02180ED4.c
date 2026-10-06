@@ -81,10 +81,11 @@ void func_0201F184(struct WordSet *p, u32 i, s32 v);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
-void *func_020124AC(void *h, u32 n, u32 (*fn)(void *, u32), Args *a);
+struct Desc;
+struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 void func_02012374(struct Evt *evt, struct Evt **out);
 void func_0217FE38(int v, Ov018Outer *c);
-u32 func_021F5260(void *, u32);
+void *func_021F5260(void *a0, int *a1);
 
 int func_02180ED4(void *a, int *state, Ov018Outer *c)
 {
@@ -111,7 +112,7 @@ int func_02180ED4(void *a, int *state, Ov018Outer *c)
         func_0217F318(&c->obj);
         args.a = c->f58;
         args.zero = 0;
-        func_02012374(a, func_020124AC(sub, (u32)ov083_id, func_021F5260, &args));
+        func_02012374(a, (struct Evt **)func_020124AC(sub, (u32)ov083_id, (u32 (*)(void *, u32))func_021F5260, (u32)(&args)));
         (*state)++;
         break;
     case 3:

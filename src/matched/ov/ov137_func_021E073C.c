@@ -13,12 +13,14 @@
 #include "../include/Obj10629.h"
 #include "../include/Obj14237.h"
 typedef unsigned short u16;
-extern void func_020480E4(void *,u16);
+typedef unsigned int   u32;
+struct Ctx;
+extern void func_020480E4(struct Ctx *c, u32 i);
 void func_021E073C(char *p)
 {
     int i;
     char *q = p+0x1a0;
-    for (i=0;i<5;i++) func_020480E4(((struct Obj10629 *)p)->fAF4,*(int *)(q+0x940+i*4));
-    func_020480E4(((struct Obj10629 *)p)->fAF4,((struct Obj14237 *)q)->f938);
-    func_020480E4(((struct Obj10629 *)p)->fAF4,((struct Obj14237 *)q)->f93C);
+    for (i=0;i<5;i++) func_020480E4(((struct Obj10629 *)p)->fAF4,(u16)(*(int *)(q+0x940+i*4)));
+    func_020480E4(((struct Obj10629 *)p)->fAF4,(u16)(((struct Obj14237 *)q)->f938));
+    func_020480E4(((struct Obj10629 *)p)->fAF4,(u16)(((struct Obj14237 *)q)->f93C));
 }

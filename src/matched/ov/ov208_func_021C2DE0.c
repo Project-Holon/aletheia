@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Obj;
 struct Indices { u8 v[4]; };
 extern const struct Indices data_021C86EC;
-extern void func_0204B908(struct Obj *p,u32 value);
+extern void func_0204B908(int a0, int a1);
 void func_021C2DE0(void *unused,u8 *p,void *unused2,int first,u16 second)
 {
     struct Indices ids;
@@ -31,5 +31,5 @@ void func_021C2DE0(void *unused,u8 *p,void *unused2,int first,u16 second)
     if(digits[2]>9)digits[2]=9;
     digits[3]=second%10;
     for(i=0;i<4;i++)
-        func_0204B908(*(struct Obj **)(p+ids.v[i]*4+0x9c),digits[i]);
+        func_0204B908((int)(*(struct Obj **)(p+ids.v[i]*4+0x9c)),digits[i]);
 }

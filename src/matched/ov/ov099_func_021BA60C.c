@@ -18,12 +18,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082BCC(void *, u32, u32);
-extern void *func_02049F34(u32, u32, void *, u16);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern const u16 d_021C2878[];
 void func_021BA60C(char *a, char *p, u32 unused, u32 arc)
 {
     func_02082BCC(p, 0, 20);
-    ((struct Obj06351 *)p)->f0 = func_02049F34(arc, 9, p + 4, ((struct Obj22018 *)a)->f4);
+    ((struct Obj06351 *)p)->f0 = func_02049F34(arc, 9, (u32)(p + 4), (u16)(((struct Obj22018 *)a)->f4));
     p[9] = 0;
     p[8] = 15;
     ((struct Obj06351 *)p)->fA = d_021C2878[(u8)p[9]];

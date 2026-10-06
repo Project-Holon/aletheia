@@ -23,11 +23,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0202BF90(u8 *p, u32 key);
+struct Obj;
+extern void func_0202BF90(struct Obj *o, u32 key);
 
 void func_0202BECC(u8 *p, u32 key)
 {
     if (((struct Obj03440 *)p)->f0 != 0) {
-        func_0202BF90(p, key);
+        func_0202BF90((struct Obj *)p, key);
     }
 }

@@ -41,9 +41,10 @@ struct Obj {
 struct AnimBank;
 struct AnimSequence;
 extern struct AnimSequence *sub_020627D8(struct AnimBank *bank, u32 idx);
-extern void  sub_0206469C(struct Rec *r, void *v);
+struct Obj0206469C;
+extern void sub_0206469C(struct Obj0206469C *o, void *bank);
 
 void sub_0204D380(struct Obj *o, u32 idx)
 {
-    sub_0206469C(&o->unk_0c, sub_020627D8(o->unk_74, idx));
+    sub_0206469C((struct Obj0206469C *)(&o->unk_0c), sub_020627D8(o->unk_74, idx));
 }

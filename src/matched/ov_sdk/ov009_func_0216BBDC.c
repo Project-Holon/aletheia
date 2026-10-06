@@ -21,7 +21,7 @@ extern int g_021AA8A0[];
 extern int func_02195E78(const int *p);
 extern int *func_0216BBCC(int i);
 
-int *func_0216BBDC(int pid)
+int *func_0216BBDC(int pid, int flag)
 {
     int i;
 

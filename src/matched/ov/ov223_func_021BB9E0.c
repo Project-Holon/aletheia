@@ -31,7 +31,7 @@ extern void func_0204047C(int, u16);
 extern void *func_020056A0(void (*)(void *, char *), void *, int);
 extern void func_021B9740(void *, char *);
 extern void func_021B9830(char *);
-extern void func_021BAAB8(void *);
+extern void func_021BAAB8(u16 *p);
 extern void func_021BAE00(char *p);
 extern void func_021BB38C(char *p);
 int func_021BB9E0(char *p)
@@ -50,7 +50,7 @@ int func_021BB9E0(char *p)
     ((struct Obj00739 *)p)->f20 = func_020056A0(func_021B9740, p, 1);
     ((struct Obj00739 *)p)->f24 = 0;
     func_021B9830(p);
-    func_021BAAB8(p);
+    func_021BAAB8((u16 *)p);
     func_021BAE00(p);
     func_021BB38C(p);
     return 2;

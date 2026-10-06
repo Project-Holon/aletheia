@@ -38,13 +38,13 @@ extern void func_02011B8C(void *,void *);
 extern u32 sub_02048A18(u8 *,int);
 extern int func_0204779C(int *);
 extern int func_02047910(void *,int,int);
-extern void func_021BE508(const struct Context *,void *);
+extern void func_021BE508(char *p, struct Light *q);
 extern void func_02048AD0(struct Light *);
-extern void func_021BDF18(void *);
+extern void func_021BDF18(char *p);
 extern void func_02047A60(void *,struct Arg *);
-extern void func_021BDF24(void *);
+extern void func_021BDF24(char *p);
 extern void func_0204EA4C(void);
-u32 func_021BE538(const struct Context *ctx,u32 frames)
+int func_021BE538(const struct Context *ctx, u32 frames)
 {
     u32 done;
     long advance = 0;
@@ -62,7 +62,7 @@ u32 func_021BE538(const struct Context *ctx,u32 frames)
         int j, count=func_0204779C(obj);
         for(j=0;j<count;j++) func_02047910(obj,(u16)j,advance);
     }
-    if(ctx->a10 != 0) func_021BE508(ctx,ctx->light);
+    if(ctx->a10 != 0) func_021BE508((char *)ctx,ctx->light);
     func_02048AD0(ctx->light);
     func_021BDF18(ctx->a0);
     for(i=0;i<ctx->count;i++) {

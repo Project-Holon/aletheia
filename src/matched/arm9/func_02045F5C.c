@@ -55,7 +55,8 @@ struct MsgData {
     u8 mode;                    /* +0x1B */
 };
 
-extern void func_02046180(struct MsgData *msg);
+struct Obj;
+extern void func_02046180(struct Obj *o);
 extern void func_0204960C(void *file, u32 pos);
 struct ArcFile;
 extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
@@ -68,7 +69,7 @@ void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
     u32 count;
     u32 len;
 
-    func_02046180(msg);
+    func_02046180((struct Obj *)msg);
 
     if (msg->mode == 0) {
         u32 bankOffset = msg->archive->bankOffset[msg->bankIndex];

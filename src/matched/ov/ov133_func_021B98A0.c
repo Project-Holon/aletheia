@@ -32,7 +32,10 @@ extern void func_021B9A88(unsigned char *p, unsigned int limit);
 extern void func_021B9AC0(u8 *,int *,int *,u16);
 extern void func_021B987C(u8 *);
 extern void func_021B75E0(u8 *);
-extern void func_0204B404(void *,const Pos *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B98A0(u8 *p)
 {
     Pair firstA,firstB,secondA,secondB;
@@ -50,6 +53,6 @@ void func_021B98A0(u8 *p)
     case 9: func_021B987C(p); return;
     }
     pos.x=((struct Obj00228 *)p)->f1C; pos.y=((struct Obj00228 *)p)->f20;
-    func_0204B404(((struct Obj00228 *)p)->f1854,&pos,0);
+    func_0204B404(((struct Obj00228 *)p)->f1854,(const struct Vec2 *)(&pos),0);
     func_021B75E0(p);
 }

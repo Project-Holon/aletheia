@@ -72,7 +72,8 @@ struct Sub02008F80Obj {
     u8 unk00[0x38];
 };
 
-extern void  sub_02008EAC(struct Sub02008F80Obj *obj);
+struct Sub02008EACObj;
+extern void sub_02008EAC(struct Sub02008EACObj *obj);
 extern int   sub_02008EF8(const struct Sub02008F80Obj *obj);
 extern void *sub_02008F08(int a0);
 extern void  sub_02008F3C(const struct Sub02008F80Obj *src,
@@ -94,7 +95,7 @@ void sub_02009004(struct Sub02008F80Obj *arr)
     int i;
 
     for (i = 0; i < ENTRY_COUNT; i++) {
-        sub_02008EAC(&arr[i]);
+        sub_02008EAC((struct Sub02008EACObj *)(&arr[i]));
     }
 }
 

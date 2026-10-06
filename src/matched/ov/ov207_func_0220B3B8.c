@@ -18,7 +18,8 @@
  */
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_0220B52C(void *);
+struct Bank;
+extern void func_0220B52C(struct Bank **p);
 extern void func_0220B4A8(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);
@@ -26,7 +27,7 @@ extern void func_020307B0(void *);
 void func_0220B3B8(unsigned *p)
 {
     func_02030EAC((void *)p[3]);
-    func_0220B52C(p+1);
+    func_0220B52C((struct Bank **)(p+1));
     func_0220B4A8(p);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050=0;

@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern int func_021C49A4(u8 *p, unsigned int i);
 extern int func_021C58F8(char *p, int b);
 extern void func_021C5944(u8 *p, int n, int a);
-extern void func_021C5914(void *, s16 *, s16 *);
+extern void func_021C5914(char *p, short *x, short *y);
 extern void func_021C41DC(u8 *p, int x, int y);
 extern int func_021C5878(int, int);
 extern void func_021C4214(u8 *p, u32 v);
@@ -44,7 +44,7 @@ void func_021C574C(u8 *p)
             ((struct Obj00328 *)p)->fA = b;
             func_021C5944(p, func_021C58F8(((struct Obj00328 *)p)->f4, a), b);
         }
-        func_021C5914(p, &x, &y);
+        func_021C5914((char *)p, &x, &y);
         func_021C41DC(((struct Obj00328 *)p)->f4, x, y);
         d = func_021C5878(y, p[18]);
         func_021C4214(((struct Obj00328 *)p)->f4, d);

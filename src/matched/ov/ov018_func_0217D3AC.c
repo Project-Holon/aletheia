@@ -54,15 +54,15 @@ void *func_020120F4(const struct Ctx *p);
 u8 *func_020120F8(const struct Ctx *p);
 struct Rec44;
 unsigned short func_02012AC8(const struct Rec44 *);
-u8 func_02012B70(const struct BigObj *p);
+int func_02012B70(const struct BigObj *p);
 u32 func_02013D5C(u32 id);
 u32 func_02026454(void *obj);
 u32 func_0202648C(void *obj);
 int func_02158344(int a0);
 int func_02175DA8(u8 *p);
 int func_02175B8C(u8 *p);
-int func_0217EBD8(Ov018Menu *);
-void func_0217EEB4(Ov018Menu *);
+void *func_0217EBD8(u8 *p);
+void func_0217EEB4(int *p);
 void func_0217EF44(Ov018Menu *, unsigned char *);
 void func_0217E638(Ov018Menu *, int);
 void func_0217E714(Ov018Menu *, unsigned char *, int);
@@ -88,7 +88,7 @@ void func_0217D3AC(Ov018Menu *w)
     p = (unsigned char *)func_02158344((int)s1);
     q = func_02012AC8((const struct Rec44 *)func_020120F8(w->f0));
     flag = 0;
-    k = func_0217EBD8(w);
+    k = (int)func_0217EBD8((u8 *)w);
     if (p != 0 && func_02175DA8(p + 0x1AC) == 0) {
         flag = 1;
     } else if (p == 0 && func_02012B70(s2) == 1 && func_02026454(s1) != 2
@@ -99,7 +99,7 @@ void func_0217D3AC(Ov018Menu *w)
         flag = 0;
     }
     if (flag == 1) {
-        func_0217EEB4(w);
+        func_0217EEB4((int *)w);
         func_0217EF44(w, p);
         func_0217E638(w, q);
         func_0217E714(w, p, q);

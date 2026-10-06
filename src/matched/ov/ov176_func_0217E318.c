@@ -27,7 +27,8 @@ extern unsigned char d_0209DF0C;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E64C[];
-extern void *func_02157DD8(Config *);
+typedef unsigned char  u8;
+extern void *func_02157DD8(u8 *p);
 void func_0217E318(char *p, unsigned value)
 {
     Config config;
@@ -42,6 +43,6 @@ void func_0217E318(char *p, unsigned value)
     config.last = 1;
     if (((struct Obj08287 *)p)->f1018)
         func_02034714(d_0217E64C, 0, d_0217E64C);
-    ((struct Obj08287 *)p)->f1018 = func_02157DD8(&config);
+    ((struct Obj08287 *)p)->f1018 = func_02157DD8((u8 *)(&config));
     ((struct Obj08287 *)p)->f0 = 0;
 }

@@ -26,7 +26,7 @@ extern u32 func_021BF7E0(void *);
 extern u32 func_021BF7F4(void *);
 extern u8 func_021C11C8(u8 *p, u8 key);
 extern u8 func_021C11D0(u8 *p, u8 n);
-extern u32 func_021C26AC(void *, u8, u8);
+extern u32 func_021C26AC(const u8 *p, u8 unused, u8 key);
 void func_021BEA8C(u8 *p, int step)
 {
     u8 *object;

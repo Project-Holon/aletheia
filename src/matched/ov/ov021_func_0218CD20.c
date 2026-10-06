@@ -72,7 +72,7 @@ struct Ctx;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012974(const struct BigObj *p);
-extern int func_0218DD84(u32 *p);
+extern int func_0218DD84(u32 a);
 extern char d_021DD9EC[];
 
 int func_0218CD20(u32 a, Map *m, void *blk)
@@ -121,7 +121,7 @@ int func_0218CD20(u32 a, Map *m, void *blk)
     p = m->pos;
     m->pos = p % w + p / w * nw;
     for (i = 0; i < m->nEnts; i++) {
-        if (func_0218DD84(&m->ents[i].pos)) {
+        if (func_0218DD84((u32)(&m->ents[i].pos))) {
             w = m->w;
             e = &m->ents[i];
             q = e->pos;

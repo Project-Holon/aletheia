@@ -39,7 +39,7 @@ extern int func_0217603C(void);
 extern int func_021767F4(void);
 extern int func_021690D0(int status, const char *statusString, const char *locString);
 
-void func_0216F20C(int status)
+int func_0216F20C(int status)
 {
     char value[12];
     char str[0x27];
@@ -57,5 +57,5 @@ void func_0216F20C(int status)
     func_0216848C(d_021A2088, value, str, '/');
     OS_SNPrintf(value, 12, d_021A207C, func_021767F4() ? 1 : 0);
     func_0216848C(d_021A208C, value, str, '/');
-    func_021690D0(status, str, 0);
+    return func_021690D0(status, str, 0);
 }

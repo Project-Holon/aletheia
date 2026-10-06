@@ -15,7 +15,7 @@
  *   (none - no relocations)
  */
 
-unsigned int func_0202411C(unsigned char *p)
+int func_0202411C(unsigned char *p)
 {
     return p[1];
 }

@@ -27,7 +27,7 @@ typedef unsigned int u32;
 extern u8 *g_021797A4;
 extern u8 d_02179790[];
 extern void *func_0203D798(void);
-extern void func_02034714(u8 *a, int b, u8 *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082D44(void *src, void *dst, int n);
 extern int func_02177A74(void);
 extern void func_02177D58(u8 *buf, u32 len);
@@ -46,7 +46,7 @@ void func_021777FC(void)
     if (sfn != 0) {
         n = sfn(((struct Obj04955 *)w)->fC64);
         if (n > 0x68)
-            func_02034714(d_02179790, 0, d_02179790);
+            func_02034714((const char *)d_02179790, 0, (const char *)d_02179790);
         func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj04955 *)w)->fC64), e + 8, n);
     }
     if (e[6] != func_02177A74()) {

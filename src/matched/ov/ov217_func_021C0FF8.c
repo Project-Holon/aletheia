@@ -20,7 +20,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Descriptor *);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
 extern void func_020456F8(struct Descriptor *);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(u32);
@@ -29,7 +30,7 @@ void func_021C0FF8(u8 *p,int visible)
     if (((struct Obj06716 *)p)->f1C==0 && visible!=0) {
         struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;
         func_02045334(d);
-        func_02045374(d);
+        func_02045374((struct Cfg *)d);
         func_02041B6C(func_02045730(d));
     } else if (((struct Obj06716 *)p)->f1C!=0 && visible==0) {
         struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;

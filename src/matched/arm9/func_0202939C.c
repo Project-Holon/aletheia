@@ -23,9 +23,9 @@ struct T {
     u32 f24;
 };
 
-extern void func_02028BA0(struct T *p, u32 v);
+extern void func_02028BA0(u8 *o, u32 v);
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 
 void func_0202939C(struct T *p)
 {
@@ -36,7 +36,7 @@ void func_0202939C(struct T *p)
         return;
     }
     if (p->f20 == 0) {
-        func_02028BA0(p, 1);
+        func_02028BA0((u8 *)p, 1);
     }
     func_02005DE4((void *)1);
     func_02005E64();

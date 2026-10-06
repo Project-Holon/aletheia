@@ -20,5 +20,5 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
-extern u32 func_0203D3F8(int,u8,u32,u32,int,int,int,int);
-void func_0217E2C0(int unused,int a) {int flag;int v;v=func_0203D1A4((struct Link *)((int)func_020399A8()));flag=1;if(v!=0)flag=0;func_0203D3F8((int)func_020399A8(),flag,0x1f03,4,a,1,1,1);}
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+u32 func_0217E2C0(int unused,int a) {int flag;int v;v=func_0203D1A4((struct Link *)((int)func_020399A8()));flag=1;if(v!=0)flag=0;return func_0203D3F8((int)func_020399A8(),(u8)flag,0x1f03,4,(int)a,(int)1,(int)1,(int)1);}

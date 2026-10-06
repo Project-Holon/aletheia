@@ -92,57 +92,66 @@ typedef struct S {
     void *f9C;
 } S;
 
-extern u32 func_021BE00C(void *p);
-extern int func_021BE02C(void *p);
-extern void func_021BE030(void *p, int v);
+typedef signed short   s16;
+typedef signed int     s32;
+struct Actor;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct Obj;
+struct PrintSys;
+struct St;
+extern u16 func_021BE00C(u16 *p);
+extern u32 func_021BE02C(void *p);
+extern void func_021BE030(void *p, u32 v);
 extern u32 func_021BDFDC(void *p);
 extern u32 func_021BDFE4(void *p);
 extern u8 func_021BE054(void *p);
-extern void func_021BE0B0(void *p, int v);
-extern void *func_021BE044(void *p);
-extern void func_021BE318(void *p, void *d);
+extern void func_021BE0B0(void *p, u32 v);
+extern u32 func_021BE044(void *p);
+extern void func_021BE318(char *a0, void *a1);
 extern void func_021BE34C(void *p);
-extern int func_021B7590(void *p, u32 x);
-extern void func_021B7578(void *p, u32 x);
-extern void func_021B7B80(void *p, u32 x);
-extern void func_021B8084(void *p, u32 base);
-extern int func_021B8740(void *p, u32 base, int a, int b);
-extern void func_021B8B34(void *p, u32 base, int a);
+extern int func_021B7590(int x, char *p);
+extern void func_021B7578(int x, char *p);
+extern void func_021B7B80(int x, char *p);
+extern void func_021B8084(void *a, char *q);
+extern u32 func_021B8740(int a, int b, u8 c, u32 d);
+extern void func_021B8B34(void *p, u32 a, u32 b);
 extern int func_021B8B48(void *p, u32 base, int a);
 extern u32 func_021B8B5C(void *p, u32 base);
-extern u32 func_021B8B68(void *p, u32 base);
-extern char *func_021B8B84(void *p, u32 base);
-extern void func_021B9580(void *p, S *s);
-extern void func_021B97AC(void *p, S *s);
-extern void func_021B99B4(void *p, S *s);
-extern void func_021B9C1C(void *p, S *s, int msg);
-extern void func_021B9C9C(void *p, S *s);
-extern void func_021B9D04(void *p, S *s);
-extern int func_021B9DF8(void *p, S *s);
-extern void func_021B9E3C(void *p, S *s);
-extern void func_021B9E5C(void *p, S *s, short *tbl, u8 b, u32 c, u16 d);
-extern int func_021B9F4C(void *p, S *s, int v);
-extern void func_021BA050(void *t);
-extern int func_021BA244(void *t);
+extern u32 func_021B8B68(int unused, char *p);
+extern u32 func_021B8B84(int unused, char *p);
+extern void func_021B9580(u8 *c, u8 *q);
+extern void func_021B97AC(void *ctx, struct St *st);
+extern void func_021B99B4(void *a0, char *a1);
+extern void func_021B9C1C(void *p, char *q, int id);
+extern void func_021B9C9C(void *p, char *q);
+extern void func_021B9D04(int self, int *q);
+extern int func_021B9DF8(void *p, int *out);
+extern void func_021B9E3C(void *p, char *q);
+extern void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v);
+extern int func_021B9F4C(int a, int b, int mode);
+extern void func_021BA050(u32 *p);
+extern u32 func_021BA244(void *p);
 extern int func_021BA248(void *t);
 extern int func_021BA24C(void *t);
 extern int func_021BA254(void *t);
-extern void func_0202208C(int a, int b, int c, int d, int e, int f, u32 heap);
-extern int func_020221A4(void);
-extern u32 func_0201C6C4(void *a, void *b);
-extern int func_0204B98C(void *a);
-extern void func_0204B878(void *a, int v);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 func_020221A4(void);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 func_0204B98C(struct Actor *a);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_0203630C(void);
 extern int func_02035C60(void);
 extern u32 func_020362DC(void);
-extern void *func_02045770(void *d);
-extern void func_02045334(void *d);
-extern void func_02045374(void *d);
-extern void func_020409B4(int v);
-extern void func_02061CA4(int a, int b, void *src, int n);
-extern void func_02043B5C(void *buf, u8 v);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_020409B4(u32 index);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 
-int func_021B9044(void *p, S *s)
+u32 func_021B9044(void *p, S *s)
 {
     u32 heap;
     u32 a;
@@ -154,7 +163,7 @@ int func_021B9044(void *p, S *s)
         if (func_021BE02C(p) == 1)
             func_0202208C(0, 1, 1, 0, 6, 1, heap);
         else
-            func_0202208C(4, 1, 1, 0, 6, 1, heap);
+            func_0202208C((void *)4, 1, 1, 0, 6, 1, heap);
         s->state = 1;
         break;
     case 1:
@@ -162,7 +171,7 @@ int func_021B9044(void *p, S *s)
             s->state = 5;
         break;
     case 2:
-        func_0202208C(4, 0, 0, 0, 6, 1, heap);
+        func_0202208C((void *)4, 0, 0, 0, 6, 1, heap);
         func_021BE030(p, 0);
         s->state = 4;
         break;
@@ -170,7 +179,7 @@ int func_021B9044(void *p, S *s)
         if (s->f4 == 6 && func_0204B98C(s->f9C) == 1)
             break;
         a = func_021BDFDC(p);
-        if (s->f8 != 0 && func_021B7590(p, a) != 1)
+        if (s->f8 != 0 && func_021B7590((int)p, (char *)a) != 1)
             break;
         func_0202208C(0, 0, 0, 0, 6, 1, heap);
         func_021BE030(p, 1);
@@ -183,25 +192,25 @@ int func_021B9044(void *p, S *s)
             return 3;
         return 4;
     case 5:
-        func_021B9580(p, s);
+        func_021B9580(p, (u8 *)s);
         break;
     case 6:
-        if (func_021B9DF8(p, s) != 0)
+        if (func_021B9DF8(p, (int *)s) != 0)
             break;
-        if (func_021B9F4C(p, s, 1) == 1 || (func_0203630C() & 0x101)) {
-            if (func_021B8740(p, func_021BDFE4(p), 6, 0) == 1)
+        if (func_021B9F4C((int)p, (int)s, 1) == 1 || (func_0203630C() & 0x101)) {
+            if (func_021B8740((int)p, func_021BDFE4(p), 6, 0) == 1)
                 s->state = 7;
             break;
         }
         s->state = 5;
         break;
     case 7:
-        if (func_021B9DF8(p, s) != 0)
+        if (func_021B9DF8(p, (int *)s) != 0)
             break;
         b = func_021BDFE4(p);
-        a = func_021B8B68(p, b);
+        a = func_021B8B68((int)p, (char *)b);
         b = func_021B8B5C(p, b);
-        if (func_021B9F4C(p, s, 1) == 1 || (func_0203630C() & 0x101)) {
+        if (func_021B9F4C((int)p, (int)s, 1) == 1 || (func_0203630C() & 0x101)) {
             if (a != 0xFF) {
                 if (a == b) {
                     s->state = 8;
@@ -215,16 +224,16 @@ int func_021B9044(void *p, S *s)
         }
         break;
     case 8:
-        func_021B97AC(p, s);
+        func_021B97AC(p, (struct St *)s);
         break;
     case 9:
-        func_021B9C9C(p, s);
+        func_021B9C9C(p, (char *)s);
         break;
     case 10:
-        func_021B9D04(p, s);
+        func_021B9D04((int)p, (int *)s);
         break;
     case 11:
-        if (func_021B8740(p, func_021BDFE4(p), 10, 0) == 1)
+        if (func_021B8740((int)p, func_021BDFE4(p), 10, 0) == 1)
             s->state = 12;
     case 12:
         if (func_021BE054(p) > 1)
@@ -233,41 +242,41 @@ int func_021B9044(void *p, S *s)
         s->f4 = 7;
         s->state = 3;
         func_021BE0B0(p, 1);
-        func_021B7578(p, a);
-        func_021B7B80(p, a);
+        func_021B7578((int)p, (char *)a);
+        func_021B7B80((int)p, (char *)a);
         s->f8 = 1;
         break;
     case 13:
-        func_021B8084(p, func_021BDFE4(p));
+        func_021B8084(p, (char *)func_021BDFE4(p));
         func_021BE0B0(p, 1);
-        func_021B9C1C(p, s, 0x24);
+        func_021B9C1C(p, (char *)s, 0x24);
         s->state = 14;
-        func_021B7B80(p, func_021BDFDC(p));
+        func_021B7B80((int)p, (char *)func_021BDFDC(p));
         s->f8 = 1;
         break;
     case 14:
         if (func_02035C60() == 1 || (func_020362DC() & 3)) {
             s->f4 = 7;
             s->state = 3;
-            func_021B7578(p, func_021BDFDC(p));
+            func_021B7578((int)p, (char *)func_021BDFDC(p));
             s->f8 = 1;
         }
         break;
     case 15:
-        if (func_021B8740(p, func_021BDFE4(p), 10, 0) != 1)
+        if (func_021B8740((int)p, func_021BDFE4(p), 10, 0) != 1)
             break;
         a = func_021BDFDC(p);
         func_021BE0B0(p, 1);
-        func_021B7B80(p, a);
+        func_021B7B80((int)p, (char *)a);
         s->state = 18;
         break;
     case 16:
-        func_021B8084(p, func_021BDFE4(p));
-        func_021B9C1C(p, s, 0x25);
+        func_021B8084(p, (char *)func_021BDFE4(p));
+        func_021B9C1C(p, (char *)s, 0x25);
         s->state = 17;
         s->f88 = 0;
         func_021BE0B0(p, 1);
-        func_021B7B80(p, func_021BDFDC(p));
+        func_021B7B80((int)p, (char *)func_021BDFDC(p));
         s->f8 = 1;
         break;
     case 17:
@@ -286,15 +295,15 @@ int func_021B9044(void *p, S *s)
         s->state = 3;
         func_021BE34C(p);
         func_021BE0B0(p, 1);
-        func_021B7578(p, func_021BDFDC(p));
+        func_021B7578((int)p, (char *)func_021BDFDC(p));
         s->f8 = 1;
         break;
     case 20:
-        func_021B8084(p, func_021BDFE4(p));
-        func_021B9C1C(p, s, 0x26);
+        func_021B8084(p, (char *)func_021BDFE4(p));
+        func_021B9C1C(p, (char *)s, 0x26);
         s->state = 21;
         func_021BE0B0(p, 1);
-        func_021B7B80(p, func_021BDFDC(p));
+        func_021B7B80((int)p, (char *)func_021BDFDC(p));
         s->f8 = 1;
         break;
     case 21:
@@ -302,15 +311,15 @@ int func_021B9044(void *p, S *s)
             s->f4 = 7;
             s->state = 3;
             func_021BE0B0(p, 1);
-            func_021B7578(p, func_021BDFDC(p));
+            func_021B7578((int)p, (char *)func_021BDFDC(p));
             s->f8 = 1;
         }
         break;
     }
-    func_021B99B4(p, s);
+    func_021B99B4(p, (char *)s);
     func_021BA050(s->f10);
     if (s->f28 == 1) {
-        void *h = func_021BE044(p);
+        void *h = (void *)func_021BE044(p);
         if (func_0201C6C4(h, func_02045770(s->f7C)) == 0) {
             func_02045334(s->f7C);
             func_02045374(s->f7C);
@@ -326,15 +335,15 @@ int func_021B9044(void *p, S *s)
         s->f38++;
         if (s->f38 > 6) {
             s->f34 = 0;
-            func_02061CA4(0x1F, 0x20, s->f5A, 0x20);
+            func_02061CA4((void *)0x1F, 0x20, (u32)s->f5A, 0x20);
         } else if (s->f38 % 12 < 6) {
-            func_02061CA4(0x1F, 0x20, s->f3A, 0x20);
+            func_02061CA4((void *)0x1F, 0x20, (u32)s->f3A, 0x20);
         } else {
-            func_02061CA4(0x1F, 0x20, s->f5A, 0x20);
+            func_02061CA4((void *)0x1F, 0x20, (u32)s->f5A, 0x20);
         }
     }
     if (s->f8C == 0 && s->state != 8 && s->state < 11 && func_021BA244(s->f10) == 1) {
-        func_021B9E3C(p, s);
+        func_021B9E3C(p, (char *)s);
         s->f8C = 1;
     }
     if (s->f8C == 1) {
@@ -343,13 +352,13 @@ int func_021B9044(void *p, S *s)
             func_02043B5C(func_02045770(s->f2C), 0);
             func_02045334(s->f2C);
         } else {
-            short *base = (short *)(func_021B8B84(p, func_021BDFE4(p)) + 0x800);
+            short *base = (short *)(func_021B8B84((int)p, (char *)func_021BDFE4(p)) + 0x800);
             int n = func_021BA24C(s->f10);
             int max = func_021BA254(s->f10);
             int w = func_021BA248(s->f10);
             if (n > max)
                 n = max;
-            func_021B9E5C(p, s, base, 3, (u32)(w * n) / max, w);
+            func_021B9E5C((int)p, (char *)s, base, 3, (u32)(w * n) / max, w);
         }
     }
     if (func_0204B98C(s->f98) == 0) {

@@ -43,10 +43,11 @@ typedef struct {
 
 extern void func_02087C6C(void *);
 extern int func_0203EFC8(void *, void *, int);
-extern int func_0217B158(int, Obj *, Ent8 *);
+struct ent;
+extern int func_0217B158(char *base, struct ent *excl, u8 *mac);
 extern u8 *func_0217AFE4(int, Obj *, Ent8 *, int, int, int *);
-extern void func_0217AE38(u8 *, int);
-extern int func_0217F894(int, Obj *);
+extern int func_0217AE38(char *p, char v);
+extern int func_0217F894(void *p, char *q);
 typedef unsigned int   u32;
 struct L0200EDC4;
 extern int func_0200EDC4(struct L0200EDC4 *l, u32 val);
@@ -64,12 +65,12 @@ void func_0217B098(int a, int b, int c, int d, Obj *e)
     for (i = 0; i < 5; i++) {
         if (e->slot[i] == 0 && e->tab[i].f1 == 1
             && func_0203EFC8(buf, &e->tab[i], 6) != 0
-            && func_0217B158(a, e, &e->tab[i]) != 0) {
+            && func_0217B158((char *)a, (struct ent *)e, (u8 *)(&e->tab[i])) != 0) {
             e->slot[i] = func_0217AFE4(a, e, &e->tab[i], i, 0, &out);
             e->slot[i][8] = 1;
-            func_0217AE38(e->slot[i], 0);
+            func_0217AE38((char *)e->slot[i], 0);
             if (i == 0) {
-                if (func_0217F894(c, e) == 1)
+                if (func_0217F894((void *)c, (char *)e) == 1)
                     func_0217F948((char *)d, out, 0);
                 else if (func_0200EDC4((struct L0200EDC4 *)b, e->f5c) == 1)
                     func_0217F948((char *)d, out, 1);

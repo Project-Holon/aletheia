@@ -45,7 +45,7 @@ extern void func_021C1AC0(char *);
 extern int func_021BA8BC(void *);
 extern void func_020414AC(u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_021BE53C(char *, void *);
+extern void func_021BE53C(char *p, int v);
 extern void func_02049238(void *);
 struct Descriptor;
 struct Obj;
@@ -70,7 +70,7 @@ int func_021BE9C8(char *p, int v)
         ((struct Obj02802 *)p)->f198 = (void *)func_021BA8BC(((struct Obj02802 *)p)->f198);
         func_020414AC(3);
         h = func_020490F4(0x21, 0x21);
-        func_021BE53C(p, h);
+        func_021BE53C(p, (int)h);
         func_02049238(h);
         ((struct Obj02802 *)p)->f1328 = 1;
         if (((struct Obj02802 *)p)->fB0 != 0) {

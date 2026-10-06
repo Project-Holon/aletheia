@@ -21,7 +21,7 @@
 typedef unsigned short u16;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021F669C(void *);
+extern void func_021F669C(int *p);
 extern void func_021F6600(char *p);
 extern void func_021F657C(void *);
 extern void func_0201DD68(void);
@@ -30,7 +30,7 @@ extern void func_020307B0(void *);
 void func_021F6474(char *p)
 {
     func_02030EAC(((struct Obj25750 *)p)->fC);
-    func_021F669C(p+8);
+    func_021F669C((int *)(p+8));
     func_021F6600(p+4);
     func_021F657C(p);
     func_0201DD68();

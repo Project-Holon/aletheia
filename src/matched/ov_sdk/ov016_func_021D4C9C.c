@@ -16,7 +16,8 @@
  *   func_020923F0  0x020923F0  arm
  */
 
-extern unsigned long func_0209477C(char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_020923F0(void *a, void *b, unsigned long n);
 
 int func_021D4C9C(char *str0, char *str1, int n)
@@ -24,8 +25,8 @@ int func_021D4C9C(char *str0, char *str1, int n)
 	int len0;
 	int len1;
 	int rs;
-	len0 = func_0209477C(str0);
-	len1 = func_0209477C(str1);
+	len0 = func_0209477C((const u8 *)str0);
+	len1 = func_0209477C((const u8 *)str1);
 	if (len0 < n || len1 < n)
 		return 0;
 	rs = func_020923F0(str0 + (len0 - n), str1 + (len1 - n), n);

@@ -14,13 +14,13 @@
  */
 #include "../include/Obj02844.h"
 
-extern void func_021D7E84(void *, unsigned char *);
+extern void func_021D7E84(void *p, void **q);
 struct Rec;
 extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *);
 void func_021D7BF0(void *a, unsigned char *p)
 {
-    if (((struct Obj02844 *)p)->f4 == 1) func_021D7E84(a, p);
+    if (((struct Obj02844 *)p)->f4 == 1) func_021D7E84(a, (void **)p);
     func_02045C04(((struct Obj02844 *)p)->f38);
     func_02045C04(((struct Obj02844 *)p)->f3C);
     func_02045C04(((struct Obj02844 *)p)->f40);

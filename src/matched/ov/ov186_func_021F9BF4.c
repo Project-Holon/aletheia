@@ -13,7 +13,7 @@
 typedef struct { unsigned words[4]; } Info;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_021F9C84(Info *, unsigned, void *);
+extern void func_021F9C84(char *p, int a, int b);
 extern char d_02200D14[];
 void func_021F9BF4(unsigned *ctx, unsigned index)
 {
@@ -22,7 +22,7 @@ void func_021F9BF4(unsigned *ctx, unsigned index)
     char *entry = base + index * 20;
     if (index >= ((struct Obj05498 *)ctx)->f8)
         func_02034714(d_02200D14, 0, d_02200D14);
-    func_021F9C84(&info, index, entry);
+    func_021F9C84((char *)(&info), index, (int)entry);
     if (ctx[25] >= 6)
         func_02034714(d_02200D14, 0, d_02200D14);
     ((unsigned (*)[6])((char *)ctx + 0x4c))[0][ctx[25]] = index;

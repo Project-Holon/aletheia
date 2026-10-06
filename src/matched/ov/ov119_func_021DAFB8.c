@@ -33,7 +33,8 @@ extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned,unsigned);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021E1024(void *),func_021E1030(void *);
+extern void func_021E1024(void *);
+extern void func_021E1030(char *p);
 void func_021DAFB8(char *p) {
  u8 b;
  if(func_021D8A24(p)) {

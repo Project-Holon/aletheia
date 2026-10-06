@@ -29,7 +29,7 @@ struct Evt;
 extern int func_021BDBF8(u32 a);
 extern void func_021BDC0C(u32 *, u32);
 extern void func_021BDC80(u32 *);
-extern u32 func_021618E0(u32, u32);
+extern void *func_021618E0(void *a, void *b);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 u32 func_021BDAA8(u32 a, int *st, u32 *ctx)
@@ -51,7 +51,7 @@ u32 func_021BDAA8(u32 a, int *st, u32 *ctx)
         (*st)++;
         break;
     case 2:
-        func_02012374((struct Evt *)a, (struct Evt **)func_021618E0(x, y));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021618E0((void *)x, (void *)y));
         (*st)++;
         break;
     case 3:

@@ -27,7 +27,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_02189A08(unsigned char *p);
 extern u32 *func_021CF52C(u32 *p, int size, int heap);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void func_021F5334(void);
+extern int func_021F5334(void *task, int *st);
 
 void *func_021F52D8(void *a, u32 b, u32 c, u32 d, int e)
 {

@@ -38,8 +38,9 @@ extern u32 func_020362DC(void);
 extern u32 func_0203633C(void);
 extern int func_021BD388(void *a, int b);
 extern void func_021BD3F8(void *a, int b);
-extern u32 func_021BDB08(struct Ov208Menu *m);
-extern u32 func_021BDB54(struct Ov208Menu *m);
+struct State;
+extern unsigned func_021BDB08(const struct State *p);
+extern unsigned func_021BDB54(const struct State *p);
 extern u32 func_021BE32C(u32 v);
 extern u32 func_021BE378(u32 v);
 extern void func_021BD368(int a, int b, int c);
@@ -100,8 +101,8 @@ void func_021BDFDC(struct Ov208Menu *m)
         else if (held & 0x80)
             func_021BD3F8(m->f30, *m->tab[7].p);
     }
-    a = func_021BDB08(m);
-    b = func_021BDB54(m);
+    a = func_021BDB08((const struct State *)m);
+    b = func_021BDB54((const struct State *)m);
     if (a != 0) {
         c = func_021BE32C(a);
         d = func_021BE378(a);

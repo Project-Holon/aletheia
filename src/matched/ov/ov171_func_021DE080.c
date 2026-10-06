@@ -20,7 +20,7 @@ struct Obj;
 extern void func_0204B8C4(struct Obj *,u32);
 extern void func_0204B878(struct Obj *,u16);
 extern void func_0204B92C(struct Obj *,u32);
-void func_021DE080(u8 *p,u32 i,u32 value)
+void func_021DE080(u8 *p, int i, int value)
 {
     struct Obj **base=(struct Obj **)(p+0xb74);
     func_0204B8C4(*(struct Obj **)((u32)base+i*4),0);

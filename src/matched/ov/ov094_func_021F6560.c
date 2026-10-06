@@ -65,8 +65,9 @@ struct G3dOwner;
 struct G3dRec;
 struct Tagged;
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(void *, void **, u16);
-extern u32 func_020477A4(void *, u16);
+struct G3dSys;
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void func_0207ADC4(int *);
 extern void *func_02046F48(struct Tagged *p);
 extern unsigned char *func_0206E964(unsigned char *p);
@@ -103,8 +104,8 @@ Obj *func_021F6560(int mode, int group, int variant, u16 heap)
             o->arr[i] = sub_02030734(o->heap, 0x10, 1, d_0220AC40, 0x99);
             *o->f14[i] = func_02047564(o->h1c[i], *o->f10, 0);
             o->arr[i]->kind = 1;
-            o->h24[i] = func_0204767C(o->h1c[i], o->f14[i], o->n);
-            func_020477A4(o->h24[i], 0);
+            o->h24[i] = func_0204767C((u32)o->h1c[i], (u32 *)o->f14[i], (u16)o->n);
+            func_020477A4(o->h24[i], (u16)0);
         }
     } else if (o->n != 0) {
         o->f10 = sub_02030734(o->heap, o->n * 4, 0, d_0220AC40, 0xa7);
@@ -124,12 +125,12 @@ Obj *func_021F6560(int mode, int group, int variant, u16 heap)
             }
         }
         for (i = 0; i < 2; i++) {
-            o->h24[i] = func_0204767C(o->h1c[i], o->f14[i], o->n);
-            for (m = 0; m < o->n; m++) func_020477A4(o->h24[i], m);
+            o->h24[i] = func_0204767C((u32)o->h1c[i], (u32 *)o->f14[i], (u16)o->n);
+            for (m = 0; m < o->n; m++) func_020477A4(o->h24[i], (u16)m);
         }
     } else {
-        o->h24[0] = func_0204767C(o->h1c[0], 0, 0);
-        o->h24[1] = func_0204767C(o->h1c[1], 0, 0);
+        o->h24[0] = func_0204767C((u32)o->h1c[0], 0, (u16)0);
+        o->h24[1] = func_0204767C((u32)o->h1c[1], 0, (u16)0);
     }
     bytes = *(u16 *)(func_0206E964(func_02046F48(o->f0)) + 0x30) * 8;
     o->fa4 = sub_02030734(o->heap, 4, 0, d_0220AC40, 0xd6);

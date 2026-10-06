@@ -34,7 +34,7 @@ extern const signed char data_0209DFB0[];
 
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *sub_0200873C(void *sys);
-extern u32 sub_02008374(void *obj);
+extern unsigned int sub_02008374(int a0);
 
 void sub_02012FF0(void *val)
 {
@@ -43,7 +43,7 @@ void sub_02012FF0(void *val)
 
 signed char sub_02012FFC(void)
 {
-    u32 val = sub_02008374(sub_0200873C(ptr_020A7298));
+    u32 val = sub_02008374((int)sub_0200873C(ptr_020A7298));
     if (val >= 5) {
         val = 4;
     }

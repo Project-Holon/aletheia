@@ -29,12 +29,13 @@ struct Box {
     struct Sub s;
 };
 
-extern int func_02162C54(struct Box *b);
+typedef unsigned char  u8;
+extern int func_02162C54(u8 *p);
 
 u16 func_02162B68(struct Box *b, int *pos)
 {
     struct Sub *s;
-    int m = func_02162C54(b);
+    int m = func_02162C54((u8 *)b);
     s = &b->s;
     if (s->f6 > 1)
         return (s->f6 << 4) | (((pos[0] >> 12) - s->f0) / 16) | (m << 8);

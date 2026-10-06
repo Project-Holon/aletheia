@@ -31,23 +31,24 @@
  * note 2026-10-05 (wD4 lane13): tried c as void * with a void * callee parameter, a q = p alias, and locals a/p/c copied from the parameters in three declaration orders (h1-h3). All give the same 5 bytes. Observation: the original colours c, a, p in that order into r6, r5, r4; ours colours p, a, c into r6, r5, r4 (exact reverse).
  */
 
-extern void func_021B970C(void *, int *);
-extern void func_021B9774(void *, int *, int);
-extern void func_021C09BC(int, int);
+typedef unsigned int   u32;
+extern void func_021B970C(u32 *p, u32 *state);
+extern void func_021B9774(u32 *p, u32 *state, u32 kind);
+extern void func_021C09BC(void *p, u32 v);
 
 void func_021B96C8(void *a, int *p, int c)
 {
-    func_021B970C(a, p);
-    func_021B9774(a, p, c);
+    func_021B970C(a, (u32 *)p);
+    func_021B9774(a, (u32 *)p, c);
     switch (*p) {
     case 1:
-        func_021C09BC(*(int *)((char *)a + 0xc), 1);
+        func_021C09BC((void *)(*(int *)((char *)a + 0xc)), 1);
         break;
     case 2:
-        func_021C09BC(*(int *)((char *)a + 0xc), 2);
+        func_021C09BC((void *)(*(int *)((char *)a + 0xc)), 2);
         break;
     case 3:
-        func_021C09BC(*(int *)((char *)a + 0xc), 3);
+        func_021C09BC((void *)(*(int *)((char *)a + 0xc)), 3);
         break;
     }
 }

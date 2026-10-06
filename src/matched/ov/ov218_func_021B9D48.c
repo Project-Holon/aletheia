@@ -30,7 +30,9 @@ typedef struct Template {u8 pad[0x18];u8 page;u8 pad19;u16 start;u8 pad1c[8];voi
 extern Template d_021BB060;
 extern Template template_021BB060;
 extern int tbl_021BAC80[];
-extern void *func_021B7754(Template *,u32);
+struct S;
+struct Tmpl;
+extern struct S *func_021B7754(struct Tmpl *tmpl, u32 heap);
 extern void func_021B7A10(u8 *p, u32 a, u32 b, u32 c, u32 index);
 struct MsgBank;
 struct Rec;
@@ -58,7 +60,7 @@ void func_021B9D48(char *p)
             } else d_021BB060.start=i;
         }
     }
-    ((struct Obj02556 *)p)->f2C=func_021B7754(&template_021BB060,((struct Obj02556 *)p)->f0);
+    ((struct Obj02556 *)p)->f2C=func_021B7754((struct Tmpl *)(&template_021BB060),((struct Obj02556 *)p)->f0);
     archive=func_020490F4(193,((struct Obj02556 *)p)->f0);
     func_021B7A10(((struct Obj02556 *)p)->f2C,(u32)archive,3,0,0);
     func_021B7A10(((struct Obj02556 *)p)->f2C,(u32)archive,4,0,1);

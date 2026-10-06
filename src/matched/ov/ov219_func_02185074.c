@@ -114,11 +114,15 @@ typedef unsigned int u32;
 extern const u32 d_02185F7C[];
 static inline u32 tb(int i) { return *(const u32 *)((const u8 *)d_02185F7C + i * 4); }
 extern u32 func_02184968(const u8 *, int);
-extern void *func_02045B38(u32, u32, u16, u16);
+struct MsgBank;
+struct Rec;
+struct Slot;
+struct Src;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201F81C(u32, u32);
-extern void func_0201F878(void *, void *, u32, u32, u16);
-extern void func_02045C04(void *);
-extern void func_02184FC8(u8 *, u32, u32);
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern void func_02045C04(struct Rec *rec);
+extern void func_02184FC8(char *p, const struct Src *source, unsigned count);
 
 static inline u32 GetMsg(u32 idx) { return d_02185F7C[idx]; }
 void func_02185074(u8 *p, const u8 *a, u32 b, u32 c)
@@ -129,8 +133,8 @@ void func_02185074(u8 *p, const u8 *a, u32 b, u32 c)
     t = func_02045B38(0, 2, (u16)c, (u16)*(u32 *)p);
     *(void **)(p + 0xC050) = func_0201F81C(0x82, *(u32 *)p);
     for (i = 0; (i < 0x82) ? 1 : 0; i++) {
-        func_0201F878(*(void **)(p + 0xC050), t, GetMsg(i), d_02185F7C[i], (u16)*(u32 *)p);
+        func_0201F878(*(void **)(p + 0xC050), (u32)t, GetMsg(i), d_02185F7C[i], (u16)*(u32 *)p);
     }
     func_02045C04(t);
-    func_02184FC8(p, b, 0x82);
+    func_02184FC8((char *)p, (const struct Src *)b, 0x82);
 }

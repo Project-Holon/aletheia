@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u32 func_021B8B74(void *ctx, u8 *rec)
+int func_021B8B74(void *ctx, u8 *rec)
 {
     return *(u32 *)(rec + 0x194);
 }

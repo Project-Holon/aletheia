@@ -16,12 +16,12 @@
 #include "../include/Obj12574.h"
 
 unsigned char func_0218C530(int b);
-int func_0218C47C(void *p, int id);
+int func_0218C47C(int *p, int id);
 
 int func_0218C6F4(unsigned char *p, int b, int id)
 {
     unsigned char v = func_0218C530(b);
     if (v >= 0x80 || v >= ((struct Obj12574 *)p)->f1AC)
         v = 0;
-    return func_0218C47C(*(unsigned char * *)&((struct Obj12574 *)p)->f1D8 + v * 0x18, id);
+    return func_0218C47C((int *)(*(unsigned char * *)&((struct Obj12574 *)p)->f1D8 + v * 0x18), id);
 }

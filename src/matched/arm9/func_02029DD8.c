@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02029DD8(int a0, int a1, int a2, int a3){ int t0 = func_0202B57C((int)(a1 + 0)); int t1 = func_0202B914((int)t0, (int)0x7f); int t2 = func_02028A58((int)((a0 + 0) + 0), (int)0x7f, (int)6); return t2; }
+int func_02029DD8(int a0, int a1){ int t0 = func_0202B57C((int)(a1 + 0)); int t1 = func_0202B914((int)t0, (int)0x7f); int t2 = func_02028A58((int)((a0 + 0) + 0), (int)0x7f, (int)6); return t2; }

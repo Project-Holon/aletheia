@@ -17,7 +17,8 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_0217FCA4(u8 *p);
+typedef unsigned int   u32;
+extern void func_0217FCA4(u32 *p);
 
 u8 *func_0217FD88(u8 *base)
 {
@@ -33,6 +34,6 @@ u8 *func_0217FD88(u8 *base)
             best = i;
     }
     e = base + best * 20;
-    func_0217FCA4(e);
+    func_0217FCA4((u32 *)e);
     return e;
 }

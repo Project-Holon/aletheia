@@ -62,24 +62,30 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct S S;
-extern void func_021FE784(int *,int,int,int);
+typedef unsigned char  u8;
+struct Big;
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021DCE28(char *,char *),func_021DCE48(char *,char *),func_021DD054(char *,char *);
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
-extern void func_021FD170(void *,int,int);
+extern void func_021FD170(char *p, char *q, void *text);
 extern void func_02082BCC(void *,int,u32);
-extern u64 func_0200B98C(void *,int,int);
-extern void func_021FF54C(void *,int,void *);
-extern int func_021FF648(void *),func_021FF72C(void *,int *),func_021FF698(char *,int,int *);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern void func_021FF54C(char *p, int kind, const int *values);
+extern int func_021FF648(char *p);
+extern int func_021FF72C(char *p, int *out);
+extern int func_021FF698(char *,int,int *);
 extern void func_021FD860(int,int,int *);
-extern unsigned int func_02012EBC(void *);
+extern void *func_02012EBC(struct Big *p);
 extern void func_0200B938(const void *,const void *,const void *,unsigned int);
 extern void func_021F9C50(S *);
-extern int func_02035C60(void),func_02035D20(u32 *,u32 *);
-extern void func_020061E4(int);
-extern int func_02006254(int),func_021FD744(int);
+extern int func_02035C60(void);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void func_020061E4(u32 a);
+extern int func_02006254(u32 a);
+extern int func_021FD744(int);
 extern void func_021FD73C(int *,int);
-extern void func_021DBC68(int *,int *,char *);
+extern void func_021DBC68(int a, int b, char *p);
 void func_021DC228(int *a,int *state,char *p)
 {
     u64 t;
@@ -89,21 +95,21 @@ void func_021DC228(int *a,int *state,char *p)
     u32 x,y;
     int args[2];
     switch(*state) {
-    case 0: func_021FE784(*(int **)(*(char **)(p+0xd0)+12),2,3,1);*state=1;break;
+    case 0: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=1;break;
     case 1: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
     case 2:
         if(*(int *)(p+0xb0)) func_021DCE28(p,*(char **)(p+0xd0));
         else func_021DCE48(p,*(char **)(p+0xd0));
         func_021DD054(p,*(char **)(p+0xd0));
         func_021DD0AC(p,*(char **)(p+0xd0));
-        func_021FD170(*(void **)(p+0x18),*(int *)(*(char **)(p+0xd0)+0x10),0x14b);
+        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x14b);
         *state=3;break;
-    case 3: func_021FE784(*(int **)(*(char **)(p+0xd0)+12),2,3,0);*state=4;break;
+    case 3: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=4;break;
     case 4: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
     case 5:
         func_02082BCC(&t,0,8);
         t=func_0200B98C(*(void **)(p+0xc4),4,0);
-        func_021FF54C(*(void **)(*(char **)(p+0xd0)+0x24),3,&t);
+        func_021FF54C(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
         *(int *)(p+0xbc)=0;*state=6;break;
     case 6:
         ++*(int *)(p+0xbc);
@@ -114,15 +120,15 @@ void func_021DC228(int *a,int *state,char *p)
     case 7:
         if(!func_021FF72C(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
             if(func_021FF698(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
-                func_0200B938(source,source+0x80,source+0xc4,func_02012EBC(*(void **)(*(char **)(p+0xd0)+0x28)));
+                func_0200B938(source,source+0x80,source+0xc4,(unsigned int)func_02012EBC(*(void **)(*(char **)(p+0xd0)+0x28)));
                 **(long long **)(*(char **)(p+0xd0)+0x2c)=index;
                 **(int **)(p+0xd0)=1;
                 func_021F9C50(*(S **)(*(char **)(p+0xd0)+0x14));*state=8;
             } else {
-                func_021FD170(*(void **)(p+0x18),*(int *)(*(char **)(p+0xd0)+0x10),0x114);*state=11;
+                func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x114);*state=11;
             }
         } else {
-            func_021FD170(*(void **)(p+0x18),*(int *)(*(char **)(p+0xd0)+0x10),message);*state=11;
+            func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)message);*state=11;
         }
         break;
     case 11:
@@ -131,12 +137,12 @@ void func_021DC228(int *a,int *state,char *p)
             func_021FD860(*(int *)(p+0x10),1,args);func_020061E4(0x703);*state=12;
         }
         break;
-    case 8: func_021FE784(*(int **)(*(char **)(p+0xd0)+12),2,3,1);*state=9;break;
+    case 8: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
     case 9: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
         if(!func_02006254(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744(*(int *)(p+8));}
         break;
-    case 12: func_021FE784(*(int **)(*(char **)(p+0xd0)+12),2,3,1);*state=13;break;
+    case 12: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
     case 14: func_021DD0F4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
     }

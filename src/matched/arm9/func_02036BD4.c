@@ -60,7 +60,7 @@ extern struct Notifier g_021469C8;
 extern const char wm_icon_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32  func_02036D64(struct Handler *h, u32 a);
+extern u32 func_02036D64(u8 *p, u32 a);
 extern void func_02036F24(int a0, int b, int c);
 
 struct Handler *func_02036BD4(u32 unused, u32 b, u32 c, u32 d, u32 e,
@@ -86,6 +86,6 @@ struct Handler *func_02036BD4(u32 unused, u32 b, u32 c, u32 d, u32 e,
     h->unk0f = 0;
     h->unk10 = 0x7000000;
 
-    func_02036F24(func_02036D64(h, 0x7000000), h->unk0c, (u16)b);
+    func_02036F24(func_02036D64((u8 *)h, 0x7000000), h->unk0c, (u16)b);
     return h;
 }

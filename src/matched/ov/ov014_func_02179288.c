@@ -33,7 +33,7 @@ extern u32 func_0203D6CC(void);
 extern u32 func_0203D6BC(void);
 extern u32 func_0203D680(void);
 
-BOOL func_02179288(int mode, u16 a, u16 b, u16 c)
+BOOL func_02179288(int mode, u16 a, int b, u16 c)
 {
     *(u16 *)(g_021797A8 + 0x1EBA) = 0;
     *(int *)(g_021797A8 + 0x1E74) = mode;

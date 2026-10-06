@@ -32,8 +32,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021D6E70(char *);
-extern int func_021D6EBC(char *);
+extern int func_021D6E70(u8 *p);
+extern int func_021D6EBC(u8 *p);
 extern void func_021D66D0(u8 *,int);
 extern int func_021D6E08(char *,int);
 struct Sub02009448Obj;
@@ -43,13 +43,13 @@ extern char *func_021B97F4(void *);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082D44(const void *,void *,u32);
-extern void func_021D7E58(char *,void *,char *,char *);
+extern void func_021D7E58(u8 *p, void *h, u8 *q, int *r);
 extern int func_021D5950(u8 *,int);
 extern void func_021D59E4(char *);
 extern void func_021D5A60(char *);
 extern int func_021D6EA4(char *);
 extern int func_021D7F5C(char *);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D746C(int a);
 extern void func_021D6FF0(char *);
 extern const char d_021DAB78[];
@@ -57,7 +57,7 @@ void func_021D7F9C(char *p)
 {
     char *q, *data;
     void *v, *allocated;
-    if (func_021D6E70(p) && !func_021D6EBC(p)) {
+    if (func_021D6E70((u8 *)p) && !func_021D6EBC((u8 *)p)) {
         if (((struct Obj00063 *)p)->f70<30) ++((struct Obj00063 *)p)->f70;
         func_021D66D0(*(u8 * *)&((struct Obj00063 *)p)->f14,((struct Obj00063 *)p)->f70);
         if (func_021D6E08(p,func_021B99DC(((struct Obj00063 *)p)->f10))) return;
@@ -68,7 +68,7 @@ void func_021D7F9C(char *p)
         allocated=func_02030734(((struct Obj00063 *)p)->f0,0x11c,1,d_021DAB78,0x573);
         ((struct Obj00063 *)p)->f38=allocated;
         func_02082D44(data,allocated,0x11c);
-        func_021D7E58(p,v,data,q);
+        func_021D7E58((u8 *)p,v,(u8 *)data,(int *)q);
         return;
     } else {
         ++((struct Obj00063 *)p)->f74;
@@ -82,10 +82,10 @@ void func_021D7F9C(char *p)
         } else if (((struct Obj00063 *)p)->f74==1080) {
             if (func_021D6EA4(p)) func_021D5A60(*(char * *)&((struct Obj00063 *)p)->f18);
             if (func_021D7F5C(p)) {
-                func_021D6EE0(p,(int)func_021D746C,0x58c);
+                func_021D6EE0((u8 *)p,(int)func_021D746C,0x58c);
             } else {
                 ((struct Obj00063 *)p)->f80=9;
-                func_021D6EE0(p,(int)func_021D6FF0,0x591);
+                func_021D6EE0((u8 *)p,(int)func_021D6FF0,0x591);
             }
         }
         func_021D66D0(*(u8 * *)&((struct Obj00063 *)p)->f14,((struct Obj00063 *)p)->f70);

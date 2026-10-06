@@ -40,9 +40,9 @@ typedef unsigned short u16;
 
 struct S;
 extern int func_02169520(int a0, int a1);
-extern void func_0216959C(int o);
+extern void func_0216959C(u8 *p);
 extern void func_02169530(unsigned char *a, int *out);
-extern void func_021695BC(int o, int v);
+extern void func_021695BC(struct S *p, int b);
 extern int func_02169620(struct S *p);
 extern void func_02169528(unsigned char *a, int *out);
 extern void func_02169540(unsigned char *a, unsigned int v);
@@ -50,7 +50,7 @@ extern void func_02169580(int o);
 extern int func_02169560(unsigned char *a);
 extern int func_02169578(unsigned char *a);
 extern int func_02169598(int o);
-extern int func_0218DD04(int q);
+extern int func_0218DD04(u8 *p);
 extern int func_0218DD08(int q);
 extern int func_0218DD0C(int q);
 extern u16 func_0218DD10(u8 *p);
@@ -84,9 +84,9 @@ int func_02193628(int o, int q)
     func_02169520(o, (int)(&st));
     switch (*st) {
     case 1:
-        func_0216959C(o);
+        func_0216959C((u8 *)o);
         func_02169530((unsigned char *)o, &x);
-        func_021695BC(o, x);
+        func_021695BC((struct S *)o, x);
         *st = 2;
         break;
     case 2:
@@ -103,8 +103,8 @@ int func_02193628(int o, int q)
         func_02169540((unsigned char *)o, (unsigned int)(p + ((struct Obj07438 *)p)->f4));
         off = ((struct Obj07438 *)p)->fC;
         if (off != ((struct Obj07438 *)p)->f10)
-            r = func_0218B974(func_0218DD04(q), o, h + off + 4, *(int *)(h + off));
-        g = func_0218DD04(q);
+            r = func_0218B974(func_0218DD04((u8 *)q), o, h + off + 4, *(int *)(h + off));
+        g = func_0218DD04((u8 *)q);
         base = h;
         boff = ((struct Obj07438 *)p)->f8;
         n = func_0218DD0C(q);

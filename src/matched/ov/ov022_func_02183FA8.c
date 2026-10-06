@@ -11,7 +11,7 @@
  * Unlabelled bit-set leaf; follower 02183FB8 is separate labelled code.
  */
 typedef unsigned char u8;
-void func_02183FA8(u8 *p, unsigned int index)
+void func_02183FA8(u8 *p, u8 index)
 {
     p[13] = p[13] | (u8)(1 << index);
 }

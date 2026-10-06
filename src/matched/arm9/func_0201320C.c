@@ -12,4 +12,4 @@
  */
 #include "../include/Obj04040.h"
 
-void func_0201320C(int p0, int p1, int p2, int p3){ ((struct Obj04040 *)p0)->f0 = (int)9; ((struct Obj04040 *)p0)->f4 = (int)0; ((struct Obj04040 *)p0)->f8 = (unsigned char)0; ((struct Obj04040 *)p0)->fA = (unsigned short)0; ((struct Obj04040 *)p0)->fC = (unsigned char)0; ((struct Obj04040 *)p0)->fD = (unsigned char)0; ((struct Obj04040 *)p0)->f9 = (unsigned char)0; }
+void func_0201320C(int p0){ ((struct Obj04040 *)p0)->f0 = (int)9; ((struct Obj04040 *)p0)->f4 = (int)0; ((struct Obj04040 *)p0)->f8 = (unsigned char)0; ((struct Obj04040 *)p0)->fA = (unsigned short)0; ((struct Obj04040 *)p0)->fC = (unsigned char)0; ((struct Obj04040 *)p0)->fD = (unsigned char)0; ((struct Obj04040 *)p0)->f9 = (unsigned char)0; }

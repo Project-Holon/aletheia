@@ -28,11 +28,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern u8 *func_021C8120(void *a, int k);
+extern u8 *func_021C8120(u8 *p, int b);
 extern int func_021D5D14(s8 *p, int i, int sign);
 extern u32 func_021D78AC(u32 k);
 extern void func_021C88B4(void *a, int k, int b);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 void func_021DC32C(int a, void *b, u8 c)
 {

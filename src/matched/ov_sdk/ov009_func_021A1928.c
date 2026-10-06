@@ -21,19 +21,21 @@
  *   func_021A1804  0x021A1804  arm  ov009
  */
 
-extern void func_0219F7D8(void *p);
-extern int  func_021A153C(void *p);
-extern int  func_021A1804(void *p);
+struct SBL;
+struct SBServerList;
+extern void func_0219F7D8(struct SBL *slist);
+extern int func_021A153C(struct SBL *slist);
+extern int func_021A1804(struct SBServerList *slist);
 
 int func_021A1928(int *p)
 {
-    func_0219F7D8(p);
+    func_0219F7D8((struct SBL *)p);
     switch (p[0]) {
     case 2:
     case 3:
-        return func_021A153C(p);
+        return func_021A153C((struct SBL *)p);
     case 0:
-        return func_021A1804(p);
+        return func_021A1804((struct SBServerList *)p);
     case 1:
     default:
         return 0;

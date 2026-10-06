@@ -17,7 +17,7 @@
 #include "../include/Obj07783.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B8D8C(void *p, void *a, u8 b);
+extern int func_021B8D8C(void *p, void *a, u32 b);
 extern void func_021EA384(char *ctx, int a);
 extern int func_021EA3A0(u32 *p);
 
@@ -25,7 +25,7 @@ int func_021D2580(u8 *p, int *st, u32 *c)
 {
     switch (*st) {
     case 0:
-        func_021EA384(((struct Obj07783 *)p)->f54, func_021B8D8C(((struct Obj07783 *)p)->f0, ((struct Obj07783 *)p)->f4, *c));
+        func_021EA384(((struct Obj07783 *)p)->f54, func_021B8D8C(((struct Obj07783 *)p)->f0, ((struct Obj07783 *)p)->f4, (u8)(*c)));
         (*st)++;
         break;
     case 1:

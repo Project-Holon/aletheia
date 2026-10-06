@@ -21,7 +21,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216DD1C(void *map, void **out, u32 *iter);
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern u16 func_0216D5A0(void *obj);
 
 void *func_0216DE54(void *map, u32 kind)
@@ -30,7 +32,7 @@ void *func_0216DE54(void *map, u32 kind)
     void *obj;
 
     iter = 0;
-    while (func_0216DD1C(map, &obj, &iter) == 1) {
+    while (func_0216DD1C(map, (struct Rec **)(&obj), &iter) == 1) {
         if (func_0216D5A0(obj) == kind)
             return obj;
     }

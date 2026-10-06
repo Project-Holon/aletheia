@@ -52,7 +52,7 @@ extern void func_021BB3C0(u8 *p);
 extern void func_021BEFA4(u8 *p);
 extern void func_021BEF6C(void);
 extern int func_021BA820(int a, int b);
-extern void func_021BA874(BgnEnd *bgnEndInfo_p, int error);
+extern void func_021BA874(u8 *p, int v);
 extern void func_021BEFC8();
 extern int func_021B9B64(void *threadInfo_p, unsigned long priority, unsigned long *stack_p);
 extern void func_021BA850(int a);
@@ -85,7 +85,7 @@ int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*fr
     bgnEndInfo_p->buf = (void *)func_021BA820(0x2000, 8);
     stack_p = bgnEndInfo_p->buf;
     if (stack_p == 0) {
-        func_021BA874(bgnEndInfo_p, 1);
+        func_021BA874((u8 *)bgnEndInfo_p, 1);
         func_021BEFC8();
         return 0;
     }
@@ -93,7 +93,7 @@ int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*fr
         bgnEndInfo_p->opened = 1;
         return 1;
     }
-    func_021BA874(bgnEndInfo_p, 9);
+    func_021BA874((u8 *)bgnEndInfo_p, 9);
     func_021BA850((int)bgnEndInfo_p->buf);
     bgnEndInfo_p->buf = 0;
     func_021BEFC8();

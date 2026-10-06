@@ -28,19 +28,23 @@ extern char d_02187E58[];
 extern char d_02187E28[];
 extern char d_02187E38[];
 
-void func_020433E0(void *p);
+typedef unsigned int   u32;
+struct BgTemplate;
+struct DispConfig;
+struct DispVram;
+void func_020433E0(const struct DispVram *c);
 void func_0203F8F4(u16 heapId);
-void func_0203FC28(void *p);
-void func_0203FCA0(int a, void *p, int c);
+void func_0203FC28(struct DispConfig *cfg);
+void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 void func_0204047C(int idx, unsigned short val);
 void func_020414AC(int a);
 
 void func_021878C0(char *o)
 {
-    func_020433E0(d_02187E58);
+    func_020433E0((const struct DispVram *)d_02187E58);
     func_0203F8F4(((struct Obj19478 *)o)->f8);
-    func_0203FC28(d_02187E28);
-    func_0203FCA0(3, d_02187E38, 0);
+    func_0203FC28((struct DispConfig *)d_02187E28);
+    func_0203FCA0(3, (const struct BgTemplate *)d_02187E38, 0);
     func_0204047C(0, 1);
     func_0204047C(3, 0);
     func_0204047C(1, 3);

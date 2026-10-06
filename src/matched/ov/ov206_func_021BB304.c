@@ -36,7 +36,7 @@ struct Actor;
 struct Node;
 struct Obj;
 extern u32 func_020275E8(void);
-extern u8 func_020275EC(u8 i);
+extern u8 func_020275EC(int i);
 extern u32 func_020275F8(u32 a);
 extern u32 func_020275FC(u32 a);
 extern u32 func_02027600(u32 a);

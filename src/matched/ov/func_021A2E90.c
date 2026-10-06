@@ -26,17 +26,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(u32);
-extern u32 func_021A3810(u32);
-extern u32 func_021A41A8(u32, u32, u32, u32);
-extern u32 func_021A5920(u32);
+extern void func_021A3810(u32 a0);
+extern void func_021A41A8(void);
+extern void func_021A5920(void);
 
 int func_021A2E90(u32 a, u32 b, u32 c, u32 d)
 {
 if (((struct Obj05861 *)((u8 *)(a)))->f8 != 0) {
-    func_021A41A8(((struct Obj05861 *)((u8 *)(a)))->f8, b, c, d);
+    func_021A41A8();
 }
 if (((struct Obj05861 *)((u8 *)(a)))->fC != 0) {
-    func_021A5920(((struct Obj05861 *)((u8 *)(a)))->fC);
+    func_021A5920();
 }
 func_021A3810(((struct Obj05861 *)((u8 *)(a)))->f4);
 return func_020307B0(a);

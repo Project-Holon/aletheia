@@ -29,7 +29,8 @@ typedef struct {
 } Buf;
 extern char g_021A267C[];
 extern char g_021A25D4[];
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_0217A15C(char *http, Buf *buf, int size);
 extern char *func_02094B20(const char *s, const char *sub);
 extern void *func_02092364(void *dst, const void *src, unsigned long n);
@@ -44,8 +45,8 @@ int func_02179E60(char *http, char *label, char *data)
     char *temp_index;
 
     temp_buffer = (Buf *)(http + 0x1a34);
-    result_len = func_0209477C(data) +
-                 (func_0209477C(g_021A267C) - 4 + func_0209477C(label));
+    result_len = func_0209477C((const u8 *)data) +
+                 (func_0209477C((const u8 *)g_021A267C) - 4 + func_0209477C((const u8 *)label));
     buf_remain = temp_buffer->end - temp_buffer->cur;
     if (result_len + 1 > buf_remain) {
         if (func_0217A15C(http, temp_buffer, result_len - buf_remain + 1) == 0) {
@@ -54,7 +55,7 @@ int func_02179E60(char *http, char *label, char *data)
     }
     temp_index = func_02094B20(temp_buffer->base, g_021A25D4) + 2;
     temp = *temp_index;
-    func_02092364(temp_index + result_len, temp_index, func_0209477C(temp_index) + 1);
+    func_02092364(temp_index + result_len, temp_index, func_0209477C((const u8 *)temp_index) + 1);
     temp_index[func_02084F80(temp_index, result_len + 1, g_021A267C, label, data)] = temp;
     temp_buffer->cur += result_len;
     return 0;

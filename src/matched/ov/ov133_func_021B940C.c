@@ -31,7 +31,7 @@ typedef struct { u8 bytes[12]; } Rects;
 extern const Rects d_021BA594;
 extern int func_02035CB8(int *, int *);
 extern int func_02035C08(const void *);
-extern void func_021B96D8(u8 *);
+extern void func_021B96D8(char *p);
 typedef unsigned int   u32;
 struct WordSet;
 extern void func_020061E4(u32 a);
@@ -50,7 +50,7 @@ int func_021B940C(u8 *p)
     func_02035CB8((int *)(p + 0x1c), (int *)(p + 0x20));
     switch (func_02035C08(&rects)) {
     case 0:
-        func_021B96D8(p);
+        func_021B96D8((char *)p);
         func_020061E4(1358);
         func_021BA098(p);
         return 2;

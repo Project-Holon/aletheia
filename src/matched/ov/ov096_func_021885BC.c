@@ -28,7 +28,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { u8 state, index; u16 move; int scores[4]; u8 p14[0x28]; u32 mask, all; u8 flags, entry, slot, target; u8 p48[0x4c]; u8 side, opp; u8 p96[2]; int mode; u8 p9c[0x10]; void *script; int fb0, fb4, fb8; u8 *fbc; int fc0, fc4; u8 pc8[8]; u64 tick; } Obj;
-extern u8 func_021D5584(void *, u32);
+struct UtilWork;
+extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern u16 func_021D54C0(u8 *p, int i);
 struct QG;
 struct ScriptVm;
@@ -46,7 +47,7 @@ void func_021885BC(int a, Obj *b)
     while (b->state != 2 && !(b->flags & 16)) {
         switch (b->state) {
         case 0:
-            if (func_021D5584(b->fbc, b->index) == 0) {
+            if (func_021D5584((struct UtilWork *)b->fbc, b->index) == 0) {
                 b->move = 0;
             } else {
                 b->move = func_021D54C0(b->fbc, b->index);

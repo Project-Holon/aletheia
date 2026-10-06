@@ -31,7 +31,7 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_021F5550(void *p);
-extern int func_02159168(int a, int b);
+extern void func_02159168(int n);
 extern void func_02034A5C(int a);
 extern u8 ov_id_52[];
 
@@ -44,7 +44,7 @@ int func_021649E8(void *a, int *st)
         (*st)++;
         break;
     case 1:
-        func_02159168(7, *st);
+        func_02159168(7);
         func_02034A5C((int)ov_id_52);
         return 1;
     }

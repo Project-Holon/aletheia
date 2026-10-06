@@ -80,8 +80,12 @@ struct Stats {
 extern struct Pool g_021B4BE0;
 extern struct Stats g_021B4BD0;
 extern struct Node d_021B4C0C;
-extern int func_021B2894(struct Node *node, struct Pkt *pkt);
-extern int func_021B279C(struct Pkt *pkt, struct Node *node);
+typedef unsigned char  u8;
+struct Ctx;
+struct Msg;
+struct Q;
+extern int func_021B2894(struct Ctx *c, struct Msg *m);
+extern int func_021B279C(u8 *o, struct Q *q);
 extern void func_021B26DC(int x);
 extern unsigned long long func_020870D0(void);
 
@@ -93,7 +97,7 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
     if (g_021B4BE0.active.state == 2) {
         if (g_021B4BE0.active.f4 == pkt->f8) {
             n = &d_021B4C0C;
-            r = func_021B2894(n, pkt);
+            r = func_021B2894((struct Ctx *)n, (struct Msg *)pkt);
             switch (r) {
             case -2:
                 ev->type = 0xC;
@@ -105,7 +109,7 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
             default:
                 break;
             }
-            ev->type = func_021B279C(pkt, n);
+            ev->type = func_021B279C((u8 *)pkt, (struct Q *)n);
             ev->node = n;
             n->fc = r;
         } else {
@@ -119,7 +123,7 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
         g_021B4BE0.active.state = 2;
         g_021B4BE0.active.fc = 0;
         n = &d_021B4C0C;
-        r = func_021B2894(n, pkt);
+        r = func_021B2894((struct Ctx *)n, (struct Msg *)pkt);
         switch (r) {
         case -3:
         case -2:
@@ -127,7 +131,7 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
             g_021B4BE0.active.state = 0;
             return 0;
         }
-        ev->type = func_021B279C(pkt, n);
+        ev->type = func_021B279C((u8 *)pkt, (struct Q *)n);
         ev->node = n;
         n->fc = r;
     }

@@ -73,7 +73,7 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     func_020409B4(func_02045730(h));
     *(int *)(p + 0x2c) = *(int *)(p + 0x40);
     *(u8 *)(p + 0x30) = i;
-    *(int *)(p + 0x3c) = func_020457B0(0xe, f);
+    *(int *)(p + 0x3c) = (int)func_020457B0(0xe, f);
     for (i = 0; i < 3; i++) {
         *(int *)(p + i * 4 + 0x84) = func_021F4DBC(i, f);
     }

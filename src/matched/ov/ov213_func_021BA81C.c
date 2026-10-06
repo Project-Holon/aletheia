@@ -30,7 +30,7 @@ typedef unsigned int u32;
 struct Src648 {u32 f00,f04,f08,f0c,f10,f14,f18,f1c;};
 struct Dst648;
 extern int d_021BB324[],d_021BB330[],d_021BB360[];
-extern void func_021BA8BC(u8 *p,int object);
+extern void func_021BA8BC(char *p, int object);
 extern int func_02050C04(int a,int b,int c,int d);
 extern int func_02051758(int a);
 extern void func_02051648(struct Dst648 *p,struct Src648 *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
@@ -43,7 +43,7 @@ void func_021BA81C(u8 *p,unsigned code)
     struct Src648 config;
     int resource;
     u32 context;
-    if(*(int *)&((struct Obj02925 *)p)->f10) func_021BA8BC(p,*(int *)&((struct Obj02925 *)p)->f10);
+    if(*(int *)&((struct Obj02925 *)p)->f10) func_021BA8BC((char *)p,*(int *)&((struct Obj02925 *)p)->f10);
     *(int *)&((struct Obj02925 *)p)->f10=func_02050C04((int)(p+20),0x4800,1,((struct Obj02925 *)p)->f4);
     config.f04=0x3000;
     config.f08=-0x3000;

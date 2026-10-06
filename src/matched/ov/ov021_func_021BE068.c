@@ -76,11 +76,11 @@ typedef struct {
     int f2C, f30, f34, f38, f3C;
 } Rec;
 
-extern u32 func_021BE17C(A *a);
+extern u32 func_021BE17C(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
 extern u16 func_021A3050(u8 *p);
-extern int func_021BE194(A *a);
-extern void func_021BE148(Rec *r, int id);
+extern int func_021BE194(u32 a);
+extern void func_021BE148(u32 a, int b);
 extern int func_021BE1B0(A *a);
 extern void func_021A7B08(u32 o, Vec *v);
 struct VecFx32;
@@ -98,11 +98,11 @@ void func_021BE068(A *a)
     S *s = &a->s;
     u8 *sub = s->sub;
     In *in = &s->in;
-    u32 h = func_021BE17C(a);
+    u32 h = func_021BE17C((u8 *)a);
 
     t = func_02188CB4((unsigned char *)a->obj);
     func_021A3050(t);
-    func_021BE148(&rec, func_021BE194(a));
+    func_021BE148((u32)(&rec), func_021BE194((u32)a));
     s->f48 = rec.f3C;
     s->f44 = rec.f38;
     a->f68 = rec.f30;

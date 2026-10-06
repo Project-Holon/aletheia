@@ -20,11 +20,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_02175B14(u8 *p);
 extern u32 func_02026478(void *p);
-extern int func_02012B58(const void *p);
+struct BigObj;
+extern u8 func_02012B58(const struct BigObj *p);
 u8 func_02176230(u8 *p, u8 *q)
 {
     if (func_02175B14(q) == 0) {
-        return func_02012B58((const void *)func_02026478(((void **)p)[1]));
+        return (int)func_02012B58((const void *)func_02026478(((void **)p)[1]));
     }
     return q[0xa0];
 }

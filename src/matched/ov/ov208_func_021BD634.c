@@ -104,11 +104,12 @@ struct Ov208ActObj {
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern u8   func_020416D4(u32 layer);
-extern int  func_021BD56C(const int *p, int i);
-extern u32  func_0204B294(u32 owner, u32 i, u32 j, u32 k, struct Ov208Pos *e, u16 f, u16 g);
-extern void func_0204B92C(u32 obj, int v);
-extern void func_021BD880(void);
-extern void func_021BD89C(void);
+struct Obj;
+extern int func_021BD56C(int *p, int i);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_021BD880(char *p);
+extern void func_021BD89C(char *p);
 extern const struct Ov208ActKind data_021C8314[];
 
 void ov208_func_021BD634(struct Ov208ActObj *p, u32 owner, const int *res, struct Ov208ActDesc *desc,
@@ -134,9 +135,9 @@ void ov208_func_021BD634(struct Ov208ActObj *p, u32 owner, const int *res, struc
         k = desc->he;
         p->f10 = 0;
     } else {
-        i = func_021BD56C(res, 1);
-        j = func_021BD56C(res, 0);
-        k = func_021BD56C(res, 2);
+        i = func_021BD56C((int *)res, 1);
+        j = func_021BD56C((int *)res, 0);
+        k = func_021BD56C((int *)res, 2);
         n = desc->f0;
         p->desc.h10 = data_021C8314[n].a;
         p->desc.h12 = data_021C8314[n].b;
@@ -147,14 +148,14 @@ void ov208_func_021BD634(struct Ov208ActObj *p, u32 owner, const int *res, struc
     }
     p->f8 = p->desc.h10;
     pos.h4 = p->desc.h10;
-    p->f0 = func_0204B294(owner, i, j, k, &pos, prio, mode);
-    func_0204B92C(p->f0, 1);
+    p->f0 = (u32)func_0204B294((void *)owner, i, j, k, &pos, prio, mode);
+    func_0204B92C((struct Obj *)p->f0, 1);
     switch (p->f10) {
     case 0:
-        p->fc = func_021BD880;
+        p->fc = (void (*)(void))func_021BD880;
         break;
     case 1:
-        p->fc = func_021BD89C;
+        p->fc = (void (*)(void))func_021BD89C;
         break;
     }
 }

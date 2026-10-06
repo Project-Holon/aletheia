@@ -18,7 +18,7 @@
 
 typedef unsigned long u32;
 
-void func_021DCE50(char *ctx, u32 v)
+void func_021DCE50(char *ctx, u32 v, int line)
 {
     ((struct Obj14353 *)ctx)->fC = v;
     ((struct Obj14353 *)ctx)->f1C = 2;

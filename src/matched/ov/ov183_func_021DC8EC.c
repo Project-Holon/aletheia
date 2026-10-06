@@ -69,20 +69,24 @@ typedef struct GdsRecord GdsRecord;
 typedef struct RecGet RecGet;
 extern const Descriptor d_021E32C8[];
 extern int func_021DD228(void *),func_021DD25C(void *);
-extern void func_021FB964(int,int,int);
-extern int func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
+extern unsigned func_021FC20C(char *p);
+extern int func_021FC214(char *);
+extern int func_021FC21C(char *);
 extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
-extern void func_021FC868(void *,int,int,int);
+extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021FC7C4(char *,void *,void *,u16);
 extern void func_021DCBD8(char *,void *,void *,u16);
-extern U16Vec *func_020457B0(u32,u32);
-extern void func_02045808(U16Vec *);
-extern void *func_02045EC0(MsgBank *,u32),*func_0200D6D0(const void *,u32),*func_0200D774(GdsProfile *,GdsRecord *,u32);
-extern u32 func_0200D6EC(RecGet *);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct U16Vec *vec);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_0200D6D0(const void *,u32);
+extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
+extern u32 func_0200D6EC(struct RecGet *p);
 extern void func_0201EE0C(WordSet *,u32,const void *,u32,u32,u32);
-extern void func_0201EFA4(WordSet *,u32,u32,u32,u32,u32);
-extern void func_0201F250(WordSet *,void *,void *);
-extern u64 func_0200B98C(void *,int,int);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
 void func_021DC8EC(char *p,char *q)
 {
     u16 record[4];
@@ -96,8 +100,8 @@ void func_021DC8EC(char *p,char *q)
     U16Vec *text;
     if(!*(int *)(p+0xd4)) {
         *(int *)(p+0xd4)=1;
-        if(func_021DD228(*(void **)(p+0xc4))) func_021FB964(*(int *)(q+0x10),7,*(u16 *)(p+0xb4));
-        else func_021FB964(*(int *)(q+0x10),6,*(u16 *)(p+0xb4));
+        if(func_021DD228(*(void **)(p+0xc4))) func_021FB964((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
+        else func_021FB964((void *)(*(int *)(q+0x10)),6,*(u16 *)(p+0xb4));
         font=(void *)func_021FC20C(*(char **)(q+0x10));
         bank=(MsgBank *)func_021FC214(*(char **)(q+0x10));
         words=(WordSet *)func_021FC21C(*(char **)(q+0x10));

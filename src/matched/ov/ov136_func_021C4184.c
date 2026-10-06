@@ -16,14 +16,15 @@
  */
 typedef unsigned char u8;
 extern const u8 d_021C77A0[][3];
-extern int func_02024450(void *);
-extern void func_020242C0(void *, unsigned, unsigned);
+typedef unsigned short u16;
+extern int func_02024450(const u16 *p);
+extern void func_020242C0(void *a, void *b, void *c);
 void func_021C4184(void *a, u8 *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (func_02024450(p + 0x16 + i * 8) == 0) {
-            if (d_021C77A0[p[0xB]][i] != 0xFF) func_020242C0(p + 0x16 + i * 8, 5, d_021C77A0[p[0xB]][i]);
+        if (func_02024450((const u16 *)(p + 0x16 + i * 8)) == 0) {
+            if (d_021C77A0[p[0xB]][i] != 0xFF) func_020242C0(p + 0x16 + i * 8, (void *)5, (void *)d_021C77A0[p[0xB]][i]);
         }
         if (d_021C77A0[p[0xB]][i] == 0xFF) p[0x2E + i] = 0;
         else p[0x2E + i] = 1;

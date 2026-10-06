@@ -65,7 +65,8 @@ struct Task {
     struct Obj *obj;  /* 0x14 */
 };
 
-extern u32  func_02022A88(struct Obj *obj);
+struct AnimStep;
+extern int func_02022A88(struct AnimStep *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *p);
@@ -80,7 +81,7 @@ u32 func_02022A44(struct Task *t)
 
     switch (t->phase) {
     case 1:
-        if (func_02022A88(obj) == 1) {
+        if (func_02022A88((struct AnimStep *)obj) == 1) {
             t->phase = t->phase + 1;
         }
         break;

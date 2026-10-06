@@ -36,10 +36,11 @@ typedef struct Top {
     int f2c;
 } Top;
 
-void func_021F98F8(char *p, int a, int b, int c);
+void func_021F98F8(char *p, int skip, void *sys, int heap);
 struct Big;
 void *func_02012EBC(struct Big *p);
-void func_0200B570(int a, int b, int *buf, int c);
+typedef unsigned int   u32;
+u32 func_0200B570(void *a, u32 heap, u32 *dp, u32 id);
 
 void func_021F9868(Top *p, Top *q)
 {
@@ -47,6 +48,6 @@ void func_021F9868(Top *p, Top *q)
 
     if (p->f28 == 0)
         return;
-    func_021F98F8((char *)q->f18->f8 + 0x1748, 0, q->f18->p0c->f4, 0x5a);
-    func_0200B570((int)func_02012EBC((struct Big *)q->f18->p0c->f4), 0x805a, buf, p->f2c);
+    func_021F98F8((char *)q->f18->f8 + 0x1748, 0, (void *)q->f18->p0c->f4, 0x5a);
+    func_0200B570((void *)((int)func_02012EBC((struct Big *)q->f18->p0c->f4)), 0x805a, (u32 *)buf, p->f2c);
 }

@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_021F1930(void *task, u8 *s);
-extern void func_021F05E8(char *p, int a, int b);
+extern void func_021F05E8(u8 *p, int a, u32 b);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *func_02031290(struct S02030FB4 *p);
@@ -42,7 +42,7 @@ void func_021F18E0(char *p, u32 a, int *c)
     func_02045838((struct U16Vec *)(*(u32 *)&((struct Obj00007 *)p)->f120), (struct U16Vec *)a);
     *(char * *)&((struct Obj09798 *)r)->f8 = p;
     r[1] = 0x5a;
-    func_021F05E8(p, 4, 2);
+    func_021F05E8((u8 *)p, 4, 2);
     *(int * *)&((struct Obj09798 *)r)->fC = c;
     (*c)++;
 }

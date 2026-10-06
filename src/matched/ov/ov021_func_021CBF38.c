@@ -34,8 +34,9 @@ typedef struct {
 } Rec;
 
 extern void *func_021688BC(u8 *party, int id, u16 heap);
-extern u8 func_021CBEFC(int id);
-extern u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
+extern u8 func_021CBEFC(u32 v);
+struct BattleMon;
+extern u32 func_021684E8(struct BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
 extern void func_020307B0(void *p);
 
 void func_021CBF38(void *unused, u8 *party, int id, int useItem, Rec *rec, u16 heap)
@@ -48,6 +49,6 @@ void func_021CBF38(void *unused, u8 *party, int id, int useItem, Rec *rec, u16 h
     iv = func_021CBEFC(id);
 
     for (i = 0; i < 2; i++)
-        func_021684E8((BattleMon *)(party + 0x30) + i, rec->member[i], rec->otId, rec->pid[i], iv, i, useItem, heap);
+        func_021684E8((struct BattleMon *)((BattleMon *)(party + 0x30) + i), rec->member[i], rec->otId, rec->pid[i], iv, i, useItem, heap);
     func_020307B0(buf);
 }

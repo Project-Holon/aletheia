@@ -42,7 +42,7 @@ struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201DD78(u32, u32, u32);
-extern u32 func_020450F0(u32, u8, u8, u32, u8, u8, u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -72,7 +72,7 @@ u8 *func_021BB3F4(u8 *p, u8 *q)
             str = func_02045EC0(bank, 13);
             func_0201DD78(3, 4, 15);
         }
-        win = (void *)func_020450F0(1, x, y, 9, 2, 12, 1);
+        win = (void *)func_020450F0(1, (u8)x, (u8)y, 9, 2, 12, 1);
         func_02043B5C(func_02045770(win), 15);
         width = 72 - func_0201D304(str, font, 0);
         func_0201C7A4(func_02045770(win), width >> 1, 0, str, (void *)font);

@@ -33,7 +33,8 @@ struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_02184360(u8 *p, int value);
 extern void func_02184120(u8 *p, int a);
-extern int func_021BD9BC(u8 *p);
+typedef unsigned int   u32;
+extern int func_021BD9BC(u32 *p);
 
 int func_02184388(int a, int *state, u8 *p)
 {
@@ -53,7 +54,7 @@ int func_02184388(int a, int *state, u8 *p)
         break;
     case 2:
         func_02184120(p, a);
-        func_02012374((struct Evt *)a, (struct Evt **)func_021BD9BC(p + 0x4c));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BD9BC((u32 *)(p + 0x4c)));
         (*state)++;
         break;
     case 3:

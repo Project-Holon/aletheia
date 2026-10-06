@@ -16,12 +16,13 @@
  */
 
 
-extern void func_0204A39C(int, int, int, int, int *);
+typedef unsigned int   u32;
+extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
 void func_021C1F28(int a, int b, int c)
 {
     int out;
 
-    func_0204A39C(c, a - 1, 0, b, &out);
+    func_0204A39C((void *)c, a - 1, 0, b, (u32 *)(&out));
 }
 

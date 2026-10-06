@@ -31,7 +31,8 @@ typedef struct {
     Slot slots[4];
 } Obj;
 
-extern void func_021BE418(Obj *o, u16 i);
+typedef unsigned char  u8;
+extern void func_021BE418(u8 *p, u16 i);
 struct Rec;
 extern void func_02047E54(struct Rec *p);
 extern void func_020307B0(void *p);
@@ -42,7 +43,7 @@ void func_021BE2E0(Obj *o)
 
     for (i = 0; i < 4; i++) {
         if (o->slots[i].f00 != 0) {
-            func_021BE418(o, i);
+            func_021BE418((u8 *)o, i);
         }
     }
     func_02047E54((struct Rec *)o->f04);

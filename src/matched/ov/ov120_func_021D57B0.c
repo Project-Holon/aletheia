@@ -43,7 +43,8 @@ extern void *func_021D7ECC(char *, u16);
 extern void func_021D733C(u8 *p, int index, int count);
 extern void func_021D4244(int, int, int);
 extern void func_021D5758(u8 *);
-extern void func_021D5334(void);
+struct Ctx;
+extern void func_021D5334(struct Ctx *p);
 void func_021D57B0(u8 *p)
 {
     int flag = 1;

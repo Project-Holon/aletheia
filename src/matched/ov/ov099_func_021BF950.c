@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern int func_02006224(u32 a0);
 extern int func_021C23B8(int i);
 extern int func_021C2874(void *);
-extern int func_021C23C8(char *, int);
+extern int func_021C23C8(void *a, void *b);
 extern void func_021BDE30(void *p, int kind, int value);
 extern void func_021C18C8(char *p, int kind, int value);
 extern void func_021C19DC(char *, int);
@@ -39,7 +39,7 @@ int func_021BF950(char *p, int ret)
     int i = ((struct Obj03734 *)p)->f242 - 1;
     if (func_02006224(0)) return ret;
     *(*(u8 * *)&((struct Obj03734 *)p)->f248 + i + 0x24) = func_021C2874((void *)func_021C23B8(i));
-    if (i >= 0 && i < 32 && func_021C23C8(p, i)) {
+    if (i >= 0 && i < 32 && func_021C23C8(p, (void *)i)) {
         ((struct Obj03734 *)p)->f1C4 = 0xe10;
         func_021BDE30(p, 4, 3);
         func_021C18C8(p, 4, 3);

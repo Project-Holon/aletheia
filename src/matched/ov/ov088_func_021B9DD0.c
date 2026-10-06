@@ -36,7 +36,8 @@ extern void func_02048AD0(struct Light *l);
 extern void func_02047964(void);
 extern void func_020479D8(void);
 extern u32 func_02048A18(u8 *a0, int i);
-extern void func_02047A60(void *, void *);
+struct Arg;
+extern void func_02047A60(void *a0, struct Arg *a1);
 extern void func_02047970(void);
 extern int func_02047910(void *a, int idx, int amount);
 extern char d_021BD538[];
@@ -54,7 +55,7 @@ void func_021B9DD0(int *p)
     func_020479D8();
     for (i = 0; i < 3; i++) {
         h = (void *)func_02048A18((void *)p[0], (unsigned short)(base + i));
-        func_02047A60(h, d_021BD538);
+        func_02047A60(h, (struct Arg *)d_021BD538);
     }
     func_02047970();
     for (i = 0; i < 3; i++) {

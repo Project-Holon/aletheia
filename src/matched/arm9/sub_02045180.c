@@ -43,7 +43,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u8 func_0204169C(int channel);
+extern int func_0204169C(int channel);
 extern u32 func_0203FAF0(u32 layer, u32 offset, u32 units);
 extern u32 sub_02045210(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
                         u32 offset, u32 is8bpp);

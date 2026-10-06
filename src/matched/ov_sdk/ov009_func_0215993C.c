@@ -30,7 +30,7 @@ struct Soc {
 	struct Chunk chunks[4];
 };
 
-extern void func_021599EC(struct Soc *soc);
+extern void func_021599EC(char *p);
 
 void func_0215993C(struct Soc *soc)
 {
@@ -41,14 +41,14 @@ again:
 		soc->ackno += soc->chunks[0].start + soc->chunks[0].len - soc->rcvbufp;
 		soc->rcvbufp = soc->chunks[0].start + soc->chunks[0].len;
 		soc->chunks[0].start = 0;
-		func_021599EC(soc);
+		func_021599EC((char *)soc);
 	}
 	for (ci = 0; ci < 3; ci++) {
 		if (soc->chunks[ci].start != 0 && soc->chunks[ci + 1].start != 0 &&
 		    soc->chunks[ci].start + soc->chunks[ci].len >= soc->chunks[ci + 1].start) {
 			soc->chunks[ci].len = soc->chunks[ci + 1].start + soc->chunks[ci + 1].len - soc->chunks[ci].start;
 			soc->chunks[ci + 1].start = 0;
-			func_021599EC(soc);
+			func_021599EC((char *)soc);
 			goto again;
 		}
 	}

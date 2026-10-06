@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BBC50();
+extern u8 func_021BBC50(u8 *p);
 u32 func_021BBF04(u32 a0, u32 a1)
 {
     u8 v = 2;
-    if (a1 == func_021BBC50(a0, a1)) {
+    if (a1 == func_021BBC50((u8 *)a0)) {
     v -= 1;
     }
     return v;

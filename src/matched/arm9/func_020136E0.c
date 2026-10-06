@@ -36,14 +36,14 @@ struct Obj020136E0 {
     u8  f22;            /* +0x22 */
 };
 
-extern void func_020134F4(struct Obj020136E0 *o, u32 a1, u32 n, u32 a2, u16 a5);
+extern void func_020134F4(u8 *p, u32 a1, u32 a2, u32 a3, u16 h);
 extern void func_02013284(struct Obj020136E0 *o, u32 a1, u32 n, u8 *dst,
                           u32 v, u16 a5);
 
 void func_020136E0(struct Obj020136E0 *o, u32 a1, u32 a2, u32 a3, u32 a4,
                    u16 a5)
 {
-    func_020134F4(o, a1, 1, a2, a5);
+    func_020134F4((u8 *)o, a1, 1, a2, a5);
     func_02013284(o, a1, 1, (u8 *)o + 0x28, a3, a5);
     func_02013284(o, a1, 3, (u8 *)o + 0x30, a4, a5);
     *((u8 *)o + 0x22) = 4;

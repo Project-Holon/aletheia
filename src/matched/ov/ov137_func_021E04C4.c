@@ -17,4 +17,4 @@ typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Descriptor;struct Cfg;struct CharBuf;struct Bank;struct Util;struct Setup;struct Ctx;
 extern int func_02035C08(const void *);
 extern const u8 d_021E1CB0[];
-int func_021E04C4(void){if(func_02035C08(d_021E1CB0)!=-1)return 1;return 0;}
+int func_021E04C4(char *a0){if(func_02035C08(d_021E1CB0)!=-1)return 1;return 0;}

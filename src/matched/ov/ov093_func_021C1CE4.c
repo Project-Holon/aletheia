@@ -23,7 +23,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern void func_021C1D30(u8 *w);
 extern u8 *func_021C1D40(u8 *w);
 extern u8 *func_021C1D50(u8 *w);
-extern int func_021D62A8(u8 *t);
+struct Unk021D62A8;
+extern int func_021D62A8(struct Unk021D62A8 *p);
 extern u32 func_021D6D7C(u8 *p);
 extern void func_021C557C(u8 *p, u8 *a, int k, int flag);
 
@@ -35,7 +36,7 @@ void func_021C1CE4(u8 *p, u8 *q, u32 unused, u8 *w)
         t = func_021C1D40(w);
         while (t) {
             int k = 3;
-            if (func_021D62A8(t) == 3 && func_021D6D7C(t) == 0) {
+            if (func_021D62A8((struct Unk021D62A8 *)t) == 3 && func_021D6D7C(t) == 0) {
                 func_021C557C(p, t, k, 1);
             }
             t = func_021C1D50(w);

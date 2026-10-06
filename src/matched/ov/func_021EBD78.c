@@ -16,11 +16,11 @@
  */
 
 
-extern void func_021EBA84(char *, int, int);
+extern void func_021EBA84(unsigned char *p, int msg, int i);
 void func_021EBD78(char *p, int b)
 {
     if (b == 0)
-        func_021EBA84(p, 0x35, 0x1b);
+        func_021EBA84((unsigned char *)p, 0x35, 0x1b);
     else
-        func_021EBA84(p, 0x36, 0x1b);
+        func_021EBA84((unsigned char *)p, 0x36, 0x1b);
 }

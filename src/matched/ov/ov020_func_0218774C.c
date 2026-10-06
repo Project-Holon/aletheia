@@ -37,7 +37,7 @@ extern void *func_020124E8(struct Obj *p);
 extern u32 *func_020124EC(struct Obj *p);
 extern u16 func_02188C84(u8 *p);
 extern u8 func_0202E8B8(int);
-extern void func_02187C20(T *, int, int);
+extern void func_02187C20(char *o, int *p, int st);
 
 void *func_0218774C(int a, int b, u8 c, u8 d)
 {
@@ -46,6 +46,6 @@ void *func_0218774C(int a, int b, u8 c, u8 d)
     int x = (int)func_020124EC(r7);
     t->a = a; t->b = b; t->c = func_02188C84((u8 *)b); t->d = 0; t->e = 0;
     t->f = d; t->g = func_0202E8B8(c); t->h = 0; t->i = 0;
-    func_02187C20(t, x, 0);
+    func_02187C20((char *)t, (int *)x, 0);
     return r7;
 }

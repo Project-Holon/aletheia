@@ -34,7 +34,7 @@ struct Rec;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021EAC28(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
-extern void func_021EABD0(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
+extern void func_021EABD0(unsigned char *w, int i, void *bank, unsigned idx, int x, int y, unsigned font, unsigned short color);
 extern void func_021EABA0(void **);
 extern void func_021EAAE4(unsigned char *p, unsigned i);
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry;
@@ -51,10 +51,10 @@ void func_021EB208(char *p, Entry *e, int i)
     bank = func_02045B38(0, 2, 203, 0x804c);
     if (!e->flag) {
         for (; j < 4; j++) {
-            func_021EABD0(p, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, ((struct Obj08244 *)p)->f78, 0x440);
+            func_021EABD0((unsigned char *)p, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, ((struct Obj08244 *)p)->f78, 0x440);
         }
     } else {
-        func_021EABD0(p, i, ((struct Obj08244 *)p)->f80, 106, 0, 0, ((struct Obj08244 *)p)->f78, 0x440);
+        func_021EABD0((unsigned char *)p, i, ((struct Obj08244 *)p)->f80, 106, 0, 0, ((struct Obj08244 *)p)->f78, 0x440);
     }
     func_02045C04(bank);
     func_021EABA0(windows + i * 2);

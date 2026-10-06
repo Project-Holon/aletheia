@@ -37,7 +37,7 @@ struct Queue {
     u8 count;
 };
 
-extern int func_021659F0(struct Queue *q, int delta);
+extern int func_021659F0(u8 *q, int delta);
 
 int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag)
 {
@@ -47,7 +47,7 @@ int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag)
     if (flag)
         *flag = 0;
     for (i = 0; i < 30; i++) {
-        idx = func_021659F0(q, i);
+        idx = func_021659F0((u8 *)q, i);
         if (q->r[idx].f00 == 0)
             break;
         if (rec->f10 == q->r[idx].f10) {
@@ -58,7 +58,7 @@ int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag)
     }
     if (flag)
         *flag = 1;
-    idx = func_021659F0(q, -1);
+    idx = func_021659F0((u8 *)q, -1);
     q->r[idx] = *rec;
     q->tag[idx] = tag;
     q->head = idx;

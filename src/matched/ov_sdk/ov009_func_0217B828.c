@@ -115,20 +115,22 @@ typedef struct DWCAuthHttpParam {
 extern int func_02096578(const unsigned short *s);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern void *func_0205A16C(int name, unsigned long size);
-extern char *func_02094860(char *dst, const char *src, unsigned long n);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 extern char *func_02094B20(const char *s1, const char *s2);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
 extern int func_02178F4C(void *cal);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int func_0217A044(DWCHttp *http, char *data);
+extern int func_0217A044(char *http, char *data);
 extern unsigned short *func_02096594(unsigned short *dst, const unsigned short *src);
 extern void func_0205A1B0(int name, void *ptr, long size);
-extern int func_0217967C(DWCHttp *http);
+extern int func_0217967C(char *http);
 extern unsigned long func_02085A30(OSThread *thread);
-extern void func_02179718(DWCHttp *http, unsigned long prio);
-extern void func_02179CF4(DWCHttp *http);
+extern void func_02179718(char *http, unsigned long prio);
+extern void func_02179CF4(char *http);
 extern void *func_0217C050(unsigned long name, long size);
 extern void func_0217C060(unsigned long name, void *ptr, long size);
 
@@ -179,7 +181,7 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
     g_021ACEF0->result = result;
     g_021ACEF0->badwordsnum = badwordsnum;
     g_021ACEF0->wordsnum = wordsnum;
-    func_02094860(g_021ACEF0->url, g_021A2358.url, 256);
+    func_02094860((u8 *)g_021ACEF0->url, (const u8 *)g_021A2358.url, 256);
     g_021ACEF0->url[256] = '\0';
     pos = func_02094B20(g_021ACEF0->url, g_021A27D8);
     if (pos == 0)
@@ -213,7 +215,7 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
         if (func_02179F3C(&g_021ACEF0->http, g_021A2800, reserved, 4) != 0)
             goto error;
     }
-    if (func_0217A044(&g_021ACEF0->http, g_021A2808) != 0)
+    if (func_0217A044((char *)(&g_021ACEF0->http), g_021A2808) != 0)
         goto error;
 
     sendstring = func_0205A16C(0, totalnum_wchar * sizeof(unsigned short));
@@ -234,9 +236,9 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
     func_0205A1B0(0, sendstring, 0);
     sendstring = 0;
 
-    if (func_0217967C(&g_021ACEF0->http) != 0)
+    if (func_0217967C((char *)(&g_021ACEF0->http)) != 0)
         goto error;
-    func_02179718(&g_021ACEF0->http, func_02085A30(g_02150FEC.current) - 1);
+    func_02179718((char *)(&g_021ACEF0->http), func_02085A30(g_02150FEC.current) - 1);
     if (g_021ACEF0->http.thread.id != 0)
         return 1;
 
@@ -245,7 +247,7 @@ error:
         func_0205A1B0(0, sendstring, 0);
     if (g_021ACEF0 != 0) {
         if (g_021ACEF0->http_initialized == 1)
-            func_02179CF4(&g_021ACEF0->http);
+            func_02179CF4((char *)(&g_021ACEF0->http));
         func_0205A1B0(0, g_021ACEF0, 0);
         g_021ACEF0 = 0;
     }

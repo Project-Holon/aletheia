@@ -35,7 +35,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 
-void func_021FD6F4(u8 *p, u32 k)
+void func_021FD6F4(u8 *p, u32 k, u32 a2, u32 a3, u32 a4)
 {
     u32 v;
 

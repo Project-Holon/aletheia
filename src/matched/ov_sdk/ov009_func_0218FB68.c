@@ -45,7 +45,8 @@ typedef struct {
     int profile;
 } GPNewProfileResponseArg;
 
-extern int func_0219329C(void **connection, char *input, int callErrorCallback);
+struct GPIOperation;
+extern int func_0219329C(int *connection, const char *input, int fatal);
 extern int func_020949F4(const char *, const char *, unsigned int);
 typedef unsigned int   u32;
 extern void func_02193710(int *connection, int result, int errorString);
@@ -55,7 +56,7 @@ extern int func_020964E0(u32 a0);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(int *p, int b);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
-extern void func_0218E240(void **connection, GPIOperation *operation);
+extern void func_0218E240(void **connection, struct GPIOperation *operation);
 extern char g_021A51D0[];
 extern char g_021A51D8[];
 extern char g_021A5208[];
@@ -69,7 +70,7 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
     GPNewProfileResponseArg *arg;
     int __result__;
 
-    if (func_0219329C(connection, input, 1))
+    if (func_0219329C((int *)connection, input, 1))
         return 4;
     if (func_020949F4(input, g_021A51D0, 5) != 0) {
         func_02193710((int *)connection, 1, (int)g_021A51D8);
@@ -97,6 +98,6 @@ int func_0218FB68(void **connection, GPIOperation *operation, char *input)
         if (__result__ != 0)
             return __result__;
     }
-    func_0218E240(connection, operation);
+    func_0218E240(connection, (struct GPIOperation *)operation);
     return 0;
 }

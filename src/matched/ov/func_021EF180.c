@@ -19,7 +19,7 @@
 
 
 extern int func_021EF108(const char *p, unsigned n, int a, int b);
-void func_021EF180(int a, int b)
+int func_021EF180(int a, int b)
 {
-    func_021EF108((char *)0x021F0DCC, 0x1e, a, b);
+    return func_021EF108((char *)0x021F0DCC, 0x1e, a, b);
 }

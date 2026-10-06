@@ -48,7 +48,7 @@ extern void func_021DB468(u8 *,u8 *,u8,int);
 extern void func_021D9EE8(u8 *,u8 *);
 extern void func_021D9E30(void *a, int b);
 extern void func_021DBA78(u8 *,int);
-extern void func_021DBA54(u8 *,u8 *);
+extern void func_021DBA54(unsigned char *p, unsigned short *o);
 extern void func_021DB508(u8 *,u8 *,u32,u32);
 extern void func_021DB3F0(u8 *,u8 *);
 extern void func_020061E4(u32);
@@ -96,7 +96,7 @@ int func_021DA998(u8 *a,u8 *b)
                     selected=b[41];
                     b[42]=selected;
                     func_021DBA78(b+176+selected*24,2);
-                    func_021DBA54(b+176+b[42]*24,(u8 *)&point);
+                    func_021DBA54(b+176+b[42]*24,(short unsigned int *)((u8 *)&point));
                     func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,&point,0);
                     func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,1);
                     func_0204B9A0(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);

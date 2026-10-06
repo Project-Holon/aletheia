@@ -23,8 +23,8 @@
 
 typedef unsigned int u32;
 
-extern int  func_02035D20(int *x, int *y);
-extern int  func_02035CB8(int *a, int *b);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern u32  func_020362DC(void);
 extern unsigned int func_0203630C(void);
 typedef unsigned char  u8;
@@ -41,14 +41,14 @@ void func_021BA03C(int *p)
     int d;
 
     p[0] = 0;
-    if (func_02035D20(&x, &y)) {
+    if (func_02035D20((u32 *)(&x), (u32 *)(&y))) {
         p[0] = 3;
         p[1] = x;
         p[2] = y;
         p[5] = x;
         p[6] = y;
         p[7] = 1;
-    } else if (func_02035CB8(&x, &y) && p[7] != 0) {
+    } else if (func_02035CB8((u32 *)(&x), (u32 *)(&y)) && p[7] != 0) {
         d = y - p[2];
         if (d < 0)
             d = -d;

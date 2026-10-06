@@ -41,7 +41,9 @@ typedef struct {
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204BA00(void *h, Msg *m);
+struct Actor;
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 
 void func_02209C30(P *p)
 {
@@ -57,7 +59,7 @@ void func_02209C30(P *p)
             m0.a = 1;
             m0.b = p->f20;
             m0.cb = (void *)func_02209C30;
-            func_0204BA00(p->h, &m0);
+            func_0204BA00(p->h, (const struct Cmd *)(&m0));
             return;
         }
         break;
@@ -68,7 +70,7 @@ void func_02209C30(P *p)
         m1.a = 2;
         m1.b = 0;
         m1.cb = (void *)func_02209C30;
-        func_0204BA00(p->h, &m1);
+        func_0204BA00(p->h, (const struct Cmd *)(&m1));
         return;
     case 2:
         func_0204B3DC(p->h, 0);

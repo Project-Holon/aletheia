@@ -25,7 +25,8 @@ typedef unsigned int   u32;
 
 struct TaskMenu;
 extern int func_021BA31C(u8 *p);
-extern void *func_02027778(void *tmpl, void *arg1);
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void  func_02027974(void *p);
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8    func_02027A04(const u8 *p);
@@ -40,7 +41,7 @@ void func_021BAE28(u8 *p)
         }
         break;
     case 1:
-        ((struct Obj02417 *)p)->f38 = func_02027778(p + 0x58, ((struct Obj02417 *)p)->f6C);
+        ((struct Obj02417 *)p)->f38 = func_02027778((struct TaskMenuTmpl *)(p + 0x58), ((struct Obj02417 *)p)->f6C);
         ((struct Obj02417 *)p)->f56 = 2;
         break;
     case 2:

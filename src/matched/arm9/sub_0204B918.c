@@ -47,10 +47,10 @@ struct Obj {
     struct Sub unk_68;
 };
 
-extern struct Node *sub_0204D444(struct Sub *s);
+extern void *sub_0204D444(struct Obj *o);
 extern u16 sub_02062F1C(const struct Node *n);
 
 void sub_0204B918(struct Obj *p)
 {
-    sub_02062F1C(sub_0204D444(&p->unk_68));
+    sub_02062F1C(sub_0204D444((struct Obj *)(&p->unk_68)));
 }

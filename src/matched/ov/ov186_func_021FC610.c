@@ -18,5 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 id;u8 rest[40];} Record;
 extern const Record d_0220099C[];
-extern void func_020403F4(u32),func_0207D4B0(u32,u32,u32);
-void func_021FC610(void){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}func_0207D4B0(1,0,1);}
+extern void func_020403F4(u32);
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+void func_021FC610(u32 a, u16 b){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}func_0207D4B0(1,0,1);}

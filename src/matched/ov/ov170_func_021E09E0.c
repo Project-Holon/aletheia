@@ -18,8 +18,8 @@
 #include "../include/Obj08234.h"
 #include "../include/Obj23878.h"
 extern void func_021ED544(char *p, int a);
-extern void func_021DE428(char *p, unsigned a, unsigned b);
-extern int func_021DDAE8(char *p);
+extern void func_021DE428(unsigned char *p, unsigned a, unsigned b);
+extern int func_021DDAE8(unsigned char *p);
 extern void func_021DE66C(char *p, void *a);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
@@ -30,11 +30,11 @@ int func_021E09E0(char *p)
     switch (((struct Obj08234 *)s)->fC) {
     case 0:
         func_021ED544(p, 7);
-        func_021DE428(p, ((struct Obj00000 *)p)->f16, ((struct Obj23878 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA17E);
+        func_021DE428((unsigned char *)p, ((struct Obj00000 *)p)->f16, ((struct Obj23878 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA17E);
         ((struct Obj08234 *)s)->fC = 1;
         break;
     case 1:
-        if (func_021DDAE8(p) == 0) {
+        if (func_021DDAE8((unsigned char *)p) == 0) {
             func_021DE66C(p, ((struct Obj08234 *)s)->f8);
             func_021ED544(p, 6);
             func_020061E4(0x667);

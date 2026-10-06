@@ -42,13 +42,15 @@ struct U16Vec;
 extern u8 func_021B904C(u8 *p, int k);
 extern void *func_021BA02C(char *p, int i, int mode);
 extern int func_02024450(const u16 *p);
-extern void *func_0202435C(void *p, u16 v);
+struct H;
+struct L;
+extern void *func_0202435C(void *slots, unsigned int heap);
 extern void func_021EA5E4(unsigned char *p, void *src);
 extern void sub_02045808(struct U16Vec *vec);
 extern u16 func_021BA004(char *p, int i);
-extern void func_021EAF18(void *msg, int a, int id);
-extern void func_021EAF50(void *msg, int v);
-extern void func_021EA5F0(void *win, void *msg);
+extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF50(struct L *p, u32 val);
+extern void func_021EA5F0(char *p, struct H *h);
 
 void func_021D185C(BattleSeq *s, int a, int b)
 {
@@ -60,16 +62,16 @@ void func_021D185C(BattleSeq *s, int a, int b)
     idx = func_021B904C(s->battle, b);
     p = func_021BA02C(s->battle, idx, a);
     if (p != 0 && func_02024450(p) != 0) {
-        r = func_0202435C(p, (*(u16 *)((u8 *)s + 0x19a) & 0x7fff) | 0x8000);
+        r = func_0202435C(p, (u16)((*(u16 *)((u8 *)s + 0x19a) & 0x7fff) | 0x8000));
         func_021EA5E4(s->msgWin, r);
         sub_02045808(r);
         return;
     }
     v = func_021BA004(s->battle, idx);
     if (v != 0) {
-        func_021EAF18(s->msg, 7, 0);
-        func_021EAF50(s->msg, v);
-        func_021EAF50(s->msg, a);
-        func_021EA5F0(s->msgWin, s->msg);
+        func_021EAF18((struct L *)s->msg, 7, (int)0);
+        func_021EAF50((struct L *)s->msg, (int)v);
+        func_021EAF50((struct L *)s->msg, (int)a);
+        func_021EA5F0(s->msgWin, (struct H *)s->msg);
     }
 }

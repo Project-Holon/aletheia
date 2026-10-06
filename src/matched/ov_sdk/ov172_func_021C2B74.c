@@ -25,7 +25,7 @@ extern unsigned long func_021C20B0(void *src, unsigned char *dst, unsigned long 
 extern void func_021C2050(void *src, unsigned long width, unsigned long height, void *dst);
 extern void func_021C1F04(void *src, unsigned long width, unsigned long height, void *dst);
 
-unsigned long func_021C2B74(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option)
+unsigned long func_021C2B74(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option)
 {
     void (*convFunc)(void *, unsigned long, unsigned long, void *);
     unsigned char *pThumbWork = 0;

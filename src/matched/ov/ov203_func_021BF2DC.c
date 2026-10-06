@@ -14,9 +14,14 @@
  *   func_021BF404 0x021BF404 thumb ov203
  */
 #include "../include/Obj03917.h"
-extern void *func_020311B8(void *,void (*)(void *,void *),unsigned,unsigned),*func_02031290(void *);
-extern void func_021BF320(void *,void *),func_021BF404(char *,void *,int,int,int,unsigned char,unsigned char,unsigned char,unsigned char);
+struct Context;
+struct S02030FB4;
+struct TcblNode;
+extern void * func_020311B8(void *,void (*)(void *,void *),unsigned,unsigned);
+extern void *func_02031290(struct S02030FB4 *p);
+extern void func_021BF320(struct TcblNode *task, struct Context *ctx);
+extern void func_021BF404(char *,void *,int,int,int,unsigned char,unsigned char,unsigned char,unsigned char);
 void func_021BF2DC(char *p,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g)
 {
-    func_021BF404(p,func_02031290(func_020311B8(((struct Obj03917 *)p)->f20,func_021BF320,0x28,1)),a,b,c,d,e,f,g);
+    func_021BF404(p,func_02031290(func_020311B8(((struct Obj03917 *)p)->f20,(void (*)(void *, void *))func_021BF320,0x28,1)),a,b,c,d,e,f,g);
 }

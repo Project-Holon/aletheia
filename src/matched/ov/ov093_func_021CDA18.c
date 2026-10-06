@@ -31,7 +31,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int (*Callback)(u8 *,int *);
 typedef struct { u8 f0:1,f1:1,f2:1,f3:1,f4:1,f5:1,rest:2; } Flags;
-extern void func_021D3FDC(u8 *,void *);
+struct Q;
+extern void func_021D3FDC(u8 *p, struct Q *q);
 extern u8 func_021EEBE8(void *);
 extern void func_021CDD34(u8 *);
 extern int func_021EEC20(int,u32 **);
@@ -51,7 +52,7 @@ int func_021CDA18(u8 *p)
 {
     u32 id, *pair, x, y;
     int flag, n;
-    func_021D3FDC(p,p+0x18);
+    func_021D3FDC(p,(struct Q *)(p+0x18));
     switch (p[0x1a8]) {
     case 0:
         id = func_021EEBE8(((struct Obj00463 *)p)->f50);

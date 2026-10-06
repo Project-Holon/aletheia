@@ -31,15 +31,15 @@ typedef unsigned int u32;
 struct Cursor { u8 a, b, c, d; };
 enum Offset { queue = 0x1a68 };
 extern void func_021BDB28(void *);
-extern void func_021BD2B4(struct Cursor *, u8 **);
-extern int func_021BD34C(struct Cursor *, u8 **, u8 **);
+extern void func_021BD2B4(u8 *p, u8 **q);
+extern int func_021BD34C(u8 *p, u8 **q, u8 **out);
 extern u8 func_021D5440(u8 *p);
 extern void func_021BDB38(void *, u8 *);
 extern void func_021BDB48(void *, u8 *);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021BDBEC(u8 *);
 extern int func_021C88E4(u8 *);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021BDB58(void *);
 extern u8 *func_021BDB68(void *);
 extern void func_021BDB88(u8 *, u8 *);
@@ -54,8 +54,8 @@ int func_021BDA00(u8 *p)
     u8 *flag;
     enum Offset q = queue;
     func_021BDB28(p + q);
-    func_021BD2B4(&cursor, (u8 **)p);
-    while (func_021BD34C(&cursor, (u8 **)p, &out) != 0) {
+    func_021BD2B4((u8 *)(&cursor), (u8 **)p);
+    while (func_021BD34C((u8 *)(&cursor), (u8 **)p, &out) != 0) {
         flag = p + func_021D5440(out);
         if (flag[0x7c1] != 0) {
             func_021BDB38(p + q, out);
@@ -66,19 +66,19 @@ int func_021BDA00(u8 *p)
     lock = func_021CC8D8(p + 0x1d74, 3096);
     func_021BDBEC(p);
     if (func_021C88E4(p) != 0) result = 1;
-    func_021CC95C(p + 0x1d74, lock, 3102);
+    func_021CC95C((u32 *)(p + 0x1d74), lock, 3102);
     func_021BDB58(p + q);
     out = func_021BDB68(p + q);
     while (out != 0) {
         lock = func_021CC8D8(p + 0x1d74, 3108);
         func_021BDB88(p, out);
         if (func_021C88E4(p) != 0) result = 1;
-        func_021CC95C(p + 0x1d74, lock, 3114);
+        func_021CC95C((u32 *)(p + 0x1d74), lock, 3114);
         out = func_021BDB78(p + q);
     }
     lock = func_021CC8D8(p + 0x1d74, 3117);
     func_021BDC0C(p);
     if (func_021C88E4(p) != 0) result = 1;
-    func_021CC95C(p + 0x1d74, lock, 3123);
+    func_021CC95C((u32 *)(p + 0x1d74), lock, 3123);
     return result;
 }

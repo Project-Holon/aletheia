@@ -58,23 +58,31 @@ struct Obj {
     u32 w7c;
 };
 
-extern u16 *func_0204162C(u8 bg);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Obj0202DC98;
+struct Obj0202DCC4;
+struct Strbuf;
+struct U16Vec;
+extern u32 func_0204162C(int channel);
 extern void func_02082D44(void *src, void *dst, int n);
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_02041B6C(int);
-extern u32 func_0202DCC4(u32 o, u32 i);
-extern void func_0202DC9C(u32 o, int i, u32 a1);
-extern u32 func_02045770(u32 a);
-extern void func_02043B5C(u32 v, u32 a);
-extern void func_02045334(u32 a);
-extern void func_0202DC60(u32 a, u32 b, const void *c, u32 d, void *e);
-extern void *func_02045EC0(u32 h, u32 idx);
-extern void func_02045374(u32 a);
-extern int func_02045730(u32 a);
+extern void func_02041B6C(u32 bit);
+extern u32 func_0202DCC4(const struct Obj0202DCC4 *p, u32 i);
+extern void func_0202DC9C(struct Obj0202DC98 *o, int i, u32 a1);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, void *str, u32 font, u32 color);
-extern void func_02045808(void *p);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void func_02045924(void *dst, const void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern const Pair d_021F1040;
 static inline int paletteFlag(const u8 *e)
 {
@@ -92,7 +100,7 @@ void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
     u32 q;
     int off;
 
-    pal = func_0204162C(6);
+    pal = (u16 *)func_0204162C(6);
     off = (k * 0xE0) << 1;
     c = paletteFlag(e);
     func_02082D44(pal, (u8 *)pal + off, 0x1C0);
@@ -100,52 +108,52 @@ void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
     func_02041B6C(6);
     t = d_021F1040;
     if (p->b[k] == 0) {
-        if (func_0202DCC4(p->w7c, k) == 1)
-            func_0202DC9C(p->w7c, k, 1);
+        if (func_0202DCC4((const struct Obj0202DCC4 *)p->w7c, k) == 1)
+            func_0202DC9C((struct Obj0202DC98 *)p->w7c, k, 1);
     } else if (p->b[k] == 1) {
-        func_02043B5C(func_02045770(p->a[k]), 0);
-        func_02045334(p->a[k]);
+        func_02043B5C(func_02045770((struct Descriptor *)p->a[k]), 0);
+        func_02045334((struct Descriptor *)p->a[k]);
     }
     if (e[0x21] == 0) {
-        func_0202DC60(p->w7c, p->a[k], e + 0x10, k, &t);
+        func_0202DC60((struct Obj *)p->w7c, p->a[k], (void *)(e + 0x10), k, (u32)(&t));
         p->b[k] = 0;
     } else {
         switch (e[0x21]) {
         case 1:
-            x = func_02045EC0(p->w48, 6);
+            x = func_02045EC0((struct MsgBank *)p->w48, 6);
             break;
         case 2:
-            x = func_02045EC0(p->w48, 0);
+            x = func_02045EC0((struct MsgBank *)p->w48, 0);
             break;
         case 3:
-            x = func_02045EC0(p->w48, 1);
+            x = func_02045EC0((struct MsgBank *)p->w48, 1);
             break;
         case 4:
-            x = func_02045EC0(p->w48, 2);
+            x = func_02045EC0((struct MsgBank *)p->w48, 2);
             break;
         case 5:
-            x = func_02045EC0(p->w48, 3);
+            x = func_02045EC0((struct MsgBank *)p->w48, 3);
             break;
         case 0:
             return;
         default:
             return;
         }
-        func_02045374(p->a[k]);
-        func_02041B6C(func_02045730(p->a[k]));
+        func_02045374((struct Cfg *)p->a[k]);
+        func_02041B6C(func_02045730((struct Descriptor *)p->a[k]));
         q = p->w40;
-        func_0201C724(q, func_02045770(p->s[k].h), 0, t.b, x, p->w44, 0x440);
+        func_0201C724(q, (u32)func_02045770((struct Descriptor *)p->s[k].h), 0, t.b, x, p->w44, 0x440);
         p->s[k].f = 1;
         func_02045808(x);
         p->b[k] = 1;
     }
     buf = func_020457B0(8, 0x15);
-    func_02045924(buf, e);
-    func_0201C724(p->w40, func_02045770(p->a[k]), 0, 0, buf, p->w44, 0x440);
+    func_02045924(buf, (const u16 *)e);
+    func_0201C724(p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), 0, 0, buf, p->w44, 0x440);
     func_02045808(buf);
     if (e[0x22] != 0) {
-        buf = func_02045EC0(p->w48, (e[0x22] == 1) ? 4 : 5);
-        func_0201C724(p->w40, func_02045770(p->a[k]), 0x74, 0, buf, p->w44, 0x440);
+        buf = func_02045EC0((struct MsgBank *)p->w48, (e[0x22] == 1) ? 4 : 5);
+        func_0201C724(p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), 0x74, 0, buf, p->w44, 0x440);
         func_02045808(buf);
     }
 }

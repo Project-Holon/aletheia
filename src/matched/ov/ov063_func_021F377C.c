@@ -73,48 +73,49 @@ typedef struct {int x,y,z;} Vec;
 typedef struct {s16 x,y,z;} SmallVec;
 typedef struct {u16 a,b; s16 c; u16 d;} LocalCell;
 typedef struct {u32 state;int scene,entity;void *obj;int model,map,player;u32 pad1c;Vec start,end;SmallVec dir;u16 pad3e;int step,count;Vec oldpos,oldlook,delta,lookdelta;LocalCell cell;int f80;} S;
-extern void func_0219E764(int,SmallVec *);
+extern int func_0219E764(u32 a, u32 b);
 extern void func_0207CDB8(SmallVec *,SmallVec *);
 extern void func_021B8028(int,Vec *);
-extern int func_021BB480(int);
+typedef unsigned char  u8;
+extern void *func_021BB480(void *p);
 extern int func_021B7A84(int,Vec *,Vec *,LocalCell *,Vec *);
 extern int func_021B7D50(int,LocalCell *);
 extern int func_021BB3C4(int,LocalCell *);
-extern u32 func_021AB0F8(int);
+extern u16 func_021AB0F8(u32 attr);
 extern void func_021B7D38(int,LocalCell *,Vec *);
 extern void func_0207CA00(const Vec *,const Vec *,Vec *);
 extern int func_0207CBD0(const Vec *);
 extern void func_0207CCA4(Vec *,Vec *);
-extern int func_0207C768(int,int);
+extern u32 func_0207C768(u32 a, u32 b);
 extern int func_0207D14C(int,int *);
-extern void func_0218F0A8(int);
-extern int func_0218F0E8(int);
-extern void func_0218EC54(int);
-extern void func_0218E13C(int,u32);
-extern void func_0218E124(int,u32);
+extern void func_0218F0A8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
+extern void func_0218EC54(u8 *p);
+extern void func_0218E13C(u8 *a, u32 s);
+extern void func_0218E124(u8 *a, u32 s);
 extern void func_0218ECE4(int,Vec *);
 extern void func_0218ECB4(int,Vec *);
-extern void func_021BB3D0(int,LocalCell *);
-extern int func_0218EC5C(int);
+extern void func_021BB3D0(void **h, void *r);
+extern u32 func_0218EC5C(u8 *p);
 extern void func_0218EC90(int,Vec *);
 extern void func_0218ECF4(int,Vec *);
 extern void func_020061E4(u32);
-extern void func_0216D568(int,int);
-extern void func_021AC528(int,int);
-extern void func_021A3044(void *,Vec *);
+extern void func_0216D568(void *p, u32 v);
+extern void func_021AC528(u32 a, u32 b);
+extern void func_021A3044(u8 *p, void *v);
 extern void func_0216D89C(int,Vec *);
 extern int func_02006148(u32);
 extern void func_020061F8(int);
-extern void func_021A36B0(void *,LocalCell *);
+extern void func_021A36B0(u8 *p, void *r);
 extern void func_021A36D4(void *,Vec *);
 extern void func_021BB260(int,int);
-extern void func_021BB388(int);
-extern void func_0219E2C0(int,LocalCell *);
-extern void func_0216D570(int,int);
+extern int func_021BB388(void **h);
+extern void func_0219E2C0(void *a, void *r);
+extern void func_0216D570(char *p, u32 v);
 extern void func_0216DB4C(int,int);
 extern void func_0216DC98(int,int);
-extern void func_0216DAE0(int,int);
-extern void func_0216DB04(int);
+extern void func_0216DAE0(unsigned int *p, unsigned int v);
+extern void func_0216DB04(void *a0);
 static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
 static inline void vset16(SmallVec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
 static inline void vset(Vec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
@@ -129,7 +130,7 @@ void func_021F377C(int unused,S *s)
  int length;
  switch(s->state) {
  case 0:
-  func_0219E764(s->model,&dir);dir.y=0;func_0207CDB8(&dir,&dir);
+  func_0219E764(s->model,(u32)(&dir));dir.y=0;func_0207CDB8(&dir,&dir);
   func_021B8028(s->entity,&origin);
   s->start.x=origin.x+fxmul(dir.x,0x10000);
   s->start.y=origin.y+fxmul(dir.y,0x10000);
@@ -138,7 +139,7 @@ void func_021F377C(int unused,S *s)
   s->end.y=-0xa000;
   scale=fxmul(top,0x127b);
   s->end.x=s->start.x+fxmul(dir.x,scale);s->end.z=s->start.z+fxmul(dir.z,scale);
-  terrain=func_021BB480(s->scene);
+  terrain=(int)func_021BB480((void *)s->scene);
   if(func_021B7A84(terrain,&s->start,&s->end,&s->cell,&s->end)==0) {s->state=9;return;}
   cell=s->cell;
   height=func_021B7D50(terrain,&s->cell);
@@ -154,20 +155,20 @@ void func_021F377C(int unused,S *s)
   length=func_0207C768(length,0x8000);
   if(func_0207D14C(length,&length)==0)s->count=length>>12;else s->count=(length>>12)+1;
   s->step=0;
-  if(s->obj!=0) {func_0218F0A8(s->player);s->state=1;}else s->state=4;
+  if(s->obj!=0) {func_0218F0A8((u8 *)s->player);s->state=1;}else s->state=4;
   break;
  case 1:
-  if(func_0218F0E8(s->player)!=0)break;
-  func_0218EC54(s->player);func_0218E13C(s->player,2);
-  func_0218ECE4(s->player,&s->oldpos);func_0218ECB4(s->player,&s->oldlook);func_021BB3D0(s->scene,&s->cell);
-  if(func_0218EC5C(s->player)!=0) {func_0218EC90(s->player,&s->end);func_0218EC54(s->player);}
-  func_0218E13C(s->player,2);func_0218ECE4(s->player,&s->delta);func_0218ECB4(s->player,&s->lookdelta);
+  if(func_0218F0E8((u8 *)s->player)!=0)break;
+  func_0218EC54((u8 *)s->player);func_0218E13C((u8 *)s->player,2);
+  func_0218ECE4(s->player,&s->oldpos);func_0218ECB4(s->player,&s->oldlook);func_021BB3D0((void **)s->scene,&s->cell);
+  if(func_0218EC5C((u8 *)s->player)!=0) {func_0218EC90(s->player,&s->end);func_0218EC54((u8 *)s->player);}
+  func_0218E13C((u8 *)s->player,2);func_0218ECE4(s->player,&s->delta);func_0218ECB4(s->player,&s->lookdelta);
   func_0207CA00(&s->delta,&s->oldpos,&s->delta);func_0207CA00(&s->lookdelta,&s->oldlook,&s->lookdelta);
-  func_021BB260(s->scene,0);func_0218E124(s->player,2);func_0218EC54(s->player);
+  func_021BB260(s->scene,0);func_0218E124((u8 *)s->player,2);func_0218EC54((u8 *)s->player);
   func_0218EC90(s->player,&s->oldlook);func_0218ECF4(s->player,&s->oldpos);
   s->state=4;break;
  case 4:
-  func_020061E4(0x6ed);s->state=5;func_0216D568(s->model,0x8000);
+  func_020061E4(0x6ed);s->state=5;func_0216D568((void *)s->model,0x8000);
  case 5:
   s->step++;
   if((u32)s->step>=(u32)s->count) {vset(&point,s->end.x,s->end.y,s->end.z);s->state=8;}
@@ -197,9 +198,9 @@ void func_021F377C(int unused,S *s)
   break;
  case 8:
   func_020061F8(func_02006148(0x6ed));
-  if(s->obj!=0) {func_021A36B0(s->obj,&s->cell);func_021A36D4(s->obj,&finalpos);func_021A3044(s->obj,&finalpos);func_021BB260(s->scene,1);func_021BB388(s->scene);}
-  else func_0219E2C0(s->model,&s->cell);
-  func_0216D570(s->model,0x8000);func_0216DB4C(s->model,0);func_0216DC98(s->model,0);func_0216DAE0(s->model,1);func_0216DB04(s->model);s->state=9;
+  if(s->obj!=0) {func_021A36B0(s->obj,&s->cell);func_021A36D4(s->obj,&finalpos);func_021A3044(s->obj,&finalpos);func_021BB260(s->scene,1);func_021BB388((void **)s->scene);}
+  else func_0219E2C0((void *)s->model,&s->cell);
+  func_0216D570((char *)s->model,0x8000);func_0216DB4C(s->model,0);func_0216DC98(s->model,0);func_0216DAE0((unsigned int *)s->model,1);func_0216DB04((void *)s->model);s->state=9;
   break;
  case 2:case 3:case 6:case 7:case 9:break;
  }

@@ -32,7 +32,8 @@ typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_0208068C(u32 a);
 extern void func_02087AE4(void);
-extern void func_0203FC28(S16 *p);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207FDCC(u32 a);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040588(u32 a, u32 b);
@@ -50,7 +51,7 @@ int func_021BEF08(u32 p0, int *st, u8 *q)
         func_02087AE4();
         func_02087AE4();
         loc = d_021D9F50;
-        func_0203FC28(&loc);
+        func_0203FC28((struct DispConfig *)(&loc));
         *(volatile u16 *)0x0400000C = 0x4084 | (*(volatile u16 *)0x0400000C & 0x43);
         func_0207FDCC(8);
         func_0204047C(2, 0);

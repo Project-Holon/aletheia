@@ -56,10 +56,10 @@ struct DWCstNodeInfo {
 extern int func_02175F3C(void);
 extern void qr2_send_statechanged(void *qrec);
 extern u8 func_02176474(void);
-extern struct DWCstNodeInfo *func_02176344(void);
+extern char *func_02176344(void);
 extern int func_0217603C(void);
-extern struct DWCstNodeInfo *func_0217637C(int index);
-extern int func_0216FF2C(u8 command, int profileID, u32 ip, u16 port, u32 *data, int len);
+extern char *func_0217637C(int index);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 
 int func_02171884(int profileID)
 {
@@ -83,11 +83,11 @@ int func_02171884(int profileID)
     if (((struct DWCstMatchControl *)func_02175F3C())->f5a4 == 0) {
         senddata[0] = ((struct DWCstMatchControl *)func_02175F3C())->f554;
         senddata[1] = ((struct DWCstMatchControl *)func_02175F3C())->aid;
-        pMyNodeInfo = func_02176344();
+        pMyNodeInfo = (struct DWCstNodeInfo *)func_02176344();
         for (i = 0; i < func_0217603C(); i++) {
-            pNodeInfo = func_0217637C(i);
+            pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
             if (pMyNodeInfo->profileID != pNodeInfo->profileID) {
-                result = func_0216FF2C(7, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, senddata, 2);
+                result = func_0216FF2C(7, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, (const unsigned int *)senddata, 2);
                 if (result != 0)
                     return result;
             }

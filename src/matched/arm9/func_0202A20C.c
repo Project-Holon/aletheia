@@ -23,11 +23,12 @@ typedef unsigned char u8;
 typedef signed int    s32;
 typedef unsigned int  u32;
 
-extern s32 func_0202A1CC(u8 *p, u32 key, u32 v2, u32 v3);
+struct Container;
+extern u32 func_0202A1CC(const struct Container *c, u32 key, u32 v2, u32 v3);
 
 u32 func_0202A20C(u8 *p, u32 key, u32 v2, u32 v3)
 {
-    s32 r = func_0202A1CC(p, key, v2, v3);
+    s32 r = func_0202A1CC((const struct Container *)p, key, v2, v3);
 
     return r < 0 ? 0u : (u32)r;
 }

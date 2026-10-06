@@ -41,7 +41,8 @@ extern void func_021C1038(u8 *p, u8 palette);
 extern void func_021BC4B4(char *);
 extern void func_021BBBE4(u8 *);
 extern void func_021BB990(void *);
-extern void func_021BC2D8(u8 *);
+struct S;
+extern void func_021BC2D8(struct S *p);
 extern void func_021BC338(u8 *);
 extern void func_021BC43C(u8 *);
 extern void func_021BC168(unsigned);
@@ -69,7 +70,7 @@ void func_021BB534(u8 *p)
         func_021BB990(p);
         break;
     case 1:
-        func_021BC2D8(p);
+        func_021BC2D8((struct S *)p);
         func_021BC338(p);
         func_021BC43C(p);
         func_021BC168((unsigned)p);

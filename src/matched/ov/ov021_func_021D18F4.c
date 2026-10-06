@@ -33,7 +33,7 @@ typedef struct Vec3 { s32 x, y, z; } Vec3;
 struct IcaAnime;
 extern u32 func_02011590(struct IcaAnime *p, s32 v);
 extern void func_02011558(struct IcaAnime *p);
-extern void func_021D1988(u32 a, u32 b, u8 *c);
+extern void func_021D1988(u32 a, u32 b, struct Vec3 *c);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
@@ -52,7 +52,7 @@ void func_021D18F4(u32 a, u32 b, u8 *p)
     }
     if (p[0x19A] == 1) {
         if (func_02011590((struct IcaAnime *)(((struct Obj01673 *)p)->f184), 0x1000) == 0) {
-            func_021D1988(((struct Obj01673 *)p)->f184, ((struct Obj01673 *)p)->f0, p + 0x18C);
+            func_021D1988(((struct Obj01673 *)p)->f184, ((struct Obj01673 *)p)->f0, (struct Vec3 *)(p + 0x18C));
         } else {
             func_02011558((struct IcaAnime *)(((struct Obj01673 *)p)->f184));
             ((struct Obj01673 *)p)->f184 = 0;

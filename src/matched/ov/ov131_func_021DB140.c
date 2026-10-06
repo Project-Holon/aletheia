@@ -56,8 +56,9 @@ extern int func_02035C08(u8 *);
 extern void *func_021D6064(u8 *);
 extern int func_02017E88(void *,int,int);
 extern u32 func_0202F72C(void *a, u16 b, u16 c);
-extern void func_021DBA54(u8 *,u8 *);
-extern void func_0204B404(void *,u8 *,int);
+struct Vec2;
+extern void func_021DBA54(unsigned char *p, unsigned short *o);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B9A0(struct Actor *);
 extern void func_021DB688(u8 *,u8 *,int);
 
@@ -121,8 +122,8 @@ void func_021DB140(u8 *a,u8 *b)
                 func_021DBA78(b+176+index*24,2);
                 b[41]=4;
                 func_021DB468(a,b,b[41],0);
-                func_021DBA54(b+176+b[42]*24,(u8 *)point);
-                func_0204B404(((struct Obj00026 *)b)->f9C,(u8 *)point,0);
+                func_021DBA54(b+176+b[42]*24,(short unsigned int *)point);
+                func_0204B404(((struct Obj00026 *)b)->f9C,(const struct Vec2 *)point,0);
                 func_0204B3DC(((struct Obj00026 *)b)->f9C,1);
                 func_0204B9A0(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
                 func_021DB614(a,b,1);

@@ -17,11 +17,12 @@
 
 typedef unsigned int   u32;
 extern void func_0204335C(u32 keep);
-extern void func_020433E0(void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern int  d_021BABFC[];
 
 void func_021B98F4(void)
 {
     func_0204335C(0);
-    func_020433E0(d_021BABFC);
+    func_020433E0((const struct DispVram *)d_021BABFC);
 }

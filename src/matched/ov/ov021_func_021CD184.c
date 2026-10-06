@@ -27,12 +27,13 @@ typedef struct {
 } Obj;
 
 extern void func_021CD050(Obj *o, void *e);
-extern void func_021CCBE0(Obj *o, u32 sel);
-extern void func_021CCE48(Obj *o, u32 sel);
+typedef unsigned char  u8;
+extern void func_021CCBE0(u8 *s, int flag);
+extern void func_021CCE48(u8 *s, int flag);
 
 void func_021CD184(Obj *o, u32 sel)
 {
     func_021CD050(o, sel == 0 ? o->f4 : o->f8);
-    func_021CCBE0(o, sel);
-    func_021CCE48(o, sel);
+    func_021CCBE0((u8 *)o, sel);
+    func_021CCE48((u8 *)o, sel);
 }

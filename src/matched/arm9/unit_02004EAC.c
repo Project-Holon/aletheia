@@ -15,6 +15,6 @@ void func_02004EAC(void)
 {
 }
 
-void func_02004EB0(void)
+void func_02004EB0(const void *symbol)
 {
 }

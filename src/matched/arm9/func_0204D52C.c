@@ -11,6 +11,7 @@
  * status:   EXACT*
  */
 
-extern void func_020643A4(void *p);
-void func_0204D52C(void *p){ func_020643A4((char *)p + 0xc); }
+struct CellAnim;
+extern void func_020643A4(struct CellAnim *anim);
+void func_0204D52C(void *p){ func_020643A4((struct CellAnim *)((char *)p + 0xc)); }
 

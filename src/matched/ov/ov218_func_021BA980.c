@@ -25,8 +25,11 @@ extern const Record d_021BAF28[];
 extern void func_02082BCC(void *, int, int);
 extern void func_0203F8F4(unsigned);
 extern void func_02045088(unsigned);
-extern void func_0203FC28(const unsigned *);
-extern void func_0203FCA0(unsigned char, const void *, unsigned char);
+typedef unsigned int   u32;
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 void func_021BA980(char *ctx, unsigned heap)
@@ -37,11 +40,11 @@ void func_021BA980(char *ctx, unsigned heap)
     func_02082BCC(ctx, 0, 4);
     func_0203F8F4(heap);
     func_02045088(heap);
-    func_0203FC28(d_021BAEAC);
+    func_0203FC28((struct DispConfig *)d_021BAEAC);
     for (i = 0; i < 7; i++) {
         record = &d_021BAF28[i];
         bg = record->bg;
-        func_0203FCA0(bg, record->config, record->type);
+        func_0203FCA0((unsigned char)bg, (const struct BgTemplate *)record->config, (unsigned char)record->type);
         func_020414AC(bg);
         func_02040588(bg, record->enable);
     }

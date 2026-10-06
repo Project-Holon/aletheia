@@ -18,7 +18,8 @@ typedef unsigned int   u32;
 struct Actor;
 extern void func_0204B570(struct Actor *actor, u32 value);
 extern void func_0204B5AC(void *, int *);
-extern void func_0204B588(void *, unsigned short *);
+struct Pt;
+extern void func_0204B588(struct Actor *actor, const struct Pt *src);
 void func_021EC94C(char *p)
 {
     int pair[2];
@@ -31,5 +32,5 @@ void func_021EC94C(char *p)
     func_0204B5AC(((struct Obj04546 *)p)->f0, pair);
     shape[0] = 0;
     shape[1] = 8;
-    func_0204B588(((struct Obj04546 *)p)->f0, shape);
+    func_0204B588(((struct Obj04546 *)p)->f0, (const struct Pt *)shape);
 }

@@ -42,7 +42,8 @@ extern const Ent d_021F0DC8[];
 struct Obj;
 extern void func_021F0C44(char *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B404(void *, Pt *, u16);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B8C4(struct Obj *p, u32 value);
@@ -60,7 +61,7 @@ void func_021F05A4(char *p, int flag)
         func_0204B3DC(((struct Obj00323 *)p)->f5C, ((struct Obj00323 *)p)->f68 == 8);
         pt.x = d_021F0DC8[*(int *)(p + 0x68)].x;
         pt.y = d_021F0DC8[*(int *)(p + 0x68)].y;
-        func_0204B404(((struct Obj00323 *)p)->f50, &pt, 1);
+        func_0204B404(((struct Obj00323 *)p)->f50, (const struct Vec2 *)(&pt), 1);
         func_0204B878(((struct Obj00323 *)p)->f38, d_021F0DC8[*(int *)(p + 0x68)].a);
         func_0204B878(((struct Obj00323 *)p)->f44, d_021F0DC8[*(int *)(p + 0x68)].b);
         func_0204B878(((struct Obj00323 *)p)->f50, d_021F0DC8[*(int *)(p + 0x68)].c);

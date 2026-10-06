@@ -25,7 +25,8 @@ typedef struct {
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern void *func_021BEF3C(void);
-extern int func_021BAC38(Req *req_p, void *bgnEndInfo_p, char *label_p, char *value_p);
+typedef unsigned int   u32;
+extern int func_021BAC38(u32 *p, int a, int b, int c);
 
 int func_021BE6EC(Req *req_p, char *label_p, char *value_p)
 {
@@ -39,5 +40,5 @@ int func_021BE6EC(Req *req_p, char *label_p, char *value_p)
     if (req_p->f4 != 0) {
         return -1;
     }
-    return -(func_021BAC38(req_p, bgnEndInfo_p, label_p, value_p) == 0);
+    return -(func_021BAC38((u32 *)req_p, (int)bgnEndInfo_p, (int)label_p, (int)value_p) == 0);
 }

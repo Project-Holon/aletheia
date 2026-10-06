@@ -38,13 +38,15 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
-extern void sub_02014CF8(void *a, void *b, void *c);
+struct Sub02014CF8Ctx;
+struct Sub02014CF8Rec;
+extern int func_022019F4(char *p, int key);
+extern void sub_02014CF8(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
 
 void func_02200140(Work *w, int key1, int key2)
 {
-    int i1 = func_022019F4(w, key1);
-    int i2 = func_022019F4(w, key2);
+    int i1 = func_022019F4((char *)w, key1);
+    int i2 = func_022019F4((char *)w, key2);
 
     w->e[i2].f04 = w->e[i1].f04;
     w->e[i2].f0c = w->e[i1].f0c;
@@ -64,5 +66,5 @@ void func_02200140(Work *w, int key1, int key2)
         w->e[i2].f20 = w->e[i1].f20 - 9;
     }
     w->e[i2].q = w->e[i1].q;
-    sub_02014CF8(w->obj, w->e[i2].h, &w->e[i2].f04);
+    sub_02014CF8(w->obj, w->e[i2].h, (const struct Sub02014CF8Rec *)(&w->e[i2].f04));
 }

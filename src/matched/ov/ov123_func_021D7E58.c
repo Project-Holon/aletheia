@@ -32,7 +32,7 @@ extern void func_021D6A70(u8 *p, int i, int a, int b, int c);
 extern int func_021D7CEC(int a, u8 *p);
 extern void func_021D7E20(u8 *, u8 *);
 extern void func_021D6AB8(u8 *p);
-extern void func_021D7BDC(u8 *);
+extern void func_021D7BDC(char *p);
 void func_021D7E58(u8 *p, void *h, u8 *q, int *r)
 {
     int i;
@@ -66,5 +66,5 @@ void func_021D7E58(u8 *p, void *h, u8 *q, int *r)
 unchanged:
     p[0xa9] = 0;
 done:
-    func_021D7BDC(p);
+    func_021D7BDC((char *)p);
 }

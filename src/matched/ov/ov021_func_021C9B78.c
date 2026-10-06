@@ -31,7 +31,7 @@ extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern void func_021CA238(u8 *p, u16 v);
-extern void func_021CA250(u8 *p);
+extern int func_021CA250(u32 a);
 
 void func_021C9B78(u8 *p)
 {
@@ -46,5 +46,5 @@ void func_021C9B78(u8 *p)
     if (func_0200DB44((struct Blk1AC *)(((struct Obj03617 *)p)->f74), p[9]) == 1)
         func_021CA238(p, func_0200DAC4((struct Blk1AC *)(((struct Obj03617 *)p)->f74), p[9]));
     else
-        func_021CA250(p);
+        func_021CA250((u32)p);
 }

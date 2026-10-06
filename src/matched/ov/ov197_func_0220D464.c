@@ -28,7 +28,7 @@ extern void func_0220D89C(char **, int);
 extern void func_0220BF20(char *, int);
 extern int func_0220D234(char *);
 extern int func_0220D254(char *);
-extern unsigned func_0220BB98(const char *, int);
+extern unsigned func_0220BB98(const char *p, unsigned n);
 extern int func_0220D11C(char *);
 int func_0220D464(char *p)
 {

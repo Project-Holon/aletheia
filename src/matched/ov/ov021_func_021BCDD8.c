@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 func_021BD0C0(char *p);
+extern u8 func_021BD0C0(u8 *p);
 extern unsigned int func_021BD20C(char *p);
 extern void func_021BC9C0(char *p);
 extern void func_021BD0D0(char *p);
@@ -41,7 +41,7 @@ void func_021BCDD8(char *p)
     int r6 = 1;
     int i;
 
-    switch (func_021BD0C0(p)) {
+    switch (func_021BD0C0((u8 *)p)) {
     case 0:
         for (i = 0; i < ((struct Obj01123 *)p)->f20; i++) {
             u32 v = *(u32 *)(p + 0xc8 + i * 4);

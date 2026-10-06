@@ -58,9 +58,11 @@ typedef struct DWCHttp {
 
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern char *func_02094B20(const char *s, const char *find);
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_0217A344(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value);
-extern int func_020949F4(const char *s1, const char *s2, unsigned long n);
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 
 extern const char g_021A25D4[];
 extern const char g_021A26B4[];
@@ -94,7 +96,7 @@ int func_0217A484(DWCHttp *http, int noparsebody)
     httpbody_top = func_02094B20(buffer, g_021A25D4);
     if (httpbody_top == 0)
         return 0;
-    httpbody_end = httpbody_top + 4 + func_0209477C(httpbody_top + 4);
+    httpbody_end = httpbody_top + 4 + func_0209477C((const u8 *)(httpbody_top + 4));
 
     p_char1 = func_02094B20(buffer, g_021A26B4);
     if (p_char1 == 0)
@@ -107,7 +109,7 @@ int func_0217A484(DWCHttp *http, int noparsebody)
     }
     p_char1[4] = temp;
 
-    if (noparsebody == 1 || func_020949F4(p_char1 + 1, g_021A26C4, 3) != 0)
+    if (noparsebody == 1 || func_020949F4((const u8 *)(p_char1 + 1), (const u8 *)g_021A26C4, 3) != 0)
         return 1;
 
     index = func_02094B20(p_char1 + 5, g_021A2604);
@@ -134,7 +136,7 @@ int func_0217A484(DWCHttp *http, int noparsebody)
             *p_char2 = p_char2_temp;
             return 0;
         }
-        index = value + func_0209477C(value) + 2;
+        index = value + func_0209477C((const u8 *)value) + 2;
         *p_char1 = p_char1_temp;
         *p_char2 = p_char2_temp;
     }
@@ -160,7 +162,7 @@ int func_0217A484(DWCHttp *http, int noparsebody)
                 *p_char2 = p_char2_temp;
             return 0;
         }
-        index = p_char1 + func_0209477C(p_char1) + 1;
+        index = p_char1 + func_0209477C((const u8 *)p_char1) + 1;
         *buffer = p_char1_temp;
         if (p_char2 != 0)
             *p_char2 = p_char2_temp;

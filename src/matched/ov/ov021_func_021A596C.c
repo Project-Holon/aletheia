@@ -32,7 +32,7 @@ extern void func_021A3CC0(u32 a);
 extern void func_021A6BB4(u8 *p, u32 a1, u32 a2);
 extern u32  func_021A682C(u8 *p, u32 a1, u32 a2);
 extern int func_021A5A68(u8 *p, u32 a, u32 b, u32 c, u32 d);
-extern void func_021A5B4C(u8 *p, u32 a, u32 b);
+extern void func_021A5B4C(u32 *p, u32 a, int mode);
 extern void func_021A5AD4(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_021A5B7C(u8 *p);
 extern void func_021A6C30(u8 *p);
@@ -48,7 +48,7 @@ void func_021A596C(u8 *p, u32 b, u32 c)
     func_021A6BB4(p + 0xc, t, ((struct Obj09572 *)p)->f1C);
     x = func_021A682C(p, t, 0);
     y = func_021A5A68(p, x, b, c, 0);
-    func_021A5B4C(p, c, y);
+    func_021A5B4C((u32 *)p, c, y);
     func_021A5AD4(p, y, x, b, c, 0);
     func_021A5B7C(p);
     func_021A6C30(p + 0xc);

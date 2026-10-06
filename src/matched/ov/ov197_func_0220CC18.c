@@ -30,7 +30,7 @@ extern int func_0220D884(char **);
 extern int func_02025DE8(struct Sound *obj);
 extern void func_0220D89C(char **, int);
 extern void func_0220BF20(char *, int);
-extern void func_0220B9D8(char *);
+extern void func_0220B9D8(u8 *p);
 int func_0220CC18(char *p)
 {
     unsigned sel;
@@ -49,7 +49,7 @@ int func_0220CC18(char *p)
             func_0220D89C((char **)p, 0x54d);
             ((struct Obj02244 *)p)->f533 = ((struct Obj02244 *)p)->f542;
             ((struct Obj02244 *)p)->f531 = 9;
-            func_0220B9D8(p);
+            func_0220B9D8((u8 *)p);
             func_0220BF20(p, 0xd);
             return 0x10;
         }

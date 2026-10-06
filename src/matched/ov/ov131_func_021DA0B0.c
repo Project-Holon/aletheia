@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void *func_021D60A4(u8 *);
+extern int func_021D60A4(char *p);
 extern u32 func_02017E1C(void *,u32,u32);
 struct Descriptor;
 struct MsgBank;
@@ -56,7 +56,7 @@ void func_021DA0B0(u8 *a,u8 *p)
     void *o1,*o2,*o3,*o4,*o5,*o6,*o7;
     u32 value;
     void *t1,*t2,*str;
-    data=func_021D60A4(a);
+    data=(void *)func_021D60A4((char *)a);
     selected=func_02017E1C(data,112,0);
     one=1;
     func_021D618C(a,((struct Obj01061 *)p)->f5C,110,25,one,15424);

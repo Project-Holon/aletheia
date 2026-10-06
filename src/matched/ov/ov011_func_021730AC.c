@@ -48,9 +48,9 @@ typedef struct Work {
 extern u32 func_02026478(void *obj);
 extern u8 func_02012E40(const u8 *o);
 extern u32 func_0200FB24(void);
-extern void  func_0203CEAC(void (*cb)(Work *));
+extern int func_0203CEAC(int a0);
 extern int   func_0203D1B4(void);
-extern int   func_021736EC(Work *w);
+extern int func_021736EC(char *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -58,7 +58,7 @@ extern void func_02039C68(struct Link *p, u32 a, u32 b);
 extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
 extern void  func_0203D7BC(int a);
 extern u32 func_0203D378(void);
-extern void  func_02173580(Work *w);
+extern void func_02173580(u8 *w);
 
 int func_021730AC(int *state, Param *p, Work *w)
 {
@@ -67,7 +67,7 @@ int func_021730AC(int *state, Param *p, Work *w)
     }
     if (w->bit1 == 1 || func_0200FB24() != 0) {
         w->field8f8 |= 0x40;
-        func_0203CEAC(func_02173580);
+        func_0203CEAC((int)func_02173580);
         return 1;
     }
     switch (*state) {
@@ -75,7 +75,7 @@ int func_021730AC(int *state, Param *p, Work *w)
         w->field8fd = 9;
         if (func_0203D1B4() <= 1) {
             *state = 4;
-        } else if (func_021736EC(w) == 1) {
+        } else if (func_021736EC((char *)w) == 1) {
             (*state)++;
         }
         break;
@@ -103,7 +103,7 @@ int func_021730AC(int *state, Param *p, Work *w)
         break;
     case 4:
         w->field8f8 |= 0x40;
-        func_0203CEAC(func_02173580);
+        func_0203CEAC((int)func_02173580);
         return 1;
     }
     return 0;

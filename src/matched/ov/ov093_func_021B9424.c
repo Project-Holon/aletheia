@@ -13,7 +13,8 @@
  *   func_021B9B40 0x021B9B40 thumb ov093
  */
 extern void func_021D53B8(void *);
-extern void func_021B9B40(void *);
+typedef unsigned char  u8;
+extern void func_021B9B40(u8 *p);
 void func_021B9424(char *p)
 {
     unsigned int i;
@@ -23,5 +24,5 @@ void func_021B9424(char *p)
             *(void **)(p + i * 4 + 0x84) = 0;
         }
     }
-    for (i = 0; i < 4; i++) func_021B9B40(p + 4 + i * 28);
+    for (i = 0; i < 4; i++) func_021B9B40((u8 *)(p + 4 + i * 28));
 }

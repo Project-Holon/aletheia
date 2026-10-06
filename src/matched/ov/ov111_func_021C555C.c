@@ -33,7 +33,7 @@ typedef struct {
     u8 b330E;
 } Work;
 
-extern u32 func_02035BA4(const void *rect);
+extern int func_02035BA4(const void *p);
 extern void func_021C6874(Work *p, int scroll, int flush, int idx);
 extern const u8 d_021C8544[];
 

@@ -24,17 +24,19 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021BC8AC(int *);
+extern int func_021BC8AC(u8 *p);
 struct Flags02008450;
 extern void func_020083EC(unsigned short *p, unsigned int v);
-extern void func_021BC84C(int *);
-extern void func_021BC75C(int *);
+extern void func_021BC84C(u8 *p);
+extern void func_021BC75C(u8 *p);
 struct Sub0200852CObj;
 extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008450(struct Flags02008450 *p, int on);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
-extern void func_021BC944(int *);
+typedef signed int     s32;
+struct W;
+extern s32 func_021BC944(struct W *w);
 
 int func_021BC568(int a, int b, int *s, int *q)
 {
@@ -42,31 +44,31 @@ int func_021BC568(int a, int b, int *s, int *q)
 
     switch (q[1]) {
     case 0:
-        r = func_021BC8AC(q);
+        r = func_021BC8AC((u8 *)q);
         if (r != 0) {
             if (r == 1)
                 func_020083EC((void *)s[1], 0);
             else
                 func_020083EC((void *)s[1], 1);
-            func_021BC84C(q);
+            func_021BC84C((u8 *)q);
             q[1] = 1;
-            func_021BC75C(q);
+            func_021BC75C((u8 *)q);
         }
         break;
     case 1:
-        r = func_021BC8AC(q);
+        r = func_021BC8AC((u8 *)q);
         if (r != 0) {
             if (r == 1)
                 func_0200854C((struct Sub0200852CObj *)s[2], 0);
             else
                 func_0200854C((struct Sub0200852CObj *)s[2], 1);
-            func_021BC84C(q);
+            func_021BC84C((u8 *)q);
             q[1] = 2;
-            func_021BC75C(q);
+            func_021BC75C((u8 *)q);
         }
         break;
     case 2:
-        r = func_021BC8AC(q);
+        r = func_021BC8AC((u8 *)q);
         if (r != 0) {
             if (r == 1)
                 func_02008450((void *)s[1], 1);
@@ -81,6 +83,6 @@ int func_021BC568(int a, int b, int *s, int *q)
             return 1;
         break;
     }
-    func_021BC944(q);
+    func_021BC944((struct W *)q);
     return 0;
 }

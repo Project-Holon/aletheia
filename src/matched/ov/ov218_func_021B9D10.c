@@ -20,19 +20,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021BA554(u8 *,int);
+extern void func_021BA554(const char *p, int delta);
 extern int func_021B8AB8(u8 *);
-extern void func_021BA680(u8 *,int);
+extern void func_021BA680(char *p, int v);
 extern int func_021B93A4(char *);
 extern int func_021B93B0(char *);
-extern void func_021BA6BC(u8 *,int);
+extern void func_021BA6BC(char *p, int y);
 void func_021B9D10(u8 *p,int delta)
 {
     int selected;
     s16 y;
-    func_021BA554(p,(int)(0u-(u32)delta));
+    func_021BA554((const char *)p,(int)(0u-(u32)delta));
     y=func_021B8AB8(*(u8 * *)&((struct Obj03959 *)p)->f2C);
-    func_021BA680(p,y);
+    func_021BA680((char *)p,y);
     selected=func_021B93A4(*(char * *)&((struct Obj03959 *)p)->f2C);
-    func_021BA6BC(p,(int)(((u32)selected-(u32)func_021B93B0(*(char * *)&((struct Obj03959 *)p)->f2C))*2+92));
+    func_021BA6BC((char *)p,(int)(((u32)selected-(u32)func_021B93B0(*(char * *)&((struct Obj03959 *)p)->f2C))*2+92));
 }

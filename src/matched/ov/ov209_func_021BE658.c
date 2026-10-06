@@ -32,13 +32,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02035C08(void *);
-extern int func_020362DC(void);
-extern void func_020355D8(int);
-extern int func_020355C4(void);
-extern int func_0200CA54(u32);
-extern int func_0200CA38(u32);
+struct Blk37;
+extern u32 func_020362DC(void);
+extern void func_020355D8(u8 v);
+extern u8 func_020355C4(void);
+extern u32 func_0200CA54(struct Blk37 *p);
+extern u32 func_0200CA38(struct Blk37 *p);
 extern void func_021B941C(u32);
-extern void func_021B940C(u32);
+extern int func_021B940C(u8 *p);
 
 int func_021BE658(void *ctx_)
 {
@@ -47,11 +48,11 @@ int func_021BE658(void *ctx_)
 
     if (v != -1) {
         if (v == 8) {
-            if (func_0200CA54(*(u32 *)(*(u32 *)ctx + 4)) == 0)
+            if (func_0200CA54((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
                 return -1;
         }
         if (v == 9) {
-            if (func_0200CA38(*(u32 *)(*(u32 *)ctx + 4)) == 0)
+            if (func_0200CA38((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
                 return -1;
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
                 return -1;
@@ -76,13 +77,13 @@ int func_021BE658(void *ctx_)
             return 0xb;
         }
         if (func_020362DC() & 8) {
-            if (func_0200CA54(*(u32 *)(*(u32 *)ctx + 4)) == 1) {
+            if (func_0200CA54((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 1) {
                 func_020355D8(0);
                 return 8;
             }
         }
         if (func_020362DC() & 4) {
-            if (func_0200CA38(*(u32 *)(*(u32 *)ctx + 4)) == 0)
+            if (func_0200CA38((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
                 return -1;
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
                 return -1;
@@ -94,7 +95,7 @@ int func_021BE658(void *ctx_)
                 return -1;
             if (func_020355C4() == 1) {
                 func_020355D8(0);
-                func_021B940C(*(u32 *)(ctx + 0xC2C));
+                func_021B940C((u8 *)(*(u32 *)(ctx + 0xC2C)));
             } else {
                 func_020355D8(0);
             }

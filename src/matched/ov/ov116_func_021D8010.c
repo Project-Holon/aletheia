@@ -36,7 +36,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(u32,int,int,u32,u32,u32,u32,int,u16,int);
-extern void func_0201F73C(u32,int,u16,int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *d);
 #define I(k) (*(u32 *)((char *)p+(k)))
 void func_021D8010(void *p,u32 a) {
@@ -46,6 +46,6 @@ void func_021D8010(void *p,u32 a) {
  func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)I(0x97c))),15);
  func_0201DD78(1,2,15);
  I(0x9a4)=(u32)func_0201CCE4(I(0x97c),0,0,I(0x9a0),I(0x998),func_02012FFC(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
- func_0201F73C(I(0x97c),1,I(0x984),13);
+ func_0201F73C((void *)I(0x97c),1,(u16)I(0x984),13);
  func_02045334((struct Descriptor *)I(0x97c));
 }

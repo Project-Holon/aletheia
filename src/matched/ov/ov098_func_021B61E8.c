@@ -49,14 +49,15 @@ extern void func_021F7544(void *,int,u16);
 extern void func_020307B0(void *);
 extern int func_021B613C(void *);
 extern int func_021F86E0(void);
-extern int func_02202058(int,int,int,int,int,u16);
+struct Obj;
+extern struct Obj *func_02202058(int a, int b, int c, int d, int e, u16 k);
 extern struct Tcbl *func_0203101C(u32,u16,u32,u32);
 extern int func_021B6140(void *);
 extern u32 func_021B6150(u8 *);
 extern u8 *func_021B67D4(void *,void *,void *,u32);
 extern void *func_02008254(u32);
 extern void func_021B6364(u8 *,u32);
-extern void func_021B644C(u8 *);
+extern int func_021B644C(char *p);
 #define P(k) (*(void **)(p+(k)))
 #define H(k) (*(u16 *)(p+(k)))
 u8 *func_021B61E8(void *input,u8 heap)

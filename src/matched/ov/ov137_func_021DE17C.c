@@ -20,7 +20,8 @@
 #include "../include/Obj23731.h"
 #include "../include/Obj23732.h"
 #include "../include/Obj23733.h"
-extern void *func_021DCF50(void *);
+typedef unsigned char  u8;
+extern void *func_021DCF50(u8 *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct WordSet;
@@ -33,15 +34,15 @@ void func_021DE17C(char *p, int command, int player) {
     if (((struct Obj02868 *)p)->f118 == 3) {
         switch (command) {
         case 1:
-            target = func_02184180(func_021DCF50(p), player);
+            target = func_02184180(func_021DCF50((u8 *)p), player);
             if (target != 0)
                 func_0201F02C(((struct Obj02868 *)p)->f3C, 0, target);
             ((struct Obj02868 *)p)->f118 = command;
-            ((struct Obj23729 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = func_021841A4(func_021DCF50(p));
+            ((struct Obj23729 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = func_021841A4(func_021DCF50((u8 *)p));
             ((struct Obj23730 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 = 0;
             return;
         case 19:
-            func_0201F02C(((struct Obj02868 *)p)->f3C, 0, func_02184180(func_021DCF50(p), player));
+            func_0201F02C(((struct Obj02868 *)p)->f3C, 0, func_02184180(func_021DCF50((u8 *)p), player));
             if (player != func_02039338()) {
                 if (func_02039338() == 0)
                     ((struct Obj23731 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 &= player ^ 0xffff;
@@ -52,7 +53,7 @@ void func_021DE17C(char *p, int command, int player) {
     } else {
         if (command == 1) {
             ((struct Obj23732 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 = 0;
-            ((struct Obj23733 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = func_021841A4(func_021DCF50(p));
+            ((struct Obj23733 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = func_021841A4(func_021DCF50((u8 *)p));
         }
     }
 }

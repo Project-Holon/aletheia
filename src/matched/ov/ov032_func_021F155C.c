@@ -36,7 +36,7 @@ extern u32 func_0207C768(u32 a, u32 b);
 #define FX32_CONST(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-void func_021F155C(char *p, u8 *e, u8 mode, u8 delay, int *r)
+void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r)
 {
     u8 *t;
 

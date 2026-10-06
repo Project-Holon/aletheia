@@ -21,7 +21,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216DD1C(u32 x, u8 **o, int *n);
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0216D948(int a0);
 extern int func_0216DFAC(int a0);
 extern void func_0216D780(void *a0);
@@ -35,7 +37,7 @@ void func_0216D2AC(u32 x)
 
     n = 0;
     if (func_0216D948(x)) {
-        while (func_0216DD1C(x, &o, &n) == 1) {
+        while (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1) {
             func_0216DFAC((int)o);
             func_0216D780(o);
             func_0216D568(o, k);

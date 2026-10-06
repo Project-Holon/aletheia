@@ -22,8 +22,10 @@ typedef signed short s16;
 typedef unsigned int   u32;
 struct Obj;
 extern void *func_021D6C58(u8 *p, int i);
-extern void func_0204B53C(void *,void *);
-extern void func_0204B528(void *,void *);
+struct Actor;
+struct Pt;
+extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
+extern void func_0204B528(struct Actor *actor, const struct Pt *src);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 void func_021D933C(u8 *p)
@@ -42,9 +44,9 @@ void func_021D933C(u8 *p)
         ((struct Obj05355 *)q)->f18=((struct Obj05355 *)q)->f18+((struct Obj05355 *)q)->f98;
         if(((struct Obj05355 *)q)->f18>=851968) ((struct Obj05355 *)q)->f18=-65536;
         sprite=func_021D6C58(((struct Obj02178 *)p)->f118,i+1);
-        func_0204B53C(sprite,xy);
+        func_0204B53C(sprite,(struct Pt *)xy);
         xy[1]=((struct Obj05355 *)q)->f18>>12;
-        func_0204B528(sprite,xy);
+        func_0204B528(sprite,(const struct Pt *)xy);
         if(xy[1]>=0 && xy[1]<=208) func_0204B3DC(sprite,1);
         else func_0204B3DC(sprite,0);
     }

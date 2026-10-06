@@ -16,13 +16,13 @@
 
 typedef unsigned int u32;
 
-void func_021A5304(u32 *p, u32 m);
-void func_021A530C(u32 *p, u32 m);
+int func_021A5304(u32 a, u32 b);
+int func_021A530C(u32 a, u32 b);
 
 void func_021A53A4(u32 *p, int on)
 {
     if (on == 1)
-        func_021A5304(p, 0x10);
+        func_021A5304((u32)p, 0x10);
     else
-        func_021A530C(p, 0x10);
+        func_021A530C((u32)p, 0x10);
 }

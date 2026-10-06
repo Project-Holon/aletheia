@@ -13,14 +13,16 @@
 #include "../include/Obj04778.h"
 
 typedef unsigned short u16;
-extern int func_02061860(void *p);
-extern int func_02061840(void *p, int v);
+typedef unsigned char  u8;
+extern int func_02061860(u8 *p);
+typedef unsigned int   u32;
+extern u32 func_02061840(u8 *p, u32 v);
 int func_02061B74(char *p)
 {
     int v;
-    if (func_02061860(p))
+    if (func_02061860((u8 *)p))
         return 0;
-    v = func_02061840(p, ((struct Obj04778 *)p)->fA);
+    v = func_02061840((u8 *)p, ((struct Obj04778 *)p)->fA);
     *(volatile u16 *)&((struct Obj04778 *)p)->fA = (u16)v;
     *(volatile u16 *)&((struct Obj04778 *)p)->fC = (u16)(*(volatile u16 *)&((struct Obj04778 *)p)->fC + 1);
     return 1;

@@ -73,7 +73,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_02008448(const void *p);
+extern unsigned int func_02008448(int a0);
 
 struct Rec44 {
     u8  unk00[0x18];
@@ -162,7 +162,7 @@ void func_02012B64(struct BigObj *p, u8 v)
     p->unk1CB = v;
 }
 
-u8 func_02012B70(const struct BigObj *p)
+int func_02012B70(const struct BigObj *p)
 {
     return p->unk1CC;
 }
@@ -187,14 +187,14 @@ u8 func_02012B98(const struct BigObj *p, u32 i)
     return p->unk1D0[i];
 }
 
-void func_02012BA4(struct BigObj *p, u32 i, u8 v)
+void func_02012BA4(struct BigObj *p, int i, u8 v)
 {
     p->unk1D0[i] = v;
 }
 
 u32 func_02012BB0(const struct BigObj *p)
 {
-    if (func_02008448(p->unk198) == 1) {
+    if (func_02008448((int)p->unk198) == 1) {
         return 1;
     }
     return 0;

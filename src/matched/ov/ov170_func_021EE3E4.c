@@ -16,7 +16,7 @@
 #include "../include/Obj24035.h"
 
 extern unsigned char *func_0202616C(void *obj, unsigned idx);
-extern void func_021EC08C(char *p, int i, unsigned short a, unsigned short b, unsigned short c);
+extern void func_021EC08C(char *p, int i, unsigned short a, int b, unsigned short c);
 
 void func_021EE3E4(char **p, unsigned idx)
 {

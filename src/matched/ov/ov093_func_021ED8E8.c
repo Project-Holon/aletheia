@@ -27,8 +27,9 @@ struct Q {
     u8 *f08;
 };
 
-extern void func_021ED798(void *p);
-extern int func_021ED814(void *p);
+struct S;
+extern void func_021ED798(struct S *s);
+extern int func_021ED814(struct S *s);
 struct TcblNode;
 extern void func_02031194(struct TcblNode *n);
 
@@ -36,11 +37,11 @@ void func_021ED8E8(int a,struct Q *q)
 {
     switch (q->f04) {
     case 0:
-        func_021ED798(q->f00 + 0x154);
+        func_021ED798((struct S *)(q->f00 + 0x154));
         q->f04++;
         break;
     case 1:
-        if (func_021ED814(q->f00 + 0x154) != 0) {
+        if (func_021ED814((struct S *)(q->f00 + 0x154)) != 0) {
             (*q->f08)--;
             func_02031194((struct TcblNode *)a);
         }

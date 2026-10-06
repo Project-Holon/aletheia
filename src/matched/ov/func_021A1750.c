@@ -25,11 +25,11 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Tagged;
 extern void func_02046EFC(struct Tagged *p);
-extern u32 func_020470D0(u32, u32, u32, u32);
+extern int func_020470D0(u32 *p);
 
 int func_021A1750(u32 a, u32 b, u32 c, u32 d)
 {
-func_020470D0(((struct Obj07217 *)((u8 *)(a)))->f8, b, c, d);
+func_020470D0((u32 *)(((struct Obj07217 *)((u8 *)(a)))->f8));
 func_02046EFC((struct Tagged *)(((struct Obj07217 *)((u8 *)(a)))->f8));
 ((struct Obj07217 *)((u8 *)(a)))->f8 = 0;
 ((struct Obj07217 *)((u8 *)(a)))->f6 = 0;

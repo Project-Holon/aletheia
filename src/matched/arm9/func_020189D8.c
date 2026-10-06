@@ -18,7 +18,7 @@ typedef signed char    s8;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern s8 func_020189F0(u8 nature, u32 stat);
 
-void func_020189D8(void *m, u32 a1)
+s8 func_020189D8(void *m, u32 a1)
 {
-    func_020189F0((u8)func_02017E88(m, 0x70, 0), a1);
+    return func_020189F0((u8)func_02017E88(m, 0x70, 0), a1);
 }

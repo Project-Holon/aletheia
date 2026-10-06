@@ -19,6 +19,7 @@ typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_02050ED4(void);
 extern void func_021D9960(char *p);
-extern void func_0203FC28(const void *);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern const unsigned d_021DF598[];
-void func_021D9790(char *p) { func_02040588(0,0);func_02050ED4();func_021D9960(p+12);func_0203FC28(d_021DF598); }
+void func_021D9790(char *p) { func_02040588(0,0);func_02050ED4();func_021D9960(p+12);func_0203FC28((struct DispConfig *)d_021DF598); }

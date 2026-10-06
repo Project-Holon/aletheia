@@ -63,12 +63,12 @@ extern u32 func_02012104(const struct Ctx *p);
 extern void *func_02012B38(const struct BigObj *p);
 extern u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
 extern u8 func_02012E40(const u8 *o);
-extern void func_021888C8(u8 *p);
+extern void func_021888C8(char *o);
 extern void func_0204A600(void);
 extern void func_02035648(void);
 extern u32 func_021892CC(u8 *a);
 extern int func_020120D8(char *a);
-extern void func_02168EEC(u32 a);
+extern void func_02168EEC(int a);
 extern void func_021BC484(u32 a);
 extern void func_021C7FAC(u32 a);
 extern void func_021A2EB8(u32 *a);
@@ -80,7 +80,7 @@ extern void func_021737A4(int a, int b);
 extern void func_0217AE20(int a0, int a1, int a2);
 extern void func_021A0D68(u32 *a);
 extern int func_0216CD64(int a0);
-extern void func_021BE258(u8 *p);
+extern void func_021BE258(void *p);
 extern void func_021ABE04(u32 a);
 extern void func_0217F914(u32 a);
 extern void func_021BB948(u8 *p);
@@ -99,7 +99,7 @@ int func_02188758(void *a, u8 *p)
     if (func_02012E40((const u8 *)(((struct Obj00518 *)p)->f8)) != 0)
         return 0;
     if (((struct Obj00518 *)p)->f140 != 0) {
-        func_021888C8(p);
+        func_021888C8((char *)p);
         func_0204A600();
         return 0;
     }
@@ -138,6 +138,6 @@ int func_02188758(void *a, u8 *p)
     func_02189004(p);
     func_021C8660(*func_02012ED0(((struct Obj00518 *)p)->f8));
     func_0204A600();
-    func_021888C8(p);
+    func_021888C8((char *)p);
     return 0;
 }

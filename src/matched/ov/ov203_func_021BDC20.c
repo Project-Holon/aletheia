@@ -13,7 +13,7 @@
  *   func_0204E6E0 0x0204E6E0 arm
  *   func_0202208C 0x0202208C thumb
  */
-extern void func_021BE948(void *, unsigned char, unsigned char *, unsigned char *);
+extern void func_021BE948(void *ctx, int mode, unsigned char *width, unsigned char *height);
 extern void func_02022268(unsigned);
 extern unsigned func_0204E6E0(void);
 extern void func_0202208C(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
@@ -22,7 +22,7 @@ int func_021BDC20(void *ctx, unsigned mode, unsigned heap)
     unsigned char width, height;
     unsigned char factor;
     int color;
-    func_021BE948(ctx, mode == 0, &width, &height);
+    func_021BE948(ctx, (unsigned char)(mode == 0), &width, &height);
     color = 0;
     if (width) color = 32767;
     func_02022268(color);

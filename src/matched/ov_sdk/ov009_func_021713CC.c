@@ -49,7 +49,7 @@ extern int func_02175F3C(void);
 extern unsigned char func_02175FB8(void);
 extern int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID);
 extern void DWCi_ClearMeshMakingTempInfo(void);
-extern struct DWCstNodeInfo *func_02176344(void);
+extern char *func_02176344(void);
 extern u64 func_020870D0(void);
 extern u8 func_02171524(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, u8 *newClientUserData, int meshReserve);
 
@@ -77,7 +77,7 @@ u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int conne
                 }
             } else {
                 if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 3) {
-                    pMyNodeInfo = func_02176344();
+                    pMyNodeInfo = (struct DWCstNodeInfo *)func_02176344();
                     if (profileID == ((struct DWCstMatchControl *)func_02175F3C())->f554) {
                         if (pMyNodeInfo->profileID >= profileID) {
                             sendCommand = 0xff;

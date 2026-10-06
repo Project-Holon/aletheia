@@ -32,7 +32,7 @@ extern void *func_02045770(struct Descriptor *a);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_020437EC(const struct Bmp *bmp);
-extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 
 void func_021D1430(u8 *p, u32 n)
 {

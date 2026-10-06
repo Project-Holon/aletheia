@@ -26,7 +26,8 @@ typedef struct {
 } Slot;
 
 extern Slot *D_0218A7C0;
-extern void *func_02049250(void *h, u32 id, u16 heap);
+struct ArcFile;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 
 void *func_0218A494(u8 *a)
 {
@@ -49,6 +50,6 @@ void *func_0218A494(u8 *a)
         x = ((struct Obj04408 *)a)->fA0;
     D_0218A7C0->id[i] = a[0x45];
     D_0218A7C0->ref[i]++;
-    D_0218A7C0->obj[i] = func_02049250(((struct Obj04408 *)a)->fA4, a[0x45], x);
+    D_0218A7C0->obj[i] = func_02049250(((struct Obj04408 *)a)->fA4, a[0x45], (u16)x);
     return D_0218A7C0->obj[i];
 }

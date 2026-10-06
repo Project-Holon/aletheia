@@ -27,7 +27,7 @@ struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0201AB28(void *p, u32 idx);
-extern int func_0202F488();
+extern int func_0202F488(int a0, int a1);
 extern void func_0202F630(u32 a, u32 b);
 
 int func_0216BEC0(int c, int vm)
@@ -59,7 +59,7 @@ int func_0216BEC0(int c, int vm)
         return 0;
     }
     obj = func_0201AB28((void *)r7, m);
-    if (func_0202F488(obj, t) == 0) {
+    if (func_0202F488((int)obj, t) == 0) {
         return 0;
     }
     func_0202F630((u32)obj, t);

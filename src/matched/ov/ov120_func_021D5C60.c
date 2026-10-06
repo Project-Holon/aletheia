@@ -41,7 +41,8 @@ extern void func_0202223C(u32, u32);
 extern void *func_02012EBC(struct Big *p);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
-extern u32 func_02008530(void *);
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0203CD98(void);
 extern void func_0203A574(u32, u32, u32, u32);
 extern const u32 d_021D88EC[];
@@ -73,7 +74,7 @@ int func_021D5C60(void *a, int unused, u8 *q)
     ((struct Obj01401 *)p)->f15C = zero;
     ((struct Obj01401 *)p)->f160 = 2;
     ((struct Obj01401 *)p)->f164 = 6;
-    ((struct Obj01401 *)p)->f14C = func_02008530(func_02012944(((struct Obj06435 *)q)->f0));
+    ((struct Obj01401 *)p)->f14C = func_02008530((const struct Sub0200852CObj *)func_02012944(((struct Obj06435 *)q)->f0));
     if (func_0203CD98())
         func_0203A574(0x2200, (u32)d_021D88EC, 3, (u32)p);
     func_0202208C(0, 1, 1, 0, 6, 1, ((struct Obj01401 *)p)->fC);

@@ -15,7 +15,8 @@
 #include "../include/Obj13942.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_0202D6F4(void **,int,int,u16);
+typedef unsigned int   u32;
+extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
 extern void func_0202D214(void *,u16);
 extern void func_020307B0(void *);
 unsigned func_021D94C4(int id,int heap)
@@ -27,7 +28,7 @@ unsigned func_021D94C4(int id,int heap)
     void *allocation;
     u8 *table;
     heap=(heap&32767)|32768;
-    allocation=func_0202D6F4(&object,id,0,heap);
+    allocation=(void *)func_0202D6F4(&object,(void *)id,(int)0,(u16)heap);
     func_0202D214(object,heap);
     for(row=11;row>=0;row--) {
         for(col=0;col<12;col++) {

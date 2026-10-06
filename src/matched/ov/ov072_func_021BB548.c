@@ -28,10 +28,10 @@ struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B95C(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_021BB49C(void *p);
+extern void func_021BB49C(void **p);
 extern u32 func_0204B98C(struct Actor *a);
 extern int func_021BA774(char *p, int i);
-extern u32  func_02013E4C(u16 a);
+extern u32 func_02013E4C(u32 id);
 extern void func_021BB448(u32 *p, u32 a, int x, int y);
 extern void func_0204B974(struct Actor *a);
 
@@ -42,11 +42,11 @@ void func_021BB548(u32 *p)
         func_0204B878((void *)p[4], 0);
         func_0204B95C((void *)p[4]);
         func_0204B3DC((void *)p[4], 1);
-        func_021BB49C(p);
+        func_021BB49C((void **)p);
         p[6] = 1;
     }
     if (p[6] != 0 && func_0204B98C((struct Actor *)p[4]) == 0) {
-        func_021BB448(p, func_02013E4C(func_021BA774((char *)p[5], 0)), 0x10, 2);
+        func_021BB448(p, func_02013E4C((u16)func_021BA774((char *)p[5], 0)), 0x10, 2);
         func_0204B974((void *)p[4]);
         p[6] = 0;
     }

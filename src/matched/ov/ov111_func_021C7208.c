@@ -25,11 +25,12 @@ static inline void GX_SetDispSelect(GXDispSelect sel)
     *(volatile u16 *)0x04000304 = (u16)((*(volatile u16 *)0x04000304 & ~0x8000) | (sel << 15));
 }
 
-extern void func_020433E0(const void *p);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern const unsigned char d_021C88FC[];
 
 void func_021C7208(void)
 {
-    func_020433E0(d_021C88FC);
+    func_020433E0((const struct DispVram *)d_021C88FC);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
 }

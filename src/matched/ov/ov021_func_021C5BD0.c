@@ -36,7 +36,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 void func_021C5C08(void);
 
-void *func_021C5BD0(void *a, u16 b, u32 c)
+void *func_021C5BD0(void *a, u32 b, u32 c)
 {
     void *t = func_020122C0(a, 0, func_021C5C08, 0x14);
     W *w = func_020124E8(t);

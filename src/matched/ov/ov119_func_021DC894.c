@@ -67,10 +67,10 @@ extern void func_021DC500(int a, char *p);
 extern void func_021E30EC(char *);
 extern void func_021D8E84(void *,int);
 extern void func_021E0B34(char *p);
-extern void func_021E10D8(void *);
-extern void func_021E3FE4(void *);
+extern void func_021E10D8(char *p);
+extern void func_021E3FE4(char *p);
 extern void func_021DC494(char *);
-extern void func_021E3C20(void *);
+extern void func_021E3C20(char *p);
 extern void func_021E3208(void *,int);
 extern void func_021DAC60(char *p);
 #define I(o) (*(int *)(p+(o)))

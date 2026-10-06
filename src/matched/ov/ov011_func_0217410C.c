@@ -41,10 +41,12 @@ struct Rec {
     u32 lo : 4;
 };
 
-extern void *func_02026478(void *);
+struct Entry;
+struct Link;
+extern u32 func_02026478(void *obj);
 extern u8 *func_020127B8(void *);
-extern void *func_020399A8(void);
-extern u32 func_0203D1A4(void *);
+extern struct Entry *func_020399A8(void);
+extern u32 func_0203D1A4(struct Link *p);
 extern int func_02175DA8(u8 *);
 extern void func_021763D8(u8 *, u32);
 extern void func_02175E30(void *, u8 *, struct Rec *);
@@ -60,7 +62,7 @@ void func_0217410C(int a0, int a1, u8 *b, u8 *s)
     int r7;
     int r6;
 
-    x = func_02026478(*(void **)(s + 4));
+    x = (void *)func_02026478(*(void **)(s + 4));
     y = func_020127B8(x);
     buf[1] = 0;
     flag = 0;
@@ -73,7 +75,7 @@ void func_0217410C(int a0, int a1, u8 *b, u8 *s)
     if (func_02175DA8(s + 0x1ac) == 1) {
         return;
     }
-    if (b[0x28] == func_0203D1A4(func_020399A8())) {
+    if (b[0x28] == func_0203D1A4((struct Link *)func_020399A8())) {
         if (b[0x37] == 1) {
             func_021763D8(y, ((struct Rec *)b)->lo);
             s[0x907] = 1;

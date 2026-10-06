@@ -56,13 +56,14 @@ struct Bank {
 };
 
 extern struct Bank gUnk_02148B20;
-extern void sub_020640B0(struct Cell *c);
+typedef signed int     s32;
+extern void sub_020640B0(s32 *tbl);
 
 void sub_02066B38(u32 idx)
 {
     struct Cell *c = &gUnk_02148B20.cells[idx];
 
-    sub_020640B0(c);
+    sub_020640B0((s32 *)c);
     c->unk_0c = 0;
     c->unk_10 = 0;
     c->unk_14 = 0;

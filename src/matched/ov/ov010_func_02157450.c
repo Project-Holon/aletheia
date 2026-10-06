@@ -83,9 +83,10 @@ extern void func_02013864(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
 extern void func_02013894(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
 extern void func_020137F0(u32 p0, u32 p1, u32 p2, u32 p3, u8 p4, u16 p5);
 extern void func_02013128(void *p, void *src, int i);
-extern void func_02013160(Obj *o, void *a, u32 b);
-extern void func_02013980(Obj *o, u32 heap);
-extern void func_02034714(void *a, int b, void *c);
+struct ZoneData;
+extern void func_02013160(u8 *o, void *a1, u32 a2);
+extern void func_02013980(struct ZoneData *o, u32 heap);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
 {
@@ -156,14 +157,14 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
         func_020137F0((u32)o, (u32)sys, (u32)func_020399A8(), 1, rec->f12, 4);
         break;
     default:
-        func_02034714(d_0217277C, 0, d_0217277C);
+        func_02034714((const char *)d_0217277C, 0, (const char *)d_0217277C);
         return 0;
     }
     func_02013128(o, rec->f00, 0);
-    func_02013160(o, rec->f14, 4);
+    func_02013160((u8 *)o, rec->f14, 4);
     o->f18 = rec->f10;
     w->fF8->f48 = dir;
     w->fF8->f4c = 0;
-    func_02013980(o, 1);
+    func_02013980((struct ZoneData *)o, 1);
     return task;
 }

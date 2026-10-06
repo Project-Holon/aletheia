@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021D77E8(u8 *p, u8 a, u8 b)
+void func_021D77E8(u8 *p, u32 a, u32 b)
 {
     p[0] = 0;
     ((struct Obj06483 *)p)->f4 = 0;

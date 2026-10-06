@@ -34,15 +34,16 @@ extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void func_02082BCC(void *,int,int);
 typedef unsigned int   u32;
 extern void func_0204335C(u32 keep);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_0201DD60(void);
 extern void func_021F651C(void *,unsigned);
-extern void func_021F65C0(void *,int,unsigned);
-extern void func_021F6630(void *,u16);
+extern void func_021F65C0(unsigned char *p, int a, u32 b);
+extern void func_021F6630(void **out, u16 heap);
 extern void func_021F6508(int,char *);
 extern void *func_020056A0(void (*)(int,char *),char *,unsigned);
 char *func_021F63CC(unsigned mode,u16 heap)
@@ -55,15 +56,15 @@ char *func_021F63CC(unsigned mode,u16 heap)
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
     func_0204335C(0);
-    func_020433E0(d_021F71C4);
+    func_020433E0((const struct DispVram *)d_021F71C4);
     func_0204363C(mode);
     func_0204361C();
     func_020434CC();
     func_02043588();
     func_0201DD60();
     func_021F651C(p,heap);
-    func_021F65C0(p+4,(int)d_021F71C4,heap);
-    func_021F6630(p+8,heap);
+    func_021F65C0((unsigned char *)(p+4),(int)d_021F71C4,heap);
+    func_021F6630((void **)(p+8),heap);
     ((struct Obj25749 *)p)->fC=func_020056A0(func_021F6508,p,0);
     return p;
 }

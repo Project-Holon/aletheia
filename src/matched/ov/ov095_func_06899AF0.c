@@ -57,7 +57,7 @@ extern int func_06899BA8(void);
 extern int func_06899BB8(int a, int b);
 extern int func_06899BC8(int a, u16 b);
 extern int func_06899BD0(u16 a);
-extern void func_06899E2C(Obj *o);
+extern void func_06899E2C(unsigned char *p);
 
 Obj *func_06899AF0(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7)
 {
@@ -79,6 +79,6 @@ Obj *func_06899AF0(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7)
     o->f92.b.hi = 0;
     o->f8f = 0;
     o->f14 = func_06899BD0(o->fac);
-    func_06899E2C(o);
+    func_06899E2C((unsigned char *)o);
     return o;
 }

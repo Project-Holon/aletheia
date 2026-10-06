@@ -26,7 +26,7 @@ extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a);
 struct Obj;
 extern void func_0200616C(void *arg, int i);
-extern char *func_02006138(int i);
+extern u32 *func_02006138(int i);
 extern void func_02006268(int i, u32 a, u32 b, u32 c);
 extern void func_02072F34(char *p, unsigned int v);
 extern void func_02073058(struct Obj *o, u32 v, u32 w);
@@ -40,7 +40,7 @@ void func_021FDB40(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f
     } else {
         func_0200616C((void *)a0, m);
     }
-    func_02072F34(func_02006138(m), e);
+    func_02072F34((char *)func_02006138(m), e);
     func_02006268(m, -1, -1, a2);
     func_02006268(m, -1, a3, -1);
     if (f) {

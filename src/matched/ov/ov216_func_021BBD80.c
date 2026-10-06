@@ -35,7 +35,8 @@ extern void func_0203064C(unsigned,unsigned,unsigned);
 extern char *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,int);
 extern void *func_021BC930(int,int);
-extern void func_021BBFEC(char *);
+typedef unsigned char  u8;
+extern void func_021BBFEC(u8 *p);
 extern void func_021BC0C8(char *);
 typedef unsigned short u16;
 extern void func_021BC1E4(char *p, u16 heap);
@@ -58,7 +59,7 @@ int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config)
     ((struct Obj00366 *)p)->f0=119;
     ((struct Obj00366 *)p)->f2=0x8077;
     ((struct Obj00366 *)p)->f50=func_021BC930(0,((struct Obj00366 *)p)->f0);
-    func_021BBFEC(p);
+    func_021BBFEC((u8 *)p);
     func_021BC0C8(p);
     func_021BC1E4(p,((struct Obj00366 *)p)->f0);
     func_021BC6D8(p);

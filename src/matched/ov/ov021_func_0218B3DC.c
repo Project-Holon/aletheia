@@ -27,12 +27,13 @@ typedef unsigned int   u32;
 struct Desc;
 int func_0218B32C(void *unused, int *st, char *ctx);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-Ent *func_020124E8(int h);
+struct Obj;
+void *func_020124E8(struct Obj *p);
 
 int func_0218B3DC(int unused, int a, int b, int c, int d)
 {
     int h = (int)func_020122C0((void *)a, 0, func_0218B32C, 0x10);
-    Ent *e = func_020124E8(h);
+    Ent *e = func_020124E8((struct Obj *)h);
     e->f8 = a;
     e->fC = b;
     e->f4 = c;

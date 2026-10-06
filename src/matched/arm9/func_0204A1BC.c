@@ -28,7 +28,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int         func_020490A8(int a0, int a1, int a2, int a3);
+extern u32 func_020490A8(u32 a, u32 b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 tag);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern int         func_020834C0(int a0, int a1);
@@ -42,10 +42,10 @@ int func_0204A1BC(int a0, int a1, int a2, int a3)
     int t2;
 
     if (a2 != 0) {
-        t = func_020490A8(a0, a1, a2, a3);
+        t = func_020490A8(a0, a1);
         r = (int)func_02030734((u16)((a3 & 0x7fff) | 0x8000), t, 0, sArcUtil3730, 1599);
     } else {
-        t = func_020490A8(a0, a1, a2, a3);
+        t = func_020490A8(a0, a1);
         r = (int)func_02030734(a3, t, 0, sArcUtil3730, 1603);
     }
     func_02048F4C((void *)r, a0, a1);

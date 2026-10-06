@@ -52,7 +52,7 @@ struct Oth {
 
 extern void *func_0203D788(void);
 extern void *func_0203D798(void);
-extern void func_02034714(const u8 *file, u32 line, const u8 *expr);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02037224(u32 state, u32 line);
 extern u32  func_02037258(void);
 extern void func_02038380(void);
@@ -78,7 +78,7 @@ void func_020385C4(void)
         if (func_02039160(0) == 0)
             return;
         if (o->f64 != 0)
-            func_02034714(str_020A7A24, 0x4d5, str_020A7A54);
+            func_02034714((const char *)str_020A7A24, 0x4d5, (const char *)str_020A7A54);
         if (g_020A7A20[0] == 4 && *(u32 *)((u8 *)g_021469D0 + 0x1ac) != 0
             && func_02038524() != 0)
             func_02037224(1, 0x4da);

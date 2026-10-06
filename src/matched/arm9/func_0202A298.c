@@ -28,7 +28,7 @@ struct ArcFile;
 extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void  func_02049238(void *h);
 
-u32 func_0202A298(u16 key, u16 want, u32 heap)
+u32 func_0202A298(u32 key, u32 want, u32 heap)
 {
     u16   rec[4];
     void *h;

@@ -39,7 +39,7 @@ extern u32 tbl_021BC134[];
 extern u16 tbl_021BC1C4[];
 extern u32 tbl_021BC184[];
 extern u32 func_020275E4(void);
-extern void *func_0202D7C8(u16 heap);
+extern int func_0202D7C8(int a0);
 extern u32 func_021BC0AC(void);
 extern u32 func_021BC0E0(void);
 struct MsgBank;
@@ -57,7 +57,7 @@ void func_021BBE5C(S *p)
             p->w[i] = func_020490F4(func_020275E4(), p->id);
             break;
         case 4:
-            p->w[i] = func_0202D7C8(p->id);
+            p->w[i] = (void *)func_0202D7C8(p->id);
             break;
         case 5:
             p->w[i] = func_020490F4(func_021BC0AC(), p->id);

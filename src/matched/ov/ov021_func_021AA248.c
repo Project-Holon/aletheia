@@ -64,7 +64,7 @@ extern u32 func_02012A38(const struct BigObj *p);
 extern void func_021AA728(struct Pos *p, void *q);
 extern u8 func_02193920(u8 *p);
 extern int func_021AA42C(void *a, void *b);
-extern int func_021AA35C(void *ctx, int mode, u8 *out);
+extern int func_021AA35C(void **ctx, int mode, u8 *out);
 extern u32 func_02188C6C(u8 *p);
 extern u16 func_021A1BF4(u8 *p);
 extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
@@ -95,7 +95,7 @@ int func_021AA248(struct Ctx *ctx, void *b)
         return 0;
     }
     loc = 0;
-    m = func_021AA35C(ctx, 3, &loc);
+    m = func_021AA35C((void **)ctx, 3, &loc);
     func_021A9350(&sel, ctx->f08, m, 3, func_021A1BF4((u8 *)func_02188C6C(ctx->f00)));
     func_02082BCC(slots, 0, 0x28);
     if (!func_021A9604((int)b, &sel, (struct Out *)slots)) {

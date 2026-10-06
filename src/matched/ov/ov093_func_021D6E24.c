@@ -14,7 +14,7 @@
  * prototype: reads r0 after func_0202142C, so returns the live wrapper result.
  */
 typedef unsigned int u32;
-extern u32 func_0202142C(int);
+extern unsigned short func_0202142C(int a0);
 extern void func_02017E40(void *, u32, u32);
 void func_021D6E24(void **p, int value)
 {

@@ -14,9 +14,9 @@
  */
 #include "../include/Obj03179.h"
 typedef unsigned short u16;
-extern u16 func_021BBB3C(char *p, u16 a, int b);
+extern unsigned short func_021BBB3C(char *p, int a, int b);
 int func_021BA774(char *p, int i) {
  if (i>=2 && i<=10) return *(int *)((unsigned int)p+(i-2)*4+12);
  if (i==12) return ((struct Obj03179 *)p)->f3C;
- return func_021BBB3C(*(char * *)&((struct Obj03179 *)p)->f4,((struct Obj03179 *)p)->f8,i);
+ return func_021BBB3C(*(char * *)&((struct Obj03179 *)p)->f4,(u16)(((struct Obj03179 *)p)->f8),i);
 }

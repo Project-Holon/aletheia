@@ -52,9 +52,12 @@ typedef struct {
 } W;
 
 extern int func_021BA774(W *p, int i);
-extern void func_02051F1C(struct Ball *b, struct Vec3 *c, int r);
-extern void func_0205207C(struct Seg *s, struct Vec3 *a, struct Vec3 *b, int pad);
-extern u32 func_02051F34(struct Seg *seg, struct Ball *b, void *out);
+struct Out;
+struct S12;
+struct Vec;
+extern void func_02051F1C(struct Ball *dst, struct Vec *src, unsigned radius);
+extern void func_0205207C(char *p, struct S12 *q, struct S12 *r, u32 v);
+extern u32 func_02051F34(struct Seg *seg, struct Ball *b, struct Out *out);
 
 u32 func_021BAA90(W *p, int *a, int *b)
 {
@@ -66,14 +69,14 @@ u32 func_021BAA90(W *p, int *a, int *b)
     v0.x = FX_F32_TO_FX32(a[0]);
     v0.y = FX_F32_TO_FX32(a[1]);
     v0.z = 0;
-    func_02051F1C(&ball, &v0, 0);
+    func_02051F1C(&ball, (struct Vec *)(&v0), 0);
     v0.x = FX_F32_TO_FX32(b[0] + func_021BA774(p, 6));
     v0.y = FX_F32_TO_FX32(b[1] + func_021BA774(p, 7));
     v0.z = 0;
     v1.x = FX_F32_TO_FX32(b[0] + func_021BA774(p, 8));
     v1.y = FX_F32_TO_FX32(b[1] + func_021BA774(p, 9));
     v1.z = 0;
-    func_0205207C(&seg, &v0, &v1, FX_F32_TO_FX32(func_021BA774(p, 10)));
+    func_0205207C((char *)(&seg), (struct S12 *)(&v0), (struct S12 *)(&v1), FX_F32_TO_FX32(func_021BA774(p, 10)));
     if (p->f40 != 0)
         return 0;
     return func_02051F34(&seg, &ball, 0);

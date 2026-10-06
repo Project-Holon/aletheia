@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *const d_021C1C88[];
-extern u32 func_021B98F8(u8 *, u8 *, u16 *, u32);
+extern u32 func_021B98F8(u8 *p, u16 *src, u16 *out, u32 n);
 void func_021B98A0(u8 *p) {
     u32 a = 0xF58;
     u32 b;
@@ -31,7 +31,7 @@ void func_021B98A0(u8 *p) {
     for (i=0; i<27; ++i) {
         u8 *src = d_021C1C88[i];
         *(u32 *)(p+i*4+a) = offset;
-        *(u32 *)(p+i*4+b) = func_021B98F8(p, src, (u16 *)(p+0xF58), offset);
+        *(u32 *)(p+i*4+b) = func_021B98F8(p, (u16 *)src, (u16 *)(p+0xF58), offset);
         offset += *(u32 *)(p+i*4+c);
     }
 }

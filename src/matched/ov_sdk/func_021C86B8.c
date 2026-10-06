@@ -17,7 +17,7 @@
  */
 
 extern char *func_021CF404(void);
-extern void func_021C0EA0(int, int *);
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 
 void func_021C86B8(void)
 {
@@ -26,7 +26,7 @@ void func_021C86B8(void)
     int v;
 
     func_021CF404();
-    func_021C0EA0(z, &v);
+    func_021C0EA0((unsigned int *)z, (unsigned int *)(&v));
     if (v == 0) {
         *(unsigned short *)(g + 4) = z;
         *(unsigned char *)g = z;

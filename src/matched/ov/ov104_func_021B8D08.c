@@ -12,4 +12,4 @@
  *   func_02082BCC 0x02082BCC arm
  */
 extern void func_02082BCC(void *,unsigned char,unsigned int);
-void func_021B8D08(unsigned int *p,unsigned int a,unsigned int b) { func_02082BCC(p,0,44); p[0]=a; p[1]=b; }
+void func_021B8D08(unsigned int *p, unsigned int a, int b) { func_02082BCC(p,0,44); p[0]=a; p[1]=b; }

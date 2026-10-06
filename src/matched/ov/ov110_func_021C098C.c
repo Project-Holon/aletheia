@@ -12,7 +12,10 @@
  *   data_021C39E0 0x021C39E0 data a4
  */
 #include "../include/Obj05299.h"
-extern void func_021C088C(void *,void *,void *,int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Rec;
+extern void func_021C088C(u16 *ang, u16 *out, struct Rec *recs, u8 count);
 extern unsigned short data_021C39E0[];
 void func_021C098C(char *p) {
     int v;
@@ -25,5 +28,5 @@ void func_021C098C(char *p) {
         if(v) ((struct Obj05299 *)p)->fC=0xfc00;
         else ((struct Obj05299 *)p)->fC=0x7c00;
     }
-    func_021C088C(p+0xc,p+0xe,data_021C39E0,3);
+    func_021C088C((u16 *)(p+0xc),(u16 *)(p+0xe),(struct Rec *)data_021C39E0,3);
 }

@@ -19,13 +19,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Q Q;
 typedef struct { u32 f0; u32 f4; u32 f8; u8 fC; u8 fD; u16 fE; u16 f10; u16 f12; u32 f14; u32 f18; } W;
-extern void func_021C7094(W *w);
+extern void func_021C7094(u32 *p);
 extern void func_021C70DC(W *w);
 int func_021C71A4(W *w)
 {
     switch (w->fC) {
     case 0:
-        func_021C7094(w);
+        func_021C7094((u32 *)w);
         w->fC++;
         break;
     case 1:

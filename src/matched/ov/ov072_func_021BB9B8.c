@@ -51,7 +51,8 @@ typedef struct {
 } Gfx;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_0204A48C(void *a, u32 b, u32 heap);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 struct Obj;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
@@ -80,7 +81,7 @@ void func_021BB9B8(Gfx *o, u32 mode, u32 heap)
     i = 0;
     func_02082BCC(o, 0, 0x24);
     t = d_021BBC0C;
-    func_0204A48C(&t, mode, heap);
+    func_0204A48C((const struct Cfg *)(&t), mode, heap);
     o->res = (u32)func_0204B100(0x80, 0, heap);
     func_0204B270((struct Bank *)o->res);
     func_020434DC(0x10, 1);

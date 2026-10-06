@@ -16,12 +16,13 @@
 #include "../include/Obj06489.h"
 typedef unsigned short u16;
 extern void *func_021F9DA0(char *p);
-extern void func_021F8044(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern void func_0207C9D0(void *, void *, void *);
 int func_021FAEA8(char *p, void *out)
 {
     int v[3];
-    func_021F8044(func_021F9DA0(((struct Obj06489 *)p)->f0), ((struct Obj06489 *)p)->f4, v);
+    func_021F8044(func_021F9DA0(((struct Obj06489 *)p)->f0), (u32 *)(((struct Obj06489 *)p)->f4), (u32 *)v);
     func_0207C9D0(v, p + 8, out);
     (((struct Obj06489 *)p)->f16)++;
     if (((struct Obj06489 *)p)->f16 >= ((struct Obj06489 *)p)->f14) return 1;

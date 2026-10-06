@@ -33,7 +33,8 @@ typedef struct Ctx {
 extern void func_0215716C(void *);
 extern void func_021F6888(void *);
 extern void func_020306F0(unsigned int);
-extern void func_02156F98(Ctx *);
+struct Stage;
+extern void func_02156F98(struct Stage *s);
 typedef signed int     s32;
 struct S020315D4;
 extern void func_02034A5C(s32 handle);
@@ -47,7 +48,7 @@ int func_02156EDC(void *a, int b, int c, Ctx **d)
         func_021F6888((*d)->f18);
         func_020306F0(0x2c);
         *(*d)->f08 = 2;
-        func_02156F98(*d);
+        func_02156F98((struct Stage *)(*d));
         func_02034A5C((u32)ov112_id);
     }
     func_020315D4(a);

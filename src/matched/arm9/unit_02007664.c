@@ -50,7 +50,8 @@ struct Sub02007664Header {
 
 extern struct Sub02007664Header *sub_020074CC(void *save);
 extern struct Sub02007664Entry  *sub_02007AF4(void *save, u32 box);
-extern void sub_02017550(struct Sub02007664Entry *entry);
+struct Sav;
+extern void sub_02017550(struct Sav *p);
 
 void sub_02007664(void *save, u32 box, u32 slot)
 {
@@ -60,7 +61,7 @@ void sub_02007664(void *save, u32 box, u32 slot)
         box = h->unk00;
     }
     if (slot < 30 && box < 0x18) {
-        sub_02017550(&sub_02007AF4(save, box)[slot]);
+        sub_02017550((struct Sav *)(&sub_02007AF4(save, box)[slot]));
     }
 }
 

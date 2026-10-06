@@ -27,14 +27,14 @@ typedef struct Q Q;
 typedef struct { u32 x, y, z; } V;
 extern u16 func_02188C84(u8 *p);
 extern Q *func_021C6C70(u32 heap, u32 size, void *fn);
-extern void *func_021C6CCC(Q *q);
+extern u32 func_021C6CCC(u8 *p);
 typedef struct { u8 f0; u32 f4; u32 f8; u32 fC; u8 pad[0xc]; V f1C; } X;
 extern int func_021C7B1C(X *x);
 static inline void set3(V *d, u32 x, u32 y, u32 z) { d->x = x; d->y = y; d->z = z; }
 Q *func_021C7AE4(u32 a, u32 b, const V *v)
 {
     Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x28, func_021C7B1C);
-    X *x = func_021C6CCC(q);
+    X *x = (X *)func_021C6CCC((u8 *)q);
     x->f0 = 0;
     x->f4 = a;
     x->f8 = 0;

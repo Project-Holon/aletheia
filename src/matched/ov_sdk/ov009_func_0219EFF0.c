@@ -16,12 +16,13 @@
  *   func_0219D8E0  0x0219D8E0  arm  ov009
  */
 
-extern void func_021A02E0(void *p);
+struct SBL;
+extern void func_021A02E0(struct SBL *slist);
 extern void func_0219D8E0(char *p);
 
 void func_0219EFF0(char *p)
 {
-    func_021A02E0(p + 0x60);
+    func_021A02E0((struct SBL *)(p + 0x60));
     func_0219D8E0(p);
 }
 

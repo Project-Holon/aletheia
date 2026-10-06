@@ -30,7 +30,8 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(int, int);
 extern void func_021BE580(int);
-extern int func_021F3DE4(int, unsigned char, unsigned char);
+typedef unsigned short u16;
+extern int func_021F3DE4(void *p, u16 delta, u16 i);
 
 void func_021F3D1C(int a)
 {
@@ -44,5 +45,5 @@ void func_021F3D1C(int a)
     r7 = func_0200B3A4((int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(a))), 2);
     func_021BE580(r6);
     for (i = 0; i < 4; i++)
-        r7[i] = func_021F3DE4(r6, i, r5[i + 0x21EC] + 1);
+        r7[i] = func_021F3DE4((void *)r6, (unsigned char)i, (unsigned char)(r5[i + 0x21EC] + 1));
 }

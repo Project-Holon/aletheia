@@ -26,7 +26,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204B404(void *, u16 *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -41,7 +43,7 @@ void func_021B7968(char *p)
     for (i = 0; i < 4; i++) {
         rect[0] = 0x2f;
         rect[1] = i * 24 + 0x50;
-        func_0204B404(*(void **)(p + i * 4 + 0x114), rect, 1);
+        func_0204B404(*(void **)(p + i * 4 + 0x114), (const struct Vec2 *)rect, 1);
         if (((struct Obj24182 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i >= *(u8 *)(p + off)) {
             func_0204B3DC(*(void **)(p + i * 4 + 0x114), 0);
         } else {

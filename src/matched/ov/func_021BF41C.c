@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
 
-void func_021BF41C(int unused, char *q)
+void func_021BF41C(int unused, char *q, u32 a2)
 {
     unsigned char i;
 

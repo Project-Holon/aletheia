@@ -63,17 +63,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 u8 *func_021B8514(u8 *p, u32 v, u8 *q, u16 *r, int flag);
-int func_021B854C(Ov021Mover *p, void *e, int dir, int a, int b, int len, int pos);
+int func_021B854C(u8 *p, u8 *a, u32 arg3, int arg4, int arg5, int arg6, int arg7);
 int func_021B8674(u8 *p, u32 *q, u32 v);
-int func_021B868C(void *map, void *e, void *row);
+int func_021B868C(u8 *p, u32 *q, void *v);
 u8 *func_021B87D8(u8 *p, u32 idx);
 int func_021B9278(void *e, int a, void *map);
-int func_021B9280(void *e, int v, int len, void *map);
-int func_021B9338(Ov021Mover *p, Ov021Seg *seg, int end, int dir);
+int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
+int func_021B9338(u8 *p, u8 *base, u32 arg3, int arg4);
 int func_021B93D4(int dir);
 int func_021B9404(int dir);
 int func_021B9434(int dir);
-void func_021B9530(void *t, Ov021Mover *p, int dx, int dy, int dir);
+void func_021B9530(u16 *t, u8 *p, int dx, int dy, int a6);
 int func_021B96AC(u8 *a, u8 *b);
 
 int func_021B88DC(Ov021Mover *p, int dir, int d)
@@ -96,9 +96,9 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
         e0 = func_021B8514(row, dir, p->f24, p->f28, flag);
         e1 = func_021B8514(row, func_021B9434(dir), p->f24, p->f28, flag);
         e2 = func_021B8514(row, func_021B9404(dir), p->f24, p->f28, flag);
-        func_021B9530(p->f28, p, d, 0, dir);
+        func_021B9530(p->f28, (u8 *)p, d, 0, dir);
         if (p->f0C < end) {
-            r = func_021B9280(seg, p->f0C, end, p->f24);
+            r = func_021B9280((u8 *)seg, p->f0C, end, p->f24);
             if (r >= (p->f14 < 0 ? -p->f14 : p->f14)) {
                 return dir;
             }
@@ -110,7 +110,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             func_021B96AC(row, p->f24);
             len = func_021B9278(e0, p->f1C, p->f24);
             pos = func_021B9280(e0, p->f0C - end, len, p->f24);
-            r = func_021B854C(p, e0, dir, p->f0C - end, p->f14, len, pos);
+            r = func_021B854C((u8 *)p, e0, dir, p->f0C - end, p->f14, len, pos);
             if (r != 0) {
                 return r;
             }
@@ -122,7 +122,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                 func_021B96AC(row, p->f24);
                 len = func_021B9278(e1, p->f1C, p->f24);
                 pos = func_021B9280(e1, -p->f14, len, p->f24);
-                r = func_021B854C(p, e1, dir, -p->f14, p->f0C - end, len, pos);
+                r = func_021B854C((u8 *)p, e1, dir, -p->f14, p->f0C - end, len, pos);
                 if (r != 0) {
                     return r;
                 }
@@ -132,7 +132,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                 func_021B96AC(row, p->f24);
                 len = func_021B9278(e1, p->f1C, p->f24);
                 pos = func_021B9280(e1, len + p->f14, len, p->f24);
-                r = func_021B854C(p, e1, dir, len + p->f14, -(p->f0C - end), len, pos);
+                r = func_021B854C((u8 *)p, e1, dir, len + p->f14, -(p->f0C - end), len, pos);
                 if (r != 0) {
                     return r;
                 }
@@ -145,7 +145,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                 func_021B96AC(row, p->f24);
                 len = func_021B9278(e2, p->f1C, p->f24);
                 pos = func_021B9280(e2, p->f14, len, p->f24);
-                r = func_021B854C(p, e2, dir, p->f14, -(p->f0C - end), len, pos);
+                r = func_021B854C((u8 *)p, e2, dir, p->f14, -(p->f0C - end), len, pos);
                 if (r != 0) {
                     return r;
                 }
@@ -155,14 +155,14 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                 func_021B96AC(row, p->f24);
                 len = func_021B9278(e2, p->f1C, p->f24);
                 pos = func_021B9280(e2, len - p->f14, len, p->f24);
-                r = func_021B854C(p, e2, dir, len - p->f14, p->f0C - end, len, pos);
+                r = func_021B854C((u8 *)p, e2, dir, len - p->f14, p->f0C - end, len, pos);
                 if (r != 0) {
                     return r;
                 }
             }
         }
         if (flag) {
-            return func_021B9338(p, seg, end, dir);
+            return func_021B9338((u8 *)p, (u8 *)seg, end, dir);
         }
         if (p->f0C <= end) {
             return dir;
@@ -182,9 +182,9 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
         e1 = func_021B8514(row, r, p->f24, p->f28, flag);
         e2 = func_021B8514(row, func_021B9434(dir), p->f24, p->f28, flag);
         e0 = func_021B8514(row, dir, p->f24, p->f28, flag);
-        func_021B9530(p->f28, p, -d, 0, dir);
+        func_021B9530(p->f28, (u8 *)p, -d, 0, dir);
         if (p->f0C >= 0) {
-            r = func_021B9280(seg, p->f0C, end, p->f24);
+            r = func_021B9280((u8 *)seg, p->f0C, end, p->f24);
             if (r >= (p->f14 < 0 ? -p->f14 : p->f14)) {
                 return dir;
             }
@@ -196,7 +196,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             func_021B96AC(row, p->f24);
             len = func_021B9278(e0, p->f1C, p->f24);
             pos = func_021B9280(e0, len - (p->f0C < 0 ? -p->f0C : p->f0C), len, p->f24);
-            r = func_021B854C(p, e0, dir, len - (p->f0C < 0 ? -p->f0C : p->f0C), p->f14, len, pos);
+            r = func_021B854C((u8 *)p, e0, dir, len - (p->f0C < 0 ? -p->f0C : p->f0C), p->f14, len, pos);
             if (r != 0) {
                 return r;
             }
@@ -208,7 +208,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                 func_021B96AC(row, p->f24);
                 len = func_021B9278(e1, p->f1C, p->f24);
                 pos = func_021B9280(e1, -p->f14, len, p->f24);
-                r = func_021B854C(p, e1, dir, -p->f14, p->f0C, len, pos);
+                r = func_021B854C((u8 *)p, e1, dir, -p->f14, p->f0C, len, pos);
                 if (r != 0) {
                     return r;
                 }
@@ -218,7 +218,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                 func_021B96AC(row, p->f24);
                 len = func_021B9278(e1, p->f1C, p->f24);
                 pos = func_021B9280(e1, len + p->f14, len, p->f24);
-                r = func_021B854C(p, e1, dir, len + p->f14, -p->f0C, len, pos);
+                r = func_021B854C((u8 *)p, e1, dir, len + p->f14, -p->f0C, len, pos);
                 if (r != 0) {
                     return r;
                 }
@@ -231,7 +231,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                 func_021B96AC(row, p->f24);
                 len = func_021B9278(e2, p->f1C, p->f24);
                 pos = func_021B9280(e2, p->f14, len, p->f24);
-                r = func_021B854C(p, e2, dir, p->f14, -p->f0C, len, pos);
+                r = func_021B854C((u8 *)p, e2, dir, p->f14, -p->f0C, len, pos);
                 if (r != 0) {
                     return r;
                 }
@@ -242,19 +242,19 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                 func_021B96AC(row, p->f24);
                 len = func_021B9278(e2, p->f1C, p->f24);
                 pos = func_021B9280(e2, len - p->f14, len, p->f24);
-                r = func_021B854C(p, e2, dir, len - p->f14, p->f0C, len, pos);
+                r = func_021B854C((u8 *)p, e2, dir, len - p->f14, p->f0C, len, pos);
                 if (r != 0) {
                     return r;
                 }
             }
         }
         if (flag) {
-            return func_021B9338(p, seg, end, dir);
+            return func_021B9338((u8 *)p, (u8 *)seg, end, dir);
         }
         p->f0C = p->f0C + d;
         return 0;
     } else if (dir == func_021B9404(seg->f08)) {
-        func_021B9530(p->f28, p, 0, d, dir);
+        func_021B9530(p->f28, (u8 *)p, 0, d, dir);
         if (p->f14 > 0 && p->f14 % 16 == 0) {
             void *row;
             void *e;
@@ -270,7 +270,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                     func_021B96AC(row, p->f24);
                     len = func_021B9278(e, p->f1C, p->f24);
                     pos = func_021B9280(e, p->f14, len, p->f24);
-                    r = func_021B854C(p, e, dir, p->f14, -p->f0C, len, pos);
+                    r = func_021B854C((u8 *)p, e, dir, p->f14, -p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -281,7 +281,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                     func_021B96AC(row, p->f24);
                     len = func_021B9278(e, p->f1C, p->f24);
                     pos = func_021B9280(e, len - p->f14, len, p->f24);
-                    r = func_021B854C(p, e, dir, len - p->f14, p->f0C, len, pos);
+                    r = func_021B854C((u8 *)p, e, dir, len - p->f14, p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -296,7 +296,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                     func_021B96AC(row2, p->f24);
                     len = func_021B9278(e2, p->f1C, p->f24);
                     pos = func_021B9280(e2, p->f14, len, p->f24);
-                    r = func_021B854C(p, e2, dir, p->f14, end - p->f0C, len, pos);
+                    r = func_021B854C((u8 *)p, e2, dir, p->f14, end - p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -307,7 +307,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                     func_021B96AC(row2, p->f24);
                     len = func_021B9278(e2, p->f1C, p->f24);
                     pos = func_021B9280(e2, len - p->f14, len, p->f24);
-                    r = func_021B854C(p, e2, dir, len - p->f14, -(end - p->f0C), len, pos);
+                    r = func_021B854C((u8 *)p, e2, dir, len - p->f14, -(end - p->f0C), len, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -315,11 +315,11 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             }
         }
         if (p->f14 > 0 && p->f14 <= p->f18) {
-            return func_021B9338(p, seg, end, dir);
+            return func_021B9338((u8 *)p, (u8 *)seg, end, dir);
         }
         return dir;
     } else if (dir == func_021B9434(seg->f08)) {
-        func_021B9530(p->f28, p, 0, -d, dir);
+        func_021B9530(p->f28, (u8 *)p, 0, -d, dir);
         if (p->f14 < 0 && (p->f14 < 0 ? -p->f14 : p->f14) % 16 == 0) {
             void *row;
             void *e;
@@ -336,7 +336,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                     func_021B96AC(row, p->f24);
                     lenA = func_021B9278(e, p->f1C, p->f24);
                     pos = func_021B9280(e, (p->f14 < 0 ? -p->f14 : p->f14), lenA, p->f24);
-                    r = func_021B854C(p, e, dir, (p->f14 < 0 ? -p->f14 : p->f14), p->f0C, lenA, pos);
+                    r = func_021B854C((u8 *)p, e, dir, (p->f14 < 0 ? -p->f14 : p->f14), p->f0C, lenA, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -347,7 +347,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                     func_021B96AC(row, p->f24);
                     len = func_021B9278(e, p->f1C, p->f24);
                     pos = func_021B9280(e, len - (p->f14 < 0 ? -p->f14 : p->f14), len, p->f24);
-                    r = func_021B854C(p, e, dir, len - (p->f14 < 0 ? -p->f14 : p->f14), -p->f0C, len, pos);
+                    r = func_021B854C((u8 *)p, e, dir, len - (p->f14 < 0 ? -p->f14 : p->f14), -p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -361,7 +361,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                     func_021B96AC(row2, p->f24);
                     lenB = func_021B9278(e2, p->f1C, p->f24);
                     pos = func_021B9280(e2, (p->f14 < 0 ? -p->f14 : p->f14), lenB, p->f24);
-                    r = func_021B854C(p, e2, dir, (p->f14 < 0 ? -p->f14 : p->f14), -(end - p->f0C), lenB, pos);
+                    r = func_021B854C((u8 *)p, e2, dir, (p->f14 < 0 ? -p->f14 : p->f14), -(end - p->f0C), lenB, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -372,7 +372,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
                     func_021B96AC(row2, p->f24);
                     len = func_021B9278(e2, p->f1C, p->f24);
                     pos = func_021B9280(e2, len - (p->f14 < 0 ? -p->f14 : p->f14), len, p->f24);
-                    r = func_021B854C(p, e2, dir, len - (p->f14 < 0 ? -p->f14 : p->f14), end - p->f0C, len, pos);
+                    r = func_021B854C((u8 *)p, e2, dir, len - (p->f14 < 0 ? -p->f14 : p->f14), end - p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -380,7 +380,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             }
         }
         if (p->f14 < 0 && (p->f14 < 0 ? -p->f14 : p->f14) <= p->f18) {
-            return func_021B9338(p, seg, end, dir);
+            return func_021B9338((u8 *)p, (u8 *)seg, end, dir);
         }
         return dir;
     }

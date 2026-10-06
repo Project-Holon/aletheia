@@ -15,7 +15,8 @@
  *   func_02173B44  0x02173B44  thumb ov011
  */
 
-int func_0203D1C0(unsigned char a);
+typedef unsigned int   u32;
+u32 func_0203D1C0(u32 index);
 int func_02173AE0(int a, int b, int c, int d);
 int func_02173B44(void *p, int i, int v);
 
@@ -25,7 +26,7 @@ void func_02174BC4(unsigned char *p)
 
     for (i = 0; i < 3; i++) {
         if (p[i + 0x945] != 0) {
-            if (func_0203D1C0(i) == 1) {
+            if ((int)func_0203D1C0((unsigned char)i) == 1) {
                 if (func_02173AE0((int)p, i, 2, p[i + 0x945]) == 1) {
                     p[i + 0x945] = 0;
                 }
@@ -36,7 +37,7 @@ void func_02174BC4(unsigned char *p)
     }
     for (i = 0; i < 3; i++) {
         if (p[i + 0x948] != 0) {
-            if (func_0203D1C0(i) == 1) {
+            if ((int)func_0203D1C0((unsigned char)i) == 1) {
                 if (func_02173B44(p, i, p[i + 0x948]) == 1) {
                     p[i + 0x948] = 0;
                 }

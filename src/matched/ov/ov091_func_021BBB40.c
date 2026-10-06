@@ -36,7 +36,7 @@ typedef struct Tbl {
 } Tbl;
 
 extern Tbl d_021BEC80;
-extern void func_021BBC04(u8 *a, u8 *b, Tbl *t);
+extern void func_021BBC04(u8 *p, u8 *s, int *items);
 extern void func_020355D8(u32 a);
 struct TaskMenu;
 struct TaskMenuTmpl;
@@ -47,7 +47,7 @@ void func_021BBB40(u8 *a, u8 *b)
     Req r;
     Tbl t = d_021BEC80;
 
-    func_021BBC04(a, b, &t);
+    func_021BBC04(a, b, (int *)(&t));
     r.heap = ((struct Obj07734 *)a)->f0;
     r.v = b[0];
     r.p = b + 0x14;

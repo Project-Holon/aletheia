@@ -19,9 +19,10 @@
 typedef unsigned int u32;
 
 extern void func_021EEFA4(int *a, char *p);
-extern void func_021EF014(void *p, void *q);
+typedef unsigned char  u8;
+extern void func_021EF014(u8 *a, u8 *b);
 extern int func_021EF1AC(char *p, char *q);
-extern void func_021EF1F4(void *p, void *q);
+extern int func_021EF1F4(const u8 *a, u8 *b);
 extern char *g_0214616C;
 
 void func_021EEE78(void *p)
@@ -29,7 +30,7 @@ void func_021EEE78(void *p)
     char *q = g_0214616C + 0xc4;
 
     func_021EEFA4(p, q);
-    func_021EF014(p, q);
+    func_021EF014(p, (u8 *)q);
     func_021EF1AC(p, q);
-    func_021EF1F4(p, q);
+    func_021EF1F4(p, (u8 *)q);
 }

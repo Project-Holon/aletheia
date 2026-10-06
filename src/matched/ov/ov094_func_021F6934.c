@@ -37,7 +37,7 @@ typedef struct {
     char sub[0x10];     /* 0xa4 */
 } Obj;
 
-extern int func_02047910(void *a, u16 idx, int amount);
+extern int func_02047910(void *a, int idx, int amount);
 extern void func_021F9364(void *p);
 
 void func_021F6934(Obj *o)
@@ -67,7 +67,7 @@ void func_021F6934(Obj *o)
                     break;
                 }
                 if (amt != 0)
-                    func_02047910(o->h[j], i, amt);
+                    func_02047910(o->h[j], (u16)i, amt);
             }
         }
     }

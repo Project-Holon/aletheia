@@ -20,9 +20,9 @@
  *       --func func_021D6DF4 --addr 0x021D6DF4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021D6DC4(void *);
+extern void func_021D6DC4(void *pos, void *ob);
 
-void func_021D6DF4(char *p)
+void func_021D6DF4(char *p, void *ob)
 {
-    func_021D6DC4(p + 8);
+    func_021D6DC4(p + 8, ob);
 }

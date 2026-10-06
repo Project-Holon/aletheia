@@ -49,7 +49,7 @@ typedef struct {
     s8 table;
 } E;
 
-extern E *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 extern void *func_0219E348(void *a);
 extern void func_0219E354(u32);
 extern void func_021B8028(u32, void *);
@@ -76,7 +76,7 @@ int func_0219E0A8(u32 o)
     V3 v;
     s32 z[3];
 
-    e = func_0216D6D4(o);
+    e = func_0216D6D4((void *)o);
     e->count--;
     if (e->speed != 0) {
         a = (u32)func_0219E348((void *)o);

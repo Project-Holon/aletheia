@@ -43,7 +43,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(u32,u32,u32);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_0201F73C(void *,u32,u16,u32);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
@@ -59,7 +59,7 @@ void func_021D5ED8(u8 *p,u32 n) {
     func_02043B5C(func_02045770(w),15);
     func_0201DD78(1,2,15);
     func_0201C7A4(func_02045770(w),0,0,((struct Obj01720 *)p)->f28,((struct Obj01720 *)p)->f24);
-    func_0201F73C(w,1,((struct Obj01720 *)p)->f4,12);
+    func_0201F73C(w,(u32)1,(u16)(((struct Obj01720 *)p)->f4),(u32)12);
     func_02045334(w);
     func_02045374(w);
     func_02041B6C(func_021D5FC4(((struct Obj01720 *)p)->f50));

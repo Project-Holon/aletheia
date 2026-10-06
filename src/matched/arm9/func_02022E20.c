@@ -40,8 +40,8 @@ extern void func_02023BFC(u32 a0, u32 a1, u32 a2);
 extern void func_02023C3C(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub);
 extern void func_02023D18(void *obj, void *val, u32 f4, u32 f8, u32 fC);
 extern void func_02023D40(void *obj, void *val, u32 f4, u32 f8);
-extern void func_02023D60(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
-                          u32 a6);
+typedef unsigned char  u8;
+extern void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 
 void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
                    u32 a7, u32 a8, u32 a9)
@@ -53,6 +53,6 @@ void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
     } else {
         func_02023D18((void *)a0, (void *)a1, 0, a3, a4);
         func_02023D40((void *)a0, (void *)a2, 0, a4);
-        func_02023D60(a0, a5, a6, a7, a8, a3, a4);
+        func_02023D60((u8 *)a0, a5, a6, a7, a8, a3, a4);
     }
 }

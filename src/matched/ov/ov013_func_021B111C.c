@@ -50,11 +50,12 @@ struct AdpcmState;
 extern int func_021B1498(unsigned int i);
 extern Voice *func_021B14A8(u8 id);
 extern void func_021B043C(struct AdpcmState *hdr, void *dst, int n, int mode);
-extern void func_021B1634(void *src, void *dst, u32 n, int fmt);
-extern void func_021B16B4(void *src, void *dst, u32 n, int fmt);
+struct Node;
+extern void func_021B1634(unsigned char *src, short *dst, unsigned int n);
+extern void func_021B16B4(signed char *src, short *dst, unsigned int n, int fmt);
 struct Node;
 extern u32 func_021B14F8(struct Node *n);
-extern int func_021B1810(Voice *v, u32 idx);
+extern int func_021B1810(struct Node *n, u32 idx);
 extern void func_021B2FE4(void *p);
 extern int func_02087988(void);
 extern void func_0208799C(int);
@@ -82,12 +83,12 @@ int func_021B111C(void)
         if (fmt >= 2)
             func_021B043C(q->f474, q->buf, q->f14, fmt);
         else if (fmt == 1)
-            func_021B1634(q->f474, q->buf, q->f14, fmt);
+            func_021B1634(q->f474, (short int *)q->buf, q->f14);
         else
-            func_021B16B4(q->f474, q->buf, q->f14, fmt);
+            func_021B16B4(q->f474, (short int *)q->buf, q->f14, fmt);
         q->f474 = q->buf;
         func_021B14F8((struct Node *)q);
-        if (func_021B1810(q, q->f11) < 0)
+        if (func_021B1810((struct Node *)q, q->f11) < 0)
             func_021B2FE4(q);
     }
     func_0208799C(irq);

@@ -52,8 +52,8 @@ extern void func_0216D9A0(void *);
 extern u32 func_02188C54(u8 *p);
 extern int func_021904B0(u32 a, u32 b);
 extern int func_02190F64(int, int);
-extern void func_02190E74(int, int, int, int);
-extern int func_02190EF0(int);
+extern void func_02190E74(u32 *p, u32 b, u32 c, u32 d);
+extern u32 func_02190EF0(u32 *p);
 extern int func_02190E40(u32 a);
 extern void func_02045C04(struct Rec *rec);
 extern int func_02188BE8(void *);
@@ -80,11 +80,11 @@ int func_0217B82C(int a0, int *state, Work *w)
         hnd = func_02188C54(obj);
         w->f0 = func_021904B0(hnd, 0x2D);
         w->f4 = func_02190F64(hnd, w->f0);
-        func_02190E74(w->f4, 0, 0, 0x60);
+        func_02190E74((u32 *)w->f4, 0, 0, 0x60);
         (*state)++;
         break;
     case 1:
-        if (func_02190EF0(w->f4) == 1) {
+        if (func_02190EF0((u32 *)w->f4) == 1) {
             func_02190E40(w->f4);
             func_02045C04((struct Rec *)w->f0);
             (*state)++;

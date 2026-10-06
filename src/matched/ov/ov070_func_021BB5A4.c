@@ -16,5 +16,6 @@
 typedef unsigned short u16;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
-extern int func_021B61C8(void *);
-void func_021BB5A4(char *p) { if (((struct Obj00002 *)p)->f80C == 2 || ((struct Obj00002 *)p)->f80C == 3 || func_021B61C8(p) <= 1) func_0204B878(((struct Obj00002 *)p)->f72C, 4); else func_0204B878(((struct Obj00002 *)p)->f72C, 0); }
+typedef unsigned char  u8;
+extern int func_021B61C8(u8 *p);
+void func_021BB5A4(char *p) { if (((struct Obj00002 *)p)->f80C == 2 || ((struct Obj00002 *)p)->f80C == 3 || func_021B61C8((u8 *)p) <= 1) func_0204B878(((struct Obj00002 *)p)->f72C, 4); else func_0204B878(((struct Obj00002 *)p)->f72C, 0); }

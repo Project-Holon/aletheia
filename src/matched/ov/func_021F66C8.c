@@ -21,14 +21,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_02049250(u32 a, u32 b, u16 c, u32 d);
+struct ArcFile;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 struct NitroFileHeader;
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_020307B0(void *p);
 
 u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 blk = func_02049250(a, b, (u16)d, d);
+    u32 blk = (u32)func_02049250((struct ArcFile *)a, b, (u16)d);
 
     if (blk != 0 && func_02062A4C((struct NitroFileHeader *)blk, (void **)c) == 0) {
         func_020307B0((void *)blk);

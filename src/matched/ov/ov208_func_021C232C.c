@@ -14,7 +14,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int BOOL;
-extern void func_021C2430(char *);
+typedef unsigned char  u8;
+extern void func_021C2430(u8 *p);
 #define REG32(a) (*(volatile u32 *)(a))
 #define REG16(a) (*(volatile u16 *)(a))
 static inline void GX_SetVisibleWnd(int window)
@@ -57,5 +58,5 @@ void func_021C232C(char *p)
     G2_SetWnd0InsidePlane(31, 1);
     G2_SetWnd1InsidePlane(31, 1);
     G2_SetWndOutsidePlane(31, 0);
-    func_021C2430(p);
+    func_021C2430((u8 *)p);
 }

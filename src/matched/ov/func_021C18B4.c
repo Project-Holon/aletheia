@@ -23,13 +23,13 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int sub_0203CD98(int a);
+extern int sub_0203CD98(void);
 
 int func_021C18B4(int a, int b)
 {
     int r = b;
 
-    if (sub_0203CD98(a) == 0) {
+    if (sub_0203CD98() == 0) {
         r = 2;
     }
 

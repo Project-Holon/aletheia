@@ -19,8 +19,8 @@
 
 void func_021B9BA0(void *p)
 {
-    void func_021B6B38(void *);
-    func_021B6B38((char *)p + 8);
+    void func_021B6B38(void **p);
+    func_021B6B38((void **)((char *)p + 8));
 }
 
 typedef unsigned char  u8;

@@ -30,16 +30,16 @@ typedef struct {
     int f40;
 } W;
 
-extern int func_021BA774(W *p, int i);
+extern int func_021BA774(char *p, int i);
 extern void func_021BAA30(W *p, int a);
-extern void func_021BADBC(W *p, int v);
+extern void func_021BADBC(char *p, int v);
 
 void func_021BADF4(W *p)
 {
     int r;
 
     r = 0;
-    if (func_021BA774(p, 11) == 4 || func_021BA774(p, 11) == 5) {
+    if (func_021BA774((char *)p, 11) == 4 || func_021BA774((char *)p, 11) == 5) {
         r = 1;
         if (p->f40 != 0) {
             r = 0;
@@ -47,7 +47,7 @@ void func_021BADF4(W *p)
     }
     if (p->f38 != 0 || r != 0) {
         func_021BAA30(p, 1);
-        func_021BADBC(p, p->f31);
+        func_021BADBC((char *)p, p->f31);
     } else {
         func_021BAA30(p, 0);
     }

@@ -52,9 +52,9 @@ extern int func_02175F3C(void);
 extern u64 func_020870D0(void);
 extern int func_0216B908(void);
 extern int func_0217603C(void);
-extern struct DWCstNodeInfo *func_0217637C(int index);
+extern char *func_0217637C(int index);
 extern struct DWCstNodeInfo *func_02176344(void);
-extern int func_0216FF2C(u8 command, int profileID, u32 ip, u16 port, u32 *data, int len);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int func_021719A4(int error);
 
 int func_0217576C(int immediate)
@@ -78,9 +78,9 @@ int func_0217576C(int immediate)
     sendData[1] = func_0216B908();
     sendData[2] = ((struct DWCstMatchControl *)func_02175F3C())->f7c8;
     for (i = 0; i < func_0217603C(); i++) {
-        pNodeInfo = func_0217637C(i);
+        pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
         if (pNodeInfo != func_02176344()) {
-            result = func_0216FF2C(0x83, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, sendData, 3);
+            result = func_0216FF2C(0x83, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, (const unsigned int *)sendData, 3);
             if (func_021719A4(result))
                 return -1;
         }

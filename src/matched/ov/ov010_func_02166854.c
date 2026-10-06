@@ -57,9 +57,9 @@ extern u8 func_020095C8(const struct Sub02009470Obj *obj);
 extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
 struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
-extern void func_02166908();
+extern int func_02166908(void *a, int *st);
 
-void *func_02166854(void *a, u8 b, u32 c, u32 d, u32 e)
+void *func_02166854(void *a, int b, u32 c, u32 d, u32 e)
 {
     void *task;
     struct Task *t;

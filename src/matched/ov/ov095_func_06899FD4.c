@@ -32,7 +32,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_06899E68(void);
-extern void func_06899E48(void *, void *, void *);
+struct Q;
+extern void func_06899E48(struct Q *p, void *a, void *b);
 extern void func_06899E2C(void);
 extern int func_0689A878(int unused, u8 *s);
 extern int func_0689A84C(u32 unused, u32 p);
@@ -46,7 +47,7 @@ void func_06899FD4(void)
 
 void func_06899FDC(u8 *p)
 {
-    func_06899E48(p, 0, (void *)((struct Obj21890 *)p)->f68);
+    func_06899E48((struct Q *)p, 0, (void *)((struct Obj21890 *)p)->f68);
 }
 
 void func_06899FE8(u8 *p, u32 a, u32 b)
@@ -54,14 +55,14 @@ void func_06899FE8(u8 *p, u32 a, u32 b)
     ((struct Obj10164 *)p)->f6C = a;
     ((struct Obj10164 *)p)->f70 = b;
     ((struct Obj10164 *)p)->f98 = 0;
-    func_06899E48(p, (void *)func_0689A878, (void *)func_0689A84C);
+    func_06899E48((struct Q *)p, (void *)func_0689A878, (void *)func_0689A84C);
 }
 
 void func_0689A008(u8 *p, u32 a, u32 b)
 {
     ((struct Obj13634 *)p)->f6C = a;
     ((struct Obj13634 *)p)->f70 = b;
-    func_06899E48(p, (void *)func_0689B0D4, (void *)func_0689B1E4);
+    func_06899E48((struct Q *)p, (void *)func_0689B0D4, (void *)func_0689B1E4);
 }
 
 void func_0689A020(void)

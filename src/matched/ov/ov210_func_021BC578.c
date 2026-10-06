@@ -28,7 +28,7 @@ extern void func_02043598(u32 a, u32 b);
 extern void func_020403F4(u32 a);
 extern void func_0203F9B4(void);
 
-void func_021BC578(void)
+void func_021BC578(u32 a0)
 {
     func_020434DC(15, 0);
     func_02043598(15, 0);

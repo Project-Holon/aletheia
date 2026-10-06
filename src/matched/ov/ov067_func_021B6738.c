@@ -34,9 +34,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern int func_02062B30(void *p, u8 **out);
-extern int func_0204169C(u8 a);
+extern int func_0204169C(int channel);
 extern int func_0204162C(u8 a);
 extern void func_020410D0(u8 index, u32 a1, u32 a2, u32 a3, u8 a4, void *a5, u8 a6,
                           u8 a7, u8 a8, u8 a9);
@@ -56,7 +56,7 @@ void func_021B6738(u32 a0, u32 a1, u32 a2, u32 a3,
     h = func_0204A380((void *)a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
     func_02062B30(h, &out);
     if (a3 != 0) {
-        if (func_0204169C(a2) == 0) {
+        if (func_0204169C((u8)a2) == 0) {
             arr = (u16 *)(out + 0xc);
             for (i = 0; i < k2 * k3; i++) {
                 arr[i] += a3;

@@ -18,7 +18,7 @@
 #include "../include/Obj00000.h"
 typedef struct { short x, y; int b, c, d, e; short f, g; } Desc;
 extern const Desc d_021EFD1C;
-extern unsigned char func_021DEB14(unsigned char *, signed char);
+extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EC08C(char *, int, short, short, short);
 extern void func_021EDB64(char *, int, int);
 typedef signed short   s16;
@@ -32,7 +32,7 @@ void func_021ED9C8(char *p)
     short i;
     int a, y;
     for (i = 0; i < 6; i++) {
-        a = func_021DEB14((unsigned char *)p, i - 1);
+        a = func_021DEB14((unsigned char *)p, (signed char)(i - 1));
         t = base;
         y = i * 0x22;
         t.y += (short)y;

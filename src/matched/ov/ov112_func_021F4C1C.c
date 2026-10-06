@@ -22,21 +22,21 @@ typedef short s16;
 typedef struct { u16 flags,zero; u32 id,index,type; int x,y,z; s16 a,b; u8 *data; } Entry;
 typedef struct { u32 pad; void *board; Entry *entries; u8 *table; } Object;
 typedef struct { u8 x,y; } Pair;
-extern u16 func_021F4B54(Object *);
+extern u16 func_021F4B54(u32 p);
 extern u16 func_021F4AA8(int);
 extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
-extern void func_021F4AC8(Entry *,u8 *,u8 *);
+extern void func_021F4AC8(u8 *p, u8 *a, u8 *b);
 extern Entry *func_021F4C94(Object *,u16,int *,s16,s16);
 Entry *func_021F4C1C(Object *p, int type, u32 id, int *v)
 {
     int index;
     Pair pair;
-    index=func_021F4B54(p);
+    index=func_021F4B54((u32)p);
     p->entries[index].type=func_021F4AA8(type);
     p->entries[index].data=func_021F4F54(p->table,type);
     func_021F4F70((int *)p->entries[index].data);
-    func_021F4AC8(&p->entries[index],&pair.y,&pair.x);
+    func_021F4AC8((u8 *)(&p->entries[index]),&pair.y,&pair.x);
     p->entries[index].id=id;
     p->entries[index].flags=p->entries[index].flags & ~16;
     func_021F4C94(p,index,v,pair.y,pair.x);

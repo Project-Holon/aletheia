@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor; struct CharBuf; struct Cfg; struct Tcbl; struct U16Vec;
 extern const char d_021DFBA0[];
-extern void *func_02030734(u16 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
 extern struct U16Vec *func_020457B0(u32 capacity, u16 heapId);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -46,7 +46,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_02028470(u8 *p, u32 v);
-void *func_021D9D4C(u32 a, u8 b, void *c, void *d, u16 heap)
+void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
 {
     u8 *p;
     struct Descriptor *q;

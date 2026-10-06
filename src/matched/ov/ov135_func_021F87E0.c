@@ -15,7 +15,8 @@ typedef unsigned int u32;
 typedef struct { u32 id; int coords; } Entry;
 extern const Entry tbl_0220301C[], tbl_02202FC4[];
 extern void *func_0201F81C(u32 n, u32 heap);
-extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
+struct Slot;
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 int func_021F87E0(void **menu, void *msg, int kind)
 {
     const Entry *table;
@@ -25,7 +26,7 @@ int func_021F87E0(void **menu, void *msg, int kind)
     else { table = tbl_02202FC4; count = 11; }
     *menu = func_0201F81C(count, 0x48);
     for (i = 0; i < count; i++) {
-        func_0201F878(*menu, msg, table[i].id, i, 0x48);
+        func_0201F878(*menu, (u32)msg, table[i].id, i, 0x48);
     }
     return count;
 }

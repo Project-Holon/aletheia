@@ -50,10 +50,10 @@ extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Obj0203159C *,u32,u32);
 extern void func_02082BCC(void *,int,int);
 extern void func_021B78EC(u8 *,int);
-extern void func_021B7D28(u8 *,int,u32);
+extern void func_021B7D28(unsigned *p, int mode, u16 heap);
 extern u32 func_02012138(const struct Ctx *);
 extern void func_021B7DF0(u8 *,u32,u32,u8,u8,u8,u8,u16);
-extern void func_0201F73C(void *,int,u16,int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_021B8E90(u8 *,int);
 extern void func_021B8030(u8 *,void *,int,u8 *,s16,s16,u16);
 extern void func_021B7F1C(u8 *,void *,int,int,s16);
@@ -73,7 +73,7 @@ extern void func_021B63CC(int *,int);
 extern void func_0207D658(u32,int,int);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021B8F08(void *,u8 *);
-extern void func_021B817C(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B817C(char *p, u32 v);
 extern void func_021B8198(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
 int func_021B7560(struct Obj0203159C *obj,void *state,u8 *context) {
@@ -83,10 +83,10 @@ int func_021B7560(struct Obj0203159C *obj,void *state,u8 *context) {
  func_02082BCC(p,0,0x8b4);
  CTX(p)=context;
  func_021B78EC(p,0x38);
- func_021B7D28(p+0xbc,0,0x38);
+ func_021B7D28((unsigned int *)(p+0xbc),0,(u32)0x38);
  if(*(void **)CTX(p)) func_02012138(*(struct Ctx **)CTX(p));
  func_021B7DF0(p+0xcc,5,1,18,30,5,8,0x38);
- func_0201F73C(((struct Obj07986 *)p)->fCC,0,((struct Obj07986 *)p)->f0,6);
+ func_0201F73C(((struct Obj07986 *)p)->fCC,0,(u16)(((struct Obj07986 *)p)->f0),6);
  func_021B8E90(p+0x7cc,0x38);
  if(*(void **)CTX(p)) func_021B8030(p+0xcc,p+0xbc,0,*(u8 **)(CTX(p)+8),0,0,0x38);
  else func_021B7F1C(p+0xcc,p+0xbc,0,0,0);
@@ -108,6 +108,6 @@ int func_021B7560(struct Obj0203159C *obj,void *state,u8 *context) {
  func_021B63CC(*(int **)(CTX(p)+4),1);
  func_0207D658(0x04000050,0x22,-8);
  ((struct Obj07986 *)p)->f8A4=func_020056A0((u32)func_021B8F08,(u32)p,0);
- func_021B817C(p,func_021B8198);
+ func_021B817C((char *)p,(u32)func_021B8198);
  return 1;
 }

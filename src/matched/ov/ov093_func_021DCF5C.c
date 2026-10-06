@@ -18,5 +18,6 @@
 typedef unsigned short u16;
 struct QI;
 extern u16 func_021D5B40(struct QI *p);
-extern void *func_021DCEC4(void *,unsigned short);
-void *func_021DCF5C(void *p) { int k; k=func_021D5B40(p); if(k) return func_021DCEC4(p,k); return 0; }
+typedef unsigned int   u32;
+extern void *func_021DCEC4(void *a, u32 k);
+void *func_021DCF5C(void *p) { int k; k=func_021D5B40(p); if(k) return func_021DCEC4(p,(unsigned short)k); return 0; }

@@ -14,11 +14,11 @@
  */
 #include "../include/Obj14257.h"
 
-extern void func_02183D34(int *, int);
+extern void func_02183D34(unsigned int *p, unsigned int v);
 
 void func_02183D0C(int *p, int a, int b)
 {
     *p = a;
     ((struct Obj14257 *)p)->fC = 0;
-    func_02183D34(p, b);
+    func_02183D34((unsigned int *)p, b);
 }

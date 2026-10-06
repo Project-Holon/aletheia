@@ -24,7 +24,7 @@ typedef unsigned char u8;
 extern void func_0204E720(u32, int, int, int);
 extern int func_0204E804(void);
 extern u32 func_021B7FF0(u8 *);
-extern int func_021B8100(void *, void *);
+extern int func_021B8100(u8 *p, u8 *q);
 extern void func_021B7918(u8 *);
 struct Obj;
 extern int func_021B63D0(struct Obj *p);
@@ -57,8 +57,8 @@ int func_021B77B0(void *unused, u32 *state, int unused2, char *p)
         return 1;
     }
     if (func_021B7FF0((u8 *)(p + 0x174)) != 0) {
-        func_021B8100(p + 0x184, p + 0x174);
-        func_021B8100(p + 0x748, p + 0x174);
+        func_021B8100((u8 *)(p + 0x184), (u8 *)(p + 0x174));
+        func_021B8100((u8 *)(p + 0x748), (u8 *)(p + 0x174));
     }
     func_021B7918((u8 *)p);
     func_021B63D0(((struct Obj22175 *)(*(u8 * *)&((struct Obj10240 *)p)->fB0C))->f4);

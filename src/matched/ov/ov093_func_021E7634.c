@@ -36,7 +36,7 @@ struct UtilWork;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern Word func_021E89C0(u32);
-extern u8 *func_021C88A4(int, int, int);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
@@ -54,7 +54,7 @@ void func_021E7634(int a, int b, int c)
         flag = 0;
         if (func_021C8374((u8 *)b, k) == 0) {
             if (func_021C8234((u8 *)b, k) != 0 && func_021D62C4(x, 0x21) == 0) {
-                p = func_021C88A4(b, 12, c);
+                p = func_021C88A4((char *)b, 12, c);
                 p[15] = k;
                 ((struct Obj02139 *)p)->f4 = 0x1f;
                 *(Word *)(p + 8) = func_021E89C0(0x1f);
@@ -63,7 +63,7 @@ void func_021E7634(int a, int b, int c)
                 func_021C88C8((void *)b, p);
                 flag = 1;
                 if (func_021D62C4(x, 0x1e) != 0) {
-                    p = func_021C88A4(b, 11, c);
+                    p = func_021C88A4((char *)b, 11, c);
                     p[20] = 1;
                     p[8] = k;
                     p[21] = 1;
@@ -71,7 +71,7 @@ void func_021E7634(int a, int b, int c)
                     func_021C88C8((void *)b, p);
                 }
                 if (func_021D62C4(x, 0x20) != 0) {
-                    p = func_021C88A4(b, 11, c);
+                    p = func_021C88A4((char *)b, 11, c);
                     p[20] = 1;
                     p[8] = k;
                     p[21] = 1;
@@ -80,7 +80,7 @@ void func_021E7634(int a, int b, int c)
                 }
             }
             if (func_021D5BDC(x, 3) != 0) {
-                p = func_021C88A4(b, 0x36, c);
+                p = func_021C88A4((char *)b, 0x36, c);
                 p[4] = k;
                 *(int *)(p + 8) = 3;
                 if (flag == 0) {

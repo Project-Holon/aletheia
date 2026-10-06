@@ -36,7 +36,8 @@ typedef struct {
     u8 bits4:4;
 } State;
 extern u8 *func_02012944(void *);
-extern int func_02008550(void *);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
@@ -54,7 +55,7 @@ void func_021BE6F0(char *p, int a, int b)
     q = func_02012944(((struct Obj01051 *)p)->fC4);
     (*(State * *)&((struct Obj01051 *)p)->f8)->f15 = 0x15;
     (*(State * *)&((struct Obj01051 *)p)->f8)->f16 = 2;
-    t = func_02008550(q);
+    t = (int)func_02008550(q);
     (*(State * *)&((struct Obj01051 *)p)->f8)->bits2 = t;
     (*(State * *)&((struct Obj01051 *)p)->f8)->f14 = func_02008554(q);
     func_021C1908(p, a, b);

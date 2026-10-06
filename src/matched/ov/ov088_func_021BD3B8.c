@@ -25,12 +25,12 @@ typedef struct {
     u8 f7;
 } Req;
 
-extern void func_020071A8(void *);
+extern int func_020071A8(int a0);
 
 void func_021BD3B8(Req *r)
 {
     if (r->f7 == 0 && r->_4 != 3) {
-        func_020071A8(r->p0);
+        func_020071A8((int)r->p0);
         r->f7 = 1;
     }
 }

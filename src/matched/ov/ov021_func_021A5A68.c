@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 
 extern int func_021A3974(u32 a);
 extern int func_021A5C3C(u8 *p, u32 a, u32 b, u32 c, u32 d);
-extern int func_021A6014(u8 *p, u32 a, u32 b, u32 c, u32 d);
-extern int func_021A64B4(u8 *p, u32 a, u32 b, u32 c, u32 d);
+extern int func_021A6014(int *a, int b, int c, int d, int e);
+extern int func_021A64B4(int *a, int b, int c, int d, int e);
 
 int func_021A5A68(u8 *p, u32 a, u32 b, u32 c, u32 d)
 {
@@ -37,11 +37,11 @@ int func_021A5A68(u8 *p, u32 a, u32 b, u32 c, u32 d)
         r = func_021A5C3C(p, b, c, (u16)a, d);
         break;
     case 1:
-        r = func_021A6014(p, b, c, (u16)a, d);
+        r = func_021A6014((int *)p, b, c, (u16)a, d);
         break;
     case 2:
     case 3:
-        r = func_021A64B4(p, b, c, (u16)a, d);
+        r = func_021A64B4((int *)p, b, c, (u16)a, d);
         break;
     }
     return r;

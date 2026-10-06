@@ -63,8 +63,8 @@ typedef struct {
     int m528;               /* 0x528 */
 } Work;
 
-extern int func_021FFD9C(Work *w, int key);
-extern int func_022019F4(Work *w, int key);
+extern int func_021FFD9C(char *p, int key);
+extern int func_022019F4(char *p, int key);
 extern void func_02016374(void *h);
 extern void func_02014C08(char *self);
 extern u32 func_0203F0A8(void);
@@ -72,12 +72,12 @@ extern int func_021F935C(int x);
 extern int func_021FF2D8(Work *w, int key);
 extern void func_021FF870(Work *w, int key, int kind, int a, int b);
 extern int func_021F7EB4(void);
-extern int func_021FFF38(Work *w, int key);
+extern int func_021FFF38(char *p, int key);
 extern int func_021F821C(int key, int *a, int *b);
 extern void func_021FFE24(Work *w, int key);
 extern void func_021FF260(Work *w, int key, int mode);
 extern void func_021FF304(Work *w, int key, int mode);
-extern void func_021FF498(Work *w, int key, int v);
+extern void func_021FF498(char *p, int key, void *v);
 extern void func_021FFDF8(Work *w, int key, int a, int b);
 
 void func_021FEBAC(Work *w)
@@ -90,8 +90,8 @@ void func_021FEBAC(Work *w)
     int b;
 
     for (i = 0; i < 8; i++) {
-        if (func_021FFD9C(w, i)) {
-            k = func_022019F4(w, i);
+        if (func_021FFD9C((char *)w, i)) {
+            k = func_022019F4((char *)w, i);
             if (w->e[k].f11) {
                 w->e[k].f11 = 0;
                 func_02016374(w->e[k].h);
@@ -101,14 +101,14 @@ void func_021FEBAC(Work *w)
     func_02014C08(w->obj);
     if (w->f510 == 0) {
         for (i = 0; i < 8; i++) {
-            if (func_021FFD9C(w, i)
+            if (func_021FFD9C((char *)w, i)
                 && (u32)(((u64)func_0203F0A8() * 100) >> 32) == 0
                 && (func_021F935C(i) & w->m528) == 0
                 && func_021FF2D8(w, i) == 0)
                 func_021FF870(w, i, 2, 4, 1);
-            if (func_021FFD9C(w, i) == 0)
+            if (func_021FFD9C((char *)w, i) == 0)
                 continue;
-            idx = func_022019F4(w, i);
+            idx = func_022019F4((char *)w, i);
             flag = 0;
             if (func_021F7EB4() && w->e[idx].f8) {
                 w->e[idx].f8 = 0;
@@ -117,7 +117,7 @@ void func_021FEBAC(Work *w)
             if (func_021F7EB4() && w->e[idx].f7)
                 continue;
             w->e[idx].f7 = 0;
-            if (func_021FFF38(w, i) & 4)
+            if (func_021FFF38((char *)w, i) & 4)
                 continue;
             if (func_021F821C(i, &a, &b) == 0)
                 continue;
@@ -137,7 +137,7 @@ void func_021FEBAC(Work *w)
                 func_021FFE24(w, i);
                 func_021FF260(w, i, 3);
                 func_021FF304(w, i, 3);
-                func_021FF498(w, i, 0x555);
+                func_021FF498((char *)w, i, (void *)0x555);
                 w->e[idx].f1 = 1;
                 break;
             case 1:
@@ -175,7 +175,7 @@ void func_021FEBAC(Work *w)
                     func_021FFE24(w, i);
                     func_021FF260(w, i, 4);
                     func_021FF304(w, i, 3);
-                    func_021FF498(w, i, 0x1000);
+                    func_021FF498((char *)w, i, (void *)0x1000);
                     w->e[idx].f1 = 0;
                     w->e[idx].f54 = 0;
                     w->e[idx].f50 = 0;
@@ -185,9 +185,9 @@ void func_021FEBAC(Work *w)
             }
             if (b == 8) {
                 if ((u32)(a - 2) <= 1)
-                    func_021FF498(w, i, 0x555);
+                    func_021FF498((char *)w, i, (void *)0x555);
                 else
-                    func_021FF498(w, i, 0x1000);
+                    func_021FF498((char *)w, i, (void *)0x1000);
             }
         }
     }

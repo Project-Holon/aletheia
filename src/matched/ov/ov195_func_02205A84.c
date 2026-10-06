@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern void func_020403F4(u32 i);
 extern char d_02208D1C[];
 
-void func_02205A84(void)
+void func_02205A84(int a0)
 {
     unsigned int i;
     for (i = 0; i < 6; i++)

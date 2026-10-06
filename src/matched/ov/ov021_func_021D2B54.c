@@ -69,13 +69,15 @@ extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
-extern void func_0203F4CC(RtcTime *t);
+struct RtcTime;
+struct Sub0200852CObj;
+extern void func_0203F4CC(struct RtcTime *time);
 extern u32 func_020056EC(u32 v);
 extern void *func_02012F2C(int *p);
 extern const Entry d_021DD774[];
 extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern int func_02008550(u32 a);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_021D2CE8(void *a, int i);
 extern u32 func_021D2D24(void *a, u32 v, int c);
 
@@ -111,7 +113,7 @@ int func_021D2B54(u32 a, u32 b)
             break;
         }
     }
-    func_0203F4CC(&t);
+    func_0203F4CC((struct RtcTime *)(&t));
     if (t.minute < 10) {
         base = 0;
         k = func_020056EC(0x1D);
@@ -138,7 +140,7 @@ int func_021D2B54(u32 a, u32 b)
             }
         }
         if (k < 11) {
-            if ((u8)func_02008550(name) == 1) {
+            if ((u8)(int)func_02008550((const struct Sub0200852CObj *)name) == 1) {
                 k += 11;
             }
         } else {

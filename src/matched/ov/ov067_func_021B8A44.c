@@ -30,7 +30,7 @@ struct S {
     int f80;
 };
 
-extern int func_02035CB8(int *a, int *b);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern u32 func_0202EDE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
 u32 func_021B8A44(struct S *s)
@@ -38,7 +38,7 @@ u32 func_021B8A44(struct S *s)
     int a;
     int b;
 
-    if (func_02035CB8(&a, &b) == 0)
+    if (func_02035CB8((u32 *)(&a), (u32 *)(&b)) == 0)
         b = s->f80;
     s->f80 = -1;
     return func_0202EDE4(s->f64, b, s->f7d, s->f7e, s->f12);

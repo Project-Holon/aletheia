@@ -27,8 +27,9 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02025404(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern u32 func_02025508(u32 a1, u32 a2, u32 a3);
+typedef signed int     s32;
+extern s32 func_02025404(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
+extern unsigned int func_02025508(int a0, int a1, int a2);
 struct PalAnmSlot;
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 

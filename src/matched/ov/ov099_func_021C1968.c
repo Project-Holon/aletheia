@@ -31,7 +31,7 @@ typedef struct {
 
 extern void func_021C27E8(void *a, int v);
 extern void func_021C2864(void *a, int v);
-extern void func_021BE6E4(Work *w);
+extern void func_021BE6E4(char *s);
 extern void func_021C27E0(void *a);
 
 void func_021C1968(Work *w)
@@ -39,6 +39,6 @@ void func_021C1968(Work *w)
     w->f248->f46 = 1 - w->f248->f46;
     func_021C27E8(w->f8, w->f248->f46);
     func_021C2864(w->f8, w->f248->f46);
-    func_021BE6E4(w);
+    func_021BE6E4((char *)w);
     func_021C27E0(w->f8);
 }

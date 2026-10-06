@@ -41,7 +41,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern s32 func_02033CA8(struct AreaMan *p, u32 len);
 
-int func_02050238(void *p, u16 b, int c)
+u32 func_02050238(void *p, u32 b, u32 c)
 {
     int idx = func_02033CA8((struct AreaMan *)(((struct Obj08867 *)p)->f14), 1);
 

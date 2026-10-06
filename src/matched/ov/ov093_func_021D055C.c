@@ -26,7 +26,8 @@ struct S2;
 extern u8 func_021B9B94(struct Q1 *p);
 extern u32 func_021B8588(void **p);
 extern u8 func_021D7F2C(u32 a, u8 b);
-extern int func_021CFBBC(void *g, u8 k);
+typedef signed char    s8;
+extern int func_021CFBBC(s8 *p, int v);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D0644(void *g, void *m, void *a, int b);
 
@@ -38,7 +39,7 @@ int func_021D055C(u8 *g, void *a, int b)
     n = func_021B9B94(((struct Obj00340 *)g)->f118);
     i = func_021D7F2C(func_021B8588(((struct Obj00340 *)g)->f0), g[0x11c]);
     for (; i < n; i++) {
-        if (func_021CFBBC(g, i) == 0) {
+        if (func_021CFBBC((s8 *)g, (u8)i) == 0) {
             if (func_021D0644(g, func_021B9C00(((struct Obj00340 *)g)->f118, (u8)i), a, b))
                 return 1;
         }

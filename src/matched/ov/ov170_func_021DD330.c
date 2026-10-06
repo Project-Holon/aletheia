@@ -18,7 +18,7 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern int func_021DD2D0(void ***p, int a, unsigned b);
-extern void func_021EDAB0(void *,int);
+extern void func_021EDAB0(char *p, int i);
 typedef unsigned int   u32;
 struct Mon;
 struct Party;
@@ -41,5 +41,5 @@ void func_021DD330(unsigned char *p,unsigned short *q,unsigned short *t)
     func_020075B0((*(void ***)p)[1],box,q[2],func_020185F4(func_0201AB28((*(void ***)p)[2],slot)));
     func_0201AB48((*(void ***)p)[2],slot,m);
     func_020307B0(m);
-    func_021EDAB0(p,box);
+    func_021EDAB0((char *)p,box);
 }

@@ -39,9 +39,10 @@ extern void *sub_02030734(u32, u32, int, const char *, u16);
 extern void func_0216D51C(u8 *p, u32 v);
 extern void func_0219CAD8(void *, u32);
 extern void func_0219CBE0(u8 *o);
-extern void func_0219D2CC(void *);
+struct Blk3;
+extern void func_0219D2CC(int *obj);
 extern u32 func_02050080(u32 *p);
-extern void func_0204ED70(u32, T12 *);
+extern void func_0204ED70(u8 *dst, struct Blk3 *src);
 extern void func_0204EDB0(u8 *dst, u8 *src);
 
 void func_0219C554(u32 a, u32 b, u32 c)
@@ -56,10 +57,10 @@ void func_0219C554(u32 a, u32 b, u32 c)
     func_0216D51C((u8 *)a, (u32)p);
     func_0219CAD8(p, c);
     func_0219CBE0(p);
-    func_0219D2CC(p);
+    func_0219D2CC((int *)p);
     h = func_02050080((u32 *)b);
     t = d_021D8058;
-    func_0204ED70(h, &t);
+    func_0204ED70((u8 *)h, (struct Blk3 *)(&t));
     z = 0;
     func_0204EDB0((u8 *)h, &z);
 }

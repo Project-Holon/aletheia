@@ -43,11 +43,20 @@ extern const u32 sounds[];
 extern int func_02005E50(void),func_02005E64(void),func_02005E9C(void),func_02005F38(void),func_0204E804(void);
 extern void func_02005DE4(void*),func_02005D90(u32,u16),func_02005DF8(u32);
 extern void func_0204E720(u32,int,int,int);
-extern u32 func_020362DC(void),func_02035D20(u32*,u32*),func_0201C4E4(void*);
+struct Cfg;
+struct Obj;
+struct PrintSys;
+extern u32 func_020362DC(void);
+extern u32 func_02035D20(u32*,u32*);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 struct Descriptor;
-extern void func_020355D8(u8),func_02045334(struct Descriptor *),func_02045374(void*),func_02041B6C(u32);
+extern void func_020355D8(u8);
+extern void func_02045334(struct Descriptor *);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(u32);
 extern u8 func_02045730(struct Descriptor *p);
-extern void func_021BA01C(void*),func_021BA1CC(char*);
+extern void func_021BA01C(struct Obj *o);
+extern void func_021BA1CC(char*);
 int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
 {
     u32 x,y;
@@ -95,7 +104,7 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
         }
         ((struct Obj03379 *)p)->f80=1;
     }
-    func_021BA01C(p);
+    func_021BA01C((struct Obj *)p);
     func_021BA1CC(*(char * *)&((struct Obj03379 *)p)->f8);
     return 0;
 }

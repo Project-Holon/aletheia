@@ -43,7 +43,7 @@ extern void *func_02188CB4(unsigned char *p);
 extern u32 func_021A30C8(void **ctx);
 extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
-extern u32  func_021AB37C(u32 a);
+extern int func_021AB37C(u32 id);
 extern u32 func_02188D58(u8 *p);
 extern u8 func_020140D8(struct Sub020140BCObj *p);
 

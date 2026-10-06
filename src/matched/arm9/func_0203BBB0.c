@@ -42,7 +42,7 @@ extern void func_0203B90C(void);
 extern void func_0203B5D4(struct Slot *p);
 extern void func_0203B48C(void);
 
-void func_0203BBB0(void)
+void func_0203BBB0(u32 a)
 {
     u8 *s = func_0203D788();
     u8 *g;

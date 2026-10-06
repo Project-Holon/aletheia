@@ -24,7 +24,8 @@ typedef unsigned int   u32;
 extern char d_021BBBDC[];
 
 extern void func_0204335C(u32 a);
-extern void func_020433E0(char *a);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 a);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -37,7 +38,7 @@ void func_021BB7BC(void)
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     func_0204335C(0);
-    func_020433E0(d_021BBBDC);
+    func_020433E0((const struct DispVram *)d_021BBBDC);
     func_0204363C(0);
     func_0204361C();
     func_020434CC();

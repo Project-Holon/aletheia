@@ -36,8 +36,9 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D5B68(void *p);
 extern u32 func_021D6D7C(u8 *p);
-extern int func_021D5C30(u8 *p);
-extern int func_021D5BB0(u8 *p, u32 n);
+struct UtilWork;
+extern int func_021D5C30(struct UtilWork *p);
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern u8 func_021D5440(u8 *p);
 extern void func_021C60EC(u8 *p, u8 *a, u32 n);
 extern void func_021C0780(u8 *p, u8 *a, int i, u8 v);
@@ -51,8 +52,8 @@ int func_021BFEAC(u8 *p, u8 *a, u8 *b, int *out)
     u8 n;
     Word t;
     *out = 0;
-    if (func_021D5B68(b) == 0 && func_021D6D7C(b) == 0 && func_021D5C30(b) == 0) {
-        if (func_021D5BB0(b, 7) == 0) {
+    if (func_021D5B68(b) == 0 && func_021D6D7C(b) == 0 && func_021D5C30((struct UtilWork *)b) == 0) {
+        if (func_021D5BB0((struct UtilWork *)b, 7) == 0) {
             n = func_021D5440(b);
             func_021C60EC(p, a, 3);
             func_021C60EC(p, b, 3);

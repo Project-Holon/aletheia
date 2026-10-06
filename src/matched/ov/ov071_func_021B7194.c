@@ -25,7 +25,9 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern void *func_02027778(void *, void *);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 
 void *func_021B7194(int *p, void *arg1, u32 heap)
 {
@@ -54,7 +56,7 @@ void *func_021B7194(int *p, void *arg1, u32 heap)
     t.b1 = 0xc;
     t.b2 = 8;
     t.b3 = 3;
-    r = func_02027778(&t, arg1);
+    r = func_02027778((struct TaskMenuTmpl *)(&t), arg1);
     func_02045808(it[0].s);
     func_02045808(it[1].s);
     return r;

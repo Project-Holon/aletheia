@@ -86,11 +86,11 @@ extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern int func_021A34EC(void *q);
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_02197CCC(void *a, VecFx32 *v);
+extern void func_02197CCC(u8 *p, s32 *out);
 extern u16 func_021A3050(u8 *p);
 extern VecFx32 *func_02012AA0(void *pl);
 extern u16 func_02012AE4(void *pl);
-extern int func_0203EFC8(const void *a, const void *b, u32 n);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 int func_0216786C(Work *w, Report *out)
 {
@@ -122,7 +122,7 @@ int func_0216786C(Work *w, Report *out)
         if (func_021A34EC(q) == 4)
             func_021A3038(q, &pos);
         else
-            func_02197CCC(a, &pos);
+            func_02197CCC(a, (s32 *)(&pos));
         zone = func_021A3050(q);
     } else {
         pos = *func_02012AA0(pl);
@@ -133,7 +133,7 @@ int func_0216786C(Work *w, Report *out)
     out->flag = flag;
     out->dir = dir;
     if (zone != last->zone || dir != last->dir || flag != last->flag
-        || func_0203EFC8(&pos, last, sizeof(VecFx32)) != 0) {
+        || func_0203EFC8((const u8 *)(&pos), (const u8 *)last, sizeof(VecFx32)) != 0) {
         last->zone = zone;
         last->pos = pos;
         last->dir = dir;

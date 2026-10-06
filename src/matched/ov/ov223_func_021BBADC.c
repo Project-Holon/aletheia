@@ -16,13 +16,13 @@
  * full body reads only its entry r0; preserve that caller input.
  */
 #include "../include/Obj01594.h"
-extern void func_021B9914(void *, unsigned);
+extern void func_021B9914(char *p);
 extern void func_0204E720(unsigned, int, int, int);
 extern int func_0204E804(void);
 int func_021BBADC(char *p, int *state)
 {
     if (*(unsigned *)&((struct Obj01594 *)p)->f10 >= 1)
-        func_021B9914(p, *(unsigned *)&((struct Obj01594 *)p)->f10);
+        func_021B9914(p);
     switch (*state) {
     case 0:
         func_0204E720(3, 16, 0, 0);

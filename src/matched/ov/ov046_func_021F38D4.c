@@ -26,7 +26,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_021BE700(u32 a, int b, u16 c, u16 d, int e);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern u8 *func_021BE674(u32 a, int b, u16 c, u16 d);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6CC(u32 a, int b, u16 c, u16 d, int e);
@@ -66,7 +66,7 @@ void func_021F38D4(u8 *base, u32 t, int idx)
     n = idx * 5;
     p = func_021BE674(t, 0, n, k);
     func_021BE6B0(p, 0);
-    func_021BE700(t, 0, n, k, 1);
+    func_021BE700((void *)t, 0, (u16)n, (u16)k, 1);
     func_021BE6CC(t, 0, n, k, func_021BE748((u32)p));
     m = 1;
     n1 = n + 1;
@@ -74,7 +74,7 @@ void func_021F38D4(u8 *base, u32 t, int idx)
         m = 0;
     q = func_021BE674(t, 0, n1, m);
     func_021BE6B0(q, 0);
-    func_021BE700(t, 0, n1, m, 1);
+    func_021BE700((void *)t, 0, (u16)n1, (u16)m, 1);
     func_021BE6CC(t, 0, n1, m, func_021BE748((u32)q));
     k3 = 1;
     n2 = n + 2;
@@ -82,6 +82,6 @@ void func_021F38D4(u8 *base, u32 t, int idx)
         k3 = 0;
     r = func_021BE674(t, 0, n2, k3);
     func_021BE6B0(r, 0);
-    func_021BE700(t, 0, n2, k3, 1);
+    func_021BE700((void *)t, 0, (u16)n2, (u16)k3, 1);
     func_021BE6CC(t, 0, n2, k3, func_021BE748((u32)r));
 }

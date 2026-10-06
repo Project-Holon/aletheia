@@ -42,13 +42,14 @@ extern u8 *func_021F545C(u8 *);
 extern int func_021F4B30(u8 *);
 extern int func_021F4B24(u8 *);
 extern void func_021F4E8C(u32, u8 *, const Vec *);
-extern void func_021F4ED4(u32, u8 *, u16);
-extern void func_021F4EB4(u32, u8 *, s16, s16);
+struct Trip;
+extern void func_021F4ED4(u32 unused, u32 p, u16 v);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4E6C(u8 *, u8 *, u32);
 extern void func_0207AF38(Mtx *, int, int);
 extern void func_0207B51C(const Vec *, const Mtx *, Vec *);
 extern void func_0207CA00(const Vec *, const Vec *, Vec *);
-extern void func_0204F638(void *, u32, Vec *);
+extern void func_0204F638(u8 *a0, int i, struct Trip *src);
 
 #define E (*(u8 **)(q + off + 0x84))
 #define EA (*(u8 **)(q + off + 0xA8))
@@ -116,8 +117,8 @@ void func_021F732C(u8 *self, u8 *q)
                         }
                     }
                     func_021F4E8C(*(u32 *)(self + 0x10), E, &v3);
-                    func_021F4ED4(*(u32 *)(self + 0x10), E, (u16)(ang2 - ang0));
-                    func_021F4EB4(*(u32 *)(self + 0x10), E, (s16)(z / 16 / 4), (s16)(*(int *)(t + 0x20) / 16 / 4));
+                    func_021F4ED4(*(u32 *)(self + 0x10), (u32)E, (u16)(ang2 - ang0));
+                    func_021F4EB4(*(u32 *)(self + 0x10), (u32)E, (s16)(z / 16 / 4), (s16)(*(int *)(t + 0x20) / 16 / 4));
                     func_021F4E6C(*(u8 **)(self + 0x10), E, 1);
                 }
             } else {
@@ -129,5 +130,5 @@ void func_021F732C(u8 *self, u8 *q)
     v3.x = *(int *)(q + 0x18) / 16;
     v3.y = (0xC0000 - *(int *)(q + 0x1C)) / 16;
     v3.z = 0x32;
-    func_0204F638(*(void **)(self + 8), *(u32 *)(q + 0x5C), &v3);
+    func_0204F638(*(void **)(self + 8), *(u32 *)(q + 0x5C), (struct Trip *)(&v3));
 }

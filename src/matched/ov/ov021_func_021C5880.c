@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021C5880(u16 *a, u16 *b, u32 c)
+void func_021C5880(u16 *a, u16 *b, u16 c)
 {
     int s = *a + *b;
 

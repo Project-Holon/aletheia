@@ -110,7 +110,7 @@ extern const char func_0201D854_File[];
 
 struct ArcFile;
 extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
-extern void  func_020494F4(void *handle, u32 id, void *dest);
+extern void func_020494F4(struct ArcFile *arc, u32 member, u32 *out);
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_0201DB20(struct Font *f, u16 ch);
@@ -118,7 +118,7 @@ extern u32   func_0201DB20(struct Font *f, u16 ch);
 extern u8 func_0201DC88(u8 *obj, u32 id);
 extern u32 func_0201DD58(struct Font *p);
 
-void func_0201D854(struct Font *f, u32 resid, u32 flag, u32 heap)
+void func_0201D854(struct Font *f, int resid, u32 flag, u32 heap)
 {
     u32 size;
 
@@ -126,7 +126,7 @@ void func_0201D854(struct Font *f, u32 resid, u32 flag, u32 heap)
         return;
     }
     sub_0204944C(f->unk50, resid, 0x18, 0x14, f->unk58);
-    func_020494F4(f->unk50, resid, &f->unk80);
+    func_020494F4(f->unk50, resid, (u32 *)(&f->unk80));
     f->unk72 = (u8)flag;
     if (flag != 0) {
         f->unk84 = 0;

@@ -26,11 +26,12 @@ typedef unsigned int u32;
 typedef struct { u32 low:8,index:5,pad:10,flag:1,high:8; u16 value; u8 id,a,b,c; u8 padA[2]; u8 msg[36]; } Ent;
 extern u8 *func_021B9934(char *p, int i);
 extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern int func_021C7A54(u8 *, u8 *, u32);
 extern void func_021C7AA0(u8 *, u8 *);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern int func_021C99A0(void *, const void *);
+struct Msg;
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern void func_021C2250(u8 *p, u8 *a, u16 b, u32 c);
 extern void func_021D6738(u8 *);
 extern void func_021C195C(u8 *, u8 *, u32);
@@ -46,16 +47,16 @@ int func_021C9BB8(u8 *p, const Ent *e)
         line = 15615;
         s = func_021CC8D8(p + 0x1d74, line);
         f = func_021C7A54(p, a, e->value);
-        func_021CC95C(p + 0x1d74, s, line + 2);
+        func_021CC95C((u32 *)(p + 0x1d74), s, line + 2);
         if (f) {
             t = func_021CC8D8(p + 0x1d74, line + 6);
             func_021C7AA0(p, a);
-            func_021CC95C(p + 0x1d74, t, line + 8);
+            func_021CC95C((u32 *)(p + 0x1d74), t, line + 8);
             return 0;
         }
     }
     if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 87, (u8)e->index);
-    func_021C99A0(p, e->msg);
+    func_021C99A0(p, (const struct Msg *)e->msg);
     func_021C2250(p, a, e->value, 0);
     if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 88, (u8)e->index);
     if (e->a) {

@@ -36,7 +36,7 @@ extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int, u32);
 extern void func_021D75A8(int, u32);
 extern void func_021D7630(int, u32);
-extern void func_021D70F0(u8 *, int);
+extern void func_021D70F0(void *a, int id);
 extern u32 func_021D775C(int);
 extern void func_021D7540(int);
 extern u32 func_021D78AC(u32);

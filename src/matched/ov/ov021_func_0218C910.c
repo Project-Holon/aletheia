@@ -14,11 +14,12 @@
  */
 #include "../include/Obj19540.h"
 
-int func_0218C43C(unsigned char *p, int a);
+typedef unsigned int   u32;
+int func_0218C43C(u32 *st, int i);
 
 int func_0218C910(unsigned char *p)
 {
     if (p == 0)
         return 0;
-    return func_0218C43C(p + 0xC, ((struct Obj19540 *)p)->f4);
+    return func_0218C43C((u32 *)(p + 0xC), ((struct Obj19540 *)p)->f4);
 }

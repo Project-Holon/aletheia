@@ -43,14 +43,14 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern int func_020160CC(void *h);
 extern void sub_02016028(void *h, u32 n);
 
 int func_0220041C(Work *w, int key, int n)
 {
     int r = 0;
-    int i = func_022019F4(w, key);
+    int i = func_022019F4((char *)w, key);
 
     if (i == -1)
         return 0;

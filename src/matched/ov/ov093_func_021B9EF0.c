@@ -52,7 +52,8 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045A00(struct Buf *buf, const void *src, u32 n);
 extern void func_02082D44(const void *, void *, int);
-extern void func_02024570(struct H *, const struct H *);
+struct Rec8;
+extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
 extern void func_0202428C(void *obj);
 
 void func_021B9EF0(struct A *p, const struct B *src)
@@ -70,8 +71,8 @@ void func_021B9EF0(struct A *p, const struct B *src)
         func_02045A00((struct Buf *)t, (char *)src + 0x28, u);
         p->c = src->f8;
         func_02082D44(src->b, p->h, 8);
-        func_02024570(&p->s18, &src->s18);
-        func_02024570(&p->s20, &src->s20);
+        func_02024570((struct Rec8 *)(&p->s18), (const struct Rec8 *)(&src->s18));
+        func_02024570((struct Rec8 *)(&p->s20), (const struct Rec8 *)(&src->s20));
     } else {
         p->ha = 0;
         p->h8 = 0;

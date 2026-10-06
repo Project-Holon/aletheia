@@ -15,5 +15,9 @@
  *   d_021BB1F8 0x021BB1F8 data a4
  */
 extern const unsigned d_021BB1F8[][11];
-extern void func_020403F4(unsigned char),func_020450C8(void),func_0203F9B4(void),func_02082BCC(void *,unsigned,unsigned);
-void func_021BAD14(void *p){unsigned i;for(i=0;i<6;i++)func_020403F4(d_021BB1F8[i][0]);func_020450C8();func_0203F9B4();func_02082BCC(p,0,4);}
+typedef unsigned int   u32;
+extern void func_020403F4(u32 i);
+extern void func_020450C8(void);
+extern void func_0203F9B4(void);
+extern void func_02082BCC(void *,unsigned,unsigned);
+void func_021BAD14(void *p){unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)d_021BB1F8[i][0]);func_020450C8();func_0203F9B4();func_02082BCC(p,0,4);}

@@ -21,7 +21,7 @@ typedef u32 (*FP)(void);
 
 extern const u8 str_020A78CC[];
 extern const u8 str_020A78D8[];
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 u32 func_02033A3C(u32 *p, u32 i)
 {
@@ -29,7 +29,7 @@ u32 func_02033A3C(u32 *p, u32 i)
     u32 base = p[0];
 
     if (i >= p[1]) {
-        func_02034714(str_020A78CC, 0x85, str_020A78D8);
+        func_02034714((const char *)str_020A78CC, 0x85, (const char *)str_020A78D8);
     }
     fp = *(FP *)(base + i * 0xc + 4);
     return (fp() + 3) & ~3;

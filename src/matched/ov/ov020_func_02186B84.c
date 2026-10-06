@@ -14,12 +14,12 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 lo:4; u8 hi:4; u8 b1; u8 b2; u8 b3; } T;
-extern void func_0218677C(T *p, int n);
+extern void func_0218677C(u8 *p, void *src);
 void func_02186B84(T *p, int a, int b, int c, int d)
 {
     p->lo = 1;
     p->b1 = a;
     p->b3 = 7;
     p->b2 = c;
-    if (d) func_0218677C(p, b);
+    if (d) func_0218677C((u8 *)p, (void *)b);
 }

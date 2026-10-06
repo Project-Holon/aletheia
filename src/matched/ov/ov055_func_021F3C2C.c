@@ -70,7 +70,7 @@ extern V d_021F4620_b;
 
 extern u32 func_020056EC(u32);
 extern int func_0216CE60(int, void *, int);
-extern u32 func_021F40F4(const T *);
+extern u32 func_021F40F4(u8 *p);
 extern void func_0216DAC8(unsigned int *p, unsigned int v);
 extern void func_0216DCCC(int, int);
 extern void func_0216D8C0(int, int *);
@@ -97,7 +97,7 @@ void func_021F3C2C(O *o, int a, int b, const T *s, int i)
     o->f1 = 0;
     o->f2 = 0;
     o->f3 = 0;
-    o->ha = func_021F40F4(s);
+    o->ha = func_021F40F4((u8 *)s);
     func_0216DAC8((unsigned int *)o->fc, 1);
     func_0216DCCC(o->fc, 1);
     {

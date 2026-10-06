@@ -33,11 +33,11 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef struct { u32 f0; u32 *f4; int (*f8)(u32 *); } Q;
-extern void func_021C6CEC(Q *q);
+extern int func_021C6CEC(u32 a);
 void func_021C6CF4(Q *q)
 {
     if (q->f0 == 1) {
         if (q->f8(q->f4) == 1)
-            func_021C6CEC(q);
+            func_021C6CEC((u32)q);
     }
 }

@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[0x60]; u16 angles[5]; } Obj;
-extern int func_021E1830(void *, int, int);
+extern int func_021E1830(char *p, int angle, int index);
 extern int func_021DCBC4(void *, int, void *, int);
 int func_021DF2E0(Obj *obj)
 {
@@ -32,7 +32,7 @@ int func_021DF2E0(Obj *obj)
         int angle;
         angle = obj->angles[i];
         buf.entries[((struct Obj14225 *)q)->f10] = angle;
-        if (func_021E1830(p, angle << 12, ((struct Obj02497 *)p)->f30) == 1)
+        if (func_021E1830((char *)p, angle << 12, ((struct Obj02497 *)p)->f30) == 1)
             ((struct Obj02497 *)p)->f1C |= 1 << ((struct Obj14225 *)q)->fC;
         }
     }

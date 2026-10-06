@@ -19,12 +19,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021CC8D8(void *, int);
 extern void func_021C7998(u8 *, u32);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 void func_021C3BE0(u8 *p, u32 a)
 {
     u32 old;
     int line = 0x2303;
     old = func_021CC8D8(p + 0x1d74, line);
     func_021C7998(p, a);
-    func_021CC95C(p + 0x1d74, old, line + 2);
+    func_021CC95C((u32 *)(p + 0x1d74), old, line + 2);
 }

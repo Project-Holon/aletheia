@@ -30,8 +30,9 @@ extern int func_02190D5C(u32 *p);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern u8 func_021927F8(u8 *p);
-extern void func_021927FC(u32 *, u32, u32);
-extern void func_021928C0(u32 *, u32, u32);
+struct Cur;
+extern void func_021927FC(struct Cur *c, u32 win, u32 col);
+extern void func_021928C0(struct Cur *c, u32 win, u32 col);
 extern u8 func_0219320C(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
@@ -45,13 +46,13 @@ u32 func_02190EF0(u32 *p)
     switch (r) {
     case 0:
         if (func_021927F8((u8 *)(p + 6)) == 1) {
-            func_021927FC(p + 6, (u32)func_02045770((struct Descriptor *)p[0]), 15);
+            func_021927FC((struct Cur *)(p + 6), (u32)func_02045770((struct Descriptor *)p[0]), 15);
             func_02045334((struct Descriptor *)p[0]);
         }
         break;
     case 1:
         if (func_0219320C((u8 *)(p[5] + 0x160)) == 0) {
-            func_021928C0(p + 6, (u32)func_02045770((struct Descriptor *)p[0]), 15);
+            func_021928C0((struct Cur *)(p + 6), (u32)func_02045770((struct Descriptor *)p[0]), 15);
             func_02045334((struct Descriptor *)p[0]);
         }
         break;

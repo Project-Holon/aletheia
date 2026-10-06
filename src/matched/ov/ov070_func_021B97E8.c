@@ -24,12 +24,16 @@
  *   func_0201C1C8  0x0201C1C8  thumb
  */
 
-extern void func_0204B3DC(int, int);
-extern int func_021B61B8(char *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern int func_021B61B8(u8 *p);
 extern unsigned short *func_021B616C(char *, int);
-extern int func_020212B0(int);
+extern u16 func_020212B0(u16 id);
 extern int func_0201C1E8(int);
-extern int func_0201C1C8(int);
+extern u8 func_0201C1C8(void *p);
 
 void func_021B97E8(char *p, int mode)
 {
@@ -40,11 +44,11 @@ void func_021B97E8(char *p, int mode)
         *(int *)(p + 0x840) = 2;
     }
     if (*(int *)(p + 0x6A0) != 0) {
-        func_0204B3DC(*(int *)(p + 0x6A0), mode);
+        func_0204B3DC((struct Obj *)(*(int *)(p + 0x6A0)), mode);
     }
-    r = func_020212B0(*func_021B616C(p, func_021B61B8(p)));
+    r = func_020212B0(*func_021B616C(p, func_021B61B8((u8 *)p)));
     if (r != 0) {
-        func_0204B3DC(*(int *)(p + func_0201C1E8(r) * 4 + 0x6C0), mode);
-        func_0204B3DC(*(int *)(p + func_0201C1C8(r) * 4 + 0x6CC), mode);
+        func_0204B3DC((struct Obj *)(*(int *)(p + func_0201C1E8(r) * 4 + 0x6C0)), mode);
+        func_0204B3DC((struct Obj *)(*(int *)(p + func_0201C1C8((void *)r) * 4 + 0x6CC)), mode);
     }
 }

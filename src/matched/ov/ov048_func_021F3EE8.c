@@ -64,7 +64,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(struct Rec *rec);
-extern int func_021F4488(Slots *q);
+extern int func_021F4488(unsigned char *p);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
 extern u32 d_021F5124[];
 extern u8 d_021F50C0[];
@@ -112,7 +112,7 @@ void func_021F3EE8(int *p)
     }
     func_02045C04((struct Rec *)b);
     func_02045C04((struct Rec *)a);
-    switch (func_021F4488(&s)) {
+    switch (func_021F4488((unsigned char *)(&s))) {
     case 0:
         break;
     case 1:

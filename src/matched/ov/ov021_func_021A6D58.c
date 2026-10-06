@@ -29,7 +29,7 @@ extern u32 func_02188C5C(u8 *p);
 extern void *func_02188CB4(u8 *p);
 extern void func_021A3664(u32 *p, u32 heap);
 extern u32 func_021A36A4(u8 *p);
-extern void func_021BB3AC(u32 a, u32 b);
+extern void func_021BB3AC(u8 *p, u32 b);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_021DDF1C[];
 
@@ -41,6 +41,6 @@ u32 *func_021A6D58(void *a, u32 heap)
 
     ((struct Obj19810 *)p)->f0 = r6;
     func_021A3664(r6, heap);
-    func_021BB3AC(r7, func_021A36A4(r6));
+    func_021BB3AC((u8 *)r7, func_021A36A4(r6));
     return p;
 }

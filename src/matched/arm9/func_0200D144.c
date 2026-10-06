@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u32 func_0200C720(u32 id);
-extern u32 func_0200C7C0(u32 id);
+extern u32 func_0200C7C0(u16 id);
 
 static inline u32 TestSpecies(const u8 *row, u32 id)
 {
@@ -42,7 +42,7 @@ static inline u32 TestSpecies(const u8 *row, u32 id)
     return row[x >> 3] & (1 << (x & 7));
 }
 
-u32 func_0200D144(u8 *p, u32 id, u32 sel, u32 alt, u32 form)
+u32 func_0200D144(u8 *p, u16 id, u32 sel, u32 alt, u32 form)
 {
     u32 res;
     s32 x;

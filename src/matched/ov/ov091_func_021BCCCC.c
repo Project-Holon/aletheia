@@ -22,7 +22,8 @@ typedef unsigned short u16;
 
 extern void func_021BCE84(char *p);
 extern void func_021BCEAC(u8 *p);
-extern int func_021BD05C(int, int, int, int, int);
+typedef unsigned int   u32;
+extern u32 *func_021BD05C(u8 *p, u32 *list, u8 x, u8 y, u8 w);
 extern void func_021BD59C(char *p);
 
 void func_021BCCCC(int p)
@@ -34,12 +35,12 @@ void func_021BCCCC(int p)
     if (((struct Obj07737 *)r)->f8C == 1) {
         switch (((struct Obj07737 *)r)->f64) {
         case 1:
-            ((struct Obj00047 *)p)->f1F4 = func_021BD05C(p, r + 0x74, 10, 0, 2);
+            ((struct Obj00047 *)p)->f1F4 = (int)func_021BD05C((u8 *)p, (u32 *)(r + 0x74), 10, 0, 2);
             break;
         case 2:
-            ((struct Obj00047 *)p)->f1F0 = func_021BD05C(p, r + 0x68, 0, 0, 0);
-            ((struct Obj00047 *)p)->f1F4 = func_021BD05C(p, ((struct Obj00047 *)p)->f280 + 0x74, 0xb, 0, 0);
-            ((struct Obj00047 *)p)->f1F8 = func_021BD05C(p, ((struct Obj00047 *)p)->f280 + 0x80, 0x16, 0, 0);
+            ((struct Obj00047 *)p)->f1F0 = (int)func_021BD05C((u8 *)p, (u32 *)(r + 0x68), 0, 0, 0);
+            ((struct Obj00047 *)p)->f1F4 = (int)func_021BD05C((u8 *)p, (u32 *)(((struct Obj00047 *)p)->f280 + 0x74), 0xb, 0, 0);
+            ((struct Obj00047 *)p)->f1F8 = (int)func_021BD05C((u8 *)p, (u32 *)(((struct Obj00047 *)p)->f280 + 0x80), 0x16, 0, 0);
             break;
         }
     }

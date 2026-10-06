@@ -31,7 +31,10 @@ typedef struct {
     void *fC;
 } Obj;
 
-extern void *func_020255A0(int a, Desc *d);
+struct Grid;
+struct Param;
+struct Sys;
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 
 void func_021BD278(Obj *p, int a, u16 b, int c)
 {
@@ -46,5 +49,5 @@ void func_021BD278(Obj *p, int a, u16 b, int c)
     d.b11 = 0;
     d.h12 = b;
     d.f14 = 0;
-    p->fC = func_020255A0(a, &d);
+    p->fC = func_020255A0((struct Sys *)a, (const struct Param *)(&d));
 }

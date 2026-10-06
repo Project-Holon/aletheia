@@ -63,8 +63,8 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern u8   *func_0200B3A4(u32 a, u32 b);
 extern void  func_021BE760(void *p, void *a, int b);
-extern char *func_021BE480(void *p, int i, u16 j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
+extern int func_021BE480(char *p, unsigned i, int j);
+extern void func_021BE4A4(char *p, int i, int j, int v);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
@@ -89,13 +89,13 @@ void func_021F36C0(void *a0)
     func_021BE760(s, &d_021F3A58, 0);
     ta = d_021F3AD4;
     for (i = 0; i < 9; i = (u8)(i + 1)) {
-        e = func_021BE480(s, 0, (u8)i);
+        e = (char *)func_021BE480(s, 0, (u8)i);
         *(V *)e = ta.v[i];
         func_021BE4A4(s, 0, (u8)i, 1);
     }
     tb = d_021F3A68;
     for (i = 0; i < 3; i = (u8)(i + 1)) {
-        e = func_021BE480(s, 0, (u8)(i + 9));
+        e = (char *)func_021BE480(s, 0, (u8)(i + 9));
         *(V *)e = tb.v[i];
         func_021BE4A4(s, 0, (u8)(i + 9), 1);
     }

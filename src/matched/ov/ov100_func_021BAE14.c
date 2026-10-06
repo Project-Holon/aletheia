@@ -19,7 +19,7 @@ extern void func_021BA3A4(struct Word *,int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021B95B8(u8 *p, u32 v);
-extern void func_021BB270(void);
+extern void func_021BB270(int p);
 extern void func_021BA290(int,int);
 void func_021BAE14(int a) {
  struct Word x;

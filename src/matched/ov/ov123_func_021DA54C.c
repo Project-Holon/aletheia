@@ -25,7 +25,7 @@ extern u32 func_020221A4(void);
 extern void func_021B9774(u8 *p);
 extern void func_02012E08(char *p);
 extern void func_0202223C(u32 a, u32 color);
-extern void func_02157170(int,int);
+extern int func_02157170(int a0, int a1);
 int func_021DA54C(int a,int b,char *c,char *p)
 {
     void (*f)(char *);

@@ -16,7 +16,8 @@
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void *func_021BA750(void *,int,u8),*func_021BA71C(void *,int,int,u16);
+extern void *func_021BA750(void *p, int kind, unsigned a);
+extern void *func_021BA71C(char *p, int a, int b, unsigned short c);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -26,8 +27,8 @@ void func_021BA5A0(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind)
     int i,x,y;
     p->owner=owner;p->other=other;
     p->kind=kind;p->a=a;p->b=b;
-    p->one=func_021BA750((void *)owner,0,p->a);
-    p->two=func_021BA750((void *)owner,1,p->b);
+    p->one=func_021BA750((void *)owner,0,(u8)p->a);
+    p->two=func_021BA750((void *)owner,1,(u8)p->b);
     for(i=0;i<3;i++) {
         switch(i) {
         case 0:x=206;y=152;break;

@@ -19,7 +19,8 @@
 extern void func_021BAF50(char *);
 extern void func_021BB92C(char *,int);
 extern void func_021BB4E0(char *,int,int);
-extern void func_021BBDA8(char *,int);
+struct State;
+extern void func_021BBDA8(struct State *p, int v);
 extern void func_021BAA4C(char *);
 extern void func_021BACB0(char *,int);
 void func_021BA64C(char *p,int mode)
@@ -29,7 +30,7 @@ void func_021BA64C(char *p,int mode)
     func_021BAF50(p);
     func_021BB92C(p,((struct Obj00031 *)p)->fE0);
     func_021BB4E0(p,mode,((struct Obj00031 *)p)->fE0);
-    func_021BBDA8(p,((struct Obj00031 *)p)->f8);
+    func_021BBDA8((struct State *)p,((struct Obj00031 *)p)->f8);
     if(mode==6 || ((struct Obj00031 *)p)->fC>493) func_021BAA4C(p);
     else func_021BACB0(p,mode);
 }

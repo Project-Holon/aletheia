@@ -16,12 +16,12 @@
  *   func_0215CEB0  0x0215CEB0  arm  ov009
  */
 
-extern int func_0215CE9C(int a, int b);
+extern int func_0215CE9C(const int *p, int b);
 extern int func_0215CEB0(int a0, char *a1);
 
 void func_0215CEFC(int a, int b)
 {
-    int v = func_0215CE9C(a, b);
+    int v = func_0215CE9C((const int *)a, b);
 
     func_0215CEB0(v, (char *)b);
 }

@@ -38,7 +38,7 @@ extern void func_021D6CDC(unsigned char *a, unsigned char *b);
 extern void func_021D91EC(void *,void *);
 extern void func_021D697C(u8 *,int *);
 extern void func_021D911C(u8 *a, u8 *p);
-extern void func_021D7E84(void *,u8 *);
+extern void func_021D7E84(void *p, void **q);
 extern void func_021D9D44(void *,u8 *);
 extern void func_021D909C(u8 *a, u8 *p);
 extern void func_021DA84C(u8 *,u8 *);
@@ -58,7 +58,7 @@ void func_021D5C98(u8 *p)
         func_021D911C(p,((struct Obj00039 *)p)->f94);
     }
     switch (((struct Obj00039 *)p)->f5C) {
-    case 0: func_021D7E84(p,*(u8 * *)&((struct Obj00039 *)p)->f8C); break;
+    case 0: func_021D7E84(p,(void **)(*(u8 * *)&((struct Obj00039 *)p)->f8C)); break;
     case 1: func_021D9D44(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
     case 2: func_021D909C(p,((struct Obj00039 *)p)->f94); break;
     case 3: func_021DA84C(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;

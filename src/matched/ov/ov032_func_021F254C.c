@@ -16,15 +16,18 @@
 #include "../include/Obj07639.h"
 typedef struct { void *f00; void *f04; unsigned f08; void *f0c; void *f10; } Desc;
 typedef struct { int state; void *f04; unsigned f08; void *owner; unsigned f10; unsigned f14; unsigned f18; } Work;
-extern Desc *func_020122C0(void *, void *, int (*)(int, int, int *), unsigned);
-extern Work *func_020124E8(Desc *);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_021F2588(int, int, int *);
 Desc *func_021F254C(char *p, unsigned a, unsigned b, unsigned c)
 {
     Desc *d;
     Work *w;
-    d = func_020122C0(((struct Obj07639 *)p)->f0, 0, func_021F2588, 0x1c);
-    w = func_020124E8(d);
+    d = (Desc *)func_020122C0(((struct Obj07639 *)p)->f0, 0, func_021F2588, 0x1c);
+    w = func_020124E8((struct Obj *)d);
     w->owner = p;
     w->f04 = ((struct Obj07639 *)p)->f0;
     w->f08 = ((struct Obj07639 *)p)->f8;

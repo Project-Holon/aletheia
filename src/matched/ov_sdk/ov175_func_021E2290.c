@@ -28,13 +28,13 @@ extern u32 g_021ACEF8;
 extern u32 g_021ACEFC[];
 extern u32 g_021E49D0[];
 extern s8 g_021E53BC[];
-extern void func_02084F80(s8 *, u32, u32 *, u32 *);
+extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
 
 s32 func_021E2290(void)
 {
     if (g_021ACEF8 == 1) {
         if (g_021E53BC[0] == 0)
-            func_02084F80(g_021E53BC, 0x80, g_021E49D0, g_021ACEFC);
+            func_02084F80((char *)g_021E53BC, 0x80, (const char *)g_021E49D0, g_021ACEFC);
         return 1;
     }
     return 0;

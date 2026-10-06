@@ -32,8 +32,8 @@ extern u32 func_0201134C(void *);
 extern int func_021FB1F4(char *,int);
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
-extern void func_021F8044(void *,void *,Vec *);
-extern void func_021F8054(void *,void *,const Vec *);
+extern void func_021F8044(void *unused, u32 *p, u32 *q);
+extern void func_021F8054(void *unused, u32 *p, const u32 *q);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_0207CA00(void *,void *,void *);
 extern void *func_021FADA0(char *,u32,u32,u32);
@@ -61,14 +61,14 @@ int func_021FB2B0(int unused,char *p)
             target=func_021F9DA4(((struct Obj08162 *)owner)->f34,i);
             if (rate==0) {
                 pos.x=x;pos.y=y;pos.z=z;
-                func_021F8054(ctx,target,&pos);
+                func_021F8054(ctx,(u32 *)target,(const u32 *)(&pos));
             } else {
                 q=func_02030734(((struct Obj08162 *)owner)->f0,56,0,d_021FDD00,0x2DA);
                 *(char * *)&((struct Obj02192 *)q)->f30=owner;
                 *(char * *)&((struct Obj02192 *)q)->f0=target;
                 ((struct Obj02192 *)q)->f4=((struct Obj08162 *)owner)->f34;
                 ((struct Obj02192 *)q)->f2E=0;
-                func_021F8044(ctx,target,(Vec *)(q+8));
+                func_021F8044(ctx,(u32 *)target,(u32 *)(q+8));
                 ((struct Obj02192 *)q)->f14=x;((struct Obj02192 *)q)->f18=y;((struct Obj02192 *)q)->f1C=z;
                 ((struct Obj02192 *)q)->f2C=rate;
                 func_0207CA00(q+20,q+8,delta);

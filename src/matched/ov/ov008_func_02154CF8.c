@@ -101,22 +101,24 @@ typedef struct {
     int w18;
 } Ctx;
 
-extern int  func_02031330(int h);
+typedef signed int     s32;
+struct Entry;
+extern unsigned int func_02031330(void *p);
 extern void func_02031348(int h, u32 id, void *a, void *b);
-extern int  func_0200FB24(void);
-extern void func_0203A5E4(int x);
-extern void func_0203A574(int a, void *b, int c, int d);
-extern void func_02034A5C(u32 id);
-extern void func_02034AC4(u32 id);
+extern u32 func_0200FB24(void);
+extern void func_0203A5E4(u32 key);
+extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
+extern void func_02034A5C(s32 handle);
+extern int func_02034AC4(s32 handle);
 extern void func_0200B424(void);
-extern void func_0200B400(int x);
-extern int  func_020399A8(void);
+extern void func_0200B400(u32 heap);
+extern struct Entry *func_020399A8(void);
 extern void func_0203D594(int a, int b);
 extern int  func_0203D5A0(int a, int b);
 extern void func_0200BA58(void);
 extern void func_0200BA68(void);
-extern u32  func_0200BA38(u8 x);
-extern void func_021EEE78(A *p);
+extern u32 func_0200BA38(u32 v);
+extern void func_021EEE78(void *p);
 
 extern char ov093_id[];
 extern char ov097_id[];
@@ -130,7 +132,7 @@ extern char d_021BB474[];
 
 u32 func_02154CF8(void *task, int *mode, Obj *obj, Ctx *ctx)
 {
-    int r = func_02031330(ctx->w00);
+    int r = func_02031330((void *)ctx->w00);
     int n, lo, hi, i, j, odd, k;
     u32 c;
 
@@ -162,11 +164,11 @@ u32 func_02154CF8(void *task, int *mode, Obj *obj, Ctx *ctx)
             *mode = 2;
         break;
     case 2:
-        func_0203D594(func_020399A8(), 0xC9);
+        func_0203D594((int)func_020399A8(), 0xC9);
         *mode = 3;
         break;
     case 3:
-        if (func_0203D5A0(func_020399A8(), 0xC9) == 0)
+        if (func_0203D5A0((int)func_020399A8(), 0xC9) == 0)
             break;
         *mode = 4;
         break;
@@ -192,12 +194,12 @@ u32 func_02154CF8(void *task, int *mode, Obj *obj, Ctx *ctx)
         ctx->w10 = 1;
         func_02034AC4((u32)ov093_id);
         ctx->w14 = 1;
-        func_0203A574(0x100, d_021F03C4, 9, 0);
-        func_0203D594(func_020399A8(), 0xC8);
+        func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
+        func_0203D594((int)func_020399A8(), 0xC8);
         *mode = 7;
         break;
     case 7:
-        if (func_0203D5A0(func_020399A8(), 0xC8) == 0)
+        if (func_0203D5A0((int)func_020399A8(), 0xC8) == 0)
             break;
         *mode = 8;
         break;
@@ -216,11 +218,11 @@ u32 func_02154CF8(void *task, int *mode, Obj *obj, Ctx *ctx)
         *mode = 11;
         break;
     case 11:
-        func_0203D594(func_020399A8(), 0xCA);
+        func_0203D594((int)func_020399A8(), 0xCA);
         *mode = 12;
         break;
     case 12:
-        if (func_0203D5A0(func_020399A8(), 0xCA) == 0)
+        if (func_0203D5A0((int)func_020399A8(), 0xCA) == 0)
             break;
         func_0203A5E4(0x100);
         ctx->w14 = 0;

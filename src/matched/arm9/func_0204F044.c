@@ -39,7 +39,8 @@ struct Board {
     struct Slot *ptr0;
 };
 
-extern int  func_0204EE0C(struct Board *b, u32 *outIdx);
+struct Struct_0204EE0C;
+extern int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index);
 typedef signed int     s32;
 struct Cell;
 extern void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
@@ -48,7 +49,7 @@ int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6)
 {
     u32 idx;
 
-    if (func_0204EE0C(b, &idx) == 1) {
+    if (func_0204EE0C((struct Struct_0204EE0C *)b, (int *)(&idx)) == 1) {
         b->ptr0[idx].f00 = 0;
         b->ptr0[idx].f20 = w;
         b->ptr0[idx].f24 = h;

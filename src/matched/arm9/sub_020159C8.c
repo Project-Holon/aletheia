@@ -148,7 +148,9 @@ struct Obj {
 extern const char func_020159C8_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020163C4(struct Obj *obj, s32 i, const struct Sub150 *src);
+struct Ctx;
+struct Src;
+extern void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2);
 
 struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3,
                           const struct Sub150 *src)
@@ -189,7 +191,7 @@ struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3,
             obj->unk14[i]->unk150 = *src;
             obj->unk14[i]->unk174 = 0x1000;
             obj->unk14[i]->f6 = 1;
-            func_020163C4(obj, i, src);
+            func_020163C4((struct Ctx *)obj, i, (const struct Src *)src);
             break;
         }
     }

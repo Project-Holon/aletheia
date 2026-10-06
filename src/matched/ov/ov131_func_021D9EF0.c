@@ -59,11 +59,14 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021DB964(u8 *,void *,u8 *);
 extern void *func_021D6064(u8 *);
 extern u32 func_02017E88(void *,u32,u32);
-extern void func_0204AB84(u32,Rec *);
-extern void func_0204B784(void *,const Rec *);
-extern u8 func_020275EC(u8 i);
+struct Rec;
+struct Struct36;
+struct Vec2;
+extern void func_0204AB84(u32 idx, struct Rec *dst);
+extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern u8 func_020275EC(int i);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B404(void *,const Point *,u32);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B84C(void *,u32);
 void func_021D9EF0(u8 *a,u8 *p)
 {
@@ -92,21 +95,21 @@ void func_021D9EF0(u8 *a,u8 *p)
     object=func_021D6064(a);
     first=func_02017E88(object,174,0);
     second=func_02017E88(object,175,0);
-    func_0204AB84(*(u32 *)(((u32)a+first*4u)+0x130u),&r1);
-    func_0204B784(((struct Obj00136 *)a)->f198,&r1);
-    func_0204B6F4(((struct Obj00136 *)a)->f198,func_020275EC(first),1);
+    func_0204AB84(*(u32 *)(((u32)a+first*4u)+0x130u),(struct Rec *)(&r1));
+    func_0204B784(((struct Obj00136 *)a)->f198,(const struct Struct36 *)(&r1));
+    func_0204B6F4(((struct Obj00136 *)a)->f198,func_020275EC((u8)first),1);
     point.x=208;
     point.y=120;
-    func_0204B404(((struct Obj00136 *)a)->f198,&point,0);
+    func_0204B404(((struct Obj00136 *)a)->f198,(const struct Vec2 *)(&point),0);
     func_0204B3DC(((struct Obj00136 *)a)->f198,1);
     func_0204B84C(((struct Obj00136 *)a)->f198,0);
     if(first!=second) {
-        func_0204AB84(*(u32 *)(((u32)a+second*4u)+0x130u),&r2);
-        func_0204B784(((struct Obj00136 *)a)->f19C,&r2);
-        func_0204B6F4(((struct Obj00136 *)a)->f19C,func_020275EC(second),1);
+        func_0204AB84(*(u32 *)(((u32)a+second*4u)+0x130u),(struct Rec *)(&r2));
+        func_0204B784(((struct Obj00136 *)a)->f19C,(const struct Struct36 *)(&r2));
+        func_0204B6F4(((struct Obj00136 *)a)->f19C,func_020275EC((u8)second),1);
         point.x=240;
         point.y=120;
-        func_0204B404(((struct Obj00136 *)a)->f19C,&point,0);
+        func_0204B404(((struct Obj00136 *)a)->f19C,(const struct Vec2 *)(&point),0);
         func_0204B3DC(((struct Obj00136 *)a)->f19C,1);
         func_0204B84C(((struct Obj00136 *)a)->f19C,0);
     } else func_0204B3DC(((struct Obj00136 *)a)->f19C,0);

@@ -20,7 +20,8 @@ extern int func_021F3364(char *,int);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern int func_021F2818(char *,int,int);
-extern void func_021F1A1C(char *,int,int *,int,int);
+struct Rect;
+extern void func_021F1A1C(char *p, int mode, const struct Rect *rect, int flag, int selected);
 void func_021F3C40(char *p,int *input) {
     unsigned code;
     int rect[4];
@@ -36,5 +37,5 @@ void func_021F3C40(char *p,int *input) {
         break;
     }
     if (func_021F2818(p,(int)(input+2),(int)rect))
-        func_021F1A1C(p+0x24,2,rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
+        func_021F1A1C(p+0x24,2,(const struct Rect *)rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
 }

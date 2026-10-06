@@ -11,5 +11,7 @@
  *   func_02162890 0x02162890 thumb ov010
  */
 typedef unsigned short u16;
-extern u16 *func_02162890(void *, void *, int);
-u16 func_02162940(void *p, void *q, int key) { u16 *r=func_02162890(p,q,key); if(r) return *r; return 0xffff; }
+struct Ctx;
+struct Rec;
+extern struct Rec *func_02162890(struct Ctx *c, void *a, int key);
+u16 func_02162940(void *p, void *q, int key) { u16 *r=(u16 *)func_02162890(p,q,key); if(r) return *r; return 0xffff; }

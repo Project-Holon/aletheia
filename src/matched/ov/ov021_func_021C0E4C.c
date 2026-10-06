@@ -35,7 +35,7 @@ extern void func_02082BCC(void *p, int v, int n);
 extern void *func_021A3960(unsigned char *p);
 extern int func_021C0E98(u32 unused, int *st, u8 *p);
 
-void *func_021C0E4C(u32 a, u16 b, u32 c, u32 d)
+void *func_021C0E4C(u32 a, u32 b, u32 c, u32 d)
 {
     u32 t;
     void *task;

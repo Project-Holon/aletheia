@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern void func_021EAB50(char *);
+extern void func_021EAB50(unsigned char *w);
 extern void func_021EBF74(char *);
 extern int (*const d_021EFA7C[])(char *);
 int func_021E1E34(char *p, int *state)
@@ -29,7 +29,7 @@ int func_021E1E34(char *p, int *state)
     if (*state == 0x69)
         return 0;
     if (*(char * *)&((struct Obj03847 *)p)->f2C) {
-        func_021EAB50(*(char * *)&((struct Obj03847 *)p)->f2C);
+        func_021EAB50((unsigned char *)(*(char * *)&((struct Obj03847 *)p)->f2C));
         func_021EBF74(*(char * *)&((struct Obj03847 *)p)->f2C);
     }
     return 1;

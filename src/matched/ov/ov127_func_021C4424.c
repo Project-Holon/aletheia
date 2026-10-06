@@ -17,12 +17,13 @@
  */
 
 extern void func_021C4440(char *, int);
-extern void func_021C4464(char *, int);
+typedef unsigned char  u8;
+extern void func_021C4464(u8 *p, int i);
 
 void func_021C4424(char *p, int i)
 {
     if (*(int *)(p + i * 0x14 + 0x10) == 0)
         func_021C4440(p, i);
     else
-        func_021C4464(p, i);
+        func_021C4464((u8 *)p, i);
 }

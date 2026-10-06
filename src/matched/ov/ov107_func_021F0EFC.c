@@ -33,13 +33,14 @@ typedef struct {
     u8 f1c,pad1d; u16 f1e; u8 f20,pad21[3]; u32 f24;
 } State;
 extern const Request request_021F6C94;
-extern void func_0203CBAC(Request *,u32,u32);
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_0203E5F8(int,int);
 void func_021F0EFC(State *p)
 {
     Request q=request_021F6C94;
     q.f54=p->heap;
-    func_0203CBAC(&q,0,(u32)p);
+    func_0203CBAC((struct Req *)(&q),0,(u32)p);
     p->f24=0;
     p->f18.b00=0;
     p->f1e=0;

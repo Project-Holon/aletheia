@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0218ED48(u8 *p, u16 v)
+void func_0218ED48(u8 *p, u32 v)
 {
     ((struct Obj17912 *)p)->f7A = v;
 }

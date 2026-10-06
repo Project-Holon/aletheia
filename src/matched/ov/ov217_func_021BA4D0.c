@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BA4D0(void *p, u16 v)
+void func_021BA4D0(void *p, u32 v)
 {
     ((struct Obj25826 *)p)->f4 = v;
 }

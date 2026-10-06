@@ -86,7 +86,7 @@ extern u8 d_021E75CC[];
 extern u8 d_021E75FC[];
 extern u8 ov119_id[];
 
-extern void func_021F50EC(Work *p);
+extern void func_021F50EC(u8 *p);
 struct Ctx;
 struct RecDC;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -105,7 +105,7 @@ int func_021F6E58(Work *p)
     Req *d;
     void *tmpl;
 
-    func_021F50EC(p);
+    func_021F50EC((u8 *)p);
     p->req = func_02030734(0x48, 0x44, 0, str_02203B6C, 0x5E);
     func_02082BCC(p->req, 0, 0x44);
     d = p->req;

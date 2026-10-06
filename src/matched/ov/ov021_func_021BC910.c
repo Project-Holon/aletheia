@@ -20,11 +20,11 @@ typedef struct {
     u8 b148;
 } Obj;
 
-extern u8 func_021BD138(Obj *p);
+extern u8 func_021BD138(u8 *p);
 
 int func_021BC910(Obj *p)
 {
-    if (func_021BD138(p) <= p->b148) {
+    if (func_021BD138((u8 *)p) <= p->b148) {
         return 1;
     }
     return 0;

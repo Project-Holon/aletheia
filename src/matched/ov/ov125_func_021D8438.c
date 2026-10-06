@@ -18,7 +18,7 @@
 typedef unsigned long u32;
 extern void func_02085A38(u32 msec);
 
-void func_021D8438(u32 msec)
+void func_021D8438(int msec)
 {
     func_02085A38(msec);
 }

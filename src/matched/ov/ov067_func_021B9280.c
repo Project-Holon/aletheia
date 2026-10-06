@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern void func_02041B6C(u32);
-void func_021B9280(u8 *p, int a, int b) {
+void func_021B9280(u8 *p, int a, u32 b) {
     s16 pos = (s8)p[102]/8 + ((s8)p[3] + a*p[5]);
     u16 i = 0;
     for (; i < p[5]; i++) {

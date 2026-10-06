@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021A3964(u8 *p, u32 v);
 
-extern int func_021A6C6C(S *a, u16 e);
+extern int func_021A6C6C(u8 *p, u32 k);
 extern void func_020061E4(u32 a);
 
 void func_021A6478(S *a, void *b, int c, int d, u16 e)
@@ -39,7 +39,7 @@ void func_021A6478(S *a, void *b, int c, int d, u16 e)
     func_0216D410(b, func_02197E7C(e, 0x1c));
     a->f0 = 3;
     func_021A3964(a->f14, 0);
-    if (func_021A6C6C(a, e) == 0) {
+    if (func_021A6C6C((u8 *)a, e) == 0) {
         func_020061E4(0x55a);
     }
 }

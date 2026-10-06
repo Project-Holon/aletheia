@@ -50,7 +50,7 @@ typedef struct Rec {
 
 extern const char d_02172978[];
 
-extern void *func_020120F4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *a, u32 b);
@@ -69,7 +69,7 @@ Rec *func_02161554(Ctx *c, int a1, int mode, const Src *src)
     u32 res;
     u8 x;
 
-    sv = func_020120F4(*c->f18);
+    sv = func_020120F4((const struct Ctx *)(*c->f18));
     r = 0;
     if (mode == 0) {
         t = func_02012934(sv);

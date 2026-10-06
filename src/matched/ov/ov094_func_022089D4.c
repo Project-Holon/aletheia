@@ -28,7 +28,7 @@ extern int func_021F882C(void);
 extern void func_02005D90(u32, u32);
 extern void func_02208D24(int);
 extern void func_02005DF8(u32);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 typedef unsigned short u16;
 extern int func_0202D034(u32 a, u32 b);
 extern u16 func_02005C44(void);

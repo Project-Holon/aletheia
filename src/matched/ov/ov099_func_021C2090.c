@@ -28,15 +28,19 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_02009864(void *obj, u32 i, u32 field);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct Sub020097BCObj;
+extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void func_021C2224(char *p, u32 a1, u32 a2, u32 mode, u8 slot);
 extern void func_021C2274(char *p, void *window, int id, int slot, int i);
 extern void func_021C22E8(char *p, void *window, int id, int flag, int x, int y);
 extern void func_020414AC(u32 a);
-extern void func_02045374(void *a);
-extern void *func_02045770(void *a);
-extern void func_02043B5C(void *a, u8 v);
-extern void func_02045334(void *a);
+extern void func_02045374(struct Cfg *cfg);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern void func_02043598(u32 mask, u32 enable);
 

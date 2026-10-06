@@ -20,7 +20,8 @@
  *   func_0217FA90  0x0217FA90  arm  ov009
  */
 
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern void func_0217F790(unsigned int v);
 extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
 extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
@@ -31,7 +32,7 @@ void func_02193748(const char *plaintext, char *encoded)
     unsigned int i;
     unsigned int len;
 
-    len = func_0209477C(plaintext);
+    len = func_0209477C((const u8 *)plaintext);
     func_0217F790(0x79707367);
     for (i = 0; i < len; i++)
         temp[i] = plaintext[i] ^ (char)func_0217F7AC(0, 0xff);

@@ -23,7 +23,7 @@ extern void func_02200290(u8 *);
 extern void func_02200434(u8 *);
 extern void func_022003BC(u8 *);
 extern void func_02200118(void);
-extern void func_022000E4(u8 *);
+extern void func_022000E4(char *p);
 extern void func_021F4EC8(u8 *);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
@@ -34,7 +34,7 @@ int func_021FFEC8(u8 *p)
     func_022003BC(p);
     func_02200118();
     if (((struct Obj00287 *)p)->f14 == 4 || ((struct Obj00287 *)p)->f14 == 5) ((struct Obj00287 *)p)->f12E4 = 1;
-    func_022000E4(p);
+    func_022000E4((char *)p);
     func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00287 *)p)->fD38, 0);
     func_021F4EC8(p);
     return 0;

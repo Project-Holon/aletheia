@@ -28,7 +28,7 @@ extern u32 func_020307B0(u32);
 extern void func_02049238(u32 arc);
 extern u32 func_021A0358(u32);
 
-int func_021A02F4(u32 a, u32 b, u32 c, u32 d)
+int func_021A02F4(u32 a)
 {
 func_02049238(((struct Obj17987 *)((u8 *)(a)))->fC);
 func_021A0358(a);

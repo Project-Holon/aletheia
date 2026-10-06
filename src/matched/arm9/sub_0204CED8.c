@@ -59,7 +59,7 @@ struct Actor;
 extern void sub_0204B49C(struct Actor *o, s16 value, u32 space, u32 axis);
 extern void sub_0204B84C(struct Obj *o, u8 value);
 extern void sub_0204B878(struct Obj *o, u16 value);
-extern void sub_0204B95C(struct Obj *o);
+extern void sub_0204B95C(struct Actor *a);
 
 void sub_0204CED8(struct Obj *o, const struct Req *r, u32 space)
 {
@@ -68,5 +68,5 @@ void sub_0204CED8(struct Obj *o, const struct Req *r, u32 space)
     o->low = r->unk_06;
     sub_0204B84C(o, r->unk_07);
     sub_0204B878(o, r->unk_04);
-    sub_0204B95C(o);
+    sub_0204B95C((struct Actor *)o);
 }

@@ -51,7 +51,7 @@ struct Tagged;
 extern void *func_02046E24(u32 a0, u32 a1);
 extern u32 func_02046F50(struct Tagged *p, u32 sel);
 extern void *func_02046F48(struct Tagged *p);
-extern Pal *func_0206E964(u32 h);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_02022040(u16 *pal, int n, const u8 *table);
 extern void func_021C6854(S *s);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
@@ -73,7 +73,7 @@ void func_021C6874(S *s, int unused, D *d, int mode, int flag)
         if (s->f4 != 0)
             h = s->f4;
         if (func_02046F50((struct Tagged *)h, 2)) {
-            p = func_0206E964((u32)func_02046F48((struct Tagged *)h));
+            p = (Pal *)func_0206E964((unsigned char *)((u32)func_02046F48((struct Tagged *)h)));
             func_02022040((u16 *)((u8 *)p + p->f38), (u32)(p->f30 << 3) / sizeof(u16), (const u8 *)flag);
         }
     }

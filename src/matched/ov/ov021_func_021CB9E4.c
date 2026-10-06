@@ -72,11 +72,14 @@ struct Sub020071CCCtrl;
 extern u16 func_02188C9C(u8 *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern u8 *func_0200DF58(void *p, int a);
-extern u32 func_0200DF94(void *b);
-extern u32 func_0200DFB4(void *e);
+struct Buf3FC;
+struct RecSlot;
+struct SubEnt;
+extern struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap);
+extern u32 func_0200DF94(struct Buf3FC *b);
+extern u32 func_0200DFB4(struct SubEnt *e);
 extern void *func_0216CE6C(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
-extern int func_0216D620(void *h, u16 v, int which);
+extern int func_0216D620(int a0, int a1, int a2);
 extern void func_0216D5B4(void *h, u16 v);
 extern void func_020307B0(void *p);
 extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
@@ -108,18 +111,18 @@ void func_021CB9E4(u8 *p, void *a1, void *a2, void *a3)
     kind = p[9];
     if (kind == 4) {
         pt = d_021DADD0;
-        list = func_0200DF58(func_020071CC(func_02012EBC(a1), 0x3B), 4);
-        n = func_0200DF94(list);
+        list = (u8 *)func_0200DF58(func_020071CC(func_02012EBC(a1), 0x3B), (int)4);
+        n = func_0200DF94((struct Buf3FC *)list);
         if (n != 0) {
             e = list + (n - 1) * 0x22;
             while (n != 0 && i < 5) {
-                u32 r = func_0200DFB4(e) % 10;
+                u32 r = func_0200DFB4((struct SubEnt *)e) % 10;
                 if (((Flags *)(e + 0x20))->b1 == 0)
                     v = d_021DAD48[r];
                 else
                     v = d_021DAD5C[r];
                 h = func_0216CE6C(a2, pt->x, pt->y, i % 4, slot, v, 2, zone);
-                func_0216D620(h, n - 1, 0);
+                func_0216D620((int)h, (u16)(n - 1), 0);
                 func_0216D5B4(h, 5);
                 e -= 0x22;
                 i++;
@@ -150,8 +153,8 @@ void func_021CB9E4(u8 *p, void *a1, void *a2, void *a3)
     while (ent->id != 0xFFFF) {
         if (cnt == d_021DADF8[ent->idx - 1]) {
             h = func_0216CE6C(a2, ent->x, ent->y, i % 4, slot, ent->id, 2, zone);
-            func_0216D620(h, i, 0);
-            func_0216D620(h, ent->k, 1);
+            func_0216D620((int)h, (u16)i, 0);
+            func_0216D620((int)h, (u16)ent->k, 1);
             func_0216D5B4(h, 5);
             if (slot < 0xFF)
                 slot++;

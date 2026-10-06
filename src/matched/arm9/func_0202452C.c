@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-u16 func_0202452C(const u16 *p)
+int func_0202452C(const u16 *p)
 {
     return *p;
 }

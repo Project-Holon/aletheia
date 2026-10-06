@@ -25,7 +25,7 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-void func_021B7C20(u32 *p, int flag, u32 heap) {
+void func_021B7C20(u32 *p, int flag, int heap) {
  func_02082BCC(p, 0, 0x10);
  func_0201DD60();
  if (flag == 0) {

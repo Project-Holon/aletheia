@@ -15,7 +15,7 @@
  *   func_0219FD64  0x0219FD64  arm  ov009
  */
 
-extern void func_0219FD64(char **buffer, int ival, int *len);
+extern void func_0219FD64(unsigned char **buffer, int ival, int *len);
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 void func_0219FDB8(char **buffer, int ival, int *len)
 {
@@ -26,5 +26,5 @@ void func_0219FDB8(char **buffer, int ival, int *len)
 	ivalBE |= (ivalNBO & 0xff00) << 8;
 	ivalBE |= (ivalNBO & 0xff0000) >> 8;
 	ivalBE |= (ivalNBO & 0xff000000) >> 24;
-	func_0219FD64(buffer, ivalBE, len);
+	func_0219FD64((unsigned char **)buffer, ivalBE, len);
 }

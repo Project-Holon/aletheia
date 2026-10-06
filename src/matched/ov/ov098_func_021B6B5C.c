@@ -20,7 +20,8 @@
  */
 
 extern void func_021B6C60(char *p);
-extern int func_021B6CDC(char *p);
+typedef unsigned char  u8;
+extern int func_021B6CDC(u8 *p);
 
 void func_021B6B5C(char *p)
 {
@@ -29,5 +30,5 @@ void func_021B6B5C(char *p)
 
 int func_021B6B68(char *p)
 {
-    return func_021B6CDC(p + 4);
+    return func_021B6CDC((u8 *)(p + 4));
 }

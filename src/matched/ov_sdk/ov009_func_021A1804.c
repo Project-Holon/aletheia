@@ -44,10 +44,11 @@ typedef struct {
 
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-extern int func_0219F6C8(SBServerList *slist, unsigned int ip, unsigned short port);
-extern SBServer *func_0219E900(SBServerList *slist, unsigned int publicip, unsigned short publicport);
-extern int func_0219E9D8(SBServer *server);
-extern void func_0219E9AC(SBServer *server, int flags);
+struct SBL;
+extern int func_0219F6C8(struct SBL *slist, unsigned int ip, unsigned short port);
+extern struct SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
+extern int func_0219E9D8(int v);
+extern void func_0219E9AC(unsigned char *p, unsigned char v);
 extern void func_0219F638(struct SBServerList *slist, struct SBServer *server);
 extern unsigned int func_0217F264(void);
 extern int func_0217EB2C(int sock);
@@ -67,13 +68,13 @@ int func_021A1804(SBServerList *slist)
         error = func_0217EC60(slist->slsocket, indata, 1499, 0, &saddr, &saddrlen);
         if (error == -1)
             continue;
-        foundexisting = func_0219F6C8(slist, saddr.addr, saddr.port);
+        foundexisting = func_0219F6C8((struct SBL *)slist, saddr.addr, saddr.port);
         if (foundexisting != -1)
             continue;
-        server = func_0219E900(slist, saddr.addr, saddr.port);
-        if (func_0219E9D8(server))
+        server = func_0219E900((int)slist, saddr.addr, saddr.port);
+        if (func_0219E9D8((int)server))
             return 5;
-        func_0219E9AC(server, 0x11);
+        func_0219E9AC((unsigned char *)server, 0x11);
         func_0219F638(slist, server);
     }
     if (func_0217F264() - slist->lanstarttime > 2000) {

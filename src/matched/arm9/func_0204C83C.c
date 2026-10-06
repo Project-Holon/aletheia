@@ -47,7 +47,9 @@ struct Sys {
 
 extern struct Sys *g_02146A74;
 
-extern void *func_0204C804(struct Sub *s);
+struct Entry;
+struct Pool;
+extern struct Entry *func_0204C804(struct Pool *p);
 struct Entry;
 extern void func_0204C8A4(struct Entry *e, u32 sel, u32 a, u32 b, u32 c);
 
@@ -56,7 +58,7 @@ u32 func_0204C83C(u32 kind, u32 a, u32 b, u32 c)
     void *h;
     u32   sel;
 
-    h = func_0204C804(&g_02146A74->unk_0e0);
+    h = func_0204C804((struct Pool *)(&g_02146A74->unk_0e0));
 
     if (kind == 0x13) {
         sel = 0;

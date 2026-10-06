@@ -10,4 +10,4 @@
  * status:   EXACT
  */
 
-int func_02036270(int a0, int a1, int a2, int a3){ int t0, t1; t0 = func_02035224(); t1 = func_02036254((int)t0, (int)a0, (int)a1); return t1; }
+int func_02036270(int a0, int a1){ int t0, t1; t0 = func_02035224(); t1 = func_02036254((int)t0, (int)a0, (int)a1); return t1; }

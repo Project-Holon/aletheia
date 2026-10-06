@@ -61,13 +61,13 @@ extern void func_021C4764(GHIConnection *connection);
 extern void func_021C492C(GHIConnection *connection);
 extern void func_021C4E7C(GHIConnection *connection);
 extern void func_021C5430(GHIConnection *connection);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
-                          const char *theTokenStr, ...);
+struct Ctx;
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_021C0E58(GHIConnection *connection);
 extern int func_0217EF50(int sock);
 extern void func_021C1D30(GHIConnection *connection);
 extern int func_021C0B4C(GHIConnection *connection);
-extern void func_021C0244(GHIConnection *connection);
+extern void func_021C0244(struct Ctx *ctx);
 extern int func_021C0C14(GHIConnection *connection);
 extern char g_021CED74[];
 
@@ -102,7 +102,7 @@ int func_021C1DEC(GHIConnection *connection)
     if (connection->state == 10)
         func_021C5430(connection);
     if (connection->state == 11)
-        func_0217D254(8, 3, 0x10, g_021CED74);
+        func_0217D254(8, (char *)3, 0x10, g_021CED74);
 
     if (connection->redirect)
         func_021C0E58(connection);
@@ -121,7 +121,7 @@ int func_021C1DEC(GHIConnection *connection)
                 connection->state = 11;
                 return 0;
             }
-            func_021C0244(connection);
+            func_021C0244((struct Ctx *)connection);
             if (!func_021C0C14(connection)) {
                 connection->processing = 0;
                 return 0;
@@ -132,7 +132,7 @@ int func_021C1DEC(GHIConnection *connection)
                 connection->state = 11;
                 return 0;
             }
-            func_021C0244(connection);
+            func_021C0244((struct Ctx *)connection);
             if (!func_021C0C14(connection)) {
                 connection->processing = 0;
                 return 0;

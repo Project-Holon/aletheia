@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 a[9]; } Table;
 extern const Table d_021C6EC0;
-extern void *func_021BDFEC(void *);
+extern int func_021BDFEC(void *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -36,7 +36,7 @@ void func_021B8978(int a, int b, int c, char *q)
     void *p;
     char *data, *input;
     Table table;
-    p = func_021BDFEC(((struct Obj03854 *)q)->f3DC);
+    p = (void *)func_021BDFEC(((struct Obj03854 *)q)->f3DC);
     data = *(char * *)&((struct Obj03854 *)q)->f1A4;
     input = data + 8;
     func_0203D1A4((struct Link *)((u32)func_020399A8()));

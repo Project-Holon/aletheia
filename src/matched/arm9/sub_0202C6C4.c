@@ -51,13 +51,14 @@ struct Obj0202C6C4 {
     u16 unk06;
 };
 
-extern u32 sub_0202C6B8(struct Obj0202C6C4 *p);
+struct Obj0202C6B8;
+extern u32 sub_0202C6B8(struct Obj0202C6B8 *p);
 
 u32 sub_0202C6C4(struct Obj0202C6C4 *p)
 {
     u32 v;
 
-    switch (sub_0202C6B8(p)) {
+    switch (sub_0202C6B8((struct Obj0202C6B8 *)p)) {
     case 0:
         return 0x7F;
     case 1:

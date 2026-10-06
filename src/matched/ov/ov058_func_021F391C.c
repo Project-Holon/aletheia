@@ -40,7 +40,7 @@ extern s16 d_020A1B38[];
 typedef unsigned char  u8;
 extern u16 func_02188C84(u8 *p);
 extern int func_02188D2C(int *p);
-extern char *func_021BE480(void *p, int i, u16 j);
+extern int func_021BE480(char *p, unsigned i, int j);
 extern void  func_021BE4A4(void *p, int i, u16 j, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
 
@@ -55,7 +55,7 @@ void func_021F391C(void *unused, void *a, int i, int j)
     func_02188C84(a);
     s = (void *)func_02188D2C(a);
 
-    e = (V *)func_021BE480(s, 0, i);
+    e = (V *)func_021BE480(s, (int)0, (u16)i);
     e->a = 0x1770000;
     e->b = 0x50000;
     e->c = 0x2100000;
@@ -64,14 +64,14 @@ void func_021F391C(void *unused, void *a, int i, int j)
     func_0207AF1C((char *)e + 0x18, x, y);
     func_021BE4A4(s, 0, i, 1);
 
-    e = (V *)func_021BE480(s, 0, j);
+    e = (V *)func_021BE480(s, (int)0, (u16)j);
     e->a = 0x1710000;
     e->b = 0x50000;
     e->c = 0x2100000;
     func_0207AF1C((char *)e + 0x18, x, y);
     func_021BE4A4(s, 0, j, 1);
 
-    e = (V *)func_021BE480(s, 0, i + 2);
+    e = (V *)func_021BE480(s, (int)0, (u16)(i + 2));
     e->a = 0x1C60000;
     e->b = 0x50000;
     e->c = 0x20B0000;
@@ -80,7 +80,7 @@ void func_021F391C(void *unused, void *a, int i, int j)
     func_0207AF1C((char *)e + 0x18, x, y2);
     func_021BE4A4(s, 0, i + 2, 1);
 
-    e = (V *)func_021BE480(s, 0, j + 2);
+    e = (V *)func_021BE480(s, (int)0, (u16)(j + 2));
     e->a = 0x1CC0000;
     e->b = 0x50000;
     e->c = 0x20B0000;

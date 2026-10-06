@@ -50,8 +50,10 @@ extern B32 d_021BD704;
 
 typedef unsigned short u16;
 extern void func_0203F8F4(u16 heapId);
-extern void func_0203FC28(void *);
-extern void func_0203FCA0(int, void *, int);
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 
@@ -68,21 +70,21 @@ void func_021BA9E8(void)
 
     func_0203F8F4(0xb);
     a = d_021BD678;
-    func_0203FC28(&a);
+    func_0203FC28((struct DispConfig *)(&a));
     b0 = d_021BD724;
-    func_0203FCA0(0, &b0, 0);
+    func_0203FCA0(0, (const struct BgTemplate *)(&b0), 0);
     b1 = d_021BD764;
-    func_0203FCA0(1, &b1, 0);
+    func_0203FCA0(1, (const struct BgTemplate *)(&b1), 0);
     b2 = d_021BD6C4;
-    func_0203FCA0(2, &b2, 0);
+    func_0203FCA0(2, (const struct BgTemplate *)(&b2), 0);
     b3 = d_021BD6E4;
-    func_0203FCA0(3, &b3, 0);
+    func_0203FCA0(3, (const struct BgTemplate *)(&b3), 0);
     b4 = d_021BD744;
-    func_0203FCA0(4, &b4, 0);
+    func_0203FCA0(4, (const struct BgTemplate *)(&b4), 0);
     b5 = d_021BD6A4;
-    func_0203FCA0(5, &b5, 0);
+    func_0203FCA0(5, (const struct BgTemplate *)(&b5), 0);
     b6 = d_021BD704;
-    func_0203FCA0(6, &b6, 0);
+    func_0203FCA0(6, (const struct BgTemplate *)(&b6), 0);
     func_020434DC(0xf, 1);
     func_02043598(7, 1);
 }

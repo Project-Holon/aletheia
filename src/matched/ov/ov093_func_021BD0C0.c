@@ -25,9 +25,11 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern u8 *func_021BCA08(u8 *p, u8 x);
 extern u8 *func_021BCA50(u8 *p, u8 *cur, u32 x);
 extern u32 func_021D8454(u8 *p);
-extern u16 func_021BDE48(void *p, u8 *m);
+struct Unk021BDE48;
+extern u16 func_021BDE48(void *p, struct Unk021BDE48 *m);
 extern int func_021BD138(u8 *p, u32 k);
-extern void func_021D82FC(u8 *p, int k);
+struct Unk021D82FC;
+extern void func_021D82FC(struct Unk021D82FC *p, int sub);
 extern void func_021BCCE0(u8 *p, u8 *e);
 
 int func_021BD0C0(u8 *p, u8 x, u32 y)
@@ -38,9 +40,9 @@ int func_021BD0C0(u8 *p, u8 x, u32 y)
             e = func_021BCA50(p, e, x);
         }
         if (e[0xd] == 0) {
-            if (func_021BDE48(((struct Obj09960 *)e)->f0, e + 4)) return 0;
+            if (func_021BDE48(((struct Obj09960 *)e)->f0, (struct Unk021BDE48 *)(e + 4))) return 0;
             if (func_021D8454(e + 4) == 6) return 0;
-            func_021D82FC(e + 4, func_021BD138(p + 0x1ab8, y));
+            func_021D82FC((struct Unk021D82FC *)(e + 4), func_021BD138(p + 0x1ab8, y));
             func_021BCCE0(p, e);
             return 1;
         }

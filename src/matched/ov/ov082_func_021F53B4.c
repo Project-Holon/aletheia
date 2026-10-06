@@ -62,18 +62,21 @@ typedef struct {
 extern const BgTemplate d_021F58F4;
 
 extern void func_021F56C0(u8 *w);
-extern void func_021F56D8(u8 *w);
+typedef signed int     s32;
+struct BgTemplate;
+struct NitroFileHeader;
+extern void func_021F56D8(int *p);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
 extern u32 func_02188C54(u8 *p);
 extern int func_02190378(u8 *a);
 extern void func_021904D0(u8 *p);
 extern void func_020403F4(u32 i);
-extern void func_0203FCA0(int, void *, int);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern int func_02062A4C(void *p, Chr **out);
-extern int func_02062B30(void *p, Scr **out);
-extern int func_02062A98(void *p, Plt **out);
-extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
+extern int func_02062B30(void *file, void **out);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_02040E78(u32 index, void *src, u32 size, u32 offset);
 extern void func_020307B0(void *p);
@@ -109,7 +112,7 @@ void func_021F53B4(u8 *w, int p)
     int c;
 
     func_021F56C0(w);
-    func_021F56D8(w);
+    func_021F56D8((int *)w);
     ((struct Obj09918 *)w)->f8 = reg_G2_BG3CNT;
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256,
                          GX_BG_SCRBASE_0x1000, GX_BG_CHARBASE_0x04000);
@@ -120,7 +123,7 @@ void func_021F53B4(u8 *w, int p)
     else
         func_020403F4(2);
     tbl = d_021F58F4;
-    func_0203FCA0(2, &tbl, 0);
+    func_0203FCA0(2, (const struct BgTemplate *)(&tbl), 0);
     if (((struct Obj09918 *)w)->fC == 0) {
         a = 4;
         b = 8;
@@ -135,23 +138,23 @@ void func_021F53B4(u8 *w, int p)
         c = 2;
     }
     f = func_02048F60(0xbb, a, 0x8015);
-    func_02062A4C(f, &chr1);
+    func_02062A4C(f, (void **)(&chr1));
     func_02040B1C(2, chr1->data, chr1->size, 0);
     func_020307B0(f);
     f = func_02048F60(0xbb, b, 0x8015);
-    func_02062B30(f, &scr1);
+    func_02062B30(f, (void **)(&scr1));
     func_020409E0(2, scr1->data, scr1->size, 0);
     func_020307B0(f);
     f = func_02048F60(0xbb, c, 0x8015);
-    func_02062A98(f, &plt);
+    func_02062A98(f, (void **)(&plt));
     func_02040E78(2, plt->data, 0x140, 0);
     func_020307B0(f);
     f = func_02048F60(0xbb, 7, 0x8015);
-    func_02062A4C(f, &chr2);
+    func_02062A4C(f, (void **)(&chr2));
     func_02040B1C(3, chr2->data, chr2->size, 0);
     func_020307B0(f);
     f = func_02048F60(0xbb, 11, 0x8015);
-    func_02062B30(f, &scr2);
+    func_02062B30(f, (void **)(&scr2));
     func_020409E0(3, scr2->data, scr2->size, 0);
     func_020307B0(f);
     func_0204047C(0, 3);

@@ -157,46 +157,59 @@ typedef struct Clock {
     s64 sec2;           /* 0x2C */
 } Clock;
 
-extern void *func_02012EBC(void *save);
-extern void *func_020089C0(void *p);
-extern void *func_02012944(void *save);
-extern void *func_02012F08(void *save);
-extern Clock *func_02008B14(void *p);
-extern void *func_02008C58(void *p);
-extern void *func_0200E6E8(void *p);
+struct Big;
+struct BigObj;
+struct Blk34;
+struct PlayTime;
+struct Rec0200E6FC;
+struct Rec1B0;
+struct Sub0200852CObj;
+struct Sub020089A8Obj;
+struct Sub02008AECSession;
+struct Sub02008C20Obj;
+struct Sub020090B0Obj;
+struct Sub02009210Obj;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub020089A8Obj *func_020089C0(void *sys);
+extern u8 *func_02012944(void *p);
+extern void *func_02012F08(int *p);
+extern struct Sub02008AECSession *func_02008B14(void *sys);
+extern struct Sub02008C20Obj *func_02008C58(void *sys);
+extern void *func_0200E6E8(u32 a);
 extern void *func_0200CA1C(void *save);
-extern int func_020084BC(void *player);
-extern u16 *func_020084F4(void *player);
-extern u32 func_02008550(void *player);
-extern u32 func_02008530(void *player);
-extern u32 func_0200C274(void *p);
-extern u32 func_0200C234(void *p, u32 i);
-extern void *func_02012FCC(void *save);
-extern u32 func_02008554(void *player);
-extern u32 func_0200864C(void *p);
-extern u32 func_02008650(void *p);
-extern u32 func_02008A0C(void *p);
-extern u32 func_02008A28(void *p);
-extern void func_0200E6FC(void *p, u32 a, void *out);
-extern u32 func_0200C1DC(void *p);
-extern void *func_0200BE48(void *p);
+extern int func_020084BC(const u16 *values);
+extern const void *func_020084F4(const void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 func_0200C274(struct Blk34 *p);
+extern u32 func_0200C234(struct Blk34 *p, u32 bit);
+extern int func_02012FCC(int p0);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u16 func_0200864C(const struct PlayTime *p);
+extern u8 func_02008650(const struct PlayTime *p);
+extern u16 func_02008A0C(const struct Sub020089A8Obj *obj);
+extern u8 func_02008A28(const struct Sub020089A8Obj *obj);
+extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern u32 func_0200C1DC(struct Blk34 *p);
+extern u16 *func_0200BE48(void *sys);
 extern void *func_02010F7C(u32 heap);
 extern void func_0200BF54(void *p, void *out, u32 n);
 extern void *func_020127B8(void *save);
 extern void func_02010F8C(void *p);
-extern u32 func_0200C184(void *p);
-extern u32 func_02008EA0(void *p);
-extern u32 func_02008E78(void *p);
-extern void *func_0200921C(void *save);
-extern u32 func_020090E0(void *p);
-extern u64 func_0200BF94(void *p);
-extern u32 func_02008DFC(void *p, u16 v);
-extern void *func_0201296C(void *save);
+extern u32 func_0200C184(struct Blk34 *p);
+extern u32 func_02008EA0(struct Sub02008C20Obj *obj);
+extern u8 func_02008E78(struct Sub02008C20Obj *obj);
+extern struct Sub02009210Obj *func_0200921C(void *p);
+extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
+extern unsigned long long func_0200BF94(struct Rec1B0 *p);
+extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
+extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *bitmap, int id);
-extern u32 func_0200D0AC(void *p, u32 heap);
-extern u32 func_020089D0(void *p);
+struct Blk37;
+extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
+extern int func_020089D0(const struct Sub020089A8Obj *obj);
 extern void *func_020089CC(void *p);
-extern u32 func_0216F830(void *save);
+extern int func_0216F830(void *save);
 extern u32 func_0216F3D4(void *p, int idx, u32 cap);
 extern int func_0216FEAC(void *tbl, void *pos, u8 *flags);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
@@ -226,9 +239,9 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
     x24 = func_020089C0(x28);
     player = func_02012944(save);
     x1c = func_02012F08(save);
-    clock = func_02008B14(x28);
+    clock = (Clock *)func_02008B14(x28);
     x14 = func_02008C58(x28);
-    x10 = func_0200E6E8(x28);
+    x10 = func_0200E6E8((u32)x28);
     x0c = func_0200CA1C(save);
 
     if (func_020084BC(player) == 0) {
@@ -242,8 +255,8 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
         out->name[5] = 'e';
         out->name[6] = func_02045A98();
     }
-    out->f03 = func_0216F830(save);
-    out->b1 = func_02008550(player);
+    out->f03 = (u32)func_0216F830(save);
+    out->b1 = (u32)func_02008550(player);
     out->f28 = func_02008530(player);
     out->f20 = func_0200C274(x1c);
     out->f08 = 0;
@@ -255,20 +268,20 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
     }
 
     if (mode == 1) {
-        p = func_02012FCC(save);
-        out->f06 = func_02008554(player);
+        p = (void *)func_02012FCC((int)save);
+        out->f06 = (u32)func_02008554(player);
         out->b0 = 0;
         out->f1c = 0;
-        out->f2a = func_0200864C(p);
-        out->f2e = func_02008650(p);
+        out->f2a = (u32)func_0200864C(p);
+        out->f2e = (u32)func_02008650(p);
     } else {
-        out->f06 = func_02008554(player);
+        out->f06 = (u32)func_02008554(player);
         out->b0 = 1;
-        out->f1c = (u32)func_02012FCC(save);
+        out->f1c = (u32)func_02012FCC((int)save);
     }
-    out->f48 = func_02008A0C(x24);
-    out->b4 = func_02008A28(x24);
-    func_0200E6FC(x10, 0, out->f6c);
+    out->f48 = (u32)func_02008A0C(x24);
+    out->b4 = (u32)func_02008A28(x24);
+    func_0200E6FC(x10, (u32)0, (struct Rec0200E6FC *)out->f6c);
 
     RTC_ConvertSecondToDateTime(&date, &time, clock->sec1);
     out->year1 = date.year;
@@ -308,22 +321,22 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
     out->f60 = func_0216F3D4(x14, 8, 9999);
     out->f62 = func_0200C184(x1c);
     out->f64 = func_02008EA0(x14);
-    out->f66 = func_02008E78(x14);
-    out->fl0 = func_020090E0(func_0200921C(save));
-    if (func_0200BF94(func_0200BE48(x28)) != 0)
+    out->f66 = (u32)func_02008E78(x14);
+    out->fl0 = (u32)func_020090E0((const struct Sub020090B0Obj *)func_0200921C(save));
+    if (func_0200BF94((struct Rec1B0 *)func_0200BE48(x28)) != 0)
         out->fl1 = 1;
     if (out->f60 != 0)
         out->fl2 = 1;
-    if (func_02008DFC(x14, 0x78))
+    if (func_02008DFC(x14, (u16)0x78))
         out->fl3 = 1;
-    if (func_02008DFC(x14, 0x79))
+    if (func_02008DFC(x14, (u16)0x79))
         out->fl4 = 1;
-    if (func_020142E8(func_0201296C(save), 2402) == 1)
+    if (func_020142E8((void *)func_0201296C(save), 2402) == 1)
         out->b2 = 1;
     else
         out->b2 = 0;
     out->f24 = func_0200D0AC(x0c, heap);
-    out->b3 = func_020089D0(x24);
+    out->b3 = (u32)func_020089D0(x24);
     MI_CpuCopy8(func_020089CC(x24), out->f74, 0x600);
     out->b6 = flag;
 }

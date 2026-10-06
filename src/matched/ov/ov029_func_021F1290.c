@@ -31,7 +31,8 @@ extern const u16 d_021F31D4[];
 extern const u8 d_021F323C[];
 extern void func_021F0D14(int a, int b, int *x, int *y);
 extern int func_021F0C70(void *p, int i, int j, int k);
-extern u16 *func_0204162C(int channel);
+typedef unsigned int   u32;
+extern u32 func_0204162C(int channel);
 
 void func_021F1290(void *q, int a, int b, int c)
 {
@@ -39,7 +40,7 @@ void func_021F1290(void *q, int a, int b, int c)
     int y, x, xx, v, pal, i, yy, j;
     u16 *buf;
 
-    buf = func_0204162C(4);
+    buf = (u16 *)func_0204162C(4);
     func_021F0D14(a, b, &y, &x);
     v = d_021F31D4[c];
     pal = func_021F0C70(q, v, a, b);

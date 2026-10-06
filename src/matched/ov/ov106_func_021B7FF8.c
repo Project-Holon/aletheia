@@ -26,7 +26,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02082BCC(void *,int,int);
 extern void func_0204335C(u32);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -43,7 +44,7 @@ void func_021B7FF8(u8 *p, void *a, u32 b) {
  *(volatile unsigned *)0x04000000 &= ~0xe000;
  *(volatile unsigned *)0x04001000 &= ~0xe000;
  func_0204335C(0);
- func_020433E0(d_021B94F4);
+ func_020433E0((const struct DispVram *)d_021B94F4);
  func_0204363C(1);
  func_0204361C();
  func_020434CC();

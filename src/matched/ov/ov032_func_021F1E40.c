@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_021F1EAC(void *task, u8 *s);
-extern void func_021F0FC8(char *p, char *q, u32 a);
+extern void func_021F0FC8(char *p, u8 *q, int r);
 extern void func_021F0ED0(char *q, int a);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
@@ -54,6 +54,6 @@ void func_021F1E40(char *p, char *q, void *x, int flag)
         ((struct Obj05121 *)r)->fC = 1;
     else
         ((struct Obj05121 *)r)->fC = func_02165E24((int)x);
-    func_021F0FC8(p, q, func_02165FC0(((struct Obj05121 *)r)->fC));
+    func_021F0FC8(p, (u8 *)q, func_02165FC0(((struct Obj05121 *)r)->fC));
     func_021F0ED0(q, flag ? 0 : 1);
 }

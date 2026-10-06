@@ -39,7 +39,7 @@ typedef struct State { void *bank; u32 windows[4]; u8 bounds[20]; const Row *row
 extern void func_02082BCC(void *,u8,u32);
 extern void *func_02051B84(u8 *,int,int,int);
 extern void func_021B8794(u16,int,u8 *);
-extern u32 func_020450F0(u32,u8,u8,u8,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct CharBuf;
@@ -61,7 +61,7 @@ extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201DD68(void);
-void func_021B8464(State *p,u32 bg,const Row *rows,int count,void *object,u16 heap)
+void func_021B8464(State *p, int bg, const Row *rows, int count, void *object, u16 heap)
 {
     int i;
     const Row *row;
@@ -83,7 +83,7 @@ void func_021B8464(State *p,u32 bg,const Row *rows,int count,void *object,u16 he
     p->bank=func_02051B84(p->bounds,(int)func_021B8794,(int)p,heap);
     for(i=0;i<p->count;i++) {
         row=rows+i;
-        p->windows[i]=func_020450F0(bg,row->x+4,row->y+1,row->w-8,row->h-2,row->color,1);
+        p->windows[i]=func_020450F0(bg,(u8)(row->x+4),(u8)(row->y+1),(u8)(row->w-8),row->h-2,row->color,1);
         func_02043B5C(func_02045770((struct Descriptor *)p->windows[i]),4);
         win=p->windows[i];
         func_02045334((struct Descriptor *)win);

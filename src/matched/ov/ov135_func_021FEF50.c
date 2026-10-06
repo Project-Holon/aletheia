@@ -37,7 +37,7 @@ extern void func_020409B4(u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern const int d_02202EAC;
-extern void func_021F88B0(char *, int);
+extern void func_021F88B0(u8 *p, u32 n);
 extern void func_021F8010(void *, void *, void *, unsigned, unsigned, unsigned, u16, void *);
 int func_021FEF50(char *p)
 {
@@ -55,7 +55,7 @@ int func_021FEF50(char *p)
         ((struct Obj02204 *)p)->f28 = 0;
     } else {
         func_021FF570(0);
-        func_021F88B0(p, r);
+        func_021F88B0((u8 *)p, r);
         ((struct Obj02204 *)p)->f28 = 0;
         func_02043B5C(func_02045770(((struct Obj02204 *)p)->fDDC), 0);
         func_021F8010(((struct Obj02204 *)p)->fDDC, ((struct Obj02204 *)p)->fB7C, ((struct Obj02204 *)p)->fB6C, ((struct Obj02204 *)p)->fF84, 0, 0, 0x3c40, p + 0xfa0);

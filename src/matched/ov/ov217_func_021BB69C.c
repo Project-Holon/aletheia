@@ -28,7 +28,7 @@ extern void func_021BB990(void *);
 extern unsigned func_021BB948(u8 *);
 extern void func_021BC490(void);
 extern int func_021BC4A0(void);
-extern void func_021BC50C(u8 *);
+extern void func_021BC50C(char *p);
 extern unsigned func_021BC55C(unsigned);
 extern void func_021C1038(u8 *p, u8 palette);
 extern void func_021BB91C(void *);
@@ -44,7 +44,7 @@ void func_021BB69C(u8 *p)
         break;
     case 1:
         if (func_021BC4A0()) {
-            func_021BC50C(p);
+            func_021BC50C((char *)p);
             func_021BB990(p);
         }
         break;

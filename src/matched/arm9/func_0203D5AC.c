@@ -32,7 +32,7 @@ struct Entry;
 extern struct Entry *func_0203996C(s32 idx);
 extern void func_0203A458(u8 *a0, u32 a1);
 
-void func_0203D5AC(u32 a)
+void func_0203D5AC(int a, int b)
 {
     u8 *p;
 

@@ -23,11 +23,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_0203EFC8(void *a, void *b, int c);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 BOOL func_021C27F8(char *p, char *q)
 {
-    if (func_0203EFC8(p + 0xE, q + 8, 6) == 0) {
+    if (func_0203EFC8((const u8 *)(p + 0xE), (const u8 *)(q + 8), 6) == 0) {
         return 1;
     }
 

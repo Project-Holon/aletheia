@@ -63,7 +63,8 @@ struct Sub020097BCObj;
 extern void *func_020127A4(struct SaveBlock *p);
 extern void func_020087E8(void *sys, const struct Sub020087E8Arg *src);
 extern void func_02008860(void *sys, const struct Sub02008860Buf *src);
-extern u32  func_02012964(void *p);
+struct BigObj;
+extern u32 func_02012964(const struct BigObj *p);
 extern void func_0200EE64(u32 a0, u8 *a1);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *h, u32 id);
@@ -75,7 +76,7 @@ extern void func_0200A870(struct Rec2Head *dest, const struct Rec2Head *src);
 extern void func_0200B3B0(struct Rec94 *dest, void *sys);
 extern void func_0200892C(struct Sub02008828Obj *obj, const void *src);
 extern void func_0200894C(struct Sub02008828Obj *obj, u8 value);
-extern u32  func_0201283C(void *p);
+extern u32 func_0201283C(const struct BigObj *p);
 extern struct Sub020097BCObj *func_02009D08(void *sys);
 extern void func_020097F0(const struct Sub020097BCObj *src, struct Sub020097BCObj *dest);
 extern void func_0200895C(struct Sub02008828Obj *obj, u8 value);
@@ -93,7 +94,7 @@ void func_02012CE0(u8 *p)
     func_020087E8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Sub020087E8Arg *)v);
     func_02008860((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Sub02008860Buf *)v);
 
-    v = func_02012964(p);
+    v = func_02012964((const struct BigObj *)p);
     func_0200EE64(v, (u8 *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x29)));
 
     func_0200BE54((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const u16 *)func_020127B8(p));
@@ -107,7 +108,7 @@ void func_02012CE0(u8 *p)
     func_0200892C((struct Sub02008828Obj *)h, (const void *)(*(u32 *)&((struct Obj00054 *)p)->f1B8));
     func_0200894C((struct Sub02008828Obj *)h, ((struct Obj00054 *)p)->f1C4);
 
-    v = func_0201283C(p);
+    v = func_0201283C((const struct BigObj *)p);
     func_020097F0((const struct Sub020097BCObj *)v, func_02009D08((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)));
 
     func_0200895C((struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C), ((struct Obj00054 *)p)->f1C5);

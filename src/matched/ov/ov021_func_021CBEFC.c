@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021CBEFC(u32 v)
+u8 func_021CBEFC(u32 v)
 {
     if (v < 100)
         return 3;

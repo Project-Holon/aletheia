@@ -15,10 +15,11 @@
  */
 typedef unsigned int u32;
 extern void func_021B6100(char *p, int k);
-extern void func_021B66FC(void *p);
-extern void func_02036270(u32 a, u32 b);
-void func_021B8B0C(void *p)
+typedef unsigned char  u8;
+extern void func_021B66FC(u8 *p);
+extern int func_02036270(int a0, int a1);
+int func_021B8B0C(void *p)
 {
     func_021B6100(p, (int)func_021B66FC);
-    func_02036270(3, 6);
+    return func_02036270(3, 6);
 }

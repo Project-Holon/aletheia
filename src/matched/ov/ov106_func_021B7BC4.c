@@ -40,10 +40,14 @@ extern s16 func_021B84C4(u8 *),func_021B8518(u8 *);
 extern void func_021B900C(u8 *,int,int),func_021B9134(u8 *),func_021B78D0(u8 *,u32);
 extern void func_021B7984(u8 *,u32,u8 *);
 extern void func_021B7948(u8 *a, int *s);
-extern int func_021B9198(u8 *),func_021B7250(int *);
+extern int func_021B9198(int *p);
+extern int func_021B7250(int *);
 extern s16 func_021B913C(u8 *);
-extern int func_0207C768(int,int);
-extern void func_021B8408(u8 *,s16),func_021B838C(u8 *),func_021B8FD0(u8 *),func_021B71E4(u32);
+extern u32 func_0207C768(u32 a, u32 b);
+extern void func_021B8408(u8 *,s16);
+extern void func_021B838C(u8 *);
+extern void func_021B8FD0(u8 *);
+extern void func_021B71E4(int a);
 #define ROUND(a) ((int)((a)>0 ? (float)((a)<<12)+0.5f : (float)((a)<<12)-0.5f))
 void func_021B7BC4(u8 *a,u32 unused,u8 *p) {
     int target,current,last;
@@ -54,15 +58,15 @@ void func_021B7BC4(u8 *a,u32 unused,u8 *p) {
     if((s16)target>current && current!=last) {
         int n=++((struct Obj10253 *)p)->f640;
         if(ROUND(n)>81920)
-            func_021B900C(p+0x600,(int)(((long long)func_0207C768(ROUND(n)-81920,163840)*245760+2048)>>12),12);
+            func_021B900C(p+0x600,(int)(((long long)(int)func_0207C768((int)(ROUND(n)-81920),(int)163840)*245760+2048)>>12),12);
         else func_021B900C(p+0x600,8192,12);
     } else {
         func_021B9134(p+0x600);
         func_021B78D0(p+0x28,(u32)func_021B7984);
     }
-    if(func_021B9198(p+0x600)) func_021B8408(p+0x38,func_021B913C(p+0x600));
+    if(func_021B9198((int *)(p+0x600))) func_021B8408(p+0x38,func_021B913C(p+0x600));
     if(func_021B7250(*(int * *)&((struct Obj10253 *)p)->f614)==1)func_021B78D0(a,(u32)func_021B7948);
     func_021B838C(p+0x38);
     func_021B8FD0(p+0x600);
-    func_021B71E4(*(u32 *)&((struct Obj10253 *)p)->f614);
+    func_021B71E4((u32)(*(u32 *)&((struct Obj10253 *)p)->f614));
 }

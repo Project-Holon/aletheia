@@ -61,8 +61,8 @@ extern u8 d_0217AAAC[];
 extern struct s_aac0 d_0217AAC0;
 extern u8 d_0217ABA0[];
 
-extern void func_02034714(void *a, int b, void *c);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern int func_0203F1FC(const u8 *src, u32 len);
 extern void func_02179D14(void);
 extern int func_02179C98(void);
 
@@ -82,7 +82,7 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
     ((struct flags_ab80 *)d_0217AB80)->fE = 1;
 
     if (len > 0xB4)
-        func_02034714(d_0217AAAC, 0, d_0217AAAC);
+        func_02034714((const char *)d_0217AAAC, 0, (const char *)d_0217AAAC);
     if (!(len != 0 && len <= 0xB4))
         return;
     if (((struct Obj01643 *)pkt)->f0 != func_0203F1FC(pkt + 2, len - 2))

@@ -54,8 +54,9 @@ typedef struct {
     u8 cnt[4][14];          /* 0x550 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
-extern void func_02015CC4(void *p, VecFx32 *out);
+typedef unsigned int   u32;
+extern int func_022019F4(char *p, int key);
+extern void func_02015CC4(void *p, u32 *out);
 extern int func_021F935C(int x);
 extern void func_0220074C(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
                           int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
@@ -64,14 +65,14 @@ extern void func_02200BD4(void *p);
 
 void func_021FF6B0(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c)
 {
-    int idx = func_022019F4(w, i);
+    int idx = func_022019F4((char *)w, i);
     VecFx32 cur;
 
     if (idx == -1)
         return;
     if (w->e[idx].h == 0)
         return;
-    func_02015CC4(w->e[idx].h, &cur);
+    func_02015CC4(w->e[idx].h, (u32 *)(&cur));
     w->cnt[2][i]++;
     func_0220074C(w, i, kind, &cur, q, n, f48, f4c, (void *)func_02200B48, func_02200BD4, 0, w->cnt[2][i]);
     w->mask[3] |= func_021F935C(i);

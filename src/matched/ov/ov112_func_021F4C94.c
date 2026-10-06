@@ -16,14 +16,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern int func_0204F428(void *,u32,u16,u16,void *,u8,u32,u32);
+typedef signed int     s32;
+struct Board;
+struct Vec3;
+extern s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *,u32,u32 *);
 extern u32 d_021F8300;
 typedef struct { u16 flags, zero; u32 id, index, type; int x,y,z; s16 a,b; void *data; } Entry;
 typedef struct { u32 pad; void *board; Entry *entries; } Object;
 Entry *func_021F4C94(Object *p, u16 index, int *v, s16 a, s16 b)
 {
-    p->entries[index].index = func_0204F428(p->board,p->entries[index].id,4096,4096,v,31,0,0);
+    p->entries[index].index = func_0204F428(p->board,p->entries[index].id,4096,4096,(struct Vec3 *)v,31,0,0);
     func_0204F720(p->board,p->entries[index].index,&d_021F8300);
     p->entries[index].flags = (p->entries[index].flags & ~1) | 1;
     p->entries[index].flags |= 2;

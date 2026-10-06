@@ -34,7 +34,7 @@
 #include "../include/Obj00511.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_020362DC(const void *);
+extern u32 func_020362DC(void);
 extern int func_02035C08(const void *);
 extern void * func_021C09B8(void *);
 extern u32 func_021BA4D4(void *);
@@ -54,7 +54,7 @@ extern u32 func_021BA1F8(u32);
 extern u32 func_021BA228(u32);
 void func_021B9E44(char *p)
 {
-    u32 keys=func_020362DC(p);
+    u32 keys=func_020362DC();
     int choice=func_02035C08(p+44);
     int other=func_02035C08(func_021C09B8(((struct Obj00511 *)p)->f0));
     if(func_021BA4D4(p)!=0 || other==0) {

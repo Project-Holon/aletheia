@@ -53,26 +53,37 @@ extern int func_021B7250(int *p);
 struct R;
 extern void func_021B7264(int p);
 extern void func_021B72A0(int p, int b);
-extern void func_021B72A8(void *,u32);
-extern void func_021B63BC(void *),func_021B63CC(void *,int);
-extern int func_021B6150(void *),func_021B6254(void *),func_021B62AC(void *),func_021B630C(void *,int);
-extern int func_021B6568(void *,u32);
+struct Big;
+struct Ctx;
+struct Obj;
+struct Sub0200852CObj;
+extern void func_021B72A8(unsigned *p, unsigned b);
+extern void func_021B63BC(int *p);
+extern void func_021B63CC(int *p, int n);
+extern int func_021B6150(struct Obj *p);
+extern int func_021B6254(int *p);
+extern int func_021B62AC(int *p);
+extern int func_021B630C(int *p, int value);
+extern int func_021B6568(int *p, int resource);
 extern int func_021B6518(u32 p, u32 a, u32 b);
 extern void func_021B657C(int *p, struct R *out);
 extern int func_021B652C(u32 p);
 extern int func_021B6540(u32 p);
-extern int func_021B6554(void *);
+extern int func_021B6554(int *p);
 extern int func_021B6424(int p);
-extern int func_021B6480(void *);
+extern int func_021B6480(int *p);
 extern void func_021B7F08(unsigned p, unsigned x);
 extern void func_021B7DFC(u8 *,void *,int,int,short);
 extern void func_021B8724(u8 *);
 extern void func_021B8320(u8 *,u16 *);
 extern void func_021B82DC(u8 *,u16 *);
 extern void func_021B83E0(u8 *p);
-extern void func_020061E4(int),func_020409B4(u32);
-extern void *func_020120F4(const void *),*func_02012EBC(void *),*func_0200ED48(void *);
-extern u32 func_02008530(const void *);
+extern void func_020061E4(u32 a);
+extern void func_020409B4(u32);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200ED48(void *);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 void func_021B7F24(u8 *p,u16 *state)
 {
@@ -100,7 +111,7 @@ void func_021B7F24(u8 *p,u16 *state)
             func_021B657C(C,(struct R *)(*(u32 *)(O+16)));
             if(*(u32 *)O) {
                 save=func_0200ED48(func_02012EBC(func_020120F4(*(void **)O)));
-                func_0200ED54(save,func_02008530(*(u8 **)(O+16)+12));
+                func_0200ED54(save,func_02008530((const struct Sub0200852CObj *)(*(u8 **)(O+16)+12)));
             }
             *state=6;
         }

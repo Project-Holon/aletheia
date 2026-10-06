@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-int func_02175C78(u8 *p)
+int func_02175C78(u8 *p, void *b, int c)
 {
     if (p[0xe0] == 4) return 0;
     return 3;

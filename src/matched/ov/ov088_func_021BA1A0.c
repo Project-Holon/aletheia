@@ -28,13 +28,13 @@ typedef unsigned int   u32;
 extern u32 func_0203D210(void);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
-extern void func_021BA9C8(void *);
+extern void func_021BA9C8(int *p);
 extern void func_021BAC64(char *p);
 extern void func_021BB474(char *p);
 extern void func_021BB328(char *p);
 extern void func_021BB164(char *p);
 extern void func_021BB5C4(char *p);
-extern void func_021BACD8(void *);
+extern void func_021BACD8(int *p);
 extern void func_021BAB20(void);
 
 int func_021BA1A0(char *p)
@@ -46,13 +46,13 @@ int func_021BA1A0(char *p)
         ((struct Obj13232 *)p)->f12A = s + 1;
     case 1:
         if (func_0203D210() != 0) {
-            func_021BA9C8(p);
+            func_021BA9C8((int *)p);
             func_021BAC64(p);
             func_021BB474(p);
             func_021BB328(p);
             func_021BB164(p);
             func_021BB5C4(p);
-            func_021BACD8(p);
+            func_021BACD8((int *)p);
             func_021BAB20();
             *(unsigned short *)0x04000050 = 0;
             *(unsigned short *)0x04001050 = 0;

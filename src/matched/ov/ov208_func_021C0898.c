@@ -19,7 +19,7 @@ struct PrintSys;
 extern void func_02045C04(struct Rec *);
 extern void func_020452E8(struct Descriptor *);
 extern void func_0201C6EC(struct PrintSys *);
-void func_021C0898(void *unused, char *p)
+void func_021C0898(void *unused, char *p, void *a2)
 {
     u8 i;
     for (i = 0; i < 2; i++) func_02045C04(*(struct Rec **)(p + i * 4 + 0xc));

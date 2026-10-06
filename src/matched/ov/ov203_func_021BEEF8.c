@@ -22,7 +22,10 @@ struct TcblNode;
 extern int func_02005E50(void);
 extern void func_02005DE4(void *);
 extern int func_02005E64(void),func_02005E9C(void);
-extern void func_02005D28(void),func_02005D90(int,int),func_02005DF8(unsigned short);
+typedef unsigned int   u32;
+extern void func_02005D28(void);
+extern void func_02005D90(int,int);
+extern void func_02005DF8(u32 a);
 extern void func_02031194(struct TcblNode *);
 void func_021BEEF8(struct TcblNode *node,Task *t)
 {
@@ -37,7 +40,7 @@ void func_021BEEF8(struct TcblNode *node,Task *t)
         if(t->b){
             if((unsigned char)t->owner[25]!=0){func_02005E9C();func_02005DE4(0);t->owner[25]=0;}
         }else {func_02005D90(t->channel,0xffff);}
-        if(t->end!=0)func_02005DF8(t->end);
+        if(t->end!=0)func_02005DF8((unsigned short)t->end);
         break;
     }
     func_02031194(node);

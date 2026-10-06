@@ -18,7 +18,7 @@
 #include "../include/Obj04505.h"
 typedef unsigned char u8;
 extern void func_021CA444(char *);
-extern void func_021CA458(void *,void *);
+extern void func_021CA458(char *p, void *q);
 struct Descriptor;
 struct TaskMenuState;
 struct U16Vec;
@@ -26,10 +26,10 @@ extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
-void func_021C72A0(u8 *p, int unused, u8 *q)
+void func_021C72A0(u8 *p, u8 *unused, u8 *q)
 {
     func_021CA444((char *)q);
-    func_021CA458(q,q+12);
+    func_021CA458((char *)q,q+12);
     func_02027FD8(((struct Obj04505 *)p)->f48);
     func_02045808(((struct Obj04505 *)p)->f30);
     func_02045808(((struct Obj04505 *)p)->f3C);

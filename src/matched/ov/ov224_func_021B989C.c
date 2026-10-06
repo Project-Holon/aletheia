@@ -26,7 +26,7 @@ extern u16 table[][4];
 extern void func_020434DC(u32,u32);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16,int,int,int,int);
-extern void func_02046A94(unsigned char,const u16 *);
+extern void func_02046A94(u32 idx, const u16 *src);
 extern void func_02046BE0(u32,u32);
 #define DISP (*(volatile u16 *)0x04000060)
 static inline void G2_SetBG0Priority(int priority) {
@@ -65,6 +65,6 @@ void func_021B989C(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,0x7fff,0x3f,0);
     *(volatile u32 *)0x04000580 = 0xbfff0000;
-    for (; i < 4; i++) func_02046A94(i,table[i]);
+    for (; i < 4; i++) func_02046A94((unsigned char)i,table[i]);
     func_02046BE0(0,0);
 }

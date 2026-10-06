@@ -42,7 +42,7 @@ void *func_021C7CF4(int *p, int i);
 int func_021D5B68(void *p);
 struct UtilWork;
 int func_021D5BB0(struct UtilWork *p, u32 n);
-void *func_021C88A4(int a, int k, int b);
+void *func_021C88A4(char *p, int a, int b);
 void func_021C8838(void *p, int a, int b);
 struct S;
 void func_021C8860(struct S *p, unsigned int a);
@@ -65,7 +65,7 @@ void func_021E5F48(void *a, int b, int c, int *d)
         return;
     if (func_021D5BB0(r, 1) != 0)
         return;
-    p = func_021C88A4(b, 4, c);
+    p = func_021C88A4((char *)b, 4, c);
     func_021C8838(p + 4, 2, 0x414);
     func_021C8860((struct S *)(p + 4), c);
     func_021C8860((struct S *)(p + 4), k);

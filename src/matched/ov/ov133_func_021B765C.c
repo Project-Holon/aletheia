@@ -162,23 +162,25 @@ typedef struct {int x,y,z;} Vec;
 typedef struct {int x,y;} Pair;
 extern const s16 FX_SinCosTable_[];
 extern u8 d_021BA3E4[], d_021BA3E8[];
-extern void *func_021BA184(u8 *p);
+struct Manager0204F684;
+struct Trip;
+extern void *func_021BA184(char *p);
 extern u32 func_021BA208(u8 *p);
 extern u32 func_021BA20C(u8 *p);
 extern void func_021BA210(u8 *p, u32 v);
 extern u32 func_021BA218(u8 *p);
-extern void func_021BA21C(u8 *p, Pair *v);
+extern void func_021BA21C(u8 *p, const u8 *src);
 extern void func_021BA244(u8 *p, u32 v);
 extern void func_021F4E8C(int, int, Vec *);
-extern void func_021F4ED4(int, int, u16);
-extern void func_021F4EB4(int, int, s16, s16);
-extern void func_021F4E6C(int, int, int);
+extern void func_021F4ED4(u32 unused, u32 p, u16 v);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
+extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
 extern void func_020061E4(u32);
-extern void func_0204F638(int, int, Vec *);
-extern void func_0204F684(int, int, s16 *, s16 *);
-extern void func_0204F720(int, int, void *);
+extern void func_0204F638(u8 *a0, int i, struct Trip *src);
+extern void func_0204F684(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14);
+extern void func_0204F720(void *p, u32 idx, u32 *flag);
 static inline int GetTimer(u8 *p) { return *(u16 *)(p + 0x94); }
-void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
+void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
 {
     Vec v;
     Vec w;
@@ -204,7 +206,7 @@ void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
     int sh = 0xC0000;
 
     idx = 0;
-    e = func_021BA184(*(u8 **)(p + 0x181C));
+    e = func_021BA184((char *)(*(u8 **)(p + 0x181C)));
     *(int *)(p + 0x1834) += speed;
     if (*(int *)(p + 0x1834) < 0)
         *(int *)(p + 0x1834) += *(u16 *)(p + 0xA8) * 0x1249;
@@ -253,24 +255,24 @@ void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
         v.z = (h - a) + 0x14000;
         func_021F4E8C(*(int *)(p + 0x1884), (int)spr, &v);
         func_021F4ED4(*(int *)(p + 0x1884), (int)spr, rot);
-        func_021BA21C(e, &pos);
+        func_021BA21C(e, (const u8 *)(&pos));
         if (a < (h >> 1)) {
             sc = h >> 3;
             func_021F4EB4(*(int *)(p + 0x1884), (int)spr, h >> 3, h >> 3);
-            func_021F4E6C(*(int *)(p + 0x1884), (int)spr, 1);
+            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, h >> 3);
         } else if (a < 0x6E00) {
             sc = ((u16)(0x6E00 - a) << 11) / 0x2E00 + (h >> 4);
             func_021F4EB4(*(int *)(p + 0x1884), (int)spr, sc, sc);
-            func_021F4E6C(*(int *)(p + 0x1884), (int)spr, 1);
+            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, sc);
         } else if (a < 0x78E0) {
             sc = ((u16)(0x78E0 - a) << 11) / 0xAE0;
             func_021F4EB4(*(int *)(p + 0x1884), (int)spr, sc, sc);
-            func_021F4E6C(*(int *)(p + 0x1884), (int)spr, 1);
+            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
             func_021BA244(e, sc);
         } else {
-            func_021F4E6C(*(int *)(p + 0x1884), (int)spr, 0);
+            func_021F4E6C((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 0);
             func_021BA244(e, 0);
             sc = 0;
         }
@@ -278,15 +280,15 @@ void func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
             w.x = v.x / 16;
             w.y = (sh - (v.y + 0x8000)) / 16;
             w.z = v.z + (sh >> 9);
-            func_0204F638(*(int *)(p + 0x188C), *(int *)(p + idx * 4 + 0x5C), &w);
-            func_0204F684(*(int *)(p + 0x188C), *(int *)(p + idx * 4 + 0x5C), &sc, &sc);
-            func_0204F720(*(int *)(p + 0x188C), *(int *)(p + idx * 4 + 0x5C), d_021BA3E8);
+            func_0204F638((u8 *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (struct Trip *)(&w));
+            func_0204F684((struct Manager0204F684 *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), &sc, &sc);
+            func_0204F720((void *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (u32 *)d_021BA3E8);
         } else {
-            func_0204F720(*(int *)(p + 0x188C), *(int *)(p + idx * 4 + 0x5C), d_021BA3E4);
+            func_0204F720((void *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (u32 *)d_021BA3E4);
         }
         e = (u8 *)func_021BA208(e);
         idx++;
     } while (e != 0);
 end:
-    func_021BA184(*(u8 **)(p + 0x181C));
+    return func_021BA184((char *)(*(u8 **)(p + 0x181C)));
 }

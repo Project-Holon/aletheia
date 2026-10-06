@@ -21,14 +21,14 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern u32 func_0204AEF4(void *h, int k);
+extern int func_0204AEF4(u32 idx, u32 alternate);
 extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
 extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
 void func_02201DB4(char *base, int idx, u8 b, u8 c, s8 step, u16 d)
 {
-    u16 m = 1 << ((func_0204AEF4(*(void **)(base + idx * 16 + 0x10), 0) & 0x3FF) >> 5);
+    u16 m = 1 << (((u32)func_0204AEF4((u32)(*(void **)(base + idx * 16 + 0x10)), (int)0) & 0x3FF) >> 5);
     void *p = (void *)func_021F86E0();
 
     func_0202173C(p, 4, m, step, b, c, d, func_021F86D4());

@@ -22,7 +22,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern u8 *func_02011324(u8 *);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 extern int func_0218814C(u8 *, u8 *);
 extern int func_02188284(u8 *, u8 *);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
@@ -35,7 +36,7 @@ int func_02187FB0(u8 *a)
     int candidates[3];
     u64 r;
     int result;
-    p = func_02011324(a);
+    p = func_02011324((struct ScriptVm *)a);
     if (((struct Obj00067 *)p)->f98 == 0) {
         p[0x95] = p[0x94] ^ 1;
         return func_0218814C(a, p);

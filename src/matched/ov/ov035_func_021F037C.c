@@ -40,7 +40,7 @@ extern void func_021F0354(char *p);
 extern u8 func_021F0364(char *p);
 extern u32 func_021F0370(char *p);
 extern u32 func_020221A4(void);
-extern u32 func_02035C60(void);
+extern int func_02035C60(void);
 struct Comm;
 struct Ctx;
 struct IcaAnime;

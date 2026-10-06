@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 extern void func_02029D44(u32 a, u32 b, u32 c, u32 d);
 extern void func_02029D7C(int a, int b);
 extern void *func_02184360(u8 *p, int value);
-extern int func_021BF58C(int ctx, int a, int b);
+extern void *func_021BF58C(int a, void *p, int c);
 extern int func_021BFD34(int ctx, int a, int b, u8 *p);
 
 int func_02184730(int ctx, int *state, u8 *p)
@@ -67,7 +67,7 @@ int func_02184730(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 4:
-        func_02012374((struct Evt *)ctx, (struct Evt **)func_021BF58C(ctx, x, z));
+        func_02012374((struct Evt *)ctx, (struct Evt **)func_021BF58C(ctx, (void *)x, z));
         (*state)++;
         break;
     case 5:

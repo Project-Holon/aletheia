@@ -26,7 +26,7 @@ typedef unsigned char u8;
 
 extern u8 g_0214E484[];
 
-void func_02072D98(u32 idx, u8 val)
+void func_02072D98(u32 idx, u32 val)
 {
     g_0214E484[idx * 0x24] = val;
 }

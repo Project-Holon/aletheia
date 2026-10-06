@@ -24,15 +24,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0201134C(u8 *);
-extern u32 func_0218A160(u8 *, u32);
-extern u8 *func_0218A2FC(u8 *, u32);
-extern u16 func_021D67A8(u8 *);
-extern u32 func_021D679C(u8 *);
+struct QL;
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u16 func_021D67A8(struct QL *p);
+extern u16 func_021D679C(u8 *p);
 u32 func_02189548(u8 *x, u8 *p)
 {
     u8 *q;
     q = func_0218A2FC(p, func_0218A160(p, func_0201134C(x)));
-    if (func_021D67A8(q) != 0xB6 && func_021D67A8(q) != 0xC5 && func_021D67A8(q) != 0xCB)
+    if (func_021D67A8((struct QL *)q) != 0xB6 && func_021D67A8((struct QL *)q) != 0xC5 && func_021D67A8((struct QL *)q) != 0xCB)
         *(u32 *)(p + 0x38) = 0;
     else
         *(u32 *)(p + 0x38) = func_021D679C(q);

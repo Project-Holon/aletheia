@@ -19,22 +19,23 @@
 #include "../include/Obj23062.h"
 #include "../include/Obj23063.h"
 typedef unsigned char u8;
-extern int func_021C6EC0(void *,void *,void *,int);
-extern int func_021C76F8(void *,void *,void *,int);
-extern int func_021C8C04(void *,void *,void *,void *,int);
-extern int func_021C8E2C(void *,void *,void *,int);
-extern int func_021C9244(void *,void *,void *,int);
-extern void func_021C6638(void *);
+extern int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap);
+typedef unsigned short u16;
+extern int func_021C76F8(u8 *p, u8 *q, u8 *ctx, u16 heap);
+extern int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap);
+extern int func_021C8E2C(void *p, u8 *q, u8 *r, int heap);
+extern int func_021C9244(u8 *p, u8 *q, u8 *r, u16 heap);
+extern void func_021C6638(u8 *p);
 int func_021C6208(int result,int *stage,int unused,char *p)
 {
     switch(*stage) {
     case 0:
         switch(((struct Obj03279 *)p)->f0) {
-        case 0: result=func_021C6EC0(p+0x1fc,p+0x190,p+4,52); break;
-        case 1: result=func_021C76F8(p+0x24c,p+0x190,p+4,52); break;
-        case 2: result=func_021C8C04(p+0x3f8,p,p+0x190,p+4,52); break;
-        case 3: result=func_021C8E2C(p+0x404,p+0x190,p+4,52); break;
-        case 4: result=func_021C9244(p+0x420,p+0x190,p+4,52); break;
+        case 0: result=func_021C6EC0((u8 *)(p+0x1fc),(u8 *)(p+0x190),(u8 *)(p+4),52); break;
+        case 1: result=func_021C76F8((u8 *)(p+0x24c),(u8 *)(p+0x190),(u8 *)(p+4),52); break;
+        case 2: result=func_021C8C04((void **)(p+0x3f8),(u8 *)p,(u8 *)(p+0x190),p+4,52); break;
+        case 3: result=func_021C8E2C(p+0x404,(u8 *)(p+0x190),(u8 *)(p+4),52); break;
+        case 4: result=func_021C9244((u8 *)(p+0x420),(u8 *)(p+0x190),(u8 *)(p+4),52); break;
         case 5: ((struct Obj23062 *)(*(char * *)&((struct Obj03279 *)p)->f1F8))->f4=0; return 1;
         case 6: ((struct Obj23063 *)(*(char * *)&((struct Obj03279 *)p)->f1F8))->f4=1; return 1;
         }
@@ -49,6 +50,6 @@ int func_021C6208(int result,int *stage,int unused,char *p)
         if(--((struct Obj03279 *)p)->f5AC<=0) *stage=0;
         break;
     }
-    func_021C6638(p+4);
+    func_021C6638((u8 *)(p+4));
     return 0;
 }

@@ -40,12 +40,14 @@ typedef struct {
     int sub[4];
 } Dst;
 
-extern Src *func_021AC1AC(void *p);
+typedef unsigned int   u32;
+struct Owner;
+extern int func_021AC1AC(u32 a);
 struct G3dOwner;
 struct G3dRec;
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern int func_0204767C(int a, int *b, int c);
-extern void func_020477D4(int a, u16 b);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern int func_020477D4(struct Owner *owner, u32 index);
 
 void func_021D029C(void *p, Dst *d)
 {
@@ -55,14 +57,14 @@ void func_021D029C(void *p, Dst *d)
     int j;
     int i;
 
-    s = func_021AC1AC(p);
+    s = (Src *)func_021AC1AC((u32)p);
     d->src = *s;
     tbl = d->src.tbl;
     cnt = d->src.cnt;
     for (i = 0; i < 4; i++)
         d->sub[i] = (int)func_02047564((struct G3dOwner *)tbl->a34[cnt], (const struct G3dOwner *)tbl->a24[i], 0);
     d->f2 = 4;
-    d->obj = func_0204767C(tbl->a34[cnt], d->sub, 4);
+    d->obj = (int)func_0204767C((int)tbl->a34[cnt], (u32 *)d->sub, 4);
     for (j = 0; j < 4; j++)
-        func_020477D4(d->obj, j);
+        func_020477D4((struct Owner *)d->obj, (u16)j);
 }

@@ -21,7 +21,7 @@
  * symbols:
  *   func_0200FB4C 0x0200FB4C thumb
  */
-extern void func_0200FB4C(int);
+extern void func_0200FB4C(unsigned int x);
 int func_021D7200(int *p) {
     int v;
     if(p[3]==3) {

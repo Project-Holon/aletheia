@@ -22,7 +22,9 @@ typedef struct { s16 x; s16 y; } Pos;
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
-extern int func_0204B404(int, Pos *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BB858(char *p, int d)
 {
     u32 i;
@@ -30,6 +32,6 @@ void func_021BB858(char *p, int d)
     for (i = 0; i < 6; i++) {
         func_0204B454((struct Actor *)*(int *)((p + i * 4) + 0x1c), (struct PtS *)&pos, 0);
         pos.y += (s16)d;
-        func_0204B404(*(int *)((p + i * 4) + 0x1c), &pos, 0);
+        func_0204B404((struct Obj *)(*(int *)((p + i * 4) + 0x1c)), (const struct Vec2 *)(&pos), 0);
     }
 }

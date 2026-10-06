@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct Descriptor;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_021B6284(void *p);
+extern void func_021B6284(unsigned int *p);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020307B0(void *p);
@@ -38,7 +38,7 @@ void func_021B709C(u8 *p)
     for (i = 0; i < 4; i++) {
         func_0204B3B4((struct Obj *)(*(u32 *)(p + i * 4 + 0xa0)));
     }
-    func_021B6284(p + 0xb0);
+    func_021B6284((unsigned int *)(p + 0xb0));
     func_020452E8((struct Descriptor *)(((struct Obj07677 *)p)->f88));
     func_020452E8((struct Descriptor *)(((struct Obj07677 *)p)->f8C));
     v = ((struct Obj07677 *)p)->f84;

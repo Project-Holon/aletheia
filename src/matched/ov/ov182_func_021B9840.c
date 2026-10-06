@@ -22,7 +22,7 @@ typedef unsigned char u8;
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_02046A94(u8, const void *);
+extern void func_02046A94(u32 idx, const u16 *src);
 extern void func_02046BE0(u32 a, u32 b);
 extern const u32 d_021B9C28[][2];
 void func_021B9840(void)
@@ -39,6 +39,6 @@ void func_021B9840(void)
     func_0207DD24(0, 0, 0x7fff, 0x3f, 0);
     *(volatile u32 *)0x04000580 = 0xbfff0000;
     for (i = 0; i < 4; i++)
-        func_02046A94(i, d_021B9C28[i]);
+        func_02046A94((u8)i, (const u16 *)d_021B9C28[i]);
     func_02046BE0(0, 0);
 }

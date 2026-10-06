@@ -26,13 +26,13 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern int func_021F47B8(void *p);
-extern void func_021F4058(void *p);
-extern void func_021F3E6C(void *p);
-extern void func_021F3EE8(void *p);
-extern void func_021F4104(void *p);
-extern void func_021F4188(void *p);
-extern void func_021F420C(void *p);
-extern void func_021F4290(void *p);
+extern void func_021F4058(int *p);
+extern void func_021F3E6C(int *p);
+extern void func_021F3EE8(int *p);
+extern void func_021F4104(int *p);
+extern void func_021F4188(int *p);
+extern void func_021F420C(int *p);
+extern void func_021F4290(int *p);
 
 void func_021F3DA8(u8 *p)
 {
@@ -40,13 +40,13 @@ void func_021F3DA8(u8 *p)
         u32 q = *(u32 *)&((struct Obj00270 *)p)->f1C;
 
         if (q != 0 && ((struct Obj20535 *)q)->f78 != 0) {
-            func_021F4058(p);
-            func_021F3E6C(p);
-            func_021F3EE8(p);
-            func_021F4104(p);
-            func_021F4188(p);
-            func_021F420C(p);
-            func_021F4290(p);
+            func_021F4058((int *)p);
+            func_021F3E6C((int *)p);
+            func_021F3EE8((int *)p);
+            func_021F4104((int *)p);
+            func_021F4188((int *)p);
+            func_021F420C((int *)p);
+            func_021F4290((int *)p);
         }
     }
 }

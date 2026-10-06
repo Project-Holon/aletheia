@@ -49,7 +49,7 @@ struct WinMgr {
 
 struct Descriptor;
 extern u16 func_02045768(struct Descriptor *p);
-extern u32 func_02045778(void *a);
+extern u8 func_02045778(struct Descriptor *p);
 extern u8 func_02045738(struct Descriptor *p);
 extern u8 func_02045740(struct Descriptor *p);
 extern u8 func_02045758(struct Descriptor *p);
@@ -69,7 +69,7 @@ void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a)
     s32 cw;
 
     base = func_02045768(a);
-    bits = (func_02045778(a) << 0x1c) >> 0x10;
+    bits = ((u32)func_02045778(a) << 0x1c) >> 0x10;
     cw = func_02045738(a);
     ch = func_02045740(a);
     ox = func_02045758(a);

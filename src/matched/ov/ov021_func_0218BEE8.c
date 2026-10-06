@@ -28,11 +28,12 @@ typedef unsigned int   u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02046C94(void);
-extern void func_02046CE0(void *dst, void *src);
+struct S02046CE0;
+extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
 extern void *func_0218B924(u8 *s, int x);
 extern char *func_0218BC00(char *p, int i);
 extern u8 *func_0218BC10(u8 *p, int i);
-extern int func_0218BC8C(u8 *p);
+extern int func_0218BC8C(int *p);
 extern u8 *func_0218BCAC(u8 *p);
 extern char d_021DD9CC[];
 
@@ -44,13 +45,13 @@ void func_0218BEE8(u8 *s, void **out, int x)
 
     out[0] = func_0218B924(s, x);
     out[1] = func_02030734(((struct Obj09454 *)s)->f0, func_02046C94(), 1, d_021DD9CC, 0x4d0);
-    func_02046CE0(out[1], func_0218BC00(((struct Obj09454 *)s)->f18, x));
+    func_02046CE0(out[1], (u32 *)func_0218BC00(((struct Obj09454 *)s)->f18, x));
     t = func_0218BCAC(out[0]);
-    cnt = func_0218BC8C(t);
+    cnt = func_0218BC8C((int *)t);
     for (i = 0; i < 4; i++) {
         if (i < cnt) {
             out[2 + i] = func_02030734(((struct Obj09454 *)s)->f0, func_02046C94(), 1, d_021DD9CC, 0x4db);
-            func_02046CE0(out[2 + i], func_0218BC10(t, i));
+            func_02046CE0(out[2 + i], (u32 *)func_0218BC10(t, i));
         } else {
             out[2 + i] = 0;
         }

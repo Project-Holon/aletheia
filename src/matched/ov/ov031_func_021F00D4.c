@@ -42,12 +42,12 @@ extern void func_021BBA70(struct Ctx *ctx, struct Src *src, u16 *v, u8 kind);
 extern void func_021F0680(char *p, u8 *b);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern int func_021F0584(char *p, u8 *flag);
+extern int func_021F0584(int *p, u8 *flag);
 extern void func_021736C8(u8 *a, int v);
 extern int func_021F0B98(char *o);
 extern int func_021F0D64(char *p);
 extern void func_021F0FE0(char *p, u8 *q);
-extern void func_021F0C34(u8 *q, char *p);
+extern void func_021F0C34(char *a, unsigned char *b);
 extern int func_021F0DB0(u8 *a0, char *a1, u8 *a2);
 extern void func_021F0EF4(char *p, u8 *q);
 extern void func_02173934(u8 *p, int v);
@@ -72,7 +72,7 @@ void func_021F00D4(char *p, int mode)
             func_0204B3DC((struct Obj *)((struct Obj01128 *)p)->f2C, 1);
     }
     if (mode == 1) {
-        res = func_021F0584(p, q);
+        res = func_021F0584((int *)p, q);
         if (q != 0 && res == 1) {
             switch (((struct Obj01128 *)p)->f30) {
             case 0:
@@ -100,7 +100,7 @@ void func_021F00D4(char *p, int mode)
             func_021F0FE0(p, q);
     }
     if (q != 0) {
-        func_021F0C34(q, p);
+        func_021F0C34((char *)q, (unsigned char *)p);
         if (mode == 1)
             func_021F0DB0(q, p, q + 0x30E0);
         func_021F0EF4(p, q + 0x30E0);

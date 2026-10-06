@@ -41,8 +41,10 @@ int func_02008530(int a);
 void func_02008494(void *src, void *dst);
 int func_020127AC(int a, int b);
 void func_02082D44(u8 *a, int b, int c);
-void func_02012BA4(int a, int b, int c);
-void func_02174F54(u8 *p, int idx, u8 *src, int arg);
+struct BigObj;
+void func_02012BA4(struct BigObj *p, int i, u8 v);
+struct Ent;
+void func_02174F54(u8 *p, int idx, const struct Ent *src, int arg);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 u16 func_02039338(void);
@@ -68,8 +70,8 @@ void func_02174EAC(u8 *p, int idx, u8 *q)
 skip:
     func_02008494(q, (void *)a);
     func_02082D44(q + 0x20, func_020127AC(ctx, idx), 0x10);
-    func_02012BA4(ctx, idx, ((Q *)(q + 0x4A))->hi);
-    func_02174F54(p, idx, q + 0x30, 1);
+    func_02012BA4((struct BigObj *)ctx, idx, ((Q *)(q + 0x4A))->hi);
+    func_02174F54(p, idx, (const struct Ent *)(q + 0x30), 1);
     p[0x8FB] |= (u8)(1 << idx);
     if (flag == 1 && idx != func_02039338()) {
         func_020266D4(((struct Obj00269 *)p)->f4, idx);

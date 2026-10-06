@@ -40,12 +40,12 @@ struct BigObj;
 struct Ctx;
 void *func_020120F4(const struct Ctx *p);
 void *func_0201210C(const struct Ctx *p);
-u8 func_02012B70(const struct BigObj *p);
+int func_02012B70(const struct BigObj *p);
 int func_02158344(int a0);
 int func_02158378(void *);
 void func_020061E4(u32 a);
-void func_0217F174(Ov018Menu *);
-void func_0217F0C4(Ov018Menu *);
+void func_0217F174(u8 *p);
+void func_0217F0C4(u8 *p);
 void *func_0217CEE8(void *p, int a, int b);
 void *func_0217CE08(void *, void *, int, int);
 void *func_0217CE6C(void *, void *, int);
@@ -66,13 +66,13 @@ void *func_0217D4DC(Ov018Menu *w, int b, int c)
     }
     if (w->f168 == 1 || (func_02012B70(s2) == 0 && func_02158344((int)s1) == 0)) {
         func_020061E4(0x551);
-        func_0217F174(w);
+        func_0217F174((u8 *)w);
         return func_0217CEE8(w->f0, (int)r, c);
     }
     switch (w->f112) {
     case 1:
         func_020061E4(0x737);
-        func_0217F0C4(w);
+        func_0217F0C4((u8 *)w);
         ret = func_0217CE08(w->f0, r, w->f110, 0);
         break;
     case 2:

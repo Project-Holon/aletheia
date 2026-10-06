@@ -40,7 +40,8 @@ struct Sys {
 extern struct Sys *g_02146A74;
 
 extern u32  func_0204BB38(void);
-extern void func_0204BD18(struct Sys *s);
+struct Obj;
+extern void func_0204BD18(struct Obj *o);
 extern void func_0204BB20(u32 v);
 
 void func_0204BB54(void)
@@ -52,6 +53,6 @@ void func_0204BB54(void)
         return;
     }
 
-    func_0204BD18(g_02146A74);
+    func_0204BD18((struct Obj *)g_02146A74);
     func_0204BB20(0);
 }

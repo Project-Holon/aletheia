@@ -48,7 +48,8 @@ struct Scratch {
 extern struct Scratch g_0214655C;
 
 extern void sub_0201C808(struct Scratch *s, u32 e, u32 a, u32 b, u32 c);
-extern void sub_0201C8A4(struct Scratch *s, u16 f);
+struct Rec2;
+extern void sub_0201C8A4(struct Rec2 *p, u16 v);
 struct PrintCtx;
 struct PrintSys;
 extern void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
@@ -56,6 +57,6 @@ extern void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
 void sub_0201C724(void *owner, u32 a, short b, u32 c, u32 d, u32 e, u16 f)
 {
     sub_0201C808(&g_0214655C, e, a, b, c);
-    sub_0201C8A4(&g_0214655C, f);
+    sub_0201C8A4((struct Rec2 *)(&g_0214655C), f);
     sub_0201C758(owner, (struct PrintCtx *)(&g_0214655C), (void *)d);
 }

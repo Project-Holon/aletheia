@@ -47,7 +47,8 @@ extern void func_021ABEAC(char *p);
 extern u32 func_02188C88(u8 *p);
 extern u32 func_02050080(u32 *p);
 extern void func_0204EDBC(u8 *dst, u8 val);
-extern void func_0204ED70(int a, V *v);
+struct Blk3;
+extern void func_0204ED70(u8 *dst, struct Blk3 *src);
 extern void func_0204EDB0(u8 *dst, u8 *src);
 extern char d_021DE018[];
 extern V d_021D8F04;
@@ -71,7 +72,7 @@ char *func_021ABD50(int a, int b, u16 c)
     h = func_02050080((u32 *)func_02188C88((u8 *)(((struct Obj04240 *)p)->f8)));
     func_0204EDBC((u8 *)h, 0);
     v = d_021D8F04;
-    func_0204ED70(h, &v);
+    func_0204ED70((u8 *)h, (struct Blk3 *)(&v));
     z = 0;
     func_0204EDB0((u8 *)h, &z);
     return p;

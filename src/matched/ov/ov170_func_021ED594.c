@@ -46,15 +46,16 @@ typedef struct {
 } Struct36;
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern int func_0204B838(void *a);
+extern int func_0204B838(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
 extern u32 func_0204B864(u8 *a0);
 extern void *func_021EBEE0(char *w, const Desc *s);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B7C8(void *src, Struct36 *dst);
-extern void func_0204B784(void *dst, const Struct36 *src);
+struct Struct36;
+extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void func_0204B784(char *dst, const struct Struct36 *src);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
 extern void func_021EC048(char *p, int i, int c);
 extern void func_021EC030(char *p, int i, int c);
@@ -65,7 +66,7 @@ extern const signed char d_021EFCC8[];
 
 static inline void setup(Desc *dp, void **res)
 {
-    dp->b6 = func_0204B838(*res) + 1;
+    dp->b6 = func_0204B838((int)(*res)) + 1;
     dp->b7 = func_0204B864(*res);
 }
 
@@ -98,11 +99,11 @@ void func_021ED594(char *p, unsigned i)
     } else {
         int n6;
         int n7;
-        func_0204B7C8(((void **)(w + 0x9E74))[c], &buf);
-        n6 = func_0204B838(((void **)(w + 0x9E74))[c]);
+        func_0204B7C8(((void **)(w + 0x9E74))[c], (struct Struct36 *)(&buf));
+        n6 = func_0204B838((int)(((void **)(w + 0x9E74))[c]));
         n7 = func_0204B864(((void **)(w + 0x9E74))[c]);
         for (; j < 8; j++) {
-            func_0204B784(*(void **)(w + j * 4 + 0x9FD4), &buf);
+            func_0204B784(*(void **)(w + j * 4 + 0x9FD4), (const struct Struct36 *)(&buf));
             func_021EC08C(w, j + 0x58, xy[1] + d_021EFCD0[j], xy[0] + d_021EFCC8[j], 0);
             func_021EC048(w, j + 0x58, n6 + 1);
             func_021EC030(w, j + 0x58, n7);

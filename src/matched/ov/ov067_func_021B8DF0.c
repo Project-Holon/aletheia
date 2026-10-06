@@ -38,8 +38,8 @@ struct S {
     u8 f87;
 };
 
-extern u32 func_021B841C(struct S *s, int dir);
-extern void func_021B8434(struct S *s, int a, u8 b, u16 c, u32 d);
+extern int func_021B841C(u8 *p, int n);
+extern void func_021B8434(u8 *p, int a, u8 b, u16 c, u32 d);
 
 int func_021B8DF0(struct S *s, int a1)
 {
@@ -66,11 +66,11 @@ int func_021B8DF0(struct S *s, int a1)
         v = s->fb;
     if (a1 > s->f87)
         v *= -1;
-    lim = func_021B841C(s, v);
+    lim = func_021B841C((u8 *)s, v);
     if (lim != 0) {
         if (lim < d)
             d = lim;
-        func_021B8434(s, v, d, 3, 1);
+        func_021B8434((u8 *)s, v, d, 3, 1);
         s->f87 = a1;
         return 1;
     }

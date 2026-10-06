@@ -25,25 +25,25 @@
 
 typedef unsigned char u8;
 
-extern void func_0217BAF0(int *a, int b, int c);
+extern void func_0217BAF0(char *p, int x, unsigned int v);
 extern int func_0217F1EC(int *a);
 typedef unsigned int   u32;
 extern void func_0217F074(void *p);
 extern u32 func_0200FB24(void);
 struct Ctx;
-extern void func_02012124(struct Ctx *p, u8 v);
-extern void func_02172D38(int *a);
-extern int func_02172D68(int *a);
+extern void func_02012124(struct Ctx *p, u32 v);
+extern void func_02172D38(u8 *p);
+extern int func_02172D68(u8 *p);
 extern void func_02173420(int *a);
 extern void func_02173524(int *a, u8 *b);
-extern void func_02172D50(int *a);
+extern void func_02172D50(u8 *p);
 extern int func_0217B8E4(char *p, char v);
 
 int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
 {
     switch (*d) {
     case 0:
-        func_0217BAF0(a, c, 1);
+        func_0217BAF0((char *)a, c, 1);
         (*d)++;
         break;
     case 1:
@@ -57,21 +57,21 @@ int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
             func_02012124((struct Ctx *)(*(int *)(a[0] + 0xc)), 1);
             return 0;
         }
-        func_02172D38(a);
+        func_02172D38((u8 *)a);
         (*d)++;
         break;
     case 3:
-        if (func_02172D68(a) == 0)
+        if (func_02172D68((u8 *)a) == 0)
             (*d)++;
         break;
     case 4:
         func_02173420(a);
         func_02173524(a, b + 0x14);
-        func_02172D50(a);
+        func_02172D50((u8 *)a);
         (*d)++;
         break;
     case 5:
-        if (func_02172D68(a) == 0)
+        if (func_02172D68((u8 *)a) == 0)
             (*d)++;
         break;
     default:

@@ -72,8 +72,8 @@ extern void *func_0206E62C(const void *dict, const char *name);
 struct GfFont;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_0201D83C(void *font);
-extern void func_0216FD54(TexReq *r, u32 a, u16 b, u16 c, u16 d, u16 e);
-extern void func_0216FE04(TexReq *r, void *p);
+extern void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f);
+extern void func_0216FE04(char *p, void *q);
 extern const Fmt d_021726A0[];
 
 int func_0216FAB4(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, TexKey *out)
@@ -142,9 +142,9 @@ int func_0216FAB4(void *file, const char *texName, void *extra, const char *pltt
     req.texOfs = key.texOfs;
     req.f08 = key.f08;
     req.plttOfs = key.plttOfs;
-    func_0216FD54(&req, a4, a5, a6, a7, heap);
+    func_0216FD54((char *)(&req), a4, a5, a6, a7, heap);
     if (extra != 0)
-        func_0216FE04(&req, extra);
+        func_0216FE04((char *)(&req), extra);
     func_0201D83C(font);
     if (out != 0)
         *out = key;

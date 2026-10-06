@@ -19,13 +19,14 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void func_0204A48C(void *a, void *b, u16 c);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 
 void func_02183F6C(int unused, u32 b)
 {
-    func_0204A48C((void *)0x020A1448, (void *)0x021848D4, b);
+    func_0204A48C((void *)0x020A1448, (u32)((void *)0x021848D4), (u16)b);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

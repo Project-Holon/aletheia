@@ -81,8 +81,8 @@ typedef struct {
 extern void func_021FD270(Work *p);
 extern void func_021FCF28(int y);
 extern int func_0207D55C(vu16 *reg);
-extern void func_021FFFE8(Work *p, u32 a, u32 b);
-extern void func_021FCFD8(Work *p);
+extern void func_021FFFE8(u8 *p, u32 a, u32 b);
+extern void func_021FCFD8(u8 *p);
 extern void func_021FD104(Work *p);
 extern void func_021FD08C(Work *p);
 extern void *func_020185F4(void *mon);
@@ -102,11 +102,11 @@ int func_021FCC40(Work *p)
     func_021FD270(p);
     func_021FCF28(-32 - p->scroll);
     if (func_0207D55C((vu16 *)0x0400106C) == 0) {
-        func_021FFFE8(p, -32 - p->scroll, 1);
+        func_021FFFE8((u8 *)p, -32 - p->scroll, 1);
     } else {
-        func_021FFFE8(p, -32 - p->scroll, 0);
+        func_021FFFE8((u8 *)p, -32 - p->scroll, 0);
     }
-    func_021FCFD8(p);
+    func_021FCFD8((u8 *)p);
     func_021FD104(p);
     func_021FD08C(p);
     func_021FC8CC(p->bank, p->names, p->words, p->win, func_020185F4(&p->arr[p->cur]), p->arr[p->cur].rec, p->fFA0);

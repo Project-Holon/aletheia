@@ -23,17 +23,22 @@
  *   func_021C93A8 0x021C93A8 thumb ov212
  */
 extern void func_02043534(unsigned),func_020435F4(unsigned),func_0204363C(unsigned);
-extern void func_021BC2B0(void),func_021BC318(void),func_021BC474(char *),func_021BC5B0(char *);
+struct Object;
+extern void func_021BC2B0(void);
+extern void func_021BC318(void);
+extern void func_021BC474(struct Object *p);
+extern void func_021BC5B0(char *);
 extern void func_0203D34C(unsigned,unsigned),func_02043598(unsigned,unsigned);
-extern void func_021BC2F4(char *),func_021C93A8(unsigned);
+extern void func_021BC2F4(unsigned char *p);
+extern void func_021C93A8(unsigned);
 int func_021BC670(char *p)
 {
     func_02043534(0);func_020435F4(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     func_0204363C(0);func_021BC2B0();func_021BC318();
-    func_021BC474(p);func_021BC5B0(p);
+    func_021BC474((struct Object *)p);func_021BC5B0(p);
     func_0203D34C(1,126);func_02043598(16,1);
-    func_021BC2F4(p);func_021C93A8(126);
+    func_021BC2F4((unsigned char *)p);func_021C93A8(126);
     return 2;
 }

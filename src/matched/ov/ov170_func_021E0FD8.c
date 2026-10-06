@@ -49,23 +49,23 @@ extern void func_021EC000(char *w, int i, int v);
 extern int func_021EBFEC(char *w, int i);
 extern void func_021ED2F4(char *w);
 extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
-extern int func_021DF1DC(short x, short y);
+extern int func_021DF1DC(short x, int y);
 extern int func_021DF228(short x, short y, const unsigned char *r);
 extern const unsigned char d_021EF79C[];
 extern int func_021DDE80(unsigned char *p, unsigned a, unsigned b);
 extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
-extern void func_021EC35C(unsigned char *p, int box);
-extern int func_021DEDCC(unsigned char *p, int box);
-extern void func_021DEC98(unsigned char *p, int a, int dir);
+extern void func_021EC35C(char **p, int box);
+extern int func_021DEDCC(char *p, int box);
+extern void func_021DEC98(char *p, int a, int dir);
 extern void func_020061E4(unsigned se);
 extern int func_021EF1B4(void);
 extern void func_021DD16C(unsigned char *p, int dir);
 extern void func_021E0FB0(char *w, int x, int y);
-extern int func_021E00C4(unsigned char *p);
-extern int func_021E0128(unsigned char *p);
+extern int func_021E00C4(char *p);
+extern int func_021E0128(char *p);
 extern int func_021DEAFC(unsigned char *p);
-extern void func_021ED6E4(unsigned char *p, int v);
+extern void func_021ED6E4(char **p, int v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
@@ -93,7 +93,7 @@ int func_021E0FD8(unsigned char *p)
             unsigned first;
             unsigned r;
             int back;
-            r = (unsigned short)func_021DF1DC(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184));
+            r = (unsigned short)func_021DF1DC(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184)));
             if (r == 0xFF)
                 r = (unsigned short)func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF79C);
             back = 0;
@@ -109,8 +109,8 @@ int func_021E0FD8(unsigned char *p)
             if (back == 1 && p[0x17] != 0xFF && p[0x17] != p[0x14]) {
                 int dir = func_021DD210(p, p[0x14], p[0x17]);
                 p[0x14] = p[0x17];
-                func_021EC35C(p, p[0x14]);
-                func_021DEC98(p, func_021DEDCC(p, p[0x14]), dir);
+                func_021EC35C((char **)p, p[0x14]);
+                func_021DEC98((char *)p, func_021DEDCC((char *)p, p[0x14]), dir);
                 if (dir == 0)
                     b->state = 5;
                 else
@@ -138,7 +138,7 @@ int func_021E0FD8(unsigned char *p)
         func_021E0FB0(WORK(p), x, y);
         break;
     case 3:
-        if (func_021E00C4(p) == 0) {
+        if (func_021E00C4((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 2;
         }
@@ -146,7 +146,7 @@ int func_021E0FD8(unsigned char *p)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 4:
-        if (func_021E0128(p) == 0) {
+        if (func_021E0128((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 2;
         }
@@ -155,9 +155,9 @@ int func_021E0FD8(unsigned char *p)
         break;
     case 5:
     case 6:
-        if (b->state == 5 && func_021E00C4(p) == 0)
+        if (b->state == 5 && func_021E00C4((char *)p) == 0)
             b->state = 7;
-        if (b->state == 6 && func_021E0128(p) == 0)
+        if (b->state == 6 && func_021E0128((char *)p) == 0)
             b->state = 7;
     case 7:
         if (func_021DEAFC(p) == 0 && b->state == 7) {
@@ -168,7 +168,7 @@ int func_021E0FD8(unsigned char *p)
     case 8:
         func_021ED108(WORK(p), 1);
         func_021EBFA8(WORK(p), 10, 2);
-        func_021ED6E4(p, 0);
+        func_021ED6E4((char **)p, 0);
         b->state = 9;
         break;
     case 9:

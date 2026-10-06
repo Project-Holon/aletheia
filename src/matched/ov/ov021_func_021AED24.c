@@ -35,7 +35,7 @@ extern u32 func_0215A4C8(u32 a);
 extern u32 func_0215A4B4(u32 a);
 extern void *func_02158F54(void *p);
 extern int func_02158F58(int a0);
-extern u32 func_0216EAB0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern void *func_0216EAB0(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 idx);
 extern void func_0215897C(void *vm, void *task);
 
 int func_021AED24(u32 a, u32 b)
@@ -54,6 +54,6 @@ int func_021AED24(u32 a, u32 b)
     if (y == 0 && func_0215A4B4(x) == 1) {
         y = x;
     }
-    func_0215897C(p, (void *)func_0216EAB0((u32)func_02158F54(p), ((u32 *)func_02158F58((int)p))[1], t, 0, x, y, z, w));
+    func_0215897C(p, (void *)func_0216EAB0((void *)((u32)func_02158F54(p)), ((u32 *)func_02158F58((int)p))[1], t, 0, x, y, z, w));
     return 1;
 }

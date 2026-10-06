@@ -23,13 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02011558(u32, u32, u32, u32);
+struct IcaAnime;
+extern void func_02011558(struct IcaAnime *p);
 extern u32 func_020307B0(u32);
 
 int func_021C4DA8(u32 a, u32 b, u32 c, u32 d)
 {
 if (((struct Obj12132 *)((u8 *)(a)))->f10 != 0) {
-    func_02011558(((struct Obj12132 *)((u8 *)(a)))->f10, b, c, d);
+    func_02011558((struct IcaAnime *)(((struct Obj12132 *)((u8 *)(a)))->f10));
 }
 return func_020307B0(a);
 }

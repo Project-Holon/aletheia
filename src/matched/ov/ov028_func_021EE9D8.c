@@ -20,12 +20,12 @@ typedef unsigned short u16;
 extern int *func_021A21B8(int *);
 extern void func_021A22E0(u32 *, int, int, int);
 extern u16 func_02014A10(u32);
-extern void func_021A2114(u32 *, int, u16);
+extern int func_021A2114(u32 a, int b, u32 c);
 int func_021EE9D8(u32 *a, int b)
 {
     int *p;
     p = func_021A21B8((int *)a);
     func_021A22E0(a, p[11], p[12], b);
-    func_021A2114(a, 62, func_02014A10(p[0]));
+    func_021A2114((u32)a, 62, func_02014A10(p[0]));
     return 1;
 }

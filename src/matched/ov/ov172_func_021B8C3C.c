@@ -21,7 +21,7 @@ extern const char d_021C7200[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_021B9F9C(u32);
 extern void func_02082A60(const void *, void *, u32);
-char *func_021B8C3C(int unused, u32 heap)
+char *func_021B8C3C(char *unused, u16 heap)
 {
     char *q;
     u8 i;

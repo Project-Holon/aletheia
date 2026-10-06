@@ -36,11 +36,12 @@ struct Obj;
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
 extern u16 func_021F9E04(u8 *p);
-extern void func_021F8044(void *,void *,Vec *);
+struct Vec2;
+extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204B404(void *,const Point *,u32);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021F6D68(char *p)
 {
     Vec v;
@@ -69,9 +70,9 @@ void func_021F6D68(char *p)
         ctx=func_021F9DA0(((struct Obj00771 *)p)->f4);
         model=func_021F9DA4(((struct Obj00771 *)p)->f4,func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4));
         n=func_021F9E04(((struct Obj00771 *)p)->f4);
-        func_021F8044(ctx,model,&v);
+        func_021F8044(ctx,(u32 *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);
-        func_0204B404(((struct Obj00771 *)p)->fA4,&d.pos,0);
+        func_0204B404(((struct Obj00771 *)p)->fA4,(const struct Vec2 *)(&d.pos),0);
     }
 }

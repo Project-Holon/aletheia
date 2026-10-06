@@ -55,13 +55,15 @@ struct Sub020076D0Header {
     u8  unk3DD;
 };
 
-extern struct Sub020076D0Header *sub_020074CC(void *save);
-extern struct Sub020076D0Entry  *sub_02007AF4(void *save, u32 box);
+struct Sub02007454Header;
+struct Sub02007AC8Entry;
+extern struct Sub02007454Header *sub_020074CC(void **save);
+extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
 extern u32 sub_02017E88(void *p, u32 id, u32 v);
 
 int sub_020076D0(void *save, int *pbox, int *pslot)
 {
-    struct Sub020076D0Header *h = sub_020074CC(save);
+    struct Sub020076D0Header *h = (struct Sub020076D0Header *)sub_020074CC(save);
     int box;
     int slot;
 
@@ -71,7 +73,7 @@ int sub_020076D0(void *save, int *pbox, int *pslot)
     box = *pbox;
     slot = *pslot;
     while (1) {
-        struct Sub020076D0Entry *base = sub_02007AF4(save, box);
+        struct Sub020076D0Entry *base = (struct Sub020076D0Entry *)sub_02007AF4(save, box);
 
         while (slot < 30) {
             if (sub_02017E88(&base[slot], 0xA9, 0) == 0) {

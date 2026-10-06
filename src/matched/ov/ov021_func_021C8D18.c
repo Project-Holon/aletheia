@@ -24,11 +24,11 @@ typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; void *f10; } P;
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern u32 func_02188C98(u8 *p);
-extern u32 func_021AB0D4(u32 a, V *v);
+extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 a);
 u16 func_021C8D18(P *p)
 {
     V t;
     func_021A3038((unsigned char *)p->f8, (struct VecFx32 *)&t);
-    return func_021AB0F0(func_021AB0D4(func_02188C98((u8 *)p->f4), &t));
+    return func_021AB0F0(func_021AB0D4((void *)func_02188C98((u8 *)p->f4), &t));
 }

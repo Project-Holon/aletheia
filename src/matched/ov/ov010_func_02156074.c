@@ -55,10 +55,10 @@ typedef struct Work {
 } Work;
 
 extern u32 func_021FD964(void *p, u32 i, u32 j);
-extern void *func_021F4F14(u32 heap);
-extern u32 func_021F5140(void *h, u16 id);
+extern u32 *func_021F4F14(int heap);
+extern unsigned char func_021F5140(void *p, int i);
 extern void func_021F4F40(void **p);
-extern u16 func_02157394(void *p, u8 v);
+extern u16 func_02157394(int a0, int a1);
 
 void func_02156074(Work *w)
 {
@@ -79,13 +79,13 @@ void func_02156074(Work *w)
             }
         }
     }
-    h = func_021F4F14(4);
+    h = func_021F4F14((u32)4);
     for (i = 0; i < 4; i++) {
         m = w->party->members[i];
         for (j = 0; j < 9; j++) {
             if (m->used[j] == 1) {
-                t = func_021F5140(h, m->recs[j].id);
-                m->total += func_02157394(w->f38, t);
+                t = (u32)func_021F5140(h, (u16)m->recs[j].id);
+                m->total += func_02157394((int)w->f38, t);
             }
         }
     }

@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C51A0(u8 *, u32);
+extern void func_021C51A0(char *p, int a);
 extern void func_021C51C8(u32, int, u8 *);
 extern void ov208_func_021C569C(u16 *, u8 *, int, int, int, int, u16);
 extern void func_02014CEC(u8 *p, u32 value);
@@ -29,8 +29,8 @@ void func_021C7CE8(u16 *a0, u8 *p, int key)
     int a;
     int b;
     if (((struct Obj00147 *)p)->f6B8 != 0) return;
-    func_021C51A0(p + 0x94, ((struct Obj00147 *)p)->f8);
-    func_021C51A0(p + 0xD8, ((struct Obj00147 *)p)->f8);
+    func_021C51A0((char *)(p + 0x94), ((struct Obj00147 *)p)->f8);
+    func_021C51A0((char *)(p + 0xD8), ((struct Obj00147 *)p)->f8);
     func_02014CEC((u8 *)(((struct Obj00147 *)p)->f8), 0);
     a = ((struct Obj00147 *)p)->f124 != 0 ? 2 : 4;
     b = ((struct Obj00147 *)p)->f124 != 0 ? 4 : 3;

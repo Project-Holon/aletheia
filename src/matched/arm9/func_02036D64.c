@@ -14,7 +14,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02036D64(u8 *p)
+u32 func_02036D64(u8 *p, u32 a)
 {
     switch (p[0xd]) {
     case 1:

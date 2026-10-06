@@ -37,7 +37,7 @@ extern void func_021C7C24(u16 *p, int unused, u8 *b, u8 *c, int e);
 extern u8 func_021D5440(u8 *p);
 extern u8 func_021B8DDC(u32 x);
 extern u8 func_021B8FF4(u8 *p);
-extern void func_021BA1B4(u8 *p, int k);
+extern void func_021BA1B4(char **p, int i);
 
 void func_021BF3D8(u8 *p, int b, u8 *a, int d, void *arr)
 {
@@ -55,7 +55,7 @@ void func_021BF3D8(u8 *p, int b, u8 *a, int d, void *arr)
             func_021C7C24((u16 *)(p + 0x1f7c), (int)p, a, x, 0);
             e = func_021B8DDC(func_021D5440(a));
             if (e == func_021B8FF4(*(u8 * *)&((struct Obj13315 *)p)->f4))
-                func_021BA1B4(*(u8 * *)&((struct Obj13315 *)p)->f4, 0x4b);
+                func_021BA1B4((char **)(*(u8 * *)&((struct Obj13315 *)p)->f4), 0x4b);
         }
         x = func_021BF49C(d);
     }

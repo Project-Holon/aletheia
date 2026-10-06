@@ -42,7 +42,7 @@ extern u32 func_0202136C(u16 v);
 extern int func_021BB468(int unused, int *p);
 extern void func_021BB714(void *a, u32 *s, u32 k);
 extern void func_021BB7E8(u8 *a, u32 *s, u32 x);
-extern void func_021BB97C(u8 *p, u32 obj);
+extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB98C(void *p, u32 s);
 extern void func_021BB99C(int a, int b, int c, int d);
 extern int func_021BC228(int unused, int id);
@@ -74,7 +74,7 @@ void func_021B8180(u8 *p)
                 buf[3] = 5;
             }
         }
-        func_021BB97C(p, W(0x150));
+        func_021BB97C((u16 *)p, W(0x150));
         func_021BB99C((int)p, W(0x150), 0, W(0x38));
         func_021BB714(p, (u32 *)W(0x150), 2);
         func_021BB7E8(p, (u32 *)W(0x150), 0x12);
@@ -93,7 +93,7 @@ void func_021B8180(u8 *p)
             buf[2] = 6;
             buf[3] = 0x10;
         }
-        func_021BB97C(p, W(0x150));
+        func_021BB97C((u16 *)p, W(0x150));
         func_021BB99C((int)p, W(0x150), 0, W(0x38));
         func_021BB714(p, (u32 *)W(0x150), 2);
         func_021BB7E8(p, (u32 *)W(0x150), 0x12);
@@ -103,7 +103,7 @@ void func_021B8180(u8 *p)
         buf[0] = 2;
         buf[1] = 6;
         buf[2] = 0x10;
-        func_021BB97C(p, W(0x150));
+        func_021BB97C((u16 *)p, W(0x150));
         func_021BB99C((int)p, W(0x150), 0, W(0x38));
         func_021BB714(p, (u32 *)W(0x150), 2);
         func_021BB7E8(p, (u32 *)W(0x150), func_021BC228((int)p, ((struct Obj20859 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f44));
@@ -120,7 +120,7 @@ void func_021B8180(u8 *p)
             buf[1] = 0;
             buf[3] = 0x10;
         }
-        func_021BB97C(p, W(0x150));
+        func_021BB97C((u16 *)p, W(0x150));
         func_021BB99C((int)p, W(0x150), 0, W(0x38));
         func_021BB714(p, (u32 *)W(0x150), 2);
         func_021BB7E8(p, (u32 *)W(0x150), 0x12);
@@ -138,7 +138,7 @@ void func_021B8180(u8 *p)
             buf[1] = 6;
             buf[2] = 0x10;
             buf[0] = 0;
-            func_021BB97C(p, W(0x150));
+            func_021BB97C((u16 *)p, W(0x150));
             func_021BB99C((int)p, W(0x150), 0, W(0x38));
             func_021BB714(p, (u32 *)W(0x150), 2);
             func_021BB7E8(p, (u32 *)W(0x150), 0x12);
@@ -156,7 +156,7 @@ void func_021B8180(u8 *p)
             buf[1] = 6;
             buf[2] = 0x10;
         }
-        func_021BB97C(p, W(0x150));
+        func_021BB97C((u16 *)p, W(0x150));
         func_021BB99C((int)p, W(0x150), 0, W(0x38));
         func_021BB714(p, (u32 *)W(0x150), 2);
         func_021BB7E8(p, (u32 *)W(0x150), 0x12);

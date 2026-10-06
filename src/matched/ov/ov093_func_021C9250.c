@@ -26,15 +26,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 enum Kind { K0, K1, K10=10 };
 typedef struct { u32 low:8,index:5,pad:10,flag:1,high:8; enum Kind kind; u32 value; s8 a; u8 b,c,count; u8 ids[8]; u8 msg[36]; } Ent;
-extern u8 *func_021B9934(void *, u8);
+struct Msg;
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021C9374(void *, u8);
 extern int func_021C9384(void *, u8);
 extern int func_021D5B68(void *);
-extern int func_021D5D14(void *, u32, int);
+extern int func_021D5D14(s8 *p, int i, int sign);
 extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021C5A34(u8 *p, u8 *a);
 extern int func_021C3008(u8 *, u8, u8 *, enum Kind, int, u8, u16, u32, int, u32);
-extern int func_021C99A0(void *, const void *);
+extern int func_021C99A0(void *w, const struct Msg *m);
 int func_021C9250(u8 *p, const Ent *e, u16 arg)
 {
     u8 *a;
@@ -43,14 +44,14 @@ int func_021C9250(u8 *p, const Ent *e, u16 arg)
     u32 i;
     u8 *b;
     const u8 *m;
-    a = func_021B9934(((struct Obj00003 *)p)->f8, e->index);
+    a = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->index);
     f = 0;
     result = 0;
     for (i = 0; i < e->count; i++) {
         if (func_021C9374(p + 0x1ab8, e->ids[i])) {
-            b = func_021B9934(((struct Obj00003 *)p)->f8, e->ids[i]);
+            b = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
             if (!func_021D5B68(b)) {
-                if (func_021D5D14(b, e->kind, e->a)) {
+                if (func_021D5D14((s8 *)b, (u32)e->kind, e->a)) {
                     f = 1;
                     break;
                 }
@@ -62,10 +63,10 @@ int func_021C9250(u8 *p, const Ent *e, u16 arg)
     m += 24;
     for (i = 0; i < e->count; i++) {
         if (func_021C9384(p + 0x1ab8, e->ids[i])) {
-            b = func_021B9934(((struct Obj00003 *)p)->f8, e->ids[i]);
+            b = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
             if (!func_021D5B68(b)) {
                 if (func_021C3008(p, e->index, b, e->kind, e->a, 31, arg, e->value, e->c, e->b == 0)) {
-                    func_021C99A0(p, m);
+                    func_021C99A0(p, (const struct Msg *)m);
                     result = 1;
                 }
             }

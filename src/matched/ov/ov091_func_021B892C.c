@@ -43,7 +43,7 @@ extern int  func_02019E54(u32 a0, u32 a1, u32 a2);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021B9E20(u8 *p);
 extern void func_020061E4(u32 id);
-extern void func_021BB97C(u8 *p, u32 obj);
+extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB9EC(int a, int b, int c, int d, unsigned char e);
 extern void func_021BB98C(void *p, u32 s);
 extern void func_021BBE5C(int h, int f);
@@ -86,7 +86,7 @@ void func_021B892C(u8 *p)
         return;
     }
     if (r == 1) {
-        func_021BB97C(p, W(0x150));
+        func_021BB97C((u16 *)p, W(0x150));
         func_021BB9EC((int)p, W(0x150), 0, ((struct Obj06210 *)q)->f6, 3);
         func_021B9788(p, 0x92, 1, (int)func_021B9E20);
         func_020061E4(0x557);

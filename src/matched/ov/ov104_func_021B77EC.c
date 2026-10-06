@@ -32,7 +32,8 @@ extern void func_021B795C(u8 *p);
 extern void func_021B8AEC(u8 *);
 extern void func_021B71E4(int);
 typedef struct { u8 pad[0x78]; int busy; u8 pad7c[6]; unsigned short counter; } Obj;
-extern int func_021B63D0(Obj *);
+struct Obj;
+extern int func_021B63D0(struct Obj *p);
 int func_021B77EC(void *a,u32 *state,void *b,u8 *p) {
  switch(*state) {
  case 0: *state=1; break;
@@ -47,6 +48,6 @@ int func_021B77EC(void *a,u32 *state,void *b,u8 *p) {
  func_021B795C(p);
  func_021B8AEC(p+0x278);
  if(!((struct Obj07987 *)p)->f8AC) func_021B71E4(((struct Obj07987 *)p)->f7AC);
- func_021B63D0(*(Obj * *)&((struct Obj22214 *)(*(u8 * *)&((struct Obj07987 *)p)->f8B0))->f4);
+ func_021B63D0((struct Obj *)(*(Obj * *)&((struct Obj22214 *)(*(u8 * *)&((struct Obj07987 *)p)->f8B0))->f4));
  return 0;
 }

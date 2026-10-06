@@ -30,7 +30,11 @@ extern int func_021E1210(char *);
 extern u16 func_021E1400(char *p);
 extern int func_021E04C4(char *);
 extern int func_021E1204(char *);
-extern void func_021E11F4(char *),func_021E140C(char *),func_021E0634(char *,int),func_021E1604(char *,int);
+typedef unsigned char  u8;
+extern void func_021E11F4(char *);
+extern void func_021E140C(char *);
+extern void func_021E0634(u8 *p, int a);
+extern void func_021E1604(char *,int);
 extern int func_021DCBC4(void *,int,void *,int);
 extern u16 func_02039338(void);
 int func_021DF060(char *p)
@@ -70,7 +74,7 @@ int func_021DF060(char *p)
     }
     if(func_02039338()==0) {
         rate=((struct Obj01415 *)p)->f128;
-        if(func_021E1204(p)==1) func_021E0634(p+0xe0,rate*2);
+        if(func_021E1204(p)==1) func_021E0634((u8 *)(p+0xe0),rate*2);
         else func_021E1604(p,rate);
     }
     return 0;

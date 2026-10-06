@@ -112,7 +112,7 @@ extern u16 *func_020127A4(void *sv);
 extern u8 func_02012984(const struct BigObj *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern int func_021C3E00(Src *src);
+extern u32 func_021C3E00(u32 *p);
 
 Req *func_02160A94(Ctx *c, int kind, int mode, Src *src)
 {
@@ -201,7 +201,7 @@ Req *func_02160A94(Ctx *c, int kind, int mode, Src *src)
         int res;
 
         func_02034AC4((u32)ov136_id);
-        res = func_021C3E00(src);
+        res = func_021C3E00((u32 *)src);
         func_02034A5C((u32)ov136_id);
         if (c->f68 == 0) {
             r->f34 = 0xB;

@@ -22,4 +22,4 @@ struct Obj020437AC;
 extern void func_0202570C(struct Grid *g);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_02025588(void *);
-void func_021DE884(char *p) { func_0202570C(((struct Obj08252 *)p)->fC54); func_020437AC(((struct Obj08252 *)p)->fC58); func_02025588(((struct Obj08252 *)p)->fC50); }
+void func_021DE884(int *p) { func_0202570C(((struct Obj08252 *)p)->fC54); func_020437AC(((struct Obj08252 *)p)->fC58); func_02025588(((struct Obj08252 *)p)->fC50); }

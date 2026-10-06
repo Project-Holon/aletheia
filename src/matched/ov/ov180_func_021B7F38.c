@@ -62,11 +62,12 @@ struct S24 {
     u16 h;
 };
 
-extern int func_020056EC(int);
+typedef unsigned char  u8;
+extern u32 func_020056EC(u32 range);
 extern int func_021B74B4(char *, int);
 extern void func_021B75E8(char *, int);
 extern int func_021B75A4(char *, struct S24 *);
-extern void func_021B7488(char *, int, int);
+extern void func_021B7488(u8 *p, int n, int v);
 extern struct S24 tbl_021B821C;
 extern struct S24 tbl_021B8234;
 
@@ -105,7 +106,7 @@ void func_021B7F38(char *p)
                 local.b = y - 0x18;
             }
             ((int *)(p + 0x9048))[i] = func_021B75A4(p, &local);
-            func_021B7488(p, i, n + 4);
+            func_021B7488((u8 *)p, i, n + 4);
             return;
         }
     }

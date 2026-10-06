@@ -91,7 +91,7 @@ extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 /* The checksum pair over a byte range: sub_0203F2FC computes it, sub_0203F328
  * writes it back into the range's own trailer. */
 extern u32 sub_0203F2FC(const u8 *p, u32 len);
-extern void sub_0203F328(void *p, u32 size, u32 sum);
+extern void sub_0203F328(u16 *p, u32 size, u32 seed);
 extern void sub_0203F37C(void *p, u32 size, u32 sum);
 
 #define BLOCK_ID 0x26
@@ -115,7 +115,7 @@ void sub_02008C64(struct Sub02008C20Obj *obj, int commit)
 {
     if (commit) {
         obj->unk1DC = sub_0203F2FC((const u8 *)(&obj->unk000[1]), 0x1D8);
-        sub_0203F328(&obj->unk000[1], 0x1D8,
+        sub_0203F328((u16 *)(&obj->unk000[1]), 0x1D8,
                      obj->unk1DC + (obj->unk1DE << 16));
     }
 }

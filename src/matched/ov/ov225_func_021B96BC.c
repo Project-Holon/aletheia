@@ -73,7 +73,10 @@ extern u16 func_021B9BF8(char *,int,int);
 extern char *func_021BBA74(char *,char *);
 extern int func_021BBB0C(char *);
 extern void func_021BBAE8(char *p);
-extern char *func_021BB854(char *,char *);
+struct Data;
+struct Owner;
+struct Q;
+extern struct Q *func_021BB854(struct Owner *p, struct Data *data);
 extern void func_021B9E60(char *);
 int func_021B96BC(void *a,u32 *state,void *unused,char *p)
 {
@@ -103,7 +106,7 @@ int func_021B96BC(void *a,u32 *state,void *unused,char *p)
       ((struct Obj00100 *)p)->f10=2; ((struct Obj00100 *)p)->f30=1;
       ((struct Obj00100 *)p)->f34=done;
       ((struct Obj00100 *)p)->f36=done; ((struct Obj00100 *)p)->f38=done;
-      *(char * *)&((struct Obj00100 *)p)->f44=func_021BB854(p+0x30,*(char * *)&((struct Obj00100 *)p)->f8);
+      *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
      }
     }
    }
@@ -122,7 +125,7 @@ innerDone:
      ((struct Obj00100 *)p)->f10=2; ((struct Obj00100 *)p)->f30=0;
      ((struct Obj00100 *)p)->f34=((struct Obj00100 *)p)->f28;
      ((struct Obj00100 *)p)->f36=done; ((struct Obj00100 *)p)->f38=done;
-     *(char * *)&((struct Obj00100 *)p)->f44=func_021BB854(p+0x30,*(char * *)&((struct Obj00100 *)p)->f8);
+     *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
     }
    }
    break;
@@ -156,7 +159,7 @@ innerDone:
     func_021BBAE8(((struct Obj00100 *)p)->f74);
     if(((struct Obj00100 *)p)->f70==0) {
      ((struct Obj00100 *)p)->f10=2;
-     *(char * *)&((struct Obj00100 *)p)->f44=func_021BB854(p+0x30,*(char * *)&((struct Obj00100 *)p)->f8);
+     *(char * *)&((struct Obj00100 *)p)->f44=(char *)func_021BB854((struct Owner *)(p+0x30),(struct Data *)(*(char * *)&((struct Obj00100 *)p)->f8));
     }
    }
    break;

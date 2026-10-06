@@ -21,7 +21,7 @@ extern u8 func_020355C4(void);
 extern void func_021B9850(char *p);
 extern void func_021B9AAC(char *p);
 extern void func_021BA218(char *p);
-extern void func_021B81F4(char *p);
+extern void func_021B81F4(u8 *p);
 void func_021B6138(char *p)
 {
     if (func_020355C4() == 0)
@@ -29,6 +29,6 @@ void func_021B6138(char *p)
     else
         func_021B9AAC(p);
     func_021BA218(p);
-    func_021B81F4(p);
+    func_021B81F4((u8 *)p);
     ((struct Obj20660 *)p)->f83E = 1;
 }

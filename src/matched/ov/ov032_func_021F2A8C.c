@@ -31,12 +31,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0203FCA0(u32 bgId, const void *tmpl, u32 type);
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 struct PalAnmSlot;
 extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
 extern void func_02040588(u32, u32);
@@ -49,12 +50,12 @@ extern const u8 d_021F3668[];
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
-void func_021F2A8C(u8 *p, u32 h)
+void func_021F2A8C(u8 *p, void *h)
 {
-    func_0203FCA0(4, d_021F3608, 0);
-    func_0203FCA0(5, d_021F3628, 0);
-    func_0203FCA0(6, d_021F3648, 0);
-    func_0203FCA0(7, d_021F3668, 0);
+    func_0203FCA0(4, (const struct BgTemplate *)d_021F3608, 0);
+    func_0203FCA0(5, (const struct BgTemplate *)d_021F3628, 0);
+    func_0203FCA0(6, (const struct BgTemplate *)d_021F3648, 0);
+    func_0203FCA0(7, (const struct BgTemplate *)d_021F3668, 0);
     func_02082A7C(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;

@@ -26,8 +26,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Record { u16 active:1; u16 rest:15; u8 data[34]; } Record;
 extern void func_02061C30(void);
-extern void func_021F4F40(void *);
-extern void func_021F4D40(u8 *,Record *);
+extern void func_021F4F40(void **p);
+extern void func_021F4D40(u8 *p, u8 *e);
 extern void func_020307B0(void *);
 void func_021F4948(u8 *p)
 {
@@ -36,7 +36,7 @@ void func_021F4948(u8 *p)
     func_021F4F40(*(void **)(p+0xc));
     for(i=0;i<*(u16 *)(p+0x10);i++) {
         if ((*(Record **)(p+8))[i].active==1)
-            func_021F4D40(p,&(*(Record **)(p+8))[i]);
+            func_021F4D40(p,(u8 *)(&(*(Record **)(p+8))[i]));
     }
     func_020307B0(*(void **)(p+8));
     func_020307B0(p);

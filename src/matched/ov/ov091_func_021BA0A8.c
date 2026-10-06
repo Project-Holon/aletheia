@@ -41,12 +41,12 @@ extern void func_021BB7A4(void *p, u32 *s);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021BA624(u8 *,void *,u16);
 extern void func_021BB2C0(u8 *a, u8 *s);
-extern void func_021BC24C(u8 *,void *,u16);
+extern void func_021BC24C(void *unused, void *a, int b);
 extern void func_021BC288(int unused, int a, int b);
 extern int func_021BDBF8(u8 *,void *);
 extern int func_021BDC5C(u8 *,void *);
-extern void func_021BB97C(u8 *,u32);
-extern void func_021BB9AC(u8 *,u32,u32,u16);
+extern void func_021BB97C(u16 *p, u32 s);
+extern void func_021BB9AC(int a, int b, int c, int d);
 extern void func_021BDC3C(u32 p, void *m);
 extern void func_021BDCA0(u32 p, void *m);
 extern void func_021BB98C(void *p, u32 s);
@@ -80,13 +80,13 @@ void func_021BA0A8(u8 *p,int action)
             func_021BB7A4(p,(u32 *)W(0x150));
             func_021BA624(p,(void *)W(0x38),*(u16 *)(S+0x44));
             func_021BB2C0(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)));
-            func_021BC24C(p,(void *)W(0x38),*(u16 *)(S+0x44));
+            func_021BC24C(p,(void *)W(0x38),(u16)(*(u16 *)(S+0x44)));
             func_021BC288((int)p,(int)((void *)W(0x38)),*(u16 *)(S+0x44));
             a = func_021BDBF8(p,(void *)W(0x38));
             b = func_021BDC5C(p,(void *)W(0x38));
-            func_021BB97C(p,W(0x150));
-            func_021BB9AC(p,W(0x150),1,old);
-            func_021BB9AC(p,W(0x150),2,*(u16 *)(S+0x44));
+            func_021BB97C((u16 *)p,W(0x150));
+            func_021BB9AC((int)p,(u32)W(0x150),(u32)1,(u16)old);
+            func_021BB9AC((int)p,(u32)W(0x150),(u32)2,(u16)(*(u16 *)(S+0x44)));
             if (*(int *)(S+0x34) == 0xa) {
                 *(int *)(S+0x34) = 0;
                 if (a == 1) {

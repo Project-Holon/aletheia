@@ -32,39 +32,43 @@
  */
 
 typedef unsigned int   u32;
+struct Node;
+struct PalAnmSlot;
+struct S020314B8;
+struct S020315D4;
 int func_021B6458(int a, int b, int c, int *w)
 {
-    void func_0203133C(int);
-    void func_02030EAC(int);
-    void func_02010F8C(int);
-    void func_021B6960(int *);
-    void func_021B68B4(int *);
-    void func_021B6808(int *);
-    void func_021B677C(int *);
+    void func_0203133C(struct S020314B8 *p);
+    void func_02030EAC(struct Node *n);
+    void func_02010F8C(void *p);
+    void func_021B6960(u32 *p);
+    void func_021B68B4(void **p);
+    void func_021B6808(void **p);
+    void func_021B677C(u32 *p);
     void func_021B6624(void);
-    void func_021B6588(int *);
+    void func_021B6588(struct PalAnmSlot **p);
     void func_021B6538(void);
     void func_021B6524(void);
     void func_02049238(int);
-    void func_020315D4(int);
+    void func_020315D4(struct S020315D4 *p);
     void func_020306F0(u32 heap);
 
-    func_0203133C(w[0x12c / 4]);
-    func_0203133C(w[0x130 / 4]);
-    func_02030EAC(w[0x128 / 4]);
-    func_02010F8C(w[0x34 / 4]);
-    func_021B6960(w);
-    func_021B68B4(w);
-    func_021B6808(w);
-    func_021B677C(w);
+    func_0203133C((struct S020314B8 *)w[0x12c / 4]);
+    func_0203133C((struct S020314B8 *)w[0x130 / 4]);
+    func_02030EAC((struct Node *)w[0x128 / 4]);
+    func_02010F8C((void *)w[0x34 / 4]);
+    func_021B6960((u32 *)w);
+    func_021B68B4((void **)w);
+    func_021B6808((void **)w);
+    func_021B677C((u32 *)w);
     func_021B6624();
-    func_021B6588(w);
+    func_021B6588((struct PalAnmSlot **)w);
     func_021B6538();
     func_021B6524();
     func_02049238(w[0x30 / 4]);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x61);
     return 1;
 }

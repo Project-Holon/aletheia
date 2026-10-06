@@ -47,7 +47,8 @@ extern const u8 Areaman_RunMask[];
 extern const u8 Areaman_TailMask[];
 
 extern void func_02034394(u8 *q, u32 bit, u32 len);
-extern void func_020344C8(struct AreaMan *p);
+struct Struct_020344C8;
+extern void func_020344C8(struct Struct_020344C8 *param);
 
 void func_0203422C(struct AreaMan *p, u32 start, s32 len)
 {
@@ -75,5 +76,5 @@ void func_0203422C(struct AreaMan *p, u32 start, s32 len)
         }
         p->bits[start] &= (u8)~Areaman_RunMask[tail];
     }
-    func_020344C8(p);
+    func_020344C8((struct Struct_020344C8 *)p);
 }

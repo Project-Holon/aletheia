@@ -16,8 +16,9 @@
 #include "../include/Obj21118.h"
 typedef unsigned char u8;
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D5C30(unsigned char *);
+struct UtilWork;
+extern int func_021D5C30(struct UtilWork *p);
 int func_021C8338(unsigned char *p, int i)
 {
-    return func_021D5C30(func_021B9934(*(char * *)&((struct Obj21118 *)p)->f8, i));
+    return func_021D5C30((struct UtilWork *)func_021B9934(*(char * *)&((struct Obj21118 *)p)->f8, i));
 }

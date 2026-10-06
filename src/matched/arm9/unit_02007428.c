@@ -38,12 +38,12 @@
 
 typedef unsigned int u32;
 
-extern void func_02033478(u32 addr, const void *src, u32 size);
+extern void func_02033478(int a0, int a1, int a2);
 
 void sub_02007428(void)
 {
     u32 zero = 0;
 
-    func_02033478(0x7F800, &zero, 4);
-    func_02033478(0x7FC00, &zero, 4);
+    func_02033478(0x7F800, (int)(&zero), 4);
+    func_02033478(0x7FC00, (int)(&zero), 4);
 }

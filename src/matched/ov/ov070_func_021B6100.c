@@ -15,7 +15,7 @@
  */
 #include "../include/Obj00002.h"
 #include "../include/Obj20659.h"
-extern void func_02036270(unsigned a, unsigned b);
+extern int func_02036270(int a0, int a1);
 extern void func_021B6138(char *p);
 void func_021B6100(char *p, int k)
 {

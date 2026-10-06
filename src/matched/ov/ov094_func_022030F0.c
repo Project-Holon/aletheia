@@ -88,18 +88,18 @@ extern u32 func_02021ED8(const char *ptr);
 extern u32 func_020362DC(void);
 extern void func_021F8168(void);
 extern void func_02021848(int a, int b, u16 c, int d, int e, int f, int g, void *h);
-extern void func_02206B74(Main *m);
+extern void func_02206B74(char *p);
 extern void func_02204B0C(Main *m, int c);
 extern int func_02035C08(void *p);
 struct R5;
 extern int func_021D6D54(struct R5 *p);
 extern int func_02206140(Main *m, const Desc *d, void *t, const u8 *k, int a, int b);
 extern unsigned int func_0203630C(void);
-extern void func_02206BAC(Main *m);
-extern int func_02206908(Main *m, const Desc *d, int i);
-extern void func_02206B90(Main *m);
-extern void func_02206B58(Main *m);
-extern int func_02206578(Main *m, int a, int b);
+extern void func_02206BAC(char *p);
+extern int func_02206908(char *p, char *q, int i);
+extern void func_02206B90(char *p);
+extern void func_02206B58(char *p);
+extern int func_02206578(char *s, int a, int b);
 
 int func_022030F0(Main *m, u8 *key, int *out)
 {
@@ -128,7 +128,7 @@ int func_022030F0(Main *m, u8 *key, int *out)
         m->f5 = 0;
         m->tbl[m->f27c][m->f58] = 0;
         m->f6c &= ~2;
-        func_02206B74(m);
+        func_02206B74((char *)m);
         func_02204B0C(m, i);
         m->f70 = -1;
         return 0;
@@ -144,7 +144,7 @@ int func_022030F0(Main *m, u8 *key, int *out)
         held = func_0203630C();
         if (m->b25a[i] == 0 && !(held & 0x200)) {
             if (m->b262[i] != 0)
-                func_02206BAC(m);
+                func_02206BAC((char *)m);
             i = -1;
         } else if (i > 4 && m->b25a[i] == 0) {
             i = -1;
@@ -156,23 +156,23 @@ int func_022030F0(Main *m, u8 *key, int *out)
     }
     if (i != -1) {
         if (m->f220 == 1) {
-            r = func_02206908(m, &sec_0220A380.db, i);
+            r = func_02206908((char *)m, (char *)(&sec_0220A380.db), i);
             if (r == 0 && !(m->f6c << 30 >> 31)) {
                 m->tbl[m->f27c][m->f58] = i;
-                func_02206B90(m);
+                func_02206B90((char *)m);
             } else if (r == 1 && !(m->f6c << 30 >> 31)) {
-                func_02206B58(m);
+                func_02206B58((char *)m);
             }
-            i = func_02206578(m, i, sec_0220A380.db.c[i]);
+            i = func_02206578((char *)m, i, sec_0220A380.db.c[i]);
         } else {
-            r = func_02206908(m, &sec_0220A380.da, i);
+            r = func_02206908((char *)m, (char *)(&sec_0220A380.da), i);
             if (r == 0 && !(m->f6c << 30 >> 31)) {
                 m->tbl[m->f27c][m->f58] = i;
-                func_02206B90(m);
+                func_02206B90((char *)m);
             } else if (r == 1 && !(m->f6c << 30 >> 31)) {
-                func_02206B58(m);
+                func_02206B58((char *)m);
             }
-            i = func_02206578(m, i, sec_0220A380.da.c[i]);
+            i = func_02206578((char *)m, i, sec_0220A380.da.c[i]);
         }
     }
     if (i != -1)

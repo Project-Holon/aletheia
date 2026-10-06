@@ -34,7 +34,7 @@ extern void *func_02046E24(u32 a0, u32 a1);
 extern int func_02046FF8(int *self);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern int func_0204767C(int a, int *b, int c);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 
 void func_021ADF14(int *p)
@@ -45,6 +45,6 @@ void func_021ADF14(int *p)
     p[2] = (int)func_02046E24(r5, d_021DE120);
     p[5] = (int)func_02047400((void *)p[1], 0, (void *)p[1]);
     p[4] = (int)func_02047564((struct G3dOwner *)p[5], (const struct G3dOwner *)p[2], 0);
-    p[3] = func_0204767C(p[5], &p[4], 1);
+    p[3] = (int)func_0204767C(p[5], (u32 *)(&p[4]), 1);
     func_020477A4((struct G3dSys *)p[3], 0);
 }

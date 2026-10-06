@@ -130,7 +130,9 @@ struct Rec;
 struct U16Vec;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C54(void *proc);
+struct BigObj;
+struct Ent;
+extern u32 func_02188C54(u8 *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -138,14 +140,14 @@ extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 hea
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02045C04(struct Rec *rec);
 extern void *func_0202435C(void *slots, unsigned int heap);
-extern void *func_02012964(void *ctx);
+extern u32 func_02012964(const struct BigObj *p);
 extern void *func_0216DE94(void *p, u32 id);
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void *func_02188C58(void *proc);
 extern u32 func_0218EC2C(u8 *p);
 extern void func_021B09D8(VecFx32 *pos, VecFx32 *ofs, u32 a, void *m, u8 dir);
 extern void func_021B09EC(u8 dir, u32 *a, u32 *b);
-extern void *func_0219129C(void *x, u32 a, VecFx32 *pos, void *name, u32 c, u32 b);
+extern struct Ent *func_0219129C(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g);
 extern int func_0216C680(int a, int *st, int *o);
 
 void *func_0216C6E8(u8 *d, void *sys, u32 idx, u16 id, u8 dir)
@@ -164,7 +166,7 @@ void *func_0216C6E8(u8 *d, void *sys, u32 idx, u16 id, u8 dir)
 
     ctx = func_020120F4(sys);
     proc = func_0201210C(sys);
-    x = func_02188C54(proc);
+    x = (void *)func_02188C54(proc);
     task = func_020122C0(sys, 0, func_0216C680, 0xD8);
     t = func_020124E8(task);
     t->sys = sys;
@@ -180,13 +182,13 @@ void *func_0216C6E8(u8 *d, void *sys, u32 idx, u16 id, u8 dir)
     } else {
         t->name = func_0202435C((u16 *)((u32)d + 0xA0 + idx * 0x120), 4);
     }
-    func_0216D88C(func_0216DE94(func_02012964(ctx), t->id), &t->pos);
+    func_0216D88C(func_0216DE94((void *)func_02012964(ctx), t->id), &t->pos);
     m = func_02188C58(proc);
     func_021B09D8(&t->pos, &ofs, func_0218EC2C(m), m, dir);
     t->pos.x += ofs.x;
     t->pos.y += ofs.y;
     t->pos.z += ofs.z;
     func_021B09EC(dir, &a, &b);
-    t->obj = func_0219129C(x, a, &t->pos, t->name, 0, b);
+    t->obj = func_0219129C(x, a, (u32)(&t->pos), (u32)t->name, 0, b);
     return task;
 }

@@ -33,7 +33,7 @@ extern void func_021D7704(int a, int b);
 extern int func_021DED0C(u16 v);
 struct QL;
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D679C(void *m);
+extern u16 func_021D679C(u8 *p);
 extern u16 func_021D67A8(struct QL *p);
 extern int func_021DCFF8(int a, int b);
 
@@ -49,7 +49,7 @@ void func_021DEC70(int a, void *b, int c)
     if (c == func_021D775C(3)) {
         if (func_021DED0C(func_021D775C(0x12)) == 0) {
             m = func_021C7CF4(b, c);
-            n = func_021D679C(m);
+            n = (int)func_021D679C(m);
             if (n >= 1) {
                 id = func_021D775C(0x12);
                 if (id == func_021D67A8(m)) {

@@ -32,7 +32,7 @@ typedef struct {
 
 extern u16 func_02188C84(u8 *p);
 extern void *func_021C6C70(u32 h, int size, void *fn);
-extern Fx *func_021C6CCC(void *o);
+extern u32 func_021C6CCC(u8 *p);
 extern void func_021C7730(void);
 
 void *func_021C7684(u32 a, u32 b, int c, int d)
@@ -41,7 +41,7 @@ void *func_021C7684(u32 a, u32 b, int c, int d)
     Fx *p;
 
     o = func_021C6C70(func_02188C84((u8 *)a), 0x14, (void *)func_021C7730);
-    p = func_021C6CCC(o);
+    p = (Fx *)func_021C6CCC(o);
     p->st = 0;
     p->w4 = a;
     p->h8 = 0;

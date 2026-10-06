@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_020275B8(char *p, u8 v) { p[0xb0e] = v; }
+void func_020275B8(char *p, int v) { p[0xb0e] = v; }

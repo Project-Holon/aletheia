@@ -57,12 +57,13 @@
 typedef unsigned int u32;
 typedef struct { unsigned char a,b,c,d; u32 id; } Request;
 typedef struct {char pad[0x48];u32 slots[6];} SlotView;
-extern void func_021D965C(char *);
+struct Obj;
+extern void func_021D965C(struct Obj *obj);
 extern void func_021D97E4(char *,unsigned);
 extern void func_021D9874(char *);
 extern unsigned func_021D97B8(char *);
 extern int func_021D98CC(char *);
-extern void func_021D98E4(char *,unsigned);
+extern void func_021D98E4(u32 *p, int mode);
 extern int func_021D9A08(char *);
 extern void func_021D99F4(char *);
 extern int func_021D98D8(char *);
@@ -117,16 +118,16 @@ void func_021D76D4(u32 sys,int *state,char *p)
     u32 saved,tmp,out;
     Request request;
     switch(*state) {
-    case 0: func_021D965C(p); func_021D97E4(p,2); func_021D9874(p); *state=1; break;
+    case 0: func_021D965C((struct Obj *)p); func_021D97E4(p,2); func_021D9874(p); *state=1; break;
     case 1: r=1; r &= func_021D97B8(p); r &= func_021D98CC(p); if(r) *state=2; break;
     case 2: func_021E8738((int *)W(0x2c),W(0x14),0x41,1); func_021E8AB4(sys,3); *state=30; break;
-    case 3: func_021D98E4(p,2); *state=4; break;
+    case 3: func_021D98E4((u32 *)p,2); *state=4; break;
     case 4: r=func_021D9A08(p); if(r!=-1) {func_021D99F4(p); switch(r) {case 0:*state=12;break;case 1:*state=5;break;}} break;
     case 5: func_021E8738((int *)W(0x2c),W(0x14),0x44,1); func_021E8AB4(sys,6); *state=30; break;
-    case 6: func_021D98E4(p,0); *state=7; break;
+    case 6: func_021D98E4((u32 *)p,0); *state=7; break;
     case 7: r=func_021D9A08(p); if(r!=-1) {func_021D99F4(p); switch(r) {case 0:*state=8;break;case 1:*state=2;break;}} break;
     case 8: func_021E8738((int *)W(0x2c),W(0x14),0x45,1); func_021E8AB4(sys,9); *state=30; break;
-    case 9: func_021D98E4(p,0); *state=10; break;
+    case 9: func_021D98E4((u32 *)p,0); *state=10; break;
     case 10: r=func_021D9A08(p); if(r!=-1) {func_021D99F4(p); switch(r) {case 0:*state=11;break;case 1:*state=2;break;}} break;
     case 11: if(func_021D98D8(p)) {func_021D98B8(p); *state=29;} break;
     case 12:

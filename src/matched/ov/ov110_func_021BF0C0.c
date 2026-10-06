@@ -23,7 +23,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int (*Handler)(u8 *, void *);
-extern int func_021BE7F0(u8 *);
+extern int func_021BE7F0(void);
 extern void func_020061E4(u32);
 extern void func_021B9BEC(u8 *, int);
 extern int func_021BE4C0(u8 *, unsigned *);
@@ -34,7 +34,7 @@ extern int func_021BF444(u8 *);
 extern int func_021BD894(u8 *, void *);
 void func_021BF0C0(u8 *p, u32 *q)
 {
-    if (!func_021BE7F0(p)) {
+    if (!func_021BE7F0()) {
         func_020061E4(1361);
         func_021B9BEC(*(u8 * *)&((struct Obj00493 *)p)->f14, 13);
         *(Handler *)&((struct Obj00493 *)p)->f28 = (Handler)func_021BE4C0;

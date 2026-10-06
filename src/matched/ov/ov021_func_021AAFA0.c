@@ -33,13 +33,15 @@ typedef struct {
 
 typedef struct D D;
 
-extern T *func_02012A38(int a);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02012A38(const struct BigObj *p);
 extern void func_021AAFFC(D *d);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021AAFA0(S *s, D *d)
 {
-    T *t = func_02012A38(s->f8);
+    T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
     func_021AAFFC(d);
     func_02082BCC(&t->sub, 0, 0x10);
 }

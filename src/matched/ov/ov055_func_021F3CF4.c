@@ -12,4 +12,4 @@
  *   d_021F45C0 0x021F45C0 data a4
  */
 extern void (*d_021F45C0[])(unsigned char *,unsigned int,unsigned int);
-void func_021F3CF4(unsigned char *p,unsigned int a,unsigned int b) { if (p[0]) d_021F45C0[p[2]](p,a,b); }
+void func_021F3CF4(unsigned char *p, int a, int b) { if (p[0]) d_021F45C0[p[2]](p,a,b); }

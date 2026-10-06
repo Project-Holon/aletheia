@@ -52,10 +52,13 @@ typedef struct Work {
 
 extern Stage *func_02156F68(u32 heap, void *p);
 extern void func_02156FC4(Stage *s, u8 id, void *p);
-extern void func_021572E4(void *a, Stage *s, u8 id, u8 slot, u32 heap);
-extern u32 func_021FD4F8(void *p, u8 id);
+struct Deal;
+struct Party;
+extern void func_021572E4(struct Deal *d, void *a, u8 b, u8 slot, u16 y);
+struct Ctx;
+extern u32 func_021FD4F8(struct Ctx *p, u8 key);
 extern void func_02157000(Stage *s, u8 id, u32 v);
-extern void func_02157174(u32 heap, void *a, Stage *s);
+extern void func_02157174(u32 heap, struct Deal *d, struct Party *party);
 
 void func_02155FC8(Work *w)
 {
@@ -85,5 +88,5 @@ void func_02155FC8(Work *w)
     }
     w->f30->f18 = w->f24;
     w->f30->f14 = w->f38;
-    func_02157174(4, w->f38, w->f30);
+    func_02157174(4, w->f38, (struct Party *)w->f30);
 }

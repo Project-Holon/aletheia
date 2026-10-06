@@ -50,7 +50,7 @@ extern void func_02043598(u32,u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
 typedef signed int     s32;
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049238(void *);
 extern u32 func_020275E4(void);

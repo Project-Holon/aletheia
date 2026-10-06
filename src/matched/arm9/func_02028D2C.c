@@ -38,14 +38,15 @@ struct Sys {
     u32 pending;   /* 0x20 */
 };
 
-extern void func_020293D8(struct Sys *s);
+struct T;
+extern void func_020293D8(struct T *p);
 extern void func_02005D28(void);
 extern void func_02028CD4(u8 *p, u32 v);
 
 void func_02028D2C(struct Sys *s, void *desc)
 {
     while (s->pending != 0) {
-        func_020293D8(s);
+        func_020293D8((struct T *)s);
     }
     func_02005D28();
     func_02028CD4((u8 *)s, (u32)desc);

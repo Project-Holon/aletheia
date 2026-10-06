@@ -15,7 +15,7 @@
 #include "../include/Obj14394.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_021B6338(void *,int,int);
 int func_021B6794(char *p,const int *q) {

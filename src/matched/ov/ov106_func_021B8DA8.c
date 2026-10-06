@@ -16,17 +16,17 @@
  */
 
 typedef unsigned int u32;
-extern int func_02035D20(int *,int *);
-extern int func_02035CB8(int *,int *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 void func_021B8DA8(int *p) {
     int x,y;
     int d;
-    if(func_02035D20(&x,&y)) {
+    if(func_02035D20((u32 *)(&x),(u32 *)(&y))) {
         p[0]=x;p[1]=y;p[2]=x;p[3]=y;p[4]=x;p[5]=y;
         p[6]=0;p[7]=0;p[8]=0;
-    } else if(func_02035CB8(&x,&y)) {
+    } else if(func_02035CB8((u32 *)(&x),(u32 *)(&y))) {
         d=y-p[1];
         if(d<0)d=-d;
         if(d>=1) {

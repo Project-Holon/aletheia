@@ -26,7 +26,7 @@ typedef struct {
 extern const char d_021F3A98[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void *func_021D4D24(u32 a, u32 b)
+void *func_021D4D24(u32 a, u16 b)
 {
     Hdr *h = sub_02030734(b, a + 4, 1, d_021F3A98, 0x477);
 

@@ -28,7 +28,7 @@ typedef unsigned int  u32;
 
 extern const u8 str_020A7D34[];
 extern const u8 str_020A7D4C[];
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_0203DAC4(const u8 *mac);
 
 void func_0203E484(u32 a, u32 b, int *p)
@@ -37,7 +37,7 @@ void func_0203E484(u32 a, u32 b, int *p)
     int n;
 
     if (p[0] >= 4) {
-        func_02034714(str_020A7D34, 0x2a5, str_020A7D4C);
+        func_02034714((const char *)str_020A7D34, 0x2a5, (const char *)str_020A7D4C);
     }
     n = p[0];
     if (n > 4) {

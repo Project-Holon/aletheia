@@ -14,8 +14,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02011290(u8 *);
+struct ScriptVm;
+extern void func_02011290(struct ScriptVm *vm);
 int func_021895AC(u8 *a, u8 *b)
 {
-    b[0x44] |= 1; func_02011290(a); return 1;
+    b[0x44] |= 1; func_02011290((struct ScriptVm *)a); return 1;
 }

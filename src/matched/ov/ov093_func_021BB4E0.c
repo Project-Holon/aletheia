@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_021EE9B4(u8 *, void *, u8);
-extern int func_021EE9E4(u8 *, int *, u8 *, u8 *, u32 *);
+extern int func_021EE9E4(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst);
 
 typedef struct {
     u8 pad0[0x68];
@@ -45,7 +45,7 @@ void func_021BB4E0(Obj *p, void *src, u8 n)
     for (i = 0; i < 4; i++)
         p->cnt[i] = 0;
     func_021EE9B4(p->rd, src, n);
-    while (func_021EE9E4(p->rd, &idx, &type, &count, buf) != 0) {
+    while (func_021EE9E4(p->rd, (u32 *)(&idx), &type, &count, buf) != 0) {
         for (i = 0; i < count; i++)
             p->tab[type][i] = buf[i];
         p->cnt[type] = count;

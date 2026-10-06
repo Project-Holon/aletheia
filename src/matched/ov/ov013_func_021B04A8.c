@@ -29,9 +29,10 @@ typedef struct AdpcmState {
     u8 index;
 } AdpcmState;
 
-extern void func_021B01FC(void *dst, void *a, int n, AdpcmState *st);
-extern void func_021AFABC(void *dst, void *a, int n, AdpcmState *st);
-extern void func_021AF494(void *dst, void *a, int n, AdpcmState *st);
+typedef unsigned int   u32;
+extern void func_021B01FC(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
+extern void func_021AFABC(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
+extern void func_021AF494(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
 
 void func_021B04A8(AdpcmHdr *out, void *a, int n, AdpcmState *st, int mode)
 {

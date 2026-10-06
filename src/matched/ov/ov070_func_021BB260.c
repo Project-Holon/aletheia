@@ -43,7 +43,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BB6E0(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
-extern void func_021BB724(u32 *);
+extern void func_021BB724(void **p);
 extern int func_021B619C(int a, int b, unsigned int id);
 
 void func_021BB260(u8 *p, int val)
@@ -59,7 +59,7 @@ void func_021BB260(u8 *p, int val)
     func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00002 *)p)->f520), 0, val, 3, 0, 1);
     func_0201F250((struct WordSet *)(*(int *)&((struct Obj00002 *)p)->f520), (void *)(*(int *)&((struct Obj00002 *)p)->f528), (void *)(*(int *)&((struct Obj00002 *)p)->f524));
     func_021BB6E0((int)p, win, *(u32 *)&((struct Obj00002 *)p)->f528, 0, 0, 0x3DC5);
-    func_021BB724(win);
+    func_021BB724((void **)win);
     if (((struct Obj00002 *)p)->f7EC == 2) {
         win2 = (u32 *)(p + 0x76C);
         v = func_021B619C(((struct Obj00002 *)p)->f84C, ((struct Obj00002 *)p)->f7F4, ((struct Obj00002 *)p)->f544);
@@ -68,6 +68,6 @@ void func_021BB260(u8 *p, int val)
         func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00002 *)p)->f520), 0, v, 7, 0, 1);
         func_0201F250((struct WordSet *)(*(int *)&((struct Obj00002 *)p)->f520), (void *)(*(int *)&((struct Obj00002 *)p)->f528), (void *)(*(int *)&((struct Obj00002 *)p)->f524));
         func_021BB6E0((int)p, win2, *(u32 *)&((struct Obj00002 *)p)->f528, 0, 0, 0x3DC5);
-        func_021BB724(win2);
+        func_021BB724((void **)win2);
     }
 }

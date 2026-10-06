@@ -67,7 +67,11 @@ typedef struct {
 extern u8 *func_021B9934(char *p, int i);
 extern unsigned char func_021B8DC0(unsigned char *p, void *a, unsigned int b);
 extern int func_021F8204(int);
-extern int func_021D69B8(void *, u32 *, void *);
+struct H;
+struct L;
+struct Obj;
+struct Result;
+extern int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r);
 extern void func_021F8134(int, u32);
 extern int func_021F8180(void);
 extern void func_021D6EA0(void *);
@@ -78,17 +82,17 @@ extern void func_021EA3B8(char *ctx, int a, int b);
 extern int func_021EA3D4(void *);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, u16 id);
-extern void func_021EAF50(void *, int);
-extern void func_021EA614(void *, void *);
+extern void func_021EAF50(struct L *p, u32 val);
+extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA720(void *);
 extern void func_02005DE4(void *);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 extern void func_02005D90(u32, u32);
 extern int func_021EA710(u32 *p);
 extern int func_02005F38(void);
 extern void func_02005E9C(void);
 extern u32 func_020362DC(void);
-extern u32 func_02035C60(void);
+extern int func_02035C60(void);
 extern void func_021BA238(char *p, void *m);
 struct T;
 extern void func_021EADA4(u8 *, int, struct T *);
@@ -121,7 +125,7 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
     case 1:
         if (d_021F3B64.remaining) {
             remaining = d_021F3B64.remaining;
-            if (func_021D69B8(obj, &remaining, d_021F3B64.result)) {
+            if (func_021D69B8(obj, &remaining, (struct Result *)d_021F3B64.result)) {
                 *state = 3;
             } else {
                 if (enabled) {
@@ -155,9 +159,9 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         break;
     case 6:
         func_021EAF18((struct L *)(p + 0x58), 1, 0x3c);
-        func_021EAF50(p + 0x58, id);
-        func_021EAF50(p + 0x58, d_021F3B64.result[0]);
-        func_021EA614(((struct Obj00268 *)p)->f54, p + 0x58);
+        func_021EAF50((struct L *)(p + 0x58), (int)id);
+        func_021EAF50((struct L *)(p + 0x58), (int)d_021F3B64.result[0]);
+        func_021EA614(((struct Obj00268 *)p)->f54, (struct H *)(p + 0x58));
         *state = 7;
         break;
     case 7:

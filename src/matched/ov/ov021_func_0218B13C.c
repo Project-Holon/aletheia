@@ -30,12 +30,13 @@ typedef unsigned char  u8;
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern void func_0219E2F4(void *o, void *out);
-extern int func_02162598(void *a, int *b);
-extern void *func_021625CC(void *a, u16 b);
+struct Q;
+extern int func_02162598(char *p, struct Q *q);
+extern void *func_021625CC(char *p, unsigned i);
 extern int func_021626EC(u16 *p);
 extern u8 func_021626E8(u8 *p);
 extern int func_0218AECC(char *a0, int a1);
-extern void func_0218B2A8(char *p, int a, int *b);
+extern void func_0218B2A8(char *p, int s, u16 *v);
 extern int func_0218B2E8(char *p, void *x, int a, int *b);
 
 int func_0218B13C(char *p, void *unused, void *x, int *alt)
@@ -45,21 +46,21 @@ int func_0218B13C(char *p, void *unused, void *x, int *alt)
     void *o;
 
     func_0219E2F4(func_021A3074(func_02188CB4(x)), buf);
-    id = func_02162598(((struct Obj04983 *)p)->fC, buf);
+    id = func_02162598(((struct Obj04983 *)p)->fC, (struct Q *)buf);
     if (id != 0xFFFF) {
-        o = func_021625CC(((struct Obj04983 *)p)->fC, id);
+        o = func_021625CC(((struct Obj04983 *)p)->fC, (u16)id);
         if (func_021626EC(o) == 0 && func_0218AECC(o, ((struct Obj04983 *)p)->f24) != 0
             && func_021626E8(o) == 1) {
-            func_0218B2A8(p, id, buf);
+            func_0218B2A8(p, id, (u16 *)buf);
             return func_0218B2E8(p, x, id, buf);
         }
     }
-    id = func_02162598(((struct Obj04983 *)p)->fC, alt);
+    id = func_02162598(((struct Obj04983 *)p)->fC, (struct Q *)alt);
     if (id == 0xFFFF)
         return 0;
-    o = func_021625CC(((struct Obj04983 *)p)->fC, id);
+    o = func_021625CC(((struct Obj04983 *)p)->fC, (u16)id);
     if (func_021626EC(o) == 0 && func_0218AECC(o, ((struct Obj04983 *)p)->f24) != 0) {
-        func_0218B2A8(p, id, buf);
+        func_0218B2A8(p, id, (u16 *)buf);
         return func_0218B2E8(p, x, id, buf);
     }
     return 0;

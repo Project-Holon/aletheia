@@ -20,7 +20,8 @@ typedef struct {int left,top,right,bottom;} Rect;
 extern unsigned func_021F2614(char *,int *,unsigned short *);
 extern int func_021F3364(char *,int),func_021F2818(char *,int,int);
 extern void func_020061E4(unsigned),func_021F366C(char *,int,int);
-extern void func_021F1A1C(char *,int,const Rect *,int,int);
+struct Rect;
+extern void func_021F1A1C(char *p, int mode, const struct Rect *rect, int flag, int selected);
 void func_021F391C(char *p,int *input)
 {
     unsigned code;
@@ -44,5 +45,5 @@ void func_021F391C(char *p,int *input)
     case 11:((struct Obj00117 *)p)->fE8=4;break;
     }
     if(func_021F2818(p,(int)(input+2),(int)&rect))
-        func_021F1A1C(p+0x24,2,&rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
+        func_021F1A1C(p+0x24,2,(const struct Rect *)(&rect),((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
 }

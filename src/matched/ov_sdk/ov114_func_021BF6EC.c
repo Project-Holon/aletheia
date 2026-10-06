@@ -46,7 +46,8 @@ extern int func_02059F38(void);
 extern DWCGHTTPParamEntry *func_021BFA08(DWCGHTTPParam *param);
 extern int func_021BF8C0(int result);
 extern void *func_0205A16C(int name, unsigned long size);
-extern void func_021BFA70(DWCGHTTPParamEntry *entry);
+struct Node;
+extern void func_021BFA70(struct Node *x);
 extern int func_021C20A4(char *url, char *headers, char *buffer, int bufferSize, void *post,
                          int throttle, int blocking, void *progressCallback, void *completedCallback, void *param);
 extern void func_0205A1B0(int name, void *ptr, unsigned long size);
@@ -79,7 +80,7 @@ int func_021BF6EC(char *url, int bufferlen, int buffer_clear, void **post,
         if (buffer == 0) {
             func_021BF8C0(-5);
             completedCallback(0, 0, -5, param);
-            func_021BFA70(entry);
+            func_021BFA70((struct Node *)entry);
             return -5;
         }
         entry->buf = buffer;
@@ -91,7 +92,7 @@ int func_021BF6EC(char *url, int bufferlen, int buffer_clear, void **post,
         completedCallback(0, 0, req, param);
         if (entry->buf != 0)
             func_0205A1B0(6, entry->buf, 0);
-        func_021BFA70(entry);
+        func_021BFA70((struct Node *)entry);
     }
     entry->req = req;
     func_021C22EC(req, 1);

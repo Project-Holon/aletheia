@@ -18,8 +18,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 extern void func_021C5B98(void *p, int layer, unsigned int q, s16 x, s16 y);
-extern void func_02041B6C(u8);
-extern void func_02041EE4(u8,int,int);
+extern void func_02041B6C(u32 bit);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 void func_021C5B0C(char *p,int x,int y)
 {
     s16 tx,ty,rx,ry;
@@ -27,8 +27,8 @@ void func_021C5B0C(char *p,int x,int y)
     if(tx!=((struct Obj02840 *)p)->f18||ty!=((struct Obj02840 *)p)->f1A) {
         ((struct Obj02840 *)p)->f1A=ty; ((struct Obj02840 *)p)->f18=tx;
         func_021C5B98(((struct Obj02840 *)p)->f4,((struct Obj02840 *)p)->f14,(unsigned int)(((struct Obj02840 *)p)->fC),-tx,-ty);
-        func_02041B6C(((struct Obj02840 *)p)->f14);
+        func_02041B6C((u8)(((struct Obj02840 *)p)->f14));
     }
-    func_02041EE4(((struct Obj02840 *)p)->f14,0,rx);
-    func_02041EE4(((struct Obj02840 *)p)->f14,3,ry);
+    func_02041EE4((u8)(((struct Obj02840 *)p)->f14),(int)0,(int)rx);
+    func_02041EE4((u8)(((struct Obj02840 *)p)->f14),(int)3,(int)ry);
 }

@@ -43,16 +43,17 @@ struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void *func_020120F4(const struct Ctx *p);
 S7 *func_02012894(void *p);
-u16 *func_02012870(void *p);
+struct Rec1C;
+struct Rec1C *func_02012870(const struct BigObj *p);
 u32 func_02013E7C(u32 id);
-void func_020128C0(void *a, void *b);
+void func_020128C0(struct BigObj *p, const struct Rec1C *src);
 void *func_02012B38(const struct BigObj *p);
 u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
 int func_021625E8(int a0);
 int func_02162694(int a0, int a1, int a2);
 u8 func_021626E8(u8 *p);
 int func_02184388(int a, int *state, u8 *p);
-void func_02184CEC(void *obj, void *p);
+void func_02184CEC(void **o, void *p);
 void func_02185EB0(int a, u16 *p);
 
 void *func_02185360(void *p, int u, int a, int b)
@@ -63,7 +64,7 @@ void *func_02185360(void *p, int u, int a, int b)
     u16 *r6;
 
     r4 = func_020124E8(r0v);
-    func_02184CEC(r4, p);
+    func_02184CEC((void **)r4, p);
     ((struct Obj00248 *)r4)->f40 = 1;
     if (func_021625E8(a) != 0) {
         *(S7 *)(r4 + 0x10) = *func_02012894(r5);
@@ -71,9 +72,9 @@ void *func_02185360(void *p, int u, int a, int b)
         func_02162694(a, (int)(r4 + 0x10), b);
     }
     ((struct Obj00248 *)r4)->f2C = func_021626E8((u8 *)a);
-    r6 = func_02012870(r5);
+    r6 = (u16 *)func_02012870(r5);
     if (func_02013E7C(r6[2]) == 1 && func_02013E7C(((struct Obj00248 *)r4)->f14) == 0) {
-        func_020128C0(r5, r6);
+        func_020128C0(r5, (const struct Rec1C *)r6);
     }
     func_02185EB0((int)r5, (u16 *)(r4 + 0x10));
     func_0201447C(func_02012B38(r5), 2);

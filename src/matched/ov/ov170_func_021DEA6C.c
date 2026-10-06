@@ -24,7 +24,7 @@ typedef struct {
 } Motion;
 extern void func_021ED164(char *w, int i, int v);
 extern void func_021ED198(char *w, int i, int v);
-extern void func_021ED14C(char *w, short x, short y);
+extern void func_021ED14C(int a, int b, int c);
 extern void func_021ED310(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
 int func_021DEA6C(char *p, int a)
@@ -49,7 +49,7 @@ int func_021DEA6C(char *p, int a)
         m->y += m->dy;
     else
         m->y -= m->dy;
-    func_021ED14C(WORK(p), m->x >> 8, m->y >> 8);
+    func_021ED14C((int)WORK(p), (short)(m->x >> 8), (short)(m->y >> 8));
     func_021ED310(WORK(p));
     m->count++;
     return 1;

@@ -44,7 +44,7 @@ extern const char g_021C8874[];
 
 int func_021C2D0C(void *a, void *b);
 void func_0208D7E0(char *dst, const char *fmt, ...);
-void func_021C2CDC(void *buf);
+void func_021C2CDC(u8 *buf);
 
 int func_021C2D24(void)
 {
@@ -57,6 +57,6 @@ int func_021C2D24(void)
     func_0208D7E0(buf, g_021C8874,
                   d.year + 0x7d0, d.month, d.day,
                   d.hour, d.min, d.sec);
-    func_021C2CDC(buf);
+    func_021C2CDC((u8 *)buf);
     return 1;
 }

@@ -23,18 +23,21 @@ typedef unsigned char u8;
 extern void func_02082BCC(void *,int,int);
 extern void func_0203F8F4(unsigned);
 extern void func_02045088(unsigned);
-extern void func_0203FC28(void *);
-extern void func_0203FCA0(u8,void *,u8);
+typedef unsigned int   u32;
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern char d_021D83B0[],d_021D83F0[];
 void func_021D8304(void *p,unsigned heap) {
  unsigned i; char *q; unsigned n;
  func_02082BCC(p,0,4);
- func_0203F8F4(heap); func_02045088(heap); func_0203FC28(d_021D83B0);
+ func_0203F8F4(heap); func_02045088(heap); func_0203FC28((struct DispConfig *)d_021D83B0);
  for(i=0;i<8;i++) {
  q=d_021D83F0+i*44; n=((struct Obj10347 *)q)->f0;
- func_0203FCA0(n,q+4,((struct Obj10347 *)q)->f24);
+ func_0203FCA0((u8)n,(const struct BgTemplate *)(q+4),(u8)(((struct Obj10347 *)q)->f24));
  func_020414AC(n); func_02040588(n,((struct Obj10347 *)q)->f28);
  }
 }

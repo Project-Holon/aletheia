@@ -28,7 +28,8 @@ typedef struct {
 } B;
 
 extern int func_021BB830(u8 *);
-extern B *func_021EEB64(u32, int);
+struct QW;
+extern u32 func_021EEB64(struct QW *p, u32 *out);
 extern u32 func_021D8454(B *);
 extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern u8 func_021D5440(u8 *p);
@@ -39,7 +40,7 @@ u32 func_021BB0A0(u8 *p)
     B *b;
 
     if (func_021BB830(q) != 0) {
-        b = func_021EEB64(((struct Obj21032 *)q)->f0, 0);
+        b = (B *)func_021EEB64((struct QW *)(((struct Obj21032 *)q)->f0), 0);
         if (func_021D8454(b) == 3) {
             u8 *r = func_021B9920(((struct Obj21031 *)p)->f10, 1, b->f);
             return func_021D5440(r);

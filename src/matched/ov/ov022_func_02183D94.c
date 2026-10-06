@@ -15,7 +15,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_02173E68(u32);
+extern u32 func_02173E68(u32 a);
 void func_02183D94(u8 *p)
 {
     if (p[17] != 255 && func_02173E68(p[17]) == 1) p[17] = 255;

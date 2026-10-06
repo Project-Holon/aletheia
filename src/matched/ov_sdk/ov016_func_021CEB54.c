@@ -43,8 +43,10 @@ typedef struct {
 	unsigned short y;
 } COORD;
 
-extern int func_021D68E4(void *r);
-extern int func_021D6B64(COORD *c);
+typedef unsigned short u16;
+struct tagCOORD;
+extern int func_021D68E4(u16 *a);
+extern int func_021D6B64(struct tagCOORD *c);
 extern void func_021CEC24(int pos);
 extern void func_021CEEE8(int pos);
 extern void func_021D0014();
@@ -58,8 +60,8 @@ void func_021CEB54(void)
 	int pos;
 	int s;
 
-	if (func_021D68E4(g_021DAA7C)) {
-		func_021D6B64(&c);
+	if (func_021D68E4((u16 *)g_021DAA7C)) {
+		func_021D6B64((struct tagCOORD *)(&c));
 		if (c.x >= g_021DE63C->x - 30) {
 			pos = g_021DE63C->base + (c.y - g_021DE63C->off);
 			if (pos < 0)

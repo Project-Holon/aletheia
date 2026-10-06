@@ -32,7 +32,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021BB714(void *a, u32 *s, u32 k);
 extern void func_021BB7E8(u8 *a, u32 *s, u32 x);
-extern void func_021BD4EC(u8 *p);
+extern void func_021BD4EC(char *p);
 extern void func_021B8418(u8 *p);
 
 void func_021B7B98(u8 *p)
@@ -45,7 +45,7 @@ void func_021B7B98(u8 *p)
         ((struct Obj00009 *)p)->f14 = 1;
         break;
     case 1:
-        func_021BD4EC(p);
+        func_021BD4EC((char *)p);
         func_0204B3DC((struct Obj *)((struct Obj00009 *)p)->f1E0, 0);
         ((struct Obj00009 *)p)->f14 = 0;
         break;

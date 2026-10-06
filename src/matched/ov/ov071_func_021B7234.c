@@ -31,7 +31,7 @@ extern const char d_021BABE4[];
 typedef unsigned int   u32;
 extern void *func_021B6F40(u8 **p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02041090(u8 bg, void *buf, u8 x, u8 y, u8 w, u8 h);
+extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_020307B0(void *p);
 
 void func_021B7234(void *a, int flag, int bg)
@@ -83,6 +83,6 @@ void func_021B7234(void *a, int flag, int bg)
     for (i = 0; i < 30; i++) {
         buf[i] |= 0x1000;
     }
-    func_02041090(bg, buf, 1, y, 30, 1);
+    func_02041090((u8)bg, (u32)buf, (u8)1, (u8)y, 30, 1);
     func_020307B0(buf);
 }

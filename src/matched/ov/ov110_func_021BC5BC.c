@@ -42,7 +42,7 @@ typedef struct Vec2 { s16 x,y; } Vec2;
 struct Descriptor;
 struct Obj;
 extern u32 func_021BAC44(u8 *);
-extern void func_021BC564(const Vec2 *,Vec2 *);
+extern void func_021BC564(s16 *p, s16 *out);
 extern u32 func_02024508(u32);
 extern u32 func_02024520(u32);
 extern u8 func_02045730(struct Descriptor *);
@@ -50,7 +50,7 @@ extern u32 func_021BC6D0(u32);
 extern u8 func_02045758(struct Descriptor *);
 extern u8 func_02045760(struct Descriptor *);
 extern void func_0204B878(struct Obj *,u16);
-extern void func_0204B404(struct Obj *,const Vec2 *,u16);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *,u32);
 extern u8 func_020416D4(u32);
 extern void func_0204B84C(struct Obj *,u32);
@@ -67,7 +67,7 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,stru
     u32 layer;
     font=func_021BAC44(*(u8 * *)&((struct Obj10277 *)p)->f0);
     if(id==0xffff) return;
-    func_021BC564(input,&base);
+    func_021BC564((s16 *)input,(s16 *)(&base));
     if(func_02024508(id)!=0) {
         index=func_02024520(id)-1;
         layer=func_021BC6D0(func_02045730(window));
@@ -75,7 +75,7 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,stru
         pos.y=base.y+func_02045760(window)*8;
         if(layer==1) pos.y+=192;
         func_0204B878(sprite,index);
-        func_0204B404(sprite,&pos,layer);
+        func_0204B404(sprite,&pos,(u16)layer);
         func_0204B3DC(sprite,1);
         func_0204B84C(sprite,func_020416D4(func_02045730(window)));
     } else {

@@ -31,9 +31,9 @@ typedef struct Slot {
     u8  f20;
 } Slot;
 
-extern void func_02190590(Slot *s, u16 x, int y, u32 z);
+extern void func_02190590(struct Slot *s, int x, int y, u32 z);
 
 void func_02190844(Slot **p, int x, int y, u32 z)
 {
-    func_02190590(p[1], x + 8, y, z);
+    func_02190590(p[1], (u16)(x + 8), y, z);
 }

@@ -20,4 +20,4 @@ typedef signed char    s8;
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5D68(s8 *p);
 extern void func_021DD044(void *, void *, int);
-void func_021DE228(int a, void *b, int c) { if (func_021D5D68(func_021C7CF4(b,c))) func_021DD044((void *)a,b,c); }
+void func_021DE228(int a, void *b, int c, int a3) { if (func_021D5D68(func_021C7CF4(b,c))) func_021DD044((void *)a,b,c); }

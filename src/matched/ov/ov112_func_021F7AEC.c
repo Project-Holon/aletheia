@@ -24,12 +24,13 @@ typedef struct { int x, y, z; } Vec;
 typedef struct { short count, pad; int index, a, b; } Tail;
 typedef unsigned short u16;
 extern void *func_021F9DC0(void *p);
-extern char *func_021F9EDC(char *p, u16 a);
+typedef unsigned int   u32;
+extern char *func_021F9EDC(char *p, u32 a);
 extern void func_021F9F74(int, int, Vec *);
 extern char *func_021F5450(char *, int);
-extern Vec *func_021F5464(char *);
+extern char *func_021F5464(char *p);
 extern void func_0207C9D0(Vec *, Vec *, Vec *);
-extern void func_021F4EA4(int, int, Vec *);
+extern void func_021F4EA4(u32 unused, u32 p, u32 q);
 void func_021F7AEC(char *p, char *q) {
     Tail *t = (Tail *)(q + 0xf0);
     int a = (int)func_021F9DC0((void *)(((struct Obj13843 *)p)->f4));
@@ -37,12 +38,12 @@ void func_021F7AEC(char *p, char *q) {
     Vec v;
     t->a = (int)func_021F9EDC((char *)a, 0x35);
     if (((struct Obj08027 *)q)->f8 == 1 && ((struct Obj22561 *)r)->f0 == 1) {
-        func_021F4EA4(((struct Obj13843 *)p)->f10, *(int *)(q + 0x84 + t->index * 4), &v);
+        func_021F4EA4(((struct Obj13843 *)p)->f10, *(int *)(q + 0x84 + t->index * 4), (u32)(&v));
         v.x /= 16;
         v.y = (0xc0000 - v.y) / 16;
         v.z += 0x1000;
     } else {
-        func_0207C9D0((Vec *)(q + 0x18), func_021F5464(*(char * *)&((struct Obj08027 *)q)->f58), &v);
+        func_0207C9D0((Vec *)(q + 0x18), (Vec *)func_021F5464(*(char * *)&((struct Obj08027 *)q)->f58), &v);
         v.x /= 16;
         v.y = (0xc0000 - v.y) / 16;
         v.z -= 0x1c000;

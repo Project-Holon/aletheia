@@ -30,7 +30,8 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void func_021C124C(u8 *p);
-extern void func_021C13E8(u8 *p);
+struct Big;
+extern void func_021C13E8(struct Big *p);
 extern void func_021C14DC(u8 *p);
 extern u32 func_021C1D24(void *);
 void func_021C112C(u8 *p)
@@ -39,7 +40,7 @@ void func_021C112C(u8 *p)
     if (((struct Obj26006 *)p)->f8 != 0) {
     func_021C14DC(p);
     func_021C124C(p);
-    func_021C13E8(p);
+    func_021C13E8((struct Big *)p);
     }
     }
 }

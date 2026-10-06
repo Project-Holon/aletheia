@@ -28,11 +28,12 @@ typedef unsigned long u32;
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern s16 func_0204B4EC(void *,u16,u32);
-extern void func_0204B49C(void *,s16,u16,u32);
+typedef unsigned char  u8;
+extern s16 func_0204B4EC(struct Actor *actor, u32 space, u32 axis);
+extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void func_0204B5D4(struct Actor *actor, u32 value, u32 which);
 extern s16 func_0203F684(u16);
-extern void func_021FF038(char *,u32);
+extern void func_021FF038(u8 *p, u32 mode);
 void func_021FF0A0(char *p)
 {
     int direction;
@@ -50,10 +51,10 @@ void func_021FF0A0(char *p)
     case 1:
         if(((struct Obj00153 *)p)->f24==3){
             ((struct Obj00153 *)p)->f1C=2;
-            if(func_0204B4EC(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f44,0)>0)
-                value=0.5f+(float)(func_0204B4EC(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f44,0)<<12);
+            if(func_0204B4EC(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)>0)
+                value=0.5f+(float)(func_0204B4EC(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)<<12);
             else
-                value=(float)(func_0204B4EC(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f44,0)<<12)-0.5f;
+                value=(float)(func_0204B4EC(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)<<12)-0.5f;
             ((struct Obj00153 *)p)->f10=(int)value;
             ((struct Obj00153 *)p)->f24=0;
         }else (((struct Obj00153 *)p)->f24)++;
@@ -69,12 +70,12 @@ void func_021FF0A0(char *p)
             ((struct Obj00153 *)p)->f10+=-direction*func_0203F684(((struct Obj00153 *)p)->f20*65535/360);
             ((struct Obj00153 *)p)->f20+=32;
             ((struct Obj00153 *)p)->f20%=360;
-            func_0204B49C(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f10>>12,((struct Obj00153 *)p)->f44,0);
+            func_0204B49C(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f10>>12,(u16)(((struct Obj00153 *)p)->f44),0);
             (((struct Obj00153 *)p)->f24)++;
         }
         break;
     case 3:
-        x=func_0204B4EC(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f44,0);
+        x=func_0204B4EC(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0);
         if(((struct Obj00153 *)p)->f24==0){
             ((struct Obj00153 *)p)->f2C=((struct Obj00153 *)p)->f3C-x;
             ((struct Obj00153 *)p)->f2C/=((struct Obj00153 *)p)->f3A;
@@ -86,9 +87,9 @@ void func_021FF0A0(char *p)
             x+=(s16)((struct Obj00153 *)p)->f2C;
             (((struct Obj00153 *)p)->f24)++;
         }
-        func_0204B49C(((struct Obj00153 *)p)->f4,x,((struct Obj00153 *)p)->f44,0);
+        func_0204B49C(((struct Obj00153 *)p)->f4,x,(u16)(((struct Obj00153 *)p)->f44),0);
         break;
-    case 4:func_021FF038(p,2);break;
+    case 4:func_021FF038((u8 *)p,2);break;
     }
     if(((struct Obj00153 *)p)->f1C==3){
         if(((struct Obj00153 *)p)->f14>410){

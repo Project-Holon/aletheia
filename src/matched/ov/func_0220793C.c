@@ -18,7 +18,7 @@
  */
 #include "../include/Obj00974.h"
 
-extern unsigned int func_02208D38(int a, int b, int c);
+extern int func_02208D38(int a, int b, int c);
 
 void func_0220793C(char *p)
 {
@@ -26,8 +26,8 @@ void func_0220793C(char *p)
     int b = ((struct Obj00974 *)p)->f4C;
 
     if (b < 0x30)
-        ((struct Obj00974 *)p)->f78 = func_02208D38(a << 8, b, 0x30) >> 8;
+        ((struct Obj00974 *)p)->f78 = (unsigned int)func_02208D38(a << 8, b, 0x30) >> 8;
     else
-        ((struct Obj00974 *)p)->f78 = func_02208D38(a, b, 0x30);
+        ((struct Obj00974 *)p)->f78 = (unsigned int)func_02208D38(a, b, 0x30);
 }
 

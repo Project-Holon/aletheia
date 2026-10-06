@@ -21,7 +21,7 @@ typedef signed char    s8;
 extern u32 func_02043658(void);
 extern void func_02041EE4(u32, u32, u32);
 
-void func_021BDE10(void)
+void func_021BDE10(u8 *a0)
 {
     if (func_02043658() & 4) {
         func_02041EE4(2, 1, 1);

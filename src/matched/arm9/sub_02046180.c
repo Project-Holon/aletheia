@@ -45,7 +45,8 @@ struct Obj {
 };
 
 extern s32  sub_020461B8(struct Header *h);
-extern void sub_02046110(struct Obj *o);
+struct MsgData;
+extern void sub_02046110(struct MsgData *msg);
 
 void sub_02046180(struct Obj *o)
 {
@@ -59,5 +60,5 @@ void sub_02046180(struct Obj *o)
         return;
     }
     o->index = (u8)index;
-    sub_02046110(o);
+    sub_02046110((struct MsgData *)o);
 }

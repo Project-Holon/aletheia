@@ -28,7 +28,7 @@ struct StrObj;
 extern u8 func_02045738(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-int func_021C1090(u8 *p, int a1)
+int func_021C1090(u8 *p, void *a1)
 {
     int r;
     int x;

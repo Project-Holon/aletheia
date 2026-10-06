@@ -43,7 +43,7 @@ extern int func_021A23B0(int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u16 func_02014A10(u32 i);
-extern void func_021EEF0C(int, s16 *);
+extern void func_021EEF0C(int a, int *b);
 
 int func_021EEB44(int a, int b, int c)
 {
@@ -97,6 +97,6 @@ int func_021EEB44(int a, int b, int c)
         }
         break;
     }
-    func_021EEF0C(a, p);
+    func_021EEF0C(a, (int *)p);
     return 0;
 }

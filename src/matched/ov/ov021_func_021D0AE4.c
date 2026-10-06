@@ -18,9 +18,10 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
-extern void func_02168878(void *p, u16 a, int b, int c, int d, int e, u16 f);
+typedef unsigned char  u8;
+extern int func_02168878(u8 *a, int b, int c, int d, int e, int f, u16 g);
 
-void func_021D0AE4(char *p, int mode)
+void func_021D0AE4(char *p, u32 mode)
 {
     int a;
     int b;
@@ -55,5 +56,5 @@ void func_021D0AE4(char *p, int mode)
     }
     s = a + func_020056EC(b);
     v = ((struct Obj13002 *)p)->f120;
-    func_02168878(p, s, ((struct Obj13002 *)p)->f124, 0, 0, 0, (v & 0x7FFF) | 0x8000);
+    func_02168878((u8 *)p, (u16)s, ((struct Obj13002 *)p)->f124, 0, 0, 0, (v & 0x7FFF) | 0x8000);
 }

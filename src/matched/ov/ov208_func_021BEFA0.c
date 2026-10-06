@@ -57,12 +57,13 @@ struct S {
 };
 
 extern int func_021BC3B4(int *p);
-extern int func_02035D20(u32 *x, u32 *y);
-extern int func_0204B3F4(int a0);
+struct Obj;
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 func_0204B3F4(struct Obj *p);
 extern void ov208_func_021BF280(void *first, char *q, void *third, int next);
-extern void func_0204B878(int a, u16 b);
-extern void func_020061E4(int id);
-extern void func_020355D8(int a);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_020061E4(u32 a);
+extern void func_020355D8(u8 v);
 extern void func_021BDC48(int p, u32 on);
 
 int func_021BEFA0(void *a0, struct S *st, int *obj)
@@ -83,7 +84,7 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
             e = (struct E *)((u8 *)st + i * 0x14);
             c = (u8 *)e;
             k = 0x20;
-            if (func_0204B3F4(e->h1c) != 0
+            if (func_0204B3F4((struct Obj *)e->h1c) != 0
                 && (u32)c[k] <= x && x < (u32)c[k] + c[k + 2]
                 && (u32)c[k + 1] <= y && y < (u32)c[k + 1] + c[k + 3]) {
                 if (st->prev == i) break;
@@ -97,7 +98,7 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
         ov208_func_021BF280(a0, (char *)st, obj, st->cur);
         *(u32 *)((u8 *)st + st->cur * 0x14 + 0x2c) = 1;
         e = (struct E *)((u8 *)st + st->cur * 0x14);
-        func_0204B878(e->h1c, e->f26);
+        func_0204B878((struct Obj *)e->h1c, e->f26);
         func_020061E4(0x54a);
         func_020355D8(1);
         func_021BDC48(sc, 0);

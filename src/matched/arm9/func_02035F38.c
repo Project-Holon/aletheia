@@ -61,7 +61,8 @@ struct Ctx {
 };
 
 extern u32 func_0203521C(u32 *p);
-extern void func_020360B8(struct Key *k);
+struct Obj;
+extern void func_020360B8(struct Obj *o);
 
 static inline s32 PAD_DetectFold(void)
 {
@@ -105,7 +106,7 @@ void func_02035F38(struct Ctx *ctx)
     k->f1c = k->trg;
     k->f18 = key;
     k->f20 = k->rpt;
-    func_020360B8(k);
+    func_020360B8((struct Obj *)k);
     k->f34 |= k->f1c;
     k->f30 |= k->f18;
     k->f38 |= k->f20;

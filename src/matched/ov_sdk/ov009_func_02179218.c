@@ -56,11 +56,12 @@ typedef struct DWCCalInfo {
 } DWCCalInfo;
 
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
-extern unsigned long func_0209477C(const char *s);
-extern int func_02179F3C(DWCHttp *http, const char *label, const void *data, unsigned long len);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
+extern int func_02179F3C(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
 typedef unsigned short u16;
 extern int func_02096578(const u16 *s);
-extern int func_02179E60(DWCHttp *http, const char *label, const char *data);
+extern int func_02179E60(char *http, char *label, char *data);
 
 extern const char g_021A24E0[];
 extern const char g_021A24EC[];
@@ -86,41 +87,41 @@ int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid)
     char buf[33];
 
     func_02084F80(buf, sizeof(buf), g_021A24E0, 5, 3);
-    if (func_02179F3C(http, g_021A24EC, buf, func_0209477C(buf)) != 0)
+    if (func_02179F3C(http, (char *)g_021A24EC, buf, func_0209477C((const u8 *)buf)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A24F4, calinfo->userid, func_0209477C(calinfo->userid)) != 0)
+    if (func_02179F3C(http, (char *)g_021A24F4, calinfo->userid, func_0209477C((const u8 *)calinfo->userid)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A24FC, calinfo->passwd, func_0209477C(calinfo->passwd)) != 0)
+    if (func_02179F3C(http, (char *)g_021A24FC, calinfo->passwd, func_0209477C((const u8 *)calinfo->passwd)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A2504, calinfo->bssid, func_0209477C(calinfo->bssid)) != 0)
+    if (func_02179F3C(http, (char *)g_021A2504, calinfo->bssid, func_0209477C((const u8 *)calinfo->bssid)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A250C, calinfo->apinfo, func_0209477C(calinfo->apinfo)) != 0)
+    if (func_02179F3C(http, (char *)g_021A250C, calinfo->apinfo, func_0209477C((const u8 *)calinfo->apinfo)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A2514, calinfo->gamecd, func_0209477C(calinfo->gamecd)) != 0)
+    if (func_02179F3C(http, (char *)g_021A2514, calinfo->gamecd, func_0209477C((const u8 *)calinfo->gamecd)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A251C, calinfo->makercd, func_0209477C(calinfo->makercd)) != 0)
+    if (func_02179F3C(http, (char *)g_021A251C, calinfo->makercd, func_0209477C((const u8 *)calinfo->makercd)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A2524, calinfo->unitcd, func_0209477C(calinfo->unitcd)) != 0)
+    if (func_02179F3C(http, (char *)g_021A2524, calinfo->unitcd, func_0209477C((const u8 *)calinfo->unitcd)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A252C, calinfo->macadr, func_0209477C(calinfo->macadr)) != 0)
+    if (func_02179F3C(http, (char *)g_021A252C, calinfo->macadr, func_0209477C((const u8 *)calinfo->macadr)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A2534, calinfo->lang, func_0209477C(calinfo->lang)) != 0)
+    if (func_02179F3C(http, (char *)g_021A2534, calinfo->lang, func_0209477C((const u8 *)calinfo->lang)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A253C, calinfo->birth, func_0209477C(calinfo->birth)) != 0)
+    if (func_02179F3C(http, (char *)g_021A253C, calinfo->birth, func_0209477C((const u8 *)calinfo->birth)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A2544, calinfo->devtime, func_0209477C(calinfo->devtime)) != 0)
+    if (func_02179F3C(http, (char *)g_021A2544, calinfo->devtime, func_0209477C((const u8 *)calinfo->devtime)) != 0)
         return 0;
-    if (func_02179F3C(http, g_021A254C, calinfo->devname, func_02096578(calinfo->devname) * 2) != 0)
+    if (func_02179F3C(http, (char *)g_021A254C, (char *)calinfo->devname, func_02096578(calinfo->devname) * 2) != 0)
         return 0;
     if (allowessid == 1) {
-        if (func_02179F3C(http, g_021A2554, calinfo->ssid, func_0209477C(calinfo->ssid)) != 0)
+        if (func_02179F3C(http, (char *)g_021A2554, calinfo->ssid, func_0209477C((const u8 *)calinfo->ssid)) != 0)
             return 0;
     }
 
     func_02084F80(buf, sizeof(buf), g_021A255C, 5, 3);
-    if (func_02179E60(http, g_021A2574, buf) != 0)
+    if (func_02179E60((char *)http, (char *)g_021A2574, buf) != 0)
         return 0;
-    if (func_02179E60(http, g_021A2580, calinfo->gamecd) != 0)
+    if (func_02179E60((char *)http, (char *)g_021A2580, calinfo->gamecd) != 0)
         return 0;
     return 1;
 }

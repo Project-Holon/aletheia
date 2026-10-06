@@ -100,9 +100,10 @@ extern Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a
                            u16 heap);
 extern void func_02206A5C(Grid *g, u16 heap);
 extern void func_02206E2C(Grid *g, u16 heap);
-extern void func_022081A4(Grid *g, int heap, u16 color, s16 cur, s16 end, s16 wait, s16 step);
+struct Fade;
+extern void func_022081A4(struct Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step);
 extern struct Quad *func_02208478(u32 tex, u32 pltt, u16 heap);
-extern void func_02206768(Owner *o, u32 x, u32 y, u32 z);
+extern void func_02206768(char *a, u32 x, u32 y, u32 z);
 
 void func_022063E0(Owner *o)
 {
@@ -126,7 +127,7 @@ void func_022063E0(Owner *o)
     if (o->f08 == 0) {
         func_02206A5C(g, o->heap);
         g->state = 3;
-        func_022081A4(g, o->heap, 0x7fff, 31, 31, 0, 31);
+        func_022081A4((struct Fade *)g, o->heap, 0x7fff, 31, 31, 0, 31);
     } else {
         func_02206E2C(g, o->heap);
     }
@@ -138,7 +139,7 @@ void func_022063E0(Owner *o)
         g = w->grid[1] = func_0220685C(a, b, c, func_02017EAC(o->res1), 0, 0, 0x28000, 0x980, o->heap);
         func_02206A5C(g, o->heap);
         g->state = 3;
-        func_022081A4(g, o->heap, 0x7fff, 31, 31, 0, 31);
+        func_022081A4((struct Fade *)g, o->heap, 0x7fff, 31, 31, 0, 31);
         for (j = 0; j < 0x12; j++) {
             for (k = 0; k < 0x12; k++)
                 g->row[j].cell[k].visible = 0;
@@ -148,7 +149,7 @@ void func_022063E0(Owner *o)
     if (o->f08 == 0)
         w->quad = func_02208478(0x26000, 0x960, o->heap);
     o->work = w;
-    func_02206768(o, 0x100000, -0x800, 0);
+    func_02206768((char *)o, 0x100000, -0x800, 0);
     {
         VecFx32 v1 = d_02208E74;
         VecFx32 v2 = d_02208E80;

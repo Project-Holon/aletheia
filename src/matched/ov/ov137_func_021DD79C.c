@@ -18,15 +18,16 @@
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern void func_0203D7B0(int);
-extern void *func_021DCF50(void *);
-extern unsigned func_021841A4(void *);
+typedef unsigned char  u8;
+extern void *func_021DCF50(u8 *p);
+extern int func_021841A4(unsigned char *p);
 extern void func_021DE4B4(char *, int, int);
 extern void func_021DD93C(char *, int);
 int func_021DD79C(char *p, int state) {
     if (func_02039338() == 0) {
         int zero = 0;
         func_0203D7B0(0);
-        if (func_021841A4(func_021DCF50(p)) >= 2)
+        if ((unsigned)func_021841A4(func_021DCF50((u8 *)p)) >= 2)
             func_021DE4B4(p, 2, zero);
     } else {
         func_0203D7B0(1);

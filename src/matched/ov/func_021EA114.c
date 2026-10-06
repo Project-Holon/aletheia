@@ -25,12 +25,12 @@ extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021ED594(char *p, unsigned i);
 extern void func_021EE038(char *, int, int, int);
 extern int func_021E8FC0(char *p, int a, int b);
-void func_021EA114(char *p, int a)
+int func_021EA114(char *p, int a)
 {
     ((struct Obj00000 *)p)->f18 = 1;
     ((struct Obj00000 *)p)->f16 = a;
     func_021EC768((char *)(*(int *)&((struct Obj00000 *)p)->f2C), 0x24, 0);
     func_021ED594(p, 0x24);
     func_021EE038(p, 2, 1, 0);
-    func_021E8FC0(p, 0x021E0779, 0x15);
+    return func_021E8FC0(p, 0x021E0779, 0x15);
 }

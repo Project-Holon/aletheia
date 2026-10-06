@@ -18,14 +18,17 @@
 typedef struct Row { unsigned tag; unsigned data[5]; } Row;
 typedef unsigned char  u8;
 extern void func_021BF228(u8 *p);
-extern int func_021BF030(void *);
+struct Q021BF00C;
+struct S021BF00C;
+struct State;
+extern int func_021BF030(struct State *p);
 extern Row *func_021BF094(unsigned);
-extern int func_021BF00C(void *, void *);
+extern int func_021BF00C(struct S021BF00C *p, struct Q021BF00C *q);
 extern int (*const d_021C09D8[])(void *, void *, void *);
 int func_021BEF88(char *p)
 {
     func_021BF228(((struct Obj06673 *)p)->f18);
-    if (func_021BF030(p) == 0) {
+    if (func_021BF030((struct State *)p) == 0) {
         char *base = p;
         int i;
         base += 0x40;
@@ -38,7 +41,7 @@ int func_021BEF88(char *p)
             if (row->tag == 0x34)
                 return 0;
             ++((struct Obj06673 *)p)->fA0;
-            if (!func_021BF00C(p, row))
+            if (!func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)row))
                 break;
         }
     }

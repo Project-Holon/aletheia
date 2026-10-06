@@ -65,10 +65,10 @@ struct Bank;
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_02206950(W *p);
 extern void func_022064CC(W *p, u8 (*tab)[4], s8 (*rows)[12]);
-extern int func_02206908(W *p, const Ctx *c, int i);
-extern void func_02206B14(W *p);
-extern void func_02206B30(W *p);
-extern void func_02206B58(W *p);
+extern int func_02206908(char *p, char *q, int i);
+extern void func_02206B14(char *p);
+extern void func_02206B30(char *p);
+extern void func_02206B58(char *p);
 
 int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg6)
 {
@@ -134,16 +134,16 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
             if (ret < 4 && (cont & 0x200) && p->f58 == 2 && arg6 == 1)
                 goto draw;
             if (p->f25a[ret] == 1) {
-                if (func_02206908(p, c, ret) == 0)
-                    func_02206B30(p);
+                if (func_02206908((char *)p, (char *)c, ret) == 0)
+                    func_02206B30((char *)p);
                 else
-                    func_02206B58(p);
+                    func_02206B58((char *)p);
                 done = 1;
             } else if (ret < 4 && (cont & 0x200) && p->f58 == 2 && p->f262[ret] == 1) {
-                func_02206B30(p);
+                func_02206B30((char *)p);
             }
         } else if (v != -128) {
-            func_02206B14(p);
+            func_02206B14((char *)p);
             if (v < 0) {
                 if (-v != p->prev && p->prev != 0xF)
                     v = (s8)p->prev;
@@ -163,7 +163,7 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
             p->cur = v;
             if (keys == 2) {
                 if (v != 0xF)
-                    func_02206B58(p);
+                    func_02206B58((char *)p);
                 ret = v;
                 done = 1;
             }
@@ -171,7 +171,7 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
     } else if (keys & 0xcf3) {
         *p->f274 = 1;
         func_02206950(p);
-        func_02206B14(p);
+        func_02206B14((char *)p);
     }
 draw:
     func_022064CC(p, c->tab, rows);
@@ -179,16 +179,16 @@ end:
     if (done == 1) {
         switch (p->f58) {
         case 2:
-            if (func_02206908(p, c, p->cur) == 0)
+            if (func_02206908((char *)p, (char *)c, p->cur) == 0)
                 p->f266[p->f27c] = p->f26c[p->cur];
         case 1:
         case 5:
-            if (func_02206908(p, c, p->cur) == 0)
+            if (func_02206908((char *)p, (char *)c, p->cur) == 0)
                 p->tbl[p->f27c][p->f58] = p->cur;
             p->b1 = 1;
             break;
         case 3:
-            if (func_02206908(p, c, ret) == 0)
+            if (func_02206908((char *)p, (char *)c, ret) == 0)
                 p->tbl[p->f27c][p->f58] = p->cur | (p->tbl[p->f27c][2] << 4);
             p->b1 = 1;
             break;

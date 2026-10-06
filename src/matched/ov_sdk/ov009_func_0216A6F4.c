@@ -60,13 +60,14 @@ typedef struct {
 extern LoginControl *g_021AA874;
 
 extern int func_020596C8(UserData *userdata);
-extern void func_02059474(void *loginId, u32 gamecode, char *username);
+struct DWCstAccLoginId;
+extern void func_02059474(struct DWCstAccLoginId *loginid, unsigned long gamecode, char *username);
 extern u64 func_02059084(void *loginId);
 extern int func_020596B0(void *loginid);
-extern int func_02059644(LoginId *loginId);
-extern void func_02059588(LoginId *loginId);
+extern int func_02059644(struct DWCstAccLoginId *loginid);
+extern void func_02059588(struct DWCstAccLoginId *loginid);
 extern u64 OS_GetTick(void);
-extern void func_020590F0(LoginId *loginId, u32 id);
+extern void func_020590F0(int *p, int v);
 extern int func_02178D14(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, void *(*allocator)(unsigned long, long), void (*deallocator)(unsigned long, void *, long));
 extern void *func_0205A16C(u32, long);
 extern void func_0205A1B0(u32, void *, long);
@@ -76,18 +77,18 @@ int func_0216A6F4(void)
     u64 userid;
 
     if (func_020596C8(g_021AA874->userdata)) {
-        func_02059474(g_021AA874->userdata->loginId, g_021AA874->userdata->gamecode, g_021AA874->username);
+        func_02059474((struct DWCstAccLoginId *)g_021AA874->userdata->loginId, g_021AA874->userdata->gamecode, g_021AA874->username);
         userid = func_02059084(g_021AA874->userdata->loginId);
     } else {
         if (!func_020596B0(&g_021AA874->loginId)) {
-            if (func_02059644(&g_021AA874->userdata->consoleId))
+            if (func_02059644((struct DWCstAccLoginId *)(&g_021AA874->userdata->consoleId)))
                 g_021AA874->loginId = g_021AA874->userdata->consoleId;
             else
-                func_02059588(&g_021AA874->loginId);
+                func_02059588((struct DWCstAccLoginId *)(&g_021AA874->loginId));
         } else {
-            func_020590F0(&g_021AA874->loginId, (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
+            func_020590F0((int *)(&g_021AA874->loginId), (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
         }
-        func_02059474(&g_021AA874->loginId, g_021AA874->gamecode, g_021AA874->username);
+        func_02059474((struct DWCstAccLoginId *)(&g_021AA874->loginId), g_021AA874->gamecode, g_021AA874->username);
         userid = 0;
     }
     return func_02178D14(g_021AA874->ingamesn, g_021AA874->gsbrcd, userid, func_0205A16C, func_0205A1B0);

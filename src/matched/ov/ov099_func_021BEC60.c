@@ -56,8 +56,9 @@ extern int func_0203C628(void);
 extern int func_021B96CC(int *);
 extern void func_021BE26C(char *);
 extern int func_0203C5EC(void);
-extern int func_0203D1C0(int);
-extern void func_0203C554(int);
+typedef unsigned int   u32;
+extern u32 func_0203D1C0(u32 index);
+extern void func_0203C554(u32 a);
 extern int func_021BE4F0(char *, int);
 int func_021BEC60(char *p, int ret)
 {

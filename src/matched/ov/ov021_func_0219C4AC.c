@@ -38,7 +38,7 @@ extern u32 func_02050080(u32 *p);
 extern u32 func_02047388(struct Layer *layer);
 extern u32 func_020473B8(struct Layer *layer);
 extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
-extern u32 func_02050238(u32, u32, u32);
+extern u32 func_02050238(void *p, u32 b, u32 c);
 extern void func_02046EFC(struct Tagged *p);
 
 int func_0219C4AC(u32 a, u32 b, u32 c, u32 d)
@@ -48,7 +48,7 @@ int func_0219C4AC(u32 a, u32 b, u32 c, u32 d)
         u32 x = func_02050080((u32 *)a);
         u16 *e = d_021D75C4[c];
         u32 w = func_02047388((struct Layer *)b);
-        r = func_02050238(a, func_0204F044((struct Board *)x, w, func_020473B8((struct Layer *)b), 0, d_021D8064[d], (u8)e[0], (u8)e[1]), 0);
+        r = func_02050238((void *)a, func_0204F044((struct Board *)x, w, func_020473B8((struct Layer *)b), 0, d_021D8064[d], (u8)e[0], (u8)e[1]), 0);
         func_02046EFC((struct Tagged *)b);
     }
     return r;

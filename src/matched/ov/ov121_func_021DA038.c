@@ -32,17 +32,19 @@ struct Descriptor;
 struct Obj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,u32);
-extern void *func_020450F0(u8,u16,u16,u8,u8,u8,u8);
-extern void func_0201F73C(void *,int,int,u8);
+struct Slot;
+struct Src;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern void *func_0201F81C(u32,u32);
-extern void func_0201F878(void *,u32,u32,u32,u16);
-extern void *func_0201FF30(Config *,u16,u16,u32);
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
 extern void func_02020CF8(struct Obj *p, int heap);
-extern void func_02020D10(u8 *p, u8 v);
+extern void func_02020D10(u8 *p, u32 v);
 void *func_021DA038(const u8 *p,u16 heap)
 {
     u8 *out;
@@ -52,8 +54,8 @@ void *func_021DA038(const u8 *p,u16 heap)
     out=func_02030734(heap,24,0,d_021DFBA0,0x2cb);
     func_02082BCC(out,0,24);
     ((struct Obj01731 *)out)->f4=((struct Obj01542 *)p)->f8;
-    ((struct Obj01731 *)out)->f0=func_020450F0(((struct Obj01542 *)p)->f1C,19,(u8)(17-(u8)(((struct Obj01542 *)p)->f18*2)),12,(u8)(((struct Obj01542 *)p)->f18*2),((struct Obj01542 *)p)->f1E,1);
-    func_0201F73C(((struct Obj01731 *)out)->f0,2,((struct Obj01542 *)p)->f22,((struct Obj01542 *)p)->f20);
+    ((struct Obj01731 *)out)->f0=(void *)func_020450F0((u8)(((struct Obj01542 *)p)->f1C),(u16)19,(u16)((u8)(17-(u8)(((struct Obj01542 *)p)->f18*2))),(u8)12,(u8)(((struct Obj01542 *)p)->f18*2),((struct Obj01542 *)p)->f1E,1);
+    func_0201F73C(((struct Obj01731 *)out)->f0,2,((struct Obj01542 *)p)->f22,(u8)(((struct Obj01542 *)p)->f20));
     q=((struct Obj01731 *)out)->f0;
     func_02045334(q);
     func_02045374(q);
@@ -62,7 +64,7 @@ void *func_021DA038(const u8 *p,u16 heap)
     out[12]=0;
     ((struct Obj01731 *)out)->f14=func_0201F81C(((struct Obj01542 *)p)->f18,heap);
     for(i=0;i<((struct Obj01542 *)p)->f18;i++)
-        func_0201F878(((struct Obj01731 *)out)->f14,((struct Obj01542 *)p)->f0,*(u32 *)(p+12+i*4),i,heap);
+        func_0201F878(((struct Obj01731 *)out)->f14,((struct Obj01542 *)p)->f0,*(u32 *)(p+12+i*4),i,(u16)heap);
     cfg=d_021DF78C;
     cfg.word[0]=*(u32 *)&((struct Obj01731 *)out)->f14;
     *(u16 *)((u8 *)&cfg+0x10)=((struct Obj01542 *)p)->f18;
@@ -72,7 +74,7 @@ void *func_021DA038(const u8 *p,u16 heap)
     cfg.word[10]=(u32)(out+8);
     cfg.word[11]=((struct Obj01542 *)p)->f8;
     cfg.word[12]=((struct Obj01542 *)p)->f4;
-    ((struct Obj01731 *)out)->f10=func_0201FF30(&cfg,0,0,heap);
+    ((struct Obj01731 *)out)->f10=func_0201FF30((struct Src *)(&cfg),0,0,heap);
     func_02020CF8(((struct Obj01731 *)out)->f10,heap);
     func_02020D10(((struct Obj01731 *)out)->f10,0);
     return out;

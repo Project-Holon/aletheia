@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 data_021F6360;
-void func_021D804C(u16 n) { data_021F6360=n; }
+void func_021D804C(u32 n) { data_021F6360=n; }

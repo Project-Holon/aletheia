@@ -62,7 +62,7 @@ extern void func_020130C4(u8 *p);
 struct Party;
 struct Rec534;
 extern void func_02013360(u8 *o, void *a1, const void *a2);
-extern void func_0201333C(void *a, void *b, u16 c);
+extern int func_0201333C(int a0, int a1, int a2);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 
@@ -72,7 +72,7 @@ void func_020135C0(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
 
     func_020130C4(a0);
     func_02013360(a0, a1, (const void *)a4);
-    func_0201333C(a0, a1, a5);
+    func_0201333C((int)a0, (int)a1, a5);
     if (a2 != 0) {
         func_0201AC2C((const struct Rec534 *)a2, (struct Rec534 *)(((struct Obj00155 *)a0)->f24));
     }

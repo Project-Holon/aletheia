@@ -39,7 +39,7 @@ typedef struct { s32 x, y, z; } Vec;
 
 extern void *func_0216E3C4(void *p);
 extern s32 func_02197C9C(u32);
-extern void func_0216D8B0(u32, Vec *);
+extern void func_0216D8B0(u8 *p, u8 *q);
 extern int func_0216D83C(void *p);
 extern u16 func_0216D590(void *p);
 extern u16 func_0216D588(void *p);
@@ -49,7 +49,7 @@ extern int func_02188CBC(u32);
 extern void *func_02188CB4(unsigned char *p);
 extern u32 func_021A3080(u8 *p);
 extern int func_0219FADC(u8 *p, int a, u8 *q);
-extern void func_0219FAB4(u32, u32, u8 *, Vec *);
+extern void func_0219FAB4(u32 a, u32 b, u8 *c, int *d);
 extern void func_0216D8C0(u32, Vec *);
 extern u32 func_02013D9C(u32 id);
 
@@ -76,7 +76,7 @@ void func_0219F990(u32 a, u8 *p, u32 b)
     d.y = 0;
     d.z = 0;
     s14 = func_02197C9C(a);
-    func_0216D8B0(a, &v);
+    func_0216D8B0((u8 *)a, (u8 *)(&v));
     sc = func_0216D83C((void *)a);
     s10 = func_0216D590((void *)a);
     t = func_0216D588((void *)a);
@@ -102,7 +102,7 @@ void func_0219F990(u32 a, u8 *p, u32 b)
             d.z = d.z + 0x219a;
         d.z = d.z - 0x2000;
     }
-    func_0219FAB4(a, b, info, &d);
+    func_0219FAB4(a, b, info, (int *)(&d));
     if (clr) {
         d.x = 0;
         d.y = 0;

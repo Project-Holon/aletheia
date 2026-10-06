@@ -84,7 +84,8 @@ extern void func_021D76D4(void);
 typedef unsigned int u32;
 typedef struct { unsigned char a,b,c,d;u32 id;} Request;
 typedef struct {char pad[0x104];u32 *ctx;u32 aux;} ObjectView;
-extern void func_021D965C(char *);
+struct Obj;
+extern void func_021D965C(struct Obj *obj);
 extern void func_021D97E4(char *,unsigned);
 extern void func_021D9874(char *);
 extern unsigned func_021D97B8(char *);
@@ -218,7 +219,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
         b=((unsigned char *)ctx[12])[5];if(b==0)*state=19;else if(b==1)*state=53;else if(b==2)*state=54;else *state=55;break;
     case 19:if(func_0200B078(aux,2)==0)*state=42;else *state=20;break;
     case 20:
-        func_021D965C(p);
+        func_021D965C((struct Obj *)p);
         if(func_0200BBFC(func_0200BAC8((void *)func_02012EBC((struct Big *)(*(u32 *)ctx[2]))),1))func_021D97E4(p,0);else func_021D97E4(p,1);
         *state=21;break;
     case 21:if(func_021D97B8(p))*state=22;break;

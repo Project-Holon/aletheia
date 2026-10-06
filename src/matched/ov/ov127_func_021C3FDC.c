@@ -18,9 +18,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern int func_021C4358(int, int);
 extern int func_021C4354(int);
-extern void func_021C435C(u8 *, int, int, int, int, int);
+extern void func_021C435C(char *p, int i, int a, int b, int c, int mode);
 void func_021C3FDC(u8 *p, int a, int b, int c, int d)
 {
     func_021C4358(a,c);
-    func_021C435C(p,func_021C4354(a),b,c,d,0);
+    func_021C435C((char *)p,func_021C4354(a),b,c,d,0);
 }

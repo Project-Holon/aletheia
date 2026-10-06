@@ -62,11 +62,12 @@ extern void func_022044C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
 extern void func_02204838(Main *, int);
 extern void func_02206A58(char *p);
-extern void func_02204698(Main *, int, int);
+struct Obj;
+extern void func_02204698(struct Obj *p, int a, int b);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_0220687C(char *, void *);
-extern void func_02206A14(Main *);
-extern void func_02205B80(Main *, int);
+extern void func_02206A14(char *p);
+extern void func_02205B80(char *p, int a);
 void func_02203978(void *task, Ctx *c)
 {
     switch (c->state) {
@@ -74,13 +75,13 @@ void func_02203978(void *task, Ctx *c)
         func_020498F4(c->main->f48, c->fc, 4, 0, 0, 0, c->main->h240);
         func_020498F4(c->main->f48, 0x68, 5, 0, 0, 0, c->main->h240);
         func_02045374(c->main->obj230);
-        func_02206A14(c->main);
+        func_02206A14((char *)c->main);
         func_020409B4(6);
         func_02204960(c->main, 5, 0, 0xc0, 1, 1, 2, 0);
         c->state++;
         break;
     case 1:
-        func_02204698(c->main, 0, 1);
+        func_02204698((struct Obj *)c->main, 0, 1);
         c->timer = 4;
         c->state++;
         break;
@@ -95,7 +96,7 @@ void func_02203978(void *task, Ctx *c)
     case 3:
     default:
         if (c->main->st == 0) {
-            func_02205B80(c->main, 1);
+            func_02205B80((char *)c->main, 1);
             func_02045334(c->main->obj230);
             func_0220687C((char *)c->main, task);
         }

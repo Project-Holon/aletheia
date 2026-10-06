@@ -23,7 +23,7 @@ extern void func_0204B92C(struct Obj *object, unsigned int flag);
 extern void func_021BB3F4(int p, int mode);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
-extern void func_021B80C4(void *p, int flag);
+extern void func_021B80C4(struct Obj *o, int flag);
 extern void func_021B8AF4(void *p);
 void func_021B8DCC(char *p)
 {
@@ -34,6 +34,6 @@ void func_021B8DCC(char *p)
     flag = 1;
     if (func_020355C4())
         flag = 0;
-    func_021B80C4(p, flag);
+    func_021B80C4((struct Obj *)p, flag);
     func_021B8AF4(p);
 }

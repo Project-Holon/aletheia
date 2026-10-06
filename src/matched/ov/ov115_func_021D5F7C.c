@@ -16,5 +16,8 @@
  */
 #include "../include/Obj08045.h"
 typedef unsigned char u8;typedef unsigned int u32;
-extern void func_0201F7A8(void *,u32),func_020456F8(void *),func_02041B6C(u32);extern u32 func_021D5FC4(u32);
+struct Descriptor;
+extern void func_0201F7A8(void *,u32);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_02041B6C(u32);extern u32 func_021D5FC4(u32);
 void func_021D5F7C(u8 *p) { if(((struct Obj08045 *)p)->f30){func_0201F7A8(((struct Obj08045 *)p)->f30,2);func_020456F8(((struct Obj08045 *)p)->f30);func_02041B6C(func_021D5FC4(((struct Obj08045 *)p)->f50));} }

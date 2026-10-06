@@ -45,13 +45,13 @@ extern struct Util *func_02047CFC(u16,u16,u16);
 extern u16 func_02047E88(struct Util *,const struct Setup *);
 extern u32 func_02048A18(u8 *,int);
 extern int func_0204779C(int *);
-extern u32 func_020477A4(struct G3dSys *,u16);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern struct LightSlot *func_02048BC4(const struct LightSet *,u32);
 extern void func_02048C58(struct LightSlot *);
 extern u32 *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u16);
 extern void func_02048AD0(struct Light *);
 extern void func_0204044C(u32);
-extern void func_021B9F9C(char *);
+extern void func_021B9F9C(u8 *p);
 extern void func_020434DC(u32,u32);
 extern void func_0207D658(u32,int,int);
 extern const struct Setup d_021BAB50;
@@ -73,7 +73,7 @@ void func_021B9E14(char *p) {
     *(u16 *)(p+0x18)=func_02047E88(*(struct Util **)(p+8),&d_021BAB50);
     *(u32 *)(p+0x20)=func_02048A18(*(u8 **)(p+8),*(u16 *)(p+0x18));
     *(u32 *)(p+0x24)=func_0204779C(*(int **)(p+0x20));
-    for(i=0;i<*(u32 *)(p+0x24);i++) func_020477A4(*(struct G3dSys **)(p+0x20),i);
+    for(i=0;i<*(u32 *)(p+0x24);i++) func_020477A4(*(struct G3dSys **)(p+0x20),(u16)i);
     *(struct LightSlot **)(p+0x10)=func_02048BC4(&d_021BAB38,142);
     func_02048C58(*(struct LightSlot **)(p+0x10));
     v=d_021BAC68;
@@ -82,7 +82,7 @@ void func_021B9E14(char *p) {
     func_02048AD0(*(struct Light **)(p+0xc));
     AntiAlias(1);
     func_0204044C(2);
-    func_021B9F9C(p+0x28);
+    func_021B9F9C((u8 *)(p+0x28));
     func_020434DC(1,0);
     func_0207D658(0x04000050,1,-16);
 }

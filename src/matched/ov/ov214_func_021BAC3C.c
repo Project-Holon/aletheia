@@ -14,5 +14,5 @@
  */
 #include "../include/Obj25728.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-extern void func_0203FB44(u32,u16,u16);
-void func_021BAC3C(int unused,u8 *p){u32 v=((struct Obj25728 *)p)->f2C0;func_0203FB44(2,v,v>>16);}
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+void func_021BAC3C(int unused,u8 *p){u32 v=((struct Obj25728 *)p)->f2C0;func_0203FB44(2,(u16)v,(u16)(v>>16));}

@@ -15,7 +15,7 @@
  * variant w2
  */
 
-char *func_021E04FC(char *dst, char value)
+char *func_021E04FC(char *dst, int value)
 {
     *dst++ = value;
     return dst;

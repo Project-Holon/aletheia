@@ -31,7 +31,7 @@ typedef signed int s32;
 
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B48(u8 *p);
-extern void *func_021C88A4(int a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
@@ -47,7 +47,7 @@ void func_021DA8DC(int a, int b, int c)
 
     m = func_021C7CF4((int *)a, b);
     if (func_021D5B48(m) == 0) {
-        p = func_021C88A4(a, 5, b);
+        p = func_021C88A4((char *)a, 5, b);
         p[6] = b;
         ((struct Obj10060 *)p)->f4 = func_021D7B74(m, c);
         ((struct Obj10060 *)p)->f0 |= 2 << 22;
@@ -55,7 +55,7 @@ void func_021DA8DC(int a, int b, int c)
         func_021C8860((struct S *)(p + 8), b);
         func_021C88C8((void *)a, p);
     } else {
-        q = func_021C88A4(a, 4, b);
+        q = func_021C88A4((char *)a, 4, b);
         func_021C8838(q + 4, 2, 0xd2);
         func_021C8860((struct S *)(q + 4), b);
         ((struct Obj21303 *)q)->f0 |= 2 << 22;

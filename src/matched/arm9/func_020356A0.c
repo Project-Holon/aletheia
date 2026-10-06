@@ -45,11 +45,11 @@ typedef struct {
 
 extern Desc g_021469BC;
 extern void func_020363B8(int a0, int a1, int a2);
-extern void func_020363D4(int a0, int a1, int a2);
-extern void func_020363F0(int a0, int a1, int a2);
+extern int func_020363D4(int a0, int a1, int a2);
+extern int func_020363F0(int a0, int a1, int a2);
 extern void func_02035E84(void *p, u16 a, u16 b, u16 c, u16 d);
-extern void func_02035EB0(int a0, int a1, int a2);
-extern void func_02035ECC(int a0, int a1, int a2);
+extern int func_02035EB0(int a0, int a1, int a2);
+extern int func_02035ECC(int a0, int a1, int a2);
 
 void func_020356A0(int a0)
 {

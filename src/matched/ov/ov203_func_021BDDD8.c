@@ -34,7 +34,8 @@ extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern int func_021BE938(void *);
 extern void func_0204335C(unsigned);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -57,7 +58,7 @@ void *func_021BDDD8(unsigned swap, void *config, unsigned heap)
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
     func_0204335C(0);
-    func_020433E0(d_021BFBC4[((struct Obj08374 *)ctx)->f14]);
+    func_020433E0((const struct DispVram *)d_021BFBC4[((struct Obj08374 *)ctx)->f14]);
     func_0204363C(swap);
     func_0204361C();
     func_020434CC();

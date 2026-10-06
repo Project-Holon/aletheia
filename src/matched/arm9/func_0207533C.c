@@ -69,7 +69,7 @@ typedef struct {
 } Bank;
 
 extern u32   func_0208A674(Bank *o, u32 i);
-extern u32   func_0208A638(Bank *o);
+extern void *func_0208A638(char *p);
 extern void  func_0208A640(Bank *o, u32 i, void *p);
 extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
 extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
@@ -87,7 +87,7 @@ u32 func_0207533C(Bank *o, u32 i, u32 h, u32 *heap)
   u32 tmp;
   if (func_0208A674(o, i) != 0)
     return 1;
-  n = func_0208A638(o);
+  n = (u32)func_0208A638((char *)o);
   n = n - 1;
   e = &o->f3c[o->f38 + i];
   tmp = (&o->f3c[o->f38 + i])[0];

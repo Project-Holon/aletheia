@@ -36,7 +36,7 @@ extern void func_0200E8E0(void *obj, u32 value);
 extern void func_02012E4C(u8 *,u32);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 extern void func_02009108(struct Sub020090B0Obj *obj, u16 value);
-extern void func_021D6EE0(int,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6FF0(char *p);
 extern void func_021D76B8(char *p);
 extern void func_021D758C(int a);
@@ -52,7 +52,7 @@ void func_021D75D0(int a)
     checksum=func_0203F1FC(p,0x2600);
     if(checksum!=((struct Obj22959 *)p)->f2600) {
         ((struct Obj03793 *)a)->f80=0xfff0;
-        func_021D6EE0(a,(int)func_021D6FF0,0x345);
+        func_021D6EE0((u8 *)a,(int)func_021D6FF0,0x345);
         return;
     }
     ((struct Obj03793 *)a)->fAE=1;
@@ -62,5 +62,5 @@ void func_021D75D0(int a)
     func_02082D44(p,(void *)x,0x2600);
     func_02009108((struct Sub020090B0Obj *)func_02009210((void *)b),checksum);
     func_02012E4C((u8 *)((struct Obj03793 *)a)->f2C,4);
-    func_021D6EE0(a,(int)func_021D758C,0x355);
+    func_021D6EE0((u8 *)a,(int)func_021D758C,0x355);
 }

@@ -113,16 +113,17 @@ extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern u16 func_02039338(void);
 extern int  func_020399EC(void);
 extern int  func_02039ACC(void);
-extern void func_0203CBAC(struct Ctx *p, u32 a, u32 b);
+struct Req;
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern int  func_0203CD98(void);
 extern int func_0203CEAC(int a0);
-extern u8  *func_0203CF10(int i);
+extern u32 func_0203CF10(u32 a);
 extern void *func_0203CF3C(u32 a);
 extern void func_0203CFF0(void *p);
 extern void func_0203D000(void *p);
 extern void func_0203D010(void);
 extern void func_0203D01C(void);
-extern void func_0203D0DC(void *fn);
+extern int func_0203D0DC(int a0);
 extern void func_0203D17C(u32 a);
 extern u32 func_0203D210(void);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
@@ -196,14 +197,14 @@ void func_0203DC70(void)
             p->f67 = p->f10b;
         p->f102 = 0;
         p->f103 = 0;
-        func_0203CBAC(p, 0, p->f70);
+        func_0203CBAC((struct Req *)p, 0, p->f70);
         func_0203DC68(p, 5);
         break;
     case 5:
         if (func_0203CD98() != 1)
             return;
         func_0203D788()->f340->fc8(g_021469F0->f74);
-        func_0203D0DC((void *)func_0203DC04);
+        func_0203D0DC((int)((void *)func_0203DC04));
         func_0203DC68(p, 6);
         break;
     case 6:
@@ -239,7 +240,7 @@ void func_0203DC70(void)
         p->f65 = 0;
         p->f2c = p->f80;
         p->f64 = p->f104;
-        func_0203CBAC(p, 0, p->f70);
+        func_0203CBAC((struct Req *)p, 0, p->f70);
         g_021469F0->f101 = 0;
         func_0203DC68(p, 0xA);
         break;
@@ -266,7 +267,7 @@ void func_0203DC70(void)
         i = 0;
         func_02087C6C(mac);
         for (;; i++) {
-            q = func_0203CF10(i);
+            q = (u8 *)func_0203CF10((int)i);
             if (q == 0)
                 return;
             for (j = 0; j < 4; j++) {
@@ -311,14 +312,14 @@ void func_0203DC70(void)
         p->f2c = (void *)func_0203DC4C;
         p->f102 = 0;
         p->f103 = 0;
-        func_0203CBAC(p, 0, p->f70);
+        func_0203CBAC((struct Req *)p, 0, p->f70);
         func_0203DC68(p, 0xF);
         break;
     case 15:
         if (func_0203CD98() != 1)
             return;
         func_0203D788()->f340->fc8(g_021469F0->f74);
-        func_0203D0DC((void *)func_0203DC04);
+        func_0203D0DC((int)((void *)func_0203DC04));
         func_0203DC68(p, 0x10);
         break;
     case 16:

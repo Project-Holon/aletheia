@@ -14,9 +14,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 v; } Slot;
-extern int func_021EFAD8(char *, u32, u8);
+extern int func_021EFAD8(char *a, u32 b, u32 c);
 int func_021D3B88(u32 *a, int *b, u32 *c)
 {
-    func_021EFAD8((char *)a[13], c[0], c[1]);
+    func_021EFAD8((char *)a[13], c[0], (u8)c[1]);
     return 1;
 }

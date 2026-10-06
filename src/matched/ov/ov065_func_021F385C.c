@@ -21,8 +21,8 @@
 extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
 extern void func_021BE4B4(char *p, int i, int j, int v);
-extern int *func_021BE674(int a, int b, int c, unsigned short d);
-extern void func_021BE6B0(int *p, int v);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE6B0(unsigned char *p, int v);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 
@@ -37,7 +37,7 @@ void func_021F385C(int a)
     w[0] = 1;
     func_021BE4B4((char *)s, 0, 0, 0);
     for (i = 0; i < 2; i++)
-        func_021BE6B0(func_021BE674(s, 0, 0, i), 0);
+        func_021BE6B0(func_021BE674((char *)s, 0, (int)0, (unsigned short)i), 0);
     if (w[1] != 0)
         func_020061E4(0x7F7);
     else

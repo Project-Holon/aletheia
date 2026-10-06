@@ -32,14 +32,26 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct Fields {u32 words[4];void *handles[4];u32 flags[4];u64 values[4];u32 state,ready;} Fields;
-extern void *func_02012EBC(void *),*func_0200B910(void),*func_0200B928(void),*func_0200A5F8(void *);
-extern void func_02045808(void *),func_02082BCC(void *,int,unsigned);
+typedef unsigned char  u8;
+struct Big;
+struct Bits;
+struct GdsProfile;
+struct ObjC4;
+struct RecGet;
+struct U16Vec;
+extern void *func_02012EBC(struct Big *p);
+extern struct ObjC4 *func_0200B910(void);
+extern u8 *func_0200B928(void);
+extern void *func_0200A5F8(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02082BCC(void *,int,unsigned);
 extern u32 func_0200B570(void *,u16,u32 *,u32);
-extern void func_0200D5D0(void *,void *);
+extern void func_0200D5D0(struct GdsProfile *p, void *sys);
 extern void *func_0200D6D0(const void *,u32);
-extern u32 func_0200D6EC(void *),func_0200A630(void *);
-extern u64 func_0200B98C(void *,int,int);
-void func_021F98F8(char *p,int skip,void *sys,u16 heap)
+extern u32 func_0200D6EC(struct RecGet *p);
+extern u32 func_0200A630(struct Bits *p);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+void func_021F98F8(char *p, int skip, void *sys, int heap)
 {
     int enabled=1;
     int i;

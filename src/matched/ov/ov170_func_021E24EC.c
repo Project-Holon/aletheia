@@ -32,13 +32,13 @@ typedef struct {
 
 extern int func_021EF1FC(unsigned *a, unsigned *b);
 extern void func_020307B0(void *ptr);
-extern void func_021DD1C4(unsigned char *p, int a);
+extern void func_021DD1C4(char *p, int a);
 extern void func_020061E4(unsigned se);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
-extern int func_021E19D4(unsigned char *p);
-extern int func_021E1A78(unsigned char *p);
-extern int func_021E1A28(unsigned char *p);
-extern int func_021E1ACC(unsigned char *p);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E19D4(char *p);
+extern int func_021E1A78(char *p);
+extern int func_021E1A28(char *p);
+extern int func_021E1ACC(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define STATE(p) (*(int *)((p) + 0x28))
@@ -65,36 +65,36 @@ int func_021E24EC(unsigned char *p)
         s->left = ABS(d) / 8;
         if (y < old) {
             s->dir = 1;
-            func_021DD1C4(p, 1);
+            func_021DD1C4((char *)p, 1);
             func_020061E4(0x548);
             if (STATE(p) == 0x15)
-                return func_021E8FC0(p, func_021E19D4, 0xF);
-            return func_021E8FC0(p, func_021E1A78, 0xF);
+                return func_021E8FC0((char *)p, (int)func_021E19D4, 0xF);
+            return func_021E8FC0((char *)p, (int)func_021E1A78, 0xF);
         }
         if (y > old) {
             s->dir = -1;
-            func_021DD1C4(p, -1);
+            func_021DD1C4((char *)p, -1);
             func_020061E4(0x548);
             if (STATE(p) == 0x15)
-                return func_021E8FC0(p, func_021E1A28, 0xF);
-            return func_021E8FC0(p, func_021E1ACC, 0xF);
+                return func_021E8FC0((char *)p, (int)func_021E1A28, 0xF);
+            return func_021E8FC0((char *)p, (int)func_021E1ACC, 0xF);
         }
     }
     if (s->left != 0) {
         s->left--;
         if (s->dir == 1) {
-            func_021DD1C4(p, 1);
+            func_021DD1C4((char *)p, 1);
             func_020061E4(0x548);
             if (STATE(p) == 0x15)
-                return func_021E8FC0(p, func_021E19D4, 0xF);
-            return func_021E8FC0(p, func_021E1A78, 0xF);
+                return func_021E8FC0((char *)p, (int)func_021E19D4, 0xF);
+            return func_021E8FC0((char *)p, (int)func_021E1A78, 0xF);
         }
         if (s->dir == -1) {
-            func_021DD1C4(p, -1);
+            func_021DD1C4((char *)p, -1);
             func_020061E4(0x548);
             if (STATE(p) == 0x15)
-                return func_021E8FC0(p, func_021E1A28, 0xF);
-            return func_021E8FC0(p, func_021E1ACC, 0xF);
+                return func_021E8FC0((char *)p, (int)func_021E1A28, 0xF);
+            return func_021E8FC0((char *)p, (int)func_021E1ACC, 0xF);
         }
     }
     return 0xF;

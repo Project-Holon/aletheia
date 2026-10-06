@@ -41,8 +41,8 @@ typedef struct {
 } Work;
 
 extern int func_02035C08(const void *rect);
-extern u32 func_02035BA4(const void *rect);
-extern u32 func_02035C60(void);
+extern int func_02035BA4(const void *p);
+extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *x, u32 *y);
 extern int func_02035C38(void);
 extern u32 func_02035CB8(u32 *x, u32 *y);

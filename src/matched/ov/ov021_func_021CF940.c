@@ -27,7 +27,7 @@ extern u32 func_0201293C(const struct BigObj *p);
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
 extern int func_021CFA04(int a, int v, void *l);
 
-int func_021CF940(void *a, void *src, void *b, int c)
+int func_021CF940(void *a, void *src, void *b, int *c)
 {
     void *h = (void *)func_0201293C(src);
     int n = 0;

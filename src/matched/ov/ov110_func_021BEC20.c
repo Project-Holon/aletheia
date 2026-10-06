@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern u8 func_021BB240(u32 i);
 extern u8 func_021BB250(u32 i);
 extern u8 func_021BB260(u32 i);
-extern int func_021BB270(u32);
+extern int func_021BB270(int n);
 extern u8 func_021BB280(u32 i);
 int func_021BEC20(u8 *p) {
     int x=((struct Obj00296 *)p)->f4C;

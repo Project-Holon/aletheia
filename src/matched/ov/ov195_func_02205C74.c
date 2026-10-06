@@ -54,7 +54,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020173EC(void);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern void func_020178D8(void *p, u32 a);
-extern void func_0220609C(Owner *o);
+extern void func_0220609C(char *a);
 extern void func_02206108(Owner *o);
 extern void func_022063E0(Owner *o);
 
@@ -89,7 +89,7 @@ Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c)
         o->f48 = 0;
     else
         o->f48 = 1;
-    func_0220609C(o);
+    func_0220609C((char *)o);
     func_02206108(o);
     func_022063E0(o);
     o->f5c = 1;

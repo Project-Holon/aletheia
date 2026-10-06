@@ -54,17 +54,20 @@ typedef struct Work {
     u32 f20;            /* 0x20 */
 } Work;
 
-extern void *func_020124E4(void *evt);
-extern void *func_02012138(void *sys);
-extern void *func_020120F4(void *sys);
-extern void *func_0201210C(void *sys);
-extern void *func_02188C7C(void *proc);
+struct Ctx;
+struct Evt;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern u32 func_02012138(const struct Ctx *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02188C7C(u8 *p);
 extern void func_0216D9A0(void *map);
-extern void *func_0216B24C(void *sys, void *p, u8 i);
-extern void func_02012374(void *evt, void *task);
+extern int func_0216B24C(void *vm, int value, int flag);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_020061E4(u32 se);
 extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
-extern u16 func_021665D0(void *sys, u8 i);
+extern int func_021665D0(int a0, int a1);
 extern void func_02012FA4(void *ctx, u8 i);
 extern void *func_021854B0(void *sys, void *proc, u32 id, void *pos, u32 flag);
 extern int func_0219C630(void *map);
@@ -86,7 +89,7 @@ int func_0216B3EC(void *evt, u32 *state, Work *w)
         if (w->f20 == 1) {
             *state = 2;
         } else {
-            func_02012374(evt, func_0216B24C(sys, &w->f18, w->f16));
+            func_02012374(evt, (void *)func_0216B24C(sys, (int)(&w->f18), w->f16));
             (*state)++;
         }
         break;
@@ -106,7 +109,7 @@ int func_0216B3EC(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 3:
-        w->f04 = func_021665D0(sys, w->f16);
+        w->f04 = func_021665D0((int)sys, w->f16);
         func_02012FA4(ctx, w->f16);
         func_02012374(evt, func_021854B0(sys, proc, w->f04, w->f08, w->f14));
         (*state)++;

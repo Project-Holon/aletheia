@@ -31,7 +31,8 @@ struct T { char *e; u16 st; u16 pad; u8 *cnt; };
 
 extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern u8 func_021B8E70(u8 *p, u32 k);
-extern void *func_021D5864(void *m);
+struct Work;
+extern void *func_021D5864(struct Work *p);
 extern void func_021F7EE8(void *m, int key);
 struct Q;
 struct S02030FB4;
@@ -53,7 +54,7 @@ void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag)
     (*t->cnt)++;
     m = func_021B9920(((struct Obj10119 *)p)->f138, a, b);
     y = func_021B8E70(*(u8 * *)&((struct Obj10119 *)p)->f134, k);
-    func_021F7EE8(func_021D5864(m), y);
+    func_021F7EE8(func_021D5864((struct Work *)m), y);
     if (flag == 0)
         func_021F7A28(y, 0x26d);
 }

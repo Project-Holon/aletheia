@@ -16,11 +16,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_020221A4(char *);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 extern void func_021DA034(char *, int, int);
 
 void func_021DA03C(char *p)
 {
-    if (func_020221A4(p) != 0)
+    if (func_020221A4() != 0)
         func_021DA034(p, 0, 0xd5);
 }

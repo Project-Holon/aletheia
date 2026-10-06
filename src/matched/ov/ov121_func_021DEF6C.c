@@ -13,7 +13,9 @@
  *   func_021DEFAC 0x021DEFAC thumb ov121
  */
 extern unsigned short func_02045A98(void);
-extern int func_021DEFAC(void *, void *, unsigned short);
+typedef unsigned short u16;
+struct Rec;
+extern int func_021DEFAC(struct Rec *r, void *gs, u16 heap);
 int func_021DEF6C(char *p, void *a, unsigned short b)
 {
     int count = 0;
@@ -23,5 +25,5 @@ int func_021DEF6C(char *p, void *a, unsigned short b)
         if (*(unsigned short *)(p + i * 2 + 0xd0) == func_02045A98()) found = 0;
     }
     if (found) count++;
-    return count + func_021DEFAC(p, a, b);
+    return count + func_021DEFAC((struct Rec *)p, a, b);
 }

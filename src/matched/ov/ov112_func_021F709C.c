@@ -17,7 +17,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_021F8464[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0204EFC8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+struct Desc;
+extern u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
 u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e)
 {
     u8 i = 0;
@@ -35,6 +36,6 @@ u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e)
         *(u32 *)(q + 0x14) = 0;
         *(u32 *)(q + 0x18) = 0;
     }
-    *(u32 *)(p + 0x438) = func_0204EFC8(*(u32 *)(p + 8), 0x2f, 0x1d, 3, 0x33, 0x40, 0x40);
+    *(u32 *)(p + 0x438) = func_0204EFC8((struct Desc *)(*(u32 *)(p + 8)), 0x2f, 0x1d, 3, 0x33, 0x40, 0x40);
     return p;
 }

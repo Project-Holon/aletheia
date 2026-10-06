@@ -58,8 +58,8 @@ typedef struct {
     unsigned long connKeepAliveTime;
 } TransInfo;
 
-extern TransConn *func_02177770(unsigned char aid);
-extern int func_02176DFC(unsigned char aid, unsigned short type);
+extern int func_02177770(int i);
+extern int func_02176DFC(int aid, int type);
 extern void func_021771B0(TransHeader *header, unsigned short type, int size);
 extern void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int reliable);
 extern int func_02177E64(unsigned char aid);
@@ -72,8 +72,8 @@ int func_02176EB0(unsigned short type, unsigned char aid, void *buffer, int size
     TransHeader header;
     TransConn *transConnection;
 
-    transConnection = func_02177770(aid);
-    if (!func_02176DFC(aid, type))
+    transConnection = (TransConn *)func_02177770(aid);
+    if (!func_02176DFC((unsigned char)aid, (unsigned short)type))
         return 0;
     transConnection->sendState = 1;
     transConnection->sendBuffer = buffer;

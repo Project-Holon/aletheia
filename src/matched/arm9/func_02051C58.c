@@ -12,4 +12,4 @@
  */
 #include "../include/Obj08875.h"
 
-void func_02051C58(int p0, int p1, int p2, int p3){ ((struct Obj08875 *)p0)->f0 = (unsigned char)0; ((struct Obj08875 *)p0)->f1 = (unsigned char)0; ((struct Obj08875 *)p0)->f2 = (unsigned short)0; }
+void func_02051C58(void *p0){ ((struct Obj08875 *)p0)->f0 = (unsigned char)0; ((struct Obj08875 *)p0)->f1 = (unsigned char)0; ((struct Obj08875 *)p0)->f2 = (unsigned short)0; }

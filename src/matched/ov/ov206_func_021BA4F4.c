@@ -20,12 +20,13 @@
 #include "../include/Obj25397.h"
 #include "../include/Obj25398.h"
 extern void func_021BAF50(char *p);
-extern void func_021BBBD8(void *,int);
+struct S;
+extern void func_021BBBD8(struct S *p, int i);
 extern void func_021BB92C(char *p, int index);
 void func_021BA4F4(char *p)
 {
     func_021BAF50(p);
-    func_021BBBD8(p,((struct Obj14635 *)p)->f190);
+    func_021BBBD8((struct S *)p,((struct Obj14635 *)p)->f190);
     func_021BB92C(p,((struct Obj14635 *)p)->fE0);
 }
 void func_021BA514(char *p)

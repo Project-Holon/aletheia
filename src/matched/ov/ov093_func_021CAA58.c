@@ -43,7 +43,7 @@ extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021CAA24(u8 *, u8 *, u8 *, int, u16);
 extern u8 *func_021B98A4(char * const *q, u8 b);
 extern u32 func_021D78AC(u32);
-extern u8 *func_021CB174(u8 *, int, u8);
+extern void *func_021CB174(u8 *p, unsigned int n, int k);
 extern u8 *func_021CB1A4(u8 *, int);
 extern u8 *func_021B9934(char *p, int i);
 extern u8 func_021CB1D4(u8 *, u8 *, u8 *, u32);
@@ -74,22 +74,22 @@ int func_021CAA58(u8 *p, u8 *a, u16 move, u8 *q, int id, void *out)
         b = func_021B98A4(*(void **)(p + 8), key);
         break;
     case 9:
-        b = func_021CB174(p, n, func_021D78AC(2));
+        b = func_021CB174(p, (int)n, (u8)func_021D78AC(2));
         break;
     case 5:
-        func_021CAC24(out, func_021CB174(p, n, 0));
-        func_021CAC34(out, func_021CB174(p, n, 1));
+        func_021CAC24(out, func_021CB174(p, (int)n, (u8)0));
+        func_021CAC34(out, func_021CB174(p, (int)n, (u8)1));
         return 2;
     case 4:
         func_021CAC44(out, func_021CB1A4(p, n));
-        func_021CAC54(out, func_021CB174(p, n, 0));
-        func_021CAC64(out, func_021CB174(p, n, 1));
+        func_021CAC54(out, func_021CB174(p, (int)n, (u8)0));
+        func_021CAC64(out, func_021CB174(p, (int)n, (u8)1));
         return 3;
     case 8:
         func_021CAC74(out, a);
         func_021CAC84(out, func_021CB1A4(p, n));
-        func_021CAC94(out, func_021CB174(p, n, 0));
-        func_021CACA4(out, func_021CB174(p, n, 1));
+        func_021CAC94(out, func_021CB174(p, (int)n, (u8)0));
+        func_021CACA4(out, func_021CB174(p, (int)n, (u8)1));
         return 3;
     case 7:
         if (id == 31) func_021CACB4(out, a);

@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021F0A98(char *p, u8 b);
+extern void func_021F0A98(char *p, unsigned a);
 extern void func_021F0B80(char *p, void *t, unsigned a);
 extern void func_021F178C(char *p, u8 a, int *s);
 extern void func_021F0C04(char *p, int flag);
@@ -40,11 +40,11 @@ extern void func_021F0B64(char *p);
 struct TcblNode;
 extern void func_021F0E04(char *p, unsigned a);
 extern int func_021F0C70(char *p, int flag);
-extern void func_021F253C(char *p, u16 v);
+extern void func_021F253C(char *p, int v);
 extern void func_021F0D9C(char *p);
 extern int func_021F0D5C(char *p, int i);
 extern void func_021F0B10(char *p, int a, int b);
-extern void func_021F05E8(char *p, int a, int b);
+extern void func_021F05E8(u8 *p, int a, u32 b);
 extern void func_02031194(struct TcblNode *n);
 
 void func_021F1CF0(void *h, u8 *t)
@@ -58,9 +58,9 @@ void func_021F1CF0(void *h, u8 *t)
     switch (t[0]) {
     case 0:
         if (((struct Obj00879 *)t)->f14 != 0)
-            func_021F0A98(p, (((struct Obj00879 *)t)->f16 != 0 ? 1 : 0) + 9);
+            func_021F0A98(p, (u8)((((struct Obj00879 *)t)->f16 != 0 ? 1 : 0) + 9));
         else if (((struct Obj00879 *)t)->f10 < ((struct Obj00879 *)t)->f12)
-            func_021F0A98(p, 8);
+            func_021F0A98(p, (u8)8);
         func_021F0B80(p, (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (unsigned int)((int *)(t + 8)));
         t[0]++;
         break;
@@ -110,7 +110,7 @@ void func_021F1CF0(void *h, u8 *t)
         t[0]++;
         break;
     default:
-        func_021F05E8(p, 4, 0);
+        func_021F05E8((u8 *)p, 4, (int)0);
         (**(int * *)&((struct Obj00879 *)t)->f20)--;
         func_02031194(h);
         break;

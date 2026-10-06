@@ -65,22 +65,25 @@ extern u8 abs_id_124[];
 extern int d_021D4D40;
 extern int d_021F3554;
 
-extern int func_0201210C(int a);
-extern int func_021F009C(char *p);
+struct Ctx;
+struct Desc;
+struct S0201235C;
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_021F009C(u8 *p);
 extern int func_021F2C78(char *p);
 extern int func_021F2C10(char *p);
-extern void *func_020124AC(int a, const void *id, void *fn, int b);
+extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern void *func_02154668(void *p);
-extern void *func_021559E4(int a, int b, int c, int d);
-extern void *func_0215FBF4(int a, int b, int c, int d);
-extern void *func_02167044(int a, int b);
-extern void *func_021945A4(int a, int b, int c);
-extern void *func_02030734(u32 heap, u32 size, u32 flag, void *file, u32 line);
-extern int func_020120F4(int a);
-extern int func_02012944(int a);
-extern void *func_02014808(int a0, int a1, const void *a2, void *a3, void *a4, int a5, void *a6);
-extern void *func_021D297C(int a);
-extern void func_0201235C(void *a, void *b);
+extern void *func_021559E4(void *a, int b, void *c, int d);
+extern struct Desc *func_0215FBF4(int a0, int a1, struct Desc *a2, int a3);
+extern void *func_02167044(void *a, void *b);
+extern void *func_021945A4(void *a, u32 b, u32 c);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern void *func_021D297C(void *a);
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_021F2F60(void *a, int unused, Req *q)
 {
@@ -92,12 +95,12 @@ int func_021F2F60(void *a, int unused, Req *q)
 
     p = q->p;
     ok = 0;
-    h = func_0201210C(*(int *)(p + 0x1c));
+    h = (int)func_0201210C((const struct Ctx *)(*(int *)(p + 0x1c)));
     switch (q->kind) {
     case 1:
     case 5:
     case 6:
-        ok = func_021F009C(q->p);
+        ok = func_021F009C((u8 *)q->p);
         break;
     case 7:
     case 11:
@@ -113,28 +116,28 @@ int func_021F2F60(void *a, int unused, Req *q)
 
     switch (q->kind) {
     case 6:
-        x = func_020124AC(*(int *)(p + 0x1c), abs_id_0, (void *)func_02154668, h);
+        x = func_020124AC((void *)(*(int *)(p + 0x1c)), (u32)abs_id_0, (void *)func_02154668, h);
         break;
     case 1:
-        x = func_021559E4(*(int *)(p + 0x1c), h, 0, 1);
+        x = func_021559E4((void *)(*(int *)(p + 0x1c)), h, 0, 1);
         break;
     case 5:
         x = func_0215FBF4(*(int *)(p + 0x1c), h, 0, 1);
         break;
     case 11:
-        x = func_02167044(*(int *)(p + 0x1c), h);
+        x = func_02167044((void *)(*(int *)(p + 0x1c)), (void *)h);
         break;
     case 7:
-        x = func_021945A4(*(int *)(p + 0x1c), h, 4);
+        x = func_021945A4((void *)(*(int *)(p + 0x1c)), h, 4);
         break;
     case 12:
-        buf = func_02030734(4, 8, 1, &d_021F3554, 0x14B7);
-        buf[0] = func_02012944(func_020120F4(*(int *)(p + 0x1c)));
+        buf = func_02030734(4, 8, 1, (const char *)(&d_021F3554), 0x14B7);
+        buf[0] = (int)func_02012944(func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c))));
         buf[1] = *(int *)(p + 0x1c);
-        x = func_02014808(*(int *)(p + 0x1c), h, abs_id_124, &d_021D4D40, buf, 0, buf);
+        x = func_02014808((char *)(*(int *)(p + 0x1c)), h, (int)abs_id_124, (int)(&d_021D4D40), (int)buf, 0, (int)buf);
         break;
     case 13:
-        x = func_021D297C(*(int *)(p + 0x1c));
+        x = func_021D297C((void *)(*(int *)(p + 0x1c)));
         break;
     }
     func_0201235C(a, x);

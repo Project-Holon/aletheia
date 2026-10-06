@@ -74,7 +74,7 @@ struct EnvModule {
 
 extern struct EnvModule g_EnvModule;
 
-extern void *sub_0202FBAC(u16 idx);
+extern void *sub_0202FBAC(u32 idx);
 struct ExpHeap;
 extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
@@ -97,7 +97,7 @@ int sub_0202FDC4(u32 src, u32 dst, u32 param)
         goto fail;
     }
 
-    res = sub_0202FBAC(src & 0x7fff);
+    res = sub_0202FBAC((u16)(src & 0x7fff));
     if (res == 0) {
         g_EnvModule.error = 2;
         goto fail;

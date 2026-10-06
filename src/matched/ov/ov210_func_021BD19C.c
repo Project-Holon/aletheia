@@ -36,24 +36,24 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern int func_021BCE58(u8 *p);
+extern int func_021BCE58(char *p);
 struct Row;
 extern u32 func_02021ED8(const char *ptr);
-extern u32 func_021BFF68(u8 *p);
+extern u32 func_021BFF68(int p);
 extern void func_020061E4(u32 id);
 extern u32 func_021BE314(u8 *p, u32 a);
 extern u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021BE324(u8 *p);
 extern void func_021BEDB8(int p, int i, int v);
 extern void func_021BCF38(u8 *p);
-extern void func_0202EA40(struct Row *p);
+extern s32 func_0202EA40(struct Row *p);
 
 u32 func_021BD19C(u8 *p)
 {
-    if (func_021BCE58(p) == 1 || func_02021ED8((const char *)(*(u32 *)&((struct Obj00085 *)p)->fC)) != 0) {
+    if (func_021BCE58((char *)p) == 1 || func_02021ED8((const char *)(*(u32 *)&((struct Obj00085 *)p)->fC)) != 0) {
         return 4;
     }
-    switch (func_021BFF68(p)) {
+    switch (func_021BFF68((int)p)) {
     case 0:
         func_020061E4(0x54c);
         return func_021BE2F4(p, 0, 0, func_021BE314(p, 9));

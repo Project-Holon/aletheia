@@ -18,14 +18,15 @@
 
 typedef unsigned int u32;
 
-extern void func_021B71B8(char *ctx, u32 a);
+struct Q;
+extern void func_021B71B8(void *p, struct Q *q);
 extern void func_0204A648(void);
 extern void func_021B6C4C(char *p);
 extern void func_021B9574(int unused, char *p);
 
 void func_021BD5AC(int unused, char *ctx)
 {
-    func_021B71B8(ctx, ((struct Obj10666 *)ctx)->f1E0);
+    func_021B71B8(ctx, (struct Q *)(((struct Obj10666 *)ctx)->f1E0));
     func_0204A648();
     func_021B6C4C((char *)(((struct Obj10666 *)ctx)->f1F4));
     func_021B9574((int)ctx, (char *)(((struct Obj10666 *)ctx)->f1E8));

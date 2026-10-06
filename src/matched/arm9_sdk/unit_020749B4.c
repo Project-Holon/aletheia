@@ -30,7 +30,7 @@ struct Table {
     char list[0x1c];
 };
 
-extern void func_02060468(void *list, u32 param);
+extern void func_02060468(int p0, int p1);
 extern unsigned int func_02061124(char *p, int n, int v);
 extern void func_020604AC(void *list, void *node);
 extern u32 func_02089D40(void);
@@ -41,12 +41,12 @@ int func_020749F8(struct Table *t);
 
 void func_020749B4(void *node)
 {
-    func_02060468(node, 0);
+    func_02060468((int)node, 0);
 }
 
 int func_020749C4(struct Table *t, void *heap)
 {
-    func_02060468(&t->list, 0xc);
+    func_02060468((int)(&t->list), 0xc);
     t->heap = heap;
     if (func_020749F8(t)) {
         return 1;

@@ -37,10 +37,11 @@ struct Sub02009470Obj;
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void func_02082D44(void *dst, const void *src, int n);
-extern u8 func_0200856C(void *p);
-extern u8 func_02008570(void *p);
-extern u8 func_02008564(void *p);
-extern void func_02008574(void *p, u8 a, u8 b);
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
+extern u8 func_02008564(const struct Sub0200852CObj *obj);
+extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
 extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
 extern u32 func_0202EB7C(u32 a0, u32 a1);
@@ -58,13 +59,13 @@ void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
         return;
     saved = func_02009470(func_02012EBC(((struct Obj22714 *)a3)->f82C));
     func_02082D44(a2, buf, 0x28);
-    x = func_0200856C(buf);
-    y = func_02008570(buf);
-    r1 = func_02025C1C(x, y, func_02008564(buf));
-    r2 = func_02025C30(x, y, func_02008564(buf));
+    x = func_0200856C((const struct Sub0200852CObj *)buf);
+    y = func_02008570((const struct Sub0200852CObj *)buf);
+    r1 = func_02025C1C(x, y, func_02008564((const struct Sub0200852CObj *)buf));
+    r2 = func_02025C30(x, y, func_02008564((const struct Sub0200852CObj *)buf));
     if (x == r1 && y == r2)
-        func_02008574(buf, x, y);
+        func_02008574((struct Sub0200852CObj *)buf, x, y);
     else
-        func_02008574(buf, 0, 0);
+        func_02008574((struct Sub0200852CObj *)buf, 0, 0);
     func_0202EB7C((u32)saved, (u32)buf);
 }

@@ -18,25 +18,26 @@
  */
 #include "../include/Obj10864.h"
 typedef struct Config { unsigned words[11]; } Config;
-extern void func_021BEAB8(void *, void *);
+struct CaptureConfig;
+extern void func_021BEAB8(void *task, const int *ctx);
 struct S02030FB4;
 extern void func_021BEAF8(void *node, int *s);
 extern void *func_020311B8(void *, void (*)(void *, void *), unsigned, unsigned);
 extern void *func_02031290(struct S02030FB4 *p);
 extern unsigned short func_02080C54(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
-extern void func_021BEB48(Config *);
+extern void func_021BEB48(struct CaptureConfig *s);
 void *func_021BE9F8(void *manager, const Config *source)
 {
     void *task;
     char *ctx;
-    task = func_020311B8(manager, func_021BEAB8, 56, 5);
+    task = func_020311B8(manager, (void (*)(void *, void *))func_021BEAB8, 56, 5);
     ctx = func_02031290(task);
     *(Config *)(ctx + 4) = *source;
     ((struct Obj10864 *)ctx)->f34 = task;
     ((struct Obj10864 *)ctx)->f30 = 0;
     ((struct Obj10864 *)ctx)->f0 = func_02080C54();
-    func_021BEB48((Config *)(ctx + 4));
+    func_021BEB48((struct CaptureConfig *)(ctx + 4));
     func_020056A0((unsigned)func_021BEAF8, (unsigned)ctx, 0);
     return ctx;
 }

@@ -36,12 +36,12 @@ struct Vec2;
 extern int func_021B9A84(u32 p);
 extern void func_021BB050(int unused, u8 *s, int k);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021BB56C(u8 *s, int a, int b, s16 *out);
+extern void func_021BB56C(u32 p, int x, int y, u16 *out);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 static inline s16 *get(u8 *s, int x, int y, s16 *buf)
 {
-    func_021BB56C(s, x, y, buf);
+    func_021BB56C((u32)s, x, y, (u16 *)buf);
     return buf;
 }
 

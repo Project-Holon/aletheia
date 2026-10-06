@@ -16,7 +16,7 @@
  */
 
 
-void func_021C0A88(void)
+void func_021C0A88(int a0, int a1, int a2)
 {
 }
 

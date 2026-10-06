@@ -21,7 +21,7 @@
 #include "../include/Obj00001.h"
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern int func_021B6548(unsigned char *p, unsigned int id, int v);
-extern void func_021D8980(char *p);
+extern int func_021D8980(char *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021E4420(char *p);

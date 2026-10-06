@@ -25,7 +25,7 @@ struct Pos { short x,y; };
 struct Pair { int a,b; };
 extern const struct Pos d_021DA730;
 extern const struct Pair d_021DA750;
-extern void func_021D6C48(u8 *, int, void *);
+extern void func_021D6C48(char *p, int i, void *h);
 extern void func_0204B404(void *, struct Pos *, u16);
 extern void func_0204B5AC(void *, struct Pair *);
 typedef unsigned int   u32;
@@ -40,7 +40,7 @@ void func_021D6720(u8 *p, int i)
     struct Pos pos;
     struct Pair pair;
     void *h;
-    func_021D6C48(p,i,((struct Obj13979 *)p)->fB4);
+    func_021D6C48((char *)p,i,((struct Obj13979 *)p)->fB4);
     h = ((struct Obj13979 *)p)->fB4;
     pos = d_021DA730; pair = d_021DA750;
     func_0204B404(h,&pos,0); func_0204B5AC(h,&pair);

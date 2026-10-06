@@ -14,11 +14,12 @@
  */
 #include "../include/Obj24158.h"
 
-extern void func_021B7460(int *, int);
+typedef unsigned int   u32;
+extern void func_021B7460(char *p, u32 kind);
 
 int func_021B6B54(int *p)
 {
-    func_021B7460(p, 6);
+    func_021B7460((char *)p, 6);
     ((struct Obj24158 *)p)->f1B0 = 5;
     return 2;
 }

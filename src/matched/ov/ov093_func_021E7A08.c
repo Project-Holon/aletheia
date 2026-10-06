@@ -30,7 +30,7 @@ typedef struct Word { u32 v; } Word;
 
 extern int func_021D775C(int key);
 extern int func_021EF948(int k);
-extern u8 *func_021C88A4(int a, int k, int c);
+extern void *func_021C88A4(char *p, int a, int b);
 extern Word func_021E8940(int k);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
@@ -44,13 +44,13 @@ void func_021E7A08(int a, int b, int c)
     if (c == func_021D775C(3)) {
         k = 7;
         if (func_021EF948(k) == 0) {
-            p = func_021C88A4(b, 0x1b, c);
+            p = func_021C88A4((char *)b, 0x1b, c);
             ((struct Obj13546 *)p)->f4 = k;
             *(Word *)(p + 8) = func_021E8940(5);
             func_021C8838(p + 0x10, 1, 0xb4);
             func_021C88C8((void *)b, p);
         } else {
-            p = func_021C88A4(b, 0x1c, c);
+            p = func_021C88A4((char *)b, 0x1c, c);
             ((struct Obj13546 *)p)->f4 = k;
             func_021C88C8((void *)b, p);
         }

@@ -66,8 +66,8 @@ extern int func_021F6BA4(void *party, void *save, int box, int slot);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
 extern int func_021F6CDC(void *mon, void *want);
 extern void func_022025E4(u32 a, u32 b, u32 c);
-extern void func_021F663C(Work *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
-extern void func_021F4E98(Work *p, u32 a, u32 b);
+extern void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
+extern void func_021F4E98(u8 *p, u32 a, u32 b);
 
 void func_021F5B8C(Work *p)
 {
@@ -88,12 +88,12 @@ void func_021F5B8C(Work *p)
         if (func_021F6CDC(mon, p->list[p->sel].want) != 0) {
             if (func_021F6BA4(p->ctx->party, p->ctx->save, p->box, p->slot) != 0) {
                 func_022025E4((u32)p->msg, 0, (u32)mon);
-                func_021F663C(p, 0x12, 1, 0, 0xF0F, 0);
-                func_021F4E98(p, 3, 9);
+                func_021F663C((u8 *)p, 0x12, 1, 0, 0xF0F, 0);
+                func_021F4E98((u8 *)p, 3, 9);
                 func_020061E4(0x54C);
             } else {
-                func_021F663C(p, 0x1A, 1, 0, 0xF0F, 1);
-                func_021F4E98(p, 4, 1);
+                func_021F663C((u8 *)p, 0x1A, 1, 0, 0xF0F, 1);
+                func_021F4E98((u8 *)p, 4, 1);
             }
         } else {
             func_020061E4(0x551);

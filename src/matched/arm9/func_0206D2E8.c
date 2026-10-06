@@ -37,7 +37,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0206DC00(u8 *p, u32 v);
+extern void func_0206DC00(const u32 *src, u32 sz);
 
 struct S0206D2E8 {
     u8 *cur;        /* 0x00 */
@@ -65,7 +65,7 @@ void func_0206D2E8(struct S0206D2E8 *s)
     }
     if ((s->flags & 0x100) == 0 && g == 0) {
         p = s->cur;
-        func_0206DC00(p + (p[1] | (p[2] << 8) | (p[3] << 16) | (p[4] << 24)),
+        func_0206DC00((const u32 *)(p + (p[1] | (p[2] << 8) | (p[3] << 16) | (p[4] << 24))),
                       p[5] | (p[6] << 8) | (p[7] << 16) | (p[8] << 24));
     }
     if (m == 3) {

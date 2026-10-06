@@ -14,7 +14,7 @@
  */
 extern int func_02035C08(void *);
 extern char d_02186AAC[];
-int func_021864A8(void)
+int func_021864A8(char *p)
 {
     if (func_02035C08(d_02186AAC) != -1)
         return 1;

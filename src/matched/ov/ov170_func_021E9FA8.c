@@ -28,15 +28,15 @@
 
 extern void func_021EC768(char *w, unsigned i, int flag);
 extern void func_021ECB84(char *w, unsigned i);
-extern void func_021ED594(unsigned char *p, unsigned i);
+extern void func_021ED594(char *p, unsigned i);
 extern void *func_0201AB28(void *party, unsigned i);
 extern void func_021EA1C0(void *p);
-extern void func_021EE038(unsigned char *p, int a, int b, int c);
+extern void func_021EE038(char *p, int a, int b, int c);
 extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(unsigned char *p);
-extern void func_021ECB20(unsigned char *p, int f, int c);
+extern void func_021DD14C(char *p);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021ECB60(char *w, int i, int f);
-extern void func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0200(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -46,14 +46,14 @@ void func_021E9FA8(unsigned char *p, unsigned char i)
     p[0x16] = i;
     func_021EC768(WORK(p), p[0x16], 0);
     func_021ECB84(WORK(p), p[0x16]);
-    func_021ED594(p, 0x24);
-    func_021ECB20(p, 2, 1);
+    func_021ED594((char *)p, 0x24);
+    func_021ECB20((char *)p, 2, 1);
     func_021ECB60(WORK(p), 0x24, 0);
     func_0201AB28(((struct Obj23954 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, i - 0x1E);
     func_021EA1C0(p);
-    func_021EE038(p, 2, 2, 1);
+    func_021EE038((char *)p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);
-    func_021DD14C(p);
+    func_021DD14C((char *)p);
     p[0x1A] = 1;
-    func_021E8FC0(p, func_021E0200, 0x38);
+    func_021E8FC0((char *)p, (int)func_021E0200, 0x38);
 }

@@ -26,7 +26,8 @@ struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201EEA4(struct WordSet *p, u32 i, void *mon);
-extern void func_021EAC28(unsigned char *,int,void *,unsigned,int,int,unsigned,unsigned short);
+typedef unsigned short u16;
+extern void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, u16 color);
 extern void func_021EAAE4(unsigned char *,unsigned);
 extern void func_021EABA0(void **);
 void func_021EADB4(unsigned char *w,Entry *e,unsigned i) {
@@ -35,7 +36,7 @@ void func_021EADB4(unsigned char *w,Entry *e,unsigned i) {
  func_02043B5C(func_02045770(windows[i*2]),0);
  if(!e->flag) {
   func_0201EEA4(((struct Obj00414 *)w)->f84,0,(void *)e->value);
-  func_021EAC28(w,i,((struct Obj00414 *)w)->f80,0,0,0,((struct Obj00414 *)w)->f78,0x440);
+  func_021EAC28((char *)w,i,((struct Obj00414 *)w)->f80,0,0,0,((struct Obj00414 *)w)->f78,0x440);
  } else { func_021EAAE4(w,i); return; }
  func_021EABA0(windows+i*2);
 }

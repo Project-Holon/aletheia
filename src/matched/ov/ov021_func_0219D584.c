@@ -26,10 +26,10 @@ typedef unsigned char  u8;
 extern u32 func_0216D518(u8 *p);
 extern void func_021C6AE0(u32 a);
 extern void func_021C6AF0(u32 *, u32, u16);
-extern void func_021C6AF8(u32 *, u32);
+extern void func_021C6AF8(u8 *p, u32 v);
 extern void func_021C6AFC(u32 *, u16);
 extern u32 func_021C6574(u32, u32 *, u32);
-extern void func_0219D524(u32 *, u32, u32);
+extern u16 func_0219D524(u32 *s, u32 b, u32 a);
 
 u32 func_0219D584(u32 a, u32 *b, u32 c, u16 *d)
 {
@@ -45,7 +45,7 @@ u32 func_0219D584(u32 a, u32 *b, u32 c, u16 *d)
     if (d[1] != 0xFFFF) {
         func_021C6AF0(buf, t, d[1]);
     }
-    func_021C6AF8(buf, t);
+    func_021C6AF8((u8 *)buf, t);
     for (i = 0; i < 3; i++) {
         if (d[i + 2] != 0xFFFF) {
             func_021C6AFC(buf, d[i + 2]);

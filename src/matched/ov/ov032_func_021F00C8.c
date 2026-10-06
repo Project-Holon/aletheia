@@ -33,20 +33,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern u16 *func_020275D0(int);
-extern void *func_020275C4(int);
+extern void *func_020275D0(char *p);
+extern int func_020275C4(void *p);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
-extern void func_021F18C4(void *p, int v);
+extern void func_021F18C4(char *p, int b);
 
 int func_021F00C8(char *p)
 {
     u16 *f;
 
-    f = func_020275D0(*(int *)(p + 0x34));
+    f = func_020275D0((char *)(*(int *)(p + 0x34)));
     if (*f == 0)
         return 0;
     *f = 0;
-    func_0201EE0C(*(void **)(p + 0x110), 0, func_020275C4(*(int *)(p + 0x34)),
+    func_0201EE0C(*(void **)(p + 0x110), 0, (void *)func_020275C4((void *)(*(int *)(p + 0x34))),
                   *(u8 *)(p + 0x30), 1, 2);
     func_021F18C4(p, 0xB);
     return 1;

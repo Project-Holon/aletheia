@@ -26,7 +26,7 @@ extern int func_02005F38(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 extern void func_02005D28(void);
 extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
 extern void func_02204F40(int a, int *p);

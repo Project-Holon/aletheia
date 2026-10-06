@@ -73,9 +73,9 @@ extern int func_021BE05C(void *p);
 extern u32 func_021BE078(void *p);
 extern u32 func_021BDFE4(void *p);
 extern u8 func_021BE054(void *p);
-extern void func_021BE1E4(void *p);
-extern u32 func_021B8B8C(void *p, u32 base, int i);
-extern u8 func_021B8BAC(void *p, u32 base, int i);
+extern void func_021BE1E4(u8 *p);
+extern u32 func_021B8B8C(int unused, char *base, int i);
+extern u8 func_021B8BAC(void *unused, char *base, int i);
 extern void func_020862F0(void *p, u32 n);
 extern void func_0207ECF0(const void *src, u32 off, u32 size);
 extern void *func_0207E100(void);
@@ -119,7 +119,7 @@ void func_021B71B8(void *p, Q *q)
                 q->f10 = 0;
                 q->f2c++;
                 for (i = 0; i < 4; i++) {
-                    if (func_021B8B8C(p, base, i) == 1 && func_021B8BAC(p, base, i) == 0)
+                    if (func_021B8B8C((int)p, (char *)base, i) == 1 && func_021B8BAC(p, (char *)base, i) == 0)
                         q->f10 |= (u8)(1 << i);
                 }
                 return;
@@ -181,7 +181,7 @@ void func_021B71B8(void *p, Q *q)
             bit = 1 << i;
             if (!(bit & q->f10))
                 continue;
-            if (func_021B8B8C(p, base, i) == 1) {
+            if (func_021B8B8C((int)p, (char *)base, i) == 1) {
                 u32 idx = i;
                 int w;
                             int j;
@@ -194,7 +194,7 @@ void func_021B71B8(void *p, Q *q)
                     w = 0x40;
                     h = (u16)(sub == 1 ? 0x60 : 0x30);
                 }
-                if (func_021B8BAC(p, base, i) == 1 && func_0202EB14() == 0) {
+                if (func_021B8BAC(p, (char *)base, i) == 1 && func_0202EB14() == 0) {
                     dst = (u32)(q->f4 + idx * (w * h * 2));
                     func_020862F0((void *)dst, w * h * 2);
                 } else if (wide == 0) {

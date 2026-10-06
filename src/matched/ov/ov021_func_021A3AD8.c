@@ -30,8 +30,8 @@ u16 func_0216D598(void *p);
 void func_0219D208(int a, unsigned int id);
 void func_0216CD88(u32 g);
 u32 func_021A398C(u8 *p);
-u16 func_021A31A4(int i, u16 v);
-void func_0216E204(char *a, u16 v);
+int func_021A31A4(int i, int v);
+void func_0216E204(char *a, u32 v);
 
 void func_021A3AD8(u8 *p, int a)
 {

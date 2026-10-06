@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct ArcFile;
 extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 
-u16 func_02159DCC(u8 *p, u32 n)
+u32 func_02159DCC(u8 *p, int n)
 {
     func_0204944C(*(struct ArcFile **)(p + 4), 0, n << 4, 0x10, p + 0x1a);
     return *(u16 *)(p + 0x1a);

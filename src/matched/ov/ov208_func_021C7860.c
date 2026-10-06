@@ -46,8 +46,8 @@ typedef struct {
 extern void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev);
 extern void ov208_func_021C80CC(void *u, int k, VecF *v);
 extern void ov208_func_021C7FF8(void *u, int k, Vec *v);
-extern void func_02015C30(u32 obj, Vec *v);
-extern void func_02015C48(u32 obj, Vec *v);
+extern void func_02015C30(void *p, u32 *out);
+extern void func_02015C48(void *p, u32 *src);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -88,7 +88,7 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
                 idx = 1;
             ov208_func_021C80CC(p + 0xc + idx * 0x44, 3, &a1);
             tx = a1.x;
-            func_02015C30(*(u32 *)(p + 0xc + idx * 0x44), &v1);
+            func_02015C30((void *)(*(u32 *)(p + 0xc + idx * 0x44)), (u32 *)(&v1));
             x = v1.x / 4096.0f - 0.5f;
             if (x <= tx) {
                 x = tx;
@@ -96,17 +96,17 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
             }
             v1.x = FX_F32_TO_FX32(x);
             if (W(0xc) != 0)
-                func_02015C48(W(0xc), &v1);
+                func_02015C48((void *)W(0xc), (u32 *)(&v1));
             if (W(0x50) != 0)
-                func_02015C48(W(0x50), &v1);
+                func_02015C48((void *)W(0x50), (u32 *)(&v1));
             if (W(0x6cc) != 0) {
                 if (W(0xc) != 0) {
                     ov208_func_021C7FF8(p + 0xc, 3, &b1);
-                    func_02015C48(W(0xc), &b1);
+                    func_02015C48((void *)W(0xc), (u32 *)(&b1));
                 }
                 if (W(0x50) != 0) {
                     ov208_func_021C7FF8(p + 0x50, 3, &b1);
-                    func_02015C48(W(0x50), &b1);
+                    func_02015C48((void *)W(0x50), (u32 *)(&b1));
                 }
             }
         }
@@ -116,7 +116,7 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
                 idx = 3;
             ov208_func_021C80CC(p + 0xc + idx * 0x44, 4, &a2);
             tx = a2.x;
-            func_02015C30(*(u32 *)(p + 0xc + idx * 0x44), &v1);
+            func_02015C30((void *)(*(u32 *)(p + 0xc + idx * 0x44)), (u32 *)(&v1));
             x = v1.x / 4096.0f - 1.5f;
             if (x <= tx) {
                 x = tx;
@@ -124,17 +124,17 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
             }
             v1.x = FX_F32_TO_FX32(x);
             if (W(0x94) != 0)
-                func_02015C48(W(0x94), &v1);
+                func_02015C48((void *)W(0x94), (u32 *)(&v1));
             if (W(0xd8) != 0)
-                func_02015C48(W(0xd8), &v1);
+                func_02015C48((void *)W(0xd8), (u32 *)(&v1));
             if (W(0x6d0) != 0) {
                 if (W(0x94) != 0) {
                     ov208_func_021C7FF8(p + 0x94, 4, &c1);
-                    func_02015C48(W(0x94), &c1);
+                    func_02015C48((void *)W(0x94), (u32 *)(&c1));
                 }
                 if (W(0xd8) != 0) {
                     ov208_func_021C7FF8(p + 0xd8, 4, &c1);
-                    func_02015C48(W(0xd8), &c1);
+                    func_02015C48((void *)W(0xd8), (u32 *)(&c1));
                 }
             }
         }
@@ -152,7 +152,7 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
                 idx = 1;
             ov208_func_021C80CC(p + 0xc + idx * 0x44, 0, &a3);
             tx = a3.x;
-            func_02015C30(*(u32 *)(p + 0xc + idx * 0x44), &v2);
+            func_02015C30((void *)(*(u32 *)(p + 0xc + idx * 0x44)), (u32 *)(&v2));
             x = v2.x / 4096.0f;
             x += 0.5f;
             if (x >= tx) {
@@ -161,17 +161,17 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
             }
             v2.x = FX_F32_TO_FX32(x);
             if (W(0xc) != 0)
-                func_02015C48(W(0xc), &v2);
+                func_02015C48((void *)W(0xc), (u32 *)(&v2));
             if (W(0x50) != 0)
-                func_02015C48(W(0x50), &v2);
+                func_02015C48((void *)W(0x50), (u32 *)(&v2));
             if (W(0x6cc) != 0) {
                 if (W(0xc) != 0) {
                     ov208_func_021C7FF8(p + 0xc, 0, &b3);
-                    func_02015C48(W(0xc), &b3);
+                    func_02015C48((void *)W(0xc), (u32 *)(&b3));
                 }
                 if (W(0x50) != 0) {
                     ov208_func_021C7FF8(p + 0x50, 0, &b3);
-                    func_02015C48(W(0x50), &b3);
+                    func_02015C48((void *)W(0x50), (u32 *)(&b3));
                 }
             }
         }
@@ -181,7 +181,7 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
                 idx = 3;
             ov208_func_021C80CC(p + 0xc + idx * 0x44, 2, &a4);
             tx = (&a4)->x;
-            func_02015C30(*(u32 *)(p + 0xc + idx * 0x44), &v2);
+            func_02015C30((void *)(*(u32 *)(p + 0xc + idx * 0x44)), (u32 *)(&v2));
             x = v2.x / 4096.0f;
             x += 1.5f;
             if (x >= tx) {
@@ -190,17 +190,17 @@ void ov208_func_021C7860(void *a0, u8 *p, void *ctx)
             }
             v2.x = FX_F32_TO_FX32(x);
             if (W(0x94) != 0)
-                func_02015C48(W(0x94), &v2);
+                func_02015C48((void *)W(0x94), (u32 *)(&v2));
             if (W(0xd8) != 0)
-                func_02015C48(W(0xd8), &v2);
+                func_02015C48((void *)W(0xd8), (u32 *)(&v2));
             if (W(0x6d0) != 0) {
                 if (W(0x94) != 0) {
                     ov208_func_021C7FF8(p + 0x94, 2, &c4);
-                    func_02015C48(W(0x94), &c4);
+                    func_02015C48((void *)W(0x94), (u32 *)(&c4));
                 }
                 if (W(0xd8) != 0) {
                     ov208_func_021C7FF8(p + 0xd8, 2, &c4);
-                    func_02015C48(W(0xd8), &c4);
+                    func_02015C48((void *)W(0xd8), (u32 *)(&c4));
                 }
             }
         }

@@ -43,7 +43,9 @@ struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern int func_02027778(Desc *, int);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021BB3F4(int p, int mode);
 
@@ -71,7 +73,7 @@ void func_021BA9C0(u8 *p, int *tbl, int n)
         ((struct Obj09881 *)e)->f788 = 0;
     }
     *(int *)(p + (i - 1) * 0xC + 0x788) = 1;
-    *(int *)&((struct Obj00002 *)p)->f77C = func_02027778(&s, ((struct Obj00002 *)p)->f7E0);
+    *(int *)&((struct Obj00002 *)p)->f77C = (int)func_02027778((struct TaskMenuTmpl *)(&s), (void *)(((struct Obj00002 *)p)->f7E0));
     for (i = 0; i < n; i++) {
         func_02045808((struct U16Vec *)(*(int *)(p + i * 0xC + 0x780)));
     }

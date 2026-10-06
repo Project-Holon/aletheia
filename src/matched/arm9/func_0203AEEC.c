@@ -39,7 +39,7 @@ extern void  func_020370C8(void);
 extern void  func_02037B08(void);
 extern void  func_020307B0(void *p);
 
-void func_0203AEEC(void)
+void func_0203AEEC(u8 *p)
 {
     void (*f)(void);
 

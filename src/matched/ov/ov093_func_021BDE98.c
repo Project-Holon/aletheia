@@ -73,20 +73,30 @@ typedef union {
 } Action;
 struct Out { u8 c0; u8 pad; u16 c2; u8 c4; };
 struct Cell { u32 w[5]; };
-extern u32 func_021D5C08(void *);
-extern void func_021BD1E0(void *);
-extern void func_021BE518(void *);
-extern u16 func_021BDE48(void *, Action *);
-extern int func_021D80BC(void *, int, void *, u16);
-extern void func_021D82D0(Action *, u32, u32);
-extern u8 func_021D5778(void *, u16);
-extern int func_021D62C4(void *, int);
+struct Msg;
+struct O;
+struct Out64B4;
+struct Slot;
+struct Unk021BD1E0;
+struct Unk021BDE48;
+struct Unk021BE518;
+struct Unk021D62A8;
+struct Unk021D82D0;
+struct UtilWork;
+extern u32 func_021D5C08(struct UtilWork *p);
+extern void func_021BD1E0(struct Unk021BD1E0 *p);
+extern void func_021BE518(struct Unk021BE518 *p);
+extern u16 func_021BDE48(void *p, struct Unk021BDE48 *m);
+extern int func_021D80BC(void *p, int a, int m, u16 move);
+extern void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub);
+extern u8 func_021D5778(struct UtilWork *p, u16 id);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021E02DC(u8 *, u16, u32);
 extern void func_021BE924(u8 *, u8 *, u32);
 extern int func_021C001C(u8 *, u8 *, u16, u16);
-extern int func_021C62D8(u8 *, u8 *, u32, u32, u16 *);
+extern int func_021C62D8(u8 *p, u8 *a, u32 unused, u32 c, struct O *out);
 extern void func_021C5604(u8 *, u8 *, int);
-extern void func_021C64B4(u8 *, u16, u8 *, void *);
+extern void func_021C64B4(u8 *p, u16 q, u8 *a, struct Out64B4 *out);
 extern int func_021CA7F4(u8 *, u8 *, u16, const u8 *, void *);
 extern int func_021C07AC(u8 *, u8 *, u32, u32, int);
 extern void func_021C0450(u8 *, u8 *, u16, int);
@@ -99,26 +109,26 @@ extern void func_021BE368(void *);
 extern void func_021BE378(void *, void *);
 extern void func_021BE388(void *, u32);
 extern void func_021BE398(void *, u16, u32, u32);
-extern void func_021BE66C(u8 *, u8 *, void *, int);
-extern void func_021BE620(u8 *, u8 *, void *);
+extern void func_021BE66C(u8 *p, u8 *a, u8 *c, int k);
+extern void func_021BE620(u8 *p, u8 *a, u8 *c);
 extern int func_021C6458(u8 *, u8 *, u32, u32, u8 *);
-extern int func_021C99A0(u8 *, u8 *);
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern void func_021C8810(u8 *);
-extern void func_021C5620(u8 *, u8 *, int, void *);
-extern int func_021D5FC0(void *, u32);
+extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
+extern void func_021D5FC0(struct UtilWork *p, u32 n);
 extern int func_021C024C(u8 *, u8 *, u32);
 extern int func_021BE7E4(u8 *, u8 *, u32, u32, u8 *);
 extern int func_021BE6EC(u8 *, u8 *, u16, u32);
-extern u8 func_021D5440(void *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021BEAB4(u8 *, u8 *, int, int, u8 *);
 extern void func_021BE550(u8 *, u8 *, u16, void *);
-extern u8 func_021BEC58(u8 *, u8 *, u16, void *);
+extern int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d);
 extern void func_021D6744(u8 *, u8, int, u8, u16, u16);
 extern void func_021CD4B0(void *, volatile u32, ...);
 extern u8 func_021D69AC(u8 *, int);
 extern void func_021C0780(u8 *, u8 *, int, u8);
 extern void func_021BFE60(u8 *, u8 *);
-extern int func_021D5BB0(void *, u32);
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern void func_021BFF60(u8 *, u8 *, int);
 extern void func_021BE994(u8 *, u8 *, u32, u32);
 extern void func_021E0394(u8 *, int);
@@ -145,29 +155,29 @@ void func_021BDE98(u8 *p, u8 *a, Action *act, u32 key)
     u16 id2;
     struct Out o;
 
-    prev = func_021D5C08(a);
-    func_021BD1E0(F(0x4a8));
-    func_021BE518(F(0x4b0));
+    prev = func_021D5C08((struct UtilWork *)a);
+    func_021BD1E0((struct Unk021BD1E0 *)F(0x4a8));
+    func_021BE518((struct Unk021BE518 *)F(0x4b0));
     o.c2 = 0;
     o.c4 = 6;
-    m = func_021BDE48(a, act);
+    m = func_021BDE48(a, (struct Unk021BDE48 *)act);
     if (m != 0) {
-        func_021D82D0(act, m, func_021D80BC(*(void **)(p + 4), *(int *)(p + 8), a, m));
+        func_021D82D0((struct Unk021D82D0 *)act, m, func_021D80BC(*(void **)(p + 4), *(int *)(p + 8), (int)a, m));
     }
     id = act->full.move;
-    pr = func_021D5778(a, id);
+    pr = func_021D5778((struct UtilWork *)a, id);
     id2 = id;
     sel = (u8)act->full.select;
     flag = 0;
     o.c0 = 0;
-    chk1 = (u8)func_021D62C4(a, 0x19);
-    chk2 = (u8)func_021D62C4(a, 0x1a);
+    chk1 = (u8)func_021D62C4((struct Unk021D62A8 *)a, 0x19);
+    chk2 = (u8)func_021D62C4((struct Unk021D62A8 *)a, 0x1a);
     func_021E02DC(a, id, key);
     func_021BE924(p, a, id);
     if (func_021C001C(p, a, id, (u8)((chk1 != 0 || chk2 != 0) ? 1 : flag)) != 0) goto end;
-    if (func_021C62D8(p, a, id, sel, &o.c2) == 0) {
+    if (func_021C62D8(p, a, id, sel, (struct O *)(&o.c2)) == 0) {
         func_021C5604(p, a, id);
-        func_021C64B4(p, id, a, F(0x1ab4));
+        func_021C64B4(p, id, a, (struct Out64B4 *)F(0x1ab4));
         func_021CA7F4(p, a, sel, F(0x1ab4), F(0x850));
         func_021C07AC(p, a, id, pr, (int)F(0x850));
         flag = 1;
@@ -184,9 +194,9 @@ void func_021BDE98(u8 *p, u8 *a, Action *act, u32 key)
     } else {
         id2 = id;
     }
-    func_021C64B4(p, id, a, F(0x1ab4));
+    func_021C64B4(p, id, a, (struct Out64B4 *)F(0x1ab4));
     if (found) {
-        func_021C64B4(p, id2, a, F(0x1ab0));
+        func_021C64B4(p, id2, a, (struct Out64B4 *)F(0x1ab0));
         ((u32 *)F(0x1ab0))[4] |= 4;
         ((u16 *)F(0x1ab0))[1] = id;
         if (func_021BE3A8(p, a, (u16 *)F(0x1ab0)) != 0) {
@@ -215,7 +225,7 @@ void func_021BDE98(u8 *p, u8 *a, Action *act, u32 key)
         func_021BE66C(p, a, *(void **)(p + k), 0x22);
         func_021BE620(p, a, *(void **)(p + k - 4));
         if (func_021C6458(p, a, id, id2, p + k + 0x30) != 0) {
-            func_021C99A0(p, p + k + 0x30);
+            func_021C99A0(p, (const struct Msg *)(p + k + 0x30));
             k += 0x30;
             func_021C8810(p + k);
         } else {
@@ -223,9 +233,9 @@ void func_021BDE98(u8 *p, u8 *a, Action *act, u32 key)
         }
     }
     *(u16 *)(p + 0x1f74) = id2;
-    if (func_021D62C4(a, 0x22) != 0) {
+    if (func_021D62C4((struct Unk021D62A8 *)a, 0x22) != 0) {
         func_021C5620(p, a, 0x22, 0);
-        func_021D5FC0(a, 0xe);
+        func_021D5FC0((struct UtilWork *)a, 0xe);
     }
     if (func_021C024C(p, a, id2) == 0
         && func_021BE7E4(p, a, id2, sel, (u8 *)&o) == 0
@@ -239,15 +249,15 @@ void func_021BDE98(u8 *p, u8 *a, Action *act, u32 key)
         }
     }
 end:
-    func_021D5FC0(a, 3);
+    func_021D5FC0((struct UtilWork *)a, 3);
     if (flag != 0 || chk1 != 0 || id2 == 0xa5) {
         func_021D6744(a, sel, o.c0, F(0x1ab0)[6], id2, id);
         ev18(*(void **)(p + 0xc), func_021D5440(a), sel, o.c0, F(0x1ab0)[6], id2, id);
     } else if (func_021D69AC(a, 3) != 0) {
         func_021C0780(p, a, 3, 0);
     }
-    if (prev != 0x10 && func_021D5C08(a) != 0x10) func_021BFE60(p, a);
-    if (func_021D5BB0(a, 0xb) != 0) {
+    if (prev != 0x10 && func_021D5C08((struct UtilWork *)a) != 0x10) func_021BFE60(p, a);
+    if (func_021D5BB0((struct UtilWork *)a, 0xb) != 0) {
         func_021CD4B0(*(void **)(p + 0xc), 0x31, func_021D5440(a), 0);
         func_021BFF60(p, a, 0);
     }

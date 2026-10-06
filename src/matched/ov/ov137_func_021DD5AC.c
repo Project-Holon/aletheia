@@ -26,8 +26,8 @@ extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, un
 struct Obj;
 extern void func_0204B92C(struct Obj *,unsigned int);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_020434DC(int,int);
-extern void func_02043598(int,int);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 void func_021DD5AC(u8 *p)
 {

@@ -40,7 +40,8 @@ extern void func_0203064C(unsigned int a, unsigned int b, unsigned int c);
 extern W *func_0203159C(void *heap, int size, int id);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0216F40C(void *a, int b, int c, int d, u16 e);
+struct Profile;
+extern void func_0216F40C(struct Profile *out, void *save, int mode, int flag, volatile u16 heap);
 
 int func_0216F0AC(void *a, int b, T24 *c)
 {
@@ -53,7 +54,7 @@ int func_0216F0AC(void *a, int b, T24 *c)
     w->f18 = func_02030734((u16)w->f00, 0x18, 1, d_02172B64, 0x9f);
     *w->f18 = *c;
     *(void **)w->f18 = func_02030734((u16)w->f00, 0x678, 1, d_02172B64, 0xa1);
-    func_0216F40C(*(void **)w->f18, c->w[1], 0, w->f18->w[2], (u16)w->f00);
+    func_0216F40C(*(void **)w->f18, (void *)c->w[1], 0, w->f18->w[2], (u16)w->f00);
     w->f1c = ((struct Obj19150 *)(*(char **)w->f18))->f6;
     return 1;
 }

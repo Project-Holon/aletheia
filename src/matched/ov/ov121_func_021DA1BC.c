@@ -29,7 +29,7 @@ extern char d_021DFBA0[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern void *func_021D99A4(void *,u16,u8,u8,u8,u8,u16,u16,u16);
-extern void func_021D9B2C(void *,s16,s16,int);
+extern void func_021D9B2C(char *p, u32 a, u32 b, int c);
 extern void func_021D9B28(u8 *p, unsigned v);
 extern void func_021D9AC8(u8 *p, int a, int b);
 extern void func_021D9A64(void *,u16,int,int);

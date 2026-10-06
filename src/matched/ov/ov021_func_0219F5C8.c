@@ -16,7 +16,7 @@ typedef unsigned char u8;
 
 void *func_0216D6F0(void);
 
-void func_0219F5C8(int a, u8 v)
+void func_0219F5C8(void *a, int v)
 {
     ((char *)func_0216D6F0())[2] = v;
 }

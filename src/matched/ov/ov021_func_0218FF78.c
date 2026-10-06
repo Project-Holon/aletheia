@@ -35,7 +35,7 @@ extern void func_021BB260(u32 a, u32 b);
 extern u32 func_0218EC5C(u8 *p);
 extern void func_0218EC54(u8 *p);
 extern u8 func_0218F1B4(u8 *p);
-extern void func_0218F1AC(u8 *p, u8 v);
+extern void func_0218F1AC(u8 *p, u32 v);
 extern u32 func_02189A18(u8 *p);
 extern void func_021AB75C(u8 *p, u32 v);
 

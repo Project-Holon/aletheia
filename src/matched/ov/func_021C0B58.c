@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern void func_0204AFD8(u32 i);
 extern void func_0204ADA4(u32 i);
 
-void func_021C0B58(void *a, char *q)
+void func_021C0B58(void *a, char *q, void *a2)
 {
     func_0204AFD8(((struct Obj12127 *)q)->f58);
     func_0204ADA4(((struct Obj12127 *)q)->f54);

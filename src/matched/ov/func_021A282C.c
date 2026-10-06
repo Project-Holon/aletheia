@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021A2978(u32, u32, u32, u32);
+extern void func_021A2978(u8 *p, u16 *q, u32 c, u32 a3);
 extern u32 func_021A29A8(u32, u32, u32);
 
 int func_021A282C(u32 a, u32 b, u32 c, u32 d)
 {
-func_021A2978((a + 40), ((struct Obj12084 *)((u8 *)(a)))->f20, b, d);
+func_021A2978((u8 *)(a + 40), (u16 *)(((struct Obj12084 *)((u8 *)(a)))->f20), b, d);
 return func_021A29A8((a + 40), ((struct Obj12084 *)((u8 *)(a)))->f20, b);
 }
 

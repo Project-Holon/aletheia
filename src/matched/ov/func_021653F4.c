@@ -28,7 +28,7 @@ extern void func_02026FB8(void *);
 extern char *g_02146940;
 extern void func_02165418(void *);
 
-void func_021653F4(void)
+void func_021653F4(u16 species)
 {
     if (func_02027060(0x1E)) {
         func_02165418(g_02146940 + 4);

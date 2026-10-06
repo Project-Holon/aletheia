@@ -18,7 +18,8 @@
 extern int func_021D775C(int key);
 typedef unsigned int   u32;
 extern int func_021D76BC(int key, u32 val);
-extern void func_021E8BD0(void *p, int a);
+union U;
+extern void func_021E8BD0(union U *p, int v);
 
 void func_021DFCE8(int a, int b, int c)
 {
@@ -27,6 +28,6 @@ void func_021DFCE8(int a, int b, int c)
     if (c != func_021D775C(3))
         return;
     v = func_021D775C(30);
-    func_021E8BD0(&v, 1);
+    func_021E8BD0((union U *)(&v), 1);
     func_021D76BC(30, v);
 }

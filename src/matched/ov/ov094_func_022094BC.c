@@ -29,7 +29,8 @@ typedef struct {
 extern u64 func_020870D0(void);
 struct Bank;
 extern void func_0204B22C(struct Bank *bank, u32 mode);
-extern void func_02209540(W *w, int i);
+struct Timer;
+extern void func_02209540(struct Timer *p, int idx);
 
 void func_022094BC(u8 *p, int i, int a, int b)
 {
@@ -39,7 +40,7 @@ void func_022094BC(u8 *p, int i, int a, int b)
         if (a == 1 && b == 1) {
             w->t[i] = func_020870D0();
             w->x64[i] = 0;
-            func_02209540(w, i);
+            func_02209540((struct Timer *)w, i);
         }
         func_0204B22C((struct Bank *)w->h[i], a);
     }

@@ -24,7 +24,7 @@ typedef struct GPIBuffer {
 
 extern void *func_02092364(void *dst, const void *src, unsigned int n);
 
-int func_02189D28(int unused, GPIBuffer *buffer)
+int func_02189D28(void **unused, GPIBuffer *buffer)
 {
     if (buffer == 0 || buffer->buffer == 0 || buffer->pos == 0)
         return 0;

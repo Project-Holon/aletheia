@@ -55,32 +55,40 @@ extern u32  func_020276A4(void);
 extern u32  func_020276A8(void);
 extern u32  func_020276AC(u32 a);
 extern u32  func_020276B0(u32 a);
-extern u32  func_0201BC3C(void);
+typedef signed int     s32;
+struct Bmp;
+struct CharBuf;
+struct Grid;
+struct MsgBank;
+struct Obj;
+struct Param;
+struct Sys;
+extern int func_0201BC3C(void);
 extern u32  func_0201BABC(u32 a, u32 b, u32 c, u32 d);
-extern u32  func_0201BC40(void);
-extern u32  func_0201BCB4(void);
+extern int func_0201BC40(void);
+extern int func_0201BCB4(void);
 extern u32  func_0201BB5C(u32 a, u32 b, u32 c, u32 d);
-extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_0204ACEC(void *h, u32 a, int b, int c, u32 heap);
-extern void *func_0204AC18(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heap);
-extern void *func_0204AF28(void *h, u32 a, u32 b, u32 heap);
-extern void *func_0204A6C8(void *h, u32 a, u32 b, u32 c, u32 heap);
+extern void *func_020490F4(u32 id, u16 heap);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *h);
-extern void *func_0204B294(void *a, void *b, void *c, void *d, const void *e, u16 f, u32 g);
-extern void func_0204B92C(void *o, int v);
-extern void func_0204B878(void *o, u16 v);
-extern void func_0204B6F4(void *o, u32 a, u32 b);
-extern void func_021F51E4(void *dst, u32 arc, u32 member, u32 index, u16 width, u16 height, int pos, int mode, u16 heap);
-extern void *func_02043678(u32 a, u32 b, u32 c, u32 heap);
-extern void *func_020255A0(u32 a, const void *b);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02043B5C(void *buf, u8 v);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_021F51E4(u8 *dst, unsigned arc, u32 member, u32 index, u16 width, u16 height, int pos, int mode, u16 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C724(u32 a, void *b, s16 c, u32 d, void *e, u32 f, u32 g);
 extern const u8 d_021F5569[];
 
 typedef struct { u16 w; u16 h; u32 pad; } Dim8;
 
-void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
+void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
 {
     u32 flagA = 0;
     u32 v40;
@@ -143,20 +151,20 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
     }
     h = func_020490F4(v40, heap);
     if (flagB != 0) {
-        *(void **)(o + 8) = func_0204ACEC(h, v3c, 0, 0x40, heap);
+        *(void **)(o + 8) = (void *)func_0204ACEC(h, v3c, 0, 0x40, heap);
     } else {
-        *(void **)(o + 8) = func_0204AC18(h, v3c, 0, 0x40, v2c, 1, heap);
+        *(void **)(o + 8) = (void *)func_0204AC18(h, v3c, 0, 0x40, v2c, 1, heap);
     }
-    *(void **)(o + 0x10) = func_0204AF28(h, v34, v30, heap);
+    *(void **)(o + 0x10) = (void *)func_0204AF28(h, v34, v30, heap);
     flagB = 0;
-    *(void **)(o + 0xC) = func_0204A6C8(h, v38, 0, 0, heap);
+    *(void **)(o + 0xC) = (void *)func_0204A6C8(h, v38, 0, 0, heap);
     func_02049238(h);
     {
         Dim8 dim;
         func_02082BCC(&dim, 0, 8);
         dim.w = w24;
         dim.h = h20;
-        *(void **)o = func_0204B294((void *)s0, *(void **)(o + 0xC), *(void **)(o + 8), *(void **)(o + 0x10), &dim, flagB, heap);
+        *(void **)o = func_0204B294((void *)s0, (u32)(*(void **)(o + 0xC)), (u32)(*(void **)(o + 8)), (u32)(*(void **)(o + 0x10)), &dim, flagB, heap);
     }
     func_0204B92C(*(void **)o, 1);
     switch (mode) {
@@ -192,7 +200,7 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         u8 st[0x18];
         h2 = func_020490F4(0x17, heap);
         *(void **)(o + 0x30) = func_02043678(2, 2, 0x20, heap);
-        *(void **)(o + 0x24) = func_0204ACEC(h2, 5, 0, 0xA0, heap);
+        *(void **)(o + 0x24) = (void *)func_0204ACEC(h2, 5, 0, 0xA0, heap);
         func_02049238(h2);
         func_02082BCC(st, 0, 0x18);
         *(void **)(st + 0) = *(void **)(o + 0x30);
@@ -204,7 +212,7 @@ void func_021F3FBC(u8 *o, int mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         *(u32 *)(st + 0x14) = 0;
         *(u8 *)(st + 0x11) = 0;
         *(u32 *)(st + 0xC) = 0;
-        *(void **)(o + 0x2C) = func_020255A0(s4, st);
+        *(void **)(o + 0x2C) = func_020255A0((struct Sys *)s4, (const struct Param *)st);
         if (v1c == 1) {
             idx = 0x11;
             r = 0xC80;

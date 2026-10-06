@@ -15,10 +15,10 @@
  */
 typedef unsigned short u16;
 extern int func_021589DC(int a0);
-extern int func_02158BFC(int, int, int, int, int);
+extern int *func_02158BFC(int a0, int a1, int a2, int a3, int a4);
 extern int func_0215886C(u16 *, int);
 int func_021589A0(int a, int b, int c) {
     u16 *p = (u16 *)func_021589DC(a);
-    if (p) return func_0215886C(p, func_02158BFC(*p, a, b, c, 0));
+    if (p) return func_0215886C(p, (int)func_02158BFC(*p, a, b, c, 0));
     return 3;
 }

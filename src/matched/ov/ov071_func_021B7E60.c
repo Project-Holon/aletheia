@@ -41,6 +41,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct Ctx;
 struct BigObj;
+typedef unsigned char  u8;
 int func_021B7E60(int a, int unused, C *c)
 {
     extern void *func_020120F4(const struct Ctx *p);
@@ -50,7 +51,7 @@ int func_021B7E60(int a, int unused, C *c)
     extern u32 func_020142E8(void *bitmap, s32 id);
     extern void func_021B8308(void);
     extern void func_021B8350(W *, int *);
-    extern void func_021B81A0(C *, W *);
+    extern void func_021B81A0(int *a, u8 *p);
     extern void func_021B82E4(void *, int);
     extern void func_02043598(u32 mask, u32 enable);
     void *h = func_020120F4(*(void **)c->q);
@@ -66,7 +67,7 @@ int func_021B7E60(int a, int unused, C *c)
     }
     func_021B8308();
     func_021B8350(w, c->f4);
-    func_021B81A0(c, w);
+    func_021B81A0((int *)c, (u8 *)w);
     func_021B82E4(c, (int)w);
     func_02043598(0x10, 1);
     return 1;

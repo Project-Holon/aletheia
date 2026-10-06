@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_020403F4(unsigned int);
-void func_021F0348(void)
+void func_021F0348(void *p)
 {
     func_02040588(5, 0);
     func_02040588(6, 0);

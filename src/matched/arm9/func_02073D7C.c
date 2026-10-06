@@ -44,10 +44,12 @@ typedef struct St {
 } St;
 
 extern St   g_0214E9FC;
-extern void func_02075C08(void *p);
-extern s32  func_02075C20(void *p);
+struct LerpObj;
+struct Obj;
+extern void func_02075C08(struct LerpObj *obj);
+extern int func_02075C20(struct LerpObj *obj);
 extern void func_02073DFC(void);
-extern s32  func_02075BD4(void *p);
+extern s32 func_02075BD4(struct Obj *o);
 extern void func_02089638(u32 a, s32 b, s32 c);
 
 void func_02073D7C(void)
@@ -63,14 +65,14 @@ void func_02073D7C(void)
         return;
     }
 
-    func_02075C08(s->f3c);
+    func_02075C08((struct LerpObj *)s->f3c);
 
-    if (s->f4c != 0 && func_02075C20(s->f3c) != 0) {
+    if (s->f4c != 0 && func_02075C20((struct LerpObj *)s->f3c) != 0) {
         func_02073DFC();
         return;
     }
 
-    v = func_02075BD4(s->f3c) >> 8;
+    v = func_02075BD4((struct Obj *)s->f3c) >> 8;
     if (v == s->f50) {
         return;
     }

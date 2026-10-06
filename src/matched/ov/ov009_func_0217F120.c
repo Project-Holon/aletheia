@@ -12,6 +12,6 @@
  * Empty stub; nothing but a return.
  */
 
-void func_0217F120(void)
+void func_0217F120(void *p)
 {
 }

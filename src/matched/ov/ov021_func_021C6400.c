@@ -38,7 +38,7 @@ typedef struct {
     Elem *fC;
 } Mgr;
 
-extern void func_021C6A90(Elem *e, void *s);
+extern void func_021C6A90(u32 *p, u8 *q);
 extern void func_021C6940(u8 *p);
 extern void func_020307B0(void *p);
 
@@ -54,7 +54,7 @@ void func_021C6400(Mgr *m)
     if (i < m->f6)
         for (; i < m->f6; i++) {
             if (e->kind == 1 && e->f44 != 0)
-                func_021C6A90(e, m->f8 + e->f4 * 0x2c);
+                func_021C6A90((u32 *)e, m->f8 + e->f4 * 0x2c);
             e++;
         }
     func_020307B0(m->fC);

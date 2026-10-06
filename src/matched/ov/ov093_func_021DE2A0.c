@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 struct QQ;
 extern void func_021C8838(void *p, int a, int b);
@@ -31,7 +31,7 @@ struct S;
 extern void func_021C8860(struct S *p, u32 v);
 extern u16 func_021D70A8(struct QQ *p);
 
-void func_021DE2A0(void *a, void *b, int c)
+void func_021DE2A0(void *a, void *b, int c, u8 *a3)
 {
     u8 *m;
     u8 *n;

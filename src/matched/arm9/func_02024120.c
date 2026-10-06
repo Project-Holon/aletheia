@@ -15,4 +15,4 @@
 
  */
 typedef unsigned char u8;
-u8 func_02024120(u8 *p) { return p[2]; }
+int func_02024120(u8 *p) { return p[2]; }

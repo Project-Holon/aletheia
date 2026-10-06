@@ -33,18 +33,23 @@ typedef signed short s16;
 typedef struct { int f00, f04, f08, f0c; } Row;
 typedef struct { char pad00[0xc]; u16 heap; u16 pad0e; void *f10[11]; int pad3c; void *f40; void *f44; int pad48; void *f4C; int pad50; void *f54; char pad58[0x348-0x58]; int f348; } Object;
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
-extern void func_020456F8(void *);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct StrObj;
+extern void func_020456F8(struct Descriptor *d);
 extern void func_0201F7A8(void *, unsigned);
-extern void func_020452E8(void *);
-extern void *func_020450F0(u32, u8, u8, u8, u8, u8, u8);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, u8);
-extern void func_02045CAC(void *, int, void *);
-extern u32 func_0201D304(void *, u32, u32);
-extern u32 func_0201D42C(void *, void *);
+extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void func_0201C7D0(void *, s16, s16, void *, void *, u16);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02051C6C(void *);
 extern void func_02041B6C(u32);
 void func_021D4384(int count, int *values, Object *p, Row *rows, const int *xs, const int *ys)
@@ -61,9 +66,9 @@ void func_021D4384(int count, int *values, Object *p, Row *rows, const int *xs, 
         p->f10[i] = 0;
     }
     for (i = 0; i < count; i++) {
-        p->f10[i] = func_020450F0(7, rows[i].f00, rows[i].f04, rows[i].f08, rows[i].f0c, 13, 0);
+        p->f10[i] = (void *)func_020450F0(7, (u8)rows[i].f00, (u8)rows[i].f04, (u8)rows[i].f08, rows[i].f0c, 13, 0);
         func_02043B5C(func_02045770(p->f10[i]), 0);
-        func_02045CAC(p->f44, values[i], p->f54);
+        func_02045CAC(p->f44, (int)values[i], p->f54);
         if (xs) x = xs[i] - (func_0201D304(p->f54, (u32)p->f4C, 0) >> 1);
         else x = 0;
         if (ys) y = ys[i] - (func_0201D42C(p->f54, p->f4C) >> 1);

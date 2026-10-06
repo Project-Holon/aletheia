@@ -110,7 +110,7 @@ extern BOOL FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileImageTop(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
 
-BOOL func_02078D34(FSOverlayInfo *p_ovi, int target, u32 id)
+BOOL func_02078D34(FSOverlayInfo *p_ovi, u32 target, u32 id)
 {
     BOOL retval = 0;
     const u32 pos = id * 32;

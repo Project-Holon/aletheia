@@ -36,7 +36,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_0220A3D4[];
-extern void func_0203FC6C(void *, int);
+struct BgVramReq;
+struct Main;
+extern void func_0203FC6C(const struct BgVramReq *req, u32 which);
 extern void *func_020490F4(unsigned int id, u16 heap);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
@@ -45,7 +47,7 @@ struct CharBuf;
 struct Descriptor;
 struct PalAnmSlot;
 extern void func_0220255C(void *p);
-extern void func_022033F4(char *);
+extern void func_022033F4(struct Main *m);
 extern void func_02205E80(char *);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
@@ -60,11 +62,11 @@ extern void func_0203D34C(u32, u32);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void func_02202238(void *, void *);
+extern void func_02202238(void *unused, void **p);
 extern void func_0220270C(char *s, int mode, void *arg);
 void func_02202248(char *p)
 {
-    func_0203FC6C(d_0220A3D4, 1);
+    func_0203FC6C((const struct BgVramReq *)d_0220A3D4, 1);
     ((struct Obj00083 *)p)->f48 = func_020490F4(0xb, ((struct Obj00083 *)p)->f240);
     ((struct Obj00083 *)p)->f1F8 = (int)func_0204B100(4, 2, ((struct Obj00083 *)p)->f240);
     ((struct Obj00083 *)p)->f118 = (int)func_0204B100(0xc, 2, ((struct Obj00083 *)p)->f240);
@@ -73,7 +75,7 @@ void func_02202248(char *p)
     ((struct Obj00083 *)p)->f20C = (int)func_0204B100(2, 2, ((struct Obj00083 *)p)->f240);
     ((struct Obj00083 *)p)->f218 = (int)func_0204B100(1, 1, ((struct Obj00083 *)p)->f240);
     func_0220255C(p);
-    func_022033F4(p);
+    func_022033F4((struct Main *)p);
     func_02205E80(p);
     ((struct Obj00083 *)p)->f228 = (void *)func_020450F0(6, 0, 4, 32, 12, 13, 1);
     ((struct Obj00083 *)p)->f22C = func_02045770(((struct Obj00083 *)p)->f228);
@@ -93,6 +95,6 @@ void func_02202248(char *p)
     func_020216D4(((struct Obj00083 *)p)->f64, 3, 0xe0, 0x20);
     ((struct Obj00083 *)p)->f68 |= 0x2000;
     if (((struct Obj00083 *)p)->f23C == 1)
-        ((struct Obj00083 *)p)->f238 = func_02030DA8(func_021F86D4(), func_02202238, p, 0);
+        ((struct Obj00083 *)p)->f238 = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))func_02202238, p, 0);
     func_0220270C(p, 0, 0);
 }

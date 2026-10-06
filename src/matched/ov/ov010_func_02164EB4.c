@@ -54,7 +54,8 @@ extern u32 func_02039414(void);
 extern int func_02085D3C(void);
 extern Flags *func_02087E60(void);
 extern u8 *func_02012944(void *p);
-extern u32 func_02008530(void *p);
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 
 void func_02164EB4(Hdr *p, void *src)
 {
@@ -67,7 +68,7 @@ void func_02164EB4(Hdr *p, void *src)
     p->f01_hi = 3;
     p->f02_0 = (u8)func_02039414();
     p->f02_1 = 0;
-    p->f04 = func_02008530(func_02012944(src));
+    p->f04 = func_02008530((const struct Sub0200852CObj *)func_02012944(src));
     p->f02_7 = (u8)func_02085D3C();
     p->f02_6 = 0;
     t = (*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15;

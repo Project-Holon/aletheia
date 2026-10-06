@@ -18,10 +18,11 @@
  *   func_02188D2C 0x02188D2C thumb ov021
  *   func_021BE6E8 0x021BE6E8 thumb ov021
  */
-extern void *func_020124E4(void *p);
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern int func_021BE6E8(int a, int b, int c, int d);
 
 int func_021F3BAC(void *p)

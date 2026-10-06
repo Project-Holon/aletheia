@@ -25,7 +25,7 @@ struct Slot;
 extern u32  func_0200E0E8(const struct Slot *p, int a);
 extern void func_0200E024(void *obj);
 
-u32 func_0200E164(u8 *p, u32 a)
+u32 func_0200E164(u32 *p, u32 a)
 {
     func_0200E06C((char *)p);
     {

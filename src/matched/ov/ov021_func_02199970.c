@@ -47,7 +47,7 @@ typedef struct {
     u16 angle;
     u16 step;
 } State;
-extern State *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
@@ -75,7 +75,7 @@ int func_02199970(u32 a)
     int t;
     int s;
 
-    p = func_0216D6D4(a);
+    p = func_0216D6D4((void *)a);
     func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
     switch (p->moveAxis) {
     case 0:

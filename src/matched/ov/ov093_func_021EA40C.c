@@ -18,9 +18,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 func_021CD9E0(u8 *p);
-extern void func_021ED294(char *p, int a, u32 b);
+extern void func_021ED294(u8 *p, int k, u32 x);
 
 void func_021EA40C(char *ctx, int a)
 {
-    func_021ED294(*(char * *)&((struct Obj13559 *)ctx)->f17C, a, func_021CD9E0(*(u8 * *)&((struct Obj13559 *)ctx)->f4));
+    func_021ED294((u8 *)(*(char * *)&((struct Obj13559 *)ctx)->f17C), a, func_021CD9E0(*(u8 * *)&((struct Obj13559 *)ctx)->f4));
 }

@@ -16,11 +16,12 @@
 #include "../include/Obj19508.h"
 
 extern short d_020A1B38[];
-extern unsigned short *func_0218ED3C(void *p);
+typedef unsigned char  u8;
+extern u8 *func_0218ED3C(u8 *p);
 
 int func_02189A80(char *p)
 {
-    unsigned short *q = func_0218ED3C(((struct Obj19508 *)p)->f10);
+    unsigned short *q = (short unsigned int *)func_0218ED3C(((struct Obj19508 *)p)->f10);
     int i = (*q >> 4) * 2 + 1;
     int s = d_020A1B38[i];
     long long v;

@@ -24,7 +24,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021B86E4(u8 *p);
+extern int func_021B86E4(unsigned int **p);
 extern u8 func_021D5440(u8 *p);
 extern u8 func_021B8DDC(u32 x);
 extern u8 func_021B8FF4(u8 *p);
@@ -43,7 +43,7 @@ int func_021BD60C(u8 *p, u8 *a, u8 flag)
     u16 hi;
     int d;
     u32 t;
-    if (func_021B86E4(*(u8 * *)&((struct Obj00003 *)p)->f4) == 0) {
+    if (func_021B86E4((unsigned int **)(*(u8 * *)&((struct Obj00003 *)p)->f4)) == 0) {
         k = func_021B8DDC(func_021D5440(a));
         if (k == func_021B8FF4(*(u8 * *)&((struct Obj00003 *)p)->f4)) {
             ret = func_021BD6B8(p, a);

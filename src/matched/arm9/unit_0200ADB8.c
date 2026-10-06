@@ -78,7 +78,7 @@ typedef signed int     s32;
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern u32   func_020173EC(void *p);
+extern u32 func_020173EC(void);
 struct MsgBank;
 struct Rec;
 struct U16Vec;
@@ -126,9 +126,9 @@ struct RegB {
 
 void func_0200AE18(struct Reg *p, void *dest);
 
-void func_0200ADB8(void *dest, const void *src)
+void func_0200ADB8(void *dest, const void *src, u32 a2)
 {
-    MI_CpuCopy8(src, dest, func_020173EC(dest));
+    MI_CpuCopy8(src, dest, func_020173EC());
 }
 
 void func_0200ADD0(struct RegB *p, u32 value)
@@ -388,7 +388,7 @@ struct Rec1E *func_0200B204(struct RecBig *p, u32 index)
     return &p->unk2C0[index];
 }
 
-s32 func_0200B214(struct Rec1E *p, u32 id, u32 n)
+s32 func_0200B214(struct Rec1E *p, u32 id, u8 n)
 {
     switch (id) {
     case 0: return p->unk00[n];
@@ -399,7 +399,7 @@ s32 func_0200B214(struct Rec1E *p, u32 id, u32 n)
     return 0;
 }
 
-void func_0200B254(struct Rec1E *p, u32 id, u32 n, s32 value)
+void func_0200B254(struct Rec1E *p, int id, u8 n, s32 value)
 {
     switch (id) {
     case 0: p->unk00[n] = value; break;

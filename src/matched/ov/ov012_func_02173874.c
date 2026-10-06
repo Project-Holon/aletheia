@@ -37,7 +37,7 @@ extern u16 func_02188C9C(u8 *p);
 extern u32 func_02013CC8(u32 id);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_0217B440(void *p, int r, void *q);
+extern void func_0217B440(char *base, int x, void *y);
 extern void func_021676E4(struct Work *w);
 
 void func_02173874(int a, u8 *p, void *q)
@@ -50,7 +50,7 @@ void func_02173874(int a, u8 *p, void *q)
         func_021A2E44(q, 1);
     }
     if (func_02013CC8(func_02188C9C(q)) == 1) {
-        func_0217B440(p, (int)func_020120F4((const struct Ctx *)(((struct Obj19238 *)(*(u8 * *)&((struct Obj07338 *)p)->f0))->fC)), q);
+        func_0217B440((char *)p, (int)func_020120F4((const struct Ctx *)(((struct Obj19238 *)(*(u8 * *)&((struct Obj07338 *)p)->f0))->fC)), q);
     }
     if (r4 != 0 && r4->f == 1) {
         func_021676E4(((struct Obj19237 *)r4)->f0);

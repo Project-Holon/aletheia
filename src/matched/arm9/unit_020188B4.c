@@ -36,9 +36,11 @@ typedef unsigned long long u64;
 
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
-extern u32  func_02018D10(void *p);
-extern void func_02018D6C(void *p);
-extern void *func_02019C38(void *p, u32 h, u32 i);
+struct Mon;
+struct Sav;
+extern u32 func_02018D10(struct Sav *p);
+extern void func_02018D6C(struct Sav *p);
+extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
 extern u32  func_02019C90(u16 a, u16 b, u32 i);
 
 struct Hdr {
@@ -114,14 +116,14 @@ u32 func_0201897C(struct Hdr *p)
     struct RecB *b;
     struct RecC *c;
 
-    func_02018D10(p);
+    func_02018D10((struct Sav *)p);
     r = 0;
-    a = func_02019C38(p, p->unk00, 0);
-    b = func_02019C38(p, p->unk00, 1);
-    c = func_02019C38(p, p->unk00, 2);
+    a = func_02019C38((struct Mon *)p, p->unk00, 0);
+    b = func_02019C38((struct Mon *)p, p->unk00, 1);
+    c = func_02019C38((struct Mon *)p, p->unk00, 2);
     if (a->unk1C != 0 || b->unk14 != 0 || c->unk18 != 0) {
         r = 1;
     }
-    func_02018D6C(p);
+    func_02018D6C((struct Sav *)p);
     return r;
 }

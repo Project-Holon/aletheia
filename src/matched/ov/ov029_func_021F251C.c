@@ -84,43 +84,48 @@ typedef unsigned int   u32;
 
 extern int d_021F3554;
 
-extern u8 func_0201214C(int a);
-extern int func_020490F4(unsigned int id, u16 heap);
+struct Ctx;
+struct Obj02021EE4;
+struct PalAnmSlot;
+struct S02021D50;
+struct Sub020090B0Obj;
+extern u32 func_0201214C(const struct Ctx *p);
+extern void *func_020490F4(u32 id, u16 heap);
 extern u32 func_02030CB0(u32 n);
-extern void *func_02030734(u32 heap, u32 size, u32 flag, void *file, u32 line);
-extern int func_02030CBC(u32 n, void *mem);
-extern void func_021EFEF8(u8 *p, void (*f)(void), int a);
-extern void func_021F21F8(u8 *p);
-extern void func_021F2180(void);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern void func_021EFEF8(char *p, void (*f)(void), int line);
+extern void func_021F21F8(char *p);
+extern void func_021F2180(char *p);
 extern void func_021F0298(u8 *p);
-extern void func_021F1624(u8 *p);
-extern void func_021F1DE8(u8 *p, int flag);
-extern int func_02009100(int a);
+extern void func_021F1624(void *p);
+extern void func_021F1DE8(char *p, int flag);
+extern u8 func_02009100(const struct Sub020090B0Obj *obj);
 extern int func_021F23CC(u8 *p, int a);
-extern void func_021F15FC(u8 *p, int a);
+extern void func_021F15FC(char *p, int flag);
 extern void func_021F0A0C(u8 *p);
-extern int func_02021518(int heap);
-extern void func_02021EE4(int a, int b);
-extern void func_0202155C(int h, int a, int b, int c);
-extern void func_020216D4(int h, int a, int b, int c);
-extern void func_021F0DB4(u8 *p, int mode);
-extern void func_02021D50(int h);
+extern void *func_02021518(u32 heap);
+extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void func_021F0DB4(char *p, int mode);
+extern void func_02021D50(struct S02021D50 *p);
 extern int func_020056A0(void *callback, void *ctx, int a2);
-extern void func_021F2508(void);
-extern void func_02035010(void *callback, void *ctx);
-extern void func_021F24C0(void);
-extern void func_02035040(void *callback, void *ctx);
-extern void func_021F24FC(void);
-extern void func_021F2E10(u8 *p, void *q);
-extern void func_021F1CD8(u8 *p);
-extern void func_021F1F80(u8 *p);
-extern int func_020120D8(int a);
+extern void func_021F2508(void *task, char *p);
+extern void func_02035010(u32 a, u32 b);
+extern void func_021F24C0(char *p);
+extern void func_02035040(u32 a, u32 b);
+extern void func_021F24FC(unsigned char *p);
+extern void func_021F2E10(char *p, int *q);
+extern void func_021F1CD8(char *p);
+extern void func_021F1F80(char *p);
+extern int func_020120D8(char *p);
 extern void func_021F3144(u8 *p, int v);
 extern void func_021F2D84(u8 *p);
-extern void func_02030D28(int a);
-extern int func_02012138(int a);
+extern void func_02030D28(struct Ctx *c);
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_021585E0(int a);
-extern void func_02158614(int a);
+extern void func_02158614(void *p);
 
 void func_021F251C(u8 *p, int a1, int a2, int a3, int e)
 {
@@ -133,51 +138,51 @@ void func_021F251C(u8 *p, int a1, int a2, int a3, int e)
     *(int *)(p + 0x18) = a2;
     *(int *)(p + 0x1c) = a3;
     p[0x454] = 1;
-    p[0x45A] = func_0201214C(a3);
+    p[0x45A] = func_0201214C((const struct Ctx *)a3);
     p[0x45B] = 1;
     *(int *)(p + 0x214) = 0;
     *(int *)(p + 0x218) = 0;
-    *(int *)(p + 0x24) = func_020490F4(0x1e, 0x70);
-    *(void **)(p + 0x20C) = func_02030734(0x70, func_02030CB0(4), 1, &d_021F3554, 4280);
-    *(int *)(p + 0x204) = func_02030CBC(4, *(void **)(p + 0x20C));
+    *(int *)(p + 0x24) = (int)func_020490F4(0x1e, 0x70);
+    *(void **)(p + 0x20C) = func_02030734(0x70, func_02030CB0(4), 1, (const char *)(&d_021F3554), 4280);
+    *(int *)(p + 0x204) = (int)func_02030CBC(4, *(void **)(p + 0x20C));
     if (e != 0) {
-        func_021EFEF8(p, (void (*)(void))func_021F21F8, 4284);
+        func_021EFEF8((char *)p, (void (*)(void))func_021F21F8, 4284);
     } else {
         func_021F0298(p);
-        func_021EFEF8(p, func_021F2180, 4287);
+        func_021EFEF8((char *)p, (void (*)(void))func_021F2180, 4287);
     }
     func_021F1624(p);
-    func_021F1DE8(p, e);
-    if (func_02009100(*(int *)(p + 0x20)) != 0)
+    func_021F1DE8((char *)p, e);
+    if (func_02009100((const struct Sub020090B0Obj *)(*(int *)(p + 0x20))) != 0)
         r = func_021F23CC(p, a3);
-    func_021F15FC(p, r);
+    func_021F15FC((char *)p, r);
     func_021F0A0C(p);
-    *(int *)(p + 0x210) = func_02021518(0x70);
+    *(int *)(p + 0x210) = (int)func_02021518(0x70);
     t = 1;
-    func_02021EE4(*(int *)(p + 0x210), 1);
-    func_0202155C(*(int *)(p + 0x210), 3, 0x1C0, 0x70);
-    func_0202155C(*(int *)(p + 0x210), 1, 0x1C0, 0x70);
-    func_020216D4(*(int *)(p + 0x210), 3, 0, 0x1C0);
-    func_020216D4(*(int *)(p + 0x210), 1, 0, 0x1C0);
-    func_021F0DB4(p, p[0x45A]);
-    func_02021D50(*(int *)(p + 0x210));
+    func_02021EE4((struct Obj02021EE4 *)(*(int *)(p + 0x210)), 1);
+    func_0202155C((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3, 0x1C0, 0x70);
+    func_0202155C((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1, 0x1C0, 0x70);
+    func_020216D4((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3, 0, 0x1C0);
+    func_020216D4((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1, 0, 0x1C0);
+    func_021F0DB4((char *)p, p[0x45A]);
+    func_02021D50((struct S02021D50 *)(*(int *)(p + 0x210)));
     *(int *)(p + 0x208) = func_020056A0((void *)func_021F2508, p, 1);
-    func_02035010((void *)func_021F24C0, p);
-    func_02035040((void *)func_021F24FC, p);
-    func_021F2E10(p, p + 0x21C);
-    func_021F1CD8(p);
-    func_021F1F80(p);
+    func_02035010((u32)((void *)func_021F24C0), (u32)p);
+    func_02035040((u32)((void *)func_021F24FC), (u32)p);
+    func_021F2E10((char *)p, (int *)(p + 0x21C));
+    func_021F1CD8((char *)p);
+    func_021F1F80((char *)p);
     if (e == 0) {
-        if (func_020120D8(a3) != 0)
+        if (func_020120D8((char *)a3) != 0)
             t = 0;
         func_021F3144(p, t);
         func_021F2D84(p);
     } else {
-        func_021F21F8(p);
+        func_021F21F8((char *)p);
     }
     if (*(int *)(p + 0x204) != 0)
-        func_02030D28(*(int *)(p + 0x204));
-    h = func_02012138(a3);
+        func_02030D28((struct Ctx *)(*(int *)(p + 0x204)));
+    h = func_02012138((const struct Ctx *)a3);
     if (h != 0 && func_021585E0(h) == 2)
-        func_02158614(h);
+        func_02158614((void *)h);
 }

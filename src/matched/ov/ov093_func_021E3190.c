@@ -24,7 +24,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int func_021D775C(int key);
 extern int func_021C824C(u8 *p, int v);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5B40(void *p);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern int func_021D76BC(int key, u32 val);
 extern u8 data_021F271C[];
 
@@ -33,7 +34,7 @@ void func_021E3190(int u, void *p, int key)
     int two = 2;
     if (key == func_021D775C(two)) {
         if (func_021C824C(p, key) != 0) {
-            u16 x = (u16)func_021D5B40(func_021C7CF4(p, key));
+            u16 x = (u16)(int)func_021D5B40(func_021C7CF4(p, key));
             int v = 0;
             switch (x) {
             case 0x12a: v = 9; break;

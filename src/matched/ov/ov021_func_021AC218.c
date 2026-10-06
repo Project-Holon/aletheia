@@ -29,7 +29,8 @@ typedef unsigned char  u8;
 extern u32 func_021ABE14(u8 *p);
 extern u32 func_02188C88(u8 *p);
 extern u32 func_02050080(u32 *p);
-extern void func_021AC274(char *p);
+struct Ctl;
+extern void func_021AC274(struct Ctl *p);
 extern char d_021DE028[];
 extern V d_021D908C;
 
@@ -42,6 +43,6 @@ char *func_021AC218(int a, int heap)
     *(V *)(p + 4) = d_021D908C;
     ((struct Obj04241 *)p)->f10 = func_02188C88((u8 *)func_021ABE14((u8 *)a));
     ((struct Obj04241 *)p)->f14 = func_02050080((u32 *)(((struct Obj04241 *)p)->f10));
-    func_021AC274(p);
+    func_021AC274((struct Ctl *)p);
     return p;
 }

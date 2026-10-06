@@ -14,11 +14,12 @@
  */
 #include "../include/Obj10896.h"
 #include "../include/Obj14650.h"
-extern int func_021BD308(void *);
+struct Ov208Mgr;
+extern int func_021BD308(struct Ov208Mgr *m);
 struct State { char pad[0x68]; unsigned char count; };
 unsigned func_021BDB54(const struct State *p)
 {
-    int key=func_021BD308(*(char * *)&((struct Obj10896 *)p)->f30);
+    int key=func_021BD308((struct Ov208Mgr *)(*(char * *)&((struct Obj10896 *)p)->f30));
     unsigned result=0;
     unsigned char i;
     unsigned count;

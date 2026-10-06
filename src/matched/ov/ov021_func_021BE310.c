@@ -81,10 +81,10 @@ extern int d_021DE390;
 
 extern u16 func_02047F4C(void *util, const Setup *setup);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021BE630(Grp *g, int n, int heap);
+extern void func_021BE630(int *p, int n, int heap);
 extern void func_0207ADC4(Mtx33 *m);
 extern void *func_021BE4C4(P *p, int i, int j);
-extern void *func_02047790(void *obj, u16 idx);
+extern int func_02047790(int *p, int i);
 
 static inline void vset(Vec *d, int x, int y, int z)
 {
@@ -114,7 +114,7 @@ void func_021BE310(P *p, Setup *b, u16 i)
         void *h;
         Grp *g;
 
-        func_021BE630(&p->slots[i].grps[j], b->ents[j].fC, p->heap);
+        func_021BE630((int *)(&p->slots[i].grps[j]), b->ents[j].fC, p->heap);
         nd = &nodes[j];
         vset(&nd->s, 0x1000, 0x1000, 0x1000);
         func_0207ADC4(&nd->r);
@@ -124,6 +124,6 @@ void func_021BE310(P *p, Setup *b, u16 i)
         h = func_021BE4C4(p, i, j);
         g = &p->slots[i].grps[j];
         for (k = 0; k < g->n; k++)
-            g->e[k].fC = func_02047790(h, k);
+            g->e[k].fC = (void *)func_02047790(h, (u16)k);
     }
 }

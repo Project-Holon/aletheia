@@ -33,13 +33,16 @@ struct Sub02008F80Obj;
 extern u32 func_02008F80(const struct Sub02008F80Obj *obj);
 extern void *func_020457B0(unsigned, u16);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
-extern void func_02045924(void *, void *);
+struct Rec8;
+struct Strbuf;
+struct Sub02008F80Entry;
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u8 func_02008FB0(const struct Sub02008F80Obj *obj);
 extern u8 func_02008FB8(const struct Sub02008F80Obj *obj);
 extern u16 func_02008FC0(const struct Sub02008F80Obj *obj);
-extern void *func_02008FC8(void *, u8);
-extern void func_02024570(void *, void *);
+extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
+extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
 void *func_021C409C(void *a, unsigned heap)
 {
     u8 *p;
@@ -50,11 +53,11 @@ void *func_021C409C(void *a, unsigned heap)
     ((struct Obj03834 *)p)->f0 = i;
     ((struct Obj03834 *)p)->f4 = func_02008F80(a);
     ((struct Obj03834 *)p)->fC = func_020457B0(0x10, heap);
-    func_02045924(((struct Obj03834 *)p)->fC, func_02008F84(a));
+    func_02045924(((struct Obj03834 *)p)->fC, (const u16 *)func_02008F84(a));
     p[0xB] = func_02008FA4(a);
     p[9] = func_02008FB0(a);
     p[0xA] = func_02008FB8(a);
     ((struct Obj03834 *)p)->f32 = func_02008FC0(a);
-    for (; i < 3; i++) func_02024570(p + 0x16 + i * 8, func_02008FC8(a, i));
+    for (; i < 3; i++) func_02024570((struct Rec8 *)(p + 0x16 + i * 8), (const struct Rec8 *)func_02008FC8(a, (u8)i));
     return p;
 }

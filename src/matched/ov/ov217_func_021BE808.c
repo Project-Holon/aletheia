@@ -50,7 +50,7 @@ extern void func_021BF2FC(char *p);
 extern void func_021BF38C(char *p);
 extern void func_021BF3B4(char *p);
 extern void func_021BF47C(char *p);
-extern void func_021BEAF8(void *p);
+extern void func_021BEAF8(u8 *p);
 extern void func_021BEEA4(char *p);
 extern void func_021BEF98(char *p);
 extern void func_021BEF30(char *p);
@@ -91,7 +91,7 @@ void func_021BE808(char *p)
     func_021BF38C(p);
     func_021BF3B4(p);
     func_021BF47C(p);
-    func_021BEAF8(p);
+    func_021BEAF8((u8 *)p);
     func_021BEEA4(p);
     func_021BEF98(p);
     if (((struct Obj00021 *)p)->f3C8 != 0 && func_021BF810(p) != 0) {

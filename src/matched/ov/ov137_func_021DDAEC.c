@@ -16,5 +16,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021DD924(void *);
+extern void func_021DD924(char *p);
 int func_021DDAEC(char *p,int state) {((struct Obj23719 *)p)->f4820=0;func_021DD924(p);return state;}

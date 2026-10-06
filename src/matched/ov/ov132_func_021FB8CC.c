@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 extern void *func_021F9DA0(char *p);
 extern int func_021FAEE8(char *p);
-extern void func_021F8084(void *, void *, const Vec *);
+extern void func_021F8084(void *unused, u32 *p, const u32 *q);
 extern void func_021FADF8(char *p, char *q);
 extern const s16 d_020A1B38[];
 void func_021FB8CC(int unused, char *p)
@@ -31,7 +31,7 @@ void func_021FB8CC(int unused, char *p)
     ctx = func_021F9DA0(((struct Obj03823 *)p)->f0);
     if (func_021FAEE8(p) == 2) {
         Vec zero = { 0, 0, 0 };
-        func_021F8084(ctx, ((struct Obj03823 *)p)->f10, &zero);
+        func_021F8084(ctx, ((struct Obj03823 *)p)->f10, (const u32 *)(&zero));
         func_021FADF8(((struct Obj03823 *)p)->f18, ((struct Obj03823 *)p)->f1C);
         return;
     }
@@ -42,6 +42,6 @@ void func_021FB8CC(int unused, char *p)
         sine = d_020A1B38[((int)(((u32)((struct Obj03823 *)p)->f4 << 15) / (u32)((struct Obj03823 *)p)->f8) >> 4) * 2];
         v.y = -(int)(((long long)sine * ((struct Obj03823 *)p)->f14 + 0x800) >> 12);
         v.z = 0;
-        func_021F8084(ctx, ((struct Obj03823 *)p)->f10, &v);
+        func_021F8084(ctx, ((struct Obj03823 *)p)->f10, (const u32 *)(&v));
     }
 }

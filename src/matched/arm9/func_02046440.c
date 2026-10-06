@@ -101,9 +101,9 @@ extern void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void  func_020613D8(u32 mode, u32 flag);
 extern int func_0206246C(int v);
 extern void func_02062474(u32 a, u32 b, u32 c, u32 d);
-extern void  func_02046858(const struct Setup32 *p);
-extern void  func_02046A94(u32 index, const struct Rect16 *r);
-extern void  func_02046B40(struct Setup36 *p);
+extern void func_02046858(const u32 *src);
+extern void func_02046A94(u32 idx, const u16 *src);
+extern void func_02046B40(u8 *a0);
 extern void  func_02046BE0(u32 a, u32 b);
 extern void  func_02046C24(u32 mode);
 extern void  G3X_SetFog(BOOL enable, int mode, int slope, int offset);
@@ -153,16 +153,16 @@ void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
     s32 = d_020A1308;
     s32.w[1] = *(s16 *)(d_020A1E38 + 0x8c);
     s32.w[2] = *(s16 *)(d_020A1E38 + 0x8e);
-    func_02046858(&s32);
+    func_02046858((const u32 *)(&s32));
 
     r = d_020A1300;
-    func_02046A94(0, &r);
-    func_02046A94(1, &r);
-    func_02046A94(2, &r);
-    func_02046A94(3, &r);
+    func_02046A94(0, (const u16 *)(&r));
+    func_02046A94(1, (const u16 *)(&r));
+    func_02046A94(2, (const u16 *)(&r));
+    func_02046A94(3, (const u16 *)(&r));
 
     s36 = d_020A1328;
-    func_02046B40(&s36);
+    func_02046B40((u8 *)(&s36));
     func_02046BE0(0, 1);
     func_02046C24(0);
 

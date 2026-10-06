@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_021C0598(u32, u32, u32, u32);
 
-int func_021C068C(u32 a, u32 b, u32 c, u32 d)
+int func_021C068C(int a, int b, int c, u8 d)
 {
 if (func_021C0598(a, b, (((struct Obj18268 *)((u8 *)(c)))->f4 + (d * 28)), d) != 0) {
     return 1;

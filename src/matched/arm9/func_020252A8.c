@@ -41,14 +41,15 @@ struct Sys {
 
 extern struct Sys *gSysState;
 
-extern void func_0203F4CC(struct Cfg *out);
+struct RtcTime;
+extern void func_0203F4CC(struct RtcTime *time);
 
 void func_020252A8(void)
 {
     struct Cfg cfg;
     u32 v;
 
-    func_0203F4CC(&cfg);
+    func_0203F4CC((struct RtcTime *)(&cfg));
     v = cfg.c & 1;
 
     if (cfg.a != gSysState->field_1D) {

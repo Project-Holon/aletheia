@@ -119,18 +119,21 @@ extern void func_020413B0(u32,u32,u32,u8,u8,u8);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02043814(void *, void *);
+struct Bmp;
+struct Obj;
+struct Vec2;
+extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 extern void *func_020490F4(u32,u16);
 extern int func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
 extern void func_02082BCC(void *, int, int);
-extern void *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
-extern void func_0204B6F4(void *, u32, u32);
-extern void func_0204B3DC(void *, u32);
-extern int func_0204B404(void *, void *, int);
-extern int func_021DBF04(void *);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern int func_021DBF04(int *p);
 extern void *func_021DBF08(void *);
 extern void *func_021DBF10(void *, u16);
 extern u32 func_021DBF40(void *);
@@ -183,7 +186,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         } while (x < 2);
         y++;
     } while (y < 2);
-    if (func_021DBF04(tab + off) == 0) {
+    if (func_021DBF04((int *)(tab + off)) == 0) {
         y2 = 0;
         do {
             x = 0;
@@ -253,7 +256,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
             else if (b == 0)
                 cur.x += 0x100;
         }
-        func_0204B404(*(void **)(p + 0xaf0), &cur, 0);
+        func_0204B404(*(void **)(p + 0xaf0), (const struct Vec2 *)(&cur), 0);
     }
 }
 #pragma opt_lifetimes reset

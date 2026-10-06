@@ -25,8 +25,9 @@
 typedef unsigned short u16;
 typedef short s16;
 
-extern void func_021E0504(char *p, s16 x);
-extern void func_021E04FC(char *p, int x);
+typedef unsigned char  u8;
+extern u8 *func_021E0504(u8 *dst, unsigned int v);
+extern char *func_021E04FC(char *dst, int value);
 
 int func_021E03F8(char *p, int a1, int a2)
 {
@@ -40,16 +41,16 @@ int func_021E03F8(char *p, int a1, int a2)
         *(u16 *)(q + 0x26) += 1;
         *(int *)(q + 0x3c) += 5;
         *(u16 *)(p + 8) += 1;
-        func_021E0504(*(char **)(p + 0x124) + *(int *)(p + 4), *(s16 *)(p + 8));
+        func_021E0504((u8 *)(*(char **)(p + 0x124) + *(int *)(p + 4)), *(s16 *)(p + 8));
     } else if (v == 4) {
         *(u16 *)(q + 0x28) += 1;
         *(int *)(q + 0x40) += 5;
         *(u16 *)(p + 8) += 1;
-        func_021E0504(*(char **)(p + 0x124) + *(int *)(p + 4), *(s16 *)(p + 8));
+        func_021E0504((u8 *)(*(char **)(p + 0x124) + *(int *)(p + 4)), *(s16 *)(p + 8));
     }
-    func_021E0504(*(char **)(p + 0x124) + *(int *)(p + 0x120), (s16)a1);
+    func_021E0504((u8 *)(*(char **)(p + 0x124) + *(int *)(p + 0x120)), (s16)a1);
     *(int *)(p + 0x120) += 2;
-    func_021E0504(*(char **)(p + 0x124) + *(int *)(p + 0x120), 2);
+    func_021E0504((u8 *)(*(char **)(p + 0x124) + *(int *)(p + 0x120)), 2);
     *(int *)(p + 0x120) += 2;
     func_021E04FC(*(char **)(p + 0x124) + *(int *)(p + 0x120), a2);
     *(int *)(p + 0x120) += 1;

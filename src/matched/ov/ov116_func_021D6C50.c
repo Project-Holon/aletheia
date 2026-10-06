@@ -18,7 +18,7 @@
 #include "../include/Obj13862.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_0217BC90(void *);
+extern int func_0217BC90(void);
 typedef unsigned int   u32;
 struct MsgBank;
 struct Rec;
@@ -31,7 +31,7 @@ extern void func_02045808(struct U16Vec *vec);
 int func_021D6C50(u8 *p,unsigned heap) {
     int flag,ready;
     void *bank,*str;
-    flag = func_0217BC90(p)==2;
+    flag = func_0217BC90()==2;
     if(flag) ready = ((struct Obj13862 *)p)->f210>0;
     if(flag==0) return 0;
     if(flag==1 && ready==1) {

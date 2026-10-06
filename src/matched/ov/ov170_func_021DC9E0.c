@@ -75,7 +75,7 @@ extern const struct BgTemplate d_021EF80C;
 extern const struct BgTemplate d_021EF8AC;
 extern const struct BgTemplate d_021EF84C;
 
-void func_021DC9E0(void)
+void func_021DC9E0(u8 *a0)
 {
     struct DispConfig c;
     struct BgTemplate t0;

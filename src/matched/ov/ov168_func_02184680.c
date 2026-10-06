@@ -46,10 +46,11 @@ typedef struct {
 } Obj;
 
 extern u32 func_02030DA8(int owner, void (*fn)(), int arg, int n);
-extern Obj *func_02030EE8(u32 task);
-extern int func_0203F5FC(u16 angle);
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
+extern int func_0203F5FC(u32 x);
 extern void func_0204B550(u32 handle, s16 v, int axis);
-extern void func_02184780();
+extern void func_02184780(void *task, int *p);
 
 #define FX_F32_TO_FX32(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
@@ -63,15 +64,15 @@ void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 
 
     t = func_02030DA8(a0, func_02184780, a2, 0);
     ((u32 *)a2)[0x2c / 4] = t;
-    o = func_02030EE8(t);
+    o = (Obj *)func_02030EE8((struct S02030EE8 *)t);
     o->handle = handle;
     o->timer = i;
     o->x = FX_F32_TO_FX32(a3);
     o->y = FX_F32_TO_FX32(e);
     o->z0 = 0;
-    c = func_0203F5FC(g + 0x5a);
+    c = func_0203F5FC((u16)(g + 0x5a));
     o->vx = FX_MUL(f, c);
-    c = func_0203F5FC(g);
+    c = func_0203F5FC((u16)g);
     o->vy = -FX_MUL(f, c);
     o->w0 = 0;
     o->w1 = 0;

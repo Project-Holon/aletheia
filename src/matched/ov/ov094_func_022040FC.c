@@ -33,20 +33,20 @@ typedef struct Main {
 } Main;
 typedef struct { Main *main; int state; } Ctx;
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02206AF8(Main *);
+extern void func_02206AF8(char *p);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_022043C0(Main *, int, int, int, int);
 extern void func_022044C0(Main *, int, int, int, int);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void func_02040588(u32 which, u32 enable);
-extern void func_0220687C(Main *, void *);
+extern void func_0220687C(char *p, void *q);
 void func_022040FC(void *h, Ctx *c)
 {
     switch (c->state) {
     case 0:
         func_020498F4((void *)c->main->f48, 0x63, 4, 0, 0, 0, c->main->h240);
         func_020498F4((void *)c->main->f48, 0x6b, 5, 0, 0, 0, c->main->h240);
-        func_02206AF8(c->main);
+        func_02206AF8((char *)c->main);
         func_02204960(c->main, 5, 0, 0, 1, 0, 2, 1);
         func_022043C0(c->main, 0x3000, 0x1000, -0x400, 0x98);
         func_022044C0(c->main, 0, 0x1c0, 8, 8);
@@ -59,7 +59,7 @@ void func_022040FC(void *h, Ctx *c)
             func_02040588(4, 1);
             func_02040588(5, 1);
             func_02040588(7, 0);
-            func_0220687C(c->main, h);
+            func_0220687C((char *)c->main, h);
         }
         break;
     }

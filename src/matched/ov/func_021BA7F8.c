@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern void sub_0203A5E4(u32 key);
 
-void func_021BA7F8(void)
+void func_021BA7F8(char *a0)
 {
     sub_0203A5E4(0xA00);
 }

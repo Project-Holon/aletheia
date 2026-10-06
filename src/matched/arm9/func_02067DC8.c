@@ -79,7 +79,7 @@ struct Rig {
 struct Part { u8 pad_00[0x20]; u32 f20; };
 
 extern struct Rig *g_02148B48;
-extern struct Part *func_02066878(s32 a);
+extern u8 *func_02066878(u32 i);
 struct Hooks;
 struct List;
 extern void func_02067998(struct Hooks *h, struct List *lst);
@@ -101,7 +101,7 @@ void func_02067DC8(u32 a0, s32 a1)
         if (a1 != -1) {
             struct Part *p;
             idx = o->mode;
-            p = func_02066878(a1);
+            p = (struct Part *)func_02066878(a1);
             p->f20 = (p->f20 & ~(1 << idx)) | (1 << idx);
         }
         switch (o->mode) {

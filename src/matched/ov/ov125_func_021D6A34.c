@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef int (*Callback)(void *, void *);
 extern unsigned func_021D85C0(void);
-extern int func_021D6B40(void *, int *);
+extern int func_021D6B40(u8 *p, int *done);
 extern int func_021D6FB0(char *);
 extern void func_02082BCC(void *, int, unsigned);
 int func_021D6A34(char *p)
@@ -30,7 +30,7 @@ int func_021D6A34(char *p)
             } else {
                 switch (func_021D85C0()) {
                 case 1: case 7: case 8: case 9:
-                    if (func_021D6B40(p, &result) == 1) {
+                    if (func_021D6B40((u8 *)p, &result) == 1) {
                         ((struct Obj01060 *)p)->f3D8 = 0x55f4;
                         ((struct Obj01060 *)p)->f402 = 0;
                         if (result == 1) {

@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_02091B5C(u8 *p);
+struct P02091B5C;
+extern int func_02091B5C(struct P02091B5C *p);
 
 int func_02091AE8(u8 *p)
 {
@@ -30,7 +31,7 @@ int func_02091AE8(u8 *p)
     mode = (((struct Obj00481 *)p)->f4 << 22) >> 29;
     if (mode == 0)
         return 0;
-    r = (int)func_02091B5C(p);
+    r = (int)func_02091B5C((struct P02091B5C *)p);
     x = ((int (*)(u32))*(u32 *)(p + 0x44))(((struct Obj00481 *)p)->f0);
     ((struct Obj00481 *)p)->f4 &= ~0x380u;
     ((struct Obj00481 *)p)->f0 = 0;

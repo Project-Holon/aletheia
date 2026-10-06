@@ -20,17 +20,19 @@
 #include "../include/Obj00442.h"
 typedef unsigned short u16;
 struct Params {u16 a,b,c,d; unsigned x,y,arr[6];};
-extern void func_021BF4FC(void *,char *,void *,u16 *,u16 *,u16 *,u16 *,unsigned *,unsigned *,unsigned *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021BF4FC(const u16 *heap, u8 *p, int key, u16 *out1, u16 *out2, u16 *out3, u16 *out4, u32 *out5, u32 *out6, u32 *out7);
 extern void func_021BA550(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6);
 extern void func_021BF63C(void *,char *,void *);
 extern void func_021BA7C8(void *);
 extern void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6, int a7);
-extern void func_021BF4C4(void *,char *,void *,unsigned *);
+extern void func_021BF4C4(int unused, char *q, int c, int *tbl);
 void func_021BF1D0(void *first,char *q,void *third)
 {
     struct Params p;
     int okay,index;
-    func_021BF4FC(first,q,third,&p.d,&p.c,&p.b,&p.a,&p.y,&p.x,p.arr);
+    func_021BF4FC(first,(u8 *)q,(int)third,&p.d,&p.c,&p.b,&p.a,&p.y,&p.x,p.arr);
     okay=1;
     func_021BA550(((struct Obj00442 *)q)->f4,p.d,p.c,p.b,p.a,p.y,p.x);
     index=((struct Obj00442 *)q)->f98;
@@ -40,5 +42,5 @@ void func_021BF1D0(void *first,char *q,void *third)
     }
     if(okay) func_021BA7C8(((struct Obj00442 *)q)->f8);
     else func_021BA6B0(((struct Obj00442 *)q)->f8,p.d,p.c,p.b,p.a,p.y,p.x,((struct Obj00442 *)q)->f98);
-    func_021BF4C4(first,q,third,p.arr);
+    func_021BF4C4((int)first,q,(int)third,(int *)p.arr);
 }

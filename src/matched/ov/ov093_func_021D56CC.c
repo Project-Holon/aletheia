@@ -31,7 +31,7 @@ struct Work {
     u8 c143;
 };
 
-void func_021D56CC(struct Work *p, u32 i)
+void func_021D56CC(struct Work *p, int i)
 {
     struct Ent *e = &p->e[i];
     if (e->hi11 == 0) {

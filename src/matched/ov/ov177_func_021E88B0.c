@@ -37,31 +37,32 @@ extern const Config d_021E8D68;
 struct Descriptor;
 struct Cfg;
 struct Obj;
-extern void *func_02030734(u16 heapId, u32 size, int clear, const char *site, u16 tag);
+struct Slot;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,u32);
-extern void *func_020450F0(u8,u8,u8,u8,u8,u8,u8);
-extern void func_0201F73C(void *,int,int,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern void *func_0201F81C(u32,u16);
-extern void func_0201F878(void *,u32,u32,u32,u16);
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void *func_0201FF30(Config *,u16,u16,u16);
-extern void func_02020CF8(struct Obj *p, u16 heap);
-extern void func_02020D10(u8 *p, u8 v);
+extern void func_02020CF8(struct Obj *p, int heap);
+extern void func_02020D10(u8 *p, u32 v);
 Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
 {
     Work *out;
     void *q;
     u32 i;
     Config cfg;
-    out=func_02030734(heap,28,0,d_021E8DD4,0x1a2);
+    out=func_02030734((u16)heap,28,0,d_021E8DD4,0x1a2);
     func_02082BCC(out,0,28);
     out->mgr=p->x2;
     out->counter=p->kind;
-    out->win=func_020450F0(p->a,x,y,width,height,p->b,1);
-    func_0201F73C(out->win,2,p->d,p->c);
+    out->win=(void *)func_020450F0((u8)p->a,(u8)x,(u8)y,(u8)width,height,p->b,1);
+    func_0201F73C(out->win,2,p->d,(u8)p->c);
     q=out->win;
     func_02045334(q);
     func_02045374(q);
@@ -70,7 +71,7 @@ Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
     out->flag=0;
     out->entries=func_0201F81C(p->count,heap);
     for(i=0;i<p->count;i++)
-        func_0201F878(out->entries,p->x0,p->items[i],i,heap);
+        func_0201F878(out->entries,p->x0,p->items[i],i,(u16)heap);
     cfg=d_021E8D68;
     cfg.word[0]=(u32)out->entries;
     *(u16 *)((u8 *)&cfg+0x10)=p->count;
@@ -81,7 +82,7 @@ Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
     cfg.word[11]=p->x2;
     cfg.word[12]=p->x1;
     out->menu=func_0201FF30(&cfg,0,p->pad,heap);
-    func_02020CF8(out->menu,heap);
+    func_02020CF8(out->menu,(u16)heap);
     if(p->enabled)
         func_02020D10(out->menu,0);
     else

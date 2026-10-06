@@ -28,7 +28,8 @@ typedef struct {
     int z;
 } Vec;
 
-Ent *func_0218B910(void *p, int a);
+typedef unsigned int   u32;
+int func_0218B910(u32 a, u32 b);
 int func_0218BBD0(void *p, unsigned int i);
 
 static inline void Vec_Set(Vec *v, int x, int y, int z)
@@ -40,7 +41,7 @@ static inline void Vec_Set(Vec *v, int x, int y, int z)
 
 int func_0218B930(void *p, int a, Vec *pos, int *k)
 {
-    Ent *e = func_0218B910(p, a);
+    Ent *e = (Ent *)func_0218B910((u32)p, a);
     if (e->id == 0xFFFF)
         return 0;
     *k = func_0218BBD0(p, e->id);

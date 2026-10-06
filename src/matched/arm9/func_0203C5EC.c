@@ -22,7 +22,7 @@ struct Card0203C5EC {
 
 extern struct Card0203C5EC *g_021469DC;
 
-unsigned int func_0203C5EC(void)
+int func_0203C5EC(void)
 {
     return g_021469DC->f4a;
 }

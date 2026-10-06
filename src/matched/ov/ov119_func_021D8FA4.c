@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_021D8A24(void *, int);
+extern int func_021D8A24(void *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -25,7 +25,7 @@ extern u32 func_0203D1A4(struct Link *p);
 
 void *func_021D8FA4(void *p, int idx)
 {
-    u32 v = func_021D8A24(p, idx);
+    u32 v = func_021D8A24(p);
     if (v == 0)
         return *(void **)((char *)p + idx * 4 + 0x5DC);
     if (func_0203D1A4((struct Link *)((u32)func_020399A8())) == 0)

@@ -31,7 +31,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7D0(void *, s16, s16, void *, void *, u16);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
-extern void *func_02045730(void *);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 void func_021DD700(void *p, void *text, void *font) {
     int width;

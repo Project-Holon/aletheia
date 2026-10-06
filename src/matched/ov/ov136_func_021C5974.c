@@ -16,7 +16,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 x,y,w,h; } Template;
-extern void *func_02027778(Template *, void *);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 void func_021C5974(u8 *p)
 {
     Template t;
@@ -28,5 +30,5 @@ void func_021C5974(u8 *p)
     t.y = 8;
     t.w = 10;
     t.h = 3;
-    ((struct Obj23514 *)(*(u8 * *)&((struct Obj08199 *)p)->f8))->f310 = func_02027778(&t, ((struct Obj23513 *)(*(u8 * *)&((struct Obj08199 *)p)->f8))->f30C);
+    ((struct Obj23514 *)(*(u8 * *)&((struct Obj08199 *)p)->f8))->f310 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct Obj23513 *)(*(u8 * *)&((struct Obj08199 *)p)->f8))->f30C);
 }

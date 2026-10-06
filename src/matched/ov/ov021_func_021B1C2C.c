@@ -27,7 +27,10 @@ int func_02158F58(int a0);
 s16 *func_02159AE8(void *a0, void *a1);
 unsigned int func_02159B10(void *a, void *b);
 void *func_02188C7C(unsigned char *p);
-int func_0216DDDC(void *a, s16 b, s16 c, int d, int e, int f);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
 u16 func_0216D588(void *p);
 
 int func_021B1C2C(int a, int b)
@@ -46,7 +49,7 @@ int func_021B1C2C(int a, int b)
     sc = func_02159B10((void *)a, (void *)b);
     s10 = func_02159B10((void *)a, (void *)b);
     r4 = func_02159B10((void *)a, (void *)b);
-    r0 = func_0216DDDC(func_02188C7C((void *)r7), sc, r4, s10 << 16, 0x8000, 0);
+    r0 = (int)func_0216DDDC((u32)func_02188C7C((void *)r7), (s16)sc, (s16)r4, s10 << 16, 0x8000, (int)0);
     if (r0) {
         *r6 = 1;
         *s8 = func_0216D588((void *)r0);

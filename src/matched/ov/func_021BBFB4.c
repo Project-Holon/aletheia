@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021BBFB4(void)
+void func_021BBFB4(void *p)
 {
 }
 

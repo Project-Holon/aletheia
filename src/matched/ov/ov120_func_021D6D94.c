@@ -24,8 +24,8 @@ typedef unsigned int u32;
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern void func_02041B6C(u32);
-extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
-extern void func_02049BDC(void *, u32, u32, u32, u32, u32, u16);
+extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_02049238(void *);
 extern void func_021D6C64(u8 *);
 extern void func_021D6FB4(u8 *);
@@ -37,7 +37,7 @@ void func_021D6D94(u8 *p)
     func_02041300(6, 0, 0, 0, 32, 32, 17);
     func_02041B6C(6);
     func_02049BDC(t, 2, 5, 0, 256, 256, ((struct Obj00199 *)p)->fF4);
-    func_02049990(t, 18, 4, 0, ((struct Obj00199 *)p)->f0, 0, 0, ((struct Obj00199 *)p)->fF4);
+    func_02049990(t, 18, 4, 0, (u16)(((struct Obj00199 *)p)->f0), 0, 0, ((struct Obj00199 *)p)->fF4);
     func_02041B6C(4);
     func_02049238(t);
 }

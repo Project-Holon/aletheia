@@ -112,14 +112,14 @@ typedef struct {
     u32 f12E4;
 } Work;
 
-extern void func_021FE118(Work *p);
+extern void func_021FE118(u8 *p);
 extern void func_021FDBCC(void);
 extern void func_021FDD00(void *p);
 extern void func_021FDF2C(Work *p);
 extern void func_021FDDA8(Work *p);
-extern void func_021FFFE8(Work *p, u32 a, u32 b);
-extern void func_02200B34(Work *p);
-extern void func_02200BAC(Work *p, u32 k);
+extern void func_021FFFE8(u8 *p, u32 a, u32 b);
+extern void func_02200B34(u8 *p);
+extern void func_02200BAC(u8 *p, u32 k);
 extern void *func_021F9890(Init *init, u32 a, u32 b);
 extern void func_021FF384(void **win, void **win2, void *bank, void *g);
 extern void func_021FF474(void *win, void *bank, int flag, void *g);
@@ -135,14 +135,14 @@ int func_021FD924(Work *p)
 {
     Init init;
 
-    func_021FE118(p);
+    func_021FE118((u8 *)p);
     func_021FDBCC();
     func_021FDD00(p);
     func_021FDF2C(p);
     func_021FDDA8(p);
-    func_021FFFE8(p, 0, 0);
-    func_02200B34(p);
-    func_02200BAC(p, 4);
+    func_021FFFE8((u8 *)p, 0, 0);
+    func_02200B34((u8 *)p);
+    func_02200BAC((u8 *)p, 4);
     p->f12E4 = 0;
     init.w00 = p->fD50;
     init.w04 = p->fDD4;

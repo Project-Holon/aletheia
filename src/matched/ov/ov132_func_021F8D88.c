@@ -31,7 +31,7 @@ typedef signed int     s32;
 extern u8 func_02157364(char *a0);
 extern void func_021F6FB0(void *, int);
 
-void func_021F8D88(u8 *p)
+void func_021F8D88(u8 *p, u32 a1)
 {
     int v = func_02157364(((struct Obj23181 *)((u8 *)((struct Obj14083 *)p)->f30))->f14);
     func_021F6FB0(((struct Obj14083 *)p)->f3C, v);

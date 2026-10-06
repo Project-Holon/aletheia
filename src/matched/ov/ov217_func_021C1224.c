@@ -27,7 +27,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void *func_021C1AB4(void *p, u32 n);
-extern void func_021C1B74(u8 *h, void *e, s16 *out);
+extern void func_021C1B74(u8 *p, u8 *rec, s16 *out);
 extern void func_021C1F44(const s16 *p, s32 *px, s32 *py);
 
 void func_021C1224(u8 *h, u8 n, s32 *px, s32 *py)

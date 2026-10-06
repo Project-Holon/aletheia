@@ -46,7 +46,7 @@ typedef unsigned int u32;
 typedef short s16;
 
 extern void func_02185D08(int *p);
-extern u32 func_02185D64(int *p, int *q);
+extern int func_02185D64(int *p, int *q);
 
 int func_0218532C(char *p, u32 *out)
 {

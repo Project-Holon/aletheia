@@ -31,10 +31,11 @@ typedef struct {
 } BattleSeq;
 
 extern u32 func_021B8588(void **p);
-extern u32 func_021B9064(u8 *p, u8 k, int x);
+extern u32 func_021B9064(u8 *p, int k, int x);
 extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern int func_021D5B68(void *p);
-extern int func_021D5C44(void *p);
+struct Rat;
+extern int func_021D5C44(struct Rat *p);
 
 int func_021D1DF4(BattleSeq *s)
 {
@@ -47,7 +48,7 @@ int func_021D1DF4(BattleSeq *s)
         m = func_021B9920(s->unk04, t, 0);
         if (func_021D5B68(m) != 0)
             return 0xb;
-        v = func_021D5C44(m);
+        v = func_021D5C44((struct Rat *)m);
         if (v >= 0x4d800)
             return 0xb;
         if (v >= 0x37000)

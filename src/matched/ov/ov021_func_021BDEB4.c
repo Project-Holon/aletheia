@@ -59,7 +59,7 @@ typedef struct {
     u32 f6C;
 } A;
 
-extern u32 func_021BE17C(A *a);
+extern u32 func_021BE17C(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
 extern u16 func_021A3050(u8 *p);
 extern int func_021BE1B0(A *a);
@@ -80,7 +80,7 @@ void func_021BDEB4(A *a)
     S *s = &a->s;
     u8 *sub = s->sub;
 
-    h = func_021BE17C(a);
+    h = func_021BE17C((u8 *)a);
     t = func_02188CB4((unsigned char *)a->obj);
     m = func_021A3050(t);
     switch (m) {

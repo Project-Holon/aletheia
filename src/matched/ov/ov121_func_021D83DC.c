@@ -33,7 +33,8 @@ extern void func_020409B4(u32 index);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void *func_021DA1BC(int,Config *,int,int,int,void *,void *,void *,int);
-extern void func_021D694C(void *,int);
+typedef unsigned short u16;
+extern void func_021D694C(u16 *p, int mode);
 void func_021D83DC(u8 *p,int heap)
 {
     Config c;
@@ -46,7 +47,7 @@ void func_021D83DC(u8 *p,int heap)
         ((struct Obj06446 *)p)->f28C=func_021DA1BC(0,&c,2,4,15,((struct Obj06446 *)p)->f39C,((struct Obj06446 *)p)->f3A4,((struct Obj06446 *)p)->f398,heap);
         func_02045808((void *)c.w[2]);
         func_02045808((void *)c.w[8]);
-        func_021D694C(p+912,1);
+        func_021D694C((u16 *)(p+912),1);
         func_020409B4(6);
         func_02040588(6,1);
         func_0207D63C((void *)0x04001050,4,24,15,3);

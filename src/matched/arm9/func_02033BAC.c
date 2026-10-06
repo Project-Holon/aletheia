@@ -20,12 +20,12 @@ typedef unsigned int  u32;
 
 extern const u8 str_020A78CC[];
 extern const u8 str_020A793C[];
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 u32 func_02033BAC(u8 *p, u32 i)
 {
     if (i >= ((struct Obj11331 *)p)->f4) {
-        func_02034714(str_020A78CC, 0xd6, str_020A793C);
+        func_02034714((const char *)str_020A78CC, 0xd6, (const char *)str_020A793C);
     }
     return *(u32 *)(((struct Obj11331 *)p)->f14 + i * 0xc + 4);
 }

@@ -25,7 +25,8 @@ typedef unsigned int   u32;
 extern char d_021DDF7C;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021A7420(u32 *s, u32 a, u32 b, u32 n, u32 heap);
-extern void func_021A75DC(u32 *s, u32 a, u32 b, u32 c, u32 heap);
+struct W;
+extern void func_021A75DC(struct W *w, u32 a, u32 b, u32 c, u32 heap);
 
 typedef struct D { u16 lo : 8; u16 hi : 8; u16 f1, f2, f3, f4, f5, f6; } D;
 
@@ -40,7 +41,7 @@ u32 *func_021A7360(const D *p, u32 c, u32 heap)
         func_021A7420(r + 2, x, y, n, heap);
     }
     if (p->hi != 0)
-        func_021A75DC(r + 6, p->f4, p->f5, c, heap);
+        func_021A75DC((struct W *)(r + 6), p->f4, p->f5, c, heap);
     r[0] = 1;
     r[1] = 0x1000;
     return r;

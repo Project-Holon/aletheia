@@ -41,13 +41,14 @@ typedef struct P {
 extern u8 func_0219320C(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_021928C0(u32 *sub, u32 a, u32 b);
+struct Cur;
+extern void func_021928C0(struct Cur *c, u32 win, u32 col);
 extern void func_02045334(struct Descriptor *a);
 
 void func_02191134(P *p)
 {
     if (func_0219320C((u8 *)p->f14 + 0x160) == 0) {
-        func_021928C0((u32 *)((u8 *)p + 0x18), (u32)func_02045770((struct Descriptor *)p->f00), 0xF);
+        func_021928C0((struct Cur *)((u8 *)p + 0x18), (u32)func_02045770((struct Descriptor *)p->f00), 0xF);
         func_02045334((struct Descriptor *)p->f00);
     }
 }

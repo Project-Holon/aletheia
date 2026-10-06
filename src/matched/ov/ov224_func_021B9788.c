@@ -25,9 +25,10 @@ extern int func_0204E804(void);
 extern u32 func_020362DC(void);
 typedef unsigned char  u8;
 struct PrintSys;
-extern void func_0204E720(int,int,int,int);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_020355D8(u8 v);
-extern int func_02035D20(int *,int *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021B9A44(void *);
 int func_021B9788(void *a,unsigned *state,int b,char *p)
@@ -39,7 +40,7 @@ int func_021B9788(void *a,unsigned *state,int b,char *p)
     case 2:
         flag=0;
         if(func_020362DC()&3) { func_020355D8(0); flag=1; }
-        else if(func_02035D20(&x,&y)) { func_020355D8(1); flag=1; }
+        else if(func_02035D20((u32 *)(&x),(u32 *)(&y))) { func_020355D8(1); flag=1; }
         if(flag) { *state=3; func_0204E720(3,0,16,0); }
         break;
     case 3: if(!func_0204E804()) *state=4; break;

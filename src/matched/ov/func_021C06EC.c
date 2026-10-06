@@ -21,7 +21,7 @@ struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 
-void func_021C06EC(int unused, char *p)
+void func_021C06EC(void *unused, char *p, void *a2)
 {
     unsigned char i;
 

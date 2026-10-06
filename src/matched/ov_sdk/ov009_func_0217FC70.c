@@ -24,7 +24,8 @@ typedef struct {
     int mode;
 } B64StreamData;
 
-extern void func_0217F824(char *trip, char *quart, int inlen);
+typedef unsigned char  u8;
+extern void func_0217F824(const char *src, u8 *dst, int n);
 extern char g_021A1A02[3];
 extern char g_021A19FF[3];
 extern char g_021A19FC[3];
@@ -50,7 +51,7 @@ int func_0217FC70(B64StreamData *data, char *output)
         break;
     }
 
-    func_0217F824(data->data, output, data->len >= 3 ? 3 : data->len);
+    func_0217F824(data->data, (u8 *)output, data->len >= 3 ? 3 : data->len);
     data->data += 3;
     data->len -= 3;
 

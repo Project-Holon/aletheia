@@ -20,7 +20,8 @@
  */
 #include "../include/Obj06359.h"
 typedef unsigned short u16;
-extern int func_0203D378(char *);
+typedef unsigned int   u32;
+extern u32 func_0203D378(void);
 extern int func_021C1154(char *);
 extern int func_021BDD54(char *, void *);
 struct Entry;
@@ -34,7 +35,7 @@ int func_021C143C(char *p, int ret)
 {
     int index = 0;
     u16 value;
-    if (func_0203D378(p) != 0) index = 1;
+    if (func_0203D378() != 0) index = 1;
     if (func_021C1154(p) == 0) {
         if (((u16 *)(p + 0x1f4))[index] != 0) {
             value = func_021BDD54(p, ((struct Obj06359 *)p)->f8);

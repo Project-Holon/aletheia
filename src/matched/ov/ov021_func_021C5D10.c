@@ -80,7 +80,7 @@ extern u16 func_0216D5F8(void *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *id, struct VecFx32 *out);
 extern u32 func_021A34EC(void *id);
-extern int func_021C5C64(void *unused, u8 *a, VecFx32 *out);
+extern int func_021C5C64(u32 unused, u32 a, u32 *out);
 extern int func_021AA900(struct Self *self, short *pos);
 /* Retain the mode used to store f59 for the helper's second argument. */
 extern struct Obj *func_021AA180(struct Ctx *ctx, int mode);
@@ -107,7 +107,7 @@ void *func_021C5D10(u8 *a, void *b)
     w->f58 = func_0216D5F8(w->f1C);
     func_021A3038(w->f18, (struct VecFx32 *)&w->f34);
     w->f28 = func_021A34EC(w->f18);
-    if (func_021C5C64(w->f4, w->f8, &w->f40) == 0)
+    if (func_021C5C64((u32)w->f4, (u32)w->f8, (u32 *)(&w->f40)) == 0)
         w->f5A = 1;
     w->f20[0] = (w->f40.x >> 4) / 4096;
     w->f20[1] = (w->f40.y >> 4) / 4096;

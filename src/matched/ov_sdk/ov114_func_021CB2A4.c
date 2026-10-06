@@ -26,7 +26,8 @@ typedef struct {
     int flags;
 } BIGNUM;
 
-extern int func_021CAEC8(BIGNUM *a, BN_ULONG w);
+typedef unsigned char  u8;
+extern int func_021CAEC8(u8 *a, unsigned long w);
 extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
 extern void func_021CAC8C(BIGNUM *a);
 
@@ -42,7 +43,7 @@ int func_021CB2A4(BIGNUM *r, const BIGNUM *a, int n)
     rb = n % 32;
     lb = 32 - rb;
     if (nw > a->top) {
-        func_021CAEC8(r, 0);
+        func_021CAEC8((u8 *)r, 0);
         return 1;
     }
     if (r != a) {

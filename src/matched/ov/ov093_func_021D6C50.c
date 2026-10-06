@@ -46,7 +46,8 @@ typedef struct Unk021D6C50 {
 } S;
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_021D51DC(Ent *, u32, u32, u32);
+struct S;
+extern void func_021D51DC(struct S *p, u32 a, u32 b, u32 c);
 extern u8 d_021F3B8C[0x38];
 extern Head d_021F3BC4;
 int func_021D6C50(S *a, S *b)
@@ -62,7 +63,7 @@ int func_021D6C50(S *a, S *b)
         a->h1f2 = save;
         MI_CpuCopy8(d_021F3B8C, a->ent, 0x38);
         for (i = 0; i < 4; i++)
-            func_021D51DC(&a->ent[i], b->ent[i].h[3], 5, 0);
+            func_021D51DC((struct S *)(&a->ent[i]), b->ent[i].h[3], 5, 0);
         MI_CpuFill8(a->f153, 0, sizeof(a->f153));
         MI_CpuFill8(a->f155, 0, sizeof(a->f155));
         a->f148 = 10000;

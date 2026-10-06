@@ -82,7 +82,8 @@ typedef struct {
     volatile unsigned char end;
 } M;
 
-extern enum WMErrCode func_0208EBE4(unsigned short *);
+struct WMStatus;
+extern int func_0208EBE4(struct WMStatus *statusBuf);
 extern enum WMErrCode func_0208F400(void (*)(void *));
 extern enum WMErrCode func_0208F43C(void (*)(void *));
 extern void func_021D7744(unsigned int idx, void *r4);
@@ -95,13 +96,13 @@ int func_021D0CEC(void)
 {
     enum WMErrCode rs;
     g_021DE654->end = 1;
-    func_0208EBE4(&g_021DE654->state);
+    func_0208EBE4((struct WMStatus *)(&g_021DE654->state));
     if (g_021DE654->state != WM_ERRCODE_OPERATING) {
         rs = func_0208F400(func_021D0DE0);
         if (rs != WM_ERRCODE_OPERATING)
             return 0;
         do {
-            func_0208EBE4(&g_021DE654->state);
+            func_0208EBE4((struct WMStatus *)(&g_021DE654->state));
         } while (g_021DE654->state != WM_ERRCODE_OPERATING);
     }
     rs = func_0208F43C(func_021D0DE0);

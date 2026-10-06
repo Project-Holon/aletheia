@@ -16,9 +16,9 @@
  */
 extern int func_021DE7C8(unsigned char *p);
 extern int func_021EC994(char *p);
-extern void func_021ECA24(char *p);
-extern void func_021DE7B4(unsigned char *p);
-extern int func_021E8F50(unsigned char *p, int v);
+extern void func_021ECA24(int *p);
+extern void func_021DE7B4(char *p);
+extern int func_021E8F50(char *p, int v);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define SLOT(p) (*(char **)(WORK(p) + 0xA190))
 int func_021E8188(unsigned char *p)
@@ -26,10 +26,10 @@ int func_021E8188(unsigned char *p)
     func_021DE7C8(p);
     if (func_021EC994(SLOT(p)) == 0) {
         if (((unsigned char *)SLOT(p))[6] != 0)
-            return func_021E8F50(p, 0x5C);
-        func_021ECA24(SLOT(p));
-        func_021DE7B4(p);
-        return func_021E8F50(p, 0x5B);
+            return func_021E8F50((char *)p, 0x5C);
+        func_021ECA24((int *)SLOT(p));
+        func_021DE7B4((char *)p);
+        return func_021E8F50((char *)p, 0x5B);
     }
     return 0x5A;
 }

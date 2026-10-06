@@ -15,8 +15,14 @@
  *   func_0201D42C 0x0201D42C thumb
  */
 typedef struct {int x,y;} Pair;
-extern unsigned short func_020437DC(const void *),func_020437E4(const void *);
-extern unsigned func_0201D304(void *,unsigned,unsigned),func_0201D42C(void *,void *);
+typedef unsigned int   u32;
+struct Bmp;
+typedef unsigned short u16;
+struct StrObj;
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u32 func_020437E4(const struct Bmp *bmp);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 void func_021FC870(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out)
 {
     unsigned x,y;

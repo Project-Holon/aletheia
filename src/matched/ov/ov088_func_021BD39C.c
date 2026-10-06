@@ -14,6 +14,6 @@
  * overlay in the window not overlapping the caller's ov204.
  */
 
-void func_021BD39C(void)
+void func_021BD39C(int a0)
 {
 }

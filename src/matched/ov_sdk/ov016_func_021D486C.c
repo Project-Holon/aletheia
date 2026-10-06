@@ -86,7 +86,7 @@ extern void *func_021D5410(long size, void *data, long dataSize);
 extern int func_02084F40(char *dst, const char *fmt, ...);
 extern int func_02078C34(const char *path);
 extern int func_021D4A94(int unused, unsigned long cmd);
-extern int func_021D4AFC(FSArchive *arc, void *dst, u32 pos, u32 size);
+extern int func_021D4AFC(void *arc, void *dst, unsigned long pos, unsigned long size);
 extern int func_021D4B60(void);
 
 void func_021D486C(void)
@@ -113,7 +113,7 @@ void func_021D486C(void)
         func_02088234();
     func_0207A5A8(&g_021DE66C->archive, (int (*)(FSFile *, u32))func_021D4A94, 0x602);
     if (!func_0207A4B0(&g_021DE66C->archive, base, fat.offset, fat.length, fnt.offset, fnt.length,
-                       func_021D4AFC, (int (*)(FSArchive *, void *, u32,  u32))func_021D4B60))
+                       (int (*)(FSArchive *, void *, u32,  u32))func_021D4AFC, (int (*)(FSArchive *, void *, u32,  u32))func_021D4B60))
         func_02088234();
     size = func_0207A5C8(&g_021DE66C->archive, 0, 0);
     g_021DE66C->table = func_021D6414(size, 4);

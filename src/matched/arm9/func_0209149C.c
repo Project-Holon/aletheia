@@ -44,7 +44,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u8 g_020A8730[];
-extern int func_02091B5C(u8 *p);
+struct P02091B5C;
+extern int func_02091B5C(struct P02091B5C *p);
 
 struct Cfg4 {
     u32 pad : 7;
@@ -67,7 +68,7 @@ int func_0209149C(void)
         if (((struct Cfg4 *)(p + 4))->f3 != 0 &&
             (((((struct Obj00481 *)p)->f4 << 25) >> 30) & 1) != 0 &&
             ((struct Cfg0209149C *)(p + 8))->mode == 1) {
-            if (func_02091B5C(p) != 0)
+            if (func_02091B5C((struct P02091B5C *)p) != 0)
                 r = -1;
         }
         p = (i < 3) ? g_020A8730 + i++ * 0x4c : 0;

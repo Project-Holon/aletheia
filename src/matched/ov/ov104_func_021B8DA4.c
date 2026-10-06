@@ -36,7 +36,7 @@ extern int _ffix(float);
 extern float _fadd(float, float), _fsub(float, float);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B6F4(void *, u8, u32);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 static inline int convert(int v)
 {
     float f;
@@ -61,5 +61,5 @@ void func_021B8DA4(Particle *p, const Point *a, const Point *b, int color, u32 l
     p->lifetime = lifetime;
     p->ey = ey;
     func_0204B3DC(p->object, 1);
-    func_0204B6F4(p->object, color, 1);
+    func_0204B6F4(p->object, (u8)color, 1);
 }

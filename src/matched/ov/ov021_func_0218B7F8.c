@@ -20,10 +20,11 @@
  */
 
 extern void func_0218C860(void *p);
-extern void func_0218BE84(char *p, char *q);
-extern void func_0218BD94(char *p);
+typedef unsigned char  u8;
+extern void func_0218BE84(u8 *s, u8 *e);
+extern void func_0218BD94(u8 *s);
 extern void func_0218BB64(char *p);
-extern void func_0218BC6C(char *p);
+extern void func_0218BC6C(unsigned char *p);
 extern void func_020307B0(void *p);
 
 void func_0218B7F8(char *p)
@@ -34,9 +35,9 @@ void func_0218B7F8(char *p)
         if (*(void **)(p + 0x1DC + i * 4) != 0)
             func_0218C860(*(void **)(p + 0x1DC + i * 4));
     }
-    func_0218BE84(p, p + 0x1B0);
-    func_0218BD94(p);
+    func_0218BE84((u8 *)p, (u8 *)(p + 0x1B0));
+    func_0218BD94((u8 *)p);
     func_0218BB64(p);
-    func_0218BC6C(p);
+    func_0218BC6C((unsigned char *)p);
     func_020307B0(p);
 }

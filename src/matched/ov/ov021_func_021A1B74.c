@@ -29,7 +29,7 @@ extern const u32 d_021D8868[];
 struct O;
 extern void func_021A20C8(struct O *p);
 extern void func_021A1C04(u8 *p);
-extern void func_021A1BF8(void *p, u32 v);
+extern void func_021A1BF8(u32 *p, u32 v);
 extern void func_021A1FEC(struct O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g);
 
 void func_021A1B74(u8 *p, int a, int f)
@@ -45,7 +45,7 @@ void func_021A1B74(u8 *p, int a, int f)
     }
     func_021A1C04(p);
     ((struct Obj00755 *)p)->fA = 0;
-    func_021A1BF8(p, d_021D886C[a * 2]);
+    func_021A1BF8((u32 *)p, d_021D886C[a * 2]);
     t = d_021D8868[a * 2];
     func_021A1FEC((struct O *)(((struct Obj00755 *)p)->f20), t, 0, 0, 1, 1, f);
     ((struct Obj00755 *)p)->fC = a;

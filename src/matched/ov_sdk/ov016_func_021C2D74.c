@@ -40,7 +40,8 @@ typedef struct {
 	void *ptr;
 } FocusPosT;
 
-extern int func_021D696C(RectT *r);
+typedef unsigned short u16;
+extern int func_021D696C(u16 *a);
 extern void func_021BCB28(signed char v);
 extern void func_021BD4C8(int x0, int x1, int y0, int y1);
 extern int func_021D6824(unsigned int f);
@@ -55,7 +56,7 @@ void func_021C2D74(void)
 	unsigned i;
 
 	for (i = 0; i < 3; i++) {
-		if (func_021D696C(&g_021DA4B8[i])) {
+		if (func_021D696C((u16 *)(&g_021DA4B8[i]))) {
 			func_021BCB28(1);
 			g_021DE5A8.idx = i;
 			func_021BD4C8(g_021DA4D0[g_021DE5A8.idx].l, g_021DA4D0[g_021DE5A8.idx].r,

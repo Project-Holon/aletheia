@@ -56,18 +56,18 @@ extern u8 d_02180A30;
 extern u16 d_02180A00;
 extern u64 func_020870D0(void);
 extern void func_02075E9C(u16 a);
-extern void func_02084DF4(u16 a);
+extern int func_02084DF4(unsigned short lockID);
 extern void func_02084E2C(u16 a);
 extern void func_02075EAC(u16 a);
 extern void func_02180904(void);
 extern void func_02180914(u16 v);
-extern u8 func_02180924(Buf *b);
-extern void func_02180984(Buf *b);
+extern u8 func_02180924(char *p);
+extern void func_02180984(u8 *p);
 
 
 extern u64 _ull_mul(u64 a, u64 b);
 
-u8 func_02180820(void)
+int func_02180820(void)
 {
     u8 result;
     u64 start;
@@ -84,13 +84,13 @@ u8 func_02180820(void)
     } while (_ull_mul(d, 64) * 1000 / 33514 < 60);
     func_02180904();
     func_02180914(0x42);
-    result = func_02180924(&d_02180A20_b);
+    result = func_02180924((char *)(&d_02180A20_b));
     start = func_020870D0();
     do {
         d = func_020870D0() - start;
     } while (_ull_mul(d, 64) * 1000 / 33514 < 60);
     func_02180914(2);
-    func_02180984(&d_02180A20_b);
+    func_02180984((u8 *)(&d_02180A20_b));
     func_02180904();
     func_02084E2C(d_02180A00);
     func_02075EAC(d_02180A00);

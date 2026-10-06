@@ -23,11 +23,12 @@ typedef unsigned int   u32;
 struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204BA00(void *, Params *);
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_021D4BDC(char *p);
 extern void func_021D4BF0(void);
-extern void func_021D4244(char *, void *, int);
+extern void func_021D4244(void *p, u32 a, int a2);
 void func_021D4BF4(char *p)
 {
     int i;
@@ -41,7 +42,7 @@ void func_021D4BF4(char *p)
     else if (i == 4) i = 1;
     base = (void **)(p + 0x390);
     func_0204B92C(base[i], 1);
-    func_0204BA00(base[i], &args);
+    func_0204BA00(base[i], (const struct Cmd *)(&args));
     func_0204B9A0(base[i]);
-    func_021D4244(p, func_021D4BF0, 0x390);
+    func_021D4244(p, (u32)func_021D4BF0, 0x390);
 }

@@ -61,22 +61,23 @@ extern u8 func_021D5440(u8 *);
 extern u8 func_021B8DDC(u32);
 extern char *func_021B9AEC(char *, int);
 extern int func_021B99B8(void *, u32);
-extern u8 *func_021B9BF0(void *, u8);
+struct S2;
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern u32 func_021CBA30(void *, u32);
-extern u32 func_021B8588(void *);
+extern u32 func_021B8588(void **p);
 extern void func_021CD64C(void *, u8, ...);
-extern u32 func_021D805C(u32, u32);
+extern u32 func_021D805C(void *p, u32 n);
 extern int func_021CBA40(u8 *, void *, u16);
 extern void func_021B9090(u8 *, u32, u32);
 extern u8 func_021B8FF4(u8 *);
-extern void func_021BA1B4(void *, int);
-extern void func_021CD4B0(void *, u32, ...);
+extern void func_021BA1B4(char **p, int i);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021C8338(u8 *, int);
 extern u32 func_021CD4FC(void *, u32);
 extern void func_021CD568(void *, u32, u32, ...);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021BA250(char *, u8 *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
 {
   u32 n;
@@ -103,7 +104,7 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
   {
     party = func_021B9AEC(*((char **) (p + 8)), side);
     n = func_021B99B8(*((void **) (p + 4)), side);
-    mon = func_021B9BF0(party, slot);
+    mon = (u8 *)func_021B9BF0((struct S2 *)party, slot);
     monId = func_021D5440(mon);
     state = func_021CBA30(p + 0x1ab8, monId);
     if (slot >= n)
@@ -115,13 +116,13 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
   if ((*((u32 *) (p + 24))) != 1)
   {
     func_021CD64C(*((void **) (p + 12)), 0x5a, 0x21, side, move, 0xffff0000);
-    if (func_021D805C(move, 15) == 4)
+    if (func_021D805C((void *)move, 15) == 4)
     {
       if (func_021CBA40(p, a, move))
         func_021B9090(*((u8 **) (p + 4)), side, move);
       return 0;
     }
-    if (func_021D805C(move, 7) == 3)
+    if (func_021D805C((void *)move, 7) == 3)
     {
       func_021B9090(*((u8 **) (p + 4)), side, move);
       return 1;
@@ -140,7 +141,7 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
     {
       e = data_021EFDE4;
       e = e + i;
-      if ((e->exact && (move == e->id)) || ((!e->exact) && func_021D805C(move, e->id)))
+      if ((e->exact && (move == e->id)) || ((!e->exact) && func_021D805C((void *)move, e->id)))
       {
         if (e->mode == 0)
         {
@@ -195,7 +196,7 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
   for (i = 0; i < 23; i++)
   {
     e = data_021EFDE4 + i;
-    result = func_021D805C(move, e->id);
+    result = func_021D805C((void *)move, e->id);
     if (result && e->call(p, mon, move, result, arg))
       mark = 1;
   }
@@ -211,7 +212,7 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
   }
   else
     func_021CD64C(*((void **) (p + 12)), 0x5a, 0x44, 0xffff0000);
-  func_021CC95C(p + 0x1d74, lock, 1246);
+  func_021CC95C((u32 *)(p + 0x1d74), lock, 1246);
   func_021CD4B0(*((void **) (p + 12)), 0x4c, 0x236);
   return 0;
 }

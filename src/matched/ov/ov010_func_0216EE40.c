@@ -30,11 +30,11 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0201313C(void *p, u32 a);
-extern void *func_0201AB28(void *party, int i);
-extern u32 func_02017E1C(void *mon, u32 id, void *arg);
-extern void func_0216505C(u16 species);
-extern void func_02165078(u16 species);
+extern void *func_0201313C(void *p, int i);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern int func_0216505C(int a0);
+extern int func_02165078(int a0);
 extern void func_021653F4(u16 species);
 
 void func_0216EE40(void *p, int which)

@@ -19,7 +19,8 @@ typedef signed short   s16;
 typedef signed int     s32;
 extern s16 func_0203F6D8(s32 x);
 extern int func_0203F684(u16);
-extern void func_021DE0C0(char *, int, int, int);
+typedef unsigned char  u8;
+extern void func_021DE0C0(u8 *p, int i, int x, int y);
 void func_021DE608(char *p, int i, int angle)
 {
     int x, y;
@@ -27,6 +28,6 @@ void func_021DE608(char *p, int i, int angle)
     y = (int)(((long long)func_0203F684((u16)angle) * 0x2c000 + 0x800) >> 12);
     x += 0x80000;
     y += 0x58000;
-    func_021DE0C0(p, i, (short)((x & 0x7ffff000) >> 12),
+    func_021DE0C0((u8 *)p, i, (short)((x & 0x7ffff000) >> 12),
         (short)((y & 0x7ffff000) >> 12));
 }

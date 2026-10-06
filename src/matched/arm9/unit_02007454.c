@@ -105,13 +105,16 @@ struct MsgBank;
 struct Rec;
 struct Sub020071CCCtrl;
 extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern struct Sub02007454Entry *sub_02007AF4(void **save, u32 box);
+typedef unsigned short u16;
+struct MsgData;
+struct Sub02007AC8Entry;
+extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
 extern u32 sub_02017E88(void *p, u32 id, u32 v);
 extern void sub_020181A0(void *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045C04(struct Rec *rec);
-extern void  func_02045F5C(void *msg, u32 id, void *dest, u32 size);
+extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
 void sub_02007464(struct Sub02007454Header *h);
 struct Sub02007454Header *sub_020074CC(void **save);
@@ -144,7 +147,7 @@ void sub_02007464(struct Sub02007454Header *h)
     msg = func_02045B38(0, 2, 9, 1);
     if (msg != 0) {
         for (i = 0; i < 0x18; i++) {
-            func_02045F5C(msg, i + 6, &h->unk04[i], 0x14);
+            func_02045F5C(msg, i + 6, (u16 *)(&h->unk04[i]), 0x14);
         }
         func_02045C04(msg);
     }
@@ -195,7 +198,7 @@ int sub_0200752C(void **save, u32 box, const struct Sub02007454Entry *src)
         func_02034714(sub_0200752C_File, 0, sub_0200752C_File);
     }
     for (slot = 0; slot < 30; slot++) {
-        struct Sub02007454Entry *base = sub_02007AF4(save, box);
+        struct Sub02007454Entry *base = (struct Sub02007454Entry *)sub_02007AF4(save, box);
 
         if (sub_02017E88(&base[slot], 5, 0) == 0) {
             base[slot] = *src;

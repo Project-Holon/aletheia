@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 struct Tagged;
 extern void *func_02046F48(struct Tagged *p);
-extern u8 *func_0206E954(void *p);
+extern int func_0206E954(int p0);
 extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_0206A2CC(void *a, void *b);
 extern void func_0206A4AC(void *a, void *b);
@@ -52,7 +52,7 @@ void func_02169928(void *a, void *b, void *c)
     res = func_02046F48(b);
     y = func_02046F48(c);
     m = 0;
-    r = func_0206E954(res);
+    r = (u8 *)func_0206E954((int)res);
     if (r != 0 && (q = Get(r, 0)) != 0)
         res = r + *q;
     else

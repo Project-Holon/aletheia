@@ -53,7 +53,7 @@ extern void func_020307B0(void *);
 extern void *memset(void *, int, u32);
 extern void func_02008494(void *src, void *dst);
 extern u32 func_02017E1C(void *, u32, u32);
-extern void func_0202EB7C(void *, Record *);
+extern u32 func_0202EB7C(u32 a0, u32 a1);
 void func_02201B44(u8 *p, void *mon, u8 *r, void *old)
 {
     void *copy;
@@ -74,6 +74,6 @@ void func_02201B44(u8 *p, void *mon, u8 *r, void *old)
     rec.x = ((struct Obj06521 *)r)->f126;
     rec.flags = (rec.flags & ~7) | (((struct Obj06521 *)r)->fF7 & 7);
     rec.y = ((struct Obj06521 *)r)->f127;
-    func_0202EB7C(((struct Obj23455 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f18, &rec);
+    func_0202EB7C((u32)(((struct Obj23455 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f18), (u32)(&rec));
     func_020307B0(copy);
 }

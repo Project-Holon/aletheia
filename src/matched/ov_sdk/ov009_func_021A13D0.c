@@ -33,14 +33,16 @@ typedef struct {
     int sock;
 } SBServerList;
 
-extern int func_021A0E30(SBServerList *slist, u8 *buf, int len);
-extern int func_021A12DC(SBServerList *slist, u8 *buf, int len);
+struct SBL;
+struct _SBServerList;
+extern int func_021A0E30(struct SBL *slist, char *buf, int len);
+extern int func_021A12DC(struct SBL *slist, char *buf, int len);
 extern int func_0217EC90(int sock, u8 *buf, int len, int flags);
-extern int func_021A1254(SBServerList *slist, u8 *buf, int len);
+extern int func_021A1254(struct _SBServerList *slist, char *buf, int len);
 extern int func_021A10D4(SBServerList *slist, u8 *buf, int len);
 extern int func_021A0F0C(SBServerList *slist, u8 *buf, int len);
 extern void *memmove(void *dst, const void *src, unsigned long n);
-extern void func_0219FAAC(SBServerList *slist);
+extern void func_0219FAAC(struct SBL *slist);
 
 int func_021A13D0(SBServerList *slist)
 {
@@ -63,17 +65,17 @@ int func_021A13D0(SBServerList *slist)
         case 0:
             break;
         case 1:
-            ret = func_021A0E30(slist, slist->inbuffer + 3, msglen - 3);
+            ret = func_021A0E30((struct SBL *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 2:
-            ret = func_021A12DC(slist, slist->inbuffer + 3, msglen - 3);
+            ret = func_021A12DC((struct SBL *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 3:
             if (func_0217EC90(slist->sock, slist->inbuffer, msglen, 0) <= 0)
                 return 3;
             break;
         case 4:
-            ret = func_021A1254(slist, slist->inbuffer + 3, msglen - 3);
+            ret = func_021A1254((struct _SBServerList *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 5:
             ret = func_021A10D4(slist, slist->inbuffer + 3, msglen - 3);
@@ -91,6 +93,6 @@ int func_021A13D0(SBServerList *slist)
             break;
     }
     if (ret != 0)
-        func_0219FAAC(slist);
+        func_0219FAAC((struct SBL *)slist);
     return ret;
 }

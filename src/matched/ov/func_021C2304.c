@@ -23,7 +23,7 @@
 
 extern void func_0207D63C(void *, int, int, int, int);
 
-void func_021C2304(void)
+void func_021C2304(char *a0)
 {
     func_0207D63C((void *)0x04000050, 0, 0x3f, 0xc, 4);
 }

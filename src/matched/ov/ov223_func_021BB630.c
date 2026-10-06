@@ -35,7 +35,7 @@ typedef struct {
     Fade f[3];
 } Ctx;
 extern const u8 d_021BC6FC[];
-extern void func_021BB520(u16 c, u16 *r, u16 *g, u16 *b);
+extern void func_021BB520(int v, unsigned short *a, unsigned short *b, unsigned short *c);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
 void func_021BB630(Ctx *p)
 {

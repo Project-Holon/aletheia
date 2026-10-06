@@ -38,9 +38,9 @@ extern void func_0207C9D0(const Vec *,const Vec *,Vec *);
 extern void func_0207AF38(Mtx *,int,int);
 extern void func_0207B51C(const Vec *,const Mtx *,Vec *);
 extern void func_0207CA00(const Vec *,const Vec *,Vec *);
-extern void func_021F5350(int *,const Vec *);
+extern void func_021F5350(int *p, int *q);
 extern void func_021F5368(int *,u16);
-extern void func_021F535C(int *,const Vec *);
+extern void func_021F535C(int *p, int *q);
 extern void func_021F5424(int,int);
 extern u32 func_020056EC(u32);
 void func_021F7204(u8 *p,u8 *q)
@@ -63,13 +63,13 @@ void func_021F7204(u8 *p,u8 *q)
     func_0207CA00(&delta,(Vec *)(q+60),(Vec *)(q+60));
     pos.x=(pos.x-a->x-((struct Obj00904 *)q)->f3C)/16;
     pos.y=(0xc0000-(pos.y-a->y+((struct Obj00904 *)q)->f40))/16;
-    func_021F5350(*(int * *)&((struct Obj00904 *)q)->f58,&pos);
+    func_021F5350(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&pos));
     func_021F5368(*(int * *)&((struct Obj00904 *)q)->f58,((struct Obj00904 *)q)->f48);
     scale.x=((struct Obj00904 *)q)->f24<<4;
     scale.y=((struct Obj00904 *)q)->f28<<4;
     scale.z=((struct Obj00904 *)q)->f2C<<4;
     if(((struct Obj00904 *)q)->f54==1) scale.x*=-1;
-    func_021F535C(*(int * *)&((struct Obj00904 *)q)->f58,&scale);
+    func_021F535C(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&scale));
     ((struct Obj00904 *)q)->f4=0;
     if(((struct Obj00904 *)q)->f4C==1) {
         ((struct Obj00904 *)q)->f50+=(u16)func_020056EC(2);

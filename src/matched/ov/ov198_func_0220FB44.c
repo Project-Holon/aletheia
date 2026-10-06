@@ -24,7 +24,7 @@ typedef unsigned int u32;
 struct Sound;
 extern int func_02025DE8(struct Sound *);
 extern void func_02211970(u8 **,u32);
-extern void func_0220B760(u8 *,u8);
+extern void func_0220B760(u8 *p, unsigned int state);
 extern u32 func_02210F1C(u8 *p);
 extern u32 func_02211958(u8 **);
 extern int func_022110D4(u8 *,int);
@@ -41,7 +41,7 @@ int func_0220FB44(u8 *p)
         row=(u32)p+func_022110D4(p,(*(u8 **)p)[0x20])*0x4C;
         if(*(u16 *)(row+sel*8+0x30)!=0){
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,sel+14);
+            func_0220B760(p,(u8)(sel+14));
             (*(u8 **)p)[0x4B]=sel;
             ((struct Obj03349 *)p)->f217C=15;
             return 29;
@@ -52,7 +52,7 @@ int func_0220FB44(u8 *p)
         if(next!=255){
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,12);
+            func_0220B760(p,(u8)12);
             ((struct Obj03349 *)p)->f217C=20;
             return 29;
         }
@@ -62,25 +62,25 @@ int func_0220FB44(u8 *p)
         if(next!=255){
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
-            func_0220B760(p,13);
+            func_0220B760(p,(u8)13);
             ((struct Obj03349 *)p)->f217C=20;
             return 29;
         }
         break;
     case 6:
         func_02211970((u8 **)p,1357);
-        func_0220B760(p,9);
+        func_0220B760(p,(u8)9);
         ((struct Obj03349 *)p)->f217C=13;
         return 29;
     case 7:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        func_0220B760(p,(u8)6);
         p[0x2190]=2;
         ((struct Obj03349 *)p)->f217C=12;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
-        func_0220B760(p,6);
+        func_0220B760(p,(u8)6);
         p[0x2190]=2;
         ((struct Obj03349 *)p)->f217C=12;
         return 29;

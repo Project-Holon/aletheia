@@ -57,10 +57,11 @@ extern void func_021BB54C(void *ctx, u8 *p);
 extern void func_021BE0B8(void *ctx);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B404(void *spr, struct SpritePos *pos, int n);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 func_020362DC(void);
 extern void func_021BB65C(void *ctx, u8 *p, int v);
-extern void func_021BB9E4(void *ctx, u8 *p);
+extern void func_021BB9E4(void *a0, char *a1);
 extern u32 func_0204B98C(struct Actor *a);
 extern const u8 d_021C6FF8[];
 extern const u8 d_021C7014[];
@@ -130,7 +131,7 @@ void func_021BAEE0(void *ctx, u8 *p)
             func_0204B9A0(((struct Obj00024 *)p)->f8C);
             func_0204B92C(((struct Obj00024 *)p)->f8C, 1);
             func_0204B878(((struct Obj00024 *)p)->f8C, (u16)(j + 0x11));
-            func_0204B404(((struct Obj00024 *)p)->f8C, &pa, 0);
+            func_0204B404(((struct Obj00024 *)p)->f8C, (const struct Vec2 *)(&pa), 0);
             func_0204B3DC(((struct Obj00024 *)p)->f90, 0);
             func_020061E4(0x66c);
         }
@@ -146,7 +147,7 @@ void func_021BAEE0(void *ctx, u8 *p)
             func_0204B9A0(((struct Obj00024 *)p)->f8C);
             func_0204B92C(((struct Obj00024 *)p)->f8C, 1);
             func_0204B878(((struct Obj00024 *)p)->f8C, (u16)(j + 0x14));
-            func_0204B404(((struct Obj00024 *)p)->f8C, &pb, 0);
+            func_0204B404(((struct Obj00024 *)p)->f8C, (const struct Vec2 *)(&pb), 0);
             func_0204B3DC(((struct Obj00024 *)p)->f90, 0);
         }
     }
@@ -156,7 +157,7 @@ void func_021BAEE0(void *ctx, u8 *p)
             p[4] = 0x18;
             ((struct Obj00024 *)p)->f8 = 1;
             func_021BB65C(ctx, p, 0);
-            func_021BB9E4(ctx, p);
+            func_021BB9E4(ctx, (char *)p);
             func_020061E4(0x551);
             func_0204B878(((struct Obj00024 *)p)->f6C, 9);
         }
@@ -167,7 +168,7 @@ void func_021BAEE0(void *ctx, u8 *p)
         func_020061E4(0x66f);
     }
     if (func_0204B3F4(((struct Obj00024 *)p)->f8C) == 1 && func_0204B98C(((struct Obj00024 *)p)->f8C) == 0) {
-        func_021BB9E4(ctx, p);
+        func_021BB9E4(ctx, (char *)p);
     }
     if (((struct Obj00024 *)p)->f10 == 1 && func_0204B98C(((struct Obj00024 *)p)->f84) == 0 && func_0204B3F4(((struct Obj00024 *)p)->f90) == 0) {
         pc = d_021C7038;
@@ -181,7 +182,7 @@ void func_021BAEE0(void *ctx, u8 *p)
         case 2:
             break;
         }
-        func_0204B404(((struct Obj00024 *)p)->f90, &pc, 0);
+        func_0204B404(((struct Obj00024 *)p)->f90, (const struct Vec2 *)(&pc), 0);
         func_0204B3DC(((struct Obj00024 *)p)->f90, 1);
     }
     if (((struct Obj00024 *)p)->f14 == 1 && func_0204B98C(((struct Obj00024 *)p)->f88) == 0 && func_0204B3F4(((struct Obj00024 *)p)->f90) == 0) {
@@ -200,7 +201,7 @@ void func_021BAEE0(void *ctx, u8 *p)
             pd.x = pd.x + 0x20;
             break;
         }
-        func_0204B404(((struct Obj00024 *)p)->f90, &pd, 0);
+        func_0204B404(((struct Obj00024 *)p)->f90, (const struct Vec2 *)(&pd), 0);
         func_0204B3DC(((struct Obj00024 *)p)->f90, 1);
     }
 }

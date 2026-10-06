@@ -27,7 +27,8 @@ typedef struct { int x,y,z; } Vec;
 typedef struct { u16 count,pad; int index,a,b; } Tail;
 extern u8 *func_021F5450(u8 *,int);
 extern char *func_021F5464(char *);
-extern void func_021F4EA4(int,int,Vec *);
+typedef unsigned int   u32;
+extern void func_021F4EA4(u32 unused, u32 p, u32 q);
 extern void func_0207C9D0(const Vec *,const Vec *,Vec *);
 extern void func_021F9FD0(char *,int,int);
 extern void *func_021F9DC0(void *p);
@@ -41,7 +42,7 @@ void func_021F7BA8(u8 *p,u8 *q)
     Vec v;
     int a;
     if(((struct Obj06409 *)q)->f8==1 && ((struct Obj22562 *)r)->f0==1) {
-        func_021F4EA4(((struct Obj08028 *)p)->f10,*(int *)(q+132+t->index*4),&v);
+        func_021F4EA4(((struct Obj08028 *)p)->f10,*(int *)(q+132+t->index*4),(u32)(&v));
         v.x/=16;
         v.y=(0xc0000-v.y)/16;
         v.z+=0x1000;

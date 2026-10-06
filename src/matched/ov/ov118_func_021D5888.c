@@ -28,10 +28,10 @@ typedef struct {
 } Vec;
 
 extern void func_02015EB0(void *p);
-extern void func_02015C48(u32, Vec *);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_02015E04(void *p);
-extern void func_02015C94(u32, Vec *);
-extern void func_02015CAC(u32, Vec *);
+extern void func_02015C94(void *p, u32 *out);
+extern void func_02015CAC(void *p, u32 *src);
 
 void func_021D5888(u8 *p, int idx)
 {
@@ -42,9 +42,9 @@ void func_021D5888(u8 *p, int idx)
     v.x = 0;
     v.y = -0x17000;
     v.z = 0xA000;
-    func_02015C48(obj[idx], &v);
+    func_02015C48((void *)obj[idx], (u32 *)(&v));
     func_02015E04((void *)obj[idx]);
-    func_02015C94(obj[idx], &v);
+    func_02015C94((void *)obj[idx], (u32 *)(&v));
     if (v.x < 0) {
         v.x = -0x10000;
     } else {
@@ -52,5 +52,5 @@ void func_021D5888(u8 *p, int idx)
     }
     v.y = 0x10000;
     v.z = 0x1000;
-    func_02015CAC(obj[idx], &v);
+    func_02015CAC((void *)obj[idx], (u32 *)(&v));
 }

@@ -45,8 +45,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02167ED8(void *, void *);
-extern void func_0200DE6C(void *, const void *, u8, u8);
-extern void func_0200DD28(void *, u8, u8, void *);
+struct RecSlot;
+extern void func_0200DE6C(struct RecSlot *p, const void *src, u8 a, u8 b);
+extern void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q);
 void func_021D6AF0(u8 *p, void *q) {
     u32 time[3];
     u32 date[4];

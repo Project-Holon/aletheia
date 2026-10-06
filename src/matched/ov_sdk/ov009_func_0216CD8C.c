@@ -75,7 +75,7 @@ extern void func_02174D04();
 extern void func_02174D28(int cookie);
 extern void func_02174ED0(char *data, int len);
 
-int func_0216CD8C(void)
+int func_0216CD8C(int profileID)
 {
     int i;
     int qr2Error;

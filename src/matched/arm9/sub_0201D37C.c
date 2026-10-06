@@ -35,9 +35,10 @@ struct StrObj {
     u16 slots[1];
 };
 
-extern u16 *sub_02045A90(struct StrObj *s);
-extern void sub_0204581C(struct StrObj *s);
-extern void sub_02045AFC(struct StrObj *s, u16 c);
+struct U16Vec;
+extern u16 *sub_02045A90(struct U16Vec *vec);
+extern void sub_0204581C(struct U16Vec *vec);
+extern void sub_02045AFC(struct U16Vec *vec, u16 value);
 
 u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
 {
@@ -45,8 +46,8 @@ u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
     u16 *p;
     u16 c;
 
-    p = sub_02045A90(src);
-    sub_0204581C(dst);
+    p = sub_02045A90((struct U16Vec *)src);
+    sub_0204581C((struct U16Vec *)dst);
     while (n != 0) {
         while ((c = *p) != 0xFFFF && c != 0xFFFE) {
             if (c != 0xF000) {
@@ -66,7 +67,7 @@ u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
     if (n == 0 && *p != 0xFFFF) {
         while ((c = *p) != 0xFFFF && c != 0xFFFE) {
             if (c != 0xF000) {
-                sub_02045AFC(dst, *p++);
+                sub_02045AFC((struct U16Vec *)dst, *p++);
             } else {
                 if (c == 0xF000) {
                     end = p + 3;
@@ -75,11 +76,11 @@ u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
                     end = p;
                 }
                 while (p < end) {
-                    sub_02045AFC(dst, *p++);
+                    sub_02045AFC((struct U16Vec *)dst, *p++);
                 }
             }
         }
-        sub_02045AFC(dst, 0xFFFF);
+        sub_02045AFC((struct U16Vec *)dst, 0xFFFF);
         return 1;
     }
     return 0;

@@ -31,7 +31,10 @@ typedef unsigned char  u8;
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern void *func_02188C7C(u8 *p);
-extern int func_0216DD1C(void *list, void **out, unsigned long *iter);
+typedef unsigned int   u32;
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0216D454(void *rec);
 extern void *func_0216E3C4(void *p);
 extern void func_0216D828(void *rec, Vec3s *out);
@@ -48,7 +51,7 @@ int func_021AAEC0(Self *self, int x, short y2, int z, int skip)
     cur = func_021A3074(func_02188CB4(self->ctx));
     list = func_02188C7C(self->ctx);
     for (;;) {
-        if (!func_0216DD1C(list, &rec, &it))
+        if (!func_0216DD1C(list, (struct Rec **)(&rec), (u32 *)(&it)))
             break;
         if (!func_0216D454(rec))
             continue;

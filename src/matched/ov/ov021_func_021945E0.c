@@ -36,7 +36,7 @@ extern void func_0216D9A0(void *a);
 struct BigObj;
 extern void func_020129D0(struct BigObj *p, u8 v);
 extern int func_021A0F30(u32 a, u32 b);
-extern void func_020129B8(struct BigObj *p, u8 v);
+extern void func_020129B8(struct BigObj *p, u32 v);
 extern void func_0216D9E4(void *a);
 
 int func_021945E0(void *a, int b, u8 *c)

@@ -38,7 +38,7 @@ extern struct Slot *g_02146A44;
 
 extern void func_02042508(u32 index, const u32 *src, u32 mode, u32 size);
 
-void func_02040B1C(u8 index, const void *src, u32 size, u32 tile)
+void func_02040B1C(int index, const void *src, u32 size, u32 tile)
 {
     if (g_02146A44[index].depth == 0) {
         func_02042508(index, src, size, tile * 32);

@@ -23,7 +23,7 @@ typedef signed short s16;
 extern void func_020434DC(u32 a, u32 b);
 extern void func_02043598(u32 a, u32 b);
 
-void func_021F4BCC(void)
+void func_021F4BCC(u8 *p)
 {
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);

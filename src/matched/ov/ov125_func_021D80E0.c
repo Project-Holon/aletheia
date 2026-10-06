@@ -59,7 +59,7 @@ int func_021D80E0(void)
     }
     return 1;
 }
-void func_021D81EC(void)
+void func_021D81EC(void *a0)
 {
     int count;
     for (;;) {

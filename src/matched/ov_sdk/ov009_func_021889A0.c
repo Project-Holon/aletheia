@@ -42,7 +42,7 @@ typedef struct GPIProfile {
     int f1C;
 } GPIProfile;
 
-extern GPIPeer *func_0218F0B8(void **connection, int profileid);
+extern char *func_0218F0B8(void **p, int v);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern GPResult func_021888C0(void **connection, int profileid, int type, char *message);
 extern GPIPeer *func_0218F150(void **connection, int profileid, int initiate);
@@ -57,7 +57,7 @@ GPResult func_021889A0(void **connection, int profileid, int type, char *message
     GPIProfile *profile;
     GPIPeer *peer;
 
-    peer = func_0218F0B8(connection, profileid);
+    peer = (GPIPeer *)func_0218F0B8(connection, profileid);
     if (peer == 0) {
         if (!func_0218FD9C(connection, profileid, &profile) || profile->buddyStatus == 0 || profile->buddyStatus->f20 == 0) {
             if (sendOption == 0xb00)

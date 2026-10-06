@@ -66,9 +66,9 @@ typedef struct {
 extern int func_021C866C(void);
 extern int func_021C86A8(void);
 extern int func_022024DC(Work *p, void *mon);
-extern void func_021F4FC4(Work *p);
-extern void func_021F90A0(Work *p, void *bank, u32 id, u32 d, u16 e);
-extern void func_021F4E98(Work *p, u32 a, u32 b);
+extern void func_021F4FC4(u8 *p);
+extern void func_021F90A0(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void func_021F4E98(u8 *p, u32 a, u32 b);
 struct Rec0200AD8C;
 struct Rec0200AD94;
 struct RegB;
@@ -81,12 +81,12 @@ extern u16 func_0200ADE0(struct RegB *p);
 extern void func_022022B8(Work *p, void *mon, u32 box, int hatch);
 extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
 extern void func_020307B0(void *p);
-extern void func_02201B18(Work *p);
+extern void func_02201B18(u8 *p);
 extern u32 func_0200FBB0(void);
 extern void func_0203CA04(void);
 extern void func_0200FBA0(void);
 extern void func_0203C968(void);
-extern void func_021F513C(Work *p);
+extern void func_021F513C(u8 *p);
 
 int func_0220189C(Work *p)
 {
@@ -104,14 +104,14 @@ int func_0220189C(Work *p)
             p->busy = 1;
             switch (func_022024DC(p, p->mon)) {
             case 1:
-                func_021F4FC4(p);
-                func_021F90A0(p, p->bank, 0x23, 1, 0xF0F);
-                func_021F4E98(p, 0x2A, 0x20);
+                func_021F4FC4((u8 *)p);
+                func_021F90A0((u32)p, (u32)p->bank, 0x23, 1, 0xF0F);
+                func_021F4E98((u8 *)p, 0x2A, 0x20);
                 break;
             case 2:
-                func_021F4FC4(p);
-                func_021F90A0(p, p->bank, 0x29, 1, 0xF0F);
-                func_021F4E98(p, 0x2A, 0x20);
+                func_021F4FC4((u8 *)p);
+                func_021F90A0((u32)p, (u32)p->bank, 0x29, 1, 0xF0F);
+                func_021F4E98((u8 *)p, 0x2A, 0x20);
                 break;
             case 0:
                 p->state = 0x16;
@@ -132,7 +132,7 @@ int func_0220189C(Work *p)
                 func_0200AD94(p->ctx->sys, 0);
                 func_020307B0(mon);
             } else {
-                func_02201B18(p);
+                func_02201B18((u8 *)p);
             }
             break;
         case -4:
@@ -159,12 +159,12 @@ int func_0220189C(Work *p)
             func_0203C968();
             break;
         case -13:
-            func_021F513C(p);
+            func_021F513C((u8 *)p);
             break;
         }
     } else {
         if (++p->timer == 0xE10) {
-            func_021F513C(p);
+            func_021F513C((u8 *)p);
         }
     }
     return 2;

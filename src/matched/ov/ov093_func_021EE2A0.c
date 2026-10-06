@@ -24,7 +24,8 @@ struct O {
     int fec;
 };
 
-extern int func_021EE4B4(void *a, void *b);
+struct C;
+extern int func_021EE4B4(int *st, struct C *c);
 
 int func_021EE2A0(struct O *o)
 {
@@ -48,7 +49,7 @@ int func_021EE2A0(struct O *o)
 void func_021EE2F8(struct O *o)
 {
     o->fe0 = 0;
-    o->fe4 = func_021EE4B4;
+    o->fe4 = (int (*)(void *, void *))func_021EE4B4;
     o->fe8 = o;
     o->fec = 0;
 }

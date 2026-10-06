@@ -58,8 +58,9 @@ struct B8802066080 {
     int unk_08;
 };
 
-extern void  func_02065DB4(void *a);
-extern void  func_0206615C(int a);
+struct NNSG2dMultiCellInstance;
+extern void func_02065DB4(const struct NNSG2dMultiCellInstance *pMC);
+extern void func_0206615C(void);
 struct G2dOamState;
 extern u32 func_02067B50(const struct G2dOamState *p);
 extern u32 func_02067B64(const struct G2dOamState *p);
@@ -73,11 +74,11 @@ extern s16 g_020A1B38[];
 void func_02066080(struct Obj02066080 *c)
 {
     if (c->unk_5a == 0) {
-        func_02065DB4(c->unk_34);
+        func_02065DB4((const struct NNSG2dMultiCellInstance *)c->unk_34);
         return;
     }
 
-    func_0206615C(c->unk_5a);
+    func_0206615C();
 
     if ((c->unk_5a & 8) != 0) {
         int x, y;
@@ -102,6 +103,6 @@ void func_02066080(struct Obj02066080 *c)
     if ((c->unk_5a & 2) != 0)
         func_020664CC(c->unk_4c, c->unk_50, 0x1000);
 
-    func_02065DB4(c->unk_34);
+    func_02065DB4((const struct NNSG2dMultiCellInstance *)c->unk_34);
     func_02066380(1);
 }

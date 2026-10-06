@@ -60,7 +60,7 @@ extern int func_0215A5FC(int a0);
 extern u32 func_02190ACC(u32 *obj, u32 *tab, u32 unused, u32 key);
 extern unsigned func_02190AC4(void *p);
 extern unsigned func_02190AEC(unsigned a, unsigned b, unsigned c, int d);
-extern void func_02190B08(void *, unsigned short, unsigned short, unsigned short, unsigned short, unsigned short);
+extern int func_02190B08(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 f);
 extern struct Handle *func_02190988(u16 *a, const u8 *b, u32 c, u32 d, u32 x, u16 y, u16 z, u32 w);
 extern void func_0215A9C0(int a);
 extern L32 d_02171140;
@@ -85,6 +85,6 @@ void func_0215A864(int *p)
         m = n;
     }
     y = func_02190AEC(m, l.h9, l.f2, n > 6);
-    func_02190B08(&l, func_02190AC4((void *)q->j), q->a, q->b, x, y);
+    func_02190B08((u32)(&l), (unsigned short)func_02190AC4((void *)q->j), (unsigned short)q->a, (unsigned short)q->b, (unsigned short)x, (unsigned short)y);
     q->k = (int)func_02190988((u16 *)t, (const u8 *)(&l), q->j, (u32)((void *)func_0215A9C0), (u32)p, 0, q->c, q->d);
 }

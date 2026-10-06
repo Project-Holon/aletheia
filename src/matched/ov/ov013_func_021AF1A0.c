@@ -38,10 +38,11 @@ extern u32 func_0202EB0C(void);
 extern int func_0208B480(void);
 extern int func_0208B528(void);
 extern void func_02073AB4(void *p);
-extern void func_02073898(void *p);
+struct X;
+extern void func_02073898(struct X *x);
 extern void func_021B3844(void);
 extern unsigned int func_0208BEF0(unsigned int status);
-extern void func_02156FDC(int a, void *p, int b);
+extern void func_02156FDC(u32 a, void *p, int b);
 
 void func_021AF1A0(void)
 {
@@ -57,7 +58,7 @@ void func_021AF1A0(void)
         func_0208B528();
     }
     func_02073AB4(d_021B3C80->f19B8);
-    func_02073898(d_021B3C80->f19B8);
+    func_02073898((struct X *)d_021B3C80->f19B8);
     func_021B3844();
     func_0208BEF0(0);
     func_02156FDC(0, d_021B3C80->f880, 0);

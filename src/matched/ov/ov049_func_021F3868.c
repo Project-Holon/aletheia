@@ -11,6 +11,6 @@
  * note: 2026-10-05 integrator: label left open after the pengy waves; written from the listing.
  */
 
-void func_021F3868(void)
+void func_021F3868(int *q, char *p)
 {
 }

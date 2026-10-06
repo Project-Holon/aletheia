@@ -16,11 +16,14 @@
 #include "../include/Obj25310.h"
 
 extern void func_0207CDB8(int, void *);
-extern void func_02048CA4(void *, int, void *);
+typedef unsigned int   u32;
+struct LightSlot;
+struct Rgb555;
+extern void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in);
 
 void func_021BDF88(char *p, int a, int b)
 {
     int buf[2];
     func_0207CDB8(b, buf);
-    func_02048CA4(((struct Obj25310 *)p)->fC, a, buf);
+    func_02048CA4(((struct Obj25310 *)p)->fC, a, (struct Rgb555 *)buf);
 }

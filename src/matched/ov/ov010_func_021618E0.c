@@ -34,7 +34,7 @@ extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
 extern void *func_021618A0(void *p, int a1, int a2, int a3);
 
-void func_021618E0(void *a, void *b)
+void *func_021618E0(void *a, void *b)
 {
     const char *s;
 
@@ -52,5 +52,5 @@ void func_021618E0(void *a, void *b)
         s = d_021713EC;
         break;
     }
-    func_021618A0(a, (int)b, 0xFF, (int)s);
+    return func_021618A0(a, (int)b, 0xFF, (int)s);
 }

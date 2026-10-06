@@ -36,7 +36,8 @@ extern const u8 d_020A1448[];
 extern const u8 d_021C3714[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u8 *func_021BF6D4(u8 *);
-extern void func_0204A48C(const void *,u32,u32);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0203F8F4(u16);
@@ -58,7 +59,7 @@ void *func_021B9A50(u8 *context,void *arg) {
         *(u8 * *)&((struct Obj01920 *)p)->f18=context;
         ((struct Obj01920 *)p)->f1C=arg;
         *(u8 * *)&((struct Obj01920 *)p)->f78=func_021BF6D4(context);
-        func_0204A48C(d_020A1448,(u32)d_021C3714,42);
+        func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021C3714,42);
         ((struct Obj01920 *)p)->f20=func_0204B100(128,0,42);
         func_0203F8F4(42);
         func_02045088(42);

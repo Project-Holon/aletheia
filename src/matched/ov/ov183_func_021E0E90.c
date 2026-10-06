@@ -22,7 +22,9 @@ typedef struct {s16 a,b,x,y;} Coords;
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
-extern void func_0204B404(void *,s16 *,int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021E0E90(char *p,int animated) {
     int i,group;
     s16 pos;
@@ -40,7 +42,7 @@ void func_021E0E90(char *p,int animated) {
         func_0204B454(((struct Obj05480 *)record)->fC,(struct PtS *)&coords.x,1);
         if(animated==0){
             coords.x=pos;
-            func_0204B404(((struct Obj05480 *)record)->fC,&coords.x,1);
+            func_0204B404(((struct Obj05480 *)record)->fC,(const struct Vec2 *)(&coords.x),1);
         }else{
             ((struct Obj05480 *)record)->f14=(pos-coords.x)/4;
             ((struct Obj05480 *)record)->f16=0;
@@ -57,7 +59,7 @@ void func_021E0E90(char *p,int animated) {
             }
             if(animated==0){
                 coords.a=pos;
-                func_0204B404(((struct Obj05481 *)special)->f15C,&coords.a,1);
+                func_0204B404(((struct Obj05481 *)special)->f15C,(const struct Vec2 *)(&coords.a),1);
             }else{
                 ((struct Obj05481 *)special)->f164=(pos-coords.a)/4;
                 ((struct Obj05481 *)special)->f166=0;

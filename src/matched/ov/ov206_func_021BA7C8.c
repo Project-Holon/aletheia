@@ -17,7 +17,8 @@ typedef struct { char pad[0x44]; int state; char pad48[4]; unsigned char a,b,c; 
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_021BBE34(State *, int);
+struct S;
+extern void func_021BBE34(struct S *p, int v);
 void func_021BA7C8(State *p)
 {
     if (!p->state) {
@@ -25,6 +26,6 @@ void func_021BA7C8(State *p)
         func_02040588(p->a, 0);
         func_02040588(p->b, 0);
         func_02041EE4(p->c, 3, -256);
-        func_021BBE34(p, p->state == 0);
+        func_021BBE34((struct S *)p, p->state == 0);
     }
 }

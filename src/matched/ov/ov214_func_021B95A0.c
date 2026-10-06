@@ -55,7 +55,11 @@ extern int func_02034AC4(int);
 extern void func_0203064C(u32,u32,u32);
 extern char *func_0203159C(void*,u32,u32);
 extern void func_02082BCC(void*,u32,u32);
-extern void func_02040588(u32,u32),func_0204047C(u32,u16),func_02040EBC(u32,u32),func_0204E720(u32,int,int,int);
+struct C;
+extern void func_02040588(u32,u32);
+extern void func_0204047C(int idx, unsigned short val);
+extern void func_02040EBC(u32,u32);
+extern void func_0204E720(u32,int,int,int);
 extern char *func_021BB178(u32,u32);
 struct BigObj;
 struct GfFont;
@@ -67,9 +71,20 @@ extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_020056A0(void(*)(void*),void*,u32);
 extern void func_021B9F18(void *unused, char *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_021BABF4(int,char*),func_021BAD08(void*,char*),func_021BAD14(void*,char*),func_021B9F24(void*,char*),func_021BA074(int,char*),func_021BA2F4(int,char*),func_021BA3C4(int,char*);
+extern void func_021BABF4(int,char*);
+extern void func_021BAD08(void*,char*);
+extern void func_021BAD14(void **a, char *p);
+extern void func_021B9F24(void *unused, struct C *p);
+extern void func_021BA074(int,char*);
+extern void func_021BA2F4(int,char*);
+extern void func_021BA3C4(int,char*);
 extern void func_021B9EB8(char*,int,char*,int,int,int,int,int,int);
-extern void func_021B9EF0(void*,char*,u32,u32,u32),func_021BA6A0(void*,char*,u32),func_021BAC58(void*,char*),func_021BAE4C(void*,char*),func_021BAE9C(int,char*),func_021BAE88(void*,char*);
+extern void func_021B9EF0(void*,char*,u32,u32,u32);
+extern void func_021BA6A0(void*,char*,u32);
+extern void func_021BAC58(int unused, u8 *p);
+extern void func_021BAE4C(int unused, u8 *p);
+extern void func_021BAE9C(int,char*);
+extern void func_021BAE88(int unused, u8 *p);
 extern void func_0203D34C(u32,u32);
 int func_021B95A0(void *manager,char *state,char * const obj)
 {
@@ -92,8 +107,8 @@ int func_021B95A0(void *manager,char *state,char * const obj)
     ((struct Obj00182 *)p)->f54=0;
     ((struct Obj00182 *)p)->f4C=func_020056A0((void (*)(void *))func_021B9F18,p,1);
     *(void* *)&((struct Obj00182 *)p)->f58=func_02045B38(0,2,19,((struct Obj00182 *)p)->f0);
-    func_021BABF4((int)obj,p);func_021BAD08(obj,p);func_021BAD14(obj,p);
-    func_021B9F24(obj,p);func_021BA074((int)obj,p);func_021BA2F4((int)obj,p);func_021BA3C4((int)obj,p);
+    func_021BABF4((int)obj,p);func_021BAD08(obj,p);func_021BAD14((void **)obj,p);
+    func_021B9F24(obj,(struct C *)p);func_021BA074((int)obj,p);func_021BA2F4((int)obj,p);func_021BA3C4((int)obj,p);
     func_0204047C(2,2);k=K;func_0204047C(k,1);func_0204047C(1,0);
     func_02040588(2,1);func_02040588(3,1);func_02040588(1,1);
     func_02040EBC(0,0);func_02040EBC(4,0);func_0204E720(3,16,16,0);
@@ -102,13 +117,13 @@ int func_021B95A0(void *manager,char *state,char * const obj)
           if(((struct Obj06705 *)obj)->f4){
             func_021B9EB8(state,(int)obj,p,2,k,16,0,2,0);
             func_021B9EF0(obj,p,5,0,1);func_021BA6A0(obj,p,60);
-            if(((struct Obj06705 *)obj)->f8)func_021BAC58(obj,p);
+            if(((struct Obj06705 *)obj)->f8)func_021BAC58((int)obj,(u8 *)p);
             ((struct Obj00182 *)p)->fB4=1;
           }else {func_021B9EB8(state,(int)obj,p,15,k,16,0,2,0);}
         }else {common:func_021B9EB8(state,(int)obj,p,15,k,16,0,2,0);}
     }else if(((struct Obj06705 *)obj)->f8){func_021B9EB8(state,(int)obj,p,15,k,16,0,2,0);}
     else ((struct Obj00182 *)p)->f54=1;
-    func_021BAE4C(obj,p);func_021BAE9C((int)obj,p);func_021BAE88(obj,p);
+    func_021BAE4C((int)obj,(u8 *)p);func_021BAE9C((int)obj,p);func_021BAE88((int)obj,(u8 *)p);
     func_0203D34C(1,((struct Obj00182 *)p)->f0);
     return 1;
 }

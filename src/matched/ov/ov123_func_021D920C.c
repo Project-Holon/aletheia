@@ -23,7 +23,8 @@
  *   ov114_id 0x00000072 data
  */
 #include "../include/Obj00990.h"
-extern int func_020221A4(void *);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 typedef unsigned char  u8;
 struct S020315D4;
 struct TaskMenu;
@@ -42,7 +43,7 @@ extern void func_02034A5C(int handle);
 extern char ov114_id[];
 int func_021D920C(void *a, int b, int c, char *p)
 {
-    if (!func_020221A4(a)) return 0;
+    if (!func_020221A4()) return 0;
     if (((struct Obj00990 *)p)->f1C) func_02027858(((struct Obj00990 *)p)->f1C);
     if (((struct Obj00990 *)p)->f38) {
         func_020307B0(((struct Obj00990 *)p)->f38);

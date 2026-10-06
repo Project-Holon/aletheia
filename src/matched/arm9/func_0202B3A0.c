@@ -27,7 +27,7 @@ struct Node;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_0202B2FC(u32 heapId);
-extern void  func_0202B454(struct Node *p);
+extern void func_0202B454(char *p);
 
 struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId)
 {
@@ -42,6 +42,6 @@ struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId)
     ((struct Obj03438 *)p)->f12 = 0xffff;
     ((struct Obj03438 *)p)->f14 = (u32)func_0202B2FC(heapId);
     ((struct Obj03438 *)p)->f18 = 0;
-    func_0202B454(p);
+    func_0202B454((char *)p);
     return p;
 }

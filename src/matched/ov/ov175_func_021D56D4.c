@@ -29,7 +29,9 @@ extern void func_021E8738(int *, int, int, int);
 extern void func_021E8AB4(unsigned, unsigned);
 extern int func_02012DAC(int);
 extern int func_02012DD0(u8 *);
-extern void func_021DBC04(char *, unsigned, int);
+typedef unsigned int   u32;
+struct Record;
+extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 extern int func_021D9F04(char *, void *, void *);
 extern void func_021DA36C(int);
@@ -60,7 +62,7 @@ void func_021D56D4(unsigned sys, int *state, int *p)
         break;
     case 4:
         if (**(int * *)&((struct Obj08273 *)q)->f20 == 0) {
-            func_021DBC04((char *)p[12], 2, 0);
+            func_021DBC04((u8 *)p[12], 2, 0);
             *state = 5;
         }
         break;

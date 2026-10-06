@@ -33,8 +33,10 @@ typedef struct Obj {
     Node *f124;
 } Obj;
 
-extern void func_021E0504(void *p, short v);
-extern void func_021E054C(void *p, int v);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_021E0504(u8 *dst, unsigned int v);
+extern u8 *func_021E054C(u8 *dst, u32 v);
 
 int func_021E02F0(Obj *o, int a, int b)
 {
@@ -48,18 +50,18 @@ int func_021E02F0(Obj *o, int a, int b)
         n->h26++;
         n->w3c += 8;
         o->h8++;
-        func_021E0504((char *)o->f124 + o->f4, o->h8);
+        func_021E0504((u8 *)((char *)o->f124 + o->f4), (short)o->h8);
     } else if (f0 == 4) {
         n->h28++;
         n->w40 += 8;
         o->h8++;
-        func_021E0504((char *)o->f124 + o->f4, o->h8);
+        func_021E0504((u8 *)((char *)o->f124 + o->f4), (short)o->h8);
     }
-    func_021E0504((char *)o->f124 + o->f120, (short)a);
+    func_021E0504((u8 *)((char *)o->f124 + o->f120), (short)a);
     o->f120 += 2;
-    func_021E0504((char *)o->f124 + o->f120, 0);
+    func_021E0504((u8 *)((char *)o->f124 + o->f120), (short)0);
     o->f120 += 2;
-    func_021E054C((char *)o->f124 + o->f120, b);
+    func_021E054C((u8 *)((char *)o->f124 + o->f120), (int)b);
     o->f120 += 4;
     return 0;
 }

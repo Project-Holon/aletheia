@@ -25,7 +25,9 @@ struct Big;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
-extern int func_0200B3AC(void *p);
+typedef signed int     s32;
+struct Rec94;
+extern s32 func_0200B3AC(struct Rec94 *p);
 extern int func_02034AC4(int);
 
 extern void *d_021D9D98[];
@@ -35,7 +37,7 @@ void func_021BE1DC(void *arg)
 {
     int i;
 
-    i = func_0200B3AC(func_02012EC4(func_020120F4(func_02188C80(arg))));
+    i = func_0200B3AC((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(arg))));
     if (i != -1) {
         if (d_021D9D98[i] != 0) {
             func_02034AC4((int)d_021D9D98[i]);

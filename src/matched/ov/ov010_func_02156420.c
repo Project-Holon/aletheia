@@ -75,8 +75,8 @@ extern void func_0200A768(struct Big *p);
 extern void func_0200A788(struct Big *p);
 extern void func_0200A7C0(struct Big *p, u8 value);
 extern void func_0200A800(struct Big *p, s32 delta);
-extern void *func_021F4F14(u32 heap);
-extern u32 func_021F5140(void *h, u16 id);
+extern u32 *func_021F4F14(int heap);
+extern unsigned char func_021F5140(void *p, int i);
 extern void func_0200A7AC(struct Big *p, u32 index, u8 value);
 extern void func_021F4F40(void **p);
 extern u16 *func_020127A4(void *p);
@@ -105,11 +105,11 @@ void func_02156420(Work *w)
     {
         u8 cnt[4] = {0, 0, 0, 0};
 
-        h = func_021F4F14(4);
+        h = func_021F4F14((u32)4);
         m = w->party->members[w->f4C];
         for (j = 0; j < 9; j++) {
             if (m->recs[j].id != 0xFF)
-                cnt[(u8)func_021F5140(h, m->recs[j].id)]++;
+                cnt[(u8)(u32)func_021F5140(h, (u16)m->recs[j].id)]++;
         }
         for (j = 0; j < 4; j++)
             func_0200A7AC(w->f40, j, cnt[j]);

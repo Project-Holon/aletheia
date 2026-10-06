@@ -51,8 +51,8 @@ extern void func_021BFFEC(void *,char *);
 extern void *func_020490F4(u32,u16);
 extern void *func_020056A0(u32,u32,u32);
 extern void *func_021BC448(u32);
-extern void func_021BC518(u32 *);
-extern void func_021BC508(int,u32 *);
+extern void func_021BC518(int *p);
+extern void func_021BC508(int flag, int *p);
 extern void *func_021BC560(u32,u16);
 /* Caller explicitly loads r2 for setup helpers whose filed bodies omit it. */
 u32 func_021BF788(void *a0,u32 a1,u16 *heap,u32 a3,int key)
@@ -87,10 +87,10 @@ u32 func_021BF788(void *a0,u32 a1,u16 *heap,u32 a3,int key)
     func_021C06C8(heap,(char *)p,key);
     ((struct Obj00510 *)p)->f418=func_021BC448(*heap);
     ((struct Obj00510 *)p)->f41C=func_021BC448(*heap);
-    func_021BC518(*(u32 * *)&((struct Obj00510 *)p)->f418);
-    func_021BC518(*(u32 * *)&((struct Obj00510 *)p)->f41C);
-    func_021BC508(0,*(u32 * *)&((struct Obj00510 *)p)->f418);
-    func_021BC508(1,*(u32 * *)&((struct Obj00510 *)p)->f41C);
+    func_021BC518((int *)(*(u32 * *)&((struct Obj00510 *)p)->f418));
+    func_021BC518((int *)(*(u32 * *)&((struct Obj00510 *)p)->f41C));
+    func_021BC508(0,(int *)(*(u32 * *)&((struct Obj00510 *)p)->f418));
+    func_021BC508(1,(int *)(*(u32 * *)&((struct Obj00510 *)p)->f41C));
     ((struct Obj00510 *)p)->f420=func_021BC560(*heap,0xa);
     ((struct Obj00510 *)p)->f424=0;
     ((struct Obj00510 *)p)->f428=1;

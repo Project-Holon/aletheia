@@ -39,7 +39,7 @@ extern Ent d_021DB834[];
 extern int func_02175B8C(u8 *);
 extern int func_02175BBC(u8 *);
 extern u8 *func_02175B34(u8 *);
-extern int func_02175CF4(u8 *, u8 *);
+extern int func_02175CF4(char *p, u8 *q);
 struct Ctx;
 extern u8 *func_020120F8(const struct Ctx *p);
 struct Rec44;
@@ -66,7 +66,7 @@ int func_0217BDE0(int a, u8 *b, int c)
         goto fail;
     if (((Fh *)(b + 0x86))->f != e[0x28])
         goto fail;
-    if (func_02175CF4(b, b + 0x1AC) != 0)
+    if (func_02175CF4((char *)b, b + 0x1AC) != 0)
         goto fail;
     n = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
     func_0216D828(func_021A3074((void *)c), &v);

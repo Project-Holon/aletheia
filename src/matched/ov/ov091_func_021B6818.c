@@ -41,10 +41,10 @@ extern void func_020452E8(struct Descriptor *d);
 extern void func_021BA890(void *ignored, u8 *p);
 extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_021B7268(unsigned p);
-extern void func_021BCD80(u8 *p);
+extern void func_021BCD80(char *a);
 extern void func_021B71B0(unsigned p);
-extern void func_021B7624(u8 *p);
-extern void func_021B6FEC(u8 *p);
+extern void func_021B7624(char *p);
+extern void func_021B6FEC(int a);
 extern void func_020355D8(int a);
 
 #define W(o) (*(int *)(p + (o)))
@@ -69,10 +69,10 @@ int func_021B6818(u8 *p)
     func_02027FD8((struct TaskMenuState *)W(0x254));
     func_021B7268((unsigned int)p);
     if (func_021B9A84((u32)p) == 1)
-        func_021BCD80(p);
+        func_021BCD80((char *)p);
     func_021B71B0((unsigned int)p);
-    func_021B7624(p);
-    func_021B6FEC(p);
+    func_021B7624((char *)p);
+    func_021B6FEC((int)p);
     if (W(0x18) == 1)
         *(int *)(W(0x280) + 0x34) = 0x18;
     if (W(0x1c) == 1)

@@ -47,7 +47,8 @@ struct Obj02064C10 {
     void *base;     /* +0x0C */
 };
 
-extern void func_02064384(void *anim, u32 idx);
+struct CellAnim;
+extern void func_02064384(struct CellAnim *anim, u32 i);
 
 void func_02064C10(struct Obj02064C10 *x)
 {
@@ -57,7 +58,7 @@ void func_02064C10(struct Obj02064C10 *x)
         void *base = x->base;
 
         for (i = 0; i < ((struct NodeHdr02064C10 *)x->hdr)->count; i++) {
-            func_02064384((u8 *)base + i * 0x5c, 0);
+            func_02064384((struct CellAnim *)((u8 *)base + i * 0x5c), 0);
         }
     } else {
         void *base = x->base;

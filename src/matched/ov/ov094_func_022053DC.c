@@ -32,7 +32,9 @@ struct QG;
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D5528(u8 *, u8, u8 *, u8 *);
 extern int func_021D5B68(void *);
-extern void func_02204CC0(void *, Buffer *);
+struct Slots;
+struct Work;
+extern void func_02204CC0(struct Work *p, const struct Slots *q);
 extern void func_02205F88(char *p);
 extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
 extern const Palette d_0220A386[];
@@ -49,7 +51,7 @@ void func_022053DC(char *m)
     }
     for (i = 0; i < func_021D5448((struct QG *)OBJECT); i++)
         buf.value[i] = func_021D5528(OBJECT, i, &buf.a[i], &buf.b[i]);
-    func_02204CC0(m, &buf);
+    func_02204CC0((struct Work *)m, (const struct Slots *)(&buf));
     ((struct Obj00168 *)m)->f25F = d_0220A386[INDEX].first;
     ((struct Obj00168 *)m)->f260 = d_0220A386[INDEX].second;
     ((struct Obj00168 *)m)->f220 = 1;

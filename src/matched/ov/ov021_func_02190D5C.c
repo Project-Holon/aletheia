@@ -28,7 +28,7 @@ extern u32 func_0201CE30(void *p);
 extern u32 func_0201CE34(void *p);
 extern void func_0201CE38(void *p);
 extern int func_02193228(u8 *p);
-extern int func_02193260(u32 a, u32 b);
+extern int func_02193260(u8 *p, u32 q);
 extern u8 func_0219320C(u8 *p);
 extern void func_020061E4(u32 a);
 extern void func_021932A0(u32 a, int f);
@@ -46,7 +46,7 @@ int func_02190D5C(u32 *p)
         }
         break;
     case 1:
-        if (func_02193260(p[2] + 0x160, func_0201CE34((void *)p[1])) != 0) {
+        if (func_02193260((u8 *)(p[2] + 0x160), func_0201CE34((void *)p[1])) != 0) {
             if (func_0219320C((u8 *)(p[2] + 0x160)) == 0) {
                 func_020061E4(0x547);
             }

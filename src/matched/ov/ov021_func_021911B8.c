@@ -46,12 +46,14 @@ typedef struct B {
 extern void func_02193170(u32);
 extern void func_02193044(u32);
 extern u32 func_02193210(u8 *p);
-extern void func_02193200(u32);
-extern void func_02194848(u32, int, V3 *, u32, u32, u32, u32, u32);
-extern void func_02194888(u32, int, V3 *, u32, u32, u32, u32, u32);
-extern void func_021948CC(u32, int, V3 *, u32, u32, u32, u32);
+extern int func_02193200(u32 a);
+struct Fx;
+struct G;
+extern void func_02194848(u8 *p, int i, u32 a, u32 b, u32 u, u32 v, u32 w, u32 x);
+extern void func_02194888(u8 *p, int i, u32 a, u32 b, u32 u, u32 v, u32 w, u32 x);
+extern void func_021948CC(u8 *p, int i, u32 a, u32 b, u8 u, u32 v, u32 x);
 extern void func_02194940(u8 *p, int i);
-extern void func_021927C0(u32 *, u16 *);
+extern void func_021927C0(struct G *g, struct Fx *a);
 extern void func_020061E4(u32);
 
 void func_021911B8(A *a, B *b, u8 mode, V3 *v, u32 d, u32 e, u32 f)
@@ -66,18 +68,18 @@ void func_021911B8(A *a, B *b, u8 mode, V3 *v, u32 d, u32 e, u32 f)
     func_02193044(0);
     switch (mode) {
     case 0:
-        func_02194848(b->f08, 0, v, d, 15, e, f, func_02193210((u8 *)((u32)&a->s.f4)));
+        func_02194848((u8 *)b->f08, 0, (u32)v, d, 15, e, f, func_02193210((u8 *)((u32)&a->s.f4)));
         break;
     case 1:
-        func_02194888(b->f08, 1, v, d, 15, e, f, func_02193210((u8 *)((u32)&a->s.f4)));
+        func_02194888((u8 *)b->f08, 1, (u32)v, d, 15, e, f, func_02193210((u8 *)((u32)&a->s.f4)));
         break;
     default:
-        func_021948CC(b->f08, 2, v, d, 15, e, func_02193210((u8 *)((u32)&a->s.f4)));
+        func_021948CC((u8 *)b->f08, 2, (u32)v, d, 15, e, func_02193210((u8 *)((u32)&a->s.f4)));
         break;
     }
     func_02193200((u32)a + 0x160);
     func_02194940((u8 *)b->f08, b->mode);
-    func_021927C0(b->f0c, a->h);
+    func_021927C0((struct G *)b->f0c, (struct Fx *)a->h);
     if (e == 1) {
         b->f02 = 8;
         func_020061E4(0x72C);

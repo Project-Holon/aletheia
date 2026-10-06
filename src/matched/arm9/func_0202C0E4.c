@@ -20,12 +20,13 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_0202C24C(u8 *p);
+struct Obj0202C244;
+extern u32 func_0202C24C(struct Obj0202C244 *p);
 extern u32 func_0202C330(void *p, u32 idx);
 
 void func_0202C0E4(u8 *p, u32 a)
 {
-    u32 r = func_0202C24C(p);
+    u32 r = func_0202C24C((struct Obj0202C244 *)p);
 
     if (r != 0) {
         func_0202C330((void *)r, a);

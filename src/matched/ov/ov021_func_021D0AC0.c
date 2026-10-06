@@ -22,15 +22,15 @@ typedef unsigned int u32;
 
 struct Big;
 extern void func_021D0B58(int a, struct Big *dst, int idx);
-extern void func_021D0AE4(u8 *p, u32 c);
-extern void func_021D0BCC(u8 *p);
+extern void func_021D0AE4(char *p, u32 mode);
+extern void func_021D0BCC(char *p);
 
 void func_021D0AC0(void *a, u8 *p, u32 c)
 {
     if (((struct Obj20292 *)p)->f130 != 0) {
         func_021D0B58((int)a, (struct Big *)p, c);
     } else {
-        func_021D0AE4(p, c);
+        func_021D0AE4((char *)p, c);
     }
-    func_021D0BCC(p);
+    func_021D0BCC((char *)p);
 }

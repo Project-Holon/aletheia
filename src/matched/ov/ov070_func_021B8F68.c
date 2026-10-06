@@ -15,7 +15,7 @@
 #include "../include/Obj09879.h"
 typedef unsigned char  u8;
 struct BigObj;
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 int func_021B8F68(char *p, int value)
 {
     if (((struct Obj09879 *)p)->f10 == 3 || ((struct Obj09879 *)p)->f10 == 1)

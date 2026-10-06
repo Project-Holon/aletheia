@@ -35,8 +35,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02040588(u8 which, u32 enable);
-extern void func_0203FCA0(u32 bgId, const void *tmpl, u32 type);
+struct BgTemplate;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
 extern void func_020409B4(u32 layer);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
@@ -64,19 +65,19 @@ void func_021F000C(char *p, u32 heap)
     u32 r;
 
     for (i = 4; i <= 7; i++)
-        func_02040588(i, 0);
-    func_0203FCA0(6, d_021F0608, 0);
+        func_02040588((u8)i, 0);
+    func_0203FCA0(6, (const struct BgTemplate *)d_021F0608, 0);
     func_020414EC(6);
     func_020409B4(6);
-    func_02040588(6, 1);
-    func_0203FCA0(5, d_021F05C8, 0);
+    func_02040588((u8)6, 1);
+    func_0203FCA0(5, (const struct BgTemplate *)d_021F05C8, 0);
     func_020414EC(5);
     func_020409B4(5);
-    func_02040588(5, 1);
-    func_0203FCA0(4, d_021F05E8, 0);
+    func_02040588((u8)5, 1);
+    func_0203FCA0(4, (const struct BgTemplate *)d_021F05E8, 0);
     func_020414EC(4);
     func_020409B4(4);
-    func_02040588(4, 1);
+    func_02040588((u8)4, 1);
     h = func_020490F4(0x1E, heap);
     i = func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4(((struct Obj13078 *)p)->f4)));
     func_02049B68(h, d_021F05BC[i], 4, 0, 1, heap);

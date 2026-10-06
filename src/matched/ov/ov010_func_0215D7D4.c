@@ -36,7 +36,9 @@ extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012F44(void *);
-extern Rec *func_0200A750(void *, int);
+struct Big;
+struct BigSub4;
+extern struct BigSub4 *func_0200A750(struct Big *p, u32 index);
 
 int func_0215D7D4(Cur *a, void *b)
 {
@@ -48,7 +50,7 @@ int func_0215D7D4(Cur *a, void *b)
     k = *a->f14;
     a->f14++;
     out = func_02159AE8(a, b);
-    r = func_0200A750(func_02012F44(func_0215A5E4(b)), (u8)f);
+    r = (Rec *)func_0200A750(func_02012F44(func_0215A5E4(b)), (u8)f);
     switch (k) {
     case 0:
         switch (r->b0) {

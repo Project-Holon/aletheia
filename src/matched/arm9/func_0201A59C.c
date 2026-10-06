@@ -25,8 +25,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern const u8 g_0209E424[6];
-extern int func_0201A858(char *buf);
-extern int func_0201A5FC(void *a0, void *a1, char *buf, void *a2, u32 zero);
+extern int func_0201A858(u8 *a);
+extern int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4);
 
 int func_0201A59C(void *a0, void *a1, void *a2)
 {
@@ -39,12 +39,12 @@ int func_0201A59C(void *a0, void *a1, void *a2)
     buf[4] = g_0209E424[4];
     buf[5] = g_0209E424[5];
 
-    if (func_0201A858(buf) != 0) {
+    if (func_0201A858((u8 *)buf) != 0) {
         do {
-            if (func_0201A5FC(a0, a1, buf, a2, 0) == 1) {
+            if (func_0201A5FC(a0, a1, (u8 *)buf, a2, 0) == 1) {
                 return 1;
             }
-        } while (func_0201A858(buf) != 0);
+        } while (func_0201A858((u8 *)buf) != 0);
     }
 
     return 0;

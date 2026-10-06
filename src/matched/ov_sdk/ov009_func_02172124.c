@@ -51,7 +51,7 @@ extern int func_02176674(void);
 extern void NNCancel(int cookie);
 extern int func_0217695C(void);
 extern int func_02176554(void);
-extern void **func_0216BBDC(int profileID, int flag);
+extern int *func_0216BBDC(int pid, int flag);
 extern void DWCi_RestartFromTimeout(void);
 extern void func_02175F4C(int state);
 extern int func_02171E34(int resendPid);

@@ -32,7 +32,10 @@ typedef struct {
 } Work;
 typedef struct { u32 x, y, z; } Vec;
 
-extern void *func_020159C8(void *a0, u32 a1, u32 a2, u32 a3, void *buf);
+struct Obj;
+struct Rec;
+struct Sub150;
+extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 extern void func_022006A0(void *p, void *out, int key);
 extern void func_022006B4(Work *w, int key);
 extern void func_022018A8(void *obj, void *out, int idx);
@@ -52,7 +55,7 @@ void func_021FF088(Work *w, void *src, int key)
         w->e[i].k48 = key;
         func_022006A0(src, buf, key);
         func_022018A8(w, &v, key);
-        w->e[i].h = func_020159C8(w->obj, v.x, v.y, v.z, buf);
+        w->e[i].h = func_020159C8(w->obj, v.x, v.y, v.z, (const struct Sub150 *)buf);
         func_022006B4(w, key);
     }
 }

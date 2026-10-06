@@ -23,8 +23,10 @@ struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_02027778(Descriptor *, void *);
-extern void func_02027CD8(void *, int);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern int func_02027CD8(int a0, int a1);
 extern void func_02045808(struct U16Vec *vec);
 void func_021D4DA4(char *p)
 {
@@ -43,8 +45,8 @@ void func_021D4DA4(char *p)
     ((struct Obj00626 *)p)->f248 = func_020457B0(100, ((struct Obj00626 *)p)->fC);
     func_02045CAC(((struct Obj00626 *)p)->f24, 5, ((struct Obj00626 *)p)->f248);
     ((struct Obj00626 *)p)->f24C = 0x39e0;
-    ((struct Obj00626 *)p)->f238 = func_02027778(&desc, ((struct Obj00626 *)p)->f254);
-    func_02027CD8(((struct Obj00626 *)p)->f238, 1);
+    ((struct Obj00626 *)p)->f238 = func_02027778((struct TaskMenuTmpl *)(&desc), ((struct Obj00626 *)p)->f254);
+    func_02027CD8((int)(((struct Obj00626 *)p)->f238), 1);
     func_02045808(((struct Obj00626 *)p)->f23C);
     func_02045808(((struct Obj00626 *)p)->f248);
 }

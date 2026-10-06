@@ -57,7 +57,9 @@ extern u8 func_02045738(struct Descriptor *p);
 extern u8 func_02045740(struct Descriptor *p);
 extern void func_02191DC8(u32 layer, u32 x, u32 y, u32 w, u32 h, u32 tile, u32 pal);
 extern void func_020409B4(u32 layer);
-extern void func_021927C0(u32 *p, u16 *a);
+struct Fx;
+struct G;
+extern void func_021927C0(struct G *g, struct Fx *a);
 extern void func_02193044(u32 a);
 
 u32 *func_02191A10(u16 *a, u32 b, u32 c)
@@ -87,7 +89,7 @@ u32 *func_02191A10(u16 *a, u32 b, u32 c)
     h = func_02045740((struct Descriptor *)p[1]);
     func_02191DC8((u8)a[1], x, y, w, h, 0x33, 9);
     func_020409B4((u8)a[1]);
-    func_021927C0(p + 10, (u16 *)p[0]);
+    func_021927C0((struct G *)(p + 10), (struct Fx *)p[0]);
     a[3] = 11;
     func_02193044(0);
     return p;

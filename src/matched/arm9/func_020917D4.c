@@ -73,11 +73,13 @@ typedef struct FILE {
 enum { __neutral, __writing, __reading, __rereading };
 enum { __no_io_error, __io_error, __io_EOF };
 
-extern int  func_02096508(FILE *file, int mode);                 /* fwide */
+struct S0209159C;
+struct S020915C4;
+extern int func_02096508(u8 *p, int v);                 /* fwide */
 extern int  func_0209149C(void);                                 /* __flush_line_buffered_output_files */
-extern int  func_020915C4(FILE *file, size_t *count, int align); /* __load_buffer */
+extern int func_020915C4(struct S020915C4 *p, u32 *a1, int a2); /* __load_buffer */
 extern void *func_02092344(void *dest, const void *src, unsigned int n); /* memcpy */
-extern void func_0209159C(FILE *file);                           /* __prep_buffer */
+extern void func_0209159C(struct S0209159C *p);                           /* __prep_buffer */
 extern u32  func_0209C2B0(u32 a, u32 b);                         /* udiv */
 
 size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
@@ -86,8 +88,8 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
     size_t num_bytes, bytes_requested, bytes_read;
     int ioresult, always_buffer;
 
-    if (func_02096508(file, 0) == 0)
-        func_02096508(file, -1);
+    if (func_02096508((u8 *)file, 0) == 0)
+        func_02096508((u8 *)file, -1);
 
     bytes_requested = memb_size * num_memb;
 
@@ -122,7 +124,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
 
     if (bytes_requested && file->state.io_state >= __rereading) {
         do {
-            if (func_02096508(file, 0) == 1) {
+            if (func_02096508((u8 *)file, 0) == 1) {
                 ((struct Obj16696 *)read_ptr)->f0 = file->ungetwc_buffer[file->state.io_state - __rereading];
                 read_ptr += sizeof(wchar_t);
                 bytes_read += sizeof(wchar_t);
@@ -142,7 +144,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
     if (bytes_requested && (file->buffer_len || always_buffer)) {
         do {
             if (!file->buffer_len) {
-                ioresult = func_020915C4(file, 0, 0);
+                ioresult = func_020915C4((struct S020915C4 *)file, 0, 0);
                 if (ioresult) {
                     if (ioresult == __io_error) {
                         file->error = 1;
@@ -179,7 +181,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
         file->buffer = read_ptr;
         file->buffer_size = bytes_requested;
 
-        ioresult = func_020915C4(file, &num_bytes, 1);
+        ioresult = func_020915C4((struct S020915C4 *)file, &num_bytes, 1);
         if (ioresult) {
             if (ioresult == __io_error) {
                 file->error = 1;
@@ -196,7 +198,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
         file->buffer = save_buffer;
         file->buffer_size = save_size;
 
-        func_0209159C(file);
+        func_0209159C((struct S0209159C *)file);
 
         file->buffer_len = 0;
     }

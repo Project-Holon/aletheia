@@ -56,12 +56,12 @@ extern u32 func_02012A30(const struct BigObj *p);
 struct SoundSys;
 extern void func_02028A64(struct SoundSys *sys);
 extern void func_02028A70(struct SoundSys *sys);
-extern void func_021F1BBC(u8 *p);
-extern void func_021F1A64(u8 *p, int flag);
+extern void func_021F1BBC(char *p);
+extern void func_021F1A64(char *p, int flag);
 extern void func_021F13FC(void *p);
-extern void func_021F0EB0(u8 *p, int flag);
+extern void func_021F0EB0(char *p, int flag);
 extern void func_021F0298(u8 *p);
-extern void func_021EFEF8(u8 *p, void (*f)(void), int a);
+extern void func_021EFEF8(char *p, void (*f)(void), int line);
 extern void func_021F2370(char *p);
 extern void func_021F2180(char *p);
 extern void func_02030D28(struct Ctx *c);
@@ -109,14 +109,14 @@ void func_021F2848(u8 *p, u8 v)
     if (p[0x451] == 2) {
         p[0x451] = 0;
         if (func_021F2DA8(p) == 0) {
-            func_021EFEF8(p, (void (*)(void))func_021F2370, 0x11C5);
+            func_021EFEF8((char *)p, (void (*)(void))func_021F2370, 0x11C5);
         } else {
-            func_021F1BBC(p);
-            func_021F1A64(p, 1);
+            func_021F1BBC((char *)p);
+            func_021F1A64((char *)p, 1);
             func_021F13FC(p);
-            func_021F0EB0(p, func_021F2DA8(p));
+            func_021F0EB0((char *)p, func_021F2DA8(p));
             func_021F0298(p);
-            func_021EFEF8(p, (void (*)(void))func_021F2180, 0x11D4);
+            func_021EFEF8((char *)p, (void (*)(void))func_021F2180, 0x11D4);
         }
     }
 

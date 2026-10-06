@@ -36,14 +36,15 @@ struct Q {
     u16 f6;
 };
 
-extern int func_02162C54(struct Box *b);
+typedef unsigned char  u8;
+extern int func_02162C54(u8 *p);
 
 u16 func_02162BCC(struct Box *b, struct Q *q)
 {
     struct Sub *s = &b->s;
     int a = 0;
     int c = 0;
-    int m = func_02162C54(b);
+    int m = func_02162C54((u8 *)b);
     int d;
     switch (s->fa) {
     case 0:

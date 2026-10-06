@@ -66,10 +66,11 @@ extern void func_0215897C(void *vm, void *task);
 extern void *func_02012EBC(struct Big *p);
 extern struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0200E6F0(void *p);
-extern void func_0200E6FC(void *a, u32 id, void *dest);
-extern void func_02024108(void *win, void *src);
-extern void func_02166E50(void *task, void *work);
+struct Rec0200E6FC;
+extern void *func_0200E6F0(u32 a);
+extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void func_02024108(u16 *dst, const u16 *src);
+extern u32 func_02166E50(void *obj, u32 *mode);
 
 int func_02166D30(void *c, void *vm)
 {
@@ -136,8 +137,8 @@ int func_02166D30(void *c, void *vm)
     }
     w->win = func_02024044(mode, 0, 0, 0, func_02012EBC(heap), 1);
     if (w->hasMsg) {
-        func_0200E6FC(func_0200E6F0(func_02012EBC(func_020120F4(sys))), w->msg, buf);
-        func_02024108(w->win, buf);
+        func_0200E6FC(func_0200E6F0((u32)func_02012EBC(func_020120F4(sys))), w->msg, (struct Rec0200E6FC *)buf);
+        func_02024108(w->win, (const u16 *)buf);
     }
     func_0215897C(owner, task);
     return 1;

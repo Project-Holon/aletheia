@@ -39,7 +39,7 @@ extern char g_021CE440[];
 
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
-extern ReqInfo *func_021BEF48();
+extern void *func_021BEF48(int p);
 extern int func_021BC384(void *threadData_p, char *src_p, int srclen);
 
 int func_021BC488(void *threadData_p)
@@ -50,7 +50,7 @@ int func_021BC488(void *threadData_p)
     void *sysInfo_p;
 
     sysInfo_p = func_021BEF08();
-    reqInfo_p = func_021BEF48(sysInfo_p);
+    reqInfo_p = func_021BEF48((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     if (req_p->authLen == 0) {
         return 0;

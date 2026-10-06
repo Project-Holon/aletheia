@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern u32 func_021B3350(char *w);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
 extern u32 func_02007E3C(u8 *base, u16 id, u16 qty, u16 d);
-extern void func_021B4714(char *w, u32 a, u32 b, u32 c);
+extern void func_021B4714(u8 *p, u32 sel, u32 c, u32 d);
 extern void func_021B4804(char *w, u32 a);
 extern u32 func_0200823C(u32 a);
 
@@ -41,7 +41,7 @@ void func_021B3370(char *w)
     n = func_021B3350(w);
     k = func_02007FB8((u8 *)(((struct Obj00030 *)w)->f10), ((struct Obj00030 *)w)->f1FC, ((struct Obj00030 *)w)->f4);
     if (func_02007E3C((u8 *)(((struct Obj00030 *)w)->f10), ((struct Obj00030 *)w)->f1FC, 1, ((struct Obj00030 *)w)->f4) == 0) {
-        func_021B4714(w, 10, ((struct Obj00030 *)w)->f1FC, 0);
+        func_021B4714((u8 *)w, 10, ((struct Obj00030 *)w)->f1FC, 0);
         w[0] = 10;
         w[1] = 4;
         return;
@@ -49,9 +49,9 @@ void func_021B3370(char *w)
     lim = ((struct Obj00030 *)w)->f200;
     if (n < lim) {
         if (((struct Obj00030 *)w)->f163 == 0) {
-            func_021B4714(w, 3, ((struct Obj00030 *)w)->f1FC, 0);
+            func_021B4714((u8 *)w, 3, ((struct Obj00030 *)w)->f1FC, 0);
         } else {
-            func_021B4714(w, 0x10, ((struct Obj00030 *)w)->f1FC, 0);
+            func_021B4714((u8 *)w, 0x10, ((struct Obj00030 *)w)->f1FC, 0);
         }
         w[0] = 10;
         w[1] = 4;
@@ -60,7 +60,7 @@ void func_021B3370(char *w)
         w[0] = 10;
         w[1] = 5;
     } else if (((struct Obj00030 *)w)->f162 == 0) {
-        func_021B4714(w, 4, ((struct Obj00030 *)w)->f1FC, 0);
+        func_021B4714((u8 *)w, 4, ((struct Obj00030 *)w)->f1FC, 0);
         w[0] = 10;
         w[1] = 2;
         ((struct Obj00030 *)w)->f204 = n / ((struct Obj00030 *)w)->f200;

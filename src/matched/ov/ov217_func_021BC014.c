@@ -24,7 +24,7 @@ struct Obj;
 struct Vec2 { s16 x,y; };
 extern u8 func_021BBC50(u8 *p);
 extern u32 func_021BC720(void *p,u32 index);
-extern int func_021BBF28(u8 *p,u8 index);
+extern int func_021BBF28(unsigned char *p, unsigned int slot);
 extern int func_021BBF3C(u8 *p,u8 index);
 extern void func_0204B3DC(struct Obj *p,u32 value);
 extern void func_0204B404(struct Obj *p,const struct Vec2 *delta,u32 which);
@@ -40,7 +40,7 @@ void func_021BC014(u8 *p)
         func_0204B3DC(obj,0);
         return;
     }
-    point.x=func_021BBF28(p,index);
+    point.x=func_021BBF28(p,(u8)index);
     point.y=func_021BBF3C(p,index)+10;
     func_0204B404(obj,&point,0);
     func_0204B92C(obj,1);

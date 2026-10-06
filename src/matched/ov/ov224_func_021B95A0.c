@@ -60,7 +60,7 @@ struct Work {u16 heap,pad2; void **args; void *screen,*font;u32 string;void *tas
 struct GfFont; struct Obj0203159C;
 extern const struct Entry d_021B9C04[];
 extern struct Assets d_021B9D40[];
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_0203159C(struct Obj0203159C *,u32,u32);
 extern void func_02082BCC(void *,u32,u32);
 extern void *func_021B9940(u32,u32);
@@ -73,13 +73,13 @@ extern void func_021B9824(u16 *);
 extern void func_02043588(void);
 extern void func_0207D518(u32);
 extern void func_02043558(void);
-extern void func_0203FCA0(u8,const struct BgTemplate *,u8);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void func_02043598(u32,u32);
 extern void *func_020490F4(u32,u16);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
 extern void func_020409B4(u32);
@@ -97,7 +97,7 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
  u32 id,choice;
  u16 heap;
  void *arc;
- func_0203064C((void *)1,0x88,0x30000);
+ func_0203064C((u32)((void *)1),0x88,0x30000);
  p=func_0203159C(proc,0x18,0x88);
  func_02082BCC(p,0,0x18);
  p->heap=0x88; p->args=args;
@@ -115,7 +115,7 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
  func_02043558();
  do {
   row=&d_021B9C04[i]; id=row->id;
-  func_0203FCA0(id,&row->bg,row->kind);
+  func_0203FCA0((u8)id,&row->bg,(u8)row->kind);
   func_020414AC(id);
   func_02040588(id,row->visible);
   i++;

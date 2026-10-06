@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02194B78(u8 *p)
+void func_02194B78(u8 *p, int i)
 {
     ((struct Obj12071 *)p)->f0 = 5;
     ((struct Obj12071 *)p)->f5E = 4;

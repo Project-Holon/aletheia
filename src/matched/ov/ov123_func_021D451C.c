@@ -41,7 +41,7 @@ extern void func_021D4244(char *, void *, int);
 extern void func_021D4FAC(char *);
 extern void func_021D4AFC(char *p);
 extern void func_021D44F4(char *p);
-extern void func_021D4FB8(void);
+extern void func_021D4FB8(char *p);
 extern void func_021D4440(void);
 void func_021D451C(char *p)
 {

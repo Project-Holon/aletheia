@@ -55,7 +55,7 @@ typedef struct Work {
 extern u8 d_02172A28[];
 struct Ctx;
 extern u32 func_02012114(const struct Ctx *p);
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02167658(Work *w, int i);
 extern void func_021942C8(void *obj);
 
@@ -65,7 +65,7 @@ void func_02167688(Work *w)
     int i;
 
     if (func_02012114(w->sys) != 1)
-        func_02034714(d_02172A28, 0, d_02172A28);
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (w->obj != 0) {
         i = 0;
         s = (Slot *)((char *)w + 0x1C);

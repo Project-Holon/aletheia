@@ -24,16 +24,16 @@ typedef unsigned int   u32;
 
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021B9F70(void *a);
-extern void func_021B9B6C(void *a);
+extern void func_021B9F70(u32 *p);
+extern void func_021B9B6C(u32 *p);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *p, u32 a, u32 b);
 
 void func_021B98E0(u8 *p)
 {
     func_02030EAC((struct Node *)(((struct Obj20635 *)p)->fD0));
-    func_021B9F70(p + 0x7c);
-    func_021B9B6C(p);
+    func_021B9F70((u32 *)(p + 0x7c));
+    func_021B9B6C((u32 *)p);
     func_0201DD68();
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;

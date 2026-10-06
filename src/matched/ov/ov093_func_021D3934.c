@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern char *func_021B9AEC(char *p, u8 i);
+extern char *func_021B9AEC(char *p, int i);
 struct S2;
 extern void func_021B9C10(u32 *p, int a, int b);
 extern u32 func_021B9BF0(struct S2 *p, u32 i);
@@ -38,7 +38,7 @@ int func_021D3934(char *a, int b, u32 *s)
 
     x = ((struct Obj07795 *)a)->f13C;
     y = ((struct Obj07795 *)a)->f140;
-    l = func_021B9AEC(*(char * *)&((struct Obj07795 *)a)->f4, ((struct Obj07795 *)a)->f138);
+    l = func_021B9AEC(*(char * *)&((struct Obj07795 *)a)->f4, (u8)(((struct Obj07795 *)a)->f138));
     if (x != y)
         func_021B9C10((u32 *)l, x, y);
     e = (void *)func_021B9BF0((struct S2 *)l, x);

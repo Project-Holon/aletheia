@@ -26,7 +26,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_021BF810(void *p);
-extern void func_021C0F78(u32 a, void *b);
+extern void func_021C0F78(u8 *p, void *text);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
@@ -66,7 +66,7 @@ void func_021BF2FC(char *p)
     b = func_020457B0(0x80, ((struct Obj00021 *)p)->f4);
     func_0201EFA4(c, 0, x, 6, 1, 1);
     func_0201F250(c, b, a);
-    func_021C0F78(((struct Obj00021 *)p)->f35C, b);
+    func_021C0F78((u8 *)(((struct Obj00021 *)p)->f35C), b);
     func_02045808(a);
     func_02045808(b);
 }

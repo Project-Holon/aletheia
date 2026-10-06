@@ -21,12 +21,13 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5B40(void *p);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern u32 func_021D805C(void *p, u32 n);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E33BC(int u, void *a, int b)
 {
     if (b == func_021D775C(3))
-        func_021D76BC(0x30, func_021D805C((void *)((u16)func_021D5B40(func_021C7CF4(a, b))), 0xb));
+        func_021D76BC(0x30, func_021D805C((void *)((u16)(int)func_021D5B40(func_021C7CF4(a, b))), 0xb));
 }

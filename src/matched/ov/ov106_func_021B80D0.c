@@ -48,10 +48,10 @@ extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02049238(void *);
 extern void func_021B87B0(u8 *,const u8 *,void *,u32,u32,void *,u32,void *,void *,s16,s16,u16);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02040618(u32,u32,int);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_021B8524(u8 *);
 extern void func_021B8648(u8 *);
-extern void func_021B8690(void);
+extern void func_021B8690(void *unused, u8 *p);
 extern u32 func_020056A0(void (*)(void),void *,u32);
 void func_021B80D0(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s4,u16 heap) {
     void *arc;
@@ -93,5 +93,5 @@ void func_021B80D0(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s
     *(u16 *)(p+0x55A) = m;
     func_021B8524(p);
     func_021B8648(p);
-    *(u32 *)(p+0x58C) = func_020056A0(func_021B8690,p,0);
+    *(u32 *)(p+0x58C) = func_020056A0((void (*)(void))func_021B8690,p,0);
 }

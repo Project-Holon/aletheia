@@ -27,7 +27,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void *func_02020F34(u32, u32, u16);
+extern void *func_02020F34(u32 item, u32 which, u32 heap);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 func_02017F90(void *);
@@ -36,7 +36,7 @@ extern u8 func_0201C158(u16, u32);
 extern u8 func_0201B920(void *, u32);
 extern void func_020307B0(void *);
 extern int func_021BE9BC(void *, void *);
-int func_021BDD78(void *a, u32 id, u32 slot, u32 heap)
+int func_021BDD78(void *a, u32 id, int slot, u32 heap)
 {
   void *p;
   u32 r;
@@ -52,7 +52,7 @@ int func_021BDD78(void *a, u32 id, u32 slot, u32 heap)
   int flag;
   int v;
   int tmp;
-  p = func_02020F34(id, 0, heap);
+  p = func_02020F34(id, 0, (u16)heap);
   r = 0;
   if (func_02021014(p, 14) != 1)
   {

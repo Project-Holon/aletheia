@@ -21,7 +21,16 @@
 #include "../include/Obj02218.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0201F7A8(void *,int),func_020456F8(void *),func_02041B6C(unsigned),func_020452E8(void *),func_0201CE48(void *),func_02045808(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct Rec3;
+struct U16Vec;
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_02041B6C(unsigned);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 struct Descriptor;
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_021B7350(int,int *);

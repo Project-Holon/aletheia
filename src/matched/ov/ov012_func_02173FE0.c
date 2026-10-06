@@ -15,13 +15,14 @@
  */
 #include "../include/Obj12449.h"
 typedef unsigned char u8;
-extern void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02183FB8(int, void *, u8, int);
 extern u8 d_02175624[];
 void func_02173FE0(int a, int x, int y, u8 *p)
 {
     if (((struct Obj12449 *)p)->f3528 == 0) {
-        func_02034714(d_02175624, 0, d_02175624);
+        func_02034714((const char *)d_02175624, 0, (const char *)d_02175624);
         return;
     }
     func_02183FB8(((struct Obj12449 *)p)->f3528, p, a, y);

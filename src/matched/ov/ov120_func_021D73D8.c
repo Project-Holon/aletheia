@@ -26,9 +26,11 @@ extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,c
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204BA00(void *,Callback *);
+struct Actor;
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_02043534(u32);
-extern void func_021D73B0(u8 *);
+extern void func_021D73B0(char *p);
 void func_021D73D8(u8 *p)
 {
     Callback c;
@@ -41,7 +43,7 @@ void func_021D73D8(u8 *p)
     ((struct Obj00625 *)p)->f130=func_0204B294((void *)((struct Obj00625 *)p)->f10,((struct Obj00625 *)p)->f2C,((struct Obj00625 *)p)->f1C,((struct Obj00625 *)p)->f78,&r,0,((struct Obj00625 *)p)->fF4);
     func_0204B92C(((struct Obj00625 *)p)->f130,1);
     func_0204B3DC(((struct Obj00625 *)p)->f130,1);
-    c.n=0; c.p=p; c.f=func_021D73B0;
-    func_0204BA00(((struct Obj00625 *)p)->f130,&c);
+    c.n=0; c.p=p; c.f=(void (*)(u8 *))func_021D73B0;
+    func_0204BA00(((struct Obj00625 *)p)->f130,(const struct Cmd *)(&c));
     func_02043534(31);
 }

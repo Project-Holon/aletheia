@@ -29,8 +29,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02159AE8(void *c, void *vm);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char d_021728F0[];
 extern const u8 d_021BC8C4[];
@@ -41,7 +41,7 @@ int func_0215CBF0(void *c, void *vm)
     u32 v;
     u32 *w;
 
-    v = func_02159AE8(c, vm);
+    v = (u32)func_02159AE8(c, vm);
     w = func_02030734(4, 8, 1, d_021728F0, 0x254);
     w[0] = v;
     func_0215C63C(c, vm, (u32)ov223_id, d_021BC8C4, w, 0, 0);

@@ -52,13 +52,13 @@ extern char *func_021C8DA0(void *unused, char *q, int mode, int heap);
 extern struct Param *func_0202E4EC(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern void func_0202E54C(struct Obj0202E54C *p);
 extern void func_021C6390(u8 *);
-extern void func_021C6360(void *, int);
+extern void func_021C6360(char *p, int heap);
 extern void func_021C6438(u8 *p, u8 a, u8 b);
 extern void func_021C6440(u8 *p, void *a, void *b);
 extern int func_0216C0C0(int a0);
 extern char id67[], id194[], id129[];
 extern char d_021F5580[], d_021DA62C[];
-int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
+int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
 {
     u32 sizes[3];
     switch (b[8]) {
@@ -96,7 +96,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
         func_0216C0C0((int)p[1]);
         func_0202E54C(p[2]);
         func_02034AC4((u32)id67);
-        func_021C6360(a, heap);
+        func_021C6360((char *)a, heap);
         return 1;
     case 4:
         func_02034A5C((u32)id67);
@@ -123,7 +123,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
     case 6:
         func_0216C0C0((int)p[1]);
         func_02034AC4((u32)id67);
-        func_021C6360(a, heap);
+        func_021C6360((char *)a, heap);
         return 1;
     }
     return 0;

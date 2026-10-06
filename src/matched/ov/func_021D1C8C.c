@@ -85,43 +85,48 @@ extern void func_021D1F50(Work *);
 struct P;
 extern int func_021904B0(u32 a, u32 b);
 extern void *func_02190F64(void *, void *);
-extern void *func_0201EC64(u32);
-extern void *func_020457B0(u32, u32);
-extern void func_021D20BC(Work *);
+struct Evt;
+struct Handle;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_021D20BC(u32 *w);
 extern int func_02007B50(void *);
-extern void func_02190E74(void *, u32, u32, u32);
-extern int func_02190EF0(void *);
-extern void *func_02190BE4(void *, u32);
-extern int func_02190C78(void *);
+extern void func_02190E74(u32 *p, u32 b, u32 c, u32 d);
+extern u32 func_02190EF0(u32 *p);
+extern u32 *func_02190BE4(u16 *a, u32 b);
+extern int func_02190C78(struct Handle *h);
 extern int func_021909BC(u32 a);
-extern void func_02190F7C(void *);
+extern void func_02190F7C(struct P *p);
 extern void func_02034F84(u32);
 extern void *func_02006CBC(u32);
 extern void *sub_020056BC(void *);
-extern void *func_02190F9C(void *);
+extern void *func_02190F9C(void **p);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void func_02006D64(u32);
-extern int func_02006D94(void);
-extern void func_0202F038(void *);
-extern void *func_020295A4(void *, u32);
-extern void func_02012374(void *, void *);
+extern u32 func_02006D94(void);
+extern void func_0202F038(u8 *p);
+extern u8 *func_020295A4(u8 *p, u32 a);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u32 func_02006DD8(void *a, u32 b);
 extern void func_021D1F48(void *unused, int *done);
-extern void *func_02045EC0(void *, u32);
-extern void func_0201EEF4(void *, u32, void *);
-extern void func_0201F250(void *, void *, void *);
-extern void func_02045808(void *);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02190EB8(struct P *p, u32 b, u16 c, u32 d);
 extern void func_02006D44(void);
 extern void func_02034FB8(u32);
-extern void *func_02029620(void *a, u16 b, u16 c);
+extern void *func_02029620(void *a, u32 b, u32 c);
 extern void func_02006E18(void *);
-extern int func_021D2040(Work *);
-extern void func_02006CAC(void *);
+extern int func_021D2040(u8 *w);
+extern void func_02006CAC(void **out);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 sub_02006BD0(u32 i);
 extern void func_021D2124(Work *);
-extern void func_0201ED04(void *);
+extern void func_0201ED04(struct WordSet *p);
 extern int func_02190E40(u32 a);
 extern void func_021904C8(void *);
 extern void func_021D1F64(Work *);
@@ -142,7 +147,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
         w->x20 = func_02190F64(w->x1C, t);
         w->x28 = func_0201EC64(21);
         w->x2C = func_020457B0(0x400, 21);
-        func_021D20BC(w);
+        func_021D20BC((u32 *)w);
         if (func_02007B50(w->x00) == 1) {
             func_02190E74(w->x20, 0, 0, 0);
             *seq = 2;
@@ -185,7 +190,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
             func_0202F038(w->x34);
             func_02190F7C(w->x20);
             func_02190E74(w->x20, 0, 0, 1);
-            func_02012374(proc, func_020295A4(w->x04, 6));
+            func_02012374(proc, (struct Evt **)func_020295A4(w->x04, 6));
             *seq = 6;
         }
         break;
@@ -217,7 +222,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
         }
         break;
     case 8:
-        if (func_021D2040(w) == 0) {
+        if (func_021D2040((u8 *)w) == 0) {
             a = func_02045EC0(w->x18, 2);
             func_0201EEF4(w->x28, 0, w->x14);
             func_0201F250(w->x28, w->x2C, a);
@@ -233,7 +238,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
         }
         break;
     case 10:
-        func_02006CAC(&buf);
+        func_02006CAC((void **)(&buf));
         w->x50 = (void *)func_02006984(0x1B9, 0, 64, 0, 0, 0, 0, (u32)(&buf));
         *seq = 11;
         break;

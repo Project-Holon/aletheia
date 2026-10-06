@@ -12,4 +12,4 @@
  */
 
 extern void func_0203AD80(int, int, int, int);
-void func_0203B2A8(int a0, int a1, int a2, int a3){ func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203B228, (int)0, (int)0x214); }
+void func_0203B2A8(int a0){ func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203B228, (int)0, (int)0x214); }

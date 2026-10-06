@@ -11,4 +11,4 @@
 
  */
 typedef unsigned short u16;
-void func_02204DDC(void) {}
+void func_02204DDC(int a0, int *a1) {}

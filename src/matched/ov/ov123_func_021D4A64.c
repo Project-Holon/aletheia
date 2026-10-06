@@ -20,22 +20,22 @@
 #include "../include/Obj01543.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0201DD68(char *);
+extern void func_0201DD68(void);
 extern void func_021D4730(char *);
 struct Rec;
 struct U16Vec;
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
-extern void func_0203FB44(int, u16, u16);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
 extern void func_02045808(struct U16Vec *vec);
 void func_021D4A64(char *p)
 {
-    func_0201DD68(p);
+    func_0201DD68();
     func_021D4730(p);
     func_02040DA8(5, 1, 0);
-    func_0203FB44(5, ((struct Obj01543 *)p)->f3C, ((struct Obj01543 *)p)->f3C >> 16);
+    func_0203FB44((int)5, (u16)(((struct Obj01543 *)p)->f3C), (u16)(((struct Obj01543 *)p)->f3C >> 16));
     func_020403F4(5);
     func_020403F4(4);
     func_02045C04(((struct Obj01543 *)p)->f24);

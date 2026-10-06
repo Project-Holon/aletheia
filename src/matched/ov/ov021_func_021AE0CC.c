@@ -39,7 +39,8 @@ extern int func_0218B6AC(void *ctx);
 extern int func_021AE930(int a, u32 b);
 extern void func_0215A438(int a, int b, Rec *src);
 extern u32 func_021AE8D4(u32 a, u16 b);
-extern void func_021AE8B4(Rec *s, u32 a, u32 b, u16 c);
+struct S;
+extern void func_021AE8B4(struct S *s, u32 a, u32 b, u32 c);
 
 int func_021AE0CC(int a)
 {
@@ -67,7 +68,7 @@ int func_021AE0CC(int a)
             }
         } else if (kind == 1) {
             if (n >= 2) {
-                func_021AE8B4(&c, func_021AE8D4(b.f0, b.f10), b.f4, b.f8);
+                func_021AE8B4((struct S *)(&c), func_021AE8D4(b.f0, b.f10), b.f4, (u16)b.f8);
                 ret = func_021AE930(a, b.f0);
                 b.f14 = 1;
                 func_0215A438(ret, z, &b);

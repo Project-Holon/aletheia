@@ -48,12 +48,14 @@ struct CharBuf;
 struct U16Vec;
 struct Cfg;
 struct MsgBank;
-extern struct Save *func_02008730(void *);
+struct Sub0200852CObj;
+struct Sub020097BCObj;
+extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void func_0201DD68(void);
 extern void *func_02008510(void *a, int tag);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *, u8);
-extern u8 func_02008550(const struct Save *);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_0201DD78(u32, u32, u32);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void func_02045808(struct U16Vec *);
@@ -61,12 +63,12 @@ extern u8 func_021BDD48(int, struct S *);
 extern u8 func_021BDD54(int, struct S *);
 extern int func_021BB918(void *, u32, int *);
 extern int func_02156A3C(void);
-extern u32 func_02009864(const struct Friends *, u32, u32);
-extern void func_020099E4(struct Friends *, int, void *);
+extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
+extern void func_020099E4(struct Sub020097BCObj *obj, int i, void *dest);
 extern void func_02045CAC(struct MsgBank *, u32, void *);
 extern void func_021BE4BC(char *, int, int, int, int, unsigned int, int);
 extern int func_021C27E0(struct S *);
-extern void func_021BE3CC(char *, int, u8, u8, int, int);
+extern void func_021BE3CC(char *p, int a, u8 b, u8 c, u32 d, int e);
 extern void func_020456F8(struct Descriptor *);
 extern void func_02045374(struct Cfg *);
 extern void func_02045334(struct Descriptor *);
@@ -81,13 +83,13 @@ void func_021BAEDC(char *p)
     int unused;
     int v;
     int icon;
-    a = func_02008730(*(void **)(p + 0xc0));
+    a = (struct Save *)func_02008730(*(void **)(p + 0xc0));
     if (*(void **)(p + 0x194) == 0)
         return;
     func_0201DD68();
     temp = func_02008510(a, 33);
     func_02043B5C(func_02045770(*(struct Descriptor **)(p + 0x194)), 255);
-    if (func_02008550(a) == 0)
+    if (func_02008550((const struct Sub0200852CObj *)a) == 0)
         func_0201DD78(5, 6, 0);
     else
         func_0201DD78(3, 4, 0);
@@ -100,12 +102,12 @@ void func_021BAEDC(char *p)
         if (func_02156A3C() == -1) {
             func_02045CAC(*(struct MsgBank **)(p + 0xe0), n, *(void **)(p + 0xf0));
         } else {
-            v = func_02009864(*(struct Friends **)(p + 4), func_02156A3C(), 9);
+            v = func_02009864((const struct Sub020097BCObj *)(*(struct Friends **)(p + 4)), func_02156A3C(), 9);
             if (v == 0)
                 func_0201DD78(5, 6, 0);
             else if (v == 1)
                 func_0201DD78(3, 4, 0);
-            func_020099E4(*(struct Friends **)(p + 4), func_02156A3C(), *(void **)(p + 0xf0));
+            func_020099E4((struct Sub020097BCObj *)(*(struct Friends **)(p + 4)), func_02156A3C(), *(void **)(p + 0xf0));
         }
     } else {
         func_02045CAC(*(struct MsgBank **)(p + 0xe0), n, *(void **)(p + 0xf0));

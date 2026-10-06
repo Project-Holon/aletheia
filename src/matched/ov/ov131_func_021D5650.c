@@ -40,7 +40,7 @@ extern const struct Col4 d_021DBFB8;
 extern const s16 FX_SinCosTable_[];
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-void func_021D5650(struct W *p)
+s32 func_021D5650(struct W *p)
 {
     struct Col4 A;
     struct Col4 B;
@@ -128,5 +128,5 @@ void func_021D5650(struct W *p)
         if (b_3 > 31) b_3 = 31;
         p->o3[n_1] = (b_3 << 10) | ((g_3 << 5) | r_3);
     }
-    func_02061CA4((void *)14, 0x1a0, (u32)p->o3, 0x20);
+    return func_02061CA4((void *)14, 0x1a0, (u32)p->o3, 0x20);
 }

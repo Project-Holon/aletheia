@@ -37,8 +37,10 @@ struct Obj0202DC98 {
     u32 count;                  /* +0x28 */
 };
 
-extern void func_0202E38C(struct Elem0202DC98 *e, u32 a1);
-extern void func_0202E3E4(struct Elem0202DC98 *e, u32 a1);
+struct Obj0202E38C;
+struct Obj0202E3E4;
+extern void func_0202E38C(struct Obj0202E38C *obj, u32 a1);
+extern void func_0202E3E4(struct Obj0202E3E4 *obj, u32 a1);
 
 u32 func_0202DC98(struct Obj0202DC98 *o)
 {
@@ -47,10 +49,10 @@ u32 func_0202DC98(struct Obj0202DC98 *o)
 
 void func_0202DC9C(struct Obj0202DC98 *o, int i, u32 a1)
 {
-    func_0202E38C(&o->elems[i], a1);
+    func_0202E38C((struct Obj0202E38C *)(&o->elems[i]), a1);
 }
 
 void func_0202DCB0(struct Obj0202DC98 *o, int i, u32 a1)
 {
-    func_0202E3E4(&o->elems[i], a1);
+    func_0202E3E4((struct Obj0202E3E4 *)(&o->elems[i]), a1);
 }

@@ -19,7 +19,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 *func_021BB878(u8 *p, u32 i);
-extern u8 *func_021B9C00(void *p, u32 i);
+struct S2;
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D5B68(void *p);
 
 void func_021BD2B4(u8 *p, u8 **q)
@@ -37,7 +38,7 @@ void func_021BD2B4(u8 *p, u8 **q)
         m = func_021BB878(*q, i);
         if (m == 0) continue;
         for (j = 0; j < m[9]; j++) {
-            x = func_021B9C00(*(u8 * *)&((struct Obj13305 *)m)->f4, j);
+            x = func_021B9C00((struct S2 *)(*(u8 * *)&((struct Obj13305 *)m)->f4), j);
             if (x) f = func_021D5B68(x) == 0;
             else f = 0;
             if (f) {

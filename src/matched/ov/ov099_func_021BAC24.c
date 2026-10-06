@@ -40,10 +40,11 @@ extern void func_0201DD68(void);
 extern struct Slot *func_0201F81C(u32, u32);
 extern void func_0201F878(struct Slot *, u32, u32, u32, u32);
 extern int func_021BA8BC(void *);
-extern u32 func_020450F0(u32, u8, u8, u8, u8, u8, u8);
+struct Src;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045374(struct Cfg *);
-extern void func_0201F73C(void *, int, u16, int);
-extern struct Obj *func_0201FF30(Desc *, u16, u16, u32);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
 extern u32 func_0201C6B4(const struct PrintSys *);
 extern u32 func_0201C4E4(struct PrintSys *);
 extern void func_02020CF8(struct Obj *p, int heap);
@@ -61,16 +62,16 @@ void func_021BAC24(char *p, Desc *out, Pair *items, int count, int kind, u32 wid
     y = 5;
     if (kind == 5)
         y = 13;
-    *(u32 *)&((struct Obj00976 *)p)->f1A4 = func_020450F0(2, 31 - width, y, width, (u32)count * 2, 15, 1);
+    *(u32 *)&((struct Obj00976 *)p)->f1A4 = func_020450F0(2, (u8)(31 - width), (u8)y, (u8)width, (u32)count * 2, 15, 1);
     func_02045374(*(struct Cfg * *)&((struct Obj00976 *)p)->f1A4);
-    func_0201F73C(((struct Obj00976 *)p)->f1A4, 2, ((struct Obj00976 *)p)->f1330, 14);
+    func_0201F73C(((struct Obj00976 *)p)->f1A4, 2, (u16)(((struct Obj00976 *)p)->f1330), 14);
     out->w[0] = *(u32 *)&((struct Obj00976 *)p)->fB8;
     out->w[3] = *(u32 *)&((struct Obj00976 *)p)->f1A4;
     out->w[11] = *(u32 *)&((struct Obj00976 *)p)->f1B4;
     out->w[10] = (u32)(p + 0x1ac);
     out->w[12] = ((struct Obj00976 *)p)->fE8;
     out->w[7] = (u32)p;
-    *(struct Obj * *)&((struct Obj00976 *)p)->fBC = func_0201FF30(out, 0, *(u16 *)(p + 0x234 + kind * 2), 0x21);
+    *(struct Obj * *)&((struct Obj00976 *)p)->fBC = func_0201FF30((struct Src *)out, 0, *(u16 *)(p + 0x234 + kind * 2), 0x21);
     if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj00976 *)p)->f1B4) == 0) {
         do {
             func_0201C4E4(*(struct PrintSys * *)&((struct Obj00976 *)p)->f1B4);

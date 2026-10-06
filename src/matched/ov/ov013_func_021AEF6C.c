@@ -85,7 +85,9 @@ extern void func_02082BCC(void *p, int v, u32 n);
 extern void func_021AEB20(void);
 extern u32 func_0202EB0C(void);
 extern int func_02073838(u8 *o, int n, u8 *src);
-extern void func_02073AD0(void *ch, int v);
+typedef signed int     s32;
+struct Slot;
+extern void func_02073AD0(struct Slot *s, s32 v);
 extern int func_020738C0(void *ch, int fmt, void *buf, u32 len, int rate,
                          int x, void (*cb)(void), void *arg);
 extern void func_021AEB7C(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6);
@@ -123,7 +125,7 @@ void func_021AEF6C(void *heap, int arg1, int mode)
     d_021B3C80->mic.arg = 0;
     d_021B3C80->f1A4B = 1;
     func_02073838(d_021B3C80->f19B8, 1, vals);
-    func_02073AD0(d_021B3C80->f19B8, 0);
+    func_02073AD0((struct Slot *)d_021B3C80->f19B8, 0);
     if (func_020738C0(d_021B3C80->f19B8, 1, d_021B3C80->f884, 0x880,
                       func_0202EB0C() ? 0x40 : 0x41, 2, (void (*)(void))func_021AEB7C,
                       d_021B3C80) == 0) {

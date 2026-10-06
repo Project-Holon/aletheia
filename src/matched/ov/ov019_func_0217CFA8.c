@@ -42,34 +42,36 @@ typedef struct {
     u8 f5d;
 } Obj;
 
-extern int func_0217BB04(u8 *a);
+typedef unsigned short u16;
+struct Profile;
+extern int func_0217BB04(char *p);
 extern void func_02034714(void *a, int b, void *c);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_0216F40C(void *a, int b, int c, int d, int e);
+extern void func_0216F40C(struct Profile *out, void *save, int mode, int flag, volatile u16 heap);
 extern void func_02082D44(void *a, void *b, int c);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
-extern int func_0217EE4C(u8 *a, int b, int c);
+extern int func_0217EE4C(int **p, int x, int y);
 typedef unsigned int   u32;
 extern void func_0217F210(u8 *p, int a, u32 b);
-extern int func_02173BB0(u8 *a);
+extern u32 func_02173BB0(unsigned char *p);
 extern u32 func_0217F1EC(u8 *p);
 extern void *func_0216F7F4(int a, void *b, int c);
 extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
 extern void func_020307B0(void *p);
 extern u32 func_0203D378(void);
-extern void func_0217B8E4(u8 *a, int b);
+extern int func_0217B8E4(char *p, char v);
 extern u8 d_021807E4[];
 extern u8 d_021807E8[];
 
 int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
 {
     u8 *q;
-    if (func_0217BB04(a) == 1)
+    if (func_0217BB04((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -77,10 +79,10 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
             func_02034714(d_021807E4, 0, d_021807E4);
         ((struct Obj00610 *)a)->f3540 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
         ((struct Obj00610 *)a)->f3544 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
-        func_0216F40C(((struct Obj00610 *)a)->f3540, (*(int **)a)[2], 1, 0, 0x41);
+        func_0216F40C(((struct Obj00610 *)a)->f3540, (void *)((*(int **)a)[2]), 1, 0, 0x41);
         func_02082D44(((struct Obj00610 *)a)->f3540, ((struct Obj00610 *)a)->f3544, 0x678);
         func_02039C68((struct Link *)func_020399A8(), 3, 0x14);
-        func_0217F210(a, c, func_0217EE4C(a, b->f14[0x26], b->f14[0x27]));
+        func_0217F210(a, c, func_0217EE4C((int **)a, b->f14[0x26], b->f14[0x27]));
         (*d)++;
         break;
     case 1:
@@ -128,9 +130,9 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
             ((struct Obj00610 *)a)->f3540 = 0;
             ((struct Obj00610 *)a)->f3544 = 0;
             if (func_0203D378() == 1)
-                func_0217B8E4(a, 7);
+                func_0217B8E4((char *)a, 7);
             else
-                func_0217B8E4(a, 9);
+                func_0217B8E4((char *)a, 9);
             return 1;
         }
         break;

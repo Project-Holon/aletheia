@@ -23,17 +23,17 @@ typedef unsigned char u8;
 extern unsigned d_021BA978[];
 extern int d_021BA9A4[][3];
 
-extern void func_021B6C54(void *a);
+extern void func_021B6C54(char *p);
 extern void func_021B6A0C(int a, void *b, int c, int d, int e, int f, int g, int h);
 extern u8 func_020355C4(void);
-extern void func_021B6B98(void *p, void *tbl, int n, int sel, int c);
+extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
 
 void func_021B81A0(int *a, u8 *p)
 {
     unsigned i;
     unsigned k;
 
-    func_021B6C54(a);
+    func_021B6C54((char *)a);
     for (i = 0; i < d_021BA978[p[0x32]]; i++) {
         k = p[0x32];
         if (k == 1) {
@@ -45,7 +45,7 @@ void func_021B81A0(int *a, u8 *p)
         }
     }
     if (func_020355C4() == 0) {
-        func_021B6B98(a, p, d_021BA978[p[0x32]], 0, 3);
+        func_021B6B98(a, (int *)p, d_021BA978[p[0x32]], 0, 3);
         p[0x33] = 0;
     } else {
         p[0x33] = 1;

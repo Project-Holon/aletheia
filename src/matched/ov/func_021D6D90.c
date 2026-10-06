@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021D6D90(u8 *p)
+int func_021D6D90(u8 *p)
 {
     return ((struct Obj18421 *)p)->f1F2;
 }

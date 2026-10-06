@@ -16,16 +16,21 @@
  */
 #include "../include/Obj02250.h"
 typedef struct { int kind;int values[9]; } Record;
-extern Record *func_021BE9A4(int);
-extern void func_021BF9B8(char *,int,Record *),func_020310C4(void *),func_021BF924(char *),func_020307B0(void *);
+typedef unsigned int   u32;
+struct Tcbl;
+extern u32 func_021BE9A4(u32 id);
+extern void func_021BF9B8(unsigned a, unsigned b, char *p);
+extern void func_020310C4(struct Tcbl *p);
+extern void func_021BF924(char *);
+extern void func_020307B0(void *);
 void func_021BF810(char *p)
 {
     Record *r;
     int owner,i;
-    owner=((struct Obj02250 *)p)->f1C;r=func_021BE9A4(((struct Obj02250 *)p)->f4);
+    owner=((struct Obj02250 *)p)->f1C;r=(Record *)func_021BE9A4(((struct Obj02250 *)p)->f4);
     for(i=0;i<9999;i++,r++) {
         if(r->kind==18) break;
-        func_021BF9B8(p,owner,r);
+        func_021BF9B8((unsigned int)p,owner,(char *)r);
     }
     ((struct Obj02250 *)p)->fC=1;
     func_020310C4(((struct Obj02250 *)p)->f20);func_021BF924(p);func_020307B0(p);

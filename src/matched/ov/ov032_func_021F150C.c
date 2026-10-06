@@ -19,21 +19,21 @@
 
 typedef unsigned char u8;
 
-extern void func_021F1218(u8 *e, short x, short y);
-extern void func_021F0EA4(u8 *e, int a);
-extern void func_021F155C(u8 *this, u8 *e, int a, int b, void *s);
-extern void func_021F1484(u8 *this, int a, u8 *b, u8 *c, void *s);
+extern void func_021F1218(char *p, short x, short y);
+extern void func_021F0EA4(char *p, unsigned a);
+extern void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r);
+extern void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s);
 
 void func_021F150C(u8 *this, u8 *p, void *s)
 {
     int k;
 
     p[2] = 1;
-    func_021F1218(p, -208, 0);
-    func_021F0EA4(p, 1);
+    func_021F1218((char *)p, -208, 0);
+    func_021F0EA4((char *)p, 1);
     k = 0;
     if (this[0x7b] != 0)
         k = 8;
-    func_021F155C(this, p, 2, (u8)k, s);
-    func_021F1484(this, 1, 0, p, s);
+    func_021F155C((char *)this, p, 2, (u8)k, s);
+    func_021F1484((char *)this, 1, 0, p, s);
 }

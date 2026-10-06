@@ -89,7 +89,9 @@ typedef struct GPIConnection {
     unsigned short peerPort;
 } GPIConnection;
 
-extern char *func_02094860(char *dst, const char *src, unsigned long n);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 extern int func_02180E48(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
@@ -130,7 +132,7 @@ int func_0218A238(void **connection, GPIOperation *operation)
     unsigned short peerPort;
     int error;
 
-    func_02094860(iconnection->mHeader, g_021A4658, 16);
+    func_02094860((u8 *)iconnection->mHeader, (const u8 *)g_021A4658, 16);
 
     if (!func_02180E48()) {
         peerPort = 6500;

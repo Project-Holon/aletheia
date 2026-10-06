@@ -53,8 +53,9 @@ typedef unsigned int u32;
 typedef struct { short x,y; u16 a,b,c,d; int e,f; } Rect;
 struct Bank;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020410D0(u32,u8,u32,u32,u8,void *,u8,u8,u8,u8);
-extern void *func_0204B034(void *,u32,u32);
+struct Obj;
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern void func_0204B09C(void *,u32,Rect *);
@@ -62,8 +63,8 @@ extern void *func_020450F0(int,u8,int,int,u8,u8,u8);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_021BA954(u8 *,u8 *);
 extern void func_021BAA50(u8 *,u8 *);
-extern void func_021BB46C(u8 *,u8 *);
-extern int func_021B9A84(u8 *);
+extern void func_021BB46C(u8 *p, u32 *q);
+extern int func_021B9A84(u32 p);
 extern void func_021BAFA0(u8 *,u8 *,int);
 extern void func_021BAAE4(u8 *,u8 *,int);
 extern const char d_021BED18[];
@@ -90,7 +91,7 @@ u8 *func_021BA6A0(u8 *p, int k, void *mon)
     if (k != 0) zero = 1;
     selector = k != 0;
     t = x + 0x10;
-    func_020410D0(2,t,y,0x10,6,*(u8 **)(p+0x15c)+0xc,
+    func_020410D0(2,(u8)t,y,0x10,6,(u32)(*(u8 **)(p+0x15c)+0xc),
                  d_021BEC6C[selector*2],d_021BEC6D[zero*2],0x20,0x20);
     W(0xc) = func_02017E1C((void *)W(0),0x4c,0);
     r.a = 0;
@@ -99,7 +100,7 @@ u8 *func_021BA6A0(u8 *p, int k, void *mon)
     r.d = 0xc0;
     r.e = 0;
     r.f = 0;
-    W(0x24) = (u32)func_0204B034(&r.a,1,*(u16 *)p);
+    W(0x24) = (u32)func_0204B034((u8 *)(&r.a),1,*(u16 *)p);
     W(0x28) = (u32)func_0204B100(6,0,*(u16 *)p);
     func_0204B258((void *)W(0x28),(void *)W(0x24));
     func_021BA954(p,s);
@@ -108,8 +109,8 @@ u8 *func_021BA6A0(u8 *p, int k, void *mon)
     r.y = -y*8;
     func_0204B09C((void *)W(0x24),0,&r);
     W(0x20) = (u32)func_020450F0(1,t,y,0x10,6,0xd,1);
-    func_021BB46C(p,s);
-    if (func_021B9A84(p) == 1) {
+    func_021BB46C(p,(u32 *)s);
+    if (func_021B9A84((u32)p) == 1) {
         for (i = 0; i < 6; i++) {
             if (s[4] + 1 == *(u8 *)(*(u8 **)(p+0x280)+i+0x49)) W(0x1c) = i;
         }

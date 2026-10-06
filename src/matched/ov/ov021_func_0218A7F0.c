@@ -39,12 +39,13 @@ struct FieldCtx {
     u32 f2C;
 };
 
-extern int func_0218A784(struct FieldCtx *p, int dir);
+struct Ctx784;
+extern int func_0218A784(struct Ctx784 *c, int a);
 extern int func_021A2FA4(void *p, u32 v);
 
 int func_0218A7F0(struct FieldCtx *p)
 {
-    int r = func_0218A784(p, p->f24);
+    int r = func_0218A784((struct Ctx784 *)p, p->f24);
     int dir;
 
     if (r != 0)
@@ -52,7 +53,7 @@ int func_0218A7F0(struct FieldCtx *p)
     dir = func_021A2FA4(p->f18, p->f2C);
     if (dir == 9 || dir == p->f24)
         return 0;
-    r = func_0218A784(p, dir);
+    r = func_0218A784((struct Ctx784 *)p, dir);
     if (r == 0)
         return 0;
     return r;

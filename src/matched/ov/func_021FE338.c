@@ -92,7 +92,7 @@ struct Obj;
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
-extern int func_021F7B9C(Rec *p, u32 event);
+extern int func_021F7B9C(u8 *p, int event);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -117,7 +117,7 @@ int func_021FE338(Work *p)
                 u32 v = func_0201AE1C((const struct Personal *)h, 0x14);
                 func_0201AE14((void *)h);
                 p->st->f20 = v;
-                if (func_021F7B9C(&p->rec[0], p->st->f20) != 0) {
+                if (func_021F7B9C((u8 *)(&p->rec[0]), p->st->f20) != 0) {
                     func_0204B3DC((struct Obj *)p->cursor, 1);
                     func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                     func_020061E4(0x557);
@@ -179,7 +179,7 @@ int func_021FE338(Work *p)
                     u32 v = func_0201AE1C((const struct Personal *)h, 0x14);
                     func_0201AE14((void *)h);
                     p->st->f20 = v;
-                    if (func_021F7B9C(&p->rec[0], p->st->f20) != 0) {
+                    if (func_021F7B9C((u8 *)(&p->rec[0]), p->st->f20) != 0) {
                         func_0204B3DC((struct Obj *)p->cursor, 1);
                         func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                         func_020061E4(0x557);

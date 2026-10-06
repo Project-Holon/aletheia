@@ -36,7 +36,9 @@ extern const int d_021E3998[],d_021E397C[];
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
-extern void func_0204B404(void *,s16 *,int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B5AC(void *,Pair *);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -62,7 +64,7 @@ int func_021E13FC(char *p) {
                 func_0204B454(((struct Obj00417 *)record)->fC,(struct PtS *)&coords.x,1);
                 coords.x+=((struct Obj00417 *)record)->f14;
                 coords.y+=((struct Obj00417 *)record)->f16;
-                func_0204B404(((struct Obj00417 *)record)->fC,&coords.x,1);
+                func_0204B404(((struct Obj00417 *)record)->fC,(const struct Vec2 *)(&coords.x),1);
                 --((struct Obj00417 *)record)->f18;
                 if(i>=((struct Obj00478 *)p)->f248&&i<((struct Obj00478 *)p)->f24C){
                     factor=*(int *)((u32)d_021E3998+((struct Obj00417 *)record)->f19*4);
@@ -84,7 +86,7 @@ int func_021E13FC(char *p) {
                 func_0204B454(((struct Obj00417 *)record)->f15C,(struct PtS *)&coords.a,1);
                 coords.a+=((struct Obj00417 *)record)->f164;
                 coords.b+=((struct Obj00417 *)record)->f166;
-                func_0204B404(((struct Obj00417 *)record)->f15C,&coords.a,1);
+                func_0204B404(((struct Obj00417 *)record)->f15C,(const struct Vec2 *)(&coords.a),1);
                 --((struct Obj00417 *)record)->f168;
             }
         }

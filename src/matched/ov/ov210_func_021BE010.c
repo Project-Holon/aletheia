@@ -23,10 +23,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int  func_020355C4(void);
-extern int  func_021BEDE0(void *, int);
-extern void func_021BF728(void *, int);
-extern void func_021BFF30(void *, int, int);
+extern u8 func_020355C4(void);
+extern int func_021BEDE0(int a0, int a1);
+extern void func_021BF728(u8 *p, int a);
+extern void func_021BFF30(int p, unsigned int a, unsigned int b);
 
 int func_021BE010(u8 *p)
 {
@@ -35,7 +35,7 @@ int func_021BE010(u8 *p)
         case 0:
         case 2:
             if (*(u8 *)(p + 0x2C3) == 0) {
-                func_021BFF30(p, *(u8 *)(p + 0x2C1), 1);
+                func_021BFF30((int)p, *(u8 *)(p + 0x2C1), 1);
                 *(u8 *)(p + 0x2C3) = 4;
                 (*(u8 *)(p + 0x2C2))++;
             } else {
@@ -45,7 +45,7 @@ int func_021BE010(u8 *p)
         case 1:
         case 3:
             if (*(u8 *)(p + 0x2C3) == 0) {
-                func_021BFF30(p, *(u8 *)(p + 0x2C1), 2);
+                func_021BFF30((int)p, *(u8 *)(p + 0x2C1), 2);
                 *(u8 *)(p + 0x2C3) = 4;
                 (*(u8 *)(p + 0x2C2))++;
             } else {
@@ -54,12 +54,12 @@ int func_021BE010(u8 *p)
             break;
         case 4:
             if (func_020355C4() == 1)
-                func_021BFF30(p, *(u8 *)(p + 0x2C1), 1);
+                func_021BFF30((int)p, *(u8 *)(p + 0x2C1), 1);
             else
-                func_021BFF30(p, *(u8 *)(p + 0x2C1), 3);
+                func_021BFF30((int)p, *(u8 *)(p + 0x2C1), 3);
             return *(u32 *)(p + 0x1C);
         }
-    } else if (func_021BEDE0(p, *(u8 *)(p + 0x2C1)) == 0) {
+    } else if (func_021BEDE0((int)p, *(u8 *)(p + 0x2C1)) == 0) {
         if (*(u32 *)(p + 0x1E0) != 0)
             func_021BF728(p, 0);
         return *(u32 *)(p + 0x1C);

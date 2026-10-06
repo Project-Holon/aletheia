@@ -42,7 +42,7 @@ extern int func_020144DC(int a0, int a1);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020120F0(const struct Ctx *p);
-extern void *func_020145CC(u32 a0, void *a1);
+extern void *func_020145CC(void *a0);
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
@@ -81,7 +81,7 @@ u32 func_02154310(void *obj, u32 *mode, u32 *args)
         }
         break;
     case 5:
-        func_02012374(obj, func_020145CC(h, x));
+        func_02012374(obj, func_020145CC((void *)h));
         (*mode)++;
         break;
     case 6:

@@ -16,7 +16,8 @@
  *   func_021DABE8 0x021DABE8 thumb ov119
  *   func_021DAB34 0x021DAB34 thumb ov119
  */
-extern int func_020221A4(void *);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *, int);
 struct Entry;
@@ -26,7 +27,7 @@ extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern void func_021DABE8(char *p);
 extern void func_021DAB34(char *p);
 void func_021DAC20(void *p) {
- if(func_020221A4(p)) {
+ if(func_020221A4()) {
   if(func_021D8A24(p)) {
    func_02039C68((struct Link *)func_020399A8(),22,8);
    func_021D8E84(p,(int)func_021DABE8);

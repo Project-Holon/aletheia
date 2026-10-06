@@ -35,7 +35,7 @@ typedef struct Obj {
 
 struct Sub0200852CObj;
 extern u8 *func_02012944(void *p);
-extern void *func_021CA210(Obj *o);
+extern void *func_021CA210(u8 *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -49,7 +49,7 @@ void func_02167B44(Obj *o, void *a1)
     int i;
 
     t = func_02012944(a1);
-    list = func_021CA210(o);
+    list = func_021CA210((u8 *)o);
     o->h668 = func_02008550(t);
     for (i = 0; i < 2; i++)
         o->h66a[i] = func_02017E1C(func_0201AB28(list, o->b1e[i]), 5, 0);

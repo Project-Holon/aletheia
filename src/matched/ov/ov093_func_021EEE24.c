@@ -31,7 +31,7 @@ typedef struct {
 
 extern Tbl d_021F6398;
 extern s32 d_021F63C8[];
-extern void func_021EEE80(u32 a, u16 k, s32 *p);
+extern void func_021EEE80(u32 a, u16 k, u32 *p);
 
 void func_021EEE24(u32 a, u16 k, u32 n, ...)
 {
@@ -45,5 +45,5 @@ void func_021EEE24(u32 a, u16 k, u32 n, ...)
     for (; i < 8; i++) {
         d_021F6398.a[i] = 0;
     }
-    func_021EEE80(a, k, d_021F63C8);
+    func_021EEE80(a, k, (u32 *)d_021F63C8);
 }

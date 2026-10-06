@@ -122,7 +122,7 @@ extern void *func_021F6560(int, u8, u8, u16);
 extern int func_021BA1A8(char **p, int m);
 extern void *func_021F6B04(int unused, int group, u8 variant, u16 heap);
 extern void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
-extern void func_02046A94(u8, const Rect *);
+extern void func_02046A94(u32 idx, const u16 *src);
 extern void *func_021F6E3C(void *a, u16 b);
 extern struct Res *func_02201A8C(void *owner, u16 heap);
 extern void *func_02206BC8(int, u16);
@@ -174,7 +174,7 @@ void func_021F7544(Param *p, int arg, u16 heap)
         r.x = 0;
         r.y = -0x1000;
         r.z = 0;
-        func_02046A94(0, &r);
+        func_02046A94(0, (const u16 *)(&r));
     }
     func_020307B0(tbl);
     d_0220AF20->h19c = func_021F6E3C(d_0220AF20->owner, heap);

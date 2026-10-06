@@ -29,7 +29,11 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_0204B3B4(void *),func_0204A8D4(int),func_0204ADA4(int),func_0204AFD8(int);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
 extern int func_0202D7C8(int);
 struct Sav;
 extern u32 func_02017DBC(struct Sav *p);

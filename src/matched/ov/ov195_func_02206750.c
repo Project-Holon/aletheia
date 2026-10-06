@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_02206750(char *p)
+void func_02206750(int *p)
 {
     char *q = *(char * *)&((struct Obj08348 *)p)->f58;
     int *r = *(int * *)&((struct Obj24968 *)q)->f8;

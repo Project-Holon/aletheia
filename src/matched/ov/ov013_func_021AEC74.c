@@ -31,7 +31,7 @@ extern struct Node *func_021B1F2C(unsigned int i);
 extern int func_021B20B0(int p, int x);
 extern int func_021B1F54(struct Node *p);
 
-int func_021AEC74(unsigned int i)
+int func_021AEC74(int i)
 {
     struct Node *p = d_021B3C80->f1A1C;
     int r;

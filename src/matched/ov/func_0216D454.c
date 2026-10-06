@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 func_0216D57C(void *p, u32 v);
 
-int func_0216D454(int a0, int a1)
+int func_0216D454(int a0, u32 a1, u32 a2, u32 a3)
 {
     int t4;
     int t5;

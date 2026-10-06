@@ -40,7 +40,7 @@ extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 func_0200BF70(struct Rec1B0 *p);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern int func_02012FCC(int p0);
 extern unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
 extern unsigned long long func_0200BF94(struct Rec1B0 *p);

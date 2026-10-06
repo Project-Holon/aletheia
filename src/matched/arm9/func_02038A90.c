@@ -23,7 +23,7 @@ typedef unsigned int  u32;
 
 extern const u8 str_020A7A24[];
 extern const u8 str_020A7A50[];
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_0203D6BC(void);
 extern u32 func_0203D680(void);
 extern void *func_0203D798(void);
@@ -37,7 +37,7 @@ int func_02038A90(u32 a)
     if (a != 0) {
         func_02037224(4, 0x5d4);
     } else {
-        func_02034714(str_020A7A24, 0x5d8, str_020A7A50);
+        func_02034714((const char *)str_020A7A24, 0x5d8, (const char *)str_020A7A50);
     }
     return 1;
 }

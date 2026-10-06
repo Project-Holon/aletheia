@@ -15,9 +15,10 @@
  */
 
 extern char d_021F63F4;
-extern int func_021EF9B0(void *mem);
+typedef unsigned int   u32;
+extern int func_021EF9B0(u32 *p);
 
 int func_021EF894(void)
 {
-    return func_021EF9B0(&d_021F63F4);
+    return func_021EF9B0((u32 *)(&d_021F63F4));
 }

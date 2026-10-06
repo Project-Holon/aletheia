@@ -21,5 +21,5 @@ typedef unsigned int u32;
 extern int *func_021897BC(char *,int);
 extern void func_021F37C4(u8 *);
 extern void func_021F474C(unsigned char *p);
-extern void func_021F38EC(u8 *);
-void func_021F374C(char *a) { u8 *p; p=(u8 *)func_021897BC(a,0); func_021F37C4(p); if(((struct Obj05133 *)p)->f14)func_021F474C(((struct Obj05133 *)p)->f14); func_021F38EC(p); }
+extern void func_021F38EC(int *p);
+void func_021F374C(char *a) { u8 *p; p=(u8 *)func_021897BC(a,0); func_021F37C4(p); if(((struct Obj05133 *)p)->f14)func_021F474C(((struct Obj05133 *)p)->f14); func_021F38EC((int *)p); }

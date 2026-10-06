@@ -73,8 +73,8 @@ struct Region {
     u32 end;
 };
 
-extern void sub_02060764(struct Region *rgn, struct MBlockHead *block);
-extern struct MBlockHead *sub_02060790(struct MBlockList *list, struct MBlockHead *block);
+extern void sub_02060764(int *out, int *blk);
+extern void *sub_02060790(int *p, int *node);
 extern void *sub_020607E8(int *p, int v);
 extern void *sub_020607B8(int *p, void *node, int *a);
 extern s32 sub_02060B6C(struct ExpHeapHead *heap, struct Region *rgn);
@@ -113,8 +113,8 @@ u32 func_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
             return 0;
         }
 
-        sub_02060764(&rgnFree, pMBlkFr);
-        pMBlkFrPrev = sub_02060790(&pEHHead->freeList, pMBlkFr);
+        sub_02060764((int *)(&rgnFree), (int *)pMBlkFr);
+        pMBlkFrPrev = sub_02060790((int *)(&pEHHead->freeList), (int *)pMBlkFr);
 
         oldStart = rgnFree.start;
         rgnFree.start = size + (u32)memBlock;

@@ -25,11 +25,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_02211AF9[];
 extern const int d_02211B3C[];
-extern void func_0220BDA0(char *);
-extern void func_0220BEB8(char *,int,int,u8,u8);
+extern void func_0220BDA0(u8 *p);
+extern void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra);
 extern int func_022110D4(u8 *,int);
 extern void func_0220C4DC(char *,int,int,int,u16,short,unsigned);
-extern void func_0220D6DC(char *,char *,int);
+extern void func_0220D6DC(char *p, u8 *record, int slot);
 typedef unsigned int   u32;
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern void func_0220C60C(char *p, int id);
@@ -40,8 +40,8 @@ void func_0220E088(char *p)
     char *base, *rec;
     u16 value;
     *(u8 * *)&((struct Obj00507 *)p)->f253C = d_02211AF9;
-    func_0220BDA0((char *)p);
-    func_0220BEB8((char *)p,0,(*(u8 **)p)[32],0,0);
+    func_0220BDA0((u8 *)p);
+    func_0220BEB8((u8 *)p,0,(*(u8 **)p)[32],0,0);
     base = (char *)p + 0x30;
     for (i=0; i<4u; i++) {
         offset = i * 8;
@@ -49,7 +49,7 @@ void func_0220E088(char *p)
         if (value == 0) *(u8 *)(p + offset + 0x1f7c) = 1;
         else {
             func_0220C4DC((char *)p,value,i+1,d_02211B3C[i],65535,7,0x3dc0);
-            func_0220D6DC((char *)p,rec+offset,i+1);
+            func_0220D6DC((char *)p,(u8 *)(rec+offset),i+1);
         }
     }
     if (func_02020FE4((void *)(((struct Obj25192 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f24),40,((struct Obj25193 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f10) == 0)

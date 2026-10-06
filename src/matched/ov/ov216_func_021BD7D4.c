@@ -30,7 +30,7 @@ extern void MI_CpuFill8(void *, int, int);
 extern void func_021BD854(struct TcblNode *, char *);
 extern void func_021BD13C(u8 *p, int a);
 extern void func_021BD0E4(char *, u32, u32);
-void func_021BD7D4(char *owner, int index, int position, u8 direction, int *counter)
+void func_021BD7D4(char *owner, u8 index, int position, u8 direction, int *counter)
 {
     char *work;
     work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD854, 24, 0));

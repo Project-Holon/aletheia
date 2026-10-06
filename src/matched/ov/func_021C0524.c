@@ -19,7 +19,7 @@
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 
-void func_021C0524(int unused, char *p)
+void func_021C0524(void *unused, char *p, void *a2)
 {
     unsigned char i;
 

@@ -66,17 +66,17 @@ extern const Vec d_021F824C;
 extern void *func_021F5164(u32);
 struct Object;
 extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
-extern void *func_021F709C(u16, void *, void *, void *, void *);
+extern u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e);
 extern void *func_021F760C(u8 *, u8 *);
 extern void func_021F5438(void **p, int b);
 extern void func_021F80B0(int, int);
 extern int func_021F8154(int, int *, int);
 extern void *func_021F6BD8(u16, void *);
-extern void *func_021F6E78(void *, int);
+extern u8 *func_021F6E78(u8 *p, int v);
 extern u32 func_021F40D0(void *p, u32 i, u16 c);
-extern void func_021F8054(void *, void *, Vec *);
-extern void func_021F8084(void *, void *, Vec *);
-extern void func_021F6EF4(void *, void *, Vec *);
+extern void func_021F8054(void *unused, u32 *p, const u32 *q);
+extern void func_021F8084(void *unused, u32 *p, const u32 *q);
+extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
 void func_021F3F00(Context *p)
 {
   u32 offset;
@@ -98,7 +98,7 @@ void func_021F3F00(Context *p)
   p->scene = func_021F5164(p->heap);
   func_021F5438(p->scene, 2 << 16);
   p->actors = func_021F48C0((u32) p->owner, 36, p->heap);
-  p->render = func_021F709C(p->heap, 0, p->scene, p->actors, p->owner);
+  p->render = func_021F709C(p->heap, 0, (u32)p->scene, (u32)p->actors, (u32)p->owner);
   for (i = 0; i < 4; i++)
     p->models[i] = 0;
 
@@ -151,8 +151,8 @@ void func_021F3F00(Context *p)
       pos.x = func_021F40D0(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      func_021F8054(p->render, *((void **) (actor + 0x30)), &pos);
-      func_021F8084(p->render, *((void **) (actor + 0x30)), &temp);
+      func_021F8054(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      func_021F8084(p->render, *((void **) (actor + 0x30)), (const u32 *)(&temp));
       scale.y = 22 << 14;
     }
     else
@@ -162,12 +162,12 @@ void func_021F3F00(Context *p)
       pos.x = func_021F40D0(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
-      func_021F8054(p->render, *((void **) (actor + 0x30)), &pos);
+      func_021F8054(p->render, *((void **) (actor + 0x30)), (const u32 *)(&pos));
       tmp1 = 2 << 18;
       scale.y = tmp1;
     }
     *((void **) (row + 0x44)) = func_021F6E78(p->effect, 1);
-    func_021F6EF4(p->effect, *((void **) (row + 0x44)), &scale);
+    func_021F6EF4(p->effect, *((void **) (row + 0x44)), (const u32 *)(&scale));
   }
 
 }

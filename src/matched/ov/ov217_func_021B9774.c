@@ -35,7 +35,7 @@ void func_021B9774(u32 *p, u32 *state, u32 kind)
     }
     *state = kind;
 }
-int func_021B97B8(void)
+int func_021B97B8(void *a0)
 {
     return 1;
 }

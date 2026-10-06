@@ -29,7 +29,7 @@ extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_02158344(int);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern int func_02012204(int);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);

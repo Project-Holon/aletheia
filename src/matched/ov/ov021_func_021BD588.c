@@ -23,7 +23,8 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern u16 func_021BD2C8(void *p);
+typedef unsigned char  u8;
+extern u16 func_021BD2C8(u8 *p);
 extern u16 func_02045A98(void);
 struct Obj;
 struct U16Vec;
@@ -39,7 +40,7 @@ void func_021BD588(u32 *p)
     u16 buf[2];
     u32 h;
 
-    buf[0] = func_021BD2C8(p);
+    buf[0] = func_021BD2C8((u8 *)p);
     buf[1] = func_02045A98();
     h = (u32)func_020457B0(2, ((struct Obj02719 *)p)->f0);
     func_02045994((struct Strbuf *)h, buf, 2);

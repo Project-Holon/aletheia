@@ -14,7 +14,7 @@
 #include "../include/Obj13925.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_021B6284(void *p);
+extern void func_021B6284(unsigned int *p);
 
 void func_021E625C(void *p)
 {
@@ -27,7 +27,7 @@ void func_021E625C(void *p)
         }
     }
     if (((struct Obj13925 *)q)->f10) {
-        func_021B6284(q);
+        func_021B6284((unsigned int *)q);
         ((struct Obj13925 *)q)->f10 = 0;
     }
 }

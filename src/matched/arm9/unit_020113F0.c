@@ -25,7 +25,7 @@ typedef unsigned char u8;
 extern const u8 tbl_0209DF24[][0x18];
 extern const u8 tbl_0209DF10[][5];
 
-u8 func_020113F0(int row, int col)
+int func_020113F0(int row, int col)
 {
     return tbl_0209DF24[row][col];
 }

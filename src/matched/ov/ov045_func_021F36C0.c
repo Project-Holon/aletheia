@@ -56,7 +56,7 @@ extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void  func_021BE760(void *p, void *a, int b);
 extern V    *func_021BE480(void *p, int i, u16 j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
+extern void func_021BE4A4(char *p, int i, int j, int v);
 extern void *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B8(unsigned char *p, int v);
 extern void func_021BE6B0(unsigned char *p, int v);
@@ -79,7 +79,7 @@ void func_021F36C0(void *a0)
     for (i = 0; i < 3; i++) {
         e = func_021BE480(r4, 0, i);
         *e = d_021F3B80[i];
-        func_021BE4A4(r4, 0, i, 1);
+        func_021BE4A4(r4, 0, (u16)i, 1);
         for (j = 0; j < 2; j++) {
             b = func_021BE674(r4, 0, i, j);
             func_021BE6B8(b, 0);
@@ -88,7 +88,7 @@ void func_021F36C0(void *a0)
         k = i + 3;
         e = func_021BE480(r4, 0, k);
         *e = d_021F3BA4[i];
-        func_021BE4A4(r4, 0, k, 1);
+        func_021BE4A4(r4, 0, (u16)k, 1);
         for (j = 0; j < 2; j++) {
             b = func_021BE674(r4, 0, k, j);
             func_021BE6B8(b, 0);

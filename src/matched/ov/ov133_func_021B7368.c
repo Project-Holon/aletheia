@@ -26,12 +26,14 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef struct { int x,y,z; } Vec;
 typedef struct { u32 x,y; } Pair;
-extern void func_021B7458(u8 *, Pair *);
-extern u32 func_021BA188(u8 *);
-extern u8 *func_021BA19C(u16,void *,u8 *,Vec *);
-extern void func_021BA100(void *,u8 *),func_021BA21C(u8 *,Pair *);
+struct Object;
+extern void func_021B7458(void *unused, int *p);
+extern unsigned short func_021BA188(char *p);
+extern u8 *func_021BA19C(u32 heap, struct Object *q, u8 *r, int *v);
+extern void func_021BA100(u8 *p, u8 *q);
+extern void func_021BA21C(u8 *p, const u8 *src);
 extern u32 func_021BA218(u8 *);
-extern void func_021F4EB4(int,int,s16,s16);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 void func_021B7368(u8 *p,u16 id)
 {
     Pair pos;
@@ -44,16 +46,16 @@ void func_021B7368(u8 *p,u16 id)
     }
     if(e){
         int y;
-        func_021B7458(p,&pos);
+        func_021B7458(p,(int *)(&pos));
         if((int)pos.x>0) scale.x=(int)(0.5f+(float)((int)pos.x<<12));
         else scale.x=(int)((float)((int)pos.x<<12)-0.5f);
         if((int)pos.y>0) y=(int)(0.5f+(float)((int)pos.y<<12));
         else y=(int)((float)((int)pos.y<<12)-0.5f);
         scale.y=y;
-        scale.z=(10<<12)-(func_021BA188(*(u8 **)(p+0x1820))<<10);
-        q=func_021BA19C(*(u16 *)p,*(void **)(p+0x1884),e,&scale);
+        scale.z=(10<<12)-(func_021BA188((char *)(*(u8 **)(p+0x1820)))<<10);
+        q=func_021BA19C(*(u16 *)p,*(void **)(p+0x1884),e,(int *)(&scale));
         func_021BA100(*(void **)(p+0x1820),q);
-        func_021BA21C(q,&pos);
+        func_021BA21C(q,(const u8 *)(&pos));
         func_021F4EB4(*(int *)(p+0x1884),func_021BA218(q),0x1000,0x1000);
         *(u32 *)(e+0xc)=1;
     }

@@ -48,5 +48,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern u64 func_0200B98C(void *,int,int);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
 int func_021DD25C(void *p) { int result; int v; result=0; v=(int)func_0200B98C(p,3,0); if(v==20) goto yes; if(v==21) goto yes; if(v!=22) goto no; yes: return 1; no: return result; }

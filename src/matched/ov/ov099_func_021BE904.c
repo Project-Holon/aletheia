@@ -16,7 +16,7 @@
  */
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_021BA8BC(int a);
+extern int func_021BA8BC(void *p);
 extern void func_021BAAB8(char *p, int a, int b);
 
 int func_021BE904(char *p, int v)
@@ -27,7 +27,7 @@ int func_021BE904(char *p, int v)
         return v;
     }
     if (func_020362DC() & 3) {
-        *(int *)(p + 0x19C) = func_021BA8BC(*(int *)(p + 0x19C));
+        *(int *)(p + 0x19C) = func_021BA8BC((void *)(*(int *)(p + 0x19C)));
         func_021BAAB8(p, 0x37, 0);
         *(int *)(p + 0x1CC) = 2;
     }

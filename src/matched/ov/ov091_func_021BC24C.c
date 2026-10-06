@@ -17,6 +17,6 @@
  */
 typedef unsigned int u32;
 extern u32 func_02017E1C(void *,u32,u32);
-extern int func_02019CF8(int);
+extern unsigned int func_02019CF8(unsigned int item);
 extern u32 func_02017988(void *,u32);
 void func_021BC24C(void *unused,void *a,int b) { u32 t=0; int r; if(func_02017E1C(a,5,0)==0x1ED) { t=func_02017E1C(a,0x6F,t); r=func_02019CF8(b); if(t!=r)func_02017988(a,r); } }

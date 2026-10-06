@@ -24,11 +24,12 @@ typedef struct {
     u16 v : 3;
 } Rec;
 
-extern int  func_02012B58(void *p);
-extern Rec *func_02158344(void *p);
+struct BigObj;
+extern u8 func_02012B58(const struct BigObj *p);
+extern int func_02158344(int a0);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
-extern int  func_02012B80(void *p);
+extern u8 func_02012B80(const struct BigObj *p);
 
 u8 func_021767A0(void *a, void *b)
 {
@@ -36,10 +37,10 @@ u8 func_021767A0(void *a, void *b)
     u8 y;
     Rec *r;
 
-    x = func_02012B58(b);
-    r = func_02158344(a);
+    x = (int)func_02012B58(b);
+    r = (Rec *)func_02158344((int)a);
     if (func_0200FB24()) {
-        y = func_02012B80(b);
+        y = (int)func_02012B80(b);
         if (y == x) {
             return 4;
         }

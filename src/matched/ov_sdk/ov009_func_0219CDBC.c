@@ -36,7 +36,8 @@ typedef struct qr2_implementation_s {
 
 extern char g_021A7A9C[];
 extern void func_0219BA84(struct qr2_buffer_s *buf, char ptype, char *reqkey);
-extern int func_0217ECA4(int sock, char *buf, int len, int flags, void *addr, int tolen);
+struct SOCSockAddr;
+extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern unsigned int func_0217F264(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 
@@ -46,7 +47,7 @@ void func_0219CDBC(qr2_implementation_s *qrec)
 
     buf.len = 0;
     func_0219BA84(&buf, 8, qrec->instance_key);
-    func_0217ECA4(qrec->hbsock, buf.buffer, buf.len, 0, qrec->hbaddr, 8);
+    func_0217ECA4(qrec->hbsock, buf.buffer, buf.len, 0, (struct SOCSockAddr *)qrec->hbaddr, 8);
     qrec->lastheartbeat = func_0217F264();
     func_0217D254(3, 0, 0x10, g_021A7A9C, buf);
 }

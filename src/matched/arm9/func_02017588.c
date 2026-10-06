@@ -36,9 +36,10 @@ struct Mon {
     u8  unk88[0x54];
 };
 
-extern void  func_02017528(struct Mon *p);
+struct Sav;
+extern void func_02017528(struct Sav *p);
 extern void func_0201761C(void *obj, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void  func_02019A50(void *p, u32 size, u32 seed);
+extern void func_02019A50(u16 *p, u32 size, u32 seed);
 extern void  func_02017E40(void *p, u32 id, u32 v);
 extern void *func_02008F08(int a0);
 extern void  func_020307B0(void *m);
@@ -48,10 +49,10 @@ void func_02017588(struct Mon *p, u16 species, u16 level, u64 id, u32 pow, u64 r
 {
     void *mail;
 
-    func_02017528(p);
+    func_02017528((struct Sav *)p);
     func_0201761C(p, species, level, id, pow, rnd);
-    func_02019A50(p->unk88, 0x54, 0);
-    func_02019A50(p->unk88, 0x54, p->unk00);
+    func_02019A50((u16 *)p->unk88, 0x54, 0);
+    func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
     func_02017E40(p, 0x9e, level);
     mail = func_02008F08(0x8000);
     func_02017E40(p, 0xa7, (u32)mail);

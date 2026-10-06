@@ -51,7 +51,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern u32  func_0203F2FC(const void *src, u32 size);
+extern u32 func_0203F2FC(const u8 *p, u32 len);
 extern void func_0200B900(void *a, u32 b, u32 c);
 extern void func_0200B908(void *a, u32 b, u32 c);
 
@@ -76,7 +76,7 @@ void func_0200B448(struct BattleRec *p)
 
 u32 func_0200B45C(void)
 {
-    if (func_0203F2FC(&gObj_0214616C->unkC4, sizeof(gObj_0214616C->unkC4))
+    if (func_0203F2FC((const u8 *)(&gObj_0214616C->unkC4), sizeof(gObj_0214616C->unkC4))
         != 0) {
         return 1;
     }

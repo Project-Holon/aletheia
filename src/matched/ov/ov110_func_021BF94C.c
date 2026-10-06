@@ -23,7 +23,8 @@ typedef struct { int x,y,z; } Triple;
 typedef struct { void *root; void *a; void *b; void *c; void *d; void *first; void *unused; void *second; void *items[10]; } Obj;
 extern void func_021BAC64(void *,Triple *,int,int);
 extern void *func_021BAC78(void *,Triple *,int,int,int,int);
-extern void func_021BAC50(void *,Triple *,int);
+struct V3;
+extern void func_021BAC50(char *p, struct V3 *out, int i);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -44,7 +45,7 @@ void func_021BF94C(Obj *p) {
     func_0204B3DC(p->second,0);
     z=i;
     for(;i<10;i++) {
-        func_021BAC50(p->root,&s,z);
+        func_021BAC50(p->root,(struct V3 *)(&s),z);
         p->items[i]=func_021BAC78(p->root,&s,z,z,z,1);
         func_0204B878(p->items[i],i);
         func_0204B3DC(p->items[i],z);

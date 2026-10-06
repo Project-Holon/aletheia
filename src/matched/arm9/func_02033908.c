@@ -41,7 +41,8 @@ typedef unsigned int  u32;
 extern u32 g_020A78CC[];
 
 extern void *func_02030734(u32 a, u32 b, int c, const char *d, unsigned short e);
-extern void  func_02033A88(void *p, u32 a);
+struct Save;
+extern void func_02033A88(struct Save *p, u32 v);
 extern void  MIi_CpuClear32(u32 v, void *dst, u32 n);
 
 void *func_02033908(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
@@ -55,6 +56,6 @@ void *func_02033908(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
     ((struct Obj01312 *)p)->f8 = a4;
     *(u32 *)&((struct Obj01312 *)p)->f14 = (u32)func_02030734(a0, a2 * 12, 1, (const char *)g_020A78CC, 0x4f);
     ((struct Obj01312 *)p)->f18 = a6;
-    func_02033A88(p, a5);
+    func_02033A88((struct Save *)p, a5);
     return p;
 }

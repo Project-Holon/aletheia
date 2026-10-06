@@ -44,6 +44,6 @@ void func_021C6170(u8 *p)
     func_02045374(obj);
     func_02041B6C(func_02045730(obj));
 }
-void func_021C61CC(void)
+void func_021C61CC(u8 *a0)
 {
 }

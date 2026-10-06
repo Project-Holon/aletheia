@@ -37,7 +37,8 @@ struct Actor; struct PtS;
 extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 struct Obj;
 extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
-extern void func_0204B404(void *obj, struct Pos *pos, int space);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B5AC(void *obj, struct Pair *scale);
 
 #define OBJ(p) (*(void **)((p) + *(int *)((p) + 0x5c) * 4 + 0x54))
@@ -65,7 +66,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
             sc.y = (int)(4096.0f * f + 0.5f);
         else
             sc.y = (int)(4096.0f * f - 0.5f);
-        func_0204B404(OBJ(p), &pos, 1);
+        func_0204B404(OBJ(p), (const struct Vec2 *)(&pos), 1);
         func_0204B5AC(OBJ(p), &sc);
         break;
     case 3:
@@ -83,7 +84,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
             sc.y = (int)(4096.0f * f + 0.5f);
         else
             sc.y = (int)(4096.0f * f - 0.5f);
-        func_0204B404(OBJ(p), &pos, 1);
+        func_0204B404(OBJ(p), (const struct Vec2 *)(&pos), 1);
         func_0204B5AC(OBJ(p), &sc);
         break;
     }

@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
 
-int func_02193260(u8 *p, u8 q)
+int func_02193260(u8 *p, u32 q)
 {
     int r = func_020362DC();
     int lim;

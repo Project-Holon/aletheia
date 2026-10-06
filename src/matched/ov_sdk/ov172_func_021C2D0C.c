@@ -22,11 +22,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_020889C0(void);
+struct RTCDate;
+struct RTCTime;
+extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
 
-int func_021C2D0C(void)
+int func_021C2D0C(void *a, void *b)
 {
-    if (func_020889C0() == 0) {
+    if (func_020889C0(a, b) == 0) {
         return 1;
     }
     return 0;

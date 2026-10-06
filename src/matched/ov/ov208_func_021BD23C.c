@@ -15,7 +15,7 @@
  */
 #include "../include/Obj01977.h"
 extern int func_021BD764(char *);
-extern int func_021BD7E4(void *);
+extern int func_021BD7E4(int *p);
 extern void func_021BD878(char *p);
 void func_021BD23C(char *p)
 {
@@ -37,7 +37,7 @@ void func_021BD23C(char *p)
     case 1:
         ((struct Obj01977 *)p)->f8=2;
     case 2:
-        if(func_021BD7E4(p+0x28+((struct Obj01977 *)p)->f0*0x38))((struct Obj01977 *)p)->f8=3;
+        if(func_021BD7E4((int *)(p+0x28+((struct Obj01977 *)p)->f0*0x38)))((struct Obj01977 *)p)->f8=3;
         break;
     case 3:
         ((struct Obj01977 *)p)->f8=0;

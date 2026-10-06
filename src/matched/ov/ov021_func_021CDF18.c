@@ -39,11 +39,11 @@ typedef unsigned int   u32;
 
 extern void func_021CE9E4(u8 *p, int n);
 extern u32 func_021CF1AC(u32 a, u32 b, u32 c);
-extern void func_021CE7AC(u8 *p);
+extern void func_021CE7AC(u32 *p);
 extern int func_021CF068(u8 *p);
-extern void func_021CE81C(void *p);
+extern void func_021CE81C(u32 *p);
 extern void func_021CF0F4(u8 *p);
-extern int func_021CF32C(u32 flag);
+extern u32 func_021CF32C(u32 flag);
 extern void func_021CE9A0(u8 *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -75,7 +75,7 @@ int func_021CDF18(u8 *p)
         break;
     case 2:
         if (func_021CF068(p) == 2) {
-            func_021CE81C(p);
+            func_021CE81C((u32 *)p);
             func_021CF0F4(p);
             func_021CF0F4(p);
             p[0x51E] = 0xb;
@@ -96,12 +96,12 @@ int func_021CDF18(u8 *p)
         }
         break;
     case 3:
-        func_021CE7AC(p);
+        func_021CE7AC((u32 *)p);
         p[0x51E]++;
         break;
     case 4:
         if (func_021CF068(p) == 2) {
-            func_021CE81C(p);
+            func_021CE81C((u32 *)p);
             func_021CF0F4(p);
             p[0x51E] = 0xb;
             break;
@@ -113,11 +113,11 @@ int func_021CDF18(u8 *p)
         }
         func_021CE9A0(p);
         if (p[0x519] == 1) {
-            func_021CE81C(p);
+            func_021CE81C((u32 *)p);
             func_021CF0F4(p);
             p[0x51E] = 5;
         } else if (p[0x51A] == 1) {
-            func_021CE81C(p);
+            func_021CE81C((u32 *)p);
             func_021CF0F4(p);
             p[0x51E] = 7;
         }
@@ -166,7 +166,7 @@ int func_021CDF18(u8 *p)
         p[0x51E] = 0xc;
         break;
     case 12:
-        func_021CE81C(p);
+        func_021CE81C((u32 *)p);
         return 1;
     }
     if (func_0200FB24() != 0) {

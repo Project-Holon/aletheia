@@ -36,7 +36,7 @@ typedef unsigned int u32;
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *);
 extern void func_021BAA50(char *);
-extern void func_02028178(u8 *,void *);
+extern void func_02028178(u8 *p);
 extern int func_021BAE2C(char *);
 extern void func_021B9FBC(char *);
 extern unsigned func_021BA158(char *);
@@ -58,7 +58,7 @@ int func_021BA760(char *p)
  if(((struct Obj00601 *)p)->f84!=1) {
   for(i=0;i<8;i++) {
    if(*(u8 **)(p+i*4+0xc) && *(void **)(p+i*4+0x2c))
-    func_02028178(*(u8 **)(p+i*4+0xc),*(void **)(p+i*4+0x2c));
+    func_02028178(*(u8 **)(p+i*4+0xc));
   }
  }
  if(((struct Obj00601 *)p)->f84==0 || ((struct Obj00601 *)p)->f84==2) {

@@ -24,8 +24,10 @@ struct T {
     int w[6];
 };
 
-extern int func_021B90F8(char *);
-extern void *func_021CD924(void *, int *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern int func_021B90F8(u8 *p);
+extern u16 *func_021CD924(u8 *p, u32 *out);
 extern void func_02082D44(void *, void *, int);
 
 void func_021BA6C0(char *p)
@@ -33,8 +35,8 @@ void func_021BA6C0(char *p)
     int n;
     void *src;
 
-    if (func_021B90F8(p)) {
-        src = func_021CD924(*(void **)(p + (u8)p[0x46c] * 4 + 0x10), &n);
+    if (func_021B90F8((u8 *)p)) {
+        src = func_021CD924(*(void **)(p + (u8)p[0x46c] * 4 + 0x10), (u32 *)(&n));
         if (src) {
             func_02082D44(src, ((struct Obj21018 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f94, n);
             ((struct Obj21019 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f98 = n;

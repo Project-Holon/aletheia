@@ -30,7 +30,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D67E8(u8 *p);
-extern u8 *func_021C88A4(int a, int k, int c);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
@@ -45,7 +45,7 @@ void func_021E78B0(int a, int b, int c)
     if (c == func_021D775C(3)) {
         n = func_021D67E8(func_021C7CF4((int *)b, c));
         if (n > 1) {
-            p = func_021C88A4(b, 0x2d, c);
+            p = func_021C88A4((char *)b, 0x2d, c);
             v = (n > 0x3e9) ? n - 0x3e8 : 1;
             p[4] = c;
             ((struct Obj13544 *)p)->f6 = v;

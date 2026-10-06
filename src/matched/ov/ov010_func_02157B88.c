@@ -28,7 +28,7 @@ typedef struct { int a; u16 b; } Loc;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern int func_0203F1FC(const u8 *src, u32 len);
 struct Link;
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 extern void func_02157960(int a, int b, int c);

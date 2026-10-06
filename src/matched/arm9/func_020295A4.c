@@ -24,7 +24,8 @@ struct Ctx;
 struct Desc;
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern u8  *func_020124E8(u8 *p);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32  func_02012A30(const struct BigObj *v);
 extern int func_02029560(u32 unused, u32 *state, u8 *cfg);
@@ -33,7 +34,7 @@ u8 *func_020295A4(u8 *p, u32 a)
 {
     u32 r7 = (u32)func_020120F4((const struct Ctx *)p);
     u8 *r6 = (u8 *)func_020122C0(p, 0, (void *)((u32)func_02029560), 0x10);
-    u8 *r4 = func_020124E8(r6);
+    u8 *r4 = func_020124E8((struct Obj *)r6);
 
     ((struct Obj11303 *)r4)->f4 = func_02012A30((const struct BigObj *)r7);
     ((struct Obj11303 *)r4)->fE = (u16)a;

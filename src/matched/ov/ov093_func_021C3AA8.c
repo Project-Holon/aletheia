@@ -32,7 +32,7 @@ extern void func_021C5718(u8 *p, u8 *b, int c);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021C3CCC(u8 *p, u8 *b, int c);
 extern int func_021C88E4(u8 *p);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 void func_021C3AA8(u8 *p, u16 *a, u8 *b)
 {
@@ -52,7 +52,7 @@ void func_021C3AA8(u8 *p, u16 *a, u8 *b)
         s = func_021CC8D8(p + 0x1d74, 0x22c8);
         func_021C3CCC(p, b, *a);
         e = (func_021C88E4(p) == 2);
-        func_021CC95C(p + 0x1d74, s, 0x22cc);
+        func_021CC95C((u32 *)(p + 0x1d74), s, 0x22cc);
         if (e) {
             Q *q = *(Q * *)&((struct Obj13330 *)p)->f4A8;
             if (!q->f)

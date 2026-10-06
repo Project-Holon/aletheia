@@ -27,7 +27,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0203101C(unsigned,unsigned,unsigned,unsigned);
 extern u32 func_0201C440(void *p);
-void func_021C692C(u8 *p,unsigned heap)
+void func_021C692C(u8 *p, int heap)
 {
     func_0201DD68();
     ((struct Obj05377 *)p)->f0=func_0201EC64(heap);

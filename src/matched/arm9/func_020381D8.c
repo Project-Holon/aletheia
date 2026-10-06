@@ -48,7 +48,7 @@ typedef unsigned int u32;
 extern void *func_0203D798(void);
 extern void *func_0203D788(void);
 extern u32 func_020380E4(u32 a0, u8 *rec, u32 len);
-extern void func_02034714(void *a, u32 b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02037224(u32 a, u32 b);
 extern u8 d_020A7A20[];
 extern u8 d_020A7A24[];
@@ -64,7 +64,7 @@ void func_020381D8(u32 a0, u32 a1)
 
     if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0xA4))() == 0 ||
         ((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0xAC))() == 0) {
-        func_02034714(d_020A7A24, 0x400, d_020A7A50);
+        func_02034714((const char *)d_020A7A24, 0x400, (const char *)d_020A7A50);
         return;
     }
 

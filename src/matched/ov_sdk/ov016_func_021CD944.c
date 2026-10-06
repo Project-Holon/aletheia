@@ -26,7 +26,7 @@
 typedef struct { int m[3]; } MsgTable;
 extern MsgTable g_021DA8AC;
 extern int func_021D5580(int lcd);
-extern void func_021C0EA0(void **param2, void **param3);
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021C0E40(unsigned int v);
 extern void func_021CD9CC(void);
@@ -39,7 +39,7 @@ void func_021CD944(void)
         return;
     if (func_021D5580(0))
         return;
-    func_021C0EA0(0, (void **)&prm);
+    func_021C0EA0(0, (unsigned int *)((void **)&prm));
     func_021D1208(msg.m[prm], 1, 1, -1, 0);
     func_021C0E40((unsigned int)func_021CD9CC);
 }

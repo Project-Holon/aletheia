@@ -22,7 +22,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 struct PmsWordSys;
 extern struct PmsWordSys *func_020247A8(u32 heapId);
 extern void func_021B9608(void *);
-extern void func_021B98A0(void *);
+extern void func_021B98A0(u8 *p);
 extern const char d_021C3B80[];
 void *func_021B95A0(u32 heap,void *save)
 {
@@ -33,6 +33,6 @@ void *func_021B95A0(u32 heap,void *save)
     ((struct Obj05283 *)p)->f4=func_020247A8(heap);
     for(i=0;i<226;i++) *(u8 *)(p+0x1D6E + i)=0;
     func_021B9608(p);
-    func_021B98A0(p);
+    func_021B98A0((u8 *)p);
     return p;
 }

@@ -24,17 +24,20 @@
 #include "../include/Obj00001.h"
 
 typedef unsigned int u32;
-extern int func_021E12AC(void *),func_021D8A24(void *);
+extern int func_021E12AC(char *p);
+extern int func_021D8A24(void *);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
-extern void func_021E1098(void *),func_021E1024(void *),func_021E1030(void *);
+extern void func_021E1098(char *p);
+extern void func_021E1024(void *);
+extern void func_021E1030(char *p);
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D8E84(void *,int);
 extern void func_021DAEC8(void *);
-extern void func_021DBA80(void *);
+extern void func_021DBA80(char *p);
 static inline int poll_a(void) {int r=func_020362DC();if(r)func_020355D8(0);return r;}
 static inline int poll_b(void) {int r=func_02035C60();if(r)func_020355D8(1);return r;}
 void func_021DAEF0(char *p) {

@@ -45,11 +45,13 @@ typedef struct Obj2 {
 
 extern char d_021DDA50[];
 
-extern void func_02192F74(Fx *a);
+struct G;
+struct W;
+extern void func_02192F74(struct W *w);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_021927C0(u32 *sub, Fx *a);
+extern void func_021927C0(struct G *g, struct Fx *a);
 extern void func_02193144(u32 heap);
 extern void func_02193044(u32 v);
 extern u32 func_02192B20(u8 a, u8 b, u8 c, u8 d, u32 e);
@@ -59,13 +61,13 @@ Obj2 *func_02190FA0(Fx *a, u32 b, u32 c)
     Obj2 *r;
 
     a->f06 = 0xe;
-    func_02192F74(a);
+    func_02192F74((struct W *)a);
     r = func_02030734(a->f00, 0x20, 1, d_021DDA50, 0x9F4);
     r->owner = a;
     r->b = b;
     r->id = func_02192B20(1, c, 0x1E, 4, a->f00);
     r->f10 = (u32)func_020457B0(0xA0, a->f00);
-    func_021927C0(r->sub, a);
+    func_021927C0((struct G *)r->sub, a);
     func_02193144(a->f00);
     func_02193044(1);
     return r;

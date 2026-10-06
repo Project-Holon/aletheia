@@ -30,7 +30,8 @@ extern void func_02082BCC(void *p, int v, int n);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_02014204(void *p, int v);
+struct t;
+extern void func_02014204(struct t *p, int id);
 typedef unsigned int   u32;
 struct Ctx;
 extern int func_021C82C4(u32 a, int *st, struct Ctx *c);
@@ -54,6 +55,6 @@ int func_021C8268(int a, int b, int c)
         v = 19;
     }
     r4[11] = v;
-    func_02014204(r4 + 3, (unsigned short)c);
+    func_02014204((struct t *)(r4 + 3), (unsigned short)c);
     return r7;
 }

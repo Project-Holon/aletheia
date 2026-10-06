@@ -28,5 +28,6 @@ extern void *func_0201AD0C(void *sys);
 extern u8 func_02012984(const struct BigObj *p);
 extern int func_0216A2EC(int,int,int,int *,int);
 extern void *func_0200C0F0(void *sys);
-extern void func_0200C3C0(int,u16);
-void func_02169068(int a,int b,int *c) { int t=(int)func_0201AD0C(func_02012EBC((struct Big *)a)); func_0216A2EC(a,t,b,c,func_02012984((const struct BigObj *)a)); func_0200C3C0((int)func_0200C0F0(func_02012EBC((struct Big *)a)),b); }
+struct Blk34;
+extern void func_0200C3C0(struct Blk34 *p, u16 v);
+void func_02169068(int a,int b,int *c) { int t=(int)func_0201AD0C(func_02012EBC((struct Big *)a)); func_0216A2EC(a,t,b,c,func_02012984((const struct BigObj *)a)); func_0200C3C0((struct Blk34 *)((int)func_0200C0F0(func_02012EBC((struct Big *)a))),b); }

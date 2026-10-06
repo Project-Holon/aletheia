@@ -16,7 +16,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 x,y; } Vec2;
-extern void func_0204B404(void *, const Vec2 *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 void func_021BFC64(u8 *p, unsigned i) {
@@ -24,7 +27,7 @@ void func_021BFC64(u8 *p, unsigned i) {
     if (i != -1) {
         pos.x = 0x70*(i&1)+0x3e;
         pos.y = 0x18*((i>>1)+1);
-        func_0204B404(((struct Obj13801 *)p)->f14, &pos, 0);
+        func_0204B404(((struct Obj13801 *)p)->f14, (const struct Vec2 *)(&pos), 0);
         func_0204B878(((struct Obj13801 *)p)->f14, 8);
     }
 }

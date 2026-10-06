@@ -15,7 +15,8 @@
 #include "../include/Obj02123.h"
 #include "../include/Obj07705.h"
 
-extern void *func_021B7118(void *, int, int, int);
+struct Obj;
+extern struct Obj *func_021B7118(int *p, int x, int y, int w);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);

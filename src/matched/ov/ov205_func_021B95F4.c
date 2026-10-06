@@ -77,7 +77,9 @@ extern void func_0202F038(u8 *p);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021B9928(char *);
-extern int func_02028484(void *,void *);
+typedef signed int     s32;
+struct Blk;
+extern s32 func_02028484(struct Blk *blk, void *h);
 extern void func_020310C4(struct Tcbl *p);
 extern void func_0202F0B0(u8 *p);
 typedef enum { ST0=0,ST13=13 } State;
@@ -156,7 +158,7 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     case 11:func_021B9928(p);(*state)++;break;
     case 12:return 1;
     case 13:
-        if(func_02028484(p+40,((struct Obj00419 *)p)->f20))*state=((struct Obj00419 *)p)->f44;
+        if(func_02028484((struct Blk *)(p+40),((struct Obj00419 *)p)->f20))*state=((struct Obj00419 *)p)->f44;
         break;
     }
     if(((struct Obj00419 *)p)->f24)func_020310C4(((struct Obj00419 *)p)->f24);

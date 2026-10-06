@@ -31,20 +31,20 @@ typedef struct {
     u16 done;
 } Obj021A3F10;
 
-int func_021A3B94(Obj021A3F10 *p);
+int func_021A3B94(u32 *p);
 int func_021A3974(Obj021A3F10 *p);
-u32 func_021A398C(Obj021A3F10 *p);
-int func_021A31A4(u32 x, int a);
-void func_021A3AD8(Obj021A3F10 *p, int v);
+u32 func_021A398C(u8 *p);
+int func_021A31A4(int i, int v);
+void func_021A3AD8(u8 *p, int a);
 
 int func_021A3F10(Obj021A3F10 *p)
 {
     int a;
 
-    if (func_021A3B94(p) == 1) {
+    if (func_021A3B94((u32 *)p) == 1) {
         p->count++;
         a = func_021A3974(p);
-        func_021A3AD8(p, func_021A31A4(func_021A398C(p), a));
+        func_021A3AD8((u8 *)p, func_021A31A4(func_021A398C((u8 *)p), a));
         p->done = 1;
     }
     return 0;

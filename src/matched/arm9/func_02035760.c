@@ -34,13 +34,13 @@ struct Kind {
     u8 unk3D;
 };
 
-extern u8 *func_02035750(void *p);
+extern int func_02035750(void);
 
 u16 func_02035760(struct Kind *p)
 {
     u8 *q;
 
-    q = func_02035750(p);
+    q = (u8 *)func_02035750();
     if (p->unk3D == 0x1E)
         return ((struct Obj11334 *)q)->f64;
     return ((struct Obj11334 *)q)->f5C;

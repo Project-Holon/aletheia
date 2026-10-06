@@ -38,7 +38,7 @@ struct Soc {
 
 extern unsigned long func_0215AA18(void);
 extern unsigned long long func_020870D0(void);
-extern void func_021593A8(struct Soc *soc, unsigned char flag);
+extern void func_021593A8(char *soc, unsigned char flag);
 extern unsigned long func_02087988(void);
 extern void func_020857B0(void *queue);
 extern unsigned long func_0208799C(unsigned long state);
@@ -55,7 +55,7 @@ unsigned long func_0215ABB0(struct Soc *soc)
 		soc->seqno = seqno;
 		soc->state = 2;
 		soc->when = (unsigned long)(func_020870D0() >> 16);
-		func_021593A8(soc, 2);
+		func_021593A8((char *)soc, 2);
 		enabled = func_02087988();
 		if (soc->state == 2 && g_021A826C.myip != 0) {
 			soc->block_type = 1;

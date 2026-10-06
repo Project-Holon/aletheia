@@ -27,7 +27,7 @@ extern u8 *func_021E9100(u8 *p, int n);
 extern u32 func_021CD9E0(u8 *p);
 extern void func_021ED208(char *p, u8 k, u16 a, int flag);
 extern int func_021ED250(char *p);
-extern void func_021EA32C(char *p, int k);
+extern void func_021EA32C(u8 *p, int k);
 
 int func_021EA160(int *st, char *ctx)
 {
@@ -37,7 +37,7 @@ int func_021EA160(int *st, char *ctx)
     switch (*st) {
     case 0:
         func_021ED208(*(char * *)&((struct Obj10108 *)ctx)->f17C, t[0xa], ((struct Obj10109 *)t)->f0, func_021CD9E0(*(u8 * *)&((struct Obj10108 *)ctx)->f4));
-        func_021EA32C(ctx, ((struct Obj10109 *)t)->f4);
+        func_021EA32C((u8 *)ctx, ((struct Obj10109 *)t)->f4);
         *st = *st + 1;
         break;
     case 1:

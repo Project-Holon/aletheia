@@ -33,7 +33,7 @@ extern void func_021BB7D0(const u8 *p);
 extern u8 func_021B8FF4(u8 *);
 extern u32 func_021EEB64(struct QW *p, u32 *out);
 extern int func_021BC360(u8 *p);
-extern void func_021BABEC(u8 *, void *);
+extern void func_021BABEC(int *p, void *f);
 extern int func_021BAEF8(u8 *, int *);
 
 int func_021BAE60(u8 *p, int *s)
@@ -50,7 +50,7 @@ int func_021BAE60(u8 *p, int *s)
 
             func_021BB7D0(p);
             if (*((u8 *)func_021EEB64((struct QW *)(*(u32 *)(p + 0x14 + idx * 12)), 0)) == 0) {
-                func_021BABEC(p, (void *)func_021BAEF8);
+                func_021BABEC((int *)p, (void *)func_021BAEF8);
             } else {
                 ((struct Obj06222 *)p)->f48 = func_021BC360((u8 *)(((struct Obj06222 *)p)->f44));
                 q = *(int * *)&((struct Obj06222 *)p)->fCB0;
@@ -64,7 +64,7 @@ int func_021BAE60(u8 *p, int *s)
             func_021BB7D0(p);
             if (((struct Obj06222 *)p)->f48 != 0)
                 return 1;
-            func_021BABEC(p, (void *)func_021BAEF8);
+            func_021BABEC((int *)p, (void *)func_021BAEF8);
         }
         break;
     }

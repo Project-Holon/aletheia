@@ -19,7 +19,7 @@
 typedef int s32;
 
 extern char *g_021A8264;
-extern void func_0203D798(void);
+extern void *func_0203D798(void);
 
 void func_02155C28(s32 a, s32 b)
 {

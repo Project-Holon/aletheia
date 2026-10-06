@@ -43,14 +43,15 @@ extern u8 func_021927F8(u8 *p);
 extern u32 func_02194990(u32, u32);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_021927FC(u32 *, u32, u32);
+struct Cur;
+extern void func_021927FC(struct Cur *c, u32 win, u32 col);
 extern void func_02045334(struct Descriptor *);
 extern int func_02193228(u8 *p);
 extern void func_021932A0(u32 a, int f);
 extern u8 func_0219320C(u8 *p);
-extern void func_021928C0(u32 *, u32, u32);
+extern void func_021928C0(struct Cur *c, u32 win, u32 col);
 extern u32 func_0201CE34(void *p);
-extern u32 func_02193260(u32, u32);
+extern int func_02193260(u8 *p, u32 q);
 extern void func_020061E4(u32);
 extern void func_0201CE38(void *p);
 
@@ -78,7 +79,7 @@ u32 func_02191388(u32 *a)
     case 0:
         if (func_021927F8((u8 *)(a + 3)) == 1) {
             w = func_02194990(a[2], *((u8 *)a + 1));
-            func_021927FC(a + 3, (u32)func_02045770((struct Descriptor *)w), 15);
+            func_021927FC((struct Cur *)(a + 3), (u32)func_02045770((struct Descriptor *)w), 15);
             func_02045334((struct Descriptor *)w);
         }
         if (func_02193228((u8 *)(a[5] + 0x160)) != 0) {
@@ -91,14 +92,14 @@ u32 func_02191388(u32 *a)
         w = func_02194990(a[2], *((u8 *)a + 1));
         c = (u32)func_02045770((struct Descriptor *)w);
         if (func_0219320C((u8 *)(a[5] + 0x160)) == 0) {
-            func_021928C0(a + 3, c, 15);
+            func_021928C0((struct Cur *)(a + 3), c, 15);
         }
-        if (func_02193260(a[5] + 0x160, func_0201CE34((void *)h)) != 0) {
+        if (func_02193260((u8 *)(a[5] + 0x160), func_0201CE34((void *)h)) != 0) {
             if (func_0219320C((u8 *)(a[5] + 0x160)) == 0) {
                 func_020061E4(0x547);
             }
             func_0201CE38((void *)h);
-            func_021927FC(a + 3, c, 15);
+            func_021927FC((struct Cur *)(a + 3), c, 15);
             func_021932A0(h, 0);
         }
         func_02045334((struct Descriptor *)w);

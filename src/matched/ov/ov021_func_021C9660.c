@@ -18,14 +18,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8[3]; u32 f14; } Q;
-extern int func_020478B8(u32 h, u16 i, u32 v);
+extern int func_020478B8(void *a, int idx, int amount);
 extern void func_021AC154(u32 a);
 void func_021C9660(u32 a, Q *q)
 {
     int done = 1;
     int i;
     for (i = 0; i < 3; i++) {
-        if (func_020478B8(q->f4, i, 0x1000) == 1)
+        if (func_020478B8((void *)q->f4, (u16)i, (u32)0x1000) == 1)
             done = 0;
     }
     if (done)

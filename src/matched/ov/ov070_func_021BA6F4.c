@@ -42,7 +42,7 @@ extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, un
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
-extern int func_021B811C(char *);
+extern int func_021B811C(u8 *p);
 extern const B5 d_021BBAA8;
 extern const B5 d_021BBA6C;
 extern const B2 d_021BBA68;
@@ -73,7 +73,7 @@ void func_021BA6F4(char *p)
     }
     func_0204B92C((struct Obj *)((struct Obj01515 *)p)->f710, 1);
     func_0204B92C((struct Obj *)((struct Obj01515 *)p)->f714, 1);
-    if (func_021B811C(p) == 0) {
+    if (func_021B811C((u8 *)p) == 0) {
         func_0204B3DC((struct Obj *)((struct Obj01515 *)p)->f718, 0);
     }
     if (((struct Obj01515 *)p)->f10 == 2) {

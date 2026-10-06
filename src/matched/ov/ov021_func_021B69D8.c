@@ -50,7 +50,8 @@ extern void *func_0200A8A0(void *);
 struct Entry;
 struct Strbuf;
 extern void *func_021690A4(int a0);
-extern void func_02087C88(struct Owner *);
+struct OSOwnerInfo;
+extern void func_02087C88(struct OSOwnerInfo *info);
 extern int func_0200A940(void *, int, int, void *);
 extern u32 func_0200A8F8(struct Rec *r, u32 index);
 extern struct Entry *func_0200A8C8(struct Rec *r, u32 index);
@@ -74,7 +75,7 @@ u32 func_021B69D8(void *a, void *b)
 
     r4 = func_0200A8A0(func_02012EBC(r5));
     r5 = func_021690A4((int)r5);
-    func_02087C88(&o);
+    func_02087C88((struct OSOwnerInfo *)(&o));
     r6 = func_0200A940(r4, o.month, o.day, r5);
     fl = func_0200A8F8(r4, r6);
     fl = fl != 1;

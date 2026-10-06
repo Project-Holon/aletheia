@@ -20,9 +20,9 @@ typedef unsigned short u16;
 
 typedef int (*Fn)(int, int, u16 *, u16 *);
 
-extern void func_0216230C(int, u16);
-extern int func_02162254(int, u16, u16 *);
-extern void func_02162278(int, u16, u16, u16);
+extern void func_0216230C(char *p, unsigned i);
+extern int func_02162254(char *p, u16 index, u16 *out);
+extern void func_02162278(char *p, int index, u16 a, u16 b);
 extern Fn d_02172990[];
 
 void func_02162120(int a, int b, int c)
@@ -34,12 +34,12 @@ void func_02162120(int a, int b, int c)
 
     for (i = 0; i < 3; i++) {
         if ((c & (1 << i)) == 0) {
-            func_0216230C(a, i);
-        } else if (func_02162254(a, i, s) != 0) {
+            func_0216230C((char *)a, (u16)i);
+        } else if (func_02162254((char *)a, i, s) != 0) {
             r = d_02172990[s[3]](a, b, s, t);
-            func_0216230C(a, i);
+            func_0216230C((char *)a, (u16)i);
             if (r != 0)
-                func_02162278(a, i, t[2], t[3]);
+                func_02162278((char *)a, (u16)i, t[2], t[3]);
         }
     }
 }

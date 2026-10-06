@@ -36,7 +36,7 @@ extern void *func_02030734(unsigned int heap, unsigned int size, int clear, cons
 extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, unsigned int a3);
 extern void func_0220684C(char *p, int a, int b);
-extern void func_02204A3C(void *a, void *b);
+extern void func_02204A3C(void *a, char **s);
 extern void func_02204A70(void *h);
 
 void func_022025D8(char *o, int flag)
@@ -50,5 +50,5 @@ void func_022025D8(char *o, int flag)
         func_0202173C(((struct Obj03718 *)o)->f64, 0xA, 0xFFFF, 1, 0xC, 0x10, 0, ((struct Obj03718 *)o)->f0);
     ((struct Obj03718 *)o)->f68 = (((struct Obj03718 *)o)->f68 & 0xFFFE7FFF) | 0x8000;
     p[0] = (int)o;
-    func_0220684C(o, (int)func_02030DA8(((struct Obj03718 *)o)->f0, func_02204A3C, p, 0), (int)func_02204A70);
+    func_0220684C(o, (int)func_02030DA8(((struct Obj03718 *)o)->f0, (void (*)(void *, void *))func_02204A3C, p, 0), (int)func_02204A70);
 }

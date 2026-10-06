@@ -13,11 +13,13 @@
  */
 typedef unsigned short u16;
 typedef struct { u16 x, y; } Pt;
-extern void func_0204B528(void *actor, const Pt *src);
+struct Actor;
+struct Pt;
+extern void func_0204B528(struct Actor *actor, const struct Pt *src);
 void func_0218506C(void *actor, int x, int y)
 {
     Pt p;
     p.x = x;
     p.y = y - 8;
-    func_0204B528(actor, &p);
+    func_0204B528(actor, (const struct Pt *)(&p));
 }

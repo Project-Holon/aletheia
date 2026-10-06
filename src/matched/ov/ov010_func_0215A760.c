@@ -14,8 +14,10 @@
 #include "../include/Obj05883.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void *func_02045B38(unsigned, u16, u16, unsigned);
+typedef unsigned int   u32;
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 void func_0215A760(u8 *a, unsigned b, unsigned c) {
- ((struct Obj05883 *)a)->f14 = func_02045B38(0, b, c, ((struct Obj05883 *)a)->f0);
+ ((struct Obj05883 *)a)->f14 = func_02045B38(0, (u16)b, (u16)c, ((struct Obj05883 *)a)->f0);
  ((struct Obj05883 *)a)->f18 = c;
 }

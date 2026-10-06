@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern void func_021C0BE8(u8 *p);
 extern void func_021C0C48(u8 *p);
 extern int func_021C0C80(u32 a);
-extern void func_021C0BD8(u8 *p);
+extern void func_021C0BD8(int *p);
 
 int func_021C0AC0(u32 a, int *st, u8 *p)
 {
@@ -52,7 +52,7 @@ int func_021C0AC0(u32 a, int *st, u8 *p)
         }
         break;
     case 3:
-        func_021C0BD8(p);
+        func_021C0BD8((int *)p);
         return 1;
     }
     ((struct Obj00959 *)p)->f16 = ((struct Obj00959 *)p)->f16 + 1;

@@ -24,10 +24,11 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern u8 d_021C0754[];
 extern void func_0204335C(u32 a);
-extern void func_020433E0(void *a);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 
 void func_021BC3D4(void)
 {
     func_0204335C(0);
-    func_020433E0(d_021C0754);
+    func_020433E0((const struct DispVram *)d_021C0754);
 }

@@ -40,7 +40,8 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern struct Grid *func_020255A0(struct Sys *,const Descriptor *);
+struct Param;
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_020257D0(struct Obj *o);
 extern void func_0202597C(u8 *g, u32 a);
 extern void func_020437AC(struct Obj020437AC *p);
@@ -72,7 +73,7 @@ void func_021E111C(const Object *object,Index index,int x,int y)
         struct Grid **slot;
         struct Grid *grid;
         slot=&out[index];
-        grid=func_020255A0(object->f300,&desc);
+        grid=func_020255A0(object->f300,(const struct Param *)(&desc));
         *slot=grid;
         func_020257D0((struct Obj *)((int)grid));
         func_0202597C((u8 *)((int)*slot),1);

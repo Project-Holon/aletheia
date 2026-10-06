@@ -16,9 +16,14 @@
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj00048.h"
-extern int func_021FCDA0(char *),func_021FCEDC(char *),func_02006254(int);
+typedef unsigned int   u32;
+extern int func_021FCDA0(char *);
+extern int func_021FCEDC(char *);
+extern int func_02006254(u32 a);
 struct Obj;
-extern void func_021FCE60(char *,int),func_020061E4(int),func_0204B3DC(struct Obj *,unsigned int);
+extern void func_021FCE60(char *,int);
+extern void func_020061E4(u32 a);
+extern void func_0204B3DC(struct Obj *,unsigned int);
 void func_021FCD0C(char *p)
 {
     if(func_021FCDA0(p)) {

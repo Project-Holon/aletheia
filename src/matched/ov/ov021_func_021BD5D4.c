@@ -24,12 +24,13 @@ typedef struct {
     void *fC;
 } Obj;
 
-extern Q *func_021BD304(Obj *p);
+typedef unsigned char  u8;
+extern u8 *func_021BD304(u8 *p);
 extern void func_0202590C(void *a, int b, int c);
 
 void func_021BD5D4(Obj *p)
 {
-    Q *q = func_021BD304(p);
+    Q *q = (Q *)func_021BD304((u8 *)p);
     int x = (int)q->f0;
     int y = (int)q->f4;
 

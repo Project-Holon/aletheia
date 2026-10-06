@@ -15,9 +15,9 @@
 
 typedef unsigned int u32;
 
-u32 func_02043658(char *p);
+u32 func_02043658(void);
 
 void func_021C27C0(char *p)
 {
-    ((struct Obj20172 *)p)->f68 = func_02043658(p);
+    ((struct Obj20172 *)p)->f68 = func_02043658();
 }

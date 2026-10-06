@@ -27,8 +27,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *func_021B8714(void *);
 extern int func_021C3B68(u8 *, int, u8);
-extern u8 *func_021BB878(void *, u8);
-extern void *func_021B9BF0(void *, u8);
+struct S2;
+extern u8 *func_021BB878(u8 *p, u32 i);
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern int func_021D5B68(void *);
 extern void func_021BD8F0(u8 *, u8, u8, u8);
 extern u32 func_021B8588(void **p);
@@ -47,16 +48,16 @@ int func_021BBB60(u8 *p)
     initial = func_021B8714(((struct Obj00003 *)p)->f4);
     if (initial[8] && func_021C3B68(p, initial[8], 255)) result = 1;
     for (i = 0; i < 4; i++) {
-        u8 *q = func_021BB878(((struct Obj00003 *)p)->f0, i);
+        u8 *q = func_021BB878(((struct Obj00003 *)p)->f0, (u8)i);
         if (q) {
             u32 j;
             for (j = 0; j < q[9]; j++) {
-                m = func_021B9BF0(((struct Obj09958 *)q)->f4, j);
+                m = (void *)func_021B9BF0(((struct Obj09958 *)q)->f4, (u8)j);
                 if (m && !func_021D5B68(m)) func_021BD8F0(p, i, j, j);
             }
             if (func_021B8588(((struct Obj00003 *)p)->f4) == 3) {
                 for (j = 0; j < 3; j++) {
-                    m = func_021B9BF0(((struct Obj09958 *)q)->f4, j);
+                    m = (void *)func_021B9BF0(((struct Obj09958 *)q)->f4, (u8)j);
                     if (m && !func_021D5B68(m)) func_021B8750(((struct Obj00003 *)p)->f4, i, m);
                 }
             }

@@ -62,42 +62,46 @@ typedef struct {
 } Ov018Work;
 
 struct Ctx;
-void *func_020124E4(void *);
-void *func_020120F4(void *);
+typedef signed int     s32;
+struct Comm;
+struct Obj;
+struct Rec;
+void *func_020124E4(struct Obj *p);
+void *func_020120F4(const struct Ctx *p);
 u32 func_02012138(const struct Ctx *p);
-int func_0217CA40(void *);
+void *func_0217CA40(int a0);
 typedef unsigned char  u8;
 struct BigObj;
 struct Evt;
 void func_02012374(struct Evt *evt, struct Evt **out);
-int func_0200FB24(void);
-int func_02026460(void *);
-int func_02026454(void *);
-void func_02026400(void *);
+u32 func_0200FB24(void);
+u32 func_02026460(void *obj);
+u32 func_02026454(void *obj);
+void func_02026400(struct Comm *p);
 u32 func_02012114(const struct Ctx *p);
 void *func_0201210C(const struct Ctx *p);
 int func_02188BE8(void *);
 u32 func_02188C54(u8 *p);
 int func_021904B0(u32 a, u32 b);
 void *func_02190F64(void *, void *);
-int func_0202648C(void *);
-void func_02190E74(void *, int, int, int);
+u32 func_0202648C(void *obj);
+void func_02190E74(u32 *p, u32 b, u32 c, u32 d);
 void *func_02029830(void *a, u32 b);
 int func_02005F38(void);
-void *func_02029620(void *a, u16 b, u16 c);
-int func_02190EF0(void *);
+void *func_02029620(void *a, u32 b, u32 c);
+u32 func_02190EF0(u32 *p);
 u32 func_020362DC(void);
 int func_02190E40(u32 a);
-void func_02045C04(void *);
+void func_02045C04(struct Rec *rec);
 void *func_02188CB4(void *p);
 int func_021A3238(void *);
 void func_0217C658(void *, void *, void *, int, int, int);
 int func_0217C688(void *, int);
 u32 func_0201296C(const struct BigObj *p);
-int func_020142E8(void *, int);
-void func_02158780(void *, u16, int, int, int);
+u32 func_020142E8(void *bitmap, s32 id);
+int func_02158780(void *p, int b, int c, int d, u16 e);
 u8 func_02012B58(const struct BigObj *p);
-int func_02012204(void *);
+u32 func_02012204(const struct Ctx *p);
 u8 func_0201212C(const struct Ctx *p);
 int func_021C06CC(void *, void *);
 void func_02026484(void *);
@@ -122,20 +126,20 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
     s1 = (void *)func_02012138(x);
     switch (*seq) {
     case 0:
-        func_02012374(a, (struct Evt **)func_0217CA40(x));
+        func_02012374(a, (struct Evt **)func_0217CA40((int)x));
         (*seq)++;
         break;
     case 1:
-        if (func_0200FB24() == 0 && func_02026460(s1) != 0) {
+        if (func_0200FB24() == 0 && (int)func_02026460(s1) != 0) {
             break;
         }
-        if (func_0200FB24() == 0 && (func_02026454(s1) == 2 || func_02026454(s1) == 1)) {
+        if (func_0200FB24() == 0 && ((int)func_02026454(s1) == 2 || (int)func_02026454(s1) == 1)) {
             func_02026400(s1);
         }
         (*seq)++;
         break;
     case 2:
-        if (func_0200FB24() == 0 && func_02026454(s1) != 0) {
+        if (func_0200FB24() == 0 && (int)func_02026454(s1) != 0) {
             break;
         }
         if (work->f24 == 1) {
@@ -167,7 +171,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
             flag = 1;
             break;
         case 0:
-            switch (func_0202648C(s1)) {
+            switch ((int)func_0202648C(s1)) {
             case 1:
                 msg = 0x5A;
                 break;
@@ -190,7 +194,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
             }
             break;
         }
-        func_02190E74(work->f04, 0, 0, msg);
+        func_02190E74(work->f04, (int)0, (int)0, (int)msg);
         if (flag == 1) {
             func_02012374(a, func_02029830(x, 0x52D));
             *seq = 4;
@@ -205,7 +209,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
         }
         break;
     case 5:
-        if (func_02190EF0(work->f04) == 1) {
+        if ((int)func_02190EF0(work->f04) == 1) {
             (*seq)++;
         }
         break;
@@ -237,8 +241,8 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
         }
         break;
     case 9:
-        if (func_020142E8((void *)func_0201296C(s2), 0x980) == 0) {
-            r = func_0202648C(s1);
+        if ((int)func_020142E8((void *)func_0201296C(s2), 0x980) == 0) {
+            r = (int)func_0202648C(s1);
             v = 0;
             switch (r) {
             case 0:
@@ -254,12 +258,12 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
             case 5:
                 break;
             }
-            func_02158780(a, v, 0, 0, 0x8015);
+            func_02158780(a, (u16)v, 0, 0, (int)0x8015);
         }
         *seq = 10;
         break;
     case 10:
-        if ((func_02012B58(s2) != 0 || func_02012204(x) == 1) && func_0201212C(x) == 1) {
+        if ((func_02012B58(s2) != 0 || (int)func_02012204(x) == 1) && func_0201212C(x) == 1) {
             func_02012374(a, (struct Evt **)func_021C06CC(x, func_0201210C(x)));
         }
         (*seq)++;
@@ -267,7 +271,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
     case 11:
         func_02026484(s1);
         func_020264F4(s1);
-        if (func_02012B58(s2) != 0 || func_02012204(x) == 1) {
+        if (func_02012B58(s2) != 0 || (int)func_02012204(x) == 1) {
             func_02012374(a, func_02185214(x));
         }
         (*seq)++;

@@ -19,5 +19,5 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef unsigned short u16;
 extern u16 func_02039338(void);
-extern void func_021DE08C(char *,int,u8);
-void func_021DCBFC(int a,int b,int c,u8 *p) {if(func_02039338()!=0) {((struct Obj10614 *)p)->f20=0;((struct Obj10614 *)p)->f24=1;func_021DE08C(*(char * *)&((struct Obj23673 *)(*(u8 * *)&((struct Obj10614 *)p)->f0))->f20,27,a);}}
+extern void func_021DE08C(char *p, int state, int player);
+void func_021DCBFC(int a,int b,int c,u8 *p) {if(func_02039338()!=0) {((struct Obj10614 *)p)->f20=0;((struct Obj10614 *)p)->f24=1;func_021DE08C(*(char * *)&((struct Obj23673 *)(*(u8 * *)&((struct Obj10614 *)p)->f0))->f20,27,(u8)a);}}

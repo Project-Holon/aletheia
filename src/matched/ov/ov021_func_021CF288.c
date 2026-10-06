@@ -32,7 +32,7 @@ extern int func_02008468(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void func_021CE724(u32, u32, u32);
+extern void func_021CE724(u8 *p);
 
 void func_021CF288(u32 a, u32 flag, u32 c)
 {
@@ -49,5 +49,5 @@ void func_021CF288(u32 a, u32 flag, u32 c)
 
 void func_021CF2E4(u32 a, u32 b, u32 c, u32 d)
 {
-    func_021CE724(d, b, c);
+    func_021CE724((u8 *)d);
 }

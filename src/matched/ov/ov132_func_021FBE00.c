@@ -23,7 +23,8 @@ struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *);
 extern void *func_021F9DAC(void *);
 extern unsigned int *func_021F9DB0(void *,unsigned char);
-extern void func_021F9DB8(void *,unsigned int *,unsigned char);
+typedef unsigned int   u32;
+extern void func_021F9DB8(void *p, void *v, u32 i);
 extern void func_021F6B80(unsigned int *,unsigned int *);
 extern void func_021F6BC0(char *,unsigned int *,unsigned int);
-int func_021FBE00(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct Obj14113 *)p)->f0;n=func_0201134C(*(struct Cursor * *)&((struct Obj14113 *)p)->f4);ctx=func_021F9DAC(((struct Obj10556 *)obj)->f34);func_021F6B80(ctx,func_021F9DB0(((struct Obj10556 *)obj)->f34,n));func_021F9DB8(((struct Obj10556 *)obj)->f34,0,n);return 0; }
+int func_021FBE00(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct Obj14113 *)p)->f0;n=func_0201134C(*(struct Cursor * *)&((struct Obj14113 *)p)->f4);ctx=func_021F9DAC(((struct Obj10556 *)obj)->f34);func_021F6B80(ctx,func_021F9DB0(((struct Obj10556 *)obj)->f34,n));func_021F9DB8(((struct Obj10556 *)obj)->f34,0,(unsigned char)n);return 0; }

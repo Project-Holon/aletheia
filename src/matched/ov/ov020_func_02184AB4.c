@@ -33,7 +33,8 @@ struct Desc;
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern S9C *func_020124E8(int a);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void *func_02161824(void *a, void *b);
 extern int func_02184504(int a, int *state, u8 *p);
 extern u32 func_02188D20(u8 *p);
@@ -59,7 +60,7 @@ int func_02184AB4(int ctx, int *state, u8 *p)
         break;
     case 2:
         r = (int)func_020122C0((void *)x, 0, func_02184504, 0x9c);
-        o = func_020124E8(r);
+        o = func_020124E8((struct Obj *)r);
         *o = *(S9C *)p;
         func_02012374((struct Evt *)ctx, (struct Evt **)r);
         (*state)++;

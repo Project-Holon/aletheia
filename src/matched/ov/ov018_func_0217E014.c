@@ -36,9 +36,12 @@ typedef struct {
 
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *);
-extern void func_0204B404(void *, const Pos *, unsigned);
-extern void func_0204B6F4(void *, u8, unsigned);
-extern void func_0204B3DC(void *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 #pragma opt_propagation off
 void func_0217E014(u8 *p)
@@ -85,8 +88,8 @@ void func_0217E014(u8 *p)
                     l.pos.x = 0x60;
                 }
                 act = ((void **)(p + 0x80))[j];
-                func_0204B404(act, &l.pos, 0);
-                func_0204B6F4(act, l.slot[i] + 1, 1);
+                func_0204B404(act, (const struct Vec2 *)(&l.pos), 0);
+                func_0204B6F4(act, (u8)(l.slot[i] + 1), 1);
                 func_0204B3DC(act, 1);
                 j++;
             }

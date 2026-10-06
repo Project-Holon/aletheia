@@ -19,7 +19,7 @@ struct Obj020437AC;
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_020307B0(void *);
 
-void func_02206A3C(char *p)
+void func_02206A3C(char *p, int a1)
 {
     func_020437AC(((struct Obj10827 *)p)->f10);
     func_020307B0(((struct Obj10827 *)p)->f8);

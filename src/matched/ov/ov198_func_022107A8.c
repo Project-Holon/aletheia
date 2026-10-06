@@ -46,7 +46,7 @@ struct Summary {
 };
 extern u32 func_02017E1C(void *,u32,u32);
 extern u8 func_02017F00(void *);
-extern int func_020276C4(void *);
+extern int func_020276C4(int a0);
 extern u32 func_02018544(void *);
 extern u32 func_02018584(u16,u16,u16);
 extern u8 sub_0201C158(u16,u32);
@@ -78,7 +78,7 @@ void func_022107A8(void *unused,void *mon,struct Summary *p)
     if(func_02017E1C(p->mon,0xad,0)==1) p->egg=0;
     else p->egg=1;
     p->gender=func_02017F00(p->mon);
-    p->nature=(u8)func_020276C4(p->mon);
+    p->nature=(u8)func_020276C4((int)p->mon);
     p->flag=(u8)func_02017E1C(p->mon,0x4c,0);
     p->item=func_02017E1C(p->mon,10,0);
     p->unknown=func_02017E1C(p->mon,6,0);

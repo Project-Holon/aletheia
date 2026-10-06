@@ -57,11 +57,11 @@ extern void *func_021C4D14(int a, int b, int c, int d, int e);
 extern int func_021C4D7C(int, int);
 extern void func_021C4DC0(int, int, int, int);
 extern void func_020307B0(void *p);
-extern void func_021F3978(O *);
-extern void func_021F39BC(O *);
+extern void func_021F3978(char *a);
+extern void func_021F39BC(char *a);
 extern void func_021F3B30(void *);
 
-void func_021F3828(O *o, int q)
+void func_021F3828(O *o, u32 q)
 {
     int i;
     int a;
@@ -100,7 +100,7 @@ void func_021F3828(O *o, int q)
     func_020307B0(p);
     for (i = 0; i < 5; i++)
         o->w[i] = 0;
-    func_021F3978(o);
-    func_021F39BC(o);
+    func_021F3978((char *)o);
+    func_021F39BC((char *)o);
     func_021F3B30(o->f68);
 }

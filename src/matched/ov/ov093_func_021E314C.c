@@ -21,7 +21,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *p, u8 x);
+extern void *func_021C7CF4(int *p, int i);
 struct UtilWork;
 extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern void func_021D7704(int key, s32 m);
@@ -31,7 +31,7 @@ void func_021E314C(int u, void *p, int key)
 {
     int k = 4;
     if (key == func_021D775C(3)) {
-        if (func_021D5BDC(func_021C7CF4(p, func_021D775C(k)), 5) != 0)
+        if (func_021D5BDC(func_021C7CF4(p, (u8)func_021D775C(k)), 5) != 0)
             func_021D7704(0x35, k << 11);
     }
 }

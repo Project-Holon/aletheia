@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Entry32;
 extern u8 func_021673E0(struct Entry32 *list, struct Entry32 *out, u32 cap, u32 start, int count);
 
-int func_0216742C(int a0, int a1, int a2, int a3)
+u16 func_0216742C(int a0, int a1, int a2, int a3)
 {
     unsigned char fr[4];
     int t4;

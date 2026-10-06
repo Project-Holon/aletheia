@@ -31,7 +31,9 @@ extern void *func_0201210C(const struct Ctx *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *a);
 extern unsigned int func_02159B10(void *a, void *b);
-extern void func_02028A58(u32 a, u8 b, u8 c);
+typedef unsigned short u16;
+struct SoundSys;
+extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
 extern void func_02159144(int n);
 
 int func_021AEF10(u32 a, u32 b)
@@ -44,7 +46,7 @@ int func_021AEF10(u32 a, u32 b)
     func_0201210C((void *)x);
     y = func_02012A30((const struct BigObj *)y);
     z = func_02159B10((void *)a, (void *)b);
-    func_02028A58(y, z, func_02159B10((void *)a, (void *)b));
+    func_02028A58((struct SoundSys *)y, z, (u8)func_02159B10((void *)a, (void *)b));
     func_02159144(12);
     return 0;
 }

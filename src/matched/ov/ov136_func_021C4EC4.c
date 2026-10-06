@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void func_020403F4(u32 i);
 extern void func_0204363C(u32 swap);
-void func_021C4EC4(void)
+void func_021C4EC4(void *p)
 {
     func_020403F4(4);
     func_020403F4(3);

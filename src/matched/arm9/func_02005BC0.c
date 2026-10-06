@@ -51,7 +51,7 @@ extern u8 g020AA260[];
 extern u8 g020AA414[];
 
 extern void  func_02005FF4(void);
-extern u8   *func_02005C3C(void);
+extern u32 *func_02005C3C(void);
 extern void  func_02072758(void);
 extern u32 func_020727B4(void);
 struct Obj;
@@ -67,7 +67,7 @@ void func_02005BC0(void)
     func_02005FF4();
     func_02072758();
     func_020727B4();
-    p = func_02005C3C();
+    p = (u8 *)func_02005C3C();
     *(u16 *)g020AA260 = 0;
     for (i = 0; i < 0x10; i++) {
         if (func_02073108((struct Obj *)p, i, (struct SNDTrackInfo *)(g020AA414 + i * 0x1a)) == 1) {

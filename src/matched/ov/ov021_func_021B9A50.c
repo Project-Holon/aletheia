@@ -36,7 +36,8 @@ extern int VEC_DotProduct(V *a, V *b);
 extern u16 FX_AcosIdx(int x);
 extern int FX_Div(int n, int d);
 extern void VEC_Add(V *a, V *b, V *o);
-extern void func_020520A4(V *v, int s, V *o);
+struct Vec3;
+extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *dst);
 extern u16 d_020A1B38[];
 
 #define FX32_ONE ((int)0x00001000L)
@@ -63,8 +64,8 @@ void func_021B9A50(V *out, V *a, V *b, int t)
         return;
     }
     aw = w << 12;
-    func_020520A4(&na, FX_Div(d_020A1B38[(FX_Mul(aw, FX32_ONE - t) >> 16) * 2], s), &na);
-    func_020520A4(&nb, FX_Div(d_020A1B38[(FX_Mul(aw, t) >> 16) * 2], s), &nb);
+    func_020520A4((const struct Vec3 *)(&na), FX_Div(d_020A1B38[(FX_Mul(aw, FX32_ONE - t) >> 16) * 2], s), (struct Vec3 *)(&na));
+    func_020520A4((const struct Vec3 *)(&nb), FX_Div(d_020A1B38[(FX_Mul(aw, t) >> 16) * 2], s), (struct Vec3 *)(&nb));
     VEC_Add(&na, &nb, out);
     VEC_Normalize(out, out);
 }

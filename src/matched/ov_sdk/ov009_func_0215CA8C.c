@@ -21,7 +21,7 @@
  *   g_021A1CD8  0x021A1CD8  data
  */
 
-extern void func_02004EB0();
+extern void func_02004EB0(const void *symbol);
 extern void func_0215F0D4(void);
 extern void func_0215CB24(void);
 extern int func_0215CAE4(void);

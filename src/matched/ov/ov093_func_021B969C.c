@@ -36,7 +36,8 @@ struct Rec534;
 struct Work;
 extern u32 func_0201AA18(void *p);
 extern void func_0201A948(struct Party *p);
-extern void *func_021B9BF0(void *, u8);
+struct S2;
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern void func_021D6B84(void *, int);
 extern void *func_021D5844(void *);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
@@ -60,13 +61,13 @@ void func_021B969C(char *a, char *b, int k, int flag)
     func_0201A948(((struct Obj09940 *)b)->f2B8);
     for (i = 0; i < 6; i++) links[i] = 6;
     for (i = 0; i < n; i++) {
-        m = func_021B9BF0(g, i);
+        m = (void *)func_021B9BF0((struct S2 *)g, (u8)i);
         func_021D6B84(m, flag);
         func_0201A98C(((struct Obj09940 *)b)->f2B8, func_021D5844(m));
         if (func_021D6C24(m)) {
             h = func_021D5864(m);
             for (j = 0; j < n; j++) {
-                if (h == func_021D5844(func_021B9BF0(g, j))) {
+                if (h == func_021D5844((void *)func_021B9BF0((struct S2 *)g, (u8)j))) {
                     links[i] = j;
                     break;
                 }
@@ -76,7 +77,7 @@ void func_021B969C(char *a, char *b, int k, int flag)
     func_0201AC2C(((struct Obj09940 *)b)->f2B8, list);
     for (i = 0; i < n; i++) {
         e = func_0201AB28(list, i);
-        m = func_021B9BF0(g, i);
+        m = (void *)func_021B9BF0((struct S2 *)g, (u8)i);
         func_021D6C3C(m, e);
         if (links[i] != 6)
             func_021D5848(m, func_0201AB28(list, links[i]));

@@ -38,14 +38,16 @@ struct Ov208Scene {
 };
 extern const char ov067_id[];
 extern const char ov206_id[];
-extern void func_02034AC4(u32 id);
-extern struct Ov208Scene *func_021BC32C(void *owner, u32 size, u32 heap);
+typedef signed int     s32;
+struct Ov208Buf;
+extern int func_02034AC4(s32 handle);
+extern void *func_021BC32C(struct Ov208Buf *p, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_020056A0(void (*fn)(void *), void *arg, int n);
 extern void func_021BEF9C(void *p);
 extern void *func_021BC448(u32 heap);
-extern void func_021BC518(void *p);
-extern void func_021BC508(int idx, void *p);
+extern void func_021BC518(int *p);
+extern void func_021BC508(int flag, int *p);
 int func_021BEA04(void *owner, int unused, u16 *heap)
 {
     struct Ov208Scene *s;

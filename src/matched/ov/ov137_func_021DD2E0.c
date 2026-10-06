@@ -21,7 +21,7 @@ struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021DE6C0(void *,void *);
+extern void func_021DE6C0(char *p, void *a1);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 void func_021DD2E0(u8 *p,void *q)
 {
@@ -36,7 +36,7 @@ void func_021DD2E0(u8 *p,void *q)
     v=(u32)func_020457B0(40,114); ((struct Obj02495 *)p)->f60=v;
     ((struct Obj02495 *)p)->f118=0;
     func_02045CAC((struct MsgBank *)(((struct Obj02495 *)p)->f40),17,(void *)v);
-    func_021DE6C0(p,q);
+    func_021DE6C0((char *)p,q);
     ((struct Obj02495 *)p)->f18=0; ((struct Obj02495 *)p)->f20=0; ((struct Obj02495 *)p)->f1C=0;
     ((struct Obj02495 *)p)->f24=(u32)func_02049F78(q,2,(u32)(p+40),114);
     ((struct Obj02495 *)p)->f4804=0; ((struct Obj02495 *)p)->fE8=0;

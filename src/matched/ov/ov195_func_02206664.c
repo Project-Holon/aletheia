@@ -69,7 +69,7 @@ typedef struct Owner {
 
 extern const VecFx32 d_02208E8C;
 extern GlbState d_02148BCC;
-extern void func_020467EC(void *save);
+extern void func_020467EC(int p0);
 struct Light;
 extern void func_02046AFC(u8 *dst);
 extern void func_0207ADC4(MtxFx33 *m);
@@ -79,9 +79,10 @@ extern void func_0206AA0C(const VecFx32 *scale);
 extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 extern void func_0206DB80(void);
-extern void func_02046858(void *save);
+extern void func_02046858(const u32 *src);
 extern void func_02046B40(u8 *a0);
-extern void func_02207510(void *grid, u16 heap);
+struct Grid;
+extern void func_02207510(struct Grid *w, u16 heap);
 extern void func_02208570(void *quad, u16 heap);
 
 void func_02206664(Owner *o)
@@ -91,7 +92,7 @@ void func_02206664(Owner *o)
     Work *w = o->work;
     u8 i;
 
-    func_020467EC(save0);
+    func_020467EC((int)save0);
     func_02046AFC(save1);
     {
         VecFx32 scale = d_02208E8C;
@@ -118,7 +119,7 @@ void func_02206664(Owner *o)
     }
     if (w->quad != 0)
         func_02208570(w->quad, o->heap);
-    func_02046858(save0);
+    func_02046858((const u32 *)save0);
     func_02046B40(save1);
     func_020479D8();
     func_0206DB80();

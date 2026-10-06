@@ -17,24 +17,24 @@
  *   func_0203D34C 0x0203D34C arm
  */
 #include "../include/Obj00051.h"
-extern void func_021BCF08(void *);
+extern void func_021BCF08(char *p);
 typedef unsigned short u16;
 struct Queue;
 struct Rec;
 extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
 extern void func_021BD174(void *,void *,unsigned short,unsigned char);
 extern void func_021BD0E4(void *,unsigned char,int);
-extern void func_021BD448(void *);
+extern void func_021BD448(char *p);
 typedef unsigned int   u32;
 extern void func_021BCD60(unsigned char *p);
 extern void func_0203D34C(u32 a, u32 b);
 void func_021BCBA4(unsigned char *p)
 {
-    func_021BCF08(p);
+    func_021BCF08((char *)p);
     func_02165AC4(((struct Obj00051 *)p)->f24,((struct Obj00051 *)p)->f28,(u16 *)(p+0x2c),*(p+p[0x30]+0x31));
     func_021BD174(p,((struct Obj00051 *)p)->f28,((struct Obj00051 *)p)->f2C,p[0x2e]);
     func_021BD0E4(p,p[0x2e],1);
     func_021BD0E4(p,p[0x2e]^1,0);
-    func_021BD448(p); func_021BCD60(p);
+    func_021BD448((char *)p); func_021BCD60(p);
     func_0203D34C(0,((struct Obj00051 *)p)->f2);
 }

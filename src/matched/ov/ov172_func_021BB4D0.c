@@ -28,7 +28,8 @@ extern u32 func_0204B98C(struct Actor *);
 extern u16 func_0204B898(struct Obj *);
 extern void func_02041EE4(u32, u32, u32);
 extern void func_0204B454(struct Actor *, struct PtS *, u32);
-extern void func_0204B404(struct Actor *, struct PtS *, u32);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BB4D0(void *unused, u8 *q)
 {
     s16 pos[2];
@@ -46,7 +47,7 @@ void func_021BB4D0(void *unused, u8 *q)
             func_0204B454(*(struct Actor * *)&((struct Obj14307 *)element)->f58, (struct PtS *)pos, 0);
             pos[1] = q[5] + 180;
             if (i == 5) pos[1] -= 12;
-            func_0204B404(*(struct Actor * *)&((struct Obj14307 *)element)->f58, (struct PtS *)pos, 0);
+            func_0204B404((struct Obj *)(*(struct Actor * *)&((struct Obj14307 *)element)->f58), (const struct Vec2 *)pos, 0);
         }
     }
 }

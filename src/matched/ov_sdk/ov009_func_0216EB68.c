@@ -25,7 +25,7 @@ typedef void (*MatchedCallback)(int error, int cancel, int self, int isServer, i
 extern int func_02175F3C(void);
 extern void func_02172E7C(void);
 extern void DWCi_SetError(int error, int errorCode);
-extern void func_0216F20C(int status);
+extern int func_0216F20C(int status);
 extern int func_02169038(int pid);
 extern void func_0216F6C0(void);
 

@@ -23,8 +23,10 @@
 typedef short s16;
 struct PtS { s16 x; s16 y; };
 struct B { char pad[0x16]; s16 vx; s16 vy; };
-extern void func_021A2640(void *a, struct PtS *pt);
-extern void func_021A21E0(void *a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021A2640(u8 *a, struct PtS *b);
+extern void func_021A21E0(u32 *p);
 extern void func_021A26C4(void *a, struct PtS *pt);
 void func_021EF4D0(void *a, const struct B *b, s16 *c)
 {

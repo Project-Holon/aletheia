@@ -38,13 +38,16 @@ struct Obj {
     u8   unk_68;
 };
 
-extern void func_0204CA30(void *handle, struct Obj *owner);
-extern void func_0204D104(void *sub);
+struct Dispatchable;
+struct Mgr;
+struct Node;
+extern void func_0204CA30(struct Mgr *m, struct Node *l);
+extern void func_0204D104(struct Dispatchable *p);
 extern void func_0204CAE4(struct Obj *owner);
 
 void sub_0204B3B4(struct Obj *p)
 {
-    func_0204CA30(p->unk_08, p);
-    func_0204D104(&p->unk_68);
+    func_0204CA30(p->unk_08, (struct Node *)p);
+    func_0204D104((struct Dispatchable *)(&p->unk_68));
     func_0204CAE4(p);
 }

@@ -20,10 +20,10 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012138(const struct Ctx *p);
-extern void func_0217EF70(void *, int);
+extern void func_0217EF70(int *p, int x);
 void func_0217EF44(u8 *p)
 {
     func_020120F4(((struct Obj03092 *)p)->f0);
     func_02012138(((struct Obj03092 *)p)->f0);
-    if (p[0xd8] != p[0x105]) func_0217EF70(p, p[0xd8]);
+    if (p[0xd8] != p[0x105]) func_0217EF70((int *)p, p[0xd8]);
 }

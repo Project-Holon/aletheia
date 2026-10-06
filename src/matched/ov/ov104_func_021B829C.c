@@ -31,7 +31,7 @@ typedef short s16;
 extern int func_021B727C(int);
 extern int func_021B7250(int *);
 extern int func_021B6480(int *);
-extern int func_021B884C(int *);
+extern int func_021B884C(u32 *p);
 extern int func_021B86A0(u8 *);
 extern void func_021B8C3C(u8 *p, const void *a, int color);
 extern void func_021B8624(u8 *);
@@ -40,7 +40,7 @@ extern void func_021B7F1C(u8 *,void *,int,int,s16);
 extern void func_020061E4(u32 a);
 extern void func_021B8384(u8 *,u16 *);
 extern void func_021B818C(u8 *);
-extern void func_021B817C(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B817C(char *p, u32 v);
 extern void func_021B8528(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
 typedef enum { BASE=0x814 } Offset;
@@ -49,7 +49,7 @@ void func_021B829C(u8 *p,u16 *state) {
  int point[2];
  *(u32 *)(p+(base+0x98))=0;
  if(!func_021B727C(*(int *)(p+(base-0x68)))) {
-  if(func_021B884C(point)) {
+  if(func_021B884C((u32 *)point)) {
    func_021B8C3C(p+0x278,point,func_021B86A0(p+base));
    if(!*(u16 *)(p+(base+0x8c))) func_021B8624(p+base);
    ((struct Obj05275 *)p)->f8AC=1;
@@ -65,6 +65,6 @@ void func_021B829C(u8 *p,u16 *state) {
  }
  if(!((struct Obj05275 *)p)->f89C) {
   if(func_021B7250(*(int * *)&((struct Obj05275 *)p)->f7AC)==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); }
-  if(func_021B6480(*(int **)(CTX(p)+4))) func_021B817C(p,func_021B8528);
+  if(func_021B6480(*(int **)(CTX(p)+4))) func_021B817C((char *)p,(u32)func_021B8528);
  }
 }

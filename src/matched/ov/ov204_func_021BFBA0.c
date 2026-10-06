@@ -14,16 +14,16 @@
  *   func_021BFBC8 0x021BFBC8 thumb ov204
  */
 
-extern void func_021BFBC8(int *, unsigned int);
+extern void func_021BFBC8(char *p, unsigned value);
 
 int func_021BFBA0(int *p)
 {
     if (p[7] == 3) {
         p[10] = p[10] + 1;
-        func_021BFBC8(p, p[10]);
+        func_021BFBC8((char *)p, p[10]);
     } else {
         p[10] = p[10] - 1;
-        func_021BFBC8(p, p[10]);
+        func_021BFBC8((char *)p, p[10]);
     }
     return p[10] == 60;
 }

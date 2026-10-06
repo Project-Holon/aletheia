@@ -25,17 +25,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_02184A20[];
-extern void *func_02030734(u16 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02006CBC(u16 heap);
 extern void func_02034F84(u32 v);
 extern void func_02082BCC(void *p, int v, u32 n);
 extern u32 func_02006D94(void);
-void func_02184398(u8 *p, u32 heap, u32 b, u32 c)
+void func_02184398(u8 *p, int heap, u32 b, u32 c)
 {
     u8 *buf;
     func_02006CBC(heap);
     func_02034F84(8);
-    buf = func_02030734(heap, 0x120, 0, d_02184A20, 0x603);
+    buf = func_02030734((u16)heap, 0x120, 0, d_02184A20, 0x603);
     func_02082BCC(buf, 0, 0x120);
     *(u8 **)(p + 0x1c) = buf;
     *(u32 *)p = 0;

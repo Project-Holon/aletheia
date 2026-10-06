@@ -15,10 +15,11 @@
  */
 
 extern int func_02035750(void);
-extern int func_020357A0(const void *p);
+struct Kind;
+extern int func_020357A0(struct Kind *p);
 
 int func_02035C20(const void *p)
 {
     func_02035750();
-    return func_020357A0(p);
+    return func_020357A0((struct Kind *)p);
 }

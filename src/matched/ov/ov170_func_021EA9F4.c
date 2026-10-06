@@ -25,8 +25,8 @@ typedef struct {
 struct WinMgr;
 extern void func_020061E4(unsigned se);
 extern int func_021EF5E8(struct WinMgr *mgr);
-extern void func_021DD238(Obj *p);
-extern int func_021E8F50(Obj *p, int v);
+extern void func_021DD238(char *p);
+extern int func_021E8F50(char *p, int v);
 
 #define MGR(p) (*(struct WinMgr **)(*(char **)((char *)(p) + 0x2C) + 0x74))
 
@@ -38,6 +38,6 @@ void func_021EA9F4(Obj *p, int v)
     else
         p->lo = 1;
     p->hi = 0;
-    func_021DD238(p);
-    func_021E8F50(p, v);
+    func_021DD238((char *)p);
+    func_021E8F50((char *)p, v);
 }

@@ -34,7 +34,7 @@ typedef signed int s32;
 
 int func_021D775C(int a);
 int func_021C804C(int a, int b, void *v);
-void *func_021C88A4(int a, int k, int b);
+void *func_021C88A4(char *p, int a, int b);
 void func_021C8838(void *p, int a, int b);
 struct S;
 void func_021C8860(struct S *p, unsigned int a);
@@ -58,7 +58,7 @@ void func_021D89B8(void *a, int b, int c, void *d)
     }
     if (((struct Obj04900 *)d)->f4 < 5)
         return;
-    p = func_021C88A4(b, 4, c);
+    p = func_021C88A4((char *)b, 4, c);
     func_021C8838(p + 4, 2, 0x1f3);
     func_021C8860((struct S *)(p + 4), c);
     func_021C88C8((void *)b, p);

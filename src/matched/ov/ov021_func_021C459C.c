@@ -36,7 +36,7 @@ extern u16 func_0216D5F8(void *p);
 typedef unsigned char  u8;
 extern u32 func_02188C98(u8 *p);
 extern u16 func_0215A5CC(void *a0);
-extern void func_021A3364(void *a, u32 b, u32 *c);
+extern void func_021A3364(u32 *a, int b, int *out);
 extern int func_021AB0D4(void *a, void *b);
 extern u32 func_021C1024(void *a, u32 b, u32 c, u32 d);
 extern void func_0215A644(void *p, u32 v);
@@ -55,7 +55,7 @@ u32 func_021C459C(u32 a, u32 b)
     z = func_0216D5F8(func_021A3074(y));
     x = (void *)func_02188C98(x);
     w = func_0215A5CC((void *)b);
-    func_021A3364(y, z, buf);
+    func_021A3364(y, z, (int *)buf);
     t = func_021AB0D4(x, buf);
     t = func_021C1024(y, z, t, w);
     func_0215A644((void *)b, t);

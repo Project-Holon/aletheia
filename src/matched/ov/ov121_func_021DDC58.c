@@ -23,11 +23,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021DC064(void *p);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049BDC(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_02049658(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_020498F4(void *,u16,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_020413B0(u8,u8,u8,u8,u8,u8);
-extern void func_020409B4(u8);
+typedef unsigned int   u32;
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020409B4(u32 index);
 extern void func_02049238(void *);
 void func_021DDC58(const unsigned *p,void *context,u16 heap)
 {
@@ -42,8 +43,8 @@ void func_021DDC58(const unsigned *p,void *context,u16 heap)
     arc=func_020490F4(34,heap);
     func_02049BDC(arc,4,which,id*32,p[2]*32,32,heap);
     func_02049658(arc,13,p[0],0,0,0,heap);
-    func_020498F4(arc,resource,p[0],0,0,0,heap);
-    func_020413B0(p[0],0,0,34,24,p[2]);
-    func_020409B4(p[0]);
+    func_020498F4(arc,(u16)resource,p[0],0,0,0,heap);
+    func_020413B0((u8)p[0],0,0,34,24,p[2]);
+    func_020409B4((u8)p[0]);
     func_02049238(arc);
 }

@@ -32,13 +32,14 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020457B0(u32 size, u16 tag);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 
 void *func_0200D6D0(const void *src, u32 tag)
 {
-    void *h = func_020457B0(0xF, tag);
+    void *h = func_020457B0(0xF, (u16)tag);
 
     func_02045994(h, src, 0xF);
     return h;

@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_02195338(u8 *p, u8 *e);
-extern void func_02195E80(u8 *p, u8 *e);
+extern int func_02195E80(u32 a, u32 b);
 extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
 extern void func_02194B3C(u8 *p, u8 *e);
 
@@ -49,13 +49,13 @@ void func_02194B84(u8 *p, u8 *e)
         }
         ((struct Obj01493 *)e)->f0 = 4;
         t = ((struct Obj01493 *)e)->f60;
-        func_02195E80(p, e);
+        func_02195E80((u32)p, (u32)e);
         ((struct Obj01493 *)e)->f8 = func_0201CCE4(((struct Obj01493 *)e)->fC, e[0x5C], e[0x5D], ((struct Obj01493 *)e)->f14,
                                         ((struct Obj01351 *)p)->f8, t, *(u32 *)&((struct Obj01351 *)p)->fC98, 0, ((struct Obj01351 *)p)->f0, 15);
         return;
     case 4:
         if (func_02195338(p, e) == 1) {
-            func_02195E80(p, e);
+            func_02195E80((u32)p, (u32)e);
         }
         return;
     case 5:

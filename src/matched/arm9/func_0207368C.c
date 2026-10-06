@@ -57,7 +57,8 @@ struct Voice {
 extern char g_0214E018[];
 extern char g_0214E00C[];
 
-extern void func_020605B4(void *list, void *node);
+struct DList;
+extern void func_020605B4(volatile struct DList *list, void *elem);
 extern void func_020604AC(void *list, void *node);
 
 void func_0207368C(struct Voice *v)
@@ -69,14 +70,14 @@ void func_0207368C(struct Voice *v)
         v->f00 = 0;
     }
     s = v->f04;
-    func_020605B4(s, v);
+    func_020605B4((volatile struct DList *)s, v);
     v->f04 = 0;
     if (v->f08 != 0) {
         func_020604AC((char *)s + 0xc, v->f08);
         v->f08->f0c = 0;
         v->f08 = 0;
     }
-    func_020605B4(g_0214E018, v);
+    func_020605B4((volatile struct DList *)g_0214E018, v);
     func_020604AC(g_0214E00C, v);
     v->b2c = 0;
 }

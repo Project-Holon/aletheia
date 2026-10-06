@@ -60,7 +60,8 @@ struct Obj {
 };
 
 extern void sub_0204B878(struct Obj *p, u16 v);
-extern void sub_0204B95C(struct Obj *p);
+struct Actor;
+extern void sub_0204B95C(struct Actor *a);
 
 u16 sub_0204B898(struct Obj *p)
 {
@@ -73,5 +74,5 @@ void sub_0204B8A0(struct Obj *p, u16 v)
         return;
     }
     sub_0204B878(p, v);
-    sub_0204B95C(p);
+    sub_0204B95C((struct Actor *)p);
 }

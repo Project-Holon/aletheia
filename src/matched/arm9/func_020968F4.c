@@ -52,7 +52,7 @@ struct P020968F4 {
     u8  f05[32];
 };
 
-extern void func_02096620(struct P020968F4 *p, int idx);
+extern void func_02096620(u8 *p, int idx);
 
 void func_020968F4(struct P020968F4 *p, const u8 *s, u16 v)
 {
@@ -84,5 +84,5 @@ last:
     if ((p->f05[i - 1] & 1) == 0)
         return;
 tail:
-    func_02096620(p, p->f04);
+    func_02096620((u8 *)p, p->f04);
 }

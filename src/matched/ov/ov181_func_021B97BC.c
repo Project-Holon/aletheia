@@ -30,7 +30,7 @@ extern void func_021B9CC8(char *);
 extern int func_021BA5E8(char *),func_021BA6F0(char *);
 extern int func_02005F38(void);
 extern void func_02005E30(u32);
-extern int func_021BA2AC(char *,int);
+extern int func_021BA2AC(u8 *p, int a);
 extern void func_021BA390(char *);
 int func_021B97BC(char *p) {
     char *row;
@@ -63,7 +63,7 @@ int func_021B97BC(char *p) {
     case 3: if(func_021BA6F0(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
     case 5:
         if(func_02005F38()==1) func_02005E30(64);
-        return func_021BA2AC(p,2);
+        return func_021BA2AC((u8 *)p,2);
     }
     func_021BA390(p);
     return 4;

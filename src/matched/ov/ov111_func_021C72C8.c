@@ -41,7 +41,7 @@ typedef struct {
     int state;
 } Work;
 
-extern void func_020403F4(u8 v);
+extern void func_020403F4(u32 i);
 extern void func_0203F9B4(void);
 extern const u32 d_021C885C[];
 
@@ -50,7 +50,7 @@ void func_021C72C8(void)
     u32 i;
 
     for (i = 0; i < 6; i++) {
-        func_020403F4(d_021C885C[i]);
+        func_020403F4((u8)d_021C885C[i]);
     }
     func_0203F9B4();
     *(volatile u16 *)0x04000050 = 0;

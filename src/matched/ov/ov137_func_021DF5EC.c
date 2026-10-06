@@ -21,13 +21,13 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
-extern void func_021E1784(void *, int);
+extern void func_021E1784(char *p, int i);
 extern void *func_0201088C(unsigned, unsigned);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 int func_021DF5EC(u8 *p)
 {
     if (func_02039CB4((struct Link *)func_020399A8(), 205, 40)) {
-        func_021E1784(p, (*(int **)(p + 40))[3]);
+        func_021E1784((char *)p, (*(int **)(p + 40))[3]);
         ((struct Obj05431 *)p)->fDA0 = func_0201088C(114, (*(unsigned **)(*(u8 * *)&((struct Obj05431 *)p)->fD8 + 20))[1]);
         ((struct Obj05431 *)p)->fDA8 = func_0202EE30(((struct Obj05431 *)p)->fD98, ((struct Obj05431 *)p)->fCF0, 15, 16, 114);
         ((struct Obj05431 *)p)->f0 = 44;

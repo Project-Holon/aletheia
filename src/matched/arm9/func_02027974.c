@@ -44,9 +44,10 @@ typedef struct {
     struct S *f34;
 } Obj;
 
-extern void func_020278F4(Obj *p);
-extern void func_02027D44(Obj *p);
-extern void func_02027E3C(Obj *p);
+struct Menu;
+extern void func_020278F4(u8 *p);
+extern void func_02027D44(struct Menu *m);
+extern void func_02027E3C(u8 *m);
 extern u32  _u32_div_f(u32 a, u32 b);
 extern void func_02027B30(u32 a, struct S *s, int mode);
 extern void func_02027B60(u16 *phase, u16 *out, u32 mode, u32 slot);
@@ -56,11 +57,11 @@ void func_02027974(Obj *p)
     u32 step;
     u16 *q;
 
-    func_020278F4(p);
+    func_020278F4((u8 *)p);
     if (p->f0c == 0) {
-        func_02027D44(p);
+        func_02027D44((struct Menu *)p);
         if (p->f0c == 0) {
-            func_02027E3C(p);
+            func_02027E3C((u8 *)p);
         }
     } else {
         step = _u32_div_f(4, p->f14);

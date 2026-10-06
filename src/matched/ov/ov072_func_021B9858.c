@@ -40,13 +40,13 @@ struct Rec;
 struct S020315D4;
 extern void func_02030EAC(struct Node *n);
 extern void func_021BB5E0(void *a);
-extern void func_021BB204(void *a);
+extern void func_021BB204(void **p);
 extern void func_021BAF9C(void *a);
-extern void func_021BA570(void *a);
+extern void func_021BA570(char *p);
 extern void func_021BA0D8(void *a);
 extern void func_021BB534(void *a);
-extern void func_021BB42C(void *a);
-extern void func_021B9F20(void *a);
+extern void func_021BB42C(void **p);
+extern void func_021B9F20(unsigned *p);
 extern void func_021B9938(void *a);
 extern void func_021BBB34(void *a);
 extern void func_021BB738(u32 *p);
@@ -61,15 +61,15 @@ int func_021B9858(void *a, int b, int c, u8 *o)
 {
     func_02030EAC(((struct Obj04342 *)o)->f13C);
     func_021BB5E0(o + 0xf4);
-    func_021BB204(o + 0xb0);
+    func_021BB204((void **)(o + 0xb0));
     func_021BAF9C(o + 0x78);
-    func_021BA570(o + 0x50);
+    func_021BA570((char *)(o + 0x50));
     func_021BA0D8(o + 0x38);
     func_021BB534(o + 0xd4);
     if (**(int * *)&((struct Obj04342 *)o)->f130 != 1) {
-        func_021BB42C(o + 0xc4);
+        func_021BB42C((void **)(o + 0xc4));
     }
-    func_021B9F20(o + 0x14);
+    func_021B9F20((unsigned int *)(o + 0x14));
     func_021B9938(o + 4);
     func_021BBB34(((struct Obj04342 *)o)->f34);
     func_021BB738(((struct Obj04342 *)o)->f0);

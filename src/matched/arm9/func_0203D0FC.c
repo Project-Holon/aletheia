@@ -33,7 +33,7 @@
 extern void *func_0203D788(void);
 extern void func_0203C010(void);
 
-void func_0203D0FC(void)
+void func_0203D0FC(int a)
 {
     func_0203D788();
     func_0203C010();

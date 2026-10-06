@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021BC23C(void *);
 extern u16 func_021BF714(u8 *);
-extern void func_021BC72C(u8 *, int);
+extern void func_021BC72C(char *p, int i);
 extern void func_021BCCA8(void *);
 extern void func_021BCD44(u8 *p);
 extern void func_021B9CBC(u8 *);
@@ -34,7 +34,7 @@ void func_021BA1A0(void *unused, u8 *p)
     q = *(u8 * *)&((struct Obj00135 *)p)->f0;
     q[0x74] = 0;
     func_021BC23C(((struct Obj06381 *)q)->f54);
-    func_021BC72C(*(u8 * *)&((struct Obj06381 *)q)->f54, func_021BF714(*(u8 * *)&((struct Obj00135 *)p)->f4));
+    func_021BC72C((char *)(*(u8 * *)&((struct Obj06381 *)q)->f54), func_021BF714(*(u8 * *)&((struct Obj00135 *)p)->f4));
     func_021BCCA8(((struct Obj06381 *)q)->f64);
     func_021BCD44(((struct Obj06381 *)q)->f64);
     func_021B9CBC(p);

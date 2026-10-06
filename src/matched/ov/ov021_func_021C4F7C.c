@@ -66,7 +66,8 @@ typedef signed int     s32;
 struct Big;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_0203FCA0(int, const void *, int);
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(int);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 struct Bank;
@@ -78,7 +79,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u16 heap);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02049238(void *);
@@ -92,7 +93,7 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C450(u16 n, u32 heap);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C40C(void *sys);
-extern void func_021C53A0(char *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, void *g, u16 h);
+extern void func_021C53A0(int *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, int *g, u16 h);
 extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -112,7 +113,7 @@ char *func_021C4F7C(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
     ((struct Obj00960 *)p)->f74 = 0;
     ((struct Obj00960 *)p)->f78 = 25;
     *(const u16 * *)&((struct Obj00960 *)p)->f7C = a2;
-    func_0203FCA0(1, d_021DAA60, 0);
+    func_0203FCA0(1, (const struct BgTemplate *)d_021DAA60, 0);
     func_020414AC(1);
     func_02040C14(1, 0, 1, 0);
     ((struct Obj00960 *)p)->f4C = (u32)func_0204B100(8, 0, heap);
@@ -141,8 +142,8 @@ char *func_021C4F7C(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
     ((struct Obj00960 *)p)->f64 = (u32)func_02045B38(0, 2, 0xAD, heap);
     ((struct Obj00960 *)p)->f68 = (u32)func_0201D7EC(0x17, 0, 0, 0, a3);
     ((struct Obj00960 *)p)->f6C = (u32)func_0201C450(0x1000, heap);
-    func_021C53A0(p, *(const u16 * *)&((struct Obj00960 *)p)->f7C, ((struct Obj00960 *)p)->f64, ((struct Obj00960 *)p)->f68,
-        ((struct Obj00960 *)p)->f6C, (u32)func_0200C40C(func_02012EBC(a0)), p + 0x58, a3);
+    func_021C53A0((int *)p, *(const u16 * *)&((struct Obj00960 *)p)->f7C, ((struct Obj00960 *)p)->f64, ((struct Obj00960 *)p)->f68,
+        ((struct Obj00960 *)p)->f6C, (u32)func_0200C40C(func_02012EBC(a0)), (int *)(p + 0x58), a3);
     func_02041B6C(1);
     func_0207D63C(0x04000050, 2, 1, 12, 4);
     switch (mode) {

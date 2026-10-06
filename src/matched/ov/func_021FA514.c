@@ -69,7 +69,7 @@ extern unsigned int func_0203633C(void);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021F9A1C(void *p, int mode);
-extern int func_021FA4FC(Obj *p, int mode);
+extern int func_021FA4FC(int unused, int mode);
 
 int func_021FA514(Obj *p, u8 *enable)
 {
@@ -137,7 +137,7 @@ int func_021FA514(Obj *p, u8 *enable)
             p->pos = r;
             break;
         }
-        r = func_021FA4FC(p, r);
+        r = func_021FA4FC((int)p, r);
         if (r == -2) {
             func_020061E4(0x551);
         } else if (r == 10 || enable == 0 || enable[r] != 0) {
@@ -152,7 +152,7 @@ int func_021FA514(Obj *p, u8 *enable)
         return r;
     }
     if (func_020362DC() & 1) {
-        r = func_021FA4FC(p, p->pos);
+        r = func_021FA4FC((int)p, p->pos);
         if (r == -2) {
             func_020061E4(0x551);
             return r;

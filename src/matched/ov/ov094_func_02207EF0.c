@@ -38,7 +38,8 @@ typedef struct O {
 } O;
 
 extern int func_022080B0(int a, int b, int c, unsigned int d);
-extern int func_02207F6C(int a, int b, int c, int *d, int e, u16 f);
+typedef unsigned char  u8;
+extern int func_02207F6C(int n, int target, int delta, int *cur, u8 x, int speed);
 extern void func_022082FC(O *obj, int idx, int k);
 
 void func_02207EF0(O *obj, int idx)
@@ -60,7 +61,7 @@ void func_02207EF0(O *obj, int idx)
     if (q == 0) {
         q = 1;
     }
-    r = func_02207F6C(e->f58, e->f54, e->f60, &e->f64, 10, q);
+    r = func_02207F6C(e->f58, e->f54, e->f60, &e->f64, (int)10, (u16)q);
     func_022082FC(obj, idx, 1);
     if (r == -1) {
         e->f54 = e->f54 - e->f60;

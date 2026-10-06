@@ -35,7 +35,7 @@ struct Cur;
 struct QG;
 extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(void *, u8);
+extern u16 func_021D54C0(u8 *p, int i);
 extern u8 func_021D5440(u8 *p);
 extern int func_021C7DAC(u8 *p, int a, int b, int c);
 
@@ -47,7 +47,7 @@ int func_02189B78(int a, Obj *b) {
     int c2;
     r = func_0201134C(a);
     for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-        c6 = func_021D54C0(b->fbc, i);
+        c6 = func_021D54C0(b->fbc, (u8)i);
         c7 = func_021D5440(b->fbc);
         c2 = func_021D5440(b->fc0);
         if ((u32)(func_021C7DAC((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {

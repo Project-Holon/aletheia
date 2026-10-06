@@ -27,7 +27,7 @@ extern State *func_02051774(void *p);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0205189C(struct Obj *o, u32 v);
-extern void func_02051A2C(void *p, State *s);
+extern void func_02051A2C(void *p, int v);
 extern void func_02051A24(void *p, int v);
 extern void func_021FDA28(void *p, int active);
 
@@ -37,6 +37,6 @@ void func_021FD9F0(void *p)
 
     if (s->k3c != 0 && s->k0c < 0)
         func_0205189C(p, 0x800);
-    func_02051A2C(p, s);
+    func_02051A2C(p, (int)s);
     func_02051A24(p, (int)func_021FDA28);
 }

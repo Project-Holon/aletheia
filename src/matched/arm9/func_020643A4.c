@@ -31,12 +31,13 @@ struct CellAnim {
     u32 active;
 };
 
-extern void func_02062F90(struct CellAnim *anim);
-extern void func_0206419C(struct CellAnim *anim);
+struct NNSG2dAnimController;
+extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
+extern void func_0206419C(char *self);
 
 void func_020643A4(struct CellAnim *anim)
 {
-    func_02062F90(anim);
+    func_02062F90((struct NNSG2dAnimController *)anim);
     anim->active = 1;
-    func_0206419C(anim);
+    func_0206419C((char *)anim);
 }

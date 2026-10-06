@@ -42,8 +42,8 @@ struct Rec12;
 extern u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst);
 extern u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst);
 extern u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst);
-extern void func_021F4224(int *p, int i);
-extern void func_021F423C(int *p, int i);
+extern void func_021F4224(u8 *p, u32 idx);
+extern void func_021F423C(u8 *p, u32 idx);
 
 int func_021F40A0(int *p)
 {
@@ -61,15 +61,15 @@ int func_021F40A0(int *p)
     func_02011610((struct IcaAnime *)p[0], (struct Rec12 *)a);
     func_02011660((struct IcaAnime *)p[0], (struct Rec12 *)b);
     func_02011638((struct IcaAnime *)p[0], (struct Rec12 *)c);
-    if (a[0] == 0x1000) func_021F4224(p, 0); else if (a[0] == 0x2000) func_021F423C(p, 0);
-    if (a[1] == 0x1000) func_021F4224(p, 1); else if (a[1] == 0x2000) func_021F423C(p, 1);
-    if (a[2] == 0x1000) func_021F4224(p, 2); else if (a[2] == 0x2000) func_021F423C(p, 2);
-    if (b[0] == 0x1000) func_021F4224(p, 3); else if (b[0] == 0x2000) func_021F423C(p, 3);
-    if (b[1] == 0x1000) func_021F4224(p, 4); else if (b[1] == 0x2000) func_021F423C(p, 4);
-    if (b[2] == 0x1000) func_021F4224(p, 5); else if (b[2] == 0x2000) func_021F423C(p, 5);
-    if (c[0] == 0x1000) func_021F4224(p, 6); else if (c[0] == 0x2000) func_021F423C(p, 6);
-    if (c[1] == 0x1000) func_021F4224(p, 7); else if (c[1] == 0x2000) func_021F423C(p, 7);
-    if (c[2] == 0x1000) func_021F4224(p, 8); else if (c[2] == 0x2000) func_021F423C(p, 8);
+    if (a[0] == 0x1000) func_021F4224((u8 *)p, 0); else if (a[0] == 0x2000) func_021F423C((u8 *)p, 0);
+    if (a[1] == 0x1000) func_021F4224((u8 *)p, 1); else if (a[1] == 0x2000) func_021F423C((u8 *)p, 1);
+    if (a[2] == 0x1000) func_021F4224((u8 *)p, 2); else if (a[2] == 0x2000) func_021F423C((u8 *)p, 2);
+    if (b[0] == 0x1000) func_021F4224((u8 *)p, 3); else if (b[0] == 0x2000) func_021F423C((u8 *)p, 3);
+    if (b[1] == 0x1000) func_021F4224((u8 *)p, 4); else if (b[1] == 0x2000) func_021F423C((u8 *)p, 4);
+    if (b[2] == 0x1000) func_021F4224((u8 *)p, 5); else if (b[2] == 0x2000) func_021F423C((u8 *)p, 5);
+    if (c[0] == 0x1000) func_021F4224((u8 *)p, 6); else if (c[0] == 0x2000) func_021F423C((u8 *)p, 6);
+    if (c[1] == 0x1000) func_021F4224((u8 *)p, 7); else if (c[1] == 0x2000) func_021F423C((u8 *)p, 7);
+    if (c[2] == 0x1000) func_021F4224((u8 *)p, 8); else if (c[2] == 0x2000) func_021F423C((u8 *)p, 8);
     p[1] += 0x1000;
     return flag;
 }

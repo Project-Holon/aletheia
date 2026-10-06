@@ -25,7 +25,8 @@ extern int *func_021A21B8(int *p);
 extern void func_021A21F8(u8 *p, int a, int b, int c, int d, int e, int f, int g, int h);
 extern void func_021A22E0(u32 *p, int a, int b, int c);
 extern void func_021A2424(u8 *p);
-extern void func_021EF93C(int *);
+typedef signed short   s16;
+extern void func_021EF93C(s16 *p);
 extern void func_021EF220(int a, int n, int idx);
 
 int func_021EEF58(int a, int b)
@@ -36,6 +37,6 @@ int func_021EEF58(int a, int b)
     func_021A21F8((u8 *)a, 1, 4, 1, 1, -4, 1, 1, (int)func_021EF220);
     func_021A22E0((u32 *)a, 9, 0x7FDF, b);
     func_021A2424((u8 *)a);
-    func_021EF93C(p);
+    func_021EF93C((s16 *)p);
     return 1;
 }

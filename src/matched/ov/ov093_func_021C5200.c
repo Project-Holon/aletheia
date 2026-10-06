@@ -30,7 +30,7 @@ extern int func_021B85EC(u32 **p);
 extern u32 func_021C52C8(u8 *, int);
 extern int func_021C52D8(u8 *, int, u8);
 extern int func_021C52E8(u8 *, int, u8);
-extern u8 *func_021B9934(u8 *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern void *func_021B86B8(void ***p);
 extern int func_021BC2B0(u8 *);
 extern int func_021BC310(u8 *);
@@ -48,7 +48,7 @@ int func_021C5200(u8 *p)
         count = func_021C52C8(p + 0x3e0, 0);
         for (i = 0; i < count; i++) {
             if (!func_021C52D8(p + 0x3e0, 0, i)) {
-                a = func_021B9934(*(u8 * *)&((struct Obj00003 *)p)->f8, func_021C52E8(p + 0x3e0, 0, i));
+                a = func_021B9934((char *)(*(u8 * *)&((struct Obj00003 *)p)->f8), func_021C52E8(p + 0x3e0, 0, i));
                 if (!func_021B86B8(((struct Obj00003 *)p)->f4) && !((struct Flags *)(p + 0x78a))->b && func_021BC2B0(p) && func_021BC310(p)) {
                     func_021CD4B0(((struct Obj00003 *)p)->fC, 0x55, func_021B86DC(((struct Obj00003 *)p)->f4));
                     ((struct Flags *)(p + 0x78a))->b = 1;

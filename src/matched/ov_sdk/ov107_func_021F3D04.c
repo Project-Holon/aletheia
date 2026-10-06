@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern int func_021F3DF4(const char *filePathp, u8 *iconp, int char_flag);
+extern int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
 extern int func_021F3F0C(const u16 *str);
@@ -38,10 +38,10 @@ void func_021F3D04(u8 *gameInfop, const u8 *mbGameRegp, const u8 *parent)
     MIi_CpuClear16(0, gameInfop, 0x4c0);
     icon_disable = 1;
     gameInfop[0x4b2] = 0;
-    if (func_021F3DF4(*(const char **)(mbGameRegp + 0xc), gameInfop, 1))
+    if (func_021F3DF4((char *)(*(const char **)(mbGameRegp + 0xc)), gameInfop, 1))
         icon_disable = 0;
     icon_disable2 = 0;
-    if (!func_021F3DF4(*(const char **)(mbGameRegp + 0x10), gameInfop, 0))
+    if (!func_021F3DF4((char *)(*(const char **)(mbGameRegp + 0x10)), gameInfop, 0))
         icon_disable2 = 1;
     icon_disable |= icon_disable2;
     if (icon_disable) {

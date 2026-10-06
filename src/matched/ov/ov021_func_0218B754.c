@@ -25,7 +25,8 @@ typedef unsigned short u16;
 
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
 extern int d_021DD9CC;
-extern void func_0218BCE4(char *p, u8 a);
+typedef unsigned int   u32;
+extern void func_0218BCE4(u32 *p, u8 v);
 extern void func_0218C490(char *p, char *q);
 
 char *func_0218B754(int a, int b, u16 c)
@@ -38,7 +39,7 @@ char *func_0218B754(int a, int b, u16 c)
     p = (char *)func_02030734(a, 0x13F8, 0, (const char *)&d_021DD9CC, 0x193);
     ((struct Obj02071 *)p)->f0 = a;
     ((struct Obj02071 *)p)->f4 = b;
-    func_0218BCE4(p + 8, c);
+    func_0218BCE4((u32 *)(p + 8), c);
     for (i = 0; i < 7; i++)
         *(int *)(p + 0x1DC + i * 4) = z;
     for (j = 0; j < 0x120; j++)

@@ -31,7 +31,8 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct Sub020097BCEnt *func_020099D4(struct Sub020097BCObj *obj, int i);
-extern void func_02045924(void *,const void *);
+struct Strbuf;
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -44,7 +45,7 @@ void func_021C6BCC(u8 *p,u8 *q,int idx,unsigned heap)
     base=func_0201283C(((struct Obj10485 *)q)->f4);
     obj=func_0200846C(heap);
     str=func_020457B0(10,heap);
-    func_02045924(str,func_020099D4(base,idx));
+    func_02045924(str,(const u16 *)func_020099D4(base,idx));
     func_020084E4(obj,str);
     func_02045808(str);
     func_0201F02C(((struct Obj00329 *)p)->f0,0,obj);

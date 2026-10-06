@@ -20,7 +20,8 @@
 typedef struct {int x,y,z;} Vec;
 extern const short d_020A1B38[];
 extern void func_021D79A8(void *p, unsigned char *q, int radius);
-extern void func_02015C78(void *,Vec *);
+typedef unsigned int   u32;
+extern void func_02015C78(void *p, u32 *src);
 int func_021D7248(unsigned char *p,unsigned char *q) {
  Vec v={0,0,0};
  int s;
@@ -33,7 +34,7 @@ int func_021D7248(unsigned char *p,unsigned char *q) {
  v.y=(s<<5)+(int)f;
  func_021D79A8(p,q,v.y);
  }
- func_02015C78(((struct Obj05388 *)q)->f0,&v);
+ func_02015C78(((struct Obj05388 *)q)->f0,(u32 *)(&v));
  ++((struct Obj05388 *)q)->f62;
  if(((struct Obj05388 *)q)->f62>20) {((struct Obj05388 *)q)->f62=0;return 1;}
  return 0;

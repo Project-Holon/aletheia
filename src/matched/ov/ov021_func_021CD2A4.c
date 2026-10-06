@@ -61,7 +61,8 @@ struct Strbuf;
 struct Sub0200852CObj;
 struct U16Vec;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern Obj *func_020124E8(u32 a);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *sys);
@@ -80,7 +81,7 @@ u32 func_021CD2A4(u32 a, u32 b, u32 x, u32 c, u32 d)
     Obj *o;
 
     h = (u32)func_020122C0((void *)a, (void *)x, func_021CD348, 0x50);
-    o = func_020124E8(h);
+    o = func_020124E8((struct Obj *)h);
     o->f00 = a;
     o->f04 = (u32)func_020120F4((const struct Ctx *)a);
     o->f10 = b;

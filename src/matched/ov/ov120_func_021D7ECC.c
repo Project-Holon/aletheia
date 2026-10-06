@@ -20,8 +20,9 @@ struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern int func_0201D304(void *,int,int);
-extern void *func_0202800C(void *,void *,u8,u8,u8,u8,int,int,u16);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 *func_0202800C(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 extern void func_02045808(struct U16Vec *vec);
 void *func_021D7ECC(char *p,u16 n)
 {
@@ -33,8 +34,8 @@ void *func_021D7ECC(char *p,u16 n)
     func_02045CAC(((struct Obj02832 *)p)->fC,n,text);
     ((struct Obj02832 *)p)->fAC=0x39e3;
     ((struct Obj02832 *)p)->fB0=0;
-    width=(func_0201D304(((struct Obj02832 *)p)->fA8,((struct Obj02832 *)p)->f14,0)+32)/16;
-    result=func_0202800C(((struct Obj02832 *)p)->fC0,p+0xa8,16-width,21,width*2,3,0,1,((struct Obj02832 *)p)->fC8);
+    width=((int)func_0201D304(((struct Obj02832 *)p)->fA8,(int)(((struct Obj02832 *)p)->f14),(int)0)+32)/16;
+    result=func_0202800C((u32)(((struct Obj02832 *)p)->fC0),(u32)(p+0xa8),(u8)(16-width),(u8)21,width*2,3,(int)0,(int)1,((struct Obj02832 *)p)->fC8);
     func_02045808(((struct Obj02832 *)p)->fA8);
     return result;
 }

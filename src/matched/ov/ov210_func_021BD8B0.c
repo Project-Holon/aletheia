@@ -23,11 +23,11 @@
 typedef unsigned char u8;
 extern void func_021BC8B4(int);
 extern void func_021BE9D4(u8 *);
-extern void func_021C0384(u8 *);
+extern void func_021C0384(char *ctx);
 struct S;
 extern int func_021B7A64(struct S *p);
 extern void func_021BF728(u8 *, int);
-extern void func_021BF500(u8 *);
+extern void func_021BF500(char *p);
 extern void func_021BCB28(u8 *);
 extern void func_021BC5C8(void);
 extern void func_021BCD30(u8 *);
@@ -38,12 +38,12 @@ int func_021BD8B0(u8 *p)
         p[0x2B9] = 2;
         func_021BC8B4(1);
         func_021BE9D4(p);
-        func_021C0384(p);
+        func_021C0384((char *)p);
         p[0x2BA]++;
     case 1:
         if (func_021B7A64(((struct Obj06696 *)p)->f1E0) == 0) {
             func_021BF728(p, 0);
-            func_021BF500(p);
+            func_021BF500((char *)p);
             func_021BCB28(p);
             func_021BC5C8();
             func_021BCD30(p);

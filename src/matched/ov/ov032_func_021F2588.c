@@ -18,7 +18,8 @@
  */
 #include "../include/Obj09800.h"
 
-extern int func_021F25D4(char *, int *);
+typedef unsigned char  u8;
+extern int func_021F25D4(u8 *p, int *st);
 extern int func_021F2608(char *, int *);
 extern int func_021F2624(int, int *);
 typedef unsigned int   u32;
@@ -34,7 +35,7 @@ int func_021F2588(int a0, int a1, int *st)
     o = (char *)st[3];
     switch (st[5]) {
     case 0:
-        r = func_021F25D4(o, st);
+        r = func_021F25D4((u8 *)o, st);
         break;
     case 1:
         r = func_021F2608(o, st);

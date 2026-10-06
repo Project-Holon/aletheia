@@ -13,11 +13,11 @@
  *   func_02047910  0x02047910  arm
  */
 
-void func_02047910(int h, unsigned short i, int v);
+int func_02047910(void *a, int idx, int amount);
 
 void func_0218C1A4(int unused, int *s)
 {
     int i;
     for (i = 0; i < 4; i++)
-        func_02047910(*s, i, 0x1000);
+        func_02047910((void *)(*s), (unsigned short)i, 0x1000);
 }

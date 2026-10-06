@@ -21,7 +21,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct Ent { u16 a; u16 b; u8 c; u8 d; u8 e; u8 f; } Ent;
 
 extern u8 func_021D5440(u8 *p);
-extern int func_021D6940(void *m, int a, int b, Ent *out);
+extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
 extern int func_021B9A24(u32 a, u32 b);
 extern int func_0201C1E8(int a);
 
@@ -29,7 +29,7 @@ int func_021E1AE4(void *m, int x, Ent *out)
 {
     u8 q = func_021D5440(m);
     u8 i = 0;
-    while (func_021D6940(m, 0, i++, out)) {
+    while (func_021D6940(m, 0, i++, (u16 *)out)) {
         if (func_021B9A24(q, out->d) == 0) {
             if (x == 0 || x == func_0201C1E8(out->a))
                 return 1;

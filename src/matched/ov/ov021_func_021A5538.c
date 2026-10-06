@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern void *func_021A3960(unsigned char *p);
 extern u16 func_0216D608(void *p);
 extern int func_021A5264(u8 *a, void *b, u32 c, int *d);
-extern void func_021A550C(void *p);
+extern void func_021A550C(u32 *p);
 extern void func_021A5354(u32 a);
 extern void func_021A3964(u8 *p, u32 v);
 extern void func_021A5328(u32 a);
@@ -45,7 +45,7 @@ int func_021A5538(u8 *a)
     void *x = func_021A3960(*(unsigned char * *)&((struct Obj06014 *)a)->fC);
     u32 y = func_0216D608(x);
     if (func_021A5264(a, x, y, &v) != 0) {
-        func_021A550C(a);
+        func_021A550C((u32 *)a);
         func_021A5354((u32)a);
         func_021A3964(*(u8 * *)&((struct Obj06014 *)a)->fC, 0);
         return 0;

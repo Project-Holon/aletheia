@@ -14,12 +14,12 @@
 #include "../include/Obj10373.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_021B6284(void *);
+extern void func_021B6284(unsigned int *p);
 void func_021E0DA0(char *p)
 {
     if (((struct Obj10373 *)p)->f10) {
         func_0204B3B4(((struct Obj10373 *)p)->f10);
         *(int *)&((struct Obj10373 *)p)->f10 = 0;
-        func_021B6284(p);
+        func_021B6284((unsigned int *)p);
     }
 }

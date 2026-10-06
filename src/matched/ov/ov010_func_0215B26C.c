@@ -25,13 +25,14 @@ extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 struct BigObj;
 extern u32 func_02012844(const struct BigObj *p);
-extern int func_02162708(int, int, u16, u16, u16);
+struct Ctx;
+extern void func_02162708(struct Ctx *c, u32 idx, u16 a, u32 b, u16 e);
 int func_0215B26C(int a0, int a1)
 {
     int v = (int)func_02159B10((void *)a0, (void *)a1);
     s16 x = (s16)func_02159B10((void *)a0, (void *)a1);
     s16 y = (s16)func_02159B10((void *)a0, (void *)a1);
     s16 z = (s16)func_02159B10((void *)a0, (void *)a1);
-    func_02162708(func_02012844(func_0215A5E4((void *)a1)), v, x, y, z);
+    func_02162708((struct Ctx *)func_02012844(func_0215A5E4((void *)a1)), (int)v, x, (u16)y, z);
     return 0;
 }

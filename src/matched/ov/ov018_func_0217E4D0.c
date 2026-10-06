@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_02025774(u8 *g, u32 a);

@@ -115,7 +115,7 @@ extern void *func_0201A354(int a, int b);
 extern u32 func_02005728(u32 range);
 extern int func_0201A59C(void *a0, void *a1, void *a2);
 extern void func_020355D8(u8 v);
-extern int func_021B660C(P *p);
+extern int func_021B660C(u8 *p);
 
 extern const char d_021BED0C[];
 extern const Ten d_021BEA78;
@@ -207,7 +207,7 @@ int func_021B6240(int a0, int *seq, Q *q, P *p)
         p->q = q;
         *seq = 1;
     case 1:
-        if (func_021B660C(p) == 1)
+        if (func_021B660C((u8 *)p) == 1)
             return 1;
         break;
     }

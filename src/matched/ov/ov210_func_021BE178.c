@@ -23,13 +23,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern void func_021BE978(u8 *);
-extern void func_021BF81C(u8 *);
+extern void func_021BF81C(char *p);
 
 void func_021BE178(u8 *p)
 {
     u32 t = *(u32 *)&((struct Obj00222 *)p)->f0;
     *(u8 *)(((struct Obj25607 *)t)->f8 + 2) = 0xff;
     func_021BE978(p);
-    func_021BF81C(p);
+    func_021BF81C((char *)p);
 }
 

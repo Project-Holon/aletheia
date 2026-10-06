@@ -18,13 +18,14 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D62C4(u8 *p, int i);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u8 func_021D5440(u8 *p);
 extern void func_021CD64C(void *w, u8 id, ...);
 
 int func_021C3394(u8 *p, u8 *q, int r)
 {
-    if (func_021D62C4(q, 15) != 0) {
+    if (func_021D62C4((struct Unk021D62A8 *)q, 15) != 0) {
         if (r != 0) {
             func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 887, func_021D5440(q), 0xffff0000);
             p[0x78A] |= 0x20;

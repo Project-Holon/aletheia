@@ -39,7 +39,7 @@ extern void func_020307B0(void *);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);
 extern void func_020862F0(void *, int);
 extern void *func_020056A0(void *, void *, int);
-extern void func_021D5528(void *, char *);
+extern void func_021D5528(void *unused, u8 *p);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void func_02049238(void *);
 void func_021D532C(char *p)

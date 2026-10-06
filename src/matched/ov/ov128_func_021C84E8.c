@@ -17,17 +17,17 @@
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned long long u64;
-extern u64 func_021C8388(u8 *, u8 *);
+extern unsigned long long func_021C8388(s16 *p, u8 *q);
 extern int func_021C87A0(s16 *);
 extern void func_021C6BCC(u8 *p, u8 *q, int idx, unsigned heap);
-extern void func_021C6B50(u8 *, u64);
+extern void func_021C6B50(void **p, unsigned long long value);
 extern void func_021C867C(u8 *, u8 *, int, int);
 int func_021C84E8(u8 *p, u8 *a, u8 *b, int c)
 {
-    u64 value = func_021C8388(p, a);
+    u64 value = func_021C8388((s16 *)p, a);
     func_021C6BCC(b, a, (a + func_021C87A0((s16 *)p))[0x18], c);
     if (value != 0) {
-        func_021C6B50(b, value);
+        func_021C6B50((void **)b, value);
         func_021C867C(p, b, 0x3c, c);
     } else {
         func_021C867C(p, b, 0x44, c);

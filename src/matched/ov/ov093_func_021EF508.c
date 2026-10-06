@@ -46,9 +46,10 @@ typedef struct {
 
 extern void func_021EED00(u8 a, u32 b);
 extern u8 func_021B8DDC(u32 x);
-extern int func_021B8CE8(int a, u8 b, int c);
+extern int func_021B8CE8(int a, int b, int c);
 extern void *func_021B86B8(void ***p);
-extern void func_02045CAC(u32 a, u16 b, u32 c);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern D d_021F6398;
@@ -63,7 +64,7 @@ void func_021EF508(u32 a, int b, u32 *p)
     func_021EED00(p[0], 0);
     id = p[0];
     if (d_021F6398.f58 == 0 &&
-        func_021B8CE8((int)d_021F6398.f0, d_021F6398.f54,
+        func_021B8CE8((int)d_021F6398.f0, (u8)d_021F6398.f54,
                       func_021B8DDC(id))) {
         if (func_021B86B8(d_021F6398.f0) == 0 || func_021B86B8(d_021F6398.f0) == (void *)4)
             k = 1;
@@ -73,6 +74,6 @@ void func_021EF508(u32 a, int b, u32 *p)
         k = 0;
     }
     t = b + r5 * 3;
-    func_02045CAC(d_021F6398.f14, t + k, d_021F6398.fc);
+    func_02045CAC((struct MsgBank *)d_021F6398.f14, (u16)(t + k), (void *)d_021F6398.fc);
     func_0201F250((struct WordSet *)d_021F6398.f8, (void *)a, (void *)d_021F6398.fc);
 }

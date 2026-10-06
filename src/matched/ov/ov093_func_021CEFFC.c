@@ -24,11 +24,14 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern void *func_021B86B8(void ***p);
 extern char *func_021B9AF8(char *p, int i);
-extern u8 func_021B9B94(char *p);
-extern u32 func_021B8670(void ***p);
-extern u8 *func_021B9C00(void *p, u32 i);
+struct Q1;
+struct S2;
+struct UtilWork;
+extern u8 func_021B9B94(struct Q1 *p);
+extern unsigned int func_021B8670(unsigned int **p);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D5B68(void *m);
-extern u32 func_021D5C30(void *m);
+extern int func_021D5C30(struct UtilWork *p);
 
 u32 func_021CEFFC(u8 *p)
 {
@@ -41,18 +44,18 @@ u32 func_021CEFFC(u8 *p)
     u32 cnt;
     if (func_021B86B8(*(void *** *)&((struct Obj09993 *)p)->f0) == 0) {
         arr = func_021B9AF8(*(char * *)&((struct Obj09993 *)p)->f4, 1);
-        cnt = func_021B9B94(arr);
-        lim = func_021B8670(*(void *** *)&((struct Obj09993 *)p)->f0);
+        cnt = func_021B9B94((struct Q1 *)arr);
+        lim = func_021B8670((unsigned int **)(*(void *** *)&((struct Obj09993 *)p)->f0));
         if (lim > cnt) {
             lim = cnt;
         }
         flag = 0;
         c = 0;
         for (i = 0; i < lim; i++) {
-            w = func_021B9C00(arr, (u8)i);
+            w = func_021B9C00((struct S2 *)arr, (u8)i);
             if (func_021D5B68(w) == 0) {
                 c++;
-                if (func_021D5C30(w) != 0) {
+                if (func_021D5C30((struct UtilWork *)w) != 0) {
                     flag = 1;
                 }
             }

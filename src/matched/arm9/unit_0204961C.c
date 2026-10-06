@@ -25,10 +25,10 @@ u16 func_0204961C(void *obj)
 }
 
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern u32 func_0204968C(u32 ret, void *a2, void *a3, u32 a4, u32 a5);
+extern u32 func_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused);
 
 u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6)
 {
     u32 ret = func_0204A1BC((int)a0, (int)a1, a5, a6);
-    return func_0204968C(ret, a2, a3, a4, a5);
+    return func_0204968C((void *)ret, (u32)a2, (u32)a3, a4, a5);
 }

@@ -18,10 +18,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D67D8(u8 *, u16);
+typedef unsigned int   u32;
+extern void func_021D67D8(u8 *p, u32 n);
 int func_021D3D50(char *p, int unused, unsigned int *a)
 {
     u8 *obj = func_021B9934(*(char * *)&((struct Obj21205 *)p)->f4, (u8)a[0]);
-    func_021D67D8(obj, a[1]);
+    func_021D67D8(obj, (u16)a[1]);
     return 1;
 }

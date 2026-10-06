@@ -73,7 +73,7 @@ extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
 struct Sub02008C20Obj;
 extern void func_02008E88(struct Sub02008C20Obj *obj, u32 value);
-extern void func_02008E68(void *x, u8 v);
+extern void func_02008E68(struct Sub02008C20Obj *obj, u32 value);
 
 #define U32(o) (*(u32 *)(w + (o)))
 
@@ -163,5 +163,5 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
 
     x = func_02008C58((void *)h);
     func_02008E88(x, s);
-    func_02008E68(x, rank);
+    func_02008E68(x, (u8)rank);
 }

@@ -32,7 +32,7 @@ extern void func_021E15DC(int *,int);
 typedef signed short   s16;
 typedef unsigned int   u32;
 extern s16 func_0203F63C(u32 x);
-extern s16 func_0203F5FC(u32 x);
+extern int func_0203F5FC(u32 x);
 void func_021E09C0(char *p,int *q,int amount,int extra)
 {
     u16 angle;

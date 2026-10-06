@@ -30,10 +30,12 @@ struct Descriptor;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern void *func_020457B0(unsigned,unsigned short);
-extern void *func_020450F0(unsigned char,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
+struct Cfg;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d),func_02045374(void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 void *func_021FC6A4(unsigned short plane,unsigned a,unsigned short b,unsigned short c,unsigned char d,unsigned char e,void *owner,unsigned short heap)
@@ -46,7 +48,7 @@ void *func_021FC6A4(unsigned short plane,unsigned a,unsigned short b,unsigned sh
     ((struct Obj02901 *)p)->f8=owner;
     ((struct Obj02901 *)p)->f16=plane;
     ((struct Obj02901 *)p)->f10=func_020457B0(0xff,heap);
-    bmp=func_020450F0(plane,a,b,c,d,e,1);
+    bmp=(void *)func_020450F0((unsigned char)plane,a,b,c,d,e,1);
     ((struct Obj02901 *)p)->fC=bmp;
     ((struct Obj02901 *)p)->f0=bmp;
     p[4]=0;

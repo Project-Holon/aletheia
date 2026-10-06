@@ -39,7 +39,7 @@ extern void *func_0200E394(void *a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern void func_0200C334(struct Blk34 *p, u8 v);
 extern void func_0200C344(struct Blk34 *p, u8 i, u8 v);
-extern void func_0200C358(struct Blk34 *p, u8 i, int v);
+extern void func_0200C358(struct Blk34 *p, u32 i, int v);
 extern u64 func_0203F524();
 extern void func_0200C384(struct Blk34 *p, u32 lo, u32 hi);
 
@@ -65,7 +65,7 @@ int func_0216B63C(int a0, int a1)
     z = 0;
     for (i = 0; i < 3; i++) {
         func_0200C344(h, i, s[i]);
-        func_0200C358(h, i, z);
+        func_0200C358(h, (u8)i, z);
     }
     t = func_0203F524();
     func_0200C384(h, (u32)t, (u32)(t >> 32));

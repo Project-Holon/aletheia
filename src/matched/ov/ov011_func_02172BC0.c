@@ -71,7 +71,7 @@ extern u8 *func_02012944(void *p);
 extern int   func_02158590(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02167518(int a, void *b, u16 heap, int c);
-extern void  func_0217538C(Work *w, u32 a);
+extern void func_0217538C(u8 *p, int a);
 extern void func_0217576C(u8 *p);
 extern void  func_02173590(void *a, void *b, u32 c);
 extern void  func_02161F54(void *p);
@@ -104,7 +104,7 @@ Work *func_02172BC0(void *unused, Param *p)
     w->field008 = func_02167518(3, (void *)p->field00, 5, 0);
     w->field902 = 1;
     w->field901 = 1;
-    func_0217538C(w, 4);
+    func_0217538C((u8 *)w, 4);
     func_0217576C((u8 *)w + 0x1ac);
     func_02173590(sv, (u8 *)w + 0xc, mode);
     func_02161F54((u8 *)w + 0x35c);

@@ -20,11 +20,12 @@ typedef struct {
     Fn *f4;
 } S;
 
-extern int func_021AB768(S *s, int i);
+typedef unsigned int   u32;
+extern int func_021AB768(u32 a, u32 b);
 
 int func_021AB798(S *s, int i, int a, int b, int c)
 {
-    if (func_021AB768(s, i)) {
+    if (func_021AB768((u32)s, i)) {
         return s->f0[i](a, b, c);
     }
     return 0;

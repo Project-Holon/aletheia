@@ -19,11 +19,12 @@ typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern void func_021A3674(u32 a, u32 b, u32 c);
+typedef unsigned char  u8;
+extern void func_021A3674(u8 *p, u32 b, u32 c);
 
 void func_021A6DA4(u32 *a)
 {
     u32 x = func_020362DC();
     u32 y = func_0203630C();
-    func_021A3674(*a, x, y);
+    func_021A3674((u8 *)(*a), x, y);
 }

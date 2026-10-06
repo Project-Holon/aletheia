@@ -59,8 +59,9 @@ extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_022044C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
 extern void func_02204838(Main *, int);
-extern void func_02206A58(Main *);
-extern void func_02204698(Main *, int, int);
+struct Obj;
+extern void func_02206A58(char *p);
+extern void func_02204698(struct Obj *p, int a, int b);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_0220687C(char *, void *);
 void func_02203880(void *task, Ctx *c)
@@ -73,14 +74,14 @@ void func_02203880(void *task, Ctx *c)
         func_022044C0(c->main, 0x100, 0x1c0, 8, 8);
         func_022045A8(c->main, 0, 0);
         func_02204838(c->main, 0);
-        func_02206A58(c->main);
+        func_02206A58((char *)c->main);
         func_02204960(c->main, -1, 0, 0, 1, 1, 2, 0);
         c->timer = 4;
         c->state++;
         break;
     case 1:
         if (--c->timer == 0) {
-            func_02204698(c->main, 0, 0);
+            func_02204698((struct Obj *)c->main, 0, 0);
             c->state++;
         }
         break;

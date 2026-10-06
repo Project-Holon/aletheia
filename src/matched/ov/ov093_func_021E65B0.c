@@ -29,9 +29,10 @@ typedef unsigned int u32;
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5B40(void *p);
-extern int func_020213C0(u16 a);
-extern void *func_021C88A4(void *a, int k, int b);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
+extern int func_020213C0(u32 a);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
@@ -46,7 +47,7 @@ void func_021E65B0(int u, void *a, u32 b)
 
     if (b == func_021D775C(3)) {
         k = func_021D775C(6);
-        t = func_021D5B40(func_021C7CF4(a, k));
+        t = (int)func_021D5B40(func_021C7CF4(a, k));
         if (func_020213C0(t) != 0) {
             e = func_021C88A4(a, 0x20, b);
             e[6] = k;

@@ -55,17 +55,18 @@ typedef struct {
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern BgnEnd *func_021BEF3C(void);
-extern ReqInfo *func_021BEF48(void *sysInfo);
+struct _NHTTPThreadData;
+extern void *func_021BEF48(int p);
 extern void func_021BD220(ThreadData *td);
 extern int func_021BD3B8(ThreadData *td);
 extern int func_021BD430(ThreadData *td);
-extern int func_021BD548(ThreadData *td);
+extern int func_021BD548(struct _NHTTPThreadData *threadData_p);
 extern int func_021BD6DC(ThreadData *td);
 extern int func_021BD7E8(ThreadData *td);
-extern int func_021BDB68(ThreadData *td);
+extern int func_021BDB68(struct _NHTTPThreadData *threadData_p);
 extern int func_021BDD34(ThreadData *td);
 extern int func_021BDFF8(ThreadData *td);
-extern void func_021BD270(ThreadData *td);
+extern void func_021BD270(struct _NHTTPThreadData *threadData_p);
 
 void func_021BE4D4(void)
 {
@@ -76,7 +77,7 @@ void func_021BE4D4(void)
 
     sysInfo_p = func_021BEF08();
     bgnEndInfo_p = func_021BEF3C();
-    reqInfo_p = func_021BEF48(sysInfo_p);
+    reqInfo_p = func_021BEF48((int)sysInfo_p);
     func_021BD220(&threadData);
     while (bgnEndInfo_p->isThreadEnd == 0) {
         if (threadData.restartConnect == 0) {
@@ -84,19 +85,19 @@ void func_021BE4D4(void)
                 continue;
             }
             if (reqInfo_p->reqCurrent->req_p->doCancel != 0) {
-                func_021BD270(&threadData);
+                func_021BD270((struct _NHTTPThreadData *)(&threadData));
                 continue;
             }
             if (func_021BD430(&threadData) == 0) {
-                func_021BD270(&threadData);
+                func_021BD270((struct _NHTTPThreadData *)(&threadData));
                 continue;
             }
         }
         if (threadData.restartConnect == 1) {
             threadData.restartConnect = 0;
         }
-        if (func_021BD548(&threadData) == 0) {
-            func_021BD270(&threadData);
+        if (func_021BD548((struct _NHTTPThreadData *)(&threadData)) == 0) {
+            func_021BD270((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
         switch (func_021BD6DC(&threadData)) {
@@ -106,7 +107,7 @@ void func_021BE4D4(void)
             threadData.restartConnect = 1;
             continue;
         case 1:
-            func_021BD270(&threadData);
+            func_021BD270((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
         switch (func_021BD7E8(&threadData)) {
@@ -117,22 +118,22 @@ void func_021BE4D4(void)
             continue;
         case 1:
         case 3:
-            func_021BD270(&threadData);
+            func_021BD270((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
         if (reqInfo_p->reqCurrent->req_p->doCancel != 0) {
-            func_021BD270(&threadData);
+            func_021BD270((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
-        if (func_021BDB68(&threadData) == 0) {
-            func_021BD270(&threadData);
+        if (func_021BDB68((struct _NHTTPThreadData *)(&threadData)) == 0) {
+            func_021BD270((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
         if (func_021BDD34(&threadData) == 0) {
-            func_021BD270(&threadData);
+            func_021BD270((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
         func_021BDFF8(&threadData);
-        func_021BD270(&threadData);
+        func_021BD270((struct _NHTTPThreadData *)(&threadData));
     }
 }

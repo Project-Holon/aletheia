@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 extern void func_020419E4(void);
-void func_021842B4(void) { func_020419E4(); }
+void func_021842B4(void *p) { func_020419E4(); }

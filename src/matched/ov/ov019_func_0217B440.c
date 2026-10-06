@@ -46,7 +46,7 @@ extern int func_0217F894(void *p, char *q);
 extern int func_0200EDC4(struct L0200EDC4 *l, u32 val);
 extern void func_0217F948(char *p, u32 a, u32 b);
 
-void func_0217B440(char *base, int x, int y)
+void func_0217B440(char *base, int x, void *y)
 {
     struct ent *q;
     int a;

@@ -53,7 +53,8 @@ typedef struct GHIConnection {
 extern int func_02184200(const int *p);
 extern void *func_02184144(int, int, void (*)(void *));
 extern void *func_02184208(void *, int);
-extern int func_021C29AC(GHIPostState *);
+struct Obj;
+extern int func_021C29AC(struct Obj *o);
 extern void func_021C2A3C(void *);
 extern void func_021841B0(void *);
 extern void func_02184234(void *, void *);
@@ -83,7 +84,7 @@ int func_021C2A78(GHIConnection *connection)
         GHIPostState state = {0};
 
         state.data = obj;
-        if (func_021C29AC(&state) == 0) {
+        if (func_021C29AC((struct Obj *)(&state)) == 0) {
             for (i--; i >= 0; i--)
                 func_021C2A3C(func_02184208(connection->states, i));
             func_021841B0(connection->states);

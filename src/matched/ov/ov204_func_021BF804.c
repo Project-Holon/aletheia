@@ -16,8 +16,9 @@
  */
 
 struct Vec { int v[3]; };
-extern void func_02015C30(void *, void *);
-extern void func_02015C48(void *, void *);
+typedef unsigned int   u32;
+extern void func_02015C30(void *p, u32 *out);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_02015E04(void *);
 
 int func_021BF804(char *p, unsigned int i, int step, int limit)
@@ -26,7 +27,7 @@ int func_021BF804(char *p, unsigned int i, int step, int limit)
     char *base = p + 8;
     unsigned int off = i * 12;
     int done;
-    func_02015C30(*(void **)(base + off), &pos);
+    func_02015C30(*(void **)(base + off), (u32 *)(&pos));
     done = 1;
     pos.v[0] += step;
     if (pos.v[0] != limit)
@@ -36,7 +37,7 @@ int func_021BF804(char *p, unsigned int i, int step, int limit)
         else
             done = 0;
     }
-    func_02015C48(*(void **)(base + off), &pos);
+    func_02015C48(*(void **)(base + off), (u32 *)(&pos));
     if (*(unsigned int *)(p + off + 12) == 1)
         func_02015E04(*(void **)(base + off));
     return done;

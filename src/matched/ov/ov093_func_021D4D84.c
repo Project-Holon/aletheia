@@ -85,12 +85,12 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02019C90(u16, u16, u32);
 extern u32 func_02017F90(void *);
 extern void func_021D4EFC(S *, void *, u32, u32);
-extern int func_021D4F84(S *, void *, int);
+extern int func_021D4F84(u8 *p, void *h, int reset);
 extern void func_021D53C0(u8 *);
-extern void func_021D63B8(S *, int);
+extern void func_021D63B8(u8 *p, int all);
 extern union Slot func_021D7D18(int);
-extern void func_021D67F4(S *);
-extern void func_021D6DC4(S *);
+extern void func_021D67F4(u8 *p);
+extern void func_021D6DC4(u8 *p);
 extern const char d_021F3AA4[];
 S *func_021D4D84(void *a, u8 b, u32 c)
 {
@@ -115,10 +115,10 @@ S *func_021D4D84(void *a, u8 b, u32 c)
     p->f18 = func_02017E1C(a, 0x9e, 0);
     p->f1a = func_02019C90(p->f0c, p->lo, 1);
     func_021D4EFC(p, a, 1, 1);
-    p->f140 = func_021D4F84(p, a, 1);
+    p->f140 = func_021D4F84((u8 *)p, a, 1);
     p->f143 = 0;
     func_021D53C0(p->f0fc);
-    func_021D63B8(p, 1);
+    func_021D63B8((u8 *)p, 1);
     n = func_02017F90(a);
     if (n != 0) {
         p->w1c[n] = func_021D7D18(n);
@@ -136,7 +136,7 @@ S *func_021D4D84(void *a, u8 b, u32 c)
     p->f142 = 0;
     MI_CpuFill8(p->f153, 0, sizeof(p->f153));
     MI_CpuFill8(p->f155, 0, sizeof(p->f155));
-    func_021D67F4(p);
-    func_021D6DC4(p);
+    func_021D67F4((u8 *)p);
+    func_021D6DC4((u8 *)p);
     return p;
 }

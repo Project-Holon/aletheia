@@ -26,11 +26,11 @@ struct G { u8 pad[0xf4]; u64 seed; u64 mul; u64 add; };
 extern u16 func_021D57FC(void *);
 struct QG;
 extern u8 func_021D5448(struct QG *p);
-extern u32 func_021D54C0(void *, u8);
+extern u16 func_021D54C0(u8 *p, int i);
 extern u32 func_0201C314(void *p);
 extern u8 func_0201C1C8(void *p);
 extern int func_021D799C(int, int);
-extern int func_021D055C(void *, void *, int);
+extern int func_021D055C(u8 *g, void *a, int b);
 int func_021CFE98(struct G *g, void *a, void *b)
 {
     u8 n;
@@ -42,7 +42,7 @@ int func_021CFE98(struct G *g, void *a, void *b)
     n = func_021D5448(a);
     c = 0;
     for (i = 0; i < n; i++) {
-        v = func_021D54C0(a, i);
+        v = (u32)func_021D54C0(a, (u8)i);
         if (func_0201C314((void *)v)) {
             if (func_021D799C(func_0201C1C8((void *)v), k))
                 return 0;
@@ -50,11 +50,11 @@ int func_021CFE98(struct G *g, void *a, void *b)
         }
     }
     if (c >= 2) {
-        if (func_021D055C(g, b, 4)) {
+        if (func_021D055C((u8 *)g, b, 4)) {
             g->seed = g->mul * g->seed + g->add;
             return (u32)(((g->seed >> 32) * 3) >> 32) < 2;
         }
-        if (func_021D055C(g, b, 3)) {
+        if (func_021D055C((u8 *)g, b, 3)) {
             g->seed = g->mul * g->seed + g->add;
             return (u32)(((g->seed >> 32) * 2) >> 32) < 1;
         }

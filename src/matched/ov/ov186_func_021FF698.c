@@ -29,13 +29,13 @@
  *   func_021D74D8  0x021D74D8  thumb  ov125
  */
 
-extern int func_021D74D8(void *, int);
+extern int func_021D74D8(void *unused, char **out);
 
 int func_021FF698(char *p, int a1, int *out)
 {
     int v = *(int *)(p + 0x5c4);
 
     if (v != 0)
-        *out = func_021D74D8(p, a1);
+        *out = func_021D74D8(p, (char **)a1);
     return v;
 }

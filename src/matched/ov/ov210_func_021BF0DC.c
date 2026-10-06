@@ -54,7 +54,7 @@ extern int func_02012BF8(int a0, int a1);
 extern void *func_021C940C(void *set, struct Tpl021BF0DC *t, u32 heap);
 extern void func_021BEDB8(int p, int i, int v);
 extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BEE14(struct Obj021BF0DC *p, int i, int v);
+extern void func_021BEE14(char *p, int idx, int flag);
 extern const struct Tpl021BF0DC data_021C09AC[15];
 extern const struct Tpl021BF0DC data_021C0978;
 extern const struct Tpl021BF0DC data_021C0960;
@@ -95,8 +95,8 @@ void func_021BF0DC(struct Obj021BF0DC *p)
     func_021BEDF0((int)p, 14, 0);
     func_0204B688(p->objs[13], 2);
     func_0204B688(p->objs[14], 2);
-    func_021BEE14(p, 11, 1);
-    func_021BEE14(p, 12, 1);
+    func_021BEE14((char *)p, 11, 1);
+    func_021BEE14((char *)p, 12, 1);
 
     ta = data_021C0978;
     tb = data_021C0960;
@@ -116,7 +116,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         t.id = i;
         p->objs[29 + i] = func_021C940C(p->set, &t, 0x7B);
         func_021BEDF0((int)p, i + 29, 0);
-        func_021BEE14(p, (int)i + 29, 1);
+        func_021BEE14((char *)p, (int)i + 29, 1);
         p->objs[43 + i] = func_021C940C(p->set, &t, 0x7B);
         func_021BEDF0((int)p, i + 43, 0);
         func_0204B688(p->objs[43 + i], 2);

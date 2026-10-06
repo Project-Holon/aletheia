@@ -16,11 +16,12 @@
 #include "../include/Obj02237.h"
 
 extern void func_021FFEA8(char *p);
-extern void func_021FFF28(void *);
+struct Work;
+extern void func_021FFF28(struct Work *p);
 
 void func_021FFE5C(char *p)
 {
     func_021FFEA8(p);
-    func_021FFF28(p);
+    func_021FFF28((struct Work *)p);
     ((struct Obj02237 *)p)->f6C = 1;
 }

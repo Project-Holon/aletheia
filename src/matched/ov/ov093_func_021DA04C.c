@@ -30,7 +30,7 @@ typedef signed int s32;
 extern int func_021D775C(int a);
 extern void *func_021C7CF4(int *p, int i);
 extern void func_021C88B4(void *a, int k, int b);
-extern void *func_021C88A4(int a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 typedef struct { int x; } S;
 extern int func_021E8A78(S a);
 extern void func_021D7DC0(int a, void *b, void *out);
@@ -55,7 +55,7 @@ void func_021DA04C(int a, int b, int c)
     s = func_021C7CF4((int *)b, c);
     t.x = func_021D775C(0x1e);
     func_021C88B4((void *)b, 2, c);
-    p = func_021C88A4(b, 0xc, c);
+    p = func_021C88A4((char *)b, 0xc, c);
     p[0xf] = k;
     ((struct Obj07810 *)p)->f4 = m;
     if (m == 5 && func_021E8A78(t))

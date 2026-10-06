@@ -29,11 +29,12 @@ struct WinMgr;
 extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
 extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s32 a, s32 b);
-extern u32 func_0220BB98(char *p, u32 n);
+typedef signed char    s8;
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern unsigned func_0220BB98(const char *p, unsigned n);
 struct S { char pad0[0x520]; struct WinMgr *mgr; char pad1[0x533-0x524]; u8 idx; char pad2[5]; u8 fl[1]; };
 #define MGR(p) (*(struct WinMgr **)((p) + 0x520))
-void func_0220BD24(char *p, u32 mode)
+void func_0220BD24(char *p, int mode)
 {
     u32 i;
     for (i = 0; i < 14; i++) func_0202CC70(MGR(p), i);

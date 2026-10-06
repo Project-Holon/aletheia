@@ -23,8 +23,8 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int func_0219B200(int a, int id, int end);
 extern u16 func_0216D5F8(void *p);
-extern u32 func_02197E7C(u16 a, u16 b);
-extern void func_0216D438(u32, u16);
+extern int func_02197E7C(int a, int b);
+extern void func_0216D438(int a0, int a1);
 
 int func_0219A604(u32 a, u8 *s)
 {
@@ -32,7 +32,7 @@ int func_0219A604(u32 a, u8 *s)
     if (v == 9) {
         v = func_0216D5F8((void *)a);
     }
-    func_0216D438(a, func_02197E7C(v, 0));
+    func_0216D438((u32)a, (u16)((u32)func_02197E7C((u16)v, (u16)0)));
     s[2] = 1;
     return 1;
 }

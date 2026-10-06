@@ -50,8 +50,8 @@ extern int func_021841A4(unsigned char *p);
 extern unsigned char func_021841A0(unsigned char *p);
 extern u32 func_02080D24(u32 x);
 extern void func_02184134(u8 *p);
-extern void func_02186860(char *p, int x, unsigned char y);
-extern void func_02185AB0(W *p, int a, int b);
+extern void func_02186860(char *p, int x, int y);
+extern void func_02185AB0(char *p, int msg, int arg);
 
 void func_02184368(int a, int b, const Msg *m, W *p)
 {
@@ -90,16 +90,16 @@ void func_02184368(int a, int b, const Msg *m, W *p)
             return;
         }
         if (m->b3 == 0) {
-            func_02185AB0(p, 0xb, k);
+            func_02185AB0((char *)p, 0xb, k);
             return;
         }
         p->h9284 = m->b1;
-        func_02185AB0(p, 9, m->b0);
+        func_02185AB0((char *)p, 9, m->b0);
         p->h9288 = 1;
         return;
     case 1:
         if (p->h9288 == 0) {
-            func_02185AB0(p, 0x18, m->b0);
+            func_02185AB0((char *)p, 0x18, m->b0);
         }
         return;
     }

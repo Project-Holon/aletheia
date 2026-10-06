@@ -20,7 +20,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern u8 func_02165CB4(int a);
-extern void func_020215BC(int, void *, int, u16, u16);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
 void func_021F10D8(char *this, u8 *p, int a)
 {
@@ -35,6 +37,6 @@ void func_021F10D8(char *this, u8 *p, int a)
     } else {
         k = 0x35;
     }
-    func_020215BC(*(int *)&((struct Obj00007 *)this)->fAC, *(u16 * *)&((struct Obj00007 *)this)->f3C8 + 0x30, 3, (p[0] + 4) * 16 + 8, 10);
-    func_020215BC(*(int *)&((struct Obj00007 *)this)->fAC, *(u16 * *)&((struct Obj00007 *)this)->f3C8 + k, 3, (p[0] + 4) * 16 + 8, v * 2);
+    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)this)->fAC), *(u16 * *)&((struct Obj00007 *)this)->f3C8 + 0x30, (int)3, (u16)((p[0] + 4) * 16 + 8), 10);
+    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)this)->fAC), *(u16 * *)&((struct Obj00007 *)this)->f3C8 + k, (int)3, (u16)((p[0] + 4) * 16 + 8), v * 2);
 }

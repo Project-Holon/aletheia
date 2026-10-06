@@ -31,7 +31,8 @@ typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_021ABE14(u8 *p);
 extern u32 func_02188C90(u8 *p);
-extern void func_021C47FC(R *r);
+struct P;
+extern void func_021C47FC(struct P *p);
 extern char d_021DE468[];
 
 R *func_021C47B4(u8 *owner, u32 heap)
@@ -40,6 +41,6 @@ R *func_021C47B4(u8 *owner, u32 heap)
 
     r->owner = owner;
     r->obj = func_02188C90((u8 *)func_021ABE14(owner));
-    func_021C47FC(r);
+    func_021C47FC((struct P *)r);
     return r;
 }

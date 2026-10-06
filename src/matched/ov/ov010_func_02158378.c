@@ -35,7 +35,7 @@ int func_02158378(void *p)
     return q[0x911];
 }
 
-int func_0215839C(u8 *p, int m)
+int func_0215839C(u8 *p, int m, int a2)
 {
     Fl *s = (Fl *)(p + 0x93F);
     u8 t = s->f;

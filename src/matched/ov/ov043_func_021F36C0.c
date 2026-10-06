@@ -100,7 +100,7 @@ extern int  *func_0200B3A4(u32 a, u32 b);
 extern void  func_021C0628(u8 i, int a, int b, int c, int d, int e, int f, void *t);
 extern void  func_021BE760(void *p, void *a, int b);
 extern V    *func_021BE480(void *p, int i, u16 j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
+extern void func_021BE4A4(char *p, int i, int j, int v);
 extern void *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B8(unsigned char *p, int v);
 extern void func_021BE6B0(unsigned char *p, int v);
@@ -154,7 +154,7 @@ void func_021F36C0(void *a0)
         *e = d_021F4358[i];
         flag = q[i] ? 1 : 0;
         e->b = d_021F4480[i].f10[flag];
-        func_021BE4A4(s, 0, i, 1);
+        func_021BE4A4(s, 0, (u16)i, 1);
         for (k = 0; k < 2; k++) {
             b = func_021BE674(s, 0, i, k);
             func_021BE6B8(b, 0);
@@ -164,7 +164,7 @@ void func_021F36C0(void *a0)
     }
     e = func_021BE480(s, 0, 7);
     *e = d_021F434C;
-    func_021BE4A4(s, 0, 7, 1);
+    func_021BE4A4(s, 0, (u16)7, 1);
     for (k = 0; k < 2; k++) {
         b = func_021BE674(s, 0, 7, k);
         func_021BE6B8(b, 0);
@@ -173,7 +173,7 @@ void func_021F36C0(void *a0)
     func_021F4174(s);
     e = func_021BE480(s, 0, 6);
     *e = d_021F4340;
-    func_021BE4A4(s, 0, 6, 1);
+    func_021BE4A4(s, 0, (u16)6, 1);
     func_021BE700(s, 0, 6, 0, 1);
     b = func_021BE674(s, 0, 6, 0);
     func_021BE6B8(b, 0);

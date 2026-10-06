@@ -30,13 +30,13 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern u8 *func_02035750(void *p);
+extern int func_02035750(void);
 
 void func_02035E84(void *p, u16 a, u16 b, u16 c, u16 d)
 {
     u8 *q;
 
-    q = func_02035750(p);
+    q = (u8 *)func_02035750();
     ((struct Obj06933 *)q)->f64 = c;
     ((struct Obj06933 *)q)->f66 = d;
     ((struct Obj06933 *)q)->f5C = a;

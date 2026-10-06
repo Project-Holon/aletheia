@@ -38,13 +38,14 @@ extern u8 func_021D5440(u8 *p);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021CD64C(void *w, u8 id, ...);
 extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C7B3C(u8 *, int, u16, u16);
 extern void func_021C7B7C(u8 *p, unsigned int i);
 struct QJ;
 extern void func_021D66D0(struct QJ *p, u32 v);
 extern void func_021D8564(int a, int b);
-extern int func_021D62C4(u8 *, int);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern void func_021C195C(u8 *p, u8 *q, u32 n);
 extern void func_021C3FDC(u8 *, u8 *);
 void func_021C3E0C(u8 *p, u8 *a, u8 *c)
@@ -68,7 +69,7 @@ void func_021C3E0C(u8 *p, u8 *a, u8 *c)
         s = func_021CC8D8(p + 0x1d74, line);
         func_021C7B3C(p, ai, x, y);
         func_021C7B3C(p, bi, y, x);
-        func_021CC95C(p + 0x1d74, s, line + 3);
+        func_021CC95C((u32 *)(p + 0x1d74), s, line + 3);
         func_021D66D0((struct QJ *)a, y);
         func_021D66D0((struct QJ *)b, x);
         func_021D8564((int)a, (int)b);
@@ -79,13 +80,13 @@ void func_021C3E0C(u8 *p, u8 *a, u8 *c)
             func_021C7B7C(p, ai);
             func_021C7B7C(p, bi);
             line += 19;
-            func_021CC95C(p + 0x1d74, t, line);
+            func_021CC95C((u32 *)(p + 0x1d74), t, line);
         }
-        if (func_021D62C4(a, 16) == 0) {
+        if (func_021D62C4((struct Unk021D62A8 *)a, 16) == 0) {
             if (x == 0x67) func_021C195C(p, a, 0);
             if (x == 0x7f) func_021C3FDC(p, a);
         }
-        if (func_021D62C4(b, 16) == 0) {
+        if (func_021D62C4((struct Unk021D62A8 *)b, 16) == 0) {
             if (y == 0x67) func_021C195C(p, b, 0);
             if (y == 0x7f) func_021C3FDC(p, b);
         }

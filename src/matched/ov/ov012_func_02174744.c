@@ -126,44 +126,54 @@ typedef struct Work {
     Out  *fc0;
 } Work;
 
-extern struct Link *func_020399A8(void);
+struct BigObj;
+struct Blk37;
+struct Entry;
+struct Evt;
+struct IcaAnime;
+struct Party;
+struct PartyMon;
+struct Rec534;
+struct Sub0200852CObj;
+struct Sub020097BCObj;
+extern struct Entry *func_020399A8(void);
 extern u32   func_0203D1A4(struct Link *p);
-extern void  func_021B6114(Work *w);
-extern void  func_021B6100(Work *w);
-extern void  func_021B6108(Work *w);
+extern void func_021B6114(u8 *p);
+extern void func_021B6100(u8 *p);
+extern void func_021B6108(void *unused);
 extern int   func_021BE8D4(void *a, int b, int sel, int d);
 extern int   func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void  func_02012374(void *obj, void *out);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int   func_020144DC(int a0, int a1);
 extern void *func_020145CC(void *a0);
 extern int   func_02034AC4(signed int id);
 extern void  func_02034A5C(int id);
-extern void  func_020120B4(void *p, u32 id, void *a, void *b);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32   func_020120F0(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32   func_0201AA18(void *p);
 extern void *func_0200CA1C(void *a);
-extern u32   func_0200CA38(void *p);
-extern int   func_0200FB24(void);
-extern void  func_02034714(void *a, int b, void *c);
-extern void *func_0201A920(u32 heap);
-extern void  func_0201AC2C(const void *src, void *dst);
-extern void  func_0201A948(void *p);
+extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 func_0200FB24(void);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern struct Party *func_0201A920(u32 heap);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void func_0201A948(struct Party *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32   func_0201A98C(void *p, const void *src);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void  func_020307B0(void *p);
-extern void  func_02175240(Trade *t, int a);
+extern void func_02175240(u8 *a, int b);
 extern void  func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
 extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
-extern int   func_02174D98(void *p);
-extern int   func_02175214(Trade *t);
-extern void  func_02175280(Trade *t, u32 ctx, void *p, int heap);
+extern u32 func_02174D98(u32 p);
+extern int func_02175214(u8 *p);
+extern void func_02175280(u8 *a, void *b, u8 *out, int d);
 extern u32   func_02157450(u32 ctx, u32 a2, u8 v, Out *o);
-extern u32   func_0201283C(const void *p);
+extern u32 func_0201283C(const struct BigObj *p);
 extern int   func_0203D1B4(void);
-extern int   func_02009D1C(u32 a, void *rec, u32 *out);
-extern void  func_02009BB8(u32 a, u32 b, int c, int d, int e);
-extern void  func_02009B80(u32 a, u32 b);
+extern int func_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
+extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
+extern void func_02009B80(struct Sub020097BCObj *obj, int i);
 extern void  func_0217534C(void *p);
 
 extern char ov090_id[];
@@ -179,7 +189,7 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
     Trade *t = *(Trade **)(self + 0x355C);
     Sub98 *s = &w->f98;
     Out *o = w->fc0;
-    u32 me = func_0203D1A4(func_020399A8());
+    u32 me = func_0203D1A4((struct Link *)func_020399A8());
     void *party;
     void *tmp;
     int i;
@@ -189,7 +199,7 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
     u32 id;
 
     if (*state > 2 && *state < 7)
-        func_021B6114(w);
+        func_021B6114((u8 *)w);
 
     switch (*state) {
     case 0:
@@ -202,7 +212,7 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
         break;
     case 2:
         func_02034AC4((int)ov090_id);
-        func_021B6100(w);
+        func_021B6100((u8 *)w);
         (*state)++;
         break;
     case 3:
@@ -247,9 +257,9 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
             break;
         }
         if (w->f40 != 0)
-            func_02034714(d_02175628, 0, d_02175628);
+            func_02034714((const char *)d_02175628, 0, (const char *)d_02175628);
         if (w->f3c != 6)
-            func_02034714(d_02175628, 0, d_02175628);
+            func_02034714((const char *)d_02175628, 0, (const char *)d_02175628);
         party = t->parties[me];
         tmp = func_0201A920(0x41);
         func_0201AC2C(party, tmp);
@@ -260,8 +270,8 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
             func_0201A98C(party, func_0201AB28(tmp, w->f49[i] - 1));
         }
         func_020307B0(tmp);
-        func_02175240(t, 1);
-        func_02039C68(func_020399A8(), 0x16, 0x14);
+        func_02175240((u8 *)t, 1);
+        func_02039C68((struct Link *)func_020399A8(), 0x16, 0x14);
         (*state)++;
         break;
     case 9:
@@ -269,7 +279,7 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
             *state = 0x11;
             break;
         }
-        if (func_02039CB4(func_020399A8(), 0x16, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x16, 0x14) == 1)
             (*state)++;
         break;
     case 10:
@@ -277,7 +287,7 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
             *state = 0x11;
             break;
         }
-        if (func_02174D98(t->parties[me]) == 1)
+        if (func_02174D98((u32)t->parties[me]) == 1)
             (*state)++;
         break;
     case 11:
@@ -285,7 +295,7 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
             *state = 0x11;
             break;
         }
-        if (func_02175214(t) == 1)
+        if (func_02175214((u8 *)t) == 1)
             (*state)++;
         break;
     case 12:
@@ -296,7 +306,7 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
             o->f10 = 0x48B;
         else
             o->f10 = 0x48C;
-        func_02175280(t, a0, o->f18, 0x41);
+        func_02175280((u8 *)t, (void *)a0, o->f18, 0x41);
         *res = func_02157450(a0, a2, q[0], o);
         (*state)++;
         break;
@@ -308,21 +318,21 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
             for (i = 0; i < n; i++) {
                 if (i == me)
                     continue;
-                if (func_02009D1C(obj2, &t->recs[i], &id) != 1)
+                if (func_02009D1C((struct Sub020097BCObj *)obj2, (struct Sub0200852CObj *)(&t->recs[i]), &id) != 1)
                     continue;
                 if (flag == (t->flags[i] & 1)) {
-                    func_02009B80(obj2, id);
+                    func_02009B80((struct Sub020097BCObj *)obj2, id);
                     continue;
                 }
                 switch (o->f58) {
                 case 0:
-                    func_02009BB8(obj2, id, 1, 0, 0);
+                    func_02009BB8((struct Sub020097BCObj *)obj2, id, 1, 0, 0);
                     break;
                 case 1:
-                    func_02009BB8(obj2, id, 0, 1, 0);
+                    func_02009BB8((struct Sub020097BCObj *)obj2, id, 0, 1, 0);
                     break;
                 case 2:
-                    func_02009B80(obj2, id);
+                    func_02009B80((struct Sub020097BCObj *)obj2, id);
                     break;
                 }
             }

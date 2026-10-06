@@ -121,7 +121,7 @@ extern void func_0207E5D0(u32 a, u32 b, u32 c);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(u32 a, u32 b, u32 c);
 extern void func_0207FADC(void);
-extern void func_020637F4(Out02063F4C *out, int sel, u32 a1);
+extern void func_020637F4(char *p, int i, int v);
 
 void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
                    Out02063F4C *out)
@@ -174,5 +174,5 @@ void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
     }
     out->f0 = self->f0;
     out->f4 = self->f4;
-    func_020637F4(out, sel, base);
+    func_020637F4((char *)out, sel, base);
 }

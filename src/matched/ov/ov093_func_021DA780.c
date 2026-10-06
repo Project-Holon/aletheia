@@ -27,7 +27,7 @@ typedef signed int s32;
 
 extern int func_021D775C(int a);
 extern void func_021C88B4(void *a, int k, int b);
-extern void *func_021C88A4(int a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 a);
@@ -42,7 +42,7 @@ void func_021DA780(int a, int b, int c, int *d)
     if (*d == 0)
         return;
     func_021C88B4((void *)b, 2, c);
-    p = func_021C88A4(b, 4, c);
+    p = func_021C88A4((char *)b, 4, c);
     func_021C8838(p + 4, 2, 0x202);
     func_021C8860((struct S *)(p + 4), c);
     func_021C88C8((void *)b, p);

@@ -48,13 +48,16 @@ struct Work;
 extern int func_021B9F70(u8 *p, int i);
 extern void func_021EEE24(u32, u16, u32, ...);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
-extern int func_021ECF68(u8 *);
+struct E;
+struct S;
+struct T;
+extern int func_021ECF68(struct T *p);
 extern void func_021F8260(u32 i);
-extern void func_021ED798(u8 *);
-extern int func_021ED814(void *);
+extern void func_021ED798(struct S *s);
+extern int func_021ED814(struct S *s);
 extern void *func_021D5864(struct Work *p);
 extern void func_021F7EE8(void *, int);
-extern void func_021EDA04(u8 *);
+extern void func_021EDA04(struct E *e);
 int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
 {
     u8 *b = p + 0xf0;
@@ -94,14 +97,14 @@ int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
         }
         break;
     case 3:
-        if (func_021ECF68(p)) {
+        if (func_021ECF68((struct T *)p)) {
             func_021F8260(0);
-            func_021ED798(p + 0x154);
+            func_021ED798((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
     case 4:
-        if (func_021ED814(p + 0x154)) {
+        if (func_021ED814((struct S *)(p + 0x154))) {
             winner = func_021B8FE4(*(u8 * *)&((struct Obj00027 *)p)->f134);
             func_021F7EE8(func_021D5864(*(void **)b), b[10]);
             func_021F7EE8(func_021D5864(((struct Obj01523 *)b)->f4), b[11]);
@@ -112,15 +115,15 @@ int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
         }
         break;
     case 5:
-        if (func_021ECF68(p)) {
-            func_021ED798(p + 0x154);
+        if (func_021ECF68((struct T *)p)) {
+            func_021ED798((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
     case 6:
-        if (func_021ED814(p + 0x154) && !func_021F7EB4()) {
-            func_021EDA04(p + 0x48 + b[8] * 12);
-            func_021EDA04(p + 0x48 + b[9] * 12);
+        if (func_021ED814((struct S *)(p + 0x154)) && !func_021F7EB4()) {
+            func_021EDA04((struct E *)(p + 0x48 + b[8] * 12));
+            func_021EDA04((struct E *)(p + 0x48 + b[9] * 12));
             return 1;
         }
         break;

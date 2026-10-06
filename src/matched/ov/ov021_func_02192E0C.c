@@ -36,7 +36,7 @@ extern void func_02192FA4(int, int);
 extern void *func_02194670(u16 *a);
 extern void func_02040588(u32 which, u32 enable);
 
-void func_02192E0C(char *p)
+void func_02192E0C(u32 *p)
 {
     B32 tmp;
     Req r;

@@ -21,11 +21,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0202744C(void *, int);
+extern void func_0202744C(void *dst);
 
 void func_021655F8(void *a0)
 {
     ((struct Obj00121 *)a0)->f30 = 0x27;
-    func_0202744C(a0, 0x27);
+    func_0202744C(a0);
 }
 

@@ -47,7 +47,7 @@ extern void func_020450C8(void);
 extern void func_02034A5C(s32 handle);
 extern void func_021D31A4(u32 a);
 extern void func_021C6D5C(u32 a);
-extern void func_0218CA4C(u32 a);
+extern int func_0218CA4C(u32 a);
 extern void func_021890C8(void *a);
 extern void func_02188E38(void *a);
 extern u32 func_02013CC8(u32 a);

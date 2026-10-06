@@ -59,22 +59,23 @@ struct G {
 
 extern struct G g_021467A4;
 
-extern void func_020224DC(void *slots, u32 index);
-extern void func_02022390(void **slot, struct Sub *s);
-extern void func_020226A0(struct G *g);
+struct Slots;
+extern void func_020224DC(struct Slots *p, u32 idx);
+extern void func_02022390(u32 *obj, void *arg);
+extern void func_020226A0(u8 *p);
 
 void func_020221B8(void)
 {
-    func_020224DC(g_021467A4.f74, 0);
-    func_020224DC(g_021467A4.f74, 1);
+    func_020224DC((struct Slots *)g_021467A4.f74, 0);
+    func_020224DC((struct Slots *)g_021467A4.f74, 1);
     if (g_021467A4.f04 != 0)
         g_021467A4.f14.f0C = 2;
     if (g_021467A4.f08 != 0)
         g_021467A4.f44.f0C = 2;
-    func_02022390(&g_021467A4.f04, &g_021467A4.f14);
-    func_02022390(&g_021467A4.f08, &g_021467A4.f44);
+    func_02022390((u32 *)(&g_021467A4.f04), &g_021467A4.f14);
+    func_02022390((u32 *)(&g_021467A4.f08), &g_021467A4.f44);
     g_021467A4.f14C = 0;
     g_021467A4.f14E = 0;
     g_021467A4.f14F = 0;
-    func_020226A0(&g_021467A4);
+    func_020226A0((u8 *)(&g_021467A4));
 }

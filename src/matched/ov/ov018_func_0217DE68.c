@@ -51,11 +51,11 @@ struct BigObj;
 struct Ctx;
 struct Obj;
 extern void *func_020120F4(const struct Ctx *p);
-extern int func_0217F284(Work *);
+extern int func_0217F284(u8 *p);
 extern u8 func_02012B58(const struct BigObj *p);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B6F4(void *, u8, int);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);
 
@@ -68,7 +68,7 @@ void func_0217DE68(Work *p)
     void *act;
 
     sys = func_020120F4(p->f00);
-    if (func_0217F284(p) == 1) {
+    if (func_0217F284((u8 *)p) == 1) {
         for (i = 0; i <= 7; i++) {
             func_0204B3DC(p->f5c[i], 0);
         }
@@ -100,7 +100,7 @@ void func_0217DE68(Work *p)
             } else {
                 act = p->f7c;
             }
-            func_0204B6F4(act, c, 1);
+            func_0204B6F4(act, (u8)c, (int)1);
         }
         if (p->f115 < 10) {
             p->f115++;

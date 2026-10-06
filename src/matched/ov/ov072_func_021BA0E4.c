@@ -61,7 +61,9 @@ extern void VEC_Subtract(const struct Vec3 *a, const struct Vec3 *b, struct Vec3
 extern int VEC_Mag(const struct Vec3 *v);
 extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
 extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
-extern void func_0204B404(int obj, Pt *pt, int k);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 func_020362DC(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 struct Obj;
@@ -145,7 +147,7 @@ void func_021BA0E4(Cur *c, void *q)
         else if (t < 8)
             t = 8;
         c->pt.y = t;
-        func_0204B404(c->obj, &c->pt, 0);
+        func_0204B404((struct Obj *)c->obj, (const struct Vec2 *)(&c->pt), 0);
     }
     if (func_020362DC() & 1) {
         func_020355D8(0);

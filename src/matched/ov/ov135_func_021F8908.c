@@ -28,9 +28,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021F88D8(u32 id, u32 *start);
 extern void *func_0201F81C(u32 n, u32 heap);
-extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
+struct Slot;
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern u16 tbl_022030E8[];
-int func_021F8908(void **menu, void *msg, u32 id)
+int func_021F8908(void **menu, void *msg, int id)
 {
     int i;
     int count;
@@ -38,7 +39,7 @@ int func_021F8908(void **menu, void *msg, u32 id)
     count = func_021F88D8(id, &start);
     *menu = func_0201F81C(count, 0x48);
     for (i = 0; (i < count) ? 1 : 0; i++) {
-        func_0201F878(*menu, msg, tbl_022030E8[start + i], start + i + 1, 0x48);
+        func_0201F878(*menu, (u32)msg, tbl_022030E8[start + i], start + i + 1, 0x48);
     }
     return count;
 }

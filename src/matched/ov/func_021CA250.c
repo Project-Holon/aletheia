@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021CA250(u32 a, u32 b)
+int func_021CA250(u32 a)
 {
 ((struct Obj18347 *)((u8 *)(a)))->fE = 0;
 return a;

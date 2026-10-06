@@ -37,8 +37,9 @@ typedef struct
 } BN_CTX;
 
 extern BIGNUM *func_021CADAC(BIGNUM *, int);
-extern void func_021CC2B0(BN_ULONG *, const BN_ULONG *, int, BN_ULONG *);
-extern BIGNUM *func_021CAE20(BIGNUM *, const BIGNUM *);
+typedef unsigned char  u8;
+extern void func_021CC2B0(unsigned long *r, unsigned long *a, int n, unsigned long *tmp);
+extern u8 *func_021CAE20(u8 *a, u8 *b);
 
 #define bn_wexpand(a, w) (((w) <= (a)->dmax) ? (a) : func_021CADAC((a), (w)))
 
@@ -67,22 +68,22 @@ int func_021CC178(BIGNUM *r, const BIGNUM *a, BN_CTX *ctx)
     rr->neg = 0;
     if (al == 4)
     {
-        func_021CC2B0(rr->d, a->d, 4, t2);
+        func_021CC2B0((long unsigned int *)rr->d, (long unsigned int *)a->d, 4, (long unsigned int *)t2);
     }
     else if (al == 8)
     {
-        func_021CC2B0(rr->d, a->d, 8, t);
+        func_021CC2B0((long unsigned int *)rr->d, (long unsigned int *)a->d, 8, (long unsigned int *)t);
     }
     else
     {
         if (bn_wexpand(tmp, max) == 0)
             return 0;
-        func_021CC2B0(rr->d, a->d, al, tmp->d);
+        func_021CC2B0((long unsigned int *)rr->d, (long unsigned int *)a->d, al, (long unsigned int *)tmp->d);
     }
 
     if (max > 0 && rr->d[max - 1] == 0)
         rr->top--;
     if (rr != r)
-        func_021CAE20(r, rr);
+        func_021CAE20((u8 *)r, (u8 *)rr);
     return 1;
 }

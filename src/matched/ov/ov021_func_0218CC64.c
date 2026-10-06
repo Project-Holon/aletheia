@@ -21,7 +21,8 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern int func_0218DFE0(void *p, int i, int m, int *out);
+typedef unsigned int   u32;
+extern int func_0218DFE0(u8 *a, u32 idx, int flag, u32 *out);
 struct V3;
 extern void func_02169510(u8 *src, struct V3 *dst);
 extern void func_02169500(u8 *p, u8 *q);
@@ -39,7 +40,7 @@ void func_0218CC64(char *p, int a, int m)
     if (m == 0 && ((struct Obj02072 *)p)->f40 == 0)
         return;
     for (i = 0; i < ((struct Obj02072 *)p)->f2E; i++) {
-        if (func_0218DFE0(p, i, m, &idx)) {
+        if (func_0218DFE0((u8 *)p, i, m, (u32 *)(&idx))) {
             int r;
             c = (u8 *)p + 0x43;
             func_02169510((u8 *)(*(int *)(*(char * *)&((struct Obj02072 *)p)->f24 + idx * 0x28)), (struct V3 *)w);

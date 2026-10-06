@@ -18,9 +18,9 @@
 
 typedef unsigned char u8;
 
-extern void func_021F1218(u8 *e, short x, short y);
-extern void func_021F0EA4(u8 *e, int a);
-extern void func_021F155C(char *this, u8 *e, int a, int b, void *s);
+extern void func_021F1218(char *p, short x, short y);
+extern void func_021F0EA4(char *p, unsigned a);
+extern void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r);
 
 void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s)
 {
@@ -32,8 +32,8 @@ void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s)
             b[2] = 5;
         else
             b[2] = 0;
-        func_021F1218(b, -13 * (1 - b[2]), -40 * (1 - b[2]));
-        func_021F0EA4(b, 1);
+        func_021F1218((char *)b, -13 * (1 - b[2]), -40 * (1 - b[2]));
+        func_021F0EA4((char *)b, 1);
     }
     for (i = 0; i < 5; i++) {
         e = (u8 *)(this + 0x1b8) + i * 0x34;

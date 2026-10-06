@@ -33,7 +33,8 @@ extern void func_0220270C(char *s, int mode, void *arg);
 extern int func_02202DC4(int a, char *b, char *c);
 extern void func_021B6364(u8 *p, u32 v);
 extern int func_021B6750(char *p);
-extern int func_021B6578(char *p);
+struct P;
+extern int func_021B6578(struct P *p);
 
 int func_021B6504(char *p)
 {

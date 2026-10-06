@@ -38,13 +38,16 @@ typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, u32 i);
-extern u32 func_021BD218(u8 *p, void *mon, u32 a, u32 b);
-extern u32 func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern u32 func_020457B0(u32 a, u32 b);
-extern void func_02045924(u32 a, u32 b);
-extern u32 func_02045770(u32 h);
+struct Descriptor;
+struct Strbuf;
+struct U16Vec;
+extern u32 *func_021BD218(u8 *p, void *mon, s16 x, u16 y);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02045808(u32 a);
+extern void func_02045808(struct U16Vec *vec);
 extern const char d_021BED48[];
 
 u32 *func_021BD05C(u8 *p, u32 *list, u8 x, u8 y, u8 w)
@@ -64,17 +67,17 @@ u32 *func_021BD05C(u8 *p, u32 *list, u8 x, u8 y, u8 w)
             u8 yy = y + (i / 2) * 6 + 4;
             int col = 4;
             if (par != 0) col = 0;
-            r[2 + i] = func_021BD218(p, func_0201AB28((void *)list[0], i), (u8)((u8)col + (xx << 3)), (u8)(yy << 3));
+            r[2 + i] = (u32)func_021BD218(p, func_0201AB28((void *)list[0], i), (u8)((u8)col + (xx << 3)), (u8)(yy << 3));
         } else {
             r[2 + i] = 0;
         }
     }
     flag = 1;
     r[1] = func_020450F0(4, (u8)(x + 1 + ((u32)w >> 1)), (u8)(y + 1), 10, 2, 0xe, flag);
-    bmp = func_020457B0(0x10, *(u16 *)p);
-    func_02045924(bmp, list[1]);
-    func_0201C724(*(u32 *)(p + 0x140), func_02045770(r[1]), 0, 0, bmp, *(u32 *)(p + 0x138), 0x3c40);
-    func_02045808(bmp);
+    bmp = (u32)func_020457B0(0x10, *(u16 *)p);
+    func_02045924((struct Strbuf *)bmp, (const u16 *)list[1]);
+    func_0201C724(*(u32 *)(p + 0x140), (u32)func_02045770((struct Descriptor *)r[1]), 0, 0, bmp, *(u32 *)(p + 0x138), 0x3c40);
+    func_02045808((struct U16Vec *)bmp);
     r[0] = flag;
     return r;
 }

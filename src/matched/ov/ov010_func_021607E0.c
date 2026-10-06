@@ -86,7 +86,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_020144DC(int a0, int a1);
 extern void *func_020145CC(void *a);
 extern void *func_0201210C(const struct Ctx *p);
-extern void func_02188DA0(void *a);
+extern void func_02188DA0(void);
 extern void func_02188DB0(u8 *a);
 extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020120F0(const struct Ctx *p);
@@ -161,7 +161,7 @@ int func_021607E0(void *evt, u32 *state, Task *t)
     case 9:
         work = func_0201210C(t->owner->f00);
         t->owner->f04 = work;
-        func_02188DA0(work);
+        func_02188DA0();
         func_02188DB0(t->owner->f04);
         *state = 10;
         break;

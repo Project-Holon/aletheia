@@ -53,12 +53,12 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern void func_022018A8(Work *w, Vec *out, int key);
-extern void func_02015C30(void *h, Vec *out);
-extern void func_02015C60(void *h, Vec *out);
-extern void func_02015C48(void *h, Vec *in);
-extern void func_02015C78(void *h, Vec *in);
+extern void func_02015C30(void *p, u32 *out);
+extern void func_02015C60(void *p, u32 *out);
+extern void func_02015C48(void *p, u32 *src);
+extern void func_02015C78(void *p, u32 *src);
 extern void func_02015EA0(void *h);
 
 void func_022004BC(Work *w, int key)
@@ -66,15 +66,15 @@ void func_022004BC(Work *w, int key)
     Vec want;
     Vec cur;
     Vec off;
-    int i = func_022019F4(w, key);
+    int i = func_022019F4((char *)w, key);
 
     if (i == -1)
         return;
     if (w->e[i].h == 0)
         return;
     func_022018A8(w, &want, key);
-    func_02015C30(w->e[i].h, &cur);
-    func_02015C60(w->e[i].h, &off);
+    func_02015C30(w->e[i].h, (u32 *)(&cur));
+    func_02015C60(w->e[i].h, (u32 *)(&off));
     w->e[i].flags &= ~0x40;
     if (want.x == cur.x && want.y == cur.y && want.z == cur.z
         && off.x == 0 && off.y == 0 && off.z == 0)
@@ -83,7 +83,7 @@ void func_022004BC(Work *w, int key)
     off.x = 0;
     off.y = 0;
     off.z = 0;
-    func_02015C48(w->e[i].h, &want);
-    func_02015C78(w->e[i].h, &off);
+    func_02015C48(w->e[i].h, (u32 *)(&want));
+    func_02015C78(w->e[i].h, (u32 *)(&off));
     func_02015EA0(w->e[i].h);
 }

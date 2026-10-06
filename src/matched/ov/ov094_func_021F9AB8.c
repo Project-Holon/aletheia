@@ -72,7 +72,7 @@ extern void func_021FF16C(void *w);
 extern void func_021FE9F0(int a, int b, int n, int s, int z);
 extern void func_021F7208(VecFx32 *a, VecFx32 *b);
 extern int func_021F8684(void);
-extern void func_021F6EDC(int cam, VecFx32 *a, VecFx32 *b);
+extern void func_021F6EDC(int *p, int *a, int *b);
 extern void func_021F6F48(int cam, VecFx32 *a, VecFx32 *b, int n, int s, int t);
 
 extern const VecFx32 d_0220ACA0[2];
@@ -334,7 +334,7 @@ int func_021F9AB8(void *r, Ctx *c)
     }
     switch (type) {
     case 0:
-        func_021F6EDC(func_021F8684(), &A, &B);
+        func_021F6EDC((int *)func_021F8684(), (int *)(&A), (int *)(&B));
         break;
     case 1:
         func_021F6F48(func_021F8684(), &A, &B, n, s, t);

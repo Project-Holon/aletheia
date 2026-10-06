@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02046BFC(int p0, int p1, int p2, int p3){ return *(int *)((*(int *)(0x2146A5C) + 140)); }
+int func_02046BFC(void){ return *(int *)((*(int *)(0x2146A5C) + 140)); }

@@ -32,7 +32,7 @@ extern void *func_02188CB4(u8 *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_021C60B8(void);
 
-void *func_021C6078(void *a, void *b, int c)
+void *func_021C6078(void *a, void *b, u8 c)
 {
     void *task;
     u8 *w;

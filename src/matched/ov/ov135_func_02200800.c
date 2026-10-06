@@ -22,8 +22,8 @@
 #include "../include/Obj00045.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021F4D14(void *);
-extern void func_021F4CE4(void *);
+extern int func_021F4D14(char *p);
+extern void func_021F4CE4(char *p);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
@@ -38,9 +38,9 @@ int func_02200800(u8 *p)
 {
     u32 w;
     u32 state;
-    state = func_021F4D14(p);
+    state = func_021F4D14((char *)p);
     if (state == 1) {
-        func_021F4CE4(p);
+        func_021F4CE4((char *)p);
         func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 2);
         w = *(u32 *)&((struct Obj00045 *)p)->fDD0;
         func_020456F8((struct Descriptor *)w);
@@ -53,7 +53,7 @@ int func_02200800(u8 *p)
         func_021F4EC0(p, 0, 0x14);
         ((struct Obj00045 *)p)->f28 = 7;
     } else if (state == 2) {
-        func_021F4CE4(p);
+        func_021F4CE4((char *)p);
         func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 2);
         w = *(u32 *)&((struct Obj00045 *)p)->fDD0;
         func_020456F8((struct Descriptor *)w);

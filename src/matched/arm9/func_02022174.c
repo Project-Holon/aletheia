@@ -61,7 +61,8 @@ struct G {
 
 extern struct G g_021467A4;
 
-extern u32  func_02022340(struct G *g, struct Sub *a, struct Sub *b);
+struct Cluster;
+extern u32 func_02022340(struct Cluster *p, void *top, void *bottom);
 extern void func_020222EC(struct G *g);
 
 void func_02022174(void)
@@ -70,7 +71,7 @@ void func_02022174(void)
 
     g = &g_021467A4;
     if (g_021467A4.f14C != 0) {
-        if (func_02022340(g, &g->f14, &g->f44) == 1)
+        if (func_02022340((struct Cluster *)g, &g->f14, &g->f44) == 1)
             func_020222EC(g);
     }
 }

@@ -37,7 +37,7 @@ extern void *func_020490F4(u32, u32);
 extern void func_02049B68(void *, int, int, int, int, u32);
 extern u32 func_02049740(void *, int, int, int, int, u32);
 extern void func_02049990(void *, int, int, int, u16, int, int, u32);
-extern void *func_02049F78(void *, u32, void *, u32);
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02049238(void *);
 extern int func_02049B40(int, int, int, int, int, u32);
 extern void func_02082BCC(void *, int, u32);
@@ -46,10 +46,10 @@ extern void func_020307B0(void *);
 extern void *func_020056A0(void *, void *, int);
 extern void func_020862F0(void *, u32);
 extern void func_0207D63C(void *, int, int, int, int);
-extern void func_0203FA08(int, int, int);
-extern void *func_0201F5DC(int, int, int, u32);
+extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
+extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02021F64(void *, void *, u16, u8, u16);
-extern void func_021D7F54(void *);
+extern void func_021D7F54(void *unused, u8 *p);
 struct Arc { int f0; int f4; int f8; u8 *fC; };
 void func_021D7D0C(u8 *p, short heap) {
     struct Arc *res;
@@ -75,7 +75,7 @@ void func_021D7D0C(u8 *p, short heap) {
     func_02049990(arc, 5, 0, 0, (u16)func_02049740(arc, 4, 0, 0, j, heap), j, j, heap);
     func_02049990(arc, 7, 3, 0, (u16)func_02049740(arc, 4, 3, 0, j, heap), j, j, heap);
     func_02082BCC(p + 0xc, 0, 0x970);
-    blk = func_02049F78(arc, 2, &res, (u16)heap);
+    blk = func_02049F78(arc, 2, (u32)(&res), (u16)heap);
     func_02082D44(res->fC, p + 0x14, 0x1e0);
     func_02082D44(res->fC, p + 0x1f4, 0x1e0);
     func_020307B0(blk);
@@ -110,7 +110,7 @@ void func_021D7D0C(u8 *p, short heap) {
     func_02049238(arc);
     func_0203FA08(1, 0x20, 0);
     func_0203FA08(2, 0x20, 0);
-    *(void **)(p + 0x984) = func_0201F5DC(1, 0xd, 0, heap);
-    *(void **)(p + 0x988) = func_0201F5DC(2, 0xd, 0, heap);
+    *(void **)(p + 0x984) = func_0201F5DC((void *)1, 0xd, 0, heap);
+    *(void **)(p + 0x988) = func_0201F5DC((void *)2, 0xd, 0, heap);
     func_02049B40(0x17, 5, 0, 0x180, 0x20, heap);
 }

@@ -42,10 +42,11 @@ struct Obj;
 extern u8 func_020355C4(void);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern int func_021E4984(int v, int a, int b, char *p, int *out);
-extern Ent *func_021E49DC(int a, int b, char *p);
+struct Struct36;
+extern char *func_021E49DC(int a, int b, char *p);
 extern void func_021E4AD0(char *p, int a1, int a2, int a3, int a4, int a5);
 extern void func_021E496C(int x, int y, u16 *out);
-extern void func_0204B7C8(void *, Info *);
+extern void func_0204B7C8(const char *src, struct Struct36 *dst);
 extern int func_021D8AF4(int, char *);
 extern int func_021D8B0C(int, int);
 struct Actor;
@@ -73,7 +74,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
     }
     for (j = 0; j < 5; j++) {
         rec = func_021E4984(v, a, j, p, &kind);
-        e = func_021E49DC(a, j, p);
+        e = (Ent *)func_021E49DC(a, j, p);
         if (e == 0) {
             *(u8 *)(p + row * 5 + j + 0xd90) = 0xff;
             continue;
@@ -97,7 +98,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
             *(u8 *)(p + row * 5 + j + 0xd18) = b2;
             *(u8 *)(p + row * 5 + j + 0xd54) = b3;
             func_021E496C(a, j, pos);
-            func_0204B7C8(*(void **)(p + row * 20 + j * 4 + 0xac0), &info);
+            func_0204B7C8(*(void **)(p + row * 20 + j * 4 + 0xac0), (struct Struct36 *)(&info));
             n = func_021D8AF4(a, p);
             idx = func_021D8B0C(a, j);
             idx += n * 30;

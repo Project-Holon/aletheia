@@ -53,26 +53,31 @@ extern void func_021E8738(int *p, int a, int b, int c);
 extern void func_021E8AB4(u32,u32);
 extern void func_021E8AA0(int *p, int v);
 extern void func_021E8AB8(u32);
-extern void func_021E8AA8(u32);
+struct Big;
+struct Record;
+extern void func_021E8AA8(int a);
 extern int func_021E8844(const int *p);
 extern void func_021E8AC0(int,int);
 extern int func_021D9F04(char *,void *,void *);
-extern void func_021D8BC4(void);
+extern void func_021D8BC4(int *a, int *state, char *ctx);
 extern void func_021D8CF0(u32 sys, int *state, char *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern void func_02156E30(int,int,int,int),func_02156F50(int),func_02156ED0(void);
+extern void func_02156E30(u32 a, u32 b, u32 c, u32 d);
+extern void func_02156F50(int);
+extern void func_02156ED0(void);
 extern void func_021DA5B0(char *,int,int,u32,u32 *,u32);
-extern int func_021DA6B8(void *,u32 *);
-extern u32 func_021DADAC(char *);
+extern int func_021DA6B8(char *p, u32 *out);
+extern u32 func_021DADAC(u8 *p);
 extern void func_021DA36C(char *),func_021DA384(char *);
 extern int func_021DA390(char *);
-extern void *func_02012EBC(void *),*func_0200ED48(void *);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200ED48(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *,unsigned int);
 extern void func_02082BCC(void *,int,unsigned);
-extern void func_021DBC04(char *,unsigned,void *);
+extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 void func_021D8904(u32 sys,int *state,char *p)
 {
@@ -99,7 +104,7 @@ void func_021D8904(u32 sys,int *state,char *p)
                 func_021E8AC0(**(int * *)&((struct Obj02512 *)q)->f8,**(int * *)&((struct Obj02512 *)q)->f2C);
         }
         if(((struct Obj00477 *)p)->fF8==1) {
-            ((struct Obj24270 *)(*(char * *)&((struct Obj02512 *)q)->f2C))->f14=func_021DADAC(*(char * *)&((struct Obj00477 *)p)->f34);*state=4;
+            ((struct Obj24270 *)(*(char * *)&((struct Obj02512 *)q)->f2C))->f14=func_021DADAC((u8 *)(*(char * *)&((struct Obj00477 *)p)->f34));*state=4;
         }
         if(((struct Obj00477 *)p)->fF8!=0) {
             switch(func_021D9F04(*(char * *)&((struct Obj00477 *)p)->f34,0,(void *)1)) {
@@ -122,7 +127,7 @@ void func_021D8904(u32 sys,int *state,char *p)
         func_02082BCC(&rec,0,84);
         rec.data=**(Rec80 * *)&((struct Obj24273 *)(*(char * *)&((struct Obj00477 *)p)->f104))->f24;
         rec.last=**(u32 * *)&((struct Obj24274 *)(*(char * *)&((struct Obj00477 *)p)->f104))->f28;
-        func_021DBC04(*(char * *)&((struct Obj00477 *)p)->f34,3,&rec);*state=8;
+        func_021DBC04((u8 *)(*(char * *)&((struct Obj00477 *)p)->f34),3,(struct Record *)(&rec));*state=8;
         }break;
     case 8:v=func_021DBDAC(*(char * *)&((struct Obj00477 *)p)->f34);
         if(v==1) {

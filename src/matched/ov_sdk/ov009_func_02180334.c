@@ -18,7 +18,7 @@
 
 typedef unsigned short u16;
 
-extern int func_021800CC(const unsigned char *src, int n, u16 *dst);
+extern int func_021800CC(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut);
 
 int func_02180334(const unsigned char *src, int size, u16 *out, int max)
 {
@@ -31,7 +31,7 @@ int func_02180334(const unsigned char *src, int size, u16 *out, int max)
         return 1;
     }
     while (*src != 0 && max + 1 > n && size > off) {
-        int r = func_021800CC(src, size - off, dst);
+        int r = func_021800CC((char *)src, size - off, dst);
 
         if (r == 0) {
             *out = 0;

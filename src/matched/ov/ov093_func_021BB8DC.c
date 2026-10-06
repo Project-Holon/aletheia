@@ -22,9 +22,9 @@ typedef unsigned int u32;
 extern void *func_021D5844(void *);
 extern u32 func_02017E1C(void *, u32, u32);
 extern void func_020271DC(u16);
-extern void func_021BA1B4(u8 *, int);
+extern void func_021BA1B4(char **p, int i);
 void func_021BB8DC(u8 *p, u32 *q) {
     func_020271DC(func_02017E1C(func_021D5844(q),5,0));
-    func_021BA1B4(*(u8 * *)&((struct Obj13295 *)p)->fC,7);
-    func_021BA1B4(*(u8 * *)&((struct Obj13295 *)p)->fC,0x54);
+    func_021BA1B4((char **)(*(u8 * *)&((struct Obj13295 *)p)->fC),7);
+    func_021BA1B4((char **)(*(u8 * *)&((struct Obj13295 *)p)->fC),0x54);
 }

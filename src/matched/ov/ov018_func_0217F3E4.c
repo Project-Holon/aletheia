@@ -32,14 +32,15 @@ typedef struct {
 
 extern unsigned char d_02183B2C[];
 
-void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+void func_02034714(const char *expr, u32 line, const char *file);
 struct P;
 void func_02190F7C(struct P *p);
 
 void func_0217F3E4(Ov018Obj *p)
 {
     if (p->f18 == 0) {
-        func_02034714(d_02183B2C, 0, d_02183B2C);
+        func_02034714((const char *)d_02183B2C, 0, (const char *)d_02183B2C);
     }
     func_02190F7C(p->f18);
     p->f28 = 0;

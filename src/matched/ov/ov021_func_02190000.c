@@ -33,7 +33,7 @@ extern u32 func_02188C5C(u8 *p);
 extern void func_021BB260(u32 a, u32 b);
 extern void func_0218EC30(u32 a, u32 b);
 extern void func_0218E13C(u8 *a, u32 s);
-extern void func_0218F1AC(u32 a, u32 b);
+extern void func_0218F1AC(u8 *p, u32 v);
 extern u32 func_02189A18(u8 *p);
 extern void func_021AB75C(u8 *p, u32 v);
 
@@ -44,7 +44,7 @@ void func_02190000(u32 *p)
     u8 *r = (u8 *)func_021901E8((u8 *)p);
     func_021AB75C((u8 *)func_02189A18((u8 *)a), 1);
     if (((struct Obj19578 *)r)->f48 != 0)
-        func_0218F1AC(b, p[5]);
+        func_0218F1AC((u8 *)b, p[5]);
     if (p[7] != 0)
         func_0218EC30(b, p[6]);
     func_0218E13C((u8 *)b, p[4]);

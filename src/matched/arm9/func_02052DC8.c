@@ -65,7 +65,9 @@ struct Node9C { u8 b[0x9c]; };
 struct Node44 { u8 b[0x44]; };
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_020583CC(void *list, void *node);
+struct List;
+struct Node;
+extern void func_020583CC(volatile struct List *list, volatile struct Node *node);
 
 struct Head *func_02052DC8(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5)
 {
@@ -97,12 +99,12 @@ struct Head *func_02052DC8(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5
     p = alloc(n1 * sizeof(struct Node9C));
     MI_CpuFill8(p, 0, n1 * sizeof(struct Node9C));
     for (i = 0; i < n1; i++)
-        func_020583CC(&h->f10, &p[i]);
+        func_020583CC((volatile struct List *)(&h->f10), (volatile struct Node *)(&p[i]));
 
     q = alloc(n2 * sizeof(struct Node44));
     MI_CpuFill8(q, 0, n2 * sizeof(struct Node44));
     for (i = 0; i < n2; i++)
-        func_020583CC(&h->f1c, &q[i]);
+        func_020583CC((volatile struct List *)(&h->f1c), (volatile struct Node *)(&q[i]));
 
     h->f28 = 0;
     h->f2c = 0;

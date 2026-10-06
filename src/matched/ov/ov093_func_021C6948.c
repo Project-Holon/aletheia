@@ -22,19 +22,20 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_021D5C08(u8 *p);
+struct UtilWork;
+extern u32 func_021D5C08(struct UtilWork *p);
 extern void func_021D74F8(int line);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int key, u32 val);
 extern void func_021D7630(int key, u32 val);
-extern void func_021D70F0(u8 *p, int k);
+extern void func_021D70F0(void *a, int id);
 extern int func_021D775C(int key);
 extern void func_021D7540(int line);
 
-int func_021C6948(u8 *p, u8 *a, u8 *b)
+int func_021C6948(u8 *p, u8 *a, u8 *b, u32 v)
 {
     int r = 0;
-    u32 t = func_021D5C08(b);
+    u32 t = func_021D5C08((struct UtilWork *)b);
     if (t != 0x10) {
         func_021D74F8(11765);
         func_021D75EC(3, func_021D5440(a));

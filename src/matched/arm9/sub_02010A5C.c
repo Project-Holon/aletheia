@@ -32,7 +32,8 @@ struct Big;
 struct Sub02009448Obj;
 extern void *sub_02012EBC(struct Big *p);
 extern struct Sub02009448Obj *sub_02009448(void *sys);
-extern u8    sub_020092EC(const void *obj);
+struct Sub02009210Obj;
+extern u8 sub_020092EC(const struct Sub02009210Obj *obj);
 
 int sub_02010A5C(void *a0)
 {
@@ -45,7 +46,7 @@ int sub_02010A5C(void *a0)
     ((struct Obj04833 *)p)->f1D0 = 0x67;
     sys = sub_020124F4(0x67);
     ((struct Obj04833 *)p)->f44 = sys;
-    if (sub_020092EC(sub_02009448(sub_02012EBC(sys))) != 0) {
+    if (sub_020092EC((const struct Sub02009210Obj *)sub_02009448(sub_02012EBC(sys))) != 0) {
         ((struct Obj04833 *)p)->f1D4 = 1;
         ((struct Obj04833 *)p)->f54 = 1;
     } else {

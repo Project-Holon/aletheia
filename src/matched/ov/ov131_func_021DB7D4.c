@@ -51,7 +51,8 @@ extern const Pair d_021DC2B8[];
 extern void *func_021D6064(u8 *);
 extern u32 func_02017E88(void *,u32,u32);
 extern u32 func_0201BD28(u16,u32);
-extern Bmp *func_02043678(u32,u32,u32,u32);
+struct Bmp;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
@@ -63,7 +64,7 @@ extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
 extern void func_021D6244(u8 *,int,void *,int,u16,s16,u16);
 extern void func_0201ED04(struct WordSet *);
 extern void func_021D61B8(u8 *,int,void *,int,s16,s16,u16);
-extern u8 *func_021DBAD0(u8 *,Descriptor *);
+extern u8 *func_021DBAD0(u8 *a, const u8 *b);
 void func_021DB7D4(u8 *p,u8 *q,u8 *entry)
 {
     Descriptor desc;
@@ -82,7 +83,7 @@ void func_021DB7D4(u8 *p,u8 *q,u8 *entry)
         count=func_0201BD28(id,5);
         value=count;
     }
-    *(Bmp * *)&((struct Obj01409 *)entry)->f10=func_02043678(11,4,32,((struct Obj02846 *)p)->f0);
+    *(Bmp * *)&((struct Obj01409 *)entry)->f10=(Bmp *)func_02043678(11,4,32,((struct Obj02846 *)p)->f0);
     bank=func_02045B38(0,2,203,((struct Obj02846 *)p)->f0);
     text=func_02045EC0(bank,id);
     func_0201C724(((struct Obj02846 *)p)->f84,*(u32 *)&((struct Obj01409 *)entry)->f10,3,2,(u32)text,((struct Obj02846 *)p)->f80,1088);
@@ -111,6 +112,6 @@ void func_021DB7D4(u8 *p,u8 *q,u8 *entry)
     desc.c=0;
     desc.d=0;
     desc.bmp=*(Bmp * *)&((struct Obj01409 *)entry)->f10;
-    *(u8 * *)&((struct Obj01409 *)entry)->f14=func_021DBAD0(*(u8 * *)&((struct Obj04511 *)q)->fA4,&desc);
+    *(u8 * *)&((struct Obj01409 *)entry)->f14=func_021DBAD0(*(u8 * *)&((struct Obj04511 *)q)->fA4,(const u8 *)(&desc));
     ((struct Obj01409 *)entry)->f4=1;
 }

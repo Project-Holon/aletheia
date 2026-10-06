@@ -55,18 +55,27 @@ extern void *func_02012EBC(struct Big *p);
 extern u32 func_0200B570(void *,u32,u32 *,u32);
 extern void func_021FD73C(int *p, int v);
 extern void func_021E1DF0(int a, int *state, char *p);
-extern void func_021FF54C(void *,int,Pair *);
-extern int func_021FF648(void *),func_021FF72C(void *,u32 *),func_021FF67C(void *,u64 *);
+typedef unsigned char  u8;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void func_021FF54C(char *p, int kind, const int *values);
+extern int func_021FF648(char *p);
+extern int func_021FF72C(char *p, int *out);
+extern u32 func_021FF67C(u8 *p, unsigned long long *out);
 extern int func_021FC214(char *),func_021FC21C(char *);
-extern void *func_02045EC0(void *,u32),*func_020457B0(u32,u32);
-extern void func_0201EFA4(void *,u32,u32,u32,u32,u32),func_0201F250(void *,void *,void *);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021FD19C(char *p, void *q, void *text);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021F9C6C(void *);
 extern int func_021FD744(int);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int,int,Pair *);
-extern u32 func_02035C60(void),func_02035D20(u32 *,u32 *);
+extern int func_02035C60(void);
+extern u32 func_02035D20(u32 *,u32 *);
 extern void func_020061E4(u32 a);
 void func_021E1E3C(int task,int *state,char *p) {
     u32 out;
@@ -86,7 +95,7 @@ void func_021E1E3C(int task,int *state,char *p) {
         if(func_021FF648(((struct Obj24640 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10)) {
             total=0;
             if(((struct Obj01275 *)p)->f1C>=96) {
-                result=func_021FF72C(((struct Obj24641 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,&msg);
+                result=func_021FF72C(((struct Obj24641 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,(int *)(&msg));
                 if(result==0) {
                     if(func_021FF67C(((struct Obj24642 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,&total)) {
                         bank=(void *)func_021FC214(*(char * *)&((struct Obj24643 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f8);

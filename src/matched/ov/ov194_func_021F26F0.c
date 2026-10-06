@@ -38,11 +38,14 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u16 func_02045A98(void);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
-extern u32 func_0201D304(void *,u32,u32),func_0201D42C(void *,void *);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02045808(struct U16Vec *vec);
-extern u16 func_021F4DA0(void *),func_021F4D9C(void *);
+extern u16 func_021F4DA0(const u16 *p);
+extern u16 func_021F4D9C(void *);
 extern int func_021F2818(char *,Pair *,Box *);
 extern unsigned func_021F2614(char *,int *,u16 *);
 void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)

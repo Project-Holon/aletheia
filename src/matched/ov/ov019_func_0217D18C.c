@@ -57,7 +57,7 @@ typedef struct {
     Rec14 *f20;
 } Rec30;
 
-extern int func_0217BB04(u8 *a);
+extern int func_0217BB04(char *p);
 typedef unsigned int   u32;
 extern void func_0217F210(u8 *p, int a, u32 b);
 extern u32 func_0217F1EC(u8 *p);
@@ -86,7 +86,7 @@ extern void func_0217422C(u8 *p, int a, int b);
 extern int func_02174268(u8 *a);
 extern void func_020307B0(void *p);
 extern u32 func_0203D378(void);
-extern void func_0217B8E4(u8 *a, int b);
+extern int func_0217B8E4(char *p, char v);
 extern u8 d_021807E8[];
 
 int func_0217D18C(u8 *a, int b, int c, u8 *d)
@@ -94,7 +94,7 @@ int func_0217D18C(u8 *a, int b, int c, u8 *d)
     int x, y;
     Rec30 *p;
     Rec14 *q;
-    if (*d != 4 && func_0217BB04(a) == 1)
+    if (*d != 4 && func_0217BB04((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -151,9 +151,9 @@ int func_0217D18C(u8 *a, int b, int c, u8 *d)
     case 6:
         if (func_0217F1EC(a) != 0 && func_02039CB4((struct Link *)func_020399A8(), 7, 0x14) == 1) {
             if (func_0203D378() == 1)
-                func_0217B8E4(a, 7);
+                func_0217B8E4((char *)a, 7);
             else
-                func_0217B8E4(a, 9);
+                func_0217B8E4((char *)a, 9);
             return 1;
         }
         break;

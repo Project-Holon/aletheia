@@ -24,7 +24,7 @@ extern Fn021A55A8 const data_021D89EC[];
 int func_021A5458(u32 *p);
 void func_021A5334(u32 a);
 
-int func_021A55A8(u32 *p, int a, int b)
+int func_021A55A8(u32 *p, u32 a, int b)
 {
     if (b == 0) {
         if (data_021D89EC[func_021A5458(p)](p, a) == 1)

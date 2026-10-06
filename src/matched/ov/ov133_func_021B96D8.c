@@ -20,13 +20,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern u8 *func_0200A628(void *sv);
-extern void func_0200A604(void *sv);
+struct Big;
+extern u8 *func_0200A628(struct Big *p);
+extern void func_0200A604(struct Big *p);
 extern char *func_021F5450(char *, int);
 extern void *func_021BA184(char *p);
-extern u32 func_021BA258(void *p);
-extern u16 *func_021BA20C(void *p);
-extern void *func_021BA208(void *p);
+extern u32 func_021BA258(char *p);
+extern u32 func_021BA20C(u8 *p);
+extern u32 func_021BA208(u8 *p);
 void func_021B96D8(char *p)
 {
     u8 *sv = func_0200A628(*(void **)(*(char **)(p + 4) + 8));
@@ -41,12 +42,12 @@ void func_021B96D8(char *p)
         func_021F5450(*(char **)(p + 0x1880), idx);
         rec = sv + i * 6;
         sv[i * 6] = idx;
-        *(u16 *)(rec + 2) = *func_021BA20C(t);
+        *(u16 *)(rec + 2) = *((u16 *)func_021BA20C(t));
         off = idx * 6;
         *(s16 *)(rec + 4) = *(s16 *)(*(char **)(*(char **)(p + 4) + 4) + off + 0x16);
-        *(u16 *)(*(char **)(*(char **)(p + 4) + 4) + off + 0x14) = *func_021BA20C(t);
+        *(u16 *)(*(char **)(*(char **)(p + 4) + 4) + off + 0x14) = *((u16 *)func_021BA20C(t));
         *(u8 *)(*(char **)(*(char **)(p + 4) + 4) + off + 0x18) = i;
-        t = func_021BA208(t);
+        t = (void *)func_021BA208(t);
         i++;
     }
 }

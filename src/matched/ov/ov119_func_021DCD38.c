@@ -46,18 +46,44 @@
 typedef unsigned char u8;
 typedef unsigned u32;
 typedef struct Bits {u8 low:4,high:4;} Bits;
-extern int func_020275DC(void),func_021D8A24(void *),func_0200FB24(void),func_0203D29C(void);
-extern void func_021DD90C(char *,int,int,int),func_021D9468(void *,int,void *),func_021D8A50(void *),func_021DF868(void *);
+struct Light;
+struct McssSys;
+struct Tcbl;
+extern int func_020275DC(void);
+extern int func_021D8A24(void *);
+extern u32 func_0200FB24(void);
+extern u32 func_0203D29C(void);
+extern void func_021DD90C(u8 *p, int i, int msg, int force);
+extern void func_021D9468(void *,int,void *);
+extern void func_021D8A50(void *);
+extern void func_021DF868(void *);
 extern void func_0204A600(void),func_02027974(void *),func_02028178(u8 *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-extern void func_0201DE00(u8 *,u8 *,u8 *),func_0201DD78(u32,u32,u32),func_020310C4(void *);
+extern void func_0201DE00(u8 *,u8 *,u8 *);
+extern void func_0201DD78(u32,u32,u32);
+extern void func_020310C4(struct Tcbl *p);
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_021DF978(void *),func_02047964(void),func_02048AD0(void *),func_020479D8(void),func_02014C08(char *),func_02014D2C(void *),func_021E31B4(void *),func_02047970(void);
-extern void func_0200F7C0(unsigned),func_021B9774(u8 *),func_021B9838(u8 *),func_02156DC4(int,int),func_02156ED0(void),func_02157170(int,int),func_0200FB38(void),func_021DC818(char *),func_0202223C(unsigned,unsigned);
+extern void func_021DF978(void *);
+extern void func_02047964(void);
+extern void func_02048AD0(struct Light *l);
+extern void func_020479D8(void);
+extern void func_02014C08(char *);
+extern void func_02014D2C(struct McssSys *sys);
+extern void func_021E31B4(void *);
+extern void func_02047970(void);
+extern void func_0200F7C0(unsigned);
+extern void func_021B9774(u8 *);
+extern void func_021B9838(u8 *);
+extern void func_02156DC4(int,int);
+extern void func_02156ED0(void);
+extern int func_02157170(int a0, int a1);
+extern void func_0200FB38(void);
+extern void func_021DC818(char *);
+extern void func_0202223C(unsigned,unsigned);
 #define I(o) (*(int *)(p+(o)))
 #define P(o) (*(void **)(p+(o)))
 #define B(o) (*(u8 *)(p+(o)))
@@ -72,7 +98,7 @@ int func_021DCD38(int a,int b,int c,char *p)
         callback(p);
         I(0xf2c)++;
         result=0;
-        for(i=0;i<2;i++) func_021DD90C(p,i,*(u8 *)(p+i+0x11e8),0);
+        for(i=0;i<2;i++) func_021DD90C((u8 *)p,i,*(u8 *)(p+i+0x11e8),0);
     }
     if(I(0xf9c) && B(0x11f3)==0) {
         func_021D9468(p,1,*(void **)(p+(I(0xf9c)-1)*4+0x5dc));I(0xf9c)=0;

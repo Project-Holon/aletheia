@@ -69,7 +69,10 @@ extern char ov125_id[];
 extern const char d_02200254[];
 extern void func_0203064C(u32,u32,u32),func_02082BCC(void *,int,unsigned);
 extern char *func_0203159C(void *,u32,u32);
-extern void *func_021FC3BC(int,int,int),*func_02012F08(int *),*func_021FB884(unsigned,unsigned,unsigned);
+struct SoundSys;
+extern void *func_021FC3BC(unsigned mode, int setting, unsigned heap);
+extern void *func_02012F08(int *);
+extern void *func_021FB884(unsigned,unsigned,unsigned);
 struct BigObj;
 struct Blk34;
 extern u8 func_0200C3E0(struct Blk34 *p);
@@ -80,12 +83,13 @@ extern void func_021FE7B4(char *),func_021FE7F4(int *,int),func_021FE7F8(char *,
 extern int func_021FC224(char *);
 extern u32 func_021FC4DC(u8 *p);
 extern char *func_021FED50(int,int,char *,unsigned);
-extern void func_021F98F8(char *,int,int,int);
+extern void func_021F98F8(char *p, int skip, void *sys, int heap);
 extern char *func_021FF408(void *owner, void *arg, u32 heap);
 extern int func_02034AC4(int),func_0203CD98(void);
 extern void func_0203D34C(u32,u32);
 extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028A58(void *,u8,u16),func_02005D90(u32,u16);
+extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
+extern void func_02005D90(u32,u16);
 extern void func_021FEE9C(char *p);
 extern void func_021FEE4C(char *p);
 extern void func_021FE840(int,int,int);
@@ -116,7 +120,7 @@ int func_021F90C0(void *obj,int unused,char *q)
     func_021FE7F4(*(int * *)&((struct Obj00387 *)p)->fC,func_021FC224(*(char * *)&((struct Obj00387 *)p)->f4));
     if(!((struct Obj24773 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4) func_021FE7F8(*(char * *)&((struct Obj00387 *)p)->fC,3);
     *(char * *)&((struct Obj00387 *)p)->f10=func_021FED50(func_021FC4DC((u8 *)(*(int *)&((struct Obj00387 *)p)->f0)),*(int *)&((struct Obj00387 *)p)->fC,*(char * *)&((struct Obj00387 *)p)->f4,0x5a);
-    func_021F98F8((char *)(((struct Obj24774 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1748),1,((struct Obj24776 *)(*(char * *)&((struct Obj24775 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4,0x5a);
+    func_021F98F8((char *)(((struct Obj24774 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f8+0x1748),1,(void *)(((struct Obj24776 *)(*(char * *)&((struct Obj24775 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x5a);
     if(**(int * *)&((struct Obj24777 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
         ((struct Obj00387 *)p)->f14=func_021FF408(((struct Obj24780 *)(*(char * *)&((struct Obj24779 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4,(void *)(((struct Obj24782 *)(*(char * *)&((struct Obj24781 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f8),0x5a);
     } else func_02034AC4((int)ov125_id);

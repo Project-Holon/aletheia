@@ -95,24 +95,29 @@ typedef u32 (*TaskFn)(void *task, u32 *state, void *work);
 extern void *func_0215A5F4(void *vm);
 extern void *func_0215A5DC(void *vm);
 extern void *func_0215A5E4(void *vm);
-extern void *func_0201210C(void *evt);
-extern void func_02158F58(void *a);
+struct BigObj;
+struct Desc;
+struct Obj;
+struct ScriptVm;
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_02158F58(int a0);
 extern u16 func_02159B10(Ctx *c, void *vm);
-extern void *func_02012F80(void *sys);
-extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
-extern Starter *func_020124E8(void *task);
+extern int func_02012F80(char *base);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void *func_02155A98(void *a, void *b, u8 c, u32 d, void *link);
+struct Link;
+extern void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link);
 extern void func_0215898C(void *a, void *task);
-extern void func_02012A30(void *sys);
-extern void func_02011290(Ctx *c);
+extern u32 func_02012A30(const struct BigObj *p);
+extern void func_02011290(struct ScriptVm *vm);
 extern void *func_02012F44(void *sys);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0200A640(void *sv);
-extern void *func_02014808(void *evt, void *proc, u32 id, void *data, Args *args, TaskFn fn, Box *box);
+extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void func_0215897C(void *a, void *task);
 extern u32 func_0215DE58(void *task, u32 *state, void *work);
-extern u32 func_0215DF6C(void *task, u32 *state, void *work);
+extern void func_0215DF6C(void **p);
 extern u8 ov112_id[];
 extern const char d_02172914[];
 extern u8 d_021F8360[];
@@ -130,12 +135,12 @@ int func_0215D34C(Ctx *c, void *vm)
     evt = func_0215A5DC(vm);
     sys = func_0215A5E4(vm);
     proc = func_0201210C(evt);
-    func_02158F58(a);
+    func_02158F58((int)a);
     arg = func_02159B10(c, vm);
     mode = *c->pc;
     c->pc++;
     if (mode <= 1) {
-        void *link = func_02012F80(sys);
+        void *link = (void *)func_02012F80(sys);
         u32 d;
         void *task;
         Starter *s;
@@ -149,7 +154,7 @@ int func_0215D34C(Ctx *c, void *vm)
         s->mode = d;
         func_0215898C(a, task);
         func_02012A30(sys);
-        func_02011290(c);
+        func_02011290((struct ScriptVm *)c);
         return 1;
     } else {
         void *sv = func_02012F44(sys);
@@ -160,7 +165,7 @@ int func_0215D34C(Ctx *c, void *vm)
         box->args->f00 = 0;
         box->args->f08 = func_0200A640(sv);
         box->args->f04 = 1;
-        func_0215897C(a, func_02014808(evt, proc, (u32)ov112_id, d_021F8360, box->args, func_0215DF6C, box));
+        func_0215897C(a, func_02014808(evt, (int)proc, (u32)ov112_id, (int)d_021F8360, (int)box->args, (int)func_0215DF6C, (int)box));
         return 1;
     }
 }

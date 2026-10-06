@@ -43,7 +43,8 @@ extern void func_0217F25C(void);
 extern int func_02084F40(char *dst, char *fmt, ...);
 extern int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr);
 extern int func_0217EB18(int pf, int type, int protocol);
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
 extern void func_0217C704(void);
 extern char g_021ACEFC[];
@@ -75,7 +76,7 @@ void func_0217C750(char *gamename)
     if (g_021ACF7C.sock == -1)
         return;
     g_021ACF7C.b0c = 9;
-    len = func_0209477C(gamename);
+    len = func_0209477C((const u8 *)gamename);
     func_02092344(g_021ACF8D, gamename, len + 1);
     g_021ACF7C.len = len + 6;
     func_0217C704();

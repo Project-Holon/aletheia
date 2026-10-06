@@ -28,9 +28,9 @@ extern u32 func_02005728(u32 range);
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_021B7004(char *,char *);
-extern void func_021B6F3C(char *,char *);
-extern void func_021B71B8(char *,char *);
+extern void func_021B7004(u8 *p, u8 *q);
+extern void func_021B6F3C(char *p, u8 *q);
+extern void func_021B71B8(u8 *p, u8 *q);
 extern char d_021B74BC[];
 char *func_021B6C70(char *p,int index)
 {
@@ -46,9 +46,9 @@ char *func_021B6C70(char *p,int index)
     ((struct Obj01759 *)q)->f34=0;
     ((struct Obj01759 *)q)->f30=func_02005728(0x4b);
     if(((struct Obj01759 *)q)->f2==0 && func_02008550((const struct Sub0200852CObj *)func_02012944(((struct Obj24205 *)(*(char * *)&((struct Obj01422 *)p)->f30))->f4))==1) ((struct Obj01759 *)q)->f2=5;
-    func_021B7004(p,q);
-    func_021B6F3C(p,q);
-    func_021B71B8(p,q);
+    func_021B7004((u8 *)p,(u8 *)q);
+    func_021B6F3C(p,(u8 *)q);
+    func_021B71B8((u8 *)p,(u8 *)q);
     ((struct Obj01759 *)q)->f8=0;
     ((struct Obj01759 *)q)->f10=0;
     ((struct Obj01759 *)q)->f6=func_02005728(40);

@@ -74,7 +74,7 @@ extern u32   gWordBuf[];
 void func_02019B64(void *p);
 void func_02019B94(u32 a, void *b);
 
-void func_02019B58(void)
+void func_02019B58(void *p)
 {
     func_02019B64(func_020185F0());
 }

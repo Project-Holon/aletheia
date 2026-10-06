@@ -32,7 +32,7 @@ extern void func_0201CE38(void *);
 extern void func_0201CE5C(struct Rec *, int);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern unsigned int func_02035C60(void);
+extern int func_02035C60(void);
 extern int func_02035C38(void);
 extern void func_020061E4(unsigned int);
 int func_021B9C00(char *p)

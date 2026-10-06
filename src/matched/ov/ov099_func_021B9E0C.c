@@ -17,14 +17,14 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern u32 func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040EBC(u32 a, u32 b);
-extern u32 func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
 void func_021B9E0C(u32 a, u32 b, u32 c, u32 d)
 {
     u32 z = 0;
     func_02049B40(d, 7, 0, 0, 0x100, b);
     func_02040EBC(0, 0);
-    func_02049624(d, 0x10, 0, 0, z, z, b);
+    func_02049624((void *)d, (void *)0x10, 0, 0, z, z, b);
 }

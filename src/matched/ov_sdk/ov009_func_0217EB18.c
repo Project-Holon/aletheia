@@ -18,7 +18,7 @@
 extern int func_0215F428(void);
 extern int func_0217EB00(int a, int b);
 
-int func_0217EB18(void)
+int func_0217EB18(int pf, int type, int protocol)
 {
     return func_0217EB00(func_0215F428(), -1);
 }

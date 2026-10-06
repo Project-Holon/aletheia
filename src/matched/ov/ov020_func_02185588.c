@@ -45,14 +45,15 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_02013D5C(u32 a);
+struct BigObj;
+extern u32 func_02013D5C(u32 id);
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
-extern u8 func_02012B58(const void *p);
-extern void func_02184CEC(void *a, void *b);
-extern int func_020142A4(int a);
+extern u8 func_02012B58(const struct BigObj *p);
+extern void func_02184CEC(void **o, void *p);
+extern u32 func_020142A4(u32 idx);
 extern void func_02014184(void *r, u16 id, s16 count, u32 a, u32 b, u32 c);
-extern void func_0218466C(void);
+extern int func_0218466C(int ctx, int *state, u8 *p);
 
 void *func_02185588(void *owner, u16 id, const V3 *pos)
 {
@@ -72,7 +73,7 @@ void *func_02185588(void *owner, u16 id, const V3 *pos)
         }
         v.x += (u32)r << 22;
     }
-    func_02184CEC(x, owner);
+    func_02184CEC((void **)x, owner);
     func_02014184(x + 0x10, id, (s16)func_020142A4(0), v.x, v.y, v.z);
     *(u32 *)(x + 0x2C) = 0;
     *(u32 *)(x + 0x40) = 0;

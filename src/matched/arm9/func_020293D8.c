@@ -25,7 +25,8 @@ struct T {
 
 extern void func_02005E9C(void);
 extern void func_02005DE4(void *p);
-extern void func_02028BDC(struct T *p, u32 v);
+struct S;
+extern void func_02028BDC(struct S *s, u32 mask);
 
 void func_020293D8(struct T *p)
 {
@@ -40,6 +41,6 @@ void func_020293D8(struct T *p)
     p->f20 = n;
     p->f08 = *(u32 *)((char *)p + 0x24 + n * 4);
     if (n == 0) {
-        func_02028BDC(p, 1);
+        func_02028BDC((struct S *)p, 1);
     }
 }

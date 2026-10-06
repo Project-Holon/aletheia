@@ -36,7 +36,8 @@ extern void func_0215897C(void *a, void *b);
 struct Ctx;
 struct Pair;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_020124AC(void *a, const void *b, void *c, Pair *d);
+struct Desc;
+extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern int func_02154C20(int x, struct Pair *p);
 
 int func_021B4C54(u32 a, u32 b)
@@ -49,6 +50,6 @@ int func_021B4C54(u32 a, u32 b)
     r4 = func_0215A5DC((void *)b);
     p.a = func_0201210C((void *)r4);
     p.b = 0;
-    func_0215897C(r5, func_020124AC(r4, abs_id_6, (void *)func_02154C20, &p));
+    func_0215897C(r5, func_020124AC(r4, (u32)abs_id_6, (void *)func_02154C20, (u32)(&p)));
     return 1;
 }

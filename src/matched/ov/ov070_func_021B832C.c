@@ -19,7 +19,7 @@ typedef struct { int v[11]; } T44;
 typedef struct { unsigned char v[4]; } T4;
 extern T44 d_021BB998;
 extern T4 d_021BB95C;
-extern void func_021B8280(int p, T4 *a);
+extern void func_021B8280(int p, unsigned char *q);
 extern void func_021BA9C0(unsigned char *p, int *tbl, int n);
 void func_021B832C(int p)
 {
@@ -28,7 +28,7 @@ void func_021B832C(int p)
     int tmp[4];
     int j;
     int i;
-    func_021B8280(p, &a);
+    func_021B8280(p, (unsigned char *)(&a));
     i = 0;
     j = 0;
     for (; i < 4; i++) {

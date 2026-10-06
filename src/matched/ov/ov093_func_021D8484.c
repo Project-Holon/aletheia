@@ -30,7 +30,7 @@ struct Node;
 u16 func_021D85B0(u8 *p);
 extern u8 func_021D5440(u8 *p);
 int func_021D84F8(u32 *p);
-struct Node *func_021D6F0C(int id, u16 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16);
+struct Node *func_021D6F0C(int id, u32 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16);
 
 struct Ent { u32 key; u32 (*fn)(u32 *); };
 extern struct Ent d_021F0E74[0x9e];

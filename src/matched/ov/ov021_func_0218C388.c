@@ -19,14 +19,16 @@ typedef struct {
     int arr[4];
 } S;
 
-void func_020477D4(int h, unsigned short i);
+typedef unsigned int   u32;
+struct Owner;
+int func_020477D4(struct Owner *owner, u32 index);
 
 void func_0218C388(S *p)
 {
     int i;
     for (i = 0; i < 4; i++) {
         if (p->arr[i] != 0) {
-            func_020477D4(p->h, i);
+            func_020477D4((struct Owner *)p->h, (unsigned short)i);
             p->arr[i] = 0;
         }
     }

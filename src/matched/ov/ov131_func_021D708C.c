@@ -37,7 +37,7 @@ extern const Vec d_021DC1D4;
 extern const short d_020A1B38[];
 extern void func_021D79A8(void *p, unsigned char *q, int radius);
 extern void func_02015C48(void *,u32 *);
-extern void func_02015C78(void *,Vec *);
+extern void func_02015C78(void *p, u32 *src);
 extern int _ffix(float);
 int func_021D708C(u8 *p,u8 *q)
 {
@@ -87,7 +87,7 @@ int func_021D708C(u8 *p,u8 *q)
         break;
     }
     func_02015C48(((struct Obj02188 *)q)->f0,(u32 *)&base.x);
-    func_02015C78(((struct Obj02188 *)q)->f0,&v);
+    func_02015C78(((struct Obj02188 *)q)->f0,(u32 *)(&v));
     ++((struct Obj02188 *)q)->f62;
     if(((struct Obj02188 *)q)->f62>15) {
         ((struct Obj02188 *)q)->f62=0;

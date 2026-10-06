@@ -18,5 +18,6 @@ typedef struct { unsigned f00; unsigned f04[8]; unsigned f24; unsigned f28; } E;
 extern E d_021F0DF0[];
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
-extern void func_020403F4(unsigned char);
-void func_021F0738(char *p) { unsigned i; func_0204B1CC((struct Bank *)(((struct Obj20474 *)p)->fC)); for(i=0;i<2;i++) func_020403F4(d_021F0DF0[i].f00); }
+typedef unsigned int   u32;
+extern void func_020403F4(u32 i);
+void func_021F0738(char *p) { unsigned i; func_0204B1CC((struct Bank *)(((struct Obj20474 *)p)->fC)); for(i=0;i<2;i++) func_020403F4((unsigned char)d_021F0DF0[i].f00); }

@@ -20,7 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020260E4(void *,u8);
+struct Sound;
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE3E4(char **,unsigned);
 extern void func_021ED55C(char **,int);
 int func_021E6418(u8 *p){int sel;sel=37;if(*(u16 *)(*(char **)(p+0x2c)+0xa16c)!=0)sel=36;func_020260E4(*(void **)(*(char **)(p+0x2c)+0x70),sel);func_021EE3E4((char **)p,sel);func_021ED55C((char **)p,1);return 57;}

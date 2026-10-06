@@ -25,7 +25,8 @@ typedef unsigned char  u8;
 struct Link;
 u32 func_0203D1A4(struct Link *p);
 void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag);
-void func_02174F54(void *a, int b, const void *c, int d);
+struct Ent;
+void func_02174F54(u8 *p, int idx, const struct Ent *src, int arg);
 
 typedef struct C {
     char pad[0x14];
@@ -38,6 +39,6 @@ void func_0217392C(int a, int b, const C *c, unsigned char *d)
     if (a == func_0203D1A4((struct Link *)((int)func_020399A8()))) {
         func_020264B4((void *)(((struct Obj00269 *)d)->f4), a, c->w14, c->f, 0x15, 0);
     } else if ((d[0x8FB] & (1 << a)) != 0) {
-        func_02174F54(d, a, c, 0);
+        func_02174F54(d, a, (const struct Ent *)c, 0);
     }
 }

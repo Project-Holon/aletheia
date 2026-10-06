@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02031E68(void *p);
+extern int func_02031E68(const char *ptr);
 
 u32 func_020071C0(char *p)
 {

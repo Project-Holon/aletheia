@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_021E0090(void) { return 0; }
+int func_021E0090(void *a0) { return 0; }

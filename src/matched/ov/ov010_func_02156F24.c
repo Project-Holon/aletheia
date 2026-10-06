@@ -15,7 +15,8 @@
  *   func_021F8640  0x021F8640  thumb
  */
 
-extern int func_021F8480(int, int);
+typedef unsigned char  u8;
+extern u8 *func_021F8480(u8 *input, int heap);
 extern int func_021F879C(int);
 extern void func_021F8640(int);
 
@@ -23,7 +24,7 @@ int func_02156F24(int a, int *state, int c, int *d)
 {
     switch (*state) {
     case 0:
-        d[1] = func_021F8480(d[0], 0x2e);
+        d[1] = (int)func_021F8480((u8 *)d[0], 0x2e);
         *state = 1;
         break;
     case 1:

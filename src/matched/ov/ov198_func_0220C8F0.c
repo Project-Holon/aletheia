@@ -44,45 +44,52 @@ typedef struct {
     unsigned char f1fe4;
 } Big;
 
-extern int func_022110D4(Big *, int);
-extern int func_02045EC0(int, int);
-extern int func_02045770(int);
-extern int func_02045738(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Descriptor;
+struct MsgBank;
+struct StrObj;
+struct U16Vec;
+struct WordSet;
+extern int func_022110D4(u8 *p, int i);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02045770(struct Descriptor *p);
+extern u8 func_02045738(struct Descriptor *p);
 extern void func_0201C724(int, int, int, int, int, int, int);
-extern void func_02045808(int);
-extern int func_020457B0(int, int);
-extern void func_0201EFA4(int, int, int, int, int, int);
-extern void func_0201F250(int, int, int);
-extern int func_0201D304(int, int, int);
+extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 static inline void put(Big *a0, int win, int sel, int x, int h, int color)
 {
-    func_0201C724(win, func_02045770(sel), x, 0, h, a0->f0->fc, color);
+    func_0201C724(win, (int)func_02045770((struct Descriptor *)sel), x, 0, h, a0->f0->fc, color);
 }
 
 void func_0220C8F0(Big *a0, int i)
 {
-    char *entry = (char *)a0 + 4 + func_022110D4(a0, i) * 0x4c;
+    char *entry = (char *)a0 + 4 + func_022110D4((u8 *)a0, i) * 0x4c;
     int h1;
     int h2;
     int p;
     int v;
     unsigned char x;
 
-    h1 = func_02045EC0(a0->f1ea0, 0x2a);
+    h1 = (int)func_02045EC0((struct MsgBank *)a0->f1ea0, 0x2a);
     put(a0, a0->f1eac, a0->f1fe0, 0, h1, 0x3dc0);
     a0->f1fe4 = 1;
-    func_02045808(h1);
+    func_02045808((struct U16Vec *)h1);
 
-    h2 = func_02045EC0(a0->f1ea0, 0x2b);
-    p = func_020457B0(8, a0->f0->f10);
-    func_0201EFA4(a0->f1ea4, 0, *(unsigned short *)(entry + 6), 3, 0, 1);
-    func_0201F250(a0->f1ea4, p, h2);
+    h2 = (int)func_02045EC0((struct MsgBank *)a0->f1ea0, 0x2b);
+    p = (int)func_020457B0(8, a0->f0->f10);
+    func_0201EFA4((struct WordSet *)a0->f1ea4, 0, *(unsigned short *)(entry + 6), 3, 0, 1);
+    func_0201F250((struct WordSet *)a0->f1ea4, (void *)p, (void *)h2);
 
-    v = (unsigned char)func_0201D304(p, a0->f0->fc, 0);
-    x = (func_02045738(a0->f1f98) << 3) - v;
+    v = (unsigned char)func_0201D304((struct StrObj *)p, a0->f0->fc, 0);
+    x = (func_02045738((struct Descriptor *)a0->f1f98) << 3) - v;
     put(a0, a0->f1eac, a0->f1f98, x, p, 0x2120);
     a0->f1f9c = 1;
-    func_02045808(h2);
-    func_02045808(p);
+    func_02045808((struct U16Vec *)h2);
+    func_02045808((struct U16Vec *)p);
 }

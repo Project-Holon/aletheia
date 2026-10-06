@@ -29,7 +29,9 @@ typedef struct {
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *a, struct PtS *p, unsigned int b);
-extern void func_0204B404(u32 a, Pt *p, u32 b);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 int func_021D2040(u8 *w)
 {
@@ -47,7 +49,7 @@ int func_021D2040(u8 *w)
     }
     func_0204B454((struct Actor *)((struct Obj02103 *)w)->f3C, (struct PtS *)&pt, 0);
     pt.y = pt.y - ((struct Obj02103 *)w)->f4D;
-    func_0204B404(((struct Obj02103 *)w)->f3C, &pt, 0);
+    func_0204B404((struct Obj *)(((struct Obj02103 *)w)->f3C), (const struct Vec2 *)(&pt), 0);
     ((struct Obj02103 *)w)->f4D = ((struct Obj02103 *)w)->f4D - 1;
     return 1;
 }

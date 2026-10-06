@@ -29,7 +29,7 @@ typedef struct Handle {
 } Handle;
 
 extern Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
-extern void func_02020D10(u8 *p, u8 v);
+extern void func_02020D10(u8 *p, u32 v);
 
 Handle *func_02190988(u16 *a, const u8 *b, u32 c, u32 d, u32 x, u16 y, u16 z, u32 w)
 {

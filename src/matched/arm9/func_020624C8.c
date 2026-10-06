@@ -48,7 +48,8 @@ typedef unsigned int u32;
 extern u32 g_02146BB0;
 extern u32 g_02146BB4;
 
-extern u32 func_02061EB8(void *a, void *b, u32 *out, u32 size, u32 flag);
+struct Blk;
+extern int func_02061EB8(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size, u32 alignment);
 extern int func_0206207C(void *headp, void *freep, int a2, int a3);
 
 u32 func_020624C8(u32 size, u32 flag)
@@ -65,13 +66,13 @@ u32 func_020624C8(u32 size, u32 flag)
     if (size >= 0x7FFF8)
         return 0;
     if (flag != 0) {
-        r = func_02061EB8(&g_02146BB0, &g_02146BB4, &addr, size, 8);
+        r = func_02061EB8((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 8);
         if (addr + size > 0x10000) {
             func_0206207C(&g_02146BB0, &g_02146BB4, addr, size);
             return 0;
         }
     } else {
-        r = func_02061EB8(&g_02146BB0, &g_02146BB4, &addr, size, 0x10);
+        r = func_02061EB8((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 0x10);
     }
     if (r == 0)
         return 0;

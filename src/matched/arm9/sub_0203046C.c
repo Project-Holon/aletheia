@@ -61,7 +61,7 @@ struct EnvModule {
 };
 
 extern struct EnvModule g_EnvModule;
-extern int sub_0202FC20(u32 idx);
+extern u16 sub_0202FC20(u32 idx);
 
 u16 sub_0203046C(u32 heapId)
 {
@@ -71,7 +71,7 @@ u16 sub_0203046C(u32 heapId)
         goto fail;
     }
     g_EnvModule.error = 0;
-    return sub_0202FC20(heapId);
+    return (int)sub_0202FC20(heapId);
 
 fail:
     return 0xFFFF;

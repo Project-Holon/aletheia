@@ -38,7 +38,8 @@ typedef struct {
 extern unsigned int func_02159B10(void *, void *);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_021D2D50(void *a, Rec *src);
+struct Blk021D2D50;
+extern void *func_021D2D50(void *a, struct Blk021D2D50 *src);
 extern void func_0215897C(void *vm, void *task);
 
 int func_021B5528(int a0, int a1)
@@ -68,6 +69,6 @@ int func_021B5528(int a0, int a1)
     s.h8 = v6;
     s.ha = 0;
     s.hc = v7;
-    func_0215897C(r, func_021D2D50((void *)o, &s));
+    func_0215897C(r, func_021D2D50((void *)o, (struct Blk021D2D50 *)(&s)));
     return 1;
 }

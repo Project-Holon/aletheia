@@ -23,15 +23,16 @@ struct SBServerList {
     void *servers;
 };
 
-extern void func_021A02E0(struct SBServerList *slist);
-extern void func_0219F830(struct SBServerList *slist);
+struct SBL;
+extern void func_021A02E0(struct SBL *slist);
+extern void func_0219F830(struct SBL *slist);
 extern void func_0219DFC0(struct SBServerList *slist);
 extern void func_021841B0(void *array);
 
 void func_021A0340(struct SBServerList *slist)
 {
-    func_021A02E0(slist);
-    func_0219F830(slist);
+    func_021A02E0((struct SBL *)slist);
+    func_0219F830((struct SBL *)slist);
     func_0219DFC0(slist);
     if (slist->servers != 0)
         func_021841B0(slist->servers);

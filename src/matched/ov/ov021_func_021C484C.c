@@ -22,7 +22,7 @@ typedef int            s32;
 typedef struct Vec3 { s32 x, y, z; } Vec3;
 typedef struct Arg { u32 a; Vec3 v; } Arg;
 
-extern void func_02164280(int x, int y, Vec3 *p);
+extern void func_02164280(int x, int y, int *p);
 extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32 a, u8 *b, u32 c, u32 d, Arg *e, u32 f);
 extern u8 d_021DA9F0[];
@@ -32,7 +32,7 @@ void func_021C484C(u32 a, int b, int c, s32 d)
     Vec3 v;
     Arg s;
 
-    func_02164280(b, c, &v);
+    func_02164280(b, c, (int *)(&v));
     v.y = d - 0x8000;
     v.z -= 0x5000;
     s.a = func_021ABEA0(a, 7);

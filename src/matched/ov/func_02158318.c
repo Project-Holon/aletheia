@@ -24,7 +24,7 @@ struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern u32 func_0202648C(void *obj);
 
 int func_02158318(int a0)

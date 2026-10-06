@@ -14,6 +14,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0217FD04(char *p);
-extern void func_0217FACC(char *p);
-void func_0217F914(char *p) { if(p) { func_0217FD04(p+0x20); func_0217FACC(p); } }
+struct E;
+extern void func_0217FD04(struct E *p);
+extern void func_0217FACC(u32 *p);
+void func_0217F914(char *p) { if(p) { func_0217FD04((struct E *)(p+0x20)); func_0217FACC((u32 *)p); } }

@@ -29,8 +29,9 @@ typedef struct Obj {
     int f818;
 } Obj;
 
-extern int func_021B61C8(Obj *o);
-extern u16 *func_021B616C(Obj *o, int k);
+typedef unsigned char  u8;
+extern int func_021B61C8(u8 *p);
+extern void *func_021B616C(u8 *p, int i);
 typedef unsigned int   u32;
 extern u32 func_0202E448(u32 id);
 extern int func_021B83A0(char *p, int value);
@@ -44,9 +45,9 @@ int func_021B8134(Obj *o, int k)
 
     k += o->f814 + 1;
     if (o->f80C == 4) {
-        if (func_021B61C8(o) <= k)
+        if (func_021B61C8((u8 *)o) <= k)
             return 0;
-        p = func_021B616C(o, k);
+        p = func_021B616C((u8 *)o, k);
         v = func_0202E448(*p);
         if (v == 0x19)
             return 0;

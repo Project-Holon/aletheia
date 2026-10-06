@@ -28,8 +28,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 struct Arr { void *e[6]; u8 n; };
 
 extern int func_021D5B7C(void *m);
-extern u32 func_021B8588(void *p);
-extern int func_021B8B78(void *p, int k);
+extern u32 func_021B8588(void **p);
+extern unsigned int func_021B8B78(unsigned char *p, int k);
 extern int func_021D59B4(u8 *p, int k);
 extern void *func_021D5844(void *m);
 struct QH;
@@ -50,8 +50,8 @@ void func_021B9D10(char *a, struct Arr *arr, int k)
         if (func_021D5B7C(arr->e[j]) != 0)
             break;
     }
-    if (func_021B8588(a) != 3)
-        k = func_021B8B78(a, k);
+    if (func_021B8588((void **)a) != 3)
+        k = func_021B8B78((unsigned char *)a, k);
     else
         k = 3;
     for (; k < arr->n; k++) {

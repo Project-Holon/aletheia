@@ -43,7 +43,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void *func_02045B38(u32 a, u32 b, u16 c, u16 d);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 struct MsgBank;
 struct Obj;
 struct Rec;
@@ -133,7 +134,7 @@ void func_0201F198(struct WordSet *p, u32 i, u32 v)
     func_0201EDD0(p, i, 0x2B, v);
 }
 
-void func_0201F1B0(struct WordSet *p, u32 i, u32 v)
+void func_0201F1B0(struct WordSet *p, u32 i, u8 v)
 {
     if (v > 0x91) {
         func_0201ED64(p, i);
@@ -153,7 +154,7 @@ void func_0201F1C8(struct WordSet *p, u32 i, u32 v)
 
 void func_0201F1E0(struct WordSet *p, u32 i, u32 v)
 {
-    void *s = func_02045B38(0, 3, 0x1CD, p->heap);
+    void *s = func_02045B38(0, 3, (u16)0x1CD, (u16)p->heap);
 
     func_0201ED64(p, i);
     if (v <= 6 && s != 0) {

@@ -53,17 +53,18 @@ extern unsigned int func_02020FE4(u16 id, unsigned int sel, u16 heap);
 struct MsgBank;
 extern void func_021BB3F4(int p, int mode);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021B61F4(Obj *o, int a, unsigned int b);
+typedef unsigned char  u8;
+extern void func_021B61F4(u8 *p, int a, unsigned int b);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BADAC(void *p);
-extern void func_021BB580(Obj *o, int v);
+extern void func_021BB580(char *p, int v);
 extern void func_021B6100(char *p, int k);
 extern void func_021B7C88();
-extern void func_021BB08C(Obj *o);
-extern int func_021B61B8(Obj *o);
+extern void func_021BB08C(char *p);
+extern int func_021B61B8(u8 *p);
 extern u16 *func_021B616C(Obj *o, int k);
 extern void func_021B7B08(struct Obj *o);
-extern void func_021B7D9C(Obj *o, int v);
+extern void func_021B7D9C(u8 *p, int v);
 extern void func_021B7A7C();
 
 void func_021B795C(Obj *o)
@@ -77,23 +78,23 @@ void func_021B795C(Obj *o)
     if (a == 0 || b != 0) {
         func_021BB3F4((int)o, 0);
         func_02045CAC(o->f51C, 0x4D, (void *)o->f524);
-        func_021B61F4(o, 0, o->f84C);
+        func_021B61F4((u8 *)o, 0, o->f84C);
         func_0201F250(o->f520, o->f528, (void *)o->f524);
         func_021BADAC(o);
-        func_021BB580(o, 0);
+        func_021BB580((char *)o, 0);
         func_021B6100((char *)o, (int)((void *)func_021B7C88));
         return;
     }
     o->f7F4 = 1;
-    func_021BB08C(o);
+    func_021BB08C((char *)o);
     func_021BB3F4((int)o, 0);
-    if (func_021B616C(o, func_021B61B8(o))[1] == 1) {
+    if (func_021B616C(o, func_021B61B8((u8 *)o))[1] == 1) {
         func_021B6100((char *)o, (int)((void *)func_021B7B08));
         return;
     }
-    func_021B7D9C(o, 2);
+    func_021B7D9C((u8 *)o, 2);
     func_02045CAC(o->f51C, 0x4E, (void *)o->f524);
-    func_021B61F4(o, 0, o->f84C);
+    func_021B61F4((u8 *)o, 0, o->f84C);
     func_0201F250(o->f520, o->f528, (void *)o->f524);
     func_021BADAC(o);
     func_021B6100((char *)o, (int)((void *)func_021B7A7C));

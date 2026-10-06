@@ -23,7 +23,8 @@ extern int func_021C95C0(void *, u8);
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021D5970(u8 *, int, u16);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern int func_021C99A0(void *, const void *);
+struct Msg;
+extern int func_021C99A0(void *w, const struct Msg *m);
 int func_021C94C8(u8 *p, const Ent *e)
 {
     u8 *a;
@@ -34,7 +35,7 @@ int func_021C94C8(u8 *p, const Ent *e)
         if (e->f2) { func_021D5970(a, 10, e->values[2]); func_021CD4B0(((struct Obj00003 *)p)->fC, 19, e->id, 10, (u8)e->values[2]); }
         if (e->f3) { func_021D5970(a, 11, e->values[3]); func_021CD4B0(((struct Obj00003 *)p)->fC, 19, e->id, 11, (u8)e->values[3]); }
         if (e->f4) { func_021D5970(a, 12, e->values[4]); func_021CD4B0(((struct Obj00003 *)p)->fC, 19, e->id, 12, (u8)e->values[4]); }
-        func_021C99A0(p, e->msg);
+        func_021C99A0(p, (const struct Msg *)e->msg);
         return 1;
     }
     return 0;

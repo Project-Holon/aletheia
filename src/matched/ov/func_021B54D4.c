@@ -29,13 +29,13 @@ struct Stream;
 extern u16 func_02011330(struct Stream *s);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0215A5DC();
+extern void *func_0215A5DC(void *a0);
 extern void *func_02188C58(void *p);
 extern void func_0218FA40(u8 *p, u16 v);
 
 int func_021B54D4(u32 a, u32 b, u32 c, u32 d)
 {
-func_0218FA40(func_02188C58(func_0201210C(func_0215A5DC(b, b, c, d))), func_02011330((struct Stream *)a));
+func_0218FA40(func_02188C58(func_0201210C(func_0215A5DC((void *)b))), func_02011330((struct Stream *)a));
 return 0;
 }
 

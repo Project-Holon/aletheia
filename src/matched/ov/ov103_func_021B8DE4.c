@@ -25,7 +25,8 @@ typedef struct {Pair point[12];} Line;
 typedef struct {Pair origin,end;Line a,b;} Record;
 typedef struct {Pair origin,end;Line a,b;u32 tail[2];} Block;
 extern void func_021B8BC0(u8 *,Block *);
-extern u8 func_021B8F00(const Pair *,Pair *,const Pair *,Pair *);
+struct Pt;
+extern u8 func_021B8F00(struct Pt *pa, struct Pt *a, struct Pt *pb, struct Pt *b);
 u8 func_021B8DE4(u8 *p)
 {
     Block ref;
@@ -53,7 +54,7 @@ u8 func_021B8DE4(u8 *p)
     else if(dist>576 && dist<=1024)score=30;
     else if(dist>1024 && dist<=1600)score=10;
     else score=0;
-    first=func_021B8F00(ref.a.point,ref.a.point,cur.a.point,cur.a.point);
-    second=func_021B8F00(ref.b.point,ref.b.point,cur.b.point,cur.b.point);
+    first=func_021B8F00((struct Pt *)ref.a.point,(struct Pt *)ref.a.point,(struct Pt *)cur.a.point,(struct Pt *)cur.a.point);
+    second=func_021B8F00((struct Pt *)ref.b.point,(struct Pt *)ref.b.point,(struct Pt *)cur.b.point,(struct Pt *)cur.b.point);
     return (score*40u)/100u+(first*40u)/100u+(second*20u)/100u;
 }

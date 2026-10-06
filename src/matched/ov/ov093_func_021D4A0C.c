@@ -43,7 +43,7 @@ extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 struct U16Vec;
 extern u16 sub_020458F8(struct U16Vec *vec);
 extern u16 *sub_02045A90(struct U16Vec *vec);
-extern void sub_0201F41C(const void *src, void *dst, u32 n);
+extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
 
 Out *func_021D4A0C(In *a, u32 heap)
 {
@@ -53,7 +53,7 @@ Out *func_021D4A0C(In *a, u32 heap)
     MIi_CpuClear16(func_02045A98(), o->f28, 0x40);
     if (a->f14 != 0) {
         o->f68 = sub_020458F8(a->f14);
-        sub_0201F41C(sub_02045A90(a->f14), o->f28, 0x20);
+        sub_0201F41C(sub_02045A90(a->f14), (u16 *)o->f28, 0x20);
     }
     return o;
 }

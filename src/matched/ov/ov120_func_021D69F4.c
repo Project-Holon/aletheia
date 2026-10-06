@@ -24,7 +24,8 @@ extern const Entry d_021D8B70[];
 typedef unsigned short u16;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B404(void *, const Vec *, u32);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_02028218(struct Obj *obj, u32 a);
 void func_021D69F4(u8 *p, void *q, u32 n)
@@ -45,7 +46,7 @@ void func_021D69F4(u8 *p, void *q, u32 n)
     }
     v.x = d_021D8B70[n].x;
     v.y = d_021D8B70[n].y;
-    func_0204B404(((struct Obj06437 *)p)->f134, &v, 1);
+    func_0204B404(((struct Obj06437 *)p)->f134, (const struct Vec2 *)(&v), 1);
     func_0204B878(((struct Obj06437 *)p)->f134, d_021D8B70[n].code);
     func_0204B3DC(((struct Obj06437 *)p)->f134, 1);
 }

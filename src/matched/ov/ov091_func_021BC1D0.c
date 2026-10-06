@@ -27,7 +27,7 @@ typedef struct {
 
 extern u32 func_0201AA18(void *);
 extern void *func_0201AB28(void *p, u32 idx);
-extern int func_021BDD78(int, int, int, int);
+extern int func_021BDD78(void *a, u32 id, int slot, u32 heap);
 
 int func_021BC1D0(P *p)
 {
@@ -37,7 +37,7 @@ int func_021BC1D0(P *p)
     for (i = 0; i < n; i++) {
         int **q = &p->f;
         int e = (int)func_0201AB28((void *)*p->f, i);
-        if (func_021BDD78(e, ((struct Obj20908 *)((char *)*q))->f44, 0, p->id) == 1)
+        if (func_021BDD78((void *)e, ((struct Obj20908 *)((char *)*q))->f44, 0, p->id) == 1)
             return i;
     }
     return -1;

@@ -20,8 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BCEE4(u8 *,int);
-extern int func_021BCF38(u8 *,int);
+extern void func_021BCEE4(char *p, u32 mode);
+extern int func_021BCF38(char *p, u32 mode);
 extern void func_021BCF7C(u8 *p, int n, int v);
 extern u16 func_021BF724(u8 *);
 extern u16 func_021BF72C(u8 *);
@@ -31,11 +31,11 @@ void func_021BAB0C(void *unused,u8 *p) {
     q=*(u8 * *)&((struct Obj10268 *)p)->f0;
     switch(((struct Obj10268 *)p)->f14) {
     case 0:
-        func_021BCEE4(*(u8 * *)&((struct Obj04443 *)q)->f64,2);
+        func_021BCEE4((char *)(*(u8 * *)&((struct Obj04443 *)q)->f64),2);
         ++((struct Obj10268 *)p)->f14;
         break;
     case 1:
-        if(func_021BCF38(*(u8 * *)&((struct Obj04443 *)q)->f64,2)) {
+        if(func_021BCF38((char *)(*(u8 * *)&((struct Obj04443 *)q)->f64),2)) {
             if(**(u32 * *)&((struct Obj04443 *)q)->f78==0 && func_021BF724(*(u8 * *)&((struct Obj04443 *)q)->f18)==253 && func_021BF72C(*(u8 * *)&((struct Obj04443 *)q)->f18)==253)
                 func_021BCF7C(*(u8 * *)&((struct Obj04443 *)q)->f64,1,1);
             else func_021BCF7C(*(u8 * *)&((struct Obj04443 *)q)->f64,0,0);

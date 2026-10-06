@@ -20,9 +20,11 @@ struct Ctrl020071D8 {
     void *unk10;
 };
 
-extern void *func_02031994(void *p, void *out);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02031994(u8 *p, u32 *out);
 
-void *func_020071D8(struct Ctrl020071D8 *ctrl, void *out)
+void *func_020071D8(struct Ctrl020071D8 *ctrl, int *out)
 {
-    return func_02031994(ctrl->unk10, out);
+    return (void *)func_02031994(ctrl->unk10, (u32 *)out);
 }

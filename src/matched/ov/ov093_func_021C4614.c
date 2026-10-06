@@ -29,10 +29,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021B8588(void **p);
 extern u8 func_021B8FF4(u8 *);
-extern int func_021B9064(void *, int, int);
+extern u32 func_021B9064(u8 *p, int k, int x);
 extern char *func_021B9AEC(char *, int);
-extern u8 func_021B9B98(char *);
-extern u8 *func_021B9CE8(char *);
+extern u8 func_021B9B98(u8 *p);
+extern void *func_021B9CE8(u8 *p);
 extern u8 func_021D5440(u8 *p);
 extern u32 func_021C4724(u8 *, u32);
 extern u32 func_021C4734(u8 *, u32);
@@ -55,10 +55,10 @@ void func_021C4614(u8 *p)
     if (a > b) { first = b; b = a; }
     x = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, first);
     y = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, b);
-    if (func_021B9B98(x) != 1) return;
-    if (func_021B9B98(y) != 1) return;
-    m = func_021B9CE8(x);
-    n = func_021B9CE8(y);
+    if (func_021B9B98((u8 *)x) != 1) return;
+    if (func_021B9B98((u8 *)y) != 1) return;
+    m = func_021B9CE8((u8 *)x);
+    n = func_021B9CE8((u8 *)y);
     mi = func_021D5440(m);
     ni = func_021D5440(n);
     s = func_021C4724(p + 0x1ab8, mi);

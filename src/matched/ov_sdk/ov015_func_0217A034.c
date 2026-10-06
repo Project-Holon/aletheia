@@ -78,7 +78,7 @@ extern void func_0217A8EC(unsigned char *data, unsigned char size);
 extern unsigned char g_0217ABD8[184];
 extern unsigned char g_0217ABDC[184];
 
-void func_0217A034(unsigned char *data, unsigned char size, unsigned char command, unsigned char id)
+void func_0217A034(unsigned char *data, unsigned char size, int command, unsigned char id)
 {
     unsigned char *p;
     unsigned short sum;

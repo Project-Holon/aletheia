@@ -18,7 +18,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 struct Slot { u32 a : 3; u32 rest : 29; };
 extern struct Slot func_021E8918(void);
 struct UtilSlots { u8 pad[0x1c]; struct Slot s[16]; u8 pad5C[0x50]; u8 b[16]; };
-extern void func_021D621C(struct UtilSlots *p, int k);
+struct Unk021D621C;
+extern void func_021D621C(struct Unk021D621C *p, int k);
 
 void func_021D61F0(struct UtilSlots *p)
 {
@@ -26,6 +27,6 @@ void func_021D61F0(struct UtilSlots *p)
     for (i = 1; i < 6; i++) {
         p->s[i] = func_021E8918();
         p->b[i] = 0;
-        func_021D621C(p, i);
+        func_021D621C((struct Unk021D621C *)p, i);
     }
 }

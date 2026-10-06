@@ -31,7 +31,7 @@ extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021E74C8(u16 k);
-extern u8 *func_021C88A4(int a, int k, int c);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
@@ -52,7 +52,7 @@ void func_021E7420(int a, int b, int c)
             for (i = 0; i < n; i++) {
                 t = func_021D775C(i + 6);
                 if (func_021D59B4(func_021C7CF4((int *)b, t), 0x10) != 0x36) {
-                    p = func_021C88A4(b, 0x1f, c);
+                    p = func_021C88A4((char *)b, 0x1f, c);
                     ((struct Obj07836 *)p)->f6 = func_021D775C(i + 6);
                     ((struct Obj07836 *)p)->f4 = k;
                     func_021C8838(p + 0xc, 2, 0x195);

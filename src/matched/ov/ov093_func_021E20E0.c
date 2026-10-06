@@ -25,7 +25,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B68(void *p);
-extern void *func_021C88A4(int a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 val);
@@ -36,7 +36,7 @@ void func_021E20E0(int u, int a, int b)
     u8 *r;
 
     if (b == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021D5B68(func_021C7CF4((int *)a, b)) == 0) {
-        r = func_021C88A4(a, 0xe, b);
+        r = func_021C88A4((char *)a, 0xe, b);
         ((struct Obj05220 *)r)->f4 = 1;
         r[0xc] = 1;
         r[0xe] = 0;

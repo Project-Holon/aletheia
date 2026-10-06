@@ -12,5 +12,5 @@
  *   func_0204047C 0x0204047C arm
  */
 typedef unsigned char u8;
-extern void func_0204047C(u8 layer, unsigned short value);
-void func_021F56E4(u8 *p) { int i; for(i=0;i<4;i++) func_0204047C(i,p[i]); }
+extern void func_0204047C(int idx, unsigned short val);
+void func_021F56E4(u8 *p) { int i; for(i=0;i<4;i++) func_0204047C((u8)i,p[i]); }

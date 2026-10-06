@@ -38,7 +38,8 @@ typedef unsigned int   u32;
 
 extern u32 func_02039160(u32 mode);
 extern u16 func_02039338(void);
-extern int func_020395EC(u8 *p);
+struct Entry;
+extern int func_020395EC(struct Entry *a);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
@@ -55,7 +56,7 @@ int func_02039ACC(void)
     u32 f;
 
     p = (u8 *)func_020399A8();
-    v = (u8)func_020395EC(p);
+    v = (u8)func_020395EC((struct Entry *)p);
     func_0203D788();
     q = func_0203D798();
     if (func_02039160(func_02039338()) != 0) {

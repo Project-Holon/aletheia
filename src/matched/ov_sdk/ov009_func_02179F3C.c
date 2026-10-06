@@ -35,7 +35,8 @@ typedef struct DWCHttp {
 } DWCHttp;
 
 extern int func_02059B40(const char *src, unsigned long srclen, char *dst, unsigned long dstlen);
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_0217A15C(DWCHttp *http, DWCHttpBuffer *buf, int size);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
 
@@ -59,7 +60,7 @@ int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len
     http->num_postitem++;
 
     result_base64 = func_02059B40(data, data_len, 0, 0);
-    result_len = result_base64 + (func_0209477C(format) - 2 + func_0209477C(label));
+    result_len = result_base64 + (func_0209477C((const u8 *)format) - 2 + func_0209477C((const u8 *)label));
     buf_remain = temp_buffer->buffer_tail - temp_buffer->write_index;
     if (result_len > buf_remain) {
         if (!func_0217A15C(http, temp_buffer, result_len - buf_remain + 1))

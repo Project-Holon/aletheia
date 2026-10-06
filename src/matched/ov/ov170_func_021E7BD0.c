@@ -20,9 +20,9 @@
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23912.h"
-extern void func_021DEF98(unsigned char *p, int a, int b);
-extern void func_021DEFEC(unsigned char *p, int b);
-extern void func_021ED544(unsigned char *p, int b);
+extern int func_021DEF98(char *p, int a, unsigned b);
+extern void func_021DEFEC(char *p, int b);
+extern void func_021ED544(char *p, int b);
 extern void func_021ED508(unsigned char *p, int a, int b);
 extern int func_021E9968(unsigned char *p);
 extern int func_021E9938(unsigned char *p);
@@ -35,10 +35,10 @@ typedef struct { unsigned char pad[0x1C]; unsigned char lo:4; unsigned char hi:4
 int func_021E7BD0(unsigned char *p)
 {
     if (p[0x17] != 0xFF)
-        func_021DEF98(p, p[0x17], p[0x16]);
+        func_021DEF98((char *)p, p[0x17], p[0x16]);
     else
-        func_021DEFEC(p, p[0x16]);
-    func_021ED544(p, 6);
+        func_021DEFEC((char *)p, p[0x16]);
+    func_021ED544((char *)p, 6);
     if (((Flags *)p)->lo == 0)
         func_021ED508(p, 0xE, 1);
     else

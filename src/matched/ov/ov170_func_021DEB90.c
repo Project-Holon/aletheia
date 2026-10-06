@@ -25,10 +25,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02049EB4(u32,u32,u32,u32,u16);
-extern void func_02041090(u32,u32,u8,u32,u8,u8);
+extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_020307B0(void *);
 extern void func_02041300(u32,int,u8,int,u8,u8,u8);
-void func_021DEB90(void *unused, void *unused2, u32 x, u32 base, u32 pal)
+void func_021DEB90(void *unused, void *unused2, int x, u32 base, u32 pal)
 {
     u8 *sheet;
     void *handle;
@@ -49,7 +49,7 @@ void func_021DEB90(void *unused, void *unused2, u32 x, u32 base, u32 pal)
         yn=row+1;
         do{
             value=(src[col]&4095)+high+base;
-            func_02041090(3,(u32)&value,cur,yn,1,1);
+            func_02041090(3,(u32)&value,(u8)cur,yn,1,1);
             ++cur;if(cur>=64)cur=0;
             ++col;
         }while(col<21);

@@ -23,10 +23,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021DDC58(const unsigned *,void *,u16);
 extern void func_021DDCF8(unsigned *,void *,u16);
-extern void func_021DDD64(void *,void *,u16);
+typedef unsigned int   u32;
+extern void func_021DDD64(char *p, char *q, u16 heap);
 extern void func_021DA4A8(u8 *p);
 extern void func_021DA318(u8 *p);
-extern void func_02040588(u8,int);
+extern void func_02040588(u32 which, u32 enable);
 void func_021DE024(void *unused,char *p)
 {
     if (((struct Obj01931 *)p)->f12C) return;
@@ -38,6 +39,6 @@ void func_021DE024(void *unused,char *p)
     func_021DDD64(p,((struct Obj01931 *)p)->f11C,((struct Obj01931 *)p)->f118);
     func_021DA4A8(((struct Obj01931 *)p)->f144);
     func_021DA318(**(void ** *)&((struct Obj01931 *)p)->f11C);
-    func_02040588(((struct Obj22910 *)(*(char * *)&((struct Obj01931 *)p)->f11C))->f96,1);
-    func_02040588(((struct Obj22911 *)(*(char * *)&((struct Obj01931 *)p)->f11C))->f94,1);
+    func_02040588((u8)(((struct Obj22910 *)(*(char * *)&((struct Obj01931 *)p)->f11C))->f96),(int)1);
+    func_02040588((u8)(((struct Obj22911 *)(*(char * *)&((struct Obj01931 *)p)->f11C))->f94),(int)1);
 }

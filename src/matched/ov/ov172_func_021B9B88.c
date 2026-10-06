@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u16 d_021C6FA0[4], d_021C6F66[4];
-void func_021B9B88(u8 *p, int x, int y, u8 value)
+void func_021B9B88(u8 *p, u8 x, u8 y, u8 value)
 {
     u8 subx = x % 8;
     u8 shift = subx % 4;

@@ -11,7 +11,7 @@
  *   func_021D7A10 0x021D7A10 arm ov125
  */
 typedef struct { unsigned short a,b; unsigned words[2]; int value; unsigned tail[3]; } Packet;
-extern int func_021D7A10(int, const void *, int, int);
+extern int func_021D7A10(int id, void *buf, int x, int sz);
 int func_021D885C(int value, int n) {
  Packet p = {0};
  p.value = value;

@@ -28,8 +28,8 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 extern int func_0207C7B4(int x);
-extern u32 func_021D6B6C(void *p);
-u32 func_021CB55C(void *p, u32 a, u32 b, u32 c)
+extern u32 func_021D6B6C(u8 *p);
+u32 func_021CB55C(void *p, u32 a, u16 b, u16 c)
 {
   int tmp;
   u32 tmp1;

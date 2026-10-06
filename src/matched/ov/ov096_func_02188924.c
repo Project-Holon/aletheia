@@ -26,7 +26,8 @@ extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
-extern int func_021D62C4(void *, int);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 typedef struct Slot { u32 a : 3; u32 rest : 29; } Slot;
 extern Slot func_021D6314(void *, int);
 extern int func_021E8A78(Slot);
@@ -45,7 +46,7 @@ void func_02188924(int a, int b, int c)
     k = func_0218A160((u8 *)b, t1);
     r = func_0218A2FC((u8 *)b, k);
     x = 0;
-    if (func_021D62C4(r, 5) != 0) {
+    if (func_021D62C4((struct Unk021D62A8 *)r, 5) != 0) {
         s = func_021D6314(r, 5);
         if (func_021E8A78(s) != 0)
             x = 1;

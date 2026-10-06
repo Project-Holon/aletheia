@@ -25,8 +25,9 @@ struct Entry;
 struct Link;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
-extern u32 func_02008550(const Blk *p);
-extern u32 func_02008554(const Blk *p);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern int func_0217357C(u8 *self, const u8 *mac, u32 a2, u32 a3);
 
 typedef struct { u8 pad[0x14]; u8 tab[1]; } Inner;
@@ -38,8 +39,8 @@ void func_02183FB8(u8 *self, u8 *peer, u32 idx, const Blk *src)
     *(Blk *)(self + 0x2c + idx * 0x28) = *src;
     self[0xe] |= (u8)(1 << idx);
     if (idx != func_0203D1A4((struct Link *)func_020399A8())) {
-        u32 a = func_02008554(src);
-        u32 b = func_02008550(src);
+        u32 a = func_02008554((const struct Sub0200852CObj *)src);
+        u32 b = func_02008550((const struct Sub0200852CObj *)src);
         func_0217357C(in->tab, (const u8 *)src + 0x20, a, (u8)b);
     }
 }

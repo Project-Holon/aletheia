@@ -24,7 +24,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02031324(u16);
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void func_02031348(void *,u32,const void *,void *);
 extern const u32 d_021C892C[];
 extern char ov110_id[];

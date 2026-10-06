@@ -18,11 +18,13 @@
 
 
 extern char func_021C0C14(int, char *, int);
-extern void func_021C0CCC(int, char *, int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void func_021C0CCC(u16 *heap, u8 *p, int key);
 
 void func_021C0D3C(int a, char *b, int c)
 {
     b[0x79] = func_021C0C14(a, b, c);
-    func_021C0CCC(a, b, c);
+    func_021C0CCC((u16 *)a, (u8 *)b, c);
 }
 

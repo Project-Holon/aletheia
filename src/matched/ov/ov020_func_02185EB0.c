@@ -28,7 +28,8 @@ struct Rec1C *func_0201284C(const struct BigObj *p);
 typedef unsigned int   u32;
 u32 func_02014068(u32 id);
 void func_020128C0(struct BigObj *p, const struct Rec1C *src);
-void func_02014204(void *buf, int n);
+struct t;
+void func_02014204(struct t *p, int id);
 u32 func_02013C50(u32 id);
 
 void func_02185EB0(int a, u16 *p)
@@ -41,7 +42,7 @@ void func_02185EB0(int a, u16 *p)
         if (r6[2] == 0x88) {
             func_020128C0((struct BigObj *)a, (void *)r7);
         } else if (!func_02014068((u16)r6[2])) {
-            func_02014204(buf, 0xd6);
+            func_02014204((struct t *)buf, 0xd6);
             func_020128C0((struct BigObj *)a, (const struct Rec1C *)buf);
         }
     }

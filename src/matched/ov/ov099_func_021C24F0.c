@@ -41,7 +41,7 @@ extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201283C(const struct BigObj *);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern void func_021C24D4(char *, int);
+extern void func_021C24D4(u8 *p, int v);
 extern void func_020434DC(u32, u32);
 extern void func_02043598(u32, u32);
 extern void func_021BB1A8(char *);
@@ -68,11 +68,11 @@ int func_021C24F0(void *obj, int unused, char *args)
     ((struct Obj01386 *)p)->f135C = ((struct Obj02804 *)args)->f49;
     if (((struct Obj02804 *)args)->fC == 1) {
         ((struct Obj02804 *)args)->fC = 0;
-        func_021C24D4(p, 4);
+        func_021C24D4((u8 *)p, 4);
     } else if (((struct Obj02804 *)args)->fC != 0) {
-        func_021C24D4(p, 4);
+        func_021C24D4((u8 *)p, 4);
     } else {
-        func_021C24D4(p, 1);
+        func_021C24D4((u8 *)p, 1);
     }
     ((struct Obj01386 *)p)->f1D0 = 0;
     ((struct Obj01386 *)p)->f1F0 = -1;

@@ -28,7 +28,7 @@ struct Rec {
 
 extern void func_020056A0(u32 fn, void *rec, u32 one);
 
-void func_02023D60(u8 *p, u16 a, u16 b, u16 c, u32 d, u32 e, u32 f)
+void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
 {
     struct Rec *r = (struct Rec *)(p + 0x80 + f * 32 + e * 16);
 

@@ -38,16 +38,20 @@ extern const u8 data_021EFCF0[4];
 extern void *func_021BA178(void *p, int i, int mode);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void *func_021D4D84(void *a, u8 b, u32 c);
-extern void func_021B9B54(void *q, void *v);
+struct Q1;
+struct QF;
+struct QH;
+struct S;
+extern struct S *func_021D4D84(void *a, u8 b, u32 c);
+extern void func_021B9B54(struct Q1 *p, u32 v);
 extern int func_021B9634(void *a);
 extern int func_021D59B4(u8 *p, int k);
-extern void func_021D5848(void *p, void *v);
+extern void func_021D5848(struct QH *p, void *v);
 extern void *func_021B86B8(void ***p);
-extern u32 func_021D5444(void *p);
+extern u16 func_021D5444(struct QF *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_020173F0(u16 species, u16 level, u64 id, u16 heap);
-extern void func_021B9B60(void *p);
+extern void func_021B9B60(u8 *p);
 #pragma opt_lifetimes off
 void func_021B9460(char *a, char *b, u8 c)
 {
@@ -72,7 +76,7 @@ void func_021B9460(char *a, char *b, u8 c)
     for (i = 0, y = x; i < n; i++, y++) {
         e = func_0201AB28(list, i);
         *(void **)(a + y * 4 + 0x84) = func_021D4D84(e, y, 0x12);
-        func_021B9B54(qs + qo, *(void **)(a + y * 4 + 0x84));
+        func_021B9B54((struct Q1 *)(qs + qo), (u32)(*(void **)(a + y * 4 + 0x84)));
     }
     cnt = func_021B9634(list);
     if (cnt > 0) {
@@ -84,7 +88,7 @@ void func_021B9460(char *a, char *b, u8 c)
     if (func_021B86B8((void ***)b) == 0 && c == 1) {
         for (j = 0; j < n; j++, x++) {
             v = *(u8 **)(a + x * 4 + 0x84);
-            if (func_021D5444(v) == 0x23B && func_021D59B4(v, 0x11) == 0x95) {
+            if (func_021D5444((struct QF *)v) == 0x23B && func_021D59B4(v, 0x11) == 0x95) {
                 void *l2;
                 u8 m, q;
                 l2 = func_021BA178(b, 0, *(u32 *)(a + 0xe4));
@@ -99,11 +103,11 @@ void func_021B9460(char *a, char *b, u8 c)
                 if (nw != 0) {
                     if (*(void **)(b + 0x2c0) == 0)
                         *(void **)(b + 0x2c0) = func_020173F0(nw, func_021D59B4(v, 0xf), 0, *(u16 *)(b + 0x468));
-                    func_021D5848(v, *(void **)(b + 0x2c0));
+                    func_021D5848((struct QH *)v, *(void **)(b + 0x2c0));
                 }
             }
         }
     }
-    func_021B9B60(qs + qo);
+    func_021B9B60((u8 *)(qs + qo));
 }
 #pragma opt_lifetimes reset

@@ -60,8 +60,8 @@ struct Node70730 {
     u16 h0e;
 };
 
-s32 func_02070524(void *base, u32 flags, u32 off, u32 idx);
-s32 func_02070624(void *base, u32 flags, u32 off, u32 idx);
+s32 func_02070524(u32 *base, u32 flags, u32 off, u32 idx);
+int func_02070624(u32 *base, u32 flags, u32 off, u32 idx);
 
 void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
 {
@@ -80,8 +80,8 @@ void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
 
     fl = out->f00;
 
-    a = func_02070524(node, r->f18, r->f1c, t);
-    b = func_02070524(node, r->f20, r->f24, t);
+    a = func_02070524((u32 *)node, r->f18, r->f1c, t);
+    b = func_02070524((u32 *)node, r->f20, r->f24, t);
     if (a == 0 && b == 0) {
         fl |= 4;
     } else {
@@ -90,7 +90,7 @@ void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
         fl &= ~4u;
     }
 
-    a = func_02070624(node, r->f10, r->f14, t);
+    a = func_02070624((u32 *)node, r->f10, r->f14, t);
     if (a == 0x10000000) {
         fl |= 2;
         goto rot_done;
@@ -105,8 +105,8 @@ void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
 rot_done:
     ;
 
-    a = func_02070524(node, r->f00, r->f04, t);
-    b = func_02070524(node, r->f08, r->f0c, t);
+    a = func_02070524((u32 *)node, r->f00, r->f04, t);
+    b = func_02070524((u32 *)node, r->f08, r->f0c, t);
     if (a == 0x1000 && b == 0x1000) {
         fl |= 1;
     } else {

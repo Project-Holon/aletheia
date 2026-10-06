@@ -19,10 +19,11 @@ typedef unsigned char u8;
 
 
 extern int *func_021D85E8(void);
-extern u16 func_0203F1FC(const u8 *src, unsigned len);
+typedef unsigned int   u32;
+extern int func_0203F1FC(const u8 *src, u32 len);
 
 typedef unsigned long long u64;
-int func_021D74D8(int unused, char **out)
+int func_021D74D8(void *unused, char **out)
 {
     char *p = (char *)func_021D85E8();
     char *s = p + 4;

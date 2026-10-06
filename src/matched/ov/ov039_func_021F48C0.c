@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_021F4928(int *out, int x, u8 *p, void *a);
+extern void func_021F4928(int *out, int frame, const u32 *data, const u8 *base);
 
 void func_021F48C0(u8 *a, int idx, int x, int *out)
 {
@@ -36,18 +36,18 @@ void func_021F48C0(u8 *a, int idx, int x, int *out)
         return;
     }
     if (!(flags & 8)) {
-        func_021F4928(&c, x, p, a);
+        func_021F4928(&c, x, (const u32 *)p, a);
         p += 8;
         out[0] = c;
     }
     if (!(flags & 0x10)) {
-        func_021F4928(&b, x, p, a);
+        func_021F4928(&b, x, (const u32 *)p, a);
         p += 8;
         out[1] = b;
     }
     if (flags & 0x20) {
         return;
     }
-    func_021F4928(&d, x, p, a);
+    func_021F4928(&d, x, (const u32 *)p, a);
     out[2] = d;
 }

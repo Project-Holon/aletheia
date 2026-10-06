@@ -20,7 +20,7 @@ extern void func_020434CC(void);
 extern void func_02043588(void);
 extern u32 func_02022224(void *win);
 
-void func_02183ED4(void)
+void func_02183ED4(int a0)
 {
     func_020434CC();
     func_02043588();

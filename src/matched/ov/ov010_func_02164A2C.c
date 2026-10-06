@@ -61,20 +61,23 @@ typedef struct SeqWork2 {
     u8 f18;             /* 0x18 */
 } SeqWork2;
 
-extern void *func_020120F4(void *sys);
-extern void *func_0201210C(void *sys);
-extern void *func_021BE8D4(void *sys, void *p, u32 a, u32 b);
-extern void func_02012374(void *evt, void *proc);
-extern void *func_020144DC(void *sys, void *p);
+struct Ctx;
+struct Evt;
+struct IcaAnime;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int func_020144DC(int a0, int a1);
 extern void *func_020297AC(void *sys, u32 a, u32 b, u32 c);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_020120B4(void *sys, u32 ovId, const void *proc, void *arg);
-extern int func_020120F0(void *sys);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
 extern void *func_02029690(void *sys, u32 a, u32 b);
 extern void *func_020145CC(void *sys);
-extern void *func_02188CCC(void *p);
-extern void func_021A0F40(void *p, u32 v);
-extern void *func_021BE92C(void *sys, void *p, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 func_02188CCC(u8 *p);
+extern void func_021A0F40(u32 *p, u32 v);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void *func_02029CC0(void *sys);
 extern u8 ov216_id[];
 extern const u8 d_021BDB40[];
@@ -89,11 +92,11 @@ int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
     p = func_0201210C(sys);
     switch (*seq) {
     case 0:
-        func_02012374(evt, func_021BE8D4(sys, p, 0, 0));
+        func_02012374(evt, (struct Evt **)func_021BE8D4(sys, (int)p, 0, 0));
         (*seq)++;
         break;
     case 1:
-        func_02012374(evt, func_020144DC(sys, p));
+        func_02012374(evt, (struct Evt **)func_020144DC((int)sys, (int)p));
         (*seq)++;
         break;
     case 2:
@@ -104,7 +107,7 @@ int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
         w->sub.sys = w->sys;
         w->sub.f04 = w->f04;
         w->sub.f08 = w->f18;
-        func_020120B4(sys, (u32)ov216_id, d_021BDB40, &w->sub);
+        func_020120B4(sys, (u32)ov216_id, (void *)d_021BDB40, &w->sub);
         (*seq)++;
         break;
     case 4:
@@ -119,8 +122,8 @@ int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
         break;
     case 6:
         if (w->sub.flag != 0)
-            func_021A0F40(func_02188CCC(p), 0);
-        func_02012374(evt, func_021BE92C(sys, p, 0, 0, 1, 0, 0));
+            func_021A0F40((u32 *)func_02188CCC(p), 0);
+        func_02012374(evt, (struct Evt **)func_021BE92C(sys, (int)p, 0, 0, 1, 0, 0));
         (*seq)++;
         break;
     case 7:

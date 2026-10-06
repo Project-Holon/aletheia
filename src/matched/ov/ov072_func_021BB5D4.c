@@ -15,7 +15,7 @@
 
 void func_02082BCC(void *p, int v, int n);
 
-void func_021BB5D4(void *p)
+void func_021BB5D4(void *p, int heap)
 {
     func_02082BCC(p, 0, 0x30);
 }

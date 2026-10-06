@@ -26,20 +26,29 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov021_id 0x00000015 data
  */
-extern void func_02194798(void *);
-extern void func_02027858(void *);
-extern void func_0201FEF4(void *);
-extern void func_0202F038(void *);
+typedef unsigned char  u8;
+struct Descriptor;
+struct PrintSys;
+struct Rec;
+struct Rec3;
+struct S02031140;
+struct TaskMenu;
+struct TaskMenuState;
+struct U16Vec;
+extern void func_02194798(unsigned char *a);
+extern void func_02027858(struct TaskMenu *m);
+extern void func_0201FEF4(u8 *o);
+extern void func_0202F038(u8 *p);
 extern int func_02028604(int a0);
-extern void func_02027FD8(void *);
-extern void func_0201C4C0(void *);
-extern void func_0201CE48(void *);
-extern void func_02045808(void *);
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021F18EC(void *);
-extern void func_02045C04(void *);
-extern void func_020452E8(void *);
+extern void func_02045C04(struct Rec *rec);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_0201D83C(void *);
-extern void func_02031140(void *);
+extern void func_02031140(struct S02031140 *p);
 extern void func_020307B0(void *);
 extern void func_02034A5C(int);
 extern char ov021_id[];

@@ -20,16 +20,18 @@
  */
 #include "../include/Obj00578.h"
 
-extern unsigned func_0201FEBC(char *);
-extern void func_021BD118(char *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_0201FEBC(u8 *p);
+extern void func_021BD118(int *p, u32 mode);
 extern void func_021BD23C(void);
 
 void func_021BCE3C(char *p, int *out)
 {
-    unsigned r = func_0201FEBC(*(char * *)&((struct Obj00578 *)p)->f20);
+    unsigned r = func_0201FEBC((u8 *)(*(char * *)&((struct Obj00578 *)p)->f20));
     switch (r) {
     case 0:
-        func_021BD118(p, 2);
+        func_021BD118((int *)p, 2);
         *out = 6;
         break;
     case 0xFFFFFFFE:

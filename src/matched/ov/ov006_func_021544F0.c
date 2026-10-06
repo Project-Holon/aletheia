@@ -108,48 +108,58 @@ typedef unsigned int u32;
 typedef struct {u32 pad00[5];u32 values[2];} Sub;
 extern u16 func_02005C44(void);
 extern void func_02005E30(u32);
-extern int func_02012138(void *);
+struct BigObj;
+struct Ctx;
+struct Entry;
+struct Evt;
+struct Link;
+struct Obj;
+struct Rec44;
+struct S020314B8;
+struct Sub020097BCObj;
+struct Sub24;
+extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026454(void *);
 extern int func_020144DC(int,int);
 extern void *func_020145CC(void *);
-extern void func_02012374(void *,void *);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_020057AC(void);
 extern int func_0203CDBC(void);
 extern void func_02029F6C(void);
 extern int func_021BE92C(void *,int,int,int,int,u8,u8);
 extern void func_02082BCC(void *,int,int);
-extern int func_020120F4(void *);
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_02006740(void);
 extern void func_02005D90(u32,u16);
 extern void func_02005DF8(u32);
 extern void *func_02031324(int);
 extern void func_02031348(void *,u32,u32,u32);
 extern u32 func_02031330(void *);
-extern void func_0203133C(void *);
+extern void func_0203133C(struct S020314B8 *p);
 extern void func_0200F7B8(int);
-extern u32 func_0201283C(const void *);
-extern u32 func_02009A34(void *);
+extern u32 func_0201283C(const struct BigObj *p);
+extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
-extern void func_021C2850(u32);
+extern void func_021C2850(char *p);
 extern int func_020130B4(int);
-extern void func_02012444(void *,u32,u32,u32);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern void func_0215444C(char *,u32,int);
 extern void *func_02013090(u32);
 extern void func_021542C0(char *,int);
 extern void func_021544BC(char *,u32,int);
-extern void *func_020399A8(void);
+extern struct Entry *func_020399A8(void);
 extern void func_0203A574(u32,u32,u32,u32);
-extern void func_02039C68(void *,u32,u32);
-extern u32 func_02039CB4(void *,u32,u32);
+extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
+extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
 extern int func_0203CD98(void);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void func_0200F83C(void);
-extern u32 func_0203D1A4(void *);
-extern void *func_02012950(void *,u32);
+extern u32 func_0203D1A4(struct Link *p);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void *func_02012F2C(int *);
-extern void func_02009BB8(void *,int,int,int,int);
+extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 extern void func_0203A5E4(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_020307B0(void *);
@@ -219,7 +229,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         W(obj,0xac)=0;
         break;
     case 9:
-        W(obj,0x98)=func_020120F4(p);
+        W(obj,0x98)=(u32)func_020120F4(p);
         W(obj,0xa0)=1;
         W(obj,0x9c)=0;
         W(obj,0xa4)=10;
@@ -239,7 +249,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         } else { func_02005E30(6); *state=25; }
         break;
     case 30:
-        W(obj,0xc0)=func_020120F4(p);
+        W(obj,0xc0)=(u32)func_020120F4(p);
         W(obj,0xc8)=1;
         W(obj,0xc4)=0;
         W(obj,0xcc)=1;
@@ -259,7 +269,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
     case 11:
         func_02034AC4((int)ov099_id);
         func_02034AC4((int)ov067_id);
-        func_021C2850(W(W(obj,0x5c),0));
+        func_021C2850((char *)W(W(obj,0x5c),0));
         if (W(obj,0xdc)) { func_020130B4(W(obj,0xdc)); W(obj,0xdc)=0; }
         func_02012444((void *)W(obj,0),(u32)ov127_id,(u32)d_021C37E8,W(obj,0x5c));
         ++*state;
@@ -272,7 +282,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         func_02034A5C((int)ov099_id);
         break;
     case 13:
-        func_0215444C(obj,func_020120F4(p),s);
+        func_0215444C(obj,(u32)func_020120F4(p),s);
         W(obj,0xdc)=(u32)func_02013090(4);
         func_021542C0(obj,W(W(obj,0x5c),0xc));
         func_02012444((void *)W(obj,0),(u32)ov134_id,(u32)d_021DCCA4,(u32)(obj+0x20));
@@ -288,10 +298,10 @@ int func_021544F0(void *evt,u32 *state,char *obj)
                 *state=9;
             }
         } else {
-            func_021544BC(obj,func_020120F4(p),s);
+            func_021544BC(obj,(u32)func_020120F4(p),s);
             func_02034AC4((int)ov093_id);
             func_0203A574(0x100,(u32)d_021F03C4,9,0);
-            func_02039C68(func_020399A8(),100,10);
+            func_02039C68((struct Link *)func_020399A8(),100,10);
             ++*state;
         }
         break;
@@ -299,12 +309,12 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         if (!func_0203CD98() || func_0200FB24()) {
             func_0200FBB0(); func_0200F83C(); goto cleanup;
         }
-        if (func_02039CB4(func_020399A8(),100,10)) ++*state;
+        if (func_02039CB4((struct Link *)func_020399A8(),100,10)) ++*state;
         break;
     case 16:
         func_02005D90(0x490,0xffff);
         W(obj,0x124)=1;
-        if (!func_0203D1A4(func_020399A8())) {
+        if (!func_0203D1A4((struct Link *)func_020399A8())) {
             for (i=0;i<2;i++) {
                 off=i<<4;
                 W((u32)obj+off,0xe4)=(u32)func_02012950((void *)func_020120F4(p),i);
@@ -318,7 +328,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
                 W((u32)obj+off,0xe0)=((Sub *)W(obj,0x5c))->values[i];
             }
         }
-        W(obj,0x138)=func_020120F4((void *)W(obj,4));
+        W(obj,0x138)=(u32)func_020120F4((void *)W(obj,4));
         W(obj,0x13c)=W(obj,0xdc);
         W(obj,0x140)=(u32)(obj+0xe0);
         W(obj,0x14c)=1;
@@ -342,7 +352,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         ++*state;
         break;
     case 19:
-        W(obj,0x74)=func_020120F4(p);
+        W(obj,0x74)=(u32)func_020120F4(p);
         func_02012444((void *)W(obj,0),(u32)ov119_id,(u32)d_021E75C0,(u32)(obj+0x60));
         ++*state;
         break;
@@ -359,7 +369,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         break;
     case 21:
         r=func_02030734(4,0x14,0,d_02154C80,0x24b);
-        W(r,0)=func_020120F4((void *)W(obj,4));
+        W(r,0)=(u32)func_020120F4((void *)W(obj,4));
         W(r,4)=W(obj,0x7c);
         H(r,8)=W(obj,0x6c);
         B(r,0xa)=0;
@@ -380,7 +390,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         }
         break;
     case 23:
-        W(obj,0x4c)=func_020120F4(p);
+        W(obj,0x4c)=(u32)func_020120F4(p);
         W(obj,0x50)=3;
         func_02012444((void *)W(obj,0),(u32)ov172_id,(u32)d_021C7240,(u32)(obj+0x4c));
         ++*state;

@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_021625CC(void *p, u16 id);
+extern void *func_021625CC(char *p, unsigned i);
 extern u16 func_021626A8(void *b, void *pos);
 extern u8 func_021626E8(u8 *p);
 extern void *func_02185410(void *p, int u, int a, int b);
@@ -38,7 +38,7 @@ extern void *func_02185360(void *p, int u, int a, int b);
 
 void func_0218AD80(u8 *p, void *a, int id, void *arg)
 {
-    void *obj = func_021625CC(((struct Obj00705 *)p)->fC, id);
+    void *obj = func_021625CC(((struct Obj00705 *)p)->fC, (u16)id);
     void *d;
 
     if (arg != 0)

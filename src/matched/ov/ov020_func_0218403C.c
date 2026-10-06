@@ -22,7 +22,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_0202E848(int a, u16 *b, u16 *c);
+extern int func_0202E848(int a0, int a1, int a2);
 struct Sub020140BCObj;
 extern u16 func_02188C84(u8 *p);
 typedef unsigned int   u32;
@@ -39,7 +39,7 @@ void func_0218403C(u8 *p)
     int flag;
     u16 hi;
 
-    func_0202E848(((struct Obj00082 *)p)->f4, &s[1], &s[0]);
+    func_0202E848(((struct Obj00082 *)p)->f4, (int)(&s[1]), (int)(&s[0]));
     r4 = func_02188C84((u8 *)(*(int *)&((struct Obj00082 *)p)->f8));
     r6 = func_0201407C(r4, func_02013B38(((struct Obj00082 *)p)->f14), 0);
     flag = 0;

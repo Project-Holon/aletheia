@@ -34,7 +34,7 @@ int func_02189A08(unsigned char *p);
 void func_021CF498(struct Ctx *c, u32 x, int idx);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-void func_02184CEC(void *obj, void *p);
+void func_02184CEC(void **o, void *p);
 int func_02184504(int a, int *state, u8 *p);
 void func_02012374(struct Evt *evt, struct Evt **out);
 void *func_021BE9F0(void *p, int a1, int a2, int a3, int a4);
@@ -55,7 +55,7 @@ int func_02185C8C(int a0, int *st, int *p)
     case 1:
         h = func_020122C0((void *)r7, 0, func_02184504, 0x9c);
         n = func_020124E8(h);
-        func_02184CEC(n, (void *)r7);
+        func_02184CEC((void **)n, (void *)r7);
         *(S7 *)(n + 4) = *(S7 *)p;
         n[0xb] = 0;
         n[0x10] = 0;

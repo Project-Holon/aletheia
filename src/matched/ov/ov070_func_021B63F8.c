@@ -26,9 +26,10 @@ typedef unsigned int u32;
 extern int func_021B61C8(u8 *p);
 extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern int func_02035C60(void);
-extern void func_021B80C4(void *o, int v);
+struct Obj;
+extern void func_021B80C4(struct Obj *o, int flag);
 extern u32 func_0202EDE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern void func_021BA654(void *o);
+extern void func_021BA654(char *p);
 extern void func_020061E4(u32 se);
 
 u32 func_021B63F8(u8 *p)
@@ -48,10 +49,10 @@ u32 func_021B63F8(u8 *p)
             } else
                 return 0;
         }
-        func_021B80C4(p, 0);
+        func_021B80C4((struct Obj *)p, 0);
         old = *(u32 *)&((struct Obj00002 *)p)->f814;
         *(u32 *)&((struct Obj00002 *)p)->f814 = func_0202EDE4(k - 6, y, 0x1A, 0x8E, 0) - 1;
-        func_021BA654(p);
+        func_021BA654((char *)p);
         if (*(u32 *)&((struct Obj00002 *)p)->f814 != old) {
             func_020061E4(0x548);
             return 1;

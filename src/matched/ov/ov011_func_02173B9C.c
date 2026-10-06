@@ -21,7 +21,7 @@ struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-int func_02173B9C(int a, int b, int c, int d)
+int func_02173B9C(int a, int b)
 {
     if (func_021736D8() == 0) {
         return 0;

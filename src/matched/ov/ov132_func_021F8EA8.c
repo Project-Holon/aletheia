@@ -41,11 +41,11 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 extern const Vec d_021FDBEC;
 extern u32 func_0203630C(void);
-extern void func_021F8044(void *, void *, Vec *);
+extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern void func_021F6F04(void *, void *, Vec *);
 struct Light;
 extern void func_021F7098(u8 *p, u16 v);
-extern void func_021F75DC(void *, u16);
+extern void func_021F75DC(u8 *p, u16 v);
 extern void func_021F6AF0(void *, u16);
 extern void func_021FA57C(void *unused, int x);
 extern void func_02048AFC(void *, const Vec *);
@@ -71,7 +71,7 @@ void func_021F8EA8(u8 *p)
             index = *(u8 *)(p + 0xF1);
             if (index == 4) index = *(u8 *)(p + 0xA);
             if (*(void **)(p + 0x44 + index * 4)) {
-                func_021F8044(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), &v);
+                func_021F8044(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), (u32 *)(&v));
                 target = (float)v.x / 4096.0f - 128.0f;
             }
         } else {

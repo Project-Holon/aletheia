@@ -104,14 +104,15 @@ extern void func_020139B0(u32 heap);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u16 *func_02008848(void *);
-extern void func_0200890C(void *, void *);
+struct Sub02008828Rec;
+extern void func_0200890C(void *sys, struct Sub02008828Rec *dest);
 extern u32 func_02013E4C(u32 id);
 extern void func_02013A48(void);
 extern struct PlayTime *func_02008748(void *sys);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern void *func_0200CA10(void *);
-extern u16 func_0200D0AC(struct Blk37 *p, u32 heap);
+extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
 extern void *func_0200C0F0(void *);
 extern u32 func_0200C258(struct Blk34 *p);
 
@@ -155,7 +156,7 @@ void func_021BAD08(struct Menu *p)
     if (func_020142E8(p->f10, 0x966) == 1) {
         s = (void *)func_02013E4C(func_02008848(func_02008854(p->f00))[2]);
     } else {
-        func_0200890C(p->f00, buf);
+        func_0200890C(p->f00, (struct Sub02008828Rec *)buf);
         s = (void *)func_02013E4C(buf[0]);
     }
     func_02013A48();

@@ -30,7 +30,7 @@ typedef unsigned int u32;
 struct Queue; struct Rec; struct BigObj;
 extern u8 *func_02165B10(u32);
 extern u32 func_02012A54(const struct BigObj *);
-extern void *func_020275A8(void *);
+extern u32 func_020275A8(u32 a);
 extern u8 func_02165B04(u8 *);
 extern int func_02165AC4(struct Queue *,struct Rec *,u16 *,int);
 extern int func_02165B5C(struct Rec *);
@@ -42,7 +42,7 @@ void func_021BBFEC(u8 *p)
     int i,count;
     *(u8 **)(p+40)=func_02165B10(*(u16 *)p);
     *(u32 *)(p+32)=func_02012A54(*(const struct BigObj **)(*(u8 **)(p+20)+4));
-    *(void **)(p+36)=func_020275A8(*(void **)(p+32));
+    *(void **)(p+36)=(void *)func_020275A8((u32)(*(void **)(p+32)));
     count=func_02165B04(*(u8 **)(p+36));
     p[48]=255;
     for(i=0;i<count;i++){

@@ -20,12 +20,12 @@ typedef unsigned char u8;
 extern int func_021C23B8(int i);
 extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
-extern void func_021BE4BC(char *, int, u8, u8, int, int, int);
+extern void func_021BE4BC(char *p, int a, int b, int c, int d, unsigned int e, int f);
 extern int func_021C285C(void *);
 extern void func_021BE3CC(char *, int, u8, u8, int, int);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-void func_021C22E8(char *p, int unused, int id, int flag, int x, int y)
+void func_021C22E8(char *p, void *unused, int id, int flag, int x, int y)
 {
     int offset;
     void *s;
@@ -37,9 +37,9 @@ void func_021C22E8(char *p, int unused, int id, int flag, int x, int y)
     s = (void *)func_021C23B8(id - 1);
     kind = func_021BDD48(p, s);
     value = func_021BDD54(p, s);
-    func_021BE4BC(p + 0x898, 6, x + 2, y + 2, kind, value, offset);
+    func_021BE4BC(p + 0x898, 6, (u8)(x + 2), (u8)(y + 2), kind, (int)value, offset);
     if (func_021C285C(s)) icon = 15;
     else icon = 11;
-    func_021BE3CC(p + 0x898, 6, x + 12, y + 2, icon + offset, 0);
+    func_021BE3CC(p + 0x898, 6, x + 12, y + 2, (int)(icon + offset), 0);
     func_02041B6C(7);
 }

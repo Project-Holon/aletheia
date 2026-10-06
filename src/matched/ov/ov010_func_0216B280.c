@@ -27,7 +27,7 @@ extern void *func_020124E4(struct Obj *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
-extern int func_02176850();
+extern int func_02176850(u8 *p, u8 value);
 extern u32 func_02176870(u8 *p);
 
 int func_0216B280(int a0, int *state, u8 **work)
@@ -44,7 +44,7 @@ int func_0216B280(int a0, int *state, u8 **work)
     }
     switch (*state) {
     case 0:
-        if (func_02176850(r, ((u8 *)work)[4]) == 1)
+        if (func_02176850((u8 *)r, ((u8 *)work)[4]) == 1)
             (*state)++;
         break;
     case 1:

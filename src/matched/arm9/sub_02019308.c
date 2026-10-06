@@ -69,7 +69,8 @@ struct Mon {
     struct Mail unk9C;
 };
 
-extern void sub_02008F3C(const struct Mail *src, struct Mail *dest);
+struct Sub02008F80Obj;
+extern void sub_02008F3C(const struct Sub02008F80Obj *src, struct Sub02008F80Obj *dest);
 extern void func_02019388(struct Mon *p, u32 id, u32 v);
 
 void func_02019308(struct Mon *p, u32 id, u32 v)
@@ -86,7 +87,7 @@ void func_02019308(struct Mon *p, u32 id, u32 v)
     case 0xA5: p->unk98 = (u16)v; return;
     case 0xA6: p->unk9A = (u16)v; return;
     case 0xA7:
-        sub_02008F3C((const struct Mail *)v, &p->unk9C);
+        sub_02008F3C((const struct Sub02008F80Obj *)v, (struct Sub02008F80Obj *)(&p->unk9C));
         return;
     case 0xA8:
         break;

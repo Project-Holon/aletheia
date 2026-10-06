@@ -31,7 +31,7 @@ extern u8 func_0201C020(u16);
 extern void func_021C2F70(u8 *, u16, u32, u8 *, u8 *, s32 *, s32 *);
 extern int func_021C3008(u8 *, u8, u8 *, enum Kind, s32, u8, u16, u32, int, u32);
 extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C78A8(u8 *, u8 *, u32, u32, u32);
 int func_021C2E64(u8 *p, const u16 *q, u8 *a, u8 *b, int k)
 {
@@ -62,7 +62,7 @@ int func_021C2E64(u8 *p, const u16 *q, u8 *a, u8 *b, int k)
             if (ok) {
                 lock = func_021CC8D8((struct Lock *)(p + 0x1d74), 8247);
                 func_021C78A8(p, b, *q, kind, value);
-                func_021CC95C((struct Lock *)(p + 0x1d74), lock, 8249);
+                func_021CC95C((u32 *)(p + 0x1d74), lock, 8249);
                 result = 1;
             }
         }

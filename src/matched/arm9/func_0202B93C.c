@@ -13,9 +13,9 @@
  *   func_0202BA9C  0x0202BA9C  thumb
  */
 
-extern void func_0202BA9C(int, void *, void *);
+extern void func_0202BA9C(char *p, const int *a, const int *b);
 
 void func_0202B93C(int a, void *b, void *c)
 {
-    func_0202BA9C(a, b, c);
+    func_0202BA9C((char *)a, b, c);
 }

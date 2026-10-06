@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0203F328(void *, int, u32);
+extern void func_0203F328(u16 *p, u32 size, u32 seed);
 extern void func_02082D44(void *, void *, u32);
 
 void func_02157818(u8 *p)
@@ -37,7 +37,7 @@ void func_02157818(u8 *p)
         u8 *e = base + i * 100;
         u32 n;
 
-        func_0203F328(e + 8, 0x54, ((struct Obj18737 *)e)->f4);
+        func_0203F328((u16 *)(e + 8), 0x54, ((struct Obj18737 *)e)->f4);
         n = (u16)off;
         if (((struct Obj04914 *)p)->f8 > (int)(n + 0x54))
             func_02082D44(e + 8, (u8 *)((struct Obj04914 *)p)->fC + off, 0x54);

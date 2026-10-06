@@ -85,7 +85,7 @@ extern int func_02188D2C(int *p);
 extern VecFx32 *func_021BE480(void *p, int a, int b);
 extern void *func_02188CB4(u8 *p);
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(void *q, const VecFx32 *v);
+extern void func_021A3044(u8 *p, void *v);
 extern u32 func_02011590(struct IcaAnime *p, s32 v);
 extern void func_02011558(struct IcaAnime *p);
 extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);

@@ -46,7 +46,7 @@ int func_021B8150(void *a, int unused, B *b, W *w)
     extern void func_020435F4(u32 planes);
     extern void func_0201CE48(struct Rec3 *p);
     extern void func_02045808(struct U16Vec *vec);
-    extern void func_021B8270(W *);
+    extern void func_021B8270(unsigned char *p);
     extern void func_021B82F0(void *p);
     extern void func_021B83C0(void *p);
     extern void func_021B833C(void);
@@ -62,7 +62,7 @@ int func_021B8150(void *a, int unused, B *b, W *w)
     if (w->f44 != 0) {
         func_02045808(w->f44);
     }
-    func_021B8270(w);
+    func_021B8270((unsigned char *)w);
     func_021B82F0(w);
     func_021B83C0(w);
     func_021B833C();

@@ -30,15 +30,16 @@ extern void func_021D4630(int a, int b, u32 *p);
 extern int func_021D4C50(int value, char *p);
 extern void func_021D4FE4(char *p);
 extern void func_021D4384(int, Pair *, void *, void *, void *, void *);
-extern void func_021D5004(void *);
-extern void func_021D4244(void *, void *, int);
-extern void *func_02051B84(void *, int, int, int);
+typedef unsigned char  u8;
+extern void func_021D5004(char *p);
+extern void func_021D4244(void *p, u32 a, int a2);
+extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 void func_021D4A64(char *p)
 {
     Pair pair = d_021D575C;
     func_021D4384(2, &pair, p, d_021D5890, d_021D5720, d_021D5718);
-    ((struct Obj10431 *)p)->f40 = func_02051B84(d_021D5728, (int)func_021D4630, (int)p, ((struct Obj10431 *)p)->fC);
+    ((struct Obj10431 *)p)->f40 = func_02051B84((u8 *)d_021D5728, (int)func_021D4630, (int)p, ((struct Obj10431 *)p)->fC);
     ((struct Obj10431 *)p)->f4 = func_021D4C50;
     func_021D5004(p);
-    func_021D4244(p, func_021D4FE4, 0x31b);
+    func_021D4244(p, (u32)func_021D4FE4, 0x31b);
 }

@@ -56,14 +56,15 @@ typedef struct { u32 v[10]; } Config;
 extern char d_02200DAC[];
 extern void *d_020A7370;
 extern const Config d_02200CA8;
-extern void func_021FB964(int,int,u16);
+struct Slot;
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 struct MsgBank;
 struct U16Vec;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern Slot *func_0201F81C(u32,u32);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F898(Slot *,u32,u32,u32);
+extern void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_021FC8C8(Config *,u32);
 void func_021FFFF8(char *p)
@@ -72,14 +73,14 @@ void func_021FFFF8(char *p)
     void *str;
     u32 i;
     *(u32 *)(p+0x70)=1;
-    func_021FB964(*(int *)(p+0x28),21,*(u16 *)(p+0x24));
+    func_021FB964((void *)(*(int *)(p+0x28)),21,*(u16 *)(p+0x24));
     if (*(void **)(p+0x64)) func_02034714(d_02200DAC,0,d_02200DAC);
     if (*(void **)(p+0x68)) func_02034714(d_02200DAC,0,d_02200DAC);
     *(Slot **)(p+0x64)=func_0201F81C(*(u32 *)(p+0x8c),*(u16 *)(p+0x24));
     str=func_020457B0(11,*(u16 *)(p+0x24));
     for(i=0;i<*(u32 *)(p+0x8c);i++) {
         func_02045CAC(d_020A7370,(*(u16 **)(p+0x88))[i],str);
-        func_0201F898(*(Slot **)(p+0x64)+i,(u32)str,(*(u16 **)(p+0x88))[i],*(u16 *)(p+0x24));
+        func_0201F898((struct Slot *)(*(Slot **)(p+0x64)+i),(u32)str,(*(u16 **)(p+0x88))[i],*(u16 *)(p+0x24));
     }
     func_02045808(str);
     cfg=d_02200CA8;

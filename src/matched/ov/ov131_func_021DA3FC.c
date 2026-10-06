@@ -19,7 +19,7 @@
 #include "../include/Obj01061.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_021D60A4(u8 *);
+extern int func_021D60A4(char *p);
 typedef unsigned int   u32;
 struct Bmp;
 struct Descriptor;
@@ -32,7 +32,7 @@ void func_021DA3FC(u8 *a,u8 *b) {
     void *p,*bmp;
     u16 x,y;
     int kind,value,first,last;
-    p=func_021D60A4(a);
+    p=(void *)func_021D60A4((char *)a);
     x=func_02017E1C(p,161,0);
     y=func_02017E1C(p,160,0);
     kind=func_0202D034(y,x);

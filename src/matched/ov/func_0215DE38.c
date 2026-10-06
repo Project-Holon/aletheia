@@ -22,7 +22,7 @@
 
 extern void func_021FC644(int a, void *b, void *c, int d);
 
-void func_0215DE38(int a, int b, int c, int d)
+void func_0215DE38(int a, void *b, void *c, int d)
 {
     func_021FC644(4, (void *)b, (void *)c, d);
 }

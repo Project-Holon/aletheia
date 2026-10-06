@@ -27,10 +27,11 @@ extern void func_021693CC(char *p);
 extern void func_021693BC(char *p);
 extern void func_021693A0(int o);
 extern void func_0216928C(void *p);
-extern void func_0218DD38(void *p);
+typedef unsigned char  u8;
+extern void func_0218DD38(void **a);
 extern void func_020307B0(void *p);
 extern void func_021A73C0(int p);
-extern void func_0218D13C(void *p);
+extern void func_0218D13C(u8 *a);
 
 void func_0218D05C(char *p)
 {
@@ -43,7 +44,7 @@ void func_0218D05C(char *p)
             func_021693BC((char *)(*(int *)(*(char * *)&((struct Obj01208 *)p)->f24 + off)));
             func_021693A0(*(int *)(*(char * *)&((struct Obj01208 *)p)->f24 + off));
             func_0216928C((void *)(*(int *)(*(char * *)&((struct Obj01208 *)p)->f24 + off)));
-            func_0218DD38(*(char * *)&((struct Obj01208 *)p)->f24 + off + 4);
+            func_0218DD38((void **)(*(char * *)&((struct Obj01208 *)p)->f24 + off + 4));
         }
         func_020307B0(((struct Obj01208 *)p)->f24);
         func_020307B0(((struct Obj01208 *)p)->f28);
@@ -57,5 +58,5 @@ void func_0218D05C(char *p)
         func_021A73C0(((struct Obj01208 *)p)->f68);
         ((struct Obj01208 *)p)->f68 = 0;
     }
-    func_0218D13C(p);
+    func_0218D13C((u8 *)p);
 }

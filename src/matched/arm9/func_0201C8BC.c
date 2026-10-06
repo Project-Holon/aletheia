@@ -52,8 +52,9 @@ struct U16Vec;
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern u32 func_0201DE18(u32 r, u32 g, u32 b);
 extern void func_0201DE00(u8 *a0, u8 *a1, u8 *a2);
-extern void func_0201DD78(int a0, int a1, int a2);
-extern void *func_0201C974(void *a0, void *a1, int a2);
+struct PrintCtx;
+extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f);
 
 void func_0201C8BC(u8 *a0, int a1)
 {
@@ -75,15 +76,15 @@ void func_0201C8BC(u8 *a0, int a1)
         lo = (u8)(v & 0x1F);
         if (func_0201DE18(hi, mid, lo) != 0) {
             func_0201DE00(&buf[2], &buf[1], &buf[0]);
-            func_0201DD78(hi, mid, lo);
+            func_0201DD78((int)hi, (int)mid, (int)lo);
             done = 1;
         }
         ((struct Obj00698 *)a0)->f4 = (((struct Obj00698 *)a0)->f4 & 0xFF0FFFFF) | 0x200000;
     }
     while (*p != 0xFFFF) {
-        p = (u16 *)func_0201C974(a0, p, 1);
+        p = (u16 *)func_0201C974((struct PrintCtx *)a0, p, (int)1);
     }
     if (done) {
-        func_0201DD78(buf[2], buf[1], buf[0]);
+        func_0201DD78((int)buf[2], (int)buf[1], (int)buf[0]);
     }
 }

@@ -18,7 +18,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *, int, unsigned);
 extern unsigned func_02031324(unsigned short);
 extern void func_021F9CA4(void *);
-extern void func_021F9BF4(void *, unsigned);
+extern void func_021F9BF4(unsigned *ctx, unsigned index);
 extern char d_02200D04[];
 typedef struct {
     unsigned object;
@@ -47,12 +47,12 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
     func_021F9CA4((char *)ctx + 0x1c);
     if (ctx->list[6]) {
         for (i = 0; i < ctx->list[6]; i++) {
-            func_021F9BF4(ctx, (unsigned short)ctx->list[i]);
+            func_021F9BF4((unsigned int *)ctx, (unsigned short)ctx->list[i]);
         }
         func_02082BCC(ctx->list, 0, 0x1c);
         ctx->loaded = 1;
     } else {
-        func_021F9BF4(ctx, fallback);
+        func_021F9BF4((unsigned int *)ctx, fallback);
     }
     return ctx;
 }

@@ -21,10 +21,10 @@ typedef signed short s16;
 typedef signed char s8;
 
 extern void func_02082BCC(void *dst, int c, u32 n);
-extern void func_02013220(void *p);
+extern void func_02013220(char *p);
 
 void func_020130C4(u8 *p)
 {
     func_02082BCC(p, 0, 0xf0);
-    func_02013220(p + 8);
+    func_02013220((char *)(p + 8));
 }

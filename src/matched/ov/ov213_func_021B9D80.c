@@ -18,8 +18,14 @@
  *   func_0204E720 0x0204E720 arm
  */
 #include "../include/Obj14693.h"
-extern int func_021B61FC(void *),func_021BA9D0(void *);
-extern void func_021B6200(void *),func_021BA444(void *),func_021BA650(void *),func_021BA95C(void *,int),func_021BA68C(void *,int,int),func_0204E720(unsigned,int,int,int);
+extern unsigned func_021B61FC(const unsigned char *p);
+extern int func_021BA9D0(unsigned char *p);
+extern void func_021B6200(unsigned char *p);
+extern void func_021BA444(void *);
+extern void func_021BA650(char *p);
+extern void func_021BA95C(unsigned char *p, int index);
+extern void func_021BA68C(char *p, unsigned i, int kind);
+extern void func_0204E720(unsigned,int,int,int);
 int func_021B9D80(void *state,char *p)
 {
     int stage;
@@ -27,10 +33,10 @@ int func_021B9D80(void *state,char *p)
     func_021BA444(p);func_021BA650(p+0x498C);
     switch(stage) {
     case 0:
-        func_021BA95C(p+0x24,5);((struct Obj14693 *)p)->f49D0=0;func_021B6200(state);break;
+        func_021BA95C((unsigned char *)(p+0x24),5);((struct Obj14693 *)p)->f49D0=0;func_021B6200(state);break;
     case 1:
         if((((struct Obj14693 *)p)->f49D0)++==30) func_021BA68C(p+0x498C,2,2);
-        if(func_021BA9D0(p+0x24)==0) {func_0204E720(3,0,16,-3);return 1;}
+        if(func_021BA9D0((unsigned char *)(p+0x24))==0) {func_0204E720(3,0,16,-3);return 1;}
         break;
     case 2:break;
     }

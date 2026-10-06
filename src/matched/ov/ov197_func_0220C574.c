@@ -29,7 +29,7 @@ struct Pair { short x, y; };
 extern const struct Pair d_0220DB88[];
 extern unsigned func_0220BB98(const char *, unsigned);
 typedef unsigned int   u32;
-extern u16 func_0220BBD8(u32 key);
+extern int func_0220BBD8(u32 key);
 extern void func_0220C180(char *, unsigned, unsigned, unsigned);
 extern void func_0220C220(char *, unsigned, unsigned);
 extern void func_0220C4D4(int, int);

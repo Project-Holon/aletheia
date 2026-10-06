@@ -25,7 +25,8 @@
  */
 
 extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
-extern int func_0209477C(char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern char g_021A20E0[];
 extern char g_021A20F0[];
 extern char g_021A209C[];
@@ -46,5 +47,5 @@ int func_0216FAD4(char *filter, int profileID, unsigned char numEntry, unsigned 
         func_02084F80(tempFilter, 511, g_021A209C, g_021A20E0, hostState);
     func_02084F80(filter, 511, g_021A2108, g_021A2164, 90, g_021A20A4, profileID, numEntry, numEntry,
                   g_021A2170, matchType, g_021A217C, 0, tempFilter);
-    return func_0209477C(filter);
+    return func_0209477C((const u8 *)filter);
 }

@@ -16,11 +16,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BEC08(u8 *,u8 *);
-extern void func_021BA1B4(u8 *,int);
+extern void func_021BA1B4(char **p, int i);
 void func_021BEC2C(u8 *p,u8 *a,int c)
 {
     if(func_021BEC08(p,a)) {
-        if(c==150) func_021BA1B4(*(u8 * *)&((struct Obj09965 *)p)->f4,73);
-        else if(c==165) func_021BA1B4(*(u8 * *)&((struct Obj09965 *)p)->f4,74);
+        if(c==150) func_021BA1B4((char **)(*(u8 * *)&((struct Obj09965 *)p)->f4),73);
+        else if(c==165) func_021BA1B4((char **)(*(u8 * *)&((struct Obj09965 *)p)->f4),74);
     }
 }

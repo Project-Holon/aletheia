@@ -22,7 +22,8 @@
 #include "../include/Obj23721.h"
 typedef unsigned short u16;
 typedef signed short s16;
-extern void *func_021DCF50(void *);
+typedef unsigned char  u8;
+extern void *func_021DCF50(u8 *p);
 typedef unsigned int   u32;
 extern int func_021841A4(unsigned char *p);
 extern int func_021DE354(void *p);
@@ -32,7 +33,7 @@ extern u16 func_02039338(void);
 extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
 int func_021DDB04(char *p, int state) {
     unsigned char buf[4];
-    if (((struct Obj23720 *)(*(char * *)&((struct Obj03303 *)p)->f10))->f38 != func_021841A4(func_021DCF50(p)) ||
+    if (((struct Obj23720 *)(*(char * *)&((struct Obj03303 *)p)->f10))->f38 != func_021841A4(func_021DCF50((u8 *)p)) ||
         ((struct Obj23721 *)(*(char * *)&((struct Obj03303 *)p)->f10))->f38 != func_021DE354(p)) {
         ((struct Obj03303 *)p)->f4820 = 0;
         ((struct Obj03303 *)p)->f118 = 8;

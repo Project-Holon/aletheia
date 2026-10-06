@@ -39,7 +39,7 @@ struct V3;
 extern void func_02169510(u8 *src, struct V3 *dst);
 extern void func_0207C9D0(void *a, void *b, void *c);
 extern void func_0218DC5C(u32 a, void *b);
-extern void func_0218BFB4(u8 *owner, u8 *node, u8 *rec);
+extern void func_0218BFB4(u8 *a, u32 *out, u32 *st);
 extern void func_0218BA70(u8 *owner, u8 *node);
 extern void func_0218C54C(u32 a, int b);
 extern s16 d_020A1B38[];
@@ -65,7 +65,7 @@ u8 *func_0218C724(u8 *owner, u32 *obj)
     ((struct Obj04200 *)p)->f30 = 0x1000;
     ((struct Obj04200 *)p)->f34 = 0x1000;
     ((struct Obj04200 *)p)->f38 = 0x1000;
-    func_0218BFB4(owner, p + 0xC, *(u8 * *)&((struct Obj04199 *)owner)->f1CC + ((struct Obj12576 *)def)->f0 * 0x18);
+    func_0218BFB4(owner, (u32 *)(p + 0xC), (u32 *)(*(u8 * *)&((struct Obj04199 *)owner)->f1CC + ((struct Obj12576 *)def)->f0 * 0x18));
     func_0218BA70(owner, p);
     func_0218C54C(*(u32 *)&((struct Obj04200 *)p)->f8, 0);
     return p;

@@ -31,7 +31,9 @@ extern void func_021BB398(int p, u32 val);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
-extern void func_0204B404(int, Pt *, int);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 extern void func_0202EB04(struct CodeIn *p);
@@ -46,7 +48,7 @@ void func_021BA41C(char *p)
     func_021BB398((int)p, 0);
     func_0204B454((struct Actor *)((struct Obj01365 *)p)->f6A4, (struct PtS *)&pt, 0xFFFF);
     pt.b = (((struct Obj01365 *)p)->f810 + 1) * 0x18;
-    func_0204B404(((struct Obj01365 *)p)->f6A4, &pt, 0xFFFF);
+    func_0204B404((struct Obj *)(((struct Obj01365 *)p)->f6A4), (const struct Vec2 *)(&pt), 0xFFFF);
     if (func_020355C4() == 0) {
         func_021BB398((int)p, 1);
     }

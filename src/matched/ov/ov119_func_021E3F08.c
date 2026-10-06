@@ -17,7 +17,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0203FB44(int, u16, u16);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
 void func_021E3F08(char *p)
 {
@@ -25,6 +25,6 @@ void func_021E3F08(char *p)
 
     v = ((struct Obj00001 *)p)->f86C;
     if (v != 0)
-        func_0203FB44(2, v, v >> 16);
+        func_0203FB44((int)2, (u16)v, (u16)(v >> 16));
     ((struct Obj00001 *)p)->f86C = 0;
 }

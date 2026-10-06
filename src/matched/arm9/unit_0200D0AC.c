@@ -65,7 +65,7 @@ u32 func_0200D064(struct Blk37 *p, u16 id);
 u16 func_0200D0CC(struct Blk37 *p);
 u16 func_0200D0F8(struct Blk37 *p, u32 heap);
 
-u16 func_0200D0AC(struct Blk37 *p, u32 heap)
+u32 func_0200D0AC(struct Blk37 *p, u32 heap)
 {
     if (func_0200CA38(p) != 0) {
         return func_0200D0CC(p);

@@ -14,11 +14,12 @@
  *   d_02183B2C 0x02183B2C data a4
  */
 extern unsigned char d_02183B2C[];
-extern void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Handle;
 extern int func_02190C78(struct Handle *h);
 int func_0217F508(void **p)
 {
-    if (p[11] == 0) func_02034714(d_02183B2C, 0, d_02183B2C);
+    if (p[11] == 0) func_02034714((const char *)d_02183B2C, 0, (const char *)d_02183B2C);
     return func_02190C78(p[11]);
 }

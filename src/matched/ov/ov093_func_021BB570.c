@@ -31,7 +31,8 @@ extern void func_021BBD80(u8 *);
 extern int func_021BBD8C(u8 *, int);
 extern void func_021BBD20(u8 *);
 extern int func_021BBD2C(u8 *, int);
-extern int func_0203EFC8(const void *, const void *, u32);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 int func_021BB570(u8 *p, int sel, void *data, u32 n)
 {
@@ -57,7 +58,7 @@ int func_021BB570(u8 *p, int sel, void *data, u32 n)
         break;
     }
     s = *(u32 * *)&((struct Obj03190 *)p)->fCB0;
-    if (s[0] == n && func_0203EFC8(s + 2, data, n) == 0)
+    if (s[0] == n && func_0203EFC8((const u8 *)(s + 2), data, n) == 0)
         return 0;
     return 1;
 }

@@ -24,22 +24,23 @@ struct F {
     u8 b : 1;
 };
 
-extern void *func_021B86B8(void *);
-extern unsigned int func_021D826C(void *);
+typedef unsigned int   u32;
+extern void *func_021B86B8(void ***p);
+extern u32 func_021D826C(u32 *p);
 extern int func_021D8270(void *, int, unsigned int);
 
 int func_021BA54C(char *p)
 {
     int v;
 
-    if ((int)func_021B86B8(p) == 4) {
+    if ((int)func_021B86B8((void ***)p) == 4) {
         v = 1;
     } else if (((struct F *)(p + 0x473))->b) {
         v = 6;
     } else if (((struct Obj21014 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f90 != 6) {
         v = 5;
-    } else if (func_021D826C(p + 0x448)) {
-        v = func_021D8270(p + 0x448, *(u8 *)&((struct Obj00324 *)p)->f46C, (unsigned int)func_021B86B8(p));
+    } else if (func_021D826C((u32 *)(p + 0x448))) {
+        v = func_021D8270(p + 0x448, *(u8 *)&((struct Obj00324 *)p)->f46C, (unsigned int)func_021B86B8((void ***)p));
     } else {
         if (((struct Obj00324 *)p)->f444 == 7) {
             ((struct Obj00324 *)p)->f444 = 1;

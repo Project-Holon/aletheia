@@ -29,8 +29,10 @@ extern u32 d_021BA1D4[];
 extern void func_02082BCC(void*,int,u32);
 extern void func_0203F8F4(u32);
 extern void func_02045088(u32);
-extern void func_0203FC28(void*);
-extern void func_0203FCA0(u8,const void*,u8);
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 void func_021B9FB0(void*p,u32 heap)
@@ -39,11 +41,11 @@ void func_021B9FB0(void*p,u32 heap)
  func_02082BCC(p,0,4);
  func_0203F8F4(heap);
  func_02045088(heap);
- func_0203FC28(d_021BA1D4);
+ func_0203FC28((struct DispConfig *)d_021BA1D4);
  for(i=0;i<2;i++){
   const Row *row=&d_021BA250[i];
   u32 layer=row->layer;
-  func_0203FCA0(layer,row->cfg,row->type);
+  func_0203FCA0((u8)layer,(const struct BgTemplate *)row->cfg,(u8)row->type);
   func_020414AC(layer);
   func_02040588(layer,row->enable);
  }

@@ -77,10 +77,11 @@ struct GTI2IncomingBufferMessage {
 extern int func_02184200(const int *p);
 extern void *func_02184208(struct DArrayImplementation *array, int n);
 extern int func_02195EB4(unsigned short SN1, unsigned short SN2);
-extern int func_02194DD4(struct GTI2Buffer *buffer);
+struct Conn;
+extern int func_02194DD4(const int *p);
 extern void func_021842D0(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
 extern void func_02194E2C(struct GTI2Buffer *buffer, unsigned char *data, int len);
-extern int func_02197AD8(struct GTI2Connection *connection, unsigned short SNMin, unsigned short SNMax);
+extern int func_02197AD8(struct Conn *connection, unsigned short SNMin, unsigned short SNMax);
 extern int func_02196658(void *elem1, void *elem2);
 
 int func_0219666C(struct GTI2Connection *connection, int type, unsigned short SN,
@@ -105,7 +106,7 @@ int func_0219666C(struct GTI2Connection *connection, int type, unsigned short SN
             break;
     }
 
-    if (func_02194DD4(&connection->incomingBuffer) < len) {
+    if (func_02194DD4((const int *)(&connection->incomingBuffer)) < len) {
         *overflow = 1;
         return 1;
     }
@@ -124,7 +125,7 @@ int func_0219666C(struct GTI2Connection *connection, int type, unsigned short SN
     func_02194E2C(&connection->incomingBuffer, message, len);
 
     if (num == 0) {
-        if (!func_02197AD8(connection, connection->expectedSerialNumber, (unsigned short)(SN - 1)))
+        if (!func_02197AD8((struct Conn *)connection, connection->expectedSerialNumber, (unsigned short)(SN - 1)))
             return 0;
     } else {
         msg = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, num);
@@ -132,7 +133,7 @@ int func_0219666C(struct GTI2Connection *connection, int type, unsigned short SN
             prev = (struct GTI2IncomingBufferMessage *)func_02184208(connection->incomingBufferMessages, num - 1);
             diff = (unsigned short)func_02195EB4(SN, prev->serialNumber);
             if (diff > 1) {
-                if (!func_02197AD8(connection, (unsigned short)(prev->serialNumber + 1), (unsigned short)(SN - 1)))
+                if (!func_02197AD8((struct Conn *)connection, (unsigned short)(prev->serialNumber + 1), (unsigned short)(SN - 1)))
                     return 0;
             }
         }

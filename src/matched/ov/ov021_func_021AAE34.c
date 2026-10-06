@@ -64,17 +64,18 @@ typedef struct {
 } S;
 
 extern u32 func_02005728(u32 n);
-extern T *func_02012A38(int a);
+struct BigObj;
+extern u32 func_02012A38(const struct BigObj *p);
 extern int func_021AAEC0(S *s, s16 x, s16 y, s16 z, int w);
 extern u16 func_02188C9C(u8 *p);
-extern void func_021AABEC(T *t);
+extern void func_021AABEC(u8 *p);
 extern void func_021AAFC0(S *s, R *r, Sub *b);
 
 void func_021AAE34(S *s, R *r)
 {
     u16 k = func_02005728(r->h4);
     E *e = &r->e[k];
-    T *t = func_02012A38(s->f8);
+    T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
     Sub *b = &t->sub;
     e->h4 = (e->f8 >> 4) / 0x1000;
     if (func_021AAEC0(s, e->h2, e->h4, e->h6, 0) == 0) {
@@ -85,7 +86,7 @@ void func_021AAE34(S *s, R *r)
         b->bc = e->b0;
         b->h0 = func_02188C9C((u8 *)s->f0);
         b->lo = 1;
-        func_021AABEC(t);
+        func_021AABEC((u8 *)t);
         func_021AAFC0(s, r, b);
     }
 }

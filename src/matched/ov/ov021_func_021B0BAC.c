@@ -80,9 +80,10 @@ extern u32 func_0215A654(u8 *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern int func_021B0A40(u32, V3 *);
+struct Q;
+extern int func_021B0A40(u32 a, struct Q *q);
 extern void func_021B09EC(int, int *, int *);
-extern void func_0215A660(u32, u8);
+extern void func_0215A660(u8 *p, u32 v);
 extern void func_0215A678(u8 *p, u8 v);
 extern void func_021B0B08(void *a, int b);
 extern void func_021B0ADC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
@@ -128,11 +129,11 @@ int func_021B0BAC(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
         if (e == 0) {
             func_0215A654((u8 *)b);
             func_0216D88C((const struct Actor *)m1c, (struct VecFx32 *)&v);
-            sel = func_021B0A40(m20, &v);
+            sel = func_021B0A40(m20, (struct Q *)(&v));
         }
         func_021B09EC(sel, &oa, &ob);
         s->flag = oa;
-        func_0215A660(b, sel);
+        func_0215A660((u8 *)b, (u8)sel);
         func_0215A678((u8 *)b, e);
         func_021B0B08((void *)b, 1);
         func_021B0ADC(b, *q, oa, (u32)(&s->sum), r7, f, ob);

@@ -16,4 +16,4 @@ typedef signed short s16;
 typedef unsigned short u16;
 extern void func_0216FC50(void *);
 extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
-void func_0216FC74(void *a,int b,int c,u16 d,void *e,void *f) { func_0216FC50(e); func_0201C7D0(e,b,c,a,f,d); }
+void func_0216FC74(void *a, u16 b, u16 c, u16 d, void *e, void *f) { func_0216FC50(e); func_0201C7D0(e,b,c,a,f,d); }

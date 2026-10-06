@@ -16,9 +16,9 @@
 
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
-extern void func_02035BBC(int a, const void *p);
+extern int func_02035BBC(void *ctx, void *param);
 
 void func_02035C08(const void *p)
 {
-    func_02035BBC((int)func_02035224(), p);
+    func_02035BBC((void *)((int)func_02035224()), (void *)p);
 }

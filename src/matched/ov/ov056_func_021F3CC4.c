@@ -29,10 +29,10 @@ typedef struct VecFx32 { s32 x; s32 y; s32 z; } VecFx32;
 
 struct Actor;
 extern void func_0216DAC8(unsigned int *p, unsigned int v);
-extern void func_0216E084(void *m, s16 x, s16 y, s16 z, u16 e);
+extern void func_0216E084(void *a, unsigned int x, unsigned int y, unsigned int z, u16 k);
 extern int func_02164010(int a);
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void func_021A3044(void *p, const VecFx32 *v);
+extern void func_021A3044(u8 *p, void *v);
 extern void func_0216DC18(void *m, u32 v);
 
 void func_021F3CC4(u8 *p, int flag)
@@ -46,8 +46,8 @@ void func_021F3CC4(u8 *p, int flag)
     }
     ((struct Obj01881 *)p)->f5C = 0;
     func_0216DAC8(((struct Obj01881 *)p)->f68, 0);
-    func_0216E084(((struct Obj01881 *)p)->f68, ((struct Obj01881 *)p)->f6C, ((struct Obj01881 *)p)->f70,
-                  ((struct Obj01881 *)p)->f74, ((struct Obj01881 *)p)->f78);
+    func_0216E084(((struct Obj01881 *)p)->f68, (s16)(((struct Obj01881 *)p)->f6C), (s16)(((struct Obj01881 *)p)->f70),
+                  (s16)(((struct Obj01881 *)p)->f74), ((struct Obj01881 *)p)->f78);
     func_02164010((int)(((struct Obj01881 *)p)->f68));
     func_0216D88C(((struct Obj01881 *)p)->f68, &v);
     func_021A3044(((struct Obj01881 *)p)->f64, &v);

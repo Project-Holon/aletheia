@@ -22,7 +22,7 @@ typedef signed char    s8;
 typedef struct { u16 a; u16 b; u16 c; u16 pad; } Ent;
 typedef struct { int n; Ent *e; } Tbl;
 extern void func_0219CB98(u8 *, u16);
-extern void func_0219CA34(Tbl *);
+extern void func_0219CA34(u8 *p);
 
 void func_0219CAF4(u8 *s)
 {
@@ -36,5 +36,5 @@ void func_0219CAF4(u8 *s)
         i++;
         e++;
     } while (i < ((Tbl *)(s + 0x14))->n);
-    func_0219CA34((Tbl *)(s + 0x14));
+    func_0219CA34((u8 *)(s + 0x14));
 }

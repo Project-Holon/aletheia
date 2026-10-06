@@ -100,7 +100,8 @@ struct Sub0203F4E4Date {
     s32 week;
 };
 
-extern void func_0203F4E4(struct Sub0203F4E4Date *date);
+struct RtcDate;
+extern void func_0203F4E4(struct RtcDate *date);
 extern int  sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
 
 void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src);
@@ -184,7 +185,7 @@ void sub_02009B80(struct Sub020097BCObj *obj, int i)
 {
     struct Sub0203F4E4Date date;
 
-    func_0203F4E4(&date);
+    func_0203F4E4((struct RtcDate *)(&date));
     obj->unk1C0[i].unk2A = date.year + 2000;
     obj->unk1C0[i].unk2C = date.month;
     obj->unk1C0[i].unk2D = date.day;

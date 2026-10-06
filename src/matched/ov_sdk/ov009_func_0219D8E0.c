@@ -15,11 +15,11 @@
  *   func_0219D5B0  0x0219D5B0  arm  ov009
  */
 
-extern void func_0219D5B0(void *p);
+extern void func_0219D5B0(int *p);
 
 void func_0219D8E0(char *p)
 {
-    func_0219D5B0(p + 0x14);
-    func_0219D5B0(p + 8);
+    func_0219D5B0((int *)(p + 0x14));
+    func_0219D5B0((int *)(p + 8));
 }
 

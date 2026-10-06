@@ -18,5 +18,5 @@
 extern void func_021B6A0C(void *, void *, int, int, int, int, int, void *);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
-extern void func_021B6B58(void *, int);
-void func_021B9B64(char *p, char *q) { func_021B6A0C(((struct Obj02123 *)p)->f4, q + 8, 1, 2, 0x40, 0xb4, 0x24, 0); if (func_020355C4() == 1) func_021B6B58(q + 8, 0); }
+extern void func_021B6B58(void **p, int v);
+void func_021B9B64(char *p, char *q) { func_021B6A0C(((struct Obj02123 *)p)->f4, q + 8, 1, 2, 0x40, 0xb4, 0x24, 0); if (func_020355C4() == 1) func_021B6B58((void **)(q + 8), 0); }

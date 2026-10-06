@@ -40,9 +40,10 @@ typedef struct {
     Node0204C98C  *head;
 } List0204C98C;
 
-extern u32 func_0204B838(Node0204C98C *n);
-extern Node0204C98C *func_0204CA74(Node0204C98C *n, u32 key);
-extern Node0204C98C *func_0204CAAC(Node0204C98C *n, u32 key);
+extern int func_0204B838(int a0);
+struct Node;
+extern void *func_0204CA74(struct Node *head, u32 key);
+extern struct Node *func_0204CAAC(struct Node *head, u32 key);
 
 void func_0204C98C(List0204C98C *a0, Node0204C98C *a1)
 {
@@ -55,8 +56,8 @@ void func_0204C98C(List0204C98C *a0, Node0204C98C *a1)
         return;
     }
     {
-        u32 key = func_0204B838(a1);
-        u32 headkey = func_0204B838(a0->head);
+        u32 key = func_0204B838((int)a1);
+        u32 headkey = func_0204B838((int)a0->head);
         u32 tailkey;
         u8  avg;
 
@@ -64,12 +65,12 @@ void func_0204C98C(List0204C98C *a0, Node0204C98C *a1)
             pos = a0->head->prev;
             a0->head = a1;
         } else {
-            tailkey = func_0204B838(a0->head->prev);
+            tailkey = func_0204B838((int)a0->head->prev);
             avg = (u8)((int)(headkey + tailkey) / 2);
             if (avg >= key) {
-                pos = func_0204CA74(a0->head, key);
+                pos = func_0204CA74((struct Node *)a0->head, key);
             } else {
-                pos = func_0204CAAC(a0->head->prev, key);
+                pos = (Node0204C98C *)func_0204CAAC((struct Node *)a0->head->prev, key);
             }
         }
     }

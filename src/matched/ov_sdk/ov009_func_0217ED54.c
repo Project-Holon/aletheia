@@ -17,7 +17,7 @@
 
 extern char g_021AD0F4[];
 
-int func_0217ED54(void)
+int func_0217ED54(int sock)
 {
     return *(int *)(g_021AD0F4 + 4);
 }

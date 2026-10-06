@@ -56,7 +56,7 @@ extern void func_021A2F6C(u32 *p);
 extern void func_0216DB4C(int a, int b);
 extern void func_0216DC98(int a, int b);
 extern void func_0216DAE0(unsigned int *p, unsigned int v);
-extern void func_0216DAF8(int a);
+extern void func_0216DAF8(void *a0);
 extern u32 func_02188D30(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02030DA8(u32 owner, void *cb, void *arg, u32 n);
@@ -81,7 +81,7 @@ W *func_021F36C0(int unused, u32 sys, int c, int d)
     func_0216DB4C(p->f10, 1);
     func_0216DC98(p->f10, 1);
     func_0216DAE0((unsigned int *)p->f10, 0);
-    func_0216DAF8(p->f10);
+    func_0216DAF8((void *)p->f10);
     p->f80 = func_02030DA8(func_02188D30((u8 *)sys), (void *)func_021F377C, p, 0);
     return p;
 }

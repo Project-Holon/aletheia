@@ -58,8 +58,8 @@ typedef struct Msg {
 
 extern int func_0217AE38(char *p, char v);
 extern u16 func_0217AED4(u8 *a, u8 *b);
-extern void *func_0217AFB0(u8 *w, Entry *e, Msg *m);
-extern int  func_0217F060(u8 v);
+extern void *func_0217AFB0(void **a, u8 *b, u8 *c);
+extern int func_0217F060(int i);
 extern int func_0217F858(int a);
 extern int func_0216D3CC(int a0);
 extern void func_0216D410(void *a0, u16 a1);
@@ -92,17 +92,17 @@ int func_0217B4C4(u8 *w, Msg *m)
     v = s[2];
     if (v != 0 && (v == t || (t == 0 && v == e->kind)) && m->idx == 0
         && func_0217F060(e->bB) > e->n) {
-        r = func_0217AFB0(w, m->e, m);
+        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
         if (func_0216D3CC((int)r) == 1) {
             func_0216D410(r, 0x31);
         }
     } else if (m->idx == 0 && e->n > 1) {
-        r = func_0217AFB0(w, m->e, m);
+        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
         if (func_0216D5A0(r) == 2) {
             func_0216E0E8((int)r, 0xF);
         }
     } else if (m->idx == 0 && e->n <= 1) {
-        r = func_0217AFB0(w, m->e, m);
+        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
         if (func_0216D5A0(r) == 0xF) {
             func_0216E0E8((int)r, 2);
         }

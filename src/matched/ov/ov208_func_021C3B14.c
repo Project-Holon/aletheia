@@ -19,7 +19,7 @@ typedef unsigned int u32;
 struct Actor;
 extern void func_0204B688(struct Actor *p, u32 on);
 extern void func_021BC518(int *p);
-void func_021C3B14(void *unused, u8 *p)
+void func_021C3B14(void *unused, u8 *p, int a2)
 {
     u8 i;
     for (i = 0; i < 2; i++) {
@@ -31,7 +31,7 @@ void func_021C3B14(void *unused, u8 *p)
     func_021BC518(*(int * *)&((struct Obj00146 *)p)->fC0);
     func_021BC518(*(int * *)&((struct Obj00146 *)p)->fC4);
 }
-void func_021C3B68(u16 *p, u16 value)
+void func_021C3B68(u16 *p, u32 value)
 {
     *p = value;
 }

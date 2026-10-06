@@ -25,7 +25,7 @@ unsigned char *func_021A2630(unsigned char *o);
 unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 void func_021A2640(unsigned char *a, struct PtS *pt);
-void func_021A2654(int a, short *pt);
+void func_021A2654(int obj, unsigned short *src);
 void func_021A21E0(u32 *p);
 
 void func_021EE990(int a)
@@ -42,7 +42,7 @@ void func_021EE990(int a)
             o[4] = o[4] + o[5];
         if (o[0]++ > o[1])
             o[3] = 1;
-        func_021A2654(a, pt);
+        func_021A2654(a, (short unsigned int *)pt);
     } else {
         func_021A21E0((u32 *)a);
     }

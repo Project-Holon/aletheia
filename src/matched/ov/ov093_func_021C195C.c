@@ -18,16 +18,17 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u16 func_021D5B40(void *p);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021C199C(u8 *p, u8 *q, u32 n);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 void func_021C195C(u8 *p, u8 *q, u32 n)
 {
-    if (func_021D5B40(q)) {
+    if (func_021D5B40((struct QI *)q)) {
         u32 s = func_021CC8D8(p + 0x1D74, 6844);
         func_021C199C(p, q, n);
-        func_021CC95C(p + 0x1D74, s, 6850);
+        func_021CC95C((u32 *)(p + 0x1D74), s, 6850);
     }
 }

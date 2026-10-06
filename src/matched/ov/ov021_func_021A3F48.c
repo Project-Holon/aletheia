@@ -20,11 +20,12 @@ typedef struct {
     short step;
 } Obj021A3F48;
 
-int func_021A3D50(Obj021A3F48 *p, int a);
+typedef unsigned int   u32;
+int func_021A3D50(u32 a, u32 b);
 
 int func_021A3F48(Obj021A3F48 *p)
 {
-    if (func_021A3D50(p, 4) != 1)
+    if (func_021A3D50((u32)p, 4) != 1)
         p->step++;
     return 0;
 }

@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Grid;struct Obj020437AC;
 extern void func_0202570C(struct Grid *);
 extern void func_020437AC(struct Obj020437AC *);
-void func_021B7798(u8 *p,int n) { if(*(void **)((u32)p+0x9120+(u32)n*8)) { func_0202570C(*(struct Grid **)((u32)p+0x9120+(u32)n*8)); func_020437AC(*(struct Obj020437AC **)((u32)p+0x9124+(u32)n*8)); *(u32 *)((u32)p+0x9120+(u32)n*8)=0; } }
+void func_021B7798(int *p, int n) { if(*(void **)((u32)p+0x9120+(u32)n*8)) { func_0202570C(*(struct Grid **)((u32)p+0x9120+(u32)n*8)); func_020437AC(*(struct Obj020437AC **)((u32)p+0x9124+(u32)n*8)); *(u32 *)((u32)p+0x9120+(u32)n*8)=0; } }

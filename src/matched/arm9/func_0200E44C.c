@@ -11,4 +11,4 @@
  * status:   EXACT*
  */
 
-int func_0200E44C(int p0, int p1, int p2, int p3){ return *(unsigned char *)(((p0 + p1) + ((0xa << 6) << 0))); }
+int func_0200E44C(int p0, int p1){ return *(unsigned char *)(((p0 + p1) + ((0xa << 6) << 0))); }

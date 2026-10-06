@@ -56,7 +56,9 @@ extern u8 func_02012B58(const struct BigObj *p);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 extern Mon *func_0217BEA8(int a0);
-extern void func_0204B404(int a0, s16 *a1, int a2);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
 extern void func_0217F118(Obj *p, int a1);
@@ -106,7 +108,7 @@ void func_0217E3D0(Obj *p, int a1, u16 id)
         }
     }
     h = p->f98;
-    func_0204B404(h, pos, 0);
+    func_0204B404((struct Obj *)h, (const struct Vec2 *)pos, 0);
     func_0204B3DC((struct Obj *)h, 1);
     func_0217F118(p, sel);
     p->slots[idx].id = id;

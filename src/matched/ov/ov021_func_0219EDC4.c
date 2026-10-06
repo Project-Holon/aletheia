@@ -50,17 +50,17 @@ typedef struct {
     u8  f;
 } E;
 
-extern E *func_0216D69C(u32);
-extern u16 func_0216D5D4(void *p);
-extern u32 func_021642A4(u16);
-extern void func_0216D60C(u32, u16);
-extern void func_0219E2F4(u32, T *);
+extern void *func_0216D69C(void *p);
+extern int func_0216D5D4(void *p);
+extern u16 func_021642A4(int i);
+extern int func_0216D60C(int a0, int a1);
+extern void func_0219E2F4(void *o, void *out);
 extern u16 func_0216D608(void *p);
 extern u32 func_0219E418(u32, u16);
 extern void func_0219E664(u32, u16, T *);
 extern int func_0219E9A8(u32, u32, s32, T *);
-extern u32 func_02197E7C(u16, u16);
-extern void func_0216D438(u32, u16);
+extern int func_02197E7C(int a, int b);
+extern void func_0216D438(int a0, int a1);
 extern void func_0216DA44(u32);
 extern u32 func_02197EDC(u8 *p);
 extern void func_0216DA50(u8 *p);
@@ -76,19 +76,19 @@ int func_0219EDC4(u32 o)
     T c;
     T b;
 
-    e = func_0216D69C(o);
+    e = func_0216D69C((void *)o);
     switch (e->state) {
     case 0:
         k = func_0216D5D4((void *)o);
         if (e->d == 1) {
-            k = func_021642A4(k);
+            k = (u32)func_021642A4((u16)k);
         }
-        func_0216D60C(o, k);
+        func_0216D60C((u32)o, (u16)k);
         e->state = 1;
     case 1:
-        func_0219E2F4(o, &c);
+        func_0219E2F4((void *)o, &c);
         if (e->d != 0 && e->f == c.d && e->e == c.c) {
-            func_0216D60C(o, func_021642A4(func_0216D608((void *)o)));
+            func_0216D60C((u32)o, (u16)((u32)func_021642A4((u16)func_0216D608((void *)o))));
             e->d = 0;
         }
         z = 0;
@@ -101,11 +101,11 @@ int func_0219EDC4(u32 o)
         }
         if ((s & 1) || r || z) {
             e->d = 1;
-            k = func_021642A4(k);
+            k = (u32)func_021642A4((u16)k);
             s = func_0219E418(o, k);
             func_0219E664(o, k, &b);
         }
-        func_0216D438(o, func_02197E7C(k, s == 0 ? 0xc : 0x20));
+        func_0216D438((u32)o, (u16)((u32)func_02197E7C((u16)k, (u16)(s == 0 ? 0xc : 0x20))));
         func_0216DA44(o);
         e->state = 2;
         break;

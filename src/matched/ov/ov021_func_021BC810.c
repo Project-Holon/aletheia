@@ -18,10 +18,13 @@ typedef struct {
     void *f10;
 } Obj;
 
-extern int func_021BD090(Obj *p);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u16 func_021BD090(u8 *p);
+extern void *func_020490F4(u32 id, u16 heap);
 
 void func_021BC810(Obj *p)
 {
-    p->f10 = func_020490F4(0x54, func_021BD090(p));
+    p->f10 = func_020490F4(0x54, func_021BD090((u8 *)p));
 }

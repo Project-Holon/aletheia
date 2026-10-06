@@ -18,13 +18,14 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D62A8(u8 *p);
+struct Unk021D62A8;
+extern int func_021D62A8(struct Unk021D62A8 *p);
 extern int func_0201BEB8(void *bag, int item);
 extern int func_021D7AF0(u32 pct);
 extern void func_021C557C(u8 *p, u8 *a, int k, int flag);
 int func_021C0404(u8 *p, u8 *a, void *bag)
 {
-    int k = func_021D62A8(a);
+    int k = func_021D62A8((struct Unk021D62A8 *)a);
     int f = 0;
     int r = 0;
     if (k == 3) {

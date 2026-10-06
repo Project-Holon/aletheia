@@ -33,7 +33,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *);
 extern void func_021F6B7C(int, int);
 extern void func_021F6CE4(int, int);
-extern void func_021F6D70(int, int);
+extern void func_021F6D70(char *p, int idx);
 extern void func_021F6EE8(unsigned p, unsigned i);
 
 void func_021F6A98(int a)
@@ -50,7 +50,7 @@ void func_021F6A98(int a)
         if (*(int *)(a + i * 4 + 0xf8) != 0) {
             func_021F6B7C(a, i);
             func_021F6CE4(a, i);
-            func_021F6D70(a, i);
+            func_021F6D70((char *)a, i);
             func_021F6EE8(a, i);
         } else {
             func_02045334((struct Descriptor *)p[8]);

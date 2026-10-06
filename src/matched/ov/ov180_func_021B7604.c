@@ -13,12 +13,12 @@
  *   func_021B75E8  0x021B75E8  thumb  ov180
  */
 
-extern void func_021B75E8(int *, int);
+extern void func_021B75E8(char *p, int i);
 
 void func_021B7604(int *p)
 {
     unsigned int i;
 
     for (i = 0; i < 0x21; i++)
-        func_021B75E8(p, i);
+        func_021B75E8((char *)p, i);
 }

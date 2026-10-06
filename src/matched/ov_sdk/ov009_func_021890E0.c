@@ -74,8 +74,8 @@ typedef struct GPIConnection {
 
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern void func_02193734(int *p, int b);
-extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
-extern int func_0218949C(void **connection, GPIBuffer *outputBuffer, int num);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
 extern int func_02189300(void **connection, int id, int isDeleted);
 extern void func_0217EAE0(void *ptr);
 extern int func_0218FFFC(void **connection, int (*func)(void **, GPIProfile *, void *), void *data);
@@ -99,12 +99,12 @@ int func_021890E0(void **connection, int profile, int sendServerRequest)
     }
 
     if (sendServerRequest == 1) {
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A44AC);
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A424C);
-        func_0218949C(connection, &iconnection->outputBuffer, iconnection->sessKey);
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A44B8);
-        func_0218949C(connection, &iconnection->outputBuffer, pProfile->profileId);
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A4270);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A44AC);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A424C);
+        func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->sessKey);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A44B8);
+        func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), pProfile->profileId);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4270);
     }
     func_02189300(connection, profile, 1);
 

@@ -25,7 +25,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-void func_0204EDC4(u8 *dst, u16 a, u16 b)
+void func_0204EDC4(u8 *dst, int a, int b)
 {
     ((struct Obj11444 *)dst)->f36 = a;
     ((struct Obj11444 *)dst)->f38 = b;

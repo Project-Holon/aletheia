@@ -15,11 +15,12 @@
  */
 #include "../include/Obj08350.h"
 
-extern void func_02208A78(void *);
+struct Anim;
+extern void func_02208A78(struct Anim *p);
 extern void func_02208A24(int);
 
 void func_02208804(char *a)
 {
-    func_02208A78(a);
+    func_02208A78((struct Anim *)a);
     func_02208A24(((struct Obj08350 *)a)->f10);
 }

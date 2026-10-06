@@ -34,7 +34,7 @@ struct CharBuf;
 struct MsgBank;
 struct WordSet;
 extern struct U16Vec *func_020457B0(u32,u32);
-extern struct CharBuf *func_02045770(struct Descriptor *);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *,u8);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
 extern void func_0201F02C(struct WordSet *,u32,void *);

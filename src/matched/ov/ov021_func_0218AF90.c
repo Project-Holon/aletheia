@@ -53,7 +53,8 @@ struct FieldInput {
 
 typedef struct Vec { int x, y, z; } Vec;
 
-extern void func_0218AE48(struct FieldInput *p, Vec *out);
+struct Obj;
+extern void func_0218AE48(struct Obj *p, struct Vec *out);
 extern int func_021BE288(u8 *pos, int k);
 struct Desc;
 extern int func_021F3A88(int a0, int a1, int a2);
@@ -66,7 +67,7 @@ extern int func_0218B630(void *p, u32 move);
 extern u16 func_021AB0F0(u32 a);
 extern int func_021AB310(u16 a);
 extern void *func_021A3074(unsigned char *p);
-extern void func_02164208(u32 dir, Vec *pos, int step);
+extern void func_02164208(int dir, int *p, int amt);
 extern int func_02163E58(void *m, Vec *pos, int *h);
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 extern u32 func_0218AE04(u8 *p, void *arg);
@@ -81,7 +82,7 @@ int func_0218AF90(struct FieldInput *p, void *a, u8 *pos)
     u32 attr;
     void *m;
 
-    func_0218AE48(p, &v);
+    func_0218AE48((struct Obj *)p, &v);
     if (func_021BE288(pos, 6))
         return func_021F3A88((int)a, v.x / 0x10000, v.z / 0x10000);
     if (func_021BE288(pos, 0x19) || func_021BE288(pos, 0x1A) || func_021BE288(pos, 0x1B))
@@ -93,7 +94,7 @@ int func_0218AF90(struct FieldInput *p, void *a, u8 *pos)
         && func_021AB310(func_021AB0F0(attr)) == 1) {
         w = v;
         m = func_021A3074(p->f18);
-        func_02164208(p->f24, &w, 0x10000);
+        func_02164208(p->f24, (int *)(&w), 0x10000);
         if (func_02163E58(m, &w, &h) == 1 && v.y > h)
             return (int)func_02158768((int)p->sys, 0x271F, 0, p->f0);
     }

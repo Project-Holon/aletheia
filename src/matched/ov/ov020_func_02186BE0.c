@@ -13,7 +13,7 @@
 
 typedef unsigned char u8;
 
-void func_02186BE0(char *p, u8 v)
+void func_02186BE0(char *p, int v)
 {
     ((struct Obj19474 *)p)->f2 = v;
 }

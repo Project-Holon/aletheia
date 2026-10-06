@@ -56,21 +56,33 @@ struct Row {u32 id;u8 body[32];u32 kind,on;};
 struct Resources {u32 a,b,c;};
 extern const struct Row bgtable[];
 extern struct Resources resources[];
-extern void func_0203064C(void*,u32,u32);
+struct GfFont;
+struct Obj;
+extern void func_0203064C(u32 a, u32 b, u32 c);
 extern char *func_0203159C(void*,u32,u32);
 extern void func_02082BCC(void*,u32,u32);
-extern void *func_021BA0D8(u32,u32),*func_0201D7EC(int,int,int,int,u32);
+extern void * func_021BA0D8(u32,u32);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void*);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021B995C(void);
 extern u8 func_021BA068(u32);
-extern void func_021B9960(u16*),func_021B99DC(char*),func_021B9B64(char*),func_021B9CBC(char*);
+extern void func_021B9960(u16*);
+extern void func_021B99DC(char*);
+extern void func_021B9B64(char*);
+extern void func_021B9CBC(struct Obj *p);
 extern void func_02043588(void),func_02043558(void),func_0207D518(int);
-extern void func_0203FCA0(u8,const struct BgTemplate*,u8),func_020414AC(u8),func_02040588(u8,u8);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_020414AC(u8);
+extern void func_02040588(u8,u8);
 extern void func_02043598(u32,u32),func_020409B4(u32),func_0203D34C(u32,u32),func_02005E30(u32);
 extern void *func_020490F4(u32,u16);
-extern void func_02049B68(void*,u32,u32,u32,u32,u16),func_02049658(void*,u32,u32,u32,u32,u32,u16),func_020498F4(void*,u32,u32,u32,u32,u32,u16),func_02049238(void*),func_0204E720(u32,int,int,int);
+extern void func_02049B68(void*,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
+extern void func_02049238(void*);
+extern void func_0204E720(u32,int,int,int);
 int func_021B95A0(void *host,void *unused,void *args)
 {
     char *p;
@@ -79,7 +91,7 @@ int func_021B95A0(void *host,void *unused,void *args)
     u16 variant;
     void *owner;
     u16 heap;
-    func_0203064C((void *)1,131,0x50000);
+    func_0203064C((u32)((void *)1),131,0x50000);
     p=func_0203159C(host,0xB4,131);
     func_02082BCC(p,0,0xB4);
     *(u16 *)p=131;
@@ -93,7 +105,7 @@ int func_021B95A0(void *host,void *unused,void *args)
     else desc=*(char **)(*(char **)(p+4)+4);
     if (!*(u8 *)desc) *(u32 *)(p+0xB0)=7;
     else *(u32 *)(p+0xB0)=func_021BA068(*(u16 *)(desc+2));
-    func_021B9960((u16*)p);func_021B99DC(p);func_021B9B64(p);func_021B9CBC(p);
+    func_021B9960((u16*)p);func_021B99DC(p);func_021B9B64(p);func_021B9CBC((struct Obj *)p);
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |= 0x10000;
@@ -102,7 +114,7 @@ int func_021B95A0(void *host,void *unused,void *args)
     do {
         const struct Row *r=(const struct Row *)((u32)bgtable+i*44);
         u32 layer=r->id;
-        func_0203FCA0(layer,(const struct BgTemplate*)r->body,r->kind);
+        func_0203FCA0((u8)layer,(const struct BgTemplate*)r->body,(u8)r->kind);
         func_020414AC(layer);func_02040588(layer,r->on);
     } while ((u32)++i<1);
     func_02043598(16,1);

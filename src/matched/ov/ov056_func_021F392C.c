@@ -66,12 +66,12 @@ extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int 
 extern u32 func_0218E138(u8 *p);
 extern void func_0218E13C(u8 *a, u32 s);
 extern u8 func_0218F1B4(u8 *p);
-extern void func_0218F1AC(u8 *p, u8 v);
+extern void func_0218F1AC(u8 *p, u32 v);
 extern void func_0218EC54(u8 *p);
 extern void func_0218ECC4(int a, VecFx32 *v);
 extern void func_0218ECD4(int a, VecFx32 *v);
-extern void func_0218ED20(int a, VecFx32 *v);
-extern void func_021F3AB0(Obj *o);
+extern void func_0218ED20(void *p, void *out);
+extern void func_021F3AB0(u32 *p);
 
 extern const VecFx32 d_021F4338;
 extern const u32 d_021F42B0[];
@@ -105,7 +105,7 @@ void func_021F392C(Obj *o, int a1, int heap, int idx)
     pz->z = 0;
     func_0218ECC4(o->f8, &o->f10);
     func_0218ECD4(o->f8, pz);
-    func_0218ED20(o->f8, &o->f1c);
-    func_021F3AB0(o);
+    func_0218ED20((void *)o->f8, &o->f1c);
+    func_021F3AB0((u32 *)o);
     o->f2c = d_021F42B0[idx];
 }

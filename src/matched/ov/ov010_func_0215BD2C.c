@@ -36,7 +36,7 @@ extern u32 func_02017D30(struct Sav *p);
 extern void func_020180F4(void *p, u16 move);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern void func_020181F4(void *p, u16 move, u8 slot);
+extern void func_020181F4(void *p, u16 move, u32 slot);
 extern u32 func_02017D70(struct Sav *p, u32 f);
 
 int func_0215BD2C(void *c, void *vm)
@@ -79,7 +79,7 @@ int func_0215BD2C(void *c, void *vm)
         func_02017E40(mon, i + 0x3E, 0);
         func_02017E40(mon, i + 0x3A, 0);
     } else {
-        func_020181F4(mon, move, moveSlot);
+        func_020181F4(mon, move, (u8)moveSlot);
     }
     func_02017D70(mon, saved);
     return 0;

@@ -15,5 +15,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021FD8EC(char *p,u32 index) {return *(u8 *)((u32)p+index*0x30+0x72);}
+u8 func_021FD8EC(char *p, int index) {return *(u8 *)((u32)p+index*0x30+0x72);}
 u32 func_021FD8F8(char *p,u32 index){return *(u32 *)((u32)p+index*0x30+0x80);}

@@ -41,12 +41,15 @@ struct Descriptor;
 extern u32 func_021F3358(u32 a, u32 b, u32 c);
 extern void func_021F256C(char *,unsigned,int,void *,u32);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void func_02045334(struct Descriptor *d),func_02045374(void *);
+struct Cfg;
+struct Rect;
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_021F26F0(char *,char *,void *,void *,u32);
 extern u8 func_020355C4(void);
 extern int func_021F2818(char *,Pair *,Box *);
-extern void func_021F1A1C(char *,int,const Box *,int,int);
+extern void func_021F1A1C(char *p, int mode, const struct Rect *rect, int flag, int selected);
 void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palette,u32 heap)
 {
  Box box;
@@ -70,8 +73,8 @@ void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palet
  ((struct Obj00733 *)p)->fEC=((struct Obj00733 *)p)->fE0;p[0xf0]=0;
  func_021F26F0((char *)p,(char *)p+0xec,window,font,heap);
  if(func_020355C4()==0){
-  if(func_021F2818((char *)p,(Pair *)(p+0xd8),&box))func_021F1A1C((char *)p+0x24,1,&box,((struct Obj00733 *)p)->f104,((struct Obj00733 *)p)->f100);
+  if(func_021F2818((char *)p,(Pair *)(p+0xd8),&box))func_021F1A1C((char *)p+0x24,1,(const struct Rect *)(&box),((struct Obj00733 *)p)->f104,((struct Obj00733 *)p)->f100);
  }else {
-  if(func_021F2818((char *)p,(Pair *)(p+0xd8),&box))func_021F1A1C((char *)p+0x24,0,&box,((struct Obj00733 *)p)->f104,((struct Obj00733 *)p)->f100);
+  if(func_021F2818((char *)p,(Pair *)(p+0xd8),&box))func_021F1A1C((char *)p+0x24,0,(const struct Rect *)(&box),((struct Obj00733 *)p)->f104,((struct Obj00733 *)p)->f100);
  }
 }

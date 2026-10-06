@@ -22,9 +22,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020478B8(u32 h, u16 i, int v);
-extern void func_0204784C(u32 h, u16 i, int v);
-extern void func_02047910(u32 h, u16 i, int v);
+typedef signed int     s32;
+struct AnmCtl;
+extern int func_020478B8(void *a, int idx, int amount);
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern int func_02047910(void *a, int idx, int amount);
 
 void func_0218C1C4(u32 unused, u32 *st)
 {
@@ -36,17 +38,17 @@ void func_0218C1C4(u32 unused, u32 *st)
         case 2:
             break;
         case 3:
-            if (func_020478B8(st[0], i, 0x1000) == 0)
+            if (func_020478B8((void *)st[0], (u16)i, 0x1000) == 0)
                 st[2 + i] = 2;
             break;
         case 4:
-            if (func_020478B8(st[0], i, -0x1000) == 0) {
-                func_0204784C(st[0], i, 0);
+            if (func_020478B8((void *)st[0], (u16)i, -0x1000) == 0) {
+                func_0204784C((struct AnmCtl *)st[0], (u16)i, 0);
                 st[2 + i] = 2;
             }
             break;
         case 1:
-            func_02047910(st[0], i, 0x1000);
+            func_02047910((void *)st[0], (u16)i, 0x1000);
             break;
         }
     }

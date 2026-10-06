@@ -14,7 +14,8 @@
  */
 typedef unsigned int u32;
 
-extern void func_021EEF2C(void *dst, u32 v, u32 c);
+typedef unsigned char  u8;
+extern void func_021EEF2C(u8 *a, void *b, u32 c);
 
 void func_021EEFE4(void *p, char *b, u32 c)
 {
@@ -26,6 +27,6 @@ void func_021EEFE4(void *p, char *b, u32 c)
         u32 v = *(u32 *)((char *)p + i * 4 + 0x24);
 
         if (v != 0)
-            func_021EEF2C(base + i * 0x2a4, v, c);
+            func_021EEF2C((u8 *)(base + i * 0x2a4), (void *)v, c);
     }
 }

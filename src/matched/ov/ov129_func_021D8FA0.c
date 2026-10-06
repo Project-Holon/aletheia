@@ -53,11 +53,12 @@ typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } Re
 extern const Tbl d_021DA75C;
 extern u32 func_020362DC(void);
 extern u32 func_0203633C(void);
-extern u32 func_020061E4();
+typedef unsigned char  u8;
+extern void func_020061E4(u32 a);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021D9E98(char *p, int i);
 extern void func_021D93D4(char *p);
-extern int func_021D9320(char *p);
+extern int func_021D9320(u8 *p);
 extern void func_021D9348(char *p);
 extern void func_021D8AF4(char *p, int v);
 extern void func_021D9E48(char *p, int i, int a);
@@ -118,7 +119,7 @@ void func_021D8FA0(char *p)
             func_021D93D4(p);
             func_020061E4(1363);
         } else if (cur == 11) {
-            if (func_021D9320(p)) {
+            if (func_021D9320((u8 *)p)) {
                 func_021D9348(p);
                 func_020061E4(1357);
             } else {

@@ -16,7 +16,8 @@
 #include "../include/Obj03025.h"
 #include "../include/Obj16427.h"
 #include "../include/Obj16428.h"
-extern char *func_02062D40(char *self);
+struct CellAnim;
+extern void *func_02062D40(struct CellAnim *anim);
 typedef unsigned int   u32;
 struct CellDataBank;
 extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
@@ -36,8 +37,8 @@ void func_0206419C(char *self)
     int r2;
     if (*(unsigned short *)(*(int *)&((struct Obj00260 *)self)->f4 + 4) == 0)
         return;
-    func_02062D40(self);
-    p = func_02062D40(self);
+    func_02062D40((struct CellAnim *)self);
+    p = func_02062D40((struct CellAnim *)self);
     o = *(char * *)&((struct Obj00260 *)self)->f34;
     ((struct Obj00260 *)self)->f30 = (int)func_0206285C((struct CellDataBank *)o, ((struct Obj03025 *)p)->f0);
     kind = *(int *)(*(int *)&((struct Obj00260 *)self)->f1C + 4) & 0xff;

@@ -25,18 +25,18 @@ typedef signed char    s8;
 typedef struct { u16 kind; u8 f2; u8 rest[97]; } Ent;
 typedef struct { u8 pad[0x18]; Ent ents[32]; } Top;
 extern void func_0206DB80(void);
-extern void func_021953D4(void *a, int b);
-extern void func_02194CE8(Top *a, Ent *b);
+extern void func_021953D4(u8 *p, int m);
+extern void func_02194CE8(int a, u16 *b);
 
 void func_02194764(Top *a)
 {
     int i;
 
     func_0206DB80();
-    func_021953D4(a, 1);
+    func_021953D4((u8 *)a, 1);
     for (i = 0; i < 32; i++) {
         if (a->ents[i].f2 == 0) {
-            func_02194CE8(a, &a->ents[i]);
+            func_02194CE8((int)a, (u16 *)(&a->ents[i]));
         }
     }
 }

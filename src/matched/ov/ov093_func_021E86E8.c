@@ -24,7 +24,8 @@ extern int func_021E869C(void *a, int b);
 struct QF;
 extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D5444(struct QF *p);
-extern int func_021D5B40(void *p);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern int func_021E8638(int a, int b);
 
 int func_021E86E8(void *a, int b, int c)
@@ -41,7 +42,7 @@ int func_021E86E8(void *a, int b, int c)
     x = func_021C7CF4(a, b);
     y = func_021C7CF4(a, c);
     t = func_021D5444(x);
-    h = func_021D5B40(y);
+    h = (int)func_021D5B40(y);
     if (func_021E8638(t, h) != 0)
         return 1;
     return 0;

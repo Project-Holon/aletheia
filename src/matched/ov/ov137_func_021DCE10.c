@@ -50,7 +50,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020434CC(void),func_02043588(void);
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_020490F4(u32,u16);
 extern u8 *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,int,u32);
@@ -70,7 +70,9 @@ extern void *func_020056A0(u32,u32,u32);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *);
 extern void func_021DD2E0(u8 *,void *),func_021DD4A8(u8 *,void *),func_021DD5AC(u8 *),func_021DD638(u8 *);
-extern void func_021DCB78(void *),func_0203D34C(int,u16),func_02049238(void *);
+extern void func_021DCB78(u32 a);
+extern void func_0203D34C(u32 a, u32 b);
+extern void func_02049238(void *);
 int func_021DCE10(void *a,u32 *state,u8 *ctx)
 {
     u8 *p;
@@ -80,7 +82,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
         func_020434CC(); func_02043588();
         *(volatile u32 *)0x04000000&=0xffffe0ff;
         *(volatile u32 *)0x04001000&=0xffffe0ff;
-        func_0203064C((void *)1,114,0x80000);
+        func_0203064C((u32)((void *)1),114,0x80000);
         arc=func_020490F4(184,114);
         p=func_0203159C(a,0x4874,114);
         func_02082BCC(p,0,0x4874);
@@ -97,7 +99,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
         *(void **)(p+244)=func_0203101C(114,114,32,32);
         *(u32 *)(p+236)=func_0201C440((void *)114);
         func_021DD2E0(p,arc); func_021DD4A8(p,arc); func_021DD5AC(p); func_021DD638(p);
-        func_021DCB78(*(void **)(ctx+24));
+        func_021DCB78((u32)(*(void **)(ctx+24)));
         func_0203D34C(1,114); func_02049238(arc);
         (*state)++;
         break;

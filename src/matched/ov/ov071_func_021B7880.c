@@ -19,7 +19,8 @@
 
 typedef unsigned int u32;
 
-extern void func_0203FCA0(int a, void *p, int c);
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02041300(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
 extern void func_02040588(u32 which, u32 enable);
 extern char d_021BA8DC[];
@@ -27,8 +28,8 @@ extern char d_021BA8FC[];
 
 void func_021B7880(void)
 {
-    func_0203FCA0(5, d_021BA8DC, 0);
-    func_0203FCA0(6, d_021BA8FC, 0);
+    func_0203FCA0(5, (const struct BgTemplate *)d_021BA8DC, 0);
+    func_0203FCA0(6, (const struct BgTemplate *)d_021BA8FC, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02040588(5, 0);

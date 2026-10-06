@@ -40,7 +40,7 @@ extern void func_021B8050(struct Sub *o, s16 *out);
 extern int func_0207CFB8(int, int);
 extern void func_0218ED34(u8 *p, u16 v);
 extern void func_0218ED58(u8 *p, u32 v);
-extern void func_0218ED48(u8 *p, u16 v);
+extern void func_0218ED48(u8 *p, u32 v);
 extern void func_021B8314(u32, u32 *);
 extern void func_0218EC90(u32, u32 *);
 
@@ -61,7 +61,7 @@ void func_021BAB30(u32 a)
     ang = func_0207CFB8(-v[0], -v[2]);
     func_0218ED34((u8 *)h, r[2]);
     func_0218ED58((u8 *)h, r[3]);
-    func_0218ED48((u8 *)h, ang + r[1]);
+    func_0218ED48((u8 *)h, (u16)(ang + r[1]));
     func_021B8314(t, loc);
     func_0218EC90(func_021B821C((u8 *)a), loc);
 }

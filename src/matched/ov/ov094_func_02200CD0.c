@@ -34,14 +34,14 @@ typedef struct {
 } Ctx;
 
 extern void func_021F89BC(void *h);
-extern int func_021FFD9C(Work *w, int key);
+extern int func_021FFD9C(char *p, int key);
 extern void func_021FF260(Work *w, int key, int kind);
 
 void func_02200CD0(void *h, Ctx *c)
 {
     Work *w = c->w;
 
-    if (func_021FFD9C(w, c->key) == 0 || c->tag != w->tag[c->key]) {
+    if (func_021FFD9C((char *)w, c->key) == 0 || c->tag != w->tag[c->key]) {
         func_021F89BC(h);
         return;
     }

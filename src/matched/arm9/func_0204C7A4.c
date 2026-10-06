@@ -50,7 +50,8 @@ struct Table {
     u32           count;
 };
 
-extern void func_0204C8B8(struct Entry *e);
+struct Xfer;
+extern void func_0204C8B8(struct Xfer *x);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 
 void func_0204C7A4(struct Table *t)
@@ -59,7 +60,7 @@ void func_0204C7A4(struct Table *t)
 
     for (i = 0; i < t->count; i++) {
         if (t->ents[i].unk_00 != 0) {
-            func_0204C8B8(&t->ents[i]);
+            func_0204C8B8((struct Xfer *)(&t->ents[i]));
             MI_CpuFill8(&t->ents[i], 0, sizeof(struct Entry));
         }
     }

@@ -42,7 +42,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_020221A4(void);
-extern void func_02196768(u32 *);
+struct Obj;
+extern void func_02196768(u8 *p);
 extern void func_02155A8C(u8 *, u32);
 struct Bank;
 struct Descriptor;
@@ -54,7 +55,7 @@ struct TaskMenu;
 struct TaskMenuState;
 extern void func_0202F038(u8 *p);
 extern void func_020307B0(void *p);
-extern void func_021974A0(u32 *);
+extern void func_021974A0(struct Obj *o);
 extern void func_0201CE48(struct Rec3 *p);
 extern int func_02028604(int a0);
 extern void func_02031140(struct S02031140 *p);
@@ -79,7 +80,7 @@ int func_02197B5C(u32 a, u32 b, u8 *c, u32 *d)
     if (!func_020221A4()) {
         return 0;
     }
-    func_02196768(d);
+    func_02196768((u8 *)d);
     func_02155A8C(c, d[2]);
     ((struct Obj19637 *)c)->f58 = d[3];
     if (d[0xBA] != 0) {
@@ -88,7 +89,7 @@ int func_02197B5C(u32 a, u32 b, u8 *c, u32 *d)
     }
     func_020307B0((void *)d[0xBB]);
     func_020307B0((void *)d[0xBC]);
-    func_021974A0(d);
+    func_021974A0((struct Obj *)d);
     if (d[0xAD] != 0) {
         func_0201CE48((struct Rec3 *)d[0xAD]);
     }

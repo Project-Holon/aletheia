@@ -36,7 +36,7 @@ struct Lcg64 {
     u64 add;
 };
 
-extern void sub_02088168(void *p);
+extern void sub_02088168(u32 *buffer);
 extern void sub_020813D8(void *p);
 extern void sub_0208142C(void *ctx, void *buf, u32 n);
 extern void sub_020814C0(void *ctx, void *out);
@@ -49,7 +49,7 @@ void func_0203F258(struct Lcg64 *out)
     u8 b[0x14];
     u8 d[0x60];
 
-    sub_02088168(c);
+    sub_02088168((u32 *)c);
     sub_020813D8(d);
     sub_0208142C(d, b, 0x14);
     sub_0208142C(d, c, 0x20);

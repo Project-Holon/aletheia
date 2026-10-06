@@ -33,15 +33,21 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct S S;
 struct MsgBank;
-extern void func_021B63D0(S *);
+extern void func_021B63D0(struct S *p);
 extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 extern int func_021B6448(u8 *),func_021B6470(u8 *);
-extern void func_02045CAC(struct MsgBank *,unsigned,void *),func_021E1024(void *),func_021DD09C(void *),func_021D8E84(void *,int),func_021DE9E8(void *);
+extern void func_02045CAC(struct MsgBank *,unsigned,void *);
+extern void func_021E1024(void *);
+extern void func_021DD09C(char *p);
+extern void func_021D8E84(void *,int);
+extern void func_021DE9E8(void *);
 extern int func_02035C08(const void *);
 extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
 extern const char d_021E80C4[];
-extern void func_020355D8(u8),func_020061E4(int),func_021E68F4(int,int);
+extern void func_020355D8(u8);
+extern void func_020061E4(u32 a);
+extern void func_021E68F4(int,int);
 extern int func_021DE754(char *,int),func_021DE208(char *);
 static inline int poll(void) { int v=func_020362DC(); if(v)func_020355D8(0); return v; }
 void func_021DEA24(char *p)

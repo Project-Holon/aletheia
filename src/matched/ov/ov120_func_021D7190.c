@@ -15,7 +15,9 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { s16 x, y; } Vec;
-extern void func_0204B404(void *, const Vec *, u32);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D7190(u8 *p, int index, int x, int y)
@@ -24,7 +26,7 @@ void func_021D7190(u8 *p, int index, int x, int y)
     if (index < 6) {
         pos.x = x;
         pos.y = y;
-        func_0204B404(*(void **)((u32)p + 0x14c + (u32)index * 4), &pos, 1);
+        func_0204B404(*(void **)((u32)p + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
         func_0204B3DC(*(void **)((u32)p + 0x14c + (u32)index * 4), 1);
     }
 }

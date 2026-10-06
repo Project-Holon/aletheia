@@ -65,7 +65,7 @@ extern char d_02186AB4[];
 
 extern int  func_02035C08(const void *p);
 extern int  func_02035BA4(const void *p);
-extern void func_02035CB8(int *a, int *b);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern int  func_02035C38(void);
 extern u16 func_02039338(void);
 struct Obj;
@@ -75,7 +75,7 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_020061E4(u32 a);
 extern void func_021852B4(u32 *p, int n);
 extern int  func_02186558(char *p);
-extern void func_021861C4(char *p, int a, int b);
+extern void func_021861C4(u8 *w, u32 msg, int mode);
 extern void func_02186444(char *p, u32 v);
 extern void func_021852F4(void *p, int flag);
 extern void func_0218506C(void *actor, int x, int y);
@@ -87,7 +87,7 @@ extern void func_02186888(char *p);
 
 static inline u8 activate(char *p, int value)
 {
-    func_021861C4(p, value, value);
+    func_021861C4((u8 *)p, value, value);
     func_02186444(p, 5);
     func_021852F4((void *)(((struct Obj00525 *)p)->f100), 1);
     func_020061E4(0x551);
@@ -161,14 +161,14 @@ void func_021850A0(char *p)
     r = func_02035BA4(d_02186AB4);
     func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + func_02039338() * 4), 0);
     if (r != -1) {
-        func_02035CB8(&tx, &ty);
+        func_02035CB8((u32 *)(&tx), (u32 *)(&ty));
         func_0218506C((void *)(*(int *)(p + 0x60 + func_02039338() * 4)), tx, ty);
         func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + func_02039338() * 4), 1);
     }
     x = 0;
     y = 0;
     if (func_02035C38() == 1) {
-        func_02035CB8(&x, &y);
+        func_02035CB8((u32 *)(&x), (u32 *)(&y));
         path.e[0].n = 2;
         path.e[0].a = ((Path *)(p + 0x4244))->e[1].a;
         path.e[0].b = ((Path *)(p + 0x4244))->e[1].b;

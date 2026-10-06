@@ -41,7 +41,7 @@
  */
 extern int func_021BA928(char *, int);
 extern unsigned char func_02156C84(void);
-extern void func_02012DAC(void *);
+extern int func_02012DAC(int a0);
 extern int func_0203C600(void);
 extern void func_021BE6F0(char *, int, int);
 extern int func_021BE788(char *);
@@ -53,7 +53,7 @@ int func_021BEB68(char *p, int ret)
 {
     if (!func_021BA928(p, ret)) return ret;
     if (func_02156C84()) {
-        func_02012DAC(*(void **)(p + 0xc4));
+        func_02012DAC((int)(*(void **)(p + 0xc4)));
         *(int *)(p + 0x1cc) = 0x3e;
         return ret;
     }

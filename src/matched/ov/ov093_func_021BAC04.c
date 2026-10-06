@@ -29,7 +29,7 @@ extern void func_021BB7D0(void *);
 extern void *func_021B86B8(void ***);
 extern int func_021BBB60(int);
 extern void func_021BB5FC(void *, int);
-extern void func_021BABEC(void *, void *);
+extern void func_021BABEC(int *p, void *f);
 extern void func_021BABF4(void *);
 extern void func_021BB724(void *, int, int, int);
 typedef unsigned char  u8;
@@ -50,7 +50,7 @@ int func_021BAC04(char *p, int *st)
                 func_021BB5FC(p, func_021BBB60(((struct Obj09946 *)p)->f44));
                 (*st)++;
             } else {
-                func_021BABEC(p, (void *)func_021BB280);
+                func_021BABEC((int *)p, (void *)func_021BB280);
             }
         }
         break;

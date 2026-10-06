@@ -20,7 +20,9 @@ typedef unsigned long  u32;
 
 struct Ctx;
 extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
-extern int  func_02028484(void *a, void *b);
+typedef signed int     s32;
+struct Blk;
+extern s32 func_02028484(struct Blk *blk, void *h);
 struct Rec3;
 extern void func_0201CE48(struct Rec3 *p);
 
@@ -41,7 +43,7 @@ int func_021BA928(W *w)
         if (w->f190 != 0) {
             func_020286C4(w->f9b0, w->f1bc, (void *)w->f190);
         }
-        r = func_02028484(w->f26c, w->f1bc);
+        r = func_02028484((struct Blk *)w->f26c, w->f1bc);
         if (r != 0 && w->f1bc != 0) {
             func_0201CE48(w->f1bc);
             w->f1bc = 0;

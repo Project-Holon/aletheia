@@ -29,21 +29,22 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void *func_0204B034(T16 *a0, unsigned int a1, unsigned int heap);
+struct Obj;
+extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern void func_021F3264(char *);
 extern void func_021F32F8(char *, unsigned char);
 extern void func_02043598(unsigned, unsigned);
 
-void func_021F2F44(char *p)
+void func_021F2F44(char *p, void *a)
 {
     T16 t;
     int i;
 
     ((struct Obj00007 *)p)->f128 = func_0204B100(0x40, 0, ((struct Obj00007 *)p)->f94);
     t = d_021F35E0;
-    ((struct Obj00007 *)p)->f12C = func_0204B034(&t, 1, ((struct Obj00007 *)p)->f98);
+    ((struct Obj00007 *)p)->f12C = func_0204B034((u8 *)(&t), 1, ((struct Obj00007 *)p)->f98);
     func_0204B258(((struct Obj00007 *)p)->f128, ((struct Obj00007 *)p)->f12C);
     ((struct Obj00007 *)p)->f124 = func_02025538(((struct Obj00007 *)p)->f98, ((struct Obj00007 *)p)->f128);
     func_021F3264(p);

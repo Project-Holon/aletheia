@@ -16,7 +16,8 @@
 #include "../include/Obj04627.h"
 #include "../include/Obj10926.h"
 #include "../include/Obj25669.h"
-extern void func_021C8F7C(char *);
+typedef unsigned char  u8;
+extern void func_021C8F7C(u8 *p);
 extern void func_020307B0(void *);
 int func_021C9184(char *p)
 {
@@ -24,7 +25,7 @@ int func_021C9184(char *p)
     int result;
     switch(((struct Obj10926 *)q)->fC){
     case 0:
-        func_021C8F7C(p);
+        func_021C8F7C((u8 *)p);
         ((struct Obj04627 *)p)->fC=((struct Obj10926 *)q)->f10;
         ((struct Obj04627 *)p)->f10=((struct Obj10926 *)q)->f14;
         ((struct Obj04627 *)p)->f12=1;

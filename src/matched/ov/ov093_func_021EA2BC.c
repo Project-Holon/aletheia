@@ -28,8 +28,9 @@ extern u8 *func_021E9100(u8 *p, int n);
 extern u32 func_021CD9E0(u8 *p);
 extern void func_021ED208(char *p, u8 k, u16 a, int flag);
 extern int func_021ED250(char *p);
-extern int func_021ECF68(char *p);
-extern void func_021EA32C(char *p, int k);
+struct T;
+extern int func_021ECF68(struct T *p);
+extern void func_021EA32C(u8 *p, int k);
 
 int func_021EA2BC(char *ctx)
 {
@@ -44,12 +45,12 @@ int func_021EA2BC(char *ctx)
         for (i = 0; i < t[6]; i++) {
             func_021ED208(*(char * *)&((struct Obj07844 *)ctx)->f17C, t[i], ((struct Obj04377 *)t)->f10, f);
         }
-        func_021EA32C(ctx, ((struct Obj04377 *)t)->fC);
+        func_021EA32C((u8 *)ctx, ((struct Obj04377 *)t)->fC);
         ((struct Obj04377 *)t)->f8 = ((struct Obj04377 *)t)->f8 + 1;
         break;
     case 1:
         if (func_021ED250(*(char * *)&((struct Obj07844 *)ctx)->f17C) != 0) {
-            if (func_021ECF68(*(char * *)&((struct Obj07844 *)ctx)->f17C) != 0) {
+            if (func_021ECF68((struct T *)(*(char * *)&((struct Obj07844 *)ctx)->f17C)) != 0) {
                 return 1;
             }
         }

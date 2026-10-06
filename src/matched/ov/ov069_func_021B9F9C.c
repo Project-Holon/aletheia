@@ -14,7 +14,8 @@
  *   func_020061E4 0x020061E4 thumb
  */
 #include "../include/Obj13149.h"
-extern void func_021B9FF0(void *p, void *list, int idx);
+struct Rec;
+extern void func_021B9FF0(char *p, struct Rec *tbl, int idx);
 extern void func_021B9FC8(char *p, int i);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);

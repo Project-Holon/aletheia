@@ -24,7 +24,8 @@ typedef struct SOCSockAddrIn {
 
 #define SWAP16(x) ((unsigned short)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
 
-extern int func_0217ECA4(int sock, void *buf, int len, int flags, SOCSockAddrIn *addr, int tolen);
+struct SOCSockAddr;
+extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 
 void func_021992A8(int sock, unsigned int toaddr, unsigned short toport, void *data, int len)
 {
@@ -33,5 +34,5 @@ void func_021992A8(int sock, unsigned int toaddr, unsigned short toport, void *d
     saddr.family = 2;
     saddr.port = SWAP16(toport);
     saddr.addr = toaddr;
-    func_0217ECA4(sock, data, len, 0, &saddr, 8);
+    func_0217ECA4(sock, data, len, 0, (struct SOCSockAddr *)(&saddr), 8);
 }

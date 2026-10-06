@@ -24,7 +24,8 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C724(void*,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_021BA4E8(void*,char*);
+struct S;
+extern void func_021BA4E8(void *unused, struct S *p);
 void func_021BA5C8(void*obj,char*p)
 {
     void*h;
@@ -36,5 +37,5 @@ void func_021BA5C8(void*obj,char*p)
     func_0201C724(*(void* *)&((struct Obj02552 *)p)->f10,(unsigned)func_02045770(*(void* *)&((struct Obj02552 *)p)->f90),4,1,(unsigned)h,((struct Obj02552 *)p)->f8,0x440);
     func_02045808(h);
     ((struct Obj02552 *)p)->fA0=0;
-    func_021BA4E8(obj,p);
+    func_021BA4E8(obj,(struct S *)p);
 }

@@ -15,7 +15,9 @@
  *   func_02040588 0x02040588 arm
  */
 #include "../include/Obj00326.h"
-extern void func_021DA2A8(void *),func_021DA280(void *);
+typedef unsigned char  u8;
+extern void func_021DA2A8(u8 *p);
+extern void func_021DA280(u8 *p);
 extern void func_020409B4(unsigned),func_02040588(unsigned,unsigned);
 void func_021D849C(char *p) {
  if(((struct Obj00326 *)p)->f28C) {

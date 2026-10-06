@@ -26,7 +26,8 @@ struct T {
     u16 f06;
 };
 
-extern u32 func_02024584(u32 a);
+typedef unsigned char  u8;
+extern u8 func_02024584(u32 i);
 extern u32 func_02024498(u32 a0, u32 a1, u32 a2);
 extern u32 func_020246C8(u16 *p, u32 a1, u32 a2);
 
@@ -36,7 +37,7 @@ u32 func_0202465C(struct T *p, u32 a1, u32 a2)
     u32 n;
     u32 i;
 
-    if (p->f00 >= 7 || p->f02 >= func_02024584(p->f00)) {
+    if (p->f00 >= 7 || p->f02 >= (u32)func_02024584(p->f00)) {
         ok = 0;
         p->f00 = 0;
         p->f02 = 0;

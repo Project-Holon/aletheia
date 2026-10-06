@@ -33,9 +33,9 @@ typedef struct {
 } Pt;
 
 extern u32 func_020056EC(u32 v);
-extern void func_0204B908(int, u16);
+extern void func_0204B908(int a0, int a1);
 extern int *func_021A21B8(int *p);
-extern int func_021A21C8(int, int);
+extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
 extern void func_021A26C4(int, Pt *);
@@ -54,7 +54,7 @@ void func_021EEE38(int a, int n, int idx)
 
     w = func_021A21B8((int *)a);
     for (i = 0; i < n; i++) {
-        obj = func_021A21C8(a, idx);
+        obj = (int)func_021A21C8((void *)a, idx);
         if (obj == 0) {
             return;
         }
@@ -62,7 +62,7 @@ void func_021EEE38(int a, int n, int idx)
         h = func_021A2638((unsigned char *)obj);
         r = func_020056EC(0);
         m = r % 3;
-        func_0204B908(h, m);
+        func_0204B908(h, (u16)m);
         e[2] = e[4] = (r & 15) + (m + 1) * 14;
         e[4] = d_021EFD08[w[2] / 60] * e[4] / 10;
         e[2] = d_021EFD08[w[2] / 60] * e[2] / 10;

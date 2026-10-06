@@ -105,7 +105,7 @@ struct Sub020079BCEntry;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern void func_021F6748(void *mon, Info *q);
+extern void func_021F6748(u32 a, u8 *q);
 extern void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info *info, IconRec *rec);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
@@ -135,7 +135,7 @@ void func_021F68A4(Work *p, int box)
     arc = func_020490F4(7, 0x48);
     if (box >= 0 && box < p->nbox) {
         for (i = 0; i < 30; i++) {
-            func_021F6748(func_02007A18(storage, box, i), &p->info[i]);
+            func_021F6748((u32)func_02007A18(storage, box, i), (u8 *)(&p->info[i]));
         }
         for (i = 0; i < 30; i++) {
             p->info[i].species = 0;
@@ -151,7 +151,7 @@ void func_021F68A4(Work *p, int box)
         for (i = 0; i < n; i++) {
             void *mon = func_020185F4(func_0201AB28(p->ctx->party, i));
 
-            func_021F6748(mon, &p->info[i]);
+            func_021F6748((u32)mon, (u8 *)(&p->info[i]));
             func_021F67A8(mon, p->icon[i], p->item[i], &species[i], i, arc, &p->info[i], &icons[i]);
             func_0204B3DC((struct Obj *)p->mark[i], 0);
         }

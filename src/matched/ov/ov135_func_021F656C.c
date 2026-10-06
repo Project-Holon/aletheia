@@ -17,21 +17,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[8]; void *party; void *save; } Ctx;
 typedef struct { Ctx *ctx; u8 pad4[0x28-4]; unsigned state; u8 pad2c[0xC4-0x2C]; u16 box, slot; unsigned count; void *mon; u8 padD0[0xDD0-0xD0]; void *dd0; } Work;
-extern unsigned func_021F4D14(void *p);
-extern void func_021F4CE4(void *p);
-extern void func_021F4EC0(void *p, unsigned a, unsigned b);
+typedef unsigned int   u32;
+extern int func_021F4D14(char *p);
+extern void func_021F4CE4(char *p);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
 extern void func_0201F7A8(void *desc, unsigned kind);
 int func_021F656C(Work *p)
 {
-    unsigned result = func_021F4D14(p);
+    unsigned result = func_021F4D14((char *)p);
     if (result == 1) {
-        func_021F4CE4(p);
+        func_021F4CE4((char *)p);
         p->mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
         p->state = 2;
-        func_021F4EC0(p, 6, 0);
+        func_021F4EC0((u8 *)p, 6, 0);
     } else if (result == 2) {
-        func_021F4CE4(p);
+        func_021F4CE4((char *)p);
         func_0201F7A8(p->dd0, 0);
         p->state = 1;
     }

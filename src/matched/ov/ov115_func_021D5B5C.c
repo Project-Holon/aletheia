@@ -39,15 +39,15 @@ extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *, u8);
 extern void func_0201DD78(u32, u32, u32);
-extern void func_02028470(void *, int);
+extern void func_02028470(u8 *p, u32 v);
 extern void func_0201CE48(struct Rec3 *);
 extern signed char func_02012FFC(void);
 extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
-extern void func_0201F73C(void *, int, u16, int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *);
 extern void func_02041B6C(u32);
-void func_021D5B5C(char *p, struct MsgBank *a, u32 b)
+void func_021D5B5C(char *p, struct MsgBank *a, int b)
 {
     int row;
     int kind;
@@ -63,10 +63,10 @@ void func_021D5B5C(char *p, struct MsgBank *a, u32 b)
     func_0201DD78(1, 2, 15);
     kind = 2;
     if (*(u32 *)(p + 0x50) == 0) kind = 6;
-    func_02028470(p + 0x3c, kind);
+    func_02028470((u8 *)(p + 0x3c), (int)kind);
     if (*(u32 *)(p + 0x38) != 0) func_0201CE48(*(struct Rec3 **)(p + 0x38));
     *(u32 *)(p + 0x38) = func_0201CCE4(w, 0, 0, *(u32 *)(p + 0x28), *(u32 *)(p + 0x24), func_02012FFC(), *(u32 *)(p + 0x44), 2, *(u16 *)(p + 0x4c), 15);
-    func_0201F73C((void *)w, 1, *(u32 *)p, 12);
+    func_0201F73C((void *)w, 1, (u16)(*(u32 *)p), 12);
     func_02045334((struct Descriptor *)w);
     func_02045374((struct Cfg *)w);
     func_02041B6C(func_021D5FA0(*(u32 *)(p + 0x50)));

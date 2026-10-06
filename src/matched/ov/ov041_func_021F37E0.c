@@ -34,7 +34,7 @@ extern void *func_0201210C(const struct Ctx *p);
 struct Big;
 struct Desc;
 extern void *func_02188C80(void *p);
-extern u8 *func_021897BC(void *a, int b);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
@@ -44,7 +44,7 @@ extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(u32 a, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern u8 func_021F3EE4(int x, int y);
-extern void func_021F3884(void);
+extern int func_021F3884(void *a0, int *state);
 
 int func_021F37E0(void *a)
 {
@@ -60,7 +60,7 @@ int func_021F37E0(void *a)
 
     s = func_0201210C((void *)a);
     func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(s))), 5);
-    p = func_021897BC(s, 1);
+    p = (u8 *)func_021897BC(s, 1);
     t = func_02188CB4((void *)s);
     func_021A3038(t, (struct VecFx32 *)v);
     x = v[0] / 0x10000;

@@ -24,11 +24,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct S020315D4;
-extern void func_021EE824(void *);extern void func_02012704(unsigned char *);extern void func_020307B0(void *);extern void func_020315D4(struct S020315D4 *);extern void func_020306F0(u32);extern u32 func_0200FB24(void);extern int func_0200FBB0(void);extern void func_0200F7B8(int);extern void func_0200F83C(void);extern void func_02035544(int);
+extern void func_021EE824(u8 *p);extern void func_02012704(unsigned char *);extern void func_020307B0(void *);extern void func_020315D4(struct S020315D4 *);extern void func_020306F0(u32);extern u32 func_0200FB24(void);extern int func_0200FBB0(void);extern void func_0200F7B8(int);extern void func_0200F83C(void);extern void func_02035544(int);
 typedef struct {u8 f00;u8 pad[3];void *f04;} Save;
 typedef struct {u16 f00,pad02;u32 f04;Save *f08;u32 f0C,f10,f14,f18;} Ctx;
 int func_021F0694(void *task,int unused,int keep,Ctx *p){int mode;u32 a,b,c;
-a=p->f10;mode=0;c=p->f18;b=p->f14;if(p->f08->f00==1)mode=1;func_021EE824(p);
+a=p->f10;mode=0;c=p->f18;b=p->f14;if(p->f08->f00==1)mode=1;func_021EE824((u8 *)p);
 if(!keep){func_02012704(p->f08->f04);func_020307B0(p->f08);}else if(p->f08->f00==1){func_02012704(p->f08->f04);func_020307B0(p->f08);}
 func_020315D4(task);func_020306F0(93);
 if(a==1){if(mode){if(c==1||func_0200FB24()==1){func_0200FBB0();func_0200F7B8(1);}else func_0200F7B8(0);}else if(c==1){func_0200FBB0();func_0200F7B8(1);}}

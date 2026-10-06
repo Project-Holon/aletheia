@@ -80,8 +80,8 @@ struct WordSet;
 void *func_020124E4(struct Obj *p);
 u32 func_02012138(const struct Ctx *p);
 int func_02158344(int a0);
-int func_0217405C(u8 *, u8 *);
-int func_02175CF4(u8 *, u8 *);
+int func_0217405C(char *a, char *b);
+int func_02175CF4(char *p, u8 *q);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void *func_020120F4(const struct Ctx *p);
 u8 *func_02012944(void *p);
@@ -114,12 +114,12 @@ int func_021809A4(void *a, int *state, Outer *c)
     }
     switch (*state) {
     case 0:
-        if (func_0217405C(v, v + 0x1AC) == 1) {
+        if (func_0217405C((char *)v, (char *)(v + 0x1AC)) == 1) {
             (*state)++;
         }
         break;
     case 1:
-        if (func_02175CF4(v, v + 0x1AC) != 0) {
+        if (func_02175CF4((char *)v, v + 0x1AC) != 0) {
             c->f9C = 1;
             (*state)++;
         }

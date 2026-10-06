@@ -44,7 +44,7 @@ extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_020275E4(void);
-extern void *func_02049F34(u32, u32, PlttData **, u32);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
@@ -53,8 +53,8 @@ extern u32 func_02027624(void);
 extern u32 func_0202762C(void);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern void func_02041B6C(u32);
-extern u16 *func_0204162C(u8);
-extern int func_0201F5DC(int, int, int, int);
+extern u32 func_0204162C(int channel);
+extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 
 void func_021DCB8C(struct Ov170Ctx *ctx)
@@ -79,7 +79,7 @@ void func_021DCB8C(struct Ov170Ctx *ctx)
     func_02049B68(arc, 4, 0, 0, 0x80, 0x4c);
     func_02049658(arc, 0x3e, 1, 1000, 0x300, 1, 0x4c);
     func_02049B68(arc, 0x3f, 0, 0x180, 0x40, 0x4c);
-    pal = func_02049F34(func_020275E4(), 0x1f, &pd, 0x804c);
+    pal = func_02049F34(func_020275E4(), 0x1f, (u32)(&pd), 0x804c);
     src = pd->fC;
     ofs = 0x194;
     func_02040E78(0, src + 0x34, 4, ofs);
@@ -100,13 +100,13 @@ void func_021DCB8C(struct Ov170Ctx *ctx)
     func_02041B6C(0);
     r6 = func_02049740(arc2, func_02027628(), 2, 0, 0, 0x4c);
     func_02049238(arc2);
-    a = func_0204162C(0);
-    b = func_0204162C(2);
+    a = (u16 *)func_0204162C(0);
+    b = (u16 *)func_0204162C(2);
     for (i = 0; i < 0x60u; i++) {
         *(u16 *)((char *)b + 0x540 + i * 2) = r6 + *(u16 *)((char *)a + 0x540 + i * 2);
     }
     func_02041B6C(2);
-    *(int *)(ctx->f2c + 0x178) = func_0201F5DC(0, 10, 0, 0x4c);
+    *(int *)(ctx->f2c + 0x178) = (int)func_0201F5DC(0, 10, 0, 0x4c);
     func_02049B40(0x17, 5, 0, 0x160, 0x20, 0x4c);
     func_02049B40(0x17, 5, 4, 0x1e0, 0x20, 0x4c);
 }

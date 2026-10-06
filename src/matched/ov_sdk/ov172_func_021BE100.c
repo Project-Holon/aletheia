@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int sub_0202EB0C(int x);
+extern u32 sub_0202EB0C(void);
 extern int unit_0202EB14(void);
 
 int func_021BE100(int x)
 {
-    if (sub_0202EB0C(x) == 1 && unit_0202EB14() == 0) {
+    if (sub_0202EB0C() == 1 && unit_0202EB14() == 0) {
         return 1;
     }
     return 0;

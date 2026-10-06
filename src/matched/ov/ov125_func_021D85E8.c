@@ -15,9 +15,9 @@
  *   func_021D7BDC  0x021D7BDC  arm ov125
  */
 
-extern void func_021D7BDC(char *p);
+extern char *func_021D7BDC(void);
 
 void func_021D85E8(char *p)
 {
-    func_021D7BDC(p);
+    func_021D7BDC();
 }

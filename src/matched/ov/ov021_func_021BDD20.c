@@ -19,12 +19,13 @@ typedef struct {
     void *f54;
 } Obj;
 
-extern int func_021BE1C4(Obj *p);
+typedef unsigned int   u32;
+extern int func_021BE1C4(u32 a);
 extern void func_0218FF00(void *a);
 
 void func_021BDD20(Obj *p)
 {
-    if (func_021BE1C4(p)) {
+    if (func_021BE1C4((u32)p)) {
         func_0218FF00(p->f54);
     }
 }

@@ -29,7 +29,8 @@ typedef unsigned int   u32;
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
-extern int func_020122C0(int, int, void (*)(void), int);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_0215A370(void);
 extern int d_021728CC;
@@ -51,7 +52,7 @@ int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
     p[0xd] = (f == 1) ? 3 : 2;
     ((struct Obj03073 *)p)->f20 = 0;
     ((struct Obj03073 *)p)->f8 = t8;
-    r = func_020122C0(a, 0, func_0215A370, 0x14);
+    r = (int)func_020122C0((void *)a, 0, func_0215A370, 0x14);
     q = func_020124E8((struct Obj *)r);
     q[0] = a;
     q[1] = b;

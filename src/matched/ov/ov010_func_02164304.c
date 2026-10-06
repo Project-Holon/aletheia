@@ -36,7 +36,7 @@ extern void *func_0216D67C(void *a0);
 extern int func_0216D4D4(int a, int b);
 extern void func_0219E2C0(int a, Msg *m);
 extern void func_0216D684(int a, int b);
-extern void func_0216435C(int a, Msg *m);
+extern void func_0216435C(void *a, const u16 *b);
 
 void func_02164304(int a, u8 *p)
 {
@@ -54,5 +54,5 @@ void func_02164304(int a, u8 *p)
         return;
     }
     func_0216D684(a, 0xc);
-    func_0216435C(a, &m);
+    func_0216435C((void *)a, (const u16 *)(&m));
 }

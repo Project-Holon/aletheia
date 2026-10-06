@@ -16,8 +16,9 @@
  */
 #include "../include/Obj00042.h"
 
-extern int func_021F1060(void *);
-extern void func_021F0300(void *);
+typedef unsigned char  u8;
+extern int func_021F1060(u8 *p);
+extern void func_021F0300(u8 *p);
 extern void func_021EFEF8(char *p, void (*f)(void), int line);
 extern void func_021F2180(char *p);
 
@@ -25,7 +26,7 @@ void func_021F21B4(char *p)
 {
     void (*f)(int);
 
-    if (func_021F1060(p) == 0) {
+    if (func_021F1060((u8 *)p) == 0) {
         f = *(void (**)(int))(p + 0x1fc);
         if (f)
             f(*(int *)&((struct Obj00042 *)p)->f200);
@@ -33,6 +34,6 @@ void func_021F21B4(char *p)
         *(int *)&((struct Obj00042 *)p)->f200 = 0;
         return;
     }
-    func_021F0300(p);
+    func_021F0300((u8 *)p);
     func_021EFEF8(p, (void *)func_021F2180, 0xF92);
 }

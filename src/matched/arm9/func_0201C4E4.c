@@ -74,7 +74,8 @@ extern void  func_0201DE00(u8 *r, u8 *g, u8 *b);
 extern u32   func_0201DE18(u32 r, u32 g, u32 b);
 extern void  func_0201DD78(u32 r, u32 g, u32 b);
 extern u64   func_020870D0(void);
-extern u16  *func_0201C974(struct Rec *rec, u16 *p, u32 f);
+struct PrintCtx;
+extern u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f);
 extern void *func_0201D7C4(struct PrintSys *p, void *q);
 
 static inline u16 Wrap(struct PrintSys *ps, u16 o)
@@ -138,7 +139,7 @@ u32 func_0201C4E4(struct PrintSys *ps)
                 ps->unk10->kind = 2;
             }
             while (ps->unk14[0] != 0xFFFF) {
-                ps->unk14 = func_0201C974(ps->unk10, ps->unk14, 1);
+                ps->unk14 = func_0201C974((struct PrintCtx *)ps->unk10, ps->unk14, 1);
                 if (func_020870D0() - t0 > ps->unk08) {
                     stop = 1;
                     break;

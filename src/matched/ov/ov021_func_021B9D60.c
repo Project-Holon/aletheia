@@ -50,7 +50,7 @@ typedef unsigned int   u32;
 u32 func_021B82F4(u8 *p);
 u32 func_021B82F8(u8 *p);
 u32 func_021B82FC(u8 *p);
-int func_021B8300(void *p);
+u32 func_021B8300(u8 *p);
 int func_021B8308(void *p);
 u8 *func_021B833C(void *p);
 u8 *func_021B834C(void *p);
@@ -98,7 +98,7 @@ void func_021B9D60(void *p, V *out)
     func_0207CCA4(&f, &f);
     func_021B9B24(&g, &d, &e, s);
     func_0207C9D0(&c, &g, out);
-    r = (int)(((s64)(func_021B8300(p) << 12) * func_021B8308(p) + 0x800) >> 12);
+    r = (int)(((s64)((int)func_021B8300(p) << 12) * func_021B8308(p) + 0x800) >> 12);
     if (g.x != 0 && g.z != 0) {
         g.y = 0;
     } else {

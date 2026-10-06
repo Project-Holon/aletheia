@@ -40,7 +40,7 @@ typedef struct {
 } SB;
 
 extern void *func_021D6414(unsigned long size, int alignment);
-extern void func_021D5FE8(int x, int y, void *out);
+extern void func_021D5FE8(int a, int b, unsigned short *p);
 extern void *func_021D5394(int a, int kind, int c);
 extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D51F0(void *cell, int idx, int prio);

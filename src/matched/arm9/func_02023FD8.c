@@ -60,14 +60,15 @@ extern u8 g_021468FC[];
 extern u8 g2_021468FC[];
 extern u8 g_0214691C[];
 
-extern void func_02023E0C(void *p);
+struct Anim;
+extern void func_02023E0C(struct Anim *p);
 
 void func_02023FD8(void)
 {
     if (*(u32 *)(g_021468FC + 0x3c) != 0) {
-        func_02023E0C(g_0214691C);
+        func_02023E0C((struct Anim *)g_0214691C);
     }
     if (*(u32 *)(g_021468FC + 0x1c) != 0) {
-        func_02023E0C(g2_021468FC);
+        func_02023E0C((struct Anim *)g2_021468FC);
     }
 }

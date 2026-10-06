@@ -26,11 +26,11 @@ typedef unsigned int   u32;
 extern u16 func_0216D7C4(u8 *);
 extern void func_02197EB4(u32 a);
 extern u32 func_0216D57C(void *p, u32 v);
-extern void func_0216D570(u8 *, u32);
+extern void func_0216D570(char *p, u32 v);
 extern void func_0216D7C0(void *p, u16 v);
 extern void func_0216D7C8(void *p, u16 v);
 
-u32 func_02197EDC(u8 *p)
+u32 func_02197EDC(u8 *p, u32 a1, u32 a2, u32 a3)
 {
     if (func_0216D7C4(p) != 0xff) {
         func_02197EB4((u32)p);
@@ -38,7 +38,7 @@ u32 func_02197EDC(u8 *p)
             return 0;
         }
     }
-    func_0216D570(p, 0x400);
+    func_0216D570((char *)p, 0x400);
     func_0216D7C0(p, 0xff);
     func_0216D7C8(p, 0);
     return 1;

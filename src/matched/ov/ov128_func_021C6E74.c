@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_02027974(void *);
-extern int func_020279E8(void *);
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
-extern void func_02027858(void *);
-int func_021C6E74(u8 *p) {int n;func_02027974(p);if(func_020279E8(p)==1) {n=func_02027A04(p);func_02027858(p);return n;}return -1;}
+extern void func_02027858(struct TaskMenu *m);
+int func_021C6E74(u8 *p) {int n;func_02027974(p);if(func_020279E8((struct TaskMenu *)p)==1) {n=func_02027A04(p);func_02027858((struct TaskMenu *)p);return n;}return -1;}

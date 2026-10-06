@@ -24,7 +24,7 @@ typedef unsigned int u32;
 extern u8 *func_021E9100(u8 *p, int n);
 extern u32 func_021CD9E0(u8 *p);
 extern void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag);
-extern int func_021ED450(char *p);
+extern int func_021ED450(u8 *p);
 
 int func_021EA504(int *st, char *ctx)
 {
@@ -37,7 +37,7 @@ int func_021EA504(int *st, char *ctx)
         *st = *st + 1;
         break;
     case 1:
-        if (func_021ED450(*(char * *)&((struct Obj10113 *)ctx)->f17C) != 0) {
+        if (func_021ED450((u8 *)(*(char * *)&((struct Obj10113 *)ctx)->f17C)) != 0) {
             return 1;
         }
         break;

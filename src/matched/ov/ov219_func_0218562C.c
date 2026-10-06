@@ -25,10 +25,12 @@ typedef struct {u16 index,member;} Entry;
 extern const Entry d_02185E18[];
 extern void func_02048AC4(void *);
 extern void func_02048C4C(void *);
-extern void func_02047738(void *);
-extern void func_02047504(void *);
+struct Rec;
+struct Tagged;
+extern void func_02047738(struct Rec *p);
+extern void func_02047504(struct Rec *p);
 extern int func_020470D0(u32 *);
-extern void func_02046EFC(void *);
+extern void func_02046EFC(struct Tagged *p);
 void func_0218562C(char *p)
 {
     u32 i;

@@ -26,7 +26,9 @@
 
 typedef unsigned short u16;
 extern int func_020627F0(int *p);
-extern int *func_0206285C(int *p, int i);
+typedef unsigned int   u32;
+struct CellDataBank;
+extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
 extern void func_02062810(void *p);
 void func_02062884(int *p)
 {
@@ -35,7 +37,7 @@ void func_02062884(int *p)
     p[1] = (int)((char *)p[1] + (int)p);
     base = func_020627F0(p);
     for (i = 0; i < ((struct Obj02023 *)p)->f0; i++) {
-        int *e = func_0206285C(p, i);
+        int *e = func_0206285C((struct CellDataBank *)p, i);
         e[1] = (int)((char *)e[1] + base);
     }
     if (p[3] != 0) {

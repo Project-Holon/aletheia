@@ -26,7 +26,7 @@ extern void func_021F69E8(u32 obj, u8 b, u8 c, int d, u16 e);
 extern void func_021F6DEC(u32 obj, u8 b, u8 c, int d, u16 e);
 extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
-void func_021F8298(u32 a, u8 b, u8 c, int d, u16 e)
+void func_021F8298(u32 a, u8 b, u8 c, u8 d, u16 e)
 {
     if (a == 0 || a == 2 || a == 4)
         func_021F69E8(*(u32 *)(d_0220AF20 + 0x194), b, c, d, e);

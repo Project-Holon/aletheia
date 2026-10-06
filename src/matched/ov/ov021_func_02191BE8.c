@@ -43,8 +43,9 @@ extern void func_020409B4(u32 layer);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern int func_02192138(u32 a, u32 b, u32 c);
 extern u32 func_020362DC(void);
-extern void func_021928C0(u32 *p, u32 a, u32 b);
-extern void func_021927FC(u32 *p, u32 a, u32 b);
+struct Cur;
+extern void func_021928C0(struct Cur *c, u32 win, u32 col);
+extern void func_021927FC(struct Cur *c, u32 win, u32 col);
 extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 extern void func_020061E4(u32 a);
 extern int func_021921C8(u32 a, u32 b, u32 c, int n, u16 col);
@@ -76,11 +77,11 @@ u32 func_02191BE8(u32 *p, u32 b)
         p[6]++;
     case 3:
         if ((func_020362DC() & 3) == 0) {
-            func_021928C0(p + 10, (u32)func_02045770((struct Descriptor *)p[1]), 15);
+            func_021928C0((struct Cur *)(p + 10), (u32)func_02045770((struct Descriptor *)p[1]), 15);
             func_02045334((struct Descriptor *)p[1]);
             break;
         }
-        func_021927FC(p + 10, (u32)func_02045770((struct Descriptor *)p[1]), 15);
+        func_021927FC((struct Cur *)(p + 10), (u32)func_02045770((struct Descriptor *)p[1]), 15);
         func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)p[1])), (const struct Bmp *)p[3]);
         func_0219214C(p[2], p[12], p[4], p[5], p + 9, 15);
         p[8] = 0;

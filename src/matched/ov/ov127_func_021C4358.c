@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 
-int func_021C4358(void) { return 1; }
+int func_021C4358(int a0, int a1) { return 1; }

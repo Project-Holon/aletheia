@@ -21,8 +21,11 @@
 extern void func_02082BCC(void *, int, int);
 extern void func_0203F8F4(int);
 extern void func_02045088(int);
-extern void func_0203FC28(const void *);
-extern void func_0203FCA0(unsigned char, const void *, unsigned char);
+typedef unsigned int   u32;
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 typedef struct { unsigned id; unsigned v[8]; unsigned a, b; } Record;
@@ -36,11 +39,11 @@ void func_021B9A10(void *p, int heap)
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
     func_02045088(heap);
-    func_0203FC28(d_021B9BFC);
+    func_0203FC28((struct DispConfig *)d_021B9BFC);
     for (; i < 2; i++) {
         r = &d_021B9C78[i];
         id = r->id;
-        func_0203FCA0(id, r->v, r->a);
+        func_0203FCA0((unsigned char)id, (const struct BgTemplate *)r->v, (unsigned char)r->a);
         func_020414AC(id);
         func_02040588(id, r->b);
     }

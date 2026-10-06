@@ -66,9 +66,9 @@ struct Obj;
 struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
-extern void func_021BB580(void *o, int v);
+extern void func_021BB580(char *p, int v);
 extern void func_02027324(u16 id);
-extern void func_021B6100(void *obj, void *fn);
+extern void func_021B6100(char *p, int k);
 extern void func_021B7640(struct Obj *o);
 extern u32  func_02020FE4(u16 a, u32 sel, u32 id);
 extern int  func_021B6EC8(u16 id);
@@ -82,15 +82,15 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021B6AD8(int p);
 extern void func_021B7804(struct Obj *o);
 extern int func_021B811C(u8 *p);
-extern int  func_021B8134(void *o, int k);
-extern void func_021B6138(void *o);
+extern int func_021B8134(struct Obj *o, int k);
+extern void func_021B6138(char *p);
 extern void func_021BB3F4(int p, int mode);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021B8AF4(void *o);
 extern u8 func_020355C4(void);
-extern void func_021B9AAC(void *o);
-extern void func_021B80C4(void *o, int v);
-extern void func_021BA9AC(void *o);
+extern void func_021B9AAC(char *p);
+extern void func_021B80C4(struct Obj *o, int flag);
+extern void func_021BA9AC(char *p);
 extern void func_02027858(struct TaskMenu *m);
 
 void func_021B6EF8(u8 *p)
@@ -106,76 +106,76 @@ void func_021B6EF8(u8 *p)
         ((struct Obj00002 *)p)->f848 = x;
         switch (x) {
         case 0:
-            func_021BB580(p, 0);
+            func_021BB580((char *)p, 0);
             if (*(u32 *)&((struct Obj00002 *)p)->f80C != 4)
                 func_02027324(((struct Obj00002 *)p)->f84C);
             if (*(u32 *)&((struct Obj00002 *)p)->f80C == 2) {
-                func_021B6100(p, (void *)func_021B7640);
+                func_021B6100((char *)p, (int)((void *)func_021B7640));
             } else if (func_02020FE4(((struct Obj00002 *)p)->f84C, 0x1D, ((struct Obj00002 *)p)->f544) == 1) {
                 ((struct Obj00002 *)p)->f844 = 0xC;
-                func_021B6100(p, 0);
+                func_021B6100((char *)p, 0);
             } else if (func_021B6EC8(((struct Obj00002 *)p)->f84C) >= 0) {
                 d_021BB9C4[func_021B6EC8(*(u32 *)(p + 0x84C))].fn(p);
             } else {
                 r = func_021B690C(((struct Obj00002 *)p)->f84C);
                 if (r == 1) {
-                    func_021B6100(p, (void *)func_021B6934);
+                    func_021B6100((char *)p, (int)((void *)func_021B6934));
                 } else if (r == 2) {
-                    func_021B6100(p, (void *)func_021B6A78);
+                    func_021B6100((char *)p, (int)((void *)func_021B6A78));
                 } else {
                     ((struct Obj00002 *)p)->f844 = 5;
-                    func_021B6100(p, 0);
+                    func_021B6100((char *)p, 0);
                 }
             }
             break;
         case 1:
-            func_021BB580(p, 0);
+            func_021BB580((char *)p, 0);
             if (func_02028754(((struct Obj00002 *)p)->fC, 0)) {
                 ((struct Obj00002 *)p)->f844 = 0xB;
-                func_021B6100(p, 0);
+                func_021B6100((char *)p, 0);
             } else {
                 func_02045CAC((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x39, (void *)(((struct Obj00002 *)p)->f524));
                 func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, (void *)(((struct Obj00002 *)p)->f8));
                 func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
-                func_021B6100(p, (void *)func_021B6AD8);
+                func_021B6100((char *)p, (int)((void *)func_021B6AD8));
             }
             break;
         case 3:
-            func_021B6100(p, (void *)func_021B7804);
+            func_021B6100((char *)p, (int)((void *)func_021B7804));
             break;
         case 4:
         case 5:
             if (func_021B811C(p) == 1) {
-                func_021B8134(p, *(u32 *)&((struct Obj00002 *)p)->f810);
-                func_021B6138(p);
+                func_021B8134((struct Obj *)p, *(u32 *)&((struct Obj00002 *)p)->f810);
+                func_021B6138((char *)p);
                 func_021BB3F4((int)p, 1);
                 func_0204B92C(((struct Obj00002 *)p)->f6A8, 1);
                 func_021B8AF4(p);
             }
             break;
         case 2:
-            func_021BB580(p, 0);
+            func_021BB580((char *)p, 0);
             if ((int)((struct Obj00002 *)p)->f84C >= 0x89 && (int)((struct Obj00002 *)p)->f84C <= 0x94) {
                 ((struct Obj00002 *)p)->f844 = 0x13;
-                func_021B6100(p, 0);
+                func_021B6100((char *)p, 0);
             }
             break;
         case 8:
             if (func_020355C4() == 1)
-                func_021B9AAC(p);
-            func_021B80C4(p, func_020355C4() == 0);
+                func_021B9AAC((char *)p);
+            func_021B80C4((struct Obj *)p, func_020355C4() == 0);
             func_021BB3F4((int)p, 1);
             func_0204B92C(((struct Obj00002 *)p)->f6A8, 1);
             func_021B8AF4(p);
             break;
         case 9:
             ((struct Obj00002 *)p)->f844 = 1;
-            func_021B6100(p, 0);
+            func_021B6100((char *)p, 0);
             break;
         case 6:
             ((struct Obj00002 *)p)->f844 = 2;
-            func_021BB580(p, 0);
-            func_021B6100(p, 0);
+            func_021BB580((char *)p, 0);
+            func_021B6100((char *)p, 0);
             break;
         case 7:
             break;
@@ -183,7 +183,7 @@ void func_021B6EF8(u8 *p)
         flag = 1;
     }
     if (flag) {
-        func_021BA9AC(p);
+        func_021BA9AC((char *)p);
         func_02027858(((struct Obj00002 *)p)->f77C);
         *(u32 *)&((struct Obj00002 *)p)->f77C = 0;
     }

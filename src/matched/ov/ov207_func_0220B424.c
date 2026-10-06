@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_0220B424(void){}
+void func_0220B424(void *a0){}

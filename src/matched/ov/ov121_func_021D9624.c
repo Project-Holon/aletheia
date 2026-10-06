@@ -34,7 +34,8 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern void func_0204335C(u32 keep);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -55,7 +56,7 @@ u8 *func_021D9624(int arg,u16 heap)
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
     func_0204335C(0);
-    func_020433E0(d_021DF604);
+    func_020433E0((const struct DispVram *)d_021DF604);
     func_0204363C(arg);
     func_0204361C();
     func_020434CC();

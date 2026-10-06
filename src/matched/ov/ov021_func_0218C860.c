@@ -17,7 +17,7 @@
  */
 
 void func_0218BA48(void *s, void *v);
-void func_0218C0D8(void *p);
+void func_0218C0D8(void **s);
 void func_0218C54C(void *p, int save);
 void func_020307B0(void *p);
 
@@ -32,7 +32,7 @@ void func_0218C860(S *p)
 {
     if (p != 0) {
         func_0218BA48(p->owner, p);
-        func_0218C0D8(p->fC);
+        func_0218C0D8((void **)p->fC);
         if (p->f8 != 0)
             func_0218C54C(p->f8, 1);
         func_020307B0(p);

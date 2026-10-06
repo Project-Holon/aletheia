@@ -30,7 +30,7 @@ typedef struct {
 
 extern u32 func_021B8588(void **p);
 extern u8 func_021B86C0(u8 **p);
-extern u32 func_021CDEE8(BattleSeq *s);
+extern u32 func_021CDEE8(u8 *p);
 extern int func_021B9F70(u8 *p, int i);
 
 int func_021D1C40(BattleSeq *s, u32 x, int *out)
@@ -40,7 +40,7 @@ int func_021D1C40(BattleSeq *s, u32 x, int *out)
     if (x == s->unk1A6) {
         *out = 0;
         if (func_021B8588(s->battle) == 0 && func_021B86C0(s->battle) == 0) {
-            v = func_021CDEE8(s);
+            v = func_021CDEE8((u8 *)s);
             if (v >= 0x4b)
                 return 0x1d;
             if (v > 0x32)

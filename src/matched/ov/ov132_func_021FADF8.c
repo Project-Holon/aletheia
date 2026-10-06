@@ -18,11 +18,12 @@ typedef unsigned short u16;
 extern void func_020307B0(void *);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_020605B4(void *, void *);
+struct DList;
+extern void func_020605B4(volatile struct DList *list, void *elem);
 void func_021FADF8(char *p, char *q)
 {
     func_020307B0(((struct Obj14096 *)q)->f8);
     func_02030EAC(((struct Obj14096 *)q)->fC);
-    func_020605B4(p + 0x38, q);
+    func_020605B4((volatile struct DList *)(p + 0x38), q);
     func_020307B0(q);
 }

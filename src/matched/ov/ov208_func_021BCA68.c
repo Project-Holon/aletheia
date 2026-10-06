@@ -56,7 +56,9 @@ extern u32 func_0200CA54(struct Blk37 *p);
 extern char *func_021BD8C0(u16 heap, unsigned arg);
 extern struct Ov208Icon *func_021BE710(u16 heap, unsigned arg);
 extern void *func_021BC35C(u32 heap, void *a, void *b, void *c, void *d, void *e, void *f, int g, u16 h, void *i);
-extern void func_021BCC84(struct Ov208Args *a, struct Ov208Main *m);
+struct Ov208Mode;
+struct Ov208Slot;
+extern void func_021BCC84(struct Ov208Mode *m, struct Ov208Slot *s);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_0203D34C(u32 a, u32 b);
 int func_021BCA68(void *owner, int unused, struct Ov208Args *args)
@@ -79,7 +81,7 @@ int func_021BCA68(void *owner, int unused, struct Ov208Args *args)
     p->fsm = func_021BC35C(p->heap, args->src, p->disp, p->font, p->gfx, p->f14, p->f18, args->f8, args->fc, &args->fe);
     p->f20 = 0;
     p->f24 = 0;
-    func_021BCC84(args, p);
+    func_021BCC84((struct Ov208Mode *)args, (struct Ov208Slot *)p);
     p->f28 = 0;
     func_0204E720(3, 0, 0, 0);
     func_0203D34C(1, p->heap);

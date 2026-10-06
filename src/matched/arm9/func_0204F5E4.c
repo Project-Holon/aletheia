@@ -26,7 +26,7 @@ struct F14 {
     u16 f1 : 2;
 };
 
-void func_0204F5E4(u8 *a0, int i, u16 *out)
+void func_0204F5E4(u8 *a0, u32 i, u16 *out)
 {
     *out = ((struct F14 *)((u8 *)((struct Obj16136 *)a0)->f8 + i * 0x1c))->f0;
 }

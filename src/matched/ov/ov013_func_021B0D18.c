@@ -125,7 +125,7 @@ extern int func_021B3278(short *p, u32 n);
 extern void func_021B3604(short *p, u32 n, u32 sq);
 extern int func_021B3084(u32 x, u32 sq, u8 *z);
 extern void func_021B04A8(AdpcmHdr *a, void *b, int n, AdpcmState *c, int mode);
-extern void func_021B1588(u8 *dst, short *src, u32 n);
+extern void func_021B1588(unsigned char *dst, const short *src, unsigned int n);
 extern void func_021B1688(u8 *dst, short *src, u32 n);
 extern u8 func_02080D24(u32 x);
 

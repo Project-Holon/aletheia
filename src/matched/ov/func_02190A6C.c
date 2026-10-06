@@ -21,9 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0201F8F4();
+struct Slot;
+extern void func_0201F8F4(struct Slot *s);
 
-void func_02190A6C(void)
+void func_02190A6C(u32 a)
 {
-    func_0201F8F4();
+    func_0201F8F4((struct Slot *)a);
 }

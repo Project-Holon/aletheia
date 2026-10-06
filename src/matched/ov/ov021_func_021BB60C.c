@@ -25,7 +25,8 @@ extern int func_0216E1C4(int a0, int a1);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
-extern void func_021BB808(X *x, V3 *v);
+struct Vec;
+extern void func_021BB808(int *o, struct Vec *out);
 extern void func_021AC1CC(u32 a, V3 *v);
 void func_021BB60C(u32 a, X *x)
 {
@@ -35,6 +36,6 @@ void func_021BB60C(u32 a, X *x)
         return;
     }
     func_0216D88C((const struct Actor *)x->fC, (struct VecFx32 *)&v);
-    func_021BB808(x, &v);
+    func_021BB808((int *)x, (struct Vec *)(&v));
     func_021AC1CC(a, &v);
 }

@@ -31,7 +31,7 @@ extern void func_021FD71C(u8 *p);
 extern int func_021FD72C(int *p);
 extern void func_021FD854(char *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_021FD1BC(int);
+extern void func_021FD1BC(void *p);
 int func_021E1D48(int a,int b,int c,char *p)
 {
     int i;
@@ -43,6 +43,6 @@ int func_021E1D48(int a,int b,int c,char *p)
     if (func_021FD72C((int *)(((struct Obj04579 *)p)->f4))) return 1;
     for (i=0;i<2;i++) func_021FD854((char *)(*(int *)(p+i*4+0x10)));
     func_0201C4E4((struct PrintSys *)(((struct Obj04579 *)p)->f0));
-    func_021FD1BC(((struct Obj04579 *)p)->fC);
+    func_021FD1BC((void *)(((struct Obj04579 *)p)->fC));
     return 0;
 }

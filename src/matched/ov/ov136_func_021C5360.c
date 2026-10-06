@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02024450(const u16 *p);
-extern void func_0202DC48(u32, u32, void *, u8);
+extern void func_0202DC48(u32 a, u32 b, u32 c, u32 d);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *, u32, short, short, void *, u32, u16);
@@ -43,7 +43,7 @@ void func_021C5360(u8 *p)
     u32 t;
     for (i = 0; i < 3; i++) {
         if (func_02024450((u16 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C + 0x16 + i * 8))) {
-            func_0202DC48(*(u32 *)&((struct Obj00160 *)p)->f148, *(u32 *)(p + i * 4 + 0x48), *(u8 * *)&((struct Obj00160 *)p)->f1C + 0x16 + i * 8, i);
+            func_0202DC48(*(u32 *)&((struct Obj00160 *)p)->f148, *(u32 *)(p + i * 4 + 0x48), (u32)(*(u8 * *)&((struct Obj00160 *)p)->f1C + 0x16 + i * 8), (u8)i);
         }
     }
     q = *(u8 * *)&((struct Obj00160 *)p)->f1C;
@@ -51,7 +51,7 @@ void func_021C5360(u8 *p)
         ((struct Obj00160 *)p)->f14C = 6;
         ((struct Obj00160 *)p)->f14E = 0;
         ((struct Obj00160 *)p)->f150 = ((struct Obj14187 *)q)->f32;
-        func_0202DC48(*(u32 *)&((struct Obj00160 *)p)->f148, ((struct Obj00160 *)p)->f54, p + 0x14C, 3);
+        func_0202DC48(*(u32 *)&((struct Obj00160 *)p)->f148, ((struct Obj00160 *)p)->f54, (u32)(p + 0x14C), (u8)3);
     }
     if (p[0xB] == 0) {
         u32 a = *(u32 *)&((struct Obj00160 *)p)->f98;

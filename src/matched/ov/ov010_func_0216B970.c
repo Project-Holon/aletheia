@@ -16,11 +16,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 func_0200E458(const u16 *, int);
-extern u32 func_0200E47C(const u16 *, int);
+extern u32 func_0200E47C(u8 *p, int i);
 u32 func_0216B970(const u16 *p, int index)
 {
     u32 x = func_0200E458(p, index);
-    x += func_0200E47C(p, index);
+    x += func_0200E47C((u8 *)p, index);
     if (x > 999999) x = 999999;
     return x;
 }

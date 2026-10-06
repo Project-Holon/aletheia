@@ -105,13 +105,14 @@ extern void func_0217988C(DWCHttp *http);
 extern unsigned long func_021798E4(DWCHttp *http);
 extern void func_0215AB10(void);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
-extern void func_02160108(SOCLCaInfo **ca, int ca_num);
+typedef unsigned char  u8;
+extern void func_02160108(int a, int b);
 extern void func_02162E94(int mode);
 extern void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern unsigned long func_0215AC60(void);
 extern void func_0215AB5C(void);
 extern void func_0215AA70(void);
-extern unsigned long func_0209477C(const char *s);
+extern int func_0209477C(const u8 *s);
 extern unsigned long func_0215B470(unsigned char *buf, unsigned long len);
 extern void func_0215B584(void);
 extern int func_02179814(DWCHttp *http);
@@ -121,7 +122,7 @@ extern unsigned char *func_0215AEB0(unsigned long *len);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 extern void func_02086028(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
-extern int func_021798F8(DWCHttp *http);
+extern int func_021798F8(char *http);
 extern void func_0215B064(unsigned long len);
 extern void func_0215AD00(void);
 extern void func_0215AD3C(void);
@@ -164,7 +165,7 @@ void func_021799E8(void *arg)
         con->auth_callback = func_0217A0C8;
         con->server_name = http->hostname;
         soc->con = con;
-        func_02160108(g_021A2590, 12);
+        func_02160108((int)g_021A2590, 12);
         func_02162E94(1);
     }
 
@@ -178,7 +179,7 @@ void func_021799E8(void *arg)
     }
 
     s = (unsigned char *)http->req.buffer;
-    len = func_0215B470(s, func_0209477C((char *)s));
+    len = func_0215B470(s, func_0209477C((const u8 *)s));
     if (len <= 0) {
         http->error = 5;
         goto fail;
@@ -216,7 +217,7 @@ void func_021799E8(void *arg)
                 http->receivedbody_len += copy_length;
                 func_02086078(&http->content_len_mutex);
             } else {
-                header_received = func_021798F8(http);
+                header_received = func_021798F8((char *)http);
             }
             if (len > copy_length) {
                 func_0215B064(len);

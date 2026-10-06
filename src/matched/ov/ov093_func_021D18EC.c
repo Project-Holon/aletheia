@@ -36,8 +36,9 @@ extern u32 func_021B9210(u8 *p);
 extern u8 func_021B8FF4(u8 *p);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, u16 id);
-extern void func_021EAF50(void *msg, int v);
-extern void func_021EA614(void *win, void *msg);
+struct H;
+extern void func_021EAF50(struct L *p, u32 val);
+extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 
 int func_021D18EC(BattleSeq *s, int *state)
@@ -52,9 +53,9 @@ int func_021D18EC(BattleSeq *s, int *state)
             if (a != 0) {
                 b = func_021B8FF4(s->battle);
                 func_021EAF18((struct L *)s->msg, 1, 0x3b);
-                func_021EAF50(s->msg, b);
-                func_021EAF50(s->msg, a);
-                func_021EA614(s->msgWin, s->msg);
+                func_021EAF50((struct L *)s->msg, b);
+                func_021EAF50((struct L *)s->msg, a);
+                func_021EA614(s->msgWin, (struct H *)s->msg);
             }
         }
         (*state)++;

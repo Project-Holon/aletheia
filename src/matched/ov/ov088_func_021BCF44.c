@@ -24,12 +24,13 @@ typedef struct Banks {
 extern Banks d_021BD9B0;
 
 extern void func_0204335C(u32 keep);
-extern void func_020433E0(Banks *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 
 void func_021BCF44(void)
 {
     Banks b = d_021BD9B0;
 
     func_0204335C(0);
-    func_020433E0(&b);
+    func_020433E0((const struct DispVram *)(&b));
 }

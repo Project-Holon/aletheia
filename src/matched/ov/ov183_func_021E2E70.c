@@ -32,7 +32,8 @@ typedef unsigned int   u32;
 struct U16Vec;
 struct WordSet;
 extern unsigned func_021FC20C(char *p);
-extern void *func_02045EC0(int, unsigned);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EE0C(void *, int, unsigned, unsigned, int, int);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -59,7 +60,7 @@ void func_021E2E70(char *p, const char *q)
   if (!(*((void **) (p + 8))))
     *((void **) (p + 8)) = func_021FD12C(*((int *) (q + 8)), (void *)(*((int *) (p + 4))), *((u16 *) (p + 0x38)));
   a = (void *) func_021FC21C(*((char **) (q + 8)));
-  s = func_02045EC0(func_021FC214(*((char **) (q + 8))), 0x141);
+  s = func_02045EC0((struct MsgBank *)func_021FC214(*((char **) (q + 8))), 0x141);
   b = func_020457B0(0x80, *((u16 *) (p + 0x38)));
   index = *((unsigned *) (p + 0x10));
   index = index * 4;

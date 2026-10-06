@@ -29,21 +29,22 @@
 typedef unsigned int u32;
 
 extern u32 *sub_0200590C(void);
-extern void func_02073018(u32 *req, u32 a, u32 b);
-extern void func_02073038(u32 *req, u32 a, u32 b);
-extern void func_02073098(u32 *req, u32 a);
+struct Obj;
+extern void func_02073018(struct Obj *o, u32 v, u32 w);
+extern void func_02073038(struct Obj *o, u32 v, u32 w);
+extern void func_02073098(struct Obj *o, u32 v);
 
 void sub_02005EE0(u32 a, u32 b, u32 c, u32 d)
 {
     u32 *req = sub_0200590C();
 
     if (b != -1) {
-        func_02073098(req, b);
+        func_02073098((struct Obj *)req, b);
     }
     if (c != -1) {
-        func_02073018(req, a, c);
+        func_02073018((struct Obj *)req, a, c);
     }
     if (d != -1) {
-        func_02073038(req, a, d);
+        func_02073038((struct Obj *)req, a, d);
     }
 }

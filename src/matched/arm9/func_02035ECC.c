@@ -12,4 +12,4 @@
  */
 #include "../include/Obj11339.h"
 
-int func_02035ECC(int a0, int a1, int a2, int a3){ int t0; t0 = func_02035750(); ((struct Obj11339 *)((char *)(t0)))->f6A = (unsigned short)a2; ((struct Obj11339 *)((char *)(t0)))->f62 = (unsigned short)a1; return t0; }
+int func_02035ECC(int a0, int a1, int a2){ int t0; t0 = func_02035750(); ((struct Obj11339 *)((char *)(t0)))->f6A = (unsigned short)a2; ((struct Obj11339 *)((char *)(t0)))->f62 = (unsigned short)a1; return t0; }

@@ -22,7 +22,7 @@
  *   func_021CD6F0  0x021CD6F0  arm  ov016
  */
 
-extern void func_021C0EA0(void **param2, void **param3);
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern void func_021D0580(void);
 extern int func_021D55A4(int kind, int lcd, int plane, int frame);
 extern void func_021C0E40(unsigned int v);
@@ -31,7 +31,7 @@ extern void func_021CD6F0(void);
 void func_021CD690(void)
 {
     int scene;
-    func_021C0EA0(0, (void **)&scene);
+    func_021C0EA0(0, (unsigned int *)((void **)&scene));
     if (scene != 0)
         func_021D0580();
     func_021D55A4(3, 1, 1, 8);

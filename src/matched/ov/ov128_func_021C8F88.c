@@ -80,15 +80,20 @@ extern const Tbl d_021CA674;
 extern void func_021C63AC(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
 extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void func_021CA4B4(char *p);
-extern void *func_020457B0(u32 capacity, u16 heapId);
-extern u32 func_0201283C(void *p);
+struct BigObj;
+struct DWCstAccUserData;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u32 func_0201283C(const struct BigObj *p);
 extern void *func_02009860(void *p);
-extern u64 func_0205994C(void *userdata);
-extern void func_02045CAC(void *bank, u32 index, void *dest);
-extern u32 func_02045738(void *p);
-extern void func_0204581C(void *buf);
-extern void func_02045AFC(void *buf, u32 c);
-extern void func_02045808(void *p);
+extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u8 func_02045738(struct Descriptor *p);
+extern void func_0204581C(struct U16Vec *vec);
+extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern void func_02045808(struct U16Vec *vec);
 extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u16 heap);
 static inline u8 *second(u8 *p)
 {

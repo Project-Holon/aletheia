@@ -17,7 +17,7 @@
 #include "../include/Obj24225.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021D9EA0(void *);
+extern void func_021D9EA0(u8 *p);
 extern void func_021E8AA8(int a);
 extern u32 func_0200FBB0(void);
 void func_021D61A4(void *obj,int unused,u8 *p) { ((struct Obj24225 *)(*(u8 * *)&((struct Obj08274 *)p)->f40))->f4=3; if(((struct Obj08274 *)p)->f30) { func_021D9EA0(((struct Obj08274 *)p)->f30); *(u32 *)&((struct Obj08274 *)p)->f30=0; } func_0200FBB0(); func_021E8AA8((int)obj); }

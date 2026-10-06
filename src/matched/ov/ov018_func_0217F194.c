@@ -22,7 +22,9 @@ typedef struct {
     u8 f117;
 } Ov018Blink;
 
-void func_0204B6F4(void *obj, u8 a, int b);
+typedef unsigned int   u32;
+struct Obj;
+void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
 void func_0217F194(Ov018Blink *p)
 {
@@ -31,7 +33,7 @@ void func_0217F194(Ov018Blink *p)
     if (p->f116 != 0) {
         t = p->f117;
         if (t % 2 == 0) {
-            func_0204B6F4(p->f9C, ((unsigned)t >> 1) & 1 ? 6 : 7, 1);
+            func_0204B6F4(p->f9C, (u8)(((unsigned)t >> 1) & 1 ? 6 : 7), (int)1);
         }
         if (p->f117 < 10) {
             p->f117++;

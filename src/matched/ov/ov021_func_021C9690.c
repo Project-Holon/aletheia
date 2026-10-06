@@ -28,11 +28,12 @@ typedef struct { u32 f0; u32 f4; } E;
 extern T d_021DAC94;
 extern void func_0207ADC4(void *p);
 extern void func_021AC1B8(u32 a, T *t);
-extern void func_02047AC8(u32 h, T *t);
+struct Arg;
+extern int func_02047AC8(void *a0, struct Arg *a1);
 void func_021C9690(u32 a, E *e)
 {
     T t = d_021DAC94;
     func_0207ADC4(t.b);
     func_021AC1B8(a, &t);
-    func_02047AC8(e->f4, &t);
+    func_02047AC8((void *)e->f4, (struct Arg *)(&t));
 }

@@ -48,7 +48,8 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 
 extern unsigned char *func_0206E964(unsigned char *p);
-extern void  func_0206A0C4(u8 *p, u32 *a, u32 *b);
+struct Tex;
+extern void func_0206A0C4(struct Tex *t, u32 *a, u32 *b);
 extern u32   func_0206A17C(u8 *p);
 
 int func_020470D0(u32 *p)
@@ -66,7 +67,7 @@ int func_020470D0(u32 *p)
         f1 = 1;
     if (((struct Obj03459 *)r)->f20 & 1)
         f2 = 1;
-    func_0206A0C4(r, &x, &y);
+    func_0206A0C4((struct Tex *)r, &x, &y);
     if (f1)
         (*(void (**)(u32))0x020A8144)(x);
     if (f2)

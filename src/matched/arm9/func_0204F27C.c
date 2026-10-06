@@ -27,13 +27,13 @@ struct Actor {
     u16 count;
 };
 
-extern void func_0204F150(struct Actor *p, s32 idx);
+extern void func_0204F150(u8 *a0, int i);
 
 void func_0204F27C(struct Actor *p)
 {
     s32 i;
 
     for (i = 0; i < p->count; i++) {
-        func_0204F150(p, i);
+        func_0204F150((u8 *)p, i);
     }
 }

@@ -22,8 +22,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void *func_020437D4(void *bmp);
-extern u32 func_020437EC(void *bmp);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u32 func_020437EC(const struct Bmp *bmp);
 
 void func_0216FC50(void *bmp)
 {

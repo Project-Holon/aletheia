@@ -42,7 +42,7 @@ struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020061E4(u32 a);
-extern void func_021D5A9C(u8 *,int);
+extern void func_021D5A9C(char *p, int a);
 extern void func_021D964C(u8 *,u8 *);
 extern void func_021D9670(u8 *,u8 *);
 extern s16 func_021D9440(u8 *,u32);
@@ -56,7 +56,7 @@ int func_021D8AD0(u8 *a,u8 *p)
     s16 shortDelta;
     int position;
     if(func_020362DC()==2) {
-        func_021D5A9C(a,1);
+        func_021D5A9C((char *)a,1);
         func_0204B878(((struct Obj00136 *)a)->f194,9);
         func_0204B3DC(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;

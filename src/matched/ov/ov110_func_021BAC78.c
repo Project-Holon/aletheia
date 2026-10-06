@@ -27,7 +27,8 @@ extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int s);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B954(struct Obj *, u32);
+struct Actor;
+extern void func_0204B954(struct Actor *a, u32 v);
 struct Obj *func_021BAC78(char *p, u32 *r, short x, short y, u32 a, int mode)
 {
     Position pos;
@@ -50,7 +51,7 @@ struct Obj *func_021BAC78(char *p, u32 *r, short x, short y, u32 a, int mode)
     OS_RestoreInterrupts(s);
     if (o) {
         func_0204B92C(o, 1);
-        func_0204B954(o, 1 << 12);
+        func_0204B954((struct Actor *)o, 1 << 12);
     }
     return o;
 }

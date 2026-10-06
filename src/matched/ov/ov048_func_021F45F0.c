@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 extern void func_021F44B8(u8 *p);
 extern int func_0215E404(int a);
 extern u32 func_020111E8(void);
-extern int func_0215E3E4(int a, unsigned char b);
+extern u32 func_0215E3E4(void *p, u32 slot);
 
 void func_021F45F0(int *a, void *b)
 {
@@ -56,7 +56,7 @@ void func_021F45F0(int *a, void *b)
             r6 = 7;
             break;
         }
-        r0 = func_0215E3E4(r7, r4);
+        r0 = (int)func_0215E3E4((void *)r7, (unsigned char)r4);
         if (r0 != 0xFFFF) {
             ((struct Obj13107 *)b)->f0 = r0;
             *((unsigned char *)b + 8) = r6;

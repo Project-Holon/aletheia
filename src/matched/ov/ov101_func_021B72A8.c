@@ -28,7 +28,7 @@ extern void func_02028148(u8 *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern unsigned func_02027FEC(unsigned,Desc *,unsigned,unsigned,unsigned,unsigned);
+extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045C04(struct Rec *rec);
 void func_021B72A8(unsigned *p,unsigned b) {
@@ -41,7 +41,7 @@ void func_021B72A8(unsigned *p,unsigned b) {
  t.tag=0x39e3;
  t.data=(unsigned int)func_02045EC0((struct MsgBank *)q,b+8);
  t.flag=1;
- p[0]=func_02027FEC(p[1],&t,0x13,0x15,0xd,((struct Obj03228 *)p)->f58);
+ p[0]=func_02027FEC(p[1],(u32)(&t),0x13,0x15,0xd,((struct Obj03228 *)p)->f58);
  func_02045808((struct U16Vec *)t.data);
  func_02045C04((struct Rec *)q);
  p[21]=b; p[20]=0; p[17]=-1;

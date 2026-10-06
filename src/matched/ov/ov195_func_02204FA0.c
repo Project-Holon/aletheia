@@ -16,13 +16,15 @@
  * symbols:
  *   func_020063B4  0x020063B4  thumb
  */
-extern int func_020063B4(unsigned char *, int *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
 
 void func_02204FA0(int a, int *p)
 {
     if (p[0xc] == 5) {
         p[0xd] = 0;
-        func_020063B4((unsigned char *)0x519, &p[0xd], 1);
+        func_020063B4((unsigned char *)0x519, (u32 *)(&p[0xd]), 1);
         p[0xc] = 7;
     }
 }

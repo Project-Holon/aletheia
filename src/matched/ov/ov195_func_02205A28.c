@@ -13,9 +13,9 @@
  *   func_02205BD8 0x02205BD8 thumb ov195
  */
 
-extern int func_02205BD8(void *);
+extern int func_02205BD8(int *p);
 
 int func_02205A28(char *a)
 {
-    return func_02205BD8(a + 4);
+    return func_02205BD8((int *)(a + 4));
 }

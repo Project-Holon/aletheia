@@ -57,20 +57,21 @@ typedef unsigned char  u8;
 extern u32 func_02158F78(u8 *p);
 extern int func_02159190(int);
 extern u16 func_0215A5CC(void *a0);
-extern void func_0202A310(int, int, int, int);
+extern void func_0202A310(int key, int want, void *dest, u32 heap);
 extern void *func_0215A5EC(void *p);
 extern void *func_0216DE94(void *map, u32 id);
-extern S *func_0215A63C(int);
+struct Q;
+extern u8 *func_0215A63C(u8 *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern int func_021B0A40(void *, V3 *);
+extern int func_021B0A40(u32 a, struct Q *q);
 extern void func_021B0B08(void *a, int b);
-extern void func_021B0ADC(int, unsigned char *, int, V3 *, int, int, int);
-extern void func_0215A660(int, int);
+extern void func_021B0ADC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_0215A660(u8 *p, u32 v);
 extern void func_020113D0(char *p, int val);
 extern int func_021B0CEC(int, int);
 
@@ -94,11 +95,11 @@ int func_021B0EF4(void *a, int b)
     if (func_02159190(2) != 0) {
         return 1;
     }
-    func_0202A310(k0, k1, m, func_0215A5CC((void *)b));
+    func_0202A310(k0, k1, (void *)m, func_0215A5CC((void *)b));
     if (func_0216DE94(func_0215A5EC((void *)b), k2) == 0) {
         k2 = 0xff;
     }
-    s = func_0215A63C(b);
+    s = (S *)func_0215A63C((u8 *)b);
     flag = 0;
     func_02082BCC(s, 0, 0x28);
     s->id = k2;
@@ -106,14 +107,14 @@ int func_021B0EF4(void *a, int b)
     y = (int)func_0215A5EC((void *)b);
     z = func_021A3074((void *)x);
     func_0216D88C(func_0216DE94((void *)y, s->id), (struct VecFx32 *)&v);
-    r = func_021B0A40(z, &v);
+    r = func_021B0A40((u32)z, (struct Q *)(&v));
     if (r != 1) {
         flag = 1;
     }
     s->flag = flag;
     func_021B0B08((void *)b, 1);
-    func_021B0ADC(b, *q, flag, &s->sum, m, 0, 0);
-    func_0215A660(b, r);
+    func_021B0ADC(b, (u32)(*q), flag, (u32)(&s->sum), m, 0, 0);
+    func_0215A660((u8 *)b, r);
     func_020113D0(a, (int)func_021B0CEC);
     return 1;
 }

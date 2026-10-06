@@ -21,11 +21,12 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct W { u32 w0; u16 h; u16 pad; u32 w8; u32 obj[3]; } W;
 extern u32 d_021C3650[];
-extern u32 func_02045B38(u32 a, u32 b, u16 c, u16 d);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 void func_021BFB74(W *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        p->obj[i] = func_02045B38(0, 2, d_021C3650[i], p->h);
+        p->obj[i] = (u32)func_02045B38(0, 2, (u16)d_021C3650[i], (u16)p->h);
     }
 }

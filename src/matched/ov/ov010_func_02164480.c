@@ -34,7 +34,8 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern int func_021644C4(int i, void *a, void *b);
-extern void func_02028748(Flags *f, int i, int v);
+struct Obj;
+extern void func_02028748(struct Obj *obj, int n, int mask);
 extern u32 func_02012B28(const struct Rec44 *p);
 
 void func_02164480(Flags *f, void *a, void *b)
@@ -45,6 +46,6 @@ void func_02164480(Flags *f, void *a, void *b)
     save = func_020127A4(func_020120F4(a));
     MI_CpuFill8(f, 0, sizeof(Flags));
     for (i = 0; i < 10; i++)
-        func_02028748(f, i, func_021644C4(i, a, b));
+        func_02028748((struct Obj *)f, i, func_021644C4(i, a, b));
     f->f04 = func_02012B28(save);
 }

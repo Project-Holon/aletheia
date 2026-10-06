@@ -31,7 +31,7 @@ typedef struct {
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern void func_021EA384(char *ctx, int a);
 extern int func_021EA3A0(u32 *p);
-extern void func_021EA678(void *win, u16 a, void *b);
+extern void func_021EA678(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
 
 int func_021D21D4(Seq *s, int *state, u32 *a)
@@ -43,7 +43,7 @@ int func_021D21D4(Seq *s, int *state, u32 *a)
         break;
     case 1:
         if (func_021EA3A0(s->win)) {
-            func_021EA678(s->win, 0x61, a);
+            func_021EA678(s->win, 0x61, (int *)a);
             *state = *state + 1;
         }
         break;

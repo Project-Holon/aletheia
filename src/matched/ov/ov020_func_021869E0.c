@@ -22,7 +22,7 @@ extern char *func_0218682C(char *p);
 extern int func_02186A2C(char *p, int id);
 extern void func_02186818(u32 *p, u32 member);
 
-char *func_021869E0(char *a, u32 limit, char *h, int *out)
+char *func_021869E0(char *a, int limit, char *h, int *out)
 {
     char *q;
     int i;

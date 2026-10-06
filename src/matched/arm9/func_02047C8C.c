@@ -55,7 +55,8 @@ struct Ov {
 };
 
 extern struct G02146A5C g_02146A5C;
-extern void func_0206B6A4(struct P02047C8C *p);
+struct Obj0206B6A4;
+extern void func_0206B6A4(struct Obj0206B6A4 *p);
 
 void func_02047C8C(struct P02047C8C *p)
 {
@@ -63,5 +64,5 @@ void func_02047C8C(struct P02047C8C *p)
     g_02146A5C.f8 += p->f4->h24;
     if (g_02146A5C.obj->f98 != 0)
         g_02146A5C.obj->f98(p, g_02146A5C.obj->f9c);
-    func_0206B6A4(p);
+    func_0206B6A4((struct Obj0206B6A4 *)p);
 }

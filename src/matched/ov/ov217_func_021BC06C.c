@@ -20,9 +20,9 @@
 
 typedef unsigned char u8;
 
-extern int func_021BC07C(void *, u8);
+extern int func_021BC07C(u8 *p, u8 index);
 
 int func_021BC06C(char *p)
 {
-    return func_021BC07C(p, ((struct Obj05558 *)p)->f32);
+    return func_021BC07C((u8 *)p, ((struct Obj05558 *)p)->f32);
 }

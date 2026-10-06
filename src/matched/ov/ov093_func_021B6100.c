@@ -103,7 +103,8 @@ struct Obj0203159C
 extern void func_0203064C(u32, u32, u32);
 extern u8 *func_0203159C(struct Obj0203159C *, u32, u32);
 extern void func_02082A7C(u32, void *, u32);
-extern void func_021E8DC4(u32);
+struct S;
+extern void func_021E8DC4(unsigned short heap);
 extern void func_021E88CC(void);
 extern int func_020057C4(void);
 extern void func_020057AC(void);
@@ -117,16 +118,16 @@ extern void func_0203F258(struct Lcg64 *);
 extern void func_021D7840(struct Lcg64 *, u32);
 extern void func_021CD6EC(void);
 extern u32 func_021D7F88(u8 *);
-extern void func_021D8230(void *);
+extern void func_021D8230(u8 *p);
 extern void func_021D4150(void *, u16, u16);
 extern void func_021D804C(u32);
 extern int func_021D4270(void);
 extern int func_021D4230(void);
-extern void func_021EEA30(u32);
+extern void func_021EEA30(int v);
 extern void func_021B66D4(struct Callback *, u8 *, u8 *);
-extern void func_021B9DB8(u8 *);
-extern void func_021BA094(u8 *);
-extern void func_021BA1B4(u8 *, int);
+extern void func_021B9DB8(char *p);
+extern void func_021BA094(struct S *p);
+extern void func_021BA1B4(char **p, int i);
 int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
 {
   u32 flag;
@@ -212,8 +213,8 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
         func_021EEA30((*((u8 **) p))[0x20]);
         func_021B66D4((struct Callback *) (p + 0x450), p, *((u8 **) p));
         *((u32 *) (p + 0x460)) = 0;
-        func_021B9DB8(p);
-        func_021BA094(p);
+        func_021B9DB8((char *)p);
+        func_021BA094((struct S *)p);
         (*state)++;
       }
       break;
@@ -248,7 +249,7 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
           return 1;
         }
         if ((*((u32 *) (*((u8 **) p)))) != 4)
-          func_021BA1B4(p, 4);
+          func_021BA1B4((char **)p, 4);
         return 1;
       }
       break;

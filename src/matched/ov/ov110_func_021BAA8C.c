@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021BF7FC(u8 *);
 extern void func_021BCD80(u8 *);
-extern void func_021BB958(u8 *);
+extern void func_021BB958(char *p);
 extern void func_021BB9C0(u8 *,int);
 extern int func_021BBB0C(u8 *,int);
 extern void func_021B9CBC(u8 *);
@@ -34,7 +34,7 @@ void func_021BAA8C(void *unused,u8 *p) {
     switch(((struct Obj06386 *)p)->f14) {
     case 0:
         func_021BCD80(*(u8 * *)&((struct Obj07998 *)q)->f64);
-        func_021BB958(*(u8 * *)&((struct Obj07998 *)q)->f58);
+        func_021BB958((char *)(*(u8 * *)&((struct Obj07998 *)q)->f58));
         func_021BB9C0(*(u8 * *)&((struct Obj07998 *)q)->f58,x!=0);
         ++((struct Obj06386 *)p)->f14;
         break;

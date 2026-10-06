@@ -13,7 +13,7 @@
  */
 typedef unsigned int u32;
 extern void func_0207D63C(u32, int, int, int, int);
-void func_021F1740(void)
+void func_021F1740(void *p)
 {
     func_0207D63C(0x04001050, 2, 0x15, 9, 0x10);
 }

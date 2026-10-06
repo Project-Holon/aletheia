@@ -15,10 +15,10 @@
  * Forward with index 32.
  */
 
-extern void func_021EBA84(char *, int, int);
+extern void func_021EBA84(unsigned char *p, int msg, int i);
 
 void func_021EBBBC(char *p, int b)
 {
-    func_021EBA84(p, 0x20, b);
+    func_021EBA84((unsigned char *)p, 0x20, b);
 }
 

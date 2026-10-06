@@ -57,8 +57,8 @@ extern int func_021F6C48(void *party, void *save, int box, int slot);
 extern int func_021F6BA4(void *party, void *save, int box, int slot);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
 extern void func_022025E4(u32 a, u32 b, u32 c);
-extern void func_021F663C(Work *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
-extern void func_021F4E98(Work *p, u32 a, u32 b);
+extern void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
+extern void func_021F4E98(u8 *p, u32 a, u32 b);
 
 void func_021F5A7C(Work *p)
 {
@@ -77,17 +77,17 @@ void func_021F5A7C(Work *p)
         func_020061E4(0x54C);
         if (func_021F6BA4(p->ctx->party, p->ctx->save, p->box, p->slot) != 0) {
             func_022025E4((u32)p->msg, 0, (u32)func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot));
-            func_021F663C(p, 0x16, 1, 0, 0xF0F, 0);
-            func_021F4E98(p, 3, 7);
+            func_021F663C((u8 *)p, 0x16, 1, 0, 0xF0F, 0);
+            func_021F4E98((u8 *)p, 3, 7);
         } else {
-            func_021F663C(p, 0x1A, 1, 0, 0xF0F, 1);
-            func_021F4E98(p, 4, 1);
+            func_021F663C((u8 *)p, 0x1A, 1, 0, 0xF0F, 1);
+            func_021F4E98((u8 *)p, 4, 1);
         }
         break;
     case 2:
         func_020061E4(0x54C);
-        func_021F663C(p, 0x21, 1, 0, 0xF0F, 1);
-        func_021F4E98(p, 4, 1);
+        func_021F663C((u8 *)p, 0x21, 1, 0, 0xF0F, 1);
+        func_021F4E98((u8 *)p, 4, 1);
         break;
     }
 }

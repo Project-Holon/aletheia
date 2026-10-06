@@ -127,7 +127,7 @@ u8 func_0200D468(struct Blk38 *p, u32 i)
     return p->unk2E[i];
 }
 
-void func_0200D470(struct Blk38 *p, u32 i, u8 v)
+void func_0200D470(struct Blk38 *p, u32 i, u32 v)
 {
     p->unk2E[i] = v;
 }

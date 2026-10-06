@@ -57,7 +57,7 @@ extern void *func_0200B3A4(unsigned int, unsigned int);
 extern int func_02158780(void *p, int b, int c, int d, u16 e);
 extern int func_021587B0(int a0, int a1, int a2, int a3);
 extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
-extern int func_021F3DE4(void *p, u8 delta, u16 i);
+extern int func_021F3DE4(void *p, u16 delta, u16 i);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021BE6BC(int *p);
 extern void func_020061E4(u32 a);

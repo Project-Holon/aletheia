@@ -27,7 +27,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 
 extern void func_021BA264(void *a, void *b);
-extern void func_021BA2A4(void *a, void *b);
+extern void func_021BA2A4(void *w, u8 *s);
 
 void func_021BA5F0(void *a, char *b, u8 c)
 {
@@ -36,7 +36,7 @@ void func_021BA5F0(void *a, char *b, u8 c)
         func_021BA264(a, b);
         break;
     case 1:
-        func_021BA2A4(a, b);
+        func_021BA2A4(a, (u8 *)b);
         break;
     }
 

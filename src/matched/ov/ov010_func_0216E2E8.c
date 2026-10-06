@@ -20,7 +20,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216DD1C(void *c, void **out, u32 *iter);
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern u16 func_0216D598(void *p);
 extern u32 func_0200F128(u32 id);
 struct ArcFile;
@@ -28,7 +30,7 @@ extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size,
 
 typedef struct Record { u16 fields[14]; } Record;
 
-void func_0216E2E8(const char *ctx, u16 id, Record *out)
+void func_0216E2E8(const char *ctx, u32 id, Record *out)
 {
     u16 offset;
     int i;
@@ -53,14 +55,14 @@ void func_0216E2E8(const char *ctx, u16 id, Record *out)
         }
     }
     iter = 0;
-    if (func_0216DD1C((void *)ctx, &rec, &iter)) {
+    if (func_0216DD1C((void *)ctx, (struct Rec **)(&rec), &iter)) {
         do {
             if (id == func_0216D598(rec)) {
                 u16 *src = (u16 *)((char *)rec + 0xe4);
                 *out = *(Record *)src;
                 return;
             }
-        } while (func_0216DD1C((void *)ctx, &rec, &iter));
+        } while (func_0216DD1C((void *)ctx, (struct Rec **)(&rec), &iter));
     }
     offset = func_0200F128(id) * 0x1c + 4;
     func_0204944C(((struct Obj12405 *)ctx)->f14, 0, offset, 0x1c, out);

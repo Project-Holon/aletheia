@@ -37,20 +37,21 @@ struct E { u32 w[6]; };
 struct Ent { u32 f0; u32 f4; u32 f8; u32 fc; u16 f10; u8 f12; u8 a : 6; u8 b : 2; };
 extern const struct E d_021DEC04[];
 extern const struct E d_021DEC94[];
-extern void func_021DE064(char *, int, int);
+struct PalAnmSlot;
+extern void func_021DE064(int *p, int i, int a);
 extern void *func_021DE290(char *, const void *);
 extern void func_021DE608(char *, int, int);
 extern void func_021DE34C(char *, int);
 extern void func_021DE1F8(char *, int);
 extern void func_021DE218(char *, int);
 extern void func_021DE238(char *, int);
-extern void func_021DE684(char *);
-extern u32 func_0202D7C8(u32);
+extern void func_021DE684(u8 *p);
+extern int func_0202D7C8(int a0);
 extern u32 func_0202D81C(u32, u32, u32, u32, u32, u32, u32, u32, u32, u16);
 extern u32 func_0202D7D8(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern u32 func_0202D898(u32, u32, u32, u32, u32, u32, u32, u32, u16);
 extern u32 func_02017ED8(u32, u32);
-extern void func_020216D4(void *, u32, u32, u32);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_02049238(u32);
 void func_021DE388(char *p) {
     u32 i;
@@ -61,7 +62,7 @@ void func_021DE388(char *p) {
     struct Ent *r;
     u32 x;
     struct E e;
-    for (i = 0; i <= 11; i++) func_021DE064(p, i, 0);
+    for (i = 0; i <= 11; i++) func_021DE064((int *)p, i, 0);
     rec = p + 0xc + (s8)p[0xC5E] * 0xbc;
     h = func_0202D7C8(0x808C);
     {
@@ -101,5 +102,5 @@ void func_021DE388(char *p) {
         for (i = 6; i <= 11; i++) func_021DE238(p, i);
     }
     *(u8 *)(p + 0xC60) ^= 1;
-    func_021DE684(p);
+    func_021DE684((u8 *)p);
 }

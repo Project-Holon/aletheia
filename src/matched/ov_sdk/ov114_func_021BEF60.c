@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BEF60(u8 *p, int v)
+void func_021BEF60(u8 *p, u32 v)
 {
     if (p != 0)
         *(u32 *)(p + 0x2c) = v;

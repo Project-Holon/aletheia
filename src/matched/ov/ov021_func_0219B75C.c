@@ -45,8 +45,8 @@ extern Tbl24 d_021D5258;
 
 extern void *func_0216D6B8(void *p);
 extern u16 func_0216D5F8(void *p);
-extern u32 func_02197E7C(u16 a, u16 b);
-extern void func_0216D438(int a, u16 b);
+extern int func_02197E7C(int a, int b);
+extern void func_0216D438(int a0, int a1);
 extern u32 func_02197EDC(u8 *p);
 extern u16 func_0216D5A8(int a);
 extern int func_0219B8A8(void);
@@ -73,7 +73,7 @@ int func_0219B75C(int a)
         p->f6 = i % 4;
         p->state++;
     case 1:
-        func_0216D438(a, func_02197E7C(t.w[p->f5][p->f6], 0));
+        func_0216D438(a, (u16)((u32)func_02197E7C((u16)t.w[p->f5][p->f6], (u16)0)));
         p->state++;
     case 2:
         if (func_02197EDC((u8 *)a) == 0) {

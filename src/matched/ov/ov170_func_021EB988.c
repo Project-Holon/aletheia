@@ -35,7 +35,7 @@ struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_021EAAE4(char *w, unsigned i);
+extern void func_021EAAE4(unsigned char *p, unsigned i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
@@ -57,6 +57,6 @@ void func_021EB988(char *p, Ent *e, unsigned n)
     for (; n < 6; n++) {
         unsigned k = 0x13 - n;
         func_02043B5C(func_02045770(*(void **)(WORK(p) + k * 8 + 0x94)), 0);
-        func_021EAAE4(WORK(p), k);
+        func_021EAAE4((unsigned char *)WORK(p), k);
     }
 }

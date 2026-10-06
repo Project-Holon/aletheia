@@ -226,7 +226,7 @@ u8 func_020129AC(const struct BigObj *p)
     return p->unk1C6;
 }
 
-void func_020129B8(struct BigObj *p, u8 v)
+void func_020129B8(struct BigObj *p, u32 v)
 {
     p->unk1C6 = v;
 }

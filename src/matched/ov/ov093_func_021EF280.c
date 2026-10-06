@@ -26,7 +26,7 @@ typedef struct { u8 pad00[0x18]; u16 f18; } H;
 extern G d_021F6398;
 extern H d_021F63D8;
 extern u8 func_021B8DDC(u32 x);
-extern int func_021B8CE8(int, u8, int);
+extern int func_021B8CE8(int a, int b, int c);
 extern void *func_021B86B8(void ***);
 struct MsgBank;
 struct WordSet;

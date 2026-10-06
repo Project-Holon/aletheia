@@ -74,7 +74,8 @@ typedef unsigned int   u32;
 extern int  DWC_IsValidFriendData(const void *friendData);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
-extern void func_02045A38(void *dest, const void *src, u32 size);
+struct U16Vec;
+extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 
 struct Sub020097BCFriend {
     u8 unk00[0xC];
@@ -189,7 +190,7 @@ void sub_020099E4(struct Sub020097BCObj *obj, int i, void *dest)
 
 void sub_02009A00(struct Sub020097BCObj *obj, int i, void *dest)
 {
-    func_02045A38(dest, &obj->unk1C0[i], 0x10);
+    func_02045A38(dest, (u16 *)(&obj->unk1C0[i]), 0x10);
 }
 
 int sub_02009A1C(struct Sub020097BCObj *obj, u32 i)

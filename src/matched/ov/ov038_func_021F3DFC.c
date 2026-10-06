@@ -45,7 +45,7 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
-extern u8 *func_021897BC(void *p, int idx);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188CB4(u8 *p);
 extern void func_021BE4B4(char *p, int i, int j, int v);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
@@ -56,7 +56,7 @@ extern int func_02197DA0(u32 a);
 extern void func_02197DAC(void *a);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(void *q, V3 *v);
+extern void func_021A3044(u8 *p, void *v);
 
 int func_021F3DFC(int a0, int *a1)
 {
@@ -72,7 +72,7 @@ int func_021F3DFC(int a0, int *a1)
 
     sys = func_0201210C(func_020124E4((void *)a0));
     h = func_02188D2C(sys);
-    s = func_021897BC(sys, 1);
+    s = (u8 *)func_021897BC(sys, 1);
     q = func_02188CB4(sys);
     k = 0;
     c = s[3] + 0x19;

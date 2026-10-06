@@ -47,7 +47,7 @@ typedef unsigned int u32;
 extern int func_021B99DC(u8 *);
 extern int func_021B9790(u8 *);
 extern u8 *func_021B97F4(u8 *);
-extern u8 func_021B99F0(u8 *);
+extern int func_021B99F0(u8 *p);
 extern u32 func_021B99F4(u32 p, u32 i);
 extern void func_021B9774(u8 *);
 extern void func_021B99B8(u8 *);

@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 extern char *func_021B9AEC(char *, int);
 typedef unsigned int u32;
-extern u8 *func_021B9C00(void *p, u32 i);
+struct S2;
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern void func_021BD518(u8 *, u8 *);
 void func_021BD4E4(u8 *p, int i, u8 a, u8 b)
 {
@@ -25,8 +26,8 @@ void func_021BD4E4(u8 *p, int i, u8 a, u8 b)
     u8 *first;
     u8 *second;
     arr = (u8 *)func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, i);
-    first = func_021B9C00(arr, a);
-    second = func_021B9C00(arr, b);
+    first = func_021B9C00((struct S2 *)arr, a);
+    second = func_021B9C00((struct S2 *)arr, b);
     func_021BD518(p, first);
     func_021BD518(p, second);
 }

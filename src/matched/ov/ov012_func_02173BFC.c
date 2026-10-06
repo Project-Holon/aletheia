@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02087C6C(void *p);
 extern u8 *func_02012944(void *p);
-extern void func_021CD624(int a, int b, int c, int d, void *e);
+extern void func_021CD624(u8 *p, int i, u32 a, u32 b, void *c);
 
 void func_02173BFC(int a, int x, u8 *b, u8 *p)
 {
@@ -42,5 +42,5 @@ void func_02173BFC(int a, int x, u8 *b, u8 *p)
         return;
     }
     func_02087C6C(buf);
-    func_021CD624(r4[0x5a], a, (int)func_02012944((void *)r7), b[0x27], buf);
+    func_021CD624((u8 *)r4[0x5a], a, (int)func_02012944((void *)r7), b[0x27], buf);
 }

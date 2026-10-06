@@ -25,7 +25,7 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern u32 func_0201C440(void *p);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-void func_021F01F0(char *p)
+void func_021F01F0(u32 *p)
 {
     ((struct Obj07624 *)p)->f14 = func_0204B100(12, 5, 21);
     ((struct Obj07624 *)p)->f40 = func_0201C440((void *)21);

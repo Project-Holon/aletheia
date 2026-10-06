@@ -27,13 +27,16 @@ typedef struct {
     int f134;
 } S;
 
-extern void func_0204B404(int a, P *v, int b);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021A9080(S *s, s16 x, s16 y)
 {
     P v;
     v.x = x;
     v.y = y;
-    func_0204B404(s->f124, &v, 0);
+    func_0204B404((struct Obj *)s->f124, (const struct Vec2 *)(&v), 0);
     s->f134 = 0;
 }

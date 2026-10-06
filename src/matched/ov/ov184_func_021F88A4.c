@@ -25,7 +25,8 @@ extern void func_021FEEC0(char *p, int mode, u32 value);
 extern void func_021FBDA4(int a, unsigned mode);
 extern void func_021FC1F8(int *p, int i);
 extern void func_021FC610(u32 a, u16 b);
-extern u32 func_021F3AF0(u32 a, u16 b);
+typedef unsigned char  u8;
+extern u8 *func_021F3AF0(u8 *src, u16 heap);
 
 void func_021F88A4(char *p, char *q)
 {
@@ -35,5 +36,5 @@ void func_021F88A4(char *p, char *q)
     func_021FBDA4(((struct Obj08319 *)q)->fC, 0);
     func_021FC1F8((int *)(((struct Obj08319 *)q)->fC), 0);
     func_021FC610(((struct Obj08319 *)q)->f8, ((struct Obj06618 *)p)->f24);
-    ((struct Obj06618 *)p)->f0 = func_021F3AF0(((struct Obj06618 *)p)->f28, ((struct Obj06618 *)p)->f24);
+    ((struct Obj06618 *)p)->f0 = (unsigned int)func_021F3AF0((u8 *)(((struct Obj06618 *)p)->f28), ((struct Obj06618 *)p)->f24);
 }

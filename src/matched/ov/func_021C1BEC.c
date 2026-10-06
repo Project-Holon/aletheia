@@ -23,7 +23,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021C2090(void *p);
+extern void func_021C2090(char *p);
 
 void func_021C1BEC(u8 *p)
 {
@@ -35,6 +35,6 @@ void func_021C1BEC(u8 *p)
         return;
     }
 
-    func_021C2090(p);
+    func_021C2090((char *)p);
     p[0x8F1] = 0;
 }

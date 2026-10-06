@@ -16,14 +16,14 @@
  */
 #include "../include/Obj04569.h"
 
-extern void func_021B6984(int *);
+extern void func_021B6984(char *p);
 typedef unsigned char  u8;
 extern void func_02048AC4(void *ptr);
 extern void func_02014BA8(u8 *a0);
 
 void func_021B6914(int *p)
 {
-    func_021B6984(p);
+    func_021B6984((char *)p);
     func_02048AC4((void *)(((struct Obj04569 *)p)->f20));
     func_02014BA8((u8 *)(((struct Obj04569 *)p)->f18));
 }

@@ -15,7 +15,7 @@
  *   func_020419E4  0x020419E4  arm
  */
 
-void func_021B9D60(void)
+void func_021B9D60(char *a0)
 {
     void func_020419E4(void);
     func_020419E4();

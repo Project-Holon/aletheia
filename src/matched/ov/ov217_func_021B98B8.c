@@ -23,9 +23,12 @@
  */
 
 extern void func_0203F8F4(unsigned short heapId);
-extern void func_0203FC28(void *);
-extern void func_0203FCA0(int, void *, int);
-extern void func_02040588(int, int);
+typedef unsigned int   u32;
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_02040588(u32 which, u32 enable);
 extern int d_021C2E30;
 extern int d_021C2E60;
 extern int d_021C2E40;
@@ -34,11 +37,11 @@ extern int d_021C2E80;
 void func_021B98B8(unsigned short heapId)
 {
     func_0203F8F4(heapId);
-    func_0203FC28(&d_021C2E30);
-    func_0203FCA0(4, &d_021C2E60, 0);
-    func_0203FCA0(5, &d_021C2E40, 0);
+    func_0203FC28((struct DispConfig *)(&d_021C2E30));
+    func_0203FCA0(4, (const struct BgTemplate *)(&d_021C2E60), 0);
+    func_0203FCA0(5, (const struct BgTemplate *)(&d_021C2E40), 0);
     func_02040588(4, 1);
     func_02040588(5, 1);
-    func_0203FCA0(1, &d_021C2E80, 0);
+    func_0203FCA0(1, (const struct BgTemplate *)(&d_021C2E80), 0);
     func_02040588(1, 1);
 }

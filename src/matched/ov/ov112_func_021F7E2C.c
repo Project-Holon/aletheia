@@ -22,7 +22,7 @@
 typedef struct { int x, y, z; } Vec;
 typedef struct { short count, pad; int index, a, b; } Tail;
 extern char *func_021F5450(char *, int);
-extern Vec *func_021F5464(char *);
+extern char *func_021F5464(char *p);
 extern void func_0207C9D0(Vec *, Vec *, Vec *);
 extern void func_021F4E8C(int, int, Vec *);
 extern void func_021F4E6C(int, int, int);
@@ -37,7 +37,7 @@ void func_021F7E2C(char *p, char *q) {
     Vec v;
     *(int *)(q + 0xcc + ((struct Obj06411 *)q)->fF4 * 4) = 0;
     if (((struct Obj06411 *)q)->f8 == 0 || ((struct Obj22564 *)r)->f0 == 0) {
-        func_0207C9D0((Vec *)(q + 0x18), func_021F5464(*(char * *)&((struct Obj06411 *)q)->f58), &v);
+        func_0207C9D0((Vec *)(q + 0x18), (Vec *)func_021F5464(*(char * *)&((struct Obj06411 *)q)->f58), &v);
         func_021F4E8C(((struct Obj08031 *)p)->f10, *(int *)(q + 0x84 + t->index * 4), &v);
     }
     t->b = -0x3000;

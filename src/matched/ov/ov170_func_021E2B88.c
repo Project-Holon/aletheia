@@ -33,23 +33,23 @@ typedef struct { u8 lo:4; u8 hi:4; } Nib;
 struct WinMgr;
 struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
-extern void func_021DEFEC(u8 *,int);
+extern void func_021DEFEC(char *p, int b);
 extern void func_021EBA5C(char *,int);
-extern void func_021DD14C(u8 *);
+extern void func_021DD14C(char *p);
 extern void func_021EF670(char *);
 extern void func_021ECB84(char *,unsigned);
 extern void func_021ED55C(char **,int);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021E8FC0(u8 *,int (*)(u8 *),int);
-extern int func_021E0190(u8 *);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
 extern void func_020061E4(unsigned);
-extern int func_021EA83C(u8 *,int);
+extern int func_021EA83C(char *p, int a);
 extern void func_021EE364(char **,int,int);
-extern void func_021ED544(u8 *,int);
-extern void func_021EE038(u8 *,int,int,int);
+extern void func_021ED544(char *p, int b);
+extern void func_021EE038(char *p, int a, int b, int c);
 extern unsigned func_021DD25C(void ***,unsigned short,int,unsigned,unsigned);
 extern void func_021ED508(u8 *,int,int);
-extern int func_021EA114(u8 *,unsigned);
+extern int func_021EA114(char *p, int a);
 #define W(p) (*(char **)((p)+0x2C))
 #define LO(p) (((Nib *)((p)+0x1C))->lo)
 int func_021E2B88(u8 *p)
@@ -62,38 +62,38 @@ int func_021E2B88(u8 *p)
             p[0x16]=func_020260E0(*(void **)(W(p)+0x70));
             if(p[0x16]>=30) {
                 p[0x16]=0;
-                func_021DEFEC(p,p[0x16]);
+                func_021DEFEC((char *)p,p[0x16]);
             }
         } else {
             p[0x17]=p[0x14];
             func_021EBA5C(W(p),24);
-            func_021DD14C(p);
+            func_021DD14C((char *)p);
             func_021EF670(W(p));
             func_021ECB84(W(p),p[0x16]);
         }
         func_021ED55C((char **)p,0);
         func_021EF57C(*(struct WinMgr **)(W(p)+0x74));
         (*(int *)(W(p)+0xA194))++;
-        return func_021E8FC0(p,func_021E0190,20);
+        return func_021E8FC0((char *)p,(int)func_021E0190,20);
     case 1:
         func_020061E4(0x669);
         (*(int *)(W(p)+0xA194))++;
-        return func_021EA83C(p,20);
+        return func_021EA83C((char *)p,20);
     case 2:
         func_021EE364((char **)p,4,p[0x16]);
-        func_021ED544(p,6);
-        func_021EE038(p,0,1,0);
+        func_021ED544((char *)p,6);
+        func_021EE038((char *)p,0,1,0);
         *(int *)(W(p)+0xA168)=p[0x16];
         *(int *)(W(p)+0xA194)=0;
         if(LO(p)==1) {
             if(!func_021DD25C((void ***)p,p[0x16],p[0x14],0xA9,0))
-                func_021EE038(p,0,1,2);
+                func_021EE038((char *)p,0,1,2);
             func_021ED508(p,13,1);
             return 21;
         }
         if(LO(p)==2) func_021ED508(p,13,1);
         else func_021ED508(p,14,1);
-        return func_021EA114(p,p[0x16]);
+        return func_021EA114((char *)p,p[0x16]);
     }
     return 20;
 }

@@ -30,7 +30,7 @@ struct Ent {
     u16 f:1;
 };
 struct Q { u8 pad0[2]; u8 n; u8 pad3; struct Ent e[]; };
-u32 func_021C0CB4(u8 *p, const struct Q *q, u32 *out)
+int func_021C0CB4(u8 *p, const struct Q *q, u32 *out)
 {
     u32 i = 0;
     for (; i < q->n; i++)

@@ -74,21 +74,36 @@ extern void func_021B9818(u8 *),func_021B8A30(u8 *),func_021B98A0(u8 *),func_021
 extern void func_021B9C08(u8 *,u32,void *),func_021B918C(u8 *),func_021B9784(u8 *);
 extern int func_021B940C(u8 *);
 extern void func_021FCDEC(int,int);
-extern int func_021FCE00(void *,int),func_021FD6A4(void *);
-extern void func_021B9F5C(u8 *),func_021B8C6C(u8 *);
-extern void func_021F51E8(u8 *),func_021F51F4(u8 *),func_021F4990(void *);
+struct Board;
+struct Camera;
+struct Cfg;
+struct Descriptor;
+struct Lights;
+struct O;
+struct PrintSys;
+extern int func_021FCE00(char *p, int id);
+extern int func_021FD6A4(char *p);
+extern void func_021B9F5C(u8 *);
+extern void func_021B8C6C(struct O *p);
+extern void func_021F51E8(u8 *);
+extern void func_021F51F4(void **p);
+extern void func_021F4990(void *);
 extern void func_0204A600(void),func_02047964(void),func_020479D8(void),func_02047970(void);
-extern void func_0204F7DC(void *,void *,void *),func_02041EE4(u32,u32,u32);
+extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights);
+extern void func_02041EE4(u32,u32,u32);
 extern void func_0204152C(int,u16);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void func_021B9C90(u8 *),func_0201F73C(void *,int,int,int),func_021BA0C8(u8 *,u8);
 extern void func_0204047C(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
-extern void func_0201C6EC(void *),func_020452E8(void *);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_020452E8(struct Descriptor *d);
 struct Descriptor;
 extern u32 func_021BA20C(u8 *p);
 extern void func_021B9CBC(u8 *,u8 *);
-extern u32 func_0201C6B4(const void *),func_0201C4E4(void *);
-extern void func_02045334(struct Descriptor *d),func_02045374(void *);
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern u32 func_0200FB24(void);
 struct Obj;
@@ -149,9 +164,9 @@ int func_021B63BC(Context *p)
         }
         break;
     }
-    func_021B9F5C((u8 *)p); func_021B8C6C((u8 *)p); func_021F51E8(P(0x187c));
+    func_021B9F5C((u8 *)p); func_021B8C6C((struct O *)p); func_021F51E8(P(0x187c));
     func_021F4990(P(0x1884)); func_0204A600(); func_02047964(); func_020479D8();
-    func_021F51F4(P(0x187c)); func_0204F7DC(P(0x188c),P(0x1888),0); func_02047970();
+    func_021F51F4((void **)P(0x187c)); func_0204F7DC((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); func_02047970();
     p->counter++;
     if(p->counter>1) {
         p->counter=0;
@@ -170,7 +185,7 @@ int func_021B63BC(Context *p)
             func_021BA0C8((u8 *)p,2); p->flag=0;
             func_0204047C(7,3); func_0204047C(4,0); func_0204047C(5,1); func_0204047C(6,2);
             func_021BA0C8((u8 *)p,4); func_0204989C(46,13,7,0,0,0,H(0)); func_02041B6C(7);
-            p->busy=0; func_0201C6EC(P(0x18e8)); func_020452E8((u8 *)p->window); p->window=0; func_021BA0C8((u8 *)p,6);
+            p->busy=0; func_0201C6EC((struct PrintSys *)P(0x18e8)); func_020452E8((struct Descriptor *)p->window); p->window=0; func_021BA0C8((u8 *)p,6);
         } else if(p->brightness!=0) {
             func_021BA0C8((u8 *)p,p->brightness+96); p->brightness-=8; brightness(&p->brightness);
         }
@@ -182,13 +197,13 @@ int func_021B63BC(Context *p)
         } else if(p->sentinel!=255 && P(0x38)==0) { func_021B9C90((u8 *)p); p->sentinel=255; }
     }
     func_021BA0C8((u8 *)p,10);
-    if(p->busy==1 && func_0201C6B4(P(0x18e8))==1) {
+    if(p->busy==1 && func_0201C6B4((const struct PrintSys *)P(0x18e8))==1) {
         p->busy=0; desc=(u8 *)p->window;
         func_02045334(desc); func_02045374(desc); func_02041B6C(func_02045730(desc));
         func_0204047C(4,1); func_0204047C(5,2); func_0204047C(6,3); func_0204047C(7,0);
     }
     func_021BA0C8((u8 *)p,12);
-    if(P(0x18e8)!=0) func_0201C4E4(P(0x18e8));
+    if(P(0x18e8)!=0) func_0201C4E4((struct PrintSys *)P(0x18e8));
     func_021BA0C8((u8 *)p,14);
     if(H(0x18c2)!=0) H(0x18c2)--;
     if(*(u32 *)P(4)!=0 && W(0x0c)!=7 && W(0x0c)!=8 && W(0x0c)!=9) {

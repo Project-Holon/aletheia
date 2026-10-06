@@ -71,12 +71,13 @@ extern void func_021E7E0C(void **, int);
 extern void func_021E8738(int *, int, int, int);
 extern int func_021D9F04(char *, void *, void *);
 extern void func_021D65F0(u32 *, u32 *);
-extern void func_021DA0D4(void *, int, int, int, u32 *);
+struct Rec;
+extern void func_021DA0D4(char *obj, int mode, int extra, int group, int *rec);
 extern void func_021D6954(char *);
 extern int func_021DA1E4(char *obj);
 extern void func_021D9ED4(char *, u32);
 extern int func_021D9EEC(char *);
-extern int func_021DC1A0(char *, u32);
+extern u32 func_021DC1A0(char *obj, u32 data);
 extern u32 func_021DC1E4(char *, char **);
 extern int func_0201A918(void);
 extern void func_02082D44(const void *, void *, u32);
@@ -85,7 +86,7 @@ extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern void func_02045A38(struct U16Vec *, u16 *, unsigned int);
 extern void func_02045808(struct U16Vec *);
-extern void func_02045C04(struct MsgRec *);
+extern void func_02045C04(struct Rec *rec);
 extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
 extern unsigned int func_020245D4(struct T *, unsigned int);
 extern void func_020242A4(void *, unsigned int);
@@ -144,7 +145,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
             func_021E8AA0((int *)sys, (int)func_021D61A4); return;
         }
         func_021D65F0(buf, (u32 *)p);
-        func_021DA0D4((void *)P(0x30), 3, 0, ((int *)Q(8))[1], buf);
+        func_021DA0D4((void *)P(0x30), 3, 0, ((int *)Q(8))[1], (int *)buf);
         *state = 3; break;
     case 3:
         switch (func_021D9F04((char *)P(0x30), 0, 0)) {
@@ -184,7 +185,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
                 str = func_02045EC0(bank, 0x8057);
                 func_02045A38(str, (u16 *)data, 8);
                 func_02045808(str);
-                func_02045C04((struct MsgRec *)bank);
+                func_02045C04((struct Rec *)bank);
             }
             if ((u8)data[0x1d] != 0 && (u8)data[0x1d] != 1) data[0x1d] = 0;
             if ((u8)data[0x1c] >= 16) {

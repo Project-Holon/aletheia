@@ -57,7 +57,7 @@ typedef struct SAKERequestInternal {
     SAKEIRequestInfo *mInfo;
 } SAKERequestInternal;
 
-extern void *func_021819B0(char **namespaces, int count);
+extern void *func_021819B0(const char **namespaces, int count);
 extern int func_021829AC(void *stream, char *namespaceName, char *tag);
 extern int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
@@ -78,7 +78,7 @@ int func_021DD98C(SAKERequestInternal *request)
     result = info->validateInputFunc(request);
     if (result != 0)
         return result;
-    request->mSoapRequest = func_021819B0(g_021E370C, 1);
+    request->mSoapRequest = func_021819B0((const char **)g_021E370C, 1);
     if (request->mSoapRequest == 0)
         return 2;
     func_021829AC(request->mSoapRequest, g_021E3858, request->mInfo->soapTag);

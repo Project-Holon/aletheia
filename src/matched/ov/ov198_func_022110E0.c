@@ -19,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_022110D4(void *, u32);
+extern int func_022110D4(u8 *p, int i);
 
 void func_022110E0(u8 **p, u32 b, u32 c)
 {
-    u8 v = func_022110D4(p, c);
+    u8 v = func_022110D4((u8 *)p, c);
 
     *(u8 *)(*p + b + 0x48) = v;
 }

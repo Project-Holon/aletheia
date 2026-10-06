@@ -17,22 +17,24 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 struct Pt { s16 a, b, x, y; };
-extern void func_021BC578(void *src, struct Pt *out);
-extern void func_021BC69C(void *p, u32 v);
-extern void func_0204B404(void *obj, s16 *pos, u32 flag);
-void func_021BC72C(char *p, u32 i)
+struct Obj;
+struct Vec2;
+extern void func_021BC578(const s16 *a, s16 *b);
+extern void func_021BC69C(u8 *p, int flag);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+void func_021BC72C(char *p, int i)
 {
     struct Pt t;
     if (*(u32 *)(p + 0x44) != 0) {
-        func_021BC578(p + 0x38 + i * 4, &t);
+        func_021BC578((const s16 *)(p + 0x38 + i * 4), (s16 *)(&t));
         t.x = t.a;
         t.y = t.b;
     } else {
         t.x = 0x80;
         t.y = 0x18;
     }
-    func_0204B404(*(void **)(p + 0x14), &t.x, 0);
+    func_0204B404(*(void **)(p + 0x14), (const struct Vec2 *)(&t.x), 0);
     t.y += 0xC0;
-    func_0204B404(*(void **)(p + 0x18), &t.x, 1);
-    func_021BC69C(p, 1);
+    func_0204B404(*(void **)(p + 0x18), (const struct Vec2 *)(&t.x), 1);
+    func_021BC69C((u8 *)p, 1);
 }

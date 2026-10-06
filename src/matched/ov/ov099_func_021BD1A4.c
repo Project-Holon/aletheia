@@ -37,17 +37,21 @@ struct PrintSys;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
-extern int func_020200CC(void *o);
-extern void func_020202FC(void *o, u16 *a, u16 *b);
-extern void *func_02012934(void *x);
+typedef signed int     s32;
+struct BigObj;
+struct Obj;
+struct Rec534;
+extern s32 func_020200CC(struct Obj *o);
+extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
+extern void *func_02012934(const struct BigObj *p);
 extern void func_021BBA4C(char *p, void *x);
-extern void func_021BBDD0(char *p, int f);
-extern int func_0203D378(void);
-extern int func_021BCB70(void *a, void *b, void *c);
-extern int func_021BCBBC(void *a, void *b, void *c);
+extern void func_021BBDD0(void *pv, int flag);
+extern u32 func_0203D378(void);
+extern int func_021BCB70(void *rules, const struct BigObj *obj, u32 *mask);
+extern int func_021BCBBC(int a, int b, int *out);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC0C4(char *p);
-extern void func_0201AC2C(void *a, void *b);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_021BA8EC(char *p);
 
 int func_021BD1A4(char *p, int v)
@@ -87,7 +91,7 @@ int func_021BD1A4(char *p, int v)
     case -2:
         return v;
     case 0:
-        if (func_021BCB70(*(void **)(p + 0x1348), *(void **)(p + 0xc4), &out) != 0) {
+        if (func_021BCB70(*(void **)(p + 0x1348), *(void **)(p + 0xc4), (u32 *)(&out)) != 0) {
             func_021BAAB8(p, 0x68, 0);
             *(u32 *)(p + 0x1cc) = 0x6b;
             func_021BC0C4(p);
@@ -97,7 +101,7 @@ int func_021BD1A4(char *p, int v)
         *(u32 *)(p + 0x1cc) = 0x67;
         break;
     case 1:
-        if (func_021BCBBC(*(void **)(p + 0x1348), *(void **)(p + 0xcc), &out) != 0) {
+        if (func_021BCBBC((int)(*(void **)(p + 0x1348)), (int)(*(void **)(p + 0xcc)), &out) != 0) {
             func_021BAAB8(p, 0x68, 0);
             *(u32 *)(p + 0x1cc) = 0x6c;
             func_021BC0C4(p);

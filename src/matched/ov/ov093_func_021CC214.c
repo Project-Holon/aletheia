@@ -28,8 +28,8 @@ extern u8 func_021D5440(u8 *p);
 struct Work;
 extern u32 func_021D805C(void *p, u32 n);
 extern u8 func_021D5450(struct Work *p);
-extern u32 func_021D5568(void *m, u8 n);
-extern void *func_021C88A4(void *a, int k, int b);
+extern u8 func_021D5568(u8 *p, u32 i);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
@@ -50,7 +50,7 @@ int func_021CC214(void *a, void *m, void *s)
     ok = 0;
     n = func_021D5450(m);
     for (i = 0; i < n; i++) {
-        c = func_021D5568(m, i);
+        c = (u32)func_021D5568(m, (u8)i);
         if (c > lim)
             c = lim;
         if (c != 0) {

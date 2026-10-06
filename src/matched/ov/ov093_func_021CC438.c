@@ -28,7 +28,7 @@ extern int func_021CC49C(void *p, int id);
 extern int func_021D5B68(void *m);
 typedef signed char    s8;
 extern int func_021D5D14(s8 *p, int i, int sign);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
 int func_021CC438(char *p, void *m, int c, u8 d, u32 e)

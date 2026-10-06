@@ -42,7 +42,8 @@ extern int func_021D59B4(u8 *p, int k);
 extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021D66D8(void *m, int v);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern int func_021C99A0(u8 *p, u8 *q);
+struct Msg;
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern void func_021C5A34(u8 *p, u8 *a);
 
 int func_021CA748(u8 *p, const struct Q *q)
@@ -55,7 +56,7 @@ int func_021CA748(u8 *p, const struct Q *q)
             if (q->f) func_021C5A1C(p, m);
             func_021D66D8(m, ((u8 *)q)[5]);
             func_021CD4B0(((struct Obj00003 *)p)->fC, 0x4f, ((u8 *)q)[4], ((u8 *)q)[5]);
-            func_021C99A0(p, (u8 *)q + 8);
+            func_021C99A0(p, (const struct Msg *)((u8 *)q + 8));
             if (q->f) func_021C5A34(p, m);
             return 1;
         }

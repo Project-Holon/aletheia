@@ -37,7 +37,7 @@ extern void *func_02019C54(u32 a, u32 b);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern u32 func_0201AF6C(u32 v);
 
-u32 func_0201862C(u32 a0, int a1, int a2, int a3, u8 a4, int a5)
+u32 func_0201862C(u32 a0, u16 a1, u16 a2, u8 a3, u8 a4, int a5)
 {
     if (a5 != 0) {
         u32 v = func_020185F8(a1, a2, a3);

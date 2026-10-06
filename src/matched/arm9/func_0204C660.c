@@ -74,7 +74,7 @@ extern void  func_02066934(struct Rec *recs, u32 n, void *cb);
 extern void  func_0204C718(struct Pool *p, u32 n, u32 heapId);
 extern u32 func_0204C83C(u32 kind, u32 a, u32 b, u32 c);
 
-void func_0204C660(struct Pool *p, u32 n, u32 heapId)
+void func_0204C660(struct Pool *p, u8 n, u32 heapId)
 {
     struct Rec *recs;
 

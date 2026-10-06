@@ -54,13 +54,13 @@ extern void func_021DBA78(u8 *,int);
 extern void func_021D9E30(void *a, int b);
 extern void func_021DBA14(u8 *,u8 *);
 extern void *func_021D6064(u8 *);
-extern void func_021DBA54(u8 *,u8 *);
+extern void func_021DBA54(unsigned char *p, unsigned short *o);
 extern void func_021DB468(u8 *,u8 *,u8,int);
 extern void func_021DB508(u8 *,u8 *,u32,u32);
 extern int func_02035C60(void);
 extern int func_02035C38(void);
 extern int func_02035C08(u8 *);
-extern int func_02035BA4(u8 *);
+extern int func_02035BA4(const void *p);
 extern u32 func_02017E88(void *,u32,u32);
 extern void func_020061E4(u32);
 extern void func_0204B878(struct Obj *,u16);
@@ -102,7 +102,7 @@ void func_021DABCC(u8 *a,u8 *b)
             ((struct Obj00026 *)b)->f1C=1;
             if (((struct Obj00026 *)b)->f14!=1) {
                 b[42]=index;
-                func_021DBA54(b+176+index*24,(u8 *)&point1);
+                func_021DBA54(b+176+index*24,(short unsigned int *)((u8 *)&point1));
                 func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,&point1,0);
                 func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,1);
                 if (index==0) func_0204B878(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,3);
@@ -111,7 +111,7 @@ void func_021DABCC(u8 *a,u8 *b)
             }
             ((struct Obj00026 *)b)->f2C=((struct Obj00132 *)a)->f28;
             ((struct Obj00026 *)b)->f30=((struct Obj00132 *)a)->f2C;
-            func_021DBA54(b+176+index*24,(u8 *)&point2);
+            func_021DBA54(b+176+index*24,(short unsigned int *)((u8 *)&point2));
             func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,&point2,0);
             func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,1);
             func_0204B9A0(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);

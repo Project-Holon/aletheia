@@ -35,19 +35,19 @@ typedef unsigned int u32;
 extern u8 func_021D5440(u8 *);
 extern int func_021D5B68(void *);
 extern void func_021C5078(u8 *, u8);
-extern int func_021BA1A8(void *, int);
+extern int func_021BA1A8(char **p, int m);
 extern u8 func_021B8DDC(u32);
 extern void func_021CD64C(void *, u8, ...);
-extern void func_021CD4B0(void *, u32, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021C5108(u8 *, u8 *, int);
 extern void func_021D646C(u8 *);
 extern u8 func_021B8FF4(u8 *);
-extern int func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021C5098(u8 *);
-extern void func_021B92B0(u8 *, u8 *, int);
+extern void func_021B92B0(char *p, void *m, int k);
 extern void func_021C5088(u8 *, u8);
 extern int func_021B902C(int, int);
-extern void func_021BA1B4(u8 *, int);
+extern void func_021BA1B4(char **p, int i);
 int func_021C4F64(u8 *p, u8 *a)
 {
     u8 k = func_021D5440(a);
@@ -68,17 +68,17 @@ int func_021C4F64(u8 *p, u8 *a)
     if (side == func_021B8FF4(*(u8 **)(p + 4))) {
         health = func_021D59B4(a, 15);
         if (health + 30 <= (int)func_021C5098(p)) ok = 1;
-        func_021B92B0(*(u8 **)(p + 4), a, ok);
+        func_021B92B0((char *)(*(u8 **)(p + 4)), a, ok);
     }
     func_021C5088(p + 0x1ab8, k);
     side = func_021B8DDC(k);
     {
         int current = func_021B8FF4(*(u8 **)(p + 4));
         if (side == current) {
-            func_021BA1B4(*(u8 **)(p + 4), 0x4c);
+            func_021BA1B4((char **)(*(u8 **)(p + 4)), 0x4c);
         } else if (!func_021B902C(side, current)) {
-            func_021BA1B4(*(u8 **)(p + 4), 0x19);
-            func_021BA1B4(*(u8 **)(p + 4), 0x52);
+            func_021BA1B4((char **)(*(u8 **)(p + 4)), 0x19);
+            func_021BA1B4((char **)(*(u8 **)(p + 4)), 0x52);
         }
     }
     return 1;

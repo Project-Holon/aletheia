@@ -46,18 +46,20 @@ extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02017988(void *p, u32 a);
 extern u32 func_020173EC(void);
 extern void func_02082B0C(const void *src, void *dst, u32 n);
-extern int func_020179B8(void *p, int a);
-extern void func_022026A0(void *p, void *dst);
-extern u16 *func_020084F4(void *p);
+struct Sub0200852CObj;
+struct Sub02009470Obj;
+extern int func_020179B8(int a0, int a1);
+extern void func_022026A0(u8 *p, u32 k);
+extern const void *func_020084F4(const void *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
-extern u32 func_02008530(void *p);
-extern u32 func_0200856C(void *p);
-extern u32 func_02008570(void *p);
-extern u32 func_02008554(void *p);
-extern u32 func_02008550(void *p);
-extern u32 func_02009628(void *p);
-extern u32 func_02009584(void *p);
-extern u32 func_0200960C(void *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 func_02009628(const struct Sub02009470Obj *obj);
+extern u8 func_02009584(const struct Sub02009470Obj *obj);
+extern u8 func_0200960C(const struct Sub02009470Obj *obj);
 
 void func_021F8554(u8 *dst, Work *p)
 {
@@ -72,9 +74,9 @@ void func_021F8554(u8 *dst, Work *p)
     } else {
         species = func_02017E88(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
-            func_020179B8(p->mon, 0);
+            func_020179B8((int)p->mon, 0);
         }
-        func_022026A0(p->mon, dst);
+        func_022026A0(p->mon, (u32)dst);
     }
     func_0201F41C(func_020084F4(p->ctx->prof), (u16 *)(dst + 0x110), 8);
     *(u32 *)(dst + 0x10C) = func_02008530(p->ctx->prof);

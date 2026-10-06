@@ -21,9 +21,10 @@
 
 extern int func_021F00C8(char *);
 extern int func_021F0078(char *);
-extern int func_021EFF7C(char *);
-extern int func_021F0114(char *);
-extern int func_021F0140(char *);
+typedef unsigned char  u8;
+extern int func_021EFF7C(u8 *p);
+extern int func_021F0114(u8 *p);
+extern int func_021F0140(u8 *p);
 
 int func_021F2674(char *p)
 {
@@ -36,17 +37,17 @@ int func_021F2674(char *p)
     if (func_021F0078(p)) {
         return 0;
     }
-    r = func_021EFF7C(p);
+    r = func_021EFF7C((u8 *)p);
     if (r == 0) {
         if (((struct Obj00188 *)p)->f74 != 0) {
             ((struct Obj00188 *)p)->f74 = ((struct Obj00188 *)p)->f74 - 1;
             return 0;
         }
-        if (func_021F0114(p) == 1) {
+        if (func_021F0114((u8 *)p) == 1) {
             ((struct Obj00188 *)p)->f74 = 90;
             return 2;
         }
-        if (func_021F0140(p) == 0) {
+        if (func_021F0140((u8 *)p) == 0) {
             return 0;
         }
         ((struct Obj00188 *)p)->f74 = 90;

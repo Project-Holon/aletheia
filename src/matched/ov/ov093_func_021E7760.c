@@ -21,7 +21,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern u8 *func_021C88A4(int a, int k, int c);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern int d_021F2714[];
 
@@ -30,35 +30,35 @@ void func_021E7760(int a, int b, int c)
     u8 *p;
 
     if (c == func_021D775C(3)) {
-        p = func_021C88A4(b, 0xe, c);
+        p = func_021C88A4((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 2;
         ((struct Obj00663 *)p)->fC = -1;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
         func_021C88C8((void *)b, p);
-        p = func_021C88A4(b, 0xe, c);
+        p = func_021C88A4((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 4;
         ((struct Obj00663 *)p)->fC = -1;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
         func_021C88C8((void *)b, p);
-        p = func_021C88A4(b, 0xe, c);
+        p = func_021C88A4((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 1;
         ((struct Obj00663 *)p)->fC = 2;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
         func_021C88C8((void *)b, p);
-        p = func_021C88A4(b, 0xe, c);
+        p = func_021C88A4((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 3;
         ((struct Obj00663 *)p)->fC = 2;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
         func_021C88C8((void *)b, p);
-        p = func_021C88A4(b, 0xe, c);
+        p = func_021C88A4((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 5;
         ((struct Obj00663 *)p)->fC = 2;
         p[0xf] = 1;

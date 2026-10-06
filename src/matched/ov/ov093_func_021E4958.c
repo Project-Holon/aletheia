@@ -25,9 +25,9 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
 extern u8 *func_021C7FCC(u8 *s, int k);
-extern int func_021C7FE0(u8 *s, int k);
+extern char *func_021C7FE0(u8 *p, int v);
 extern u8 *func_021C8120(u8 *s, int k);
-extern u8 *func_021C88A4(u8 *p, int a, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern u8 func_021E4A08(u8 *x, u8 idx, u8 lim, u8 *buf);
@@ -44,9 +44,9 @@ void func_021E4958(int a0, u8 *s, int k, int a3, u16 x)
 
     if (k == func_021D775C(3)) {
         a = func_021C7FCC(s, k);
-        b = func_021C7FE0(s, k);
+        b = (int)func_021C7FE0(s, k);
         p = func_021C8120(s, 12);
-        e = func_021C88A4(s, 4, k);
+        e = func_021C88A4((char *)s, 4, k);
         func_021C8838(e + 4, 1, x);
         func_021C88C8(s, e);
         n = func_021E4A08(a, 0, 12, p);
@@ -55,7 +55,7 @@ void func_021E4958(int a0, u8 *s, int k, int a3, u16 x)
         if (n != 0) {
             if (n > 12)
                 n = 12;
-            e2 = func_021C88A4(s, 0xb, k);
+            e2 = func_021C88A4((char *)s, 0xb, k);
             e2[0x14] = n;
             for (i = 0; i < n; i++)
                 e2[8 + i] = p[i];

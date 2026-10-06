@@ -21,7 +21,8 @@
  */
 #include "../include/Obj02525.h"
 typedef unsigned short u16;
-extern int func_02035D20(int *,int *);
+typedef unsigned int   u32;
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,int *);
 extern void func_021FD73C(int *p, int v);
@@ -34,7 +35,7 @@ extern void func_021F8B5C(int *task, int *state, char *p);
 void func_021F86E4(int a,int b,char *p)
 {
     int x,y;
-    if (func_02035D20(&x,&y)) {
+    if (func_02035D20((u32 *)(&x),(u32 *)(&y))) {
         if (func_021FB4B4(((struct Obj02525 *)p)->f18,x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;

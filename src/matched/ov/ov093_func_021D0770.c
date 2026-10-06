@@ -59,7 +59,9 @@ struct S2;
 struct Unk021D62A8;
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D5B68(void *);
-extern void func_021D8434(u8 *);
+struct G;
+struct Unk021D82D0;
+extern void func_021D8434(u32 *p);
 extern u32 func_021CF470(u8 *, void *, u8 *);
 extern u32 func_021D3DC4(u8 *, void *, void *);
 struct Unk021D82D0;
@@ -68,14 +70,14 @@ extern void *func_021B86B8(void ***);
 extern int func_021CFBF0(u8 *, void *, u32, u8 *);
 extern void func_021D8394(void *, u8, u32);
 extern u32 func_021B8588(void **p);
-extern u8 func_021D06C8(void *);
+extern u8 func_021D06C8(struct G *g);
 extern int func_021B9AB0(int);
-extern void func_021D83FC(void *, int);
+extern void func_021D83FC(u32 *p, u32 sub);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern Word func_021D6314(void *, int);
 extern u16 func_021E8B80(Word);
 extern u32 func_021D81F8(void *, void *, void *, u32, void *);
-extern void func_021D82D0(void *, u32, u32);
+extern void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub);
 extern u32 func_021CF524(u32, void *, u32);
 extern u8 func_021D5448(struct QG *p);
 extern u32 func_021CF81C(u8 *, void *, u8 *);
@@ -111,7 +113,7 @@ int func_021D0770(u8 *p, u32 *state)
         M = func_021B9C00(((struct Obj00464 *)p)->f118, p[0x11d]);
         R = p+0x124+p[0x11d]*4;
         if (func_021D5B68(M)) {
-            func_021D8434(R);
+            func_021D8434((u32 *)R);
             goto complete;
         }
         if (func_021CF470(p,M,R)) goto complete;
@@ -125,10 +127,10 @@ int func_021D0770(u8 *p, u32 *state)
             goto complete;
         }
         if (func_021B8588(((struct Obj00464 *)p)->f0) == 3) {
-            slot = func_021D06C8(p);
+            slot = func_021D06C8((struct G *)p);
             if (slot != 1) {
                 sub = func_021B9AB0(slot);
-                func_021D83FC(R,slot);
+                func_021D83FC((u32 *)R,slot);
                 M = func_021B9C00(((struct Obj00464 *)p)->f118,sub);
                 p[0x1af] = 1;
                 R = (u8 *)((u32)R+4U);
@@ -137,7 +139,7 @@ int func_021D0770(u8 *p, u32 *state)
         if (func_021D62C4(M,0x19)) {
             move = func_021E8B80(func_021D6314(M,0x19));
             result = func_021D81F8(((struct Obj00464 *)p)->f0,((struct Obj00464 *)p)->f4,M,move,p+0xf4);
-            func_021D82D0(R,move,result);
+            func_021D82D0((struct Unk021D82D0 *)R,move,result);
             goto complete;
         }
         if (func_021CF524((u32)p,M,(u32)R)) *state = 3;
@@ -158,7 +160,7 @@ int func_021D0770(u8 *p, u32 *state)
         if (slot != 4) {
             sub = func_02188140(*(u8 * *)&((struct Obj00464 *)p)->fF0);
             move = func_021D54C0(M,slot);
-            func_021D82D0(R,move,sub);
+            func_021D82D0((struct Unk021D82D0 *)R,move,sub);
         } else func_021D8414((u32 *)R);
 complete:
         *state = 3;

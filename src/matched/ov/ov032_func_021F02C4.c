@@ -29,19 +29,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021F180C(u8 *p, int x, int flag);
+extern int func_021F180C(char *this, int x, int flag);
 extern void func_021F05E8(u8 *p, int a, u32 b);
 extern void func_021F0DD8(unsigned int a);
 struct Queue;
 struct Rec;
 extern void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t);
-extern void func_021F0EA4(u8 *e, int a);
-extern void func_021F0AC0(u8 *p);
-extern void func_021F0B10(u8 *p, int a, void *b);
+extern void func_021F0EA4(char *p, unsigned a);
+extern void func_021F0AC0(char *p);
+extern void func_021F0B10(char *p, int a, int b);
 extern void func_021F06E0(u8 *p, u32 x, int y);
 extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
 extern int func_021659F0(u8 *q, int delta);
-extern void func_021F13A0(u8 *p, int a, int b, u8 c, int s);
+extern void func_021F13A0(char *this, int a, int b, int c, int s);
 
 int func_021F02C4(u8 *p)
 {
@@ -54,7 +54,7 @@ int func_021F02C4(u8 *p)
         (((struct Obj00007 *)p)->f6C)++;
         break;
     case 1:
-        r = func_021F180C(p, ((struct Obj00007 *)p)->f4C, ((struct Obj00007 *)p)->f5C);
+        r = func_021F180C((char *)p, ((struct Obj00007 *)p)->f4C, ((struct Obj00007 *)p)->f5C);
         if (((struct Obj00007 *)p)->f5C == 0) {
             if (r != 0) {
                 func_021F05E8(p, 4, 2);
@@ -62,7 +62,7 @@ int func_021F02C4(u8 *p)
             }
             if (*(u8 * *)&((struct Obj00007 *)p)->f50 != 0) {
                 func_021F1144(p, *(u8 * *)&((struct Obj00007 *)p)->f50, (void *)(((struct Obj00007 *)p)->f4C), 0, r == 0, 0);
-                func_021F0EA4(*(u8 * *)&((struct Obj00007 *)p)->f50, 1);
+                func_021F0EA4((char *)(*(u8 * *)&((struct Obj00007 *)p)->f50), 1);
             }
             return 1;
         }
@@ -70,8 +70,8 @@ int func_021F02C4(u8 *p)
         (((struct Obj00007 *)p)->f6C)++;
         break;
     case 2:
-        func_021F0AC0(p);
-        func_021F0B10(p, 1, p + 0xA8);
+        func_021F0AC0((char *)p);
+        func_021F0B10((char *)p, 1, (int)(p + 0xA8));
         func_021F06E0(p, ((struct Obj00007 *)p)->f4C, p[0x57]);
         (((struct Obj00007 *)p)->f6C)++;
         break;
@@ -81,7 +81,7 @@ int func_021F02C4(u8 *p)
             func_02165AC4((struct Queue *)(((struct Obj00007 *)p)->f3C), (struct Rec *)(((struct Obj00007 *)p)->f4C), (u16 *)(p + 0x4A), p[0x54]);
             p[0x55] = func_021659F0((u8 *)(((struct Obj00007 *)p)->f3C), p[0x54]);
         }
-        func_021F13A0(p, ((struct Obj00007 *)p)->f4C, p[0x55], 1, (p[0x7C] != 0 ? 1 : 0) + 1);
+        func_021F13A0((char *)p, ((struct Obj00007 *)p)->f4C, p[0x55], 1, (p[0x7C] != 0 ? 1 : 0) + 1);
         p[0x7C] = p[0x54];
         func_021F0DD8(0x64A);
         return 1;

@@ -25,18 +25,19 @@ typedef unsigned char u8;
 extern void func_02082BCC(void *,int,int);
 typedef unsigned int   u32;
 extern void func_0204335C(u32 keep);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
-extern void func_021B7A88(void *,const void *,int);
-extern void func_021B78F4(void *,int);
+extern void func_021B7A88(void **p, const void *config, int heap);
+extern void func_021B78F4(void **p, int heap);
 extern void func_021B78E0(int a, unsigned char *p);
 extern void *func_020056A0(void (*)(void *),void *,int);
 extern const u8 d_021B89D8[];
 void func_021B784C(u8 *p,int a) {
- func_02082BCC(p,0,0xb0); func_0204335C(0); func_020433E0(d_021B89D8);
+ func_02082BCC(p,0,0xb0); func_0204335C(0); func_020433E0((const struct DispVram *)d_021B89D8);
  func_0204363C(0); func_0204361C(); func_020434CC();
- func_021B7A88(p+4,d_021B89D8,a); func_021B78F4(p,a);
+ func_021B7A88((void **)(p+4),d_021B89D8,a); func_021B78F4((void **)p,a);
  ((struct Obj22239 *)p)->fAC=func_020056A0((void (*)(void *))func_021B78E0,p,0);
 }

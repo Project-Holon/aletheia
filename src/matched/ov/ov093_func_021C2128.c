@@ -37,7 +37,7 @@ extern u32 func_021CD4FC(void *, u32);
 extern u32 func_021CC918(void *, u16, int);
 extern void func_021C6DD0(u8 *, u8 *);
 extern int func_021C88E4(u8 *);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021CD568(void *, u32, u32, ...);
 extern u32 func_021D805C(void *p, u32 n);
 extern void func_021C2250(u8 *p, u8 *a, u16 b, u32 c);
@@ -56,13 +56,13 @@ int func_021C2128(u8 *p, u8 *a)
             v = func_021CC918(p + 0x1d74, (u16)t, 0x1cf4);
             func_021C6DD0(p, a);
             if (func_021C88E4(p) != 2) result = 0;
-            func_021CC95C(p + 0x1d74, v, 0x1cf9);
+            func_021CC95C((u32 *)(p + 0x1d74), v, 0x1cf9);
             if (result) {
                 func_021CD568(((struct Obj00003 *)p)->fC, pos, 0x42, func_021D5440(a));
                 if (func_021D805C((void *)((u16)t), 0x10)) func_021C2250(p, a, 0, 1);
             }
         }
-        func_021CC95C(p + 0x1d74, s, 0x1d06);
+        func_021CC95C((u32 *)(p + 0x1d74), s, 0x1d06);
     }
     return result;
 }

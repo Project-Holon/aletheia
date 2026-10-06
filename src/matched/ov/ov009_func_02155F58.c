@@ -142,12 +142,12 @@ extern int func_02059E38(int *a, int *b);
 extern void func_02059F18(void);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 extern void func_0205CC20(void);
-extern void func_020111E8(void);
+extern u32 func_020111E8(void);
 extern void func_0216AD50(void);
-extern void func_021C5B80(void);
+extern int func_021C5B80(void);
 extern void DWC_GdbShutdown(void);
 
-u32 func_02155F58(void)
+int func_02155F58(void)
 {
     int a, b;
     int r;

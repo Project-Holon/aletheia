@@ -93,10 +93,11 @@ extern int func_02193418(const char *command, const char *key, char *value, int 
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
 extern int func_02084F40(char *dst, const char *fmt, ...);
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
 extern int func_020948E0(const char *s1, const char *s2);
-extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer,
                          int *closed, int mustSend);
 
@@ -145,18 +146,18 @@ int func_0218E6DC(void **connection, GPIPeer *peer)
             }
 
             func_02084F40(buffer, g_021A4F14, iconnection->password, iconnection->profileid, pid);
-            func_021858A8((unsigned char *)buffer, func_0209477C(buffer), sigCheck);
+            func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), sigCheck);
 
             if (func_020948E0(sig, sigCheck) != 0) {
-                func_0218946C(connection, &peer->outputBuffer, g_021A4EC0);
-                func_0218946C(connection, &peer->outputBuffer, g_021A4EB8);
+                func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EC0);
+                func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB8);
                 func_02189A7C(connection, peer->ip, peer->port, &peer->outputBuffer, &connClosed, 1);
                 peer->state = 0x6A;
                 return 0;
             }
 
-            func_0218946C(connection, &peer->outputBuffer, g_021A4EEC);
-            func_0218946C(connection, &peer->outputBuffer, g_021A4EB8);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EEC);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB8);
 
             peer->state = 0x69;
             peer->profile = pid;

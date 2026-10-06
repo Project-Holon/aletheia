@@ -45,15 +45,19 @@ static inline unsigned HeapTemp(unsigned heap)
 extern const char d_021E8DBC[];
 extern void *func_02030734(unsigned heap, unsigned size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, unsigned, unsigned);
-extern void *func_0200BAF4(void *, u16);
+struct Cfg;
+struct Descriptor;
+struct U16Vec;
+struct WordSet;
+extern void *func_0200BAF4(int a0, int a1);
 extern void func_0204989C(int, int, int, int, int, int, u16);
 extern void *func_020490F4(unsigned int id, unsigned heap);
-extern unsigned func_0201BC3C(void);
+extern int func_0201BC3C(void);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern unsigned func_0201BC40(void);
-extern unsigned func_0201BCB4(void);
+extern int func_0201BC40(void);
+extern int func_0201BCB4(void);
 extern void *func_0204AF28(void *, unsigned, unsigned, u16);
 extern unsigned func_0201AA18(void *party);
 extern void *func_0201AB28(void *party, int i);
@@ -77,17 +81,17 @@ extern void *func_02045EC0(void *msg, unsigned idx);
 extern void *func_020450F0(unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(void *);
-extern unsigned char func_02045730(void *win);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(int v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *win);
 extern void func_0201C724(unsigned print, void *bmp, short x, short y, void *str, unsigned font, u16 color);
 extern void func_0201EFA4(void *, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern void func_0201F250(void *, void *, void *);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern unsigned func_0201D304(void *, unsigned, unsigned);
-extern void func_02045808(void *);
-extern void func_0201ED04(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
 struct Actor; struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(void *, Pos *, int);
@@ -116,21 +120,21 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     work = func_02030734(heap, sizeof(Work), 0, d_021E8DBC, 0xC8A);
     func_02082BCC(work, 0, sizeof(Work));
     h = HeapTemp(heap);
-    party = func_0200BAF4(src, h);
-    func_0204989C(0x85, 7, 2, 0, 0, 0, h);
-    handle = func_020490F4(7, heap);
+    party = func_0200BAF4((int)src, (u16)h);
+    func_0204989C((int)0x85, (int)7, (int)2, (int)0, (int)0, (int)0, h);
+    handle = func_020490F4(7, (unsigned)heap);
     work->pal = (void *)func_0204ACEC(handle, func_0201BC3C(), 0, 0xA0, h);
-    work->cell = func_0204AF28(handle, func_0201BC40(), func_0201BCB4(), h);
+    work->cell = func_0204AF28(handle, func_0201BC40(), func_0201BCB4(), (u16)h);
     for (i = 0; i < (int)func_0201AA18(party); i++) {
-        mon = func_0201AB28(party, i);
+        mon = func_0201AB28(party, (int)i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
             work->chr[i] = (void *)func_0204A6C8(handle, func_0201BA68(func_020185F4(mon)), 0, 0, h);
         }
     }
     func_02049238(handle);
-    handle = func_020490F4(func_020275E4(), heap);
+    handle = func_020490F4(func_020275E4(), (unsigned)heap);
     work->chrB = (void *)func_0204AC18(handle, func_02027694(), 0, 0x100, 0, 1, (heap & 0x7FFF) | 0x8000);
-    work->cellB = func_0204AF28(handle, func_0202769C(2), func_020276A0(2), (heap & 0x7FFF) | 0x8000);
+    work->cellB = func_0204AF28(handle, func_0202769C((int)2), func_020276A0((int)2), (u16)((heap & 0x7FFF) | 0x8000));
     work->palB = (void *)func_0204A6C8(handle, func_02027698(), 0, 0, (heap & 0x7FFF) | 0x8000);
     func_02049238(handle);
     func_02082BCC(&req, 0, 8);
@@ -139,7 +143,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     req.id = 1;
     req.a = 1;
     for (i = 0; i < (int)func_0201AA18(party); i++) {
-        mon = func_0201AB28(party, i);
+        mon = func_0201AB28(party, (int)i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
             req.x = i * 0x28 + 0x18;
             work->spr[i] = func_0204B294(owner, work->chr[i], work->pal, work->cell, &req, 0, heap);
@@ -154,19 +158,19 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
             }
         }
     }
-    fmt = func_0201EC64((heap & 0x7FFF) | 0x8000);
-    buf = func_020457B0(0x80, (heap & 0x7FFF) | 0x8000);
+    fmt = func_0201EC64((u16)((heap & 0x7FFF) | 0x8000));
+    buf = func_020457B0(0x80, (u16)((heap & 0x7FFF) | 0x8000));
     sLevel = func_02045EC0(msg, 0x63);
     sMale = func_02045EC0(msg, 0x64);
     sFemale = func_02045EC0(msg, 0x65);
     for (i = 0; i < (int)func_0201AA18(party); i++) {
-        mon = func_0201AB28(party, i);
+        mon = func_0201AB28(party, (int)i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
-            work->win[i] = func_020450F0(1, i * 5 + 1, 4, 5, 6, 15, 1);
+            work->win[i] = func_020450F0((unsigned char)1, (unsigned char)(i * 5 + 1), (unsigned char)4, (unsigned char)5, 6, 15, 1);
             win = work->win[i];
             func_02045334(win);
             func_02045374(win);
-            func_020409B4(func_02045730(win));
+            func_020409B4((int)func_02045730(win));
             work->ent[i].win = work->win[i];
             work->ent[i].shown = 0;
             if (func_02017E1C(mon, 0x6E, 0) == 0) {
@@ -196,8 +200,8 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
             func_0204B404(work->spr[i], &pos, 0);
         }
     }
-    func_02040618(2, 0, -0x100);
-    func_02040618(1, 0, -0x100);
+    func_02040618((int)2, (int)0, (int)(-0x100));
+    func_02040618((int)1, (int)0, (int)(-0x100));
     func_020307B0(party);
     func_0207D63C(0x04000050, 4, 8, 15, 3);
     return work;

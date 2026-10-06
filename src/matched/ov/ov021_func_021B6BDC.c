@@ -55,7 +55,7 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A300(void *a0, void *a1, void *a2);
 extern void func_0200A338(void *h);
-extern u8 *func_021B7834(void *h, u32 *x, u8 *buf);
+extern void *func_021B7834(void *a, int *out, void *buf);
 struct Ctx;
 extern u8 func_021B7864(void *a);
 extern void func_021B785C(u8 *p, u32 i);
@@ -66,7 +66,7 @@ extern int func_021B6D98(int idx, void *x, void *y, void *z);
 extern int func_021B6DC0(int idx, void *x, void *y, void *z);
 extern u16 func_021B6DE4(void *a, void *sv);
 extern u16 func_021B6E0C(void *a);
-extern int func_021B6EB0(u8 *p, int k);
+extern int func_021B6EB0(u32 *o, int k);
 extern void *func_02012F08(int *p);
 extern u8 *func_02012944(void *p);
 extern void func_0216BF74(void *a, int i, void *b);
@@ -90,7 +90,7 @@ int func_021B6BDC(u32 a, u32 b)
     sv = func_0215A5E4((void *)b);
     heap = func_0215A5CC((void *)b);
     h = func_0200A300(func_02012EBC(sv), 0, (void *)heap);
-    p = func_021B7834(h, &x, buf);
+    p = func_021B7834(h, (int *)(&x), buf);
     k = func_021B7864(h);
     if (k != d_021D9970[k].id) {
         func_0200A338(h);
@@ -116,7 +116,7 @@ int func_021B6BDC(u32 a, u32 b)
     case 4:
         if (func_021B6D98(k, (void *)b, sv, p) == 1) {
             func_021B785C(h, x);
-            if (func_021B6EB0(p, k) == 1) {
+            if (func_021B6EB0((u32 *)p, k) == 1) {
                 func_0216BF74(func_02012F08(sv), 1, func_02012944(sv));
             }
         }

@@ -31,7 +31,8 @@ struct Sub02008C20Obj;
 extern void *func_02012F2C(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern int func_02012DAC(int a0);
-extern void func_021D6EE0(char *,int,int);
+typedef unsigned char  u8;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8B0C(char *p);
 void func_021D8B7C(char *p)
 {
@@ -49,5 +50,5 @@ void func_021D8B7C(char *p)
     func_02008DF0(func_02012F2C(((struct Obj05369 *)p)->f2C),119);
     p[0xad]=1;
     func_02012DAC((int)(((struct Obj05369 *)p)->f2C));
-    func_021D6EE0(p,(int)func_021D8B0C,0x914);
+    func_021D6EE0((u8 *)p,(int)func_021D8B0C,0x914);
 }

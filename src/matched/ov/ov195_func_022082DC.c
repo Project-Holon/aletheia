@@ -39,7 +39,7 @@ typedef struct Fade {
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_022082DC(Fade *p)
+void func_022082DC(Fade *p, int x)
 {
     u16 *src = *(u16 * *)&((struct Obj24975 *)(p->f04))->fC;
     u8 i;

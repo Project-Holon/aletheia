@@ -28,7 +28,8 @@ typedef struct Entry {
 } Entry;
 extern int func_021BF8C0(int result);
 extern void DWC_Free(int name, void *ptr, int size);
-extern void func_021BFA70(Entry *entry);
+struct Node;
+extern void func_021BFA70(struct Node *x);
 
 int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param)
 {
@@ -56,6 +57,6 @@ int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *pa
             DWC_Free(6, parameter->data, 0);
         }
     }
-    func_021BFA70(parameter);
+    func_021BFA70((struct Node *)parameter);
     return buffer_clear != 0;
 }

@@ -57,15 +57,16 @@ int func_0217BB04(char *p);
 u32 func_0217F1EC(u8 *p);
 void func_0217F5E0(char *p, u32 a1);
 void func_0217F624(char *p);
-void func_0217F388(void *ctx, int a, int n, int *p);
-int func_0217F4B4(void *ctx, int *flag, int *p, int *flag2, int a);
+void func_0217F388(char *p, int a1, int kind, u8 *arg);
+struct Self;
+int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4);
 void func_0217F4AC(void *ctx);
-void func_0217BA10(void *ctx, int id);
+void func_0217BA10(char *p, int x);
 int func_0217BAA8(int a, int b, int *p, int *q);
 void func_0217F210(u8 *p, int a, u32 b);
 int func_0217B8E4(char *p, char v);
 int func_0217B974(int id);
-void func_0217F640(void *ctx, int a, int b, int c, int d);
+void func_0217F640(struct Self *self, u32 a1, u32 mask, int mode, int msg);
 u32 func_0217F794(char *p, u32 a);
 void func_0217F7B8(char *p);
 u16 func_0217EC88(int i);
@@ -92,11 +93,11 @@ int func_0217C88C(void *ctx, Obj *obj, int a2, u8 *state)
             func_0217F5E0(ctx, a2);
         else if (obj->f6e == 0)
             func_0217F624(ctx);
-        func_0217F388(ctx, a2, obj->f6e, &obj->f60);
+        func_0217F388(ctx, a2, obj->f6e, (u8 *)(&obj->f60));
         (*state)++;
         break;
     case 2:
-        r = func_0217F4B4(ctx, &f0c, &obj->f60, &f08, a2);
+        r = func_0217F4B4(ctx, &f0c, (u8 *)(&obj->f60), &f08, a2);
         if (f0c == 1) {
             obj->f6e = r;
             func_0217F4AC(ctx);

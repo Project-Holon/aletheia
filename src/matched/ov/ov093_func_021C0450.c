@@ -39,7 +39,7 @@ extern void func_021C5C1C(u8 *, u8 *, int, union Slot);
 extern void func_021C5480(u8 *, u8 *, int);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021C6564(u8 *, u8 *, u32, u32);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 void func_021C0450(u8 *p, u8 *q, u16 c, int k)
 {
     u32 old;
@@ -63,5 +63,5 @@ void func_021C0450(u8 *p, u8 *q, u16 c, int k)
     }
     old = func_021CC8D8(p + 0x1d74, 5728);
     func_021C6564(p, q, c, k);
-    func_021CC95C(p + 0x1d74, old, 5730);
+    func_021CC95C((u32 *)(p + 0x1d74), old, 5730);
 }

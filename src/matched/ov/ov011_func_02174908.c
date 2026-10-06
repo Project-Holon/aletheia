@@ -26,7 +26,8 @@ typedef unsigned short u16;
 struct Entry;
 struct Rec44;
 struct Entry *func_020399A8(void);
-unsigned int func_0203D1A4(void *p);
+struct Link;
+u32 func_0203D1A4(struct Link *p);
 void *func_020127A4(struct SaveBlock *p);
 u16 func_02012AC8(const struct Rec44 *p);
 unsigned int func_02013D9C(unsigned int id);
@@ -36,7 +37,7 @@ void func_02174908(int a, int b, int c, unsigned char *d)
     int h;
 
     h = func_02026478((void *)(((struct Obj09346 *)d)->f4));
-    if (a != func_0203D1A4(func_020399A8()) && ((unsigned)(((struct Obj09346 *)d)->f86 << 29) >> 29) == a) {
+    if (a != func_0203D1A4((struct Link *)func_020399A8()) && ((unsigned)(((struct Obj09346 *)d)->f86 << 29) >> 29) == a) {
         if (func_02013D9C(func_02012AC8(func_020127A4((struct SaveBlock *)h))) != 0) {
             d[0x8F8] |= 4;
         }

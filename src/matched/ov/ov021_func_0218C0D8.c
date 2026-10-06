@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 struct Rec;
 extern int func_0204779C(int *p);
-extern void *func_02047790(void *h, u16 i);
+extern int func_02047790(int *p, int i);
 extern void func_0204762C(struct Rec *p);
 extern int func_02047788(int *p);
 extern void func_02047738(struct Rec *p);
@@ -39,7 +39,7 @@ void func_0218C0D8(void **s)
     if (s[0] != 0) {
         n = func_0204779C(s[0]);
         for (i = 0; i < n; i++) {
-            void *o = func_02047790(s[0], i);
+            void *o = (void *)func_02047790(s[0], (u16)i);
             if (o != 0)
                 func_0204762C(o);
         }

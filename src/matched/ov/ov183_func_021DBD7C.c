@@ -52,12 +52,16 @@ extern u32 func_02035D20(u32 *,u32 *);
 extern int func_021DD27C(char *,int,int),func_021DD2BC(char *,int,int);
 extern int func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,int *);
-extern void func_021F9BA0(void *);
+typedef unsigned char  u8;
+extern void func_021F9BA0(unsigned *ctx);
 extern void func_021F9BF4(unsigned *,unsigned);
 extern void func_021F9C50(S *);
-extern u64 func_0200B98C(void *,u32,u32);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
 extern void func_021FD73C(int *,int);
-extern void func_021DBEB0(void),func_021DBCF4(void),func_021DC228(void),func_021DC638(void);
+extern void func_021DBEB0(int *task, int *state, char *p);
+extern void func_021DBCF4(int *task, int *state, char *p);
+extern void func_021DC228(int *a, int *state, char *p);
+extern void func_021DC638(int *a, int *state, char *p);
 void func_021DBD7C(int *task,int *state,char *p)
 {
     u32 x,y;

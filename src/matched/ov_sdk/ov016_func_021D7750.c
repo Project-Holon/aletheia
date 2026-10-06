@@ -28,7 +28,7 @@ struct StructR4 {
     u8 field11;
 };
 
-extern void func_021D6438(u32 *);
+extern void func_021D6438(void **mem);
 extern void func_021D6D8C(void *);
 extern void func_021D546C(void *, void *);
 extern void *g_021DE6E4;
@@ -36,7 +36,7 @@ extern void *g_021DE6E4;
 void func_021D7750(u32 idx, struct StructR4 *r4)
 {
     if (r4->field11 != 0) {
-        func_021D6438(&r4->fieldC);
+        func_021D6438((void **)(&r4->fieldC));
     }
     func_021D6D8C(r4);
     func_021D546C(*(void **)((char *)g_021DE6E4 + idx * 64), r4);

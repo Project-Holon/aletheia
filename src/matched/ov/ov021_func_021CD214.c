@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern void func_0207CDB8(u16 *a, u16 *b);
-extern void func_0204ED4C(void *o, u16 *v);
+extern void func_0204ED4C(u8 *a0, short *a1);
 extern void func_0204ED80(u8 *dst, u16 *src);
 extern void func_0204ED8C(u8 *dst, u16 *src);
 extern void func_0204ED98(u8 *dst, u16 *src);
@@ -38,7 +38,7 @@ void func_021CD214(u8 *s, void *o)
     v[1] = ((struct Obj01220 *)s)->f8;
     v[2] = ((struct Obj01220 *)s)->fC;
     func_0207CDB8(v, v);
-    func_0204ED4C(o, v);
+    func_0204ED4C(o, (short int *)v);
     c[3] = ((struct Obj01220 *)s)->f10 | (((struct Obj01220 *)s)->f12 << 5) | (((struct Obj01220 *)s)->f14 << 10);
     func_0204ED80(o, &c[3]);
     c[2] = ((struct Obj01220 *)s)->f16 | (((struct Obj01220 *)s)->f18 << 5) | (((struct Obj01220 *)s)->f1A << 10);

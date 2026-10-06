@@ -27,19 +27,21 @@ typedef struct {
     u8 f1b_b5 : 1;
 } Obj;
 extern void func_02082BCC(void *dst, u8 v, u32 n);
-extern void func_021D5364(Obj *p);
-extern void func_021D6D70(Obj *p);
-extern void func_021D63B8(Obj *p, int k);
-extern void func_021D4EFC(Obj *p, void *w, int a, int b);
-extern void func_021D53C0(char *p);
+struct S;
+struct UtilWork;
+extern void func_021D5364(struct UtilWork *p);
+extern void func_021D6D70(unsigned char *p);
+extern void func_021D63B8(u8 *p, int all);
+extern void func_021D4EFC(struct S *a, void *mon, u32 c, u32 d);
+extern void func_021D53C0(unsigned char *p);
 
 void func_021D6580(Obj *p)
 {
-    func_021D4EFC(p, p->w, 0, 1);
+    func_021D4EFC((struct S *)p, p->w, 0, 1);
     func_02082BCC((u8 *)p + 0x155, 0, 2);
     func_02082BCC((u8 *)p + 0x153, 0, 2);
-    func_021D6D70(p);
-    func_021D5364(p);
-    func_021D63B8(p, 0);
-    func_021D53C0((char *)p + 0xfc);
+    func_021D6D70((unsigned char *)p);
+    func_021D5364((struct UtilWork *)p);
+    func_021D63B8((u8 *)p, 0);
+    func_021D53C0((unsigned char *)((char *)p + 0xfc));
 }

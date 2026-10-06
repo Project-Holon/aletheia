@@ -28,8 +28,8 @@ extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_020437EC(const struct Bmp *bmp);
 extern void func_020862F0(void *,int);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern u8 *func_0204ABBC(void *,u32);
+extern u32 func_020437E4(const struct Bmp *bmp);
+extern int func_0204ABBC(u32 idx, u32 flag);
 extern void func_0207E780(void *,void *,u32);
 extern void func_0207E804(void *,void *,u32);
 void func_021DBCF4(u8 *p)
@@ -54,7 +54,7 @@ void func_021DBCF4(u8 *p)
     for(r=0;r<p[0x23];r++) {
         for(c=0;c<p[0x22];c++) {
             if(c==p[0x22]-1) seg=edge; else seg=256;
-            src=func_0204ABBC(*(void **)(p+0x14+(c+r*p[0x22])*4),((struct Obj02191 *)p)->f10);
+            src=(u8 *)func_0204ABBC((u32)(*(void **)(p+0x14+(c+r*p[0x22])*4)),((struct Obj02191 *)p)->f10);
             for(k=0;k<4;k++) {
                 if(r==p[0x23]-1 && rem!=0 && k>=rem) continue;
                 fn(dst0+(off+k*(wt*32)),src,seg);

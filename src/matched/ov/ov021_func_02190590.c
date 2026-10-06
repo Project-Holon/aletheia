@@ -34,13 +34,14 @@ typedef struct Slot {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_0201C6FC(u32 a, u32 b, s16 c, s16 d, u32 e, u32 f);
+struct PrintSys;
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 
 void func_02190590(Slot *s, int x, int y, u32 z)
 {
     u32 t;
 
     t = s->f0c;
-    func_0201C6FC(t, (u32)func_02045770((struct Descriptor *)s->f1c), x, y, z, s->f08);
+    func_0201C6FC((struct PrintSys *)t, (u32)func_02045770((struct Descriptor *)s->f1c), (s16)x, (s16)y, (void *)z, s->f08);
     s->f20 = 1;
 }

@@ -41,10 +41,12 @@ extern void *func_021CA210(u8 *p);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern u32 func_021681C8(u32 a, void *list, u8 kind, u8 *b, u8 *c, u8 n);
+struct Bs;
+struct Rec;
+extern struct Bs *func_021681C8(void *sys, void *partyA, u32 mode0, struct Rec *recA, struct Rec *recB, int n);
 extern void func_020307B0(void *p);
 
-u32 func_021CBD08(u8 *p, u32 a)
+u32 func_021CBD08(u8 *p, int a)
 {
     void *list = func_0201A920(0x8004);
     void *h = func_021CA210(p);
@@ -54,7 +56,7 @@ u32 func_021CBD08(u8 *p, u32 a)
     func_0201A954(list, p[8]);
     for (i = 0; i < p[8]; i++)
         func_0201A98C(list, func_0201AB28(h, p[0x1e + i]));
-    r = func_021681C8(a, list, p[9], p + 0x88, p + 0x2c8 + ((Sel *)p)->sel * 0x120, p[8]);
+    r = (u32)func_021681C8((void *)a, list, p[9], (struct Rec *)(p + 0x88), (struct Rec *)(p + 0x2c8 + ((Sel *)p)->sel * 0x120), p[8]);
     func_020307B0(list);
     return r;
 }

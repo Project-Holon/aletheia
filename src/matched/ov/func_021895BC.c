@@ -22,11 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020127A4(u32, u32, u32, u32);
+struct SaveBlock;
+extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012AC4(u32, u32);
 
 int func_021895BC(u32 a, u32 b, u32 c, u32 d)
 {
-return func_02012AC4(func_020127A4(a, b, c, d), ((b << 16) >> 16));
+return func_02012AC4((u32)func_020127A4((struct SaveBlock *)a), ((b << 16) >> 16));
 }
 

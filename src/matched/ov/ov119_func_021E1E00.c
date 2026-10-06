@@ -50,7 +50,7 @@ struct Descriptor;
 struct Cfg;
 struct MsgBank;
 extern void func_020452E8(struct Descriptor *);
-extern u32 func_020450F0(u32,u8,u32,u32,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *);
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *);
@@ -88,7 +88,7 @@ void func_021E1E00(char *p,int mode,void *mon)
     if(I(0xf54)<128) side=1;
     func_021E6294(p,11,4);
     if(P(0x6b4)) func_020452E8(P(0x6b4));
-    I(0x6b4)=func_020450F0(6,a.v[side],0,16,18,11,0);
+    I(0x6b4)=func_020450F0(6,(u8)a.v[side],0,16,18,11,0);
     func_0201DD78(14,15,0);
     flag=func_02017E1C(mon,76,0);
     if(mode==0) {

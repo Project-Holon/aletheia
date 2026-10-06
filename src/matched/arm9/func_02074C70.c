@@ -14,11 +14,11 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 
-extern void *func_02074388(u32, u32, u32);
+extern void *func_02074388(int index);
 extern u32 func_02074FA8(u32, u32, u32);
 extern u32 func_0207466C(u32);
 u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out) {
-    void *p = func_02074388(a, b, c);
+    void *p = func_02074388(a);
     u32 r;
     if (p == 0) return 3;
     if (b & 8) {

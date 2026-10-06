@@ -52,8 +52,9 @@ struct Sub020090B0Obj;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 extern u16 func_0200910C(const struct Sub020090B0Obj *obj);
-extern u32 func_0200C6F0(void *p);
-extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+struct Buf2000;
+extern u32 func_0200C6F0(struct Buf2000 *p);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern u32 func_0204162C(int channel);
@@ -62,7 +63,7 @@ struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
 extern void func_020307B0(void *p);
 
-int func_021F23CC(u8 *p, u32 a)
+int func_021F23CC(u8 *p, int a)
 {
     int result;
     u32 h;
@@ -80,7 +81,7 @@ int func_021F23CC(u8 *p, u32 a)
         crc = func_0203F1FC(buf, 0x2600);
         x = func_0200910C((const struct Sub020090B0Obj *)func_02009210((void *)h));
         base = (u16)((struct Obj20396 *)p)->f14;
-        if (crc == x && func_0200C6F0(buf) != 0) {
+        if (crc == x && func_0200C6F0((struct Buf2000 *)buf) != 0) {
             result = 1;
             for (i = 0; i < 15; i++) {
                 func_02040B1C(6, buf + i * 0x220, 0x220, base + (i + 5) * 0x20);

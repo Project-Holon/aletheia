@@ -50,7 +50,8 @@ extern void func_0218EC7C(char *p, int a);
 extern void func_0218EC68(char *p, int a);
 typedef unsigned int   u32;
 extern void func_02046BE0(u32 a, u32 b);
-extern int func_02048B78(int a);
+struct Light;
+extern int func_02048B78(struct Light *l);
 extern void func_02048B80(int a, int v);
 extern void func_02048B94(int a, int v);
 extern s16 tbl_020A1B38[];
@@ -74,7 +75,7 @@ void func_0218E18C(char *p, Vec *src)
         func_02046BE0(0, 1);
         break;
     }
-    if (func_02048B78(((struct Obj01347 *)p)->fC) == 0) {
+    if (func_02048B78((struct Light *)(((struct Obj01347 *)p)->fC)) == 0) {
         func_02048B80(((struct Obj01347 *)p)->fC, tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2]);
         func_02048B94(((struct Obj01347 *)p)->fC, tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2 + 1]);
     }

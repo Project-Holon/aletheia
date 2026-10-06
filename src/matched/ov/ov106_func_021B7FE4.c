@@ -14,7 +14,7 @@
 
 extern void func_0204A600(void);
 
-void func_021B7FE4(void)
+void func_021B7FE4(void *a0)
 {
     func_0204A600();
 }

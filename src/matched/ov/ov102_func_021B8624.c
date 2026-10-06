@@ -37,8 +37,8 @@ typedef struct {
 extern int func_02051C88(struct Ctx *);
 extern void func_020061E4(u32);
 extern u8 func_02045730(struct Descriptor *);
-extern void func_020413B0(u8,u8,u8,u8,u8,u8);
-extern void func_020409B4(u8);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020409B4(u32 index);
 #pragma opt_propagation off
 void func_021B8624(State *p)
 {

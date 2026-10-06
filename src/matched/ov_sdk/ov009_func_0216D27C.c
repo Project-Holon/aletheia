@@ -64,7 +64,7 @@ extern void func_02175F84(int a0);
 extern void func_02175F4C(int a0);
 extern int func_0219EC74(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 extern int func_02173D9C(int a0);
-extern void func_0216F20C(int a0);
+extern int func_0216F20C(int status);
 extern int func_02173D28(void);
 extern int func_0216CD8C(int a0);
 extern void func_0219B490(int a0);

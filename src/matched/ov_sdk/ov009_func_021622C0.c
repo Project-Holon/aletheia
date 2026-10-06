@@ -46,11 +46,15 @@ extern unsigned char *(*g_021A8280)(unsigned long size);
 extern void (*g_021A82B0)(void *p);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void func_021614BC(CPSSslConnection *con, unsigned char *d, int flag);
-extern void func_02161598(CPSSslConnection *con, unsigned char *d, int flag);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct _CPSSoc;
+struct _CPSSslConnection;
+extern void func_021614BC(struct _CPSSslConnection *con, unsigned char *d, int flag);
+extern void func_02161598(struct _CPSSslConnection *con, unsigned char *d, int flag);
 extern void func_02161C54(CPSSslConnection *con, unsigned char *s, unsigned long len);
 extern int func_021619CC(CPSSslConnection *con, unsigned char *s);
-extern unsigned long func_0215B198(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc);
+extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 
 void func_021622C0(CPSSoc *soc)
 {
@@ -79,12 +83,12 @@ void func_021622C0(CPSSoc *soc)
     buf[13] = 0;
     buf[14] = 36;
     MI_CpuCopy8(con->md5_hash, con->md5_hash_tmp, 0x58);
-    func_021614BC(con, buf + 15, 0);
+    func_021614BC((struct _CPSSslConnection *)con, buf + 15, 0);
     MI_CpuCopy8(con->md5_hash_tmp, con->md5_hash, 0x58);
     MI_CpuCopy8(con->sha1_hash, con->sha1_hash_tmp, 0x5C);
-    func_02161598(con, buf + 31, 0);
+    func_02161598((struct _CPSSslConnection *)con, buf + 31, 0);
     MI_CpuCopy8(con->sha1_hash_tmp, con->sha1_hash, 0x5C);
     func_02161C54(con, buf + 11, 40);
-    func_0215B198(buf, func_021619CC(con, buf + 6) + 6, 0, 0, soc);
+    func_0215B198(buf, func_021619CC(con, buf + 6) + 6, 0, 0, (struct _CPSSoc *)soc);
     g_021A82B0(buf);
 }

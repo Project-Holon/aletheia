@@ -64,19 +64,22 @@ extern void * func_0200BAC8(void *);
 extern void func_0217CFE8(void *,int,int);
 extern void func_021E8AB4(u32,u32);
 extern void func_0217CEAC(u8 *p, int mode);
-extern int func_0217CFDC(u8 *);
-extern void func_0217CFD0(u8 *);
-extern int func_0217D194(u8 *);
+typedef signed int     s32;
+struct Rec160;
+struct Reg2;
+extern int func_0217CFDC(int *p);
+extern void func_0217CFD0(int *p);
+extern int func_0217D194(int *p);
 extern void func_0217D174(int *);
 extern void func_0217D010(u8 *,int);
 extern void * func_0200B358(void *);
 extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
-extern void func_0200B110(void *,u32,int);
+extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern int func_02012DAC(int);
 extern int func_02012DD0(u8 *);
 extern int func_0217D000(u8 *);
 extern void func_021E8AB8(u32);
-extern u32 func_0200B078(void *,u32);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_0217BFF8(int *sys, u32 *state, u8 *p);
 extern u32 func_0200BBFC(struct Obj *p, u32 mask);
 extern void func_021E7E0C(void **,int);
@@ -86,11 +89,11 @@ extern int func_0217E078(u8 *p);
 extern u32 func_020362DC(void);
 extern void func_0217E40C(int *);
 extern int func_0217E414(char *);
-extern u32 func_0200B1A8(void *);
+extern u32 func_0200B1A8(struct Reg2 *p);
 extern void func_0200B480(void);
 extern void func_0200E904(void *);
 extern void func_0200B1F8(struct Rec1E *p);
-extern void func_0200B1E0(void *,u32,const void *);
+extern void func_0200B1E0(struct Rec160 *arr, u32 index, const struct Rec160 *src);
 void func_0217BBDC(int *sys,u32 *state,u8 *p)
 {
     switch(*state){
@@ -108,12 +111,12 @@ void func_0217BBDC(int *sys,u32 *state,u8 *p)
     case 5:func_0217CFE8(p,1,1);*state=31;func_021E8AB4((u32)sys,6);break;
     case 6:func_0217CEAC(p,0);*state=7;break;
     case 7:{
-        int v=func_0217CFDC(p);
-        if(v!=-1){func_0217CFD0(p);switch(v){case 0:*state=8;break;case 1:*state=10;break;}}break;
+        int v=func_0217CFDC((int *)p);
+        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=8;break;case 1:*state=10;break;}}break;
     }
-    case 8:if(func_0217D194(p))*state=9;break;
+    case 8:if(func_0217D194((int *)p))*state=9;break;
     case 9:func_0217D174((int *)p);*state=12;break;
-    case 10:if(func_0217D194(p))*state=11;break;
+    case 10:if(func_0217D194((int *)p))*state=11;break;
     case 11:func_0217D174((int *)p);func_0217D010(p,1);break;
     case 12:func_0217CFE8(p,2,1);*state=31;func_021E8AB4((u32)sys,13);break;
     case 13:func_021E7E0C(*(void ** *)&((struct Obj00053 *)p)->f1C,1);func_0217CFE8(p,32,0);*state=31;func_021E8AB4((u32)sys,14);break;
@@ -130,15 +133,15 @@ void func_0217BBDC(int *sys,u32 *state,u8 *p)
     case 18:func_021E7E0C(*(void ** *)&((struct Obj00053 *)p)->f1C,0);func_0217CFE8(p,21,1);*state=31;func_021E8AB4((u32)sys,19);break;
     case 19:func_0217CEAC(p,0);*state=20;break;
     case 20:{
-        int v=func_0217CFDC(p);
-        if(v!=-1){func_0217CFD0(p);switch(v){case 0:*state=30;break;case 1:*state=12;break;}}break;
+        int v=func_0217CFDC((int *)p);
+        if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=30;break;case 1:*state=12;break;}}break;
     }
     case 21:
-        if(func_0200B1A8(p+0x3c)){
-            unsigned a=func_0200B078(p+0x3c,1);
+        if(func_0200B1A8((struct Reg2 *)(p+0x3c))){
+            unsigned a=func_0200B078((struct Reg2 *)(p+0x3c),1);
             if(a&0x200000){
                 unsigned a=func_0200B078(((struct Obj00053 *)p)->f38,2);
-                unsigned b=func_0200B078(p+0x3c,2);
+                unsigned b=func_0200B078((struct Reg2 *)(p+0x3c),2);
                 if(a==b){
                     switch(func_0200B078(((struct Obj00053 *)p)->f38,10)){
                     case 4:*state=27;break;
@@ -153,10 +156,10 @@ void func_0217BBDC(int *sys,u32 *state,u8 *p)
     case 23:{
         void *base=func_0200B358(func_02012EBC(((struct Obj00053 *)p)->f1B8));
         void *entry=func_0200B204(base,1);
-        func_0200B110(p+0x3c,10,1);
+        func_0200B110((struct Reg2 *)(p+0x3c),10,1);
         func_0200E904(((struct Obj00053 *)p)->f34);
         func_0200B1F8(entry);
-        func_0200B1E0(base,1,p+0x3c);
+        func_0200B1E0(base,1,(const struct Rec160 *)(p+0x3c));
         func_02012DAC(*(int *)&((struct Obj00053 *)p)->f1B8);*state=24;break;
     }
     case 24:if(func_02012DD0(*(u8 * *)&((struct Obj00053 *)p)->f1B8)==2)*state=29;break;

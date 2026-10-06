@@ -14,12 +14,13 @@
  *   func_021F87D4  0x021F87D4  thumb  ov094
  */
 typedef unsigned char u8;
-extern void func_021ED9EC(u8 *);
+struct E;
+extern void func_021ED9EC(struct E *e);
 typedef unsigned int   u32;
 extern void func_021F87D4(u32 v);
 void func_021ED4E4(u8 *p, int a, int b)
 {
-    func_021ED9EC(p + 0x48 + a * 12);
-    func_021ED9EC(p + 0x48 + b * 12);
+    func_021ED9EC((struct E *)(p + 0x48 + a * 12));
+    func_021ED9EC((struct E *)(p + 0x48 + b * 12));
     func_021F87D4(1);
 }

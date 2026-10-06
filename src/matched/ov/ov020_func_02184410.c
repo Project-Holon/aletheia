@@ -44,19 +44,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern int func_02012138(int a);
-extern u8 *func_02158344(int a);
-extern void *func_02188C7C(int a);
+struct Evt;
+extern int func_02158344(int a0);
+extern void *func_02188C7C(u8 *p);
 extern void func_0216D9A0(void *a);
 extern void func_0216D9E4(void *a);
 extern int func_02013DD0(int a);
 extern void func_0218409C(u8 *p, int a);
 extern int func_021BD648(u8 *p);
-extern void func_02012374(int a, int b);
-extern int func_02184360(u8 *p, int a);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *func_02184360(u8 *p, int value);
 extern void func_02184120(u8 *p, int a);
-extern int func_021BD9BC(u8 *p);
-extern int func_0215841C(int a);
-extern int func_021746AC(u8 *p, int a);
+typedef unsigned int   u32;
+extern int func_021BD9BC(u32 *p);
+extern int func_0215841C(void *p);
+extern int func_021746AC(char *a, int b);
 extern u8 func_02158428(u8 *p);
 
 int func_02184410(int a, int *state, u8 *p)
@@ -67,11 +69,11 @@ int func_02184410(int a, int *state, u8 *p)
 
     z = *(int *)(p + 8);
     y = *(int *)(p + 4);
-    w = func_02158344(func_02012138(*(int *)(p + 0)));
+    w = (u8 *)func_02158344(func_02012138(*(int *)(p + 0)));
 
     switch (*state) {
     case 0:
-        func_0216D9A0(func_02188C7C(z));
+        func_0216D9A0(func_02188C7C((u8 *)z));
         if (func_02013DD0(*(u16 *)(p + 0x14)) == 1) {
             *state = 5;
         } else {
@@ -80,16 +82,16 @@ int func_02184410(int a, int *state, u8 *p)
         break;
     case 1:
         func_0218409C(p, a);
-        func_02012374(a, func_021BD648(p + 0x4c));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BD648(p + 0x4c));
         (*state)++;
         return 0x21;
     case 2:
-        func_02012374(a, func_02184360(p, 0));
+        func_02012374((struct Evt *)a, func_02184360(p, 0));
         (*state)++;
         break;
     case 3:
         func_02184120(p, a);
-        func_02012374(a, func_021BD9BC(p + 0x4c));
+        func_02012374((struct Evt *)a, (struct Evt **)func_021BD9BC((u32 *)(p + 0x4c)));
         (*state)++;
         break;
     case 4:
@@ -99,7 +101,7 @@ int func_02184410(int a, int *state, u8 *p)
             *state = 7;
             break;
         }
-        if (func_021746AC(w, func_0215841C(y)) == 1) {
+        if (func_021746AC((char *)w, func_0215841C((void *)y)) == 1) {
             (*state)++;
         }
         break;
@@ -113,7 +115,7 @@ int func_02184410(int a, int *state, u8 *p)
         }
         break;
     case 7:
-        func_0216D9E4(func_02188C7C(z));
+        func_0216D9E4(func_02188C7C((u8 *)z));
         return 1;
     }
     return 0;

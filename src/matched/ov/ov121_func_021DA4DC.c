@@ -91,13 +91,17 @@ extern struct E d_021DF770[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern void *func_021DA1BC(void *,const char *,u32,u16,u8,u32,u32,int,u16);
-extern void *func_02045EC0(void *bank, u32 idx);
-extern void *func_02045874(u32 idx, u16 v);
-extern void func_02045808(void *p);
-extern void func_0204B404(void *,const struct Pt *,u32);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B878(void *, u16);
-extern void func_0204B92C(void *, u32);
+struct MsgBank;
+struct Obj;
+struct U16Vec;
+struct Vec2;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
 struct Out *func_021DA4DC(const struct In *in, u16 heap)
 {
     struct Tbl t;
@@ -132,7 +136,7 @@ struct Out *func_021DA4DC(const struct In *in, u16 heap)
         r->b += (u8)in->f2c;
         r->a += (u8)in->f2e;
         if (in->bank) r->h = func_02045EC0(in->bank, in->ids[i]);
-        else r->h = func_02045874(in->ids[i], (heap & 0x7FFF) | 0x8000);
+        else r->h = func_02045874((struct U16Vec *)in->ids[i], (u16)((heap & 0x7FFF) | 0x8000));
     }
     c = in->f26;
     w = in->f24;
@@ -141,7 +145,7 @@ struct Out *func_021DA4DC(const struct In *in, u16 heap)
         if (t.r[i].h) func_02045808(t.r[i].h);
     pt.x = d_021DF76C[out->f8].a;
     pt.y = d_021DF770[out->f8].a + in->f2c * 8;
-    func_0204B404((void *)out->f4, &pt, 0);
+    func_0204B404((void *)out->f4, (const struct Vec2 *)(&pt), 0);
     func_0204B3DC((void *)out->f4, 1);
     func_0204B878((void *)out->f4, out->f30);
     func_0204B92C((void *)out->f4, 1);

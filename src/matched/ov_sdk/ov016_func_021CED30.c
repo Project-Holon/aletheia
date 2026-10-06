@@ -18,8 +18,9 @@
  */
 
 extern void func_021CEE10(int idx, void *r);
-extern int func_021D69F4(void *r);
-extern int func_021D696C(void *r);
+typedef unsigned short u16;
+extern int func_021D69F4(u16 *a);
+extern int func_021D696C(u16 *a);
 
 int func_021CED30(void)
 {
@@ -28,16 +29,16 @@ int func_021CED30(void)
 
 	idx = 1;
 	func_021CEE10(idx, r);
-	if (func_021D69F4(r))
+	if (func_021D69F4((u16 *)r))
 		return idx;
 	for (idx = 2; idx <= 3; idx++) {
 		func_021CEE10(idx, r);
-		if (func_021D69F4(r))
+		if (func_021D69F4((u16 *)r))
 			return idx;
 	}
 	idx = 4;
 	func_021CEE10(idx, r);
-	if (!func_021D696C(r))
+	if (!func_021D696C((u16 *)r))
 		idx = 0;
 	return idx;
 }

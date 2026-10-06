@@ -32,7 +32,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C9238(u8 *,u8 *,u8 *,u32);
+extern void func_021C9238(char *p, void *b, void *c, void *d);
 extern void func_021C97A0(u8 *,u8 *,u8 *,u16);
 extern int func_021C9544(void *,int *,char *);
 extern void func_021C958C(char *,void *,void *,int);
@@ -43,7 +43,7 @@ extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern int func_021C9D0C(u8 *,int);
 extern void func_020061E4(u32 a);
-extern void func_021C98EC(u8 *,u8 *);
+extern void func_021C98EC(char *p, u8 *q);
 extern void func_021C6438(u8 *,u8,u8);
 extern void func_021C9730(u8 *,void *,u8 *);
 extern u32 func_0204B98C(struct Actor *a);
@@ -56,7 +56,7 @@ int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
     case 0:
         ((struct Obj00773 *)p)->fE=0; ((struct Obj00773 *)p)->f0=0;
     case 1:
-        func_021C9238(p,q,r,heap);
+        func_021C9238((char *)p,q,r,(void *)heap);
         func_021C97A0(p,q,r,heap);
         q[8]=2;
         break;
@@ -77,7 +77,7 @@ int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
         }
         if(func_021C9D0C(q,((struct Obj00773 *)p)->f8)) {
             func_020061E4(0x548);
-            func_021C98EC(p,r);
+            func_021C98EC((char *)p,r);
             func_021C6438(q,4,1);
             ((struct Obj00773 *)p)->fE=1;
             func_021C9730(p,q,r);

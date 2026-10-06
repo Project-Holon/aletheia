@@ -33,14 +33,17 @@ struct Ov208Fade {
 };
 extern const int d_021C8388[];
 extern const u8 d_021C8384[];
-extern int func_02040804(int a);
+struct Ov208Menu;
+extern u32 func_02040804(u32 layer);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_021BDD48(char *p, short offset);
 extern void func_021BD358(char *p, int v);
 extern void func_021BD23C(char *p);
-extern void func_021BDFDC(struct Ov208Fade *m);
-extern void func_021BE20C(struct Ov208Fade *m);
-extern void func_021BE6A8(struct Ov208Fade *m);
+extern void func_021BDFDC(struct Ov208Menu *m);
+typedef signed int     s32;
+struct Ov208Pal;
+extern s32 func_021BE20C(struct Ov208Pal *m);
+extern void func_021BE6A8(char *p);
 void func_021BD974(struct Ov208Fade *m)
 {
     int v;
@@ -50,7 +53,7 @@ void func_021BD974(struct Ov208Fade *m)
         break;
     case 1:
         if (m->cnt == 0) {
-            if (func_02040804(1) >= 0) {
+            if ((int)func_02040804((int)1) >= 0) {
                 func_02041EE4(1, 3, 0);
                 m->pos = 0;
                 func_021BDD48((char *)m, m->pos);
@@ -69,7 +72,7 @@ void func_021BD974(struct Ov208Fade *m)
         break;
     case 3:
         if (m->cnt == 0) {
-            if (func_02040804(1) <= -24) {
+            if ((int)func_02040804((int)1) <= -24) {
                 func_02041EE4(1, 3, -24);
                 m->pos = 24;
                 func_021BDD48((char *)m, m->pos);
@@ -87,9 +90,9 @@ void func_021BD974(struct Ov208Fade *m)
     }
     func_021BD23C(m->f30);
     if (m->mode == 0) {
-        func_021BDFDC(m);
-        func_021BE20C(m);
+        func_021BDFDC((struct Ov208Menu *)m);
+        func_021BE20C((struct Ov208Pal *)m);
     } else if (m->mode == 2) {
-        func_021BE6A8(m);
+        func_021BE6A8((char *)m);
     }
 }

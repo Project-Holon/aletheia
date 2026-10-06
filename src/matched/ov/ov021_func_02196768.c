@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0201DD68(void *p);
+extern void func_0201DD68(void);
 extern void func_02196454(u8 *p);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_0203FB44(u32 a, u32 b, u32 c);
@@ -42,7 +42,7 @@ void func_02196768(u8 *p)
 {
     u32 v;
 
-    func_0201DD68(p);
+    func_0201DD68();
     func_02196454(p);
     func_02040DA8(5, 1, 0);
     v = ((struct Obj03578 *)p)->f3C;

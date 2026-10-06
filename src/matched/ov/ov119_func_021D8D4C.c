@@ -25,7 +25,8 @@ typedef unsigned int u32;
 
 struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern void *func_0201747C(void *a, u32 b);
+struct Mon;
+extern void *func_0201747C(struct Mon *p, u32 heap);
 extern u32 func_0201AA18(void *m);
 extern void *func_0201AB28(void *m, u32 c);
 extern void *func_020173F0(u16 species, u16 level, unsigned long long id, u16 heap);
@@ -43,7 +44,7 @@ void *func_021D8D4C(void **a, int b, int c, char *p)
     if (b > n)
         return 0;
     if (b != n && c != -1) {
-        res = func_0201747C(func_02007A18(a, b, c), ((struct Obj08050 *)p)->f5F4);
+        res = func_0201747C((struct Mon *)func_02007A18(a, b, c), ((struct Obj08050 *)p)->f5F4);
     } else {
         void *m = ((struct Obj08050 *)p)->f838;
         if (c >= (int)func_0201AA18(m))

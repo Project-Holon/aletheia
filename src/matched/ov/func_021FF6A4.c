@@ -84,7 +84,7 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B84C(u32, int);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_021FFAEC(u32 a, u16 b, u16 c);
+extern void func_021FFAEC(u32 a, int b, int c);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_021F4EA0(u32 a, u32 b, u32 c);
 struct Actor;

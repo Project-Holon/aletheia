@@ -22,7 +22,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern unsigned short func_021F0D08(unsigned short *p, int i);
-extern void func_021F08BC(u8 *p, int i, int j, int k);
+struct W;
+extern void func_021F08BC(struct W *p, int i, int j, int k);
 extern u8 d_021F3255[];
 
 void func_021F07AC(u8 *p, int i, u16 *e)
@@ -32,5 +33,5 @@ void func_021F07AC(u8 *p, int i, u16 *e)
     v = (u16)(v - 4);
     v = (unsigned)(((int)v % 8) * 28) >> 3;
     v = d_021F3255[v];
-    func_021F08BC(p, i, v, 0x1f);
+    func_021F08BC((struct W *)p, i, v, 0x1f);
 }

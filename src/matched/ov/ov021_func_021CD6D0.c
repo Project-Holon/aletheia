@@ -105,10 +105,10 @@ typedef struct {
 
 extern Entry d_021DB498[];
 
-extern void func_021CE24C(Work *p);
-extern void func_021CE2BC(Work *p);
-extern void func_021CE12C(Work *p);
-extern void func_021CE7AC(Work *p);
+extern void func_021CE24C(u8 *p);
+extern void func_021CE2BC(u8 *p);
+extern void func_021CE12C(u8 *p);
+extern void func_021CE7AC(u32 *p);
 extern void func_021CE9E4(Work *p, int n);
 extern void func_0203D01C(void);
 extern int func_020392B8(void);
@@ -118,33 +118,33 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_020399B8(u8 *p);
-extern int func_021CF1AC(void *a, int b, int c);
-extern void func_021CE36C(Work *p);
-extern void func_021CE41C(Work *p);
+extern u32 func_021CF1AC(u32 a, u32 b, u32 c);
+extern void func_021CE36C(u8 *p);
+extern void func_021CE41C(u32 *p);
 extern int func_021CE78C(Work *p);
 extern int func_021CE73C(Work *p);
 extern void func_021CEA28(Work *p);
 extern int func_0203D1B4(void);
-extern int func_021CE52C(Work *p);
+extern int func_021CE52C(u32 *p);
 extern void func_0203D1E8(u32 unused, void *arg);
-extern int func_021CE5AC(Work *p);
+extern u32 func_021CE5AC(u32 *p);
 extern int func_021CF2F0(int a);
 extern u32 func_0203D1A4(struct Link *p);
 extern void func_021CE6F0(Work *p, int a);
 extern void func_0203D7BC(int a);
-extern int func_0203D1C0(int a);
+extern u32 func_0203D1C0(u32 index);
 extern u32 func_02080D24(int a);
 extern int func_021CF3B0(int a);
 extern int func_021CF378(int a);
 struct Link;
 extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
-extern Vtbl *func_0203D798(void);
+extern void *func_0203D798(void);
 extern u32 func_0203D650(void);
 extern u32 func_02190EF0(u32 *p);
 extern int func_021CF12C(int a);
-extern void func_021CE81C(Work *p);
-extern int func_0200FB24(void);
+extern void func_021CE81C(u32 *p);
+extern u32 func_0200FB24(void);
 
 int func_021CD6D0(Work *p)
 {
@@ -154,14 +154,14 @@ int func_021CD6D0(Work *p)
     u8 i;
 
     if (p->state != 0) {
-        func_021CE24C(p);
-        func_021CE2BC(p);
-        func_021CE12C(p);
+        func_021CE24C((u8 *)p);
+        func_021CE2BC((u8 *)p);
+        func_021CE12C((u8 *)p);
     }
 
     switch (p->state) {
     case 0:
-        func_021CE7AC(p);
+        func_021CE7AC((u32 *)p);
         func_021CE9E4(p, 8);
         p->state++;
         break;
@@ -190,13 +190,13 @@ int func_021CD6D0(Work *p)
         }
         break;
     case 4:
-        if (func_021CF1AC(p->sub, 1, p->x51B) == 1) {
+        if (func_021CF1AC((u32)p->sub, 1, p->x51B) == 1) {
             p->state++;
         }
         break;
     case 5:
-        func_021CE36C(p);
-        func_021CE41C(p);
+        func_021CE36C((u8 *)p);
+        func_021CE41C((u32 *)p);
         if (func_021CE78C(p) == 1) {
             n = func_021CE73C(p);
             saved = p->x574;
@@ -214,7 +214,7 @@ int func_021CD6D0(Work *p)
         }
         break;
     case 6:
-        n = func_021CE52C(p);
+        n = func_021CE52C((u32 *)p);
         if (n == 1) {
             func_0203D1E8((u32)func_020399A8(), 0);
             p->state = 9;
@@ -232,7 +232,7 @@ int func_021CD6D0(Work *p)
         }
         break;
     case 7:
-        n = func_021CE5AC(p);
+        n = func_021CE5AC((u32 *)p);
         if (n == 1) {
             func_0203D1E8((u32)func_020399A8(), 0);
             p->state = 0xD;
@@ -337,7 +337,7 @@ int func_021CD6D0(Work *p)
         }
         break;
     case 19:
-        func_021CE81C(p);
+        func_021CE81C((u32 *)p);
         return 1;
     }
 

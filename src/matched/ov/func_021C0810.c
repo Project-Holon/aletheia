@@ -21,11 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02012124(u32, u32, u32, u32);
+struct Ctx;
+extern void func_02012124(struct Ctx *p, u32 v);
 
 int func_021C0810(u32 a, u32 b, u32 c, u32 d)
 {
-func_02012124(c, 0, c, d);
+func_02012124((struct Ctx *)c, 0);
 return 1;
 }
 

@@ -21,11 +21,12 @@ typedef struct S {
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_021BBDA8(S *, int);
+struct State;
+extern void func_021BBDA8(struct State *p, int v);
 void func_021BBE34(S *p, int v)
 {
     func_0204B3DC(p->last[p->index], v);
     if (p->f8 == 0)
         v = 0;
-    func_021BBDA8(p, v);
+    func_021BBDA8((struct State *)p, v);
 }

@@ -30,7 +30,7 @@ extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u8 d_021F3541[];
 
-void func_021F0F74(char *p, u8 *q, int r)
+void func_021F0F74(char *p, u8 *q, void *r)
 {
     int x;
 

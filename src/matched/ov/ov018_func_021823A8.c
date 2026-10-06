@@ -71,11 +71,11 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201235C(struct S0201235C *o, u32 *out);
 extern u32   func_020362DC(void);
 extern int func_02158344(int a0);
-extern int   func_0217405C(u8 *, u8 *);
-extern int   func_02173B9C(u8, u8);
+extern int func_0217405C(char *a, char *b);
+extern int func_02173B9C(int a, int b);
 extern void  func_021753B8(u8 *);
 extern int   func_02175514(u8 *);
-extern int   func_02175CF4(u8 *, u8 *);
+extern int func_02175CF4(char *p, u8 *q);
 extern int func_0217CA84(void *a, int b);
 extern void  func_0217F3C4(u8 *, int);
 extern int   func_0217F40C(u8 *);
@@ -143,12 +143,12 @@ int func_021823A8(void *a, int *state, Outer *c)
         (*state)++;
         break;
     case 3:
-        if (func_0217405C(v, v + 0x1AC) == 1) {
+        if (func_0217405C((char *)v, (char *)(v + 0x1AC)) == 1) {
             (*state)++;
         }
         break;
     case 4:
-        if (func_02175CF4(v, v + 0x1AC) != 0) {
+        if (func_02175CF4((char *)v, v + 0x1AC) != 0) {
             c->f9C = 1;
             *state = 9;
         }

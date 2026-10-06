@@ -41,7 +41,7 @@ extern void func_021F7E2C(char *,char *);
 extern void func_021F7FA8(char *,char *);
 extern void func_021F7A98(char *,char *);
 extern void func_021F7BA8(u8 *,u8 *);
-extern void func_021F7D30(char *,char *);
+extern void func_021F7D30(u8 *p, u8 *q);
 extern void func_021F7ECC(char *,char *);
 extern void func_021F7FAC(char *,char *);
 void func_021F7A94(char *,char *);
@@ -58,7 +58,7 @@ void func_021F79A8(char *p,char *q,int index)
     switch(v) {
     case 0: func_021F7A94(p,q); *(void (**)(char *,char *))(q+260)=func_021F7A98; break;
     case 1: func_021F7AEC(p,q); *(void (**)(u8 *,u8 *))(q+260)=func_021F7BA8; break;
-    case 2: func_021F7C90(p,q); *(void (**)(char *,char *))(q+260)=func_021F7D30; break;
+    case 2: func_021F7C90(p,q); *(void (**)(char *,char *))(q+260)=(void (*)(char *, char *))func_021F7D30; break;
     case 3: func_021F7E2C(p,q); *(void (**)(char *,char *))(q+260)=func_021F7ECC; break;
     case 4: func_021F7FA8(p,q); *(void (**)(char *,char *))(q+260)=func_021F7FAC; break;
     }

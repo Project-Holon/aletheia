@@ -30,8 +30,9 @@ extern u16 func_02188C84(u8 *p);
 extern int func_02188D2C(int *p);
 extern void func_021BE310(unsigned a, void *b, int c);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void func_021F37B4(int *p, unsigned a);
-extern void func_021F38E4(int *p, unsigned a);
+struct O;
+extern void func_021F37B4(struct O *o, u32 q);
+extern void func_021F38E4(char *p, int a);
 extern void func_0202B914(struct Obj *o, u32 v);
 
 void func_021F36C0(unsigned a)
@@ -42,7 +43,7 @@ void func_021F36C0(unsigned a)
     r5 = func_02188C84((u8 *)a);
     func_021BE310(func_02188D2C((int *)a), d_021F39A0, 0);
     p = func_02189764((unsigned char *)a, 0, r5, 0x28);
-    func_021F37B4(p, a);
-    func_021F38E4(p, a);
+    func_021F37B4((struct O *)p, a);
+    func_021F38E4((char *)p, a);
     func_0202B914((struct Obj *)p[1], 0x7f);
 }

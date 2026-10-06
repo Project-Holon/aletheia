@@ -14,10 +14,10 @@
  *   d_021F0F40 0x021F0F40 data
  */
 
-extern int func_021EF0A8(const void *tbl, unsigned n);
+extern int func_021EF0A8(const char *p, unsigned n);
 extern const unsigned char d_021F0F40[];
 
 int func_021EF1B4(void)
 {
-    return func_021EF0A8(d_021F0F40, 2);
+    return func_021EF0A8((const char *)d_021F0F40, 2);
 }

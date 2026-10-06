@@ -29,7 +29,7 @@ typedef struct {
     int count;
 } Ctx;
 
-extern int func_021B91A8(Elem *);
+extern u16 func_021B91A8(u8 *p);
 
 void func_021B7970(Ctx *c)
 {
@@ -37,7 +37,7 @@ void func_021B7970(Ctx *c)
     int i;
 
     for (i = 0; i < c->count; i++) {
-        if (func_021B91A8(&c->arr[i]) == 0) {
+        if (func_021B91A8((u8 *)(&c->arr[i])) == 0) {
             found = &c->arr[i];
             break;
         }

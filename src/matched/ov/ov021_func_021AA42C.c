@@ -27,7 +27,7 @@ extern u32 func_021AA778(u8 *p);
 extern int func_021938F4(unsigned char *p);
 extern u32 func_020056EC(u32 range);
 extern fx32 func_0207C7B4(fx32 x);
-extern int func_02010FB0(int v);
+extern u32 func_02010FB0(u32 v);
 
 static inline fx32 FX_MUL(fx32 v1, fx32 v2)
 {
@@ -43,5 +43,5 @@ int func_021AA42C(void *a, void *b)
     fx32 t = FX_MUL((n - 1) << 12, sq);
 
     t = FX_MUL(t, 0x4000);
-    return func_02010FB0(t >> 12) > rnd;
+    return (int)func_02010FB0((int)(t >> 12)) > rnd;
 }

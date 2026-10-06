@@ -13,4 +13,4 @@
 
 typedef unsigned int   u32;
 extern u32 func_020335AC(u32 a, u32 b, u32 c, u32 d);
-void func_02033478(int a0, int a1, int a2, int a3){ func_020335AC((int)a0, (int)a1, (int)a2, (int)*(int *)(((char *)(*(int *)((char *)(0x2146994))) + 520))); }
+void func_02033478(int a0, int a1, int a2){ func_020335AC((int)a0, (int)a1, (int)a2, (int)*(int *)(((char *)(*(int *)((char *)(0x2146994))) + 520))); }

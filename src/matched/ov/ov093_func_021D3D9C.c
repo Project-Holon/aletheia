@@ -16,8 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_021B9F84(char *, int, u8);
+extern u16 func_021B9F84(char *p, int i, unsigned int j);
 void func_021D3D9C(u8 *p) {
     u32 i;
-    for(i=0;i<4;i++) *(u16 *)(p+i*2+0xe8)=func_021B9F84(*(char * *)&((struct Obj13429 *)p)->f0,p[0x1a6],i);
+    for(i=0;i<4;i++) *(u16 *)(p+i*2+0xe8)=func_021B9F84(*(char * *)&((struct Obj13429 *)p)->f0,p[0x1a6],(u8)i);
 }

@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u16 func_021D54D0(u8 *p, u32 i) { return *(u16 *)((u32)p + i * 14 + 0x104); }
+u32 func_021D54D0(u8 *p, u8 i) { return *(u16 *)((u32)p + i * 14 + 0x104); }

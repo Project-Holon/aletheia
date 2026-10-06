@@ -19,10 +19,10 @@ typedef unsigned int   u32;
 
 
 extern char *g_02146940;
-extern void  func_0202737C(void *p, u32 a1, u32 a2);
+extern void func_0202737C(u32 *p, u32 a1, u32 a2);
 
 void func_0202735C(u32 a0, u32 a1)
 {
-    func_0202737C(g_02146940 + 4, a0, a1);
+    func_0202737C((u32 *)(g_02146940 + 4), a0, a1);
     *(u8 *)(g_02146940 + 0x62) = 1;
 }

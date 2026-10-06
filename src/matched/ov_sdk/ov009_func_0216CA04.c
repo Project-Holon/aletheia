@@ -149,7 +149,7 @@ extern struct DWCstGameMatchKeyData g_021AAA40[154];
 extern int func_020948E0(const char *s1, const char *s2);
 extern u8 func_02173AD8(void);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
-extern u32 func_0209477C(const char *s);
+extern int func_0209477C(const u8 *s);
 extern void *func_0205A16C(int name, u32 size);
 extern void func_0216EB68(int error, int errorCode);
 extern char *func_02094798(char *dst, const char *src);
@@ -175,7 +175,7 @@ u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc)
     KEYF2(index) = 0;
     if (KEYSTR(index) != 0)
         func_0205A1B0(4, KEYSTR(index), 0);
-    KEYSTR(index) = func_0205A16C(4, func_0209477C(keyString) + 1);
+    KEYSTR(index) = func_0205A16C(4, func_0209477C((const u8 *)keyString) + 1);
     if (KEYSTR(index) == 0) {
         func_0216EB68(9, -80001);
         return 0;

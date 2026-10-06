@@ -19,5 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_021CA478(u8 *),func_020310C4(void *),func_0204A600(void);
-void func_021C6638(u8 *p) { if(((struct Obj06477 *)p)->f34) { func_0201C4E4(((struct Obj06477 *)p)->f34);func_021CA478(p); } if(((struct Obj06477 *)p)->f28) func_020310C4(((struct Obj06477 *)p)->f28);func_0204A600(); }
+struct Tcbl;
+extern void func_021CA478(char *p);
+extern void func_020310C4(struct Tcbl *p);
+extern void func_0204A600(void);
+void func_021C6638(u8 *p) { if(((struct Obj06477 *)p)->f34) { func_0201C4E4(((struct Obj06477 *)p)->f34);func_021CA478((char *)p); } if(((struct Obj06477 *)p)->f28) func_020310C4(((struct Obj06477 *)p)->f28);func_0204A600(); }

@@ -60,7 +60,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void *func_0206E954(void *);
+extern int func_0206E954(int p0);
 extern unsigned char *func_0206E964(unsigned char *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0206E348(void *);
@@ -82,7 +82,7 @@ void *func_02047400(void *a0, u32 n, void *a2)
     u32 cnt;
 
     z = 0;
-    p = func_0206E954(((struct Obj09057 *)a0)->f4);
+    p = (u8 *)func_0206E954((int)(((struct Obj09057 *)a0)->f4));
     if (p == 0) goto qzero;
     b = p + 8;
     if (b == 0) goto ozero;

@@ -31,11 +31,11 @@ struct Rec;
 extern int func_020470D0(u32 *p);
 extern void func_02047504(struct Rec *p);
 extern void func_0204762C(struct Rec *p);
-extern u32 func_02047738(u32, u32, u32, u32);
+extern void func_02047738(struct Rec *p);
 
 int func_021ADF68(u32 a, u32 b, u32 c, u32 d)
 {
-func_02047738(((struct Obj04889 *)((u8 *)(a)))->fC, b, c, d);
+func_02047738((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->fC));
 func_0204762C((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->f10));
 func_02047504((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->f14));
 func_02046EFC(((struct Obj04889 *)((u8 *)(a)))->f8);

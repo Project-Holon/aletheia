@@ -24,8 +24,8 @@ typedef struct {
 
 struct WinMgr;
 extern int func_021EF45C(struct WinMgr *mgr);
-extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
-extern void func_021EE038(unsigned char *p, int a, int b, int c);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
+extern void func_021EE038(char *p, int a, int b, int c);
 
 void func_021EE754(unsigned char *p, unsigned r)
 {
@@ -38,11 +38,11 @@ void func_021EE754(unsigned char *p, unsigned r)
     } else if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 3) {
         f = 1;
     } else if (r >= 0x1E) {
-        if (func_021EF45C(*(struct WinMgr * *)&((struct Obj24038 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 0 || func_021DD25C(p, r, p[0x14], 0xA9, a) == 0)
+        if (func_021EF45C(*(struct WinMgr * *)&((struct Obj24038 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 0 || func_021DD25C((void ***)p, r, p[0x14], 0xA9, a) == 0)
             f = 2;
     } else {
-        if (func_021DD25C(p, r, p[0x14], 0xA9, a) == 0)
+        if (func_021DD25C((void ***)p, r, p[0x14], 0xA9, a) == 0)
             f = 2;
     }
-    func_021EE038(p, a, 1, f);
+    func_021EE038((char *)p, a, 1, f);
 }

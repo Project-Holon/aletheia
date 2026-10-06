@@ -81,7 +81,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern int func_0203CD98(void);
 extern void func_0203D34C(u32 a, u32 b);
 
-void func_021B9E28(int *p, void *res, int heap)
+void func_021B9E28(int *p, void *res, u32 heap)
 {
     Local s;
     void *h;

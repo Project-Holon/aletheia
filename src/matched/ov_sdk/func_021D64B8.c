@@ -22,9 +22,10 @@
  */
 
 extern void *func_021D6414(unsigned long size, int alignment);
-extern int   func_0208A998(void *p);
+struct TPCalibrateParam;
+extern int func_0208A998(struct TPCalibrateParam *calibrate);
 extern void  func_02088234(void);
-extern void  func_0208AA2C(void *p);
+extern void func_0208AA2C(const struct TPCalibrateParam *param);
 extern void  func_0208AC0C(int a, int b, void *c, int d);
 extern void func_0208B220(unsigned int command_flgs);
 extern unsigned int func_0208B238(unsigned int command_flgs);
@@ -36,9 +37,9 @@ void func_021D64B8(void)
     char buf[8];
 
     g_021DE688[1] = func_021D6414(0x3a, 4);
-    if (func_0208A998(buf) == 0)
+    if (func_0208A998((struct TPCalibrateParam *)buf) == 0)
         func_02088234();
-    func_0208AA2C(buf);
+    func_0208AA2C((const struct TPCalibrateParam *)buf);
     func_0208AC0C(0, 4, g_021DE688[1], 5);
     func_0208B220(2);
     if (func_0208B238(2) != 0)

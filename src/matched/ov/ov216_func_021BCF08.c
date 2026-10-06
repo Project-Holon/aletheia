@@ -29,8 +29,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 struct Descriptor;
 struct Cfg;
-extern void func_02043B5C(int, u8);
-extern void func_02045CAC(int, int, int);
+struct CharBuf;
+struct MsgBank;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
@@ -64,35 +66,35 @@ void func_021BCF08(char *p)
     w = (struct Win *)(p + 0x15C);
 
     do {
-        func_02045CAC(HANDLE(p, 0x130), i, ARG(p, 0x130));
+        func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), i, (void *)ARG(p, 0x130));
         b = d_021BDD8A[i % 2].b;
         off = i * 16;
         a = d_021BDD8A[i % 2].a;
         j = 0;
         do {
             rec = (struct Rec *)(off + (u32)&w[j]);
-            func_02043B5C(rec->h, b);
+            func_02043B5C((struct CharBuf *)rec->h, b);
             func_021BDA54(p, (char *)rec, 0, 0, ARG(p, 0x130), a);
             CALLS(rec);
             j++;
         } while (j < 2);
         i++;
     } while (i < 4);
-    func_02045CAC(HANDLE(p, 0x130), 7, ARG(p, 0x130));
+    func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), 7, (void *)ARG(p, 0x130));
     w2 = (struct Win *)(p + 0x130 + 0x2C);
 
     x = 0;
     do {
-        func_02043B5C(w2[x].b.h, 3);
+        func_02043B5C((struct CharBuf *)w2[x].b.h, 3);
         func_021BDA54(p, (char *)&w2[x].b, 0, 0, ARG(p, 0x130), 0x3DC3);
         CALLS(&w2[x].b);
         x++;
     } while (x < 2);
-    func_02045CAC(HANDLE(p, 0x130), 9, ARG(p, 0x130));
+    func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), 9, (void *)ARG(p, 0x130));
     w3 = (struct Win *)(p + 0x130 + 0x2C);
     j = 0;
     do {
-        func_02043B5C(w3[j].c.h, 3);
+        func_02043B5C((struct CharBuf *)w3[j].c.h, 3);
         func_021BDA54(p, (char *)&w3[j].c, 0, 0, ARG(p, 0x130), 0x3DC3);
         CALLS(&w3[j].c);
         j++;

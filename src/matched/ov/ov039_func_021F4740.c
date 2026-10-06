@@ -31,7 +31,7 @@ extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern u8 *func_0200B3A4(u32 a, u32 b);
-extern int func_021F4894(void *a, u8 b, u8 c);
+extern int func_021F4894(void *p, int i, u8 j);
 extern void func_021F47D8(void *a, int f, int i);
 
 void func_021F4740(u32 a, void *b)
@@ -51,7 +51,7 @@ void func_021F4740(u32 a, void *b)
     arr = q + 0x10;
     v = arr[i];
     arr[i] = (v + 1) % 2;
-    if (func_021F4894(b, i, *((u8 *)p + p[5] + 0x21EC)) != 0) {
+    if (func_021F4894(b, (u8)i, *((u8 *)p + p[5] + 0x21EC)) != 0) {
         func_021F47D8(b, v, (u8)p[5]);
         i = p[5];
         *((u8 *)p + i + 0x21EC) = i * 2 + *(u8 *)(q + i + 0x10);

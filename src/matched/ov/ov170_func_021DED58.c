@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void func_021DEB90(char *p, int a, int b, int c, int d);
+extern void func_021DEB90(void *unused, void *unused2, int x, u32 base, u32 pal);
 extern void func_02041B6C(unsigned bit);
 typedef struct {
     char pad[0xA178];
@@ -40,6 +40,6 @@ void func_021DED58(char *p, int a)
     WORK(p)->flip ^= 1;
     func_021DEB40(p, a, offset);
     func_02021640(*(void **)((char *)WORK(p) + 0x6C), 0x74, a + 0x26, 0x4C, 0, 0x20, bank << 4);
-    func_021DEB90(p, a, WORK(p)->box, offset, bank);
+    func_021DEB90(p, (void *)a, WORK(p)->box, offset, bank);
     func_02041B6C(3);
 }

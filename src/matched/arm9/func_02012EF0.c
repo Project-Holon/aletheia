@@ -15,7 +15,9 @@
  *   sub_020071CC  0x020071CC  thumb
  */
 
-extern void *sub_020071CC(void *ctrl, unsigned int id);
+typedef unsigned int   u32;
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 void *func_02012EF0(void **p)
 {

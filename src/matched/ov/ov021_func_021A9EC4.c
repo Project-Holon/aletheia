@@ -16,9 +16,9 @@
 
 typedef unsigned int u32;
 
-extern u32 func_021A9DC8(u32 a);
+extern u32 func_021A9DC8(void);
 
 u32 func_021A9EC4(u32 a)
 {
-    return func_021A9DC8(a) % a;
+    return func_021A9DC8() % a;
 }

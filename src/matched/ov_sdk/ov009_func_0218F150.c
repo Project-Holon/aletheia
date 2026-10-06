@@ -43,7 +43,7 @@ typedef unsigned int   u32;
 extern void *func_020923B0(void *p, int c, u32 n);
 extern long func_02184098(long *timer);
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
-extern void func_0218F134(void *elem);
+extern void func_0218F134(void **p);
 
 struct GPIPeer *func_0218F150(void **connection, int profileid, int initiate)
 {
@@ -59,7 +59,7 @@ struct GPIPeer *func_0218F150(void **connection, int profileid, int initiate)
     peer->profile = profileid;
     peer->timeout = func_02184098(0) + 10000;
     peer->pnext = iconnection->peerList;
-    peer->messages = func_02184144(0x18, 0, func_0218F134);
+    peer->messages = func_02184144(0x18, 0, (void (*)(void *))func_0218F134);
     iconnection->peerList = peer;
     peer->gotHeader = 0;
     peer->sizeReceived = 0;

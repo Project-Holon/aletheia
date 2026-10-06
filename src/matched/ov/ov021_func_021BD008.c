@@ -18,12 +18,14 @@ typedef struct {
     void *f1C;
 } Obj;
 
-extern int func_021BD090(Obj *p);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern u16 func_021BD090(u8 *p);
 typedef unsigned int   u32;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 void func_021BD008(Obj *p)
 {
-    p->f1C = func_020457B0(0x21, func_021BD090(p));
+    p->f1C = func_020457B0(0x21, func_021BD090((u8 *)p));
 }

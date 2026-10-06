@@ -18,13 +18,13 @@
 
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_021BEFC0(void *p, u8 i);
+extern void func_021BEFC0(u8 *a0, u32 a1);
 void func_021BEFD4(char *p)
 {
     int i;
     int n;
     n = ((struct Obj25923 *)p)->f2FC;
     for (i = 0; i < n; i++) {
-        func_021BEFC0(p, (u8)i);
+        func_021BEFC0((u8 *)p, (u8)i);
     }
 }

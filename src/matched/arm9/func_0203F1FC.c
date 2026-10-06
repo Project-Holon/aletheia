@@ -41,17 +41,18 @@ struct Mt {
 
 extern struct Mt *g_021469F8;
 
-extern u16 func_02081B8C(void *buf, const u8 *src, u32 len);
+struct MATHCRC16Table;
+extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
 
-u16 func_0203F1FC(const u8 *src, u32 len)
+int func_0203F1FC(const u8 *src, u32 len)
 {
     if (len < 2) {
         u8 pair[2];
 
         pair[0] = src[0];
         pair[1] = src[0];
-        return func_02081B8C(g_021469F8->unk_9cc, pair, 2);
+        return func_02081B8C((struct MATHCRC16Table *)g_021469F8->unk_9cc, pair, 2);
     } else {
-        return func_02081B8C(g_021469F8->unk_9cc, src, len);
+        return func_02081B8C((struct MATHCRC16Table *)g_021469F8->unk_9cc, (void *)src, len);
     }
 }

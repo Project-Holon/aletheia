@@ -20,14 +20,15 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_02064384(u8 *p, u32 i);
+struct CellAnim;
+extern void func_02064384(struct CellAnim *anim, u32 i);
 
 void func_0204D494(u8 *a0, u32 i)
 {
-    func_02064384(a0 + 0xc, i);
+    func_02064384((struct CellAnim *)(a0 + 0xc), i);
 }
 
 void func_0204D4A4(u8 *a0, u32 i)
 {
-    func_02064384(a0 + 0xc, i);
+    func_02064384((struct CellAnim *)(a0 + 0xc), i);
 }

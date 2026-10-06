@@ -26,7 +26,7 @@ extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern int func_021BE6BC(u8 *p);
+extern int func_021BE6BC(int *p);
 
 int func_021F3BD8(void *task)
 {

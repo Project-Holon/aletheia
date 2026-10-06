@@ -76,7 +76,8 @@ struct Sub020079BCHeader {
 extern const char sub_020079BC_File[];
 extern const char sub_02007AA4_File[];
 
-extern struct Sub020079BCHeader *sub_020074CC(void *save);
+struct Sub02007454Header;
+extern struct Sub02007454Header *sub_020074CC(void **save);
 extern struct Sub020079BCEntry  *sub_02007AF4(void **save, u32 box);
 typedef unsigned short u16;
 extern u32 sub_02017E88(void *p, u32 id, u32 v);
@@ -85,7 +86,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg)
 {
-    struct Sub020079BCHeader *h = sub_020074CC(save);
+    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
 
     if (box >= 0x18 && box != -1) {
         func_02034714(sub_020079BC_File, 0, sub_020079BC_File);
@@ -101,7 +102,7 @@ int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg)
 
 struct Sub020079BCEntry *sub_02007A18(void **save, u32 box, u32 slot)
 {
-    struct Sub020079BCHeader *h = sub_020074CC(save);
+    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
 
     if (box >= 0x18 && box != -1) {
         func_02034714(sub_020079BC_File, 0, sub_020079BC_File);
@@ -117,14 +118,14 @@ struct Sub020079BCEntry *sub_02007A18(void **save, u32 box, u32 slot)
 
 void sub_02007A68(void *save, u32 bits)
 {
-    struct Sub020079BCHeader *h = sub_020074CC(save);
+    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
 
     h->unk3DC |= (u8)bits;
 }
 
 int sub_02007A80(void *save, u32 bits)
 {
-    struct Sub020079BCHeader *h = sub_020074CC(save);
+    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
 
     if (h->unk3DC & bits) {
         return 1;

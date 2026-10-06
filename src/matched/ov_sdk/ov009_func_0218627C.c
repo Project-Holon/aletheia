@@ -50,8 +50,8 @@ typedef void *GPConnection;
 extern void func_02193734(int *p, int b);
 extern void func_0219327C(char *p, int b, int n);
 extern int func_020948E0(const char *a, const char *b);
-extern int func_0218946C(GPConnection *connection, void *outputBuffer, const char *buffer);
-extern int func_0218949C(GPConnection *connection, void *outputBuffer, int num);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
 extern char g_021A4024[];
 extern char g_021A40C0[];
 extern char g_021A40D8[];
@@ -106,14 +106,14 @@ int func_0218627C(GPConnection *connection, int status, const char *statusString
     func_0219327C(iconnection->lastStatusString, (int)statusStringFixed, sizeof(iconnection->lastStatusString));
     func_0219327C(iconnection->lastLocationString, (int)locationStringFixed, sizeof(iconnection->lastLocationString));
 
-    func_0218946C(connection, iconnection->outputBuffer, g_021A40F0);
-    func_0218949C(connection, iconnection->outputBuffer, status);
-    func_0218946C(connection, iconnection->outputBuffer, g_021A4070);
-    func_0218949C(connection, iconnection->outputBuffer, iconnection->sessKey);
-    func_0218946C(connection, iconnection->outputBuffer, g_021A40FC);
-    func_0218946C(connection, iconnection->outputBuffer, statusStringFixed);
-    func_0218946C(connection, iconnection->outputBuffer, g_021A410C);
-    func_0218946C(connection, iconnection->outputBuffer, locationStringFixed);
-    func_0218946C(connection, iconnection->outputBuffer, g_021A4098);
+    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A40F0);
+    func_0218949C((int *)connection, (int *)iconnection->outputBuffer, status);
+    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A4070);
+    func_0218949C((int *)connection, (int *)iconnection->outputBuffer, iconnection->sessKey);
+    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A40FC);
+    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, statusStringFixed);
+    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A410C);
+    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, locationStringFixed);
+    func_0218946C((int *)connection, (int *)iconnection->outputBuffer, g_021A4098);
     return 0;
 }

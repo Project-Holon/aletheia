@@ -28,28 +28,31 @@
  *   func_021DA328 0x021DA328 thumb ov123
  */
 extern int func_0203CD98(void);
-extern int func_020362DC(void);
-extern int func_021B95D4(int,void *);
-extern int func_021B973C(void *);
-extern int func_021B9748(void *);
-extern int func_021BE79C(int,unsigned,unsigned);
-extern unsigned func_020071D8(void *,int *);
-extern void func_021DA034(char *,void *,int);
-extern void func_021DA328(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_020362DC(void);
+extern int func_021B95D4(int index, u8 *p);
+extern int func_021B973C(char *p);
+extern int func_021B9748(u8 *p);
+extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
+struct Ctrl020071D8;
+extern void *func_020071D8(struct Ctrl020071D8 *ctrl, int *out);
+extern void func_021DA034(char *p, int n, int unused);
+extern void func_021DA328(char *p);
 void func_021DA3A0(char *p)
 {
     int a;
     unsigned b;
     if (func_0203CD98()) {
         if (func_021B95D4(9,*(void **)(p + 8))) {
-            b = func_020071D8(*(void **)(p + 0x1c),&a);
-            func_021BE79C(func_021B973C(*(void **)(p + 8)),b,0x80000);
+            b = (unsigned int)func_020071D8(*(void **)(p + 0x1c),&a);
+            func_021BE79C((void *)func_021B973C(*(void **)(p + 8)),(void *)b,0x80000);
             if (!func_021B9748(*(void **)(p + 8))) {
-                func_021DA034(p,func_021DA328,0x1f6);
+                func_021DA034(p,(int)func_021DA328,0x1f6);
                 return;
             }
         }
     } else if (func_020362DC()) {
-        func_021DA034(p,func_021DA328,0x1fc);
+        func_021DA034(p,(int)func_021DA328,0x1fc);
     }
 }

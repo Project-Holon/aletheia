@@ -21,15 +21,20 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02045EC0(void *, u32);
-extern void func_0201EF40(void *, u32, u32);
-extern void func_0201F250(void *, void *, void *);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, u32);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C724(void *, void *, u32, u32, u32, u32, u32);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 
-void func_0220B78C(u8 *p, int idx)
+void func_0220B78C(u8 *p, u32 idx)
 {
     void *win = *(void **)(p + 0x120);
     void *msg = func_02045EC0(*(void **)(p + 0xc), 9);

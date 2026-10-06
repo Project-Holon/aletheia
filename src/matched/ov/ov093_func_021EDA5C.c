@@ -21,12 +21,13 @@ typedef unsigned int u32;
 extern int func_021EDA3C(u8 *, u32);
 extern void func_021F8504(u32, u32, u32);
 extern int func_021F8B28(void);
-extern void func_021EDC28(u8 *, u8, int);
+struct W;
+extern void func_021EDC28(struct W *w, u8 a1, int flag);
 void func_021EDA5C(u8 *p, u8 a, int b)
 {
     int r = func_021EDA3C(*(u8 * *)&((struct Obj21609 *)p)->f134, a);
     if (r == 0)
         func_021F8504(0, 0, 0);
     func_021F8B28();
-    func_021EDC28(p + 0x90 + r * 0x24, a, b);
+    func_021EDC28((struct W *)(p + 0x90 + r * 0x24), a, b);
 }

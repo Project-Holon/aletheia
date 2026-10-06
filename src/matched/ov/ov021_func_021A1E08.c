@@ -54,28 +54,28 @@ typedef struct {
     u8 sub40[4];
 } Obj;
 
-extern u8 func_021A2CF8(Obj *o);
+extern u8 func_021A2CF8(char *p);
 extern s32 func_021A0244(u32 a);
 extern void func_021A2D04(Obj *o);
-extern void func_021A2CEC(Obj *o);
+extern void func_021A2CEC(char *p);
 extern void func_021A282C(Obj *o, s32 x);
 extern void func_021A2860(Obj *o, s32 x);
 extern void func_021A28CC(Obj *o, s32 x);
-extern void func_021A2968(Obj *o);
+extern void func_021A2968(u8 *p);
 extern s32 func_021A2724(Obj *o, u32 a, s32 x);
 extern void func_021A2C98(void *p, u32 a);
 extern void func_021A27F8(Obj *o);
-extern u8 func_021A2970(Obj *o);
+extern u8 func_021A2970(u8 *p);
 extern void func_021A2924(Obj *o);
 extern void func_021A28A0(Obj *o);
 extern void func_021A284C(Obj *o);
-extern void func_021A26D8(Obj *o);
+extern void func_021A26D8(int *p);
 
 void func_021A1E08(Obj *o, s32 x)
 {
-    if (func_021A2CF8(o) != 0 && func_021A0244(o->f4) == 0) {
+    if (func_021A2CF8((char *)o) != 0 && func_021A0244(o->f4) == 0) {
         func_021A2D04(o);
-        func_021A2CEC(o);
+        func_021A2CEC((char *)o);
     }
     switch (((u8 *)o)[0x26]) {
     case 0:
@@ -84,7 +84,7 @@ void func_021A1E08(Obj *o, s32 x)
         func_021A282C(o, x);
         func_021A2860(o, x);
         func_021A28CC(o, x);
-        func_021A2968(o);
+        func_021A2968((u8 *)o);
         ((u8 *)o)[0x26] = 5;
         break;
     case 2:
@@ -104,7 +104,7 @@ void func_021A1E08(Obj *o, s32 x)
             ((u8 *)o)[0x26] = o->hi24 != 0 ? 6 : 7;
         }
         func_021A2C98(o->sub40, o->fC);
-        func_021A2968(o);
+        func_021A2968((u8 *)o);
         break;
     case 6:
         if (func_021A2724(o, o->f20[12], x) != 0) {
@@ -139,7 +139,7 @@ void func_021A1E08(Obj *o, s32 x)
         func_021A2C98(o->sub40, o->fC);
         break;
     case 11:
-        if (func_021A2970(o) != 0) {
+        if (func_021A2970((u8 *)o) != 0) {
             func_021A2724(o, o->f20[17], x);
         }
         ((u8 *)o)[0x26] = 12;
@@ -148,7 +148,7 @@ void func_021A1E08(Obj *o, s32 x)
         func_021A2924(o);
         func_021A28A0(o);
         func_021A284C(o);
-        func_021A26D8(o);
+        func_021A26D8((int *)o);
         ((u8 *)o)[0x26] = 0;
         break;
     }

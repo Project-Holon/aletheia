@@ -31,9 +31,11 @@
   * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021CC9AC is a real 176-byte Thumb bitfield packer (bitfield insert into a table with 0x3b-entry byte lookup), not a veneer and not tiny; not filed in this lane. Needs bottom-up match or integrator seed.
  */
 
-extern void *func_021CC9AC(char *p, int a, int b);
+struct Pack;
+struct Rec;
+extern struct Rec *func_021CC9AC(struct Pack *p, int id, int b);
 
 void *func_021C88A4(char *p, int a, int b)
 {
-    return func_021CC9AC(p + 0x1D74, a, b);
+    return func_021CC9AC((struct Pack *)(p + 0x1D74), a, b);
 }

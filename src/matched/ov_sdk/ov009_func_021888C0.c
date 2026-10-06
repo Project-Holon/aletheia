@@ -30,8 +30,8 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern void func_0219327C(char *p, int b, int n);
-extern int func_0218946C(void **connection, void *outputBuffer, char *buffer);
-extern int func_0218949C(void **connection, void *outputBuffer, int num);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
 extern char g_021A4278[];
 extern char g_021A424C[];
 extern char g_021A4464[];
@@ -45,14 +45,14 @@ int func_021888C0(void **connection, int profileid, int type, char *message)
 
     iconnection = (GPIConnection *)*connection;
     func_0219327C(buffer, (int)message, 3501);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A4278);
-    func_0218949C(connection, &iconnection->outputBuffer, type);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A424C);
-    func_0218949C(connection, &iconnection->outputBuffer, iconnection->f198);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A4464);
-    func_0218949C(connection, &iconnection->outputBuffer, profileid);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A42CC);
-    func_0218946C(connection, &iconnection->outputBuffer, buffer);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A4270);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4278);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), type);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A424C);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->f198);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4464);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), profileid);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A42CC);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), buffer);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4270);
     return 0;
 }

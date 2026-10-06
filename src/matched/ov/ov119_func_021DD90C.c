@@ -33,7 +33,7 @@ struct Cfg;
 struct Descriptor;
 struct MsgBank;
 extern void func_020452E8(struct Descriptor *d);
-extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201DD78(u32,u32,u32);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
@@ -53,7 +53,7 @@ void func_021DD90C(u8 *p,int i,int msg,int force)
         if(func_021D8AA8(p)==0) return;
     }
     if(*(int *)(p+i*4+0x5bc)) func_020452E8((struct Descriptor *)(*(int *)(p+i*4+0x5bc)));
-    items=(int *)(p+0x5bc); items[i]=func_020450F0(3,((int *)&t)[i],16,12,2,5,0); w=items[i];
+    items=(int *)(p+0x5bc); items[i]=(int)func_020450F0(3,(u8)(((int *)&t)[i]),16,12,2,5,0); w=items[i];
     func_0201DD78(5,6,0);
     msg+=0x72;
     func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),msg,(void *)(*(int *)&((struct Obj00001 *)p)->f730));

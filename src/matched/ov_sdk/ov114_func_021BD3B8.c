@@ -42,7 +42,7 @@ extern void *func_021BEF58();
 extern void func_021BEFCC();
 extern void *func_021BEF40(int p);
 extern ReqList *func_021BAEC8();
-extern ReqInfo *func_021BEF48(void *sysInfo_p);
+extern void *func_021BEF48(int p);
 extern void func_021BEFD8(void *mutexInfo_p);
 extern void *func_021BEF50(void *sysInfo_p);
 extern void func_021B9BF4(int a);
@@ -64,7 +64,7 @@ int func_021BD3B8(ThreadData *threadData_p)
     if (list_p == 0) {
         threadData_p->result = -1;
     } else {
-        reqInfo_p = func_021BEF48(sysInfo_p);
+        reqInfo_p = func_021BEF48((int)sysInfo_p);
         threadData_p->result = list_p->a8;
         reqInfo_p->reqCurrent = list_p;
     }

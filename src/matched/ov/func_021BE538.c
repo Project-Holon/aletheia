@@ -13,6 +13,6 @@
  * because something branches to it.
  */
 
-void func_021BE538(void)
+void func_021BE538(char *p)
 {
 }

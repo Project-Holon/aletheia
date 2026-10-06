@@ -19,5 +19,5 @@ typedef short s16;
 typedef unsigned int u32;
 typedef struct { s16 y,x; } Pair;
 extern void func_021B7408(u8 *,int,s16 *,s16 *);
-extern void func_021B73E4(u8 *,int,s16,s16);
-void func_021B7438(u8 *p,int n,int x,int y) { Pair s; func_021B7408(p,n,&s.x,&s.y); s.x=s.x+x; s.y=s.y+y; func_021B73E4(p,n,s.x,s.y); }
+extern void func_021B73E4(char *p, int i, short x, short y);
+void func_021B7438(u8 *p,int n,int x,int y) { Pair s; func_021B7408(p,n,&s.x,&s.y); s.x=s.x+x; s.y=s.y+y; func_021B73E4((char *)p,n,s.x,s.y); }

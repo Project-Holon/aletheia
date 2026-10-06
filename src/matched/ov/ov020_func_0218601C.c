@@ -22,5 +22,6 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0201AD0C(void *sys);
 extern u8 func_02012984(const struct BigObj *p);
 extern char *func_02008B14(int);
-extern int func_0216A358(int,int,void *,int);
-void func_0218601C(int p) { int a; int b; int c; a=(int)func_02012EBC((struct Big *)p); b=(int)func_0201AD0C((void *)a); c=func_02012984((const struct BigObj *)p); func_0216A358(p,b,func_02008B14(a)+0x14,c); }
+typedef unsigned int   u32;
+extern int func_0216A358(int a, int b, u32 *p, int c);
+void func_0218601C(int p) { int a; int b; int c; a=(int)func_02012EBC((struct Big *)p); b=(int)func_0201AD0C((void *)a); c=func_02012984((const struct BigObj *)p); func_0216A358(p,b,(u32 *)(func_02008B14(a)+0x14),c); }

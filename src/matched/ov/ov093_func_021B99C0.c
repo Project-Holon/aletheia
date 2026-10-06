@@ -17,10 +17,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct S;
 extern int func_021B6994(struct S **, u32);
-extern u32 func_021B8588(void *);
+extern u32 func_021B8588(void **p);
 int func_021B99C0(struct S **p, u32 b)
 {
     int result = func_021B6994(p, b);
-    if (func_021B8588(p) == 3) result = (u8)(result + 2);
+    if (func_021B8588((void **)p) == 3) result = (u8)(result + 2);
     return result;
 }

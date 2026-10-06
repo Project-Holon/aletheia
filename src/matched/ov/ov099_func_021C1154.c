@@ -32,7 +32,7 @@ extern int func_0203CB00(void);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021BE900(char *);
-int func_021C1154(char *p)
+int func_021C1154(char *p, int a1)
 {
     if (func_0203C3EC() >= 3) {
         func_021BA874(p, *(int *)(p + 0x1f0));

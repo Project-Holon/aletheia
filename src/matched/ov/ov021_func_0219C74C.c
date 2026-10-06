@@ -24,7 +24,8 @@ typedef signed char    s8;
 typedef struct { int x, y, z; } V3;
 extern void *func_0216D67C(void *a0);
 extern void *func_0216E3C4(void *p);
-extern void func_02197CCC(u32, V3 *);
+typedef signed int     s32;
+extern void func_02197CCC(u8 *p, s32 *out);
 extern u32 func_0219C6B8(u32 a, V3 *b, int c, u32 d, u16 e);
 
 void func_0219C74C(u32 a, u16 e)
@@ -32,6 +33,6 @@ void func_0219C74C(u32 a, u16 e)
     u32 o = (u32)func_0216D67C((void *)a);
     u8 *d = func_0216E3C4((void *)a);
     V3 v;
-    func_02197CCC(a, &v);
+    func_02197CCC((u8 *)a, (s32 *)(&v));
     func_0219C6B8(o, &v, d[7], d[9], e);
 }

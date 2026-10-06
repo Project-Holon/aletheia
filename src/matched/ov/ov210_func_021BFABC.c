@@ -13,7 +13,7 @@
  */
 #include "../include/Obj25630.h"
 extern int func_021B93B8(char *);
-extern void func_021BF7B0(char *, int, signed short, int);
+extern void func_021BF7B0(char *p, int idx, int y, int flag);
 void func_021BFABC(char *ctx, int slot, int index)
 {
     unsigned center = func_021B93B8(*(char * *)&((struct Obj25630 *)ctx)->f1E0);
@@ -21,8 +21,8 @@ void func_021BFABC(char *ctx, int slot, int index)
     signed short upper = center + 7;
     if (lower < 0) lower = 0;
     if (index >= lower && index < center) {
-        func_021BF7B0(ctx, slot, 192 - (center - index) * 24, 0);
+        func_021BF7B0(ctx, slot, (signed short)(192 - (center - index) * 24), 0);
     } else if (index >= center && index < upper) {
-        func_021BF7B0(ctx, slot, (index - center) * 24, 1);
+        func_021BF7B0(ctx, slot, (signed short)((index - center) * 24), 1);
     }
 }

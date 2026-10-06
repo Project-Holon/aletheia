@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C51A0(u8 *, u32);
+extern void func_021C51A0(char *p, int a);
 extern void func_021C51C8(u32, int, u8 *);
 extern void ov208_func_021C569C(u16 *, u8 *, int, int, int, int, u16);
 extern void func_021C7534(u16 *, u8 *, int);
@@ -41,8 +41,8 @@ void func_021C7448(u16 *a0, u8 *p, int key)
     if ((((struct Obj00147 *)p)->f124 != 0 && *(u32 *)&((struct Obj00147 *)p)->f94 == 0)
         || (((struct Obj00147 *)p)->f124 == 0 && *(u32 *)&((struct Obj00147 *)p)->fD8 == 0)
         || ((struct Obj00147 *)p)->f550 != old) {
-        func_021C51A0(p + 0x94, ((struct Obj00147 *)p)->f8);
-        func_021C51A0(p + 0xD8, ((struct Obj00147 *)p)->f8);
+        func_021C51A0((char *)(p + 0x94), ((struct Obj00147 *)p)->f8);
+        func_021C51A0((char *)(p + 0xD8), ((struct Obj00147 *)p)->f8);
         a = ((struct Obj00147 *)p)->f124 != 0 ? 2 : 4;
         b = ((struct Obj00147 *)p)->f124 != 0 ? 4 : 3;
         ov208_func_021C569C(a0, p, key, a, b, 2, ((struct Obj00147 *)p)->f550);

@@ -38,37 +38,37 @@ typedef unsigned char  u8;
 struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
-extern void func_021BA9AC(Obj *o);
+extern void func_021BA9AC(char *p);
 extern void func_021B6100(char *p, int k);
 extern void func_020414EC(u32 i);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021BB3F4(int p, int mode);
 extern u8 func_020355C4(void);
-extern void func_021B9AAC(Obj *o);
+extern void func_021B9AAC(char *p);
 extern void func_021B80C4(Obj *o, int v);
 extern void func_021B8AF4(void *p);
-extern void func_021BB1AC(Obj *o);
+extern void func_021BB1AC(char *p);
 
 void func_021B7504(Obj *o)
 {
     if (func_020279E8(o->f77C) == 0)
         return;
     if (func_02027A04(o->f77C) == 0) {
-        func_021BA9AC(o);
+        func_021BA9AC((char *)o);
         o->f844 = 6;
         func_021B6100((char *)o, 0);
     } else {
-        func_021BA9AC(o);
+        func_021BA9AC((char *)o);
         func_020414EC(3);
         func_0204B92C(o->f6A8, 1);
         func_021BB3F4((int)o, 1);
         if (func_020355C4() == 1) {
-            func_021B9AAC(o);
+            func_021B9AAC((char *)o);
             func_021B80C4(o, 0);
         } else {
             func_021B80C4(o, 1);
         }
         func_021B8AF4(o);
     }
-    func_021BB1AC(o);
+    func_021BB1AC((char *)o);
 }

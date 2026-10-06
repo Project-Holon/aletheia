@@ -67,11 +67,13 @@ struct St {
     u32 fa4;
 };
 
-extern int func_021B9F4C(void *ctx, struct St *st, int mode);
-extern int func_021B9DF8(void *ctx, struct St *st);
+struct CharBuf;
+struct Descriptor;
+extern int func_021B9F4C(int a, int b, int mode);
+extern int func_021B9DF8(void *p, int *out);
 extern int func_021BA0BC(u32 *p);
 extern void func_021B69E0(void);
-extern void func_021B9E3C(void *ctx, struct St *st);
+extern void func_021B9E3C(void *p, char *q);
 extern u32 func_0203630C(void);
 extern int func_021BA120(u32 *p);
 extern u32 func_021BA158(u32 *p);
@@ -80,28 +82,28 @@ extern u32 func_021BA15C(u32 *p);
 typedef short s16;
 extern void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v);
 extern u32 func_021BDFE4(void *ctx);
-extern int func_021B8C34(void *ctx, u32 id);
-extern int func_021B8B74(void *ctx, u32 id);
-extern int func_021BA174(u32 *a, u8 *b, void *c, u32 n);
-extern int func_021B891C(void *ctx, u32 id, struct Rec *r);
-extern int func_021B8740(void *ctx, u32 id, u8 c, u32 d);
+extern u32 func_021B8C34(void *ctx, u8 *rec);
+extern int func_021B8B74(void *ctx, u8 *rec);
+extern int func_021BA174(int unused, void *a, void *buf, unsigned n);
+extern int func_021B891C(void *a, char *q, u16 *p);
+extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern int func_021BDFEC(void *ctx);
-extern u32 func_021BA244(u32 v);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *p, int v);
-extern void func_02045334(void *p);
+extern u32 func_021BA244(void *p);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
 
 #pragma opt_propagation off
 void func_021B97AC(void *ctx, struct St *st)
 {
-    int mode = func_021B9F4C(ctx, st, 1);
+    int mode = func_021B9F4C((int)ctx, (int)st, 1);
     u32 id;
     u32 pos;
     int busy;
     u32 v;
     u32 off;
 
-    if (func_021B9DF8(ctx, st) == 1)
+    if (func_021B9DF8(ctx, (int *)st) == 1)
         return;
     switch (st->sub) {
     case 0:
@@ -111,7 +113,7 @@ void func_021B97AC(void *ctx, struct St *st)
             st->b18 = 0;
             st->f14 = 0;
             func_021B69E0();
-            func_021B9E3C(ctx, st);
+            func_021B9E3C(ctx, (char *)st);
             return;
         }
         break;
@@ -128,13 +130,13 @@ void func_021B97AC(void *ctx, struct St *st)
         func_021B9E5C((int)ctx, (char *)st, (s16 *)(v + off), 9, pos, 0xC000);
     case 2:
         id = func_021BDFE4(ctx);
-        if (func_021B8C34(ctx, id) != 1)
+        if (func_021B8C34(ctx, (u8 *)id) != 1)
             break;
-        busy = func_021B8B74(ctx, id);
+        busy = func_021B8B74(ctx, (u8 *)id);
         pos = func_021BA15C(st->f10);
         if (st->f14 == 0 && busy == 0) {
             if (pos >= (u32)(st->b18 + 1) << 11 || st->sub == 2) {
-                int n = func_021BA174(st->f10, (u8 *)func_021BA170(st->f10) + (st->b18 << 11), st->f24, 0x800);
+                int n = func_021BA174((int)st->f10, (u8 *)func_021BA170(st->f10) + (st->b18 << 11), st->f24, 0x800);
                 st->f20->b5 = st->b18;
                 st->f20->h0 = n;
                 st->f20->h2 = pos;
@@ -144,7 +146,7 @@ void func_021B97AC(void *ctx, struct St *st)
             }
         }
         if (st->f14 == 1) {
-            if (func_021B891C(ctx, id, st->f20) == 1) {
+            if (func_021B891C(ctx, (char *)id, (u16 *)st->f20) == 1) {
                 st->b18++;
                 st->f14 = 0;
                 if (st->f20->b4 == 1) {
@@ -156,9 +158,9 @@ void func_021B97AC(void *ctx, struct St *st)
         break;
     case 3:
         id = func_021BDFE4(ctx);
-        if (func_021B8B74(ctx, id) != 0)
+        if (func_021B8B74(ctx, (u8 *)id) != 0)
             break;
-        if (func_021B8740(ctx, id, 7, 0) == 1) {
+        if (func_021B8740((int)ctx, id, 7, 0) == 1) {
             st->sub = 4;
             func_02043B5C(func_02045770(st->f2c), 0);
             func_02045334(st->f2c);
@@ -167,7 +169,7 @@ void func_021B97AC(void *ctx, struct St *st)
         break;
     case 4:
         if (st->f20->h2 > 0x20) {
-            if (func_021BA244(func_021BDFEC(ctx)) == 1) {
+            if (func_021BA244((void *)func_021BDFEC(ctx)) == 1) {
                 st->sub = 5;
                 return;
             }
@@ -178,8 +180,8 @@ void func_021B97AC(void *ctx, struct St *st)
         break;
     case 5:
         id = func_021BDFE4(ctx);
-        if (func_021BA244(func_021BDFEC(ctx)) == 0) {
-            if (func_021B8740(ctx, id, 8, 0) == 1)
+        if (func_021BA244((void *)func_021BDFEC(ctx)) == 0) {
+            if (func_021B8740((int)ctx, id, 8, 0) == 1)
                 st->state = 5;
         }
         break;

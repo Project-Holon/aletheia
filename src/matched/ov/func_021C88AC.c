@@ -38,13 +38,13 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u8 *func_02012ED0(struct Big *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4();
+extern void *func_0215A5F4(void *p);
 extern void *func_02188C80(void *p);
 extern u32 func_021C86E8(u32, u32, u32);
 
 int func_021C88AC(u32 a, u32 b, u32 c, u32 d)
 {
-func_0215A5F4(b, b, c, d);
+func_0215A5F4((void *)b);
 func_021C86E8(((struct Obj18340 *)((u8 *)(func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)b))))))))->f0, func_02011330((struct Stream *)a), func_02011330((struct Stream *)a));
 return 0;
 }

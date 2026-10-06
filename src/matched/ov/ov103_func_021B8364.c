@@ -45,7 +45,7 @@ extern int func_021B9214(void *);
 extern void func_021B8138(u8 *,void *,int,int,s16);
 extern void func_021B824C(u8 *,void *,int,u8 *,s16,s16,int);
 extern u8 *func_021B7954(u8 *);
-extern void func_021B8CA0(u8 *,int,int);
+extern void func_021B8CA0(u8 **p, int i, int v);
 extern void func_02006210(void);
 extern void func_021B9060(int,u16);
 extern int func_021B8D54(u32 *,u32 *);
@@ -75,7 +75,7 @@ void func_021B8364(u8 *p,u16 *state)
                 func_021B824C(p+0x184,p+0x174,0,*(u8 * *)&((struct Obj22194 *)(*(u8 * *)&((struct Obj01388 *)p)->fB0C))->f8,0,0,55);
             else func_021B8138(p+0x184,p+0x174,0,0,0);
             q=func_021B7954(p);
-            for(i=0;i<2;i++) func_021B8CA0(q,i,0);
+            for(i=0;i<2;i++) func_021B8CA0((u8 **)q,i,0);
             func_02006210();
             func_021B9060(1,55);
             ((struct Obj01388 *)p)->f740=0;
@@ -87,7 +87,7 @@ void func_021B8364(u8 *p,u16 *state)
                 ((struct Obj01388 *)p)->f740=0;
                 ((struct Obj01388 *)p)->f744=0;
                 q=func_021B7954(p);
-                func_021B8CA0(q,0,1);
+                func_021B8CA0((u8 **)q,0,1);
                 func_021B8CB0(q,0,pos[0],pos[1]);
                 func_020061E4(0x651);
                 if(func_021B9214(p+0xa4c)) {

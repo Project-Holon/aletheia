@@ -15,9 +15,9 @@
  *   func_0216060C  0x0216060C  thumb  ov010
  */
 
-extern void func_0216060C();
+extern int func_0216060C(int a0, int a1);
 
 void func_021606D0(int a, int b)
 {
-    func_0216060C(b);
+    func_0216060C(b, b);
 }

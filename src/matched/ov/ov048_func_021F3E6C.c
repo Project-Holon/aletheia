@@ -29,10 +29,11 @@ struct T { u16 a0, a1, h, a3; u32 pad[9]; u32 f2c; u32 pad2[6]; u32 f48; };
 extern struct T d_021F50C0;
 
 extern struct WordSet *func_0201EC64(u32 heap);
-extern int func_02088864(struct Date *date);
-extern void func_0201EFA4(struct WordSet *w, int a, int b, int c, int d, int e);
-extern void func_0201F230(struct WordSet *w, int a, int b);
-extern void func_021F3D38(int *p, struct Rec *a, int b, int c);
+struct RTCDate;
+extern int func_02088864(struct RTCDate *date);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
+extern void func_021F3D38(int *p, int a, int b, int *c);
 extern void func_0201ED04(struct WordSet *w);
 
 void func_021F3E6C(int *p)
@@ -41,7 +42,7 @@ void func_021F3E6C(int *p)
     struct WordSet *w;
 
     w = func_0201EC64(*(u16 *)p);
-    func_02088864(&L.d);
+    func_02088864((struct RTCDate *)(&L.d));
     func_0201EFA4(w, 2, L.d.a, 2, 2, 1);
     func_0201F230(w, 0, L.d.b);
     func_0201EFA4(w, 1, L.d.c, 2, 0, 1);
@@ -52,6 +53,6 @@ void func_021F3E6C(int *p)
     L.r.f10 = 0x26;
     L.r.f14 = *(u32 *)(*(u32 *)((u32)p + 0x1c) + 0x18);
     L.r.f18 = (u32)w;
-    func_021F3D38(p, &L.r, 1, 0);
+    func_021F3D38(p, (int)(&L.r), 1, 0);
     func_0201ED04(w);
 }

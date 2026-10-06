@@ -53,19 +53,23 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_020395E0(int slot);
-extern int func_020395EC(void *p);
-extern u8 *func_0203996C(u32 idx);
+typedef signed int     s32;
+struct Entry;
+struct NetEntry;
+struct Obj;
+extern int func_020395EC(struct Entry *a);
+extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_02039160(u16 mode);
 extern u32 func_020399B8(u8 *e);
 extern void func_02039A5C(void);
 extern u16 func_02039338(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_02039CD8(u8 *e);
+extern int func_02039CD8(struct Obj *p);
 extern u32 func_0203A2F0(u32 a0, u32 a1);
 extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
 extern u32 func_0203D378(void);
-extern u32 func_0203D394(u8 *e);
+extern u32 func_0203D394(struct NetEntry *e);
 extern u32 func_0203D4D0(u8 *e, u32 a, u32 b, u32 c, void *d, u32 e2, u32 f, u32 g2);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern u32 func_0203D650(void);
@@ -84,7 +88,7 @@ void func_02039D94(void)
 
     for (i = 0; i < 8; i++) {
         u32 s = func_020395E0(i);
-        e = func_0203996C(s);
+        e = (u8 *)func_0203996C(s);
         if (func_02039160((u16)s) == 0)
             func_020399B8(e);
     }
@@ -92,7 +96,7 @@ void func_02039D94(void)
     func_02039A5C();
 
     if (func_0203D378() != 0) {
-        e = func_0203996C(0xff);
+        e = (u8 *)func_0203996C(0xff);
         for (i = 0; i < 9; i++) {
             u8 *r = g_021469D4 + i;
             if (r[0x18] != 1)
@@ -108,19 +112,19 @@ void func_02039D94(void)
 
     for (i = 0; i < 9; i++) {
         u8 *p;
-        p = func_0203996C(func_020395E0(i));
-        if (func_0203D394(p) == 0)
+        p = (u8 *)func_0203996C(func_020395E0(i));
+        if (func_0203D394((struct NetEntry *)p) == 0)
             continue;
         if (p[0x49] == 0)
             continue;
-        if (func_020395EC(p) == 0xff)
+        if (func_020395EC((struct Entry *)p) == 0xff)
             continue;
         if (func_0203D3A8((struct Entry *)p, 7, 4, (u32)(p + 0x46)) != 0)
             p[0x49] = 0;
     }
 
     if (func_02039338() == 0) {
-        e = func_0203996C(0xff);
+        e = (u8 *)func_0203996C(0xff);
         if (e != 0) {
             for (i = 0; i < 8; i++) {
                 u8 *s = *(u8 **)(e + i * 4 + 8);
@@ -128,7 +132,7 @@ void func_02039D94(void)
                     continue;
                 if (func_0203A2F0(((struct Obj04750 *)e)->f40, i) != 0)
                     continue;
-                if (func_02039CD8(e) != 0)
+                if (func_02039CD8((struct Obj *)e) != 0)
                     ((struct Obj04750 *)e)->f40 =
                         func_0203A28C(((struct Obj04750 *)e)->f40, i, 1);
             }

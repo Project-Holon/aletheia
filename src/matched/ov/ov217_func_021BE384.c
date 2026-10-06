@@ -81,7 +81,7 @@ extern void func_021C08A8(int *);
 extern u32 func_021C08F0();
 extern void func_021C0968(unsigned char *a0);
 extern u32 func_021C09E0();
-extern u32 func_021C09EC();
+extern void func_021C09EC(u32 a0);
 void func_021BE384(u32 a0)
 {
     func_021C08A8((int *)a0);

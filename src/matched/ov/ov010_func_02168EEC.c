@@ -23,9 +23,12 @@ struct Big;
 struct Sub02008AECSession;
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
-extern void func_0203F49C(int *, int *);
+typedef unsigned int   u32;
+struct RtcDate;
+struct RtcTime;
+extern void func_0203F49C(struct RtcDate *date, struct RtcTime *time);
 extern int func_02168F54(int *, int *, int *, int *, int *);
-extern void func_02008BE0(int *, unsigned int);
+extern void func_02008BE0(struct Sub02008AECSession *s, u32 n);
 extern void func_02169068(int, int, int *);
 extern void func_02169004(int, int);
 
@@ -38,13 +41,13 @@ void func_02168EEC(int a)
     int *p = (int *)func_02008B14(func_02012EBC((struct Big *)a));
     if (*p == 0)
         return;
-    func_0203F49C(A, B);
+    func_0203F49C((struct RtcDate *)A, (struct RtcTime *)B);
     if (func_02168F54(p, A, B, &y, &x) == 0)
         return;
     if (x == 0 && y != 0)
         return;
     if (x != 0) {
-        func_02008BE0(p, x);
+        func_02008BE0((struct Sub02008AECSession *)p, x);
         func_02169068(a, x, B);
     }
     if (y != 0)

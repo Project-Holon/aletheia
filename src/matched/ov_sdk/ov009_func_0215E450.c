@@ -71,7 +71,9 @@ struct SOCLiCommandWrite {
 
 extern void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern int func_0215E588(int len);
-extern int func_0215E620(unsigned char *sndbuf_ptr, int sndbuf_len, struct SOCLiCommandWrite *cpacket);
+typedef unsigned char  u8;
+struct Ring;
+extern int func_0215E620(u8 *dst, int len, struct Ring *r);
 extern unsigned long func_0215B470(unsigned char *buf, unsigned long len);
 extern void func_0215AD3C(void);
 extern void func_02085800(void *queue);
@@ -114,7 +116,7 @@ static int func_0215E450(void *arg)
     else
         sndbuf_len = socket->field54 - hdr;
     for (;;) {
-        int n = func_0215E620(sndbuf + hdr, sndbuf_len, cpacket);
+        int n = func_0215E620(sndbuf + hdr, sndbuf_len, (struct Ring *)cpacket);
         if (n <= 0)
             goto done;
         result = func_0215B470(sndbuf + hdr, n);

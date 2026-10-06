@@ -59,14 +59,17 @@ struct Ovr {
     u32 *f0C;
 };
 
-extern void func_02063790(void *h);
+struct Item020346D8;
+struct Out;
+struct TargetStruct;
+extern void func_02063790(u32 *p);
 extern u32 func_0204D9B4(u32 a, u32 b);
 extern int func_02034660(u8 *p, u32 a, void **out);
-extern u32 func_020346D8(u32 *p, void *desc);
-extern void func_0204DC70(struct Sink *s, int kind);
-extern void func_02063828(struct Sink *s, u32 off, int kind, void *cell);
-extern void func_02063A54(struct Sink *s, u32 off, int kind, void *cell);
-extern void func_02063C80(struct Sink *s, u32 off, int kind, void *cell);
+extern u32 func_020346D8(struct Item020346D8 *a, u32 *b);
+extern void func_0204DC70(struct TargetStruct *obj, int which);
+extern void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out);
+extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
+extern void func_02063C80(struct Res *r, u32 dst, int mode, struct Out *out);
 
 void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
                    u32 mode)
@@ -89,34 +92,34 @@ void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
         ovrd = 1;
     }
 
-    func_02063790(cell);
+    func_02063790((u32 *)cell);
 
     if (func_0204D9B4(mode, 0) != 0) {
         if (func_02034660((u8 *)r->f00, key, (void **)(cell + 0x2c)) != 0) {
-            off = func_020346D8((u32 *)r->f00, cell + 0x2c);
+            off = func_020346D8((struct Item020346D8 *)r->f00, (u32 *)(cell + 0x2c));
             kind = 1;
-            func_0204DC70(s, (int)kind);
+            func_0204DC70((struct TargetStruct *)s, (int)kind);
             if (ovrd != 0) {
-                func_02063C80(s, off, (int)kind, cell);
+                func_02063C80((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else if (s->f08 != 0) {
-                func_02063828(s, off, (int)kind, cell);
+                func_02063828((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else {
-                func_02063A54(s, off, (int)kind, cell);
+                func_02063A54((struct Res *)s, off, (int)kind, (struct Out *)cell);
             }
         }
     }
 
     if (func_0204D9B4(mode, 1) != 0) {
         if (func_02034660((u8 *)r->f04, key, (void **)(cell + 0x34)) != 0) {
-            off = func_020346D8((u32 *)r->f04, cell + 0x34);
+            off = func_020346D8((struct Item020346D8 *)r->f04, (u32 *)(cell + 0x34));
             kind = 2;
-            func_0204DC70(s, (int)kind);
+            func_0204DC70((struct TargetStruct *)s, (int)kind);
             if (ovrd != 0) {
-                func_02063C80(s, off, (int)kind, cell);
+                func_02063C80((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else if (s->f08 != 0) {
-                func_02063828(s, off, (int)kind, cell);
+                func_02063828((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else {
-                func_02063A54(s, off, (int)kind, cell);
+                func_02063A54((struct Res *)s, off, (int)kind, (struct Out *)cell);
             }
         }
     }

@@ -35,7 +35,8 @@ extern const u32 config[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,u32,u32);
 extern void func_0204335C(u32);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -56,7 +57,7 @@ char *func_021BB178(u32 a,u32 heap)
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     func_0204335C(0);
-    func_020433E0(config);
+    func_020433E0((const struct DispVram *)config);
     func_0204363C(a);
     func_0204361C();
     func_020434CC();

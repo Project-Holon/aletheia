@@ -33,7 +33,8 @@ extern char file[], vram[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02082BCC(void *, u32, u32);
 extern void func_0204335C(u32);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -61,7 +62,7 @@ void *func_021B9900(u32 swap, u32 heap)
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     func_0204335C(0);
-    func_020433E0(vram);
+    func_020433E0((const struct DispVram *)vram);
     func_0204363C(swap);
     func_0204361C();
     func_020434CC();

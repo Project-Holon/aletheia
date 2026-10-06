@@ -22,7 +22,9 @@ typedef int BOOL;
 extern void func_020434DC(unsigned, unsigned);
 extern void func_0207DC44(BOOL, int, int, int);
 extern void func_0207DD24(unsigned short, int, int, int, BOOL);
-extern void func_02046A94(unsigned char, const unsigned short *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02046A94(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned, unsigned);
 extern const unsigned short d_021BB1A8[][4];
 static inline void Shading(GXShading mode) { REG3D = (unsigned short)((REG3D & ~0x3002) | (mode << 1)); }
@@ -43,6 +45,6 @@ void func_021BAABC(void)
     func_0207DC44(0, 0, 0, 0);
     func_0207DD24(0, 0, 0x7FFF, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xBFFF0000;
-    for (i = 0; i < 4; i++) func_02046A94(i, d_021BB1A8[i]);
+    for (i = 0; i < 4; i++) func_02046A94((unsigned char)i, d_021BB1A8[i]);
     func_02046BE0(1, 0);
 }

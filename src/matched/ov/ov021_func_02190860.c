@@ -60,16 +60,20 @@ typedef struct {
 
 extern char d_021DDA50[];
 
-extern void func_02192F74(u16 *a);
+struct Dst;
+struct Obj;
+struct Src;
+struct W;
+extern void func_02192F74(struct W *w);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02190B2C(Tmpl *d, const u8 *s);
+extern void func_02190B2C(struct Dst *d, const struct Src *s);
 extern int func_021930C0(int a, int unused, int b, int c, u16 d, u16 e, u16 f);
 struct Obj;
 struct Slot;
 extern struct Slot *func_021904EC(u32 *p, u32 a, u32 b);
 extern u8 *func_0219067C(u8 *p);
 extern u32 func_02190678(u8 *p);
-extern u32 func_0201FF30(Tmpl *t, u16 a, u16 b, u32 heap);
+extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
 extern void func_02020CF8(struct Obj *p, int heap);
 extern void func_02193144(u32 heap);
 extern void func_02193044(u32 v);
@@ -82,12 +86,12 @@ Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u3
     Handle *r;
 
     k = a[1];
-    func_02192F74(a);
+    func_02192F74((struct W *)a);
     if (f == 0xe) {
         k = a[2];
     }
     r = func_02030734(a[0], 0x14, 1, d_021DDA50, 0x606);
-    func_02190B2C(&t, b);
+    func_02190B2C((struct Dst *)(&t), (const struct Src *)b);
     r->owner = a;
     r->c = c;
     r->id = func_021930C0(k, a[0], *(const u16 *)&((struct Obj07430 *)b)->f14, *(const u16 *)&((struct Obj07430 *)b)->f16,
@@ -102,7 +106,7 @@ Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u3
     t.w08 = h;
     t.w04 = g;
     t.w1c = i;
-    r->obj = func_0201FF30(&t, d, e, a[0]);
+    r->obj = (u32)func_0201FF30((struct Src *)(&t), d, e, a[0]);
     func_02020CF8((struct Obj *)r->obj, a[0]);
     if (f == 0xe) {
         func_02193144(a[0]);

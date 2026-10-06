@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_0220673C(char *p)
+int func_0220673C(int *p)
 {
     int v = **(int * *)&((struct Obj08348 *)p)->f58;
 

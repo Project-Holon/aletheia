@@ -29,10 +29,11 @@ extern Vec3 d_02185E0C, d_02185DF4;
 extern Cfg d_020A1C78;
 extern void func_02048AFC(void *, Vec3 *);
 extern void func_02048B44(void *, Vec3 *);
-extern void func_02048B80(void *, int);
-extern void func_02048B94(void *, int);
-extern void func_02048B60(void *, u32 *);
-extern void func_02048B6C(void *, u32 *);
+struct Light;
+extern void func_02048B80(struct Light *l, u32 v);
+extern void func_02048B94(struct Light *l, u32 v);
+extern void func_02048B60(struct Light *l, const u32 *in);
+extern void func_02048B6C(struct Light *l, const u32 *in);
 extern int func_02185AC8(char *);
 
 void func_02185794(char *p)

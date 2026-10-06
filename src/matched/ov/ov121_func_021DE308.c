@@ -23,7 +23,8 @@
  */
 #include "../include/Obj22912.h"
 extern int func_021DEEAC(int *p, int value);
-extern void func_021DEEA4(void *, void *);
+typedef unsigned int   u32;
+extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE618(void);
 extern void func_021DE61C(void *, int *, char *);
 extern void func_021DE6F8(int, int, char *);
@@ -33,22 +34,22 @@ void func_021DE308(char *p, unsigned action)
 {
     switch (action) {
     case 1:
-        if (func_021DEEAC((int *)p, (int)func_021DE618)) func_021DEEA4(p, func_021DE61C);
+        if (func_021DEEAC((int *)p, (int)func_021DE618)) func_021DEEA4((u32 *)p, func_021DE61C);
         break;
     case 3:
-        if (func_021DEEAC((int *)p, (int)func_021DE6F8)) func_021DEEA4(p, func_021DE690);
+        if (func_021DEEAC((int *)p, (int)func_021DE6F8)) func_021DEEA4((u32 *)p, func_021DE690);
         break;
     case 4:
-        if (func_021DEEAC((int *)p, (int)func_021DE618)) func_021DEEA4(p, func_021DE958);
+        if (func_021DEEAC((int *)p, (int)func_021DE618)) func_021DEEA4((u32 *)p, func_021DE958);
         break;
     case 5:
         if (func_021DEEAC((int *)p, (int)func_021DE958)) ((struct Obj22912 *)p)->f76C = 1;
         break;
-    case 6: func_021DEEA4(p, func_021DEDC8); break;
-    case 7: func_021DEEA4(p, func_021DE70C); break;
-    case 9: func_021DEEA4(p, func_021DE7BC); break;
-    case 10: func_021DEEA4(p, func_021DE830); break;
-    case 12: func_021DEEA4(p, func_021DE8D0); break;
-    case 0: func_021DEEA4(p, func_021DE618); break;
+    case 6: func_021DEEA4((u32 *)p, func_021DEDC8); break;
+    case 7: func_021DEEA4((u32 *)p, func_021DE70C); break;
+    case 9: func_021DEEA4((u32 *)p, func_021DE7BC); break;
+    case 10: func_021DEEA4((u32 *)p, func_021DE830); break;
+    case 12: func_021DEEA4((u32 *)p, func_021DE8D0); break;
+    case 0: func_021DEEA4((u32 *)p, func_021DE618); break;
     }
 }

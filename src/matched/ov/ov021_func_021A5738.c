@@ -23,16 +23,17 @@ typedef struct {
     u8 flag;
 } Obj021A5738;
 
-int func_021A5390(Obj021A5738 *p);
-void func_021A5708(Obj021A5738 *p);
+typedef unsigned int   u32;
+int func_021A5390(u32 a);
+int func_021A5708(u32 a);
 
 void func_021A5738(Obj021A5738 *p, int a)
 {
     u16 s;
 
-    if (func_021A5390(p) == 1) {
+    if (func_021A5390((u32)p) == 1) {
         s = p->saved;
-        func_021A5708(p);
+        func_021A5708((u32)p);
         if (a == 1) {
             p->saved = s;
             p->flag = 1;

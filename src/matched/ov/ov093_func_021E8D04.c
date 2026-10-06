@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-unsigned char func_021E8D04(int x)
+int func_021E8D04(int x)
 {
     return (unsigned char)x;
 }

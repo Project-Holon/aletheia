@@ -41,7 +41,8 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u32 func_020362DC(void *);
+typedef signed short   s16;
+extern u32 func_020362DC(void);
 extern void func_0208068C(u32);
 extern void func_02082AC0(u32,u32,u32);
 extern void func_02080B98(void);
@@ -58,7 +59,7 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_021B9DB8(char *,u32,u32,u32);
+extern void func_021B9DB8(char *p, u32 index, s16 x, s16 y);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -80,7 +81,7 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
 {
     u32 keys;
     void *obj;
-    keys=func_020362DC(input);
+    keys=func_020362DC();
     switch(*state){
     case 0:
         func_0208068C(511);func_02082AC0(0,0x6800000,0xa4000);func_02080B98();

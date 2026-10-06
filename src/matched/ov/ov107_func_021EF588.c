@@ -70,10 +70,11 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_020458F8(struct U16Vec *vec);
+typedef signed int     s32;
+extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern void func_02082A60(const void *, void *, int);
-extern void func_02034AC4(int);
+extern int func_02034AC4(s32 handle);
 extern void func_02040588(u32, u32);
 extern void func_020774A0(int (*callback)(void));
 extern int func_021F05DC(void);
@@ -112,8 +113,8 @@ void func_021EF588(u8 *p)
     else
         m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0x10);
     b = (struct U16Vec *)m;
-    la = func_020458F8(a);
-    lb = func_020458F8(b);
+    la = (u32)func_020458F8(a);
+    lb = (u32)func_020458F8(b);
     dst = w->f50;
     src = func_02045A90(a);
     func_02082A60(src, dst, la * 2);

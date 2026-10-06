@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021D5A9C(u8 *,int);
+extern void func_021D5A9C(char *p, int a);
 extern void func_021D964C(u8 *,u8 *);
 extern void func_021D9670(u8 *,u8 *);
 extern int func_021D8E24(u8 *,u8 *);
@@ -53,7 +53,7 @@ void func_021D8CD0(u8 *a,u8 *p)
 {
     int index, delta, velocity;
     if(((struct Obj00136 *)a)->f24==7) {
-        func_021D5A9C(a,1);
+        func_021D5A9C((char *)a,1);
         func_0204B878(((struct Obj00136 *)a)->f194,9);
         func_0204B3DC(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;

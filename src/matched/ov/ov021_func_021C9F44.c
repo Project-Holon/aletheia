@@ -33,7 +33,7 @@ extern void *func_021CA210(u8 *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *m, u32 id, u32 c);
 
-int func_021C9F44(u8 *p)
+u32 func_021C9F44(u8 *p, u32 x)
 {
     void *h;
     u16 i;

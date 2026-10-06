@@ -33,7 +33,7 @@ extern unsigned func_021DE7F4(void);
 extern void func_020061E4(u32 a);
 extern void func_021DD924(char *);
 extern int func_021DE354(void *p);
-extern void *func_021DCF50(void *);
+extern void *func_021DCF50(u8 *p);
 extern int func_021841A4(unsigned char *p);
 extern u32 func_0201FEBC(u8 *p);
 extern void func_02184134(u8 *p);
@@ -59,14 +59,14 @@ int func_021DD9D4(char *p,int state) {
         }
     }
     count=func_021DE354(p);
-    if (count!=func_021841A4(func_021DCF50(p))) {
+    if (count!=func_021841A4(func_021DCF50((u8 *)p))) {
         func_021DD924(p);
         return state;
     }
     result=func_0201FEBC(((struct Obj02867 *)p)->fE8);
     if (result!=-1) {
         if (result==-2) {
-            if (func_02039338()==0) func_02184134(func_021DCF50(p));
+            if (func_02039338()==0) func_02184134(func_021DCF50((u8 *)p));
             ((struct Obj02867 *)p)->f118=0;
         } else {
             if (func_02039338()==0) {

@@ -43,7 +43,7 @@ struct S {
     int f80;
 };
 
-extern int func_02035CB8(int *a, int *b);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 
 void func_021B8990(struct S *s, int idx)
 {
@@ -80,7 +80,7 @@ void func_021B8990(struct S *s, int idx)
     else
         s->f77 = 0xff;
     s->f78 = 0xff;
-    if (func_02035CB8(&buf, &s->f80) == 0)
+    if (func_02035CB8((u32 *)(&buf), (u32 *)(&s->f80)) == 0)
         s->f80 = -1;
     s->f7f = 1;
     s->f4e = 2;

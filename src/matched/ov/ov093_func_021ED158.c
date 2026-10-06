@@ -19,8 +19,9 @@
 
 typedef unsigned char u8;
 
-extern void func_021ED798(u8 *);
-extern int func_021ED814(u8 *);
+struct S;
+extern void func_021ED798(struct S *s);
+extern int func_021ED814(struct S *s);
 extern void func_021F7B2C(u8 *);
 extern int func_021F7EB4(void);
 extern void func_02006210(void);
@@ -29,12 +30,12 @@ int func_021ED158(int *st, u8 *b)
 {
     switch (*st) {
     case 0:
-        func_021ED798(b + 0x154);
+        func_021ED798((struct S *)(b + 0x154));
     inc:
         *st = *st + 1;
         break;
     case 1:
-        if (func_021ED814(b + 0x154) != 0) {
+        if (func_021ED814((struct S *)(b + 0x154)) != 0) {
             func_021F7B2C(b + 0xf0);
             goto inc;
         }

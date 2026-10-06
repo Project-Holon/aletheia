@@ -29,7 +29,7 @@ extern u8 *func_0203159C(u32,u32,int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_020124F4(u16 heap);
 extern unsigned int func_0203630C(void);
-extern void func_021BD1AC(u8 *);
+extern void func_021BD1AC(char *self);
 extern u8 d_021C724C[];
 int func_021BE364(u32 obj,int unused,u8 *arg)
 {
@@ -46,6 +46,6 @@ int func_021BE364(u32 obj,int unused,u8 *arg)
         if (func_0203630C() & 0x400) ((struct Obj24147 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=2;
     } else *(u8 * *)&((struct Obj03856 *)p)->f1F8=arg;
     ((struct Obj03856 *)p)->f14=0;
-    func_021BD1AC(p);
+    func_021BD1AC((char *)p);
     return 1;
 }

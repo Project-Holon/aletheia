@@ -31,7 +31,7 @@ extern int func_021DFBB8(void *theInterface, void *theReport, int isAuthoritativ
 extern int func_021DF644(int, int);
 extern void func_02059F54(int, int);
 
-int func_021DF130(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+int func_021DF130(u32 a0, u32 a1, u32 a2, u32 a3, char *a4)
 {
     int r;
 

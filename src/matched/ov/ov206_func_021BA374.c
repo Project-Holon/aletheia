@@ -25,7 +25,9 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Pt { s16 x; s16 y; };
-extern void func_021BBC9C(char *p);
+typedef signed int     s32;
+struct S;
+extern s32 func_021BBC9C(struct S *p);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern u32 func_02006984(u32, u32, u32, u32, u32, u32, u32, u32);
 struct Actor;
@@ -36,7 +38,7 @@ extern void func_021BAF7C(char *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 void func_021BA374(char *p)
 {
-    if (((struct Obj00316 *)p)->f18 == 0) func_021BBC9C(p);
+    if (((struct Obj00316 *)p)->f18 == 0) func_021BBC9C((struct S *)p);
     ((struct Obj00316 *)p)->f64 += 1;
     if (((struct Obj00316 *)p)->f64 == 4) {
         ((struct Obj00316 *)p)->f39 |= 1;

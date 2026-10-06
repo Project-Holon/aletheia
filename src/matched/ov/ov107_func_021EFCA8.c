@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_021F0DDC(void);
-extern void func_021F0AE4(unsigned);
+extern void func_021F0AE4(void);
 extern u16 func_021F0D28(void);
 typedef unsigned int   u32;
 extern void func_0208459C(int clear, u32 irqFlags);
@@ -29,7 +29,7 @@ extern u8 d_021F6EA0[];
 extern int func_021EFC10(void);
 void func_021EFCA8(u8 *p) {
  unsigned v=func_021F0DDC();
- if(v==1) func_021F0AE4(v);
+ if(v==1) func_021F0AE4();
  while(func_021F0D28()!=0&&func_021F0D28()!=5) func_0208459C(1,1);
  if(((struct Obj22279 *)p)->f1C==1) {
  *(int *)(d_021F6EA0+8)=0;

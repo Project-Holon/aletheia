@@ -18,7 +18,7 @@
  *   func_021D4C68  0x021d4c68  arm  ov016
  */
 
-extern char *func_021BD170(char *name);
+extern unsigned char *func_021BD170(unsigned char *name);
 extern void *func_021D4B68(char *path, unsigned long *size, int alignment);
 extern void func_020862F0(void *startAddr, unsigned long nBytes);
 extern void func_021D4C68(void *file);
@@ -29,7 +29,7 @@ void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long
     unsigned long size;
     void *data;
 
-    n = func_021BD170(file);
+    n = (char *)func_021BD170((unsigned char *)file);
     data = func_021D4B68(n, &size, 4);
     func_020862F0(data, size);
     func(data, 0, size);

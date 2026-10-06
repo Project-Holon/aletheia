@@ -23,7 +23,7 @@ typedef struct { u32 v[4]; } T;
 
 extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern u16 func_020212B0(u16 id);
-extern int func_021C447C(u32 *c, u16 a, u16 b, u16 d);
+extern int func_021C447C(u32 a, u32 b, u32 c, u32 d);
 extern void func_021C42F4(u32 *p, u32 v);
 extern T d_021DA8E8;
 
@@ -38,7 +38,7 @@ void func_021C4238(u32 *a, u32 *b, u32 *c)
 
         for (k = 0x148; k <= 0x272; k++) {
             if (v == func_020212B0(k)) {
-                if (func_021C447C(c, b[0], b[1], k)) {
+                if (func_021C447C((u32)c, (u16)b[0], (u16)b[1], (u16)k)) {
                     func_021C42F4(b, v);
                     break;
                 }

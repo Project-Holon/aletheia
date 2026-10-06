@@ -67,7 +67,7 @@ extern void  func_020733DC(void *h);
 extern void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData);
 extern void func_02072F48(struct Obj *o, u8 v);
 extern void func_02072F88(struct Obj *o, u32 v);
-extern void  func_020730DC(u32 a, u32 b, u32 c);
+extern void func_020730DC(struct Obj *o, u32 a, u32 b);
 
 u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3)
 {
@@ -90,6 +90,6 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3
     func_020733E8(h, (u32 *)(s1 + ((struct Obj16687 *)s1)->f18), ((struct Obj08953 *)s0)->f0, (const void *)slot);
     func_02072F48((struct Obj *)a0, s0[6]);
     func_02072F88((struct Obj *)a0, s0[7]);
-    func_020730DC(a0, s2, s3);
+    func_020730DC((struct Obj *)a0, s2, s3);
     return 1;
 }

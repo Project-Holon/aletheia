@@ -15,4 +15,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void func_0204A648(void);
-void func_021B9B18(void) { func_0204A648(); }
+void func_021B9B18(void *a0) { func_0204A648(); }

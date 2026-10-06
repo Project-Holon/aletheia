@@ -15,7 +15,7 @@
 
 void func_020419E4(void);
 
-void func_021BB9B0(void)
+void func_021BB9B0(void *a0)
 {
     func_020419E4();
 }

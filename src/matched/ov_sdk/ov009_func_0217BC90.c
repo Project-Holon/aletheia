@@ -49,7 +49,7 @@ extern int func_0208574C(OSThread *thread);
 extern unsigned char func_0205BDD0(void);
 extern int func_0217BDA8(void);
 extern void func_02059F54(int error, int errorCode);
-extern void func_02179CF4(DWCHttp *http);
+extern void func_02179CF4(char *http);
 extern void func_0205A1B0(int name, void *ptr, long size);
 
 extern DWCProfWorkarea *g_021ACEF0;
@@ -92,7 +92,7 @@ int func_0217BC90(void)
         return 1;
     }
 
-    func_02179CF4(&g_021ACEF0->http);
+    func_02179CF4((char *)(&g_021ACEF0->http));
     func_0205A1B0(0, g_021ACEF0, 0);
     g_021ACEF0 = 0;
     return retval;

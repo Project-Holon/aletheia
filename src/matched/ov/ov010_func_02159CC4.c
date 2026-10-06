@@ -22,7 +22,8 @@ typedef unsigned int u32;
 struct Obj;
 extern struct Obj *func_02159D84(int a, int b);
 extern u32 func_02159DC8(void *p);
-extern u32 func_02159DCC(void *, int);
+typedef unsigned char  u8;
+extern u32 func_02159DCC(u8 *p, int n);
 extern void func_02159C68(struct Obj *a, int b, int c);
 extern int func_02159DEC(int a0);
 

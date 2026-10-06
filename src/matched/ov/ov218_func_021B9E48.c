@@ -53,7 +53,7 @@ struct R;
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern char *func_021BA848(unsigned swap, unsigned heap);
 extern void *func_021B6100(u32,void *,u8,u16,void *);
-extern void func_021B96CC(void *,u32);
+extern void func_021B96CC(u8 *p, u16 heap);
 extern void *func_021B9964(u16);
 extern u32 func_021BA960(char *p);
 extern void *func_021B9820(int,int);
@@ -90,7 +90,7 @@ char *func_021B9E48(void *owner,char *input)
     func_0207D534((u16 *)0x0400106c,-16);
     ((struct Obj00243 *)p)->f4=func_021BA848(0,((struct Obj00243 *)p)->f0);
     ((struct Obj00243 *)p)->f24=func_021B6100(((struct Obj00243 *)p)->f0,d_021BAB20,3,0,p);
-    func_021B96CC(p,((struct Obj00243 *)p)->f0);
+    func_021B96CC((u8 *)p,((struct Obj00243 *)p)->f0);
     ((struct Obj00243 *)p)->f28=func_021B9964(((struct Obj00243 *)p)->f0);
     ((struct Obj00243 *)p)->f8=func_021B9820(func_021BA960(((struct Obj00243 *)p)->f4),((struct Obj00243 *)p)->f0);
     a=(u32)func_021B9C80(((struct Obj00243 *)p)->f28);

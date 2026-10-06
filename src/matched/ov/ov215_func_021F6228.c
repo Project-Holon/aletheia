@@ -26,7 +26,7 @@ struct Rec;
 extern int func_02035C38(void);
 extern void func_0201CE5C(struct Rec *p, s32 v);
 extern u32 func_020362DC(void);
-extern unsigned func_02035C60(void);
+extern int func_02035C60(void);
 extern void func_0201CE38(void *);
 int func_021F6228(void *unused,char *p)
 {

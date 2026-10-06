@@ -32,7 +32,7 @@ extern Val g_021DA5CC;
 extern MemSsea *g_021DE5E4;
 
 extern void func_021CFE18(char *adr, u8 *buf);
-extern void func_021C0EA0(void **param2, void **param3);
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern int func_020588D0(u8 *address);
 
 int func_021C7B34(void)
@@ -58,7 +58,7 @@ int func_021C7B34(void)
     }
     func_021CFE18(g_021DE5E4->addr[0], buf);
     b = 0;
-    func_021C0EA0((void **)&prm, 0);
+    func_021C0EA0((unsigned int *)((void **)&prm), 0);
     if (prm == 1) {
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 8; j++) {

@@ -54,9 +54,9 @@ extern int func_02188D2C(int *p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void  func_021BE760(void *p, void *a, int b);
-extern char *func_021BE480(void *p, int i, u16 j);
+extern int func_021BE480(char *p, unsigned i, int j);
 extern void  func_021BE4A4(void *p, int i, u16 j, int v);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B8(unsigned char *p, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
 
@@ -75,14 +75,14 @@ void func_021F36C0(void *a0)
     i = 0;
     tbl = d_021F4208;
     for (; i < 10; i = (u8)(i + 1)) {
-        e = func_021BE480(s, 0, i);
+        e = (char *)func_021BE480(s, (int)0, (u16)i);
         func_021BE4A4(s, 0, i, 1);
         *(V *)e = tbl.v[i];
         k = ((d_021F4660[i] << 14) >> 4) * 2;
         func_0207AF1C(e + 0x18, d_020A1B38[k], d_020A1B38[k + 1]);
         for (j = 0; j < 4; j++) {
-            func_021BE6B8(func_021BE674(s, 0, i, j * 2), 0);
-            func_021BE6B8(func_021BE674(s, 0, i, j * 2 + 1), 0);
+            func_021BE6B8(func_021BE674(s, 0, (u16)i, (u16)(j * 2)), 0);
+            func_021BE6B8(func_021BE674(s, 0, (u16)i, (u16)(j * 2 + 1)), 0);
         }
     }
 }

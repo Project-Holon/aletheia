@@ -19,14 +19,14 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_0202C2D8(u8 *p);
-extern void func_0202C1C4(u8 *p);
+extern u32 func_0202C2D8(u32 *p);
+extern int func_0202C1C4(int a0);
 extern void func_0202C2C0(void *p);
 
 void func_0202C09C(u8 *p)
 {
-    if (func_0202C2D8(p) != 0) {
-        func_0202C1C4(p);
+    if (func_0202C2D8((u32 *)p) != 0) {
+        func_0202C1C4((int)p);
         func_0202C2C0(p);
     }
 }

@@ -80,34 +80,42 @@ typedef struct {
 } Obj;
 
 
-extern int func_020124E4();
-extern int func_0201210C();
-extern int func_02012138();
-extern int func_020120F4();
-extern int func_02012798();
-extern void func_02012A90();
-extern void func_02012374();
-extern int func_0200FB24();
-extern int func_02026454();
-extern void func_02026400();
-extern void func_02045C04();
-extern int func_0216D3CC();
-extern void func_0216D410();
-extern int func_0216D480();
-extern void func_0216D9A0();
-extern void func_0216D9E4();
+typedef unsigned int   u32;
+struct Comm;
+struct Ctx;
+struct Evt;
+struct Obj;
+struct Rec;
+struct Rec44;
+struct Vec12;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02012138(const struct Ctx *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012798(u8 *p, int i);
+extern void func_02012A90(struct Rec44 *p, const struct Vec12 *src);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern u32 func_0200FB24(void);
+extern u32 func_02026454(void *obj);
+extern void func_02026400(struct Comm *p);
+extern void func_02045C04(struct Rec *rec);
+extern int func_0216D3CC(int a0);
+extern void func_0216D410(void *a0, u16 a1);
+extern int func_0216D480(char *p);
+extern void func_0216D9A0(void *map);
+extern void func_0216D9E4(void *c);
 extern void func_0217C658();
 extern int func_0217C688();
 extern int func_02185214();
 extern int func_02188BE8();
-extern int func_02188C7C();
-extern int func_02188C54();
+extern void *func_02188C7C(u8 *p);
+extern u32 func_02188C54(u8 *p);
 extern int func_02188CB4();
-extern int func_021904B0();
+extern int func_021904B0(u32 a, u32 b);
 extern int func_021907A8();
-extern void func_02190740();
+extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
 extern int func_0219077C();
-extern void func_02190728();
+extern int func_02190728(u32 a);
 extern void func_021909BC();
 extern int func_02190BE4();
 extern int func_02190C78();
@@ -130,13 +138,13 @@ int func_0217B600(int a0, int *state, Obj *o)
     u8 v[12];
     V12 *pv;
 
-    w = func_020124E4(a0);
-    g = func_0201210C(w);
-    h = func_02012138(w);
+    w = (int)func_020124E4((struct Obj *)a0);
+    g = (int)func_0201210C((const struct Ctx *)w);
+    h = func_02012138((const struct Ctx *)w);
     switch (*state) {
     case 0:
-        func_0216D9A0(func_02188C7C(g));
-        t = func_02188C54(g);
+        func_0216D9A0(func_02188C7C((u8 *)g));
+        t = func_02188C54((u8 *)g);
         o->f0 = func_021904B0(t, 0x2D);
         o->f8 = func_02190F64(t, o->f0);
         func_02190E74(o->f8, 0, 0, 0x54);
@@ -144,7 +152,7 @@ int func_0217B600(int a0, int *state, Obj *o)
         break;
     case 1:
         if (func_02190EF0(o->f8) == 1) {
-            o->fc = func_02190BE4(func_02188C54(g), 0);
+            o->fc = func_02190BE4(func_02188C54((u8 *)g), 0);
             *state += 1;
         }
         break;
@@ -162,9 +170,9 @@ int func_0217B600(int a0, int *state, Obj *o)
         }
         break;
     case 3:
-        if (func_0200FB24() == 0 && func_02026454(h) == 2) {
-            func_02026400(h);
-            o->f4 = func_021907A8(func_02188C54(g), o->f0);
+        if (func_0200FB24() == 0 && func_02026454((void *)h) == 2) {
+            func_02026400((struct Comm *)h);
+            o->f4 = func_021907A8(func_02188C54((u8 *)g), o->f0);
             func_02190740(o->f4, 0, 0, 0x14);
         }
         *state += 1;
@@ -177,25 +185,25 @@ int func_0217B600(int a0, int *state, Obj *o)
         o->f28++;
         if (o->f4 != 0 && o->f28 <= 0x3C)
             break;
-        if (func_02026454(h) == 2)
+        if (func_02026454((void *)h) == 2)
             break;
-        ctx = func_020120F4(w);
+        ctx = (int)func_020120F4((const struct Ctx *)w);
         pv = (V12 *)v;
         pv->x = 0;
         pv->y = 0;
         pv->z = 0;
         for (i = 0; i < 3; i++)
-            func_02012A90(func_02012798(ctx, i), pv);
+            func_02012A90((struct Rec44 *)func_02012798((u8 *)ctx, i), (const struct Vec12 *)pv);
         *state += 1;
         break;
     case 6:
         if (o->f4 != 0)
             func_02190728(o->f4);
-        func_02045C04(o->f0);
+        func_02045C04((struct Rec *)o->f0);
         *state += 1;
         break;
     case 7:
-        g = func_0201210C(w);
+        g = (int)func_0201210C((const struct Ctx *)w);
         if (func_02188BE8(g) != 1)
             break;
         if (func_021A3238(func_02188CB4(g)) == 0) {
@@ -210,29 +218,29 @@ int func_0217B600(int a0, int *state, Obj *o)
             *state += 1;
         break;
     case 9:
-        func_02012374(a0, func_02185214(w));
+        func_02012374((struct Evt *)a0, (struct Evt **)func_02185214(w));
         *state += 1;
         break;
     case 10:
         *state = 14;
         break;
     case 11:
-        func_02045C04(o->f0);
+        func_02045C04((struct Rec *)o->f0);
         *state = 12;
         break;
     case 12:
         t = func_021A3074(func_02188CB4(g));
         if (func_0216D3CC(t) == 1) {
-            func_0216D410(t, 8);
+            func_0216D410((void *)t, 8);
             *state += 1;
         }
         break;
     case 13:
-        if (func_0216D480(func_021A3074(func_02188CB4(g))) == 1)
+        if (func_0216D480((char *)func_021A3074(func_02188CB4(g))) == 1)
             *state = 14;
         break;
     case 14:
-        func_0216D9E4(func_02188C7C(g));
+        func_0216D9E4(func_02188C7C((u8 *)g));
         return 1;
     }
     return 0;

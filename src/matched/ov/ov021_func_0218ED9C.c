@@ -35,7 +35,8 @@ typedef struct {
     int hold;
 } Delay;
 
-extern void func_0218F050(Delay *d);
+typedef unsigned int   u32;
+extern int func_0218F050(u32 a);
 
 void func_0218ED9C(Delay *d, Vec *inA, Vec *inB, Vec *outA, Vec *outB)
 {
@@ -72,7 +73,7 @@ void func_0218ED9C(Delay *d, Vec *inA, Vec *inB, Vec *outA, Vec *outB)
         if (rd != wr) {
             rd = (rd + 1) % d->n;
             if (rd == wr)
-                func_0218F050(d);
+                func_0218F050((u32)d);
         }
     } else {
         rd = (rd + 1) % d->n;

@@ -24,4 +24,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u16 func_021BC6E0(u8 *p, int i);
-u16 func_021BABF4(u8 *p, int i) { return func_021BC6E0(*(u8 * *)&((struct Obj22337 *)p)->f54, i); }
+int func_021BABF4(u8 *p, int i) { return func_021BC6E0(*(u8 * *)&((struct Obj22337 *)p)->f54, i); }

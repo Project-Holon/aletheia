@@ -23,7 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B63C4(int *);
 extern void func_021B63BC(int *);
-extern int func_021B61E8(int *);
+struct Obj;
+extern int func_021B61E8(struct Obj *o);
 extern void func_021B7F18(u8 *);
 void func_021B838C(u8 *p, u16 *state)
 {
@@ -34,7 +35,7 @@ void func_021B838C(u8 *p, u16 *state)
         func_021B63BC(*(int * *)&((struct Obj22156 *)(*(u8 * *)&((struct Obj07976 *)p)->f48C))->f4);
         break;
     case 1:
-        if (func_021B61E8(*(int * *)&((struct Obj22157 *)(*(u8 * *)&((struct Obj07976 *)p)->f48C))->f4))
+        if (func_021B61E8((struct Obj *)(*(int * *)&((struct Obj22157 *)(*(u8 * *)&((struct Obj07976 *)p)->f48C))->f4)))
             *state = 2;
         break;
     case 2:

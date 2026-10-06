@@ -26,9 +26,10 @@
 
 typedef unsigned char u8;
 
-extern void func_02064CBC(void *p);
+struct Obj;
+extern void func_02064CBC(struct Obj *x);
 
 void sub_02016374(void *obj)
 {
-    func_02064CBC((u8 *)obj + 0x34);
+    func_02064CBC((struct Obj *)((u8 *)obj + 0x34));
 }

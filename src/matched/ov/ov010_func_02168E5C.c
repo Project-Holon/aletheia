@@ -39,7 +39,7 @@ extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E8F8(void *sys);
-extern void func_02168EB0(void);
+extern int func_02168EB0(void *a, int *state);
 
 int func_02168E5C(int a, int b, int c)
 {

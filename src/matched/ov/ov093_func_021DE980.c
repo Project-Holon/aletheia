@@ -19,6 +19,6 @@
 extern int func_021D775C(int);
 extern int d_021F1904;
 extern void func_021D7704(int,int);
-extern int func_0201C1E8(unsigned short);
-void func_021DE980(int a,int b,int c) { if(c==func_021D775C(3)) { if(func_0201C1E8(func_021D775C(18))==2) func_021D7704(53,6144); } }
+extern int func_0201C1E8(int a);
+void func_021DE980(int a,int b,int c) { if(c==func_021D775C(3)) { if(func_0201C1E8((unsigned short)func_021D775C(18))==2) func_021D7704(53,6144); } }
 int *func_021DE9AC(int *p) { *p=3; return &d_021F1904; }

@@ -69,10 +69,13 @@ typedef struct MCInstance {
     void *pCellAnimInstasnces;
 } MCInstance;
 
-extern const AnimSequenceData *func_020627D8(const void *bank, u16 idx);
+struct AnimBank;
+struct AnimSequence;
+struct CellAnim;
+extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void func_0206434C(CellAnimation *p, const AnimSequenceData *seq);
-extern BOOL func_02063030(const AnimCtrl *c);
-extern void func_02064364(CellAnimation *p, fx32 f);
+extern s32 func_02063030(struct CellAnim *anim);
+extern void func_02064364(struct CellAnim *anim, s32 frames);
 extern void func_020640DC(SRTControl *s, s16 x, s16 y);
 
 static inline u32 CalcTotal(const AnimSequenceData *pAnimSeq)
@@ -102,7 +105,7 @@ static inline void SetNodeDataToCellAnim_(CellAnimation *pCellAnim, const HierDa
 {
     const AnimSequenceData *pAnimSeq = 0;
 
-    pAnimSeq = func_020627D8(pAnimBank, pNodeData->animSequenceIdx);
+    pAnimSeq = (const AnimSequenceData *)func_020627D8((struct AnimBank *)pAnimBank, pNodeData->animSequenceIdx);
 
     func_0206434C(pCellAnim, pAnimSeq);
     pCellAnim->animCtrl.bActive = 1;
@@ -110,12 +113,12 @@ static inline void SetNodeDataToCellAnim_(CellAnimation *pCellAnim, const HierDa
     if (GetPlayMode(pNodeData) == 1) {
         const u32 animSeqLength = CalcTotal(pAnimSeq);
 
-        if (func_02063030(&pCellAnim->animCtrl)) {
+        if (func_02063030((struct CellAnim *)(&pCellAnim->animCtrl))) {
             const u32 frameToMove = (mcTotalFrame % animSeqLength);
-            func_02064364(pCellAnim, (fx32)(frameToMove << 12));
+            func_02064364((struct CellAnim *)pCellAnim, (fx32)(frameToMove << 12));
         } else {
             const u32 frameToMove = (mcTotalFrame >= animSeqLength) ? animSeqLength : mcTotalFrame;
-            func_02064364(pCellAnim, (fx32)(frameToMove << 12));
+            func_02064364((struct CellAnim *)pCellAnim, (fx32)(frameToMove << 12));
         }
     }
 }

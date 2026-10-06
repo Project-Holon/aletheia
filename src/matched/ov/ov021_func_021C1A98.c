@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern int func_0205121C(u32 a, u32 b, u32 c);
 
-void *func_021C1A98(u16 *p, u32 a, u32 b)
+void *func_021C1A98(u16 *p, int a, int b)
 {
     return (void *)func_0205121C(a, b, p[2]);
 }

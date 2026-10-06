@@ -39,7 +39,7 @@ typedef struct {
     ScrnData *scrn;
 } Work;
 
-extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020409B4(u32 layer);
 

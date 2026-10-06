@@ -40,7 +40,7 @@ typedef struct { s16 a; s8 b,c; } State;
 typedef int (*Handler)(u8 *,void *);
 extern u32 func_021BABE8(u8 *);
 extern int func_021BDB50(u32 *);
-extern void func_021BD740(State *,void *,int);
+extern void func_021BD740(u8 *p, void *out, int v);
 extern int func_021BDAA4(u8 *);
 extern int func_021BF680(u8 *);
 extern void func_020061E4(u32);
@@ -70,7 +70,7 @@ int func_021BE1B8(u8 *p,u32 *q)
         index=func_021BDB50((u32 *)p);
         if(index>-1) {
             ((struct Obj00012 *)p)->f4A=0;
-            func_021BD740((State *)(p+0x64),p+8,index);
+            func_021BD740((u8 *)(p+0x64),p+8,index);
             func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,3);
             func_020061E4(1352);
             *q=3;

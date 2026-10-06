@@ -52,7 +52,8 @@ typedef unsigned char  u8;
 extern void *func_02034CBC(int i);
 extern int func_02034D60(u32 id);
 extern u8 func_02034D08(int i);
-extern void sub_02034A3C(struct Registration *entry);
+struct Obj02034A3C;
+extern void sub_02034A3C(struct Obj02034A3C *p);
 
 void sub_02034A5C(s32 handle)
 {
@@ -71,7 +72,7 @@ void sub_02034A5C(s32 handle)
 
     for (i = 0; i < count; i++) {
         if (table[i].state == 1 && handle == table[i].handle) {
-            sub_02034A3C(&table[i]);
+            sub_02034A3C((struct Obj02034A3C *)(&table[i]));
             return;
         }
     }

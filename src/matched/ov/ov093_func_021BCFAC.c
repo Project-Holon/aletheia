@@ -63,10 +63,11 @@ extern u8 func_021B8FF4(u8 *);
 extern void *func_021D5844(void *);
 extern int func_021B871C(char *);
 extern int func_02018480(void *, int);
-extern u8 func_021B85A0(u8 *);
+struct Unk021D62A8;
+extern u8 func_021B85A0(u8 **p);
 extern int func_021D59B4(u8 *, int);
 extern u32 func_021D78AC(u32);
-extern int func_021D62C4(void *, int);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021BD080(u8 *, u8 *);
 
 int func_021BCFAC(u8 *p, u8 *a)
@@ -79,14 +80,14 @@ int func_021BCFAC(u8 *p, u8 *a)
         if (k == func_021B8FF4(*(u8 **)(p + 4))) {
             void *v = func_021D5844(a);
             if (func_02018480(v, func_021B871C(*(char **)(p + 4))) == 0) {
-                n = func_021B85A0(*(u8 **)(p + 4));
+                n = func_021B85A0((u8 **)(*(u8 **)(p + 4)));
                 if (n < 8) {
                     u16 r;
                     x = (u16)func_021D59B4(a, 15);
                     y = (u16)(10 * (n + 1));
                     if (x <= y) return 0;
                     if ((u16)func_021D78AC(x + y + 1) < y) return 0;
-                    if (func_021D62C4(a, 2) != 0) return 4;
+                    if (func_021D62C4((struct Unk021D62A8 *)a, 2) != 0) return 4;
                     r = func_021D78AC(256);
                     if (r < x - y && func_021BD080(p, a) == 0) return 2;
                     r -= x - y;

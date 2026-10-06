@@ -14,5 +14,5 @@
  */
 
 extern unsigned d_021BA978[];
-extern void func_021B6B38(void *);
-void func_021B8270(unsigned char *p) { unsigned i; for(i=0;i<d_021BA978[p[0x32]];i++) func_021B6B38(p+i*16); }
+extern void func_021B6B38(void **p);
+void func_021B8270(unsigned char *p) { unsigned i; for(i=0;i<d_021BA978[p[0x32]];i++) func_021B6B38((void **)(p+i*16)); }

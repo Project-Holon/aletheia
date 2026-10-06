@@ -60,12 +60,14 @@ extern void func_021C859C(u8 *);
 extern int func_021D5B68(void *);
 extern u8 func_021D5440(u8 *p);
 extern int func_021BCEEC(void *, u8);
-extern int func_021D62C4(void *, int);
-extern int func_021B86E4(u8 *);
+struct Unk021D62A8;
+struct UtilWork;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int func_021B86E4(unsigned int **p);
 extern u8 func_021D69AC(u8 *, int);
 extern void func_021C0780(u8 *, u8 *, int, u8);
 extern void func_021BCEFC(u8 *, u8 *, u32);
-extern void func_021D5FC0(void *, u32);
+extern void func_021D5FC0(struct UtilWork *p, u32 n);
 extern u32 func_021B8588(void **p);
 extern void func_021BC418(u8 *, int, int);
 extern void func_021BC568(u8 *);
@@ -81,7 +83,7 @@ extern void func_021C54BC(u8 *, u8 *);
 extern void func_021C60EC(u8 *p, u8 *a, u32 n);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021BCF70(u8 *, u8 *, u32);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C85B8(u8 *);
 
 u32 func_021BCCE0(u8 *p, E *e)
@@ -97,14 +99,14 @@ u32 func_021BCCE0(u8 *p, E *e)
         if (((struct Obj00309 *)p)->f14 == 5 && b.full.type != 4) goto end;
         if (func_021D5B68(a) != 0) goto end;
         if (b.full.type != 6 && func_021BCEEC(p + 0x1ab8, func_021D5440(a)) == 0) goto end;
-        if (func_021D62C4(a, 0x21) != 0) {
-            if (b.full.type != 4 || func_021B86E4(*(u8 * *)&((struct Obj00309 *)p)->f4) != 2) {
+        if (func_021D62C4((struct Unk021D62A8 *)a, 0x21) != 0) {
+            if (b.full.type != 4 || func_021B86E4((unsigned int **)(*(u8 * *)&((struct Obj00309 *)p)->f4)) != 2) {
                 if (func_021D69AC(a, 3) != 0) func_021C0780(p, a, 3, 0);
                 goto end;
             }
         }
         func_021BCEFC(p, a, e->b.full.type);
-        func_021D5FC0(a, 0);
+        func_021D5FC0((struct UtilWork *)a, 0);
         switch (b.full.type) {
         case 6:
             if (func_021B8588(((struct Obj00309 *)p)->f4) == 3) func_021BC418(p, e->d, (u8)b.full.select);
@@ -143,12 +145,12 @@ u32 func_021BCCE0(u8 *p, E *e)
             break;
         }
         if (b.full.type == 1 || b.full.type == 2) {
-            func_021D5FC0(a, 1);
+            func_021D5FC0((struct UtilWork *)a, 1);
             func_021C60EC(p, a, 0);
         }
         lock = func_021CC8D8(p + 0x1d74, 0x83b);
         func_021BCF70(p, a, b.full.type);
-        func_021CC95C(p + 0x1d74, lock, 0x83d);
+        func_021CC95C((u32 *)(p + 0x1d74), lock, 0x83d);
     end:
         func_021C85B8(p);
         return b.full.type;

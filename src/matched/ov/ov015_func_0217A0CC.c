@@ -22,7 +22,7 @@
 
 extern char d_0217ABA8[];
 extern unsigned char g_0217AAB0[];
-extern void func_0217A034(int a0, int a1, int a2, int a3);
+extern void func_0217A034(unsigned char *data, unsigned char size, int command, unsigned char id);
 extern void func_02179F48(void);
 
 void func_0217A0CC(int n)

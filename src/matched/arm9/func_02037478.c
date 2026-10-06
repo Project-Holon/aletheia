@@ -61,7 +61,7 @@ struct Rec;
 extern void func_0203640C(struct Rec *p, u32 a, int b);
 extern void func_02037234(u8 *p);
 extern void func_02037224(u32 a, u32 b);
-extern void func_02036B4C(u8 *p);
+extern int func_02036B4C(int a0);
 
 void func_02037478(void)
 {
@@ -103,8 +103,8 @@ void func_02037478(void)
     func_02037234((u8 *)g_021469D0 + 0x19c);
     func_02037224(4, 0x13a);
     str_020A7A20[1] = 4;
-    func_02036B4C((u8 *)g_021469D0 + 0xcc);
-    func_02036B4C((u8 *)g_021469D0 + 0xf4);
+    func_02036B4C((int)((u8 *)g_021469D0 + 0xcc));
+    func_02036B4C((int)((u8 *)g_021469D0 + 0xf4));
     ((u8 *)g_021469D0)[0x1e8] = 0;
     ((u8 *)g_021469D0)[0x1eb] = 1;
     ((u8 *)g_021469D0)[0x1ea] = 0;

@@ -25,7 +25,7 @@ typedef unsigned int u32;
 typedef struct {short x,y;u16 unused,z;u32 a,b,c,d,e,f,g,h,i;} Row;
 typedef struct {short x,y;u16 z;u8 a,b;} Position;
 extern const Row d_021B85E0[];
-extern void func_021B7658(char *,void *);
+extern void func_021B7658(u8 *p, void *a1);
 extern void func_021B76C8(char *,void *);
 extern u32 func_020275E4(void);
 extern void *func_020490F4(u32,u16);
@@ -37,7 +37,7 @@ void func_021B7A00(char *p,void *arg)
 {
     u32 i;
     Position pos;
-    func_021B7658(p,arg);
+    func_021B7658((u8 *)p,arg);
     func_021B76C8(p,arg);
     ((struct Obj00180 *)p)->f13C=func_020490F4(func_020275E4(),79);
     for(i=0;i<14;i++) {

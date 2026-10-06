@@ -18,14 +18,15 @@
 
 extern unsigned d_021BA978[];
 
+typedef unsigned char  u8;
 void func_021B82A4(int *a, char *p)
 {
-    void func_021B6C7C(void *, int);
-    void func_021B6B70(int, char *);
+    void func_021B6C7C(int *p, int idx);
+    int func_021B6B70(void **p, u8 *q);
     unsigned i;
 
     func_021B6C7C(a, 3);
     for (i = 0; i < d_021BA978[((struct Obj20722 *)p)->f32]; i++) {
-        func_021B6B70(a[1], p + i * 16);
+        func_021B6B70((void **)a[1], (u8 *)(p + i * 16));
     }
 }

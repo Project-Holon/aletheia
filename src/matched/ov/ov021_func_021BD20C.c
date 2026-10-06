@@ -14,9 +14,11 @@
  * Unlabelled leaf: tail call to func_021BD2D8 (loads +0x44).
  */
 
-extern unsigned int func_021BD2D8(char *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BD2D8(u8 *p);
 
 unsigned int func_021BD20C(char *p)
 {
-    return func_021BD2D8(p);
+    return func_021BD2D8((u8 *)p);
 }

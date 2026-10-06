@@ -52,7 +52,8 @@
  *   func_0200B98C 0x0200B98C thumb
  */
 extern void func_02082BCC(void *, int, unsigned int);
-extern long long func_0200B98C(void *, int, long);
+typedef unsigned char  u8;
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
 void func_021DF838(int p, char *out)
 {
     long i;

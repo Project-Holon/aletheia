@@ -28,7 +28,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void func_021D9B28(u8 *p, unsigned v);
-extern void func_021D9B2C(void *,int,int,int);
+extern void func_021D9B2C(char *p, u32 a, u32 b, int c);
 extern void func_021D9AC8(u8 *p, int a, int b);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);

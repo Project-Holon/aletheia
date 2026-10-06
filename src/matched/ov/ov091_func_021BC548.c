@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 extern unsigned short func_021BB464(int unused, unsigned short *p);
 extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB99C(int, int, int, int);
-extern void func_021BB9EC(int, int, int, u16, int);
+extern void func_021BB9EC(int a, int b, int c, int d, unsigned char e);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021BB98C(void *p, u32 s);
 extern void func_021B9E44(u8 *p);
@@ -41,7 +41,7 @@ void func_021BC548(int p)
     func_021BB99C(p, ((struct Obj03682 *)p)->f150, 0, ((struct Obj03682 *)p)->f38);
     v = ((struct Obj03682 *)p)->f11C;
     if (v != 0) {
-        func_021BB9EC(p, ((struct Obj03682 *)p)->f150, 1, h - v, 3);
+        func_021BB9EC(p, ((struct Obj03682 *)p)->f150, 1, (u16)(h - v), (int)3);
         func_021B9788((u8 *)p, 0x2c, 1, (int)func_021B9E44);
     } else {
         func_021B9788((u8 *)p, 0x32, 1, (int)func_021B9E44);

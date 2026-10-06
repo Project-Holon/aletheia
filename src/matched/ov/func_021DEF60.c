@@ -25,7 +25,8 @@
 
 extern void func_021ECCCC(char *p, void **mon, int index);
 extern void func_021ED028(char *p, unsigned char *q);
-extern void func_021EB2A4(char *, int);
+typedef unsigned char  u8;
+extern void func_021EB2A4(u8 *p, int a);
 extern void func_021DF11C(char *, int);
 extern void func_021DF144(int, int);
 typedef unsigned int   u32;
@@ -34,7 +35,7 @@ void func_021DEF60(char *p, int a)
 {
     func_021ECCCC(p, (void **)a, 0xb);
     func_021ED028((char *)(*(int *)&((struct Obj00000 *)p)->f2C), (unsigned char *)a);
-    func_021EB2A4(p, a);
+    func_021EB2A4((u8 *)p, a);
     func_021DF11C(p, ((struct Obj18457 *)a)->f10);
     func_021DF144(*(int *)&((struct Obj00000 *)p)->f2C, a);
     func_02041EE4(5, 3, 0);

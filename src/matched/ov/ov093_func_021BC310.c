@@ -22,10 +22,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern int func_021B8B9C(u8 *p, u8 k);
-extern u8 func_021B8BC4(u8 *p, u8 k);
+extern unsigned char func_021B8BC4(int unused, unsigned int b);
 extern u8 func_021B8FF4(u8 *p);
 extern char *func_021B9AEC(char *p, int i);
-extern u8 func_021B9B98(char *p);
+extern u8 func_021B9B98(u8 *p);
 
 int func_021BC310(u8 *p)
 {
@@ -33,11 +33,11 @@ int func_021BC310(u8 *p)
 
     for (i = 0; i < 4; i++) {
         if (func_021B8B9C(*(u8 * *)&((struct Obj06224 *)p)->f4, i) != 0) {
-            u8 a = func_021B8BC4(*(u8 * *)&((struct Obj06224 *)p)->f4, i);
-            u8 b = func_021B8BC4(*(u8 * *)&((struct Obj06224 *)p)->f4, func_021B8FF4(*(u8 * *)&((struct Obj06224 *)p)->f4));
+            u8 a = func_021B8BC4((int)(*(u8 * *)&((struct Obj06224 *)p)->f4), (u8)i);
+            u8 b = func_021B8BC4((int)(*(u8 * *)&((struct Obj06224 *)p)->f4), (u8)func_021B8FF4(*(u8 * *)&((struct Obj06224 *)p)->f4));
 
             if (a == b) {
-                if (func_021B9B98(func_021B9AEC(*(char * *)&((struct Obj06224 *)p)->f8, i)) != 0)
+                if (func_021B9B98((u8 *)func_021B9AEC(*(char * *)&((struct Obj06224 *)p)->f8, i)) != 0)
                     return 1;
             }
         }

@@ -31,9 +31,10 @@
 
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
-extern void func_020358A0(void *ctx);
+struct Tp;
+extern void func_020358A0(struct Tp *ctx);
 
 void func_02035A60(void)
 {
-    func_020358A0(func_02035224());
+    func_020358A0((struct Tp *)func_02035224());
 }

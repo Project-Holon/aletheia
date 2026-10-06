@@ -24,11 +24,16 @@
  *   d_02200D00 0x02200D00 data a1
  */
 typedef unsigned int u32;
-extern int func_021FC4DC(int);
-extern void *func_02012EBC(void *),*func_0200B910(void);
+typedef unsigned char  u8;
+struct Big;
+struct GdsProfile;
+struct ObjC4;
+extern u32 func_021FC4DC(u8 *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct ObjC4 *func_0200B910(void);
 extern u32 func_0200B570(void *,u32,u32 *,u32);
-extern void func_0200D5D0(void *,void *);
-extern void func_02034714(const char *,int,const char *);
+extern void func_0200D5D0(struct GdsProfile *p, void *sys);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200D00[];
 void func_021F94E4(int *out,int *source,const char *ctx,int type)
 {
@@ -36,7 +41,7 @@ void func_021F94E4(int *out,int *source,const char *ctx,int type)
     void *sys;
     unsigned a,b;
     out[4]=source[1];out[3]=source[3];out[5]=source[2];
-    out[6]=func_021FC4DC(source[0]);
+    out[6]=func_021FC4DC((u8 *)source[0]);
     out[9]=source[5];
     out[10]=(*(int **)((char *)source[6]+12))[1];
     out[11]=*(int *)((char *)source[6]+8)+0x1720;
@@ -53,7 +58,7 @@ void func_021F94E4(int *out,int *source,const char *ctx,int type)
         *(int *)(*(char **)((char *)source[6]+8)+0x1744)=out[2];
         sys=*(void **)(*(char **)((char *)source[6]+12)+4);
         func_0200B570(func_02012EBC(sys),0x59,&result,out[2]);
-        if(result==1) {if(!out[2]) func_0200D5D0(func_0200B910(),sys);}
+        if(result==1) {if(!out[2]) func_0200D5D0((struct GdsProfile *)func_0200B910(),sys);}
         else func_02034714(d_02200D00,0,d_02200D00);
         return;
     case 5:

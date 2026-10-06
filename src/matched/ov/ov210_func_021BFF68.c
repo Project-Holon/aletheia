@@ -30,7 +30,7 @@ extern u8 func_020355C4(void);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021C003C(int p, unsigned b);
 
-int func_021BFF68(int p)
+u32 func_021BFF68(int p)
 {
     int *q = (int *)p;
     int r = func_02025DE8((struct Sound *)q[0xac]);

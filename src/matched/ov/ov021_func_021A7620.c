@@ -26,7 +26,8 @@ typedef struct {
     void *p;
 } S;
 
-extern int func_021A78DC(E *e);
+typedef unsigned int   u32;
+extern int func_021A78DC(u32 a);
 
 extern void func_021A77E8(E *e);
 extern void func_020307B0(void *p);
@@ -35,7 +36,7 @@ void func_021A7620(S *s)
 {
     int i;
     for (i = 0; i < 16; i++) {
-        if (func_021A78DC(&s->e[i])) {
+        if (func_021A78DC((u32)(&s->e[i]))) {
             func_021A77E8(&s->e[i]);
         }
     }

@@ -12,7 +12,7 @@
  *   func_021AF210 0x021AF210 thumb ov013
  */
 extern int func_021AF210(void);
-int func_02156B68(void)
+int func_02156B68(char *a0)
 {
     return func_021AF210();
 }

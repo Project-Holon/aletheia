@@ -24,7 +24,8 @@ struct Font;struct Obj;struct Descriptor;
 extern unsigned func_0201DC80(struct Font *);
 typedef unsigned int   u32;
 extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
-extern void func_02020CF8(struct Obj *,unsigned),func_0201F73C(void *,int,int,int);
+extern void func_02020CF8(struct Obj *p, int heap);
+extern void func_0201F73C(void *,int,int,int);
 extern void func_02045334(struct Descriptor *),func_02184EAC(int,int,int);
 void func_02184FC8(char *p,const struct Src *source,unsigned count)
 {

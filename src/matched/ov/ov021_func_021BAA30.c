@@ -33,12 +33,12 @@ u8 *func_021B830C(void);
 u32 func_021B821C(u8 *p);
 struct Sub;
 void func_0218E124(u8 *a, u32 s);
-u32 func_0218EC60(u32 a);
+int func_0218EC60(u32 a);
 void func_021B8050(struct Sub *o, s16 *out);
 int func_0207CFB8(int a, int b);
 void func_0218ED34(u8 *p, u16 v);
 void func_0218ED58(u8 *p, u32 v);
-void func_0218ED48(u8 *p, u16 v);
+void func_0218ED48(u8 *p, u32 v);
 
 void func_021BAA30(u8 *p)
 {
@@ -57,5 +57,5 @@ void func_021BAA30(u8 *p)
     h = func_0207CFB8(-v[0], -v[2]);
     func_0218ED34((u8 *)o, ((struct Obj09638 *)q)->f8);
     func_0218ED58((u8 *)o, ((struct Obj09638 *)q)->fC);
-    func_0218ED48((u8 *)o, h + ((struct Obj09638 *)q)->f4);
+    func_0218ED48((u8 *)o, (u16)(h + ((struct Obj09638 *)q)->f4));
 }

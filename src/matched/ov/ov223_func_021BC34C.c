@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(unsigned short,int,int,int,int);
-extern void func_02046A94(unsigned char,void *);
+typedef unsigned short u16;
+extern void func_02046A94(u32 idx, const u16 *src);
 extern void func_02046BE0(u32 a, u32 b);
 static inline void shading(Shading s)
 {
@@ -45,6 +46,6 @@ void func_021BC34C(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,32767,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) func_02046A94(i,d_021BC960+i*8);
+    for(i=0;i<4;i++) func_02046A94((unsigned char)i,(const u16 *)(d_021BC960+i*8));
     func_02046BE0(0,0);
 }

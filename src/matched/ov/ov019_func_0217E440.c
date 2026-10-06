@@ -41,12 +41,12 @@ typedef struct {
     void *f8;
 } Sys;
 
-int func_0217BB20(u8 *w);
+int func_0217BB20(char *p);
 typedef unsigned int   u32;
 struct BigObj;
 void func_0217F074(void *p);
-int func_0217B8E4(u8 *w, int v);
-void *func_0217B9CC(u8 *w);
+int func_0217B8E4(char *p, char v);
+void *func_0217B9CC(char *p);
 void func_0217B9F4(void *h);
 void func_0217FE38(u8 *p);
 int func_0217FE24(u8 *p);
@@ -76,7 +76,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
 
     p = *(u8 * *)&((struct Obj09416 *)w)->f355C;
     idx = func_0203D1A4((struct Link *)((int)func_020399A8()));
-    if (func_0217BB20(w) == 1) {
+    if (func_0217BB20((char *)w) == 1) {
         func_0217F074(w);
         return 1;
     }
@@ -88,7 +88,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
             func_0201AC2C(func_02012934((*(Sys * *)&((struct Obj09416 *)w)->f0)->f8), (struct Rec534 *)(((int *)(p + 0x148))[idx]));
             break;
         case 1:
-            h = func_0217B9CC(w);
+            h = func_0217B9CC((char *)w);
             func_0201AC2C(h, (struct Rec534 *)(((int *)(p + 0x148))[idx]));
             func_0217B9F4(h);
             break;
@@ -133,7 +133,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
         break;
     case 8:
         if (func_0217FE24(p) == 1) {
-            func_0217B8E4(w, 0x30);
+            func_0217B8E4((char *)w, 0x30);
             return 1;
         }
         break;

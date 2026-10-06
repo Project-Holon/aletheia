@@ -16,10 +16,10 @@
 
 typedef unsigned int   u32;
 extern void func_020242A4(void *obj, u32 id);
-extern void func_02024598(void *a, void *b, void *c);
+extern void func_02024598(void *p0, int p1, int p2);
 
 void func_020242C0(void *a, void *b, void *c)
 {
     func_020242A4(a, (u32)b);
-    func_02024598(a, b, c);
+    func_02024598(a, (int)b, (int)c);
 }

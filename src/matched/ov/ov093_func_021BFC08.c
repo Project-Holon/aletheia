@@ -30,7 +30,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 raw; } Word;
-extern int func_021D62C4(u8 *, int);
+struct Unk021D62A8;
+struct UtilWork;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern int func_021C66AC(u8 *, u8 *, u32);
@@ -40,15 +42,15 @@ extern int func_021BFD24(u8 *, u8 *, int, u8 *, u16);
 extern Word func_021E896C(int, int);
 extern void func_021C5C1C(u8 *, u8 *, int, Word);
 extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C6878(u8 *, u8 *, u16);
 extern int func_021C68A8(u8 *, u8 *, u8 *, u16);
-extern void func_021D5FC0(u8 *, u32);
+extern void func_021D5FC0(struct UtilWork *p, u32 n);
 extern void func_021BFE60(u8 *, u8 *);
 int func_021BFC08(u8 *p, u8 *q, u8 *d, u16 c)
 {
     int result;
-    if (func_021D62C4(q, 26) == 0) {
+    if (func_021D62C4((struct Unk021D62A8 *)q, 26) == 0) {
         int n = func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, func_021D5440(q));
         if (func_021C66AC(p, q, (u32)d)) {
             func_021C5718(p, q, c);
@@ -65,16 +67,16 @@ int func_021BFC08(u8 *p, u8 *q, u8 *d, u16 c)
         {
             u32 lock = func_021CC8D8(p + 0x1d74, 5124);
             func_021C6878(p, q, c);
-            func_021CC95C(p + 0x1d74, lock, 5126);
+            func_021CC95C((u32 *)(p + 0x1d74), lock, 5126);
         }
     }
     (*(u8 **)(p + 0x4a8))[4] = 1;
     {
         u32 lock = func_021CC8D8(p + 0x1d74, 5134);
         result = func_021C68A8(p, q, d, c);
-        func_021CC95C(p + 0x1d74, lock, 5136);
+        func_021CC95C((u32 *)(p + 0x1d74), lock, 5136);
     }
-    func_021D5FC0(q, 11);
+    func_021D5FC0((struct UtilWork *)q, 11);
     func_021BFE60(p, q);
     return result ? 4 : 3;
 }

@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 int func_021B94D8(u16 *r, u8 *tbl, u8 *sr);
 u8 *func_021B87D8(u8 *p, u32 idx);
 u8 *func_021B8514(u8 *p, u32 v, u8 *q, u16 *r, int flag);
-void func_021B86A4(u8 *t, u8 *q, u32 *out1, u32 *out2, u8 *a5, u32 a6);
+void func_021B86A4(u8 *t, const u32 *q, int *out1, int *out2, u16 *a5, u32 a6);
 
 void func_021B9530(u16 *t, u8 *p, int dx, int dy, int a6)
 {
@@ -34,8 +34,8 @@ void func_021B9530(u16 *t, u8 *p, int dx, int dy, int a6)
         u8 *res = func_021B8514(row, a6, *(u8 * *)&((struct Obj01203 *)p)->f24, t, 0);
         u32 out1, out2;
 
-        func_021B86A4(*(u8 * *)&((struct Obj01203 *)p)->f24, *(u8 * *)&((struct Obj01203 *)p)->f4, &out1, &out2,
-                      (u8 *)t, ((struct Obj01203 *)p)->f1C);
+        func_021B86A4(*(u8 * *)&((struct Obj01203 *)p)->f24, (const u32 *)(*(u8 * *)&((struct Obj01203 *)p)->f4), (int *)(&out1), (int *)(&out2),
+                      (u16 *)t, ((struct Obj01203 *)p)->f1C);
         ((struct Obj01203 *)p)->fC += dx;
         ((struct Obj01203 *)p)->f14 += dy;
         if (((struct Obj01203 *)p)->fC > (int)out1)

@@ -37,7 +37,7 @@ typedef int BOOL;
 extern int func_021C49A4(u8 *p, unsigned int i);
 extern unsigned char func_021C4A8C(int i);
 
-void func_021B9A60(char *p)
+unsigned char func_021B9A60(char *p)
 {
-    func_021C4A8C(func_021C49A4(((struct Obj18148 *)p)->f0, 6));
+    return func_021C4A8C(func_021C49A4(((struct Obj18148 *)p)->f0, 6));
 }

@@ -63,16 +63,17 @@ u16 func_0217ED98(int); u16 func_0217ED2C(int); u16 func_0217ED48(int);
 u16 func_0217EDA4(int); u16 func_0217EE28(int); u16 func_0217EDBC(int);
 u16 func_0217EDB0(int); u16 func_0217EE04(int); u16 func_0217EDD4(int);
 u16 func_0217EDC8(int); u16 func_0217EDE0(int);
-u8 func_0217F060(int);
+int func_0217F060(int i);
 void func_0217F210(u8 *, int, u32); u32 func_0217F1EC(u8 *);
-u32 func_0217F794(u8 *, u32); void func_0217F7B8(u8 *);
-void func_0217F640(u8 *, int, int, int, int);
+struct Self;
+u32 func_0217F794(char *p, u32 a); void func_0217F7B8(u8 *);
+void func_0217F640(struct Self *self, u32 a1, u32 mask, int mode, int msg);
 void func_0217F22C(u8 *, u32); int func_0217F268(u8 *, u32 *);
 void func_0217F24C(u8 *); int func_0217B8E4(u8 *, char);
-void func_0217BA10(u8 *, int); int func_0217B974(int);
+void func_0217BA10(char *p, int x); int func_0217B974(int);
 int func_0217BAA8(int a, int b, int *p, int *q);
 u32 func_020362DC(void); void *func_02012934(void *);
-int func_0201AAD4(void *); int func_0201AA88(void *);
+u32 func_0201AAD4(void *p); int func_0201AA88(void *);
 int func_0217CAAC(u8 *ctx, Obj *obj, int a, u8 *state)
 {
     int offset, id;
@@ -92,8 +93,8 @@ int func_0217CAAC(u8 *ctx, Obj *obj, int a, u8 *state)
         case 20: case 21: case 22: case 23:
             if ((int)((Bits *)((ctx + offset) + 0x2916))->count < func_0217F060(id)) {
                 func_0217F210(ctx,a,func_0217ED80(obj->f14->flag));
-                func_0217BA10(ctx,id);
-                func_0217F640(ctx,a,0,func_0217B974(id),0);
+                func_0217BA10((char *)ctx,id);
+                func_0217F640((struct Self *)ctx,(int)a,(int)0,func_0217B974(id),0);
                 *state = 3;
                 goto done;
             }
@@ -125,7 +126,7 @@ int func_0217CAAC(u8 *ctx, Obj *obj, int a, u8 *state)
         if (func_0217F1EC(ctx) == 1) return 1;
         break;
     case 3:
-        if (func_0217F794(ctx,a) == 1) *state = 4;
+        if (func_0217F794((char *)ctx,a) == 1) *state = 4;
         break;
     case 4:
         if (func_0217F1EC(ctx) == 1) {
@@ -148,19 +149,19 @@ int func_0217CAAC(u8 *ctx, Obj *obj, int a, u8 *state)
         break;
     case 6:
         if (func_0217F1EC(ctx) == 1) return 1;
-        func_0217F640(ctx,a,obj->f64,func_0217B974(obj->f2d),1); (*state)++;
+        func_0217F640((struct Self *)ctx,(int)a,(int)obj->f64,func_0217B974(obj->f2d),1); (*state)++;
         break;
     case 7:
-        if (func_0217F794(ctx,a) == 1 && (func_020362DC() & 3)) {
+        if (func_0217F794((char *)ctx,a) == 1 && (func_020362DC() & 3)) {
             func_0217F7B8(ctx);
             if (obj->f68 == -1) *state = 1; else (*state)++;
         }
         break;
     case 8:
-        func_0217F640(ctx,a,obj->f64,func_0217B974(obj->f2d),2); (*state)++;
+        func_0217F640((struct Self *)ctx,(int)a,(int)obj->f64,func_0217B974(obj->f2d),2); (*state)++;
         break;
     case 9:
-        if (func_0217F794(ctx,a) == 1 && (func_020362DC() & 3)) {
+        if (func_0217F794((char *)ctx,a) == 1 && (func_020362DC() & 3)) {
             func_0217F7B8(ctx); *state = 1;
         }
         break;
@@ -184,7 +185,7 @@ int func_0217CAAC(u8 *ctx, Obj *obj, int a, u8 *state)
                 case 3: func_0217F210(ctx,a,func_0217EE04(obj->f14->flag)); break;
                 case 25:
                     save = func_02012934((void *)(*(u32 **)ctx)[2]);
-                    if (func_0201AAD4(save) > 0) {
+                    if ((int)func_0201AAD4(save) > 0) {
                         func_0217F210(ctx,a,func_0217EDD4(obj->f14->flag));
                         func_0217B8E4(ctx,0); *state = 2;
                     } else if (func_0201AA88(save) == 0) {

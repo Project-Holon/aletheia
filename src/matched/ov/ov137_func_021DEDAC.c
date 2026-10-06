@@ -26,8 +26,8 @@ typedef struct { u8 pad[0x90]; void *slots[5]; void *other[5]; } Obj;
 extern const u16 d_021E1FA0[][5];
 extern u8 *func_021E16AC(void *, int);
 extern int func_021E1768(char *, int);
-extern void *func_021DEB10(void *);
-extern void *func_02184180(void *, u8);
+extern void *func_021DEB10(char *p);
+extern char *func_02184180(unsigned char *p, int i);
 extern void func_02008500(void *, void *);
 extern void func_021DEF6C(void *);
 extern void func_02005D90(int, int);
@@ -44,7 +44,7 @@ int func_021DEDAC(Obj *obj)
     ((struct Obj08215 *)q)->f4 = d_021E1FA0[count][((struct Obj02869 *)p)->f2C];
     for (i = 0; i < 5; i++) {
         if (func_021E1768((char *)p, i)) {
-            obj->slots[i] = func_02184180(func_021DEB10(p), i);
+            obj->slots[i] = func_02184180(func_021DEB10((char *)p), (u8)i);
             func_02008500(obj->slots[i], obj->other[i]);
         }
     }

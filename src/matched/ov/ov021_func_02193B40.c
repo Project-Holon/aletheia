@@ -47,7 +47,8 @@ typedef struct V {
 
 extern void func_02193EB4(V *v);
 extern E50 *func_02193EFC(V *v, u32 key);
-extern void func_02186748(u8 *p);
+struct State;
+extern void func_02186748(struct State *p);
 extern void func_02193EE8(V *v);
 
 void func_02193B40(V *v, u32 key)
@@ -57,7 +58,7 @@ void func_02193B40(V *v, u32 key)
     func_02193EB4(v);
     e = func_02193EFC(v, key);
     if (v->f01 == 0) {
-        func_02186748(e->f34);
+        func_02186748((struct State *)e->f34);
         func_02193EE8(v);
     }
 }

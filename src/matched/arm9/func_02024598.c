@@ -12,4 +12,4 @@
  */
 #include "../include/Obj05795.h"
 
-void func_02024598(int p0, int p1, int p2, int p3){ ((struct Obj05795 *)p0)->f0 = (unsigned short)p1; ((struct Obj05795 *)p0)->f2 = (unsigned short)p2; }
+void func_02024598(void *p0, int p1, int p2){ ((struct Obj05795 *)p0)->f0 = (unsigned short)p1; ((struct Obj05795 *)p0)->f2 = (unsigned short)p2; }

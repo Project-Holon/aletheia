@@ -27,17 +27,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216DD1C(u32 x, u8 **o, int *n);
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern void func_0216D244(u32 x, u8 *o);
 extern int func_0216D55C(int a0, int a1);
 extern int func_0216D268(int a0, int a1);
 extern u32 func_0216D57C(void *p, u32 v);
 extern void func_0216D730(void *a0);
-extern void func_0216D570(u8 *o, u32 v);
+extern void func_0216D570(char *p, u32 v);
 extern int func_0216DAA0(void *a0);
 extern void func_0216E114(u8 *o);
 extern void func_0216D794(void *a0);
-extern void func_0216E174(u8 *o);
+extern void func_0216E174(void *a0);
 
 void func_0216D2F8(u32 x)
 {
@@ -48,22 +50,22 @@ void func_0216D2F8(u32 x)
     u32 c = 2;
 
     n = 0;
-    if (func_0216DD1C(x, &o, &n) == 1) {
+    if (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1) {
         do {
             func_0216D244(x, o);
             if (func_0216D55C((int)o, c) == 0)
                 func_0216D268(x, (int)o);
             if (func_0216D57C(o, a)) {
                 func_0216D730(o);
-                func_0216D570(o, a);
+                func_0216D570((char *)o, a);
             }
             if (func_0216DAA0(o) == 0)
                 func_0216E114(o);
             if (func_0216D57C(o, b)) {
                 func_0216D794(o);
-                func_0216D570(o, b);
+                func_0216D570((char *)o, b);
             }
             func_0216E174(o);
-        } while (func_0216DD1C(x, &o, &n) == 1);
+        } while (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1);
     }
 }

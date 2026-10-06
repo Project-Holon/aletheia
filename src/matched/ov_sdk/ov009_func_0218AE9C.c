@@ -170,7 +170,9 @@ typedef struct GPIConnection {
     unsigned int kaTransmit;
 } GPIConnection;
 
-extern int func_0219329C(void **connection, char *input, int callErrorCallback);
+typedef unsigned char  u8;
+struct GPIOperation;
+extern int func_0219329C(int *connection, const char *input, int fatal);
 extern void func_0218FEF0(void **connection, int profileid);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 typedef unsigned int   u32;
@@ -181,7 +183,7 @@ extern int func_020949F4(const char *a, const char *b, unsigned int n);
 extern int func_0218AC4C(void **connection, GPIConnectData *data);
 extern int func_0218A830(void **connection, GPIConnectData *data);
 extern int func_02084F40(char *dst, char *fmt, ...);
-extern unsigned long func_0209477C(const char *s);
+extern int func_0209477C(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
 extern int func_020923F0(const void *a, const void *b, unsigned long n);
 extern GPIProfile *func_0218FCD8(void **connection, int id);
@@ -190,7 +192,7 @@ extern void func_02193734(int *p, int b);
 extern void *func_020923B0(void *dst, int c, unsigned long n);
 extern void func_0219327C(char *p, int b, int n);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation_s *operation, int type);
-extern void func_0218E240(void **connection, GPIOperation_s *operation);
+extern void func_0218E240(void **connection, struct GPIOperation *operation);
 extern char g_021A499C[];
 extern char g_021A49A4[];
 extern char g_021A49AC[];
@@ -226,7 +228,7 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
     char *user;
     int __result__;
 
-    if (func_0219329C(connection, input, 0)) {
+    if (func_0219329C((int *)connection, input, 0)) {
         if (iconnection->errorCode == 0x106 && iconnection->profileid) {
             func_0218FEF0(connection, iconnection->profileid);
             iconnection->userid = 0;
@@ -345,7 +347,7 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
 
         func_02084F40(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                       data->serverChallenge, data->userChallenge, data->passwordHash);
-        func_021858A8((unsigned char *)buffer, func_0209477C(buffer), check);
+        func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), check);
 
         if (!func_02193418(input, g_021A4A30, buffer, sizeof(buffer))) {
             func_02193710((int *)connection, 1, (int)g_021A49E4);
@@ -385,7 +387,7 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
                 return __result__;
         }
 
-        func_0218E240(connection, operation);
+        func_0218E240(connection, (struct GPIOperation *)operation);
         break;
     default:
         break;

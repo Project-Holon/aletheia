@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct B60 { u32 w[15]; };
 extern void MTX_Identity33_(void *m);
 extern int func_0216DA30(u32 a);
-extern void func_0217FA9C(u32 *p, struct B60 *b);
+extern void func_0217FA9C(u32 *p, u32 *b);
 extern struct B60 d_0218071C;
 
 void func_0217FAF0(u32 *p)
@@ -33,6 +33,6 @@ void func_0217FAF0(u32 *p)
 
     MTX_Identity33_(&b.w[6]);
     if (p[3] != 0 && func_0216DA30(p[0]) == 1) {
-        func_0217FA9C(p, &b);
+        func_0217FA9C(p, (u32 *)(&b));
     }
 }

@@ -14,5 +14,5 @@
  */
 #include "../include/Obj03179.h"
 typedef unsigned short u16;
-extern u16 func_021BBB3C(char *p, u16 a, int b);
-int func_021BA834(char *p) { int v; v=func_021BBB3C(*(char * *)&((struct Obj03179 *)p)->f4,((struct Obj03179 *)p)->f8,15); if((v!=65535 && ((struct Obj03179 *)p)->f38!=0 && ((struct Obj03179 *)p)->f40==0) || v==65535) return 1; return 0; }
+extern unsigned short func_021BBB3C(char *p, int a, int b);
+int func_021BA834(char *p) { int v; v=func_021BBB3C(*(char * *)&((struct Obj03179 *)p)->f4,(u16)(((struct Obj03179 *)p)->f8),15); if((v!=65535 && ((struct Obj03179 *)p)->f38!=0 && ((struct Obj03179 *)p)->f40==0) || v==65535) return 1; return 0; }

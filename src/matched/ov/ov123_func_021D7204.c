@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021D62BC(u8 *,int,u32);
-extern void func_021D62B4(char *,int);
+extern void func_021D62B4(u8 *p, unsigned int i);
 extern void func_021D63D4(u8 *);
-void func_021D7204(u8 *p) { func_021D62BC(*(u8 * *)&((struct Obj10444 *)p)->f14,0,0); func_021D62B4(*(char * *)&((struct Obj10444 *)p)->f14,12); func_021D63D4(*(u8 * *)&((struct Obj10444 *)p)->f14); }
+void func_021D7204(u8 *p) { func_021D62BC(*(u8 * *)&((struct Obj10444 *)p)->f14,0,0); func_021D62B4((u8 *)(*(char * *)&((struct Obj10444 *)p)->f14),12); func_021D63D4(*(u8 * *)&((struct Obj10444 *)p)->f14); }

@@ -11,4 +11,4 @@
  */
 #include "../include/Obj15627.h"
 
-int func_020127E0(int a0, int a1, int a2, int a3){ int t0, t1; t0 = func_0200A864((int)((struct Obj15627 *)((char *)(a0)))->f0); t1 = func_0200A890((int)t0); return t1; }
+int func_020127E0(int a0){ int t0, t1; t0 = func_0200A864((int)((struct Obj15627 *)((char *)(a0)))->f0); t1 = func_0200A890((int)t0); return t1; }

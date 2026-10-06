@@ -49,7 +49,7 @@ struct Row {
 extern s16 g_020A1B38[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_0202EA40(struct Row *p)
+s32 func_0202EA40(struct Row *p)
 {
     s32 scale;
     u32 i;
@@ -79,5 +79,5 @@ void func_0202EA40(struct Row *p)
         p->out[i] = (u16)((r << 10) | (bl | (g << 5)));
     }
 
-    func_02061CA4((void *)p->unk14, p->unk0c * 2, (u32)p->out, p->count * 2);
+    return func_02061CA4((void *)p->unk14, p->unk0c * 2, (u32)p->out, p->count * 2);
 }

@@ -32,10 +32,10 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern int func_0207D55C(volatile u16 *reg);
 typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern void func_02202248(Obj *);
+extern void func_02202248(char *p);
 extern void *func_02030DA8(void *, void (*)(void *, Obj **), void *, u32);
 extern void func_0220684C(char *p, int a, int b);
-extern void func_02204A3C(void *, Obj **);
+extern void func_02204A3C(void *a, char **s);
 extern void func_02204A70(void *);
 extern const char d_0220AEB0[];
 
@@ -47,8 +47,8 @@ void func_0220266C(Obj *p)
         func_0204E720(2, 0x10, 0, 0);
     else
         func_0204E720(8, 0x10, 0, 0);
-    func_02202248(p);
+    func_02202248((char *)p);
     p->f68.mode = 2;
     *q = p;
-    func_0220684C((char *)p, (int)func_02030DA8(p->h0, func_02204A3C, q, 0), (int)func_02204A70);
+    func_0220684C((char *)p, (int)func_02030DA8(p->h0, (void (*)(void *, Obj **))func_02204A3C, q, 0), (int)func_02204A70);
 }

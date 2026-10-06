@@ -103,16 +103,16 @@ extern void *func_02012F44(void *h);
 extern void *func_021F685C(u32 heap);
 extern int func_021FD904(int *p);
 extern u8 func_0200A7C8(struct Big *p);
-extern void func_021F68BC(void *p, void *a, void *b, u16 c, u32 d);
+extern void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
 extern u8 *func_02012944(void *p);
 extern void *func_020185F0(void *p);
 extern void func_021FC848(u8 *p, void *a, void *b, int unused, void *d, u16 heap);
 extern u16 func_0200A81C(struct Big *p);
 extern u32 func_02005728(u32 n);
 extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
-extern u32 func_02155C0C(void *task, u32 *state, Seq *work);
+extern int func_02155C0C(void *evt, void *unused, struct Seq *s);
 
-void *func_02155A98(void *a, void *b, u32 c, u32 d, struct Link *link)
+void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link)
 {
     void *task;
     Seq *s;
@@ -142,7 +142,7 @@ void *func_02155A98(void *a, void *b, u32 c, u32 d, struct Link *link)
     s->f40 = func_02012F44(b);
     s->f24 = func_021F685C(4);
     if (s->f14 == 0 || func_021FD904(s->link->sess) == 1)
-        func_021F68BC(s->f24, s->f1c, s->f04, func_0200A7C8(s->f40), 0x2C);
+        func_021F68BC(s->f24, (u32)s->f1c, s->f04, func_0200A7C8(s->f40), 0x2C);
     if (s->f14 == 1) {
         s->state = 11;
         s->f10 = 0;

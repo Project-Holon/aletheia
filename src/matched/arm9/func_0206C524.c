@@ -83,7 +83,7 @@ struct RS {
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void func_0206DB80(void);
 extern int  func_0207DC98(MtxFx44 *m);
-extern const MtxFx43 *func_0206ADBC(void);
+extern u32 *func_0206ADBC(void);
 extern u32 *func_0206ADF4(void);
 extern u32 *func_0206AAD4(void);
 extern void func_0207B5C0(const MtxFx43 *src, MtxFx44 *dst);
@@ -160,7 +160,7 @@ void func_0206C524(RS *rs, u32 opt)
                 ;
             if (g_02148B4C.flag & 1) {
                 MtxFx44 tmp;
-                func_0207B5C0(func_0206ADBC(), &tmp);
+                func_0207B5C0((const MtxFx43 *)func_0206ADBC(), &tmp);
                 func_0207BE14(&m, &tmp, &m);
             } else if (g_02148B4C.flag & 2) {
                 MtxFx44 tmp;

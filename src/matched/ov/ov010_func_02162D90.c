@@ -21,13 +21,13 @@ typedef short s16;
 struct Sub { u16 f0; u16 f2; s16 f4; u16 f6; u16 f8; u16 fa; };
 struct Box { u16 pad0[4]; struct Sub s; };
 struct Out { u16 f0; u8 f2; u8 f3; s16 f4; u16 f6; };
-extern int func_02162C54(const struct Box *b);
+extern int func_02162C54(u8 *p);
 extern u16 func_02162AA4(int q, int m, int a, int b, u16 n);
 extern u8 func_0201441C(int m);
 void func_02162D90(const struct Box *b, int q, struct Out *o)
 {
     const struct Sub *s = &b->s;
-    int m = func_02162C54(b);
+    int m = func_02162C54((u8 *)b);
     u16 fa;
     o->f0 = b->s.f0;
     o->f2 = 1;

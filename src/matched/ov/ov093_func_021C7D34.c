@@ -16,5 +16,5 @@
  *   func_0689D5F4 0x0689D5F4 thumb ov095
  */
 typedef unsigned char u8;
-extern int func_0689D5F4(char *, int);
-int func_021C7D34(char *p, int i) { return func_0689D5F4(p + 0x1ab8, i); }
+extern int func_0689D5F4(u8 *p, int i);
+int func_021C7D34(char *p, int i) { return func_0689D5F4((u8 *)(p + 0x1ab8), i); }

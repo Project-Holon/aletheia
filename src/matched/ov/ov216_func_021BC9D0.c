@@ -18,7 +18,7 @@
  */
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021BCB70(void *);
+extern void func_021BCB70(char *p);
 extern void func_021BCAB8(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);
@@ -26,7 +26,7 @@ extern void func_020307B0(void *);
 void func_021BC9D0(unsigned *p)
 {
     func_02030EAC((void *)p[3]);
-    func_021BCB70(p+1);
+    func_021BCB70((char *)(p+1));
     func_021BCAB8(p);
     func_0201DD68();
     *(volatile unsigned short *)0x04000050=0;

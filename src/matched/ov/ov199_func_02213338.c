@@ -18,17 +18,18 @@
 #include "../include/Obj01819.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02005D28(char *);
+struct Obj;
+extern void func_02005D28(void);
 extern void func_020307B0(void *);
-extern void func_02013930(void *);
+extern void func_02013930(struct Obj *p);
 extern void func_02034A5C(int handle);
 extern const char ov093_id[];
 extern void func_02213808(char *, int);
 int func_02213338(char *p, char *q)
 {
-    func_02005D28(p);
+    func_02005D28();
     func_020307B0(((struct Obj01819 *)q)->f34);
-    func_02013930(q);
+    func_02013930((struct Obj *)q);
     func_020307B0(q);
     func_02034A5C((int)ov093_id);
     func_02213808(p, 0);

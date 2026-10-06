@@ -32,7 +32,8 @@ extern const unsigned d_021C8184[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
 extern void func_02082BCC(void *,int,int);
 extern void func_0204335C(unsigned);
-extern void func_020433E0(const void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
@@ -52,7 +53,7 @@ char *func_021BCE10(unsigned display,unsigned heap,int threeD)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     func_0204335C(0);
-    func_020433E0(d_021C8184);
+    func_020433E0((const struct DispVram *)d_021C8184);
     func_0204363C(display);
     func_0204361C();
     func_020434CC();

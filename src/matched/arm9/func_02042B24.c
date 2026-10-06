@@ -35,7 +35,7 @@ struct Screen {
 };
 
 extern void func_020422D4(u32 mode, u8 *a, u8 *b);
-extern u16  func_02040F84(u8 x, u8 y, u8 w, u8 h);
+extern u16 func_02040F84(u32 x, u32 y, u8 w, u32 h);
 
 void func_02042B24(struct Screen *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
@@ -66,7 +66,7 @@ void func_02042B24(struct Screen *s, u8 dx, u8 dy, u8 cw, u8 ch,
             for (x = 0; x < cw; x++) {
                 if (dx + x >= w || sx + x >= sw)
                     break;
-                dst[dx + x + w * (dy + y)] = src[func_02040F84(sx + x, sy + y, sw, sh)];
+                dst[dx + x + w * (dy + y)] = src[func_02040F84((u8)(sx + x), (u8)(sy + y), sw, (u8)sh)];
             }
         }
     }

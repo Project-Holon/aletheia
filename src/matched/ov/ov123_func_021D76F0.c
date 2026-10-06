@@ -33,11 +33,11 @@ extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_020072CC(int,int,u16,int,int);
 extern void func_02082D44(const void *,void *,int);
-extern void func_0200E8E0(int,int);
+extern void func_0200E8E0(void *obj, u32 value);
 extern void func_02012E4C(u8 *,u32);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 extern void func_02009108(struct Sub020090B0Obj *obj, u16 value);
-extern void func_021D6EE0(int,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6FF0(char *p);
 extern void func_021D76B8(char *p);
 extern void func_021D758C(int a);
@@ -53,7 +53,7 @@ void func_021D76F0(int a)
     checksum=func_0203F1FC(p,0x6200);
     if(checksum!=((struct Obj22960 *)p)->f6200) {
         ((struct Obj02475 *)a)->f80=0xfff0;
-        func_021D6EE0(a,(int)func_021D6FF0,0x378);
+        func_021D6EE0((u8 *)a,(int)func_021D6FF0,0x378);
         return;
     }
     ((struct Obj02475 *)a)->fAE=1;
@@ -61,7 +61,7 @@ void func_021D76F0(int a)
     *(int *)&((struct Obj02475 *)a)->f3C=x;
     func_020072CC(b,7,((struct Obj02475 *)a)->f0,*(int *)&((struct Obj02475 *)a)->f3C,0x6800);
     func_02082D44(p,((struct Obj02475 *)a)->f3C,0x6200);
-    func_0200E8E0(*(int *)&((struct Obj02475 *)a)->f3C,1);
+    func_0200E8E0((void *)(*(int *)&((struct Obj02475 *)a)->f3C),1);
     func_02012E4C((u8 *)((struct Obj02475 *)a)->f2C,7);
-    func_021D6EE0(a,(int)func_021D76B8,0x383);
+    func_021D6EE0((u8 *)a,(int)func_021D76B8,0x383);
 }

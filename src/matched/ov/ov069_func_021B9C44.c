@@ -40,7 +40,7 @@ typedef struct Obj {
 extern Ent *d_021BA874[];
 
 extern void func_02045088(u16 heapId);
-extern int func_020450F0(u8, int, int, int, int, u8, int);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Cfg;
@@ -61,7 +61,7 @@ void func_021B9C44(Obj *o)
     func_02045088(0x80);
     for (i = 0; i < 8; i++) {
         e = d_021BA874[i];
-        o->a[i] = func_020450F0(e->f0, e->f4, e->f5, e->f6, e->f7, e->f8, 1);
+        o->a[i] = (int)func_020450F0((u8)e->f0, (int)e->f4, (int)e->f5, (int)e->f6, (int)e->f7, e->f8, (int)1);
         func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)o->a[i])), 0);
         h = o->a[i];
         func_02045334((struct Descriptor *)h);
@@ -69,7 +69,7 @@ void func_021B9C44(Obj *o)
         func_020409B4(func_02045730((struct Descriptor *)h));
     }
     for (j = 0; j < 10; j++) {
-        o->b[j] = func_020450F0(1, 2, 1, 10, 2, 1, 1);
+        o->b[j] = (int)func_020450F0((u8)1, (int)2, (int)1, (int)10, (int)2, 1, (int)1);
         func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)o->b[j])), 4);
     }
 }

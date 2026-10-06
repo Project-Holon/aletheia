@@ -30,7 +30,9 @@ struct R;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, u32, u32);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void *func_02027778(Menu *,void *);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_021F5008(u32 x);
 void func_021F4D50(u8 *p, u16 a, int count, int b)
 {
@@ -52,6 +54,6 @@ void func_021F4D50(u8 *p, u16 a, int count, int b)
     menu.b=b;
     menu.c=13;
     menu.d=3;
-    ((struct Obj00448 *)p)->fE08=func_02027778(&menu,((struct Obj00448 *)p)->fE04);
+    ((struct Obj00448 *)p)->fE08=func_02027778((struct TaskMenuTmpl *)(&menu),((struct Obj00448 *)p)->fE04);
     func_021F5008(1);
 }

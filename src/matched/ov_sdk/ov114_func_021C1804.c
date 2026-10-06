@@ -47,7 +47,7 @@ extern void func_02162248(void *, unsigned long);
 extern void *func_0217EAB0(unsigned long);
 extern void *func_020923B0(void *, int, unsigned long);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_021C1668(int, void *, int);
+extern int func_021C1668(int result, struct CPSSslConnection *con, int level);
 extern unsigned long g_021D3B44[8];
 extern char g_021CE7B0[];
 extern char g_021CE678[];
@@ -70,7 +70,7 @@ CPSSslConnection *func_021C1804(char *url)
                 sslCon->f800 = 0;
                 sslCon->f814 = rootCaList->certs;
                 sslCon->f818 = rootCaList->count;
-                sslCon->f810 = func_021C1668;
+                sslCon->f810 = (int (*)(int,  void *, int))func_021C1668;
             } else {
                 func_0217D254(8, (char *)2, 2, g_021CEA74, g_021CE7B0, g_021CE678, 0x3fc);
             }

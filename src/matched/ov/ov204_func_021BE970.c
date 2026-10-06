@@ -15,5 +15,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021BFBA0(char*);
-int func_021BE970(u8*p){if(func_021BFBA0(*(char* *)&((struct Obj25376 *)p)->fC))return 1;return 0;}
+extern int func_021BFBA0(int *p);
+int func_021BE970(u8*p){if(func_021BFBA0((int *)(*(char* *)&((struct Obj25376 *)p)->fC)))return 1;return 0;}

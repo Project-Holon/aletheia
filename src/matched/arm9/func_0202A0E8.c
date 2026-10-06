@@ -16,12 +16,13 @@
 
 typedef unsigned int u32;
 
-extern int func_02029F8C(void *p);
+typedef unsigned short u16;
+extern int func_02029F8C(u16 *p);
 extern void func_0202A084(u32 *p, int event);
 
 void func_0202A0E8(u32 *p)
 {
-    int r = func_02029F8C(p);
+    int r = func_02029F8C((u16 *)p);
 
     switch (((struct Obj04055 *)p)->f0) {
     case 0:

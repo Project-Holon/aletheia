@@ -21,13 +21,13 @@ struct Obj;
 extern void func_021F2130(char *p);
 extern int func_021F30EC(struct Obj *p);
 extern void func_021F30C8(struct Obj *p);
-extern void func_021EFEF8(void *, void (*)(void *), int);
-extern void func_021F2180(void *);
+extern void func_021EFEF8(char *p, void (*f)(void), int line);
+extern void func_021F2180(char *p);
 void func_021F3118(void *p)
 {
     func_021F2130(p);
     if (func_021F30EC(p)) {
         func_021F30C8(p);
-        func_021EFEF8(p, func_021F2180, 0x1514);
+        func_021EFEF8(p, (void (*)(void))func_021F2180, 0x1514);
     }
 }

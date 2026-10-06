@@ -26,7 +26,7 @@ typedef signed int     s32;
 
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern u32 func_020414EC();
-u32 func_021BA830(void)
+u32 func_021BA830(void *a0)
 {
     func_02040C14(3, 0, 1, 0);
     return func_020414EC(3);

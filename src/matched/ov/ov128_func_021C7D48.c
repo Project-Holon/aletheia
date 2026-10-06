@@ -20,7 +20,7 @@
 #include "../include/Obj03281.h"
 typedef unsigned char u8;
 extern void func_021CA444(char *);
-extern void func_021CA458(void *,void *);
+extern void func_021CA458(char *p, void *q);
 struct Descriptor;
 struct Obj;
 struct TaskMenuState;
@@ -37,7 +37,7 @@ void func_021C7D48(u8 *p, void *unused, u8 *a)
     int i;
     int offset;
     func_021CA444((char *)a);
-    func_021CA458(a,a + 12);
+    func_021CA458((char *)a,a + 12);
     func_0204B3B4(((struct Obj03281 *)p)->f1A4);
     func_0204B3B4(((struct Obj03281 *)p)->f1A0);
     func_020452E8(((struct Obj03281 *)p)->f108);

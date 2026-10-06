@@ -19,12 +19,12 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020500A0(void *p);
+extern void func_020500A0(int p0);
 
 void func_0205085C(void *p, int idx, u16 v)
 {
     char *e = (char *)(((struct Obj16158 *)p)->f18 + idx * 40);
 
-    func_020500A0(e);
+    func_020500A0((int)e);
     ((struct Obj02611 *)e)->f10 = v;
 }

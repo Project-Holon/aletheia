@@ -21,7 +21,7 @@ typedef struct Struct021D4BB4 {
     int  f10;
 } Struct021D4BB4;
 
-int  func_021D42A0(void *p);
+int func_021D42A0(char *p);
 typedef unsigned int   u32;
 u32 func_0200FB24(void);
 
@@ -30,7 +30,7 @@ int func_021D4BB4(int a, int b, int c, Struct021D4BB4 *p)
     int r;
 
     (void)a; (void)b; (void)c;
-    r = func_021D42A0(p);
+    r = func_021D42A0((char *)p);
     if (func_0200FB24() != 0 && p->f8 == 0) {
         p->f8 = 1;
         p->f10 = 2;

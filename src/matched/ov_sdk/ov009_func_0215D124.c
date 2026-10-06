@@ -39,7 +39,8 @@ extern void func_0215AB7C(void *thread);
 extern void func_0215AB10(void);
 extern void func_0215AA88(void);
 extern void func_0215AB94(int (*callback)(unsigned char *, unsigned long, void *));
-extern int func_0215DF08(unsigned char *, unsigned long, void *);
+struct CPSSoc;
+extern int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc);
 
 int func_0215D124(void *arg)
 {
@@ -58,7 +59,7 @@ int func_0215D124(void *arg)
 	case 1:
 		func_0215AB10();
 		func_0215AA88();
-		func_0215AB94(func_0215DF08);
+		func_0215AB94((int (*)(unsigned char *, long unsigned int,  void *))func_0215DF08);
 		break;
 	case 2:
 		func_0215AA88();

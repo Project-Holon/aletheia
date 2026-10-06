@@ -41,7 +41,7 @@ extern u32 func_02020350(struct Obj *obj, u32 what);
 extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
 extern void func_021C5440(char *p, int b, int c, int *d);
-extern void func_021C54C8(char *p, int b, int c, int *d);
+extern void func_021C54C8(int *a, int b, int c, int *d);
 extern s32 func_020200CC(struct Obj *o);
 extern u32 func_02020344(struct Obj *obj, u32 n);
 extern void func_020061E4(u32 se);
@@ -72,7 +72,7 @@ void func_021C553C(char *p)
     if (func_0203633C() & 0x40) {
         func_021C5440(p, c[1], n, &flag);
     } else if (func_0203633C() & 0x80) {
-        func_021C54C8(p, c[1], n, &flag);
+        func_021C54C8((int *)p, c[1], n, &flag);
     }
     if (flag == 0) {
         sel = func_020200CC(((struct Obj00523 *)p)->f4);

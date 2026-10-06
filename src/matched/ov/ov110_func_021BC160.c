@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef short s16;
 typedef struct { int a,b,c; } Triple;
 typedef struct { void *root; u8 pad[0x18]; void *items[2][2]; } Obj;
-extern void func_021BAC50(void *,Triple *,int);
+struct V3;
+extern void func_021BAC50(char *p, struct V3 *out, int i);
 extern void *func_021BAC78(void *,Triple *,s16,s16,int,int);
 typedef unsigned int   u32;
 struct Obj;
@@ -28,7 +29,7 @@ void func_021BC160(Obj *p)
     Triple t;
     int i,j;
     for (i=0;i<2;i++) {
-        func_021BAC50(p->root,&t,i);
+        func_021BAC50(p->root,(struct V3 *)(&t),i);
         for (j=0;j<2;j++) {
             p->items[j][i]=func_021BAC78(p->root,&t,0,0,2,i+1);
             func_0204B3DC(p->items[j][i],0);

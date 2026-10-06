@@ -20,7 +20,7 @@ struct Actor; struct PtS;
 extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 extern unsigned func_02035D20(unsigned *,unsigned *);
 extern int func_021F4450(int *,int *);
-extern void func_021F4394(char *);
+extern void func_021F4394(unsigned char *p);
 extern int func_021F43A0(char *);
 void func_021F42E8(char *p) {
     int rect[4];
@@ -36,7 +36,7 @@ void func_021F42E8(char *p) {
             rect[2]=pos.x+16; rect[3]=pos.y+16;
             point[0]=x; point[1]=y;
             if (func_021F4450(rect,point)) {
-                func_021F4394(p);
+                func_021F4394((unsigned char *)p);
                 ((struct Obj01576 *)p)->f18=1;
             }
         }

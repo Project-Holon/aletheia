@@ -27,7 +27,7 @@ typedef signed int     s32;
 
 struct Pos;
 extern void func_021C18F8(u8 *p);
-extern void func_021C1A64(u8 *p, struct Pos *v);
+extern void func_021C1A64(u8 *p, const struct Pos *v);
 void func_021C1194(u8 *p, struct Pos *v)
 {
     func_021C1A64(p, v);

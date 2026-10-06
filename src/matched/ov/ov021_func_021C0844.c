@@ -37,7 +37,7 @@ extern void func_021C0988(u8 *p);
 struct Evt;
 extern void *func_02188C80(void *p);
 extern void *func_02029830(void *a, u32 b);
-extern void *func_02029620(void *a, u16 b, u16 c);
+extern void *func_02029620(void *a, u32 b, u32 c);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021C0844(u32 a, int *st, u8 *p)

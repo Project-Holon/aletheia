@@ -23,20 +23,23 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021CA5BC(u8 *p, int k);
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D6C24(void *m);
-extern void func_021D6C2C(void *m);
+struct Msg;
+struct R4;
+struct Unk021D6C2C;
+extern int func_021D6C24(struct R4 *p);
+extern void func_021D6C2C(struct Unk021D6C2C *p);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern int func_021C99A0(u8 *p, u8 *q);
+extern int func_021C99A0(void *w, const struct Msg *m);
 
 int func_021CA570(u8 *p, u8 *q)
 {
     u8 *m;
     if (func_021CA5BC(p + 0x1AB8, q[4])) {
         m = func_021B9934(((struct Obj00003 *)p)->f8, q[4]);
-        if (func_021D6C24(m)) {
-            func_021D6C2C(m);
+        if (func_021D6C24((struct R4 *)m)) {
+            func_021D6C2C((struct Unk021D6C2C *)m);
             func_021CD4B0(((struct Obj00003 *)p)->fC, 0x4b, q[4]);
-            func_021C99A0(p, q + 8);
+            func_021C99A0(p, (const struct Msg *)(q + 8));
             return 1;
         }
     }

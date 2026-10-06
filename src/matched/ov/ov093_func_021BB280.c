@@ -29,12 +29,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021B917C(u8 *);
+extern int func_021B917C(char *p);
 extern u8 func_021B8FF4(u8 *);
 extern void *func_021B86B8(void ***);
 extern u16 func_021B86DC(void **);
 extern void func_02005D90(u32, u32);
-extern void func_021BABEC(u8 *, void *);
+extern void func_021BABEC(int *p, void *f);
 extern int func_021BB320(u8 *, int *);
 extern int func_021BB368(u8 *, int *);
 extern int func_021BB3B0(u8 *, int *);
@@ -44,35 +44,35 @@ extern int func_021BB484(u8 *, int *);
 
 int func_021BB280(u8 *p)
 {
-    int r5 = func_021B917C(*(u8 * *)&((struct Obj05188 *)p)->fC);
+    int r5 = func_021B917C((char *)(*(u8 * *)&((struct Obj05188 *)p)->fC));
 
     ((struct Obj05188 *)p)->fAA = r5;
     ((struct Obj05188 *)p)->fA8 = func_021B8FF4(*(u8 * *)&((struct Obj05188 *)p)->fC);
 
     switch ((int)func_021B86B8(*(void *** *)&((struct Obj05188 *)p)->fC)) {
     case 1:
-        func_021BABEC(p, (void *)func_021BB43C);
+        func_021BABEC((int *)p, (void *)func_021BB43C);
         break;
     case 2:
-        func_021BABEC(p, (void *)func_021BB484);
+        func_021BABEC((int *)p, (void *)func_021BB484);
         break;
     case 3:
-        func_021BABEC(p, (void *)func_021BB3F8);
+        func_021BABEC((int *)p, (void *)func_021BB3F8);
         break;
     case 0:
         if (r5 == 1) {
-            func_021BABEC(p, (void *)func_021BB368);
+            func_021BABEC((int *)p, (void *)func_021BB368);
         } else if (r5 == 0 || r5 == 2) {
-            func_021BABEC(p, (void *)func_021BB3B0);
+            func_021BABEC((int *)p, (void *)func_021BB3B0);
         } else {
-            func_021BABEC(p, (void *)func_021BB320);
+            func_021BABEC((int *)p, (void *)func_021BB320);
         }
         break;
     default:
         if (r5 == 1) {
             func_02005D90(func_021B86DC(*(void ** *)&((struct Obj05188 *)p)->fC), 0xffff);
         }
-        func_021BABEC(p, (void *)func_021BB320);
+        func_021BABEC((int *)p, (void *)func_021BB320);
         break;
     }
     return 0;

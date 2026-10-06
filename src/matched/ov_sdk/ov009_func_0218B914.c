@@ -31,7 +31,7 @@ typedef struct GPIConnection {
     int f610;
 } GPIConnection;
 
-extern int func_0219329C(void **connection, char *input, int callErrorCallback);
+extern int func_0219329C(int *connection, const char *input, int fatal);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 typedef unsigned int   u32;
 extern void func_02193710(int *connection, int result, int errorString);
@@ -47,7 +47,7 @@ int func_0218B914(void **connection, char *input)
     char buffer[512];
 
     iconnection = (GPIConnection *)*connection;
-    if (func_0219329C(connection, input, 1))
+    if (func_0219329C((int *)connection, input, 1))
         return 4;
     if (!func_02193418(iconnection->f208, g_021A492C, buffer, 512)) {
         func_02193710((int *)connection, 1, (int)g_021A49AC);

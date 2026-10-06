@@ -17,11 +17,11 @@
 
 
 
-extern void func_021EB7E8(unsigned char *, unsigned, int);
-void func_021EB85C(unsigned char *p, unsigned i)
+extern void func_021EB7E8(char **p, unsigned box, int i);
+void func_021EB85C(unsigned char *p, int i)
 {
     unsigned v = i + p[0x19];
     if (v >= p[0x15])
         v -= p[0x15];
-    func_021EB7E8(p, v, 0);
+    func_021EB7E8((char **)p, v, 0);
 }

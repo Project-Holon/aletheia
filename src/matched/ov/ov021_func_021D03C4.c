@@ -42,7 +42,7 @@ extern u32 func_021ABE24(u8 *p);
 extern u32 func_021ABE18(u32 a);
 extern void func_021C6AE0(u32 a);
 extern int func_021C6AF0(u32 a, u32 b, u32 c);
-extern void func_021C6AF8(u32 *, u32);
+extern void func_021C6AF8(u8 *p, u32 v);
 extern void func_021C6AFC(u32 *, u16);
 extern int func_021C6574(u32 a, u32 b, u32 c);
 extern u16 func_021C6590(u32, u32, u32, u32);
@@ -64,7 +64,7 @@ void func_021D03C4(W *p)
     for (; i < 2; i++, t++) {
         func_021C6AE0((u32)buf);
         func_021C6AF0((u32)buf, k, t->a);
-        func_021C6AF8(buf, k);
+        func_021C6AF8((u8 *)buf, k);
         func_021C6AFC(buf, t->b);
         q = hp + i;
         hp[i] = func_021C6574(h, (u32)buf, 0);

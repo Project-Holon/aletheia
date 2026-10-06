@@ -33,7 +33,7 @@ extern u32 func_02012A30(const struct BigObj *p);
 extern int func_02005F38(void);
 extern u32 func_020289B8(struct Sys *s);
 typedef unsigned short u16;
-extern void *func_02029620(void *a, u16 b, u16 c);
+extern void *func_02029620(void *a, u32 b, u32 c);
 extern void func_0215897C(void *a, void *b);
 
 int func_021AF324(u32 a, u32 b)

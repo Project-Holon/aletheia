@@ -22,7 +22,8 @@ extern void func_021D8950(char *,int);
 extern void func_021DA164(void *);
 extern void func_021DA1A8(char *,int);
 extern void func_021D8AF4(char *,int);
-extern void func_021D9E60(char *,int);
+typedef unsigned char  u8;
+extern void func_021D9E60(u8 *p, int n);
 extern void func_021D97B8(char *);
 void func_021D9760(char *p)  {
     switch(((struct Obj00361 *)p)->f31C)  {
@@ -33,7 +34,7 @@ void func_021D9760(char *p)  {
         func_021D8AF4(p,2);
         ((struct Obj00361 *)p)->f31C=255;
         break;
-        case 2: func_021D9E60(p,((struct Obj00361 *)p)->f320);
+        case 2: func_021D9E60((u8 *)p,((struct Obj00361 *)p)->f320);
         func_021D97B8(p);
         break;
         case 255: break;

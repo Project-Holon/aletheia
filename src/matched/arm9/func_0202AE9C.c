@@ -16,7 +16,7 @@
 
 typedef unsigned int u32;
 
-extern int func_0202AD78(void *p);
+extern int func_0202AD78(int a0);
 struct Rec44;
 struct Vec12;
 extern struct Vec12 *func_02012AA0(struct Rec44 *p);
@@ -24,7 +24,7 @@ extern void func_0202AF34(int a, u32 b);
 
 void func_0202AE9C(void *p)
 {
-    int a = func_0202AD78(p);
+    int a = func_0202AD78((int)p);
 
     func_0202AF34(a, (u32)func_02012AA0((struct Rec44 *)(((struct Obj15818 *)p)->f0)));
 }

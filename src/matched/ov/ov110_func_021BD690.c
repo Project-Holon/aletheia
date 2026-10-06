@@ -24,10 +24,10 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_0202452C(void *);
-extern int func_02024584(unsigned);
-extern int func_02024530(void *);
-void func_021BD690(u8 *p,void *out)
+extern int func_0202452C(const u16 *p);
+extern u8 func_02024584(u32 i);
+extern unsigned int func_02024530(const u16 *p);
+void func_021BD690(u8 *p, u16 *out)
 {
     *(s16 *)p=func_0202452C(out);
     p[3]=func_02024584(*(s16 *)p);

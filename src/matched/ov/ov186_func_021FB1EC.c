@@ -18,7 +18,7 @@
  */
 typedef signed short s16;
 typedef struct { char pad[8];void *obj;char padC[12];int target;unsigned state;s16 from,to,tick,duration; } Ctx;
-extern void func_021FAEE4(void *,int *);
+extern void func_021FAEE4(char *p, int *out);
 extern void func_021FB548(char *p, short *x, short *y);
 extern void func_021FB514(char *p, short x, short y);
 extern void func_021FADB8(char *,int);
@@ -29,7 +29,7 @@ int func_021FB1EC(Ctx *p)
     switch(p->state) {
     case 0: {
         int position[2];
-        func_021FAEE4(p,position);
+        func_021FAEE4((char *)p,position);
         p->from=position[1];p->to=224;p->tick=0;p->duration=14;p->state=1;
         break;
     }
@@ -45,7 +45,7 @@ int func_021FB1EC(Ctx *p)
     case 2:func_021FADB8((char *)p,1);p->state=3;break;
     case 3: {
         int position[2];
-        func_021FAEE4(p,position);
+        func_021FAEE4((char *)p,position);
         p->from=position[1];p->to=p->target;p->tick=0;p->duration=14;p->state=4;
         break;
     }

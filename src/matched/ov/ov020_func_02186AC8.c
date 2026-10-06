@@ -19,7 +19,8 @@
 extern int func_02186B08(char *);
 extern char *func_02186B2C(char *, char *);
 extern void func_02161E78(void *a0);
-extern void func_0218677C(char *, int);
+typedef unsigned char  u8;
+extern void func_0218677C(u8 *p, void *src);
 
 void func_02186AC8(char *p, int b, char *c, int d)
 {
@@ -32,5 +33,5 @@ void func_02186AC8(char *p, int b, char *c, int d)
     q = p + 8;
     q = func_02186B2C(q, c);
     if (d != 0)
-        func_0218677C(q, b);
+        func_0218677C((u8 *)q, (void *)b);
 }

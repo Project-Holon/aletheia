@@ -57,7 +57,7 @@ typedef struct Grid {
     u8 count;
 } Grid;
 
-void func_02206E2C(Grid *p)
+void func_02206E2C(Grid *p, u16 heap)
 {
     int i;
     float a0, b, c, d;

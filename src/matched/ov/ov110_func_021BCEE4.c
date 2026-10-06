@@ -18,8 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BCDE0(void *);
+extern void func_021BCDE0(u8 *p);
 extern void func_021BCE24(void *);
 extern void func_021BCE54(char *);
 extern void func_021BCEA0(char *);
-void func_021BCEE4(char *p,u32 mode) { switch(mode) { case 0: func_021BCDE0(p); break; case 1: func_021BCE24(p); break; case 2: func_021BCE54(p); break; case 3: func_021BCEA0(p); break; } }
+void func_021BCEE4(char *p,u32 mode) { switch(mode) { case 0: func_021BCDE0((u8 *)p); break; case 1: func_021BCE24(p); break; case 2: func_021BCE54(p); break; case 3: func_021BCEA0(p); break; } }

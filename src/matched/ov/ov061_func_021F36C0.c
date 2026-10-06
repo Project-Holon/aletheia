@@ -34,7 +34,7 @@ extern u16 func_02188C84(u8 *p);
 extern int func_02188D2C(int *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void func_021BE760(void *a, void *b, int c);
-extern void func_021BE4B4(void *p, int i, u16 j, int v);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern int func_021BE480(char *p, unsigned i, int j);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
@@ -56,7 +56,7 @@ void func_021F36C0(void *a)
     o = func_02189764(a, 0, w, 0xc);
     func_021BE760(s, d_021F3974, 0);
     for (i = 0; i < 9; i++) {
-        func_021BE4B4(s, 0, i, 1);
+        func_021BE4B4(s, 0, (u16)i, 1);
     }
     o[1] = (int)func_021BE480(s, 0, 0);
     e = func_021BE674(s, 0, 0, 0);

@@ -82,11 +82,13 @@ typedef struct {
 typedef struct { u32 year, month, day, week; } RTCDate;
 typedef struct { u32 hour, minute, second; } RTCTime;
 
-extern void func_0203F49C(RTCDate *date, RTCTime *time);
+struct RtcDate;
+struct RtcTime;
+extern void func_0203F49C(struct RtcDate *date, struct RtcTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 struct Sub020089A8Obj;
 extern void sub_02008A34(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
-extern void sub_02008ADC(void *obj, int i, int v);
+extern void sub_02008ADC(struct Sub020089A8Obj *obj, int i, int value);
 
 void func_021C81C0(Work *p)
 {
@@ -95,7 +97,7 @@ void func_021C81C0(Work *p)
     s64 sec;
     int i;
 
-    func_0203F49C(&date, &time);
+    func_0203F49C((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     sec = RTC_ConvertDateTimeToSecond(&date, &time);
     sub_02008A34(p->f184, (u32)sec, (u32)(sec >> 32));
     for (i = 0; i < 8; i++) {

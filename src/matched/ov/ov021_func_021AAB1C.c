@@ -36,13 +36,15 @@ typedef struct {
     D *f10;
 } S;
 
-extern T *func_02012A38(int a);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02012A38(const struct BigObj *p);
 
 extern void func_021ADB5C(int a, int b);
 
 void func_021AAB1C(S *s, int b)
 {
-    T *t = func_02012A38(s->f8);
+    T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
     D *d = s->f10;
     if (t->lo && d->f5b4 != 0) {
         func_021ADB5C(d->f5b4, b);

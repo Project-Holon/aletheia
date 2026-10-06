@@ -33,7 +33,8 @@ extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
 extern u8 func_021B9B94(struct Q1 *p);
 extern u32 func_021B8588(void **p);
 extern u8 func_021D7F2C(u32 a, u8 b);
-extern int func_021CFBBC(void *, u8);
+typedef signed char    s8;
+extern int func_021CFBBC(s8 *p, int v);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern u16 func_021D57FC(void *);
 extern int func_021D799C(int, int);
@@ -56,7 +57,7 @@ int func_021D0304(struct G *g, void *mon, void *target, u8 *out)
         n = func_021B9B94(g->list);
         i = func_021D7F2C(func_021B8588(g->p0), g->start);
         for (; i < n; i++) {
-            if (!func_021CFBBC(g, i)) {
+            if (!func_021CFBBC((s8 *)g, (u8)i)) {
                 other = func_021B9C00(g->list, (u8)i);
                 if (func_021D0644(g, other, target, 4)) {
                     affinity = func_021D799C(((u8 *)hist)[4], func_021D57FC(other));

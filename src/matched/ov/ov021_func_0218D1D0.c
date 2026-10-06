@@ -28,7 +28,7 @@ typedef signed int     s32;
 typedef struct Elem { int idx; int x; int y; int z; } Elem;
 
 extern u32 func_0207C768(u32 a, u32 b);
-extern void func_0218DD80(Elem *e, int idx);
+extern void func_0218DD80(u8 *p, u32 v);
 extern void func_0218DD9C(Elem *e, int x, int y, int z);
 
 static inline s32 FX_Mul(s32 a, s32 b)
@@ -65,7 +65,7 @@ void func_0218D1D0(char *p, void *a, Elem *e)
             r = col / ((struct Obj02687 *)p)->f14;
             if (idx >= ((struct Obj02687 *)p)->f18)
                 idx = -1;
-            func_0218DD80(e + idx, idx);
+            func_0218DD80((u8 *)(e + idx), idx);
             func_0218DD9C(e + idx, base + FX_Mul(c << 12, s), y, base + FX_Mul(r << 12, s));
             idx++;
         }

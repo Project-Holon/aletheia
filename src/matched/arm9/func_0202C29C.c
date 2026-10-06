@@ -25,13 +25,15 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_0202C24C(u32 *p);
-extern u32 func_0202C268(u32 *p, u32 v);
+typedef unsigned char  u8;
+struct Obj0202C244;
+extern u32 sub_0202C24C(struct Obj0202C244 *p);
+extern u32 func_0202C268(u8 *p, u32 v);
 
-u32 func_0202C29C(u32 *p, u32 v)
+int func_0202C29C(u32 *p, u32 v)
 {
-    u32 f = sub_0202C24C(p);
-    u32 x = func_0202C268(p, v);
+    u32 f = sub_0202C24C((struct Obj0202C244 *)p);
+    u32 x = func_0202C268((u8 *)p, v);
 
     if (f == x) {
         return 0;

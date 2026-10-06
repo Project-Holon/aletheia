@@ -22,7 +22,7 @@ void func_0204A8D4(u32 i);
 void func_0204ADA4(u32 i);
 void func_0204AFD8(u32 i);
 
-void func_021A29F4(u16 *p)
+void func_021A29F4(u16 *p, u32 a1, u32 a2, u32 a3)
 {
     if (p[0] != 0) {
         func_0204A8D4(p[1]);

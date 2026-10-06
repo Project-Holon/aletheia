@@ -23,7 +23,7 @@ typedef struct { int v[5]; } Arr;
 extern const Arr d_021D5024;
 extern const Arr d_021D5038;
 extern u16 func_0216D5F8(void *p);
-extern void func_0216D5E0(u32, u16);
+extern void func_0216D5E0(int a0, int a1);
 
 int func_0219A6CC(u32 a, s8 *b)
 {
@@ -47,7 +47,7 @@ int func_0219A6CC(u32 a, s8 *b)
     i++;
     if (t[i] == 9)
         i = 0;
-    func_0216D5E0(a, t[i]);
+    func_0216D5E0((u32)a, (u16)t[i]);
     b[2] = 0;
     return 1;
 }

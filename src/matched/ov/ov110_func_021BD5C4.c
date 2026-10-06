@@ -67,7 +67,8 @@ struct Ctx;
 extern u8 *func_0203159C(struct Obj0203159C *,u32,u32);
 extern u32 func_02024144(const u8 *);
 extern u32 func_0202421C(void *);
-extern void func_02024168(const u8 *,u16 *,u16 *);
+struct Input;
+extern void func_02024168(const struct Input *p, u16 *a, u16 *b);
 extern void func_021BD690(u8 *,u16 *);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
@@ -78,7 +79,7 @@ extern void *func_02051B84(u8 *,int,int,int);
 extern void func_021BD578(int,u32,u8 *);
 extern u8 *func_021BAEDC(void *,void *,u16);
 extern void func_021BF4F8(u8 *,u32);
-extern int func_021BF508(u8 *,u32 *);
+extern void func_021BF508(u8 *p, int *q);
 extern const u8 d_021C3908[];
 extern const char d_021C3C78[];
 u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
@@ -89,7 +90,7 @@ u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
     *(u8 **)p=input;
     *(u32 *)(p+4)=func_02024144(input);
     *(u32 *)(p+0x70)=func_0202421C(*(u8 **)p);
-    func_02024168(*(u8 **)p,(u16 *)(p+0x10),(u16 *)(p+8));
+    func_02024168((const struct Input *)(*(u8 **)p),(u16 *)(p+0x10),(u16 *)(p+8));
     if(*(u32 *)(p+4)==2) func_021BD690(p+0x64,(u16 *)(p+8));
     q=func_02030734(41,func_02030CB0(5),0,d_021C3C78,579);
     *(struct Ctx **)(p+0x78)=q;

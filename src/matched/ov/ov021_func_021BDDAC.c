@@ -18,12 +18,12 @@ typedef struct {
     void *f54;
 } Obj;
 
-extern void func_0218FE98(void *a);
+extern void func_0218FE98(void);
 
 void func_021BDDAC(Obj *p)
 {
     if (p->f54 != 0) {
-        func_0218FE98(p->f54);
+        func_0218FE98();
         p->f54 = 0;
     }
 }

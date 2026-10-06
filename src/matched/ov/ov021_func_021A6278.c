@@ -14,6 +14,6 @@
  * symbols:
  */
 
-void func_021A6278(void)
+void func_021A6278(void *a, void *b, int c, int d, int e, int f)
 {
 }

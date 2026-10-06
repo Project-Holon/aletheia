@@ -16,10 +16,10 @@
  */
 
 extern char *func_0203D798(int a);
-extern void func_02156344(int v);
+extern void func_02156344(void *a);
 
 void func_021563C0(int a)
 {
-    func_02156344(*(unsigned short *)(func_0203D798(a) + 0x56));
+    func_02156344((void *)(*(unsigned short *)(func_0203D798(a) + 0x56)));
 }
 

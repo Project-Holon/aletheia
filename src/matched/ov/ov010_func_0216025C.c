@@ -75,15 +75,18 @@ extern void *func_0200C404(void *p);
 extern u8 func_0200C464(const u8 *a, u32 i);
 extern int func_0216040C(Req *r, u32 code);
 extern int func_02160564(u32 state, u32 *out, u32 *err);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern void func_02164480(Flags *f, void *a, void *b);
-extern u32 func_02028754(Flags *f, u32 n);
-extern int func_0216070C(Ctx *c);
+struct Obj;
+struct Owner;
+struct Work;
+extern u32 func_02028754(struct Obj *obj, u32 n);
+extern int func_0216070C(struct Work *w);
 extern void func_020307B0(void *p);
 extern void *func_02188C7C(u8 *p);
 extern void func_0216D9E4(void *p);
-extern int func_0216060C(Ctx *c);
-extern void *func_0216075C(Req *r, u16 id);
+extern int func_0216060C(int a0, int a1);
+extern void *func_0216075C(struct Owner *o, u16 id);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021644F4(int i, void *a, void *p);
 extern void *func_020127A4(struct SaveBlock *p);
@@ -114,10 +117,10 @@ int func_0216025C(void *evt, u32 *state, Ctx *c)
             failed = 1;
         } else if (ok == 1) {
             func_02164480(&flags, c->f04, c->f08);
-            if (func_02028754(&flags, idx) == 0)
+            if (func_02028754((struct Obj *)(&flags), idx) == 0)
                 failed = 1;
         }
-        if (code == 9 && func_0216070C(c) == 0)
+        if (code == 9 && func_0216070C((struct Work *)c) == 0)
             busy = 1;
         if (failed == 1) {
             *state = 5;
@@ -139,8 +142,8 @@ int func_0216025C(void *evt, u32 *state, Ctx *c)
         func_0216D9E4(func_02188C7C(c->f08));
         return 1;
     case 2:
-        if (func_0216060C(c) != 0) {
-            func_02012374(evt, func_0216075C(c->req, c->id));
+        if (func_0216060C((int)c, (int)state) != 0) {
+            func_02012374(evt, func_0216075C((struct Owner *)c->req, c->id));
             *state = 3;
         }
         break;

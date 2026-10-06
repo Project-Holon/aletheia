@@ -26,18 +26,18 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_021E12AC(void *);
+extern int func_021E12AC(char *p);
 extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);
 extern int func_02035C60(void);
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
-extern void func_021E1030(void *);
+extern void func_021E1030(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DDB64(unsigned char *p);
 
 void func_021DDB90(unsigned char *p)
 {
-    int v;func_020399A8();if(func_021E12AC(p)){v=func_020362DC();if(v)func_020355D8(0);if(v==0){v=func_02035C60();if(v)func_020355D8(1);if(v==0)return;}func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),0x88,(void *)(*(int *)&((struct Obj00001 *)p)->f738));func_021E1024(p);func_021E1030(p);func_021D8E84(p,(int)func_021DDB64);}
+    int v;func_020399A8();if(func_021E12AC((char *)p)){v=func_020362DC();if(v)func_020355D8(0);if(v==0){v=func_02035C60();if(v)func_020355D8(1);if(v==0)return;}func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),0x88,(void *)(*(int *)&((struct Obj00001 *)p)->f738));func_021E1024(p);func_021E1030((char *)p);func_021D8E84(p,(int)func_021DDB64);}
 }

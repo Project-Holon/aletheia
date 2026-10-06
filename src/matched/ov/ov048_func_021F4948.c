@@ -86,7 +86,8 @@ typedef struct { u16 h0; u16 h2; u16 h4; } Dim;
 typedef struct { int f0; int f4; Dim *f8; } Img;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02045B38(u32 a, u16 b, u16 c, u32 d);
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 struct AnmCtl;
 struct MsgBank;
 struct Owner;
@@ -123,7 +124,7 @@ R *func_021F4948(P *p, const Q *q, int c)
     fx32 w;
 
     r = func_02030734(p->h0, 0x24, 0, d_021F523C, 0x180);
-    arc = func_02045B38(0, q->fC, q->f10, p->h0);
+    arc = (u32)func_02045B38(0, (u16)q->fC, (u16)q->f10, p->h0);
     if (q->f18 != 0) {
         str = (u32)func_020457B0(0xC0, p->h0);
         tmp = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);

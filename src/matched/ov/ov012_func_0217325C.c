@@ -102,13 +102,13 @@ struct BigObj;
 struct Ctx;
 extern u32 func_020084F8(void *dst, u32 value, u32 size);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u32  func_02008550(void *s);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201283C(const struct BigObj *p);
-extern void func_02009CB0(u32 a, void *dst);
+extern int func_02009CB0(int a0, int a1);
 extern int func_021840C8(u8 *p);
 
 void func_0217325C(u8 *self, Rec *out)
@@ -132,7 +132,7 @@ void func_0217325C(u8 *self, Rec *out)
     out->fB = l->f0;
     func_020084F8((*(Save * *)&((struct Obj02671 *)self)->f0)->f0, (u32)out->fC, 8);
     out->b6hi = func_02008554((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
-    out->b7bit = func_02008550((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
+    out->b7bit = (u32)func_02008550((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
     out->f5C = func_02008530((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
     out->b7lo = l->fF;
     out->f1C = l->f4;
@@ -143,7 +143,7 @@ void func_0217325C(u8 *self, Rec *out)
     out->f26 = func_0200856C((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
     out->f27 = func_02008570((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
     out->f28 = l->f30;
-    func_02009CB0(func_0201283C(func_020120F4((const struct Ctx *)((*(Save * *)&((struct Obj02671 *)self)->f0)->fC))), out->f50);
+    func_02009CB0(func_0201283C(func_020120F4((const struct Ctx *)((*(Save * *)&((struct Obj02671 *)self)->f0)->fC))), (int)out->f50);
     if (((struct Obj02671 *)self)->f3528 != 0)
         out->b6bit = func_021840C8(((struct Obj02671 *)self)->f3528);
     else

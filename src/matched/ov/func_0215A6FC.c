@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern int func_02197DA0();
 extern int func_02197DAC();
 
-int func_0215A6FC(int a0, int a1)
+u32 func_0215A6FC(u32 a0, u32 a1, u32 a2, u32 a3)
 {
     int t4;
     int t5;

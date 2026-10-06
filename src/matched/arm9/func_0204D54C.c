@@ -28,10 +28,11 @@
 typedef unsigned char u8;
 
 extern void func_0204D52C(void *p);
-extern void func_02064C10(void *p);
+struct Obj02064C10;
+extern void func_02064C10(struct Obj02064C10 *x);
 
 void func_0204D54C(void *p)
 {
     func_0204D52C(p);
-    func_02064C10((u8 *)p + 0x40);
+    func_02064C10((struct Obj02064C10 *)((u8 *)p + 0x40));
 }

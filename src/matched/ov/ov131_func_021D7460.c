@@ -27,7 +27,7 @@ extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern int func_02035C60(void);
 extern int func_02035C38(void);
 extern int func_02035BA4(const void *);
-extern void func_021D77E8(void *,u32,u32);
+extern void func_021D77E8(u8 *p, u32 a, u32 b);
 extern void func_021D75A4(int a, u8 *p);
 extern const Rects d_021DC1E0;
 void func_021D7460(u8 *a,u8 *p) {

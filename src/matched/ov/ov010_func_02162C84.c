@@ -30,13 +30,14 @@ struct Box {
     struct Sub s;
 };
 
-extern int func_02162C54(struct Box *b);
+typedef unsigned char  u8;
+extern int func_02162C54(u8 *p);
 extern u16 func_02162AA4(int q, int m, int a, int b, u16 n);
 
 void func_02162C84(struct Box *b, int q, int *out)
 {
     struct Sub *s = &b->s;
-    int m = func_02162C54(b);
+    int m = func_02162C54((u8 *)b);
     out[0] = b->s.f0 << 12;
     out[1] = s->f2 << 12;
     out[2] = s->f4 << 12;

@@ -32,7 +32,7 @@ extern int func_021BB798(u8 *);
 extern void func_021BB7D0(const u8 *p);
 extern int func_021C84D8(u8 *p);
 extern void func_021B916C(u8 *p, u32 x);
-extern void func_021BABEC(u8 *, void *);
+extern void func_021BABEC(int *p, void *f);
 extern int func_021BB280(u8 *);
 
 int func_021BB208(u8 *p, int *s)
@@ -57,7 +57,7 @@ int func_021BB208(u8 *p, int *s)
         if (func_021BB798(p) != 0) {
             func_021BB7D0(p);
             func_021B916C((u8 *)(((struct Obj13292 *)p)->fC), func_021C84D8((u8 *)(((struct Obj13292 *)p)->f44)));
-            func_021BABEC(p, (void *)func_021BB280);
+            func_021BABEC((int *)p, (void *)func_021BB280);
         }
         break;
     }

@@ -17,10 +17,10 @@ typedef unsigned short u16;
 typedef struct { u16 value : 3; } Flag;
 typedef struct { u8 value; u8 enabled; } Pair;
 extern int func_02174854(u8 *p, int key, int data);
-void func_02176850(u8 *p, u8 value)
+int func_02176850(u8 *p, u8 value)
 {
     Pair pair;
     pair.value = value;
     pair.enabled = 1;
-    func_02174854(p, (u8)((Flag *)(p + 0x86))->value, (int)&pair);
+    return func_02174854(p, (u8)((Flag *)(p + 0x86))->value, (int)&pair);
 }

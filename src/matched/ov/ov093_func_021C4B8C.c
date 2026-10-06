@@ -22,10 +22,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_06898D54(void (*cb)(int, int, u8 *), u8 *arg);
+extern void func_06898D54(void (*cb)(u8, u32, u32), u32 arg);
 extern void func_021C4B9C(int v, int k, u8 *p);
 
 void func_021C4B8C(u8 *p)
 {
-    func_06898D54(func_021C4B9C, p);
+    func_06898D54((void (*)(u8,  u32,  u32))func_021C4B9C, (u32)p);
 }

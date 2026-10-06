@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 
 extern void sub_0202C0C8(void *p);
 
-void func_0202B7E0(u8 *p)
+void func_0202B7E0(u8 *p, u32 b)
 {
     sub_0202C0C8(((struct Obj08804 *)p)->f20);
 }

@@ -26,7 +26,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02067A60(void *o);
+struct S;
+extern void func_02067A60(struct S *p);
 extern void func_02082AC0(int a, void *p, int n);
 extern u8 g_02147B88[];
 extern u8 g_020A81F8[];
@@ -39,7 +40,7 @@ void func_02065AA8(u8 *o)
     u8 *p;
     int m1;
     int sz;
-    func_02067A60(o);
+    func_02067A60((struct S *)o);
     i = 0;
     ((struct Obj02326 *)o)->f70 = i;
     ((struct Obj02326 *)o)->f74 = i;

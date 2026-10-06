@@ -53,8 +53,8 @@ extern void *func_020127A4(struct SaveBlock *p);
 extern struct H4 *func_02012AB8(struct Rec44 *p);
 extern void func_021A36B0(u8 *p, void *v);
 extern void func_021A36D4(u8 *p, u32 v);
-extern void func_021A3044(u8 *p, u32 v);
-extern void func_021A305C(u8 *p, u32 v);
+extern void func_021A3044(u8 *p, void *v);
+extern void func_021A305C(char *p, u32 b);
 
 void func_021A6CB8(u8 *a, u32 b, u32 c)
 {
@@ -67,6 +67,6 @@ void func_021A6CB8(u8 *a, u32 b, u32 c)
     func_02188D40(a, (u32)func_0216D888(func_021A3074(r4)));
     func_021A36B0(r4, func_02012AB8(func_020127A4(func_020120F4(func_02188C80(a)))));
     func_021A36D4(r4, b);
-    func_021A3044(r4, b);
-    func_021A305C(r4, c);
+    func_021A3044(r4, (void *)b);
+    func_021A305C((char *)r4, c);
 }

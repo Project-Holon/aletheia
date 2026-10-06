@@ -24,9 +24,11 @@ struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *,unsigned int);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204BA00(int,const Callback *);
+struct Actor;
+struct Cmd;
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_021E7058(void *);
-extern void func_021E6FC8(void *);
+extern void func_021E6FC8(char *p);
 void func_021E6FD4(char *p, int x, int y) {
     Callback cb;
     Create c;
@@ -36,6 +38,6 @@ void func_021E6FD4(char *p, int x, int y) {
     func_0204B3DC((struct Obj *)((struct Obj00001 *)p)->fF24,1);
     func_0204B92C((struct Obj *)((struct Obj00001 *)p)->fF24,1);
     p[0x11f5]=0;
-    cb.v=0;cb.p=p;cb.fn=func_021E6FC8;
-    func_0204BA00(((struct Obj00001 *)p)->fF24,&cb);
+    cb.v=0;cb.p=p;cb.fn=(void (*)(void *))func_021E6FC8;
+    func_0204BA00((struct Actor *)(((struct Obj00001 *)p)->fF24),(const struct Cmd *)(&cb));
 }

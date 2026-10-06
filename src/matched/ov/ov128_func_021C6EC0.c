@@ -55,36 +55,41 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void func_021C6EA0(u8 *,u8 *,u8 *,u16);
-extern void func_021C72E4(u8 *,u8 *,u8 *);
-extern int func_021C74C4(u8 *,u8 *,u8 *);
+struct Actor;
+struct U16Vec;
+struct WordSet;
+extern void func_021C72E4(u8 *p, int *q, u8 *ctx);
+extern int func_021C74C4(int *p, int *q, u8 *r);
 extern void func_021CA3A0(char *);
 extern void func_021CA3C4(char *);
-extern int func_021CA1E0(u8 *);
-extern int func_021C76BC(u8 *,u8 *);
-extern void func_021C74E8(u8 *,u8 *);
+extern int func_021CA1E0(char *p);
+extern int func_021C76BC(int *p, u8 *q);
+extern void func_021C74E8(u32 *p, u8 *q);
 extern void func_021C7500(u8 *,u8 *);
 extern void func_021C7558(u8 *,u8 *,unsigned,unsigned);
 extern u64 func_021CA014(void *,int *);
-extern void func_021C6B50(void *,u64);
-extern int func_021C7674(u8 *,u8 *,u8 *);
-extern void *func_021C6E3C(void *,void *,int,int);
-extern int func_021C6E74(void *);
-extern int func_021C6460(u8 *,void *,u32);
-extern int func_021CA084(u8 *);
-extern void func_021C7694(u8 *,u8 *);
-extern void func_021CA19C(u8 *);
+extern void func_021C6B50(void **p, unsigned long long value);
+extern int func_021C7674(void *p, int *q, u8 *r);
+extern void *func_021C6E3C(void *p, void **q, int a, int heap);
+extern int func_021C6E74(u8 *p);
+extern int func_021C6460(char *p, void *q, u32 arg);
+extern int func_021CA084(int *p);
+extern void func_021C7694(u8 *p, void *ctx);
+extern void func_021CA19C(unsigned *p);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void);
-extern void func_0202EA40(void *);
-extern u32 func_0204B98C(void *);
+typedef signed int     s32;
+struct Row;
+extern s32 func_0202EA40(struct Row *p);
+extern u32 func_0204B98C(struct Actor *a);
 extern void *func_0200846C(int);
-extern void func_020084E4(void *,void *);
-extern void func_0201F02C(void *,u32,void *);
+extern void func_020084E4(u16 *out, struct U16Vec *vec);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_020307B0(void *);
 extern u8 func_020355C4(void);
 extern void func_021C7138(u8 *,u8 *,u8 *);
 extern const u8 d_021CA4F9[];
-int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
+int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
 {
     int result;
     void *text;
@@ -92,7 +97,7 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
     switch(q[8]) {
     case 0:
         func_021C6EA0(p,q,ctx,52);
-        func_021C72E4(p,q,ctx);
+        func_021C72E4(p,(int *)q,ctx);
         func_0202208C(0,1,1,0,6,1,heap);
         q[8]=1;
         break;
@@ -101,12 +106,12 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
         break;
     case 2:
         func_021C6EA0(p,q,ctx,52);
-        func_021C72E4(p,q,ctx);
+        func_021C72E4(p,(int *)q,ctx);
         q[8]=3;
         break;
     case 3:
         func_0202EA40(*(void **)(ctx+0x184));
-        result=func_021C74C4(p,q,ctx);
+        result=func_021C74C4((int *)p,(int *)q,ctx);
         if(result!=0) {
             if(*(u32 *)p==3) func_021CA3A0((char *)ctx);
             else if(*(u32 *)p==4) func_021CA3C4((char *)ctx);
@@ -120,10 +125,10 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
         } else if(*(u32 *)p==4) {
             if(func_0204B98C(*(void **)(ctx+0x168))==1) break;
         } else {
-            if(func_021CA1E0(p)==1) break;
+            if(func_021CA1E0((char *)p)==1) break;
         }
-        if(func_021C76BC(p,q)==1) {
-            func_021C74E8(p,q);
+        if(func_021C76BC((int *)p,q)==1) {
+            func_021C74E8((u32 *)p,q);
             if(*(u32 *)p==3) q[8]=5;
             else if(*(u32 *)p==4) q[8]=5;
             else if(*(u32 *)p==1) q[8]=5;
@@ -149,7 +154,7 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
         break;
     case 7:
         func_021C6EA0(p,q,ctx,52);
-        func_021C72E4(p,q,ctx);
+        func_021C72E4(p,(int *)q,ctx);
         func_0202208C(0,1,1,0,6,1,heap);
         q[8]=8;
         break;
@@ -161,7 +166,7 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
             func_020307B0(text);
             number=func_021CA014(*(void **)(q+0x5C),&result);
             if(result!=0) {
-                func_021C6B50(ctx,number);
+                func_021C6B50((void **)ctx,number);
                 func_021C7558(p,ctx,55,heap);
                 q[8]=9;
             } else {
@@ -171,8 +176,8 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
         }
         break;
     case 9:
-        if(func_021C7674(p,q,ctx)!=0) {
-            *(void **)(p+0x4C)=func_021C6E3C(p+0x30,p+0x48,1,heap);
+        if(func_021C7674(p,(int *)q,ctx)!=0) {
+            *(void **)(p+0x4C)=func_021C6E3C(p+0x30,(void **)(p+0x48),1,heap);
             q[8]=10;
         }
         break;
@@ -182,10 +187,10 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
             {
             int submission;
             *(u32 *)q=func_020355C4();
-            submission=func_021C6460(q,*(void **)(q+0x5C),*(u32 *)(q+0x58));
+            submission=func_021C6460((char *)q,*(void **)(q+0x5C),*(u32 *)(q+0x58));
             if(submission==0) {
                 func_021C7694(p,ctx);
-                func_021CA19C(p);
+                func_021CA19C((unsigned int *)p);
                 q[8]=3;
             } else {
                 func_021C7558(p,ctx,d_021CA4F9[submission],heap);
@@ -196,15 +201,15 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
         case 1:
             *(u32 *)q=func_020355C4();
             func_021C7694(p,ctx);
-            func_021CA19C(p);
+            func_021CA19C((unsigned int *)p);
             q[8]=3;
             break;
         }
         break;
     case 11:
-        if(func_021C7674(p,q,ctx)!=0 && func_021CA084(q)==1) {
+        if(func_021C7674(p,(int *)q,ctx)!=0 && func_021CA084((int *)q)==1) {
             func_021C7694(p,ctx);
-            func_021CA19C(p);
+            func_021CA19C((unsigned int *)p);
             q[8]=3;
         }
         break;

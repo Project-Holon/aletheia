@@ -32,12 +32,13 @@
  */
 #include "../include/Obj07023.h"
 typedef unsigned int u32;
-extern void func_02064140(char *p, int v);
+struct O02064140;
+extern void func_02064140(struct O02064140 *o, u32 a);
 
 void func_02064178(char *o, u32 a)
 {
     *(u32 *)&((struct Obj07023 *)o)->f0 = 0;
     ((struct Obj07023 *)o)->f4 = a;
     ((struct Obj07023 *)o)->f8 = 1;
-    func_02064140(o + 0xc, 1);
+    func_02064140((struct O02064140 *)(o + 0xc), 1);
 }

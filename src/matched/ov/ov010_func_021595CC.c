@@ -35,7 +35,7 @@ extern u32 func_0215A5D4(void *p);
 extern u32 func_0215A5D8(void *p);
 extern int func_02159B38(int);
 extern int func_021589A0(int a, int b, int c);
-extern void func_0215AA48(int, int);
+extern void func_0215AA48(void *p, int v);
 extern void *func_0215AA24(int a0);
 extern void func_0215AA34(int);
 extern void func_02158A34(void *, void *, int, int);
@@ -48,7 +48,7 @@ int func_021595CC(int a, int b)
     void *y = func_0215A5F4((void *)b);
     int z = func_02011330((struct Stream *)a);
     if (func_0215A5D4((void *)b) == 0) {
-        func_0215AA48(b, func_021589A0((int)y, func_02159B38(b), z));
+        func_0215AA48((void *)b, func_021589A0((int)y, func_02159B38(b), z));
         func_0215AA24(b);
         func_020113D0((char *)a, (int)func_021595A0);
         return 1;

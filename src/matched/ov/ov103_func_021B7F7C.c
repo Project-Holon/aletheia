@@ -19,17 +19,20 @@
 typedef unsigned int u32;
 extern void func_02082BCC(void *, int, u32);
 extern void func_0201DD60(void);
-extern u32 func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+struct GfFont;
+struct MsgBank;
+struct WordSet;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *p);
-extern u32 func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_0201EC64(u32 heap);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
 void func_021B7F7C(u32 *p, int skip, u32 heap)
 {
     func_02082BCC(p, 0, 16);
     func_0201DD60();
     if (skip == 0)
-        p[0] = func_0201D7EC(23, 0, 0, 0, heap);
+        p[0] = (u32)func_0201D7EC(23, 0, 0, 0, heap);
     p[2] = func_0201C440((void *)heap);
-    p[1] = func_02045B38(0, 2, 47, heap);
-    p[3] = func_0201EC64(heap);
+    p[1] = (u32)func_02045B38(0, 2, 47, heap);
+    p[3] = (u32)func_0201EC64(heap);
 }

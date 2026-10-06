@@ -35,7 +35,7 @@ extern int func_02062A98(struct NitroFileHeader *, void **);
 extern void func_02040E78(u32, void *, u32, u32);
 extern void sub_020307B0(void *);
 extern int func_02062A4C(struct NitroFileHeader *, void **);
-extern void func_02040B1C(u8, const void *, u32, u32);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern int func_02062B30(void *, void **);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void sub_020409B4(u32);

@@ -55,8 +55,8 @@ extern u32  func_021BE018(void *c, int i);
 extern u32  func_021BE024(void *c);
 extern u32 func_021BE004(void *p);
 extern u32 func_021BE0EC(void *c);
-extern void func_021BD134(void *c, u8 *p, u32 n);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_021BD134(void *ctx, char *st, u32 msgId);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 a);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
@@ -65,7 +65,7 @@ extern void func_0204B3DC(struct Obj *o, unsigned int k);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_0204B878(struct Obj *, u16);
-extern void *func_02030734(u16 heap, u32 size, u32 c, void *d, u32 e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 d_021C7234[];
 
 #define MK(c, p, a1, a2, a3, sp) func_0204B294((void *)func_021BE024(c), func_021BE018(c, a1), func_021BE018(c, a2), func_021BE018(c, a3), &d, sp, v)
@@ -152,7 +152,7 @@ void func_021BBA94(void *a0, u8 *p)
         *(u32 *)(ent + o3) = 0;
         *(u32 *)(ent + o4) = 0;
         *(u8 *)(ent + o5) = 0xff;
-        *(u32 *)(ent + o6) = (u32)func_02030734(v, 0x64, 1, d_021C7234, 0xff + 0x4b);
+        *(u32 *)(ent + o6) = (u32)func_02030734(v, 0x64, 1, (const char *)d_021C7234, 0xff + 0x4b);
         *(u8 *)(ent + o7) = 0;
     }
     for (k = 0; k < 15; k++) {
@@ -187,7 +187,7 @@ void func_021BBA94(void *a0, u8 *p)
     func_02041EE4(6, 3, 0);
     if ((u32)(*(u32 *)(o + 4) - 2) <= 1 && func_021BE0EC(a0) == 0) {
         func_0204B878((struct Obj *)*(u32 *)(p + 0x400), 0xf);
-        func_021BD134(a0, p, 0x18);
+        func_021BD134(a0, (char *)p, 0x18);
         *(u32 *)(p + 0x38) = 1;
         *(u32 *)(p + 0x18) = 3;
     }

@@ -27,7 +27,7 @@ extern int func_021A223C(unsigned char *o, int arg);
 extern void func_021A2390(u32 *p, int a, int b, int c);
 extern int func_021A23B0(int);
 extern int func_021A21BC(unsigned char *o);
-extern void func_021EEF0C(int, s16 *);
+extern void func_021EEF0C(int a, int *b);
 
 int func_021EED44(int a, int b, int c)
 {
@@ -52,6 +52,6 @@ int func_021EED44(int a, int b, int c)
             return 1;
         }
     }
-    func_021EEF0C(a, p);
+    func_021EEF0C(a, (int *)p);
     return 0;
 }

@@ -60,7 +60,7 @@ typedef struct {
 } GSLoginCertificatePrivate;
 typedef struct GSLoginCertificate GSLoginCertificate;
 
-extern void *func_021819B0(char **namespaces, int count);
+extern void *func_021819B0(const char **namespaces, int count);
 extern int func_021829AC(void *stream, char *namespaceName, char *tag);
 extern int func_021E2874(struct GSLoginCertificate *cert, char *aNamespace, void *writer);
 extern int func_02182A2C(void *stream, char *namespaceName, char *tag);
@@ -87,7 +87,7 @@ int func_021E0774(SCWebServices *theWebServices, unsigned int theGameId, GSLogin
 
     if (theWebServices->mCreateSessionPending)
         return 6;
-    aRequest = func_021819B0(g_021E41B8, 1);
+    aRequest = func_021819B0((const char **)g_021E41B8, 1);
     if (!aRequest)
         return 5;
     if (!func_021829AC(aRequest, g_021E41E4, g_021E41E8) ||

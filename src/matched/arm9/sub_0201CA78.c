@@ -47,12 +47,12 @@ extern void *g_02146558;
 
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void  func_02043AAC(void *a, void *b, u32 c, u32 d, s32 e, u32 f,
-                           u32 g, u32 h, u32 i, u32 j);
-extern void  func_0201DB04(u32 a, u16 b, void *c, const u8 *d);
+struct Font;
+extern void func_02043AAC(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u16 a10);
+extern void func_0201DB04(struct Font *p, u16 ch, void *c, void *d);
 
 void sub_0201CA78(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f)
 {
-    func_0201DB04(d, e, func_020437D4(g_02146558), f);
-    func_02043AAC(g_02146558, a, 0, 0, b + f[0], c, f[1], f[3], 0xF, 0);
+    func_0201DB04((struct Font *)d, e, func_020437D4(g_02146558), (void *)f);
+    func_02043AAC(g_02146558, (u32)a, 0, 0, b + f[0], c, f[1], f[3], 0xF, 0);
 }

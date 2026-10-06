@@ -29,9 +29,10 @@
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_021F05B4(char *p);
+typedef unsigned char  u8;
+extern int func_021F05B4(unsigned char *p);
 extern void func_020061E4(unsigned int id);
-extern void func_021F3098(char *p);
+extern void func_021F3098(u8 *p);
 extern void func_021F3118(void *p);
 extern void func_021EFEF8(char *p, void (*f)(void), int a);
 extern int func_021F2EEC(char *p, int k);
@@ -50,12 +51,12 @@ int func_021F29D8(char *p, int a)
     switch (((struct Obj00042 *)p)->f214) {
     case 1:
     case 6:
-        if (func_021F05B4(p) == 0) {
+        if (func_021F05B4((unsigned char *)p) == 0) {
             func_020061E4(0x54E);
             r = func_021F2EEC(p, ((struct Obj00042 *)p)->f214);
         } else {
             func_020061E4(0x7E3);
-            func_021F3098(p);
+            func_021F3098((u8 *)p);
             func_021EFEF8(p, (void (*)(void))func_021F3118, 0x1238);
         }
         break;
@@ -70,7 +71,7 @@ int func_021F29D8(char *p, int a)
         break;
     case 7:
     case 11:
-        if (func_021F05B4(p) == 0) {
+        if (func_021F05B4((unsigned char *)p) == 0) {
             func_020061E4(0x628);
             r = func_021F2EEC(p, ((struct Obj00042 *)p)->f214);
         } else {

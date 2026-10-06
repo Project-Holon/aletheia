@@ -49,7 +49,7 @@ struct Ctx;
 extern void *func_02189A00(u8 *p);
 extern int func_021C1D68(int a, int b, int c);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_021C61D4(Work *w);
+extern int func_021C61D4(u32 a);
 extern void func_021C61EC(void *a, void *b, void *c);
 extern u32 func_02188CE8(u8 *p);
 extern int func_021A9F40(struct Ctx *ctx, int mode);
@@ -92,7 +92,7 @@ int func_021C60B8(void *task, int *state, Work *w)
         *state = 5;
         break;
     case 5:
-        if (func_021C61D4(w) == 0) {
+        if (func_021C61D4((u32)w) == 0) {
             *state = 8;
             break;
         }

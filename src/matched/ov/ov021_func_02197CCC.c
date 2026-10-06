@@ -28,9 +28,9 @@ typedef signed int     s32;
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void func_0216D8B0(u8 *, s32 *);
-extern void func_0216D8D0(u8 *, s32 *);
-extern void func_0216D8F0(u8 *, s32 *);
+extern void func_0216D8B0(u8 *p, u8 *q);
+extern void func_0216D8D0(u8 *p, u8 *q);
+extern void func_0216D8F0(u8 *p, u8 *q);
 extern void func_0216D92C(u8 *, s32 *);
 
 void func_02197CCC(u8 *p, s32 *out)
@@ -42,9 +42,9 @@ void func_02197CCC(u8 *p, s32 *out)
     s32 e[3];
 
     func_0216D88C((const struct Actor *)p, (struct VecFx32 *)a);
-    func_0216D8B0(p, b);
-    func_0216D8D0(p, c);
-    func_0216D8F0(p, d);
+    func_0216D8B0(p, (u8 *)b);
+    func_0216D8D0(p, (u8 *)c);
+    func_0216D8F0(p, (u8 *)d);
     func_0216D92C(p, e);
     out[0] = a[0] + b[0] + c[0] + d[0] + e[0];
     out[1] = a[1] + b[1] + c[1] + d[1] + e[1];

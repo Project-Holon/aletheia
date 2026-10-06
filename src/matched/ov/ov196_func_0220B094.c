@@ -12,7 +12,7 @@
  * symbols:
  *   func_0220B07C  0x0220B07C  thumb  ov196
  */
-extern void func_0220B07C(void *);
+extern void func_0220B07C(void **p);
 
 void func_0220B094(char *p, unsigned char *q)
 {
@@ -21,7 +21,7 @@ void func_0220B094(char *p, unsigned char *q)
         unsigned char c = q[i];
         if (c == 0xff)
             break;
-        func_0220B07C(p + (c << 3));
+        func_0220B07C((void **)(p + (c << 3)));
         i++;
     }
 }

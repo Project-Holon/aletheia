@@ -19,11 +19,11 @@
 
 typedef unsigned int u32;
 
-extern void func_02010498(int, int, void *);
+extern void func_02010498(void);
 extern u32 func_0201058C(void *key);
 
 void func_021DE6F8(int a, int b, char *c)
 {
-    func_02010498(a, b, c);
+    func_02010498();
     ((struct Obj22915 *)c)->f54 = func_0201058C(0);
 }

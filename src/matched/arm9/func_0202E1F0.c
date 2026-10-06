@@ -76,16 +76,21 @@ typedef struct {
     u32   blink[2];     /* 0x20 */
 } BLINKWORK;
 
-extern void  func_02024570(MSGPARAM *dst, const MSGPARAM *src);
-extern u32   func_0202465C(MSGPARAM *p, u32 a1, u32 a2);
-extern void *func_0202441C(const MSGPARAM *p, u32 heap);
+struct Container;
+struct Pos;
+struct Rec8;
+struct Struct_0202441C;
+struct T;
+extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
+extern u32 func_0202465C(struct T *p, u32 a1, u32 a2);
+extern void *func_0202441C(const struct Struct_0202441C *obj, u32 heapId);
 extern u32   func_0201D478(void *str);
-extern u32   func_020244F8(const MSGPARAM *p, u32 idx);
-extern u16   func_020244D4(const MSGPARAM *p, u32 idx);
-extern void *func_02024368(const MSGPARAM *p, u32 heap, int count);
-extern u32   func_0201D528(void *s, u8 idx, u32 a, u32 b);
+extern u32 func_020244F8(struct Container *p, u32 idx);
+extern u16 func_020244D4(void *obj, u32 idx);
+extern void *func_02024368(u16 *slots, u32 heap, int count);
+extern u32 func_0201D528(void *s, u8 b, void *c, u32 d);
 extern u32   func_0201D4BC(void *s, u8 idx);
-extern void  func_0202E040(void *h, u32 cell, u32 b, u32 c, u32 n, const BLINKPOS *pos);
+extern void func_0202E040(void *h, u32 cell, u32 b, u32 c, u32 n, const struct Pos *base);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *msg);
 struct Cfg;
@@ -111,32 +116,32 @@ void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
     u16 heapID;
     int n;
 
-    func_02024570(&mp, param);
+    func_02024570((struct Rec8 *)(&mp), (const struct Rec8 *)param);
     param = &mp;
-    func_0202465C(&mp, 1, heap);
+    func_0202465C((struct T *)(&mp), 1, heap);
     wk->msg = a3;
     wk->active = 0;
     heapID = *(u16 *)&heap;
-    str = func_0202441C(param, heapID);
+    str = func_0202441C((const struct Struct_0202441C *)param, heapID);
     n = (u8)func_0201D478(str);
     for (i = 0; i < n; i++) {
-        if (func_020244F8(param, i)) {
+        if (func_020244F8((struct Container *)param, i)) {
             wk->blink[i] = 1;
-        } else if (func_020244D4(param, i) == 0xffff) {
+        } else if (func_020244D4((void *)param, i) == 0xffff) {
             mark[i] = 1;
         }
     }
-    buf = func_02024368(param, heapID, n);
+    buf = func_02024368((u16 *)param, heapID, n);
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)wk->msg)), pal);
     func_0201C724(owner, (u32)func_02045770((struct Descriptor *)wk->msg), pos->x, pos->y, buf, a2, pri);
     wk->active = 1;
     for (i = 0; i < n; i++) {
         if (wk->blink[i] == 1) {
-            u32 x = func_0201D528(buf, i, a2, 0);
+            u32 x = func_0201D528(buf, i, (void *)a2, 0);
             u32 y = func_0201D4BC(buf, i);
-            func_0202E040(wk->act[i], a3, x, y, func_020244D4(param, i), pos);
+            func_0202E040(wk->act[i], a3, x, y, func_020244D4((void *)param, i), (const struct Pos *)pos);
         } else if (mark[i] == 1) {
-            u32 x = func_0201D528(buf, i, a2, 0);
+            u32 x = func_0201D528(buf, i, (void *)a2, 0);
             u32 y = func_0201D4BC(buf, i);
             func_02043AF4((u32)func_02045770((struct Descriptor *)a3), x, y << 4, 0x54, 0x10, pal);
         }

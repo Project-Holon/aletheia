@@ -32,7 +32,7 @@ struct S {
 
 extern void func_021E9034(char *p);
 extern void func_021CD8E0(u8 *p);
-extern void func_021B9674(void *a);
+extern void func_021B9674(char *p);
 extern void func_021BAB5C(int a);
 
 int func_021B6C08(int a0, struct S *s)
@@ -48,8 +48,8 @@ int func_021B6C08(int a0, struct S *s)
             func_021CD8E0((u8 *)s->f10[i]);
         }
     }
-    func_021B9674((u8 *)s + 0xc8);
-    func_021B9674((u8 *)s + 0x1b0);
+    func_021B9674((char *)((u8 *)s + 0xc8));
+    func_021B9674((char *)((u8 *)s + 0x1b0));
     if (s->f08 != 0) {
         func_021BAB5C(s->f08);
     }

@@ -19,17 +19,17 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021B94C0(u8 *, u16);
-extern void func_021B9478(u8 *, u16);
-extern void func_021B949C(u8 *, u16);
+extern int func_021B94C0(u16 *p, u16 v);
+extern void func_021B9478(u16 *p, u16 v);
+extern void func_021B949C(u16 *p, u16 v);
 
 void func_021B7C04(u8 *o, int k, int flag)
 {
     if (flag == 0) {
-        if (func_021B94C0(o + 0x50, k) == 0) {
-            func_021B9478(o + 0x50, k);
+        if (func_021B94C0((u16 *)(o + 0x50), k) == 0) {
+            func_021B9478((u16 *)(o + 0x50), k);
         }
     } else {
-        func_021B949C(o + 0x50, k);
+        func_021B949C((u16 *)(o + 0x50), k);
     }
 }

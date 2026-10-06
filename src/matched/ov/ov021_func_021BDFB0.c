@@ -58,7 +58,8 @@ extern int func_021BE17C(void *a);
 extern void *func_02188CB4(unsigned char *p);
 typedef unsigned char  u8;
 extern u16 func_021A3050(u8 *p);
-extern int func_021BE194(void *a);
+typedef unsigned int   u32;
+extern int func_021BE194(u32 a);
 extern struct Q func_021BE148(int a);
 extern int func_021BE1B0(void *a);
 extern void func_021A7B08(int a, struct V3 *b);
@@ -80,7 +81,7 @@ void func_021BDFB0(char *a)
     func_021BE17C(a);
     r7 = func_02188CB4(*(unsigned char * *)&((struct Obj00282 *)a)->f0);
     func_021A3050(r7);
-    q = func_021BE148(func_021BE194(a));
+    q = func_021BE148(func_021BE194((u32)a));
     ((struct Obj09656 *)r6)->f48 = q.f3c;
     ((struct Obj09656 *)r6)->f44 = q.f38;
     t30 = q.f30;

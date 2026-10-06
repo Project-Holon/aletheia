@@ -18,11 +18,11 @@
 
 typedef unsigned short u16;
 
-extern void func_020500A0(void *p);
+extern void func_020500A0(int p0);
 
 int func_020509E8(void *p, void *q)
 {
     ((struct Obj02611 *)p)->fE = ((struct Obj16164 *)q)->f2;
-    func_020500A0(p);
+    func_020500A0((int)p);
     return 0;
 }

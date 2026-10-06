@@ -19,7 +19,9 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
-extern void func_0204F638(void *,u32,Vec *);
+typedef unsigned char  u8;
+struct Trip;
+extern void func_0204F638(u8 *a0, int i, struct Trip *src);
 void func_021F6A80(char *o,u32 *p)
 {
     Vec v;
@@ -30,7 +32,7 @@ void func_021F6A80(char *o,u32 *p)
         v.x=((int)p[2]-(int)f)/16;
         v.y=(786432-(int)p[3])/16;
         v.z=p[4];
-        func_0204F638(((struct Obj08023 *)o)->f4,p[6],&v);
+        func_0204F638(((struct Obj08023 *)o)->f4,p[6],(struct Trip *)(&v));
         p[1]=0;
     }
 }

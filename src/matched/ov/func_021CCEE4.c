@@ -22,12 +22,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201ED04(u32, u32, u32, u32);
+struct WordSet;
+extern void func_0201ED04(struct WordSet *p);
 extern u32 func_021904C8(u32);
 
 int func_021CCEE4(u32 a, u32 b, u32 c, u32 d)
 {
-func_0201ED04(*(u32 *)((u8 *)((a + 160))), b, c, d);
+func_0201ED04((struct WordSet *)(*(u32 *)((u8 *)((a + 160)))));
 return func_021904C8(*(u32 *)((u8 *)((a + 168))));
 }
 

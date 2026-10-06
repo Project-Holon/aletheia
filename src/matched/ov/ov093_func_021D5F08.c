@@ -17,9 +17,9 @@
  * All bytes correct.
  */
 
-void func_021D53C8(char *);
+void func_021D53C8(unsigned char *p);
 
 void func_021D5F08(char *p)
 {
-    func_021D53C8(p + 0xfc);
+    func_021D53C8((unsigned char *)(p + 0xfc));
 }

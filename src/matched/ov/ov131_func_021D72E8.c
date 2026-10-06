@@ -34,7 +34,7 @@ typedef signed short s16;
 typedef struct {int x,y,z;} Vec;
 extern const s16 d_020A1B38[];
 extern void func_021D79A8(void *p, unsigned char *q, int radius);
-extern void func_02015C78(void *,Vec *);
+extern void func_02015C78(void *p, u32 *src);
 extern void func_02015E04(void *);
 int func_021D72E8(u8 *p,u8 *q,int mode)
 {
@@ -69,7 +69,7 @@ int func_021D72E8(u8 *p,u8 *q,int mode)
     else f=(float)(height*4096)-0.5f;
     v.y+=(int)f/16;
     func_021D79A8(p,q,v.y);
-    func_02015C78(((struct Obj00831 *)q)->f0,&v);
+    func_02015C78(((struct Obj00831 *)q)->f0,(u32 *)(&v));
     func_02015E04(((struct Obj00831 *)q)->f0);
     if(((struct Obj00831 *)q)->f66==0 && ((struct Obj00831 *)q)->f68==0) return 1;
     return 0;

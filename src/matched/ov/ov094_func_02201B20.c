@@ -31,10 +31,10 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 typedef signed int     s32;
 struct PalAnmSlot;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern int func_0204ACEC(void *, u32, u32, u16, u16);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_021F86E0(void);
-extern u32 func_0204AEF4(int, int);
+extern int func_0204AEF4(u32 idx, u32 alternate);
 extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
@@ -53,7 +53,7 @@ int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16
     }
     off = i * 16;
     *(int *)(p + 12 + off) = func_0204A6C8(archive, a, 0, 0, ((struct Obj03216 *)p)->f80);
-    *(int *)(p + 16 + off) = func_0204ACEC(archive, b, 0, i * 32 + 0x140, ((struct Obj03216 *)p)->f80);
+    *(int *)(p + 16 + off) = func_0204ACEC(archive, b, 0, (u16)(i * 32 + 0x140), ((struct Obj03216 *)p)->f80);
     *(int *)(p + 20 + off) = func_0204AF28(archive, c, d, ((struct Obj03216 *)p)->f80);
     slots = (void *)func_021F86E0();
     pal = func_0204AEF4(*(int *)(p + 16 + off), 0);

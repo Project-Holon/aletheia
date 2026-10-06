@@ -25,8 +25,8 @@ typedef unsigned int  u32;
 
 extern const u8 str_020A79C4[];
 extern const u8 str_020A79EC[];
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
-extern u32 func_020366FC(u8 *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern u32 func_020366FC(u32 *p);
 
 void func_020369F8(u8 *p)
 {
@@ -34,11 +34,11 @@ void func_020369F8(u8 *p)
         ((struct Obj11349 *)p)->f10 = 0;
         return;
     }
-    if (func_020366FC(p) != 0) {
+    if (func_020366FC((u32 *)p) != 0) {
         return;
     }
-    if (func_020366FC(p + 8) != 0) {
+    if (func_020366FC((u32 *)(p + 8)) != 0) {
         return;
     }
-    func_02034714(str_020A79C4, 0x12f, str_020A79EC);
+    func_02034714((const char *)str_020A79C4, 0x12f, (const char *)str_020A79EC);
 }

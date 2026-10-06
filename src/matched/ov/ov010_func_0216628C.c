@@ -46,9 +46,9 @@ typedef struct {
 
 extern u32 func_0200E184(u32 slot);
 extern u32 func_0200E164(u32 *obj, u32 kind);
-extern void func_0200E06C(u32 *obj);
-extern void func_0200E27C(u32 *obj, u16 slot);
-extern void func_0200E024(u32 *obj);
+extern void func_0200E06C(char *p);
+extern void func_0200E27C(u8 *obj, int idx);
+extern void func_0200E024(void *obj);
 extern void func_0200E18C(u32 *obj, u32 slot);
 
 int func_0216628C(u32 *obj, u32 slot)
@@ -75,10 +75,10 @@ int func_0216628C(u32 *obj, u32 slot)
     dst = func_0200E164(obj, kind);
     if (dst == 0xFFFF)
         return 0;
-    func_0200E06C(obj);
+    func_0200E06C((char *)obj);
     ((W *)obj)[dst] = ((W *)obj)[slot];
     if (kind == 3)
-        func_0200E27C(obj, (u16)dst);
+        func_0200E27C((u8 *)obj, (u16)dst);
     func_0200E024(obj);
     func_0200E18C(obj, slot);
     return 1;

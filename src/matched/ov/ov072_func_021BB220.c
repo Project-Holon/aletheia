@@ -42,13 +42,13 @@ struct CharBuf;
 struct MsgBank;
 struct StrObj;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern int func_021BA774(W *p, int i);
-extern u32 func_02013E4C(u16 a);
+extern int func_021BA774(char *p, int i);
+extern u32 func_02013E4C(u32 id);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02045738(u32 win);
+extern u8 func_02045738(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern int func_021BA834(W *p);
+extern int func_021BA834(char *p);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -65,43 +65,43 @@ void func_021BB220(u32 *p, W *w)
     win = (u32)func_02045770((struct Descriptor *)p[0]);
     func_02043B5C((struct CharBuf *)win, 0);
     if (w != 0) {
-        func_02045CAC((struct MsgBank *)p[3], func_02013E4C(func_021BA774(w, 0)), (void *)p[1]);
-        cx = (func_02045738(p[0]) << 3) / 2;
+        func_02045CAC((struct MsgBank *)p[3], func_02013E4C((u16)func_021BA774((char *)w, 0)), (void *)p[1]);
+        cx = ((u32)func_02045738((struct Descriptor *)p[0]) << 3) / 2;
         hw = func_0201D304((struct StrObj *)p[1], p[2], 0) >> 1;
         cx = cx - hw;
         func_0201C7A4((void *)win, cx, 0x30, (void *)p[1], (void *)p[2]);
-        id = func_021BA774(w, 0x11);
+        id = func_021BA774((char *)w, 0x11);
         if (id != 0xFFFF) {
             func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
             func_0201C7A4((void *)win, 0x1c, 0x50, (void *)p[1], (void *)p[2]);
         }
-        if (func_021BA834(w)) {
-            id = func_021BA774(w, 0x12);
+        if (func_021BA834((char *)w)) {
+            id = func_021BA774((char *)w, 0x12);
             if (id != 0xFFFF) {
                 func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
                 func_0201C7A4((void *)win, 0x10, 0x80, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774(w, 0x13);
+            id = func_021BA774((char *)w, 0x13);
             if (id != 0xFFFF) {
                 func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
                 func_0201C7A4((void *)win, 0x10, 0x90, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774(w, 0x14);
+            id = func_021BA774((char *)w, 0x14);
             if (id != 0xFFFF) {
                 func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
                 func_0201C7A4((void *)win, 0x10, 0xa0, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774(w, 0x15);
+            id = func_021BA774((char *)w, 0x15);
             if (id != 0xFFFF) {
                 func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
                 func_0201C7A4((void *)win, 0x88, 0x80, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774(w, 0x16);
+            id = func_021BA774((char *)w, 0x16);
             if (id != 0xFFFF) {
                 func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
                 func_0201C7A4((void *)win, 0x88, 0x90, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774(w, 0x17);
+            id = func_021BA774((char *)w, 0x17);
             if (id != 0xFFFF) {
                 func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
                 func_0201C7A4((void *)win, 0x88, 0xa0, (void *)p[1], (void *)p[2]);

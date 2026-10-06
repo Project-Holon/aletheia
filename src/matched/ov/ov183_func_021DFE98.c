@@ -39,7 +39,7 @@ extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern Slot *func_0201F81C(u32,u32);
-extern void func_0201F878(Slot *,u32,u32,u32,u32);
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void *func_021FC8C8(Config *,u32);
 extern void func_02082BCC(void *,u32,u32);
 extern int func_021FC124(int,int,Triple *);

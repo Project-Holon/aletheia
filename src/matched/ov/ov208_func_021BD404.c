@@ -29,14 +29,14 @@ struct Ov208Mgr {
     struct Ov208Rec recs[1];
 };
 
-extern int func_021BD7F8(struct Ov208Rec *r);
+extern int func_021BD7F8(char *p);
 
 struct Ov208Rec *ov208_func_021BD404(struct Ov208Mgr *p, int key)
 {
     u32 i;
 
     for (i = 0; i < p->count; i++) {
-        if (key == func_021BD7F8((struct Ov208Rec *)((u32)p + 0x28 + i * 0x38)))
+        if (key == func_021BD7F8((char *)((u32)p + 0x28 + i * 0x38)))
             return (struct Ov208Rec *)((u32)p + 0x28 + i * 0x38);
     }
     return 0;

@@ -94,11 +94,11 @@ extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_020452E8(struct Descriptor *d);
 extern u16 func_02018328(void *p, u32 *idx, u32 heap);
 extern void func_021BB7A4(void *p, u32 *s);
-extern void func_021BB97C(u8 *,u32);
+extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB99C(int a, int b, int c, int d);
 extern void func_021BB9CC(int a, int b, int c, int d);
 extern void func_021B9788(u8 *,int,int,int);
-extern void func_021BB98C(u8 *,u32);
+extern void func_021BB98C(void *p, u32 s);
 extern void func_021B9EB0(u8 *p);
 extern void func_021BC6C0(char *p);
 extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
@@ -179,11 +179,11 @@ void func_021BC6CC(u8 *p)
         if(result==0xfffe) { p[0xe]=7; return; }
         if(result&0x8000) {
             *(u16 *)(S+0x46)=result-0x8000;
-            func_021BB97C(p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
+            func_021BB97C((u16 *)p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
             func_021BB9CC((int)p,W(0x150),1,*(u16 *)(S+0x46));
             func_021B9788(p,0x20,0,(int)func_021B9EB0); func_021BB98C(p,W(0x150));
         } else {
-            func_021BB97C(p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
+            func_021BB97C((u16 *)p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
             func_021BB9CC((int)p,W(0x150),1,result);
             func_021B9788(p,0x29,1,(int)func_021BC6C0); func_021BB98C(p,W(0x150));
         } break;

@@ -53,7 +53,7 @@ extern void func_021C7350(u8 *);
 extern void func_021C66A0(u8 *p, int i, u32 v);
 extern void func_021C730C(void *p);
 extern void func_021C630C(u8 *p, unsigned int i);
-extern int func_021C71A8(u8 *, int, int);
+extern int func_021C71A8(char *p, int v, int w);
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u16 func_020213AC(u32);
 extern void func_021C7430(u8 *, int, u16, u16);
@@ -80,7 +80,7 @@ int func_021C6EA4(u8 *p)
     case 1:
         func_021C5B30(p);
         func_021C630C(p, 0);
-        return func_021C71A8(p, 0, 0x11);
+        return func_021C71A8((char *)p, 0, 0x11);
     case 2: {
         u8 k;
         func_021C5B30(p);

@@ -31,7 +31,7 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u16 func_021B7438(char **);
-extern u16 func_021B7448(char **);
+extern unsigned short func_021B7448(int *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
@@ -51,7 +51,7 @@ void func_021B7378(char *p, u32 kind)
         func_0201EF34(((struct Obj00544 *)p)->f48, 1, func_021B7438((char **)p)); break;
     case 5:
         func_0201EEF4(((struct Obj00544 *)p)->f48, 0, **(void ** *)&((struct Obj00544 *)p)->f0);
-        func_0201EF34(((struct Obj00544 *)p)->f48, 1, func_021B7448((char **)p)); break;
+        func_0201EF34(((struct Obj00544 *)p)->f48, 1, func_021B7448((int *)p)); break;
     case 6:
         func_0201EEF4(((struct Obj00544 *)p)->f48, 0, **(void ** *)&((struct Obj00544 *)p)->f0);
         func_0201EF34(((struct Obj00544 *)p)->f48, 1, func_021B7438((char **)p)); break;
@@ -60,7 +60,7 @@ void func_021B7378(char *p, u32 kind)
         func_0201EEF4(((struct Obj00544 *)p)->f48, 0, **(void ** *)&((struct Obj00544 *)p)->f0);
         func_0201EF34(((struct Obj00544 *)p)->f48, 1, func_021B7438((char **)p)); break;
     case 9: func_0201F02C(((struct Obj00544 *)p)->f48, 2, (void *)(((struct Obj24172 *)(*(char * *)&((struct Obj00544 *)p)->f0))->f4)); break;
-    case 10: func_0201EF34(((struct Obj00544 *)p)->f48, 0, func_021B7448((char **)p)); break;
+    case 10: func_0201EF34(((struct Obj00544 *)p)->f48, 0, func_021B7448((int *)p)); break;
     }
     str = func_02045EC0(((struct Obj00544 *)p)->f44, d_021B8350[((struct Obj24173 *)(*(char * *)&((struct Obj00544 *)p)->f0))->f19][kind]);
     func_0201F250(((struct Obj00544 *)p)->f48, ((struct Obj00544 *)p)->f4C, str);

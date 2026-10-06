@@ -61,17 +61,18 @@ typedef struct Obj_02073548 {
 } Obj_02073548;
 
 extern char g_0214E018[];
-extern Obj_02073548 *func_02060614(void *list, void *curr);
-extern void func_02060550(void *list, void *curr, void *obj);
+struct DList;
+extern void *func_02060614(struct DList *list, void *elem);
+extern void func_02060550(volatile struct DList *list, void *before, void *elem);
 
 void func_02073598(Obj_02073548 *obj)
 {
-    Obj_02073548 *curr = func_02060614(g_0214E018, 0);
+    Obj_02073548 *curr = func_02060614((struct DList *)g_0214E018, 0);
     while (curr != 0) {
         if (obj->b3d < curr->b3d) {
             break;
         }
-        curr = func_02060614(g_0214E018, curr);
+        curr = func_02060614((struct DList *)g_0214E018, curr);
     }
-    func_02060550(g_0214E018, curr, obj);
+    func_02060550((volatile struct DList *)g_0214E018, curr, obj);
 }

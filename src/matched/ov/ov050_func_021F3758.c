@@ -16,6 +16,6 @@
  */
 
 extern int func_02188D2C(int *);
-extern void *func_021BE674(char *,int,unsigned int,unsigned short);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern int func_021BE6BC(int *);
-int func_021F3758(int *p) { int i; char *q; q=(char *)func_02188D2C(p); for(i=0;i<1;i++) { if(func_021BE6BC(func_021BE674(q,0,0,i))==0) return 0; } return 1; }
+int func_021F3758(int *p) { int i; char *q; q=(char *)func_02188D2C(p); for(i=0;i<1;i++) { if(func_021BE6BC(func_021BE674(q,0,0,(unsigned short)i))==0) return 0; } return 1; }

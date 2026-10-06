@@ -36,7 +36,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_020450F0(int, int, u8, int, int, int, int);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045374(struct Cfg *cfg);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -60,7 +60,7 @@ void func_021BC75C(u8 *p)
 
     arc = (u32)func_02045B38(0, 2, 0xab, 0x39);
     p[0] = 0;
-    W(0xc) = func_020450F0(5, 1, 0x13, 0x1d, 4, 0, 1);
+    W(0xc) = func_020450F0((int)5, (int)1, (u8)0x13, (int)0x1d, (int)4, (int)0, (int)1);
     func_02045374((struct Cfg *)W(0xc));
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)W(0xc))), 0xf);
     s = (u32)func_02045EC0((struct MsgBank *)arc, W(4));
@@ -70,7 +70,7 @@ void func_021BC75C(u8 *p)
     func_02045334((struct Descriptor *)W(0xc));
     for (i = 0; i < 2; i++) {
         q = p + i * 4;
-        ((struct Obj06206 *)q)->f10 = func_020450F0(1, 6, i * 4 + 0xc, 0x14, 2, 0, 1);
+        ((struct Obj06206 *)q)->f10 = func_020450F0((int)1, (int)6, (u8)(i * 4 + 0xc), (int)0x14, (int)2, (int)0, (int)1);
         func_02045374((struct Cfg *)(((struct Obj06206 *)q)->f10));
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj06206 *)q)->f10)), 0xf);
         s = (u32)func_02045EC0((struct MsgBank *)arc, i + 5 + W(4) * 2);

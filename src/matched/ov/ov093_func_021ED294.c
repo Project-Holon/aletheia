@@ -22,7 +22,7 @@ extern u8 func_021B8E70(u8 *, u32);
 extern void func_021F80E4(u32);
 extern void func_021F7CE4(int);
 extern void func_021F7F04(int);
-void func_021ED294(u8 *p, u32 k, int x)
+void func_021ED294(u8 *p, int k, u32 x)
 {
     u8 r = func_021B8E70(*(u8 * *)&((struct Obj21590 *)p)->f134, k);
     func_021F80E4(r);

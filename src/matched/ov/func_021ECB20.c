@@ -17,12 +17,12 @@
  */
 
 
-extern void func_021ECA6C(char *, int, int, int, int);
+extern void func_021ECA6C(unsigned char *p, int flag, int i, unsigned end, int mode);
 void func_021ECB20(char *p, int f, int c)
 {
     int t = (f & 0x80) ? 1 : 0;
     if (f & 1)
-        func_021ECA6C(p, c, 0, 0x1e, t);
+        func_021ECA6C((unsigned char *)p, c, 0, 0x1e, t);
     if (f & 2)
-        func_021ECA6C(p, c, 0x1e, 0x25, t);
+        func_021ECA6C((unsigned char *)p, c, 0x1e, 0x25, t);
 }

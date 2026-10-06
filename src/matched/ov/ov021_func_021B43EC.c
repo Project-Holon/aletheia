@@ -59,7 +59,9 @@ struct Slot;
 extern void func_021B4510(u8 *p, int a, u8 b);
 extern void func_021B45A0(u32 unused, int a, u8 b);
 extern u32 func_0201F91C(struct Slot *s);
-extern u32 func_0201FF30(Tmpl *t, u16 a, u16 b, u32 heap);
+struct Obj;
+struct Src;
+extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
 
 void func_021B43EC(char *w)
 {
@@ -94,5 +96,5 @@ void func_021B43EC(char *w)
     t.w28 = w + 0x1A8;
     t.w2c = ((struct Obj00037 *)w)->f1B0;
     t.w30 = ((struct Obj00037 *)w)->f8;
-    ((struct Obj00037 *)w)->f1A4 = func_0201FF30(&t, 0, 0, ((struct Obj00037 *)w)->f4);
+    ((struct Obj00037 *)w)->f1A4 = (unsigned int)func_0201FF30((struct Src *)(&t), 0, 0, ((struct Obj00037 *)w)->f4);
 }

@@ -12,8 +12,9 @@
  *   func_0200A21C 0x0200A21C thumb
  */
 #include "../include/Obj13943.h"
-extern int func_0200A21C(void);
+typedef unsigned char  u8;
+extern int func_0200A21C(u8 *obj);
 int func_021D9554(char *p,int n) {
- if(func_0200A21C()!=0 && n==0 && (((struct Obj13943 *)p)->fCC==0 || (((struct Obj13943 *)p)->fCC&0x200000)!=0)) return 1;
+ if(func_0200A21C((u8 *)p)!=0 && n==0 && (((struct Obj13943 *)p)->fCC==0 || (((struct Obj13943 *)p)->fCC&0x200000)!=0)) return 1;
  return 0;
 }

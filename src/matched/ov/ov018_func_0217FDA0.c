@@ -40,7 +40,7 @@ u8 *func_02175B34(u8 *p);
 void func_02082D44(void *src, void *dst, int n);
 void func_0217F2B4(void *a, int b);
 void func_02174E14(u8 *a, int b);
-void func_02175368(u8 *a);
+void func_02175368(char *p);
 
 void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g)
 {
@@ -59,6 +59,6 @@ void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g)
     }
     func_0217F2B4(c + 0x10, a);
     func_02174E14(b, 1);
-    func_02175368(b);
+    func_02175368((char *)b);
     b[0x93f] = b[0x93f] & ~0x30;
 }

@@ -35,10 +35,13 @@ typedef struct { V t; V s; M r; } SRT;
 typedef struct { int f0; void *f4; } Q;
 typedef struct { int f0; void *f4; } Obj;
 
-extern void func_02046AFC(Cam *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Arg;
+extern void func_02046AFC(u8 *dst);
 extern void func_0207CA00(V *, V *, V *);
 extern void func_0207CCA4(V *, V *);
-extern M43 *func_0206AAD4(void);
+extern u32 *func_0206AAD4(void);
 extern void func_02082B60(M43 *, M *);
 extern int func_02047788(int *p);
 extern Q *func_0204755C(void *);
@@ -47,7 +50,7 @@ extern void func_0206E4FC(void *, int, int);
 extern void func_0206E484(void *, int, int);
 extern void func_0206E574(void *, int, int);
 extern void func_0206E40C(void *, int, int);
-extern void func_02047A60(void *, SRT *);
+extern void func_02047A60(void *a0, struct Arg *a1);
 
 void func_021C8078(Obj *p, int b, int c)
 {
@@ -60,7 +63,7 @@ void func_021C8078(Obj *p, int b, int c)
     if (b == 0) {
         return;
     }
-    func_02046AFC(&cam);
+    func_02046AFC((u8 *)(&cam));
     srt.t = cam.pos;
     func_0207CA00(&cam.up, &cam.pos, &v);
     func_0207CCA4(&v, &v);
@@ -71,12 +74,12 @@ void func_021C8078(Obj *p, int b, int c)
     srt.s.x = b;
     srt.s.y = (int)(((long long)b * y + 0x800) >> 12);
     srt.s.z = 0x4000;
-    func_02082B60(func_0206AAD4(), &srt.r);
+    func_02082B60((M43 *)func_0206AAD4(), &srt.r);
     q = func_0204755C((void *)func_02047788(p->f4))->f4;
     func_0206E394(q, 0, 0);
     func_0206E4FC(q, 0, 0);
     func_0206E484(q, 0, 2);
     func_0206E574(q, 0, c);
     func_0206E40C(q, 0, 0);
-    func_02047A60(p->f4, &srt);
+    func_02047A60(p->f4, (struct Arg *)(&srt));
 }

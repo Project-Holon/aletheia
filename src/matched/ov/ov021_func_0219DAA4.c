@@ -25,7 +25,7 @@ extern u16 func_021AB0F8(u32 attr);
 extern u32 func_0219DC08(u32);
 extern void func_021AC760(u32 a, u32 b, u32 c, int d);
 
-void func_0219DAA4(u32 a, u32 b)
+void func_0219DAA4(u32 a, u32 b, u32 a2, u32 a3)
 {
     if (b != 0xFFFFFFFF && (func_021AB0F8(b) & 0x20))
         func_021AC760(func_0219DC08(a), a, 1, 0);

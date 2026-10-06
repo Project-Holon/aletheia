@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern int func_021C676C(u8 *, u8 *, u8 *, u16, u8 *, u32 *);
 extern int func_021BFE30(u8 *);
 extern u8 *func_021BFE40(u8 *, int);
@@ -34,7 +34,8 @@ extern u8 func_021BFE50(void *, u8);
 extern u8 func_021D5440(u8 *p);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021C6848(u8 *, u8 *);
-extern int func_021D5C30(u8 *);
+struct UtilWork;
+extern int func_021D5C30(struct UtilWork *p);
 extern void func_021C5718(u8 *, u8 *, u32);
 int func_021BFD24(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
 {
@@ -53,12 +54,12 @@ int func_021BFD24(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
             n = func_021BFE50(p + 0x1ab8, func_021D5440(func_021BFE40(d, 0)));
         func_021CD4B0(((struct Obj00003 *)p)->fC, 48, c, n, e, 0);
     }
-    func_021CC95C(p + 0x1d74, lock, 5173);
+    func_021CC95C((u32 *)(p + 0x1d74), lock, 5173);
     if (r) {
         lock = func_021CC8D8(p + 0x1d74, 5177);
         func_021C6848(p, q);
-        func_021CC95C(p + 0x1d74, lock, 5179);
-        if (func_021D5C30(q))
+        func_021CC95C((u32 *)(p + 0x1d74), lock, 5179);
+        if (func_021D5C30((struct UtilWork *)q))
             func_021CD4B0(((struct Obj00003 *)p)->fC, 49, func_021D5440(q), 1);
         if (id != 31)
             func_021CD4B0(((struct Obj00003 *)p)->fC, 49, id, 1);

@@ -30,11 +30,12 @@ typedef struct {
     u32 second;
 } RtcTime;
 
-extern void func_0203F4CC(RtcTime *t);
+struct RtcTime;
+extern void func_0203F4CC(struct RtcTime *time);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern int func_0204B918(int o);
-extern void func_0204B908(int o, u16 v);
+extern void func_0204B908(int a0, int a1);
 extern int func_02085D3C(void);
 extern u8 func_021F1F70(void);
 extern int func_0203568C(void);
@@ -42,7 +43,7 @@ extern int func_0203568C(void);
 static inline void SetFrame(int o, int v)
 {
     if (v != func_0204B918(o)) {
-        func_0204B908(o, v);
+        func_0204B908(o, (u16)v);
     }
 }
 
@@ -52,7 +53,7 @@ void func_021F1F80(char *p)
     int o;
     int v;
 
-    func_0203F4CC(&t);
+    func_0203F4CC((struct RtcTime *)(&t));
     func_0204B3DC((struct Obj *)((struct Obj00811 *)p)->f12C, 0);
 
     o = ((struct Obj00811 *)p)->f130;

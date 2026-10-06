@@ -48,7 +48,7 @@ extern const Pos tbl_022037A8[];
 extern const Pos tbl_022037B0[];
 extern const Pos tbl_022037BC[];
 
-extern u32 func_020450F0(u32 bg, u8 x, u8 y, u8 w, u8 h, u8 pal, u16 base);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Cfg;
@@ -65,7 +65,7 @@ void func_021FDF2C(Menu *p)
     int i;
     u32 v;
 
-    p->frame = func_020450F0(0, 2, 0x15, 0x1b, 2, 0xd, 1);
+    p->frame = func_020450F0(0, (u8)2, (u8)0x15, (u8)0x1b, 2, 0xd, (u16)1);
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->frame)), 0);
     v = p->frame;
     func_02045334((struct Descriptor *)v);
@@ -73,7 +73,7 @@ void func_021FDF2C(Menu *p)
     func_020409B4(func_02045730((struct Descriptor *)v));
     func_02040C14(3, 0, 1, 0);
     for (i = 0; i < 6; i++) {
-        p->item[i] = func_020450F0(3, tbl_022037BC[i].x, tbl_022037BC[i].y, 0xb, 2, 0xd, 0);
+        p->item[i] = func_020450F0(3, (u8)tbl_022037BC[i].x, (u8)tbl_022037BC[i].y, (u8)0xb, 2, 0xd, (u16)0);
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->item[i])), 0);
         v = p->item[i];
         func_02045334((struct Descriptor *)v);
@@ -81,7 +81,7 @@ void func_021FDF2C(Menu *p)
         func_020409B4(func_02045730((struct Descriptor *)v));
     }
     for (i = 0; i < 2; i++) {
-        p->tab[i] = func_020450F0(3, tbl_022037A8[i].x, tbl_022037A8[i].y, 0x1c, 2, 0xd, 0);
+        p->tab[i] = func_020450F0(3, (u8)tbl_022037A8[i].x, (u8)tbl_022037A8[i].y, (u8)0x1c, 2, 0xd, (u16)0);
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->tab[i])), 0);
         v = p->tab[i];
         func_02045334((struct Descriptor *)v);
@@ -89,7 +89,7 @@ void func_021FDF2C(Menu *p)
         func_020409B4(func_02045730((struct Descriptor *)v));
     }
     for (i = 0; i < 3; i++) {
-        p->page[i] = func_020450F0(3, tbl_022037B0[i].x, tbl_022037B0[i].y, 0xa, 2, 0xd, 0);
+        p->page[i] = func_020450F0(3, (u8)tbl_022037B0[i].x, (u8)tbl_022037B0[i].y, (u8)0xa, 2, 0xd, (u16)0);
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->page[i])), 0);
         v = p->page[i];
         func_02045334((struct Descriptor *)v);

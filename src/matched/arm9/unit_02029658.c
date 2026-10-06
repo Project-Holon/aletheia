@@ -73,7 +73,7 @@ u32 func_02029658(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-void *func_02029690(void *a, u16 b, u16 c)
+void *func_02029690(void *a, u32 b, u32 c)
 {
     void *x = func_020120F4(a);
     void *task = func_020122C0(a, 0, func_02029658, 0x10);

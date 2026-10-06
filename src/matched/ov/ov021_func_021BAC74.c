@@ -25,7 +25,7 @@ typedef unsigned char  u8;
 extern u32 func_021B821C(u8 *p);
 extern void func_021BAC04(u32 p);
 extern void func_0218EC54(u8 *p);
-extern void func_021B79D4(u32 p, V *v);
+extern void func_021B79D4(void **o, void *out);
 extern void func_0218EC90(u32 h, V *v);
 extern void func_0218F05C(unsigned char *a);
 
@@ -36,7 +36,7 @@ void func_021BAC74(u32 p)
 
     func_021BAC04(p);
     func_0218EC54((u8 *)h);
-    func_021B79D4(p, &v);
+    func_021B79D4((void **)p, &v);
     func_0218EC90(h, &v);
     func_0218F05C((unsigned char *)h);
 }

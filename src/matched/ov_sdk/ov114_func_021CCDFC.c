@@ -27,23 +27,24 @@ typedef struct {
 	int flags;
 } BIGNUM;
 
-extern void func_021CACD0(BIGNUM *a);
-extern int func_021CAEC8(BIGNUM *a, unsigned long w);
+typedef unsigned char  u8;
+extern void func_021CACD0(int a);
+extern int func_021CAEC8(u8 *a, unsigned long w);
 extern int func_021CB0C8(BIGNUM *a, int n);
 extern int func_021CBB80(BIGNUM *dv, BIGNUM *rem, BIGNUM *m, BIGNUM *d, void *ctx);
-extern void func_021CABDC(BIGNUM *a);
+extern void func_021CABDC(u8 *p);
 
 int func_021CCDFC(BIGNUM *r, BIGNUM *m, int len, void *ctx)
 {
 	BIGNUM t;
 	int ret = -1;
 
-	func_021CACD0(&t);
-	func_021CAEC8(&t, 0);
+	func_021CACD0((int)(&t));
+	func_021CAEC8((u8 *)(&t), 0);
 	if (func_021CB0C8(&t, len) != 0) {
 		if (func_021CBB80(r, 0, &t, m, ctx) != 0)
 			ret = len;
 	}
-	func_021CABDC(&t);
+	func_021CABDC((u8 *)(&t));
 	return ret;
 }

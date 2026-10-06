@@ -24,14 +24,14 @@ typedef struct SAKEInternal {
 typedef struct SAKERequestInternal SAKERequestInternal;
 typedef void (*SAKERequestCallback)(SAKEInternal *sake, SAKERequestInternal *request, int result, void *inputData, void *outputData, void *userData);
 
-extern SAKERequestInternal *func_021DD56C(SAKEInternal *sake, int type, void *input, SAKERequestCallback callback, void *userData);
+extern int *func_021DD56C(int *ctx, int a1, int a2, int a3, int a4);
 extern void func_021DD604();
 
 SAKERequestInternal *func_021DD2D4(SAKEInternal *sake, void *input, SAKERequestCallback callback, void *userData, int type, int (*startRequestFunc)(SAKERequestInternal *))
 {
     SAKERequestInternal *request;
 
-    request = func_021DD56C(sake, type, input, callback, userData);
+    request = (SAKERequestInternal *)func_021DD56C((int *)sake, type, (int)input, (int)callback, (int)userData);
     if (!request)
         return 0;
     sake->startResult = startRequestFunc(request);

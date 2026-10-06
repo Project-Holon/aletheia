@@ -21,4 +21,4 @@ extern void func_02048CDC(struct LightSlot *,unsigned,unsigned short *);
 extern void func_02048C58(struct LightSlot *);
 struct Block {int tag;struct LightSlot *slots;};
 struct Obj {int a,b;struct Block block;};
-void func_021BDF3C(struct Obj *obj,unsigned short *a){struct Block *p=&obj->block;func_02048CDC(p->slots,0,a);func_02048CDC(p->slots,1,a+1);func_02048CDC(p->slots,2,a+2);func_02048CDC(p->slots,3,a+3);func_02048C58(p->slots);}
+void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2){struct Block *p=&obj->block;func_02048CDC(p->slots,0,a);func_02048CDC(p->slots,1,a+1);func_02048CDC(p->slots,2,a+2);func_02048CDC(p->slots,3,a+3);func_02048C58(p->slots);}

@@ -20,20 +20,20 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_0216D5D4(void *p);
-extern u16 func_021642A4(u16);
+extern int func_0216D5D4(void *p);
+extern u16 func_021642A4(int i);
 extern void func_0216D600(u32, u16);
 extern int func_0219B358(u32);
-extern void func_0216D5E0(u32, u16);
+extern void func_0216D5E0(int a0, int a1);
 
 int func_0219A8C0(u32 a, u8 *b)
 {
     u32 cur = func_0216D5D4((void *)a);
     if (b[1] == 1)
-        cur = func_021642A4(cur);
+        cur = func_021642A4((u16)cur);
     func_0216D600(a, cur);
     if (func_0219B358(a) == 0)
-        func_0216D5E0(a, cur);
+        func_0216D5E0((u32)a, (u16)cur);
     b[0] = 1;
     return 1;
 }

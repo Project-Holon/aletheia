@@ -29,7 +29,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 func_0202C240(void *obj);
-extern u32  sub_0202C244(u8 *p, u32 i);
+struct Obj0202C244;
+extern u32 sub_0202C244(struct Obj0202C244 *p, u32 idx);
 extern u32 sub_0202C340(void *p);
 
 u32 func_0202C268(u8 *p, u32 v)
@@ -38,7 +39,7 @@ u32 func_0202C268(u8 *p, u32 v)
     int i;
 
     for (i = 0; i < n; i++) {
-        u32 r = sub_0202C244(p, (u8)i);
+        u32 r = sub_0202C244((struct Obj0202C244 *)p, (u8)i);
 
         if (v == sub_0202C340((void *)r)) {
             return r;

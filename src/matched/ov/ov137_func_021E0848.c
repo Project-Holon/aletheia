@@ -25,10 +25,12 @@ typedef struct {int x,y,z;} Vec;
 typedef struct {int m[9];} Mtx;
 typedef struct {Vec pos,scale;Mtx rot;} Transform;
 typedef enum {INDEX_ZERO=0} Index;
-extern void *func_02048A18(void *,u16);
+typedef unsigned int   u32;
+struct Arg;
+extern u32 func_02048A18(u8 *a0, int i);
 struct Mtx33;
 extern void func_020520FC(int,int,int,struct Mtx33 *);
-extern void func_02047A60(void *,Transform *);
+extern void func_02047A60(void *a0, struct Arg *a1);
 extern void func_0207ADC4(Mtx *);
 static inline void VecSet(Vec *v,int x,int y,int z){v->x=x;v->y=y;v->z=z;}
 void func_021E0848(u8 *p)
@@ -40,27 +42,27 @@ void func_021E0848(u8 *p)
     for(;i<count;i=i+1) {
         if(((struct Obj02873 *)first)->f4) {
             Transform t;
-            void *object=func_02048A18(((struct Obj08222 *)p)->fAF4,((struct Obj14238 *)base)->f938);
+            void *object=(void *)func_02048A18(((struct Obj08222 *)p)->fAF4,(u16)(((struct Obj14238 *)base)->f938));
             VecSet(&t.pos,((struct Obj02873 *)first)->f44,((struct Obj02873 *)first)->f48,((struct Obj02873 *)first)->f4C);
             VecSet(&t.scale,((struct Obj02873 *)first)->f38,((struct Obj02873 *)first)->f3C,((struct Obj02873 *)first)->f40);
             func_020520FC(((struct Obj02873 *)first)->f24,((struct Obj02873 *)first)->f26,((struct Obj02873 *)first)->f28,(struct Mtx33 *)&t.rot);
-            func_02047A60(object,&t);
+            func_02047A60(object,(struct Arg *)(&t));
         }
         if(((struct Obj02874 *)second)->f0) {
             Transform t;
-            void *object=func_02048A18(((struct Obj08222 *)p)->fAF4,((struct Obj14238 *)base)->f93C);
+            void *object=(void *)func_02048A18(((struct Obj08222 *)p)->fAF4,(u16)(((struct Obj14238 *)base)->f93C));
             VecSet(&t.pos,((struct Obj02874 *)second)->f18,((struct Obj02874 *)second)->f1C,((struct Obj02874 *)second)->f20);
             VecSet(&t.scale,((struct Obj02874 *)second)->fC,((struct Obj02874 *)second)->f10,((struct Obj02874 *)second)->f14);
             func_020520FC(((struct Obj02874 *)second)->f4,((struct Obj02874 *)second)->f6,((struct Obj02874 *)second)->f8,(struct Mtx33 *)&t.rot);
-            func_02047A60(object,&t);
+            func_02047A60(object,(struct Arg *)(&t));
         }
         if(((struct Obj08223 *)third)->f0) {
             Transform t;
-            void *object=func_02048A18(((struct Obj08222 *)p)->fAF4,*(int *)((unsigned)(base+i*4)+0x940));
+            void *object=(void *)func_02048A18(((struct Obj08222 *)p)->fAF4,(u16)(*(int *)((unsigned)(base+i*4)+0x940)));
             VecSet(&t.pos,((struct Obj08223 *)third)->f4,((struct Obj08223 *)third)->f8,((struct Obj08223 *)third)->fC);
             VecSet(&t.scale,4096,4096,4096);
             func_0207ADC4(&t.rot);
-            func_02047A60(object,&t);
+            func_02047A60(object,(struct Arg *)(&t));
         }
         first+=0xb4;second+=0x7c;third+=0x68;
     }

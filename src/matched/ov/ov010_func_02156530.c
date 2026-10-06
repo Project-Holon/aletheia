@@ -87,15 +87,19 @@ typedef struct Slot {
 } Slot;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern Slot *func_0200A750(void *p, u32 index);
-extern u16 func_0200A81C(void *p);
+struct Big;
+struct BigSub4;
+struct Ctx;
+struct Deal;
+extern struct BigSub4 *func_0200A750(struct Big *p, u32 index);
+extern u16 func_0200A81C(struct Big *p);
 extern u8 func_02156934(Work *w, u8 idx);
 extern u8 func_021568E8(Work *w, u8 idx);
-extern u16 *func_021FD8F8(void *p, u8 id);
-extern u32 func_021FD4F8(void *p, u8 idx);
-extern u32 func_0215736C(void *p);
-extern u32 func_0200A644(void *p, u32 index);
-extern u32 func_021572C0(void *p);
+extern u32 func_021FD8F8(char *p, u32 index);
+extern u32 func_021FD4F8(struct Ctx *p, u8 key);
+extern int func_0215736C(int a0);
+extern u32 func_0200A644(struct Big *p, u32 index);
+extern u8 func_021572C0(struct Deal *d);
 extern u32 func_02005728(u32 range);
 extern void func_020307B0(void *p);
 
@@ -125,7 +129,7 @@ void func_02156530(Work *w)
     buf = func_02030734(4, 0x28, 1, d_02172714, 0x3F9);
     sum = 0;
     for (i = 0; i < 10; i++) {
-        e = func_0200A750(w->f40, i);
+        e = (Slot *)func_0200A750(w->f40, i);
         e->f00 = 4;
         e->f01 = 0;
         e->f02 = 0;
@@ -134,7 +138,7 @@ void func_02156530(Work *w)
         sum = func_0200A81C(w->f40) + func_02156934(w, w->f4C);
     } else {
         for (j = 0; j < 4; j++) {
-            pv = func_021FD8F8(w->f28, func_021568E8(w, j));
+            pv = (u16 *)func_021FD8F8(w->f28, func_021568E8(w, j));
             if (func_021FD4F8(w->f28, j) != 0) {
                 sum += *pv;
                 sum += func_02156934(w, j);
@@ -147,7 +151,7 @@ void func_02156530(Work *w)
             break;
         }
     }
-    r = func_0215736C(w->f38);
+    r = func_0215736C((int)w->f38);
     if (r < 7) {
         n = 0;
         for (j = 0, row = d_0216FF28[r]; j < 0x28; j++) {
@@ -170,7 +174,7 @@ void func_02156530(Work *w)
         }
     }
     for (i = 0; i < lvl; i++) {
-        e = func_0200A750(w->f40, order[i]);
+        e = (Slot *)func_0200A750(w->f40, order[i]);
         c = func_02156934(w, w->f4C);
         e->f00 = q;
         if ((u8)func_02005728(100) < c && n != 0) {

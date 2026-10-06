@@ -54,7 +54,8 @@ extern unsigned int func_0203633C(void);
 extern void func_021A90A4(Obj *p, int k);
 extern void func_020061E4(u32 se);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern u32 func_021A8E80(Obj *p, u32 dir);
+struct W;
+extern u32 func_021A8E80(struct W *w, u32 dir);
 extern int func_021A8E78(u32 a, u32 b);
 extern void func_020355D8(u8 v);
 
@@ -78,22 +79,22 @@ void func_021A8EEC(Obj *p)
         return;
     }
     if (rep & 0x40) {
-        if (func_021A8E80(p, 0) != 0) {
+        if (func_021A8E80((struct W *)p, 0) != 0) {
             p->f24 = 1;
             func_020061E4(0x548);
         }
     } else if (rep & 0x80) {
-        if (func_021A8E80(p, 1) != 0) {
+        if (func_021A8E80((struct W *)p, 1) != 0) {
             p->f24 = 1;
             func_020061E4(0x548);
         }
     } else if (rep & 0x20) {
-        if (func_021A8E80(p, 2) != 0) {
+        if (func_021A8E80((struct W *)p, 2) != 0) {
             p->f24 = 1;
             func_020061E4(0x548);
         }
     } else if (rep & 0x10) {
-        if (func_021A8E80(p, 3) != 0) {
+        if (func_021A8E80((struct W *)p, 3) != 0) {
             p->f24 = 1;
             func_020061E4(0x548);
         }

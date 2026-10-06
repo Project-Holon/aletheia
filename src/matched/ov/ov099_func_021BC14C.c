@@ -31,8 +31,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Link;
-extern struct Link *func_020399A8(void);
-extern void func_0203D1E8(struct Link *a, void *arg);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern void func_0203D1E8(u32 unused, void *arg);
 extern u32 func_0203D378(void);
 extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
 extern void func_021BA874(char *p, int id);
@@ -43,7 +44,7 @@ int func_021BC14C(char *p, int v)
 {
     int z;
     int off;
-    func_0203D1E8(func_020399A8(), 0);
+    func_0203D1E8((u32)func_020399A8(), 0);
     z = 0;
     if (func_0203D378() == 0) {
         *(int *)(p + 0x135C) = 3;
@@ -58,7 +59,7 @@ int func_021BC14C(char *p, int v)
         func_021BA874(p, *(u16 *)(p + off) - 1);
         func_021BAAB8(p, 0x7E, z);
         func_021BC090(p);
-        func_02039C68(func_020399A8(), 0x1B, 0xA);
+        func_02039C68((struct Link *)func_020399A8(), 0x1B, 0xA);
         off -= 0x76;
         *(int *)(p + off) = 0x49;
     }

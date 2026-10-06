@@ -37,12 +37,12 @@ struct IcaAnime {
 
 struct Ctx;
 extern u32 func_0201214C(const struct Ctx *p);
-extern void func_02012158(struct IcaAnime *p, u32 v);
+extern void func_02012158(char *p, unsigned int v);
 
 void func_02012220(struct IcaAnime *p)
 {
     if (func_0201214C((const struct Ctx *)p) != 0) {
-        func_02012158(p, 0);
+        func_02012158((char *)p, 0);
         p->f33 = (p->f33 & ~1) | 1;
     }
 }

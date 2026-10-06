@@ -11,7 +11,7 @@
  */
 #include "../include/Obj21120.h"
 
-void func_021C83DC(char *p, char x)
+void func_021C83DC(char *p, int x)
 {
     *(char *)(((struct Obj21120 *)p)->f4A8 + 4) = x;
 }

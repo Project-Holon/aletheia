@@ -44,10 +44,12 @@ typedef struct DWCWFCUtil
     unsigned long long userid;
 } DWCWFCUtil;
 
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+struct DWCWiFiInfo;
+extern int func_0209477C(const u8 *s);
 typedef unsigned short u16;
 extern int func_02179F3C(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int func_02178F78(DWCCalInfo *cal, void *wifiinfo);
+extern int func_02178F78(struct DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int func_02096578(const u16 *s);
 
@@ -68,25 +70,25 @@ int func_02178A94(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn)
 
     if (g_021AB184.userid == 0)
     {
-        if (func_02179F3C(http, g_021A23F4, g_021A23E8, func_0209477C(g_021A23E8)) != 0)
+        if (func_02179F3C(http, g_021A23F4, g_021A23E8, func_0209477C((const u8 *)g_021A23E8)) != 0)
             return 8;
     }
     else
     {
-        if (func_02179F3C(http, g_021A23F4, g_021A23FC, func_0209477C(g_021A23FC)) != 0)
+        if (func_02179F3C(http, g_021A23F4, g_021A23FC, func_0209477C((const u8 *)g_021A23FC)) != 0)
             return 8;
-        if (func_02179F3C(http, g_021A2404, gsbrcd, func_0209477C(gsbrcd)) != 0)
+        if (func_02179F3C(http, g_021A2404, gsbrcd, func_0209477C((const u8 *)gsbrcd)) != 0)
             return 8;
     }
 
-    if (!func_02178F78(&calinfo, g_021AB190))
+    if (!func_02178F78(&calinfo, (struct DWCWiFiInfo *)g_021AB190))
         return 5;
     if (!func_02179218(http, &calinfo, g_021ACE70))
         return 8;
 
     if (g_021AB184.f0 == 1)
     {
-        if (func_02179F3C(http, g_021A2410, g_021A240C, func_0209477C(g_021A240C)) != 0)
+        if (func_02179F3C(http, g_021A2410, g_021A240C, func_0209477C((const u8 *)g_021A240C)) != 0)
             return 8;
     }
 

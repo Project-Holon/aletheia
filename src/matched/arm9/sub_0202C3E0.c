@@ -44,7 +44,8 @@ typedef unsigned int u32;
 
 extern u32 FSi_ConvertStringSjisToUnicode(void *dst, u32 term, void *src,
                                            u32 srcOffset, u32 dstSize);
-extern u32 sub_0202C510(void *p, u32 idx);
+struct Arr0202C510;
+extern u32 sub_0202C510(struct Arr0202C510 *p, u32 idx);
 extern u32 sub_0202C550(void *p, u32 a, u32 b);
 
 struct Obj0202C3E0 {
@@ -76,7 +77,7 @@ u32 sub_0202C3E0(struct Obj0202C3E0 *a, void *b)
 
     i = 0;
     for (; i < 9; i++) {
-        ret = sub_0202C550((void *)sub_0202C510(a, i), sep, digits[i]);
+        ret = sub_0202C550((void *)sub_0202C510((struct Arr0202C510 *)a, i), sep, digits[i]);
     }
 
     return ret;

@@ -71,14 +71,14 @@ extern u32 func_02021ED8(const char *ptr);
 extern u32 func_020362DC(void);
 extern void func_021F8168(void);
 extern int func_02035C08(void *key);
-extern void func_02206B58(Obj *o);
-extern void func_02206B30(Obj *o);
-extern int func_0220648C(Obj *o);
-extern int func_02206578(Obj *o, int i, int v);
+extern void func_02206B58(char *p);
+extern void func_02206B30(char *p);
+extern int func_0220648C(char *p);
+extern int func_02206578(char *s, int a, int b);
 extern int func_02206140(Obj *o, Cmd *c, int x, int y, int k, int z);
 extern unsigned int func_0203630C(void);
-extern void func_02206BAC(Obj *o);
-extern int func_02206908(Obj *o, Cmd *c, int i);
+extern void func_02206BAC(char *p);
+extern int func_02206908(char *p, char *q, int i);
 
 extern u8 d_0689E090[][15];
 extern u8 d_0689E0B0[][15];
@@ -115,14 +115,14 @@ int func_02202DC4(Obj *o, Cmd *c, int x)
             if (o->en[r] == 0)
                 r = -1;
             else if (r == 2)
-                func_02206B58(o);
+                func_02206B58((char *)o);
             else
-                func_02206B30(o);
+                func_02206B30((char *)o);
         } else {
-            r = func_0220648C(o);
+            r = func_0220648C((char *)o);
         }
         if (r != -1)
-            r = func_02206578(o, r, c->vals[r]);
+            r = func_02206578((char *)o, r, c->vals[r]);
         return r;
     }
 
@@ -132,15 +132,15 @@ int func_02202DC4(Obj *o, Cmd *c, int x)
         keys = func_0203630C();
         if (o->en[r] == 0 && (!(keys & 0x200) || o->mode != 2)) {
             if (o->en2[r] != 0 && o->mode == 2)
-                func_02206BAC(o);
+                func_02206BAC((char *)o);
             r = -1;
         } else if (r < 4 && (keys & 0x200) && o->mode == 2 && o->f280 == 1) {
             r = -1;
         } else if (r < 4 && (keys & 0x200) && o->mode == 2 && o->en2[r] == 0) {
             r = -1;
         } else if (k != -1) {
-            if (func_02206908(o, c, r) == 0 && !o->flag) {
-                func_02206B30(o);
+            if (func_02206908((char *)o, (char *)c, r) == 0 && !o->flag) {
+                func_02206B30((char *)o);
                 mode = o->mode;
                 switch (mode) {
                 case 1:
@@ -168,11 +168,11 @@ int func_02202DC4(Obj *o, Cmd *c, int x)
                     break;
                 }
             } else {
-                func_02206B58(o);
+                func_02206B58((char *)o);
             }
         }
     }
     if (r != -1)
-        r = func_02206578(o, r, c->vals[r]);
+        r = func_02206578((char *)o, r, c->vals[r]);
     return r;
 }

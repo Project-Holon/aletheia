@@ -63,14 +63,14 @@ typedef struct DWCstMatchControl {
     u32 w678;                   /* +0x678 */
 } DWCstMatchControl;
 
-extern DWCstNodeInfo *func_0217637C(int index);
+extern char *func_0217637C(int index);
 extern int func_02175F3C(void);
-extern void func_0216F20C(int status);
+extern int func_0216F20C(int status);
 extern int func_02175EB4(void);
 extern u8 func_0216B838(void);
 extern int func_0216CB90(void);
-extern DWCstNodeInfo *func_02176410(u8 aid);
-extern int func_0216FF2C(u8 command, int profileID, u32 ip, u16 port, u32 *data, int len);
+extern char *func_02176410(unsigned char aid);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int func_021719A4(int error);
 extern int func_0217603C(void);
 
@@ -88,7 +88,7 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
 
     result = 1;
     sendlen = 0;
-    pServerNodeInfo = func_0217637C(0);
+    pServerNodeInfo = (DWCstNodeInfo *)func_0217637C(0);
     oldbitmap = ((DWCstMatchControl *)func_02175F3C())->suspendBitmap;
     if (suspend)
         ((DWCstMatchControl *)func_02175F3C())->suspendBitmap |= result << AID;
@@ -106,7 +106,7 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
     if (immediate == 1) {
         DWCstNodeInfo *pNodeInfo;
 
-        pNodeInfo = func_02176410(AID);
+        pNodeInfo = (DWCstNodeInfo *)func_02176410(AID);
         senddata[sendlen++] = ((DWCstMatchControl *)func_02175F3C())->w678;
         senddata[sendlen++] = result;
         if (bRet) {
@@ -116,7 +116,7 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
             }
         }
         result = func_0216FF2C(0x82, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
-                               pNodeInfo->publicQueryPort, senddata, sendlen);
+                               pNodeInfo->publicQueryPort, (const unsigned int *)senddata, sendlen);
         if (func_021719A4(result))
             return 0;
     }
@@ -128,11 +128,11 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
             senddata[2] = suspend;
             senddata[3] = bitmap;
             for (i = 0; i < func_0217603C(); i++) {
-                DWCstNodeInfo *pNodeInfo = func_0217637C(i);
+                DWCstNodeInfo *pNodeInfo = (DWCstNodeInfo *)func_0217637C(i);
 
                 if (pNodeInfo != pServerNodeInfo) {
                     result = func_0216FF2C(0x82, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
-                                           pNodeInfo->publicQueryPort, senddata, 4);
+                                           pNodeInfo->publicQueryPort, (const unsigned int *)senddata, 4);
                     if (func_021719A4(result))
                         return 0;
                 }

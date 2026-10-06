@@ -47,7 +47,8 @@ extern void func_02045334(struct Descriptor *d);
 typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern u32 func_021EB318(void);
-extern int func_021EE3E8(void *a, void *b);
+struct C;
+extern int func_021EE3E8(int *st, struct C *c);
 
 void func_021EE23C(struct Q *q)
 {
@@ -66,7 +67,7 @@ void func_021EE264(char *o, int a, struct T *src)
     ((struct Obj06295 *)o)->f16C = a;
     *(struct T *)(o + 0x170) = *src;
     ((struct O *)o)->fe0 = 0;
-    ((struct O *)o)->fe4 = func_021EE3E8;
+    ((struct O *)o)->fe4 = (int (*)(void *, void *))func_021EE3E8;
     ((struct O *)o)->fe8 = o;
     ((struct O *)o)->fec = 0;
 }

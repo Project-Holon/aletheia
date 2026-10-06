@@ -22,7 +22,7 @@ struct Pair { u32 a, b; };
 extern char data_021C3B30[];
 extern struct Pair data_021C39F0[];
 extern void func_021BAC24(char *, struct Desc *, struct Pair *, int, int, u32);
-extern void func_02020D10(u8 *, u8);
+extern void func_02020D10(u8 *p, u32 v);
 void func_021BBE7C(char *p)
 {
     *(u16 *)(data_021C3B30 + 0x14) = 2;

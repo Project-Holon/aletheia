@@ -19,7 +19,7 @@
  */
 #include "../include/Obj24003.h"
 
-extern void *func_021EC338(char *w, void *a, void **out);
+extern void *func_021EC338(char *p, void *b, void *c);
 extern int func_0201BBE8(void *a);
 extern void func_021EC428(char *w, int a, int i, int b);
 extern void func_020307B0(void *p);

@@ -37,7 +37,7 @@ typedef int BOOL;
 extern u8 *g_021797A8;
 extern char d_02179794[];
 
-extern void func_02178B98(void *arg);
+extern void func_02178B98(u8 *m);
 extern void func_0217814C(int err);
 extern int WM_GetMPSendBufferSize(void);
 extern int WM_GetMPReceiveBufferSize(void);
@@ -72,7 +72,7 @@ BOOL func_02178AB8(void)
 
     freq = (func_0203D5D4() == 2) ? 1 : 2;
 
-    result = WM_StartMP(func_02178B98,
+    result = WM_StartMP((void (*)(void *))func_02178B98,
                         *(void **)(g_021797A8 + 0x1E6C),
                         (u16)*(int *)(g_021797A8 + 0x1E90),
                         *(void **)(g_021797A8 + 0x1E68),

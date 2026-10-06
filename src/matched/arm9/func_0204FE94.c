@@ -84,8 +84,8 @@ struct AreaMan;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0204EBD4(u8 *src, void *heap);
 extern struct AreaMan *func_02033C00(u32 size, u32 heap);
-extern void  func_02050088(void *p);
-extern void  func_020500B8(void *p);
+extern void func_02050088(int p0);
+extern void func_020500B8(u32 *p);
 extern const char sBillboardAct[];
 extern const struct Blob28 gBillboardActTpl;
 
@@ -114,10 +114,10 @@ void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap)
     h->f20 = func_02033C00(h->f1C, heap);
 
     for (i = 0; i < h->f10; i++) {
-        func_02050088((u8 *)h->f0C + i * 8);
+        func_02050088((int)((u8 *)h->f0C + i * 8));
     }
     for (j = 0; j < h->f1C; j++) {
-        func_020500B8((u8 *)h->f18 + j * 0x28);
+        func_020500B8((u32 *)((u8 *)h->f18 + j * 0x28));
     }
     return h;
 }

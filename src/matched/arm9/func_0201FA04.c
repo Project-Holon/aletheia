@@ -51,7 +51,7 @@ extern u32  func_020362DC(void);
 extern void func_020061E4(u32 id);
 extern int  func_0201FAD0(struct Obj *o, u32 dir, u32 sound);
 
-s32 func_0201FA04(struct Obj *o)
+u32 func_0201FA04(struct Obj *o)
 {
     u32 keys = func_020362DC();
     u32 one = 1;

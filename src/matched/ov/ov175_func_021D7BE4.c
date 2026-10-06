@@ -55,7 +55,9 @@ extern void func_021D95B0(u32 sys, int *state, char *ctx);
 extern void func_02040588(u32,u32);
 extern void func_021D965C(struct Obj *),func_021D97E4(char *,u32);
 extern u32 func_021D97B8(char *);
-extern void func_021D98E4(char *,u32),func_021D99F4(char *),func_021D9A50(char *,char *);
+extern void func_021D98E4(u32 *p, int mode);
+extern void func_021D99F4(char *);
+extern void func_021D9A50(char *,char *);
 extern int func_021D9A08(char *);
 void func_021D7BE4(u32 sys,int *state,char *p)
 {
@@ -75,7 +77,7 @@ void func_021D7BE4(u32 sys,int *state,char *p)
     case 3:func_02040588(0,1);
         func_021E8738((int *)(((struct Obj00013 *)p)->f2C),((struct Obj00013 *)p)->f14,74,1);
         func_021E8AB4(sys,4);*state=16;break;
-    case 4:func_021D98E4(p,3);*state=5;break;
+    case 4:func_021D98E4((u32 *)p,3);*state=5;break;
     case 5:v=func_021D9A08(p);
         if(v!=-1) {
             func_021D99F4(p);

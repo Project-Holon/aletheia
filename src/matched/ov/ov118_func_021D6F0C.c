@@ -20,13 +20,14 @@
  * Verified EXACT, 32 bytes.
  */
 
-extern unsigned int func_02051774(void *);
+typedef unsigned int   u32;
+extern u32 func_02051774(void);
 extern void func_02051A2C(void *p, int v);
 extern void func_02051A24(void *p, int v);
 extern void func_021D6ECC(void *obj, int on);
 
 void func_021D6F0C(void *p)
 {
-    func_02051A2C(p, func_02051774(p));
+    func_02051A2C(p, func_02051774());
     func_02051A24(p, (int)func_021D6ECC);
 }

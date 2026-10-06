@@ -26,38 +26,39 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Config { u32 w[8]; } Config;
 extern const Config d_021D5780, d_021D57A0, d_021D57C0, d_021D57E0, d_021D5800;
-extern void func_0203FCA0(u32, const void *, u32);
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
 extern void func_0204047C(int, u16);
 extern void func_02040588(u32, u32);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
-void func_021D424C(void)
+void func_021D424C(void *a0)
 {
     Config a, b, c, d, e;
     a = d_021D5780;
-    func_0203FCA0(0, &a, 0);
+    func_0203FCA0(0, (const struct BgTemplate *)(&a), 0);
     func_020414AC(0);
     func_020409B4(0);
     func_0204047C(0, 0);
     func_02040588(0, 1);
     b = d_021D57A0;
-    func_0203FCA0(4, &b, 0);
+    func_0203FCA0(4, (const struct BgTemplate *)(&b), 0);
     func_02040588(4, 1);
     func_020409B4(4);
     c = d_021D57C0;
-    func_0203FCA0(5, &c, 0);
+    func_0203FCA0(5, (const struct BgTemplate *)(&c), 0);
     func_02040C14(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 32, 32, 17);
     func_020409B4(5);
     func_02040588(5, 1);
     d = d_021D57E0;
-    func_0203FCA0(6, &d, 0);
+    func_0203FCA0(6, (const struct BgTemplate *)(&d), 0);
     func_02040588(6, 1);
     func_020409B4(6);
     e = d_021D5800;
-    func_0203FCA0(7, &e, 0);
+    func_0203FCA0(7, (const struct BgTemplate *)(&e), 0);
     func_02040588(7, 1);
     func_020409B4(7);
 }

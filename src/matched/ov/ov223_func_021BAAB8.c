@@ -31,7 +31,7 @@ extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_020437EC(const struct Bmp *bmp);
-extern void func_02040B1C(unsigned char,const void *,unsigned,unsigned);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_020437AC(struct Obj020437AC *p);
 void func_021BAAB8(u16 *p)
 {

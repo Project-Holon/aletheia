@@ -18,12 +18,12 @@
 
 typedef unsigned int u32;
 
-extern void func_02005FBC(void *p);
+extern void func_02005FBC(void);
 extern u32 *sub_0200590C(void);
 extern void func_02072E8C(u32 a, void *p);
 
 void func_02005DE4(void *p)
 {
-    func_02005FBC(p);
+    func_02005FBC();
     func_02072E8C((u32)sub_0200590C(), p);
 }

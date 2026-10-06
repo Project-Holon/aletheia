@@ -50,7 +50,8 @@ struct Clact {
 
 extern struct Clact g_020A7F3C;
 
-extern void func_0204BD94(void *a, struct Rec *rec, u32 count, u32 mode);
+struct Obj;
+extern void func_0204BD94(struct Obj *obj, u8 *src, int count, u32 heap);
 
 void func_0204BA38(void *a, const s16 *src, u32 mode)
 {
@@ -59,5 +60,5 @@ void func_0204BA38(void *a, const s16 *src, u32 mode)
     g_020A7F3C.rec[1].x = src[2];
     g_020A7F3C.rec[1].y = src[3];
 
-    func_0204BD94(a, g_020A7F3C.rec, 2, mode);
+    func_0204BD94(a, (u8 *)g_020A7F3C.rec, 2, mode);
 }

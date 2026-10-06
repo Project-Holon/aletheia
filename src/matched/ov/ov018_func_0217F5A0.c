@@ -27,17 +27,17 @@ typedef struct {
     u8 bit1A5 : 1;
 } Ov018Obj;
 
-int func_02175DA8(Ov018Obj *p);
-Rec *func_02175B34(Ov018Obj *p);
+int func_02175DA8(u8 *p);
+u8 *func_02175B34(u8 *p);
 
 int func_0217F5A0(Ov018Obj *p)
 {
     Rec *r;
 
-    if (func_02175DA8(p) == 1) {
+    if (func_02175DA8((u8 *)p) == 1) {
         return 4;
     }
-    r = func_02175B34(p);
+    r = (Rec *)func_02175B34((u8 *)p);
     if (r == 0) {
         return 0;
     }

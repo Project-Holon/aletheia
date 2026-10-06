@@ -33,13 +33,15 @@ typedef struct {
 } Elem;
 typedef struct { u8 pad[0x2c]; } Item;
 typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item *f8; Elem *fC; } Mgr;
-extern int func_02047828(u32 h, u16 i, int *out);
+typedef signed int     s32;
+struct AnmCtl;
+extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
 int func_021C67A8(Mgr *m, int idx, int i)
 {
     int r = 0;
     Elem *e = &m->fC[idx];
     if (e->k == 1) {
-        if (func_02047828(e->f44, i, &r) == 0)
+        if ((int)func_02047828((struct AnmCtl *)e->f44, (u16)i, &r) == 0)
             r = 0;
     }
     return r;

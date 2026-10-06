@@ -27,7 +27,7 @@ typedef struct MemIcon {
 
 extern void func_021D7744(unsigned int idx, void *r4);
 extern void func_021D6F38(unsigned int *obj);
-extern void func_021D6438(MemIcon **mem);
+extern void func_021D6438(void **mem);
 extern MemIcon *g_021DE558;
 extern MemIcon *g_021DE558_b;
 
@@ -37,5 +37,5 @@ void func_021BD7F4(void)
         return;
     func_021D7744(0, g_021DE558->task);
     func_021D6F38(g_021DE558->obj);
-    func_021D6438(&g_021DE558_b);
+    func_021D6438((void **)(&g_021DE558_b));
 }

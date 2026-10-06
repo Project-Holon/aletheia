@@ -41,19 +41,20 @@ struct Res {
     u32 unk_14;
 };
 
-extern s32 func_02062A4C(void *buf, struct Res **out);
-extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+struct NitroFileHeader;
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void ENV_SetResourceSet(void *p);
 
 u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
 {
     struct Res *res;
 
-    if (func_02062A4C(buf, &res) != 0) {
+    if (func_02062A4C(buf, (void **)(&res)) != 0) {
         if (a3 == 0) {
             a3 = res->unk_10;
         }
-        func_02040B1C(a1, (const void *)res->unk_14, a3, a2);
+        func_02040B1C((u8)a1, (const void *)res->unk_14, a3, a2);
     }
 
     ENV_SetResourceSet(buf);

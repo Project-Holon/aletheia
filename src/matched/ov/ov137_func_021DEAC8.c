@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021E16D8(void *);
+extern int func_021E16D8(const char *p);
 
 int func_021DEAC8(u8 *p)
 {
-    if (func_021E16D8(p)) {
+    if (func_021E16D8((const char *)p)) {
         ((struct Obj10637 *)p)->f0 = 3;
         return 1;
     }

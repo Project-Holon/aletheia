@@ -20,14 +20,14 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
 extern int func_021D8D9C(void *a, int k, u8 *buf, int v);
-extern int func_0201C1E8(u16 x);
+extern int func_0201C1E8(int a);
 extern void func_021D7704(int a, int b);
 
 void func_021D8D40(int u, int a, int b, int c)
 {
     if (b == func_021D775C(3)) {
         if (func_021D8D9C((void *)a, b, (u8 *)c, 0x39) != 0 || func_021D8D9C((void *)a, b, (u8 *)c, 0x3a) != 0) {
-            if (func_0201C1E8(func_021D775C(0x12)) == 2)
+            if (func_0201C1E8((u16)func_021D775C(0x12)) == 2)
                 func_021D7704(0x35, 6 << 10);
         }
     }

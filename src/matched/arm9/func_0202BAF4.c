@@ -37,10 +37,11 @@ typedef unsigned int  u32;
 
 typedef enum { SLOT_0, SLOT_MAX = 16 } Slot;
 
-extern void sub_0202BE24(u8 *o);
+struct Obj0202BE24;
+extern void sub_0202BE24(struct Obj0202BE24 *p);
 extern void func_0202BB68(u8 *o, int i);
 extern void func_0202BBB0(u8 *o, int i);
-extern void func_0202BC78(u8 *o, int i);
+extern int func_0202BC78(int a0, int a1);
 extern void func_0202BE00(u8 *p, u32 i);
 
 void func_0202BAF4(u8 *o)
@@ -50,12 +51,12 @@ void func_0202BAF4(u8 *o)
     if (((struct Obj05797 *)o)->f4 == 0) {
         return;
     }
-    sub_0202BE24(o);
+    sub_0202BE24((struct Obj0202BE24 *)o);
     for (i = 0; i < 0x10; i++) {
         if (*(u32 *)(o + i * 0x1c + 0x24) != 0) {
             func_0202BB68(o, i);
             func_0202BBB0(o, i);
-            func_0202BC78(o, i);
+            func_0202BC78((int)o, i);
             func_0202BE00(o, i);
         }
     }

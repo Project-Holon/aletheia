@@ -19,6 +19,6 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-extern void func_0203FB44(u32,u16,u16);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020307B0(void *);
-void func_021C07E8(u8 *p) { func_020452E8(((struct Obj08011 *)p)->f24); func_0203FB44(3,((struct Obj08011 *)p)->f0,((struct Obj08011 *)p)->f0>>16); func_020307B0(((struct Obj08011 *)p)->f4); }
+void func_021C07E8(u8 *p) { func_020452E8(((struct Obj08011 *)p)->f24); func_0203FB44(3,(u16)(((struct Obj08011 *)p)->f0),(u16)(((struct Obj08011 *)p)->f0>>16)); func_020307B0(((struct Obj08011 *)p)->f4); }

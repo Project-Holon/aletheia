@@ -15,7 +15,7 @@
  *   (none)
  */
 
-void func_021E3F70(void)
+void func_021E3F70(void *p)
 {
 }
 

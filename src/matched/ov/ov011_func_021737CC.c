@@ -34,7 +34,7 @@ typedef struct {
 } C;
 
 extern int func_02026478(int a);
-extern void func_02174EAC(D *d, int a, C *c);
+extern void func_02174EAC(u8 *p, int idx, u8 *q);
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
 typedef unsigned int   u32;
@@ -46,7 +46,7 @@ void func_021737CC(int a, int b, C *c, D *d)
 
     h = func_02026478(d->f4);
     if (a < d->n) {
-        func_02174EAC(d, a, c);
+        func_02174EAC((u8 *)d, a, (u8 *)c);
         if (a != func_02012B58((const struct BigObj *)h) && func_0203D378() == 0 && a == 0 && c->hit == 1)
             d->flag = 1;
     }

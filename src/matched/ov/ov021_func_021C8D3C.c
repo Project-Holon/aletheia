@@ -20,18 +20,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; void *f10; void *f14; u32 f18; u32 f1C; u32 f20; u32 f24; } P;
-extern u32 func_021C8D08(P *p);
-extern u32 func_021C8CF8(P *p);
+extern int func_021C8D08(u32 a);
+extern int func_021C8CF8(u32 a);
 extern void func_0216D410(u32 a, u32 b);
 extern void func_021C8DF4(P *p);
 void func_021C8D3C(P *p)
 {
     if (p->f14 != 0) {
-        func_0216D410(p->fC, func_021C8D08(p));
+        func_0216D410(p->fC, func_021C8D08((u32)p));
         func_021C8DF4(p);
         p->f18 = 1;
         return;
     }
     if (p->f10 != 0)
-        func_0216D410(p->fC, func_021C8CF8(p));
+        func_0216D410(p->fC, func_021C8CF8((u32)p));
 }

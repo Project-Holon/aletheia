@@ -44,7 +44,7 @@ extern u8 func_02012B58(const struct BigObj *p);
 extern u16 func_02175598(u8 *o, u32 id);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3220(void *, u16);
+extern void func_021A3220(u8 *p, u32 res);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216D8C0(void *, Vec *);
 extern void func_021A322C(u8 *p);
@@ -85,7 +85,7 @@ void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
             res = 4;
     }
     obj = func_02188CB4(func_0201210C(a1));
-    func_021A3220(obj, res);
+    func_021A3220(obj, (u16)res);
     func_0216D8C0(func_021A3074(obj), &v);
     if (id == 0)
         func_021A322C(obj);

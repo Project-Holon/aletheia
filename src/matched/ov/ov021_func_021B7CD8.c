@@ -53,7 +53,7 @@ extern void func_021B80E0(void *p, int a, u8 key);
 struct Sub;
 extern void func_021B810C(struct Sub *o);
 extern void func_021B7DC0(void *p, Rect4 *out);
-extern int func_0203EFC8(const void *a, const void *b, u32 n);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern u8 func_021B7DE0(void *p, Rect4 *r);
 
 u8 func_021B7CD8(struct Mgr *m, const Rect4 *r, u8 key, Rect4 *out)
@@ -64,7 +64,7 @@ u8 func_021B7CD8(struct Mgr *m, const Rect4 *r, u8 key, Rect4 *out)
     func_021B80E0(m->f1C, 4, key);
     func_021B810C(m->f1C);
     func_021B7DC0(m->f1C, out);
-    if (func_0203EFC8(&old, out, 8) == 0)
+    if (func_0203EFC8((const u8 *)(&old), (const u8 *)out, 8) == 0)
         return 0;
     return func_021B7DE0(m->f1C, out);
 }

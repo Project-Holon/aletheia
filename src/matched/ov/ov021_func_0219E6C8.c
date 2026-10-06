@@ -47,9 +47,9 @@ extern int func_0216D854(void *p);
 extern void func_0216D818();
 extern int func_0216D86C(void *p);
 extern void func_0216D824();
-extern void func_0216D844(u32, s16);
-extern void func_0216D85C(u32, s16);
-extern void func_0216D874(u32, s16);
+extern void func_0216D844(void *p, short v);
+extern void func_0216D85C(void *p, int v);
+extern void func_0216D874(int a0, int a1);
 
 void func_0219E6C8(u32 o, u32 id)
 {
@@ -63,7 +63,7 @@ void func_0219E6C8(u32 o, u32 id)
     func_0216D80C(o, func_0216D83C((void *)o));
     func_0216D818(o, func_0216D854((void *)o));
     func_0216D824(o, func_0216D86C((void *)o));
-    func_0216D844(o, (v[0] >> 4) / 4096);
-    func_0216D85C(o, (v[1] >> 4) / 4096);
-    func_0216D874(o, (v[2] >> 4) / 4096);
+    func_0216D844((void *)o, (v[0] >> 4) / 4096);
+    func_0216D85C((void *)o, (s16)((v[1] >> 4) / 4096));
+    func_0216D874((u32)o, (s16)((v[2] >> 4) / 4096));
 }

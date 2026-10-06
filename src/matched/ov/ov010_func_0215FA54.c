@@ -64,23 +64,29 @@ typedef struct Work {
     u32 f28;            /* 0x28 */
 } Work;
 
-extern void *func_02012138(void *sys);
-extern void *func_020120F4(void *sys);
-extern void *func_0201210C(void *sys);
-extern void func_02012374(void *evt, void *task);
-extern void func_020120B4(void *sys, u32 id, void *data, void *arg);
-extern int func_020120F0(void *sys);
-extern void func_02012444(void *evt, u32 id, void *data, void *arg);
-extern void func_020129B8(void *p, u32 v);
-extern void *func_020144DC(void *sys, void *proc);
+struct Comm;
+struct Ctx;
+struct Evt;
+struct IcaAnime;
+struct Obj;
+extern u32 func_02012138(const struct Ctx *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+struct BigObj;
+extern void func_020129B8(struct BigObj *p, u32 v);
+extern int func_020144DC(int a0, int a1);
 extern void *func_020145CC(void *sys);
-extern u32 func_02005C44(void);
+extern u16 func_02005C44(void);
 extern void func_02005D90(u32 h, u32 v);
 extern void func_02005DF8(u32 v);
-extern void func_02026400(void *p);
-extern int func_02026454(void *p);
-extern int func_02026460(void *p);
-extern int func_02158344(void *p);
+extern void func_02026400(struct Comm *p);
+extern u32 func_02026454(void *obj);
+extern u32 func_02026460(void *obj);
+extern int func_02158344(int a0);
 extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
 extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *func_0217CE08(void *sys, void *proc, u32 a, u32 b);
@@ -94,7 +100,7 @@ extern u8 d_021C7240[];
 int func_0215FA54(void *evt, u32 *state, Work *w)
 {
     void *sys = w->sys;
-    void *save = func_02012138(sys);
+    void *save = (void *)func_02012138(sys);
     void *ctx = func_020120F4(sys);
     void *proc = func_0201210C(sys);
 
@@ -104,7 +110,7 @@ int func_0215FA54(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 1:
-        func_02012374(evt, func_020144DC(sys, proc));
+        func_02012374(evt, (struct Evt **)func_020144DC((int)sys, (int)proc));
         *state = 2;
         break;
     case 2:
@@ -118,13 +124,13 @@ int func_0215FA54(void *evt, u32 *state, Work *w)
             break;
         switch (w->f20) {
         case 0:
-            if (func_02158344(save) && w->f28 == 2)
+            if (func_02158344((int)save) && w->f28 == 2)
                 func_020129B8(ctx, 3);
             *state = 6;
             break;
         case 1:
             w->f24 = func_02005C44();
-            func_02012444(evt, (u32)ov172_id, d_021C7240, w->f0c);
+            func_02012444(evt, (u32)ov172_id, (u32)d_021C7240, (u32)w->f0c);
             *state = 5;
             break;
         default:

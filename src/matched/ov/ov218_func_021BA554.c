@@ -26,7 +26,8 @@ extern u32 func_0204B3F4(struct Obj *p);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
-extern void func_0204B404(void *,const Pair *,unsigned);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 static inline void scroll(const char *p,short delta,int space,Pair *pos)
 {
@@ -40,7 +41,7 @@ static inline void scroll(const char *p,short delta,int space,Pair *pos)
             func_0204B454(item,(struct PtS *)pos,space);
             pos->y+=delta;
             value=pos->y;
-            func_0204B404(item,pos,space);
+            func_0204B404(item,(const struct Vec2 *)pos,space);
             if(space==0){
                 if(value<=-20 || value>=220)func_0204B3DC(item,0);
             }else{
@@ -61,7 +62,7 @@ static inline void scrollSecond(const char *p,short delta,int space,Pair *pos)
             func_0204B454(item,(struct PtS *)pos,space);
             pos->y+=delta;
             value=pos->y;
-            func_0204B404(item,pos,space);
+            func_0204B404(item,(const struct Vec2 *)pos,space);
             if(space==0){
                 if(value<=-20 || value>=220)func_0204B3DC(item,0);
             }else{

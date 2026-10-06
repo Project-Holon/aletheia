@@ -61,7 +61,8 @@ struct F04lo { u32 lo : 2; u32 sub : 3; u32 hi : 27; };
 struct F08   { u32 mode : 3; u32 hi : 29; };
 
 extern int func_02091524(void);
-extern int func_02091650(struct P02091B5C *p, u32 *a1);
+struct S02091650;
+extern int func_02091650(struct S02091650 *p, u32 *a1);
 
 int func_02091B5C(struct P02091B5C *p)
 {
@@ -81,7 +82,7 @@ int func_02091B5C(struct P02091B5C *p)
         ((struct F08 *)&p->f08)->mode = 0;
         return 0;
     }
-    r = func_02091650(p, 0);
+    r = func_02091650((struct S02091650 *)p, 0);
     if (r != 0) {
         p->f0d = 1;
         p->f28 = 0;

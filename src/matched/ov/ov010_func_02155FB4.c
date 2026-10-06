@@ -30,10 +30,10 @@ typedef struct Work {
     void *f3C;          /* 0x3C */
 } Work;
 
-extern void func_021FD948(void *p, void *q);
+extern void func_021FD948(char *p, u32 value);
 
 void func_02155FB4(Work *w)
 {
     if (w->f14 == 1)
-        func_021FD948(w->f28, w->f3C);
+        func_021FD948(w->f28, (u32)w->f3C);
 }

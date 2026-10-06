@@ -10,4 +10,4 @@
  * symbols:
 
  */
-unsigned func_021B9CDC(void){return 0x48;}
+int func_021B9CDC(void *a0){return 0x48;}

@@ -43,12 +43,12 @@ extern const u32 d_021B8F40[];
 extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u8,const struct BgTemplate *,u8);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02040C14(u32,u32,u32,u32);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
@@ -61,7 +61,7 @@ void func_021B7994(void *p,u16 heap) {
  func_0203FC28(&d_021B8F30);
  for(i=0;i<7;i++) {
   bg=d_021B8F5C[i];
-  func_0203FCA0(bg,&d_021B8FB4[i],d_021B8F40[i]);
+  func_0203FCA0((u8)bg,&d_021B8FB4[i],(u8)d_021B8F40[i]);
   func_020414AC(bg);
   func_02040588(bg,1);
  }

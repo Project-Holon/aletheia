@@ -26,18 +26,19 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D5B68(void *q);
-extern void func_021D8434(u8 *o);
+struct Unk021D82D0;
+extern void func_021D8434(u32 *p);
 struct QL;
 struct Unk021D62A8;
 struct UtilWork;
 extern int func_021D5BDC(struct UtilWork *p, u32 n);
-extern void func_021D8444(u8 *o);
+extern void func_021D8444(u32 *p);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 typedef struct { u32 v; } Word;
 extern Word func_021D6314(void *q, int i);
 extern u16 func_021E8B80(Word v);
 extern u8 func_021D67C4(u8 *p);
-extern void func_021D82D0(u8 *o, u32 id, u32 sub);
+extern void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub);
 extern u16 func_021D67A8(struct QL *p);
 extern u8 func_021D5778(void *q, u32 id);
 
@@ -49,13 +50,13 @@ u32 func_021CF470(u8 *p, void *q, u8 *o)
     Word t;
     if (func_021D5B68(q) != 0) {
         if (o != 0) {
-            func_021D8434(o);
+            func_021D8434((u32 *)o);
         }
         return 1;
     }
     if (func_021D5BDC(q, 0xc) != 0) {
         if (o != 0) {
-            func_021D8444(o);
+            func_021D8444((u32 *)o);
         }
         return 1;
     }
@@ -65,7 +66,7 @@ u32 func_021CF470(u8 *p, void *q, u8 *o)
         id = func_021E8B80(t);
         b = func_021D67C4(q);
         if (o != 0) {
-            func_021D82D0(o, id, b);
+            func_021D82D0((struct Unk021D82D0 *)o, id, b);
         }
         return 1;
     }
@@ -74,7 +75,7 @@ u32 func_021CF470(u8 *p, void *q, u8 *o)
         b = func_021D67C4(q);
         func_021D5778(q, a);
         if (o != 0) {
-            func_021D82D0(o, a, b);
+            func_021D82D0((struct Unk021D82D0 *)o, a, b);
         }
         return 1;
     }

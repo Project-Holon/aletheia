@@ -32,10 +32,12 @@ typedef unsigned short u16;
 
 struct Ctx;
 
-extern struct Ctx *func_02035224(void);
-extern u16 func_02035C48(struct Ctx *ctx);
+struct Ctx02035C48;
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
+extern u16 func_02035C48(struct Ctx02035C48 *ctx);
 
-u16 sub_02035C60(void)
+int sub_02035C60(void)
 {
-    return func_02035C48(func_02035224());
+    return func_02035C48((struct Ctx02035C48 *)func_02035224());
 }

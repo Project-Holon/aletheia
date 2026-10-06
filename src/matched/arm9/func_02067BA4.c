@@ -52,8 +52,8 @@ struct Ctx {
 
 extern struct Ctx *g_02148B48;
 
-extern int func_020637BC(void *p, int i);
-extern int func_020637B4(void *p, int i);
+extern int func_020637BC(const u32 *p, u32 i);
+extern int func_020637B4(int *p, int i);
 extern int func_0206380C(char *p, int i);
 extern int func_02063800(char *p, int i);
 
@@ -91,8 +91,8 @@ void func_02067BA4(struct Ctx *c)
         struct Ctx *t = (struct Ctx *)p->ta;
         int r;
 
-        if (func_020637BC(t, n)) {
-            r = func_020637B4(t, n);
+        if (func_020637BC((const u32 *)t, n)) {
+            r = func_020637B4((int *)t, n);
             r = (int)((u32)r >> ((int)((t->shcfg & 0x700000) >> 20) + 5));
         } else {
             r = 0;

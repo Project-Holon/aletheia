@@ -32,13 +32,16 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021EEC20(int, u8 **);
-extern void func_021EAF18(void *, int, int);
-extern void func_021EAF50(void *, int);
+typedef unsigned short u16;
+struct H;
+struct L;
+extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *p, u8 v);
-extern void func_021EA614(void *, void *);
+extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 extern int func_021EA720(void *);
-extern void func_021EABC4(void *, void *, void *, int);
+extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
 extern int func_021EAC54(void *, int *);
 extern void func_021D0B10(u8 *p, u32 a, u32 b, void *q, void *out);
 extern void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r);
@@ -46,7 +49,7 @@ extern int func_021E9B20(u8 *p);
 extern int func_021D121C(void *);
 extern u32 func_021D122C(void *);
 extern void func_021D8394(void *, u8, u32);
-extern void func_021D8434(void *);
+extern void func_021D8434(u32 *p);
 int func_021D10B8(u8 *p, int *state)
 {
     u8 *args;
@@ -56,20 +59,20 @@ int func_021D10B8(u8 *p, int *state)
     case 0:
         func_021EEC20(*(int *)(p + 0x50), &args);
         if (args[0] != 0x1F) {
-            func_021EAF18(p + 0x58, 1, 0x14);
-            func_021EAF50(p + 0x58, 1);
-            func_021EAF50(p + 0x58, args[0]);
+            func_021EAF18((struct L *)(p + 0x58), 1, 0x14);
+            func_021EAF50((struct L *)(p + 0x58), 1);
+            func_021EAF50((struct L *)(p + 0x58), args[0]);
             func_021EAF78(p + 0x58, 0xFF);
-            func_021EA614(*(void **)(p + 0x54), p + 0x58);
+            func_021EA614(*(void **)(p + 0x54), (struct H *)(p + 0x58));
             *state = 1;
         } else *state = 4;
         break;
     case 1:
         func_021EA710(*(void **)(p + 0x54));
         if (func_021EA720(*(void **)(p + 0x54)) != 0) {
-            func_021EAF18(p + 0x58, 3, 6);
-            func_021EAF18(p + 0x7C, 3, 7);
-            func_021EABC4(*(void **)(p + 0x54), p + 0x58, p + 0x7C, 1);
+            func_021EAF18((struct L *)(p + 0x58), 3, 6);
+            func_021EAF18((struct L *)(p + 0x7C), 3, 7);
+            func_021EABC4(*(void **)(p + 0x54), (u32)(p + 0x58), (u32)(p + 0x7C), 1);
             *state = 2;
         }
         break;
@@ -99,7 +102,7 @@ invalid:
         }
         break;
     case 4:
-        func_021D8434(p + 0x124);
+        func_021D8434((u32 *)(p + 0x124));
         *state = 5;
     case 5:
         *(u8 **)(p + 0xD8) = p + 0x124;

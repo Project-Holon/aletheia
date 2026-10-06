@@ -24,8 +24,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021D5440(u8 *);
-extern int func_021D5448(void *);
-extern u32 func_021D54C0(void *, u8);
+struct QG;
+extern u8 func_021D5448(struct QG *p);
+extern u16 func_021D54C0(u8 *p, int i);
 extern u16 func_021C7E14(u8 *, u8, u8, u32, int, int);
 u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d)
 {
@@ -33,8 +34,8 @@ u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d)
     u8 x = func_021D5440(b);
     u8 y = func_021D5440(c);
     int i;
-    for (i = 0; i < func_021D5448(b); i++) {
-        u32 r = func_021C7E14(*(u8 **)(a + 0xB4), x, y, func_021D54C0(b, i), 1, d);
+    for (i = 0; i < (int)func_021D5448((struct QG *)b); i++) {
+        u32 r = func_021C7E14(*(u8 **)(a + 0xB4), x, y, (u32)func_021D54C0(b, (u8)i), 1, d);
         if (r > best)
             best = r;
     }

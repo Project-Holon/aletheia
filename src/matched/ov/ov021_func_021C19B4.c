@@ -33,7 +33,8 @@ extern int func_021641E8(int a);
 extern int func_0216D86C(void *p);
 extern int func_021641F8(int a);
 extern u32 func_0216D8AC(void *p);
-extern u32 func_0216DDDC(u32 a, s16 x, s16 y, u32 d, u32 e, u32 f);
+typedef signed int     s32;
+extern u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
 
 u32 func_021C19B4(u32 a, u32 b)
 {
@@ -48,5 +49,5 @@ u32 func_021C19B4(u32 a, u32 b)
     x += func_021641E8(b);
     y = func_0216D86C((void *)r6);
     y += func_021641F8(b);
-    return func_0216DDDC(h, x, y, func_0216D8AC((void *)r6), 1, 0);
+    return (u32)func_0216DDDC(h, (s16)x, (s16)y, (u32)func_0216D8AC((void *)r6), (u32)1, 0);
 }

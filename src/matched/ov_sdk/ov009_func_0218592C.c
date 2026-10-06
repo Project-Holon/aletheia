@@ -15,12 +15,12 @@
  *   func_02186788  0x02186788  arm  ov009
  */
 
-extern void func_02186788(void *p);
+extern void func_02186788(void **connection);
 
 void func_0218592C(int **p)
 {
     if (p && *p) {
-        func_02186788(p);
+        func_02186788((void **)p);
     }
 }
 

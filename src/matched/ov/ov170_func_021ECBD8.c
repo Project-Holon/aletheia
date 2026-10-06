@@ -14,14 +14,14 @@
  *   func_021EC08C 0x021EC08C thumb
  */
 
-extern void func_021EC0B0(unsigned char *p, int i, short *a, short *b, unsigned short space);
+extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC08C(unsigned char *p, int i, short a, short b, short c);
 
 void func_021ECBD8(unsigned char *p, int i)
 {
     short xy[2];
     unsigned char t;
-    func_021EC0B0(p, p[0x3DF6], &xy[1], &xy[0], 0);
+    func_021EC0B0((char *)p, p[0x3DF6], &xy[1], &xy[0], 0);
     t = (p + 0x3DD2)[i];
     (p + 0x3DD2)[i] = p[0x3DF6];
     p[0x3DF6] = t;

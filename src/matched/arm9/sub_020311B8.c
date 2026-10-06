@@ -73,7 +73,9 @@ struct Tcbl {
 extern const char sub_020311B8_File[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct TcblNode *sub_02030F04(struct Tcbl *p);
+struct List;
+struct Node;
+extern struct Node *sub_02030F04(struct List *list);
 
 struct TcblNode *sub_020311B8(struct Tcbl *p, TcblFunc func, u32 workSize,
                               u32 key)
@@ -83,7 +85,7 @@ struct TcblNode *sub_020311B8(struct Tcbl *p, TcblFunc func, u32 workSize,
     struct TcblNode *s;
 
     s = &p->sentinel;
-    n = sub_02030F04(p);
+    n = (struct TcblNode *)sub_02030F04((struct List *)p);
     if (n == 0) {
         return 0;
     }

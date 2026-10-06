@@ -36,12 +36,14 @@ typedef struct {
 } ObjPos;
 
 extern int  ov208_func_021BC3A4(int key);
-extern u16  func_021BBB3C(u32 tbl, int idx, int field);
+struct Actor;
+struct Obj;
+extern unsigned short func_021BBB3C(char *p, int a, int b);
 extern int  func_02166CD0(int a, u32 msg);
-extern u32  func_0204B294(u32 res, u32 a, u32 b, u32 c, ObjPos *pos, u32 f, u32 heap);
-extern void func_0204B92C(u32 obj, int v);
-extern void func_0204B3DC(u32 obj, int on);
-extern void func_0204B688(u32 obj, u32 on);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 
@@ -55,23 +57,23 @@ void ov208_func_021C0544(u16 *heap, u8 *p, int key)
 
     k = ov208_func_021BC3A4(key);
     for (i = 0; i < 0x3d; i++) {
-        msg = func_021BBB3C(W(0x3c8), i, 0x10);
+        msg = func_021BBB3C((char *)W(0x3c8), i, 0x10);
         if (msg != 0xffff) {
             if ((func_02166CD0(k, msg) == 0 ? 1 : 0)) {
                 *(u32 *)(p + i * 8 + 0x1e0) = 1;
                 *(u32 *)(p + i * 8 + 0x1e4) = 0;
             } else {
-                kind = func_021BBB3C(W(0x3c8), i, 0xb);
-                pos.x = func_021BBB3C(W(0x3c8), i, 2);
-                pos.y = func_021BBB3C(W(0x3c8), i, 3);
+                kind = func_021BBB3C((char *)W(0x3c8), i, 0xb);
+                pos.x = func_021BBB3C((char *)W(0x3c8), i, 2);
+                pos.y = func_021BBB3C((char *)W(0x3c8), i, 3);
                 pos.z = kind == 4 ? 0xe : 0x10;
                 pos.pri = 5;
                 pos.f7 = 2;
                 *(u32 *)(p + i * 8 + 0x1e0) = 2;
-                *(u32 *)(p + i * 8 + 0x1e4) = func_0204B294(W(0x1d0), W(0x98), W(0x9c), W(0xa0), &pos, 0, *heap);
-                func_0204B92C(*(u32 *)(p + i * 8 + 0x1e4), 1);
-                func_0204B3DC(*(u32 *)(p + i * 8 + 0x1e4), 1);
-                func_0204B688(*(u32 *)(p + i * 8 + 0x1e4), 1);
+                *(u32 *)(p + i * 8 + 0x1e4) = (u32)func_0204B294((void *)W(0x1d0), W(0x98), W(0x9c), W(0xa0), &pos, 0, *heap);
+                func_0204B92C((struct Obj *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
+                func_0204B3DC((struct Obj *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
+                func_0204B688((struct Actor *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
             }
         } else {
             *(u32 *)(p + i * 8 + 0x1e0) = 0;

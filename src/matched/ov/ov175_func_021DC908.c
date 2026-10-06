@@ -39,12 +39,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021B95D4(int,u8 *);
 extern int func_021B973C(char *);
-extern int func_021BE79C(int,u32,u32);
+extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
 extern int func_021B9748(u8 *);
 extern void func_021B9838(u8 *);
 extern int func_021B99DC(u8 *);
 extern int func_021B9790(u8 *);
-extern u32 *func_021B97F4(u8 *);
+extern u8 *func_021B97F4(u8 *p);
 extern void func_0200FB4C(u32);
 extern int func_021DC610(u32);
 extern void func_021DCE58(char *,unsigned long,u32);
@@ -58,7 +58,7 @@ int func_021DC908(char *p)
     switch(*(u32 *)(p+0x12c)) {
     case 0:
         if(func_021B95D4(6,*(u8 **)(p+0x121c))) {
-            func_021BE79C(func_021B973C(*(char **)(p+0x121c)),(u32)(p+0x1228),8);
+            func_021BE79C((void *)func_021B973C(*(char **)(p+0x121c)),(void *)((u32)(p+0x1228)),8);
             *(u32 *)(p+0x12c)=1;
         }
         break;
@@ -73,7 +73,7 @@ int func_021DC908(char *p)
         result=func_021B99DC(*(u8 **)(p+0x121c));
         status=func_021B9790(*(u8 **)(p+0x121c));
         if(status==0) {
-            data=func_021B97F4(*(u8 **)(p+0x121c));
+            data=(u32 *)func_021B97F4(*(u8 **)(p+0x121c));
             switch(result) {
             case 0x1f7: *(u32 *)(p+0x12c)=3;func_0200FB4C(0x3e);return 0;
             case 0x1f6: *(u32 *)(p+0x12c)=3;func_0200FB4C(0x3f);return 0;

@@ -45,7 +45,8 @@ struct Bank {
 };
 
 extern void func_0204BC40(struct Bank *bank);
-extern void sub_0204B3B4(struct Actor *actor);
+struct Obj;
+extern void sub_0204B3B4(struct Obj *p);
 extern void sub_020307B0(void *p);
 
 void sub_0204B1CC(struct Bank *bank)
@@ -56,7 +57,7 @@ void sub_0204B1CC(struct Bank *bank)
 
     for (i = 0; i < bank->count; i++) {
         if (bank->actors[i].unk_00 != 0) {
-            sub_0204B3B4(&bank->actors[i]);
+            sub_0204B3B4((struct Obj *)(&bank->actors[i]));
         }
     }
 

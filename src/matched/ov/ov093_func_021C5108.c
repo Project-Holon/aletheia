@@ -42,7 +42,8 @@ extern void func_021E0434(u8 *);
 extern void func_021BD2B4(u8 *, u8 **);
 extern void func_021BD338(u8 *, u8 *);
 extern int func_021BD34C(u8 *, u8 **, u8 **);
-extern void func_021D6264(void *, int);
+struct UtilSlots;
+extern void func_021D6264(struct UtilSlots *p, int v);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021EF90C(int a);
 extern int func_021BC2B0(u8 *);
@@ -66,7 +67,7 @@ void func_021C5108(u8 *p, u8 *a, int b)
     func_021BD2B4((u8 *)&it, (u8 **)p);
     func_021BD338((u8 *)&it, p);
     while (func_021BD34C((u8 *)&it, (u8 **)p, &cur)) {
-        func_021D6264(cur, k);
+        func_021D6264((struct UtilSlots *)cur, k);
         func_021CD4B0(((struct Obj00003 *)p)->fC, 0x2c, func_021D5440(cur), k);
     }
     func_021EF90C(k);

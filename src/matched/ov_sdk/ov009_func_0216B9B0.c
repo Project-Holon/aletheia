@@ -17,7 +17,7 @@
  */
 
 extern char g_021AA878[];
-extern unsigned char *func_0217637C(int index);
+extern char *func_0217637C(int index);
 
 unsigned char func_0216B9B0(void)
 {
@@ -29,7 +29,7 @@ unsigned char func_0216B9B0(void)
         *(unsigned char *)(p + 0x35d) == 0 || *(unsigned char *)(p + 0x366) == 0) {
         return 0xff;
     }
-    node = func_0217637C(0);
+    node = (unsigned char *)func_0217637C(0);
     if (node == 0) {
         return 0xff;
     }

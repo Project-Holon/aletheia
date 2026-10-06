@@ -31,7 +31,7 @@ extern void *func_021A3960(u8 *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void func_02164208(int dir, Vec3 *p, int amt);
+extern void func_02164208(int dir, int *p, int amt);
 extern int  func_02163E58(u8 *a, Vec3 *p, int *out);
 
 int func_021A57C0(u8 *p, int dir)
@@ -44,7 +44,7 @@ int func_021A57C0(u8 *p, int dir)
     a = func_021A3960(*(u8 * *)&((struct Obj00262 *)p)->fC);
     func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&pos);
     y = pos.y;
-    func_02164208(dir, &pos, 0x10000);
+    func_02164208(dir, (int *)(&pos), 0x10000);
     if (func_02163E58(a, &pos, &lim) == 1) {
         if (y < lim) {
             return 1;

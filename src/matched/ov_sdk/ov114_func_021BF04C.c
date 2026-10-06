@@ -63,7 +63,7 @@ extern Req *func_021BB3CC(void *bgnEnd, char *url_p, int method, char *buf_p, u3
                           void *param_p, void *bufFull, void *freeBuf);
 extern void func_021BA850(int a);
 extern int func_021BEB88(int a, int b);
-extern void func_021BEF60(void *conn, u32 len);
+extern void func_021BEF60(u8 *p, u32 v);
 
 void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len,
                     int (*callback)(void *, int, void *), void *userParam_p)
@@ -97,7 +97,7 @@ void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len,
     connection_p->nhttpError = 0xf;
     connection_p->sslError = 0;
     connection_p->running = 1;
-    func_021BEF60(connection_p, 0);
+    func_021BEF60((u8 *)connection_p, 0);
     connection_p->reqCallback = 0;
     connection_p->tmpBufOffset = 0;
     connection_p->tmpBufRest = 0;

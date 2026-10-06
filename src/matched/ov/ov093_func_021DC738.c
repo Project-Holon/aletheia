@@ -25,11 +25,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5444(void *p);
+struct QF;
+extern u16 func_021D5444(struct QF *p);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021D7B60(void *p, u32 b);
-extern void *func_021C88A4(void *a, int k, int b);
-extern void func_021C8838(void *p, int a, u16 b);
+extern void *func_021C88A4(char *p, int a, int b);
+extern void func_021C8838(void *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021DC738(int a, void *b, int c)
@@ -38,14 +39,14 @@ void func_021DC738(int a, void *b, int c)
     u8 f;
 
     m = (u8 *)func_021C7CF4(b, c);
-    if (func_021D5444(m) == 0x22b) {
+    if (func_021D5444((struct QF *)m) == 0x22b) {
         f = (func_021D59B4(m, 13) <= func_021D7B60(m, 2));
         if (f != func_021D59B4(m, 0x13)) {
             m = (u8 *)func_021C88A4(b, 0x39, c);
             *(u32 *)&((struct Obj00041 *)m)->f0 |= 2 << 22;
             m[4] = c;
             m[5] = f;
-            func_021C8838(m + 8, 1, f == 1 ? 0xb9 : 0xba);
+            func_021C8838(m + 8, 1, (u16)(f == 1 ? 0xb9 : 0xba));
             func_021C88C8(b, m);
         }
     }

@@ -42,7 +42,8 @@ extern int func_021690B4(int);
 extern u16 func_02188C84(u8 *p);
 extern void func_021F3E84(char *, int, int, int);
 extern void func_021F3C2C(struct O *o, int a, int b, const struct T *s, int i);
-extern void func_021F405C(char *, char *, int);
+struct S;
+extern void func_021F405C(struct S *p, char *q, int k);
 extern void func_021F43D8(char *, int, char *, int, int);
 extern void func_02189A68(char *a, int b);
 
@@ -61,7 +62,7 @@ void func_021F39C0(int a, int b, char *c)
     func_021F3E84(c + 0x308, t3, t2, t4);
     for (i = 0; i < 0x20; i++)
         func_021F3C2C((struct O *)(c + 8 + i * 0x18), (int)(((struct Obj09846 *)c)->f4), t2, (const struct T *)(c + 0x308), i);
-    func_021F405C(c + 0x308, c, t3);
+    func_021F405C((struct S *)(c + 0x308), c, t3);
     func_021F43D8(c + 0x348, t0, c + 0x308, t3, t4);
     func_02189A68((char *)b, (int)c);
 }

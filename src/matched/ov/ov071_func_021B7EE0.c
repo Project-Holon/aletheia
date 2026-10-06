@@ -67,21 +67,21 @@ extern int d_021BA9C8[][4];
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
-extern void func_021B82A4(void *a, void *p);
+extern void func_021B82A4(int *a, char *p);
 extern void func_021B82FC(void *p);
 extern int func_02035C08(void *);
 extern void func_020355D8(u8 v);
 extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
-extern void func_021B6B98(void *p, void *tbl, int n, int sel, int c);
+extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
 extern void func_020061E4(unsigned int);
 extern int func_02175B14(u8 *);
 extern void func_021B83CC(void *w, void *x, unsigned y);
-extern void func_021B6BEC(void *p, void *tbl, int n, int sel, int c);
+extern void func_021B6BEC(void *p, int *tbl, int n, int sel, int c);
 extern void func_021B7108(void *);
 extern u8 func_021B6C74(void *p, int i);
 extern int func_021B7114(void *);
-extern int func_021B8434(void *p, void *q);
+extern int func_021B8434(u8 *p, u8 *q);
 extern int func_02035C60(void);
 extern void func_021B8440(void *w);
 
@@ -93,7 +93,7 @@ int func_021B7EE0(int a, int *state, C *c, D *d)
     int t;
 
     r = (u8 *)func_02158344(func_02012138(*c->f0));
-    func_021B82A4(c, d);
+    func_021B82A4((int *)c, (char *)d);
     func_021B82FC(d);
     if (c->f2e == 1) {
         return 1;
@@ -114,7 +114,7 @@ int func_021B7EE0(int a, int *state, C *c, D *d)
         if (t > 0 && d->armed == 1) {
             func_020355D8(0);
             d->armed = 0;
-            func_021B6B98(c, d, d_021BA978[d->kind], d->sel, 3);
+            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             func_020061E4(0x548);
             break;
         }
@@ -129,14 +129,14 @@ int func_021B7EE0(int a, int *state, C *c, D *d)
             if (d->sel >= d_021BA978[d->kind]) {
                 d->sel = 0;
             }
-            func_021B6B98(c, d, d_021BA978[d->kind], d->sel, 3);
+            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             func_020061E4(0x548);
         } else if (keys & 0x40) {
             d->sel--;
             if (d->sel < 0) {
                 d->sel = d_021BA978[d->kind] - 1;
             }
-            func_021B6B98(c, d, d_021BA978[d->kind], d->sel, 3);
+            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             func_020061E4(0x548);
         }
         break;
@@ -154,7 +154,7 @@ int func_021B7EE0(int a, int *state, C *c, D *d)
             }
         }
         if (d->res != 3) {
-            func_021B6BEC(c, d, d_021BA978[d->kind], d->sel, 3);
+            func_021B6BEC(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             func_020061E4(0x54c);
         } else {
             func_021B7108(d->f34);
@@ -176,7 +176,7 @@ int func_021B7EE0(int a, int *state, C *c, D *d)
         }
         break;
     case 3:
-        if (func_021B8434(c->f4, d) == 1) {
+        if (func_021B8434(c->f4, (u8 *)d) == 1) {
             if (func_02035C60() != 0 || (func_020362DC() & 3) != 0) {
                 func_021B8440(d);
                 func_020061E4(0x547);

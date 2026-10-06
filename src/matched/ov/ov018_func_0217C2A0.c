@@ -42,12 +42,13 @@ extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void func_020307B0(void *);
 struct Mon;
 extern u8 *func_02012944(void *p);
-extern u32 func_02008530(void *);
-extern u32 func_020186C8(u32, u16, u16, int, int, int);
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void *func_020173F0(u16, u16, u64, int);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02018A00(void *p, u32 a, u32 b);
-extern void func_02017988(void *, u16);
+extern u32 func_02017988(void *p, u32 a);
 extern u16 func_0201808C(void *, u16);
 extern void func_020180F4(void *, u16);
 
@@ -62,12 +63,12 @@ void *func_0217C2A0(int heap, void *a1, const Entry *e)
     tbl = (u8 *)func_0204A1BC(0xE3, 0, 0, heap);
     lvl = tbl[e->species];
     func_020307B0(tbl);
-    id = func_02008530(func_02012944(a1));
-    pid = func_020186C8(id, e->species, e->f23, e->f21, 0, 0);
+    id = func_02008530((const struct Sub0200852CObj *)func_02012944(a1));
+    pid = func_020186C8(id, (u16)e->species, (u16)e->f23, e->f21, 0, 0);
     mon = func_020173F0(e->species, lvl, -1, heap);
     func_02017588(mon, e->species, lvl, id, -1, pid);
     func_02018A00(mon, e->species, e->f23);
-    func_02017988(mon, e->f23);
+    func_02017988(mon, (u16)e->f23);
     if (e->move != 0) {
         if (func_0201808C(mon, e->move) == 0xFFFF)
             func_020180F4(mon, e->move);

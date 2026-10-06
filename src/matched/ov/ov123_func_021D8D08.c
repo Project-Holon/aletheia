@@ -28,17 +28,21 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8C04 0x021D8C04 thumb ov123
  */
-extern void *func_02009448(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern int func_021D580C(char *);
-extern int func_021D6E70(char *);
-extern int func_021B95D4(int,void *);
-extern int func_021B973C(void *);
-extern int func_021B9748(void *);
-extern int func_021BE79C(int,unsigned int,unsigned int);
-extern unsigned int func_020071D8(void *,int *);
-extern void func_021D66D0(void *,int);
-extern void func_021D6EE0(char *,int,int);
-extern void func_021D8C04(void);
+extern int func_021D6E70(u8 *p);
+extern int func_021B95D4(int index, u8 *p);
+extern int func_021B973C(char *p);
+extern int func_021B9748(u8 *p);
+extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
+struct Ctrl020071D8;
+extern void *func_020071D8(struct Ctrl020071D8 *ctrl, int *out);
+extern void func_021D66D0(u8 *p, int n);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
+extern void func_021D8C04(char *p);
 void func_021D8D08(char *p)
 {
     int x;
@@ -46,18 +50,18 @@ void func_021D8D08(char *p)
     func_02009448(*(void **)(p+0x28));
     if (func_021D580C(*(char **)(p+0x18))) {
         *(int *)(p+0x74)=0;
-        if (func_021D6E70(p)) {
+        if (func_021D6E70((u8 *)p)) {
             if (func_021B95D4(3,*(void **)(p+0x10))) {
-                v=func_020071D8(*(void **)(p+0x28),&x);
-                func_021BE79C(func_021B973C(*(void **)(p+0x10)),v,0x80000);
+                v=(unsigned int)func_020071D8(*(void **)(p+0x28),&x);
+                func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)v,0x80000);
                 func_021D66D0(*(void **)(p+0x14),0);
                 *(int *)(p+0x70)=0;
                 if (!func_021B9748(*(void **)(p+0x10)))
-                    func_021D6EE0(p,(int)func_021D8C04,0x986);
+                    func_021D6EE0((u8 *)p,(int)func_021D8C04,0x986);
             }
         } else {
             func_021D66D0(*(void **)(p+0x14),0);
-            func_021D6EE0(p,(int)func_021D8C04,0x98c);
+            func_021D6EE0((u8 *)p,(int)func_021D8C04,0x98c);
         }
     }
 }

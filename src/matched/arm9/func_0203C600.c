@@ -22,7 +22,7 @@ struct Card0203C600 {
 };
 
 extern struct Card0203C600 *g_021469DC;
-extern void func_0203C0F4(void);
+extern void func_0203C0F4(void *p);
 
 int func_0203C600(void)
 {

@@ -28,13 +28,14 @@ struct T {
     u16 f1a;
 };
 
-extern u32 func_0202419C(struct T *p, u16 *q, u32 a);
+struct Obj;
+extern u32 func_0202419C(struct Obj *p, u16 *q, u32 a);
 
 void func_020241E0(struct T *p, u16 *a1, u16 *a2)
 {
     int i;
 
-    p->f02 = (func_0202419C(p, a1, (u32)a2) == 0);
+    p->f02 = (func_0202419C((struct Obj *)p, a1, (u32)a2) == 0);
     p->f01 = 0;
     for (i = 0; i < 2; i++) {
         *(u16 *)((char *)p + i * 2 + 0x18) = a1[i];

@@ -27,10 +27,11 @@ struct P { u8 pad0[0x40]; struct E *tbl; u8 pad1[0x89 - 0x44]; u8 idx; };
 extern void func_021B6704(u8 *p, int index);
 extern void func_021B68F8(u8 *p, int a);
 extern void func_021B6A04(u8 *p, int a);
-extern void func_0201ED04(void *p);
-extern void *func_0201EC64(u32 heap);
-extern void func_0201F02C(void *ws, u32 i, void *a);
-extern void *func_02012944(void *p);
+struct WordSet;
+extern void func_0201ED04(struct WordSet *p);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern u8 *func_02012944(void *p);
 void func_021B6AF8(u8 *p)
 {
     u32 a = ((struct P *)p)->tbl[((struct P *)p)->idx].b;

@@ -20,7 +20,8 @@ typedef struct Group { const Pair *pairs; unsigned count; } Group;
 typedef struct Selector { const Group *groups; unsigned short count, selector; } Selector;
 typedef struct Row { const Selector *selectors; unsigned words[4]; } Row;
 extern const Row d_021C1868[];
-extern const Group *func_021BE8F4(const Selector *, const char *);
+typedef unsigned char  u8;
+extern void *func_021BE8F4(char *p, u8 *q);
 void func_021BE874(char *ctx, const char *config, unsigned type)
 {
     Entry *entries = *(Entry * *)&((struct Obj08376 *)ctx)->f0;
@@ -29,7 +30,7 @@ void func_021BE874(char *ctx, const char *config, unsigned type)
     const Group *group;
     int i;
     const Pair *pair;
-    group = func_021BE8F4(&d_021C1868[*(unsigned *)config].selectors[type], config);
+    group = func_021BE8F4((char *)(&d_021C1868[*(unsigned *)config].selectors[type]), (u8 *)config);
     if (group->count > 1) choice = *(const unsigned char *)&((struct Obj08377 *)config)->f9;
     if (choice >= group->count) choice = 0;
     pair = &group->pairs[choice];

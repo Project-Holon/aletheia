@@ -33,7 +33,7 @@ typedef struct {
 } Cs;
 
 extern Cs   d_02176FD8;
-extern Rec *func_02158344(void *p);
+extern int func_02158344(int a0);
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
 
@@ -42,7 +42,7 @@ void func_021767F0(void *a, void *b, Cs *c)
     Rec *r;
     int d;
 
-    r = func_02158344(a);
+    r = (Rec *)func_02158344((int)a);
     if (r == 0 || r->v == func_02012B58(b)) {
         d = 0;
     } else {

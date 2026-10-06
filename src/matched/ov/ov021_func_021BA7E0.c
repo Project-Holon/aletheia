@@ -34,7 +34,7 @@ typedef struct { int x, y, z; } V;
 u32 func_021B821C(u8 *p);
 void func_0218E124(u8 *a, u32 s);
 void func_0218EC54(u8 *p);
-void func_021B79D4(u32 p, V *v);
+void func_021B79D4(void **o, void *out);
 void func_0207CA00(const V *a, const V *b, V *c);
 void func_0207CCA4(const V *a, V *b);
 void func_0218EC90(u32 a, V *v);
@@ -63,7 +63,7 @@ void func_021BA7E0(u32 p, u16 ang, int r, V *pos)
     c = *pos;
     save = c.y;
     c.y = 0;
-    func_021B79D4(p, &d);
+    func_021B79D4((void **)p, &d);
     d.y = 0;
     func_0207CA00(&d, &c, &d);
     func_0207CCA4(&d, &n);

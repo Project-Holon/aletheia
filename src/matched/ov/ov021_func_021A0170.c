@@ -29,7 +29,7 @@ static inline void SetFogColor(u16 color, int alpha)
     *(volatile u32 *)0x04000358 = (u32)(color | (alpha << 16));
 }
 
-void func_021A0170(u8 *p)
+void func_021A0170(u8 *p, u32 a1, u32 a2, u32 a3)
 {
     if (((struct Obj03581 *)p)->f40) {
         func_0207DC44(p[0], p[1], p[2], ((struct Obj03581 *)p)->f4);

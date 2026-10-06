@@ -30,7 +30,7 @@ struct Ctx;
 extern void func_021B96A0(u32);
 extern u32 func_02012204(const struct Ctx *);
 extern void func_021C09FC(void *);
-extern u32 func_021B97B8(void *);
+extern int func_021B97B8(void *a0);
 extern u32 func_021B97BC(u8 *);
 extern u32 func_021B97F8(u32);
 extern u32 func_021B9824(u32);

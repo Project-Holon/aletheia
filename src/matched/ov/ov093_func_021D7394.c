@@ -39,12 +39,12 @@ struct Node {
 };
 struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x84]; };
 extern struct NodeList data_021F3CB0;
-extern int func_021E03E8(struct Node *n, u8 *q);
+extern int func_021E03E8(void *n, u32 *q);
 
 void func_021D7394(int kind)
 {
     struct Node *n;
     for (n = data_021F3CB0.head; n != 0; n = n->next) {
-        if (n->id == 0 && n->kind == kind && func_021E03E8(n, n->f1C) != 0) n->mark = 1;
+        if (n->id == 0 && n->kind == kind && func_021E03E8(n, (u32 *)n->f1C) != 0) n->mark = 1;
     }
 }

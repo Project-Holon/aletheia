@@ -17,12 +17,15 @@
 
 typedef unsigned short u16;
 
-extern void func_0204B404(void *, u16 *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021BCE8C(void *a0, u16 a1, u16 a2, int a3)
+void func_021BCE8C(void *a0, short a1, short a2, int a3)
 {
     u16 tmp[2];
     tmp[0] = a1;
     tmp[1] = a2;
-    func_0204B404(a0, tmp, a3);
+    func_0204B404(a0, (const struct Vec2 *)tmp, a3);
 }

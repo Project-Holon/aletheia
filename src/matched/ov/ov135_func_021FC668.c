@@ -18,7 +18,9 @@
 #include "../include/Obj08186.h"
 extern int func_021F4D14(char *p);
 extern void func_021F4CE4(char *p);
-extern void func_021F4EC0(void *p, unsigned a, unsigned b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void func_021FCBF0(char *p);
 extern void func_0201F7A8(void *p, unsigned kind);
 int func_021FC668(char *p)
@@ -29,7 +31,7 @@ int func_021FC668(char *p)
         func_021F4CE4(p);
         ((struct Obj08186 *)p)->f28 = 2;
         ((struct Obj08186 *)p)->fEB4 = 1;
-        func_021F4EC0(p, 7, 8);
+        func_021F4EC0((u8 *)p, 7, 8);
         func_021FCBF0(p);
     } else if (r == 2) {
         func_021F4CE4(p);

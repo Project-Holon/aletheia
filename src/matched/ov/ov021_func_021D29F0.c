@@ -47,13 +47,15 @@ extern int func_02158F58(int a0);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 func_02188C84(u8 *p);
-extern void *func_02188C54(void *a);
-extern u32 func_02011330(u32 a);
+struct CharBuf;
+struct Stream;
+extern u32 func_02188C54(u8 *p);
+extern u16 func_02011330(struct Stream *s);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02045180(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u32 offset);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043B5C(u32 a, u32 b);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -75,11 +77,11 @@ int func_021D29F0(u32 a, u32 b)
 
     q = (void **)func_02158F58((int)func_0215A5F4((void *)b));
     heap = func_02188C84(q[1]);
-    m = func_02188C54(q[1]);
-    if (func_02011330(a)) {
+    m = (void *)func_02188C54(q[1]);
+    if (func_02011330((struct Stream *)a)) {
         msg = (u32)func_02045B38(0, 2, 0x16, heap);
         win = func_02045180(2, 1, 1, 0x1E, 10, 14, 0x40);
-        func_02043B5C((u32)func_02045770((struct Descriptor *)win), 0xF);
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)win)), 0xF);
         func_02045334((struct Descriptor *)win);
         func_02045374((struct Cfg *)win);
         func_0201F73C((void *)win, 0, 1, 0xD);

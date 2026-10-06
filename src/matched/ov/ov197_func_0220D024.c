@@ -31,8 +31,8 @@ typedef unsigned int   u32;
 struct Sound;
 extern int func_02025DE8(struct Sound *obj);
 extern void func_0220D89C(char **, int);
-extern unsigned func_0220BB98(const char *, int);
-extern u16 func_0220BBD8(u32 key);
+extern unsigned func_0220BB98(const char *p, unsigned n);
+extern int func_0220BBD8(u32 key);
 extern void func_0220BF20(char *, int);
 extern int func_0220D11C(char *);
 int func_0220D024(char *p)

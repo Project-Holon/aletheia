@@ -40,7 +40,7 @@ int func_021D775C(int a);
 void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 int func_021DCFF8(int a, int b);
-void *func_021C88A4(int a, int k, int b);
+void *func_021C88A4(char *p, int a, int b);
 void func_021C8838(void *p, int a, int b);
 struct S;
 void func_021C8860(struct S *p, unsigned int a);
@@ -59,7 +59,7 @@ void func_021DD588(void *a, int b, int c)
         return;
     m = func_021D59B4(func_021C7CF4((int *)b, c), 0xe);
     v = (u8)func_021DCFF8((int)a, 2);
-    p = func_021C88A4(b, 5, c);
+    p = func_021C88A4((char *)b, 5, c);
     ((struct Obj12151 *)p)->f6 = c;
     ((struct Obj12151 *)p)->f4 = func_0209C2B0(m * v, 0x64);
     func_021C8838((u8 *)p + 8, 2, 0xe3 << 2);

@@ -57,15 +57,18 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02030734(u16 heapId, u32 size, int clear, const char *site, u16 tag);
+typedef signed int     s32;
+struct ScriptVm;
+struct ScriptVmParams;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02020F14(u16 heap);
 extern u32 func_021B8588(void **p);
 extern void *func_021B86B8(void ***p);
-extern void *func_0201121C(u16 heap, void *params);
-extern void func_0201126C(void *vm, void *user);
+extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
+extern void func_0201126C(struct ScriptVm *vm, void *user);
 extern u32 func_0201C408(void);
-extern void func_0201C328(u32, u16);
+extern void func_0201C328(s32 n, u32 heap);
 extern void func_0218A41C(unsigned int a);
 extern const char D_0218A7A0[];
 extern u8 D_0218A574[];
@@ -84,7 +87,7 @@ void *func_02187F00(void **a, u32 b, u32 c, u32 d, u16 heap)
     *(u32 *)(p + 0xB8) = c;
     *(u32 *)(p + 0x98) = func_021B8588(a);
     *(void **)(p + 0x9C) = func_021B86B8((void ***)a);
-    v = func_0201121C(heap, D_0218A574);
+    v = func_0201121C(heap, (const struct ScriptVmParams *)D_0218A574);
     func_0201126C(v, p);
     if (func_0201C408() == 0)
         func_0201C328(0x30, heap);

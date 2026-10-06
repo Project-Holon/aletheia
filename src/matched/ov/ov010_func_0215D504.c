@@ -73,34 +73,37 @@ typedef struct Flags {
 
 extern void *func_0215A5F4(void *vm);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern u16 *func_02159AE8(Ctx *c, void *vm);
+struct Big;
+struct BigObj;
+struct Work;
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *vm);
-extern u8 func_021568E0(void *w);
-extern u16 func_02156954(void *w);
-extern u16 func_02156978(void *w);
-extern u8 func_02156934(void *w, u8 idx);
+extern u8 func_021568E0(struct Work *w);
+extern u16 func_02156954(struct Work *w);
+extern u16 func_02156978(struct Work *w);
+extern u8 func_02156934(struct Work *w, u8 idx);
 extern u8 func_021568E8(void *w, u8 idx);
-extern u8 func_02156908(void *w);
-extern u8 func_0215699C(void *w, u8 i);
-extern u8 func_021569A4(void *w, u8 idx);
-extern u8 func_021569EC(void *w, u8 j);
+extern u8 func_02156908(struct Work *w);
+extern u8 func_0215699C(struct Work *w, u8 i);
+extern u8 func_021569A4(struct Work *w, u8 idx);
+extern u8 func_021569EC(struct Work *w, u8 j);
 extern void *func_02012F44(void *h);
 struct Big;
 extern int func_02012F80(char *base);
-extern void *func_02012934(void *h);
+extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *list);
-extern void *func_0201AB28(void *list, int i);
-extern Rec *func_0200A628(void *sv);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u8 *func_0200A628(struct Big *p);
 extern Flags *func_0200A640(void *sv);
-extern u32 func_0200A644(void *sv, u8 i);
-extern u16 func_0200A75C(void *sv);
-extern u16 func_0200A780(void *sv);
+extern u32 func_0200A644(struct Big *p, u32 index);
+extern u16 func_0200A75C(struct Big *p);
+extern u16 func_0200A780(struct Big *p);
 extern u8 func_0200A7A0(struct Big *p, u32 index);
 extern u8 func_0200A7B8(struct Big *p);
 extern u8 func_0200A7C8(struct Big *p);
-extern void func_0200A7D4(void *sv, u8 v);
+extern void func_0200A7D4(struct Big *p, u8 value);
 extern u8 func_0200A7E0(struct Big *p);
-extern u32 func_021F6744(void *mon);
+extern int func_021F6744(void *p);
 
 int func_0215D504(Ctx *c, void *vm)
 {
@@ -246,20 +249,20 @@ int func_0215D504(Ctx *c, void *vm)
         n = func_0201AA18(list);
 
         for (i = 0; i < n; i++) {
-            if (func_021F6744(func_0201AB28(list, i)) == 1)
+            if ((u32)func_021F6744(func_0201AB28(list, (int)i)) == 1)
                 count++;
         }
         *dst = count;
         break;
     }
     case 12:
-        if (func_021F6744(func_0201AB28(func_02012934(h), arg)) == 1)
+        if ((u32)func_021F6744(func_0201AB28(func_02012934(h), (int)arg)) == 1)
             *dst = 1;
         else
             *dst = 0;
         break;
     case 13: {
-        Rec *r = func_0200A628(sv);
+        Rec *r = (Rec *)func_0200A628(sv);
 
         *dst = 0;
         for (i = 0; i < 8; i++) {
@@ -275,7 +278,7 @@ int func_0215D504(Ctx *c, void *vm)
             *dst = 0;
         break;
     case 15:
-        if (func_0200A644(sv, arg) == 1)
+        if (func_0200A644(sv, (u8)arg) == 1)
             *dst = 1;
         else
             *dst = 0;

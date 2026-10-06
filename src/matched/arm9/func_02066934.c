@@ -54,7 +54,8 @@ struct Bank {
 };
 
 extern struct Bank gUnk_02148B20;
-extern void sub_020640B0(struct Rec *c);
+typedef signed int     s32;
+extern void sub_020640B0(s32 *tbl);
 
 void func_02066934(struct Rec *recs, u32 n, void *cb)
 {
@@ -67,7 +68,7 @@ void func_02066934(struct Rec *recs, u32 n, void *cb)
     if (n == 0) return;
 
     do {
-        sub_020640B0(recs);
+        sub_020640B0((s32 *)recs);
         recs->unk_0c = 0; recs->unk_10 = 0; recs->unk_14 = 0;
         recs->unk_18 = 0; recs->unk_1c = 0; recs->unk_20 = 0;
         recs->unk_24 = 0; recs->unk_28 = 0; recs->unk_2c = 0;

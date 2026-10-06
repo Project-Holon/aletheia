@@ -35,7 +35,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_021F882C(void *, int, int);
+extern void func_021F882C(u8 *dst, int i, int kind);
 extern void func_021F8154(void *, void *, int, unsigned, unsigned, u16, int, void *);
 int func_021FEE70(char *p)
 {
@@ -49,7 +49,7 @@ int func_021FEE70(char *p)
     case -1: break;
     default:
         func_021FF570(0);
-        func_021F882C(p + 0xb56, r, 1);
+        func_021F882C((u8 *)(p + 0xb56), r, 1);
         ((struct Obj05417 *)p)->f28 = 0;
         func_02043B5C(func_02045770(((struct Obj05417 *)p)->fDA4), 0);
         func_021F8154(((struct Obj05417 *)p)->fDA4, ((struct Obj05417 *)p)->fB6C, r, 0, 0, 0x3c40, 1, p + 0xfa0);

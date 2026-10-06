@@ -49,7 +49,7 @@ extern int func_02175F3C(void);
 extern void func_0216EB68(int error, int errorCode);
 extern void NNCancel(int cookie);
 extern int func_0217603C(void);
-extern void func_02195DE4(struct GT2Socket *socket);
+extern void func_02195DE4(int *p);
 extern void func_02175F4C(int state);
 extern u64 func_020870D0(void);
 extern void func_02172BB8(int level);
@@ -75,7 +75,7 @@ int func_0216F0A0(int error, int errorCode)
     if (func_0217603C() > 1) {
         if (((struct DWCstMatchControl *)func_02175F3C())->f629 == 0) {
             ((struct DWCstMatchControl *)func_02175F3C())->f629 = 2;
-            func_02195DE4(*((struct DWCstMatchControl *)func_02175F3C())->gt2Socket);
+            func_02195DE4((int *)(*((struct DWCstMatchControl *)func_02175F3C())->gt2Socket));
         }
     } else if (((struct DWCstMatchControl *)func_02175F3C())->f15 == 3) {
         func_0216EB68(0x16, -80430);

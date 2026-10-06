@@ -27,15 +27,15 @@ typedef struct R { u8 pad[0x14]; u32 f14; u32 f18; } R;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern R *func_02159124(void *a, u32 b);
+extern char *func_02159124(char *p, int i);
 extern u32 func_021AE430(u32 a, u32 x, u32 y);
 extern void func_0215897C(void *vm, void *task);
 
 int func_021AE994(u32 a, u32 b)
 {
     void *x = func_0215A5F4((void *)b);
-    R *p = func_02159124(x, 0);
-    R *q = func_02159124(x, 1);
+    R *p = (R *)func_02159124(x, 0);
+    R *q = (R *)func_02159124(x, 1);
 
     func_0215897C(x, (void *)func_021AE430((u32)func_0215A5DC((void *)b), p->f18, q->f18));
     return 1;

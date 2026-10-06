@@ -26,13 +26,13 @@ typedef struct Obj {
     u16 h728;
 } Obj;
 
-extern int func_0200FB24(Obj *o);
+extern u32 func_0200FB24(void);
 
 int func_02167D00(Obj *o, u16 *out)
 {
     int want;
 
-    if (func_0200FB24(o) != 0)
+    if (func_0200FB24() != 0)
         return 1;
     want = 1;
     if (o->b725 != 1)

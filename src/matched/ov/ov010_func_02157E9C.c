@@ -132,12 +132,13 @@ struct Mon;
 struct MsgBank;
 struct U16Vec;
 extern u8 *func_02012944(void *p);
-extern u32 func_02008530(void *p);
-extern u16 *func_020084F4(void *p);
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern const void *func_020084F4(const void *p);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_020173F0(u16 species, u16 level, u64 id, int heap);
-extern u32 func_020186C8(u32 a0, u16 a1, u8 a2, int a3, int a4, int a5);
+extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -223,7 +224,7 @@ void *func_02157E9C(const GiftMon *g, int heap, void *save)
     if (level == 0)
         level = func_020056EC(100) + 1;
     if (g->otId == 0)
-        otId = func_02008530(func_02012944(save));
+        otId = func_02008530((const struct Sub0200852CObj *)func_02012944(save));
     if (gender == 0xFF)
         gender = 2;
     for (i = 0; i < 6; i++) {
@@ -259,11 +260,11 @@ void *func_02157E9C(const GiftMon *g, int heap, void *save)
     if (g->pid != 0) {
         pid = g->pid;
     } else if (g->pidType == 0) {
-        pid = func_020186C8(otId, species, g->form, gender, slot, 0);
+        pid = func_020186C8(otId, (u16)species, (u8)g->form, gender, slot, 0);
     } else if (g->pidType == 1) {
-        pid = func_020186C8(otId, species, g->form, gender, slot, 2);
+        pid = func_020186C8(otId, (u16)species, (u8)g->form, gender, slot, 2);
     } else if (g->pidType == 2) {
-        pid = func_020186C8(otId, species, g->form, gender, slot, 1);
+        pid = func_020186C8(otId, (u16)species, (u8)g->form, gender, slot, 1);
     }
 
     func_02017588(pp, g->species, level, id, ivs, pid);

@@ -26,7 +26,7 @@ typedef unsigned int u32;
 struct PrintSys;
 extern void func_021FD714(void *p);
 extern void func_021FD15C(void *p, int a1);
-extern void func_021FACE0(void *p);
+extern void func_021FACE0(char *p);
 extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FB63C(void *p);
 extern void func_020307B0(void *p);
@@ -43,10 +43,10 @@ void func_021F9F48(u8 *p)
         ((struct Obj01175 *)p)->f50 = 0;
     }
     for (i = 0; i < ((struct Obj01175 *)p)->f3B; i++)
-        func_021FACE0((u8 *)(((struct Obj01175 *)p)->f3C + i * 0x44));
+        func_021FACE0((char *)(((struct Obj01175 *)p)->f3C + i * 0x44));
     func_020307B0((void *)((struct Obj01175 *)p)->f3C);
     for (i = 0; i < ((struct Obj01175 *)p)->f39; i++)
-        func_021FACE0((u8 *)(((struct Obj01175 *)p)->f40 + i * 0x44));
+        func_021FACE0((char *)(((struct Obj01175 *)p)->f40 + i * 0x44));
     func_020307B0((void *)((struct Obj01175 *)p)->f40);
     func_021FC0C8((char *)(((struct Obj01175 *)p)->f4), ((struct Obj01175 *)p)->f10);
     func_021FC0C8((char *)(((struct Obj01175 *)p)->f4), ((struct Obj01175 *)p)->f10 + 1);

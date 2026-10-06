@@ -33,8 +33,9 @@ typedef struct {
     u32 f3c;
 } Obj;
 
-extern void func_021EDBE8(Obj *p);
-extern void func_021ED988(Obj *p);
+typedef unsigned char  u8;
+extern void func_021EDBE8(char *s);
+extern void func_021ED988(u8 *p);
 struct Descriptor;
 struct PrintSys;
 struct U16Vec;
@@ -46,8 +47,8 @@ extern void func_020307B0(void *p);
 
 void func_021EB234(Obj *p)
 {
-    func_021EDBE8(p);
-    func_021ED988(p);
+    func_021EDBE8((char *)p);
+    func_021ED988((u8 *)p);
     if (p->f08 != 0) {
         func_020452E8((struct Descriptor *)p->f08);
         p->f08 = 0;

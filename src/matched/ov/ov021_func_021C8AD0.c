@@ -24,7 +24,7 @@ extern void func_0216D550(u32 *p, u32 v);
 extern void func_0216D5E0(int a, int b);
 extern void func_0216D548(u32 *p, u32 v);
 
-void func_021C8AD0(char *p)
+void func_021C8AD0(int *p)
 {
     int d = func_021C8A9C((u32)p);
 

@@ -29,11 +29,12 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern char d_021F0B20[];
 extern void func_021F0114(u32 heapId);
 extern void func_021F0228(int);
-extern void func_021F0724(void *);
-extern void func_021F0284(void *);
+typedef unsigned char  u8;
+extern void func_021F0724(int *p);
+extern void func_021F0284(u8 *p);
 extern void func_0203D34C(u32 a, u32 b);
 extern int func_020056A0(void *, void *, int);
-extern void func_021F09BC(void *);
+extern void func_021F09BC(void *task, char *p);
 
 void *func_021EFEC0(int a0, int a1)
 {
@@ -44,8 +45,8 @@ void *func_021EFEC0(int a0, int a1)
     ((struct Obj00166 *)p)->f128 = 0;
     func_021F0114(((struct Obj00166 *)p)->f12C);
     func_021F0228(((struct Obj00166 *)p)->f12C);
-    func_021F0724(p);
-    func_021F0284(p);
+    func_021F0724((int *)p);
+    func_021F0284((u8 *)p);
     func_0203D34C(0, a1);
     ((struct Obj00166 *)p)->f10C = func_020056A0(func_021F09BC, p, 0);
     return p;

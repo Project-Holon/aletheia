@@ -27,7 +27,9 @@ extern void *func_02045770(struct Descriptor *);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
 extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
-extern int func_02028484(void *,void *);
+typedef signed int     s32;
+struct Blk;
+extern s32 func_02028484(struct Blk *blk, void *h);
 extern void func_020310C4(struct Tcbl *p);
 void func_021E867C(char *p)
 {
@@ -50,7 +52,7 @@ void func_021E867C(char *p)
  case 1:
  if(((struct Obj00842 *)p)->f8!=0) {
  if(((struct Obj00842 *)p)->f34!=0)func_020286C4(((struct Obj00842 *)p)->f34,((struct Obj00842 *)p)->f8,((struct Obj00842 *)p)->f14);
- if(func_02028484(p+0x38,((struct Obj00842 *)p)->f8)!=0)((struct Obj00842 *)p)->f30=1;
+ if(func_02028484((struct Blk *)(p+0x38),((struct Obj00842 *)p)->f8)!=0)((struct Obj00842 *)p)->f30=1;
  }
  break;
  case 3:break;

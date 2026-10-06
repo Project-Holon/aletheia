@@ -84,7 +84,7 @@ u32 func_0200DDA8(const struct Stamp *a, const struct Stamp *b)
     return 0;
 }
 
-u32 func_0200DDD0(struct BlkB90 *p, u32 a, u32 b, const struct Stamp *q)
+int func_0200DDD0(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q)
 {
     struct Stamp s;
     u16 idx;

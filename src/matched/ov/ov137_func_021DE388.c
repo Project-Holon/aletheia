@@ -18,8 +18,8 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef union { struct { u32 a,b; } words; u64 wide; } Pair;
 typedef struct { char pad[0x4824]; Pair current,previous; } Record;
-extern void *func_021DCF50(void *);
-extern void *func_02184180(void *,u8);
+extern void *func_021DCF50(u8 *p);
+extern char *func_02184180(unsigned char *p, int i);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 int func_021DE388(char *p) {
@@ -31,7 +31,7 @@ int func_021DE388(char *p) {
     for(i=0;i<5;i++) {
         slot=(u32 *)(p+i*8);
         slot[0x13c/4]=slot[0x138/4];
-        slot[0x138/4]=(u32)func_02184180(func_021DCF50(p),i);
+        slot[0x138/4]=(u32)func_02184180(func_021DCF50((u8 *)p),(u8)i);
         record=(Record *)(p+i*16);
         record->previous=record->current;
         if (slot[0x138/4]) {

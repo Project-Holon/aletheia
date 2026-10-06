@@ -50,7 +50,8 @@ struct Buf {
     s16 right[0xC0];  /* 0x480 */
 };
 
-extern struct Buf *sub_02022D88(struct Wipe *w, u32 idx);
+struct Obj;
+extern void *sub_02022D88(struct Obj *obj, u32 idx);
 extern void func_020237B8(s32 a0, s32 a1, s32 a2, s32 a3, s32 *out0,
                           s32 *out1);
 
@@ -62,7 +63,7 @@ void func_0202384C(struct Wipe *w)
     s32 r;
 
     y = 0;
-    b = sub_02022D88(w, 0);
+    b = sub_02022D88((struct Obj *)w, 0);
 
     do {
         if (y <= w->f14) {

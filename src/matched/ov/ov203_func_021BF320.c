@@ -34,7 +34,8 @@ struct Descriptor;
 struct Cfg;
 struct Config { u16 a0,a2; u32 a4,a8,ac,a10,a14; s8 a18; u8 pad[7]; u32 a20,a24; };
 struct Context { struct Config *cfg; int state,count,limit; u32 file,index,base; void *desc; u32 printer; void *text; };
-extern void func_021BF470(struct Context *);
+struct Rec;
+extern void func_021BF470(char *p);
 extern void sub_02031194(struct TcblNode *);
 extern struct MsgBank *sub_02045B38(u32,u32,u32,u32);
 extern void *sub_02045EC0(struct MsgBank *,u32);
@@ -46,14 +47,14 @@ extern void sub_02045374(struct Cfg *);
 extern u8 sub_02045730(struct Descriptor *);
 extern void sub_020409B4(u32);
 extern void func_0201F79C(void *,u32,u32,u32);
-extern void sub_02045C04(struct MsgBank *);
+extern void sub_02045C04(struct Rec *rec);
 extern void func_0204047C(int,u16);
 extern void sub_02040588(u32,u32);
 void func_021BF320(struct TcblNode *task, struct Context *ctx)
 {
     struct Config *cfg = ctx->cfg;
     if (cfg->ac != 0) {
-        func_021BF470(ctx);
+        func_021BF470((char *)ctx);
         sub_02031194(task);
         return;
     }
@@ -69,7 +70,7 @@ void func_021BF320(struct TcblNode *task, struct Context *ctx)
         sub_02045374(desc);
         sub_020409B4(sub_02045730(desc));
         func_0201F79C(ctx->desc,1,ctx->base,0);
-        sub_02045C04(bank);
+        sub_02045C04((struct Rec *)bank);
         func_0204047C(1,0);
         func_0204047C(0,1);
         sub_02040588(1,1);
@@ -78,7 +79,7 @@ void func_021BF320(struct TcblNode *task, struct Context *ctx)
     }
     case 1:
         if (ctx->count++ >= ctx->limit) {
-            func_021BF470(ctx);
+            func_021BF470((char *)ctx);
             sub_02031194(task);
         }
         break;

@@ -31,7 +31,7 @@ extern void func_02009294(struct Sub02009210Obj *obj, const void *src);
 extern void func_02007664(void *save, u32 box, u32 slot);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
 extern void func_021D62B4(u8 *p, unsigned int i);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8E98(char *p);
 void func_021D8EC4(char *p)
 {
@@ -54,5 +54,5 @@ void func_021D8EC4(char *p)
     }
     func_021D62B4(((struct Obj01545 *)p)->f14,0);
     func_021D62B4(((struct Obj01545 *)p)->f14,12);
-    func_021D6EE0(p,(int)func_021D8E98,0xa2a);
+    func_021D6EE0((u8 *)p,(int)func_021D8E98,0xa2a);
 }

@@ -35,16 +35,28 @@ typedef unsigned short u16;
 struct Record{u8 a,b,c,d;int value;};
 struct Triple{int a,b,c;};
 extern const struct Record d_021E3400[];
-extern int func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
-extern void func_021FB964(int,int,int),func_021FC868(void *,int,int,int);
-extern int func_021DE02C(int,int);
+typedef unsigned int   u32;
+struct Blk1AC;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern unsigned func_021FC20C(char *p);
+extern int func_021FC214(char *);
+extern int func_021FC21C(char *);
+extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
+extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
+extern int func_021DE02C(void *p, void *q);
 extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
-extern unsigned func_0200DB44(void *,unsigned);
-extern u16 func_0200DAC4(void *,unsigned),func_0200DAD8(void *,unsigned);
-extern void *func_02045EC0(int,int),*func_020457B0(unsigned,u16);
-extern void func_0201EFA4(void *,unsigned,unsigned,unsigned,unsigned,unsigned),func_0201F250(void *,void *,void *),func_02045808(void *);
+extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
+extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
+extern u16 func_0200DAD8(struct Blk1AC *p, u32 i);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021FC7C4(char *,void *,void *,u16);
-extern u16 func_0200DABC(void *);
+extern u16 func_0200DABC(struct Blk1AC *p);
 extern int func_021FC124(int,int,struct Triple *);
 extern void func_021DE084(char *,void *,const char *,unsigned,short,short,u16);
 void func_021DD858(char *p,char *q)
@@ -59,22 +71,22 @@ void func_021DD858(char *p,char *q)
  first=func_021FC20C(*(char **)(q+8));
  second=func_021FC214(*(char **)(q+8));
  third=func_021FC21C(*(char **)(q+8));
- func_021FB964(*(int *)(q+8),11,*(u16 *)(p+0x7c));
- select=func_021DE02C(*(int *)(q+0x10),*(int *)(q+0x14))?6:1;
+ func_021FB964((void *)(*(int *)(q+8)),11,*(u16 *)(p+0x7c));
+ select=func_021DE02C((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))?6:1;
  for(index=0;index<8;index++){
   rec=&d_021E3400[index];slot=p+index*4;
   *(void **)(slot+0x34)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
   func_021FC868(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
-    obj=func_02045EC0(second,func_021DE02C(*(int *)(q+0x10),*(int *)(q+0x14))?0x84:0x7f);break;
+    obj=func_02045EC0((struct MsgBank *)second,func_021DE02C((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))?0x84:0x7f);break;
    case 2:
-    obj=func_02045EC0(second,func_0200DB44(*(void **)(q+0x10),select)?0x91:0x87);break;
+    obj=func_02045EC0((struct MsgBank *)second,func_0200DB44(*(void **)(q+0x10),select)?0x91:0x87);break;
    case 3:{
     void *base;
     number1=func_0200DAC4(*(void **)(q+0x10),select);
     number1=(number1>9999)?9999:number1;
-    base=func_02045EC0(second,rec->value);
+    base=func_02045EC0((struct MsgBank *)second,rec->value);
     obj=func_020457B0(0x80,*(u16 *)(p+0x7c));
     func_0201EFA4((void *)third,0,number1,4,1,1);
     func_0201F250((void *)third,obj,base);
@@ -84,13 +96,13 @@ void func_021DD858(char *p,char *q)
     void *base;
     number2=func_0200DAD8(*(void **)(q+0x10),select);
     number2=(number2>9999)?9999:number2;
-    base=func_02045EC0(second,rec->value);
+    base=func_02045EC0((struct MsgBank *)second,rec->value);
     obj=func_020457B0(0x80,*(u16 *)(p+0x7c));
     func_0201EFA4((void *)third,0,number2,4,1,1);
     func_0201F250((void *)third,obj,base);
     func_02045808(base);break;
    }
-   default:obj=func_02045EC0(second,rec->value);break;
+   default:obj=func_02045EC0((struct MsgBank *)second,rec->value);break;
   }
   func_021FC7C4(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
   func_02045808(obj);

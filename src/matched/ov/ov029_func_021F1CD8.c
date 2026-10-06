@@ -23,13 +23,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021F05B4(char *p);
+struct PalAnmSlot;
+extern int func_021F05B4(unsigned char *p);
 struct S;
 extern u32 func_02026C8C(void);
 extern int func_02026CA0(int *p);
 extern void *func_02026C78(int n);
 extern u8 func_02165CD8(struct S *p);
-extern void func_020215BC(int, void *, int, u16, u16);
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern const int d_021F33CC[];
 
 void func_021F1CD8(char *p)
@@ -44,7 +45,7 @@ void func_021F1CD8(char *p)
     if (((struct Obj00042 *)p)->f45A == 0) {
         return;
     }
-    if (func_021F05B4(p) != 0) {
+    if (func_021F05B4((unsigned char *)p) != 0) {
         return;
     }
     n = func_02026C8C();
@@ -60,13 +61,13 @@ void func_021F1CD8(char *p)
             break;
         }
         if (n < 0) {
-            func_020215BC(*(int *)&((struct Obj00042 *)p)->f210, p + 0x1f8, 3, d_021F33CC[cnt] * 2 + 0x60, 4);
+            func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00042 *)p)->f210), p + 0x1f8, (int)3, (u16)(d_021F33CC[cnt] * 2 + 0x60), 4);
             cnt++;
         } else {
             e = func_02026C78(n);
             if (e != 0) {
-                func_020215BC(*(int *)&((struct Obj00042 *)p)->f210, (u32 *)(p + 0x1b8) + func_02165CD8(e), 3,
-                              d_021F33CC[cnt] * 2 + 0x60, 4);
+                func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00042 *)p)->f210), (u32 *)(p + 0x1b8) + func_02165CD8(e), (int)3,
+                              (u16)(d_021F33CC[cnt] * 2 + 0x60), 4);
                 cnt++;
             }
             n--;

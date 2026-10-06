@@ -23,9 +23,10 @@ typedef unsigned char u8;
 extern int func_021B93B8(char *p);
 typedef unsigned int   u32;
 extern u32 func_021BCEEC(u32 a, u32 b);
-extern void func_021B93D4(void *, int);
+struct S;
+extern void func_021B93D4(struct S *s, int v);
 extern void func_021BEA54(u8 *p);
-extern void func_021BF89C(u8 *, int, int);
+extern void func_021BF89C(char *p, u8 a, u8 b);
 void func_021BE190(u8 *p, int n)
 {
     int value = func_021BCEEC((u32)p, n + func_021B93B8(((struct Obj04619 *)p)->f1E0));
@@ -49,5 +50,5 @@ void func_021BE190(u8 *p, int n)
     func_021B93D4(((struct Obj04619 *)p)->f1E0, n);
     func_021BEA54(p);
     data = *(u8 * *)&((struct Obj25609 *)(*(u8 * *)&((struct Obj04619 *)p)->f0))->f8;
-    func_021BF89C(p, data[3], data[4]);
+    func_021BF89C((char *)p, data[3], data[4]);
 }

@@ -30,11 +30,11 @@ extern void func_021BE564(u8 *);
 extern u32 func_021BF418(u8 *);
 extern void func_021BC5B4(u32);
 extern void func_021BCD30(u8 *);
-extern void func_021BFEAC(u8 *, int);
+extern void func_021BFEAC(char *ctx, int index);
 typedef unsigned short u16;
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_021BCE0C(char *, int);
-extern void func_021BC82C(u8 *, int, int);
+extern void func_021BC82C(char *p, u8 b, u8 c);
 int func_021BD118(u8 *p)
 {
     if (func_02021ED8(*(char * *)&((struct Obj01779 *)p)->fC) != 0) return 3;
@@ -44,14 +44,14 @@ int func_021BD118(u8 *p)
     func_021BC5B4(func_021BF418(p));
     func_021BCD30(p);
     if (p[0x2b9] == 255) {
-        func_021BFEAC(p, 0);
+        func_021BFEAC((char *)p, 0);
         func_0207D534((void *)0x0400006c, 0);
         func_0207D534((void *)0x0400106c, 0);
         func_021BCE0C((char *)p, -8);
-        func_021BC82C(p, 16, 0);
+        func_021BC82C((char *)p, 16, 0);
         return 4;
     } else {
-        func_021BFEAC(p, p[0x2b9]);
+        func_021BFEAC((char *)p, p[0x2b9]);
         return 4;
     }
 }

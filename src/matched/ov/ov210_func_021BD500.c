@@ -22,7 +22,7 @@
 typedef unsigned char u8;
 extern void func_021BC8B4(int);
 extern void func_021BE83C(u8 *);
-extern void func_021C0234(u8 *);
+extern void func_021C0234(char *ctx);
 struct S;
 extern int func_021B7A64(struct S *p);
 extern void func_021BF480(int p);
@@ -36,7 +36,7 @@ int func_021BD500(u8 *p)
         p[0x2B9] = 0;
         func_021BC8B4(1);
         func_021BE83C(p);
-        func_021C0234(p);
+        func_021C0234((char *)p);
         p[0x2BA]++;
     case 1:
         if (func_021B7A64(((struct Obj06694 *)p)->f1E0) == 0) {

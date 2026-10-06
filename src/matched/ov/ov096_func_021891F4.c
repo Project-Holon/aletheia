@@ -29,7 +29,7 @@ struct QG;
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 extern int func_021D5B68(void *);
 extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(void *, u8);
+extern u16 func_021D54C0(u8 *p, int i);
 int func_021891F4(int a, Obj *b, int c)
 {
     u16 value, t;
@@ -44,7 +44,7 @@ int func_021891F4(int a, Obj *b, int c)
     switch (k) {
     case 1:
         for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-            t = func_021D54C0(b->fbc, i);
+            t = func_021D54C0(b->fbc, (u8)i);
             if (t == value) {
                 r = 1;
                 break;
@@ -55,7 +55,7 @@ int func_021891F4(int a, Obj *b, int c)
         s = func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3));
         if (func_021D5B68(s) == 0) {
             for (i = 0; i < func_021D5448((struct QG *)s); i++) {
-                t = func_021D54C0(s, i);
+                t = func_021D54C0(s, (u8)i);
                 if (t == value) {
                     r = 1;
                     break;

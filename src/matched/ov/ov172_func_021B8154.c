@@ -39,19 +39,21 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020399A8(void);
-extern int func_0203D1A4(void *);
+struct Entry;
+struct Link;
+extern struct Entry *func_020399A8(void);
+extern u32 func_0203D1A4(struct Link *p);
 extern int func_0203D1B4(void);
 extern int func_0203EA54(void);
 extern void func_0203E758(int, int, int, int);
 extern void func_02082A90(const void *, void *, u32);
-extern int func_021C2B74(int, int, int, int, int, int, int, int, int);
+extern unsigned long func_021C2B74(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
 extern u32 func_021BDFDC(void *);
 extern void func_021B7740(void *, char *, int, int);
 extern void func_021B8454(void *, char *);
-extern void func_021BE1A4(void *);
+extern void func_021BE1A4(char *p);
 extern u32 func_021BE078(void *);
-extern void func_021B8628(void *, char *, char *, int);
+extern void func_021B8628(void *a, int b, int *t, int c);
 extern u32 func_021BE0F8(void *);
 extern void func_021BE0FC(void *, u32);
 extern u32 func_021BE0AC(void *);
@@ -59,8 +61,8 @@ extern u32 func_021B7818(void *, u32);
 extern u32 func_021B785C(void *, u32);
 extern u32 func_021B77B8(void *, u32);
 extern u32 func_021B77E8(void *, u32);
-extern void func_021B8A14(void *, char *);
-extern int func_021B8740(void *, char *, int, int);
+extern u32 func_021B8A14(int unused, char *q);
+extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern int func_021B8AD4(void *, char *);
 typedef struct { u8 x[0x21]; } S21;
 #define W(o) (*(int *)(b + (o)))
@@ -75,7 +77,7 @@ void func_021B8154(void *a, char *b)
     u32 s18, s1c, s20, s24;
     int res;
     int hit;
-    busy = func_0203D1A4(func_020399A8());
+    busy = func_0203D1A4((struct Link *)func_020399A8());
     if (W(0x174) == 2) {
         if (W(0x64) == 0) {
             u32 v = func_021BDFDC(a);
@@ -105,7 +107,7 @@ void func_021B8154(void *a, char *b)
             B(0x2c) = cur;
         }
     }
-    for (i = 0; i < 4; i++) func_021B8628(a, b, b + 0x64 + i * 0x40, i);
+    for (i = 0; i < 4; i++) func_021B8628(a, (int)b, (int *)(b + 0x64 + i * 0x40), i);
     if (B(4) > 1) {
         if (W(0x184) == 1) {
             if (func_0203EA54() == 1) W(0x184) = 0;
@@ -122,7 +124,7 @@ void func_021B8154(void *a, char *b)
                         func_02082A90((void *)s18, (void *)W(0x18c), s1c);
                         s20 = func_021B77B8(a, r7);
                         s24 = func_021B77E8(a, r7);
-                        res = func_021C2B74(W(0x18c), W(0x190), s1c, W(0x188), s20, s24, 0x46, 1, 4);
+                        res = func_021C2B74((void *)W(0x18c), (unsigned char *)W(0x190), s1c, (unsigned char *)W(0x188), s20, s24, 0x46, 1, 4);
                         if (res != 0) {
                             func_0203E758(W(0x190), res, B(0x182), 0);
                             B(0x183) = 0;
@@ -134,13 +136,13 @@ void func_021B8154(void *a, char *b)
             }
         }
         if (B(0x1ac) != B(0x1ad)) {
-            if (W(0x3c0) == 1) func_021B8A14(a, b);
+            if (W(0x3c0) == 1) func_021B8A14((int)a, b);
         }
         if (W(0x3c4) == 1) {
-            if (func_021B8740(a, b, 4, 0) == 1) W(0x3c4) = 0;
+            if (func_021B8740((int)a, (int)b, 4, 0) == 1) W(0x3c4) = 0;
         }
         if (W(0x3cc) == 1) {
-            if (func_021B8740(a, b, 5, 0) == 1) W(0x3cc) = 0;
+            if (func_021B8740((int)a, (int)b, 5, 0) == 1) W(0x3cc) = 0;
         }
         if (W(0x3b4) == 1) {
             if (func_021B8AD4(a, b) == 1) W(0x3b4) = 0;
@@ -148,7 +150,7 @@ void func_021B8154(void *a, char *b)
     }
     if (busy == 0) {
         if (W(0x3b8) == 1) {
-            if (func_021B8740(a, b, 2, W(0x3bc)) == 1) W(0x3b8) = 0;
+            if (func_021B8740((int)a, (int)b, 2, W(0x3bc)) == 1) W(0x3b8) = 0;
         }
         if (W(0x3b0) == 1) {
             hit = 0;
@@ -172,7 +174,7 @@ void func_021B8154(void *a, char *b)
             }
         }
         if (W(0x3d4) == 1) {
-            if (func_021B8740(a, b, 1, B(0x3d8)) == 1) W(0x3d4) = 0;
+            if (func_021B8740((int)a, (int)b, 1, B(0x3d8)) == 1) W(0x3d4) = 0;
         }
     }
 }

@@ -41,7 +41,8 @@ typedef struct GHIConnection {
 
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *, int);
-extern unsigned int func_0209477C(const char *);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_02181E20(void *);
 
 int func_021C2620(GHIConnection *connection)
@@ -60,7 +61,7 @@ int func_021C2620(GHIConnection *connection)
     for (i = 0; i < num; i++) {
         data = func_02184208(post->data, i);
         if (data->type == 0)
-            { total += func_0209477C(data->f4); total += data->fC; total += data->f14 * 2; total += 1; }
+            { total += func_0209477C((const u8 *)data->f4); total += data->fC; total += data->f14 * 2; total += 1; }
         else if (data->type == 3)
             total += func_02181E20(data->f8);
     }

@@ -15,7 +15,7 @@
 
 extern void func_020307B0(void *);
 
-void func_021D6CA8(void *p)
+void func_021D6CA8(void *p, int a1)
 {
     void *q = ((struct Obj13881 *)p)->f85C;
     if (q != 0) {

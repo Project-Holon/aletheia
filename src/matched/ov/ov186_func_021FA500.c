@@ -30,9 +30,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {unsigned words[17];} Record;
-extern void func_021FAEE4(void *,int *),func_021FA020(u8 *,int,int);
+extern void func_021FAEE4(char *p, int *out);
+extern void func_021FA020(u8 *,int,int);
 extern int func_021FAF24(char *,int);
-extern void func_021FA1DC(void *,u16,u16),func_021FA210(void *);
+extern void func_021FA1DC(char *p, int x, int y);
+extern void func_021FA210(char *p);
 extern void func_02082BCC(void *,int,unsigned);
 extern void func_021FA0FC(u8 *,int,const int *);
 extern int func_021FA0A8(u8 *,Record *);
@@ -41,7 +43,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_02200D18[];
 extern int func_021FB7B0(void *p, int i);
 extern int func_021FAFA0(void *,int);
-extern void func_021FACE0(void *);
+extern void func_021FACE0(char *p);
 extern void func_021FD73C(int *p, int v);
 extern void func_021FA7FC(void *,int *,u8 *),func_021FA6A8(void *,int *,u8 *);
 void func_021FA500(void *p,int *state,u8 *ctx)
@@ -55,7 +57,7 @@ void func_021FA500(void *p,int *state,u8 *ctx)
   func_021FA020(ctx,(int)(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44),1);
   index=((struct Obj00684 *)ctx)->f2C;
   value=func_021FAF24(*(char * *)&((struct Obj00684 *)ctx)->f40+index*0x44,4);
-  func_021FA1DC(((struct Obj00684 *)ctx)->f5C,value,index);
+  func_021FA1DC(((struct Obj00684 *)ctx)->f5C,(u16)value,(u16)index);
   func_02082BCC(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,0,0x44);
   pos[1]=-32;
   func_021FA0FC(ctx,section,pos);
@@ -73,14 +75,14 @@ void func_021FA500(void *p,int *state,u8 *ctx)
     if(y==func_021FB7B0((void *)(*(int *)(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44+0xc)),1))
      func_021FAFA0(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44,1);
    }
-   func_021FACE0(&record);
+   func_021FACE0((char *)(&record));
    func_021FD73C(p,(int)func_021FA6A8);
   }
  }else{
   func_021FA020(ctx,(int)(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44),1);
   index=((struct Obj00684 *)ctx)->f2C;
   value=func_021FAF24(*(char * *)&((struct Obj00684 *)ctx)->f40+index*0x44,4);
-  func_021FA1DC(((struct Obj00684 *)ctx)->f5C,value,index);
+  func_021FA1DC(((struct Obj00684 *)ctx)->f5C,(u16)value,(u16)index);
   func_02082BCC(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,0,0x44);
   for(i=0;i<ctx[0x39];i++)func_021FACE0(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44);
   func_021FD73C(p,(int)func_021FA7FC);

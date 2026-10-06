@@ -15,9 +15,9 @@
  * Tail call to the ARM9 function at 0x02047970, forwarding the first argument.
  */
 
-extern void func_02047970(char *);
+extern void func_02047970(void);
 
 void func_021BD140(char *p)
 {
-    func_02047970(p);
+    func_02047970();
 }

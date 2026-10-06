@@ -62,12 +62,12 @@ extern int func_021BC3A8(int *p);
 extern int func_021BC3AC(int *p);
 extern int func_021BC3B0(int *p);
 extern u32 ov208_func_021BCF4C(int v);
-extern void func_021C2BE0(void *a0, void *st, void *a2);
+extern void func_021C2BE0(void *unused, u8 *p, void *a2);
 extern void func_021C2BA8(void *a0, u8 *st);
 extern u32 func_020056A0(void (*cb)(void *, u8 *), void *arg, int pri);
 extern void *func_021BC448(u32 heap);
-extern void func_021BC518(u32 *p);
-extern void func_021BC508(int flag, u32 *p);
+extern void func_021BC518(int *p);
+extern void func_021BC508(int flag, int *p);
 extern void *func_021BC610(u32 heap);
 
 u32 func_021C2560(void *a0, u32 a1, u16 *desc, u32 a3, int *obj)
@@ -86,14 +86,14 @@ u32 func_021C2560(void *a0, u32 a1, u16 *desc, u32 a3, int *obj)
     st->f74 = 0;
     st->f76 = 1;
     st->fb8 = 0;
-    func_021C2BE0(desc, st, obj);
+    func_021C2BE0(desc, (u8 *)st, obj);
     st->fbc = func_020056A0(func_021C2BA8, st, 1);
     st->fc0 = (u32)func_021BC448(*desc);
     st->fc4 = (u32)func_021BC448(*desc);
-    func_021BC518((u32 *)st->fc0);
-    func_021BC518((u32 *)st->fc4);
-    func_021BC508(0, (u32 *)st->fc0);
-    func_021BC508(1, (u32 *)st->fc4);
+    func_021BC518((int *)st->fc0);
+    func_021BC518((int *)st->fc4);
+    func_021BC508(0, (int *)st->fc0);
+    func_021BC508(1, (int *)st->fc4);
     st->fc8 = (u32)func_021BC610(*desc);
     st->fcc = 0;
     st->fd0 = 1;

@@ -35,7 +35,8 @@
 
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern int func_0216FAD4(char *filter, int profileID, unsigned char numEntry, unsigned char matchType, unsigned char hostState);
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern void *DWC_Alloc(int name, unsigned long size);
 extern void func_0216EB68(int error, int errorCode);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
@@ -45,7 +46,7 @@ extern void func_02175560(void *attemptCallback, unsigned char *connectionUserDa
 extern void func_02175F4C(int state);
 extern void *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, void *callback, void *instance);
 extern int func_02173D9C(int error);
-extern void func_0216F20C(int status);
+extern int func_0216F20C(int status);
 extern int func_0216CD8C(int profileID);
 extern void func_0219B490(void *qrec);
 extern int func_0216F770(int profileID);
@@ -70,7 +71,7 @@ void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addF
         g_021AAA20.filter = 0;
     }
     if (addFilter != 0) {
-        addFilterLenMax = 0x1ff - func_0216FAD4(filter, -1, 32, 3, 3) - func_0209477C(g_021A2044);
+        addFilterLenMax = 0x1ff - func_0216FAD4(filter, -1, 32, 3, 3) - func_0209477C((const u8 *)g_021A2044);
         g_021AAA20.filter = DWC_Alloc(4, addFilterLenMax);
         if (g_021AAA20.filter == 0) {
             func_0216EB68(9, -80001);

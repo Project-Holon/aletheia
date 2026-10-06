@@ -11,5 +11,5 @@
  *   func_0204EA0C 0x0204EA0C arm
  */
 typedef unsigned short u16;
-extern void func_0204EA0C(void);
+extern int func_0204EA0C(void);
 void func_021B675C(void) {func_0204EA0C();}

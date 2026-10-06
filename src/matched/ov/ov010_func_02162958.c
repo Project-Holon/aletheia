@@ -14,10 +14,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u16 *func_021628E4(void *c, void *a, int key);
+struct Ctx;
+struct Rec;
+extern struct Rec *func_021628E4(struct Ctx *c, void *a, int key);
 u16 func_02162958(void *c, void *a, int key)
 {
-    u16 *r = func_021628E4(c, a, key);
+    u16 *r = (u16 *)func_021628E4(c, a, key);
     if (r != 0) return *r;
     return 0xffff;
 }

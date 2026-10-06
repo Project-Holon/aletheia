@@ -44,7 +44,7 @@ extern void func_021E1670(void *,void *,int,int,char *,int,int);
 extern void func_021E15F8(void *,void *,int,int,char *);
 #define I(k) (*(int *)(p+(k)))
 #define P(k) (*(void **)(p+(k)))
-void func_021E24E8(char *p)
+void func_021E24E8(char *p, int a1)
 {
     void *arr[2];
     void *mon;

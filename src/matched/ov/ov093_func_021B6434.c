@@ -41,11 +41,11 @@ struct S {
 };
 
 extern u8 func_021B9114(u8 **p);
-extern int func_021BA54C(struct S *s);
-extern void func_021BA6C0(struct S *s);
-extern void func_021BA878(struct S *s);
-extern void func_021BA2E4(struct S *s);
-extern int func_021B64CC(struct S *s);
+extern int func_021BA54C(char *p);
+extern void func_021BA6C0(char *p);
+extern void func_021BA878(u8 *p);
+extern void func_021BA2E4(char *p);
+extern int func_021B64CC(u8 *p);
 
 int func_021B6434(int a0, int a1, int a2, struct S *s)
 {
@@ -57,10 +57,10 @@ int func_021B6434(int a0, int a1, int a2, struct S *s)
     }
     if (s->f464(s) != 0) {
         if (func_021B9114((u8 **)s) == 0) {
-            t = func_021BA54C(s);
-            func_021BA6C0(s);
-            func_021BA878(s);
-            func_021BA2E4(s);
+            t = func_021BA54C((char *)s);
+            func_021BA6C0((char *)s);
+            func_021BA878((u8 *)s);
+            func_021BA2E4((char *)s);
             switch (t) {
             case 1:
                 s->f00->f88 = s->f430 + s->f434;
@@ -71,7 +71,7 @@ int func_021B6434(int a0, int a1, int a2, struct S *s)
                 break;
             }
         } else {
-            r = func_021B64CC(s);
+            r = func_021B64CC((u8 *)s);
             s->f00->fc1_1 = r;
         }
         return 1;

@@ -37,7 +37,7 @@ extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
-extern void func_021D6C28(void *);
+extern void func_021D6C28(u8 *p);
 extern void func_021D6948(void *);
 extern void func_021D96C4(u8 *p);
 extern void func_0200A338(void *);
@@ -59,7 +59,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
     func_02045C04(((struct Obj02176 *)p)->f3A4);
     func_0201C4C0(((struct Obj02176 *)p)->f39C);
     func_0201D83C(((struct Obj02176 *)p)->f398);
-    func_021D6C28(p + 0x294);
+    func_021D6C28((u8 *)(p + 0x294));
     func_021D6948(p + 0x390);
     func_021D96C4(((struct Obj02176 *)p)->f394);
     func_0200A338(((struct Obj02176 *)p)->f3BC);

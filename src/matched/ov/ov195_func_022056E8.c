@@ -49,7 +49,7 @@ struct Sub02008C20Obj;
 struct U16Vec;
 extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_0201AA18(void *);
-extern int func_0201AA14(u32);
+extern u32 func_0201AA14(void *p);
 typedef unsigned char  u8;
 struct Party;
 struct PartyMon;
@@ -79,7 +79,7 @@ void func_022056E8(u32 *a, char *b)
     int i;
 
     save = func_0201292C((const struct BigObj *)a[0]);
-    if ((int)func_0201AA18((void *)a[1]) >= func_0201AA14(a[1]))
+    if ((int)func_0201AA18((void *)a[1]) >= (int)func_0201AA14((void *)a[1]))
         return;
     if (func_02007F68(save, 4, 1, ((struct Obj06644 *)b)->f0) == 0)
         return;

@@ -29,9 +29,11 @@ struct Cmd {
 };
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D62C4(void *p, int i);
+struct Unk021D62A8;
+struct Work;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern void func_021C2CA8(u8 *p, u8 *a);
-extern void func_021D65C8(u8 *x, u8 *y);
+extern void func_021D65C8(struct Work *p, struct Work *q);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern u32 func_021D6D7C(u8 *p);
 extern int func_021CA238(void *p, u8 i);
@@ -40,8 +42,8 @@ int func_021CA1D0(u8 *w, const struct Cmd *c)
 {
     u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, c->b4);
     u8 *b = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, c->b5);
-    if (func_021D62C4(a, 0x10) != 0) func_021C2CA8(w, b);
-    func_021D65C8(b, a);
+    if (func_021D62C4((struct Unk021D62A8 *)a, 0x10) != 0) func_021C2CA8(w, b);
+    func_021D65C8((struct Work *)b, (struct Work *)a);
     func_021CD4B0(((struct Obj00003 *)w)->fC, 0x26, c->b4, c->b5);
     if (func_021D6D7C(b) != 0) {
         int r = func_021CA238(w + 0x1AB8, c->b5);

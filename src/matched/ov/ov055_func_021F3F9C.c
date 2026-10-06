@@ -31,7 +31,8 @@ extern u32 func_020056EC(u32);
 struct Entry;
 struct Table;
 extern struct Entry *func_021F3B48(struct Table *t, int x, int y, unsigned int dir, int unused, int *out);
-extern void func_021F3D0C(u8 *, int, int, int, u16, u16, u16, u16, const u16 *);
+struct O;
+extern void func_021F3D0C(struct O *o, int a1, int a2, int idx, u16 p4, u16 p5, u16 p6, u16 p7, void *p8);
 
 void func_021F3F9C(const char *a, int b, const u16 *c, u8 *d, u16 e)
 {
@@ -63,5 +64,5 @@ void func_021F3F9C(const char *a, int b, const u16 *c, u8 *d, u16 e)
             t0 = 1;
     }
     if (out == 0)
-        func_021F3D0C(d, *(const int *)&((struct Obj05137 *)a)->f4, *(const int *)&((struct Obj05137 *)a)->f0, t0, x, y, c[4], (u16)(c[5] - e), c);
+        func_021F3D0C((struct O *)d, *(const int *)&((struct Obj05137 *)a)->f4, *(const int *)&((struct Obj05137 *)a)->f0, t0, x, y, c[4], (u16)(c[5] - e), (void *)c);
 }

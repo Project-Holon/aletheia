@@ -30,9 +30,9 @@ typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EA750(unsigned char *p);
+extern void func_021EA750(char *p);
 extern int func_021EBFEC(char *w, int i);
-extern void func_021DEFEC(unsigned char *p, int b);
+extern void func_021DEFEC(char *p, int b);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021EF68C(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -47,13 +47,13 @@ int func_021E754C(unsigned char *p)
         func_021ED108(WORK(p), 1);
         func_021EBFA8(WORK(p), 10, 2);
         func_020260E4(*(void **)(WORK(p) + 0x70), p[0x16] - 0x1E);
-        func_021EA750(p);
+        func_021EA750((char *)p);
         STEP(p)++;
         break;
     case 1:
         if (func_021EBFEC(WORK(p), 10) == 1)
             break;
-        func_021DEFEC(p, p[0x16]);
+        func_021DEFEC((char *)p, p[0x16]);
         func_020260F4(*(void **)(WORK(p) + 0x70), 1);
         func_021EF68C(WORK(p));
         return 0x46;

@@ -35,7 +35,7 @@ extern u32 func_021A30C8(void **ctx);
 extern int func_021AB100(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
 extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB140(u16 x);
+extern int func_021AB140(int x);
 extern int func_021AB29C(u16 x);
 
 int func_021AA35C(void **ctx, int mode, u8 *out)

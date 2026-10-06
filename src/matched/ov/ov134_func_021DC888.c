@@ -27,7 +27,7 @@ extern void func_02082BCC(void *, int, u32);
 extern void *func_02031324(u16);
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_021DCB48(const Args *, void *, void *);
-extern void func_021DCC48(const Args *, void *, void *);
+extern void func_021DCC48(u8 *p, void *unused, u8 *out);
 extern const u32 tbl_021DCC9C[];
 extern u32 g_02FFFC3C;
 int func_021DC888(void *ctx, int unused, const Args *args)
@@ -40,7 +40,7 @@ int func_021DC888(void *ctx, int unused, const Args *args)
     ((struct Obj05411 *)p)->fCC = func_02031324(((struct Obj05411 *)p)->fFC);
     func_0203A574(0x2f00, (u32)tbl_021DCC9C, 1, (u32)p);
     func_021DCB48(args, p, p + 4);
-    func_021DCC48(args, p, p + 0x9c);
+    func_021DCC48((u8 *)args, p, p + 0x9c);
     p[0xc4] = 0;
     ((struct Obj05411 *)p)->fC8 = g_02FFFC3C;
     ((struct Obj05411 *)p)->f0 = 0;

@@ -21,7 +21,8 @@ typedef unsigned int u32;
 
 extern void func_021BD2B4(u8 *it, u8 **q);
 extern int func_021BD34C(u8 *it, u8 **q, u8 **x);
-extern int func_021D5BDC(void *p, u32 n);
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern void func_021C6110(u8 *p, u8 *a, u32 n);
 
 void func_021BBCD4(u8 *p)
@@ -34,7 +35,7 @@ void func_021BBCD4(u8 *p)
     if (func_021BD34C((u8 *)&it, (u8 **)p, &x) != 0) {
         n = 12;
         do {
-            if (func_021D5BDC(x, n) != 0)
+            if (func_021D5BDC((struct UtilWork *)x, n) != 0)
                 func_021C6110(p, x, n);
         } while (func_021BD34C((u8 *)&it, (u8 **)p, &x) != 0);
     }

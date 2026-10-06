@@ -33,7 +33,7 @@ typedef struct {
 
 extern int func_0215F3D0(Socket *socket);
 extern unsigned long func_02087988(void);
-extern long func_0215F080(Socket *socket);
+extern int func_0215F080(char *p);
 extern long func_0215E2C0(Socket *socket);
 extern unsigned long func_0208799C(unsigned long state);
 
@@ -62,7 +62,7 @@ int func_0215EFB0(int s)
 		}
 		if (socket->flag_mode == 1 || (socket->state & 4)) {
 			enable = func_02087988();
-			if (func_0215F080(socket) > 0) {
+			if (func_0215F080((char *)socket) > 0) {
 				result |= 1;
 			}
 			if (func_0215E2C0(socket) > 0) {

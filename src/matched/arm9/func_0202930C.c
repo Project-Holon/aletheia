@@ -17,12 +17,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_02005E50(u8 *p);
+extern int func_02005E50(void);
 extern void func_02029344(void *obj, u32 value);
 
 void func_0202930C(u8 *p)
 {
-    if (func_02005E50(p) != 0) {
+    if (func_02005E50() != 0) {
         return;
     }
     func_02029344(p, 0xe);

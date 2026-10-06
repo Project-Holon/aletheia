@@ -35,10 +35,10 @@ typedef struct {
 
 extern u8 *func_0216DEEC(u32 a);
 extern void func_0216D1C8(u8 *o, u32 a, u32 b);
-extern void func_0216D040(u8 *o, Rec *r, u32 c, u32 a);
+extern void func_0216D040(u8 *o, u16 *r, u32 b, u32 c);
 extern void func_0216D208(void *p);
 extern int func_0216E51C(void *a);
-extern void func_0216D548(u8 *o, u32 v);
+extern void func_0216D548(u32 *p, u32 v);
 extern int func_0216D4D4(int a0, int a1);
 extern void func_0216D244(u32 a, u8 *o);
 extern int func_0216D268(int a0, int a1);
@@ -54,10 +54,10 @@ u8 *func_0216CDC4(u32 a, Rec *p, u32 b, u32 c)
 
     o = func_0216DEEC(a);
     func_0216D1C8(o, a, b);
-    func_0216D040(o, &r, c, a);
+    func_0216D040(o, (u16 *)(&r), c, a);
     func_0216D208(o);
     if (func_0216E51C(o) == 1)
-        func_0216D548(o, 640);
+        func_0216D548((u32 *)o, 640);
     if (func_0216D4D4(a, 0x10)) {
         func_0216D244(a, o);
         func_0216D268(a, (int)o);

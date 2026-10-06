@@ -87,7 +87,7 @@ extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_0217EE50(int sock, int isblocking);
 extern struct SOCHostEnt *func_0215F650(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
-extern int func_0217ED54();
+extern int func_0217ED54(int sock);
 extern unsigned int func_0217F264(void);
 
 int func_021903B0(void **connection, GPIOperation *operation)

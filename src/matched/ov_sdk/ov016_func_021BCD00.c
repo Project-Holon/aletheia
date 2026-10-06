@@ -42,8 +42,11 @@ typedef struct {
     unsigned char end;
 } MemBtnT;
 
-extern void func_021D600C(Coord *coord, Coord *size, Rect *rect);
-extern int func_021D696C(Rect *r);
+typedef unsigned short u16;
+struct tagCOORD;
+struct tagRECT;
+extern void func_021D600C(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
+extern int func_021D696C(u16 *a);
 extern char *func_021D4FE0(char *p, unsigned int i);
 extern void func_021D52D4(int lcd, int idx, void *obj);
 extern void func_021D5118(void *cell, int idx, int x, int y);
@@ -68,8 +71,8 @@ void func_021BCD00(void)
         if (g_021DE508->input != -1)
             return;
         for (i = 0; i < btnNum; i++) {
-            func_021D600C(&g_021DA010[g_021DA026[g_021DE508->kind][i]], &g_021DA004, &r);
-            if (func_021D696C(&r)) {
+            func_021D600C((const struct tagCOORD *)(&g_021DA010[g_021DA026[g_021DE508->kind][i]]), (const struct tagCOORD *)(&g_021DA004), (struct tagRECT *)(&r));
+            if (func_021D696C((u16 *)(&r))) {
                 if (g_021DE508->release)
                     break;
                 {

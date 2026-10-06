@@ -84,43 +84,44 @@ extern u32 func_020221A4(void);
 extern int func_0203CB00(void);
 extern void func_0203C9AC(int, u32, u32, u32);
 extern int func_0203C3EC(void);
-extern void func_0203C554(int);
+typedef signed short   s16;
+extern void func_0203C554(u32 a);
 extern u32 func_020362DC(void);
 extern void func_0203D7B0(int);
 extern int func_0203D7BC(int);
 extern u32 func_02005728(u32);
-extern void func_020061E4(int);
-extern void func_0200616C(int, int);
+extern void func_020061E4(u32 a);
+extern void func_0200616C(void *arg, int i);
 extern void func_02082D44(void *, void *, int);
 extern int func_02156A3C(void);
 extern int func_02156B8C(void);
 extern void func_02156BC4(int);
 extern int func_02156BA8(void);
-extern int func_02156B70(void);
+extern s16 func_02156B70(void);
 extern void func_021BE900(char *);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021BAADC(char *, int, int);
 extern void func_021BAEDC(char *);
 extern void func_021C18C8(char *, int, int);
-extern void func_021BF280(char *, int);
-extern void func_021C1BEC(char *);
+extern void func_021BF280(void *a, void *b);
+extern void func_021C1BEC(u8 *p);
 extern void func_021B9B54(char *);
 extern u32 func_021B98FC(char *);
 extern int func_021C1968(char *);
-extern void func_021C1A30(char *, int);
+extern void func_021C1A30(u8 *p, int v);
 extern void func_021C19DC(char *, int);
 extern u8 func_021C1B04(char *, int);
 extern void *func_021BE2A8(char *, int);
 extern void func_021B989C(void *, void *);
 extern void func_021BF29C(char *);
-extern int func_021B98F0(void *);
-extern void *func_021C23B8(int);
-extern int func_021C27F8(void *, void *);
+extern void func_021B98F0(void *p);
+extern int func_021C23B8(int i);
+extern int func_021C27F8(char *p, char *q);
 extern int func_021C2874(void *);
 extern u8 func_021BDD48(char *, void *);
 extern u8 func_021BDD54(char *, void *);
-extern int func_021BDDA8(u32);
+extern int func_021BDDA8(int x);
 extern int func_021BF03C(char *);
 extern int func_021BF068(char *);
 extern int func_021C27E0(void *);
@@ -148,8 +149,8 @@ int func_021BF2C4(char *p, int ret)
         func_0203C554(1);
         return ret;
     }
-    func_021BF280(p, 33);
-    func_021C1BEC(p);
+    func_021BF280(p, (void *)33);
+    func_021C1BEC((u8 *)p);
     func_021B9B54(p + 0x274);
     if (func_021B98FC(p + 0x274) == 0) {
         if (func_02156B8C() == -1 && (func_020362DC() & 0x400)) {
@@ -158,7 +159,7 @@ int func_021BF2C4(char *p, int ret)
             func_020061E4(0x54c);
             func_021BAEDC(p);
             *(int *)(p + 0x1cc) = 12;
-            func_021C1A30(p, 33);
+            func_021C1A30((u8 *)p, 33);
             return ret;
         }
         key = func_021C1B04(p, 33);
@@ -170,20 +171,20 @@ int func_021BF2C4(char *p, int ret)
     }
     for (i = 0; i < 32; i++) {
         index = func_02005728(32);
-        if (func_021C27F8(*(void **)(p + 8), func_021C23B8(index)) != 0) {
-            value = func_021C2874(func_021C23B8(index));
+        if (func_021C27F8(*(void **)(p + 8), (char *)func_021C23B8(index)) != 0) {
+            value = func_021C2874((void *)func_021C23B8(index));
             if (value != *(*(u8 **)(p + 0x248) + index + 0x24)) {
-            func_021BDD48(p, func_021C23B8(index));
-            func_021BDD54(p, func_021C23B8(index));
+            func_021BDD48(p, (void *)func_021C23B8(index));
+            func_021BDD54(p, (void *)func_021C23B8(index));
             *(u16 *)(p + 0x242) = index + 1;
-            func_0200616C(0x806, 0);
+            func_0200616C((void *)0x806, 0);
             *(int *)(p + 0x1cc) = 63;
             return ret;
             }
         }
     }
     if (func_021BF03C(p) && *(int *)(p + 0x1f0) != -1) {
-        func_0200616C(0x806, 0);
+        func_0200616C((void *)0x806, 0);
         func_0203D7B0(1);
         func_0203D7BC(1);
         *(int *)(p + 0x1cc) = 40;
@@ -235,7 +236,7 @@ int func_021BF2C4(char *p, int ret)
             *(int *)(p + 0x1cc) = 49;
             func_021BAAB8(p, 25, 1);
         }
-        func_021C1A30(p, 33);
+        func_021C1A30((u8 *)p, 33);
         return ret;
     case 3:
         if (kind == 1) {
@@ -243,7 +244,7 @@ int func_021BF2C4(char *p, int ret)
             func_020061E4(0x54c);
             func_021B9B24(p + 0x274);
             *(int *)(p + 0x1cc) = 28;
-            func_021C1A30(p, 33);
+            func_021C1A30((u8 *)p, 33);
             *(u8 *)(p + 0x1351) = 0;
             return ret;
         }
@@ -252,9 +253,9 @@ int func_021BF2C4(char *p, int ret)
         if (kind == 1) {
             index = func_021B97F4(p + 0x274);
             func_020061E4(0x54c);
-            func_02082D44(func_021C23B8(index - 1), p + 0x24c, 32);
+            func_02082D44((void *)func_021C23B8(index - 1), p + 0x24c, 32);
             *(int *)(p + 0x1cc) = 34;
-            func_021C1A30(p, 33);
+            func_021C1A30((u8 *)p, 33);
             return ret;
         }
         break;

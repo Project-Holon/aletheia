@@ -33,9 +33,10 @@ struct Work {
     u32 f18;
     u16 *f1c;
 };
-extern struct Work *func_020124E8(void *);
-extern void func_02012444(void *, void *, void *, void *);
-extern void func_02166714(u32, int);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
+extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void func_02166714(u8 *p, int n);
 extern u8 ov203_id[];
 extern u8 d_021BFB3C[];
 int func_021666B8(void *task, u32 *state)
@@ -43,13 +44,13 @@ int func_021666B8(void *task, u32 *state)
     struct Work *w = func_020124E8(task);
     switch (*state) {
     case 0:
-        func_02012444(task, ov203_id, d_021BFB3C, w);
+        func_02012444(task, (u32)ov203_id, (u32)d_021BFB3C, (u32)w);
         *state = *state + 1;
         break;
     case 1:
         if (w->f14 == 2) *w->f1c = 1;
         else *w->f1c = 0;
-        func_02166714(w->f18, w->f10);
+        func_02166714((u8 *)w->f18, w->f10);
         return 1;
     }
     return 0;

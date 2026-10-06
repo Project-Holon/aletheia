@@ -10,7 +10,7 @@
  * status: EXACT
  * leaf: only unresolved overlay target of assigned 021D4244; parent confirms no active owner.
  */
-void func_021D4240(void **p,void *f,int line)
+void func_021D4240(void **p, void *f)
 {
     *p=f;
 }

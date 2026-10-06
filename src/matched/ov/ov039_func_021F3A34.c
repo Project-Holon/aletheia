@@ -89,7 +89,7 @@ extern u8 *func_02012EC4(struct Big *p);
 extern Save *func_0200B3A4(unsigned int, unsigned int);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *a);
-extern int func_021F3DE4(int a, u8 b, u8 c);
+extern int func_021F3DE4(void *p, u16 delta, u16 i);
 extern void func_021F47D8(void *a, int f, int i);
 extern void func_02011558(struct IcaAnime *p);
 extern u32 func_02011428(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
@@ -100,15 +100,18 @@ extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a);
 extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
 extern u32 *func_02006138(int i);
-extern void func_02072F34(void *o, u8 v);
+struct Obj;
+struct Rec;
+struct Rec12;
+extern void func_02072F34(struct Obj *o, u8 v);
 extern int func_021BE6E8(int p, int i, u8 j, u8 k);
 extern int func_021F4864(u32 a, u32 b, u8 *out);
 extern void func_02028B50(u8 *p, int a0);
 extern void func_02006210(void);
-extern u32 func_02011688(u32 p, Vec *dst, u32 idx);
+extern u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
 extern void *func_02188CB4(u8 *p);
-extern void func_021A3044(void *q, Vec *v);
-extern void func_021F4A18(void *a, Work *s);
+extern void func_021A3044(u8 *p, void *v);
+extern void func_021F4A18(void *a0, struct Rec *a1);
 
 extern u32 d_021F4C38[];
 extern s8 d_021F4C28[][2];
@@ -149,7 +152,7 @@ void func_021F3A34(int a0, void *a1)
             qr = (u8 *)q + j;
             d = (u8)((qr[0x10] + 1) % 2);
             j2 = j * 2;
-            if (func_021F3DE4(h, j, d + (j2 + 1)) == 0) {
+            if (func_021F3DE4((void *)h, (u8)j, (u8)(d + (j2 + 1))) == 0) {
                 func_021F47D8((void *)h, d, j);
                 tmp2 = qr[0x10];
                 s->cur[j] = j2 + tmp2;
@@ -177,7 +180,7 @@ void func_021F3A34(int a0, void *a1)
                     func_020061E4(0x6DB);
                     snd = func_02006148(0x6DB);
                     func_02028B18((struct SoundSys2 *)w, 0x68A, 0x7f);
-                    func_02072F34(func_02006138(snd), 0);
+                    func_02072F34((struct Obj *)func_02006138(snd), 0);
                 }
                 sr[0x21F0] = -1;
             }
@@ -194,13 +197,13 @@ void func_021F3A34(int a0, void *a1)
     if (s->active != 0) {
         pos = d_021F4D54;
         k = s->sel >> 1;
-        if (func_02011688(s->anim, &pos, func_021BE6E8(h, 0, k, s->sel + 1) / 4096)) {
+        if (func_02011688((struct IcaAnime *)s->anim, (struct Rec12 *)(&pos), func_021BE6E8(h, 0, k, s->sel + 1) / 4096)) {
             pos.x += d_021F4CA0[k].x;
             pos.y += d_021F4CA0[k].y;
             pos.z += d_021F4CA0[k].z;
             func_021A3044(func_02188CB4((void *)a1), &pos);
         }
     } else {
-        func_021F4A18(a1, s);
+        func_021F4A18(a1, (struct Rec *)s);
     }
 }

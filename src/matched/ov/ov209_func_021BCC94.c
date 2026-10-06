@@ -54,7 +54,8 @@ extern void func_021BC824(char *);
 extern void func_021BD398(char *);
 extern void func_021BD7F8(char *);
 extern void func_021BC88C(char *);
-extern void func_021BC9A8(char *);
+struct Context;
+extern void func_021BC9A8(struct Context *p);
 extern void func_021BD628(char *);
 extern void func_021BD704(char *);
 extern void func_021BC8B4(char *);
@@ -79,7 +80,7 @@ int func_021BCC94(char *p)
     func_021BD398(p);
     func_021BD7F8(p);
     func_021BC88C(p);
-    func_021BC9A8(p);
+    func_021BC9A8((struct Context *)p);
     if (((struct Obj25546 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f8 == 0) func_021BD628(p);
     else func_021BD704(p);
     func_0203D34C(1, 0x6B);

@@ -12,5 +12,6 @@
  *   func_021B79F0  0x021B79F0  thumb ov021
  */
 
-extern int func_021B79F0(void *o, int flag);
+struct Obj;
+extern int func_021B79F0(struct Obj *o, int flag);
 int func_021BB388(void **h) { return func_021B79F0(*h, 1); }

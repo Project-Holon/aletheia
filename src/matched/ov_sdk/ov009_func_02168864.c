@@ -18,7 +18,8 @@
  */
 
 extern unsigned char func_02168724(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusString);
-extern unsigned int func_0209477C(char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 typedef unsigned int   u32;
 extern int func_02059CBC(const char *src, u32 srclen, char *dst, u32 dstlen);
 unsigned char func_02168864(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size)
@@ -30,9 +31,9 @@ unsigned char func_02168864(void *friendData, unsigned char *maxEntry, unsigned 
 		*size = -1;
 		return ret;
 	}
-	*size = func_02059CBC(statusString, func_0209477C(statusString), 0, 0);
+	*size = func_02059CBC(statusString, func_0209477C((const u8 *)statusString), 0, 0);
 	if (statusData == 0 || *size == -1)
 		return ret;
-	func_02059CBC(statusString, func_0209477C(statusString), statusData, *size);
+	func_02059CBC(statusString, func_0209477C((const u8 *)statusString), statusData, *size);
 	return ret;
 }

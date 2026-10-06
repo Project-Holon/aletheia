@@ -99,9 +99,10 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *func_0201A354(int a, int b);
 extern void *func_0200CA1C(void *p);
 extern u32 func_0201AA18(void *p);
-extern void *func_0200CA38(void *p);
+struct Blk37;
+extern u32 func_0200CA38(struct Blk37 *p);
 
-void *func_0216C538(PartyCaller *c, void *sys, int useOwn)
+void *func_0216C538(PartyCaller *c, void *sys, u8 useOwn)
 {
     void *q;
     void *task;
@@ -158,6 +159,6 @@ void *func_0216C538(PartyCaller *c, void *sys, int useOwn)
     sum->f0d = 0;
     sum->f10 = 0;
     sum->p = p;
-    sum->f18 = func_0200CA38(h);
+    sum->f18 = (void *)func_0200CA38(h);
     return task;
 }

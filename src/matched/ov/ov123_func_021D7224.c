@@ -26,7 +26,7 @@ struct Sub02009210Obj;
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void func_020307B0(void *);
-extern int func_020076D0(void *,void *,void *);
+extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
@@ -50,7 +50,7 @@ void func_021D7224(char *p)
         func_020307B0(((struct Obj01736 *)p)->fC);
         ((struct Obj01736 *)p)->fC=0;
     }
-    if (func_020076D0(((struct Obj01736 *)p)->f24,p+0x48,p+0x4c)) {
+    if (func_020076D0(((struct Obj01736 *)p)->f24,(int *)(p+0x48),(int *)(p+0x4c))) {
         q=func_02030734(((struct Obj01736 *)p)->f0,func_020173EC(),1,d_021DAB78,0x245);
         size=func_020173EC();
         func_02082D44(func_02009290(g),q,size);

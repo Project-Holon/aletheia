@@ -23,7 +23,8 @@ extern int func_021BF138(int c);
 extern u8 *func_021BF148(int c, int k);
 extern void func_021BF158(int c, u8 *x);
 extern u8 func_021D5440(u8 *p);
-extern int func_021D5BB0(void *q, u32 n);
+struct UtilWork;
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
 
 void func_021BF0E4(int u, u8 *b, int c, u8 *d, int e)
 {
@@ -33,7 +34,7 @@ void func_021BF0E4(int u, u8 *b, int c, u8 *d, int e)
         if (x != 0) {
             if (func_021D5440(x) == func_021D5440(b)) {
                 if (((struct Obj21056 *)d)->fC != 7) {
-                    if (func_021D5BB0(b, 12) != 0 || e != 0)
+                    if (func_021D5BB0((struct UtilWork *)b, 12) != 0 || e != 0)
                         func_021BF158(c, x);
                 }
             }

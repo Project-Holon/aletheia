@@ -27,19 +27,21 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_0204B404(void *h, u16 *pos, u32 v);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Actor;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B8C4(struct Obj *p, u32 value);
 extern void func_0204B974(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_021C28EC(void *p, u16 *a, u16 *b);
-extern void func_021C28DC(void *p, u16 *a, u16 *b);
-extern void func_021C28CC(void *p, u16 *a, u16 *b);
-extern u32 func_021C28BC(void *p);
-extern u32 func_021C28A4(void *p);
-extern u32 func_021C2894(void *p);
+extern void func_021C28EC(const u32 *p, u16 *a, u16 *b);
+extern void func_021C28DC(const u32 *p, u16 *a, u16 *b);
+extern void func_021C28CC(const u32 *p, u16 *a, u16 *b);
+extern u8 func_021C28BC(char *p);
+extern u8 func_021C28A4(char *p);
+extern u8 func_021C2894(char *p);
 
 void func_021C278C(u8 *p)
 {
@@ -51,7 +53,7 @@ void func_021C278C(u8 *p)
     pos[0] = ((struct Obj03957 *)p)->f4;
     pos[1] = ((struct Obj03957 *)p)->f8;
 
-    func_0204B404(h, pos, ((struct Obj03958 *)q)->fC);
+    func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     func_0204B878(h, ((struct Obj03958 *)q)->f10);
 
     func_0204B8C4(h, 0);
@@ -59,26 +61,26 @@ void func_021C278C(u8 *p)
     func_0204B3DC(h, 0);
 
     h = ((struct Obj03957 *)p)->f14;
-    func_021C28EC(p, pos, pos + 1);
-    func_0204B404(h, pos, ((struct Obj03958 *)q)->fC);
+    func_021C28EC((const u32 *)p, pos, pos + 1);
+    func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     func_0204B878(h, ((struct Obj03958 *)q)->fE);
-    func_0204B8C4(h, func_021C28BC(p) << 12);
+    func_0204B8C4(h, func_021C28BC((char *)p) << 12);
     func_0204B974(h);
     func_0204B3DC(h, 0);
 
     h = ((struct Obj03957 *)p)->f18;
-    func_021C28DC(p, pos, pos + 1);
-    func_0204B404(h, pos, ((struct Obj03958 *)q)->fC);
+    func_021C28DC((const u32 *)p, pos, pos + 1);
+    func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     func_0204B878(h, ((struct Obj03958 *)q)->fE);
-    func_0204B8C4(h, func_021C28A4(p) << 12);
+    func_0204B8C4(h, func_021C28A4((char *)p) << 12);
     func_0204B974(h);
     func_0204B3DC(h, 0);
 
     h = ((struct Obj03957 *)p)->f1C;
-    func_021C28CC(p, pos, pos + 1);
-    func_0204B404(h, pos, ((struct Obj03958 *)q)->fC);
+    func_021C28CC((const u32 *)p, pos, pos + 1);
+    func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     func_0204B878(h, ((struct Obj03958 *)q)->fE);
-    func_0204B8C4(h, func_021C2894(p) << 12);
+    func_0204B8C4(h, func_021C2894((char *)p) << 12);
     func_0204B974(h);
     func_0204B3DC(h, z);
 }

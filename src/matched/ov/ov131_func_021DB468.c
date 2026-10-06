@@ -17,7 +17,7 @@
  */
 #include "../include/Obj00536.h"
 typedef unsigned char u8;
-extern void func_021DBA54(u8 *,u8 *);
+extern void func_021DBA54(unsigned char *p, unsigned short *o);
 extern void func_0204B404(void *,u8 *,int);
 typedef unsigned int   u32;
 struct Obj;
@@ -27,7 +27,7 @@ extern void func_021D9EE8(u8 *,u8 *);
 void func_021DB468(u8 *a,u8 *b,u8 c,int d) {
     u8 box[4];
     if(a[28]==0) {
-        func_021DBA54(b+176+c*24,box);
+        func_021DBA54(b+176+c*24,(short unsigned int *)box);
         func_0204B404(((struct Obj00536 *)b)->f98,box,0);
         func_0204B3DC(((struct Obj00536 *)b)->f98,0);
     } else func_0204B3DC(((struct Obj00536 *)b)->f98,0);

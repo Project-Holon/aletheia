@@ -29,11 +29,12 @@ typedef unsigned char u8;
 
 extern void func_020751F4(u32 a, u32 b, u32 c);
 extern void func_020896CC(const void *start, const void *end);
-extern void func_0208A38C(u8 *p);
+struct SNDBankData;
+extern void func_0208A38C(struct SNDBankData *bank);
 
 void func_02075274(u8 *p, u32 len, u32 b, u32 c)
 {
     func_020751F4((u32)p, b, c);
     func_020896CC(p, p + len);
-    func_0208A38C(p);
+    func_0208A38C((struct SNDBankData *)p);
 }

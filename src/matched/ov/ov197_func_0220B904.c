@@ -23,7 +23,7 @@ struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0220B928(void *);
+extern void func_0220B928(char *p);
 
 void func_0220B904(char *p)
 {

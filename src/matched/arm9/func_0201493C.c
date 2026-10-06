@@ -40,7 +40,7 @@ typedef signed int     s32;
 typedef unsigned char  u8;
 struct Sub020140BCObj;
 extern u16 func_02014A10(u32 i);
-extern void *func_02014A20(u32 archive, u32 member, u32 *count, u16 heap);
+extern void *func_02014A20(u32 archive, u32 member, u32 *count_out, u32 heap);
 extern u32 func_02013F2C(u32 id);
 extern u32 func_02013B38(u32 id);
 extern void *func_0201407C(u16 heap, u32 a, u32 b);
@@ -60,16 +60,16 @@ void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
     o2 = a1 * 0xe10;
 
     if (a3 != 0) {
-        p = func_02014A20(0x3e, func_02014A10(a3), &count, (heap & 0x7fff) | 0x8000);
+        p = func_02014A20(0x3e, func_02014A10(a3), &count, (u16)((heap & 0x7fff) | 0x8000));
     }
     if (p == 0) {
         u32 t = func_02013F2C((u16)id);
         if (t != 0xfffffff)
-            p = func_02014A20(0x52, t, &count, (heap & 0x7fff) | 0x8000);
+            p = func_02014A20(0x52, t, &count, (u16)((heap & 0x7fff) | 0x8000));
     }
     if (p == 0) {
         void *q = func_0201407C((heap & 0x7fff) | 0x8000, func_02013B38((u16)id), b0);
-        p = func_02014A20(0x3d, func_020140DC(q), &count, (heap & 0x7fff) | 0x8000);
+        p = func_02014A20(0x3d, func_020140DC(q), &count, (u16)((heap & 0x7fff) | 0x8000));
         func_020140B4((u32)q);
     }
     func_02014A80(p, count, o1 + o2, b0, b1);

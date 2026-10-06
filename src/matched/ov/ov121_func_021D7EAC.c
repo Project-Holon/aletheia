@@ -59,7 +59,7 @@ extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
-extern void func_021D9288(void *,int);
+extern void func_021D9288(unsigned *p, unsigned v);
 extern void func_021D9E04(u8 *p);
 extern void func_021D6C28(u8 *p);
 extern void func_021D6948(void *);
@@ -71,8 +71,8 @@ extern void func_020312CC(u32,u32,u32);
 extern u8 *func_021D9624(int arg, u16 heap);
 extern void func_021D6924(u16 *p, u16 heap);
 extern unsigned func_021D9744(char *p);
-extern void func_021D6AEC(void *,void *,int);
-extern void *func_021D9CA4(int,int,void *,void *,int);
+extern void func_021D6AEC(char *p, void *owner, u16 heap);
+extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_0203D34C(u32,u32);
@@ -98,7 +98,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         *state=1; return;
     case 1:
         if(!func_0204E804()) {
-            func_021D9288(p+312,0);
+            func_021D9288((unsigned int *)(p+312),0);
             *state=2; return;
         }
         break;
@@ -128,13 +128,13 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
     case 5:
         ((struct Obj00533 *)p)->f394=func_021D9624(1,29);
         func_021D6924((u16 *)(p+912),29);
-        func_021D6AEC(p+660,(void *)func_021D9744(((struct Obj00533 *)p)->f394),29);
+        func_021D6AEC((char *)(p+660),(void *)func_021D9744(((struct Obj00533 *)p)->f394),29);
         ((struct Obj00533 *)p)->f284=func_021D9CA4(1,15,((struct Obj00533 *)p)->f39C,((struct Obj00533 *)p)->f398,29);
         func_021D9FFC(((struct Obj00533 *)p)->f284,10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);
         func_0203D34C(1,29);
         func_02005D90(1154,65535);
-        func_021D9288(p+312,1);
+        func_021D9288((unsigned int *)(p+312),1);
         *state=4; return;
     case 4:
         *state=6; return;

@@ -57,11 +57,11 @@ typedef struct DWCstMatchControl {
 } DWCstMatchControl;
 
 extern int func_0217603C(void);
-extern DWCstNodeInfo *func_0217637C(int index);
+extern char *func_0217637C(int index);
 extern int func_02176554(void);
 extern int func_02175F3C(void);
-extern DWCstNodeInfo *func_021763AC(int profileID);
-extern int func_0216FF2C(u8 command, int profileID, u32 ip, u16 port, u32 *data, int len);
+extern char *func_021763AC(int pid);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int func_021719A4(int error);
 extern int func_0216BEA4(u8 aid);
 extern void func_0217653C(void);
@@ -86,7 +86,7 @@ static int func_02172EAC(u32 bitmap)
     bRet = 1;
 
     for (i = 1; i < func_0217603C(); i++) {
-        DWCstNodeInfo *nodeInfo = func_0217637C(i);
+        DWCstNodeInfo *nodeInfo = (DWCstNodeInfo *)func_0217637C(i);
 
         if (nodeInfo) {
             if (bitmap & (1 << nodeInfo->aid)) {
@@ -113,13 +113,13 @@ static int func_02172EAC(u32 bitmap)
     }
 
     for (i = 0; i < validPidLen; i++) {
-        nodeInfo = func_021763AC(validPid[i]);
+        nodeInfo = (DWCstNodeInfo *)func_021763AC(validPid[i]);
         if (func_02176554() && nodeInfo == 0 &&
             validPid[i] == ((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.profileID)
             nodeInfo = &((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo;
         if (nodeInfo) {
             result = func_0216FF2C(0x10, validPid[i], nodeInfo->publicInetAddress,
-                                   nodeInfo->publicQueryPort, (u32 *)senddata, senddataLen);
+                                   nodeInfo->publicQueryPort, (const unsigned int *)senddata, senddataLen);
             if (func_021719A4(result))
                 bRet = 0;
         }

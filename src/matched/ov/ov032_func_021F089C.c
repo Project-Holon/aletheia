@@ -16,8 +16,8 @@
 
 typedef struct { int x, y; } Vec2;
 
-extern void func_021F0884(Vec2 *a, Vec2 *b, Vec2 *out);
-extern int func_021F086C(Vec2 *a, Vec2 *b);
+extern void func_021F0884(int *a, int *b, int *c);
+extern int func_021F086C(int *a, int *b);
 
 int func_021F089C(Vec2 *pt, Vec2 *tri)
 {
@@ -26,9 +26,9 @@ int func_021F089C(Vec2 *pt, Vec2 *tri)
     Vec2 b;
 
     for (i = 0; i < 3; i++) {
-        func_021F0884(pt, &tri[i], &a);
-        func_021F0884(&tri[(i + 1) % 3], &tri[i], &b);
-        if (func_021F086C(&a, &b) < 0)
+        func_021F0884((int *)pt, (int *)(&tri[i]), (int *)(&a));
+        func_021F0884((int *)(&tri[(i + 1) % 3]), (int *)(&tri[i]), (int *)(&b));
+        if (func_021F086C((int *)(&a), (int *)(&b)) < 0)
             return 0;
     }
     return 1;

@@ -36,10 +36,14 @@ typedef struct { short y,x; } Scale;
 extern const Vec d_021BA5B8;
 extern u32 func_021BA20C(u8 *p);
 extern u32 func_021BA218(u8 *p);
-extern u8 *func_021BA19C(u16,void *,u8 *,Vec *);
-extern void func_021BA100(void *,u8 *),func_021BA21C(u8 *,Pair *);
-extern u32 *func_021BA228(u8 *);
-extern void func_021F4EC4(int,int,short *,short *),func_021F4EB4(int,int,short,short);
+typedef signed short   s16;
+struct Object;
+extern u8 *func_021BA19C(u32 heap, struct Object *q, u8 *r, int *v);
+extern void func_021BA100(u8 *p, u8 *q);
+extern void func_021BA21C(u8 *p, const u8 *src);
+extern u8 *func_021BA228(u8 *p);
+extern void func_021F4EC4(u32 unused, u32 p, s16 *a, s16 *b);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4EE8(int,int,int),func_021B7A18(u8 *),func_020061E4(u32);
 void func_021B8140(u8 *p)
 {
@@ -54,14 +58,14 @@ void func_021B8140(u8 *p)
     else scale.x=(int)((float)(pos.x<<12)-0.5f);
     if(((struct Obj00004 *)p)->f20!=0) scale.y=(int)(0.5f+(float)(((struct Obj00004 *)p)->f20<<12));
     else scale.y=(int)((float)(((struct Obj00004 *)p)->f20<<12)-0.5f);
-    q=func_021BA19C(((struct Obj00004 *)p)->f0,((struct Obj00004 *)p)->f1884,data,&scale);
+    q=func_021BA19C(((struct Obj00004 *)p)->f0,((struct Obj00004 *)p)->f1884,data,(int *)(&scale));
     func_021BA100(((struct Obj00004 *)p)->f1820,q);
-    func_021BA21C(q,&pos);
+    func_021BA21C(q,(const u8 *)(&pos));
     s=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);t=(u8 *)func_021BA218(q);
     func_021F4EC4(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,&old.x,&old.y);
     func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,old.x,old.y);
     func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,0);
-    v=func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    v=(u32 *)func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
     *(u32 *)&((struct Obj00004 *)p)->f40=1;
     *(u32 *)&((struct Obj00004 *)p)->f44=v[0];*(u32 *)&((struct Obj00004 *)p)->f48=v[1];
     *(u32 *)&((struct Obj00004 *)p)->f3C=2;*(u8 * *)&((struct Obj00004 *)p)->f38=q;*(u32 *)&((struct Obj00004 *)p)->f40=1;

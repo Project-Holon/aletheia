@@ -69,23 +69,25 @@ struct G {
 
 extern struct G g_021467A4;
 
-extern u16  func_02022608(struct G *g);
-extern void func_02022670(struct Sub *s);
-extern void func_020226A0(struct G *g);
+struct Obj;
+struct Screen;
+extern u16 func_02022608(struct Obj *p);
+extern void func_02022670(struct Screen *s);
+extern void func_020226A0(u8 *p);
 
 void func_020222EC(struct G *p)
 {
     p->f14C = 0;
-    p->f150 = func_02022608(p);
+    p->f150 = func_02022608((struct Obj *)p);
     if (p->f0C != 0) {
-        func_02022670(&p->f14);
+        func_02022670((struct Screen *)(&p->f14));
         if (p->f14.f28 == 0)
             g_021467A4.f14E = 0;
     }
     if (p->f10 != 0) {
-        func_02022670(&p->f44);
+        func_02022670((struct Screen *)(&p->f44));
         if (p->f14.f28 == 0)
             g_021467A4.f14F = 0;
     }
-    func_020226A0(p);
+    func_020226A0((u8 *)p);
 }

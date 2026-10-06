@@ -24,7 +24,8 @@ typedef signed short   s16;
 extern u32 func_020056EC(u32 v);
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_021F4510(u8 *p, u32 i);
+struct S;
+extern void func_021F4510(struct S *p, int i);
 
 void func_021F43D8(u32 *a, u32 b, s16 *c, u32 d, u16 e)
 {
@@ -44,6 +45,6 @@ void func_021F43D8(u32 *a, u32 b, s16 *c, u32 d, u16 e)
     a[1] = t & 0xf;
     q = (u8 *)a + 0x10;
     for (i = 0; i < 16; i++) {
-        func_021F4510(q + i * 8, (u16)i);
+        func_021F4510((struct S *)(q + i * 8), (u16)i);
     }
 }

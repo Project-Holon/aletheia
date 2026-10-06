@@ -28,7 +28,7 @@ struct Obj;
 extern struct Desc *func_020122C0(void *, void *, void *, u32);
 extern void *func_020124E8(struct Obj *);
 
-u32 func_021BD9BC(u32 *p)
+int func_021BD9BC(u32 *p)
 {
     T6 t = d_021D9BC8;
     u32 i;

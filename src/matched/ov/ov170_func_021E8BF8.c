@@ -21,79 +21,80 @@
  */
 #include "../include/Obj00000.h"
 
-extern unsigned func_02025DE8(void *obj);
+struct Sound;
+extern int func_02025DE8(struct Sound *obj);
 extern void func_020061E4(unsigned se);
 extern int func_02007A80(void *save, unsigned bits);
-extern int func_021E8F50(unsigned char *p, int v);
-extern int func_021E949C(unsigned char *p, int a, int b);
+extern int func_021E8F50(char *p, int v);
+extern int func_021E949C(char *p, int a, int b);
 extern int func_021EA928(unsigned char *p, int a);
-extern int func_021E8FE0(unsigned char *p, int v);
-extern int func_021E8FD0(unsigned char *p, int a);
+extern int func_021E8FE0(char *p, int v);
+extern int func_021E8FD0(char *p, int a);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define SEL(p) (*(unsigned char *)(WORK(p) + 0xA17C))
 
 int func_021E8BF8(unsigned char *p)
 {
-    switch (func_02025DE8(*(void **)(WORK(p) + 0x70))) {
+    switch ((unsigned)func_02025DE8(*(void **)(WORK(p) + 0x70))) {
     case 0:
         func_020061E4(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 5;
-            return func_021E949C(p, 0, func_021E8F50(p, 0x64));
+            return func_021E949C((char *)p, 0, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 0);
     case 1:
         func_020061E4(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 1;
-            return func_021E949C(p, 1, func_021E8F50(p, 0x64));
+            return func_021E949C((char *)p, 1, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 1);
     case 2:
         func_020061E4(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 2;
-            return func_021E949C(p, 2, func_021E8F50(p, 0x64));
+            return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 2);
     case 3:
         func_020061E4(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 3;
-            return func_021E949C(p, 3, func_021E8F50(p, 0x64));
+            return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 3);
     case 4:
         func_020061E4(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 4;
-            return func_021E949C(p, 4, func_021E8F50(p, 0x64));
+            return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x64));
         }
         if (SEL(p) == 5 && func_02007A80(((void **)((struct Obj00000 *)p)->f0)[1], 2) == 1) {
             SEL(p) = 6;
-            return func_021E949C(p, 4, func_021E8F50(p, 0x64));
+            return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x64));
         }
         if (SEL(p) == 6) {
             SEL(p) = 5;
-            return func_021E949C(p, 4, func_021E8F50(p, 0x64));
+            return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 4);
     case 5:
         func_020061E4(0x551);
         if (SEL(p) == 0)
-            return func_021E949C(p, 5, func_021E8F50(p, 0x5F));
+            return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x5F));
         SEL(p) = 0;
-        return func_021E949C(p, 5, func_021E8F50(p, 0x64));
+        return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x64));
     case 0xFFFFFFFE:
         func_020061E4(0x551);
         if (SEL(p) == 0)
-            return func_021E949C(p, 5, func_021E8F50(p, 0x5F));
+            return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x5F));
         SEL(p) = 0;
-        return func_021E949C(p, 5, func_021E8F50(p, 0x64));
+        return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x64));
     case 0xFFFFFFFD:
         func_020061E4(0x548);
-        return func_021E8FD0(p, func_021E8FE0(p, 0x65));
+        return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x65));
     }
     return 0x65;
 }

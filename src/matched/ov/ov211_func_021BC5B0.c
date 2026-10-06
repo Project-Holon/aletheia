@@ -36,7 +36,7 @@ extern u32 func_0200725C(struct Ctrl *,u32,u32);
 extern void *func_020073D8(struct Sub020073D8Ctrl *,u32,u32);
 extern u32 func_0200E8D8(const void *obj);
 extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
-extern void func_02040B1C(u8,const void *,u32,u32);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02040E78(u32,void *,u32,u32);
 extern void func_020862F0(void *,unsigned long);
 extern void func_0207F308(void),func_0207F394(const void *,u32,u32),func_0207F428(void);

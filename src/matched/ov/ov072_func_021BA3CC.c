@@ -12,9 +12,12 @@
  *   func_0204B404 0x0204B404 arm
  */
 #include "../include/Obj09905.h"
-extern void func_0204B404(void *, void *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BA3CC(char *p, int *q) {
     ((struct Obj09905 *)p)->f8 = q[0];
     ((struct Obj09905 *)p)->fA = q[1];
-    func_0204B404(((struct Obj09905 *)p)->f0, p + 8, 0);
+    func_0204B404(((struct Obj09905 *)p)->f0, (const struct Vec2 *)(p + 8), 0);
 }

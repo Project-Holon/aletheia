@@ -49,8 +49,8 @@ typedef struct {
     void *ptr;
 } FocusPosT;
 
-extern void func_021BD1D4(char *file, void (*func)(const void *, u32, u32));
-extern char *func_021BD170(char *name);
+extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern unsigned char *func_021BD170(unsigned char *name);
 extern void *func_021D4B68(char *path, u32 *size, int alignment);
 extern void func_02058518(DWCWiFiInfo *buf);
 extern void func_02082D44(const void *srcp, void *dstp, u32 size);
@@ -74,11 +74,11 @@ void func_021C2B00(void)
     int i;
     u8 *pltt;
 
-    func_021BD1D4("char/jbBgOption.ncg.l", GX_LoadBG2Char);
-    func_021BD1D4("char/jb5OptMenu.nsc.l", GX_LoadBG2Scr);
-    n = func_021BD170(PLLT1);
+    func_021BD1D4("char/jbBgOption.ncg.l", (void (*)(void *, long unsigned int,  long unsigned int))GX_LoadBG2Char);
+    func_021BD1D4("char/jb5OptMenu.nsc.l", (void (*)(void *, long unsigned int,  long unsigned int))GX_LoadBG2Scr);
+    n = (char *)func_021BD170((unsigned char *)PLLT1);
     g_021DE5A8.ptr = func_021D4B68(n, 0, 4);
-    n = func_021BD170(PLLT0);
+    n = (char *)func_021BD170((unsigned char *)PLLT0);
     pltt = func_021D4B68(n, 0, 4);
     func_02058518(&info);
     if (info.attestedUserId == 0) {

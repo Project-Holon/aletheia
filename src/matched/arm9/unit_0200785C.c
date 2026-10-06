@@ -73,11 +73,15 @@ struct Sub0200785CHeader {
 
 extern const char sub_0200785C_File[];
 
-extern struct Sub0200785CHeader *sub_020074CC(void *save);
-extern struct Sub0200785CEntry  *sub_02007AF4(void *save, u32 box);
+typedef unsigned short u16;
+struct Strbuf;
+struct Sub02007454Header;
+struct Sub02007AC8Entry;
+extern struct Sub02007454Header *sub_020074CC(void **save);
+extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
 extern u32 sub_02017E88(void *p, u32 id, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02045924(void *dest, const struct Sub0200785CName *src);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 struct U16Vec;
 extern void func_02045A38(struct U16Vec *src, unsigned short *dest,
                           u32 n);
@@ -87,13 +91,13 @@ int sub_0200791C(void *save, u32 box);
 
 void sub_0200785C(void *save, u32 box, void *dest)
 {
-    struct Sub0200785CHeader *h = sub_020074CC(save);
+    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
 
     if (box == -1) {
         box = h->unk00;
     }
     if (box < 0x18) {
-        func_02045924(dest, &h->unk04[box]);
+        func_02045924(dest, (const u16 *)(&h->unk04[box]));
         return;
     }
     func_02034714(sub_0200785C_File, 0, sub_0200785C_File);
@@ -101,7 +105,7 @@ void sub_0200785C(void *save, u32 box, void *dest)
 
 void sub_02007898(void *save, u32 box, const void *src)
 {
-    struct Sub0200785CHeader *h = sub_020074CC(save);
+    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
 
     if (box == -1) {
         box = h->unk00;
@@ -113,7 +117,7 @@ void sub_02007898(void *save, u32 box, const void *src)
 
 int sub_020078C4(void *save, u32 box)
 {
-    struct Sub0200785CHeader *h = sub_020074CC(save);
+    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
     struct Sub0200785CEntry *base;
     int slot;
     int n;
@@ -123,7 +127,7 @@ int sub_020078C4(void *save, u32 box)
     }
     if (box < 0x18) {
         n = 0;
-        base = sub_02007AF4(save, box);
+        base = (struct Sub0200785CEntry *)sub_02007AF4(save, box);
         for (slot = 0; slot < 30; slot++) {
             if (sub_02017E88(&base[slot], 0xA9, 0) != 0) {
                 n++;
@@ -137,7 +141,7 @@ int sub_020078C4(void *save, u32 box)
 
 int sub_0200791C(void *save, u32 box)
 {
-    struct Sub0200785CHeader *h = sub_020074CC(save);
+    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
     int slot;
     struct Sub0200785CEntry *base;
     int n;
@@ -147,7 +151,7 @@ int sub_0200791C(void *save, u32 box)
     }
     if (box < 0x18) {
         n = 0;
-        base = sub_02007AF4(save, box);
+        base = (struct Sub0200785CEntry *)sub_02007AF4(save, box);
         for (slot = 0; slot < 30; slot++) {
             if (sub_02017E88(&base[slot], 0xA9, 0) != 0 &&
                 sub_02017E88(&base[slot], 0x4C, 0) == 0) {

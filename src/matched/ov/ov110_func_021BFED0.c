@@ -18,7 +18,9 @@ typedef unsigned short u16;
 typedef signed short s16;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043AF4(void *,s16,s16,u16,u16,u8);
+typedef unsigned int   u32;
+struct Bmp;
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 void func_021BFED0(u8 *p,int amount) {
     int start,end;
     if(amount>0) {
@@ -29,9 +31,9 @@ void func_021BFED0(u8 *p,int amount) {
         start=(u8)(end+24*amount);
     }
     if(start<end) {
-        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),0,start,208,end-start,0);
+        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(s16)0,(s16)start,(u16)208,(u16)(end-start),(u8)0);
     } else {
-        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),0,start,208,256-start,0);
-        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),0,0,208,end,0);
+        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(s16)0,(s16)start,(u16)208,(u16)(256-start),(u8)0);
+        func_02043AF4(func_02045770((struct Descriptor *)((struct Obj06392 *)p)->fC),(s16)0,(s16)0,(u16)208,(u16)end,(u8)0);
     }
 }

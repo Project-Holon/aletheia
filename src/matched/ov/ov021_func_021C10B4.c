@@ -62,8 +62,8 @@ extern int func_0216D86C(void *obj);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void func_02164280(int x, int y, Vec *v);
-extern void func_02164208(u32 dir, Vec *v, int step);
+extern void func_02164280(int x, int y, int *p);
+extern void func_02164208(int dir, int *p, int amt);
 extern int func_02163E58(void *obj, Vec *v, int *h);
 extern u32 func_02188CD0(u8 *p);
 extern u32 func_021ACB38(u32, u32, Vec *, void *, int);
@@ -80,7 +80,7 @@ extern u32 func_021A2F98(u8 *a);
 extern void func_021ACBB8(u32 a, u8 v);
 extern void func_021A2F48(u8 *a, int b);
 extern int func_021A2F54(u8 *a);
-extern void func_021A35A0(u8 *a, int b);
+extern void func_021A35A0(u32 *p, int a);
 
 void func_021C10B4(u32 task, Work *w)
 {
@@ -102,11 +102,11 @@ void func_021C10B4(u32 task, Work *w)
         x = func_0216D83C(obj);
         y = func_0216D86C(obj);
         func_0216D88C(obj, (struct VecFx32 *)&v);
-        func_02164280(x, y, &v);
+        func_02164280(x, y, (int *)(&v));
         step = 0x10000;
         if (w->f8 == 1)
             step = 0x20000;
-        func_02164208(dir, &v, step);
+        func_02164208(dir, (int *)(&v), step);
         h = 0;
         func_02163E58(obj, &v, &h);
         v.y = h;
@@ -141,7 +141,7 @@ void func_021C10B4(u32 task, Work *w)
         w->state++;
     case 4:
         if (func_021A2F54(w->f10) == 1) {
-            func_021A35A0(w->f10, 1);
+            func_021A35A0((u32 *)w->f10, 1);
             w->f4 = 1;
             w->state++;
         }

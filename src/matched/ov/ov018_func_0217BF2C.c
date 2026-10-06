@@ -31,7 +31,7 @@ typedef struct {
 extern void *func_02188C7C(unsigned char *p);
 typedef unsigned char  u8;
 extern u16 func_02188C9C(u8 *p);
-extern void func_0216CE60(void *, Buf *, int);
+extern void func_0216CE60(int a, int b, int c);
 extern const Buf d_02182B6C;
 
 void func_0217BF2C(int a, u16 b, u16 c, int d, u16 e, u16 f, u16 g)
@@ -51,5 +51,5 @@ void func_0217BF2C(int a, u16 b, u16 c, int d, u16 e, u16 f, u16 g)
     q->a = b;
     q->b = c;
     q->c = d;
-    func_0216CE60(h, &buf, k);
+    func_0216CE60((int)h, (int)(&buf), k);
 }

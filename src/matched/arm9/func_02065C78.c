@@ -45,7 +45,7 @@ struct Bank {
 extern struct Bank g_02147B88;
 extern void func_02067CB0(void);
 
-void func_02065C78(void)
+void func_02065C78(u32 a)
 {
     u32 f;
     struct Obj *o;

@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021BA408(char *);
 extern void func_021BA624(char *);
-extern void func_021B61F8(u8 *, u16);
+extern void func_021B61F8(unsigned char *task, int value);
 void func_021B9830(u8 *task, char *p) {
     func_021BA408(p);
     func_021BA624(p + 0x498C);

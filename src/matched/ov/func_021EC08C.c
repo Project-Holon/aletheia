@@ -21,7 +21,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021EC08C(char *p, int i, unsigned short a, unsigned short b, unsigned short c)
+void func_021EC08C(char *p, int i, unsigned short a, int b, unsigned short c)
 {
     unsigned short t[2];
     t[0] = a;

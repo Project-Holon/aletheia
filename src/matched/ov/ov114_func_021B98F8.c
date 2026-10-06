@@ -32,9 +32,9 @@ extern void func_021B95B0(int);
 extern int func_021B95C0(int, int, unsigned int *);
 extern u32 d_021CE284[];
 extern int func_021BE648(int a, int b, int c);
-extern int func_021BF04C(u32, u32, void *, int, void *, int);
+extern void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len, int (*callback)(void *, int, void *), void *userParam_p);
 extern u32 func_021BE6AC(void);
-extern int func_021BE9C8(int, void *, int);
+extern int func_021BE9C8(int a, int b, int c);
 extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
 extern void func_02034714(const char *, u32, const char *);
 extern void func_02082BCC(int, int, int);
@@ -49,14 +49,14 @@ int func_021B98F8(u8 *p)
     }
     func_02082BCC((int)(p+0x410), 0, 4);
     func_0208CADC((char *)(p+0x410), (char *)d_021CE284[14]);
-    h = func_021BF04C(d_021CE284[14], d_021CE284[15], p+0x10, 0x400, func_021B95C0, 0);
+    h = (int)func_021BF04C((char *)d_021CE284[14], d_021CE284[15], (char *)(p+0x10), 0x400, (int (*)(void *, int,  void *))func_021B95C0, 0);
     if (h == 0) {
         func_021BE6AC();
         if (h == 0) func_02034714(d_021CE2D4, 0, d_021CE2D4);
         return 0;
     }
     ((struct Obj10329 *)p)->fC = h;
-    if (func_021BE9C8(h, d_021CE280, 1) < 0) {
+    if (func_021BE9C8(h, (int)d_021CE280, 1) < 0) {
         func_02034714(d_021CE2D4, 0, d_021CE2D4);
         return 0;
     }

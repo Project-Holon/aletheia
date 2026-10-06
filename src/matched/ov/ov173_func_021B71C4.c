@@ -110,7 +110,7 @@ extern u32 func_021B6BF8(char *,int,u32,u16,int,u8);
 extern u32 func_0201C1F4(u16);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045C04(struct Rec *rec);
-extern void func_021B79E0(char *,u16);
+extern void func_021B79E0(u8 *p, u16 id);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -150,7 +150,7 @@ void func_021B71C4(char *p,int move)
         func_02045CAC(bank,move,*(void **)(p+0x4c));
         func_021B6BF8(p,6,*(u32 *)(p+0x60),0x440,0,0);
         func_02045C04(bank);
-        func_021B79E0(p,move);
+        func_021B79E0((u8 *)p,move);
         func_0204B3DC(*(void **)(p+0x110),1);
         flush(*(void **)(p+0xc));
         flush(*(void **)(p+0x10));

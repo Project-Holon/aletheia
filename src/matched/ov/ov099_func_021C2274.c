@@ -33,7 +33,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void func_02045334(struct Descriptor *d);
-void func_021C2274(char *p, void *window, int id)
+void func_021C2274(char *p, void *window, int id, int slot, int i)
 {
     func_02043B5C(func_02045770(window), 0);
     func_0201DD78(15, 2, 0);

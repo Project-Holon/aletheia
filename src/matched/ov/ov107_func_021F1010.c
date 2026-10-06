@@ -12,5 +12,5 @@
  *   func_0203CDBC  0x0203CDBC  arm
  */
 
-extern int func_0203CDBC(void *);
-int func_021F1010(void *p) { return func_0203CDBC(p); }
+extern int func_0203CDBC(void);
+int func_021F1010(void *p) { return func_0203CDBC(); }

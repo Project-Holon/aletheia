@@ -27,7 +27,7 @@ typedef unsigned long u32;
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B49C(void *,s16,u16,u32);
+extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void func_0204B5D4(struct Actor *actor, u32 value, u32 which);
 extern s16 func_0203F684(u16);
 void func_021FF248(char *p)
@@ -40,7 +40,7 @@ void func_021FF248(char *p)
     switch(((struct Obj00595 *)p)->f1C){
     case 0:
         func_0204B3DC(((struct Obj00595 *)p)->f4,1);
-        func_0204B49C(((struct Obj00595 *)p)->f4,((struct Obj00595 *)p)->f3C,((struct Obj00595 *)p)->f44,0);
+        func_0204B49C(((struct Obj00595 *)p)->f4,((struct Obj00595 *)p)->f3C,(u16)(((struct Obj00595 *)p)->f44),0);
         if(((struct Obj00595 *)p)->f3C>0)value=0.5f+(float)(((struct Obj00595 *)p)->f3C<<12);
         else value=(float)(((struct Obj00595 *)p)->f3C<<12)-0.5f;
         ((struct Obj00595 *)p)->f10=(int)value;
@@ -53,7 +53,7 @@ void func_021FF248(char *p)
         position=((struct Obj00595 *)p)->f10+-(signed char)direction*(func_0203F684(((struct Obj00595 *)p)->f20*65535/360)*3);
         ((struct Obj00595 *)p)->f20+=((struct Obj00595 *)p)->f42;
         ((struct Obj00595 *)p)->f20%=360;
-        func_0204B49C(((struct Obj00595 *)p)->f4,position>>12,((struct Obj00595 *)p)->f44,0);
+        func_0204B49C(((struct Obj00595 *)p)->f4,position>>12,(u16)(((struct Obj00595 *)p)->f44),0);
         break;
     }
     if(((struct Obj00595 *)p)->f14>410){

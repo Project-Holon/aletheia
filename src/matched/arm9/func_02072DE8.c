@@ -55,7 +55,7 @@ extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_020746E8(u32 off, u32 size);
 extern void func_020604AC(void *list, void *node);
 
-u32 func_02072DE8(u32 idx, u32 a, void *src)
+u32 func_02072DE8(int idx, u32 a, void *src)
 {
     struct Node *n;
     u32 r;

@@ -50,22 +50,26 @@ extern void *func_0200B358(void *);
 extern void func_0200B480(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned);
-extern void *func_02012F2C(void *);
-extern void func_02034AC4(int);
+struct Entry;
+struct Reg;
+struct Reg2;
+struct ZoneData;
+extern void *func_02012F2C(int *p);
+extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(int);
-extern int func_020399A8(void);
+extern struct Entry *func_020399A8(void);
 extern void func_02013790(void *, void *, int, int, u32);
 extern void func_020137C0(void *, void *, int, int, u32);
 extern void func_02013864(void *, void *, int, int, u32);
 extern void func_02013894(void *, void *, int, int, u32);
 extern void *func_0201A354(int, int);
 extern void *func_0200AE14(void *);
-extern int func_0200AE54(void *, int);
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-extern int func_0200B078(void *, int);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_02013128(void *, void *, int);
-extern void func_02013160(void *, void *, u16);
-extern void func_02013980(void *, u32);
+extern void func_02013160(u8 *o, void *a1, u32 a2);
+extern void func_02013980(struct ZoneData *o, u32 heap);
 extern void func_020307B0(void *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02213D04[], d_02213D00[];
@@ -122,31 +126,31 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
     if (p->f1c == 2 || p->f1c == 3) {
         id = 16;
         switch (p->f8) {
-        case 0: default: id = 15; func_02013790(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 1: func_020137C0(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 2: id = 17; func_02013864(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 3: id = 18; func_02013894(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 4: id = 19; func_02013864(out->f4, p->f4, func_020399A8(), 2, heap); break;
+        case 0: default: id = 15; func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 1: func_020137C0(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 2: id = 17; func_02013864(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 3: id = 18; func_02013894(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 4: id = 19; func_02013864(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
         }
         v = func_0201A354(id, heap);
         flag = 1;
     } else if (p->f1c == 0) {
         v = func_0200AE14(func_0200B1D4(sys, 0));
         switch (func_0200AE54(v, 0x15)) {
-        case 0: func_02013790(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 1: func_020137C0(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 2: func_02013864(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 3: func_02013894(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        default: func_02013790(out->f4, p->f4, func_020399A8(), 2, heap); break;
+        case 0: func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 1: func_020137C0(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 2: func_02013864(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 3: func_02013894(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        default: func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
         }
     } else if (p->f1c == 1) {
         v = func_0200AE14(func_0200B1D4(sys, 1));
         switch (func_0200AE54(v, 0x15)) {
-        case 0: func_02013790(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 1: func_020137C0(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 2: func_02013864(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        case 3: func_02013894(out->f4, p->f4, func_020399A8(), 2, heap); break;
-        default: func_02013790(out->f4, p->f4, func_020399A8(), 2, heap); break;
+        case 0: func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 1: func_020137C0(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 2: func_02013864(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 3: func_02013894(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        default: func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
         }
     } else {
         func_02034714(d_02213D00, flag, d_02213D00);
@@ -187,9 +191,9 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
         }
     }
     func_02013128(out->f4, p->f30, 0);
-    func_02013160(out->f4, v, (u16)((heap & 0x7fff) | 0x8000));
+    func_02013160((u8 *)out->f4, v, (u16)((heap & 0x7fff) | 0x8000));
     if (p->f8ac) out->f4->fc1 |= 4;
-    func_02013980(out->f4, heap);
+    func_02013980((struct ZoneData *)out->f4, heap);
     func_02034A5C((int)ov093_id);
     if (flag) func_020307B0(v);
     return out;

@@ -39,7 +39,7 @@ void *func_020185F4(void *p)
     return p;
 }
 
-u32 func_020185F8(u16 a, u16 b, u32 c)
+u32 func_020185F8(int a, int b, int c)
 {
     u32 r = 8;
     u8 n = (u8)func_0201AE1C(func_02019C54(a, b), 0x14);

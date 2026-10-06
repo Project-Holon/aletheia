@@ -38,9 +38,10 @@ typedef struct {
     u32 f30;
 } C;
 
-extern int func_02167EF4(int, int, int, int, int, int *, int *, int *, int);
-extern void func_02012374(int, int);
-extern void func_020307B0(int);
+struct Evt;
+extern int func_02167EF4(int a, int b, int c, int d, int e, int f, int g, int h, int i);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void func_020307B0(void *p);
 
 
 int func_02168C74(int a, int *b, C *c)
@@ -48,14 +49,14 @@ int func_02168C74(int a, int *b, C *c)
     int r0 = c->f0;
     switch (*b) {
     case 0: {
-        int t = func_02167EF4(r0, c->f10, 0x17, c->f14, c->f18, &c->f28, &c->f20, &c->f24, *(int *)(c->f30 + 0x128));
-        func_02012374(a, t);
+        int t = func_02167EF4(r0, c->f10, 0x17, c->f14, c->f18, (int)(&c->f28), (int)(&c->f20), (int)(&c->f24), *(int *)(c->f30 + 0x128));
+        func_02012374((struct Evt *)a, (struct Evt **)t);
         *b = 1;
         break;
     }
     case 1:
         if (c->f1c != 0)
-            func_020307B0(c->f1c);
+            func_020307B0((void *)c->f1c);
         if (c->f24 != 0 || (u32)(c->f20 - 7) <= 1)
             *c->fc = 0;
         else

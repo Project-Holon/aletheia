@@ -42,7 +42,8 @@ typedef struct {
 extern int func_021CED30(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021CFFD0(unsigned int v);
-extern int func_021D6B64(void *c);
+struct tagCOORD;
+extern int func_021D6B64(struct tagCOORD *c);
 extern void func_021CEC9C(int idx);
 extern void func_021CECC8(void);
 extern void func_021CEB54(void);
@@ -63,7 +64,7 @@ void func_021CE9E8(void)
             func_021CFFAC(0x16);
             func_021CFFD0(0);
             g_021DE63C->state = 1;
-            func_021D6B64(&g_021DE63C->cTouch);
+            func_021D6B64((struct tagCOORD *)(&g_021DE63C->cTouch));
             g_021DE63C->tochPos = g_021DE63C->pos;
             g_021DE63C->last = 1;
             break;

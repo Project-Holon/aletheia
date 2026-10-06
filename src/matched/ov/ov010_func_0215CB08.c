@@ -50,11 +50,12 @@ typedef struct Box8 {
 } Box8;
 
 extern void *func_0215A5DC(void *vm);
-extern void *func_020120F4(void *p);
-extern void *func_02012944(void *p);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
 extern u32 func_02159B10(void *c, void *vm);
 extern void func_02165344(void);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char d_021728F0[];
 extern const u8 d_021BA1A4[];

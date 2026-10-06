@@ -27,9 +27,13 @@
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *,int);
-extern int func_021FC20C(char *),func_021FC214(char *);
+extern unsigned func_021FC20C(char *p);
+extern int func_021FC214(char *);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);
-extern void func_021F8D18(char *,int *),func_021F8D5C(char *,int *),func_021F8E90(char *,int *),func_021F8EE8(char *,int *);
+extern void func_021F8D18(char *,int *);
+extern void func_021F8D5C(char *p, char *q);
+extern void func_021F8E90(char *,int *);
+extern void func_021F8EE8(char *,int *);
 extern void func_021F86E4(int,int,char *);
 void func_021F8C30(int *task,int *state,char *p)
 {
@@ -41,7 +45,7 @@ void func_021F8C30(int *task,int *state,char *p)
         flag=1;
         if(!((struct Obj01769 *)p)->f14) flag=0;
         if(flag) {
-            func_021F8D5C(p,*(int * *)&((struct Obj01769 *)p)->f34);
+            func_021F8D5C(p,(char *)(*(int * *)&((struct Obj01769 *)p)->f34));
             func_021F8E90(p,*(int * *)&((struct Obj01769 *)p)->f34);
         } else {
             func_021F8EE8(p,*(int * *)&((struct Obj01769 *)p)->f34);

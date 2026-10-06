@@ -12,5 +12,5 @@
  *   func_0203CD98  0x0203CD98  arm
  */
 
-extern int func_0203CD98(void *);
-int func_021F1008(void *p) { return func_0203CD98(p); }
+extern int func_0203CD98(void);
+int func_021F1008(void *p) { return func_0203CD98(); }

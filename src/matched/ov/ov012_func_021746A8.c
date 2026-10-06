@@ -28,7 +28,8 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
-extern int func_02184D38(int a, int b, int c, P *p, int d, int e);
+typedef unsigned short u16;
+extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
 
 int func_021746A8(int a, int b, int c, int d, int e, int *out, u8 *cnt)
 {
@@ -40,7 +41,7 @@ int func_021746A8(int a, int b, int c, int d, int e, int *out, u8 *cnt)
         z = 0;
         s.b = z;
         s.c = 0x26 << 14;
-        *out = func_02184D38(a, c, 0x97, &s, z, z);
+        *out = (int)func_02184D38((void *)a, c, 0x97, (const int *)(&s), z, z);
     } else {
         return 1;
     }

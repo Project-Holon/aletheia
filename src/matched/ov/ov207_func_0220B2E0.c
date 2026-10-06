@@ -14,5 +14,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203FB44(u32,u16,u16);
-void func_0220B2E0(u32*p){u32 v,hi;v=p[12];hi=v>>16;func_0203FB44(1,v,hi);}
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+void func_0220B2E0(u32*p){u32 v,hi;v=p[12];hi=v>>16;func_0203FB44(1,(u16)v,(u16)hi);}

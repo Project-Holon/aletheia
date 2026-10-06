@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_02027974(void);
-void func_021C0B4C(void) { func_02027974(); }
+void func_021C0B4C(void *a0) { func_02027974(); }

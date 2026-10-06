@@ -66,31 +66,34 @@ extern u8 d_021F3B23[];
 extern u32 d_021F3B20b[];
 
 extern u8 func_021D5440(u8 *p);
-extern int func_021D6D7C(u8 *c);
-extern void func_021D5FC0(void *c, int v);
+struct Q;
+struct UtilWork;
+extern u32 func_021D6D7C(u8 *p);
+extern void func_021D5FC0(struct UtilWork *p, u32 n);
 extern u8 func_021C14B0(void *p, int n);
 extern void func_021C14C0(void *w, u8 *c, int h, int f);
 extern void func_021C14D0(void *w, u8 *c, int d, int f);
 extern int func_021C0C38(u8 *p, u8 *q, void *o1, void *o2, void *o3, void *o4);
-extern int func_021C0CB4(u8 *p, u8 *q, void *out);
-extern int func_021C0CE8(u8 *p, u8 *q, void *o1, void *o2, void *o3, void *o4, void *o5);
-extern u32 func_021C0D70(u8 *q);
-extern int func_021C1184(u8 *p);
+struct Q;
+extern int func_021C0CB4(u8 *p, const struct Q *q, u32 *out);
+extern int func_021C0CE8(u8 *p, const struct Q *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5);
+extern u32 func_021C0D70(const u8 *q);
+extern int func_021C1184(const u8 *p);
 extern u8 func_021C1194(u8 *p);
 extern void func_021C1198(u8 *p, int x);
 extern void func_021C15E8(u8 *p, u8 *a, u8 *b, u16 *c);
 extern void func_021C16F8(u8 *p, u8 *a, int k);
-extern void func_021C1788(u8 *p, u16 *x, u8 *a, u32 n, void *arr);
+extern void func_021C1788(u8 *p, u32 x, u8 *a, u32 n, u32 *arr);
 extern void func_021C1828(u8 *p, u8 b, u8 *x, u8 *c, u8 *q, u16 w);
-extern void func_021C1880(u8 *p, u8 *q, u8 *a, u8 *b, u32 s0, int s1);
+extern void func_021C1880(u8 *p, u8 *q, u32 a, u32 b, u32 s0, int s1);
 extern int func_021C1CCC(u8 *p, u16 *x, u8 *a, u8 *q);
-extern void func_021C1DCC(u8 *p, u8 *q, u8 *a, u8 *b, u32 s);
+extern void func_021C1DCC(u8 *p, u8 *q, u32 a, u8 *b, u32 s);
 extern int func_021C4104(u8 *p, u8 *q, u8 *c, u16 d, int sa, u8 sb, u16 *e);
 extern void func_021C4218(u8 *p, u8 *a, u8 *b, u8 *c, u32 s0, u32 s1, u32 s2, u32 s3);
-extern void func_021C4F64(u8 *p, u8 *a);
-extern void func_021C5798(u8 *p, u16 *a, u32 n, void *arr, void *ptrs, void *vals, void *w, int f);
-extern void func_021C5840(u8 *p, u32 count, void *v, void *a, int flag);
-extern void func_021C59C4(u8 *p, u32 n, void *a, void *b, int flag);
+extern int func_021C4F64(u8 *p, u8 *a);
+extern void func_021C5798(u8 *p, u16 *a, u32 n, int *arr, u8 **ptrs, u16 *vals, u8 *unused1, int unused2);
+extern void func_021C5840(u8 *p, u32 count, int *v, u8 **a, int flag);
+extern void func_021C59C4(u8 *p, u32 n, u8 **a, u8 *b, int flag);
 
 int func_021C11F0(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u8 *st, u32 a6, struct Fl a7)
 {
@@ -114,26 +117,26 @@ int func_021C11F0(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u8 *st, u32 a6, struc
         }
     }
     if (func_021C1184(st)) {
-        cnt2 = func_021C0CB4(p, y, d_021F3B38);
+        cnt2 = func_021C0CB4(p, (const struct Q *)y, (u32 *)d_021F3B38);
         for (j = 0; j < cnt2; j++)
             func_021C15E8(p, x, d_021F3B38[j], e);
     }
     st[1] = st[1] + 1;
-    cnt = func_021C0CE8(p, y, d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20, d_021F3B23);
+    cnt = func_021C0CE8(p, (const struct Q *)y, (u32 *)d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20, d_021F3B23);
     if (cnt == 0)
         return sum;
-    func_021C1788(p, e, x, cnt, d_021F3B38);
+    func_021C1788(p, (u32)e, x, cnt, (u32 *)d_021F3B38);
     flag = a7.f;
-    func_021C5798(p, e, cnt, d_021F3B2C, d_021F3B38, d_021F3B26, d_021F3B20, flag);
+    func_021C5798(p, e, cnt, (int *)d_021F3B2C, d_021F3B38, d_021F3B26, d_021F3B20, flag);
     if (func_021C1194(st) == 0)
-        func_021C5840(p, cnt, d_021F3B2C, d_021F3B38, flag);
+        func_021C5840(p, cnt, (int *)d_021F3B2C, d_021F3B38, flag);
     else
         func_021C1198(st, d_021F3B20b[3]);
     func_021C59C4(p, cnt, d_021F3B38, d_021F3B20, flag);
     for (j = 0; j < cnt; j++) {
         func_021C14D0(*(void **)(p + 0x860), d_021F3B38[j], d_021F3B26[j], 0);
         func_021C1828(p, v28, x, d_021F3B38[j], (u8 *)e, d_021F3B26[j]);
-        func_021D5FC0(d_021F3B38[j], 2);
+        func_021D5FC0((struct UtilWork *)d_021F3B38[j], 2);
     }
     for (i = 0; i < cnt; i++) {
         if (d_021F3B23[i])
@@ -141,8 +144,8 @@ int func_021C11F0(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u8 *st, u32 a6, struc
     }
     for (i = 0; i < cnt; i++) {
         func_021C1CCC(p, e, x, d_021F3B38[i]);
-        func_021C1DCC(p, (u8 *)e, x, d_021F3B38[i], d_021F3B26[i]);
-        func_021C1880(p, (u8 *)e, x, d_021F3B38[i], d_021F3B26[i], 0);
+        func_021C1DCC(p, (u8 *)e, (u32)x, d_021F3B38[i], d_021F3B26[i]);
+        func_021C1880(p, (u8 *)e, (u32)x, (u32)d_021F3B38[i], d_021F3B26[i], 0);
         func_021C4218(p, x, d_021F3B38[i], (u8 *)e, d_021F3B2C[i], d_021F3B26[i], d_021F3B20[i], 0);
     }
     for (i = 0; i < cnt; i++)

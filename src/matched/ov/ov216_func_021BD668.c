@@ -26,12 +26,12 @@ struct S02030FB4;
 extern struct TcblNode *sub_020311B8(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
 extern void *sub_02031290(struct S02030FB4 *);
 extern void MI_CpuFill8(void *, int, int);
-extern void func_021BD6BC(struct TcblNode *, void *);
+extern void func_021BD6BC(struct TcblNode *task, u8 *p);
 extern void func_021BCD00(int);
 void func_021BD668(char *owner, int direction, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, func_021BD6BC, 12, 0));
+    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD6BC, 12, 0));
     MI_CpuFill8(work, 0, 12);
     ((struct Obj03943 *)work)->f0 = direction;
     if (((struct Obj03943 *)work)->f0 == 0) {

@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern int func_021D775C(int);
-extern char *func_021C88A4(void *a, int k, int c);
+extern void *func_021C88A4(char *p, int a, int b);
 typedef unsigned int   u32;
 struct QQ;
 extern u16 func_021D70A8(struct QQ *p);
@@ -33,7 +33,7 @@ typedef struct Word { unsigned int v; } Word;
 extern Word func_021E89D4(unsigned int a);
 extern void func_021C88C8(void *a, void *p);
 extern int func_021D76BC(int key, u32 val);
-extern void func_021C83DC(char *p, char x);
+extern void func_021C83DC(char *p, int x);
 extern void func_021E3F08(void *a, int c, int *w);
 
 void func_021E3CB0(int u, void *a, int c, int *w)

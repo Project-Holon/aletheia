@@ -27,14 +27,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern void func_0216D438(int a0, int a1);
-extern u32 func_0216D5F8(u32, u32, u32, u32);
+extern u16 func_0216D5F8(void *p);
 extern u32 func_0216DA50(u32);
 extern u32 func_0216DA7C(u32);
-extern u32 func_02197E7C(u32, u32);
+extern int func_02197E7C(int a, int b);
 
 int func_0219C000(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D438(a, ((func_02197E7C(((func_0216D5F8(a, b, c, d) << 16) >> 16), 0) << 16) >> 16));
+func_0216D438(a, (((u32)func_02197E7C((u32)(((u32)func_0216D5F8((void *)a) << 16) >> 16), (u32)0) << 16) >> 16));
 func_0216DA50(a);
 func_0216DA7C(a);
 ((struct Obj17962 *)((u8 *)(b)))->f0 = 1;

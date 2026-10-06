@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_02074324(int index);
-extern u32   func_02075698(u32 a, u32 b, u32 c, u32 d, u32 *p, u32 e);
+extern u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1);
 
 u32 func_02075560(u32 a, u32 b)
 {
@@ -24,5 +24,5 @@ u32 func_02075560(u32 a, u32 b)
 
     if (p == 0) return 0;
     return func_02075698(a, ((struct Obj08950 *)p)->f9, ((struct Obj08950 *)p)->f4, ((struct Obj08950 *)p)->f8,
-                         (u32 *)p, b);
+                         (u8 *)p, b);
 }

@@ -35,7 +35,7 @@ extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
 extern void func_021BF874(void **q);
 extern void func_021BF7F8(void **q);
-extern void *func_021BF898(void **q);
+extern void *func_021BF898(int *q);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021C6E48(void *p);
 extern void func_021BF860(void **q);
@@ -67,7 +67,7 @@ int func_021BF76C(void *task, int *state, void **q)
         (*state)++;
         break;
     case 3:
-        func_02012374(task, func_021BF898(q));
+        func_02012374(task, func_021BF898((int *)q));
         (*state)++;
         break;
     case 4:

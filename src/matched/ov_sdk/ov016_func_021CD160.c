@@ -32,7 +32,7 @@
 
 extern unsigned char g_021DE61C;
 extern void func_021CD1F8(void);
-extern void func_021C0EA0(void **param2, void **param3);
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern int func_021BD060(int messageId, int n, int num);
 extern void func_021BD214(int step);
 extern void func_021BD6D4(void);
@@ -49,7 +49,7 @@ void func_021CD160(void)
     int scene;
     g_021DE61C = 0;
     func_021CD1F8();
-    func_021C0EA0(0, (void **)&scene);
+    func_021C0EA0(0, (unsigned int *)((void **)&scene));
     if (scene == 0)
         func_021BD060(49, -1, 0);
     func_021BD214(2);

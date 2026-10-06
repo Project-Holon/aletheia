@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef struct { int a,b,c; } Triple;
 typedef struct { s16 x,y; } Pair;
-extern void func_021BC578(Pair *,Pair *);
+extern void func_021BC578(const s16 *a, s16 *b);
 extern void func_021BAC64(void *,Triple *,int,int);
 extern void *func_021BAC78(void *,Triple *,int,int,int,int);
 struct Obj;
@@ -35,7 +35,7 @@ void func_021BC1B8(u8 *p)
 {
     Triple t;
     Pair pos;
-    if (*(int *)&((struct Obj01393 *)p)->f44) func_021BC578((Pair *)(p+0x38),&pos);
+    if (*(int *)&((struct Obj01393 *)p)->f44) func_021BC578((const s16 *)(p+0x38),(s16 *)(&pos));
     else { pos.x=128; pos.y=24; }
     func_021BAC64(((struct Obj01393 *)p)->f0,&t,1,0);
     ((struct Obj01393 *)p)->f18=func_021BAC78(((struct Obj01393 *)p)->f0,&t,pos.x,pos.y+192,0,2);

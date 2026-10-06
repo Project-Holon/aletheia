@@ -29,7 +29,7 @@ void func_021A2160(unsigned char *o, unsigned int v, int i);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 u16 func_02014A10(u32 i);
-int func_021A2114(int a, int b, int c);
+int func_021A2114(u32 a, int b, u32 c);
 void func_021EEA04(int a, int b, int c);
 
 int func_021EE814(int a, int b, int c)

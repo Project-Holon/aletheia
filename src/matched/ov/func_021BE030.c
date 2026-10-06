@@ -24,10 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void sub_020433E0(void *p);
+struct DispVram;
+extern void sub_020433E0(const struct DispVram *c);
 extern u8 data_021C3AA0[];
 
 void func_021BE030(void)
 {
-    sub_020433E0(data_021C3AA0);
+    sub_020433E0((const struct DispVram *)data_021C3AA0);
 }

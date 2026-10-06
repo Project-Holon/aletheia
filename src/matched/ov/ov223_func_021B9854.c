@@ -25,11 +25,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u8 d_021BC7AC[];
 extern u16 func_02047E88(void *, const void *);
-extern void *func_021B95B0(u32 heap, u32 count);
-extern u32 func_020489F4(void *, int);
-extern void *func_02048A18(void *, unsigned);
-extern u32 func_0204779C(void *);
-extern u32 func_020477A4(void *, u16);
+struct G3dSys;
+struct Record;
+extern struct Record *func_021B95B0(u32 heap, u32 count);
+extern u32 func_020489F4(u8 *a0, int i);
+extern u32 func_02048A18(u8 *a0, int i);
+extern int func_0204779C(int *p);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void *func_02011510(u32 heap, u32 b, u32 c, u32 d);
 extern unsigned func_021BC52C(u8 *p);
 extern void func_02011B8C(void *, void *);
@@ -50,7 +52,7 @@ void func_021B9854(u8 *p)
     *(u16 *)rec = r;
     *(u32 *)(rec + 0x40) = 1;
     for (i = 0; i < *(u16 *)(p + 0x3A); i++) {
-        h = func_02048A18(*(void **)(p + 0x28), *(u16 *)(*(u8 **)(p + 0x3C) + i * 0x44));
+        h = (void *)func_02048A18(*(void **)(p + 0x28), *(u16 *)(*(u8 **)(p + 0x3C) + i * 0x44));
         n = func_0204779C(h);
         for (j = 0; j < n; j++) {
             func_020477A4(h, j);

@@ -70,17 +70,23 @@ typedef struct {
 } Config;
 extern void *func_02082BCC(void *,int,u32);
 extern void *func_0201F81C(u32,u32);
-extern void func_02045CAC(void *,u32,void *);
-extern void func_0201F898(void *,u32,u32,u32);
+struct Cfg;
+struct Descriptor;
+struct MsgBank;
+struct Obj;
+struct Slot;
+struct Src;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag);
 extern int *func_021BF374(char *,int);
-extern void *func_0201FF30(Config *,u16,u16,u32);
-extern void func_02020CF8(void *,u32);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern u8 func_02045730(void *);
-extern void func_020409B4(u8);
+extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
+extern void func_02020CF8(struct Obj *p, int heap);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 extern void func_0201F73C(void *,int,int,int);
-extern void func_02020D10(void *,u32);
+extern void func_02020D10(u8 *p, u32 v);
 void func_021BF384(char *p,u32 *entries,u32 count,int flag)
 {
     Config config;
@@ -95,7 +101,7 @@ void func_021BF384(char *p,u32 *entries,u32 count,int flag)
     *(void **)(state+4)=func_0201F81C(count,heap);
     for(i=0;i<count;i++){
         func_02045CAC(*(void **)(p+12),*(u32 *)((char *)entries+i*8),*(void **)(p+60));
-        func_0201F898((char *)*(void **)(state+4)+i*8,*(u32 *)(p+60),*(u32 *)((char *)entries+i*8+4),heap);
+        func_0201F898((struct Slot *)((char *)*(void **)(state+4)+i*8),*(u32 *)(p+60),*(u32 *)((char *)entries+i*8+4),heap);
     }
     func_02082BCC(&config,0,52);
     config.arr=*(void **)(state+4);config.obj=obj;
@@ -104,9 +110,9 @@ void func_021BF384(char *p,u32 *entries,u32 count,int flag)
     config.f1Alo=0;config.f1Amid=0;config.f1Apad=1;config.f1Amid2=0;config.f1Atop=0;
     config.f1c=0;config.f20=16;config.f22=16;config.f24=0;
     config.f28=func_021BF374(p,(int)obj);config.f2c=*(void **)(p+4);config.f30=*(void **)(p+16);
-    *(void **)state=func_0201FF30(&config,0,0,heap);
-    func_02020CF8(*(void **)state,heap);
-    func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
+    *(void **)state=func_0201FF30((struct Src *)(&config),0,0,heap);
+    func_02020CF8(*(void **)state,(u32)heap);
+    func_02045334(obj);func_02045374(obj);func_020409B4((u8)func_02045730(obj));
     func_0201F73C(obj,1,7,9);
     if(flag)func_02020D10(*(void **)state,0);
     else func_02020D10(*(void **)state,1);

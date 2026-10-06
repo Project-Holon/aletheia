@@ -46,7 +46,7 @@ extern u32 func_02188C54(u8 *p);
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern int func_02190C78(struct Handle *h);
 extern int func_021909BC(u32 a);
-extern void func_021CE36C(u32 *p);
+extern void func_021CE36C(u8 *p);
 extern int func_021CE73C(u32 *p);
 
 void func_021CE41C(u32 *p)
@@ -102,7 +102,7 @@ void func_021CE41C(u32 *p)
     case 3:
         p[0x40] = 0;
         q->state = 0;
-        func_021CE36C(p);
+        func_021CE36C((u8 *)p);
         if (p[0x40] == 0) {
             if (func_021CE73C(p) > 1 && ((u8 *)p)[0x520] == 1) {
                 ((struct Obj00011 *)p)->f574 = 9;

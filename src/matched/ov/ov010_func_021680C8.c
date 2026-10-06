@@ -64,7 +64,8 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C54(u8 *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern R *func_020124E8(int);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -87,7 +88,7 @@ int func_021680C8(int a, E *b, int c, int d)
     h = (int)func_020120F4((const struct Ctx *)a);
     g = func_02188C54(func_0201210C((void *)a));
     hd = (int)func_020122C0((void *)a, 0, func_02168174, 0x1c);
-    p = func_020124E8(hd);
+    p = func_020124E8((struct Obj *)hd);
     p->f0 = a;
     if (b->f18 == 0xFFFF) {
         int t;

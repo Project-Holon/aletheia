@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021B16B4(signed char *src, short *dst, unsigned int n)
+void func_021B16B4(signed char *src, short *dst, unsigned int n, int fmt)
 {
     unsigned int i;
 

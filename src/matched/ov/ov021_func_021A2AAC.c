@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021A2AAC(char *p, u16 a, u16 b, u16 c, u32 d)
+void func_021A2AAC(char *p, int a, int b, int c, int d)
 {
     ((struct Obj07494 *)p)->fC = a;
     ((struct Obj07494 *)p)->fE = b;

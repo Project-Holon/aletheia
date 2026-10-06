@@ -30,7 +30,7 @@ typedef struct {
 
 extern int func_021C5DB8(u8 *pix, const u8 *brush, int x1, int y1, int *px, int *py, int a, int b, int clip, int side);
 extern void func_021C5F50(TouchPos *src, TouchPos *dst);
-extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern const u8 d_021C86A8[2][2][16];
 
 int func_021C5F64(u8 *pix, TouchPos *cur, TouchPos *prev, int flush, const void *src, u8 clip, u8 side)

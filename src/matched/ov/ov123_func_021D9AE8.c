@@ -48,7 +48,7 @@ extern void func_02040588(u32, u32);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
 
-void func_021D9AE8(void)
+void func_021D9AE8(void *a0)
 {
     struct BgTemplate b[8];
 

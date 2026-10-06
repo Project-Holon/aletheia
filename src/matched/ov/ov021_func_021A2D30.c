@@ -19,10 +19,11 @@ typedef struct {
     int f14;
 } Obj;
 
-int func_0207C768(int a, int b);
+typedef unsigned int   u32;
+u32 func_0207C768(u32 a, u32 b);
 
 void func_021A2D30(Obj *o, int v, int *out2, int *out1)
 {
-    *out1 = (int)(((long long)func_0207C768(v, o->f14) * 0x2000 + 0x800) >> 12);
-    *out2 = (int)(((long long)func_0207C768(v, o->f0) * 0x2000 + 0x800) >> 12);
+    *out1 = (int)(((long long)(int)func_0207C768((int)v, (int)o->f14) * 0x2000 + 0x800) >> 12);
+    *out2 = (int)(((long long)(int)func_0207C768((int)v, (int)o->f0) * 0x2000 + 0x800) >> 12);
 }

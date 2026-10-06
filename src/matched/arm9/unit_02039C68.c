@@ -41,7 +41,8 @@ struct Link {
     u8 unk49;
 };
 
-extern int func_020395EC(struct Link *p);
+struct Entry;
+extern int func_020395EC(struct Entry *a);
 
 void sub_02039C68(struct Link *p, u32 lo, u32 hi)
 {
@@ -52,7 +53,7 @@ void sub_02039C68(struct Link *p, u32 lo, u32 hi)
     p->unk46 = lo + (hi << 8);
     p->unk48 = 0xff;
 
-    if (func_020395EC(p) == 0xff) {
+    if (func_020395EC((struct Entry *)p) == 0xff) {
         p->unk49 = 0;
     } else {
         p->unk49 = 1;

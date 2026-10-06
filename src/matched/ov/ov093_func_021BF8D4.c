@@ -29,7 +29,8 @@ extern u8 *func_021BF974(int d);
 extern void func_021BF984(int d, u8 *x);
 extern u8 *func_021BF994(int d);
 extern int func_021BF9A4(u8 *p, u8 *a, u8 *b, u16 *c);
-extern int func_021BFA60(u8 *p, u8 *a, u8 *b, u16 *c);
+struct Q;
+extern int func_021BFA60(u8 *p, u8 *a, u8 *b, struct Q *q);
 extern void func_021C572C(u8 *p, u8 *x, u32 v);
 
 void func_021BF8D4(u8 *p, u16 *b, u8 *c, int d)
@@ -40,7 +41,7 @@ void func_021BF8D4(u8 *p, u16 *b, u8 *c, int d)
     func_021BF964(d);
     x = func_021BF974(d);
     while (x != 0) {
-        if (func_021BF9A4(p, c, x, b) == 0 && func_021BFA60(p, c, x, b) == 0) {
+        if (func_021BF9A4(p, c, x, b) == 0 && func_021BFA60(p, c, x, (struct Q *)b) == 0) {
             func_021BF984(d, x);
             func_021C572C(p, x, *b);
         }

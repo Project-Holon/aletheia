@@ -21,7 +21,14 @@
 #include "../include/Obj22302.h"
 typedef unsigned short u16;
 struct Descriptor;
-extern void func_020310C4(void *),func_020286C4(void *,void *,void *),func_0201CE48(void *),func_02045334(struct Descriptor *),func_02027974(void *);
+struct Ctx;
+struct Rec3;
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045334(struct Descriptor *);
+extern void func_02027974(void *);
 extern int func_02028484(void *,void *),func_0201C4E4(void *),func_0201C6B4(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;

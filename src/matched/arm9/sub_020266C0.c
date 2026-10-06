@@ -26,9 +26,10 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void sub_02026504(u32 a, u32 b, u32 c, u16 d);
+struct Obj;
+extern void sub_02026504(struct Obj *o, u32 id0, u32 id1, u32 v);
 
 void sub_020266C0(u32 a, u32 b, u32 c)
 {
-    sub_02026504(a, b, c, (b == c) ? 0x1e : 0x1d);
+    sub_02026504((struct Obj *)a, b, c, (u16)((b == c) ? 0x1e : 0x1d));
 }

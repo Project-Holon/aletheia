@@ -35,7 +35,7 @@ extern int func_021D775C(int);
 extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
 struct QG;
 extern void *func_021C7CF4(int *p, int i);
-extern void *func_021C8120(void *, int);
+extern u8 *func_021C8120(u8 *p, int b);
 extern u8 func_021D5448(struct QG *p);
 extern u8 func_021D5440(u8 *p);
 extern u16 func_021D54C0(u8 *p, int i);
@@ -44,7 +44,7 @@ extern u16 func_0201C1D8(void *p);
 extern u32 func_0201C1BC(u16);
 extern u32 func_021D78AC(u32);
 extern void func_021C88B4(void *, int, int);
-extern void *func_021C88A4(void *, int, int);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *p, u32 val);
@@ -78,7 +78,7 @@ void func_021DA3D8(int a, void *b, int c)
     n = func_021C7D54(b, (u8 *)c, buf);
     best = 0;
     count = 0;
-    entries = func_021C8120(b, 12);
+    entries = (Entry *)func_021C8120(b, 12);
     for (i = 0; i < n; i++) {
         q = func_021C7CF4(b, buf[i]);
         m = func_021D5448(q);

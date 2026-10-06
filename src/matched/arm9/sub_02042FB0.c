@@ -38,7 +38,7 @@ struct Slot {
 
 extern struct Slot *g_02146A44;
 
-extern u32 func_02040EE0(u8 x, u8 y, u8 size_code);
+extern u16 func_02040EE0(int x, int y, u32 code);
 
 void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
 {
@@ -50,5 +50,5 @@ void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
         return;
     }
 
-    screen[func_02040EE0(x, y, code)] = value;
+    screen[(u32)func_02040EE0((u8)x, (u8)y, (u8)code)] = value;
 }

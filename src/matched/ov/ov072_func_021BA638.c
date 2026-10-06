@@ -30,8 +30,8 @@ typedef struct {
     s16 f1e;
 } W;
 
-extern void func_021BAD84(char *a, int *b);
-extern void func_021BAF3C(char *a, int *b);
+extern void func_021BAD84(int *p, int *b);
+extern void func_021BAF3C(u32 *p, const u32 *v);
 
 void func_021BA638(W *p, int *in)
 {
@@ -56,7 +56,7 @@ void func_021BA638(W *p, int *in)
     }
     p->f14 = y;
     for (i = 0; i < p->fc; i++) {
-        func_021BAD84(p->f8 + i * 0x44, &p->f10);
+        func_021BAD84((int *)(p->f8 + i * 0x44), &p->f10);
     }
-    func_021BAF3C((char *)p + 0x20, &p->f10);
+    func_021BAF3C((u32 *)((char *)p + 0x20), (const u32 *)(&p->f10));
 }

@@ -49,7 +49,8 @@ struct Ring {
 };
 
 extern void func_0204CB44(struct Elem *e, u32 arg);
-extern void sub_0204CEB4(struct Elem *e);
+struct Obj;
+extern void sub_0204CEB4(struct Obj *o);
 
 void func_0204C944(struct Ring *b)
 {
@@ -66,7 +67,7 @@ void func_0204C944(struct Ring *b)
 
     do {
         func_0204CB44(cur, b->arg);
-        sub_0204CEB4(cur);
+        sub_0204CEB4((struct Obj *)cur);
         cur = cur->next;
     } while (cur != b->head);
 }

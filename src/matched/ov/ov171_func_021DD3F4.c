@@ -20,18 +20,18 @@ typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021DD774(char *);
-extern int func_021DCBE8(char *);
-extern void func_021DDC28(char *);
+extern int func_021DCBE8(u8 *p);
+extern void func_021DDC28(u8 *p);
 extern void func_021DCBA4(char *);
-extern int func_021DD4D0(char *, int);
+extern int func_021DD4D0(u8 *p, int value);
 int func_021DD3F4(char *p)
 {
     unsigned i;
     if (!func_021DD774(p)) {
         for (i = 0; i < *(u16 *)(p + ((struct Obj00142 *)p)->fC5E * 0xbc + 0xc4); ++i)
             *(u8 *)(p + i + 0xb34) = *(u8 *)(p + i + 0xb40);
-        func_021DCBE8(p);
-        func_021DDC28(p);
+        func_021DCBE8((u8 *)p);
+        func_021DDC28((u8 *)p);
         return 7;
     } else {
         for (i = 0; i < *(u16 *)(p + ((struct Obj00142 *)p)->fC5E * 0xbc + 0xc4); ++i) {
@@ -46,5 +46,5 @@ int func_021DD3F4(char *p)
 }
 int func_021DD498(char *p)
 {
-    return func_021DD4D0(p, 1);
+    return func_021DD4D0((u8 *)p, 1);
 }

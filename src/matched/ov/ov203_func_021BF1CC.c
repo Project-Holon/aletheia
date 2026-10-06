@@ -16,8 +16,10 @@
 #include "../include/Obj25324.h"
 typedef unsigned int   u32;
 extern void func_02023F60(u32 a0, u32 a1, u32 mask);
-extern void func_02031194(void *);
-extern void func_021BEFC4(char *,int,int,int,int,int,int *);
+struct Owner;
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
+extern void func_021BEFC4(struct Owner *owner, int mask, int kind, int start, int end, int duration, int *counter);
 void func_021BF1CC(void *task,char *work)
 {
     if(((struct Obj25324 *)(*(char * *)&((struct Obj01291 *)work)->f0))->fC) {
@@ -27,7 +29,7 @@ void func_021BF1CC(void *task,char *work)
     switch(((struct Obj01291 *)work)->f8) {
     case 0:
         if(((struct Obj01291 *)work)->f14==0) {
-            func_021BEFC4(*(char * *)&((struct Obj01291 *)work)->f0,*(int *)&((struct Obj01291 *)work)->f18,*(int *)&((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->fA,((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f10,(int *)(work+0x14));
+            func_021BEFC4((struct Owner *)(*(char * *)&((struct Obj01291 *)work)->f0),*(int *)&((struct Obj01291 *)work)->f18,*(int *)&((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->fA,((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f10,(int *)(work+0x14));
             (((struct Obj01291 *)work)->f8)++;
         }
         break;

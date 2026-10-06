@@ -32,7 +32,7 @@ typedef struct {
 	unsigned char **addrList;
 } HostEnt;
 
-extern unsigned long func_0215EDD0(const char *hostname);
+extern unsigned long func_0215EDD0(char *hostname);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern int func_0208CB10(char *destp, const char *srcp, int siz);
 
@@ -53,7 +53,7 @@ HostEnt *func_0215F650(const char *name)
 {
 	unsigned long h;
 
-	h = func_0215EDD0(name);
+	h = func_0215EDD0((char *)name);
 	if (h == 0) {
 		return 0;
 	}

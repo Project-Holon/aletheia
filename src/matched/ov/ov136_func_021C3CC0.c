@@ -30,7 +30,7 @@ struct Sub02008EACObjLayout;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(unsigned, void *, unsigned);
 extern void *func_02012EBC(struct Big *p);
-extern void *func_02008F08(unsigned);
+extern void *func_02008F08(int a0);
 extern void func_02008EAC(struct Sub02008EACObj *obj);
 extern void func_02008F48(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused, void *p);
 void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
@@ -47,7 +47,7 @@ void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
     ((struct Obj01163 *)p)->f8 = b;
     ((struct Obj01163 *)p)->fC = 0;
     ((struct Obj01163 *)p)->f10 = func_02012EBC(a);
-    ((struct Obj01163 *)p)->f14 = func_02008F08((u16)heap);
+    ((struct Obj01163 *)p)->f14 = func_02008F08((unsigned)((u16)heap));
     func_02008EAC(((struct Obj01163 *)p)->f14);
     func_02008F48(((struct Obj01163 *)p)->f14, 0xFF, c, a);
     return p;

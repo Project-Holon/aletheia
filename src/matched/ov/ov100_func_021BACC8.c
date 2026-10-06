@@ -22,7 +22,7 @@ extern void func_021BA290(int,int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021B95B8(u8 *p, u32 v);
-extern void func_021BB270(void);
+extern void func_021BB270(int p);
 void func_021BACC8(int a) {
  struct Word x;
  func_021BA5F4(a);

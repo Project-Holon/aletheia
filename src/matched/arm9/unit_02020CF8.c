@@ -61,7 +61,7 @@ u32 func_02020D0C(u8 *p)
     return ((struct Obj17238 *)p)->f1C;
 }
 
-void func_02020D10(u8 *p, u8 v)
+void func_02020D10(u8 *p, u32 v)
 {
     p[0x4A] = v;
 }

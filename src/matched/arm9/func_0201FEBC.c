@@ -20,7 +20,8 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern u32  func_0201FA04(void *p);
+struct Obj;
+extern u32 func_0201FA04(struct Obj *o);
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
 struct Descriptor;
@@ -29,7 +30,7 @@ extern void func_0201FEF4(u8 *o);
 
 u32 func_0201FEBC(u8 *p)
 {
-    u32 r = func_0201FA04(p);
+    u32 r = func_0201FA04((struct Obj *)p);
     u32 t = func_0201C4E4((struct PrintSys *)(((struct Obj02590 *)p)->f18));
 
     if (((struct Obj02590 *)p)->f20 == 0 && t != 0) {

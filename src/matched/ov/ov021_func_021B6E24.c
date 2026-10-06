@@ -19,7 +19,10 @@
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern void *func_02188C7C(u8 *p);
-extern int func_0216DD1C(void *list, void **out, unsigned long *iter);
+typedef unsigned int   u32;
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern u16 func_0216D598(void *p);
 
 void *func_021B6E24(void *a)
@@ -29,7 +32,7 @@ void *func_021B6E24(void *a)
     void *list;
 
     list = func_02188C7C(a);
-    while (func_0216DD1C(list, &rec, &it) == 1) {
+    while (func_0216DD1C(list, (struct Rec **)(&rec), (u32 *)(&it)) == 1) {
         if (func_0216D598(rec) == 0x46)
             return rec;
     }

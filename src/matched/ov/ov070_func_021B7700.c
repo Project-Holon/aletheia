@@ -52,13 +52,13 @@ struct TaskMenu;
 struct WordSet;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
-extern void func_021BB1AC(Obj *o);
+extern void func_021BB1AC(char *p);
 extern void func_020414EC(u32 i);
 extern void func_020061E4(unsigned int se);
 extern void func_021B7D20(struct Obj *o, int x);
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021B6204(Obj *o, int a, unsigned int b, int c, int d);
+extern void func_021B6204(u8 *p, int a, unsigned int b, int c, int d);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BADAC(void *p);
@@ -78,13 +78,13 @@ void func_021B7700(Obj *o)
     if (func_020279E8(o->f77C) == 0)
         return;
     r = func_02027A04(o->f77C);
-    func_021BB1AC(o);
+    func_021BB1AC((char *)o);
     func_020414EC(3);
     if (r == 0) {
         func_020061E4(0x647);
         func_021B7D20(o, o->f7F4);
         func_02045CAC(o->f51C, 0x36, (void *)o->f524);
-        func_021B6204(o, 0, o->f84C, o->f7F4 > 1, 0);
+        func_021B6204((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);
         func_0201EFA4(o->f520, 1, o->f7F4, 3, 0, 1);
         func_0201F250(o->f520, o->f528, (void *)o->f524);
         func_021BADAC(o);

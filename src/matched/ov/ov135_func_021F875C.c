@@ -27,7 +27,9 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag);
 extern void func_0201F73C(void *win, int a, int b, int c);
-extern void *func_0201FF30(Menu *src, u16 a, u16 b, u32 heap);
+struct Obj;
+struct Src;
+extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
 void *func_021F875C(Work *p, void **menu, void *win, void *endmsg, void *msg, u8 *cfg, void *bag)
 {
     int kind;
@@ -41,5 +43,5 @@ void *func_021F875C(Work *p, void **menu, void *win, void *endmsg, void *msg, u8
     src.w[0] = (u32)*menu;
     src.w[3] = (u32)win;
     func_0201F73C(win, 0, 31, 11);
-    return func_0201FF30(&src, p->a[kind], p->b[kind], 0x48);
+    return func_0201FF30((struct Src *)(&src), p->a[kind], p->b[kind], 0x48);
 }

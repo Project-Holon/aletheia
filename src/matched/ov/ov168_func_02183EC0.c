@@ -17,10 +17,10 @@
 
 extern unsigned int func_02183D3C(unsigned int *p);
 extern void func_02184818(char *p);
-extern void func_02183D44(int *);
+extern void func_02183D44(unsigned int *p);
 
 void func_02183EC0(int *p)
 {
     func_02184818((char *)func_02183D3C((unsigned int *)((int)p)));
-    func_02183D44(p);
+    func_02183D44((unsigned int *)p);
 }

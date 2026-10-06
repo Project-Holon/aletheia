@@ -99,10 +99,14 @@ typedef struct {
 
 struct S;
 extern unsigned short func_021CC960(struct S *p);
-extern int func_021CC96C(void *q);
-extern int func_021CC99C(void *q);
+struct Cmd;
+struct Q;
+struct Q10;
+struct Q9;
+extern int func_021CC96C(struct Q9 *p);
+extern int func_021CC99C(struct Q10 *p);
 extern void func_021CC974(void *q, int r);
-extern u8 *func_021B9940(void *party, u8 client);
+extern u8 *func_021B9940(char *p, u8 i);
 extern int func_021D5B68(void *mon);
 extern u8 func_021C9DE8(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C8C6C(BattleCtx *s, BtlCmd *cmd);
@@ -132,8 +136,8 @@ extern u8 func_021C97D0(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C9828(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C9898(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C98C4(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C98E4(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9A24(BattleCtx *s, BtlCmd *cmd);
+extern u8 func_021C98E4(u8 *w, struct Cmd *c);
+extern u8 func_021C9A24(void *p, const struct Cmd *q);
 extern u8 func_021C9A60(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C9BB8(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C9DCC(BattleCtx *s, BtlCmd *cmd);
@@ -142,16 +146,16 @@ extern u8 func_021C9ECC(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C9CC0(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C9F0C(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C9F4C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9F6C(BattleCtx *s, BtlCmd *cmd);
+extern u8 func_021C9F6C(u8 *p, u8 *q);
 extern u8 func_021CA128(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021CA158(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021CA1D0(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA248(BattleCtx *s, BtlCmd *cmd);
+extern u8 func_021CA248(u8 *p, const u8 *q);
 extern u8 func_021CA270(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021CA2E8(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA318(BattleCtx *s, BtlCmd *cmd);
+extern u8 func_021CA318(u8 *p, const struct Q *q);
 extern u8 func_021CA370(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA394(BattleCtx *s, BtlCmd *cmd);
+extern u8 func_021CA394(u8 *p, const u8 *q);
 extern u8 func_021CA3AC(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021CA3D0(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021CA47C(BattleCtx *s, BtlCmd *cmd);
@@ -169,8 +173,8 @@ void func_021C8918(BattleCtx *s, BtlCmd *cmd)
     int arg = func_021CC960((struct S *)s->queue);
     u8 r;
 
-    if (func_021CC96C(s->queue))
-        r = func_021CC99C(s->queue);
+    if (func_021CC96C((struct Q9 *)s->queue))
+        r = func_021CC99C((struct Q10 *)s->queue);
     else
         r = 1;
 
@@ -262,13 +266,13 @@ void func_021C8918(BattleCtx *s, BtlCmd *cmd)
         r = func_021C9898(s, cmd);
         break;
     case 29:
-        r = func_021C98E4(s, cmd);
+        r = func_021C98E4((u8 *)s, (struct Cmd *)cmd);
         break;
     case 28:
         r = func_021C98C4(s, cmd);
         break;
     case 30:
-        r = func_021C9A24(s, cmd);
+        r = func_021C9A24(s, (const struct Cmd *)cmd);
         break;
     case 31:
         r = func_021C9A60(s, cmd);
@@ -295,7 +299,7 @@ void func_021C8918(BattleCtx *s, BtlCmd *cmd)
         r = func_021C9F4C(s, cmd);
         break;
     case 39:
-        r = func_021C9F6C(s, cmd);
+        r = func_021C9F6C((u8 *)s, (u8 *)cmd);
         break;
     case 40:
         r = func_021CA128(s, cmd);
@@ -307,7 +311,7 @@ void func_021C8918(BattleCtx *s, BtlCmd *cmd)
         r = func_021CA1D0(s, cmd);
         break;
     case 43:
-        r = func_021CA248(s, cmd);
+        r = func_021CA248((u8 *)s, (const u8 *)cmd);
         break;
     case 44:
         r = func_021CA270(s, cmd);
@@ -316,13 +320,13 @@ void func_021C8918(BattleCtx *s, BtlCmd *cmd)
         r = func_021CA2E8(s, cmd);
         break;
     case 46:
-        r = func_021CA318(s, cmd);
+        r = func_021CA318((u8 *)s, (const struct Q *)cmd);
         break;
     case 47:
         r = func_021CA370(s, cmd);
         break;
     case 48:
-        r = func_021CA394(s, cmd);
+        r = func_021CA394((u8 *)s, (const u8 *)cmd);
         break;
     case 49:
         r = func_021CA3AC(s, cmd);

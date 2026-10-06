@@ -12,7 +12,7 @@
  * Tail forwarder; following code starts at 021E01B0.
  */
 extern unsigned func_021EF6E0(char *p);
-unsigned func_021E01A8(char *p)
+int func_021E01A8(char *p)
 {
     return func_021EF6E0(p);
 }

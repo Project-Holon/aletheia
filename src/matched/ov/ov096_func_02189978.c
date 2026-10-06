@@ -28,8 +28,9 @@ typedef int s32;
 extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_0218A3F4(int, u16, int);
-extern int func_021D62C4(void *, int);
+struct Unk021D62A8;
+extern int func_0218A3F4(int a, int b, int c);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 struct QI;
 extern u16 func_021D5B40(struct QI *p);
 
@@ -40,9 +41,9 @@ int func_02189978(int a, int b) {
     r = func_0201134C(a);
     t = func_0218A160((u8 *)b, r);
     ((struct Obj10187 *)b)->f38 = 0;
-    if (func_021D62C4(func_0218A2FC((u8 *)b, t), 0x13) == 0) {
+    if (func_021D62C4((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, t), 0x13) == 0) {
         s = func_021D5B40((struct QI *)func_0218A2FC((u8 *)b, t));
-        ((struct Obj10187 *)b)->f38 = func_0218A3F4(b, s, 10);
+        ((struct Obj10187 *)b)->f38 = func_0218A3F4(b, (u16)s, 10);
     }
     return ((struct Obj10187 *)b)->fC4;
 }

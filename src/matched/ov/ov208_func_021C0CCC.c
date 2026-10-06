@@ -30,7 +30,9 @@ extern const Pt data_021C8554;
 
 extern u8   func_021C0C14(u16 *heap, u8 *p, int key);
 extern unsigned short func_021BBB3C(char *p, int a, int b);
-extern void func_0204B404(u32 obj, Pt *pos, int n);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 
@@ -46,6 +48,6 @@ void func_021C0CCC(u16 *heap, u8 *p, int key)
         pt.x = func_021BBB3C((char *)W(0x3c8), p[0x79], 2);
         pt.y = func_021BBB3C((char *)W(0x3c8), p[0x79], 3);
     }
-    func_0204B404(W(0xcc), &pt, 0);
+    func_0204B404((struct Obj *)W(0xcc), (const struct Vec2 *)(&pt), 0);
     func_0204B3DC((struct Obj *)W(0xcc), 1);
 }

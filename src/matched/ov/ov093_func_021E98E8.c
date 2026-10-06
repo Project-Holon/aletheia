@@ -14,12 +14,13 @@
  *   func_021E9910  0x021E9910  thumb  ov093
  */
 #include "../include/Obj21555.h"
-extern int func_021E9738(void *p);
+struct S;
+extern int func_021E9738(struct S *s);
 extern int func_021E9910(void *p);
 
 int func_021E98E8(char *p)
 {
-    if (func_021E9738(p) != 0) {
+    if (func_021E9738((struct S *)p) != 0) {
         if (func_021E9910(((struct Obj21555 *)p)->f180) != 0) {
             return 1;
         }

@@ -27,12 +27,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 *a; u32 b, c; u8 d0, flag; u16 pad; } E;
 extern const u16 d_021EFDB8[3];
-extern int func_021D5BB0(u8 *, u32);
+struct UtilWork;
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern u32 func_021D6E74(u8 *p);
 extern u8 func_021D5440(u8 *p);
 extern E *func_021BCB14(u8 *, u16, u8, u32);
 extern u32 func_021BCB68(u8 *, E *);
-extern void func_021D5FC0(u8 *, u32);
+extern void func_021D5FC0(struct UtilWork *p, u32 n);
 extern void func_021D6E40(u8 *, u8, u16);
 extern void func_021CD64C(void *, u8, ...);
 extern int func_021BD148(void *p, u8 x);
@@ -51,7 +52,7 @@ int func_021BE6EC(u8 *p, u8 *a, u16 key, u32 x)
         if (key == d_021EFDB8[i]) break;
     }
     if (i == 3) goto fail;
-    if (func_021D5BB0(a, 10) != 0) goto fail;
+    if (func_021D5BB0((struct UtilWork *)a, 10) != 0) goto fail;
     if (func_021D6E74(a) != 0) goto fail;
     n = 0;
     id = func_021D5440(a);
@@ -76,7 +77,7 @@ int func_021BE6EC(u8 *p, u8 *a, u16 key, u32 x)
         }
     }
     chosen_id = func_021D5440(chosen);
-    func_021D5FC0(a, 10);
+    func_021D5FC0((struct UtilWork *)a, 10);
     func_021D6E40(chosen, id, key);
     func_021CD64C(((struct Obj21052 *)p)->fC, 91, 0x47a, id, chosen_id, 0xffff0000);
     func_021BD148(p, chosen_id);

@@ -66,8 +66,10 @@ struct File {
 };
 
 extern u32 g_02153FAC;
-extern s32 func_02091650(struct File *p, u32 *out);
-extern u32 func_02091CBC(struct File *p);
+struct P02091CBC;
+struct S02091650;
+extern int func_02091650(struct S02091650 *p, u32 *a1);
+extern int func_02091CBC(struct P02091CBC *p);
 
 s32 func_02091E44(struct File *p, u32 pos, u32 whence)
 {
@@ -78,7 +80,7 @@ s32 func_02091E44(struct File *p, u32 pos, u32 whence)
         g_02153FAC = 0x28;
         return -1;
     }
-    if (p->f08.mode == 1 && func_02091650(p, 0) != 0) {
+    if (p->f08.mode == 1 && func_02091650((struct S02091650 *)p, 0) != 0) {
         p->f0d = 1;
         p->f28 = 0;
         g_02153FAC = 0x28;
@@ -86,7 +88,7 @@ s32 func_02091E44(struct File *p, u32 pos, u32 whence)
     }
     if (whence == 1) {
         whence = 0;
-        pos += func_02091CBC(p);
+        pos += func_02091CBC((struct P02091CBC *)p);
     }
     if (whence != 2 && p->f04.mode != 3 && p->f08.mode - 2 <= 1) {
         if (pos >= p->f18 || pos < p->f34) {

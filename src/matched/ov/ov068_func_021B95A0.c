@@ -75,7 +75,7 @@ extern int func_02034AC4(s32 handle);
 extern void  func_0203064C(u32 a, u32 b, u32 c);
 extern Work *func_0203159C(void *proc, u32 size, u32 heap);
 extern void  func_02082BCC(void *p, u32 v, u32 n);
-extern void  func_021B9850(Work *p, u32 heap);
+extern void func_021B9850(u8 *p, u32 a);
 struct Big;
 struct Ctx;
 struct GfFont;
@@ -93,12 +93,12 @@ extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void  func_021BAF5C(u8 *p, u32 a);
 extern void  func_021BB148(void *unused, u32 *p);
-extern void  func_021BB0F8(u8 *p, Work *w, void (*cb)(void *, u32 *));
+extern void func_021BB0F8(u8 *p, int value, int callback);
 extern u32   func_021B9950(Work *p);
 extern void  func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3);
 extern void  func_021BA734(u8 *p, u16 a1, u16 a2, Work *a3, u8 *src, u32 heap);
 extern void  func_021BA024(u8 *p, u32 heap);
-extern u32   func_021B995C(Work *p, u32 i);
+extern int func_021B995C(int *p, int i);
 extern void  func_021BA1C4(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2);
 extern void func_021BAD60(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u32 s2, u16 s3);
 
@@ -113,7 +113,7 @@ int func_021B95A0(void *proc, int *seq, Args *args)
     func_02082BCC(w, 0, sizeof(Work));
     w->args = args;
     w->args->x0 = 0;
-    func_021B9850(w, 0x1c);
+    func_021B9850((u8 *)w, 0x1c);
     w->font = (u32)func_0201D7EC(0x17, 0, 0, 0, 0x1c);
     w->x258 = func_0201C440((void *)0x1c);
     w->x260 = (u32)func_02027F60(0, 0xd, w->font, w->x258, 0x1c);
@@ -121,12 +121,12 @@ int func_021B95A0(void *proc, int *seq, Args *args)
     w->msg = (u32)func_02045B38(0, 2, 0x1d, 0x1c);
     w->x268 = (u32)func_0203101C(0x1c, 0x1c, 0x20, 0x20);
     func_021BAF5C(w->x248, (u32)func_0200873C(func_02012EBC(func_020120F4((const struct Ctx *)w->args->x4))));
-    func_021BB0F8(w->xD4, w, func_021BB148);
+    func_021BB0F8(w->xD4, (int)w, (int)func_021BB148);
     t = (u32)func_020120F4((const struct Ctx *)w->args->x4);
     func_021BA37C(w->x104, func_021B9950(w), w->font, w->x258, w->msg, w->x260, t, 0x1c);
     func_021BA734(w->x148, 1, 2, w, w->x248, 0x1c);
     func_021BA024(w->xE4, 0x1c);
-    func_021BA1C4(w->x1A0, func_021B995C(w, 0x11), w->font, w->msg, w->x268, w->x258, 0x1c);
-    func_021BAD60(w->x1D8, func_021B995C(w, 0x12), w->font, (void *)w->msg, w->x268, w->x264, w->x258, 0x1c);
+    func_021BA1C4(w->x1A0, func_021B995C((int *)w, 0x11), w->font, w->msg, w->x268, w->x258, 0x1c);
+    func_021BAD60(w->x1D8, func_021B995C((int *)w, 0x12), w->font, (void *)w->msg, w->x268, w->x264, w->x258, 0x1c);
     return 1;
 }

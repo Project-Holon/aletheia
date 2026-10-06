@@ -29,10 +29,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216D528(u32);
-extern u32 func_0216D67C(u32, u32, u32, u32);
+extern void *func_0216D67C(void *a0);
 
 int func_0219D49C(u32 a, u32 b, u32 c, u32 d)
 {
-return ((struct Obj17972 *)((u8 *)(func_0216D528(func_0216D67C(a, b, c, d)))))->f4;
+return ((struct Obj17972 *)((u8 *)(func_0216D528((u32)func_0216D67C((void *)a)))))->f4;
 }
 

@@ -19,13 +19,13 @@
  */
 
 
-extern unsigned char func_021DEB14(char *, signed char);
+extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EDB94(char *p, int a, int b);
 void func_021EDB34(char *p, int a)
 {
     short i;
     for (i = 0; i < 6; i++) {
-        unsigned char c = func_021DEB14(p, (signed char)(i - 1));
+        unsigned char c = func_021DEB14((unsigned char *)p, (signed char)(i - 1));
         if (c != a)
             continue;
         func_021EDB94(p, a, i);

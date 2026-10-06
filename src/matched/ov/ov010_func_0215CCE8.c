@@ -32,7 +32,8 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_020124AC(void *, u32, void *, Arg *);
+struct Desc;
+extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern void func_0215897C(void *, void *);
 extern void func_021543BC(void);
 extern char ov003_id[];
@@ -45,6 +46,6 @@ int func_0215CCE8(void *a, void *b)
     u32 k = !func_02159B10(a, b) ? 1 : 2;
     arg.a = (u32)func_0201210C(h);
     arg.b = k;
-    func_0215897C(t, func_020124AC(h, (u32)ov003_id, (void *)func_021543BC, &arg));
+    func_0215897C(t, func_020124AC(h, (u32)ov003_id, (void *)func_021543BC, (u32)(&arg)));
     return 1;
 }

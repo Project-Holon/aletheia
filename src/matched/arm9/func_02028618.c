@@ -35,7 +35,7 @@ struct Ctx {
 };
 
 extern u16  func_020437DC(const struct Bmp *bmp);
-extern u16  func_020437E4(const struct Bmp *bmp);
+extern u32 func_020437E4(const struct Bmp *bmp);
 extern void func_02043AF4(const struct Bmp *bmp, s16 x, s16 y, u32 d,
                           u32 e, u32 f);
 

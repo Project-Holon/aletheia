@@ -15,12 +15,12 @@
 
  */
 
-extern void func_021C0980(int, int, int);
+extern void func_021C0980(int a, unsigned char *p, int a2);
 extern void func_021C0A88(int, int, int);
 
 void func_021C0968(int a, int b, int c)
 {
-    func_021C0980(a, b, c);
+    func_021C0980(a, (unsigned char *)b, c);
     func_021C0A88(a, b, c);
 }
 

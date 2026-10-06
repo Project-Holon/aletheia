@@ -54,7 +54,9 @@ extern u64 RTC_ConvertDateTimeToSecond(const struct RTCDate *date,
 
 /* Fills the date and time it is handed; ARM, and in another packet's
  * territory. */
-extern void sub_0203F49C(struct RTCDate *date, struct RTCTime *time);
+struct RtcDate;
+struct RtcTime;
+extern void sub_0203F49C(struct RtcDate *date, struct RtcTime *time);
 
 struct Sub020089A8Rec {
     u8 unk00;
@@ -94,7 +96,7 @@ void sub_02008A7C(struct Sub020089A8Obj *obj, u32 i, u32 a, u32 b, u32 c)
     struct RTCTime time;
     u64 sec;
 
-    sub_0203F49C(&date, &time);
+    sub_0203F49C((struct RtcDate *)(&date), (struct RtcTime *)(&time));
     sec = RTC_ConvertDateTimeToSecond(&date, &time);
 
     obj->unk604[i].unk00 = a;
@@ -110,7 +112,7 @@ u16 sub_02008ACC(const struct Sub020089A8Obj *obj, u32 i)
     return obj->unk638[i];
 }
 
-void sub_02008ADC(struct Sub020089A8Obj *obj, u32 i, u16 value)
+void sub_02008ADC(struct Sub020089A8Obj *obj, int i, int value)
 {
     obj->unk638[i] = value;
 }

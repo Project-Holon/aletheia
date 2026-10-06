@@ -78,9 +78,9 @@ extern void func_020135C0(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32
 extern void func_020307B0(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0216F02C(Work *w, void *a, void *bs);
+extern void func_0216F02C(void **p, void *a, void *b);
 extern void func_021CF5D8(u16 species, u32 a, u32 b, u32 c, u32 *d, void *e);
-extern u32 func_0216EB98(void *task, u32 *state, Work *work);
+extern int func_0216EB98(void *evt, u32 *state, struct Work *w);
 extern const char d_02172B54[];
 
 void *func_0216E95C(void *sys, u32 arg, u32 heap)
@@ -122,7 +122,7 @@ void *func_0216E95C(void *sys, u32 arg, u32 heap)
     func_020307B0(party1);
     task = func_020122C0(sys, 0, func_0216EB98, 0x28);
     w = func_020124E8(task);
-    func_0216F02C(w, sys, bs);
+    func_0216F02C((void **)w, sys, bs);
     w->f14 = 1;
     func_021CF5D8(504, 5, 0, arg, &w->f24, w->f08->f18);
     w->f24 = 0;

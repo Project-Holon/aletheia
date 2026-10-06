@@ -19,7 +19,7 @@
  * sprite 0x24.
  */
 
-extern void func_021ED544(unsigned char *p, int b);
+extern void func_021ED544(char *p, int b);
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
 extern void func_021EC768(char *p, unsigned i, int flag);
@@ -29,7 +29,7 @@ extern void func_021EC768(char *p, unsigned i, int flag);
 void func_021E072C(unsigned char *p)
 {
     short xy[2];
-    func_021ED544(p, 8);
+    func_021ED544((char *)p, 8);
     func_021EC0B0(WORK(p), 4, &xy[1], &xy[0], 0);
     func_021EC08C(WORK(p), *(unsigned char *)(WORK(p) + 0x3DF6), xy[1], xy[0] + 4, 0);
     func_021EC768(WORK(p), 0x24, 0);

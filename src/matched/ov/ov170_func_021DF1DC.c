@@ -15,12 +15,12 @@
  *   d_021EF798 0x021EF798 data a1
  */
 
-extern int func_021DF1BC(int a, int b, const unsigned char *r);
+extern int func_021DF1BC(int a, int b, unsigned char *r);
 extern const unsigned char d_021EF798[];
 
-int func_021DF1DC(int x, int y)
+int func_021DF1DC(short x, int y)
 {
-    if (func_021DF1BC(x, y, d_021EF798) == 1) {
+    if (func_021DF1BC(x, y, (unsigned char *)d_021EF798) == 1) {
         if (x < 0xC)
             x = 0;
         else if (x >= 0x9C)

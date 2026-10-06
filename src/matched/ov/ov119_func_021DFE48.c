@@ -31,19 +31,19 @@ typedef unsigned int u32;
 struct MsgBank;
 struct WordSet;
 extern void func_02005D90(int,int);
-extern void func_02005DF8(int);
+extern void func_02005DF8(u32 a);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_021D8AA8(void *);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *func_021D8FA4(void *,int);
-extern void func_0201EEF4(void *p, u32 i, void *mon);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021E0FF4(void *,int,int);
 extern void func_021DFD30(u8 *,u32);
-extern void func_02040588(int,int);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_021D8E84(void *,int);
-extern void func_021DFF40(void *);
+extern void func_021DFF40(char *p);
 void func_021DFE48(char *p)
 {
     void *mon;

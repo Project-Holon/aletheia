@@ -34,20 +34,21 @@ struct Voice {
 };
 
 extern char g_0214E018[];
-extern struct Voice *func_02060614(void *list, void *curr);
+struct DList;
+extern void *func_02060614(struct DList *list, void *elem);
 
-s32 func_02072EE0(u16 tag)
+s32 func_02072EE0(u32 tag)
 {
     struct Voice *v;
     s32 n;
 
     n = 0;
-    v = func_02060614(g_0214E018, 0);
+    v = func_02060614((struct DList *)g_0214E018, 0);
     while (v != 0) {
         if (v->h34 == 1 && v->h38 == tag) {
             n++;
         }
-        v = func_02060614(g_0214E018, v);
+        v = func_02060614((struct DList *)g_0214E018, v);
     }
     return n;
 }

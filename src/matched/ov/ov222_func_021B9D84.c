@@ -22,7 +22,10 @@ typedef signed short s16;
 typedef struct {s16 x,y;} Pt;
 extern char d_021BA1D8[];
 extern void func_02040618(unsigned,unsigned,unsigned);
-extern void func_0204B404(void*,const Pt*,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B9D84(char*p)
 {
     Pt pos;
@@ -33,7 +36,7 @@ void func_021B9D84(char*p)
         t=(s16*)d_021BA1D8;
         pos.x=t[0];
         pos.y=t[1]-0x40;
-        func_0204B404(*(void**)(p+0x54),&pos,0);
+        func_0204B404(*(void**)(p+0x54),(const struct Vec2 *)(&pos),0);
         *(u8*)(p+0x44)=0;
     }
 }

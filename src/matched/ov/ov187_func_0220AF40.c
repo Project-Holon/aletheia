@@ -21,8 +21,11 @@ extern void func_0203064C(unsigned, unsigned, unsigned);
 extern char *func_0203159C(unsigned, unsigned, unsigned);
 extern void *func_02082BCC(void *, int, unsigned);
 extern void func_0200B400(unsigned);
-extern void func_0220B008(void *, unsigned, unsigned, unsigned);
-extern void func_0220B0F8(char *, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct S;
+extern void func_0220B008(struct S *p, u32 a, u32 b, u32 c);
+extern void func_0220B0F8(u8 *p, u32 v);
 extern const char d_0220B2A0[];
 int func_0220AF40(unsigned a, unsigned unused, unsigned mode)
 {
@@ -32,7 +35,7 @@ int func_0220AF40(unsigned a, unsigned unused, unsigned mode)
     func_02082BCC(p, 0, 0x17f4);
     ((struct Obj24881 *)p)->f17F0 = mode;
     func_0200B400(0x59);
-    func_0220B008(p, (unsigned)d_0220B2A0, (unsigned)p, 0x59);
-    func_0220B0F8(p, 0);
+    func_0220B008((struct S *)p, (unsigned)d_0220B2A0, (unsigned)p, 0x59);
+    func_0220B0F8((u8 *)p, 0);
     return 1;
 }

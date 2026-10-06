@@ -26,7 +26,7 @@ extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
 extern void func_021E12F8(char *p);
 extern void func_021E1098(char *p);
-extern void func_021D8980(char *p);
+extern int func_021D8980(char *p);
 extern void func_021DD09C(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DE950(char *p);

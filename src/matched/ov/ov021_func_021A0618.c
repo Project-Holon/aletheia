@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void func_021A0C50(u8 *p, u16 a, u16 b, u32 c);
+extern int func_021A0C50(u32 a, u16 b, u32 c, u32 d);
 
 void func_021A0618(u8 *p, u32 a, u32 b, u32 c)
 {
-    func_021A0C50(p + 0x484, b, c, a);
+    func_021A0C50((u32)(p + 0x484), b, (u16)c, a);
     ((struct Obj19694 *)p)->f0 = 1;
 }

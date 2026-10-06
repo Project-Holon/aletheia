@@ -118,12 +118,13 @@ extern void *func_0200E6E8(u32 a);
 extern void  OS_GetOwnerInfo(OSOwnerInfo *info);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
-extern int   func_02013CC8(u16 m);
-extern int   func_02013CE0(u16 m);
+struct Rec0200E6FC;
+extern u32 func_02013CC8(u32 id);
+extern u32 func_02013CE0(u32 id);
 extern struct Rec1C *func_02012894(const struct BigObj *p);
 extern u32   func_02166C7C(void *sys, u16 m);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
-extern u32   func_02008550(void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
@@ -136,7 +137,7 @@ extern u8 func_02008650(const struct PlayTime *p);
 extern void *func_0200E394(void *p);
 extern void *func_0200E3A0(void *p);
 extern void  MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void  func_0200E6FC(void *p, int i, struct Src *out);
+extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void func_020274B4(u32 a0);
 extern u16   func_02045A98(void);
 extern u16  *func_020084F4(void *p);
@@ -164,14 +165,14 @@ void func_02026D88(struct Rec *o, void *sys)
 
     o->b00 = 0xff;
     o->mode = func_02012AC8(func_020127A4(sys));
-    if (func_02013CC8(o->mode) == 1 || func_02013CE0(o->mode) == 1) {
+    if ((int)func_02013CC8((u16)o->mode) == 1 || (int)func_02013CE0((u16)o->mode) == 1) {
         o->mode = ((struct Obj15760 *)((u8 *)func_02012894(sys)))->f4;
     }
     o->f08hi = func_02166C7C(sys, o->mode);
     o->b03lo = 0x30;
     o->f10 = func_02008534(prof);
     o->c12 = info.favoriteColor;
-    o->b03hi = (u8)func_02008550(prof);
+    o->b03hi = (u8)(u32)func_02008550(prof);
     if (o->b03hi == 0) {
         o->c6 = func_02008554(prof);
     } else {
@@ -188,7 +189,7 @@ void func_02026D88(struct Rec *o, void *sys)
     o->trainer = func_0200864C(st);
     o->f0chi = func_02008650(st);
     MI_CpuCopy8(func_0200E3A0(func_0200E394(save)), o->f50, 10);
-    func_0200E6FC(bag, 0, &src);
+    func_0200E6FC(bag, 0, (struct Rec0200E6FC *)(&src));
     func_020274B4((u32)(&src));
     v = func_02045A98();
     q = func_020084F4(prof);

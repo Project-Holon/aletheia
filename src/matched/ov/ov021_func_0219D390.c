@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u32 p; u16 id; u16 pad; u32 x; } Slot;
-extern void func_0219D324(u8 *, Slot *);
+extern void func_0219D324(int *obj, int *rec);
 
 void func_0219D390(u8 *s)
 {
@@ -29,7 +29,7 @@ void func_0219D390(u8 *s)
     if (e != 0) {
         for (i = 0; i < 4; i++, e++) {
             if (e->p != 0) {
-                func_0219D324(s, e);
+                func_0219D324((int *)s, (int *)e);
             }
         }
     }

@@ -27,7 +27,7 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204AFD8(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
-extern void func_0203FB44(int, unsigned short, unsigned short);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
 void func_021F1E98(char *p)
 {
@@ -62,5 +62,5 @@ void func_021F1E98(char *p)
     func_0204A8D4(((struct Obj02111 *)p)->f2C);
     func_0204ADA4(((struct Obj02111 *)p)->f28);
     v = ((struct Obj02111 *)p)->f14;
-    func_0203FB44(6, v, v >> 16);
+    func_0203FB44((int)6, (unsigned short)v, (unsigned short)(v >> 16));
 }

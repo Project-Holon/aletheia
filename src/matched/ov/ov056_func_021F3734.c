@@ -76,17 +76,18 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021F3B10(void *o, void *a1, int a2, int a3, int idx);
-extern void func_021F392C(void *o, int a1, int heap, int idx);
+struct Obj;
+extern void func_021F3B10(struct Obj *o, void *a1, int a2, int a3, int idx);
+extern void func_021F392C(struct Obj *o, int a1, int heap, int idx);
 extern void func_021F3D60(void *o, int idx, int heap);
-extern void func_021F3890(void *o, int a, int idx);
-extern void func_021F3BF0(void *o);
+extern void func_021F3890(u32 *out, int a, int idx);
+extern void func_021F3BF0(u32 *p);
 extern void func_021F3CC4(u8 *p, int flag);
-extern void func_021F3904(void *o);
-extern int func_021F3A78(void *o);
-extern int func_021F3C84(void *o);
-extern int func_021F3DB8(void *o);
-extern int func_021F3918(void *o);
+extern void func_021F3904(unsigned char **p);
+extern int func_021F3A78(u8 *p);
+extern int func_021F3C84(u32 *p);
+extern int func_021F3DB8(int **pp);
+extern int func_021F3918(void **p);
 extern void func_021F3C4C(u8 *p);
 extern void func_021F3D9C(void *o);
 extern void func_021F3A14(u8 *p);
@@ -106,7 +107,7 @@ int func_021F3734(void *a0, int *state, Work *p)
     switch (*state) {
     case 0:
         h = (int)func_02012944(func_020120F4((const struct Ctx *)p->f4));
-        func_021F3B10(p->obj, func_02188CB4((void *)p->f0), h, heap, p->idx);
+        func_021F3B10((struct Obj *)p->obj, func_02188CB4((void *)p->f0), h, heap, p->idx);
         (*state)++;
         break;
     case 1:
@@ -118,21 +119,21 @@ int func_021F3734(void *a0, int *state, Work *p)
         if (func_0218F0E8((u8 *)h) != 0) {
             break;
         }
-        func_021F392C(p->cam, h, heap, p->idx);
+        func_021F392C((struct Obj *)p->cam, h, heap, p->idx);
         func_021F3D60(p->f_c8, p->idx, heap);
-        func_021F3890(p->f_bc, func_0218DC6C((u8 *)func_02188C98((u8 *)p->f0)), p->idx);
-        func_021F3BF0(p->obj);
+        func_021F3890((u32 *)p->f_bc, func_0218DC6C((u8 *)func_02188C98((u8 *)p->f0)), p->idx);
+        func_021F3BF0((u32 *)p->obj);
         p->task = (u32)func_021BB990(-1, (int *)func_02188D24((u8 *)p->f0), (const int *)d_021F42C0);
         *((void **)func_021BBA6C((const void *)p->task)) = p->obj;
         func_021F3CC4(p->obj, 1);
-        func_021F3904(p->f_bc);
+        func_021F3904((unsigned char **)p->f_bc);
         (*state)++;
         break;
     case 3:
         a = func_021F3A78(p->cam);
-        func_021F3C84(p->obj);
-        b = func_021F3DB8(p->f_c8);
-        c = func_021F3918(p->f_bc);
+        func_021F3C84((u32 *)p->obj);
+        b = func_021F3DB8((int **)p->f_c8);
+        c = func_021F3918((void **)p->f_bc);
         if (a && c && b) {
             (*state)++;
         }

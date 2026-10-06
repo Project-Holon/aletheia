@@ -30,7 +30,7 @@ extern void func_021C61D0(void *);
 extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
 extern void func_021C66B8(u8 *p, int i, u32 v);
 extern void func_021C7298(void *, int);
-extern int func_021C71BC(char *, int);
+extern int func_021C71BC(u8 *p, int v);
 int func_021C6FD4(u8 *p)
 {
     func_021C7360(p);
@@ -43,5 +43,5 @@ int func_021C6FD4(u8 *p)
 }
 int func_021C7018(char *p)
 {
-    return func_021C71BC(p, 0);
+    return func_021C71BC((u8 *)p, 0);
 }

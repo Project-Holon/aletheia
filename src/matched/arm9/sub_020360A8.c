@@ -34,10 +34,11 @@
 
 struct Ctx;
 
-extern struct Ctx *func_02035224(void);
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
 extern void func_02035F38(struct Ctx *ctx);
 
 void sub_020360A8(void)
 {
-    func_02035F38(func_02035224());
+    func_02035F38((struct Ctx *)func_02035224());
 }

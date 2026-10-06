@@ -18,9 +18,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D8EA4(void *);
-extern void func_021D8D1C(void *);
-extern void func_021D9138(void *);
+extern void func_021D8EA4(u8 *p);
+extern void func_021D8D1C(u8 *p);
+extern void func_021D9138(u8 *p);
 static inline void GX_SetVisibleWnd(int window)
 {
     *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&~0xe000)|(window<<13);
@@ -51,11 +51,11 @@ void func_021D8C1C(u8 *p,int mode)
     ((struct Obj04491 *)p)->f18=0;
     switch(mode) {
     case 0:
-        if (((struct Obj22867 *)(*(u8 * *)&((struct Obj04491 *)p)->f114))->f2CA) *(void (**)(void *))(p+44)=func_021D8EA4;
-        else *(void (**)(void *))(p+44)=func_021D8D1C;
+        if (((struct Obj22867 *)(*(u8 * *)&((struct Obj04491 *)p)->f114))->f2CA) *(void (**)(void *))(p+44)=(void (*)(void *))func_021D8EA4;
+        else *(void (**)(void *))(p+44)=(void (*)(void *))func_021D8D1C;
         break;
     case 1:
-        *(void (**)(void *))(p+44)=func_021D9138;
+        *(void (**)(void *))(p+44)=(void (*)(void *))func_021D9138;
         break;
     }
     GX_SetVisibleWnd(1);

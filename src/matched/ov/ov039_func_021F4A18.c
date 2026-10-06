@@ -49,20 +49,24 @@ typedef struct Rec {
 
 extern Vec d_021F4CA0[];
 
-extern void *func_02188D2C(void *p);
+struct BigObj;
+struct Ctx;
+struct SoundSys2;
+struct VecFx32;
+extern int func_02188D2C(int *p);
 extern void *func_02188C80(void *p);
-extern void *func_02188CB4(void *p);
-extern void func_021A3038(void *p, Vec *out);
+extern void *func_02188CB4(u8 *p);
+extern void func_021A3038(u8 *p, struct VecFx32 *out);
 extern int func_021BE4C4(void *p, u32 i, u16 j);
-extern u32 func_021BE674(void *p, int i, u16 j, u16 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern int func_021BE748(u32 a);
 extern int func_021F3DE4(void *p, u16 j, u16 k);
-extern void func_021F48C0(void *a, int idx, int x, Vec *out);
-extern void *func_020120F4(void *p);
-extern void *func_02012A30(void *p);
-extern void func_02028B18(void *s, u32 id, u32 v);
+extern void func_021F48C0(u8 *a, int idx, int x, int *out);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012A30(const struct BigObj *p);
+extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
 extern int func_02047790(int a, u16 n);
-extern u8 *func_02047674(int a);
+extern int func_02047674(int p);
 extern void func_0207C9D0(const Vec *a, const Vec *b, Vec *out);
 extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
 extern int func_0207CBD0(const Vec *v);
@@ -83,8 +87,8 @@ void func_021F4A18(void *a0, Rec *a1)
     int i;
     int vol;
 
-    sys = func_02188D2C(a0);
-    snd = func_02012A30(func_020120F4(func_02188C80(a0)));
+    sys = (void *)func_02188D2C(a0);
+    snd = (void *)func_02012A30(func_020120F4(func_02188C80(a0)));
     first = 1;
     for (i = 0; i < 4; i++) {
         int k = (u8)i;
@@ -97,11 +101,11 @@ void func_021F4A18(void *a0, Rec *a1)
         h = func_021BE4C4(sys, 0, kk);
         
         n = a1->cnt[k] + 1;
-        func_021BE674(sys, 0, kk, n);
+        func_021BE674(sys, 0, (u16)kk, (u16)n);
         pos = func_021F3DE4(sys, kk, n);
-        func_021F48C0(*(void **)(func_02047674(func_02047790(h, n)) + 8), 0, pos, &v6c);
+        func_021F48C0(*(void **)(func_02047674(func_02047790(h, n)) + 8), 0, pos, (int *)(&v6c));
         func_0207C9D0(&v6c, &d_021F4CA0[k], &v6c);
-        func_021A3038(func_02188CB4(a0), &v60);
+        func_021A3038(func_02188CB4(a0), (struct VecFx32 *)(&v60));
         func_0207CA00(&v6c, &v60, &v54);
         d = func_0207CBD0(&v54);
         if (best > d || first) {
@@ -124,15 +128,15 @@ void func_021F4A18(void *a0, Rec *a1)
         int d;
 
         h2 = func_021BE4C4(sys, 0, bestK);
-        lim = func_021BE748(func_021BE674(sys, 0, bestK, bestN));
+        lim = func_021BE748((u32)func_021BE674(sys, 0, (u16)bestK, (u16)bestN));
         cur = func_021F3DE4(sys, bestK, bestN);
         nxt = cur + 0x1000;
         if (nxt >= lim)
             nxt = 0;
-        img = func_02047674(func_02047790(h2, bestN));
+        img = (u8 *)func_02047674(func_02047790(h2, bestN));
         vol = 0;
-        func_021F48C0(*(void **)(img + 8), 0, cur, &a48);
-        func_021F48C0(*(void **)(img + 8), 0, nxt, &a3c);
+        func_021F48C0(*(void **)(img + 8), 0, cur, (int *)(&a48));
+        func_021F48C0(*(void **)(img + 8), 0, nxt, (int *)(&a3c));
         func_0207CA00(&a48, &a3c, &a30);
         d = func_0207CBD0(&a30);
         if (d >= 0x20000)

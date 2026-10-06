@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 struct Obj02014CF0;
 
-void sub_02014CF0(struct Obj02014CF0 *o, u32 v1, u32 v2)
+void sub_02014CF0(struct Obj02014CF0 *o, int v1, int v2)
 {
     ((struct Obj11718 *)o)->f38 = v1;
     ((struct Obj11718 *)o)->f3C = v2;

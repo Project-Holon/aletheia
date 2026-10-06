@@ -72,7 +72,7 @@ extern const u8 str_020A7A24[];
 extern const u8 str_020A7A50[];
 extern void *func_0203D798(void);
 extern int  func_020365E8(struct Src *s);
-extern u32  func_02036540(struct Src *s);
+extern u32 func_02036540(u32 a);
 extern u32 func_02036500(u32 a);
 extern int  func_020364D4(struct Src *s, u8 *buf, u32 n, u32 max);
 extern int  func_0203A804(u32 h);
@@ -81,7 +81,7 @@ extern u32 func_0203A634(u32 a0);
 extern u32 func_0203A81C(u32 a0, u32 a1, u32 a2);
 extern void func_02082D44(void *dst, const void *src, int n);
 extern void func_02038D68(int a0, u32 a1, u32 a2, u8 *a3);
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
 {
@@ -95,9 +95,9 @@ void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
     while (func_020365E8(src) != 0) {
         h = st->h;
         if (h == 0) {
-            h = func_02036540(src);
+            h = func_02036540((u32)src);
             if (h == 0) {
-                func_02034714(str_020A7A24, 0x6E3, str_020A7A50);
+                func_02034714((const char *)str_020A7A24, 0x6E3, (const char *)str_020A7A50);
                 continue;
             }
         }
@@ -109,7 +109,7 @@ void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
                 return;
             }
             {
-                u16 v = func_02036540(src);
+                u16 v = func_02036540((u32)src);
                 st->left = v;
                 st->total = v;
             }

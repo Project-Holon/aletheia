@@ -72,11 +72,12 @@ typedef struct
 
 extern int func_020948E0(const char *, const char *);
 extern int func_0217956C(struct DWCHttp *http, struct DWCHttpParam *param);
-extern void func_02058518(void *buf);
+struct tagDWCWiFiInfo;
+extern void func_02058518(struct tagDWCWiFiInfo *buf);
 extern int func_02178A94(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn);
-extern int func_0217967C(DWCHttp *http);
+extern int func_0217967C(char *http);
 extern unsigned long func_02085A30(void *thread);
-extern void func_02179718(DWCHttp *http, unsigned long prio);
+extern void func_02179718(char *http, unsigned long prio);
 
 extern DWCHttpParam g_021A2358;
 extern DWCHttpParam g_021A2358_arg;
@@ -99,15 +100,15 @@ int func_021782B4(int getwifiinfofromflash)
         return 4;
 
     if (getwifiinfofromflash == 1)
-        func_02058518(g_021AB190);
+        func_02058518((struct tagDWCWiFiInfo *)g_021AB190);
 
     AUTH_RESULT = func_02178A94(AUTH_HTTP, g_021AB184.auth + 0x1200, (unsigned short *)(g_021AB184.auth + 0x11cc));
     if (AUTH_RESULT != 0)
         return 4;
 
-    if (func_0217967C(AUTH_HTTP) != 0)
+    if (func_0217967C((char *)AUTH_HTTP) != 0)
         return 4;
 
-    func_02179718(AUTH_HTTP, func_02085A30(g_02150FEC.current) - 1);
+    func_02179718((char *)AUTH_HTTP, func_02085A30(g_02150FEC.current) - 1);
     return 0;
 }

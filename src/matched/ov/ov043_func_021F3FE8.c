@@ -56,8 +56,8 @@ extern int func_021BE6BC(int *p);
 extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a0);
 extern void func_020061F8(int i);
-extern void func_021F41B8(u8 a0, int a1, int a2, u32 a3, void *s);
-extern int func_021F4210(void *s);
+extern void func_021F41B8(int a0, int a1, int a2, int a3, u8 *s);
+extern int func_021F4210(u8 *s);
 extern u32 func_02188C68(u8 *p);
 extern int func_021A03A4(int *p);
 extern int func_021A03B8(int *p);
@@ -97,12 +97,12 @@ void func_021F3FE8(void *a)
     if (w[6] != 0) {
         switch (((u16 *)w)[15]) {
         case 0:
-            func_021F41B8(w[0], w[3], 0, h, w + 8);
+            func_021F41B8((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
             func_020061E4(0x6cb);
             ((u16 *)w)[15]++;
             break;
         case 1:
-            if (func_021F4210(w + 8)) {
+            if (func_021F4210((u8 *)(w + 8))) {
                 ((u16 *)w)[14]++;
                 if (((u16 *)w)[14] >= 100) {
                     w[3] = -0x2000;

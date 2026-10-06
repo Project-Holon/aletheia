@@ -22,14 +22,14 @@ typedef struct { u8 b[0x3c]; } Node;
 extern Node d_021F4470[0x84];
 extern Node *d_021F3CBC[0x84];
 extern struct { u32 a; u32 b; u32 c; } g_021F3CB0;
-extern void func_021D74BC(Node *);
+extern void func_021D74BC(int a);
 extern void func_021D74C8(void);
 void func_021D6EAC(void)
 {
     u32 i;
     for (i = 0; i < 0x84; i++) {
         Node *n = &d_021F4470[i];
-        func_021D74BC(n);
+        func_021D74BC((int)n);
         d_021F3CBC[i] = n;
     }
     g_021F3CB0.b = 0;

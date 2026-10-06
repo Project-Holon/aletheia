@@ -41,7 +41,7 @@ extern void func_02165A4C(unsigned char phase);
 extern long func_0208EAC8(void (*callback)(void *));
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern void func_021665CC(unsigned char *macAddress);
-extern long func_0208F224(void (*callback)(void *));
+extern int func_0208F224(char *path);
 extern void func_02166EB0(void *arg);
 extern void func_02166F24(void *arg);
 
@@ -75,7 +75,7 @@ long func_02166880(void)
     }
     OS_GetMacAddress(macAddress);
     func_021665CC(macAddress);
-    wmResult = func_0208F224(func_02166F24);
+    wmResult = func_0208F224((char *)func_02166F24);
     switch (wmResult) {
     case 2:
         func_02165A4C(2);

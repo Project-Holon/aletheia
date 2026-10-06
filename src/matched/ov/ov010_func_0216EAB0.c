@@ -50,7 +50,7 @@ struct Ctx;
 struct Obj;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012FD8(void **p);
-extern void *func_0216E818(void *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern int func_0216E818(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern u32   sub_0200E740(const void *obj, u32 idx);
 extern void *sub_020124E8(struct Obj *p);
 extern void *func_0201AB28(void *p, u32 idx);
@@ -64,10 +64,10 @@ extern u32   sub_0200E76C(const void *obj, u32 idx);
 extern u8    sub_0200E780(const void *obj, u32 idx);
 extern void  func_02017E40(void *p, u32 id, u32 v);
 extern void *sub_0200E7AC(void *obj, u32 idx);
-extern void  func_020178D8(void *p, u16 v);
+extern void func_020178D8(void *p, u32 a);
 extern u32   func_02017FA8(void *p);
 
-void *func_0216EAB0(void *a0, int a1, int a2, int a3, int a4, int a5, int a6, u32 idx)
+void *func_0216EAB0(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 idx)
 {
     void *data;
     void *task;
@@ -79,7 +79,7 @@ void *func_0216EAB0(void *a0, int a1, int a2, int a3, int a4, int a5, int a6, u3
     u32 rnd;
 
     data = func_02012FD8(func_020120F4(a0));
-    task = func_0216E818(a0, a1, a2, a3, a4, a5, a6);
+    task = (void *)func_0216E818((int)a0, a1, a2, a3, a4, a5, a6);
     if (sub_0200E740(data, idx) != 0) {
         mon = func_0201AB28(*(void **)(*(u8 **)((u8 *)sub_020124E8(task) + 8) + 0x28), 0);
         old = func_02017E1C(mon, 5, 0);
@@ -92,7 +92,7 @@ void *func_0216EAB0(void *a0, int a1, int a2, int a3, int a4, int a5, int a6, u3
             func_02017E40(mon, 10, sub_0200E780(data, idx));
         }
         func_02017E40(mon, 0x74, (u32)sub_0200E7AC(data, idx));
-        func_020178D8(mon, old);
+        func_020178D8(mon, (u16)old);
         func_02017FA8(mon);
     }
     return task;

@@ -34,7 +34,8 @@ struct BgTemplate {u32 w[8];};
 extern const struct Display data_021BE804;
 extern const struct BgTemplate data_021BE894,data_021BE874,data_021BE814,data_021BE8F4,data_021BE8B4,data_021BE854,data_021BE8D4,data_021BE834;
 extern void func_0203F8F4(u16);
-extern void func_0203FC28(struct Display *);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
 extern void func_02040B94(u32,u32,u32,u32);
@@ -46,7 +47,7 @@ void func_021BC388(void)
     struct Display display;
     struct BgTemplate b0,b1,b2,b3,b4,b5,b6,b7;
     func_0203F8F4(107);
-    display=data_021BE804;func_0203FC28(&display);
+    display=data_021BE804;func_0203FC28((struct DispConfig *)(&display));
     b0=data_021BE894;func_0203FCA0(0,&b0,0);
     func_020414EC(0);func_02040B94(0,32,0,107);func_02041B6C(0);
     b1=data_021BE874;func_0203FCA0(1,&b1,0);

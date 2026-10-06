@@ -54,9 +54,10 @@ extern u32 func_021BDD48(int, struct S *);
 extern int func_021C27E0(struct S *);
 extern struct Slot *func_0201F81C(u32, u32);
 extern void func_0201F878(struct Slot *, u32, u32, u32, u32);
-extern u32 func_020450F0(u32, u32, u8, u32, u8, u8, u8);
-extern void func_0201F73C(void *, int, u16, int);
-extern struct Obj *func_0201FF30(Desc *, u16, u16, u32);
+struct Src;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
 extern u32 func_0201C6B4(const struct PrintSys *);
 extern u32 func_0201C4E4(struct PrintSys *);
 extern void func_02020CF8(struct Obj *p, int heap);
@@ -85,14 +86,14 @@ void func_021BAD74(char *p)
             func_0201F878(*(struct Slot * *)&((struct Obj01244 *)p)->fB8, ((struct Obj01244 *)p)->fE0, d_021C3730[i].a, d_021C3730[i].b, 33);
         }
     }
-    *(u32 *)&((struct Obj01244 *)p)->f1A4 = func_020450F0(2, 16, (3 - n) * 2 + 11, 15, n * 2, 15, 1);
-    func_0201F73C(((struct Obj01244 *)p)->f1A4, 2, ((struct Obj01244 *)p)->f1334, 14);
+    *(u32 *)&((struct Obj01244 *)p)->f1A4 = func_020450F0(2, 16, (u8)((3 - n) * 2 + 11), 15, n * 2, 15, 1);
+    func_0201F73C(((struct Obj01244 *)p)->f1A4, 2, (u16)(((struct Obj01244 *)p)->f1334), 14);
     desc.w0 = *(u32 *)&((struct Obj01244 *)p)->fB8;
     desc.wc = *(u32 *)&((struct Obj01244 *)p)->f1A4;
     desc.w2c = *(u32 *)&((struct Obj01244 *)p)->f1B4;
     desc.w28 = (u32)(p + 0x1ac);
     desc.w30 = ((struct Obj01244 *)p)->fE8;
-    *(struct Obj * *)&((struct Obj01244 *)p)->fBC = func_0201FF30(&desc, 0, 0, 33);
+    *(struct Obj * *)&((struct Obj01244 *)p)->fBC = func_0201FF30((struct Src *)(&desc), 0, 0, 33);
     if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0) {
         do {
             func_0201C4E4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4);

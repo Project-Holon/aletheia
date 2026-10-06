@@ -27,7 +27,9 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern int *func_02012ED0(void *a);
+typedef unsigned char  u8;
+struct Big;
+extern u8 *func_02012ED0(struct Big *p);
 typedef unsigned short u16;
 struct Stream;
 extern u16 func_02011330(struct Stream *s);
@@ -41,7 +43,7 @@ int func_021C8868(int a, int b)
     unsigned short *r5;
 
     func_0215A5F4((void *)b);
-    r4 = func_02012ED0(func_020120F4((void *)func_02188C80(func_0201210C(func_0215A5DC((void *)b)))));
+    r4 = (int *)func_02012ED0(func_020120F4((void *)func_02188C80(func_0201210C(func_0215A5DC((void *)b)))));
     r7 = func_02011330((struct Stream *)a);
     r5 = func_02159AE8((void *)a, (void *)b);
     *r5 = func_021C8738((char *)(*r4), r7);

@@ -30,7 +30,7 @@ extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_021FADA0(char *p, u32 fn, u32 arg, u32 key);
-extern void func_021FB8CC(int, TaskData *);
+extern void func_021FB8CC(int unused, char *p);
 extern const char d_021FDD00[];
 int func_021FB808(int unused, char *p)
 {

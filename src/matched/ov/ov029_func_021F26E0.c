@@ -41,29 +41,35 @@
  *   func_02082BCC  0x02082BCC  arm
  */
 
-extern int func_02012138(int a);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+struct Node;
+struct PalAnmSlot;
+struct SoundSys;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_021585E0(int r);
 extern void func_02158614(int a);
 extern void func_021F2E5C(char *a);
-extern void func_02035010(int a, int b);
-extern void func_02035040(int a, int b);
+extern void func_02035010(u32 a, u32 b);
+extern void func_02035040(u32 a, u32 b);
 extern void func_0203D8AC(void);
-extern void func_0203D34C(int a, int b);
-extern void func_020215A0(int a, int b);
+extern void func_0203D34C(u32 a, u32 b);
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(int a);
 extern void func_02030DA4(int a);
-extern void func_020307B0(int a);
-extern void func_02030EAC(int a);
-extern unsigned int func_020120F4(int a);
-extern unsigned int func_02012A30(unsigned int a);
-extern void func_02028A70(unsigned int a);
+extern void func_020307B0(void *p);
+extern void func_02030EAC(struct Node *n);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012A30(const struct BigObj *p);
+extern void func_02028A70(struct SoundSys *sys);
 extern void func_02049238(int a);
 extern void func_021F1F24(char *p);
 extern void func_02082BCC(char *p, int a, int b);
 
 void func_021F26E0(char *p)
 {
-    int r = func_02012138(*(int *)(p + 0x1c));
+    int r = func_02012138((const struct Ctx *)(*(int *)(p + 0x1c)));
 
     if (r != 0) {
         if (func_021585E0(r) == 2)
@@ -74,14 +80,14 @@ void func_021F26E0(char *p)
     func_02035040(0, 0);
     func_0203D8AC();
     func_0203D34C(0, *(unsigned short *)(p + 0xc));
-    func_020215A0(*(int *)(p + 0x210), 3);
-    func_020215A0(*(int *)(p + 0x210), 1);
+    func_020215A0((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3);
+    func_020215A0((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1);
     func_02021540(*(int *)(p + 0x210));
     func_02030DA4(*(int *)(p + 0x204));
-    func_020307B0(*(int *)(p + 0x20c));
-    func_02030EAC(*(int *)(p + 0x208));
+    func_020307B0((void *)(*(int *)(p + 0x20c)));
+    func_02030EAC((struct Node *)(*(int *)(p + 0x208)));
     if (*(int *)(p + 0x218) != 5) {
-        func_02028A70(func_02012A30(func_020120F4(*(int *)(p + 0x1c))));
+        func_02028A70((struct SoundSys *)func_02012A30(func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c)))));
     }
     func_02049238(*(int *)(p + 0x24));
     func_021F1F24(p);

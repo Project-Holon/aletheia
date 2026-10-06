@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021DD924(void *);
+extern void func_021DD924(char *p);
 typedef struct {u8 frame,x,y,pal;u16 chr;} WinDat;
 struct BmpMenu;
 extern const WinDat d_021E1AE8;

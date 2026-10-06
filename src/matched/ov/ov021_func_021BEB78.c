@@ -21,14 +21,15 @@ typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; } X;
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern X *func_020124E8(u32 h);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 typedef unsigned char  u8;
 extern int func_021BEA6C(int x);
 extern int func_021BEF08(u32 p0, int *st, u8 *q);
 u32 func_021BEB78(u32 a, u32 b)
 {
     u32 h = (u32)func_020122C0((void *)a, 0, func_021BEF08, 0x2c);
-    X *x = func_020124E8(h);
+    X *x = func_020124E8((struct Obj *)h);
     x->f0 = a;
     x->f4 = b;
     x->f8 = 2;

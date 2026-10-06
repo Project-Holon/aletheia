@@ -30,11 +30,11 @@ extern u8 func_021D5450(struct Work *p);
 extern u8 func_021D5440(u8 *p);
 extern u8 func_021D5568(u8 *p, u32 i);
 extern u32 func_021D805C(void *p, u32 n);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
-extern u32 func_021D54D0(void *m, u8 n);
+extern u32 func_021D54D0(u8 *p, u8 i);
 extern void func_021C88C8(void *a, void *b);
 
 int func_021CC178(void *a, void *m, void *s, int d, u8 n)

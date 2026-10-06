@@ -28,9 +28,10 @@ extern void *func_0216D67C(void *a0);
 extern u32 func_0216D520(void *p);
 extern int func_0216D7A8(void *p, unsigned int v);
 extern u16 func_0216D598(void *p);
-extern void func_0216E204(int, unsigned int);
+extern void func_0216E204(char *a, u32 v);
 extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
-extern void func_0219C880(int *, int, unsigned int, unsigned int);
+typedef unsigned char  u8;
+extern void func_0219C880(u8 *o, u32 a, u32 b, u32 c);
 extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
 
 void func_0219D208(int a, unsigned int id)
@@ -45,13 +46,13 @@ void func_0219D208(int a, unsigned int id)
     r = (unsigned char *)ctx[8];
     func_0219CBD4((u32)ctx, id, (u32)(&v[1]), (u32)(&v[0]));
     if (v[1] != 0xFFFF && !(v[0] & 2)) {
-        func_0216E204(a, id);
+        func_0216E204((char *)a, id);
         return;
     }
     i = 0;
     h = func_0216D7A8((void *)a, 0);
     if (h == 0xFFFF) {
-        func_0216E204(a, id);
+        func_0216E204((char *)a, id);
         return;
     }
     for (; i < 4; i++) {
@@ -60,17 +61,17 @@ void func_0219D208(int a, unsigned int id)
         }
     }
     if (i >= 4) {
-        func_0216E204(a, id);
+        func_0216E204((char *)a, id);
         return;
     }
     ((struct Obj03119 *)r)->f0 = a;
     ((struct Obj03119 *)r)->f4 = h;
     ((struct Obj03119 *)r)->f6 = func_0216D598((void *)a);
     ((struct Obj03119 *)r)->f8 = id;
-    func_0216E204(a, id);
+    func_0216E204((char *)a, id);
     i = 0;
     if (func_0216D7A8((void *)a, 0) != 0xFFFF) {
-        func_0219C880(ctx, a, ((struct Obj03119 *)r)->f4, ((struct Obj03119 *)r)->f6);
+        func_0219C880((u8 *)ctx, a, ((struct Obj03119 *)r)->f4, ((struct Obj03119 *)r)->f6);
         func_02050468((struct BbActSys *)ctx[1], ((struct Obj03119 *)r)->f4, 1);
         ((struct Obj03119 *)r)->f0 = i;
     }

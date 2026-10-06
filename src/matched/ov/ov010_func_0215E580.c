@@ -17,13 +17,15 @@ typedef unsigned char u8;
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *);
-extern u8 func_0200D468(void *,u8);
+typedef unsigned int   u32;
+struct Blk38;
+extern u8 func_0200D468(struct Blk38 *p, u32 i);
 extern void func_0215E440(void *,u8);
 void func_0215E580(void *a)
 {
  int i;
  void *p = func_0200D418(func_02012EBC(a));
  for(i=0;i<2;i++) {
-  if(func_0200D468(p,i)==2) func_0215E440(a,i);
+  if(func_0200D468(p,(u8)i)==2) func_0215E440(a,i);
  }
 }

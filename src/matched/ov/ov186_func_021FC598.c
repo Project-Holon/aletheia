@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020419E4(void);
-void func_021FC598(void){func_020419E4();}
+void func_021FC598(void *a0){func_020419E4();}

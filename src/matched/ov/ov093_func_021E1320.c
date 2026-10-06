@@ -22,7 +22,8 @@ extern int func_021D775C(int key);
 typedef unsigned int   u32;
 struct QQ;
 extern u16 func_021D70A8(struct QQ *p);
-extern void func_021E8B28(void *p, u16 v);
+union U;
+extern void func_021E8B28(union U *p, u16 v);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E1320(void *a, int b, int c)
@@ -34,6 +35,6 @@ void func_021E1320(void *a, int b, int c)
         return;
     n = func_021D70A8(a);
     v = func_021D775C(30);
-    func_021E8B28(&v, n);
+    func_021E8B28((union U *)(&v), n);
     func_021D76BC(30, v);
 }

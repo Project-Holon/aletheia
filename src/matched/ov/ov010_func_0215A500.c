@@ -12,5 +12,5 @@
  *   func_0201433C 0x0201433C thumb
  */
 typedef unsigned short u16;
-extern void func_0201433C(char *, u16);
-void func_0215A500(char *a, unsigned b) { func_0201433C(a, b + 1420); }
+extern void func_0201433C(char *a0, int a1);
+void func_0215A500(char *a, unsigned b) { func_0201433C(a, (u16)(b + 1420)); }

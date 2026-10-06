@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02169A88(void *a, u32 b);
+extern void func_02169A88(u8 *p, u32 n);
 struct ArcFile;
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 struct ArcFile;
@@ -41,12 +41,12 @@ typedef struct S {
     u32 base;
 } S;
 
-void func_021695BC(S *p, u32 b)
+void func_021695BC(S *p, int b)
 {
     u32 t;
 
     if (p->busy != 0) {
-        func_02169A88(p, b);
+        func_02169A88((u8 *)p, b);
         return;
     }
     t = p->base + p->cur;

@@ -29,7 +29,9 @@ typedef struct {
     u8 f16b;
 } Work;
 
-extern void func_0204B6F4(void *, u8, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);
 
@@ -45,7 +47,7 @@ void func_0217E2E0(Work *p)
         c = -1;
         v = p->f16a;
         if (v != 4 && v != sel) {
-            func_0204B6F4(p->f5c[v + 12], v + 1, 1);
+            func_0204B6F4(p->f5c[v + 12], (u8)(v + 1), (int)1);
         }
         if (p->f16a != sel) {
             func_02082A60((void *)(0x05000600 + (sel + 1) * 32), buf, 0x20);
@@ -61,13 +63,13 @@ void func_0217E2E0(Work *p)
             p->f16b = 0;
         }
         if (c != -1) {
-            func_0204B6F4(p->f5c[sel + 12], c, 1);
+            func_0204B6F4(p->f5c[sel + 12], (u8)c, (int)1);
         }
         return;
     }
     v = p->f16a;
     if (v != 4) {
-        func_0204B6F4(p->f5c[v + 12], v + 1, 1);
+        func_0204B6F4(p->f5c[v + 12], (u8)(v + 1), (int)1);
         p->f16a = 4;
         p->f16b = 0;
     }

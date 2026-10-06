@@ -30,7 +30,8 @@
 typedef unsigned char u8;
 extern void func_0203F8F4(int);
 extern void func_02045088(int);
-extern void func_0203FC28(const void *);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u8,const void *,u8);
 extern void func_020414AC(u8);
 typedef unsigned int   u32;
@@ -48,7 +49,7 @@ void func_021B78F4(void **p,int heap)
 {
     int i,id;
     void *archive;
-    func_0203F8F4(heap); func_02045088(heap); func_0203FC28(d_021B8964);
+    func_0203F8F4(heap); func_02045088(heap); func_0203FC28((struct DispConfig *)d_021B8964);
     for(i=0;i<8;++i) {
         id=d_021B89B8[i];
         func_0203FCA0((u8)id,d_021B8A08+i*32,(u8)d_021B8998[i]);

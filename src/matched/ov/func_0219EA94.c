@@ -32,12 +32,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216D530(u32);
 extern u32 func_0216D550(u32, u32);
-extern u32 func_0216D67C(u32, u32, u32, u32);
+extern void *func_0216D67C(void *a0);
 extern u32 func_021BB3A0(u32, u32);
 
 int func_0219EA94(u32 a, u32 b, u32 c, u32 d)
 {
-func_021BB3A0(func_0216D530(func_0216D67C(b, b, c, d)), ((struct Obj17976 *)((u8 *)(a)))->f0);
+func_021BB3A0(func_0216D530((u32)func_0216D67C((void *)b)), ((struct Obj17976 *)((u8 *)(a)))->f0);
 return func_0216D550(b, (2 << 12));
 }
 

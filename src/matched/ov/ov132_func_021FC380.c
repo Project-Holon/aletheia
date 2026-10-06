@@ -38,8 +38,8 @@ extern void *func_021F9DDC(void *,u8);
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
 extern void *func_021F9DF4(void *p);
-extern void func_021F8044(void *,void *,Vec *);
-extern void func_021F6EF4(void *,void *,const Vec *);
+extern void func_021F8044(void *unused, u32 *p, u32 *q);
+extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
 extern void func_0207C9D0(const Vec *,const Vec *,Vec *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_021FADA0(char *,u32,u32,u32);
@@ -68,10 +68,10 @@ int func_021FC380(int unused,char *p)
   obj=func_021F9DA4(((struct Obj04520 *)owner)->f34,i);
   if(b&(1<<i)) {
    if(c==0) {
-    func_021F8044(scene,obj,&pos);
+    func_021F8044(scene,obj,(u32 *)(&pos));
     delta.x=d;delta.y=e;delta.z=f;
     func_0207C9D0(&pos,&delta,&pos);
-    func_021F6EF4(ctx,target,&pos);
+    func_021F6EF4(ctx,target,(const u32 *)(&pos));
    } else {
     func_021F9DF4(((struct Obj04520 *)owner)->f34);
     q=func_02030734(((struct Obj04520 *)owner)->f0,0x30,0,d_021FDD00,0x74D);

@@ -32,10 +32,11 @@ struct Ctl {
     u8 pad_00[4];
 };
 
-extern void *func_0204D410(struct Ctl *c);
+struct Obj;
+extern void *func_0204D410(struct Obj *o);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 
 void func_0204D7C4(struct Ctl *c)
 {
-    func_02063000((int)func_0204D410(c), 0, 0, 0);
+    func_02063000((int)func_0204D410((struct Obj *)c), 0, 0, 0);
 }

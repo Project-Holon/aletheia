@@ -33,7 +33,7 @@ struct Descriptor;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
 extern void *func_020457B0(u32, u16);
-extern void *func_020450F0(u8, u16, u16, u8, u8, u8, u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
@@ -51,7 +51,7 @@ void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 hea
     ((struct Obj01929 *)p)->f16 = 0x440;
     ((struct Obj01929 *)p)->f24 = a;
     ((struct Obj01929 *)p)->f10 = func_020457B0(0x200, heap);
-    q = func_020450F0(b, c, d, e, f, g, 1);
+    q = (void *)func_020450F0((u8)b, (u16)c, (u16)d, (u8)e, f, g, 1);
     ((struct Obj01929 *)p)->fC = q;
     ((struct Obj01929 *)p)->f0 = q;
     p[4] = 0;

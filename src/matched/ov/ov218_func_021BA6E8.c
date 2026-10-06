@@ -17,7 +17,7 @@
  */
 typedef unsigned int u32;
 extern int func_021BA720(u32 base, u32 i, u32 space, int y);
-void func_021BA6E8(u32 p, int sel, int y)
+void func_021BA6E8(u32 p, int sel, u32 y)
 {
     u32 base;
     u32 space;

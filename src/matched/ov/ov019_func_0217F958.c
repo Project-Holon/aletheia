@@ -13,5 +13,5 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0217FCA4(char *p);
-void func_0217F958(char *p,u32 key) { char *base=p+0x20; int i; for(i=0;i<10;i++) { u32 value=*(u32 *)(base+i*20); if(value==key) { func_0217FCA4(base+i*20); return; } } }
+extern void func_0217FCA4(u32 *p);
+void func_0217F958(char *p,u32 key) { char *base=p+0x20; int i; for(i=0;i<10;i++) { u32 value=*(u32 *)(base+i*20); if(value==key) { func_0217FCA4((u32 *)(base+i*20)); return; } } }

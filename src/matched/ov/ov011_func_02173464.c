@@ -58,14 +58,15 @@ struct BigObj;
 struct Work;
 extern u32 func_02026478(void *obj);
 extern u8 func_02012B58(const struct BigObj *p);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern u16 func_02188C9C(u8 *p);
 extern int func_0217C11C(u32 value);
 extern void func_02167794(struct Work *w);
 extern void func_021676E4(struct Work *w);
 extern int func_021677E4(void *p, int i);
 extern void func_02167848(char *a0, int a1, char *a2);
-extern void func_02174F54(Obj *, int, Entry *, int);
+struct Ent;
+extern void func_02174F54(u8 *p, int idx, const struct Ent *src, int arg);
 
 void func_02173464(u8 *a0, Obj *p, int a2)
 {
@@ -99,7 +100,7 @@ void func_02173464(u8 *a0, Obj *p, int a2)
     for (i = 0; i < 3; i++) {
         if (i != me && (p->mask & (1 << i))) {
             int hi = p->ents[i].hi;
-            func_02174F54(p, i, &p->ents[i], 0);
+            func_02174F54((u8 *)p, i, (const struct Ent *)(&p->ents[i]), 0);
             p->ents[i].hi = hi;
         }
     }

@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021C3490(u32, u32, u32, u32);
+extern int func_021C3490(void **p, int i);
 
 int func_021C34B4(u32 a, u32 b, u32 c, u32 d)
 {
-return ((func_021C3490(a, b, c, d) + 1) * 100);
+return ((func_021C3490((void **)a, b) + 1) * 100);
 }
 

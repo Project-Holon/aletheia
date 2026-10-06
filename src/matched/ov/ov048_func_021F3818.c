@@ -20,4 +20,4 @@ struct Blk34;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *p);
 extern void func_0200C3B8(struct Blk34 *p, u16 v);
-void func_021F3818(char *p) { func_0200C3B8(func_0200C0F0(func_02012EBC(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }
+void func_021F3818(int *p) { func_0200C3B8(func_0200C0F0(func_02012EBC(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }

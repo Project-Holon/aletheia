@@ -44,7 +44,8 @@
 extern void func_021FD860(int,int,int *);
 extern int func_021FD938(char *);
 extern void *func_021FC6A4(unsigned short,unsigned,unsigned short,unsigned short,unsigned char,unsigned char,void *,unsigned short);
-extern int func_021FC20C(char *),func_021FC214(char *);
+extern unsigned func_021FC20C(char *p);
+extern int func_021FC214(char *);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);
 typedef unsigned int   u32;
 typedef unsigned char  u8;

@@ -15,5 +15,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021FF02C(char *,u32); extern const char d_02200B74[];
-void func_021FEEC0(char *p,int mode,u32 value) { int i; for(i=0;i<12;i++) if(mode==*(int *)((u32)d_02200B74+i*24+16)) func_021FF02C((char *)((u32)p+i*0x4c),value); }
+extern void func_021FF02C(u8 *p, u32 v); extern const char d_02200B74[];
+void func_021FEEC0(char *p,int mode,u32 value) { int i; for(i=0;i<12;i++) if(mode==*(int *)((u32)d_02200B74+i*24+16)) func_021FF02C((u8 *)((u32)p+i*0x4c),value); }

@@ -26,7 +26,8 @@ extern u32 func_02017DBC(struct Sav *p);
 extern void *func_021DEDD8(void *p);
 extern void func_021ECCCC(char *p, void **mon, int index);
 extern void func_021ED028(char *p, unsigned char *q);
-extern void func_021EB2A4(char *p, void *s);
+typedef unsigned char  u8;
+extern void func_021EB2A4(u8 *p, int a);
 extern void func_021DEF58(void *s);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 void func_021DEFF8(char *p, unsigned b)
@@ -39,7 +40,7 @@ void func_021DEFF8(char *p, unsigned b)
     s = func_021DEDD8(mon);
     func_021ECCCC(p, s, 11);
     func_021ED028(((struct Obj00000 *)p)->f2C, s);
-    func_021EB2A4(p, s);
+    func_021EB2A4((u8 *)p, (int)s);
     func_021DEF58(s);
     func_02017DE4(mon, state);
 }

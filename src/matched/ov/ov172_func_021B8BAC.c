@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u8 func_021B8BAC(int unused, char *base, int i)
+u8 func_021B8BAC(void *unused, char *base, int i)
 {
     return *(u8 *)(base + (i << 6) + 0xa0);
 }

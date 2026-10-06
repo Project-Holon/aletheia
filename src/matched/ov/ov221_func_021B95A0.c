@@ -59,7 +59,9 @@ typedef struct {u32 id;u8 cfg[32];u32 type,enable;} Row;
 extern const Row tbl_021BA148[];
 typedef struct {u32 a,b,c;} Assets;
 extern Assets tbl_021BA2C0[];
-extern void func_0203064C(void*,u32,u32);
+struct BgTemplate;
+struct Obj;
+extern void func_0203064C(u32 a, u32 b, u32 c);
 extern char *func_0203159C(void*,u32,u32);
 extern void func_02082BCC(void*,int,u32);
 extern void *func_021B9E78(u32,u32);
@@ -69,18 +71,23 @@ extern u32 func_0201C440(void*);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,void*,u32);
 extern void func_021B98FC(void);
-extern void func_021B9900(u8*),func_021B9964(u8*),func_021B9B84(char*),func_021B9C4C(u8*);
+extern void func_021B9900(u8*);
+extern void func_021B9964(struct Obj *p);
+extern void func_021B9B84(char*);
+extern void func_021B9C4C(u8*);
 extern char *func_02012944(void*);
 typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
 extern void func_02043588(void),func_02043558(void),func_0207D518(BGMode);
-extern void func_0203FCA0(u8,const void*,u8),func_020414AC(u8),func_02040588(u8,u8);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_020414AC(u8);
+extern void func_02040588(u8,u8);
 extern void func_02043598(u32,u32);
 extern void *func_020490F4(u32,u16);
 extern void func_02049B68(void*,u32,u32,u32,u32,u16);
-extern void func_02049658(void*,u32,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void*);
-extern void func_021B9CEC(u8*);
+extern void func_021B9CEC(char *p);
 extern void func_0204E720(u32,int,int,int),func_020409B4(u32),func_0203D34C(u32,u32),func_02005E30(u32);
 int func_021B95A0(void *owner,void *unused,void *input)
 {
@@ -91,7 +98,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  u32 id;
  u16 heap;
  void *h;
- func_0203064C((void*)1,131,0x30000);
+ func_0203064C((u32)((void*)1),131,0x30000);
  p=func_0203159C(owner,88,131);
  i=BG_MODE0;
  func_02082BCC(p,i,88);
@@ -102,7 +109,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  *(u32*)(p+16)=func_0201C440((void*)*(u16*)p);
  func_0204047C(1,1);func_0204047C(2,0);
  *(void**)(p+20)=func_020056A0((u32)func_021B98FC,p,1);
- func_021B9900((u8*)p);func_021B9964((u8*)p);func_021B9B84(p);func_021B9C4C((u8*)p);
+ func_021B9900((u8*)p);func_021B9964((struct Obj *)p);func_021B9B84(p);func_021B9C4C((u8*)p);
  settings=func_02012944(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
@@ -110,7 +117,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  func_02043588();func_0207D518(i);func_02043558();
  do {
   row=&tbl_021BA148[i];id=row->id;
-  func_0203FCA0(id,row->cfg,row->type);func_020414AC(id);func_02040588(id,row->enable);
+  func_0203FCA0((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);func_020414AC(id);func_02040588(id,row->enable);
   i++;
  } while((u32)i<1u);
  func_02043598(16,1);
@@ -121,7 +128,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  func_02049B68(h,tbl_021BA2C0[selected].a,4,zero,zero,heap);
  func_02049658(h,tbl_021BA2C0[selected].b,4,zero,zero,zero,heap);
  func_020498F4(h,tbl_021BA2C0[selected].c,4,zero,zero,zero,heap);
- func_02049238(h);func_020409B4(4);func_021B9CEC((u8*)p);
+ func_02049238(h);func_020409B4(4);func_021B9CEC((char *)p);
  func_0204E720(3,16,16,0);func_0203D34C(0,*(u16*)p);
  if(*(int*)(*(char**)(p+4)+4)==0) func_02005E30(6);
  return 1;

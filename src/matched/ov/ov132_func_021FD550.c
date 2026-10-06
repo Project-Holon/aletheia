@@ -17,7 +17,7 @@
 #include "../include/Obj23287.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021FCEA8(void *,int,u32,int);
+extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
 extern int func_021FD5E4(char *p, u32 i);
 void func_021FD550(char *p)
 {
@@ -25,7 +25,7 @@ void func_021FD550(char *p)
         switch(*(u32 *)&((struct Obj02196 *)p)->f17C) {
         case 0: break;
         case 1:
-            if(func_021FCEA8(p,7,((struct Obj23286 *)(*(char * *)&((struct Obj02196 *)p)->f140))->f2C,0xff)==1) ((struct Obj02196 *)p)->f17C=2;
+            if(func_021FCEA8((int)p,7,((struct Obj23286 *)(*(char * *)&((struct Obj02196 *)p)->f140))->f2C,0xff)==1) ((struct Obj02196 *)p)->f17C=2;
             break;
         case 2: break;
         case 3:

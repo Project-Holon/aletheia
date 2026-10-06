@@ -16,7 +16,7 @@
 typedef unsigned char  u8;
 void func_021DD19C(void *a, u8 *b, int c, int d);
 
-void func_021DE34C(int a, int b, int c)
+void func_021DE34C(int a, int b, int c, u8 *a3)
 {
     func_021DD19C((void *)a, (u8 *)b, c, 0x26);
 }

@@ -32,9 +32,9 @@ typedef signed int     s32;
 struct Rec;
 extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern int func_02190D08(int x);
-extern void func_02193200(u32 a);
+extern int func_02193200(u32 a);
 
-u32 *func_02190C94(u32 *a, u32 b, u32 c, u32 d, s16 e0, u32 f, u16 g)
+u32 *func_02190C94(u32 *a, u32 b, u32 c, u32 d, u16 e0, u32 f, u16 g)
 {
     u32 *r;
 

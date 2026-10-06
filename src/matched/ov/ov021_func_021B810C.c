@@ -64,9 +64,9 @@ typedef struct Sub {
 
 extern const u8 d_021DE298[];
 
-extern int func_021B91AC(Sub *p);
+extern int func_021B91AC(u32 a);
 extern int func_021B88DC(Sub *p, int dir, int d);
-extern void func_021B977C(Sub *p);
+extern void func_021B977C(u8 *p);
 extern void func_021B91F8(Sub *p, V3 *out);
 extern void func_021B9238(Sub *p, Out *out);
 
@@ -82,7 +82,7 @@ void func_021B810C(Sub *o)
         return;
     if (o->f8 == 0)
         return;
-    if (func_021B91AC(o) == 0)
+    if (func_021B91AC((u32)o) == 0)
         return;
     res = 0;
     o->f34 = 0;
@@ -101,7 +101,7 @@ void func_021B810C(Sub *o)
         func_021B91F8(o, &o->f38);
     }
     if (prev != o->f0)
-        func_021B977C(o);
+        func_021B977C((u8 *)o);
     if (o->f2D < 0x10 && res != 0)
         return;
     o->f2C = 0;

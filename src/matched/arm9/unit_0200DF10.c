@@ -90,7 +90,7 @@ void func_0200DF10(struct RecSlot *p, const void *src, u8 a, u8 b)
     p->unkFF = 1;
 }
 
-u8 func_0200DF40(struct RecSlot *p)
+int func_0200DF40(struct RecSlot *p)
 {
     return p->unk103;
 }

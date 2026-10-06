@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020307B0(void *p);
-extern void func_0218C0D8(void *p);
+extern void func_0218C0D8(void **s);
 
 void func_0218BE84(u8 *s, u8 *e)
 {
@@ -37,7 +37,7 @@ void func_0218BE84(u8 *s, u8 *e)
     }
     if (*(u8 * *)&((struct Obj01114 *)s)->f1D8 != 0) {
         for (i = 0; i < ((struct Obj01114 *)s)->f1D4; i++)
-            func_0218C0D8(*(u8 * *)&((struct Obj01114 *)s)->f1D8 + i * 0x18);
+            func_0218C0D8((void **)(*(u8 * *)&((struct Obj01114 *)s)->f1D8 + i * 0x18));
         func_020307B0(*(u8 * *)&((struct Obj01114 *)s)->f1D8);
         ((struct Obj01114 *)s)->f1D4 = 0;
         *(u8 * *)&((struct Obj01114 *)s)->f1D8 = 0;

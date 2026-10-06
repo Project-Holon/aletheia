@@ -62,29 +62,36 @@ typedef struct {
 
 extern unsigned char d_021E8DEC[];
 
-extern void func_0201C6EC(int);
-extern int  func_02045770(int);
-extern void func_02043B5C(int, int);
-extern void func_0201CE48(int);
-extern void func_02028604(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct PrintSys;
+struct Rec3;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201CE48(struct Rec3 *p);
+extern int func_02028604(int a0);
 extern void func_021E8848(S *);
 extern int  func_020056BC(void);
-extern int  func_0202EE30(int, int, int, int, int);
-extern void func_0201C6FC(int, int, int, int, int, int);
-extern void func_02034714(void *, int, void *);
-extern void func_02028470(void *, int);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_02028470(u8 *p, u32 v);
 extern int  func_02028590(int, int, int, int);
-extern int  func_02012FFC(void);
+extern signed char func_02012FFC(void);
 extern int  func_0201CCE4(int, int, int, int, int, int, int, int, int, int);
 
 void func_021E8754(S *p, int mode)
 {
     int q;
 
-    func_0201C6EC(p->f28);
-    func_02043B5C(func_02045770(p->f14), (unsigned char)p->f1c);
+    func_0201C6EC((struct PrintSys *)p->f28);
+    func_02043B5C(func_02045770((struct Descriptor *)p->f14), (unsigned char)p->f1c);
     if (p->f8 != 0) {
-        func_0201CE48(p->f8);
+        func_0201CE48((struct Rec3 *)p->f8);
         p->f8 = 0;
     }
     if (p->f34 != 0) {
@@ -94,23 +101,23 @@ void func_021E8754(S *p, int mode)
     func_021E8848(p);
     switch (mode) {
     case 2:
-        p->f10 = func_0202EE30(func_020056BC(), p->f14, (unsigned char)p->f1c, 0x10, p->f1e);
+        p->f10 = (int)func_0202EE30((void *)func_020056BC(), (void *)p->f14, (unsigned char)p->f1c, 0x10, p->f1e);
         q = p->f28;
-        func_0201C6FC(q, func_02045770(p->f20), 0, 0, p->f18, p->f4);
+        func_0201C6FC((struct PrintSys *)q, (u32)func_02045770((struct Descriptor *)p->f20), 0, 0, (void *)p->f18, p->f4);
         p->f24 = 1;
         p->f2c = 0;
         break;
     case 0:
         q = p->f28;
-        func_0201C6FC(q, func_02045770(p->f20), 0, 0, p->f18, p->f4);
+        func_0201C6FC((struct PrintSys *)q, (u32)func_02045770((struct Descriptor *)p->f20), 0, 0, (void *)p->f18, p->f4);
         p->f24 = 1;
         p->f2c = 0;
         break;
     case 1:
         if (p->f34 != 0) {
-            func_02034714(d_021E8DEC, 0, d_021E8DEC);
+            func_02034714((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
         }
-        func_02028470(p->f38, 2);
+        func_02028470((u8 *)p->f38, 2);
         p->f34 = func_02028590(p->f1c, 1, 0, p->f1e);
         p->f8 = func_0201CCE4(p->f14, 0, 0, p->f18, p->f4, func_02012FFC(), p->fc, 0, p->f1e, p->f1c);
         p->f2c = 1;

@@ -19,7 +19,7 @@
 extern unsigned short func_021AB0F0(unsigned long attr);
 extern unsigned short func_021AB0F8(unsigned long attr);
 extern int func_021AB11C(unsigned long attr);
-extern int func_021AB2E8(unsigned short id);
+extern int func_021AB2E8(int id);
 
 int func_021AB5AC(unsigned long a, unsigned long b)
 {

@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0218C530(u32 a, u32 b, u32 c)
+u8 func_0218C530(int a)
 {
 if (*(u32 *)((u8 *)(((struct Obj09173 *)((u8 *)(a)))->fC)) == (~0)) {
     return ((((struct Obj09173 *)((u8 *)(a)))->f4 << 24) >> 24);

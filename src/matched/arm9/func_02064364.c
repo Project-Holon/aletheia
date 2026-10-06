@@ -30,11 +30,11 @@ typedef signed int     s32;
 struct CellAnim;
 
 extern s32  func_02062D4C(struct CellAnim *anim, s32 frames);
-extern void func_0206419C(struct CellAnim *anim);
+extern void func_0206419C(char *self);
 
 void func_02064364(struct CellAnim *anim, s32 frames)
 {
     if (func_02062D4C(anim, frames) != 0) {
-        func_0206419C(anim);
+        func_0206419C((char *)anim);
     }
 }

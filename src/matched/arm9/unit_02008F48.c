@@ -67,8 +67,8 @@ struct Sub0200852CObj;
 extern void sub_02008EAC(struct Sub02008EACObj *obj);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern struct Sub0200852CObj *func_02012944(void *p);
-extern const void *sub_020084F4(struct Sub0200852CObj *p);
+extern u8 *func_02012944(void *p);
+extern const void *sub_020084F4(const void *p);
 extern u32 sub_02008530(const struct Sub0200852CObj *obj);
 extern u8  sub_02008550(const struct Sub0200852CObj *obj);
 
@@ -88,7 +88,7 @@ void sub_02008F48(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused,
 
     sub_02008EAC((struct Sub02008EACObj *)obj);
     obj->unk07 = kind;
-    src = func_02012944(p);
+    src = (struct Sub0200852CObj *)func_02012944(p);
     MI_CpuCopy8(sub_020084F4(src), obj->unk08, sizeof(obj->unk08));
     obj->unk04 = sub_02008550(src);
     obj->unk00 = sub_02008530(src);

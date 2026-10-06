@@ -26,7 +26,8 @@ extern void func_0220E13C(u8 *);
 extern void func_0220E1D4(u8 *);
 extern void func_02211944(u8 **);
 extern u32 func_02020FE4(void *,u32,u32);
-extern void func_02045CAC(void *,u32,void *);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 int func_0220F7C4(u8 *p)
 {
     u8 *q = *(u8 **)p;

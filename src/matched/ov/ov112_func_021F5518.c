@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020185F4(void *p);
 extern u32 func_02019D30(u32, u32);
-extern int func_02019D58(u16, u8);
+extern int func_02019D58(u16 a, int b);
 extern int func_0202D09C(u32,u32,u32,u32,u32,u32,u32);
 extern int func_0202D0D4(u32,u32,u32,u32,u32,u32,u32);
 extern int func_0202D110(u32,u32,u32,u32,u32,u32,u32);
@@ -47,7 +47,7 @@ void func_021F5518(u8 *p, u32 *out, u32 k)
     c = p[10];
     d = p[12];
     flag = 0;
-    b = func_02019D58(((struct Obj04459 *)p)->f8, n);
+    b = func_02019D58(((struct Obj04459 *)p)->f8, (u8)n);
     if (k == 1) flag = 1;
     out[0] = 52;
     out[1] = func_0202D09C(out[0],a,b,c,d,flag,0);

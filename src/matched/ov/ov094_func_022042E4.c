@@ -31,7 +31,7 @@ typedef struct { Main *main; int state; } Ctx;
 typedef struct { int a, b; } Pair;
 extern const Pair d_0220A4EC[];
 extern void func_022056B4(Main *);
-extern void func_022053DC(Main *);
+extern void func_022053DC(char *m);
 typedef unsigned int   u32;
 struct Bank;
 struct Cfg;
@@ -42,7 +42,7 @@ extern void func_020409B4(u32 index);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_022044C0(Main *, int, int, int, int);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
-extern void func_0220687C(Main *, void *);
+extern void func_0220687C(char *p, void *q);
 void func_022042E4(void *h, Ctx *c)
 {
     switch (c->state) {
@@ -51,7 +51,7 @@ void func_022042E4(void *h, Ctx *c)
         c->state++;
         break;
     case 1:
-        func_022053DC(c->main);
+        func_022053DC((char *)c->main);
         func_02045374(c->main->obj228);
         func_020409B4(6);
         func_022044C0(c->main, d_0220A4EC[c->main->mode].a, d_0220A4EC[c->main->mode].b, 8, 8);
@@ -64,7 +64,7 @@ void func_022042E4(void *h, Ctx *c)
             func_02045334(c->main->obj228);
             func_0204B22C(c->main->obj1f8, 1);
             func_02204960(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
-            func_0220687C(c->main, h);
+            func_0220687C((char *)c->main, h);
         }
         break;
     }

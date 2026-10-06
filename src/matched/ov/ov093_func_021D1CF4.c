@@ -33,12 +33,14 @@ typedef unsigned int u32;
 struct S;
 extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern u8 func_021D5440(u8 *p);
-extern int func_021B8CE8(int a, unsigned char b, int c);
+extern int func_021B8CE8(int a, int b, int c);
 extern int func_021D1DF4(void *);
 extern void func_021EAF18(void *, int, int);
 extern int func_021B9F70(u8 *p, int i);
-extern void func_021EAF50(void *, int);
-extern void func_021EA614(void *, void *);
+struct H;
+struct L;
+extern void func_021EAF50(struct L *p, u32 val);
+extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 extern u8 func_021B8BEC(u8 *, u32, u8);
 extern void func_021EA488(struct S *s, u8 a, u8 b, u8 c);
@@ -47,9 +49,9 @@ extern void func_021CDECC(u8 *p);
 static inline void message(u8 *p, int code, u32 value, u32 id)
 {
     func_021EAF18(p + 0x58, 1, code);
-    func_021EAF50(p + 0x58, value);
-    func_021EAF50(p + 0x58, id);
-    func_021EA614(((struct Obj21146 *)p)->f54, p + 0x58);
+    func_021EAF50((struct L *)(p + 0x58), value);
+    func_021EAF50((struct L *)(p + 0x58), id);
+    func_021EA614(((struct Obj21146 *)p)->f54, (struct H *)(p + 0x58));
 }
 int func_021D1CF4(u8 *p, int *state, const u32 *params)
 {
@@ -64,8 +66,8 @@ int func_021D1CF4(u8 *p, int *state, const u32 *params)
             if (func_021B8CE8((int)(((struct Obj01691 *)p)->f0), p[0x1A6], a) == 0) {
                 if (p[0x1A6] == a) {
                     func_021EAF18(p + 0x58, 1, func_021D1DF4(p));
-                    func_021EAF50(p + 0x58, id);
-                    func_021EA614(((struct Obj01691 *)p)->f54, p + 0x58);
+                    func_021EAF50((struct L *)(p + 0x58), id);
+                    func_021EA614(((struct Obj01691 *)p)->f54, (struct H *)(p + 0x58));
                 } else {
                     message(p, 0x11, a, id);
                 }

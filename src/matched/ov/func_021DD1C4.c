@@ -20,12 +20,12 @@
 #include "../include/Obj00000.h"
 
 
-extern unsigned char func_021DEB14(char *, signed char);
-extern void func_021EDECC(char *, int);
+extern unsigned char func_021DEB14(unsigned char *p, int a);
+extern void func_021EDECC(unsigned char *p, int d);
 extern void func_021EE008(char *, int, int);
 void func_021DD1C4(char *p, int a)
 {
-    ((struct Obj00000 *)p)->f19 = func_021DEB14(p, (signed char)a);
-    func_021EDECC(p, a);
+    ((struct Obj00000 *)p)->f19 = func_021DEB14((unsigned char *)p, (signed char)a);
+    func_021EDECC((unsigned char *)p, a);
     func_021EE008(p, 0, 0);
 }

@@ -25,7 +25,9 @@ struct Obj;
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p,unsigned int v);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B404(int,const Pt *,unsigned int);
+typedef unsigned int   u32;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021E68F4(int p, int i) {
     Table t=d_021E7DEC;
     Create c;
@@ -38,6 +40,6 @@ void func_021E68F4(int p, int i) {
         }
         func_0204B92C((struct Obj *)((struct Obj00001 *)p)->fFD4,1);
         func_0204B3DC((struct Obj *)((struct Obj00001 *)p)->fFD4,1);
-        func_0204B404(((struct Obj00001 *)p)->fFD4,&t.pos[i],1);
+        func_0204B404((struct Obj *)(((struct Obj00001 *)p)->fFD4),(const struct Vec2 *)(&t.pos[i]),1);
     }
 }

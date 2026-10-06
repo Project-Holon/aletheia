@@ -43,8 +43,11 @@ extern void func_02041B6C(u32 bit);
 extern void *func_021D8FA4(void *,int);
 extern int func_021D89EC(const u8 *p);
 extern void func_021D9468(void *,int,void *);
-extern void func_021DEBD4(void *),func_021DD09C(void *),func_021D8980(void *);
-extern void func_021D8E84(void *,int),func_021DEA24(void *);
+extern void func_021DEBD4(void *);
+extern void func_021DD09C(char *p);
+extern int func_021D8980(char *p);
+extern void func_021D8E84(void *,int);
+extern void func_021DEA24(char *p);
 extern void func_0202208C(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
 void func_021DE2C4(char *p)
 {

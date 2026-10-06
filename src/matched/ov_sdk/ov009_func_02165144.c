@@ -16,7 +16,7 @@
  *   func_02165164  0x02165164  arm  ov009
  */
 
-extern void func_02165204(int a, int b);
+extern long func_02165204(int a, int b);
 extern void func_02165164(int a, int b);
 
 void func_02165144(int a, int b)

@@ -24,9 +24,12 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern void *func_021D8D4C(void **a, int b, int c, char *p);
 extern int func_021D8A24(void *);
-extern int func_021DD428(void *,int,int,int,void *);
+struct S119DD4F4;
+struct State;
+extern int func_021DD428(struct State *p, int side, int a, int b, void *value);
 extern int func_021DF9E8(char *,void *,int);
-extern void func_021DD4F4(void *,int,int),func_020307B0(void *);
+extern void func_021DD4F4(struct S119DD4F4 *p, int i, int j);
+extern void func_020307B0(void *);
 extern u32 func_020173EC(void);
 extern void func_021E6334(char *p, int i, int j, void *mon, int selected, u32 visible);
 int func_021DD5B4(char *p,int a,int b)
@@ -37,17 +40,17 @@ int func_021DD5B4(char *p,int a,int b)
     value=(int)func_021D8D4C(*(void ** *)&((struct Obj00001 *)p)->f828,((struct Obj00001 *)p)->fF88,((struct Obj00001 *)p)->fF84,p);
     if(func_021D8A24(p)) {
         i=0;
-        slot=func_021DD428(p,0,a,b,(void *)value);
+        slot=func_021DD428((struct State *)p,0,a,b,(void *)value);
         if(slot!=-1) {
             if(func_021DF9E8(p,*(void **)(p+slot*4+0xfd8),slot+0xc07)==0) {
-                func_021DD4F4(p,0,slot);
+                func_021DD4F4((struct S119DD4F4 *)p,0,slot);
                 func_020307B0((void *)value);
                 return 0;
             }
             for(i=0;i<(unsigned)func_020173EC();i++) {}
         }
     } else {
-        slot=func_021DD428(p,0,a,b,(void *)value);
+        slot=func_021DD428((struct State *)p,0,a,b,(void *)value);
     }
     if(slot==-1) {func_020307B0((void *)value);return 1;}
     func_021E6334(p,0,slot,(void *)value,1,0);

@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern void func_021F8A40(u8 *p);
+extern void func_021F8A40(void);
 extern void func_021F5074(u8 *p);
 extern void func_021F4EC8(u8 *p);
 
 u32 func_021F8A18(u8 *p)
 {
-    func_021F8A40(p);
+    func_021F8A40();
     func_021F5074(p);
     func_021F4EC8(p);
     if (((struct Obj00287 *)p)->f10 == 0) {

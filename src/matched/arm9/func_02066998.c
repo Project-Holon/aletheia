@@ -82,7 +82,7 @@ struct CellTransferManager {
 
 extern struct CellTransferManager g_02148B20;
 extern s32 tbl_020A1808[VRAM_TYPE_MAX];
-extern u32 func_020640D4(const VRamLocation *loc, s32 type);
+extern s32 func_020640D4(const s32 *tbl, u32 i);
 
 static inline BOOL ShouldTransfer_(const CellTransferState *s, VRamType t)
 {
@@ -102,7 +102,7 @@ void func_02066998(void)
                     s32 gfdType = tbl_020A1808[t];
                     const void *src = (t == VRAM_TYPE_3DMAIN) ? s->pSrcNCBR : s->pSrcNCGR;
                     if ((*g_02148B20.pFuncTransfer)(gfdType,
-                                                    func_020640D4(&s->dstVramLocation, t),
+                                                    func_020640D4((const s32 *)(&s->dstVramLocation), t),
                                                     (void *)((u32)src + s->srcOffset),
                                                     s->szByte))
                         s->bTransferRequested &= ~(1 << t);

@@ -28,11 +28,11 @@ typedef struct { u8 a : 2; u8 f : 1; } Flags;
 extern void func_021D0B10(u8 *p, u32 a, u32 b, void *q, void *out);
 extern void func_021CF41C(u8 *p);
 extern void func_021CF360(u8 *p);
-extern void func_021D8434(u8 *o);
-extern u32 func_021B990C(u32 a, u32 b, u8 i);
+extern void func_021D8434(u32 *p);
+extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
 extern u32 func_021CF470(u8 *p, void *q, u8 *o);
 extern void func_021CE150(u8 *p, void *q);
-extern u32 func_021CE4D0(u8 *p);
+extern int func_021CE4D0(u8 *p, u32 *st);
 
 u32 func_021CE308(u8 *p)
 {
@@ -46,10 +46,10 @@ u32 func_021CE308(u8 *p)
     func_021CF41C(p);
     func_021CF360(p);
     for (i = 0; i < 3; i++) {
-        func_021D8434(p + 0x124 + i * 4);
+        func_021D8434((u32 *)(p + 0x124 + i * 4));
     }
     for (i = 0; i < p[0x11c]; i++) {
-        w = func_021B990C(((struct Obj03688 *)p)->f4, p[0x1a6], i);
+        w = (u32)func_021B990C((char *)(((struct Obj03688 *)p)->f4), p[0x1a6], (u8)i);
         if (func_021CF470(p, (void *)w, 0) == 0) {
             p[0x11f] = i;
             break;

@@ -23,14 +23,21 @@
 #include "../include/Obj00681.h"
 typedef unsigned char u8;
 extern int func_02028604(int a0);
-extern void func_0201C4C0(void *);
-extern void func_0201CE48(void *);
-extern void func_02045808(void *);
-extern void func_0201ED04(void *);
-extern void func_02045C04(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+struct PrintSys;
+struct Rec;
+struct Rec3;
+struct S02031140;
+struct U16Vec;
+struct WordSet;
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_0201D83C(void *);
-extern void func_02031140(void *);
+extern void func_02031140(struct S02031140 *p);
 extern void func_0201DD68(void);
 void func_021B6824(u8 *p)
 {

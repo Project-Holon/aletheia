@@ -54,17 +54,18 @@ typedef struct
     int flags;
 } BN_RECP_CTX;
 
-extern int func_021CAB94(const BIGNUM *);
-extern int func_021CAEC8(BIGNUM *, BN_ULONG);
-extern BIGNUM *func_021CAE20(BIGNUM *, const BIGNUM *);
-extern void func_021CCA5C(BN_RECP_CTX *);
+typedef unsigned char  u8;
+extern char *func_021CAB94(u8 *p);
+extern int func_021CAEC8(u8 *a, unsigned long w);
+extern u8 *func_021CAE20(u8 *a, u8 *b);
+extern void func_021CCA5C(u8 *p);
 extern int func_021CCAAC(BN_RECP_CTX *, const BIGNUM *, BN_CTX *);
-extern void func_021CACD0(BIGNUM *);
+extern void func_021CACD0(int a);
 extern int func_021CC0FC(BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
 extern int func_021CCAE4(BIGNUM *, BIGNUM *, BIGNUM *, BN_RECP_CTX *, BN_CTX *);
 extern int func_021CB15C(const BIGNUM *, int);
-extern void func_021CABC0(BIGNUM *);
-extern void func_021CCA80(BN_RECP_CTX *);
+extern void func_021CABC0(int a);
+extern void func_021CCA80(u8 *p);
 
 #define BN_is_zero(a) (((a)->top == 0) || (((a)->top == 1) && ((a)->d[0] == 0)))
 #define BN_is_one(a) (((a)->top == 1) && ((a)->d[0] == 1))
@@ -77,29 +78,29 @@ int func_021CCE7C(BIGNUM *r, const BIGNUM *a, const BIGNUM *p, const BIGNUM *m, 
     BIGNUM val[16];
     BN_RECP_CTX recp;
 
-    bits = func_021CAB94(p);
+    bits = (int)func_021CAB94((u8 *)p);
 
     if (BN_is_zero(a))
     {
-        func_021CAEC8(r, 0);
+        func_021CAEC8((u8 *)r, 0);
         return 1;
     }
     if (BN_is_zero(p))
     {
-        func_021CAEC8(r, 1);
+        func_021CAEC8((u8 *)r, 1);
         return 1;
     }
     if (BN_is_one(p))
     {
-        func_021CAE20(r, a);
+        func_021CAE20((u8 *)r, (u8 *)a);
         return 1;
     }
 
-    func_021CCA5C(&recp);
+    func_021CCA5C((u8 *)(&recp));
     if (func_021CCAAC(&recp, m, ctx) <= 0)
         goto err;
 
-    func_021CACD0(&(val[0]));
+    func_021CACD0((int)(&(val[0])));
     ts = 1;
     aa = &(ctx->bn[ctx->tos++]);
 
@@ -120,7 +121,7 @@ int func_021CCE7C(BIGNUM *r, const BIGNUM *a, const BIGNUM *p, const BIGNUM *m, 
     j = 1 << (window - 1);
     for (i = 1; i < j; i++)
     {
-        func_021CACD0(&(val[i]));
+        func_021CACD0((int)(&(val[i])));
         if (!func_021CCAE4(&(val[i]), &(val[i - 1]), aa, &recp, ctx))
             goto err;
     }
@@ -131,7 +132,7 @@ int func_021CCE7C(BIGNUM *r, const BIGNUM *a, const BIGNUM *p, const BIGNUM *m, 
     wstart = bits - 1;
     wend = 0;
 
-    if (!func_021CAEC8(r, 1))
+    if (!func_021CAEC8((u8 *)r, 1))
         goto err;
 
     for (;;)
@@ -182,7 +183,7 @@ int func_021CCE7C(BIGNUM *r, const BIGNUM *a, const BIGNUM *p, const BIGNUM *m, 
 err:
     ctx->tos--;
     for (i = 0; i < ts; i++)
-        func_021CABC0(&(val[i]));
-    func_021CCA80(&recp);
+        func_021CABC0((int)(&(val[i])));
+    func_021CCA80((u8 *)(&recp));
     return ret;
 }

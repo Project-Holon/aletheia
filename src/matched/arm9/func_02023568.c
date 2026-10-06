@@ -52,9 +52,10 @@ struct Obj {
     u32 f48;     /* 0x48 */
 };
 
-extern void func_0202291C(struct Obj *o, void *p);
-extern void func_02023D60(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
-                          u32 a6);
+struct Quad;
+extern void func_0202291C(struct Quad *dst, struct Quad *src);
+typedef unsigned char  u8;
+extern void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 
 u32 func_02023568(struct Obj *o)
 {
@@ -67,16 +68,16 @@ u32 func_02023568(struct Obj *o)
         n = o->steps - 1;
         if (n > 0) {
             o->steps = n;
-            func_0202291C(o, (char *)o + 0x10);
+            func_0202291C((struct Quad *)o, (struct Quad *)((char *)o + 0x10));
             goto step;
         }
 
-        func_02023D60(o->f48, o->f20, o->f24, o->f28, o->f2c, o->f34,
+        func_02023D60((u8 *)o->f48, o->f20, o->f24, o->f28, o->f2c, o->f34,
                       o->f30);
         return 1;
 
     step:
-        func_02023D60(o->f48, o->x / 128, o->y / 128, o->z / 128,
+        func_02023D60((u8 *)o->f48, o->x / 128, o->y / 128, o->z / 128,
                       o->w / 128, o->f34, o->f30);
     }
 

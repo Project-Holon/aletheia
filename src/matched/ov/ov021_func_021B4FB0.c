@@ -36,7 +36,7 @@ extern void *func_0201210C(const struct Ctx *p);
 struct Big;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
-extern void *func_021C5BD0(void *a, u32 b, void *c);
+extern void *func_021C5BD0(void *a, u32 b, u32 c);
 
 int func_021B4FB0(u32 a, u32 b)
 {
@@ -56,6 +56,6 @@ int func_021B4FB0(u32 a, u32 b)
         y = 0;
     else
         y = 1;
-    func_0215897C(r0, func_021C5BD0(r7, y, x));
+    func_0215897C(r0, func_021C5BD0(r7, y, (u32)x));
     return 1;
 }

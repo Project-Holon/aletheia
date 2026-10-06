@@ -29,7 +29,8 @@ typedef struct S {
 } S;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int *func_02049250(void *, int, u16);
+struct ArcFile;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 struct ArcFile;
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
@@ -46,7 +47,7 @@ void func_021F3E84(S *o, int b, int key, u16 c)
 
     m = (c & 0x7fff) | 0x8000;
     h = func_020490F4(0xba, m);
-    tbl = func_02049250(h, 5, m);
+    tbl = func_02049250(h, (int)5, (u16)m);
     n = func_020493D4(h, 5) >> 2;
     for (i = 0; i < n; i++) {
         if (key == tbl[i])
@@ -55,7 +56,7 @@ void func_021F3E84(S *o, int b, int key, u16 c)
     func_0204944C(h, i, 0, 0x32, o);
     func_020307B0(tbl);
     n = func_020493D4(h, 6);
-    o->f38 = (int)func_02049250(h, 6, c);
+    o->f38 = (int)func_02049250(h, (int)6, (u16)c);
     o->f3c = n >> 4;
     func_02049238(h);
     for (j = 0; j < 2; j++)

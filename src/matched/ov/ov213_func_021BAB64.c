@@ -44,7 +44,7 @@ extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_0201DD60(void);
 extern void func_021BACB4(void *p,unsigned heap);
-extern void func_021BAD58(int *p,int descriptor,int heap);
+extern void func_021BAD58(void **out, int a, int b);
 extern void func_021BADC8(unsigned **p,unsigned heap);
 extern void func_021BACA0(void *unused, char *p);
 extern void *func_020056A0(void *callback,void *ctx,int priority);
@@ -65,7 +65,7 @@ void *func_021BAB64(unsigned mode,unsigned heap)
     func_02043588();
     func_0201DD60();
     func_021BACB4(p,heap);
-    func_021BAD58((int *)(p+4),(int)&d_021BB1C8,heap);
+    func_021BAD58((void **)(p+4),(int)&d_021BB1C8,heap);
     func_021BADC8((unsigned **)(p+8),heap);
     ((struct Obj25714 *)p)->fC=func_020056A0((void *)func_021BACA0,p,0);
     return p;

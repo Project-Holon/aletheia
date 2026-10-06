@@ -22,7 +22,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_021D6A4C(u8 *);
+extern int func_021D6A4C(unsigned char *p);
 extern u16 func_021D6A48(u8 *);
 struct IcaAnime;
 struct Param;

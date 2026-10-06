@@ -19,7 +19,7 @@
 #include "../include/Obj06241.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B8D8C(void *p, void *a, u8 b);
+extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u32 func_021CD9E0(u8 *p);
 extern unsigned int func_021B8590(unsigned char *p);
 extern void func_021EA838(u32 *p, u32 k);
@@ -27,7 +27,7 @@ extern int func_021EA850(u32 *p, u32 k);
 
 int func_021D25C4(u8 *p, int *st, u32 *c)
 {
-    int t = func_021B8D8C(((struct Obj06241 *)p)->f0, ((struct Obj06241 *)p)->f4, *c);
+    int t = func_021B8D8C(((struct Obj06241 *)p)->f0, ((struct Obj06241 *)p)->f4, (u8)(*c));
 
     switch (*st) {
     case 0:

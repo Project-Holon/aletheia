@@ -39,7 +39,7 @@ extern void  func_02049238(void *h);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0204581C(struct U16Vec *vec);
 
-void func_0202A310(u16 key, u16 want, void *dest, u32 heap)
+void func_0202A310(int key, int want, void *dest, u32 heap)
 {
     u16   rec[4];
     void *h;

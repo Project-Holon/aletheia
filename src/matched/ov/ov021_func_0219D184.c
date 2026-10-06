@@ -24,7 +24,8 @@ extern u16 func_0216D4F0(void *p);
 extern int func_0219CF00(int *, unsigned int, unsigned short *);
 extern int func_0219CF54(int *, unsigned int);
 extern int func_0219D144(int *, unsigned int, int);
-extern void func_0219D1F8(int *);
+typedef unsigned char  u8;
+extern void func_0219D1F8(u8 *p);
 struct Tagged;
 extern void func_02046EFC(struct Tagged *p);
 
@@ -50,7 +51,7 @@ void func_0219D184(int *obj, int key)
                 func_02046EFC((void *)p[4]);
                 p[4] = 0;
             }
-            func_0219D1F8(p);
+            func_0219D1F8((u8 *)p);
             return;
         }
     }

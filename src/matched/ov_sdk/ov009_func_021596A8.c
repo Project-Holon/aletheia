@@ -18,7 +18,8 @@
  */
 
 extern char *func_02159244(unsigned char *iphdr, unsigned char *tcphdr);
-extern void func_021595C0(unsigned char *iphdr, unsigned char *tcphdr, char *soc);
+struct _CPSSoc;
+extern void func_021595C0(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *soc);
 extern void func_021594A4(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len);
 
 unsigned long func_021596A8(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
@@ -27,10 +28,10 @@ unsigned long func_021596A8(unsigned char *iphdr, unsigned char *tcphdr, unsigne
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 8) == 1) {
-            func_021595C0(iphdr, tcphdr, soc);
+            func_021595C0(iphdr, tcphdr, (struct _CPSSoc *)soc);
         } else if (*(unsigned char *)(soc + 8) == 3) {
             *(long *)(soc + 0x34) = *(long *)(soc + 0x34) - 1;
-            func_021595C0(iphdr, tcphdr, soc);
+            func_021595C0(iphdr, tcphdr, (struct _CPSSoc *)soc);
         } else {
             func_021594A4(iphdr, tcphdr, len);
         }

@@ -47,19 +47,23 @@ extern void func_020355D8(u8 v);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern void func_0204B3DC(u32 obj, u32 on);
-extern void func_0204B404(u32 obj, struct PtS *pos, u32 which);
-extern void func_0204B454(u32 obj, struct PtS *pos, u32 which);
+struct Actor;
+struct Obj;
+struct Vec2;
+struct Vec3;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
 extern u16 func_021BBB3C(char *, int, int);
-extern void func_021C0CCC(void *heap, u8 *p, int key);
-extern u8 func_021C0D5C(void *heap, u8 *p, int key, u8 x, u8 y);
-extern u8 func_021C1068(void *heap, u8 *p, int key, u8 x, u8 y);
-extern void func_021C1D30(void *heap, u8 *p, int key);
-extern void func_021C2238(void *heap, u8 *p, int key);
+extern void func_021C0CCC(u16 *heap, u8 *p, int key);
+extern u8 func_021C0D5C(void *unused, char *p, int unused2, u8 x, u8 y);
+extern u8 func_021C1068(void *heap, char *p, int key, u8 x, u8 y);
+extern void func_021C1D30(u16 *heap, u8 *p, int key);
+extern void func_021C2238(u16 *heap, u8 *p, int key);
 extern void func_0207CA00(struct Vec *a, struct Vec *b, struct Vec *out);
 extern int func_0207CBD0(struct Vec *v);
 extern void func_0207CCA4(struct Vec *src, struct Vec *dst);
-extern void func_020520A4(struct Vec *src, int len, struct Vec *dst);
+extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *dst);
 extern void func_020061E4(u32 se);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -72,7 +76,7 @@ static inline void set3(struct Vec *v, int x, int y, int z)
     v->z = z;
 }
 
-void func_021C1450(void *heap, u8 *p, int key)
+void func_021C1450(u16 *heap, u8 *p, int key)
 {
     u32 tx, ty;
     struct { struct PtS t, c; } pt;
@@ -88,7 +92,7 @@ void func_021C1450(void *heap, u8 *p, int key)
     if (func_020355C4() == 0) {
         if (func_02035D20(&tx, &ty)) {
             func_020355D8(1);
-            func_0204B3DC(W(0xcc), 0);
+            func_0204B3DC((struct Obj *)W(0xcc), 0);
         }
     } else if (func_020362DC()) {
         func_020355D8(0);
@@ -107,7 +111,7 @@ void func_021C1450(void *heap, u8 *p, int key)
         struct Vec d = {0, 0, 0};
         struct Vec a;
         struct Vec b;
-        func_0204B454(W(0xcc), &pt.c, 0);
+        func_0204B454((struct Actor *)W(0xcc), &pt.c, 0);
         keys = func_0203630C();
         if ((keys & 0x10) || (keys & 0x20) || (keys & 0x40) || (keys & 0x80)) {
             moved = 1;
@@ -120,7 +124,7 @@ void func_021C1450(void *heap, u8 *p, int key)
             if (keys & 0x80)
                 v.y += 0x1000;
         }
-        idx = func_021C1068(heap, p, key, (u8)pt.c.x, (u8)pt.c.y);
+        idx = func_021C1068(heap, (char *)p, key, (u8)pt.c.x, (u8)pt.c.y);
         if (idx != 0xff) {
             found = 1;
             pt.t.x = func_021BBB3C(*(char **)(p + 0x3c8), idx, 4);
@@ -136,7 +140,7 @@ void func_021C1450(void *heap, u8 *p, int key)
                 near = 1;
             if (func_0207CBD0(&d) > 0x1000) {
                 func_0207CCA4(&d, &d);
-                func_020520A4(&d, 0x1000, &d);
+                func_020520A4((const struct Vec3 *)(&d), 0x1000, (struct Vec3 *)(&d));
             }
         }
         if (moved == 0 && found == 0)
@@ -160,8 +164,8 @@ void func_021C1450(void *heap, u8 *p, int key)
         }
         pt.c.x = pt.c.x > 0xf8 ? 0xf8 : (pt.c.x < 0 ? 0 : pt.c.x);
         pt.c.y = pt.c.y > 0xa8 ? 0xa8 : (pt.c.y < 8 ? 8 : pt.c.y);
-        func_0204B404(W(0xcc), &pt.c, 0);
-        p[0x79] = func_021C0D5C(heap, p, key, (u8)pt.c.x, (u8)pt.c.y);
+        func_0204B404((struct Obj *)W(0xcc), (const struct Vec2 *)(&pt.c), 0);
+        p[0x79] = func_021C0D5C(heap, (char *)p, key, (u8)pt.c.x, (u8)pt.c.y);
         if (p[0x79] != old) {
             func_021C1D30(heap, p, key);
             func_021C2238(heap, p, key);
@@ -170,7 +174,7 @@ void func_021C1450(void *heap, u8 *p, int key)
         }
         }
     } else if (func_02035D20(&tx, &ty)) {
-        p[0x79] = func_021C0D5C(heap, p, key, (u8)tx, (u8)ty);
+        p[0x79] = func_021C0D5C(heap, (char *)p, key, (u8)tx, (u8)ty);
         func_021C1D30(heap, p, key);
         func_021C2238(heap, p, key);
         if (p[0x79] != 0xff)

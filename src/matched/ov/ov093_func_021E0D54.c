@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
-extern u32 func_021C7D00(void *a, int b);
-extern int func_021C7F68(void *p, u16 b, u8 *out);
+extern int func_021C7D00(u8 *p, int b);
+extern int func_021C7F68(int *p, int b, u8 *out);
 
 void func_021E0D54(int unused, void *q, int id)
 {
@@ -37,7 +37,7 @@ void func_021E0D54(int unused, void *q, int id)
     if (id == func_021D775C(3)) {
         r = (u8 *)func_021C88A4(q, 0x10, id);
         k = 0x10;
-        r[4] = func_021C7F68(q, (k << 7) | func_021C7D00(q, id), r + 5);
+        r[4] = func_021C7F68(q, (u16)((k << 7) | func_021C7D00(q, id)), r + 5);
         func_021C88C8(q, r);
         r = (u8 *)func_021C88A4(q, 4, id);
         func_021C8838(r + 4, 1, 0x65);

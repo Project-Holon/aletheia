@@ -31,10 +31,11 @@ struct CellAnim {
     void *bank;
 };
 
-extern void func_02062F90(struct CellAnim *anim);
+struct NNSG2dAnimController;
+extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
 
 void func_02062FF0(struct CellAnim *anim, void *bank)
 {
     anim->bank = bank;
-    func_02062F90(anim);
+    func_02062F90((struct NNSG2dAnimController *)anim);
 }

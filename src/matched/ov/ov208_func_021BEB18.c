@@ -87,11 +87,15 @@ struct Ov208Scn {
     void *font; void *msg0; void *msg1; void *msg2;
 };
 struct Ov208Heap { u16 heap; };
-extern void *func_021BC3B4(int *ctx);
-extern void *func_021BC3B8(int *ctx);
-extern void *func_0201D7EC(int a, int b, int c, int d, u32 heap);
-extern void *func_02045B38(int a, int b, int c, u32 heap);
-extern void func_02040618(u8 a, u8 b, u8 c);
+struct Blk37;
+struct GfFont;
+struct MsgBank;
+struct S;
+extern int func_021BC3B4(int *p);
+extern int func_021BC3B8(char *p);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020414AC(u8 a);
 extern int func_021BDAD0(void *s);
 extern u16 func_021BC3BC(int *ctx);
@@ -101,20 +105,20 @@ extern void func_021BDBB8(void *s, u32 a);
 extern void func_021BDC48(void *s, u32 a);
 extern int func_021BC3A4(int *ctx);
 extern int func_02012BF8(int a, int b);
-extern void func_021BDC14(void *s, int a);
+extern void func_021BDC14(char *p, int b);
 extern int func_021BE840(void *s);
 extern void func_021BE82C(void *s, int a);
 extern void func_021BE844(void *s);
-extern void func_021BF308(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
-extern void *func_0200CA1C(int a);
+extern void func_021BF308(u16 *heap, char *p, int key);
+extern void *func_0200CA1C(void *a);
 extern int func_021BC3A8(int *ctx);
-extern int func_021BCF4C(int a);
-extern int func_0200CA70(void *a);
-extern void func_021BF4FC(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx, u16 *o1, u16 *o2, u16 *o3, u16 *o4, u32 *o5, u32 *o6, u32 *o7);
+extern int func_021BCF4C(char *p);
+extern u32 func_0200CA70(struct Blk37 *p);
+extern void func_021BF4FC(const u16 *heap, u8 *p, int key, u16 *out1, u16 *out2, u16 *out3, u16 *out4, u32 *out5, u32 *out6, u32 *out7);
 extern int func_021BC3B0(int *ctx);
-extern void *func_021B9E68(u32 a, u16 b, u16 c, u32 d, u16 e, u32 f, u32 g, u32 h, u32 i, u32 j, u8 k, u32 l, u32 m, u32 n, void *o, void *p, void *q);
+extern void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9, u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16);
 extern void func_021BA7C8(void *p);
-extern void func_021BF4C4(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx, u32 *tbl);
+extern void func_021BF4C4(int unused, char *q, int c, int *tbl);
 extern void func_021BF5B8(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
 extern void func_021BF620(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
 extern void func_021BC4D8(struct Ov208Blend *b);
@@ -122,17 +126,17 @@ extern int func_021BC4C8(struct Ov208Blend *b);
 extern void func_021BDBA0(void *s);
 extern void func_021BC4E4(struct Ov208Blend *b);
 extern void func_021BE854(void *s);
-extern void func_021BDAE8(void *s, int a);
-extern int func_021BEFA0(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
-extern void func_021BF088(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
-extern void func_021BF450(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
-extern void func_021BA374(void *p);
+extern void func_021BDAE8(char *p, int v);
+extern int func_021BEFA0(void *a0, struct S *st, int *obj);
+extern int func_021BF088(void *first, char *p, int key);
+extern void func_021BF450(void *unused, char *p, int key);
+extern void func_021BA374(char *p);
 extern void func_021BF664(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
 extern void func_021BC46C(struct Ov208Blend *a, struct Ov208Blend *b);
 int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn *p, int *ctx)
 {
-    void *scn = func_021BC3B4(ctx);
-    void *icon = func_021BC3B8(ctx);
+    void *scn = (void *)func_021BC3B4(ctx);
+    void *icon = (void *)func_021BC3B8((char *)ctx);
     int v40;
     int v44;
     u32 v54;
@@ -167,15 +171,15 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
             func_021BE82C(icon, 0);
             func_021BE844(icon);
         }
-        func_021BF308(h, p, ctx);
-        t = (int)func_0200CA1C(func_021BC3A4(ctx));
-        v40 = func_021BCF4C(func_021BC3A8(ctx));
+        func_021BF308((u16 *)h, (char *)p, (int)ctx);
+        t = (int)func_0200CA1C((void *)func_021BC3A4(ctx));
+        v40 = func_021BCF4C((char *)func_021BC3A8(ctx));
         v44 = func_0200CA70((void *)t);
-        func_021BF4FC(h, p, ctx, &w[3], &w[2], &w[1], &w[0], &v54, &v50, tbl);
-        p->f4 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 0, 1, v40, (u32)p->font, func_021BC3B0(ctx), p->msg0, p->msg1, p->msg2);
-        p->f8 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 1, 1, v40, (u32)p->font, func_021BC3B0(ctx), p->msg0, p->msg1, p->msg2);
+        func_021BF4FC((const u16 *)h, (u8 *)p, (int)ctx, &w[3], &w[2], &w[1], &w[0], &v54, &v50, tbl);
+        p->f4 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 0, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
+        p->f8 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 1, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
         func_021BA7C8(p->f8);
-        func_021BF4C4(h, p, ctx, tbl);
+        func_021BF4C4((int)h, (char *)p, (int)ctx, (int *)tbl);
         func_021BF5B8(h, p, ctx);
         func_021BF620(h, p, ctx);
         break;
@@ -200,8 +204,8 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
             if (p->f14 == 2)
                 func_021BDAE8(scn, 0);
         } else if (p->f18 != 0) {
-            if (func_021BEFA0(h, p, ctx) == 0)
-                func_021BF088(h, p, ctx);
+            if (func_021BEFA0(h, (struct S *)p, ctx) == 0)
+                func_021BF088(h, (char *)p, (int)ctx);
         }
         break;
     case 4:
@@ -218,7 +222,7 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
         return 1;
     }
     if (*state >= 2) {
-        func_021BF450(h, p, ctx);
+        func_021BF450(h, (char *)p, (int)ctx);
         func_021BA374(p->f4);
         func_021BA374(p->f8);
         if (p->f94 == 6)

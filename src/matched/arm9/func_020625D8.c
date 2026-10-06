@@ -51,12 +51,14 @@ extern u32 g_02146BB4;
 extern void func_02061DF0(u32 *head);
 struct Node02061DFC;
 extern struct Node02061DFC *func_02061DFC(struct Node02061DFC *arr, u32 count);
-extern u32 func_02061E48(u32 *head, u32 *pool, u32 addr, u32 size);
+struct List02061E48;
+struct Pool02061E48;
+extern u32 func_02061E48(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
 extern void func_02061FF8(void *pp, int arg);
 void func_020625D8(void)
 {
     g_02146BB0_blk.pool = (u32)func_02061DFC((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
     func_02061DF0(&g_02146BB0);
-    func_02061E48(&g_02146BB0, &g_02146BB4, 0, g_02146BB0_blk.f08);
+    func_02061E48((struct List02061E48 *)(&g_02146BB0), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
     func_02061FF8(&g_02146BB0, (int)(&g_02146BB4));
 }

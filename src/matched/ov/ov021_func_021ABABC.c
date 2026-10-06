@@ -31,7 +31,7 @@ extern void func_0218E124(u8 *a, u32 s);
 extern void func_021ABBA0(const u16 *r, void *v, int *o1, int *o2);
 extern int FX_Div(int a, int b);
 extern void func_0218ED34(u8 *p, u16 v);
-extern void func_0218ED48(u8 *p, u16 v);
+extern void func_0218ED48(u8 *p, u32 v);
 extern void func_0218ED58(u8 *p, u32 v);
 
 /*
@@ -63,6 +63,6 @@ void func_021ABABC(int a0, const u16 *p, void *q)
     v = (int)(((s64)v * t + 0x800) >> 12);
     z = v + *(const int *)&((struct Obj00757 *)p)->f10;
     func_0218ED34((u8 *)h, x);
-    func_0218ED48((u8 *)h, y);
+    func_0218ED48((u8 *)h, (u16)y);
     func_0218ED58((u8 *)h, z);
 }

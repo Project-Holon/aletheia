@@ -32,7 +32,7 @@ typedef struct Blk {
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern int func_0218BBD0(u8 *owner, u32 x);
-extern void func_0218BFB4(u8 *owner, u8 *node, u8 *rec);
+extern void func_0218BFB4(u8 *a, u32 *out, u32 *st);
 extern void func_0218BA70(u8 *owner, u8 *node);
 extern u8 d_021DD9CC[];
 
@@ -44,8 +44,8 @@ u8 *func_0218C7F0(u8 *owner, u32 x, Blk *src)
     ((struct Obj09456 *)p)->f8 = 0;
     ((struct Obj09456 *)p)->f4 = 0xFFFF;
     *(Blk *)(p + 0x24) = *src;
-    func_0218BFB4(owner, p + 0xC,
-                  *(u8 * *)&((struct Obj04199 *)owner)->f1CC + func_0218BBD0(owner, x) * 0x18);
+    func_0218BFB4(owner, (u32 *)(p + 0xC),
+                  (u32 *)(*(u8 * *)&((struct Obj04199 *)owner)->f1CC + func_0218BBD0(owner, x) * 0x18));
     func_0218BA70(owner, p);
     return p;
 }

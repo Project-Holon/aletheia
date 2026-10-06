@@ -18,11 +18,11 @@ typedef void (*Callback)(void *);
 typedef unsigned int   u32;
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_021B6100(void *p, Callback callback);
+extern void func_021B6100(char *p, int k);
 void func_021B8CB4(char *p)
 {
     if (func_0204B98C((struct Actor *)(*(int *)(p + 0x710 + ((struct Obj00002 *)p)->f864 * 4))) == 0) {
         ((struct Obj00002 *)p)->f864 = 0;
-        func_021B6100(p, *(Callback *)&((struct Obj00002 *)p)->f868);
+        func_021B6100(p, (int)(*(Callback *)&((struct Obj00002 *)p)->f868));
     }
 }

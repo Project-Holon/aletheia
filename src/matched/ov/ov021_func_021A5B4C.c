@@ -21,7 +21,7 @@ void func_021A3AC4(u32 a, u32 v);
 void func_021A6738(void *a);
 void func_021A672C(void *a);
 
-void func_021A5B4C(u32 *p, int a, int mode)
+void func_021A5B4C(u32 *p, u32 a, int mode)
 {
     func_021A3AC4(p[5], a);
     func_021A6738(p);

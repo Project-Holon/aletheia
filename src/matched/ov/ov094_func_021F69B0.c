@@ -22,7 +22,8 @@ typedef struct {
     unsigned off : 2;       /* 0xb4 */
 } Obj;
 
-extern void func_02047A60(void *, void *);
+struct Arg;
+extern void func_02047A60(void *a0, struct Arg *a1);
 
 void func_021F69B0(Obj *p)
 {
@@ -30,6 +31,6 @@ void func_021F69B0(Obj *p)
 
     for (i = 0; i < 2; i++) {
         if (!(p->off & (1 << i)))
-            func_02047A60(p->h[i], p->xf[i]);
+            func_02047A60(p->h[i], (struct Arg *)p->xf[i]);
     }
 }

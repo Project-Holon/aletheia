@@ -91,9 +91,9 @@ struct Actor;
 struct Bmp;
 struct Obj;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u32 func_020437E4(const struct Bmp *bmp);
 extern s32 func_0204A7A0(u32 size, u32 a2, u16 heapId);
-extern u32   func_02025A9C(struct Sys *sys, u32 engine, u32 arg);
+extern u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg);
 extern struct Obj *func_0204B294(void *a, u32 res, u32 c, u32 d, const void *pt,
                            u16 f, u16 g);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
@@ -142,7 +142,7 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
         for (j = 0; j < cols; j++) {
             row = (u8 *)g + i * cols * 4;
             yoff = i << 4;
-            mode = func_02025A9C(sys, param->f14, engine);
+            mode = func_02025A9C((struct Obj *)sys, param->f14, engine);
             cell = row + j * 4;
             ((struct Obj06909 *)cell)->f68 =
                 (void *)func_0204A7A0(gModeTable[mode].size, param->f14, sys->f4);

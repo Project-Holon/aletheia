@@ -35,11 +35,16 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
-extern u32 func_020221A4(void),func_020362DC(void),func_02035C60(void);
+extern u32 func_020221A4(void);
+extern u32 func_020362DC(void);
+extern int func_02035C60(void);
 extern int func_02005E50(void);
 extern void func_02005D28(void),func_020061E4(u32),func_02005E30(u32),func_02015E4C(void *);
 extern int func_021B7268(char *,int),func_021B723C(char *,int,int),func_021B74B4(char *,int);
-extern void func_021B7438(char *,int,short,short),func_021B746C(int *,int,int),func_021B7488(char *,int,u16),func_021B7C60(char *,int,int);
+extern void func_021B7438(u8 *p, int n, int x, int y);
+extern void func_021B746C(int *,int,int);
+extern void func_021B7488(u8 *p, int n, int v);
+extern void func_021B7C60(char *p, int index, unsigned value);
 extern void func_021B692C(char *),func_021B699C(char *,int),func_021B69F8(char *),func_021B6984(char *),func_021B7F38(char *);
 int func_021B6FAC(char *p) {
     int ready;
@@ -48,10 +53,10 @@ int func_021B6FAC(char *p) {
     case 0: ++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);
     case 1: func_020061E4(0x79D);++((struct Obj00242 *)p)->f9190;break;
     case 2:
-        if(((struct Obj00242 *)p)->f9188!=51) {func_021B7438(p,5,0,8);func_021B7438(p,6,0,8);++((struct Obj00242 *)p)->f9188;}
+        if(((struct Obj00242 *)p)->f9188!=51) {func_021B7438((u8 *)p,5,0,8);func_021B7438((u8 *)p,6,0,8);++((struct Obj00242 *)p)->f9188;}
         else {func_020061E4(0x57A);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);}break;
     case 3:
-        func_021B746C((int *)p,7,1);func_021B746C((int *)p,8,1);func_021B7488(p,7,2);func_021B7488(p,8,2);++((struct Obj00242 *)p)->f9190;break;
+        func_021B746C((int *)p,7,1);func_021B746C((int *)p,8,1);func_021B7488((u8 *)p,7,2);func_021B7488((u8 *)p,8,2);++((struct Obj00242 *)p)->f9190;break;
     case 4: if(func_021B74B4(p,7)==0){func_020061E4(0x79E);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,16);}break;
     case 5: func_021B7C60(p,3,1);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);
     case 6: func_021B7C60(p,2,1);++((struct Obj00242 *)p)->f9190;break;

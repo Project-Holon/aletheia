@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { short id; s8 a, b, c, d; u8 mode, flag; } Request;
 extern void func_021C8B18(void *, int, void *);
-extern void func_021C8BC4(void *, void *);
+extern void func_021C8BC4(const void *p, unsigned int x);
 extern void func_02082BCC(void *, int, u32);
 int func_021FE6A0(u8 *p)
 {
@@ -35,7 +35,7 @@ int func_021FE6A0(u8 *p)
         q.d = *(s8 *)(p + 0xb5b);
         q.mode = 7;
         q.flag = ((struct Obj01161 *)p)->fF84;
-        func_021C8BC4(&q, p + 0x20c);
+        func_021C8BC4(&q, (unsigned int)(p + 0x20c));
     }
     ((struct Obj01161 *)p)->fB5C = ((struct Obj01161 *)p)->fB56;
     ((struct Obj01161 *)p)->fB5E = ((struct Obj01161 *)p)->fB58;

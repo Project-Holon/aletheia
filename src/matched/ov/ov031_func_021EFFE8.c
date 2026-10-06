@@ -32,12 +32,12 @@ extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026474(void *obj);
 struct Obj;
 extern void func_0202DC08(struct Obj *p);
-extern void func_021F0420(void *p);
-extern void func_021F056C(void *p);
-extern void func_021F04D4(void *p);
-extern void func_021F0478(void *p);
+extern void func_021F0420(char *p);
+extern void func_021F056C(char *p);
+extern void func_021F04D4(char *p);
+extern void func_021F0478(char *p);
 extern void func_021F0348(void *p);
-extern void func_021F022C(void *p);
+extern void func_021F022C(char *p);
 extern void func_020307B0(void *p);
 extern void func_02037190(void);
 
@@ -52,12 +52,12 @@ void func_021EFFE8(u32 *p)
     if (q != 0)
         q[0x282E] = 0;
     func_0202DC08((void *)p[0x1F]);
-    func_021F0420(p);
-    func_021F056C(p);
-    func_021F04D4(p);
-    func_021F0478(p);
+    func_021F0420((char *)p);
+    func_021F056C((char *)p);
+    func_021F04D4((char *)p);
+    func_021F0478((char *)p);
     func_021F0348(p);
-    func_021F022C(p);
+    func_021F022C((char *)p);
     func_020307B0(p);
     REG_DB_BLDCNT_SUB = 0;
     func_02037190();

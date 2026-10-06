@@ -27,7 +27,7 @@ typedef int BOOL;
 extern int func_021BA928(void *p);
 extern void func_021BA828(char *p);
 
-BOOL func_021C14EC(char *p, int v)
+BOOL func_021C14EC(char *p)
 {
     if (func_021BA928(p) != 0) {
         return 1;

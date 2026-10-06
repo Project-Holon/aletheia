@@ -18,11 +18,12 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021BAA1C(void *, int, int, int);
+struct Node;
+extern int func_021BAA1C(struct Node **head, int b, int c, int d);
 
 int func_021BAC38(u32 *p, int a, int b, int c)
 {
     if (p[1] != 0)
         return 0;
-    return func_021BAA1C((char *)p + 0x30, a, b, c);
+    return func_021BAA1C((struct Node **)((char *)p + 0x30), a, b, c);
 }

@@ -31,12 +31,12 @@ typedef signed short s16;
 
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
-extern void func_0204B908(int a, u16 b);
+extern void func_0204B908(int a0, int a1);
 extern int *func_021A21B8(int *p);
-extern int func_021A21C8(int, int);
+extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
-extern void func_021A2654(int, s16 *);
+extern void func_021A2654(int obj, unsigned short *src);
 extern const int d_021EEB68[];
 extern const int d_021EEB48[];
 
@@ -55,7 +55,7 @@ void func_021EEA04(int a, int n, int idx)
     w[1] = (w[1] + 1) % 320;
     k = w[1] / 40;
     for (i = 0; i < n; i++) {
-        obj = func_021A21C8(a, idx);
+        obj = (int)func_021A21C8((void *)a, idx);
         if (obj == 0) {
             return;
         }
@@ -72,9 +72,9 @@ void func_021EEA04(int a, int n, int idx)
             s = 4;
             e[2] = e[2] + e[2] / 2;
         }
-        func_0204B908(q, s);
+        func_0204B908(q, (u16)s);
         pt[0] = -6 - func_020056EC(24);
         pt[1] = func_020056EC(192) - 64;
-        func_021A2654(obj, pt);
+        func_021A2654(obj, (short unsigned int *)pt);
     }
 }

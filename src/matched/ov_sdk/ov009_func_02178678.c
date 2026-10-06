@@ -51,8 +51,9 @@ typedef struct DWCWFCUtil
 struct DWCHttp;
 extern int func_0217A484(struct DWCHttp *http, int noparsebody);
 extern int func_02178814(void);
-extern int func_02058DD0(void *wifiinfo, void *work);
-extern int func_02058E20(void *wifiinfo);
+struct tagDWCWiFiInfo;
+extern int func_02058DD0(struct tagDWCWiFiInfo *wifiinfo, void *work);
+extern int func_02058E20(struct tagDWCWiFiInfo *wifiinfo);
 extern int func_02058D88(void *work);
 
 extern DWCWFCUtil g_021AB184;
@@ -82,7 +83,7 @@ int func_02178678(void)
                 g_021AB184.auth->error = 20100;
                 return 2;
             }
-            if (func_02058DD0(g_021AB190, (void *)(((unsigned long)bmwork + 31) & ~31)) != 1)
+            if (func_02058DD0((struct tagDWCWiFiInfo *)g_021AB190, (void *)(((unsigned long)bmwork + 31) & ~31)) != 1)
             {
                 free(0, bmwork, 0);
                 g_021AB184.auth->error = 20100;
@@ -95,7 +96,7 @@ int func_02178678(void)
     switch (g_021AB184.auth->error)
     {
     case 20104:
-        func_02058E20(g_021AB190);
+        func_02058E20((struct tagDWCWiFiInfo *)g_021AB190);
         g_021AB184.auth->error = 20104;
         return 16;
     case 20108:

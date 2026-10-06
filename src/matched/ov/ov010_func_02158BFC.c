@@ -35,7 +35,7 @@ extern int *func_0201121C(int, struct W *);
 typedef unsigned char  u8;
 struct ScriptVm;
 extern void func_0201126C(struct ScriptVm *vm, void *user);
-extern int func_02158CD0(int, int, u16 *, u16 *, u16 *);
+extern u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3);
 extern void *func_02158D78(int a, int b);
 extern void func_0215A760(u8 *a, unsigned b, unsigned c);
 extern void func_0201127C(struct ScriptVm *vm, u8 *pc);

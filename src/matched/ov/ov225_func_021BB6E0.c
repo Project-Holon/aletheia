@@ -43,7 +43,8 @@ extern u16 func_021B9C40(char *,int,int);
 extern u16 func_021B9BD4(char *,int);
 extern int func_021B9C58(void *,int,void *);
 extern u16 func_021B9C28(char *,int);
-extern char *func_021BA65C(char *,char *);
+struct Data;
+extern void *func_021BA65C(char *owner, struct Data *data);
 extern void func_021BB850(void);
 extern const char d_021BC048[];
 char *func_021BB6E0(char *p,char *data)
@@ -78,7 +79,7 @@ char *func_021BB6E0(char *p,char *data)
     }
     ((struct Obj00637 *)q)->f14=*(u16 *)*(char * *)&((struct Obj00637 *)q)->f0;
     ((struct Obj00637 *)q)->f16=((struct Obj26288 *)(*(char * *)&((struct Obj00637 *)q)->f0))->f2;
-    *(char * *)&((struct Obj00637 *)q)->f1C=func_021BA65C(q+8,data);
+    *(char * *)&((struct Obj00637 *)q)->f1C=func_021BA65C(q+8,(struct Data *)data);
     ((struct Obj00637 *)q)->f20=func_020056A0((unsigned)func_021BB850,(unsigned)q,1);
     return q;
 }

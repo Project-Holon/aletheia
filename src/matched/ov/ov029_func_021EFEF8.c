@@ -23,9 +23,9 @@
  * reads it, so the thunk takes it and drops it.
  */
 
-extern void func_021EFEE4(char *p, int v);
+extern void func_021EFEE4(unsigned char *p, unsigned int v);
 
 void func_021EFEF8(char *p, void (*f)(void), int line)
 {
-    func_021EFEE4(p, (int)f);
+    func_021EFEE4((unsigned char *)p, (int)f);
 }

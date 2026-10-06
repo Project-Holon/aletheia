@@ -40,7 +40,7 @@ struct WordSet;
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern int func_021B6B8C(int, int);
+extern void func_021B6B8C(char *a, int b);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_021B6910(int a, int b) {
@@ -50,7 +50,7 @@ void func_021B6910(int a, int b) {
     t = func_021B6140((void *)b);
     func_0201EEF4(((struct Obj07932 *)a)->f30, 0, (void *)t);
     func_0201F250((struct WordSet *)(*(int *)&((struct Obj07932 *)a)->f30), (void *)(((struct Obj07932 *)a)->f2C), (void *)r);
-    func_021B6B8C(a, 0x50);
+    func_021B6B8C((char *)a, 0x50);
     func_02045808((struct U16Vec *)r);
 }
 
@@ -61,7 +61,7 @@ void func_021B6988(int a, int b) {
     t = func_021B6148((u8 *)b);
     func_0201F02C((struct WordSet *)(((struct Obj07933 *)a)->f30), 0, (void *)t);
     func_0201F250((struct WordSet *)(((struct Obj07933 *)a)->f30), (void *)(((struct Obj07933 *)a)->f2C), (void *)r);
-    func_021B6B8C(a, 0);
+    func_021B6B8C((char *)a, 0);
     func_02045808((struct U16Vec *)r);
 }
 
@@ -72,6 +72,6 @@ void func_021B69C4(int a, int b) {
     t = func_021B6140((void *)b);
     func_0201EEF4(((struct Obj07934 *)a)->f30, 0, (void *)t);
     func_0201F250((struct WordSet *)(*(int *)&((struct Obj07934 *)a)->f30), (void *)(((struct Obj07934 *)a)->f2C), (void *)r);
-    func_021B6B8C(a, 0x50);
+    func_021B6B8C((char *)a, 0x50);
     func_02045808((struct U16Vec *)r);
 }

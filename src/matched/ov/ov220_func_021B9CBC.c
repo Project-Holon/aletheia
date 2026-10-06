@@ -62,27 +62,36 @@ extern const u8 d_021BA354[];
 extern u8 d_021BA314[];
 extern const struct Rec d_021BA3A8[];
 extern void func_02049B90(u32,u32,u32,u32,u32,u32,u16);
-extern void *func_02045B38(u32,u32,u32,u32);
+struct Bmp;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct StrObj;
+struct Strbuf;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, u32);
-extern void func_02045334(void *);
-extern void *func_020457B0(u32, u16);
-extern void func_02045994(void *, void *, u32);
-extern void *func_02045EC0(void *, u32);
-extern u32 func_0201D304(void *, void *, u32);
-extern u32 func_020437DC(void *);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_0201C724(void *, void *, u32, u32, void *, void *, u16);
-extern void func_02045808(void *);
-extern void *func_0201EC64(u32);
-extern void func_0201EFA4(void *, u32, u16, u32, u32, u32);
-extern void func_0201F250(void *, void *, void *);
-extern void func_0201ED04(void *);
-extern void func_02045374(void *);
-extern u8 func_02045730(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern u8 func_021BA068(u32);
-extern void func_021BA01C(void *);
+extern void func_021BA01C(struct Obj *o);
 void func_021B9CBC(struct Obj *p)
 {
     u8 i;
@@ -114,12 +123,12 @@ void func_021B9CBC(struct Obj *p)
     p->bank = func_02045B38(0, 3, 0x1CD, p->heap);
     for (i = 0; i < 4; i++) {
         p->ptr[i] = (void *)func_020450F0(d_021BA354[i*7], d_021BA354[i*7+1], d_021BA354[i*7+2], d_021BA354[i*7+3], d_021BA354[i*7+4], d_021BA354[i*7+5], d_021BA354[i*7+6]);
-        func_02043B5C(func_02045770(p->ptr[i]), 0);
+        func_02043B5C(func_02045770(p->ptr[i]), (u32)0);
         func_02045334(p->ptr[i]);
     }
     if (p->info->flag) {
-        x = func_020457B0(0x11, p->heap);
-        func_02045994(x, a, 0x11);
+        x = func_020457B0(0x11, (u16)p->heap);
+        func_02045994(x, (const u16 *)a, 0x11);
     } else {
         idx = 0x26;
         if (b[1]) idx = 0x27;
@@ -127,10 +136,10 @@ void func_021B9CBC(struct Obj *p)
     }
     y = func_02045EC0(p->bank, 0x28);
     off = 0;
-    w1 = (u16)func_0201D304(x, p->str, 0);
-    h = (u16)func_0201D304(y, p->str, 0);
+    w1 = (u16)func_0201D304(x, (u32)p->str, 0);
+    h = (u16)func_0201D304(y, (u32)p->str, 0);
     n = w1 + 8 + h;
-    h = func_020437DC(func_02045770(p->ptr[1]));
+    h = (u32)func_020437DC(func_02045770(p->ptr[1]));
     if (h >= n) off = ((int)(h - n)) / 2;
     k = d_021BA314[1];
     func_0201C724(p->bmp, func_02045770(p->ptr[1]), (s16)off, k, x, p->str, 0x440);
@@ -141,15 +150,15 @@ void func_021B9CBC(struct Obj *p)
     if (m > 9999) m = 9999;
     g = func_0201EC64(p->heap);
     t = func_02045EC0(p->bank, 0x2a);
-    z = func_020457B0(5, p->heap);
+    z = func_020457B0(5, (u16)p->heap);
     off = 0;
-    func_0201EFA4(g, 0, m, 4, 0, 1);
+    func_0201EFA4(g, 0, (u16)m, 4, 0, 1);
     func_0201F250(g, z, t);
     q = func_02045EC0(p->bank, 0x29);
-    w1 = (u16)func_0201D304(z, p->str, 0);
-    h = (u16)func_0201D304(q, p->str, 0);
+    w1 = (u16)func_0201D304(z, (u32)p->str, 0);
+    h = (u16)func_0201D304(q, (u32)p->str, 0);
     n = w1 + 8 + h;
-    h = func_020437DC(func_02045770(p->ptr[2]));
+    h = (u32)func_020437DC(func_02045770(p->ptr[2]));
     if (h >= n) off = ((int)(h - n)) / 2;
     k = d_021BA314[2];
     func_0201C724(p->bmp, func_02045770(p->ptr[2]), (s16)off, k, z, p->str, 0x440);
@@ -159,8 +168,8 @@ void func_021B9CBC(struct Obj *p)
     func_02045808(t);
     func_0201ED04(g);
     y = func_02045EC0(p->bank, d_021BA3A8[func_021BA068(*(u16 *)(b + 2))].msg);
-    w1 = (u16)func_0201D304(y, p->str, 0);
-    h = func_020437DC(func_02045770(p->ptr[3]));
+    w1 = (u16)func_0201D304(y, (u32)p->str, 0);
+    h = (u32)func_020437DC(func_02045770(p->ptr[3]));
     off = ((int)(h - w1)) / 2;
     func_0201C724(p->bmp, func_02045770(p->ptr[3]), (s16)off, d_021BA314[3], y, p->str, 0x440);
     func_02045808(y);

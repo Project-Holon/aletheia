@@ -115,7 +115,10 @@
 typedef unsigned short u16;
 typedef struct Desc {short x,y,n;unsigned char flag,pad;} Desc;
 typedef struct Triple {int a,b,c;} Triple;
-extern int func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
+struct U16Vec;
+extern unsigned func_021FC20C(char *p);
+extern int func_021FC214(char *);
+extern int func_021FC21C(char *);
 typedef unsigned int   u32;
 struct RecGet;
 struct U16Vec;
@@ -126,9 +129,10 @@ extern void func_02045CAC(int,unsigned,void *),func_0201EE0C(void *,int,unsigned
 extern void *func_021FB3BC(void *,void *,int,int,int,int,int,void *,u16);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *func_0200B910(void),*func_0200D6D0(const void *,u16);
-extern void *func_021FD12C(int,int,u16);
+extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern u32 func_0200D6EC(struct RecGet *p);
-extern void func_021FD19C(void *,int,void *),func_02045808(void *);
+extern void func_021FD19C(char *p, void *q, void *text);
+extern void func_02045808(struct U16Vec *vec);
 void func_021E301C(char *p,char *q)
 {
     Triple t;
@@ -160,10 +164,10 @@ void func_021E301C(char *p,char *q)
     *(void **)(p+0x20)=func_021FB378(&d,4,0xa0,1,*(int *)(q+4),*(int *)p,h,c,&t,*(u16 *)(p+0x38));
     owner=func_0200B910();
     tmp=func_0200D6D0(owner,(*(u16 *)(p+0x38)&0x7fff)|0x8000);
-    if(!*(void **)(p+8)) *(void **)(p+8)=func_021FD12C(*(int *)(q+8),*(int *)(p+4),*(u16 *)(p+0x38));
+    if(!*(void **)(p+8)) *(void **)(p+8)=func_021FD12C(*(int *)(q+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
     func_02045CAC(c,0x5c,s);
     func_0201EE0C(a,0,(unsigned)tmp,func_0200D6EC(owner),1,2);
     func_0201F250(a,b,s);
-    func_021FD19C(*(void **)(p+8),*(int *)(q+8),b);
+    func_021FD19C(*(void **)(p+8),(void *)(*(int *)(q+8)),b);
     func_02045808(tmp);func_02045808(s);func_02045808(b);
 }

@@ -93,7 +93,7 @@ struct Rec;
 struct Tagged;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(int a);
+extern int func_02189A08(unsigned char *p);
 extern u32 func_021CF560(u32 *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
@@ -104,7 +104,7 @@ extern u16 func_02188C84(u8 *p);
 extern void *func_0202E560(u32 heap, u32 sel);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(void *a0, void **a1, int a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void func_0202E610(u32 a0, u32 a1);
 extern u32 func_021899F0(u8 *p);
@@ -125,7 +125,7 @@ int func_021F5334(void *task, int *st)
     s32 frame;
     s32 cur;
 
-    w =(Work *)func_021CF560((u32 *)func_02189A08((int)func_0201210C(func_020124E4(task))));
+    w =(Work *)func_021CF560((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(func_020124E4(task)))));
     switch (*st) {
     case 0:
         func_0204E720(4, 0, 0x10, 0);
@@ -160,7 +160,7 @@ int func_021F5334(void *task, int *st)
         w->f18 = func_0202E560(func_02188C84(w->f4), 3);
         w->f20 = func_02047400(w->f14, 0, w->f18);
         w->f24 = func_02047564(w->f20, w->f1C, 0);
-        w->f28 = func_0204767C(w->f20, &w->f24, 1);
+        w->f28 = func_0204767C((u32)w->f20, (u32 *)(&w->f24), 1);
         func_020477A4(w->f28, 0);
         func_0202E610(3, 3);
         w->f10 = func_021899F0(w->f4);

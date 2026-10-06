@@ -53,7 +53,7 @@ void func_021B9228(struct S *p, int i, int a2)
         if (i >= 0) {
             k = p->f47 + p->f45;
             func_021B8FE4(p, i, k);
-            func_021B90B8(p, k, a2);
+            func_021B90B8(p, k, (int)a2);
             p->f20->fn(p->f24, i, p->f38 + k * 8, a2 * 8 - p->f66, 0);
         } else {
             func_021B9138(p, p->f1, a2);

@@ -85,9 +85,9 @@ extern void sub_02005D14(void);
 extern void sub_02005F90(void);
 extern void sub_02006300(u32 a, int mode);
 extern int  sub_02006394(void);
-extern void func_020746B0(u32 a);
+extern void func_020746B0(int p0);
 extern u32  func_020755A8(u32 req, int a, int b, int c, u32 arg);
-extern void func_02072E9C(u32 *info);
+extern void func_02072E9C(void **r0);
 extern void func_02072F34(u32 *req, int level);
 extern void func_02085A38(u32 msec);
 
@@ -161,7 +161,7 @@ void sub_02006118(void)
 
     for (i = 0; i < 5; i++) {
         sub_02006118_Table[i].unk00 = 0;
-        func_02072E9C(&sub_02006118_Table[i].unk04);
+        func_02072E9C((void **)(&sub_02006118_Table[i].unk04));
     }
 }
 

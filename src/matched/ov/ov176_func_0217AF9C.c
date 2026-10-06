@@ -25,7 +25,7 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *ptr);
 
-void func_0217AF9C(char *p)
+void func_0217AF9C(int *p)
 {
     func_021E8628(((struct Obj03869 *)p)->f8);
     func_0201C4C0((struct PrintSys *)(((struct Obj03869 *)p)->f14));

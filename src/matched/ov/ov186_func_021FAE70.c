@@ -15,12 +15,12 @@
 typedef struct Record { int state; int mode; int words[15]; } Record;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_021FADB8(Record *, int);
+extern void func_021FADB8(char *ctx, int mode);
 extern char d_02200D18[];
 void func_021FAE70(void *ctx, Record *dest, const Record *source, int mode)
 {
     if (dest->state != 0) func_02034714(d_02200D18, 0, d_02200D18);
     if (source->state != 1) func_02034714(d_02200D18, 0, d_02200D18);
     *dest = *source;
-    if (source->mode != mode) func_021FADB8(dest, mode);
+    if (source->mode != mode) func_021FADB8((char *)dest, mode);
 }

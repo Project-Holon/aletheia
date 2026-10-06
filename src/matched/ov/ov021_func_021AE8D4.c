@@ -20,21 +20,21 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern u32 func_0216D67C(u32 a, u32 b);
+extern void *func_0216D67C(void *a0);
 struct Ctx;
 struct Rec;
 extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_021AE79C(u32 a);
-extern u32 func_021AE884(u32 a);
+extern int func_021AE884(u32 a);
 
-u32 func_021AE8D4(u32 a, u32 b)
+u32 func_021AE8D4(u32 a, u16 b)
 {
     u32 out;
     u32 iter;
     u32 h;
 
     iter = 0;
-    h = func_0216D67C(a, 0);
+    h = (u32)func_0216D67C((void *)a);
     while (func_0216DD1C((struct Ctx *)h, (struct Rec **)(&out), &iter) == 1) {
         if (out != a && (u16)(func_021AE79C(out) + 0xFFFF) <= 1 && b == func_021AE884(out)) {
             return out;

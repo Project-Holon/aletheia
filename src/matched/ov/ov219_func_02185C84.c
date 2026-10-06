@@ -18,7 +18,11 @@
 typedef unsigned short u16;
 extern unsigned func_02184790(unsigned),func_02025BA0(unsigned);
 extern void *func_02045B38(unsigned,unsigned,u16,u16);
-extern void func_02045CAC(void *,unsigned,void *),func_02045C04(void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct Rec;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02045C04(struct Rec *rec);
 int func_02185C84(unsigned key,unsigned optional,void *first,void *second,unsigned heap)
 {
     unsigned index;

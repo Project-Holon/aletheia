@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021CC800(void *a, int *x, int *y, int k);
+extern void func_021CC800(u8 *a, u32 *out1, u32 *out2, u8 want);
 
 int func_021CC768(void *a, u8 *p, u8 *q, int want)
 {
@@ -39,8 +39,8 @@ int func_021CC768(void *a, u8 *p, u8 *q, int want)
             return 1;
         return 0;
     }
-    func_021CC800(a, &v8, &v0, 0);
-    func_021CC800(a, &vc, &v4, 1);
+    func_021CC800(a, (u32 *)(&v8), (u32 *)(&v0), 0);
+    func_021CC800(a, (u32 *)(&vc), (u32 *)(&v4), 1);
     if (v0 != v4) {
         res = 1;
         if (v0 > v4)

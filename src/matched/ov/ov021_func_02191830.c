@@ -37,7 +37,7 @@ struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 
-void func_02191830(Q *q, int a, u8 *w, u8 *h)
+void func_02191830(Q *q, u32 a, u8 *w, u8 *h)
 {
     u32 mx = 2, my = 0;
     u32 tw = func_0201D304((struct StrObj *)a, (int)q->f08, 0) + mx;

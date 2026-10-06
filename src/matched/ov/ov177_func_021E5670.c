@@ -22,7 +22,7 @@ typedef signed int s32;
 
 extern void func_0204A648(void);
 
-void func_021E5670(void)
+void func_021E5670(int *a0)
 {
     func_0204A648();
 }

@@ -45,9 +45,9 @@ struct BigObj;
 u32 func_02012A30(const struct BigObj *p);
 struct Evt;
 void func_02012374(struct Evt *evt, struct Evt **out);
-void func_02029D44(int a, int b, u16 c, u8 d);
+void func_02029D44(u32 a, u32 b, u32 c, u32 d);
 void func_02029D7C(int a, int b);
-void func_0218403C(Obj *o);
+void func_0218403C(u8 *p);
 void *func_02184360(u8 *p, int value);
 void func_02185F48(void *p);
 void *func_02161824(void *a, void *b);
@@ -65,7 +65,7 @@ int func_02184894(void *a, int *state, Obj *o)
 
     switch (*state) {
     case 0:
-        func_0218403C(o);
+        func_0218403C((u8 *)o);
         func_02012374(a, func_02161824((void *)f0, (void *)f8));
         (*state)++;
         break;
@@ -75,7 +75,7 @@ int func_02184894(void *a, int *state, Obj *o)
         break;
     case 2:
         func_02185F48((void *)f4);
-        func_02029D44(h, f4, o->f14, o->f4a);
+        func_02029D44((int)h, (int)f4, (u16)o->f14, (u8)o->f4a);
         func_02029D7C(h, f4);
         (*state)++;
         break;

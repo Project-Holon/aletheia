@@ -52,7 +52,7 @@ extern u32 d_02209FE0[];
 extern u32 d_02209FF0[];
 extern u32 d_0220A068[];
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern int func_021F8754(void);
 extern int func_021B994C(void *p, int key, u32 *out);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
@@ -61,7 +61,7 @@ extern void func_02006AEC(u32 idx, u32 delta);
 
 u32 func_02200218(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
 {
-    int idx = func_022019F4(w, key);
+    int idx = func_022019F4((char *)w, key);
     u32 id;
     u32 buf;
     u32 *out;

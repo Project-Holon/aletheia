@@ -84,10 +84,10 @@ extern void func_0200D85C(struct Blk3C *p);
 extern void func_0200DA14(struct Blk3C *p);
 extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
-extern void func_021CA238(Obj *p, u16 v);
+extern void func_021CA238(u8 *p, u16 v);
 extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
 extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
-extern void func_021CA1E4(Obj *p);
+extern void func_021CA1E4(u8 *p);
 extern u8 *func_020127A4(void *p);
 extern void func_021CBF38(Obj *p, void *a, u16 b, u32 c, void *d, u16 e);
 extern u16 func_0200DA54(struct Blk3C *p);
@@ -129,14 +129,14 @@ Obj *func_021C9934(void *arg, int mode, u8 kind)
         func_0200D85C(p->f70);
         func_0200DA14(p->f70);
         if (func_0200DB44(p->f74, p->kind) == 1)
-            func_021CA238(p, func_0200DAC4(p->f74, p->kind));
+            func_021CA238((u8 *)p, func_0200DAC4(p->f74, p->kind));
         t = p->kind;
         func_0200D914(p->f70, 0, &t);
     } else {
         p->kind = func_0200D884(p->f70, 0, 0);
         p->f8 = func_021CA270(p->kind);
         if (func_0200D884(p->f70, 10, 0) != 0)
-            func_021CA1E4(p);
+            func_021CA1E4((u8 *)p);
         func_0200D884(p->f70, 5, p->f1e);
         func_0200D884(p->f70, 8, p->f32);
         if (p->kind == 2 || p->kind == 7) {

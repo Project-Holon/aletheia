@@ -48,7 +48,7 @@ extern const u16 ids[];
 extern const u8 banks[];
 extern const Motion motion[];
 extern const Files files[];
-extern u32 func_0202D7C8(u32);
+extern int func_0202D7C8(int a0);
 extern u32 func_0202D81C(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern u32 func_0202D7D8(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);

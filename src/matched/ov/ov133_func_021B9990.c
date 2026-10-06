@@ -23,7 +23,7 @@ typedef short s16;
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_021B765C(u8 *,u16,s16,int,int);
+extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
 extern int _s32_div_f(int,int);
 extern const s16 table[];
 void func_021B9990(u8 *p,u16 a,int delta,u16 duration)

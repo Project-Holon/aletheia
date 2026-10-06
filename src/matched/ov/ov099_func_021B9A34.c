@@ -18,7 +18,8 @@
  *   func_021C4948  0x021C4948  thumb  ov127
  *   func_021C5704  0x021C5704  thumb  ov127
  */
-extern void func_021C5704(void *p);
+typedef unsigned char  u8;
+extern void func_021C5704(u8 *p);
 extern void func_021C4948(void *p);
 extern void func_02082BCC(void *p, int v, int n);
 

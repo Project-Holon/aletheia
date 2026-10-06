@@ -28,11 +28,11 @@ typedef signed int     s32;
 extern u32 func_020307B0();
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_021C0F78();
+extern void func_021C0F78(u8 *p, void *text);
 u32 func_021C0F5C(u32 a0, u32 a1)
 {
     u32 v1 = (u32)func_02045EC0((struct MsgBank *)(((struct Obj26005 *)(((u8*)a0)))->f14), a1);
-    func_021C0F78(a0, v1);
+    func_021C0F78((u8 *)a0, (void *)v1);
     return func_020307B0(v1);
 }
 

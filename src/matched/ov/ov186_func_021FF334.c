@@ -29,11 +29,12 @@ typedef unsigned long u32;
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern s16 func_0204B4EC(void *,u16,u32);
+typedef unsigned char  u8;
+extern s16 func_0204B4EC(struct Actor *actor, u32 space, u32 axis);
 extern u32 func_0204B5E4(const struct Actor *actor, u32 which);
-extern void func_0204B49C(void *,s16,u16,u32);
+extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void func_0204B5D4(struct Actor *actor, u32 value, u32 which);
-extern void func_021FF038(char *,u32);
+extern void func_021FF038(u8 *p, u32 mode);
 void func_021FF334(char *p)
 {
     s16 x;
@@ -47,7 +48,7 @@ void func_021FF334(char *p)
         *(int *)(p+0x1C)=1;
         break;
     case 1:
-        x=func_0204B4EC(*(void **)(p+4),*(u32 *)(p+0x44),0);
+        x=func_0204B4EC(*(void **)(p+4),(u16)(*(u32 *)(p+0x44)),0);
         y=func_0204B5E4(*(void **)(p+4),0);
         if(*(int *)(p+0x24)==0){
             *(int *)(p+0x2C)=*(s16 *)(p+0x34)-x;
@@ -64,9 +65,9 @@ void func_021FF334(char *p)
             y+=*(int *)(p+0x30);
             (*(int *)(p+0x24))++;
         }
-        func_0204B49C(*(void **)(p+4),x,*(u32 *)(p+0x44),0);
+        func_0204B49C(*(void **)(p+4),x,(u16)(*(u32 *)(p+0x44)),0);
         func_0204B5D4(*(void **)(p+4),y,0);
         break;
-    case 2:func_021FF038(p,0);break;
+    case 2:func_021FF038((u8 *)p,0);break;
     }
 }

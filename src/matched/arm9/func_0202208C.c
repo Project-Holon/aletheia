@@ -86,16 +86,18 @@ struct G {
 extern struct G g_021467A4;
 
 extern u32   CARD_GetBackupSectorSize(void);
-extern void  func_020226A0(struct G *p);
+struct Screen;
+struct Slots;
+extern void func_020226A0(u8 *p);
 struct Mode;
 struct TextObj;
 extern void func_020223C0(u32 mode, struct Mode *p);
-extern void  func_02022458(void *p);
+extern void func_02022458(struct Slots *p);
 extern u32 func_020225F4(struct TextObj *obj, u32 value);
 extern void  func_02022430(void *sub, u32 a, u32 b, s32 c, u32 d, u32 e,
                            u32 f, void *g, void *h, u32 i, void *j);
-extern void  func_02022390(void **slot, struct Sub *s);
-extern void  func_02022640(struct Sub *s);
+extern void func_02022390(u32 *obj, void *arg);
+extern void func_02022640(struct Screen *s);
 
 void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7)
 {
@@ -106,23 +108,23 @@ void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7)
     n = (s32)p6;
     n = n / (s32)CARD_GetBackupSectorSize();
     g = &g_021467A4;
-    func_020226A0(g);
+    func_020226A0((u8 *)g);
     func_020223C0((u32)p1, (struct Mode *)g);
-    func_02022458(g->f74);
+    func_02022458((struct Slots *)g->f74);
     obj = (void *)func_020225F4((struct TextObj *)g, p4);
     func_02022430(&g->f14, p2, p5, n, 0, 0, 0,
                   g->f8C, g->f74, p7, obj);
     func_02022430(&g->f44, p3, p5, n, 0, 0, 1,
                   g->f8C, g->f74, p7, obj);
     g->f14C = 1;
-    func_02022390(&g->f04, &g->f14);
-    func_02022390(&g->f08, &g->f44);
+    func_02022390((u32 *)(&g->f04), &g->f14);
+    func_02022390((u32 *)(&g->f08), &g->f44);
     if (g->f0C != 0) {
-        func_02022640(&g->f14);
+        func_02022640((struct Screen *)(&g->f14));
         g->f14E = 1;
     }
     if (g->f10 != 0) {
-        func_02022640(&g->f44);
+        func_02022640((struct Screen *)(&g->f44));
         g->f14F = 1;
     }
 }

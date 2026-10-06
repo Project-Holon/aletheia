@@ -32,7 +32,7 @@ extern void *func_0203D798(void);
 extern u16 func_02179024(void);
 extern u16 func_0208F1B4(void);
 extern void func_0217778C(void);
-extern void func_02179288(u16 a, u16 b, int c, u16 d);
+extern int func_02179288(int mode, u16 a, int b, u16 c);
 extern void func_0217727C(u32 *p, u32 v);
 
 void func_02177C4C(u8 *p)

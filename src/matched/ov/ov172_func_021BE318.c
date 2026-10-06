@@ -26,7 +26,7 @@ extern void func_021BE34C(void *p);
 typedef unsigned char  u8;
 extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
 
-void func_021BE318(char *a0, int a1)
+void func_021BE318(char *a0, void *a1)
 {
     if (((struct Obj05448 *)a0)->f1DC != 0)
         func_021BE34C(a0);

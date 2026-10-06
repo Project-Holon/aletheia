@@ -17,7 +17,7 @@
 void *func_021A274C(void *p);
 void func_021A277C(void *p, void *q);
 
-void *func_021A21C8(void *p)
+void *func_021A21C8(void *p, int a1)
 {
     void *r = func_021A274C(p);
 

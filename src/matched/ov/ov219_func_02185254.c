@@ -26,13 +26,20 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern const u8 d_02185DCB[];
 extern void *func_020457B0(unsigned,u16);
-extern void func_02045808(void *),func_0201F73C(void *,int,int,int);
+struct Cfg;
 struct Descriptor;
-extern void func_02045334(struct Descriptor *),func_02045374(void *),func_02041B6C(unsigned);
+struct Record;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201F73C(void *,int,int,int);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(unsigned);
 extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern u32 func_02184968(const u8 *p, int flag);
-extern void func_02184D30(void *,void *,void *,void *,u8,u8);
+extern void func_02184D30(char *p, struct Record *out, struct Descriptor *d, void *text, u8 x, u8 y);
 extern int func_02185C84(unsigned,unsigned,void *,void *,unsigned);
 void func_02185254(char *p,unsigned key,unsigned member)
 {
@@ -41,8 +48,8 @@ void func_02185254(char *p,unsigned key,unsigned member)
     second=func_020457B0(64,((struct Obj02934 *)p)->f0);
     ((struct Obj02934 *)p)->fC040=(void *)func_02184968(d_02185DCB,1);
     func_02185C84(key,member,first,second,((struct Obj02934 *)p)->f0);
-    if(member!=0) func_02184D30(p,p+0xC044,((struct Obj02934 *)p)->fC040,second,0,16);
-    func_02184D30(p,p+0xC044,((struct Obj02934 *)p)->fC040,first,0,0);
+    if(member!=0) func_02184D30(p,(struct Record *)(p+0xC044),((struct Obj02934 *)p)->fC040,second,0,16);
+    func_02184D30(p,(struct Record *)(p+0xC044),((struct Obj02934 *)p)->fC040,first,0,0);
     func_02045808(second);
     func_02045808(first);
     func_0201F73C(((struct Obj02934 *)p)->fC040,0,34,7);

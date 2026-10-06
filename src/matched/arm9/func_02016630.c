@@ -37,10 +37,12 @@ extern void *func_0204A17C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02063790(void *p);
-extern void func_020637D4(void *p);
+struct Task;
+struct Work;
+extern void func_02063790(u32 *p);
+extern void func_020637D4(u32 *p);
 extern void sub_02016028(void *p, u32 flag);
-extern void func_02016C60(void *a, void *b);
+extern void func_02016C60(struct Work *a0, struct Task *a1);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_02016880(void *a0, struct Obj_02016880 *a1);
@@ -95,8 +97,8 @@ void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
 
     h = a0->f00;
     *(u32 *)(a1 + (5 << 6)) &= 0xFFFFDFFF;
-    func_02063790(a1 + 0x9C);
-    func_020637D4(a1 + 0xC0);
+    func_02063790((u32 *)(a1 + 0x9C));
+    func_020637D4((u32 *)(a1 + 0xC0));
 
     ((struct Obj00696 *)a1)->fC = func_02049FFC(h, (u32)(((struct Src *)a2)->f0c), 0,
                                           (u32)((void *)(a1 + 0x10)),
@@ -149,7 +151,7 @@ void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
         }
     }
     if (((*(u32 *)(a1 + (5 << 6)) << 4) >> 0x1C) != 0) {
-        func_02016C60(a1, p);
+        func_02016C60((struct Work *)a1, (struct Task *)p);
     }
     if (a0->f08 != 0) {
         ((struct Obj00696 *)a1)->f0 = func_02030DA8(a0->f08, func_02016880, p, 0);

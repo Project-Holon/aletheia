@@ -57,7 +57,8 @@ extern u16 func_02008FC0(const struct Sub02008F80Obj *obj);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
-extern void func_02045924(void *, void *);
+struct Strbuf;
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_021C5F80(void *unused, void *text, u8 *slot, void *owner, int x, int y, u32 mode, u16 color, int align);
 
 void func_021C6374(u8 *p)
@@ -83,7 +84,7 @@ void func_021C6374(u8 *p)
         func_0202DC48(((struct Obj23584 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f35C, ((struct Obj23585 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fBC, *(u8 * *)&((struct Obj00627 *)p)->f8 + 0x360, 3);
     }
     func_02043B5C(func_02045770(((struct Obj23586 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fC0), 0);
-    func_02045924(((struct Obj23587 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1D8, func_02008F84(*(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + p[0x1F] * 4 + 0x298)));
+    func_02045924(((struct Obj23587 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1D8, (const u16 *)func_02008F84(*(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + p[0x1F] * 4 + 0x298)));
     func_021C5F80(((struct Obj23588 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fC0, ((struct Obj23589 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1D8, *(u8 * *)&((struct Obj00627 *)p)->f8 + 0x1BC,
                   ((struct Obj23590 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1C4, 0, 2, ((struct Obj00627 *)p)->f18, 0x440, 0);
     w = ((struct Obj23591 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fC0;

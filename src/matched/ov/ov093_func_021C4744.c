@@ -39,19 +39,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern void *func_021B8630(void *);
+extern u32 func_021B8630(u32 **p);
 extern u32 func_0202E7E0(void *);
 extern u8 func_021B8FF4(u8 *);
-extern u8 *func_021BB85C(void *, int);
-extern u8 *func_021B990C(void *, u32, u8);
-extern int func_021D5B68(u8 *);
+extern u8 *func_021BB85C(u8 *p, unsigned int i);
+extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
+extern int func_021D5B68(void *p);
 extern int func_021D5B48(u8 *);
 extern u8 func_021D5440(u8 *);
 extern u32 func_0203F0A8(void);
 extern u8 *func_021B9934(char *, int);
-extern u32 func_021D59B4(void *, int);
-extern int func_021C334C(u8 *, u8 *, u16, u32);
-extern void func_021CD64C(void *, u32, ...);
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021C334C(u8 *p, u8 *q, int a, int b);
+extern void func_021CD64C(void *w, u8 id, ...);
 extern void func_0202E7E4(void *);
 void func_021C4744(u8 *p)
 {
@@ -64,16 +64,16 @@ void func_021C4744(u8 *p)
     u64 draw;
     u8 id;
     int live;
-    work = func_021B8630(*(void **)(p + 4));
+    work = (void *)func_021B8630(*(void **)(p + 4));
     if (work == 0) return;
     mode = func_0202E7E0(work);
     if (mode == 0 || mode == 3) return;
     side = func_021B8FF4(*(u8 **)(p + 4));
-    desc = func_021BB85C(*(void **)p, side);
+    desc = func_021BB85C(*(void **)p, (int)side);
     i = 0;
     n = 0;
     for (; i < desc[9]; i++) {
-        m = func_021B990C(*(void **)(p + 8), side, i);
+        m = func_021B990C(*(void **)(p + 8), side, (u8)i);
         if (m != 0) {
             if (func_021D5B68(m) == 0) live = 1;
             else live = 0;
@@ -88,11 +88,11 @@ void func_021C4744(u8 *p)
     if (n != 0) slot = (u32)((draw * (u32)n) >> 32);
     id = list[slot];
     m = func_021B9934(*(char **)(p + 8), id);
-    value = func_021D59B4(m, 14);
+    value = (u32)func_021D59B4(m, 14);
     if (mode == 1) value >>= 1;
     if (value == 0) return;
-    if (func_021C334C(p, m, value, 0)) {
-        func_021CD64C(*(void **)(p + 12), 0x5a, 0x53, 4, id, 0xffff0000);
+    if (func_021C334C(p, m, (u16)value, (u32)0)) {
+        func_021CD64C(*(void **)(p + 12), (u32)0x5a, 0x53, 4, id, 0xffff0000);
         func_0202E7E4(work);
     }
 }

@@ -24,8 +24,9 @@
  *   func_0209477C  0x0209477C  arm
  */
 
-extern int func_02094B20(const char *s1, const char *s2);
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
+extern int func_0209477C(const u8 *s);
 
 int func_02193418(const char *command, const char *key, char *value, int valueLen)
 {
@@ -34,10 +35,10 @@ int func_02193418(const char *command, const char *key, char *value, int valueLe
     char keychar = key[0];
     char c;
 
-    p = (char *)func_02094B20(command, key);
+    p = (char *)func_02094B20((const u8 *)command, (const u8 *)key);
     if (p == 0)
         return 0;
-    p += func_0209477C(key);
+    p += func_0209477C((const u8 *)key);
     i = 0;
     while ((i < valueLen - 1) && ((c = p[i]) != '\0') && (c != keychar)) {
         value[i] = c;

@@ -53,7 +53,7 @@ extern const char d_021807FC[];
 extern const u32  d_0218050C[];
 extern const u32  d_021804B4[];
 
-void func_0217F388(char *p, u32 a1, int kind, u8 *arg)
+void func_0217F388(char *p, int a1, int kind, u8 *arg)
 {
     Tmpl t;
     u8 v;

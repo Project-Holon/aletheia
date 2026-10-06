@@ -45,7 +45,8 @@ extern int func_021843E8(void *, void *, int (*)(void *, void *), int, int);
 extern void func_021842D0(void *, void *, int (*)(void *, void *));
 extern void func_0217EAE0(void *);
 extern void *func_02184208(void *, int);
-extern void func_021C135C(void *);
+typedef unsigned char  u8;
+extern void func_021C135C(u8 *p);
 extern int func_021C121C(void *, void *);
 extern void *g_021D3B40;
 extern char g_021CE758[];
@@ -65,7 +66,7 @@ int func_021C137C(char *url, void *theRootCAList)
         return 0;
     }
     if (g_021D3B40 == 0) {
-        g_021D3B40 = func_02184144(0x10, 1, func_021C135C);
+        g_021D3B40 = func_02184144(0x10, 1, (void (*)(void *))func_021C135C);
         if (g_021D3B40 == 0) {
             func_0217D254(8, (char *)2, 1, g_021CE858, g_021CE7B0, g_021CE6E0, 0x354);
             return 0;

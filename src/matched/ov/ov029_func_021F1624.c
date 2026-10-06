@@ -48,7 +48,7 @@ struct BgTemplate {
     u32 unk_1c;
 };
 
-extern void func_02040588(u8 which, u32 enable);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
@@ -66,12 +66,12 @@ void func_021F1624(void *p)
     int i;
 
     for (i = 4; i <= 7; i++) {
-        func_02040588(i, 0);
+        func_02040588((u8)i, 0);
     }
     {
         struct BgTemplate t = d_021F338C;
         func_0203FCA0(6, &t, 0);
-        func_02040588(6, 1);
+        func_02040588((u8)6, 1);
         func_0204047C(6, 3);
         func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(6);
@@ -79,7 +79,7 @@ void func_021F1624(void *p)
     {
         struct BgTemplate t = d_021F33AC;
         func_0203FCA0(5, &t, 0);
-        func_02040588(5, 1);
+        func_02040588((u8)5, 1);
         func_0204047C(5, 1);
         func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(5);
@@ -87,7 +87,7 @@ void func_021F1624(void *p)
     {
         struct BgTemplate t = d_021F336C;
         func_0203FCA0(4, &t, 0);
-        func_02040588(4, 1);
+        func_02040588((u8)4, 1);
         func_0204047C(4, 2);
         func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(4);

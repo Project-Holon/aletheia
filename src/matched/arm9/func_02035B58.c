@@ -19,24 +19,25 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02035750(u32 a);
+extern int func_02035750(void);
 typedef unsigned short u16;
 struct Kind;
-extern u16 func_020357A0(struct Kind *p);
+extern int func_020357A0(struct Kind *p);
 extern u16 func_02035760(struct Kind *p);
 extern u16 func_02035780(struct Kind *p);
-extern int  func_02035ADC(u8 *p, u32 b, u32 c);
+struct R;
+extern int func_02035ADC(struct R *p, u32 x, u32 y);
 
 int func_02035B58(u32 a, u32 b)
 {
     u32 x;
     u32 y;
 
-    func_02035750(a);
+    func_02035750();
     if (func_020357A0((struct Kind *)a) == 0) {
         return -1;
     }
     x = func_02035760((struct Kind *)a);
     y = func_02035780((struct Kind *)a);
-    return func_02035ADC((u8 *)b, x, y);
+    return func_02035ADC((struct R *)b, x, y);
 }

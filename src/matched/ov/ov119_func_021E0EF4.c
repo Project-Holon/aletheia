@@ -34,7 +34,7 @@ struct Cfg;
 struct CharBuf;
 extern void func_021E106C(char *p);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_020450F0(u32,u8,u8,u8,u8,u32,u32);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -43,7 +43,7 @@ extern signed char func_02012FFC(void);
 extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_02028470(u8 *,u32);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_0201F73C(void *,int,u16,int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -52,7 +52,7 @@ void func_021E0EF4(char *p,int flag,int x,int y,int w,int h)
     void *v;
     func_021E106C(p);
     func_02049B40(23,5,4,448,32,((struct Obj01055 *)p)->f5F4);
-    v=func_020450F0(6,x,y,w,h,14,0);
+    v=(void *)func_020450F0(6,(u8)x,(u8)y,(u8)w,h,(u32)14,(u32)0);
     ((struct Obj01055 *)p)->f71C=v;
     func_02043B5C(func_02045770(v),15);
     func_0201DD78(1,2,15);
@@ -62,6 +62,6 @@ void func_021E0EF4(char *p,int flag,int x,int y,int w,int h)
     } else {
         func_0201C7A4(func_02045770(v),0,0,((struct Obj01055 *)p)->f738,((struct Obj01055 *)p)->f728);
     }
-    func_0201F73C(v,1,((struct Obj01055 *)p)->f644,15);
+    func_0201F73C(v,1,(u16)(((struct Obj01055 *)p)->f644),15);
     func_02045334(v);func_02045374(v);func_02041B6C(6);
 }

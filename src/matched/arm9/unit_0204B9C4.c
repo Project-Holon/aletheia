@@ -66,7 +66,8 @@ struct Actor {
     struct Ctl ctl;              /* 0x68 */
 };
 
-extern struct Anim *func_0204D410(struct Ctl *c);
+struct Obj;
+extern void *func_0204D410(struct Obj *o);
 struct Cmd;
 extern void         func_0204D768(struct Ctl *c, const struct Cmd *cmd);
 extern void         func_0204D7C4(struct Ctl *c);
@@ -77,7 +78,7 @@ void func_0204B9C4(struct Actor *a, u32 v)
 
     a->mode = v;
 
-    an = func_0204D410(&a->ctl);
+    an = func_0204D410((struct Obj *)(&a->ctl));
     if (v == 0) {
         an->unk_08 = 0;
         an->unk_18 = 0;

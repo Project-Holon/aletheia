@@ -14,9 +14,10 @@
  *   func_021F0438 0x021F0438 thumb ov032
  */
 
-extern int func_021F0438(char *);
+typedef unsigned char  u8;
+extern int func_021F0438(u8 *p);
 
 int func_021F27CC(char *p)
 {
-    return func_021F0438(p);
+    return func_021F0438((u8 *)p);
 }

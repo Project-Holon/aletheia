@@ -34,7 +34,7 @@ extern int func_021BDD54(char *, void *);
 extern unsigned char func_021C27E0(void *);
 extern void func_021BA874(char *, int);
 extern void func_021C23C0(void *a);
-extern int func_021C23C8(char *, int);
+extern int func_021C23C8(void *a, void *b);
 extern void func_021BDE30(void *, int, int);
 extern void func_021C18C8(char *, int, int);
 extern void func_021BAADC(char *, int, int);
@@ -63,7 +63,7 @@ int func_021C0E60(char *p, int ret)
         return ret;
     }
     func_021C23C0((void *)(index - 1));
-    if (func_021C23C8(p, index - 1)) {
+    if (func_021C23C8(p, (void *)(index - 1))) {
         ((struct Obj03224 *)p)->f1C4 = 0xe10;
         func_021BDE30(p, 3, value);
         func_021C18C8(p, 3, value);

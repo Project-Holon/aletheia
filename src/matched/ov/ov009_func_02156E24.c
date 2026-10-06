@@ -15,7 +15,8 @@
  *   func_02156E30  0x02156E30  thumb  ov009
  */
 
-extern void func_02156E30(int a, int b, int c, int d);
+typedef unsigned int   u32;
+extern void func_02156E30(u32 a, u32 b, u32 c, u32 d);
 
 void func_02156E24(int a, int b, int c)
 {

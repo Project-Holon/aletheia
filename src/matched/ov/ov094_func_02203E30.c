@@ -46,7 +46,8 @@ typedef struct { Main *main; int state, f8, fc, f10, f14, timer; } Ctx;
 typedef struct { int a, b; } Pair;
 extern const Pair d_0220A4EC[];
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02206AF8(Main *);
+struct Obj;
+extern void func_02206AF8(char *p);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_022043C0(Main *, int, int, int, int);
 extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
@@ -60,15 +61,15 @@ extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_022044C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
 extern void func_02204838(Main *, int);
-extern void func_02204698(Main *, int, int);
-extern void func_0220687C(Main *, void *);
+extern void func_02204698(struct Obj *p, int a, int b);
+extern void func_0220687C(char *p, void *q);
 void func_02203E30(void *h, Ctx *c)
 {
     switch (c->state) {
     case 0:
         func_020498F4((void *)c->main->f48, 0x5d, 4, 0, 0, 0, c->main->h240);
         func_020498F4((void *)c->main->f48, 0x6f, 5, 0, 0, 0, c->main->h240);
-        func_02206AF8(c->main);
+        func_02206AF8((char *)c->main);
         func_02204960(c->main, 5, 0, 0, 0, 0, 2, 1);
         func_022043C0(c->main, 0x3000, 0x1000, -0x400, 0x98);
         func_020409B4(6);
@@ -90,7 +91,7 @@ void func_02203E30(void *h, Ctx *c)
         break;
     case 2:
         if (--c->timer == 0) {
-            func_02204698(c->main, 0, 0);
+            func_02204698((struct Obj *)c->main, 0, 0);
             c->state++;
         }
         break;
@@ -100,7 +101,7 @@ void func_02203E30(void *h, Ctx *c)
             func_02045334(c->main->obj228);
             func_0204B22C(c->main->obj1f8, 1);
             func_02204960(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
-            func_0220687C(c->main, h);
+            func_0220687C((char *)c->main, h);
         }
         break;
     }

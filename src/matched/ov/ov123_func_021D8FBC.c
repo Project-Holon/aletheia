@@ -47,11 +47,13 @@ struct Sub02009448Obj;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02012EBC(struct Big *p);
 extern u8 *func_02012944(void *p);
-extern int func_0200853C(void *);
+struct Sub0200852CObj;
+struct Sub02009210Obj;
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u32 func_0201293C(const struct BigObj *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern u8 func_020092EC(const void *);
-extern void func_021D6EE0(char *,int,int);
+extern u8 func_020092EC(const struct Sub02009210Obj *obj);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D87F8(char *);
 extern void func_021D8EC4(char *);
 extern void func_021D88A0(char *);
@@ -76,32 +78,32 @@ int func_021D8FBC(void *a,int b,char *q)
         *(char * *)&((struct Obj01059 *)p)->f20=q;
         ((struct Obj01059 *)p)->f2C=((struct Obj03799 *)q)->f4;
         ((struct Obj01059 *)p)->f28=func_02012EBC(((struct Obj03799 *)q)->f4);
-        value=func_0200853C(func_02012944(((struct Obj03799 *)q)->f4));
+        value=func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj03799 *)q)->f4));
         ((struct Obj01059 *)p)->f24=func_0201293C(((struct Obj03799 *)q)->f4);
         ((struct Obj01059 *)p)->f48=((struct Obj03799 *)q)->f1D0;
         ((struct Obj01059 *)p)->f4C=((struct Obj03799 *)q)->f1D2;
-        ((struct Obj01059 *)p)->fAC=func_020092EC(func_02009448(((struct Obj01059 *)p)->f28));
+        ((struct Obj01059 *)p)->fAC=func_020092EC((const struct Sub02009210Obj *)func_02009448(((struct Obj01059 *)p)->f28));
         ((struct Obj01059 *)p)->fAF=((struct Obj01059 *)p)->fAC;
         func_02009448(((struct Obj01059 *)p)->f28);
         switch (((struct Obj03799 *)q)->f1C8) {
         case 0:
             if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
-            func_021D6EE0(p,(int)func_021D87F8,0xa89);
+            func_021D6EE0((u8 *)p,(int)func_021D87F8,0xa89);
             break;
         case 1:
             if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
-            func_021D6EE0(p,(int)func_021D8EC4,0xa8d);
+            func_021D6EE0((u8 *)p,(int)func_021D8EC4,0xa8d);
             break;
         case 2:
             if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
-            func_021D6EE0(p,(int)func_021D8EC4,0xa91);
+            func_021D6EE0((u8 *)p,(int)func_021D8EC4,0xa91);
             break;
         case 3:
             if (!value) func_02034714(d_021DABA4,0,d_021DABA4);
-            func_021D6EE0(p,(int)func_021D87F8,0xa95);
+            func_021D6EE0((u8 *)p,(int)func_021D87F8,0xa95);
             break;
         case 4:
-            func_021D6EE0(p,(int)func_021D88A0,0xa98);
+            func_021D6EE0((u8 *)p,(int)func_021D88A0,0xa98);
             break;
         }
         if (*(int *)&((struct Obj03799 *)q)->f1C8!=4) {

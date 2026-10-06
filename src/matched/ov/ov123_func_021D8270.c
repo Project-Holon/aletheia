@@ -21,8 +21,8 @@ struct TaskMenu;
 extern void func_020061E4(u32 a);
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
-extern int func_020076D0(void *, void *, void *);
-extern void func_021D6EE0(char *, int, int);
+extern int func_020076D0(void *save, int *pbox, int *pslot);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D584C(char *);
 extern void func_02027858(struct TaskMenu *m);
 extern void func_021D8244(char *p);
@@ -34,12 +34,12 @@ void func_021D8270(char *p)
     (((struct Obj03796 *)p)->f64)++;
     if (func_020279E8(((struct Obj03796 *)p)->f1C)) {
         if (func_02027A04(((struct Obj03796 *)p)->f1C) == 0) {
-            if (func_020076D0(((struct Obj03796 *)p)->f24, p + 0x48, p + 0x4c) == 0)
-                func_021D6EE0(p, (int)func_021D8244, 0x60f);
+            if (func_020076D0(((struct Obj03796 *)p)->f24, (int *)(p + 0x48), (int *)(p + 0x4c)) == 0)
+                func_021D6EE0((u8 *)p, (int)func_021D8244, 0x60f);
             else
-                func_021D6EE0(p, (int)func_021D8154, 0x612);
+                func_021D6EE0((u8 *)p, (int)func_021D8154, 0x612);
         } else {
-            func_021D6EE0(p, (int)func_021D706C, 0x616);
+            func_021D6EE0((u8 *)p, (int)func_021D706C, 0x616);
         }
         func_021D584C(*(char * *)&((struct Obj03796 *)p)->f18);
         func_02027858(((struct Obj03796 *)p)->f1C);

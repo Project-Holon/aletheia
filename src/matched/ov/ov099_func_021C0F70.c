@@ -38,7 +38,8 @@
 extern int func_021BA928(void *);
 extern int func_021B97F4(char *);
 extern void *func_021BE2A8(char *, int);
-extern void func_021B9AE0(char *, void *);
+typedef unsigned char  u8;
+extern void func_021B9AE0(void *w, u8 *s);
 extern int func_0203C3EC(void);
 extern int func_02156A3C(void);
 extern void func_021BA874(char *, int);
@@ -49,7 +50,7 @@ extern int func_021C282C(unsigned char *);
 extern void func_021BE6E4(char *);
 extern unsigned char func_021BDD48(char *, void *);
 extern void func_021BA8EC(char *);
-extern void func_021BA7D8(char *);
+extern void func_021BA7D8(void *p);
 extern void func_0203D7B0(int);
 extern void func_0203D7BC(int);
 int func_021C0F70(char *p, int ret)

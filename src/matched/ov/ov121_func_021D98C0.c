@@ -16,7 +16,11 @@
  */
 #include "../include/Obj13946.h"
 typedef unsigned char u8;
-extern void func_0204B084(void *),func_0204B1CC(void *),func_0204A5AC(void),func_02082BCC(void *,int,unsigned);
+struct Bank;
+extern void func_0204B084(void *);
+extern void func_0204B1CC(struct Bank *bank);
+extern void func_0204A5AC(void);
+extern void func_02082BCC(void *,int,unsigned);
 void func_021D98C0(u8 *p) {
     func_0204B084(((struct Obj13946 *)p)->f4);
     func_0204B1CC(((struct Obj13946 *)p)->f0);

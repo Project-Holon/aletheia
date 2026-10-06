@@ -74,7 +74,8 @@ extern void func_020307B0(void *p);
 extern u32 func_02017988(void *p, u32 a);
 extern void func_020185C4(void *mon);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern void *func_0201747C(void *p, u32 heap);
+struct Mon;
+extern void *func_0201747C(struct Mon *p, u32 heap);
 extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *func_020185F0(void *mon);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
@@ -122,7 +123,7 @@ void func_021B6708(u32 a, int idx)
         func_02017988(mon, 0);
         func_020185C4(mon);
     }
-    m = func_0201747C(func_02007A18(save, pos[1], pos[0]), heap);
+    m = func_0201747C((struct Mon *)func_02007A18(save, pos[1], pos[0]), heap);
     func_0201AB48(party, idx, m);
     func_020307B0(m);
     func_020075B0(save, pos[1], pos[0], func_020185F0(mon));

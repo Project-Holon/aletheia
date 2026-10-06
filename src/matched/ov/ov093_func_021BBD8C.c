@@ -41,15 +41,15 @@ extern int func_021BBF98(u8 *, int);
 extern u8 func_021BC610(S *p, int a, E *q, int n);
 extern int func_021D5B68(void *p);
 extern void func_021BDC98(S *, u8 *, u8);
-extern void func_021BD9D4(S *p, u8 i, u8 a, u8 b, int c);
-extern u32 func_021B8588(void *p);
+extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, int c);
+extern u32 func_021B8588(void **p);
 extern void func_021BCCE0(S *p, E *e);
-extern int func_021BDA00(S *p);
-extern int func_021C5200(S *p);
-extern int func_021BC4DC(S *, u8 *);
-extern void func_021C4614(S *);
-extern int func_021BC2B0(S *);
-extern void func_021C6158(S *, u8 *);
+extern int func_021BDA00(u8 *p);
+extern int func_021C5200(u8 *p);
+extern int func_021BC4DC(u8 *p, u8 *out);
+extern void func_021C4614(u8 *p);
+extern int func_021BC2B0(u8 *p);
+extern void func_021C6158(u8 *p, u8 *a);
 
 int func_021BBD8C(S *p, int a)
 {
@@ -79,7 +79,7 @@ int func_021BBD8C(S *p, int a)
         for (i = 0; i < p->n; i++) {
             if (p->e[i].kind == 3 && p->e[i].z == 0) {
                 if (func_021D5B68((void *)p->e[i].a) != 0) {
-                    func_021BD9D4(p, p->e[i].d, p->e[i].x, p->e[i].y, 1);
+                    func_021BD9D4((u8 *)p, p->e[i].d, p->e[i].x, p->e[i].y, 1);
                     p->e[i].f = 1;
                 }
             }
@@ -92,16 +92,16 @@ int func_021BBD8C(S *p, int a)
         }
         p->init = 1;
     }
-    func_021BDA00(p);
-    func_021C5200(p);
-    func_021BC4DC(p, p->g4ce);
+    func_021BDA00((u8 *)p);
+    func_021C5200((u8 *)p);
+    func_021BC4DC((u8 *)p, p->g4ce);
     ret = 0;
     if (saved == func_021BBF98(p->g3e0, 0)) {
-        func_021C4614(p);
+        func_021C4614((u8 *)p);
         return ret;
     }
-    if (func_021BC2B0(p) == 0) {
-        func_021C6158(p, p->g4ce);
+    if (func_021BC2B0((u8 *)p) == 0) {
+        func_021C6158((u8 *)p, p->g4ce);
         return 2;
     }
     return 4;

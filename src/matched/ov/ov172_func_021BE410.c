@@ -11,14 +11,15 @@
  *   func_021BD3B8 0x021BD3B8 thumb ov172
  */
 typedef unsigned int u32;
-extern void func_021BD3B8(u32 *p);
+typedef unsigned char  u8;
+extern void func_021BD3B8(u8 *p);
 extern void func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int h);
 int func_021BE410(void *a, void *b, int c, u32 *p)
 {
-    func_021BD3B8(p);
+    func_021BD3B8((u8 *)p);
     if (c == 0) {
         func_020307B0((void *)p[0x7e]);
     }

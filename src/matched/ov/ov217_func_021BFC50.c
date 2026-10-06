@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void func_02082BCC(u32, u32, u32);
 
-void func_021BFC50(u8 *a0, u32 a1, u32 a2)
+void func_021BFC50(u8 *a0)
 {
     func_02082BCC((u32)(a0 + 56), 0, 640);
 }

@@ -24,11 +24,12 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern u8 *func_021C7CF4(u8 *s, int k);
+struct UtilWork;
+extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D67B8(u8 *q);
 extern int func_021D5778(u8 *q, int w);
-extern int func_021D5584(u8 *q, int t);
-extern u8 *func_021C88A4(u8 *p, int a, int b);
+extern u8 func_021D5584(struct UtilWork *p, u32 i);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 val);
@@ -45,15 +46,15 @@ void func_021E4B00(int a0, u8 *s, int k)
 
     if (k == func_021D775C(3)) {
         v = func_021D775C(6);
-        q = func_021C7CF4(s, v);
+        q = func_021C7CF4((int *)s, v);
         w = func_021D67B8(q);
         t = func_021D5778(q, w);
         if (t != 4) {
-            n = func_021D5584(q, t);
+            n = (int)func_021D5584((struct UtilWork *)q, (int)t);
             if (n > 4)
                 n = 4;
             if (n != 0) {
-                e = func_021C88A4(s, 10, k);
+                e = func_021C88A4((char *)s, 10, k);
                 e[5] = v;
                 e[4] = n;
                 e[6] = t;

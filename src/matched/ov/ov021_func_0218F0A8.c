@@ -22,14 +22,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0218F050(void *p);
+extern int func_0218F050(u32 a);
 
 void func_0218F0A8(u8 *a)
 {
     u8 *p = *(u8 * *)&((struct Obj01653 *)a)->fEC;
     if (p != 0) {
         if (((struct Obj00612 *)p)->f10 == 0 && *(u32 *)&((struct Obj00612 *)p)->f8 == *(u32 *)&((struct Obj00612 *)p)->fC && *(u32 *)&((struct Obj00612 *)p)->f4 == 0)
-            func_0218F050(p);
+            func_0218F050((u32)p);
         else
             ((struct Obj00612 *)p)->f2C = 1;
     }

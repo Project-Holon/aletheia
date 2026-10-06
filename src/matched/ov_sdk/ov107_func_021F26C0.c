@@ -20,7 +20,10 @@
 
 extern int g_021F6EEC;
 extern unsigned char *g_021F6FA0;
-extern unsigned short *func_0208ED70(void *header, unsigned short aid);
+typedef unsigned short u16;
+struct WMMpRecvData;
+struct WMMpRecvHeader;
+extern struct WMMpRecvData *func_0208ED70(const struct WMMpRecvHeader *header, u16 aid);
 extern void func_021F2200(void *arg, unsigned short child);
 
 void func_021F26C0(void *arg)
@@ -34,7 +37,7 @@ void func_021F26C0(void *arg)
     }
     g_021F6EEC = 0;
     for (i = 1; i <= 15; i++) {
-        datap = func_0208ED70(arg, i);
+        datap = (short unsigned int *)func_0208ED70(arg, i);
         if (datap != 0 && datap[0] != 0xFFFF && datap[0] != 0)
             func_021F2200(datap, i);
     }

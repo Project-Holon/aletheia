@@ -20,7 +20,7 @@
 
 typedef unsigned long u32;
 
-void func_021DCE58(char *ctx, u32 v)
+void func_021DCE58(char *ctx, u32 v, u32 a2)
 {
     ((struct Obj14354 *)ctx)->f14 = v;
     ((struct Obj14354 *)ctx)->f1C = 4;

@@ -27,9 +27,10 @@ extern int func_021D7154(int, int, int *, int *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021D71CC(const void *src, void *dst, u32 n);
-extern void func_0200B490(void *);
+struct RecC4;
+extern void func_0200B490(void);
 extern u8 *func_0200B91C(void);
-extern void func_0200BA44(void *);
+extern void func_0200BA44(struct RecC4 *p);
 extern void func_0200B4B8(void);
 extern int *func_021D85E8(void);
 extern int func_021D75E8(int, int, int, u16 *, int, u16);
@@ -45,7 +46,7 @@ int func_021D7064(char *p, const u16 *s)
     int result;
     if (s[2] == 0 && ((struct Obj10460 *)p)->f5A0 != 0) {
         r = func_021D7700();
-        func_0200B490(r);
+        func_0200B490();
         func_0200B784(((struct Obj22998 *)r)->fA6, &n, &m);
         i = 0;
         out = p + 0x498;
@@ -54,7 +55,7 @@ int func_021D7064(char *p, const u16 *s)
             if (!func_021D7154((int)p, i, &outer, &inner)) break;
             func_021D71CC(out + i * 22, base + outer * 676 + inner * 112 + 50, 11);
         }
-        func_0200BA44(func_0200B91C());
+        func_0200BA44((struct RecC4 *)func_0200B91C());
         func_0200B4B8();
     }
     obj = func_021D85E8();

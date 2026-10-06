@@ -49,7 +49,7 @@ struct ExpHeap;
 extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
-void func_02156FDC(u32 a, void *p)
+void func_02156FDC(u32 a, void *p, int b)
 {
     u32 h;
 

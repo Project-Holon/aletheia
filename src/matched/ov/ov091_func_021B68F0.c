@@ -70,17 +70,18 @@ extern void func_021BB714(void *a, u32 *s, u32 k);
 extern void func_021BB7E8(u8 *a, u32 *s, u32 x);
 extern void func_021BBA68(u8 *p, u8 *s);
 extern void func_021BC6CC(u8 *p);
-extern void func_021BD8B0(u8 *p);
+struct Pal;
+extern void func_021BD8B0(char *p);
 extern void func_021BD9C8(u8 *p);
 extern void func_021BD8E4(u8 *p);
-extern void func_021B61E8(int w, int a);
+extern void func_021B61E8(void *a, int b);
 extern int func_021B61FC(int w, int a);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_021BA8CC(u8 *p, int s);
 extern void func_021BB644(u8 *p, u8 *s);
-extern void func_021B6B24(u8 *p);
+extern void func_021B6B24(struct Pal *p);
 extern int func_021B9A84(u32 p);
-extern void func_021BCDE8(u8 *p);
+extern void func_021BCDE8(char *a);
 extern void func_021BBE50(int x);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_0204A600(void);
@@ -160,7 +161,7 @@ int func_021B68F0(u8 *p)
         func_021BC6CC(p);
         break;
     case 14:
-        func_021BD8B0(p);
+        func_021BD8B0((char *)p);
         break;
     case 15:
         func_021BD9C8(p);
@@ -169,7 +170,7 @@ int func_021B68F0(u8 *p)
         func_021BD8E4(p);
         break;
     case 17:
-        func_021B61E8(W(0x280), 2);
+        func_021B61E8((void *)W(0x280), 2);
         p[0xc] = 0x12;
         break;
     case 18:
@@ -194,9 +195,9 @@ int func_021B68F0(u8 *p)
     for (i = 0; i < 6; i++)
         func_021BA8CC(p, ((int *)(p + 0x160))[i]);
     func_021BB644(p, (u8 *)W(0x150));
-    func_021B6B24(p);
+    func_021B6B24((struct Pal *)p);
     if (func_021B9A84((u32)p) == 1) {
-        func_021BCDE8(p);
+        func_021BCDE8((char *)p);
         func_021BBE50(W(0x108));
         func_021BBE50(W(0x10c));
     }

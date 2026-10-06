@@ -18,7 +18,7 @@ typedef unsigned char u8;
 
 extern const u8 d_0209FCF8[];
 
-u8 func_020275EC(u8 i)
+u8 func_020275EC(int i)
 {
     return d_0209FCF8[i];
 }

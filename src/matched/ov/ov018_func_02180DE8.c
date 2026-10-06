@@ -28,7 +28,8 @@ typedef struct {
 
 typedef unsigned char  u8;
 extern void func_0201232C(char *p, int a1, int a2);
-extern void *func_020124E8(Obj *);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(const void *, void *, u32);
 extern int func_02180E0C(int x, int *st, u8 *obj);
 
@@ -37,6 +38,6 @@ void func_02180DE8(Obj *task, const void *src)
     void *dst;
 
     func_0201232C((char *)task, (int)func_02180E0C, 0xA0);
-    dst = func_020124E8(task);
+    dst = func_020124E8((struct Obj *)task);
     func_02082D44(src, dst, 0x98);
 }

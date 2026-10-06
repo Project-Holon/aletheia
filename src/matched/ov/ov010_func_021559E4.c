@@ -32,7 +32,8 @@ typedef struct Task {
     u8 pad4c[4];
 } Task;
 
-extern void func_02155478(void);
+struct Ctx;
+extern int func_02155478(void *proc, int *seq, struct Ctx *ctx);
 struct Big;
 struct Ctx;
 struct Desc;

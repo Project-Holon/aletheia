@@ -23,23 +23,23 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021EAC28(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
-extern void func_021EABD0(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
+extern void func_021EABD0(unsigned char *w, int i, void *bank, unsigned idx, int x, int y, unsigned font, unsigned short color);
 extern void func_021EABA0(void **);
-extern void func_021EAAE4(char *, unsigned);
+extern void func_021EAAE4(unsigned char *p, unsigned i);
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry;
 void func_021EAF20(char *p, Entry *e, unsigned i)
 {
     func_02043B5C(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
     if (!e->flag && e->enabled == 1) {
         if (e->kind == 0) {
-            func_021EABD0(p, i, ((struct Obj08243 *)p)->f80, 95, 0, 0, ((struct Obj08243 *)p)->f78, 0x14c0);
+            func_021EABD0((unsigned char *)p, i, ((struct Obj08243 *)p)->f80, 95, 0, 0, ((struct Obj08243 *)p)->f78, 0x14c0);
         } else if (e->kind == 1) {
-            func_021EABD0(p, i, ((struct Obj08243 *)p)->f80, 96, 0, 0, ((struct Obj08243 *)p)->f78, 0xc80);
+            func_021EABD0((unsigned char *)p, i, ((struct Obj08243 *)p)->f80, 96, 0, 0, ((struct Obj08243 *)p)->f78, 0xc80);
         } else {
-            func_021EAAE4(p, i); return;
+            func_021EAAE4((unsigned char *)p, i); return;
         }
     } else {
-        func_021EAAE4(p, i); return;
+        func_021EAAE4((unsigned char *)p, i); return;
     }
     func_021EABA0((void **)(p + 0x94 + i * 8));
 }

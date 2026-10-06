@@ -18,12 +18,15 @@
  */
 #include "../include/Obj02933.h"
 struct TaskMenuState;struct U16Vec;struct Descriptor;
-extern void func_02184C8C(char *,int),func_02027FD8(struct TaskMenuState *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02184C8C(u8 *p, u32 i);
+extern void func_02027FD8(struct TaskMenuState *);
 extern void func_02045808(struct U16Vec *),func_020452E8(struct Descriptor *),func_020403F4(unsigned);
 extern void func_0201D83C(void *),func_0201DD78(unsigned,unsigned,unsigned);
 void func_02184CB0(char *p)
 {
-    func_02184C8C(p,0);func_02184C8C(p,1);
+    func_02184C8C((u8 *)p,0);func_02184C8C((u8 *)p,1);
     func_02027FD8(*(struct TaskMenuState * *)&((struct Obj02933 *)p)->fC058);
     func_02045808(*(struct U16Vec * *)&((struct Obj02933 *)p)->fC064);func_02045808(*(struct U16Vec * *)&((struct Obj02933 *)p)->fC068);
     ((struct Obj02933 *)p)->fC05C=0;((struct Obj02933 *)p)->fC060=0;

@@ -43,9 +43,11 @@ typedef unsigned int u32;
 typedef enum { START, END = 15 } Index;
 typedef struct { u8 a:1; u8 b:1; u8 c:1; } Bits;
 extern int func_021D4270(void);
-extern void func_021D4AF4(u8);
-extern int func_021D4B18(u8);
-extern int func_021D4808(void *);
+struct A;
+struct B;
+extern void func_021D4AF4(int a);
+extern int func_021D4B18(int a);
+extern int func_021D4808(u32 a);
 extern int func_021D4898(void);
 extern void *func_021D48CC(u8);
 extern u32 func_021D4908(void *);
@@ -53,9 +55,9 @@ extern int func_021D49B0(void);
 extern void *func_021D49CC(void);
 extern void func_021D49E0(void);
 extern void func_021D4A04(void);
-extern void func_021B9E38(void *,int,void *);
-extern void func_021B9EF0(void *,const void *);
-extern void func_021BA670(void *,u8,void *);
+extern void func_021B9E38(char *p, int a, int b);
+extern void func_021B9EF0(struct A *p, const struct B *src);
+extern void func_021BA670(char *p, u8 k, void *dst);
 struct MsgBank;
 struct Rec;
 struct U16Vec;
@@ -66,7 +68,7 @@ extern u16 *func_02045A90(struct U16Vec *vec);
 extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_020084D4(void *,const u16 *);
+extern u32 func_020084D4(u32 value, void *dst);
 int func_021B7968(u8 *p,u32 *state)
 {
     u8 *q;
@@ -86,14 +88,14 @@ int func_021B7968(u8 *p,u32 *state)
     }
     switch (*state) {
     case 0:
-        func_021D4AF4(4);
+        func_021D4AF4((u8)4);
         ++*state;
         break;
     case 1:
-        if (func_021D4B18(4)) ++*state;
+        if (func_021D4B18((u8)4)) ++*state;
         break;
     case 2:
-        if (func_021D4808(*(void **)(p + 0xc0))) ++*state;
+        if (func_021D4808((u32)(*(void **)(p + 0xc0)))) ++*state;
         break;
     case 3:
         if (func_021D4898()) {
@@ -101,7 +103,7 @@ int func_021B7968(u8 *p,u32 *state)
                 s = func_021D48CC(i);
                 if (s) {
                     offset = i * 0x28;
-                    func_021B9E38(p + 0x20 + offset,*(u16 *)(p + 0x468),s);
+                    func_021B9E38((char *)(p + 0x20 + offset),*(u16 *)(p + 0x468),(int)s);
                     if (i != p[0x46c] && ((Bits *)(q + 0xc1))->c) {
                         void *str;
                         int j;
@@ -113,14 +115,14 @@ int func_021B7968(u8 *p,u32 *state)
                         dst = buf;
                         dst[j] = func_02045A98();
                         func_02045808(str);
-                        func_020084D4(*(void **)(p + offset + 0x20),dst);
+                        func_020084D4((u32)(*(void **)(p + offset + 0x20)),dst);
                         func_02045808(*(void **)(p + offset + 0x24));
                         bank = func_02045B38(0,2,0x51,*(u16 *)(p + 0x468));
                         s2 = func_02045EC0(bank,15);
                         func_02045C04(bank);
                         *(void **)(p + offset + 0x24) = s2;
                     }
-                    func_021BA670(p,i,*(void **)(p + offset + 0x20));
+                    func_021BA670((char *)p,i,*(void **)(p + offset + 0x20));
                 }
             }
             ++*state;
@@ -131,11 +133,11 @@ int func_021B7968(u8 *p,u32 *state)
         else { p[0x470] = 0; ++*state; }
         break;
     case 5:
-        func_021D4AF4(p[0x470] + 8);
+        func_021D4AF4((u8)(p[0x470] + 8));
         ++*state;
         break;
     case 6:
-        if (func_021D4B18(p[0x470] + 8)) ++*state;
+        if (func_021D4B18((u8)(p[0x470] + 8))) ++*state;
         break;
     case 7:
         k = 1;
@@ -145,7 +147,7 @@ int func_021B7968(u8 *p,u32 *state)
         ++*state;
     case 8:
         if (func_021D49B0()) {
-            func_021B9EF0(p + 0x20 + p[0x472] * 0x28,func_021D49CC());
+            func_021B9EF0((struct A *)(p + 0x20 + p[0x472] * 0x28),func_021D49CC());
             func_021D49E0();
             ++p[0x470];
             if (p[0x470] >= p[0x471]) *state = 10;

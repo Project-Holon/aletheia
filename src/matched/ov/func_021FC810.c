@@ -52,7 +52,7 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void sub_02045808(struct U16Vec *vec);
 extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
-void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
+void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, void *sel)
 {
     u32 v;
     u32 h;

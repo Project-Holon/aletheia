@@ -48,9 +48,9 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(u32 a, u32 b);
 extern int func_021F39A8(int *p, int i);
-extern u8 *func_021BE674(u32 a, int b, u8 c, u8 d);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
-extern int func_021BE6BC(u8 *p);
+extern int func_021BE6BC(int *p);
 extern void func_020061E4(u32 a);
 extern void func_02006210(void);
 extern void func_021F3938(void *a0, int a1, int a2, int a3);
@@ -74,14 +74,14 @@ int func_021F3A68(void *a, int *st)
     case 0:
         i = *q;
         k = func_021F39A8(w, i);
-        func_021BE6B0(func_021BE674(t, 0, i, k), 0);
+        func_021BE6B0(func_021BE674((char *)t, 0, (u8)i, (u8)k), 0);
         func_020061E4(0x6d0);
         (*st)++;
         break;
     case 1:
         i = *q;
         k = func_021F39A8(w, i);
-        if (func_021BE6BC(func_021BE674(t, 0, i, k))) {
+        if (func_021BE6BC(func_021BE674((char *)t, 0, (u8)i, (u8)k))) {
             func_02006210();
             func_020061E4(0x6f0);
             if (w[*q] != 0)

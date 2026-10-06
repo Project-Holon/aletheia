@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0203F4FC(void);
 extern u32 func_0203D378(void);
-void func_021759F8(u8 *p, u16 n)
+void func_021759F8(u8 *p, int n)
 {
     p[0x1A5] |= 2;
     ((struct Obj09352 *)p)->fAA = n;

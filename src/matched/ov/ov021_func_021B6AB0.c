@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_021B6AA4(void *, int);
+extern int func_021B6AA4(u32 a, u32 b);
 extern void func_021B6AAC(u16 *);
 
 int func_021B6AB0(void *a)
@@ -27,7 +27,7 @@ int func_021B6AB0(void *a)
     u16 *p;
 
     for (i = 0; i < 8; i++) {
-        p = func_021B6AA4(a, i);
+        p = (u16 *)func_021B6AA4((u32)a, i);
         func_021B6AAC(p);
         if (*p == 0xFFFF) {
             return i;

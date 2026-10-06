@@ -19,11 +19,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_021C59DC(u32 bg, int mode);
 
 void func_021C5ACC(u32 bg, const void *src, int mode)
 {
-    func_02040B1C(bg, src, 0x3000, 1);
+    func_02040B1C((u8)bg, src, 0x3000, 1);
     func_021C59DC(bg, mode);
 }

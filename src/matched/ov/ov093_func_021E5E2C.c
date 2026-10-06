@@ -21,8 +21,9 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern u32 func_021D5B40(void *p);
-extern void *func_021C88A4(void *a, int k, int b);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021E5E2C(u8 *p, void *a, int b, int *c)
@@ -34,7 +35,7 @@ void func_021E5E2C(u8 *p, void *a, int b, int *c)
     if (*c != 0)
         return;
     r = func_021C7CF4(a, b);
-    if ((u16)func_021D5B40(r) != 0) {
+    if ((u16)(u32)func_021D5B40(r) != 0) {
         q = func_021C88A4(a, 0x23, b);
         ((struct Obj21516 *)q)->f4 = 1;
         func_021C88C8(a, q);

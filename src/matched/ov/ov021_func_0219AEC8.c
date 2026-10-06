@@ -65,7 +65,7 @@ extern int func_0219B334(u32 a);
 extern int func_0219B060(void);
 extern int func_02164168(int a);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D438(int a, u16 b);
+extern void func_0216D438(int a0, int a1);
 extern void func_0219B390(int a, s8 *b);
 extern void func_0216DA44(int a);
 
@@ -128,7 +128,7 @@ int func_0219AEC8(int a, St *b)
     if (f != 0) {
         m = 32;
     }
-    func_0216D438(a, func_02197E7C((u16)v, (u16)m));
+    func_0216D438(a, (u16)func_02197E7C((u16)v, (u16)m));
     if (func_0219B358(a) == 1) {
         func_0219B390(a, &b->f8);
     }

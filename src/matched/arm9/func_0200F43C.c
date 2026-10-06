@@ -47,7 +47,9 @@ typedef unsigned long long u64;
 typedef struct { u32 w[3]; } DWCFriendData;
 
 extern void *func_02009860(void *obj);
-extern DWCFriendData *sub_020099C8(void *obj, int i);
+struct Sub020097BCFriend;
+struct Sub020097BCObj;
+extern struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i);
 struct Sub020097BCObj;
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 
@@ -66,7 +68,7 @@ int func_0200F43C(void *obj, u64 key, int *out)
 
     p = func_02009860(obj);
     i = 0;
-    arr = sub_020099C8(obj, 0);
+    arr = (DWCFriendData *)sub_020099C8(obj, 0);
     n = func_02009A34(obj);
 
     if (DWC_CheckFriendKey(p, key) == 0)

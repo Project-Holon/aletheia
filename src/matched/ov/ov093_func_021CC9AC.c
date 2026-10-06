@@ -41,7 +41,7 @@ struct Pack {
 
 extern struct SizeEntry d_021EFE9C[0x3B];
 
-struct Rec *func_021CC9AC(struct Pack *p, u32 id, u32 b)
+struct Rec *func_021CC9AC(struct Pack *p, int id, int b)
 {
     u32 i;
     u32 size;

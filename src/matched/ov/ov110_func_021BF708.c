@@ -17,5 +17,6 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void *func_0202441C(void *obj, u32 heapId);
-void *func_021BF708(u8 *p, u32 heapId) { return func_0202441C(p + 8, heapId); }
+struct Struct_0202441C;
+extern void *func_0202441C(const struct Struct_0202441C *obj, u32 heapId);
+void *func_021BF708(u8 *p, u32 heapId) { return func_0202441C((const struct Struct_0202441C *)(p + 8), heapId); }

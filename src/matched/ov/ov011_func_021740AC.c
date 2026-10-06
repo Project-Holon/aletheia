@@ -19,7 +19,8 @@
  */
 
 int func_021736D8(void);
-int func_0203D1C0(unsigned char a);
+typedef unsigned int   u32;
+u32 func_0203D1C0(u32 index);
 struct Entry;
 struct Entry *func_020399A8(void);
 int func_0203D3F8(int a, unsigned char b, int c, int d, void *e, int f, int g, int h);
@@ -29,7 +30,7 @@ int func_021740AC(int a, int b, int c, ...)
     if (func_021736D8() == 0) {
         return 1;
     }
-    if (func_0203D1C0(c) == 0) {
+    if ((int)func_0203D1C0((unsigned char)c) == 0) {
         return 1;
     }
     return func_0203D3F8((int)func_020399A8(), c, 0x217, 4, &b, 0, 0, 0);

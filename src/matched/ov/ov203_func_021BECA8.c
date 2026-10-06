@@ -33,8 +33,8 @@ struct Work { struct Owner *owner; u8 state,kind,target,pad; int duration,start,
 extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
 extern void *sub_02031290(struct S02030FB4 *);
 extern void func_02082BCC(void *,u32,u32);
-extern void func_021BED94(struct TcblNode *,void *);
-extern int func_021BF7AC(struct Owner *,int);
+extern void func_021BED94(struct TcblNode *p, char *q);
+extern int func_021BF7AC(char *p, int v);
 extern int func_02006148(u32);
 extern u32 sub_0207C768(u32,u32);
 void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag)
@@ -42,13 +42,13 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     struct Work *work;
     float a,b,c;
     int final;
-    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,func_021BED94,0x1c,0));
+    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
     func_02082BCC(work,0,0x1c);
     work->owner=owner;
     work->kind=kind;
     work->start=start;
     work->end=end;
-    work->duration=func_021BF7AC(owner,duration);
+    work->duration=func_021BF7AC((char *)owner,duration);
     if(flag == -1) work->target=flag;
     else work->target=func_02006148(target);
     if(start>0) a=0.5f+(float)(start<<12);

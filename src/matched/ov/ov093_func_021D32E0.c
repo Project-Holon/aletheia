@@ -34,10 +34,11 @@ extern int func_021B8D8C(void *, void *, u32);
 extern u8 *func_021B9934(char *, int);
 extern int func_021B9A24(u32, u32);
 extern u32 func_021CD9E0(u8 *);
-extern void func_021D66D0(void *, u16);
-extern void func_021EA768(u32, int, int);
+struct QJ;
+extern void func_021D66D0(struct QJ *p, u32 v);
+extern void func_021EA768(u32 *p, u32 a2, u32 a3);
 extern int func_021EA778(u32, int);
-extern void func_021EA7A8(u32, int);
+extern void func_021EA7A8(u32 *p, u32 a2);
 extern int func_021EA7B8(u32, int);
 extern u32 d_021F3B64[];
 int func_021D32E0(u32 *a, int *b, u32 *c)
@@ -57,16 +58,16 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
     switch (*b) {
     case 0:
         if (func_021CD9E0((u8 *)a)) {
-            func_021D66D0(p, x);
-            func_021D66D0(q, y);
+            func_021D66D0((struct QJ *)p, x);
+            func_021D66D0((struct QJ *)q, y);
             return 1;
         }
         if (func_021B9A24(u, v)) {
-            func_021D66D0(p, x);
-            func_021D66D0(q, y);
+            func_021D66D0((struct QJ *)p, x);
+            func_021D66D0((struct QJ *)q, y);
             return 1;
         }
-        func_021EA768((int)a[21], s, 0);
+        func_021EA768((u32 *)((int)a[21]), s, 0);
         d_021F3B64[1] = 8;
         (*b)++;
         break;
@@ -74,7 +75,7 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
         func_021EA778(a[21], s);
         if (d_021F3B64[1]) d_021F3B64[1]--;
         else {
-            func_021EA768(a[21], t, 0);
+            func_021EA768((u32 *)a[21], t, 0);
             (*b)++;
         }
         break;
@@ -86,21 +87,21 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
         break;
     }
     case 3:
-        func_021D66D0(p, x);
-        func_021D66D0(q, y);
+        func_021D66D0((struct QJ *)p, x);
+        func_021D66D0((struct QJ *)q, y);
         d_021F3B64[1] = 0;
         (*b)++;
         break;
     case 4:
         d_021F3B64[1]++;
         if (d_021F3B64[1] > 8) {
-            func_021EA7A8(a[21], s);
+            func_021EA7A8((u32 *)a[21], s);
             (*b)++;
         }
         break;
     case 5:
         if (func_021EA7B8(a[21], s)) {
-            func_021EA7A8(a[21], t);
+            func_021EA7A8((u32 *)a[21], t);
             (*b)++;
         }
         break;

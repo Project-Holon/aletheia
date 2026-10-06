@@ -21,7 +21,7 @@ extern u8 *func_021E9100(u8 *p, int n);
 extern char *func_021B9AF8(char *p, int i);
 extern void func_021EAA24(void *a, u8 *t);
 
-void func_021EAA00(u8 *p)
+void func_021EAA00(u8 *p, u8 v)
 {
     u8 *t;
 

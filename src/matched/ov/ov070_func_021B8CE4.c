@@ -23,7 +23,8 @@
  */
 #include "../include/Obj00002.h"
 
-extern void func_021B6288();
+struct Obj;
+extern void func_021B6288(struct Obj *o, int a, int b);
 extern void func_021B80BC(void *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
@@ -42,7 +43,7 @@ extern void func_021B8D88(char *p);
 void func_021B8CE4(int p, int u, int a, int b)
 {
     int x;
-    func_021B6288(p, u, ((struct Obj00002 *)p)->f80C, b);
+    func_021B6288((struct Obj *)p, u, ((struct Obj00002 *)p)->f80C);
     func_021B80BC((void *)p);
     func_021B81F4((u8 *)p);
     ((struct Obj00002 *)p)->f818 = 0xFFFF;

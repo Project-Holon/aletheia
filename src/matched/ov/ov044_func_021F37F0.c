@@ -54,7 +54,7 @@ extern int func_021BE6BC(int *p);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(void *a, int *v);
+extern void func_021A3044(u8 *p, void *v);
 extern int func_021F390C(int *p);
 extern void func_021F392C(void *p);
 

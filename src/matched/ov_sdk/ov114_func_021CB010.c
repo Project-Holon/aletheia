@@ -23,11 +23,12 @@ typedef struct
     int top;
 } BIGNUM;
 
-extern int func_021CAB94(BIGNUM *);
+typedef unsigned char  u8;
+extern char *func_021CAB94(u8 *p);
 
 int func_021CB010(BIGNUM *a, unsigned char *to)
 {
-    int n = func_021CAB94(a);
+    int n = (int)func_021CAB94((u8 *)a);
     int i = (n + 7) / 8;
     int j = i - 1;
     if (i <= 0)

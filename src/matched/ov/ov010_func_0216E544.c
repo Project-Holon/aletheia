@@ -16,7 +16,7 @@
 #include "../include/Obj19139.h"
 
 typedef struct { int x,y,z; } Vec;
-extern int func_0216E4EC(void *);
+extern int func_0216E4EC(int a0, int a1);
 extern void *func_0216D67C(void *);
 extern int func_0216E490(void *);
-int func_0216E544(void *a, Vec *out) { int i; Vec *p; unsigned int base; i=func_0216E4EC(a); if(i!=30) { base=((struct Obj19139 *)((char *)func_0216D67C(a)))->f2C; p=(Vec *)(base+i*12); if(func_0216E490(p)) { *out=*p; return 1; } } return 0; }
+int func_0216E544(void *a, Vec *out) { int i; Vec *p; unsigned int base; i=func_0216E4EC((int)a, (int)out); if(i!=30) { base=((struct Obj19139 *)((char *)func_0216D67C(a)))->f2C; p=(Vec *)(base+i*12); if(func_0216E490(p)) { *out=*p; return 1; } } return 0; }

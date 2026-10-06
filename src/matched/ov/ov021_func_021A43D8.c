@@ -30,7 +30,7 @@ struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_021A428C(u8 *o, int unused, int c, int flag, int kind);
-extern void func_02164208(int, u32 *, int);
+extern void func_02164208(int dir, int *p, int amt);
 
 void func_021A43D8(u8 *p, int k, int dir)
 {
@@ -47,7 +47,7 @@ void func_021A43D8(u8 *p, int k, int dir)
     r = func_0202E83C(func_02188C80((void *)(((struct Obj00656 *)p)->f10)));
     func_0216D88C(a, (struct VecFx32 *)buf);
     if (func_021A428C(p, k, (int)buf, 0, r) == 0) {
-        func_02164208(dir, buf, 0x10000);
+        func_02164208(dir, (int *)buf, 0x10000);
         func_021A428C(p, k, (int)buf, 1, r);
     }
 }

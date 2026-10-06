@@ -33,9 +33,11 @@ extern u32 func_0203633C(void);
 struct Obj;
 extern void func_020061E4(u32 a);
 extern u64 _u32_div_f(u32,u32);
-extern void func_0204B404(void *,Position *,int);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021DAAA4(void *,u16 *,int,u8,u8,u16,u16);
+typedef signed int     s32;
+extern s32 func_021DAAA4(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
 int func_021DA6D0(u8 *p)
 {
     u32 keys=func_020362DC();
@@ -69,7 +71,7 @@ int func_021DA6D0(u8 *p)
     if(changed) {
         pos.x=d_021DF76C[*(u32 *)(p+8)].x;
         pos.y=d_021DF76C[*(u32 *)(p+8)].y+((struct Obj00360 *)p)->f2E*8;
-        func_0204B404(((struct Obj00360 *)p)->f4,&pos,0);
+        func_0204B404(((struct Obj00360 *)p)->f4,(const struct Vec2 *)(&pos),0);
         if(((struct Obj00360 *)p)->f8==3) func_0204B878(((struct Obj00360 *)p)->f4,2);
         else func_0204B878(((struct Obj00360 *)p)->f4,((struct Obj00360 *)p)->f30);
         if(*(void (**)(u32))(p+0x34)) (*(void (**)(u32))(p+0x34))(((struct Obj00360 *)p)->f38);
@@ -83,7 +85,7 @@ int func_021DA6D0(u8 *p)
         if(((struct Obj06450 *)v)->f4C!=((struct Obj06450 *)v)->f3C && ((struct Obj00360 *)p)->f24>=0x7dff && ((struct Obj00360 *)p)->f24<=0x81ff)
             ((struct Obj06450 *)v)->f3C=((struct Obj06450 *)v)->f4C;
         if(((struct Obj06450 *)v)->f3C)
-            func_021DAAA4((void *)15,(u16 *)(p+0x1a+i*2),((struct Obj00360 *)p)->f24,((struct Obj00360 *)p)->f2C,(u8)(i+10),*(u16 *)(p+0x12+i*2),((struct Obj00360 *)p)->f22);
+            func_021DAAA4((int)((void *)15),(u16 *)(p+0x1a+i*2),((struct Obj00360 *)p)->f24,(u8)(((struct Obj00360 *)p)->f2C),(u8)(i+10),*(u16 *)(p+0x12+i*2),((struct Obj00360 *)p)->f22);
     }
     return -1;
 }

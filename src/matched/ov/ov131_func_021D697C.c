@@ -23,7 +23,7 @@ extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_021D6D18(void *,void *,void *);
+extern void func_021D6D18(u8 *p, u8 *q, void *mon);
 void func_021D697C(unsigned char *p,int *q) {
  void *m=func_021D6064(p);
  void *t;
@@ -39,5 +39,5 @@ void func_021D697C(unsigned char *p,int *q) {
  } else {q[4]=0;q[5]=0;}
  q[6]=(int)func_020450F0(1,19,0,13,4,14,1);
  q[7]=(int)func_020450F0(1,19,17,13,4,14,1);
- func_021D6D18(p,q,m);
+ func_021D6D18(p,(u8 *)q,m);
 }

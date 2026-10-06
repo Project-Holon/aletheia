@@ -24,9 +24,15 @@ struct Ctx;
 struct SaveBlock;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127A4(struct SaveBlock *p);
-extern Vec *func_02012AA0(void *p);
-extern void func_020141E0(void *a, Vec *v);
-extern void func_020141F0(void *a, Vec *v);
+struct Rec020141E0;
+struct Rec020141F0;
+struct Rec44;
+struct Vec020141E0;
+struct Vec020141F0;
+struct Vec12;
+extern struct Vec12 *func_02012AA0(struct Rec44 *p);
+extern void func_020141E0(const struct Rec020141E0 *p, struct Vec020141E0 *out);
+extern void func_020141F0(struct Rec020141F0 *p, const struct Vec020141F0 *v);
 
 int func_0218932C(char *p)
 {
@@ -35,10 +41,10 @@ int func_0218932C(char *p)
     Vec *pos;
 
     q = p + 0xd4;
-    pos = func_02012AA0(func_020127A4(func_020120F4(((struct Obj19496 *)p)->f4)));
-    func_020141E0(q, &v);
+    pos = (Vec *)func_02012AA0(func_020127A4(func_020120F4(((struct Obj19496 *)p)->f4)));
+    func_020141E0((const struct Rec020141E0 *)q, (struct Vec020141E0 *)(&v));
     if (pos->x != v.x || pos->z != v.z) {
-        func_020141F0(q, pos);
+        func_020141F0((struct Rec020141F0 *)q, (const struct Vec020141F0 *)pos);
         return 1;
     }
     return 0;

@@ -24,7 +24,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021D584C(char *);
-extern void func_021D54E0(char *);
+typedef unsigned char  u8;
+extern void func_021D54E0(u8 *p);
 struct Descriptor;
 struct PrintSys;
 struct Rec;
@@ -33,7 +34,7 @@ struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
 extern void func_020452E8(struct Descriptor *d);
-extern void func_0203FB44(int,u16,u16);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern int func_02028604(int a0);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_0201DD68(void);
@@ -57,10 +58,10 @@ void func_021D5644(char *p)
         if (*(void **)(p+0x4c+i*4)) func_020452E8(*(void **)(p+0x4c+i*4));
     }
     a=((struct Obj01154 *)p)->f8>>16;
-    func_0203FB44(5,((struct Obj01154 *)p)->f8,a);
+    func_0203FB44((int)5,(u16)(((struct Obj01154 *)p)->f8),(u16)a);
     a=((struct Obj01154 *)p)->f4>>16;
-    func_0203FB44(6,((struct Obj01154 *)p)->f4,a);
-    func_021D54E0(p);
+    func_0203FB44((int)6,(u16)(((struct Obj01154 *)p)->f4),(u16)a);
+    func_021D54E0((u8 *)p);
     func_02028604((int)(((struct Obj01154 *)p)->f40));
     func_0201ED04(((struct Obj01154 *)p)->f24);
     func_0201DD68();

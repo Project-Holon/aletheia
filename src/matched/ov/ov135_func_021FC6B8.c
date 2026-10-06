@@ -16,15 +16,18 @@
 #include "../include/Obj00448.h"
 typedef unsigned int u32;
 extern void *func_0201F81C(u32 n, u32 heap);
-extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
-extern void func_021F4D50(void *p, u32 a, int b, u32 c);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Slot;
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern void func_021F4D50(u8 *p, u16 a, int count, int b);
 extern void func_021F5034(u32 x);
 int func_021FC6B8(char *p)
 {
     ((struct Obj00448 *)p)->fDE8 = func_0201F81C(2, 0x48);
-    func_0201F878(((struct Obj00448 *)p)->fDE8, ((struct Obj00448 *)p)->fB6C, 0x3d, 1, 0x48);
-    func_0201F878(((struct Obj00448 *)p)->fDE8, ((struct Obj00448 *)p)->fB6C, 0x3e, 2, 0x48);
-    func_021F4D50(p, 2, 2, 0x14);
+    func_0201F878(((struct Obj00448 *)p)->fDE8, (u32)(((struct Obj00448 *)p)->fB6C), 0x3d, 1, 0x48);
+    func_0201F878(((struct Obj00448 *)p)->fDE8, (u32)(((struct Obj00448 *)p)->fB6C), 0x3e, 2, 0x48);
+    func_021F4D50((u8 *)p, 2, 2, 0x14);
     func_021F5034(1);
     *(int *)&((struct Obj00448 *)p)->f28 = 8;
     return 2;

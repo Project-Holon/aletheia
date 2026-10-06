@@ -16,9 +16,10 @@
  *   func_021E04B4 0x021E04B4 thumb ov137
  */
 extern void func_021DFA14(char *);
-extern void func_021DFFC8(char *);
-extern void func_021E00D4(char *);
+typedef unsigned char  u8;
+extern void func_021DFFC8(u8 *p);
+extern void func_021E00D4(u8 *p);
 extern void func_021DFE40(char *);
 extern void func_021DFEFC(char *);
-extern void func_021E04B4(char *);
-void func_021DF83C(char *p){func_021DFA14(p);func_021DFFC8(p);func_021E00D4(p);func_021DFE40(p);func_021DFEFC(p);func_021E04B4(p);}
+extern void func_021E04B4(u8 *p);
+void func_021DF83C(char *p){func_021DFA14(p);func_021DFFC8((u8 *)p);func_021E00D4((u8 *)p);func_021DFE40(p);func_021DFEFC(p);func_021E04B4((u8 *)p);}

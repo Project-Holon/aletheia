@@ -22,21 +22,23 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern int func_0215A5E4();
-extern int func_02159B10();
+struct BigObj;
+struct Rec1C;
+extern void *func_0215A5E4(void *a0);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern int func_02014184();
-extern int func_0201289C();
+extern void func_0201289C(struct BigObj *p, const struct Rec1C *src);
 
 int func_0215ADCC(int a0, int a1)
 {
     int buf[7];
-    int v8 = func_0215A5E4(a1);
-    int c = func_02159B10(a0, a1);
-    int r6 = func_02159B10(a0, a1);
-    int r7 = func_02159B10(a0, a1);
-    int v10 = func_02159B10(a0, a1);
-    int v0 = func_02159B10(a0, a1);
+    int v8 = (int)func_0215A5E4((void *)a1);
+    int c = func_02159B10((void *)a0, (void *)a1);
+    int r6 = func_02159B10((void *)a0, (void *)a1);
+    int r7 = func_02159B10((void *)a0, (void *)a1);
+    int v10 = func_02159B10((void *)a0, (void *)a1);
+    int v0 = func_02159B10((void *)a0, (void *)a1);
     func_02014184(buf, c, (s16)r6, r7 << 16, v10 << 16, v0 << 16);
-    func_0201289C(v8, buf);
+    func_0201289C((struct BigObj *)v8, (const struct Rec1C *)buf);
     return 0;
 }

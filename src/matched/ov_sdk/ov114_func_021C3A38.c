@@ -35,7 +35,8 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int func_020949F4(const char *, const char *, unsigned int);
-extern int func_02094A60(const char *, const char *);
+typedef unsigned char  u8;
+extern int func_02094A60(const u8 *s, const u8 *reject);
 extern char *func_02094A28(const char *, int);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
@@ -69,7 +70,7 @@ GHIBool func_021C3A38(GHIConnection *connection)
     } else {
         return GHI_FALSE;
     }
-    nIndex = func_02094A60(URL, g_021CEFF0);
+    nIndex = func_02094A60((const u8 *)URL, (const u8 *)g_021CEFF0);
     tempChar = URL[nIndex];
     URL[nIndex] = 0;
     connection->server = func_0217F1E0(URL);

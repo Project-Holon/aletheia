@@ -57,7 +57,9 @@ typedef struct {
 } Msg;
 
 extern Cfg d_0220AC10;
-extern void func_02209C18(P *p);
+struct Actor;
+struct Cmd;
+extern void func_02209C18(char *p);
 extern void func_02209C30(void *p);
 extern void *func_0204B324(u32 a, u32 b, u32 c, u32 d, Cfg *cfg, int n, u16 v);
 struct Obj;
@@ -65,7 +67,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B8C4(struct Obj *p, u32 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204BA00(void *h, Msg *m);
+extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 
 int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
 {
@@ -75,7 +77,7 @@ int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
     if (p->f28 != 0)
         return 0;
     if (p->h != 0) {
-        func_02209C18(p);
+        func_02209C18((char *)p);
         p->h = 0;
     }
     cfg.x = a;
@@ -100,6 +102,6 @@ int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
     msg.a = 0;
     msg.b = 0;
     msg.cb = (void *)func_02209C30;
-    func_0204BA00(p->h, &msg);
+    func_0204BA00(p->h, (const struct Cmd *)(&msg));
     return 1;
 }

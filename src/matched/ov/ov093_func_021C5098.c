@@ -22,10 +22,10 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_021B8640(u8 *m);
+extern unsigned int func_021B8640(unsigned int **p);
 extern u8 func_021B8FF4(u8 *m);
 extern u8 func_021B8DE4(u8 *m, u8 i);
-extern int func_021B902C(u8 x, u8 y);
+extern int func_021B902C(int a, int b);
 extern u8 func_021C50F8(u8 *q, u8 i);
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D59B4(u8 *p, int k);
@@ -33,7 +33,7 @@ extern int func_021D59B4(u8 *p, int k);
 u32 func_021C5098(u8 *p)
 {
     u32 best = 1;
-    u32 n = func_021B8640(*(u8 * *)&((struct Obj07755 *)p)->f4);
+    u32 n = func_021B8640((unsigned int **)(*(u8 * *)&((struct Obj07755 *)p)->f4));
     u8 x = func_021B8FF4(*(u8 * *)&((struct Obj07755 *)p)->f4);
     u32 i;
     for (i = 0; i <= n; i++) {

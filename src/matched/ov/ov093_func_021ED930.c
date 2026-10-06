@@ -21,7 +21,8 @@ typedef unsigned int u32;
 
 extern u32 func_021B8588(void **p);
 extern unsigned int func_021B8640(unsigned int **p);
-extern void func_021ED9A4(void *p, void *s, u8 i);
+struct E;
+extern void func_021ED9A4(struct E *e, u8 *o, u8 k);
 
 void func_021ED930(char *s)
 {
@@ -38,6 +39,6 @@ void func_021ED930(char *s)
         n = 5;
     }
     for (i = 0; i <= n; i++) {
-        func_021ED9A4(s + 0x48 + i * 12, s, i);
+        func_021ED9A4((struct E *)(s + 0x48 + i * 12), (u8 *)s, i);
     }
 }

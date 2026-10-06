@@ -64,15 +64,15 @@ extern int DWC_CancelMatch(void);
 extern int func_02059F38(void);
 extern int func_0217603C(void);
 struct GTI2Connection;
-extern void func_0216F20C(int status);
+extern int func_0216F20C(int status);
 extern void DWCi_NNFreeNegotiateList(void);
 extern void func_0216BC84(int state);
 extern void DWCi_ClearQR2Key(void);
 extern void func_0217601C(void);
 extern void func_02175F4C(int state);
 extern void func_0216F6C0(void);
-extern void func_02195DE4(struct GT2Socket *socket);
-extern struct DWCstNodeInfo *func_0217637C(int index);
+extern void func_02195DE4(int *p);
+extern char *func_0217637C(int index);
 extern void func_0216C230(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
 extern int func_0216B994(void);
 
@@ -106,10 +106,10 @@ int func_0216B65C(void)
         return 1;
     }
     g_021AA878.ctrl->f2d = 1;
-    func_02195DE4(g_021AA878.ctrl->socket);
+    func_02195DE4((int *)g_021AA878.ctrl->socket);
     while (func_0217603C() > 1) {
         for (i = 0; i < func_0217603C(); i++) {
-            pNodeInfo = func_0217637C(i);
+            pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
             if (pNodeInfo->profileID != g_021AA878.ctrl->myProfileID)
                 func_0216C230(0, 0, 1, pNodeInfo->aid);
         }

@@ -36,8 +36,8 @@ extern u32 func_02188CFC(u8 *p);
 extern u16 func_02188C98(void *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *ctx, struct VecFx32 *out);
-extern u32 func_021AB0D4(u16 z, VecFx32 *pos);
-extern void *func_021A3074(void **ctx);
+extern int func_021AB0D4(void *a, void *b);
+extern void *func_021A3074(u8 *p);
 extern u32 func_02188C5C(u8 *p);
 extern void func_0219E2F4(void *o, void *out);
 extern u32 func_021BB3C4(void *w, Pair *v);
@@ -50,10 +50,10 @@ u32 func_021A30C8(void **ctx)
         VecFx32 pos;
         u16 z = func_02188C98(ctx[0]);
         func_021A3038((unsigned char *)ctx, (struct VecFx32 *)&pos);
-        r = func_021AB0D4(z, &pos);
+        r = func_021AB0D4((void *)z, &pos);
     } else if (func_02188CFC(ctx[0]) == 1) {
         Pair v;
-        void *o = func_021A3074(ctx);
+        void *o = func_021A3074((u8 *)ctx);
         void *w = (void *)func_02188C5C(ctx[0]);
         func_0219E2F4(o, &v);
         r = func_021BB3C4(w, &v);

@@ -43,7 +43,8 @@ extern void func_0202208C(void *,unsigned int,unsigned int,unsigned int,unsigned
 extern void func_0204A600(void *);
 extern void func_0201DE00(u8 *,u8 *,u8 *);
 extern void func_0201DD78(unsigned int,unsigned int,unsigned int);
-extern void func_020310C4(void *);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_021C2604(int task,int *state,int unused,char *p) {
  u8 r,g,b;

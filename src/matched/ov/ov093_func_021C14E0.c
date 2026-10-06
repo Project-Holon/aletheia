@@ -28,7 +28,7 @@ extern u8 *func_021C157C(u8 *c);
 extern int func_021C6B5C(u8 *p, u8 *a, u8 *b, u8 *q);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021C6BB8(u8 *p, u8 *a, u8 *r);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C158C(u8 *c, u8 *r);
 extern u8 *func_021C159C(u8 *c);
 
@@ -47,7 +47,7 @@ void func_021C14E0(u8 *p, u8 *a, int b, u8 *c)
                 if (st->f == 0) st->f = 1;
                 s = func_021CC8D8(p + 0x1d74, 0x197b);
                 func_021C6BB8(p, a, r);
-                func_021CC95C(p + 0x1d74, s, 0x197f);
+                func_021CC95C((u32 *)(p + 0x1d74), s, 0x197f);
                 func_021C158C(c, r);
             }
             r = func_021C159C(c);

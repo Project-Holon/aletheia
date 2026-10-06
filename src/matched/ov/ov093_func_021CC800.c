@@ -23,11 +23,12 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021B8B9C(unsigned char *p, unsigned char k);
-extern u8 func_021B8BC4(void *p, u8 k);
+struct S2;
+extern unsigned char func_021B8BC4(int unused, unsigned int b);
 extern char *func_021B9AEC(char *p, int i);
 struct Q1;
 extern u8 func_021B9B94(struct Q1 *p);
-extern u8 *func_021B9C00(void *p, u32 i);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 _u32_div_f(u32, u32);
 
@@ -45,11 +46,11 @@ void func_021CC800(u8 *a, u32 *out1, u32 *out2, u8 want)
     *out2 = 0;
     for (j = 0; j < 4; j++) {
         if (func_021B8B9C(((struct Obj09984 *)a)->f4, j) != 0 &&
-            want == func_021B8BC4(((struct Obj09984 *)a)->f4, j)) {
+            want == func_021B8BC4((int)(((struct Obj09984 *)a)->f4), (u8)j)) {
             p = func_021B9AEC(((struct Obj09984 *)a)->f8, j);
             n = func_021B9B94((struct Q1 *)p);
             for (i = 0; i < n; i++) {
-                t = func_021B9C00(p, (u8)i);
+                t = func_021B9C00((struct S2 *)p, (u8)i);
                 sum += func_021D59B4(t, 14);
                 *out1 += func_021D59B4(t, 13);
             }

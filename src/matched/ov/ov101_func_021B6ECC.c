@@ -21,16 +21,16 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern u32 func_021B70A8(void *, u32);
+extern unsigned char func_021B70A8(unsigned char *p, unsigned x);
 extern u16 *func_020084F4(void *);
 extern u32 func_021B6F9C(u16 *, u16 *);
-int func_021B6ECC(u32 a, u32 b, int c, int d, char *x, char *y, int flag, u32 id)
+int func_021B6ECC(u32 a, u32 b, int c, int d, char *x, char *y, int flag, u32 id, int a8)
 {
     int base, rate, result;
     u32 sim;
     u16 *first;
     float f;
-    base = (((func_021B70A8(x, id) + func_021B70A8(y, id)) >> 1) * 10) / 100;
+    base = ((((u32)func_021B70A8((unsigned char *)x, id) + (u32)func_021B70A8((unsigned char *)y, id)) >> 1) * 10) / 100;
     a = a * 50 / 100;
     b = b * 40 / 100;
     base += a + b;

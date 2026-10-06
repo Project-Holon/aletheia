@@ -21,8 +21,8 @@ typedef unsigned int   u32;
 extern u32 func_02026478(void *obj);
 struct BigObj;
 struct Sub0200852CObj;
-extern u8 func_02012B70(const struct BigObj *p);
-extern int func_02012B80(void *);
+extern int func_02012B70(const struct BigObj *p);
+extern u8 func_02012B80(const struct BigObj *p);
 extern int func_021583EC(void *a0, int a1);
 extern u8 func_0200855C(const struct Sub0200852CObj *obj);
 int func_0215843C(void *p)
@@ -31,6 +31,6 @@ int func_0215843C(void *p)
     u8 id;
     if (func_02012B70(q) == 0)
         return 21;
-    id = func_02012B80(q);
+    id = (int)func_02012B80(q);
     return func_0200855C((const struct Sub0200852CObj *)func_021583EC(q, id));
 }

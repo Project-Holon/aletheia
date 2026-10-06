@@ -19,13 +19,13 @@ struct Ov208Mgr { char pad[0x28]; void *f28; void *f2c; };
 struct Bank;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021BDD24(struct Ov208Mgr *m);
+extern void func_021BDD24(char *p);
 extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *p);
 void func_021BD954(struct Ov208Mgr *m)
 {
     func_02030EAC(m->f2c);
-    func_021BDD24(m);
+    func_021BDD24((char *)m);
     func_0204B1CC(m->f28);
     func_020307B0(m);
 }

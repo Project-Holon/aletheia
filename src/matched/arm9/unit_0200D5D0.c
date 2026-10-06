@@ -62,7 +62,7 @@ extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void OS_GetOwnerInfo(void *info);
 
 extern u16   func_02045A98(void);
-extern u16   func_0203F1FC(const void *src, u32 size);
+extern int func_0203F1FC(const u8 *src, u32 len);
 
 struct Big;
 struct Blk34;
@@ -73,9 +73,10 @@ extern u8 *func_02012944(void *p);
 extern void *func_02012F08(int *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
-extern void  func_0200E6FC(void *a, u32 b, void *dest);
-extern void *func_020084F4(void *a);
-extern void  func_0201F41C(const void *src, void *dest, u32 size);
+struct Rec0200E6FC;
+extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern const void *func_020084F4(const void *p);
+extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
@@ -136,7 +137,7 @@ void func_0200D5D0(struct GdsProfile *p, void *sys)
     func_0200C164(blk, &a, &b, &c, &d);
 
     MI_CpuFill8(p, 0, sizeof(struct GdsProfile));
-    func_0201F41C(func_020084F4(rec), p, 8);
+    func_0201F41C(func_020084F4(rec), (u16 *)p, 8);
     p->unk10 = func_02008530(rec);
     p->unk14 = func_02008550(rec);
     p->unk1C = a;
@@ -148,10 +149,10 @@ void func_0200D5D0(struct GdsProfile *p, void *sys)
     for (i = 0; i < 0x28; i++) {
         p->unk20[i] = func_02045A98();
     }
-    func_0200E6FC(env, 0, p->unk20);
+    func_0200E6FC(env, 0, (struct Rec0200E6FC *)p->unk20);
     p->unk15 = info.unk02;
     p->unk16 = func_02008554(rec);
     p->unk19 = 0x15;
     p->unk1A = 2;
-    p->unk7C = func_0203F1FC(p, 0x7C);
+    p->unk7C = func_0203F1FC((const u8 *)p, 0x7C);
 }

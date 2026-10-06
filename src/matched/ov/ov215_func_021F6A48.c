@@ -18,7 +18,9 @@
 typedef unsigned char u8;
 struct McssFade;
 extern void func_02015EA0(void *);
-extern void func_02015F50(struct McssFade *,u8,u8,int,unsigned);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern void func_021F6CAC(char *);
 extern void func_021F6AEC(char *);
 extern void func_021F6CCC(char *,unsigned,int);

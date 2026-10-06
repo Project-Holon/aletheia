@@ -46,7 +46,7 @@ extern void func_021E8AA0(int *, int);
 extern int func_021E8844(const int *);
 extern void func_021E8AB8(u32);
 extern void func_021DC738(char *, unsigned);
-extern int func_021DC77C(char *);
+extern int func_021DC77C(u8 *p);
 extern void func_021DC8A0(char *, void *);
 extern void func_021D61A4(void *obj, int unused, u8 *p);
 extern void func_021D4608(u32 sys, int *state, u32 *p);
@@ -70,7 +70,7 @@ void func_021D4730(u32 sys, int *state, u32 *p)
     case 2: func_021E8738((int *)p[9], p[4], 24, 2); *state = 14; func_021E8AB4(sys, 3); break;
     case 3: func_02082BCC((void *)ctx[12], 0, 8); func_021DC738((char *)p[12], 87); *state = 4; break;
     case 4:
-        switch (func_021DC77C((char *)p[12])) {
+        switch (func_021DC77C((u8 *)p[12])) {
         case 0: break;
         case 1: func_021DC8A0((char *)p[12], (void *)((u32 *)p[16])[12]); *state = 5; break;
         case 3: func_02082BCC((void *)((u32 *)p[16])[12], 0, 8); func_021E8AA0((int *)sys, (int)func_021D61A4); break;

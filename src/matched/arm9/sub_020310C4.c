@@ -69,7 +69,8 @@ struct Tcbl {
 };
 
 extern void sub_02030F70(struct TcblNode *node);
-extern void *sub_02030FB4(struct TcblNode *node);
+struct S02030FB4;
+extern void *sub_02030FB4(struct S02030FB4 *p);
 
 void sub_020310C4(struct Tcbl *p)
 {
@@ -81,7 +82,7 @@ void sub_020310C4(struct Tcbl *p)
     while (cur != s) {
         struct TcblNode *n = p->cursor;
         p->destroyed = 0;
-        n->func(n, sub_02030FB4(n));
+        n->func(n, sub_02030FB4((struct S02030FB4 *)n));
         if (p->destroyed == 0) {
             p->cursor = p->cursor->next;
         } else {

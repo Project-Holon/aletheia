@@ -29,7 +29,7 @@ struct Ov208Anm {
     struct Ov208AnmState *state;
 };
 
-extern void *func_02015EE8(u32 obj, struct Ov208AnmState *state);
+extern void *func_02015EE8(void *p);
 extern void func_02015E04(void *p);
 struct Obj;
 extern void func_02064CBC(struct Obj *x);
@@ -39,7 +39,7 @@ void ov208_func_021C5214(struct Ov208Anm *p)
     void *anm;
 
     if (p->obj != 0 && p->state != 0) {
-        anm = func_02015EE8(p->obj, p->state);
+        anm = func_02015EE8((void *)p->obj);
         if (p->state->active != 0) {
             func_02015E04((void *)p->obj);
             func_02064CBC(anm);

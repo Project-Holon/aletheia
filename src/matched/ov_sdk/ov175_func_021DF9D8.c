@@ -22,7 +22,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern int func_021DF7FC(void **);
-extern int func_021DF884(void *);
+typedef signed int     s32;
+extern s32 func_021DF884(char *p);
 
 int func_021DF9D8(u32 *p, u32 *out)
 {
@@ -34,7 +35,7 @@ int func_021DF9D8(u32 *p, u32 *out)
     *out = 0;
     if ((r = func_021DF7FC((void **)&h)) != 0)
         return r;
-    if ((r = func_021DF884(h)) != 0)
+    if ((r = func_021DF884((char *)h)) != 0)
         return r;
     *(u32 *)(h + 0x4c) = (u32)p;
     *out = (u32)h;

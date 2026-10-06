@@ -26,14 +26,14 @@ struct Rec;
 struct TaskMenuState;
 struct U16Vec;
 extern void func_0201DD68(void);
-extern void func_021BA5F4(int);
-extern void func_02040DA8(int,int,int);
+extern void func_021BA5F4(unsigned a);
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void func_020403F4(int);
+extern void func_020403F4(u32 i);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *ptr);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02040588(int,int);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_021BA640(int);
 void func_021BAC08(int a) {

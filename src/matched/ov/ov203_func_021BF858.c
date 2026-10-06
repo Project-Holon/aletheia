@@ -14,7 +14,9 @@
  */
 typedef struct {int kind,time;int values[8];} Record;
 typedef struct {int heaps;int config;int ended;int done;int previous;int index;char flags[4];int owner;void *task;} Context;
-extern void func_020310C4(void *),func_021BF9B8(Context *,int,Record *);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
+extern void func_021BF9B8(Context *,int,Record *);
 extern Record *func_021BE990(int);
 void func_021BF858(Context *p,int time,int flag)
 {

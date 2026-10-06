@@ -107,7 +107,7 @@ extern void func_0204E8C0(u32);
 extern void func_02005654(void (*)(void), int);
 extern void func_021BE150(void);
 extern void MTX_Identity33_(void *);
-extern u32 func_021BE7D8(u32);
+extern u8 func_021BE7D8(unsigned x);
 extern u32 func_021BE7BC(u32, u32, int);
 extern int _ffltu(u32);
 extern int _fadd(int, int);
@@ -154,7 +154,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->b83 = cfg->fd;
     ctx->b84 = cfg->fe;
     ctx->b85 = cfg->sec;
-    cam = ctx->f74 = func_021BE7A8(ctx->id);
+    cam = ctx->f74 = (struct Cam *)func_021BE7A8(ctx->id);
     q = (((cam->fc >> 12) / 2) << 16) / 360;
     c = FX_SinCosTable_[(q >> 4) * 2 + 1];
     far = cam->f1c;

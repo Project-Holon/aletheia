@@ -35,7 +35,8 @@ extern void func_021BB480(char *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_021BB0E4(char *p);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void func_021BC008(void *);
+struct S;
+extern void func_021BC008(struct S *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020307B0(void *);
@@ -56,7 +57,7 @@ void func_021BA2CC(char *p)
     }
     func_0203FB44(((struct Obj00173 *)p)->f4E,(u16)((struct Obj00173 *)p)->f34,(u16)(((struct Obj00173 *)p)->f34>>16));
     func_0203FB44(((struct Obj00173 *)p)->f4D,(u16)((struct Obj00173 *)p)->f30,(u16)(((struct Obj00173 *)p)->f30>>16));
-    func_021BC008(p);
+    func_021BC008((struct S *)p);
     func_0201C6EC(((struct Obj00173 *)p)->f2C);
     func_0201C4C0(((struct Obj00173 *)p)->f2C);
     func_020307B0(p);

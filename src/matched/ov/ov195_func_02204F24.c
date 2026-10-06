@@ -16,9 +16,9 @@
 #include "../include/Obj08346.h"
 
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 
-void func_02204F24(int a, char *b)
+void func_02204F24(int a, int *b)
 {
     if (((struct Obj08346 *)b)->f30 == 4) {
         func_02005DE4((void *)1);

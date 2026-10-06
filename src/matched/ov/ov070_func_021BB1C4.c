@@ -44,7 +44,7 @@ typedef struct {
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A380(void *, int, int, unsigned);
-extern int func_02062B30(int, Img **);
+extern int func_02062B30(void *file, void **out);
 extern void func_02041090(unsigned, void *, unsigned, unsigned, u8, u8);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
@@ -63,7 +63,7 @@ void func_021BB1C4(Work *p)
     arc = func_020490F4(0x58, p->f544);
     tex = func_0204A380(arc, 0x23, 0, p->f544);
     i = 0;
-    if (func_02062B30(tex, &img)) {
+    if (func_02062B30((void *)tex, (void **)(&img))) {
         d = img->d;
         n = ((unsigned)img->w >> 3) * ((unsigned)img->h >> 3);
         for (; i < n; i++) {

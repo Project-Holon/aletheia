@@ -67,8 +67,8 @@ typedef struct {
     } e[6];
 } P;
 
-extern void func_021B6F2C(C *);
-extern Counts *func_021B6F40(C *);
+extern void *func_021B6F2C(u8 **p);
+extern void *func_021B6F40(u8 **p);
 struct Descriptor;
 struct MsgBank;
 struct U16Vec;
@@ -98,8 +98,8 @@ void func_021B8C0C(C *c, Q *q, P *d)
     void *s0;
     void *s1;
 
-    func_021B6F2C(c);
-    x = func_021B6F40(c);
+    func_021B6F2C((u8 **)c);
+    x = func_021B6F40((u8 **)c);
     s0 = func_020457B0(0x100, 0x61);
     s1 = func_020457B0(0x100, 0x61);
 
@@ -148,7 +148,7 @@ void func_021B8C0C(C *c, Q *q, P *d)
     d->e[4].on = 1;
 
     func_02045CAC(q->f28, 0xa, s0);
-    func_0201EFA4(q->f10, 0, func_0216FEAC(q->f34, func_021B6F40(c), c->f0->f38), 4, 0, 1);
+    func_0201EFA4(q->f10, 0, func_0216FEAC(q->f34, func_021B6F40((u8 **)c), c->f0->f38), 4, 0, 1);
     func_0201F250(q->f10, s1, s0);
     Draw(q, d->e[5].h, 0, 0, s1);
     d->e[5].on = 1;

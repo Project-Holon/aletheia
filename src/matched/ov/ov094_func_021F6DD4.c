@@ -22,10 +22,11 @@ typedef struct {
     unsigned b0 : 1;    /* 0x68 */
 } Obj;
 
-extern void func_02047A60(void *, int *);
+struct Arg;
+extern void func_02047A60(void *a0, struct Arg *a1);
 
 void func_021F6DD4(Obj *p)
 {
     if (!p->b0)
-        func_02047A60(p->h, p->v);
+        func_02047A60(p->h, (struct Arg *)p->v);
 }

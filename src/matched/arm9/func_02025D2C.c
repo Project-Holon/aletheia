@@ -42,7 +42,7 @@ struct Sound {
 };
 
 extern int  func_02025EA4(struct Sound *obj, int *out);
-extern int  func_02025FC8(struct Sound *obj);
+extern int func_02025FC8(u8 *a0);
 extern u32  func_02025F60(const u8 *ptr, u32 idx, u32 type);
 extern int func_02026010(struct Sound *obj, u32 dir, int sel);
 extern u32  func_020362DC(void);
@@ -59,7 +59,7 @@ int func_02025D2C(struct Sound *obj)
         return res;
     }
     if (obj->field_4 == 0 && obj->field_C == 1) {
-        return func_02025FC8(obj);
+        return func_02025FC8((u8 *)obj);
     }
 
     if (func_020362DC() & 0x40) {

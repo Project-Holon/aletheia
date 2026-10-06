@@ -34,16 +34,16 @@ struct QQ;
 struct Unk021D62A8;
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern u8 *func_021C88A4(void *, int, int);
+extern void *func_021C88A4(char *p, int a, int b);
 extern u16 func_021D70A8(struct QQ *p);
 extern Word func_021E896C(int, int);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
 extern void func_021C88C8(void *, void *);
-extern u32 func_021C7D00(void *, int);
-extern u8 *func_021C8120(void *, int);
-extern int func_021C7F68(void *, u16, u8 *);
+extern int func_021C7D00(u8 *p, int b);
+extern u8 *func_021C8120(u8 *p, int b);
+extern int func_021C7F68(int *p, int b, u8 *out);
 void func_021E237C(void *a, void *b, u8 c, u8 *d)
 {
     u8 *p;
@@ -66,7 +66,7 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
     func_021C88C8(b, p);
     flags = func_021C7D00(b, c);
     buf = func_021C8120(b, 7);
-    buf[0] = func_021C7F68(b, flags | 0x800, buf + 1);
+    buf[0] = func_021C7F68(b, (u16)(flags | 0x800), buf + 1);
     for (i = 0; i < buf[0]; i++) {
         entry = buf + i;
         if (func_021D62C4(func_021C7CF4(b, entry[1]), 2) != 0) {

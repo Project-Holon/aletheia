@@ -72,10 +72,13 @@ typedef struct {
 typedef signed int     s32;
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
-extern void func_020433E0(const void *);
+struct BgTemplate;
+struct DispConfig;
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(u16 heapId);
-extern void func_0203FC28(const void *);
-extern void func_0203FCA0(int, const void *, int);
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
@@ -106,11 +109,11 @@ int func_021BC9E8(int a0, int a1, int *mode, St *st)
         reg_G2S_DB_BLDCNT = 0;
         GX_SetVisibleWnd(0);
         GXS_SetVisibleWnd(0);
-        func_020433E0(d_021BD944);
+        func_020433E0((const struct DispVram *)d_021BD944);
         func_0203F8F4(0x16);
-        func_0203FC28(d_021BD8F4);
-        func_0203FCA0(1, d_021BD904, 0);
-        func_0203FCA0(5, d_021BD924, 0);
+        func_0203FC28((struct DispConfig *)d_021BD8F4);
+        func_0203FCA0(1, (const struct BgTemplate *)d_021BD904, 0);
+        func_0203FCA0(5, (const struct BgTemplate *)d_021BD924, 0);
         if (*mode == 1) {
             func_0207D534((volatile u16 *)0x0400006C, -16);
             func_0207D534((volatile u16 *)0x0400106C, -16);

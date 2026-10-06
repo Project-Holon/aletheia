@@ -65,7 +65,7 @@ extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void  func_021BE760(void *p, void *a, int b);
 extern V    *func_021BE480(void *p, int i, u16 j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
+extern void func_021BE4A4(char *p, int i, int j, int v);
 extern void  func_021BE4B4(void *p, int i, u16 j, int v);
 extern void *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B8(unsigned char *p, int v);
@@ -97,7 +97,7 @@ void func_021F36C0(void *a0)
     for (i = 0; i < 8; i++) {
         e = func_021BE480(r5, 0, i);
         *e = d_021F46E8[i];
-        func_021BE4A4(r5, 0, i, 1);
+        func_021BE4A4(r5, 0, (u16)i, 1);
         for (j = 0; j < 2; j++) {
             b = func_021BE674(r5, 0, i, j);
             func_021BE6B8(b, 0);
@@ -111,7 +111,7 @@ void func_021F36C0(void *a0)
         k = i + 8;
         e = func_021BE480(r5, 0, k);
         *e = d_021F4748[i];
-        func_021BE4A4(r5, 0, k, 1);
+        func_021BE4A4(r5, 0, (u16)k, 1);
         for (j = 0; j < 2; j++) {
             b = func_021BE674(r5, 0, k, j);
             func_021BE6B8(b, 0);
@@ -128,8 +128,8 @@ void func_021F36C0(void *a0)
         v = d_021F4694[n];
         *e = v;
         *func_021BE480(r5, 0, m) = v;
-        func_021BE4A4(r5, 0, t, 1);
-        func_021BE4A4(r5, 0, m, 1);
+        func_021BE4A4(r5, 0, (u16)t, 1);
+        func_021BE4A4(r5, 0, (u16)m, 1);
         switch (q[n + 0x12]) {
         case 0:
             func_021BE4B4(r5, 0, m, 1);
@@ -139,7 +139,7 @@ void func_021F36C0(void *a0)
             break;
         }
     }
-    func_021BE4A4(r5, 0, 0x20, 1);
+    func_021BE4A4(r5, 0, (u16)0x20, 1);
     for (i = 0; i < 2; i++) {
         b = func_021BE674(r5, 0, 0x20, i);
         func_021BE6B8(b, 0);

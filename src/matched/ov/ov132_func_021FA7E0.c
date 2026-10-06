@@ -33,14 +33,20 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef struct {s16 x,y,index;u8 a,b;} Params;
-extern u8 *func_021F9E0C(char *),*func_021F4F54(u8 *,int);
+struct Bank;
+extern u32 func_021F9E0C(u8 *p);
+extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
-extern void *func_0204B100(int,u8,u32),*func_020490F4(u32,u16);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void *func_020490F4(u32,u16);
 struct Obj;
-extern void func_0204B270(void *),func_02049238(void *),func_0204B3DC(struct Obj *,unsigned int),func_0204B92C(struct Obj *,u32);
+extern void func_0204B270(struct Bank *bank);
+extern void func_02049238(void *);
+extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void func_0204B92C(struct Obj *,u32);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16),func_0204A6C8(void *,u32,u32,u32,u16),func_0204AF28(void *,u32,u32,u32),func_0204ABF0(void *,u32,u32,u32,u16);
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_021FA99C(u8 *,unsigned,int,int);
+extern void func_021FA99C(u8 *p, u16 slot, int resource, u32 type);
 void func_021FA7E0(char *p)
 {
     Params configs[2];
@@ -48,7 +54,7 @@ void func_021FA7E0(char *p)
     void *narc;
     u8 i=0;
     int format;
-    table=func_021F9E0C(*(char * *)&((struct Obj00151 *)p)->f4);
+    table=(u8 *)func_021F9E0C((u8 *)(*(char * *)&((struct Obj00151 *)p)->f4));
     ((struct Obj00151 *)p)->f18=func_0204B100(5,0,((struct Obj00151 *)p)->f0);
     func_0204B270(((struct Obj00151 *)p)->f18);
     narc=func_020490F4(47,((struct Obj00151 *)p)->f0);

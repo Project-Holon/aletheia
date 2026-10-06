@@ -88,7 +88,7 @@ extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013D5C(u32 id);
 extern u32 func_0200FB24(void);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void func_0217B968(int a0, void *a1, void *a2, void *a3);
@@ -99,7 +99,8 @@ extern void func_02175004(u8 *p);
 extern u16 func_02175598(u8 *o, u32 id);
 extern void func_02167590(void *a, struct Work *w);
 extern int func_021677E4(void *p, int i);
-extern void func_021675D0();
+struct Src;
+extern void func_021675D0(struct Work *w, int idx, int a2, struct Src *src);
 extern void func_02167848(char *a0, int a1, char *a2);
 extern int func_021679C4(struct Work *w, int i);
 
@@ -146,7 +147,7 @@ void func_0217AE20(int a0, int a1, int a2)
             func_02012950(ctx, i);
             r = func_02175598((u8 *)(&p->recs[i]), (u32)func_02012950(ctx, i));
             if (p->recs[i].f18 != 0 || func_02012B70(ctx) != 0)
-                func_021675D0(p->f8, i, r, &p->recs[i]);
+                func_021675D0((struct Work *)p->f8, i, r, (struct Src *)(&p->recs[i]));
         } else {
             func_02167848((char *)p->f8, i, (char *)(&p->recs[i]));
             if (p->recs[i].f0 == 0) {

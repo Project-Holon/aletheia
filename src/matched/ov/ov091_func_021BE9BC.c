@@ -17,7 +17,8 @@
 typedef unsigned int u32;
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern int func_02021014(void *p, u32 id);
+struct Rec;
+extern u32 func_02021014(struct Rec *p, u32 sel);
 
 int func_021BE9BC(void *a, void *b)
 {
@@ -26,17 +27,17 @@ int func_021BE9BC(void *a, void *b)
     if (v >= 0xFF)
         return r;
     if (v < 100) {
-        if (func_02021014(b, 0x31) != 0 && func_02021014(b, 0x3C) > 0)
+        if ((int)func_02021014(b, 0x31) != 0 && (int)func_02021014(b, 0x3C) > 0)
             return 1;
         return 0;
     }
     if (v >= 100 && v < 200) {
-        if (func_02021014(b, 0x32) != 0 && func_02021014(b, 0x3D) > 0)
+        if ((int)func_02021014(b, 0x32) != 0 && (int)func_02021014(b, 0x3D) > 0)
             return 1;
         return 0;
     }
     if (v >= 200 && v < 0xFF) {
-        if (func_02021014(b, 0x33) != 0 && func_02021014(b, 0x3E) > 0)
+        if ((int)func_02021014(b, 0x33) != 0 && (int)func_02021014(b, 0x3E) > 0)
             return 1;
         return 0;
     }

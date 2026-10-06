@@ -47,8 +47,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02031330(void *);
-extern void *func_02024910(void *,u32);
-extern int func_02024464(void *,u32);
+typedef signed int     s32;
+struct Cfg;
+struct Descriptor;
+struct PrintSys;
+struct T;
+extern void *func_02024910(char *p, int idx);
+extern int func_02024464(struct T *p, u32 a1);
 extern void func_021C0250(int *,u8 *,int);
 extern int func_021C132C(void *,u8 *);
 extern void func_0204E720(u32,int,int,int);
@@ -59,22 +64,22 @@ extern int func_021C1440(void *,u8 *);
 extern int func_021C1450(void *,u8 *);
 extern int func_021C1484(void *,u8 *);
 extern int func_021C14E0(void *,u8 *);
-extern void func_021C05B0(void *);
-extern void func_02034A5C(void *);
+extern void func_021C05B0(char *p);
+extern void func_02034A5C(s32 handle);
 extern int func_021C154C(int *,u8 *);
 extern int func_021C15B4(int *,u8 *);
-extern int func_02034AC4(u32);
+extern int func_02034AC4(s32 handle);
 extern void func_021C0490(u8 *);
-extern u32 func_0201C4E4(void *);
-extern u32 func_02045770(void *);
-extern int func_0201C6C4(u32,u32);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern u8 func_02045730(void *);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
-extern void func_021C1154(u8 *);
+extern void func_021C1154(char *p);
 extern void func_021C0C38(u8 *);
-extern void func_021C1704(void *);
+extern void func_021C1704(u8 *p);
 extern char ov067_id[];
 int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
 {
@@ -132,8 +137,8 @@ int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
         if(!func_0204E804()) func_021C0250(q,p,13);
         break;
     case 13:
-        func_021C05B0(p);
-        func_02034A5C(ov067_id);
+        func_021C05B0((char *)p);
+        func_02034A5C((s32)ov067_id);
         func_021C0250(q,p,14);
         return 0;
     case 14:
@@ -151,7 +156,7 @@ int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
     }
     func_0201C4E4(*(void **)(p+0x5c));
     if(*(u32 *)(p+0x4c)) {
-        if(!func_0201C6C4(*(u32 *)(p+0x5c),func_02045770(*(void **)(p+0x48)))) {
+        if(!func_0201C6C4((struct PrintSys *)(*(u32 *)(p+0x5c)),func_02045770(*(void **)(p+0x48)))) {
             window=*(void **)(p+0x48);
             func_02045334(window);
             func_02045374(window);
@@ -159,7 +164,7 @@ int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
             *(u32 *)(p+0x4c)=0;
         }
     }
-    func_021C1154(p);
+    func_021C1154((char *)p);
     func_021C0C38(p);
     func_021C1704(*(void **)(p+0x50));
     return 0;

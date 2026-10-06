@@ -34,7 +34,7 @@ extern void DWC_Free(int kind, void *p, int size);
 extern void func_02173B18(void);
 extern void func_0217601C(void);
 extern void func_0217653C(void);
-extern void func_0216F20C(int status);
+extern int func_0216F20C(int status);
 
 void func_0216F6C0(void)
 {

@@ -26,7 +26,7 @@ struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void func_02014184(void *d, int a, s16 b, unsigned int c, unsigned int e, unsigned int f);
 int func_02184730(int ctx, int *state, u8 *p);
-void func_02184CEC(void *obj, void *p);
+void func_02184CEC(void **o, void *p);
 static inline void vset(Vec *d, int x, int y, int z)
 {
     d->x = x; d->y = y; d->z = z;
@@ -35,7 +35,7 @@ void *func_02184E40(void *p, int u, const Vec *v, s16 b, const int *s)
 {
     void *r0v = func_020122C0(p, 0, func_02184730, 0x9c);
     char *r4 = func_020124E8(r0v);
-    func_02184CEC(r4, p);
+    func_02184CEC((void **)r4, p);
     func_02014184(r4 + 0x10, b, 1, s[0], s[1], s[2]);
     vset((Vec *)(r4 + 0x34), v->x, v->y, v->z);
     ((struct Obj00248 *)r4)->f2C = 0;

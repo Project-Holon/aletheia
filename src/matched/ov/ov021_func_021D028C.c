@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern int func_021AC1E0(u32 a);
 
-void func_021D028C(void *obj, u8 v)
+void func_021D028C(void *obj, u32 v)
 {
     if (obj != 0)
         ((u8 *)func_021AC1E0((u32)obj))[1] = v;

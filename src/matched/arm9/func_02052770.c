@@ -110,9 +110,12 @@ struct Head {
     u16 f48;             /* 0x48 */
 };
 
-extern void func_02053218(struct Head *h, struct Node *n);
-extern void *func_02058300(void *a, void *b);
-extern void func_020583CC(void *a, void *b);
+struct List;
+struct SPLEmitter;
+struct SPLManager;
+extern void func_02053218(struct SPLManager *mgr, struct SPLEmitter *emtr);
+extern struct Node *func_02058300(struct List *list, struct Node *node);
+extern void func_020583CC(volatile struct List *list, volatile struct Node *node);
 
 void func_02052770(struct Head *h)
 {
@@ -137,13 +140,13 @@ void func_02052770(struct Head *h)
             if (n->f24_b2 == 0) {
                 idx = (((struct Obj16203 *)n)->f80 << 13) >> 29;
                 if (idx == 0 || h->f48 == idx - 1)
-                    func_02053218(h, n);
+                    func_02053218((struct SPLManager *)h, (struct SPLEmitter *)n);
             }
             if ((c->c00_b14 != 0 && c->f3c != 0 && n->f24_b4 != 0
                  && n->f4c > c->f3c) || n->f24_b0 != 0) {
                 if (n->f0c == 0 && n->f18 == 0) {
-                    void *r = func_02058300(&h->list, n);
-                    func_020583CC(&h->f10, r);
+                    void *r = func_02058300((struct List *)(&h->list), n);
+                    func_020583CC((volatile struct List *)(&h->f10), r);
                 }
             }
             n = next;

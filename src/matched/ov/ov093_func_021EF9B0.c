@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021EF9B0(u32 *p)
+int func_021EF9B0(u32 *p)
 {
     if (p[0] != 0)
         return p[1];

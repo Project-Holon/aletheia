@@ -11,4 +11,4 @@
  *   d_021FDDEC 0x021FDDEC data a4
  */
 extern unsigned char d_021FDDEC[];
-unsigned char *func_021FDA6C(void) {return d_021FDDEC;}
+unsigned char *func_021FDA6C(void *h) {return d_021FDDEC;}

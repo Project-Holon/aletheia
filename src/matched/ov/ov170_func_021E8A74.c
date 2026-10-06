@@ -38,17 +38,17 @@
  */
 
 struct WinMgr;
-extern void func_021ED55C(unsigned char *p, int flag);
+extern void func_021ED55C(char **p, int flag);
 extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(unsigned char *p);
+extern void func_021DD14C(char *p);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
-extern int func_021E0190(unsigned char *p);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
 extern int func_02007A80(void *save, unsigned bits);
 extern void func_021EB988(unsigned char *p, const void *e, unsigned n);
 extern void func_021EF534(struct WinMgr *mgr);
 extern void func_021EBC28(unsigned char *p, int kind, int i);
-extern void func_021EE364(unsigned char *p, int idx, int v);
+extern void func_021EE364(char **p, int idx, int v);
 typedef unsigned int   u32;
 struct Sound;
 extern void func_02026124(struct Sound *obj, u32 idx);
@@ -75,12 +75,12 @@ int func_021E8A74(unsigned char *p)
 
     switch (STEP(p)) {
     case 0:
-        func_021ED55C(p, 0);
+        func_021ED55C((char **)p, 0);
         func_021EBA5C(WORK(p), 0x18);
-        func_021DD14C(p);
+        func_021DD14C((char *)p);
         func_021EF57C(MGR(p));
         STEP(p)++;
-        return func_021E8FC0(p, func_021E0190, 0x64);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 0x64);
     case 1:
         if (KIND(p) == 0) {
             if (func_02007A80(SAVE(p), 1) == 1)
@@ -105,7 +105,7 @@ int func_021E8A74(unsigned char *p)
         }
         func_021EF534(MGR(p));
         STEP(p)++;
-        return func_021E8FC0(p, func_021E0190, 0x64);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 0x64);
     case 2:
         STEP(p) = 0;
         if (KIND(p) == 0)
@@ -123,10 +123,10 @@ int func_021E8A74(unsigned char *p)
             flag = 1;
         }
         if (flag == 1) {
-            func_021EE364(p, 0xB, 1);
+            func_021EE364((char **)p, 0xB, 1);
             func_02026124(LIST(p), 0);
         } else {
-            func_021EE364(p, 0xB, 0);
+            func_021EE364((char **)p, 0xB, 0);
         }
         return 0x65;
     }

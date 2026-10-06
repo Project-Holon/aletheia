@@ -37,7 +37,7 @@ typedef struct {
 
 extern SoclConfig *g_021A1CD8;
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_0215AA5C(CpsSoc *soc);
+extern void func_0215AA5C(int v);
 extern unsigned long func_0215C910(char *name);
 extern void func_0215AA70(void);
 
@@ -59,7 +59,7 @@ unsigned long func_0215EDD0(char *hostname)
     soc.buf_size = 0xb68;
     soc.work_end = buffers + 0xb68;
     soc.work = 0xb9e;
-    func_0215AA5C(&soc);
+    func_0215AA5C((int)(&soc));
     hostip = func_0215C910(hostname);
     func_0215AA70();
     g_021A1CD8->free(buffers);

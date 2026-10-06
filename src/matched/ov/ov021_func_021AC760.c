@@ -50,7 +50,7 @@ extern u16 func_0216D588(void *p);
 extern u16 func_0216D590(void *p);
 extern int func_0216D83C(void *p);
 extern int func_0216D86C(void *p);
-extern void func_02164280(s16 a, s16 b, V3 *out);
+extern void func_02164280(int x, int y, int *p);
 extern u32 func_0216D8AC(void *p);
 extern int func_0216D55C(int a0, int a1);
 extern void func_02163E58(u32 a, V3 *v, int *out);
@@ -72,7 +72,7 @@ void func_021AC760(u32 a, u32 b, u32 c, int d)
     s.h12 = func_0216D590((void *)b);
     s.f8 = func_0216D83C((void *)b);
     s.fc = func_0216D86C((void *)b);
-    func_02164280(s.f8, s.fc, &v);
+    func_02164280((s16)s.f8, (s16)s.fc, (int *)(&v));
     v.y = func_0216D8AC((void *)b);
     if (func_0216D55C(b, 0x2000) != 0) {
         v.y += 7 * 0x1000;

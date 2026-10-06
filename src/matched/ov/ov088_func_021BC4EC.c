@@ -23,7 +23,8 @@
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
 extern char *func_0203159C(int, int, int);
 extern void func_021BC62C(char *);
-extern void func_021BC75C(char *);
+typedef unsigned char  u8;
+extern void func_021BC75C(u8 *p);
 
 int func_021BC4EC(int a, int b, int *c)
 {
@@ -36,6 +37,6 @@ int func_021BC4EC(int a, int b, int *c)
         ((struct Obj09923 *)r)->f4 = 2;
     ((struct Obj09923 *)r)->f18 = 0;
     func_021BC62C(r);
-    func_021BC75C(r);
+    func_021BC75C((u8 *)r);
     return 1;
 }

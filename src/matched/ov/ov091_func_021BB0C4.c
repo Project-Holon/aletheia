@@ -40,11 +40,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { short x,y; } Pt;
 typedef struct { Pt point; short width,height; } Rect;
-extern void func_02045780(void *,u8);
+struct Cfg;
+struct Descriptor;
+extern void func_02045780(struct Descriptor *p, u8 v);
 extern void func_0204B09C(void *,int,void *);
-extern void func_020410D0(u32,u8,u32,u32,u8,void *,u8,u8,u8,u8);
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
-extern void func_02045374(void *);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern const u8 d_021BEC74[],d_021BEC75[],d_021BEC6C[],d_021BEC6D[];
 #define W(k) (*(u32 *)(s+(k)))
@@ -66,7 +68,7 @@ void func_021BB0C4(u8 *p,const u8 *s,int d)
     selector=s[4] != 0;
     x+=16;
     d=(unsigned)x+d;
-    func_020410D0(2,d,y,16,6,*(u8 **)(p+0x15c)+12,d_021BEC6C[selector*2],d_021BEC6D[zero*2],32,32);
+    func_020410D0(2,(u8)d,y,16,6,(u32)(*(u8 **)(p+0x15c)+12),d_021BEC6C[selector*2],d_021BEC6D[zero*2],32,32);
     func_020413B0(2,d,y,16,6,5);
     func_02045374((void *)W(0x20));
     func_02041B6C(1);

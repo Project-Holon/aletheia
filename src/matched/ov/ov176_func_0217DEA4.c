@@ -17,5 +17,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021E5F24(char *,int,void *,void *,int,u16);
-extern void func_021E62CC(char *,int,void *,void *,int,u16);
+extern void func_021E62CC(char *p, int mode, void *mgr, void *print, int font, u32 a5);
 void func_0217DEA4(u8 *p,int a) {if(((struct Obj00348 *)p)->f14==0)func_021E5F24(*(char * *)&((struct Obj00348 *)p)->f8,a,((struct Obj00348 *)p)->f0,((struct Obj00348 *)p)->f24,((struct Obj00348 *)p)->f1C,((struct Obj00348 *)p)->f34);else func_021E62CC(*(char * *)&((struct Obj00348 *)p)->f8,a,((struct Obj00348 *)p)->f0,((struct Obj00348 *)p)->f24,((struct Obj00348 *)p)->f1C,((struct Obj00348 *)p)->f34);}

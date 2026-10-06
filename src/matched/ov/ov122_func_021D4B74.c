@@ -27,7 +27,7 @@ struct Ctx;
 extern u32 func_02012138(const struct Ctx *);
 extern u32 func_02026454(void *obj);
 extern void func_02026400(struct Comm *p);
-extern void func_021D4244(char *, void *, int);
+extern void func_021D4244(void *p, u32 a, int a2);
 extern void func_021D4B30(char *p);
 void func_021D4B74(char *p)
 {
@@ -36,11 +36,11 @@ void func_021D4B74(char *p)
     func_02178118(0, 0);
     if (((struct Obj06457 *)p)->f8 == 1 && func_02026454((void *)func_02012138(((struct Obj06457 *)p)->f354)))
         func_02026400((struct Comm *)func_02012138(((struct Obj06457 *)p)->f354));
-    func_021D4244(p, func_021D4B30, 0x35e);
+    func_021D4244(p, (u32)func_021D4B30, 0x35e);
 }
 void func_021D4BDC(char *p)
 {
-    func_021D4244(p, func_021D4B74, 0x36f);
+    func_021D4244(p, (u32)func_021D4B74, 0x36f);
 }
 void func_021D4BF0(void)
 {

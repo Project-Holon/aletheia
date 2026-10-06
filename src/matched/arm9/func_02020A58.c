@@ -23,7 +23,7 @@ typedef signed int     s32;
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u32 func_020437E4(const struct Bmp *bmp);
 
 void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
 {

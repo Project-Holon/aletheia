@@ -22,7 +22,7 @@ typedef short s16;
 typedef int (*Fn)(u16 *s);
 
 extern Fn d_021DA128[];
-extern void func_021C16AC(u16 *s);
+extern void func_021C16AC(u8 *p);
 
 void func_021C1988(void *a, u16 *s)
 {
@@ -30,6 +30,6 @@ void func_021C1988(void *a, u16 *s)
         while (d_021DA128[(s16)s[1]](s) == 1)
             ;
     } else {
-        func_021C16AC(s);
+        func_021C16AC((u8 *)s);
     }
 }

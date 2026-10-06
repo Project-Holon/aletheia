@@ -19,7 +19,8 @@
  */
 typedef unsigned char u8;
 
-extern void sub_0200EC98(const u8 *o, void *out);
+struct Out0200EC98;
+extern void sub_0200EC98(const u8 *o, struct Out0200EC98 *out);
 
 void func_0200ED14(u8 *o, int idx, void *out)
 {

@@ -56,7 +56,8 @@ typedef struct {
 
 extern u32 func_02035CB8(u32 *x, u32 *y);
 extern int func_02035C08(const void *rect);
-extern int func_02035D40(const void *rect, u32 x, u32 y);
+struct Ctx;
+extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
 extern const u8 d_021C852C[];
 extern const u8 d_021C853C[];
 
@@ -72,7 +73,7 @@ void func_021C5BCC(Work *p, int side)
             if (!func_02035C08(d_021C852C)) {
                 p->b330F = 1;
             }
-            if (p->b330F != 0 && !func_02035D40(d_021C852C, x, y)) {
+            if (p->b330F != 0 && !func_02035D40((struct Ctx *)d_021C852C, x, y)) {
                 p->raw.x = x;
                 p->raw.y = y;
                 p->raw.size = p->size;
@@ -89,7 +90,7 @@ void func_021C5BCC(Work *p, int side)
             if (!func_02035C08(d_021C853C)) {
                 p->b330F = 1;
             }
-            if (p->b330F != 0 && !func_02035D40(d_021C853C, x, y)) {
+            if (p->b330F != 0 && !func_02035D40((struct Ctx *)d_021C853C, x, y)) {
                 p->raw.x = ((x - 0x20) + p->h305C * 0xC0) / 2 + 0x20;
                 p->raw.y = (y - 0x18) / 2 + 0x58;
                 p->raw.size = p->size;

@@ -27,7 +27,7 @@ typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
 extern int func_021D775C(int);
 extern unsigned char func_021B9A40(unsigned int x);
-extern u8 *func_021C88A4(int, int, int);
+extern void *func_021C88A4(char *p, int a, int b);
 extern Word func_021E8940(int);
 extern void func_021C8838(void *, int, int);
 struct S;
@@ -78,7 +78,7 @@ void func_021E84FC(int a, int b, int c, const int *d)
             break;
         }
         if (mode != 14) {
-            p = func_021C88A4(b, 25, c);
+            p = func_021C88A4((char *)b, 25, c);
             ((struct Obj07838 *)p)->f4 = mode;
             p[12] = selected;
             *(Word *)(p + 8) = func_021E8940(4);
@@ -89,7 +89,7 @@ void func_021E84FC(int a, int b, int c, const int *d)
                 tmp = func_021C7D34((char *)b, target);
                 slot = tmp;
                 if (slot != 6) {
-                    p = func_021C88A4(b, 0x37, c);
+                    p = func_021C88A4((char *)b, 0x37, c);
                     p[6] = slot;
                     p[7] = 6;
                     tmp1 = p + 4;

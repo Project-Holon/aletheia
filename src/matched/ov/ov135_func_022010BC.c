@@ -62,8 +62,8 @@ extern u8 *func_021B97F4(u8 *p);
 extern void func_021B9774(u8 *p);
 extern void func_021B99B8(u8 *p);
 extern void func_021B9838(u8 *p);
-extern u8 func_021B99F0(u8 *p);
-extern u32 func_021B99F4(void *rec, int i);
+extern int func_021B99F0(u8 *p);
+extern u32 func_021B99F4(u32 p, u32 i);
 extern u8 *func_021B9A14(u8 *p, u32 i);
 extern void func_0200FB4C(u32 id);
 extern void func_0200F7B8(u32 v);
@@ -119,7 +119,7 @@ int func_022010BC(Work *p)
             return 2;
         case 200:
             p->valid = func_021B99F0(rec);
-            p->count = func_021B99F4(rec, 0);
+            p->count = func_021B99F4((u32)rec, 0);
             func_02082D44(func_021B9A14(rec, 1), p->buf, 0x80);
             func_021B99B8(p->wm);
             func_021B9838(p->wm);

@@ -16,13 +16,14 @@
  * its half through *out, and return the SDK call's own result.
  */
 
-extern int func_0204A298(int, int, int, void *, int *);
+typedef unsigned int   u32;
+extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
 
 int func_02200228(void *a, unsigned *out)
 {
     int local;
     int r;
-    r = func_0204A298(0x62, 5, 0, a, &local);
+    r = func_0204A298(0x62, 5, 0, (int)a, (u32 *)(&local));
     *out = (unsigned)local >> 1;
     return r;
 }

@@ -31,7 +31,8 @@ extern void func_0216D828(u32 a, Vec3s *out);
 extern s16 func_021641E8(u32 dir);
 extern s16 func_021641F8(u32 dir);
 extern int func_02163994(u32 a, int x, int y, int z, u32 dir);
-extern int func_021AA900(void *p, Vec3s *pos);
+struct Self;
+extern int func_021AA900(struct Self *self, short *pos);
 
 int func_021AE7A8(u32 a, u32 dir, int n, void *p)
 {
@@ -50,14 +51,14 @@ int func_021AE7A8(u32 a, u32 dir, int n, void *p)
         for (; i < n - 1; i++) {
             if ((func_02163994(a, pos.x, pos.y, pos.z, dir) & ~1) != 0)
                 return 1;
-            if (p != 0 && func_021AA900(p, &pos) != 0)
+            if (p != 0 && func_021AA900(p, (short int *)(&pos)) != 0)
                 return 1;
             pos.x += dx;
             pos.z += dz;
         }
         if ((func_02163994(a, pos.x, pos.y, pos.z, dir) & ~1) != 4)
             return 1;
-        if (p != 0 && func_021AA900(p, &pos) != 0)
+        if (p != 0 && func_021AA900(p, (short int *)(&pos)) != 0)
             return 1;
     }
     return 0;

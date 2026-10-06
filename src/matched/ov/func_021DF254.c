@@ -20,7 +20,7 @@
 
 extern int func_021EF224(int, int);
 extern int func_021EF224(int, int);
-int func_021DF254(unsigned char *p)
+int func_021DF254(unsigned char *p, short x, short y)
 {
     int v = func_021EF224(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA180),
                           *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA184));

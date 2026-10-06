@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern void func_0216BB90(int index, u8 *out);
 extern int func_0216BB80(int index);
 extern int func_0216BBB4(int index);
-extern u32 func_0216B970();
+extern u32 func_0216B970(const u16 *p, int index);
 
 int func_0216BA40(int c, int vm)
 {
@@ -35,7 +35,7 @@ int func_0216BA40(int c, int vm)
     n = (u8)func_0216BB80(vm);
     func_0216BBB4(vm);
     for (i = 0; i < n; i++) {
-        if (func_0216B970(c, buf[i]) < 999999) {
+        if (func_0216B970((const u16 *)c, buf[i]) < 999999) {
             return 0;
         }
     }

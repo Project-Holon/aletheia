@@ -16,7 +16,7 @@
  */
 #include "../include/Obj00001.h"
 
-extern int func_0203CD98(int a);
+extern int func_0203CD98(void);
 
 int func_021D8A24(void *p)
 {
@@ -27,6 +27,6 @@ int func_021D8A24(void *p)
     v = ((struct Obj00001 *)p)->f118C;
     if (v >= 4)
         return 0;
-    return func_0203CD98(v) != 0;
+    return func_0203CD98() != 0;
 }
 

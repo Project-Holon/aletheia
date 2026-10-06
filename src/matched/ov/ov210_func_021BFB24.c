@@ -14,7 +14,7 @@
  */
 #include "../include/Obj25631.h"
 extern int func_021B93B8(char *);
-extern void func_021BFA14(char *, signed short, int);
+extern void func_021BFA14(char *p, int y, int flag);
 void func_021BFB24(char *ctx)
 {
     unsigned center = func_021B93B8(*(char * *)&((struct Obj25631 *)ctx)->f1E0);
@@ -23,8 +23,8 @@ void func_021BFB24(char *ctx)
     signed short upper = index + 4;
     if (lower < 0) lower = 0;
     if (index >= lower && index < center) {
-        func_021BFA14(ctx, 192 - (center - index) * 40, 0);
+        func_021BFA14(ctx, (signed short)(192 - (center - index) * 40), 0);
     } else if (index >= center && index < upper) {
-        func_021BFA14(ctx, (index - center) * 40, 1);
+        func_021BFA14(ctx, (signed short)((index - center) * 40), 1);
     }
 }

@@ -21,7 +21,8 @@
 
 extern int func_021F2B9C(void *, int, int);
 extern int func_021F2BB8(void *, int, int);
-extern int func_021F2BD4(void *, int, int, int);
+typedef unsigned char  u8;
+extern int func_021F2BD4(u8 *p, int row, int col, int kind);
 extern void func_021F0D14(int, int, int *, int *);
 extern void func_021F1290(void *, int, int, int);
 struct Sub020090B0Obj;
@@ -49,7 +50,7 @@ int func_021F133C(char *p, int v, int *o1, int *o2)
                     func_021F0D14(i, j, o1, o2);
                     return 1;
                 }
-                if (func_021F2BD4(p, i, j, v)) {
+                if (func_021F2BD4((u8 *)p, i, j, v)) {
                     a = i;
                     b = j;
                     found = 1;

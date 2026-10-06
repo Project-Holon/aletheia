@@ -26,7 +26,8 @@ struct ScriptVm;
 extern void func_02011290(struct ScriptVm *vm);
 extern void func_02011264(void *);
 extern void func_020307B0(void *);
-extern void *func_02060614(void *, void *);
+struct DList;
+extern void *func_02060614(struct DList *list, void *elem);
 extern void func_021FADF8(char *p, char *q);
 extern void func_02030DA4(void *);
 void func_021FAB58(char *p)
@@ -45,9 +46,9 @@ void func_021FAB58(char *p)
             slot[3] = 0;
         }
     }
-    cur = func_02060614(p + 0x38, 0);
+    cur = func_02060614((struct DList *)(p + 0x38), 0);
     while (cur != 0) {
-        next = func_02060614(p + 0x38, cur);
+        next = func_02060614((struct DList *)(p + 0x38), cur);
         func_021FADF8(p, cur);
         cur = next;
     }

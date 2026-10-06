@@ -36,7 +36,7 @@ extern int func_021BE480(char *p, unsigned i, int j);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(void *a, int *v);
+extern void func_021A3044(u8 *p, void *v);
 
 void func_021F3970(void *a)
 {

@@ -23,7 +23,7 @@ extern u32 func_021CC8D8(void *lock, int line);
 extern u16 func_021C78F4(u8 *p, u8 *a, u8 *b, u32 s);
 extern int func_021C3370(u8 *p, void *q);
 extern int func_021C334C(u8 *p, u8 *q, int a, int b);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 int func_021C1E14(u8 *p, u8 *q, u32 a, u32 b)
 {
@@ -35,6 +35,6 @@ int func_021C1E14(u8 *p, u8 *q, u32 a, u32 b)
             r = func_021C334C(p, q, (int)t, 1);
         }
     }
-    func_021CC95C(p + 0x1D74, s, 7168);
+    func_021CC95C((u32 *)(p + 0x1D74), s, 7168);
     return r;
 }

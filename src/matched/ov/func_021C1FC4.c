@@ -16,17 +16,19 @@
  */
 #include "../include/Obj00081.h"
 
-extern void func_021C1920(void *, void *, int, int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void func_021C1920(u16 *heap, u8 *p, int key, int mode);
 
 void func_021C1FC4(void *a, char *b, int c)
 {
     int s = ((struct Obj00081 *)b)->f6C;
 
     if (s == 0) {
-        func_021C1920(a, b, c, 3);
+        func_021C1920(a, (u8 *)b, c, 3);
         return;
     }
     if (s == 5) {
-        func_021C1920(a, b, c, 8);
+        func_021C1920(a, (u8 *)b, c, 8);
     }
 }

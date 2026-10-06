@@ -42,7 +42,7 @@ typedef struct Sub {
 
 extern void func_021B91F8(Sub *p, VecFx32 *out);
 extern void func_021B9238(Sub *p, Arg *out);
-extern int func_021B9368(void *p, Arg *a, u32 b, s32 c, VecFx32 *out);
+extern int func_021B9368(u8 *p, u32 a1, u32 a2, int a3, u32 a5);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
 
@@ -79,7 +79,7 @@ void func_021B8050(Sub *o, s16 *out)
     } else {
         func_021B9238(o, &q);
         q.h4 = 0;
-        func_021B9368(o->f78, &q, o->f4->f8, end - lim, &b);
+        func_021B9368(o->f78, (u32)(&q), o->f4->f8, end - lim, (u32)(&b));
     }
     VEC_Subtract(&b, &a, &b);
     VEC_Normalize(&b, &b);

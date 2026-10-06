@@ -54,7 +54,7 @@ void func_02162048(u16 *a, int b, int c);
 int func_0216208C(char *p, int unused);
 u16 func_0216209C(char *p);
 void func_0218741C(char *p, int a1, int *out, int a3);
-unsigned int func_02186278(void *a, int b);
+int func_02186278(char *p, int which);
 int func_02161E4C(void *a0, int id, unsigned mode);
 void func_0218748C(char *p, int a1, int *out, int a3, u16 a4);
 void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -119,7 +119,7 @@ int func_021871F8(void *a, int *st, char *o)
         func_0218741C(o, 1, st, 0x11);
         break;
     case 5:
-        if (func_02186278(P44, 0) >= 10) {
+        if ((unsigned int)func_02186278(P44, 0) >= 10) {
             *st = 6;
             break;
         }

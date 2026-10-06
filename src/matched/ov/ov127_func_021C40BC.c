@@ -34,15 +34,16 @@ typedef struct {
     u8 pad178[0x10];
     Rec res[1];         /* +0x188, indexed by idx */
 } Own;
-extern u32 *func_021C4604(Own *);
+struct Obj;
+extern void *func_021C4604(u8 *p);
 extern int func_021C4354(int);
-extern u32 func_0204B294(u32, u32, u32, u32, const Pos *, u16, u16);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B84C(u32, u32);
-extern void func_0204B908(u32, u32);
-extern int func_021C4550(u8 *);
+extern void func_0204B908(int a0, int a1);
+extern int func_021C4550(int *p);
 u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
 {
-    u32 *e = func_021C4604(owner);
+    u32 *e = func_021C4604((u8 *)owner);
     Pos l;
     int off;
     int ta;
@@ -53,7 +54,7 @@ u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
     l.z = 0;
     l.a = ta;
     l.b = pos[3];
-    e[1] = func_0204B294(owner->h0, owner->rec[idx].f4, owner->rec[idx].f8,
+    e[1] = (u32)func_0204B294((void *)owner->h0, owner->rec[idx].f4, owner->rec[idx].f8,
                          owner->res[idx].f0, &l, 0, (u16)heap);
     func_0204B84C(e[1], (u8)pos[3]);
     if (owner->rec[idx].f10 == 1)
@@ -65,13 +66,13 @@ u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
     e[4] = 1;
     e[0] = (u32)&owner->rec[idx];
     off = 0x2E0;
-    if (func_021C4550((u8 *)owner + off)) {
+    if (func_021C4550((int *)((u8 *)owner + off))) {
         l.x = pos[0];
         l.y = pos[1];
         l.z = 0;
         l.a = *(u32 *)((u8 *)owner + off + 0x10);
         l.b = 0;
-        e[2] = func_0204B294(owner->h0, *(u32 *)((u8 *)owner + off), *(u32 *)((u8 *)owner + off + 4),
+        e[2] = (u32)func_0204B294((void *)owner->h0, *(u32 *)((u8 *)owner + off), *(u32 *)((u8 *)owner + off + 4),
                              *(u32 *)((u8 *)owner + off + 8), &l, 0, (u16)heap);
         func_0204B84C(e[2], (u8)pos[3]);
     } else {

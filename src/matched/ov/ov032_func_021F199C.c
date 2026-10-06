@@ -31,7 +31,7 @@ extern u8 sub_02010EA0(int slot, u8 *rec);
 extern void func_02165FCC(void *r, u32 win, u32 heap);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021F1A28(char *p, int a, int b, char *c);
+extern void func_021F1A28(char *p, int b, u8 c, int *r);
 
 int func_021F199C(char *p, void *x, int flag)
 {
@@ -47,6 +47,6 @@ int func_021F199C(char *p, void *x, int flag)
         return 0;
     func_02165FCC(x, *(u32 *)&((struct Obj00007 *)p)->f110, ((struct Obj00007 *)p)->f96);
     func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00007 *)p)->f110), (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (void *)(*(u32 *)&((struct Obj00007 *)p)->f118));
-    func_021F1A28(p, r, 1, p + 0xa8);
+    func_021F1A28(p, r, 1, (int *)(p + 0xa8));
     return 1;
 }

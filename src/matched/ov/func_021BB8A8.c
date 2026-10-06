@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021BB8A8  adds r0,r0,r1; adds r0,#0x30; ldrb r0,[r0] */
-u8 func_021BB8A8(u8 *p, int i) { return *(u8 *)(p + i + 0x30); }
+u8 func_021BB8A8(u8 *p, u8 i) { return *(u8 *)(p + i + 0x30); }
 

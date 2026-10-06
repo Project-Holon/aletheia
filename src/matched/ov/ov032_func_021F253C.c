@@ -13,7 +13,7 @@
 #include "../include/Obj20459.h"
 #include "../include/Obj20460.h"
 
-void func_021F253C(char *p, unsigned short v)
+void func_021F253C(char *p, int v)
 {
     ((struct Obj20459 *)p)->f70 = v;
 }

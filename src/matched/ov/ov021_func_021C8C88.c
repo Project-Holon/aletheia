@@ -43,7 +43,8 @@ struct Work8C88 {
 
 typedef int (*TaskFn)(void *task, int *state, void *work);
 
-extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern void *func_02188CB4(u8 *p);
@@ -54,7 +55,7 @@ extern int func_021C8BFC(int a, int *st, int *p);
 void *func_021C8C88(u32 prio, void *sys, u8 *owner)
 {
     void *v = func_02188CB4(owner);
-    void *task = func_020122C0(sys, prio, (TaskFn)func_021C8BFC, 0x28);
+    void *task = func_020122C0(sys, (void *)prio, (TaskFn)func_021C8BFC, 0x28);
     struct Work8C88 *w = func_020124E8(task);
 
     w->sys = sys;

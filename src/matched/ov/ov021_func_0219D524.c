@@ -18,7 +18,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u16 a; u16 b; } E4;
 
-u16 func_0219D524(u8 *s, u16 b, u16 a)
+u16 func_0219D524(u32 *s, u32 b, u32 a)
 {
     int i;
     E4 *e = *(E4 * *)&((struct Obj09515 *)s)->fC;

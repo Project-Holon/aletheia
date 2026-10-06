@@ -28,13 +28,15 @@ typedef unsigned short u16;
 typedef struct {u8 low:7;u8 flip:1;} Flags;
 struct Sub0204A9D0;
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern unsigned func_02027610(u8);
-extern void *func_02049E74(unsigned,unsigned,unsigned,unsigned,u16);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_02027610(u32 a);
+extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_0204A9D0(int,struct Sub0204A9D0 *);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
-extern unsigned func_02027604(u8);
-extern void func_0204B6F4(void *,unsigned,unsigned);
+extern u8 func_02027604(u8 i);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_0220E8B4(char *p,int first,int index,int which)
 {
     void *owner,*data;
@@ -44,10 +46,10 @@ void func_0220E8B4(char *p,int first,int index,int which)
     first+=toggle;
     index+=toggle;
     owner=func_020490F4(83,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
-    data=func_02049E74((unsigned)owner,func_02027610(which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
+    data=func_02049E74((void *)((unsigned)owner),func_02027610((u8)which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     func_0204A9D0(*(int *)(p+index*4+0x24a4),out);
     func_020307B0(data);
     func_02049238(owner);
-    func_0204B6F4(*(void **)(p+first*4+0x1ebc),func_02027604(which),1);
+    func_0204B6F4(*(void **)(p+first*4+0x1ebc),(unsigned)func_02027604(which),1);
     ((Flags *)(p+0x2175))->flip^=1;
 }

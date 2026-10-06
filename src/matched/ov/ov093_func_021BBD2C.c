@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void func_021BB920(u8 *p);
 extern void func_021D74E4(void);
-extern int func_021BC220(u8 *p, int a);
+extern int func_021BC220(u8 *p, u8 *o);
 extern u8 func_021BBFA8(u8 *p, u8 k);
 
 int func_021BBD2C(u8 *p, int a)
@@ -38,7 +38,7 @@ int func_021BBD2C(u8 *p, int a)
         func_021D74E4();
         p[0x77d] = 0;
         p[0x77c] = 1;
-        if (func_021BC220(p, a) != 0) {
+        if (func_021BC220(p, (u8 *)a) != 0) {
             ((struct Obj02777 *)p)->f14 = 3;
             return 3;
         }

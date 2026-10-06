@@ -15,8 +15,8 @@ typedef unsigned int u32;
 extern int  func_0202AE08(void *obj);
 extern int  func_0202AE34(void *obj);
 extern int  func_0202AE68(void *obj);
-extern int  func_0202AE04(void *obj);
-extern int  func_0202AEBC(void *obj);
+extern u32 func_0202AE04(void *obj);
+extern int func_0202AEBC(int a0);
 extern void func_0202ABFC(void *obj, u32 value);
 
 void func_0202AD10(void *obj)
@@ -25,9 +25,9 @@ void func_0202AD10(void *obj)
     int b = func_0202AE68(obj);
 
     if (a != 0 || b != 0) {
-        func_0202AEBC(obj);
+        func_0202AEBC((int)obj);
     }
-    if (func_0202AE04(obj) >= 0x7f) {
+    if ((int)func_0202AE04(obj) >= 0x7f) {
         func_0202ABFC(obj, 0);
     }
 }

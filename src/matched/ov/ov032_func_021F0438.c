@@ -29,14 +29,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_021F05E8(u8 *p, int a, u32 b);
-extern void func_021F0B10(u8 *p, int a, void *b);
-extern int func_021F0668(u8 *p, int i);
+extern void func_021F0B10(char *p, int a, int b);
+extern int func_021F0668(char *p, int i);
 extern int func_021F055C(u8 *p);
 extern int func_021659F0(u8 *q, int delta);
 extern u8 *func_021F0F44(u8 *p, int a);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
-extern void func_021F029C(u8 *p, int a);
-extern void func_021F18C4(u8 *p, int a);
+extern void func_021F029C(char *p, int flag);
+extern void func_021F18C4(char *p, int b);
 extern void func_021657E8(void *a, u16 b);
 
 int func_021F0438(u8 *p)
@@ -49,11 +49,11 @@ int func_021F0438(u8 *p)
     switch (((struct Obj00007 *)p)->f6C) {
     case 0:
         func_021F05E8(p, 2, 1);
-        func_021F0B10(p, 2, p + 0xA8);
+        func_021F0B10((char *)p, 2, (int)(p + 0xA8));
         (((struct Obj00007 *)p)->f6C)++;
         break;
     case 1:
-        if (func_021F0668(p, 2) != 0)
+        if (func_021F0668((char *)p, 2) != 0)
             break;
         func_021F05E8(p, 0, 2);
         func_021F05E8(p, 1, 2);
@@ -69,13 +69,13 @@ int func_021F0438(u8 *p)
         s = func_021659F0((u8 *)(((struct Obj00007 *)p)->f3C), p[0x7E] + p[0x7C]);
         e = func_021F0F44(p, s);
         func_0201EE0C(((struct Obj00007 *)p)->f110, 0, ((struct Obj09795 *)e)->f24, e[4], 1, 2);
-        func_021F029C(p, 1);
-        func_021F18C4(p, 3);
+        func_021F029C((char *)p, 1);
+        func_021F18C4((char *)p, 3);
         func_021657E8((void *)(*(int *)&((struct Obj00007 *)p)->f4), ((struct Obj09795 *)e)->f6);
         ((struct Obj00007 *)p)->f6C = 5;
         break;
     case 5:
-        func_021F029C(p, 0);
+        func_021F029C((char *)p, 0);
         ((struct Obj00007 *)p)->f6C = 6;
         break;
     case 3:
@@ -84,7 +84,7 @@ int func_021F0438(u8 *p)
         break;
     case 6:
         func_021F05E8(p, 4, 0);
-        func_021F0B10(p, 1, p + 0xA8);
+        func_021F0B10((char *)p, 1, (int)(p + 0xA8));
         ((struct Obj00007 *)p)->f6C = 7;
         break;
     case 7:

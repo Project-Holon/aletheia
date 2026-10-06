@@ -29,8 +29,9 @@ extern char g_021A25D4[];
 extern char g_021A25DC[];
 extern char g_021A25E0[];
 extern int func_02179E60(char *http, char *label, char *data);
-extern char *func_02094B20(const char *s, const char *sub);
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
+extern int func_0209477C(const u8 *s);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
 
 int func_0217967C(char *http)
@@ -41,7 +42,7 @@ int func_0217967C(char *http)
     if (func_02179E60(http, g_021A25C0, g_021A25CC)) {
         return 1;
     }
-    contentlen = func_0209477C(func_02094B20(*(char **)(http + 0x1a34), g_021A25D4) + 4);
+    contentlen = func_0209477C(func_02094B20((const u8 *)(*(char **)(http + 0x1a34)), (const u8 *)g_021A25D4) + 4);
     if (contentlen != 0) {
         func_02084F80(str_contentlen, 7, g_021A25DC, contentlen);
         if (func_02179E60(http, g_021A25E0, str_contentlen)) {

@@ -26,7 +26,7 @@ extern void func_021E8AB4(u32, u32);
 extern void func_021E8AA0(int *p, int v);
 extern int func_021E8844(const int *p);
 extern void func_021E8AB8(u32);
-extern void func_021D98E4(char *, u32);
+extern void func_021D98E4(u32 *p, int mode);
 extern int func_021D9A08(char *);
 extern void func_021D99F4(char *);
 extern void func_021D8FA8(u32 sys, int *state, char *ctx);
@@ -41,7 +41,7 @@ void func_021D8E30(u32 sys, int *state, char *ctx)
         func_021E8AB4(sys, 1);
         break;
     case 1:
-        func_021D98E4(ctx, 0);
+        func_021D98E4((u32 *)ctx, 0);
         *state = 2;
         break;
     case 2:

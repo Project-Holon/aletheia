@@ -44,7 +44,7 @@ extern void func_02045334(struct Descriptor *);
 extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
 extern void func_02021848(int a, int b, u16 c, int d, int e, int f, int g, void *h);
 extern void func_02205F64(Main *m);
-extern void func_02206128(Main *m);
+extern void func_02206128(char *p);
 extern void func_02205D34(Main *m);
 
 void func_022056B4(Main *m)
@@ -64,7 +64,7 @@ void func_022056B4(Main *m)
     func_02043B5C((struct CharBuf *)m->o234, 0);
     func_02045334((struct Descriptor *)m->o230);
     func_02205F64(m);
-    func_02206128(m);
+    func_02206128((char *)m);
     func_02205D34(m);
     func_02041300(4, 0, 0x20, 2, 0x20, 0x20, 0);
     func_02021848(m->f64, 2, 0x3e00, 0, 0, 0, 0, m->owner);

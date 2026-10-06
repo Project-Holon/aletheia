@@ -45,7 +45,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02035CB8(u32 *,u32 *);
-extern void func_021D5DC4(void *);
+extern void func_021D5DC4(u8 *p);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void);
 struct Actor;
@@ -54,10 +54,10 @@ struct Obj;
 struct PrintSys;
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_021D5280(char *p);
-extern void func_021D6614(void *,void *);
+extern void func_021D6614(u8 *a, u8 *p);
 extern void func_021D52A8(char *p);
 extern void func_021D7B48(void *,void *);
-extern void func_021D9740(void *,void *);
+extern void func_021D9740(u8 *a, u8 *p);
 extern void func_021D8830(u8 *,u8 *);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_0204A600(void);
@@ -69,7 +69,9 @@ extern void func_02047970(void);
 extern void func_02041EE4(u32,u32,u32);
 extern int func_021D5BAC(u8 *,int,u16 *);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021D5650(void *);
+typedef signed int     s32;
+struct W;
+extern s32 func_021D5650(struct W *p);
 int func_021D44C8(char *p)
 {
     u32 tick;
@@ -78,7 +80,7 @@ int func_021D44C8(char *p)
     func_02035CB8((u32 *)(p+0x28),(u32 *)(p+0x2c));
     switch (*(u32 *)&((struct Obj00035 *)p)->f50) {
     case 0:
-        if (((struct Obj00035 *)p)->fC==1) func_021D5DC4(p);
+        if (((struct Obj00035 *)p)->fC==1) func_021D5DC4((u8 *)p);
         else {
             func_0202208C(0,1,1,0,6,1,((struct Obj00035 *)p)->f0);
             ((struct Obj00035 *)p)->f50=1;
@@ -98,9 +100,9 @@ int func_021D44C8(char *p)
         break;
     case 4:
         func_021D5280(p);
-        if (((struct Obj00035 *)p)->fC==1) func_021D5DC4(p);
+        if (((struct Obj00035 *)p)->fC==1) func_021D5DC4((u8 *)p);
         else {
-            func_021D6614(p,((struct Obj00035 *)p)->f88);
+            func_021D6614((u8 *)p,((struct Obj00035 *)p)->f88);
             if (((struct Obj23122 *)(*(char * *)&((struct Obj00035 *)p)->f8))->f24==1) {
                 ((struct Obj00035 *)p)->f54=1;
                 ((struct Obj00035 *)p)->f50=2;
@@ -110,7 +112,7 @@ int func_021D44C8(char *p)
                 switch (((struct Obj00035 *)p)->f5C) {
                 case 0: func_021D7B48(p,((struct Obj00035 *)p)->f8C); break;
                 case 1:
-                case 3: func_021D9740(p,((struct Obj00035 *)p)->f90); break;
+                case 3: func_021D9740((u8 *)p,((struct Obj00035 *)p)->f90); break;
                 case 2: func_021D8830((u8 *)p,*(u8 * *)&((struct Obj00035 *)p)->f94); break;
                 }
             }
@@ -144,7 +146,7 @@ int func_021D44C8(char *p)
         else func_0204B878(((struct Obj00035 *)p)->f18C,16);
         ((struct Obj00035 *)p)->f4C=0;
     }
-    func_021D5650(p);
+    func_021D5650((struct W *)p);
     return 0;
 }
 

@@ -19,18 +19,19 @@ typedef unsigned int   u32;
 struct PrintSys;
 struct Tcbl;
 extern void func_020310C4(struct Tcbl *p);
-extern int func_02183D14(char *, char *);
+typedef unsigned char  u8;
+extern int func_02183D14(u8 *p, int *state);
 extern void func_02185B74(char *);
-extern void func_02183CEC(char *);
+extern void func_02183CEC(u8 *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_02183C78(void *unused, char *state, int unused2, char *ctx)
 {
     int result;
     func_020310C4(((struct Obj10973 *)ctx)->fC0A4);
-    result = func_02183D14(ctx, state);
+    result = func_02183D14((u8 *)ctx, (int *)state);
     if (((struct Obj10973 *)ctx)->fC3A4 != 0)
         func_02185B74(ctx);
-    func_02183CEC(ctx);
+    func_02183CEC((u8 *)ctx);
     func_0201C4E4(((struct Obj10973 *)ctx)->fC080);
     return result;
 }

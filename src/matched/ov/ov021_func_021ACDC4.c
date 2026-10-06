@@ -71,7 +71,8 @@ extern int func_021C66EC(u32 *a, int idx, int v);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
-extern s32 func_021ACC04(V3 *a, V3 *b, u32 dir);
+struct E;
+extern int func_021ACC04(struct E *a, struct E *b, u32 mode);
 extern s32 func_021ACBE4(s32 d);
 
 void func_021ACDC4(u32 a, B *b)
@@ -150,7 +151,7 @@ void func_021ACDC4(u32 a, B *b)
                 break;
             }
         }
-        d = func_021ACC04(&u, &in->p4, in->b);
+        d = func_021ACC04((struct E *)(&u), (struct E *)(&in->p4), in->b);
         if (d >= 0x40000) {
             switch (in->b) {
             case 0:

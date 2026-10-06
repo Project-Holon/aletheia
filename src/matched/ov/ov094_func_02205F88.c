@@ -31,7 +31,9 @@ typedef struct { int w[9]; } Struct36;
 extern const u16 d_0220A392[];
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B404(void *, Point *, int);
+struct Struct36;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Bmp;
 struct CharBuf;
 struct MsgBank;
@@ -53,7 +55,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02204C98(int a, int b, int *outn, int *outq);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_0204B7C8(void *, Struct36 *);
+extern void func_0204B7C8(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
@@ -77,7 +79,7 @@ void func_02205F88(char *p)
     ((struct Obj01384 *)p)->f21C = func_0204B294((void *)((struct Obj01384 *)p)->f218, ((struct Obj01384 *)p)->f104, ((struct Obj01384 *)p)->f108, ((struct Obj01384 *)p)->f10C, d_0220A392, 1, ((struct Obj01384 *)p)->f240);
     pos.x = 0x80;
     pos.y = 0x50;
-    func_0204B404(((struct Obj01384 *)p)->f21C, &pos, 1);
+    func_0204B404(((struct Obj01384 *)p)->f21C, (const struct Vec2 *)(&pos), 1);
     func_0204B92C(((struct Obj01384 *)p)->f21C, 1);
     func_0204B878(((struct Obj01384 *)p)->f21C, 0x14);
     str = func_020457B0(0x10, ((struct Obj01384 *)p)->f240);
@@ -93,7 +95,7 @@ void func_02205F88(char *p)
     func_0201C7A4(bmp, 0x38 - w / 2, 8, str, ((struct Obj01384 *)p)->f224);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
-    func_0204B7C8(((struct Obj01384 *)p)->f21C, &buf);
+    func_0204B7C8(((struct Obj01384 *)p)->f21C, (struct Struct36 *)(&buf));
     vram = VRAM_BASE;
     for (i = 0; i < 4; i++) {
         func_02082A60(pixels + i * 0x1c0, (void *)(vram + (i * 8 + 0xcd) * 32 + buf.w[2]), 0x100);

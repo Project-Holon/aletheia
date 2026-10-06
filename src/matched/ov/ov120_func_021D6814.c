@@ -22,15 +22,15 @@ typedef unsigned int u32;
 extern void func_021D6810(u8 *, int);
 extern void func_021D6AF0(u8 *, u16, u16, int);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
+extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02049238(void *);
 void func_021D6814(u8 *p)
 {
     void *t;
     func_021D6810(p, 0);
     t = func_020490F4(144, ((struct Obj06436 *)p)->fF4);
-    func_02049990(t, 19, 4, 0, ((struct Obj06436 *)p)->f0, 0, 0, ((struct Obj06436 *)p)->fF4);
-    func_02049990(t, 20, 4, 0, ((struct Obj06436 *)p)->f0, 192, 0, ((struct Obj06436 *)p)->fF4);
+    func_02049990(t, 19, 4, 0, (u16)(((struct Obj06436 *)p)->f0), 0, 0, ((struct Obj06436 *)p)->fF4);
+    func_02049990(t, 20, 4, 0, (u16)(((struct Obj06436 *)p)->f0), 192, 0, ((struct Obj06436 *)p)->fF4);
     func_02049238(t);
     func_021D6AF0(p, 96, 56, 0);
     func_021D6AF0(p, 240, 56, 1);

@@ -24,14 +24,14 @@ typedef struct {
     int v[3];           /* 0x24 */
 } Obj;
 
-extern void func_021F7108(Obj *, int, int, int *, int *);
+extern void func_021F7108(int *p, int a, int b, int *out, int *base);
 extern void func_02048AFC(void *, int *);
 struct Light;
 extern void func_02048AD0(struct Light *l);
 
 void func_021F6F20(Obj *p, int a, int b)
 {
-    func_021F7108(p, a, b, p->m, p->v);
+    func_021F7108((int *)p, a, b, p->m, p->v);
     func_02048AFC(p->h, p->m);
     func_02048AD0(p->h);
 }

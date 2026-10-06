@@ -31,7 +31,9 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02064364(void *anim, int arg);
+typedef signed int     s32;
+struct CellAnim;
+extern void func_02064364(struct CellAnim *anim, s32 frames);
 struct MCD { u16 numNodes; u16 numCellAnims; void *nodes; };
 struct Root { struct MCD *data; void *set; u32 kind; char *cells; };
 void func_02064934(struct Root *p, int arg)
@@ -39,7 +41,7 @@ void func_02064934(struct Root *p, int arg)
     if (p->kind == 1) {
         u16 i;
         char *cells = p->cells;
-        for (i = 0; i < p->data->numCellAnims; i++) func_02064364(cells + i * 0x5c, arg);
+        for (i = 0; i < p->data->numCellAnims; i++) func_02064364((struct CellAnim *)(cells + i * 0x5c), arg);
     } else {
         u16 i;
         char *cells = p->cells;

@@ -24,13 +24,13 @@ typedef unsigned int   u32;
 extern u8 *g_021A8264;
 extern void func_02155374(int v);
 extern void func_021AF13C(void);
-extern int func_02059E38(u32 *, u32 *);
+extern int func_02059E38(int *errorCode, int *errorType);
 extern void func_02059F18(void);
 
 int func_02156690(int a)
 {
     u32 x, y;
-    if (func_02059E38(&x, &y) != 0) {
+    if (func_02059E38((int *)(&x), (int *)(&y)) != 0) {
         func_02059F18();
     }
     if (a == 0) {

@@ -18,7 +18,7 @@
 
 extern void func_0217CCCC(unsigned int theMS);
 
-void func_021E0764(void)
+void func_021E0764(void *p)
 {
     func_0217CCCC(0);
 }

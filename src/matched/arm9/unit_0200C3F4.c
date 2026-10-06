@@ -85,7 +85,7 @@ void *func_0200C40C(void *sys)
     return func_020071CC(sys, 0x36);
 }
 
-void func_0200C418(u8 *a, u8 id, u32 on)
+void func_0200C418(u8 *a, u32 id, u32 on)
 {
     s32 i;
 

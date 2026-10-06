@@ -40,7 +40,7 @@ extern void *func_02025538(unsigned int a0, void *a1);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern void func_021FBE54(char *base, u32 idx, u32 area);
 extern void func_02040588(u32 which, u32 enable);
-extern void func_021F8EFC(char *,char *);
+extern void func_021F8EFC(char *p, int *source);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021F8604(int,int *,char *);
 int func_021F8480(void *obj,int b,char *q)
@@ -59,7 +59,7 @@ int func_021F8480(void *obj,int b,char *q)
     for (i=0;i<2;i++) *(void **)(p+i*4+56)=func_021FD760((unsigned int)v,(char *)(((struct Obj02526 *)q)->fC),i,((struct Obj00278 *)p)->f30);
     func_021FBE54((char *)(((struct Obj02526 *)q)->fC),6,((struct Obj00278 *)p)->f30);
     func_02040588(0,1);
-    func_021F8EFC(p,q);
+    func_021F8EFC(p,(int *)q);
     ((struct Obj00278 *)p)->f24=func_021FD6D8((int)p,(int)func_021F8604,((struct Obj00278 *)p)->f30);
     return 1;
 }

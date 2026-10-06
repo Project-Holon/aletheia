@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_0217BB04(u8 *a);
+extern int func_0217BB04(char *p);
 extern void func_02172EDC(u8 *a);
 extern int func_02172D68(u8 *a);
 extern int func_0203CDBC(void);
@@ -37,7 +37,7 @@ extern u32 func_020362DC(void);
 int func_0217D51C(u8 *a, int *b, int c, u8 *d)
 {
     int r, t;
-    if (*d < 3 && func_0217BB04(a) == 1)
+    if (*d < 3 && func_0217BB04((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:

@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern u8 *func_021C0DA4(void);
 
-u32 func_021C22D4(void)
+int func_021C22D4(int request)
 {
     u8 *p = func_021C0DA4();
     if (p != 0)

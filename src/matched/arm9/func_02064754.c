@@ -51,8 +51,9 @@ extern u16 func_020648E0(struct MultiCellBank *bank);
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void func_0206428C(char *self, int a1, char *c);
 extern void func_02064178(char *o, u32 a);
-extern void func_02062F38(char *self);
-extern void func_02064140(char *p, int v);
+extern int func_02062F38(int a0);
+struct O02064140;
+extern void func_02064140(struct O02064140 *o, u32 a);
 void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind)
 {
   if (kind == 1)
@@ -92,13 +93,13 @@ void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind)
       *((char **) hdr) = cell;
       func_0206428C(cell, (int)func_020627D8(set, 0), (char *)a3);
     }
-    func_02062F38(o);
+    func_02062F38((int)o);
     *((void **) (o + 0x44)) = bank;
-    func_02064140(o + 0x48, 1);
+    func_02064140((struct O02064140 *)(o + 0x48), 1);
     *((u16 *) (o + 0x30)) = 0;
   }
-  func_02062F38(o);
+  func_02062F38((int)o);
   *((void **) (o + 0x44)) = bank;
-  func_02064140(o + 0x48, 1);
+  func_02064140((struct O02064140 *)(o + 0x48), 1);
   *((u16 *) (o + 0x30)) = 0;
 }

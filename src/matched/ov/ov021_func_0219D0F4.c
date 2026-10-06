@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 extern u16 func_0216D4F0(void *p);
 extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
 extern void func_0219D064(int *, int *);
-extern void func_0219D1F8(int *);
+typedef unsigned char  u8;
+extern void func_0219D1F8(u8 *p);
 
 void func_0219D0F4(int *obj)
 {
@@ -41,7 +42,7 @@ void func_0219D0F4(int *obj)
         if (p[0] != 0 && *((unsigned char *)p + 0xd) == 1) {
             if (func_0219CBD4((u32)obj, ((struct Obj00808 *)p)->f8, (u32)(&sp[0]), (u32)(&sp[1])) == 1) {
                 func_0219D064(obj, p);
-                func_0219D1F8(p);
+                func_0219D1F8((u8 *)p);
             }
         }
     }

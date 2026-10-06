@@ -38,7 +38,7 @@ typedef struct {
 extern int func_02161ECC(Item *);
 extern void func_02186818(u32 *p, u32 member);
 extern char *func_0218682C(char *p);
-extern u32 func_02186278(In *, int);
+extern int func_02186278(char *p, int which);
 
 void func_02194084(Out *o, In *in, u32 c)
 {
@@ -55,7 +55,7 @@ void func_02194084(Out *o, In *in, u32 c)
             cnt += in->items[i].x1;
         }
     }
-    o->x1c = func_02186278(in, 0);
+    o->x1c = func_02186278((char *)in, 0);
     o->seed = in->x4;
     o->mul = 0x5D588B656C078965ULL;
     o->add = 0x269EC3;

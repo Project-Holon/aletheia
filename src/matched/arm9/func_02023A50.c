@@ -63,7 +63,7 @@ struct Wipe {
 
 extern void func_02023AB0(void *p);
 extern u32  func_02022EF4(void *p);
-extern void func_02022F24(u32 a0, void *a1, u32 a2);
+extern void func_02022F24(u32 a0, u8 *a1, u32 a2);
 
 u32 func_02023A50(struct Wipe *w)
 {
@@ -78,7 +78,7 @@ u32 func_02023A50(struct Wipe *w)
             func_02023AB0(w);
             func_02022EF4(w);
         } else {
-            func_02022F24(w->f330, w, w->f328);
+            func_02022F24(w->f330, (u8 *)w, w->f328);
             return 1;
         }
     }

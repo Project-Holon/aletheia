@@ -42,7 +42,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
 struct Rect { u16 x; u16 y; u16 z; u8 a; u8 b; };
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(void *, u32, u32, u32, u32);
 extern void func_020409B4(u32 layer);
@@ -50,11 +53,11 @@ extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *buf, u8 value);
-extern void func_02045374(void *cfg);
-extern void func_02045334(void *d);
-extern u16 func_021BE00C(void *p);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02045334(struct Descriptor *d);
+extern u16 func_021BE00C(u16 *p);
 extern u32 func_021BE010(void *p);
 extern u32 func_021BE018(void *p, int i);
 extern u32 func_021BE024(void *p);
@@ -124,7 +127,7 @@ void func_021B8CC8(void *a, char *p)
     *(u32 *)(p + 0x8C) = 0;
     *(u8 *)(p + 0xC) = 0;
     {
-        u32 r = func_021B8B68((int)a, (char *)func_021BDFE4(a));
+        u32 r = (u8)func_021B8B68((int)a, (char *)func_021BDFE4(a));
         if (r != 0xFF) {
             func_021BE210(a, r);
             *(u32 *)(p + 0xA4) = 2;

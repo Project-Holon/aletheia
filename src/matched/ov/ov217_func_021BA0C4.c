@@ -60,8 +60,8 @@ extern void func_021BAAB8(u8 *a0);
 extern void func_021BAAF4(int *p);
 extern void func_021BAB38(char *self);
 extern void func_021BAB68(void);
-extern u32 func_021C09E0();
-extern u32 func_021C09EC();
+extern void func_021C09E0(u32 a0);
+extern void func_021C09EC(u32 a0);
 u32 func_021BA0C4(u32 a0)
 {
     func_021BAB68();

@@ -15,8 +15,9 @@
  *   d_021C78E0 0x021C78E0 data a1
  */
 extern const char d_021C78E0[];
-extern void func_020433E0(const char *p);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 void func_021C5508(void)
 {
-    func_020433E0(d_021C78E0);
+    func_020433E0((const struct DispVram *)d_021C78E0);
 }

@@ -18,7 +18,7 @@
 typedef unsigned short u16;
 extern void func_02041570(int channel, u16 val);
 
-void func_021BAD68(void)
+void func_021BAD68(char *a0)
 {
     func_02041570(2, 0xd000);
     func_02041570(6, 0);

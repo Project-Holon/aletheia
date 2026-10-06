@@ -21,10 +21,10 @@ struct O02064140 {
     u32 unk0;
 };
 
-extern void func_02064150(void *o);
+extern int func_02064150(int a0);
 
 void func_02064140(struct O02064140 *o, u32 a)
 {
     o->unk0 = a;
-    func_02064150(o);
+    func_02064150((int)o);
 }

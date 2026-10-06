@@ -53,8 +53,8 @@ struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021E0958(void *);
-extern void func_021E0A64(void *);
+extern void func_021E0958(char *p);
+extern void func_021E0A64(char *p);
 void func_021E0980(char *p)
 {
     int i;

@@ -59,9 +59,9 @@ extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *a);
 extern void *func_021BBC2C(void *r, int i);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_021F07AC(void *a, void *b, u8 c);
-extern void func_021F09A0(void *a, B *b);
-extern void func_021F0AA0(void *a, B *b, int d);
+extern void func_021F07AC(struct Obj *p, const u8 *e, u8 k);
+extern void func_021F09A0(void *a, char *b);
+extern void func_021F0AA0(void *a, char *b, int n);
 extern void func_020061E4(u32 se);
 extern const char d_021F10D0[];
 
@@ -113,9 +113,9 @@ void func_021F0680(struct Obj *p, B *b)
     } else {
         d = b->n - b->m;
         if (((d < 0) ? -d : d) >= 3 || b->m < 2)
-            func_021F09A0(p, b);
+            func_021F09A0(p, (char *)b);
         else
-            func_021F0AA0(p, b, d);
+            func_021F0AA0(p, (char *)b, d);
         flag = 1;
     }
     if (flag == 1)

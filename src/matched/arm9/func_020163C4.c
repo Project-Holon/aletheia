@@ -38,10 +38,12 @@ extern void *func_0204A13C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_02063790(void *p);
-extern void func_020637D4(void *p);
+struct Task;
+struct Work;
+extern void func_02063790(u32 *p);
+extern void func_020637D4(u32 *p);
 extern void sub_02016028(void *p, u32 flag);
-extern void func_02016C60(void *a, void *b);
+extern void func_02016C60(struct Work *a0, struct Task *a1);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_02016880(void *a0, struct Obj_02016880 *a1);
@@ -114,8 +116,8 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
     }
 
     *(u32 *)(a1 + (5 << 6)) &= 0xFFFFDFFF;
-    func_02063790(a1 + 0x9C);
-    func_020637D4(a1 + 0xC0);
+    func_02063790((u32 *)(a1 + 0x9C));
+    func_020637D4((u32 *)(a1 + 0xC0));
 
     ((struct Obj01018 *)a1)->fC = func_02049FBC(a2->f00, a2->f0c, 0, a1 + 0x10, h);
     ((struct Obj01018 *)a1)->f1C = func_0204A03C(a2->f00, a2->f10, 1, a1 + 0x20, h);
@@ -163,7 +165,7 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
         }
     }
     if (((*(u32 *)(a1 + (5 << 6)) << 4) >> 0x1C) != 0) {
-        func_02016C60(a1, p);
+        func_02016C60((struct Work *)a1, (struct Task *)p);
     }
     if (a0->f08 != 0) {
         ((struct Obj01018 *)a1)->f0 = func_02030DA8(a0->f08, func_02016880, p, 0);

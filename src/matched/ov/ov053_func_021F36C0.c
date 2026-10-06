@@ -39,8 +39,9 @@ extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6B8(u8 *p, int v);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void func_021F3828(int *p, u32 a);
-extern void func_021F3A04(int *p, u32 a);
+struct O;
+extern void func_021F3828(struct O *o, u32 q);
+extern void func_021F3A04(char *a, int b);
 extern void func_0202B914(struct Obj *o, u32 v);
 
 void func_021F36C0(u32 a)
@@ -58,7 +59,7 @@ void func_021F36C0(u32 a)
     func_021BE6B0(e, 0);
     func_021BE6B8(e, 1);
     p = func_02189764((unsigned char *)a, 0, r6, 0xf8);
-    func_021F3828(p, a);
-    func_021F3A04(p, a);
+    func_021F3828((struct O *)p, a);
+    func_021F3A04((char *)p, a);
     func_0202B914((struct Obj *)p[1], 0x7f);
 }

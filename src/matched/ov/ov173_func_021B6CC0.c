@@ -120,7 +120,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_020185F4(void *);
 extern u32 func_02017E88(void *,u32,u32);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_021B78CC(char *,u16,u16);
+extern void func_021B78CC(u8 *p, u16 id, u16 i);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -163,7 +163,7 @@ void func_021B6CC0(char *p)
         if(move==0) func_0204B3DC(*(void **)(p+i*4+0x124),0);
         else {
             func_0204B3DC(*(void **)(p+i*4+0x124),1);
-            func_021B78CC(p,move,i);
+            func_021B78CC((u8 *)p,move,i);
             func_02045CAC(bank,move,*(void **)(p+0x4c));
             y=i*32;
             func_021B6BF8(p,14,*(u32 *)(p+0x60),0x3c40,0,y);

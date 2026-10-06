@@ -34,20 +34,25 @@
  *   func_0216CEAC  0x0216CEAC  thumb  ov010
  */
 
-int func_02013DD0(unsigned short a);
-int func_02012B38(int a);
-int func_0201444C(int a);
-int func_02012964(int a);
-int func_0201296C(int a);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+struct Sub02014444Obj;
+int func_02013DD0(int a0);
+void *func_02012B38(const struct BigObj *p);
+u32 func_0201444C(struct Sub02014444Obj *o);
+u32 func_02012964(const struct BigObj *p);
+u32 func_0201296C(const struct BigObj *p);
 unsigned short *func_020127C4(int a);
-unsigned short *func_020127D0(int a, int b);
+u8 *func_020127D0(u8 *o, u32 idx);
 int func_020127E0(int a);
-void func_020307B0(int a);
+void func_020307B0(void *p);
 int func_02186538(unsigned short *a, int b, int c);
-int func_02186278(unsigned short *a, int b);
-int func_02186854(int a);
+int func_02186278(char *p, int which);
+int func_02186854(u16 *p);
 int func_021868B8(int a, int b, int c, int d);
-void func_0216CEAC(int a, int b, int c, int d, int e);
+void func_0216CEAC(u32 a, u8 *p, u32 b, u32 n, u32 c);
 
 void func_02185928(int a, const short *p)
 {
@@ -59,29 +64,29 @@ void func_02185928(int a, const short *p)
     int s8;
     unsigned short *r7;
 
-    if (func_02013DD0(p[2]) == 0)
+    if (func_02013DD0((unsigned short)p[2]) == 0)
         return;
 
-    r6 = func_0201444C(func_02012B38(a));
-    sc = func_02012964(a);
-    s8 = func_0201296C(a);
+    r6 = (int)func_0201444C(func_02012B38((const struct BigObj *)a));
+    sc = (int)func_02012964((const struct BigObj *)a);
+    s8 = (int)func_0201296C((const struct BigObj *)a);
     if (r6 == 0)
         r7 = func_020127C4(a);
     else
-        r7 = func_020127D0(a, 0);
+        r7 = (short unsigned int *)func_020127D0((u8 *)a, (int)0);
 
     r5 = func_02186538(r7, r6, 1);
-    ip = func_02186278(r7, r6);
+    ip = func_02186278((char *)r7, r6);
     if (r5 != 0 && ip != 0)
-        func_0216CEAC(sc, r5, p[2], ip, s8);
+        func_0216CEAC((int)sc, (u8 *)r5, (int)p[2], (int)ip, (int)s8);
     if (r5 != 0)
-        func_020307B0(r5);
+        func_020307B0((void *)r5);
 
     r5 = func_020127E0(a);
-    r4 = func_02186854(r5);
+    r4 = func_02186854((u16 *)r5);
     r5 = func_021868B8(r5, r6, r7[1], 1);
     if (r5 != 0 && r4 != 0)
-        func_0216CEAC(sc, r5, p[2], r4, s8);
+        func_0216CEAC((int)sc, (u8 *)r5, (int)p[2], (int)r4, (int)s8);
     if (r5 != 0)
-        func_020307B0(r5);
+        func_020307B0((void *)r5);
 }

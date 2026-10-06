@@ -84,8 +84,10 @@ extern void func_020061E4(u32 id);
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
 extern u8 func_021B76C8(u32 a, u32 b, u32 c);
-extern void func_0204B404(void *cell, u16 *pt, u16 flags);
-extern int func_02035D40(const void *rect, u32 x, u32 y);
+struct Ctx;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void *func_02045770(struct Descriptor *p);
@@ -95,7 +97,7 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern void func_021B7718(u32 which, u8 idx, void *data);
+extern void func_021B7718(int which, int idx, void *data);
 
 void func_021B7378(S *p)
 {
@@ -154,7 +156,7 @@ void func_021B7378(S *p)
                 for (i = 0; i < 4; i++) {
                     pt[0] = func_021B76C8(p->fc0, i, 0);
                     pt[1] = func_021B76C8(p->fc0, i, 1);
-                    func_0204B404(p->fa0[i], pt, p->f1c);
+                    func_0204B404(p->fa0[i], (const struct Vec2 *)pt, (u16)p->f1c);
                 }
                 func_020061E4(0x548);
             }
@@ -162,7 +164,7 @@ void func_021B7378(S *p)
         if (!handled && touch != 0) {
             int res;
             rect = d_021B94C4;
-            res = func_02035D40(&rect, x, y);
+            res = (int)func_02035D40((struct Ctx *)(&rect), x, y);
             if (res != -1) {
                 if (res == 0) {
                     func_020061E4(0x54d);
@@ -226,6 +228,6 @@ void func_021B7378(S *p)
         }
     }
     if (update) {
-        func_021B7718(p->f10, p->f9c == 1 ? p->f16 : p->f17, p->f22[p->fc4]);
+        func_021B7718((u32)p->f10, (u8)(p->f9c == 1 ? p->f16 : p->f17), p->f22[p->fc4]);
     }
 }

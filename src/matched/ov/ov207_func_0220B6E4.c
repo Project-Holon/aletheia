@@ -19,7 +19,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned short u16;
-extern void func_0220B9B0(void *);
+typedef unsigned int   u32;
+extern void func_0220B9B0(char *p);
 struct Descriptor;
 struct Node;
 struct Rec3;
@@ -27,17 +28,17 @@ struct S02031140;
 struct U16Vec;
 extern void func_02030EAC(struct Node *n);
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_0203FB44(int,u16,u16);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02031140(struct S02031140 *p);
 extern void func_020307B0(void *);
 void func_0220B6E4(unsigned *p)
 {
-    func_0220B9B0(p);
+    func_0220B9B0((char *)p);
     func_02030EAC((void *)p[18]);
     func_0201CE48((void *)p[10]);
-    func_0203FB44(3, p[12], p[12] >> 16);
+    func_0203FB44((int)3, (u16)p[12], (u16)(p[12] >> 16));
     func_020452E8((void *)p[9]);
     func_02045808((void *)p[11]);
     func_02031140((void *)p[13]);

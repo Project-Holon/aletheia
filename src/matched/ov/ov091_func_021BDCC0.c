@@ -25,7 +25,8 @@ typedef unsigned char u8;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_02017F90(void *p);
 extern u8 func_02011400(int row, int col);
-extern void func_0203F4CC(u32 *out);
+struct RtcTime;
+extern void func_0203F4CC(struct RtcTime *time);
 
 int func_021BDCC0(char *p)
 {
@@ -42,7 +43,7 @@ int func_021BDCC0(char *p)
         return r;
     lo = func_02011400(((struct Obj20929 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f5F, r);
     hi = func_02011400(((struct Obj20930 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f5F, 3);
-    func_0203F4CC(t);
+    func_0203F4CC((struct RtcTime *)t);
     if (t[0] < lo || t[0] >= hi)
         return 0;
     return 1;

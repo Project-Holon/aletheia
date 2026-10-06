@@ -16,6 +16,8 @@
 
 typedef unsigned char u8;
 extern const char d_021BA928[];
-extern void func_0203FCA0(unsigned,const void *,unsigned);
+typedef unsigned int   u32;
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
-void func_021B7D6C(void) { func_0203FCA0(2,d_021BA928,0); func_02041300(2,0,0,0,0x20,0x20,0x11); }
+void func_021B7D6C(void) { func_0203FCA0(2,(const struct BgTemplate *)d_021BA928,0); func_02041300(2,0,0,0,0x20,0x20,0x11); }

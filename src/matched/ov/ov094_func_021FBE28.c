@@ -20,7 +20,9 @@
 #include "../include/Obj21679.h"
 extern int func_0201134C(void *);
 extern int func_021F7F1C(int);
-extern void func_020113B0(void *, int);
+typedef unsigned int   u32;
+struct Cur;
+extern void func_020113B0(struct Cur *c, u32 v);
 
 int func_021FBE28(char *a, char *s)
 {
@@ -29,6 +31,6 @@ int func_021FBE28(char *a, char *s)
     int off = func_0201134C(a);
 
     if (y == func_021F7F1C(x))
-        func_020113B0(a, *(int *)&((struct Obj00005 *)a)->f14 + off);
+        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + off);
     return ((struct Obj21679 *)s)->f23C;
 }

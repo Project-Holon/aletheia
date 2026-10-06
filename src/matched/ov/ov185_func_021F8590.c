@@ -24,16 +24,17 @@
 #include "../include/Obj24717.h"
 extern int func_021FF88C(char *);
 extern void func_021F9C6C(char *);
-extern void func_021FD71C(char *);
+typedef unsigned char  u8;
+extern void func_021FD71C(u8 *p);
 extern int func_021FD72C(int *);
 extern void func_021FD854(char *);
 typedef unsigned int   u32;
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
-extern int func_021FC830(char *);
-extern int func_021FD6B0(char *);
-extern void func_021FD1BC(char *);
-extern void func_021F3C50(char *);
+extern int func_021FC830(u8 *p);
+extern int func_021FD6B0(u8 *p);
+extern void func_021FD1BC(void *p);
+extern void func_021F3C50(u8 *p);
 int func_021F8590(int a,int b,int c,char *p)
 {
     int i;
@@ -41,13 +42,13 @@ int func_021F8590(int a,int b,int c,char *p)
         func_021F9C6C(*(char * *)&((struct Obj24717 *)(*(char * *)&((struct Obj01966 *)p)->f34))->f10);
         return 1;
     }
-    func_021FD71C(*(char * *)&((struct Obj01966 *)p)->f24);
+    func_021FD71C((u8 *)(*(char * *)&((struct Obj01966 *)p)->f24));
     if (func_021FD72C(*(int * *)&((struct Obj01966 *)p)->f24)) return 1;
     for (i=0;i<2;i++) func_021FD854(*(char **)(p+i*4+56));
     func_0201C4E4((struct PrintSys *)(((struct Obj01966 *)p)->f2C));
-    if (*(char * *)&((struct Obj01966 *)p)->f1C) func_021FC830(*(char * *)&((struct Obj01966 *)p)->f1C);
-    if (*(char * *)&((struct Obj01966 *)p)->f10) func_021FD6B0(*(char * *)&((struct Obj01966 *)p)->f10);
+    if (*(char * *)&((struct Obj01966 *)p)->f1C) func_021FC830((u8 *)(*(char * *)&((struct Obj01966 *)p)->f1C));
+    if (*(char * *)&((struct Obj01966 *)p)->f10) func_021FD6B0((u8 *)(*(char * *)&((struct Obj01966 *)p)->f10));
     if (*(char * *)&((struct Obj01966 *)p)->f4) func_021FD1BC(*(char * *)&((struct Obj01966 *)p)->f4);
-    if (*(char * *)&((struct Obj01966 *)p)->f14) func_021F3C50(*(char * *)&((struct Obj01966 *)p)->f14);
+    if (*(char * *)&((struct Obj01966 *)p)->f14) func_021F3C50((u8 *)(*(char * *)&((struct Obj01966 *)p)->f14));
     return 0;
 }

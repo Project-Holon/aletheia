@@ -18,7 +18,7 @@
 
 extern void func_0217EAE0(void);
 
-void func_021DD250(void)
+void func_021DD250(void *sake)
 {
     func_0217EAE0();
 }

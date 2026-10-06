@@ -28,11 +28,12 @@ typedef struct {
     E e[1];
 } W;
 
-extern void func_02207EA8(E *e, int c);
+struct S;
+extern void func_02207EA8(struct S *p, int a);
 
 void func_02207B84(W *p, int i, int c)
 {
     p->e[i].b = 0;
     p->e[i].d = 1;
-    func_02207EA8(&p->e[i], c);
+    func_02207EA8((struct S *)(&p->e[i]), c);
 }

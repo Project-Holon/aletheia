@@ -38,14 +38,16 @@ typedef struct { short s; short c; } SC;
 typedef struct { short x; short y; } Pt;
 extern const SC d_020A1B38[];
 extern void func_021B765C(u8 *p, u32 a, u32 b, u32 c, u32 d);
-extern u8 *func_021BA184(u8 *);
-extern int *func_021BA228(u8 *);
-extern int func_021BA218(u8 *);
-extern u8 *func_021BA208(u8 *);
-extern void func_021F4EA4(u8 *, int, int *);
+struct Obj;
+struct Vec2;
+extern void *func_021BA184(char *p);
+extern u8 *func_021BA228(u8 *p);
+extern u32 func_021BA218(u8 *p);
+extern u32 func_021BA208(u8 *p);
+extern void func_021F4EA4(u32 unused, u32 p, u32 q);
 extern void func_021F4E8C(u8 *, int, int *);
-extern void func_02040618(int, int, int);
-extern void func_0204B404(u8 *, Pt *, int);
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int FX_Sqrt(int);
 extern int FX_Atan2Idx(int, int);
 
@@ -57,9 +59,9 @@ void func_021B918C(u8 *p)
     u8 *e;
     Pt r;
     func_021B765C(p, *(u16 *)(p + 0x182C), 0, (u16)(*(int *)(p + 0x10) + 0x48), (u32)(48.0f + (float)*(int *)(p + 0x10) * 0.6666667f));
-    e = func_021BA184(*(u8 **)(p + 0x1820));
+    e = func_021BA184((char *)(*(u8 **)(p + 0x1820)));
     while (e) {
-        int *pos = func_021BA228(e);
+        int *pos = (int *)func_021BA228(e);
         int id = func_021BA218(e);
         int y;
         int x;
@@ -72,14 +74,14 @@ void func_021B918C(u8 *p)
         d = x * x + y * y;
         dist = FX_Sqrt(FXI(d));
         ang = FX_Atan2Idx(FXI(y), FXI(x));
-        func_021F4EA4(*(u8 **)(p + 0x1884), id, v);
+        func_021F4EA4((u32)(*(u8 **)(p + 0x1884)), id, (u32)v);
         k = dist + FXI(*(int *)(p + 0x10));
         sc = &d_020A1B38[ang >> 4];
         v[0] = (fx32)(((long long)sc->c * k + 0x800) >> 12) + 0x80000;
         k = dist + FXF((float)*(int *)(p + 0x10) * 0.6666667f);
         v[1] = (fx32)(((long long)sc->s * k + 0x800) >> 12) + 0x50000;
         func_021F4E8C(*(u8 **)(p + 0x1884), id, v);
-        e = func_021BA208(e);
+        e = (u8 *)func_021BA208(e);
     }
     func_02040618(2, 3, -*(int *)(p + 0x10));
     r.x = 0x20;
@@ -88,12 +90,12 @@ void func_021B918C(u8 *p)
         if (t >= 0x40) t = 0x40;
         r.y = t + 0xA0;
     }
-    func_0204B404(*(u8 **)(p + 0x184C), &r, 0);
+    func_0204B404((struct Obj *)(*(u8 **)(p + 0x184C)), (const struct Vec2 *)(&r), 0);
     r.x = 0xE0;
     {
         int t = 0xC0 - *(int *)(p + 0x10);
         if (t >= 0x40) t = 0x40;
         r.y = t + 0xA0;
     }
-    func_0204B404(*(u8 **)(p + 0x1850), &r, 0);
+    func_0204B404((struct Obj *)(*(u8 **)(p + 0x1850)), (const struct Vec2 *)(&r), 0);
 }

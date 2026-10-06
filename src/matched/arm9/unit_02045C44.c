@@ -116,9 +116,12 @@ extern void func_0204960C(void *stream, u32 pos);
 extern void func_0204581C(struct U16Vec *vec);
 extern void func_02045A00(struct Buf *buf, const void *src, u32 n);
 extern void func_02045E04(struct Obj *o, u32 mode);
-extern u8 func_020461B8(const void *file);
-extern void func_02046110(struct MsgBank *bank);
-extern void func_02046180(struct MsgBank *bank);
+typedef signed int     s32;
+struct Header;
+struct MsgData;
+extern s32 func_020461B8(struct Header *h);
+extern void func_02046110(struct MsgData *msg);
+extern void func_02046180(struct Obj *o);
 
 struct MsgBank *func_02045C44(const void *file, u32 heapId)
 {
@@ -130,8 +133,8 @@ struct MsgBank *func_02045C44(const void *file, u32 heapId)
     bank->origin = 0;
     bank->resident = 1;
     bank->file = (const struct MsgFile *)file;
-    bank->langIndex = func_020461B8(file);
-    func_02046110(bank);
+    bank->langIndex = func_020461B8((struct Header *)file);
+    func_02046110((struct MsgData *)bank);
     return bank;
 }
 
@@ -145,7 +148,7 @@ void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
         return;
     }
 
-    func_02046180(bank);
+    func_02046180((struct Obj *)bank);
 
     if (bank->resident == 0) {
         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];

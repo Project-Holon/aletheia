@@ -33,7 +33,7 @@ struct StrObj;
 extern void func_020456F8(struct Descriptor *d);
 extern void func_0201F7A8(void *, unsigned);
 extern void func_020452E8(struct Descriptor *d);
-extern void *func_020450F0(u32, u8, u8, u8, u8, u8, u8);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -51,7 +51,7 @@ void func_021D44BC(int i, Object *p, Row *row, const int *xs, const int *ys)
         func_020452E8(p->f10[i]);
         p->f10[i] = 0;
     }
-    p->f10[i] = func_020450F0(7, row->f00, row->f04, row->f08, row->f0c, 13, 0);
+    p->f10[i] = (void *)func_020450F0(7, (u8)row->f00, (u8)row->f04, (u8)row->f08, row->f0c, 13, 0);
     x = 0;
     func_02043B5C(func_02045770(p->f10[i]), 0);
     if (xs) x = xs[i] - (func_0201D304(((struct Obj01404 *)p)->f54, *(u32 *)&((struct Obj01404 *)p)->f4C, 0) >> 1);

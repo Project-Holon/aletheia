@@ -14,12 +14,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02024464(void *,int);
+struct T;
+extern int func_02024464(struct T *p, u32 a1);
 int func_021BF680(u8 *p) {
     switch(((struct Obj08007 *)p)->f4) {
     case 0: if(((struct Obj08007 *)p)->f10!=65535) return 1; else return 0;
     case 1: if(((struct Obj08007 *)p)->f10!=65535 && ((struct Obj08007 *)p)->f12!=65535) return 1; else return 0;
-    case 2: return func_02024464(p+8,42);
+    case 2: return func_02024464((struct T *)(p+8),42);
     }
     return 0;
 }

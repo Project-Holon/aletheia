@@ -40,7 +40,8 @@ struct Obj {
     struct Rec *chain;  /* 0x10 */
 };
 
-extern u32 func_02067EB0(struct Rec *r, u32 key);
+struct Struct02067EB0;
+extern u32 func_02067EB0(struct Struct02067EB0 *tbl, u32 val);
 
 u32 func_02067F9C(struct Obj **a0, u32 key)
 {
@@ -48,7 +49,7 @@ u32 func_02067F9C(struct Obj **a0, u32 key)
 
     while (r != 0) {
         if (r->lo <= key && key <= r->hi) {
-            return func_02067EB0(r, key);
+            return func_02067EB0((struct Struct02067EB0 *)r, key);
         }
         r = r->next;
     }

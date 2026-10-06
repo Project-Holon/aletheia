@@ -19,7 +19,7 @@
  */
 extern void func_021ED6E4(char **p, int v);
 extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(unsigned char *p);
+extern void func_021DD14C(char *p);
 extern void func_021DE728(unsigned char *p);
 extern void func_021EC94C(char *p);
 typedef unsigned int   u32;
@@ -33,7 +33,7 @@ int func_021E90D4(unsigned char *p)
 {
     func_021ED6E4((char **)p, 0);
     func_021EBA5C(WORK(p), 0x18);
-    func_021DD14C(p);
+    func_021DD14C((char *)p);
     func_021DE728(p);
     func_021EC94C(*(char **)(WORK(p) + 0xA190));
     if (func_020355C4() == 1) {

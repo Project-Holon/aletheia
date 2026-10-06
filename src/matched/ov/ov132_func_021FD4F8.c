@@ -34,7 +34,7 @@ struct Ctx {
     struct Rec rec[4];
 };
 
-u32 func_021FD4F8(struct Ctx *p, u32 key)
+u32 func_021FD4F8(struct Ctx *p, u8 key)
 {
     u8 i;
 

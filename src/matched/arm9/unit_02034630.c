@@ -48,7 +48,7 @@ void sub_02034630(struct Sentinel *p)
     p->hi = 0xFFFFFFFFu;
 }
 
-u32 sub_02034640(struct Sentinel *p)
+int sub_02034640(struct Sentinel *p)
 {
     return p->lo == 0xFFFFFFFFu && p->hi == 0xFFFFFFFFu;
 }

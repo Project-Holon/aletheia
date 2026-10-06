@@ -27,10 +27,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020489F4(u8 *a0, int i);
 extern u32 func_02048A00(u8 *a0, int i);
-extern void *func_02048A18(void *res, u16 id);
+struct Arg;
+extern u32 func_02048A18(u8 *a0, int i);
 struct Arg;
 extern int func_02047AC8(void *a0, struct Arg *a1);
-extern void func_02047A60(void *a, void *b);
+extern void func_02047A60(void *a0, struct Arg *a1);
 
 void func_021BE4F8(char *p)
 {
@@ -48,12 +49,12 @@ void func_021BE4F8(char *p)
             n = func_02048A00(((struct Obj09660 *)p)->f4, ((struct Obj06057 *)e)->f14);
             for (j = 0; j < n; j++) {
                 if (*(int *)(*(char * *)&((struct Obj06057 *)e)->fC + j * 0x44 + 4) == 0) {
-                    void *r = func_02048A18(((struct Obj09660 *)p)->f4, base + j);
+                    void *r = (void *)func_02048A18(((struct Obj09660 *)p)->f4, (u16)(base + j));
                     ent = *(char * *)&((struct Obj06057 *)e)->fC + j * 0x44;
                     if (((struct Obj20144 *)ent)->f0 != 0) {
                         func_02047AC8(r, (struct Arg *)(ent + 8));
                     } else {
-                        func_02047A60(r, ent + 8);
+                        func_02047A60(r, (struct Arg *)(ent + 8));
                     }
                 }
             }

@@ -98,12 +98,15 @@ struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void  func_0201C6FC(void *que, void *bmp, s32 x, s32 y, const void *str, void *font);
-extern void  func_02020D5C(void *cursor, u32 x, u32 y, PrintUtil *util, void *que, void *font);
+struct Desc;
+struct Handle;
+struct PrintSys;
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
 
 static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, const void *str, void *font)
 {
-    func_0201C6FC(que, func_02045770(util->cell), x, y, str, font);
+    func_0201C6FC(que, (u32)func_02045770(util->cell), x, y, (void *)str, (u32)font);
     util->drawn = 1;
 }
 
@@ -133,7 +136,7 @@ void func_0201FD18(BmpMenu *m)
 
     if (m->hdr.cDisp != 1) {
         func_0201FD54(m, &x, &y, m->pos);
-        func_02020D5C(m->cursor, x, y, m->hdr.util, m->hdr.que, m->hdr.fontH);
+        func_02020D5C(m->cursor, x, y, (struct Handle *)m->hdr.util, m->hdr.que, (u32)m->hdr.fontH);
     }
 }
 

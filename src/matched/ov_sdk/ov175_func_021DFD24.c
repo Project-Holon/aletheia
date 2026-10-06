@@ -90,7 +90,7 @@ typedef enum {
 
 extern int func_021DFF78(struct SCIReport *report, unsigned int index, unsigned char *connectionId);
 extern int func_021DFFA0(struct SCIReport *report, unsigned int index, unsigned int teamIndex);
-extern int func_021DFFC8(struct SCIReport *report, unsigned int index, int gameResult);
+extern int func_021DFFC8(char *obj, int i, int v);
 extern void func_021DFFF8();
 
 int func_021DFD24(void *theReport, unsigned int thePlayerIndex, unsigned char *thePlayerConnectionId,
@@ -123,7 +123,7 @@ int func_021DFD24(void *theReport, unsigned int thePlayerIndex, unsigned char *t
     if (aResult == RESULT_OK)
         aResult = func_021DFFA0(aReport, thePlayerIndex, thePlayerTeamId);
     if (aResult == RESULT_OK)
-        aResult = func_021DFFC8(aReport, thePlayerIndex, theResult);
+        aResult = func_021DFFC8((char *)aReport, thePlayerIndex, theResult);
     if (aResult != RESULT_OK)
         return aResult;
     func_021DFFF8(aReport, thePlayerIndex, theCertificate, theAuthHash);

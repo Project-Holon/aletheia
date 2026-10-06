@@ -74,11 +74,11 @@ extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(void *a, u32 b);
 extern u16 func_02012B34(const struct Rec44 *p);
 extern int func_021A3974(Obj021A36E4 *o);
-extern int func_021A31A4(u32 x, int a);
+extern int func_021A31A4(int i, int v);
 extern void *func_0216CE60(void *a, Tmpl021A36E4 *b, int c);
 extern void func_0216D844(void *h, s16 v);
-extern void func_0216D85C(void *h, s16 v);
-extern void func_0216D874(void *h, s16 v);
+extern void func_0216D85C(void *p, int v);
+extern void func_0216D874(int a0, int a1);
 extern void func_0216D89C(void *h, const Vec021A36E4 *v);
 extern void func_021A3998(Obj021A36E4 *o);
 extern void func_0216DB80(unsigned int *p, unsigned int v);
@@ -118,8 +118,8 @@ Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap
         y = (pos->y >> 4) / 4096;
         z = (pos->z >> 4) / 4096;
         func_0216D844(h, (pos->x >> 4) / 4096);
-        func_0216D85C(h, y);
-        func_0216D874(h, z);
+        func_0216D85C(h, (s16)y);
+        func_0216D874((int)h, (s16)z);
         func_0216D89C(h, pos);
         if (k == 0xFFFF)
             func_021A3998(o);

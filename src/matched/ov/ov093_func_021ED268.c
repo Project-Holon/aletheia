@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021B8E70(u8 *, u32);
 extern void func_021F7C2C(int, int);
-void func_021ED268(u8 *p, u32 k, int x)
+void func_021ED268(u8 *p, u8 k, u32 x)
 {
     func_021F7C2C(func_021B8E70(*(u8 * *)&((struct Obj21589 *)p)->f134, k), x);
 }

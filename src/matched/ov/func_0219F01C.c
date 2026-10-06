@@ -24,7 +24,7 @@ typedef signed char    s8;
 struct Desc;
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 
-int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1)
+int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
 {
 return (int)func_02158768(a, ((c << 16) >> 16), e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
 }

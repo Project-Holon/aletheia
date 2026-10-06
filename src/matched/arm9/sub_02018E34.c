@@ -238,7 +238,7 @@ struct BlockD {
 };
 
 extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
-extern u16  func_02019A9C(const void *p, u32 size);
+extern u16 func_02019A9C(const u16 *p, u32 size);
 struct MsgBank;
 struct MsgData;
 struct Strbuf;
@@ -384,7 +384,7 @@ u32 func_02018E34(struct Mon *p, u32 id, u32 v)
     case 0x6E:
         r = func_02017F50(a->species, b->f2, p->unk00);
         b->f1 = (u8)r;
-        p->unk06 = func_02019A9C(p->unk08, 0x80);
+        p->unk06 = func_02019A9C((const u16 *)p->unk08, 0x80);
         break;
     case 0x6F: r = b->f2; break;
     case 0x70: r = b->unk19; break;

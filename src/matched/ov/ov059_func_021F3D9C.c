@@ -50,7 +50,7 @@ struct SaveBlock;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
-extern W *func_021897BC(void *p, int i);
+extern int *func_021897BC(char *p, int idx);
 extern int func_021BE6E8(int a, int b, int c, int d);
 extern void *func_02188C7C(u8 *p);
 extern void *func_0216DE94(void *map, u32 id);
@@ -87,7 +87,7 @@ int func_021F3D9C(void *a)
     o = func_020124E4(a);
     t = func_0201210C(o);
     s = (void *)func_02188D2C(t);
-    w = func_021897BC(t, 1);
+    w = (W *)func_021897BC(t, 1);
     if (func_021BE6E8((int)s, 0, 2, 0) == 0xF000) {
         x = w->p24[0];
         y = w->p24[1];

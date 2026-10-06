@@ -71,16 +71,17 @@ struct Obj {
     u32 unk2C;
 };
 
-extern void func_020229A4(struct Obj *p, u32 mode);
-extern u32  func_02022A44(struct Obj *p);
+struct Task;
+extern void func_020229A4(struct Task *t, u32 dir);
+extern u32 func_02022A44(struct Task *t);
 
 u32 func_020226E0(struct Obj *p)
 {
     if (p->unk0C == 0) {
         p->unk28 = 1;
         p->unk2C = 1;
-        func_020229A4(p, 1);
+        func_020229A4((struct Task *)p, 1);
         return 0;
     }
-    return func_02022A44(p);
+    return func_02022A44((struct Task *)p);
 }

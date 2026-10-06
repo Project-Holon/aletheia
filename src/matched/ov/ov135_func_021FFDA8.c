@@ -45,11 +45,11 @@ extern void func_02200BAC(u8 *,u32);
 extern void func_022001F4(u8 *);
 extern void func_021F9254(u8 *);
 extern void func_0220093C(u8 *);
-extern void func_02200130(u8 *);
+extern void func_02200130(char *p);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021FF8B0(u8 *);
 extern int func_0207D55C(volatile u16 *reg);
-extern void func_021FFD44(u8 *);
+extern void func_021FFD44(char *p);
 extern void func_021FFBC8(u8 *);
 int func_021FFDA8(u8 *p)
 {
@@ -71,14 +71,14 @@ int func_021FFDA8(u8 *p)
     func_021F9254(p);
     func_0220093C(p);
     if(((struct Obj00137 *)p)->f30==0) {
-        func_02200130(p);
+        func_02200130((char *)p);
         func_0202208C(0,1,1,0,6,1,0x48);
         ((struct Obj00137 *)p)->f28=0;
         ((struct Obj00137 *)p)->f30=1;
         func_021FF8B0(p);
     } else {
         if(((struct Obj00137 *)p)->fEB4==1 && func_0207D55C((u16 *)0x0400106C)!=0) {
-            func_021FFD44(p);
+            func_021FFD44((char *)p);
             func_0202208C(0,1,1,0,6,1,0x48);
         } else func_0202208C((void *)3,1,1,0,6,1,0x48);
         ((struct Obj00137 *)p)->f28=5;

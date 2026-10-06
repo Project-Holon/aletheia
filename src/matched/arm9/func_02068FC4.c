@@ -14,9 +14,10 @@
  *       --func func_02068FC4 --addr 0x02068FC4 --cc 1.1p1 --arm
  */
 
-extern void func_02068E78(char *p, int a1, int a2, int a3, int a5, int a6, int a7);
+struct Pen;
+extern void func_02068E78(struct Pen *p, int a1, int a2, int a3, int a5, int a6, int a7);
 
 void func_02068FC4(int a, int b, int c, int d, int e)
 {
-    func_02068E78((char *)a, b, c, d, e, 0x020A18DC, c);
+    func_02068E78((struct Pen *)a, b, c, d, e, 0x020A18DC, c);
 }

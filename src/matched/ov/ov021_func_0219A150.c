@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef struct { u16 x; s16 n; u32 v; } St;
-extern St *func_0216D69C(u32);
+extern void *func_0216D69C(void *p);
 extern u32 func_0216D5A8(u8 *p);
 extern int func_02164168(int a);
 extern int func_0219B0C4(void);
@@ -40,7 +40,7 @@ extern u16 func_0219A1E8(u32, u32);
 extern int func_0219B200(int a, int id, int end);
 extern u16 func_0219B0F0(void *, int);
 extern u32 func_0219B104(u32, u32);
-extern void func_0216D5E0(u32, u16);
+extern void func_0216D5E0(int a0, int a1);
 extern void func_02163F10(u32);
 extern u8 d_021D4FA4[];
 
@@ -50,24 +50,24 @@ void func_0219A150(u32 a)
     u32 r;
     u32 t;
     u16 q;
-    p = func_0216D69C(a);
+    p = func_0216D69C((void *)a);
     if (func_0216D5A8((u8 *)a) == 11) {
         if (func_02164168(a) == 1 && func_0219B0C4() == 1) {
             t = func_0216D5F8((void *)a);
             q = func_0219A1E8(func_0216D5A0((void *)a), t);
             if (q != 9)
-                func_0216D5E0(a, q);
+                func_0216D5E0((u32)a, (u16)q);
         }
     } else {
         r = func_0219B200(a, p->v, 9);
         if (r != 9) {
-            func_0216D5E0(a, r);
+            func_0216D5E0((u32)a, (u16)r);
         } else if (p->x == 0) {
             p->n = p->n - 1;
             if (p->n <= 0) {
                 p->n = func_0219B0F0(d_021D4FA4, -1);
                 r = func_0219B104(p->v, 9);
-                func_0216D5E0(a, r);
+                func_0216D5E0((u32)a, (u16)r);
             }
         }
     }

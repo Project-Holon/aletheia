@@ -13,13 +13,15 @@
 struct Ctx;
 struct Rec3;
 extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
-extern int func_02028484(void *, void *);
+typedef signed int     s32;
+struct Blk;
+extern s32 func_02028484(struct Blk *blk, void *h);
 extern void func_0201CE48(struct Rec3 *p);
 int func_021D580C(char *p)
 {
     if (((struct Obj04496 *)p)->f80) {
         func_020286C4(((struct Obj04496 *)p)->f40, ((struct Obj04496 *)p)->f80, ((struct Obj04496 *)p)->f44);
-        if (!func_02028484(p+0xa8, ((struct Obj04496 *)p)->f80)) return 0;
+        if (!func_02028484((struct Blk *)(p+0xa8), ((struct Obj04496 *)p)->f80)) return 0;
         func_0201CE48(((struct Obj04496 *)p)->f80);
         ((struct Obj04496 *)p)->f80=0;
     }

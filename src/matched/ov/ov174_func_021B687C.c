@@ -19,10 +19,22 @@
  */
 #include "../include/Obj00152.h"
 typedef unsigned char u8;
-extern void func_020310C4(void *),func_020286C4(void *,void *,void *),func_0201CE48(void *),func_02045808(void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Blk;
+struct Ctx;
+struct PrintSys;
+struct Rec3;
+struct Tcbl;
+struct U16Vec;
+extern void func_020310C4(struct Tcbl *p);
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 extern unsigned func_0201CE30(void *);
 extern void func_021B7364(char *p, int v);
-extern int func_02028484(void *,void *),func_0201C4E4(void *);
+extern s32 func_02028484(struct Blk *blk, void *h);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 void func_021B687C(u8 *p)
 {
     func_020310C4(((struct Obj00152 *)p)->f58);
@@ -30,7 +42,7 @@ void func_021B687C(u8 *p)
         func_020286C4(((struct Obj00152 *)p)->f7C,((struct Obj00152 *)p)->f64,((struct Obj00152 *)p)->f5C);
         if(func_0201CE30(((struct Obj00152 *)p)->f64)!=0) func_021B7364(*(void **)(p+28+((struct Obj00152 *)p)->f88*4),0);
         else func_021B7364(*(void **)(p+28+((struct Obj00152 *)p)->f88*4),1);
-        if(func_02028484(p+128,((struct Obj00152 *)p)->f64)==1) {
+        if(func_02028484((struct Blk *)(p+128),((struct Obj00152 *)p)->f64)==1) {
             func_0201CE48(((struct Obj00152 *)p)->f64);
             ((struct Obj00152 *)p)->f64=0;
             func_02045808(((struct Obj00152 *)p)->f70);

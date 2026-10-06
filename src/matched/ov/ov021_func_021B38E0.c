@@ -45,8 +45,9 @@ extern void *func_0201F81C(int, int);
 extern void func_021B385C(char *p, int idx, int mode, int val, int arg);
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern u32 func_0201102C(u32 v);
-extern void func_021B3834(void *, int);
-extern void func_0201F878(void *, void *, int, int, int);
+struct Slot;
+extern u32 func_021B3834(u8 *p, int n);
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void func_02045C04(struct Rec *rec);
 
 extern u8 d_021D946C[];
@@ -83,7 +84,7 @@ void func_021B38E0(char *p, int a, int b, int c)
         ((struct Obj12843 *)e)->f24 = func_0201102C(func_02020FE4((void *)v, 0, ((struct Obj00037 *)p)->f4));
     }
     ((struct Obj00037 *)p)->f160 = k;
-    func_021B3834(p + 32, ((struct Obj00037 *)p)->f160);
-    func_0201F878(*(char * *)&((struct Obj00037 *)p)->f180 + k * 8, ((struct Obj00037 *)p)->f188, 11, -2, ((struct Obj00037 *)p)->f4);
+    func_021B3834((u8 *)(p + 32), ((struct Obj00037 *)p)->f160);
+    func_0201F878((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + k * 8), (u32)(((struct Obj00037 *)p)->f188), 11, -2, ((struct Obj00037 *)p)->f4);
     func_02045C04(q);
 }

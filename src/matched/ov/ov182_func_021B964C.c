@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 id; u32 v[10];} Record;
 extern const Record d_021B9BAC[1];
-extern void func_020403F4(u8);
+extern void func_020403F4(u32 i);
 extern void func_021B9810(void *);
 struct Node;
 struct PrintSys;
@@ -42,7 +42,7 @@ int func_021B964C(void *task, int b, int c, char *p)
 {
     int i;
     for (i = 0; i < sizeof(d_021B9BAC) / sizeof(d_021B9BAC[0]); i++)
-        func_020403F4(d_021B9BAC[i].id);
+        func_020403F4((u8)d_021B9BAC[i].id);
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04001000 &= ~0xe000;
     func_021B9810(p);

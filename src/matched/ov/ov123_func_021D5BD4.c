@@ -17,7 +17,8 @@
  */
 #include "../include/Obj22944.h"
 extern char d_021DAA58[],d_021DAA60[];
-extern void func_021D5AC0(void);
+typedef unsigned int   u32;
+extern void func_021D5AC0(void *unused, u32 mode);
 extern int func_021D5BA8(char *);
 extern int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd);
 extern void func_02156DE0(int a, int b);

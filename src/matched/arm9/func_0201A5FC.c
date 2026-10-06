@@ -24,7 +24,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int   func_0200AE54(void *a0, int k);
+struct Reg;
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32 func_0201AA18(void *a1);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -54,7 +55,7 @@ int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
     int found;
 
     acc = 0;
-    v10 = (u32)func_0200AE54(a0, 6);
+    v10 = (u32)(int)func_0200AE54(a0, (int)6);
 
     if (a3 != 0)
         *a3 = 0;
@@ -79,13 +80,13 @@ int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
         }
         flag = 1;
         for (j = 0; j < count; j++) {
-            if (func_0200AE54(a0, 7) == 0 && v18 == arr5c[j]) {
+            if ((int)func_0200AE54(a0, (int)7) == 0 && v18 == arr5c[j]) {
                 flag = 0;
                 if (a4 != 0)
                     *a4 |= 8;
                 break;
             }
-            if (func_0200AE54(a0, 8) == 0 && v6 != 0 && v6 == arr2c[j]) {
+            if ((int)func_0200AE54(a0, (int)8) == 0 && v6 != 0 && v6 == arr2c[j]) {
                 flag = 0;
                 if (a4 != 0)
                     *a4 |= 0x10;
@@ -106,18 +107,18 @@ int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
         arr2c[count] = v6;
         acc = (u16)(acc + (u16)v14);
         count = (u8)(count + 1);
-        if ((int)count < func_0200AE54(a0, 3))
+        if ((int)count < (int)func_0200AE54(a0, (int)3))
             continue;
         if (a4 != 0 && count < 6 && a2[count] != 0)
             *a4 |= 1;
         break;
     }
 
-    if ((int)count >= func_0200AE54(a0, 2)) {
-        k1 = (u32)func_0200AE54(a0, 0xb);
+    if ((int)count >= (int)func_0200AE54(a0, (int)2)) {
+        k1 = (u32)(int)func_0200AE54(a0, (int)0xb);
         found = 1;
         if (k1 != 0) {
-            k2 = (u32)func_0200AE54(a0, 0xc);
+            k2 = (u32)(int)func_0200AE54(a0, (int)0xc);
             found = 0;
             for (k = 0; k < count; k++) {
                 if (k1 == arr5c[k] && k2 == arr44[k]) {

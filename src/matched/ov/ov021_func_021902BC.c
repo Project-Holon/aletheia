@@ -54,7 +54,7 @@ struct U16Vec;
 extern void func_02194798(unsigned char *a);
 extern void func_02031140(struct S02031140 *p);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
-extern void func_020403F4(u8 a);
+extern void func_020403F4(u32 i);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *ptr);
@@ -78,10 +78,10 @@ void func_021902BC(Obj *o)
     }
     if (o->f02 != 0xff) {
         func_02040DA8(o->f02, 1, 0);
-        func_020403F4(o->f02);
+        func_020403F4((u8)o->f02);
     }
     if (o->f04 != 0xff) {
-        func_020403F4(o->f04);
+        func_020403F4((u8)o->f04);
     }
     do {
         if (s->f18 != 0) {

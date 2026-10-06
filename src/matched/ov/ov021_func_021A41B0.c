@@ -34,12 +34,12 @@ typedef struct {
 } Req;
 
 extern u32 func_021A3AB8(u32, u32);
-extern int func_021A4254(u8 *, u32);
+extern int func_021A4254(u32 *p, u32 a);
 extern void func_021A3CC0(u32);
-extern int func_021A55A8(u8 *, u32, int);
-extern int func_021A4444(u8 *, Req *);
+extern int func_021A55A8(u32 *p, u32 a, int b);
+extern int func_021A4444(u8 *p, u32 s);
 extern void func_021A4224(u8 *, int, Req *);
-extern void func_021A4CA8(u8 *, int, Req *);
+extern void func_021A4CA8(u32 a, u32 b, u32 c);
 extern void func_021A43D8(u8 *p, int k, int dir);
 
 void func_021A41B0(u8 *p, u32 a, u32 b, u32 c)
@@ -49,17 +49,17 @@ void func_021A41B0(u8 *p, u32 a, u32 b, u32 c)
     int e;
 
     d = func_021A3AB8(*(u32 *)&((struct Obj00656 *)p)->fC, b);
-    if (func_021A4254(p, d) == 1) {
+    if (func_021A4254((u32 *)p, d) == 1) {
         func_021A3CC0(*(u32 *)&((struct Obj00656 *)p)->fC);
-        if (func_021A55A8(p, d, 0) == 0) {
+        if (func_021A55A8((u32 *)p, d, 0) == 0) {
             s.w0 = a;
             s.w4 = b;
             s.h8 = d;
             s.wC = c;
             s.w10 = 0;
-            e = func_021A4444(p, &s);
+            e = func_021A4444(p, (u32)(&s));
             func_021A4224(p, e, &s);
-            func_021A4CA8(p, e, &s);
+            func_021A4CA8((u32)p, e, (u32)(&s));
             func_021A43D8(p, e, d);
         }
     }

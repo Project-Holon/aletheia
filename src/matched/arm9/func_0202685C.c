@@ -70,7 +70,8 @@ extern u32 func_0200E49C(u8 *p, u32 a, u32 count);
 extern void func_0200E460(char *p, int idx, int v);
 extern void func_0200E4CC(u8 *a0, u32 a1, u32 a2, int a3);
 extern void *func_0200C0F0(void *p);
-extern int   func_0200C33C(void *p, u8 i);
+struct Blk34;
+extern int func_0200C33C(struct Blk34 *p, u32 i);
 extern void  func_0200C364(void *p, u8 i, int v);
 extern void  MI_CpuFill8(void *d, int v, u32 n);
 
@@ -127,7 +128,7 @@ void func_0202685C(u8 *base, struct Req *r)
     bag2 = func_0200E394(sys);
     tbl = func_0200C0F0(sys);
     for (i = 0; i < 3; i++) {
-        id = func_0200C33C(tbl, i);
+        id = func_0200C33C(tbl, (u8)i);
         if (id != 0xff) {
             for (j = 0; j < 3; j++) {
                 if (id == func_0200E44C(bag2, j)) {

@@ -37,12 +37,13 @@ extern void func_021C4E08(void *);
 extern u8 *func_021C4E18(void *);
 extern u8 *func_021C4E28(void *);
 extern int func_021D5B68(void *);
-extern int func_021D5BDC(void *, u32);
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern u32 func_021CC8D8(void *, int);
 extern int func_021D7BD4(void *, int);
 extern int func_021C4E38(u8 *, u8 *, u32, u32);
 extern void func_021C4EA4(u8 *, u8 *, int, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern int func_021C4F64(u8 *, u8 *);
 extern void func_021C70E4(u8 *p, int a, int b, int c, int e, u32 f);
 extern int func_021C5200(u8 *);
@@ -68,14 +69,14 @@ int func_021C4D1C(u8 *p, void *it)
         line = 0x26c6;
         line += 12;
         do {
-            if (!func_021D5B68(a) && !func_021D5BDC(a, 5) && !func_021D5BDC(a, 4)) {
+            if (!func_021D5B68(a) && !func_021D5BDC((struct UtilWork *)a, 5) && !func_021D5BDC((struct UtilWork *)a, 4)) {
                 lock = func_021CC8D8(p + 0x1d74, 0x26c6);
                 r = func_021C4E38(p, a, mode, func_021D7BD4(a, mode));
                 if (r) {
                     func_021C4EA4(p, a, mode, r);
                     changed = 1;
                 }
-                func_021CC95C(p + 0x1d74, lock, line);
+                func_021CC95C((u32 *)(p + 0x1d74), lock, line);
                 func_021C4F64(p, a);
             }
             a = func_021C4E28(it);

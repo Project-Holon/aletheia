@@ -31,19 +31,21 @@ struct SBL {
 };
 extern char *g_021A821C;
 extern void *g_021AEB00;
-extern unsigned int func_0209477C(char *s);
-extern int func_020949F4(char *a, char *b, unsigned int n);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern void func_021A0A1C(int *p, int v);
 extern void func_021A02E0(struct SBL *slist);
 void func_0219FAAC(struct SBL *slist)
 {
 	int len = slist->errlen;
 	char *q;
-	if (len > 0 && len > func_0209477C(q = g_021A821C)) {
+	if (len > 0 && len > (unsigned int)func_0209477C((const u8 *)(q = g_021A821C))) {
 		char *e = g_021A821C;
 		char *s = slist->errstr;
-		if (func_020949F4(s, e, func_0209477C(e)) == 0) {
-			func_021A0A1C((int *)slist, (int)(s + func_0209477C(q)));
+		if (func_020949F4((const u8 *)s, (const u8 *)e, (unsigned int)func_0209477C((const u8 *)e)) == 0) {
+			func_021A0A1C((int *)slist, (int)(s + (unsigned int)func_0209477C((const u8 *)q)));
 			slist->cb(slist, 5, g_021AEB00, slist->ud);
 		}
 	}

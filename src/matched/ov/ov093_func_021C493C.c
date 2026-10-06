@@ -35,14 +35,15 @@ extern void func_021C4A54(u8 *, u8 *, Word, u32, u8 *);
 extern u8 func_021D5440(u8 *p);
 extern u8 *func_021B9934(char *, int);
 extern int func_021D5B68(void *p);
-extern int func_021D6064(u8 *, u8 *, Word *, u32 *);
+union Slot;
+extern int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed);
 extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern int func_021BC2B0(u8 *);
 extern u32 func_021D806C(const u8 *p);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021C5200(u8 *p);
-void func_021C493C(u8 *p, u8 *a)
+int func_021C493C(u8 *p, u8 *a)
 {
     u8 list[6];
     Word y;
@@ -65,15 +66,15 @@ void func_021C493C(u8 *p, u8 *a)
         for (i = 0; i < n; i++) {
             m = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, list[i]);
             if (func_021D5B68(m) == 0) {
-                if (func_021D6064(m, q, &y, &x)) {
+                if (func_021D6064(m, (u32)q, (union Slot *)(&y), (int *)(&x))) {
                     s = func_021CC8D8(p + 0x1d74, 9719);
                     func_021C4A54(m, q, y, x, p);
-                    func_021CC95C(p + 0x1d74, s, 9721);
+                    func_021CC95C((u32 *)(p + 0x1d74), s, 9721);
                 }
             }
         }
         if (func_021BC2B0(p)) break;
     }
     func_021CD4B0(((struct Obj00003 *)p)->fC, 0x15, (u8)n, (u8)k, func_021D806C(list));
-    func_021C5200(p);
+    return func_021C5200(p);
 }

@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef struct {u8 pad[28]; int angle;} Selected;
 typedef struct { int state; u8 pad[36]; Selected *selected; int index, count; } Obj;
 extern u16 d_021E1FDC[][5];
-extern void func_021E19C0(Obj *, int);
+extern void func_021E19C0(char *r4, int r5);
 extern void func_021E15DC(int *, int);
 #pragma opt_propagation off
 int func_021DF22C(Obj *obj)
@@ -50,7 +50,7 @@ int func_021DF22C(Obj *obj)
     if (delta < 0) delta = target + 0x168000 - current;
     if (delta <= 0x10000) step >>= 1;
     if (delta < step) step = delta;
-    func_021E19C0(obj, step);
+    func_021E19C0((char *)obj, step);
     func_021E15DC(&angle, step);
     if (angle / 4096 == target / 4096) obj->state = 31;
     return 0;

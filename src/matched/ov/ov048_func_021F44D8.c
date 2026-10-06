@@ -24,8 +24,8 @@ typedef struct {
     u8  b[4];
 } Slots;
 
-extern void func_021F44B8(Slots *);
-extern void func_021F4590(int *, Slots *);
+extern void func_021F44B8(u8 *p);
+extern void func_021F4590(int *p, u8 *out);
 extern void func_021F45F0(int *a, void *b);
 extern int func_02188C70(int *p, int b);
 
@@ -36,8 +36,8 @@ void func_021F44D8(int *p, Slots *q)
     int n, j, k;
 
     n = 0;
-    func_021F44B8(q);
-    func_021F4590(p, &s2);
+    func_021F44B8((u8 *)q);
+    func_021F4590(p, (u8 *)(&s2));
     func_021F45F0(p, &s1);
     for (j = 0; j < 4; j++) {
         if (s1.h[j] == 0x1AB)

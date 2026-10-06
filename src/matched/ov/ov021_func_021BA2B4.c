@@ -30,11 +30,11 @@ typedef struct { int x, y, z; } V;
 
 u32 func_021B8220(u8 *p);
 u8 *func_021B830C(void);
-void func_021B79D4(u8 *p, V *v);
+void func_021B79D4(void **o, void *out);
 u32 func_021B821C(u8 *p);
 void func_0218E124(u8 *a, u32 s);
-u32 func_0218EC60(u32 a);
-void func_0218ED48(u8 *p, u16 v);
+int func_0218EC60(u32 a);
+void func_0218ED48(u8 *p, u32 v);
 void func_0218ED34(u8 *p, u16 v);
 void func_0218ED58(u8 *p, u32 v);
 
@@ -51,7 +51,7 @@ void func_021BA2B4(u8 *p)
     q = func_021B830C();
     func_0218E124((u8 *)o, 0);
     func_0218EC60(func_021B821C(p));
-    func_021B79D4(p, &v);
+    func_021B79D4((void **)p, &v);
     x = ((struct Obj09635 *)q)->f4;
     y = ((struct Obj09635 *)q)->f8;
     z = ((struct Obj09635 *)q)->fC;

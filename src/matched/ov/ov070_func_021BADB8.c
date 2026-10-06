@@ -17,7 +17,8 @@
 typedef unsigned int   u32;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021B61F4(void *, int, unsigned);
+typedef unsigned char  u8;
+extern void func_021B61F4(u8 *p, int a, unsigned int b);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_021BADB8(char *p, unsigned v) { func_02045CAC((struct MsgBank *)(((struct Obj06177 *)p)->f51C), 0x2B, (void *)(*(int *)&((struct Obj06177 *)p)->f524)); func_021B61F4(p, 0, v); func_0201F250(((struct Obj06177 *)p)->f520, ((struct Obj06177 *)p)->f528, ((struct Obj06177 *)p)->f524); }
+void func_021BADB8(char *p, unsigned v) { func_02045CAC((struct MsgBank *)(((struct Obj06177 *)p)->f51C), 0x2B, (void *)(*(int *)&((struct Obj06177 *)p)->f524)); func_021B61F4((u8 *)p, 0, v); func_0201F250(((struct Obj06177 *)p)->f520, ((struct Obj06177 *)p)->f528, ((struct Obj06177 *)p)->f524); }

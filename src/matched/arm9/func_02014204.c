@@ -41,8 +41,8 @@ struct v3 { u32 x, y, z; };
 
 extern void func_020140F8(int p0);
 extern int  func_02013C70(int id);
-extern void sub_02013B90(int id, struct v3 *out);
-extern void sub_02013B74(int id, struct v3 *out);
+extern void sub_02013B90(u32 id, u32 *out);
+extern void sub_02013B74(u32 id, u32 *out);
 
 void func_02014204(struct t *p, int id)
 {
@@ -55,14 +55,14 @@ void func_02014204(struct t *p, int id)
     p->d = 2;
     p->e = 0;
     if (func_02013C70(id) != 0) {
-        sub_02013B90(id, &v);
+        sub_02013B90(id, (u32 *)(&v));
         p->f = 1;
         *((u8 *)p + 0x12) = 1;
         p->g = v.x;
         p->i = v.y;
         p->h = v.z;
     } else {
-        sub_02013B74(id, &v);
+        sub_02013B74(id, (u32 *)(&v));
         p->f = 0;
         *(struct v3 *)((u8 *)p + 0x10) = v;
     }

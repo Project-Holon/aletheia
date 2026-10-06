@@ -17,7 +17,7 @@
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_021E12AC(void *);
+extern int func_021E12AC(char *p);
 extern void func_021DD080(void *a, void *b, void *c);
 extern void func_021D8E84(void *,int);
 extern void func_021DDB10(unsigned char *p);
@@ -25,7 +25,7 @@ extern void func_021DDB10(unsigned char *p);
 void func_021DDB64(unsigned char *p)
 {
     func_020399A8();
-    if(func_021E12AC(p)) {
+    if(func_021E12AC((char *)p)) {
         func_021DD080((void *)((unsigned)func_020399A8()),(void *)25,p);
         func_021D8E84(p,(int)func_021DDB10);
     }

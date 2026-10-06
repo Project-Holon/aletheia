@@ -16,7 +16,8 @@
 #include "../include/Obj13997.h"
 
 typedef unsigned int u32;
-extern void func_021D6EE0(char *, int, int);
+typedef unsigned char  u8;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D706C(char *p);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
@@ -26,5 +27,5 @@ void func_021D8A38(char *p)
     if (((struct Obj13997 *)p)->f64 % 110 == 0) func_020061E4(0x659);
     ++((struct Obj13997 *)p)->f64;
     if (func_020362DC() || func_02035C60())
-        func_021D6EE0(p, (int)func_021D706C, 0x88e);
+        func_021D6EE0((u8 *)p, (int)func_021D706C, 0x88e);
 }

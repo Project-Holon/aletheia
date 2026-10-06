@@ -31,7 +31,7 @@ extern u32 func_021C8300(int *p, u8 k);
 extern u8 func_021B8C38(u32 flags, u32 v);
 extern u32 func_021B99F0(u32 x);
 extern int func_021C8020(void *p, int k);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *l, int a, int b);
 struct S;
 extern void func_021C8860(struct S *l, u32 v);
@@ -64,7 +64,7 @@ void func_021E7E58(int a, u8 *b, int c)
         break;
     }
     if (y != c) {
-        p = func_021C88A4(b, 0x32, c);
+        p = func_021C88A4((char *)b, 0x32, c);
         p[4] = c;
         p[5] = y;
         func_021C8838(p + 8, 2, 1137);

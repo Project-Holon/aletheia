@@ -30,7 +30,7 @@ extern void *func_0201CCE4(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, v
 extern void func_02040588(u32 which, u32 enable);
 extern char d_021BABF4[];
 
-void func_021B79A0(void **p, int *c, u32 idx)
+void func_021B79A0(void **p, int *c, int idx)
 {
     if (p[2] != 0)
         func_02034714(d_021BABF4, 0, d_021BABF4);

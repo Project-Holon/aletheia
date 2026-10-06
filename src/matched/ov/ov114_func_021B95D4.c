@@ -36,8 +36,8 @@ extern unsigned int func_021B95A0(unsigned int,unsigned int);
 extern void func_021B95B0(int);
 extern int func_021B95C0(int,int,u32 *);
 extern int func_021BE648(int a, int b, int c);
-extern int func_021BF04C(u32,u32,void *,int,void *,int);
-extern int func_021BE9C8(int,void *,int);
+extern void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len, int (*callback)(void *, int, void *), void *userParam_p);
+extern int func_021BE9C8(int a, int b, int c);
 extern int func_021BE6BC(int,const char *,const char *);
 extern int func_021BE8E8(void *handle, char *username_p, char *password_p);
 extern void func_02034714(const char *,u32,const char *);
@@ -54,11 +54,11 @@ int func_021B95D4(int index,u8 *p)
     func_02082BCC(p+0x410,0,4);
     if(index==4) func_0208D80C((char *)(p+0x410),400,(char *)d_021CE284[index].format,((struct Obj08035 *)p)->f8+69);
     else func_0208D80C((char *)(p+0x410),400,(char *)d_021CE284[index].format,((struct Obj08035 *)p)->f5A4,21,2,1,((struct Obj08035 *)p)->f8+69);
-    h=func_021BF04C((u32)(p+0x410),d_021CE284[index].mode,p+0x10,1024,func_021B95C0,(int)p);
+    h=(int)func_021BF04C((char *)((u32)(p+0x410)),d_021CE284[index].mode,(char *)(p+0x10),1024,(int (*)(void *, int,  void *))func_021B95C0,(void *)((int)p));
     if(h==0) func_02034714(d_021CE2D4,0,d_021CE2D4);
     if(h==0) return 0;
     ((struct Obj08035 *)p)->fC=h;
-    if(func_021BE9C8(h,d_021CE280,1)<0) {
+    if(func_021BE9C8(h,(int)d_021CE280,1)<0) {
         func_02034714(d_021CE2D4,0,d_021CE2D4);
         return 0;
     }

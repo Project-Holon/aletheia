@@ -28,7 +28,8 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void func_020120B4(void *, int, const char *, u32);
+struct IcaAnime;
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020120F0(const struct Ctx *p);
 extern void func_020307B0(void *);
 extern const char d_02172724[];
@@ -49,7 +50,7 @@ int func_0215DEF0(void *a, u32 *st, u32 *c)
         (*st)++;
         break;
     case 3:
-        func_020120B4(h, -1, d_02172724, *c);
+        func_020120B4(h, -1, (void *)d_02172724, (void *)(*c));
         (*st)++;
         break;
     case 4:

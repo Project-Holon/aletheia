@@ -24,9 +24,10 @@
 typedef unsigned char  u8;
 extern void func_021B9774(u8 *p);
 extern void func_021D584C(char *);
-extern int func_021D5950(char *,int);
+typedef unsigned int   u32;
+extern int func_021D5950(u8 *p, int x);
 extern void func_021D5960(char *,int,int);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6F70(int a);
 extern void func_021D6F04(char *);
 void func_021D6FF0(char *p)
@@ -39,12 +40,12 @@ void func_021D6FF0(char *p)
     else if (((struct Obj02182 *)p)->f80==0xfff3) n=38;
     else if (((struct Obj02182 *)p)->f80<=0 || ((struct Obj02182 *)p)->f80>=10) n=38;
     func_021D584C(*(char * *)&((struct Obj02182 *)p)->f18);
-    func_021D5950(*(char * *)&((struct Obj02182 *)p)->f18,n);
+    func_021D5950((u8 *)(*(char * *)&((struct Obj02182 *)p)->f18),n);
     func_021D5960(*(char * *)&((struct Obj02182 *)p)->f18,1,16);
-    func_021D6EE0(p,(int)func_021D6F70,0x1b9);
+    func_021D6EE0((u8 *)p,(int)func_021D6F70,0x1b9);
 }
 void func_021D706C(char *p)
 {
     ((struct Obj22957 *)(*(char * *)&((struct Obj22956 *)p)->f20))->f1C8=6;
-    func_021D6EE0(p,(int)func_021D6F04,0x1c9);
+    func_021D6EE0((u8 *)p,(int)func_021D6F04,0x1c9);
 }

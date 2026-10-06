@@ -57,18 +57,19 @@ struct Date0202E888 {
     s32 unk0C;
 };
 
-extern void func_0203F4E4(struct Date0202E888 *p);
+struct RtcDate;
+extern void func_0203F4E4(struct RtcDate *date);
 extern u8 func_0201298C(s32 a, u8 b);
 
 u8 sub_0202E888(void)
 {
     struct Date0202E888 d;
 
-    func_0203F4E4(&d);
+    func_0203F4E4((struct RtcDate *)(&d));
     return (u8)((d.unk04 - 1) & 3);
 }
 
-u8 sub_0202E8A4(s32 x)
+u8 sub_0202E8A4(u8 x)
 {
     return (u8)((x + 1) % 4);
 }

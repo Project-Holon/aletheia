@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef struct { char pad[0xb10]; s16 previous; char gap[10]; s16 current; } Angle;
 extern int func_021DE5F4(char *);
 extern void func_021DE608(char *,int,int);
-extern void func_021DE684(char *);
+extern void func_021DE684(u8 *p);
 int func_021DD774(char *p) {
     int base;
     unsigned i;
@@ -34,7 +34,7 @@ int func_021DD774(char *p) {
             a->previous=a->current;
             func_021DE608(p,base+i,a->previous);
         }
-        func_021DE684(p);
+        func_021DE684((u8 *)p);
         return 0;
     } else {
         for(i=0;i<*(u16 *)(p+((struct Obj00142 *)p)->fC5E*0xbc+0xc4);i++) {
@@ -45,7 +45,7 @@ int func_021DD774(char *p) {
             else if (angle>=360) a->previous-=360;
             func_021DE608(p,base+i,a->previous);
         }
-        func_021DE684(p);
+        func_021DE684((u8 *)p);
         (((struct Obj00142 *)p)->fC62)--;
         return 1;
     }

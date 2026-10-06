@@ -48,7 +48,9 @@ extern void func_021BDD40(char *,unsigned);
 extern void func_0204A8D4(u32),func_0204ADA4(u32),func_0204AFD8(u32);
 extern void *func_020490F4(u32,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern int func_0204AC18(void *,u32,u32,u16,u16,u16,u16);
+typedef signed int     s32;
+struct PalAnmSlot;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);
 struct Actor;
@@ -56,7 +58,7 @@ struct Blk37;
 struct Personal;
 extern void func_021BD8D8(char *p, u32 idx, u32 value);
 extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
-extern void *func_0202D7C8(int);
+extern int func_0202D7C8(int a0);
 extern u32 func_0200D288(struct Blk37 *p, u32 which);
 extern u32 func_0202D81C(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0202D7D8(int,int,int,int,int,int,int,int,u16,u16);
@@ -67,7 +69,7 @@ extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
 extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
-extern void func_020216D4(void *,u32,u16,u32);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 void func_021BDD7C(char *p,u16 species)
 {
     Template t;
@@ -95,7 +97,7 @@ void func_021BDD7C(char *p,u16 species)
         void *arc;
         arc=func_020490F4(0x9f,0x806b);
         *(unsigned *)(p+t.w8*4+0xb64)=func_0204A6C8(arc,0x36,0,0,0x6b);
-        *(unsigned *)(p+t.wC*4+0xbf4)=func_0204AC18(arc,0x32,0,base,0,1,0x6b);
+        *(unsigned *)(p+t.wC*4+0xbf4)=func_0204AC18(arc,0x32,0,(u16)base,0,1,0x6b);
         *(unsigned *)(p+t.w10*4+0xc0c)=func_0204AF28(arc,0x3c,0x46,0x6b);
         func_02049238(arc);
         func_021BD8D8(p,2,0);
@@ -103,7 +105,7 @@ void func_021BDD7C(char *p,u16 species)
         void *arc;
         unsigned personality;
         func_0200CC40(*(u8 * *)&((struct Obj25576 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
-        arc=func_0202D7C8(0x806b);
+        arc=(void *)func_0202D7C8(0x806b);
         personality=species==0x147?func_0200D288(((struct Obj25577 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,0):0;
         *(unsigned *)(p+t.w8*4+0xb64)=func_0202D81C((u32)arc,species,outForm,out1,out2,0,0,personality,0,0x6b);
         *(unsigned *)(p+t.wC*4+0xbf4)=func_0202D7D8((int)arc,species,outForm,out1,out2,0,0,0,base,0x6b);
@@ -121,6 +123,6 @@ void func_021BDD7C(char *p,u16 species)
         func_0204B604(*(void **)(p+0xa74+index*4),1,1);
     func_0201AE14(personal);
     func_021BD8D8(p,other,0);
-    func_020216D4(((struct Obj08410 *)p)->fC,2,(base>>5)<<4,0x20);
+    func_020216D4(((struct Obj08410 *)p)->fC,2,(u16)((base>>5)<<4),0x20);
     ((Flags *)(p+0xc24))->side^=1;
 }

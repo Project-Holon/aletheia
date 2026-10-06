@@ -69,8 +69,9 @@ struct Box {
 extern const u16 tbl_020A17D8[4][4];
 extern const u16 tbl_020A17F0[4][4];
 
-extern int func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
-                         struct Box *box, struct Pair *p);
+struct C;
+struct M;
+extern int func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1, const struct M *m, const struct C *c);
 
 static inline s32 RepeatX(s16 x)
 {
@@ -104,6 +105,6 @@ void func_0204C2C8(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *b
     s32 y1 = (RepeatY(e->oam.y) + SizeY(shape)) << 12;
 
     e->visible = func_0204C3CC(box->f10 - p->x, box->f14 - p->y,
-                               x0, x1, y0, y1, box, p) != 0;
+                               x0, x1, y0, y1, (const struct M *)box, (const struct C *)p) != 0;
 }
 

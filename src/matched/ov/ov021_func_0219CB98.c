@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u16 a; u16 b; u16 c; u16 pad; } Ent;
 typedef struct { int n; Ent *e; } Tbl;
-extern void func_0219CA98(Tbl *, u16, u16 *, u16 *);
+extern int func_0219CA98(u32 *o, u32 key, u16 *a, u16 *b);
 struct BbActSys;
 extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
 extern void func_0219C52C(u32 a, u32 b);
@@ -33,7 +33,7 @@ extern void func_0219CA6C(Tbl *t, u16 k);
 void func_0219CB98(u8 *s, u16 k)
 {
     u16 t[2];
-    func_0219CA98((Tbl *)(s + 0x14), k, &t[0], &t[1]);
+    func_0219CA98((u32 *)(s + 0x14), k, &t[0], &t[1]);
     if (t[1] & 2) {
         func_02050278((struct BbActSys *)(((struct Obj00429 *)s)->f4), t[0], 1);
     } else {

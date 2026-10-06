@@ -23,16 +23,17 @@ struct Ctx;
 struct Desc;
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern Work *func_020124E8(int);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *, int, int);
 extern int func_0216B280(int, int *, u8 **);
-int func_0216B24C(int vm, int value, int flag)
+int func_0216B24C(void *vm, int value, int flag)
 {
     int task;
     Work *p;
     func_020120F4((const struct Ctx *)vm);
     task = (int)func_020122C0((void *)vm, 0, func_0216B280, 8);
-    p = func_020124E8(task);
+    p = func_020124E8((struct Obj *)task);
     func_02082BCC(p, 0, 8);
     p->value = value;
     p->flag = flag;

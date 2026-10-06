@@ -88,7 +88,8 @@ typedef struct {
 
 extern Disp *g_02148DB0;
 
-extern void func_0206EBB8(Out *o);
+typedef signed short   s16;
+extern void func_0206EBB8(u32 *out);
 extern void func_0206EC50(void *arg);
 extern void func_0206ECE0(Out *o);
 extern void func_0206F214(u32 *out, u32 t, u32 *rec, Root *base);
@@ -97,7 +98,7 @@ extern void func_0206F4C8(u32 *out, u32 t, u32 *rec, Root *base);
 extern void func_0206F6B0(u32 *out, u32 t, u32 *rec, Root *base);
 extern void func_0206F844(u32 *out, u32 t, u32 *rec, Root *base);
 extern void func_0206FC5C(u32 *out, u32 t, u32 *rec, Root *base);
-extern int  func_0206FFA0(u32 *out, u32 *a, u32 *b, u32 c);
+extern int func_0206FFA0(int *out, s16 *a, s16 *b, u32 id);
 
 void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
 {
@@ -148,7 +149,7 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
         } else if ((f & 2) != 0) {
             out->f00 = out->f00 | 4;
         } else {
-            func_0206EBB8(out);
+            func_0206EBB8((u32 *)out);
         }
 
         if ((f & 0xc0) == 0) {
@@ -161,7 +162,7 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
             } else {
                 u32 *axis = (u32 *)((u8 *)root + root->f0c);
                 u32 *rows = (u32 *)((u8 *)root + root->f10);
-                if (func_0206FFA0((u32 *)&out->f28, axis, rows, *p) != 0) {
+                if (func_0206FFA0((int *)((u32 *)&out->f28), (s16 *)axis, (s16 *)rows, *p) != 0) {
                     int a, b, c;
                     a = (out->f2c * out->f3c - out->f30 * out->f38) >> 12;
                     b = (out->f30 * out->f34 - out->f28 * out->f3c) >> 12;

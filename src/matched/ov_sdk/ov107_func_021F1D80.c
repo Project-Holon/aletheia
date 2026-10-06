@@ -103,7 +103,7 @@ extern void func_02082BCC(void *dstp, u8 data, u32 size);
 extern void func_021F6850(u16 child_aid);
 extern void func_021F26C0(void *arg);
 extern int func_021F2CBC(void);
-extern void func_021F3E9C(MBGameInfo *gameInfop, MBUserInfo *member, u16 nowPlayerFlag, u16 changePlayerFlag);
+extern void func_021F3E9C(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
 extern u32 func_021F628C(void);
 extern u16 func_021F62A0(void);
 extern u8 func_021F62B4(void);
@@ -183,7 +183,7 @@ void func_021F1D80(u16 type, void *arg)
             u8 i;
             for (i = 0; i < 16; i++) {
                 if (g_021F6FA0->fileinfo[i].active && g_021F6FA0->fileinfo[i].gameinfo_changed_bmp) {
-                    func_021F3E9C(&g_021F6FA0->fileinfo[i].game_info, &g_021F6FA0->childUser[0],
+                    func_021F3E9C((unsigned char *)(&g_021F6FA0->fileinfo[i].game_info), &g_021F6FA0->childUser[0],
                                   g_021F6FA0->fileinfo[i].gameinfo_child_bmp,
                                   g_021F6FA0->fileinfo[i].gameinfo_changed_bmp);
                     g_021F6FA0->fileinfo[i].gameinfo_changed_bmp = 0;

@@ -13,10 +13,10 @@
  */
 typedef struct {int x,y,z;} Vec;
 extern void func_0207C9D0(Vec *,Vec *,Vec *);
-extern void func_02015D94(void *,Vec *);
+extern void func_02015D94(char *p, int *src);
 void func_021D7A1C(void *p,void **q,Vec *v) {
  Vec r;
  func_0207C9D0(v,(Vec *)((char *)q+0x4c),&r);
- func_02015D94(q[0],&r);
- func_02015D94(q[1],&r);
+ func_02015D94(q[0],(int *)(&r));
+ func_02015D94(q[1],(int *)(&r));
 }

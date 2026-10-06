@@ -47,7 +47,7 @@ struct ListCB;
 extern struct ListCB *func_021D6D44(void);
 extern GXOamAttr *func_021D6F84(int lcd, int idx);
 extern void func_021D6E04(void *list, void *ob);
-extern void func_021D6DF4(void *list, void *ob);
+extern void func_021D6DF4(char *p, void *ob);
 
 void func_021D4CF4(void)
 {

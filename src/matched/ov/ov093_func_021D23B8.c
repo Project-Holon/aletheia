@@ -20,7 +20,7 @@
 #include "../include/Obj05206.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B8D8C(void *p, void *a, u8 b);
+extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern u32 func_021CD9E0(u8 *p);
 extern unsigned int func_021B8590(unsigned char *p);
@@ -29,7 +29,7 @@ extern int func_021EA7E8(void *w, u32 v);
 
 int func_021D23B8(u8 *p, int *st, u32 *c)
 {
-    u32 t = func_021B8E70(((struct Obj05206 *)p)->f0, func_021B8D8C(((struct Obj05206 *)p)->f0, ((struct Obj05206 *)p)->f4, *c));
+    u32 t = func_021B8E70(((struct Obj05206 *)p)->f0, func_021B8D8C(((struct Obj05206 *)p)->f0, ((struct Obj05206 *)p)->f4, (u8)(*c)));
 
     switch (*st) {
     case 0:

@@ -54,28 +54,28 @@ typedef unsigned char  u8;
 struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
 extern int func_021EF480(struct WinMgr *mgr);
-extern void func_021DEFEC(unsigned char *p, int b);
+extern void func_021DEFEC(char *p, int b);
 extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(unsigned char *p);
+extern void func_021DD14C(char *p);
 extern void func_021EF68C(char *w);
-extern void func_021ED6E4(unsigned char *p, int v);
-extern void func_021ED55C(unsigned char *p, int flag);
+extern void func_021ED6E4(char **p, int v);
+extern void func_021ED55C(char **p, int flag);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
-extern int func_021E0190(unsigned char *p);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
 extern int func_021E01B0(unsigned char *p);
 extern void func_020061E4(unsigned se);
-extern void func_021EBD78(unsigned char *p, int b);
+extern void func_021EBD78(char *p, int b);
 extern void func_021EF3D8(struct WinMgr *mgr);
 extern void func_021EF35C(struct WinMgr *mgr);
 extern void func_021EF36C(struct WinMgr *mgr);
-extern void func_021EC5A0(unsigned char *p, int flag);
-extern void func_021ECB20(unsigned char *p, int f, int c);
+extern void func_021EC5A0(char **p, int flag);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021ED888(char *w, int a);
-extern void func_021EE038(unsigned char *p, int a, int b, int c);
-extern void func_021EE364(unsigned char *p, int idx, int v);
-extern void func_021ED544(unsigned char *p, int b);
-extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
+extern void func_021EE038(char *p, int a, int b, int c);
+extern void func_021EE364(char **p, int idx, int v);
+extern void func_021ED544(char *p, int b);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021EF680(char *w);
 extern void func_021EF69C(char *w);
 extern void func_02026124(struct Sound *obj, u32 idx);
@@ -112,25 +112,25 @@ int func_021E3C88(unsigned char *p)
             } else if (p[0x16] >= 0x1E) {
                 p[0x16] = 0;
             }
-            func_021DEFEC(p, p[0x16]);
+            func_021DEFEC((char *)p, p[0x16]);
         } else {
             if (func_021EF480(MGR(p)) == 1)
                 p[0x17] = 0xFF;
             else
                 p[0x17] = p[0x14];
             func_021EBA5C(WORK(p), 0x18);
-            func_021DD14C(p);
+            func_021DD14C((char *)p);
             func_021EF68C(WORK(p));
-            func_021ED6E4(p, 0);
+            func_021ED6E4((char **)p, 0);
         }
-        func_021ED55C(p, 0);
+        func_021ED55C((char **)p, 0);
         func_021EF57C(MGR(p));
         STEP(p)++;
-        return func_021E8FC0(p, func_021E0190, 0x1F);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 0x1F);
     case 1:
         if (*(int *)(TOP(p) + 0x24) == 4 && *(int *)(TOP(p) + 0x14) == 1) {
             func_020061E4(0x557);
-            func_021EBD78(p, 0);
+            func_021EBD78((char *)p, 0);
             NIB(p)->lo = 0;
             STEP(p) = 0;
             STATE(p) = 0x2B;
@@ -142,21 +142,21 @@ int func_021E3C88(unsigned char *p)
         } else {
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
-            func_021EC5A0(p, 0);
+            func_021EC5A0((char **)p, 0);
         }
         func_020061E4(0x669);
-        return func_021E8FC0(p, func_021E01B0, 0x1F);
+        return func_021E8FC0((char *)p, (int)func_021E01B0, 0x1F);
     case 2:
-        func_021ECB20(p, 1, 0);
+        func_021ECB20((char *)p, 1, 0);
         func_021ED888(WORK(p), 1);
-        func_021EE038(p, 0, 1, 0);
-        func_021EE364(p, 6, p[0x16]);
-        func_021ED544(p, 6);
+        func_021EE038((char *)p, 0, 1, 0);
+        func_021EE364((char **)p, 6, p[0x16]);
+        func_021ED544((char *)p, 6);
         *(int *)(WORK(p) + 0xA168) = p[0x16];
         STEP(p) = 0;
         if (NIB(p)->lo == 1) {
-            if (func_021DD25C(p, p[0x16], p[0x14], 0xA9, 0) == 0)
-                func_021EE038(p, 0, 1, 2);
+            if (func_021DD25C((void ***)p, p[0x16], p[0x14], 0xA9, 0) == 0)
+                func_021EE038((char *)p, 0, 1, 2);
             if (*(int *)(TOP(p) + 0x24) == 4) {
                 func_021EF680(WORK(p));
                 func_021EF69C(WORK(p));

@@ -21,8 +21,8 @@ typedef unsigned int   u32;
 struct Sub02007454Entry;
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 extern void func_02007664(void *,unsigned,unsigned);
-extern void func_021EDAB0(unsigned char *,unsigned);
-extern void func_021EDB34(unsigned char *,unsigned);
+extern void func_021EDAB0(char *p, int i);
+extern void func_021EDB34(char *p, int a);
 void func_021DD464(unsigned char *p,unsigned a,unsigned b,unsigned c)
 {
     void *m;
@@ -31,8 +31,8 @@ void func_021DD464(unsigned char *p,unsigned a,unsigned b,unsigned c)
     box = func_021DD684(p,c);
     func_0200752C((*(void ***)p)[1],box,m);
     func_02007664((*(void ***)p)[1],a,b);
-    func_021EDAB0(p,a);
-    func_021EDB34(p,a);
-    func_021EDAB0(p,box);
-    func_021EDB34(p,box);
+    func_021EDAB0((char *)p,a);
+    func_021EDB34((char *)p,a);
+    func_021EDAB0((char *)p,box);
+    func_021EDB34((char *)p,box);
 }

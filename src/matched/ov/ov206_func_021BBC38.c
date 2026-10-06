@@ -24,15 +24,16 @@ typedef struct S {
     int fe0;
     char pad[0x190 - 0xe4];
 } S;
-extern void func_021BB4E0(S *, int, int);
+extern void func_021BB4E0(char *p, int mode, int which);
 typedef unsigned int   u32;
 extern void func_021BBAB0(struct S *p, u32 a, u32 b, u32 idx);
-extern void func_021BBDA8(S *, int);
-extern void func_021BAA4C(S *);
+struct State;
+extern void func_021BBDA8(struct State *p, int v);
+extern void func_021BAA4C(char *p);
 void func_021BBC38(S *p)
 {
-    func_021BB4E0(p, 6, p->fe0);
+    func_021BB4E0((char *)p, 6, p->fe0);
     func_021BBAB0(p, p->fc, p->fe, ((struct Obj00031 *)p)->f190);
-    func_021BBDA8(p, p->f8);
-    func_021BAA4C(p);
+    func_021BBDA8((struct State *)p, p->f8);
+    func_021BAA4C((char *)p);
 }

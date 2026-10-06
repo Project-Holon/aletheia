@@ -27,7 +27,10 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *,int,int);
 extern void *func_020457B0(int,u16);
 extern void *func_02043678(int,int,int,u16);
-extern void *func_020255A0(void *,Desc *);
+struct Grid;
+struct Param;
+struct Sys;
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap)
 {
     Desc desc;
@@ -46,6 +49,6 @@ void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u
     desc.d=e;
     desc.b=((struct Obj08095 *)p)->f7;
     desc.pal=d;
-    ((struct Obj06451 *)out)->f1C=func_020255A0(f,&desc);
+    ((struct Obj06451 *)out)->f1C=func_020255A0(f,(const struct Param *)(&desc));
     return out;
 }

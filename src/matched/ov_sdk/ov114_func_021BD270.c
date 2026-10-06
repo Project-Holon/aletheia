@@ -78,7 +78,7 @@ extern NHTTPSysInfo *func_021BEF08(void);
 extern NHTTPBgnEndInfo *func_021BEF3C();
 typedef unsigned char  u8;
 extern void *func_021BEF48(int p);
-extern NHTTPMutexInfo *func_021BEF58();
+extern void *func_021BEF58(int p);
 extern NHTTPConnection *func_021BEBE0(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
 extern int func_021B9CFC(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
 extern void func_021BA874(u8 *p, int v);
@@ -103,7 +103,7 @@ static void func_021BD270(NHTTPThreadData *threadData_p)
     sysInfo_p = func_021BEF08();
     bgnEndInfo_p = func_021BEF3C(sysInfo_p);
     reqInfo_p = func_021BEF48((int)sysInfo_p);
-    mutexInfo_p = func_021BEF58(sysInfo_p);
+    mutexInfo_p = func_021BEF58((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     res_p = req_p->res_p;
     connection_p = func_021BEBE0(mutexInfo_p, req_p);

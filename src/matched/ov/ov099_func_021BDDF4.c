@@ -13,10 +13,12 @@
  *   func_021BCBBC 0x021BCBBC thumb ov099
  */
 #include "../include/Obj07954.h"
-extern int func_021BCB70(int,int,int *);
+typedef unsigned int   u32;
+struct BigObj;
+extern int func_021BCB70(void *rules, const struct BigObj *obj, u32 *mask);
 extern int func_021BCBBC(int,int,int *);
 int func_021BDDF4(char *p) {
  int out;
- if (func_021BCB70(((struct Obj07954 *)p)->f1348,((struct Obj07954 *)p)->fC4,&out) && func_021BCBBC(((struct Obj07954 *)p)->f1348,((struct Obj07954 *)p)->fCC,&out)) return 0;
+ if (func_021BCB70((void *)(((struct Obj07954 *)p)->f1348),(const struct BigObj *)(((struct Obj07954 *)p)->fC4),(u32 *)(&out)) && func_021BCBBC(((struct Obj07954 *)p)->f1348,((struct Obj07954 *)p)->fCC,&out)) return 0;
  return 1;
 }

@@ -24,10 +24,10 @@
 extern int func_021DC8D4(int *);
 extern void func_021DE014(int *);
 extern void func_021DD8BC(int *);
-extern void func_021DCC88(int *);
+extern void func_021DCC88(char *p);
 extern void func_021DCB8C(int *);
 extern void func_021DCA40(void);
-extern void func_021DCE28(int *);
+extern void func_021DCE28(char *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_0207D534(volatile u16 *reg, int brightness);
@@ -40,10 +40,10 @@ int func_021DCF38(int *p)
     func_021DC8D4(p);
     func_021DE014(p);
     func_021DD8BC(p);
-    func_021DCC88(p);
+    func_021DCC88((char *)p);
     func_021DCB8C(p);
     func_021DCA40();
-    func_021DCE28(p);
+    func_021DCE28((char *)p);
     func_0207D534((void *)0x0400006c, -16);
     func_0207D534((void *)0x0400106c, -16);
     *(unsigned short *)0x04000050 = 0;

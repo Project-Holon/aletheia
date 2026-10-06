@@ -37,7 +37,8 @@ void func_0217F4A0(void **p, unsigned int index, int a, int b);
 void *func_0201210C(const struct Ctx *p);
 struct Desc *func_0217C458(void *a0, void *a1, u8 *a2, int a3);
 void func_0217FA1C(void *p);
-void func_0201235C(void *a0, void *a1);
+struct S0201235C;
+void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_0217F95C(void *a0, int *state, void *a2)
 {
@@ -74,7 +75,7 @@ int func_0217F95C(void *a0, int *state, void *a2)
     case 2:
         r = func_0217C458(h, func_0201210C(h), w, 0x15);
         func_0217FA1C(a2);
-        func_0201235C(a0, r);
+        func_0201235C(a0, (u32 *)r);
         return 0;
     case 3:
         func_0217FA1C(a2);

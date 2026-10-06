@@ -42,7 +42,7 @@ typedef unsigned int u32;
 typedef struct { u8 pad[0x1B3]; volatile u8 count; } CountField;
 extern u8 func_021D0C78(void *, u8 *);
 extern u8 func_021D0980(u8 *, u8 *);
-extern int func_021D102C(u8 *);
+extern int func_021D102C(char *p);
 struct S2;
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D5B68(void *);
@@ -52,8 +52,8 @@ extern void func_021D0B10(u8 *p, u32 a, u32 b, void *q, void *out);
 extern void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r);
 extern void func_021CE068(u8 *);
 extern int func_021D1058(u8 *, void *);
-extern void func_021D83C4(void *);
-extern void func_021D8434(void *);
+extern void func_021D83C4(u32 *p);
+extern void func_021D8434(u32 *p);
 extern int func_021CE08C(u8 *);
 extern void func_021E9B14(unsigned int *p);
 extern int func_021E9B20(u8 *p);
@@ -79,7 +79,7 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
             if (n != 0) {
                 count = ((CountField *)p)->count;
                 if (count > n) count = n;
-                if (func_021D102C(p) != 0) {
+                if (func_021D102C((char *)p) != 0) {
                     mon = func_021B9C00(((struct Obj00819 *)p)->f118, 0);
                     if (n == 1 && func_021D5B68(mon) != 0) {
                         func_021D8394(p + 0x124, 0, order[0]);
@@ -95,19 +95,19 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
                 func_021CE068(p);
                 *state = 1;
             } else {
-                if (func_021D102C(p) != 0 && (mode = func_021D1058(p, p + 0x124)) != 0) {
+                if (func_021D102C((char *)p) != 0 && (mode = func_021D1058(p, p + 0x124)) != 0) {
                     ((struct Obj00819 *)p)->fDC = mode;
                     *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
                     *state = 4;
                 } else {
-                    func_021D83C4(p + 0x124);
+                    func_021D83C4((u32 *)(p + 0x124));
                     *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
                     ((struct Obj00819 *)p)->fDC = 4;
                     *state = 4;
                 }
             }
         } else {
-            func_021D8434(p + 0x124);
+            func_021D8434((u32 *)(p + 0x124));
             *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
             ((struct Obj00819 *)p)->fDC = 4;
             *state = 4;

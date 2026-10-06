@@ -41,7 +41,7 @@ typedef unsigned int   u32;
 
 extern const u8 str_020A78A0[];
 extern const u8 str_020A78B0[];
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int  func_02084EB8(u32 a);
 extern void func_02075E9C(u16 a);
 extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback,
@@ -57,7 +57,7 @@ int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void))
     int r;
 
     if (id == -3) {
-        func_02034714(str_020A78A0, 0xa4, str_020A78B0);
+        func_02034714((const char *)str_020A78A0, 0xa4, (const char *)str_020A78B0);
     }
     func_02075E9C((u16)id);
     r = CARDi_RequestStreamCommand(a0, a1, a2, 0, 0, 1, 6, 1, 0);

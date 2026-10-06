@@ -22,7 +22,7 @@ struct Input { u16 id; u8 x,y,z,pad; u16 a; u32 b; };
 extern u32 func_021BF7E0(void *);
 extern void func_021BEC34(u32);
 extern void func_021C10E8(u8 *p, u8 *tab, int n);
-void func_021BED10(u8 *p,int mode)
+void func_021BED10(u8 *p, u32 mode)
 {
     struct Item items[17];
     struct Input *base;

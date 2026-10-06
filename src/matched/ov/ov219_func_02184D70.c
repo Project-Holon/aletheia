@@ -96,7 +96,7 @@ typedef unsigned int u32;
 struct Descriptor;struct CharBuf;struct U16Vec;struct MsgBank;struct Ctx;struct Rec;struct Rec3;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *,u8);
-extern struct U16Vec *func_020457B0(u32,u16);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
 extern signed char func_02012FFC(void);
 extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
@@ -116,7 +116,7 @@ int func_02184D70(char *p,u32 message,int force)
     switch(*(u32 *)(p+0xC0B0)) {
     case 0:
         func_02043B5C(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
-        *(struct U16Vec **)(p+0xC0AC)=func_020457B0(1024,*(u32 *)p);
+        *(struct U16Vec **)(p+0xC0AC)=func_020457B0(1024,(u16)(*(u32 *)p));
         func_02045CAC(*(struct MsgBank **)(p+0xC070),message,*(struct U16Vec **)(p+0xC0AC));
         *(u32 *)(p+0xC074)=func_0201CCE4(*(u32 *)(p+0xC01C),0,0,*(u32 *)(p+0xC0AC),*(u32 *)(p+0xC06C),func_02012FFC(),*(u32 *)(p+0xC0A4),0,*(u32 *)p,15);
         *(u32 *)(p+0xC0B0)=1;

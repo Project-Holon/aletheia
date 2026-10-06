@@ -35,7 +35,7 @@ typedef struct {
     Q *q;
 } P;
 
-extern int func_021B6818(P *p);
+extern int func_021B6818(u8 *p);
 extern void func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
@@ -45,7 +45,7 @@ int func_021B6534(int a0, int a1, int a2, P *p)
 {
     u8 i;
 
-    if (func_021B6818(p) == 0)
+    if (func_021B6818((u8 *)p) == 0)
         return 0;
     if (a2 == 0) {
         for (i = 0; i < 3; i++) {

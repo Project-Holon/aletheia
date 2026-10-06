@@ -32,7 +32,7 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern int  func_02186558(u8 *);
 extern u16 func_02039338(void);
-extern void func_02186444(u8 *, u32);
+extern void func_02186444(char *p, u32 v);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -63,7 +63,7 @@ void func_021849F8(u8 *p)
     ((struct Obj00049 *)p)->f9E80 = z;
     ((struct Obj00049 *)p)->f178 = z;
     func_02039338();
-    func_02186444(p, 4);
+    func_02186444((char *)p, 4);
     func_02045CAC((struct MsgBank *)(*(u32 *)&((struct Obj00049 *)p)->f14), 7, (void *)(((struct Obj00049 *)p)->f2C));
     ((struct Obj00049 *)p)->f4288 = func_02030734(0x28, 0x3C00, z, d_02186F58, 0x31D);
     ((struct Obj00049 *)p)->f1A8 = z;

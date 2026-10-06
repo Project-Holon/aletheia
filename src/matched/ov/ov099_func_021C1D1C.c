@@ -65,19 +65,22 @@ typedef unsigned int u32;
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void *func_02049EF4(void *h, u32 a1, u32 a2, void **out, u16 heap);
 extern void func_021C1FE8(u16 *p, u16 d);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern void *func_020450F0(int, u8, u8, int, u8, u8, u8);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *buf, u8 value);
-extern void func_02045334(void *d);
-extern void func_02045374(void *cfg);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 
-void func_021C1D1C(u8 *p, void *a, u32 heap)
+void func_021C1D1C(u8 *p, void *a, int heap)
 {
     int i;
     int j;

@@ -48,7 +48,7 @@ typedef signed int    s32;
 
 extern void sub_02005D14(void);
 extern void sub_02006368(void);
-extern void sub_020746B0(u32 v);
+extern void sub_020746B0(int p0);
 extern void sub_02006300(u32 a, int mode);
 extern int sub_02006394(void);
 extern void sub_0200597C(void);

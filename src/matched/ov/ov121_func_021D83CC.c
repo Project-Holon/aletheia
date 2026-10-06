@@ -12,8 +12,9 @@
  * symbols:
  *   func_021D6CEC 0x021D6CEC thumb ov121
  */
-extern void func_021D6CEC(void *);
+typedef unsigned char  u8;
+extern void func_021D6CEC(u8 *p);
 void func_021D83CC(char *p)
 {
-    func_021D6CEC(p+660);
+    func_021D6CEC((u8 *)(p+660));
 }

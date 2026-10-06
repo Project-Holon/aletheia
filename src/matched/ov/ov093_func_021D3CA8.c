@@ -18,10 +18,10 @@
 typedef unsigned char u8;
 struct UtilSlots;
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D6264(struct UtilSlots *, u8);
+extern void func_021D6264(struct UtilSlots *p, int v);
 int func_021D3CA8(char *p, int unused, unsigned int *a)
 {
     u8 *obj = func_021B9934(*(char * *)&((struct Obj21200 *)p)->f4, (u8)a[0]);
-    func_021D6264((struct UtilSlots *)obj, a[1]);
+    func_021D6264((struct UtilSlots *)obj, (u8)a[1]);
     return 1;
 }

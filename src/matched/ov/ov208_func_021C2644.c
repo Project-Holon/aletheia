@@ -37,13 +37,13 @@ typedef signed int     s32;
 
 extern int func_02006650(void);
 extern void func_020065D8(void);
-extern void func_021C3638(void *a0, u8 *st, void *a2);
+extern void func_021C3638(void *unused, char *p, void *a2);
 extern void func_021BC97C(char *p);
 extern void func_021BCA54(u32 a, u32 packed);
 struct S;
 extern void func_021C2FEC(void *unused, struct S *p, u32 unused2, u32 i);
 extern void func_021C32FC(u16 *heap, u8 *p, int key);
-extern void func_021C3268(void *a0, u8 *st, void *a2);
+extern void func_021C3268(void *unused, char *p, void *a2);
 extern void func_021C337C(void *a0, u8 *st, void *a2);
 extern void func_021C3374(void *a0, u8 *st, void *a2);
 extern void func_021C2D88(void *a0, u8 *st, void *a2);
@@ -61,7 +61,7 @@ u32 func_021C2644(void *a0, u32 a1, void *a2, u8 *st, void *a4)
     if (func_02006650() != 0) {
         func_020065D8();
     }
-    func_021C3638(a2, st, a4);
+    func_021C3638(a2, (char *)st, a4);
     func_021BC97C(*(char * *)&((struct Obj03934 *)st)->f80);
     func_021BC97C(*(char * *)&((struct Obj03934 *)st)->f7C);
     func_021BCA54(2, ((struct Obj03934 *)st)->f78);
@@ -69,7 +69,7 @@ u32 func_021C2644(void *a0, u32 a1, void *a2, u8 *st, void *a4)
         func_021C2FEC(a2, (struct S *)st, (u32)a4, i);
     }
     func_021C32FC(a2, st, (int)a4);
-    func_021C3268(a2, st, a4);
+    func_021C3268(a2, (char *)st, a4);
     func_021C337C(a2, st, a4);
     func_021C3374(a2, st, a4);
     func_021C2D88(a2, st, a4);

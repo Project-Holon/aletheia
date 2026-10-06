@@ -30,11 +30,12 @@ typedef struct {
 
 extern D d_021F6398;
 extern u8 *func_021B9940(char *p, u8 i);
-extern void *func_021D5864(void *m);
+struct Work;
+extern void *func_021D5864(struct Work *p);
 struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 
 void func_021EED48(u8 a, u8 b)
 {
-    func_0201EE84(d_021F6398.f8, b, func_021D5864(func_021B9940((char *)d_021F6398.f4, a)));
+    func_0201EE84(d_021F6398.f8, b, func_021D5864((struct Work *)func_021B9940((char *)d_021F6398.f4, a)));
 }

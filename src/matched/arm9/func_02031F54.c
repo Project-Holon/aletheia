@@ -50,14 +50,14 @@ struct Footer {
     u16 crc;
 };
 
-extern struct Footer *func_02031EE8(const struct SaveBackup *p, u8 *buf);
-extern u16 func_02031E7C(const struct SaveBackup *p, u8 *buf);
+extern int func_02031EE8(int p0, int p1);
+extern u16 func_02031E7C(struct SaveBackup *p, u8 *buf);
 
 void func_02031F54(const struct SaveBackup *p, u8 *buf)
 {
-    struct Footer *q = func_02031EE8(p, buf);
+    struct Footer *q = (struct Footer *)func_02031EE8((int)p, (int)buf);
     q->gen = p->unk28;
     q->size = p->unk30;
     q->id = p->unk0C;
-    q->crc = func_02031E7C(p, buf);
+    q->crc = func_02031E7C((struct SaveBackup *)p, buf);
 }

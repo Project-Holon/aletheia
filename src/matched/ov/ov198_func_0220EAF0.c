@@ -23,8 +23,10 @@ typedef struct {u8 bytes[76];} Record;
 extern const Pair d_02211DB4[],d_02211DCC[],d_02211DE4[];
 extern int func_022110D4(u8 *,int);
 extern void func_0220E7CC(u8 *,unsigned);
-extern void func_0220E974(unsigned,u8 *,const Pair *);
-extern void func_0220EA30(u16,u8 *,Pair *);
+typedef unsigned int   u32;
+struct Vec2;
+extern void func_0220E974(int mode, u8 *p, const struct Vec2 *q);
+extern void func_0220EA30(u32 mode, u8 *p, const struct Vec2 *q);
 void func_0220EAF0(Record *records) {
     u8 *p=(u8 *)records;
     short i;
@@ -35,13 +37,13 @@ void func_0220EAF0(Record *records) {
         offset=index*76;
         if(*(u16 *)((char *)records+offset+8)!=0) {
             func_0220E7CC(*(u8 **)(p+index*4+0x1ed8),(unsigned)&d_02211DB4[i]);
-            func_0220E974(((Bits *)(p+0x1b))[offset].kind,*(u8 **)(p+index*4+0x1ef0),&d_02211DCC[i]);
+            func_0220E974(((Bits *)(p+0x1b))[offset].kind,*(u8 **)(p+index*4+0x1ef0),(const struct Vec2 *)(&d_02211DCC[i]));
             if(((Bits *)(p+0x1b))[offset].high==0)
                 func_0220E7CC(*(u8 **)(p+index*4+0x1f08),(unsigned)&d_02211DE4[i]);
             pair=d_02211DB4[i];
             pair.x+=8;
             pair.y+=8;
-            func_0220EA30(*(u16 *)((char *)records+offset+0x1e),((u8 **)(p+0x1ebc))[index],&pair);
+            func_0220EA30(*(u16 *)((char *)records+offset+0x1e),((u8 **)(p+0x1ebc))[index],(const struct Vec2 *)(&pair));
         }
     }
 }

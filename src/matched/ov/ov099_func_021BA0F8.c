@@ -28,7 +28,7 @@ typedef struct {
 
 extern u16 func_021C47F8(u16 *p);
 extern u16 func_021C47FC(u16 *p);
-extern int func_021C4864(void *h, u16 x, u16 y);
+extern u32 func_021C4864(u8 *p, u16 x, u16 y);
 
 void func_021BA0F8(W *w, u16 *out)
 {

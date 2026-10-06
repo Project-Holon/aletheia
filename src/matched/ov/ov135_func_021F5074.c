@@ -43,7 +43,7 @@ extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 a);
-extern void func_021F4EDC(Work *p);
+extern void func_021F4EDC(u8 *p);
 extern void func_0203F8F4(u16 heapId);
 extern void func_02045088(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -59,7 +59,7 @@ void func_021F5074(Work *p)
     func_02043588();
     func_02043534(0);
     func_020435F4(0);
-    func_021F4EDC(p);
+    func_021F4EDC((u8 *)p);
     func_0203F8F4(0x48);
     func_02045088(0x48);
     {

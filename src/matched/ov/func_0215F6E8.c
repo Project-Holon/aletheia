@@ -36,9 +36,9 @@ struct Big;
 void *func_020120F4(const struct Ctx *p);
 u8 *func_02012944(void *p);
 u8 *func_02012ED0(struct Big *p);
-void func_0201213C(struct Ctx *p, u8 v);
+void func_0201213C(struct Ctx *p, u32 v);
 int func_0215F630(void *p);
-void func_0215F64C(void);
+int func_0215F64C(int a0, int *st, int *a2);
 void func_021666A4(int a0);
 
 void *func_0215F6E8(void *p)

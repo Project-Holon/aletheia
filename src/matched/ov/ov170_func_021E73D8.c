@@ -45,14 +45,14 @@ typedef struct {
 extern int func_021EBFEC(char *w, int i);
 extern void func_021ED108(char *w, int on);
 extern void func_021EC000(char *w, int i, int v);
-extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021DD2B4(int a, int b, int c, int d, int e);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
-extern int func_021DD718(unsigned char *p, void *mon);
+extern int func_021DD718(void **pp, void *mon);
 extern void func_021DD8A8(unsigned char *p, unsigned idx);
 extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
-extern void func_021DEFEC(unsigned char *p, int b);
-extern void func_021EA750(unsigned char *p);
+extern void func_021DEFEC(char *p, int b);
+extern void func_021EA750(char *p);
 extern void func_021EF68C(char *w);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -64,8 +64,8 @@ extern void func_020061E4(unsigned se);
 extern void func_021ED094(char *w, unsigned item);
 extern void func_021EBFA8(char *w, int i, int v);
 extern void func_021ED1C8(char *w);
-extern int func_021E8F50(unsigned char *p, int v);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
+extern int func_021E8F50(char *p, int v);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E1988(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -83,27 +83,27 @@ int func_021E73D8(unsigned char *p)
     func_021ED108(WORK(p), 0);
     func_021EC000(WORK(p), 10, 0);
     o = *(Entry **)(WORK(p) + 0x60);
-    item = func_021DD25C(p, o->idx, p[0x14], 6, 0);
+    item = func_021DD25C((void ***)p, o->idx, p[0x14], 6, 0);
     func_021DD2B4((int)p, o->idx, p[0x14], 6, ITEM(p));
-    if (func_021DD718(p, (void *)func_021DD2D0((void ***)p, p[0x14], o->idx)) == 1) {
+    if (func_021DD718((void **)p, (void *)func_021DD2D0((void ***)p, p[0x14], o->idx)) == 1) {
         func_021DD8A8(p, o->idx);
         func_021EC48C(p, p[0x14], o->idx, WIN(p, o->idx));
     }
-    func_021DEFEC(p, o->idx);
+    func_021DEFEC((char *)p, o->idx);
     ITEM(p) = item;
     func_021DD2B4((int)p, p[0x16], p[0x17], 6, ITEM(p));
     if (p[0x17] == 0xFF || p[0x17] == p[0x14]) {
-        if (func_021DD718(p, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16])) == 1) {
+        if (func_021DD718((void **)p, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16])) == 1) {
             func_021DD8A8(p, p[0x16]);
             func_021EC48C(p, p[0x14], p[0x16], WIN(p, p[0x16]));
         }
     }
     if (ITEM(p) == 0) {
         p[0x16] = o->idx;
-        func_021EA750(p);
+        func_021EA750((char *)p);
         func_021EF68C(WORK(p));
         func_020260E4(OBJ(p), p[0x16] - 0x1E);
-        func_021DEFEC(p, p[0x16]);
+        func_021DEFEC((char *)p, p[0x16]);
         func_020260F4(OBJ(p), 1);
         return 0x46;
     }
@@ -113,5 +113,5 @@ int func_021E73D8(unsigned char *p)
     func_021EBFA8(WORK(p), 10, 1);
     func_021EC000(WORK(p), 10, 1);
     func_021ED1C8(WORK(p));
-    return func_021E8FC0(p, func_021E1988, func_021E8F50(p, 0x4A));
+    return func_021E8FC0((char *)p, (int)func_021E1988, func_021E8F50((char *)p, 0x4A));
 }

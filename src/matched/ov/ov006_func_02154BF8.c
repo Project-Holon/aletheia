@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Desc;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void func_02154B08(void *obj_in, void *p, int a, int b);
-void func_021544F0(void);
+int func_021544F0(void *evt, u32 *state, char *obj);
 
 int func_02154BF8(int a, int b, int c)
 {

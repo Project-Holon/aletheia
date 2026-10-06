@@ -15,9 +15,10 @@
  *   sub_02024570  0x02024570  thumb
  */
 
-extern void sub_02024570(void *dst, void *src);
+struct Rec8;
+extern void sub_02024570(struct Rec8 *dst, const struct Rec8 *src);
 
 void func_02024134(char *a, void *b)
 {
-    sub_02024570(b, a + 0x10);
+    sub_02024570(b, (const struct Rec8 *)(a + 0x10));
 }

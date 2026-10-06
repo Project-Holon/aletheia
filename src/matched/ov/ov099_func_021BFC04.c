@@ -28,7 +28,7 @@ extern int func_021C23B8(int i);
 extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern void func_021BF280(void *a, void *b);
-extern void func_021C1BEC(char *);
+extern void func_021C1BEC(u8 *p);
 extern u32 func_020362DC(void);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021BA8EC(char *);
@@ -40,7 +40,7 @@ int func_021BFC04(char *p, int ret)
     func_021BDD48(p, s);
     func_021BDD54(p, s);
     func_021BF280(p, (void *)0x21);
-    func_021C1BEC(p);
+    func_021C1BEC((u8 *)p);
     if (func_020362DC() & 2) {
         func_021BAAB8(p, 0x11, 0);
         ((struct Obj07956 *)p)->f1CC = 0x11;

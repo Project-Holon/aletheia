@@ -24,9 +24,9 @@
  */
 extern int func_021DD684(unsigned char *,unsigned);
 extern void func_021DD8A8(unsigned char *,unsigned);
-extern void func_021DD314(unsigned char *,int,int);
-extern void func_021EDAB0(unsigned char *,unsigned);
-extern void func_021EDB34(unsigned char *,unsigned);
+extern void func_021DD314(char **p, int a, unsigned b);
+extern void func_021EDAB0(char *p, int i);
+extern void func_021EDB34(char *p, int a);
 extern void *func_0201AB28(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
 typedef unsigned int   u32;
@@ -49,7 +49,7 @@ void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
         func_0200CFA0(func_0200CA1C((*(void ***)p)[0]),m);
     }
     func_0200752C((*(void ***)p)[1],box,func_020185F4(m));
-    func_021DD314(p,p[0x14],a);
-    func_021EDAB0(p,box);
-    func_021EDB34(p,box);
+    func_021DD314((char **)p,p[0x14],a);
+    func_021EDAB0((char *)p,box);
+    func_021EDB34((char *)p,box);
 }

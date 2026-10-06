@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0201034C(int a0, int a1, int a2, int a3){ int t0 = func_020053EC(); int t1 = func_02034F5C((int)t0); int t2 = func_02005BC0((int)t1); int t3 = func_020065FC((int)t2); return t3; }
+int func_0201034C(void){ int t0 = func_020053EC(); int t1 = func_02034F5C((int)t0); int t2 = func_02005BC0((int)t1); int t3 = func_020065FC((int)t2); return t3; }

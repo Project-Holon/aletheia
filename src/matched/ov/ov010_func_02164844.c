@@ -32,7 +32,7 @@ extern u16 func_021648CC(int n, int k);
 struct ArcFile;
 extern void func_0204944C(struct ArcFile *a, u32 b, u32 c, u32 d, void *e);
 
-u8 func_02164844(u8 *a, u32 b, int c, int d)
+u8 func_02164844(u8 *a, u32 b, u8 c, u8 d)
 {
     u32 t = func_021648A8(a, b);
     u8 out;

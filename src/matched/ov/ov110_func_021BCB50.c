@@ -47,9 +47,9 @@ typedef struct Object {
 } Object;
 extern void func_021BCAD8(Object *);
 extern void *func_02045EC0(struct MsgBank *,u32);
-extern u32 func_02027FEC(u32,u32,u32,u8,u8,u16);
+extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_020282AC(struct T *,u16 *,u32,u32,u16);
-extern void func_021BCD44(Object *);
+extern void func_021BCD44(u8 *p);
 extern void func_020409B4(u32);
 extern u32 func_021BF7C4(u8 *);
 extern u32 func_021BF6D8(u8 *);
@@ -66,10 +66,10 @@ void func_021BCB50(Object *p)
         p->records[i].s=func_02045EC0(p->bank,i+14);
         p->records[i].x=0x39e3;
         p->records[i].flag=(i==1);
-        p->menus[i]=(struct T *)func_02027FEC((u32)p->windows[i],(u32)&records[i],23,i*3+18,9,42);
+        p->menus[i]=(struct T *)func_02027FEC((u32)p->windows[i],(u32)&records[i],23,(u8)(i*3+18),9,42);
         func_020282AC(p->menus[i],p->windows[i],8,0x3545,0x7b2c);
     }
-    func_021BCD44(p);
+    func_021BCD44((u8 *)p);
     func_020409B4(0);
     if(func_021BF7C4(p->f04)==0 && func_021BF6D8(p->f04)==2) {
         func_0204B3DC(p->items[0],1);

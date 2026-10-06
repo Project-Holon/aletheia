@@ -33,12 +33,12 @@ struct CharBuf;
 struct Obj;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
-extern void func_020206C0(void *p);
+extern void func_020206C0(struct Obj *obj);
 
 void func_02020234(u8 *p)
 {
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj08776 *)p)->fC)),
                   ((struct Ctl *)p)->lo4);
     func_0202055C((struct Obj *)p, ((struct Obj08776 *)p)->f40, 0, ((struct Obj08776 *)p)->f12, 1);
-    func_020206C0(p);
+    func_020206C0((struct Obj *)p);
 }

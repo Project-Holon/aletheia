@@ -13,11 +13,13 @@
  *   func_021D57B8 0x021D57B8 thumb ov123
  */
 #include "../include/Obj22977.h"
-extern void func_021D6EE0(char *, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D885C(char *);
 extern void func_021D57B8(char *, int);
 void func_021D88A0(char *p)
 {
     func_021D57B8(*(char * *)&((struct Obj22977 *)p)->f18, 19);
-    func_021D6EE0(p, (int)func_021D885C, 0x817);
+    func_021D6EE0((u8 *)p, (int)func_021D885C, 0x817);
 }

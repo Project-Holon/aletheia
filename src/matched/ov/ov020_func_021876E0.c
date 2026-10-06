@@ -26,7 +26,7 @@ extern void func_02187A10(char *o, int k);
 extern void func_02187CFC(char *o);
 extern u32 func_020362DC(void);
 extern u32 func_02187D20(char *p);
-extern void func_02187D28(char *o);
+extern void func_02187D28(u32 *p);
 extern void func_02187CCC(char *o, int *s);
 
 int func_021876E0(void *unused, int *s, char *o)
@@ -38,7 +38,7 @@ int func_021876E0(void *unused, int *s, char *o)
     case 4: func_02187A10(o, *s); break;
     case 5: func_02187CFC(o); return 1;
     }
-    if (func_020362DC() & 1) { if (func_02187D20(o) == 0) func_02187D28(o); }
+    if (func_020362DC() & 1) { if (func_02187D20(o) == 0) func_02187D28((u32 *)o); }
     ((struct Obj12549 *)o)->f18 = ((struct Obj12549 *)o)->f18 + 1;
     func_02187CCC(o, s);
     return 0;

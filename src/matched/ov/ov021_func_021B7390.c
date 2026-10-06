@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 
 extern u16 d_021D99D4[];
 
-int func_021B7390(u8 a, u8 b)
+int func_021B7390(u32 a, int b)
 {
     u32 i;
     u16 k;

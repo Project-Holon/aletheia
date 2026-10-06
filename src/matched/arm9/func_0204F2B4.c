@@ -13,4 +13,4 @@
 #include "../include/Obj16126.h"
 #include "../include/Obj16127.h"
 
-void func_0204F2B4(int p0, int p1, int p2, int p3){ ((struct Obj16127 *)p2)->f0 = (int)*(int *)(((p1 * 0x28 + ((struct Obj16126 *)p0)->f4) + 12)); }
+void func_0204F2B4(int p0, int p1, int p2){ ((struct Obj16127 *)p2)->f0 = (int)*(int *)(((p1 * 0x28 + ((struct Obj16126 *)p0)->f4) + 12)); }

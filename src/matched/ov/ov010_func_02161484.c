@@ -34,7 +34,7 @@ typedef struct Ctx {
     u32 f68;
 } Ctx;
 extern u8 ov136_id[];
-extern void *func_020120F4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 typedef signed int     s32;
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
@@ -46,7 +46,7 @@ int func_02161484(Ctx *c, void *p)
 {
     void *sv;
     u32 v;
-    sv = func_020120F4(*c->f18);
+    sv = func_020120F4((const struct Ctx *)(*c->f18));
     if (c->f08 == 0) {
         if (c->f68 == 0 || c->f68 == 2) {
             if (func_021C3E00(p) == 1) {

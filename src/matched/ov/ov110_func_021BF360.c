@@ -15,12 +15,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021BEDD0(void *);
-int func_021BF360(u8 *p) {
+extern unsigned func_021BEDD0(u8 *p);
+u32 func_021BF360(u8 *p) {
     if (((struct Obj01923 *)p)->f0<((struct Obj01923 *)p)->f2) {
         if (((struct Obj01923 *)p)->f0+6<=((struct Obj01923 *)p)->f2) { ((struct Obj01923 *)p)->f8=6; ((struct Obj01923 *)p)->f0+=6; }
         else { ((struct Obj01923 *)p)->f8=((struct Obj01923 *)p)->f2-((struct Obj01923 *)p)->f0; ((struct Obj01923 *)p)->f0=((struct Obj01923 *)p)->f2; }
-        if(func_021BEDD0(p)<((struct Obj01923 *)p)->f4-2) return 2;
+        if((int)func_021BEDD0(p)<((struct Obj01923 *)p)->f4-2) return 2;
         p[6]=0; return 3;
     }
     return 4;

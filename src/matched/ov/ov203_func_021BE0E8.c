@@ -17,4 +17,4 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 extern void func_0204A648(void);
-void func_021BE0E8(void) { func_0204A648(); }
+void func_021BE0E8(u8 *a0) { func_0204A648(); }

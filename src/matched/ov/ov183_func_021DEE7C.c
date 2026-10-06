@@ -79,17 +79,22 @@ struct Pair { u32 x,y; };
 struct Data { u8 pad[0x1718]; int count; u32 selected; };
 extern const char d_021E3964[];
 extern void func_02082BCC(void *,int,int),func_02034714(const char *,u32,const char *);
-extern void func_021FF54C(void *,int,void *);
-extern int func_021FF648(char *),func_021FF72C(void *,int *);
-extern int func_021FF6DC(void *,void *,int,void *),func_021FF704(void *,void *,int,void *),func_021FF6B4(void *,void *,int,void *);
-extern void func_021FD860(int,int,struct Pair *),func_021FD170(void *,int,int);
-extern u64 func_0200B98C(void *,int,int);
-extern void func_021FD73C(int *,int),func_021DF18C(void);
+extern void func_021FF54C(char *p, int kind, const int *values);
+extern int func_021FF648(char *);
+extern int func_021FF72C(char *p, int *out);
+extern int func_021FF6DC(char *p, void *buffer, int count, int *out);
+extern int func_021FF704(char *p, void *buffer, int count, int *out);
+extern int func_021FF6B4(char *p, void *buffer, int count, int *out);
+extern void func_021FD860(int,int,struct Pair *);
+extern void func_021FD170(char *p, char *q, void *text);
+extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern void func_021FD73C(int *,int);
+extern void func_021DF18C(int *p, int *state, char *q);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *,u32 *);
 extern void func_020061E4(u32),func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *),func_021FD744(int);
-extern void func_021F9BA0(void *);
+extern void func_021F9BA0(unsigned *ctx);
 void func_021DEE7C(int *task,u32 *state,char *p)
 {
     switch(*state) {
@@ -106,7 +111,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         }
         func_02082BCC(*(void **)(*(char **)(p+0x108)+0x1c),0,0x1720);
         *(u32 *)(p+0xfc)=0;
-        func_021FF54C(*(void **)(*(char **)(p+0x108)+0x18),mode,&initial);
+        func_021FF54C(*(void **)(*(char **)(p+0x108)+0x18),mode,(const int *)(&initial));
         *state=1; break;
     }
     case 1:
@@ -130,16 +135,16 @@ void func_021DEE7C(int *task,u32 *state,char *p)
             }
             if(success) {
                 for(i=0;i<(*(struct Data **)(*(char **)(p+0x108)+0x1c))->count;i++) {
-                    *(u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i+0x16f8)=(u8)func_0200B98C(*(char **)(*(char **)(p+0x108)+0x1c)+i*0xc4+0x80,5,0);
+                    *(u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i+0x16f8)=(u8)func_0200B98C((u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i*0xc4+0x80),5,0);
                 }
                 func_021FD73C(task,(int)func_021DF18C);
             } else {
-                if(**(u32 **)(p+0x108)==3) func_021FD170(*(void **)(p+0x24),*(int *)(*(char **)(p+0x108)+0x10),276);
-                else func_021FD170(*(void **)(p+0x24),*(int *)(*(char **)(p+0x108)+0x10),339);
+                if(**(u32 **)(p+0x108)==3) func_021FD170(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)276);
+                else func_021FD170(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)339);
                 *state=3;
             }
         } else {
-            func_021FD170(*(void **)(p+0x24),*(int *)(*(char **)(p+0x108)+0x10),message);
+            func_021FD170(*(void **)(p+0x24),(char *)(*(int *)(*(char **)(p+0x108)+0x10)),(void *)message);
             *state=3;
         } break;
     }

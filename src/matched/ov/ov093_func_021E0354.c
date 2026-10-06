@@ -41,14 +41,15 @@ struct Node {
 struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x84]; };
 extern struct NodeList data_021F3CB0;
 extern struct Node *func_021D732C(int id, int sub);
-extern u16 func_021D70A8(void *p);
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
 extern struct Node *func_021D7360(struct Node *n);
 int func_021E0354(int sub, int key, u8 *found)
 {
     struct Node *n;
     u32 i = 0;
     for (n = func_021D732C(0, sub); n != 0; n = func_021D7360(n)) {
-        if (key == func_021D70A8(n)) {
+        if (key == func_021D70A8((struct QQ *)n)) {
             *found = 1;
             return 0;
         }

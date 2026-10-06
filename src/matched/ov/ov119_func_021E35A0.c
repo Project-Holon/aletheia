@@ -43,10 +43,10 @@ extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *h);
 extern void func_0215642C(int);
 extern void *func_02017270(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
-extern void func_020173B4(void *o);
-extern void func_02015CAC(void *o, Vec *v);
+extern int func_020173B4(int a0);
+extern void func_02015CAC(void *p, u32 *src);
 extern void func_02015FF0(char *p, int v);
-extern void func_021E33FC(void *o, Vec *v, int side, void *mon);
+extern void func_021E33FC(void *p0, int *dir, int p2, void *mon);
 void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
 {
     Vec v = data_021E7B00;
@@ -68,8 +68,8 @@ void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
         p->obj[idx] = func_02017270(p->res, mon, 1, t.v[idx], -0x1C000, 0);
     if (p->mode == 2)
         func_0215642C(0);
-    func_020173B4(p->obj[idx]);
-    func_02015CAC(p->obj[idx], &v);
+    func_020173B4((int)p->obj[idx]);
+    func_02015CAC(p->obj[idx], (u32 *)(&v));
     func_02015FF0(p->obj[idx], 1);
-    func_021E33FC(p->obj[idx], &v, side, mon);
+    func_021E33FC(p->obj[idx], (int *)(&v), side, mon);
 }

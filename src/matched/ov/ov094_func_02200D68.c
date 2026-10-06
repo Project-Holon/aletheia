@@ -21,7 +21,7 @@ typedef unsigned char u8;
 extern int func_022019F4(char *p, int key);
 extern void func_021F89BC(void *o);
 extern int func_021F9260(void *m, int *out);
-extern void func_02015FBC(char *p, u8 v);
+extern void func_02015FBC(char *p, int v);
 
 void func_02200D68(void *o, char *q)
 {
@@ -46,7 +46,7 @@ void func_02200D68(void *o, char *q)
         return;
     }
     r = func_021F9260(q + 0x14, (int *)(q + 8));
-    func_02015FBC(*(char **)(e + off), ((struct Obj06316 *)q)->f8 >> 12);
+    func_02015FBC(*(char **)(e + off), (u8)(((struct Obj06316 *)q)->f8 >> 12));
     if (r == 1)
         func_021F89BC(o);
 }

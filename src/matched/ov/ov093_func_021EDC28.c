@@ -41,7 +41,7 @@ extern u8 *func_021B98AC(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 func_021D5440(u8 *p);
 extern void func_021EDF4C(struct W *w);
-extern void func_021EDE54(struct W *w);
+extern void func_021EDE54(u8 *p);
 extern void func_021F8AE8(int a, u32 b);
 
 void func_021EDC28(struct W *w, u8 a1, int flag)
@@ -62,7 +62,7 @@ void func_021EDC28(struct W *w, u8 a1, int flag)
     if (h != w->f08 || k != w->f0c) {
         w->f08 = h;
         w->f0c = k;
-        func_021EDE54(w);
+        func_021EDE54((u8 *)w);
     }
     w->f22_1 = (u8)flag;
     w->f0d = 0;

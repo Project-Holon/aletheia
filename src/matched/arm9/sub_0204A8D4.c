@@ -73,20 +73,22 @@ struct Sys {
 
 extern struct Sys *g_02146A74;
 
-extern int  sub_02034640(struct Handle *h);
-extern void sub_020346B8(void *owner, struct Handle *h);
+struct Sentinel;
+extern int sub_02034640(struct Sentinel *p);
+struct Owner;
+extern void sub_020346B8(struct Owner *owner, struct Sentinel *p);
 extern void sub_020307B0(void *p);
 
 void sub_0204A8D4(u32 i)
 {
     void *payload;
 
-    if (sub_02034640(&g_02146A74->slots[i].unk_2c) == 0) {
-        sub_020346B8(g_02146A74->unk_104, &g_02146A74->slots[i].unk_2c);
+    if (sub_02034640((struct Sentinel *)(&g_02146A74->slots[i].unk_2c)) == 0) {
+        sub_020346B8(g_02146A74->unk_104, (struct Sentinel *)(&g_02146A74->slots[i].unk_2c));
     }
 
-    if (sub_02034640(&g_02146A74->slots[i].unk_34) == 0) {
-        sub_020346B8(g_02146A74->unk_108, &g_02146A74->slots[i].unk_34);
+    if (sub_02034640((struct Sentinel *)(&g_02146A74->slots[i].unk_34)) == 0) {
+        sub_020346B8(g_02146A74->unk_108, (struct Sentinel *)(&g_02146A74->slots[i].unk_34));
     }
 
     payload = g_02146A74->slots[i].unk_24;

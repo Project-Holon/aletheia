@@ -66,8 +66,8 @@ typedef struct GPIConnection {
     GPIBuffer updateuiBuffer;
 } GPIConnection;
 
-extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
-extern int func_0218949C(void **connection, GPIBuffer *outputBuffer, int num);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
 extern int func_0218998C(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
 extern int func_0217EB9C(int sock, int how);
 extern int func_0217EB2C(int sock);
@@ -98,9 +98,9 @@ void func_0218B760(void **connection, int tellServer)
 
     if (iconnection->connectState != 0) {
         if (tellServer && iconnection->connectState == 3) {
-            func_0218946C(connection, &iconnection->outputBuffer, g_021A4A80);
-            func_0218949C(connection, &iconnection->outputBuffer, iconnection->sessKey);
-            func_0218946C(connection, &iconnection->outputBuffer, g_021A495C);
+            func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4A80);
+            func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->sessKey);
+            func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A495C);
         }
         func_0218998C(connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
         if (iconnection->cmSocket != -1) {

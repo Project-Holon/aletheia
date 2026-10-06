@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern void *func_021D6064(unsigned char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern int func_021D62F4(void *,void *);
+extern int func_021D62F4(char *p, void *q);
 int func_021D5BAC(unsigned char *p,int direction,unsigned short *out) {
  int result=0;
  int old;
@@ -30,7 +30,7 @@ int func_021D5BAC(unsigned char *p,int direction,unsigned short *out) {
  m=func_021D6064(p);
  if(func_02017E88(m,169,0)!=0) {
  if(func_02017E88(m,76,0)!=1 || ((struct Obj03284 *)p)->f58==0) {
- if(((struct Obj03284 *)p)->f58!=2 || func_021D62F4(p,m)!=0) {done=1;result=1;}
+ if(((struct Obj03284 *)p)->f58!=2 || func_021D62F4((char *)p,m)!=0) {done=1;result=1;}
  }
  }
  } while(done==0);

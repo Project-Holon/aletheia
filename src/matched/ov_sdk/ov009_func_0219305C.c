@@ -41,14 +41,17 @@ typedef struct {
     int result;
 } GPRegisterUniqueNickResponseArg;
 
-extern int func_0219329C(void **connection, char *input, int callErrorCallback);
-extern int func_020949F4(const char *, const char *, unsigned int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct GPIOperation;
+extern int func_0219329C(int *connection, const char *input, int fatal);
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(int *p, int b);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
-extern void func_0218E240(void **connection, GPIOperation *operation);
+extern void func_0218E240(void **connection, struct GPIOperation *operation);
 extern char g_021A56C8[];
 extern char g_021A56D0[];
 extern char g_021A5700[];
@@ -59,9 +62,9 @@ int func_0219305C(void **connection, GPIOperation *operation, char *input)
     GPRegisterUniqueNickResponseArg *arg;
     int __result__;
 
-    if (func_0219329C(connection, input, 1))
+    if (func_0219329C((int *)connection, input, 1))
         return 4;
-    if (func_020949F4(input, g_021A56C8, 4) != 0) {
+    if (func_020949F4((const u8 *)input, (const u8 *)g_021A56C8, 4) != 0) {
         func_02193710((int *)connection, 1, (int)g_021A56D0);
         __result__ = 3;
         func_02189D78((int *)connection, __result__, 1);
@@ -79,6 +82,6 @@ int func_0219305C(void **connection, GPIOperation *operation, char *input)
         if (__result__ != 0)
             return __result__;
     }
-    func_0218E240(connection, operation);
+    func_0218E240(connection, (struct GPIOperation *)operation);
     return 0;
 }

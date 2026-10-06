@@ -123,10 +123,11 @@ extern void func_02048AD0(struct Light *l);
 extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
 extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
-extern void func_0204784C(void *mdl, u16 i, void *q);
+struct Arg;
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 extern void func_02047964(void);
 extern void func_020479D8(void);
-extern void func_02047A60(void *mdl, Transform *t);
+extern void func_02047A60(void *a0, struct Arg *a1);
 extern void func_02047970(void);
 extern Counter d_021C8E80;
 
@@ -151,11 +152,11 @@ void func_021C7830(Work *p)
     n = func_0204779C(mdl);
     func_02047828(mdl, 0, &out);
     for (; i < n; i++) {
-        func_0204784C(mdl, i, &p->f13C);
+        func_0204784C(mdl, (u16)i, &p->f13C);
     }
     func_02047964();
     func_020479D8();
-    func_02047A60((void *)func_02048A18(p->fF8, p->fFC), &t);
+    func_02047A60((void *)func_02048A18(p->fF8, p->fFC), (struct Arg *)(&t));
     func_02047970();
     d_021C8E80.f0 += d_021C8E80.f4;
 }

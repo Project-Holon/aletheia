@@ -53,14 +53,15 @@ struct Cmd {
     u32 arg2;   /* 0x08 */
 };
 
-extern void *func_0204D410(struct Ctl *c);
+struct Obj;
+extern void *func_0204D410(struct Obj *o);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 struct CellAnim;
 extern void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 
 void func_0204D768(struct Ctl *c, const struct Cmd *cmd)
 {
-    void *h = func_0204D410(c);
+    void *h = func_0204D410((struct Obj *)c);
 
     switch (cmd->op) {
     case 0:

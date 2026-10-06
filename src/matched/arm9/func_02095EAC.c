@@ -36,7 +36,7 @@
  *   g_02153FAC     0x02153FAC  data
  */
 typedef unsigned int u32;
-extern u32 func_02095B3C(u32 mode, u32 lim, u32 cb, u32 *buf, u32 *len, u32 *sign, u32 *err);
+extern u32 func_02095B3C(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
 extern int func_020946D8(u32 *p, u32 a1, u32 a2);
 extern u32 g_02153FAC;
 
@@ -50,7 +50,7 @@ u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)
 
     buf[0] = a0;
     buf[1] = 0;
-    r = func_02095B3C(mode, 0x7FFFFFFFu, (u32)func_020946D8, buf, &len, &sign, &err);
+    r = func_02095B3C(mode, 0x7FFFFFFFu, (int (*)(void *, int,  int))((u32)func_020946D8), buf, (int *)(&len), (int *)(&sign), (int *)(&err));
     if (a1 != 0)
         *a1 = a0 + len;
     if (err != 0) {

@@ -17,5 +17,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
-extern void func_02047910(int,u16,int); extern void func_02047828(int,int,int *); extern void func_02047A60(int,void *);
-void func_021B7F04(u8 *p) { int i,x,y; if(((struct Obj06366 *)p)->f58) { for(i=0;i<2;i++) func_02047910(((struct Obj06366 *)p)->f10,i,4096); func_02047828(((struct Obj06366 *)p)->f10,0,&x); y=0; if(x==0)y=1; ((struct Obj06366 *)p)->f5C=y; func_02047A60(((struct Obj06366 *)p)->f10,p+0x1c); } }
+extern int func_02047910(void *a, int idx, int amount); extern void func_02047828(int,int,int *); extern void func_02047A60(int,void *);
+void func_021B7F04(u8 *p) { int i,x,y; if(((struct Obj06366 *)p)->f58) { for(i=0;i<2;i++) func_02047910((void *)(((struct Obj06366 *)p)->f10),(u16)i,4096); func_02047828(((struct Obj06366 *)p)->f10,0,&x); y=0; if(x==0)y=1; ((struct Obj06366 *)p)->f5C=y; func_02047A60(((struct Obj06366 *)p)->f10,p+0x1c); } }

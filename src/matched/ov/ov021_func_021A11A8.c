@@ -42,7 +42,8 @@ struct Rec44;
 extern u16 func_02012AC8(const struct Rec44 *);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
-extern void func_0203FCA0(u32, const void *, u32);
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32, u32);
 extern void func_020414AC(u32);
 extern void func_0204152C(int channel, u16 val);
@@ -63,7 +64,7 @@ void ov021_func_021A11A8(u32 *p, u32 x)
     f = 0;
     if (x == 0 || x - 2 <= 4)
         f = 1;
-    func_0203FCA0(4, d_021D8708, 0);
+    func_0203FCA0(4, (const struct BgTemplate *)d_021D8708, 0);
     func_02040588(4, 1);
     func_020414AC(4);
     func_0204152C(4, 0);

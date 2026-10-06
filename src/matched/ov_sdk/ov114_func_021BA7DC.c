@@ -28,8 +28,9 @@ typedef struct {
     int f20;
 } BgnEnd;
 
-extern void func_021BA87C(BgnEnd *info_p, int sslError);
-extern void func_021BA874(BgnEnd *info_p, int error);
+typedef unsigned char  u8;
+extern void func_021BA87C(u8 *p, int v);
+extern void func_021BA874(u8 *p, int v);
 
 void func_021BA7DC(BgnEnd *info_p)
 {
@@ -37,8 +38,8 @@ void func_021BA7DC(BgnEnd *info_p)
     info_p->f4 = 0;
     info_p->f8 = 0;
     info_p->fc = -1;
-    func_021BA87C(info_p, 0);
-    func_021BA874(info_p, 0);
+    func_021BA87C((u8 *)info_p, 0);
+    func_021BA874((u8 *)info_p, 0);
     info_p->f18 = 0;
     info_p->f1c = 0;
     info_p->f20 = 0;

@@ -17,9 +17,10 @@
 
 typedef unsigned char u8;
 extern char *func_021B9AEC(char *, int);
-extern void func_021BB840(char *, int, int, int);
-extern void func_021BB848(char *, char *, u8);
-void func_021BAB10(char *p, int c, u8 d)
+struct Q4;
+extern void func_021BB840(struct Q4 *p, int a, int b, int c);
+extern void func_021BB848(u8 *p, void *q, u8 v);
+void func_021BAB10(char *p, u8 c, u8 d)
 {
  char *x;
  unsigned int q;
@@ -27,6 +28,6 @@ void func_021BAB10(char *p, int c, u8 d)
  x = func_021B9AEC(*(char * *)&((struct Obj21024 *)p)->f10, c);
  q = (unsigned int)p + 0x14U;
  off = (unsigned int)c * 12U;
- func_021BB840((char *)(q + off), c, 0, 0);
- func_021BB848((char *)(q + off), x, d);
+ func_021BB840((struct Q4 *)(q + off), c, 0, 0);
+ func_021BB848((u8 *)(q + off), x, d);
 }

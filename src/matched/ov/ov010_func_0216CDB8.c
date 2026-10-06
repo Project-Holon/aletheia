@@ -20,10 +20,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0216D95C(u8 *p, u32 v);
+extern void func_0216D95C(unsigned int *p, unsigned int v);
 
 void func_0216CDB8(u8 *p, u32 v)
 {
     ((struct Obj19116 *)p)->f40 = v;
-    func_0216D95C(p, 1);
+    func_0216D95C((unsigned int *)p, 1);
 }

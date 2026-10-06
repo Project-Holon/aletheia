@@ -57,10 +57,10 @@ extern void func_021F3B44(int *a, int *out, int x, int y);
 extern void *func_02188C7C(unsigned char *p);
 extern int func_0216DD1C(void *it, int *cur, int *v);
 extern int func_0216D588(int a);
-extern void func_021F3B88(int *a, int *out, int c);
+extern void func_021F3B88(int *a, u32 *out, int c);
 extern int func_021F3724(int a);
 extern int func_021F3718(int a);
-extern void func_021F3CCC(int *a, int *out, int x, int y, int z);
+extern void func_021F3CCC(int *a, unsigned *b, int x, int y, int z);
 extern char d_021F40A0[];
 
 void func_021F3730(int a)
@@ -106,7 +106,7 @@ void func_021F3730(int a)
         it = func_02188C7C((void *)a);
         while (func_0216DD1C(it, &cur, &v)) {
             if (func_0216D588(cur) == 0xfd) {
-                func_021F3B88(q, q + 3 + i * 2, cur);
+                func_021F3B88(q, (u32 *)(q + 3 + i * 2), cur);
                 i++;
                 if (i >= 12)
                     break;
@@ -118,7 +118,7 @@ void func_021F3730(int a)
     i = 0;
     if (i < cnt)
         for (; i < cnt; i++) {
-            func_021F3CCC(q, q + 0x1b + i, e[0], e[1], e[2]);
+            func_021F3CCC(q, (unsigned int *)(q + 0x1b + i), e[0], e[1], e[2]);
             e += 3;
         }
     *p = 1;

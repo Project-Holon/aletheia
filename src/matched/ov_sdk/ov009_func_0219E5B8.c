@@ -46,7 +46,8 @@ extern char g_021A8164[];
 extern char g_021A81AC[];
 
 extern int func_0219F978(char *buf, int len);
-extern unsigned int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_0209ABEC(const char *s1, const char *s2, unsigned int n);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0219D114(char *keyname);
@@ -72,7 +73,7 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
     k = data;
     data += dlen;
     len -= dlen;
-    if (func_0209ABEC(g_021A816C, k, func_0209477C(g_021A816C)) != 0)
+    if (func_0209ABEC(g_021A816C, k, func_0209477C((const u8 *)g_021A816C)) != 0)
         return;
 
     if (len < 1)

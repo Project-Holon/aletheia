@@ -34,7 +34,8 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_02008468(void);
 extern u32 func_020173E8(void);
 extern void func_02082D44(void *,void *,u32);
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
 extern const char d_021FDE5C[];
 u32 func_021FD14C(Owner *p)

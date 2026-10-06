@@ -36,8 +36,10 @@
  */
 
 extern void *func_021897BC(int, int);
-extern void *func_02188C58(int);
-extern void *func_0218EC2C(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_02188C58(void *p);
+extern u32 func_0218EC2C(u8 *p);
 extern void func_02048AE8(void *, void *);
 extern void func_02048B30(void *, void *);
 extern void func_0202B93C(int, void *, void *);
@@ -54,7 +56,7 @@ void func_021F373C(int a)
     int w[3];
 
     p = (char *)func_021897BC(a, 0);
-    cam = func_0218EC2C(func_02188C58(a));
+    cam = (void *)func_0218EC2C(func_02188C58((void *)a));
     func_02048AE8(cam, v);
     func_02048B30(cam, w);
     func_0202B93C(*(int *)(p + 4), v, w);

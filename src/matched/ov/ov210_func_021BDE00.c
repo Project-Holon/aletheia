@@ -41,12 +41,12 @@ extern void func_021BE290(u8 *p, int index);
 extern void func_021BF728(u8 *p, int a);
 extern void func_021BEDB8(int p, int i, int v);
 extern u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c);
-extern void func_021BF81C(u8 *p);
-extern void func_021BFB24(u8 *p);
-extern void func_021BF658(u8 *p);
-extern int func_021C01C0(u8 *p);
+extern void func_021BF81C(char *p);
+extern void func_021BFB24(char *ctx);
+extern void func_021BF658(char *p);
+extern int func_021C01C0(char *ctx);
 extern void func_021BE2DC(u8 *p);
-extern void func_021BF6E0(u8 *p);
+extern void func_021BF6E0(char *p);
 
 u32 func_021BDE00(u8 *p)
 {
@@ -95,16 +95,16 @@ u32 func_021BDE00(u8 *p)
         return func_021BE2F4(p, 1, 5, 22);
     case (u32)-3:
     case (u32)-2:
-        func_021BF658(p);
-        func_021BF81C(p);
-        func_021BFB24(p);
+        func_021BF658((char *)p);
+        func_021BF81C((char *)p);
+        func_021BFB24((char *)p);
         p[0x2c1] = 0x39;
         ((struct Obj00085 *)p)->f14 = 1;
         ((struct Obj00085 *)p)->f18 = ret;
         ret = 0x18;
         break;
     case (u32)-1:
-        r5 = func_021C01C0(p);
+        r5 = func_021C01C0((char *)p);
         switch (r5) {
         case 0:
             func_020061E4(0x551);
@@ -129,6 +129,6 @@ u32 func_021BDE00(u8 *p)
         }
         break;
     }
-    func_021BF6E0(p);
+    func_021BF6E0((char *)p);
     return ret;
 }

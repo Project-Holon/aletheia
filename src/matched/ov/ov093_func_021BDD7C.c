@@ -31,7 +31,7 @@ extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021BD1D0(u8 *p, u32 n);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021BDE18(u8 *p, u8 *a);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C5108(u8 *p, u8 *a, int z);
 extern void func_021D64F0(u8 *a);
 extern void func_021BDE08(u8 *p, u32 n);
@@ -45,7 +45,7 @@ void func_021BDD7C(u8 *p, u8 *a, u32 c)
     func_021BD1D0(p, n);
     s = func_021CC8D8(p + 0x1D74, 3327);
     func_021BDE18(p, a);
-    func_021CC95C(p + 0x1D74, s, 3329);
+    func_021CC95C((u32 *)(p + 0x1D74), s, 3329);
     func_021C5108(p, a, 0);
     func_021D64F0(a);
     func_021CD4B0(((struct Obj00003 *)p)->fC, 0x20, func_021D5440(a));

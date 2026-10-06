@@ -58,7 +58,8 @@ struct SndCmd {
     u16 unk0A;
 };
 
-extern void func_02028E0C(struct Sys *s, struct SndCmd *cmd);
+struct Cmd;
+extern void func_02028E0C(struct Sys *s, struct Cmd *cmd);
 
 void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d)
 {
@@ -68,5 +69,5 @@ void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d)
     cmd.unk04 = b;
     cmd.unk08 = c;
     cmd.unk0A = d;
-    func_02028E0C(s, &cmd);
+    func_02028E0C(s, (struct Cmd *)(&cmd));
 }

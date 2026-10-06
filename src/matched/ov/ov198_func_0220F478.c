@@ -21,7 +21,8 @@
 typedef unsigned char u8;
 extern int (*const d_0221221C[])(u8 *);
 extern void func_02211944(u8 **);
-extern int func_02210420(void *,u8 *);
+struct Node;
+extern int func_02210420(struct Node *task, char *p);
 struct Tcbl;
 extern void func_020310C4(struct Tcbl *p);
 extern void func_0220F1A4(u8 *);
@@ -35,7 +36,7 @@ void func_0220F478(void *task,u8 *p)
     }
     if (((struct Obj01006 *)p)->f2178!=33)
         ((struct Obj01006 *)p)->f2178=d_0221221C[*(int *)(p+0x2178)](p);
-    if (((struct Obj01006 *)p)->f2178==33 && func_02210420(task,p)==1) return;
+    if (((struct Obj01006 *)p)->f2178==33 && func_02210420(task,(char *)p)==1) return;
     func_020310C4(((struct Obj01006 *)p)->f1D4);
     func_0220F1A4(p);
     func_0220B7AC(p);

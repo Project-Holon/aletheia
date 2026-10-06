@@ -33,8 +33,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 func_021BD0C0(char *p);
-extern void func_021BCAB0(char *p);
+extern u8 func_021BD0C0(u8 *p);
+extern void func_021BCAB0(int *p);
 extern void func_021BD0D0(char *p);
 extern void func_020414C4(u32 idx);
 extern void func_020414EC(u32 i);
@@ -58,9 +58,9 @@ void func_021BCC80(char *p)
 {
     u32 w;
 
-    switch (func_021BD0C0(p)) {
+    switch (func_021BD0C0((u8 *)p)) {
     case 0:
-        func_021BCAB0(p);
+        func_021BCAB0((int *)p);
         func_021BD0D0(p);
         break;
     case 1:

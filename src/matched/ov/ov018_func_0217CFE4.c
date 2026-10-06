@@ -53,9 +53,10 @@ u32 func_02012138(const struct Ctx *p);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u32 func_02026454(void *obj);
 u32 func_02026474(void *obj);
-void func_0217EFCC(u8 *w, u8 *p);
+struct State;
+void func_0217EFCC(char *p, char *q);
 void *func_020490F4(unsigned int id, u16 heap);
-void func_0217D624(u8 *w);
+void func_0217D624(struct State *o);
 void func_0217D720(u8 *w, void *bg);
 void func_0217D890(u8 *w);
 void func_0217D918(u8 *w, void *bg);
@@ -110,10 +111,10 @@ u8 *func_0217CFE4(void *a)
     if (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 1) {
         p = 0;
     }
-    func_0217EFCC(w, p);
+    func_0217EFCC((char *)w, (char *)p);
     w[0x11E] = w[0xDA];
     bg = func_020490F4(0x24, 0x15);
-    func_0217D624(w);
+    func_0217D624((struct State *)w);
     func_0217D720(w, bg);
     func_0217D890(w);
     func_0217D918(w, bg);

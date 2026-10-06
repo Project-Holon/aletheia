@@ -48,15 +48,15 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 extern void func_021BA148(u8 *p, u8 *q);
 extern void func_021BA124(u8 *p, u8 *q);
-extern void func_021BA22C(u8 *, const Pair *);
+extern void func_021BA22C(u8 *p, const u8 *src);
 extern void func_021F4E8C(int, int, Vec *);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021BA244(u8 *p, u32 value);
 extern void *func_021BA184(char *p);
 extern u8 *func_021BA208(u8 *);
 extern u8 *func_021BA228(u8 *p);
-extern void func_021BA21C(u8 *, const Pair *);
-extern int func_021BA248(u8 *);
+extern void func_021BA21C(u8 *p, const u8 *src);
+extern int func_021BA248(char *p);
 extern void func_021BA23C(u8 *p, u32 value);
 extern void func_021BA24C(u8 *, u16);
 extern void func_021B7A18(u8 *);
@@ -80,7 +80,7 @@ void func_021B82E8(u8 *p, int unused)
     else v.x = (int)((float)(((struct Obj00004 *)p)->f44 << 12) - 0.5f);
     if (((struct Obj00004 *)p)->f48 > 0) v.y = (int)(0.5f + (float)(((struct Obj00004 *)p)->f48 << 12));
     else v.y = (int)((float)(((struct Obj00004 *)p)->f48 << 12) - 0.5f);
-    func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38, &pos);
+    func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const u8 *)(&pos));
     func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, &v);
     func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, 4096, 4096);
     func_021BA244(*(u8 * *)&((struct Obj00004 *)p)->f38, 4096);
@@ -92,11 +92,11 @@ void func_021B82E8(u8 *p, int unused)
         entry = func_021BA208(entry);
     }
     if (found) {
-        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const Pair *)func_021BA228(found));
-        func_021BA23C(*(u8 * *)&((struct Obj00004 *)p)->f38, func_021BA248(found));
+        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const u8 *)func_021BA228(found));
+        func_021BA23C(*(u8 * *)&((struct Obj00004 *)p)->f38, func_021BA248((char *)found));
     } else {
         fallback = d_021BA568;
-        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38, &fallback);
+        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const u8 *)(&fallback));
         func_021BA23C(*(u8 * *)&((struct Obj00004 *)p)->f38, 0);
     }
     func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38, 10);

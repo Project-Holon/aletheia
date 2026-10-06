@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_021975D0(u8 *p);
-extern u32 func_02035C60(void);
+extern int func_02035C60(void);
 extern void func_02196228(u8 *p, int flag);
 extern void func_020414EC(u32);
 extern void func_021962F4(u8 *);

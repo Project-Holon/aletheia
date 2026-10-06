@@ -90,38 +90,62 @@ typedef struct File {
 } File;
 extern void func_021F0E6C(void *),func_021EFC1C(u8 *,int);
 extern u8 func_02012E40(const u8 *);
-extern void func_02012E08(void *);
-extern void func_0202208C(u32,u32,u32,u32,u32,u32,u32);
-extern int func_020221A4(void),func_0202EB44(void),func_02012FFC(void);
+typedef signed int     s32;
+struct BigObj;
+struct Bits;
+struct Blk34;
+struct FSFile;
+struct Sub02008C20Obj;
+extern void func_02012E08(char *p);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 func_020221A4(void);
+extern int func_0202EB44(void);
+extern signed char func_02012FFC(void);
 extern void func_02005E30(u32),func_0203D34C(u32,u32);
-extern void func_021F1628(void *,int),func_021F1704(void *,int,int),func_021F1A58(void *,int),func_021F1B24(void *,int);
+extern void func_021F1628(void *,int);
+extern void func_021F1704(void *,int,int);
+extern void func_021F1A58(char *p, int a);
+extern void func_021F1B24(void *,int);
 extern int func_021F1B14(void *),func_021F1A2C(void *);
-extern void func_021F19E4(void *,int),func_021F1898(void *),func_021F1A24(void *);
+extern void func_021F19E4(void *,int);
+extern void func_021F1898(void *);
+extern void func_021F1A24(u8 *p);
 extern void func_021EF588(u8 *),func_021EF74C(u8 *),func_021F0EFC(void *);
-extern int func_021EF79C(u8 *),func_021F1008(void *),func_021F1050(void *);
-extern void func_021F1018(void *);
-extern u32 func_020461E4(int),func_0200C184(void *);
+extern int func_021EF79C(u8 *);
+extern int func_021F1008(void *);
+extern int func_021F1050(int *p);
+extern void func_021F1018(u8 *p);
+extern u32 func_020461E4(int);
+extern u32 func_0200C184(struct Blk34 *p);
 extern int func_021F1370(void *,void *),func_021F1060(void *);
 extern void *func_0200575C(u32);
 extern void func_020788AC(File *);
 extern int func_02078C18(File *,void *),func_02078A80(File *);
 typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
-extern int func_02078B44(File *,long,SeekOrigin);
-extern long func_02078B70(File *,void *,long);
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern u32 func_02078C28(File *);
 extern u8 d_021F6E08[],d_021F6E0C[];
-extern void func_02034714(void *,int,void *);
-extern void *func_02030734(u16,u32,u32,void *,u32);
-extern void func_021F1174(void *,void *,u32),func_021F1184(void *);
-extern void *func_02012F2C(void *),*func_0201293C(void *);
-extern void func_02008DF0(void *,u32);
-extern int func_02007774(void *),func_021F11BC(void *),func_021F11E8(void *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_021F1174(int a, int b, int c);
+extern void func_021F1184(void *);
+extern void *func_02012F2C(int *p);
+extern u32 func_0201293C(const struct BigObj *p);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern int func_02007774(void *);
+extern int func_021F11BC(void *);
+extern int func_021F11E8(struct Bits *a);
 extern int func_021F11F0(void *,u8,u32);
 extern void func_021EFD24(u8 *),func_021EFE40(u8 *),func_021EFE3C(u8 *),func_021EFFB0(u8 *);
-extern void func_021F1064(void *),func_021F1028(void *),func_021F0FE8(void *);
-extern int func_021F1040(void *),func_021F1010(void *);
+extern void func_021F1064(unsigned char *p);
+extern void func_021F1028(int *p);
+extern void func_021F0FE8(void *);
+extern int func_021F1040(int *p);
+extern int func_021F1010(void *);
 extern void *func_021F15B0(void *);
-extern void func_0204A600(void *),func_0204A648(void *);
+extern void func_0204A600(void *);
+extern void func_0204A648(void);
 #define P(k) (*(void **)(p+(k)))
 #define W(k) (*(u32 *)(p+(k)))
 #define H(k) (*(u16 *)(p+(k)))
@@ -133,11 +157,11 @@ typedef enum { Phase0=0,Phase33=33 } Phase;
 static inline void load_payload(u8 *p) {
  File file; void *name;
  name=func_0200575C(142);func_020788AC(&file);
- if(!func_02078C18(&file,name))func_02034714(d_021F6E08,0,d_021F6E08);
- func_02078B44(&file,0,0);W(100)=func_02078C28(&file);
- P(96)=func_02030734(H(0),W(100),1,d_021F6E0C,660);
- func_02078B70(&file,P(96),W(100));
- if(!func_02078A80(&file))func_02034714(d_021F6E08,0,d_021F6E08);
+ if(!func_02078C18(&file,name))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
+ func_02078B44((struct FSFile *)(&file),0,0);W(100)=func_02078C28(&file);
+ P(96)=func_02030734(H(0),W(100),1,(const char *)d_021F6E0C,660);
+ func_02078B70((struct FSFile *)(&file),P(96),W(100));
+ if(!func_02078A80(&file))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
  W(32)=13;
 }
 int func_021EE894(u8 *p) {
@@ -186,7 +210,7 @@ int func_021EE894(u8 *p) {
  case 14:
   if(func_021F1060(O)==10)goto failure;
   if(func_021F1060(O)==2){
-   if(W(44)==0){W(44)=1;func_021F1174(O,P(96),W(100));}
+   if(W(44)==0){W(44)=1;func_021F1174((int)O,(int)P(96),W(100));}
    func_021F1704(M,2,func_02012FFC());W(32)=15;
   }break;
  case 15:
@@ -216,7 +240,7 @@ fail_tail:func_021F1028(O);W(32)=28;
   if(p[40]==0){func_021F1704(M,7,func_02012FFC());W(32)=23;}
   else {func_021F1704(M,39,func_02012FFC());func_021F1B24(M,1);W(32)=27;}break;
  case 23:
-  if(func_021F1B14(M)==1) {u16 cnt=func_02007774(func_0201293C(SAVE));if(func_021F11F0(O,5,cnt)==1){func_021F1704(M,11,func_02012FFC());W(32)=24;}}break;
+  if(func_021F1B14(M)==1) {u16 cnt=func_02007774((void *)func_0201293C(SAVE));if(func_021F11F0(O,5,cnt)==1){func_021F1704(M,11,func_02012FFC());W(32)=24;}}break;
  case 24:
   if(func_021F1060(O)==2){func_021F1064(O);W(32)=14;}
   else if(func_021F1060(O)==9 || func_021F1060(O)==10){

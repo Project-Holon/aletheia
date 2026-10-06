@@ -22,17 +22,18 @@
 #include "../include/Obj23926.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern unsigned func_02025DE8(void *);
+struct Sound;
+extern int func_02025DE8(struct Sound *obj);
 extern void func_020061E4(unsigned);
 extern void func_021EA908(int p, int bit);
 extern void func_021DD2B4(int a, int b, int c, int d, int e);
-extern void func_021DF11C(u8 *, unsigned);
+extern void func_021DF11C(char *p, int b);
 extern int func_021E94AC(u8 *, int, int);
-extern int func_021E8FD0(u8 *, int);
+extern int func_021E8FD0(char *p, int a);
 int func_021E7E54(u8 *p)
 {
     u8 mask;
-    switch (func_02025DE8(((struct Obj23925 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70)) {
+    switch ((unsigned)func_02025DE8(((struct Obj23925 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70)) {
     case 0:
         func_020061E4(0x54c);
         func_021EA908((int)p, 0);
@@ -60,7 +61,7 @@ int func_021E7E54(u8 *p)
     case 6:
         mask = ((struct Obj23926 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA174;
         func_021DD2B4((int)p, p[22], p[20], 11, mask);
-        func_021DF11C(p, mask);
+        func_021DF11C((char *)p, (unsigned)mask);
         func_020061E4(0x54c);
         return func_021E94AC(p, 0, 87);
     case 7:
@@ -71,7 +72,7 @@ int func_021E7E54(u8 *p)
         return func_021E94AC(p, 1, 87);
     case (unsigned)-3:
         func_020061E4(0x548);
-        return func_021E8FD0(p, 88);
+        return func_021E8FD0((char *)p, 88);
     case (unsigned)-4:
         func_020061E4(0x548);
         break;

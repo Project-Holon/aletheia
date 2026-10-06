@@ -51,11 +51,12 @@ typedef struct
 } BN_CTX;
 
 extern int func_021CB078(const BIGNUM *a, const BIGNUM *b);
-extern BIGNUM *func_021CAE20(BIGNUM *a, const BIGNUM *b);
-extern int func_021CAEC8(BIGNUM *a, BN_ULONG w);
+typedef unsigned char  u8;
+extern u8 *func_021CAE20(u8 *a, u8 *b);
+extern int func_021CAEC8(u8 *a, unsigned long w);
 extern int func_021CAB94(const BIGNUM *a);
 extern int func_021CB1A8(BIGNUM *r, const BIGNUM *a, int n);
-extern void func_021CACD0(BIGNUM *a);
+extern void func_021CACD0(int a);
 extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
 extern int func_021CB764(BIGNUM *r, const BIGNUM *a, const BIGNUM *b);
 extern BN_ULONG func_021CDAE8(BN_ULONG h, BN_ULONG l, BN_ULONG d);
@@ -108,11 +109,11 @@ int func_021CBB80(BIGNUM *dv, BIGNUM *rm, const BIGNUM *num, const BIGNUM *divis
     {
         if (rm != 0)
         {
-            if (func_021CAE20(rm, num) == 0)
+            if (func_021CAE20((u8 *)rm, (u8 *)num) == 0)
                 return 0;
         }
         if (dv != 0)
-            func_021CAEC8(dv, 0);
+            func_021CAEC8((u8 *)dv, 0);
         return 1;
     }
 
@@ -136,7 +137,7 @@ int func_021CBB80(BIGNUM *dv, BIGNUM *rm, const BIGNUM *num, const BIGNUM *divis
     num_n = snum->top;
     loop = num_n - div_n;
 
-    func_021CACD0(&wnum);
+    func_021CACD0((int)(&wnum));
     wnum.d = &snum->d[loop];
     wnum.top = div_n;
     wnum.dmax = snum->dmax + 1;

@@ -11,4 +11,4 @@
  */
 #include "../include/Obj11223.h"
 
-int func_02007150(int a0, int a1, int a2, int a3){ int t0, t1, t2; t0 = func_02008754(a0); ((struct Obj11223 *)((char *)((a0 + 0))))->f3 = (unsigned char)t0; t1 = func_02008774((int)((a0 + 0) + 0)); t2 = func_02031B8C((int)((struct Obj11223 *)((char *)((a0 + 0))))->f10); return t2; }
+int func_02007150(int a0){ int t0, t1, t2; t0 = func_02008754(a0); ((struct Obj11223 *)((char *)((a0 + 0))))->f3 = (unsigned char)t0; t1 = func_02008774((int)((a0 + 0) + 0)); t2 = func_02031B8C((int)((struct Obj11223 *)((char *)((a0 + 0))))->f10); return t2; }

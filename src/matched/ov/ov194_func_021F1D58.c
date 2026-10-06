@@ -24,7 +24,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern fx16 FX_SinCosTable_[];
 static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1) + 1]; }
-extern int func_02061CA4(u32 ch, u32 off, u16 *src, u32 size);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 int func_021F1D58(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b)
 {
     u8 r, g, blue; int dr, dg, db; s16 t;
@@ -39,6 +40,6 @@ int func_021F1D58(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b)
     dr = ((u8)(b & 31) - r) * t >> 12;
     dg = ((u8)((b & 0x3E0) >> 5) - g) * t >> 12;
     *out = (u8)(r + dr) | ((u8)(g + dg) << 5) | ((u8)(blue + db) << 10);
-    func_02061CA4(0xF, row * 32 + idx * 2, out, 2);
+    func_02061CA4((void *)0xF, row * 32 + idx * 2, (u32)out, 2);
     return *out == b;
 }

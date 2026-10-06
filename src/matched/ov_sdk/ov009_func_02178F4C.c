@@ -20,11 +20,13 @@ typedef struct {
     char bytes[0x14];
 } WiFiInfo;
 extern void DWCi_BM_GetWiFiInfo(WiFiInfo *buf);
-extern int func_02178F78(void *cal, WiFiInfo *wifiinfo);
+struct DWCCalInfo;
+struct DWCWiFiInfo;
+extern int func_02178F78(struct DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
 
 int func_02178F4C(void *cal)
 {
     WiFiInfo wifiinfo;
     DWCi_BM_GetWiFiInfo(&wifiinfo);
-    return func_02178F78(cal, &wifiinfo);
+    return func_02178F78(cal, (struct DWCWiFiInfo *)(&wifiinfo));
 }

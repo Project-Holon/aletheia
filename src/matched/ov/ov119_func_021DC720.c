@@ -33,9 +33,24 @@
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10357.h"
-extern void func_021E64B8(void *),func_021E3230(void *),func_021DD588(void *),func_021DF8E0(void *),func_021E4570(void *);
+typedef unsigned char  u8;
+struct Bank;
+extern void func_021E64B8(void *);
+extern void func_021E3230(void *);
+extern void func_021DD588(char *p);
+extern void func_021DF8E0(void *);
+extern void func_021E4570(char *p);
 extern void func_021DD9DC(unsigned char *),func_021E36D8(void *,int),func_021E69A4(char *),func_021DF7D0(void *),func_021E2680(char *),func_021E4888(char *),func_021E2438(char *,int);
-extern void func_021B639C(void *),func_021E48E0(char *),func_0204B1CC(void *),func_021E11A8(char *),func_021DD174(char *),func_021E293C(void *,int),func_021E3F08(char *),func_021E4000(char *),func_021E57A4(int),func_020307B0(void *);
+extern void func_021B639C(u8 *p);
+extern void func_021E48E0(char *);
+extern void func_0204B1CC(struct Bank *bank);
+extern void func_021E11A8(char *);
+extern void func_021DD174(char *);
+extern void func_021E293C(char *p, int i);
+extern void func_021E3F08(char *);
+extern void func_021E4000(char *);
+extern void func_021E57A4(int);
+extern void func_020307B0(void *);
 #define P(o) (*(void **)(p+(o)))
 void func_021DC720(char *p)
 {

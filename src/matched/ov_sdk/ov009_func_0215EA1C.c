@@ -54,11 +54,11 @@ typedef struct {
 	void (*func1c)(void *);
 } Config;
 
-extern void func_0215EB14(void *pipe);
+extern void func_0215EB14(unsigned char *pipe);
 extern void func_02085800(void *queue);
 extern unsigned long func_02087988(void);
-extern void func_0215F31C(Socket *socket);
-extern void func_0215F3B8(Socket *socket);
+extern void func_0215F31C(int a);
+extern void func_0215F3B8(int a);
 extern unsigned long func_0208799C(unsigned long state);
 extern Config *g_021A1CD8;
 
@@ -83,7 +83,7 @@ void func_0215EA1C(Socket *socket)
 	socket->state = 0;
 	if (IsStream(socket)) {
 		func_0215EB14(socket->send_pipe);
-		func_0215EB14(socket->recv_pipe);
+		func_0215EB14((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 1) {
 		udpdata = socket->recv_pipe->udpdata.head;
 		while (udpdata) {
@@ -95,13 +95,13 @@ void func_0215EA1C(Socket *socket)
 		socket->recv_pipe->udpdata.a = 0;
 		socket->recv_pipe->udpdata.head = 0;
 		func_02085800(socket->recv_pipe->udpdata.queue);
-		func_0215EB14(socket->recv_pipe);
+		func_0215EB14((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 2) {
 		func_0215EB14(socket->send_pipe);
 	}
 	enable = func_02087988();
-	func_0215F31C(socket);
-	func_0215F3B8(socket);
+	func_0215F31C((int)socket);
+	func_0215F3B8((int)socket);
 	g_021A1CD8->func1c(socket);
 	func_0208799C(enable);
 }

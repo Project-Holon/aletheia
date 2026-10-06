@@ -39,7 +39,7 @@ extern void func_021E9FFC(void *);
 extern int func_021EA00C(void *);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int handle);
-extern void func_0220C834(void *);
+extern void func_0220C834(u8 *arg);
 extern void func_0220F3E8(u8 *p);
 extern u8 ov196_id[], ov197_id[], ov198_id[];
 

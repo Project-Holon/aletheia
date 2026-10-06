@@ -36,7 +36,7 @@ struct Node;
 extern void func_021C1F44(int a);
 extern void func_021C0C00(void *a, void *b);
 extern void func_021C0B58(void *, char *, void *);
-extern void func_021C0950(void *, char *, void *);
+extern void func_021C0950(void *unused, u8 *p, void *a2);
 extern void func_021C0898(void *, char *, void *);
 extern void func_021C06A0(void *, char *, void *);
 extern void func_021C0524(void *, char *, void *);
@@ -62,7 +62,7 @@ u32 func_021BF8E0(void *a0, u32 a1, void *a2, char *p, void *a4)
         ((struct Obj08396 *)q)->f5C = 0;
     }
     func_021C0B58(a2, p, a4);
-    func_021C0950(a2, p, a4);
+    func_021C0950(a2, (u8 *)p, a4);
     func_021C0898(a2, p, a4);
     func_021BC97C(((struct Obj03933 *)p)->f8);
     func_021C06A0(a2, p, a4);

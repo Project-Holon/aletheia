@@ -40,8 +40,10 @@ extern void func_02048B44(struct Light *, const Vec *);
 extern void func_02048AD0(struct Light *);
 extern void func_021BA028(Vec *, const Vec *, const Vec *, unsigned);
 extern void func_021BA0AC(Vec *, const Vec *, const Vec *, unsigned);
-extern void func_021BA000(char *);
-extern void func_021BA2A8(char *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021BA000(u8 *p);
+extern void func_021BA2A8(u8 *p, u32 a);
 void func_021BA128(char *p)
 {
     Vec a, b, c, d, e;
@@ -62,8 +64,8 @@ void func_021BA128(char *p)
         *(Vec *)(q + 0x10) = *(Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24 + 12);
         *(u16 *)(q + 0x76) = *(u16 *)(q + 0x34);
         *(u16 *)(q + 0x78) = 0;
-        func_021BA000(q);
-        if (*(u16 *)(q + 0x34) == 0xffff) func_021BA2A8(q, 0);
+        func_021BA000((u8 *)q);
+        if (*(u16 *)(q + 0x34) == 0xffff) func_021BA2A8((u8 *)q, 0);
     } else {
         func_021BA0AC(&d, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x76) * 24), (Vec *)(q + 0x1c), *(u16 *)(q + 0x78));
         *(Vec *)(q + 4) = d;

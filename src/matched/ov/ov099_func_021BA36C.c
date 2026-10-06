@@ -53,11 +53,12 @@ typedef struct {
     s16 f8;
 } S;
 
-extern int func_021C49A4(void *p, int i);
-extern int func_0203F5FC(u16 a);
+extern int func_021C49A4(u8 *p, unsigned int i);
+typedef unsigned int   u32;
+extern int func_0203F5FC(u32 x);
 extern void func_021C5814(void *p, P2 v);
 extern void func_021C5898(void *p, P2 v);
-extern void func_021C5864(void *p, int b);
+extern void func_021C5864(u8 *p, int b);
 
 void func_021BA36C(void *w, S *s)
 {
@@ -70,7 +71,7 @@ void func_021BA36C(void *w, S *s)
     q = pos;
     t = (s16)(s->f8 - 16);
     if (t > 0) {
-        pos.y = pos.y - (s16)((s32)(((long long)func_0203F5FC(180 * (s16)(t % 6) / 6) * 16384 + 0x800) >> 12) >> 12);
+        pos.y = pos.y - (s16)((s32)(((long long)func_0203F5FC((u16)(180 * (s16)(t % 6) / 6)) * 16384 + 0x800) >> 12) >> 12);
     }
     func_021C5814(s->f4, pos);
     func_021C5898(s->f4, q);

@@ -54,8 +54,8 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
-extern void  func_02158A10(u32 a, int b);
-extern void  func_02185A68(u32 a, u16 b);
+extern void func_02158A10(int a, int b);
+extern void func_02185A68(void *a, int b);
 extern void func_021857C0(void *a, int b);
 extern u8 func_02012984(const struct BigObj *p);
 extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
@@ -63,7 +63,7 @@ extern void *func_020298A0(void *a, u32 b, u16 c, u16 d);
 struct Ctx;
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020145FC(u32 a);
+extern int func_020145FC(int a0);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern u32 func_02188D20(u8 *p);
@@ -79,7 +79,7 @@ int func_02183C9C(void *obj, int *state, Arg *arg)
     switch (*state) {
     case 0:
         func_02158A10(x, 1);
-        func_02185A68(x, arg->fC);
+        func_02185A68((void *)x, (u16)arg->fC);
         func_021857C0((void *)x, (int)arg->f8);
         (*state)++;
         break;
@@ -88,7 +88,7 @@ int func_02183C9C(void *obj, int *state, Arg *arg)
         (*state)++;
         break;
     case 2:
-        func_02012374(obj, func_020145FC(x));
+        func_02012374(obj, (struct Evt **)func_020145FC(x));
         (*state)++;
         break;
     case 3:

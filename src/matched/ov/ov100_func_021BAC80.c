@@ -30,7 +30,7 @@ extern void func_0203D060(u32 a, u32 b, u32 c);
 extern void func_021B9FBC(int a);
 extern void func_021B9FF4(int a, int b);
 extern void func_021B9848(int a);
-extern void func_021BB270(void);
+extern void func_021BB270(int p);
 extern void func_021B95B8(u8 *p, u32 v);
 void func_021BAC80(int a) {
  if(func_0203CD98()==1) {

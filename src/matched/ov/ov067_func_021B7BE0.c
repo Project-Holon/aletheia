@@ -58,7 +58,7 @@ typedef struct S {
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_021B91D0(S *p, int i, int a2);
 extern void func_021B9228(S *p, int i, int a2);
-extern void func_021B92F0(S *p, u16 a1, u32 a2);
+extern void func_021B92F0(struct S *p, u32 a1, u32 a2);
 
 void func_021B7BE0(S *p, int a1)
 {
@@ -106,6 +106,6 @@ void func_021B7BE0(S *p, int a1)
         j = j + (s8)p->f5;
     }
     p->f49 = p->f47;
-    func_021B92F0(p, p->f5c, 0xff);
+    func_021B92F0(p, (u16)p->f5c, 0xff);
     p->f20->fn4(p->f24, p->f5c + p->f62, a1);
 }

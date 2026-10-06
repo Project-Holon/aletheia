@@ -17,12 +17,12 @@
 #include "../include/Obj04613.h"
 
 
-extern void func_021BD11C(char *);
+extern void func_021BD11C(int *p);
 
 void func_021BCF6C(char *p)
 {
     if (((struct Obj04613 *)p)->f10 != 0) {
-        func_021BD11C(p + 8);
+        func_021BD11C((int *)(p + 8));
         ((struct Obj04613 *)p)->f10 = 0;
     }
 }

@@ -58,7 +58,7 @@ struct Sub02006448Pair {
 extern char g_020AA260[];
 
 extern void *func_02074324(int index);
-extern struct Sub02006448Pair *func_020743EC(u32 a, u32 b);
+extern void *func_020743EC(int index);
 extern void   sub_0200597C(void);
 extern u32 func_02074A98(u32 a, u32 b);
 extern void   func_02074694(u32 a, u32 b);
@@ -76,7 +76,7 @@ int func_02006448(u32 a0, u32 a1, u32 a2)
     hdr = func_02074324(a2);
     word = hdr[0];
     half = ((struct Obj11220 *)hdr)->f4;
-    q = func_020743EC(half, word);
+    q = func_020743EC(half);
     v = q->unk00;
     sub_0200597C();
     for (i = 0; i < 4; i++) {

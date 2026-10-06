@@ -23,7 +23,7 @@ typedef struct Work {
 } Work;
 
 extern Work *d_021B3C80;
-extern int func_021B2254(u8 i);
+extern int func_021B2254(int a);
 
 int func_021AF2AC(int n)
 {
@@ -39,7 +39,7 @@ int func_021AF2AC(int n)
         if (d_021B3C80->a[i] != 1) {
             continue;
         }
-        if (func_021B2254(i)) {
+        if (func_021B2254((u8)i)) {
             return 0;
         }
         d_021B3C80->a[i] = 0;

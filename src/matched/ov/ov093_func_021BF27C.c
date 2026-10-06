@@ -21,11 +21,11 @@ typedef unsigned int u32;
 struct Lock { u32 a:10, b:9, c:9, d:1, e:1, f:1, g:1; };
 extern u32 func_021CC8D8(struct Lock *, int);
 extern void func_021BF2EC(u8 *, u32, u32, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 void func_021BF27C(u8 *p, u32 a, u32 b)
 {
     int line = 0x11f6;
     u32 old = func_021CC8D8((struct Lock *)(p + 0x1d74), line);
     func_021BF2EC(p, a, b, 0x26);
-    func_021CC95C(p + 0x1d74, old, line + 2);
+    func_021CC95C((u32 *)(p + 0x1d74), old, line + 2);
 }

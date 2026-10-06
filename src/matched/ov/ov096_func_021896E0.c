@@ -24,7 +24,7 @@ typedef int s32;
 
 extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
-extern int func_0218A220(int, int, int);
+extern int func_0218A220(u8 *p, int k, int slot);
 
 int func_021896E0(int a, int b) {
     int r;
@@ -33,7 +33,7 @@ int func_021896E0(int a, int b) {
     r = func_0201134C(a);
     r2 = func_0201134C(a);
     t = func_0218A160((u8 *)b, r);
-    t = func_0218A220(b, r, t);
+    t = func_0218A220((u8 *)b, r, t);
     if (t == r2) {
         t = 1;
     } else {

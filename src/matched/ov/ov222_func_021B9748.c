@@ -31,7 +31,7 @@ typedef unsigned int u32;
 typedef enum { COUNT=1 } LayerCount;
 typedef struct {u32 layer;u8 data[40];} Row;
 extern const Row d_021BA1F4[];
-extern void func_020403F4(u8);
+extern void func_020403F4(u32 i);
 extern void func_021B9D64(char*);
 extern void func_021B9B84(char*);
 extern void func_021B9960(char*);
@@ -50,7 +50,7 @@ int func_021B9748(void*scene,int unused1,int unused2,char*p)
  LayerCount i;
  i=0;
  do {
-  func_020403F4(d_021BA1F4[i].layer);
+  func_020403F4((u8)d_021BA1F4[i].layer);
   i++;
  } while((u32)i<COUNT);
  *(volatile u16*)0x04001050=0;

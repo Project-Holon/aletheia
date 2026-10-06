@@ -17,7 +17,8 @@
 typedef unsigned short u16;
 
 extern int func_021ABE18(int a);
-extern int func_021C6658(int a, int b);
+typedef unsigned int   u32;
+extern int func_021C6658(u32 a, u32 b);
 extern void func_021AC1B8(int a, int b);
 
 typedef struct S {

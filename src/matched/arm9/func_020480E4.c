@@ -51,12 +51,13 @@ struct Ctx {
 };
 
 extern void func_02048918(struct Ctx *c, u32 i);
-extern void func_020482B4(struct Ctx *c, u32 i);
+struct Owner;
+extern void func_020482B4(struct Owner *owner, u32 index);
 
 void func_020480E4(struct Ctx *c, u32 i)
 {
     func_02048918(c, i);
-    func_020482B4(c, i);
+    func_020482B4((struct Owner *)c, i);
     c->e[i].a = -1;
     c->e[i].b = -1;
     c->e[i].c = -1;

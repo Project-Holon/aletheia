@@ -16,9 +16,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021BEDD0(u8 *);
-extern u32 func_021BF338(u8 *);
+extern int func_021BF338(u8 *p);
 extern u32 func_021BF360(u8 *);
-u32 func_021BF208(u8 *p, u32 keys)
+int func_021BF208(u8 *p, u32 keys)
 {
     u32 r;
     if (keys & 0x80) {

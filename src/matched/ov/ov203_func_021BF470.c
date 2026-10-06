@@ -23,7 +23,19 @@
  *   func_0204047C 0x0204047C arm
  *   func_02040588 0x02040588 arm
  */
-extern void func_0201CE48(void *),func_02045808(void *),func_0201DD68(void),func_0201F7A8(void *,unsigned),func_020452E8(void *),func_0201F614(int,int),func_02082BCC(void *,int,int),func_0204047C(int,unsigned short),func_02040588(unsigned,unsigned);
+typedef unsigned int   u32;
+struct Descriptor;
+struct Rec3;
+struct U16Vec;
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201DD68(void);
+extern void func_0201F7A8(void *,unsigned);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0201F614(int a, u32 x);
+extern void func_02082BCC(void *,int,int);
+extern void func_0204047C(int,unsigned short);
+extern void func_02040588(unsigned,unsigned);
 void func_021BF470(char *p)
 {
     if(*(void **)(p+0x20)) func_0201CE48(*(void **)(p+0x20));

@@ -60,7 +60,8 @@ typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern s32 func_02095F40(u32 a0, u32 *a1, u32 a2);
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_0217A7C8(DWCHttp *http, char *label, char *buffer, int buffer_len);
 
 extern DWCWFCUtil g_021AB184;
@@ -100,7 +101,7 @@ int func_02178814(void)
         return 14;
     }
     returncode = func_02095F40((u32)g_021AB184.auth->retcode, (u32 *)(&endptr), 10);
-    if (endptr != g_021AB184.auth->retcode + func_0209477C(g_021AB184.auth->retcode)) {
+    if (endptr != g_021AB184.auth->retcode + func_0209477C((const u8 *)g_021AB184.auth->retcode)) {
         g_021AB184.auth->error = 20101;
         return 12;
     }

@@ -56,7 +56,7 @@ struct Queue {
 
 extern struct Queue g_02146B80;
 
-extern s32 func_02061860(struct Queue *q);
+extern int func_02061860(u8 *p);
 extern u32 func_02061BC0(u8 *p);
 extern int func_02061B74(char *p);
 
@@ -64,7 +64,7 @@ s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size)
 {
     struct Req *req;
 
-    if (func_02061860(&g_02146B80) != 0) {
+    if (func_02061860((u8 *)(&g_02146B80)) != 0) {
         return 0;
     }
 

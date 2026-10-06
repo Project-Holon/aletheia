@@ -32,7 +32,8 @@ extern void func_02005DE4(void *p);
 extern void func_02005DF8(u32);
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
 extern void func_020307B0(void *);
-extern void func_02013930(void *);
+struct Obj;
+extern void func_02013930(struct Obj *p);
 extern void func_0220B0F8(u8 *p, u32 v);
 void func_0220B1D8(u8 *a, u8 *b)
 {
@@ -43,7 +44,7 @@ void func_0220B1D8(u8 *a, u8 *b)
     if (*(u32 *)*(u8 * *)&((struct Obj10802 *)b)->f17F0 == 0) func_02028A58(p,64,0);
     ((struct Obj10802 *)b)->f17E4 = ((Flag *)(a+0xC1))->flag;
     func_020307B0(((struct Obj01819 *)a)->f34);
-    func_02013930(a);
+    func_02013930((struct Obj *)a);
     func_020307B0(a);
     func_0220B0F8((u8 *)((u32)b),0);
 }

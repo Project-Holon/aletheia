@@ -23,7 +23,9 @@ typedef unsigned int   u32;
 
 typedef struct { u32 k : 2; } K;
 
-extern int func_0204784C(u32 h, u16 i, u32 *p);
+typedef signed int     s32;
+struct AnmCtl;
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 
 void func_021C6744(u32 *a, int idx, int mode, u32 val)
 {
@@ -36,12 +38,12 @@ void func_021C6744(u32 *a, int idx, int mode, u32 val)
             i = 0;
             if (n > 0) {
                 do {
-                    func_0204784C(((struct Obj09694 *)e)->f44, i, &val);
+                    func_0204784C((struct AnmCtl *)(((struct Obj09694 *)e)->f44), (u16)i, (s32 *)(&val));
                     i++;
                 } while (i < n);
             }
         } else if (mode < n) {
-            func_0204784C(((struct Obj09694 *)e)->f44, mode, &val);
+            func_0204784C((struct AnmCtl *)(((struct Obj09694 *)e)->f44), (u16)mode, (s32 *)(&val));
         }
     }
 }

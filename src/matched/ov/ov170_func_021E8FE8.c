@@ -17,7 +17,7 @@
  */
 
 extern void func_021DCF58(unsigned char *p, int sel);
-extern void func_02036270(unsigned a, unsigned b);
+extern int func_02036270(int a0, int a1);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 

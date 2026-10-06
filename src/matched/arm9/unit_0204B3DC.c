@@ -61,8 +61,11 @@ struct Obj {
     u8   unk_68;
 };
 
-extern void func_0204CF74(struct Obj *owner, u32 which, struct Vec2 *out);
-extern void func_0204B528(struct Obj *owner, const struct Vec2 *pos);
+typedef unsigned short u16;
+struct Actor;
+struct Pt;
+extern void func_0204CF74(struct Obj *o, u32 id, u16 *out);
+extern void func_0204B528(struct Actor *actor, const struct Pt *src);
 
 void sub_0204B3DC(struct Obj *p, u32 v)
 {
@@ -79,8 +82,8 @@ void sub_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which)
     struct Vec2 pos;
     struct Vec2 dest;
 
-    func_0204CF74(p, which, &pos);
+    func_0204CF74(p, which, (u16 *)(&pos));
     dest.x = delta->x + pos.x;
     dest.y = delta->y + pos.y;
-    func_0204B528(p, &dest);
+    func_0204B528((struct Actor *)p, (const struct Pt *)(&dest));
 }

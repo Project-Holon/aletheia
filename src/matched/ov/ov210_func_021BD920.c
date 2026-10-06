@@ -41,11 +41,11 @@ extern void func_021BE190(u8 *p, int n);
 extern void func_021BF728(u8 *p, int a);
 extern void func_021BEDB8(int p, int i, int v);
 extern u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c);
-extern void func_021BF81C(u8 *p);
-extern void func_021BFABC(u8 *p, u32 a, u32 b);
-extern int func_021C014C(u8 *p);
+extern void func_021BF81C(char *p);
+extern void func_021BFABC(char *ctx, int slot, int index);
+extern int func_021C014C(char *ctx);
 extern void func_021BE20C(u8 *p);
-extern void func_021BF6E0(u8 *p);
+extern void func_021BF6E0(char *p);
 extern u32 func_021BCEF0(u32 a, u32 b);
 
 u32 func_021BD920(u8 *p)
@@ -96,16 +96,16 @@ u32 func_021BD920(u8 *p)
         return func_021BE2F4(p, 1, 5, 16);
     case (u32)-3:
     case (u32)-2:
-        func_021BF81C(p);
-        func_021BFABC(p, 0, (u16)func_021BCEF0((u32)p, (*(u8 **)(*(u8 * *)&((struct Obj00085 *)p)->f0 + 8))[3]));
-        func_021BFABC(p, 1, (u16)func_021BCEF0((u32)p, (*(u8 **)(*(u8 * *)&((struct Obj00085 *)p)->f0 + 8))[4]));
+        func_021BF81C((char *)p);
+        func_021BFABC((char *)p, 0, (u16)func_021BCEF0((u32)p, (*(u8 **)(*(u8 * *)&((struct Obj00085 *)p)->f0 + 8))[3]));
+        func_021BFABC((char *)p, 1, (u16)func_021BCEF0((u32)p, (*(u8 **)(*(u8 * *)&((struct Obj00085 *)p)->f0 + 8))[4]));
         p[0x2c1] = 0x39;
         ((struct Obj00085 *)p)->f14 = 1;
         ((struct Obj00085 *)p)->f18 = ret;
         ret = 0x18;
         break;
     case (u32)-1:
-        r5 = func_021C014C(p);
+        r5 = func_021C014C((char *)p);
         switch (r5) {
         case 0:
             func_020061E4(0x551);
@@ -133,6 +133,6 @@ u32 func_021BD920(u8 *p)
         }
         break;
     }
-    func_021BF6E0(p);
+    func_021BF6E0((char *)p);
     return ret;
 }

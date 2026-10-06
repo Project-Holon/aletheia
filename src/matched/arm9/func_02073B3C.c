@@ -76,7 +76,8 @@ extern void func_0208C884(void *p);
 extern u32  func_02089D40(void);
 extern void func_02089B38(u32 a);
 extern void func_02089CD4(u32 a);
-extern void func_02073BB0(struct Obj *o);
+struct X;
+extern void func_02073BB0(struct X *x);
 
 void func_02073B3C(struct Obj *o)
 {
@@ -91,5 +92,5 @@ void func_02073B3C(struct Obj *o)
         func_02089B38(1);
         func_02089CD4(saved);
     }
-    func_02073BB0(o);
+    func_02073BB0((struct X *)o);
 }

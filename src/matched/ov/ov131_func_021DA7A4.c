@@ -28,7 +28,7 @@ extern void func_021DB964(u8 *,void *,u8 *);
 typedef unsigned short u16;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021D5A9C(u8 *,int);
+extern void func_021D5A9C(char *p, int a);
 extern void func_021DB468(u8 *,u8 *,u8,int);
 void func_021DA7A4(u8 *a,u8 *b) {
     u8 i;
@@ -38,6 +38,6 @@ void func_021DA7A4(u8 *a,u8 *b) {
     for(i=0;i<b[43];i++) func_021DB964(a,b,b+176+i*24);
     func_0204B878(((struct Obj00136 *)a)->f17C,4);
     if(b[43]==5) b[41]=4;else b[41]=0;
-    func_021D5A9C(a,0);
+    func_021D5A9C((char *)a,0);
     func_021DB468(a,b,b[41],0);
 }

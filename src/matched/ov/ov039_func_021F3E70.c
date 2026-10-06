@@ -57,7 +57,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern Save *func_0200B3A4(unsigned int, unsigned int);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void *func_021BE674(char *base, int i, u8 j, u16 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern int func_021BE6BC(int *p);
@@ -90,8 +90,8 @@ int func_021F3E70(int a0, int *a1)
             func_021BE700((void *)h, 0, b, 0, 0);
             func_021BE700((void *)h, 0, a, 1, 1);
             func_021BE700((void *)h, 0, b, 1, 1);
-            func_021BE6B0(func_021BE674((char *)h, 0, a, 1), 0);
-            func_021BE6B0(func_021BE674((char *)h, 0, b, 1), 0);
+            func_021BE6B0(func_021BE674((char *)h, 0, (u8)a, (u16)1), 0);
+            func_021BE6B0(func_021BE674((char *)h, 0, (u8)b, (u16)1), 0);
             func_021BE6CC((int)((void *)h), 0, a, 1, 0);
             func_021BE6CC((int)((void *)h), 0, b, 1, 0);
             s->mode = 1;
@@ -100,8 +100,8 @@ int func_021F3E70(int a0, int *a1)
             func_021BE700((void *)h, 0, b, 1, 0);
             func_021BE700((void *)h, 0, a, 0, 1);
             func_021BE700((void *)h, 0, b, 0, 1);
-            func_021BE6B0(func_021BE674((char *)h, 0, a, 0), 0);
-            func_021BE6B0(func_021BE674((char *)h, 0, b, 0), 0);
+            func_021BE6B0(func_021BE674((char *)h, 0, (u8)a, (u16)0), 0);
+            func_021BE6B0(func_021BE674((char *)h, 0, (u8)b, (u16)0), 0);
             func_021BE6CC((int)((void *)h), 0, a, 0, 0);
             func_021BE6CC((int)((void *)h), 0, b, 0, 0);
             s->mode = 0;
@@ -111,8 +111,8 @@ int func_021F3E70(int a0, int *a1)
         break;
     case 1:
         i = s->idx;
-        o = func_021BE674((char *)h, 0, i + 4, s->mode);
-        o2 = func_021BE674((char *)h, 0, i + 8, s->mode);
+        o = func_021BE674((char *)h, 0, (u8)(i + 4), (u16)s->mode);
+        o2 = func_021BE674((char *)h, 0, (u8)(i + 8), (u16)s->mode);
         if (func_021BE6BC(o) && func_021BE6BC(o2)) {
             func_021F4740((u32)sys, (void *)h);
             s->idx = -1;

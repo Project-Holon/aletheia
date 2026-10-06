@@ -18,13 +18,14 @@ struct SndObj2 {
     int ref_count;
 };
 
-extern void func_02073898(void *obj);
+struct X;
+extern void func_02073898(struct X *x);
 
 void func_02075A94(struct SndObj2 *obj)
 {
     if (obj->ref_count != 0) {
         if (--obj->ref_count == 0) {
-            func_02073898(obj);
+            func_02073898((struct X *)obj);
         }
     }
 }

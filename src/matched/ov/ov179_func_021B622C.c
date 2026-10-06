@@ -17,7 +17,7 @@
 
 extern int d_021B68E4[];
 
-void func_021B622C(char *p, int unused)
+void func_021B622C(char *p)
 {
     unsigned short idx = ((struct Obj24463 *)(((struct Obj10716 *)p)->f0))->f0;
     int v = d_021B68E4[idx];

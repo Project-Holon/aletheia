@@ -18,13 +18,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Pair{int x,y;} Pair;
 extern void func_02082BCC(void *,int,int);
-extern int func_021FE3E4(void *,Pair *,int);
-void func_021FE3B4(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
+extern int func_021FE3E4(char *p, int *out, int step);
+int func_021FE3B4(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
 {
     func_02082BCC(p,0,24);
     *(Pair *)p=*origin;
     ((struct Obj10797 *)p)->f14=duration;
     ((struct Obj10797 *)p)->f10=a;
     ((struct Obj10797 *)p)->f12=b;
-    func_021FE3E4(p,0,0);
+    return func_021FE3E4((char *)p,0,0);
 }

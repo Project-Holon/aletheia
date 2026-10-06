@@ -46,7 +46,7 @@ struct Rec {
     u32 b : 4;
 };
 
-extern struct Rec *func_02176880(void *p);
+extern u8 *func_02176880(u8 *p);
 
 int func_02166434(void *a, u32 *out0, u32 *out1)
 {
@@ -69,7 +69,7 @@ int func_02166434(void *a, u32 *out0, u32 *out1)
         *out1 = 0;
         return 0;
     }
-    rec = func_02176880(r);
+    rec = (struct Rec *)func_02176880(r);
     *out0 = rec->a;
     *out1 = rec->b;
     return 1;

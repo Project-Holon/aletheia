@@ -37,7 +37,7 @@ struct Cam {
 struct Big { u8 pad[0x1AC]; struct Cam c; };
 
 extern int func_021C1D28(u8 *p);
-extern u8 *func_021C1AB4(u8 *p, int i);
+extern void *func_021C1AB4(void *p, u32 n);
 extern void func_021C1B28(u8 *e, u8 *a, u8 *b);
 
 void func_021C13E8(struct Big *p)

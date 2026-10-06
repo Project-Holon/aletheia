@@ -38,9 +38,9 @@ typedef struct Node {
     int b;                  /* +0x14 */
 } Node;
 
-int func_021BA590(const char *, const char *);
+int func_021BA590(char *p1_p, char *p2_p);
 int func_021BA820(int a, int b);
-void func_021BA874(Node *, int);
+void func_021BA874(u8 *p, int v);
 
 int func_021BAA1C(Node **head, int b, int c, int d)
 {
@@ -51,10 +51,10 @@ int func_021BAA1C(Node **head, int b, int c, int d)
 
     if (n != 0) {
         q = n;
-        if (func_021BA590((const char *)c, q->key) != 0) {
+        if (func_021BA590((char *)c, (char *)q->key) != 0) {
             q = q->next;
             while (q != *head) {
-                if (func_021BA590((const char *)c, q->key) == 0) {
+                if (func_021BA590((char *)c, (char *)q->key) == 0) {
                     found = 1;
                     break;
                 }
@@ -70,7 +70,7 @@ int func_021BAA1C(Node **head, int b, int c, int d)
     } else {
         p = (Node *)func_021BA820(0x18, 4);
         if (p == 0) {
-            func_021BA874((Node *)b, 1);
+            func_021BA874((u8 *)b, 1);
             return 0;
         }
         p->key = (const char *)c;

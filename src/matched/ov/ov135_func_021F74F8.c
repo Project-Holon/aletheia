@@ -21,10 +21,10 @@
 typedef unsigned char u8;
 extern void func_021F7964(u8 *p);
 extern void func_021F99D0(u8 *p);
-extern void func_021F79EC(void *p);
-extern void func_021F7840(void *p);
+extern void func_021F79EC(char *p);
+extern void func_021F7840(char *p);
 extern void func_021F76BC(void);
-extern void func_022000E4(void *p);
+extern void func_022000E4(char *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021F4EC8(u8 *p);
@@ -32,10 +32,10 @@ int func_021F74F8(u8 *p)
 {
     func_021F7964(p);
     func_021F99D0(((struct Obj00287 *)p)->fDE4);
-    func_021F79EC(p);
-    func_021F7840(p);
+    func_021F79EC((char *)p);
+    func_021F7840((char *)p);
     func_021F76BC();
-    func_022000E4(p);
+    func_022000E4((char *)p);
     func_0204B3DC((struct Obj *)*(unsigned *)&((struct Obj00287 *)p)->fD38, 0);
     func_021F4EC8(p);
     return 0;

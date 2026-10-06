@@ -47,7 +47,7 @@ typedef struct Ent {
 } Ent;
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0201ADD0(unsigned int a, int b, void *buf);
 extern void func_020307B0(void *p);
 extern char d_02172B74[];

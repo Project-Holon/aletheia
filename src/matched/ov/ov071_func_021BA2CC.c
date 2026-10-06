@@ -28,7 +28,7 @@ extern void *func_02045770(struct Descriptor *a);
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
-extern void func_021BA528(void *a, void *b, void *c);
+extern void func_021BA528(u32 **a, u8 *b, u8 *c);
 extern void func_021BA5D4(void *a, void *b, void *c);
 
 int func_021BA2CC(int a, int *b, u8 *o, u8 *c)
@@ -54,7 +54,7 @@ int func_021BA2CC(int a, int *b, u8 *o, u8 *c)
     }
     if (*b == 0) {
         if ((*(u8 **)(o + 8))[3] == 1 && f[1] == 1) {
-            func_021BA528(o, ((struct Obj09900 *)o)->f4, c);
+            func_021BA528((u32 **)o, ((struct Obj09900 *)o)->f4, c);
             (*(u8 **)(o + 8))[3] = 0;
         }
         if ((*(u8 **)(o + 8))[1] != ((struct Obj13188 *)c)->f24 && f[2] == 1) {

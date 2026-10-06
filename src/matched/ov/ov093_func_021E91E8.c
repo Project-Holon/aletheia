@@ -105,37 +105,39 @@ extern void func_021E95B4(u32 a);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_021EB32C(u8 *p, u32 flag);
 extern int func_021EB52C(u32 a);
-extern u8 *func_021E9634(Obj *p, u32 k);
+struct H;
+struct Pair;
+extern u8 *func_021E9634(struct Pair *s, u32 k);
 extern void func_021EAF18(struct L *p, int kind, u16 id);
 extern u8 func_021D5440(u8 *p);
-extern void func_021EAF50(void *msg, int v);
-extern void func_021EAF78(void *msg, u8 v);
-extern void func_021EA65C(Obj *p, void *msg);
-extern void func_021EA614(Obj *p, void *msg);
+extern void func_021EAF50(struct L *p, u32 val);
+extern void func_021EAF78(u8 *p, u8 v);
+extern void func_021EA65C(char *p, struct H *h);
+extern void func_021EA614(char *p, struct H *h);
 extern void func_021E9604(u32 a, u32 b, u8 c, u32 d);
 extern int func_021E95C4(u32 a);
 extern void func_021E95D4(u32 a, u32 b, u32 c);
 extern int func_021E95E4(u32 a);
 extern void func_021EA6F4(void *p, u8 b, u16 c);
 extern void func_021E9624(u32 a);
-extern int func_021EA710(Obj *p);
+extern int func_021EA710(u32 *p);
 extern int func_021E95F4(u32 a);
 extern u32 func_0201BD28(u16 id, u32 field);
 extern void func_021ED118(u8 *p, int a, int b, u16 c, u32 d, int e, u8 f);
 extern int func_021ED1B0(char *p);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_0209C0A4(int a, int b);
-extern void func_021F80FC(int a, int b);
+extern void func_021F80FC(u32 a, u32 b);
 extern void func_021F7C2C(int a, int b);
-extern void func_021EAF00(Obj *p, u32 v);
+extern void func_021EAF00(u8 *p, int a);
 extern int func_021ED250(u32 a);
-extern void func_021EA7C8(Obj *p, int v);
+extern void func_021EA7C8(void *ctx, int a);
 extern int func_021EA7E8(Obj *p, int v);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 extern int func_021E9614(u32 a);
 extern void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d);
-extern int func_021E9E80(Obj *p);
+extern int func_021E9E80(u8 *p);
 extern int func_021F7EB4(void);
 extern void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e);
 extern int func_021EA720(Obj *p);
@@ -165,16 +167,16 @@ int func_021E91E8(Obj *p, int *state, Work *w)
     case 2:
         if (func_021EB52C(p->x17C)) {
             u8 msg[0x24];
-            u8 *v = func_021E9634(p, 0);
+            u8 *v = func_021E9634((struct Pair *)p, 0);
             func_021EAF18((struct L *)msg, 1, 0x45);
-            func_021EAF50(msg, func_021D5440(v));
+            func_021EAF50((struct L *)msg, func_021D5440(v));
             func_021EAF78(msg, 0);
-            func_021EA65C(p, msg);
+            func_021EA65C((char *)p, (struct H *)msg);
             (*state)++;
         }
         break;
     case 3:
-        p->xBC = (u32)func_021E9634(p, 0);
+        p->xBC = (u32)func_021E9634((struct Pair *)p, 0);
         p->xC0 = func_021D5440((u8 *)p->xBC);
         p->xB8 = 0;
         p->xC4 = 0;
@@ -190,33 +192,33 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 5:
         if (func_021E95E4(p->x180)) {
-            func_021EA6F4(p, func_021D5440(func_021E9634(p, 0)), 1);
+            func_021EA6F4(p, func_021D5440(func_021E9634((struct Pair *)p, 0)), 1);
             func_021E9624(p->x180);
             (*state)++;
         }
         break;
     case 6:
-        if (func_021EA710(p) && func_021E95F4(p->x180)) {
+        if (func_021EA710((u32 *)p) && func_021E95F4(p->x180)) {
             func_021ED118((u8 *)p->x17C, 0, 1, 1, func_0201BD28(1, 0x1B), 0, 0);
             (*state)++;
         }
         break;
     case 7:
         if (func_021ED1B0((char *)p->x17C)) {
-            func_021F80FC(1, func_0209C0A4(func_021D59B4(func_021E9634(p, 1), 0xE), 6));
+            func_021F80FC(1, func_0209C0A4(func_021D59B4(func_021E9634((struct Pair *)p, 1), 0xE), 6));
             func_021F7C2C(1, 1);
-            func_021EAF00(p, 0x564);
+            func_021EAF00((u8 *)p, 0x564);
             (*state)++;
         }
         break;
     case 8:
         if (func_021ED250(p->x17C)) {
-            func_021EA6F4(p, func_021D5440(func_021E9634(p, 1)), 0x2B);
+            func_021EA6F4(p, func_021D5440(func_021E9634((struct Pair *)p, 1)), 0x2B);
             (*state)++;
         }
         break;
     case 9:
-        if (func_021EA710(p)) {
+        if (func_021EA710((u32 *)p)) {
             func_021ED118((u8 *)p->x17C, 1, 0, 0x2B, func_0201BD28(0x2B, 0x1B), 0, 0);
             (*state)++;
         }
@@ -230,16 +232,16 @@ int func_021E91E8(Obj *p, int *state, Work *w)
     case 11:
         if (func_021EA7E8(p, 0)) {
             u8 msg[0x24];
-            u8 *v = func_021E9634(p, 0);
+            u8 *v = func_021E9634((struct Pair *)p, 0);
             func_021EAF18((struct L *)msg, 2, 0x5D);
-            func_021EAF50(msg, func_021D5440(v));
+            func_021EAF50((struct L *)msg, func_021D5440(v));
             func_021EAF78(msg, 0);
-            func_021EA614(p, msg);
+            func_021EA614((char *)p, (struct H *)msg);
             (*state)++;
         }
         break;
     case 12:
-        if (func_021EA710(p)) {
+        if (func_021EA710((u32 *)p)) {
             func_02045CAC((struct MsgBank *)w->heap, 0, (void *)p->xAC);
             func_021EA730((char *)p, p->xAC, 0, 0);
             w->timer = 0x3C;
@@ -247,7 +249,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         }
         break;
     case 13:
-        if (func_021EA710(p) && --w->timer == 0) {
+        if (func_021EA710((u32 *)p) && --w->timer == 0) {
             func_021E9604(p->x180, p->xBC, p->b175, p->xB8);
             (*state)++;
         }
@@ -259,7 +261,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         }
         break;
     case 15:
-        if (func_021E9E80(p)) {
+        if (func_021E9E80((u8 *)p)) {
             func_02045CAC((struct MsgBank *)w->heap, 1, (void *)p->xAC);
             func_021EA730((char *)p, p->xAC, 0, 0);
             func_021E9624(p->x180);
@@ -267,7 +269,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         }
         break;
     case 16:
-        if (func_021EA710(p) && !func_021F7EB4()) {
+        if (func_021EA710((u32 *)p) && !func_021F7EB4()) {
             func_021F7CFC(1, 4, 3, 1, 0);
             (*state)++;
         }
@@ -275,10 +277,10 @@ int func_021E91E8(Obj *p, int *state, Work *w)
     case 17:
         if (!func_021F7EB4()) {
             u8 msg[0x24];
-            u8 *v = func_021E9634(p, 1);
+            u8 *v = func_021E9634((struct Pair *)p, 1);
             func_021EAF18((struct L *)msg, 1, 0x41);
-            func_021EAF50(msg, func_021D5440(v));
-            func_021EA614(p, msg);
+            func_021EAF50((struct L *)msg, func_021D5440(v));
+            func_021EA614((char *)p, (struct H *)msg);
             (*state)++;
         }
         break;
@@ -286,7 +288,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         if (func_021EA720(p)) {
             func_02005D90(0x518, 0xFFFF);
         }
-        if (func_021EA710(p)) {
+        if (func_021EA710((u32 *)p)) {
             (*state)++;
         }
         break;

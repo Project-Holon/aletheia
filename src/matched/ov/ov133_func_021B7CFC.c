@@ -24,12 +24,13 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int func_0203F768(int,int,int,int,int,int,int);
-extern u8 * func_021BA184(void *);
+extern void *func_021BA184(char *p);
 extern u32 func_021BA208(u8 *p);
 extern u32 func_021BA20C(u8 *p);
 extern int func_021BA25C(u8 *,int,int);
-extern void func_021B765C(u8 *,u16,s16,int,u16),func_020061E4(u32);
-void func_021B7CFC(u8 *p,s16 unused_x,s16 unused_y)
+extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
+extern void func_020061E4(u32);
+void func_021B7CFC(u8 *p, int unused_x, int unused_y)
 {
     int y0,y1,angle,hit,n;
     u8 *e,*data;

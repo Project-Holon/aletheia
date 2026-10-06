@@ -32,9 +32,9 @@ typedef struct Obj {
 
 struct MyItemSave;
 extern void func_02008298(struct MyItemSave *p, u16 v);
-extern void func_02008288(void *g, u16 i, s16 a, s16 b);
-extern void func_02008270(void *g, u16 i, s16 *a, s16 *b);
-extern void func_021BA6A4(Obj *o);
+extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
+extern void func_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b);
+extern void func_021BA6A4(char *p);
 extern void func_021BAF38(int p, int val);
 extern void func_021BA96C(int p, unsigned sel);
 extern void func_021BAAA4(int p, int mode);
@@ -44,11 +44,11 @@ void func_021B6288(Obj *o, int a, int b)
     s16 s[2];
 
     func_02008298(o->gfx, a);
-    func_02008288(o->gfx, a, o->f810, o->f814 + 1);
-    func_02008270(o->gfx, b, &s[1], &s[0]);
+    func_02008288(o->gfx, (u16)a, o->f810, o->f814 + 1);
+    func_02008270(o->gfx, (u16)b, &s[1], &s[0]);
     o->f810 = s[1];
     o->f814 = s[0] - 1;
-    func_021BA6A4(o);
+    func_021BA6A4((char *)o);
     func_021BAF38((int)o, b);
     func_021BA96C((int)o, b);
     func_021BAAA4((int)o, b);

@@ -26,13 +26,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216DA50(u32);
-extern u32 func_02197EDC(u32, u32, u32, u32);
+extern u32 func_02197EDC(u8 *p, u32 a1, u32 a2, u32 a3);
 extern int func_0219B358(u32 a);
 extern void func_0219B404(u32 a, u8 *s);
 
 int func_0219ACE8(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02197EDC(a, b, c, d) == 1) {
+if (func_02197EDC((u8 *)a, b, c, d) == 1) {
     func_0216DA50(a);
     if (func_0219B358(a) == 1) {
         func_0219B404(a, (u8 *)(b + 8));

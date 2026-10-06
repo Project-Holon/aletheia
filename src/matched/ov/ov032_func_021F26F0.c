@@ -17,12 +17,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F05E8(u8 *, int, u32);
-extern void func_021F067C(u8 *);
+extern void func_021F067C(char *p);
 int func_021F26F0(u8 *p)
 {
     if (((struct Obj00007 *)p)->fA8 != 0)
         return 2;
     func_021F05E8(p, 4, 0);
-    func_021F067C(p);
+    func_021F067C((char *)p);
     return 0;
 }

@@ -50,7 +50,7 @@ typedef unsigned int u32;
 extern u8 g_020A1480[];
 extern u16 g_020A1482[];
 
-u32 func_0204E410(u32 c)
+u16 func_0204E410(u8 c)
 {
     u32 i;
 

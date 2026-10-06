@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02012138(const struct Ctx *p);
-extern int   func_0215870C(int a, int b);
+extern int func_0215870C(void *p, int b);
 extern void *func_02188C7C(u8 *p);
 extern u32 func_02188BF8(u8 *a);
 extern void *func_02188CB4(u8 *p);
@@ -47,7 +47,7 @@ int func_021645E0(void *unused, int *st, int *w)
     case 0:
         r = func_02012138((const struct Ctx *)w[0]);
         w[1]++;
-        if (func_0215870C(r, w[1]) == 1 && (u32)w[1] < 0x1e) {
+        if (func_0215870C((void *)r, w[1]) == 1 && (u32)w[1] < 0x1e) {
             break;
         }
         func_02188BF8(h);

@@ -29,7 +29,7 @@ typedef struct tagSELLINFO { u16 num; u16 attr; u32 offset; } SELLINFO;
 extern void *g_021DE674[2];
 
 extern void *func_021D4E1C(int lcd, int num, int head);
-extern GXOamAttr *func_021D4FE0(void *cell, int idx);
+extern char *func_021D4FE0(char *p, unsigned int i);
 extern void func_021D52D4(int lcd, int idx, GXOamAttr *obj);
 
 void *func_021D5394(int lcd, int idx, bool head)
@@ -38,7 +38,7 @@ void *func_021D5394(int lcd, int idx, bool head)
     GXOamAttr *obj;
 
     cell = func_021D4E1C(lcd, ((SELLINFO *)g_021DE674[lcd])[idx].num, head);
-    obj = func_021D4FE0(cell, 0);
+    obj = (GXOamAttr *)func_021D4FE0(cell, 0);
     func_021D52D4(lcd, idx, obj);
     return cell;
 }

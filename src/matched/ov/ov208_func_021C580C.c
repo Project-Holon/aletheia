@@ -34,7 +34,7 @@ struct Ov208Mdl {
     u8  pos[0x3c];
 };
 
-extern void func_021C51A0(struct Ov208Mdl *m, u32 sys);
+extern void func_021C51A0(char *p, int a);
 extern void func_021C51C8(u32 obj, int side, u8 *p);
 extern void ov208_func_021C5664(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C569C(u16 *heap, u8 *p, int key, int a, int b, int pose, u16 idx);
@@ -59,7 +59,7 @@ void ov208_func_021C580C(u16 *heap, u8 *p, int key)
     int pose;
 
     for (i = 0; i < 4; i++)
-        func_021C51A0(MDL(i), W(8));
+        func_021C51A0((char *)MDL(i), W(8));
     ov208_func_021C5664(heap, p, key);
     pose = 0;
     if (W(0x6b8) == 4 && H(0x548) >= 2)

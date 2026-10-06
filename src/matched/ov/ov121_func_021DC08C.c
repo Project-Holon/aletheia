@@ -47,18 +47,19 @@ extern u32 func_020362DC(void);
 extern void func_021DDF5C(u8 *p);
 extern void func_020061E4(u32 a);
 extern int func_021DBDB8(char *);
-extern int func_021DBF04(void *);
+struct Vec2;
+extern int func_021DBF04(int *p);
 extern void func_021DA8B0(u32 *p, u32 a);
-extern void func_021DC9CC(void);
+extern void func_021DC9CC(void *task, u32 *state, char *p);
 extern void func_021DC4F0(void *task, u32 *state, u8 *p);
 extern void func_021DCCE4(void *arg, u32 *state, char *p);
 extern void func_021D9E04(u8 *);
-extern void func_021DBA78(char *,int);
+extern void func_021DBA78(u8 *p, int a);
 extern void func_021DB528(char *,int);
 extern void func_021DB478(char *,int,int,int,u16);
 extern int func_021DBA94(char *);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B404(void *,Position *,u32);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 static inline int wrap(int value,int low,int high)
 {
     if(value>high) return low;
@@ -157,7 +158,7 @@ void func_021DC08C(void *task,u32 *state,char *p)
                     func_020061E4(0x54c);
                     func_021DA8B0(task,(u32)func_021DCCE4);
                 }
-            } else if(func_021DBF04(p+40+220*((u32)*(int *)&((struct Obj00061 *)p)->fACC+*(u32 *)&((struct Obj00061 *)p)->fAC8*4))) {
+            } else if(func_021DBF04((int *)(p+40+220*((u32)*(int *)&((struct Obj00061 *)p)->fACC+*(u32 *)&((struct Obj00061 *)p)->fAC8*4)))) {
                 func_0204B3DC(((struct Obj00061 *)p)->fAF4,0);
                 func_0204B3DC(((struct Obj00061 *)p)->fAF8,0);
                 func_020061E4(0x54c);
@@ -188,7 +189,7 @@ void func_021DC08C(void *task,u32 *state,char *p)
                 direction=0;
             }
             func_020061E4(0x642);
-            func_021DBA78(p,direction);
+            func_021DBA78((u8 *)p,direction);
             func_021DB528(p,0);
             func_021DB478(p,0,direction,next,((struct Obj00061 *)p)->f24);
             ((struct Obj00061 *)p)->fAC8=next;
@@ -208,7 +209,7 @@ void func_021DC08C(void *task,u32 *state,char *p)
                 pos.x=176;pos.y=152;
                 func_0204B878(((struct Obj00061 *)p)->fAEC,11);
             }
-            func_0204B404(((struct Obj00061 *)p)->fAEC,&pos,0);
+            func_0204B404(((struct Obj00061 *)p)->fAEC,(const struct Vec2 *)(&pos),0);
             ((struct Obj00061 *)p)->fBAC=0;
             ((struct Obj00061 *)p)->fA78=1;
         }

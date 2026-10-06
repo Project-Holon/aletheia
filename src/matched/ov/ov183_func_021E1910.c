@@ -21,7 +21,7 @@ typedef unsigned long u32;
 typedef struct {short a,b,c,d;} Row;
 typedef struct {Row row[12];} Table;
 extern const Table d_021E3880;
-extern void func_021E19EC(int,int,char *);
+extern void func_021E19EC(u32 idx, int arg, char *p);
 extern void *func_02051B84(u8 *,int,int,int);
 void func_021E1910(char *p) {
     int i;

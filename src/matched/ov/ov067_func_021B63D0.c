@@ -29,8 +29,8 @@ typedef struct S {
     Ent ent[1];
 } S;
 
-extern int func_021B6934(Ent *e);
-extern int func_021B69A4(Ent *e);
+extern int func_021B6934(struct S *p);
+extern int func_021B69A4(void **p);
 
 void func_021B63D0(S *p)
 {
@@ -40,7 +40,7 @@ void func_021B63D0(S *p)
     case 0:
         p->f00 = -1;
         for (i = 0; i < p->f04; i++) {
-            if (func_021B6934(&p->ent[i])) {
+            if (func_021B6934((struct S *)(&p->ent[i]))) {
                 p->f00 = i;
                 p->f08 = 1;
                 return;
@@ -50,7 +50,7 @@ void func_021B63D0(S *p)
     case 1:
         p->f08 = 2;
     case 2:
-        if (func_021B69A4(&p->ent[p->f00])) {
+        if (func_021B69A4((void **)(&p->ent[p->f00]))) {
             p->f08 = 3;
         }
         break;

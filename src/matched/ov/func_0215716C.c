@@ -34,7 +34,7 @@ typedef unsigned int u32;
 
 extern void func_020307B0(void *);
 
-void func_0215716C(void *a0, unsigned a1, unsigned a2, unsigned a3)
+void func_0215716C(void *a0)
 {
 
     func_020307B0(a0);

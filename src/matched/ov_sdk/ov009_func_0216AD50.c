@@ -61,7 +61,7 @@ extern void func_02193D00(void);
 extern void func_0216A00C(void);
 extern int func_0218597C(void **conn, int func, void *callback, void *param);
 extern int func_02185948(void **conn);
-extern void func_0218592C(void **conn);
+extern void func_0218592C(int **p);
 extern void func_0216A404(void);
 extern void func_021691FC(void);
 extern void func_0216F334(void);
@@ -92,7 +92,7 @@ void func_0216AD50(void)
         func_0218597C(&g_021AA878.ctl->gpConn, 1, 0, 0);
         func_0218597C(&g_021AA878.ctl->gpConn, 2, 0, 0);
         func_02185948(&g_021AA878.ctl->gpConn);
-        func_0218592C(&g_021AA878.ctl->gpConn);
+        func_0218592C((int **)(&g_021AA878.ctl->gpConn));
         g_021AA878.ctl->gpConn = 0;
     }
     func_0216A404();

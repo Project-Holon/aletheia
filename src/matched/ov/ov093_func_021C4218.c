@@ -19,11 +19,11 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021C4268(u8 *p, u8 *a, u8 *b, u8 *c, u32 s0, u32 s1, u32 s2, u32 s3);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 void func_021C4218(u8 *p, u8 *a, u8 *b, u8 *c, u32 s0, u32 s1, u32 s2, u32 s3)
 {
     u32 s = func_021CC8D8(p + 0x1D74, 9310);
     func_021C4268(p, a, b, c, s0, s1, s2, s3);
-    func_021CC95C(p + 0x1D74, s, 9313);
+    func_021CC95C((u32 *)(p + 0x1D74), s, 9313);
 }

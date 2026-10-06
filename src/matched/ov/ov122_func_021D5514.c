@@ -40,7 +40,8 @@ struct PrintSys;
 struct Tcbl;
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_0201058C(void *);
-extern u32 func_021D533C(char *);
+typedef unsigned char  u8;
+extern u32 func_021D533C(u8 *p);
 extern void func_020310C4(struct Tcbl *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_02040618(u32, u32, u32);
@@ -63,7 +64,7 @@ int func_021D5514(void *a, void *b, void *c, char *p)
         ((struct Obj00208 *)p)->f368 = ((struct Obj00208 *)p)->f364;
         ((struct Obj00208 *)p)->f364 = func_0201058C((void *)func_0201283C(((struct Obj00208 *)p)->f350));
         ((struct Obj00208 *)p)->f370 = ((struct Obj00208 *)p)->f36C;
-        ((struct Obj00208 *)p)->f36C = func_021D533C(p);
+        ((struct Obj00208 *)p)->f36C = func_021D533C((u8 *)p);
     }
     func_020310C4(((struct Obj00208 *)p)->f31C);
     func_0201C4E4(((struct Obj00208 *)p)->f320);

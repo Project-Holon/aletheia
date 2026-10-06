@@ -49,42 +49,43 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {int y,m,d,week;} Date;
 extern void func_021DE308(char *,unsigned);
-extern void func_021D9F08(void *,int,int,int);
+struct RtcDate;
+extern void func_021D9F08(u8 *a, int b, int c, int d);
 extern int func_021DE3E0(void *);
-extern int func_021DE4DC(void *,void *,u32);
+extern int func_021DE4DC(u8 *p, void *a, u32 b);
 extern int func_021DEF6C(char *,void *,u16);
-extern int func_021D9554(void *,int);
+extern int func_021D9554(char *p, int n);
 extern int func_021DE500(void *);
-extern void func_021DE550(void *);
+extern void func_021DE550(char *p);
 extern void func_021DA8B0(u32 *p, u32 a);
-extern void func_021DA8C0(void *,int);
-extern void func_021DA8C4(void *);
+extern void func_021DA8C0(u32 *p, u32 a);
+extern void func_021DA8C4(u32 *p);
 extern void func_021D81B0(u8 *,u32,int);
 extern void func_021D83DC(u8 *,int);
-extern int func_021D83B0(void *);
+extern int func_021D83B0(char *p);
 extern void func_021D8138(u8 *,int,int);
 extern int func_021DA178(char *);
 extern void func_021D8198(char *);
-extern void func_021D8380(void *);
-extern void func_021D849C(void *);
-extern int func_021D9FF8(void *);
+extern void func_021D8380(char *p);
+extern void func_021D849C(char *p);
+extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D7814(void *task, u32 *state, u8 *p);
 extern u32 func_020362DC(void);
-extern void func_0203F4E4(Date *);
+extern void func_0203F4E4(struct RtcDate *date);
 extern int func_0200A1A8(char *p, unsigned int bit);
 extern int func_0200A034(void *p, void *arg);
 extern void func_0200A1E4(void *p, unsigned int idx);
 #define P(k) (*(void **)(p+(k)))
 #define W(k) (*(u32 *)(p+(k)))
 
-extern int func_0200A0C8(void *);
+extern u32 func_0200A0C8(u8 *p);
 struct Obj;
 extern u32 func_0200A348(struct Obj *);
-extern int func_0200A104(void *,u32);
+extern int func_0200A104(char *p, unsigned int idx);
 extern int func_0200A350(void *);
 extern int func_0202EB44(void);
 extern void *func_021DE4D8(char *p);
-extern void func_021DA84C(void *,int,int);
+extern void func_021DA84C(u8 *p, u32 i, u32 value);
 extern void func_021D80F0(void *a, int *state, u8 *p);
 extern void func_021D7B4C(void *task, u32 *state, u8 *p);
 extern void func_021D72F0(void *a, int *state, char *p);
@@ -103,11 +104,11 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
         if(P(624)==0) func_021D81B0(p,0,29);
         *state=1;break;
     case 1:
-        v=func_021D83B0(p);
+        v=func_021D83B0((char *)p);
         if(v!=-1) {
         if(v==0) {
             all=1;
-            func_021D8380(p);
+            func_021D8380((char *)p);
             flag=(func_0200A0C8(P(956))==0);
             if(flag) {
                 for(i=0;i<func_0200A348(P(956));i++) {
@@ -126,9 +127,9 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
                 else *state=2;
             }
         } else if(v==1) {
-            func_021D8380(p);func_021DA8B0(task,(u32)func_021D7B4C);
+            func_021D8380((char *)p);func_021DA8B0(task,(u32)func_021D7B4C);
         } else if(v==2) {
-            func_021D8380(p);func_021DA8B0(task,(u32)func_021D72F0);
+            func_021D8380((char *)p);func_021DA8B0(task,(u32)func_021D72F0);
         } else if(v==3) func_021DA8B0(task,(u32)func_021D6DF4);
         else break;
         }
@@ -147,14 +148,14 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
     case 5:func_021DE308(P(944),1);*state=6;break;
     case 6:if(func_021DE3E0(P(944))==2) *state=7;break;
     case 7:
-        func_021D8380(p);func_021D81B0(p,1,29);
+        func_021D8380((char *)p);func_021D81B0(p,1,29);
         func_021D9F08(P(644),W(932),86,0);*state=8;break;
     case 8:
         if(((u32)func_021DE4D8(P(944)))&32) func_021DA84C(P(624),0,1);
         else func_021DA84C(P(624),0,0);
-        v=func_021D83B0(p);
+        v=func_021D83B0((char *)p);
         if(v!=-1) {
-        func_021D8380(p);
+        func_021D8380((char *)p);
         switch(v) {
         case 0:W(940)=0;*state=9;break;
         case 1:W(940)=1;*state=12;break;

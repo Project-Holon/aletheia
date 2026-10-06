@@ -18,7 +18,7 @@
  *   func_021DEFEC 0x021DEFEC thumb ov170
  */
 extern void func_021DD530(unsigned char *);
-extern void func_021EA1E8(unsigned char *);
+extern void func_021EA1E8(char *p);
 typedef unsigned char  u8;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
@@ -27,18 +27,18 @@ extern void func_021ED55C(char **, int);
 extern void func_021EE038(char *, int, int, int);
 extern void func_021EBC58(unsigned char *, int, int, int);
 extern void func_021ED888(char *, int);
-extern void func_021DEFEC(unsigned char *, int);
+extern void func_021DEFEC(char *p, int b);
 #define WORK(p) (*(char **)((p) + 0x2c))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 int func_021E5E08(unsigned char *p)
 {
     func_021DD530(p);
-    func_021EA1E8(p);
+    func_021EA1E8((char *)p);
     func_021EE038((char *)p, 0, 0, 1);
     if (p[0x16] == 0xff) {
         func_020260E4(OBJ(p), 0);
         func_021EE3E4((char **)p, 0);
-        func_021DEFEC(p, 0x1e);
+        func_021DEFEC((char *)p, 0x1e);
     } else {
         func_021EBC58(p, p[0x16], 1, 0x18);
         func_020260E4(OBJ(p), 8);

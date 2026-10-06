@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void func_0216D85C(void *p, u16 v) { ((struct Obj17846 *)p)->f3E = v; }
+void func_0216D85C(void *p, int v) { ((struct Obj17846 *)p)->f3E = v; }

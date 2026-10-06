@@ -54,7 +54,7 @@ extern char g_021A5234[];
 extern char g_021A523C[];
 extern char g_021A5214[];
 
-extern int func_0219329C(void **connection, char *input, int callErrorCallback);
+extern int func_0219329C(int *connection, const char *input, int fatal);
 extern int func_02193378(char *command, char *key, int *index, char *value, int len);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
@@ -80,7 +80,7 @@ int func_02190188(void **connection, char *input)
     index = 0;
     iconnection = (GPIConnection *)*connection;
 
-    if (func_0219329C(connection, input, 1))
+    if (func_0219329C((int *)connection, input, 1))
         return 4;
 
     if (!func_02193378(input, g_021A522C, &index, buffer, sizeof(buffer))) {

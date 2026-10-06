@@ -38,8 +38,10 @@ extern u32 d_021BA60C[];
 
 typedef unsigned short u16;
 extern void func_0203F8F4(u16 heapId);
-extern void func_0203FC28(void *);
-extern void func_0203FCA0(u8, void *, int);
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u8);
 extern void func_02040B94(u8, int, int, int);
 extern void func_02040588(u8, int);
@@ -53,11 +55,11 @@ void func_021B97F4(void)
 
     func_0203F8F4(0x80);
     a = d_021BA65C;
-    func_0203FC28(&a);
+    func_0203FC28((struct DispConfig *)(&a));
     b = d_021BA7A0;
     for (i = 0; i < 5; i++) {
         id = d_021BA60C[i];
-        func_0203FCA0(id, &b.w[i * 8], 0);
+        func_0203FCA0((u8)id, (const struct BgTemplate *)(&b.w[i * 8]), (int)0);
         func_020414EC(id);
         func_02040B94(id, 0x20, 0, 0x80);
         func_02040588(id, 1);

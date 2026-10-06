@@ -93,30 +93,37 @@ typedef struct Bs {
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_021AA304(struct Info *out, void *a1, void *a2);
-extern Bs *func_02013090(u32 heap);
-extern void func_02013610(Bs *p, void *a, struct Info *b, u32 c, u16 d);
-extern void func_02013644(Bs *p, void *a, struct Info *b, u32 c, u16 d);
-extern void func_02013734(Bs *o, void *a1, struct Info *a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_02013810(Bs *o, void *a1, void *a2, u32 a3, u8 a4, u32 a5, u32 a6, u16 a7);
-extern void *func_020399A8(void);
+struct BattleMon;
+struct Entry;
+struct Obj02013734;
+struct PartyMon;
+struct RecDC;
+struct Sav;
+struct ZoneData;
+extern void *func_02013090(u32 heap);
+extern void func_02013610(u8 *p, u32 a, u32 b, u32 c, u16 d);
+extern void func_02013644(u8 *p, u32 a, u32 b, u32 c, u16 d);
+extern void func_02013734(struct Obj02013734 *o, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void func_02013810(u8 *o, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u16 a7);
+extern struct Entry *func_020399A8(void);
 extern u16 func_02039338(void);
-extern void func_02013980(Bs *o, u32 heap);
+extern void func_02013980(struct ZoneData *o, u32 heap);
 extern u8 *func_02012944(void *p);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02017528(void *mon);
+extern void func_02017528(struct Sav *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_02019CE0(const void *src, void *dest);
+extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02019CA0(void *p, u32 v);
-extern u32 func_0201A98C(struct Party *p, const void *src);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_020307B0(void *p);
-extern void func_02045924(struct Strbuf *o, const u8 *src);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_0202428C(void *p);
 extern int func_02168AC8(Rec *r);
-extern void func_0216869C(const BattleMon *src, void *mon);
-extern void func_0201394C(Bs *o);
+extern void func_0216869C(const struct BattleMon *src, void *mon);
+extern void func_0201394C(struct ZoneData *o);
 extern const char d_02172A2C[];
 
 Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int n)
@@ -146,15 +153,15 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
     case 0:
     case 4:
     case 5:
-        func_02013610(bs, ctx, &info, 0, 4);
+        func_02013610((u8 *)bs, (u32)ctx, (u32)(&info), 0, 4);
         break;
     case 1:
     case 6:
-        func_02013644(bs, ctx, &info, 0, 4);
+        func_02013644((u8 *)bs, (u32)ctx, (u32)(&info), 0, 4);
         break;
     case 2:
     case 7:
-        func_02013734(bs, ctx, &info, 0, 0, 0, 4);
+        func_02013734((struct Obj02013734 *)bs, (u32)ctx, (u32)(&info), 0, 0, 0, 4);
         break;
     case 3:
     case 8:
@@ -162,10 +169,10 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
         flag = 0;
         if (func_02039338() != 0)
             flag = 2;
-        func_02013810(bs, ctx, e, 1, flag, 0, 0, 4);
+        func_02013810((u8 *)bs, (u32)ctx, (u32)e, 1, flag, 0, 0, 4);
         break;
     }
-    func_02013980(bs, 4);
+    func_02013980((struct ZoneData *)bs, 4);
 
     k = SIDE_0;
     i = 0;
@@ -189,7 +196,7 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
     o->f00 = recA->f00;
     o->f04 = recA->f04;
     o->f08 = 0x87;
-    func_02045924(o->f14, recA->f08);
+    func_02045924(o->f14, (const u16 *)recA->f08);
     func_0202428C(&o->w18.v[0]);
     func_0202428C(&o->w18.v[4]);
     if (mode == 4) {
@@ -215,7 +222,7 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
     func_0201A954(partyB, 6);
     mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x29E);
     for (i = 0; i < n; i++) {
-        func_0216869C(&recA->mons[i], mon);
+        func_0216869C((const struct BattleMon *)(&recA->mons[i]), mon);
         func_0201A98C(partyB, mon);
     }
     func_020307B0(mon);
@@ -227,12 +234,12 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
         o->f00 = recC->f00;
         o->f04 = recC->f04;
         o->f08 = 0x87;
-        func_02045924(o->f14, recC->f08);
+        func_02045924(o->f14, (const u16 *)recC->f08);
         partyC = bs->f24[k];
         func_0201A954(partyC, 6);
         mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2C4);
         for (i = 0; i < n; i++) {
-            func_0216869C(&recC->mons[i], mon);
+            func_0216869C((const struct BattleMon *)(&recC->mons[i]), mon);
             func_0201A98C(partyC, mon);
         }
         func_020307B0(mon);
@@ -243,18 +250,18 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
         o->f00 = recB->f00;
         o->f04 = recB->f04;
         o->f08 = 0x87;
-        func_02045924(o->f14, recB->f08);
+        func_02045924(o->f14, (const u16 *)recB->f08);
         func_0202428C(&o->w18.v[0]);
         func_0202428C(&o->w18.v[4]);
         partyD = bs->f24[k];
         func_0201A954(partyD, 6);
         mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2F3);
         for (i = 0; i < n; i++) {
-            func_0216869C(&recB->mons[i], mon);
+            func_0216869C((const struct BattleMon *)(&recB->mons[i]), mon);
             func_0201A98C(partyD, mon);
         }
         func_020307B0(mon);
     }
-    func_0201394C(bs);
+    func_0201394C((struct ZoneData *)bs);
     return bs;
 }

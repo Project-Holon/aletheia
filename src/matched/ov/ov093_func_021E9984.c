@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021D3D70(u8 *p);
-extern int func_021B8F5C(u8 *, u32);
+extern int func_021B8F5C(char *p, int k);
 extern int func_021B8F38(unsigned char *p);
 extern int func_021B8F7C(u8 *, u32);
 extern unsigned char func_021B8FC0(unsigned char *p, unsigned int k);
@@ -45,7 +45,7 @@ void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
     int zero;
     int active;
     k = func_021D3D70(((struct Obj00056 *)p)->f4);
-    ((struct Obj00714 *)q)->f4 = func_021B8F5C(*(u8 * *)&((struct Obj00056 *)p)->f0, k);
+    ((struct Obj00714 *)q)->f4 = func_021B8F5C((char *)(*(u8 * *)&((struct Obj00056 *)p)->f0), k);
     if (mode != 3) active = func_021B8F38(((struct Obj00056 *)p)->f0);
     else active = 0;
     ((struct Obj00714 *)q)->f18 = active;

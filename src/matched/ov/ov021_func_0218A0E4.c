@@ -83,22 +83,24 @@ struct Ctx;
 extern u32 func_0200FB24(void);
 extern u32 func_020221A4(void);
 extern int func_021C06CC(void *sys, u8 *pos);
-extern int func_021850FC(void *sys, u8 *pos);
+extern void *func_021850FC(void *p, u8 *pos);
 extern int func_0217391C(u8 *p);
 extern int func_02173928(u8 *p);
 extern void func_02026400(struct Comm *p);
-extern int func_0218A784(struct FieldInput *p, int d);
+struct Ctx784;
+struct FieldCtx;
+extern int func_0218A784(struct Ctx784 *c, int a);
 extern int func_0217B80C(int a, int b);
 extern int func_0217B83C(void *sys, void *pos);
 extern int func_0217394C(const struct Ctx *p);
-extern int func_0218B4B0(struct FieldInput *p, u8 *pos);
-extern u16 func_0216D5B8(void *p);
+extern int func_0218B4B0(struct FieldCtx *p, u8 *pos);
+extern u32 func_0216D5B8(void *p);
 extern int func_02158D90(u16 v);
 extern void *func_021A3074(u8 *p);
 extern u16 func_0216D588(void *p);
 extern int func_0217AF38(u16 a);
 extern void func_021A2F6C(u32 *p);
-extern int func_0219F01C(void *sys, u8 *pos, u32 a, void *m, int ev, u16 id);
+extern int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u8 func_0201212C(const struct Ctx *p);
 extern int func_0215FCE0(int a, int b, unsigned short c);
 
@@ -121,28 +123,28 @@ int func_0218A0E4(void *sys, u8 *pos)
                 return func_021C06CC(sys, pos);
             return 0;
         }
-        return func_021850FC(sys, pos);
+        return (int)func_021850FC(sys, pos);
     }
     if (func_0217391C(ev) == 1) {
         if (func_02173928(ev) == 0)
             func_02026400(a);
         return 0;
     }
-    if (in.b2 && (r = func_0218A784(&in, 9)) != 0)
+    if (in.b2 && (r = func_0218A784((struct Ctx784 *)(&in), 9)) != 0)
         return r;
     if ((r = func_0217B80C((int)sys, (int)pos)) != 0)
         return r;
     if (in.b0 && (r = func_0217B83C(sys, pos)) != 0)
         return r;
     if (in.b0 && func_0217394C(sys) == 1) {
-        obj = func_0218B4B0(&in, pos);
+        obj = func_0218B4B0((struct FieldCtx *)(&in), pos);
         if (obj != 0) {
             k = func_0216D5B8((void *)obj);
             if (func_02158D90(k) == 1) {
                 m = func_021A3074((u8 *)in.f18);
                 if (func_0217AF38(func_0216D588((void *)obj)) == 0) {
                     func_021A2F6C((u32 *)in.f18);
-                    return func_0219F01C(sys, pos, k, m, obj, in.f0);
+                    return func_0219F01C((u32)sys, (u32)pos, k, (u32)m, obj, in.f0);
                 }
             }
         }

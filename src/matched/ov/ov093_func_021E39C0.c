@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern int func_021D775C(int);
-extern void *func_021C7CF4(void *a, u8 b);
+extern void *func_021C7CF4(int *p, int i);
 struct UtilWork;
 extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern void func_021D7704(int a, int b);
@@ -34,7 +34,7 @@ void func_021E39C0(int u, void *a, int c)
 
     if (c == func_021D775C(3)) {
         n = 4;
-        if (func_021D5BDC(func_021C7CF4(a, func_021D775C(4)), 4) != 0)
+        if (func_021D5BDC(func_021C7CF4(a, (u8)func_021D775C(4)), 4) != 0)
             func_021D7704(0x35, n << 11);
     }
 }

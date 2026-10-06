@@ -46,8 +46,12 @@ extern void func_02045C04(struct Rec *rec);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_0201D83C(void *ptr);
 extern void func_02030EAC(struct Node *n);
-extern u32 func_021DE354(void *),func_021DE37C(void *);
-extern void func_021DD380(void *),func_020315D4(void *),func_020306F0(unsigned int);
+struct S020315D4;
+extern int func_021DE354(void *p);
+extern u32 func_021DE37C(void *);
+extern void func_021DD380(u8 *p);
+extern void func_020315D4(struct S020315D4 *p);
+extern void func_020306F0(unsigned int);
 int func_021DD0B8(void *a,int b,void *c,u8 *p)
 {
     func_0203115C((struct Tcbl *)(((struct Obj02207 *)p)->fF4)); func_02031140((struct S02031140 *)(((struct Obj02207 *)p)->fF4));

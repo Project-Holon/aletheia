@@ -23,7 +23,8 @@
 
 #define GSI_MIN(a, b) ((a) < (b) ? (a) : (b))
 
-extern void func_0217F824(const char *trip, char *quart, int inlen);
+typedef unsigned char  u8;
+extern void func_0217F824(const char *src, u8 *dst, int n);
 extern char g_021A19FC[];
 extern char g_021A19FF[];
 extern char g_021A1A02[];
@@ -47,7 +48,7 @@ void func_0217FA90(const char *input, char *output, int inlen, int encodingType)
     }
 
     while (todo > 0) {
-        func_0217F824(input, output, GSI_MIN(todo, 3));
+        func_0217F824(input, (u8 *)output, GSI_MIN(todo, 3));
         output += 4;
         input += 3;
         todo -= 3;

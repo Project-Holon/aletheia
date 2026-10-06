@@ -29,7 +29,7 @@ extern void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32
 extern void func_021EABA0(void **win);
 struct Rec;
 extern void func_02045C04(struct Rec *rec);
-extern void func_021EE0FC(unsigned char *p);
+extern void func_021EE0FC(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
@@ -40,5 +40,5 @@ void func_021EBA84(unsigned char *p, int msg, int i)
     func_021EAC28(WORK(p), i, bank, msg, 0, 0, *(u32 *)(WORK(p) + 0x78), 0x44F);
     func_021EABA0((void **)(WORK(p) + 0x94 + i * 8));
     func_02045C04(bank);
-    func_021EE0FC(p);
+    func_021EE0FC((char *)p);
 }

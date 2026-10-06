@@ -44,29 +44,29 @@ typedef struct {
 } Nib;
 
 struct WinMgr;
-extern void func_021ED55C(unsigned char *p, int flag);
+extern void func_021ED55C(char **p, int flag);
 extern int func_021EF480(struct WinMgr *mgr);
-extern void func_021DD14C(unsigned char *p);
-extern void func_021DEFEC(unsigned char *p, int b);
+extern void func_021DD14C(char *p);
+extern void func_021DEFEC(char *p, int b);
 extern void func_021EBA5C(char *w, int v);
-extern void func_021ED6E4(unsigned char *p, int v);
+extern void func_021ED6E4(char **p, int v);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0ED4(unsigned char *p);
 extern void func_021EF3D8(struct WinMgr *mgr);
 extern void func_021EF35C(struct WinMgr *mgr);
 extern void func_021EF36C(struct WinMgr *mgr);
-extern void func_021EC5A0(unsigned char *p, int flag);
+extern void func_021EC5A0(char **p, int flag);
 extern void func_020061E4(unsigned se);
 extern int func_021E01B0(unsigned char *p);
-extern void func_021ECB20(unsigned char *p, int f, int c);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021ED888(char *w, int a);
-extern void func_021EE364(unsigned char *p, int idx, int v);
-extern void func_021ED544(unsigned char *p, int b);
+extern void func_021EE364(char **p, int idx, int v);
+extern void func_021ED544(char *p, int b);
 typedef unsigned int   u32;
 struct Sound;
 extern void func_02026124(struct Sound *obj, u32 idx);
-extern void func_021EE038(unsigned char *p, int a, int b, int c);
+extern void func_021EE038(char *p, int a, int b, int c);
 extern void func_021ED508(unsigned char *p, int a, int b);
 extern int func_021EA458(unsigned char *p, unsigned i);
 
@@ -81,7 +81,7 @@ int func_021E644C(unsigned char *p)
     switch (STEP(p)) {
     case 0:
         STEP(p)++;
-        func_021ED55C(p, 0);
+        func_021ED55C((char **)p, 0);
         if (func_021EF480(MGR(p)) == 1)
             p[0x1E] = 1;
         else
@@ -89,18 +89,18 @@ int func_021E644C(unsigned char *p)
         if (NIB(p)->lo == 1) {
             p[0x17] = 0xFF;
             *(unsigned short *)(WORK(p) + 0xA16C) = 0;
-            func_021DD14C(p);
-            func_021DEFEC(p, p[0x16]);
+            func_021DD14C((char *)p);
+            func_021DEFEC((char *)p, p[0x16]);
         } else {
             if (NIB(p)->lo == 2 && *(unsigned short *)(WORK(p) + 0xA16C) == 0) {
                 p[0x17] = 0xFF;
                 NIB(p)->lo = 1;
             }
             func_021EBA5C(WORK(p), 0x18);
-            func_021DD14C(p);
-            func_021ED6E4(p, 0);
+            func_021DD14C((char *)p);
+            func_021ED6E4((char **)p, 0);
             func_021EF57C(MGR(p));
-            return func_021E8FC0(p, func_021E0ED4, 0x3F);
+            return func_021E8FC0((char *)p, (int)func_021E0ED4, 0x3F);
         }
     case 1:
         STEP(p)++;
@@ -109,21 +109,21 @@ int func_021E644C(unsigned char *p)
         } else {
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
-            func_021EC5A0(p, 0);
+            func_021EC5A0((char **)p, 0);
         }
         func_020061E4(0x669);
-        return func_021E8FC0(p, func_021E01B0, 0x3F);
+        return func_021E8FC0((char *)p, (int)func_021E01B0, 0x3F);
     case 2:
         STEP(p) = 0;
-        func_021ECB20(p, 0x81, 1);
-        func_021ECB20(p, 0x82, 1);
+        func_021ECB20((char *)p, 0x81, 1);
+        func_021ECB20((char *)p, 0x82, 1);
         func_021ED888(WORK(p), 1);
-        func_021EE364(p, 6, p[0x16]);
-        func_021ED544(p, 6);
+        func_021EE364((char **)p, 6, p[0x16]);
+        func_021ED544((char *)p, 6);
         func_02026124(OBJ(p), 0x27);
         func_02026124(OBJ(p), 0x28);
         if (NIB(p)->lo == 1) {
-            func_021EE038(p, 0, 1, 1);
+            func_021EE038((char *)p, 0, 1, 1);
             func_021ED508(p, 0xD, 1);
             return 0x40;
         }
@@ -131,7 +131,7 @@ int func_021E644C(unsigned char *p)
             func_021ED508(p, 0xD, 1);
         else
             func_021ED508(p, 0xE, 1);
-        func_021EE038(p, 2, 1, 1);
+        func_021EE038((char *)p, 2, 1, 1);
         return func_021EA458(p, p[0x16]);
     }
     return 0x3F;

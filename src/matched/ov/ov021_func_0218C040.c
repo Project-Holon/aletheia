@@ -19,7 +19,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020477A4(void *h, u16 i);
+struct G3dSys;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void func_02047804(void *h, u16 i);
 extern u8 *func_0218BCAC(u8 *p);
 
@@ -32,7 +33,7 @@ void func_0218C040(void *a, void **b)
     t = func_0218BCAC(*(void **)b[1]);
     n = t[2];
     for (i = 0; i < 4 && i < n; i++) {
-        func_020477A4(b[0], i);
+        func_020477A4(b[0], (u16)i);
         func_02047804(b[0], i);
         b[2 + i] = (void *)1;
     }

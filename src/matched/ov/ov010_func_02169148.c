@@ -74,7 +74,7 @@ typedef struct Mgr {
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02046C94(void);
-extern void func_0216990C(Mgr *m);
+extern void func_0216990C(u8 *p);
 extern const char d_02172A40[];
 extern u32 (*g_020A8140)(u32 size, u32 is4x4, u32 opt);
 extern u32 (*g_020A8148)(u32 size, u32 is4pltt, u32 opt);
@@ -94,7 +94,7 @@ Mgr *func_02169148(const Cfg *cfg, u32 heap)
         m->listA = sub_02030734(heap, cfg->nA * 20, 1, d_02172A40, 0x77);
     if (m->nB != 0)
         m->listB = sub_02030734(heap, cfg->nB * 20, 1, d_02172A40, 0x7A);
-    func_0216990C(m);
+    func_0216990C((u8 *)m);
     m->f28 = cfg->f08;
     m->size = cfg->size;
     m->buf = sub_02030734(heap, cfg->size, 1, d_02172A40, 0x86);

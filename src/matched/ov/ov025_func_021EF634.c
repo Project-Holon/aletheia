@@ -25,9 +25,9 @@ typedef unsigned int u32;
 typedef signed short s16;
 
 extern u32 func_020056EC(u32);
-extern void func_0204B908(int, u16);
+extern void func_0204B908(int a0, int a1);
 extern int *func_021A21B8(int *);
-extern unsigned char *func_021A21C8(int *, int);
+extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *);
 extern u32 func_021A2638(unsigned char *);
 extern void func_021A2654(int, unsigned short *);
@@ -82,6 +82,6 @@ void func_021EF634(int *a, int n, int idx)
         } else {
             m = r % 4;
         }
-        func_0204B908(h, m);
+        func_0204B908(h, (u16)m);
     }
 }

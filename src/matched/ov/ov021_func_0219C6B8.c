@@ -48,8 +48,10 @@ typedef struct {
 
 extern u16 d_021D75D0[][2];
 extern u32 func_0216D520(void *p);
-extern u32 func_02050340(u32, u32, Desc *, u32, u32);
-extern u32 *func_0219D3E4(u32);
+struct BbActDesc;
+struct BbActSys;
+extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
+extern char *func_0219D3E4(int i);
 extern void func_02050804(void *p, int idx, u32 v, u16 h);
 extern void func_0205082C(void *p, int idx, u16 h);
 extern void func_020507F0(void *p, int idx, u32 v);
@@ -72,8 +74,8 @@ u32 func_0219C6B8(u32 a, V3 *b, int c, u32 d, u16 e)
     s.w = 1;
     s.f1c = (void (*)(void))func_0219C9D0;
     s.f20 = (u32)m;
-    r = func_02050340(((struct Obj07474 *)m)->f4, ((struct Obj07474 *)m)->f8, &s, 1, 0);
-    q = func_0219D3E4(d);
+    r = func_02050340((struct BbActSys *)(((struct Obj07474 *)m)->f4), ((struct Obj07474 *)m)->f8, (const struct BbActDesc *)(&s), 1, 0);
+    q = (u32 *)func_0219D3E4(d);
     if (q[0] != 0) {
         func_02050804((void *)(((struct Obj07474 *)m)->f4), r, q[0], (u16)q[1]);
         h = ((struct Obj07474 *)m)->f4;

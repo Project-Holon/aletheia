@@ -25,7 +25,8 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020124F4(u16);
 extern unsigned int func_0203630C(void);
-extern void func_021B6100(char *);
+typedef unsigned char  u8;
+extern void func_021B6100(u8 *p);
 extern char d_021B74AC[];
 int func_021B6BC4(void *ctx,int unused,char *arg)
 {
@@ -40,6 +41,6 @@ int func_021B6BC4(void *ctx,int unused,char *arg)
     }
     ((struct Obj01167 *)p)->f0=0x55;
     *(char * *)&((struct Obj01167 *)p)->f30=arg;
-    func_021B6100(p);
+    func_021B6100((u8 *)p);
     return 1;
 }

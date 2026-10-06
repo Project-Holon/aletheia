@@ -16,23 +16,26 @@
  */
 #include "../include/Obj03797.h"
 extern void func_021D584C(char *);
-extern void func_021D62B4(char *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub02009210Obj;
+extern void func_021D62B4(u8 *p, unsigned int i);
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
-extern int func_02009370(void *);
+extern u32 func_02009370(const struct Sub02009210Obj *obj);
 extern void func_021D57B8(char *, int);
-extern void func_021D6EE0(char *, int, int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8304(char *p);
 void func_021D834C(char *p)
 {
     func_021D584C(*(char * *)&((struct Obj03797 *)p)->f18);
-    func_021D62B4(*(char * *)&((struct Obj03797 *)p)->f14, 0);
-    func_021D62B4(*(char * *)&((struct Obj03797 *)p)->f14, 12);
-    func_021D62B4(*(char * *)&((struct Obj03797 *)p)->f14, 6);
-    func_021D62B4(*(char * *)&((struct Obj03797 *)p)->f14, 8);
-    if (func_02009370(func_02009448(((struct Obj03797 *)p)->f28)))
+    func_021D62B4((u8 *)(*(char * *)&((struct Obj03797 *)p)->f14), 0);
+    func_021D62B4((u8 *)(*(char * *)&((struct Obj03797 *)p)->f14), 12);
+    func_021D62B4((u8 *)(*(char * *)&((struct Obj03797 *)p)->f14), 6);
+    func_021D62B4((u8 *)(*(char * *)&((struct Obj03797 *)p)->f14), 8);
+    if (func_02009370((const struct Sub02009210Obj *)func_02009448(((struct Obj03797 *)p)->f28)))
         func_021D57B8(*(char * *)&((struct Obj03797 *)p)->f18, 21);
     else
         func_021D57B8(*(char * *)&((struct Obj03797 *)p)->f18, 10);
-    func_021D6EE0(p, (int)func_021D8304, 0x64c);
+    func_021D6EE0((u8 *)p, (int)func_021D8304, 0x64c);
 }

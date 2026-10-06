@@ -24,9 +24,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0204B974();
+struct Actor;
+extern void func_0204B974(struct Actor *a);
 void func_021C2250(u32 a0, u32 a1)
 {
-    func_0204B974(*(u32*)(((u8*)a0 + a1 * 24) + 60), a1, a1 * 24);
+    func_0204B974((struct Actor *)(*(u32*)(((u8*)a0 + a1 * 24) + 60)));
 }
 

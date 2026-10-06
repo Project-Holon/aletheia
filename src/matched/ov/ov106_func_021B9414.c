@@ -40,8 +40,11 @@ typedef struct {
     int f18;
 } Obj_021B9414;
 
-extern u32 func_020437DC(int x);
-extern u32 func_020437E4(int x);
+typedef unsigned short u16;
+struct Bmp;
+extern u16 func_020437DC(const struct Bmp *bmp);
+struct Bmp;
+extern u32 func_020437E4(const struct Bmp *bmp);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
@@ -56,8 +59,8 @@ void func_021B9414(Obj_021B9414 *o, int b, int *out)
         return;
     }
     case 1: {
-        u32 x = func_020437DC(o->f0) >> 1;
-        u32 y = func_020437E4(o->f0) >> 1;
+        u32 x = (u32)func_020437DC((const struct Bmp *)o->f0) >> 1;
+        u32 y = func_020437E4((const struct Bmp *)o->f0) >> 1;
         x -= func_0201D304((struct StrObj *)o->f18, b, 0) >> 1;
         y -= func_0201D42C((struct StrObj *)o->f18, (void *)b) >> 1;
         out[0] = x + o->fc;
@@ -65,7 +68,7 @@ void func_021B9414(Obj_021B9414 *o, int b, int *out)
         return;
     }
     case 2: {
-        u32 y = func_020437E4(o->f0) >> 1;
+        u32 y = func_020437E4((const struct Bmp *)o->f0) >> 1;
         u32 ny = y - (func_0201D42C((struct StrObj *)o->f18, (void *)b) >> 1);
         out[0] = o->fc;
         out[1] = ny + o->f10;

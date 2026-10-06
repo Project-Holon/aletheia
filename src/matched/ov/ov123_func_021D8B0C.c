@@ -23,7 +23,7 @@ extern int func_02012DD0(u8 *p);
 extern void func_020307B0(void *);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 extern u32 func_0203C938(u8 mode);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8A9C(char *p);
 void func_021D8B0C(char *p)
 {
@@ -42,7 +42,7 @@ void func_021D8B0C(char *p)
         break;
     case 2:
         p[0xad]=0;
-        func_021D6EE0(p,(int)func_021D8A9C,0x8e6);
+        func_021D6EE0((u8 *)p,(int)func_021D8A9C,0x8e6);
         break;
     }
 }

@@ -27,7 +27,8 @@ typedef struct {
 } Buf;
 extern char g_021A2608[];
 extern char g_021A265C[];
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern int func_0217A0D4(char *http, Buf *buf, unsigned long size);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
 
@@ -43,8 +44,8 @@ int func_02179DA0(char *http)
     } else {
         format = g_021A265C;
     }
-    result_len = func_0209477C(*(char **)(http + 0x1124)) +
-                 (func_0209477C(format) - 4 + func_0209477C(*(char **)(http + 0x1128)));
+    result_len = func_0209477C((const u8 *)(*(char **)(http + 0x1124))) +
+                 (func_0209477C((const u8 *)format) - 4 + func_0209477C((const u8 *)(*(char **)(http + 0x1128))));
     if (func_0217A0D4(http, (Buf *)(http + 0x1a34), result_len + 0x400) != 1) {
         return 1;
     }

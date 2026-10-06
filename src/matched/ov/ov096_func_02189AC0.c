@@ -37,8 +37,8 @@ extern int func_0201134C(int);
 struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 *func_0218A308(void *, u32);
-extern u32 func_0218A390(int, u8 *, u8 *, int);
-extern unsigned char func_021B8DE4(char *p, int i);
+extern u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d);
+extern int func_021B8DE4(char *p, int i);
 extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(void *pp, unsigned int b);
 struct Q1;
@@ -58,12 +58,12 @@ int func_02189AC0(int a, Obj *b) {
     r4 = func_021B8DE4((char *)b->fb0, b->f94);
     r7 = func_021B9AF8(b->fb8, r4);
     r4 = func_021B99B8((void *)b->fb0, r4);
-    base = func_0218A390((int)b, b->fbc, b->fc0, c);
+    base = func_0218A390((u8 *)((int)b), b->fbc, b->fc0, c);
     for (; r4 < func_021B9B94((struct Q1 *)r7); r4++) {
         r6 = func_0218A308(r7, (u8)r4);
         func_021D5440(r6);
         if (func_021D5B68(r6) == 0) {
-            if (func_0218A390((int)b, r6, b->fc0, c) > base) {
+            if (func_0218A390((u8 *)((int)b), r6, b->fc0, c) > base) {
                 func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + x);
                 break;
             }

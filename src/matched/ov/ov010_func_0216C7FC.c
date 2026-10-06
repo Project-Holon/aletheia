@@ -25,12 +25,17 @@
  *   d_021BA650     0x021BA650  data  a4 ov069
  */
 
-extern int func_020120F4(int);
-extern int func_02012EFC(int);
-extern int func_0200DF40(int);
-extern int func_0200DF4C(int);
-extern int func_020146F8(int, int, char *, char *, int *);
-extern void func_02012374(int, int);
+typedef unsigned char  u8;
+struct Ctx;
+struct Evt;
+struct RecSlot;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EFC(void **p);
+struct RecSlot;
+extern int func_0200DF40(struct RecSlot *p);
+extern u8 func_0200DF4C(struct RecSlot *p);
+extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern char d_021BA650[];
 extern char id_00000045[];
 
@@ -39,11 +44,11 @@ int func_0216C7FC(int a, int *st, int *o)
     int t;
     switch (*st) {
     case 0:
-        o[2] = func_020120F4(o[1]);
-        t = func_02012EFC(o[2]);
-        o[3] = func_0200DF40(t);
-        o[4] = func_0200DF4C(t);
-        func_02012374(a, func_020146F8(o[1], o[0], id_00000045, d_021BA650, &o[2]));
+        o[2] = (int)func_020120F4((const struct Ctx *)o[1]);
+        t = (int)func_02012EFC((void **)o[2]);
+        o[3] = func_0200DF40((struct RecSlot *)t);
+        o[4] = func_0200DF4C((struct RecSlot *)t);
+        func_02012374((struct Evt *)a, func_020146F8((char *)o[1], o[0], (int)id_00000045, (int)d_021BA650, (int)(&o[2])));
         (*st)++;
         break;
     case 1:

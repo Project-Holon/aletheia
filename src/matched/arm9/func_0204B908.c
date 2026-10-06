@@ -13,4 +13,4 @@
 typedef unsigned int   u32;
 struct Obj0204D478;
 extern void *func_0204D478(struct Obj0204D478 *o, u32 arg);
-void func_0204B908(int a0, int a1, int a2, int a3){ func_0204D478((struct Obj0204D478 *)((int)(a0 + 0x68)), (int)a1); }
+void func_0204B908(int a0, int a1){ func_0204D478((struct Obj0204D478 *)((int)(a0 + 0x68)), (int)a1); }

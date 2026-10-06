@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_020056A0(void (*)(void),void *,unsigned);
 extern void func_021F6AB4(void);
-extern void func_021F6AB8(void *);
+extern void func_021F6AB8(char *p);
 extern void func_021F6AEC(char *p);
 extern char *func_021F6DB4(unsigned,unsigned,const void *);
 extern void func_021F6EF8(char *p);

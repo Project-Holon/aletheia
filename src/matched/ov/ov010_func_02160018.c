@@ -76,12 +76,14 @@ typedef struct Work {
 } Work;
 
 extern int func_021605C0(int a0, Work *w);
-extern int func_0216060C(Work *w);
+struct Obj;
+struct Owner;
+extern int func_0216060C(int a0, int a1);
 extern int func_02160564(u32 state, u32 *out, u32 *err);
 extern int func_0216040C(Req *r, u32 code);
 extern void func_02164480(Flags *f, void *a, void *b);
 extern int func_0216070C(Work *w);
-extern void *func_0216075C(Req *r, u16 id);
+extern void *func_0216075C(struct Owner *o, u16 id);
 extern void func_0216D9E4(void *c);
 extern int func_021644F4(int i, void *a, void *p);
 extern void *func_021606DC(void *p, u32 a);
@@ -99,9 +101,9 @@ extern void *func_02188C7C(u8 *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012B28(const struct Rec44 *p);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern u32 func_02028754(Flags *f, u32 n);
+extern u32 func_02028754(struct Obj *obj, u32 n);
 extern void func_020307B0(void *p);
 
 int func_02160018(void *evt, u32 *state, Work *w)
@@ -144,7 +146,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
                 bad = 1;
             } else if (ok == 1) {
                 func_02164480(&fl, w->f04, w->f08);
-                if (func_02028754(&fl, n) == 0)
+                if (func_02028754((struct Obj *)(&fl), n) == 0)
                     bad = 1;
             }
             if (code == 9 && func_0216070C(w) == 0)
@@ -178,7 +180,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
             *state = 7;
         break;
     case 7:
-        if (func_0216060C(w) != 0) {
+        if (func_0216060C((int)w, (int)state) != 0) {
             func_020307B0(w->f10);
             func_0216D9E4(func_02188C7C(w->f08));
             return 1;
@@ -189,7 +191,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
         *state = 4;
         break;
     case 9:
-        func_02012374(evt, func_0216075C(w->f10, w->f14));
+        func_02012374(evt, func_0216075C((struct Owner *)w->f10, w->f14));
         *state = 10;
         break;
     case 10:
@@ -209,7 +211,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
         break;
     }
     case 11:
-        if (func_0216060C(w) != 0) {
+        if (func_0216060C((int)w, (int)state) != 0) {
             u32 i = w->f10->f28;
 
             func_020307B0(w->f10);
@@ -219,7 +221,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
         }
         break;
     case 12:
-        if (func_0216060C(w) != 0) {
+        if (func_0216060C((int)w, (int)state) != 0) {
             u32 i = w->f10->f28;
 
             func_020307B0(w->f10);
@@ -244,7 +246,7 @@ int func_02160018(void *evt, u32 *state, Work *w)
         func_0216D9E4(func_02188C7C(w->f08));
         return 1;
     case 14:
-        if (func_0216060C(w) != 0) {
+        if (func_0216060C((int)w, (int)state) != 0) {
             func_020307B0(w->f10);
             w->f10 = 0;
             func_02012374(evt, func_021606DC(w->f04, 2));

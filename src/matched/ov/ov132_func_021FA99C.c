@@ -26,12 +26,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_0204A1BC(int,int,int,int);
-extern u8 *func_0206E964(int);
-extern u8 *func_0204ABBC(u32,u32);
+extern unsigned char *func_0206E964(unsigned char *p);
+extern int func_0204ABBC(u32 idx, u32 flag);
 extern void func_020862F0(void *,u32);
 extern void func_0207E5D0(const void *,u32,u32);
 extern void func_0207E804(const void *,void *,u32);
-extern void func_020307B0(int);
+extern void func_020307B0(void *p);
 void func_021FA99C(u8 *p,u16 slot,int resource,u32 type)
 {
     int blob;
@@ -48,12 +48,12 @@ void func_021FA99C(u8 *p,u16 slot,int resource,u32 type)
     u8 col;
     blob=func_0204A1BC(45,resource,0,*(u16 *)p);
     y=0;
-    tex=func_0206E964(blob);
+    tex=func_0206E964((unsigned char *)blob);
     src=tex+*(u32 *)(tex+20);
     charSize=*(u16 *)(tex+12)*8;
     palOffset=*(u32 *)(tex+0x38);
     palSize=*(u16 *)(tex+0x30)*8;
-    dst=func_0204ABBC(*(u32 *)(p+0x28),1);
+    dst=(u8 *)func_0204ABBC(*(u32 *)(p+0x28),1);
     dst+=(slot<<11);
     func_020862F0(tex+palOffset,palSize);
     func_0207E5D0(tex+palOffset,slot*32,palSize);
@@ -71,5 +71,5 @@ void func_021FA99C(u8 *p,u16 slot,int resource,u32 type)
             }
         }
     }
-    func_020307B0(blob);
+    func_020307B0((void *)blob);
 }

@@ -42,7 +42,8 @@ struct Actor;
 struct Obj;
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern u32 func_0203F0A8(void);
-extern void func_0204B404(void *, const Pos *, unsigned int);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_0204B3F4(struct Obj *p);
 extern u32 func_0204B98C(struct Actor *a);
@@ -67,7 +68,7 @@ void func_021B9F5C(u8 *p)
             pos.x = ((u64)func_0203F0A8() * 56) >> 32;
             if ((u32)(((u64)func_0203F0A8() * 2) >> 32) == 1) pos.x = 256 - pos.x;
             pos.y = ((u64)func_0203F0A8() * 192) >> 32;
-            func_0204B404(((struct Obj06502 *)q)->f1890, &pos, 1);
+            func_0204B404(((struct Obj06502 *)q)->f1890, (const struct Vec2 *)(&pos), 1);
             if (pos.y > 90) func_0204B878(((struct Obj06502 *)q)->f1890, ((u64)func_0203F0A8() * 2) >> 32);
             else func_0204B878(((struct Obj06502 *)q)->f1890, (((u64)func_0203F0A8() * 2) >> 32) + 2);
             t[c] = (((u64)func_0203F0A8() * 200) >> 32) + delay;

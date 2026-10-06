@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u8 func_021CBED8(u8 *p, u8 *list, u16 v, u8 n, u16 *a, u16 *b, u8 *e, u16 id);
 
-void func_021CA338(u8 *p, int alt)
+void func_021CA338(u8 *p, u8 alt)
 {
     int base = 300;
     int i;

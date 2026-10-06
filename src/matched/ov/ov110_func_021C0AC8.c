@@ -22,9 +22,13 @@ typedef unsigned int u32;
 typedef struct Entry { void *str; u16 flag; u16 pad; u32 term; } Entry;
 typedef struct Config { u32 size; u8 flag; u8 pad[3]; void *target; u32 mode; u8 x, y, z, w; } Config;
 extern const u8 d_021C3C94[];
-extern void *func_02045EC0(void *bank, u32 idx);
-extern int func_02027778(Config *, void *);
-extern void func_02045808(void *);
+struct MsgBank;
+struct TaskMenu;
+struct TaskMenuTmpl;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern void func_02045808(struct U16Vec *vec);
 int func_021C0AC8(void *parent, void *bank, u16 size)
 {
     Config c;
@@ -45,7 +49,7 @@ int func_021C0AC8(void *parent, void *bank, u16 size)
     c.y = 0x18;
     c.z = 13;
     c.w = 3;
-    r = func_02027778(&c, parent);
+    r = (int)func_02027778((struct TaskMenuTmpl *)(&c), parent);
     for (i = 0; i < 3; i++)
         func_02045808(e[i].str);
     return r;

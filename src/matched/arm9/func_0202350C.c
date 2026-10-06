@@ -43,8 +43,9 @@ struct Obj {
     u32 f48;
 };
 
-extern void func_02022940(struct Obj *o, void *a, void *b, const u8 *cfg,
-                          const u8 *cfg4, u32 a2);
+typedef signed int     s32;
+struct Quad;
+extern void func_02022940(struct Quad *cur, struct Quad *end, struct Quad *step, const u8 *from, const u8 *to, s32 frames);
 extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6, u32 a7, u32 a8, u32 a9);
 
@@ -55,7 +56,7 @@ void func_0202350C(struct Obj *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a
     u32 kb;
     E z;
     u32 v5;
-    func_02022940(obj, &obj->f20, &obj->f10, cfg, cfg + 4, a2);
+    func_02022940((struct Quad *)obj, (struct Quad *)(&obj->f20), (struct Quad *)(&obj->f10), cfg, cfg + 4, a2);
     k8 = cfg[8];
     z = Z0;
     kb = cfg[0x0b];

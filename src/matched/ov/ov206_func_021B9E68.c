@@ -54,13 +54,15 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *p, int v, int n);
 extern u32 func_0201C440(void *p);
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_021BBE5C(char *p);
+struct S;
+struct State;
+extern void func_021BBE5C(struct S *p);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
-extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
@@ -72,9 +74,9 @@ extern void func_021BB0FC(void *obj);
 extern void *func_020056A0(void (*cb)(int, char *), void *arg, int pri);
 extern void func_021BA864(int unused, char *p);
 extern void func_021BB304(char *p);
-extern void func_021BB9E0(char *p);
+extern void func_021BB9E0(struct State *p);
 extern void func_021BA890(char *p);
-extern void func_021BBC38(char *p);
+extern void func_021BBC38(struct S *p);
 extern void func_021BB13C(void *a0, void *a1, void *a2, void *a3);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -168,7 +170,7 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
     } else {
         ((struct Obj00022 *)p)->f1B4 = 0;
     }
-    func_021BBE5C(p);
+    func_021BBE5C((struct S *)p);
     hh = (u16)func_0201AE1C(((struct Obj00022 *)p)->f26C, 0x20);
     if (((struct Obj00022 *)p)->fE >= hh) ((struct Obj00022 *)p)->fE = 0;
     h = ((struct Obj00022 *)p)->f1C4;
@@ -203,10 +205,10 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
     func_021BB0FC(p);
     ((struct Obj00022 *)p)->f50 = func_020056A0(func_021BA864, p, 1);
     func_021BB304(p);
-    func_021BB9E0(p);
+    func_021BB9E0((struct State *)p);
     if (((struct Obj00022 *)p)->f18 == 0 || ((struct Obj00022 *)p)->f18 == 2) {
         func_021BA890(p);
-        func_021BBC38(p);
+        func_021BBC38((struct S *)p);
     }
     for (k = 0; k < 2; k++) {
         *(int *)(p + k * 4 + 0xac) = 0;

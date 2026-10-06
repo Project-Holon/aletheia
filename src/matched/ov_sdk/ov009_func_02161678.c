@@ -29,23 +29,24 @@ typedef struct CPSSslConnection {
 } CPSSslConnection;
 
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
-extern void func_021614BC(CPSSslConnection *con, unsigned char *d, int flag);
+struct _CPSSslConnection;
+extern void func_021614BC(struct _CPSSslConnection *con, unsigned char *d, int flag);
 extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
-extern void func_02161598(CPSSslConnection *con, unsigned char *d, int flag);
+extern void func_02161598(struct _CPSSslConnection *con, unsigned char *d, int flag);
 
 static void func_02161678(CPSSslConnection *con, unsigned char *s)
 {
     unsigned char tmp[20];
 
     func_02082D44(con->md5, con->md5_save, 0x58);
-    func_021614BC(con, tmp, 1);
+    func_021614BC((struct _CPSSslConnection *)con, tmp, 1);
     func_02082D44(con->md5_save, con->md5, 0x58);
     if (func_020923F0(s, tmp, 0x10) != 0) {
         con->state = 9;
         return;
     }
     func_02082D44(con->sha1, con->sha1_save, 0x5c);
-    func_02161598(con, tmp, 1);
+    func_02161598((struct _CPSSslConnection *)con, tmp, 1);
     func_02082D44(con->sha1_save, con->sha1, 0x5c);
     if (func_020923F0(s + 0x10, tmp, 0x14) != 0)
         con->state = 9;

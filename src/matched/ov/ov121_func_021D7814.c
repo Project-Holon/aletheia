@@ -46,29 +46,29 @@ typedef struct { u32 w[12]; } Desc;
 extern void func_021D9750(u8 *p);
 extern void func_02040588(u32 which, u32 enable);
 extern unsigned func_021D9744(char *p);
-extern void func_021D84D4(void *,void *,void *,int,void *,void *,void *,u16);
+extern void func_021D84D4(u8 *out, void *owner, const u8 *desc, void *save, void *list, void *a5, void *a6, u16 heap);
 extern void func_021D8C1C(u8 *p, int mode);
 extern void func_021D9F08(u8 *a, int b, int c, int d);
 extern unsigned func_021D9FF8(u8 *p);
-extern void func_021D8D00(void *);
-extern int func_021D8D18(void *);
+extern void func_021D8D00(char *p);
+extern int func_021D8D18(char *p);
 extern void func_0200A2B8(void *a0, int a1);
 extern int func_0200A2D8(void *a0, int a1);
 extern void func_021D8CA8(u8 *p);
 extern void func_021D9E04(u8 *p);
-extern void func_021D8380(void *);
+extern void func_021D8380(char *p);
 extern void func_021D9790(char *p);
 extern void func_02082BCC(void *,int,int);
 extern void *func_021DCFC8(Desc *,u16);
 extern void *func_021DD24C(void *,void *,void *,u16);
 extern void func_021DE0AC(u8 *p, u32 b);
-extern void func_021DD9CC(void *);
+extern void func_021DD9CC(char *p);
 extern void func_021DDF5C(u8 *p);
 extern int func_021DE014(char *p);
 extern u32 func_020362DC(void);
 extern void func_021D93F4(u8 *p, const void *q, int n, int k, int x, int y, int z, u16 heap);
-extern int func_021D94B8(void *);
-extern void func_021D9488(void *);
+extern int func_021D94B8(char *p);
+extern void func_021D9488(void **p);
 extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D6DF4(void *a, int *state);
 void func_021D7814(void *task,u32 *state,u8 *p)
@@ -79,7 +79,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         func_021D9750(((struct Obj00297 *)p)->f394);
         func_02040588(1,1);
         func_02040588(3,1);
-        func_021D84D4(p+12,(void *)func_021D9744(((struct Obj00297 *)p)->f394),p+972,*(int *)&((struct Obj00297 *)p)->f3B8,p+660,p+912,p+312,29);
+        func_021D84D4(p+12,(void *)func_021D9744(((struct Obj00297 *)p)->f394),p+972,(void *)(*(int *)&((struct Obj00297 *)p)->f3B8),p+660,p+912,p+312,29);
         func_021D8C1C(p+12,0);
         func_021D9F08(((struct Obj00297 *)p)->f284,((struct Obj00297 *)p)->f3A4,113,2);
         *state=1;
@@ -92,8 +92,8 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         if (func_021D9FF8(((struct Obj00297 *)p)->f284)) *state=3;
         break;
     case 3:
-        func_021D8D00(p+12);
-        if (func_021D8D18(p+12)) *state=4;
+        func_021D8D00((char *)(p+12));
+        if (func_021D8D18((char *)(p+12))) *state=4;
         break;
     case 4:
         func_0200A2B8(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8));
@@ -107,8 +107,8 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         *state=7;
         break;
     case 7:
-        func_021D8D00(p+12);
-        if (func_021D8D18(p+12)) *state=8;
+        func_021D8D00((char *)(p+12));
+        if (func_021D8D18((char *)(p+12))) *state=8;
         break;
     case 8:
         func_021D9F08(((struct Obj00297 *)p)->f284,((struct Obj00297 *)p)->f3A4,114,1);
@@ -121,7 +121,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         func_021D8CA8(p+12);
         func_021D9E04(((struct Obj00297 *)p)->f284);
         ((struct Obj00297 *)p)->f284=0;
-        func_021D8380(p);
+        func_021D8380((char *)p);
         *(volatile u16 *)0x04000050=0;
         func_021D9790(((struct Obj00297 *)p)->f394);
         func_02040588(1,1);
@@ -173,13 +173,13 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         break;
     case 16:
         func_021D93F4(p+612,p+660,(int)func_021D9744(((struct Obj00297 *)p)->f394),*(int *)&((struct Obj00297 *)p)->f39C,((struct Obj00297 *)p)->f3A4,155,*(int *)&((struct Obj00297 *)p)->f398,29);
-        func_021D94B8(p+612);
+        func_021D94B8((char *)(p+612));
         *state=17;
         break;
     case 17:
-        func_021D94B8(p+612);
+        func_021D94B8((char *)(p+612));
         if (func_020362DC()&1) {
-            func_021D9488(p+612);
+            func_021D9488((void **)(p+612));
             *state=18;
         }
         break;

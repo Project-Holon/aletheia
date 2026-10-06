@@ -89,9 +89,10 @@ extern const P16 d_021F3B4C[];
 extern const P12 d_021F3A98[];
 extern const P12 d_021F3BEC[];
 
-extern void func_0203F4E4(RTCDate *date);
-extern void func_021F38F4(Deck *d);
-extern int func_021F3980(Deck *d);
+struct RtcDate;
+extern void func_0203F4E4(struct RtcDate *date);
+extern void func_021F38F4(unsigned char *p);
+extern int func_021F3980(u8 *p);
 extern void func_021F38AC(int n, int m, u8 *buf, u8 *out);
 
 void func_021F36C0(W *w)
@@ -109,7 +110,7 @@ void func_021F36C0(W *w)
     u8 x;
     u8 y;
 
-    func_0203F4E4(&date);
+    func_0203F4E4((struct RtcDate *)(&date));
     switch (date.week) {
     case 1:
         v = 4;
@@ -137,9 +138,9 @@ void func_021F36C0(W *w)
         break;
     }
     w->f6 = v;
-    func_021F38F4(&d);
-    if (func_021F3980(&d) == 0)
-        func_021F38F4(&d);
+    func_021F38F4((unsigned char *)(&d));
+    if (func_021F3980((u8 *)(&d)) == 0)
+        func_021F38F4((unsigned char *)(&d));
     func_021F38AC(10, v, ta, d.a);
     func_021F38AC(5, 2, tb, d.b);
     func_021F38AC(15, 15 - (v + 2), tc, d.c);

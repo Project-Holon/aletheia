@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A81DC(u32 a)
+u8 func_021A81DC(u32 a)
 {
 return *(u8 *)((u8 *)(((a + *(u8 *)((u8 *)((a + 54)))) + 44)));
 }

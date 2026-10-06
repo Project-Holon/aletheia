@@ -39,7 +39,7 @@ int func_021D775C(int a);
 void *func_021C7CF4(int *p, int i);
 int func_021D76BC(int key, u32 val);
 u32 func_0201C314(void *p);
-void *func_021C88A4(int a, int k, int b);
+void *func_021C88A4(char *p, int a, int b);
 void func_021C88B4(void *a, int k, int b);
 void func_021C8838(void *p, int a, int b);
 struct S;
@@ -66,7 +66,7 @@ void func_021DAC90(void *a, int b, int c)
     if (func_021D76BC(0x40, 1) == 0)
         return;
     func_021C88B4((void *)b, 2, c);
-    q = func_021C88A4(b, 4, c);
+    q = func_021C88A4((char *)b, 4, c);
     func_021C8838((u8 *)q + 4, 2, 0xd2);
     func_021C8860((struct S *)((u8 *)q + 4), c);
     func_021C88C8((void *)b, q);

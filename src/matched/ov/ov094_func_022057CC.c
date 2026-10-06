@@ -71,7 +71,7 @@ extern int func_0201BCEC(void);
 extern int func_0201BC3C(void);
 extern int func_0204AF28(void *, u32, u32, u32);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u32 func_0204AEF4(int, int);
+extern int func_0204AEF4(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020056A0(void *cb, void *ctx, int a);
@@ -82,7 +82,8 @@ extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B404(void *, const Point *, int);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
@@ -119,7 +120,7 @@ void func_022057CC(Main *m, Info *q)
         if (q->species[i] != 0) {
             m->h1b0[i] = func_0204A6C8(arc, func_0201BABC(q->species[i], q->form[i], q->gender[i], 0), 0, 1, m->heap);
             m->h1c8[i].obj = func_0204B294((void *)m->h1c4, m->h1b0[i], m->h1bc, m->h1c0, d_0220A392, 1, m->heap);
-            func_0204B404(m->h1c8[i].obj, &d_0220A50C[m->mode][i], 1);
+            func_0204B404(m->h1c8[i].obj, (const struct Vec2 *)(&d_0220A50C[m->mode][i]), 1);
             func_0204B92C(m->h1c8[i].obj, 1);
             if (q->sel == i) {
                 func_0204B878(m->h1c8[i].obj, 1);

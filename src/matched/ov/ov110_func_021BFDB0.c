@@ -17,7 +17,10 @@
 typedef unsigned char u8;
 typedef signed short s16;
 typedef struct { s16 x,y; } Vec2;
-extern void func_0204B404(void *,const Vec2 *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BFDB0(u8 *p,unsigned a,unsigned n) {
     Vec2 pos;
     s16 lo,hi;
@@ -37,5 +40,5 @@ void func_021BFDB0(u8 *p,unsigned a,unsigned n) {
     goto apply;
 low: pos.y=18;
 apply:
-    func_0204B404(((struct Obj13802 *)p)->f1C,&pos,0);
+    func_0204B404(((struct Obj13802 *)p)->f1C,(const struct Vec2 *)(&pos),0);
 }

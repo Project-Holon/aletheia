@@ -31,7 +31,7 @@ typedef struct Descriptor {
     int enabled;
 } Descriptor;
 extern void func_02082BCC(void *, int, int);
-extern void *func_02157DD8(void *);
+extern void *func_02157DD8(u8 *p);
 extern int func_02157E34(void *);
 extern int func_0203CD98(void);
 extern void func_0203D34C(unsigned, unsigned);
@@ -53,7 +53,7 @@ void func_021DE830(void *a, int *state, char *p)
         d.setting = d_0209DF0C;
         d.enabled = 1;
         d.flags = 0x200000;
-        ((struct Obj06455 *)p)->f79C = func_02157DD8(&d);
+        ((struct Obj06455 *)p)->f79C = func_02157DD8((u8 *)(&d));
         func_02157E34(((struct Obj06455 *)p)->f79C);
         ((struct Obj06455 *)p)->f17A4 = 0;
         *state = 1;

@@ -40,7 +40,7 @@ extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_02082D44(const void *, void *, u32);
 extern void func_020307B0(void *);
-extern int func_02019D30(u16, u8);
+extern u32 func_02019D30(u32 a, u32 n);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 void func_021D6AB8(u8 *p)
@@ -75,7 +75,7 @@ void func_021D6AB8(u8 *p)
         species = ((struct Obj *)p)->records[n].d;
         if (species) {
             gender = ((struct Obj *)p)->records[n].f;
-            form = func_02019D30(species,((struct Obj *)p)->records[n].e);
+            form = (int)func_02019D30((u16)species,(u8)(((struct Obj *)p)->records[n].e));
             value = func_0201BB5C(species,form,gender,0);
             id = func_0201BABC(species,form,gender,0);
             buf2 = func_02049250(h2,id,((struct Obj03268 *)p)->f43C4);

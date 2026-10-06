@@ -17,11 +17,11 @@
 #include "../include/Obj18203.h"
 
 
-extern void func_021BD12C(char *);
+extern void func_021BD12C(int *p);
 
 void func_021BCF2C(char *p)
 {
     if (((struct Obj18203 *)p)->f10 != 0)
-        func_021BD12C(p + 8);
+        func_021BD12C((int *)(p + 8));
 }
 

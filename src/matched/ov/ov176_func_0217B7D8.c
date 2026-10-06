@@ -33,13 +33,14 @@ typedef struct {
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200B358(void *);
-extern void *func_0200B1D4(void *,int);
+struct Rec160;
+extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void func_02082BCC(void *,int,u32);
 extern void *func_021E88B0(Menu *,u8,u8,u8,u32,int);
 static inline void selected(Menu *rec,void *base,int index)
 {
     char *mon;
-    mon=func_0200B1D4(base,index);
+    mon=(char *)func_0200B1D4(base,index);
     rec->option0=7;
     rec->option1=5;
     if((u8)(s8)(((struct Obj24405 *)mon)->f15B-1)<=1) rec->f14=13;
@@ -49,7 +50,7 @@ static inline void selected(Menu *rec,void *base,int index)
     rec->f28=1;
     rec->f2c=3;
 }
-void func_0217B7D8(char *p,int index)
+void func_0217B7D8(int *p, int index)
 {
     Menu rec;
     void *base;

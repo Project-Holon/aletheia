@@ -20,7 +20,7 @@
  *       --func func_021D5FE8 --addr 0x021D5FE8 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021D5FE8(unsigned short a, unsigned short b, unsigned short *p)
+void func_021D5FE8(int a, int b, unsigned short *p)
 {
     p[0] = a;
     p[1] = b;

@@ -65,7 +65,7 @@ extern void  func_021BE760(void *p, void *a, int b);
 extern V    *func_021BE480(void *p, int i, u16 j);
 extern void func_021BE4A4(char *p, int i, int j, int v);
 extern void func_021BE4B4(char *p, int i, int j, int v);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B8(unsigned char *p, int v);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
@@ -85,7 +85,7 @@ void func_021F36C0(void *a0)
     func_02189764(a0, 1, func_02188C84(a0), 8);
     o = func_021897BC(a0, 1);
     o[0] = 0;
-    if (func_020113D8(func_02012984(sv)) - 3 <= 1) {
+    if (func_020113D8((u32)func_02012984(sv)) - 3 <= 1) {
         func_021BE760(s, d_021F3918, 0);
         o[1] = 1;
     } else {
@@ -96,7 +96,7 @@ void func_021F36C0(void *a0)
     func_021BE4A4(s, 0, 0, 1);
     func_021BE4B4(s, 0, 0, *q == 0);
     for (i = 0; i < 2; i++) {
-        b = func_021BE674(s, 0, 0, i);
+        b = func_021BE674(s, 0, (u16)0, (u16)i);
         func_021BE6B8(b, 0);
         func_021BE6B0(b, 1);
         func_021BE700(s, 0, 0, i, *q != 0);

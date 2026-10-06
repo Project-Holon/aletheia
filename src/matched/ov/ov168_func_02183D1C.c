@@ -15,10 +15,10 @@
 
 typedef void (*fn_02183D1C)(int *, int *);
 
-extern int func_02183D40(int *);
+extern int func_02183D40(unsigned int *p);
 
 void func_02183D1C(int *p)
 {
-    if (func_02183D40(p) == 0)
+    if (func_02183D40((unsigned int *)p) == 0)
         ((fn_02183D1C)(*(void **)((char *)p + 4)))(p, (int *)((char *)p + 8));
 }

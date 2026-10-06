@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 extern void func_021BECB8(u8 *p, unsigned message);
 
-void func_021BED04(int a)
+void func_021BED04(void *a)
 {
     func_021BECB8((u8 *)a, 9);
 }

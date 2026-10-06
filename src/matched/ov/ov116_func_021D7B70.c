@@ -36,7 +36,7 @@ typedef unsigned int u32;
 extern void *func_021D821C(int, u32);
 extern void func_021D7D0C(u8 *, u32);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *, int, u16, int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -64,7 +64,7 @@ void func_021D7B70(u8 *p, u32 heap)
     ((struct Obj10342 *)p)->f4 = heap;
     func_021D7D0C(p, heap);
     P(0x97c) = (void *)func_020450F0(1, 1, 19, 30, 4, 12, 1);
-    func_0201F73C(P(0x97c), 1, ((struct Obj10342 *)p)->f984, 13);
+    func_0201F73C(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
     func_02043B5C(func_02045770(P(0x97c)), 15);
     func_02045374(P(0x97c));
     func_02045334(P(0x97c));

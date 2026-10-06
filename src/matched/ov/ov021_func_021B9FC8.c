@@ -80,7 +80,8 @@ void func_0207CAE8(V *a, V *b, V *c);
 int func_0207CBD0(V *a);
 void func_0207CCA4(V *a, V *b);
 int func_0207CF3C(const V *a, const V *b);
-int func_0203EFC8(const void *a, const void *b, u32 n);
+typedef signed int     s32;
+s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 static inline int FX_Mul(int a, int b)
 {
@@ -182,7 +183,7 @@ int func_021B9FC8(int a, void *p, const V *pos, Rec *out, int arg)
                 }
                 func_021B8250(p, out, &buf);
                 func_021B7D38(p, out, arg);
-                if (func_0203EFC8(out, &buf, 8) == 0) {
+                if (func_0203EFC8((const u8 *)out, (const u8 *)(&buf), 8) == 0) {
                     return 1;
                 }
                 return 0;

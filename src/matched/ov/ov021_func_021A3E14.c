@@ -31,19 +31,19 @@ typedef struct {
     u16 done;
 } Obj021A3E14;
 
-u32 func_021A398C(Obj021A3E14 *p);
-void *func_021A3960(Obj021A3E14 *p);
+u32 func_021A398C(u8 *p);
+void *func_021A3960(u8 *p);
 void func_021A3980(Obj021A3E14 *p, int a);
-void func_021A4114(Obj021A3E14 *p);
-int func_021A3D50(Obj021A3E14 *p, int a);
+void func_021A4114(u32 *p);
+int func_021A3D50(u32 a, u32 b);
 
 int func_021A3E14(Obj021A3E14 *p)
 {
-    func_021A398C(p);
-    func_021A3960(p);
+    func_021A398C((u8 *)p);
+    func_021A3960((u8 *)p);
     func_021A3980(p, 1);
-    func_021A4114(p);
-    if (func_021A3D50(p, 1) != 1)
+    func_021A4114((u32 *)p);
+    if (func_021A3D50((u32)p, 1) != 1)
         p->step++;
     return 0;
 }

@@ -29,7 +29,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D775C(int a);
-void *func_021C88A4(int a, int k, int b);
+void *func_021C88A4(char *p, int a, int b);
 typedef struct Word { u32 v; } Word;
 extern Word func_021E899C(int a);
 void func_021C8838(void *p, int a, int b);
@@ -51,7 +51,7 @@ void func_021DF0C4(void *a, int b, int c)
     k = (u8)func_021D775C(3);
     if (k == 0x1f)
         return;
-    p = func_021C88A4(b, 0xc, c);
+    p = func_021C88A4((char *)b, 0xc, c);
     ((struct Obj10069 *)p)->fF = k;
     ((struct Obj10069 *)p)->f4 = 7;
     *(Word *)(p + 8) = func_021E899C(c);

@@ -22,12 +22,13 @@ typedef struct
 
 typedef unsigned int   u32;
 extern void func_0204335C(u32 keep);
-extern void func_020433E0(void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern S021BC2B0 d_021BC990;
 
 void func_021BC2B0(void)
 {
     S021BC2B0 buf = d_021BC990;
     func_0204335C(0);
-    func_020433E0(&buf);
+    func_020433E0((const struct DispVram *)(&buf));
 }

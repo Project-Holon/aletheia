@@ -28,8 +28,10 @@ struct BigObj;
 struct Rec44;
 struct SaveBlock;
 extern void func_02012A4C(struct BigObj *p, u32 v);
-extern void func_0215E5B0(void *,void *);
-extern void func_0216EE7C(void *);
+struct BattleEndCtx;
+struct Work;
+extern void func_0215E5B0(void *a0, struct Work *w);
+extern void func_0216EE7C(struct BattleEndCtx *c);
 extern void func_0216EF84(void *);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
@@ -37,7 +39,7 @@ extern int func_0202C83C(int,int);
 void func_0216EFF0(int *p,void *a) {
     func_02012A4C(a,((struct Obj19144 *)(*(char * *)&((struct Obj00020 *)p)->f8))->f8C);
     func_0215E5B0(a,(void *)p[2]);
-    func_0216EE7C(p);
+    func_0216EE7C((struct BattleEndCtx *)p);
     func_0216EF84(p);
     func_0202C83C(p[0],func_02012AC8(func_020127A4(a)));
 }

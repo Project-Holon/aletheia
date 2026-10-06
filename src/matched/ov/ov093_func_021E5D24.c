@@ -23,14 +23,15 @@ typedef unsigned int u32;
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5B40(void *p);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern u32 func_021D805C(void *p, u32 n);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E5D24(int a, void *b, int c)
 {
     if (c == func_021D775C(3)) {
-        u16 n = func_021D5B40(func_021C7CF4(b, c));
+        u16 n = (int)func_021D5B40(func_021C7CF4(b, c));
         func_021D76BC(0x30, func_021D805C((void *)n, 10));
     }
 }

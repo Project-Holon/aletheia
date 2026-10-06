@@ -40,7 +40,7 @@ extern void func_02158E54(void *, int);
 extern void func_02159130(void);
 extern char d_0217289C[];
 
-int *func_02158E7C(u16 a, int b, int c, u16 d, int e, int f)
+int *func_02158E7C(u16 a, int b, int c, int d, int e, int f)
 {
     int *p = func_02030734(a, 0x14C, 1, d_0217289C, 0xAF);
     p[0] = 0x3643F;

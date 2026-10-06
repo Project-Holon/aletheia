@@ -31,11 +31,14 @@
 
 typedef unsigned char u8;
 
-extern void func_021F0DD8(int);
-extern void func_020275B8(void *, int);
-extern int func_02165AC4(void *q, void *out, void *tag, int delta);
-extern int func_021659F0(void *q, int delta);
-extern void func_021F13A0(u8 *this, void *a, int b, int c, int d);
+typedef unsigned short u16;
+struct Queue;
+struct Rec;
+extern void func_021F0DD8(unsigned int a);
+extern void func_020275B8(char *p, int v);
+extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
+extern int func_021659F0(u8 *q, int delta);
+extern void func_021F13A0(char *this, int a, int b, int c, int s);
 
 void func_021F12B8(u8 *this, int dir)
 {
@@ -53,7 +56,7 @@ void func_021F12B8(u8 *this, int dir)
     }
     *(volatile u8 *)(this + 0x7c) = n;
     func_020275B8(*(void **)(this + 0x34), *(volatile u8 *)(this + 0x7c));
-    func_02165AC4(*(void **)(this + 0x3c), *(void **)(this + 0x40), this + 0x48, t);
+    func_02165AC4(*(void **)(this + 0x3c), *(void **)(this + 0x40), (u16 *)(this + 0x48), t);
     idx = func_021659F0(*(void **)(this + 0x3c), t);
-    func_021F13A0(this, *(void **)(this + 0x40), idx, (u8)dir, 2);
+    func_021F13A0((char *)this, (int)(*(void **)(this + 0x40)), idx, (u8)dir, 2);
 }

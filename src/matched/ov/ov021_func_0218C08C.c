@@ -20,7 +20,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020477A4(void *h, u16 i);
+struct G3dSys;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void func_02047804(void *h, u16 i);
 extern u8 *func_0218BCAC(u8 *p);
 extern u8 func_0218BD24(u8 *p);
@@ -36,7 +37,7 @@ void func_0218C08C(u8 *a, void **b)
         if (i != m) {
             b[2 + i] = 0;
         } else {
-            func_020477A4(b[0], i);
+            func_020477A4(b[0], (u16)i);
             func_02047804(b[0], i);
             b[2 + i] = (void *)1;
         }

@@ -29,7 +29,7 @@ struct Sub {
 };
 struct Obj { struct Sub * volatile p; };
 
-void func_020730DC(struct Obj *o, u16 a, u16 b)
+void func_020730DC(struct Obj *o, u32 a, u32 b)
 {
     if (o->p == 0) return;
     o->p->h34 = 2;

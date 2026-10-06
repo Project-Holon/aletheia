@@ -16,17 +16,20 @@
  *   func_021A1BDC  0x021A1BDC  thumb  ov021
  */
 
-int func_02188C6C(void *p);
-void func_0202C83C(int a, int b);
-int func_02012994(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+u32 func_02188C6C(u8 *p);
+int func_0202C83C(int a0, int a1);
+u8 func_02012994(const struct BigObj *p);
 void func_021A1BDC(int x, int k);
 
 void func_02189560(int *p, int b)
 {
-    int r = func_02188C6C(p);
+    int r = (int)func_02188C6C((u8 *)p);
     unsigned short k;
     func_0202C83C(p[1], b);
-    k = func_02012994(p[2]);
+    k = (int)func_02012994((const struct BigObj *)p[2]);
     if (k != 0xF)
         func_021A1BDC(r, k);
 }

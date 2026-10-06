@@ -31,8 +31,8 @@ extern int func_021F47B4(void *p);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern int func_021F3AB4(void *p);
-extern void func_021F3AD4(void *p, u32 *out, int *cnt);
-extern void func_021F3B64(void *p, u32 *out, int *cnt);
+extern void func_021F3AD4(const u16 *p, u32 *out, int *cnt);
+extern void func_021F3B64(u16 *p, u32 *out, int *cnt);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -51,9 +51,9 @@ void func_021F4314(int *p)
 
     h = func_0201EC64(func_021F47B4((void *)p[5]));
     if (func_021F3AB4(p))
-        func_021F3AD4(p, buf, &cnt);
+        func_021F3AD4((const u16 *)p, buf, &cnt);
     else
-        func_021F3B64(p, buf, &cnt);
+        func_021F3B64((u16 *)p, buf, &cnt);
     switch (cnt) {
     case 0: break;
     case 1: f = 0xcd; break;

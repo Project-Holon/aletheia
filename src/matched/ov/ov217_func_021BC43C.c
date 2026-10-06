@@ -14,7 +14,7 @@
  * into 021BBF04/021BBF1C. Preserve caller's object and explicit u8 index.
  */
 typedef unsigned char u8;
-extern int func_021BBF28(u8 *p,u8 slot);
+extern int func_021BBF28(unsigned char *p, unsigned int slot);
 extern int func_021BBF3C(u8 *p,u8 slot);
 void func_021BC43C(u8 *p)
 {
@@ -22,7 +22,7 @@ void func_021BC43C(u8 *p)
     int x;
     int y;
     for(i=0;i<=9;i++) {
-        x=func_021BBF28(p,i);
+        x=func_021BBF28(p,(u8)i);
         y=func_021BBF3C(p,i);
         p[i*4+0x66]=x;
         p[i*4+0x67]=x+0xd8;

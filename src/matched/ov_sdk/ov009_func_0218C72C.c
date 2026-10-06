@@ -20,16 +20,16 @@ typedef struct GPIConnection {
     unsigned char outputBuffer[0x10];
 } GPIConnection;
 
-extern int func_0218946C(void **connection, void *outputBuffer, char *buffer);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
 
 int func_0218C72C(void **connection, char *info, char *value)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
     int result;
 
-    if ((result = func_0218946C(connection, (char *)iconnection + 0x1f4 + 0x400, info)) != 0)
+    if ((result = func_0218946C((int *)connection, (int *)((char *)iconnection + 0x1f4 + 0x400), info)) != 0)
         return result;
-    if ((result = func_0218946C(connection, (char *)iconnection + 0x1f4 + 0x400, value)) != 0)
+    if ((result = func_0218946C((int *)connection, (int *)((char *)iconnection + 0x1f4 + 0x400), value)) != 0)
         return result;
     return 0;
 }

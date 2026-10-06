@@ -18,7 +18,8 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void func_02048DDC(void *dst, u32 a);
+struct ArcFile;
+extern void func_02048DDC(struct ArcFile *arc, u32 id);
 extern void func_02078A80(void *p);
 typedef signed int     s32;
 struct FSFile;
@@ -32,7 +33,7 @@ u32 func_02049030(u32 a)
     u16 hdr[3];
 
     off = 0;
-    func_02048DDC(buf, a);
+    func_02048DDC((struct ArcFile *)buf, a);
     func_02078B44((struct FSFile *)buf, 0xc, 0);
     func_02078B70((struct FSFile *)buf, &off, 2);
     func_02078B44((struct FSFile *)buf, off + 4, 0);

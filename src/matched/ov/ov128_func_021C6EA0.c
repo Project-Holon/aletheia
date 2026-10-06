@@ -18,5 +18,6 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern u8 func_020355C4(void);
-extern void func_021C7140(u8 *,u8 *,u8 *,u16);
-void func_021C6EA0(u8 *p,u8 *q,u8 *r,u16 heap) {((struct Obj14034 *)q)->f0=func_020355C4();func_021C7140(p,q,r,heap);}
+struct P;
+extern void func_021C7140(struct P *p, u8 *a, u8 *ctx, u16 heap);
+void func_021C6EA0(u8 *p,u8 *q,u8 *r,u16 heap) {((struct Obj14034 *)q)->f0=func_020355C4();func_021C7140((struct P *)p,q,r,heap);}

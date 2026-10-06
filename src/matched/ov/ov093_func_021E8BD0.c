@@ -14,7 +14,7 @@ union U {
     struct { u32 kind : 3; u32 pad : 22; u32 f : 1; u32 rest : 6; } a;
     struct { u32 kind : 3; u32 pad : 28; u32 f : 1; } b;
 };
-void func_021E8BD0(union U *p, u32 v)
+void func_021E8BD0(union U *p, int v)
 {
     if (p->a.kind == 1) p->a.f = v;
     else if (p->a.kind == 3) p->a.f = v;

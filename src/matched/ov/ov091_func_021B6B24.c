@@ -49,7 +49,8 @@ extern const struct C3 d_021BEBFC;
 extern const struct C3 d_021BEC04;
 extern s16 d_020A1B38[];
 extern void func_02082A60(void *src, void *dst, u32 size);
-extern int func_02061CA4(u32 a, u32 b, void *c, u32 size);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_021B6B24(struct Pal *p)
 {
@@ -131,6 +132,6 @@ void func_021B6B24(struct Pal *p)
             p->dst[i2][j2 + 2] = r | (g << 5) | (bl << 10);
         }
     }
-    func_02061CA4(15, 0xc0, p->dst, 0x60);
+    func_02061CA4((void *)15, 0xc0, (u32)p->dst, 0x60);
 }
 

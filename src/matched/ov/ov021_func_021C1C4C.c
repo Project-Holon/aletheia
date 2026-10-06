@@ -23,9 +23,10 @@ typedef unsigned short u16;
 struct Arg;
 struct Light;
 void func_02048AD0(struct Light *l);
-int func_020489F4(int a, u16 b);
-int func_02048A00(int a, u16 b);
-int func_02048A18(int a, u16 b);
+typedef unsigned int   u32;
+u32 func_020489F4(u8 *a0, int i);
+u32 func_02048A00(u8 *a0, int i);
+u32 func_02048A18(u8 *a0, int i);
 void func_02047A60(void *a0, struct Arg *a1);
 
 void func_021C1C4C(char *p)
@@ -40,10 +41,10 @@ void func_021C1C4C(char *p)
     else
         func_02048AD0((struct Light *)(((struct Obj03141 *)p)->f8));
     if (((struct Obj03141 *)p)->f18 != -1) {
-        a = func_020489F4(((struct Obj03141 *)p)->f14, ((struct Obj03141 *)p)->f18);
-        n = func_02048A00(((struct Obj03141 *)p)->f14, ((struct Obj03141 *)p)->f18);
+        a = (int)func_020489F4((u8 *)(((struct Obj03141 *)p)->f14), (u16)(((struct Obj03141 *)p)->f18));
+        n = (int)func_02048A00((u8 *)(((struct Obj03141 *)p)->f14), (u16)(((struct Obj03141 *)p)->f18));
         for (k = 0; k < n; k++) {
-            i = func_02048A18(((struct Obj03141 *)p)->f14, a + k);
+            i = (int)func_02048A18((u8 *)(((struct Obj03141 *)p)->f14), (u16)(a + k));
             func_02047A60((void *)i, (struct Arg *)(p + 0x1c));
         }
     }

@@ -134,14 +134,17 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern u32 func_0201BD28(u16 id, u32 field);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B404(void *, const Point *, int);
+struct PalAnmSlot;
+struct Struct36;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 func_020275E4(void);
-extern u32 func_020275F8(u8);
-extern u8 func_020275EC(u8 i);
+extern u32 func_020275F8(u32 a);
+extern u8 func_020275EC(int i);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B7C8(void *, Struct36 *);
+extern void func_0204B7C8(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void func_020307B0(void *);
 extern void func_0201DE00(u8 *, u8 *, u8 *);
@@ -152,7 +155,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02204C98(void *a, void *b, int *w, int *h);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern int func_02205768(int a, int b);
-extern void func_020215BC(void *, void *, int, u16, u16);
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_02045808(struct U16Vec *vec);
 
@@ -222,12 +225,12 @@ void func_02204CC0(Work *p, const Slots *q)
             k = func_0201BD28(q->id[i], 0);
             file = d_0220A5F0[k];
             p->obj[i] = func_0204B294(p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
-            func_0204B404(p->obj[i], &d_0220A3C4[i], 1);
+            func_0204B404(p->obj[i], (const struct Vec2 *)(&d_0220A3C4[i]), (int)1);
             heap = (p->heap & 0x7fff) | 0x8000;
             arc = func_020275E4();
-            chr = func_02049E34(arc, func_020275F8(k), 0, (u32)(&cd), heap);
-            func_0204B6F4(p->obj[i], func_020275EC(k), 1);
-            func_0204B7C8(p->obj[i], &buf);
+            chr = func_02049E34(arc, func_020275F8((u8)k), 0, (u32)(&cd), heap);
+            func_0204B6F4(p->obj[i], func_020275EC((u8)k), 1);
+            func_0204B7C8(p->obj[i], (struct Struct36 *)(&buf));
             vram = VRAM_BASE;
             func_02082A60(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
             func_020307B0(chr);
@@ -256,7 +259,7 @@ void func_02204CC0(Work *p, const Slots *q)
         }
         heap = (p->heap & 0x7fff) | 0x8000;
         pltt = func_02049F34(0xb, file, (u32)(&pd), heap);
-        func_020215BC(p->bg, ((struct Obj21782 *)pd)->fC, 1, i * 16 + 0x90, 0x20);
+        func_020215BC(p->bg, ((struct Obj21782 *)pd)->fC, (int)1, (u16)(i * 16 + 0x90), 0x20);
         func_020307B0(pltt);
     }
     p->f25a[i] = 1;

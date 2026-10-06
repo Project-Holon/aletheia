@@ -23,13 +23,13 @@ extern void func_020307B0(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021D66D0(u8 *p, int n);
-extern void func_021D57D0(void *, int, int, int);
+extern void func_021D57D0(void *p, int msg, int n, void *mon);
 extern void func_021D56FC(char *p, int mode);
 extern void func_021D62B4(u8 *p, unsigned int i);
 extern void func_021D6650(u8 *p, int flag);
 extern void func_021D62BC(u8 *p, int i, u32 v);
 extern void func_020061E4(u32 a);
-extern void func_021D6EE0(char *, int, int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8A7C(char *p);
 void func_021D8A9C(char *p)
 {
@@ -39,12 +39,12 @@ void func_021D8A9C(char *p)
     }
     ((struct Obj02183 *)p)->f70=100;
     func_021D66D0(((struct Obj02183 *)p)->f14,100);
-    func_021D57D0(((struct Obj02183 *)p)->f18,14,0,((struct Obj02183 *)p)->fC);
+    func_021D57D0(((struct Obj02183 *)p)->f18,14,0,(void *)(((struct Obj02183 *)p)->fC));
     func_021D56FC(((struct Obj02183 *)p)->f18,0);
     func_021D62B4(((struct Obj02183 *)p)->f14,8);
     func_021D6650(((struct Obj02183 *)p)->f14,0);
     func_021D62B4(((struct Obj02183 *)p)->f14,0);
     func_021D62BC(((struct Obj02183 *)p)->f14,4,6);
     func_020061E4(0x658);
-    func_021D6EE0(p,(int)func_021D8A7C,0x8bd);
+    func_021D6EE0((u8 *)p,(int)func_021D8A7C,0x8bd);
 }

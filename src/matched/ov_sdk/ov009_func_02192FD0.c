@@ -31,7 +31,7 @@ extern int func_02192F24(void **connection, struct GPITransferID *transferID, vo
 extern char g_021A56B4[];
 extern char g_021A56BC[];
 
-void func_02192FD0(void **connection, void *peer, int unused, char *headers)
+void func_02192FD0(void **connection, void *peer, int unused, char *headers, char *buffer, int len)
 {
     char value[64];
     struct GPITransferID transferID;

@@ -31,7 +31,7 @@ typedef struct { u8 b; } Byte;
 extern int func_021D775C(int a);
 extern int func_021D85C0(int a, u32 b);
 extern u32 func_0201BEB8(u16 id, u32 bit);
-extern void *func_021C88A4(int a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021D9E08(int a, int b, int c, Slot d, Byte e)
@@ -47,7 +47,7 @@ void func_021D9E08(int a, int b, int c, Slot d, Byte e)
         return;
     if (func_021D85C0(a, e.b) == 0)
         return;
-    p = func_021C88A4(a, 0xc, b);
+    p = func_021C88A4((char *)a, 0xc, b);
     ((struct Obj06252 *)p)->f0 |= m << 21;
     ((struct Obj06252 *)p)->f4 = c;
     ((struct Obj06252 *)p)->f8 = d.raw;

@@ -26,12 +26,12 @@ struct W {
     u32 f134;
 };
 
-extern s32 func_0203F684(u16 a);
+extern int func_0203F684(s32 x);
 extern void func_0207E5D0(void *src, u32 off, u32 n);
 
 void func_021A8D40(void *unused, struct W *w)
 {
-    s32 t = func_0203F684(w->f134) + 0x1000;
+    s32 t = func_0203F684((u16)w->f134) + 0x1000;
     u16 c[2];
 
     c[1] = (t * 8 / 0x2000 + 9) | ((0x1F << 10) | ((t * 5 / 0x2000 + 0x12) << 5));

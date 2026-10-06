@@ -52,7 +52,7 @@ extern char str_0203B48C[];
 extern void *func_0203D788(void);
 extern int func_020393A8(void);
 extern u8   *func_0203D798(void);
-extern void  func_0203B2A8(u32 key);
+extern void func_0203B2A8(int a0);
 extern void  func_0203D700(void);
 extern void  func_0203AD80(u32 ctx, void *tag, u32 val, u32 line);
 

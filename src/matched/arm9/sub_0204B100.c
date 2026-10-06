@@ -65,7 +65,8 @@ extern char s_clact_c[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  func_02082BCC(void *dst, int fill, u32 size);
-extern void  func_0204CAE4(struct Actor *actor);
+struct Obj;
+extern void func_0204CAE4(struct Obj *o);
 extern void  sub_0204B270(struct Bank *bank);
 extern void  sub_0204B22C(struct Bank *bank, u32 mode);
 extern void  func_0204BBC8(struct Bank *bank);
@@ -84,7 +85,7 @@ struct Bank *sub_0204B100(int count, u8 flag, u32 heapId)
     bank->unk_0f = flag;
 
     for (i = 0; i < count; i++) {
-        func_0204CAE4(&bank->actors[i]);
+        func_0204CAE4((struct Obj *)(&bank->actors[i]));
     }
 
     sub_0204B270(bank);

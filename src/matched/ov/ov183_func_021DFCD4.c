@@ -40,8 +40,8 @@ extern u8 *func_02012944(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern int func_021FB4B4(int,int,int);
-extern int func_021FB4CC(int,int,int);
-extern void func_021F9BA0(void *);
+extern int func_021FB4CC(u32 *p, int a1, int a2);
+extern void func_021F9BA0(unsigned *ctx);
 extern void func_021F9BF4(unsigned *,unsigned);
 int func_021DFCD4(char *p,char *q)
 {
@@ -105,7 +105,7 @@ int func_021DFCD4(char *p,char *q)
                 func_021F9BA0(((struct Obj00351 *)q)->fC);
                 return 1;
             }
-            if(func_021FB4CC(((struct Obj00277 *)p)->f10,x,y)) {
+            if(func_021FB4CC((u32 *)(((struct Obj00277 *)p)->f10),x,y)) {
                 if(((struct Obj00351 *)q)->f14!=0xffff || ((struct Obj00351 *)q)->f17!=255 || ((struct Obj00351 *)q)->f18!=19) {
                     int args[2];
                     args[0]=x;args[1]=y;

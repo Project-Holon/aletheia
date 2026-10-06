@@ -34,7 +34,7 @@ void func_021F8AE8(int i, u32 v)
     d_0220AF20->tbl[i] = v;
 }
 
-u32 func_021F8AFC(int i)
+int func_021F8AFC(int i)
 {
     return d_0220AF20->tbl[i];
 }

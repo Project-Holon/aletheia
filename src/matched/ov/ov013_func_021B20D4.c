@@ -33,8 +33,9 @@ extern struct Sess g_021B60D8;
 typedef unsigned char  u8;
 struct Msg;
 extern int func_021B2848(u8 *o, struct Msg *p, int n);
-extern int func_021B29A4(void *a, void *b);
-extern int func_021B2958(void *a);
+struct N;
+extern int func_021B29A4(int *obj, const u8 *q);
+extern int func_021B2958(struct N *p);
 
 int func_021B20D4(struct Chan *a, unsigned int b, unsigned char *buf, unsigned int c)
 {
@@ -50,12 +51,12 @@ int func_021B20D4(struct Chan *a, unsigned int b, unsigned char *buf, unsigned i
     func_021B2848((u8 *)a, (struct Msg *)buf, b & 0xff);
     if (b == 0) {
         if (g_021B60D8.f10 == 1 && a->fc == 4) {
-            if (func_021B2958(a) == 0)
+            if (func_021B2958((struct N *)a) == 0)
                 return z - 3;
         }
         a->f8 = a->f4 ? 1 << a->f4 : 1;
     }
-    if (func_021B29A4(a, buf) == 0)
+    if (func_021B29A4((int *)a, buf) == 0)
         return -3;
     return 0;
 }

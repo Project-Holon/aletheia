@@ -28,7 +28,7 @@ extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern u16 func_02188C84(u8 *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
-extern void func_021BF564(u32 a);
+extern void func_021BF564(void);
 extern void func_021BF584(u32 a);
 
 int func_021BF348(u32 p0, int *st, u8 *q)
@@ -37,7 +37,7 @@ int func_021BF348(u32 p0, int *st, u8 *q)
 
     switch (*st) {
     case 0:
-        func_021BF564(x);
+        func_021BF564();
         func_021BF584(((struct Obj09668 *)q)->f4);
         func_0204E720(((struct Obj09668 *)q)->fC, 0x10, 0, -1);
         *st = *st + 1;

@@ -22,8 +22,11 @@
 typedef struct { short x, y; unsigned char pad4[2], b6, b7; int a, b, c; unsigned short e, d; } Desc;
 extern const Desc d_021EFD34;
 extern void *func_021EBEE0(char *, const Desc *);
-extern unsigned func_020275EC(unsigned char);
-extern void func_0204B6F4(void *, int, int);
+typedef unsigned char  u8;
+extern u8 func_020275EC(int i);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_021EC000(char *, int, int);
 void func_021ECF78(char *p)
 {
@@ -32,7 +35,7 @@ void func_021ECF78(char *p)
     for (i = 0; i < 0x11; i++) {
         d.a = i + 0x28;
         *(void **)(p + i * 4 + 0x9EE4) = func_021EBEE0(p, &d);
-        func_0204B6F4(*(void **)(p + i * 4 + 0x9EE4), func_020275EC(i), 1);
+        func_0204B6F4(*(void **)(p + i * 4 + 0x9EE4), (unsigned)func_020275EC((unsigned char)i), 1);
         func_021EC000(p, i + 0x1C, 0);
     }
 }

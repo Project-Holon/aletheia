@@ -32,7 +32,7 @@ struct A {
     struct E e[4];
 };
 
-extern void func_020181F4(void *p, u16 move, u8 slot);
+extern void func_020181F4(void *p, u16 move, u32 slot);
 extern void func_02017E40(void *p, u32 id, u32 v);
 
 void func_021D505C(struct A *a)
@@ -41,7 +41,7 @@ void func_021D505C(struct A *a)
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        func_020181F4(mon, a->e[i].f00, i);
+        func_020181F4(mon, a->e[i].f00, (u8)i);
         func_02017E40(mon, 0x3a + i, a->e[i].f02);
         func_02017E40(mon, 0x3e + i, a->e[i].f04);
     }

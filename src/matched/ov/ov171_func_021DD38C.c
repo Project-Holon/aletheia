@@ -19,7 +19,8 @@
 extern void func_021DE76C(char *, int);
 extern void func_021DCBA4(char *);
 extern int func_021DCBE8(char *);
-extern void func_021DE080(char *, int, int);
+typedef unsigned char  u8;
+extern void func_021DE080(u8 *p, int i, int value);
 extern void func_021DDFBC(char *);
 typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
@@ -34,9 +35,9 @@ int func_021DD38C(char *p)
         break;
     case 1:
         if (!func_021DCBE8(p)) {
-            func_021DE080(p, 12, 4);
-            func_021DE080(p, 13, 5);
-            func_021DE080(p, 14, 0);
+            func_021DE080((u8 *)p, 12, 4);
+            func_021DE080((u8 *)p, 13, 5);
+            func_021DE080((u8 *)p, 14, 0);
             func_021DDFBC(p);
             ((struct Obj10659 *)p)->fC70 = 0;
             return 4;

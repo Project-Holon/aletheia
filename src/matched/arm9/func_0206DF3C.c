@@ -74,7 +74,8 @@ extern Glb g_02148B4C;
 extern void func_0207BC08(const VecFx32 *src, const MtxFx43 *m, VecFx32 *dst);
 extern void func_0207C8A0(fx32 d);
 extern fx64c func_0207C848(void);
-extern void func_0206AE94(int *x1, int *y1, int *x2, int *y2);
+typedef unsigned int   u32;
+extern void func_0206AE94(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
 inline static fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
 {
   fx64 tmp = (v64c * v32) + 0x80000000LL;
@@ -115,7 +116,7 @@ int func_0206DF3C(const VecFx32 *pWorld, int *px, int *py)
     if (x < 0 || y < 0 || x > 0x1000 || y > 0x1000)
         ret = -1;
 
-    func_0206AE94(&x1, &y1, &x2, &y2);                   /* NNS_G3dGlbGetViewPort */
+    func_0206AE94((u32 *)(&x1), (u32 *)(&y1), (u32 *)(&x2), (u32 *)(&y2));                   /* NNS_G3dGlbGetViewPort */
     {
         int dx = x2 - x1;
         int dy = y2 - y1;

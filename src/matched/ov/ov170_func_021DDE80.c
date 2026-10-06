@@ -15,17 +15,17 @@
  */
 
 extern unsigned func_0202136C(unsigned short v);
-extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 
 int func_021DDE80(unsigned char *p, unsigned a, unsigned b)
 {
-    if (func_021DD25C(p, b, p[0x14], 0xA9, 0) == 0)
+    if (func_021DD25C((void ***)p, b, p[0x14], 0xA9, 0) == 0)
         return 0;
-    if (func_021DD25C(p, b, p[0x14], 0x4C, 0) != 0)
+    if (func_021DD25C((void ***)p, b, p[0x14], 0x4C, 0) != 0)
         return 0;
-    if (func_0202136C(func_021DD25C(p, a, p[0x14], 6, 0)) == 1)
+    if (func_0202136C(func_021DD25C((void ***)p, a, p[0x14], 6, 0)) == 1)
         return 0;
-    if (func_0202136C(func_021DD25C(p, b, p[0x14], 6, 0)) == 1)
+    if (func_0202136C(func_021DD25C((void ***)p, b, p[0x14], 6, 0)) == 1)
         return 0;
     return 1;
 }

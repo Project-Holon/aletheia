@@ -25,8 +25,11 @@ extern const unsigned d_021BFB50[];
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_0203F8F4(unsigned);
 extern void func_02045088(unsigned);
-extern void func_0203FC28(const void *);
-extern void func_0203FCA0(unsigned char, const void *, unsigned char);
+typedef unsigned int   u32;
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void func_02040C14(unsigned, unsigned, unsigned, unsigned);
@@ -38,11 +41,11 @@ void func_021BDFC0(void *ctx, unsigned heap)
     func_02082BCC(ctx, 0, 4);
     func_0203F8F4(heap);
     func_02045088(heap);
-    func_0203FC28(d_021BFB50);
+    func_0203FC28((struct DispConfig *)d_021BFB50);
     for (; i < 4; i++) {
         descriptor = &d_021BFC24[i];
         layer = descriptor->layer;
-        func_0203FCA0(layer, descriptor->config, descriptor->type);
+        func_0203FCA0((unsigned char)layer, (const struct BgTemplate *)descriptor->config, (unsigned char)descriptor->type);
         func_020414AC(layer);
         func_02040588(layer, descriptor->enable);
     }

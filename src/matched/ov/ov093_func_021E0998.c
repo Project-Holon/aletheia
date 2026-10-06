@@ -37,7 +37,7 @@ extern u16 func_021D67B8(u8 *p);
 extern int func_021E0A64(int);
 extern u8 func_021D5778(void *, int);
 extern u16 func_021D70A8(struct QQ *p);
-extern u8 *func_021C88A4(void *, int, int);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *, void *);
 extern void func_021C8838(void *, int, int);
 struct S;

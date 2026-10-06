@@ -17,11 +17,11 @@
 #include "../include/Obj18517.h"
 
 
-extern void func_021EBA84(char *, int, int);
+extern void func_021EBA84(unsigned char *p, int msg, int i);
 void func_021EBADC(char *p, int b)
 {
     if (*(int *)(((struct Obj18517 *)p)->f0 + 0x24) == 5)
-        func_021EBA84(p, 0x34, b);
+        func_021EBA84((unsigned char *)p, 0x34, b);
     else
-        func_021EBA84(p, 0xb, b);
+        func_021EBA84((unsigned char *)p, 0xb, b);
 }

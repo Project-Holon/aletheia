@@ -23,7 +23,9 @@ extern void *func_0215A5DC(void *);
 typedef unsigned short u16;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void **func_02012ED0(void *);
+typedef unsigned char  u8;
+struct Big;
+extern u8 *func_02012ED0(struct Big *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0216666C(void *, void *, void *);
 extern void func_0215897C(void *, void *);
@@ -34,7 +36,7 @@ int func_021667E0(void *a, void *b)
     void *y = func_0215A5DC(b);
     void **p;
     void *r;
-    p = func_02012ED0(func_020120F4(y));
+    p = (void **)func_02012ED0(func_020120F4(y));
     r = func_0216666C(y, *p, func_02159AE8(a, b));
     if (r == 0)
         return 1;

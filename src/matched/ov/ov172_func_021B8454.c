@@ -27,9 +27,11 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void *func_020399A8(void);
-extern int func_0203D1A4(void *);
-extern int func_0203D1C0(int a);
+struct Entry;
+struct Link;
+extern struct Entry *func_020399A8(void);
+extern u32 func_0203D1A4(struct Link *p);
+extern u32 func_0203D1C0(u32 index);
 extern void func_0203E808(u32 a, int b, u32 c, u32 d);
 extern void func_0203E8C8(int a);
 extern u16 func_021BE00C(u16 *p);
@@ -50,7 +52,7 @@ void func_021B8454(void *a, char *q)
     u32 base;
     char *e;
 
-    me = func_0203D1A4(func_020399A8());
+    me = func_0203D1A4((struct Link *)func_020399A8());
     w = func_021BE00C((u16 *)a);
     for (i = 0; i < 4; i++) {
         if (func_0203D1C0(i) == 1) {

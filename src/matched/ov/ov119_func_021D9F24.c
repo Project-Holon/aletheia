@@ -34,29 +34,29 @@
  */
 typedef unsigned int   u32;
 struct MsgBank;
-extern int func_02035D20(int *,int *);
-extern int func_021E51A4(void *,int,int,int *,int *,int *,int *,int *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern int func_021E51A4(char *p, int x, int y, int *outA, int *outB, int *outSlot, int *outColumn, int *outRow);
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
 extern int func_021DBD70(char *,int,int);
 extern int func_021D8AA8(void *);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021DD0CC(char *,int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_021D8E84(void *,int);
 extern void func_021DB9B4(char *p);
 extern void func_021DF708(void *p);
 extern void func_021D8C84(void *);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021E0FF4(char *,int,int);
-extern void func_021DA064(void *);
+extern void func_021E0FF4(void *p, int a, int flag);
+extern void func_021DA064(char *p);
 extern void func_021D8CCC(void *,int,int,int,int);
 extern void func_021D9EA8(char *,int,int);
-extern void func_021D8B38(void *);
+extern void func_021D8B38(char *p);
 #define I(o) (*(int *)(p+(o)))
 int func_021D9F24(char *p,int save)
 {
  int x,y,a,b,c,hit,e,result=0;
- if(func_02035D20(&x,&y)==1) {
+ if(func_02035D20((u32 *)(&x),(u32 *)(&y))==1) {
   hit=func_021E51A4(p,x+12,y+12,(int *)(p+0xf80),(int *)(p+0xf7c),&a,&b,&c);
   if(hit) {
    e=(int)func_021D8DD0((void *)I(0x828),I(0xf80),I(0xf7c),p);

@@ -77,18 +77,20 @@ int func_0205C88C(void);
 int func_0205CA20(void);
 void func_0205C8E0(void);
 void func_0216AB20(void *a, int b, char *c, int d, int e, void *f, int g);
-void func_02087C88(OSOwnerInfo *p);
-int func_0216B0E0(u16 *r, int a, Fn cb, void *b);
+typedef signed int     s32;
+struct OSOwnerInfo;
+void func_02087C88(struct OSOwnerInfo *info);
+int func_0216B0E0(u16 *ingamesn, int reserved, void (*callback)(int, int, void *), void *param);
 void func_0216AE88(void);
 int func_0216B1E0(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
 void func_0203C9AC(int a, unsigned int b, unsigned int c, unsigned int d);
-void func_02168994(Fn f, int a);
+int func_02168994(void (*callback)(int, void *), void *param);
 void func_02155374(int v);
 int func_02155F58(void);
 void func_02155B98(int a);
 void func_02155C0C(int a);
 void func_02155C24(void);
-void func_02155C28(void);
+void func_02155C28(s32 a, s32 b);
 void func_02155C6C(void);
 
 int func_021554C8(void)
@@ -126,8 +128,8 @@ int func_021554C8(void)
         func_0216AB20(d_021A8264->w108, 0x2FC6, d_021A1C6C, 0, 0, m, flag);
         d_021A8264->b7A9 = 1;
         { u16 name[2] = {0, 0};
-        func_02087C88(&info);
-        func_0216B0E0(name, 0, (Fn)func_02155B98, 0);
+        func_02087C88((struct OSOwnerInfo *)(&info));
+        func_0216B0E0(name, 0, (void (*)(int,  int,  void *))((Fn)func_02155B98), 0);
         }
         func_02155374(3);
     case 3:
@@ -140,7 +142,7 @@ int func_021554C8(void)
                               d_021A8264_obj) == 0) {
                 func_0203C9AC(0, 0, 0, 0x3EE);
             } else {
-                func_02168994(func_02155C6C, 0);
+                func_02168994((void (*)(int,  void *))func_02155C6C, 0);
                 func_0216AE88();
             }
         }

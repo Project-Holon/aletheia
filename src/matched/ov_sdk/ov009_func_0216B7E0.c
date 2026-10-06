@@ -25,8 +25,8 @@ typedef signed char    s8;
 
 int func_0216B7E0(void *p)
 {
-    int func_0216BA08(void *);
+    int func_0216BA08(void);
     int func_0216BEA4(void *);
-    if (func_0216BA08(p) == 0) return -3;
+    if (func_0216BA08() == 0) return -3;
     return func_0216BEA4(p);
 }

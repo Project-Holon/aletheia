@@ -19,7 +19,8 @@ typedef unsigned int u32;
 
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void func_0206DB80(void);
-extern int func_0207DEA4(void *p);
+typedef signed int     s32;
+extern int func_0207DEA4(s32 *in);
 
 u32 func_02169A14(u32 a)
 {
@@ -35,7 +36,7 @@ u32 func_02169A14(u32 a)
     func_0206DDA4(0x41, 0, 0);
     func_0206DDA4(0x70, (void *)a, 3);
     func_0206DB80();
-    while (func_0207DEA4(&x) != 0)
+    while (func_0207DEA4((s32 *)(&x)) != 0)
         ;
     return x;
 }

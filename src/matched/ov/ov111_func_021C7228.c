@@ -103,9 +103,10 @@ typedef struct { u32 w[8]; } BgTemplate;
 typedef struct { BgTemplate t[6]; } BgTemplates;
 
 extern void func_0203F8F4(u16 heapId);
-extern void func_0203FC28(const BankCfg *c);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u8 frame, const BgTemplate *t, int mode);
-extern void func_020414EC(u8 frame);
+extern void func_020414EC(u32 i);
 extern void func_02040B94(u8 frame, int size, int ofs, int heap);
 extern void func_02040588(u8 frame, int on);
 extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
@@ -121,12 +122,12 @@ void func_021C7228(void)
 
     func_0203F8F4(0x27);
     bank = d_021C895C;
-    func_0203FC28(&bank);
+    func_0203FC28((struct DispConfig *)(&bank));
     tmpl = d_021C89E0;
     for (i = 0; i < 6; i++) {
         u32 v = d_021C885C[i];
         func_0203FCA0(v, &tmpl.t[i], 0);
-        func_020414EC(v);
+        func_020414EC((u8)v);
         func_02040B94(v, 0x20, 0, 0x27);
         func_02040588(v, 1);
     }

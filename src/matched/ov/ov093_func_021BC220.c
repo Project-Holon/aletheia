@@ -33,14 +33,14 @@ typedef struct {
     u32 d : 1;
 } Bf;
 
-extern int func_021BB85C(int p, u8 i);
+extern u8 *func_021BB85C(u8 *p, unsigned int i);
 extern u8 func_021BB8A8(u8 *p, u8 i);
 extern Bf func_021BB8B0(u8 *p, u8 i, u8 j);
 extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, int c);
 extern int func_021BDA00(u8 *p);
 extern int func_021C5200(u8 *p);
 
-void func_021BC220(u8 *p, u8 *o)
+int func_021BC220(u8 *p, u8 *o)
 {
     u32 i;
     u32 j;
@@ -48,7 +48,7 @@ void func_021BC220(u8 *p, u8 *o)
     Bf v;
 
     for (i = 0; i < 4; i++) {
-        if (func_021BB85C(*(int *)&((struct Obj00003 *)p)->f0, i) != 0) {
+        if (func_021BB85C((u8 *)(*(int *)&((struct Obj00003 *)p)->f0), (u8)i) != 0) {
             n = func_021BB8A8(o, i);
             for (j = 0; j < n; j++) {
                 v = func_021BB8B0(o, i, j);
@@ -58,5 +58,5 @@ void func_021BC220(u8 *p, u8 *o)
         }
     }
     func_021BDA00(p);
-    func_021C5200(p);
+    return func_021C5200(p);
 }

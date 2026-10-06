@@ -10,4 +10,4 @@
  * status: EXACT*
  * note: two trailing zero alignment bytes.
  */
-void func_021D9860(void) {}
+void func_021D9860(void *a0) {}

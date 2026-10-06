@@ -24,11 +24,12 @@ struct E {
     u8 b[10];
 };
 
-extern void func_021F07AC(u8 *p, int i, struct E *e);
-extern void func_021F07EC(u8 *p, int i, struct E *e);
-extern void func_021F0824(u8 *p, int i, struct E *e);
-extern void func_021F0858(u8 *p, int i, struct E *e);
-extern void func_021F088C(u8 *p, int i, struct E *e);
+typedef unsigned short u16;
+extern void func_021F07AC(u8 *p, int i, u16 *e);
+extern void func_021F07EC(void *p, int i, unsigned short *q);
+extern void func_021F0824(void *p, int i, unsigned short *q);
+extern void func_021F0858(void *p, int i, unsigned short *q);
+extern void func_021F088C(void *p, int i, unsigned short *q);
 
 void func_021F0728(u8 *p)
 {
@@ -40,19 +41,19 @@ void func_021F0728(u8 *p)
 
         switch (c) {
         case 3:
-            func_021F07AC(p, i, &q[c]);
+            func_021F07AC(p, i, (u16 *)(&q[c]));
             break;
         case 1:
-            func_021F07EC(p, i, &q[c]);
+            func_021F07EC(p, i, (short unsigned int *)(&q[c]));
             break;
         case 2:
-            func_021F0824(p, i, &q[c]);
+            func_021F0824(p, i, (short unsigned int *)(&q[c]));
             break;
         case 0:
-            func_021F0858(p, i, &q[c]);
+            func_021F0858(p, i, (short unsigned int *)(&q[c]));
             break;
         case 4:
-            func_021F088C(p, i, &q[c]);
+            func_021F088C(p, i, (short unsigned int *)(&q[c]));
             break;
         }
     }

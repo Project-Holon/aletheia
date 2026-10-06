@@ -23,14 +23,14 @@ typedef struct { u8 b[6]; } Mac;
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern void func_021CE984(u8 *p, int i);
+extern void func_021CE984(u32 *p, u32 n);
 extern void func_02082D44(void *src, void *dst, int n);
 extern u8 data_021DB470[];
 
 void func_021CE8F4(u8 *p, u8 *e, int i)
 {
     if (func_0203EFC8(p + 0x55a + i * 6, data_021DB470, 6)) {
-        func_021CE984(p, i);
+        func_021CE984((u32 *)p, i);
         func_02082D44(data_021DB470, ((Mac *)(p + 0x55a))[i].b, 6);
     }
 }

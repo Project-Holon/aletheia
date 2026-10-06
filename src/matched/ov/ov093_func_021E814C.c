@@ -18,14 +18,14 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *a, u8 b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5814(void *a, int b);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E814C(int a, void *b, int c)
 {
     if (c == func_021D775C(3)) {
-        if (func_021D5814(func_021C7CF4(b, func_021D775C(4)), 2) != 0)
+        if (func_021D5814(func_021C7CF4(b, (u8)func_021D775C(4)), 2) != 0)
             func_021D76BC(0x40, 1);
     }
 }

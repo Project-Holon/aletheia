@@ -54,7 +54,7 @@ typedef struct Arg0206BF50 {
     u32 f0c;
 } Arg0206BF50;
 
-extern void func_0206DC00(void *, u32);
+extern void func_0206DC00(const u32 *src, u32 sz);
 
 void func_0206BF50(Obj0206BF50 *p, u32 unused, Arg0206BF50 *a)
 {
@@ -72,7 +72,7 @@ void func_0206BF50(Obj0206BF50 *p, u32 unused, Arg0206BF50 *a)
     }
     if (flag == 0) {
         if (!(p->f08 & 0x100)) {
-            func_0206DC00((u8 *)a + a->f08, a->f0c);
+            func_0206DC00((const u32 *)((u8 *)a + a->f08), a->f0c);
         }
     }
     if (st == 2) {

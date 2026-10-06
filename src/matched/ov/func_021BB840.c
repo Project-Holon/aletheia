@@ -24,7 +24,7 @@ typedef signed int s32;
 
 /* 021BB840  strb r1,[r0,#0xb]; str r2,[r0]; strb r3,[r0,#0xa] */
 struct Q4 { u32 w; u8 pad[6]; u8 c; u8 b; };
-void func_021BB840(struct Q4 *p, u8 a, u32 b, u8 c)
+void func_021BB840(struct Q4 *p, int a, int b, int c)
 {
     p->b = a;
     p->w = b;

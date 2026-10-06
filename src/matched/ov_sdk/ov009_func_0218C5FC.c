@@ -35,8 +35,8 @@ struct GPIConnection {
     int emailPending;
 };
 
-extern int func_0218946C(void **connection, void *outputBuffer, char *buffer);
-extern int func_0218949C(void **connection, void *outputBuffer, int num);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
 extern char g_021A4BF4[];
 extern char g_021A4C0C[];
 extern char g_021A4C18[];
@@ -47,19 +47,19 @@ int func_0218C5FC(void **connection, void *buffer)
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
 
     if (iconnection->nickPending > 0) {
-        func_0218946C(connection, buffer, g_021A4BF4);
-        func_0218949C(connection, buffer, iconnection->profileid);
-        func_0218946C(connection, buffer, iconnection->nick);
-        func_0218946C(connection, buffer, g_021A4C0C);
-        func_0218949C(connection, buffer, iconnection->sessionKey);
-        func_0218946C(connection, buffer, g_021A4C18);
+        func_0218946C((int *)connection, buffer, g_021A4BF4);
+        func_0218949C((int *)connection, buffer, iconnection->profileid);
+        func_0218946C((int *)connection, buffer, iconnection->nick);
+        func_0218946C((int *)connection, buffer, g_021A4C0C);
+        func_0218949C((int *)connection, buffer, iconnection->sessionKey);
+        func_0218946C((int *)connection, buffer, g_021A4C18);
         iconnection->nickPending = 0;
     }
     if (iconnection->emailPending > 0) {
-        func_0218946C(connection, buffer, g_021A4C20);
-        func_0218949C(connection, buffer, iconnection->profileid);
-        func_0218946C(connection, buffer, iconnection->email);
-        func_0218946C(connection, buffer, g_021A4C18);
+        func_0218946C((int *)connection, buffer, g_021A4C20);
+        func_0218949C((int *)connection, buffer, iconnection->profileid);
+        func_0218946C((int *)connection, buffer, iconnection->email);
+        func_0218946C((int *)connection, buffer, g_021A4C18);
         iconnection->emailPending = 0;
     }
     return 0;

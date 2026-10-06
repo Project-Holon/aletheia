@@ -17,5 +17,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_021BA8E8(char *,u16,int);
-void func_021BA8F4(char *p,int v) { int i; for(i=0;i<((struct Obj25710 *)p)->f4814;i++) func_021BA8E8(p,i,v); }
+extern int func_021BA8E8(char *p, int b, int c);
+void func_021BA8F4(char *p,int v) { int i; for(i=0;i<((struct Obj25710 *)p)->f4814;i++) func_021BA8E8(p,(u16)i,v); }

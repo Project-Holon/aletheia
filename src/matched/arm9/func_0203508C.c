@@ -19,8 +19,10 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8 *g_021469BC;
-extern void func_02035080(u8 *g, u32 a, u32 c);
-extern void func_02035120(u8 *g, u32 b, u32 c);
+struct Obj02035080;
+struct Obj02035120;
+extern void func_02035080(struct Obj02035080 *p, u32 a, u32 b);
+extern void func_02035120(struct Obj02035120 *p, u32 a, u32 b);
 
 void func_0203508C(u32 a, u32 b, u32 c)
 {
@@ -34,6 +36,6 @@ void func_0203508C(u32 a, u32 b, u32 c)
             ((void (*)(u32))a)(c);
         }
     }
-    func_02035080(g_021469BC, a, c);
-    func_02035120(g_021469BC, b, c);
+    func_02035080((struct Obj02035080 *)g_021469BC, a, c);
+    func_02035120((struct Obj02035120 *)g_021469BC, b, c);
 }

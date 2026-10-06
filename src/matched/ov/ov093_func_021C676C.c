@@ -29,11 +29,11 @@ extern void func_021D74F8(int line);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int key, u32 val);
 extern void func_021D7630(int key, u32 val);
-extern void func_021D70F0(u8 *p, int k);
+extern void func_021D70F0(void *a, int id);
 extern int func_021D775C(int key);
 extern void func_021D7540(int line);
 
-int func_021C676C(u8 *p, u8 *a, u8 *d, u32 unused, u8 *out8, u32 *out32)
+int func_021C676C(u8 *p, u8 *a, u8 *d, u16 unused, u8 *out8, u32 *out32)
 {
     u32 n;
     u32 i;

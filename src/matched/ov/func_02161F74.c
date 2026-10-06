@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216210C();
+extern int func_0216210C(int a0);
 extern int func_02162120();
 
 void func_02161F74(int a0, int a1, int a2)
@@ -30,7 +30,7 @@ void func_02161F74(int a0, int a1, int a2)
 t5 = a0 + 0;
 t4 = a1 + 0;
 t6 = a2 + 0;
-    a0 = func_0216210C();
+    a0 = func_0216210C(a0);
 loc_02161F80:
     if (a0 != 0) goto loc_02161F8E;
 loc_02161F84:

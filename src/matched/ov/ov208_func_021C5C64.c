@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021C51A0(u8 *mdl, u32 sys);
+extern void func_021C51A0(char *p, int a);
 extern void func_021C51C8(u32 turn, int side, u8 *p);
 extern void ov208_func_021C569C(void *a0, u8 *p, int key, int a, int b, int pose, u16 idx);
 extern void func_021C4EAC(void *a0, u8 *p, int key);
@@ -35,8 +35,8 @@ void ov208_func_021C5C64(void *a0, u8 *p, int key)
     int a;
     int b;
 
-    func_021C51A0(p + 0x94, W(8));
-    func_021C51A0(p + 0xd8, W(8));
+    func_021C51A0((char *)(p + 0x94), W(8));
+    func_021C51A0((char *)(p + 0xd8), W(8));
     a = W(0x124) != 0 ? 2 : 4;
     b = W(0x124) != 0 ? 4 : 3;
     ov208_func_021C569C(a0, p, key, a, b, 2, H(0x550));

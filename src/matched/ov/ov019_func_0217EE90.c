@@ -68,7 +68,8 @@ struct U16Vec;
 struct WordSet;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u16  *func_020084F4(u32 a);
-extern int   func_02008550(u32 a);
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void  func_0201EE0C(void *win, int a, void *s, int b, int c, int d);
@@ -106,7 +107,7 @@ void func_0217EE90(Self *self)
     } else {
         buf = func_020084F4(x);
         kind = 2;
-        flag = func_02008550(x);
+        flag = (int)func_02008550((const struct Sub0200852CObj *)x);
     }
 
     s = func_020457B0(0x20, 0x41);

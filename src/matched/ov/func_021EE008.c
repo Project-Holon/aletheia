@@ -20,7 +20,7 @@
 #include "../include/Obj00000.h"
 
 
-extern void func_021EB85C(char *, int);
+extern void func_021EB85C(unsigned char *p, int i);
 extern void func_021EDFC4(char *, int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -29,7 +29,7 @@ extern void func_02025774(u8 *g, u32 a);
 void func_021EE008(char *p, int a, int b)
 {
     if (b == 1) {
-        func_021EB85C(p, a);
+        func_021EB85C((unsigned char *)p, a);
         func_021EDFC4(p, a);
         return;
     }

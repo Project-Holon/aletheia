@@ -12,7 +12,7 @@
  * Word at +0xa0 of the block, falling back to +0xa4 when it is zero.
  */
 
-int func_0215CE9C(const int *p)
+int func_0215CE9C(const int *p, int b)
 {
     int v = p[0x28];
 

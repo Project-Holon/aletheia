@@ -23,9 +23,9 @@ typedef struct { u8 pad[0x70]; void *items[8]; } Object;
 extern int func_021BF6E4(void *);
 struct Obj;
 extern u16 func_0204B898(struct Obj *p);
-extern void func_021BD470(void *,int);
-extern void func_021BD0F8(void *,int,int);
-extern void func_021BD448(void *,int);
+extern void func_021BD470(u8 *p, int i);
+extern void func_021BD0F8(u8 *p, int i, int flag);
+extern void func_021BD448(u8 *p, int i);
 extern const u8 d_021C38DF[],d_021C38D4[];
 void func_021BCCA8(Object *p) {
     int old,new;
@@ -41,7 +41,7 @@ void func_021BCCA8(Object *p) {
     for(i=0;i<5;i++) {
         if(i==selected) { new=d_021C38D4[i]; break; }
     }
-    if(old>=0 && old!=new) func_021BD470(p,old);
-    for(i=0;i<5;i++) func_021BD0F8(p,d_021C38D4[i],i==selected);
-    if(new>=0 && old!=new) func_021BD448(p,new);
+    if(old>=0 && old!=new) func_021BD470((u8 *)p,old);
+    for(i=0;i<5;i++) func_021BD0F8((u8 *)p,d_021C38D4[i],i==selected);
+    if(new>=0 && old!=new) func_021BD448((u8 *)p,new);
 }

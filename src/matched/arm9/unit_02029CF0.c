@@ -45,7 +45,7 @@ struct BigObj;
 extern u8 func_02012984(const struct BigObj *p);
 extern u32   func_02029E74(void *a, void *b);
 extern u32 func_02029E64(void *unused, u32 id, u32 which);
-extern u32   func_02029E58(void *a);
+extern int func_02029E58(void *a0);
 struct Sys;
 extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 

@@ -14,9 +14,10 @@
  */
 #include "../include/Obj00326.h"
 extern int func_021DA6D0(unsigned char *);
-extern void func_021D6C84(void *);
+typedef unsigned char  u8;
+extern void func_021D6C84(u8 *p);
 int func_021D83B0(char *p) {
  int n=func_021DA6D0(*(unsigned char * *)&((struct Obj00326 *)p)->f270);
- func_021D6C84(p+0x294);
+ func_021D6C84((u8 *)(p+0x294));
  return n;
 }

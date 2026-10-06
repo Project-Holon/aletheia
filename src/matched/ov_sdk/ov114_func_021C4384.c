@@ -89,17 +89,22 @@ typedef struct {
 } GHIConnection;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_021BFCEC(GHIBuffer *buffer, const char *data, int dataLen);
+typedef unsigned char  u8;
+struct Conn;
+struct Ctx;
+struct GHIBuffer;
+struct GHIConnection;
+extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
 extern int func_021BFF7C(GHIBuffer *buffer, const char *name, const char *value);
-extern int func_021C0004(GHIBuffer *buffer, int c);
+extern int func_021C0004(struct Ctx *ctx, int ch);
 extern int func_021C00C0(GHIBuffer *buffer, int i);
-extern char *func_02094B20(const char *s, const char *find);
+extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
 extern int func_02084F40(char *dst, const char *fmt, ...);
-extern char *func_021C25C8(GHIConnection *connection);
-extern int func_021BFDEC(GHIBuffer *buffer, char *data, int dataLen);
+extern char *func_021C25C8(struct Conn *connection);
+extern int func_021BFDEC(struct GHIBuffer *buffer, const char *data, int dataLen);
 extern void func_021C00FC(GHIBuffer *buffer);
-extern int func_021C011C(GHIConnection *connection);
-extern void func_021C02C8(GHIConnection *connection, char *buffer, int bufferLen);
+extern int func_021C011C(struct GHIConnection *connection);
+extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bufferLen);
 extern char g_021CF14C[];
 extern char g_021CF160[];
 extern char g_021CF168[];
@@ -139,13 +144,13 @@ void func_021C4384(GHIConnection *connection)
             requestType = g_021CF168;
         else
             requestType = g_021CF170;
-        func_021BFCEC(writeBuffer, requestType, 0);
+        func_021BFCEC((struct GHIBuffer *)writeBuffer, requestType, 0);
 
         if (connection->proxyOverrideServer != 0 || g_021D3B2C != 0)
-            func_021BFCEC(writeBuffer, connection->URL, 0);
+            func_021BFCEC((struct GHIBuffer *)writeBuffer, connection->URL, 0);
         else
-            func_021BFCEC(writeBuffer, connection->requestPath, 0);
-        func_021BFCEC(writeBuffer, g_021CF178, 0);
+            func_021BFCEC((struct GHIBuffer *)writeBuffer, connection->requestPath, 0);
+        func_021BFCEC((struct GHIBuffer *)writeBuffer, g_021CF178, 0);
 
         if (connection->serverPort == 80)
         {
@@ -153,14 +158,14 @@ void func_021C4384(GHIConnection *connection)
         }
         else
         {
-            func_021BFCEC(writeBuffer, g_021CF18C, 0);
-            func_021BFCEC(writeBuffer, connection->serverAddress, 0);
-            func_021C0004(writeBuffer, ':');
+            func_021BFCEC((struct GHIBuffer *)writeBuffer, g_021CF18C, 0);
+            func_021BFCEC((struct GHIBuffer *)writeBuffer, connection->serverAddress, 0);
+            func_021C0004((struct Ctx *)writeBuffer, ':');
             func_021C00C0(writeBuffer, connection->serverPort);
-            func_021BFCEC(writeBuffer, g_021CF194, 2);
+            func_021BFCEC((struct GHIBuffer *)writeBuffer, g_021CF194, 2);
         }
 
-        if (connection->sendHeaders == 0 || func_02094B20(connection->sendHeaders, g_021CF198) == 0)
+        if (connection->sendHeaders == 0 || func_02094B20((const u8 *)connection->sendHeaders, (const u8 *)g_021CF198) == 0)
             func_021BFF7C(writeBuffer, g_021CF198, g_021CF1A4);
 
         if (connection->persistConnection)
@@ -172,16 +177,16 @@ void func_021C4384(GHIConnection *connection)
         {
             func_02084F40(buf, g_021CF1D4, connection->totalBytes);
             func_021BFF7C(writeBuffer, g_021CF1D8, buf);
-            func_021BFF7C(writeBuffer, g_021CF1E8, func_021C25C8(connection));
+            func_021BFF7C(writeBuffer, g_021CF1E8, func_021C25C8((struct Conn *)connection));
         }
 
         if (connection->sendHeaders != 0)
-            func_021BFCEC(writeBuffer, connection->sendHeaders, 0);
-        func_021BFCEC(writeBuffer, g_021CF194, 2);
+            func_021BFCEC((struct GHIBuffer *)writeBuffer, connection->sendHeaders, 0);
+        func_021BFCEC((struct GHIBuffer *)writeBuffer, g_021CF194, 2);
 
         if (connection->encryptEngine != 0 && connection->sessionEstablished == 1)
         {
-            if (!func_021BFDEC(&connection->sendBuffer, writeBuffer->data, writeBuffer->len))
+            if (!func_021BFDEC((struct GHIBuffer *)(&connection->sendBuffer), writeBuffer->data, writeBuffer->len))
             {
                 connection->completed = 1;
                 connection->result = 0x11;
@@ -191,7 +196,7 @@ void func_021C4384(GHIConnection *connection)
         }
     }
 
-    if (!func_021C011C(connection))
+    if (!func_021C011C((struct GHIConnection *)connection))
         return;
     if (connection->sendBuffer.pos < connection->sendBuffer.len)
         return;
@@ -201,5 +206,5 @@ void func_021C4384(GHIConnection *connection)
         connection->state = 6;
     else
         connection->state = 7;
-    func_021C02C8(connection, 0, 0);
+    func_021C02C8((struct GHIConnection *)connection, 0, 0);
 }

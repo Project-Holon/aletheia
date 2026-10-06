@@ -39,7 +39,7 @@ extern u8 d_0217AB80[];
 extern u8 d_0217AAC0[];
 
 extern void func_02179B38(u8 *pkt, u32 len, u32 type);
-extern void func_0217A334(void);
+extern int func_0217A334(void);
 extern int IRC_IsConnect(void);
 extern int IRC_IsSender(void);
 extern void IRC_Init(u8 unit);

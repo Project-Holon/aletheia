@@ -36,11 +36,11 @@ struct Sio {
     u16 unk72;
 };
 
-extern struct Sio *func_02035750(struct Sio *p);
+extern int func_02035750(void);
 
 void sub_02035E54(struct Sio *p)
 {
-    struct Sio *sio = func_02035750(p);
+    struct Sio *sio = (struct Sio *)func_02035750();
 
     sio->unk64 = 0;
     sio->unk66 = 0;

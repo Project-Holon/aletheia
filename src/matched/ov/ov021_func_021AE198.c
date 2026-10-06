@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void *func_0216D67C(void *a0);
 extern void *func_0216DE94(void *map, u32 id);
 extern void func_0216D828(int a, int *b);
-extern int func_021AE348(int a, s16 b, int *c, int *d);
+extern int func_021AE348(int idx, int a, const s16 *p, const s16 *q);
 extern int func_021AE7A8(u32 a, u32 dir, int n, void *p);
 
 int func_021AE198(int a, int b, int c, int d)
@@ -38,7 +38,7 @@ int func_021AE198(int a, int b, int c, int d)
         return -1;
     func_0216D828(h, p);
     func_0216D828(a, q);
-    r = func_021AE348(b, c, q, p);
+    r = func_021AE348(b, (s16)c, (const s16 *)q, (const s16 *)p);
     if (r != -1) {
         if (func_021AE7A8(a, b, r, (void *)d) == 1)
             r = -1;

@@ -31,8 +31,9 @@ extern void func_021D9BEC(char *);
 extern void func_021D9D44(char *);
 extern void func_021DA320(char *);
 extern void func_021DA3B8(char *);
-extern void func_021DA42C(char *);
-extern void func_021DA524(char *,int,int,int,int,int,int,int,int);
+typedef unsigned char  u8;
+extern void func_021DA42C(u8 *p);
+extern void func_021DA524(void **p, int a, int b, int c, int d, int e, int f, int g, int h);
 extern void func_021D8AF4(char *,int);
 extern void func_0202208C(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
 int func_021D8B0C(char *p)  {
@@ -44,8 +45,8 @@ int func_021D8B0C(char *p)  {
     func_021D9D44(p);
     func_021DA320(p);
     func_021DA3B8(p);
-    func_021DA42C(p);
-    func_021DA524(p+0x310,((struct Obj10498 *)p)->f328,4,2,19,27,4,((struct Obj10498 *)p)->f314,((struct Obj10498 *)p)->f344);
+    func_021DA42C((u8 *)p);
+    func_021DA524((void **)(p+0x310),((struct Obj10498 *)p)->f328,4,2,19,27,4,((struct Obj10498 *)p)->f314,((struct Obj10498 *)p)->f344);
     func_021D8AF4(p,1);
     func_0202208C(0,1,1,0,6,1,50);
     return 0;

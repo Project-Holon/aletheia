@@ -27,11 +27,12 @@ typedef unsigned short u16;
 extern u32 func_020173EC(void);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void *func_021B9A64(int,int,u16);
-extern void func_021B9A94(void *,void *,u32,int);
-extern u32 func_021B9A1C(void *,u32,u32,char *,u16);
+typedef unsigned char  u8;
+extern u8 *func_021B9A64(int a, int b, int c);
+extern void func_021B9A94(int p, int a, u32 b, int n);
+extern int func_021B9A1C(void *a, int b, int c, char *d, u16 e);
 extern void func_021B9A8C(void *);
-u32 func_021D67BC(char *p,u32 heapId)
+int func_021D67BC(char *p, u16 heapId)
 {
     int i;
     u32 size;
@@ -40,10 +41,10 @@ u32 func_021D67BC(char *p,u32 heapId)
     void *buf;
     u32 ret;
     size=func_020173EC();
-    buf=func_021B9A64(size,func_0201AA18(list),heap);
+    buf=func_021B9A64(size,func_0201AA18(list),(u16)heap);
     for(i=0;i<(int)func_0201AA18(list);i++) {
         void *entry=func_0201AB28(list,i);
-        func_021B9A94(buf,entry,func_020173EC(),i);
+        func_021B9A94((int)buf,(int)entry,func_020173EC(),i);
     }
     size=func_020173EC();
     ret=func_021B9A1C(buf,size,func_0201AA18(list),p+0x54,heap);

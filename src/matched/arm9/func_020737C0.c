@@ -47,7 +47,7 @@ typedef unsigned int  u32;
 
 extern u32  g_0214E8E4;
 extern u8   g_0214E8E8[];
-extern u32  func_02060468(u8 *base, u32 flag);
+extern void func_02060468(int p0, int p1);
 struct A;
 struct Obj;
 extern void func_02073CA0(struct Obj *o);
@@ -70,7 +70,7 @@ typedef struct S {
 void func_020737C0(S *p)
 {
     if (g_0214E8E4 == 0) {
-        func_02060468(g_0214E8E8, 0);
+        func_02060468((int)g_0214E8E8, 0);
         g_0214E8E4 = 1;
     }
 

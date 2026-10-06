@@ -21,7 +21,7 @@
 #include "../include/Obj00325.h"
 extern int func_021F8694(void);
 extern int func_022003C4(char *p, int key);
-extern int func_0202142C(int a0);
+extern unsigned short func_0202142C(int a0);
 
 unsigned int func_021FE38C(char *p, unsigned int k)
 {

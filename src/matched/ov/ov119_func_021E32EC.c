@@ -61,8 +61,11 @@ extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 extern int func_02051534(void);
 extern int func_02051574(void);
-extern void func_02047A60(void *, void *);
-extern int func_02011590(void *, int);
+typedef signed int     s32;
+struct Arg;
+struct IcaAnime;
+extern void func_02047A60(void *a0, struct Arg *a1);
+extern u32 func_02011590(struct IcaAnime *p, s32 v);
 
 void func_021E32EC(char *p)
 {
@@ -91,17 +94,17 @@ void func_021E32EC(char *p)
         func_02051574();
     }
     if (((struct Obj00907 *)p)->f824 != 0xFFFF)
-        func_02047A60((void *)func_02048A18(((struct Obj00907 *)p)->f820, ((struct Obj00907 *)p)->f824), buf);
+        func_02047A60((void *)func_02048A18(((struct Obj00907 *)p)->f820, ((struct Obj00907 *)p)->f824), (struct Arg *)buf);
     if (*(Sub * *)&((struct Obj00907 *)p)->fC != 0) {
         if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a90 != 0) {
             if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->aA8 == 0)
-                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aA8 = func_02011590((*(Sub * *)&((struct Obj00907 *)p)->fC)->a90, d_021E8144.amount);
+                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aA8 = func_02011590((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a90), d_021E8144.amount);
             if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->aAC == 0)
-                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aAC = func_02011590((*(Sub * *)&((struct Obj00907 *)p)->fC)->a94, d_021E8144.amount);
+                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aAC = func_02011590((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a94), d_021E8144.amount);
         }
         if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a9C != 0)
-            func_02011590((*(Sub * *)&((struct Obj00907 *)p)->fC)->a9C, d_021E8144.amount);
+            func_02011590((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a9C), d_021E8144.amount);
         if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a98 != 0)
-            func_02011590((*(Sub * *)&((struct Obj00907 *)p)->fC)->a98, d_021E8144.amount);
+            func_02011590((struct IcaAnime *)((*(Sub * *)&((struct Obj00907 *)p)->fC)->a98), d_021E8144.amount);
     }
 }

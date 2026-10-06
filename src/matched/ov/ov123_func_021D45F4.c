@@ -43,20 +43,25 @@ typedef struct {
 } Rec;
 
 extern void func_0201DD68(void);
-extern void func_020456F8(void *d);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct StrObj;
+extern void func_020456F8(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020452E8(void *d);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *buf, u8 value);
-extern void func_02045CAC(void *bank, u32 index, void *dest);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern u32 func_0201D304(void *s, u32 a, u32 b);
-extern u32 func_0201D42C(void *s, void *font);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045334(void *d);
-extern void func_02045374(void *d);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_02051C6C(void *p);
 extern void func_020409B4(u32 index);
 

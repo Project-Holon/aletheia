@@ -21,7 +21,9 @@ struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_02027778(TextConfig *,void *);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_02045808(struct U16Vec *vec);
 void *func_021D8358(char *p,int n)
 {
@@ -46,7 +48,7 @@ void *func_021D8358(char *p,int n)
     func_02045CAC(((struct Obj01730 *)p)->fC,33,text);
     ((struct Obj01730 *)p)->fB8=0x39e0;
     ((struct Obj01730 *)p)->fBC=0;
-    result=func_02027778(&config,((struct Obj01730 *)p)->fC0);
+    result=func_02027778((struct TaskMenuTmpl *)(&config),((struct Obj01730 *)p)->fC0);
     func_02045808(((struct Obj01730 *)p)->fA8);
     func_02045808(((struct Obj01730 *)p)->fB4);
     return result;

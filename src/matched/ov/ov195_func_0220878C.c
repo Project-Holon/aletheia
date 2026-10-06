@@ -39,7 +39,7 @@ extern void func_02208C28(Anim *p);
 extern int func_02208C30(Anim *p);
 struct Ptc;
 extern void func_02208A48(struct Ptc *p, s32 timer);
-extern void func_02208B6C(Anim *p);
+extern void func_02208B6C(char *p);
 extern void func_022089A4(struct Ptc *p);
 
 void func_0220878C(Anim *p)
@@ -75,6 +75,6 @@ void func_0220878C(Anim *p)
     case 7:
         break;
     }
-    func_02208B6C(p);
+    func_02208B6C((char *)p);
     func_022089A4(p->ptc);
 }

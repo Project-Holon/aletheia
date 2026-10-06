@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned int func_02185758(unsigned int value)
+int func_02185758(int value)
 {
     switch (value) {
     case 0:

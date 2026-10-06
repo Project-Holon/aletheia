@@ -63,21 +63,21 @@ struct Link;
 struct Sub0200852CObj;
 extern u32 func_0203D1A4(struct Link *p);
 extern int func_0203D1B4(void);
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Link;
 extern void func_02039C68(struct Link *a, u32 b, u32 c);
 extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern int func_02008550(void *a);
-extern int func_02008530(void *a);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200ED48(void *p);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 extern int func_0217BB20(char *p);
 extern void func_0217F074(void *ctx);
-extern int func_0217FDC8(Work *w);
-extern int func_0217FDF8(Work *w);
+extern int func_0217FDC8(u8 *p);
+extern int func_0217FDF8(u8 *p);
 extern int func_0217B8E4(char *p, char v);
 extern void func_02174B40(u32 p);
 extern int func_02174BB8(Ent *e, int v);
@@ -97,7 +97,7 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
 
     me = func_0203D1A4((struct Link *)((int)func_020399A8()));
     if (w == 0)
-        func_02034714(d_021807E4, 0, d_021807E4);
+        func_02034714((const char *)d_021807E4, (int)0, (const char *)d_021807E4);
 
     if (func_0217BB20(ctx) == 1) {
         func_0217F074(ctx);
@@ -127,13 +127,13 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
             (*state)++;
         break;
     case 5:
-        if (func_0217FDC8(w) == 1) {
+        if (func_0217FDC8((u8 *)w) == 1) {
             n = func_0203D1B4();
             for (i = 0; i < n; i++) {
                 if (w->ents[i].f26 == 1) {
                     a = func_02008554((const struct Sub0200852CObj *)(&w->ents[i]));
                     func_0217357C(obj + 0x14, w->ents[i].f20, a,
-                                  (u8)func_02008550(&w->ents[i]));
+                                  (u8)(int)func_02008550((const struct Sub0200852CObj *)(&w->ents[i])));
                 }
             }
             (*state)++;
@@ -152,7 +152,7 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
             (*state)++;
         break;
     case 9:
-        if (func_0217FDF8(w) == 1)
+        if (func_0217FDF8((u8 *)w) == 1)
             (*state)++;
         break;
     case 10:
@@ -160,7 +160,7 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
         n = func_0203D1B4();
         for (i = 0; i < n; i++) {
             if (w->ents[i].f26 == 1 && i != func_0203D1A4((struct Link *)((int)func_020399A8())))
-                func_0200ED54((struct L0200ED54 *)x, func_02008530(&w->ents[i]));
+                func_0200ED54((struct L0200ED54 *)x, (int)func_02008530((const struct Sub0200852CObj *)(&w->ents[i])));
         }
         func_02175094(w, 1);
         func_0217B8E4(ctx, 0x2a);

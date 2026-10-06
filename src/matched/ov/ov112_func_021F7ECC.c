@@ -56,6 +56,6 @@ void func_021F7ECC(char *p,char *q)
         if(((struct Obj04463 *)p)->f43C==0) func_020061F8(2);
     }
 }
-void func_021F7FA8(void)
+void func_021F7FA8(char *a0, char *a1)
 {
 }

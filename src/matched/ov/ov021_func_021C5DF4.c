@@ -56,13 +56,13 @@ extern int func_021A2F54(u8 *p);
 extern void func_0216D674(void *p, u16 v);
 extern void func_020061E4(u32 a);
 extern int func_021C5FA8(Work *w, u32 n);
-extern void func_021C602C(Work *w);
+extern void func_021C602C(u8 *p);
 extern u32 func_02005728(u32 v);
-extern int func_021C5FC0(Work *w, u32 n);
-extern void func_021C5FEC(Work *w);
-extern void func_021C6018(Work *w);
-extern void func_021C6054(Work *w);
-extern void func_02158780(void *a, u16 id, u32 b, u32 c, u32 d);
+extern int func_021C5FC0(u8 *p, u32 lim);
+extern void func_021C5FEC(u8 *p);
+extern void func_021C6018(u32 *p);
+extern void func_021C6054(u32 *p);
+extern int func_02158780(void *p, int b, int c, int d, u16 e);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 struct S0201235C;
 extern void func_021AA8EC(u8 *p);
@@ -92,7 +92,7 @@ int func_021C5DF4(void *task, int *state, Work *w)
     case 2:
         if (func_021C5FA8(w, 15) == 0)
             break;
-        func_021C602C(w);
+        func_021C602C((u8 *)w);
         if (w->f64 == 0) {
             *state = 5;
             break;
@@ -101,25 +101,25 @@ int func_021C5DF4(void *task, int *state, Work *w)
         (*state)++;
         break;
     case 3:
-        r = func_021C5FC0(w, w->f5C);
+        r = func_021C5FC0((u8 *)w, w->f5C);
         if (r == 1) {
             *state = 6;
             break;
         }
         if (r != 2)
             break;
-        func_021C5FEC(w);
+        func_021C5FEC((u8 *)w);
         (*state)++;
         break;
     case 4:
-        r = func_021C5FC0(w, 0x1e);
+        r = func_021C5FC0((u8 *)w, 0x1e);
         if (r == 0)
             break;
-        func_021C6018(w);
+        func_021C6018((u32 *)w);
         if (r == 1) {
-            func_021C6054(w);
+            func_021C6054((u32 *)w);
             func_0216D674((void *)w->f1C, 3);
-            func_02158780(task, 0x2796, 0, 0, 0x15);
+            func_02158780(task, (u16)0x2796, (u32)0, (u32)0, (u32)0x15);
             *state = 10;
             break;
         }
@@ -129,7 +129,7 @@ int func_021C5DF4(void *task, int *state, Work *w)
         *state = 7;
         break;
     case 5:
-        r = func_021C5FC0(w, 0x78);
+        r = func_021C5FC0((u8 *)w, 0x78);
         if (r != 2) {
             if (r == 1)
                 *state = 6;
@@ -137,14 +137,14 @@ int func_021C5DF4(void *task, int *state, Work *w)
         }
     case 6:
     case 7:
-        func_021C6054(w);
+        func_021C6054((u32 *)w);
         if (w->f64 != 0) {
             if (w->f59 == 1)
                 func_021AA8EC(w->fC);
             func_020130B4((int)w->f64);
         }
         func_0216D674((void *)w->f1C, 1);
-        func_02158780(task, *state + 0x2792, 0, 0, 0x15);
+        func_02158780(task, (u16)(*state + 0x2792), (u32)0, (u32)0, (u32)0x15);
         *state = 8;
         break;
     case 8:

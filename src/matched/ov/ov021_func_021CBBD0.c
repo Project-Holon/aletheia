@@ -29,7 +29,7 @@ typedef struct {
 
 extern const Entry data_021DAEBC[];
 
-void func_021CBBD0(u8 *p, int idx, u16 *a, u16 *b, u16 *c)
+void func_021CBBD0(u8 *p, u32 idx, u16 *a, u16 *b, u16 *c)
 {
     const Entry *e = &data_021DAEBC[idx];
 

@@ -17,11 +17,12 @@
  * lane O10 candidate
  */
 
-extern void func_02207DA0(char *dst, char *src, int n);
+struct S;
+extern void func_02207DA0(void *obj, struct S *q, int n);
 
 void func_02207B68(char *p, int i, int n)
 {
-    func_02207DA0(p, p + 0x40 + (i << 7), n);
+    func_02207DA0(p, (struct S *)(p + 0x40 + (i << 7)), n);
     *(int *)(p + (i << 7) + 0xb4) = 0;
 }
 

@@ -51,7 +51,8 @@ typedef struct S {
 
 struct H;
 extern int func_02061184(struct H *h, u32 a1);
-extern s32 func_020749F8(S *p);
+struct Table;
+extern int func_020749F8(struct Table *t);
 struct NNSiFndHeapHead;
 extern int func_020611D4(struct NNSiFndHeapHead *heap, u32 tagName);
 
@@ -60,7 +61,7 @@ s32 func_02074894(S *p)
     if (func_02061184((struct H *)p->f00, p->f0c) == 0) {
         return -1;
     }
-    if (func_020749F8(p) != 0) {
+    if (func_020749F8((struct Table *)p) != 0) {
         return p->f0c - 1;
     }
     func_020611D4((void *)p->f00, 0);

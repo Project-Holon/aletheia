@@ -60,7 +60,7 @@ extern int func_021B9DF8(void *p, int *out);
 extern u32 func_021BDFDC(void *p);
 extern u32 func_021BDFE4(void *p);
 extern u8 func_021BE054(void *p);
-extern u8 func_021BE0A4(void *p);
+extern u32 func_021BE0A4(void *p);
 extern void func_021BE0B0(void *p, u32 v);
 
 void func_021B9D04(int self, int *q)

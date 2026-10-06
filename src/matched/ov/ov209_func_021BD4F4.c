@@ -37,7 +37,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_02049EF4(void *, u32, u32, void **, u16);
-extern void *func_02049DF4(void *, u32, u32, void **, u16);
+extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02049238(void *h);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 extern void func_020307B0(void *p);
@@ -69,7 +69,7 @@ void func_021BD4F4(u8 *p, u32 idx)
     arc = func_020490F4(0x9F, 0x6B);
     t1 = func_02049EF4(arc, 0x45, 0, &o1, 0x806B);
     map = (u8 *)o1 + 0xC;
-    t2 = func_02049DF4(arc, 0x39, 0, &o2, 0x806B);
+    t2 = func_02049DF4(arc, 0x39, 0, (u32)(&o2), 0x806B);
     gfx = *(u8 **)((u8 *)o2 + 0x14);
     func_02049238(arc);
     if (h > 0) {

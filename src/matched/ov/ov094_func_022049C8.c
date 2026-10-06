@@ -26,27 +26,28 @@ typedef struct Ctx {
     int f1c;
 } Ctx;
 
-extern void func_02040618(u8 a, int b, int c);
-extern void func_02040588(int a, u8 b);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0220687C(char *p, void *q);
 
 void func_022049C8(int a0, Ctx *c)
 {
     if (c->f4 != -1) {
-        func_02040618(c->f4, 0, c->f8);
-        func_02040618(c->f4, 3, c->fc);
+        func_02040618((u8)c->f4, (int)0, (int)c->f8);
+        func_02040618((u8)c->f4, (int)3, (int)c->fc);
     }
     if (c->f10 != 2) {
-        func_02040588(4, c->f10);
+        func_02040588((int)4, (u8)c->f10);
     }
     if (c->f14 != 2) {
-        func_02040588(5, c->f14);
+        func_02040588((int)5, (u8)c->f14);
     }
     if (c->f18 != 2) {
-        func_02040588(6, c->f18);
+        func_02040588((int)6, (u8)c->f18);
     }
     if (c->f1c != 2) {
-        func_02040588(7, c->f1c);
+        func_02040588((int)7, (u8)c->f1c);
     }
     func_0220687C(c->main, (void *)a0);
 }

@@ -27,7 +27,7 @@ typedef unsigned int  u32;
 extern void func_021CE8B0(u8 *p, u8 *e, int i);
 extern void func_021CE8F4(u8 *p, u8 *e, int i);
 extern void func_021CE934(u8 *p, u8 *e, int i);
-extern int func_021CE84C(u8 *p, int n);
+extern int func_021CE84C(u32 *p, int n);
 extern int func_021CE78C(u8 *p);
 extern void func_021CE9E4(u8 *p, int n);
 
@@ -53,7 +53,7 @@ void func_021CE2BC(u8 *p)
         n++;
     }
     if (*(s8 *)&((struct Obj00011 *)p)->f572 != n) {
-        if (func_021CE84C(p, n) == 1) {
+        if (func_021CE84C((u32 *)p, n) == 1) {
             p[0x572] = n;
             if (p[0x520] == 1 && n == 1) {
                 p[0x579] = 1;

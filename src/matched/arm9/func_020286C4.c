@@ -37,7 +37,7 @@ struct Ctx {
 
 extern u32   sub_0201CE30(void *p);
 extern u32   func_020362DC(void);
-extern u32   func_02035C60(void);
+extern int func_02035C60(void);
 struct Bmp;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);

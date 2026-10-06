@@ -24,7 +24,7 @@ static inline void G2_SetBG0Priority(int priority)
 {
     *(volatile u16 *)0x04000008 = (u16)((*(volatile u16 *)0x04000008 & ~3) | priority);
 }
-void func_021DF998(void)
+void func_021DF998(char *a0)
 {
     func_02040588(0, 1);
     func_02040588(1, 1);

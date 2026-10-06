@@ -38,11 +38,14 @@ struct Slot { u8 p0[8]; u16 h08; u8 p0a[0x18 - 0xa]; u32 f18; u8 p1c[0x24 - 0x1c
 struct Obj { struct Node *f0; };
 
 extern struct Slot g_0214E464[];
-extern void func_02072EA8(struct Obj *o);
-extern struct Node *func_02060614(void *list, void *curr);
+struct DList;
+struct Obj_02073548;
+struct Voice;
+extern void func_02072EA8(u32 * volatile *pp);
+extern void *func_02060614(struct DList *list, void *elem);
 extern void func_020735EC(struct Node *p);
-extern struct Node *func_02073624(s32 a);
-extern void func_02073548(void *list, struct Node *node);
+extern struct Voice *func_02073624(s32 pri);
+extern void func_02073548(void *list, struct Obj_02073548 *obj);
 
 struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri)
 {
@@ -50,10 +53,10 @@ struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri)
     struct Node *e = o->f0;
 
     if (e != 0) {
-        func_02072EA8(o);
+        func_02072EA8((u32 * volatile*)o);
     }
     if (s->h08 >= s->f18) {
-        e = func_02060614(s, 0);
+        e = func_02060614((struct DList *)s, 0);
         if (e == 0) {
             return 0;
         }
@@ -62,11 +65,11 @@ struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri)
         }
         func_020735EC(e);
     }
-    e = func_02073624(pri);
+    e = (struct Node *)func_02073624(pri);
     if (e == 0) {
         return 0;
     }
-    func_02073548(s, e);
+    func_02073548(s, (struct Obj_02073548 *)e);
     *(struct Obj * *)&((struct Obj00513 *)e)->f0 = o;
     o->f0 = e;
     return e;

@@ -36,7 +36,7 @@ extern void func_021B8CB0(void *, char *);
 extern void func_021B7DCC(void *p, char *q);
 extern void func_021B70A8(int unused, char *q);
 extern void func_02027FD8(struct TaskMenuState *s);
-extern void func_021BDC70(u8 *);
+extern void func_021BDC70(u32 *a0);
 extern void func_021BDB5C(u8 *);
 extern void func_021BD7D0(void *);
 void func_021BD3B8(u8 *p)
@@ -51,7 +51,7 @@ void func_021BD3B8(u8 *p)
     func_021B7DCC(p, (char *)(((struct Obj03855 *)p)->f1E4));
     func_021B70A8((int)p, (char *)(((struct Obj03855 *)p)->f1E0));
     func_02027FD8((struct TaskMenuState *)(((struct Obj03855 *)p)->f1D4));
-    func_021BDC70(p);
+    func_021BDC70((u32 *)p);
     func_021BDB5C(p);
     func_021BD7D0(p);
 }

@@ -44,7 +44,7 @@ struct S {
 extern const u8 d_021B94F8[6];
 extern const u8 d_021B94FE[][6];
 
-extern int func_021B841C(struct S *s, int dir);
+extern int func_021B841C(u8 *p, int n);
 extern void func_021B8434(struct S *s, s8 a, u8 b, u16 c, u32 d);
 
 int func_021B8EA0(struct S *s)
@@ -71,7 +71,7 @@ int func_021B8EA0(struct S *s)
         return 0;
     if (s->f8c > s->f90)
         v *= -1;
-    lim = func_021B841C(s, v);
+    lim = func_021B841C((u8 *)s, v);
     if (lim != 0) {
         if (lim < d)
             d = lim;

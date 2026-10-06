@@ -36,7 +36,7 @@ typedef unsigned int u32;
 
 extern u32 *sub_0200590C(void);
 extern void sub_020059C8(void);
-extern void func_02072E7C(u32 *a, u32 b);
+extern void func_02072E7C(void **r0, int fadeFrame);
 extern u32 *func_02074324(u32 a);
 extern u32 *func_020743EC(u32 a);
 extern void func_02074694(u32 a, u32 b);
@@ -49,7 +49,7 @@ void sub_020064F4(u32 a)
 
 void sub_02006504(void)
 {
-    func_02072E7C(sub_0200590C(), 0);
+    func_02072E7C((void **)sub_0200590C(), 0);
     sub_020059C8();
 }
 

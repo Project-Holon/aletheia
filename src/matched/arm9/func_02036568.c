@@ -31,7 +31,7 @@ typedef struct {
     volatile short tail;
 } NetRingBuff;
 
-extern int func_02036624(const NetRingBuff *r, int idx);
+extern int func_02036624(void *p, int v);
 
 int func_02036568(const NetRingBuff *r, u8 *dst, int len, int max)
 {
@@ -40,10 +40,10 @@ int func_02036568(const NetRingBuff *r, u8 *dst, int len, int max)
 
     n = 0;
     for (i = r->head; i < r->head + len; i++) {
-        if (r->tail == func_02036624(r, i) || n == max) {
+        if (r->tail == func_02036624((void *)r, i) || n == max) {
             return n;
         }
-        dst[n] = r->buf[func_02036624(r, i)];
+        dst[n] = r->buf[func_02036624((void *)r, i)];
         n++;
     }
     return n;

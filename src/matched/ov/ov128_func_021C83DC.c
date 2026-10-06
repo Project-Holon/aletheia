@@ -23,8 +23,10 @@ typedef unsigned int   u32;
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern int func_021C87A0(s16 *);
-extern u64 func_021C8388(u8 *, u8 *);
-extern void *func_02027778(TextConfig *,void *);
+extern unsigned long long func_021C8388(s16 *p, u8 *q);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 void func_021C83DC(u8 *p, u8 *a, void *unused, int heap)
 {
     TextConfig config;
@@ -33,7 +35,7 @@ void func_021C83DC(u8 *p, u8 *a, void *unused, int heap)
     config.heap = heap;
     config.count = 4;
     if (result == 2) {
-        config.entries = p + (func_021C8388(p, a) != 0 ? 0x148 : 0x118);
+        config.entries = p + (func_021C8388((s16 *)p, a) != 0 ? 0x148 : 0x118);
         ((struct Obj08130 *)p)->f198 = 1;
     } else {
         config.entries = p + 0x118;
@@ -41,5 +43,5 @@ void func_021C83DC(u8 *p, u8 *a, void *unused, int heap)
     }
     config.mode = 1;
     config.x = 32; config.y = 24; config.a = 17; config.b = 3;
-    ((struct Obj08130 *)p)->f194 = func_02027778(&config, ((struct Obj08130 *)p)->f190);
+    ((struct Obj08130 *)p)->f194 = func_02027778((struct TaskMenuTmpl *)(&config), ((struct Obj08130 *)p)->f190);
 }

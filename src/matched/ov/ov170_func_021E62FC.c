@@ -49,11 +49,11 @@ extern int func_021EBFEC(char *, int);
 extern void func_021ED108(char *, int);
 extern void func_021EA878(unsigned char *, int);
 extern void func_021EBCB4(unsigned char *, int, int);
-extern void func_021ECB20(unsigned char *, int, int);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021EC5A0(char **p, int flag);
 extern void func_021EE364(char **p, int idx, int v);
-extern void func_021EA83C(char *p, int a);
-extern int func_021E8F50(unsigned char *, int);
+extern int func_021EA83C(char *p, int a);
+extern int func_021E8F50(char *p, int v);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0190(char *p);
 extern int func_021E01B0(unsigned char *);
@@ -71,12 +71,12 @@ int func_021E62FC(unsigned char *p)
     func_021EC000(WORK(p), 0xa, 0);
     func_021EBCB4(p, 3, 0x18);
     if (p[0x16] < 0x1e) {
-        func_021ECB20(p, 0x81, 1);
+        func_021ECB20((char *)p, 0x81, 1);
         func_021ED888(WORK(p), 1);
     } else {
-        func_021ECB20(p, 0x82, 1);
+        func_021ECB20((char *)p, 0x82, 1);
     }
     *(unsigned short *)(WORK(p) + 0xa16c) = 0;
     ((struct Obj00000 *)p)->f28 = 0x3d;
-    return func_021E8F50(p, 6);
+    return func_021E8F50((char *)p, 6);
 }

@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u16 sub_0209E904_Tbl[][2];
 
-u16 func_020213F8(u16 a, int b)
+u16 func_020213F8(int a, int b)
 {
     u32 i;
 

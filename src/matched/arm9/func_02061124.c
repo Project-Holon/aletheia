@@ -11,7 +11,9 @@
  * status:   EXACT
  */
 
-extern unsigned int func_02060FEC(char *p, unsigned int size, unsigned int align);
+typedef unsigned int   u32;
+struct Heap;
+extern u32 func_02060FEC(struct Heap *h, u32 size, u32 align);
 extern unsigned int func_02061048(unsigned int *p, unsigned int a, unsigned int b);
 unsigned int func_02061124(char *p, int n, int v)
 {
@@ -20,7 +22,7 @@ unsigned int func_02061124(char *p, int n, int v)
     n = (n + 3) & ~3;
     p += 0x24;
     if (v >= 0)
-        return func_02060FEC(p, (unsigned int)n, (unsigned int)v);
+        return func_02060FEC((struct Heap *)p, (unsigned int)n, (unsigned int)v);
     else
         return func_02061048((unsigned int *)p, (unsigned int)n, (unsigned int)-v);
 }

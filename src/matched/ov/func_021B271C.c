@@ -25,12 +25,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Stream;
 extern u16 func_02011330(struct Stream *s);
-extern void *func_0215A5DC();
+extern void *func_0215A5DC(void *a0);
 extern void func_021F38C4(void *a0, int a1);
 
 int func_021B271C(u32 a, u32 b, u32 c, u32 d)
 {
-func_021F38C4(func_0215A5DC(b, b, c, d), func_02011330((struct Stream *)a));
+func_021F38C4(func_0215A5DC((void *)b), func_02011330((struct Stream *)a));
 return 0;
 }
 

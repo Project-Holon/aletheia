@@ -45,8 +45,8 @@ extern void func_021DDEFC(unsigned char *p, Entry *e);
 extern int func_021DDC00(unsigned char *p, unsigned a, unsigned b);
 extern unsigned func_0201AA18(void *party);
 extern void func_021DE07C(unsigned char *p, Entry *e);
-extern void func_021DE120(unsigned char *p, unsigned a, unsigned b);
-extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
+extern void func_021DE120(char *p, int a, int b);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 
 int func_021DE158(unsigned char *p, unsigned a, unsigned b)
 {
@@ -141,14 +141,14 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
     }
     if (a < 0x1E) {
         if (b < 0x1E)
-            func_021DE120(p, a, b);
+            func_021DE120((char *)p, a, b);
         else if (b - 0x1E < n)
-            func_021DE120(p, a, b);
+            func_021DE120((char *)p, a, b);
         else
-            func_021DE120(p, a, n + 0x1E);
+            func_021DE120((char *)p, a, n + 0x1E);
     } else if (b < 0x1E) {
-        if (func_021DD25C(p, b, p[0x14], 0xA9, 0) != 0) {
-            func_021DE120(p, a, b);
+        if (func_021DD25C((void ***)p, b, p[0x14], 0xA9, 0) != 0) {
+            func_021DE120((char *)p, a, b);
         } else {
             unsigned k = a - 0x1E;
             for (i = k + 1; i < n; i++) {
@@ -174,7 +174,7 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
             func_021DDEFC(p, e);
         }
     } else if (b - 0x1E < n) {
-        func_021DE120(p, a, b);
+        func_021DE120((char *)p, a, b);
     } else {
         unsigned k = a - 0x1E;
         for (i = k + 1; i < n; i++) {

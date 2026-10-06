@@ -98,7 +98,7 @@ extern u32 func_02013E4C(u32);
 extern void func_02017B24(void *,u32,u32,u32);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct Blk37 *,void *),func_0200CDE0(struct Blk37 *,void *);
-extern void func_021F6A48(char *,void *);
+extern void func_021F6A48(char *p, int a);
 extern int func_021F6A84(char *),func_021F6AA4(char *);
 extern void func_021F6A98(char *),func_021F6164(void *,char *),func_021F6000(void *,char *);
 extern void func_021F6194(char *,char *,u32);
@@ -147,7 +147,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
         save=func_020127A4((struct SaveBlock *)a[0]);trainer=func_02012944((void *)a[0]);
         func_02017B24((void *)a[1],(u32)trainer,func_02013E4C(func_02012AC8(save)),((struct Obj00186 *)p)->f0);
         dex=func_0200CA1C((void *)a[0]);func_0200CFA0(dex,(void *)a[1]);func_0200CDE0(dex,(void *)a[1]);
-        func_021F6A48((char *)p[32],(void *)a[1]);break;
+        func_021F6A48((char *)p[32],(int)((void *)a[1]));break;
     case 7:if(func_021F6A84((char *)p[32])){p[4]=8;func_021F6A98((char *)p[32]);}break;
     case 8:if(func_021F6AA4((char *)p[32])){p[4]=9;func_021F6164(a,(char *)p);func_021F6000(a,(char *)p);}break;
     case 9:p[27]=1;p[4]=10;break;

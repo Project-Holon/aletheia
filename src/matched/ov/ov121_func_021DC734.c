@@ -41,7 +41,8 @@ extern void *func_021DA038(const u8 *,u16);
 extern int func_021DA178(char *);
 extern void func_021DA148(u8 *p);
 extern void func_021D9E04(u8 *);
-extern void func_021DBC08(void *,int);
+struct Obj;
+extern void func_021DBC08(struct Obj *o, int idx);
 extern void func_021DB528(char *,int);
 extern void func_021DB478(char *,int,int,int,u16);
 extern void func_021DA2F0(u8 *p, u32 i);
@@ -49,7 +50,7 @@ extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D9E50(u8 *);
 extern void func_021DC08C(void *task, u32 *state, char *p);
 extern void func_02082BCC(void *,int,int);
-extern int func_0200A170(void *);
+extern int func_0200A170(char *p);
 extern void func_0207D658(u32,int,int);
 extern u8 d_021DF86E[],d_021DF86F[];
 #define W(k) (*(u32 *)(p+(k)))
@@ -114,7 +115,7 @@ void func_021DC734(void *task,u32 *state,char *p)
         if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}
         break;
     case 5:
-        func_021DBC08(p, index);
+        func_021DBC08((struct Obj *)p, index);
         func_021DB528(p,1);
         func_021DB478(p,1,0,W(0xac8),H(36));
         W(0xa78)=1;*state=6;break;
@@ -123,7 +124,7 @@ void func_021DC734(void *task,u32 *state,char *p)
         if(W(0xae8)++>30) {W(0xae8)=0;*state=7;}
         break;
     case 7:
-        if(!func_0200A170(P(12))) func_021DA2F0(P(0xab8),1);
+        if(!func_0200A170((char *)P(12))) func_021DA2F0(P(0xab8),1);
         *(volatile u32 *)0x04000000 &= ~0xe000;
         *state=8;break;
     case 8:func_021D9F08(P(0xabc),W(28),121,1);*state=9;break;

@@ -32,7 +32,7 @@ typedef signed int     s32;
 
 extern void func_02005654(void (*)(), int);
 extern void func_021BAB50();
-void func_021BAB58(void)
+void func_021BAB58(void *a0)
 {
     func_02005654(func_021BAB50, 0);
 }

@@ -29,7 +29,7 @@ extern int DWCs_GetOutgoingBufferFreeSize(int aid);
 extern int DWCs_GetRequiredHeaderSize(int type);
 extern int func_02176BE4(void);
 
-int func_02176DFC(unsigned char aid, unsigned short type)
+int func_02176DFC(int aid, int type)
 {
     long freeSpace;
 

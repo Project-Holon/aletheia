@@ -29,7 +29,8 @@ extern int func_021B9790(u8 *p);
 extern char *func_021B97F4(void *);
 extern void func_02082D44(const void *,void *,unsigned int);
 extern int func_021D6E08(char *,int);
-extern void func_021D6EE0(char *,int,int);
+typedef unsigned int   u32;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6F04(char *p);
 extern void func_021D6FF0(char *p);
 void func_021D88C0(char *p)
@@ -44,13 +45,13 @@ void func_021D88C0(char *p)
         if (state==0 || state==8) {
             func_02082D44(q+0x80,*(char * *)&((struct Obj00063 *)p)->f20+0x1d8,0x80);
             ((struct Obj22979 *)(*(char * *)&((struct Obj00063 *)p)->f20))->f1C8=5;
-            func_021D6EE0(p,(int)func_021D6F04,0x837);
+            func_021D6EE0((u8 *)p,(int)func_021D6F04,0x837);
         } else {
             ((struct Obj00063 *)p)->f80=state;
-            func_021D6EE0(p,(int)func_021D6FF0,0x842);
+            func_021D6EE0((u8 *)p,(int)func_021D6FF0,0x842);
         }
     } else {
         ((struct Obj22980 *)(*(char * *)&((struct Obj00063 *)p)->f20))->f1C8=5;
-        func_021D6EE0(p,(int)func_021D6F04,0x849);
+        func_021D6EE0((u8 *)p,(int)func_021D6F04,0x849);
     }
 }

@@ -25,7 +25,7 @@ extern u8 func_021D5440(u8 *p);
 extern u8 func_021B8DDC(u32 x);
 extern u8 func_021B8FF4(u8 *p);
 extern int func_021BD60C(u8 *p, u8 *a, u8 flag);
-extern void func_021BA1B4(u8 *p, int k);
+extern void func_021BA1B4(char **p, int i);
 extern void func_021CD64C(void *w, u8 id, ...);
 
 int func_021BD584(u8 *p, u8 *a)
@@ -35,7 +35,7 @@ int func_021BD584(u8 *p, u8 *a)
     int s = func_021BD60C(p, a, 0);
     if (s) return 1;
     if (k == m) {
-        func_021BA1B4(*(u8 * *)&((struct Obj00003 *)p)->f4, 0x4e);
+        func_021BA1B4((char **)(*(u8 * *)&((struct Obj00003 *)p)->f4), 0x4e);
         func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, 0x49, 0xffff0000);
     } else {
         func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 0x36b, func_021D5440(a), 0xffff0000);

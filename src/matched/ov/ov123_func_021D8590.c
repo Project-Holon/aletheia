@@ -15,7 +15,9 @@
  *   func_02035C60 0x02035C60 arm
  */
 #include "../include/Obj22969.h"
-extern void func_021D6EE0(char *, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D83A4(char *);
 extern int func_021D580C(char *);
 extern unsigned int func_020362DC(void);
@@ -24,7 +26,7 @@ void func_021D8590(char *p)
 {
     if (func_021D580C(*(char * *)&((struct Obj22969 *)p)->f18)) {
         if (func_020362DC() || func_02035C60()) {
-            func_021D6EE0(p, (int)func_021D83A4, 0x727);
+            func_021D6EE0((u8 *)p, (int)func_021D83A4, 0x727);
         }
     }
 }

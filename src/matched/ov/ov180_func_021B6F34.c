@@ -32,11 +32,11 @@ extern void func_021B66A0(char *);
 extern void func_021B68A8(char *);
 extern void func_021B7318(char *,int);
 extern void func_021B7D80(char *);
-extern void func_021B6170(char *);
+extern void func_021B6170(int *p);
 extern int func_021B7210(char *,int);
 int func_021B6F34(char *p) {
     func_0204363C(0); func_021B61D4(1); func_021B6224(); func_021B6254(); func_021B6360();
-    func_021B66A0(p); func_021B68A8(p); func_021B7318(p,1); func_021B7D80(p); func_021B6170(p);
+    func_021B66A0(p); func_021B68A8(p); func_021B7318(p,1); func_021B7D80(p); func_021B6170((int *)p);
     ((struct Obj00547 *)p)->f8=2;
     return func_021B7210(p,8);
 }

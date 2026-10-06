@@ -30,7 +30,7 @@ struct Socket {
 
 extern unsigned long func_02087988(void);
 extern unsigned long func_0208799C(unsigned long state);
-extern int func_0215E84C(Socket *s);
+extern int func_0215E84C(int s);
 extern Socket *g_021AA44C;
 extern Socket *g_021AA4B4;
 extern Socket *g_021AA4B8;
@@ -51,7 +51,7 @@ int func_0215ECB8(void)
 		if (socket == 0) {
 			break;
 		}
-		func_0215E84C(socket);
+		func_0215E84C((int)socket);
 	}
 	if (g_021AA4B4 == 0 || (g_021AA4B4 == g_021AA44C && g_021AA4B4->next == 0)) {
 		if (g_021AA4B8 == 0) {

@@ -51,7 +51,7 @@ u32 func_02041648(int channel)
     return ptr_02146A44[channel].field_14;
 }
 
-u32 func_02041664(int channel)
+u32 func_02041664(u8 channel)
 {
     return ptr_02146A44[channel].field_18;
 }
@@ -61,7 +61,7 @@ u8 func_02041680(int channel)
     return ptr_02146A44[channel].field_1c;
 }
 
-u8 func_0204169C(int channel)
+int func_0204169C(int channel)
 {
     return ptr_02146A44[channel].field_1e;
 }

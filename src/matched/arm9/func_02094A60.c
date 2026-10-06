@@ -47,7 +47,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_02094A60(const u8 *s, const u8 *reject)
+int func_02094A60(const u8 *s, const u8 *reject)
 {
     u8 map[32];
     u32 i = 8;

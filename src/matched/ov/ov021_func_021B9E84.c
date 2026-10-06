@@ -58,9 +58,10 @@ void func_021B8250(void *p, Rec *r, Rec *o);
 int func_021B8378(int x);
 int func_021B7D38(void *p, Rec *r, int c);
 int func_021BAE7C(int *e0, int *e1, const V *pos, V *a, int *b, V *c);
-int func_0207C768(int a, int b);
+typedef signed int     s32;
+u32 func_0207C768(u32 a, u32 b);
 int func_0207CF3C(const V *a, const V *b);
-int func_0203EFC8(const void *a, const void *b, u32 n);
+s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 int func_021B9E84(int a, void *p, const V *pos, Rec *out, int arg)
 {
@@ -98,10 +99,10 @@ int func_021B9E84(int a, void *p, const V *pos, Rec *out, int arg)
     n.z = A.z;
     m.y = 0;
     n.y = 0;
-    dist = func_0207C768(func_0207CF3C(&m, &n), k) >> 12;
+    dist = (int)func_0207C768((int)func_0207CF3C(&m, &n), (int)k) >> 12;
     func_021B823C(p, info[3]);
     L = info[5] << 4;
-    diff = L - (func_0207C768(B, k) >> 12);
+    diff = L - ((int)func_0207C768((int)B, (int)k) >> 12);
     for (i = 0; i < 4; i++) {
         if (a == e0[i]) {
             h0 = e0[i + 8];
@@ -122,7 +123,7 @@ int func_021B9E84(int a, void *p, const V *pos, Rec *out, int arg)
         out->f6 = func_021B8378(diff);
         func_021B8250(p, out, &buf);
         func_021B7D38(p, &buf, arg);
-        if (func_0203EFC8(out, &buf, 8) == 0) {
+        if (func_0203EFC8((const u8 *)out, (const u8 *)(&buf), 8) == 0) {
             return 1;
         }
         return 0;

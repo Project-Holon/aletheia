@@ -27,7 +27,7 @@ typedef struct Group {
 
 extern const Group data_0209F7C8[13];
 
-int func_020249B0(u32 a, u32 b)
+int func_020249B0(u32 a, u16 b)
 {
     u32 i;
     int j, k;

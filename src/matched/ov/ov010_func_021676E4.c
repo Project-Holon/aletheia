@@ -83,9 +83,9 @@ extern u32 func_02012114(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C7C(u8 *p);
 extern void *func_02194284(int a, void *b, int heap, int c);
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_021675D0(Work *w, int i, u16 a2, Src *src);
+extern void func_021675D0(struct Work *w, int idx, int a2, struct Src *src);
 
 void func_021676E4(Work *w)
 {
@@ -94,9 +94,9 @@ void func_021676E4(Work *w)
     int i;
 
     if (func_02012114(w->sys) != 1)
-        func_02034714(d_02172A28, 0, d_02172A28);
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (w->obj != 0)
-        func_02034714(d_02172A28, 0, d_02172A28);
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     w->obj = func_02194284(w->f8e, func_02188C7C(func_0201210C(w->sys)), w->f8c, w->f90);
     func_02082BCC(&t, 0, 0x14);
     s = (Slot *)w;

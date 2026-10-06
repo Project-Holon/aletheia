@@ -37,7 +37,17 @@ extern char d_00000072[],d_00000043[],d_00000075[],d_00000076[];
 extern void func_020307B0(void *),func_021E5EF8(void *),func_021E5D84(char *),func_021DC720(char *),func_020275E0(void);
 extern int func_021D8A24(void *);
 struct S020315D4;
-extern void func_0203A5E4(int),func_021E31BC(char *),func_02030EAC(void *),func_021DC5D0(void *,int),func_021DC428(void *),func_021DC484(void *),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int),func_02034A5C(int);
+typedef unsigned int   u32;
+struct Node;
+extern void func_0203A5E4(u32 key);
+extern void func_021E31BC(char *);
+extern void func_02030EAC(struct Node *n);
+extern void func_021DC5D0(void *,int);
+extern void func_021DC428(char *p);
+extern void func_021DC484(void *);
+extern void func_020315D4(struct S020315D4 *);
+extern void func_020306F0(unsigned int);
+extern void func_02034A5C(int);
 int func_021DCF24(void *owner,int unused,int keep,char *p)
 {
     int state=((struct Obj00001 *)p)->f118C;

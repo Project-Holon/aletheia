@@ -27,14 +27,14 @@ struct Ov208Cam {
     Vec ofs;
 };
 
-extern void func_02015C30(u32 obj, Vec *out);
+extern void func_02015C30(void *p, u32 *out);
 extern struct Ov208Cam data_021C8E40;
 
 void ov208_func_021C50F8(u32 obj, Vec *out)
 {
     Vec v;
 
-    func_02015C30(obj, &v);
+    func_02015C30((void *)obj, (u32 *)(&v));
     out->x = v.x + data_021C8E40.ofs.x;
     out->y = v.y + data_021C8E40.ofs.y;
     out->z = v.z + data_021C8E40.ofs.z;

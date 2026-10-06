@@ -18,5 +18,6 @@
 struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *);
 extern int func_021FB1F4(char *,int);
-extern void func_021F91A8(unsigned char *,unsigned char,unsigned char);
-int func_021FB7D8(int unused,char *p) { char *obj; int mask; unsigned int n; obj=*(char * *)&((struct Obj10554 *)p)->f0;mask=func_021FB1F4(p,func_0201134C(*(struct Cursor * *)&((struct Obj10554 *)p)->f4));n=func_0201134C(*(struct Cursor * *)&((struct Obj10554 *)p)->f4);func_021F91A8(*(unsigned char * *)&((struct Obj23257 *)obj)->f34,n,mask);return 0; }
+typedef unsigned char  u8;
+extern void func_021F91A8(char *p, u8 n, u8 mask);
+int func_021FB7D8(int unused,char *p) { char *obj; int mask; unsigned int n; obj=*(char * *)&((struct Obj10554 *)p)->f0;mask=func_021FB1F4(p,func_0201134C(*(struct Cursor * *)&((struct Obj10554 *)p)->f4));n=func_0201134C(*(struct Cursor * *)&((struct Obj10554 *)p)->f4);func_021F91A8((char *)(*(unsigned char * *)&((struct Obj23257 *)obj)->f34),n,mask);return 0; }

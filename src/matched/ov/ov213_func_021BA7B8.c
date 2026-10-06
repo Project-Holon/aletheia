@@ -13,5 +13,8 @@
  *   func_02047E54 0x02047E54 arm
  */
 #include "../include/Obj10931.h"
-extern void func_021BA9C0(void *),func_021BA8D4(void *),func_02047E54(void *);
+struct Rec;
+extern void func_021BA9C0(void *);
+extern void func_021BA8D4(char *p);
+extern void func_02047E54(struct Rec *p);
 void func_021BA7B8(char *p){func_021BA9C0(p);func_021BA8D4(p);func_02047E54(((struct Obj10931 *)p)->f8);}

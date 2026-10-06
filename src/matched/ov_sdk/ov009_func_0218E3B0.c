@@ -117,13 +117,15 @@ extern int func_0218F248(void **connection, GPIPeer *peer);
 extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
 extern void func_02193734(int *p, int b);
-extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
-extern int func_0218949C(void **connection, GPIBuffer *outputBuffer, int num);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
 extern void func_0217EAE0(void *ptr);
-extern int func_02190140(GPIProfile *profile);
+extern int func_02190140(char *p);
 extern void func_0218FF24(void **connection, GPIProfile *profile);
 extern char *func_02094B20(const char *s1, const char *s2);
-extern int func_020949F4(const char *s1, const char *s2, unsigned long n);
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern int func_0218F1E0(void **connection, GPIPeer *peer);
 extern int func_02189A7C(void **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer,
                          int *closed, int mustSend);
@@ -167,14 +169,14 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
                 return 3;
             }
 
-            func_0218946C(connection, &peer->outputBuffer, g_021A4E98);
-            func_0218946C(connection, &peer->outputBuffer, g_021A4EA0);
-            func_0218949C(connection, &peer->outputBuffer, iconnection->profileid);
-            func_0218946C(connection, &peer->outputBuffer, g_021A4EA8);
-            func_0218946C(connection, &peer->outputBuffer, iconnection->nick);
-            func_0218946C(connection, &peer->outputBuffer, g_021A4EB0);
-            func_0218946C(connection, &peer->outputBuffer, pProfile->peerSig);
-            func_0218946C(connection, &peer->outputBuffer, g_021A4EB8);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4E98);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EA0);
+            func_0218949C((int *)connection, (int *)(&peer->outputBuffer), iconnection->profileid);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EA8);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), iconnection->nick);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB0);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), pProfile->peerSig);
+            func_0218946C((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB8);
 
             for (pcurr = iconnection->peerList; pcurr; pcurr = pcurr->pnext) {
                 if (pcurr->profile == peer->profile && pcurr != peer && pcurr->state <= 0x67)
@@ -184,7 +186,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
             if (freePeerSig) {
                 func_0217EAE0(pProfile->peerSig);
                 pProfile->peerSig = 0;
-                if (func_02190140(pProfile))
+                if (func_02190140((char *)pProfile))
                     func_0218FF24(connection, pProfile);
             }
 
@@ -198,7 +200,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
         if (str) {
             *str = 0;
             str = peer->inputBuffer.buffer;
-            if (!func_020949F4(str, g_021A4EC0, 7)) {
+            if (!func_020949F4((const u8 *)str, (const u8 *)g_021A4EC0, 7)) {
                 peer->nackCount++;
                 if (peer->nackCount > 1) {
                     func_02193734((int *)connection, (int)g_021A4EC8);
@@ -209,7 +211,7 @@ int func_0218E3B0(void **connection, GPIPeer *peer)
                     if (__result__ != 0)
                         return __result__;
                 }
-            } else if (func_020949F4(str, g_021A4EEC, 6)) {
+            } else if (func_020949F4((const u8 *)str, (const u8 *)g_021A4EEC, 6)) {
                 func_02193734((int *)connection, (int)g_021A4EF4);
                 return 3;
             }

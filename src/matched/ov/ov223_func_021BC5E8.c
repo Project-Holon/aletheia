@@ -12,4 +12,4 @@
  *   func_020419E4 0x020419E4 arm
  */
 extern void func_020419E4(void);
-void func_021BC5E8(void){func_020419E4();}
+void func_021BC5E8(void *a0){func_020419E4();}

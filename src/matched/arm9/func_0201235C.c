@@ -31,7 +31,7 @@ struct S0201235C {
     u32 f10;
 };
 
-extern void func_02012314(struct S0201235C *o, u32 v);
+extern void func_02012314(char *p);
 struct Ctx;
 extern void func_02012108(struct Ctx *p, u32 v);
 
@@ -41,6 +41,6 @@ void func_0201235C(struct S0201235C *o, u32 *out)
     u32 v = o->f00;
 
     *out = v;
-    func_02012314(o, v);
+    func_02012314((char *)o);
     func_02012108((struct Ctx *)t, (u32)out);
 }

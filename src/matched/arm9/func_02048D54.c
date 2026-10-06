@@ -46,7 +46,8 @@ extern const char func_02048D54_File[];
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02048DDC(struct ArcHandle *h, u32 archive_id);
+struct ArcFile;
+extern void func_02048DDC(struct ArcFile *arc, u32 id);
 typedef signed int     s32;
 struct FSFile;
 extern u32 func_02048E34(struct ArcHandle *arc, u32 member, u32 base, u32 size);
@@ -60,7 +61,7 @@ void *func_02048D54(u32 archive_id, u32 member, u32 heap, u32 mode,
     u32 size;
     void *buf;
 
-    func_02048DDC(&h, archive_id);
+    func_02048DDC((struct ArcFile *)(&h), archive_id);
     size = func_02048E34(&h, member, mode, (u32)size_out);
     buf = func_02030734(heap, size, 0, func_02048D54_File, 0xbb);
     func_02078B70((struct FSFile *)(&h), buf, size);

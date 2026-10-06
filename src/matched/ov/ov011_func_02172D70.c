@@ -97,40 +97,44 @@ struct BigObj;
 extern u32 func_02026478(void *obj);
 extern u32   func_020127C4(void *p);
 extern void func_02161F74(int a0, int a1, int a2);
-extern int   func_0200FB24(void);
-extern void  func_02026400(void *p);
+struct Comm;
+struct Rec44;
+struct Sub;
+struct Sub24;
+extern u32 func_0200FB24(void);
+extern void func_02026400(struct Comm *p);
 extern u32   func_02035390(void);
-extern u32   func_020353B0(void);
+extern int func_020353B0(void);
 extern void  func_021735FC(void *sv, void *p);
-extern void  func_02173658(Work *w);
+extern void func_02173658(u8 *o);
 extern int   func_020392B8(void);
 extern void  func_0203D7BC(int a);
-extern u32   func_02039ACC(void);
+extern int func_02039ACC(void);
 extern u16 func_02039338(void);
 extern void  func_02012B64(void *sv, u32 a);
-extern void *func_02012950(void *sv, int i);
-extern void *func_02012944(void *sv);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern u8 *func_02012944(void *p);
 extern void  func_02008494(void *a, void *b);
-extern void  func_02175710(Work *w, u32 a);
-extern u8    func_02012984(void *sv);
+extern void func_02175710(u8 *o, u32 v);
+extern u8 func_02012984(const struct BigObj *p);
 extern int   func_02158590(void *sv);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_020399B8(u8 *p);
 extern void  func_02161F54(void *p);
-extern void  func_02174E3C(Work *w);
-extern void  func_02174EAC(Work *w, u32 a, void *b);
-extern int   func_02173828(Work *w);
-extern s32   func_0203F4FC(void);
-extern u8 func_02012B70(const struct BigObj *p);
+extern void func_02174E3C(u8 *p);
+extern void func_02174EAC(u8 *p, int idx, u8 *q);
+extern int func_02173828(char *p);
+extern u32 func_0203F4FC(void);
+extern int func_02012B70(const struct BigObj *p);
 struct Ctx;
 extern u32   func_02012114(const struct Ctx *p);
-extern void  func_02174978(Work *w);
+extern void func_02174978(u8 *s);
 extern int   func_02175EB8(void *p);
-extern int   func_0203D378(void);
-extern int   func_02175B14(void *p);
+extern u32 func_0203D378(void);
+extern int func_02175B14(u8 *p);
 extern int   func_021739E0(void);
-extern int   func_02175ED8(void *p);
+extern int func_02175ED8(struct Sub *s);
 extern int   func_02175628(void);
 
 void func_02172D70(int *state, Param *p, Work *w)
@@ -162,7 +166,7 @@ void func_02172D70(int *state, Param *p, Work *w)
         return;
     }
     func_021735FC(sv, (u8 *)w + 0xc);
-    func_02173658(w);
+    func_02173658((u8 *)w);
     switch (*state) {
     case 0:
         if (func_020392B8() > 1 && w->step < 5) {
@@ -174,7 +178,7 @@ void func_02172D70(int *state, Param *p, Work *w)
                 func_02012B64(sv, func_02039338());
                 mon = func_02012950(sv, func_02039338());
                 func_02008494(func_02012944(sv), mon);
-                func_02175710(w, func_02039338());
+                func_02175710((u8 *)w, func_02039338());
                 w->kind = 0x15;
                 w->mode = func_02012984(sv);
                 if (func_02158590(sv) == 0) {
@@ -200,12 +204,12 @@ void func_02172D70(int *state, Param *p, Work *w)
         break;
     case 2:
         func_02161F54((u8 *)w + 0x35c);
-        func_02174E3C(w);
-        func_02174EAC(w, func_02039338(), (u8 *)w + 0x160);
+        func_02174E3C((u8 *)w);
+        func_02174EAC((u8 *)w, func_02039338(), (u8 *)w + 0x160);
         (*state)++;
         break;
     case 3:
-        if (func_02173828(w) == 1) {
+        if (func_02173828((char *)w) == 1) {
             w->step = 7;
             w->stamp = func_0203F4FC();
             (*state)++;
@@ -217,7 +221,7 @@ void func_02172D70(int *state, Param *p, Work *w)
             func_02026400(w->field004);
             return;
         }
-        func_02174978(w);
+        func_02174978((u8 *)w);
         if (func_02175EB8((u8 *)w + 0x1ac) == 1) {
             func_02026400(w->field004);
             return;
@@ -237,7 +241,7 @@ void func_02172D70(int *state, Param *p, Work *w)
                 w->warned = 1;
             }
         } else if (w->lock == 0 && func_0203D378() == 1
-                   && func_02175ED8((u8 *)w + 0x1ac) == 1) {
+                   && func_02175ED8((struct Sub *)((u8 *)w + 0x1ac)) == 1) {
             func_02026400(w->field004);
         } else {
             w->warned = 0;

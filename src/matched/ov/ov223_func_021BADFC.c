@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021BADFC(void) {}
+void func_021BADFC(char *a0) {}

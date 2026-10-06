@@ -16,13 +16,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0202208C(void *, u32, u32, u16, u32, u32, u32);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D6134(void *, void (*)(void), int);
 extern void func_021D6198(u8 *p);
 void func_021D6150(u8 *p) {
     int color;
     if (((struct Obj22605 *)(*(u8 * *)&((struct Obj13855 *)p)->f10))->f10 & 8) color = 0x7fff;
     else color = 0;
-    func_0202208C(0, 1, 1, color, 6, 1, ((struct Obj13855 *)p)->f14);
+    func_0202208C(0, 1, 1, (u16)color, 6, 1, ((struct Obj13855 *)p)->f14);
     func_021D6134(p, (void (*)(void))func_021D6198, 0x15b);
 }

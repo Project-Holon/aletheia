@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u8 d_021806AC[][4];
-u8 func_0217F060(int i)
+int func_0217F060(int i)
 {
     if (i >= 27) return 0;
     return d_021806AC[i][0];

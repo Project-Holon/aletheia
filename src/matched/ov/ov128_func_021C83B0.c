@@ -18,5 +18,5 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern int func_021C87A0(s16 *);
 extern void func_021C6BCC(u8 *,u8 *,int,unsigned);
-extern void func_021C867C(u8 *,u8 *,int,u16);
+extern void func_021C867C(u8 *p, u8 *a, int n, int heap);
 void func_021C83B0(s16 *p,u8 *q,u8 *r,u16 heap) {func_021C6BCC(r,q,*(u8 *)(q+24+func_021C87A0(p)),heap);func_021C867C((u8 *)p,r,12,heap);}

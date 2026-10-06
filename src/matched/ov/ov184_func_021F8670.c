@@ -18,7 +18,8 @@
 #include "../include/Obj05483.h"
 #include "../include/Obj24700.h"
 #include "../include/Obj24701.h"
-extern int func_02035D20(int *,int *);
+typedef unsigned int   u32;
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,int *);
 extern void func_021FD73C(int *p, int v);
@@ -27,7 +28,7 @@ extern void func_021F86EC(int task, unsigned *state, char *p);
 void func_021F8670(int a,int b,char *p)
 {
     int x,y;
-    if (func_02035D20(&x,&y)) {
+    if (func_02035D20((u32 *)(&x),(u32 *)(&y))) {
         if (func_021FB4B4(((struct Obj05483 *)p)->f4,x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;

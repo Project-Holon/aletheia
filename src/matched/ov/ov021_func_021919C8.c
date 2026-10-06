@@ -33,7 +33,7 @@ typedef struct Q {
 } Q;
 
 extern int func_02194974(u32 a, void *b);
-extern u32 func_02194984(u32 a, void *b);
+extern u32 func_02194984(u32 a, u32 b);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern u32 func_0201CE30(void *p);
@@ -44,7 +44,7 @@ int func_021919C8(Q *q)
         return 0;
     func_020362DC();
     func_0203630C();
-    switch (func_0201CE30((void *)func_02194984(q->f0c, q->f08))) {
+    switch (func_0201CE30((void *)func_02194984(q->f0c, (u32)q->f08))) {
     case 0:
     case 1:
         break;

@@ -49,14 +49,14 @@ struct MBlockHead {
 typedef struct { MBlockHead *head; MBlockHead *tail; } MBlockList;
 typedef struct { void *start; void *end; } MemRegion;
 typedef struct { MBlockList mbFreeList; } ExpHeapHead;
-extern MBlockHead *func_02060790(MBlockList *list, MBlockHead *block);
-extern MBlockHead *func_020607B8(MBlockList *list, MBlockHead *target, MBlockHead *prev);
-extern MBlockHead *func_020607E8(MemRegion *region, u16 signature);
+extern void *func_02060790(int *p, int *node);
+extern void *func_020607B8(int *p, void *node, int *a);
+extern void *func_020607E8(int *p, int v);
 static inline void *AddU32ToPtr(void *ptr, u32 val) { return (void *)(val + (u32)ptr); }
 static inline void *GetMemPtrForMBlock(MBlockHead *p) { return AddU32ToPtr(p, sizeof(MBlockHead)); }
 static inline void *GetMBlockEndAddr(MBlockHead *p) { return AddU32ToPtr(GetMemPtrForMBlock(p), p->blockSize); }
 static inline u32 GetOffsetFromPtr(void *start, void *end) { return (u32)end - (u32)start; }
-static inline MBlockHead *InitFreeMBlock(MemRegion *r) { return func_020607E8(r, 0x4652); }
+static inline MBlockHead *InitFreeMBlock(MemRegion *r) { return func_020607E8((int *)r, 0x4652); }
 BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
 {
     MBlockHead *pBlkPrFree = 0;
@@ -74,7 +74,7 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
             if ((void *)pBlk == pRegion->end)
             {
                 freeRgn.end = GetMBlockEndAddr(pBlk);
-                (void)func_02060790(&pEHHead->mbFreeList, pBlk);
+                (void)func_02060790((int *)(&pEHHead->mbFreeList), (int *)pBlk);
             }
             break;
         }
@@ -83,7 +83,7 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
     if (pBlkPrFree && GetMBlockEndAddr(pBlkPrFree) == pRegion->start)
     {
         freeRgn.start = pBlkPrFree;
-        pBlkPrFree = func_02060790(&pEHHead->mbFreeList, pBlkPrFree);
+        pBlkPrFree = func_02060790((int *)(&pEHHead->mbFreeList), (int *)pBlkPrFree);
     }
 
     if (GetOffsetFromPtr(freeRgn.start, freeRgn.end) < sizeof(MBlockHead))
@@ -91,6 +91,6 @@ BOOL func_02060B6C(ExpHeapHead *pEHHead, const MemRegion *pRegion)
         return 0;
     }
 
-    (void)func_020607B8(&pEHHead->mbFreeList, InitFreeMBlock(&freeRgn), pBlkPrFree);
+    (void)func_020607B8((int *)(&pEHHead->mbFreeList), InitFreeMBlock(&freeRgn), (int *)pBlkPrFree);
     return 1;
 }

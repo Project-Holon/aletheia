@@ -26,13 +26,13 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049238(void *h);
 extern void func_02040EBC(u32 a, u32 b);
 
-void func_021F68FC(void)
+void func_021F68FC(int a0)
 {
     void *h;
     h = func_020490F4(0x64, 0x8071);

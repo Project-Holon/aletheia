@@ -15,9 +15,10 @@
  *   func_02048F4C  0x02048F4C  arm
  */
 
-extern void func_02048F4C(unsigned int b, unsigned int id, unsigned int a);
+typedef unsigned int   u32;
+extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 
-void func_0201A364(unsigned int a, unsigned int b)
+void func_0201A364(int a, unsigned int b)
 {
-    func_02048F4C(b, 0x69, a);
+    func_02048F4C((void *)b, 0x69, a);
 }

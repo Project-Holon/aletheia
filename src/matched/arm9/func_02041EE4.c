@@ -48,10 +48,11 @@ struct Mod02041EE4 {
 
 extern struct Mod02041EE4 *g_02146A44;
 
-extern void func_02042360(struct Slot02041EE4 *slot, u32 a, u32 b);
+struct Obj;
+extern void func_02042360(struct Obj *p, u32 op, u32 value);
 
 void func_02041EE4(u32 index, u32 a, u32 b)
 {
-    func_02042360(&g_02146A44->slots[index], a, b);
+    func_02042360((struct Obj *)(&g_02146A44->slots[index]), a, b);
     g_02146A44->live |= (u16)(1 << index);
 }

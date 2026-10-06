@@ -53,7 +53,7 @@ extern const V d_021DB984;
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_0206DF3C(V *a, int *x, int *y);
-extern u32 func_020450F0(u32 a, u8 b, u8 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -109,7 +109,7 @@ void func_021D1264(u8 *p)
     if (y > 0x18) {
         y = 0x18;
     }
-    ((struct Obj01509 *)p)->f4 = func_020450F0(3, x, y, 5, 5, 9, 1);
+    ((struct Obj01509 *)p)->f4 = func_020450F0(3, (u8)x, (u8)y, 5, (u32)5, (u32)9, (u32)1);
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01509 *)p)->f4)), 0);
     func_02045334((struct Descriptor *)((struct Obj01509 *)p)->f4);
     func_021D1430(p, 0);

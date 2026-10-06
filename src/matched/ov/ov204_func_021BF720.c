@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02015EB0(void *);
 extern void func_02015EA0(void *);
-void func_021BF720(u8 *p,int flag,int index)
+void func_021BF720(u8 *p, int flag, u8 index)
 {
     if(flag==1)func_02015EB0(*(void **)((u32)p+(u32)index*12+8));
     else func_02015EA0(*(void **)((u32)p+(u32)index*12+8));

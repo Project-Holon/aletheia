@@ -40,9 +40,9 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020295A4(void *p, u32 a);
+extern u8 *func_020295A4(u8 *p, u32 a);
 extern int func_020144DC(int a0, int a1);
-extern void *func_02029C64(void *p, void *q);
+extern void *func_02029C64(void *a);
 
 int func_02156770(void *evt, Seq *s)
 {
@@ -55,7 +55,7 @@ int func_02156770(void *evt, Seq *s)
         s->state++;
         break;
     case 1:
-        func_02012374(evt, func_020295A4(s->f00, 30));
+        func_02012374(evt, (struct Evt **)func_020295A4(s->f00, 30));
         s->state++;
         break;
     case 2:
@@ -63,7 +63,7 @@ int func_02156770(void *evt, Seq *s)
         s->state++;
         break;
     case 3:
-        func_02012374(evt, func_02029C64(s->f00, x));
+        func_02012374(evt, func_02029C64(s->f00));
         s->state++;
         break;
     case 4:

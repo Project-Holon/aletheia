@@ -30,7 +30,10 @@ typedef struct {
 
 extern int func_021F9260(void *m, int *out);
 extern void func_021F89BC(void *p);
-extern void func_0204B404(void *h, short *v, int k);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_02201F98(void *a, Obj *o)
 {
@@ -40,7 +43,7 @@ void func_02201F98(void *a, Obj *o)
 
     v[0] = o->x >> 12;
     v[1] = o->y >> 12;
-    func_0204B404(t[o->idx].h, v, 0);
+    func_0204B404(t[o->idx].h, (const struct Vec2 *)v, 0);
     if (r == 1)
         func_021F89BC(a);
 }

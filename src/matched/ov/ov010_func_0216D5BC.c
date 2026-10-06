@@ -14,7 +14,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_0216D5B8(void *p);
+extern u32 func_0216D5B8(void *p);
 int func_0216D5BC(void *p)
 {
     return func_0216D5B8(p) == 0xFFFF;

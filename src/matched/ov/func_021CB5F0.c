@@ -42,9 +42,11 @@ typedef unsigned int u32;
 struct T6 { u8 f0; u8 f1; u16 f2; u16 f4; };
 extern struct T6 g_021EFDC0[];
 
-extern u16 func_021D5444(void *p);
+struct QF;
+struct QI;
+extern u16 func_021D5444(struct QF *p);
 extern int func_021D59B4(u8 *p, int k);
-extern u16 func_021D5B40(void *p);
+extern u16 func_021D5B40(struct QI *p);
 extern void *func_021D5844(void *m);
 extern u32 func_021D805C(void *p, u32 n);
 
@@ -65,19 +67,19 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
     void *rec;
     u32 sv;
 
-    m = func_021D5444(a1);
+    m = func_021D5444((struct QF *)a1);
     v6 = (u16)func_021D59B4(a1, 0x13);
     for (i = 0; i < 6; i++) {
         buf[i] = (u8)func_02019C90((void *)m, v6, g_021EFDC0[i].f0);
     }
-    if (func_021D5B40(a0) == 0xd7) {
+    if (func_021D5B40((struct QI *)a0) == 0xd7) {
         for (i = 0; i < 6; i++) {
             buf[i] = buf[i] * 2;
         }
     }
     for (i = 0; i < 6; i++) {
         t = g_021EFDC0[i].f4;
-        if (t == func_021D5B40(a0)) {
+        if (t == func_021D5B40((struct QI *)a0)) {
             buf[i] = (u8)(buf[i] + (u8)func_021D805C((void *)t, 2));
         }
     }

@@ -30,7 +30,7 @@ extern u8 func_0200C32C(struct Blk34 *p);
 extern void func_0216BB90(int index, u8 *out);
 extern int func_0216BB80(int index);
 extern int func_0216BBB4(int index);
-extern u32 func_0216B970();
+extern u32 func_0216B970(const u16 *p, int index);
 
 u16 func_0216BA88(int c)
 {

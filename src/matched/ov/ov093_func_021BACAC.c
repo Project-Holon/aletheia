@@ -48,9 +48,9 @@ extern int func_021BB798(u8 *);
 extern void func_021BB718(int a, int b);
 extern void func_021BB7D0(const u8 *p);
 extern int func_021BA5D8(char *);
-extern void func_021BABEC(void *, void *);
+extern void func_021BABEC(int *p, void *f);
 extern int func_021BB208(u8 *p, int *s);
-extern int func_021BA618(u8 *);
+extern int func_021BA618(char *p);
 extern int func_021BB280(u8 *p);
 extern void func_021BB6A8(u8 *);
 extern int func_021BB628(u8 *, int, int);
@@ -65,7 +65,7 @@ extern int func_021BAE60(u8 *, int *);
 extern int func_021BAEF8(u8 *, int *);
 extern int func_021BB0E0(u8 *p, int *s);
 extern u8 func_021BC55C(u8 *);
-extern void func_021B9120(void *, int);
+extern void func_021B9120(u8 *p, u8 n);
 extern int func_021C84D8(u8 *p);
 extern void func_021B916C(u8 *p, u32 x);
 int func_021BAE5C(u8 *);
@@ -95,11 +95,11 @@ int func_021BACAC(u8 *p, int *s)
         if (func_021BB798(p)) {
             func_021BB7D0(p);
             if (func_021BA5D8(*(char * *)&((struct Obj01372 *)p)->fC)) {
-                func_021BABEC(p, (void *)func_021BB208);
+                func_021BABEC((int *)p, (void *)func_021BB208);
                 break;
             }
-            if (func_021BA618(*(u8 * *)&((struct Obj01372 *)p)->fC)) {
-                func_021BABEC(p, (void *)func_021BB280);
+            if (func_021BA618((char *)(*(u8 * *)&((struct Obj01372 *)p)->fC))) {
+                func_021BABEC((int *)p, (void *)func_021BB280);
                 break;
             }
             func_021BB6A8(p);
@@ -144,21 +144,21 @@ int func_021BACAC(u8 *p, int *s)
                     void *a = func_021B86B8(*(void *** *)&((struct Obj01372 *)p)->fC);
                     u32 b = func_021B8588(((struct Obj01372 *)p)->fC);
                     if (!a && !b)
-                        func_021BABEC(p, (void *)func_021BAE60);
+                        func_021BABEC((int *)p, (void *)func_021BAE60);
                     else
-                        func_021BABEC(p, (void *)func_021BAEF8);
+                        func_021BABEC((int *)p, (void *)func_021BAEF8);
                 }
                 break;
             case 1:
-                func_021BABEC(p, (void *)func_021BB0E0);
+                func_021BABEC((int *)p, (void *)func_021BB0E0);
                 break;
             case 6:
                 func_021B9120(((struct Obj01372 *)p)->fC, func_021BC55C(*(u8 * *)&((struct Obj01372 *)p)->f44));
-                func_021BABEC(p, (void *)func_021BB280);
+                func_021BABEC((int *)p, (void *)func_021BB280);
                 return 0;
             case 4:
                 func_021B916C((u8 *)(*(int *)&((struct Obj01372 *)p)->fC), func_021C84D8((u8 *)(*(int *)&((struct Obj01372 *)p)->f44)));
-                func_021BABEC(p, (void *)func_021BB280);
+                func_021BABEC((int *)p, (void *)func_021BB280);
                 return 0;
             case 5:
             default:

@@ -39,7 +39,7 @@ extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
 extern BOOL func_021AB2BC(u16 id);
 extern BOOL func_021AB364(u16 id);
-extern BOOL func_021AB37C(u16 id);
+extern int func_021AB37C(u32 id);
 
 void func_021CF5D8(int id, int kind, int flag, u8 *pos, u32 *outType, u16 *outMsg)
 {

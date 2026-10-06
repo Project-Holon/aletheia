@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 d_021DAA8C[], d_021DAAAC[];
 extern u32 d_021DAA88;
-extern void func_02088168(void *);
+extern void func_02088168(u32 *buffer);
 extern void func_02162248(void *, u32);
 extern void func_02082BCC(void *, u32, u32);
 extern void func_021D8BC0(u32 value);
@@ -35,7 +35,7 @@ extern const u32 d_021D8D38[];
 extern int func_021D8B3C(void);
 void func_021D8B44(void)
 {
-    func_02088168(d_021DAA8C);
+    func_02088168((u32 *)d_021DAA8C);
     func_02162248(d_021DAA8C, 32);
     if (d_021DAA88) return;
     func_02082BCC(d_021DAAAC, 0, 0x830);

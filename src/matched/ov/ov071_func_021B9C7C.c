@@ -50,8 +50,8 @@ extern unsigned int func_0203633C(void);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern int func_02035C60(void);
-extern int func_021B9F2C(S *p, int i, int v);
-extern int func_021BA1DC(S *p, int y);
+extern int func_021B9F2C(u8 *p, int i, int v);
+extern int func_021BA1DC(char *p, unsigned a);
 
 int func_021B9C7C(void *a, S *p)
 {
@@ -90,15 +90,15 @@ int func_021B9C7C(void *a, S *p)
                 row = 1;
             }
             if (row >= p->f27c - 2) {
-                func_021B9F2C(p, p->f27c - 2, 1);
+                func_021B9F2C((u8 *)p, p->f27c - 2, 1);
             } else {
-                func_021B9F2C(p, row, 1);
+                func_021B9F2C((u8 *)p, row, 1);
             }
             func_020061E4(0x548);
             return 0;
         }
         if (func_020362DC() & 1) {
-            func_021B9F2C(p, p->f2f4, 1);
+            func_021B9F2C((u8 *)p, p->f2f4, 1);
             func_020355D8(0);
             if (p->f1b4[p->f2f4] == 0) {
                 func_020061E4(0x54c);
@@ -109,7 +109,7 @@ int func_021B9C7C(void *a, S *p)
             if (rem != 0) {
                 row++;
             }
-            if (func_021B9F2C(p, p->f2f4 - 1, 1) == 1) {
+            if (func_021B9F2C((u8 *)p, p->f2f4 - 1, 1) == 1) {
                 func_020061E4(0x548);
             }
             if (p->f2f4 < row) {
@@ -119,7 +119,7 @@ int func_021B9C7C(void *a, S *p)
         }
         if (func_0203633C() & 0x80) {
             row = ((p->f2d8 >> 8) + 0xa8) / 32;
-            if (func_021B9F2C(p, p->f2f4 + 1, 1) == 1) {
+            if (func_021B9F2C((u8 *)p, p->f2f4 + 1, 1) == 1) {
                 func_020061E4(0x548);
             }
             if (p->f2f4 >= row) {
@@ -134,7 +134,7 @@ int func_021B9C7C(void *a, S *p)
                 p->f2dc = 1;
                 p->f2e8 = y;
                 p->f2ec = y;
-                func_021B9F2C(p, 0xffff, 0);
+                func_021B9F2C((u8 *)p, 0xffff, 0);
             } else if (func_02035C60() == 1 && p->f2f4 != 0xffff
                        && x >= 0x10 && x <= 0x70 && y >= 0xac && y <= 0xbc) {
                 ret = 1;
@@ -162,7 +162,7 @@ int func_021B9C7C(void *a, S *p)
                 d = -d;
             }
             if (d < 4) {
-                r = func_021BA1DC(p, p->f2e8);
+                r = func_021BA1DC((char *)p, p->f2e8);
                 if (r != 0xffff) {
                     ret = 1;
                     sel = r;
@@ -186,7 +186,7 @@ int func_021B9C7C(void *a, S *p)
     }
     if (ret == 1) {
         p->f2e0 = 0;
-        func_021B9F2C(p, sel, 2);
+        func_021B9F2C((u8 *)p, sel, 2);
     }
     return ret;
 }

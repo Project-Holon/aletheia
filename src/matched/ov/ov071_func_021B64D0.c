@@ -22,16 +22,18 @@ extern char d_021BA7D4;
 extern char d_021BA764;
 
 typedef unsigned short u16;
+struct DispConfig;
+struct DispVram;
 void func_021B64D0(void)
 {
-    void func_020433E0(void *);
+    void func_020433E0(const struct DispVram *c);
     void func_0203F8F4(u16 heapId);
-    void func_0203FC28(void *);
+    void func_0203FC28(struct DispConfig *cfg);
     void func_02082A7C(int, int, int);
 
-    func_020433E0(&d_021BA7D4);
+    func_020433E0((const struct DispVram *)(&d_021BA7D4));
     func_0203F8F4(0x61);
-    func_0203FC28(&d_021BA764);
+    func_0203FC28((struct DispConfig *)(&d_021BA764));
     func_02082A7C(0, 0x06000000, 0x80000);
     func_02082A7C(0, 0x06200000, 0x20000);
     func_02082A7C(0, 0x06400000, 0x40000);

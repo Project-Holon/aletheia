@@ -27,7 +27,7 @@ typedef struct Obj {
     u8 b668[0x1C];
 } Obj;
 
-extern int func_0200FB24(Obj *o);
+extern u32 func_0200FB24(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
@@ -36,7 +36,7 @@ int func_02167CB4(Obj *o)
 {
     u16 h;
 
-    if (func_0200FB24(o) != 0)
+    if (func_0200FB24() != 0)
         return 1;
     h = o->h12;
     if (h >= 0x2C08)

@@ -16,7 +16,7 @@
  */
 
 
-void func_021BD030(void)
+void func_021BD030(char *a0)
 {
 }
 

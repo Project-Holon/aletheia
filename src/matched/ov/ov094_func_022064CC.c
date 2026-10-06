@@ -32,7 +32,8 @@ typedef struct {
 } W;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B404(void *, Point *, int);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_022064CC(W *p, u8 (* __restrict tab)[4], s8 (*rows)[12])
 {
@@ -72,7 +73,7 @@ void func_022064CC(W *p, u8 (* __restrict tab)[4], s8 (*rows)[12])
                 break;
             }
             func_0204B3DC(p->slots[i].h, *p->f274);
-            func_0204B404(p->slots[i].h, &pos, 1);
+            func_0204B404(p->slots[i].h, (const struct Vec2 *)(&pos), 1);
         } else {
             func_0204B3DC(p->slots[i].h, 0);
         }

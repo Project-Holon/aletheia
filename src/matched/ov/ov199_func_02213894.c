@@ -43,16 +43,18 @@ extern u8 data_021EFDAC[];
 extern u32 func_02031330(void *);
 extern void func_02031348(void *, int, void *, void *);
 extern void func_02005D90(u16, u32);
-extern void func_02034AC4(int);
+typedef signed int     s32;
+struct Entry;
+extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(int);
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_0203A5E4(u32);
-extern struct Link *func_020399A8(void);
+extern struct Entry *func_020399A8(void);
 extern void func_02039C68(struct Link *, u32, u32);
 extern u32 func_02039CB4(struct Link *, u32, u32);
 extern int func_0203CD98(void);
 extern void *func_0203D798(void);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
 extern int func_02157170(int, int);
 
@@ -76,11 +78,11 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         wk->f8 = 1;
         func_0203A574(0x100, (u32)data_021F03C4, 9, 0);
         wk->fC = 1;
-        func_02039C68(func_020399A8(), 0xc8, 0x24);
+        func_02039C68((struct Link *)func_020399A8(), 0xc8, 0x24);
         *seq = 3;
         break;
     case 3:
-        if (func_02039CB4(func_020399A8(), 0xc8, 0x24)) *seq = 4;
+        if (func_02039CB4((struct Link *)func_020399A8(), 0xc8, 0x24)) *seq = 4;
         break;
     case 4:
         func_02031348(wk->f0, -1, data_021EFDAC, pw->f4);
@@ -94,12 +96,12 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         *seq = 7;
         break;
     case 7:
-        func_02039C68(func_020399A8(), 0xd2, 0x24);
+        func_02039C68((struct Link *)func_020399A8(), 0xd2, 0x24);
         wk->f4 = 0;
         *seq = 8;
         break;
     case 8:
-        if (func_02039CB4(func_020399A8(), 0xd2, 0x24)) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 0xd2, 0x24)) {
             func_0203A5E4(0x100);
             wk->fC = 0;
             func_02034A5C((int)ov093_id);
@@ -118,12 +120,12 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         }
         break;
     case 9:
-        func_02039C68(func_020399A8(), 0xd3, 0x24);
+        func_02039C68((struct Link *)func_020399A8(), 0xd3, 0x24);
         *seq = 10;
         wk->f4 = 0;
         break;
     case 10:
-        if (func_02039CB4(func_020399A8(), 0xd3, 0x24)) *seq = 11;
+        if (func_02039CB4((struct Link *)func_020399A8(), 0xd3, 0x24)) *seq = 11;
         if (func_0203CD98() && *(u8 *)((u8 *)func_0203D798() + 0x65) == 3) {
             if (wk->f4++ > 600) {
                 *seq = 11;

@@ -68,11 +68,11 @@ extern u8 sWihDwc;
 extern u8 sWihDwcFile[];
 extern u8 ov015_id[];
 
-extern void func_02034714(void *dst, u32 val, void *dst2);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
 extern u32  func_0205D010(void);
 extern int func_02034AC4(int id);
-extern void func_0217963C(void (*cb)(const void *src));
+extern void func_0217963C(u32 v);
 extern void func_0201045C(const void *src);
 
 u8 *sub_02010360(int idx, void *heap)
@@ -80,15 +80,15 @@ u8 *sub_02010360(int idx, void *heap)
     u8 *p;
 
     if (idx > 4) {
-        func_02034714(&sWihDwc, 0, &sWihDwc);
+        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
     }
     if (g_021461E0.f0 != 0) {
-        func_02034714(&sWihDwc, 0, &sWihDwc);
+        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
     }
     p = func_0203D7C8((u32)heap, 0x328, (const char *)sWihDwcFile, 0x49);
     ((struct Obj07083 *)p)->f310 = idx;
     *(u8 * *)&((struct Obj07083 *)p)->f300 = func_0203D7C8((u32)heap, func_0205D010(), (const char *)sWihDwcFile, 0x4C);
-    func_0217963C(func_0201045C);
+    func_0217963C((u32)func_0201045C);
     g_021461E0.f0 = p;
     *(u8 * *)&((struct Obj07083 *)p)->f304 = g_021461E0.f4;
     func_02034AC4((int)ov015_id);

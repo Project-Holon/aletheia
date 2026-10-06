@@ -26,7 +26,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct V;
 extern void func_02193EB4(struct V *v);
-extern char *func_02193F34(void *, int);
+struct E50;
+extern struct E50 *func_02193F34(struct V *v, u32 key);
 struct Sub0200852CObj;
 struct WordSet;
 extern void *func_0200846C(int a0);
@@ -43,7 +44,7 @@ void func_02193B68(void *a, int b, int c, int d, u16 e)
     int h;
 
     func_02193EB4(a);
-    q = func_02193F34(a, c);
+    q = (char *)func_02193F34(a, c);
     h = (int)func_0200846C((u16)((e & 0x7fff) | 0x8000));
     func_020084A0((struct Sub0200852CObj *)h);
     func_020084D4(h, q + 0x38);

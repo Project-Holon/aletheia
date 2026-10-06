@@ -93,11 +93,15 @@ struct Obj {
 
 typedef void (*Fn)(struct Obj *, struct Node *);
 
-extern void func_02053D30(void *p);
-extern void func_02053E1C(struct Obj *, struct Node *);
-extern void func_02054718(struct Obj *, struct Node *);
-extern void func_02054DB8(struct Obj *, struct Node *);
-extern void func_02055B80(struct Obj *, struct Node *);
+struct S;
+struct SPLManager;
+struct SPLParticle;
+struct SPLTexture;
+extern void func_02053D30(struct SPLTexture *tex);
+extern void func_02053E1C(struct Obj *obj, struct S *s);
+extern void func_02054718(struct Obj *obj, struct S *s);
+extern void func_02054DB8(struct SPLManager *mgr, struct SPLParticle *ptcl);
+extern void func_02055B80(struct Obj *obj, struct S *s);
 
 void func_02053044(struct Obj *o)
 {
@@ -109,23 +113,23 @@ void func_02053044(struct Obj *o)
     if ((((u32 *)s->f00)[0] << 15) >> 31 ? 0 : 1)
         return;
 
-    func_02053D30((char *)o->f2c + ((u8 *)s->f14)[0xf] * 0x14);
+    func_02053D30((struct SPLTexture *)((char *)o->f2c + ((u8 *)s->f14)[0xf] * 0x14));
 
     switch ((u32)(s->f14->flags << 23) >> 30) {
     case 0:
-        fn = func_02055B80;
+        fn = (Fn)func_02055B80;
         break;
     case 1:
-        fn = func_02054DB8;
+        fn = (Fn)func_02054DB8;
         break;
     case 2:
-        fn = func_02054718;
+        fn = (Fn)func_02054718;
         break;
     case 3:
-        fn = func_02053E1C;
+        fn = (Fn)func_02053E1C;
         break;
     case 4:
-        fn = func_02053E1C;
+        fn = (Fn)func_02053E1C;
         break;
     }
 

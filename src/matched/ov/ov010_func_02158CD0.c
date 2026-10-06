@@ -26,8 +26,9 @@ typedef unsigned short u16;
 
 struct E { u16 lo, hi, a, b, c; };
 
-extern void func_02034714(const char *, int, const char *);
-extern u16 func_02013B5C(u16);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern u32 func_02013B5C(u32 id);
 extern u16 func_02013B68(u16);
 extern const struct E d_021701A8[];
 extern char d_02172898[];
@@ -41,7 +42,7 @@ u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3)
         if (v < t[i].lo)
             continue;
         if (v > t[i].hi)
-            func_02034714(d_02172898, 0, d_02172898);
+            func_02034714(d_02172898, (int)0, d_02172898);
         e = &t[i];
         *o1 = e->a;
         *o2 = e->b;
@@ -49,7 +50,7 @@ u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3)
         return v - t[i].lo;
     }
     if (v >= 1) {
-        u16 x = func_02013B5C(k);
+        u16 x = (u16)func_02013B5C((u16)k);
         u16 y = func_02013B68(k);
         *o1 = x;
         *o2 = 3;

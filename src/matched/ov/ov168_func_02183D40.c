@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned int func_02183D40(unsigned int *p) { return p[3]; }
+int func_02183D40(unsigned int *p) { return p[3]; }

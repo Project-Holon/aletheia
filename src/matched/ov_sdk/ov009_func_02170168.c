@@ -33,10 +33,12 @@ typedef struct {
     unsigned int data[32];
 } MatchCtrl;
 
-extern void func_021700C8(MatchCtrl *ctrl, unsigned char command, const unsigned int *data, int len);
+struct DWCstBinaryMessage;
+struct ServerBrowser;
+extern void func_021700C8(struct DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len);
 extern int func_02175F3C(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_0219EF08(void *sb, const char *addr, unsigned short port, void *data, int len);
+extern int func_0219EF08(struct ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
 
 int func_02170168(unsigned char command, unsigned int ip, unsigned short port, const unsigned int *data, int len)
 {
@@ -44,9 +46,9 @@ int func_02170168(unsigned char command, unsigned int ip, unsigned short port, c
     int i;
     int res;
 
-    func_021700C8(&ctrl, command, data, len);
+    func_021700C8((struct DWCstBinaryMessage *)(&ctrl), command, (long unsigned int *)data, len);
     for (i = 0; i < 1; i++) {
-        res = func_0219EF08(*(void **)(func_02175F3C() + 0x5e0), func_02198620(ip, 0, 0), port, &ctrl, ctrl.len + 0x14);
+        res = func_0219EF08(*(void **)(func_02175F3C() + 0x5e0), func_02198620(ip, 0, 0), port, (char *)(&ctrl), ctrl.len + 0x14);
         if (res == 0) {
             return res;
         }

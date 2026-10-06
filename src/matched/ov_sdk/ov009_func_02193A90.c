@@ -40,11 +40,12 @@ struct bucket_s {
 struct bucketset_s;
 
 extern struct bucket_s *func_02193CD0(struct bucketset_s *set, char *name);
-extern void *func_02193CB0(struct bucket_s *pbucket);
-extern int func_0209477C(char *s);
+typedef unsigned char  u8;
+extern char *func_02193CB0(char *p);
+extern int func_0209477C(const u8 *s);
 extern void *func_0217EAB0(unsigned long size);
 extern char *func_02094798(char *dst, const char *src);
-extern char *func_020948B0(char *dst, char *src);
+extern u8 *func_020948B0(u8 *dest, const u8 *src);
 extern void *func_02193C3C(struct bucket_s *pbucket, void *value);
 extern void func_0217EAE0(void *ptr);
 
@@ -57,12 +58,12 @@ void *func_02193A90(struct bucketset_s *set, char *name, void *value)
     pbucket = func_02193CD0(set, name);
     if (pbucket == 0)
         return 0;
-    s = (char *)func_02193CB0(pbucket);
-    temp = (char *)func_0217EAB0(func_0209477C(s) + func_0209477C(value) + 1);
+    s = (char *)func_02193CB0((char *)pbucket);
+    temp = (char *)func_0217EAB0(func_0209477C((const u8 *)s) + func_0209477C(value) + 1);
     func_02094798(temp, s);
-    func_020948B0(temp, value);
+    func_020948B0((u8 *)temp, value);
     func_02193C3C(pbucket, temp);
     func_0217EAE0(temp);
 
-    return func_02193CB0(pbucket);
+    return func_02193CB0((char *)pbucket);
 }

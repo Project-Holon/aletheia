@@ -21,7 +21,8 @@ typedef struct { u32 v[4]; } T;
 
 struct Node;
 extern void func_02040588(u32 which, u32 enable);
-extern void func_0203FC28(T *p);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02030EAC(struct Node *n);
 extern const T d_021DA700;
 
@@ -31,7 +32,7 @@ void func_021C3198(void *p, u32 *done)
 
     func_02040588(0, 1);
     t = d_021DA700;
-    func_0203FC28(&t);
+    func_0203FC28((struct DispConfig *)(&t));
     func_02030EAC(p);
     if (done != 0)
         *done = 1;

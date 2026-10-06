@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct WordSet;
 extern u16 func_02039338(void);
-extern void *func_021DCF50(void *);
+typedef unsigned char  u8;
+extern void *func_021DCF50(u8 *p);
 extern char *func_02184180(unsigned char *p, int i);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_021DE4B4(char *, int, int);
@@ -31,7 +32,7 @@ int func_021DDE24(char *p, int state) {
     if (func_02039338() == 0) {
         func_021DE4B4(p, 5, 0);
     } else {
-        func_0201F02C(((struct Obj14216 *)p)->f3C, 0, func_02184180(func_021DCF50(p), 0));
+        func_0201F02C(((struct Obj14216 *)p)->f3C, 0, func_02184180(func_021DCF50((u8 *)p), 0));
         func_021DE4B4(p, 0x10, 0);
     }
     func_021DD93C(p, 0xe);

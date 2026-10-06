@@ -29,7 +29,7 @@ struct Event;
 struct Pkt;
 extern int func_021B2D54(u8 *p, int *out);
 extern int func_021B2AA0(struct Pkt *pkt, struct Event *ev);
-extern int func_021B2BE0(u8 *p, int x);
+extern int func_021B2BE0(struct Pkt *pkt, struct Event *ev);
 
 int func_021B2488(int a, u8 *p, int len, int x)
 {
@@ -41,5 +41,5 @@ int func_021B2488(int a, u8 *p, int len, int x)
         return func_021B2D54(p, (int *)x);
     if (d_021B60D8.fC == 0)
         return func_021B2AA0((struct Pkt *)p, (struct Event *)x);
-    return func_021B2BE0(p, x);
+    return func_021B2BE0((struct Pkt *)p, (struct Event *)x);
 }

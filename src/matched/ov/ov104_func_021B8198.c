@@ -25,7 +25,7 @@ typedef short s16;
 typedef unsigned int u32;
 extern void func_021B816C(u8 *);
 extern u32 func_021B8178(u8 *);
-extern void func_021B817C(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B817C(char *p, u32 v);
 extern void func_021B818C(u8 *);
 extern int func_021B7250(int *p);
 extern int func_021B6480(int *p);
@@ -33,4 +33,4 @@ extern void func_021B8528(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
 extern void func_02040588(u32 which, u32 enable);
 extern void func_021B8220(u8 *,u16 *);
-void func_021B8198(u8 *p,u16 *state) { switch(*state) { case 0: ((struct Obj13744 *)p)->f80A=0; *state=1; break; case 1: func_02040588(2,0); *state=3; break; case 3: func_021B816C(p+0x7b0); func_021B817C(p,func_021B8220); break; } if(func_021B7250(((struct Obj13744 *)p)->f7AC)==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); } if(func_021B6480(*(void **)(CTX(p)+4))!=0) func_021B817C(p,func_021B8528); }
+void func_021B8198(u8 *p,u16 *state) { switch(*state) { case 0: ((struct Obj13744 *)p)->f80A=0; *state=1; break; case 1: func_02040588(2,0); *state=3; break; case 3: func_021B816C(p+0x7b0); func_021B817C((char *)p,(u32)func_021B8220); break; } if(func_021B7250(((struct Obj13744 *)p)->f7AC)==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); } if(func_021B6480(*(void **)(CTX(p)+4))!=0) func_021B817C((char *)p,(u32)func_021B8528); }

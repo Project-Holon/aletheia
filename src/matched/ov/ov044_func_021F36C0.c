@@ -44,9 +44,9 @@ typedef unsigned char  u8;
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void  func_021BE760(void *p, void *a, int b);
-extern V    *func_021BE480(void *p, int i, int j);
+extern int func_021BE480(char *p, unsigned i, int j);
 extern void func_021BE4A4(char *p, int i, int j, int v);
-extern void *func_021BE674(void *p, int i, int j, u16 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B8(unsigned char *p, int v);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void  func_021F392C(void *p);
@@ -61,11 +61,11 @@ void func_021F36C0(void *a0)
     r6 = (void *)func_02188D2C(a0);
     func_02189764(a0, 1, func_02188C84(a0), 0x14);
     func_021BE760(r6, &d_021F39E8, 0);
-    e = func_021BE480(r6, 0, 0);
+    e = (V *)func_021BE480(r6, 0, 0);
     *e = d_021F3A1C;
     func_021BE4A4(r6, 0, 0, 1);
     for (i = 0; i < 2; i++) {
-        b = func_021BE674(r6, 0, 0, i);
+        b = func_021BE674(r6, 0, (int)0, (u16)i);
         func_021BE6B8(b, 0);
         func_021BE6B0(b, 1);
     }

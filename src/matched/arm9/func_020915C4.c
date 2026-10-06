@@ -57,14 +57,15 @@ struct S020915C4 {
 
 typedef u32 (*Fn020915C4)(u32, u32, u32 *, u32);
 
-extern void func_0209159C(struct S020915C4 *p);
+struct S0209159C;
+extern void func_0209159C(struct S0209159C *p);
 extern void func_02091598(u32 a, u32 *b);
 
 int func_020915C4(struct S020915C4 *p, u32 *a1, int a2)
 {
     u32 r;
 
-    func_0209159C(p);
+    func_0209159C((struct S0209159C *)p);
     if (a2 == 1)
         p->f28 = p->f20;
     r = ((Fn020915C4)p->f3c)(p->f00, p->f1c, &p->f28, p->f48);

@@ -13,9 +13,10 @@
  *   func_02157954  0x02157954  thumb ov010
  */
 
-extern void func_02157954(int, int, int);
+typedef unsigned char  u8;
+extern void func_02157954(u8 *p, int v, int a2);
 
 void func_02157960(int a, int b, int c)
 {
-    func_02157954(a, b, c);
+    func_02157954((u8 *)a, b, c);
 }

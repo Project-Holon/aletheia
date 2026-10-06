@@ -13,7 +13,7 @@
  */
 extern int func_02035C08(const void *);
 extern const char d_021E792C[];
-int func_021E2A80(void)
+int func_021E2A80(void *a0)
 {
     if (func_02035C08(d_021E792C) == 0) return 1;
     return 0;

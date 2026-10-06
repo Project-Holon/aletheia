@@ -36,7 +36,7 @@ extern void *func_021B6100(int,int,int,int);
 extern void func_021B6A3C(u8 *,u32);
 extern void func_021B6A4C(u8 *p, u16 *state);
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 extern const char d_021B753C[];
 int func_021B6938(int a,int b,int c)
 {

@@ -28,7 +28,7 @@
 
 typedef unsigned char u8;
 
-int func_0217BB20(u8 *w);
+int func_0217BB20(char *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 void func_0217F074(void *p);
@@ -37,7 +37,7 @@ u32 func_0217F1EC(u8 *p);
 void func_0217F22C(u8 *p, u32 a);
 int func_0217F268(u8 *w, int *flag);
 void func_0217F24C(u8 *w);
-int func_0217B8E4(u8 *w, int v);
+int func_0217B8E4(char *p, char v);
 void *func_02188CB4(u8 *p);
 void *func_021A3074(u8 *p);
 int func_0216D3CC(int a0);
@@ -51,7 +51,7 @@ int func_0217E838(u8 *w, void *obj, void *a2, u8 *state)
     int flag;
 
     h = func_021A3074(func_02188CB4(a2));
-    if (func_0217BB20(w) == 1) {
+    if (func_0217BB20((char *)w) == 1) {
         func_0217F074(w);
         return 1;
     }
@@ -72,7 +72,7 @@ int func_0217E838(u8 *w, void *obj, void *a2, u8 *state)
             if (flag == 0) {
                 *state = 3;
             } else {
-                func_0217B8E4(w, 0x32);
+                func_0217B8E4((char *)w, 0x32);
                 return 1;
             }
         }
@@ -86,7 +86,7 @@ int func_0217E838(u8 *w, void *obj, void *a2, u8 *state)
     case 4:
         if (func_0216D454(h) == 1) {
             func_0216D480(h);
-            func_0217B8E4(w, 0x2a);
+            func_0217B8E4((char *)w, 0x2a);
             return 1;
         }
         break;

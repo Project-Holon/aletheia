@@ -32,7 +32,7 @@ s32 func_02062A98(struct NitroFileHeader *file, void **out);
 void func_02040E78(int a, int b, int c, int d);
 void func_020307B0(void *v);
 s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-void func_02040B1C(int a, int b, int c, int d);
+void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 int func_02062B30(void *file, void **out);
 void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 void func_02049238(void *x);
@@ -68,7 +68,7 @@ void func_0218794C(int sel, int b)
     func_020307B0(v);
     v = func_02049250(x, i1, b);
     func_02062A4C(v, (void **)(&l_8));
-    func_02040B1C(3, l_8[5], l_8[4], 0);
+    func_02040B1C(3, (const void *)l_8[5], l_8[4], 0);
     func_020307B0(v);
     v = func_02049250(x, i2, b);
     func_02062B30(v, (void **)(&l_4));

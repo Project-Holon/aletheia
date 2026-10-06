@@ -26,7 +26,7 @@ extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021BAFA0(int p);
-extern void func_021BAB08(void);
+extern void func_021BAB08(int p);
 void func_021BAA9C(int a) {
  if(func_0204E804()!=0) {
   if(((struct Obj10216 *)a)->f24C==7) {

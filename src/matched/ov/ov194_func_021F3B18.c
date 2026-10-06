@@ -28,7 +28,8 @@ extern u8 func_020355C4(void);
 extern int func_021F2818(char *,int,int);
 extern void func_020061E4(u32 a);
 extern void func_020355D8(u8 v);
-extern void func_021F1A1C(char *,int,int *,int,int);
+struct Rect;
+extern void func_021F1A1C(char *p, int mode, const struct Rect *rect, int flag, int selected);
 int func_021F3B18(char *p,int *out) {
     int changed=0;
     int rect[4];
@@ -47,7 +48,7 @@ int func_021F3B18(char *p,int *out) {
         if (changed && func_020355C4()==1) {
             if (func_021F2818(p,(int)(p+0xd8),(int)rect)) {
                 func_020061E4(1352); func_020355D8(0);
-                func_021F1A1C(p+0x24,1,rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
+                func_021F1A1C(p+0x24,1,(const struct Rect *)rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
                 return 0;
             }
         }

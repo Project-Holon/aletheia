@@ -26,9 +26,11 @@ extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, co
 typedef signed int     s32;
 struct Party;
 extern void func_0201A954(struct Party *p, s32 capacity);
-extern void func_021EEBF0(void *,void *);
+struct Mon;
+struct PartyMon;
+extern void func_021EEBF0(char *p, struct Mon *q);
 extern void func_02017E40(void *,u32,u32);
-extern u32 func_0201A98C(void *,void *);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_020307B0(void *);
 extern char d_021EF360[];
 void func_021EEF2C(u8 *a,void *b,u32 c)
@@ -38,9 +40,9 @@ void func_021EEF2C(u8 *a,void *b,u32 c)
     p=func_02030734((u16)((c & 0x7FFF)|0x8000),func_020173EC(),1,d_021EF360,173);
     func_0201A954(b,((struct Obj14491 *)a)->f0);
     for(i=0;i<((struct Obj14491 *)a)->f2;i++) {
-        func_021EEBF0(a+4+i*112,p);
+        func_021EEBF0((char *)(a+4+i*112),(struct Mon *)p);
         func_02017E40(p,159,0);
-        func_0201A98C(b,p);
+        func_0201A98C(b,(const struct PartyMon *)p);
     }
     func_020307B0(p);
 }

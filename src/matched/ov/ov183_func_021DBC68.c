@@ -23,16 +23,16 @@
 
 extern void func_021DBCA8(int *task, int *state, char *p);
 extern void func_021DCEE4(char *p, char *q);
-extern void func_021DCDD8(char *, int);
-extern void func_021DC8EC(char *, int);
+extern void func_021DCDD8(char *p, char *q);
+extern void func_021DC8EC(char *p, char *q);
 extern void func_021FD73C(int, void *);
 
 void func_021DBC68(int a, int b, char *p)
 {
     func_021DCEE4(p, (char *)(((struct Obj00730 *)p)->fD0));
     if (((struct Obj00730 *)p)->fB0 != 0)
-        func_021DCDD8(p, ((struct Obj00730 *)p)->fD0);
+        func_021DCDD8(p, (char *)(((struct Obj00730 *)p)->fD0));
     else
-        func_021DC8EC(p, ((struct Obj00730 *)p)->fD0);
+        func_021DC8EC(p, (char *)(((struct Obj00730 *)p)->fD0));
     func_021FD73C(a, func_021DBCA8);
 }

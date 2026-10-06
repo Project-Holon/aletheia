@@ -17,7 +17,7 @@
 #include "../include/Obj05340.h"
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern void func_021D7A74(u8 *p, u16 n);
+extern void func_021D7A74(u8 *p, int n);
 extern void func_021D7F5C(char *p, u16 n);
 extern void func_021D80D4(char *p);
 extern void func_021D4244(int, void (*)(int), int);

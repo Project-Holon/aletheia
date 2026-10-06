@@ -49,7 +49,8 @@ struct Res {
     u32 unk_14;
 };
 
-extern s32 func_02062A00(void *buf, struct Res **out);
+struct NitroFileHeader;
+extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
 extern void DC_FlushRange(u32 addr, u32 size);
 extern void (*g_020A135C[])(u32 addr, u32 a1, u32 size);
 extern void ENV_SetResourceSet(void *p);
@@ -58,7 +59,7 @@ u32 sub_0204982C(void *buf, u32 kind, u32 a2, u32 size)
 {
     struct Res *res;
 
-    if (func_02062A00(buf, &res) != 0) {
+    if (func_02062A00(buf, (void **)(&res)) != 0) {
         if (size == 0) {
             size = res->unk_10;
         }

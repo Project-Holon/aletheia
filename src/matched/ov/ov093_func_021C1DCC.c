@@ -23,13 +23,13 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern u32 sub_0201C1BC(u16 move);
 extern u32 sub_0201BD28(u16 id, u32 field);
 extern u32 func_021D7B3C(u32 a, u32 b);
-extern int func_021C1E14(u8 *p, u32 a, u32 b, u16 h);
+extern int func_021C1E14(u8 *p, u8 *q, u32 a, u32 b);
 extern void func_021C5D88(u8 *p, u8 *a, int b);
 
 void func_021C1DCC(u8 *p, u8 *q, u32 a, u8 *b, u32 s)
 {
     if (sub_0201C1BC(((struct Obj09967 *)q)->f0) == 8) {
-        if (func_021C1E14(p, a, (u32)b, func_021D7B3C(s, sub_0201BD28(((struct Obj09967 *)q)->f0, 0x19)))) {
+        if (func_021C1E14(p, (u8 *)a, (u32)b, (u16)func_021D7B3C(s, sub_0201BD28(((struct Obj09967 *)q)->f0, 0x19)))) {
             func_021C5D88(p, b, 0x383);
         }
     }

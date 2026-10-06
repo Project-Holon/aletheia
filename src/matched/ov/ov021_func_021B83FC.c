@@ -32,14 +32,16 @@ struct Obj {
     struct Tbl *f24;
 };
 
-extern s32 func_021B9280(struct Ent *e, s32 a, s32 b, struct Tbl *t);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
 
 void func_021B83FC(struct Obj *o, u16 *out0, u16 *out1, u16 *out2)
 {
     s32 idx, i, m, n;
 
-    m = func_021B9280(o->f4, 0, o->f10, o->f24);
-    n = func_021B9280(o->f4, o->f10, o->f10, o->f24);
+    m = func_021B9280((u8 *)o->f4, 0, o->f10, (u8 *)o->f24);
+    n = func_021B9280((u8 *)o->f4, o->f10, o->f10, (u8 *)o->f24);
     if (m < n)
         m = n;
     idx = 0;

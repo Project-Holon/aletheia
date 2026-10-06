@@ -25,7 +25,9 @@ typedef struct Q {
     u8 cnt : 3;
 } Q;
 
-extern void func_021AD8A4(void *a, Q *b);
+struct W;
+struct Z;
+extern void func_021AD8A4(struct Z *z, struct W *w);
 typedef unsigned int   u32;
 struct Tagged;
 extern void func_02046EFC(struct Tagged *p);
@@ -36,7 +38,7 @@ void func_021ADA1C(Q *a)
     int i;
 
     for (i = 0; i < a->cnt; i++) {
-        func_021AD8A4((char *)a + 0x28 + i * 0x18, a);
+        func_021AD8A4((struct Z *)((char *)a + 0x28 + i * 0x18), (struct W *)a);
     }
     for (i = 0; i < a->n * a->cnt; i++) {
         func_02046EFC((struct Tagged *)a->f18[i]);

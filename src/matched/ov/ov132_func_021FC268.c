@@ -30,7 +30,7 @@ extern u32 func_0201134C(void *);
 extern void *func_021F9DD4(void *);
 extern void *func_021F9DDC(void *,u8);
 typedef struct { int x,y,z; } Vec;
-extern void func_021F6EF4(void *,void *,const Vec *);
+extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
 extern void func_021F6F04(void *,char *,Vec *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_0207CA00(void *,void *,void *);
@@ -55,7 +55,7 @@ int func_021FC268(int unused,char *p)
     target=func_021F9DDC(((struct Obj08170 *)owner)->f34,a);
     if (b==0) {
         pos.x=c;pos.y=d;pos.z=e;
-        func_021F6EF4(ctx,target,&pos);
+        func_021F6EF4(ctx,target,(const u32 *)(&pos));
     } else {
         q=func_02030734(((struct Obj08170 *)owner)->f0,56,0,d_021FDD00,0x704);
         *(char * *)&((struct Obj02194 *)q)->f30=owner;

@@ -28,12 +28,12 @@ typedef struct {
 } Pt;
 
 extern u32 func_020056EC(u32 v);
-extern void func_0204B908(int, u16);
+extern void func_0204B908(int a0, int a1);
 extern int *func_021A21B8(int *p);
-extern int func_021A21C8(int, int);
+extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
-extern void func_021A2654(int, Pt *);
+extern void func_021A2654(int obj, unsigned short *src);
 
 void func_021EEA34(int a, int n, int idx)
 {
@@ -46,13 +46,13 @@ void func_021EEA34(int a, int n, int idx)
 
     q = func_021A21B8((int *)a);
     for (i = 0; i < n; i++) {
-        obj = func_021A21C8(a, idx);
+        obj = (int)func_021A21C8((void *)a, idx);
         if (obj == 0) {
             return;
         }
         e = (int *)func_021A2630((unsigned char *)obj);
         h = func_021A2638((unsigned char *)obj);
-        func_0204B908(h, func_020056EC(4));
+        func_0204B908(h, (u16)func_020056EC(4));
         e[4] = 0;
         e[5] = 0;
         e[8] = 0;
@@ -66,6 +66,6 @@ void func_021EEA34(int a, int n, int idx)
         } else {
             pt.y = -8 - func_020056EC(0x14);
         }
-        func_021A2654(obj, &pt);
+        func_021A2654(obj, (short unsigned int *)(&pt));
     }
 }

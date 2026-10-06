@@ -16,14 +16,16 @@
  * the +0x2c and +0x30 sizes) with the caller's value.
  */
 
-extern void func_021E054C(void *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_021E054C(u8 *dst, u32 v);
 
 int func_021DFFC8(char *obj, int i, int v)
 {
     char *ip = *(char **)(obj + 0x124);
     int off = *(int *)(ip + 0x2c) + 0x44 + *(int *)(ip + 0x30) + i * 4;
 
-    func_021E054C(ip + off, v);
+    func_021E054C((u8 *)(ip + off), v);
     return 0;
 }
 

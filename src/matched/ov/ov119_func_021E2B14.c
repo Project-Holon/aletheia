@@ -21,15 +21,18 @@ extern const Config d_021E7B1C;
 extern char d_021E799C[];
 extern void *d_021F4560;
 extern short d_020A1DF8[];
-extern void *func_02048BC4(void *,int);
+typedef unsigned int   u32;
+struct LightSet;
+struct LightSlot;
+extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 struct LightSlot;
 extern void func_02048C58(struct LightSlot *slots);
-extern void func_02046858(Config *);
+extern void func_02046858(const u32 *src);
 void func_021E2B14(int a) {
     Config c;
-    d_021F4560=func_02048BC4(d_021E799C,a);
+    d_021F4560=func_02048BC4((const struct LightSet *)d_021E799C,a);
     func_02048C58(d_021F4560);
     c=d_021E7B1C;
     c.b=d_020A1DF8[12]; c.c=d_020A1DF8[13];
-    func_02046858(&c);
+    func_02046858((const u32 *)(&c));
 }

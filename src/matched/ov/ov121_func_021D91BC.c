@@ -21,7 +21,9 @@ typedef signed short s16;
 extern void func_02082BCC(void *,int,int);
 typedef unsigned int   u32;
 extern void *func_021D6C58(u8 *p, int i);
-extern void func_0204B53C(void *,void *);
+struct Actor;
+struct Pt;
+extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
 extern u32 func_02005728(u32 range);
 void func_021D91BC(u8 *p,void *q,u16 h)
 {
@@ -34,7 +36,7 @@ void func_021D91BC(u8 *p,void *q,u16 h)
     ((struct Obj06447 *)p)->f14=-819;
     ((struct Obj06447 *)p)->f124=h;
     for(i=0;i<32;i++) {
-        func_0204B53C(func_021D6C58(((struct Obj06447 *)p)->f118,i+1),xy);
+        func_0204B53C(func_021D6C58(((struct Obj06447 *)p)->f118,i+1),(struct Pt *)xy);
         r=p+i*4;
         ((struct Obj13941 *)r)->f18=xy[1]<<12;
         ((struct Obj13941 *)r)->f98=func_02005728(4096)+6554;

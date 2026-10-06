@@ -20,5 +20,5 @@ typedef unsigned int u32;
 struct Pair;struct PrintSys;
 extern void func_021FD71C(u8 *p);
 extern u32 func_0201C4E4(struct PrintSys *);
-extern void func_021FD1BC(char *);
+extern void func_021FD1BC(void *p);
 void func_021F9FE8(char *p) { func_021FD71C((u8 *)(((struct Obj08326 *)p)->fC));func_0201C4E4(*(struct PrintSys * *)&((struct Obj08326 *)p)->f4C);if(*(char * *)&((struct Obj08326 *)p)->f50)func_021FD1BC(*(char * *)&((struct Obj08326 *)p)->f50); }

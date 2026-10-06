@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *p, u8 k);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B68(void *p);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021DC894(int a, void *b, u8 c)
@@ -37,7 +37,7 @@ void func_021DC894(int a, void *b, u8 c)
     if (c == func_021D775C(3)) {
         n = func_021D775C(5);
         for (i = 0; i < n; i++) {
-            if (func_021D5B68(func_021C7CF4(b, func_021D775C(i + 6))) != 0) {
+            if (func_021D5B68(func_021C7CF4(b, (u8)func_021D775C(i + 6))) != 0) {
                 m = (u8 *)func_021C88A4(b, 0xe, c);
                 ((struct Obj06261 *)m)->f0 |= 2 << 22;
                 m[0xf] = 1;

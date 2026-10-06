@@ -105,10 +105,12 @@ struct SOCSockAddrIn {
 
 extern void func_02198808(unsigned char **message, int *len);
 extern int func_0217EF84(int sock);
-extern int func_0217ECA4(int sock, const void *buf, int len, int flags, const void *to, int tolen);
+struct SOCSockAddr;
+struct Sock;
+extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern int func_0217ED54(int sock);
 extern int func_021970BC(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern int func_021971BC(struct GTI2Socket *socket, unsigned int ip, unsigned short port, int send);
+extern int func_021971BC(struct Sock *sock, unsigned int ip, unsigned short port, int send);
 extern void func_021985E4(struct GTI2Socket *socket);
 extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern int func_02195408(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
@@ -132,7 +134,7 @@ int func_02198328(struct GTI2Socket *socket, unsigned int ip, unsigned short por
         address.addr = ip;
         address.port = (unsigned short)(((port >> 8) & 0xFF) | ((port << 8) & 0xFF00));
 
-        rcode = func_0217ECA4(socket->socket, message, len, 0, &address, sizeof(address));
+        rcode = func_0217ECA4(socket->socket, (char *)message, len, 0, (struct SOCSockAddr *)(&address), sizeof(address));
     }
     if (rcode == -1) {
         rcode = func_0217ED54(socket->socket);
@@ -140,7 +142,7 @@ int func_02198328(struct GTI2Socket *socket, unsigned int ip, unsigned short por
             if (!func_021970BC(socket, ip, port))
                 return 0;
         } else if (rcode == -23) {
-            if (!func_021971BC(socket, ip, port, 1))
+            if (!func_021971BC((struct Sock *)socket, ip, port, 1))
                 return 0;
         } else {
             if (rcode == -42 || rcode == -6)

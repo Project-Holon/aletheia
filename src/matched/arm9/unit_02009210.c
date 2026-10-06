@@ -79,7 +79,7 @@ struct Big;
 struct Sub020071CCCtrl;
 extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02012EBC(struct Big *p);
-extern u32   func_020173EC(const void *obj);
+extern u32 func_020173EC(void);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 
@@ -152,7 +152,7 @@ u8 *sub_02009290(struct Sub02009210Obj *obj)
 
 void sub_02009294(struct Sub02009210Obj *obj, const void *src)
 {
-    MI_CpuCopy8(src, obj->unk008, func_020173EC(obj));
+    MI_CpuCopy8(src, obj->unk008, func_020173EC());
 }
 
 u32 sub_020092AC(const u8 *bits, int n)

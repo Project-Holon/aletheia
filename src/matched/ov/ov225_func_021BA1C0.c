@@ -10,4 +10,4 @@
  * symbols:
 
  */
-void func_021BA1C0(void){}
+void func_021BA1C0(void *a0){}

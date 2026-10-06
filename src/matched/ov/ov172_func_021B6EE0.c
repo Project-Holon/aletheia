@@ -46,7 +46,7 @@ extern void func_021B78A0(void *p, u16 a, u16 b, u16 c, u16 d);
 extern void func_021B75AC(char *src, void *p);
 extern const char d_021C71E0[];
 
-char *func_021B6EE0(void *a, int b)
+char *func_021B6EE0(void *a, u16 b)
 {
     char *p;
     u32 r6;

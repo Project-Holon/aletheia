@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern u32 *func_02191A10(u16 *a, u32 b, u32 c);
 
-void func_02191A04(u8 *p, u32 a)
+void func_02191A04(u8 *p, int a)
 {
     func_02191A10((u16 *)p, a, ((struct Obj17935 *)p)->f8);
 }

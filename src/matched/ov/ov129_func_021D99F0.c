@@ -25,7 +25,8 @@ struct Bank;
 struct Descriptor;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_021DA3D0(char *);
+typedef unsigned char  u8;
+extern void func_021DA3D0(u8 *p);
 extern void func_020452E8(struct Descriptor *d);
 typedef unsigned int   u32;
 extern void func_0204ADA4(u32 i);
@@ -43,7 +44,7 @@ void func_021D99F0(char *p)  {
         func_0204B3B4((struct Obj *)(((struct Obj06480 *)q)->f1E8));
     }
     for(i=0;i<3;i++) func_0204B3B4((struct Obj *)(*(int *)(p+i*28+0x194)));
-    func_021DA3D0(p);
+    func_021DA3D0((u8 *)p);
     func_020452E8((struct Descriptor *)(((struct Obj10500 *)p)->f310));
     for(i=0;i<3;i++)  {
         q=p+i*4;

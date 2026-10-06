@@ -24,21 +24,22 @@ struct Arg { VecFx32 pos,v0c; MtxFx33 m18; };
 typedef struct Util Util;
 extern void func_021BAC7C(char *p);
 extern void func_021BAC88(char *p);
-extern void func_02050BE8(void *p);
+typedef unsigned char  u8;
+extern void func_02050BE8(void);
 extern void MTX_Identity33_(MtxFx33 *p);
-extern int *func_02048A18(Util *util, unsigned index);
+extern u32 func_02048A18(u8 *a0, int i);
 extern void func_02047A60(void *a0, struct Arg *a1);
 void func_021BA7D0(unsigned char *p)
 {
     struct Arg arg;
     void *object;
     func_021BAC7C(((struct Obj04631 *)p)->f0);
-    if(((struct Obj04631 *)p)->f10) func_02050BE8(((struct Obj04631 *)p)->f10);
+    if(((struct Obj04631 *)p)->f10) func_02050BE8();
     if(p[15]) {
         arg.pos.x=0; arg.pos.y=0; arg.pos.z=0;
         arg.v0c.x=0x1000; arg.v0c.y=0x1000; arg.v0c.z=0x1000;
         MTX_Identity33_(&arg.m18);
-        object=func_02048A18(*(Util * *)&((struct Obj04631 *)p)->f8,((struct Obj04631 *)p)->fC);
+        object=(void *)func_02048A18((u8 *)(*(Util * *)&((struct Obj04631 *)p)->f8),((struct Obj04631 *)p)->fC);
         func_02047A60(object,&arg);
     }
     func_021BAC88(((struct Obj04631 *)p)->f0);

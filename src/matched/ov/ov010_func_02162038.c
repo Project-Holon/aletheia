@@ -12,7 +12,7 @@
  *   func_02162330 0x02162330 thumb ov010
  */
 extern void func_02162330(char *, unsigned);
-void func_02162038(char *p, unsigned index)
+void func_02162038(char *p, int index)
 {
     func_02162330(p, index);
 }

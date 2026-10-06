@@ -25,20 +25,22 @@ extern Rec d_021DE094[];
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_021ABE24(u8 *p);
-extern void func_021AD8DC(int *a, Rec *b, int c);
-extern void func_021AD96C(int *a, Rec *b, int c);
+struct Desc;
+struct P;
+extern void func_021AD8DC(struct P *a, struct Desc *d, int c);
+extern void func_021AD96C(struct P *a, struct Desc *d, int c);
 
 #define R(a) ((Rec *)((char *)(a) + 0x88))
 
-void func_021AD7E4(int *a, int b)
+void func_021AD7E4(int *a, u32 b)
 {
     int t;
 
     *R(a) = d_021DE094[b];
     t = func_021ABE24((u8 *)(*a));
     if (b == 0) {
-        func_021AD8DC(a, R(a), t);
+        func_021AD8DC((struct P *)a, (struct Desc *)R(a), t);
     } else {
-        func_021AD96C(a, R(a), t);
+        func_021AD96C((struct P *)a, (struct Desc *)R(a), t);
     }
 }

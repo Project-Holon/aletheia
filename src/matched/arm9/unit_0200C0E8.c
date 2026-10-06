@@ -63,7 +63,8 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void  func_02045A38(const u16 *src, u16 *dest, u32 len);
+struct U16Vec;
+extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
@@ -208,7 +209,7 @@ u16 *func_0200C1F4(struct Blk34 *p)
 
 void func_0200C1F8(struct Blk34 *p, const u16 *src)
 {
-    func_02045A38(src, p->unk20, 9);
+    func_02045A38((struct U16Vec *)src, p->unk20, 9);
 }
 
 u16 *func_0200C20C(struct Blk34 *p)
@@ -218,7 +219,7 @@ u16 *func_0200C20C(struct Blk34 *p)
 
 void func_0200C210(struct Blk34 *p, const u16 *src)
 {
-    func_02045A38(src, p->unk32, 9);
+    func_02045A38((struct U16Vec *)src, p->unk32, 9);
 }
 
 u8 func_0200C224(struct Blk34 *p)
@@ -330,7 +331,7 @@ void func_0200C334(struct Blk34 *p, u8 v)
     p->unk46 = v;
 }
 
-u8 func_0200C33C(struct Blk34 *p, u32 i)
+int func_0200C33C(struct Blk34 *p, u32 i)
 {
     return p->unk47[i];
 }
@@ -345,7 +346,7 @@ u16 func_0200C34C(struct Blk34 *p, u32 i)
     return p->unk4A[i];
 }
 
-void func_0200C358(struct Blk34 *p, u32 i, u16 v)
+void func_0200C358(struct Blk34 *p, u32 i, int v)
 {
     p->unk4A[i] = v;
 }
@@ -397,7 +398,7 @@ void func_0200C3B8(struct Blk34 *p, u16 v)
     p->unkE0 = v;
 }
 
-void func_0200C3C0(struct Blk34 *p, u32 v)
+void func_0200C3C0(struct Blk34 *p, u16 v)
 {
     if (v <= p->unkE0) {
         p->unkE0 = p->unkE0 - v;

@@ -25,7 +25,7 @@ typedef signed int     s32;
 typedef u32 (*Fn)(void *a, void *b);
 extern Fn data_021D36B8[][2];
 
-u32 func_02188B58(void *a, u8 *b)
+u32 func_02188B58(void *a, u8 *b, u32 a2, u32 a3)
 {
     u32 c = ((struct Obj02685 *)b)->fCC;
     s32 r = 0;

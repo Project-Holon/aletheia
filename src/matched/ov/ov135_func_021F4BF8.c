@@ -34,7 +34,9 @@ struct U16Vec;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *,u32,u32);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void *func_02027778(Menu *,void *);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021F5008(u32 x);
@@ -59,7 +61,7 @@ void func_021F4BF8(u8 *p,int b,int unused,int a,int c,u8 flag)
     menu.b=b;
     menu.c=8;
     menu.d=3;
-    ((struct Obj02489 *)p)->fE08=func_02027778(&menu,((struct Obj02489 *)p)->fE04);
+    ((struct Obj02489 *)p)->fE08=func_02027778((struct TaskMenuTmpl *)(&menu),((struct Obj02489 *)p)->fE04);
     func_02045808(items.item[0].text);
     func_02045808(items.item[1].text);
     if (flag) {

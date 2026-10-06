@@ -27,7 +27,7 @@ struct Head {
 };
 
 void func_02177888(u32 a);
-int func_02177C1C(u32 *p);
+int func_02177C1C(void);
 void func_02177744(void);
 void func_02179664(unsigned char v);
 void func_021793F8(void);
@@ -40,7 +40,7 @@ void func_0217796C(u32 arg)
     if (*(u32 *)0x021797A4 != 0)
         func_02177888(arg);
     if (*(u32 *)0x021797A4 != 0) {
-        if (func_02177C1C((u32 *)*(u32 *)0x021797A4) != 0)
+        if (func_02177C1C() != 0)
             func_02177744();
     }
     if (*(u32 *)0x021797A4 != 0) {

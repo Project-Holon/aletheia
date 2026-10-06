@@ -23,24 +23,25 @@
 typedef signed int     s32;
 struct Ctx;
 extern s32 func_02051C88(struct Ctx *c);
-extern void func_021F2D50(void *);
+typedef unsigned char  u8;
+extern void func_021F2D50(u8 *p);
 extern void func_021F2DC8(char *p);
 extern void func_021F1F80(char *p);
-extern int func_021F2DA8(void *);
-extern void func_021F05D0(void *);
-extern void func_021F0728(void *);
+extern int func_021F2DA8(u8 *p);
+extern void func_021F05D0(u8 *p);
+extern void func_021F0728(u8 *p);
 extern void func_021F1CD8(char *p);
 
 void func_021F2130(char *p)
 {
     func_02051C88((struct Ctx *)(((struct Obj00042 *)p)->f10));
-    func_021F2D50(p);
+    func_021F2D50((u8 *)p);
     func_021F2DC8(p);
     func_021F1F80(p);
-    if (func_021F2DA8(p) == 0) {
+    if (func_021F2DA8((u8 *)p) == 0) {
         if (((struct Obj00042 *)p)->f45A) {
-            func_021F05D0(p);
-            func_021F0728(p);
+            func_021F05D0((u8 *)p);
+            func_021F0728((u8 *)p);
             func_021F1CD8(p);
         }
     } else {

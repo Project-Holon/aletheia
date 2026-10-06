@@ -33,7 +33,7 @@ struct Entry {
 
 extern struct Entry g_020A03C8[];
 
-u16 sub_0202F144(u32 key)
+u32 sub_0202F144(u32 key)
 {
     s32 i;
 

@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_020463C0(int p0, int p1, int p2, int p3){ return *(unsigned char *)((*(int *)(*(int *)(0x2146A58)) + 13)); }
+int func_020463C0(void){ return *(unsigned char *)((*(int *)(*(int *)(0x2146A58)) + 13)); }

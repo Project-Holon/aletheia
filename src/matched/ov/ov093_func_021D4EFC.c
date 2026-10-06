@@ -33,7 +33,7 @@ struct S {
 };
 
 extern u32 func_02017E1C(void *p, u32 id, u32 buf);
-extern void func_021D52B4(struct S *a, void *mon, u32 c);
+extern void func_021D52B4(u8 *p, void *h, u32 flag);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 
 void func_021D4EFC(struct S *a, void *mon, u32 c, u32 d)
@@ -43,7 +43,7 @@ void func_021D4EFC(struct S *a, void *mon, u32 c, u32 d)
         a->f0e = func_02017E1C(mon, 0xa1, 0);
     }
     a->f08 = func_02017E1C(mon, 8, 0);
-    func_021D52B4(a, mon, d);
+    func_021D52B4((u8 *)a, mon, d);
     if (d != 0) {
         a->f13c = func_02017E1C(mon, 0xa, 0);
     }

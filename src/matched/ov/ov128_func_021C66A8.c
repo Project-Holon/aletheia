@@ -29,10 +29,12 @@ typedef struct {u32 a,b,c,d;} DispConfig;
 extern const DispConfig d_021CA664;
 extern const u8 d_021CA718[][32];
 extern void func_0203F8F4(u32);
-extern void func_0203FC28(DispConfig *);
-extern void func_0203FCA0(u8,const void *,u32);
+struct BgTemplate;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040B94(u8,u32,u32,u32);
-extern void func_0204152C(u8,u16);
+extern void func_0204152C(int channel, u16 val);
 extern void func_02040588(u8,u32);
 extern void func_02049B68(void *,u32,u32,u32,u32,u32);
 extern void func_02049658(void *,u32,u32,u32,u32,u32,u32);
@@ -43,11 +45,11 @@ void func_021C66A8(char *p,int heap)
     int i;
     func_0203F8F4(heap);
     config=d_021CA664;
-    func_0203FC28(&config);
+    func_0203FC28((struct DispConfig *)(&config));
     for(i=0;i<5;i++) {
-        func_0203FCA0(i,d_021CA718[i],0);
+        func_0203FCA0((u8)i,(const struct BgTemplate *)d_021CA718[i],0);
         func_02040B94(i,32,0,heap);
-        func_0204152C(i,0);
+        func_0204152C((u8)i,0);
         func_02040588(i,1);
     }
     func_02049B68(((struct Obj04504 *)p)->f8,0,0,0,192,heap);

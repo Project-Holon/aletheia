@@ -16,4 +16,4 @@
 typedef unsigned char u8;
 extern int func_021C7D24(u8 *);
 extern int func_021B86A0(unsigned int **, unsigned int);
-int func_021C7D00(u8 *p) { int i = func_021C7D24(p + 0x1ab8); if (!func_021B86A0(*(unsigned int ** *)&((struct Obj00003 *)p)->f4, i)) i = 6; return i; }
+int func_021C7D00(u8 *p, int b) { int i = func_021C7D24(p + 0x1ab8); if (!func_021B86A0(*(unsigned int ** *)&((struct Obj00003 *)p)->f4, i)) i = 6; return i; }

@@ -23,7 +23,7 @@ typedef signed int s32;
 
 struct Unk021D82FC { u32 kind : 4; u32 sub : 3; u32 id : 16; u32 pad : 3; u32 flag : 1; u32 rest : 5; };
 
-void func_021D82FC(struct Unk021D82FC *p, u32 sub)
+void func_021D82FC(struct Unk021D82FC *p, int sub)
 {
     if (p->kind == 1) {
         if (sub != 6)

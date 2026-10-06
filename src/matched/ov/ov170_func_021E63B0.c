@@ -27,7 +27,7 @@ extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern u8 func_020355C4(void);
 extern unsigned func_0201AA18(void *);
-extern void func_021DD14C(unsigned char *);
+extern void func_021DD14C(char *p);
 extern void func_021DF0BC(unsigned char *);
 extern void func_021DEFEC(char *p, int b);
 extern void func_021EBA5C(char *, int);
@@ -51,7 +51,7 @@ extern void func_021EBCB4(unsigned char *, int, int);
 extern void func_021ECB20(char *p, int f, int c);
 extern void func_021EC5A0(char **p, int flag);
 extern void func_021EE364(char **p, int idx, int v);
-extern void func_021EA83C(char *p, int a);
+extern int func_021EA83C(char *p, int a);
 extern int func_021E8F50(char *p, int v);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0190(char *p);
@@ -65,7 +65,7 @@ int func_021E63B0(unsigned char *p)
 {
     int r;
     func_021EBA5C(WORK(p), 0x18);
-    func_021DD14C(p);
+    func_021DD14C((char *)p);
     if (p[0x16] < 0x1e) {
         func_020260E4(OBJ(p), p[0x16]);
         func_021EE3E4((char **)p, p[0x16]);

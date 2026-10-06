@@ -30,7 +30,8 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B404(void *,const Point *,u32);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_020061E4(u32 a);
 static inline void Outside(int wnd,int effect)
 {
@@ -48,7 +49,7 @@ void func_021C87B0(u8 *p)
     func_0204B92C(((struct Obj00179 *)p)->f1A0,1);
     pos.x=d_021CA6C8[*(s16 *)(p + 4)].x * 8;
     pos.y=d_021CA6C8[*(s16 *)(p + 4)].y * 8 - 4;
-    func_0204B404(((struct Obj00179 *)p)->f1A0,&pos,0);
+    func_0204B404(((struct Obj00179 *)p)->f1A0,(const struct Vec2 *)(&pos),0);
     *(volatile u16 *)0x0400004A=(u16)((*(volatile u16 *)0x0400004A & ~0x3F00) | 0x700);
     Outside(31,1);
     *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000 & ~0xe000) | 0x8000;

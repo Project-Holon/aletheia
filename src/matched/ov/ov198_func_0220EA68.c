@@ -23,12 +23,13 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0220EAF0(void *);
 extern void func_0220EBCC(void *);
-extern void func_0220EC2C(void *);
-extern void func_0220ECCC(void *);
-extern void func_0220ED54(void *);
-extern void func_0220EFD8(void *);
-extern void func_0220EE44(void *);
-extern void func_0220EECC(void *);
+typedef unsigned char  u8;
+extern void func_0220EC2C(u8 *p);
+extern void func_0220ECCC(u8 *p);
+extern void func_0220ED54(u8 *p);
+extern void func_0220EFD8(u8 *p);
+extern void func_0220EE44(u8 *p);
+extern void func_0220EECC(u8 *p);
 void func_0220EA68(char *p,unsigned mode)
 {
     unsigned i;
@@ -36,11 +37,11 @@ void func_0220EA68(char *p,unsigned mode)
     switch(mode){
     case 0: case 8: func_0220EAF0(p);return;
     case 1: func_0220EBCC(p);return;
-    case 2: func_0220EC2C(p);return;
-    case 3: func_0220ECCC(p);return;
-    case 4: func_0220ED54(p);return;
-    case 5: func_0220EFD8(p);return;
-    case 6: func_0220EE44(p);return;
-    case 7: func_0220EECC(p);return;
+    case 2: func_0220EC2C((u8 *)p);return;
+    case 3: func_0220ECCC((u8 *)p);return;
+    case 4: func_0220ED54((u8 *)p);return;
+    case 5: func_0220EFD8((u8 *)p);return;
+    case 6: func_0220EE44((u8 *)p);return;
+    case 7: func_0220EECC((u8 *)p);return;
     }
 }

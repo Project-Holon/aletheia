@@ -21,7 +21,7 @@ typedef unsigned long u32;
 
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
-void func_021DCE08(char *ctx, u32 v)
+void func_021DCE08(char *ctx, u32 v, int line)
 {
     ((struct Obj14349 *)ctx)->f18 = v;
     ((struct Obj14349 *)ctx)->f1C = 5;

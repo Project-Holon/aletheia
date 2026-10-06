@@ -68,12 +68,15 @@ extern void *func_020120F4(const struct Ctx *p);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
-extern void *func_020255A0(void *, Tmpl *);
+struct Grid;
+struct Param;
+struct Sys;
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_02025774(u8 *g, u32 a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *, void *, int, int, void *, void *, int);
 extern void func_02045808(struct U16Vec *vec);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern const unsigned short d_021836AA[];
 extern const Tmpl d_021836F4;
 
@@ -94,7 +97,7 @@ void func_0217DD48(Work *p)
         p->fb4[i] = func_02043678(6, 2, 0x20, 0x70);
         a.f00 = p->fb4[i];
         a.f08 = p->f0c;
-        p->fc0[i] = func_020255A0(p->fb0, &a);
+        p->fc0[i] = func_020255A0(p->fb0, (const struct Param *)(&a));
         func_02025774(p->fc0[i], 0);
         str = func_02045EC0(p->f2c, i + 0x45);
         func_0201C724(p->f28, p->fb4[i], 0, 0, str, p->f1c, 0x3c40);

@@ -21,11 +21,11 @@ typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; void *f10; } P;
 extern void func_0216D550(u32 *p, u32 v);
-extern u32 func_021C8A8C(P *p);
+extern int func_021C8A8C(u32 a);
 extern void func_0216D5E0(int a0, int a1);
 void func_021C8B78(P *p)
 {
     func_0216D550((u32 *)p->fC, 8);
     if (p->f10 != 0)
-        func_0216D5E0(p->fC, func_021C8A8C(p));
+        func_0216D5E0(p->fC, func_021C8A8C((u32)p));
 }

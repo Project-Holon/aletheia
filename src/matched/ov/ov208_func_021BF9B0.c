@@ -98,7 +98,7 @@ extern const struct BgEntry data_021C8618[2];
 extern void *ov208_func_021BC3B4(int key);
 extern void *ov208_func_021BC3B8(int key);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
-extern void func_020403F4(u8 bgId);
+extern void func_020403F4(u32 i);
 extern void func_0203FCA0(u8 bgId, const struct BgTemplate *tmpl, u8 type);
 extern void func_020414AC(u8 bgId);
 extern void func_02040588(u8 which, u8 enable);
@@ -177,7 +177,7 @@ int ov208_func_021BF9B0(void *proc, int *seq, u16 *heap, u8 *p, int key)
         *seq = 1;
         func_0207D4B0(1, 5, 0);
         for (j = 0; j < 2; j++) {
-            func_020403F4(data_021C85C0[j].bg);
+            func_020403F4((u8)data_021C85C0[j].bg);
             func_0203FCA0(data_021C85C0[j].bg, &data_021C85C0[j].tmpl, data_021C85C0[j].type);
             func_020414AC(data_021C85C0[j].bg);
             func_02040588(data_021C85C0[j].bg, data_021C85C0[j].on);
@@ -294,7 +294,7 @@ int ov208_func_021BF9B0(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ov208_func_021C0130(heap, p, key);
         func_0207D4B0(1, 0, 0);
         for (k = 0; k < 2; k++) {
-            func_020403F4(data_021C8618[k].bg);
+            func_020403F4((u8)data_021C8618[k].bg);
             func_0203FCA0(data_021C8618[k].bg, &data_021C8618[k].tmpl, data_021C8618[k].type);
             func_020414AC(data_021C8618[k].bg);
             func_02040588(data_021C8618[k].bg, data_021C8618[k].on);

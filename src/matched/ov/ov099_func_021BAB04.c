@@ -48,7 +48,7 @@ extern void func_0201DD68(void);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void func_02045334(struct Descriptor *);
 #define P(k) (*(void **)((u8 *)p+(k)))
-void func_021BAB04(void *p,u32 message)
+void func_021BAB04(void *p, int message)
 {
     func_021BA8D4(p);
     P(0x19c)=(void *)func_021BA8BC(P(0x19c));

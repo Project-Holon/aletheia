@@ -31,13 +31,14 @@ typedef unsigned int   u32;
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
-extern int   func_0200BF10(void *p);
+struct Rec1B0;
+extern u8 func_0200BF10(struct Rec1B0 *p);
 struct MsgBank;
 struct Slot;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02190844(struct Slot **p, int x, int y, u32 z);
 extern void  func_021F556C(char *p, u32 a1, u32 a2, int a3, u8 a4);
-extern int   func_02010EB4(u8 i);
+extern u8 func_02010EB4(int k);
 extern u32 func_02010EC0(u32 i);
 
 void func_021F55D4(char *p)
@@ -56,7 +57,7 @@ void func_021F55D4(char *p)
     func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 4, (void *)(((struct Obj00815 *)p)->f34));
     func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0, ((struct Obj00815 *)p)->f34);
     func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 6, (void *)(((struct Obj00815 *)p)->f34));
-    c = func_0200BF10(x);
+    c = (int)func_0200BF10(x);
     if (c != 0x30) {
         func_021F556C(p, ((struct Obj00815 *)p)->f34, c, 0, 1);
     }
@@ -66,7 +67,7 @@ void func_021F55D4(char *p)
 
     for (i = 0, n = 0; i < 13; i++) {
         order[i] = i;
-        c = func_02010EB4(i);
+        c = (int)func_02010EB4((u8)i);
         if (c != 0x30) {
             keys[n] = func_02010EC0(i);
             vals[n] = c;

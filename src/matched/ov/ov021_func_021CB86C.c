@@ -30,7 +30,8 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012ED8(struct Big *p);
 extern u16 *func_02158FE0(void *a, void *b, unsigned int id);
-extern int func_02167D00(u8 *o, u16 *out);
+struct Obj;
+extern int func_02167D00(struct Obj *o, u16 *out);
 
 int func_021CB86C(u32 unused, u32 a)
 {
@@ -43,7 +44,7 @@ int func_021CB86C(u32 unused, u32 a)
     t = func_020120F4(func_02158F54(s));
     p = func_02012ED8(t);
     q = func_02158FE0(s, t, ((struct Obj20240 *)p)->f72A);
-    if (func_02167D00(p, q) == 1)
+    if (func_02167D00((struct Obj *)p, q) == 1)
         return 1;
     return 0;
 }

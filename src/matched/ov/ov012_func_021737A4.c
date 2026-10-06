@@ -38,8 +38,8 @@ extern u8 func_0201212C(const struct Ctx *p);
 extern int func_020123C4(void *v);
 extern int func_02173840(u8 *p);
 extern int func_02174268(u8 *p);
-extern void func_0217B840(u8 *p, int b);
-extern void func_0217B75C(u8 *p);
+extern int func_0217B840(char *base, int r1);
+extern void func_0217B75C(char *p);
 extern void func_0217B264(u8 *w, void *sys, void *q);
 
 void func_021737A4(int a, int b)
@@ -68,7 +68,7 @@ void func_021737A4(int a, int b)
         if (func_02174268(r4) != 0) {
             return;
         }
-        func_0217B840(r4, b);
+        func_0217B840((char *)r4, b);
         return;
     }
     if (s != 0 && s != 1) {
@@ -77,7 +77,7 @@ void func_021737A4(int a, int b)
     if (func_02174268(r4) != 0) {
         return;
     }
-    func_0217B75C(r4);
-    func_0217B840(r4, b);
+    func_0217B75C((char *)r4);
+    func_0217B840((char *)r4, b);
     func_0217B264(r4, (void *)(((struct Obj19234 *)(*(u8 * *)&((struct Obj00610 *)r4)->f0))->f8), (void *)b);
 }

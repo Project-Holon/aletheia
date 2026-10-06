@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 func_02021930(u32 val, int bit);
-extern void func_02021C20(void *dst0, void *dst1, void *src, u32 arg);
+struct C02021C20;
+extern void func_02021C20(u16 *src, u16 *dst, struct C02021C20 *c, u32 count);
 struct S;
 extern void func_02021CA8(u8 *p, u32 idx, struct S *s);
 
@@ -39,9 +40,9 @@ void func_02021BC8(u8 *p, u32 idx, u32 arg)
     for (i = 0; i < 0x10; i++) {
         if (func_02021930(s->field0xc, (u16)i)) {
             u32 off = (i * arg) * 2;
-            func_02021C20(s->p0 + off,
-                          s->p1 + off,
-                          (u8 *)s + 0xc,
+            func_02021C20((u16 *)(s->p0 + off),
+                          (u16 *)(s->p1 + off),
+                          (struct C02021C20 *)((u8 *)s + 0xc),
                           arg);
         }
     }

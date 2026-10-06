@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct E { u32 a,b,c,d; unsigned short h; };
 extern int func_0216DA30(u32 a);
 extern void func_0217FCC0(struct E *e);
-extern void func_0217FCA4(struct E *e);
+extern void func_0217FCA4(u32 *p);
 void func_0217FD04(struct E *p)
 {
     int i;
@@ -26,7 +26,7 @@ void func_0217FD04(struct E *p)
         struct E *e=&p[i];
         if (e->d != 0) {
             if (func_0216DA30(e->a) == 1) func_0217FCC0(e);
-            else func_0217FCA4(e);
+            else func_0217FCA4((u32 *)e);
         }
     }
 }

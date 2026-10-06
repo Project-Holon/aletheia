@@ -40,7 +40,7 @@ extern void func_02029D7C(int a, int b);
 extern void func_0218403C(u8 *p);
 extern void *func_02184360(u8 *p, int value);
 extern void func_02185F48(void *p);
-extern int func_02188D20(int a);
+extern u32 func_02188D20(u8 *p);
 extern void func_021BC550(void *p, int v);
 extern void *func_021BF5B4(int a, int b, int c, int d, int e, int f);
 extern void *func_021BFD70(int a0, void *p, int a2, int a3);
@@ -83,7 +83,7 @@ int func_021847CC(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 5:
-        func_021BC550((void *)func_02188D20(z), *(s16 *)&((struct Obj00082 *)p)->f14);
+        func_021BC550((void *)func_02188D20((u8 *)z), *(s16 *)&((struct Obj00082 *)p)->f14);
         return 1;
     }
     return 0;

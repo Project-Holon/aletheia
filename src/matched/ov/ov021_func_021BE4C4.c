@@ -33,7 +33,7 @@ typedef struct {
 } Obj;
 
 extern u32 func_020489F4(u8 *a0, int i);
-extern int func_02048A18(u32 res, u16 idx);
+extern u32 func_02048A18(u8 *a0, int i);
 
 int func_021BE4C4(Obj *o, u32 i, int delta)
 {
@@ -46,5 +46,5 @@ int func_021BE4C4(Obj *o, u32 i, int delta)
         return 0;
     }
     v = func_020489F4((u8 *)o->res, o->slots[i].idx);
-    return func_02048A18(o->res, v + delta);
+    return (int)func_02048A18((u8 *)o->res, (u16)(v + delta));
 }

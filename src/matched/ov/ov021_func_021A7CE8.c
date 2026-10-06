@@ -72,9 +72,10 @@ extern void func_02185B88(void *p, unsigned int v);
 extern int func_0218F0F8(u8 *a);
 extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
-extern void func_021BDCC8(void *p, void *q);
+struct Src;
+extern void func_021BDCC8(char *a, int *b);
 extern void func_02029D7C(void *a, void *b);
-extern void func_021A82D8(void *a, Work *w);
+extern void func_021A82D8(void *a, struct Src **pp);
 extern void func_021A8278(Work *w);
 extern int func_021A8244(Work *w);
 extern void *func_021618E0(void *a, void *o);
@@ -85,7 +86,7 @@ extern void func_021A82A8(Work *w);
 extern void func_021BDD20(void *p);
 extern u8 func_021A81EC(Work *w);
 extern void func_021A8200(Work *w);
-extern u8 func_021A81DC(Work *w);
+extern u8 func_021A81DC(u32 a);
 extern int func_021C6E48(void *p);
 extern void func_021BDD34(u8 *p);
 extern void func_0218E160(void *h);
@@ -129,9 +130,9 @@ int func_021A7CE8(void *task, int *state, Work *w)
         }
         break;
     case 1:
-        func_021BDCC8(w->f08, w->f0C);
+        func_021BDCC8(w->f08, (int *)w->f0C);
         func_02029D7C(w04, a08);
-        func_021A82D8(task, w);
+        func_021A82D8(task, (struct Src **)w);
         *state = func_021A81EC(w);
         func_021A8200(w);
         break;
@@ -182,7 +183,7 @@ int func_021A7CE8(void *task, int *state, Work *w)
         break;
     }
 
-    if (func_021A81DC(w) == 8 && func_021C6E48(d) != 0) {
+    if (func_021A81DC((u32)w) == 8 && func_021C6E48(d) != 0) {
         func_021BDD34(w->f08);
         func_0218E160(h);
         func_021BDCB8(w->f08);

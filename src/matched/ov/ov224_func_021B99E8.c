@@ -26,7 +26,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *);
 extern void func_02082BCC(void *, u32, u32);
 extern void func_0201DD68(void);
-extern void func_021B9BE8(void *);
+extern void func_021B9BE8(u32 *p);
 extern void func_021B9B50(char *p);
 extern void func_021B9ACC(void *);
 static inline void G2_BlendNone(void) { *(volatile u16 *)0x04000050 = 0; }
@@ -40,7 +40,7 @@ static inline void GXS_SetVisibleWnd(int window) {
 void func_021B99E8(char *p)
 {
     func_02030EAC(((struct Obj26110 *)p)->fC);
-    func_021B9BE8(p + 8);
+    func_021B9BE8((u32 *)(p + 8));
     func_021B9B50(p + 4);
     func_021B9ACC(p);
     func_0201DD68();

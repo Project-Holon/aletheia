@@ -23,7 +23,8 @@ extern void func_0201D83C(void *ptr);
 extern void func_0201F868(void *p);
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-extern void func_0201F9E8(u8 *o, u8 *out);
+struct Obj;
+extern void func_0201F9E8(struct Obj *o, u8 *out);
 
 void func_0201FEF4(u8 *o)
 {
@@ -34,5 +35,5 @@ void func_0201FEF4(u8 *o)
     func_0201D83C(((struct Obj02993 *)o)->f1C);
     func_0201F868(((struct Obj02993 *)o)->f0);
     func_020452E8(((struct Obj02993 *)o)->f4);
-    func_0201F9E8(o, 0);
+    func_0201F9E8((struct Obj *)o, 0);
 }

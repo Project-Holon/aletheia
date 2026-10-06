@@ -54,7 +54,7 @@ struct Obj020437AC;
 extern void *func_0201210C(const struct Ctx *p);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_021C2BE4(struct Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile);
-extern void func_021C2F84(int s, char *p, char *a1, char *a2, u32 c, u32 d);
+extern void func_021C2F84(int s, struct Obj *p, char *a1, char *a2, u32 c, u32 d);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_020307B0(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -95,7 +95,7 @@ int func_021C2D68(int a, int *b)
         func_020437AC(((struct Obj00457 *)p)->f90);
         func_020307B0(((struct Obj00457 *)p)->f94);
         func_020307B0(((struct Obj00457 *)p)->f98);
-        func_021C2F84(s, p, d_021DE404, d_021DE40C, q[0], 0);
+        func_021C2F84(s, (struct Obj *)p, d_021DE404, d_021DE40C, q[0], 0);
         (*b)++;
         break;
     case 2:
@@ -118,7 +118,7 @@ int func_021C2D68(int a, int *b)
         func_020437AC(((struct Obj00457 *)p)->f90);
         func_020307B0(((struct Obj00457 *)p)->f94);
         func_020307B0(((struct Obj00457 *)p)->f98);
-        func_021C2F84(s, p, d_021DE43C, d_021DE448, 0, q[4]);
+        func_021C2F84(s, (struct Obj *)p, d_021DE43C, d_021DE448, 0, q[4]);
         (*b)++;
         break;
     case 4:

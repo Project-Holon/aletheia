@@ -37,7 +37,9 @@ struct Tcbl {
 
 struct S02030EF0;
 extern u32 sub_02030EF0(struct S02030EF0 *p, u32 idx);
-extern void sub_02030F34(struct Tcbl *p, void *node);
+struct Node02030F34;
+struct S02030F34;
+extern void sub_02030F34(struct S02030F34 *p, struct Node02030F34 *node);
 struct TcblNode;
 extern void sub_02030F50(struct Tcbl *p, struct TcblNode *n);
 
@@ -48,6 +50,6 @@ void sub_02030FC8(struct Tcbl *p)
     for (i = 0; i < p->count; i++) {
         void *node = (void *)sub_02030EF0((struct S02030EF0 *)p, i);
         sub_02030F50(p, node);
-        sub_02030F34(p, node);
+        sub_02030F34((struct S02030F34 *)p, node);
     }
 }

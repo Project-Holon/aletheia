@@ -22,18 +22,20 @@ typedef unsigned short u16;
 
 void func_02047CE4(void);
 unsigned int func_0203630C(void);
-void func_0218E104(int a, u16 b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+void func_0218E104(u8 *a, u32 b);
 int func_02189A80(char *p);
-void func_02189084(void *o);
+void func_02189084(unsigned char *p);
 
 void func_021888C8(char *o)
 {
     volatile u16 *r = (volatile u16 *)0x04000204;
 
     func_02047CE4();
-    func_0218E104(((struct Obj12555 *)o)->f10, func_0203630C());
+    func_0218E104((u8 *)(((struct Obj12555 *)o)->f10), (u16)func_0203630C());
     ((struct Obj12555 *)o)->f100 = func_02189A80(o);
     *r = *r & 0xFFFF7FFF;
-    func_02189084(o);
+    func_02189084((unsigned char *)o);
     *r = *r | 0x8000;
 }

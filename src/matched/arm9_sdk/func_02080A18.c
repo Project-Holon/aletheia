@@ -82,7 +82,7 @@ typedef enum {
 extern u16 GXi_VRamLockId;
 extern void OSi_UnlockVram(u16 bank, u16 lockId);
 
-int func_02080A18(u16 *g3bit)
+int func_02080A18(u16 *g3bit, int a1, int a2, int a3)
 {
     int rval = *g3bit;
 

@@ -41,7 +41,8 @@ struct Obj {
 };
 
 extern void func_020222A8(u32 a);
-extern void func_020235F0(struct Obj *p, u32 arg);
+struct S;
+extern void func_020235F0(struct S *p, u32 a1);
 struct Rec;
 extern u32 func_0202363C(struct Rec *r);
 
@@ -49,7 +50,7 @@ void func_0202285C(struct Obj *p)
 {
     if (p->unk0C == 0) {
         func_020222A8(p->unk24);
-        func_020235F0(p, 0x0209F6B8);
+        func_020235F0((struct S *)p, 0x0209F6B8);
         p->unk28 = 1;
         p->unk2C = 0;
         return;

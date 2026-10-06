@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021BB1A0(int, u8 *, int);
-extern void func_021BB0C4(u8 *, u8 *, int);
+extern void func_021BB0C4(u8 *p, const u8 *s, int d);
 extern void func_021BB200(u8 *, u8 *, int, int);
 extern void func_021B999C(u8 *);
 struct Party;

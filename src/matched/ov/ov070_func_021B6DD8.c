@@ -29,7 +29,7 @@ struct WordSet;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021B6100(void *obj, void *fn);
+extern void func_021B6100(char *p, int k);
 extern void func_021B6AD8(int p);
 
 u32 func_021B6DD8(u8 *p)
@@ -37,13 +37,13 @@ u32 func_021B6DD8(u8 *p)
     if (((struct Obj00002 *)p)->f848 == 0) {
         if (func_02028754(((struct Obj00002 *)p)->fC, 9)) {
             ((struct Obj00002 *)p)->f844 = 0x14;
-            func_021B6100(p, 0);
+            func_021B6100((char *)p, 0);
             return 1;
         }
         func_02045CAC((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x3A, (void *)(((struct Obj00002 *)p)->f524));
         func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, (void *)(((struct Obj00002 *)p)->f8));
         func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
-        func_021B6100(p, (void *)func_021B6AD8);
+        func_021B6100((char *)p, (int)((void *)func_021B6AD8));
         return 0;
     }
     return 0;

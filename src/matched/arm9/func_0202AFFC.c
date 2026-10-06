@@ -30,8 +30,8 @@ typedef int            s32;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 
-extern u32 func_0202B0D4(const u8 *obj, const s32 *pos);
-extern s32 func_0202B154(const u8 *obj);
+extern u32 func_0202B0D4(u8 *a0, s32 *a1);
+extern s32 func_0202B154(u32 *a0);
 extern s32 func_0202B194(s32 a, s32 b, s32 c, s32 d, s32 e);
 
 u8 func_0202AFFC(const u8 *obj, const s32 *pos)
@@ -43,7 +43,7 @@ u8 func_0202AFFC(const u8 *obj, const s32 *pos)
     const u8 *pp;
     const u8 *pc;
 
-    cur = func_0202B0D4(obj, pos);
+    cur = func_0202B0D4((u8 *)obj, (s32 *)pos);
     if (cur == 0)
         prev = 0;
     else
@@ -53,7 +53,7 @@ u8 func_0202AFFC(const u8 *obj, const s32 *pos)
         return (obj + cur)[0x10];
 
     v = pos[1] >> 12;
-    d = v - func_0202B154(obj);
+    d = v - func_0202B154((u32 *)obj);
     if (d < 0)
         d = -d;
 

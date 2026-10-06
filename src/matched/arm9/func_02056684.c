@@ -111,8 +111,10 @@ struct SubX { u8 pad00[0x14]; struct Desc *desc; };
 struct Owner { u8 pad00[0x14]; u8 list[0x0c]; struct SubX *x; };
 
 extern u32 g_02146A8C;
-extern struct Ptcl *func_02058380(void *list);
-extern void func_020583CC(void *list, struct Ptcl *p);
+struct List;
+struct Node;
+extern struct Node *func_02058380(struct List *list);
+extern void func_020583CC(volatile struct List *list, volatile struct Node *node);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
@@ -128,10 +130,10 @@ void func_02056684(struct Emt *e, struct Owner *o, void *pool)
     fx32 scale = FX_Mul(d->f08 << 12, 0x10);
     s32 i;
     for (i = 0; i < d->f0c; i++) {
-        p = func_02058380(pool);
+        p = (struct Ptcl *)func_02058380(pool);
         if (p == 0)
             return;
-        func_020583CC(o->list, p);
+        func_020583CC((volatile struct List *)o->list, (volatile struct Node *)p);
         p->pos = e->pos;
         p->vel.x = FX_Mul(e->vel.x, scale) + RandRange(d->f02);
         p->vel.y = FX_Mul(e->vel.y, scale) + RandRange(d->f02);

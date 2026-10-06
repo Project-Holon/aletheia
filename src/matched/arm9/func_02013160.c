@@ -73,7 +73,8 @@ typedef unsigned int   u32;
 
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern void func_0200B040(void *a, u8 *dst);
+struct RegAC;
+extern void func_0200B040(struct Reg *p, struct RegAC *out);
 extern void func_0201A2A8(void *a0, void *a1);
 extern void func_0201A30C(void *a, u32 b, u32 c);
 
@@ -85,7 +86,7 @@ void func_02013160(u8 *o, void *a1, u32 a2)
 
     ((struct Obj01199 *)o)->f76 = (u16)(sec * func_0200AE54(a1, 0x10));
     ((struct Obj01199 *)o)->f74 = (u16)(sec * func_0200AE54(a1, 0xf));
-    func_0200B040(a1, o + 0x78);
+    func_0200B040(a1, (struct RegAC *)(o + 0x78));
     switch (func_0200AE54(a1, 0x12)) {
     case 0:
         break;

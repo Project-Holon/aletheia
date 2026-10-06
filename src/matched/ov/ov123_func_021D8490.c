@@ -28,7 +28,8 @@ extern int func_021B9790(u8 *p);
 extern char *func_021B97F4(void *);
 extern int func_021D6E08(char *, int);
 extern void func_021D584C(char *);
-extern void func_021D6EE0(char *, int, int);
+typedef unsigned int   u32;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8958(char *p);
 extern void func_021D8448(char *p);
 extern void func_021D6FF0(char *p);
@@ -40,18 +41,18 @@ void func_021D8490(char *p)
         if (func_021B9790(((struct Obj00063 *)p)->f10)) return;
         q = func_021B97F4(((struct Obj00063 *)p)->f10);
         if (((struct Obj10448 *)q)->f0 == 2) {
-            func_021D6EE0(p, (int)func_021D8958, 0x6d4);
+            func_021D6EE0((u8 *)p, (int)func_021D8958, 0x6d4);
             return;
         }
         if (((struct Obj10448 *)q)->f0 == 0) {
             func_021D584C(*(char * *)&((struct Obj00063 *)p)->f18);
-            func_021D6EE0(p, (int)func_021D8448, 0x6d8);
+            func_021D6EE0((u8 *)p, (int)func_021D8448, 0x6d8);
             return;
         }
         ((struct Obj00063 *)p)->f80 = ((struct Obj10448 *)q)->f0;
-        func_021D6EE0(p, (int)func_021D6FF0, 0x6dc);
+        func_021D6EE0((u8 *)p, (int)func_021D6FF0, 0x6dc);
         return;
     } else {
-        func_021D6EE0(p, (int)func_021D8958, 0x6e2);
+        func_021D6EE0((u8 *)p, (int)func_021D8958, 0x6e2);
     }
 }

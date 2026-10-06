@@ -23,7 +23,9 @@
  *   g_021A5900   0x021A5900  data
  */
 
-extern int func_020949F4(const char *a, const char *b, int n);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern void func_021940DC();
 extern void func_02194184();
 extern void func_02194220();
@@ -36,14 +38,14 @@ extern char g_021A5900[];
 void func_021943A4(char *buff, int len)
 {
     buff[len] = 0;
-    if (func_020949F4(buff, g_021A58DC, 8) == 0)
+    if (func_020949F4((const u8 *)buff, (const u8 *)g_021A58DC, 8) == 0)
         func_021940DC(buff, len);
-    else if (func_020949F4(buff, g_021A58E8, 9) == 0)
+    else if (func_020949F4((const u8 *)buff, (const u8 *)g_021A58E8, 9) == 0)
         func_02194184(buff, len);
-    else if (func_020949F4(buff, g_021A58E8, 9) == 0)
+    else if (func_020949F4((const u8 *)buff, (const u8 *)g_021A58E8, 9) == 0)
         func_02194184(buff, len);
-    else if (func_020949F4(buff, g_021A58F4, 8) == 0)
+    else if (func_020949F4((const u8 *)buff, (const u8 *)g_021A58F4, 8) == 0)
         func_02194220(buff, len);
-    else if (func_020949F4(buff, g_021A5900, 8) == 0)
+    else if (func_020949F4((const u8 *)buff, (const u8 *)g_021A5900, 8) == 0)
         func_02194308(buff, len);
 }

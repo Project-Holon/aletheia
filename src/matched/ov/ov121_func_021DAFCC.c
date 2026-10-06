@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021DA2C8(u8 *p);
 extern int func_021D9B34(u8 *p);
-extern void func_021DD9CC(void *);
+extern void func_021DD9CC(char *p);
 extern int func_021DA8AC(u32 *p);
 static inline void update(void *p)
 {

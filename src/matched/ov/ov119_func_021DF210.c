@@ -36,7 +36,8 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_021D8A24(void *);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
-extern void func_021DD90C(void *, int, int, int);
+typedef unsigned char  u8;
+extern void func_021DD90C(u8 *p, int i, int msg, int force);
 extern void func_021E1024(void *);
 extern void func_021D8E84(void *, int);
 extern void func_021DF1C8(void *);
@@ -64,8 +65,8 @@ void func_021DF210(char *p)
     ((struct Obj00001 *)p)->f11E8 = 3;
     ((struct Obj00001 *)p)->f11E9 = 3;
     if (*(unsigned char *)(p + a + 0x11E0) == 10 && *(unsigned char *)(p + b + 0x11E0) == 10) {
-        func_021DD90C(p, 0, 1, 1);
-        func_021DD90C(p, 1, 1, 1);
+        func_021DD90C((u8 *)p, 0, 1, 1);
+        func_021DD90C((u8 *)p, 1, 1, 1);
         if (((struct Obj00001 *)p)->f118C == 3) {
             func_021D8E84(p, (int)func_021DF1C8);
         } else {

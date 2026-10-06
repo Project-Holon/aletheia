@@ -43,7 +43,8 @@ typedef struct DWCHttpParseResult {
     int index;
 } DWCHttpParseResult;
 
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern char *func_02094798(char *dst, const char *src);
 
 int func_0217A344(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value)
@@ -54,9 +55,9 @@ int func_0217A344(DWCHttp *http, DWCHttpParseResult *result, char *label, char *
     if (result->index > result->len)
         return 0;
 
-    result->entry[result->index].label = alloc(0, func_0209477C(label) + 1);
+    result->entry[result->index].label = alloc(0, func_0209477C((const u8 *)label) + 1);
     if (result->entry[result->index].label != 0) {
-        result->entry[result->index].value = alloc(0, func_0209477C(value) + 1);
+        result->entry[result->index].value = alloc(0, func_0209477C((const u8 *)value) + 1);
         if (result->entry[result->index].value != 0) {
             func_02094798(result->entry[result->index].label, label);
             func_02094798(result->entry[result->index].value, value);

@@ -47,8 +47,9 @@
 
 typedef unsigned int u32;
 extern void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02064140(char *p, int v);
-extern void func_02062F38(char *self);
+struct O02064140;
+extern void func_02064140(struct O02064140 *o, u32 a);
+extern int func_02062F38(int a0);
 extern void func_0206434C(char *self, int v);
 
 void func_020642C8(char *self, int a1, char *c, int d,
@@ -58,7 +59,7 @@ void func_020642C8(char *self, int a1, char *c, int d,
     *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
     *(char *volatile *)&((struct Obj08900 *)self)->f34 = c;
     *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
-    func_02064140(self + 0x3c, 1);
-    func_02062F38(self);
+    func_02064140((struct O02064140 *)(self + 0x3c), 1);
+    func_02062F38((int)self);
     func_0206434C(self, a1);
 }

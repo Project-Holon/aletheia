@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021B8108(int unused, void *p)
+int func_021B8108(void *unused, void *p)
 {
     if (((struct Obj24080 *)p)->f8 == 7) {
         return 1;

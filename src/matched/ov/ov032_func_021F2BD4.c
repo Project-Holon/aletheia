@@ -18,7 +18,7 @@
 extern void func_02040588(unsigned, unsigned);
 extern void func_020403F4(unsigned);
 
-void func_021F2BD4(void)
+void func_021F2BD4(char *p)
 {
     unsigned short z = 0;
 

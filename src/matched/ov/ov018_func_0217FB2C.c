@@ -25,13 +25,14 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *);
-extern u8 func_0200BF10(void *);
+struct Rec1B0;
+extern u8 func_0200BF10(struct Rec1B0 *p);
 int func_0217FB2C(void *a, void *vm)
 {
     u16 *out;
     int v;
     out = func_02159AE8(a, vm);
-    if (func_0200BF10(func_0200BE48(func_02012EBC(func_020120F4(func_0215A5DC(vm))))) != 0x30) {
+    if (func_0200BF10((struct Rec1B0 *)func_0200BE48(func_02012EBC(func_020120F4(func_0215A5DC(vm))))) != 0x30) {
         v = 1;
     } else {
         v = 0;

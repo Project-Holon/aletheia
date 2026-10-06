@@ -30,18 +30,20 @@ typedef unsigned int u32;
 typedef struct { u8 pad[0x1B2]; unsigned char f0:5; unsigned char flag:1; unsigned char f6:2; } Flags;
 extern u8 func_021B904C(u8 *p, int k);
 extern int func_021D13A4(void *);
-extern int func_021B86C8(u8 *);
+struct H;
+struct L;
+extern int func_021B86C8(unsigned char **p);
 extern void func_021B916C(u8 *p, u32 x);
 extern u16 func_021B86DC(void **p);
-extern void func_021EAF18(void *, int, u16);
-extern void func_021EAF50(void *, int);
-extern void func_021EA614(void *, void *);
+extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF50(struct L *p, u32 val);
+extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 extern void func_02005D90(u16, u16);
 extern void func_02005E30(u32);
 extern int func_02005E50(void);
 extern void func_02005D28(void);
-int func_021D1290(u8 *p, int *state)
+int func_021D1290(u8 *p, int *state, void *a2)
 {
     int idx;
     int mode;
@@ -53,7 +55,7 @@ int func_021D1290(u8 *p, int *state)
             return 1;
         idx = func_021B904C(((struct Obj00066 *)p)->f0, 0);
         mode = func_021D13A4(p);
-        flag = func_021B86C8(*(u8 * *)&((struct Obj00066 *)p)->f0);
+        flag = func_021B86C8((unsigned char **)(*(u8 * *)&((struct Obj00066 *)p)->f0));
         func_021B916C(((struct Obj00066 *)p)->f0, mode);
         switch (mode) {
         case 1: msg = flag != 0 ? 0x31 : 0x30; break;
@@ -61,11 +63,11 @@ int func_021D1290(u8 *p, int *state)
         case 2: msg = flag != 0 ? 0x35 : 0x34; break;
         default: return 1;
         }
-        func_021EAF18(p + 0x58, 1, msg);
-        func_021EAF50(p + 0x58, idx);
+        func_021EAF18((struct L *)(p + 0x58), 1, msg);
+        func_021EAF50((struct L *)(p + 0x58), idx);
         if (flag != 0)
-            func_021EAF50(p + 0x58, func_021B904C(((struct Obj00066 *)p)->f0, 1));
-        func_021EA614(((struct Obj00066 *)p)->f54, p + 0x58);
+            func_021EAF50((struct L *)(p + 0x58), func_021B904C(((struct Obj00066 *)p)->f0, 1));
+        func_021EA614(((struct Obj00066 *)p)->f54, (struct H *)(p + 0x58));
         if (mode == 1) {
             func_02005D90(func_021B86DC(((struct Obj00066 *)p)->f0), 0xFFFF);
             (*state)++;

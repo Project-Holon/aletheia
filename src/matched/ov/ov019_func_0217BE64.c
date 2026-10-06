@@ -58,7 +58,7 @@ extern void func_021734A8(u8 *self, u32 id, u32 v);
 extern int  func_02173AFC(int v);
 extern void func_0203D14C(int a, int b, void *c);
 extern int  func_0203D1B4(void);
-extern int  func_0203D1C0(u8 v);
+extern u32 func_0203D1C0(u32 index);
 extern void func_0203D1E8(u32 unused, void *arg);
 extern void func_0203D7BC(int a);
 extern int  func_020392B8(void);
@@ -87,7 +87,7 @@ int func_0217BE64(void *w, Obj *obj, int a2, u8 *state)
         }
         if (func_0203D1B4() > 1) {
             for (i = 2; i < 5; i++) {
-                if (func_0203D1C0(i) == 1) {
+                if ((int)func_0203D1C0((u8)i) == 1) {
                     break;
                 }
             }

@@ -15,5 +15,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_021DCF50(u8 *p);
-extern char *func_02184180(u8 *,u8);
-int func_021DE220(void *p) {int i,n;n=0;for(i=0;i<5;i++) if(func_02184180(func_021DCF50(p),i)) n++;return n;}
+extern char *func_02184180(unsigned char *p, int i);
+int func_021DE220(void *p) {int i,n;n=0;for(i=0;i<5;i++) if(func_02184180(func_021DCF50(p),(u8)i)) n++;return n;}

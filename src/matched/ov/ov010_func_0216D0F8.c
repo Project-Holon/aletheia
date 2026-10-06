@@ -58,8 +58,8 @@ extern void func_0216D80C(void *obj, s16 v);
 extern void func_0216D818(void *obj, s16 v);
 extern void func_0216D824(void *obj, s16 v);
 extern void func_0216D844(void *obj, s16 v);
-extern void func_0216D85C(void *obj, s16 v);
-extern void func_0216D874(void *obj, s16 v);
+extern void func_0216D85C(void *p, int v);
+extern void func_0216D874(int a0, int a1);
 extern void func_0216D89C(void *obj, const VecFx32 *v);
 
 #pragma opt_propagation off
@@ -92,11 +92,11 @@ void func_0216D0F8(void *obj, const u8 *a1)
     v.y = z;
     x = (z >> 4) / 4096;
     func_0216D818(obj, x);
-    func_0216D85C(obj, x);
+    func_0216D85C(obj, (s16)x);
     v.z = (y << 16) + 0x8000;
     func_0216D800(obj, p->y);
     func_0216D824(obj, y);
-    func_0216D874(obj, y);
+    func_0216D874((int)obj, (s16)y);
     func_0216D89C(obj, &v);
 }
 #pragma opt_propagation reset

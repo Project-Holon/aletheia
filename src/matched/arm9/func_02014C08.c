@@ -49,7 +49,8 @@
 #include "../include/Obj01459.h"
 extern void func_020649D4(char *member, int value);
 extern void func_02016374(void *obj);
-extern void func_020169E8(char *self, char *entry);
+typedef unsigned char  u8;
+extern void func_020169E8(u8 *a0, u8 *a1);
 
 typedef struct B1 { unsigned int b0 : 1; } B1;
 
@@ -64,7 +65,7 @@ void func_02014C08(char *self)
             func_020649D4((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x34),
                           *(int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x174));
         if (((*(unsigned int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x140) << 0x13) >> 0x1f) != 0)
-            func_020169E8(self, (char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4)));
+            func_020169E8((u8 *)self, (u8 *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4)));
         if (((B1 *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x144))->b0 == 1) {
             func_02016374((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4)));
             func_020649D4((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x34), 0);

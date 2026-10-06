@@ -53,7 +53,7 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 *func_0200B074(struct Reg2 *p);
 extern void func_02082D44(int, void *, u32);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
-extern int func_021E6118(Record *, int, int, int, int, int, int, int, int, int, u16);
+extern char *func_021E6118(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
 void func_0217D028(u8 *p)
 {
     Record rec;
@@ -82,5 +82,5 @@ void func_0217D028(u8 *p)
     c = func_0200B078(((struct Obj00053 *)p)->f38, 7);
     rec.f98 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
     rec.fa8 = func_0200B078(((struct Obj00053 *)p)->f38, 11);
-    *(int *)&((struct Obj00053 *)p)->f10 = func_021E6118(&rec, x, table, ((struct Obj00053 *)p)->f1B0, ((struct Obj00053 *)p)->f1A8, *(int *)&((struct Obj00053 *)p)->f1AC, *(int *)&((struct Obj00053 *)p)->f24, ((struct Obj00053 *)p)->f2C, aux, 0, ((struct Obj00053 *)p)->f1C8);
+    *(int *)&((struct Obj00053 *)p)->f10 = (int)func_021E6118((char *)(&rec), (void *)x, (void *)table, (void *)(((struct Obj00053 *)p)->f1B0), ((struct Obj00053 *)p)->f1A8, (void *)(*(int *)&((struct Obj00053 *)p)->f1AC), (void *)(*(int *)&((struct Obj00053 *)p)->f24), (void *)(((struct Obj00053 *)p)->f2C), (void *)aux, 0, ((struct Obj00053 *)p)->f1C8);
 }

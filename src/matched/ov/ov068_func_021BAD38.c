@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02040804(u32 layer);
-int func_021BAD38(u8 *p, u8 *q)
+int func_021BAD38(u8 *p, int *q)
 {
     int n;
     n = func_02040804(((struct Obj13142 *)p)->f2);

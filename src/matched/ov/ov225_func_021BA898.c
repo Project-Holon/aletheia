@@ -45,7 +45,7 @@ typedef unsigned u32;
 struct Quad { short x,y,z,w; };
 extern const struct Quad d_021BBF8C,d_021BBF94;
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_020499D4(void *,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);

@@ -41,7 +41,7 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021C6698(void *);
 extern void func_021C66A8(char *p, int heap);
 extern void func_021C67A8(char *p, int heap);
-extern void func_021C692C(void *,int);
+extern void func_021C692C(u8 *p, int heap);
 extern void func_021C69C4(void *,void *,int);
 extern void func_021C6CB0(char *p, int heap);
 extern void func_021C6A84(void *,int);
@@ -57,7 +57,7 @@ void func_021C658C(char *p,void *q,int heap)
     func_0204363C(0);
     ((struct Obj03812 *)p)->f8=func_020490F4(63,heap); ((struct Obj03812 *)p)->f180=heap;
     func_021C6698((void *)0x180);
-    func_021C66A8(p,heap); func_021C67A8(p,heap); func_021C692C(p,heap);
+    func_021C66A8(p,heap); func_021C67A8(p,heap); func_021C692C((u8 *)p,heap);
     func_021C69C4(p,q,heap); func_021C6CB0(p,heap); func_021C6A84(p,heap); func_021CA0BC(p,heap);
     func_0203D34C(1,52); func_020434DC(16,1); func_02043598(16,1);
 }

@@ -30,7 +30,8 @@ typedef struct {
 struct Ctx;
 unsigned int func_02012138(const struct Ctx *);
 int func_020122C0(void *, int, void (*)(void), int);
-Ov018Work *func_020124E8(int);
+struct Obj;
+void *func_020124E8(struct Obj *p);
 typedef unsigned int   u32;
 u32 func_02026454(void *obj);
 unsigned char *func_02026474(void *);
@@ -49,7 +50,7 @@ int func_0217CA84(void *a, int b)
 
     sys = (void *)func_02012138(a);
     ret = func_020122C0(a, 0, func_0217CAFC, 0x28);
-    work = func_020124E8(ret);
+    work = func_020124E8((struct Obj *)ret);
     work->f20 = b;
     if (func_02026454(sys) == 2) {
         x = func_02026474(sys);

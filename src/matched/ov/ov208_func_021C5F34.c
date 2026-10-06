@@ -52,11 +52,11 @@ extern int func_021BC3A4(int *p);
 extern int func_021BC3B4(int *p);
 extern int func_021BC3B8(char *p);
 extern u16  func_021BC3BC(char *p);
-extern void func_021C5200(void *p);
+extern void func_021C5200(int *p);
 extern void func_021BDC48(void *s, u32 on);
 extern void func_021BDBAC(void *s, int v);
-extern void func_021C80AC(void *u, int k, Vec *v);
-extern void func_02015C48(u32 obj, Vec *v);
+extern void func_021C80AC(int a, int b, int c);
+extern void func_02015C48(void *p, u32 *src);
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBEC(void *s, int v);
 extern void func_021BE82C(void *icon, int kind);
@@ -95,8 +95,8 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
         switch (ev) {
         case 1:
             if (W(0x6c4) == 0) {
-                func_021C5200(p + 0x94);
-                func_021C5200(p + 0xd8);
+                func_021C5200((int *)(p + 0x94));
+                func_021C5200((int *)(p + 0xd8));
                 W(0x6c4) = 1;
             }
             break;
@@ -123,20 +123,20 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
             flag = 1;
             if (H(0x548) >= 2) {
                 if (W(0xc) != 0) {
-                    func_021C80AC(p + 0xc, 1, &v);
-                    func_02015C48(W(0xc), &v);
+                    func_021C80AC((int)(p + 0xc), 1, (int)(&v));
+                    func_02015C48((void *)W(0xc), (u32 *)(&v));
                 }
                 if (W(0x50) != 0) {
-                    func_021C80AC(p + 0x50, 1, &v);
-                    func_02015C48(W(0x50), &v);
+                    func_021C80AC((int)(p + 0x50), 1, (int)(&v));
+                    func_02015C48((void *)W(0x50), (u32 *)(&v));
                 }
                 if (W(0x94) != 0) {
-                    func_021C80AC(p + 0x94, 2, &v);
-                    func_02015C48(W(0x94), &v);
+                    func_021C80AC((int)(p + 0x94), 2, (int)(&v));
+                    func_02015C48((void *)W(0x94), (u32 *)(&v));
                 }
                 if (W(0xd8) != 0) {
-                    func_021C80AC(p + 0xd8, 2, &v);
-                    func_02015C48(W(0xd8), &v);
+                    func_021C80AC((int)(p + 0xd8), 2, (int)(&v));
+                    func_02015C48((void *)W(0xd8), (u32 *)(&v));
                 }
             }
             func_021BDAAC(scene, 2, 3, func_021BC3BC(ctx) > 1);
@@ -179,22 +179,22 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
             flag = 1;
             if (H(0x548) >= 2) {
                 if (W(0xc) != 0) {
-                    func_021C80AC(p + 0xc, 0, &v2);
-                    func_02015C48(W(0xc), &v2);
+                    func_021C80AC((int)(p + 0xc), 0, (int)(&v2));
+                    func_02015C48((void *)W(0xc), (u32 *)(&v2));
                 }
                 if (W(0x50) != 0) {
-                    func_021C80AC(p + 0x50, 0, &v2);
-                    func_02015C48(W(0x50), &v2);
+                    func_021C80AC((int)(p + 0x50), 0, (int)(&v2));
+                    func_02015C48((void *)W(0x50), (u32 *)(&v2));
                 }
                 idx = W(0x124) != 0 ? SIDE_0 : SIDE_1;
                 func_021C50F8(*(u32 *)(p + idx * 0x44 + 0xc), &v2);
                 if (W(0x94) != 0) {
-                    func_021C80AC(p + 0x94, 2, &v2);
-                    func_02015C48(W(0x94), &v2);
+                    func_021C80AC((int)(p + 0x94), 2, (int)(&v2));
+                    func_02015C48((void *)W(0x94), (u32 *)(&v2));
                 }
                 if (W(0xd8) != 0) {
-                    func_021C80AC(p + 0xd8, 2, &v2);
-                    func_02015C48(W(0xd8), &v2);
+                    func_021C80AC((int)(p + 0xd8), 2, (int)(&v2));
+                    func_02015C48((void *)W(0xd8), (u32 *)(&v2));
                 }
             }
             func_021BDAAC(scene, 0, 3, func_021BC3BC(ctx) > 1);

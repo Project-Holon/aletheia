@@ -71,7 +71,7 @@ struct BmpInfo;
 struct NitroFileHeader;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
-extern void *func_0204A1BC(u32 arc, u32 member, u32 heap2, u16 tag);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_02043900(struct Bmp *b, struct BmpInfo *info, u32 heap);
 extern void  OS_Terminate(void);
@@ -83,7 +83,7 @@ struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap)
     void       *info;
 
     b = (struct Bmp *)func_02030734(heap, 0xC, 0, func_0204384C_File, 266);
-    handle = func_0204A1BC(arc, member, heap2, (heap & 0x7FFF) | 0x8000);
+    handle = (void *)func_0204A1BC((u32)arc, (u32)member, (u32)heap2, (u16)((heap & 0x7FFF) | 0x8000));
     if (func_02062A4C(handle, &info) == 0) {
         OS_Terminate();
         return 0;

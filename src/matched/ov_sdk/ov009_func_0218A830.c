@@ -92,12 +92,13 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern void func_0218A1D0(char *buffer, int numChars);
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
 extern int func_02084F40(char *dst, const char *fmt, ...);
 extern int func_0218FF98(void **connection, char *nick, char *email, GPIProfile **profile);
-extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
-extern int func_0218949C(void **connection, GPIBuffer *outputBuffer, int num);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
 extern char g_021A483C[];
 extern char g_021A4840[];
 extern char g_021A4848[];
@@ -141,7 +142,7 @@ int func_0218A830(void **connection, GPIConnectData *data)
         passphrase = data->partnerchallenge;
     else
         passphrase = iconnection->password;
-    func_021858A8((unsigned char *)passphrase, func_0209477C(passphrase), data->passwordHash);
+    func_021858A8((unsigned char *)passphrase, func_0209477C((const u8 *)passphrase), data->passwordHash);
 
     if (iconnection->partnerID != 0)
         func_02084F40(partnerBuffer, g_021A483C, iconnection->partnerID);
@@ -160,7 +161,7 @@ int func_0218A830(void **connection, GPIConnectData *data)
 
     func_02084F40(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                   data->userChallenge, data->serverChallenge, data->passwordHash);
-    func_021858A8((unsigned char *)buffer, func_0209477C(buffer), response);
+    func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), response);
 
     if (iconnection->infoCaching) {
         func_0218FF98(connection, iconnection->nick, iconnection->email, &profile);
@@ -170,48 +171,48 @@ int func_0218A830(void **connection, GPIConnectData *data)
         }
     }
 
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A4894);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A489C);
-    func_0218946C(connection, &iconnection->outputBuffer, data->userChallenge);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4894);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A489C);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), data->userChallenge);
     if (data->authtoken[0]) {
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A48A8);
-        func_0218946C(connection, &iconnection->outputBuffer, data->authtoken);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48A8);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), data->authtoken);
     } else if (iconnection->uniquenick[0]) {
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A48B4);
-        func_0218946C(connection, &iconnection->outputBuffer, iconnection->uniquenick);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48B4);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->uniquenick);
     } else {
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A48C4);
-        func_0218946C(connection, &iconnection->outputBuffer, iconnection->nick);
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A48CC);
-        func_0218946C(connection, &iconnection->outputBuffer, iconnection->email);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48C4);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->nick);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48CC);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->email);
     }
     if (iconnection->userid != 0) {
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A48D0);
-        func_0218949C(connection, &iconnection->outputBuffer, iconnection->userid);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48D0);
+        func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->userid);
     }
     if (iconnection->profileid != 0) {
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A48DC);
-        func_0218949C(connection, &iconnection->outputBuffer, iconnection->profileid);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48DC);
+        func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->profileid);
     }
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A48E8);
-    func_0218949C(connection, &iconnection->outputBuffer, iconnection->partnerID);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A48F4);
-    func_0218946C(connection, &iconnection->outputBuffer, response);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48E8);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->partnerID);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48F4);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), response);
     if (iconnection->firewall == 1)
-        func_0218946C(connection, &iconnection->outputBuffer, g_021A4900);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A490C);
-    func_0218949C(connection, &iconnection->outputBuffer, iconnection->peerPort);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A4914);
-    func_0218949C(connection, &iconnection->outputBuffer, iconnection->productID);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A4920);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021ACEFC);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A492C);
-    func_0218949C(connection, &iconnection->outputBuffer, iconnection->namespaceID);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A493C);
-    func_0218949C(connection, &iconnection->outputBuffer, 0x3b);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A494C);
-    func_0218949C(connection, &iconnection->outputBuffer, iconnection->quietModeFlags);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A4954);
-    func_0218946C(connection, &iconnection->outputBuffer, g_021A495C);
+        func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4900);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A490C);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->peerPort);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4914);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->productID);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4920);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021ACEFC);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A492C);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->namespaceID);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A493C);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), 0x3b);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A494C);
+    func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->quietModeFlags);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4954);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A495C);
     return 0;
 }

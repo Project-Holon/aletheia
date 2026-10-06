@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 func_02175FB4(u8 *p)
+int func_02175FB4(u8 *p)
 {
     return p[0x10];
 }

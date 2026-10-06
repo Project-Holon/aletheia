@@ -25,7 +25,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0200DC08(void *a);
+struct Blk1AC;
+extern u8 func_0200DC08(struct Blk1AC *p);
 typedef signed int     s32;
 struct Blk1AC;
 extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
@@ -36,7 +37,7 @@ extern const u8 data_021DACD0[];
 
 int func_021CA164(void *a, int unused, int mode)
 {
-    u8 state = func_0200DC08(a);
+    u8 state = (int)func_0200DC08(a);
     u32 v;
 
     switch (mode) {

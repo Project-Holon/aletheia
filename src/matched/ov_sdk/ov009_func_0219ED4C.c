@@ -24,14 +24,15 @@ struct ServerBrowser {
     void *ConnectCallback;
 };
 
-extern void func_021A0340(void *slist);
+struct SBServerList;
+extern void func_021A0340(struct SBServerList *slist);
 extern void func_0219D8FC(void *engine);
 extern void func_0219922C(void);
 extern void func_0217EAE0(void *ptr);
 
 void func_0219ED4C(struct ServerBrowser *sb)
 {
-    func_021A0340(&sb->list);
+    func_021A0340((struct SBServerList *)(&sb->list));
     func_0219D8FC(&sb->engine);
     if (sb->ConnectCallback != 0)
         func_0219922C();

@@ -41,20 +41,23 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern char *func_02030734(u32, u32, int, const char *, u16);
+typedef unsigned char  u8;
+struct BigObj;
+struct Sub0200852CObj;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
-extern u32 func_0201283C(const void *);
+extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009860(void);
-extern void *func_02012944(void *);
-extern void *func_0200853C(void *);
+extern u8 *func_02012944(void *p);
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern int func_0203CD98(void);
-extern void func_02034714(const char *, int, const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_0203A574(u32, u32, u32, u32);
 extern void func_0203D644(int);
 extern void func_02156DC4(int, int);
 extern void func_02156DE0(int, int);
 extern void func_021DC5C8(void *, int, int);
-extern void func_021DC5F8(void *, int, int);
+extern u32 func_021DC5F8(char *p, int a, int kind);
 extern const char d_021E2EE0[], d_021E2EF8[];
 extern const u32 d_021E2C90[];
 char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap) {
@@ -63,7 +66,7 @@ char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap) {
     func_02082BCC(p, 0, 0x149c);
     *(u32 *)(p + 4) = func_0201283C(save);
     *(u32 *)p = func_02009860();
-    *(void **)(p + 0xc) = func_0200853C(func_02012944(save));
+    *(void **)(p + 0xc) = (void *)func_0200853C((const struct Sub0200852CObj *)func_02012944(save));
     *(void **)(p + 8) = save;
     *(u32 *)(p + 0x10) = b;
     *(u32 *)(p + 0x1464) = a;

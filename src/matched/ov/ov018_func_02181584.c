@@ -100,7 +100,7 @@ struct WordSet;
 void *func_020124E4(struct Obj *p);
 u32 func_02012138(const struct Ctx *p);
 int func_02158344(int a0);
-int func_0215839C(void *, int, int);
+int func_0215839C(u8 *p, int m, int a2);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_0217F2B4(Ov018Obj *p, void *);
@@ -109,8 +109,8 @@ void func_0217F3C4(Ov018Obj *p, u16 a);
 int func_0217F40C(Ov018Obj *p);
 int func_0217F420(void);
 void func_0217F4C4(Ov018Obj *p);
-void func_0217F4D8(Ov018Obj *p, void *);
-int func_0217F508(Ov018Obj *p);
+void func_0217F4D8(void **p, int a);
+int func_0217F508(void **p);
 int func_02175514(u8 *p);
 u32 func_020362DC(void);
 int func_02173B9C(int, int);
@@ -158,12 +158,12 @@ int func_02181584(void *a, int *state, Ov018Outer *c)
         break;
     case 1:
         if (func_0217F40C(&c->obj) == 1) {
-            func_0217F4D8(&c->obj, sub);
+            func_0217F4D8((void **)(&c->obj), (int)sub);
             (*state)++;
         }
         break;
     case 2:
-        switch (func_0217F508(&c->obj)) {
+        switch (func_0217F508((void **)(&c->obj))) {
         case 0:
             func_0217F4C4(&c->obj);
             *state = 3;

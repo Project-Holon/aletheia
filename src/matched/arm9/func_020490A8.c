@@ -16,8 +16,10 @@
 
 typedef unsigned int u32;
 
-extern void func_02048DDC(void *dst, u32 a);
-extern u32 func_02048E34(void *dst, u32 a, u32 b, u32 c);
+struct ArcFile;
+struct ArcHandle;
+extern void func_02048DDC(struct ArcFile *arc, u32 id);
+extern u32 func_02048E34(struct ArcHandle *arc, u32 member, u32 base, u32 size);
 extern void func_02078A80(void *p);
 
 u32 func_020490A8(u32 a, u32 b)
@@ -25,8 +27,8 @@ u32 func_020490A8(u32 a, u32 b)
     char buf[0x48];
     u32 r;
 
-    func_02048DDC(buf, a);
-    r = func_02048E34(buf, b, 0, 0);
+    func_02048DDC((struct ArcFile *)buf, a);
+    r = func_02048E34((struct ArcHandle *)buf, b, 0, 0);
     func_02078A80(buf);
     return r;
 }

@@ -63,7 +63,7 @@ extern void func_020307B0(void *p);
 struct BigObj;
 extern u8 func_02012984(const struct BigObj *p);
 extern void func_0215E740(void *a, void *b, u32 which, u32 n);
-extern void func_0200D470(struct Blk38 *p, u32 i, u8 v);
+extern void func_0200D470(struct Blk38 *p, u32 i, u32 v);
 extern const char d_0217293C[];
 
 void func_0215E440(void *sys, u32 which)

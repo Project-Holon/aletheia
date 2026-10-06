@@ -22,7 +22,7 @@ extern void *func_021B9AA8(int);
 extern void func_021B9AF8(void *);
 extern void func_021CAB1C(void *, void *, int);
 extern int func_021CAA70(void *data_ptr, int data_len, void *sign_ptr, void *mod_ptr);
-int func_021B9A1C(int a, int b, int c, int d, u16 e)
+int func_021B9A1C(void *a, int b, int c, char *d, u16 e)
 {
     int result;
     d_021CE31C = e;

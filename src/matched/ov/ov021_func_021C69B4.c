@@ -50,7 +50,8 @@ struct G3dRec;
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern void *func_0204767C(u32 a0, u32 *a1, int a2);
-extern void func_020477A4(u32 h, u16 i);
+struct G3dSys;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void func_0207ADC4(void *p);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 void func_021C69B4(Elem *e, S *s, u16 idx, u16 id, u32 unused, V *pos, int flag)
@@ -75,7 +76,7 @@ void func_021C69B4(Elem *e, S *s, u16 idx, u16 id, u32 unused, V *pos, int flag)
     e->f44 = (u32)func_0204767C(m, e->f48, s->f28);
     if (s->f28 != 0) {
         for (i = 0; i < s->f28; i++)
-            func_020477A4(e->f44, i);
+            func_020477A4((struct G3dSys *)e->f44, (u16)i);
     }
     if (pos != 0)
         e->f8 = *pos;

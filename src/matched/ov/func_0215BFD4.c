@@ -27,7 +27,7 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 func_0215A5CC(void *a0);
 extern int func_0215B4AC(void *a0, u32 a1, void **a2);
-extern void *func_0216F948();
+extern u16 *func_0216F948(void *mon, u32 heap);
 extern int func_0216FAA0(u16 *p);
 extern int func_020307B0();
 
@@ -61,7 +61,7 @@ loc_0215BFFC:
 loc_0215C000:
     a0 = v0;
 a1 = t7 + 0;
-    buf = func_0216F948(a0, a1);
+    buf = func_0216F948((void *)a0, a1);
 loc_0215C008:
     a0 = func_0216FAA0(buf);
 loc_0215C00E:

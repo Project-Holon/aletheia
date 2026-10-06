@@ -22,20 +22,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_021F4D14(u8 *p);
-extern void func_021F4CE4(u8 *p);
+extern int func_021F4D14(char *p);
+extern void func_021F4CE4(char *p);
 extern void func_021F6474(u8 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 
 int func_021F643C(u8 *p)
 {
-    u32 k = func_021F4D14(p);
+    u32 k = func_021F4D14((char *)p);
 
     if (k == 1) {
-        func_021F4CE4(p);
+        func_021F4CE4((char *)p);
         func_021F6474(p);
     } else if (k == 2) {
-        func_021F4CE4(p);
+        func_021F4CE4((char *)p);
         func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 0);
         ((struct Obj00045 *)p)->f28 = 1;
     }

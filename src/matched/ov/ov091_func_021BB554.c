@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_02017E1C(void *,u32,u32);
 extern int func_0202D034(u32 a, u32 b);
-void func_021BB554(u32 p) { func_0202D034(((struct Obj03680 *)p)->f6,func_02017E1C(((struct Obj03680 *)p)->f0,0xa1,0)); }
+int func_021BB554(u32 p) { return func_0202D034(((struct Obj03680 *)p)->f6,func_02017E1C(((struct Obj03680 *)p)->f0,0xa1,0)); }

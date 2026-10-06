@@ -13,7 +13,7 @@ typedef unsigned int u32;
 
 struct S { unsigned a:3; unsigned b:29; };
 
-int func_021E89C0(u32 a)
+int func_021E89C0(void)
 {
     struct S s = {0};
 

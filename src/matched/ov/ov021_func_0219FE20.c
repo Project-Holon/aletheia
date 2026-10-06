@@ -34,7 +34,7 @@ extern int func_0216D910(int a0);
 extern u32 func_0219C9DC(u8 *p);
 extern u32 func_020508EC(u8 *p, int i, u16 *out);
 
-int func_0219FE20(u32 a)
+u32 func_0219FE20(u32 a, u32 a1, u32 a2, u32 a3)
 {
     u32 t;
     u16 out;

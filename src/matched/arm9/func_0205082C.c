@@ -16,11 +16,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020500A0(char *e);
+extern void func_020500A0(int p0);
 
 void func_0205082C(void *p, int idx, u16 h)
 {
     char *e = (char *)(((struct Obj16157 *)p)->f18 + idx * 40);
     ((struct Obj02611 *)e)->fE = h;
-    func_020500A0(e);
+    func_020500A0((int)e);
 }

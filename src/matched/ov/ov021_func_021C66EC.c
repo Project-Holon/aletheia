@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 
 typedef struct { u32 k : 2; } K;
 
-extern int func_02047910(u32 h, u16 i, int v);
+extern int func_02047910(void *a, int idx, int amount);
 
 int func_021C66EC(u32 *a, int idx, int v)
 {
@@ -32,7 +32,7 @@ int func_021C66EC(u32 *a, int idx, int v)
     if (((K *)e)->k == 1) {
         n = *(u8 *)((u8 *)a[2] + ((struct Obj12953 *)e)->f4 * 0x2c + 0x28);
         for (i = r; i < n; i++) {
-            if (func_02047910(((struct Obj12953 *)e)->f44, i, v))
+            if (func_02047910((void *)(((struct Obj12953 *)e)->f44), (u16)i, v))
                 r = 1;
         }
     } else if (((K *)e)->k == 2) {

@@ -29,7 +29,8 @@ typedef struct AuthId {
 
 extern void func_02058FB4(AuthId *id);
 extern int func_0217C070(void *alloc, void *free);
-extern int func_0209477C(char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 struct DWCSvlResult;
 extern int func_0217C144(char *svc, struct DWCSvlResult *result);
 extern void func_0217C104(void);
@@ -47,7 +48,7 @@ int func_02167FA8(char *svl, void *result)
         return 0;
     if (func_0217C070(DWC_Alloc, DWC_Free) == 0)
         return 0;
-    if (func_0209477C(svl) == 0)
+    if (func_0209477C((const u8 *)svl) == 0)
         flag = func_0217C144(g_021A1F6C, result);
     else
         flag = func_0217C144(svl, result);

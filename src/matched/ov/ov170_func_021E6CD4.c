@@ -21,6 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021EBA70(char *,int);
 extern void func_021DD14C(char *);
-extern u32 func_020260F0(void *);
+struct Sound;
+extern u32 func_020260F0(struct Sound *obj);
 extern void func_021EC000(char *,int,int);
 int func_021E6CD4(u8 *p){func_021EBA70(*(char **)(p+0x2c),24);func_021DD14C((char *)p);if(func_020260F0(*(void **)(*(char **)(p+0x2c)+0x70))==1)func_021EC000(*(char **)(p+0x2c),4,1);return 64;}

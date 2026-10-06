@@ -15,14 +15,14 @@
  */
 #include "../include/Obj13969.h"
 typedef unsigned int u32;
-extern int func_020221A4(char *);
+extern u32 func_020221A4(void);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026454(void *obj);
 extern void func_021D4244(char *, void *, int);
 void func_021D4AB4(char *p)
 {
-    if (func_020221A4(p) != 0) {
+    if (func_020221A4() != 0) {
         switch (((struct Obj13969 *)p)->f8) {
         case 2:
         case 3:

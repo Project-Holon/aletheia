@@ -35,7 +35,7 @@ extern void *func_0216D6F0(void *p);
 extern int func_0216D910(int a0);
 extern u32 func_0219C9DC(u8 *p);
 extern void func_0219FFBC(u32, u32 *);
-extern void func_02197CCC(u32, u32 *);
+extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 extern u32 func_02050080(u32 *p);
 extern void func_0204F638(u8 *a0, int i, struct Trip *src);
@@ -61,7 +61,7 @@ void func_0219FD1C(u32 a)
             flag = 1;
         }
         func_021A000C(a, h, *p, flag, 0);
-        func_02197CCC(a, buf);
+        func_02197CCC((u8 *)a, (s32 *)buf);
         func_0219FFBC(a, buf);
         func_0204F638((u8 *)func_02050080((u32 *)h), *p, (struct Trip *)buf);
     }

@@ -70,7 +70,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02051620(void);
-extern void func_0206168C(void *p);
+extern void func_0206168C(u32 *src);
 extern u32 func_020621FC(u32 h);
 extern void func_02061824(void *p);
 extern int func_02062594(u32 id);
@@ -86,7 +86,7 @@ void func_02050DB8(u8 *p)
     func_02051620();
 
     if (p[0x258] & 1) {
-        func_0206168C(p + 0x58);
+        func_0206168C((u32 *)(p + 0x58));
     } else if (p[0x258] & 2) {
         for (i = 0; i < 0x40; i++) {
             if (((u32 *)(p + 0x58))[i] != 0) {

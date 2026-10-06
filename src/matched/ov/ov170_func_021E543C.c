@@ -34,18 +34,20 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_020061E4(unsigned);
 extern void func_021EC61C(u8 *);
-extern void func_021EF35C(int);
-extern void func_021EF36C(int);
-extern int func_021E8FC0(u8 *, int (*)(u8 *), int);
+struct Sound;
+struct WinMgr;
+extern void func_021EF35C(struct WinMgr *mgr);
+extern void func_021EF36C(struct WinMgr *mgr);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E01B0(u8 *);
 extern void func_021ECB84(char *, unsigned);
-extern void func_021EA1C0(u8 *);
-extern int func_021E0068(u8 *);
+extern void func_021EA1C0(void *p);
+extern int func_021E0068(char *p);
 extern void func_021DD530(u8 *);
-extern void func_021EA1E8(u8 *);
+extern void func_021EA1E8(char *p);
 extern void func_021DF040(char *);
-extern void func_021EF3A0(int);
-extern void func_020260E4(void *, u8);
+extern void func_021EF3A0(struct WinMgr *mgr);
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE3E4(char **, unsigned);
 extern void func_021ED55C(char **, int);
 int func_021E543C(u8 *p)
@@ -54,25 +56,25 @@ int func_021E543C(u8 *p)
     case 0:
         func_020061E4(0x669);
         func_021EC61C(p);
-        func_021EF35C(*(int *)(*(u8 **)(p + 44) + 116));
-        func_021EF36C(*(int *)(*(u8 **)(p + 44) + 116));
+        func_021EF35C((struct WinMgr *)(*(int *)(*(u8 **)(p + 44) + 116)));
+        func_021EF36C((struct WinMgr *)(*(int *)(*(u8 **)(p + 44) + 116)));
         p[26] = 2;
         (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
-        return func_021E8FC0(p, func_021E01B0, 47);
+        return func_021E8FC0((char *)p, (int)func_021E01B0, 47);
     case 1:
         p[23] = p[20];
         func_021ECB84(*(char **)(p + 44), p[22]);
         func_021EA1C0(p);
         (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
-        return func_021E8FC0(p, func_021E0068, 47);
+        return func_021E8FC0((char *)p, (int)func_021E0068, 47);
     case 2:
         func_020061E4(0x669);
         func_021DD530(p);
-        func_021EA1E8(p);
+        func_021EA1E8((char *)p);
         func_021DF040((char *)p);
-        func_021EF3A0(*(int *)(*(u8 **)(p + 44) + 116));
+        func_021EF3A0((struct WinMgr *)(*(int *)(*(u8 **)(p + 44) + 116)));
         (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
-        return func_021E8FC0(p, func_021E01B0, 47);
+        return func_021E8FC0((char *)p, (int)func_021E01B0, 47);
     case 3:
         func_020260E4(*(void **)(*(u8 **)(p + 44) + 112), p[22]);
         func_021EE3E4((char **)p, p[22]);

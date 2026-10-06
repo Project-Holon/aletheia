@@ -26,7 +26,7 @@ typedef struct {
 
 extern const u8 data_021EFF14[];
 extern u16 func_021CCB18(void *r);
-extern u8 func_021CCAD4(void *r);
+extern u8 func_021CCAD4(u8 *p);
 extern void func_021CD0F0(void *r, int cmd, s32 *a);
 extern void func_021CD6AC(void *r, u8 cmd, s32 *a);
 
@@ -37,7 +37,7 @@ int func_021CD5E0(Buf *r, s32 *a)
 
     c = func_021CCB18(r);
     while (c == 0x5f) {
-        r->rpos += func_021CCAD4(r);
+        r->rpos += func_021CCAD4((u8 *)r);
         if (r->rpos >= r->wpos) {
             return 0x5e;
         }

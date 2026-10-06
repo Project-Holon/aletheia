@@ -23,8 +23,8 @@ typedef struct {
 
 extern int func_0215DAA8(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip, long flag_block);
-extern int func_0215D92C(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
-                         unsigned long *remote_ip);
+struct SOCLSocket;
+extern int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip);
 
 int func_0215D898(Socket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                   unsigned long *remote_ip, long flag_block)
@@ -33,7 +33,7 @@ int func_0215D898(Socket *socket, void *buffer, int buffer_len, unsigned short *
 
     if (socket->mode == 4)
         return func_0215DAA8(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
-    result = func_0215D92C(socket, buffer, buffer_len, remote_port, remote_ip);
+    result = func_0215D92C((struct SOCLSocket *)socket, buffer, buffer_len, remote_port, remote_ip);
     if (result != -6)
         return result;
     if ((flag_block & 1) == 0)

@@ -31,7 +31,8 @@ typedef signed int    s32;
 
 struct Ent { u32 pad[6]; u32 bit0 : 1; };
 
-extern s32 func_0202E0E0(void *e, void *a1, u32 a2);
+struct Obj0202E0E0;
+extern int func_0202E0E0(struct Obj0202E0E0 *a0, void *a1, int a2);
 
 void func_0202DBC4(u8 *p)
 {
@@ -41,7 +42,7 @@ void func_0202DBC4(u8 *p)
     for (i = 0; i < (s32)((struct Obj04744 *)p)->f30; i++) {
         u8 *e = *(u8 * *)&((struct Obj04744 *)p)->fC + i * 0x28;
         if (((struct Ent *)e)->bit0 != 0) {
-            if (func_0202E0E0(e, ((struct Obj04744 *)p)->f8, ((struct Obj04744 *)p)->f2C) != 0) {
+            if (func_0202E0E0((struct Obj0202E0E0 *)e, ((struct Obj04744 *)p)->f8, ((struct Obj04744 *)p)->f2C) != 0) {
                 ((struct Obj04744 *)p)->f28 = 0;
             }
         }

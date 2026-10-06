@@ -50,7 +50,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void func_021B3258(u32 unused, char *a, u32 b, u32 c);
+extern void func_021B3258(int ctx, u8 *a, int b, int c);
 extern void func_021B3470(char *p);
 extern void func_021B41AC(char *w, u16 b);
 extern void func_021B42D0(char *w, u32 a, u32 b);
@@ -68,16 +68,16 @@ extern void func_02020234(u8 *p);
 extern u32 func_0201FDA0(const void *a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_0201FEBC(u8 *p);
 extern void func_020061E4(u32 se);
-extern void func_021B4714(char *w, u32 a, u32 b, u32 c);
-extern void func_021B3568(char *w, u32 a);
+extern void func_021B4714(u8 *p, u32 sel, u32 c, u32 d);
+extern void func_021B3568(u8 *w, u32 b);
 extern void func_021B40D4(char *w);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern u8 func_021B34F4(char *p);
-extern void func_021B46FC(char *p);
+extern u8 func_021B34F4(u8 *p);
+extern void func_021B46FC(u8 *w);
 extern void func_021B3F3C(char *w);
-extern void func_021B40A8(char *w);
-extern void func_021B3C58(char *w);
+extern void func_021B40A8(u8 *w);
+extern void func_021B3C58(u8 *w);
 extern void func_021B3B04(char *w);
 extern void func_021B3B84(char *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
@@ -88,14 +88,14 @@ extern void func_02045334(struct Descriptor *a);
 extern void func_020310C4(struct Tcbl *p);
 extern const u8 d_021D9440[];
 
-int func_021B35A4(u32 a, char *p, u32 c, u32 d)
+int func_021B35A4(u32 a, char *p, u32 c, u8 d)
 {
     int r;
     u32 q;
 
     switch (((struct Obj00030 *)p)->f0) {
     case 0:
-        func_021B3258(a, p, c, d);
+        func_021B3258(a, (u8 *)p, c, d);
         (((struct Obj00030 *)p)->f0)++;
         break;
     case 1:
@@ -151,8 +151,8 @@ int func_021B35A4(u32 a, char *p, u32 c, u32 d)
         break;
     case 8:
         func_020061E4(0x655);
-        func_021B4714(p, 9, ((struct Obj00030 *)p)->f1FC, *(s16 *)&((struct Obj00030 *)p)->f208 > 1);
-        func_021B3568(p, ((struct Obj00030 *)p)->f200 * *(s16 *)&((struct Obj00030 *)p)->f208);
+        func_021B4714((u8 *)p, 9, ((struct Obj00030 *)p)->f1FC, *(s16 *)&((struct Obj00030 *)p)->f208 > 1);
+        func_021B3568((u8 *)p, ((struct Obj00030 *)p)->f200 * *(s16 *)&((struct Obj00030 *)p)->f208);
         func_021B40D4(p);
         func_02007E50((u8 *)(((struct Obj00030 *)p)->f10), ((struct Obj00030 *)p)->f1FC, ((struct Obj00030 *)p)->f208, ((struct Obj00030 *)p)->f4);
         ((struct Obj00030 *)p)->f0 = 10;
@@ -160,7 +160,7 @@ int func_021B35A4(u32 a, char *p, u32 c, u32 d)
         break;
     case 9:
         if (((struct Obj00030 *)p)->f1FC == 4 && *(s16 *)&((struct Obj00030 *)p)->f208 >= 10) {
-            func_021B4714(p, 15, ((struct Obj00030 *)p)->f1FC, *(s16 *)&((struct Obj00030 *)p)->f208 > 1);
+            func_021B4714((u8 *)p, 15, ((struct Obj00030 *)p)->f1FC, *(s16 *)&((struct Obj00030 *)p)->f208 > 1);
             func_02007E50((u8 *)(((struct Obj00030 *)p)->f10), 12, 1, ((struct Obj00030 *)p)->f4);
             func_02008DF0((struct Sub02008C20Obj *)(((struct Obj00030 *)p)->f14), 0x1F);
             ((struct Obj00030 *)p)->f0 = 10;
@@ -170,13 +170,13 @@ int func_021B35A4(u32 a, char *p, u32 c, u32 d)
         }
         break;
     case 10:
-        ((struct Obj00030 *)p)->f0 = func_021B34F4(p);
+        ((struct Obj00030 *)p)->f0 = func_021B34F4((u8 *)p);
         break;
     case 11:
-        func_021B46FC(p);
+        func_021B46FC((u8 *)p);
         func_021B3F3C(p);
-        func_021B40A8(p);
-        func_021B3C58(p);
+        func_021B40A8((u8 *)p);
+        func_021B3C58((u8 *)p);
         func_021B3B04(p);
         func_021B3B84(p);
         return 1;

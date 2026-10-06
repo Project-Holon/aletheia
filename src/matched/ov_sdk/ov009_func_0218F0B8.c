@@ -17,7 +17,7 @@
 
  */
 
-char *func_0218F0B8(char *p, int v)
+char *func_0218F0B8(void **p, int v)
 {
     char *q = *(char **)(*(char **)p + 0x5d8);
 

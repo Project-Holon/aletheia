@@ -34,8 +34,10 @@ typedef struct {
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern void func_02017F9C(void *p, u32 v);
 extern void func_020185C4(void *p);
-extern int func_021D62A8(u8 *p);
-extern void func_021D505C(void *p);
+struct A;
+struct Unk021D62A8;
+extern int func_021D62A8(struct Unk021D62A8 *p);
+extern void func_021D505C(struct A *a);
 
 void func_021D6B84(Obj *p, int flag)
 {
@@ -45,10 +47,10 @@ void func_021D6B84(Obj *p, int flag)
     func_02017E40(w, 8, p->f8);
     func_02017E40(w, 0xa0, p->f10);
     if (p->f10 != 0)
-        func_02017F9C(w, func_021D62A8((u8 *)p));
+        func_02017F9C(w, func_021D62A8((struct Unk021D62A8 *)p));
     else
         func_02017F9C(w, 0);
-    func_021D505C(p);
+    func_021D505C((struct A *)p);
     if (p->f1b_b5 || flag != 0)
         r = p->f1b_lo;
     else

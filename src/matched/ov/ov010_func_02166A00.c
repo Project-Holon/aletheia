@@ -27,7 +27,8 @@ extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012F38(int base);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern unsigned short *func_02159AE8(void *a, void *b);
-extern int func_02166854(void *a, int b, unsigned short *c, unsigned short *d, unsigned short *e);
+typedef unsigned int   u32;
+extern void *func_02166854(void *a, int b, u32 c, u32 d, u32 e);
 extern void func_0215897C(void *vm, void *task);
 
 int func_02166A00(void *a, void *b)
@@ -44,7 +45,7 @@ int func_02166A00(void *a, void *b)
     v2 = func_02159AE8((void *)a, (void *)b);
     v3 = func_02159AE8((void *)a, (void *)b);
     v4 = func_02159AE8((void *)a, (void *)b);
-    t = func_02166854(r7, v1, v2, v3, v4);
+    t = (int)func_02166854(r7, v1, (u32)v2, (u32)v3, (u32)v4);
     if (t == 0)
         return 1;
     func_0215897C(r6, (void *)t);

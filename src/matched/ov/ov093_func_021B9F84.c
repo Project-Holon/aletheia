@@ -12,10 +12,11 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9F70(char *,int);
+typedef unsigned char  u8;
+extern int func_021B9F70(u8 *p, int i);
 u16 func_021B9F84(char *p,int i,unsigned int j) {
     char *q;
-    if(func_021B9F70(p,i)) {
+    if(func_021B9F70((u8 *)p,i)) {
         q=(char *)((u32)p+32+(u32)i*40);
         if(j<4) return *(u16 *)((u32)q+16+j*2);
     }

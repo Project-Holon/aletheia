@@ -75,12 +75,13 @@ struct Blk {
 
 extern void *func_02030734(u16 heap, u32 size, u32 align, const u8 *file,
                            u32 line);
-extern void *func_02033908(u16 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+struct Obj02033410;
+extern void *func_02033908(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 struct Obj02033BF0;
 extern u32 func_02033BF8(struct Obj02033BF0 *p);
-extern void  func_02033410(struct Blk *b, u32 f);
-extern void  func_020319C0(struct Blk *b);
-extern void  func_02034714(const u8 *file, u32 line, const u8 *expr);
+extern void func_02033410(struct Obj02033410 *p, u32 val);
+extern void func_020319C0(u8 *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const u8 str_020A7848[];
 extern const u8 str_020A7858[];
 extern const u8 str_020A7868[];
@@ -93,7 +94,7 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
     void *tbl;
 
     if (g_02146994 == 0)
-        func_02034714(str_020A7848, 0x10c, str_020A7858);
+        func_02034714((const char *)str_020A7848, 0x10c, (const char *)str_020A7858);
 
     b = (struct Blk *)func_02030734(heap, 0x154, 1, str_020A7848, 0x10e);
     b->f00 = in->f08;
@@ -102,7 +103,7 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
     b->f0c = in->f14;
 
     if (c != 0 && d < b->f08)
-        func_02034714(str_020A7848, 0x154 - 0x3e, str_020A7868);
+        func_02034714((const char *)str_020A7848, 0x154 - 0x3e, (const char *)str_020A7868);
 
     b->f140 = in->f04 << 1;
     if ((in->f04 & 1) != 0)
@@ -115,7 +116,7 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 
     b->f138 = (u32)func_02030734(heap, b->f13c, 1, str_020A7848,
                                  0x125);
-    tbl = func_02033908(heap, in->f00, in->f04, b->f08, 0x10, 4, b->f140);
+    tbl = func_02033908((u16)heap, in->f00, in->f04, b->f08, 0x10, 4, b->f140);
     b->f2c = (u32)tbl;
     b->f30 = func_02033BF8(tbl);
     if (c != 0) {
@@ -130,8 +131,8 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
     b->f28 = 0;
     b->f24 = 0;
     if (e == 1)
-        func_020319C0(b);
+        func_020319C0((u8 *)b);
     else
-        func_02033410(b, 1);
+        func_02033410((struct Obj02033410 *)b, 1);
     return b;
 }

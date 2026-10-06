@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021BC92C(void)
+void func_021BC92C(u32 a0)
 {
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
 }

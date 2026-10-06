@@ -18,14 +18,15 @@
  */
 
 extern int g_021A8230;
-extern int func_0209477C(char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 void func_0219FCF0(char **buffer, char *str, int *len)
 {
 	int slen;
 	if (!str)
 		str = (char *)&g_021A8230;
-	slen = func_0209477C(str) + 1;
+	slen = func_0209477C((const u8 *)str) + 1;
 	func_02092344(*buffer, str, slen);
 	*len += slen;
 	*buffer += slen;

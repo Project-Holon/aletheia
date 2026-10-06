@@ -29,7 +29,7 @@ typedef struct {
 
 extern int func_0200BCB8(void *e);
 extern u32 func_02005728(u32 v);
-extern u8 func_021C34C4(S *p);
+extern u8 func_021C34C4(void **p);
 
 int func_021C385C(S *p)
 {
@@ -40,7 +40,7 @@ int func_021C385C(S *p)
         p->steps = 0;
         if (func_0200BCB8(p->box) >= 2) {
             u32 r = func_02005728(0x640);
-            if (r < func_021C34C4(p))
+            if (r < func_021C34C4((void **)p))
                 return 1;
         }
     }

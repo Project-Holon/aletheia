@@ -32,7 +32,8 @@ typedef struct {
     u8 f7 : 1;
 } Src;
 
-extern int func_0217AED4(int, Ent *);
+typedef unsigned short u16;
+extern u16 func_0217AED4(u8 *a, u8 *b);
 extern int func_0217AE40(void *, int, int, int);
 extern void func_0216DAC8(unsigned int *p, unsigned int v);
 typedef unsigned int   u32;
@@ -53,7 +54,7 @@ Ent *func_0217AFE4(char *a, int b, Src *c, int d, int e, int *f)
             p->f5 = c->f7;
             p->f6 = d;
             p->f7 = 1;
-            r = func_0217AED4(b, p);
+            r = func_0217AED4((u8 *)b, (u8 *)p);
             r = func_0217AE40(a, ((int *)((struct Obj19390 *)a)->f0)[2], c->f6, r);
             if (e == 0)
                 func_0216DAC8((unsigned int *)r, 1);

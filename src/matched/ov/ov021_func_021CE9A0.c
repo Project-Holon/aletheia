@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021CE984(u8 *p, u32 a);
+extern void func_021CE984(u32 *p, u32 n);
 extern void func_021CE934(u8 *p, u8 *q, u32 c);
 
 void func_021CE9A0(u8 *p)
@@ -29,7 +29,7 @@ void func_021CE9A0(u8 *p)
     if (p[0x518] != 0) {
         p[0x518] = 0;
         for (i = 0; i < 4; i++) {
-            func_021CE984(p, i);
+            func_021CE984((u32 *)p, i);
             if (p[0x514] & (1 << i))
                 func_021CE934(p, p + 0x494 + i * 32, (u8)i);
         }

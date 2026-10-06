@@ -48,7 +48,7 @@ extern void *func_021D6064(u8 *);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_0202F72C(void *,u16,u16);
 extern void func_021DB688(u8 *,u8 *,int);
-extern void func_021DBA54(u8 *,struct Point *);
+extern void func_021DBA54(unsigned char *p, unsigned short *o);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B9A0(struct Actor *a);
@@ -117,7 +117,7 @@ int func_021DAEE4(u8 *a,u8 *p)
                     func_021DBA78(p+0xb0+t*0x18,2);
                     p[0x29]=4;
                     func_021DB468(a,p,p[0x29],0);
-                    func_021DBA54(p+0xb0+p[0x2a]*0x18,&pt);
+                    func_021DBA54(p+0xb0+p[0x2a]*0x18,(short unsigned int *)(&pt));
                     func_0204B404(((struct Obj00026 *)p)->f9C,(const struct Vec2 *)(&pt),0);
                     func_0204B3DC(((struct Obj00026 *)p)->f9C,1);
                     func_0204B9A0(((struct Obj00026 *)p)->f9C);

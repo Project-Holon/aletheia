@@ -26,7 +26,8 @@
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  */
 extern void func_0217DC28(int *);
-extern void func_0217DEA4(int *, int);
+typedef unsigned char  u8;
+extern void func_0217DEA4(u8 *p, int a);
 extern int func_0217DE8C(int *);
 typedef unsigned int   u32;
 extern u32 func_020362DC(void);
@@ -44,7 +45,7 @@ void func_0217DA38(int sys, int *state, int *p)
 {
     int result;
     switch (*state) {
-    case 0: func_0217DC28(p); func_0217DEA4(p, 1); *state = 1; break;
+    case 0: func_0217DC28(p); func_0217DEA4((u8 *)p, 1); *state = 1; break;
     case 1: if (func_0217DE8C(p)) *state = 2; break;
     case 2: if (func_020362DC() & 3) *state = 3; break;
     case 3:

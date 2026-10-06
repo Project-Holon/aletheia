@@ -21,12 +21,12 @@ typedef struct {
     void *fC8[0x20];
 } Obj;
 
-extern u8 func_021BD138(Obj *p);
+extern u8 func_021BD138(u8 *p);
 extern void func_021BD1CC(void *a);
 
 void func_021BC970(Obj *p)
 {
-    int n = func_021BD138(p);
+    int n = func_021BD138((u8 *)p);
     int i;
 
     for (i = 0; i < n; i++) {

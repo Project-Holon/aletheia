@@ -38,8 +38,8 @@ typedef struct _NHTTPConnection {
 } NHTTPConnection;
 
 extern NHTTPConnection *func_021BEBE0(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern int func_021BEC74(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p,
-                         char *label_p, int offset);
+struct Conn;
+extern int func_021BEC74(void *mutexInfo_p, struct Conn *connection_p, char *label_p, int offset);
 extern int func_021BBF44(NHTTPReq *req_p, char *commBuf_p, int socket, int *bufwp_p,
                          char *src_p, int srclen);
 extern void func_021BA13C(void *p_p, int size);
@@ -66,7 +66,7 @@ static int func_021BC160(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *com
         if (req_p->doCancel)
             return 3;
         connection_p->postDataLen = 0;
-        if (func_021BEC74(mutexInfo_p, connection_p, label_p, offset) < 0)
+        if (func_021BEC74(mutexInfo_p, (struct Conn *)connection_p, label_p, offset) < 0)
             return 3;
         length = connection_p->postDataLen;
         value_p = connection_p->postDataBuf;

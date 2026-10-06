@@ -43,7 +43,7 @@ struct Obj;
 extern struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri);
 extern void *func_020734AC(s32 idx, void *owner);
 extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern u32   func_02074BEC(u32 a, u32 b, u32 c, u32 d, u8 **out);
+extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern void  func_020733DC(void *h);
 extern void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData);
 extern void func_02072F48(struct Obj *o, u8 v);
@@ -66,7 +66,7 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
         func_020733DC(h);
         return 0;
     }
-    if (func_02074BEC(s1, 1, v, 0, &blk) != 0) {
+    if (func_02074BEC(s1, 1, v, 0, (u32 *)(&blk)) != 0) {
         func_020733DC(h);
         return 0;
     }

@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 int func_021B94D8(u16 *r, u8 *tbl, u8 *sr);
-void func_021B86A4(u8 *t, u32 *q, u32 *out1, u32 *out2, u32 a5, u32 a6);
+void func_021B86A4(u8 *t, const u32 *q, int *out1, int *out2, u16 *a5, u32 a6);
 
 int func_021B95C0(u8 *p, u8 *q, int a3, int a4, u8 *sr, u32 a6)
 {
@@ -32,7 +32,7 @@ int func_021B95C0(u8 *p, u8 *q, int a3, int a4, u8 *sr, u32 a6)
 
     if (func_021B94D8((u16 *)p, q, sr) == 0)
         goto ok;
-    func_021B86A4(sr, (u32 *)q, &c, &d, (u32)p, a6);
+    func_021B86A4(sr, (u32 *)q, (int *)(&c), (int *)(&d), (u16 *)((u32)p), a6);
     if (a3 > (int)c)
         goto fail;
     if (a4 < 0)

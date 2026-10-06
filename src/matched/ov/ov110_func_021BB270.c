@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 extern const u8 d_021C37AF[];
-u8 func_021BB270(int n) {return *(const u8 *)((unsigned)d_021C37AF+n*10);}
+int func_021BB270(int n) {return *(const u8 *)((unsigned)d_021C37AF+n*10);}

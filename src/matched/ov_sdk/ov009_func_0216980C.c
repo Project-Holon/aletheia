@@ -52,7 +52,8 @@ extern int func_0216A39C(void);
 struct DWCstAccUserData;
 extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02186108(void **connection, int profile, int *index);
-extern int func_02185FD4(void **connection, int index, BuddyStatus *status);
+struct GPBuddyStatus;
+extern int func_02185FD4(void **connection, int index, struct GPBuddyStatus *status);
 
 int func_0216980C(void *friendData, BuddyStatus *status)
 {
@@ -69,7 +70,7 @@ int func_0216980C(void *friendData, BuddyStatus *status)
 	if (!(profileid > 0 && buddyIdx != -1)) {
 		ret = 0;
 	} else {
-		int res = func_02185FD4(stpFriendCnt->connection, buddyIdx, status);
+		int res = func_02185FD4(stpFriendCnt->connection, buddyIdx, (struct GPBuddyStatus *)status);
 		ret = 0;
 		if (res == 0)
 			ret = 1;

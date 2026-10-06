@@ -59,7 +59,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *func_0203D788(int a0);
+extern void *func_0203D788(void);
 extern void func_0203DA20(void);
 extern void func_0203C774(u32 v);
 extern void func_0203BF9C(u32 v);
@@ -70,7 +70,7 @@ int func_0203CEAC(int a0)
 {
     u8 *p;
 
-    p = func_0203D788(a0);
+    p = func_0203D788();
     func_0203DA20();
     if (p != 0) {
         u8 t = p[0x65];

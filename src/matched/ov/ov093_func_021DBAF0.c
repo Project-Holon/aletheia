@@ -21,9 +21,9 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_021B9A24(u8 c, int k);
-extern u32 func_021C7D00(int a, int b);
-extern int func_021C7F68(int p, u16 b, u8 *out);
+extern int func_021B9A24(unsigned int a, unsigned int b);
+extern int func_021C7D00(u8 *p, int b);
+extern int func_021C7F68(int *p, int b, u8 *out);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5814(void *p, int k);
 extern int func_021D76BC(int key, u32 val);
@@ -34,8 +34,8 @@ void func_021DBAF0(int a, int p, int x)
     u32 n;
     u8 i;
 
-    if (func_021B9A24(func_021D775C(2), x) == 0) {
-        n = func_021C7F68(p, func_021C7D00(p, x) | 0x100, buf);
+    if (func_021B9A24((u8)func_021D775C(2), (int)x) == 0) {
+        n = func_021C7F68((int *)p, (u16)(func_021C7D00((u8 *)p, x) | 0x100), buf);
         for (i = 0; i < n; i++) {
             if (func_021D5814(func_021C7CF4((int *)p, buf[i]), 8) != 0)
                 func_021D76BC(0x41, 1);

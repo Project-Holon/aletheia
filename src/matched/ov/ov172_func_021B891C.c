@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
-int func_021B891C(int a, char *q, u16 *p)
+int func_021B891C(void *a, char *q, u16 *p)
 {
     u32 entry;
     int r;

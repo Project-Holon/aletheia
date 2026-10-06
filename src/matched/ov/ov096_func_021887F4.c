@@ -24,7 +24,8 @@ extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
-extern int func_021D5C44(void *);
+struct Rat;
+extern int func_021D5C44(struct Rat *p);
 
 void func_021887F4(int a, int b, int c)
 {
@@ -38,6 +39,6 @@ void func_021887F4(int a, int b, int c)
     t2 = func_0201134C(a);
     t3 = func_0201134C(a);
     s = func_0218A160((u8 *)b, t1);
-    r = func_021D5C44(func_0218A2FC((u8 *)b, s));
+    r = func_021D5C44((struct Rat *)func_0218A2FC((u8 *)b, s));
     func_0218A0F4((u8 *)a, c, r >> 12, t2, t3);
 }

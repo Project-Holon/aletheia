@@ -52,12 +52,14 @@ typedef struct {
 
 extern char d_021BABE0[];
 
-extern void func_02034714(char *a, int b, char *c);
-extern int func_021B6E00(int);
-extern int func_021B6E0C(int);
+typedef unsigned int   u32;
+struct Chan02021FD8;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern int func_021B6E00(unsigned int x);
+extern int func_021B6E0C(unsigned int x);
 extern int func_021B6E18(int);
 extern u16 func_02021F3C(int base, int idx, int which, u16 pos);
-extern void func_02021FD8(int, int, u16, u16, u8, u16);
+extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void func_021B6DB4(int *p, int a, int idx);
 
 void func_021B6C7C(int *p, int idx)
@@ -69,10 +71,10 @@ void func_021B6C7C(int *p, int idx)
 
     e = (Ent *)((u8 *)p + 0xC + idx * 8);
     if (idx >= 4) {
-        func_02034714(d_021BABE0, 0, d_021BABE0);
+        func_02034714(d_021BABE0, (int)0, d_021BABE0);
     }
-    a = func_021B6E00(idx);
-    b = func_021B6E0C(idx);
+    a = func_021B6E00((int)idx);
+    b = func_021B6E0C((int)idx);
     n = func_021B6E18(idx);
     switch (e->state) {
     case 1:
@@ -92,7 +94,7 @@ void func_021B6C7C(int *p, int idx)
         }
         e->v = v;
         for (i = 0; i < n; i++) {
-            func_02021FD8(*(int *)p[1], idx, a + i, 1, v >> 8,
+            func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, v >> 8,
                           func_02021F3C(*(int *)p[1], idx, 1, b + i));
         }
         break;
@@ -109,7 +111,7 @@ void func_021B6C7C(int *p, int idx)
                 }
             }
             for (i = 0; i < n; i++) {
-                func_02021FD8(*(int *)p[1], idx, a + i, 1, e->v >> 8,
+                func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, e->v >> 8,
                               func_02021F3C(*(int *)p[1], idx, 1, b + i));
             }
         } else {

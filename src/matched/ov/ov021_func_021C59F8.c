@@ -30,7 +30,9 @@ typedef struct {
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *h, struct PtS *p, unsigned int c);
-extern void func_0204B404(u32 h, P2 *p, u32 c);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021C59F8(S *p, int v)
 {
@@ -43,6 +45,6 @@ void func_021C59F8(S *p, int v)
     for (; i < 3; i++) {
         func_0204B454((struct Actor *)p->h[i], (struct PtS *)&t, 0);
         t.y = y;
-        func_0204B404(p->h[i], &t, 0);
+        func_0204B404((struct Obj *)p->h[i], (const struct Vec2 *)(&t), 0);
     }
 }

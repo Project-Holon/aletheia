@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201F73C(void *,int,u16,int);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -65,7 +65,7 @@ void func_021BBA4C(char *p,void *party)
     void *win;
     if (((struct Obj01245 *)p)->f1A0==0)
         ((struct Obj01245 *)p)->f1A0=(void *)func_020450F0(2,1,5,30,6,15,1);
-    func_0201F73C(((struct Obj01245 *)p)->f1A0,2,((struct Obj01245 *)p)->f1334,14);
+    func_0201F73C(((struct Obj01245 *)p)->f1A0,2,(u16)(((struct Obj01245 *)p)->f1334),14);
     s=func_020457B0(0x40,0x21);
     t=func_020457B0(0x40,0x21);
     func_02043B5C(func_02045770(((struct Obj01245 *)p)->f1A0),255);

@@ -17,18 +17,19 @@
  */
 #include "../include/Obj01081.h"
 
-extern void func_021BDFA8(char *);
-extern void func_021BE4DC(char *);
+struct Ov208Eff;
+extern void func_021BDFA8(struct Ov208Eff *e);
+extern void func_021BE4DC(struct Ov208Eff *e);
 extern void func_021BE680(char *);
 
 void func_021BDD24(char *p)
 {
     switch (((struct Obj01081 *)p)->fC) {
     case 0:
-        func_021BDFA8(p);
+        func_021BDFA8((struct Ov208Eff *)p);
         break;
     case 1:
-        func_021BE4DC(p);
+        func_021BE4DC((struct Ov208Eff *)p);
         break;
     case 2:
         func_021BE680(p);

@@ -22,12 +22,13 @@ typedef struct { u32 f0; u32 f4; u32 f8[3]; u32 f14; } Q;
 typedef struct { u32 f0; u32 f4; u32 f8; } W;
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern W *func_020124E8(u32 t);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern int func_021C97B8(u32 a, u32 *q, u32 *p);
 u32 func_021C9828(u32 a, u32 b, u32 c)
 {
     u32 t = (u32)func_020122C0((void *)b, (void *)a, func_021C97B8, 0x14);
-    W *w = func_020124E8(t);
+    W *w = func_020124E8((struct Obj *)t);
     w->f0 = b;
     w->f4 = c;
     w->f8 = 0;

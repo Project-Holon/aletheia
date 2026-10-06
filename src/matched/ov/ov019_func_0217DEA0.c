@@ -39,7 +39,7 @@ typedef struct {
 extern void *func_02188CB4(unsigned char *p);
 extern int func_0217BB20(char *p);
 extern void func_0217F074(void *ctx);
-extern u8 func_0217F060(int i);
+extern int func_0217F060(int i);
 extern int func_0217FE44(int a, int mode, unsigned *out);
 extern void func_021750B0(void *w, int v);
 extern int func_0217B8E4(char *p, char v);

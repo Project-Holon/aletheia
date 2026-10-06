@@ -23,6 +23,6 @@ extern void *func_02012EBC(struct Big *p);
 extern int func_02012E7C(char *p, int a1);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl,u32 id);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D768C(u8 *);
-void func_021D76B8(char *p) { int v; v=(int)func_02012EBC((struct Big *)(((struct Obj13987 *)p)->f2C)); if(func_02012E7C((char *)(((struct Obj13987 *)p)->f2C),7)==2) { func_0200734C((struct Sub02007324Ctrl *)v,7); func_021D6EE0(p,(int)func_021D768C,0x36a); } }
+void func_021D76B8(char *p) { int v; v=(int)func_02012EBC((struct Big *)(((struct Obj13987 *)p)->f2C)); if(func_02012E7C((char *)(((struct Obj13987 *)p)->f2C),7)==2) { func_0200734C((struct Sub02007324Ctrl *)v,7); func_021D6EE0((u8 *)p,(int)func_021D768C,0x36a); } }

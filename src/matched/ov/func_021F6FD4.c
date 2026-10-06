@@ -89,7 +89,7 @@ extern u8 ov195_id[];
 
 extern void *func_021F7338(Obj *p, int kind);
 extern void func_021F7374(Obj *p);
-extern void func_021F4EC0(Obj *p, int a, int b);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void *func_02202608(u32 heap);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 typedef signed int     s32;
@@ -151,7 +151,7 @@ int func_021F6FD4(Obj *p)
                 func_02031348(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                 p->state = 1;
             } else {
-                func_021F4EC0(p, 1, 0);
+                func_021F4EC0((u8 *)p, 1, 0);
                 ret = 3;
             }
         } else if (p->kind == 8 || p->kind == 10) {
@@ -191,16 +191,16 @@ int func_021F6FD4(Obj *p)
                     func_02031348(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                     p->state = 1;
                 } else {
-                    func_021F4EC0(p, 1, 0);
+                    func_021F4EC0((u8 *)p, 1, 0);
                     ret = 3;
                 }
             } else {
-                func_021F4EC0(p, 1, 0);
+                func_021F4EC0((u8 *)p, 1, 0);
                 ret = 3;
             }
             func_020307B0(mon);
         } else {
-            func_021F4EC0(p, 1, 0);
+            func_021F4EC0((u8 *)p, 1, 0);
             ret = 3;
         }
         break;
@@ -220,7 +220,7 @@ int func_021F6FD4(Obj *p)
         func_021F7374(p);
         *(volatile u32 *)0x04000000 &= ~0xE000;
         func_02034AC4((u32)ov067_id);
-        func_021F4EC0(p, 7, 0xC);
+        func_021F4EC0((u8 *)p, 7, 0xC);
         ret = 3;
         break;
     }

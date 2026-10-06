@@ -100,7 +100,7 @@ extern void func_02045808(struct U16Vec *vec);
 struct Rec;
 extern void func_02045C04(struct Rec *rec);
 extern u32 func_020362DC(void);
-extern Peer *func_02158344();
+extern int func_02158344(int a0);
 extern int func_021584A4();
 extern int func_0216D3CC(int a0);
 extern void func_0216D9A0(void *map);
@@ -135,7 +135,7 @@ int func_0217B214(int a0, int *state, Obj *o)
     w = func_020124E4((struct Obj *)a0);
     h = func_02012138(w);
     ctx = func_020120F4(w);
-    p = func_02158344(h);
+    p = (Peer *)func_02158344(h);
     switch (*state) {
     case 0:
         func_0216D9A0(func_02188C7C(o->f0));

@@ -28,7 +28,7 @@ extern int func_0215A61C(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02191B14(u32 *a);
-extern void *func_02158F84(void *);
+extern u32 func_02158F84(u8 *p);
 extern void func_02158F80(u8 *p, u32 v);
 extern void func_0201D83C(void *);
 extern void func_0215A614(u8 *p, u32 v);
@@ -40,7 +40,7 @@ void func_021B1268(void *p)
     void *r;
     if (func_02159190(4) != 0) {
         func_02191B14((void *)func_0215A61C((int)p));
-        r = func_02158F84(q);
+        r = (void *)func_02158F84(q);
         func_02158F80(q, 0);
         if (r != 0) {
             func_0201D83C(r);

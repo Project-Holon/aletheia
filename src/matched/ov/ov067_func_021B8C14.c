@@ -36,7 +36,7 @@ struct S {
     u32 f90;
 };
 
-void func_021B8C14(struct S *s, u8 a)
+void func_021B8C14(struct S *s, int a)
 {
     u32 v;
 

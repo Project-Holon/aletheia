@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int state; int y; u8 *p; } Anim;
-extern void func_021FF914(Anim *, int);
+extern void func_021FF914(u32 *p, u32 v);
 extern void func_021FFAEC(u32, int, int);
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
@@ -37,14 +37,14 @@ void func_021FF92C(void *task, Anim *a)
         if (a->y > 160) {
             a->y = 160;
             a->state = 1;
-            func_021FF914(a, 1);
+            func_021FF914((u32 *)a, 1);
         }
         a->y += 2;
         func_021FFAEC(((struct Obj10589 *)p)->fD0C, 128, a->y);
         break;
     case 1:
         if (func_0204B98C((struct Actor *)(((struct Obj10589 *)p)->fD0C)) == 0) {
-            func_021FF914(a, 2);
+            func_021FF914((u32 *)a, 2);
             a->state = 2;
         }
         break;
@@ -52,7 +52,7 @@ void func_021FF92C(void *task, Anim *a)
         if (a->y <= 138) {
             a->y = 138;
             a->state = 3;
-            func_021FF914(a, 3);
+            func_021FF914((u32 *)a, 3);
         } else {
             a->y--;
         }

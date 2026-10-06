@@ -16,9 +16,12 @@
  *   func_021BD604  0x021BD604  thumb  ov021
  */
 
-extern void *func_021BD2C0(void *p);
-extern void *func_021BD2C8(void *p);
-extern void *func_021BD2B8(void *p);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BD2C0(u8 *p);
+extern u16 func_021BD2C8(u8 *p);
+extern u16 func_021BD2B8(u8 *p);
 extern void func_021BD604(void *a, void *b, void *c, void *d, void *e);
 
 void func_021BD30C(char *p)
@@ -26,7 +29,7 @@ void func_021BD30C(char *p)
     void *a;
     void *b;
 
-    a = func_021BD2C0(p);
-    b = func_021BD2C8(p);
-    func_021BD604(a, b, func_021BD2B8(p), p + 0x40, p + 0x41);
+    a = (void *)func_021BD2C0((u8 *)p);
+    b = (void *)func_021BD2C8((u8 *)p);
+    func_021BD604(a, b, (void *)func_021BD2B8((u8 *)p), p + 0x40, p + 0x41);
 }

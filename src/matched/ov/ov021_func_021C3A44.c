@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void func_021C3A70(void **p);
+extern void func_021C3A70(u32 *p);
 
 void func_021C3A44(void **p)
 {
@@ -26,5 +26,5 @@ void func_021C3A44(void **p)
     u32 item = func_02017E1C(p[1], 0x6E, 0);
 
     if (sp == 0x84 && item == 2)
-        func_021C3A70(p);
+        func_021C3A70((u32 *)p);
 }

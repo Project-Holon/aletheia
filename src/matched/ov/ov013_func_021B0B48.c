@@ -42,8 +42,9 @@ typedef struct {
 extern Ctx3C84 d_021B3C84;
 extern u8 d_021B3E78[];
 
-extern int func_021B0904(void *a, u32 b, u32 idx, int *out);
-extern void func_021B3624(void *a, void *src, void *c, u32 b);
+typedef signed short   s16;
+extern int func_021B0904(void *dst, u32 size, u32 idx, u32 *mask);
+extern void func_021B3624(s16 *a, s16 *b, s16 *d, u32 len);
 extern void func_021B33E0(void *a, u32 b);
 extern void func_02082AC0(int x, void *a, u32 b);
 extern void MIi_CpuClearFast(int x, void *a, u32 b);
@@ -60,7 +61,7 @@ int func_021B0B48(void *a, u32 b, int *out)
     ret = 0;
     if (b == d_021B3C84.f24 && d_021B3C84.f20 != 0) {
         for (i = 0; i < 3; i++) {
-            if (func_021B0904(a, b, i, out) == 1) {
+            if (func_021B0904(a, b, i, (u32 *)out) == 1) {
                 ret = 1;
                 break;
             }
@@ -71,8 +72,8 @@ int func_021B0B48(void *a, u32 b, int *out)
                 ret = 1;
             } else {
                 for (; j < 3; j++) {
-                    if (func_021B0904(d_021B3E78, b, j, out) == 1)
-                        func_021B3624(a, d_021B3E78, a, b);
+                    if (func_021B0904(d_021B3E78, b, j, (u32 *)out) == 1)
+                        func_021B3624(a, (s16 *)d_021B3E78, a, b);
                 }
             }
         } else {

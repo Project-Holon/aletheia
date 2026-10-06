@@ -38,10 +38,11 @@ typedef struct {
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned long strlen(const char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern void func_0219DEE8(ServerBrowser *engine, unsigned char keyid);
-extern int func_0219FFD4(void *slist, char *fieldList, char *serverFilter, int options, int maxServers);
+struct SBServerList;
+extern void func_0219DEE8(char *p, int v);
+extern int func_0219FFD4(struct SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern void func_0217F2BC(unsigned int msec);
-extern int func_0219EFD0(ServerBrowser *sb);
+extern int func_0219EFD0(char *p);
 extern char g_021A81DC[];
 extern char *g_021A7C90[];
 extern char g_021A8218[];
@@ -68,14 +69,14 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
         if (listLen + keylen + 1 >= 256)
             break;
         listLen += OS_SPrintf(keyList + listLen, g_021A8218, key);
-        func_0219DEE8(sb, basicFields[i]);
+        func_0219DEE8((char *)sb, basicFields[i]);
     }
-    err = func_0219FFD4(&sb->liststate, keyList, serverFilter, updateOptions, maxServers);
+    err = func_0219FFD4((struct SBServerList *)(&sb->liststate), keyList, serverFilter, updateOptions, maxServers);
     if (err != 0 || async)
         return err;
     while (sb->liststate == 3 || (sb->numpending > 0 && err == 0)) {
         func_0217F2BC(10);
-        err = func_0219EFD0(sb);
+        err = func_0219EFD0((char *)sb);
     }
     return err;
 }

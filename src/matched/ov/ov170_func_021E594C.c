@@ -40,28 +40,28 @@
 
 struct WinMgr;
 extern void func_021EF57C(struct WinMgr *mgr);
-extern void func_021ED55C(unsigned char *p, int flag);
+extern void func_021ED55C(char **p, int flag);
 extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(unsigned char *p);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
-extern int func_021E0190(unsigned char *p);
+extern void func_021DD14C(char *p);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
 extern int func_021EA8CC(unsigned char *p);
 extern void func_021ECB84(char *w, unsigned i);
 extern void func_021EC768(char *p, unsigned i, int flag);
-extern void func_021EE3E4(unsigned char *p, unsigned idx);
+extern void func_021EE3E4(char **p, unsigned idx);
 extern int func_021E0778(unsigned char *p);
 extern void func_020061E4(unsigned se);
-extern void func_021ED6E4(unsigned char *p, int v);
+extern void func_021ED6E4(char **p, int v);
 extern void func_021EBBC8(unsigned char *p, unsigned kind, int i);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
 extern void func_021EF3A0(struct WinMgr *mgr);
 extern int func_021E01B0(unsigned char *p);
-extern void func_021EE520(unsigned char *p, unsigned idx);
-extern int func_021E066C(unsigned char *p);
+extern void func_021EE520(char *p, unsigned idx);
+extern int func_021E066C(char *p);
 extern void func_020307B0(void *ptr);
 extern void func_021ED888(char *w, int a);
-extern void func_021EE038(unsigned char *p, int a, int b, int c);
-extern void func_021EE364(unsigned char *p, int idx, int v);
+extern void func_021EE038(char *p, int a, int b, int c);
+extern void func_021EE364(char **p, int idx, int v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
@@ -73,31 +73,31 @@ int func_021E594C(unsigned char *p)
     switch (STEP(p)) {
     case 0:
         func_021EF57C(MGR(p));
-        func_021ED55C(p, 0);
+        func_021ED55C((char **)p, 0);
         func_021EBA5C(WORK(p), 0x18);
-        func_021DD14C(p);
+        func_021DD14C((char *)p);
         STEP(p)++;
-        return func_021E8FC0(p, func_021E0190, 0x34);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 0x34);
     case 1:
         switch (func_021EA8CC(p)) {
         case 0:
             p[0x18] = 1;
             func_021ECB84(WORK(p), p[0x16]);
             func_021EC768(WORK(p), 0x24, 0);
-            func_021ED55C(p, 1);
-            func_021EE3E4(p, p[0x16] - 0x1E);
+            func_021ED55C((char **)p, 1);
+            func_021EE3E4((char **)p, p[0x16] - 0x1E);
             STEP(p)++;
-            return func_021E8FC0(p, func_021E0778, 0x34);
+            return func_021E8FC0((char *)p, (int)func_021E0778, 0x34);
         case 1:
             func_020061E4(0x557);
-            func_021ED6E4(p, 0);
+            func_021ED6E4((char **)p, 0);
             func_021EBBC8(p, 6, 0x18);
             STATE(p) = 0x33;
             STEP(p) = 0;
             return 6;
         case 2:
             func_020061E4(0x557);
-            func_021ED6E4(p, 0);
+            func_021ED6E4((char **)p, 0);
             func_021EBC58(p, 0, 5, 0x18);
             STATE(p) = 0x33;
             STEP(p) = 0;
@@ -108,17 +108,17 @@ int func_021E594C(unsigned char *p)
         func_020061E4(0x669);
         func_021EF3A0(MGR(p));
         STEP(p)++;
-        return func_021E8FC0(p, func_021E01B0, 0x34);
+        return func_021E8FC0((char *)p, (int)func_021E01B0, 0x34);
     case 3:
-        func_021EE520(p, p[0x16] - 0x1E);
+        func_021EE520((char *)p, p[0x16] - 0x1E);
         STEP(p)++;
-        return func_021E8FC0(p, func_021E066C, 0x34);
+        return func_021E8FC0((char *)p, (int)func_021E066C, 0x34);
     case 4:
         func_020307B0(*(void **)(WORK(p) + 0x60));
         func_021ED888(WORK(p), 1);
         func_021EBC58(p, 0, 3, 0x1A);
-        func_021EE038(p, 0, 1, 1);
-        func_021EE364(p, 1, 0);
+        func_021EE038((char *)p, 0, 1, 1);
+        func_021EE364((char **)p, 1, 0);
         STEP(p) = 0;
         return 0x35;
     }

@@ -27,14 +27,17 @@ typedef unsigned int u32;
 extern u8 d_021C3740[];
 extern u8 d_021C375C[];
 extern u8 d_021C3AA0[];
-extern void func_0204A48C(const void *a, const void *b, u32 heap);
-extern void *func_0204B100(int count, u32 flag, u32 heap);
-extern void *func_0204B034(const void *a, u32 b, u32 heap);
-extern void func_0204B258(void *bank, void *p);
+struct Bank;
+struct Cfg;
+struct Obj;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
+extern void func_0204B258(struct Bank *bank, void *p);
 
-void func_021BE5B8(char *p)
+void func_021BE5B8(char *p, void *a1)
 {
-    func_0204A48C(d_021C3740, d_021C3AA0, 0x21);
+    func_0204A48C((const struct Cfg *)d_021C3740, (u32)d_021C3AA0, 0x21);
     *(void **)(p + 0x110) = func_0204B100(0x64, 0, 0x21);
     *(void **)(p + 0x114) = func_0204B034(d_021C375C, 2, 0x21);
     func_0204B258(*(void **)(p + 0x110), *(void **)(p + 0x114));

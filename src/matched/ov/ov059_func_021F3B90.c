@@ -48,9 +48,9 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
-extern W *func_021897BC(void *p, int i);
+extern int *func_021897BC(char *p, int idx);
 extern V *func_021BE480(void *p, int i, u16 j);
-extern void func_021BE4B4(void *p, int i, u16 j, int v);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 
 int func_021F3B90(void *a)
 {
@@ -66,7 +66,7 @@ int func_021F3B90(void *a)
     t = func_0201210C(func_020124E4(a));
     s = (void *)func_02188D2C(t);
     flag = 1;
-    w = func_021897BC(t, 1);
+    w = (W *)func_021897BC(t, 1);
     if (w->b == 0)
         flag = 0;
     w->g++;
@@ -84,7 +84,7 @@ int func_021F3B90(void *a)
     *func_021BE480(s, 0, flag) = pos;
     if (w->g >= w->f) {
         if (w->b == 1)
-            func_021BE4B4(s, 0, flag, 1);
+            func_021BE4B4(s, 0, (u16)flag, 1);
         return 1;
     }
     return 0;

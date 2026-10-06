@@ -19,7 +19,8 @@
 
 extern int func_0218022C(const char *s, int n);
 extern void *func_0217EAB0(unsigned long size);
-extern int func_02180334(char *theUTF8String, int theUTF8Length, unsigned short *theUCS2String, int theMaxUCS2Length);
+typedef unsigned short u16;
+extern int func_02180334(const unsigned char *src, int size, u16 *out, int max);
 
 unsigned short *func_021802EC(char *theUTF8String, int theUTF8StringLength)
 {
@@ -30,6 +31,6 @@ unsigned short *func_021802EC(char *theUTF8String, int theUTF8StringLength)
         return 0;
     newLength = func_0218022C(theUTF8String, theUTF8StringLength);
     aUCS2String = (unsigned short *)func_0217EAB0((newLength + 1) * 2);
-    func_02180334(theUTF8String, theUTF8StringLength, aUCS2String, newLength);
+    func_02180334((const unsigned char *)theUTF8String, theUTF8StringLength, aUCS2String, newLength);
     return aUCS2String;
 }

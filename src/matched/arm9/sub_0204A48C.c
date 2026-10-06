@@ -93,8 +93,10 @@ struct Obj;
 struct Res;
 extern void func_0204D7E0(struct Res *res, u32 heapId, const struct Cfg *cfg, const struct Caps *caps);
 extern void func_0204BC94(struct Obj *o, u32 base, u32 count, u32 base2, u8 count2);
-extern void  func_0204BA38(void *sub, const struct Cfg *cfg, u32 heapId);
-extern void  func_0204C660(void *sub, u8 count, u32 heapId);
+typedef signed short   s16;
+extern void func_0204BA38(void *a, const s16 *src, u32 mode);
+struct Pool;
+extern void func_0204C660(struct Pool *p, u8 n, u32 heapId);
 extern void  func_0204BAEC(u32 on);
 extern void  func_0204BB20(u32 on);
 
@@ -116,8 +118,8 @@ void sub_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId)
     func_0204D7E0((struct Res *)((u8 *)g_02146A74 + 0x104), heapId, (const struct Cfg *)arg, (const struct Caps *)dims);
     func_0204BC94((struct Obj *)g_02146A74, cfg->unk_08, cfg->unk_09, cfg->unk_0a,
                   cfg->unk_0b);
-    func_0204BA38((u8 *)g_02146A74 + 0x40, cfg, heapId);
-    func_0204C660((u8 *)g_02146A74 + 0xe0, cfg->unk_0c, heapId);
+    func_0204BA38((u8 *)g_02146A74 + 0x40, (const s16 *)cfg, heapId);
+    func_0204C660((struct Pool *)((u8 *)g_02146A74 + 0xe0), cfg->unk_0c, heapId);
 
     for (i = 0; i < 2; i++) {
         g_02146A74->unk_f0[i] = 0;

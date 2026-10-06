@@ -13,7 +13,9 @@
  *   func_021B69D8 0x021B69D8 thumb ov067
  */
 extern void *func_021B65C8(unsigned char *p, unsigned int v);
-extern void func_021B69D8(void *p, unsigned int v);
+typedef unsigned int   u32;
+struct S;
+extern void func_021B69D8(struct S *p, u32 v);
 
 void func_021B6598(unsigned char *p, unsigned int id, unsigned int v)
 {

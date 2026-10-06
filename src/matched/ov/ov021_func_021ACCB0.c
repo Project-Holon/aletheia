@@ -62,7 +62,7 @@ extern AngTbl d_021D9198;
 extern PosTbl d_021D91C8;
 extern AngTbl d_021D91B0;
 extern u32 func_021ABE18(u32 a);
-extern Node *func_021C6658(u32 a, u32 b);
+extern int func_021C6658(u32 a, u32 b);
 struct Mtx33;
 extern void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst);
 extern void func_021AC1B8(u32 a, Node *n);
@@ -76,7 +76,7 @@ void func_021ACCB0(u32 a, B *b)
     Node *n;
 
     obj = func_021ABE18(*b->f1c);
-    n = func_021C6658(obj, b->f18);
+    n = (Node *)func_021C6658(obj, b->f18);
     func_020520FC(e->x, e->y, e->z, (struct Mtx33 *)n->mtx);
     func_021AC1B8(a, n);
     if (b->in.a == 0) {
@@ -85,7 +85,7 @@ void func_021ACCB0(u32 a, B *b)
         AngTbl at = d_021D91B0;
         V3 *p = &pt.e[b->fc];
         Ang *g = &at.e[b->fc];
-        n = func_021C6658(obj, in->c);
+        n = (Node *)func_021C6658(obj, in->c);
         func_020520FC(g->x, g->y, g->z, (struct Mtx33 *)n->mtx);
         func_021AC1B8(a, n);
         n->pos.x = n->pos.x + (in->pos.x + p->x);

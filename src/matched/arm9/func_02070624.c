@@ -51,7 +51,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-u32 func_02070624(u32 *base, u32 flags, u32 off, u32 idx)
+int func_02070624(u32 *base, u32 flags, u32 off, u32 idx)
 {
     u32 n;
     u32 i0;

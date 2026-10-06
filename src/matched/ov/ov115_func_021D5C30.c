@@ -17,12 +17,13 @@
 #include "../include/Obj04466.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021D5B5C(void *, unsigned int, int);
+struct MsgBank;
+extern void func_021D5B5C(char *p, struct MsgBank *a, int b);
 extern void func_0202F038(u8 *);
 extern unsigned int func_020056BC(void);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 void func_021D5C30(u8 *p, unsigned int a, int b) {
-    func_021D5B5C(p, a, b);
+    func_021D5B5C((char *)p, (struct MsgBank *)a, b);
     if (((struct Obj04466 *)p)->f80) {
         func_0202F038(((struct Obj04466 *)p)->f80);
         ((struct Obj04466 *)p)->f80 = 0;

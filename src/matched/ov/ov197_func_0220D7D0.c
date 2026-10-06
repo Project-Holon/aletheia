@@ -16,5 +16,10 @@
  */
 #include "../include/Obj08356.h"
 struct WordSet;struct PrintSys;
-extern void func_02045C04(void *),func_0201ED04(struct WordSet *),func_0201C4C0(struct PrintSys *),func_02045808(void *);
+struct Rec;
+struct U16Vec;
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201ED04(struct WordSet *);
+extern void func_0201C4C0(struct PrintSys *);
+extern void func_02045808(struct U16Vec *vec);
 void func_0220D7D0(char *p){func_02045C04(((struct Obj08356 *)p)->fC);func_0201ED04(*(struct WordSet * *)&((struct Obj08356 *)p)->f10);func_0201C4C0(*(struct PrintSys * *)&((struct Obj08356 *)p)->f18);func_02045808(((struct Obj08356 *)p)->f14);}

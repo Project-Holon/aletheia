@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern s16 tbl_020A1B38[];
 
-s16 func_0203F5FC(u32 x)
+int func_0203F5FC(u32 x)
 {
     if (x >= 360) {
         return 0;

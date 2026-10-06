@@ -25,13 +25,13 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern u8 *func_0204ABBC(u32, u32);
+extern int func_0204ABBC(u32 idx, u32 flag);
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_020437EC(const struct Bmp *bmp);
 extern void func_020862F0(void *, u32);
 extern void func_0207E780(void *, void *, u32);
-extern int func_021B811C(char *);
+extern int func_021B811C(u8 *p);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
@@ -44,7 +44,7 @@ void func_021BA4A4(char *p)
     u8 *dst;
 
     for (i = 0; i < 8; i++) {
-        src = func_0204ABBC(*(u32 *)(p + i * 4 + 0x5F4), 0);
+        src = (u8 *)func_0204ABBC(*(u32 *)(p + i * 4 + 0x5F4), 0);
         dst = func_020437D4(*(void **)(p + i * 4 + 0x614));
         func_020862F0(dst, func_020437EC(*(void **)(p + i * 4 + 0x614)));
         func_0207E780(dst + 0x100, src + 0x80, 0x80);
@@ -53,7 +53,7 @@ void func_021BA4A4(char *p)
         func_0207E780(dst + 0x180, src + 0x400, 0x100);
         if (*(u32 *)(p + i * 4 + 0x654) != 0) {
             if (((struct Obj09880 *)p)->f80C == 4) {
-                if (func_021B811C(p) == 1 && *(u32 *)(p + i * 4 + 0x654) != 3) {
+                if (func_021B811C((u8 *)p) == 1 && *(u32 *)(p + i * 4 + 0x654) != 3) {
                     func_0204B878((struct Obj *)(*(int *)(p + i * 4 + 0x674)), *(u32 *)(p + i * 4 + 0x654) - 1);
                     func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 1);
                 } else {

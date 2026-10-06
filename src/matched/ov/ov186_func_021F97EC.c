@@ -19,5 +19,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
-extern void func_021F98F8(char *,int,int,int);
-void func_021F97EC(char *p,char *q) { char *s;if(((struct Obj24794 *)p)->f1C){s=*(char * *)&((struct Obj24795 *)q)->f18;func_021F98F8((char *)(((struct Obj14449 *)s)->f8+0x1748),0,((struct Obj24796 *)(*(char * *)&((struct Obj14449 *)s)->fC))->f4,90);} }
+extern void func_021F98F8(char *p, int skip, void *sys, int heap);
+void func_021F97EC(char *p,char *q) { char *s;if(((struct Obj24794 *)p)->f1C){s=*(char * *)&((struct Obj24795 *)q)->f18;func_021F98F8((char *)(((struct Obj14449 *)s)->f8+0x1748),0,(void *)(((struct Obj24796 *)(*(char * *)&((struct Obj14449 *)s)->fC))->f4),90);} }

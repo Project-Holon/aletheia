@@ -19,7 +19,8 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
-extern void func_021D8E84(void *,int),func_021DA798(void *);
+extern void func_021D8E84(void *,int);
+extern void func_021DA798(char *p);
 void func_021DAD84(void *p) {
  if(func_021E12AC(p)) {
   func_02039C68((struct Link *)func_020399A8(),27,8);

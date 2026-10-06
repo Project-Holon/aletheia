@@ -12,4 +12,4 @@
  */
 #include "../include/Obj15570.h"
 
-unsigned int func_02008374(int a0, int a1, int a2, int a3){ return ((unsigned int)((((struct Obj15570 *)((char *)(a0)))->f0 << 0x1c)) >> 0x1c); }
+unsigned int func_02008374(int a0){ return ((unsigned int)((((struct Obj15570 *)((char *)(a0)))->f0 << 0x1c)) >> 0x1c); }

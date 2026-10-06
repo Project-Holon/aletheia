@@ -18,7 +18,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 extern s16 tbl_020A1B38[];
-extern void func_02061CA4(u32 a, u32 b, void *src, u32 n);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 #define F (*(int *)(p + 0xB8))
 static inline void lerp(u16 *p, int n, u16 a, u16 b)
 {
@@ -45,5 +46,5 @@ void func_021BD348(char *p)
     for (i = 0; i < 5; i++) {
         lerp((u16 *)(p + i * 2 + 0xAC), t, *(u16 *)(p + i * 2 + 0x98), *(u16 *)(p + i * 2 + 0xA2));
     }
-    func_02061CA4(14, 0x56, p + 0xAC, 10);
+    func_02061CA4((void *)14, 0x56, (u32)(p + 0xAC), 10);
 }

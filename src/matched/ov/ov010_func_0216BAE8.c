@@ -27,14 +27,14 @@ extern void *func_0200C0E8(void *sys);
 struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
 extern int func_0216BB18(void *sys);
-extern int func_0216BBC4(u8);
+extern int func_0216BBC4(int index);
 u16 func_0216BAE8(int p)
 {
     int index, elapsed, x;
     func_0200E394((void *)p);
     index = func_0200C32C(func_0200C0E8((void *)p));
     elapsed = func_0216BB18((void *)p);
-    x = (int)((u32)func_0216BBC4(index) - (u32)elapsed);
+    x = (int)((u32)func_0216BBC4((u8)index) - (u32)elapsed);
     if (x < 0) x = 0;
     return (u16)x;
 }

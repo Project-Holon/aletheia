@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern void func_021BC704(u8 *p, u32 flag);
 extern void func_021BC724(u8 *);
 extern u16 func_021BF71C(u8 *);
-extern void func_021BCF7C(u8 *, u8, int);
+extern void func_021BCF7C(u8 *p, int n, int v);
 extern void func_021B9CBC(u8 *);
 void func_021BA258(void *unused, u8 *p)
 {
@@ -32,6 +32,6 @@ void func_021BA258(void *unused, u8 *p)
     q[0x74] = 1;
     func_021BC704(*(u8 * *)&((struct Obj06383 *)q)->f54, 0);
     func_021BC724(*(u8 * *)&((struct Obj06383 *)q)->f54);
-    func_021BCF7C(*(u8 * *)&((struct Obj06383 *)q)->f64, func_021BF71C(*(u8 * *)&((struct Obj06383 *)q)->f18), 0);
+    func_021BCF7C(*(u8 * *)&((struct Obj06383 *)q)->f64, (u8)func_021BF71C(*(u8 * *)&((struct Obj06383 *)q)->f18), 0);
     func_021B9CBC(p);
 }

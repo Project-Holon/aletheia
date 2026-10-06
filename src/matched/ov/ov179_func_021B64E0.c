@@ -36,7 +36,7 @@ typedef struct {
 
 extern const Entry data_021B6A1C[];
 extern u64 func_020870D0(void);
-extern void func_0204047C(u8, u8);
+extern void func_0204047C(int idx, unsigned short val);
 extern void func_021B669C(int, int, int, int, int);
 
 int func_021B64E0(char *p)
@@ -60,13 +60,13 @@ int func_021B64E0(char *p)
         (((struct Obj00546 *)p)->f603C)++;
         func_021B669C(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, 1);
         (((struct Obj00546 *)p)->f603C)++;
-        func_0204047C(2, 0);
-        func_0204047C(3, 1);
+        func_0204047C((u8)2, (u8)0);
+        func_0204047C((u8)3, (u8)1);
         ((struct Obj00546 *)p)->f603F = 1;
         break;
     case 1:
-        func_0204047C((((struct Obj00546 *)p)->f603E ^ 1) + 2, 0);
-        func_0204047C(((struct Obj00546 *)p)->f603E + 2, 1);
+        func_0204047C((u8)((((struct Obj00546 *)p)->f603E ^ 1) + 2), (u8)0);
+        func_0204047C((u8)(((struct Obj00546 *)p)->f603E + 2), (u8)1);
         func_021B669C(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, ((struct Obj00546 *)p)->f603E);
         (((struct Obj00546 *)p)->f603C)++;
         if (((struct Obj00546 *)p)->f603C >= e->count) {
@@ -76,8 +76,8 @@ int func_021B64E0(char *p)
         }
         break;
     case 2:
-        func_0204047C(((struct Obj00546 *)p)->f603E + 2, 0);
-        func_0204047C((((struct Obj00546 *)p)->f603E ^ 1) + 2, 1);
+        func_0204047C((u8)(((struct Obj00546 *)p)->f603E + 2), (u8)0);
+        func_0204047C((u8)((((struct Obj00546 *)p)->f603E ^ 1) + 2), (u8)1);
         ((struct Obj00546 *)p)->f603F = 3;
         break;
     case 3:

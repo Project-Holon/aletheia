@@ -58,15 +58,15 @@ struct Obj {
 };
 
 extern void sub_02082BCC(void *dst, int value, u32 len);
-extern void sub_02063790(void *p);
-extern void sub_020637D4(void *p);
+extern void sub_02063790(u32 *p);
+extern void sub_020637D4(u32 *p);
 
 void sub_0204CAE4(struct Obj *o)
 {
     sub_02082BCC(o, 0, 0xe4);
     o->unk_54 = 0x1000;
-    sub_02063790(o->unk_1c);
-    sub_020637D4(o->unk_40);
+    sub_02063790((u32 *)o->unk_1c);
+    sub_020637D4((u32 *)o->unk_40);
     o->unk_14 = 0x1000;
     o->unk_18 = 0x1000;
     o->mode |= 1;

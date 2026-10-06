@@ -19,7 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0216D67C(void *a);
-extern int func_0216DD1C(void *c, void **out, u32 *iter);
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern u16 func_0216D598(void *p);
 
 int func_0216DFC4(void *a, u32 id)
@@ -29,7 +31,7 @@ int func_0216DFC4(void *a, u32 id)
     void *ctx;
 
     ctx = func_0216D67C(a);
-    while (func_0216DD1C(ctx, &out, &iter) == 1) {
+    while (func_0216DD1C(ctx, (struct Rec **)(&out), &iter) == 1) {
         if (out != a) {
             u32 v = func_0216D598(out);
             if (v != 0xFFFF && v == id)

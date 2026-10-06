@@ -10,7 +10,7 @@
  * status:   EXACT* (extent 12, compiled 10, trailing padding)
  */
 
-void func_021C1198(unsigned char *p, char x)
+void func_021C1198(unsigned char *p, int x)
 {
     if (p[5] == 3) {
         p[5] = x;

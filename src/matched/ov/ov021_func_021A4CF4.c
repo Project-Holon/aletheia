@@ -38,7 +38,7 @@ extern void func_021A4E9C(u32 *p, int b, u8 *c);
 extern void func_021A4ED8(u32 *p, int b, u8 *c);
 extern void func_021A4F04(u32, void *, u32);
 extern void func_021A4F0C(u32 a, u32 b, u32 c);
-extern void func_021A4F50(u32, void *, u32);
+extern void func_021A4F50(u32 *a, void *a1, u32 a2);
 extern int func_021A4F58(u32, void *, u32);
 
 void func_021A4CF4(u32 a, u32 b, u32 c)
@@ -53,7 +53,7 @@ void func_021A4CF4(u32 a, u32 b, u32 c)
     case 5: func_021A4ED8((u32 *)a, (int)x, (u8 *)c); return;
     case 6: func_021A4F04(a, x, c); return;
     case 7: func_021A4F0C(a, (u32)x, c); return;
-    case 8: func_021A4F50(a, x, c); return;
-    case 9: func_021A4F58(a, x, c); break;
+    case 8: func_021A4F50((u32 *)((u32)((u32)((u32)((u32)((u32)((u32)a)))))), x, c); return;
+    case 9: func_021A4F58((u32)((u32 *)a), x, c); break;
     }
 }

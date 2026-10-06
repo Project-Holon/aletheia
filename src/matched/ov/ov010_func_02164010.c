@@ -37,7 +37,7 @@ extern int func_02163E58(int a, Vec3 *p, int *out);
 extern void func_0216D89C(int a, Vec3 *p);
 extern int func_0216D854(void *p);
 extern void func_0216D818(int a, int b);
-extern void func_0216D85C(int a, int b);
+extern void func_0216D85C(void *p, int v);
 
 int func_02164010(int a)
 {
@@ -59,7 +59,7 @@ int func_02164010(int a)
         cur.v[1] = out;
         func_0216D89C(a, &cur);
         func_0216D818(a, func_0216D854((void *)a));
-        func_0216D85C(a, (s16)((out >> 4) / 4096));
+        func_0216D85C((void *)a, (s16)((out >> 4) / 4096));
         func_0216D570((char *)a, 0x1000);
     } else {
         func_0216D568((void *)a, 0x1000);

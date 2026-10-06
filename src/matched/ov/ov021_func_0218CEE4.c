@@ -49,8 +49,8 @@ extern int func_0218DC84(int a, int b, const int *q, int c);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern char d_021D3DDC[];
 extern int d_021DD9EC;
-extern void func_0218DD70(void *e);
-extern void func_0218DD14(void *dst, char *src, int a, int b);
+extern int func_0218DD70(u32 a);
+extern void func_0218DD14(int *dst, char *src, int a, int b);
 struct Mgr;
 extern struct Mgr *func_02169148(const struct Cfg *cfg, u32 heap);
 extern void func_0216937C(u8 *p, int a, int b);
@@ -153,8 +153,8 @@ void func_0218CEE4(Obj *p, const Src *src, void *c)
     p->f44 = func_02030734(p->heap, p->f2e, 1, (const char *)&d_021DD9EC, 0x308);
     for (i = 0; i < p->f2e; i++) {
         off = i * 0x28;
-        func_0218DD70(p->f24 + off + 0x18);
-        func_0218DD14(p->f24 + off + 4, (char *)p, i, p->heap);
+        func_0218DD70((u32)(p->f24 + off + 0x18));
+        func_0218DD14((int *)(p->f24 + off + 4), (char *)p, i, p->heap);
         cfg.f0c = p->f24 + off + 4;
         h = (int)func_02169148(&cfg, p->heap);
         *(int *)(p->f24 + off) = h;

@@ -28,7 +28,8 @@ struct Cmd {
 
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021C60D4(u8 *p, u8 *a);
-extern int func_021C99A0(void *w, void *c);
+struct Msg;
+extern int func_021C99A0(void *w, const struct Msg *m);
 extern void func_021C2250(u8 *p, u8 *a, u16 b, u32 c);
 
 int func_021C9ECC(u8 *w, struct Cmd *c)
@@ -36,7 +37,7 @@ int func_021C9ECC(u8 *w, struct Cmd *c)
     u8 *r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, (u8)c->id);
     if (c->w4 == 0) {
         func_021C60D4(w, r);
-        func_021C99A0(w, (u8 *)c + 8);
+        func_021C99A0(w, (const struct Msg *)((u8 *)c + 8));
     }
     func_021C2250(w, r, 0, 1);
     return 1;

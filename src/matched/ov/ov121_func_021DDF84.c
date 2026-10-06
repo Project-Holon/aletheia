@@ -26,7 +26,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021DC024(void *);
 extern void func_0204B84C(void *,u8);
-extern int func_0204AEF4(void *,int);
+typedef unsigned int   u32;
+extern int func_0204AEF4(u32 idx, u32 alternate);
 extern void func_021DDC30(int,int);
 extern void func_021DDC44(int,int);
 extern void func_02082A48(int,void *,int);
@@ -40,10 +41,10 @@ void func_021DDF84(char *p)
         *(u16 *)(p+0xde)=0;
         func_0204B84C(*(void **)(*(char **)(p+0x11c)+0x20),*(unsigned *)(*(char **)(p+0x11c)+0x8c));
         if (*(int *)(*(char **)(p+0x11c)+0x84)) {
-            palette=(char *)(func_0204AEF4(*(void **)(*(char **)(p+0x11c)+0x10),*(int *)(*(char **)(p+0x11c)+0x98))+0x05000200);
+            palette=(char *)(func_0204AEF4((u32)(*(void **)(*(char **)(p+0x11c)+0x10)),*(int *)(*(char **)(p+0x11c)+0x98))+0x05000200);
             blend=func_021DDC30;
         } else {
-            palette=(char *)(func_0204AEF4(*(void **)(*(char **)(p+0x11c)+0x10),*(int *)(*(char **)(p+0x11c)+0x98))+0x05000600);
+            palette=(char *)(func_0204AEF4((u32)(*(void **)(*(char **)(p+0x11c)+0x10)),*(int *)(*(char **)(p+0x11c)+0x98))+0x05000600);
             blend=func_021DDC44;
         }
         blend(2,12);

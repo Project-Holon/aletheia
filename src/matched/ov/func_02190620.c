@@ -33,7 +33,7 @@ extern u8 func_02045730(struct Descriptor *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 
-int func_02190620(u32 a, u32 b, u32 c, u32 d)
+int func_02190620(u32 a)
 {
 func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj12064 *)((u8 *)(a)))->f14)), 255);
 return func_020409B4(func_02045730((struct Descriptor *)(((struct Obj12064 *)((u8 *)(a)))->f14)));

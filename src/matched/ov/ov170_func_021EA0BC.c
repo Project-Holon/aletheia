@@ -27,14 +27,14 @@ typedef struct {
 } Top;
 
 extern void func_021EC768(char *p, unsigned i, int flag);
-extern void func_021ED594(unsigned char *p, unsigned i);
-extern void func_021EE038(unsigned char *p, int a, int b, int c);
+extern void func_021ED594(char *p, unsigned i);
+extern void func_021EE038(char *p, int a, int b, int c);
 extern void func_021EF680(char *w);
 extern void func_021EF69C(char *w);
 typedef unsigned int   u32;
 struct Sound;
 extern void func_02026124(struct Sound *obj, u32 idx);
-extern void func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0778(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -44,12 +44,12 @@ void func_021EA0BC(unsigned char *p, unsigned char i)
     p[0x18] = 1;
     p[0x16] = i;
     func_021EC768(WORK(p), 0x24, 0);
-    func_021ED594(p, 0x24);
-    func_021EE038(p, 2, 1, 0);
+    func_021ED594((char *)p, 0x24);
+    func_021EE038((char *)p, 2, 1, 0);
     if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 4) {
         func_021EF680(WORK(p));
         func_021EF69C(WORK(p));
         func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
     }
-    func_021E8FC0(p, func_021E0778, 0x20);
+    func_021E8FC0((char *)p, (int)func_021E0778, 0x20);
 }

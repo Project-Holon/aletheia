@@ -20,7 +20,7 @@
 
 typedef unsigned int u32;
 
-extern int func_020221A4(char *);
+extern u32 func_020221A4(void);
 typedef signed int     s32;
 struct Ctx;
 extern s32 func_02051C88(struct Ctx *c);
@@ -28,7 +28,7 @@ extern void func_021D4C4C(char *);
 
 void func_021D4CA0(char *p)
 {
-    if (func_020221A4(p) != 0)
+    if (func_020221A4() != 0)
         func_02051C88(((struct Obj05360 *)p)->f20);
     func_021D4C4C(p);
 }

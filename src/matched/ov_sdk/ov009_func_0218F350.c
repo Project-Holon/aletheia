@@ -42,11 +42,12 @@ typedef struct {
     void *messages;
 } GPIPeer;
 
-extern unsigned int func_0209477C(const char *s);
-extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
-extern int func_0218949C(void **connection, GPIBuffer *outputBuffer, int num);
-extern int func_021893C8(void **connection, GPIBuffer *outputBuffer, char *buffer, int len);
-extern int func_0218934C(void **connection, GPIBuffer *outputBuffer, char c);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern int func_0218949C(int *connection, int *buffer, int value);
+extern int func_021893C8(int *connection, int *buffer, int src, int n);
+extern int func_0218934C(int *connection, int *buffer, int c);
 extern void func_02184234(void *array, void *elem);
 extern int func_02184098(int *timer);
 extern char g_021A4FC4[];
@@ -61,43 +62,43 @@ int func_0218F350(void **connection, GPIPeer *peer, int type, char *message)
         return 3;
     if (message == 0)
         return 3;
-    len = func_0209477C(message);
+    len = func_0209477C((const u8 *)message);
     {
         GPIMessage gpiMessage = {0};
         gpiMessage.type = type;
         {
-            int __result__ = func_0218946C(connection, &gpiMessage.buffer, g_021A4FC4);
+            int __result__ = func_0218946C((int *)connection, (int *)(&gpiMessage.buffer), g_021A4FC4);
             if (__result__ != 0)
                 return __result__;
         }
         {
-            int __result__ = func_0218949C(connection, &gpiMessage.buffer, type);
+            int __result__ = func_0218949C((int *)connection, (int *)(&gpiMessage.buffer), type);
             if (__result__ != 0)
                 return __result__;
         }
         {
-            int __result__ = func_0218946C(connection, &gpiMessage.buffer, g_021A4FC8);
+            int __result__ = func_0218946C((int *)connection, (int *)(&gpiMessage.buffer), g_021A4FC8);
             if (__result__ != 0)
                 return __result__;
         }
         {
-            int __result__ = func_0218949C(connection, &gpiMessage.buffer, len);
+            int __result__ = func_0218949C((int *)connection, (int *)(&gpiMessage.buffer), len);
             if (__result__ != 0)
                 return __result__;
         }
         {
-            int __result__ = func_0218946C(connection, &gpiMessage.buffer, g_021A4FD0);
+            int __result__ = func_0218946C((int *)connection, (int *)(&gpiMessage.buffer), g_021A4FD0);
             if (__result__ != 0)
                 return __result__;
         }
         gpiMessage.start = gpiMessage.buffer.len;
         {
-            int __result__ = func_021893C8(connection, &gpiMessage.buffer, message, len);
+            int __result__ = func_021893C8((int *)connection, (int *)(&gpiMessage.buffer), (int)message, len);
             if (__result__ != 0)
                 return __result__;
         }
         {
-            int __result__ = func_0218934C(connection, &gpiMessage.buffer, 0);
+            int __result__ = func_0218934C((int *)connection, (int *)(&gpiMessage.buffer), 0);
             if (__result__ != 0)
                 return __result__;
         }

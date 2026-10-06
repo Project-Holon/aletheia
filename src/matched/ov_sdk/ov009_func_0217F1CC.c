@@ -15,13 +15,13 @@
 
  */
 
-extern void func_0217EAE0(void);
+extern void func_0217EAE0(void *p);
 
 int func_0217F1CC(int *p)
 {
     int v = p[1];
 
-    func_0217EAE0();
+    func_0217EAE0(p);
 
     return v;
 }

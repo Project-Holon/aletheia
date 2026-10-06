@@ -10,8 +10,9 @@
  * symbols:
  * func_02156FDC 0x02156FDC thumb ov009
  */
-extern void func_02156FDC(int, int, int);
+typedef unsigned int   u32;
+extern void func_02156FDC(u32 a, void *p, int b);
 void func_021B95B0(int a)
 {
-    func_02156FDC(13, a, 0);
+    func_02156FDC(13, (void *)a, 0);
 }

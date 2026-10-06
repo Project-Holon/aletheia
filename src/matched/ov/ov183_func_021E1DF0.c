@@ -18,12 +18,12 @@
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *p);
 extern int func_021FD744(int);
-extern void func_021F9BA0(int);
+extern void func_021F9BA0(unsigned *ctx);
 void func_021E1DF0(int a,int *state,char *p)
 {
     switch (*state) {
     case 0: func_021FE784(**(int * *)&((struct Obj10756 *)p)->f18,2,3,1); *state=1; break;
     case 1: if (func_021FE7B0((int *)(**(int * *)&((struct Obj10756 *)p)->f18))) *state=2; break;
-    case 2: func_021F9BA0(((struct Obj24637 *)(*(char * *)&((struct Obj10756 *)p)->f18))->fC); func_021FD744(a); break;
+    case 2: func_021F9BA0((unsigned int *)(((struct Obj24637 *)(*(char * *)&((struct Obj10756 *)p)->f18))->fC)); func_021FD744(a); break;
     }
 }

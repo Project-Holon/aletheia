@@ -60,10 +60,12 @@ extern void func_02082BCC(void *, u32, u32);
 extern void func_0203F8F4(u16 heapId);
 extern void func_02045088(u16 heapId);
 extern void func_0201DD60(void);
-extern void func_020433E0(void *);
+struct DispConfig;
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern u8 d_021DDB14[];
 extern const Q16 d_021D4090;
-extern void func_0203FC28(Q16 *);
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
 extern u8 d_020A1448[];
@@ -78,7 +80,7 @@ extern u32 func_020056A0(void (*)(void), void *, u32);
 extern void func_0219603C(u8 *);
 extern void func_02196538(u8 *);
 extern u8 d_021DDBC4[];
-extern u32 func_02030734(u32, u32, u32, void *, u32);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(u32, u32, u32, u32);
 extern u32 func_0201C440(void *p);
@@ -105,10 +107,10 @@ int func_021978DC(u32 a, u32 b, u32 c)
     func_0203F8F4(((struct Obj00150 *)w)->f10);
     func_02045088(((struct Obj00150 *)w)->f10);
     func_0201DD60();
-    func_020433E0(d_021DDB14);
+    func_020433E0((const struct DispVram *)d_021DDB14);
     {
         Q16 q = d_021D4090;
-        func_0203FC28(&q);
+        func_0203FC28((struct DispConfig *)(&q));
     }
     func_02043534(0);
     func_020435F4(0);
@@ -117,8 +119,8 @@ int func_021978DC(u32 a, u32 b, u32 c)
     ((struct Obj00150 *)w)->f268 = func_020056A0(func_021978D4, w, 0);
     func_0219603C(w);
     func_02196538(w);
-    ((struct Obj00150 *)w)->f2EC = func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, d_021DDBC4, 0x829);
-    ((struct Obj00150 *)w)->f2F0 = func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, d_021DDBC4, 0x82A);
+    ((struct Obj00150 *)w)->f2EC = (unsigned int)func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, (const char *)d_021DDBC4, 0x829);
+    ((struct Obj00150 *)w)->f2F0 = (unsigned int)func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, (const char *)d_021DDBC4, 0x82A);
     ((struct Obj00150 *)w)->f2B8 = (u32)func_0203101C(((struct Obj00150 *)w)->f10, ((struct Obj00150 *)w)->f10, 2, 0);
     ((struct Obj00150 *)w)->f2A8 = func_02028590(0xf, 0, 1, ((struct Obj00150 *)w)->f10);
     ((struct Obj00150 *)w)->f2BC = func_0201C440((void *)(((struct Obj00150 *)w)->f10));

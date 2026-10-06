@@ -32,11 +32,11 @@ struct Bmp;
 struct Entry;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082B0C(u32 src, char *dst, u32 n);
-extern u32 func_021841A0(u32 x);
+extern unsigned char func_021841A0(unsigned char *p);
 extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
-void func_021844D8(char *p, int x)
+void func_021844D8(char *p, int x, int y)
 {
     int i;
     u32 *q;
@@ -52,6 +52,6 @@ void func_021844D8(char *p, int x)
         sum ^= q[i];
     ((struct Obj01674 *)p)->f7EB8 = sum;
     ((struct Obj01674 *)p)->f7EBC = x;
-    c = func_021841A0(*(u32 *)*(u32 * *)&((struct Obj01674 *)p)->f4);
+    c = (u32)func_021841A0((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj01674 *)p)->f4));
     func_0203AA94((u32)func_0203996C(0xff), c, 0x2900, 0x3f0, (u32)(p + 0x7ad0));
 }

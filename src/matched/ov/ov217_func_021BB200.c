@@ -38,15 +38,16 @@ extern void func_021BB990(void *p);
 extern int func_021BC200(void *p, int position);
 extern void func_021BC30C(struct S *p, int v);
 extern void func_021BC380(struct S *p);
-extern void func_021BC43C(struct S *p);
+typedef unsigned char  u8;
+extern void func_021BC43C(u8 *p);
 extern void func_021BC168(unsigned int p);
-extern void func_021BC014(struct S *p);
+extern void func_021BC014(u8 *p);
 extern void func_021BC274(void *p);
 extern void func_021BC250(void *p);
 extern int func_021BC264(void *p);
 extern int func_021BC06C(char *p);
 extern void func_021BB91C(void *p);
-extern void func_021BBA30(struct S *p);
+extern void func_021BBA30(u8 *p);
 
 void func_021BB200(struct S *p)
 {
@@ -64,9 +65,9 @@ void func_021BB200(struct S *p)
         } else {
             func_021BC30C(p, func_021BC200(p, b));
             func_021BC380(p);
-            func_021BC43C(p);
+            func_021BC43C((u8 *)p);
             func_021BC168((unsigned int)p);
-            func_021BC014(p);
+            func_021BC014((u8 *)p);
             func_021BC274(p);
         }
         break;
@@ -75,9 +76,9 @@ void func_021BB200(struct S *p)
     {
         func_021BC30C(p, p->f34 + p->f4c);
         func_021BC380(p);
-        func_021BC43C(p);
+        func_021BC43C((u8 *)p);
         func_021BC168((unsigned int)p);
-        func_021BC014(p);
+        func_021BC014((u8 *)p);
         func_021BC250(p);
         if (func_021BC264(p) == 0) {
             func_021BC06C((char *)p);
@@ -86,5 +87,5 @@ void func_021BB200(struct S *p)
         break;
     }
     }
-    func_021BBA30(p);
+    func_021BBA30((u8 *)p);
 }

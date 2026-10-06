@@ -49,7 +49,8 @@ typedef struct RecvArg {
 extern int func_02169038(int profileID);
 extern int func_021861A8(void **connection, int profile);
 extern int func_02186220(void **connection, int profile);
-extern int func_02185FD4(void **connection, int index, BuddyStatus *status);
+struct GPBuddyStatus;
+extern int func_02185FD4(void **connection, int index, struct GPBuddyStatus *status);
 
 void func_02168F4C(void **connection, RecvArg *arg)
 {
@@ -64,6 +65,6 @@ void func_02168F4C(void **connection, RecvArg *arg)
 	}
 	if (g_021AA860.ctl->statusCallback == 0)
 		return;
-	func_02185FD4(connection, arg->index, &status);
+	func_02185FD4(connection, arg->index, (struct GPBuddyStatus *)(&status));
 	g_021AA860.ctl->statusCallback(friendIdx, status.status, status.locationString, g_021AA860.ctl->statusParam);
 }

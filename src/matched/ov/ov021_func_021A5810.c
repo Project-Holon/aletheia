@@ -43,8 +43,9 @@ extern u32 func_02012844(const struct BigObj *p);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void func_02164208(int dir, Vec3 *p, int amt);
-extern int func_02162564(int a, Vec3 *p);
+struct Q;
+extern void func_02164208(int dir, int *p, int amt);
+extern int func_02162564(char *p, struct Q *q);
 extern void *func_021625CC(char *p, unsigned i);
 extern int func_021626B8(char *a0, int a1);
 
@@ -58,8 +59,8 @@ int func_021A5810(u8 *p, int dir)
     a = func_021A3960(*(u8 * *)&((struct Obj00262 *)p)->fC);
     h = func_02012844(func_020120F4(func_02188C80(*(u8 * *)&((struct Obj00262 *)p)->f10)));
     func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&pos);
-    func_02164208(dir, &pos, 0x10000);
-    i = func_02162564(h, &pos);
+    func_02164208(dir, (int *)(&pos), 0x10000);
+    i = func_02162564((char *)h, (struct Q *)(&pos));
     if (i == 0xffff) {
         return 0;
     }

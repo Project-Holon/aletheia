@@ -16,12 +16,13 @@
  */
 #include "../include/Obj25767.h"
 
-extern void func_021BCCBC(void *);
+typedef unsigned char  u8;
+extern void func_021BCCBC(u8 *p);
 
 int func_021BBF14(char *p)
 {
     if (((struct Obj25767 *)p)->fC != 0)
         return 3;
-    func_021BCCBC(p);
+    func_021BCCBC((u8 *)p);
     return 2;
 }

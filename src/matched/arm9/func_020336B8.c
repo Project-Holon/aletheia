@@ -40,7 +40,7 @@ extern const u8 str_020A78A0[];
 extern const u8 str_020A78B0[];
 extern u32 d_020A789C;
 extern u32 d_02146998;
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int  func_02084EB8(u32 a);
 extern void func_02075E9C(u16 a);
 extern void func_020338B8(u16 a, u32 b, void (*cb)(u32));
@@ -55,7 +55,7 @@ int func_020336B8(u32 a0, u32 a1, u32 a2, void *a3)
     u32 buf;
 
     if (id == -3) {
-        func_02034714(str_020A78A0, 0xd4, str_020A78B0);
+        func_02034714((const char *)str_020A78A0, 0xd4, (const char *)str_020A78B0);
     }
     func_02075E9C((u16)id);
 

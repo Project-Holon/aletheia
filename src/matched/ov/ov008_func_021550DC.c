@@ -65,9 +65,12 @@
  *   d_0215513C     0x0215513C  data  ov008  a4
  */
 
-void *func_020120F4(const void *h);
-void func_020120B4(void *h, unsigned int a, void *t, void *q);
-unsigned int func_020120F0(const void *h);
+typedef unsigned int   u32;
+struct Ctx;
+struct IcaAnime;
+void *func_020120F4(const struct Ctx *p);
+void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+u32 func_020120F0(const struct Ctx *p);
 extern char d_0215513C[];
 
 int func_021550DC(int u, int *st, int *o)

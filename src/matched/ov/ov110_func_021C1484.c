@@ -19,16 +19,18 @@
  */
 typedef unsigned char u8;
 extern void func_021C0B4C(void *);
-extern int func_020279E8(void *);
-extern int func_02027A04(void *);
-extern unsigned func_02024910(void *, u8);
+typedef unsigned int   u32;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
+extern void *func_02024910(char *p, int idx);
 int func_021C1484(void *arg, u8 *p) {
     func_021C0B4C(*(void **)(p+0x68));
     if (func_020279E8(*(void **)(p+0x68))) {
         switch (func_02027A04(*(void **)(p+0x68))) {
         case 0:
             *(int *)(p+0xa0)=5;
-            *(unsigned *)(*(u8 **)p+8)=func_02024910(*(void **)(p+0x20),p[0x95]);
+            *(unsigned *)(*(u8 **)p+8)=(unsigned int)func_02024910(*(void **)(p+0x20),p[0x95]);
             *(unsigned *)(*(u8 **)p+4)=0;
             break;
         case 1: *(int *)(p+0xa0)=11; break;

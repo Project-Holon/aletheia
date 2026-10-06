@@ -17,7 +17,7 @@ extern void func_02082D44(const void *,void *,unsigned);
 extern int func_0204A298(int,int,int,int,u32 *);
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
 extern void func_020307B0(void *p);
-extern int func_021F546C(u16 *,u32,u32,u32,u32);
+extern int func_021F546C(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
 int func_021F5370(const u32 *cache,const void *input,u16 heap)
 {
     u16 buf[32]={0};
@@ -38,7 +38,7 @@ int func_021F5370(const u32 *cache,const void *input,u16 heap)
             data=func_0204A298(0xdd,i,0,heap,&size);
             func_0203F37C((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
-        { u32 currentHeap=heap; result=func_021F546C(buf,i,currentHeap,data,size); }
+        { u32 currentHeap=heap; result=func_021F546C(buf,i,currentHeap,(const u16 *)data,size); }
         if(cache==0) func_020307B0((void *)data);
         if(result==1) break;
     }

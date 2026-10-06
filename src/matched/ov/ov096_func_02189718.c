@@ -30,7 +30,8 @@ struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_021D5BDC(void *, int);
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 
 int func_02189718(int a, int b) {
     int r7;
@@ -41,7 +42,7 @@ int func_02189718(int a, int b) {
     r6 = func_0201134C(a);
     s = func_0218A160((u8 *)b, r7);
     t = func_0218A2FC((u8 *)b, s);
-    if (func_021D5BDC(t, 13)) {
+    if (func_021D5BDC((struct UtilWork *)t, 13)) {
         func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r6);
     }
     return ((struct Obj21969 *)b)->fC4;

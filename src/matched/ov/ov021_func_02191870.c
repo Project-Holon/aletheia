@@ -43,7 +43,7 @@ struct U16Vec;
 extern int func_0219319C(u8 *p, u32 v);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021917C4(Fx *a, O *o, u32 buf, u16 k, u8 e, u8 f, u8 g, u8 h, u32 d);
+extern void func_021917C4(u16 *a, u32 *b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u32 i);
 
 void func_02191870(Fx *a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h)
 {
@@ -54,5 +54,5 @@ void func_02191870(Fx *a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h)
     k = func_0219319C((u8 *)a, (u32)o);
     o->f00 = (u32)func_020457B0(0x40, a->f00);
     func_02045CAC((struct MsgBank *)b, c, (void *)o->f00);
-    func_021917C4(a, o, o->f00, k + 3, e, f, g, h, d);
+    func_021917C4((u16 *)a, (u32 *)o, o->f00, (u16)(k + 3), e, f, g, h, d);
 }

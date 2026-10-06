@@ -42,7 +42,7 @@ typedef struct decimal {
     } sig;
 } decimal;
 
-extern void func_02096620(decimal *d, int digits);
+extern void func_02096620(u8 *p, int idx);
 
 void func_02096774(decimal *result, const decimal *x, const decimal *y)
 {
@@ -105,6 +105,6 @@ void func_02096774(decimal *result, const decimal *x, const decimal *y)
                 return;
         }
     round:
-        func_02096620(result, result->sig.length);
+        func_02096620((u8 *)result, result->sig.length);
     }
 }

@@ -30,7 +30,7 @@ extern void func_0207D63C(void *,int,int,int,int);
 struct Actor;
 struct Obj;
 extern void func_021D694C(u16 *p, int mode);
-extern void func_021DAB50(int,void *,u16,int,void *,void *);
+extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 extern void func_021D9254(char *p, int n);
 extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -54,8 +54,8 @@ void func_021D8D1C(u8 *p)
         u32 n=(((struct Obj00498 *)p)->f18*16u)/120u;
         *(volatile u16 *)0x04000052=(s16)n|((s16)(16-n)<<8);
         ((struct Obj00498 *)p)->f30=(((struct Obj00498 *)p)->f18*32767u)/120u;
-        func_021DAB50(15,p+50,((struct Obj00498 *)p)->f30,0,p+114,p+146);
-        func_021DAB50(31,p+82,((struct Obj00498 *)p)->f30,0,p+114,p+146);
+        func_021DAB50((void *)15,(u16 *)(p+50),((struct Obj00498 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        func_021DAB50((void *)31,(u16 *)(p+82),((struct Obj00498 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
         if((((struct Obj00498 *)p)->f18)++>120) {
             *(volatile u16 *)0x04000050=0;
             func_021D9254(((struct Obj00498 *)p)->f28,1);

@@ -14,7 +14,8 @@
  */
 #include "../include/Obj00048.h"
 extern int func_02035BA4(const void *);
-extern void func_02035CB8(int *,int *);
+typedef unsigned int   u32;
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern const char d_02200AF0[];
 int func_021FCEDC(char *p)
 {
@@ -22,7 +23,7 @@ int func_021FCEDC(char *p)
     int direction=0;
     int delta,absolute;
     if(func_02035BA4(d_02200AF0)!=-1) {
-        func_02035CB8(&x,&y);
+        func_02035CB8((u32 *)(&x),(u32 *)(&y));
         if(((struct Obj00048 *)p)->f84==0) {((struct Obj00048 *)p)->f84=1;((struct Obj00048 *)p)->f88=y;}
         else {
             delta=y-((struct Obj00048 *)p)->f88;

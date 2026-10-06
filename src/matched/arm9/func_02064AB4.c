@@ -42,13 +42,15 @@
 
 typedef unsigned int   u32;
 extern int func_02062F00(void *s, u32 i);
-extern char *func_02062D40(char *self);
+struct CellAnim;
+struct O02064140;
+extern void *func_02062D40(struct CellAnim *anim);
 typedef unsigned short u16;
 struct MCInstance;
 struct MultiCellBank;
 struct MultiCellData;
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
-extern void func_02064140(char *self, int v);
+extern void func_02064140(struct O02064140 *o, u32 a);
 extern void func_020640DC(char *self, int a, int b);
 extern void func_02064120(char *self, int a, int b);
 extern void func_02064100(char *self, int a);
@@ -62,10 +64,10 @@ void func_02064AB4(char *self, unsigned int i)
 
     if (func_02062F00(self, i) == 0 || *(unsigned short *)(((struct Obj07024 *)self)->f4 + 4) == 0)
         return;
-    p = func_02062D40(self);
+    p = func_02062D40((struct CellAnim *)self);
     item = (int)func_020629E8((struct MultiCellBank *)(((struct Obj07024 *)self)->f44), ((struct Obj03475 *)p)->f0);
     kind = *(int *)(((struct Obj07024 *)self)->f1C + 4) & 0xff;
-    func_02064140(self + 0x48, 1);
+    func_02064140((struct O02064140 *)(self + 0x48), 1);
     switch (kind) {
     case 0:
         break;

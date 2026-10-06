@@ -50,16 +50,17 @@ typedef struct {
     int tag;                /* 0x50 */
 } Ctx;
 
-extern void func_02015C94(void *p, VecFx32 *out);
-extern void func_02015CAC(void *p, VecFx32 *in);
+typedef unsigned int   u32;
+extern void func_02015C94(void *p, u32 *out);
+extern void func_02015CAC(void *p, u32 *src);
 extern void func_021F89BC(void *h);
 extern int func_021F9260(Mover *m, VecFx32 *out);
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 
 void func_02200A84(void *h, Ctx *c)
 {
     Work *w = c->w;
-    int i = func_022019F4(w, c->key);
+    int i = func_022019F4((char *)w, c->key);
     VecFx32 v;
     int r;
 
@@ -75,9 +76,9 @@ void func_02200A84(void *h, Ctx *c)
         func_021F89BC(h);
         return;
     }
-    func_02015C94(w->e[i].h, &v);
+    func_02015C94(w->e[i].h, (u32 *)(&v));
     r = func_021F9260(&c->mv, &v);
-    func_02015CAC(w->e[i].h, &v);
+    func_02015CAC(w->e[i].h, (u32 *)(&v));
     if (r == 1)
         func_021F89BC(h);
 }

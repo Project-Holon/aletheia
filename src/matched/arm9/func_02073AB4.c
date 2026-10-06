@@ -29,11 +29,12 @@ typedef struct {
     int unk2c : 1;
 } Obj02073AB4;
 
-extern void func_02073B3C(Obj02073AB4 *p);
+struct Obj;
+extern void func_02073B3C(struct Obj *o);
 
 void func_02073AB4(Obj02073AB4 *p)
 {
     if (p->unk2c != 0) {
-        func_02073B3C(p);
+        func_02073B3C((struct Obj *)p);
     }
 }

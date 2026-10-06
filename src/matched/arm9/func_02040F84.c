@@ -49,7 +49,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-u16 func_02040F84(u32 x, u32 y, u32 w, u32 h)
+u16 func_02040F84(u32 x, u32 y, u8 w, u32 h)
 {
     u16 base;
     s16 w2 = w - 32;

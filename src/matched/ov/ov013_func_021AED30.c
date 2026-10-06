@@ -34,7 +34,7 @@ struct Node;
 extern int func_021B2180(int a, int b);
 extern int func_021B0614(void *p);
 extern int func_021B1F54(struct Node *p);
-extern void func_021AEDEC(void *p);
+extern void func_021AEDEC(struct Node *p);
 
 void func_021AED30(int a, int code, u32 *p)
 {
@@ -49,18 +49,18 @@ void func_021AED30(int a, int code, u32 *p)
         return;
     case 8:
         func_021B2180((int)p, 0);
-        func_021AEDEC(p);
+        func_021AEDEC((struct Node *)p);
         return;
     case 9:
-        func_021AEDEC(p);
+        func_021AEDEC((struct Node *)p);
         return;
     case 4:
         func_021B2180((int)p, 4);
-        func_021AEDEC(p);
+        func_021AEDEC((struct Node *)p);
         return;
     case 7:
         if (*p != d_021B3C80->f19A8) {
-            func_021AEDEC(p);
+            func_021AEDEC((struct Node *)p);
             return;
         }
         if (func_021B0614(p) != 0) {
@@ -69,12 +69,12 @@ void func_021AED30(int a, int code, u32 *p)
         }
         break;
     case 2:
-        func_021AEDEC(p);
+        func_021AEDEC((struct Node *)p);
         return;
     case 3:
     case 11:
     case 12:
-        func_021AEDEC(p);
+        func_021AEDEC((struct Node *)p);
         break;
     }
 }

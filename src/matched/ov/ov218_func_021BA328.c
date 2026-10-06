@@ -26,7 +26,9 @@ extern const Config d_021BABC8,d_021BAB68,d_021BAB98,d_021BABB0,d_021BAB80;
 struct Obj;
 extern u32 func_021BA960(char *p);
 extern struct Obj *func_021BA4D4(u32 owner, char *p);
-extern void func_0204B3DC(void *,u32),func_0204B688(void *,u32);
+struct Actor;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021BA328(char *p)
 {
     Config a,b,c,d,e;

@@ -17,7 +17,7 @@
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 extern const Vec d_021F73B4;
-extern void func_020515B4(void *,int,Vec *);
+extern int func_020515B4(void *p, int b, int c);
 extern void func_02051620(void *);
 void func_021F6E5C(char *p)
 {
@@ -29,7 +29,7 @@ void func_021F6E5C(char *p)
             u16 frame=((struct Obj02263 *)p)->f0;
             u16 key=*(u16 *)(table+(int)index*4);
             if (frame!=key) break;
-            func_020515B4(*(void **)(p+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),&v);
+            func_020515B4(*(void **)(p+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(int)(&v));
             (((struct Obj02263 *)p)->f2)++;
         }
         (((struct Obj02263 *)p)->f0)++;

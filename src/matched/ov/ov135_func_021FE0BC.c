@@ -13,7 +13,8 @@
  *   func_02040DA8 0x02040DA8 arm
  */
 #include "../include/Obj14174.h"
-extern void func_02202940(void *);
+struct Obj;
+extern void func_02202940(struct Obj *p);
 typedef unsigned int   u32;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
@@ -21,7 +22,7 @@ extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 void func_021FE0BC(unsigned char *p)
 {
     int i;
-    func_02202940(p + 0xfa0);
+    func_02202940((struct Obj *)(p + 0xfa0));
     func_020452E8(((struct Obj14174 *)p)->fDE0);
     func_020452E8(((struct Obj14174 *)p)->fD40);
     for (i = 0; i < 9; ++i)

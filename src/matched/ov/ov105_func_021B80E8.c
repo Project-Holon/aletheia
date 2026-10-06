@@ -39,7 +39,7 @@ typedef struct {u32 objects[3]; u8 pad[0x24];u8 digits[3];u8 pad1;int state[3];}
 extern void func_021B871C(u8 *);
 extern unsigned func_021B8730(u8 *p);
 extern void func_021B83E0(Display *,int);
-extern int func_021B8438(Display *,int);
+extern int func_021B8438(u8 *p, int i);
 extern void func_021B7EEC(u8 *,void *,u8,u16,u16);
 extern int func_021B87E8(unsigned,int *);
 extern void func_021B658C(void *,Data *);
@@ -69,7 +69,7 @@ void func_021B80E8(u8 *p,u16 *state) {
    func_021B83E0((Display *)(p+0xe8),0);func_021B83E0((Display *)(p+0xe8),1);func_021B83E0((Display *)(p+0xe8),2);*state=3;
   } break;
  case 3:
-  if(func_021B8438((Display *)(p+0xe8),0) && func_021B8438((Display *)(p+0xe8),1) && func_021B8438((Display *)(p+0xe8),2)) *state=4;
+  if(func_021B8438((u8 *)(p+0xe8),0) && func_021B8438((u8 *)(p+0xe8),1) && func_021B8438((u8 *)(p+0xe8),2)) *state=4;
   break;
  case 4:
   score=CTX[12];ratio=(u8)(score/10+2);

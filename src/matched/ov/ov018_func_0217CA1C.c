@@ -14,10 +14,12 @@
  */
 typedef struct { int x, y, z; } V12;
 extern int func_0217BED4(int, V12 *);
-extern void *func_02185588(void *, int, V12 *);
+typedef unsigned short u16;
+struct V3;
+extern void *func_02185588(void *owner, u16 id, const struct V3 *pos);
 void *func_0217CA1C(void *p)
 {
     V12 v;
     func_0217BED4(0x117, &v);
-    return func_02185588(p, 0x117, &v);
+    return func_02185588(p, 0x117, (const struct V3 *)(&v));
 }

@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021DBF08(u32 p) { return ((struct Obj22903 *)p)->fD0; }
+void *func_021DBF08(void *p) { return ((struct Obj22903 *)p)->fD0; }

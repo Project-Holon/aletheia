@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 extern const u8 d_021C7E2C[];
 extern int func_02035C08(const void *);
-int func_021C7648(void)
+int func_021C7648(u8 *p)
 {
     return func_02035C08(d_021C7E2C);
 }

@@ -16,7 +16,8 @@ extern const u16 tbl_02203B84[];
 struct Blk37;
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
 extern void *func_0201F81C(u32 n, u32 heap);
-extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
+struct Slot;
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag)
 {
     int i;
@@ -32,9 +33,9 @@ int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, 
     *menu = func_0201F81C(count + 1, 0x48);
     for (i = 0; i < size; i++) {
         if (func_0200D064(bag, list[start + i]) != 0) {
-            func_0201F878(*menu, msg, list[start + i], list[start + i], 0x48);
+            func_0201F878(*menu, (u32)msg, list[start + i], list[start + i], 0x48);
         }
     }
-    func_0201F878(*menu, endmsg, 0x85, -2, 0x48);
+    func_0201F878(*menu, (u32)endmsg, 0x85, -2, 0x48);
     return count + 1;
 }

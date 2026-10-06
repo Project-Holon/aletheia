@@ -23,21 +23,24 @@ typedef struct {
     void *data;
 } Entry;
 extern void func_021C22A4(int request);
-extern Entry *func_021BFAF0(int req);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Node;
+extern u8 *func_021BFAF0(u32 key);
 extern void DWC_Free(int name, void *ptr, int size);
-extern void func_021BFA70(Entry *entry);
+extern void func_021BFA70(struct Node *x);
 
 void func_021BF880(int req)
 {
     Entry *entry;
 
     func_021C22A4(req);
-    entry = func_021BFAF0(req);
+    entry = (Entry *)func_021BFAF0(req);
     if (entry == 0) {
         return;
     }
     if (entry->data != 0) {
         DWC_Free(6, entry->data, 0);
     }
-    func_021BFA70(entry);
+    func_021BFA70((struct Node *)entry);
 }

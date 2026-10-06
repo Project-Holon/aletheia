@@ -28,7 +28,10 @@ extern u8 func_021BF6DC(u8 *);
 extern unsigned func_021BAC3C(u8 *);
 extern void func_021BCF7C(u8 *, int, int);
 extern void func_021BB224(unsigned, int *, int *);
-extern void func_0204B404(void *, const Vec2 *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 void func_021BB6A0(u8 *p, unsigned index)
@@ -62,6 +65,6 @@ void func_021BB6A0(u8 *p, unsigned index)
             state = 6;
         }
     }
-    func_0204B404(((struct Obj04445 *)p)->f54, &pos, 0);
+    func_0204B404(((struct Obj04445 *)p)->f54, (const struct Vec2 *)(&pos), 0);
     func_0204B878(((struct Obj04445 *)p)->f54, state);
 }

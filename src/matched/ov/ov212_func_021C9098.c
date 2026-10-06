@@ -24,7 +24,8 @@
 #include "../include/Obj25666.h"
 typedef unsigned short u16;
 struct Blk37;
-extern void func_021C8F7C(char *);
+typedef unsigned char  u8;
+extern void func_021C8F7C(u8 *p);
 extern u16 func_021C9288(struct Blk37 *,u16 **,unsigned);
 extern void func_020307B0(void *);
 int func_021C9098(char *p)
@@ -35,20 +36,20 @@ int func_021C9098(char *p)
         if(((struct Obj01587 *)p)->f12==0){
             ((struct Obj25661 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=0;result=9;
         }else{
-            func_021C8F7C(p);
+            func_021C8F7C((u8 *)p);
             ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25662 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
             ((struct Obj01587 *)p)->f12=0;result=3;
         }
         goto done;
     case 1:((struct Obj25663 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=1;result=9;goto done;
     case 2:
-        func_021C8F7C(p);
+        func_021C8F7C((u8 *)p);
         ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25664 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
         result=3;goto done;
     case 3:result=5;((struct Obj01587 *)p)->f24=1;goto done;
     case 4:
         if(((struct Obj01587 *)p)->f12==1){
-            func_021C8F7C(p);
+            func_021C8F7C((u8 *)p);
             ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25665 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
         }
         result=7;goto done;

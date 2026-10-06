@@ -18,16 +18,18 @@
 #include "../include/Obj23427.h"
 extern int func_021F4D14(char *p);
 extern void func_021F4CE4(char *p);
-extern void func_021F4EC0(void *, unsigned, unsigned);
-extern void func_021FFBC8(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern void func_021FFBC8(u8 *p);
 int func_021FF024(char *p)
 {
     unsigned r = func_021F4D14(p);
     if (r == 1) {
         func_021F4CE4(p);
         *(int *)&((struct Obj00045 *)p)->f28 = 2;
-        func_021F4EC0(p, 1, 0);
-        if (((struct Obj00045 *)p)->fD0 > 0) func_021FFBC8(p);
+        func_021F4EC0((u8 *)p, 1, 0);
+        if (((struct Obj00045 *)p)->fD0 > 0) func_021FFBC8((u8 *)p);
         ((struct Obj00045 *)p)->fD0 = 0;
     } else if (r == 2) {
         func_021F4CE4(p);

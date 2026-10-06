@@ -42,9 +42,9 @@ extern u8 func_02012B58(const struct BigObj *p);
 extern void func_02082BCC(void *, int, int);
 extern int func_02080D24(unsigned int x);
 extern int func_0217F5A0(char *);
-extern int func_021758C8(char *);
-extern T *func_02175B34(char *);
-extern int func_0217C070(char *);
+extern int func_021758C8(u8 *o);
+extern u8 *func_02175B34(u8 *p);
+extern int func_0217C070(u8 *p);
 
 void func_0217F008(char *p, char *q)
 {
@@ -66,12 +66,12 @@ void func_0217F008(char *p, char *q)
     o->c = func_02080D24(o->b);
     o->d = ((struct Obj12492 *)q)->f910;
     o->e = func_0217F5A0(q + 0x1ac);
-    o->f = func_021758C8(q + 0x1ac);
-    o->g = func_02175B34(q + 0x1ac);
+    o->f = func_021758C8((u8 *)(q + 0x1ac));
+    o->g = (T *)func_02175B34((u8 *)(q + 0x1ac));
     if (o->g != 0) {
         o->h = ((Bf *)(q + o->g->idx * 0x1c + 0xa2))->lo;
     }
-    o->i = func_0217C070(q);
+    o->i = func_0217C070((u8 *)q);
     o->j = 0;
     for (i = 0; i < 3; i++) {
         if (i != n && o->a == ((Bf *)(q + i * 0x1c + 0xa2))->lo) {

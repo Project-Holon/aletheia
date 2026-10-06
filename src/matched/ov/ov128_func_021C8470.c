@@ -22,7 +22,7 @@ extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
 extern void func_02027858(struct TaskMenu *m);
 extern u8 func_020355C4(void);
-extern void func_021C875C(u8 *, void *);
+extern void func_021C875C(char *p, char *q);
 extern void func_021C8784(char *);
 extern const int d_021CA68C[][8];
 int func_021C8470(u8 *p, int *a, void *b)
@@ -41,8 +41,8 @@ int func_021C8470(u8 *p, int *a, void *b)
         *a = func_020355C4();
         result = d_021CA68C[((struct Obj06478 *)p)->f198][n * 2];
     }
-    if (result == 2) func_021C875C(p, b);
-    else if (result == 9 || result == 12) func_021C875C(p, b);
+    if (result == 2) func_021C875C((char *)p, b);
+    else if (result == 9 || result == 12) func_021C875C((char *)p, b);
     else func_021C8784((char *)p);
     return result;
 }

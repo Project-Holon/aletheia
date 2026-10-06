@@ -51,8 +51,10 @@ typedef struct {
     u8 dark;
 } MemWinT;
 
-extern void func_021D600C(CoordT *c, CoordT *s, RectT *r);
-extern int func_021D696C(RectT *r);
+struct tagCOORD;
+struct tagRECT;
+extern void func_021D600C(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
+extern int func_021D696C(u16 *a);
 extern int func_021D6824(unsigned int f);
 extern void func_021D1A80(int idx);
 extern MemWinT *g_021DE658;
@@ -69,9 +71,9 @@ void func_021D16B0(void)
     int i;
 
     for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
-        func_021D600C(&g_021DAA2E[g_021DE658->type][g_021DA9B4[g_021DE658->type][i]],
-                      &g_021DA9D2[g_021DE658->type], &r);
-        if (func_021D696C(&r)) {
+        func_021D600C((const struct tagCOORD *)(&g_021DAA2E[g_021DE658->type][g_021DA9B4[g_021DE658->type][i]]),
+                      (const struct tagCOORD *)(&g_021DA9D2[g_021DE658->type]), (struct tagRECT *)(&r));
+        if (func_021D696C((u16 *)(&r))) {
             g_021DE658->input = i;
             break;
         }

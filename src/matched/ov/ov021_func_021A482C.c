@@ -25,7 +25,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern int func_021A5390(u32 a);
-extern int func_021A56F4(u8 *);
+extern int func_021A56F4(u32 a);
 extern int func_0219F7CC(u32, u32);
 extern int func_021A5708(u32 a);
 extern void func_021A53A4(u32 *p, int on);
@@ -35,7 +35,7 @@ int ov021_func_021A482C(u8 *a, u32 b, u8 *c)
 {
     if (((struct Obj19788 *)c)->f8 == 9) {
         if (func_021A5390((u32)a) == 0) {
-            func_021A56F4(a);
+            func_021A56F4((u32)a);
         }
         if (((struct Obj02083 *)a)->f16 == 1) {
             if (func_0219F7CC(b, ((struct Obj02083 *)a)->f14) != 0) {

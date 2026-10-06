@@ -38,8 +38,8 @@ typedef struct Node {
 
 typedef int (*HitFn)(int i, u8 *p, VecFx32 *hit, Rect4 *r, VecFx32 *out);
 
-extern u32 *func_021B9510(u8 *a, u8 *b, int i);
-extern Node *func_021B87D8(u8 *a, u32 b);
+extern u8 *func_021B9510(u16 *p, u8 *q, u32 v);
+extern u8 *func_021B87D8(u8 *p, u32 idx);
 extern u32 *func_021B8848(u8 *a, u32 b);
 extern HitFn func_021B88B8(u8 *a, u32 b);
 extern int func_021B9828(VecFx32 *a, VecFx32 *b, VecFx32 *c, VecFx32 *d, VecFx32 *e, VecFx32 *f);
@@ -73,12 +73,12 @@ int func_021B7A84(u8 *p, const VecFx32 *pa, const VecFx32 *pb, Rect4 *r, VecFx32
     b = *pb;
     found = 0;
     for (i = 0; i < ((struct Obj20053 *)p)->f22; i++) {
-        t = func_021B9510(p + 0x50, p + 0x20, i);
+        t = (u32 *)func_021B9510((u16 *)(p + 0x50), p + 0x20, i);
         if (t == 0) {
             continue;
         }
-        n0 = func_021B87D8(p + 0x20, t[0]);
-        n1 = func_021B87D8(p + 0x20, t[1]);
+        n0 = (Node *)func_021B87D8(p + 0x20, t[0]);
+        n1 = (Node *)func_021B87D8(p + 0x20, t[1]);
         m = func_021B8848(p + 0x20, t[3]);
         func_0207CA00(&n0->pos, &n1->pos, &d);
         func_0207CAE8(&d, &up, &n);

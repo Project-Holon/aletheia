@@ -66,7 +66,7 @@ typedef struct {
 } Work;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_021F4EC0(Work *p, u32 a, u32 b);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern const char str_02203B08[];
 
 #define ASSERT(x) if (!(x)) func_02034714(str_02203B08, 0, str_02203B08)
@@ -85,7 +85,7 @@ void func_021F489C(Work *p, Args *args)
     ASSERT(args->a24);
     p->args = args;
     p->x10 = 0;
-    func_021F4EC0(p, 0, 0x13);
+    func_021F4EC0((u8 *)p, 0, 0x13);
     p->xC0 = 0;
     p->xB56 = 0;
     p->xB58 = 3;

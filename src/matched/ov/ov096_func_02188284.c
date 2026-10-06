@@ -62,11 +62,12 @@ extern void func_0218A324(u8 *);
 extern int func_0218A378(Obj *, int, int);
 extern int func_0218A384(Obj *, int, int);
 extern void func_021885BC(int, u8 *);
-extern u8 func_021D5448(u8 *);
+struct QG;
+extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
-extern int func_021D5B68(u8 *);
+extern int func_021D5B68(void *p);
 extern int func_021B9A6C(int, u32);
-extern int func_021B8DE4(int, u8);
+extern int func_021B8DE4(char *p, int i);
 extern int func_021B8CE8(int, int, int);
 extern u64 func_020870D0(void);
 extern u32 func_0203F0A8(void);
@@ -146,7 +147,7 @@ int func_02188284(int a, Obj *b)
         scores[0] = b->scores[0];
         ids[0] = 0;
         for (i = 1; i < 4; i++) {
-            if (i < func_021D5448(b->fbc)) {
+            if (i < func_021D5448((struct QG *)b->fbc)) {
                 v = b->scores[i];
                 if (scores[0] == v) {
                     scores[n] = v;
@@ -162,7 +163,7 @@ int func_02188284(int a, Obj *b)
         }
         b->s30[b->opp] = ids[draw_below(n)];
         b->h24[b->opp] = scores[0];
-        if (func_021B8CE8(b->fb0, func_021B8DE4(b->fb0, b->side), func_021B8DE4(b->fb0, b->opp)) == 0) {
+        if (func_021B8CE8(b->fb0, func_021B8DE4((char *)b->fb0, b->side), func_021B8DE4((char *)b->fb0, b->opp)) == 0) {
             if (b->h24[b->opp] < 100)
                 b->h24[b->opp] = -1;
         }

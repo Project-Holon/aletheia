@@ -37,7 +37,7 @@ struct Slot14 { u16 f00; u8 pad02[3]; u8 f05; u8 f06; u8 pad07[9]; u8 f10; };
 
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern u32 func_0201AF6C(u8 v);
+extern u32 func_0201AF6C(u32 v);
 extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 
 u32 func_021A9D30(struct Unit *u, void *src, struct Slot14 *s)
@@ -46,7 +46,7 @@ u32 func_021A9D30(struct Unit *u, void *src, struct Slot14 *s)
     u32 r;
     u32 x;
 
-    if (func_0201AF6C(func_0201AE1C(src, 0x14)) != 1) {
+    if (func_0201AF6C((u8)func_0201AE1C(src, 0x14)) != 1) {
         if (u->b11) {
             if (u->f1C == 0)
                 gender = 1;

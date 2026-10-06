@@ -27,7 +27,7 @@ typedef struct Cur {
 } Cur;
 
 extern void func_021927FC(Cur *c, u32 win, u32 col);
-extern void func_02192860(Cur *c, u32 win, u32 col);
+extern void func_02192860(u8 *a, u32 b, u32 col);
 
 void func_021928C0(Cur *c, u32 win, u32 col)
 {
@@ -38,5 +38,5 @@ void func_021928C0(Cur *c, u32 win, u32 col)
         c->f01++;
         c->f01 %= 3;
     }
-    func_02192860(c, win, col);
+    func_02192860((u8 *)c, win, col);
 }

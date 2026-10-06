@@ -16,13 +16,16 @@
  */
 #include "../include/Obj10976.h"
 
-extern void *func_02048BC4(void *, int);
+typedef unsigned int   u32;
+struct LightSet;
+struct LightSlot;
+extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 struct LightSlot;
 extern void func_02048C58(struct LightSlot *slots);
 extern char d_02185DD4[];
 
 void func_02185824(char *p)
 {
-    ((struct Obj10976 *)p)->fC370 = func_02048BC4(d_02185DD4, (unsigned short)((struct Obj10976 *)p)->f0);
+    ((struct Obj10976 *)p)->fC370 = func_02048BC4((const struct LightSet *)d_02185DD4, (unsigned short)((struct Obj10976 *)p)->f0);
     func_02048C58(((struct Obj10976 *)p)->fC370);
 }

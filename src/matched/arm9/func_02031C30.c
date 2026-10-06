@@ -44,9 +44,10 @@ struct Obj {
     u32  f28;
 };
 
-extern void sub_02032970(struct Obj *p, u32 flag);
+struct SaveBackup;
+extern void sub_02032970(struct SaveBackup *p, u32 flag);
 extern int  func_02032CD0(struct Obj *p, u32 *out);
-extern void func_020331A4(struct Obj *p, int result, u32 flag);
+extern void func_020331A4(struct SaveBackup *p, u32 result, u32 flag);
 
 int func_02031C30(struct Obj *q, struct Obj *p)
 {
@@ -55,13 +56,13 @@ int func_02031C30(struct Obj *q, struct Obj *p)
 
     switch (q->f1e) {
     case 0:
-        sub_02032970(p, 1);
+        sub_02032970((struct SaveBackup *)p, 1);
         q->f1e++;
         break;
     case 1:
         r = func_02032CD0(p, &tmp);
         if (r != 0 && r != 1) {
-            func_020331A4(p, r, 1);
+            func_020331A4((struct SaveBackup *)p, r, 1);
             if (r == 3)
                 return 3;
             q->f1e++;
@@ -72,15 +73,15 @@ int func_02031C30(struct Obj *q, struct Obj *p)
         break;
     case 2:
         *q->f20 = p->f28;
-        sub_02032970(q, 0);
+        sub_02032970((struct SaveBackup *)q, 0);
         q->f1e++;
         break;
     case 3:
         r = func_02032CD0(q, &tmp);
         if (r != 0 && r != 1) {
-            func_020331A4(q, r, 1);
+            func_020331A4((struct SaveBackup *)q, r, 1);
             if (p->f00 != p->f04)
-                func_020331A4(p, r, 1);
+                func_020331A4((struct SaveBackup *)p, r, 1);
             return 3;
         }
         if (tmp == 1)
@@ -90,7 +91,7 @@ int func_02031C30(struct Obj *q, struct Obj *p)
         if (p->f00 != p->f04) {
             r = func_02032CD0(p, &tmp);
             if (r != 0 && r != 1) {
-                func_020331A4(p, r, 0);
+                func_020331A4((struct SaveBackup *)p, r, 0);
                 p->f1f = r;
                 q->f1e++;
             }
@@ -101,7 +102,7 @@ int func_02031C30(struct Obj *q, struct Obj *p)
     case 5:
         r = func_02032CD0(q, &tmp);
         if (r != 0 && r != 1) {
-            func_020331A4(q, r, 1);
+            func_020331A4((struct SaveBackup *)q, r, 1);
             if (p->f1f == 3)
                 r = 3;
             return r;

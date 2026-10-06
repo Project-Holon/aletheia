@@ -14,11 +14,11 @@
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void func_02050ED4(void *);
+extern void func_02050ED4(void);
 extern void func_020307B0(void *);
 
 void func_021BFCD0(char *a)
 {
-    func_02050ED4(a);
+    func_02050ED4();
     func_020307B0(a);
 }

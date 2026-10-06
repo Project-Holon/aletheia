@@ -16,16 +16,17 @@
  */
 #include "../include/Obj00042.h"
 
-extern int func_021F2DA8(char *p);
-extern int func_021F05B4(char *p);
+typedef unsigned char  u8;
+extern int func_021F2DA8(u8 *p);
+extern int func_021F05B4(unsigned char *p);
 extern void func_021F0F28(char *p, int a);
 
 void func_021F2DC8(char *p)
 {
-    if (func_021F2DA8(p) == 0 && ((struct Obj00042 *)p)->f465 != 0) {
+    if (func_021F2DA8((u8 *)p) == 0 && ((struct Obj00042 *)p)->f465 != 0) {
         ((struct Obj00042 *)p)->f466 += 1;
         if (((struct Obj00042 *)p)->f466 >= 8) {
-            if (func_021F05B4(p) != 0)
+            if (func_021F05B4((unsigned char *)p) != 0)
                 func_021F0F28(p, 1);
             else
                 func_021F0F28(p, 0);

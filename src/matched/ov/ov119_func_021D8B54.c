@@ -16,14 +16,15 @@
 
 typedef signed short s16;
 
-extern unsigned int func_02035CB8(int *a, int *b);
+typedef unsigned int   u32;
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 
 void func_021D8B54(void *p)
 {
     int o1, o2;
     int d;
 
-    if (func_02035CB8(&o1, &o2) == 0)
+    if (func_02035CB8((u32 *)(&o1), (u32 *)(&o2)) == 0)
         return;
     if (((struct Obj01726 *)p)->fF60 == 0)
         ((struct Obj01726 *)p)->fF5C = 0;

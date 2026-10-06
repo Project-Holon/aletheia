@@ -20,10 +20,13 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 id; u32 config[8]; u32 a; u32 b; } Entry;
 extern const Entry d_021DF634[];
-extern void func_020403F4(u8),func_020450C8(void),func_0203F9B4(void),func_02082BCC(void *,int,u32);
+extern void func_020403F4(u32 i);
+extern void func_020450C8(void);
+extern void func_0203F9B4(void);
+extern void func_02082BCC(void *,int,u32);
 void func_021D9828(void *p) {
     u32 i=0;
-    do { func_020403F4(d_021DF634[i].id); ++i; } while(i<7);
+    do { func_020403F4((u8)d_021DF634[i].id); ++i; } while(i<7);
     func_020450C8();
     func_0203F9B4();
     func_02082BCC(p,0,4);

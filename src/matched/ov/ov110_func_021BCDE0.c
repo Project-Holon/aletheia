@@ -17,8 +17,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern u8 func_021BF6DC(u8 *);
-extern void func_021BCFBC(u8 *, int, int);
+extern void func_021BCFBC(char *p, u32 index, int value);
 void func_021BCDE0(u8 *p)
 {
-    if (func_021BF6DC(*(u8 * *)&((struct Obj10278 *)p)->f4) == 1) func_021BCFBC(p, 2, 1);
+    if (func_021BF6DC(*(u8 * *)&((struct Obj10278 *)p)->f4) == 1) func_021BCFBC((char *)p, 2, 1);
 }

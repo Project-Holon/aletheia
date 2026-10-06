@@ -29,7 +29,7 @@ extern int func_021D775C(int);
 extern int func_021C7D34(char *p, int i);
 extern u8 func_021C7F68(int *, int, u8 *);
 extern void *func_021C7CF4(int *p, int i);
-extern u8 *func_021C88A4(int, int, int);
+extern void *func_021C88A4(char *p, int a, int b);
 extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *, int, int);
 struct S;
@@ -53,7 +53,7 @@ void func_021E7A78(int a, int b, int c)
             for (i = 0; i < n; i++) {
                 if (list[i] != k) {
                     x = func_021C7CF4((int *)b, list[i]);
-                    p = func_021C88A4(b, 7, c);
+                    p = func_021C88A4((char *)b, 7, c);
                     p[6] = list[i];
                     ((struct Obj10101 *)p)->f4 = func_021D7B74(x, 16);
                     ((struct Flag { u8 bit : 1; } *)(p + 7))->bit = 1;

@@ -20,4 +20,4 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u8 func_020355C4(void);
 extern signed char func_02012FFC(void);
-void func_021C63EC(u8 *p,const u32 *q,u32 heap) {((struct Obj04503 *)p)->f4=*q;((struct Obj04503 *)p)->f58=func_020457B0(128,heap);((struct Obj04503 *)p)->f5C=func_020457B0(128,heap);((struct Obj04503 *)p)->f0=func_020355C4();p[12]=func_02012FFC();p[13]=0;p[14]=1;}
+void func_021C63EC(u8 *p, const u32 *q, int heap) {((struct Obj04503 *)p)->f4=*q;((struct Obj04503 *)p)->f58=func_020457B0(128,heap);((struct Obj04503 *)p)->f5C=func_020457B0(128,heap);((struct Obj04503 *)p)->f0=func_020355C4();p[12]=func_02012FFC();p[13]=0;p[14]=1;}

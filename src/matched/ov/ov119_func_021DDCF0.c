@@ -19,7 +19,7 @@
  *   func_021DDBF0 0x021DDBF0 thumb ov119
  */
 typedef unsigned short u16;
-extern int func_021D94D4(void *);
+extern int func_021D94D4(char *p);
 extern int func_021D95D0(void *);
 typedef unsigned int   u32;
 struct Entry;
@@ -32,5 +32,5 @@ extern void func_021D8E84(void *,int);
 extern void func_021DDBF0(char *p);
 void func_021DDCF0(unsigned char *p)
 {
-    unsigned char b=13;if(func_021D94D4(p))b=5;else if(func_021D95D0(p))b=7;else if(func_021D95F0(p))b=8;else if(func_021D9610(p))b=6;if(func_0203D3A8(func_020399A8(),0xc00,1,(u32)(&b))){func_021DD080(func_020399A8(),(void *)29,p);func_021D8E84(p,(int)func_021DDBF0);}
+    unsigned char b=13;if(func_021D94D4((char *)p))b=5;else if(func_021D95D0(p))b=7;else if(func_021D95F0(p))b=8;else if(func_021D9610(p))b=6;if(func_0203D3A8(func_020399A8(),0xc00,1,(u32)(&b))){func_021DD080(func_020399A8(),(void *)29,p);func_021D8E84(p,(int)func_021DDBF0);}
 }

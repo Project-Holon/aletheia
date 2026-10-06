@@ -15,11 +15,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_021A9DC8(int a);
+extern u32 func_021A9DC8(void);
 
 int func_021A9E64(int a)
 {
-    u32 v = func_021A9DC8(a);
+    u32 v = func_021A9DC8();
     if (v < 60) {
         return 0;
     }

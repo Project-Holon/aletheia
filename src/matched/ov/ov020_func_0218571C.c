@@ -28,7 +28,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern u16 func_02012914(const struct BigObj *p);
 extern void func_02159FA8(int a, int b);
-extern void func_02185694(void);
+extern int func_02185694(int a0, int *st, int *p);
 void *func_0218571C(void *owner)
 {
     void *task;

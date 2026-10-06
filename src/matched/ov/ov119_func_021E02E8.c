@@ -31,14 +31,31 @@
 #include "../include/Obj22755.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void * func_02012EBC(void *);
-extern void *func_02008FEC(void *);
-extern void *func_02012F2C(void *);
+struct Big;
+struct PerapVoice;
+struct PlayTime;
+struct PlayTimeStamp;
+struct Rec534;
+struct Sub02007AC8Entry;
+struct Sub02008F80Obj;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008F80Obj *func_02008FEC(void *sys);
+extern void *func_02012F2C(int *p);
 extern int func_02012FCC(int p0);
-extern void *func_02007AF4(void *,u32);
+extern struct Sub02007AC8Entry *func_02007AF4(void **save, u32 box);
 extern void *func_02012F98(void *);
-extern u32 func_02008FFC(void),func_02008C20(void),func_02007AEC(void *);
-extern void func_02082D44(const void *,void *,u32),func_020307B0(void *),func_021E017C(void *,void *),func_021E01E0(void *,void *),func_021E0240(void *,void *),func_0201AC2C(void *,void *),func_020086F8(void *,void *),func_02007B5C(void *),func_02082BCC(void *,int,u32);
+extern u32 func_02008FFC(void);
+extern u32 func_02008C20(void);
+extern u32 func_02007AEC(void);
+extern void func_02082D44(const void *,void *,u32);
+extern void func_020307B0(void *);
+extern void func_021E017C(void *,void *);
+extern void func_021E01E0(void *,void *);
+extern void func_021E0240(void **h, void *dst);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void func_020086F8(struct PlayTime *p, const struct PlayTimeStamp *in);
+extern void func_02007B5C(struct PerapVoice *p);
+extern void func_02082BCC(void *,int,u32);
 void func_021E02E8(char *p)
 {
     void *dest,*src;
@@ -64,12 +81,12 @@ void func_021E02E8(char *p)
     if(((struct Obj00589 *)p)->f61C) func_021E0240(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f61C);
     if(((struct Obj00589 *)p)->f620) {
         func_0201AC2C(((struct Obj00589 *)p)->f620,((struct Obj00589 *)p)->f838);
-        func_020086F8((void *)func_02012FCC((int)(((struct Obj00589 *)p)->f82C)),p+0x628);
+        func_020086F8((void *)func_02012FCC((int)(((struct Obj00589 *)p)->f82C)),(const struct PlayTimeStamp *)(p+0x628));
         func_020307B0(((struct Obj00589 *)p)->f620);
         *(int *)&((struct Obj00589 *)p)->f620=0;
     }
     if(((struct Obj00589 *)p)->f624) {
-        n=func_02007AEC(((struct Obj00589 *)p)->f624);
+        n=func_02007AEC();
         src=func_02007AF4(((struct Obj00589 *)p)->f828,((struct Obj22755 *)(*(char * *)&((struct Obj00589 *)p)->f8))->f28);
         func_02082D44(((struct Obj00589 *)p)->f624,src,n);
         func_020307B0(((struct Obj00589 *)p)->f624);

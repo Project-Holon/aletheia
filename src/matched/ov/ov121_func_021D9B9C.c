@@ -18,7 +18,10 @@
 #include "../include/Obj08092.h"
 typedef unsigned char u8;
 struct Descriptor;
-extern void func_02045334(struct Descriptor *),func_02045374(void *),func_02041B6C(unsigned);
+struct Cfg;
+extern void func_02045334(struct Descriptor *);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(unsigned);
 struct Descriptor;
 extern u8 func_02045730(struct Descriptor *p);
 void func_021D9B9C(u8 *p) {

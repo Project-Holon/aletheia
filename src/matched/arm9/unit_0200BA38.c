@@ -54,7 +54,7 @@ typedef signed int     s32;
 
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u16   func_0203F1FC(const void *src, u32 size);
+extern int func_0203F1FC(const u8 *src, u32 len);
 struct Mon;
 struct MsgBank;
 struct MsgData;
@@ -134,6 +134,6 @@ u32 func_0200BA38(u32 v)
 
 void func_0200BA44(struct RecC4 *p)
 {
-    p->unk17DC = func_0203F1FC(p, 0x17DC);
+    p->unk17DC = func_0203F1FC((const u8 *)p, 0x17DC);
 }
 

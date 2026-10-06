@@ -19,22 +19,22 @@
 #include "../include/Obj06240.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B8D8C(void *p, void *a, u8 b);
+extern int func_021B8D8C(void *p, void *a, u32 b);
 extern void func_021EA40C(char *ctx, int a);
 extern int func_021EA428(void *w);
-extern u8 *func_021B9934(void *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021D646C(void *p);
 
 int func_021D2320(u8 *p, int *st, u32 *c)
 {
     switch (*st) {
     case 0:
-        func_021EA40C(((struct Obj06240 *)p)->f54, func_021B8D8C(((struct Obj06240 *)p)->f0, ((struct Obj06240 *)p)->f4, *c));
+        func_021EA40C(((struct Obj06240 *)p)->f54, func_021B8D8C(((struct Obj06240 *)p)->f0, ((struct Obj06240 *)p)->f4, (u8)(*c)));
         (*st)++;
         break;
     case 1:
         if (func_021EA428(((struct Obj06240 *)p)->f54)) {
-            func_021D646C(func_021B9934(((struct Obj06240 *)p)->f4, *c));
+            func_021D646C(func_021B9934(((struct Obj06240 *)p)->f4, (u8)(*c)));
             return 1;
         }
         break;

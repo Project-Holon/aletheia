@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02047970(void *);
+extern void func_02047970(void);
 
 void func_021D9994(void **p)
 {
     if (p[1])
-        func_02047970(p[1]);
+        func_02047970();
 }

@@ -28,13 +28,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5B40(void *);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern u32 func_0202136C(u16);
 extern int func_021E869C(void *a, int b);
 struct QF;
 extern u16 func_021D5444(struct QF *p);
 extern int func_021E8638(int, int);
-extern u8 *func_021C88A4(int, int, int);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
@@ -50,15 +51,15 @@ void func_021E7B98(int a, int b, int c)
     if (c == func_021D775C(3)) {
         k = func_021D775C(6);
         x = func_021C7CF4((int *)b, k);
-        h = func_021D5B40(func_021C7CF4((int *)b, c));
-        if (h != 0 && func_0202136C(h) == 0 && func_021D5B40(x) == 0
+        h = (int)func_021D5B40(func_021C7CF4((int *)b, c));
+        if (h != 0 && func_0202136C(h) == 0 && (int)func_021D5B40(x) == 0
             && func_021E869C((void *)b, c) == 0 && func_021E869C((void *)b, k) == 0
             && func_021E8638(func_021D5444(x), h) == 0) {
-            p = func_021C88A4(b, 0x20, c);
+            p = func_021C88A4((char *)b, 0x20, c);
             p[6] = c;
             ((struct Obj07837 *)p)->f4 = 0;
             func_021C88C8((void *)b, p);
-            p = func_021C88A4(b, 0x20, c);
+            p = func_021C88A4((char *)b, 0x20, c);
             p[6] = k;
             ((struct Obj07837 *)p)->f4 = h;
             func_021C8838(p + 12, 2, 0x457);

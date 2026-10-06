@@ -28,13 +28,14 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0203F4CC(u32 *out);
-extern u8 func_020113F0(int row, int col);
+struct RtcTime;
+extern void func_0203F4CC(struct RtcTime *time);
+extern int func_020113F0(int row, int col);
 
 u32 func_020113D8(u32 row)
 {
     u32 buf[3];
 
-    func_0203F4CC(buf);
+    func_0203F4CC((struct RtcTime *)buf);
     return func_020113F0(row, buf[0]);
 }

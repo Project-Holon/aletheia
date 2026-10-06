@@ -38,7 +38,7 @@ struct Bank;
 struct Sav;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern u32 func_020185F0(u32 a);
-extern u32 func_0202D7C8(u32 a);
+extern int func_0202D7C8(int a0);
 extern u32 func_02017DBC(struct Sav *p);
 extern int func_0202D934(int a0, void *a1, int a2, int a3, unsigned short a9);
 extern int func_0202D8D0(int a0, void *a1, int a2, int a3, unsigned short a8, unsigned short a9);

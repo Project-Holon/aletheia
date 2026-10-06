@@ -28,18 +28,19 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 func_020362DC(void);
-extern int func_02025FA4(u8 *a0);
+struct Struct_02025CD0;
+extern int func_02025FA4(struct Struct_02025CD0 *obj);
 
 int func_02025FC8(u8 *a0)
 {
     if (((struct Obj04105 *)a0)->f8 == 1) {
         if (func_020362DC() & 0xf3) {
-            return func_02025FA4(a0);
+            return func_02025FA4((struct Struct_02025CD0 *)a0);
         }
     } else if (func_020362DC() & 0xf1) {
-        return func_02025FA4(a0);
+        return func_02025FA4((struct Struct_02025CD0 *)a0);
     } else if (func_020362DC() & 2) {
-        func_02025FA4(a0);
+        func_02025FA4((struct Struct_02025CD0 *)a0);
         return -2;
     }
     return -1;

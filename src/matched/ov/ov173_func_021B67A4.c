@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef struct { u32 a,b,c,d,e,f,g; } Entry;
 extern const Entry d_021B8420[];
-extern u32 func_020450F0(u8,u8,u8,u8,u8,u8,int);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct CharBuf;
@@ -37,7 +37,7 @@ void func_021B67A4(u8 *p)
     u32 i;
     u32 h;
     for (i=0;i<16;i++) {
-        *(u32 *)(p+i*4+4)=func_020450F0(d_021B8420[i].a,d_021B8420[i].b,d_021B8420[i].c,d_021B8420[i].d,d_021B8420[i].e,d_021B8420[i].f,1);
+        *(u32 *)(p+i*4+4)=func_020450F0((u8)d_021B8420[i].a,(u8)d_021B8420[i].b,(u8)d_021B8420[i].c,(u8)d_021B8420[i].d,d_021B8420[i].e,d_021B8420[i].f,(int)1);
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+i*4+4))),0);
     }
     h=((struct Obj00180 *)p)->f28;

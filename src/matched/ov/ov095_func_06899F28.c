@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef struct Slot { int (*f0)(void *,int); int (*f1)(void *,int); int arg; int data; } Slot;
 typedef struct Q { u8 pad[0x20]; Slot tab[4]; int n; } Q;
 extern int func_06899E68(Q *);
-extern void func_06899E48(void *,void *,void *);
+extern void func_06899E48(struct Q *p, void *a, void *b);
 extern int func_0689A988(int,u8 *);
 extern int func_0689A878(int,u8 *);
 u32 func_06899F28(u8 *p) {
@@ -34,5 +34,5 @@ void func_06899F40(u8 *p, void *a, void *b) {
  ((struct Obj07912 *)p)->f70=b;
  ((struct Obj07912 *)p)->f98=0;
  ((struct Obj07912 *)p)->f68=(void *)func_0689A988;
- func_06899E48(p,(void *)func_0689A878,(void *)func_0689A988);
+ func_06899E48((struct Q *)p,(void *)func_0689A878,(void *)func_0689A988);
 }

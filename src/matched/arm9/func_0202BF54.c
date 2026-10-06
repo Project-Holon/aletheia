@@ -44,7 +44,7 @@ struct Obj {
 };
 
 struct Container;
-extern u8 func_0202BFC4(const struct Container *c, u16 key);
+extern u32 func_0202BFC4(const struct Container *c, u32 key);
 
 void func_0202BF54(struct Obj *o, u16 key)
 {

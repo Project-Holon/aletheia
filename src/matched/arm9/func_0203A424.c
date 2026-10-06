@@ -12,14 +12,15 @@
  */
 #include "../include/Obj06942.h"
 
-extern int func_020395EC(void *p);
+struct Entry;
+extern int func_020395EC(struct Entry *a);
 void func_0203A424(char *p, int a, int b, int c)
 {
     if (p == 0)
         return;
     ((struct Obj06942 *)p)->f46 = (unsigned short)(a + (b << 8));
     p[0x48] = (char)c;
-    if (func_020395EC(p) == 0xff)
+    if (func_020395EC((struct Entry *)p) == 0xff)
         p[0x49] = 0;
     else
         p[0x49] = 1;

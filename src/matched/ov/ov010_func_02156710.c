@@ -39,7 +39,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_02029690(void *a, u16 b, u16 c);
+extern void *func_02029690(void *a, u32 b, u32 c);
 extern void *func_020145CC(void *a);
 extern void *func_02029CC0(void *a);
 

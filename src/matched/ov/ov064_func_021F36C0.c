@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 extern u32 func_020111E8(void);
 extern void func_021BE760(int a, void *b, int c);
 extern void func_021BE4B4(char *p, int i, int j, int v);
-extern u8 *func_021BE674(int a, int b, int c, u16 d);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B8(u8 *p, int v);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE700(int a, int b, int c, u16 d, int e);
@@ -61,13 +61,13 @@ void func_021F36C0(int a)
     func_021BE4B4((char *)s, 0, 0, 1);
     func_021BE4B4((char *)s, 0, 1, 1);
     for (i = 0; i < 4; i++) {
-        e = func_021BE674(s, 0, 0, i);
+        e = func_021BE674((char *)s, 0, (int)0, (u16)i);
         func_021BE6B8(e, 0);
         func_021BE6B0(e, 1);
         func_021BE700(s, 0, 0, i, 0);
     }
     for (i = 0; i < 3; i++) {
-        e = func_021BE674(s, 0, 1, i);
+        e = func_021BE674((char *)s, 0, (int)1, (u16)i);
         func_021BE6B8(e, 0);
         func_021BE6B0(e, 1);
         func_021BE700(s, 0, 1, i, 0);

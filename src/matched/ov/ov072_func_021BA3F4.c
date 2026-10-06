@@ -27,7 +27,9 @@ struct Actor;
 extern int func_021BA774(char *p, int i);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern int func_0204B404(int obj, Pos *pos, int c);
+typedef unsigned int   u32;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B9A0(struct Actor *a);
 
 void func_021BA3F4(int *p, int a, int *b)
@@ -42,7 +44,7 @@ void func_021BA3F4(int *p, int a, int *b)
     if (p[5] != a) {
         pos.x = b[0] + func_021BA774((char *)a, 4);
         pos.y = b[1] + func_021BA774((char *)a, 5);
-        func_0204B404(p[1], &pos, 0);
+        func_0204B404((struct Obj *)p[1], (const struct Vec2 *)(&pos), 0);
         func_0204B3DC((struct Obj *)p[1], 1);
         func_0204B9A0((struct Actor *)p[1]);
         p[5] = a;

@@ -103,19 +103,21 @@ struct Ctx;
 struct BigObj;
 extern void func_02024ABC(void);
 extern void *func_02188C80(void *p);
-extern void *func_020120F8(const void *);
-extern Vec *func_02012AA0(void *pl);
+struct Rec44;
+struct Vec12;
+extern u8 *func_020120F8(const struct Ctx *p);
+extern struct Vec12 *func_02012AA0(struct Rec44 *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012974(const struct BigObj *p);
 extern int func_02159C48(int a0, int a1, int a2);
 extern int func_02159BD4(int a0, int a1, int a2);
-extern int func_02013E7C(u16 id);
+extern u32 func_02013E7C(u32 id);
 extern int func_02013D74(u32 key);
-extern void func_021EFF40(void *p);
-extern int func_021EFEEC(void *p, Rec *q);
+extern void func_021EFF40(char *p);
+extern int func_021EFEEC(char *p, int *q);
 extern int func_021EFF48(void *p, Rec *out, int mode);
 extern int func_02006148(u32 a0);
-extern void func_0200616C(u32 a, int i);
+extern void func_0200616C(void *arg, int i);
 extern void func_02006268(int i, u32 a, u32 b, u32 c);
 extern int func_02006224(u32 a0);
 extern void func_020061E4(u32 se);
@@ -167,7 +169,7 @@ void func_021F0174(W *p, int on)
     else if (p->cur.kind == 2)
         p->cur.b = p->found.b;
     obj = func_02188C80((void *)p->f08);
-    pos = func_02012AA0(func_020120F8(obj));
+    pos = (Vec *)func_02012AA0((struct Rec44 *)func_020120F8(obj));
     gx = (pos->x >> 4) / 4096;
     gy = (pos->y >> 4) / 4096;
     gz = (pos->z >> 4) / 4096;
@@ -176,7 +178,7 @@ void func_021F0174(W *p, int on)
     flag = 0;
     if (func_02159C48((int)map, pos->x, pos->z) == 1) {
         zone = func_02159BD4((int)map, pos->x, pos->z);
-        flag = func_02013E7C((u16)zone);
+        flag = (int)func_02013E7C((u16)zone);
     }
     if (p->f94 == 0) {
         p->f94 = 1;
@@ -204,7 +206,7 @@ void func_021F0174(W *p, int on)
         for (i = 0; i < n; i++) {
             if (i == 0) {
                 if (p->cur.kind != 0) {
-                    if (func_021EFEEC(p->fD0, &p->cur)) {
+                    if (func_021EFEEC(p->fD0, (int *)(&p->cur))) {
                         r[1].kind = p->cur.kind;
                         if (r[1].kind == 1)
                             r[1].a = p->cur.a;
@@ -236,7 +238,7 @@ void func_021F0174(W *p, int on)
                 z = e->h8;
             } else if (r[1].kind == 2) {
                 s = (s16 *)r[1].b;
-                if (func_02013E7C(s[3]) == 0)
+                if ((int)func_02013E7C((u16)s[3]) == 0)
                     continue;
                 if (flag == 0)
                     continue;
@@ -289,7 +291,7 @@ void func_021F0174(W *p, int on)
         }
         if (start) {
             p->f98 = func_02006148(0x760);
-            func_0200616C(0x760, p->f98);
+            func_0200616C((void *)0x760, p->f98);
             func_02006268(p->f98, -1, 0x180, -1);
             p->hA0 = 6;
             p->fA4 = 1;
@@ -331,7 +333,7 @@ void func_021F0174(W *p, int on)
                 pan = -127;
             else if (pan > 127)
                 pan = 127;
-            func_0200616C(0x760, h);
+            func_0200616C((void *)0x760, h);
             func_02006268(h, -1, -1, pan);
             snd = 0;
         }

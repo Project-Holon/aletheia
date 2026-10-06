@@ -24,10 +24,13 @@ typedef struct {
 } FSFile;
 
 extern void func_020788AC(FSFile *file);
-extern int func_020789FC(FSFile *file, const char *path, unsigned long mode);
-extern long func_02078A94(FSFile *file);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct FSFile;
+extern int func_020789FC(struct FSFile *file, const char *path, u32 mode);
+extern u32 func_02078A94(struct FSFile *file);
 extern int func_02078A80(FSFile *file);
-extern long func_02078B70(FSFile *file, void *dst, long size);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
 int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag)
 {
@@ -43,13 +46,13 @@ int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag)
     if (filePathp == 0)
         return 0;
     func_020788AC(&file);
-    if (!func_020789FC(&file, filePathp, 1))
+    if (!func_020789FC((struct FSFile *)(&file), filePathp, 1))
         return 0;
-    if (size != func_02078A94(&file)) {
+    if (size != func_02078A94((struct FSFile *)(&file))) {
         func_02078A80(&file);
         return 0;
     }
-    func_02078B70(&file, iconp, size);
+    func_02078B70((struct FSFile *)(&file), iconp, size);
     func_02078A80(&file);
     return 1;
 }

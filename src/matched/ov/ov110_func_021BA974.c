@@ -20,12 +20,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 func_021BF71C(u8 *);
-extern void func_021BCF7C(u8 *, u8, int);
+extern void func_021BCF7C(u8 *p, int n, int v);
 extern void func_021B9CBC(u8 *);
 void func_021BA974(void *unused, u8 *p)
 {
     u8 *q;
     q = *(u8 * *)&((struct Obj00135 *)p)->f0;
-    func_021BCF7C(*(u8 * *)&((struct Obj13771 *)q)->f64, func_021BF71C(*(u8 * *)&((struct Obj13771 *)q)->f18), 1);
+    func_021BCF7C(*(u8 * *)&((struct Obj13771 *)q)->f64, (u8)func_021BF71C(*(u8 * *)&((struct Obj13771 *)q)->f18), 1);
     func_021B9CBC(p);
 }

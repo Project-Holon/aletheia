@@ -31,7 +31,8 @@ extern const B32 d_02186B6C;
 extern const B32 d_02186B8C;
 extern const B32 d_02186BAC;
 extern const B32 d_02186B4C;
-extern void func_0203FC28(void *);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(int, void *, int);
 typedef unsigned int   u32;
 extern void func_020414EC(u32 i);
@@ -47,7 +48,7 @@ void func_021848E0(void)
     B32 t5;
 
     t = d_02186B3C;
-    func_0203FC28(&t);
+    func_0203FC28((struct DispConfig *)(&t));
 
     t0 = d_02186BCC;
     func_0203FCA0(0, &t0, 0);

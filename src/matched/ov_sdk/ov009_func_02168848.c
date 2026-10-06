@@ -22,8 +22,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_02168848(void *p, int a, int b)
+unsigned char func_02168848(void *p, int a, int b)
 {
     unsigned char func_02168864(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size);
-    func_02168864(p, 0, 0, (char *)a, (int *)b);
+    return func_02168864(p, 0, 0, (char *)a, (int *)b);
 }

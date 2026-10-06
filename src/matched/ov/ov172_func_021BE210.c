@@ -38,11 +38,16 @@ extern u32 func_021B8BA4(int unused, char *base, int i);
 extern u32 func_021B8B8C(int unused, char *base, int i);
 extern char *func_021B8B94(int unused, char *base, int i);
 extern void *func_02008510(void *a, int tag);
-extern u32 func_0201D304(void *s, u32 a, u32 b);
-extern void func_02045808(void *);
-extern void func_0204B404(void *, void *, u32);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B9A0(void *);
+struct Actor;
+struct Obj;
+struct StrObj;
+struct U16Vec;
+struct Vec2;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B9A0(struct Actor *a);
 extern const struct Q d_021C7048;
 extern const struct Q d_021C704C;
 void func_021BE210(char *a, u8 idx)
@@ -65,7 +70,7 @@ void func_021BE210(char *a, u8 idx)
     func_02045808(h);
     { u32 xk = rc.xv.b[k]; rc.x = xk + (v >> 1); }
     rc.y = rc.yv.b[k];
-    func_0204B404(*(void **)(a + 0x1B0), &rc, 0);
+    func_0204B404(*(void **)(a + 0x1B0), (const struct Vec2 *)(&rc), 0);
     func_0204B3DC(*(void **)(a + 0x1B0), 1);
     func_0204B9A0(*(void **)(a + 0x1B0));
 }

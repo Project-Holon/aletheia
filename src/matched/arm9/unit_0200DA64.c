@@ -116,7 +116,7 @@ void func_0200DA80(struct Blk1AC *p, s32 v)
     }
 }
 
-void func_0200DA98(struct Blk1AC *p, s32 v)
+void func_0200DA98(struct Blk1AC *p, u16 v)
 {
     s16 n = (s16)p->unk00 - (s16)v;
 

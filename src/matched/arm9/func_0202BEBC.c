@@ -20,11 +20,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0202BFF0(u8 *p);
+struct Obj;
+extern void func_0202BFF0(struct Obj *o);
 
 void func_0202BEBC(u8 *p)
 {
     if (((struct Obj02602 *)p)->f0 != 0) {
-        func_0202BFF0(p);
+        func_0202BFF0((struct Obj *)p);
     }
 }

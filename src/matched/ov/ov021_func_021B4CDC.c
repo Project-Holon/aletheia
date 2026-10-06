@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 abs_id_01[];
-extern void *func_02154694(void *a, u32 b);
+extern void *func_02154694(void *p, int a);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void func_0215897C(void *a, void *b);

@@ -23,8 +23,8 @@ extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *,int);
 extern void func_021F86A4(int,int,char *);
 extern void func_021F8EE8(char *,int *);
-extern void func_021F8D5C(char *,int *);
-extern void func_021F8E60(char *,int *);
+extern void func_021F8D5C(char *p, char *q);
+extern void func_021F8E60(char *p, char *q);
 extern void func_021F8EFC(char *,int *);
 void func_021F8950(int *sys,int *state,char *p)
 {
@@ -36,8 +36,8 @@ void func_021F8950(int *sys,int *state,char *p)
     case 1: if(func_021FE7B0(*(int **)*(int * *)&((struct Obj00278 *)p)->f34)) *state=2; break;
     case 2:
         func_021F8EE8(p,*(int * *)&((struct Obj00278 *)p)->f34);
-        func_021F8D5C(p,*(int * *)&((struct Obj00278 *)p)->f34);
-        func_021F8E60(p,*(int * *)&((struct Obj00278 *)p)->f34);
+        func_021F8D5C(p,(char *)(*(int * *)&((struct Obj00278 *)p)->f34));
+        func_021F8E60(p,(char *)(*(int * *)&((struct Obj00278 *)p)->f34));
         func_021F8EFC(p,*(int * *)&((struct Obj00278 *)p)->f34);
         *state=3; break;
     case 3:

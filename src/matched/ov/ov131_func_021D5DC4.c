@@ -60,7 +60,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021D5BAC(u8 *,int,u16 *);
 extern int func_021D62E4(char *);
 extern void func_02006BB4(u32);
-extern void *func_021D60A4(void *);
+extern int func_021D60A4(char *p);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02006CAC(void **);
 extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
@@ -129,7 +129,7 @@ void func_021D5DC4(u8 *p)
             ((struct Obj00035 *)p)->f10=0;
             func_02006BB4(0);
             if (((struct Obj00035 *)p)->f38==0) {
-                q=func_021D60A4(p);
+                q=(void *)func_021D60A4((char *)p);
                 a=func_02017E1C(q,5,0);
                 b=func_02017E1C(q,111,0);
                 func_02006CAC(&out);

@@ -41,7 +41,7 @@ typedef struct FuncTable {
 
 extern int func_021D157C();
 extern void func_021C0E40(unsigned int v);
-extern void func_021C0EA0();
+extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern void func_021C7314();
 extern void func_021C77F4();
 extern MemSsea *g_021DE5E4;
@@ -59,7 +59,7 @@ void func_021C7A0C(void)
         func_021C0E40((unsigned int)func_021C7314);
         return;
     }
-    func_021C0EA0(&prm, 0);
+    func_021C0EA0((unsigned int *)(&prm), 0);
     FUNC.f[prm]((char *)g_021DE5E4 + 8);
     func_021C0E40((unsigned int)func_021C77F4);
 }

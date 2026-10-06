@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D5B68(void *);
 extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021BD554(u8 *, u8 *);
 void func_021BD518(u8 *p, u8 *m)
 {
@@ -31,6 +31,6 @@ void func_021BD518(u8 *p, u8 *m)
     if (func_021D5B68(m) == 0) {
         old = func_021CC8D8(p + 0x1d74, 2697);
         func_021BD554(p, m);
-        func_021CC95C(p + 0x1d74, old, 2699);
+        func_021CC95C((u32 *)(p + 0x1d74), old, 2699);
     }
 }

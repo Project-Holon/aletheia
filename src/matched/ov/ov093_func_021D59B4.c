@@ -30,7 +30,8 @@ typedef signed char s8;
 extern int func_021D587C(void *p, int k);
 extern int func_021D58A8(u8 *, int);
 extern unsigned short func_021D78E4(unsigned short a, int i);
-extern int func_021D62C4(u8 *, int);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 
 int func_021D59B4(u8 *p, int k)
 {
@@ -72,7 +73,7 @@ int func_021D59B4(u8 *p, int k)
     case 21:
         return ((struct Obj00041 *)p)->f1A;
     case 17:
-        if (func_021D62C4(p, 0x10) != 0)
+        if (func_021D62C4((struct Unk021D62A8 *)p, 0x10) != 0)
             return 0;
     case 16:
         return ((struct Obj00041 *)p)->f13C;

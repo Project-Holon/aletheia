@@ -53,7 +53,7 @@ extern int func_0203CEAC(int a0);
 extern void func_0203D0D0(void);
 extern u32  func_02178E4C(void);
 extern void func_0203CFA0(void);
-extern void func_0201034C(void);
+extern int func_0201034C(void);
 extern void func_0208459C(int clear, u32 irqFlags);
 extern int func_0203CDBC(void);
 

@@ -34,7 +34,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_020056BC(void);
-extern void func_021BFC50(void *p);
+extern void func_021BFC50(u8 *a0);
 extern void func_021BFB0C(void *p);
 extern void func_021BFBDC(void *p);
 extern void func_021BFE80(void *p);
@@ -75,7 +75,7 @@ void func_021BFA30(char *p)
     for (i = 0; i < 7; i++) {
         *(u32 *)(p + i * 4 + 0x368) = 0;
     }
-    func_021BFC50(p);
+    func_021BFC50((u8 *)p);
     func_021BFB0C(p);
     func_021BFBDC(p);
     func_021BFE80(p);

@@ -20,7 +20,8 @@ struct Tcbl;struct TcblNode;struct S02030FB4;
 extern struct TcblNode *func_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),unsigned,unsigned);
 extern void *func_02031290(struct S02030FB4 *);
 extern void func_02082BCC(void *,int,int);
-extern void func_02005E30(unsigned short);
+typedef unsigned int   u32;
+extern void func_02005E30(u32 a);
 extern void func_021BEEF8(struct TcblNode *node, struct Task *t);
 void func_021BEE8C(char *p,int channel,int start,int end,unsigned mode)
 {
@@ -33,5 +34,5 @@ void func_021BEE8C(char *p,int channel,int start,int end,unsigned mode)
     t->a=flag;
     if(mode==4)t->b=1;else t->b=0;
     t->channel=channel;t->start=start;t->end=end;
-    if(start!=0)func_02005E30(start);else t->done=1;
+    if(start!=0)func_02005E30((unsigned short)start);else t->done=1;
 }

@@ -73,10 +73,10 @@ typedef unsigned int u32;
 typedef enum { FALSE, TRUE } Bool;
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern u32 func_02158344(u32);
-extern void func_021B6C7C(void *,int);
-extern void func_021B9BD8(u8 *);
-extern void func_021B9BAC(void *,u32);
+extern int func_02158344(int a0);
+extern void func_021B6C7C(int *p, int idx);
+extern void func_021B9BD8(char *p);
+extern void func_021B9BAC(void *p, int a);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 typedef signed int     s32;
@@ -87,43 +87,43 @@ struct PrintSys;
 struct WordSet;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
-extern void func_021B9798(void *,void *,u32);
-extern int func_021B98B4(void *,void *);
+extern void func_021B9798(char *a, char *b, u32 c);
+extern int func_021B98B4(u8 *a, u8 *b);
 extern int func_02035C60(void);
 extern int func_02035C38(void);
 extern u32 func_020362DC(void);
 extern u32 func_0203630C(void);
-extern void func_021B98C4(void *);
+extern void func_021B98C4(char *a);
 extern void func_020061E4(u32);
-extern int func_021B9F2C(void *,int,int);
+extern int func_021B9F2C(u8 *p, int i, int v);
 extern int func_02035C08(const void *);
 extern void func_021B7108(void *);
 extern void func_020355D8(u8 v);
 extern void func_021B9C7C(void *,void *);
-extern void func_021BA004(void *);
-extern int func_021BA0CC(void *,int);
-extern void func_021BA11C(void *);
-extern void func_021BA140(void *);
-extern void func_021BA01C(void *,void *);
-extern void func_021B6B58(void *,int);
+extern void func_021BA004(char *p);
+extern int func_021BA0CC(u8 *p, int d);
+extern void func_021BA11C(char *p);
+extern void func_021BA140(u8 *p);
+extern void func_021BA01C(void *a, u8 *p);
+extern void func_021B6B58(void **p, int v);
 extern u8 func_021B6C74(void *,int);
-extern void func_02034714(const void *,int,const void *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_021B7194(int *p, void *arg1, u32 heap);
 extern int func_021B7204(int a, int b, void *p, int *q);
 extern void func_021B71FC(void *p);
-extern void func_021B6C30(void *,int,int);
-extern void func_021B6B98(void *,void *,int,int,int);
+extern void func_021B6C30(int *p, int flag, int index);
+extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 extern int func_02174660(int,...);
-extern void func_021B9818(void *,void *,u32);
-extern void func_02005E30(int);
+extern void func_021B9818(char *a, char *b, u32 c);
+extern void func_02005E30(u32 a);
 extern int func_02005E50(void);
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 extern void func_02005D90(int,int);
 extern int func_02005F38(void);
 extern void func_02005E9C(void);
-extern void func_02005DF8(int);
+extern void func_02005DF8(u32 a);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
@@ -143,8 +143,8 @@ int func_021B9070(int unused,int *state,u8 *c,u8 *o)
     int active,result,off;
     unsigned short flip;
     initial=func_02158344(func_02012138((const struct Ctx *)*(u32 *)CP(0)));
-    func_021B6C7C(c,1); func_021B6C7C(c,3);
-    func_021B9BD8(o); func_021B9BAC(CP(4),(u32)o);
+    func_021B6C7C((int *)c,1); func_021B6C7C((int *)c,3);
+    func_021B9BD8((char *)o); func_021B9BAC(CP(4),(u32)o);
     handle=*(u32 *)(CP(4)+8);
     if (o[0x28c]!=0 && func_0201C6C4((struct PrintSys *)handle,(void *)((u32)func_02045770((struct Descriptor *)W(0x288))))==0) {
         func_02045334((struct Descriptor *)W(0x288)); o[0x28c]=0;
@@ -152,10 +152,10 @@ int func_021B9070(int unused,int *state,u8 *c,u8 *o)
     if (c[0x2e]==1 && *state==4) return 1;
     switch (*state) {
     case 0: *state=1; break;
-    case 1: func_021B9798(o,CP(4),0x25); ++*state; break;
+    case 1: func_021B9798((char *)o,(char *)CP(4),0x25); ++*state; break;
     case 2:
         if (func_021B98B4(CP(4),o)==1 && (func_02035C60()!=0 || (func_020362DC()&3))) {
-            func_021B98C4(o); func_020061E4(0x547);
+            func_021B98C4((char *)o); func_020061E4(0x547);
             if (func_02035C60()==0) func_021B9F2C(o,1,0);
             else func_021B9F2C(o,0xffff,0);
             ++*state;
@@ -171,10 +171,10 @@ int func_021B9070(int unused,int *state,u8 *c,u8 *o)
             else func_020355D8(FALSE);
             func_020061E4(0x551); *state=17; break;
         }
-        func_021B9C7C(c,o); func_021BA004(o);
+        func_021B9C7C(c,o); func_021BA004((char *)o);
         off=0x2e0;
         if (func_021BA0CC(o,W(off)+W(off+4))==1) {
-            func_021BA11C(o); func_021BA140(o); W(off+16)=1;
+            func_021BA11C((char *)o); func_021BA140(o); W(off+16)=1;
         }
         func_021BA01C(c,o);
         if (W(0x2f4)==0xffff) { CP(8)[1]=0x30; }
@@ -182,32 +182,32 @@ int func_021B9070(int unused,int *state,u8 *c,u8 *o)
             CP(8)[1]=*(u32 *)(o+(W(0x2f4)<<2)+0xec);
             CP(8)[2]=*(u32 *)(o+(W(0x2f4)<<2)+0x1b4);
             if (*(u32 *)(o+(W(0x2f4)<<2)+0x1b4)==0) {
-                func_021B6B58(o+8,1); goto selected;
+                func_021B6B58((void **)(o+8),1); goto selected;
             }
         }
-        func_021B6B58(o+8,0);
+        func_021B6B58((void **)(o+8),0);
 selected:
         if (W(0x300)!=0xffff) { func_020061E4(0x54c); *state=5; }
         break;
     case 5:
         if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
-            func_021B9798(o,CP(4),0x20); ++*state;
+            func_021B9798((char *)o,(char *)CP(4),0x20); ++*state;
         } break;
     case 6:
         if (func_021B98B4(CP(4),o)==1) {
-            if (W(0x310)!=0) func_02034714(d_021BABFC,0,d_021BABFC);
+            if (W(0x310)!=0) func_02034714((const char *)d_021BABFC,0,(const char *)d_021BABFC);
             W(0x310)=(u32)func_021B7194((int *)CP(4),(void *)W(0x30c),0x61); ++*state;
         } break;
     case 7:
         if (func_021B7204(C(4),4,(void *)W(0x310),&result)==1) {
-            func_021B71FC((void *)W(0x310)); W(0x310)=0; func_021B98C4(o);
+            func_021B71FC((void *)W(0x310)); W(0x310)=0; func_021B98C4((char *)o);
             if (result==1) *state=8;
-            else { W(0x300)=0xffff; func_021B6C30(c,1,1); func_021B6B98(c,o+8,1,0xff,3); *state=4; }
+            else { W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3); *state=4; }
         } break;
     case 8:
         if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
             func_0201F184((struct WordSet *)(*(u32 *)(CP(4)+0x10)),0,*(u32 *)(o+(W(0x300)<<2)+0xec));
-            func_021B9818(o,CP(4),0x23); *state=9;
+            func_021B9818((char *)o,(char *)CP(4),0x23); *state=9;
         } break;
     case 9:
         if (initial==0) goto write10;
@@ -229,12 +229,12 @@ write10:
     case 14: if (func_02005E50()==0) *state=15; break;
     case 15:
         if (func_02035C60()!=0 || (func_020362DC()&3)) {
-            func_021B98C4(o);
+            func_021B98C4((char *)o);
             func_0200BF08((u32)func_0200BE48(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
             save=func_02012138((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
             func_020266AC(save,func_02012B58(func_020120F4((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
-            W(0x300)=0xffff; func_021B6C30(c,1,1); func_021B6B98(c,o+8,1,0xff,3);
+            W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3);
             if (func_02035C60()!=0) *state=16;
             else *state=17;
         } break;

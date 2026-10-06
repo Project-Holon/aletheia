@@ -52,9 +52,11 @@ extern int   memcmp(const void *a, const void *b, u32 n);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void  func_0217B054(u8 *w, Entry *e, void *p);
 extern void  func_0217B098(u8 *w, u32 a, u32 b, u32 c, Entry *e);
-extern int   func_0217B1D0(u8 *w, Entry *e);
-extern int   func_0217B370(u8 *w, void *p, void *q);
-extern void  func_0217B3EC(u8 *w, Entry *e);
+struct ent;
+struct obj;
+extern int func_0217B1D0(struct obj *o, struct ent *e);
+extern int func_0217B370(char *base, unsigned char *p, int r2);
+extern int func_0217B3EC(char *base, char *p);
 
 void func_0217B264(u8 *w, void *sys, void *q)
 {
@@ -81,10 +83,10 @@ void func_0217B264(u8 *w, void *sys, void *q)
             int j;
             void *p;
 
-            func_0217B3EC(w, e);
+            func_0217B3EC((char *)w, (char *)e);
             func_0217B098(w, a, b, c, e);
             if (flag == 1) {
-                if (func_0217B1D0(w, e) == 1) {
+                if (func_0217B1D0((struct obj *)w, (struct ent *)e) == 1) {
                     flag = 0;
                 }
             }
@@ -92,7 +94,7 @@ void func_0217B264(u8 *w, void *sys, void *q)
             for (j = 0; j < 5; j++) {
                 p = e->slots[j];
                 if (p != 0) {
-                    if (func_0217B370(w, p, q) == 0) {
+                    if (func_0217B370((char *)w, p, (int)q) == 0) {
                         func_0217B054(w, e, p);
                         e->slots[j] = 0;
                         cnt++;

@@ -39,7 +39,7 @@ extern int func_0208B2BC(void *param, void (*cb)(void), void *arg);
 extern int func_0208B4C8(void *param, void (*cb)(void), void *arg);
 extern u32 func_0208B4B8(void);
 extern int func_021B0B48(void *a, u32 b, int *out);
-extern void func_021B07F8(u8 *addr, u32 size);
+extern int func_021B07F8(const u8 *src, u32 n);
 extern void func_021AEB78(void);
 
 void func_021AEB7C(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6)

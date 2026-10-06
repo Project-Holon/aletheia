@@ -32,7 +32,8 @@ typedef struct {
 } ApInfo;
 
 extern int func_0205CD24(ApInfo *apinfo);
-extern int func_021C7A68(char *p, unsigned long n);
+typedef unsigned int   u32;
+extern void func_021C7A68(char *p, u32 n);
 extern void func_021C7A44(void *dst, void *src, int size);
 extern int func_021C60C8(char *encstr, char *srcbin, int length);
 extern B13 g_021CE0E4;

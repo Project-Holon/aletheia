@@ -25,9 +25,10 @@ typedef unsigned int u32;
 
 struct Link;
 
-extern int func_020395EC(struct Link *p);
+struct Entry;
+extern int func_020395EC(struct Entry *a);
 
 u32 func_0203D1A4(struct Link *p)
 {
-    return func_020395EC(p) & 0xff;
+    return func_020395EC((struct Entry *)p) & 0xff;
 }

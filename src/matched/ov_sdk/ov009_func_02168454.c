@@ -19,10 +19,11 @@
 
 extern char d_021A1FF8[];
 extern int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 
 int func_02168454(const char *key, const char *value, char *string, char sep)
 {
     OS_SNPrintf(string, 0x1000, d_021A1FF8, sep, key, sep, value);
-    return func_0209477C(string);
+    return func_0209477C((const u8 *)string);
 }

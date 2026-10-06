@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned int func_021B8B78(unsigned char *p,unsigned char k) { unsigned int n,i; i=0; n=0; for(;i<6;i++) { if(k==p[i+0x428]) n++; } return n; }
+unsigned int func_021B8B78(unsigned char *p, int k) { unsigned int n,i; i=0; n=0; for(;i<6;i++) { if(k==p[i+0x428]) n++; } return n; }

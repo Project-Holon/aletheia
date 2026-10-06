@@ -78,7 +78,7 @@ typedef struct Sub {
 
 extern void func_021B919C(u8 *p, u32 a);
 extern u32 func_021B9278(Rec *o, u32 b, Tbl *t);
-extern u32 func_021B9280(Rec *o, u32 a, u32 b, Tbl *t);
+extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
 extern void func_021B8658(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_021B91F8(Sub *p, V3 *out);
 
@@ -123,7 +123,7 @@ void func_021B7EE4(Sub *p, const Out *q)
         c = q->c;
     }
     m = func_021B9278(o, p->f1C, p->f24);
-    func_021B8658((u8 *)p, (u32)o, c, d, e, m, func_021B9280(o, d, m, p->f24));
+    func_021B8658((u8 *)p, (u32)o, c, d, e, m, func_021B9280((u8 *)o, d, m, (u8 *)p->f24));
     p->f33 = 1;
     p->f32 = c;
     p->f8 = 1;

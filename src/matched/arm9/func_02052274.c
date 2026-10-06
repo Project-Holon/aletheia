@@ -51,7 +51,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_020522E4(u8 *a, u8 *b, u32 *scratch);
+typedef unsigned short u16;
+extern int func_020522E4(u16 *src, char *dst, u32 *stop);
 
 void func_02052274(u8 *a, u8 *b, u32 n)
 {
@@ -67,7 +68,7 @@ void func_02052274(u8 *a, u8 *b, u32 n)
     z = i;
     do {
         scratch = z;
-        if (func_020522E4(a + i * 2, b + j, &scratch) == 1)
+        if (func_020522E4((u16 *)(a + i * 2), (char *)(b + j), &scratch) == 1)
             j += 2;
         else
             j += 1;

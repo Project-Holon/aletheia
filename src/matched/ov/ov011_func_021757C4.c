@@ -50,39 +50,39 @@ typedef struct {
 } Ctx;
 
 extern u32 func_0203D378(void);
-extern int func_02175B14(Work *w);
-extern int func_02175894(Work *w);
+extern int func_02175B14(u8 *p);
+extern int func_02175894(u8 *p);
 struct BigObj;
 extern u32 func_02026478(void *obj);
 extern u8 func_02012B58(const struct BigObj *p);
 extern void func_02175D34(Ctx *c, Work *w, int a);
-extern void func_02176158(Ctx *c, Work *w);
+extern void func_02176158(int a, u8 *p);
 extern void func_02176194(Ctx *c, Work *w);
-extern void func_02175A34(Ctx *c, Work *w);
-extern void func_02175AE8(Ctx *c, Work *w);
+extern void func_02175A34(void *a, u8 *b);
+extern void func_02175AE8(int ctx, u8 *p);
 
 void func_021757C4(Ctx *c, Work *w)
 {
     int x;
 
-    if (func_0203D378() == 1 && func_02175B14(w) == 1) {
+    if (func_0203D378() == 1 && func_02175B14((u8 *)w) == 1) {
         if (w->bD8 == 4) {
             if (w->hA8 != 0) {
-                if (w->b19C == 0 && func_02175894(w) > w->hA8) {
+                if (w->b19C == 0 && func_02175894((u8 *)w) > w->hA8) {
                     w->b19C = 1;
                 }
-            } else if (w->f1 == 1 && func_02175894(w) > w->hAA) {
+            } else if (w->f1 == 1 && func_02175894((u8 *)w) > w->hAA) {
                 x = func_02026478((void *)c->w4);
                 if (w->bE3 == 0) {
                     func_02175D34(c, w, func_02012B58((const struct BigObj *)x));
                 }
             }
-        } else if (w->f1 == 1 && func_02175894(w) > w->hAA) {
+        } else if (w->f1 == 1 && func_02175894((u8 *)w) > w->hAA) {
             w->f4 = 1;
         }
     }
-    func_02176158(c, w);
+    func_02176158((int)c, (u8 *)w);
     func_02176194(c, w);
-    func_02175A34(c, w);
-    func_02175AE8(c, w);
+    func_02175A34(c, (u8 *)w);
+    func_02175AE8((int)c, (u8 *)w);
 }

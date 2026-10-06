@@ -31,7 +31,7 @@ extern void func_0216F02C(void **p, void *a, void *b);
 extern u32 func_02188CE8(u8 *p);
 extern void func_021AAABC(int s);
 
-int func_0216E910(int a0, int a1, int a2)
+int func_0216E910(void *a0, void *a1, void *a2)
 {
     int h;
     int *t;

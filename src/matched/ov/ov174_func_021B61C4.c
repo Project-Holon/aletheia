@@ -24,15 +24,20 @@
 #include "../include/Obj00681.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern void func_02030EAC(void *);
-extern void func_0204B3B4(void *);
+struct Bank;
+struct Node;
+struct Obj;
+extern void func_02030EAC(struct Node *n);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(void *);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_02049238(void *);
 extern void func_020307B0(void *);
-extern void func_021B6824(u8 *),func_021B6508(u8 *),func_021B6D00(u8 *,void *);
+extern void func_021B6824(u8 *);
+extern void func_021B6508(u8 *);
+extern void func_021B6D00(unsigned char *unused, char *p);
 void func_021B61C4(u8 *p)
 {
     u8 i;

@@ -74,11 +74,11 @@ extern void func_02206A58(char *p);
 extern void func_02204698(struct Obj *p, int a, int b);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_0220687C(char *, void *);
-extern void func_02206A14(Main *);
+extern void func_02206A14(char *p);
 extern void func_02205B80(char *p, int a);
 typedef unsigned char u8;
 typedef signed short s16;
-extern void func_02206AF8(Main *);
+extern void func_02206AF8(char *p);
 extern void func_022043C0(Main *, int, int, int, int);
 extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void func_02040588(unsigned int, unsigned int);
@@ -88,11 +88,11 @@ void func_022035C0(void *task, Ctx *c)
     case 0:
         func_020498F4(c->main->f48, c->fc, 4, 0, 0, 0, c->main->h240);
         func_020498F4(c->main->f48, 0x68, 5, 0, 0, 0, c->main->h240);
-        func_02206AF8(c->main);
+        func_02206AF8((char *)c->main);
         func_02204960(c->main, 5, 0, 0, 1, 0, 2, 1);
         func_022043C0(c->main, 0x3000, 0x1000, -0x400, 0x98);
         func_022044C0(c->main, 0, 0x1c0, 8, 8);
-        func_02206A14(c->main);
+        func_02206A14((char *)c->main);
         func_02045374(c->main->obj230);
         func_020409B4(6);
         func_02021848(c->main->pal, 2, 3, 1, 12, 0, 0x842, c->main->owner);

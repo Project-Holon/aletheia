@@ -22,7 +22,8 @@
  */
 #include "../include/Obj01292.h"
 struct U16Vec; struct Descriptor; struct S02031140;
-extern void func_021BF580(void *);
+typedef unsigned char  u8;
+extern void func_021BF580(u8 *p);
 extern int func_02028604(int);
 extern void func_02045808(struct U16Vec *);
 extern void func_0201D83C(void *);
@@ -39,7 +40,7 @@ extern void func_0201ED04(struct WordSet *p);
 extern void func_020307B0(void *);
 void func_021BF1A4(char *p)
 {
-    func_021BF580(p);
+    func_021BF580((u8 *)p);
     func_02028604(((struct Obj01292 *)p)->f20);
     func_02045808(*(struct U16Vec * *)&((struct Obj01292 *)p)->f3C);
     func_02045808(*(struct U16Vec * *)&((struct Obj01292 *)p)->f40);

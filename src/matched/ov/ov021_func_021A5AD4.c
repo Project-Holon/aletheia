@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 extern int  func_021A3974(u32 a);
 extern void func_021A5BC0(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_021A5F98(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_021A5F98(int *a, u32 sel, u32 c, u32 d, u32 e, u32 f);
 extern void func_021A635C(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
 
 void func_021A5AD4(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e)
@@ -35,7 +35,7 @@ void func_021A5AD4(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e)
         func_021A5BC0(p, a, c, d, (u16)b, e);
         break;
     case 1:
-        func_021A5F98(p, a, c, d, (u16)b, e);
+        func_021A5F98((int *)p, a, c, d, (u16)b, e);
         break;
     case 2:
     case 3:

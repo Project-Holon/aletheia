@@ -21,14 +21,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0200FB24(int);
+extern u32 func_0200FB24(void);
 
 void func_02156BAC(void *p)
 {
     int v = *(int *)&((struct Obj00005 *)p)->f14;
 
     if (v == 1) {
-        if (func_0200FB24(v)) {
+        if (func_0200FB24()) {
             if (((struct Obj00005 *)p)->f50 == 0) {
                 ((struct Obj00005 *)p)->f50 = 1;
             }

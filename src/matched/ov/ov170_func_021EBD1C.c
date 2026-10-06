@@ -15,7 +15,7 @@
  * Maps a menu row to its message index, then tail-calls the printer.
  */
 
-extern void func_021EBA84(char *, int, int);
+extern void func_021EBA84(unsigned char *p, int msg, int i);
 
 void func_021EBD1C(char *p, int row, int b)
 {
@@ -33,5 +33,5 @@ void func_021EBD1C(char *p, int row, int b)
         row = 0x33;
         break;
     }
-    func_021EBA84(p, row, b);
+    func_021EBA84((unsigned char *)p, row, b);
 }

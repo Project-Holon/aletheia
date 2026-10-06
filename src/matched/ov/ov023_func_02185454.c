@@ -50,7 +50,7 @@ extern void func_020061E4(u32 a);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_021852F4(void *p, int flag);
 extern void func_02185354(char *p);
-extern void func_021861C4(char *p, int a, int b);
+extern void func_021861C4(u8 *w, u32 msg, int mode);
 extern void func_02186444(char *p, u32 v);
 extern int  func_021864A8(char *p);
 extern int  func_02186660(char *p);
@@ -77,7 +77,7 @@ int func_02185454(char *p, int x)
     case 0:
         if (func_02039338() == 0) {
             func_02186444(p, 0xf);
-            func_021861C4(p, 4, 1);
+            func_021861C4((u8 *)p, 4, 1);
         } else {
             func_02186444(p, 8);
             func_0201F7A8((void *)(((struct Obj02741 *)p)->f11C), 2);

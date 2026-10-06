@@ -37,7 +37,7 @@ extern u8 ov203_id[];
 struct Comm;
 struct Ctx;
 extern u8 func_02012144(const struct Ctx *p);
-extern void func_0201213C(void *p, u32 v);
+extern void func_0201213C(struct Ctx *p, u32 v);
 extern u32 func_02026454(void *obj);
 extern void func_02026400(struct Comm *p);
 struct IcaAnime;

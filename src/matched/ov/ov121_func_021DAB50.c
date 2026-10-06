@@ -36,7 +36,7 @@ static inline u16 blend(u16 c1,u16 c2,s16 factor) {
  return ((u8)(b1+db)<<10)|((u8)(r1+dr)|((u8)(g1+dg)<<5));
 }
 #pragma opt_loop_invariants off
-void func_021DAB50(void *a,u16 *p,int angle,int bank,const u16 *first,const u16 *last) {
+void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last) {
  int i=0;
  int factor=(d_020A1B38[((angle>>4)*2)+1]+0x1000)/2;
  for(;i<16;i++) p[i]=blend(first[i],last[i],factor);

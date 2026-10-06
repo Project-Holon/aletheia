@@ -48,7 +48,8 @@ extern unsigned char func_021BDD48(char *,void *);
 extern int func_021BDD54(char *,void *);
 extern void func_021BAD74(char *);
 extern int func_021BDD98(int);
-extern void func_021B9AE0(char *,void *);
+typedef unsigned char  u8;
+extern void func_021B9AE0(void *w, u8 *s);
 int func_021C0858(char *p,int ret) {
     void *q; unsigned r; int v;
     char *st;

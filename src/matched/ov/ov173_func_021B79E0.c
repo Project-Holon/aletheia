@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 /* The original forwards the full entry r1 without halfword truncation. */
-extern u32 func_0201BD28(u32,u32);
+extern u32 func_0201BD28(u16 id, u32 field);
 extern void func_0204B878(struct Obj *,u16);
-void func_021B79E0(u8 *p,u32 id) {func_0204B878(*(struct Obj * *)&((struct Obj24185 *)p)->f110,func_0201BD28(id,2));}
+void func_021B79E0(u8 *p, u16 id) {func_0204B878(*(struct Obj * *)&((struct Obj24185 *)p)->f110,func_0201BD28(id,2));}

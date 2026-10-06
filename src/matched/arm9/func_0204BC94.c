@@ -51,11 +51,11 @@ struct Obj {
 };
 
 extern void func_02063078(void);
-extern void func_0204BD3C(struct Sub *s, u32 base, u32 count, u32 which);
+extern void func_0204BD3C(char *p, int a, int b, int which);
 
 void func_0204BC94(struct Obj *o, u32 base, u32 count, u32 base2, u8 count2)
 {
     func_02063078();
-    func_0204BD3C(&o->w[0], base, count, 0);
-    func_0204BD3C(&o->w[1], base2, count2, 1);
+    func_0204BD3C((char *)(&o->w[0]), base, count, 0);
+    func_0204BD3C((char *)(&o->w[1]), base2, count2, 1);
 }

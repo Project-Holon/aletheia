@@ -25,9 +25,10 @@ extern const char str_02203E44[];
 extern void func_021FF6A4(u8 *);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *, void (*)(void *, Anim *), void *, int);
-extern Anim *func_02030EE8(void *);
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 extern void func_021FF92C(void *, Anim *);
-extern void func_021FF914(Anim *, int);
+extern void func_021FF914(u32 *p, u32 v);
 extern void func_020061E4(u32 a);
 void func_021FF8B0(u8 *p)
 {
@@ -35,11 +36,11 @@ void func_021FF8B0(u8 *p)
     func_021FF6A4(p);
     ((struct Obj05419 *)p)->fF98 = func_02030734(0x48, 12, 0, str_02203E44, 0xD4);
     ((struct Obj05419 *)p)->fE14 = func_02030DA8(((struct Obj05419 *)p)->fF94, func_021FF92C, ((struct Obj05419 *)p)->fF98, 5);
-    a = func_02030EE8(((struct Obj05419 *)p)->fE14);
+    a = (Anim *)func_02030EE8(((struct Obj05419 *)p)->fE14);
     a->state = 0;
     a->y = -40;
     a->p = p;
     ((struct Obj05419 *)p)->fE18 = 0;
-    func_021FF914(a, 0);
+    func_021FF914((u32 *)a, 0);
     func_020061E4(0x790);
 }

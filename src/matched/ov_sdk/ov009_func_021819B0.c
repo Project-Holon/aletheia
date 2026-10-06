@@ -33,9 +33,9 @@ typedef struct GSIXmlStreamWriter {
 } GSIXmlStreamWriter;
 
 extern void *func_0217EAB0(unsigned long size);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
-                          const char *theTokenStr, ...);
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int func_0209477C(const u8 *s);
 extern int func_0218325C(GSIXmlStreamWriter *stream, const char *str);
 extern void func_0217EAE0(void *ptr);
 extern int func_02183210(GSIXmlStreamWriter *stream, char ch);
@@ -54,24 +54,24 @@ void *func_021819B0(const char **namespaces, int count)
 
     newStream = func_0217EAB0(sizeof(GSIXmlStreamWriter));
     if (newStream == 0) {
-        func_0217D254(0xc, 2, 1, g_021A3DE4, sizeof(GSIXmlStreamWriter));
+        func_0217D254(0xc, (char *)2, 1, g_021A3DE4, sizeof(GSIXmlStreamWriter));
         return 0;
     }
 
     for (i = 0; i < 4; i++) {
-        namespaceLen += func_0209477C(g_021A3E20) + 1;
-        namespaceLen += func_0209477C(g_021A3D0C[i]);
+        namespaceLen += func_0209477C((const u8 *)g_021A3E20) + 1;
+        namespaceLen += func_0209477C((const u8 *)g_021A3D0C[i]);
     }
     for (i = 0; i < count; i++) {
-        namespaceLen += func_0209477C(g_021A3E20) + 1;
-        namespaceLen += func_0209477C(namespaces[i]);
+        namespaceLen += func_0209477C((const u8 *)g_021A3E20) + 1;
+        namespaceLen += func_0209477C((const u8 *)namespaces[i]);
     }
     while (initialCapacity < namespaceLen)
         initialCapacity += 1024;
 
     newStream->buffer = func_0217EAB0(initialCapacity);
     if (newStream->buffer == 0) {
-        func_0217D254(0xc, 2, 1, g_021A3DE4, initialCapacity);
+        func_0217D254(0xc, (char *)2, 1, g_021A3DE4, initialCapacity);
         return 0;
     }
     newStream->capacity = initialCapacity;

@@ -39,7 +39,7 @@ extern void func_021D185C(void *, int, int);
 extern int func_021F7EB4(void);
 extern void func_021EA600(char *p);
 extern int func_021EA710(u32 *p);
-int func_021D171C(u8 *p, int *state)
+int func_021D171C(u8 *p, int *state, void *a2)
 {
     u32 mode;
     int idx;

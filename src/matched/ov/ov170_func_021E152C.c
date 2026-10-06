@@ -32,13 +32,13 @@ typedef struct {
 } Blk;
 
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
-extern void func_021EC35C(unsigned char *p, int box);
-extern int func_021DEDCC(unsigned char *p, int box);
-extern void func_021DEC98(unsigned char *p, int a, int dir);
-extern void func_021ED544(unsigned char *p, int b);
-extern void func_021DEA4C(unsigned char *p, int a, int b);
-extern int func_021E00C4(unsigned char *p);
-extern int func_021E0128(unsigned char *p);
+extern void func_021EC35C(char **p, int box);
+extern int func_021DEDCC(char *p, int box);
+extern void func_021DEC98(char *p, int a, int dir);
+extern void func_021ED544(char *p, int b);
+extern void func_021DEA4C(char *p, int a, int b);
+extern int func_021E00C4(char *p);
+extern int func_021E0128(char *p);
 extern int func_021DEB08(unsigned char *p);
 extern void func_020061E4(unsigned se);
 extern void func_021ED108(char *p, int on);
@@ -56,8 +56,8 @@ int func_021E152C(unsigned char *p)
         if (p[0x17] != 0xFF && p[0x17] != p[0x14]) {
             int dir = func_021DD210(p, p[0x14], p[0x17]);
             p[0x14] = p[0x17];
-            func_021EC35C(p, p[0x14]);
-            func_021DEC98(p, func_021DEDCC(p, p[0x14]), dir);
+            func_021EC35C((char **)p, p[0x14]);
+            func_021DEC98((char *)p, func_021DEDCC((char *)p, p[0x14]), dir);
             if (dir == 0)
                 b->state = 2;
             else
@@ -65,16 +65,16 @@ int func_021E152C(unsigned char *p)
             break;
         }
     case 1:
-        func_021ED544(p, 7);
-        func_021DEA4C(p, *(unsigned short *)(WORK(p) + 0xA16E), 2);
+        func_021ED544((char *)p, 7);
+        func_021DEA4C((char *)p, *(unsigned short *)(WORK(p) + 0xA16E), 2);
         b->state = 4;
         break;
     case 2:
-        if (func_021E00C4(p) == 0)
+        if (func_021E00C4((char *)p) == 0)
             b->state = 1;
         break;
     case 3:
-        if (func_021E0128(p) == 0)
+        if (func_021E0128((char *)p) == 0)
             b->state = 1;
         break;
     case 4:
@@ -96,7 +96,7 @@ int func_021E152C(unsigned char *p)
         }
         break;
     case 7:
-        func_021ED544(p, 6);
+        func_021ED544((char *)p, 6);
         b->state = 0;
         return 0;
     }

@@ -42,7 +42,8 @@ struct Pt {
 };
 
 extern void func_021F0D14(int a, int b, int *x, int *y);
-extern struct Slot *func_021F0000(u8 *p);
+struct Owner;
+extern struct Slot *func_021F0000(struct Owner *p);
 struct Actor;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -65,7 +66,7 @@ void func_021EFF58(u8 *p, int a, int c)
     s.w = p[0x414] + 10;
     s.z = 0;
     s.t = 2;
-    sl = func_021F0000(p);
+    sl = func_021F0000((struct Owner *)p);
     if (sl->obj != 0) {
         func_0204B878(sl->obj, s.w);
         func_0204B9A0(sl->obj);

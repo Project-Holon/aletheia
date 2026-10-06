@@ -75,7 +75,7 @@ struct PrintCtx {
 };
 
 extern u16 *func_0201CAC8(struct PrintCtx *c, u16 *p);
-extern u16 *func_0201CC34(struct PrintCtx *c, u16 *p);
+extern u16 *func_0201CC34(u16 *a0, u16 *a1);
 
 u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f)
 {
@@ -108,7 +108,7 @@ u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f)
                 p = func_0201CAC8(c, p);
                 break;
             case 0xFF:
-                p = func_0201CC34(c, p);
+                p = func_0201CC34((u16 *)c, p);
                 break;
             case 0xBE:
                 if (f != 0) {

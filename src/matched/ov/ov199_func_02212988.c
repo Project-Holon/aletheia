@@ -43,10 +43,12 @@ extern void *func_0200AE14(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200B358(void *);
 extern void *func_02012EBC(struct Big *p);
-extern void func_0201AC2C(const void *, void *);
+struct Rec534;
+struct Sub0200852CObj;
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_0201A2A8(void *, void *);
 extern void *func_020084F4(void *);
-extern u8 func_02008550(const void *);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02213D04[], d_02213D00[];
 u8 *func_02212988(int unused, unsigned heap, u8 *p)
@@ -77,14 +79,14 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
     }
     ((struct Obj02537 *)out)->f1C = ((struct Obj01078 *)p)->f30;
     ((struct Obj02537 *)out)->f14 = ((struct Obj01078 *)p)->f4;
-    func_0201AC2C(*(u8 * *)&((struct Obj01078 *)p)->f28 + 0xd4, ((struct Obj01078 *)p)->f38);
+    func_0201AC2C((const struct Rec534 *)(*(u8 * *)&((struct Obj01078 *)p)->f28 + 0xd4), ((struct Obj01078 *)p)->f38);
     func_0201A2A8(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f38);
     ((struct Obj02537 *)out)->f4 = ((struct Obj01078 *)p)->f38;
     row = *(u8 * *)&((struct Obj01078 *)p)->f2C;
-    func_0201AC2C(row + 0xd4, ((struct Obj01078 *)p)->f3C);
+    func_0201AC2C((const struct Rec534 *)(row + 0xd4), ((struct Obj01078 *)p)->f3C);
     func_0201A2A8(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f3C);
     ((struct Obj02537 *)out)->f8 = func_020084F4(row);
     ((struct Obj02537 *)out)->f10 = ((struct Obj01078 *)p)->f3C;
-    out[0xc] = func_02008550(row);
+    out[0xc] = func_02008550((const struct Sub0200852CObj *)row);
     return out;
 }

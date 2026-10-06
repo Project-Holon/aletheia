@@ -53,24 +53,24 @@ typedef struct {
 
 extern int func_021F6DE8(u32 handle);
 extern u32 func_0201AA18(void *p);
-extern void func_021F663C(Work *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
-extern void func_021F4E98(Work *p, u32 a, u32 b);
+extern void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
+extern void func_021F4E98(u8 *p, u32 a, u32 b);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
-extern void func_021F4EC0(Work *p, u32 a, u32 b);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void func_021F6D14(void *dst, Work *p);
 
 int func_021F6474(Work *p)
 {
     if (func_021F6DE8((u32)p->list[p->sel]) != 0 && p->box != 0xFF
         && func_0201AA18(p->ctx->party) == 6) {
-        func_021F663C(p, 0x29, 1, 0, 0xF0F, 1);
-        func_021F4E98(p, 4, 1);
+        func_021F663C((u8 *)p, 0x29, 1, 0, 0xF0F, 1);
+        func_021F4E98((u8 *)p, 4, 1);
         return 0;
     }
     p->mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
     p->state = 2;
     p->eb4 = 1;
-    func_021F4EC0(p, 7, 9);
+    func_021F4EC0((u8 *)p, 7, 9);
     func_021F6D14(p->deposit, p);
     p->d0 = 0;
     return 1;

@@ -25,12 +25,13 @@
  */
 #include "../include/Obj00313.h"
 typedef struct {int x,y;} Pair;
-extern int func_02035D20(int *,int *);
+typedef unsigned int   u32;
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021FAD04(int *,int,int),func_021FAF24(char *,int);
 extern void func_021FD15C(void *p, int a1);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_021FD860(char *,unsigned,const Pair *);
-extern void func_021FAFCC(char *,Pair *);
+extern void func_021FAFCC(char *p, unsigned value);
 extern void func_021FD73C(int *p, int v);
 extern int func_021FAFA0(void *,int);
 extern void func_021FAA74(void *,int *,unsigned *);
@@ -42,7 +43,7 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
 {
  int found,i,x,y,kind;
  found=0;((struct Obj00313 *)ctx)->f18=0;((struct Obj00313 *)ctx)->f14=0;
- if(func_02035D20(&x,&y)){
+ if(func_02035D20((u32 *)(&x),(u32 *)(&y))){
   for(i=0;i<ctx[0x38];i++){
    if(func_021FAD04((int *)(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44),x,y)){
     if(func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,3)){
@@ -55,7 +56,7 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
      found=1;
      ((struct Obj00313 *)ctx)->f30=x;((struct Obj00313 *)ctx)->f34=y;
      func_021FD860(*(char * *)&((struct Obj00313 *)ctx)->f58,7,(Pair *)(ctx+0x30));
-     func_021FAFCC(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,(Pair *)(ctx+0x30));
+     func_021FAFCC(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,(unsigned int)((Pair *)(ctx+0x30)));
      ((struct Obj00313 *)ctx)->f54=0;
     }else{
      kind=func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,5);

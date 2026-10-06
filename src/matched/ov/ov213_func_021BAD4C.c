@@ -9,4 +9,4 @@
  * status: EXACT*
  * Tail: two zero alignment bytes at 021BAD4E.
  */
-void func_021BAD4C(void){}
+void func_021BAD4C(void *a0){}

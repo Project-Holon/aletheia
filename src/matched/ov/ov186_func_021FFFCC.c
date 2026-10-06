@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021FC734(void *);
+extern void func_021FC734(u8 *p);
 extern void func_020409B4(u32 index);
 extern void func_021FBDA4(int,unsigned);
 void func_021FFFCC(u8 *p) { int i; for(i=0;i<9;i++) { u8 *q=p+(u32)i*4; func_021FC734(((struct Obj14487 *)q)->f40); *(u32 *)&((struct Obj14487 *)q)->f40=0; } func_020409B4(4); func_021FBDA4(((struct Obj24878 *)p)->f28,20); }

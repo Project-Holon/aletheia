@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern char *d_0220AF20;
 extern void func_021F6A28(u32 obj, u32 mode, u32 b);
 extern void func_021F6E2C(u32 obj, u32 b);
-extern void func_02040588(u32 a, u8 b);
+extern void func_02040588(u32 which, u32 enable);
 
 void func_021F839C(u32 a, u32 b)
 {
@@ -33,7 +33,7 @@ void func_021F839C(u32 a, u32 b)
         func_021F6E2C(*(u32 *)(d_0220AF20 + 0x198), b);
         break;
     case 2:
-        func_02040588(3, b ^ 1);
+        func_02040588(3, (u8)(b ^ 1));
         break;
     case 3:
         func_021F6A28(*(u32 *)(d_0220AF20 + 0x194), 0, b);

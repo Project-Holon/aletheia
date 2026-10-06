@@ -37,8 +37,9 @@ typedef struct {
     u32 o38;            /* 0x38 */
 } Q;
 
-extern void *func_02046F48(void *p);
-extern Q *func_0206E964(void *p);
+struct Tagged;
+extern void *func_02046F48(struct Tagged *p);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_02021F64(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
@@ -54,7 +55,7 @@ void func_021F9364(P *p)
         if (p->cnt == 0) {
             p->cnt = p->rl;
             for (i = 0; i < p->n; i++) {
-                q = func_0206E964(func_02046F48(p->a0[i]));
+                q = (Q *)func_0206E964(func_02046F48((struct Tagged *)p->a0[i]));
                 sz = q->h30 << 3;
                 off = (u16)q->w2c << 3;
                 func_02021F64((u16 *)((char *)q + q->o38), p->a4[i], (u16)(sz >> 1), p->cur, p->col);

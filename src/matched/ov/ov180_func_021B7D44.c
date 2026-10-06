@@ -17,11 +17,11 @@
 
 extern void func_021B77C4(int *);
 extern void func_021B7604(int *);
-extern void func_021B756C(int *);
+extern void func_021B756C(char *p);
 
 void func_021B7D44(int *p)
 {
     func_021B77C4(p);
     func_021B7604(p);
-    func_021B756C(p);
+    func_021B756C((char *)p);
 }

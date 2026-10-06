@@ -40,8 +40,10 @@ struct Context {
 };
 
 extern struct Context *ptr_0214EA50;
-extern int func_02078B44(void *file, u32 pos, int origin);
-extern int func_02078B70(void *file, void *dst, int len);
+typedef signed int     s32;
+struct FSFile;
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
 int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset)
 {
@@ -75,10 +77,10 @@ int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset)
             if (rem == 0) {
                 break;
             }
-            if (!func_02078B44(ctx->file, entry->offset + offset, 0)) {
+            if (!func_02078B44((struct FSFile *)ctx->file, entry->offset + offset, 0)) {
                 return -1;
             }
-            res = func_02078B70(ctx->file, dst_buf, rem);
+            res = func_02078B70((struct FSFile *)ctx->file, dst_buf, rem);
             if (res < 0) {
                 return res;
             }

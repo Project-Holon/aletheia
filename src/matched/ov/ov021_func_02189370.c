@@ -23,11 +23,13 @@ typedef struct Vec { int x, y, z; } Vec;
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 func_02012974(const struct BigObj *p);
-extern void func_020141E0(void *a, Vec *v);
+struct Rec020141E0;
+struct Vec020141E0;
+extern void func_020141E0(const struct Rec020141E0 *p, struct Vec020141E0 *out);
 extern int func_02159C48(int a0, int a1, int a2);
 extern int func_02159BD4(int a0, int a1, int a2);
 
-int func_02189370(char *p)
+u32 func_02189370(char *p)
 {
     Vec v;
     char *q;
@@ -36,7 +38,7 @@ int func_02189370(char *p)
 
     q = p + 0xd4;
     m = (void *)func_02012974(((struct Obj19497 *)p)->f8);
-    func_020141E0(q, &v);
+    func_020141E0((const struct Rec020141E0 *)q, (struct Vec020141E0 *)(&v));
     if (func_02159C48((int)m, v.x, v.z) == 1) {
         r = func_02159BD4((int)m, v.x, v.z);
         if (r != 0xFFFF && r != ((struct Obj05698 *)q)->f4)

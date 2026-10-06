@@ -46,7 +46,8 @@ typedef struct {
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(int *p, int b);
 extern int func_0219091C(void **connection, GPIOperation *operation);
-extern void func_0218E240(void **connection, GPIOperation *operation);
+struct GPIOperation;
+extern void func_0218E240(void **connection, struct GPIOperation *operation);
 extern void func_0217EAE0(void *ptr);
 extern char g_021A5280[];
 
@@ -85,7 +86,7 @@ int func_02192E10(void **connection)
             data = searchList[i]->data;
             data->processing = 0;
             if (data->remove)
-                func_0218E240(connection, searchList[i]);
+                func_0218E240(connection, (struct GPIOperation *)searchList[i]);
         }
         func_0217EAE0(searchList);
     }

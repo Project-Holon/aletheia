@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021CC95C  str r1,[r0] */
-void func_021CC95C(u32 *p, u32 v) { *p = v; }
+void func_021CC95C(u32 *p, u32 v, int line) { *p = v; }
 

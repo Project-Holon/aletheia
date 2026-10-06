@@ -20,9 +20,9 @@
  *       --func func_021D0014 --addr 0x021D0014 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_02072E7C(char *, unsigned int);
+extern void func_02072E7C(void **r0, int fadeFrame);
 
 void func_021D0014(void)
 {
-    func_02072E7C(*(char **)0x021DE648 + 0xa0, 0);
+    func_02072E7C((void **)(*(char **)0x021DE648 + 0xa0), 0);
 }

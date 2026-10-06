@@ -74,26 +74,32 @@ typedef struct Work {
 
 typedef u32 (*TaskFn)(void *task, u32 *state, Task *work);
 
-extern void *func_020120F4(void *sys);
-extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
-extern Task *func_020124E8(void *task);
-extern void func_0216F02C(Task *t, void *sys, Battle *bs);
-extern void *func_0201313C(Battle *bs, u32 side);
+struct BigObj;
+struct Ctx;
+struct Desc;
+struct Evt;
+struct Obj;
+struct S0201235C;
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void func_0216F02C(void **p, void *a, void *b);
+extern void *func_0201313C(void *p, int i);
 extern void *func_0201AB28(void *party, u32 i);
-extern u32 func_02017E1C(void *mon, u32 id, void *v);
-extern void *func_0201210C(void *sys);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void *func_0201210C(const struct Ctx *p);
 extern void func_021CF5D8(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
-extern void func_02012374(void *evt, void *task);
-extern void *func_02012F20(void *ctx);
-extern void func_0202E79C(void *p);
-extern void *func_02012A44(void *ctx);
-extern int func_0216EFA8(void *p, u32 v);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int func_02012F20(int p0);
+extern void func_0202E79C(u8 *p);
+extern u32 func_02012A44(const struct BigObj *p);
+extern int func_0216EFA8(int a, int b);
 extern void *func_0215F6E8(void *sys);
-extern void func_0201235C(void *evt, void *next);
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern int func_0202E818(void *p);
+extern int func_0202E818(int *p);
 extern void *func_02181D8C(void *sys, u32 v);
-extern u32 func_0216EB98(void *task, u32 *state, Task *work);
+extern int func_0216EB98(void *evt, u32 *state, struct Work *w);
 
 int func_0216E68C(void *evt, u32 *state, Work *w)
 {
@@ -108,7 +114,7 @@ int func_0216E68C(void *evt, u32 *state, Work *w)
     case 0:
         task = func_020122C0(sys, 0, func_0216EB98, 0x28);
         t = func_020124E8(task);
-        func_0216F02C(t, sys, w->bs);
+        func_0216F02C((void **)t, sys, w->bs);
         flag = 1;
         t->f14 = 1;
         species = func_02017E1C(func_0201AB28(func_0201313C(w->bs, 1), 0), 5, 0);
@@ -124,11 +130,11 @@ int func_0216E68C(void *evt, u32 *state, Work *w)
         break;
     case 1:
         if (w->f08 == 1) {
-            func_0202E79C(func_02012F20(ctx));
+            func_0202E79C((void *)func_02012F20((int)ctx));
             return 1;
         }
         if (func_0216EFA8(func_02012A44(ctx), 0) == 1) {
-            func_0202E79C(func_02012F20(ctx));
+            func_0202E79C((void *)func_02012F20((int)ctx));
             func_0201235C(evt, func_0215F6E8(sys));
         } else {
             func_02012374(evt, func_021BE92C(sys, func_0201210C(sys), 0, 0, 1, 0, 0));
@@ -136,12 +142,12 @@ int func_0216E68C(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 2:
-        if (func_0202E818(func_02012F20(ctx)) == 1)
+        if (func_0202E818((void *)func_02012F20((int)ctx)) == 1)
             func_02012374(evt, func_02181D8C(sys, 4));
         (*state)++;
         break;
     case 3:
-        func_0202E79C(func_02012F20(ctx));
+        func_0202E79C((void *)func_02012F20((int)ctx));
         return 1;
     }
     return 0;

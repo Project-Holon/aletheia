@@ -40,11 +40,12 @@ typedef unsigned int   u32;
 struct Ctx;
 struct Descriptor;
 struct PrintSys;
+typedef unsigned char  u8;
 int func_021B855C(int a, int *p, C *c, unsigned char *d)
 {
     extern u32 func_02012138(const struct Ctx *p);
     extern int func_02158344(int a0);
-    extern void func_021B6F04(Q *, unsigned char *);
+    extern int func_021B6F04(void **p, u8 *q);
     extern void *func_02045770(struct Descriptor *p);
     extern u32 func_0201C6C4(struct PrintSys *p, void *v);
     extern void func_02045334(struct Descriptor *d);
@@ -58,7 +59,7 @@ int func_021B855C(int a, int *p, C *c, unsigned char *d)
     if (c->f2d == 1) {
         return 1;
     }
-    func_021B6F04(c->f4, d + 0x18);
+    func_021B6F04((void **)c->f4, d + 0x18);
     for (i = 0; i < 2; i++) {
         void *q = c->f4->f8;
         unsigned char *s = d + i * 8;

@@ -27,11 +27,11 @@ typedef signed char    s8;
 struct Ctx;
 extern void func_020480E4(struct Ctx *c, u32 i);
 extern u32 func_021C1A84(u32);
-extern u32 func_021C2734(u32, u32, u32, u32);
+extern void func_021C2734(void **p);
 
 int func_021C2484(u32 a, u32 b, u32 c, u32 d)
 {
-func_021C2734(b, b, c, d);
+func_021C2734((void **)b);
 func_020480E4((struct Ctx *)(((struct Obj07228 *)((u8 *)(a)))->f14), ((((struct Obj07228 *)((u8 *)(a)))->f18 << 16) >> 16));
 ((struct Obj07228 *)((u8 *)(a)))->f18 = (~0);
 return func_021C1A84(((struct Obj07228 *)((u8 *)(a)))->f0);

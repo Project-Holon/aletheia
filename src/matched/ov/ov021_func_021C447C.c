@@ -25,7 +25,7 @@ struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
 
-u32 func_021C447C(u32 a, u32 b, u32 c, u32 d)
+int func_021C447C(u32 a, u32 b, u32 c, u32 d)
 {
     u32 y, x, v;
 

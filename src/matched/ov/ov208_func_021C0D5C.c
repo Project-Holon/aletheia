@@ -38,7 +38,8 @@ struct Seg { struct Vec a,b; int radius; };
 struct Out { u32 hit; struct Vec n; int distance; };
 extern u16 func_021BBB3C(char *,int,int);
 extern void func_02051F1C(struct Ball *,struct Vec *,u32);
-extern void func_0205207C(struct Seg *,struct Vec *,struct Vec *,u32);
+struct S12;
+extern void func_0205207C(char *p, struct S12 *q, struct S12 *r, u32 v);
 extern u32 func_02051F34(struct Seg *,struct Ball *,struct Out *);
 #define FX(x) ((int)(((x)>0) ? ((float)((int)(x)<<12)+0.5f) : ((float)((int)(x)<<12)-0.5f)))
 #define FIELD(n) func_021BBB3C(*(char **)(p+0x3c8),i,n)
@@ -64,7 +65,7 @@ u8 func_021C0D5C(void *unused,char *p,int unused2,u8 x,u8 y)
         b.x=FX(FIELD(8));
         b.y=FX(FIELD(9));
         b.z=0;
-        func_0205207C(&seg,&a,&b,FX(FIELD(10)));
+        func_0205207C((char *)(&seg),(struct S12 *)(&a),(struct S12 *)(&b),FX(FIELD(10)));
         if (func_02051F34(&seg,&ball,&out)) {
             if(result==255) { best=out.distance; result=i; }
             else if(best>out.distance) { best=out.distance; result=i; }

@@ -12,4 +12,4 @@
  */
 typedef unsigned short u16;
 extern void func_0204A600(void);
-void func_021B9B28(void) {func_0204A600();}
+void func_021B9B28(void *a0) {func_0204A600();}

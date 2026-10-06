@@ -38,13 +38,15 @@ typedef struct {
     char pad238[0x244 - 0x238];
 } Work;
 extern const char d_021E8DBC[];
-extern void *func_02030734(u16, u32, int, const char *, u16);
+struct Obj;
+struct Vec2;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
 extern void func_0207D63C(void *, int, int, int, int);
 extern u32 func_021E7CF0(void *, u16, u16);
 extern void func_021E6718(Work *, u32, const Info *, void *, int, void *, void *, void *, int, u16);
 extern void func_021E72FC(u8 *, u32, u32, u16);
-extern void func_0204B404(void *, const Point *, u16);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_021E7464(char *, char *, u32, void *, u16);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern void func_020409B4(u32);
@@ -72,7 +74,7 @@ Work *func_021E5C20(const Info *info, u32 a1, void *a2, int owner,
     func_021E72FC((u8 *)w, info->f8, owner, heap);
     pos.x = 0x120;
     pos.y = 0x44;
-    func_0204B404(w->f188, &pos, 1);
+    func_0204B404(w->f188, (const struct Vec2 *)(&pos), 1);
     func_021E7464((char *)w, (char *)info, owner, table, heap);
     func_020413B0(6, 0, 0, 0x20, 6, 1);
     func_020413B0(6, 0, 6, 0x20, 18, kind + 3);

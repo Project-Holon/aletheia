@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0218DD04(u8 *p)
+int func_0218DD04(u8 *p)
 {
     return ((struct Obj17898 *)p)->f4;
 }

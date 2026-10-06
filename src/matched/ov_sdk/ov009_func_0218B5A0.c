@@ -24,7 +24,7 @@ typedef struct GPIConnection {
     int state;
 } GPIConnection;
 
-extern int func_02193488(void **connection, int sock, int *state);
+extern int func_02193488(int *connection, int sock, int *state);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern char g_021A4A58[];
@@ -35,7 +35,7 @@ int func_0218B5A0(void **connection)
     int state;
     int result;
 
-    if ((result = func_02193488(connection, iconnection->socket, &state)) != 0)
+    if ((result = func_02193488((int *)connection, iconnection->socket, &state)) != 0)
         return result;
     if (state == 4) {
         func_02193710((int *)connection, 0x107, (int)g_021A4A58);

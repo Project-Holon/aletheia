@@ -26,7 +26,8 @@ struct _CPSSoc;
 
 extern unsigned long func_02158F84(unsigned long ip1, unsigned long ip2);
 extern unsigned long func_021596A8(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len);
-extern struct _CPSSoc *func_021590BC(unsigned char *iphdr, unsigned char *tcphdr);
+struct Soc;
+extern struct Soc *func_021590BC(unsigned char *iphdr, unsigned char *tcphdr);
 extern void func_021595C0(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *soc);
 extern void func_020858D8(void);
 
@@ -38,13 +39,13 @@ void func_02159720(unsigned char *iphdr, unsigned char *tcphdr, unsigned long le
 		return;
 	if (func_021596A8(iphdr, tcphdr, len) != 0)
 		return;
-	soc = func_021590BC(iphdr, tcphdr);
+	soc = (struct _CPSSoc *)func_021590BC(iphdr, tcphdr);
 	if (soc != 0) {
 		func_021595C0(iphdr, tcphdr, soc);
 		return;
 	}
 	func_020858D8();
-	soc = func_021590BC(iphdr, tcphdr);
+	soc = (struct _CPSSoc *)func_021590BC(iphdr, tcphdr);
 	if (soc != 0)
 		func_021595C0(iphdr, tcphdr, soc);
 }

@@ -36,17 +36,18 @@ struct Cursor {
     u8 f44;
 };
 extern void func_0689CC84(char *p);
-extern int func_0689CC8C(struct Cursor *p);
+struct S;
+extern int func_0689CC8C(struct S *s);
 extern void func_0689CC14(S *p, u32 id);
 extern int func_0689CF14(u32 id);
 void func_0689CEE4(S *p)
 {
     u32 id;
     func_0689CC84((char *)p);
-    id = func_0689CC8C((struct Cursor *)p);
+    id = func_0689CC8C((struct S *)p);
     while (id) {
         if (func_0689CF14(id))
             func_0689CC14(p, id);
-        id = func_0689CC8C((struct Cursor *)p);
+        id = func_0689CC8C((struct S *)p);
     }
 }

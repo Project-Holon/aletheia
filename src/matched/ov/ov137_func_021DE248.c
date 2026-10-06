@@ -41,7 +41,7 @@ struct Sub0200852CObj;
 struct U16Vec;
 struct WordSet;
 extern u16 func_02039338(void);
-extern int func_021DE388(void *);
+extern int func_021DE388(char *p);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
@@ -64,7 +64,7 @@ int func_021DE248(void *window,int unused,u16 color,Context *p) {
     int i;
     u16 ink;
     player=func_02039338();
-    if (!func_021DE388(p)) return 0;
+    if (!func_021DE388((char *)p)) return 0;
     func_02043B5C(func_02045770(window),0);
     for(i=0;i<5;i++) {
       do {

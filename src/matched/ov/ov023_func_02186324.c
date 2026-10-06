@@ -24,8 +24,8 @@ typedef unsigned int u32;
 
 extern int func_02186164(u8 *p);
 extern int func_02186558(u8 *p);
-extern void func_02186480(u8 *p);
-extern void func_02186304(u8 *p, int a);
+extern void func_02186480(char *p);
+extern void func_02186304(char *p, int a);
 extern int func_0218654C(u8 *p);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -48,7 +48,7 @@ int func_02186324(u8 *p)
         }
         ((struct Obj00460 *)p)->f19C = 0x16;
         if (((struct Obj00460 *)p)->f9E70 != 0) {
-            func_02186480(p);
+            func_02186480((char *)p);
             func_0204B878(((struct Obj00460 *)p)->fF0, 0x15);
         }
         return 2;
@@ -57,11 +57,11 @@ int func_02186324(u8 *p)
     case 4:
         if (st < ((struct Obj00460 *)p)->f1A8) {
             if (((struct Obj00460 *)p)->f9E6C == 2) {
-                func_02186304(p, 0);
+                func_02186304((char *)p, 0);
             } else if (((struct Obj00460 *)p)->f9E7C == 0) {
-                func_02186304(p, 1);
+                func_02186304((char *)p, 1);
             } else {
-                func_02186304(p, 0);
+                func_02186304((char *)p, 0);
             }
         }
         break;
@@ -73,7 +73,7 @@ int func_02186324(u8 *p)
         r = func_02186558(p);
         ((struct Obj00460 *)p)->f1B0 = r;
         if (((struct Obj00460 *)p)->f9E7C != 0 && (r & ((struct Obj00460 *)p)->f9E80) == 0) {
-            func_02186304(p, 1);
+            func_02186304((char *)p, 1);
             ((struct Obj00460 *)p)->f9E6C = 1;
             ((struct Obj00460 *)p)->f9E7C = 0;
             ((struct Obj00460 *)p)->f9E80 = 0;

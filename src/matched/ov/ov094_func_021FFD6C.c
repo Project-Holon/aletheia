@@ -30,7 +30,7 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_021FFD9C(Work *w, int key);
+extern int func_021FFD9C(char *p, int key);
 extern int func_021FFCB0(Work *w, int key);
 
 int func_021FFD6C(Work *w)
@@ -38,7 +38,7 @@ int func_021FFD6C(Work *w)
     Key i;
 
     for (i = 0; i < 8; i++) {
-        if (func_021FFD9C(w, i) && func_021FFCB0(w, i))
+        if (func_021FFD9C((char *)w, i) && func_021FFCB0(w, i))
             return 1;
     }
     return 0;

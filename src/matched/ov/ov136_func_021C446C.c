@@ -21,7 +21,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const u8 d_021C77A0[][3];
-extern int func_02024464(const u16 *p, int v);
+typedef unsigned int   u32;
+struct T;
+extern int func_02024464(struct T *p, u32 a1);
 extern int func_02024450(const u16 *p);
 int func_021C446C(void *a)
 {
@@ -37,7 +39,7 @@ int func_021C446C(void *a)
     for (i = 0; i < 3; i++) {
         u8 *x = *(u8 * *)&((struct Obj14184 *)a)->f1C;
         if (d_021C77A0[x[0xb]][i] != 0xFF) {
-            if (func_02024464((u16 *)(x + 0x16 + i * 8), 0x64)) c1++;
+            if (func_02024464((struct T *)(x + 0x16 + i * 8), 0x64)) c1++;
         } else {
             if (func_02024450((u16 *)(x + 0x16 + i * 8))) c0++;
         }

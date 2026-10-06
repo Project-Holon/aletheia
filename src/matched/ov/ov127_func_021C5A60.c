@@ -27,10 +27,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern int func_021C59E4(void *);
-extern int func_021C59EC(void *);
+extern int func_021C59E4(const s16 *p);
+extern int func_021C59EC(const s16 *p);
 extern void func_0204B09C(void *,int,void *);
-extern void func_021C5B0C(void *,int,int);
+extern void func_021C5B0C(char *p, int x, int y);
 void func_021C5A60(char *p,void *q)
 {
     int y,x;

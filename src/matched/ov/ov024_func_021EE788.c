@@ -24,10 +24,12 @@ int *func_021A21B8(int *p);
 int func_021A23E8(int *p);
 int func_021A2400(int *p);
 int func_021A240C(int *p);
-void func_021A232C(int *p, int a, int b, int c, int d);
+typedef unsigned char  u8;
+void func_021A232C(u8 *p, int a, int b, int c, int d);
 int func_021A23F4(int *p);
 int func_021A2418(int *p);
-void func_021A2108(int *p, int a, int b);
+typedef unsigned int   u32;
+int func_021A2108(u32 a, int b, int c);
 int func_021A23B0(int *p);
 
 int func_021EE788(int *p, int v)
@@ -38,10 +40,10 @@ int func_021EE788(int *p, int v)
     if (*s == 0) {
         if (func_021A23E8(p)) {
             t = func_021A2400(p);
-            func_021A232C(p, func_021A240C(p), t, 0xA0, v);
+            func_021A232C((u8 *)p, func_021A240C(p), t, 0xA0, v);
         }
         if (func_021A23F4(p)) {
-            func_021A2108(p, 0x52, func_021A2418(p));
+            func_021A2108((u32)p, 0x52, func_021A2418(p));
         }
         *s = 1;
     }

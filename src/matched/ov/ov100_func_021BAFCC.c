@@ -18,7 +18,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Word { int x; };
-extern void func_021BA5F4(int),func_021BA3A4(struct Word *,int),func_021BA290(int,int),func_021B95B8(u8 *,u32),func_021BAD78(int);
+extern void func_021BA5F4(unsigned a);
+extern void func_021BA3A4(struct Word *,int);
+extern void func_021BA290(int,int);
+extern void func_021B95B8(u8 *,u32);
+extern void func_021BAD78(unsigned a);
 void func_021BAFCC(int p) {
     struct Word x;
     func_021BA5F4(p);

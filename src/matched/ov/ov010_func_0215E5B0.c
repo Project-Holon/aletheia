@@ -55,21 +55,27 @@ typedef struct Work {
     int f8c;            /* 0x8C */
 } Work;
 
-extern void *func_020127A4(void *p);
-extern void func_02012AC8(void *p);
+struct Big;
+struct Blk38;
+struct GdsEnt;
+struct Rec44;
+struct SaveBlock;
+extern void *func_020127A4(struct SaveBlock *p);
+extern u16 func_02012AC8(const struct Rec44 *p);
 extern void *func_0201313C(void *p, int v);
-extern void *func_0201AB28(void *party, int i);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_02012EBC(void *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *p);
-extern void *func_0215E804(void *a, u16 species);
+extern struct GdsEnt *func_0215E804(int a0, int a1);
 extern u32 func_02005728(u32 v);
 extern void func_0215E364(void *p);
-extern u32 func_0215E724(u16 species);
-extern void func_0200D494(void *mon);
-extern void func_0200D480(void *a, u32 which, u32 v);
-extern void func_0200D470(void *a, u32 which, u32 v);
-extern void func_0200D50C(void *mon, u32 id, u32 v);
+extern int func_0215E724(int species);
+extern void func_0200D494(struct GdsEnt *e);
+extern void func_0200D480(struct Blk38 *p, u32 i, u8 v);
+struct Blk38;
+extern void func_0200D470(struct Blk38 *p, u32 i, u32 v);
+extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
 
 void func_0215E5B0(void *a0, Work *w)
 {
@@ -89,7 +95,7 @@ void func_0215E5B0(void *a0, Work *w)
     v = func_02017E1C(mon, 0xA0, 0);
     b = func_02017E1C(mon, 0x9D, 0);
     tbl = func_0200D418(func_02012EBC(a0));
-    mon = func_0215E804(tbl, species);
+    mon = func_0215E804((int)tbl, species);
     if (mon == 0) {
         if (func_02005728(100) < 30) {
             func_0215E364(a0);

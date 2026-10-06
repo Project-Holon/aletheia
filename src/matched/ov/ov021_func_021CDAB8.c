@@ -49,15 +49,15 @@ struct Req;
 struct WordSet;
 extern u32 func_02190EF0(u32 *p);
 extern void func_021CEB64(u8 *p);
-extern void func_021CE81C(void *p);
+extern void func_021CE81C(u32 *p);
 extern void func_021CEB20(u8 *p);
 extern void func_0203D010(void);
 extern u32 func_021CEB84(u8 *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_021CE7AC(u8 *p);
+extern void func_021CE7AC(u32 *p);
 extern int func_021CF068(u8 *p);
 extern void func_021CF0F4(u8 *p);
-extern int func_021CF32C(u32 flag);
+extern u32 func_021CF32C(u32 flag);
 extern void func_021CE9A0(u8 *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -92,7 +92,7 @@ int func_021CDAB8(u8 *p)
         break;
     case 2:
         func_021CEB64(p);
-        func_021CE81C(p);
+        func_021CE81C((u32 *)p);
         U32(0x404) = 0;
         func_021CEB20(p);
         func_0203D010();
@@ -125,13 +125,13 @@ int func_021CDAB8(u8 *p)
     case 4:
         if (func_02190EF0((u32 *)U32(0x14)) == 1) {
             func_021CE9E4(p, 0x22);
-            func_021CE7AC(p);
+            func_021CE7AC((u32 *)p);
             p[0x51E]++;
         }
         break;
     case 5:
         if (func_021CF068(p) == 2) {
-            func_021CE81C(p);
+            func_021CE81C((u32 *)p);
             func_021CF0F4(p);
             p[0x51E] = 0xe;
             break;
@@ -143,11 +143,11 @@ int func_021CDAB8(u8 *p)
         }
         func_021CE9A0(p);
         if (p[0x519] == 1) {
-            func_021CE81C(p);
+            func_021CE81C((u32 *)p);
             func_021CF0F4(p);
             p[0x51E] = 6;
         } else if (p[0x51A] == 1) {
-            func_021CE81C(p);
+            func_021CE81C((u32 *)p);
             func_021CF0F4(p);
             p[0x51E] = 8;
         }
@@ -208,7 +208,7 @@ int func_021CDAB8(u8 *p)
         break;
     case 15:
         func_021CEB64(p);
-        func_021CE81C(p);
+        func_021CE81C((u32 *)p);
         return 1;
     }
     if (func_0200FB24() != 0) {

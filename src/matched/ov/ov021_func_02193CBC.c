@@ -17,7 +17,8 @@
  */
 #include "../include/Obj04214.h"
 
-extern void func_02193F6C(void *p);
+struct E50;
+extern void func_02193F6C(struct E50 *e);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02193FE8(void *p);
 typedef unsigned int   u32;
@@ -33,7 +34,7 @@ void func_02193CBC(unsigned char *p)
     ((struct Obj04214 *)p)->f8 = 0;
     if (q != 0) {
         for (i = 0; i < 10; i++)
-            func_02193F6C(*(unsigned char * *)&((struct Obj04214 *)p)->f4 + i * 0x50);
+            func_02193F6C((struct E50 *)(*(unsigned char * *)&((struct Obj04214 *)p)->f4 + i * 0x50));
     }
     if (((struct Obj04214 *)p)->f14 != 0)
         func_02082BCC(((struct Obj04214 *)p)->f14, 0, 0x600);

@@ -31,11 +31,11 @@ struct QG;
 struct QQ;
 extern void *func_021C7CF4(int *p, int i);
 extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(void *q, u8 i);
+extern u16 func_021D54C0(u8 *p, int i);
 extern u16 func_021D70A8(struct QQ *p);
 extern u8 func_0201C1C8(void *p);
 extern int func_021D5814(void *q, int k);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern u32 func_021D78AC(u32 range);
 extern u16 func_021E8CF0(int c);
 extern void func_021C88C8(void *a, void *b);
@@ -56,7 +56,7 @@ void func_021E0468(void *a, void *b, int c)
         i = 0;
         cnt = 0;
         for (; i < n; i++) {
-            v = func_021D54C0(q, i);
+            v = func_021D54C0(q, (u8)i);
             if (v != func_021D70A8(a)) {
                 v = func_0201C1C8((void *)v);
                 if (func_021D5814(q, v) == 0) {

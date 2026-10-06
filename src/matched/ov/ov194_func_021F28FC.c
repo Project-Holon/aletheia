@@ -10,7 +10,7 @@
  * symbols:
  *   func_021F2F60 0x021F2F60 thumb ov194
  */
-extern unsigned func_021F2F60(const int *,int *);
+extern int func_021F2F60(const int *p, int *out);
 int func_021F28FC(const int *p,int *out) {
  int xy[2];enum { X_LEFT=15,X_RIGHT=22 } x;int y;
  switch(func_021F2F60(p,xy)) {

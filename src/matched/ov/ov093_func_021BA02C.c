@@ -13,11 +13,12 @@
  *   func_021B9F70 0x021B9F70 thumb ov093
  */
 extern void *func_021B86B8(void ***);
-extern int func_021B9F70(char *, int);
+typedef unsigned char  u8;
+extern int func_021B9F70(u8 *p, int i);
 typedef unsigned int u32;
 void *func_021BA02C(char *p, int i, int mode)
 {
-    if ((int)func_021B86B8((void ***)p) == 2 && func_021B9F70(p, i)) {
+    if ((int)func_021B86B8((void ***)p) == 2 && func_021B9F70((u8 *)p, i)) {
         if (mode == 1) return (void *)(((u32)p + 0x40) + (u32)i * 0x28);
         return (void *)(((u32)p + 0x38) + (u32)i * 0x28);
     }

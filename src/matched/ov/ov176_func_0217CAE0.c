@@ -49,7 +49,7 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 extern int func_0217E1B8(int *);
 extern int func_0217E1C0(int *);
-extern u32 func_0200E918(const u8 *,u32);
+extern u8 func_0200E918(const u8 *base, u32 idx);
 extern void func_0200E958(u8 *,u32,const void *);
 extern void func_0200E978(u8 *,u32,u32,u8);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -80,7 +80,7 @@ void func_0217CAE0(int *sys,u32 *state,u8 *p)
     case 3:{
         int a=0;
         int b;
-        u8 index=func_0200E918(*(u8 * *)&((struct Obj01271 *)p)->f34,0);
+        u8 index=(u32)func_0200E918(*(u8 * *)&((struct Obj01271 *)p)->f34,0);
         func_0200E958(*(u8 * *)&((struct Obj01271 *)p)->f34,index,*(u8 * *)&((struct Obj01271 *)p)->f1C0+0x20);
         func_0200E978(*(u8 * *)&((struct Obj01271 *)p)->f34,index,0,(*(u8 **)(p+0x1c4))[8]);
         func_0200E978(*(u8 * *)&((struct Obj01271 *)p)->f34,index,1,(*(u8 **)(p+0x1c4))[9]);

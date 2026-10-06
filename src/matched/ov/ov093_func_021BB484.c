@@ -24,7 +24,7 @@ typedef unsigned char u8;
 extern void func_021BB724(u8 *p, int a, int b, int c);
 extern int func_021BB798(u8 *);
 extern void func_021BB7D0(const u8 *p);
-extern void func_021BABEC(u8 *, void *);
+extern void func_021BABEC(int *p, void *f);
 extern int func_021BB320(u8 *, int *);
 extern u8 func_021B86C0(u8 **);
 
@@ -43,7 +43,7 @@ int func_021BB484(u8 *p, int *s)
         break;
     case 2:
         if (func_021B86C0(*(u8 ** *)&((struct Obj21034 *)p)->fC) == 0) {
-            func_021BABEC(p, (void *)func_021BB320);
+            func_021BABEC((int *)p, (void *)func_021BB320);
         } else {
             return 1;
         }

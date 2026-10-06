@@ -38,7 +38,7 @@ extern u32 func_021A398C(u8 *);
 extern u16 func_021A3190(int, int);
 extern int func_021A3974(u8 *);
 extern void func_021A3980(u8 *, int);
-extern void func_021A4114(u8 *);
+extern void func_021A4114(u32 *p);
 extern u32 func_021A3AD4(u8 *);
 extern void func_021A3AD0(u8 *, u32);
 extern u32 func_02188CD0(u8 *p);
@@ -65,7 +65,7 @@ int func_021A3E54(u8 *p)
     if (func_021A3974(p) != 2) {
         func_021A3980(p, 2);
     }
-    func_021A4114(p);
+    func_021A4114((u32 *)p);
     if (func_021A3AD4(p) == 0) {
         c = func_02188CD0((u8 *)(((struct Obj12732 *)p)->f8));
         d = func_0216D5F8(b);

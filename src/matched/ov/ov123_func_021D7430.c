@@ -21,6 +21,6 @@ typedef unsigned int u32;
 extern void func_021D66D0(u8 *,int);
 extern int func_02012DD0(u8 *p);
 extern u32 func_020056EC(u32 range);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D73D8(char *p);
-void func_021D7430(u8 *p) { if(((struct Obj05364 *)p)->f70<100) ++((struct Obj05364 *)p)->f70; func_021D66D0(*(u8 * *)&((struct Obj05364 *)p)->f14,((struct Obj05364 *)p)->f70); if(func_02012DD0(((struct Obj05364 *)p)->f2C)==1) { ((struct Obj05364 *)p)->f78=func_020056EC(190); func_021D6EE0((char *)p,(int)func_021D73D8,0x2e6); } }
+void func_021D7430(u8 *p) { if(((struct Obj05364 *)p)->f70<100) ++((struct Obj05364 *)p)->f70; func_021D66D0(*(u8 * *)&((struct Obj05364 *)p)->f14,((struct Obj05364 *)p)->f70); if(func_02012DD0(((struct Obj05364 *)p)->f2C)==1) { ((struct Obj05364 *)p)->f78=func_020056EC(190); func_021D6EE0((u8 *)p,(int)func_021D73D8,0x2e6); } }

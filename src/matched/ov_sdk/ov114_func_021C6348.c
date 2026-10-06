@@ -67,7 +67,7 @@ extern char *func_021C62FC(char *src);
 extern int func_021C60C8(char *encstr, char *srcbin, int length);
 extern int func_021C7908(void);
 extern int func_021C78C4(void);
-extern int func_021BE648(NdAlloc alloc, NdFree free, u32 threadprio);
+extern int func_021BE648(int a, int b, int c);
 extern int func_021C6704(char *apinfo);
 extern void func_021C78DC(void);
 extern void func_021C659C(int err, int servererror);
@@ -104,7 +104,7 @@ int func_021C6348(NdAlloc alloc, NdFree free, char *url, char *token, char *game
     g_021D3C50[len] = 0;
 
     if (func_021C7908() && func_021C78C4()) {
-        if (func_021BE648(alloc, free, 17) != -1) {
+        if (func_021BE648((int)alloc, (int)free, 17) != -1) {
             g_021D3B9C.apinfo = func_021C6704(g_021D3BF5);
             g_021D3B9C.initialized = 1;
             return 1;

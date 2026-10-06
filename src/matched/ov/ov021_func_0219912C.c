@@ -34,11 +34,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
-extern u32 *func_0216D6BC(u32, u32);
+extern void *func_0216D6BC(int a0, int a1, int a2);
 extern void func_0216D5E0(int a0, int a1);
 extern u32 func_0216D600(u32, u32);
 extern void func_0216D674(void *p, u16 v);
-extern u32 func_0216DA70(u32);
+extern void func_0216DA70(void *a0);
 extern int func_0216D83C(void *p);
 extern u32 func_0216D80C(u32, u32);
 extern int func_0216D854(void *p);
@@ -54,13 +54,13 @@ void func_0219912C(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f)
 {
     u32 *q;
 
-    q = func_0216D6BC(a, 16);
+    q = func_0216D6BC(a, 16, c);
     q[0] = e;
     *(Vec *)(q + 1) = *b;
     func_0216D5E0(a, (u16)c);
     func_0216D600(a, (u16)d);
     func_0216D674((void *)a, f);
-    func_0216DA70(a);
+    func_0216DA70((void *)a);
     func_0216D80C(a, func_0216D83C((void *)a));
     func_0216D818(a, func_0216D854((void *)a));
     func_0216D824(a, func_0216D86C((void *)a));

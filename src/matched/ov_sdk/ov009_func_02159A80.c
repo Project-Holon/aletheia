@@ -111,13 +111,15 @@ extern CPSSoc *func_02159244(u8 *iphdr, u8 *tcphdr);
 extern void func_021594A4(u8 *iphdr, u8 *tcphdr, u32 len);
 extern u32 func_02087988(void);
 extern void func_02082EA4(void *srcp, void *destp, u32 size);
-extern void func_021598EC(CPSSoc *soc, long chunk);
-extern void func_0215993C(CPSSoc *soc);
+struct Soc;
+struct soc;
+extern void func_021598EC(struct soc *soc, long chunk);
+extern void func_0215993C(struct Soc *soc);
 extern void func_02159A30(CPSSoc *soc, long chunk);
 extern u32 func_0208799C(u32 state);
 extern void func_02159404(CPSSoc *soc, int flush);
 extern void func_02085868(void *thread);
-extern void func_021599EC(CPSSoc *soc);
+extern void func_021599EC(char *p);
 extern void func_02159494(int a);
 extern void func_020858D8(void);
 
@@ -185,8 +187,8 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
                                     func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, len);
                                     soc->chunks[ci].start = disconp;
                                     soc->chunks[ci].len = len;
-                                    func_021598EC(soc, ci);
-                                    func_0215993C(soc);
+                                    func_021598EC((struct soc *)soc, ci);
+                                    func_0215993C((struct Soc *)soc);
                                     goto done;
                                 }
                                 reorder_nextp = ((CPSSocRcvBuf *)(e + 0x70))->start + ((CPSSocRcvBuf *)(e + 0x70))->len;
@@ -195,16 +197,16 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
                                     func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, soc->chunks[ci].start - disconp);
                                     soc->chunks[ci].len += soc->chunks[ci].start - disconp;
                                     soc->chunks[ci].start = disconp;
-                                    func_021598EC(soc, ci);
-                                    func_0215993C(soc);
+                                    func_021598EC((struct soc *)soc, ci);
+                                    func_0215993C((struct Soc *)soc);
                                     goto done;
                                 }
                                 if (disconp <= reorder_nextp && reorder_nextp < wend)
                                 {
                                     func_02082EA4(TCPDATA(tcphdr) + reorder_nextp - disconp, soc->rcvbuf.data + reorder_nextp, wend - reorder_nextp);
                                     soc->chunks[ci].len += wend - reorder_nextp;
-                                    func_0215993C(soc);
-                                    func_021598EC(soc, ci);
+                                    func_0215993C((struct Soc *)soc);
+                                    func_021598EC((struct soc *)soc, ci);
                                     goto done;
                                 }
                                 if (soc->chunks[ci].start <= disconp && wend <= reorder_nextp)
@@ -274,7 +276,7 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
                     func_02082EA4(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
                 }
                 soc->chunks[0].start = 0;
-                func_021599EC(soc);
+                func_021599EC((char *)soc);
             }
             else
             {
@@ -282,7 +284,7 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
             }
             soc->rcvbufp += len;
             soc->ackno += len;
-            func_0215993C(soc);
+            func_0215993C((struct Soc *)soc);
             if (soc->block_type == 2)
             {
                 soc->block_type = 0;

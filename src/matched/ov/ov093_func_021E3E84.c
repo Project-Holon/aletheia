@@ -24,11 +24,11 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D6920(void *q, u8 i);
-extern void func_021D6940(void *q, u8 i, int z, u8 *out);
-extern int func_021C7D00(void *a, int x);
+extern int func_021D6920(u8 *p, u32 n);
+extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
+extern int func_021C7D00(u8 *p, int b);
 extern int func_021C8010(u8 *p, unsigned int v);
-extern int func_021C7F68(void *a, u16 k, u8 *buf);
+extern int func_021C7F68(int *p, int b, u8 *out);
 extern u32 func_021D78AC(u32 range);
 
 int func_021E3E84(int u, void *a, int c, int *w)
@@ -42,12 +42,12 @@ int func_021E3E84(int u, void *a, int c, int *w)
 
     q = func_021C7CF4(a, c);
     for (i = 0; i < 3; i++) {
-        if (func_021D6920(q, i) != 0) {
-            func_021D6940(q, i, 0, &buf[6]);
+        if (func_021D6920(q, (u8)i) != 0) {
+            func_021D6940(q, (u8)i, (int)0, (u16 *)(&buf[6]));
             x = buf[0xb];
             if (func_021C7D00(a, x) == 6) {
                 t = func_021C8010(a, c);
-                r = func_021C7F68(a, 0x100 | t, buf);
+                r = func_021C7F68(a, (u16)(0x100 | t), buf);
                 if (r != 0)
                     x = buf[(u8)func_021D78AC(r)];
                 else

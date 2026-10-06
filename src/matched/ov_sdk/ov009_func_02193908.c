@@ -35,7 +35,7 @@ struct bucket_s {
 struct bucketset_s;
 
 extern struct bucket_s *func_02193CD0(struct bucketset_s *set, char *name);
-extern void *func_02193CB0(struct bucket_s *pbucket);
+extern char *func_02193CB0(char *p);
 extern char *func_02193BD8(int v);
 extern void *func_02193C3C(struct bucket_s *pbucket, void *value);
 extern void *func_02193BF0(double f);
@@ -48,8 +48,8 @@ void *func_02193908(struct bucketset_s *set, char *name, void *value)
     if (pbucket == 0)
         return 0;
     if (pbucket->type == 0)
-        return func_02193C3C(pbucket, func_02193BD8(*(int *)func_02193CB0(pbucket) - *(int *)value));
+        return func_02193C3C(pbucket, func_02193BD8(*(int *)func_02193CB0((char *)pbucket) - *(int *)value));
     if (pbucket->type == 1)
-        return func_02193C3C(pbucket, func_02193BF0(*(double *)func_02193CB0(pbucket) - *(double *)value));
-    return func_02193CB0(pbucket);
+        return func_02193C3C(pbucket, func_02193BF0(*(double *)func_02193CB0((char *)pbucket) - *(double *)value));
+    return func_02193CB0((char *)pbucket);
 }

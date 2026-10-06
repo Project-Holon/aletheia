@@ -24,7 +24,8 @@ struct T {
 };
 
 extern u8 func_021BA710(int a, int b);
-extern void func_021BA128(u8 *s, int k, void *p);
+struct S;
+extern void func_021BA128(struct S *p, int i, void *x);
 
 void func_021B68D8(u8 *s, struct T *t)
 {
@@ -32,14 +33,14 @@ void func_021B68D8(u8 *s, struct T *t)
 
     a = func_021BA710(s[0x46c], 0);
     b = func_021BA710(s[0x46c], 1);
-    func_021BA128(s, 0, t->f24[a]);
-    func_021BA128(s, 1, t->f24[b]);
+    func_021BA128((struct S *)s, 0, t->f24[a]);
+    func_021BA128((struct S *)s, 1, t->f24[b]);
     c = func_021BA710(s[0x46c], 2);
     d = func_021BA710(s[0x46c], 3);
     if (t->f24[c] != 0) {
-        func_021BA128(s, 2, t->f24[c]);
+        func_021BA128((struct S *)s, 2, t->f24[c]);
     }
     if (t->f24[d] != 0) {
-        func_021BA128(s, 3, t->f24[d]);
+        func_021BA128((struct S *)s, 3, t->f24[d]);
     }
 }

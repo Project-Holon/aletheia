@@ -28,7 +28,7 @@ typedef struct {
 } BattleSeq;
 
 extern int func_021EEC20(int, u16 **);
-extern int func_021B902C(u8 x, u8 y);
+extern int func_021B902C(int a, int b);
 
 int func_021D13A4(BattleSeq *s)
 {
@@ -37,11 +37,11 @@ int func_021D13A4(BattleSeq *s)
     func_021EEC20(((struct Obj00066 *)s)->f50, &q);
     switch (q[1]) {
     case 0:
-        if (func_021B902C(q[0], s->unk1A6) == 0)
+        if (func_021B902C((u8)q[0], (u8)s->unk1A6) == 0)
             return 1;
         break;
     case 1:
-        if (func_021B902C(q[0], s->unk1A6) == 0)
+        if (func_021B902C((u8)q[0], (u8)s->unk1A6) == 0)
             return 0;
         break;
     }

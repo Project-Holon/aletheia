@@ -12,7 +12,7 @@
 extern void func_020403F4(unsigned int i);
 extern void func_0203F9B4(void);
 
-void func_0218793C(void)
+void func_0218793C(char *p)
 {
     func_020403F4(3);
     func_0203F9B4();

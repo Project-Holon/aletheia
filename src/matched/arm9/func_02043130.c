@@ -50,7 +50,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_020307B0(void *p);
 extern void func_02082D44(void *dst, void *src, u32 n);
 
-void func_02043130(u32 flags, u8 *buf, u32 page)
+void func_02043130(u16 flags, u8 *buf, u32 page)
 {
     u8 *tmp;
     u16 heap;

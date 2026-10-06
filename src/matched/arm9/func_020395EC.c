@@ -25,7 +25,7 @@ typedef unsigned int  u32;
 
 extern const u8 str_020A7A68[];
 extern const u8 str_020A7A78[];
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef signed int     s32;
 struct Entry;
 extern void *func_0203D788(void);
@@ -49,6 +49,6 @@ int func_020395EC(struct Entry *a)
             return i;
         }
     }
-    func_02034714(str_020A7A68, 0x6e, str_020A7A78);
+    func_02034714((const char *)str_020A7A68, 0x6e, (const char *)str_020A7A78);
     return -1;
 }

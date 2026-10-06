@@ -18,14 +18,15 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 func_021B8E70(void *, u8);
-extern void func_021F7E94(u8);
+typedef unsigned int   u32;
+extern u8 func_021B8E70(u8 *p, u32 k);
+extern void func_021F7E94(int a);
 extern int func_021F7EB4(void);
 int func_021D2814(char *p, int *state, unsigned int *q)
 {
     switch (*state) {
     case 0:
-        func_021F7E94(func_021B8E70(*(void **)p, q[0]));
+        func_021F7E94((u8)func_021B8E70(*(void **)p, (u8)q[0]));
         (*state)++;
         break;
     case 1:

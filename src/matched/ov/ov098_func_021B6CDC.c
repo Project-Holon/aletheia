@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 
-int func_021B6CDC(u8 *p, u32 a1, u32 a2)
+int func_021B6CDC(u8 *p)
 {
     switch (p[0x14]) {
     case 2:

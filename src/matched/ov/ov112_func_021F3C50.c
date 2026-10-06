@@ -34,7 +34,7 @@ extern void func_021F51E8(u8 *);
 extern void func_021F6CB0(char *p);
 extern void func_021F6E74(u32);
 extern void func_021F75A0(u8 *p);
-extern void func_021F51F4(u32);
+extern void func_021F51F4(void **p);
 extern void func_021F718C(char *p);
 extern void func_021F6F8C(u8 *p);
 extern void func_021F4280(u8 *);
@@ -51,7 +51,7 @@ void func_021F3C50(u8 *p)
     func_020479D8();
     func_021F6E74(((struct Obj02823 *)p)->f40);
     func_021F75A0((u8 *)(((struct Obj02823 *)p)->f2C));
-    func_021F51F4(*(u32 *)&((struct Obj02823 *)p)->f20);
+    func_021F51F4((void **)(*(u32 *)&((struct Obj02823 *)p)->f20));
     func_021F718C((char *)(((struct Obj02823 *)p)->f2C));
     func_021F6F8C((u8 *)(((struct Obj02823 *)p)->f28));
     func_0204F7DC((struct Board *)(((struct Obj02823 *)p)->f1C),(struct Camera *)(((struct Obj02823 *)p)->f18),0);

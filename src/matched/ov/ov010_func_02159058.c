@@ -17,10 +17,10 @@ typedef unsigned short u16;
 
 extern int func_02159030(int a0, int a1, int a2);
 
-void func_02159058(int a, int b, int c, int d, u16 e)
+int func_02159058(int a, int b, int c, int d, u16 e)
 {
     func_02159030(a, 0x8000, b);
     func_02159030(a, 0x8001, c);
     func_02159030(a, 0x8002, d);
-    func_02159030(a, 0x8003, e);
+    return func_02159030(a, 0x8003, e);
 }

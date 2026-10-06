@@ -18,7 +18,9 @@
 
 typedef unsigned int u32;
 
-extern int func_0216DD1C(void *map, void **it, u32 *pos);
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0216DC80(void *it);
 extern void func_0216DAF8(void *it);
 extern void func_0216D4DC(void *map, u32 flag);
@@ -28,7 +30,7 @@ void func_0216D9A0(void *map)
     u32 pos = 0;
     void *it;
 
-    while (func_0216DD1C(map, &it, &pos) == 1) {
+    while (func_0216DD1C(map, (struct Rec **)(&it), &pos) == 1) {
         if (func_0216DC80(it) == 0)
             func_0216DAF8(it);
     }

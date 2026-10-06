@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 extern void func_02005E30(u32 v);
 
-void func_021C2BE0(void *unused, u8 *p)
+void func_021C2BE0(void *unused, u8 *p, void *a2)
 {
     func_02005E30(0x1e);
     ((struct Obj25506 *)p)->fB8 = 1;

@@ -26,7 +26,8 @@
 
 typedef unsigned int u32;
 
-extern void func_0216E68C();
+struct Work;
+extern int func_0216E68C(void *evt, u32 *state, struct Work *w);
 typedef unsigned char  u8;
 struct Ctx;
 struct Desc;
@@ -34,7 +35,7 @@ struct Obj;
 struct Sub02008C20Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0216EE40(int a, int b);
+extern void func_0216EE40(void *p, int which);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012F2C(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
@@ -52,7 +53,7 @@ int func_0216E7C8(int a0, int a1, int a2, int a3, int a4)
     t[1] = a2;
     t[2] = a3;
     t[3] = a4;
-    func_0216EE40(a2, 0);
+    func_0216EE40((void *)a2, 0);
     func_02008DF0(func_02012F2C(func_020120F4((const struct Ctx *)a0)), 5);
     func_021AAABC(func_02188CE8((u8 *)a1));
     return h;

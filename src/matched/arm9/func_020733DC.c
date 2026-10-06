@@ -11,5 +11,6 @@
  * status:   EXACT
  */
 
-extern void func_0207368C(void);
-void func_020733DC(void){ func_0207368C(); }
+struct Voice;
+extern void func_0207368C(struct Voice *v);
+void func_020733DC(void *h){ func_0207368C(h); }

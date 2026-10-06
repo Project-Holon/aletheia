@@ -45,7 +45,7 @@ extern void func_021BC824(u8 *p);
 extern void func_020403F4(u32 i);
 extern void func_021BCFD8(int a);
 
-void func_021BC424(int a)
+void func_021BC424(u32 a)
 {
     func_021BD0FC(a);
     func_021BC6B4(a);

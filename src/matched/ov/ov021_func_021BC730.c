@@ -24,9 +24,12 @@ typedef struct {
 
 extern int d_021D9B78;
 
-extern void *func_0204B034(void *a, unsigned int a1, unsigned int heap);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 
 void func_021BC730(Obj *p)
 {
-    p->f38 = func_0204B034(&d_021D9B78, 1, p->hC);
+    p->f38 = func_0204B034((u8 *)(&d_021D9B78), 1, p->hC);
 }

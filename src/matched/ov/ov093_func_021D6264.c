@@ -21,7 +21,8 @@ struct UtilSlots { u8 pad[0x1c]; struct Slot s[36]; };
 extern int func_021E8928(struct Slot s);
 extern int func_021E8A98(struct Slot s);
 extern struct Slot func_021E8918(void);
-extern void func_021D621C(struct UtilSlots *p, int k);
+struct Unk021D621C;
+extern void func_021D621C(struct Unk021D621C *p, int k);
 
 void func_021D6264(struct UtilSlots *p, int v)
 {
@@ -30,7 +31,7 @@ void func_021D6264(struct UtilSlots *p, int v)
         for (i = 0; i < 0x24; i++) {
             if (func_021E8928(p->s[i]) == 0 && v == func_021E8A98(p->s[i])) {
                 p->s[i] = func_021E8918();
-                func_021D621C(p, i);
+                func_021D621C((struct Unk021D621C *)p, i);
             }
         }
     }

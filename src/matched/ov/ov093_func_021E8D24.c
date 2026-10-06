@@ -14,7 +14,7 @@
  *   func_021E8D04  0x021E8D04  thumb  ov093
  */
 extern unsigned char func_021E8CFC(int x);
-extern unsigned char func_021E8D04(int x);
+extern int func_021E8D04(int x);
 
 int func_021E8D24(int x, int k)
 {

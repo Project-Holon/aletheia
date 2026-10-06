@@ -23,7 +23,7 @@
  *       --func func_020370C8 --addr 0x020370C8 --arm --cc 1.1p1
  */
 
-extern void func_02036FD8(void);
+extern int func_02036FD8(void);
 extern void func_02036E80(unsigned char *p);
 extern int g_021469C8[];
 

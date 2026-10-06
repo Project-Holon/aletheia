@@ -40,7 +40,7 @@ struct Bmp;
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02041B6C(u32 layer);
 
 void ov208_func_021BE9CC(struct Ov208Icon *p)

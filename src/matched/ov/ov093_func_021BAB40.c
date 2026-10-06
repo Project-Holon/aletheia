@@ -16,14 +16,14 @@
  */
 #include "../include/Obj21025.h"
 
-extern void func_021BABEC(void *, void *);
+extern void func_021BABEC(int *p, void *f);
 typedef unsigned char  u8;
 extern int func_021BAC04(char *p, int *st);
 extern void func_021BB7FC(void *);
 extern void func_021BB9D0(u8 *p);
 void func_021BAB40(char *p)
 {
- func_021BABEC(p, (void *)func_021BAC04);
+ func_021BABEC((int *)p, (void *)func_021BAC04);
  func_021BB7FC(p);
  func_021BB9D0(((struct Obj21025 *)p)->f44);
 }

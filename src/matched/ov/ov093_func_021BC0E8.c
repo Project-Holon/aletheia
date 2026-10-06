@@ -34,7 +34,7 @@ extern u16 func_021BC948(u8 *, u8 *, int);
 extern u32 func_021D8454(B *);
 extern u32 func_021CC8D8(void *, int);
 extern int func_021BC8EC(u8 *, u32, u8 *);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern u8 func_021C6350(u8 *, u8 *);
 extern void func_021BC874(E *, u32);
 static inline void set_accuracy(E *e, u16 v)
@@ -73,13 +73,13 @@ void func_021BC0E8(u8 *p, E *e, u32 n)
             q = (E *)((u32)e + off);
             result = func_021BC8EC(p, value, q->a);
             update(q, result);
-            func_021CC95C(p + 0x1d74, lock, 1079);
+            func_021CC95C((u32 *)(p + 0x1d74), lock, 1079);
         }
         if (type == 1 || type == 5) {
             lock = func_021CC8D8(p + 0x1d74, 1087);
             q = (E *)((u32)e + off);
             q->c = ((func_021C6350(p, q->a) & 7) << 13) | (q->c & 0xffff1fff);
-            func_021CC95C(p + 0x1d74, lock, 1090);
+            func_021CC95C((u32 *)(p + 0x1d74), lock, 1090);
         }
     }
     func_021BC874(e, n);

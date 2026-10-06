@@ -24,7 +24,7 @@
 #include "../include/Obj03374.h"
 struct Tcbl; struct PrintSys;
 extern void func_021BC3DC(void *);
-extern int func_021BBF28(char *);
+extern int func_021BBF28(unsigned char *p);
 extern int func_021BBF60(char *);
 extern int func_021BBF14(char *);
 extern int func_021BBF98(char *);
@@ -39,7 +39,7 @@ int func_021BBE7C(int unused0,int *state,int unused2,char *p)
     if (((struct Obj03374 *)p)->f10) return 1;
     if (*state>=2 && *state<=3) func_021BC3DC(((struct Obj03374 *)p)->f124);
     switch (*state) {
-    case 0: *state=func_021BBF28(p); break;
+    case 0: *state=func_021BBF28((unsigned char *)p); break;
     case 1: *state=func_021BBF60(p); break;
     case 2: *state=func_021BBF0C(p); break;
     case 3: *state=func_021BBF14(p); break;

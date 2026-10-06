@@ -14,7 +14,7 @@
  */
 typedef unsigned int u32;
 
-void func_021D9B2C(char *p, u32 a, u32 b, u32 c)
+void func_021D9B2C(char *p, u32 a, u32 b, int c)
 {
     *(u32 *)(p + 0x18) = a;
     *(u32 *)(p + 0x1c) = b;

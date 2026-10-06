@@ -58,7 +58,7 @@ void *func_020120F4(const struct Ctx *p);
 struct Descriptor;
 void *func_02045770(struct Descriptor *a0);
 u32 func_0201C6C4(struct PrintSys *p, void *v);
-u8 func_02012B70(const struct BigObj *p);
+int func_02012B70(const struct BigObj *p);
 u8 func_02012B58(const struct BigObj *p);
 void func_02043B5C(struct CharBuf *buf, u8 value);
 void func_02045334(struct Descriptor *a0);

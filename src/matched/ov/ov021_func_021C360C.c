@@ -25,7 +25,7 @@ typedef struct { u32 v[4]; } T4;
 
 extern u32 func_02017E1C(void *, u32, u32);
 extern int func_021C3670(void *, u32);
-extern void func_020181F4(void *, u16, u8);
+extern void func_020181F4(void *p, u16 move, u32 slot);
 extern void func_020180F4(void *, u16);
 extern const T4 d_021DA8C8;
 
@@ -37,7 +37,7 @@ void func_021C360C(void *a, u32 b)
     if (b != 0 && func_021C3670(a, b) == 0) {
         for (i = 0; i < 4; i++) {
             if (func_02017E1C(a, t.v[i], 0) == 0) {
-                func_020181F4(a, b, i);
+                func_020181F4(a, b, (u8)i);
                 return;
             }
         }

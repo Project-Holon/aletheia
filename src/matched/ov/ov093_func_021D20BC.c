@@ -26,7 +26,7 @@ typedef struct {
     void *win;            /* 0x54 */
 } Seq;
 
-extern u32 func_021B8DC0(u32 a, u32 b, u8 c);
+extern unsigned char func_021B8DC0(unsigned char *p, void *a, unsigned int b);
 extern void func_021EA354(void *ctx, int a, int b);
 extern int func_021F7EB4(void);
 
@@ -36,7 +36,7 @@ int func_021D20BC(Seq *s, int *state, u32 *a)
 
     switch (*state) {
     case 0:
-        t = func_021B8DC0(s->unk00, s->unk04, a[0]);
+        t = (u32)func_021B8DC0((unsigned char *)s->unk00, (void *)s->unk04, (u8)a[0]);
         func_021EA354(s->win, t, a[1] != 0);
         *state = *state + 1;
         break;

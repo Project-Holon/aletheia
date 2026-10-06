@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 
 extern void *func_021BBC2C(void *r, int i);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_021F07AC(void *a, void *b, u32 c);
+struct Obj;
+extern void func_021F07AC(struct Obj *p, const u8 *e, u8 k);
 extern const char d_021F10D0[];
 
 void func_021F09A0(void *a, char *b)

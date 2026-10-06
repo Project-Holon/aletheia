@@ -28,7 +28,8 @@ extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02017E40(void *,u32,u32);
 extern void func_020185C4(void *);
 extern u32 func_02017D70(struct Sav *p, u32 f);
-extern void func_021D505C(void *);
+struct A;
+extern void func_021D505C(struct A *a);
 extern void func_02082BCC(void *,u8,u32);
 int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)
 {
@@ -75,7 +76,7 @@ int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)
             r->e -= c;
             p->total += hp;
             func_02017E40(p->w,0xa0,p->total);
-            func_021D505C(p);
+            func_021D505C((struct A *)p);
             func_02017D70(p->w,saved);
             *remaining -= delta;
             return 1;

@@ -38,7 +38,7 @@ typedef unsigned int u32;
 struct S { int h, x, y, dx, dy; u8 state, cnt; };
 extern u8 func_021B8FF4(u8 *);
 struct Work;
-extern u32 func_021B9064(u8 *p, u8 k, int x);
+extern u32 func_021B9064(u8 *p, int k, int x);
 extern u8 func_021B8ED8(u8 *p, u8 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 extern u8 func_021D5440(u8 *p);
@@ -46,10 +46,12 @@ extern void *func_021D5864(struct Work *p);
 extern u16 func_021ECE08(u8 *, int);
 extern void func_021EEE24(u32, u16, u32, ...);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
-extern int func_021ECF68(u8 *);
-extern void func_021ED798(u8 *);
+struct E;
+struct T;
+extern int func_021ECF68(struct T *p);
+extern void func_021ED798(struct S *s);
 extern int func_021ED814(struct S *);
-extern void func_021EDA04(u8 *);
+extern void func_021EDA04(struct E *e);
 extern void func_021F7EE8(void *, int);
 extern void func_021F7A28(int, u32);
 extern void func_021F8260(u32 i);
@@ -90,15 +92,15 @@ int func_021EC768(u8 *p, int *state)
         }
         break;
     case 3:
-        if (func_021ECF68(p)) {
+        if (func_021ECF68((struct T *)p)) {
             func_021F8260(0);
-            func_021ED798(p + 0x154);
+            func_021ED798((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
     case 4:
         if (func_021ED814((struct S *)(p + 0x154)) && !func_021F7EB4()) {
-            func_021EDA04(p + 0x48 + b[4] * 12);
+            func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
             (*state)++;
         }
         break;

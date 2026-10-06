@@ -20,7 +20,7 @@ typedef struct { int a,b; } Pair;
 extern const Pair d_021E7584;
 typedef unsigned int   u32;
 extern int func_021DB0A0(char *p);
-extern void func_021E1410(void *,Pair *,int);
+extern void func_021E1410(void *p, int *ids, int count);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_021D8E84(void *,int);
 extern void func_021D9D60(char *p);
@@ -28,7 +28,7 @@ void func_021D9DC4(void *p)
 {
     if (func_021DB0A0(p)) {
         Pair t = d_021E7584;
-        func_021E1410(p,&t,2);
+        func_021E1410(p,(int *)(&t),2);
         func_0207D658(0x04001050,0x1B,-8);
         func_021D8E84(p,(int)func_021D9D60);
     }

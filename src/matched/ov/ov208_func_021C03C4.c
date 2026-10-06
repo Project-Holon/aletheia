@@ -26,7 +26,7 @@ extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
 extern void func_0204B1CC(struct Bank *);
 extern void func_0204B084(void *);
-void func_021C03C4(void *unused, char *p)
+void func_021C03C4(void *unused, char *p, void *a2)
 {
     u8 i;
     for (i = 0; i < 7; i++) func_0204B3B4(*(struct Obj **)(p + i * 4 + 0xbc));

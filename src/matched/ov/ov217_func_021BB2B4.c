@@ -28,7 +28,8 @@ extern void func_020061E4(u32 a);
 extern void func_021BB91C(void *p);
 extern void func_021BB910(void *p, int v);
 extern u32 func_021BBA00(u32 a0, u32 a1);
-extern void func_021BC5A8(void *p, int v);
+typedef unsigned char  u8;
+extern void func_021BC5A8(u8 *a0, int a1);
 extern void func_021BC580(char *p, int i);
 extern void func_021BB934(void *p, int v);
 extern u32 func_021BC6D0(void *p);
@@ -44,7 +45,7 @@ void func_021BB2B4(char *p)
     }
     if (st == 0) {
         func_021BBA00((u32)p, 0);
-        func_021BC5A8(p, 3);
+        func_021BC5A8((u8 *)p, 3);
         func_021BC580(p, 5);
         func_021BB934(p, 1);
         func_021BB91C(p);
@@ -53,7 +54,7 @@ void func_021BB2B4(char *p)
     }
     if (func_021BC6D0(p) != 0 || (keys & 2) || st == 1) {
         func_021BBA00((u32)p, 1);
-        func_021BC5A8(p, 3);
+        func_021BC5A8((u8 *)p, 3);
         func_021BC580(p, 5);
         func_020061E4(0x551);
         func_021BB91C(p);

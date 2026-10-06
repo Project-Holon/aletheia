@@ -42,8 +42,9 @@ typedef struct {
 } MatchCtrl;
 
 extern int func_0216FEF0(unsigned char command, int pid);
-extern unsigned char *func_021763AC(int pid);
-extern void func_021700C8(MatchCtrl *ctrl, unsigned char command, const unsigned int *data, int len);
+struct DWCstBinaryMessage;
+extern char *func_021763AC(int pid);
+extern void func_021700C8(struct DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len);
 extern unsigned char func_0216B838(void);
 extern int func_02177848(unsigned char from, unsigned char to, const void *data, int size, int flag);
 extern char *func_02175F3C(void);
@@ -64,8 +65,8 @@ int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned shor
     unsigned long long t;
 
     if (func_0216FEF0(command, pid) != 0) {
-        node = func_021763AC(pid);
-        func_021700C8(&ctrl, command, data, len);
+        node = (unsigned char *)func_021763AC(pid);
+        func_021700C8((struct DWCstBinaryMessage *)(&ctrl), command, (long unsigned int *)data, len);
         func_02177848(func_0216B838(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
         result = 0;
     } else if (func_021861A8(*(void **)func_02175F3C(), pid) != 0) {
@@ -77,7 +78,7 @@ int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned shor
         result = func_02170200(*(void **)func_02175F3C(), command, pid, buf);
     } else {
         if (ip == 0) {
-            node = func_021763AC(pid);
+            node = (unsigned char *)func_021763AC(pid);
             port = *(unsigned short *)(node + 0xc);
             ip = *(unsigned int *)(node + 4);
         }

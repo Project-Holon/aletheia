@@ -26,7 +26,7 @@ extern int func_021D775C(int k);
 extern void *func_021C7CF4(int *p, int i);
 struct QF;
 extern u16 func_021D5444(struct QF *p);
-extern void func_021D76BC(int a, u8 b);
+extern int func_021D76BC(int key, u32 val);
 extern int d_021F13D4;
 
 void func_021DE5DC(int u, int a, int b)
@@ -35,7 +35,7 @@ void func_021DE5DC(int u, int a, int b)
     if (b == func_021D775C(3)) {
         if (func_021D5444(func_021C7CF4((int *)a, b)) == 0x53) {
             v = func_021D775C(0x2c);
-            func_021D76BC(0x2c, v + 2);
+            func_021D76BC(0x2c, (u8)(v + 2));
         }
     }
 }

@@ -19,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Q Q;
 typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R;
-extern int func_021C6CE0(Q *q);
+extern u32 func_021C6CE0(u8 *p);
 extern void func_021C6CC4(Q *q);
 void func_021C6EA8(R *r, int i)
 {
     if (r->f4[i] != 0 && r->f8[i] != 0) {
-        if (func_021C6CE0(r->f4[i]) == 0 && func_021C6CE0((Q *)r->f8[i]) == 2)
+        if (func_021C6CE0((u8 *)r->f4[i]) == 0 && func_021C6CE0((u8 *)r->f8[i]) == 2)
             func_021C6CC4(r->f4[i]);
     }
 }

@@ -37,7 +37,8 @@ extern char str_02175600[];
 extern void func_0203064C(u32 a, u32 b, u32 c);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021734E0(Work *w);
+struct Work;
+extern void func_021734E0(struct Work *w);
 extern void func_0217365C(u8 *p);
 struct Reg;
 extern struct Reg *func_0200ADF0(u32 heap);
@@ -49,7 +50,7 @@ Work *func_02172BC0(u32 a)
     func_0203064C(4, 0x41, 0x8a00);
     w = func_02030734(0x41, sizeof(Work), 1, str_02175600, 0x89);
     w->field0 = a;
-    func_021734E0(w);
+    func_021734E0((struct Work *)w);
     w->f283e = 1;
     func_0217365C(w->f30e0);
     w->f352c = (u32)func_0200ADF0(0x41);

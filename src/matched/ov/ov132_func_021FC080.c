@@ -21,5 +21,5 @@ typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern u32 func_0201134C(struct Cursor *);
 extern void *func_021F9DC4(void *,u8);
-extern void func_021F9FB4(char *,u16);
-int func_021FC080(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct Obj10559 *)p)->f0; a=func_0201134C(*(struct Cursor * *)&((struct Obj10559 *)p)->f4); b=func_0201134C(*(struct Cursor * *)&((struct Obj10559 *)p)->f4); func_021F9FB4(func_021F9DC4(((struct Obj23259 *)o)->f34,a),b); return 0; }
+extern void func_021F9FB4(char *p, int i);
+int func_021FC080(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct Obj10559 *)p)->f0; a=func_0201134C(*(struct Cursor * *)&((struct Obj10559 *)p)->f4); b=func_0201134C(*(struct Cursor * *)&((struct Obj10559 *)p)->f4); func_021F9FB4(func_021F9DC4(((struct Obj23259 *)o)->f34,a),(u16)b); return 0; }

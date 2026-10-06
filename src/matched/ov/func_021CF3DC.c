@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0203D378(u32, u32, u32, u32);
+extern u32 func_0203D378(void);
 extern u32 func_021CEADC(u32);
 extern u32 func_021CEB04(u32, u32);
 
 int func_021CF3DC(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0203D378(a, b, c, d) == 1) {
+if (func_0203D378() == 1) {
     return func_021CEADC(d);
 }
 return func_021CEB04(d, c);

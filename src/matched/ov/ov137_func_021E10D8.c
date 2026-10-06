@@ -17,8 +17,8 @@
 #include "../include/Obj04541.h"
 typedef unsigned char u8;
 typedef struct {unsigned state;int active,other,timer,speed;} State;
-extern void func_021E0E50(u8 *);
-extern int func_021E0E8C(u8 *);
+extern void func_021E0E50(char *p);
+extern int func_021E0E8C(char *p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 void func_021E10D8(u8 *p,State *s)
@@ -35,7 +35,7 @@ void func_021E10D8(u8 *p,State *s)
         ((struct Obj04541 *)b)->f34+=8192;
         if(((struct Obj04541 *)b)->f34>=0) {
             ((struct Obj04541 *)b)->f34=0;
-            func_021E0E50(p);
+            func_021E0E50((char *)p);
             s->active=1;s->state++;
             func_020061E4(0x55e);
         }
@@ -50,7 +50,7 @@ void func_021E10D8(u8 *p,State *s)
         }
         break;
     case 5:
-        if(!func_021E0E8C(p)) {
+        if(!func_021E0E8C((char *)p)) {
             s->other=0;s->active=0;s->state=0;
             func_020061E4(0x76d);
         }

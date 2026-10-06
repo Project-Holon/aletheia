@@ -30,7 +30,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
-extern u16 func_021B9C20(char *);
+struct Data;
+extern u16 func_021B9C20(const char *p);
 extern u16 func_021B9C34(char *, int);
 extern u16 func_021B9C40(char *, int, int);
 extern u16 func_021B9BD4(char *, int);
@@ -38,7 +39,7 @@ extern int func_021B9C58(void *, int, void *);
 extern u16 func_021B9BE0(char *, int);
 extern int func_021B9C98(void *, int, int);
 extern u16 func_021B9BC8(char *, int);
-extern char *func_021BA65C(char *, char *);
+extern void *func_021BA65C(char *owner, struct Data *data);
 extern void func_021BBA70(void);
 extern const char d_021BC05C[];
 typedef struct Owner { u32 f0; u16 f4; u16 f6; u16 f8; } Owner;
@@ -111,7 +112,7 @@ Q *func_021BB854(Owner *p, Data *data)
         q->f14 = *(u16 *)((char *)q->f0 + 6);
         q->f16 = *(u16 *)((char *)q->f0 + 8);
     }
-    q->f1C = func_021BA65C((char *)q + 8, (char *)data);
+    q->f1C = func_021BA65C((char *)q + 8, (struct Data *)data);
     q->f20 = func_020056A0((unsigned)func_021BBA70, (unsigned)q, 1);
     return q;
 }

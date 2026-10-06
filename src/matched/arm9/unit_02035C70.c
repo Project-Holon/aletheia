@@ -47,21 +47,23 @@ typedef unsigned int   u32;
 
 struct Ctx;
 
-extern struct Ctx *func_02035224(void);
-extern void func_02035750(struct Ctx *ctx);
+struct R;
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
+extern int func_02035750(void);
 struct Kind;
 extern u16 func_02035760(struct Kind *p);
 extern u16 func_02035780(struct Kind *p);
-extern u16 func_020357A0(struct Kind *p);
+extern int func_020357A0(struct Kind *p);
 extern u16 func_020357C0(struct Kind *p);
-extern u32 func_02035ADC(struct Ctx *ctx, u16 a, u16 b);
+extern int func_02035ADC(struct R *p, u32 x, u32 y);
 
 u32 sub_02035C70(struct Ctx *ctx, u32 *outA, u32 *outB);
 u32 sub_02035CD8(struct Ctx *ctx, u32 *outA, u32 *outB);
 
 u32 sub_02035C70(struct Ctx *ctx, u32 *outA, u32 *outB)
 {
-    func_02035750(ctx);
+    func_02035750();
     if (func_020357A0((struct Kind *)ctx) == 0) {
         return 0;
     }
@@ -72,12 +74,12 @@ u32 sub_02035C70(struct Ctx *ctx, u32 *outA, u32 *outB)
 
 u32 sub_02035CB8(u32 *outA, u32 *outB)
 {
-    return sub_02035C70(func_02035224(), outA, outB);
+    return sub_02035C70((struct Ctx *)func_02035224(), outA, outB);
 }
 
 u32 sub_02035CD8(struct Ctx *ctx, u32 *outA, u32 *outB)
 {
-    func_02035750(ctx);
+    func_02035750();
     if (func_020357C0((struct Kind *)ctx) == 0) {
         return 0;
     }
@@ -88,10 +90,10 @@ u32 sub_02035CD8(struct Ctx *ctx, u32 *outA, u32 *outB)
 
 u32 sub_02035D20(u32 *outA, u32 *outB)
 {
-    return sub_02035CD8(func_02035224(), outA, outB);
+    return sub_02035CD8((struct Ctx *)func_02035224(), outA, outB);
 }
 
 u32 sub_02035D40(struct Ctx *ctx, u32 a, u32 b)
 {
-    return func_02035ADC(ctx, a, b);
+    return (u32)func_02035ADC((struct R *)ctx, (u16)a, (u16)b);
 }

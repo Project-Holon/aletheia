@@ -29,10 +29,10 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
-extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern void func_02049624(u32,u32,u32,u32,u32,u32,u16);
+extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32,u32,u32,u32,u32,u32,u16);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern void func_02040588(u32 which, u32 enable);
@@ -43,7 +43,7 @@ void func_021DD3D8(void *p,void *arc)
     func_020498F4(arc,13,1,0,1536,0,114);
     func_02049B40(23,5,0,416,32,114);
     func_02049B40(30,13,4,0,352,114);
-    func_02049624(30,14,6,0,0,0,114);
+    func_02049624((void *)30,(void *)14,(void *)6,0,0,0,114);
     func_0204989C(30,3,6,0,0,0,114);
     func_0201F5BC(0,1,10,0,114);
     func_0201F5BC(0,31,11,0,114);

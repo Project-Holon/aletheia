@@ -45,7 +45,7 @@ struct Rec0200AD94;
 struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void func_022026A0(u8 *p, u32 k);
-extern void func_0200ADB8(void *, void *, unsigned);
+extern void func_0200ADB8(void *dest, const void *src, u32 a2);
 extern void func_02007664(void *, unsigned, unsigned);
 extern void func_020307B0(void *);
 extern void *func_0201AB28(void *, unsigned);

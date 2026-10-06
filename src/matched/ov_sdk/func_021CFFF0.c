@@ -20,9 +20,11 @@
  *       --func func_021CFFF0 --addr 0x021CFFF0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_02073018(char *, unsigned int, unsigned int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_02073018(struct Obj *o, u32 v, u32 w);
 
 void func_021CFFF0(unsigned int a, unsigned int b)
 {
-    func_02073018(*(char **)0x021DE648 + 0xa0, a, b);
+    func_02073018((struct Obj *)(*(char **)0x021DE648 + 0xa0), a, b);
 }

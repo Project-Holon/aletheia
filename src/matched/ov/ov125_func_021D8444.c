@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 b[301]; } Sav;
 typedef struct { int w[0x138 / 4]; } Blob;
-extern int func_02167FA8(const char *, void *);
+extern int func_02167FA8(char *svl, void *result);
 extern int func_02168040(void);
 extern int func_02059E38(int *, int *);
 extern void func_021D7CAC(void);
@@ -48,7 +48,7 @@ int func_021D8444(void)
 
     if (D(0x138) == 1)
         return 1;
-    if (func_02167FA8(d_021D8D30, buf) == 0) {
+    if (func_02167FA8((char *)d_021D8D30, buf) == 0) {
         D(0x250) = 0xE;
         return 0;
     }

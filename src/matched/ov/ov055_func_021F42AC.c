@@ -25,7 +25,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216DD1C(void *c, u32 *out, u32 *iter);
+struct Ctx;
+struct Rec;
+extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 extern int func_0216D55C(int a, int b);
 extern int func_0216DAB4(void *a);
 extern int func_021F4318(const u8 *a, void *b, u16 c, u16 d);
@@ -35,7 +37,7 @@ int func_021F42AC(u8 *a, void *b, u32 *c, u16 d, u16 e)
     u32 iter = 0;
     u32 cur;
 
-    while (func_0216DD1C(b, &cur, &iter) == 1) {
+    while (func_0216DD1C(b, (struct Rec **)(&cur), &iter) == 1) {
         if (*(u32 *)&((struct Obj00204 *)a)->fC != cur && func_0216D55C(cur, 0x80) == 0 &&
             func_0216DAB4((void *)cur) == 0 && func_021F4318(a, (void *)cur, d, e) != 0) {
             *c = cur;

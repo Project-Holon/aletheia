@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021C2644(void *p, u32 i, u32 j)
+u32 func_021C2644(void *p, u32 i, u8 j)
 {
     return *(u16 *)((char *)p + i * 0xd4 + 0xc + j * 0xc);
 }

@@ -26,11 +26,11 @@ typedef struct {
 typedef unsigned char  u8;
 struct Sound;
 extern u8 func_020260E0(struct Sound *obj);
-extern void func_021DEFEC(Obj *p, int b);
-extern void func_021DF040(Obj *p);
+extern void func_021DEFEC(char *p, int b);
+extern void func_021DF040(char *p);
 extern void func_021EA728(void *p);
-extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
-extern int func_021E152C(Obj *p);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E152C(unsigned char *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 
@@ -38,9 +38,9 @@ int func_021EA4DC(Obj *p)
 {
     unsigned char v = func_020260E0(OBJ(p));
     if (v < 0x24)
-        func_021DEFEC(p, v);
+        func_021DEFEC((char *)p, v);
     else
-        func_021DF040(p);
+        func_021DF040((char *)p);
     func_021EA728(p);
-    return func_021E8FC0(p, func_021E152C, 0x43);
+    return func_021E8FC0((char *)p, (int)func_021E152C, 0x43);
 }

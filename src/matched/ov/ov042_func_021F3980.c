@@ -35,7 +35,7 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
-extern u8 *func_021897BC(void *a, int b);
+extern int *func_021897BC(char *p, int idx);
 struct Big;
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -45,7 +45,7 @@ extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6B8(u8 *p, int v);
-extern int func_021BE6BC(u8 *p);
+extern int func_021BE6BC(int *p);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
 
 int func_021F3980(void *a, int *st)
@@ -59,7 +59,7 @@ int func_021F3980(void *a, int *st)
 
     s = func_0201210C(func_020124E4(a));
     t = func_02188D2C(s);
-    p = func_021897BC(s, 1);
+    p = (u8 *)func_021897BC(s, 1);
     q = func_0200B3A4((u32)func_02012EC4(func_020120F4(func_02188C80(s))), 4);
     switch (*st) {
     case 0:

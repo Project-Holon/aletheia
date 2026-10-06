@@ -19,7 +19,8 @@ typedef unsigned int u32;
 typedef struct { int w[9]; } Struct36;
 typedef struct { char p0[0x14]; char *f14; } O;
 typedef struct { char p0[4]; void *f4; char p8[0x44]; int f4c; } E;
-extern void func_0204B7C8(void *, Struct36 *);
+struct Struct36;
+extern void func_0204B7C8(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, u32);
 void func_02208420(const O *o, E *e, int v)
 {
@@ -29,7 +30,7 @@ void func_02208420(const O *o, E *e, int v)
     int i, n, j;
     enum { VRAM = 0x06400000 } base;
     if (e->f4 != 0) {
-        func_0204B7C8(e->f4, &buf);
+        func_0204B7C8(e->f4, (struct Struct36 *)(&buf));
         for (i = 0; i < 3; i++) {
             current[i] = 0x660;
             maximum[i] = 0x660;

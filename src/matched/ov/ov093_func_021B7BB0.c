@@ -37,14 +37,15 @@ extern void func_021D4AF4(int);
 extern int func_021D4B18(int);
 extern u32 func_021D450C(u32 *);
 extern int func_021D45FC(void);
-extern void *func_021D4648(u8);
+struct Sub02007AC8Entry;
+extern u32 func_021D4648(u32 a);
 extern void func_021D4674(void);
 struct Big;
 extern int func_021B8B9C(unsigned char *p, unsigned char k);
-extern int func_021B9F70(void *,u8);
-extern void func_021BA698(void *,u8);
+extern int func_021B9F70(u8 *p, int i);
+extern void func_021BA698(u8 *p, int k);
 extern void *func_02012EBC(struct Big *p);
-extern u32 *func_02007B44(void *sys);
+extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 extern void *func_02007B20(u32 heap);
 extern u32 func_02007B00(void);
 extern void func_02082D44(const void *,void *,u32);
@@ -68,19 +69,19 @@ int func_021B7BB0(u8 *p,u32 *state)
         if (func_021D4B18(3)) ++*state;
         break;
     case 2:
-        if (func_021D450C(func_02007B44(func_02012EBC(((struct Obj20949 *)q)->f58)))) ++*state;
+        if (func_021D450C((u32 *)func_02007B44(func_02012EBC(((struct Obj20949 *)q)->f58)))) ++*state;
         break;
     case 3:
         if (func_021D45FC()) {
             for (i = 0; i < 4; ++i) {
-                if (func_021B8B9C(p,i) && !func_021B9F70(p,i)) {
-                    src = func_021D4648(i);
+                if (func_021B8B9C(p,i) && !func_021B9F70(p,(u8)i)) {
+                    src = (void *)func_021D4648((u8)i);
                     if (src) {
                         *(void **)(p + i * 4 + 0x3e0) = func_02007B20(((struct Obj07743 *)p)->f468);
                         func_02082D44(src, *(void **)(p + i * 4 + 0x3e0),func_02007B00());
                     }
                 }
-                func_021BA698(p,i);
+                func_021BA698(p,(u8)i);
             }
             func_021D4674();
             ++*state;

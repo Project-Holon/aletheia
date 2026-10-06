@@ -12,6 +12,9 @@
  *   func_02025A54 0x02025A54 thumb
  */
 #include "../include/Obj14459.h"
-extern void func_0204B6F4(void *,unsigned char,unsigned);
-extern void func_02025A54(unsigned char *,unsigned char);
-void func_021FB5C4(char *p,int n) { func_0204B6F4(((struct Obj14459 *)p)->f0,n,0);func_02025A54(*(unsigned char * *)&((struct Obj14459 *)p)->f4,n+1); }
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_02025A54(u8 *g, u32 a);
+void func_021FB5C4(char *p,int n) { func_0204B6F4(((struct Obj14459 *)p)->f0,(unsigned char)n,0);func_02025A54(*(unsigned char * *)&((struct Obj14459 *)p)->f4,(unsigned char)(n+1)); }

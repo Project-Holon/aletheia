@@ -22,7 +22,9 @@ typedef struct { s16 x, y; } Vec2;
 typedef struct { void *h; int goal, home, step, frame, wait; Vec2 pos; } Entry;
 typedef struct { char pad[0x10]; Entry entries[7]; int state, active, sound; u16 heap; } Work;
 typedef struct { Work *owner; } Context;
-extern void func_0204B404(void *, const Vec2 *, u32);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0200616C(void *, int);
@@ -52,7 +54,7 @@ void func_022090B4(void *task, Context *c)
                         c->owner->entries[i].step = 0;
                     }
                 }
-                func_0204B404(c->owner->entries[i].h, &c->owner->entries[i].pos, 0);
+                func_0204B404(c->owner->entries[i].h, (const struct Vec2 *)(&c->owner->entries[i].pos), 0);
                 if (c->owner->entries[i].step == 0) {
                     func_0204B878(c->owner->entries[i].h, c->owner->entries[i].frame);
                     switch (c->owner->entries[i].frame) {
@@ -83,7 +85,7 @@ void func_022090B4(void *task, Context *c)
                     c->owner->entries[i].pos.x = c->owner->entries[i].home;
                 busy = 1;
             }
-            func_0204B404(c->owner->entries[i].h, &c->owner->entries[i].pos, 0);
+            func_0204B404(c->owner->entries[i].h, (const struct Vec2 *)(&c->owner->entries[i].pos), 0);
         }
         if (!busy) func_021F89BC(task);
         break;

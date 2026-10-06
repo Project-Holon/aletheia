@@ -72,7 +72,8 @@ extern void func_021E98AC(void *);
 extern u32 func_021E98B4(void *);
 extern u32 func_021D8454(u32 *);
 extern int func_021B9AB0(int);
-extern u32 func_021D832C(u32 *);
+struct Unk021D82FC;
+extern u32 func_021D832C(struct Unk021D82FC *p);
 extern u8 func_021D5778(struct UtilWork *p, u16 id);
 extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
 extern void func_021EAF78(u8 *, u8);
@@ -132,7 +133,7 @@ int func_021CEA94(u8 *p, u32 *state)
                     slot = func_021B9AB0(sub);
                     m = *(void **)((u32)p + slot * 8U + 0xa4U);
                 }
-                if (func_021D832C(record)) {
+                if (func_021D832C((struct Unk021D82FC *)record)) {
                     p[0x1b0] = slot;
                     p[0x1b1] = func_021D5778(m, (u16)((Record *)record)->id);
                     if (p[0x1b1] != 4) {

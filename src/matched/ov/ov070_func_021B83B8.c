@@ -68,20 +68,20 @@ extern const TabTbl d_021BB984;
 extern int func_021B61C8(Obj *o);
 typedef unsigned char  u8;
 extern void func_021B80C4(struct Obj *o, int flag);
-extern void func_021B8CE4(Obj *o, int u, int a, void *fn);
+extern void func_021B8CE4(int p, int u, int a, int b);
 extern void func_021B8F90(void *o);
 extern void func_021B8080(Obj *o);
-extern void func_021B6138(Obj *o);
-extern void func_021B6100(Obj *o, void *fn);
+extern void func_021B6138(char *p);
+extern void func_021B6100(char *p, int k);
 extern void func_021B8EA8(int p);
 extern int func_021B811C(Obj *o);
 extern void func_021B81B8(Obj *o);
-extern void func_021B8C1C(Obj *o, int a, void *fn);
+extern void func_021B8C1C(int p, int a, int b);
 extern void func_020355D8(u8 v);
 extern void func_021B7250(Obj *o);
 extern int func_021B61B8(Obj *o);
 extern void func_021B624C(void *o, int a, int b);
-extern void func_021B9850(Obj *o);
+extern void func_021B9850(char *p);
 extern void func_021B8B7C(int p);
 extern int func_021B8134(struct Obj *o, int k);
 extern void func_020061E4(unsigned int se);
@@ -113,7 +113,7 @@ void func_021B83B8(u32 idx, int flag, Obj *o)
         o->f80C = v - 1;
         if (o->f80C < 0)
             o->f80C = 4;
-        func_021B8CE4(o, v, 0, (void *)func_021B8F90);
+        func_021B8CE4((int)o, v, 0, (int)((void *)func_021B8F90));
         return;
     } else if (idx == 6) {
         func_021B80C4(o, 0);
@@ -121,34 +121,34 @@ void func_021B83B8(u32 idx, int flag, Obj *o)
         o->f80C = v + 1;
         if (o->f80C >= 5)
             o->f80C = 0;
-        func_021B8CE4(o, v, 1, (void *)func_021B8F90);
+        func_021B8CE4((int)o, v, 1, (int)((void *)func_021B8F90));
         return;
     } else if (idx == 7) {
         if (o->f80C != 2 && o->f80C != 3 && func_021B61C8(o) > 1) {
             func_021B8080(o);
             func_021B80C4(o, 0);
             o->f818 = 0xFFFF;
-            func_021B6138(o);
-            func_021B6100(o, (void *)func_021B8EA8);
+            func_021B6138((char *)o);
+            func_021B6100((char *)o, (int)((void *)func_021B8EA8));
         }
     } else if (idx == 8) {
         if (func_021B811C(o) == 1) {
             func_021B81B8(o);
             func_021B80C4(o, 0);
             o->f818 = 0xFFFF;
-            func_021B6138(o);
+            func_021B6138((char *)o);
         }
     } else if (idx == 9) {
         if (o->f010 != 2) {
             o->f844 = 0;
             o->f84C = 0;
-            func_021B8C1C(o, 3, 0);
+            func_021B8C1C((int)o, 3, 0);
             func_020355D8(1);
         }
     } else if (idx == 10) {
         o->f844 = 1;
         o->f84C = 0;
-        func_021B8C1C(o, 4, 0);
+        func_021B8C1C((int)o, 4, 0);
         func_020355D8(1);
     } else if (idx >= 11 && idx < 17) {
         if (o->f4F8 != func_021B7250)
@@ -167,14 +167,14 @@ void func_021B83B8(u32 idx, int flag, Obj *o)
         func_021B624C(o, cur, func_021B61B8(o));
         func_021B80C4(o, 0);
         o->f818 = 0xFFFF;
-        func_021B6138(o);
-        func_021B9850(o);
-        func_021B6100(o, (void *)func_021B8B7C);
+        func_021B6138((char *)o);
+        func_021B9850((char *)o);
+        func_021B6100((char *)o, (int)((void *)func_021B8B7C));
         return;
     } else if (idx >= 17) {
         if (func_021B811C(o) == 1 && func_021B8134(o, idx - 17) == 1) {
             func_021B80C4(o, 0);
-            func_021B6138(o);
+            func_021B6138((char *)o);
         }
     }
     if (tab != -1) {
@@ -185,6 +185,6 @@ void func_021B83B8(u32 idx, int flag, Obj *o)
         func_021B80BC(o);
         func_021B80C4(o, 0);
         o->f818 = 0xFFFF;
-        func_021B6138(o);
+        func_021B6138((char *)o);
     }
 }

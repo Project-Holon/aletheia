@@ -19,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32  func_0202A20C(u8 *p, u32 key, u32 v2, u32 v3);
-extern void *func_0202A21C(void *a, u16 b);
+extern int func_0202A21C(int a0, int a1);
 
 int func_0202A19C(u32 a, u32 *p, u32 c, u32 d, u16 e)
 {
     int i = func_0202A20C((u8 *)p, c, d, e);
-    u8 *r = func_0202A21C(p, *(u16 *)((u8 *)*p + i * 8 + 6));
+    u8 *r = (u8 *)func_0202A21C((int)p, *(u16 *)((u8 *)*p + i * 8 + 6));
 
     if (((struct Obj15810 *)r)->f7 == 2) {
         return 1;

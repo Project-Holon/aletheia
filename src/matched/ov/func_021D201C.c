@@ -30,11 +30,12 @@ extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern u32 func_0204B1CC(u32);
-extern u32 func_0204B3B4(u32, u32, u32, u32);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 int func_021D201C(u32 a, u32 b, u32 c, u32 d)
 {
-func_0204B3B4(((struct Obj04135 *)((u8 *)(a)))->f3C, b, c, d);
+func_0204B3B4((struct Obj *)(((struct Obj04135 *)((u8 *)(a)))->f3C));
 func_0204A8D4(((struct Obj04135 *)((u8 *)(a)))->f40);
 func_0204ADA4(((struct Obj04135 *)((u8 *)(a)))->f44);
 func_0204AFD8(((struct Obj04135 *)((u8 *)(a)))->f48);

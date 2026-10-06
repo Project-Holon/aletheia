@@ -31,7 +31,7 @@ typedef struct QueueInfo {
 extern void DWC_Free(int kind, void *p, int size);
 extern QueueInfo g_021AB178;
 
-void func_02176B80(void)
+void func_02176B80(char *p)
 {
     SendQueue *it;
 

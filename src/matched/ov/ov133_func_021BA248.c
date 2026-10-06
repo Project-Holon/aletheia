@@ -12,4 +12,4 @@
 #include "../include/Obj23338.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021BA248(char *p) { return ((struct Obj23338 *)p)->f18; }
+int func_021BA248(char *p) { return ((struct Obj23338 *)p)->f18; }

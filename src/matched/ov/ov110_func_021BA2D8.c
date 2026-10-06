@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_021BC704(u8 *p, u32 flag);
 extern u16 func_021BF714(u8 *);
-extern void func_021BC72C(u8 *, int);
+extern void func_021BC72C(char *p, int i);
 extern void func_021BF7E0(u8 *);
 extern void func_021BCC58(u8 *);
 extern void func_021BC6EC(void *p);
@@ -42,7 +42,7 @@ extern void func_021BC724(u8 *);
 extern void func_021BB76C(u8 *);
 extern void func_021BBEF4(u8 *p, u8 value);
 extern u8 func_021BF6DC(u8 *);
-extern void func_021BB958(u8 *);
+extern void func_021BB958(char *p);
 extern void func_021BAD68(u8 *, int);
 extern int func_021BB784(u8 *);
 extern int func_021BBF54(u8 *);
@@ -56,7 +56,7 @@ void func_021BA2D8(int unused, u8 *p) {
     switch (((struct Obj03748 *)p)->f14) {
     case 0:
         func_021BC704(*(u8 * *)&((struct Obj01921 *)q)->f54, 1);
-        func_021BC72C(*(u8 * *)&((struct Obj01921 *)q)->f54, func_021BF714(*(u8 * *)&((struct Obj03748 *)p)->f4));
+        func_021BC72C((char *)(*(u8 * *)&((struct Obj01921 *)q)->f54), func_021BF714(*(u8 * *)&((struct Obj03748 *)p)->f4));
         ++((struct Obj03748 *)p)->f14;
         break;
     case 1:
@@ -66,7 +66,7 @@ void func_021BA2D8(int unused, u8 *p) {
         func_021BC724(*(u8 * *)&((struct Obj01921 *)q)->f54);
         func_021BB76C(*(u8 * *)&((struct Obj01921 *)q)->f58);
         func_021BBEF4(*(u8 * *)&((struct Obj01921 *)q)->f54, 0);
-        if (func_021BF6DC(*(u8 * *)&((struct Obj03748 *)p)->f4) == 1) func_021BB958(*(u8 * *)&((struct Obj01921 *)q)->f58);
+        if (func_021BF6DC(*(u8 * *)&((struct Obj03748 *)p)->f4) == 1) func_021BB958((char *)(*(u8 * *)&((struct Obj01921 *)q)->f58));
         if (func_021BF6DC(*(u8 * *)&((struct Obj03748 *)p)->f4) == 0) func_021BAD68(p, 2);
         else func_021BAD68(p, 4);
         ++((struct Obj03748 *)p)->f14;

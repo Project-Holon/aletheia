@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern void func_0201B850(void *mon, const s8 *tbl, int a2, u32 a3);
 
-void func_0201B7B4(void *a0, u16 a1, int a2, u16 a3)
+void func_0201B7B4(void *a0, int a1, u16 a2, u16 a3)
 {
     u8 buf[3];
     int i;

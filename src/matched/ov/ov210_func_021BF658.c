@@ -15,7 +15,7 @@
 #include "../include/Obj25628.h"
 extern int func_021B93B8(char *);
 extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BFB8C(char *, unsigned short, short, int);
+extern void func_021BFB8C(char *ctx, unsigned long slot, int y, int flag);
 void func_021BF658(char *p)
 {
     short base = func_021B93B8(*(char * *)&((struct Obj25628 *)p)->f1E0);
@@ -26,8 +26,8 @@ void func_021BF658(char *p)
         func_021BEDF0((int)p, i + 43, 0);
     }
     for (i = 0; i < 5; i++) {
-        func_021BFB8C(p, base + i, i * 40, 1);
+        func_021BFB8C(p, (unsigned short)(base + i), (short)(i * 40), 1);
         if (base - (i + 1) >= 0)
-            func_021BFB8C(p, base - (i + 1), 192 - (i + 1) * 40, 0);
+            func_021BFB8C(p, (unsigned short)(base - (i + 1)), (short)(192 - (i + 1) * 40), 0);
     }
 }

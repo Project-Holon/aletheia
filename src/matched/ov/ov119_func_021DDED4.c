@@ -23,13 +23,13 @@ typedef unsigned char  u8;
 struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
-extern void func_021E12F8(void *);
-extern void func_021E1098(void *);
+extern void func_021E12F8(char *p);
+extern void func_021E1098(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DDE4C(unsigned char *p);
 extern void func_021DDE90(unsigned char *p);
 
 void func_021DDED4(unsigned char *p)
 {
-    int v; if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))==0)return;v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));func_021E12F8(p);func_021E1098(p);*(int *)&((struct Obj00001 *)p)->f64C=0;switch(v){case 0:func_021D8E84(p,(int)func_021DDE4C);return;case 1:func_021D8E84(p,(int)func_021DDE90);return;}
+    int v; if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))==0)return;v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));func_021E12F8((char *)p);func_021E1098((char *)p);*(int *)&((struct Obj00001 *)p)->f64C=0;switch(v){case 0:func_021D8E84(p,(int)func_021DDE4C);return;case 1:func_021D8E84(p,(int)func_021DDE90);return;}
 }

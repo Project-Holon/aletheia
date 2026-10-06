@@ -60,7 +60,9 @@ struct Owner {
     u16           f1C;   /* 0x1C */
 };
 
-extern void func_02050550(struct Owner *o, struct Entry *e);
+struct Ent;
+struct Own;
+extern void func_02050550(struct Own *o, struct Ent *e);
 
 void func_020504D8(struct Owner *o)
 {
@@ -77,7 +79,7 @@ void func_020504D8(struct Owner *o)
                 if (e->f20 != 0) {
                     e->f20(o, i, e->f24);
                 }
-                func_02050550(o, e);
+                func_02050550((struct Own *)o, (struct Ent *)e);
             }
         i++;
     } while (i < o->f1C);

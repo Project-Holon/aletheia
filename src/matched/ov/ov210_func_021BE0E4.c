@@ -23,14 +23,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern void func_021B93D4(void *s, int v);
+struct S;
+extern void func_021B93D4(struct S *s, int v);
 extern void func_021BE8B8(u8 *p);
-extern void func_021BF85C(u8 *p, u32 a, u32 b);
+extern void func_021BF85C(char *p, int i, int flag);
 
 void func_021BE0E4(u8 *p, u32 v)
 {
     (*(u8 **)(*(u8 * *)&((struct Obj00085 *)p)->f0 + 8))[1] = v;
     func_021B93D4(((struct Obj00085 *)p)->f1E0, v);
     func_021BE8B8(p);
-    func_021BF85C(p, (u16)v, 1);
+    func_021BF85C((char *)p, (u16)v, 1);
 }

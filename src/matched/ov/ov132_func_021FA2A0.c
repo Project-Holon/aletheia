@@ -32,8 +32,12 @@ typedef short s16;
 typedef unsigned int u32;
 typedef struct {int x,y,z;} Vec;
 extern u16 func_021F9E04(u8 *p);
-extern void *func_021F9DA0(void *),*func_021F9DA4(void *,int),*func_021F9DD4(void *),*func_021F9DDC(void *,u8);
-extern void func_021F8044(void *,void *,Vec *),func_021F6F04(void *,void *,Vec *);
+extern void *func_021F9DA0(char *p);
+extern void *func_021F9DA4(char *p, u32 i);
+extern void *func_021F9DD4(void *);
+extern void *func_021F9DDC(void *,u8);
+extern void func_021F8044(void *unused, u32 *p, u32 *q);
+extern void func_021F6F04(void *,void *,Vec *);
 extern void func_021FA3A8(char *,u8 *,unsigned);
 extern unsigned func_02005728(unsigned);
 void func_021FA2A0(char *p,u8 *rec)
@@ -55,7 +59,7 @@ void func_021FA2A0(char *p,u8 *rec)
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
                 a=func_021F9DA0(((struct Obj04514 *)p)->f1E8);
-                func_021F8044(a,func_021F9DA4(((struct Obj04514 *)p)->f1E8,rec[0]),&v);
+                func_021F8044(a,func_021F9DA4(((struct Obj04514 *)p)->f1E8,rec[0]),(u32 *)(&v));
             } else {
                 b=func_021F9DD4(((struct Obj04514 *)p)->f1E8);
                 func_021F6F04(b,func_021F9DDC(((struct Obj04514 *)p)->f1E8,((struct Obj04514 *)p)->f1FC),&v);

@@ -12,4 +12,4 @@
  */
 #include "../include/Obj15644.h"
 
-int func_02013270(int a0, int a1, int a2, int a3){ int t0 = func_02045808((int)((struct Obj15644 *)((char *)((a0 + 0))))->f14); int t1 = func_020307B0((int)((a0 + 0) + 0)); return t1; }
+int func_02013270(int a0){ int t0 = func_02045808((int)((struct Obj15644 *)((char *)((a0 + 0))))->f14); int t1 = func_020307B0((int)((a0 + 0) + 0)); return t1; }

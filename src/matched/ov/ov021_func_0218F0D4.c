@@ -19,7 +19,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-void func_0218F0D4(u8 *a)
+void func_0218F0D4(u8 *a, int b)
 {
     u8 *p = *(u8 * *)&((struct Obj19568 *)a)->fEC;
     if (p != 0) {

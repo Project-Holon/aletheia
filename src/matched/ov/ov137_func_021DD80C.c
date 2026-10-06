@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u16 func_02039338(void);
 extern int func_021DE354(void *p);
-extern void *func_021DCF50(void *);
+extern void *func_021DCF50(u8 *p);
 extern int func_02184114(unsigned char *p);
 extern int func_021841A4(unsigned char *p);
 extern void func_02184134(u8 *p);
@@ -42,7 +42,7 @@ void func_021DD80C(char *p) {
         if (func_02039338()==0) {
             q=*(char * *)&((struct Obj06534 *)p)->f10;
             if (((struct Obj08211 *)q)->f2C==func_021DE354(p) && ((struct Obj08211 *)q)->f30==0) {
-                if (func_02184114(func_021DCF50(p))) {
+                if (func_02184114(func_021DCF50((u8 *)p))) {
                     func_020061E4(0x54c);
                     func_021DE4B4(p,3,0);
                     func_021DD93C(p,22);
@@ -57,8 +57,8 @@ void func_021DD80C(char *p) {
             } else func_020061E4(0x548);
         } else {
             q=*(char * *)&((struct Obj06534 *)p)->f10;
-            if (((struct Obj08211 *)q)->f2C==func_021841A4(func_021DCF50(p)) && ((struct Obj08211 *)q)->f30==0) {
-                if (func_02184114(func_021DCF50(p))) {
+            if (((struct Obj08211 *)q)->f2C==func_021841A4(func_021DCF50((u8 *)p)) && ((struct Obj08211 *)q)->f30==0) {
+                if (func_02184114(func_021DCF50((u8 *)p))) {
                     func_021DE4B4(p,4,0);
                     func_021DD93C(p,4);
                     func_020061E4(0x551);
@@ -67,7 +67,7 @@ void func_021DD80C(char *p) {
         }
     } else {
         if (((struct Obj06534 *)p)->f4808==0 && func_02039338()==0 &&
-            ((struct Obj23714 *)(*(char * *)&((struct Obj06534 *)p)->f10))->f2C==func_021841A4(func_021DCF50(p)))
-            func_02184134(func_021DCF50(p));
+            ((struct Obj23714 *)(*(char * *)&((struct Obj06534 *)p)->f10))->f2C==func_021841A4(func_021DCF50((u8 *)p)))
+            func_02184134(func_021DCF50((u8 *)p));
     }
 }

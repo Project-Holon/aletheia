@@ -14,10 +14,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021ED9C8(u8 *);
+struct E;
+extern void func_021ED9C8(struct E *e);
 void func_021ED988(u8 *p)
 {
     u32 i;
     for (i = 0; i < 6; i++)
-        func_021ED9C8(p + 0x48 + i * 12);
+        func_021ED9C8((struct E *)(p + 0x48 + i * 12));
 }

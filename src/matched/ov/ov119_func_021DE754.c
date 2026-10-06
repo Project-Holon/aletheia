@@ -30,7 +30,8 @@ extern u32 func_020173EC(void);
 extern void func_02082D44(void *,const void *,int);
 extern void func_021D8F60(void *,int,int);
 extern void func_021D8E84(void *,int);
-extern void func_021DDAD4(void *),func_021DE70C(void *);
+extern void func_021DDAD4(char *p);
+extern void func_021DE70C(void *);
 typedef struct { char pad[0xfa4]; int entry[2][3]; char gap[0x1c]; void *mon[2][3]; int value[2][3]; } State;
 int func_021DE754(char *p,int idx)
 {

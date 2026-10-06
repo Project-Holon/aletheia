@@ -32,7 +32,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_0203D798(u32 a, u32 b, const u8 *c, u32 d);
+extern void *func_0203D798(void);
 typedef signed int     s32;
 struct Entry;
 extern struct Entry *func_0203996C(s32 idx);
@@ -40,7 +40,7 @@ extern void func_02087C6C(u8 *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 void func_0203A020(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
 {
-  volatile u8 *r4 = func_0203D798(idx, a1, a2, a3);
+  volatile u8 *r4 = func_0203D798();
   u8 *p;
   u8 *own;
   own = (u8 *) func_0203996C(0xff);

@@ -11,4 +11,4 @@
  * status:   EXACT*
  */
 
-int func_02029E08(int a0, int a1, int a2, int a3){ int t0; t0 = func_02029E74(a0, a1); if ((unsigned int)(t0) != (unsigned int)(~0)) {  return 1; } else {  return 0; } }
+int func_02029E08(int a0, int a1){ int t0; t0 = func_02029E74(a0, a1); if ((unsigned int)(t0) != (unsigned int)(~0)) {  return 1; } else {  return 0; } }

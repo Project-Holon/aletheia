@@ -78,14 +78,14 @@ extern void func_020130C4(u8 *p);
 struct Party;
 struct Rec534;
 extern void func_02013360(u8 *o, void *a1, const void *a2);
-extern void func_0201333C(void *a, void *b, u16 c);
+extern int func_0201333C(int a0, int a1, int a2);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern u32  func_0201AA18(void *p);
 extern u32 func_0201AA14(void *p);
 extern u32 func_0201293C(const struct BigObj *p);
-extern int  func_020076D0(u32 s, u32 *a, u32 *b);
-extern void func_02013144(void *a, int b);
+extern int func_020076D0(void *save, int *pbox, int *pslot);
+extern void func_02013144(char *p, int v);
 
 void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
 {
@@ -97,7 +97,7 @@ void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
 
     func_020130C4(a0);
     func_02013360(a0, a1, (const void *)a3);
-    func_0201333C(a0, a1, a5);
+    func_0201333C((int)a0, (int)a1, a5);
     r = (u32)func_0201A920(a5);
     ((struct Obj00155 *)a0)->f28 = r;
     if (a2 != 0) {
@@ -112,7 +112,7 @@ void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
     u = func_0201293C(a1);
     x = 0;
     y = 0;
-    if (func_020076D0(u, &x, &y) == 0) {
-        func_02013144(a0, 0x40);
+    if (func_020076D0((void *)u, (int *)(&x), (int *)(&y)) == 0) {
+        func_02013144((char *)a0, 0x40);
     }
 }

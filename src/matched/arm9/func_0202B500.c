@@ -23,7 +23,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int  func_0202B834(u8 *p);
+struct Obj;
+extern u32 func_0202B834(struct Obj *o);
 extern void func_0202B84C(void *a);
 extern unsigned short func_0202B810(void);
 extern void func_0202B6CC(u8 *p);
@@ -35,7 +36,7 @@ extern void func_0202B710(u8 *p);
 
 void func_0202B500(u8 *p)
 {
-    if (func_0202B834(p) == 1) {
+    if (func_0202B834((struct Obj *)p) == 1) {
         func_0202B84C(p);
         ((struct Obj02010 *)p)->f8 = func_0202B810();
     }

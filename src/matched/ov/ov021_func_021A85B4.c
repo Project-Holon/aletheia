@@ -92,8 +92,9 @@ extern int func_021A8588();
 extern void func_021A87A8(Obj *p);
 extern u32 func_020221A4(void);
 extern void func_021A8EEC(Obj *p);
-extern void func_021A8FFC(Obj *p);
-extern void func_021A90E0(Obj *p);
+struct W;
+extern void func_021A8FFC(struct W *w);
+extern void func_021A90E0(struct W *w);
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_02040588(u32 which, u32 enable);
@@ -145,8 +146,8 @@ void func_021A85B4(Obj *p)
         break;
     case 3:
         func_021A8EEC(p);
-        func_021A8FFC(p);
-        func_021A90E0(p);
+        func_021A8FFC((struct W *)p);
+        func_021A90E0((struct W *)p);
         break;
     case 4:
         if (func_0204B98C((struct Actor *)p->f128) != 0) {

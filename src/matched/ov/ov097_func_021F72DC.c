@@ -15,12 +15,15 @@
 struct Actor;
 struct PtS { short x, y; };
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned);
-extern void func_0204B404(struct Actor *, const struct PtS *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021F72DC(unsigned p, unsigned i, int dx)
 {
     struct PtS pt;
     unsigned base = p + 0x54;
     func_0204B454(*(struct Actor **)(base + i * 4), &pt, 0);
     pt.x = pt.x + dx;
-    func_0204B404(*(struct Actor **)(base + i * 4), &pt, 0);
+    func_0204B404((struct Obj *)(*(struct Actor **)(base + i * 4)), (const struct Vec2 *)(&pt), 0);
 }

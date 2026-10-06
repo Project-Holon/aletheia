@@ -22,7 +22,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021D9F08(u8 *a, int b, int c, int d);
-extern void func_021D81B0(void *, int, int);
+extern void func_021D81B0(u8 *p, u32 which, int heap);
 extern int func_021D83B0(char *p);
 extern void func_021D8380(char *p);
 extern void func_021DA8C0(u32 *p, u32 a);
@@ -36,7 +36,7 @@ void func_021D72F0(void *a, int *state, char *p)
     switch (*state) {
     case 0:
         func_021D9F08(((struct Obj00326 *)p)->f284, ((struct Obj00326 *)p)->f3A4, 126, 0);
-        func_021D81B0(p, 3, 29);
+        func_021D81B0((u8 *)p, 3, 29);
         *state = 2;
         break;
     case 2:

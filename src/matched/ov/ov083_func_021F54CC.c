@@ -34,12 +34,14 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct Fx;
-extern void *func_02190FA0(struct Fx *, u32, u32);
+struct Obj;
+struct Obj2;
+extern struct Obj2 *func_02190FA0(struct Fx *a, u32 b, u32 c);
 extern void func_0219103C(u32 *, u32, u32, u32);
 extern u32 func_021910C0(u32 *);
-extern int func_02191008(void *);
-extern void *func_021907C4(struct Fx *, u32, u32, u32, u16, u16);
-extern void func_02190854(void *);
+extern int func_02191008(u32 a);
+extern struct Obj *func_021907C4(struct Fx *a, u32 b, u32 c, u32 d, u16 e, u16 f);
+extern void func_02190854(u32 *p);
 extern int func_0219082C(void *);
 extern void func_021F55D4(char *);
 extern void func_021F5400(u8 *);
@@ -55,7 +57,7 @@ int func_021F54CC(void *task, u32 *st, u8 *p) {
         break;
     case 1:
         if (func_021910C0(*(u32 **)(p+32))) {
-            func_02191008(*(void **)(p+32));
+            func_02191008((u32)(*(void **)(p+32)));
             *st += 1;
         }
         break;

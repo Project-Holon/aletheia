@@ -35,7 +35,7 @@ extern void func_021A3364(u32 *a, int b, int *out);
 extern u32 func_02188CFC(u8 *p);
 extern int func_0218DAEC(u32 a, int *b, u32 *out);
 extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB2E8(u16 id);
+extern int func_021AB2E8(int id);
 extern int func_021AB3B0(u16 id);
 extern void func_02164208(int dir, int *p, int amt);
 

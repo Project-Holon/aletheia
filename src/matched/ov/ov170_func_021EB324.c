@@ -26,24 +26,24 @@ typedef struct {
     Item items[14];
 } Work;
 
-extern void func_021EABB8(Item *it);
+extern void func_021EABB8(void **p);
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_021EAAE4(Work *w, unsigned i);
+extern void func_021EAAE4(unsigned char *p, unsigned i);
 
 void func_021EB324(Work *w)
 {
     unsigned i;
     for (i = 1; i <= 9; i++) {
-        func_021EABB8(&w->items[i]);
+        func_021EABB8((void **)(&w->items[i]));
         func_02043B5C(func_02045770(w->items[i].obj), 0);
-        func_021EAAE4(w, i);
+        func_021EAAE4((unsigned char *)w, i);
     }
-    func_021EABB8(&w->items[10]);
-    func_021EABB8(&w->items[11]);
-    func_021EABB8(&w->items[12]);
-    func_021EABB8(&w->items[13]);
+    func_021EABB8((void **)(&w->items[10]));
+    func_021EABB8((void **)(&w->items[11]));
+    func_021EABB8((void **)(&w->items[12]));
+    func_021EABB8((void **)(&w->items[13]));
 }

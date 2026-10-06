@@ -43,7 +43,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void *func_020457B0(unsigned capacity, u16 heap);
 extern void func_02045808(struct U16Vec *vec);
-extern void *func_020084F4(const void *);
+extern const void *func_020084F4(const void *p);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);

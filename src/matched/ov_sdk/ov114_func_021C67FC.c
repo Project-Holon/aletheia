@@ -24,7 +24,8 @@ typedef struct {
 } WiFiInfo;
 
 extern void func_021C7A30(int a, int b);
-extern void func_02058518(WiFiInfo *buf);
+struct tagDWCWiFiInfo;
+extern void func_02058518(struct tagDWCWiFiInfo *buf);
 extern int func_021C7A74(char *p, unsigned long long n, int figure);
 extern int func_021C60C8(char *encstr, char *srcbin, int length);
 
@@ -33,7 +34,7 @@ int func_021C67FC(char *gamecode, char *userid)
 	WiFiInfo wifiinfo;
 	char strId[13];
 	func_021C7A30((int)(&wifiinfo), 20);
-	func_02058518(&wifiinfo);
+	func_02058518((struct tagDWCWiFiInfo *)(&wifiinfo));
 	if (wifiinfo.macid == 0)
 		return 0;
 	if (func_021C7A74(strId, wifiinfo.macid, 13) < 0)

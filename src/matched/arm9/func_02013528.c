@@ -35,9 +35,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020130C4(u8 *p);
-extern void func_0201320C(u32 *a);
+extern void func_0201320C(int p0);
 extern void func_02013360(u8 *o, void *a1, const void *a2);
-extern void func_0201333C(void *a, void *b, u16 c);
+extern int func_0201333C(int a0, int a1, int a2);
 extern void *func_0200846C(int a0);
 extern u32  func_0201A920(u16 a);
 
@@ -47,11 +47,11 @@ void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
     u32 i;
 
     func_020130C4(o);
-    func_0201320C(sub);
+    func_0201320C((int)sub);
     sub[0] = 9;
     sub[1] = 1;
     func_02013360(o, a1, sub);
-    func_0201333C(o, a1, a7);
+    func_0201333C((int)o, (int)a1, a7);
     ((struct Obj00155 *)o)->f0 = 3;
     ((struct Obj00155 *)o)->f4 = a2;
     ((struct Obj00155 *)o)->f1C = a4;

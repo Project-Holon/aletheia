@@ -11,5 +11,5 @@
  * symbols:
  *   func_021B86C8 0x021B86C8 thumb ov093
  */
-extern int func_021B86C8(unsigned char *);
-unsigned char func_021B8FC0(unsigned char *p,unsigned int k) { if(func_021B86C8(p)) return (unsigned char)((k&2)!=0); return 0; }
+extern int func_021B86C8(unsigned char **p);
+unsigned char func_021B8FC0(unsigned char *p,unsigned int k) { if(func_021B86C8((unsigned char **)p)) return (unsigned char)((k&2)!=0); return 0; }

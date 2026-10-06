@@ -35,7 +35,7 @@ struct _CPSSoc {
 
 extern unsigned long long func_020870D0(void);
 extern void func_021592A8(unsigned char *tcphdr, struct _CPSSoc *soc);
-extern void func_021593A8(struct _CPSSoc *soc, unsigned char flag);
+extern void func_021593A8(char *soc, unsigned char flag);
 
 void func_021595C0(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *soc)
 {
@@ -46,5 +46,5 @@ void func_021595C0(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *
 	soc->remote_ip = BE32(iphdr, 0xc);
 	soc->ackno = BE32(tcphdr, 4) + 1;
 	func_021592A8(tcphdr, soc);
-	func_021593A8(soc, 0x12);
+	func_021593A8((char *)soc, 0x12);
 }

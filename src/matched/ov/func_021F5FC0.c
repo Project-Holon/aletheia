@@ -22,15 +22,16 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 extern u32 func_0201F81C(u32 a, u32 b);
-extern void func_0201F878(u32 a, u32 b, u32 c, u32 d, u32 e);
+struct Slot;
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void func_021F4D50(u8 *p, u16 a, int count, int b);
 
 int func_021F5FC0(u8 *p)
 {
     *(u32 *)&((struct Obj00448 *)p)->fDE8 = func_0201F81C(3, 0x48);
-    func_0201F878(*(u32 *)&((struct Obj00448 *)p)->fDE8, *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x68, 1, 0x48);
-    func_0201F878(*(u32 *)&((struct Obj00448 *)p)->fDE8, *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x69, 2, 0x48);
-    func_0201F878(*(u32 *)&((struct Obj00448 *)p)->fDE8, *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x6a, 3, 0x48);
+    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x68, 1, 0x48);
+    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x69, 2, 0x48);
+    func_0201F878((struct Slot *)(*(u32 *)&((struct Obj00448 *)p)->fDE8), *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x6a, 3, 0x48);
     func_021F4D50(p, 0, 3, 0x14);
     ((struct Obj00448 *)p)->f28 = 0x8;
     return 2;

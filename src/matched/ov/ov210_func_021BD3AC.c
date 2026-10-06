@@ -53,18 +53,22 @@
  * allocator tell above); target matching cannot promote it.
  */
 
-extern void func_020061E4(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Search;
+extern void func_020061E4(u32 a);
 extern void func_02006210(void);
-extern void func_021BCC2C(void *);
-extern void func_021BCF38(void *);
+extern void func_021BCC2C(char *p);
+extern void func_021BCF38(u8 *p);
 extern void func_021BECF8(void *);
 extern void func_021BED04(void *);
 extern void func_021BED10(void *);
-extern void func_021BE820(void *);
-extern void func_021BFE84(void *, int);
+extern void func_021BE820(u8 *p);
+extern void func_021BFE84(int p, int n);
 extern int func_021C9428(int, int, int);
 extern void func_021C9460(int);
-extern int func_021C9468(int, int, void *, void *);
+extern int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 
 int func_021BD3AC(unsigned char *p)
 {
@@ -74,7 +78,7 @@ int func_021BD3AC(unsigned char *p)
 
     if (p[0x2BB] == 0) {
         func_020061E4(0x63F);
-        func_021BCC2C(p);
+        func_021BCC2C((char *)p);
         func_021BECF8(p);
         func_021BE820(p);
     }
@@ -88,7 +92,7 @@ int func_021BD3AC(unsigned char *p)
     }
     if (p[0x2BB] >= 2) {
         if (*(int *)(p + 0x2D0) == 0) {
-            r = func_021C9468(*(int *)(p + 0x2CC), 0x69, &v, &w);
+            r = func_021C9468((struct Search *)(*(int *)(p + 0x2CC)), 0x69, &v, (u16 **)(&w));
             *(int *)(p + 0x2D0) = r;
             if (r == 1) {
                 *(unsigned short *)(*(int *)p + 0x14) = v;
@@ -110,7 +114,7 @@ int func_021BD3AC(unsigned char *p)
             return 8;
         }
     } else {
-        func_021BFE84(p, p[0x2BB]);
+        func_021BFE84((int)p, p[0x2BB]);
         p[0x2BB] = p[0x2BB] + 1;
     }
     return 7;

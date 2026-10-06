@@ -23,7 +23,7 @@ extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern u8 d_02184964[];
 
-void func_021841C8(void)
+void func_021841C8(void *a0)
 {
     u32 i;
 

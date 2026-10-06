@@ -27,8 +27,10 @@ typedef unsigned int  u32;
 struct Desc;
 
 extern struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size);
-extern u32 *sub_020124E8(struct Desc *d);
-extern void func_02012374(void *evt, void **out);
+struct Evt;
+struct Obj;
+extern void *sub_020124E8(struct Obj *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_0201240C(void *o, u32 *state, u32 *item);
 
 struct Obj {
@@ -42,9 +44,9 @@ void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3)
     u32 *p;
 
     d = sub_020122C0(obj->unk_10, 0, func_0201240C, 0xc);
-    p = sub_020124E8(d);
+    p = sub_020124E8((struct Obj *)d);
     p[0] = a1;
     p[1] = a2;
     p[2] = a3;
-    func_02012374(obj, (void **)d);
+    func_02012374((struct Evt *)obj, (struct Evt **)d);
 }

@@ -24,13 +24,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D67C(u32, u32, u32, u32);
+extern void *func_0216D67C(void *a0);
 extern void *func_0216DEE0(void *a0);
 extern void func_0219B9B0(u32 a, u8 *s);
 
 int func_0219B984(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0216DEE0((void *)func_0216D67C(a, b, c, d)) == 0) {
+if (func_0216DEE0((void *)func_0216D67C((void *)a)) == 0) {
     ((struct Obj05008 *)((u8 *)(b)))->f1 = 0;
     return 0;
 }

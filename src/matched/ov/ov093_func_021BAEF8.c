@@ -36,8 +36,8 @@ extern int func_021BB040(u8 *);
 extern u32 func_021BB0A0(u8 *);
 extern void func_021BB768(u8 *p, int a, u32 i, int b, int c);
 extern void func_021BB7D0(const u8 *p);
-extern int func_021BA618(u8 *);
-extern void func_021BABEC(void *, void *);
+extern int func_021BA618(char *p);
+extern void func_021BABEC(int *p, void *f);
 extern int func_021BB280(u8 *p);
 extern void func_021BB6A8(u8 *);
 extern int func_021BB628(u8 *, int, int);
@@ -66,8 +66,8 @@ int func_021BAEF8(u8 *p, int *s)
     case 2:
         if (func_021BB798(p)) {
             func_021BB7D0(p);
-            if (func_021BA618(*(u8 * *)&((struct Obj01235 *)p)->fC)) {
-                func_021BABEC(p, (void *)func_021BB280);
+            if (func_021BA618((char *)(*(u8 * *)&((struct Obj01235 *)p)->fC))) {
+                func_021BABEC((int *)p, (void *)func_021BB280);
                 break;
             }
             func_021BB6A8(p);
@@ -107,7 +107,7 @@ int func_021BAEF8(u8 *p, int *s)
                 break;
             case 4:
                 func_021B916C((u8 *)(*(int *)&((struct Obj01235 *)p)->fC), func_021C84D8((u8 *)(*(int *)&((struct Obj01235 *)p)->f44)));
-                func_021BABEC(p, (void *)func_021BB280);
+                func_021BABEC((int *)p, (void *)func_021BB280);
                 break;
             case 5:
                 return 1;

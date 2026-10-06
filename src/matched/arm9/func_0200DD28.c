@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_0200DD28(u8 *p, u32 a, u32 b, u32 *q) {
+void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q) {
     u8 mask = 1;
     u16 idx;
     if (b == 0 || b > 200 || a == 0 || a > 10) {

@@ -18,11 +18,11 @@
 
 
 
-extern void func_021DF040(unsigned char *);
-extern void func_021ED6E4(unsigned char *, int);
+extern void func_021DF040(char *p);
+extern void func_021ED6E4(char **p, int v);
 void func_021DF0BC(unsigned char *p)
 {
-    func_021DF040(p);
-    func_021ED6E4(p, 0);
+    func_021DF040((char *)p);
+    func_021ED6E4((char **)p, 0);
     p[0x16] = 0xff;
 }

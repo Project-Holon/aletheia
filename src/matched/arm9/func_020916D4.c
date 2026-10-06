@@ -59,7 +59,7 @@ extern void func_02086078(void *blk);
 struct FILE;
 extern unsigned int func_020917D4(void *ptr, unsigned int memb_size, unsigned int num_memb, struct FILE *file);
 
-s32 func_020916D4(u32 a0, u32 a1, u32 a2, u32 a3)
+s32 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3)
 {
     u32 idx = (a3 == (u32)g_020A8730) ? 2 : 5;
     u8 *blk = g_02153BD4 + idx * 0x18;

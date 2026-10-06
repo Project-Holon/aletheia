@@ -53,7 +53,7 @@ extern void func_021841F8(void *,int);
 extern void func_021842BC(void **,int);
 extern void func_02183F6C(int,u32);
 extern void func_02183FC4(char *,u16);
-extern void func_02184398(int *,int,int,int);
+extern void func_02184398(u8 *p, int heap, u32 b, u32 c);
 extern void func_02183D0C(int *,int,int);
 extern void func_02183F40(void *unused, char *p);
 extern void func_021844C8(int event, char *p);
@@ -80,7 +80,7 @@ enum Result func_02183B60(void *obj)
     func_021842BC((void **)(p+0xe4),((struct Obj02210 *)((unsigned)p))->f14C);
     func_02183F6C((int)p,*(u32 *)&((struct Obj02210 *)((unsigned)p))->f14C);
     func_02183FC4((char *)p,((struct Obj02210 *)((unsigned)p))->f14C);
-    func_02184398((int *)(p+0xf8),((struct Obj02210 *)((unsigned)p))->f14C,(int)func_021844C8,(int)p);
+    func_02184398((u8 *)(p+0xf8),((struct Obj02210 *)((unsigned)p))->f14C,(int)func_021844C8,(int)p);
     func_02183D0C((int *)((unsigned)p+0x130),(int)p,(int)func_02183D4C);
     func_02005E30(10);
     return result;

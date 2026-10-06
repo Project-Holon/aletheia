@@ -12,4 +12,4 @@
  */
 #include "../include/Obj16082.h"
 
-int func_0204B838(int a0, int a1, int a2, int a3){ return (((unsigned int)((((struct Obj16082 *)((char *)(a0)))->f60 << 0x18)) >> 0x18) & 0xff); }
+int func_0204B838(int a0){ return (((unsigned int)((((struct Obj16082 *)((char *)(a0)))->f60 << 0x18)) >> 0x18) & 0xff); }

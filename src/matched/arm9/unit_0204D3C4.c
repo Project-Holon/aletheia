@@ -63,8 +63,9 @@ typedef void *(*DispatchFn)(struct Obj *o, u32 arg);
 
 extern DispatchFn const gUnk_020A1394[][3];
 
-extern void sub_02064364(void *p, s32 frames);
-extern void sub_020649D4(void *p, s32 frames);
+struct CellAnim;
+extern void sub_02064364(struct CellAnim *anim, s32 frames);
+extern void sub_020649D4(char *self, int a1);
 
 void *sub_0204D3C4(struct Obj *o, u32 arg)
 {
@@ -73,15 +74,15 @@ void *sub_0204D3C4(struct Obj *o, u32 arg)
 
 void sub_0204D3E0(struct Obj *o, s32 frames)
 {
-    sub_02064364(&o->unk_0c, frames);
+    sub_02064364((struct CellAnim *)(&o->unk_0c), frames);
 }
 
 void sub_0204D3F0(struct Obj *o, s32 frames)
 {
-    sub_02064364(&o->unk_0c, frames);
+    sub_02064364((struct CellAnim *)(&o->unk_0c), frames);
 }
 
 void sub_0204D400(struct Obj *o, s32 frames)
 {
-    sub_020649D4(&o->unk_0c, frames);
+    sub_020649D4((char *)(&o->unk_0c), frames);
 }

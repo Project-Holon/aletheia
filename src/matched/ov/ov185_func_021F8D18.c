@@ -25,7 +25,8 @@
 extern void func_021FEEC0(int, int, int);
 extern void func_021FBDA4(int, int);
 extern void func_021FC1F8(int, int);
-extern void func_021FC610(int, int);
+typedef unsigned char  u8;
+extern int func_021FC610(u8 *p, int a1);
 extern int func_021F3AF0(int, int);
 
 void func_021F8D18(char *a, int *r4)
@@ -34,7 +35,7 @@ void func_021F8D18(char *a, int *r4)
         func_021FEEC0(r4[1], 0, 0);
         func_021FBDA4(r4[3], 0);
         func_021FC1F8(r4[3], 0);
-        func_021FC610(r4[2], ((struct Obj06622 *)a)->f30);
+        func_021FC610((u8 *)r4[2], ((struct Obj06622 *)a)->f30);
         ((struct Obj06622 *)a)->f14 = func_021F3AF0(
             *(int *)(a + 0x40 + ((struct Obj06622 *)a)->fC * 4) + 0x80,
             ((struct Obj06622 *)a)->f30);

@@ -36,7 +36,7 @@ struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_021CF8E4(void *a, void *src, int c);
-extern int   func_021CF940(u32 a, void *src, int idx, int *out);
+extern int func_021CF940(void *a, void *src, void *b, int *c);
 extern int func_021CF9AC(void *a, void *heap, int x, int y);
 
 int func_021CF844(void *a, int *task, Work *w)
@@ -56,7 +56,7 @@ int func_021CF844(void *a, int *task, Work *w)
         int base = w->f04;
         out = &w->f0c;
         for (i = flag; i < 2; i++) {
-            func_021CF940(w->f00, sys, base + i, out);
+            func_021CF940((void *)w->f00, sys, (void *)(base + i), out);
             w->f04++;
             if (w->f04 >= 0x18) {
                 (*task)++;

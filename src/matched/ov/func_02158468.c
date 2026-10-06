@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 struct BigObj;
 extern u32 func_02026478(void *obj);
-extern u8 func_02012B70(const struct BigObj *p);
+extern int func_02012B70(const struct BigObj *p);
 extern u8 func_02012984(const struct BigObj *p);
 extern int func_0215841C(void *p);
 extern u8 func_02012B58(const struct BigObj *p);

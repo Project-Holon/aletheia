@@ -13,5 +13,6 @@
  *   func_021D7324 0x021D7324 thumb ov093
  */
 extern int func_021D775C(int);
-extern void func_021D7324(char *);
-void func_021DB200(char *a, int b, int c, int *d) { if (c == func_021D775C(2) && *d == 1) { func_021D7324(a); *d = 0; } }
+typedef unsigned char  u8;
+extern void func_021D7324(u8 *p);
+void func_021DB200(char *a, int b, int c, int *d) { if (c == func_021D775C(2) && *d == 1) { func_021D7324((u8 *)a); *d = 0; } }

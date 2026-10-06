@@ -24,18 +24,18 @@ typedef struct {
     void *win;            /* 0x54 */
 } Seq;
 
-extern u32 func_021CD9E0(void *s);
-extern void func_021EA694(void *win, u16 a, void *b);
+extern u32 func_021CD9E0(u8 *p);
+extern void func_021EA694(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
 
 int func_021D1F10(Seq *s, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
-        if (func_021CD9E0(s)) {
+        if (func_021CD9E0((u8 *)s)) {
             return 1;
         }
-        func_021EA694(s->win, a[0], a + 1);
+        func_021EA694(s->win, a[0], (int *)(a + 1));
         *state = *state + 1;
         break;
     case 1:

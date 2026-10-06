@@ -24,12 +24,14 @@ typedef unsigned short u16;
 struct Copy24 { int x[6]; };
 extern u8 d_021F3A60[];
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
-extern int func_020457B0(int, int);
+typedef unsigned int   u32;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_021D787C(void *);
 extern void func_021BB828(u8 *p);
-extern u8 *func_021BB968(u8 *, void *, void *, void *, int, u16);
+extern u8 *func_021BB968(void *a, void *b, void *c, void *d, int e, u16 heap);
 extern u8 *func_021BC550(u8 *p);
-extern void func_021BABEC(void *, void *);
+extern void func_021BABEC(int *p, void *f);
 extern int func_021BAC04(char *p, int *st);
 
 u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap)
@@ -47,12 +49,12 @@ u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap)
     p[0xcbf] = 0;
     ((struct Obj01234 *)p)->f4C = d;
     *(struct Copy24 *)(p + 0x50) = *b;
-    ((struct Obj01234 *)p)->fAC = func_020457B0(0x20, heap);
+    ((struct Obj01234 *)p)->fAC = (int)func_020457B0((int)0x20, (int)heap);
     func_021D787C(b);
     for (i = 0; i < 4; i++)
         func_021BB828(p + 0x14 + i * 12);
     *(u8 * *)&((struct Obj01234 *)p)->f44 = func_021BB968(p, ((struct Obj01234 *)p)->fC, ((struct Obj01234 *)p)->f10, p + 0xf0, ((struct Obj01234 *)p)->f4C, ((struct Obj01234 *)p)->fCC0);
     ((struct Obj01234 *)p)->fB0 = func_021BC550(*(u8 * *)&((struct Obj01234 *)p)->f44);
-    func_021BABEC(p, (void *)func_021BAC04);
+    func_021BABEC((int *)p, (void *)func_021BAC04);
     return p;
 }

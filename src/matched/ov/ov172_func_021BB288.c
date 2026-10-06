@@ -41,7 +41,7 @@ extern u32 func_021BE0C8(void *p);
 extern int func_02035C38(void);
 extern int func_02035C60(void);
 extern void func_021BB54C(void *ctx, u8 *p);
-extern void func_021BB9E4(void *ctx, u8 *p);
+extern void func_021BB9E4(void *a0, char *a1);
 extern u8 func_021BE054(void *p);
 extern u32 func_021BDFE4(void *p);
 extern u32 func_021BDFFC(void *p);
@@ -87,7 +87,7 @@ void func_021BB288(void *ctx, u8 *p)
             ((struct Obj00024 *)p)->f28 = (((struct Obj00024 *)p)->f24 == 0) ? 0 : 3;
             func_021BB54C(ctx, p);
         }
-        func_021BB9E4(ctx, p);
+        func_021BB9E4(ctx, (char *)p);
         return;
     }
     if ((u32)(((struct Obj00024 *)p)->f0 - 4) <= 1 && func_02035C60() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f28 == 3) {
@@ -139,7 +139,7 @@ void func_021BB288(void *ctx, u8 *p)
             ((struct Obj00024 *)p)->fC = 1;
             ((struct Obj00024 *)p)->f2C = 0xffff;
             ((struct Obj00024 *)p)->f30 = 0xffff;
-            func_021BB9E4(ctx, p);
+            func_021BB9E4(ctx, (char *)p);
         }
     }
     if ((((struct Obj00024 *)p)->f28 == 0 || ((struct Obj00024 *)p)->f28 == 2) && ((struct Obj00024 *)p)->fC == 1) {

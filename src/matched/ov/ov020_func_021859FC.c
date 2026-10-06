@@ -19,9 +19,9 @@
  */
 #include "../include/Obj19456.h"
 typedef unsigned short u16;
-extern void func_02186470(void *p);
+extern void func_02186470(int a0);
 extern int func_02013DD0(int id);
-extern void func_02185928(void *p, const short *s);
+extern void func_02185928(int a, const short *p);
 typedef unsigned int   u32;
 struct BigObj;
 struct Sub02014444Obj;
@@ -32,9 +32,9 @@ typedef unsigned char  u8;
 extern void func_021864DC(u8 *p);
 void func_021859FC(void *p, const short *s)
 {
-    func_02186470(p);
+    func_02186470((int)p);
     if (func_02013DD0(*(const u16 *)&((struct Obj19456 *)s)->f4) != 0) {
-        func_02185928(p, s);
+        func_02185928((int)p, s);
         if (func_0201444C(func_02012B38(p)) == 0) {
             func_021864DC(func_020127C4(p));
         }

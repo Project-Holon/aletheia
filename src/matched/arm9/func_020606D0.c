@@ -45,7 +45,7 @@ typedef struct NNSiFndHeapHead {
     u32 attribute;
 } NNSiFndHeapHead;
 
-extern void func_02060468(NNSFndList *list, u16 offset);           /* NNS_FndInitList */
+extern void func_02060468(int p0, int p1);           /* NNS_FndInitList */
 extern void *func_020606A8(u32 a);        /* FindListContainHeap */
 extern void func_020604AC(NNSFndList *list, void *object);        /* NNS_FndAppendListObject */
 
@@ -68,10 +68,10 @@ void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, voi
     pHeapHd->attribute = 0;
     SetOptForHeap(pHeapHd, optFlag);
 
-    func_02060468(&pHeapHd->childList, 4);
+    func_02060468((int)(&pHeapHd->childList), 4);
 
     if (!sRootListInitialized) {
-        func_02060468(&sRootList, 4);
+        func_02060468((int)(&sRootList), 4);
         sRootListInitialized = 1;
     }
 

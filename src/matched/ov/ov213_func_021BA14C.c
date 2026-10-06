@@ -11,7 +11,9 @@
  *   func_021BA034 0x021BA034 thumb ov213
  */
 #include "../include/Obj00443.h"
-extern void func_021BA034(char *,unsigned);
+typedef unsigned int   u32;
+struct C;
+extern void func_021BA034(struct C *p, u32 time);
 void func_021BA14C(char *p,unsigned limit)
 {
     if(((struct Obj00443 *)p)->f28) {
@@ -28,7 +30,7 @@ void func_021BA14C(char *p,unsigned limit)
             else if(((struct Obj00443 *)p)->f9==1 || ((struct Obj00443 *)p)->f9==3) limit=15;
             break;
         }
-        if(((struct Obj00443 *)p)->f24>=limit) func_021BA034(p,limit);
+        if(((struct Obj00443 *)p)->f24>=limit) func_021BA034((struct C *)p,limit);
         (((struct Obj00443 *)p)->f24)++;
     }
 }

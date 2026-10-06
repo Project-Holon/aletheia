@@ -23,7 +23,7 @@ struct Big;
 extern unsigned func_021BC628(u8 *);
 extern void *func_02012EBC(struct Big *);
 extern void *func_0200E394(void *a0);
-extern int func_0200E44C(void *, int);
+extern int func_0200E44C(int p0, int p1);
 extern const u8 d_021C308A[], d_021C3080[], d_021C30A8[];
 u8 func_021BBC50(u8 *p)
 {
@@ -32,7 +32,7 @@ u8 func_021BBC50(u8 *p)
     void *data;
     u8 a, b, c, index;
     data = func_0200E394(func_02012EBC((struct Big *)func_021BC628(p)));
-    for (i = 0; i < 3; i++) values[i] = func_0200E44C(data, i);
+    for (i = 0; i < 3; i++) values[i] = func_0200E44C((int)data, i);
     a = values[0];
     b = values[1];
     c = values[2];

@@ -47,7 +47,7 @@ typedef struct {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02169510(int o, Vec *v);
 extern void func_0207C9D0(Vec *a, Vec *b, Vec *c);
-extern int func_0218C674(u8 *s, Ent *e);
+extern int func_0218C674(unsigned char *p, int b);
 extern char d_021DD9CC[];
 
 static inline int InRect(Rect *r, int x, int z)
@@ -70,7 +70,7 @@ Ent **func_0218C584(u8 *s, Rect *r, int kind, int *count)
         e = (Ent *)(s + 0x1F8) + i;
         if (e->obj == 0)
             continue;
-        if (kind != 0 && kind != func_0218C674(s, e))
+        if (kind != 0 && kind != func_0218C674(s, (int)e))
             continue;
         func_02169510(e->obj, &v);
         func_0207C9D0((Vec *)(e->ref + 4), &v, &v);

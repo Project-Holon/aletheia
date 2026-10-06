@@ -38,8 +38,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020355D8(u8 v);
-extern int func_02035CB8(int *a, int *b);
-extern int func_021F020C(void *p, int a, int b, int *c, int *d);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int func_021F020C(const void *p, int a, int b, int *c, int *d);
 extern int func_021F0D80(void *p, int k);
 extern int func_021EFEC0(int a, int b);
 struct Sub020090B0Obj;
@@ -47,12 +47,12 @@ extern void func_021F2AEC(int p, int a1, int a2, int a3, int k);
 extern void func_020409B4(u32 layer);
 extern void func_020061E4(u32 id);
 extern int func_021F2DA8(u8 *p);
-extern void func_021F1910(void *p, int on);
-extern void func_0203FB44(int, u16, u16);
+extern void func_021F1910(char *p, int on);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020090E8(struct Sub020090B0Obj *obj, u8 value);
-extern void func_021F1458(u8 *p, int a, int b, int c);
+extern u32 func_021F1458(u8 *p, int a, int b, int c);
 extern void func_021F13FC(void *p);
-extern void func_021F1A44(void *p, int a);
+extern void func_021F1A44(char *p, int flag);
 
 void func_021F1758(u8 *p, int key)
 {
@@ -70,7 +70,7 @@ void func_021F1758(u8 *p, int key)
     func_020355D8(1);
     switch (key) {
     case 0:
-        func_02035CB8(&x, &y);
+        (int)func_02035CB8((u32 *)(&x), (u32 *)(&y));
         r = func_021F020C(p, x, y, &c, &d);
         if (p[0x457] != 0) {
             ((struct Obj00042 *)p)->f2CC = x;
@@ -99,7 +99,7 @@ void func_021F1758(u8 *p, int key)
     case 1:
         func_020061E4(0x628);
         p[0x457] ^= 1;
-        func_021F1910(p, p[0x457]);
+        func_021F1910((char *)p, p[0x457]);
         break;
     case 2:
         ((struct Obj00042 *)p)->f214 = 0xC;
@@ -113,13 +113,13 @@ void func_021F1758(u8 *p, int key)
     case 5:
         func_020061E4(0x628);
         v = ((struct Obj00042 *)p)->f14;
-        func_0203FB44(6, v, v >> 16);
+        func_0203FB44((int)6, (u16)v, (u16)(v >> 16));
         p[0x458]++;
         p[0x458] = p[0x458] % 5;
         func_020090E8((struct Sub020090B0Obj *)(*(int *)&((struct Obj00042 *)p)->f20), p[0x458]);
         func_021F1458(p, p[0x459], p[0x458], 0);
         func_021F13FC(p);
-        func_021F1A44(p, 1);
+        func_021F1A44((char *)p, 1);
         break;
     case 6:
         ((struct Obj00042 *)p)->f214 = 0xD;

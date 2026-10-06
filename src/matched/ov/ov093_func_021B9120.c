@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 func_021B8CFC(u8 *p, int i);
+extern unsigned char func_021B8CFC(char *p, int i);
 void func_021B9120(u8 *p, u8 n)
 {
     u8 cnt;
@@ -21,7 +21,7 @@ void func_021B9120(u8 *p, u8 n)
     u8 m;
     if (*(u8 *)(*(u32 *)p + 0x90) == 6) {
         m = n;
-        t = func_021B8CFC(p, n);
+        t = func_021B8CFC((char *)p, n);
         cnt = 0;
         while (m--) {
             if (t == *(u8 *)(p + m + 0x428))

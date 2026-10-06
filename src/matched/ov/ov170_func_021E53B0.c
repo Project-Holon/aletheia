@@ -30,7 +30,7 @@ extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern u8 func_020355C4(void);
 extern unsigned func_0201AA18(void *);
-extern void func_021DD14C(unsigned char *);
+extern void func_021DD14C(char *p);
 extern void func_021DF0BC(unsigned char *);
 extern void func_021DEFEC(char *p, int b);
 extern void func_021EBA5C(char *, int);
@@ -54,10 +54,10 @@ extern void func_021EBCB4(unsigned char *, int, int);
 extern void func_021ECB20(char *p, int f, int c);
 extern void func_021EC5A0(char **p, int flag);
 extern void func_021EE364(char **p, int idx, int v);
-extern void func_021EA83C(char *p, int a);
-extern int func_021E8F50(unsigned char *, int);
-extern int func_021E8FC0(unsigned char *, int (*)(unsigned char *), int);
-extern int func_021E0190(unsigned char *);
+extern int func_021EA83C(char *p, int a);
+extern int func_021E8F50(char *p, int v);
+extern int func_021E8FC0(char *p, int a, int b);
+extern int func_021E0190(char *p);
 extern int func_021E01B0(unsigned char *);
 extern void func_021EBC58(unsigned char *, int, int, int);
 #define WORK(p) (*(char **)((p) + 0x2c))
@@ -70,17 +70,17 @@ int func_021E53B0(unsigned char *p)
     case 0:
         func_021ED55C((char **)p, 0);
         func_021EBA5C(WORK(p), 0x18);
-        func_021DD14C(p);
+        func_021DD14C((char *)p);
         func_021EF57C(MGR(p));
         STEP(p)++;
-        return func_021E8FC0(p, func_021E0190, 0x2e);
+        return func_021E8FC0((char *)p, (int)func_021E0190, 0x2e);
     case 1:
         if (func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]) != 6)
-            return func_021E8F50(p, 0x2f);
+            return func_021E8F50((char *)p, 0x2f);
         func_020061E4(0x557);
         func_021EBC58(p, 0, 2, 0x18);
         ((struct Obj00000 *)p)->f28 = 0xe;
-        return func_021E8F50(p, 6);
+        return func_021E8F50((char *)p, 6);
     }
     return 0x2e;
 }

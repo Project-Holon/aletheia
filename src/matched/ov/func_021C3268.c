@@ -22,7 +22,7 @@ struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_020452E8(struct Descriptor *d);
 
-void func_021C3268(int unused, char *p)
+void func_021C3268(void *unused, char *p, void *a2)
 {
     ((struct Obj09209 *)p)->f10 = 0;
     func_0201C6EC((struct PrintSys *)(((struct Obj09209 *)p)->f8));

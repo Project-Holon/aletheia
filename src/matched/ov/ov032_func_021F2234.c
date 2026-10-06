@@ -40,15 +40,15 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188E30(u8 *p);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_021F27D4(char *p);
+extern void func_021F27D4(u8 *p);
 extern void func_021F2908(char *p);
-extern void func_021F2A8C(char *p, void *a);
+extern void func_021F2A8C(u8 *p, void *h);
 extern void func_021F2C1C(char *p);
 extern void func_021F2D20(char *p, void *a);
 extern void func_021F2F44(char *p, void *a);
 extern void func_021F3058(char *p);
-extern void func_021EFEC0(char *p);
-extern void func_021F0208(char *p, int flag);
+extern void func_021EFEC0(u8 *o);
+extern void func_021F0208(u8 *p, int flag);
 
 char *func_021F2234(u32 a0, u32 a1)
 {
@@ -65,17 +65,17 @@ char *func_021F2234(u32 a0, u32 a1)
     ((struct Obj00007 *)p)->f94 = 0x15;
     ((struct Obj00007 *)p)->f96 = 0x8070;
     ((struct Obj00007 *)p)->f9C = func_020490F4(0xad, ((struct Obj00007 *)p)->f98);
-    func_021F27D4(p);
+    func_021F27D4((u8 *)p);
     func_021F2908(p);
-    func_021F2A8C(p, ((struct Obj00007 *)p)->f9C);
+    func_021F2A8C((u8 *)p, ((struct Obj00007 *)p)->f9C);
     func_021F2C1C(p);
     func_021F2D20(p, ((struct Obj00007 *)p)->f9C);
     func_021F2F44(p, ((struct Obj00007 *)p)->f9C);
     func_021F3058(p);
     ((struct Obj00007 *)p)->f7A = 1;
-    func_021EFEC0(p);
+    func_021EFEC0((u8 *)p);
     ((struct Obj00007 *)p)->f7A = 0;
     *(u32 *)&((struct Obj00007 *)p)->f60 = 0;
-    func_021F0208(p, 1);
+    func_021F0208((u8 *)p, 1);
     return p;
 }

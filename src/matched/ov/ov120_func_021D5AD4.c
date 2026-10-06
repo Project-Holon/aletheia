@@ -42,7 +42,8 @@ extern void func_021D5980(u8 *);
 extern void func_021D5A84(u8 *);
 extern void func_020061E4(u32 a);
 extern int func_021D7C10(char *p);
-extern void func_021B63D0(u8 *);
+struct S;
+extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *);
 void func_021D5AD4(u8 *p)
 {
@@ -77,7 +78,7 @@ void func_021D5AD4(u8 *p)
                 func_021D69F4(((struct Obj01400 *)p)->f3C, 0, ((struct Obj01400 *)p)->f15C);
             func_021D7C10((char *)(*(int *)&((struct Obj01400 *)p)->f40));
         }
-        func_021B63D0(func_021D6988(((struct Obj01400 *)p)->f3C));
+        func_021B63D0((struct S *)func_021D6988(((struct Obj01400 *)p)->f3C));
         if (func_021B6448(func_021D6988(((struct Obj01400 *)p)->f3C)) == 1) {
             ((struct Obj01400 *)p)->f14 = 1;
             func_021D79F4(((struct Obj01400 *)p)->f40, 0x2a);

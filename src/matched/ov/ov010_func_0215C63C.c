@@ -39,7 +39,8 @@ extern void *func_0215A5DC(void *vm);
 extern void *func_0215A5F4(void *vm);
 extern void *func_02158FB4(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020120B4(void *sys, u32 ovId, const void *proc, void *arg);
+struct IcaAnime;
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void func_020113D0(char *p, int val);
 extern int func_0215C69C(int a0, int a1);
 extern const char d_021728F0[];
@@ -56,7 +57,7 @@ void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u3
     h->work = work;
     h->arg1 = arg1;
     h->arg0 = arg0;
-    func_020120B4(sys, ovId, proc, work);
+    func_020120B4(sys, ovId, (void *)proc, work);
     *slot = h;
     func_020113D0(c, (int)func_0215C69C);
 }

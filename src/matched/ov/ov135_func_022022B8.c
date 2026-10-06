@@ -55,7 +55,7 @@ extern void func_02017E40(void *mon, u32 id, u32 v);
 extern u8 func_02017F50(u32 species, u16 form, u32 pid);
 extern void func_0220246C(void *p, int which);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern int func_020076D0(u32 s, u32 *a, u32 *b);
+extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern u32 func_022026BC(void *mon);
 struct Sub02007454Entry;
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
@@ -88,7 +88,7 @@ void func_022022B8(Work *p, void *mon, u32 box, int hatch)
         slot -= 1;
     } else {
         pos = 0;
-        func_020076D0(p->ctx->box, &box, &pos);
+        func_020076D0((void *)p->ctx->box, (int *)(&box), (int *)(&pos));
         func_0200752C((void **)p->ctx->box, box, (const struct Sub02007454Entry *)func_022026BC(mon));
         p->boxId = box;
         slot = pos;

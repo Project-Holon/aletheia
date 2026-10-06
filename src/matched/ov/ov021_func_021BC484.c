@@ -35,7 +35,7 @@ extern void func_021BCDD8(char *p);
 extern void func_021BCE88(char *p);
 extern void func_021BC970(int a);
 
-void func_021BC484(int a)
+void func_021BC484(u32 a)
 {
     func_021BD0B0(a);
     switch (func_021BD0A4((u8 *)a)) {

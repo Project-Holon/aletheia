@@ -27,7 +27,7 @@ extern void *func_021C7CF4(int *p, int i);
 struct QQ;
 struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern void *func_021C88A4(int a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021E03D8(u8 *a, int b);
 extern u16 func_021D70A8(struct QQ *p);
@@ -40,7 +40,7 @@ void func_021E231C(void *u, int a, int b)
     if (b == func_021D775C(2)) {
         q = func_021C7CF4((int *)a, b);
         if (func_021D62C4(q, 2) != 0) {
-            r = func_021C88A4(a, 0xb, b);
+            r = func_021C88A4((char *)a, 0xb, b);
             ((struct Obj10076 *)r)->f4 = 0x19;
             r[0x14] = 1;
             r[8] = b;

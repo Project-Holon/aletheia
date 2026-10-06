@@ -25,16 +25,19 @@ typedef struct {
     void *p;
 } S;
 
-extern int func_021A78DC(E *e);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Obj;
+extern int func_021A78DC(u32 a);
 
-extern void func_021A7818(E *e, int x);
+extern void func_021A7818(struct Obj *a, s32 dt);
 
 void func_021A7654(S *s, int x)
 {
     int i;
     for (i = 0; i < 16; i++) {
-        if (func_021A78DC(&s->e[i])) {
-            func_021A7818(&s->e[i], x);
+        if (func_021A78DC((u32)(&s->e[i]))) {
+            func_021A7818((struct Obj *)(&s->e[i]), x);
         }
     }
 }

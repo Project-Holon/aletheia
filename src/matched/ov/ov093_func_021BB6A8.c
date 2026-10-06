@@ -34,7 +34,8 @@ typedef struct {
 } P;
 
 extern int func_021BB830(u8 *);
-extern u32 func_021EEB64(void *, u32 *);
+struct QW;
+extern u32 func_021EEB64(struct QW *p, u32 *out);
 
 void func_021BB6A8(P *p)
 {

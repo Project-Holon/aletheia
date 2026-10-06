@@ -21,7 +21,7 @@ typedef unsigned long u32;
 typedef int BOOL;
 
 extern BOOL func_021AB370(u16 id);
-extern BOOL func_021AB37C(u16 id);
+extern int func_021AB37C(u32 id);
 
 
 BOOL func_021AB390(u16 id)

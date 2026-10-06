@@ -15,7 +15,7 @@
 #include "../include/Obj02209.h"
 #include "../include/Obj23756.h"
 typedef unsigned char u8;
-extern void func_021E1584(void *, int);
+extern void func_021E1584(char *p, int flag);
 extern u8 *func_021E0A44(void *);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -23,7 +23,7 @@ extern u16 func_02039338(void);
 extern void func_020061E4(u32 a);
 int func_021DF1C4(u8 *p)
 {
-    func_021E1584(p, 0);
+    func_021E1584((char *)p, 0);
     *(u8 * *)&((struct Obj02209 *)p)->f28 = func_021E0A44(p);
     if (func_02039338() == 0) {
         if (((struct Obj23756 *)(*(u8 * *)&((struct Obj02209 *)p)->f28))->fC == func_02039338())

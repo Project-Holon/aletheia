@@ -17,5 +17,5 @@
 
 extern int func_02188D2C(int *);
 extern void func_021BE4B4(char *,int,int,int);
-extern void func_021BE700(void *,int,int,unsigned short,int);
-void func_021F3788(int *p) { int i; char *q; q=(char *)func_02188D2C(p); func_021BE4B4(q,0,1,1); for(i=0;i<2;i++) func_021BE700(q,0,1,i,0); }
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
+void func_021F3788(int *p) { int i; char *q; q=(char *)func_02188D2C(p); func_021BE4B4(q,0,1,1); for(i=0;i<2;i++) func_021BE700(q,0,1,(unsigned short)i,0); }

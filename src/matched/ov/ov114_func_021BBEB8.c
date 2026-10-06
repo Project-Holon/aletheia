@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021BBEB8(u8 *p)
+int func_021BBEB8(u8 *p)
 {
     return ((struct Obj22578 *)p)->fEC;
 }

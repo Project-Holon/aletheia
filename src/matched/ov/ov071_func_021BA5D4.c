@@ -54,7 +54,7 @@ struct PrintSys;
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
-extern Counts *func_021B6F40(u8 *);
+extern void *func_021B6F40(u8 **p);
 
 static inline void Draw(Q *q, void *h, u32 x, u32 y, void *s)
 {
@@ -89,7 +89,7 @@ void func_021BA5D4(u8 *a, Q *q, u8 *p)
             func_02045808(t);
             func_02045808(u);
         } else {
-            counts = func_021B6F40(a);
+            counts = func_021B6F40((u8 **)a);
             value = q->f34[k].a;
             if ((int)value > counts->n) {
                 index = 0x29;

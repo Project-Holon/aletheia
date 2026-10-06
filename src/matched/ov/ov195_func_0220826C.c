@@ -28,7 +28,7 @@ typedef struct Fade {
     s16 count;
 } Fade;
 
-int func_0220826C(Fade *p)
+int func_0220826C(Fade *p, int x)
 {
     if (p->step == 0)
         return 1;

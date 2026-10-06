@@ -25,12 +25,12 @@ typedef unsigned int u32;
 
 extern u32 func_021CC8D8(void *lock, int line);
 extern u8 func_021D5440(u8 *p);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 int func_021CC5F4(char *p, void *m)
 {
@@ -49,6 +49,6 @@ int func_021CC5F4(char *p, void *m)
     func_021C8838(q + 4, 2, 228);
     func_021C8860((struct S *)(q + 4), id);
     func_021C88C8(p, q);
-    func_021CC95C(p + 0x1d74, s, 1984);
+    func_021CC95C((u32 *)(p + 0x1d74), s, 1984);
     return 1;
 }

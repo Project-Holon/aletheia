@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 extern void func_021BD474();
 
-void func_021BD1D4(void)
+void func_021BD1D4(void *a)
 {
     func_021BD474();
 }

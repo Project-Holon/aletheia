@@ -36,7 +36,7 @@ extern u32 func_02012A30(const struct BigObj *p);
 extern void func_0215DE44(int a0);
 extern void func_0215DE0C(void *w, void *h);
 extern u32 func_02012138(const struct Ctx *);
-extern int func_02026454(void *, u32);
+extern u32 func_02026454(void *obj);
 extern int func_0203CDBC(void);
 extern u32 func_020121CC(struct IcaAnime *p);
 int func_0215DE58(void *a, u32 *st, Ctx *c)
@@ -57,7 +57,7 @@ int func_0215DE58(void *a, u32 *st, Ctx *c)
         {
             void *q = (void *)func_02012138(func_020124E4(a));
             if (c->f8 != 0) {
-                if (func_02026454(q, c->f8) != 0)
+                if (func_02026454(q) != 0)
                     break;
             }
         }

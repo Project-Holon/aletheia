@@ -35,7 +35,8 @@ typedef struct Owner {
     Work *work;
 } Owner;
 
-extern void func_022081A4(Grid *g, int heap, u16 color, s16 cur, s16 end, s16 wait, s16 step);
+struct Fade;
+extern void func_022081A4(struct Fade *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step);
 
 void func_022067BC(Owner *o)
 {
@@ -48,7 +49,7 @@ void func_022067BC(Owner *o)
         g = w->grid[i];
         if (g != 0) {
             g->state = 5;
-            func_022081A4(g, heap, 0x7fff, 31, 0, 0, -1);
+            func_022081A4((struct Fade *)g, heap, 0x7fff, 31, 0, 0, -1);
         }
     }
 }

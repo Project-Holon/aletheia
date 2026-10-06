@@ -22,7 +22,7 @@ extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 extern u32 func_020173EC(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
-extern int func_0203D3F8(unsigned,unsigned,u16,unsigned,void *,int,int,int);
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 int func_021DF9E8(char *p,void *src,int kind)
 {
     unsigned id;
@@ -31,7 +31,7 @@ int func_021DF9E8(char *p,void *src,int kind)
     if(((Flags *)(p+0x11fb))->low) return 0;
     MI_CpuCopy8(src,((struct Obj00001 *)p)->f106C,func_020173EC());
     one=1;
-    if(!func_0203D3F8(id,255,kind,func_020173EC(),((struct Obj00001 *)p)->f106C,0,0,one)) return 0;
+    if(!(int)func_0203D3F8(id,255,(u16)kind,func_020173EC(),(u32)(((struct Obj00001 *)p)->f106C),(int)0,(int)0,(int)one)) return 0;
     ((Flags *)(p+0x11fb))->low=one;
     return one;
 }

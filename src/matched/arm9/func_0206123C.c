@@ -55,13 +55,13 @@ struct Big0206123C {
     u32 unk28;
 };
 
-extern void *func_02061224(void *p);
+extern void *func_02061224(int **p);
 extern void MIi_CpuClear32(u32 val, void *dst, u32 size);
 
 void *func_0206123C(struct Big0206123C *o)
 {
     u32 size;
-    void *p = func_02061224(&o->unk24);
+    void *p = func_02061224((int **)(&o->unk24));
 
     if (p != 0) {
         size = o->unk28;

@@ -18,7 +18,7 @@ struct State {
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-void func_021BBDA8(struct State *p,unsigned v)
+void func_021BBDA8(struct State *p, int v)
 {
     u8 i;
     func_0204B3DC(p->last[p->index],v);

@@ -95,7 +95,7 @@ static inline void CopySlot(int next)
     g_02147B88.slot = next;
 }
 
-void func_0206615C(int n)
+void func_0206615C(void)
 {
     if ((g_02147B88.obj->flags & 1) == 0) {
         int cur = g_02147B88.slot;

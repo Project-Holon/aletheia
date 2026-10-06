@@ -18,9 +18,10 @@
  */
 
 extern int func_021893C8(int *connection, int *buffer, int src, int n);
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 
 int func_0218946C(int *connection, int *buffer, const char *string)
 {
-    return func_021893C8(connection, buffer, (int)string, func_0209477C(string));
+    return func_021893C8(connection, buffer, (int)string, func_0209477C((const u8 *)string));
 }

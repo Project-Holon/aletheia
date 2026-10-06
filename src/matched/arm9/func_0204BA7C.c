@@ -46,12 +46,12 @@ struct Sys {
 
 extern struct Sys *g_02146A74;
 
-extern u32 func_02063800(u32 set, u32 which);
+extern int func_02063800(char *p, int i);
 
 void func_0204BA7C(u32 set, u16 bias, u32 v)
 {
-    g_02146A74->unk_0f0 = func_02063800(set, 1) >> 5;
-    g_02146A74->unk_0f2 = func_02063800(set, 2) >> 5;
+    g_02146A74->unk_0f0 = (u32)func_02063800((char *)set, (u32)1) >> 5;
+    g_02146A74->unk_0f2 = (u32)func_02063800((char *)set, (u32)2) >> 5;
 
     g_02146A74->unk_0f0 += bias;
     g_02146A74->unk_0f2 += bias;

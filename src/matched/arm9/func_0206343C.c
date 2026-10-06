@@ -208,7 +208,7 @@ static inline void LoadAffine_(NNSG2dOamType type, u16 fromIdx, u16 toIdx)
     }
 }
 
-void func_0206343C(NNSG2dOamManagerInstance *pMan)
+void func_0206343C(NNSG2dOamManagerInstance *pMan, u32 bound)
 {
     {
         if (pMan->bFastTransferEnable) {

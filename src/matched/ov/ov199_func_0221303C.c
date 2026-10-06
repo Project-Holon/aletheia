@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_020307B0(void *);
 extern void func_02213808(char *, int);
-extern void func_0221380C(void *);
+extern void func_0221380C(unsigned char *p);
 int func_0221303C(char *p, char *q, char *work)
 {
     int mode = ((struct Obj25293 *)q)->f1C;
@@ -30,7 +30,7 @@ int func_0221303C(char *p, char *q, char *work)
         break;
     case 1:
         if (((struct Obj14575 *)work)->fC == 0) func_02213808(p, 0);
-        else func_0221380C(p);
+        else func_0221380C((unsigned char *)p);
         break;
     }
     return 1;

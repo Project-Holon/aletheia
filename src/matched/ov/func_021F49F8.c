@@ -71,7 +71,9 @@ typedef struct {
 extern u8 d_02202BE0[];
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_0204A48C(void *a, u32 b, u32 heap);
+struct Cfg;
+struct Sub0200852CObj;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 typedef signed int     s32;
@@ -79,11 +81,11 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u32 heap);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
-extern void *func_02049F34(u32 arc, u32 file, PlttData **out, u32 heap);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void DC_FlushRange(void *p, u32 size);
 extern void GX_LoadOBJPltt(const void *src, u32 offset, u32 size);
 extern void func_020307B0(void *p);
-extern u32 func_02008550(void *a);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
 void func_021F49F8(Obj *p, u32 mode)
@@ -99,7 +101,7 @@ void func_021F49F8(Obj *p, u32 mode)
     u32 chr;
 
     arc = func_020490F4(0x60, 0x48);
-    func_0204A48C(d_02202BE0, mode, 0x48);
+    func_0204A48C((const struct Cfg *)d_02202BE0, mode, 0x48);
     p->res.f0 = (u32)func_0204B100(0x60, 0, 0x48);
     p->res.f4 = func_0204A6C8(arc, 0x11, 1, 0, 0x48);
     p->res.f8 = func_0204ABF0(arc, 8, 0, 0, 0x48);
@@ -111,7 +113,7 @@ void func_021F49F8(Obj *p, u32 mode)
     p->res.f18 = func_0204AF28(arc, 0x25, 0x26, 0x48);
     func_02049238(arc);
 
-    buf = func_02049F34(7, 0, &pd, 0x48);
+    buf = func_02049F34(7, 0, (u32)(&pd), 0x48);
     DC_FlushRange(pd->data, 0x60);
     GX_LoadOBJPltt(pd->data, 0xA0, 0x60);
     d = pd->data;
@@ -123,7 +125,7 @@ void func_021F49F8(Obj *p, u32 mode)
     GX_LoadOBJPltt(pd->data, 0x100, 0x60);
     func_020307B0(buf);
 
-    if ((u8)func_02008550(p->ctx->f1C) == 1) {
+    if ((u8)(u32)func_02008550(p->ctx->f1C) == 1) {
         chr = 0x11;
         anm = 0x10;
         cell = 0xF;

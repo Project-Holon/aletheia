@@ -13,7 +13,7 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-int func_020921D8(u64 v)
+int func_020921D8(double v)
 {
     u32 *w = (u32 *)&v;
 

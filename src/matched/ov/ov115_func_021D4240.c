@@ -16,5 +16,6 @@
 #include "../include/Obj22580.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_020362DC(void),func_02035C60(void);
+extern u32 func_020362DC(void);
+extern int func_02035C60(void);
 int func_021D4240(u8 *p) { if(func_020362DC()&3) return 1; if(*(int *)(((struct Obj22580 *)p)->f40+4) && func_02035C60()) return 1; return 0; }

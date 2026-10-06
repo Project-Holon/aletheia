@@ -53,7 +53,7 @@ extern void func_021BDC48(void *s, u32 on);
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_021C0CCC(u16 *heap, u8 *p, int key);
 extern void func_021C1D30(u16 *heap, u8 *p, int key);
-extern void func_021C1FC4(u16 *heap, u8 *p, int key);
+extern void func_021C1FC4(void *a, char *b, int c);
 extern void func_021C2238(u16 *heap, u8 *p, int key);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -93,6 +93,6 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
         func_021C0CCC(heap, p, key);
         func_021C1D30(heap, p, key);
     }
-    func_021C1FC4(heap, p, key);
+    func_021C1FC4(heap, (char *)p, key);
     func_021C2238(heap, p, key);
 }

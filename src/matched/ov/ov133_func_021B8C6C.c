@@ -41,19 +41,19 @@ struct O {
     u8 pad1[0x1884 - 0x182c];
     void *f1884;
 };
-extern u8 *func_021BA184(void *);
-extern u8 *func_021BA218(u8 *);
-extern u16 func_021BA250(u8 *);
-extern int *func_021BA238(u8 *);
-extern int *func_021BA228(u8 *);
+extern void *func_021BA184(char *p);
+extern u32 func_021BA218(u8 *p);
+extern u16 func_021BA250(char *p);
+extern u8 *func_021BA238(u8 *p);
+extern u8 *func_021BA228(u8 *p);
 extern u32 func_021BA240(u8 *);
-extern u8 *func_021BA208(u8 *);
-extern void func_021BA24C(u8 *, u32);
-extern void func_021BA148(void *, u8 *);
-extern void func_021BA1D8(u8 *, void *);
-extern void func_021BA22C(u8 *, int *);
+extern u32 func_021BA208(u8 *p);
+extern void func_021BA24C(char *p, u32 v);
+extern void func_021BA148(u8 *p, u8 *q);
+extern void func_021BA1D8(u8 *p, u8 *q);
+extern void func_021BA22C(u8 *p, const u8 *src);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4EA4(int, int, Vec *);
+extern void func_021F4EA4(u32 unused, u32 p, u32 q);
 extern void func_021F4E8C(int, int, Vec *);
 void func_021B8C6C(struct O *p)
 {
@@ -88,17 +88,17 @@ void func_021B8C6C(struct O *p)
         do {
             cur = e;
             data = (u32)func_021BA218(e);
-            cnt = func_021BA250(e);
-            A = func_021BA238(e);
-            B = func_021BA228(e);
+            cnt = func_021BA250((char *)e);
+            A = (int *)func_021BA238(e);
+            B = (int *)func_021BA228(e);
             s = (s16)func_021BA240(e);
-            e = func_021BA208(e);
+            e = (u8 *)func_021BA208(e);
             n = (u16)(cnt - 1);
             if (n != 0) {
                 x = s + ((0x1000 - s) * n) / 10;
                 sx = x;
                 func_021F4EB4((u32)p->f1884, data, sx, sx);
-                func_021F4EA4((int)p->f1884, data, &v1);
+                func_021F4EA4((int)p->f1884, data, (u32)(&v1));
                 w = 10 - (u16)n;
                 a0 = A[0];
                 x = B[0] - a0;
@@ -114,7 +114,7 @@ void func_021B8C6C(struct O *p)
                 else v1.y = (int)((float)(x << 12) - 0.5f);
                 v1.z = 0x46000;
                 func_021F4E8C((int)p->f1884, data, &v1);
-                func_021BA24C(cur, n);
+                func_021BA24C((char *)cur, n);
             } else {
                 func_021BA148(p->f1828, cur);
                 func_021BA1D8(cur, p->f1884);
@@ -129,14 +129,14 @@ void func_021B8C6C(struct O *p)
     }
     if (e) {
         do {
-            cnt0 = func_021BA250(e);
+            cnt0 = func_021BA250((char *)e);
             if (cnt0 != 0) {
                 data2 = (u32)func_021BA218(e);
-                A2 = func_021BA238(e);
-                B2 = func_021BA228(e);
+                A2 = (int *)func_021BA238(e);
+                B2 = (int *)func_021BA228(e);
                 n2 = (u16)(cnt0 - 1);
                 if (n2 != 0) {
-                    func_021F4EA4((int)p->f1884, data2, &v2);
+                    func_021F4EA4((int)p->f1884, data2, (u32)(&v2));
                     wb = 10 - n2;
                     a0b = A2[0];
                     x = B2[0] - a0b;
@@ -152,17 +152,17 @@ void func_021B8C6C(struct O *p)
                     else v2.y = (int)((float)(x << 12) - 0.5f);
                     func_021F4E8C((int)p->f1884, data2, &v2);
                 } else {
-                    func_021F4EA4((int)p->f1884, data2, &v3);
+                    func_021F4EA4((int)p->f1884, data2, (u32)(&v3));
                     if (B2[0] > 0) v3.x = (int)(0.5f + (float)(B2[0] << 12));
                     else v3.x = (int)((float)(B2[0] << 12) - 0.5f);
                     if (B2[1] > 0) v3.y = (int)(0.5f + (float)(B2[1] << 12));
                     else v3.y = (int)((float)(B2[1] << 12) - 0.5f);
                     func_021F4E8C((int)p->f1884, data2, &v3);
-                    func_021BA22C(e, B2);
+                    func_021BA22C(e, (const u8 *)B2);
                 }
-                func_021BA24C(e, n2);
+                func_021BA24C((char *)e, n2);
             }
-            e = func_021BA208(e);
+            e = (u8 *)func_021BA208(e);
             if (e == 0 && flag == 0) {
                 flag = 1;
                 e = func_021BA184(p->f1824);

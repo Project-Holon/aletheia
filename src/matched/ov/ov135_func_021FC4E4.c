@@ -13,13 +13,14 @@
  *   func_020452E8 0x020452E8 arm
  */
 #include "../include/Obj00287.h"
-extern void func_02202940(void *);
+struct Obj;
+extern void func_02202940(struct Obj *p);
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 void func_021FC4E4(char *p)
 {
     int i;
-    func_02202940(p + 0xfa0);
+    func_02202940((struct Obj *)(p + 0xfa0));
     func_020452E8(((struct Obj00287 *)p)->fDE0);
     func_020452E8(((struct Obj00287 *)p)->fD40);
     func_020452E8(((struct Obj00287 *)p)->fD50);

@@ -58,7 +58,7 @@ struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02030DA8(void *, void (*)(void *, Res *), void *, u32);
 extern void func_0220684C(char *p, int a, int b);
-extern void func_02202248(Obj *);
+extern void func_02202248(char *p);
 extern void func_02204BAC(int a, int *b);
 extern const char d_0220AEB0[];
 
@@ -97,7 +97,7 @@ Obj *func_022020A0(int a, int b, int c, int d, int e, int f, int g, int h, u16 h
     }
     p->a5c = (int)func_02045B38(0, 2, 12, p->heap);
     p->a70 = -1;
-    func_02202248(p);
+    func_02202248((char *)p);
     r = func_02030734((u16)((p->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x3cc);
     r->owner = p;
     r->v = g;

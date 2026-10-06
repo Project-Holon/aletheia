@@ -18,7 +18,7 @@
  */
 #include "../include/Obj02700.h"
 
-extern int func_0216DA30(int);
+extern int func_0216DA30(int a0, int a1);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct BbActSys;
@@ -33,7 +33,7 @@ void func_0219D324(int *obj, int *rec)
     unsigned int n;
 
     h = rec[0];
-    if (func_0216DA30(h) == 0) {
+    if (func_0216DA30(h, (int)rec) == 0) {
         func_0219C880(obj, h, ((struct Obj02700 *)rec)->f4, *((unsigned short *)(rec + 1) + 1));
         func_02050468((struct BbActSys *)obj[1], ((struct Obj02700 *)rec)->f4, 1);
         rec[0] = 0;

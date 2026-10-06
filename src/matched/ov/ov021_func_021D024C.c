@@ -25,11 +25,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_021AC1E0(u32 a);
-extern void func_02047804(u32 h, u16 i);
+struct AnmCtl;
+extern u32 func_02047804(struct AnmCtl *c, u32 idx);
 extern void func_020477A4(u32 h, u16 i);
 extern void func_020477D4(u32 h, u16 i);
 
-void func_021D024C(void *obj, int sel)
+void func_021D024C(void *obj, u32 sel)
 {
     int i;
     u8 *q;
@@ -38,7 +39,7 @@ void func_021D024C(void *obj, int sel)
         return;
     q = (u8 *)func_021AC1E0((u32)obj);
     for (i = 0; i < 4; i++) {
-        func_02047804(((struct Obj06104 *)q)->fC, i);
+        func_02047804((struct AnmCtl *)(((struct Obj06104 *)q)->fC), (u16)i);
         if (i == sel)
             func_020477A4(((struct Obj06104 *)q)->fC, i);
         else

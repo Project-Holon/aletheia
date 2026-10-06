@@ -55,7 +55,8 @@ extern int func_021583EC(void *a0, int a1);
 extern u16 func_02175598(u8 *o, u32 id);
 extern u16 func_02167810(struct Work *w, int i);
 extern void func_02167658(int, int);
-extern void func_021675D0(int, int, int, Entry *);
+struct Src;
+extern void func_021675D0(struct Work *w, int idx, int a2, struct Src *src);
 
 static inline int func_02175060_check(Entry *e, Entry *me)
 {
@@ -98,7 +99,7 @@ void func_02175060(u8 *p, int idx)
         if (r != func_02167810((struct Work *)(((struct Obj05913 *)p)->f8), idx)) {
             func_02167658(((struct Obj05913 *)p)->f8, idx);
             if (e->f18 != 0) {
-                func_021675D0(((struct Obj05913 *)p)->f8, idx, r, e);
+                func_021675D0((struct Work *)(((struct Obj05913 *)p)->f8), idx, r, (struct Src *)e);
             }
         }
     }

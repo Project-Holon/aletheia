@@ -20,12 +20,13 @@
 typedef unsigned short u16;
 
 int func_021736D8(void);
-void func_02175D20(char *a);
+typedef unsigned char  u8;
+void func_02175D20(u8 *p);
 struct Entry;
 struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-void func_02175BAC(char *a);
+void func_02175BAC(u8 *p);
 
 int func_0217405C(char *a, char *b)
 {
@@ -34,10 +35,10 @@ int func_0217405C(char *a, char *b)
     if (func_021736D8() == 0) {
         return 0;
     }
-    func_02175D20(a + 0x1AC);
+    func_02175D20((u8 *)(a + 0x1AC));
     r = func_0203D3A8(func_020399A8(), 0x216, 0x34, (u32)(b + 0x78));
     if (r == 1) {
-        func_02175BAC(a + 0x1AC);
+        func_02175BAC((u8 *)(a + 0x1AC));
     }
     return r;
 }

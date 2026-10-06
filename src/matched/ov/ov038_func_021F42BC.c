@@ -60,12 +60,12 @@ struct Big;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern Work *func_0200B3A4(unsigned int, unsigned int);
-extern void func_021BE700(void *p, int i, int j, u16 k, int flag);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void *func_021BE674(char *base, int i, int j, u16 k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021BE6BC(int *p);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
-extern void func_021BE4B4(char *p, int i, u16 j, int v);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern Vec *func_021BE480(char *p, int i, int j);
 extern void func_020061E4(u32 a);
 extern const s8 d_021F4628[];
@@ -92,7 +92,7 @@ int func_021F42BC(int a0, int *a1)
     case 0:
         c = s[1] + 8;
         for (i = 0; i < 2; i++) {
-            func_021BE700((void *)h, 0, c, i, 1);
+            func_021BE700((void *)h, 0, c, (u16)i, 1);
             func_021BE6B0(func_021BE674((char *)h, 0, c, i), 0);
         }
         *a1 = *a1 + 1;
@@ -114,13 +114,13 @@ int func_021F42BC(int a0, int *a1)
                 if (p->b[m] == 0) {
                     s[4] = m;
                     c = m + 0x12;
-                    func_021BE4B4((char *)h, 0, c, 1);
-                    func_021BE4B4((char *)h, 0, 0x21, 0);
+                    func_021BE4B4((char *)h, 0, (u16)c, 1);
+                    func_021BE4B4((char *)h, 0, (u16)0x21, 0);
                     v = func_021BE480((char *)h, 0, c);
                     *func_021BE480((char *)h, 0, 0x21) = *v;
                     for (i = 0; i < 4; i++) {
                         c = i + 4;
-                        func_021BE700((void *)h, 0, 0x21, c, 1);
+                        func_021BE700((void *)h, 0, 0x21, (u16)c, 1);
                         func_021BE6B0(func_021BE674((char *)h, 0, 0x21, c), 0);
                         func_021BE6CC((int)((void *)h), 0, 0x21, c, 0);
                     }
@@ -136,13 +136,13 @@ int func_021F42BC(int a0, int *a1)
     case 2:
         if (func_021BE6BC(func_021BE674((char *)h, 0, 0x21, 4))) {
             for (i = 0; i < 4; i++) {
-                func_021BE700((void *)h, 0, 0x21, (u8)(i + 4), 0);
+                func_021BE700((void *)h, 0, 0x21, (u16)((u8)(i + 4)), 0);
             }
             p->b[s[4]] = 1;
             m = s[4];
-            func_021BE4B4((char *)h, 0, m + 0x12, 1);
-            func_021BE4B4((char *)h, 0, m + 0x19, 0);
-            func_021BE4B4((char *)h, 0, 0x21, 1);
+            func_021BE4B4((char *)h, 0, (u16)(m + 0x12), 1);
+            func_021BE4B4((char *)h, 0, (u16)(m + 0x19), 0);
+            func_021BE4B4((char *)h, 0, (u16)0x21, 1);
             func_020061E4(0x6DC);
             return 1;
         }

@@ -36,14 +36,15 @@ typedef struct
   u32 v[2];
 } Ov208Shiny2;
 extern u16 func_021BC3C0(int key);
-extern int func_021BC3A4(int key);
-extern void *func_0200CA1C(int a);
-extern u32 func_0201ADE4(u32 a, int b, u32 heap);
-extern u32 func_0201AE1C(u32 h, u32 k);
-extern void func_0201AE14(u32 h);
+struct Personal;
+extern int func_021BC3A4(int *p);
+extern void *func_0200CA1C(void *a);
+extern void *func_0201ADE4(u32 a, int b, u32 c);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern void func_0201AE14(void *p);
 extern u16 func_0200CC20(u32 id);
-extern void func_0200CC40(void *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 heap);
-extern u32 func_0200D144(void *p, u16 id, u32 sel, u32 alt, u32 form);
+extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
+extern u32 func_0200D144(u8 *p, u16 id, u32 sel, u32 alt, u32 form);
 extern const Ov208Gender3 data_021C8810;
 extern const Ov208Shiny2 data_021C87FC;
 void ov208_func_021C53F4(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next)
@@ -51,8 +52,8 @@ void ov208_func_021C53F4(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u
   Ov208Gender3 genders = data_021C8810;
   Ov208Shiny2 shinies = data_021C87FC;
   u16 species = func_021BC3C0(key);
-  void *pd = func_0200CA1C(func_021BC3A4(key));
-  u32 h = func_0201ADE4(species, 0, *heap);
+  void *pd = func_0200CA1C((void *)func_021BC3A4((int *)key));
+  u32 h = (u32)func_0201ADE4(species, 0, *heap);
   u32 ratio;
   u32 forms;
   u32 curGender;
@@ -69,9 +70,9 @@ void ov208_func_021C53F4(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u
   u16 prev;
   u32 t;
   u32 i;
-  func_0201AE1C(h, 0x20);
-  ratio = func_0201AE1C(h, 0x14);
-  func_0201AE14(h);
+  func_0201AE1C((const struct Personal *)h, 0x20);
+  ratio = func_0201AE1C((const struct Personal *)h, 0x14);
+  func_0201AE14((void *)h);
   forms = func_0200CC20(species);
   func_0200CC40(pd, species, &curGender, &curShiny, &curForm, *heap);
   cur = 0;

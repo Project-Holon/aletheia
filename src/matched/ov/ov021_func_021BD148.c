@@ -20,7 +20,8 @@
 
 extern void *func_021BD214(int a);
 extern void func_021BD234(void *p);
-extern void func_021BD2BC(void *p, int a);
+typedef unsigned char  u8;
+extern void func_021BD2BC(u8 *p, int v);
 extern void func_021BD250(void *p);
 extern void func_021BD278(void *p, int a, int b, int c);
 extern void func_021BD5F8(void *p, unsigned int a);

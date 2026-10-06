@@ -23,13 +23,13 @@ typedef signed char s8;
 
 extern void func_020130C4(u8 *p);
 extern void func_02013360(u8 *o, void *a1, const void *a2);
-extern void func_0201333C(void *p, u32 a, u16 h);
+extern int func_0201333C(int a0, int a1, int a2);
 
 void func_020134F4(u8 *p, u32 a1, u32 a2, u32 a3, u16 h)
 {
     func_020130C4(p);
     func_02013360(p, (void *)a1, (const void *)a3);
-    func_0201333C(p, a1, h);
+    func_0201333C((int)p, a1, h);
     ((struct Obj00155 *)p)->f0 = 1;
     ((struct Obj00155 *)p)->f4 = a2;
     ((struct Obj00155 *)p)->f1A = 0x47d;

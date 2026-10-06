@@ -32,7 +32,8 @@ typedef struct {
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern u32 func_02011330(Ctx *);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern u16 *func_02158FE0(void *a, void *b, unsigned int id);
 extern void *func_02158F74(void *p);
 extern u32 func_0215A60C(u8 *p);
@@ -56,7 +57,7 @@ int func_021B024C(Ctx *c, u32 b)
     q = c->p;
     v3 = q[0];
     c->p = q + 1;
-    r = (u32)func_02158FE0(t0, t1, func_02011330(c));
+    r = (u32)func_02158FE0(t0, t1, func_02011330((struct Stream *)c));
     func_0215A77C(b, v0, v1, v2, v3, 0, r, (u32)func_02158F74(t0), func_0215A60C((u8 *)b));
     return 1;
 }

@@ -23,7 +23,7 @@ struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
 extern void func_02027858(struct TaskMenu *m);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 extern void func_021B95B8(u8 *,unsigned);
 extern void func_021BB058(int a);
 void func_021BAD78(unsigned a)

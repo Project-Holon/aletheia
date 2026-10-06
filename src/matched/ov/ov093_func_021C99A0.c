@@ -27,30 +27,30 @@ struct Msg {
     u32 w20;
 };
 
-extern void func_021C5DAC(void *w, u32 a, u32 n, const void *d);
-extern void func_021C5EFC(void *w, u32 a, u32 n, const void *d);
-extern void func_021C5E48(void *w, u32 a, u32 x, u32 n, const void *d);
-extern void func_021C5F98(void *w, u32 a, u32 x, u32 n, const void *d);
+extern void func_021C5DAC(u8 *p, u32 a, int n, const int *v);
+extern void func_021C5EFC(u8 *p, u32 a, int n, const int *v);
+extern void func_021C5E48(u8 *p, u32 a, u32 b, int n, int *v);
+extern void func_021C5F98(u8 *p, u32 a, u32 b, int n, int *v);
 
 int func_021C99A0(void *w, const struct Msg *m)
 {
     if (!m->flag) {
         switch (m->kind) {
         case 1:
-            func_021C5DAC(w, m->a, m->n, m->data);
+            func_021C5DAC(w, m->a, m->n, (const int *)m->data);
             return 1;
         case 2:
-            func_021C5EFC(w, m->a, m->n, m->data);
+            func_021C5EFC(w, m->a, m->n, (const int *)m->data);
             return 1;
         }
     } else {
         u16 x = m->w20;
         switch (m->kind) {
         case 1:
-            func_021C5E48(w, m->a, x, m->n, m->data);
+            func_021C5E48(w, m->a, x, m->n, (int *)m->data);
             return 1;
         case 2:
-            func_021C5F98(w, m->a, x, m->n, m->data);
+            func_021C5F98(w, m->a, x, m->n, (int *)m->data);
             return 1;
         }
     }

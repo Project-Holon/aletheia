@@ -21,7 +21,7 @@ typedef signed char    s8;
 
 typedef struct Q { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q;
 
-extern int func_020478B8(u32 a, u16 b, u32 c);
+extern int func_020478B8(void *a, int idx, int amount);
 extern void func_021AC154(u32 a);
 
 void func_021ADE70(u32 a, Q *q)
@@ -30,7 +30,7 @@ void func_021ADE70(u32 a, Q *q)
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (func_020478B8(q->f4, i, 0x1000) == 1)
+        if (func_020478B8((void *)q->f4, (u16)i, (u32)0x1000) == 1)
             done = 0;
     }
     if (done)

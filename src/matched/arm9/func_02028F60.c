@@ -26,11 +26,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02028FD0(u8 *p, u32 kind);
+struct SoundParam;
+extern u32 func_02028FD0(struct SoundParam *obj, u32 kind);
 
 void func_02028F60(u8 *p, u32 a, u32 b)
 {
-    if (func_02028FD0(p, 4) != 0) {
+    if (func_02028FD0((struct SoundParam *)p, 4) != 0) {
         ((struct Obj00354 *)p)->f1C = (u32)4;
         ((struct Obj00354 *)p)->f18 = (u16)b;
         ((struct Obj00354 *)p)->f1A = (u16)a;

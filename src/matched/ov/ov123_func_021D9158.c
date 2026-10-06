@@ -30,7 +30,7 @@ extern void func_02012E08(char *p);
 extern void func_021D8F58(char *);
 extern void func_0200F7C0(u32 value);
 extern void func_0202223C(u32 a, u32 color);
-extern void func_02157170(int,int);
+extern int func_02157170(int a0, int a1);
 extern void func_02027974(void *);
 extern void func_021D5D7C(char *p);
 extern void func_021D5E60(u8 *p);

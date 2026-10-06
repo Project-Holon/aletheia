@@ -37,12 +37,13 @@ extern void func_021D74F8(int line);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int key, u32 val);
 extern void func_021D7630(int key, u32 val);
-extern void func_021D70F0(u8 *p, int k);
+struct UtilWork;
+extern void func_021D70F0(void *a, int id);
 extern int func_021D775C(int key);
 extern void func_021D7540(int line);
 extern void func_021D75A8(int key, u32 val);
-extern u8 func_021D5F14(u8 *p);
-extern int func_021D7930(u8 v);
+extern u8 func_021D5F14(struct UtilWork *p);
+extern int func_021D7930(int i);
 extern int func_021B911C(int a, int b);
 extern u32 sub_0201BD28(u16 id, u32 field);
 extern u32 sub_0201C284(u16 id);
@@ -53,7 +54,7 @@ int func_021C6BF8(u8 *p, u8 *a, u8 *b, u16 q)
     int r, n;
     u16 h;
     h = sub_0201BD28(q, 7);
-    h = h + func_021D5F14(a);
+    h = h + func_021D5F14((struct UtilWork *)a);
     func_021D74F8(11952);
     func_021D75EC(4, func_021D5440(b));
     func_021D75EC(3, func_021D5440(a));
@@ -67,7 +68,7 @@ int func_021C6BF8(u8 *p, u8 *a, u8 *b, u16 q)
         } else {
             n = func_021D775C(0x2c);
             if (n > 4) n = 4;
-            r = func_021D7930((u16)n);
+            r = func_021D7930((u8)((u16)n));
         }
         if (func_021B911C(*(int *)(p + 4), 3)) r = 1;
     }

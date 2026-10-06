@@ -81,10 +81,13 @@ extern void func_0204B270(struct Bank *bank);
 extern void func_020434DC(u32,u32),func_02043598(u32,u32);
 extern void func_02046440(u32,u32,u32,u32,u16,u16,void (*)(void));
 extern u32 *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
-extern void func_02048AD0(void *),func_0207DCF8(const void *);
+struct Light;
+extern void func_02048AD0(struct Light *l);
+extern void func_0207DCF8(const void *);
 extern void func_02046BE0(u32,u32),func_0204044C(u32);
 extern void *func_02014B08(u32,void *);
-extern void func_02016020(void *,u32),func_020160C0(void *,u32);
+extern void func_02016020(void *,u32);
+extern void func_020160C0(char *p, unsigned int v);
 typedef enum {GX_DISP_SELECT_SUB_MAIN=0, GX_DISP_SELECT_MAIN_SUB=1} GXDispSelect;
 static inline void GX_SetVisiblePlane(int plane)
 { *(volatile u32 *)0x04000000=(u32)((*(volatile u32 *)0x04000000 & ~0x1f00) | (plane<<8)); }

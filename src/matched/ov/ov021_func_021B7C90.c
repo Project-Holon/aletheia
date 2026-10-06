@@ -26,7 +26,8 @@ struct Mgr { u8 pad00[0x1C]; u8 *f1C; };
 
 extern void func_021B7EE4(void *p, void *r);
 extern void func_021B80E0(void *p, int a, void *key);
-extern void func_021B810C(void *p);
+struct Sub;
+extern void func_021B810C(struct Sub *o);
 extern void func_021B8028(void *p, void *q);
 typedef signed int     s32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
@@ -36,7 +37,7 @@ int func_021B7C90(struct Mgr *m, void *r, void *key, void *q)
 {
     func_021B7EE4(m->f1C, r);
     func_021B80E0(m->f1C, 4, key);
-    func_021B810C(m->f1C);
+    func_021B810C((struct Sub *)m->f1C);
     func_021B8028(m->f1C, q);
     if (func_0203EFC8(r, m->f1C + 0x5C, 8) == 0)
         return 0;

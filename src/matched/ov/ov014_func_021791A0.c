@@ -32,7 +32,8 @@ extern u8 *g_021797A8;
 
 extern void func_02178138(int state);
 extern void func_0217814C(int err);
-extern void func_021791F8(void *arg);
+typedef unsigned short u16;
+extern void func_021791F8(u16 *arg);
 extern int func_0208F370(void *buf, void (*cb)(void *), int dma);
 extern int func_0208F380(void *buf, void (*cb)(void *), int dma, int x);
 
@@ -42,9 +43,9 @@ BOOL func_021791A0(int a, int flag)
 
     func_02178138(3);
     if (flag == 0)
-        r = func_0208F370(g_021797A8 + 0x40, func_021791F8, 2);
+        r = func_0208F370(g_021797A8 + 0x40, (void (*)(void *))func_021791F8, 2);
     else
-        r = func_0208F380(g_021797A8 + 0x40, func_021791F8, 2, 0);
+        r = func_0208F380(g_021797A8 + 0x40, (void (*)(void *))func_021791F8, 2, 0);
     if (r != 2) {
         func_0217814C(r);
         func_02178138(10);

@@ -32,7 +32,7 @@ extern unsigned short func_021BA020(char *p, int i);
 struct WordSet;
 extern void func_0201F0F8(struct WordSet *p, u32 i, u32 v);
 
-void func_021EED6C(u32 a, u32 b, int c)
+void func_021EED6C(void *a, u8 b, u8 c)
 {
     func_0201F0F8((struct WordSet *)a, b, (u8)func_021BA020((void *)d_021F6398.f0, c));
 }

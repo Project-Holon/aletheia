@@ -16,9 +16,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0202414C(u32 a);
+extern void *func_0202414C(char *p);
 extern u16 func_02024888(u32 idx, u16 add);
-extern int func_02024994(void *o, u32 idx);
+extern int func_02024994(const u32 *p, u32 idx);
 u32 func_021B9720(u8 *p, u16 *src, u32 n, u16 *out)
 {
     void *o;
@@ -26,7 +26,7 @@ u32 func_021B9720(u8 *p, u16 *src, u32 n, u16 *out)
     u32 count;
     u32 base;
     u32 i;
-    o = func_0202414C(*(u32 *)p);
+    o = func_0202414C((char *)(*(u32 *)p));
     base = func_02024888(0x97, 0);
     count = 0;
     limit = (u16)(base + 7);

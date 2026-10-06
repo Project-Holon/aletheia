@@ -28,7 +28,7 @@ typedef unsigned int  u32;
 extern u8 *g_021469F0;
 extern const u8 str_020A7D34[];
 extern const u8 str_020A7D48[];
-extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082D44(void *dst, const void *src, u32 size);
 
 void func_0203DBB0(const void *src, u32 i)
@@ -38,6 +38,6 @@ void func_0203DBB0(const void *src, u32 i)
     if (g != 0) {
         func_02082D44(g + 0x94 + i * 8, src, 6);
     } else {
-        func_02034714(str_020A7D34, 0x109, str_020A7D48);
+        func_02034714((const char *)str_020A7D34, 0x109, (const char *)str_020A7D48);
     }
 }

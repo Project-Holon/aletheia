@@ -36,12 +36,14 @@ typedef struct { u32 v[7]; u16 a,b,c,d; } Desc;
 typedef struct { short x,y; } Vec;
 typedef struct { u8 x,y,pad[6]; } Coord;
 extern const Coord data_021DF86E[];
-extern void *func_021D9CA4(int,int,void *,void *,int);
-extern void *func_021D9D4C(int,int,void *,void *,int);
+struct Obj;
+struct Vec2;
+extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
+extern void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap);
 struct Obj;
 extern void func_021D9FFC(u8 *p, int a, int b);
 extern void func_021D9F08(u8 *a, int b, int c, int d);
-extern void *func_021DA038(const void *,u16);
+extern void *func_021DA038(const u8 *p, u16 heap);
 extern int func_021DA178(char *p);
 extern void func_021DA148(u8 *p);
 extern void func_021D9E04(u8 *);
@@ -52,7 +54,7 @@ extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021DC08C(void *task, u32 *state, char *p);
 extern void func_021DC734(void *task, u32 *state, char *p);
 extern void func_02082BCC(void *,int,u32);
-extern void func_0204B404(void *,const Vec *,u32);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021DC4F0(void *task,u32 *state,u8 *p)
 {
@@ -73,7 +75,7 @@ void func_021DC4F0(void *task,u32 *state,u8 *p)
         d.v[0]=*(u32 *)&((struct Obj00169 *)p)->f1C; d.v[1]=*(u32 *)&((struct Obj00169 *)p)->f10; d.v[2]=*(u32 *)&((struct Obj00169 *)p)->f14;
         d.v[3]=117;d.v[4]=118;d.v[5]=119;d.v[6]=3;
         d.a=0;d.b=15;d.c=13;d.d=1;
-        ((struct Obj00169 *)p)->fAC0=func_021DA038(&d,((struct Obj00169 *)p)->f24);
+        ((struct Obj00169 *)p)->fAC0=func_021DA038((const u8 *)(&d),((struct Obj00169 *)p)->f24);
         *state=2;
         break;
     case 2:
@@ -84,7 +86,7 @@ void func_021DC4F0(void *task,u32 *state,u8 *p)
             ((struct Obj00169 *)p)->fAE0=1;
             v.x=data_021DF86E[*(u32 *)(p+0xacc)].x*8-24;
             v.y=data_021DF86E[*(u32 *)(p+0xacc)].y*8-8;
-            func_0204B404(((struct Obj00169 *)p)->fAF0,&v,0);
+            func_0204B404(((struct Obj00169 *)p)->fAF0,(const struct Vec2 *)(&v),0);
             func_0204B3DC(((struct Obj00169 *)p)->fAF0,1);
             ((struct Obj00169 *)p)->fADE=((struct Obj00169 *)p)->fACC+((struct Obj00169 *)p)->fAC8*4;
             if (((struct Obj00169 *)p)->fAC0) {func_021DA148(((struct Obj00169 *)p)->fAC0);((struct Obj00169 *)p)->fAC0=0;}

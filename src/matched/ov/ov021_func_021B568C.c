@@ -31,7 +31,7 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188D24(u8 *p);
 extern unsigned int func_02159B10(void *, void *);
-extern void func_021BB990();
+extern int *func_021BB990(int a, int *d, const int *c);
 extern u8 ov56_id[];
 extern u32 g_021F4344[];
 extern u32 g_021F4374[];
@@ -46,16 +46,16 @@ int func_021B568C(int a0, int a1)
     case 0:
         break;
     case 1:
-        func_021BB990(ov56_id, r4, g_021F4344);
+        func_021BB990((int)ov56_id, (int *)r4, (const int *)g_021F4344);
         break;
     case 2:
-        func_021BB990(ov56_id, r4, g_021F4374);
+        func_021BB990((int)ov56_id, (int *)r4, (const int *)g_021F4374);
         break;
     case 3:
-        func_021BB990(ov56_id, r4, g_021F438C);
+        func_021BB990((int)ov56_id, (int *)r4, (const int *)g_021F438C);
         break;
     case 4:
-        func_021BB990(ov56_id, r4, g_021F435C);
+        func_021BB990((int)ov56_id, (int *)r4, (const int *)g_021F435C);
         break;
     }
     return 0;

@@ -23,7 +23,7 @@ typedef signed char    s8;
 typedef struct P { u32 f0; } P;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021ADF14(P *p);
+extern void func_021ADF14(int *p);
 extern char d_021DE124[];
 
 P *func_021ADEDC(u32 a, int heap)
@@ -32,6 +32,6 @@ P *func_021ADEDC(u32 a, int heap)
 
     p = (P *)func_02030734(heap, 0x18, 1, d_021DE124, 0x60);
     p->f0 = a;
-    func_021ADF14(p);
+    func_021ADF14((int *)p);
     return p;
 }

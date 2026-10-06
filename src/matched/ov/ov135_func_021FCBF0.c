@@ -14,10 +14,12 @@
 #include "../include/Obj04529.h"
 typedef signed short s16;
 extern int func_021F886C(int key, int val, int which);
-extern void func_021F8290(void *a, void *b, void *c, void *d, int e, int f, int g, void *h);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021F8290(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g);
 void func_021FCBF0(char *p)
 {
     int n;
     n = func_021F886C(p[0x1d7], p[0x1d8], 0);
-    func_021F8290(((struct Obj04529 *)p)->fB6C, ((struct Obj04529 *)p)->fB70, ((struct Obj04529 *)p)->fB68, p + 0xdb4, ((struct Obj04529 *)p)->f1D4, p[0x1d6], n, p + 0xfa0);
+    func_021F8290(((struct Obj04529 *)p)->fB6C, ((struct Obj04529 *)p)->fB70, (int)(((struct Obj04529 *)p)->fB68), (u8 *)(p + 0xdb4), ((struct Obj04529 *)p)->f1D4, p[0x1d6], n, p + 0xfa0);
 }

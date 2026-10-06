@@ -40,9 +40,10 @@ typedef struct {
 
 extern int func_021781DC(void);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
-extern void func_02178224(AuthResult *result);
+struct DWCAuthParam;
+extern void func_02178224(int *result);
 extern void func_02178144(void);
-extern int func_02177EE8(void *param, void *http);
+extern int func_02177EE8(struct DWCAuthParam *param, void *http);
 extern void func_0205A1B0(int name, void *ptr, unsigned long size);
 extern void func_02059F54(int error, int errorCode);
 extern NalCnt *g_021AA830;
@@ -58,10 +59,10 @@ int func_02168124(void)
         return 2;
     case 0x15:
         func_02082BCC(&result, 0, sizeof(result));
-        func_02178224(&result);
+        func_02178224((int *)(&result));
         func_02178144();
         if (result.returncode == 20002) {
-            func_02177EE8(g_021AA830->authparam, g_021AA830->http);
+            func_02177EE8((struct DWCAuthParam *)g_021AA830->authparam, g_021AA830->http);
             return 2;
         }
         func_0205A1B0(4, g_021AA830, 7772);
@@ -73,7 +74,7 @@ int func_02168124(void)
         g_021AA830 = 0;
         return 5;
     default:
-        func_02178224(&result);
+        func_02178224((int *)(&result));
         func_02178144();
         func_0205A1B0(4, g_021AA830, 7772);
         g_021AA830 = 0;

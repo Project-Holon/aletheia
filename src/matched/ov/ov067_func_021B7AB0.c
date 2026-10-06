@@ -43,7 +43,7 @@ typedef struct S {
     u8 f96;
 } S;
 
-extern int func_02035CB8(int *a, int *b);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern int func_021B806C(S *p);
 extern int func_021B8460(S *p);
 extern int func_021B8B74(S *p);
@@ -51,7 +51,8 @@ extern int func_021B8C4C(S *p);
 struct Row;
 extern u8 func_020355C4(void);
 extern u32 func_020362DC(void);
-extern void func_0202EA40(struct Row *p);
+typedef signed int     s32;
+extern s32 func_0202EA40(struct Row *p);
 extern void func_021B9344(S *p);
 
 int func_021B7AB0(S *p)
@@ -59,7 +60,7 @@ int func_021B7AB0(S *p)
     int buf;
     int ret = -1;
 
-    if (func_02035CB8(&buf, &p->f54) == 0) {
+    if (func_02035CB8((u32 *)(&buf), (u32 *)(&p->f54)) == 0) {
         p->f54 = -1;
         p->f86_b5 = 0;
     }

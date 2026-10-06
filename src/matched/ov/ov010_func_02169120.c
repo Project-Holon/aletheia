@@ -19,6 +19,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 struct Big;
 extern void *func_02012EBC(struct Big *p);
-extern char *func_02008B14(void *);
+struct Sub02008AECSession;
+extern struct Sub02008AECSession *func_02008B14(void *sys);
 extern u64 func_0203F524(void);
-void func_02169120(void *p) { char *q = func_02008B14(func_02012EBC(p)); *(u64 *)(q + 0x2c) = func_0203F524(); }
+void func_02169120(void *p) { char *q = (char *)func_02008B14(func_02012EBC(p)); *(u64 *)(q + 0x2c) = func_0203F524(); }

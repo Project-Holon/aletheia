@@ -37,8 +37,8 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
-extern int func_021FFD9C(Work *w, int key);
+extern int func_022019F4(char *p, int key);
+extern int func_021FFD9C(char *p, int key);
 extern void func_022018A8(Work *w, Vec3 *out, int key);
 extern void func_021FF4C0(Work *w, int key, int a, Vec3 *v, int b, int c, int d);
 extern int func_021F86B4(void);
@@ -55,8 +55,8 @@ void func_021FF7B0(Work *w, int a, int b)
     keys[0] = a;
     keys[1] = b;
     for (i = 0; i < 2; i++) {
-        idx[i] = func_022019F4(w, keys[i]);
-        if (func_021FFD9C(w, keys[i])) {
+        idx[i] = func_022019F4((char *)w, keys[i]);
+        if (func_021FFD9C((char *)w, keys[i])) {
             func_022018A8(w, &v, keys[i ^ 1]);
             func_021FF4C0(w, keys[i], 0, &v, 0, 0, 0);
             func_022089BC((char *)func_021F86B4(), keys[i]);

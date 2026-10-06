@@ -51,11 +51,11 @@ typedef struct GHIBuffer {
     int readOnly;               /* +0x20 */
 } GHIBuffer;
 
-extern int func_021BFCEC(GHIBuffer *buffer, const char *data, int dataLen);
-extern int func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
+extern int func_0209477C(const u8 *s);
 extern int func_021BFB90(GHIBuffer *buffer, int sizeIncrement);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
-                          const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021CE54C[];
 
 int func_021BFDEC(GHIBuffer *buffer, const char *data, int dataLen)
@@ -75,10 +75,10 @@ int func_021BFDEC(GHIBuffer *buffer, const char *data, int dataLen)
 
     if (buffer->connection->encryptor.engine == 0 ||
         buffer->connection->encryptor.sessionEstablished == 0)
-        return func_021BFCEC(buffer, data, dataLen);
+        return func_021BFCEC(buffer, (char *)data, dataLen);
 
     if (dataLen == 0)
-        dataLen = func_0209477C(data);
+        dataLen = func_0209477C((const u8 *)data);
     if (dataLen == 0)
         return 1;
 
@@ -98,7 +98,7 @@ int func_021BFDEC(GHIBuffer *buffer, const char *data, int dataLen)
             pos += fragmentLen;
             buffer->len = buffer->size - bufSpace;
         } else {
-            func_0217D254(8, 4, 2, g_021CE54C, result);
+            func_0217D254(8, (char *)4, 2, g_021CE54C, result);
             return 0;
         }
     } while (pos < dataLen);

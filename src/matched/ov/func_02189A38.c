@@ -24,10 +24,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020113D8(u32);
-extern u32 func_02012984(u32, u32, u32, u32);
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
 
 int func_02189A38(u32 a, u32 b, u32 c, u32 d)
 {
-return func_020113D8(func_02012984(((struct Obj17890 *)((u8 *)(a)))->f8, b, c, d));
+return func_020113D8(func_02012984((const struct BigObj *)(((struct Obj17890 *)((u8 *)(a)))->f8)));
 }
 

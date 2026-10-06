@@ -28,8 +28,8 @@ typedef signed int     s32;
 struct Node;
 struct S020315D4;
 extern void func_02030EAC(struct Node *n);
-extern void func_021C6664(void *);
-extern void func_021C6420(void *,void *);
+extern void func_021C6664(u8 *p);
+extern void func_021C6420(u8 *p, void *a1);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 extern void func_02034A5C(s32 handle);
@@ -38,8 +38,8 @@ extern char id43[],id127[];
 int func_021C6304(void *p,int a,int b,char *q)
 {
     func_02030EAC(((struct Obj10480 *)q)->f5A8); ((struct Obj10480 *)q)->f5A8=0;
-    func_021C6664(q+4);
-    func_021C6420(q+0x190,((struct Obj10480 *)q)->f1F8);
+    func_021C6664((u8 *)(q+4));
+    func_021C6420((u8 *)(q+0x190),((struct Obj10480 *)q)->f1F8);
     func_020315D4(p); func_020306F0(52);
     func_02034A5C((u32)id43); func_02034A5C((u32)id127);
     return 1;

@@ -61,7 +61,7 @@ extern void func_021E17D8(int line, char *fmt, ...);
 extern int func_021E1EAC(int process, int error);
 extern void func_02059F54(int error, int errorCode);
 extern void func_0217CA40(void);
-extern int func_021DD1EC(void **sakePtr);
+extern int func_021DD1EC(struct SAKEInternal **sakePtr);
 extern void func_021E191C(void);
 extern int func_021E1EC4(int result);
 extern void func_021DD25C(char *p, int b, int c, int d);
@@ -87,7 +87,7 @@ int func_021E10CC(int game_id, DWCstAccUserData *userdata, int ssl_type)
         return 4;
     }
     func_0217CA40();
-    result = func_021DD1EC(&g_021E5334.sake);
+    result = func_021DD1EC((struct SAKEInternal **)(&g_021E5334.sake));
     if (result != 0) {
         func_021E17D8(0x127, g_021E452C, result);
         func_021E191C();

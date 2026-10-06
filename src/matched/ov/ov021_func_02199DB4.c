@@ -30,7 +30,7 @@ typedef struct {
     u16 timer;
     u8  last;
 } State;
-extern State *func_0216D6D4(u32);
+extern void *func_0216D6D4(void *p);
 extern int func_0219FC68(u32, u16 *, u16 *);
 extern u16 func_0216D598(void *p);
 extern void func_020061E4(u32);
@@ -43,7 +43,7 @@ int func_02199DB4(u32 a)
     State *p;
     u16 v[2];
 
-    p = func_0216D6D4(a);
+    p = func_0216D6D4((void *)a);
     if (func_0219FC68(a, &v[1], &v[0]) != 1)
         return 0;
     p->timer = p->timer + 1;

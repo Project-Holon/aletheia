@@ -36,7 +36,7 @@ struct BbActSys {
 };
 
 extern void func_0204F5A8(void *board, u32 idx);
-extern void func_020500B8(struct BbActEntry *e);
+extern void func_020500B8(u32 *p);
 typedef signed int     s32;
 struct AreaMan;
 extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
@@ -47,7 +47,7 @@ void func_02050468(struct BbActSys *o, u32 first, u32 count)
 
     for (i = 0; i < count; i++) {
         func_0204F5A8(o->f04, o->f18[first + i].f00);
-        func_020500B8(&o->f18[first + i]);
+        func_020500B8((u32 *)(&o->f18[first + i]));
     }
     func_0203422C(o->f20, first, count);
 }

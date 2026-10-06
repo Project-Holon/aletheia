@@ -27,7 +27,7 @@ typedef struct {
 
 struct VecFx32;
 void func_021A3898(unsigned char *p, struct VecFx32 *out);
-void func_02164208(int k, Vec021A5788 *v, int s);
+void func_02164208(int dir, int *p, int amt);
 void *func_021A3960(unsigned char *p);
 void func_02163E34(void *h, Vec021A5788 *v, int *out);
 
@@ -37,6 +37,6 @@ void func_021A5788(u32 *p, int k, int *out)
 
     func_021A3898(*(unsigned char * *)&((struct Obj09571 *)p)->fC, (struct VecFx32 *)&v);
     if (k != 9)
-        func_02164208(k, &v, 0x10000);
+        func_02164208(k, (int *)(&v), 0x10000);
     func_02163E34(func_021A3960(*(unsigned char * *)&((struct Obj09571 *)p)->fC), &v, out);
 }

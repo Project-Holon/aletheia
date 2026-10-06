@@ -16,9 +16,10 @@
  *
  */
 
-extern void func_02022D78(void);
+typedef unsigned char  u8;
+extern void func_02022D78(u8 *p);
 
-void func_02022D70(void)
+void func_02022D70(void *a0)
 {
-    func_02022D78();
+    func_02022D78(a0);
 }

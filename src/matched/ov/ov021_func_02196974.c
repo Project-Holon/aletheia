@@ -28,7 +28,7 @@ extern void func_020061E4(u32 a);
 struct BigObj;
 struct Obj;
 extern void *func_02012934(const struct BigObj *p);
-extern int func_0201AA1C(void *p);
+extern u32 func_0201AA1C(void *p);
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02196034(u8 *p, void *fn, u32 n);
@@ -51,7 +51,7 @@ int func_02196974(u32 s, u8 *p)
         break;
     case 1:
     case 6:
-        if (func_0201AA1C(func_02012934(((struct Obj03115 *)p)->f30)) < 2) {
+        if ((int)func_0201AA1C(func_02012934(((struct Obj03115 *)p)->f30)) < 2) {
             func_02045CAC((struct MsgBank *)(((struct Obj03115 *)p)->f28), 0x2C, (void *)(((struct Obj03115 *)p)->f38));
             func_02197644(p, 0);
             func_02196034(p, (void *)func_02196944, 0x3EA);

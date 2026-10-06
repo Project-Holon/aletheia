@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_02194A84(u16 *p)
+int func_02194A84(u16 *p, int i)
 {
     return *p == 4;
 }

@@ -31,7 +31,8 @@ typedef struct {
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, int, unsigned);
-extern void *func_02045874(const void *, unsigned);
+struct U16Vec;
+extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 extern int func_021FB7B0(void *p, int i);
 extern void func_021FC124(void *, unsigned, void *);
 extern unsigned func_021FC20C(char *p);
@@ -55,7 +56,7 @@ void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *o
     ctx->heap = heap_value;
     ctx->a = a;
     ctx->b = b;
-    ctx->work = (unsigned)func_02045874(work, heap_value);
+    ctx->work = (unsigned)func_02045874((struct U16Vec *)work, heap_value);
     func_02082BCC(&config, 0, 8);
     config.x = func_021FB7B0((void *)ctx->object, 0);
     config.y = func_021FB7B0((void *)ctx->object, 1);

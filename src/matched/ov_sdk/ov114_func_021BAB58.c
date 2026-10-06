@@ -24,7 +24,7 @@ typedef struct {
 
 extern char g_021CDFC8[];
 
-extern int func_021BA690(char *p_p, int size, char *pattern_p, int patternsize);
+extern int func_021BA690(signed char *hay, int len1, signed char *needle, int len2);
 extern char func_021BAB24(unsigned char c);
 
 int func_021BAB58(Req *req_p, char *value_p, unsigned long length)
@@ -32,7 +32,7 @@ int func_021BAB58(Req *req_p, char *value_p, unsigned long length)
     char c;
     int n;
 
-    if (func_021BA690(value_p, length, &req_p->tag[2], 0x12) < 0) {
+    if (func_021BA690((signed char *)value_p, length, (signed char *)(&req_p->tag[2]), 0x12) < 0) {
         return 1;
     }
     for (n = 0x13; n >= 2; n--) {
@@ -46,7 +46,7 @@ int func_021BAB58(Req *req_p, char *value_p, unsigned long length)
             if (c == t) {
                 break;
             }
-            if (func_021BA690(value_p, length, &req_p->tag[2], 0x12) < 0) {
+            if (func_021BA690((signed char *)value_p, length, (signed char *)(&req_p->tag[2]), 0x12) < 0) {
                 return 1;
             }
         }

@@ -51,11 +51,12 @@ struct MsgBank;
 struct Party;
 struct PartyMon;
 struct Rec;
-extern u16 func_0203F1FC(const u8 *src, u32 len);
+extern int func_0203F1FC(const u8 *src, u32 len);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void  func_02045F5C(void *h, u32 a, void *dest, u32 size);
+struct MsgData;
+extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_02045C04(struct Rec *rec);
 extern void  func_020307B0(void *p);
 
@@ -131,7 +132,7 @@ void func_0200BA80(struct Rec35C *p)
     }
     h = func_02045B38(0, 2, 9, 1);
     if (h != 0) {
-        func_02045F5C(h, 6, p->unk330, sizeof(p->unk330));
+        func_02045F5C(h, 6, (u16 *)p->unk330, sizeof(p->unk330));
         func_02045C04(h);
     }
 }

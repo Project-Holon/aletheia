@@ -55,7 +55,7 @@ typedef struct {
 } Obj;
 
 struct WinMgr;
-extern unsigned func_021DD25C(Obj *p, unsigned short a, int box, unsigned id, unsigned v);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021EBA5C(char *w, int v);
 typedef unsigned char  u8;
 struct Sound;
@@ -64,12 +64,12 @@ extern void func_021EC000(char *p, int i, int v);
 extern void func_021ED164(char *w, int i, int v);
 extern void func_021ED094(char *w, unsigned item);
 extern void func_021ED1C8(char *w);
-extern void func_021EE038(Obj *p, int a, int b, int c);
+extern void func_021EE038(char *p, int a, int b, int c);
 extern void func_021EC01C(char *p, int i);
 extern void func_021ED6E4(char **p, int v);
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
 extern int func_021E8FE0(char *p, int v);
-extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
+extern int func_021E8FC0(char *p, int a, int b);
 extern void func_021EF508(struct WinMgr *mgr);
 extern void func_021EF534(struct WinMgr *mgr);
 extern void func_021EA728(void *p);
@@ -79,7 +79,7 @@ extern u8 func_020260E0(struct Sound *obj);
 extern void func_020260E4(void *obj, unsigned char sel);
 extern void func_021EEF74(char *w, int k, int v);
 extern int func_021E0ABC(unsigned char *p);
-extern int func_021E0FD8(Obj *p);
+extern int func_021E0FD8(unsigned char *p);
 extern void func_020061E4(unsigned se);
 extern void func_020260E4(void *obj, unsigned char sel);
 extern int func_021E0A40(char *p);
@@ -93,7 +93,7 @@ int func_021EA39C(Obj *p, unsigned i)
     short t[2];
     p->b16 = i;
     p->b17 = i < 0x1E ? p->b14 : 0xFF;
-    CNT(p) = func_021DD25C(p, p->b16, p->b14, 6, 0);
+    CNT(p) = func_021DD25C((void ***)p, p->b16, p->b14, 6, 0);
     if (CNT(p) == 0) {
         func_020260E4(OBJ(p), p->b16);
         return 0x40;
@@ -103,10 +103,10 @@ int func_021EA39C(Obj *p, unsigned i)
     func_021ED164(p->work, p->b16, 2);
     func_021ED094(p->work, CNT(p));
     func_021ED1C8(p->work);
-    func_021EE038(p, 2, 1, 1);
+    func_021EE038((char *)p, 2, 1, 1);
     func_021EC548(p->b16, &t[1], &t[0], 2);
     *(int *)(p->work + 0xA180) = t[1] + 8;
     *(int *)(p->work + 0xA184) = t[0] + 8;
     func_021EA728(p);
-    return func_021E8FC0(p, func_021E0FD8, 0x42);
+    return func_021E8FC0((char *)p, (int)func_021E0FD8, 0x42);
 }

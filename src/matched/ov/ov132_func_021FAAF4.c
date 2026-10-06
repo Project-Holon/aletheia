@@ -23,7 +23,7 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_02030CB0(u32);
 struct Ctx;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_02060468(void *, u16);
+extern void func_02060468(int p0, int p1);
 void *func_021FAAF4(u32 heap, void *owner)
 {
     u8 i;
@@ -34,7 +34,7 @@ void *func_021FAAF4(u32 heap, void *owner)
     ((struct Obj05398 *)p)->f34 = owner;
     ((struct Obj05398 *)p)->f8 = func_02030734(((struct Obj05398 *)p)->f0, func_02030CB0(16), 0, d_021FDCEC, 0x43);
     ((struct Obj05398 *)p)->f4 = func_02030CBC(16, ((struct Obj05398 *)p)->f8);
-    func_02060468(p + 0x38, 0);
+    func_02060468((int)(p + 0x38), 0);
     for (; i < 10; i++) *(void **)(p + 0xc + i * 4) = 0;
     return p;
 }

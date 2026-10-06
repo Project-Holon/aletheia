@@ -38,7 +38,7 @@ typedef unsigned int u32;
 extern u8 *d_021BDA20;
 extern char ov228_id[];
 
-extern int func_021BD188(u8 *);
+extern int func_021BD188(char *p);
 typedef signed int     s32;
 struct Ctrl;
 struct Descriptor;
@@ -61,12 +61,12 @@ extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void func_0200566C(void);
 extern void func_02087BCC(u32 parameter);
 
-void func_021BCE80(u8 *p)
+void func_021BCE80(u8 *p, int *a1)
 {
     void *r;
     u32 i;
 
-    if (func_021BD188(p) == 0) {
+    if (func_021BD188((char *)p) == 0) {
         d_021BDA20 = func_0202EE30(0, ((struct Obj00578 *)p)->f1C, 0xf, 0x10, 0x81);
         func_020409B4(func_02045730(((struct Obj00578 *)p)->f1C));
         func_02005654(func_021BCE70, 0);

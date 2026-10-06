@@ -23,7 +23,8 @@ typedef unsigned int u32;
 struct QF;
 extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D5444(struct QF *p);
-extern int func_021D5B40(void *p);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern int func_021E8638(int a, int b);
 
 int func_021E869C(void *a, int b)
@@ -34,7 +35,7 @@ int func_021E869C(void *a, int b)
 
     r = func_021C7CF4(a, b);
     t = func_021D5444(r);
-    s = func_021D5B40(r);
+    s = (int)func_021D5B40(r);
     if (func_021E8638(t, s) != 0)
         return 1;
     return 0;

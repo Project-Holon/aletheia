@@ -44,7 +44,7 @@ typedef struct {
 
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_021B6F40(void *a);
+extern void *func_021B6F40(u8 **p);
 struct Bmp;
 struct Pos;
 struct Rec;
@@ -59,7 +59,7 @@ void func_021B9970(char **a, List *l, char *c)
     void *pos;
 
     func_020120F4((const struct Ctx *)(**(char ** *)&((struct Obj04340 *)a)->f0));
-    pos = func_021B6F40(a);
+    pos = func_021B6F40((u8 **)a);
     l->idx[0] = i;
     l->kind[0] = 1;
     l->obj[0] = func_02043678(0x17, 2, 0x20, 0x61);

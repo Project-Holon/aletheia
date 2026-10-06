@@ -13,14 +13,17 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {u16 x,y;} Pos;
-extern void func_0204B404(int, const Pos *, int);
+typedef unsigned int   u32;
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_0220B000(int *p, u8 *q)
 {
     Pos pos;
     u8 h=q[3]/2;
     u8 w=q[2]/2;
-    pos.x=q[0]-w;pos.y=q[1]-h;func_0204B404(p[0],&pos,1);
-    pos.x=q[0]-w;pos.y=q[1]+h;func_0204B404(p[1],&pos,1);
-    pos.x=q[0]+w;pos.y=q[1]-h;func_0204B404(p[2],&pos,1);
-    pos.x=q[0]+w;pos.y=q[1]+h;func_0204B404(p[3],&pos,1);
+    pos.x=q[0]-w;pos.y=q[1]-h;func_0204B404((struct Obj *)p[0],(const struct Vec2 *)(&pos),1);
+    pos.x=q[0]-w;pos.y=q[1]+h;func_0204B404((struct Obj *)p[1],(const struct Vec2 *)(&pos),1);
+    pos.x=q[0]+w;pos.y=q[1]-h;func_0204B404((struct Obj *)p[2],(const struct Vec2 *)(&pos),1);
+    pos.x=q[0]+w;pos.y=q[1]+h;func_0204B404((struct Obj *)p[3],(const struct Vec2 *)(&pos),1);
 }

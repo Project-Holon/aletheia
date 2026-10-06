@@ -25,7 +25,7 @@ extern s32 func_021DF5E4(s32);
 extern s32 func_021DF644(s32, s32);
 extern void func_02059F54(s32, s32);
 
-s32 func_021DF420(s32 a)
+s32 func_021DF420(s32 a, int a1, int a2)
 {
     s32 v = func_021DFE08(a);
 

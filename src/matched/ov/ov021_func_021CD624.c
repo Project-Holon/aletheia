@@ -28,7 +28,7 @@ typedef unsigned int  u32;
 
 extern void func_02008494(void *src, void *dst);
 extern void func_02082D44(void *src, void *dst, int n);
-extern void func_021CEA84(u8 *p, u8 i);
+extern void func_021CEA84(u8 *p, int n);
 extern void func_021CEAB0(u8 *p);
 
 void func_021CD624(u8 *p, int i, u32 a, u32 b, void *c)
@@ -40,7 +40,7 @@ void func_021CD624(u8 *p, int i, u32 a, u32 b, void *c)
     e[0x20] = 1;
     e[0x21] = b;
     func_02082D44(c, e + 0x23, 6);
-    func_021CEA84(p, i);
+    func_021CEA84(p, (u8)i);
     func_021CEAB0(p);
     if (((struct Obj02098 *)p)->f48C) {
         (*(void (**)(u32, u32, void *))(p + 0x48c))(((struct Obj02098 *)p)->f488, a, c);

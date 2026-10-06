@@ -20,27 +20,28 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D5BB0(void *q, u32 n);
-extern void func_021D5FC0(void *q, u32 n);
+struct UtilWork;
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
+extern void func_021D5FC0(struct UtilWork *p, u32 n);
 extern int func_021C76F4(u8 *p, u8 *q, u32 n);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021C7780(u8 *p, u8 *q);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 int func_021C1D60(u8 *p, u8 *q, u32 n)
 {
-    if (func_021D5BB0(q, 5)) {
-        func_021D5FC0(q, 6);
+    if (func_021D5BB0((struct UtilWork *)q, 5)) {
+        func_021D5FC0((struct UtilWork *)q, 6);
         return 1;
     }
     if (func_021C76F4(p, q, n)) {
-        func_021D5FC0(q, 4);
+        func_021D5FC0((struct UtilWork *)q, 4);
         return 1;
     }
     if (n >= 100) {
         u32 s = func_021CC8D8(p + 0x1D74, 7085);
         func_021C7780(p, q);
-        func_021CC95C(p + 0x1D74, s, 7087);
+        func_021CC95C((u32 *)(p + 0x1D74), s, 7087);
     }
     return 0;
 }

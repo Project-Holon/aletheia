@@ -25,7 +25,7 @@ struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 extern u32 func_0203D1C0(u32 index);
 
-int func_021CF12C(u32 mask)
+int func_021CF12C(int mask)
 {
     u8 i;
 

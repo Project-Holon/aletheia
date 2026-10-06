@@ -44,8 +44,8 @@ struct SBQueryEngine {
 };
 
 extern void func_0219D5C4(struct SBQueryEngine *engine, struct SBServer *server);
-extern void func_0219D4E8(struct SBServerFIFO *fifo, struct SBServer *server);
-extern void func_0219D4B4(struct SBServerFIFO *fifo, struct SBServer *server);
+extern void func_0219D4E8(int **p, int *q);
+extern void func_0219D4B4(int *p, int *n);
 
 void func_0219D928(struct SBQueryEngine *engine, struct SBServer *server, int addfront, unsigned int querytype, int usequerychallenge)
 {
@@ -69,7 +69,7 @@ void func_0219D928(struct SBQueryEngine *engine, struct SBServer *server, int ad
         return;
     }
     if (addfront)
-        func_0219D4E8(&engine->pendinglist, server);
+        func_0219D4E8((int **)(&engine->pendinglist), (int *)server);
     else
-        func_0219D4B4(&engine->pendinglist, server);
+        func_0219D4B4((int *)(&engine->pendinglist), (int *)server);
 }

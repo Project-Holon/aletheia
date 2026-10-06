@@ -22,13 +22,13 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u32 func_021C2684(const void *p, u32 v);
+extern u32 func_021C2684(void *p, u32 v);
 
-u32 func_021C26AC(const u8 *p, u32 unused, u32 key)
+u32 func_021C26AC(const u8 *p, u8 unused, u8 key)
 {
     s32 i;
     const u8 *e;
-    e = p + 4 + func_021C2684(p, unused) * 0xd4;
+    e = p + 4 + func_021C2684((void *)p, unused) * 0xd4;
     for (i = 0; i < e[1]; i++) {
         if (key == *(u16 *)(e + 8 + i * 0xc))
             return (u8)i;

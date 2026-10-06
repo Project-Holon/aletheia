@@ -11,12 +11,12 @@
  *   func_021BB974 0x021BB974 thumb
  */
 typedef unsigned char u8;
-extern void func_021BB974(void *,unsigned,int);
+extern void func_021BB974(unsigned char *p, unsigned index, int cmd);
 void func_021BA81C(char *p,unsigned selected)
 {
     u8 i;
     for(i=0;i<3;i++) {
-        if(i==selected) func_021BB974(p,i,0); else func_021BB974(p,i,2);
+        if(i==selected) func_021BB974((unsigned char *)p,i,0); else func_021BB974((unsigned char *)p,i,2);
         if(i==selected) {
             *(unsigned *)(p+i*148+224)=1;
             *(unsigned *)(p+i*148+228)=1;

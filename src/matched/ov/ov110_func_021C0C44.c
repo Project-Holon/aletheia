@@ -20,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021C0C64(void *, int);
+extern void func_021C0C64(u8 *p, int flag);
 void func_021C0C44(void *p) { func_021C0C64(p, 0); }

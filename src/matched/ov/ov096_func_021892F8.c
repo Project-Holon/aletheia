@@ -25,12 +25,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[0x4c]; u16 values[8]; u8 pad2[0xb0-0x5c]; int fb0, fb4, fb8; u8 *fbc; int fc0, fc4; } Obj;
 extern unsigned int func_0201134C(int);
-extern int func_0218A160(Obj *, int);
+extern u8 func_0218A160(u8 *p, int k);
 extern int func_0218A378(Obj *, int, int);
 struct QG;
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 extern u8 func_021D5448(struct QG *p);
-extern int func_021D54C0(void *, u8);
+extern u16 func_021D54C0(u8 *p, int i);
 int func_021892F8(int a, Obj *b, int c)
 {
     int k, z, y, r, i, t;
@@ -38,12 +38,12 @@ int func_021892F8(int a, Obj *b, int c)
     k = func_0201134C(a);
     value = func_0201134C(a);
     z = func_0201134C(a);
-    y = func_0218A160(b, k);
+    y = func_0218A160((u8 *)b, k);
     r = 0;
     switch (k) {
     case 1:
         for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-            t = func_0218A378(b, func_021D54C0(b->fbc, i), 28);
+            t = func_0218A378(b, (int)func_021D54C0(b->fbc, (u8)i), 28);
             if (t == value) {
                 r = 1;
                 break;

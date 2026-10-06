@@ -56,10 +56,13 @@ extern const u8 d_021BC8C0[3];
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_0204B404(struct Obj *, const Vec2 *, u32);
 extern void func_0204B5AC(struct Obj *, const FxPair *);
-extern void func_0204B454(struct Obj *, Vec2 *, u32);
-extern void func_0204B800(struct Obj *, u32);
+struct Actor;
+struct Node;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
+extern void func_0204B800(struct Node *node, u32 val);
 extern void func_0204B84C(struct Obj *, u32);
-extern int func_021BA0AC(Vec2 *pos, FxPair *size, u16 a, u16 b, u8 c, u8 d, u8 e, u8 f, u32 duration, u8 amplitude, u32 time);
+extern int func_021BA0AC(s16 *pos, int *size, u16 a, u16 b, u8 c, u8 d, u8 e, u8 f, u32 duration, u8 amplitude, u32 time);
 void func_021BA2B4(Main *p)
 {
     int flags[3] = {0, 0, 0};
@@ -107,7 +110,7 @@ void func_021BA2B4(Main *p)
             } else {
                 Vec2 a1;
                 FxPair b1;
-                res[i] = func_021BA0AC(&a1, &b1, t[0], t[1], t[2], t[3], t[6], t[7], t[10], t[12], e->f84);
+                res[i] = func_021BA0AC((s16 *)(&a1), (int *)(&b1), t[0], t[1], t[2], t[3], t[6], t[7], t[10], t[12], e->f84);
                 flags[i] = 1;
                 func_0204B404(e->f1C, &a1, 1);
                 func_0204B5AC(e->f1C, &b1);
@@ -165,7 +168,7 @@ void func_021BA2B4(Main *p)
             } else {
                 Vec2 a3;
                 FxPair b3;
-                res[i] = func_021BA0AC(&a3, &b3, t[2], t[3], t[4], t[5], t[7], t[8], t[11], t[13], e->f84);
+                res[i] = func_021BA0AC((s16 *)(&a3), (int *)(&b3), t[2], t[3], t[4], t[5], t[7], t[8], t[11], t[13], e->f84);
                 flags[i] = 1;
                 func_0204B404(e->f1C, &a3, 1);
                 func_0204B5AC(e->f1C, &b3);
@@ -222,7 +225,7 @@ void func_021BA2B4(Main *p)
         if (flags[i]) {
             z[i] = res[i];
         } else {
-            func_0204B454(p->ents[i].f1C, &pos, 1);
+            func_0204B454((struct Actor *)p->ents[i].f1C, (struct PtS *)(&pos), 1);
             z[i] = pos.y;
         }
     }
@@ -245,7 +248,7 @@ void func_021BA2B4(Main *p)
             if (order[1] != i)
                 pr = 2;
         }
-        func_0204B800(p->ents[i].f1C, pr);
+        func_0204B800((struct Node *)p->ents[i].f1C, pr);
     }
     }
 }

@@ -25,7 +25,9 @@ typedef unsigned int u32;
 typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; unsigned char low:4; unsigned char high:4; u8 tail[32]; } Data;
 typedef struct Config { u8 bytes[0x54]; } Config;
 typedef struct Four { int a,b,c,d; } Four;
-extern void func_02087C88(Config *);
+struct OSOwnerInfo;
+struct RtcDate;
+extern void func_02087C88(struct OSOwnerInfo *info);
 struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
@@ -34,7 +36,7 @@ extern void func_02008494(void *,void *);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_0203F4E4(Four *);
+extern void func_0203F4E4(struct RtcDate *date);
 void func_021B658C(void *p,Data *out)
 {
     Config config;
@@ -42,7 +44,7 @@ void func_021B658C(void *p,Data *out)
     void *sub;
     void *record;
     int flag;
-    func_02087C88(&config);
+    func_02087C88((struct OSOwnerInfo *)(&config));
     sub=func_020120F4(p);
     p=func_02012944(sub);
     out->f04=config.bytes[2];
@@ -54,7 +56,7 @@ void func_021B658C(void *p,Data *out)
     out->f08=func_02017E1C(record,111,0);
     out->f09=func_02017E1C(record,110,0);
     out->f0a=func_02017E1C(record,76,0);
-    func_0203F4E4(&four);
+    func_0203F4E4((struct RtcDate *)(&four));
     if(four.c == 14) flag=1;
     out->low=(u8)flag;
     out->f00=((u32)four.a << 24) | (((u32)four.b << 24) >> 8) | (((u32)four.c << 24) >> 16) | four.d;

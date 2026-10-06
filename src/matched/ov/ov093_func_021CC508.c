@@ -23,9 +23,9 @@ typedef unsigned int u32;
 
 extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021C84D0(void *a, void *m);
-extern int func_021C8910(void *a);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021C84D0(u8 *p, u8 *a);
+extern int func_021C8910(u8 *p);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 int func_021CC508(char *p, void *m)
 {
@@ -34,9 +34,9 @@ int func_021CC508(char *p, void *m)
 
     if (func_021D59B4(m, 16) != 150) {
         s = func_021CC8D8(p + 0x1d74, 1921);
-        func_021C84D0(p, m);
-        r = func_021C8910(p);
-        func_021CC95C(p + 0x1d74, s, 1926);
+        func_021C84D0((u8 *)p, m);
+        r = func_021C8910((u8 *)p);
+        func_021CC95C((u32 *)(p + 0x1d74), s, 1926);
         if (r == 2)
             return 1;
     }

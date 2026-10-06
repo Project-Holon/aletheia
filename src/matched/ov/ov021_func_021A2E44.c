@@ -15,9 +15,10 @@
 
 typedef unsigned int u32;
 
-void *func_02188CA4(void);
+typedef unsigned char  u8;
+u32 func_02188CA4(u8 *p);
 
 void func_021A2E44(int a, u32 v)
 {
-    ((struct Obj19761 *)((char *)func_02188CA4()))->fC = v;
+    ((struct Obj19761 *)((char *)func_02188CA4((u8 *)a)))->fC = v;
 }

@@ -28,13 +28,13 @@ typedef struct { u32 x, y; } Pair;
 
 struct Ctx;
 extern u32 func_02012204(const struct Ctx *p);
-extern void func_021F253C(u8 *p, int v);
+extern void func_021F253C(char *p, int v);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern int func_021F0A18(u8 *p, Pair *v);
+extern int func_021F0A18(u8 *p, u32 *v);
 extern int func_021F08E4(u8 *p, void *pt);
-extern void func_021F1F00(u8 *p, u8 i);
+extern void func_021F1F00(char *p, int a);
 extern int func_021F096C(u8 *p, void *pt);
-extern void func_021F1340(u8 *p, int a, int b);
+extern void func_021F1340(char *this, int a, u8 b);
 
 int func_021F055C(u8 *p)
 {
@@ -43,22 +43,22 @@ int func_021F055C(u8 *p)
     int s;
 
     if (func_02012204((const struct Ctx *)(((struct Obj00188 *)p)->f0)) != 0) {
-        func_021F253C(p, 1);
+        func_021F253C((char *)p, 1);
         return 6;
     }
     if (func_02035D20(&v.x, &v.y) == 0)
         return 2;
-    if (func_021F0A18(p, &v) == 2)
+    if (func_021F0A18(p, (u32 *)(&v)) == 2)
         return 6;
     r = func_021F08E4(p, &v);
     if (r != -1) {
         p[0x7e] = r;
-        func_021F1F00(p, r);
+        func_021F1F00((char *)p, (u8)r);
         return 4;
     }
     s = func_021F096C(p, &v);
     if (s != -1) {
-        func_021F1340(p, s, 5);
+        func_021F1340((char *)p, s, (int)5);
         return 3;
     }
     return 2;

@@ -33,7 +33,8 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
 extern void func_0204B5AC(void *, struct Pair *);
-extern void func_021D679C(struct Record *);
+typedef unsigned char  u8;
+extern void func_021D679C(u8 *p);
 extern u32 func_020056EC(u32 range);
 void func_021D6830(struct Record *p)
 {
@@ -58,10 +59,10 @@ void func_021D6830(struct Record *p)
             func_0204B5C0(p->h, &scale);
             scale.x -= 16;
             scale.y -= 16;
-            if (scale.x < 0 || scale.y < 0) func_021D679C(p);
+            if (scale.x < 0 || scale.y < 0) func_021D679C((u8 *)p);
             else func_0204B5AC(p->h, &scale);
         }
-        if (pos.y > 50) func_021D679C(p);
+        if (pos.y > 50) func_021D679C((u8 *)p);
     } else p->g = 1;
     if (p->g == 0) {
         p->a += (u16)(func_020056EC(12) + 200);

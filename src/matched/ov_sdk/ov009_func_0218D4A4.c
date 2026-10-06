@@ -66,7 +66,8 @@ struct GPIInfoCache;
 extern void func_0218BBDC(struct GPIInfoCache *cache, struct GPGetInfoResponseArg *arg);
 extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
-extern void func_0218E240(void **connection, GPIOperation *operation);
+struct GPIOperation;
+extern void func_0218E240(void **connection, struct GPIOperation *operation);
 extern int func_0218D40C(void **connection, int profileid, int operationid);
 extern int func_02186E9C(void **connection, int blockingOperationID);
 extern char g_021A4BE4[];
@@ -105,7 +106,7 @@ int func_0218D4A4(void **connection, int profile, int checkCache, int blocking,
             id = operation->id;
             { int __result__ = func_02189DFC(connection, gpiCallback, arg, operation, 0);
               if (__result__ != 0) return __result__; }
-            func_0218E240(connection, operation);
+            func_0218E240(connection, (struct GPIOperation *)operation);
             goto done;
         }
     }

@@ -28,7 +28,9 @@ typedef void *(*Alloc1)(int);
 extern char g_021A1CD8[];
 extern char g_021AA484[];
 extern char g_021AA480[];
-extern void func_02085D94(char *msg, char *p, int n);
+typedef signed int     s32;
+struct OSMessageQueue;
+extern void func_02085D94(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern void func_0215CE7C(void *ptr);
 
 int func_0215CD3C(int n)
@@ -46,7 +48,7 @@ int func_0215CD3C(int n)
     if (base == 0)
         return -1;
 
-    func_02085D94(g_021AA484, base, n);
+    func_02085D94((struct OSMessageQueue *)g_021AA484, (void **)base, n);
 
     p = base + off;
     for (i = n; i > 0; i--) {

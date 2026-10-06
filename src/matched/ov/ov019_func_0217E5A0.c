@@ -68,13 +68,14 @@ typedef struct {
     int *fc0;
 } Req;
 
-int func_0217BB20(u8 *w);
+struct Sub0200852CObj;
+int func_0217BB20(char *p);
 typedef unsigned int   u32;
 void func_0217F074(void *p);
 u32 func_0217F1EC(u8 *p);
 void func_0217F210(u8 *p, int a, u32 b);
-int func_0217B8E4(u8 *w, int v);
-void func_0217422C(u8 *w, int b, Req *c);
+int func_0217B8E4(char *p, char v);
+void func_0217422C(u8 *p, int a, int b);
 int func_02174268(u8 *w);
 struct Big;
 struct BigObj;
@@ -83,8 +84,8 @@ struct Sub02008700Obj;
 void *func_0201292C(const struct BigObj *p);
 void *func_02012EBC(struct Big *p);
 struct Sub02008700Obj *func_0200873C(void *sys);
-int func_020084F4(u8 *a);
-u8 func_02008550(u8 *a);
+const void *func_020084F4(const void *p);
+u8 func_02008550(const struct Sub0200852CObj *obj);
 struct Entry;
 struct Entry *func_020399A8(void);
 u32 func_0203D1A4(struct Link *p);
@@ -108,7 +109,7 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
 
     p = *(u8 * *)&((struct Obj03570 *)w)->f355C;
     idx = func_0203D1A4((struct Link *)((int)func_020399A8()));
-    if (*state < 3 && func_0217BB20(w) == 1) {
+    if (*state < 3 && func_0217BB20((char *)w) == 1) {
         func_0217F074(w);
         return 1;
     }
@@ -173,8 +174,8 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
             else
                 k = ++cnt;
             q->ent[k].f68 = ((int *)(p + 0x148))[i];
-            q->ent[k].f6c = func_020084F4(p + 0x18 + i * 0x2c);
-            q->ent[k].f70 = func_02008550(p + 0x18 + i * 0x2c);
+            q->ent[k].f6c = (int)func_020084F4(p + 0x18 + i * 0x2c);
+            q->ent[k].f70 = func_02008550((const struct Sub0200852CObj *)(p + 0x18 + i * 0x2c));
         }
         switch (obj[0x2d]) {
         case 20:
@@ -191,7 +192,7 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
         q->f90 = 0;
         q->f60 = 0;
         *(Req * *)&((struct Obj03570 *)w)->f3558 = q;
-        func_0217422C(w, 0x1a, q);
+        func_0217422C(w, 0x1a, (int)q);
         (*state)++;
         break;
     case 4:
@@ -200,7 +201,7 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
         func_020307B0((*(Req * *)&((struct Obj03570 *)w)->f3558)->fc0);
         func_020307B0(*(Req * *)&((struct Obj03570 *)w)->f3558);
         *(Req * *)&((struct Obj03570 *)w)->f3558 = 0;
-        func_0217B8E4(w, 0x2c);
+        func_0217B8E4((char *)w, 0x2c);
         return 1;
     }
     return 0;

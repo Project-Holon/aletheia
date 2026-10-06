@@ -38,11 +38,12 @@ struct Slot {
     u8  pad2;
 };
 
-extern u32 func_0202EC24(u8 *p);
+struct Ent0202EC24;
+extern u32 func_0202EC24(const struct Ent0202EC24 *p);
 
 void func_0202ED90(u8 *a, struct Slot *b, u32 c)
 {
-    u32 i = func_0202EC24(a);
+    u32 i = func_0202EC24((const struct Ent0202EC24 *)a);
 
     if (i >= 0x14)
         return;

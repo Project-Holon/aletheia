@@ -27,7 +27,7 @@ extern struct Ent d_021BBC28[];
 
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020414AC(u8 a);
-extern void func_020403F4(u8 a);
+extern void func_020403F4(u32 i);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern void func_02082BCC(void *p, int v, int n);
@@ -41,7 +41,7 @@ void func_021BB968(void *p)
     for (i = 0; i < 7; i++) {
         id = d_021BBC28[i].id;
         func_020414AC(id);
-        func_020403F4(id);
+        func_020403F4((u8)id);
     }
     func_020450C8();
     func_0203F9B4();

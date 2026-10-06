@@ -32,7 +32,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef struct PtS { s16 x, y; } PtS;
 
-extern void func_0204B454(u32, PtS *, u32);
+struct Actor;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
 
 static inline int in_range(int v, int lo, int hi)
 {
@@ -43,7 +44,7 @@ int func_021FB4CC(u32 *p, int a1, int a2)
 {
     PtS pos;
     int hx;
-    func_0204B454(p[0], &pos, (u16)p[4]);
+    func_0204B454((struct Actor *)p[0], &pos, (u16)p[4]);
     hx = in_range(a1, pos.x, pos.x + p[5]);
     return in_range(a2, pos.y - 16, pos.y + 16) & hx;
 }

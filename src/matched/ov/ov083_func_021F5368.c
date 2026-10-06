@@ -20,5 +20,6 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_021F5390(void *w,void *p,void *q);
-extern void func_021F54CC(void);
+typedef unsigned char  u8;
+extern int func_021F54CC(void *task, u32 *st, u8 *p);
 void *func_021F5368(void *p,void *q) { void *task=func_020122C0(p,0,(void *)func_021F54CC,60); func_021F5390(func_020124E8(task),p,q); return task; }

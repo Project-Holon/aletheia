@@ -54,7 +54,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern u32 func_02017F90(void *p);
-extern void func_021BB56C(S *s, int a, int b, s16 *out);
+extern void func_021BB56C(u32 p, int x, int y, u16 *out);
 extern u32 func_0204B8F4(struct Obj *p);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
@@ -76,7 +76,7 @@ void func_021BA8CC(u32 a, S *s)
         }
     }
     if (s->w10 == 1 && func_02017F90((void *)s->w0) == 0 && s->h6 != 0) {
-        func_021BB56C(s, 0x1a, 0x13, buf);
+        func_021BB56C((u32)s, 0x1a, 0x13, (u16 *)buf);
         if (func_0204B8F4((struct Obj *)s->w30) == 1)
             buf[1] = buf[1] - 6;
         func_0204B404((struct Obj *)s->w30, (const struct Vec2 *)buf, 0);

@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0218BFB4(u8 *s, u8 *a, u8 *b);
+extern void func_0218BFB4(u8 *a, u32 *out, u32 *st);
 extern char d_021DD9CC[];
 
 void func_0218BDD8(u8 *s, u32 *out)
@@ -39,7 +39,7 @@ void func_0218BDD8(u8 *s, u32 *out)
         for (i = 0; i < ((struct Obj00572 *)s)->f1D4; i++) {
             u8 *a = *(u8 * *)&((struct Obj00572 *)s)->f1D8;
             u8 *b = *(u8 * *)&((struct Obj00572 *)s)->f1CC;
-            func_0218BFB4(s, a + i * 0x18, b + i * 0x18);
+            func_0218BFB4(s, (u32 *)(a + i * 0x18), (u32 *)(b + i * 0x18));
             *(u32 *)(*(u8 * *)&((struct Obj07411 *)out)->f0 + i * 8) = *(u32 *)(a + i * 0x18);
             *(u32 *)(*(u8 * *)&((struct Obj07411 *)out)->f0 + i * 8 + 4) = 0;
         }

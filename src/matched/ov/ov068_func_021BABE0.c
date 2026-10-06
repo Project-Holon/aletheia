@@ -29,7 +29,9 @@ typedef struct { u16 x; u16 y; } Pt;
 
 extern u32 func_02040804(u32 layer);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_0204B404(u32 a, Pt *b, u32 c);
+struct Obj;
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32  d_021BB704[][6];
 
 void func_021BABE0(u8 *p, int a1, int a2, int a3)
@@ -54,6 +56,6 @@ void func_021BABE0(u8 *p, int a1, int a2, int a3)
     for (i = 0; i < 11; i++) {
         pt.x = d_021BB704[i][2];
         pt.y = ((struct Obj04326 *)p)->f34 + d_021BB704[i][3];
-        func_0204B404(*(u32 *)(p + i * 4 + 8), &pt, 0);
+        func_0204B404((struct Obj *)(*(u32 *)(p + i * 4 + 8)), (const struct Vec2 *)(&pt), 0);
     }
 }

@@ -93,7 +93,7 @@ struct Ov208Scene {
     struct Ov208Slot slots[10];
 };
 
-extern void func_021BDD24(struct Ov208Scene *p);
+extern void func_021BDD24(char *p);
 extern void func_021BDCF8(struct Ov208Scene *p);
 
 void ov208_func_021BDAAC(struct Ov208Scene *p, u32 mode, u32 kind, u32 flag)
@@ -103,7 +103,7 @@ void ov208_func_021BDAAC(struct Ov208Scene *p, u32 mode, u32 kind, u32 flag)
     p->f14 = p->f18;
     p->f18 = kind;
     p->f40 = flag;
-    func_021BDD24(p);
+    func_021BDD24((char *)p);
     p->f1c = p->f18;
     func_021BDCF8(p);
 }

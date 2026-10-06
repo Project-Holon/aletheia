@@ -34,7 +34,8 @@ u16 func_02012914(const struct BigObj *p);
 void func_02159FA8(int a, int b);
 typedef unsigned int   u32;
 u16 func_02159F94(int a);
-void func_02014204(void *buf, int n);
+struct t;
+void func_02014204(struct t *p, int id);
 void func_020128C0(struct BigObj *p, const struct Rec1C *src);
 void func_02185B70(void *p);
 void func_02185A68(void *a, int b);
@@ -49,7 +50,7 @@ void func_0218562C(int a)
     struct { char b[0x1c]; int f; u16 h; char pad[0x16]; } l;
 
     func_02159FA8(func_02012914((const struct BigObj *)r4), (int)(&l.f));
-    func_02014204(l.b, func_02159F94(func_02012914((const struct BigObj *)r4)));
+    func_02014204((struct t *)l.b, func_02159F94(func_02012914((const struct BigObj *)r4)));
     func_020128C0((struct BigObj *)r4, (const struct Rec1C *)l.b);
     func_02185B70((void *)a);
     func_02185A68((void *)a, l.h);

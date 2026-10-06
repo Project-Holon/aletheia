@@ -32,16 +32,16 @@ extern void func_021E8AB4(unsigned, unsigned);
 extern void func_021E8AA0(int *, int);
 extern int func_021E8844(const int *);
 extern void func_021E8AB8(unsigned);
-extern int func_021D9D50(char *, void *);
+extern int func_021D9D50(char *obj, u32 *rec);
 extern int func_021D9F04(char *, void *, void *);
 extern void func_021D9A1C(char *, void *);
 extern u32 func_021D9A30(char *);
 extern int func_02012DAC(int);
 extern int func_02012DD0(u8 *);
-extern void func_021D8EC8(void);
-extern void func_021D8CF0(void);
-extern void func_021D9064(void);
-extern void func_021D9090(void);
+extern void func_021D8EC8(u32 sys, int *state, char *p);
+extern void func_021D8CF0(u32 sys, int *state, char *p);
+extern void func_021D9064(void *obj, int unused, u8 *p);
+extern void func_021D9090(u32 sys, int *state, char *p);
 void func_021D8BC4(int *a, int *state, char *ctx)
 {
     int r;

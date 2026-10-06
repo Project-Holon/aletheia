@@ -43,24 +43,26 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_021BA184(void *);
-extern u8 *func_021BA218(u8 *);
-extern u8 *func_021BA20C(u8 *);
-extern u8 *func_021BA214(u8 *);
-extern void func_021BA1EC(u8 *, void *, u8 *);
-extern u8 *func_021BA208(u8 *);
+struct Board;
+struct Obj0204F1A0;
+extern void *func_021BA184(char *p);
+extern u32 func_021BA218(u8 *p);
+extern u32 func_021BA20C(u8 *p);
+extern u32 func_021BA214(u8 *p);
+extern void func_021BA1EC(u8 *p, u8 *q, u8 *r);
+extern u32 func_021BA208(u8 *p);
 extern void func_021B7A18(u8 *);
 extern u32 func_021F4F10(u8 *);
 extern u8 *func_021F4F54(u8 *, int);
 extern int func_021F4F70(int *);
 extern void func_021F4D74(u8 *, u8 *, int, u16);
 extern void func_021F4AA4(void *);
-extern void func_0204F32C(void *, int, u32 *);
+extern void func_0204F32C(int p0, int p1, int p2);
 extern void func_0204F2E4(u8 *, int, u32 *);
-extern void func_0204F2FC(void *, int, u32);
+extern void func_0204F2FC(u8 *p, int i, u32 value);
 extern void func_0204EDD0(int, u16 *, u16 *);
-extern int func_0204F044(void *, int, int, int, u32, u8, u8);
-extern void func_0204F1A0(void *, u32);
+extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
+extern void func_0204F1A0(struct Obj0204F1A0 *a0, u32 a1);
 extern void func_0204A648(void);
 void func_021B6884(void *unused, u8 *p)
 {
@@ -75,21 +77,21 @@ void func_021B6884(void *unused, u8 *p)
     changed = 0;
     while (e) {
         func_021BA218(e);
-        q = func_021BA20C(e);
-        r = func_021BA214(e);
+        q = (u8 *)func_021BA20C(e);
+        r = (u8 *)func_021BA214(e);
         if (*(u16 *)q != *(u16 *)r) {
             func_021BA1EC(e, *(void **)(p + 0x1884), r);
             changed = 1;
         }
-        e = func_021BA208(e);
+        e = (u8 *)func_021BA208(e);
     }
     if (changed == 1) func_021B7A18(p);
     if (*(u8 **)(p + 0x38)) {
-        q = func_021BA20C(*(u8 **)(p + 0x38));
+        q = (u8 *)func_021BA20C(*(u8 **)(p + 0x38));
         if (*(u16 *)(p + 0x50) != *(u16 *)q) {
             table = (u8 *)func_021F4F10(*(u8 **)(p + 0x1884));
             *(u16 *)(p + 0x50) = *(u16 *)q;
-            func_0204F32C(*(void **)(p + 0x188c), *(int *)(p + 0x54), &height);
+            func_0204F32C((int)(*(void **)(p + 0x188c)), *(int *)(p + 0x54), (int)(&height));
             func_0204F2E4(*(u8 **)(p + 0x188c), *(int *)(q + 4), &width);
             func_0204F2FC(*(void **)(p + 0x188c), *(int *)(p + 0x54), width);
             flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));

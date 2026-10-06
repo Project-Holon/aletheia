@@ -19,15 +19,15 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469D0;
 extern void *func_0203D798(void);
-extern void func_02036B98(void *p, u32 a);
+extern int func_02036B98(char *p, int v);
 
 void func_02039468(u32 a, u32 b)
 {
     u8 *s = (u8 *)func_0203D798();
 
     if (s[0x64] != 0 && b == 0xff) {
-        func_02036B98(g_021469D0 + 0xf4, a);
+        func_02036B98((char *)(g_021469D0 + 0xf4), a);
     } else {
-        func_02036B98(g_021469D0 + 0xcc, a);
+        func_02036B98((char *)(g_021469D0 + 0xcc), a);
     }
 }

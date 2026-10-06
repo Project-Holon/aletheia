@@ -71,9 +71,10 @@ typedef struct {
     Sys *sys;
 } Ctx;
 
-int func_0217BB04(Ctx *ctx);
-int func_0217F1EC(Ctx *ctx);
-void func_0217F210(Ctx *ctx, int a, int msg);
+struct Self;
+int func_0217BB04(char *p);
+u32 func_0217F1EC(u8 *p);
+void func_0217F210(u8 *p, int a, u32 b);
 typedef unsigned short u16;
 struct BigObj;
 u16 func_0217EC34(int i);
@@ -82,21 +83,21 @@ u16 func_0217EC78(int i);
 int func_0217ECD0(Ctx *ctx);
 int func_0217B8E4(Ctx *ctx, int v);
 int func_0217B9BC(unsigned int x);
-void func_0217BA10(Ctx *ctx, int id);
+void func_0217BA10(char *p, int x);
 int func_0217B974(int id);
-int func_0217BAA8(Ctx *ctx, int id, int *p, int *q);
-void func_0217F640(Ctx *ctx, int a, int b, int c, int d);
-int func_0217F794(Ctx *ctx, int a);
-void func_0217F7B8(Ctx *ctx);
-void func_0217F22C(Ctx *ctx, int a);
-int func_0217F268(Ctx *ctx, int *flag);
-void func_0217F24C(Ctx *ctx);
+int func_0217BAA8(int a, int b, int *p, int *q);
+void func_0217F640(struct Self *self, u32 a1, u32 mask, int mode, int msg);
+u32 func_0217F794(char *p, u32 a);
+void func_0217F7B8(char *p);
+void func_0217F22C(u8 *p, u32 a);
+int func_0217F268(char *p, u32 *out);
+void func_0217F24C(u8 *p);
 int func_02173A48(int a, ...);
 void *func_02012934(const struct BigObj *p);
 struct Ctx;
 void *func_020120F4(const struct Ctx *p);
-int func_0201AA1C(void *a);
-int func_0201AAD4(void *a);
+u32 func_0201AA1C(void *p);
+u32 func_0201AAD4(void *p);
 u32 func_0201AA88(void *p);
 u32 func_020362DC(void);
 
@@ -105,65 +106,65 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
     int flag;
     void *h;
 
-    if (func_0217BB04(ctx) == 1)
+    if (func_0217BB04((char *)ctx) == 1)
         return 1;
-    if (func_0217F1EC(ctx) == 0)
+    if (func_0217F1EC((u8 *)ctx) == 0)
         return 0;
 
     switch (*state) {
     case 0:
-        func_0217F210(ctx, a2, 9);
+        func_0217F210((u8 *)ctx, a2, 9);
         (*state)++;
         break;
     case 1:
         if (obj->f2d == 0xff)
             break;
         if (obj->f2d == 0) {
-            func_0217F210(ctx, a2, func_0217EC34(obj->f14->flag));
+            func_0217F210((u8 *)ctx, a2, func_0217EC34(obj->f14->flag));
             func_0217B8E4(ctx, 0x27);
             return 1;
         }
         if (obj->f2d < 0x1b) {
-            func_0217F210(ctx, a2, func_0217EC68(obj->f2d));
+            func_0217F210((u8 *)ctx, a2, func_0217EC68(obj->f2d));
             if (func_0217B9BC(obj->f2d) == 1) {
-                func_0217BA10(ctx, obj->f2d);
-                func_0217F640(ctx, a2, 0, func_0217B974(obj->f2d), 0);
+                func_0217BA10((char *)ctx, obj->f2d);
+                func_0217F640((struct Self *)ctx, a2, 0, func_0217B974(obj->f2d), 0);
                 *state = 2;
             } else {
                 *state = 3;
             }
         } else if (func_02173A48(0) == 1) {
-            func_0217F210(ctx, a2, 0x13d);
+            func_0217F210((u8 *)ctx, a2, 0x13d);
             func_0217B8E4(ctx, 0x27);
             return 1;
         }
         break;
     case 2:
-        if (func_0217F794(ctx, a2) == 1)
+        if (func_0217F794((char *)ctx, a2) == 1)
             *state = 3;
         break;
     case 3:
-        func_0217F7B8(ctx);
-        func_0217F22C(ctx, a2);
+        func_0217F7B8((char *)ctx);
+        func_0217F22C((u8 *)ctx, a2);
         (*state)++;
         break;
     case 4:
         obj->f6e = 0;
-        if (func_0217F268(ctx, &flag) != 1)
+        if (func_0217F268((char *)ctx, (u32 *)(&flag)) != 1)
             break;
         h = func_02012934((void *)ctx->sys->f8);
-        func_0217F24C(ctx);
-        if (func_0217BAA8(ctx, obj->f2d, &obj->f64, &obj->f68) == 0) {
-            func_0217F210(ctx, a2, 0x13e);
+        func_0217F24C((u8 *)ctx);
+        if (func_0217BAA8((int)ctx, obj->f2d, &obj->f64, &obj->f68) == 0) {
+            func_0217F210((u8 *)ctx, a2, 0x13e);
             flag = 0;
         } else if (obj->f2d == 0x18 && flag == 1) {
             func_020120F4((const struct Ctx *)ctx->sys->fc);
-            if (func_0201AA1C(h) < 2) {
+            if ((int)func_0201AA1C(h) < 2) {
                 flag = 0;
                 obj->f6e = 1;
             }
         } else if (obj->f2d == 0x19 && flag == 1) {
-            if (func_0201AAD4(h) > 0) {
+            if ((int)func_0201AAD4(h) > 0) {
                 flag = 0;
                 obj->f6e = 3;
             } else if (func_0201AA88(h) == 0) {
@@ -183,12 +184,12 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         break;
     case 6:
-        func_0217F640(ctx, a2, obj->f64, func_0217B974(obj->f2d), 1);
+        func_0217F640((struct Self *)ctx, a2, obj->f64, func_0217B974(obj->f2d), 1);
         (*state)++;
         break;
     case 7:
-        if (func_0217F794(ctx, a2) == 1 && (func_020362DC() & 3)) {
-            func_0217F7B8(ctx);
+        if (func_0217F794((char *)ctx, a2) == 1 && (func_020362DC() & 3)) {
+            func_0217F7B8((char *)ctx);
             if (obj->f68 == -1)
                 *state = 10;
             else
@@ -196,25 +197,25 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         break;
     case 8:
-        func_0217F640(ctx, a2, obj->f64, func_0217B974(obj->f2d), 2);
+        func_0217F640((struct Self *)ctx, a2, obj->f64, func_0217B974(obj->f2d), 2);
         (*state)++;
         break;
     case 9:
-        if (func_0217F794(ctx, a2) == 1 && (func_020362DC() & 3)) {
-            func_0217F7B8(ctx);
+        if (func_0217F794((char *)ctx, a2) == 1 && (func_020362DC() & 3)) {
+            func_0217F7B8((char *)ctx);
             *state = 10;
         }
         break;
     case 10:
         if (obj->f2e == 0) {
             if (obj->f6e == 1)
-                func_0217F210(ctx, a2, 0x28);
+                func_0217F210((u8 *)ctx, a2, 0x28);
             else if (obj->f6e == 2)
-                func_0217F210(ctx, a2, 0x2f);
+                func_0217F210((u8 *)ctx, a2, 0x2f);
             else if (obj->f6e == 3)
-                func_0217F210(ctx, a2, func_0217ECD0(ctx));
+                func_0217F210((u8 *)ctx, a2, func_0217ECD0(ctx));
             else
-                func_0217F210(ctx, a2, func_0217EC78(obj->f2d));
+                func_0217F210((u8 *)ctx, a2, func_0217EC78(obj->f2d));
             func_0217B8E4(ctx, 0x27);
             return 1;
         }

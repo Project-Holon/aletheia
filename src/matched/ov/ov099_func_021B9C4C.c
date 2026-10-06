@@ -23,8 +23,9 @@ typedef struct {
 } Work;
 
 extern int func_021C5F80(void *q, int *out);
-extern int func_021C5370(void *a, void *b, int *in, int *out);
-extern void func_021C48D4(void *a, int *in);
+typedef unsigned char  u8;
+extern int func_021C5370(void *a, void *b, const u8 *desc, int *out);
+extern void func_021C48D4(void *a, u8 *q);
 
 void func_021B9C4C(Work *w)
 {
@@ -32,7 +33,7 @@ void func_021B9C4C(Work *w)
     int b[2];
 
     while (func_021C5F80(w->f59c, &a) == 1) {
-        if (func_021C5370(w->f588, w->f58c, &a, b) == 1)
-            func_021C48D4(w->f58c, b);
+        if (func_021C5370(w->f588, w->f58c, (const u8 *)(&a), b) == 1)
+            func_021C48D4(w->f58c, (u8 *)b);
     }
 }

@@ -15,7 +15,10 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern int func_0204F428(void *,u32,u16,u16,void *,u8,u32,u32);
+typedef signed int     s32;
+struct Board;
+struct Vec3;
+extern s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *,u32,u32 *);
 extern u32 d_021F8328;
 typedef struct { u32 active,dirty; int x,y,z,id,index; } Entry;
@@ -27,7 +30,7 @@ Entry *func_021F6B18(Object *o)
     for(i=0;i<5;i++) if(o->entries[i].active==0) break;
     p=&o->entries[i];
     p->active=1; p->dirty=1; p->x=0; p->y=0; p->z=0;
-    p->index=func_0204F428(o->board,p->id,4096,4096,&p->x,31,0,0);
+    p->index=func_0204F428(o->board,p->id,4096,4096,(struct Vec3 *)(&p->x),31,0,0);
     func_0204F720(o->board,p->index,&d_021F8328);
     return p;
 }

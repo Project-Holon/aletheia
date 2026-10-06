@@ -50,7 +50,8 @@ extern unsigned int func_02159B10(void *a0, void *a1);
 struct Desc;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern S *func_020124E8(struct Desc *p);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C7C(unsigned char *p);
@@ -80,7 +81,7 @@ int func_0216A7A0(int a0, int a1)
     r7 = func_02159B10((void *)a0, (void *)a1);
     r5 = func_02159B10((void *)a0, (void *)a1);
     l8 = func_020122C0((void *)r6, 0, (void *)func_0216A838, 0x18);
-    r4 = func_020124E8(l8);
+    r4 = func_020124E8((struct Obj *)l8);
     r4->f4 = r5;
     r4->f6 = 0;
     obj = func_0216DE94((void *)func_02188C7C(func_0201210C((void *)r6)), l4);

@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern void func_021B765C(u8 *, u16, s16, int, u16);
+extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
 void func_021B8AC8(u8 *p)
 {
     int n = ((struct Obj00004 *)p)->f182E;

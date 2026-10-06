@@ -11,11 +11,12 @@
  * status:   EXACT
  */
 
-extern void func_02074770(void *o);
+struct Obj;
+extern void func_02074770(struct Obj *o);
 extern void func_02061118(void *heap);
 
 void func_02074758(void **a0)
 {
-    func_02074770(a0);
+    func_02074770((struct Obj *)a0);
     func_02061118(*a0);
 }

@@ -29,10 +29,10 @@ typedef struct { u32 w[3]; } B12;
 extern void func_0218F19C(u8 *o, B12 *v);
 extern void func_0218F18C(u8 *o, B12 *v);
 extern void func_0207CA00(B12 *a, B12 *b, B12 *c);
-extern u32 func_0218ED5C(B12 *v, u16 *a, u16 *b, u32 *c);
+extern int func_0218ED5C(u32 a, u32 b, u32 c, u32 d);
 extern void func_0218ED58(u8 *o, u32 v);
 extern void func_0218ED34(u8 *o, u16 v);
-extern void func_0218ED48(u8 *o, u16 v);
+extern void func_0218ED48(u8 *p, u32 v);
 
 void func_02190058(u8 *o)
 {
@@ -42,7 +42,7 @@ void func_02190058(u8 *o)
     func_0218F19C(o, &v1);
     func_0218F18C(o, &v2);
     func_0207CA00(&v1, &v2, &v);
-    func_0218ED5C(&v, &b, &a, &c);
+    func_0218ED5C((u32)(&v), (u32)(&b), (u32)(&a), (u32)(&c));
     func_0218ED58(o, c);
     func_0218ED34(o, b);
     func_0218ED48(o, a);

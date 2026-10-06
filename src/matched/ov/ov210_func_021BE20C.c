@@ -23,12 +23,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
 extern void func_021BEA54(u8 *p);
-extern void func_021BF81C(u8 *p);
+extern void func_021BF81C(char *p);
 
 void func_021BE20C(u8 *p)
 {
     (*(u8 **)(*(u8 * *)&((struct Obj00222 *)p)->f0 + 8))[3] = 0xff;
     (*(u8 **)(*(u8 * *)&((struct Obj00222 *)p)->f0 + 8))[4] = 0xff;
     func_021BEA54(p);
-    func_021BF81C(p);
+    func_021BF81C((char *)p);
 }

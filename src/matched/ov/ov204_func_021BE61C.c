@@ -18,7 +18,7 @@ extern void func_021BF23C(char *p, void *a, int flag);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021BF2F4(char *a);
-extern void func_021BF7CC(void *, unsigned char, int);
+extern void func_021BF7CC(u8 *p, u8 index, int flag);
 extern u32 func_021BF2E0(u8 *p);
 int func_021BE61C(char *p, int *state, unsigned *q)
 {

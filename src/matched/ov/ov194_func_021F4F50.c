@@ -15,7 +15,7 @@
 
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 
-void func_021F4F50(int a)
+int func_021F4F50(int a)
 {
-    func_0204A1BC(0x77, 8, 0, a);
+    return func_0204A1BC(0x77, 8, 0, a);
 }

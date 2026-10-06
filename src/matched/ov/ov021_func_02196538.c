@@ -46,7 +46,7 @@ extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a
 extern void func_02049238(void *h);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(void *src, void *dst, u32 n);
-extern void func_021964B0(void *pal, const u16 *add, u32 n);
+extern void func_021964B0(u16 (*dst)[16], u16 *add, int n);
 extern void func_020307B0(void *p);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -74,7 +74,7 @@ void func_02196538(u8 *p)
     res = func_02049F78(h, 2, (u32)(&pal), ((struct Obj00150 *)p)->f10);
     func_02082D44(((struct Obj12630 *)pal)->fC, p + 0x48, 0x100);
     func_02082D44(((struct Obj12630 *)pal)->fC, p + 0x148, 0x100);
-    func_021964B0(p + 0x148, d_021DDAD4, 8);
+    func_021964B0((u16 (*)[16])(p + 0x148), (u16 *)d_021DDAD4, 8);
     func_020307B0(res);
     func_02049B68(h, 0, 0, 0, 0, ((struct Obj00150 *)p)->f10);
     ((struct Obj00150 *)p)->f40 = func_02049740(h, 4, 4, 0, 0, ((struct Obj00150 *)p)->f10);

@@ -29,12 +29,13 @@ struct GPIOperation {
     int result;
 };
 
-extern int func_0218AE9C(void **connection, struct GPIOperation *operation, char *input);
-extern int func_0218FB68(void **connection, struct GPIOperation *operation, char *input);
-extern int func_0218FDD8(void **connection, struct GPIOperation *operation, char *input);
-extern int func_0218BDB8(void **connection, struct GPIOperation *operation, char *input);
-extern int func_0219305C(void **connection, struct GPIOperation *operation, char *input);
-extern int func_0219316C(void **connection, struct GPIOperation *operation, char *input);
+struct GPIOperation_s;
+extern int func_0218AE9C(void **connection, struct GPIOperation_s *operation, char *input);
+extern int func_0218FB68(void **connection, struct GPIOperation_s *operation, char *input);
+extern int func_0218FDD8(void **connection, struct GPIOperation_s *operation, char *input);
+extern int func_0218BDB8(void **connection, struct GPIOperation_s *operation, char *input);
+extern int func_0219305C(void **connection, struct GPIOperation_s *operation, char *input);
+extern int func_0219316C(void **connection, struct GPIOperation_s *operation, char *input);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021A4E08[];
 
@@ -44,22 +45,22 @@ int func_0218E318(void **connection, struct GPIOperation *operation, char *input
 
     switch (operation->type) {
     case 0:
-        result = func_0218AE9C(connection, operation, input);
+        result = func_0218AE9C(connection, (struct GPIOperation_s *)operation, input);
         break;
     case 1:
-        result = func_0218FB68(connection, operation, input);
+        result = func_0218FB68(connection, (struct GPIOperation_s *)operation, input);
         break;
     case 5:
-        result = func_0218FDD8(connection, operation, input);
+        result = func_0218FDD8(connection, (struct GPIOperation_s *)operation, input);
         break;
     case 2:
-        result = func_0218BDB8(connection, operation, input);
+        result = func_0218BDB8(connection, (struct GPIOperation_s *)operation, input);
         break;
     case 4:
-        result = func_0219305C(connection, operation, input);
+        result = func_0219305C(connection, (struct GPIOperation_s *)operation, input);
         break;
     case 6:
-        result = func_0219316C(connection, operation, input);
+        result = func_0219316C(connection, (struct GPIOperation_s *)operation, input);
         break;
     default:
         func_0217D254(1, (char *)4, 1, g_021A4E08, operation->type);

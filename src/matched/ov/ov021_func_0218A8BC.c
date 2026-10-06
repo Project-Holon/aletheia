@@ -78,7 +78,8 @@ extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB188(u16 id);
 extern u32 func_0201296C(const struct BigObj *p);
-extern struct BgEvent *func_0216282C(void *p, void *q, int *pos, int dir);
+struct Rec;
+extern struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode);
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 extern int func_021A3098(void *v);
 extern void *func_021A3074(unsigned char *p);
@@ -99,7 +100,7 @@ int func_0218A8BC(struct FieldCtx *p)
     func_021A3038(id, (struct VecFx32 *)pos);
     if (func_021AB188(func_021AB0F0(func_021AB0D4((void *)func_02188C98(obj), pos))) != 1)
         return 0;
-    e = func_0216282C(p->fC, (void *)func_0201296C(p->f8), pos, 9);
+    e = (struct BgEvent *)func_0216282C(p->fC, (void *)func_0201296C(p->f8), pos, 9);
     if (e == 0)
         return 0;
     if (e->f8 != 0)

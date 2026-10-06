@@ -30,7 +30,8 @@ extern int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int 
 extern void *func_0201F81C(u32 n, u32 heap);
 struct Blk37;
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
-extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
+struct Slot;
+extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void func_020307B0(void *p);
 
 int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag)
@@ -49,7 +50,7 @@ int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag
     *menu = func_0201F81C(n + 1, 0x48);
     for (i = start; i < end; i++) {
         if (func_0200D064(bag, list[i]) != 0) {
-            func_0201F878(*menu, msg, list[i], list[i], 0x48);
+            func_0201F878(*menu, (u32)msg, list[i], list[i], 0x48);
         }
     }
     func_020307B0(list);

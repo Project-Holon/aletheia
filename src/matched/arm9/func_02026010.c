@@ -50,8 +50,8 @@ struct Sound {
 };
 
 extern void func_020355D8(u8 v);
-extern u32  func_02025F60(struct Entry *entries, int sel, u32 dir);
-extern int  func_02026178(struct Entry *e, u32 dir);
+extern u32 func_02025F60(const u8 *ptr, u32 idx, u32 type);
+extern int func_02026178(const u8 *ptr, u32 type);
 
 int func_02026010(struct Sound *obj, u32 dir, int sel)
 {
@@ -72,7 +72,7 @@ int func_02026010(struct Sound *obj, u32 dir, int sel)
 loop:
     if ((obj->bits[(u32)sel >> 5] & (1 << (sel % 32))) == 0) {
         direct = 0;
-        n = (u8)(func_02025F60(obj->entries, sel, dir) & 0x7f);
+        n = (u8)(func_02025F60((const u8 *)obj->entries, sel, dir) & 0x7f);
         if (n == (u32)sel || n == obj->field_D) {
             sel = obj->field_D;
         } else {
@@ -82,7 +82,7 @@ loop:
     }
 
     if (obj->field_D != sel) {
-        if (func_02026178(&obj->entries[sel], dir) == 1 && direct) {
+        if (func_02026178((const u8 *)(&obj->entries[sel]), dir) == 1 && direct) {
             obj->field_F = obj->field_D;
         } else {
             obj->field_F = 0xff;

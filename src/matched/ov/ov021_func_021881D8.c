@@ -136,14 +136,16 @@ extern u32 func_02012138(const struct Ctx *a);
 extern void *func_021D33F8(u32 *p);
 extern void func_0218B8AC(char *p, int a, int b, int c);
 extern void func_021C6534(u32 *p, u32 v);
-extern void func_02189614(int sys, void *q, u16 id);
+extern void func_02189614(void *p, char *q, u16 id);
 extern void func_02014110(void *p, u16 a, int b, int c, int d, int e, int f, int g);
 extern void func_0218CEE4(struct Obj *p, const struct Src *src, void *c);
 extern int func_02013C9C(u32 key);
 extern void func_021BB2F8(u32 a, u32 b, u32 c);
 extern int func_02189ACC(u16 id);
-extern void func_021895E8(void *p, u16 id, u16 c);
-extern void func_02189204(void *p);
+struct T;
+struct V3;
+extern void func_021895E8(unsigned char *p, int id, int c);
+extern void func_02189204(u8 *a);
 extern char *func_021ABD50(int a, int b, u16 c);
 extern void func_021ABF68(int t, int n);
 extern void func_021AC1EC(u32 *p, u32 v);
@@ -158,11 +160,11 @@ extern u32 func_02013C20(u32 id);
 extern void func_02012B2C(struct Rec44 *p, u32 v);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern int func_021A2E50(int a, void *b, V3 *c, int d, u16 heap);
-extern void func_0218D158(int a, V3 *b);
-extern void func_02189758(void *p);
+extern u32 *func_021A2E50(int a, u32 b, int c, int d, u16 heap);
+extern void func_0218D158(struct T *dst, const struct V3 *src);
+extern void func_02189758(int *p);
 extern int func_021BE2A8(int a, int b, u16 heap);
-extern int func_02188C9C(void *p);
+extern u16 func_02188C9C(u8 *p);
 extern void func_02189154(void *a, u32 b);
 extern u8 *func_021A0104(u16 heap);
 extern u8 *func_021A02C4(u16 heap);
@@ -170,14 +172,14 @@ extern u32 func_02013EEC(u32 id);
 extern u32 func_02013F2C(u32 id);
 extern void func_021A0338(u8 *p, u32 id, u32 c, u8 d);
 extern u8 func_020140DC(struct Sub020140BCObj *p);
-extern int func_0203F4FC(void);
+extern u32 func_0203F4FC(void);
 extern int func_0202E83C(void *a0);
 extern u8 *func_021A03D0(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 extern int func_021A19E8(int a0, int a1, int a2, int a3, int a4, int a5, int heap);
-extern int func_02012994(int a);
-extern void func_021A1B74(int p, u16 a, int f);
+extern u8 func_02012994(const struct BigObj *p);
+extern void func_021A1B74(u8 *p, int a, int f);
 extern void func_021BE1DC(void *arg);
 extern u8 func_020129AC(const struct BigObj *p);
 extern u32 *func_021A0CF4(u32 a, u32 b, u32 c);
@@ -225,7 +227,7 @@ int func_021881D8(int a, char *p)
         t = (int)func_021D33F8((u32 *)F32(0x9c));
         func_0218B8AC((char *)m, F16(0xd0), F32(0xc), t);
         func_021C6534((u32 *)F32(0x130), t);
-        func_02189614(sys, p, F16(0xd0));
+        func_02189614((void *)sys, p, F16(0xd0));
         break;
     }
     case 2: {
@@ -238,11 +240,11 @@ int func_021881D8(int a, char *p)
             func_021BB2F8(F32(0x3c), v, F16(0));
         }
         F32(0x104) = func_02189ACC(F16(0xd0));
-        func_021895E8(p, F16(0xd0), F16(0));
+        func_021895E8((unsigned char *)p, (u16)F16(0xd0), (u16)F16(0));
         break;
     }
     case 3:
-        func_02189204(p);
+        func_02189204((u8 *)p);
         F32(0x94) = (int)func_021ABD50((int)p, 0x18, F16(0));
         func_021ABF68(F32(0x94), 0x5e);
         func_021AC1EC((u32 *)F32(0x94), (u32)func_021D33F8((u32 *)F32(0x9c)));
@@ -263,13 +265,13 @@ int func_021881D8(int a, char *p)
         if (func_02012B28((const struct Rec44 *)w) == 1 && func_02013C20(F16(0xd0)) == 0) {
             func_02012B2C((struct Rec44 *)w, 0);
         }
-        F32(0x8c) = func_021A2E50(w, p, pos, func_02008550((const struct Sub0200852CObj *)func_02012944((void *)sys)), F16(0));
+        F32(0x8c) = (int)func_021A2E50(w, (u32)p, (int)pos, func_02008550((const struct Sub0200852CObj *)func_02012944((void *)sys)), F16(0));
         *(V3 *)(p + 0xf4) = *pos;
         (*(Ops **)(p + 0x108))->f4(p, (V3 *)(p + 0xf4), k);
-        func_0218D158(F32(0x48), (V3 *)(p + 0xf4));
-        func_02189758(p + 0x118);
+        func_0218D158((struct T *)F32(0x48), (const struct V3 *)(p + 0xf4));
+        func_02189758((int *)(p + 0x118));
         F32(0x34) = func_021BE2A8(0x3c, 0x23, F16(0));
-        func_02189154((void *)F32(0xc), func_02188C9C(p));
+        func_02189154((void *)F32(0xc), (int)func_02188C9C((u8 *)p));
         F32(0x18) = (int)func_021A0104(F16(0));
         F32(0x1c) = (int)func_021A02C4(F16(0));
         r = func_02013EEC(F16(0xd0));
@@ -279,7 +281,7 @@ int func_021881D8(int a, char *p)
         F32(0x14) = (int)func_021A03D0(r, g, func_0202E83C((void *)a), F32(0x18), F32(0xa8), F16(0));
         r = func_02012A30((const struct BigObj *)F32(8));
         F32(0x20) = func_021A19E8(F32(0x10), F32(0x14), F32(0x18), F32(0x1c), r, func_0202E83C((void *)a), 0x92);
-        func_021A1B74(F32(0x20), func_02012994(F32(8)), 0x92);
+        func_021A1B74((u8 *)F32(0x20), (u16)((int)func_02012994((const struct BigObj *)F32(8))), 0x92);
         func_021BE1DC(p);
         break;
     }

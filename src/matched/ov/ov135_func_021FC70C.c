@@ -28,7 +28,8 @@ extern void *func_0200ADB4(void *);
 extern int func_021F6DE8(void *);
 typedef unsigned int   u32;
 extern u32 func_0201AA18(void *p);
-extern void func_021FC810(void *, unsigned, unsigned, unsigned, unsigned, void *);
+typedef unsigned char  u8;
+extern void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, void *sel);
 extern void func_021F4E98(void *, unsigned, unsigned);
 extern void func_021F4EC0(void *, unsigned, unsigned);
 extern void func_021FCBF0(char *p);
@@ -42,11 +43,11 @@ int func_021FC70C(char *p)
         func_0201F868(((struct Obj00045 *)p)->fDE8);
         q = func_0200ADB4(**(void ** *)&((struct Obj00045 *)p)->f0);
         if (func_021F6DE8(q) && func_0201AA18(((struct Obj23409 *)(*(char * *)&((struct Obj00045 *)p)->f0))->f8) == 6) {
-            func_021FC810(p, 0x2a, 1, 0, 0xf0f, q);
+            func_021FC810((u8 *)p, 0x2a, 1, 0, 0xf0f, q);
             func_021F4E98(p, 3, 1);
             return 2;
         }
-        func_021FC810(p, 6, 1, 0, 0xf0f, q);
+        func_021FC810((u8 *)p, 6, 1, 0, 0xf0f, q);
         func_021F4E98(p, 3, 5);
         func_021FCBF0(p);
     } else if (r == 2 || r == -2) {

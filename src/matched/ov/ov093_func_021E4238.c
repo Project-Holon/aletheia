@@ -23,9 +23,10 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern u8 *func_021C7CF4(u8 *s, int k);
-extern int func_021D5BB0(u8 *q, u32 n);
-extern u8 *func_021C88A4(u8 *p, int a, int b);
+struct UtilWork;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
@@ -39,12 +40,12 @@ void func_021E4238(int a0, u8 *s, int k, int *pf)
 
     if (k == func_021D775C(3)) {
         v = func_021D775C(4);
-        if (func_021D5BB0(func_021C7CF4(s, v), 7) != 0 || *pf != 0) {
-            e = func_021C88A4(s, 0x16, k);
+        if (func_021D5BB0(func_021C7CF4((int *)s, v), 7) != 0 || *pf != 0) {
+            e = func_021C88A4((char *)s, 0x16, k);
             e[8] = v;
             ((struct Obj13518 *)e)->f4 = 7;
             func_021C88C8(s, e);
-            e2 = func_021C88A4(s, 4, k);
+            e2 = func_021C88A4((char *)s, 4, k);
             func_021C8838(e2 + 4, 2, 526);
             func_021C8860((struct S *)(e2 + 4), v);
             func_021C88C8(s, e2);

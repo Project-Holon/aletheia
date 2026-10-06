@@ -67,11 +67,11 @@ struct Queue {
 extern struct Queue g_02146B80;
 extern struct Queue g_02146B80_cb;
 
-extern void func_02061B5C(struct Queue *q);
+extern void func_02061B5C(u8 *p);
 
 void sub_02061C0C(void *a, u32 capacity)
 {
     g_02146B80_cb.unk_00 = a;
     g_02146B80_cb.capacity = capacity;
-    func_02061B5C(&g_02146B80);
+    func_02061B5C((u8 *)(&g_02146B80));
 }

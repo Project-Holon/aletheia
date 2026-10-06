@@ -29,13 +29,14 @@ typedef unsigned int u32;
 extern u32 func_021CC8D8(void *lock, int line);
 extern u8 func_021D5440(u8 *p);
 extern int func_021E869C(void *p, int id);
-extern u32 func_021D5B40(void *m);
-extern void *func_021C88A4(void *a, int k, int b);
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 int func_021CC558(char *p, void *m)
 {
@@ -45,7 +46,7 @@ int func_021CC558(char *p, void *m)
     char *q;
 
     if (func_021E869C(p, func_021D5440(m)) == 0) {
-        t = (u16)func_021D5B40(m);
+        t = (u16)(u32)func_021D5B40(m);
         if (t != 0) {
             s = func_021CC8D8(p + 0x1d74, 1944);
             id = func_021D5440(m);
@@ -56,7 +57,7 @@ int func_021CC558(char *p, void *m)
             func_021C8860((struct S *)(q + 12), id);
             func_021C8860((struct S *)(q + 12), t);
             func_021C88C8(p, q);
-            func_021CC95C(p + 0x1d74, s, 1957);
+            func_021CC95C((u32 *)(p + 0x1d74), s, 1957);
             return 1;
         }
     }

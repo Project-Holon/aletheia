@@ -18,12 +18,14 @@ typedef struct {
     void *f8;
 } Obj;
 
-extern int func_021BD090(Obj *p);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern u16 func_021BD090(u8 *p);
 typedef unsigned int   u32;
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 
 void func_021BCFE0(Obj *p)
 {
-    p->f8 = func_0201EC64(func_021BD090(p));
+    p->f8 = func_0201EC64(func_021BD090((u8 *)p));
 }

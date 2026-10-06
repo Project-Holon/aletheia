@@ -36,7 +36,7 @@ typedef struct Mgr {
 } Mgr;
 
 extern int func_021B9278(u8 *a, u32 b, const Tbl *t);
-extern int func_021B9280(u8 *a, s32 y, s32 v, const Tbl *t);
+extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
 
 void func_021B8250(const Mgr *m, const Arg *src, Arg *out)
 {
@@ -57,7 +57,7 @@ void func_021B8250(const Mgr *m, const Arg *src, Arg *out)
     y = a.h6 << 4;
     x = a.h4 << 4;
     v = func_021B9278(base + (off + pad), m->f4C, &m->tbl);
-    w = func_021B9280(base + off, y, v, &m->tbl);
+    w = func_021B9280(base + off, y, v, (u8 *)(&m->tbl));
     if (y >= v)
         out->h6 = (v - 1) / 16;
     if ((x < 0 ? -x : x) > w) {

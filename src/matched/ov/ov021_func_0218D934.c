@@ -17,13 +17,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_0207C768(int a, int b);
+extern u32 func_0207C768(u32 a, u32 b);
 
 int func_0218D934(u32 a, int b, int c)
 {
     int r = -(int)((a >> 1) - 1);
     int q = c / b;
-    if (c % b < func_0207C768(b, 0x2000))
+    if (c % b < (int)func_0207C768((int)b, (int)0x2000))
         r += q - 1;
     else
         r += q;

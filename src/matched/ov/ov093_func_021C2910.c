@@ -40,8 +40,9 @@ extern void func_021C5C1C(u8 *, u8 *, int, S);
 extern void func_021C5480(u8 *, u8 *, int);
 extern void func_021C2AA0(int, S, u8 *, struct Msg *);
 extern int func_021C99A0(void *, const struct Msg *);
-extern void func_021C8810(struct Msg *);
-extern u16 func_021D5444(void *);
+struct QF;
+extern void func_021C8810(u8 *p);
+extern u16 func_021D5444(struct QF *p);
 extern int func_021D59B4(u8 *p, int k);
 extern void func_021D8510(void *p);
 extern void func_021D66D8(void *, u8);
@@ -55,7 +56,7 @@ extern void func_021C2BF0(u8 *, u8 *, u8 *, u32, u32);
 extern void func_021C2CA8(u8 *p, u8 *a);
 extern void func_021C3FDC(u8 *, u8 *);
 extern void func_021C2C50(u8 *, u8 *, u8 *, u32);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C195C(u8 *p, u8 *q, u32 n);
 void func_021C2910(u8 *p, u8 *a, u8 *b, int kind, S value, int f, int g, const struct Msg *m)
 {
@@ -74,9 +75,9 @@ void func_021C2910(u8 *p, u8 *a, u8 *b, int kind, S value, int f, int g, const s
     if (f) {
         func_021C2AA0(kind, value, a, (struct Msg *)(p + 0x1ae4));
         func_021C99A0(p, (struct Msg *)(p + 0x1ae4));
-        func_021C8810((struct Msg *)(p + 0x1ae4));
+        func_021C8810((u8 *)(p + 0x1ae4));
     } else if (m) func_021C99A0(p, m);
-    if (kind == 3 && func_021D5444(a) == 492 && func_021D59B4(a, 19) == 1) {
+    if (kind == 3 && func_021D5444((struct QF *)a) == 492 && func_021D59B4(a, 19) == 1) {
         func_021D8510(a);
         func_021D66D8(a, 0);
         func_021CD4B0(((struct Obj00003 *)p)->fC, 79, func_021D5440(a), 0);
@@ -90,6 +91,6 @@ void func_021C2910(u8 *p, u8 *a, u8 *b, int kind, S value, int f, int g, const s
         func_021C2CA8(p, (u8 *)((int)a));
         if (func_021D59B4(a, 17) == 127) func_021C3FDC(p, a);
     } else func_021C2C50(p, a, b, kind);
-    func_021CC95C(p + 0x1d74, lock, 7951);
+    func_021CC95C((u32 *)(p + 0x1d74), lock, 7951);
     if (!g) func_021C195C(p, a, 3);
 }

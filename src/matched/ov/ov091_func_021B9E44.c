@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern u32 func_021BA65C(u8 *p, u16 id);
 extern void func_021BB7A4(void *p, u32 *s);
 extern void func_021B7B98(u8 *p);
-extern void func_021BB97C(u8 *p, u32 obj);
+extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB9AC(int a, int b, int c, int d);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021BB98C(void *p, u32 s);
@@ -49,7 +49,7 @@ void func_021B9E44(u8 *p)
         return;
     }
     func_021BB7A4(p, (u32 *)W(0x150));
-    func_021BB97C(p, W(0x150));
+    func_021BB97C((u16 *)p, W(0x150));
     func_021BB9AC((int)p, W(0x150), 0, *(u16 *)(W(0x280) + 0x44));
     func_021B9788(p, 0xb3, 1, (int)func_021B9E3C);
     func_021BB98C(p, W(0x150));

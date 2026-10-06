@@ -68,7 +68,7 @@ typedef struct NNSG2dFont {
 } NNSG2dFont;
 
 extern u16 func_02067F9C(const NNSG2dFont *pFont, u16 c);
-extern const NNSG2dCharWidths *func_02067FE4(const NNSG2dFont *pFont, u16 idx);
+extern const struct NNSG2dCharWidths *func_02067FE4(const struct NNSG2dFont *pFont, u32 idx);
 
 static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
 {

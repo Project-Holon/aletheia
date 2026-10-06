@@ -86,7 +86,9 @@ typedef struct {
 typedef unsigned int u32;
 struct WinMgr;
 extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
-extern int func_021E01C4(unsigned char *p);
+typedef unsigned char  u8;
+struct Sound;
+extern int func_021E01C4(char *p);
 extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_02035C38(void);
 extern void func_021EF57C(struct WinMgr *mgr);
@@ -95,7 +97,7 @@ extern int func_021EF770(struct WinMgr *mgr);
 extern int func_021DF254(unsigned char *p, short x, short y);
 extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EF75C(struct WinMgr *mgr);
-extern void func_021EE008(unsigned char *p, int a, int b);
+extern void func_021EE008(char *p, int a, int b);
 extern void func_020061E4(unsigned se);
 extern int func_021EF45C(struct WinMgr *mgr);
 extern int func_021DF228(short x, short y, const unsigned char *r);
@@ -103,51 +105,51 @@ extern const unsigned char d_021EF79C[];
 extern const unsigned char d_021EF7B4[];
 extern int func_021EF248(void);
 extern void func_021EF3D8(struct WinMgr *mgr);
-extern void func_021ECB20(unsigned char *p, int a, int b);
+extern void func_021ECB20(char *p, int f, int c);
 extern void func_021ED888(char *q, int a);
-extern void func_02026124(void *obj, int v);
+extern void func_02026124(struct Sound *obj, u32 idx);
 extern int func_021EF480(struct WinMgr *mgr);
-extern int func_021DF1DC(short x, short y);
+extern int func_021DF1DC(short x, int y);
 extern int func_021EF60C(struct WinMgr *mgr);
-extern void func_021ED6E4(unsigned char *p, int v);
-extern int func_021DE5C8(unsigned char *p, unsigned id);
+extern void func_021ED6E4(char **p, int v);
+extern int func_021DE5C8(char *p, unsigned id);
 extern void func_021EF534(struct WinMgr *mgr);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
-extern void func_021EC35C(unsigned char *p, int box);
-extern int func_021DEDCC(unsigned char *p, int box);
-extern void func_021DEC98(unsigned char *p, int a, int dir);
-extern void func_021EF180(int a, int b);
-extern void func_021DD1E8(unsigned char *p);
-extern void func_021EE364(unsigned char *p, int idx, int v);
-extern void func_021EE038(unsigned char *p, int a, int b, int c);
+extern void func_021EC35C(char **p, int box);
+extern int func_021DEDCC(char *p, int box);
+extern void func_021DEC98(char *p, int a, int dir);
+extern int func_021EF180(int a, int b);
+extern void func_021DD1E8(char *p);
+extern void func_021EE364(char **p, int idx, int v);
+extern void func_021EE038(char *p, int a, int b, int c);
 extern int func_021EF1B4(void);
 extern void func_021DD16C(unsigned char *p, int dir);
 extern int func_021EF264(void);
 extern void func_021DD090(unsigned char *p, unsigned idx);
 extern void func_021EF3A0(struct WinMgr *mgr);
 extern int func_021EF1C4(void);
-extern void func_021DD1C4(unsigned char *p, int a);
-extern int func_021EF224(unsigned a, unsigned b);
-extern void func_021DF43C(unsigned char *p, int x, int y);
-extern int func_021E00C4(unsigned char *p);
-extern int func_021E0128(unsigned char *p);
+extern void func_021DD1C4(char *p, int a);
+extern int func_021EF224(int a, int b);
+extern void func_021DF43C(char *p, int x, int y);
+extern int func_021E00C4(char *p);
+extern int func_021E0128(char *p);
 extern int func_021DD930(unsigned char *p);
-extern int func_021E1A28(unsigned char *p);
-extern int func_021E19D4(unsigned char *p);
-extern int func_021DCFC0(unsigned char *p);
-extern int func_021E01E0(unsigned char *p);
+extern int func_021E1A28(char *p);
+extern int func_021E19D4(char *p);
+extern int func_021DCFC0(char *p);
+extern int func_021E01E0(char *p);
 extern void func_021EF35C(struct WinMgr *mgr);
 extern void func_021EF36C(struct WinMgr *mgr);
-extern void func_021EC5A0(unsigned char *p, int flag);
+extern void func_021EC5A0(char **p, int flag);
 extern void func_021EF680(char *p);
 extern void func_021EF68C(char *p);
 extern int func_021EF400(unsigned char *p);
 extern void func_021EF69C(char *p);
 extern void func_021EF670(char *p);
 extern void func_021DE66C(unsigned char *p, void *e);
-extern void func_020260E4(void *obj, unsigned char sel);
-extern void func_021EE3E4(unsigned char *p, unsigned idx);
-extern void func_021ED55C(unsigned char *p, int flag);
+extern void func_020260E4(struct Sound *obj, u8 sel);
+extern void func_021EE3E4(char **p, unsigned idx);
+extern void func_021ED55C(char **p, int flag);
 extern void func_021ED7C4(char *p, int i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -172,7 +174,7 @@ int func_021DF484(unsigned char *p)
             b->timer = 0;
             r = 0xFF;
             if (func_021EF770(MGR(p)) == 1) {
-                func_021EE008(p, 0, 0);
+                func_021EE008((char *)p, 0, 0);
                 r = func_021DF254(p, *(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184));
                 if (r == 0xFF || func_021DE158(p, p[0x16], r) == 0) {
                     func_021EF75C(MGR(p));
@@ -184,7 +186,7 @@ int func_021DF484(unsigned char *p)
             if (func_021EF45C(MGR(p)) == 1) {
                 r = func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF79C);
                 if (r == 0xFF)
-                    r = func_021DF1DC(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184));
+                    r = func_021DF1DC(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184)));
             }
             if (func_021EF480(MGR(p)) == 1)
                 r = func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF7B4);
@@ -194,9 +196,9 @@ int func_021DF484(unsigned char *p)
             }
             func_021DE158(p, p[0x16], r);
             if (func_021EF60C(MGR(p)) == 0)
-                func_021ED6E4(p, 0);
+                func_021ED6E4((char **)p, 0);
             if (r != 0xFF)
-                p[0x16] = func_021DE5C8(p, 0x24);
+                p[0x16] = func_021DE5C8((char *)p, 0x24);
             if (func_021EF45C(MGR(p)) == 0 && func_021EF770(MGR(p)) == 0 && busy == 0)
                 func_021EF534(MGR(p));
             b->state = 2;
@@ -210,12 +212,12 @@ int func_021DF484(unsigned char *p)
                 p[0x1A] = 2;
                 func_021EF3D8(MGR(p));
                 func_020061E4(0x669);
-                func_021ECB20(p, 1, 0);
+                func_021ECB20((char *)p, 1, 0);
                 func_021ED888(WORK(p), 1);
-                func_021EE364(p, 6, p[0x16]);
+                func_021EE364((char **)p, 6, p[0x16]);
                 if ((*(int **)p)[9] == 4)
                     func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
-                func_021EE038(p, 2, 1, 2);
+                func_021EE038((char *)p, 2, 1, 2);
                 *(int *)(WORK(p) + 0xA168) = p[0x16];
                 *(int *)(WORK(p) + 0x68) = 0x17;
             }
@@ -259,12 +261,12 @@ int func_021DF484(unsigned char *p)
                 int dir = func_021EF1C4();
                 if (dir == 0) {
                     func_020061E4(0x548);
-                    func_021DD1C4(p, -1);
+                    func_021DD1C4((char *)p, -1);
                     b->state = 8;
                     b->timer = 0;
                 } else if (dir == 1) {
                     func_020061E4(0x548);
-                    func_021DD1C4(p, 1);
+                    func_021DD1C4((char *)p, 1);
                     b->state = 9;
                     b->timer = 0;
                 }
@@ -272,12 +274,12 @@ int func_021DF484(unsigned char *p)
             if (func_021EF770(MGR(p)) == 1) {
                 int k = func_021EF224(x, y);
                 if (k != 0xFF)
-                    func_021EE008(p, k - 0x24, 1);
+                    func_021EE008((char *)p, k - 0x24, 1);
                 else
-                    func_021EE008(p, 0, 0);
+                    func_021EE008((char *)p, 0, 0);
             }
         }
-        func_021DF43C(p, x, y);
+        func_021DF43C((char *)p, x, y);
         break;
     case 2:
         if (func_021DD930(p) == 0) {
@@ -290,86 +292,86 @@ int func_021DF484(unsigned char *p)
             b->state = 0x10;
         break;
     case 6:
-        if (func_021E00C4(p) == 0) {
+        if (func_021E00C4((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
         if (func_02035CB8(&x, &y) == 1)
-            func_021DF43C(p, x, y);
+            func_021DF43C((char *)p, x, y);
         break;
     case 7:
-        if (func_021E0128(p) == 0) {
+        if (func_021E0128((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
         if (func_02035CB8(&x, &y) == 1)
-            func_021DF43C(p, x, y);
+            func_021DF43C((char *)p, x, y);
         break;
     case 8:
-        if (func_021E1A28(p) == 0)
+        if (func_021E1A28((char *)p) == 0)
             b->state = 1;
         if (func_02035CB8(&x, &y) == 1)
-            func_021DF43C(p, x, y);
+            func_021DF43C((char *)p, x, y);
         break;
     case 9:
-        if (func_021E19D4(p) == 0)
+        if (func_021E19D4((char *)p) == 0)
             b->state = 1;
         if (func_02035CB8(&x, &y) == 1)
-            func_021DF43C(p, x, y);
+            func_021DF43C((char *)p, x, y);
         break;
     case 10:
-        if (func_021E01C4(p) == 0)
+        if (func_021E01C4((char *)p) == 0)
             b->state = 1;
         if (func_02035CB8(&x, &y) == 1)
-            func_021DF43C(p, x, y);
+            func_021DF43C((char *)p, x, y);
         break;
     case 11:
-        func_021DCFC0(p);
-        if (func_021E01E0(p) == 0) {
+        func_021DCFC0((char *)p);
+        if (func_021E01E0((char *)p) == 0) {
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
-            func_021EC5A0(p, 1);
+            func_021EC5A0((char **)p, 1);
             func_021EF680(WORK(p));
             func_021EF68C(WORK(p));
             func_020061E4(0x669);
             b->state = 0xC;
         }
         if (func_02035CB8(&x, &y) == 1)
-            func_021DF43C(p, x, y);
+            func_021DF43C((char *)p, x, y);
         break;
     case 12:
         if (busy == 0)
             b->state = 1;
         if (func_02035CB8(&x, &y) == 1)
-            func_021DF43C(p, x, y);
+            func_021DF43C((char *)p, x, y);
         break;
     case 13:
-        func_021DCFC0(p);
+        func_021DCFC0((char *)p);
         if (busy == 0) {
-            func_021DD1E8(p);
+            func_021DD1E8((char *)p);
             func_021EF69C(WORK(p));
             func_021EF670(WORK(p));
             func_020061E4(0x669);
             b->state = 0xA;
         }
         if (func_02035CB8(&x, &y) == 1)
-            func_021DF43C(p, x, y);
+            func_021DF43C((char *)p, x, y);
         break;
     case 16:
         func_021DE66C(p, b->moves);
         if (func_021EF480(MGR(p)) == 1) {
             func_021ED7C4(WORK(p), p[0x16]);
-            func_021ED6E4(p, 1);
+            func_021ED6E4((char **)p, 1);
         } else {
-            func_021ED6E4(p, 0);
+            func_021ED6E4((char **)p, 0);
             func_020260E4(*(void **)(WORK(p) + 0x70), p[0x16]);
-            func_021EE3E4(p, p[0x16]);
-            func_021ED55C(p, 1);
+            func_021EE3E4((char **)p, p[0x16]);
+            func_021ED55C((char **)p, 1);
         }
         b->state = 0;
         return 0;
     case 14:
-        if (func_021E01E0(p) == 0) {
+        if (func_021E01E0((char *)p) == 0) {
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
             func_020061E4(0x669);
@@ -379,8 +381,8 @@ int func_021DF484(unsigned char *p)
     case 15:
         if (busy == 0) {
             p[0x1A] = 2;
-            func_021DE158(p, p[0x16], func_021DF1DC(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184)));
-            func_021ED6E4(p, 0);
+            func_021DE158(p, p[0x16], func_021DF1DC(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184))));
+            func_021ED6E4((char **)p, 0);
             b->state = 2;
         }
         break;

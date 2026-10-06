@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_020212E4(u16 v);
 
-int func_0202F738(void *p)
+int func_0202F738(void *p, int a1)
 {
     int i;
 

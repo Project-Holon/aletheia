@@ -66,9 +66,9 @@ extern void *func_0201292C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern u32 func_0201296C(const struct BigObj *p);
 extern void *func_02012EBC(struct Big *p);
-extern u32  func_02012F20(void *a);
+extern int func_02012F20(int p0);
 extern void *func_02012F2C(int *p);
-extern void func_02013144(void *p, int v);
+extern void func_02013144(char *p, int v);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 
@@ -104,7 +104,7 @@ void func_02013360(u8 *o, void *a1, const void *a2)
     ((struct Obj00155 *)o)->f60 = func_0201292C(a1);
     ((struct Obj00155 *)o)->f64 = func_02012924(a1);
     ((struct Obj00155 *)o)->f68 = (u32)func_0200CA1C(a1);
-    ((struct Obj00155 *)o)->f70 = func_02012F20(a1);
+    ((struct Obj00155 *)o)->f70 = func_02012F20((int)a1);
     ((struct Obj00155 *)o)->f6C = (u32)func_02012F2C(a1);
     t = (u32)func_02012EBC(a1);
     u = (u32)func_0200C0E8((void *)t);
@@ -115,6 +115,6 @@ void func_02013360(u8 *o, void *a1, const void *a2)
     ((struct Obj00155 *)o)->f1A = 0x468 + 0x14;
     ((struct Obj00155 *)o)->f8C = 1;
     if (func_020142E8((void *)func_0201296C(a1), 0x96d) != 0) {
-        func_02013144(o, 2);
+        func_02013144((char *)o, 2);
     }
 }

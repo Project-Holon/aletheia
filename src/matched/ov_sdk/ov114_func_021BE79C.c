@@ -32,7 +32,7 @@ typedef struct {
 typedef unsigned char  u8;
 extern u8 *func_021BEF08(void);
 extern void *func_021BEF58(void);
-extern Req *func_021BEC10(void *mutexInfo_p, void *handle_p);
+extern int func_021BEC10(int a, int d);
 
 int func_021BE79C(void *handle, void *value_p, unsigned long length)
 {
@@ -41,7 +41,7 @@ int func_021BE79C(void *handle, void *value_p, unsigned long length)
 
     func_021BEF08();
     mutexInfo_p = func_021BEF58();
-    req_p = func_021BEC10(mutexInfo_p, handle);
+    req_p = (Req *)func_021BEC10((int)mutexInfo_p, (int)handle);
     if (req_p == 0) {
         return -1;
     }

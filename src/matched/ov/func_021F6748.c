@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_02018438(u32 a, u8 *q);
+extern u32 func_02018438(void *p);
 
 void func_021F6748(u32 a, u8 *q)
 {
-    q[3] = func_02018438(a, q);
+    q[3] = func_02018438((void *)a);
 }

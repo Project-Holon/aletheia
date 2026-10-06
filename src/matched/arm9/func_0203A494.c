@@ -45,7 +45,7 @@ typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0203A574(u32 a0, u32 a1, u32 a2, u32 a3);
 
-void func_0203A494(u32 a0, u32 a1, u32 a2, u32 a3)
+void func_0203A494(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
     int i;
 

@@ -18,7 +18,9 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 struct Ctx;
 extern u8 *func_020120F8(const struct Ctx *p);
-extern unsigned short func_02012AC8(void *);
+typedef unsigned short u16;
+struct Rec44;
+extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013CC8(u32);
 extern u32 func_02013CE0(u32);
-int func_02160FB4(void *p) { unsigned short id=func_02012AC8(func_020120F8(p)); if(func_02013CC8(id)==1) return 1; if(func_02013CE0(id)==1) return 3; return 0; }
+int func_02160FB4(void *p) { unsigned short id=func_02012AC8((const struct Rec44 *)func_020120F8(p)); if(func_02013CC8(id)==1) return 1; if(func_02013CE0(id)==1) return 3; return 0; }

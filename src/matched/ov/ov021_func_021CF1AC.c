@@ -43,7 +43,7 @@ extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_021CF110(u8 *p, u32 v, void *a);
 
-void func_021CF1AC(u32 a, u32 b, u32 c)
+u32 func_021CF1AC(u32 a, u32 b, u32 c)
 {
     B buf;
 
@@ -54,7 +54,7 @@ void func_021CF1AC(u32 a, u32 b, u32 c)
     if (c == 1)
         func_0203D3F8((u32)func_020399A8(), 0xff, 0x2700, 0x28, (u32)(&buf), 0, 0, 0);
     else
-        func_0203D3F8((u32)func_020399A8(), 0, 0x2700, 0x28, (u32)(&buf), 0, 0, 0);
+        return func_0203D3F8((u32)func_020399A8(), 0, 0x2700, 0x28, (u32)(&buf), 0, 0, 0);
 }
 
 void func_021CF214(u32 a, u32 b, u32 c, u32 d)

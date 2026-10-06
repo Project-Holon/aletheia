@@ -88,8 +88,13 @@ extern void G3_RotX(fx32 s, fx32 c);
 extern void G3_RotZ(fx32 s, fx32 c);
 extern void G3_MultMtx44(const MtxFx44 *m);
 extern u32 sub_0207C768(u32 a, u32 b);
-extern void func_02016FC8(const VecFx32 *v, const MtxFx44 *mtx,
-                          VecFx32 *dst, s32 *w);
+struct McssSys;
+struct McssWork;
+struct MtxFx44;
+struct Pose;
+struct Tex;
+struct VecFx32;
+extern void func_02016FC8(const struct VecFx32 *v, const struct MtxFx44 *mtx, struct VecFx32 *dst, s32 *w);
 extern void sub_020169D4(void);
 
 extern MtxFx43 g_02148B98;
@@ -247,11 +252,7 @@ struct McssWork {
     fx32 f17c, f180, f184;
 };
 
-extern void func_020155A0(struct McssSys *sys, struct McssWork *w,
-                          s32 x, s32 y, s32 width, s32 height,
-                          s32 s, s32 t, struct Pose *pose, u16 *frame,
-                          struct McssTex *tex, int polyId, int proj, u32 *z,
-                          u8 flip);
+extern void func_020155A0(struct McssSys *sys, struct McssWork *w, s32 x, s32 y, s32 width, s32 height, s32 s, s32 t, struct Pose *pose, u16 *frame, struct Tex *tex, int id, int proj, u32 *z, u8 flip);
 
 void func_02014D2C(struct McssSys *sys)
 {
@@ -348,7 +349,7 @@ void func_02014D2C(struct McssSys *sys)
             sy = FX_MUL(w->ff0, w->f12c);
             MTX_Copy43To44_(&g_02148B98, &m);
             MTX_Concat44(&m, &g_02148B54, &m);
-            func_02016FC8(&pos, &m, &pos, &wv);
+            func_02016FC8((const struct VecFx32 *)(&pos), (const struct MtxFx44 *)(&m), (struct VecFx32 *)(&pos), &wv);
             pos.x = FX_MUL(sub_0207C768(pos.x, wv), 0x80000);
             pos.y = FX_MUL(sub_0207C768(pos.y, wv), 0x60000);
             pos.z = -pos.z;
@@ -428,25 +429,25 @@ void func_02014D2C(struct McssSys *sys)
                 if (w->b8) {
                     func_020155A0(sys, w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h,
                                   rec->q1.s, rec->q1.t + rec->q1.h,
-                                  &part, &pose.f00, &sys->tex, id, billboard, &z, flip);
+                                  &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
                 } else {
                     func_020155A0(sys, w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h,
                                   rec->q1.s, rec->q1.t,
-                                  &part, &pose.f00, &sys->tex, id, billboard, &z, flip);
+                                  &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
                 }
             }
             func_020155A0(sys, w, rec->q0.x, rec->q0.y, rec->q0.w, rec->q0.h,
                           rec->q0.s, rec->q0.t,
-                          &part, &pose.f00, &sys->tex, id, billboard, &z, flip);
+                          &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
             if (rec->q1.w != 0 && w->b30 == 1) {
                 if (w->b8) {
                     func_020155A0(sys, w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h,
                                   rec->q1.s, rec->q1.t + rec->q1.h,
-                                  &part, &pose.f00, &sys->tex, id, billboard, &z, flip);
+                                  &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
                 } else {
                     func_020155A0(sys, w, rec->q1.x, rec->q1.y, rec->q1.w, rec->q1.h,
                                   rec->q1.s, rec->q1.t,
-                                  &part, &pose.f00, &sys->tex, id, billboard, &z, flip);
+                                  &part, &pose.f00, (struct Tex *)(&sys->tex), id, billboard, &z, flip);
                 }
             }
         }

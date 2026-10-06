@@ -30,9 +30,11 @@ extern const Table2 d_02211D68;
 extern const Pair d_02211D98;
 extern int func_022110D4(u8 *,int);
 extern void func_0220E7CC(u8 *,unsigned);
-extern void func_0220E974(unsigned,u8 *,const Pair *);
+typedef unsigned int   u32;
+struct Vec2;
+extern void func_0220E974(int mode, u8 *p, const struct Vec2 *q);
 extern void func_0220E9A0(char *,u8 *,Pair *);
-extern void func_0220EA30(u16,u8 *,Pair *);
+extern void func_0220EA30(u32 mode, u8 *p, const struct Vec2 *q);
 void func_0220EC2C(u8 *p)
 {
     int i;
@@ -42,11 +44,11 @@ void func_0220EC2C(u8 *p)
     rec=p+4+i*0x4c;
     pair=d_02211D34.third;
     func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(unsigned)&pair);
-    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),&d_02211D68.first);
+    func_0220E974(((Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),(const struct Vec2 *)(&d_02211D68.first));
     func_0220E9A0((char *)p,rec,(Pair *)&d_02211D98);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(((struct Obj14560 *)rec)->f1A,*(u8 **)((const u8 *)p+i*4+0x1ebc),&pair);
-    func_0220EA30(((struct Obj14560 *)rec)->f1A,*(u8 * *)&((struct Obj10847 *)p)->f1ED4,(Pair *)&d_02211D34.second);
+    func_0220EA30(((struct Obj14560 *)rec)->f1A,*(u8 **)((const u8 *)p+i*4+0x1ebc),(const struct Vec2 *)(&pair));
+    func_0220EA30(((struct Obj14560 *)rec)->f1A,*(u8 * *)&((struct Obj10847 *)p)->f1ED4,(const struct Vec2 *)((Pair *)&d_02211D34.second));
     func_0220E7CC(*(u8 * *)&((struct Obj10847 *)p)->f1F08,(unsigned)&d_02211D68.last);
 }

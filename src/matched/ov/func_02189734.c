@@ -25,12 +25,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Comm;
 extern void func_02026400(struct Comm *p);
-extern u32 func_02026454(u32, u32, u32, u32);
+extern u32 func_02026454(void *obj);
 extern u32 func_02026460(void *obj);
 
 int func_02189734(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02026454(a, b, c, d) == 0) {
+if (func_02026454((void *)a) == 0) {
     return 1;
 }
 if (func_02026460((void *)a) == 0) {

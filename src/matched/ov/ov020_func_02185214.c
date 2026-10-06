@@ -49,7 +49,8 @@ void *func_020120F4(const struct Ctx *p);
 void *func_0201210C(const struct Ctx *p);
 Rec *func_020128DC(void *p);
 int func_02013DD0(int v);
-void func_02014204(Rec *r, int v);
+struct t;
+void func_02014204(struct t *p, int id);
 void *func_02012EBC(struct Big *p);
 u16 *func_0200BE48(void *p);
 int func_02012FCC(int p0);
@@ -101,7 +102,7 @@ void *func_02185214(void *a)
     r6 = func_0201210C(a);
     s = *func_020128DC(r4);
     if (func_02013DD0(s.f04) == 1)
-        func_02014204(&s, s.f04);
+        func_02014204((struct t *)(&s), s.f04);
     create_result(a, r6, &s, &ret);
     return finish(a, r4, r6, ret);
 }

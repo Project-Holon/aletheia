@@ -35,7 +35,7 @@ typedef struct {
 struct Obj;
 extern struct Obj *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern int func_021CC810(struct Obj *p);
-extern u16 func_021CC7B4();
+extern u32 func_021CC7B4(struct Obj *p, u32 *out);
 extern void func_020307B0(void *p);
 
 int func_021B59B0(int a0, int *state, Work *w)
@@ -49,7 +49,7 @@ int func_021B59B0(int a0, int *state, Work *w)
         break;
     case 1:
         if (func_021CC810((struct Obj *)w->f8)) {
-            *w->f18 = func_021CC7B4(w->f8, &loc);
+            *w->f18 = func_021CC7B4((struct Obj *)w->f8, (u32 *)(&loc));
             if (loc == 1) {
                 *w->f18 = 3;
             }

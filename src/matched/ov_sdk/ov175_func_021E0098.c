@@ -17,7 +17,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern void func_021E0090(void *);
+extern int func_021E0090(void *a0);
 
 #define BS32(x) ((u32)((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | \
                        (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000)))

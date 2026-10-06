@@ -26,7 +26,8 @@ extern void func_021BBA70(struct Ctx *ctx, struct Src *src, u16 *v, u8 kind);
 extern void func_02087C6C(void *);
 extern int memcmp(const void *a, const void *b, int n);
 extern int func_0217B8F0(char *p, char v);
-extern void func_021734A8(char *, int, u8 *);
+typedef unsigned int   u32;
+extern void func_021734A8(u8 *self, u32 id, u32 v);
 
 void func_0217B798(char *base, u8 *p)
 {
@@ -37,8 +38,8 @@ void func_0217B798(char *base, u8 *p)
     if (q[1] == 0 && q[0x71] == 0 && p[0xa] == 5 && ((struct Obj07381 *)p)->f6C != 0) {
         func_02087C6C(buf);
         if (memcmp(p, buf, 6) == 0 && func_0217B8F0(base, 6) == 1) {
-            func_021734A8(base, 2, p);
-            func_021734A8(base, 0, p);
+            func_021734A8((u8 *)base, 2, (u32)p);
+            func_021734A8((u8 *)base, 0, (u32)p);
         }
     }
 }

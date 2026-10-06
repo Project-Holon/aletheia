@@ -19,16 +19,16 @@
 
 
 extern int func_02006650(int);
-extern void func_020065D8(int);
+extern void func_020065D8(void);
 
-void func_021C3480(int unused, char *p)
+void func_021C3480(int unused, char *p, int key)
 {
     int v;
 
     if (((struct Obj00146 *)p)->f68 != 0) {
         v = func_02006650(((struct Obj00146 *)p)->f68);
         if (v != 0)
-            func_020065D8(v);
+            func_020065D8();
         ((struct Obj00146 *)p)->f68 = 0;
     }
     ((struct Obj00146 *)p)->f74 = 0;

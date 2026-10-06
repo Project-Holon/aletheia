@@ -26,7 +26,8 @@
  *   func_021FFA98 0x021FFA98 thumb ov186
  */
 typedef struct {int a,b;} W;
-extern void func_02034714(const char *,int,const char *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *,unsigned,unsigned);
 extern void func_021FFB68(char *,int);
 extern const char d_02200D98[];

@@ -47,7 +47,9 @@ typedef struct Head { u8 pad[4]; u32 f4; u16 h8; } Head;
 
 extern int func_021AC1AC(u32 a);
 extern void func_021AC1CC(u32 a, V3 *v);
-extern u32 func_02050340(u32, u32, Desc *, u32, u32);
+struct BbActDesc;
+struct BbActSys;
+extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 extern void func_021AC154(u32 a);
 extern void func_02050804(void *p, int idx, u32 v, u16 h);
 extern void func_0205082C(void *p, int idx, u16 h);
@@ -74,7 +76,7 @@ void func_021C48A0(u32 a, Res *r)
     d.pos = s->v;
     d.f1c = 0;
     d.f20 = (u32)r;
-    r->h4 = func_02050340(t, 0, &d, 1, 3);
+    r->h4 = func_02050340((struct BbActSys *)t, 0, (const struct BbActDesc *)(&d), 1, 3);
     if (r->h4 == 0xFFFF) {
         func_021AC154(a);
         return;

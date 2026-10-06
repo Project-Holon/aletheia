@@ -62,7 +62,7 @@ struct Entry *func_020399A8(void);
 struct Link;
 u32 func_0203D1A4(struct Link *p);
 struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-void *func_020084F4(void *p);
+const void *func_020084F4(const void *p);
 u8 func_02008550(const struct Sub0200852CObj *obj);
 void func_0201A948(struct Party *p);
 void func_02013128(void *p, void *src, int i);

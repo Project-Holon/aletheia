@@ -17,7 +17,11 @@
  */
 #include "../include/Obj14596.h"
 typedef struct { char *ctx;int pad4[2];int c;int a;int b;void *text;void *window;int pad20[2]; } Work;
-extern void func_02082BCC(void *,int,int),func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short),func_02043B5C(void *,unsigned char);
+typedef unsigned char  u8;
+struct CharBuf;
+extern void func_02082BCC(void *,int,int);
+extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_0201F5DC(void *,unsigned,unsigned,unsigned);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);

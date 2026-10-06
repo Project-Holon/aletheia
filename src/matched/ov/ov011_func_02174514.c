@@ -25,12 +25,18 @@
  *   func_0202E7C4  0x0202E7C4  thumb
  */
 
-int func_02026478(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+struct Rec44;
+struct Sub02014444Obj;
+struct Sub24;
+u32 func_02026478(void *obj);
 int func_02012F20(int a);
-int func_02012B38(int a);
-int func_02014484(int a);
+void *func_02012B38(const struct BigObj *p);
+u8 func_02014484(struct Sub02014444Obj *o);
 int func_0202E7E0(int a);
-int func_02012950(int a, int b);
+struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 void func_0202E7C4(int a, int b, int c);
 
 void func_02174514(int a, int b, int *c, char *d)
@@ -39,13 +45,13 @@ void func_02174514(int a, int b, int *c, char *d)
     int q;
     int t;
 
-    p = func_02026478(((int *)d)[1]);
+    p = func_02026478((void *)(((int *)d)[1]));
     q = func_02012F20(p);
     if ((unsigned char)d[0x8fb] & (1 << a)) {
-        if (func_02014484(func_02012B38(p)) == 1) {
+        if (func_02014484(func_02012B38((const struct BigObj *)p)) == 1) {
             t = func_0202E7E0(q);
             if (t == 0 || t == 3) {
-                func_0202E7C4(q, *c, func_02012950(p, a));
+                func_0202E7C4(q, *c, (int)func_02012950((struct Sub24 *)p, a));
             }
         }
     }

@@ -78,14 +78,14 @@ struct PartyMon;
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32   func_020173EC(void);
-extern void  func_0202A3AC(u32 id, TrData *td);
+extern void func_0202A3AC(void *a0, void *a1);
 extern void func_0202A3BC(void *a0, void *a1);
 extern u8    func_0202A3CC(u32 cls);
 extern void  func_0202A994(u32 species, u32 form, int abil, u32 *gender, u16 heap);
 extern void  func_0202A9F4(u32 id, void *mon, u32 form, u32 abil);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void  func_02017E40(void *mon, u32 id, u32 val);
-extern void  func_020181F4(void *mon, u16 move, u8 slot);
+extern void func_020181F4(void *p, u16 move, u32 slot);
 
 void func_0202A4B4(u32 trid, void *party, u16 heap)
 {
@@ -105,7 +105,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
     td = func_02030734(h, 0x14, 0, g_020A76DC, 387);
     tp = func_02030734(h, 0x6C, 0, g_020A76DC, 388);
     mon = func_02030734(h, func_020173EC(), 0, g_020A76DC, 389);
-    func_0202A3AC(trid, td);
+    func_0202A3AC((void *)trid, td);
     func_0202A3BC((void *)trid, tp);
     if (func_0202A3CC(td->cls) == 1) {
         gender = 0x78;
@@ -162,7 +162,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
                           (iv & 31) | ((iv & 31) << 5) | ((iv & 31) << 10) | ((iv & 31) << 15) | ((iv & 31) << 20) | ((iv & 31) << 25),
                           pid);
             for (j = 0; j < 4; j++) {
-                func_020181F4(mon, ((TrMon1 *)tp)[i].moves[j], j);
+                func_020181F4(mon, ((TrMon1 *)tp)[i].moves[j], (u8)j);
             }
             func_0202A9F4(trid, mon, ((TrMon1 *)tp)[i].form, ((TrMon1 *)tp)[i].abil);
             func_0201A98C(party, mon);
@@ -219,7 +219,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
                           pid);
             func_02017E40(mon, 6, ((TrMon3 *)tp)[i].item);
             for (j = 0; j < 4; j++) {
-                func_020181F4(mon, ((TrMon3 *)tp)[i].moves[j], j);
+                func_020181F4(mon, ((TrMon3 *)tp)[i].moves[j], (u8)j);
             }
             func_0202A9F4(trid, mon, ((TrMon3 *)tp)[i].form, ((TrMon3 *)tp)[i].abil);
             func_0201A98C(party, mon);

@@ -38,14 +38,14 @@ struct Node {
     struct Node *next;
 };
 
-extern u32 sub_0204B838(struct Node *n);
+extern int sub_0204B838(int a0);
 
 struct Node *sub_0204CAAC(struct Node *head, u32 key)
 {
     struct Node *n = head;
 
     do {
-        if (sub_0204B838(n) <= key) {
+        if (sub_0204B838((int)n) <= key) {
             return n;
         }
         n = n->next;

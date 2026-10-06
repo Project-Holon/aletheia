@@ -475,16 +475,16 @@ extern void func_02082B60(Mtx43 *a, Mtx33 *b);
 extern void func_0207ADE8(Mtx33 *a, Mtx44 *b);
 extern void func_0207B5C0(const Mtx43 *src, Mtx44 *dst);
 extern void func_0207BE14(const Mtx44 *a, const Mtx44 *b, Mtx44 *ab);
-extern int func_0207C768(int a, int b);
+struct S;
+extern u32 func_0207C768(u32 a, u32 b);
 extern void func_0207D8FC(Mtx44 *m);
 extern void func_0207D888(int s, int c);
 extern void func_0207AF38(Mtx33 *m, int s, int c);
 extern void func_0207B51C(void *v, Mtx33 *m, void *out);
 extern void func_0207CA00(void *a, void *b, void *c);
-extern void func_021F660C(Vec *p, void *m, Vec *out, int *w);
+extern void func_021F660C(const int *p, const int *m, u32 *out, u32 *w);
 extern void func_021F65EC(void);
-extern void func_021F5EDC(char *obj, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, Pose *q, Pose *r,
-                          int j, int flag, int *w, u8 h);
+extern void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, struct S *s, u16 *pa, int a9, int flag, int *pz, u8 mode);
 
 typedef struct { u32 b0 : 1; u32 rest : 31; } Bits;
 typedef struct { u32 b0 : 1; u32 b1 : 1; u32 b2 : 1; u32 rest : 29; } Bits3;
@@ -632,10 +632,10 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             proj.m[15] = (int)0xFFFFF000;
             func_0207B5C0(&d_02148B98, &m4);
             func_0207BE14(&m4, &d_02148B54, &m4);
-            func_021F660C(&pos, &m4, &pos, &cb.w);
+            func_021F660C((const int *)(&pos), (const int *)(&m4), (u32 *)(&pos), (u32 *)(&cb.w));
             pos.x = func_0207C768(pos.x, cb.w);
             pos.y = func_0207C768(pos.y, cb.w);
-            func_021F660C(&pos, &proj, &pos, &cb.w);
+            func_021F660C((const int *)(&pos), (const int *)(&proj), (u32 *)(&pos), (u32 *)(&cb.w));
             ox = RoundF(pose.dx);
             oy = RoundF(-pose.dz);
         }
@@ -678,13 +678,13 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
             if (ent->f20 != 0) {
                 if (((Bits *)(obj + 0xEC))->b0)
                     func_021F5EDC(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
-                                  ent->f2C + ent->f24, &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
+                                  ent->f2C + ent->f24, (struct S *)(&sub), (u16 *)(&pose), j, ((Bits *)&p[2])->b0, &cb.z, flag);
                 else
                     func_021F5EDC(obj, ent->f18, ent->f1C, ent->f20, ent->f24, ent->f28,
-                                  ent->f2C, &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
+                                  ent->f2C, (struct S *)(&sub), (u16 *)(&pose), j, ((Bits *)&p[2])->b0, &cb.z, flag);
             }
             func_021F5EDC(obj, ent->f0, ent->f4, ent->f8, ent->fC, ent->f10, ent->f14,
-                          &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
+                          (struct S *)(&sub), (u16 *)(&pose), j, ((Bits *)&p[2])->b0, &cb.z, flag);
             for (k = 0; k < 8; k++) {
                 u8 b = ent->parts[k];
 

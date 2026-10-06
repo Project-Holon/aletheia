@@ -20,7 +20,8 @@
  */
 typedef unsigned int u32;
 extern void func_02082BCC(void *, int, u32);
-extern void func_0204A48C(const void *, u32, u32);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 typedef unsigned char  u8;
 struct Bank;
 struct Obj;
@@ -35,7 +36,7 @@ void func_021D986C(void **p, u32 a, u32 heap)
 {
     void *q;
     func_02082BCC(p, 0, 8);
-    func_0204A48C(d_021DF5A8, a, heap);
+    func_0204A48C((const struct Cfg *)d_021DF5A8, a, heap);
     p[0] = func_0204B100(128, 0, heap);
     q = func_0204B034((unsigned char *)d_021DF5C4, 2, heap);
     p[1] = q;

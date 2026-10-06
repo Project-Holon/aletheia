@@ -46,7 +46,7 @@ struct B88020659D4 {
     int unk_08;
 };
 
-extern void  func_0206615C(int a);
+extern void func_0206615C(void);
 struct G2dOamState;
 struct Obj02065878;
 extern u32 func_02067B50(const struct G2dOamState *p);
@@ -67,7 +67,7 @@ void func_020659D4(struct Cmd020659D4 *c)
         return;
 
     a = c->unk_00;
-    func_0206615C(c->unk_08);
+    func_0206615C();
 
     if ((c->unk_1e & 8) != 0) {
         int x, y;

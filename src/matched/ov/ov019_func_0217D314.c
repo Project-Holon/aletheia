@@ -58,19 +58,20 @@ typedef struct {
 } Obj;
 
 extern u16 func_0217AEFC(unsigned int x);
-extern int func_0217BB04(u8 *a);
+struct Link;
+extern int func_0217BB04(char *p);
 extern void func_021736E0(unsigned int x);
 extern void func_0203D14C(int a, int b, u8 *c);
 extern u32 func_0217F1EC(u8 *p);
 extern int func_0203D1B4(void);
 extern void func_0203D7BC(int a);
-extern u8 func_0217F060(int i);
+extern int func_0217F060(int i);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D1A4(int a);
+extern u32 func_0203D1A4(struct Link *p);
 extern void func_021734A8(u8 *self, u32 id, u32 v);
-extern void func_0217B8E4(u8 *a, int b);
-extern void func_02034714(void *a, int b, void *c);
+extern int func_0217B8E4(char *p, char v);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020362DC(void);
 extern u16 func_0217EE40(int i);
 extern u16 func_0217EE1C(int i);
@@ -85,7 +86,7 @@ int func_0217D314(u8 *a, Obj *b, int c, u8 *d)
     int idx;
     int n;
     idx = func_0217AEFC(b->f58);
-    if (func_0217BB04(a) == 1)
+    if (func_0217BB04((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -101,32 +102,32 @@ int func_0217D314(u8 *a, Obj *b, int c, u8 *d)
         if (func_0203D1B4() > 1) {
             func_0203D7BC(1);
             n = func_0217F060(b->f2d);
-            if (n <= func_0203D1A4((int)func_020399A8())) {
+            if (n <= (int)func_0203D1A4((struct Link *)((int)func_020399A8()))) {
                 *d = 4;
             } else {
                 func_021734A8(a, 3, (u32)(a + 0x2910 + idx * 0x8c));
                 b->b1 = 1;
                 switch (b->f2d) {
                 case 0x14:
-                    func_0217B8E4(a, 0x1f);
+                    func_0217B8E4((char *)a, (int)0x1f);
                     break;
                 case 0x15:
-                    func_0217B8E4(a, 0x20);
+                    func_0217B8E4((char *)a, (int)0x20);
                     break;
                 case 0x16:
-                    func_0217B8E4(a, 0x21);
+                    func_0217B8E4((char *)a, (int)0x21);
                     break;
                 case 0x17:
-                    func_0217B8E4(a, 0x22);
+                    func_0217B8E4((char *)a, (int)0x22);
                     break;
                 case 3:
-                    func_0217B8E4(a, 0xe);
+                    func_0217B8E4((char *)a, (int)0xe);
                     break;
                 case 0x19:
-                    func_0217B8E4(a, 0x24);
+                    func_0217B8E4((char *)a, (int)0x24);
                     break;
                 default:
-                    func_02034714(d_021807E4, 0, d_021807E4);
+                    func_02034714((const char *)d_021807E4, (int)0, (const char *)d_021807E4);
                     break;
                 }
                 *d = 3;
@@ -135,7 +136,7 @@ int func_0217D314(u8 *a, Obj *b, int c, u8 *d)
             b->f6c++;
             if (b->f6c > 600 || (func_020362DC() & 2)) {
                 b->b0 = 0;
-                func_0217B8E4(a, 0);
+                func_0217B8E4((char *)a, (int)0);
                 *d = 4;
             }
         }

@@ -31,7 +31,7 @@ typedef struct {
     u32 vC;
 } St;
 
-void func_02007150(void *);
+int func_02007150(int a0);
 void func_02008764(void *);
 struct Sub020071E4Ctrl;
 u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);
@@ -42,7 +42,7 @@ void func_0200721C(struct Sub020071E4Ctrl *ctrl, u8 v);
 void func_021BD2B0(St *p)
 {
     if (p->s7 != 1) {
-        func_02007150(p->h);
+        func_02007150((int)p->h);
         if (p->s7 == 0) {
             func_02008764(p->h);
             p->v8 = func_02007210(p->h);

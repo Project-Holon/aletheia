@@ -69,10 +69,10 @@ extern u32 func_0200FB24(void);
 extern int func_0203CDBC(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_02013790(Work *w, int a, int b, int c, int d);
-extern void func_02013128(Work *w, u32 a, int b);
+extern void func_02013790(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void func_02013128(void *p, void *src, int i);
 extern u16 func_02039338(void);
-extern void func_0203A424(int a, int b, int c, u16 d);
+extern void func_0203A424(char *p, int a, int b, int c);
 struct Link;
 extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern int func_02034AC4(int id);
@@ -101,8 +101,8 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
     }
     switch (*state) {
     case 0:
-        func_02013790(work, h, (int)func_020399A8(), 1, 4);
-        func_02013128(work, work->wF8, 0);
+        func_02013790((u32)work, h, (int)func_020399A8(), 1, 4);
+        func_02013128(work, (void *)work->wF8, 0);
         if (func_02039338() < obj->b4) {
             work->b21 = 0;
         } else {
@@ -115,7 +115,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         (*state)++;
         break;
     case 1:
-        func_0203A424((int)func_020399A8(), 0x15, 2, (1 << obj->b4) | (1 << func_02039338()));
+        func_0203A424((char *)((int)func_020399A8()), 0x15, 2, (u16)((1 << obj->b4) | (1 << func_02039338())));
         (*state)++;
         break;
     case 2:
@@ -127,7 +127,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         }
         break;
     case 3:
-        func_0203A424((int)func_020399A8(), 0x16, 2, (1 << obj->b4) | (1 << func_02039338()));
+        func_0203A424((char *)((int)func_020399A8()), 0x16, 2, (u16)((1 << obj->b4) | (1 << func_02039338())));
         (*state)++;
         break;
     case 4:

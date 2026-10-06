@@ -19,7 +19,8 @@
 
 extern char g_02150FEC[];
 extern void func_02159404(void *soc, int flush);
-extern long func_02162C28(void *soc);
+struct CPSSoc;
+extern long func_02162C28(struct CPSSoc *soc);
 
 long func_0215B504(void)
 {
@@ -30,7 +31,7 @@ long func_0215B504(void)
         if (*(unsigned char *)(soc + 8) == 4)
             func_02159404(soc, 1);
         if (*(unsigned char *)(soc + 9) != 0)
-            return func_02162C28(soc);
+            return func_02162C28((struct CPSSoc *)soc);
         count = *(long *)(soc + 0x50);
         if (count != 0)
             return count;

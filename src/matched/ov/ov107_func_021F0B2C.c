@@ -44,7 +44,10 @@ extern void func_021F0B04(void),func_021F0938(u16),func_021F08E4(u16),func_021F0
 extern void *func_021F1B64(u16);
 extern void func_021F0D1C(u16);
 extern u32 func_02087988(void),func_0208799C(u32);
-extern void func_02082D44(const void *,void *,u32),func_020307B0(void *),func_0203D7FC(void *),func_02034714(void *,int,void *);
+extern void func_02082D44(const void *,void *,u32);
+extern void func_020307B0(void *);
+extern void func_0203D7FC(void *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef struct {void *f00,*f04;u16 f08,f0A,f0C,f0E,f10,f12,f14;} Masks;
 extern Masks d_021F6EAC;
 extern u8 d_021F6EC8[],d_021F6EDE[],d_021F6EDF[],d_021F6EE0[],d_021F6EE1[],d_021F6EE2[],d_021F6EE3[],d_021F6EE4[],d_021F6E24[];
@@ -89,6 +92,6 @@ void func_021F0B2C(u16 aid,u32 event,u8 *p)
  case 1:case 4:case 5:case 6:case 8:case 11:
  break;
  case 0:
- default:func_02034714(d_021F6E24,0,d_021F6E24);break;
+ default:func_02034714((const char *)d_021F6E24,0,(const char *)d_021F6E24);break;
  }
 }

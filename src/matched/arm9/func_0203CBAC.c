@@ -89,7 +89,8 @@ extern void  func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_0200F17C(u32 sel);
 extern void  func_02034714(const char *file, u32 line, const char *msg);
-extern struct Req *func_0203D8F0(struct Req *req, u32 a);
+struct Base;
+extern struct Base *func_0203D8F0(const struct Base *src, u32 a1);
 extern void  func_02082D44(void *dst, void *src, u32 n);
 extern void func_0203AFCC(void *a, u32 b);
 extern void  func_02039834(struct Sess *s);
@@ -113,7 +114,7 @@ void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
     if (s->f340 == 0)
         func_02034714(file_020A7CA0, 0x6f, str_020A7CA8);
     if (req->f65 == 4)
-        req = func_0203D8F0(req, a3);
+        req = (struct Req *)func_0203D8F0((const struct Base *)req, a3);
     func_02082D44(req, s, 0x70);
     switch (req->f65) {
     case 1:

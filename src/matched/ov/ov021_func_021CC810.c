@@ -39,14 +39,14 @@ typedef struct Obj {
 } Obj;
 
 extern void func_021CCFC0(Obj *p);
-extern int func_021CCFE4(Obj *p, u32 v);
+extern int func_021CCFE4(u32 a, u32 b);
 extern int func_021CCFF8(Obj *p);
-extern void func_021CCEFC(Obj *p);
+extern void func_021CCEFC(u8 *p);
 extern int func_0219049C(u32 a);
 extern u32 func_021CCF54(Obj *p);
-extern void func_021CCF48(Obj *p);
+extern void func_021CCF48(u8 *p);
 extern void func_021CD1AC(Obj *p);
-extern void func_021CCFD8(Obj *p);
+extern void func_021CCFD8(u8 *p);
 
 int func_021CC810(Obj *p)
 {
@@ -55,12 +55,12 @@ int func_021CC810(Obj *p)
     switch (p->fC0) {
     case 0:
         func_021CCFC0(p);
-        func_021CCFE4(p, 3);
+        func_021CCFE4((u32)p, 3);
         p->fC0 = p->fC0 + 1;
         break;
     case 1:
         if (func_021CCFF8(p) == 1) {
-            func_021CCEFC(p);
+            func_021CCEFC((u8 *)p);
             p->fC0 = p->fC0 + 1;
         }
         break;
@@ -69,9 +69,9 @@ int func_021CC810(Obj *p)
             r = func_021CCF54(p);
             if (r == -1)
                 break;
-            func_021CCF48(p);
+            func_021CCF48((u8 *)p);
             func_021CD1AC(p);
-            func_021CCFD8(p);
+            func_021CCFD8((u8 *)p);
             switch (r) {
             case 2:
             case -2:

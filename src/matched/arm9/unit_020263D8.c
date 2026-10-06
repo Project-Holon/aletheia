@@ -60,7 +60,7 @@ struct Comm {
 };
 
 extern void func_02082BCC(void *dst, int val, u32 n);
-extern void func_020264F4(struct Comm *p);
+extern void func_020264F4(u8 *p);
 
 void func_020263D8(struct Comm *p, u32 a1, u32 a2)
 {
@@ -70,7 +70,7 @@ void func_020263D8(struct Comm *p, u32 a1, u32 a2)
     p->f20 = 0;
     p->f1c = 0;
     func_02082BCC(&p->sub, 0, 8);
-    func_020264F4(p);
+    func_020264F4((u8 *)p);
 }
 
 void func_0202640C(struct Comm *p, u32 a, u32 b);

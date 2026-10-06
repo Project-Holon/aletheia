@@ -28,7 +28,7 @@ typedef struct { u8 key, row, col, v; } Ent;
 extern const Ent d_021F348C[];
 extern void func_021F0B00(void *q, void *p, int a, int b, int c, u16 d);
 extern int func_021F0A68(char *p);
-extern void func_021F0A38(void *p);
+extern void func_021F0A38(unsigned char *p);
 
 int func_021F11B4(char *p)
 {
@@ -45,6 +45,6 @@ int func_021F11B4(char *p)
         if (func_021F0A68(p) == 0)
             return 1;
     }
-    func_021F0A38(p);
+    func_021F0A38((unsigned char *)p);
     return 0;
 }

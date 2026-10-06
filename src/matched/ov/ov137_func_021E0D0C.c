@@ -11,7 +11,8 @@
  * symbols:
  *   func_021E0450 0x021E0450 thumb ov137
  */
-extern void func_021E0450(void *,int,int,int);
+typedef unsigned char  u8;
+extern void func_021E0450(u8 *p, void *text, int index, int a);
 int func_021E0D0C(int *p)
 {
     int *q = (int *)p[4];
@@ -24,7 +25,7 @@ int func_021E0D0C(int *p)
     if (q[21] <= 0) {
         q[21] = 0;
         r = (char *)p[5];
-        func_021E0450(r, *(int *)(r + 0xa4 + q[3]*4), q[5], q[3]);
+        func_021E0450((u8 *)r, (void *)(*(int *)(r + 0xa4 + q[3]*4)), q[5], q[3]);
         return 2;
     }
     return 0;

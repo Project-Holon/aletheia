@@ -15,7 +15,7 @@
  */
 
 extern void func_02005DE4(void *p);
-extern void func_02005E64(void);
+extern int func_02005E64(void);
 
 void func_021F5FDC(void)
 {

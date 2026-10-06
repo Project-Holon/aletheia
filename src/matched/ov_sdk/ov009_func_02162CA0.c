@@ -29,7 +29,10 @@ typedef struct CPSSoc {
 extern void *(*g_021A8280)(unsigned long size);
 extern void (*g_021A82B0)(void *p);
 extern int func_021619CC(void *con, unsigned char *s);
-extern unsigned long func_0215B198(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct _CPSSoc;
+extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 
 unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc)
@@ -61,7 +64,7 @@ unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char
         buf2 += part2_len;
         tmp[4] = this_len;
         this_sent_len = func_021619CC(con, tmp);
-        if (func_0215B198(tmp, this_sent_len, 0, 0, soc) < (unsigned long)this_sent_len) this_len = 0;
+        if (func_0215B198(tmp, this_sent_len, 0, 0, (struct _CPSSoc *)soc) < (unsigned long)this_sent_len) this_len = 0;
         g_021A82B0(tmp);
         total_sent_len += this_len;
         total_len -= this_len;

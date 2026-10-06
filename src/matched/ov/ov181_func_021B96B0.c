@@ -14,11 +14,12 @@
  */
 #include "../include/Obj24499.h"
 
-extern int func_020221A4(void *);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 
 int func_021B96B0(char *p)
 {
-    if (func_020221A4(p) == 1)
+    if (func_020221A4() == 1)
         return ((struct Obj24499 *)p)->f2F0;
     return 1;
 }

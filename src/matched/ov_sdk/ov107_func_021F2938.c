@@ -66,7 +66,9 @@ extern int func_02085D3C(void);
 extern RomHeader *func_02075E04(void);
 extern void func_020788AC(void *file);
 extern int func_02078964(void *file, void *arc, u32 top, u32 bottom, u32 id);
-extern long func_02078B70(void *file, void *buffer, long length);
+typedef signed int     s32;
+struct FSFile;
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern int func_02078A80(void *file);
 
 void func_021F2938(TaskInfo *p_task)
@@ -99,7 +101,7 @@ void func_021F2938(TaskInfo *p_task)
     }
     func_020788AC(file);
     if (func_02078964(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
-        if (length == func_02078B70(file, p_info->ptr, length)) {
+        if (length == func_02078B70((struct FSFile *)file, p_info->ptr, length)) {
             p_info->state = 2;
         }
         func_02078A80(file);

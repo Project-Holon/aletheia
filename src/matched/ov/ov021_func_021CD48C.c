@@ -83,7 +83,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02008494(void *src, void *dst);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_0203D7BC(u32 a);
-extern void func_021CF164(Work *w);
+extern void func_021CF164(u32 a);
 extern void *func_0203D798(void);
 extern u32 func_0203D650(void);
 extern u8 d_021DE5E8[];
@@ -121,7 +121,7 @@ Work *func_021CD48C(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u32 a6, vo
         func_02082D44(a7, w->f554, 6);
     }
     func_0203D7BC(0);
-    func_021CF164(w);
+    func_021CF164((u32)w);
     if (a6 == 1) {
         w->f51B = 1;
     }

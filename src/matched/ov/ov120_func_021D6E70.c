@@ -11,7 +11,7 @@
  * extent: follower inside handed 0x021D6E50 extent.
  */
 typedef unsigned int u32;
-void func_021D6E70(void *unused,int *p,u32 n)
+void func_021D6E70(void *unused, int *p, int n)
 {
     if(n<(u32)p[0])p[1]=n;
     if(p[1]>2)p[1]=2;

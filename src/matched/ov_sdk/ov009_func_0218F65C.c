@@ -41,7 +41,8 @@ typedef struct {
 } GPIPeer;
 
 extern GPIPeer *func_0218F0E8(void **connection, unsigned int ip, unsigned short port);
-extern GPIPeer *func_0218F150(void **connection, int profileid, int initiated);
+struct GPIPeer;
+extern struct GPIPeer *func_0218F150(void **connection, int profileid, int initiate);
 extern char *func_0215FA9C(struct SOCInAddr in);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_0217EAC8(void *ptr, unsigned int size);
@@ -68,7 +69,7 @@ void func_0218F65C(unsigned int ip, unsigned short port, unsigned char *message,
     anAddr.addr = ip;
     aPeer = func_0218F0E8(connection, ip, port);
     if (aPeer == 0) {
-        aPeer = func_0218F150(connection, -1, 0);
+        aPeer = (GPIPeer *)func_0218F150(connection, -1, 0);
         if (aPeer != 0) {
             aPeer->state = 0x68;
             aPeer->ip = ip;

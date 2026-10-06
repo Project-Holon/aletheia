@@ -33,7 +33,7 @@ typedef struct {
 extern int  d_021B60CC[];
 extern u64  func_020870D0(void);
 extern int func_021B0F38(int a0, Hdr *h, int a2, u64 t);
-extern int  func_021B2488(int a0, Hdr *h, int a2, int *a3);
+extern int func_021B2488(int a, u8 *p, int len, int x);
 
 #pragma opt_common_subs off
 int func_021B3924(int a0, Hdr *h, int a2, int *a3)
@@ -55,7 +55,7 @@ int func_021B3924(int a0, Hdr *h, int a2, int *a3)
         return 0;
     }
     if (h->type == 0 || h->type == 0xff)
-        return func_021B2488(a0, h, a2, a3) != 0;
+        return func_021B2488(a0, (u8 *)h, a2, (int)a3) != 0;
     return 0;
 }
 #pragma opt_common_subs reset

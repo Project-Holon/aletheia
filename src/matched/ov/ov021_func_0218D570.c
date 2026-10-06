@@ -54,8 +54,8 @@ typedef struct Obj {
     u32 count;
 } Obj;
 
-extern fx32 sub_0207C768(fx32 numer, fx32 denom);
-extern void func_0218DD80(Cell *c, u32 id);
+extern u32 sub_0207C768(u32 a, u32 b);
+extern void func_0218DD80(u8 *p, u32 v);
 extern Cell *func_0218DD9C(Cell *c, fx32 x, fx32 y, fx32 z);
 
 static inline fx32 FX_MUL(fx32 a, fx32 b)
@@ -83,9 +83,9 @@ void func_0218D570(Obj *p, Cam *cam, Cell *cells)
     w = p->w;
     total = w * p->h;
     size = p->size;
-    half = sub_0207C768(p->size, 0x2000);
+    half = (int)sub_0207C768((int)p->size, (int)0x2000);
     height = p->height;
-    layer = sub_0207C768(cam->pos, height) >> 12;
+    layer = (int)sub_0207C768((int)cam->pos, (int)height) >> 12;
     rem = cam->pos - layer * height;
     if (rem > height / 2)
         dir = 1;
@@ -100,7 +100,7 @@ void func_0218D570(Obj *p, Cam *cam, Cell *cells)
         id = layer * total + row * w + col;
         if (id >= p->count)
             id = -1;
-        func_0218DD80(&cells[n], id);
+        func_0218DD80((u8 *)(&cells[n]), id);
         func_0218DD9C(&cells[n], half + FX_MUL(col << 12, size), y, half + FX_MUL(row << 12, size));
     }
     for (i = 0; i < total; i++, n++) {
@@ -110,7 +110,7 @@ void func_0218D570(Obj *p, Cam *cam, Cell *cells)
         id = (layer + dir) * total + row * w + col;
         if (id >= p->count)
             id = -1;
-        func_0218DD80(&cells[n], id);
+        func_0218DD80((u8 *)(&cells[n]), id);
         func_0218DD9C(&cells[n], half + FX_MUL(col << 12, size), y, half + FX_MUL(row << 12, size));
     }
 }

@@ -31,7 +31,7 @@ struct Q1;
 struct QG;
 struct S2;
 extern char *func_021C7FCC(u8 *p, int i);
-extern void *func_021C8120(void *, int);
+extern u8 *func_021C8120(u8 *p, int b);
 extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern u8 func_021D5440(u8 *p);
@@ -55,7 +55,7 @@ void func_021E6BF4(void *x, void *a, int c)
     int slot;
     if (c == func_021D775C(2)) {
         party = func_021C7FCC(a, c);
-        moves = func_021C8120(a, 48);
+        moves = (u16 *)func_021C8120(a, 48);
         used = 0;
         count = func_021B9B94(party);
         for (i = 0; i < count; i++) {

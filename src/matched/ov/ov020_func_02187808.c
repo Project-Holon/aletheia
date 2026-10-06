@@ -46,7 +46,7 @@ void *func_020124E8(struct Obj *p);
 u32 *func_020124EC(struct Obj *p);
 u8 func_0202E8B8(int x);
 int func_021876E0(void *unused, int *s, char *o);
-void func_02187C20(Work02187808 *w, void *h, int state);
+void func_02187C20(char *o, int *p, int st);
 
 void *func_02187808(void *p, u8 a1, u8 a2)
 {
@@ -63,6 +63,6 @@ void *func_02187808(void *p, u8 a1, u8 a2)
     w->f15 = func_0202E8B8(a1);
     w->f20 = 0;
     w->f24 = 0;
-    func_02187C20(w, h, 0);
+    func_02187C20((char *)w, h, 0);
     return r0v;
 }

@@ -23,15 +23,22 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct CharBuf;
-extern void func_0201CE48(void *);
-extern void func_02045808(void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct Rec3;
+struct U16Vec;
+struct WordSet;
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201F250(void *,void *,void *);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *),*func_02045EC0(void *,unsigned),*func_020457B0(unsigned,unsigned);
+extern void * func_02045770(struct Descriptor *);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern signed char func_02012FFC(void);
 extern unsigned func_0201CCE4(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
-void func_021B6A04(u8 *p,unsigned message)
+void func_021B6A04(u8 *p, int message)
 {
  void *tmp; unsigned speed;
  if(((struct Obj00919 *)p)->f64){func_0201CE48(((struct Obj00919 *)p)->f64);((struct Obj00919 *)p)->f64=0;}

@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02035750(int p0, int p1, int p2, int p3){ return *(int *)(0x21469C4); }
+int func_02035750(void){ return *(int *)(0x21469C4); }

@@ -27,7 +27,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_02202940(u8 *p);
+struct Obj;
+extern void func_02202940(struct Obj *p);
 struct Descriptor;
 extern void sub_020452E8(struct Descriptor *d);
 extern void sub_020456F8(struct Descriptor *d);
@@ -39,7 +40,7 @@ void func_021FD1E0(u8 *p)
     u32 h;
     s32 i;
 
-    func_02202940(p + 0xfa0);
+    func_02202940((struct Obj *)(p + 0xfa0));
     sub_020452E8((struct Descriptor *)(((struct Obj03069 *)p)->fD40));
     if (((struct Obj03069 *)p)->f12FC == 0) {
         h = ((struct Obj03069 *)p)->fD54;

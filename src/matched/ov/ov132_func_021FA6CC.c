@@ -34,9 +34,17 @@ typedef struct {s16 x,y;} Pos;
 extern const Key table;
 extern int func_02035C08(const void *);
 struct Obj;
-extern void func_0207D658(unsigned long,int,int),func_021F9730(void *,int),func_0204B9A0(void *),func_0204B3DC(struct Obj *,unsigned int),func_0204B404(void *,const Pos *,u32),func_020355D8(u8);
+struct Actor;
+struct Vec2;
+extern void func_0207D658(unsigned long,int,int);
+extern void func_021F9730(char *p, int value);
+extern void func_0204B9A0(struct Actor *a);
+extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_020355D8(u8);
 extern int func_021F9768(char *p);
-extern u32 func_0204B3F4(void *),func_0204B98C(void *);
+extern u32 func_0204B3F4(struct Obj *p);
+extern u32 func_0204B98C(struct Actor *a);
 void func_021FA6CC(char *p)
 {
     Key key;
@@ -61,7 +69,7 @@ void func_021FA6CC(char *p)
             pos.y=128;
             func_0204B9A0(((struct Obj00914 *)p)->f5C);
             func_0204B3DC(((struct Obj00914 *)p)->f5C,1);
-            func_0204B404(((struct Obj00914 *)p)->f5C,&pos,1);
+            func_0204B404(((struct Obj00914 *)p)->f5C,(const struct Vec2 *)(&pos),1);
             func_020355D8(1);
         }
     }

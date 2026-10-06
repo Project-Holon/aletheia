@@ -16,12 +16,12 @@
  *   func_0215CF14  0x0215CF14  arm  ov009
  */
 
-extern int func_0215CE9C(int a, int b);
+extern int func_0215CE9C(const int *p, int b);
 extern void func_0215CF14(int v, int b);
 
 void func_0215CFA8(int a, int b)
 {
-    int v = func_0215CE9C(a, b);
+    int v = func_0215CE9C((const int *)a, b);
 
     func_0215CF14(v, b);
 }

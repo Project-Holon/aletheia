@@ -38,7 +38,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 func_0204979C(void *buf, u32 a1, u32 a2);
 extern void ENV_SetResourceSet(void *p);
 
@@ -47,7 +47,7 @@ u32 sub_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
     void *buf;
     u32 res;
 
-    buf = func_0204A380(a0, a1, a4, (flags & 0x7FFF) | 0x8000);
+    buf = func_0204A380(a0, a1, a4, (u16)((flags & 0x7FFF) | 0x8000));
     if (buf == 0) {
         return 0;
     }

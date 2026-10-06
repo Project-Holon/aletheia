@@ -17,8 +17,12 @@
  */
 #include "../include/Obj10413.h"
 typedef unsigned char u8;
-extern void func_02047964(void *),func_02048AD0(void *),func_020479D8(void),func_02050BE8(void);
-void func_021D9974(u8 *p) {
+struct Light;
+extern void func_02047964(void *);
+extern void func_02048AD0(struct Light *l);
+extern void func_020479D8(void);
+extern void func_02050BE8(void);
+void func_021D9974(void **p) {
     if(((struct Obj10413 *)p)->f4) {
         func_02047964(((struct Obj10413 *)p)->f4);
         func_02048AD0(((struct Obj10413 *)p)->f0);

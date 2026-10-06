@@ -32,7 +32,7 @@ extern int func_021C88E4(u8 *p);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021BE8C4(u8 *p, u8 *a);
 extern void func_021C5718(u8 *p, u8 *a, u32 b);
-extern void func_021CC95C(void *lock, u32 v, int line);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 
 int func_021BE7E4(u8 *p, u8 *a, u32 b, u32 c, u8 *q)
 {
@@ -50,6 +50,6 @@ int func_021BE7E4(u8 *p, u8 *a, u32 b, u32 c, u8 *q)
             func_021C5718(p, a, b);
         }
     }
-    func_021CC95C(p + 0x1D74, lk, 3913);
+    func_021CC95C((u32 *)(p + 0x1D74), lk, 3913);
     return r;
 }

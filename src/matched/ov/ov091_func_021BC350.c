@@ -39,7 +39,7 @@ extern unsigned short func_021BB464(int unused, unsigned short *p);
 extern int func_02018430(int);
 extern void func_021BB97C(u8 *,int);
 extern void func_021BB99C(int a, int b, int c, int d);
-extern void func_021BB9EC(u8 *,int,int,u16,u8);
+extern void func_021BB9EC(int a, int b, int c, int d, unsigned char e);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 typedef unsigned int   u32;
 extern void func_021BB98C(void *p, u32 s);
@@ -47,9 +47,9 @@ extern int func_020457B0(unsigned,unsigned);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02027268(int);
 extern void func_02045808(struct U16Vec *vec);
-extern int func_021BCC2C(int,int,int);
+extern int func_021BCC2C(void *p, int i, int a2);
 extern void func_021BCC80(int p, int id, int v);
-extern void func_021BB9CC(u8 *,int,int,u16);
+extern void func_021BB9CC(int a, int b, int c, int d);
 extern void func_021BCC40(int p, int id);
 extern void func_021BC5CC(int);
 extern void func_021BC6A0(char *p);
@@ -74,10 +74,10 @@ int func_021BC350(u8 *p,int v)
         break;
     }
     case 2:
-        t=func_02018430(W(0x38));
-        func_021BB97C(p,W(0x150));
+        t=(int)func_02018430(W(0x38));
+        func_021BB97C(p,(int)W(0x150));
         func_021BB99C((int)p,W(0x150),0,W(0x38));
-        func_021BB9EC(p,W(0x150),1,t+1,3);
+        func_021BB9EC((int)p,W(0x150),1,(u16)(t+1),3);
         func_021B9788(p,0x9d,1,(int)func_021BC6A0);
         func_021BB98C(p,W(0x150));
         t=func_020457B0(12,H(0));
@@ -106,13 +106,13 @@ int func_021BC350(u8 *p,int v)
         func_021BCC80((int)p,0x37,(u16)(n-13));break;
     case 19:case 20:case 21:case 22:case 23:case 24:
         z=n-19;
-        if(func_021BCC2C(W(0x38),z+13,*(u16 *)(W(0x280)+0x44))==0) func_021BCC80((int)p,0x55,z);
+        if(func_021BCC2C((void *)W(0x38),z+13,*(u16 *)(W(0x280)+0x44))==0) func_021BCC80((int)p,0x55,z);
         else if(func_02017E1C((void *)W(0x38),9,0)==255) func_021BCC80((int)p,0x54,z);
         else func_021BCC80((int)p,0x53,z);
         break;
     case 26:case 27:
-        func_021BB97C(p,W(0x150));
-        func_021BB9CC(p,W(0x150),0,v);
+        func_021BB97C(p,(int)W(0x150));
+        func_021BB9CC((int)p,W(0x150),0,(u16)v);
         func_021B9788(p,0x34,1,(int)func_021B9E44);
         func_021BB98C(p,W(0x150));
         break;

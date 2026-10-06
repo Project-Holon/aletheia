@@ -30,7 +30,7 @@ extern D d_021F6398;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
-void func_021EF664(u32 a, int b, int c)
+void func_021EF664(int a, u16 b, int c)
 {
     u16 k;
 

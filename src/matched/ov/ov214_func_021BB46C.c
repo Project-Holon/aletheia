@@ -12,4 +12,4 @@
  *   func_02047970 0x02047970 arm
  */
 extern void func_02047970(void);
-void func_021BB46C(void) { func_02047970(); }
+void func_021BB46C(void *a0) { func_02047970(); }

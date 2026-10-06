@@ -31,7 +31,7 @@ struct Ctx;
 struct SoundSys2;
 extern u32 func_02188C98(u8 *p);
 extern u32 func_0218DC6C(u8 *p);
-extern u32 func_0218C654(u32 a, u32 b, Ent *e);
+extern int func_0218C654(int a, int b, int c);
 extern int func_0218C6F4(unsigned char *p, int b, int id);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -49,7 +49,7 @@ void func_021F3DCC(int unused, int b, u32 *c)
 
     r7 = func_0218DC6C((u8 *)func_02188C98((u8 *)b));
     i = 0;
-    c[1] = func_0218C654(r7, 0, &d_021F4278);
+    c[1] = func_0218C654(r7, 0, (int)(&d_021F4278));
     c[0] = r7;
     r = func_0218C6F4((unsigned char *)r7, c[1], 1);
     c[2] = 0x6000;

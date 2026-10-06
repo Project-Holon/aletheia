@@ -32,7 +32,7 @@ typedef struct {
     u32 item[14];
 } Menu;
 extern const WinDef tbl_0220351C[];
-extern u32 func_020450F0(u32,u8,u8,u8,u8,u8,u16);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Cfg;
@@ -42,29 +42,29 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
-extern void func_02200BAC(void *,u32);
+extern void func_02200BAC(u8 *p, u32 k);
 void func_021FC3E0(Menu *p)
 {
     int i;
     u32 w;
-    p->frame=func_020450F0(2,2,21,27,2,13,1);
+    p->frame=func_020450F0(2,(u8)2,(u8)21,(u8)27,2,13,(u16)1);
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->frame)),0);
     w=p->frame;
     func_02045334((struct Descriptor *)w);
     func_02045374((struct Cfg *)w);
     func_020409B4(func_02045730((struct Descriptor *)w));
-    p->side=func_020450F0(2,21,15,10,4,13,1);
+    p->side=func_020450F0(2,(u8)21,(u8)15,(u8)10,4,13,(u16)1);
     w=p->side;
     func_02045334((struct Descriptor *)w);
     func_02045374((struct Cfg *)w);
     func_020409B4(func_02045730((struct Descriptor *)w));
     for(i=0;i<14;i++) {
-        p->item[i]=func_020450F0(3,tbl_0220351C[i].x,tbl_0220351C[i].y,tbl_0220351C[i].w,tbl_0220351C[i].h,13,1);
+        p->item[i]=func_020450F0(3,(u8)tbl_0220351C[i].x,(u8)tbl_0220351C[i].y,(u8)tbl_0220351C[i].w,tbl_0220351C[i].h,13,(u16)1);
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->item[i])),0);
         w=p->item[i];
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
     }
-    func_02200BAC(p,2);
+    func_02200BAC((u8 *)p,2);
 }

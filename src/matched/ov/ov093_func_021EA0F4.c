@@ -29,7 +29,7 @@ struct S {
 extern u8 *func_021E9100(u8 *p, int n);
 extern int func_021EA160(int *st, char *ctx);
 
-void func_021EA0F4(struct S *s, u16 a, u8 b, int c)
+void func_021EA0F4(struct S *s, u32 a, u32 b, u32 c)
 {
     u8 *t;
 

@@ -58,7 +58,7 @@ typedef struct {
 } Obj;
 
 extern const Params d_021D9B88;
-extern u32 func_021BD134(Obj *p);
+extern u32 func_021BD134(u8 *p);
 extern int func_021BD1EC(u32 a);
 extern int func_021BD19C(u32 a, Params *prm);
 struct U16Vec;
@@ -74,7 +74,7 @@ void func_021BC848(Obj *p)
     Params prm;
 
     n = p->count;
-    func_02045A38((struct U16Vec *)func_021BD134(p), buf, 32);
+    func_02045A38((struct U16Vec *)func_021BD134((u8 *)p), buf, 32);
     prm = d_021D9B88;
     prm.f20 = p->f18;
     prm.ch = buf[n];

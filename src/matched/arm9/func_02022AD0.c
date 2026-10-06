@@ -44,7 +44,8 @@ struct sched {
     u32 flag;
 };
 
-extern struct sched *func_02022D88(struct ctl *ctl, u32 which);
+struct Obj;
+extern void *func_02022D88(struct Obj *obj, u32 idx);
 
 #define REG_VCOUNT  (*(volatile u16 *)0x04000006)
 #define REG_A       ((volatile u16 *)0x04000004)
@@ -71,7 +72,7 @@ void func_02022AD0(struct ctl *ctl)
     }
 
     if (ctl->mode == 1) {
-        p = func_02022D88(ctl, 0);
+        p = func_02022D88((struct Obj *)ctl, 0);
         sel = ctl->sel;
         y = p->y[next];
         x = p->x[next];
@@ -104,7 +105,7 @@ void func_02022AD0(struct ctl *ctl)
         return;
     }
 
-    p = func_02022D88(ctl, 0);
+    p = func_02022D88((struct Obj *)ctl, 0);
     sel = ctl->sel;
     y = p->y[next];
     x = p->x[next];
@@ -135,7 +136,7 @@ void func_02022AD0(struct ctl *ctl)
         }
     }
 
-    p = func_02022D88(ctl, 1);
+    p = func_02022D88((struct Obj *)ctl, 1);
     sel = ctl->sel;
     y = p->y[next];
     x = p->x[next];

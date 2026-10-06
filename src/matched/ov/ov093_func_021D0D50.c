@@ -32,15 +32,16 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021D0C78(void *,u8 *);
 extern u8 func_021D0980(u8 *,u8 *);
-extern u8 *func_021CFD50(void *,int);
-extern void func_021D09E0(void *,u8 *,u8,void *);
+struct G;
+extern u8 *func_021CFD50(struct G *g, int k);
+extern void func_021D09E0(u8 *p, u8 *order, u8 count, void *target);
 extern u32 func_021B8588(void **);
 extern int func_021D1058(u8 *,void *);
 extern void func_021B8E28(u8 *,u8,u8 *,u8 *);
 extern void func_021D8394(void *,u8,u8);
-extern int func_021D102C(u8 *);
-extern void func_021D83C4(void *);
-extern void func_021D8434(void *);
+extern int func_021D102C(char *p);
+extern void func_021D83C4(u32 *p);
+extern void func_021D8434(u32 *p);
 int func_021D0D50(u8 *p)
 {
     u8 order[6];
@@ -55,7 +56,7 @@ int func_021D0D50(u8 *p)
         n = func_021D0980(p,order);
         if (n) {
             count = p[0x1b3];
-            target = func_021CFD50(p,p[0x1b5]);
+            target = func_021CFD50((struct G *)p,p[0x1b5]);
             if (target) func_021D09E0(p,order,n,target);
             if (count > n) {
                 if (func_021B8588(*(void ** *)&((struct Obj01236 *)p)->f0) == 3) {
@@ -75,7 +76,7 @@ int func_021D0D50(u8 *p)
             ((struct Obj01236 *)p)->fD8 = p+0x124;
             ((struct Obj01236 *)p)->fDC = count*4;
         } else {
-            if (func_021D102C(p)) {
+            if (func_021D102C((char *)p)) {
                 result = func_021D1058(p,p+0x124);
                 if (result) {
                     *(int *)&((struct Obj01236 *)p)->fDC = result;
@@ -83,12 +84,12 @@ int func_021D0D50(u8 *p)
                     return 1;
                 }
             }
-            func_021D83C4(p+0x124);
+            func_021D83C4((u32 *)(p+0x124));
             ((struct Obj01236 *)p)->fD8 = p+0x124;
             ((struct Obj01236 *)p)->fDC = 4;
         }
     } else {
-        func_021D8434(p+0x124);
+        func_021D8434((u32 *)(p+0x124));
         ((struct Obj01236 *)p)->fD8 = p+0x124;
         ((struct Obj01236 *)p)->fDC = 4;
     }

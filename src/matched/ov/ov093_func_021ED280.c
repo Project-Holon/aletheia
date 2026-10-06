@@ -13,7 +13,7 @@
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  */
 extern int func_021F7EB4(void);
-int func_021ED280(void)
+int func_021ED280(char *p)
 {
     if (func_021F7EB4() == 0)
         return 1;

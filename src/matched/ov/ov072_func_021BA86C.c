@@ -50,9 +50,9 @@ typedef struct {
 } W;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern u16 func_021BBB3C(int p, u16 a, int b);
+extern unsigned short func_021BBB3C(char *p, int a, int b);
 extern int func_02166CD0(void *a, u32 msg);
-extern int func_021BA774(W *p, int i);
+extern int func_021BA774(char *p, int i);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Actor;
@@ -72,7 +72,7 @@ void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, 
     p->f34 = 0x1000;
     p->f4 = a;
     p->f8[0] = b;
-    r = func_021BBB3C(a, b, 15);
+    r = func_021BBB3C((char *)a, (u16)b, 15);
     if (r != 0xFFFF)
         p->f38 = func_02166CD0(s3, r);
     else
@@ -80,19 +80,19 @@ void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, 
     if (s5)
         p->f38 = 1;
     for (i = 0; i < 9; i++)
-        p->f8[i + 1] = func_021BBB3C(p->f4, p->f8[0], i + 2);
+        p->f8[i + 1] = func_021BBB3C((char *)p->f4, (u16)p->f8[0], i + 2);
     if (s5)
         p->f3c = 1;
     else
-        p->f3c = p->f38 && func_021BBB3C(p->f4, p->f8[0], 12);
-    r = func_021BBB3C(p->f4, p->f8[0], 16);
+        p->f3c = p->f38 && func_021BBB3C((char *)p->f4, (u16)p->f8[0], 12);
+    r = func_021BBB3C((char *)p->f4, (u16)p->f8[0], 16);
     if (r != 0xFFFF)
         p->f40 = func_02166CD0(s3, r) == 0;
     else
         p->f40 = 0;
     if (s5)
         p->f40 = 0;
-    switch (func_021BA774(p, 11)) {
+    switch (func_021BA774((char *)p, 11)) {
     case 0:
         p->f31 = 2;
         p->f30 = 1;
@@ -121,10 +121,10 @@ void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, 
             p->f30 = 0x10;
         break;
     }
-    if (func_021BA774(p, 11) != 1) {
+    if (func_021BA774((char *)p, 11) != 1) {
         func_02082BCC(&pos, 0, 8);
-        pos.x = func_021BA774(p, 2);
-        pos.y = func_021BA774(p, 3);
+        pos.x = func_021BA774((char *)p, 2);
+        pos.y = func_021BA774((char *)p, 3);
         p->obj = (int)func_0204B294((void *)c, s0, s2, s1, &pos, 0, s4);
         func_0204B570((struct Actor *)p->obj, 2);
         func_0204B84C(p->obj, 2);

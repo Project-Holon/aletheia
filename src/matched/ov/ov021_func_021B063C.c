@@ -65,7 +65,8 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02012F08(int *p);
 extern u32 func_0200C274(struct Blk34 *p);
 extern int func_02190728(u32 a);
-extern u32 func_02190708(u32, u32, u16, u16, u16, u16);
+struct Fx;
+extern void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
 extern void func_02188D4C(u8 *p, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -98,7 +99,7 @@ int func_021B063C(u32 a, u32 b)
     g = func_0200C274(func_02012F08((int *)x));
     if (w != 0)
         func_02190728(w);
-    obj = func_02190708(m, z, v1 - 9, v2, 9, 2);
+    obj = (u32)func_02190708((struct Fx *)m, z, (u16)(v1 - 9), (u16)v2, 9, 2);
     func_02188D4C(y, obj);
     func_0201EFA4((struct WordSet *)r6, 2, g, 7, 1, 1);
     func_02045CAC((struct MsgBank *)z, 1, (void *)r7);

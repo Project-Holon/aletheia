@@ -37,7 +37,7 @@ extern void func_0218E124(u8 *a, u32 s);
 extern void func_0218EC54(u8 *p);
 extern void func_0218EC90(u32, u32 *);
 extern void func_0218ED34(u8 *p, u16 v);
-extern void func_0218ED48(u8 *p, u16 v);
+extern void func_0218ED48(u8 *p, u32 v);
 extern void func_0218ED58(u8 *p, u32 v);
 
 void func_021BB014(u32 a, u32 b, u32 c)
@@ -60,6 +60,6 @@ void func_021BB014(u32 a, u32 b, u32 c)
     func_0218EC54((u8 *)h);
     func_0218EC90(h, loc);
     func_0218ED34((u8 *)h, r[1]);
-    func_0218ED48((u8 *)h, r[2]);
+    func_0218ED48((u8 *)h, (u16)r[2]);
     func_0218ED58((u8 *)h, r[3]);
 }

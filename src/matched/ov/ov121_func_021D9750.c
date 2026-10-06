@@ -21,7 +21,8 @@ typedef struct { int a,b,c,d; } Config;
 extern const Config d_021DF598;
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
-extern void func_0203FC28(Config *);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02050B80(u32 heap);
 extern void func_021D98F4(u32 *p, u32 heap);
 void func_021D9750(u8 *p)
@@ -30,7 +31,7 @@ void func_021D9750(u8 *p)
     func_02040588(0,0);
     c=d_021DF598;
     c.d=1;
-    func_0203FC28(&c);
+    func_0203FC28((struct DispConfig *)(&c));
     func_021D98F4((u32 *)(p+12),((struct Obj13945 *)p)->f18);
     func_02050B80(((struct Obj13945 *)p)->f18);
 }

@@ -44,7 +44,7 @@ extern struct Tcbl *sub_0203101C(u32,u16,u32,u32);
 extern u32 sub_0201C440(void *);
 extern struct U16Vec *sub_020457B0(u32,u32);
 extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
-extern struct MsgBank *sub_02045B38(u32,u32,u16,u32);
+extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32);
 extern struct R *func_02027F60(u16,u16,u32,u32,u16);
 extern u32 func_021D5FA0(u32);
@@ -65,7 +65,7 @@ u8 *func_021D5984(u32 heap, u32 bank, u32 mode)
     ((struct Obj00531 *)p)->f48 = sub_0201C440((void *)((struct Obj00531 *)p)->f4C);
     *(struct U16Vec * *)&((struct Obj00531 *)p)->f28 = sub_020457B0(400, ((struct Obj00531 *)p)->f4C);
     *(struct GfFont * *)&((struct Obj00531 *)p)->f24 = func_0201D7EC(23, 0, 0, 0, ((struct Obj00531 *)p)->f4C);
-    *(struct MsgBank * *)&((struct Obj00531 *)p)->f1C = sub_02045B38(0, 2, bank, ((struct Obj00531 *)p)->f4C);
+    *(struct MsgBank * *)&((struct Obj00531 *)p)->f1C = sub_02045B38(0, 2, (u16)bank, ((struct Obj00531 *)p)->f4C);
     *(struct WordSet * *)&((struct Obj00531 *)p)->f20 = func_0201EC64(((struct Obj00531 *)p)->f4C);
     *(struct R * *)&((struct Obj00531 *)p)->f70 = func_02027F60(5, 9, *(u32 *)&((struct Obj00531 *)p)->f24, ((struct Obj00531 *)p)->f48, ((struct Obj00531 *)p)->f4C);
     ((struct Obj00531 *)p)->f0 = func_0201F5DC((void *)func_021D5FA0(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);

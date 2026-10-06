@@ -27,12 +27,14 @@ typedef signed short   s16;
 
 extern u16 func_02188C9C(u8 *p);
 extern void func_02014110(void *p, u16 a, s16 b, u16 c, u16 d, u32 e, u32 f, u32 g);
-extern void func_02012878(void *p, void *rect);
+struct BigObj;
+struct Rec1C;
+extern void func_02012878(struct BigObj *p, const struct Rec1C *src);
 
 void func_0218ADC8(u8 *p, int id, u32 *pos)
 {
     u8 buf[0x1C];
 
     func_02014110(buf, func_02188C9C(*(u8 * *)&((struct Obj00705 *)p)->f14), id, 0, 0, pos[0], pos[1], pos[2]);
-    func_02012878(((struct Obj00705 *)p)->f8, buf);
+    func_02012878(((struct Obj00705 *)p)->f8, (const struct Rec1C *)buf);
 }

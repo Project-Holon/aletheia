@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021BF788(u8 *p,int index)
+void func_021BF788(u8 *p, u8 index)
 {
     *(int *)((u8 *)((u32)p+(u32)index*12)+12)=0;
 }

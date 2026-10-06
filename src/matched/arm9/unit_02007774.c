@@ -56,8 +56,10 @@ struct Sub02007774Header {
 
 extern const char sub_020077B8_File[];
 
-extern struct Sub02007774Header *sub_020074CC(void *save);
-extern struct Sub02007774Entry  *sub_02007AF4(void *save, u32 box);
+struct Sub02007454Header;
+struct Sub02007AC8Entry;
+extern struct Sub02007454Header *sub_020074CC(void **save);
+extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
 extern u32 sub_02017E88(void *p, u32 id, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
@@ -68,7 +70,7 @@ int sub_02007774(void *save)
     int n = 0;
 
     for (box = 0; box < 0x18; box++) {
-        struct Sub02007774Entry *base = sub_02007AF4(save, box);
+        struct Sub02007774Entry *base = (struct Sub02007774Entry *)sub_02007AF4(save, box);
 
         for (slot = 0; slot < 30; slot++) {
             if (sub_02017E88(&base[slot], 0xA9, 0) == 0) {
@@ -81,7 +83,7 @@ int sub_02007774(void *save)
 
 int sub_020077B8(void *save, u32 box)
 {
-    struct Sub02007774Header *h = sub_020074CC(save);
+    struct Sub02007774Header *h = (struct Sub02007774Header *)sub_020074CC(save);
     struct Sub02007774Entry *base;
     int slot;
     int n;
@@ -93,7 +95,7 @@ int sub_020077B8(void *save, u32 box)
         func_02034714(sub_020077B8_File, 0, sub_020077B8_File);
     }
     n = 0;
-    base = sub_02007AF4(save, box);
+    base = (struct Sub02007774Entry *)sub_02007AF4(save, box);
     for (slot = 0; slot < 30; slot++) {
         if (sub_02017E88(&base[slot], 0xA9, 0) == 0) {
             n++;
@@ -104,7 +106,7 @@ int sub_020077B8(void *save, u32 box)
 
 void sub_0200780C(void *save, u32 box)
 {
-    struct Sub02007774Header *h = sub_020074CC(save);
+    struct Sub02007774Header *h = (struct Sub02007774Header *)sub_020074CC(save);
 
     if (box < 0x18) {
         h->unk00 = box;
@@ -113,7 +115,7 @@ void sub_0200780C(void *save, u32 box)
 
 u8 sub_0200781C(void *save, u32 box)
 {
-    struct Sub02007774Header *h = sub_020074CC(save);
+    struct Sub02007774Header *h = (struct Sub02007774Header *)sub_020074CC(save);
 
     if (box < 0x18) {
         return h->unk3C4[box];
@@ -123,7 +125,7 @@ u8 sub_0200781C(void *save, u32 box)
 
 void sub_02007838(void *save, u32 box, u8 v)
 {
-    struct Sub02007774Header *h = sub_020074CC(save);
+    struct Sub02007774Header *h = (struct Sub02007774Header *)sub_020074CC(save);
 
     if (box == -1) {
         box = h->unk00;

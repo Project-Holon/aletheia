@@ -12,7 +12,7 @@
  *   func_021EC08C 0x021EC08C thumb ov170
  */
 extern void func_021EC000(char *, int, int);
-extern void func_021EC08C(char *p, int i, unsigned short a, unsigned short b, unsigned short c);
+extern void func_021EC08C(char *p, int i, unsigned short a, int b, unsigned short c);
 void func_021ECFDC(char *p, int a, int b)
 {
     int k = a + 0x1c;

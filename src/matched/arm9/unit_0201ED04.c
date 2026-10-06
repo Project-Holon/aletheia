@@ -83,13 +83,13 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0204581C(struct U16Vec *vec);
-extern void  func_02045838(void *dst, const void *src);
-extern void *func_02045B38(u32 a, u32 b, u16 c, u16 d);
+extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045C04(struct Rec *rec);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_020246C8(u16 *p, u32 mode, u32 flag);
 extern u32 func_0202473C(u32 *p, u32 a);
-extern void  func_02024838(u16 v, void *buf, u16 heap);
+extern void func_02024838(u32 id, void *dest, u32 heap);
 extern void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
 
 struct Tag {
@@ -164,13 +164,13 @@ void func_0201ED84(struct WordSet *p, u32 i, const void *src,
         } else {
             func_0201ED50(&p->entries[i].tag);
         }
-        func_02045838(p->entries[i].str, src);
+        func_02045838(p->entries[i].str, (struct U16Vec *)src);
     }
 }
 
 void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v)
 {
-    void *s = func_02045B38(0, 2, id, p->heap);
+    void *s = func_02045B38(0, 2, (u16)id, (u16)p->heap);
 
     if (s != 0) {
         func_02045CAC(s, v, p->buf);
@@ -276,12 +276,12 @@ void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d)
     func_0201ED84(p, i, p->buf, 0);
 }
 
-void func_0201EFC8(struct WordSet *p, u32 i, u16 v)
+void func_0201EFC8(struct WordSet *p, u32 i, u32 v)
 {
     u16 x = v;
 
     func_020246C8(&x, 0, 0);
-    func_02024838(x, p->buf, p->heap);
+    func_02024838((u16)x, p->buf, (u16)p->heap);
     func_0201ED84(p, i, p->buf, 0);
 }
 

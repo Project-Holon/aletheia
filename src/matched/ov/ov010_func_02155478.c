@@ -174,48 +174,55 @@ extern u8 d_02208C40[];
 extern u8 d_021B74AC[];
 extern const Tbl4 d_0216FEE0;
 
-extern void *func_0201210C(void *w);
-extern void func_02012374(void *proc, void *task);
-extern void *func_020144DC(void *w, void *h);
-extern void func_020120B4(void *w, u32 id, void *data, void *arg);
-extern int func_020120F0(void *w);
-extern void *func_020120F4(void *w);
-extern void func_02034AC4(u32 id);
-extern void func_02034A5C(u32 id);
-extern void func_0203A574(u32 a, void *b, u32 c, u32 d);
-extern u32 func_020399A8(void);
-extern void func_02039C68(u32 h, u32 a, u32 b);
-extern u32 func_02039CB4(u32 h, u32 a, u32 b);
+typedef signed int     s32;
+struct Desc;
+struct Entry;
+struct Evt;
+struct IcaAnime;
+struct Link;
+struct ZoneData;
+extern void *func_0201210C(const struct Ctx *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int func_020144DC(int a0, int a1);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 func_020120F0(const struct Ctx *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern int func_02034AC4(s32 handle);
+extern void func_02034A5C(s32 handle);
+extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
+extern struct Entry *func_020399A8(void);
+extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
+extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void func_0200F83C(void);
 extern void func_0200FA84(void);
 extern void func_0200FBA0(void);
-extern struct Info *func_02013090(u32 heap);
-extern void *func_02012F2C(u32 a);
-extern void func_02013790(struct Info *p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_020137C0(struct Info *p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013864(struct Info *p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013894(struct Info *p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_020137F0(struct Info *p0, u32 p1, u32 p2, u32 p3, u8 p4, u16 p5);
-extern u32 func_0203D1A4(u32 v);
-extern void func_02013128(struct Info *p, void *list, u32 c);
-extern void func_02013980(struct Info *p, u32 v);
+extern void *func_02013090(u32 heap);
+extern void *func_02012F2C(int *p);
+extern void func_02013790(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void func_020137C0(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void func_02013864(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void func_02013894(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void func_020137F0(u32 p0, u32 p1, u32 p2, u32 p3, u8 p4, u16 p5);
+extern u32 func_0203D1A4(struct Link *p);
+extern void func_02013128(void *p, void *src, int i);
+extern void func_02013980(struct ZoneData *o, u32 heap);
 extern u16 func_02005C44(void);
 extern void func_02005D28(void);
 extern void func_02005D90(u32 a, u16 b);
-extern void func_020130B4(struct Info *p);
+extern int func_020130B4(int a0);
 extern u32 func_0203D378(void);
-extern void *func_020124AC(void *w, u32 id, void *fn, struct Arg *arg);
-extern struct Req *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern int func_0203CD98(void);
-extern void func_0203CEAC(u32 a);
+extern int func_0203CEAC(int a0);
 extern void *func_020145CC(void *w);
 extern void func_0203D0D0(void);
-extern void *func_021BE8D4(void *w, void *h, u32 a, u32 b);
-extern void *func_021BE92C(void *w, void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_021550A0(void *a, u32 b);
+extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void *func_021550A0(void *a, const int *p);
 extern void func_0215518C(int mode, struct Ctx *ctx);
 extern void func_02155224(struct Ctx *ctx);
 extern void func_02155244(struct Ctx *ctx, void *party);
@@ -235,11 +242,11 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
     h = func_0201210C(w);
     switch (*seq) {
     case 0:
-        func_02012374(proc, func_021BE8D4(w, h, 0, 0));
+        func_02012374(proc, (struct Evt **)func_021BE8D4(w, (int)h, 0, 0));
         (*seq)++;
         break;
     case 1:
-        func_02012374(proc, func_020144DC(w, h));
+        func_02012374(proc, (struct Evt **)func_020144DC((int)w, (int)h));
         *seq = 2;
         break;
     case 2:
@@ -297,12 +304,12 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         break;
     case 7:
         func_02034AC4((u32)ov093_id);
-        func_0203A574(0x100, d_021F03C4, 9, 0);
-        func_02039C68(func_020399A8(), 0x6e, 12);
+        func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
+        func_02039C68((struct Link *)func_020399A8(), 0x6e, 12);
         (*seq)++;
         break;
     case 8:
-        if (func_02039CB4(func_020399A8(), 0x6e, 12))
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x6e, 12))
             (*seq)++;
         if (func_0200FB24()) {
             if (func_0200FBB0() == 1)
@@ -315,7 +322,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         break;
     case 9:
         ctx->f88 = func_02013090(4);
-        ctx->fe0 = func_02012F2C(ctx->f04);
+        ctx->fe0 = func_02012F2C((int *)ctx->f04);
         ctx->fd8 = 0;
         switch (ctx->f50) {
         case 0:
@@ -323,44 +330,44 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         case 1:
             ctx->fd0 = 1;
             ctx->fd4 = 2;
-            func_02013790(ctx->f88, ctx->f04, func_020399A8(), 1, 4);
+            func_02013790((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
             break;
         case 2:
             ctx->fd0 = 1;
             ctx->fd4 = 6;
-            func_020137C0(ctx->f88, ctx->f04, func_020399A8(), 1, 4);
+            func_020137C0((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
             break;
         case 3:
             ctx->fd0 = 1;
             ctx->fd4 = 10;
-            func_02013864(ctx->f88, ctx->f04, func_020399A8(), 1, 4);
+            func_02013864((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
             break;
         case 4:
             ctx->fd0 = 1;
             ctx->fd4 = 14;
-            func_02013894(ctx->f88, ctx->f04, func_020399A8(), 1, 4);
+            func_02013894((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
             break;
         case 5:
             tbl = d_0216FEE0;
             ctx->fd0 = 3;
             ctx->fd4 = 18;
-            func_020137F0(ctx->f88, ctx->f04, func_020399A8(), 1,
-                          tbl.v[ctx->b78[func_0203D1A4(func_020399A8())]], 4);
+            func_020137F0((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1,
+                          tbl.v[ctx->b78[func_0203D1A4((struct Link *)func_020399A8())]], 4);
             ctx->f88->f22 = 1;
             ctx->f88->f04 = 1;
             func_02155224(ctx);
             break;
         }
         func_02013128(ctx->f88, ctx->f38, 0);
-        func_02013980(ctx->f88, 1);
+        func_02013980((struct ZoneData *)ctx->f88, 1);
         ctx->f54 = func_02005C44();
         func_02005D28();
-        func_02039C68(func_020399A8(), 10, 12);
+        func_02039C68((struct Link *)func_020399A8(), 10, 12);
         (*seq)++;
         break;
     case 10:
         if (func_0200FB24()) {
-            func_020130B4(ctx->f88);
+            func_020130B4((int)ctx->f88);
             ctx->f88 = 0;
             if (func_0200FBB0() == 1)
                 func_0200F83C();
@@ -368,7 +375,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
                 func_0200FA84();
             func_02034A5C((u32)ov093_id);
             *seq = 20;
-        } else if (func_02039CB4(func_020399A8(), 10, 12)) {
+        } else if (func_02039CB4((struct Link *)func_020399A8(), 10, 12)) {
             if (func_0203D378())
                 func_02005D90(0x48B, 0xFFFF);
             else
@@ -382,13 +389,13 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         arg.info = ctx->f88;
         arg.slots = ctx->slot;
         arg.flag = 1;
-        func_02012374(proc, func_020124AC(w, (u32)ov008_id, (void *)func_021550A0, &arg));
+        func_02012374(proc, (struct Evt **)func_020124AC(w, (u32)ov008_id, (void *)func_021550A0, (u32)(&arg)));
         (*seq)++;
         break;
     case 12:
         if (func_020120F0(w) == 0) {
             func_02155244(ctx, func_020120F4(w));
-            func_020130B4(ctx->f88);
+            func_020130B4((int)ctx->f88);
             ctx->f88 = 0;
             func_02005D28();
             func_02155A6C(ctx);
@@ -431,12 +438,12 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         break;
     case 17:
         if (func_0203CD98() && func_0200FB24() == 0)
-            func_02039C68(func_020399A8(), 0xdc, 12);
+            func_02039C68((struct Link *)func_020399A8(), 0xdc, 12);
         (*seq)++;
         break;
     case 18:
         if (func_0203CD98() && func_0200FB24() == 0) {
-            if (func_02039CB4(func_020399A8(), 0xdc, 12) == 0)
+            if (func_02039CB4((struct Link *)func_020399A8(), 0xdc, 12) == 0)
                 break;
             ctx->fe4 = 0;
             (*seq)++;
@@ -468,7 +475,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         (*seq)++;
         break;
     case 22:
-        func_02012374(proc, func_021BE92C(w, h, 0, 0, 1, 0, 0));
+        func_02012374(proc, (struct Evt **)func_021BE92C(w, (int)h, 0, 0, 1, 0, 0));
         (*seq)++;
         break;
     case 23:

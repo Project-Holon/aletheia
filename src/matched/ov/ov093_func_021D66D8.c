@@ -31,7 +31,7 @@ extern u32 func_02017D30(struct Sav *p);
 extern u32 func_02017988(void *p, u32 a);
 extern u32 func_02017E1C(void *h, u32 k, u32 z);
 extern u32 func_02017D70(struct Sav *p, u32 f);
-extern void func_021D52B4(void *p, void *w, u32 k);
+extern void func_021D52B4(u8 *p, void *h, u32 flag);
 
 void func_021D66D8(Obj *p, u32 v)
 {
@@ -39,7 +39,7 @@ void func_021D66D8(Obj *p, u32 v)
     ((u8 *)p)[0x141] = v;
     t = func_02017D30(p->w);
     func_02017988(p->w, v);
-    func_021D52B4(p, p->w, 1);
+    func_021D52B4((u8 *)p, p->w, 1);
     if (p->fC == 0x1ec && v == 0) {
         p->f1b_lo = 0;
         ((struct Obj00041 *)p)->f13C = func_02017E1C(p->w, 10, 0);

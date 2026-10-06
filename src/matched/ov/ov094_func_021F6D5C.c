@@ -40,7 +40,7 @@ typedef struct {
     u32 bit1 : 1;
 } Obj;
 
-extern int func_02047910(void *a, u16 idx, int amount);
+extern int func_02047910(void *a, int idx, int amount);
 extern void func_021F9364(void *p);
 
 void func_021F6D5C(Obj *o)
@@ -72,7 +72,7 @@ void func_021F6D5C(Obj *o)
                 break;
             }
             if (amt != 0)
-                func_02047910(o->h18, i, amt);
+                func_02047910(o->h18, (u16)i, amt);
         }
     }
     func_021F9364(o->sub);

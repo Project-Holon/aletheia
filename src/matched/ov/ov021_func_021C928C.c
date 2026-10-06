@@ -19,18 +19,20 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
 typedef struct { u8 pad[0x10]; u8 f10; u8 f11; u8 f12; u8 f13; u32 f14; u32 f18; u32 f1C; u32 f20; u32 f24; u8 pad28[0xc]; u32 f34; u32 f38; } E;
-extern E *func_021AC1E0(u32 a);
-extern int func_0204784C(u32 h, u16 i, u32 *out);
+typedef signed int     s32;
+struct AnmCtl;
+extern int func_021AC1E0(u32 a);
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 void func_021C928C(u32 a)
 {
     u32 z;
     E *e;
     if (a != 0) {
-        e = func_021AC1E0(a);
+        e = (E *)func_021AC1E0(a);
         if (e->f10 == 0) {
             z = 0;
             e->f10 = 1;
-            func_0204784C(e->f14, 1, &z);
+            func_0204784C((struct AnmCtl *)e->f14, 1, (s32 *)(&z));
         }
     }
 }

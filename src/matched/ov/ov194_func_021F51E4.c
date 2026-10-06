@@ -36,12 +36,13 @@ extern u16 func_0204B7F0(u8 *);
 extern void func_0204AA94(int,void *,u32,int,int);
 extern void func_020307B0(void *);
 extern void func_020862F0(void *,unsigned);
-extern void func_0204B764(const char *,Palette *);
+struct Struct20;
+extern void func_0204B764(const char *src, struct Struct20 *dst);
 extern int func_02063800(char *,int);
 extern void func_0207E51C(void *,int,unsigned);
 extern void func_0207E5D0(void *,int,unsigned);
 extern void func_02049238(void *);
-extern void func_021F513C(void *,int,int,int,int,int,void *);
+extern void func_021F513C(const char *src, int width, int x, int y, int w, int h, char *dst);
 extern const char d_021F57A8[];
 static inline u8 *entry(u8 *p,u32 i) {
     if(p) {
@@ -66,12 +67,12 @@ void func_021F51E4(u8 *dst,unsigned arc,u32 member,u32 index,u16 width,u16 heigh
     offset=(*(u32 *)entry(tex,index)&0xffff)*8;
     pixels=tex+((struct Obj14519 *)tex)->f14;
     void *buf=func_02030734((u16)((heap&0x7fff)|0x8000),size,0,d_021F57A8,95);
-    func_021F513C(pixels+offset,width,0,0,width,height,buf);
+    func_021F513C((const char *)(pixels+offset),width,0,0,width,height,buf);
     func_0204AA94(func_0204B7F0(dst),buf,size,pos,mode);
     func_020307B0(buf);
     u32 poff=((struct Obj14519 *)tex)->f38;
     func_020862F0(tex+poff,32);
-    func_0204B764((const char *)dst,&pal);
+    func_0204B764((const char *)dst,(struct Struct20 *)(&pal));
     if(mode==0 || mode==2) func_0207E51C(tex+poff,func_02063800((char *)&pal,1),32);
     if(mode==1 || mode==2) func_0207E5D0(tex+poff,func_02063800((char *)&pal,2),32);
     func_020307B0(raw);

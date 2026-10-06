@@ -16,12 +16,13 @@
  *   func_021802EC                  0x021802EC  arm ov009
  */
 
-extern unsigned long func_0209477C(const char *s);
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);
 extern unsigned short *func_021802EC(char *theUTF8String, int theUTF8StringLength);
 
 unsigned short *func_021802C8(char *theUTF8String)
 {
     if (theUTF8String == 0)
         return 0;
-    return func_021802EC(theUTF8String, func_0209477C(theUTF8String));
+    return func_021802EC(theUTF8String, func_0209477C((const u8 *)theUTF8String));
 }

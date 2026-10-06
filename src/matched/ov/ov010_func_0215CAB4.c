@@ -38,8 +38,8 @@ typedef struct Box8 {
     void *sys;          /* 0x04 */
 } Box8;
 
-extern u16 func_02159B10(void *c, void *vm);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern unsigned int func_02159B10(void *a0, void *a1);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0215A5E4(void *vm);
 extern void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char d_021728F0[];

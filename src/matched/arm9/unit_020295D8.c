@@ -81,7 +81,7 @@ extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 
-void *func_02029620(void *a, u16 b, u16 c)
+void *func_02029620(void *a, u32 b, u32 c)
 {
     void *x = func_020120F4(a);
     void *task = func_020122C0(a, 0, func_020295D8, 0x10);

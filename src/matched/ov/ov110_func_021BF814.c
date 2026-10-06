@@ -14,5 +14,5 @@
 #include "../include/Obj22401.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BB1CC(u8 *,u8,int);
+extern int func_021BB1CC(u8 *p, u8 i, int c);
 void func_021BF814(u8 *p,u32 a,int b) { func_021BB1CC(*(u8 * *)&((struct Obj22401 *)p)->f1C,a,b); }

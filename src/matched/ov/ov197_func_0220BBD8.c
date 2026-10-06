@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern u32 sub_0202F144(u32);
-u16 func_0220BBD8(u32 key) { return (u16)sub_0202F144(key); }
+int func_0220BBD8(u32 key) { return (u16)sub_0202F144(key); }

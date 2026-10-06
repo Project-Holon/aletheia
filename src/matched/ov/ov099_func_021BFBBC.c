@@ -12,7 +12,9 @@
  *   func_021BE3CC 0x021BE3CC thumb ov099
  */
 extern int func_02156B68(char *);
-extern void func_021BE3CC(char *, int, int, int, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021BE3CC(char *p, int a, u8 b, u8 c, u32 d, int e);
 void func_021BFBBC(char *p)
 {
     if (func_02156B68(p)) {

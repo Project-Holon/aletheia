@@ -36,7 +36,7 @@ extern u32 func_020056EC(u32 range);
 extern void func_021D7D18(u8 *p, int unused, int species, int gender, int form, int n, int value);
 extern void func_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
 extern int func_02012DAC(int a0);
-extern void func_021D6EE0(int,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D7430(u8 *p);
 void func_021D746C(int a)
 {
@@ -58,5 +58,5 @@ void func_021D746C(int a)
     }
     ((struct Obj03269 *)a)->fAD=1;
     func_02012DAC(((struct Obj03269 *)a)->f2C);
-    func_021D6EE0(a,(int)func_021D7430,0x311);
+    func_021D6EE0((u8 *)a,(int)func_021D7430,0x311);
 }

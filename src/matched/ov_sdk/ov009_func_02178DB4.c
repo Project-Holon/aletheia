@@ -36,10 +36,11 @@ extern char g_021AB1C0[];
 extern char g_021AB208[];
 extern Finished g_021AB1A4;
 extern int func_021781DC(void);
-extern void func_02178224(AuthResult *result);
+struct DWCAuthParam;
+extern void func_02178224(int *result);
 extern void func_02178144(void);
 extern void func_02178CE0(void);
-extern int func_02177EE8(void *param, void *http);
+extern int func_02177EE8(struct DWCAuthParam *param, void *http);
 
 void func_02178DB4(void)
 {
@@ -49,11 +50,11 @@ void func_02178DB4(void)
     authError = func_021781DC();
     if (authError == 0x15) {
         AuthResult result;
-        func_02178224(&result);
+        func_02178224((int *)(&result));
         if (result.code == 0x4e22) {
             func_02178144();
             func_02178CE0();
-            if (func_02177EE8(g_021AB1C0, g_021AB208) == 0) {
+            if (func_02177EE8((struct DWCAuthParam *)g_021AB1C0, g_021AB208) == 0) {
                 return;
             }
             returnCode = -20100;
@@ -67,7 +68,7 @@ void func_02178DB4(void)
         if (authError == 0) {
             return;
         }
-        func_02178224(&result);
+        func_02178224((int *)(&result));
         func_02178144();
         returnCode = result.code;
     }

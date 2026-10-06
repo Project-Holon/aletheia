@@ -39,10 +39,11 @@ extern void func_02043B5C(struct CharBuf *,u8);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EF14(struct WordSet *,u32,void *);
 extern void func_0201F250(struct WordSet *,void *,void *);
-extern void func_02045808(struct StrObj *);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
-extern void func_021B77DC(char *,int,void *,struct StrObj *,int,int);
+extern void func_021B77DC(u8 *p, int n, void *w, void *s, int x, int y);
 void func_021B78E0(char *p) {
     struct Sav *mon;
     u32 lock,width;
@@ -53,16 +54,16 @@ void func_021B78E0(char *p) {
     str=func_02045EC0(*(struct MsgBank * *)&((struct Obj01273 *)p)->f9038,1);
     func_0201EF14(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,0,mon);
     func_0201F250(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,((struct Obj01273 *)p)->f9040,str);
-    func_021B77DC(p,1,((struct Obj01273 *)p)->f9030,*(struct StrObj * *)&((struct Obj01273 *)p)->f9040,8,0);
-    func_02045808(str);
+    func_021B77DC((u8 *)p,1,((struct Obj01273 *)p)->f9030,*(struct StrObj * *)&((struct Obj01273 *)p)->f9040,8,0);
+    func_02045808((struct U16Vec *)str);
     str=func_02045EC0(*(struct MsgBank * *)&((struct Obj01273 *)p)->f9038,2);
     width=func_0201D304(str,*(u32 *)&((struct Obj01273 *)p)->f9030,0);
-    func_021B77DC(p,1,((struct Obj01273 *)p)->f9030,str,112,0);
-    func_02045808(str);
+    func_021B77DC((u8 *)p,1,((struct Obj01273 *)p)->f9030,str,112,0);
+    func_02045808((struct U16Vec *)str);
     str=func_02045EC0(*(struct MsgBank * *)&((struct Obj01273 *)p)->f9038,3);
     func_0201EFA4(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,0,func_02017E88(mon,158,0),3,0,1);
     func_0201F250(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,((struct Obj01273 *)p)->f9040,str);
-    func_021B77DC(p,1,((struct Obj01273 *)p)->f9030,*(struct StrObj * *)&((struct Obj01273 *)p)->f9040,width+112,0);
-    func_02045808(str);
+    func_021B77DC((u8 *)p,1,((struct Obj01273 *)p)->f9030,*(struct StrObj * *)&((struct Obj01273 *)p)->f9040,width+112,0);
+    func_02045808((struct U16Vec *)str);
     func_02017DE4(mon,lock);
 }

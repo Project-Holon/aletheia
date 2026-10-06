@@ -27,8 +27,9 @@ extern const BgEntry d_021C81B4[];
 extern void func_02082BCC(void *,int,int);
 extern void func_0203F8F4(u32);
 extern void func_02045088(u32);
-extern void func_0203FC28(const void *);
-extern void func_0203FCA0(u8,const struct BgTemplate *,u8);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 void func_021BCF98(void *p,u32 heap)
@@ -39,11 +40,11 @@ void func_021BCF98(void *p,u32 heap)
     func_02082BCC(p,0,4);
     func_0203F8F4(heap);
     func_02045088(heap);
-    func_0203FC28(d_021C8138);
+    func_0203FC28((struct DispConfig *)d_021C8138);
     for(;i<8;i++) {
         row=&d_021C81B4[i];
         bg=row->bg;
-        func_0203FCA0(bg,(const struct BgTemplate *)row->tmpl,row->type);
+        func_0203FCA0((u8)bg,(const struct BgTemplate *)row->tmpl,(u8)row->type);
         func_020414AC(bg);
         func_02040588(bg,row->on);
     }

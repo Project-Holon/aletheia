@@ -41,16 +41,18 @@ typedef struct {
 } ObjPos;
 
 extern const u8 data_021C8704[7][9];
-extern int func_020490F4(u32 id, u16 heap);
-extern s32 func_0204AC18(int a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern int func_0204A6C8(int a, u32 b, u32 c, u32 d, u16 e);
-extern s32 func_0204AF28(int owner, u32 first, u32 second, u32 mode);
+struct Actor;
+struct Obj;
+extern void *func_020490F4(u32 id, u16 heap);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(int a);
 extern void func_02082BCC(void *dst, int v, u32 n);
-extern u32 func_0204B294(u32 res, u32 a, u32 b, u32 c, ObjPos *pos, u32 f, u32 heap);
-extern void func_0204B3DC(u32 obj, int on);
-extern void func_0204B688(u32 obj, u32 on);
-extern void func_0204B92C(u32 obj, int v);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
 
 struct S {
     u32 f0;
@@ -59,20 +61,20 @@ struct S {
     u32 a9c[7];
 };
 
-void func_021C2C44(u16 *heap, struct S *st)
+void func_021C2C44(u16 *heap, struct S *st, int a2)
 {
     int arc;
     u8 i;
     ObjPos pos;
 
-    arc = func_020490F4(0x9f, *heap);
+    arc = (int)func_020490F4(0x9f, *heap);
     i = 0;
-    st->a84[1] = func_0204AC18(arc, 3, 0, 0, 0, 4, *heap);
-    st->a84[0] = func_0204A6C8(arc, 0xd, 0, 0, *heap);
-    st->a84[2] = func_0204AF28(arc, 0x1b, 0x2c, *heap);
-    st->a84[4] = func_0204AC18(arc, 8, 1, 0x40, 0, 1, *heap);
-    st->a84[3] = func_0204A6C8(arc, 0x18, 0, 1, *heap);
-    st->a84[5] = func_0204AF28(arc, 0x1e, 0x2f, *heap);
+    st->a84[1] = func_0204AC18((void *)arc, 3, 0, 0, 0, 4, *heap);
+    st->a84[0] = func_0204A6C8((void *)arc, 0xd, 0, 0, *heap);
+    st->a84[2] = func_0204AF28((void *)arc, 0x1b, 0x2c, *heap);
+    st->a84[4] = func_0204AC18((void *)arc, 8, 1, 0x40, 0, 1, *heap);
+    st->a84[3] = func_0204A6C8((void *)arc, 0x18, 0, 1, *heap);
+    st->a84[5] = func_0204AF28((void *)arc, 0x1e, 0x2f, *heap);
     func_02049238(arc);
     do {
         const u8 *e;
@@ -83,10 +85,10 @@ void func_021C2C44(u16 *heap, struct S *st)
         pos.c = e[2];
         pos.d = e[3];
         pos.e = e[4];
-        st->a9c[i] = func_0204B294(st->f0, st->a84[e[5]], st->a84[e[6]], st->a84[e[7]], &pos, e[8], *heap);
-        func_0204B3DC(st->a9c[i], 1);
-        func_0204B688(st->a9c[i], 1);
+        st->a9c[i] = (u32)func_0204B294((void *)st->f0, st->a84[e[5]], st->a84[e[6]], st->a84[e[7]], &pos, e[8], *heap);
+        func_0204B3DC((struct Obj *)st->a9c[i], 1);
+        func_0204B688((struct Actor *)st->a9c[i], 1);
         i++;
     } while (i < 7);
-    func_0204B92C(st->a9c[6], 1);
+    func_0204B92C((struct Obj *)st->a9c[6], 1);
 }

@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A0C50(u32 a, u32 b, u32 c, u32 d)
+int func_021A0C50(u32 a, u16 b, u32 c, u32 d)
 {
 ((struct Obj07214 *)((u8 *)(a)))->f0 = 1;
 ((struct Obj07214 *)((u8 *)(a)))->f2 = b;

@@ -29,7 +29,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021DE17C(char *p, int command, int player);
 extern u16 func_02039338(void);
-extern void func_021E172C(void *,void *),func_021E1758(void *,int),func_021E168C(void *,int);
+extern void func_021E172C(char *p, unsigned short *q);
+extern void func_021E1758(void *,int);
+extern void func_021E168C(int *p, int a);
 void func_021DCD14(int a,int b,u8 *c,u8 *p)
 {
     func_021DE17C(((struct Obj23680 *)(*(u8 * *)&((struct Obj14206 *)p)->f0))->f20,1,*c);

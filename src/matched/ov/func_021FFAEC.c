@@ -24,7 +24,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021FFAEC(u32 a, u16 b, u16 c)
+void func_021FFAEC(u32 a, int b, int c)
 {
     u16 t[2];
 

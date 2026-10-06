@@ -29,7 +29,7 @@ typedef struct Stat {
 
 extern Ctx d_021B60D8;
 extern Stat d_021B4BD0;
-extern void func_021B25FC(int *o, u8 *p);
+extern void func_021B25FC(u8 *a, u8 *b);
 extern int func_02176E90(int i, u8 *p, int n);
 
 int func_021B2620(int *o, u8 *p)
@@ -38,7 +38,7 @@ int func_021B2620(int *o, u8 *p)
     u8 i;
 
     cnt = 0;
-    func_021B25FC(o, p);
+    func_021B25FC((u8 *)o, p);
     for (i = 0; i < 0x20; i++) {
         unsigned int m = (i != 0) ? (1 << i) : 1;
         if ((d_021B4BD0.mask & m) != 0 && i != d_021B60D8.b0) {

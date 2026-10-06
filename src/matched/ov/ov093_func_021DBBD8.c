@@ -35,14 +35,14 @@ struct QK;
 struct UtilWork;
 extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D5B40(struct QI *p);
-extern u32 func_021C7D00(void *a, int b);
-extern u8 *func_021C8120(void *a, int k);
-extern u8 func_021C7F68(void *p, u16 b, u8 *out);
+extern int func_021C7D00(u8 *p, int b);
+extern u8 *func_021C8120(u8 *p, int b);
+extern int func_021C7F68(int *p, int b, u8 *out);
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern u16 func_021D6740(struct QK *p);
 extern u8 func_021D5440(u8 *p);
 extern u32 func_021D78AC(u32 k);
-extern void *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
@@ -60,7 +60,7 @@ void func_021DBBD8(int a, void *b, u8 c)
     if (c == func_021D775C(2) && !func_021D5B40(func_021C7CF4(b, c))) {
         flag = func_021C7D00(b, c);
         buf = func_021C8120(b, 14);
-        buf[12] = func_021C7F68(b, flag | 0x200, buf);
+        buf[12] = (u8)func_021C7F68(b, (u16)(flag | 0x200), buf);
         n = 0;
         buf[13] = 0;
         for (i = 0; i < (u32)buf[12]; i++) {

@@ -24,8 +24,8 @@ typedef unsigned int   u32;
 extern const char app_keycursor_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020436FC(void *pixels, u32 width, u32 height, u32 depth,
-                           u16 heap);
+struct Bmp;
+extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
 struct KeyCursor {
     u32 *item;    /* 0x00 */
@@ -48,7 +48,7 @@ struct KeyCursor *func_020285A4(u16 id, u32 live, u32 flip, u16 heap,
     k->id = id;
     k->live = live;
     k->flip = flip;
-    k->item = func_020436FC(pixels, 2, 2, 0x20, heap);
+    k->item = (u32 *)func_020436FC(pixels, 2, 2, 0x20, heap);
 
     return k;
 }

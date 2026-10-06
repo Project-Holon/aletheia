@@ -75,7 +75,7 @@ struct Scr02065878 {
 };
 
 extern void  func_02065438(void *a);
-extern void  func_0206615C(int a);
+extern void func_0206615C(void);
 struct G2dOamState;
 extern u32 func_02067B50(const struct G2dOamState *p);
 extern u32 func_02067B64(const struct G2dOamState *p);
@@ -109,7 +109,7 @@ void func_02065878(struct Obj02065878 *c)
         return;
     }
 
-    func_0206615C(c->unk_4e);
+    func_0206615C();
 
     if ((c->unk_4e & 8) != 0) {
         int x, y;

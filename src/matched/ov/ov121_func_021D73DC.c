@@ -43,9 +43,10 @@ typedef struct {u8 bit:1;} Flag;
 extern void func_021DE308(char *,unsigned);
 extern void func_021D9F08(u8 *a, int b, int c, int d);
 extern int func_021DE3E0(void *);
-extern int func_021DE4DC(void *,void *,u32);
+extern int func_021DE4DC(u8 *p, void *a, u32 b);
 extern int func_021DEF6C(char *,void *,u16);
-extern int func_021D9554(void *,int);
+struct RtcDate;
+extern int func_021D9554(char *p, int n);
 extern int func_021DE500(void *);
 extern void func_021DE550(char *p);
 extern void func_021DA8B0(u32 *p, u32 a);
@@ -53,17 +54,17 @@ extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8C4(u32 *p);
 extern void func_021D81B0(u8 *,u32,int);
 extern void func_021D83DC(u8 *,int);
-extern int func_021D83B0(void *);
+extern int func_021D83B0(char *p);
 extern void func_021D8138(u8 *,int,int);
 extern int func_021DA178(char *);
 extern void func_021D8198(char *);
-extern void func_021D8380(void *);
-extern void func_021D849C(void *);
+extern void func_021D8380(char *p);
+extern void func_021D849C(char *p);
 extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 extern void func_021D7814(void *task, u32 *state, u8 *p);
 extern u32 func_020362DC(void);
-extern void func_0203F4E4(Date *);
+extern void func_0203F4E4(struct RtcDate *date);
 extern int func_0200A1A8(char *p, unsigned int bit);
 extern int func_0200A034(void *p, void *arg);
 extern void func_0200A1E4(void *p, unsigned int idx);
@@ -87,7 +88,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             v=func_021DE4DC(P(944),p+972,720);
             if(v==1) {
                 v=func_021DEF6C((char *)p+972,P(952),32797);
-                if(func_021D9554(p+972,v)) *state=5;
+                if(func_021D9554((char *)(p+972),v)) *state=5;
                 else *state=12;
             } else if(v==2) *state=2;
         }
@@ -122,7 +123,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
         func_021D81B0(p,2,29);func_021D83DC(p,29);
         func_021D9F08(P(644),W(932),106,0);*state=6;break;
     case 6:
-        flag=0;v=func_021D83B0(p);
+        flag=0;v=func_021D83B0((char *)p);
         if(v!=-1) {
         if(v==0) {
             func_021D9F08(P(644),W(932),110,1);
@@ -140,9 +141,9 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
         if(v!=-1) {
             func_021D8198((char *)p);
             if(v==0) {
-                func_021D8380(p);
+                func_021D8380((char *)p);
                 if(((Flag *)(p+1152))->bit && func_0200A1A8(P(956),((struct Obj13939 *)p)->f47C)) {*state=11;break;}
-                func_0203F4E4(&date);
+                func_0203F4E4((struct RtcDate *)(&date));
                 W(1144)=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
                 func_0200A034(P(956),p+972);
                 func_0200A1E4(P(956),((struct Obj13939 *)p)->f47C);
@@ -156,7 +157,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
         if(v!=-1) {
             func_021D8198((char *)p);
             if(v==0) {
-                func_021D8380(p);func_021D849C(p);
+                func_021D8380((char *)p);func_021D849C((char *)p);
                 func_021DA8B0(task,(u32)func_021D6E3C);
             } else if(v==1) *state=5;
         }
@@ -168,7 +169,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
         func_021D9F08(P(644),W(932),144,1);
         func_021DA8C0(task,13);*state=14;break;
     case 13:
-        func_021D8380(p);func_021D849C(p);
+        func_021D8380((char *)p);func_021D849C((char *)p);
         func_021DA8B0(task,(u32)func_021D6E3C);break;
     case 14:
         if(func_021D9FF8(P(644))) func_021DA8C4(task);

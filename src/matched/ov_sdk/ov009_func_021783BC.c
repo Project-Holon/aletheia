@@ -62,7 +62,7 @@ extern unsigned long long func_020870D0(void);
 extern void func_02086028(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
 extern void func_02085A38(unsigned long msec);
-extern void func_02179CF4(DWCHttp *http);
+extern void func_02179CF4(char *http);
 extern int func_021782B4(int getwifiinfofromflash);
 
 extern DWCWFCUtil g_021AB184;
@@ -137,7 +137,7 @@ void func_021783BC(void)
             func_02085A38(5000);
         }
 
-        func_02179CF4(g_021AB184.auth->http);
+        func_02179CF4((char *)g_021AB184.auth->http);
         func_02086028(&g_021AB184.auth->mutex);
         g_021AB184.auth->result = func_021782B4(getwifiinfofromflash);
         if (g_021AB184.auth->result != 0) {

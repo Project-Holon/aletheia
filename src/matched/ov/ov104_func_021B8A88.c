@@ -16,10 +16,10 @@
 typedef unsigned char u8;
 extern void func_02082BCC(void *,int,int);
 extern int func_021B7968(u8 *p, int i);
-extern void func_021B8D08(void *,void *,int);
+extern void func_021B8D08(unsigned int *p, unsigned int a, int b);
 void func_021B8A88(u8 *p,void *a,int b,int c,int d) {
  int i;
  func_02082BCC(p,0,0x534); ((struct Obj10248 *)p)->f528=b;
  ((struct Obj10248 *)p)->f52C=0; ((struct Obj10248 *)p)->f530=10;
- for(i=0;i<30;i++) func_021B8D08(p+i*0x2c,(void *)func_021B7968(a,c+i),d);
+ for(i=0;i<30;i++) func_021B8D08((unsigned int *)(p+i*0x2c),(unsigned int)((void *)func_021B7968(a,c+i)),d);
 }

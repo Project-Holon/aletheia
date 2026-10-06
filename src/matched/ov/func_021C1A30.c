@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021C19DC(void *p, int v);
+extern void func_021C19DC(char *p, int v);
 
 void func_021C1A30(u8 *p, int v)
 {
     if (p[0x8EF] != 0) {
-        func_021C19DC(p, v);
+        func_021C19DC((char *)p, v);
     }
 }

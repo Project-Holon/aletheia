@@ -15,11 +15,12 @@
 
 typedef unsigned int u32;
 
-extern int *func_0203A67C(u32 cmd);
+struct BaseTable;
+extern struct BaseTable *func_0203A67C(u32 cmd);
 
 int func_0203A748(u32 idx)
 {
-    int *p = func_0203A67C(idx);
+    int *p = (int *)func_0203A67C(idx);
     if (p != 0) {
         char *base = (char *)*p;
         u32 off = ((idx << 24) >> 21);

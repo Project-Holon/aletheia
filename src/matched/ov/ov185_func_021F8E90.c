@@ -23,18 +23,21 @@
  *   func_021FD1C4 0x021FD1C4 thumb ov186
  *   func_021FC754 0x021FC754 thumb ov186
  */
-extern int func_021FC20C(char *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
-extern int func_021FC4DC(int);
-extern void *func_021FD1C4(void *,int,int,int,int,unsigned short);
+extern u32 func_021FC4DC(u8 *p);
+extern char *func_021FD1C4(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
 extern void func_021FC754(char *,void *,void *,void *,unsigned short);
 void func_021F8E90(char *p,int *source)
 {
     if(*(int *)(p+0x10)==0) {
         int a=func_021FC20C((char *)source[3]);
         int b=func_021FC214((char *)source[3]);
-        int c=func_021FC4DC(source[2]);
-        *(void **)(p+0x10)=func_021FD1C4(((void **)(p+0x40))[*(unsigned short *)(p+0xc)],source[3],c,*(int *)(p+0x2c),1,*(unsigned short *)(p+0x30));
+        int c=func_021FC4DC((u8 *)source[2]);
+        *(void **)(p+0x10)=func_021FD1C4(((void **)(p+0x40))[*(unsigned short *)(p+0xc)],(char *)source[3],(void *)c,(void *)(*(int *)(p+0x2c)),1,*(unsigned short *)(p+0x30));
         func_021FC754(*(char **)(p+0x1c),(void *)b,(void *)0x72,(void *)a,0x3da0);
     }
 }

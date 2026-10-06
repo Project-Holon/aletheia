@@ -64,7 +64,8 @@ extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_0205915C(DWCFriendData *frienddata);
 extern void func_02059A10(void *frienddata, int gs_profile_id);
 extern void func_02059214(DWCFriendData *frienddata);
-extern int func_021696B0(DWCFriendData *friendList, int friendListLen, int profileID);
+typedef unsigned char  u8;
+extern int func_021696B0(u8 *friendList, int friendListLen, int profileID);
 extern void func_02059240(void *frienddata, int setflag);
 extern int func_0205912C(DWCFriendData *frienddata);
 extern void func_02059270(void *frienddata, int setflag);
@@ -104,7 +105,7 @@ void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
     }
     if (!listChanged)
         return;
-    index = func_021696B0(g_021AA860.friendcnt->friendList, g_021AA860.friendcnt->friendListLen, arg->profile);
+    index = func_021696B0((u8 *)g_021AA860.friendcnt->friendList, g_021AA860.friendcnt->friendListLen, arg->profile);
     if (!alreadyBuddy) {
         func_02059240(&g_021AA860.friendcnt->friendList[index], 1);
         if (func_0205912C(&g_021AA860.friendcnt->friendList[index]))

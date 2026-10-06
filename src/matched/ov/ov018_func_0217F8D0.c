@@ -30,7 +30,7 @@ void *func_0215A5DC(void *a0);
 typedef unsigned int   u32;
 struct Ctx;
 u32 func_02012138(const struct Ctx *p);
-Sys *func_02158344(int);
+int func_02158344(int a0);
 int func_02175B8C(u8 *p);
 
 int func_0217F8D0(void *a0, int a)
@@ -40,7 +40,7 @@ int func_0217F8D0(void *a0, int a)
     int v;
 
     out = func_02159AE8(a0, (void *)a);
-    s = func_02158344(func_02012138(func_0215A5DC((void *)a)));
+    s = (Sys *)func_02158344(func_02012138(func_0215A5DC((void *)a)));
     if (s != 0 && s->bit93F == 0 && func_02175B8C((u8 *)s + 0x1AC) == 1) {
         v = 1;
     } else {

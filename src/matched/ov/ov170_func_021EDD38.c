@@ -28,9 +28,9 @@ struct Grid;
 struct Obj02025774;
 extern void func_020258E8(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
 extern void func_0202590C(struct Grid *g, s16 x, s16 y);
-extern unsigned char func_021DEB14(char *p, signed char a);
+extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EDB64(char *p, int a, int i);
-extern void func_021EB874(char *p, unsigned a, int i);
+extern void func_021EB874(char **p, unsigned a, int i);
 extern int func_021EC01C(char *p, int i);
 
 void func_021EDD38(char *p, int d)
@@ -51,16 +51,16 @@ void func_021EDD38(char *p, int d)
         y = t[0] + step;
         func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y);
         if (x < -0x10) {
-            k = func_021DEB14(p, 4);
+            k = func_021DEB14((unsigned char *)p, 4);
             func_021EDB64(p, k, i + 0x2D);
             func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, t[3], x + 0xCC, 0);
-            func_021EB874(p, k, i + 1);
+            func_021EB874((char **)p, k, i + 1);
             func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y + 0xCC);
         } else if (x >= 0xBA) {
-            k = func_021DEB14(p, -1);
+            k = func_021DEB14((unsigned char *)p, -1);
             func_021EDB64(p, k, i + 0x2D);
             func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, t[3], x - 0xCC, 0);
-            func_021EB874(p, k, i + 1);
+            func_021EB874((char **)p, k, i + 1);
             func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y - 0xCC);
         }
     }

@@ -43,12 +43,14 @@ extern int func_021C39CC(u8 *);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern int func_021D5B68(void *p);
-extern int func_021D62C4(void *, int);
+struct B;
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u8 func_021D69AC(u8 *, int);
 extern u32 func_021CC8D8(void *, int);
 extern int func_021C3A4C(u8 *, int, u8 *);
 extern int func_021C88E4(u8 *);
-extern void func_021CC95C(void *, u32, int);
+extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021B8E28(u8 *, int, u8 *, u8 *);
 extern u8 *func_021BB85C(u8 *p, unsigned int i);
 extern int func_021C39F4(u8 *, u8 *);
@@ -60,7 +62,7 @@ extern void func_021CD64C(void *, u8, ...);
 extern int func_021BDA00(u8 *);
 extern u8 func_021B8DDC(u32 x);
 extern int func_021D59B4(u8 *p, int k);
-extern void func_021D8244(void *, int);
+extern void func_021D8244(struct B *p, int n);
 static inline u8 rule(u8 n)
 {
     if (n != 0) {
@@ -83,12 +85,12 @@ int func_021C3810(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int ignore
     position = func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, func_021D5440(b));
     if (position == 6) return 0;
     if (func_021D5B68(b)) return 0;
-    if (func_021D62C4(b, 33)) return 0;
+    if (func_021D62C4((struct Unk021D62A8 *)b, 33)) return 0;
     if (rule(func_021D69AC(b, 4)) != 31) return 0;
     lock = func_021CC8D8(p + 0x1d74, 8732);
     blocked = func_021C3A4C(p, (int)a, b);
     if (blocked && func_021C88E4(p)) *out = 1;
-    func_021CC95C(p + 0x1d74, lock, 8740);
+    func_021CC95C((u32 *)(p + 0x1d74), lock, 8740);
     if (blocked) return 0;
     func_021B8E28(*(u8 * *)&((struct Obj00003 *)p)->f4, position, &pair.id, &pair.count);
     if (mode == M1) {
@@ -110,7 +112,7 @@ int func_021C3810(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int ignore
             speed = (u8)func_021D59B4(a, 15);
             if ((u8)func_021D59B4(b, 15) > speed) return 0;
         }
-        func_021D8244(p + 0x4b8, slot);
+        func_021D8244((struct B *)(p + 0x4b8), slot);
         func_021BDD7C(p, b, move);
         *(u32 *)&((struct Obj00003 *)p)->f14 = 5;
     }

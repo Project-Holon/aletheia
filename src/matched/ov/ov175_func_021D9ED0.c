@@ -17,7 +17,7 @@
  *     alignment padding.
  */
 
-void func_021D9ED0(void)
+void func_021D9ED0(int a0)
 {
 }
 

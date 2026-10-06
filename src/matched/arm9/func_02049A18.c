@@ -47,11 +47,11 @@ struct Pal {
     u8  data[1];
 };
 
-extern int  func_02062B30(void *file, struct Pal **out);
-extern int  func_0204169C(u8 channel);
-extern int  func_0204162C(u8 channel);
-extern void func_02040AF0(u8 channel, void *data, u32 size, u32 a);
-extern void func_020409E0(u8 channel, void *data, u32 size, u32 a);
+extern int func_02062B30(void *file, void **out);
+extern int func_0204169C(int channel);
+extern u32 func_0204162C(int channel);
+extern void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset);
+extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_020409B4(u8 channel);
 extern void func_02041B6C(u8 channel);
 extern void func_020307B0(void *file);
@@ -60,11 +60,11 @@ void func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
 {
     struct Pal *pal;
 
-    if (func_02062B30(file, &pal) != 0) {
+    if (func_02062B30(file, (void **)(&pal)) != 0) {
         if (size == 0)
             size = pal->size;
         if (add != 0) {
-            if (func_0204169C(channel) == 0) {
+            if (func_0204169C((u8)channel) == 0) {
                 u32 i;
                 u16 *p = (u16 *)pal->data;
                 for (i = 0; i < size / 2; i++)
@@ -76,14 +76,14 @@ void func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
                     p[i] += (u8)add;
             }
         }
-        if (func_0204162C(channel) != 0) {
-            func_02040AF0(channel, pal->data, size, a2);
+        if ((int)func_0204162C((u8)channel) != 0) {
+            func_02040AF0((u8)channel, pal->data, size, a2);
             if (flag != 0)
                 func_02041B6C(channel);
             else
                 func_020409B4(channel);
         } else {
-            func_020409E0(channel, pal->data, size, a2);
+            func_020409E0((u8)channel, pal->data, size, a2);
         }
     }
     func_020307B0(file);

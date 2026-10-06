@@ -174,30 +174,36 @@ extern void *gMsgBank;
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
 extern void func_021DBDF4(void *out, const Record *src, void *p, u16 heap);
-extern void *func_020457B0(u32 cap, u32 heap);
-extern void func_02045994(void *o, const void *src, u32 len);
-extern void *func_02045EC0(void *bank, u32 idx);
-extern void func_02045808(void *p);
-extern void func_0201EFA4(void *ws, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F250(void *ws, void *dst, void *src);
-extern void *func_021DA338(void *p, u16 heap);
-extern void func_021DA3EC(void *p, const Desc *d, void *dst);
+struct Mon;
+struct MsgBank;
+struct Strbuf;
+struct Sub0200852CObj;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void *func_021DA338(char *p, u16 heap);
+extern void func_021DA3EC(char *p, char *desc, void *dst);
 extern int func_021DC024(void *p);
 extern u32 func_020056EC(u32 range);
 extern u8 *func_02012944(void *p);
-extern u32 func_02008530(const u8 *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
 extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
-extern void func_02017588(void *p, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017FA8(void *p);
-extern u16 func_0201808C(void *p, u16 move);
+extern u32 func_02017FA8(void *p);
+extern u32 func_0201808C(void *p, u32 move);
 extern void func_020180F4(void *p, u16 move);
 extern void func_02018A00(void *p, u32 species, u32 arg);
 extern u16 func_02045A98(void);
-extern u16 *func_020084F4(const u8 *p);
-extern u32 func_02008550(const u8 *p);
+extern const void *func_020084F4(const void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_020307B0(void *p);
 extern void *func_020185F0(void *p);
 extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
@@ -206,9 +212,9 @@ extern int func_0202D7C8(int a0);
 extern int func_0202D060(void);
 extern u32 func_02017EAC(void *p);
 extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern void *func_02049F78(void *, int, void **, u16);
+extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020185F4(void *p);
-extern void *func_0202D6F4(void *, void *, int, u16);
+extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
 extern void func_02049238(void *p);
 
 struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
@@ -254,7 +260,7 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
     desc = d_021DFA14;
     id16 = (heap & 0x7fff) | 0x8000;
     desc.e[1].f8 = func_020457B0(0x25, (u16)id16);
-    func_02045994(desc.e[1].f8, (char *)out->a + 0x60, 0x24);
+    func_02045994(desc.e[1].f8, (const u16 *)((char *)out->a + 0x60), 0x24);
     if (out->a->fB4b)
         idx = out->a->fB2 + 0x19d;
     else
@@ -269,7 +275,7 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
     func_0201EFA4((void *)b->fCC, 2, (u8)flags, 2, 0, 1);
     func_0201F250((void *)b->fCC, desc.e[4].f8, t4);
     out->f144 = func_021DA338(*(void **)b, heap);
-    func_021DA3EC(out->f144, &desc, (void *)b->fC8);
+    func_021DA3EC(out->f144, (char *)(&desc), (void *)b->fC8);
     func_02045808(desc.e[1].f8);
     func_02045808(desc.e[2].f8);
     func_02045808(desc.e[4].f8);
@@ -304,7 +310,7 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
             if (level == 0)
                 level = (u16)(func_020056EC(0x64) + 1);
             if (r->f0 == 0)
-                id = func_02008530(func_02012944(gs));
+                id = func_02008530((const struct Sub0200852CObj *)func_02012944(gs));
             if (gender == 0xff)
                 gender = 2;
             for (i = 0; i < 6; i++) {
@@ -409,7 +415,7 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
                 if (v <= 2)
                     func_02017E40(mon, 0x9a, v);
                 else {
-                    v = func_02008550(func_02012944(gs));
+                    v = func_02008550((const struct Sub0200852CObj *)func_02012944(gs));
                     func_02017E40(mon, 0x9a, v);
                 }
             }
@@ -450,7 +456,7 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
             a2 = func_02017E1C(res, 0x6f, 0);
             a3 = func_02017E1C(res, 0x6e, 0);
             idx = func_0202D0D4(a0, a1, a2, a3, func_02017EAC(res), 0, func_02017E1C(res, 0x4c, 0));
-            out->f13C = func_02049F78(arc, idx, &out->f140, out->heap);
+            out->f13C = func_02049F78(arc, idx, (u32)(&out->f140), out->heap);
             out->f134 = (u32)func_0202D6F4(&out->f138, func_020185F4(res), 0, out->heap);
             func_020307B0(res);
             func_02049238(arc);

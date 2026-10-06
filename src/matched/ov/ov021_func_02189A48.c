@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
-unsigned int func_02189A48(char *p)
+int func_02189A48(char *p)
 {
     return *(unsigned int *)(p + 0x144);
 }

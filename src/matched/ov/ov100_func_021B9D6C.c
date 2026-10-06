@@ -29,7 +29,7 @@ struct Entry;
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
-extern void func_021B95B8(int,void (*)(void));
+extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021B9CC4(int a);
 void func_021B9D6C(int a) {
  int p=(int)func_020399A8();
@@ -37,6 +37,6 @@ void func_021B9D6C(int a) {
  int v=(int)func_02012944((void *)(**(int * *)&((struct Obj22079 *)a)->f244));
  if(func_0203D3A8((void *)p,0xc01,k,v)!=0) {
   func_02039C68((struct Link *)func_020399A8(),0x7b,12);
-  func_021B95B8(a,(void (*)(void))func_021B9CC4);
+  func_021B95B8((u8 *)a,(u32)((void (*)(void))func_021B9CC4));
  }
 }

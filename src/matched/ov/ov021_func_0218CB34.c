@@ -35,9 +35,12 @@ extern void func_0218DD70(void *e);
 typedef unsigned int   u32;
 struct Elem;
 extern void func_0218D1D0(char *p, void *a, struct Elem *e);
-extern void func_0218D304(char *p, void *a, void *b);
-extern void func_0218D444(char *p, void *a, void *b);
-extern void func_0218D570(char *p, void *a, void *b);
+struct Cam;
+struct Cell;
+struct Obj;
+extern void func_0218D304(char *p, int *v, struct Elem *e);
+extern void func_0218D444(char *p, int *a, struct Elem *e);
+extern void func_0218D570(struct Obj *p, struct Cam *cam, struct Cell *cells);
 struct Cell;
 struct Obj;
 extern int func_0218D7A8(struct Obj *p, struct Cell *nc);
@@ -45,7 +48,7 @@ extern void func_0218DE78(char *p);
 extern int func_02169520(int a0, int a1);
 extern void func_02169308(u8 *p);
 extern void func_0218DEFC(char *p, int o, int i);
-extern void func_0218DF80(char *p);
+extern void func_0218DF80(u8 *a);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void func_0218B83C(char *p);
 extern void func_021A73DC(u32 *s);
@@ -68,13 +71,13 @@ int func_0218CB34(char *p)
         break;
     case 1:
     default:
-        func_0218D304(p, p + 0x34, ((struct Obj00807 *)p)->f28);
+        func_0218D304(p, (int *)(p + 0x34), ((struct Obj00807 *)p)->f28);
         break;
     case 2:
-        func_0218D444(p, p + 0x34, ((struct Obj00807 *)p)->f28);
+        func_0218D444(p, (int *)(p + 0x34), ((struct Obj00807 *)p)->f28);
         break;
     case 3:
-        func_0218D570(p, p + 0x34, ((struct Obj00807 *)p)->f28);
+        func_0218D570((struct Obj *)p, (struct Cam *)(p + 0x34), ((struct Obj00807 *)p)->f28);
         break;
     }
     func_0218D7A8((struct Obj *)p, ((struct Obj00807 *)p)->f28);
@@ -87,7 +90,7 @@ int func_0218CB34(char *p)
         func_02169308((u8 *)(*(int *)(*(char * *)&((struct Obj00807 *)p)->f24 + i * 0x28)));
         func_0218DEFC(p, *(int *)(*(char * *)&((struct Obj00807 *)p)->f24 + i * 0x28), i);
     }
-    func_0218DF80(p);
+    func_0218DF80((u8 *)p);
     x = func_0207C768(((struct Obj00807 *)p)->f34, ((struct Obj00807 *)p)->f4);
     y = func_0207C768(((struct Obj00807 *)p)->f3C, ((struct Obj00807 *)p)->f4);
     ((struct Obj00807 *)p)->f30 = (x >> 12) + (y >> 12) * ((struct Obj00807 *)p)->f14;

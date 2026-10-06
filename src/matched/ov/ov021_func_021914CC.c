@@ -33,10 +33,11 @@ typedef struct S {
 } S;
 
 extern u8 func_0219320C(u8 *p);
-extern u32 func_02194990(u32 a, u8 b);
+extern u32 func_02194990(u32 a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_021928C0(u32 *sub, u32 a, u32 b);
+struct Cur;
+extern void func_021928C0(struct Cur *c, u32 win, u32 col);
 extern void func_02045334(struct Descriptor *a);
 
 void func_021914CC(S *s)
@@ -45,7 +46,7 @@ void func_021914CC(S *s)
 
     if (func_0219320C(s->f14 + 0x160) == 0) {
         x = func_02194990(s->f08, s->f01);
-        func_021928C0(s->sub, (u32)func_02045770((struct Descriptor *)x), 0xF);
+        func_021928C0((struct Cur *)s->sub, (u32)func_02045770((struct Descriptor *)x), 0xF);
         func_02045334((struct Descriptor *)x);
     }
 }

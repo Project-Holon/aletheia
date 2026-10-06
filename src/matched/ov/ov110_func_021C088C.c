@@ -19,7 +19,8 @@ typedef unsigned int u32;
 typedef signed short s16;
 struct Rec { u16 x, y, c, d; };
 extern s16 tbl_020A1B38[];
-extern void func_02061CA4(u32 a, u32 b, void *src, u32 n);
+typedef signed int     s32;
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 static inline void lerp(u16 *p, int n, u16 a, u16 b)
 {
  u8 r,g,blue; int dr,dg,db;
@@ -43,6 +44,6 @@ void func_021C088C(u16 *ang, u16 *out, struct Rec *recs, u8 count)
     t = (tbl_020A1B38[(*ang >> 4) * 2 + 1] + 0x1000) / 2;
     for (i = 0; i < count; i++) {
         lerp(&out[i], t, recs[i].c, recs[i].d);
-        func_02061CA4(15, (recs[i].x << 5) + (recs[i].y << 1), &out[i], 2);
+        func_02061CA4((void *)15, (recs[i].x << 5) + (recs[i].y << 1), (u32)(&out[i]), 2);
     }
 }

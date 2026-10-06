@@ -74,9 +74,10 @@ struct ServerBrowser {
 
 extern void func_0219D928(struct SBQueryEngine *engine, struct SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
 extern void func_0219DF04(SBQueryEngine *engine, SBServer *server);
-extern void func_021A02E0(SBServerList *slist);
+struct SBL;
+extern void func_021A02E0(struct SBL *slist);
 extern int func_02184200(const int *p);
-extern void func_0219D8D8(SBQueryEngine *engine, unsigned int ip);
+extern void func_0219D8D8(int *engine, int publicip);
 
 void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void *instance)
 {
@@ -115,7 +116,7 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
         break;
     case 3:
         if (sb->disconnectFlag)
-            func_021A02E0(serverlist);
+            func_021A02E0((struct SBL *)serverlist);
         if (func_02184200(serverlist->servers) == 0 || sb->engine.querylist.count == 0)
             sb->BrowserCallback(sb, 4, 0, sb->instance);
         break;
@@ -123,7 +124,7 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
         sb->BrowserCallback(sb, 5, 0, sb->instance);
         break;
     case 6:
-        func_0219D8D8(&sb->engine, sb->list.mypublicip);
+        func_0219D8D8((int *)(&sb->engine), sb->list.mypublicip);
         break;
     case 4:
     case 7:

@@ -50,7 +50,7 @@ struct Q1;
 extern u8 func_021B904C(u8 *p, int k);
 extern u16 func_021BA004(char *p, int i);
 extern char *func_021B9AEC(char *,int);
-extern u8 *func_021B990C(void *,u32,u8);
+extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
 extern int func_021D5B68(void *);
 extern int func_021B99B8(void *pp, unsigned int b);
 extern u32 func_0202A298(u32,u32,u32);
@@ -58,9 +58,9 @@ extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021D7B60(void *p, u32 b);
 extern int func_021D5B48(u8 *p);
 extern u8 func_021B9B94(struct Q1 *p);
-extern u8 func_021B9B98(char *);
+extern u8 func_021B9B98(u8 *p);
 extern const u16 d_021EFF78[4];
-int func_021CE8F0(const u8 *p,u16 *out)
+u32 func_021CE8F0(const u8 *p, u16 *out)
 {
     u32 entry;
     int result;
@@ -77,11 +77,11 @@ int func_021CE8F0(const u8 *p,u16 *out)
     k = func_021BA004(((struct Obj03689 *)p)->f0,id);
     if (!k) goto fail;
     entry = (u32)func_021B9AEC(*(char * *)&((struct Obj03689 *)p)->f4,id);
-    mon = func_021B990C(((struct Obj03689 *)p)->f4,id,0);
+    mon = func_021B990C(((struct Obj03689 *)p)->f4,id,(u8)0);
     if (func_021D5B68(mon)) {
         count = func_021B99B8(((struct Obj03689 *)p)->f0,id);
         for (i=1;i<count;i++) {
-            mon = func_021B990C(((struct Obj03689 *)p)->f4,id,i);
+            mon = func_021B990C(((struct Obj03689 *)p)->f4,id,(u8)i);
             if (!func_021D5B68(mon)) break;
         }
     }
@@ -106,10 +106,10 @@ int func_021CE8F0(const u8 *p,u16 *out)
                     if (!func_021D5B48(mon)) { result = i; row[ok1] = 1; }
                     break;
                 case 2:
-                    if (func_021B9B94((void *)entry) > 1 && func_021B9B98((char *)entry) == 1) { result = i; row[ok2] = 1; }
+                    if (func_021B9B94((void *)entry) > 1 && func_021B9B98((u8 *)entry) == 1) { result = i; row[ok2] = 1; }
                     break;
                 case 3:
-                    if (func_021B9B94((void *)entry) > 1 && func_021B9B98((char *)entry) == 1) {
+                    if (func_021B9B94((void *)entry) > 1 && func_021B9B98((u8 *)entry) == 1) {
                         b = func_021D59B4(mon,13);
                         if ((u32)b <= func_021D7B60(mon,2)) { result = i; row[ok3] = 1; }
                     }

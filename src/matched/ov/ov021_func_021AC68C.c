@@ -27,7 +27,7 @@ typedef struct P { u32 f0; u32 f4; u32 w[4]; } P;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_021ABE14(u8 *p);
 extern u32 func_02188C90(u8 *p);
-extern void func_021AC6D4(P *p);
+extern void func_021AC6D4(u32 *p);
 extern char d_021DE070[];
 
 P *func_021AC68C(int a, int heap)
@@ -37,6 +37,6 @@ P *func_021AC68C(int a, int heap)
     p = (P *)func_02030734(heap, 0x18, 1, d_021DE070, 0x6c);
     p->f0 = a;
     p->f4 = func_02188C90((u8 *)func_021ABE14((u8 *)a));
-    func_021AC6D4(p);
+    func_021AC6D4((u32 *)p);
     return p;
 }

@@ -26,7 +26,7 @@ struct Sound;
 extern u32 func_020260F0(struct Sound *obj);
 extern void func_021EC000(char *, int, int);
 extern void func_021EBA5C(char *, int);
-extern void func_021DD14C(unsigned char *);
+extern void func_021DD14C(char *p);
 extern int func_021EF770(struct WinMgr *mgr);
 extern void func_021EF670(char *);
 extern void func_021EF68C(char *);
@@ -43,7 +43,7 @@ int func_021E3568(unsigned char *p)
     else
         n = 0x18;
     func_021EBA5C(W(p), n);
-    func_021DD14C(p);
+    func_021DD14C((char *)p);
     if (((struct Obj23894 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 2) {
         if (func_021EF770(*(struct WinMgr **)(W(p) + 0x74)) == 1)
             func_021EF670(W(p));

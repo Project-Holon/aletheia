@@ -51,7 +51,7 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_0204ABF0(void * a, int b, int c, int d, u16 e);
 extern int func_021F86E0(void);
-extern u32 func_0204AEF4(int h, int k);
+extern int func_0204AEF4(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_02049238(void * h);
 

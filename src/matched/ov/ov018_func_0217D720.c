@@ -54,7 +54,7 @@ extern const struct BgTemplate d_0218372C;
 void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 void MIi_CpuClear32(u32 data, void *dest, u32 size);
 void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
-void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
 void MIi_CpuCopy16(const void *src, void *dest, u32 size);
@@ -62,7 +62,7 @@ void func_020307B0(void *p);
 void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02040588(u32 which, u32 enable);
-void func_0217EF70(u8 *w, int x);
+void func_0217EF70(int *p, int x);
 int func_0217F1E8(u8 *w);
 void func_0217F240(u8 *w, int x);
 
@@ -91,7 +91,7 @@ void func_0217D720(u8 *w, void *bg)
         w[0x11F] = 1;
     }
     func_020498F4(bg, layer, 6, 0, 0x800, 1, 0x15);
-    func_0217EF70(w, w[0xD8]);
+    func_0217EF70((int *)w, w[0xD8]);
     res = func_02049EF4(bg, 8, 1, (void **)&pal, 0x15);
     MIi_CpuCopy16(pal + 0xC, w + 0x138, 0x30);
     func_020307B0(res);

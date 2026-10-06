@@ -21,7 +21,7 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_021DD2F4(char *p);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern int func_021B6548(unsigned char *p, unsigned int id, int v);
-extern void func_021D8980(char *p);
+extern int func_021D8980(char *p);
 extern void func_021D8B38(char *p);
 void func_021DBB6C(char *p)
 {

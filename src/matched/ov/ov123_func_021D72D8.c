@@ -30,19 +30,19 @@ struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern int func_02012DD0(u8 *p);
 extern void func_021D584C(char *);
-extern void func_021D57D0(char *,int,int,int);
+extern void func_021D57D0(void *p, int msg, int n, void *mon);
 extern void func_021D5960(char *,int,int);
-extern void func_021D62B4(char *,int);
-extern void func_021D62BC(char *,int,int);
-extern void func_021D62D0(char *,int,int);
-extern void func_021D6650(char *,int);
+extern void func_021D62B4(u8 *p, unsigned int i);
+extern void func_021D62BC(u8 *p, int i, u32 v);
+extern void func_021D62D0(u8 *p, int i, int v);
+extern void func_021D6650(u8 *p, int flag);
 extern int func_020185F0(void *);
-extern void func_021D6458(char *,int,int);
+extern void func_021D6458(u8 *p, int n, int i);
 extern void func_021D652C(char *);
 extern void func_020061E4(u32 a);
-extern void func_021D7204(char *);
+extern void func_021D7204(u8 *p);
 extern void func_021D7180(int a);
-extern void func_021D6EE0(char *,int,int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 void func_021D72D8(char *p)
 {
     Callback cb;
@@ -52,17 +52,17 @@ void func_021D72D8(char *p)
         ((struct Obj01254 *)p)->fAB=0;
         ((struct Obj01254 *)p)->fAE=0;
         func_021D584C(*(char * *)&((struct Obj01254 *)p)->f18);
-        func_021D57D0(*(char * *)&((struct Obj01254 *)p)->f18,45,0,*(int *)&((struct Obj01254 *)p)->fC);
+        func_021D57D0(*(char * *)&((struct Obj01254 *)p)->f18,45,0,(void *)(*(int *)&((struct Obj01254 *)p)->fC));
         func_021D5960(*(char * *)&((struct Obj01254 *)p)->f18,1,4);
-        func_021D62B4(*(char * *)&((struct Obj01254 *)p)->f14,0);
-        func_021D62BC(*(char * *)&((struct Obj01254 *)p)->f14,6,7);
-        func_021D62BC(*(char * *)&((struct Obj01254 *)p)->f14,0,1);
-        cb.f0=0; cb.f4=p; cb.f8=func_021D7204;
-        func_021D62D0(*(char * *)&((struct Obj01254 *)p)->f14,0,(int)&cb);
-        func_021D6650(*(char * *)&((struct Obj01254 *)p)->f14,0);
-        func_021D6458(*(char * *)&((struct Obj01254 *)p)->f14,func_020185F0(((struct Obj01254 *)p)->fC),0);
+        func_021D62B4((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),0);
+        func_021D62BC((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),6,7);
+        func_021D62BC((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),0,1);
+        cb.f0=0; cb.f4=p; cb.f8=(void (*)(char *))func_021D7204;
+        func_021D62D0((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),0,(int)&cb);
+        func_021D6650((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),0);
+        func_021D6458((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),func_020185F0(((struct Obj01254 *)p)->fC),0);
         func_021D652C(*(char * *)&((struct Obj01254 *)p)->f14);
         func_020061E4(0x658);
-        func_021D6EE0(p,(int)func_021D7180,0x295);
+        func_021D6EE0((u8 *)p,(int)func_021D7180,0x295);
     }
 }

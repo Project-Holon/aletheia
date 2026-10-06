@@ -15,11 +15,11 @@
 
  */
 
-extern int func_0215F644(void);
+extern int func_0215F644(int s);
 extern int func_0217EB00(int a, int b);
 
-int func_0217EB2C(void)
+int func_0217EB2C(int sock)
 {
-    return func_0217EB00(func_0215F644(), -1);
+    return func_0217EB00(func_0215F644(sock), -1);
 }
 

@@ -30,8 +30,8 @@ typedef struct {
     int f40;
 } W;
 
-extern int func_021BA774(W *p, int i);
-extern void func_021BADBC(W *p, int v);
+extern int func_021BA774(char *p, int i);
+extern void func_021BADBC(char *p, int v);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 
@@ -44,8 +44,8 @@ void func_021BAA30(W *p, int a)
         func_0204B3DC((struct Obj *)p->obj, 0);
         return;
     }
-    if (func_021BA774(p, 11) == 4 || func_021BA774(p, 11) == 5) {
-        func_021BADBC(p, p->f30);
+    if (func_021BA774((char *)p, 11) == 4 || func_021BA774((char *)p, 11) == 5) {
+        func_021BADBC((char *)p, p->f30);
         func_0204B3DC((struct Obj *)p->obj, 1);
     } else {
         func_0204B3DC((struct Obj *)p->obj, a);

@@ -39,9 +39,9 @@ struct Obj {
     struct Sub unk_68;
 };
 
-extern void sub_0204D3A0(struct Sub *s, u32 value);
+extern void sub_0204D3A0(struct Obj *o, u32 value);
 
 void sub_0204B8C4(struct Obj *p, u32 value)
 {
-    sub_0204D3A0(&p->unk_68, value);
+    sub_0204D3A0((struct Obj *)(&p->unk_68), value);
 }

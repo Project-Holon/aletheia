@@ -104,4 +104,4 @@ struct WordSet;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank*,u32,void*);
 extern void func_0201F250(struct WordSet*,void*,void*);
-void func_021BCEA4(u8*p,u32 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));func_0201F250(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
+void func_021BCEA4(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));func_0201F250(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}

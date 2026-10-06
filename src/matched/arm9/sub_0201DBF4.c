@@ -57,11 +57,11 @@ struct Font {
 extern void func_0204960C(void *handle, u32 off);
 struct ArcFile;
 extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
-extern void func_0201DC44(const struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
+extern void func_0201DC44(struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
 
 void func_0201DBF4(const struct Font *f, u32 i, void *d, u8 *out)
 {
     func_0204960C(f->handle, (u32)f->resHdr + ((u32)f->glyphDir + i * f->mapSize));
     func_020495F4(f->handle, f->mapSize, f->scratch);
-    func_0201DC44(f, f->scratch, f->lastCols, d, out);
+    func_0201DC44((struct Font *)f, f->scratch, f->lastCols, d, out);
 }

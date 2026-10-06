@@ -27,7 +27,7 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_02027CD8(int,int);
+extern int func_02027CD8(int a0, int a1);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021B967C(int,int);
 void func_021BA1D0(int a) {

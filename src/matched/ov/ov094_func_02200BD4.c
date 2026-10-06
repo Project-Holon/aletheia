@@ -48,12 +48,14 @@ typedef struct {
     int tag;                /* 0x50 */
 } Ctx;
 
-extern Ctx *func_02030EE8(void *h);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 extern int func_021F935C(int x);
 
 void func_02200BD4(void *h)
 {
-    Ctx *c = func_02030EE8(h);
+    Ctx *c = (Ctx *)func_02030EE8(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;

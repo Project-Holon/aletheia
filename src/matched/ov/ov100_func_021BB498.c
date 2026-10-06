@@ -27,7 +27,8 @@ extern void func_02027974(u8 *);
 extern void func_02028178(u8 *);
 extern void func_02040618(u32, u32, u32);
 extern void func_0204A600(void);
-extern u32 func_0201C4E4(u8 *);
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
 extern void func_0202223C(u32, u32);
@@ -58,7 +59,7 @@ L:
     func_02040618(4, 3, *(u32 *)(p + 0xC9C));
     *(u32 *)(p + 0xC9C) = *(u32 *)(p + 0xC9C) - 1;
     func_0204A600();
-    func_0201C4E4(*(u8 **)(p + 0xCB8));
+    func_0201C4E4((struct PrintSys *)(*(u8 **)(p + 0xCB8)));
     if (func_0200FB24()) {
         func_0200FB38();
         *(u32 *)(*(u8 **)(p + 0x244) + 0x1C) = 12;

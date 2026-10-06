@@ -41,7 +41,8 @@ extern struct Sess d_021B60D8;
 extern int d_021B4BD0;
 struct N;
 extern struct N *func_021B2A20(int id);
-extern struct Chan *func_021B1F2C(int id);
+struct Node;
+extern struct Node *func_021B1F2C(unsigned int i);
 
 int func_021B21A4(unsigned char id)
 {
@@ -55,7 +56,7 @@ int func_021B21A4(unsigned char id)
         return -1;
     if (func_021B2A20(id))
         return 0;
-    c = func_021B1F2C(id);
+    c = (struct Chan *)func_021B1F2C(id);
     if (c == 0)
         return -1;
     c->f4 = id;

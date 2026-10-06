@@ -51,9 +51,9 @@ typedef unsigned char  u8;
 struct WordSet;
 extern void func_020355D8(u8 v);
 extern void func_020061E4(unsigned int id);
-extern void func_021B7DD0(Obj *o);
+extern void func_021B7DD0(u8 *p);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021B6204(Obj *o, int a, unsigned int b, int c, int d);
+extern void func_021B6204(u8 *p, int a, unsigned int b, int c, int d);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BADAC(void *p);
@@ -82,9 +82,9 @@ void func_021B7868(Obj *o)
     }
     if (r == 0) {
         func_020061E4(0x54C);
-        func_021B7DD0(o);
+        func_021B7DD0((u8 *)o);
         func_02045CAC(o->f51C, 0x37, (void *)o->f524);
-        func_021B6204(o, 0, o->f84C, o->f7F4 > 1, 0);
+        func_021B6204((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);
         func_0201EFA4(o->f520, 1, o->f7F4, 3, 0, 1);
         func_0201F250(o->f520, o->f528, (void *)o->f524);
         func_021BADAC(o);

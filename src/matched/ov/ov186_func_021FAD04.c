@@ -18,11 +18,12 @@
  *   func_021FB4CC  0x021FB4CC  thumb  ov186
  */
 
-extern int func_021FB4CC(int obj, int x, int y);
+typedef unsigned int   u32;
+extern int func_021FB4CC(u32 *p, int a1, int a2);
 
 int func_021FAD04(int *p, int x, int y)
 {
     if (p[0] != 0)
-        return func_021FB4CC(p[2], x, y);
+        return func_021FB4CC((u32 *)p[2], x, y);
     return 0;
 }

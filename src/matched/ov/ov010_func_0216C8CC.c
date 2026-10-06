@@ -30,28 +30,31 @@
  *   d_021EFDAC     0x021EFDAC  data  a4 ov026
  */
 
-extern int func_02031330(int);
-extern void func_02034AC4(char *);
-extern void func_0203A574(int, char *, int, int);
-extern int func_020399A8(void);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Entry;
+extern unsigned int func_02031330(void *p);
+extern int func_02034AC4(s32 handle);
+extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
+extern struct Entry *func_020399A8(void);
 extern void func_0203D594(int, int);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern int func_0203D5A0(int, int);
 extern void func_02031348(int, int, char *, int);
-extern void func_0203A5E4(int);
-extern void func_02034A5C(char *);
+extern void func_0203A5E4(u32 key);
+extern void func_02034A5C(s32 handle);
 extern char id_0000005D[];
 extern char d_021F03C4[];
 extern char d_021EFDAC[];
 
 int func_0216C8CC(int a, int *st, int *o, int *x)
 {
-    int r = func_02031330(x[0]);
+    int r = func_02031330((void *)x[0]);
     switch (*st) {
     case 0:
-        func_02034AC4(id_0000005D);
-        func_0203A574(0x100, d_021F03C4, 9, 0);
-        func_0203D594(func_020399A8(), 0xc8);
+        func_02034AC4((s32)id_0000005D);
+        func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
+        func_0203D594((int)func_020399A8(), 0xc8);
         *st = 1;
         break;
     case 1:
@@ -59,7 +62,7 @@ int func_0216C8CC(int a, int *st, int *o, int *x)
             *st = 4;
             break;
         }
-        if (func_0203D5A0(func_020399A8(), 0xc8) == 0)
+        if (func_0203D5A0((int)func_020399A8(), 0xc8) == 0)
             break;
         *st = 2;
         break;
@@ -74,7 +77,7 @@ int func_0216C8CC(int a, int *st, int *o, int *x)
         break;
     case 4:
         func_0203A5E4(0x100);
-        func_02034A5C(id_0000005D);
+        func_02034A5C((s32)id_0000005D);
         *st = 5;
         break;
     case 5:

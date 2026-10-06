@@ -25,15 +25,15 @@ extern struct Entry *func_020399A8(void);
 extern int func_021D8A24(void *);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
-extern void func_021DD24C(void *);
-extern void func_021E1098(void *);
-extern void func_021DD294(void *,int,int);
-extern void func_021D8980(void *);
-extern void func_021DD09C(void *);
+extern int func_021DD24C(char *p);
+extern void func_021E1098(char *p);
+extern void func_021DD294(char *p, int a, int b);
+extern int func_021D8980(char *p);
+extern void func_021DD09C(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DEA24(char *p);
 
 void func_021DDB10(unsigned char *p)
 {
-    func_020399A8(); if(func_021D8A24(p)) { if(func_02039CB4((struct Link *)func_020399A8(),25,8)==0) {func_021DD24C(p);return;} } func_021E1098(p);func_021DD294(p,0,0);func_021D8980(p);func_021DD09C(p);func_021D8E84(p,(int)func_021DEA24);
+    func_020399A8(); if(func_021D8A24(p)) { if(func_02039CB4((struct Link *)func_020399A8(),25,8)==0) {func_021DD24C((char *)p);return;} } func_021E1098((char *)p);func_021DD294((char *)p,0,0);func_021D8980((char *)p);func_021DD09C((char *)p);func_021D8E84(p,(int)func_021DEA24);
 }

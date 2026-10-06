@@ -49,7 +49,7 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *,void *,short,short,void *,int,int);
 extern void func_02045808(struct U16Vec *vec);
-void func_021E62CC(char *p,int mode,void *mgr,void *print,int font)
+void func_021E62CC(char *p, int mode, void *mgr, void *print, int font, u32 a5)
 {
     int i;
     void *s;

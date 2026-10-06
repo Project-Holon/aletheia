@@ -32,11 +32,12 @@ typedef struct {
 	BIGNUM bn[16];
 } BN_CTX;
 
-extern int func_021CAEC8(BIGNUM *a, unsigned long w);
+typedef unsigned char  u8;
+extern int func_021CAEC8(u8 *a, unsigned long w);
 extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
 extern void func_021CBA90(unsigned long *r, unsigned long *a, int na, unsigned long *b, int nb);
 extern void func_021CAC8C(BIGNUM *a);
-extern BIGNUM *func_021CAE20(BIGNUM *a, BIGNUM *b);
+extern u8 *func_021CAE20(u8 *a, u8 *b);
 
 int func_021CB9BC(BIGNUM *r, BIGNUM *a, BIGNUM *b, BN_CTX *ctx)
 {
@@ -47,7 +48,7 @@ int func_021CB9BC(BIGNUM *r, BIGNUM *a, BIGNUM *b, BN_CTX *ctx)
 	al = a->top;
 	bl = b->top;
 	if (al == 0 || bl == 0) {
-		func_021CAEC8(r, 0);
+		func_021CAEC8((u8 *)r, 0);
 		return 1;
 	}
 	top = al + bl;
@@ -63,6 +64,6 @@ int func_021CB9BC(BIGNUM *r, BIGNUM *a, BIGNUM *b, BN_CTX *ctx)
 	r->neg = neg;
 	func_021CAC8C(rr);
 	if (r != rr)
-		func_021CAE20(r, rr);
+		func_021CAE20((u8 *)r, (u8 *)rr);
 	return 1;
 }

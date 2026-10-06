@@ -25,10 +25,12 @@ typedef struct {
     int (*done)(void *);
 } Cfg;
 
-extern void func_021F5620(void *a, Cfg *c, int b);
-extern void func_021F5AEC(void *w);
-extern void func_021F5B30(void *w);
-extern int func_021F5B94(void *o);
+typedef unsigned char  u8;
+struct Param;
+extern void *func_021F5620(void *task, const struct Param *p, int flag);
+extern void func_021F5AEC(u8 *w);
+extern void func_021F5B30(u8 *w);
+extern int func_021F5B94(int *o);
 
 void func_021F5ABC(void *a)
 {
@@ -36,8 +38,8 @@ void func_021F5ABC(void *a)
 
     c.w = 2;
     c.h = 2;
-    c.init = func_021F5AEC;
-    c.step = func_021F5B30;
-    c.done = func_021F5B94;
-    func_021F5620(a, &c, 1);
+    c.init = (void (*)(void *))func_021F5AEC;
+    c.step = (void (*)(void *))func_021F5B30;
+    c.done = (int (*)(void *))func_021F5B94;
+    func_021F5620(a, (const struct Param *)(&c), 1);
 }

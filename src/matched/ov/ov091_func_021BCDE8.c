@@ -27,8 +27,8 @@ typedef unsigned char u8;
 
 extern void func_021BD1BC(char *a, int *b);
 extern void func_021BD504(char *a);
-extern void func_021BD634(char *a);
-extern void func_021BA4F8(char *a);
+extern void func_021BD634(u8 *p);
+extern void func_021BA4F8(u8 *a);
 
 void func_021BCDE8(char *a)
 {
@@ -49,7 +49,7 @@ void func_021BCDE8(char *a)
         ((struct Obj00009 *)a)->f20C = ((struct Obj20916 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f94;
     }
     if (((struct Obj20917 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f90 == 1)
-        func_021BD634(a);
+        func_021BD634((u8 *)a);
     if (((struct Obj20918 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f63 == 1)
-        func_021BA4F8(a);
+        func_021BA4F8((u8 *)a);
 }

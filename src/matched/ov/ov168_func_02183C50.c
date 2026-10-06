@@ -28,19 +28,22 @@
  *   d_021BD574     0x021BD574  data  a4
  */
 
-extern void func_02184408(void *);
-extern void func_02184138(void *);
+typedef unsigned int   u32;
+struct Node;
+struct S020315D4;
+extern void func_02184408(int *p);
+extern void func_02184138(char *p);
 extern void func_02183F98(void *);
-extern void func_02184360(void *);
+extern void func_02184360(char *p);
 extern void func_021841C8(void *);
 extern void func_02183F08(void);
-extern void func_02030EAC(int);
+extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(int);
-extern void func_020307B0(int);
-extern void func_020315D4(int);
-extern void func_020306F0(int);
-extern void func_02005DF8(int);
-extern void func_020312F8(void *, void *, int);
+extern void func_020307B0(void *p);
+extern void func_020315D4(struct S020315D4 *p);
+extern void func_020306F0(u32 heap);
+extern void func_02005DF8(u32 a);
+extern void func_020312F8(u32 a1, u32 a2, u32 a3);
 extern char ov088_id[];
 extern char d_021BD574[];
 
@@ -48,19 +51,19 @@ int func_02183C50(int a, int b, int c, void *p)
 {
     unsigned short v;
 
-    func_02184408((char *)p + 0xf8);
-    func_02030EAC(*(int *)((char *)p + 0x148));
+    func_02184408((int *)((char *)p + 0xf8));
+    func_02030EAC((struct Node *)(*(int *)((char *)p + 0x148)));
     func_02030DA4(*(int *)((char *)p + 0x144));
-    func_020307B0(*(int *)((char *)p + 0x140));
+    func_020307B0((void *)(*(int *)((char *)p + 0x140)));
     func_02184138(p);
     func_02183F98(p);
     func_02184360((char *)p + 0xe4);
     func_021841C8((char *)p + 0xe4);
     func_02183F08();
     v = (unsigned short)*(int *)((char *)p + 0x14c);
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     func_020306F0(v);
     func_02005DF8(0xa);
-    func_020312F8(ov088_id, d_021BD574, 0);
+    func_020312F8((u32)ov088_id, (u32)d_021BD574, 0);
     return 1;
 }

@@ -28,7 +28,7 @@ typedef signed int     s32;
 
 extern u32 func_020056EC(u32 v);
 extern int *func_021A21B8(int *p);
-extern int func_021A21C8(int, int);
+extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
 extern void (*d_021EFDC0[])(int, s32, s32 *, int);
@@ -57,7 +57,7 @@ void func_021EF220(int a, int n, int idx)
     }
     rem = r % 100;
     do {
-        obj = func_021A21C8(a, idx);
+        obj = (int)func_021A21C8((void *)a, idx);
         if (obj == 0) {
             return;
         }

@@ -22,7 +22,7 @@ typedef unsigned short u16;
 
 extern void func_02082D44(void *a, u16 *b, int n);
 
-int func_021F54CC(void *src, int n)
+int func_021F54CC(void *src, int n, int a2)
 {
     u16 buf[0x20] = {0};
     int j, c = 0;

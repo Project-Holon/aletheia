@@ -29,7 +29,7 @@ struct Work { struct Owner *owner; int state,mask,kind,duration,start,end,curren
 extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
 extern void *sub_02031290(struct S02030FB4 *);
 extern void func_02082BCC(void *,u32,u32);
-extern void func_021BF0B4(struct TcblNode *,void *);
+extern void func_021BF0B4(struct TcblNode *node, int *s);
 extern u32 sub_0207C768(u32,u32);
 extern void func_02023F60(u32,u32,u32);
 void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int duration,int *counter)
@@ -37,7 +37,7 @@ void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int d
     struct Work *work;
     float a,b,c;
     int final;
-    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,func_021BF0B4,0x28,0));
+    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BF0B4,0x28,0));
     func_02082BCC(work,0,0x28);
     work->owner=owner;
     work->mask=mask;

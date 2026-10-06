@@ -76,7 +76,7 @@ extern void func_021F9E94(u8 *p);
 extern void func_021F6A24(char *p);
 extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
-extern void func_021F4948(void *);
+extern void func_021F4948(u8 *p);
 extern void func_0204A5AC(void);
 extern void func_0204ED24(void *);
 extern void func_02048AC4(void *);

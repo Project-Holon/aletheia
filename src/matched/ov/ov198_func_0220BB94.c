@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
-void func_0220BB94(unsigned char *p)
+void func_0220BB94(unsigned char *p, u32 a1)
 {
     func_020215BC((struct PalAnmSlot *)(((struct Obj25127 *)p)->f1D8), p + 0x1e78, 1, 0xc0, 0x20);
 }

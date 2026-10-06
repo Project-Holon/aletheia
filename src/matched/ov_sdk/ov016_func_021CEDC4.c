@@ -17,16 +17,17 @@
  */
 
 extern void func_021CEE10(int idx, void *r);
-extern int func_021D68E4(void *r);
+typedef unsigned short u16;
+extern int func_021D68E4(u16 *a);
 
-int func_021CEDC4(void)
+int func_021CEDC4(int a)
 {
 	int idx;
 	int r[2];
 
 	for (idx = 2; idx <= 3; idx++) {
 		func_021CEE10(idx, r);
-		if (func_021D68E4(r))
+		if (func_021D68E4((u16 *)r))
 			return idx;
 	}
 	return 0;

@@ -43,7 +43,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u8 g_020A8730[];
-extern int func_02091B5C(u8 *p);
+struct P02091B5C;
+extern int func_02091B5C(struct P02091B5C *p);
 
 int func_02091524(void)
 {
@@ -53,7 +54,7 @@ int func_02091524(void)
 
     do {
         if (((((struct Obj00481 *)p)->f4 << 22) >> 29) != 0) {
-            if (func_02091B5C(p) != 0)
+            if (func_02091B5C((struct P02091B5C *)p) != 0)
                 r = -1;
         }
         p = (i < 3) ? g_020A8730 + i++ * 0x4c : 0;

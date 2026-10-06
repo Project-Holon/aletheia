@@ -27,7 +27,7 @@ extern u32 func_0201BEB8(u16 id, u32 bit);
 extern int func_021D76BC(int key, u32 val);
 extern void func_021C8434(u8 *p, int a, int b);
 
-void func_021E8798(int u, void *a, int b)
+void func_021E8798(int u, void *a, int b, int d)
 {
     u8 k;
     u16 m;

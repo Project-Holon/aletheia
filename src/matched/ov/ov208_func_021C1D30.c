@@ -51,7 +51,8 @@ extern void func_0201C724(u32 a, void *b, s16 x, s16 y, void *e, u32 f, u16 g);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B404(u32 obj, Pt *pos, int n);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_02045334(struct Descriptor *p);
@@ -75,7 +76,7 @@ void func_021C1D30(u16 *heap, u8 *p, int key)
         pt.x = func_021BBB3C((char *)W(0x3c8), p[0x79], 2);
         pt.y = func_021BBB3C((char *)W(0x3c8), p[0x79], 3);
         func_0204B878((struct Obj *)W(0xd0), 5);
-        func_0204B404(W(0xd0), &pt, 0);
+        func_0204B404((struct Obj *)W(0xd0), (const struct Vec2 *)(&pt), 0);
         func_0204B3DC((struct Obj *)W(0xd0), 1);
     } else {
         func_02045334((struct Descriptor *)W(0x18));

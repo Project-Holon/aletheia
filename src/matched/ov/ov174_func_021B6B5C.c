@@ -23,13 +23,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021B68E8(char *);
 extern void func_021B6754(char *);
-extern void func_021B6994(char *);
+extern void func_021B6994(u8 *p);
 extern void func_021B7378(char *);
 int func_021B6B5C(char *p)
 {
     if(func_021B68E8(p)==1) {
         func_021B6754(p);
-        func_021B6994(p);
+        func_021B6994((u8 *)p);
         func_021B7378(*(char **)(p+0x1c+((struct Obj24202 *)p)->f88*4));
         return 1;
     }

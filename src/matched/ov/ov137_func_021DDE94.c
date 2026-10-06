@@ -18,12 +18,12 @@ typedef unsigned short u16;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern unsigned func_021DE37C(void *p);
-extern void func_0203A424(void *, int, int, u16);
+extern void func_0203A424(char *p, int a, int b, int c);
 extern void func_021DD924(char *);
 int func_021DDE94(char *p, int state) {
     func_020399A8();
     ((struct Obj08212 *)p)->f4814 = ((struct Obj08212 *)p)->f480C ^ func_021DE37C(p);
-    func_0203A424(func_020399A8(), 0xcf, 0x28, ((struct Obj08212 *)p)->f4814);
+    func_0203A424((char *)func_020399A8(), 0xcf, 0x28, (u16)(((struct Obj08212 *)p)->f4814));
     ((struct Obj08212 *)p)->f118 = 0x10;
     func_021DD924(p);
     return state;

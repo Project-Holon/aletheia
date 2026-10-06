@@ -18,7 +18,7 @@
 #include "../include/Obj02502.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021ED544(u8 *,int);
+extern void func_021ED544(char *p, int b);
 extern void func_021EC0B0(char *,int,short *,short *,u16);
 extern void func_021EC08C(char *,int,short,short,short);
 extern void func_020061E4(unsigned);
@@ -31,7 +31,7 @@ int func_021E0778(u8 *p)
     int k;
     switch(((struct Obj02502 *)s)->fC) {
     case 0:
-        func_021ED544(p,7);
+        func_021ED544((char *)p,7);
         (((struct Obj02502 *)s)->fC)++;
     case 1:
         if(((struct Obj02502 *)s)->fE==4) {
@@ -45,7 +45,7 @@ int func_021E0778(u8 *p)
         break;
     case 2:
         func_020061E4(0x666);
-        func_021ED544(p,8);
+        func_021ED544((char *)p,8);
         (((struct Obj02502 *)s)->fC)++;
     case 3:
         if(((struct Obj02502 *)s)->fE==4) {

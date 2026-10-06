@@ -35,7 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct PalAnmSlot;
 extern void *sub_020490F4(u32,u16);
-extern void sub_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern u32 sub_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_02049EF4(void *,u32,u32,void **,u16);
 extern void func_0220B120(char *,u16 *);
 extern void func_0220B3B4(char *,u16 *);

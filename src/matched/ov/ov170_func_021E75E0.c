@@ -71,62 +71,62 @@ typedef struct {
 } Obj;
 
 struct WinMgr;
-extern unsigned func_021DD25C(Obj *p, unsigned short a, int box, unsigned id, unsigned v);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_020061E4(unsigned se);
 extern int func_021EF5E8(struct WinMgr *mgr);
-extern void func_021DEFEC(Obj *p, int b);
+extern void func_021DEFEC(char *p, int b);
 typedef unsigned char  u8;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE3E4(Obj *p, unsigned idx);
-extern void func_021DF040(Obj *p);
-extern int func_021E8F50(Obj *p, int v);
-extern void func_021DF0BC(Obj *p);
+extern void func_021EE3E4(char **p, unsigned idx);
+extern void func_021DF040(char *p);
+extern int func_021E8F50(char *p, int v);
+extern void func_021DF0BC(unsigned char *p);
 extern int func_021E9C94(Obj *p, int a, int n);
-extern int func_021E9CE0(Obj *p, int a, int n);
-extern int func_021E949C(Obj *p, int a, int b);
+extern int func_021E9CE0(char *p, int a, int n);
+extern int func_021E949C(char *p, int a, int b);
 extern int func_021E954C(Obj *p, int id, int lo, int arg);
 extern u8 func_020260E0(struct Sound *obj);
 extern void func_021EEF74(char *w, int k, int v);
-extern int func_021E8FE0(Obj *p, int v);
-extern int func_021E8FD0(Obj *p, int a);
+extern int func_021E8FE0(char *p, int v);
+extern int func_021E8FD0(char *p, int a);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 #define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
-extern unsigned func_021EEEA4(Obj *p);
-extern void func_021ED588(Obj *p);
-extern int func_021E78F4(Obj *p);
-extern int func_021E070C(Obj *p);
-extern int func_021E0190(Obj *p);
+extern unsigned func_021EEEA4(char *p);
+extern void func_021ED588(char *p);
+extern int func_021E78F4(char *p);
+extern int func_021E070C(char *p);
+extern int func_021E0190(char *p);
 extern void func_021EB988(Obj *p, const void *e, unsigned n);
 extern const unsigned char d_021EF8EC[];
 extern void func_021EF57C(struct WinMgr *mgr);
-extern void func_021ED6E4(Obj *p, int v);
+extern void func_021ED6E4(char **p, int v);
 extern void func_021EBA5C(char *w, int v);
-extern void func_021DD14C(Obj *p);
+extern void func_021DD14C(char *p);
 extern void func_021EF534(struct WinMgr *mgr);
-extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
+extern int func_021E8FC0(char *p, int a, int b);
 
 int func_021E75E0(Obj *p)
 {
-    unsigned r = func_021EEEA4(p);
+    unsigned r = func_021EEEA4((char *)p);
     switch (r) {
     case 0x1E:
-        func_021DF0BC(p);
+        func_021DF0BC((unsigned char *)p);
         break;
     case 0x1F:
         func_020061E4(0x548);
-        func_021DF0BC(p);
+        func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
-        func_021EE3E4(p, 0x1E);
+        func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94(p, 0, 0x4B);
     case 0x20:
         func_020061E4(0x548);
-        func_021DF0BC(p);
+        func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
-        func_021EE3E4(p, 0x1E);
-        return func_021E9CE0(p, 0, 0x4B);
+        func_021EE3E4((char **)p, 0x1E);
+        return func_021E9CE0((char *)p, 0, 0x4B);
     case 0x21:
         func_020061E4(0x551);
         p->top->h28 = 0;
@@ -135,27 +135,27 @@ int func_021E75E0(Obj *p)
         return func_021E954C(p, 6, 9, 0x68);
     case 0x22:
         func_020061E4(0x54C);
-        return func_021E949C(p, 4, func_021E8F50(p, 0x4D));
+        return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x4D));
     case 0x23: {
         unsigned char k;
         func_020061E4(0x551);
         k = p->b16;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
-        return func_021E949C(p, 5, 0x4E);
+        return func_021E949C((char *)p, 5, 0x4E);
     }
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
             func_020061E4(0x548);
-            func_021DF0BC(p);
+            func_021DF0BC((unsigned char *)p);
             return func_021E9C94(p, 0, 0x4B);
         }
         break;
     case -5:
         if (func_020260E0(OBJ(p)) == 0x1E) {
             func_020061E4(0x548);
-            func_021DF0BC(p);
-            return func_021E9CE0(p, 0, 0x4B);
+            func_021DF0BC((unsigned char *)p);
+            return func_021E9CE0((char *)p, 0, 0x4B);
         }
         break;
     case -4:
@@ -164,11 +164,11 @@ int func_021E75E0(Obj *p)
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
         if (v < 0x1E)
-            func_021DEFEC(p, v);
+            func_021DEFEC((char *)p, v);
         else if (v != 0x22 && v != 0x23)
-            func_021DF040(p);
+            func_021DF040((char *)p);
         func_020061E4(0x548);
-        return func_021E8FD0(p, func_021E8FE0(p, 0x4B));
+        return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x4B));
     }
     case -2:
         func_020061E4(0x551);
@@ -176,7 +176,7 @@ int func_021E75E0(Obj *p)
             unsigned char k = p->b16;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
             func_020260E4(OBJ(p), k);
-            return func_021E949C(p, 5, 0x4E);
+            return func_021E949C((char *)p, 5, 0x4E);
         }
         p->top->h28 = 0;
         p->top->b2A = 0xFF;
@@ -187,27 +187,27 @@ int func_021E75E0(Obj *p)
     case -8:
         break;
     default:
-        if (func_021DD25C(p, r, p->b14, 0xA9, 0)) {
+        if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
             func_020061E4(0x54C);
             p->b16 = r;
             func_021EB988(p, d_021EF8EC, 2);
-            func_021DEFEC(p, r);
-            func_021ED588(p);
+            func_021DEFEC((char *)p, r);
+            func_021ED588((char *)p);
             func_020260E4(OBJ(p), 0x22);
             if (func_021EF5E8(MGR(p)) == 1)
-                return func_021E78F4(p);
+                return func_021E78F4((char *)p);
             func_021EEF74(p->work, 0x22, r);
             func_021EF534(MGR(p));
-            return func_021E8FC0(p, func_021E070C, func_021E8FE0(p, 0x4C));
+            return func_021E8FC0((char *)p, (int)func_021E070C, func_021E8FE0((char *)p, 0x4C));
         }
         func_020061E4(0x548);
-        func_021DEFEC(p, r);
+        func_021DEFEC((char *)p, r);
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
-            func_021ED6E4(p, 0);
+            func_021ED6E4((char **)p, 0);
             func_021EBA5C(p->work, 0x18);
-            func_021DD14C(p);
-            return func_021E8FC0(p, func_021E0190, 0x4B);
+            func_021DD14C((char *)p);
+            return func_021E8FC0((char *)p, (int)func_021E0190, 0x4B);
         }
         break;
     }

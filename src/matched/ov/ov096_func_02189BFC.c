@@ -31,7 +31,7 @@ struct QL;
 extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_0218A390(int, u8 *, u8 *, int);
+extern u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d);
 extern u16 func_021D67A8(struct QL *p);
 extern u8 func_021D5440(u8 *p);
 extern u16 func_021C7E14(u8 *p, int a, int b, u32 c, int e0, int e1);
@@ -52,7 +52,7 @@ int func_02189BFC(int a, int b)
     t1 = func_0201134C(a);
     t2 = func_0201134C(a);
     v = func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, t0));
-    w = func_0218A390(b, *(u8 * *)&((struct Obj06344 *)b)->fBC, *(u8 * *)&((struct Obj06344 *)b)->fC0, t1);
+    w = func_0218A390((u8 *)b, *(u8 * *)&((struct Obj06344 *)b)->fBC, *(u8 * *)&((struct Obj06344 *)b)->fC0, t1);
     x = func_021D67A8((struct QL *)v);
     y = func_021D5440(v);
     z = func_021D5440(*(u8 * *)&((struct Obj06344 *)b)->fC0);

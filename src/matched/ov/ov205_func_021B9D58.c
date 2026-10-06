@@ -21,10 +21,13 @@
  */
 typedef unsigned short u16;
 extern void func_0203F8F4(u16);
-extern void func_020433E0(const void *);
+typedef unsigned int   u32;
+struct BgTemplate;
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(unsigned,const void *,unsigned);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void func_02040EBC(unsigned,unsigned);
 extern void func_02045088(u16);
@@ -32,9 +35,9 @@ extern const unsigned d_021B9EFC[],d_021B9ECC[],d_021B9EDC[];
 void func_021B9D58(u16 heap)
 {
     func_0203F8F4(heap);
-    func_020433E0(d_021B9EFC);
+    func_020433E0((const struct DispVram *)d_021B9EFC);
     func_0203FC28((void *)d_021B9ECC);
-    func_0203FCA0(0,d_021B9EDC,0);
+    func_0203FCA0(0,(const struct BgTemplate *)d_021B9EDC,0);
     func_02049B40(23,7,0,416,32,heap);
     func_02040EBC(0,0);
     func_02045088(heap);

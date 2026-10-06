@@ -29,9 +29,9 @@ struct PrintSys;
 extern void func_021E0754(char *p);
 extern int func_021E075C(char *p);
 extern unsigned long long func_021E0764(char *p);
-extern void func_021F9BA0(int);
+extern void func_021F9BA0(unsigned *ctx);
 extern void func_021F9BF4(unsigned *ctx, unsigned index);
-extern void func_021FD1BC(int);
+extern void func_021FD1BC(void *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021FD854(char *p);
 int func_021E0618(int unused, int *state, int *q, int *p)
@@ -47,7 +47,7 @@ int func_021E0618(int unused, int *state, int *q, int *p)
     case 2:
         func_021E0754((char *)p[1]);
         switch (func_021E075C((char *)p[1])) {
-        case 1: func_021F9BA0(q[3]); *state = 3; break;
+        case 1: func_021F9BA0((unsigned int *)q[3]); *state = 3; break;
         case 2: ((struct Obj04576 *)q)->f10 = func_021E0764((char *)p[1]); func_021F9BF4((unsigned int *)q[3], 2); *state = 3; break;
         }
         break;
@@ -60,7 +60,7 @@ int func_021E0618(int unused, int *state, int *q, int *p)
         break;
     case 5: return 1;
     }
-    if (p[2]) func_021FD1BC(p[2]);
+    if (p[2]) func_021FD1BC((void *)p[2]);
     func_0201C4E4((struct PrintSys *)p[3]);
     func_021FD854((char *)p[5]);
     return 0;

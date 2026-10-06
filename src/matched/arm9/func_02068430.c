@@ -50,7 +50,8 @@ typedef struct NNSiG2dBitReader {
     u8 padding_[2];
 } NNSiG2dBitReader;
 
-extern u32 func_02069BA0(NNSiG2dBitReader *reader, int nBits);   /* NNSi_G2dBitReaderRead */
+struct BitReader;
+extern u32 func_02069BA0(struct BitReader *reader, int nBits);   /* NNSi_G2dBitReaderRead */
 
 static inline int MATH_IMax(int a, int b)
 {
@@ -110,10 +111,10 @@ void func_02068430(LC_INFO *i)
                 u32 out_line = *pDst;
 
                 NNSi_G2dBitReaderInit(&reader, pSrc + offset / 8);
-                (void)func_02069BA0(&reader, (int)offset % 8);
+                (void)func_02069BA0((struct BitReader *)(&reader), (int)offset % 8);
 
                 for (x = x_st; x < x_ed; x += 4) {
-                    u32 bits = func_02069BA0(&reader, srcBpp);
+                    u32 bits = func_02069BA0((struct BitReader *)(&reader), srcBpp);
 
                     if ( bits != 0 ) {
                         out_line = (out_line & ~(0xF << x)) | ((cl + bits) << x);
@@ -135,10 +136,10 @@ void func_02068430(LC_INFO *i)
                 u32 out_line_1 = *(pDst + 1);
 
                 NNSi_G2dBitReaderInit(&reader, pSrc + offset / 8);
-                (void)func_02069BA0(&reader, (int)offset % 8);
+                (void)func_02069BA0((struct BitReader *)(&reader), (int)offset % 8);
 
                 for (x = x_st; x < x_ed; x += 8) {
-                    u32 bits = func_02069BA0(&reader, srcBpp);
+                    u32 bits = func_02069BA0((struct BitReader *)(&reader), srcBpp);
 
                     if ( bits != 0 ) {
                         if ( x < 32 ) {

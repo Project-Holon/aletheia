@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021BD0F8(u8 *p, int i, int flag);
-void func_021BCE48(void *p) { func_021BD0F8(p, 7, 0); }
+void func_021BCE48(void *p, int a1, int a2) { func_021BD0F8(p, 7, 0); }

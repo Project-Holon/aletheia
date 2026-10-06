@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021EDF78  movs r0,#1 */
-int func_021EDF78(void) { return 1; }
+int func_021EDF78(u8 *a0) { return 1; }
 

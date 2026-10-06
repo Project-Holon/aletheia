@@ -48,8 +48,8 @@ extern void func_021B99B8(u8 *);
 extern void func_021B9774(u8 *);
 extern void func_021DCE58(char *,unsigned long,u32);
 extern u8 *func_021B97F4(u8 *);
-extern u8 func_021B99F0(u8 *);
-extern u32 func_021B99F4(u8 *,u32);
+extern int func_021B99F0(u8 *p);
+extern u32 func_021B99F4(u32 p, u32 i);
 extern u8 *func_021B9A14(u8 *,u32);
 extern void func_02082D44(const void *,void *,u32);
 static inline void clear(char *p)
@@ -104,7 +104,7 @@ int func_021DCC28(char *p,u8 *out)
     case 2:
         data=func_021B97F4(*(u8 **)(p+0x121c));
         *out=func_021B99F0(data);
-        for(i=0;i<*(u32 *)(p+0x174);i++) *(u32 *)(out+4+i*4)=func_021B99F4(data,i);
+        for(i=0;i<*(u32 *)(p+0x174);i++) *(u32 *)(out+4+i*4)=func_021B99F4((u32)data,i);
         if(*out==0) func_02082D44(func_021B9A14(data,*(u32 *)(p+0x174)),out+0x1c,128);
         func_021B99B8(*(u8 **)(p+0x121c));
         if(*(u8 **)(p+0x121c)) {func_021B9838(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}

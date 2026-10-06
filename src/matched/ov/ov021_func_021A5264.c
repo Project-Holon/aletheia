@@ -41,12 +41,12 @@ extern int func_02163994(void *, int, int, int, u32);
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void func_02164208(u32, VecFx32 *, u32);
+extern void func_02164208(int dir, int *p, int amt);
 extern int func_02163E34(void *, VecFx32 *, int *);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB2DC(u16 id);
 extern void *func_0216D67C(void *);
-extern int func_0216E5B0(void *, VecFx32 *);
+extern int func_0216E5B0(void *map, const struct VecFx32 *pos);
 
 int func_021A5264(u8 *a, void *b, u32 c, int *d)
 {
@@ -62,13 +62,13 @@ int func_021A5264(u8 *a, void *b, u32 c, int *d)
     r3 = (short)(s2 + func_021641F8(c));
     r4 = func_02163994(b, r4, s1, r3, c);
     func_0216D88C(b, (struct VecFx32 *)&buf);
-    func_02164208(c, &buf, 0x10000);
+    func_02164208(c, (int *)(&buf), 0x10000);
     if (func_02163E34(b, &buf, d) == 0) {
         *d = -1;
     }
     if (r4 & 2) {
         if (func_021AB2DC(func_021AB0F0(*d)) == 1) {
-            if (func_0216E5B0(func_0216D67C(b), &buf) == 1) {
+            if (func_0216E5B0(func_0216D67C(b), (const struct VecFx32 *)(&buf)) == 1) {
                 r4 &= ~2;
             }
         }

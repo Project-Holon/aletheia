@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021D3F48(u8 *p, u16 v)
+void func_021D3F48(u8 *p, u32 v)
 {
     *(u16 *)&p[0xa] = v;
 }

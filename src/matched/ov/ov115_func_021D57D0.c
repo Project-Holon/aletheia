@@ -22,9 +22,10 @@ typedef short s16;
 typedef unsigned int u32;
 extern u8 d_020A1448[];
 extern const u8 d_021D65E4[];
-extern void func_0204A48C(void *,const void *,u32);
+struct Cfg;
+extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_020056A0(void *,void *,u32);
 extern void func_021D5900(void *,u8 *);
-void func_021D57D0(u8 *p) { func_0204A48C(d_020A1448,d_021D65E4,*(u16 *)(p+12)); *(void **)(p+0x980)=func_0204B100(40,0,*(u16 *)(p+12)); *(void **)(p+0x984)=func_020056A0((void *)func_021D5900,p,0); }
+void func_021D57D0(u8 *p) { func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021D65E4,*(u16 *)(p+12)); *(void **)(p+0x980)=func_0204B100(40,0,*(u16 *)(p+12)); *(void **)(p+0x984)=func_020056A0((void *)func_021D5900,p,0); }

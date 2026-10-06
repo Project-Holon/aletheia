@@ -28,8 +28,8 @@ typedef struct {
 
 extern Work *d_0220AF20;
 
-extern void func_021F8628(u32 a, VecFx32 *out, VecFx32 *p);
-extern void func_021F6EDC(void *cam, VecFx32 *a, VecFx32 *b);
+extern void func_021F8628(u32 a, int *out, int *p);
+extern void func_021F6EDC(int *p, int *a, int *b);
 extern void func_021F6F48(void *cam, VecFx32 *a, VecFx32 *b, int n, int s, int t);
 extern void func_021F7998(u32 a);
 
@@ -39,10 +39,10 @@ void func_021F8554(u32 flags, int kind, int n, int s, int t)
     VecFx32 b;
 
     if (flags & 1) {
-        func_021F8628(flags, &a, &b);
+        func_021F8628(flags, (int *)(&a), (int *)(&b));
         switch (kind) {
         case 0:
-            func_021F6EDC(d_0220AF20->cam, &a, &b);
+            func_021F6EDC(d_0220AF20->cam, (int *)(&a), (int *)(&b));
             break;
         case 1:
             func_021F6F48(d_0220AF20->cam, &a, &b, n, s, t);

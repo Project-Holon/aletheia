@@ -50,9 +50,9 @@ typedef struct Deal {
     u8 f04[4];          /* 0x04 */
 } Deal;
 
-extern void *func_021F4F14(u32 heap);
-extern u32 func_021F5140(void *h, u16 id);
-extern void func_021F4F40(void *h);
+extern u32 *func_021F4F14(int heap);
+extern unsigned char func_021F5140(void *p, int i);
+extern void func_021F4F40(void **p);
 extern int _s32_div_f(int dividend, int divisor);
 
 void func_02157174(u32 heap, Deal *d, Party *party)
@@ -65,7 +65,7 @@ void func_02157174(u32 heap, Deal *d, Party *party)
     u8 tot[4];
     u8 cnt[4][4];
 
-    h = func_021F4F14(heap);
+    h = func_021F4F14((u32)heap);
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++)
             cnt[j][i] = 0;
@@ -76,7 +76,7 @@ void func_02157174(u32 heap, Deal *d, Party *party)
         u8 j;
         for (j = 0; j < 9; j++) {
             if (m->recs[j].id != 0xFF) {
-                t = func_021F5140(h, m->recs[j].id);
+                t = (u32)func_021F5140(h, (u16)m->recs[j].id);
                 cnt[i][t]++;
                 tot[t]++;
             }

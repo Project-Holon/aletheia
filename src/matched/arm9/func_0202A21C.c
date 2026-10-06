@@ -12,4 +12,4 @@
  */
 #include "../include/Obj15812.h"
 
-int func_0202A21C(int a0, int a1, int a2, int a3){ int t0 = func_0200F128((int)(a1 + 0)); return (((struct Obj15812 *)((char *)((a0 + 0))))->f8 + (t0 * 0x1c)); }
+int func_0202A21C(int a0, int a1){ int t0 = func_0200F128((int)(a1 + 0)); return (((struct Obj15812 *)((char *)((a0 + 0))))->f8 + (t0 * 0x1c)); }

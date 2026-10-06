@@ -119,13 +119,15 @@ extern u32   func_02008844(u32 a);
 extern void *func_02008848(struct Sub02008828Obj *obj);
 extern void *func_0200884C(struct Sub02008828Obj *obj);
 extern struct Sub02006E40Obj *func_02006E40(u32 heap);
-extern void  func_02012A60(void *p);
-extern u32   func_02008468(void);
-extern void *func_02012944(void *p);
+struct Rec1B0;
+struct Rec44;
+extern void func_02012A60(struct Rec44 *p);
+extern int func_02008468(void);
+extern u8 *func_02012944(void *p);
 extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern int func_0216237C(int a);
-extern void  func_021623DC(void *p);
+extern void func_021623DC(char *p);
 extern u32   func_02012FE4(u32 h);
 extern u16 *func_02159B48(int a);
 struct Sub020071CCCtrl;
@@ -137,13 +139,13 @@ extern void *func_02008254(u32 heap);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 *func_02007AA4(u32 heap, u32 value);
 extern void *func_020097C4(int a0);
-extern void  func_0200BDE4(void *p);
+extern void func_0200BDE4(struct Rec1B0 *p);
 extern void  func_02161D98(char *p);
 extern void *func_0200857C(u32 heap);
 extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
 extern void *func_0215E31C(u32 heap);
 extern void  func_0202E43C(void *p);
-extern void  func_02012C18(void *p);
+extern void func_02012C18(u8 *p);
 extern void *func_0202E770(void *heap);
 extern u32   func_0202751C(int heap, u32 n);
 extern u8 *func_021647A0(void *a, u32 b);
@@ -170,7 +172,7 @@ void *func_020124F4(u16 heap)
     ((struct Obj00054 *)p)->f1A4 = (u32)func_02006E40(heap);
 
     for (i = 0; i < 5; i++) {
-        func_02012A60(p + 4 + i * 0x44);
+        func_02012A60((struct Rec44 *)(p + 4 + i * 0x44));
     }
 
     n = func_02008468();
@@ -192,7 +194,7 @@ void *func_020124F4(u16 heap)
     ((struct Obj00054 *)p)->f1A0 = (u32)func_020097C4(heap);
 
     for (i = 0; i < 4; i++) {
-        func_0200BDE4(p + 0x1D4 + i * 0x10);
+        func_0200BDE4((struct Rec1B0 *)(p + 0x1D4 + i * 0x10));
     }
 
     for (i = 0; i < 2; i++) {

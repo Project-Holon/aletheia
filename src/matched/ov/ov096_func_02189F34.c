@@ -21,8 +21,9 @@ typedef unsigned int u32;
 extern u32 func_0201134C(u8 *);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern u16 func_021D5444(u8 *);
+struct QF;
+extern u16 func_021D5444(struct QF *p);
 int func_02189F34(u8 *a, u8 *b)
 {
-    int t; u8 s; t = func_0201134C(a); s = func_0218A160(b,t); ((struct Obj13668 *)b)->f38 = func_021D5444(func_0218A2FC(b,s)); return ((struct Obj13668 *)b)->fC4;
+    int t; u8 s; t = func_0201134C(a); s = func_0218A160(b,t); ((struct Obj13668 *)b)->f38 = func_021D5444((struct QF *)func_0218A2FC(b,s)); return ((struct Obj13668 *)b)->fC4;
 }

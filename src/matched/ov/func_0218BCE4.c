@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_0218BCF4(u32 *p, u32 v, u32 tag);
 
-void func_0218BCE4(u32 *p, u32 v)
+void func_0218BCE4(u32 *p, u8 v)
 {
     p[0] = 5;
     *((u8 *)p + 0xd) = v;

@@ -61,7 +61,7 @@ extern void GX_LoadTex(void *src, u32 off, u32 n);
 extern void GX_EndLoadTex(void);
 extern void GX_LoadOBJ(void *src, u32 off, u32 n);
 extern void GXS_LoadOBJ(void *src, u32 off, u32 n);
-extern void func_020637AC(struct Out *out, int mode, u32 dst);
+extern void func_020637AC(int *p, int i, int v);
 
 void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out)
 {
@@ -121,5 +121,5 @@ void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out)
     out->f18 = 0;
     out->f1c = 1;
     out->f20 = r->f8;
-    func_020637AC(out, mode, dst);
+    func_020637AC((int *)out, mode, dst);
 }

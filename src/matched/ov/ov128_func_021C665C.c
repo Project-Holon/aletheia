@@ -12,5 +12,5 @@
  * symbols:
  *   func_0204A648 0x0204A648 arm
  */
-extern void func_0204A648(void *);
-void func_021C665C(void *p) { func_0204A648(p); }
+extern void func_0204A648(void);
+void func_021C665C(void *p) { func_0204A648(); }

@@ -20,8 +20,8 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 
-void func_021F4D20(u32 a, u32 b)
+int func_021F4D20(u32 a, u32 b)
 {
-    func_0204A1BC(0x77, a, 0, b);
+    return func_0204A1BC(0x77, a, 0, b);
 }
 

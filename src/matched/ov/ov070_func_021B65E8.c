@@ -27,10 +27,11 @@ typedef unsigned int u32;
 extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern int func_021B61C8(u8 *p);
 extern int func_021B61B8(u8 *p);
-extern int func_021B6300(void *o, int n, int k);
-extern int func_021B6374(void *o, int n, int k);
+struct Obj;
+extern int func_021B6300(struct Obj *o, int n, int k);
+extern int func_021B6374(struct Obj *o, int n, int k);
 extern void func_021B624C(void *o, int a, int b);
-extern void func_021B80C4(void *o, int v);
+extern void func_021B80C4(struct Obj *o, int flag);
 
 int func_021B65E8(u8 *p)
 {
@@ -53,19 +54,19 @@ int func_021B65E8(u8 *p)
             n = -n;
         if (*(u32 *)&((struct Obj00002 *)p)->f810 < target) {
             for (i = 0; i < n; i++) {
-                if (func_021B6300(p, k, 0) == 0)
+                if (func_021B6300((struct Obj *)p, k, 0) == 0)
                     break;
             }
         } else if (*(u32 *)&((struct Obj00002 *)p)->f810 > target) {
             for (i = 0; i < n; i++) {
-                if (func_021B6374(p, k, 0) == 0)
+                if (func_021B6374((struct Obj *)p, k, 0) == 0)
                     break;
             }
         }
         if (i == 0)
             return 0;
         func_021B624C(p, a, func_021B61B8(p));
-        func_021B80C4(p, 0);
+        func_021B80C4((struct Obj *)p, 0);
         return 1;
     }
     return 0;

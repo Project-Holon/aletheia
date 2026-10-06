@@ -25,7 +25,7 @@ typedef struct {
 typedef unsigned int   u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_02209C18(P *p);
+extern void func_02209C18(char *p);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern void func_0204ADA4(u32 i);
@@ -36,7 +36,7 @@ extern void func_020307B0(void *p);
 void func_02209B30(P *p)
 {
     func_02030EAC(p->f8);
-    func_02209C18(p);
+    func_02209C18((char *)p);
     func_0204A8D4(p->fc);
     func_0204AFD8(p->f14);
     func_0204ADA4(p->f10);

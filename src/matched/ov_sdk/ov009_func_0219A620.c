@@ -65,8 +65,9 @@ typedef struct _NatNegPacket {
 
 extern char *func_0215FA9C(unsigned int in);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0219A52C(NATNegotiator *neg, SOCSockAddrIn *toaddr);
-extern void func_02199A90(NATNegotiator *neg);
+struct NATNegotiator;
+extern void func_0219A52C(struct NATNegotiator *neg, struct SOCSockAddrIn *toaddr);
+extern void func_02199A90(struct NATNegotiator *neg);
 extern void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
 
 extern char g_021A621C[];
@@ -81,7 +82,7 @@ void func_0219A620(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
     func_0217D254(7, 0, 8, g_021A621C, neg->cookie, p->finished, func_0215FA9C(p->ipaddr), NN_NTOHS(p->port));
 
     if (p->finished == 0)
-        func_0219A52C(neg, fromaddr);
+        func_0219A52C((struct NATNegotiator *)neg, fromaddr);
 
     if (neg->state >= 4) {
         func_0217D254(7, 0, 8, g_021A6274, neg->cookie);
@@ -106,5 +107,5 @@ void func_0219A620(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
     neg->retryCount = 0;
     neg->state = 4;
     neg->progressCallback(4, neg->userdata);
-    func_02199A90(neg);
+    func_02199A90((struct NATNegotiator *)neg);
 }

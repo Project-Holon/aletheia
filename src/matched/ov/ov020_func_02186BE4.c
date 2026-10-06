@@ -37,7 +37,8 @@ extern void *func_02188C7C(int p);
 extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
 extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
 extern int func_02186090(void *p);
-extern void func_02193B40(void *, unsigned int);
+struct V;
+extern void func_02193B40(struct V *v, u32 key);
 
 int func_02186BE4(int a0, int a1)
 {

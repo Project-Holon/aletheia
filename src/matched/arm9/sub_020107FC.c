@@ -51,7 +51,7 @@ extern void OS_GetMacAddress(u8 *mac);
 typedef unsigned int   u32;
 extern u32 func_0203CF10(u32 a);
 extern u8 func_02177B80(int i);
-extern int  sub_0202E8D8(void *rec, void *key, u8 *mac);
+extern int sub_0202E8D8(char *a0, int a1, char *a2);
 
 int sub_020107FC(void *key)
 {
@@ -62,7 +62,7 @@ int sub_020107FC(void *key)
         func_0203D798();
         OS_GetMacAddress(mac);
         for (i = 0; i < 0x10; i++) {
-            if (func_02177B80(i) == 0x20 && sub_0202E8D8((void *)func_0203CF10(i), key, mac) != 0) {
+            if (func_02177B80(i) == 0x20 && sub_0202E8D8((void *)func_0203CF10(i), (int)key, (char *)mac) != 0) {
                 return i;
             }
         }

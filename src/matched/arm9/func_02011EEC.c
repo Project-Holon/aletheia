@@ -51,7 +51,7 @@ struct S02146248 {
 extern struct S02146248 g_02146248;
 extern void func_02082BCC(void *dst, u32 val, u32 size);
 
-void *func_02011EEC(u32 a0, u16 a1, struct Rec12 *a2, u16 a3)
+void *func_02011EEC(u32 a0, u16 a1, struct Rec12 *a2, int a3)
 {
     func_02082BCC(&g_02146248.f8, 0, 0x14);
     g_02146248.f8 = a0;

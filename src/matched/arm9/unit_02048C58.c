@@ -72,14 +72,14 @@ struct LightGlobal {
 
 extern struct LightGlobal g_02146A68;
 
-extern void func_02046A94(u8 slot, struct LightSlot *s);
+extern void func_02046A94(u32 idx, const u16 *src);
 
 void func_02048C58(struct LightSlot *slots)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        func_02046A94(i, &slots[i]);
+        func_02046A94((u8)i, (const u16 *)(&slots[i]));
     }
 }
 
@@ -93,7 +93,7 @@ void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in)
     slots[i].col = *in;
 }
 
-void func_02048CCC(struct LightSlot *slots, u32 i, u16 *out)
+void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out)
 {
     *out = slots[i].unk06;
 }

@@ -84,7 +84,9 @@ extern int func_0217EB9C(int, int);
 extern int func_0217EB40(int, int *);
 extern void func_0217EAE0(void *);
 extern void func_021C00FC(GHIBuffer *);
-extern int func_020949F4(const char *, const char *, unsigned int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern char g_021CE648[];
 extern char g_021CE620[];
 extern char g_021CE660[];
@@ -125,7 +127,7 @@ void func_021C0E58(GHIConnection *connection)
         if (connection->f1b8 != 0)
             connection->f1b8(connection, &connection->f194);
         connection->f19c = 0;
-        if (func_020949F4(g_021CE660, connection->f14, 8) != 0) {
+        if (func_020949F4((const u8 *)g_021CE660, (const u8 *)connection->f14, 8) != 0) {
             connection->f198 = 0;
             connection->f194 = 0;
         }

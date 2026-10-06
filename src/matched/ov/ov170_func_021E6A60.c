@@ -47,29 +47,30 @@ typedef struct {
     unsigned char hi : 4;
 } Nib;
 
-extern void func_021ED6E4(unsigned char *p, int v);
-extern void func_021EA750(unsigned char *p);
+typedef unsigned int   u32;
+extern void func_021ED6E4(char **p, int v);
+extern void func_021EA750(char *p);
 extern void func_021ECB60(char *w, int i, int f);
 typedef unsigned char  u8;
 struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern void func_021EE038(unsigned char *p, int a, int b, int c);
+extern void func_021EE038(char *p, int a, int b, int c);
 extern unsigned func_0202136C(unsigned short v);
 extern void func_020061E4(unsigned se);
-extern void func_021EBB28(unsigned char *p, int b);
-extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
+extern void func_021EBB28(char *p, int b);
+extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021DD2B4(int a, int b, int c, int d, int e);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
-extern int func_021DD718(unsigned char *p, void *mon);
-extern void func_021DD8A8(unsigned char *p, unsigned idx);
+extern int func_021DD718(void **pp, void *mon);
+extern void func_021DD8A8(void **pp, u32 idx);
 extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
-extern void func_021DEFEC(unsigned char *p, int b);
+extern void func_021DEFEC(char *p, int b);
 extern void func_021ED094(char *w, unsigned item);
 extern void func_021ED108(char *w, int on);
 extern void func_021EBFA8(char *w, int i, int v);
 extern void func_021EC000(char *w, int i, int v);
 extern void func_021ED1C8(char *w);
-extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
+extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E122C(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -84,17 +85,17 @@ int func_021E6A60(unsigned char *p)
     Entry *o;
     if (NIB(p)->lo == 0)
         NIB(p)->hi = 1;
-    func_021ED6E4(p, 0);
+    func_021ED6E4((char **)p, 0);
     o = *(Entry **)(WORK(p) + 0x60);
     if (o->idx == p[0x16] && (p[0x17] == 0xFF || p[0x17] == p[0x14])) {
         unsigned short from = o->slot;
-        func_021EA750(p);
+        func_021EA750((char *)p);
         func_021ECB60(WORK(p), p[0x16], 0);
         func_020260E4(OBJ(p), p[0x16]);
-        func_021EE038(p, 0, 1, 1);
+        func_021EE038((char *)p, 0, 1, 1);
         if (func_0202136C(ITEM(p)) == 1 && from != p[0x16]) {
             func_020061E4(0x557);
-            func_021EBB28(p, 0x18);
+            func_021EBB28((char *)p, 0x18);
             STATE(p) = 0x44;
             return 6;
         }
@@ -104,25 +105,25 @@ int func_021E6A60(unsigned char *p)
         if (p[0x17] == p[0x14] || p[0x16] >= 0x1E)
             func_021ECB60(WORK(p), p[0x16], 1);
         func_021ECB60(WORK(p), o->idx, 0);
-        item = func_021DD25C(p, o->idx, p[0x14], 6, 0);
+        item = func_021DD25C((void ***)p, o->idx, p[0x14], 6, 0);
         func_021DD2B4((int)p, o->idx, p[0x14], 6, ITEM(p));
-        if (func_021DD718(p, (void *)func_021DD2D0((void ***)p, p[0x14], o->idx)) == 1) {
-            func_021DD8A8(p, o->idx);
+        if (func_021DD718((void **)p, (void *)func_021DD2D0((void ***)p, p[0x14], o->idx)) == 1) {
+            func_021DD8A8((void **)p, o->idx);
             func_021EC48C(p, p[0x14], o->idx, WIN(p, o->idx));
         }
-        func_021DEFEC(p, o->idx);
+        func_021DEFEC((char *)p, o->idx);
         func_020260E4(OBJ(p), o->idx);
         ITEM(p) = item;
         func_021DD2B4((int)p, p[0x16], p[0x17], 6, ITEM(p));
-        if (func_021DD718(p, (void *)func_021DD2D0((void ***)p, p[0x17], p[0x16])) == 1) {
-            func_021DD8A8(p, p[0x16]);
+        if (func_021DD718((void **)p, (void *)func_021DD2D0((void ***)p, p[0x17], p[0x16])) == 1) {
+            func_021DD8A8((void **)p, p[0x16]);
             if (p[0x17] == 0xFF || p[0x17] == p[0x14])
                 func_021EC48C(p, p[0x14], p[0x16], WIN(p, p[0x16]));
         }
         if (ITEM(p) == 0) {
             p[0x16] = o->idx;
-            func_021EA750(p);
-            func_021EE038(p, 0, 1, 1);
+            func_021EA750((char *)p);
+            func_021EE038((char *)p, 0, 1, 1);
             return 0x40;
         }
         func_021ED094(WORK(p), ITEM(p));
@@ -131,6 +132,6 @@ int func_021E6A60(unsigned char *p)
         func_021EC000(WORK(p), 10, 1);
         func_021ED1C8(WORK(p));
         func_020061E4(0x666);
-        return func_021E8FC0(p, func_021E122C, 0x43);
+        return func_021E8FC0((char *)p, (int)func_021E122C, 0x43);
     }
 }

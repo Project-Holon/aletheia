@@ -20,8 +20,8 @@
 
 extern void func_021DD1E8(char *);
 extern int func_021E8FC0(char *p, int a, int b);
-void func_021EA83C(char *p, int a)
+int func_021EA83C(char *p, int a)
 {
     func_021DD1E8(p);
-    func_021E8FC0(p, 0x021E01C5, a);
+    return func_021E8FC0(p, 0x021E01C5, a);
 }

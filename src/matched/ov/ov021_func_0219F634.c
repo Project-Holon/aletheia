@@ -54,7 +54,8 @@ typedef struct {
 
 extern const Vec d_021D854C;
 
-extern E *func_0216D6F0(u32);
+struct Trip;
+extern void *func_0216D6F0(void *p);
 extern int func_0216D910(int a0);
 extern u32 func_0219C9DC(u8 *p);
 extern u32 func_0219FFD4(u32);
@@ -62,19 +63,19 @@ extern u16 func_0216D678(void *p);
 extern void func_0205082C(void *p, int idx, u16 h);
 extern void func_0205085C(void *p, int idx, u16 v);
 extern void func_021A000C(u32, u32, u32, u32, u32);
-extern void func_02197CCC(u32, Vec *);
-extern void func_0219FFBC(u32, Vec *);
+extern void func_02197CCC(u8 *p, s32 *out);
+extern void func_0219FFBC(u32 a, u32 *p);
 extern u16 func_02050848(u8 *p, int i);
 extern u16 func_02050880(u8 *p, int i);
-extern void func_0219F628(u32, u32, u32, Vec *);
+extern int func_0219F628(u32 a, u32 b, u32 c, u32 d);
 extern void *func_0216D67C(void *a0);
 extern u32 func_0216D534(void *p);
 extern void *func_02188C58(void *p);
 extern u32 func_0218EC2C(u8 *p);
-extern void func_0219F5D4(u32, Vec *, Vec *);
+extern void func_0219F5D4(u32 a, s32 *b, s32 *c);
 extern void func_0207C9D0(Vec *, Vec *, Vec *);
 extern u32 func_02050080(u32 *p);
-extern void func_0204F638(u32, u32, Vec *);
+extern void func_0204F638(u8 *a0, int i, struct Trip *src);
 
 void func_0219F634(u32 o)
 {
@@ -90,7 +91,7 @@ void func_0219F634(u32 o)
     u32 x;
 
     flag = 0;
-    e = func_0216D6F0(o);
+    e = func_0216D6F0((void *)o);
     if (e->id == 0xFFFF) {
         return;
     }
@@ -106,20 +107,20 @@ void func_0219F634(u32 o)
         func_0205085C((void *)h, e->id, 0);
     }
     func_021A000C(o, h, e->id, flag, 1);
-    func_02197CCC(o, &pos);
-    func_0219FFBC(o, &pos);
+    func_02197CCC((u8 *)o, (s32 *)(&pos));
+    func_0219FFBC(o, (u32 *)(&pos));
     x = func_02050848((u8 *)h, e->id);
-    func_0219F628(o, x, func_02050880((u8 *)h, e->id), &d);
+    func_0219F628(o, x, func_02050880((u8 *)h, e->id), (u32)(&d));
     pos.x += d.x;
     pos.y += d.y;
     pos.z += d.z;
     if (e->b2 == 0) {
         tmp = d_021D854C;
-        func_0219F5D4(func_0218EC2C(func_02188C58((void *)func_0216D534(func_0216D67C((void *)o)))), &tmp, &tmp);
+        func_0219F5D4(func_0218EC2C(func_02188C58((void *)func_0216D534(func_0216D67C((void *)o)))), (s32 *)(&tmp), (s32 *)(&tmp));
         func_0207C9D0(&pos, &tmp, &pos);
     } else {
         pos.y -= 0xC000;
         pos.z += 0x8000;
     }
-    func_0204F638(func_02050080((u32 *)h), e->id, &pos);
+    func_0204F638((u8 *)func_02050080((u32 *)h), e->id, (struct Trip *)(&pos));
 }

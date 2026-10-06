@@ -38,7 +38,9 @@ struct MsgBank;
 struct R;
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern int func_02027778(Arg *, u32);
+struct TaskMenu;
+struct TaskMenuTmpl;
+extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 
 int func_021865B4(char *p)
 {
@@ -63,7 +65,7 @@ int func_021865B4(char *p)
     s.e[1] = 7;
     s.e[2] = 10;
     s.e[3] = 3;
-    r = func_02027778(&s, ((struct Obj02742 *)p)->f174);
+    r = (int)func_02027778((struct TaskMenuTmpl *)(&s), (void *)(((struct Obj02742 *)p)->f174));
     ((struct Obj02742 *)p)->f9E70 = 1;
     return r;
 }

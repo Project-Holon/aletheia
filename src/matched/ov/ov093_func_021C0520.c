@@ -23,7 +23,8 @@ typedef unsigned int u32;
 extern u8 func_021D5440(u8 *p);
 extern void func_021CD64C(void *, u8, ...);
 extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern int func_021D62C4(u8 *, int);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u32 func_021D78AC(u32 range);
 extern void func_021C5604(u8 *p, u8 *a, int b);
 void func_021C0520(u8 *p, u8 *a, u16 b, u32 c)
@@ -50,7 +51,7 @@ void func_021C0520(u8 *p, u8 *a, u16 b, u32 c)
         break;
     case 20: func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 0x43e, id, b, 0xffff0000); break;
     case 22:
-        if (func_021D62C4(a, 2) != 0) {
+        if (func_021D62C4((struct Unk021D62A8 *)a, 2) != 0) {
             func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, 0xc2, id, 0xffff0000);
         } else {
             u8 rand = func_021D78AC(4);

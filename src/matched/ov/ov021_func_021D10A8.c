@@ -42,7 +42,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void func_020072CC(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern void func_0200E684(u32 a);
+extern void func_0200E684(void *obj);
 extern u32 func_0200E588(void);
 extern void func_02082BCC(u32 p, int v, u32 n);
 extern void func_02012E4C(u8 *a, u32 b);
@@ -66,7 +66,7 @@ int func_021D10A8(u32 a, u32 *b, u32 *c)
         func_020072CC(r6, 5, 0x8004, c[1], 0x1000);
         x = (u32)func_020073D8((struct Sub020073D8Ctrl *)r6, 5, 0);
         if (c[2] == 1) {
-            func_0200E684(x);
+            func_0200E684((void *)x);
         } else {
             func_02082BCC(x, 0, func_0200E588());
         }

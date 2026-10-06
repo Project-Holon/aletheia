@@ -39,7 +39,8 @@ typedef struct GHIConnection {
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0217ED38(int a);
-extern int func_0217F150(char *, void **);
+struct GSIResolveHostnameInfo;
+extern int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle);
 extern void func_021C02C8(GHIConnection *, char *, int);
 extern char g_021CF0D0[];
 extern char g_021CF0E0[];
@@ -63,7 +64,7 @@ void func_021C3D10(GHIConnection *connection)
     }
     connection->f1C = func_0217ED38((int)server);
     if (connection->f1C == (unsigned int)-1) {
-        if (func_0217F150(server, &connection->f1CC) == -1) {
+        if (func_0217F150(server, (struct GSIResolveHostnameInfo **)(&connection->f1CC)) == -1) {
             func_0217D254(8, (char *)3, 1, g_021CF0E0);
             connection->f1CC = 0;
             connection->f124 = 1;

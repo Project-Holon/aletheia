@@ -51,7 +51,8 @@ extern char d_021DD9C0[];
 extern u8 abs_id_19[];
 extern u8 abs_id_18[];
 
-extern void func_020433E0(void *a);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 extern void func_02188D5C(u16 *p);
 struct BigObj;
 struct Cfg;
@@ -83,7 +84,7 @@ int func_021880C8(int unused, u8 *p)
 {
     u16 heap = ((struct Obj01489 *)p)->f0;
 
-    func_020433E0(d_021D3688);
+    func_020433E0((const struct DispVram *)d_021D3688);
     func_02188D5C((u16 *)p);
     func_0204A48C((const struct Cfg *)d_021D3604, (u32)d_021D3688, 0x89);
     func_020434DC(0x10, 1);

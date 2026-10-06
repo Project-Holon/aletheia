@@ -51,8 +51,9 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern u32 func_02017E88(void *,u32,u32);
 extern void func_0204AB84(u32,struct Rec *);
-extern void func_0204B784(void *,const struct Rec *);
-extern u8 func_020275EC(u8 i);
+struct Struct36;
+extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern u8 func_020275EC(int i);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -89,8 +90,8 @@ void func_021D7CAC(u8 *a,u8 *p)
         first=func_02017E88(object,174,0);
         second=func_02017E88(object,175,0);
         func_0204AB84(*(u32 *)((u32)a+first*4u+0x130u),&r1);
-        func_0204B784(((struct Obj01407 *)a)->f198,&r1);
-        func_0204B6F4(((struct Obj01407 *)a)->f198,func_020275EC(first),1);
+        func_0204B784(((struct Obj01407 *)a)->f198,(const struct Struct36 *)(&r1));
+        func_0204B6F4(((struct Obj01407 *)a)->f198,func_020275EC((u8)first),1);
         point.x=96;
         point.y=48;
         func_0204B404(((struct Obj01407 *)a)->f198,(const struct Vec2 *)(&point),0);
@@ -98,8 +99,8 @@ void func_021D7CAC(u8 *a,u8 *p)
         func_0204B84C(((struct Obj01407 *)a)->f198,1);
         if(first!=second) {
             func_0204AB84(*(u32 *)((u32)a+second*4u+0x130u),&r2);
-            func_0204B784(((struct Obj01407 *)a)->f19C,&r2);
-            func_0204B6F4(((struct Obj01407 *)a)->f19C,func_020275EC(second),1);
+            func_0204B784(((struct Obj01407 *)a)->f19C,(const struct Struct36 *)(&r2));
+            func_0204B6F4(((struct Obj01407 *)a)->f19C,func_020275EC((u8)second),1);
             point.x=130;
             point.y=48;
             func_0204B404(((struct Obj01407 *)a)->f19C,(const struct Vec2 *)(&point),0);

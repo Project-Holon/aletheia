@@ -23,23 +23,24 @@
  *   func_021D6D40 0x021D6D40 thumb ov116
  */
 typedef unsigned char u8;
-extern void *func_02012EBC(void *);
-extern int func_02012EFC(void *);
-extern int func_02012EF0(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_02012EFC(void **p);
+extern void *func_02012EF0(void **p);
 extern void func_021B9B00(u8 *,int);
-extern void func_021C9744(void *,void *);
+extern void func_021C9744(unsigned char *p, unsigned x);
 extern void func_021D70E4(u8 *);
-extern void func_021D6D40(void *,void *,int);
+extern void func_021D6D40(u8 *p, void *save, void *idx);
 void func_021D6CBC(u8 *p,void *q,u8 *r) {
     int a,b,c;
     func_02012EBC(q);
-    a = func_02012EFC(q);
-    b = func_02012EF0(q);
+    a = (int)func_02012EFC(q);
+    b = (int)func_02012EF0(q);
     c = *(int *)(p+0x218);
     func_021B9B00(p+4,c);
-    func_021C9744(p+4,p+0x68);
+    func_021C9744(p+4,(unsigned int)(p+0x68));
     func_021D70E4(r);
-    func_021D6D40(p+0x70,q,c);
+    func_021D6D40(p+0x70,q,(void *)c);
     *(int *)(p+0x160)=a;
     *(int *)(p+0x164)=b;
 }

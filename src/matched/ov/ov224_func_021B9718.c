@@ -25,15 +25,22 @@
 typedef enum { ZERO=0, ONE=1 } Index;
 typedef struct { unsigned id; char fields[32]; unsigned a,b; } Entry;
 extern const Entry d_021B9C04[];
-extern void func_020403F4(unsigned char);
+typedef unsigned int   u32;
+struct Node;
+struct PrintSys;
+extern void func_020403F4(u32 i);
 extern void func_021B9898(char *),func_021B99E8(char *);
 struct S020315D4;
-extern void func_02030EAC(void *),func_0201C6EC(void *),func_0201C4C0(void *),func_0201D83C(void *),func_020315D4(struct S020315D4 *);
+extern void func_02030EAC(struct Node *n);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201D83C(void *);
+extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
 int func_021B9718(void *a,int b,int c,char *p)
 {
     Index i=ZERO;
-    do { func_020403F4(d_021B9C04[i].id); i++; } while(i<1U);
+    do { func_020403F4((unsigned char)d_021B9C04[i].id); i++; } while(i<1U);
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &=~0xe000;
     func_021B9898(p);

@@ -37,7 +37,7 @@ struct BigObj;
 u32 func_0201296C(const struct BigObj *p);
 int func_0216E3D0(int a, int b);
 int func_0216CE6C(int a, s16 b, s16 c, int d, int e, int f, int g, int h);
-void func_0216DAF8(int a);
+void func_0216DAF8(void *a0);
 
 int func_021B181C(int a, int b)
 {
@@ -63,7 +63,7 @@ int func_021B181C(int a, int b)
     r0 = func_0216E3D0(func_0201296C(func_0215A5E4((void *)b)), v4);
     r0 = func_0216CE6C(r6, v0, v1, v2, v3, r0, r7, r5);
     if (r0 != 0) {
-        func_0216DAF8(r0);
+        func_0216DAF8((void *)r0);
     }
     return 0;
 }

@@ -27,7 +27,7 @@ struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 
-void func_021C0980(int a, unsigned char *p)
+void func_021C0980(int a, unsigned char *p, int a2)
 {
     switch (*(unsigned int *)&((struct Obj02346 *)p)->f70) {
     case 0:

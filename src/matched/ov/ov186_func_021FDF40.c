@@ -19,8 +19,13 @@ typedef struct { int x,y; } Pair;
 typedef struct { short x,y; } ShortPair;
 typedef struct { int x,y;char pad8[4];int heap;char pad10[8];char record[6][32];char padD8[0x120];int handles[12];int timer; } Motion;
 struct Obj;
-extern void func_021FE3B4(void *,void *,unsigned short,unsigned short,int),func_0204B3DC(struct Obj *,unsigned int),func_0204B404(int,ShortPair *,unsigned short);
-extern int func_021FE3E4(void *,Pair *,int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Pair;
+extern int func_021FE3B4(u8 *p, const struct Pair *origin, u16 a, u16 b, int duration);
+extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void func_0204B404(int,ShortPair *,unsigned short);
+extern int func_021FE3E4(char *p, int *out, int step);
 void func_021FDF40(int unused,int *state,Motion *p)
 {
     Pair full;
@@ -30,13 +35,13 @@ void func_021FDF40(int unused,int *state,Motion *p)
     case 0:
         p->timer=0;
         for(i=0;i<6;i++) {
-            func_021FE3B4(p->record[i],p,10,(i*0xFFFF)/6,90);
+            func_021FE3B4((u8 *)p->record[i],(const struct Pair *)p,10,(i*0xFFFF)/6,90);
             func_0204B3DC((struct Obj *)p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            func_021FE3E4(p->record[i],&full,p->timer);
+            func_021FE3E4(p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
             func_0204B404(p->handles[i],&pos,p->heap);
         }

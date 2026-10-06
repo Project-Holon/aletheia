@@ -31,8 +31,8 @@ typedef unsigned short u16;
 typedef unsigned long  u32;
 
 extern const u32 d_021C3A30[];
-extern void func_020307B0(int p);
-extern int func_0201A354(u32 a, int b);
+extern void func_020307B0(void *p);
+extern void *func_0201A354(int a, int b);
 
 u32 func_021BCBD8(char *p, int m);
 
@@ -58,9 +58,9 @@ u32 func_021BCBD8(char *p, int m)
     }
     t = d_021C3A30[a + b * 4];
     if (*(int *)(p + 0x1348) != 0) {
-        func_020307B0(*(int *)(p + 0x1348));
+        func_020307B0((void *)(*(int *)(p + 0x1348)));
     }
-    *(int *)(p + 0x1348) = func_0201A354(t, 0x21);
+    *(int *)(p + 0x1348) = (int)func_0201A354(t, 0x21);
     if (c != 0) {
         t |= 0x80000000;
     }

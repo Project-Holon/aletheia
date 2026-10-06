@@ -17,7 +17,8 @@
 #include "../include/Obj02842.h"
 typedef unsigned char u8;
 typedef signed short s16;
-extern void func_021C9BEC(u8 *,void *,void *,int,s16,int);
+typedef unsigned short u16;
+extern void func_021C9BEC(u16 *p, void *b, void *c, int flag, int value, int a5);
 typedef unsigned int   u32;
 extern void func_021C6DF8(u8 *p, u32 a);
 extern void func_021C9BF8(u8 *p, u8 *q, int idx);
@@ -27,7 +28,7 @@ int func_021C95CC(u8 *p,void *a,void *b,int c)
     int value=((struct Obj02842 *)p)->f4;
     int offset;
     if(value>8) {
-        func_021C9BEC(p,a,b,0,((struct Obj02842 *)p)->f0,c);
+        func_021C9BEC((u16 *)p,a,b,0,((struct Obj02842 *)p)->f0,c);
         func_021C6DF8(b,1);
         func_021C9BF8(p,b,255);
         return 1;

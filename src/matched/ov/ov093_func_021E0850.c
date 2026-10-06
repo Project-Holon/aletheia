@@ -19,10 +19,10 @@
  */
 typedef unsigned char u8;
 extern int func_021D775C(int key);
-extern int func_021B9A40(u8 k);
+extern unsigned char func_021B9A40(unsigned int x);
 extern int func_021E08E0(int a, int b);
 extern int func_021E08F0(int a, int b);
-extern u8 *func_021C88A4(void *a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021E0850(int a, void *b, int c)
@@ -33,7 +33,7 @@ void func_021E0850(int a, void *b, int c)
     unsigned i;
 
     if (c == func_021D775C(3)) {
-        t = func_021B9A40(func_021D775C(4));
+        t = (int)func_021B9A40((u8)func_021D775C(4));
         if (func_021E08E0(t, 0) != 0 || func_021E08F0(t, 1) != 0) {
             p = func_021C88A4(b, 0x1a, c);
             p[7] = t;

@@ -42,7 +42,7 @@ typedef int   s32;
 
 extern s16 tbl_020A1B38[];
 
-s16 func_0203F684(s32 x)
+int func_0203F684(s32 x)
 {
     return tbl_020A1B38[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
 }

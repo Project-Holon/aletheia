@@ -48,12 +48,12 @@ struct UtilWork {
     u8 f157[5];
 };
 
-extern void func_021D51CC(struct UtilEntry *e);
+extern void func_021D51CC(u8 *p);
 
 void func_021D5364(struct UtilWork *p)
 {
     u32 i;
-    for (i = 0; i < 4; i++) func_021D51CC(&p->e[i]);
+    for (i = 0; i < 4; i++) func_021D51CC((u8 *)(&p->e[i]));
     p->f14A = 0;
     p->f14C = 0;
     p->f144 = 0x11;

@@ -18,10 +18,13 @@
  *   func_02026CE0 0x02026CE0 thumb
  */
 
-extern void func_0203F4CC(int *);
+struct RtcTime;
+extern void func_0203F4CC(struct RtcTime *time);
 extern int func_02026CA0(int *);
 extern void *func_02026C1C(int n);
-extern int func_02165960(int, int, int, int);
+struct Queue;
+struct Rec;
+extern int func_02165960(struct Queue *q, struct Rec *rec, int tag, int mode);
 typedef unsigned int   u32;
 extern void func_02026CE0(u32 n);
 
@@ -36,14 +39,14 @@ int func_02165888(int a0)
 
     n = 0;
     cur = 0;
-    func_0203F4CC(t);
+    func_0203F4CC((struct RtcTime *)t);
     h = (unsigned short)((t[0] << 8) | t[1]);
     for (;;) {
         k = func_02026CA0(&cur);
         if (k == 0x1e) {
             break;
         }
-        r = func_02165960(a0, (int)func_02026C1C(k), h, 0);
+        r = func_02165960((struct Queue *)a0, (struct Rec *)((int)func_02026C1C(k)), h, 0);
         if (r == 0x1e) {
             break;
         }

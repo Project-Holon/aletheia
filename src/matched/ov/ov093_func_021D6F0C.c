@@ -44,7 +44,7 @@ extern struct NodeList data_021F3CB0;
 extern struct Node *func_021D7474(void);
 extern void func_021D6F08(void);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-struct Node *func_021D6F0C(int id, u16 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16)
+struct Node *func_021D6F0C(int id, u32 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16)
 {
     struct Node *n = func_021D7474();
     struct Node *cur;

@@ -100,7 +100,7 @@ extern void OS_CancelAlarm(OSiAlarm *alarm);
 extern int func_021B8CFC(WMBssDesc *buf, int list_max);
 extern void func_021B8488(wlla_connect_param *ssid, WMBssDesc *bd);
 extern int func_021B8EFC(WMBssDesc *bd, u8 *wep_buf, u32 option);
-extern void func_021B84AC(wlla_link_stat *ls, WMBssDesc *bd, u32 link_status);
+extern void func_021B84AC(int *p, int a, int c);
 extern void func_021B84D0(void *event);
 
 extern u8 g_021DCF20[96];
@@ -204,6 +204,6 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
         } while (OS_ReceiveMessage(&g_021DCE40, &msg, 0) == 1);
     }
     link_status = (ret_code == 0) ? 1 : 0;
-    func_021B84AC(linkStat, &g_021DCE60, link_status);
+    func_021B84AC((int *)linkStat, (int)(&g_021DCE60), link_status);
     return ret_code;
 }

@@ -24,10 +24,10 @@ typedef struct NodeInfo {
     unsigned char aid;
 } NodeInfo;
 
-extern NodeInfo *func_02176344(void);
+extern char *func_02176344(void);
 extern unsigned long long OS_GetTick(void);
 extern int func_0217603C(void);
-extern NodeInfo *func_0217637C(int index);
+extern char *func_0217637C(int index);
 extern int func_0216BAF4(int aid);
 
 unsigned long long func_02176594(void)
@@ -39,14 +39,14 @@ unsigned long long func_02176594(void)
     unsigned long long tick;
     NodeInfo *pNodeInfo;
 
-    pMyNodeInfo = func_02176344();
+    pMyNodeInfo = (NodeInfo *)func_02176344();
     tick = OS_GetTick();
     tick += 0x17F898;
     existGT2Count = 0;
     myNodeIndex = 0;
     if (func_0217603C() > 2) {
         for (i = 1; i < func_0217603C(); i++) {
-            pNodeInfo = func_0217637C(i);
+            pNodeInfo = (NodeInfo *)func_0217637C(i);
             if (pMyNodeInfo == pNodeInfo) {
                 myNodeIndex = i;
             } else {

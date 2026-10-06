@@ -49,7 +49,7 @@ extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 extern void *func_02007B20(u32 heap);
 extern void func_02007C20(struct PerapVoice *dest, const struct PerapVoice *src);
 extern int func_021B997C(u8 *p, unsigned int i);
-extern int func_021BA710(int, u8);
+extern u8 func_021BA710(int a, int b);
 
 void func_021B6848(u8 *s, struct T *t)
 {
@@ -69,7 +69,7 @@ void func_021B6848(u8 *s, struct T *t)
         (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[0] = func_021B997C(s, i);
     } else {
         for (i = 0; i < 4; i++) {
-            tmp[func_021BA710(s[0x46c], i)] = (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[i];
+            tmp[(int)func_021BA710(s[0x46c], (u8)i)] = (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[i];
         }
         for (i = 0; i < 4; i++) {
             (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[i] = tmp[i];

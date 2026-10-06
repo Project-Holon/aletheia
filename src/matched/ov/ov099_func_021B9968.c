@@ -29,11 +29,12 @@ typedef struct {
 } Work;
 
 extern Pos func_021C4AC4(void *v);
-extern void *func_021BA168(void *o);
-extern void func_021BA04C(void *o, Pos *out, int n);
-extern void func_021BA1C4(void *o, void *e, Pos *p, int b, u16 a, u8 one, int four);
+typedef unsigned int   u32;
+extern u8 *func_021BA168(u8 *p);
+extern void func_021BA04C(char *p, u16 *out, u32 c);
+extern void func_021BA1C4(u8 *p, void **out, short *xy, int a, u16 d, u8 c, int b);
 extern void func_021BA248(void *o, void *e);
-extern void func_021BA190(void *o, void *e, int z);
+extern void func_021BA190(u8 *p, u8 *s, int n);
 
 void *func_021B9968(Work *o, int a, int b)
 {
@@ -41,15 +42,15 @@ void *func_021B9968(Work *o, int a, int b)
     Pos t;
     Pos d;
 
-    e = func_021BA168(o);
-    func_021BA04C(o, &t, b - 1);
+    e = func_021BA168((u8 *)o);
+    func_021BA04C((char *)o, (u16 *)(&t), b - 1);
     if (o->f570 != 0) {
         d = func_021C4AC4(*o->f570);
         if (d.x == t.x && d.y == t.y)
             return 0;
     }
-    func_021BA1C4(o, e, &t, b, a, 1, 4);
+    func_021BA1C4((u8 *)o, e, (short int *)(&t), b, a, 1, 4);
     func_021BA248(o, e);
-    func_021BA190(o, e, 0);
+    func_021BA190((u8 *)o, e, 0);
     return e;
 }

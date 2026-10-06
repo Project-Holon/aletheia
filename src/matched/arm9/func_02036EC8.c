@@ -35,7 +35,7 @@ struct Handler {
     u8 busy;        /* 0x0e */
 };
 
-extern u32  func_02036D64(struct Handler *p, u32 a);
+extern u32 func_02036D64(u8 *p, u32 a);
 extern void func_02036F24(int a0, int b, int c);
 
 void func_02036EC8(struct Handler *p, u32 a, u32 b)
@@ -43,5 +43,5 @@ void func_02036EC8(struct Handler *p, u32 a, u32 b)
     p->kind = (a != 0) ? 1 : 2;
     p->busy = 1;
 
-    func_02036F24(func_02036D64(p, 1), p->unk0c, b);
+    func_02036F24(func_02036D64((u8 *)p, 1), p->unk0c, b);
 }

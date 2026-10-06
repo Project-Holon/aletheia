@@ -44,13 +44,13 @@ extern struct WihCtx g_021461E0;
 extern u8 sWihDwc;
 extern u8 sWihDwcFile[];
 
-extern void func_02034714(void *dst, u32 val, void *dst2);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_0203D7C8(u32 heap, u32 a, const char *file, unsigned short line);
 
 void func_02010794(u32 heap)
 {
     if (g_021461E0.f4 != 0) {
-        func_02034714(&sWihDwc, 0, &sWihDwc);
+        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
     }
     g_021461E0.f4 = func_0203D7C8(heap, 0xA00, (const char *)sWihDwcFile, 0x1C0);
 }

@@ -25,7 +25,7 @@
 
 typedef unsigned int u32;
 
-extern void func_02037478(u32 a);
+extern void func_02037478(void);
 extern u32  g_021469D0;
 
 void func_02037D78(void)
@@ -35,5 +35,5 @@ void func_02037D78(void)
     v = g_021469D0;
     if (v == 0)
         return;
-    func_02037478(v);
+    func_02037478();
 }

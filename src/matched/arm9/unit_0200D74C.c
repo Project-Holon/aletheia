@@ -35,7 +35,8 @@ extern u32 func_02025C30(u32 a, u32 b, u32 c);
 extern int func_020248D8(u32 v, u32 *a1, u32 *a2);
 extern void  func_020242A4(void *rec, u32 n);
 extern u16 func_02024888(u32 idx, u16 add);
-extern void *func_020457B0(u32 size, u16 tag);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
 
@@ -63,9 +64,9 @@ struct GdsProfile {
 
 u32 func_0200D82C(struct GdsProfile *p);
 
-void func_0200D74C(struct GdsProfile *p)
+u32 func_0200D74C(struct GdsProfile *p)
 {
-    func_02025C1C(p->unk17, p->unk18, func_0200D82C(p));
+    return func_02025C1C(p->unk17, p->unk18, func_0200D82C(p));
 }
 
 void func_0200D760(struct GdsProfile *p)
@@ -106,7 +107,7 @@ void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
         }
         return 0;
     } else {
-        void *h = func_020457B0(0x28, tag);
+        void *h = func_020457B0(0x28, (u16)tag);
 
         func_02045994(h, (const u16 *)&p->unk20, sizeof(p->unk20));
         return h;

@@ -31,7 +31,7 @@ extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
-extern void func_021A2654(int, Pt *);
+extern void func_021A2654(int obj, unsigned short *src);
 extern void func_021A21E0(u32 *p);
 extern signed char d_021EF790[];
 
@@ -63,7 +63,7 @@ void func_021EE980(int a)
         pt.y = pt.y + 1;
         p[4] = p[4] % p[3];
     }
-    func_021A2654(a, &pt);
+    func_021A2654(a, (short unsigned int *)(&pt));
     p[4] = p[4] + 8;
     p[5] = (unsigned)(p[5] + 1) % 337u;
     if ((pt.y < -284 && pt.y > -296) || (pt.y > 212 && pt.y < 232)) {

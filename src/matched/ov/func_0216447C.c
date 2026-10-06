@@ -18,6 +18,6 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0216447C(void)
+void func_0216447C(int sys, u16 id)
 {
 }

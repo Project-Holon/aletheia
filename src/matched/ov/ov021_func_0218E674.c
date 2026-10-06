@@ -21,12 +21,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0218E610(u32 b, u16 *x, u16 *y, u32 *z);
+extern void func_0218E610(void *a, u16 *b, u16 *c, int *d);
 
 void func_0218E674(u8 *a, u32 b)
 {
     struct { u16 y, x; u32 z; } t;
-    func_0218E610(b, &t.x, &t.y, &t.z);
+    func_0218E610((void *)b, &t.x, &t.y, (int *)(&t.z));
     ((struct Obj01848 *)a)->f78 = t.x;
     ((struct Obj01848 *)a)->f7A = t.y;
     ((struct Obj01848 *)a)->f7C = t.z;

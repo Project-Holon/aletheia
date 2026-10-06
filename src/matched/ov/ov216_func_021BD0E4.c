@@ -23,7 +23,7 @@ struct Obj0202DC98;
 extern void sub_0204B3DC(struct Obj *, u32);
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *, u32);
 extern void func_0202DCB0(struct Obj0202DC98 *, int, u32);
-extern void sub_02040588(u32, u8);
+extern void sub_02040588(u32 which, u32 enable);
 void func_021BD0E4(char *p, u32 index, u32 enable)
 {
     char *entry;
@@ -33,5 +33,5 @@ void func_021BD0E4(char *p, u32 index, u32 enable)
         sub_0204B3DC(*(struct Obj * *)&((struct Obj08428 *)entry)->f74, enable);
     if (sub_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158, index) != 0)
         func_0202DCB0(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158, index, enable);
-    sub_02040588(((struct Obj08428 *)entry)->f7E, enable);
+    sub_02040588(((struct Obj08428 *)entry)->f7E, (u8)enable);
 }

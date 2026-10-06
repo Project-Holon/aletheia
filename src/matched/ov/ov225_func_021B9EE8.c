@@ -12,4 +12,4 @@
  *   func_02040588 0x02040588 arm
  */
 extern void func_02040588(unsigned,unsigned);
-void func_021B9EE8(void){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;func_02040588(2,1);}
+void func_021B9EE8(void *a0){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;func_02040588(2,1);}

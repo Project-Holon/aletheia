@@ -52,8 +52,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 extern const short FX_SinCosTable_[];
-extern int func_02061CA4(int, int, void *, int);
-void func_021E5A30(int slot, u16 *out, const u16 *phase, int unused, u8 a, u8 b, u16 c0, u16 c1)
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+void func_021E5A30(u32 slot, u16 *out, const u16 *phase, u32 unused, u8 a, u8 b, u16 c0, u16 c1)
 {
     s16 f;
     u8 r0, g0, b0, r1, g1, b1;
@@ -70,5 +70,5 @@ void func_021E5A30(int slot, u16 *out, const u16 *phase, int unused, u8 a, u8 b,
     r = (u8)(r0 + (((r1 - r0) * f) >> 12));
     g = (u8)(g0 + (((g1 - g0) * f) >> 12));
     *out = (u16)((bl << 10) | (r | (g << 5)));
-    func_02061CA4(slot, a * 32 + b * 2, out, 2);
+    func_02061CA4((void *)slot, a * 32 + b * 2, (u32)out, 2);
 }

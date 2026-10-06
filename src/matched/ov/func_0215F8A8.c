@@ -36,10 +36,11 @@ struct Ctx;
 void *func_020120F4(const struct Ctx *p);
 u8 *func_02012944(void *p);
 void func_0215E580(void *a);
-void func_0215F734(void);
+struct Work;
+int func_0215F734(void *evt, u32 *i, struct Work *w);
 void func_0215F900(void *obj);
 int func_0215F920(int a0);
-void func_0215F948(void *obj);
+void func_0215F948(u8 *p);
 
 void *func_0215F8A8(void *p, int a1)
 {
@@ -57,6 +58,6 @@ void *func_0215F8A8(void *p, int a1)
     func_0215E580((void *)r7);
     func_0215F900(r4);
     func_0215F920((int)r4);
-    func_0215F948(r4);
+    func_0215F948((u8 *)r4);
     return r0v;
 }

@@ -91,7 +91,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct U16Vec;struct Descriptor;struct CharBuf;struct MsgBank;struct Record;
-extern struct U16Vec *func_020457B0(u32,u16);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *,u8);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
@@ -105,7 +105,7 @@ void func_0218544C(char *p)
     struct U16Vec *buffer;
     u32 selected;
     if(*(u32 *)(p+0xC350)==0) {
-        buffer=func_020457B0(1024,*(u32 *)p);
+        buffer=func_020457B0(1024,(u16)(*(u32 *)p));
         func_02043B5C(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
         func_02045CAC(*(struct MsgBank **)(p+0xC070),15,buffer);
         func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),buffer,0,0);
@@ -113,8 +113,8 @@ void func_0218544C(char *p)
     } else {
         struct U16Vec *first,*second;
         if(func_0218532C(p,&selected)) {
-            first=func_020457B0(64,*(u32 *)p);
-            second=func_020457B0(64,*(u32 *)p);
+            first=func_020457B0(64,(u16)(*(u32 *)p));
+            second=func_020457B0(64,(u16)(*(u32 *)p));
             func_02043B5C(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
             func_02185C84(*(u16 *)(p+selected*48+66),*(u16 *)(p+selected*48+68),first,second,*(u32 *)p);
             if(*(u16 *)(p+selected*48+68)!=0)

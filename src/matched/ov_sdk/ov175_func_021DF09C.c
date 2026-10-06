@@ -27,7 +27,7 @@ extern u32 g_021E4D08[];
 extern char d_021E4D1C[];
 extern char d_021E4F34[];
 extern void func_021DF110(int a, int b, int c, int d);
-extern int func_021DFB18(u32 *, u32, u32, u32, u32, u32, u32, u32);
+extern int func_021DFB18(int *ctx, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 extern int func_021DF644(int, int);
 extern void func_02059F54(int, int);
 
@@ -36,7 +36,7 @@ int func_021DF09C(u32 a0, u32 a1, u32 a2, u32 a3)
     int r;
 
     g_021E4D08[3] = a1;
-    r = func_021DFB18((u32 *)g_021E4D08[1], 0, a0, (u32)d_021E4F34,
+    r = func_021DFB18((int *)g_021E4D08[1], 0, a0, (u32)d_021E4F34,
                       (u32)d_021E4D1C, (u32)func_021DF110, a2, a3);
     if (r != 0)
         func_02059F54(8, func_021DF644(7, r));

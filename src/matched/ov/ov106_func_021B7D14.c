@@ -74,7 +74,11 @@ extern void func_02082BCC(void *, int, u32);
 extern void func_0203F8F4(u32);
 extern void func_02045088(u32);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0203FCA0(u8, const struct BgTemplate *, u8);
+struct Cfg;
+struct CharBuf;
+struct Rec;
+struct U16Vec;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8, u32);
 extern void *func_020490F4(unsigned int id, u32 heap);
@@ -87,17 +91,17 @@ extern void func_02049B40(u32, u32, u32, u32, u32, u32);
 extern void func_02049238(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_020450F0(u32, u32, u32, u32, u32, u32, u32);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(void *, u8);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern u8 *func_02012944(void *p);
 extern void func_021B91A8(struct Descriptor *, struct StrObj *, void *, u32);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201D83C(void *);
-extern void func_02045C04(struct MsgBank *);
+extern void func_02045C04(struct Rec *rec);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Descriptor *);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_020409B4(u32);
 void func_021B7D14(u32 *p, void *arg, u32 heap) {
  int i; int k; u32 bg; struct MsgBank *msg; struct GfFont *font; struct StrObj *str;
@@ -107,7 +111,7 @@ void func_021B7D14(u32 *p, void *arg, u32 heap) {
  func_0203FC28(&d_021B94A8);
  for (i = 0; i < 8; i++) {
   bg = d_021B9524[i].bg;
-  func_0203FCA0(bg, &d_021B9524[i].t, d_021B9524[i].type);
+  func_0203FCA0((u8)bg, &d_021B9524[i].t, (u8)d_021B9524[i].type);
   func_020414AC(bg);
   func_02040588(bg, 1);
  }
@@ -130,14 +134,14 @@ void func_021B7D14(u32 *p, void *arg, u32 heap) {
  func_02049238((void *)p[0]);
  msg = func_02045B38(0, 2, 0x32, heap);
  font = func_0201D7EC(0x17, 0, 0, 0, heap);
- p[3] = func_020450F0(0, 3, 1, 0x1a, 2, 0xe, 1);
+ p[3] = func_020450F0(0, 3, 1, 0x1a, (u32)2, (u32)0xe, (u32)1);
  func_02043B5C(func_02045770((struct Descriptor *)p[3]), 0xf);
  str = (struct StrObj *)func_02045EC0(msg, 0);
  func_021B91A8((struct Descriptor *)p[3], str, func_02012944(arg), (u32)font);
- func_02045808(str);
+ func_02045808((struct U16Vec *)str);
  func_0201D83C(font);
- func_02045C04(msg);
+ func_02045C04((struct Rec *)msg);
  func_02045334((struct Descriptor *)p[3]);
- func_02045374((struct Descriptor *)p[3]);
+ func_02045374((struct Cfg *)p[3]);
  func_020409B4(0);
 }

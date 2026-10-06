@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-int func_021DD4D0(u8 *p,u32 value)
+int func_021DD4D0(u8 *p, int value)
 {
     func_0202208C(0,0,0,0,6,1,140);
     ((struct Obj24054 *)p)->fC74=value;

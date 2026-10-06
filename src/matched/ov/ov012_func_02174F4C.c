@@ -54,9 +54,11 @@ extern u32 func_0203D1A4(struct Link *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02167518(u32 a, u32 b, u32 c, u32 d);
 extern struct Party *func_0201A920(u32 heap);
-extern void *func_02012934(const struct Obj *p);
-extern void func_0201AC2C(const void *src, void *dst);
-extern void func_02008494(u32 a, void *dst);
+struct BigObj;
+struct Rec534;
+extern void *func_02012934(const struct BigObj *p);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void func_02008494(void *src, void *dst);
 extern void func_02087C6C(void *p);
 extern void func_0216F40C(void *a, u32 b, u32 c, u32 d, u32 e);
 
@@ -81,9 +83,9 @@ Work *func_02174F4C(const struct Obj *obj, u32 a1, u32 a2, u32 a3)
     }
     w->fdc = 0xff;
     w->fdd = 0xff;
-    func_0201AC2C(func_02012934(obj), w->f148[idx]);
+    func_0201AC2C(func_02012934((const struct BigObj *)obj), w->f148[idx]);
     s = w->slot[idx];
-    func_02008494(a2, s);
+    func_02008494((void *)a2, s);
     func_02087C6C(s + 0x20);
     s[0x26] = 1;
     v = 1;

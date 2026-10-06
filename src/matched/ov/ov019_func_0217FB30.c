@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct E { u32 a, b, c, d; u16 h; };
-extern void func_0217FA54(struct E *e);
+extern void func_0217FA54(u32 *p);
 
 struct E *func_0217FB30(struct E *p)
 {
@@ -34,6 +34,6 @@ struct E *func_0217FB30(struct E *p)
             best = i;
         }
     }
-    func_0217FA54(&p[best]);
+    func_0217FA54((u32 *)(&p[best]));
     return &p[best];
 }

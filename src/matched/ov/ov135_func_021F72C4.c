@@ -50,12 +50,12 @@ typedef struct {
 extern void *func_0200846C(int a0);
 struct Sub0200852CObj;
 extern void func_020084A0(struct Sub0200852CObj *p);
-extern void func_020084D4(Info *p, void *name);
-extern void func_02008560(Info *p, u32 v);
-extern void func_02008568(Info *p, u32 v);
-extern void func_0200854C(Info *p, u32 v);
-extern void func_02008558(Info *p, u32 v);
-extern void func_02008574(Info *p, u8 a, u8 b);
+extern u32 func_020084D4(u32 value, void *dst);
+extern void func_02008560(struct Sub0200852CObj *obj, u8 value);
+extern void func_02008568(struct Sub0200852CObj *obj, u8 value);
+extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
+extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
+extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
 
 Info *func_021F72C4(Entry *e)
 {
@@ -63,12 +63,12 @@ Info *func_021F72C4(Entry *e)
 
     info = func_0200846C(0x48);
     func_020084A0((struct Sub0200852CObj *)info);
-    func_020084D4(info, e->name);
-    func_02008560(info, e->f124);
-    func_02008568(info, e->f125);
-    func_0200854C(info, e->fF6);
-    func_02008558(info, e->f122);
-    func_02008574(info, e->f120, e->f121);
+    func_020084D4((u32)info, e->name);
+    func_02008560((struct Sub0200852CObj *)info, e->f124);
+    func_02008568((struct Sub0200852CObj *)info, e->f125);
+    func_0200854C((struct Sub0200852CObj *)info, e->fF6);
+    func_02008558((struct Sub0200852CObj *)info, e->f122);
+    func_02008574((struct Sub0200852CObj *)info, e->f120, e->f121);
     info->f10 = e->f10C;
     info->f14 = e->f108;
     return info;

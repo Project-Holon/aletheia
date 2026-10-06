@@ -20,4 +20,4 @@ typedef short s16;
 typedef unsigned int u32;
 extern void func_02051620(u8 *);
 extern void func_02050DB8(u8 *);
-void func_021BA8BC(char *p) { func_02051620(*(u8 * *)&((struct Obj10930 *)p)->f10); func_02050DB8(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }
+void func_021BA8BC(char *p, int object) { func_02051620(*(u8 * *)&((struct Obj10930 *)p)->f10); func_02050DB8(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }

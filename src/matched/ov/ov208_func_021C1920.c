@@ -32,8 +32,8 @@ typedef unsigned int   u32;
 
 extern int func_021BC3B4(int *p);
 extern void func_021BDBAC(void *s, u32 on);
-extern void func_021C0D3C(u16 *heap, u8 *p, int key);
-extern u8   func_021C0D5C(u16 *heap, u8 *p, int key, u8 x, u8 y);
+extern void func_021C0D3C(int a, char *b, int c);
+extern u8 func_021C0D5C(void *unused, char *p, int unused2, u8 x, u8 y);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_021C1D30(u16 *heap, u8 *p, int key);
@@ -73,9 +73,9 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
             W(0x74) = 1;
             if (W(0x90) == 1) {
                 if (W(0x7c) == 0) {
-                    func_021C0D3C(heap, p, key);
+                    func_021C0D3C((int)heap, (char *)p, key);
                 } else {
-                    p[0x79] = func_021C0D5C(heap, p, key, p[0x80], p[0x81]);
+                    p[0x79] = func_021C0D5C(heap, (char *)p, key, p[0x80], p[0x81]);
                     if (p[0x79] != 0xff)
                         func_0204B3DC((struct Obj *)W(0xd0), 1);
                 }

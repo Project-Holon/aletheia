@@ -30,7 +30,7 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 extern void func_02015BA4(void *obj, void *h);
 typedef unsigned int   u32;
 struct S02030EE8;
@@ -41,7 +41,7 @@ extern void func_02030EAC(struct Node *n);
 
 void func_021FF0F8(Work *w, int key)
 {
-    int idx = func_022019F4(w, key);
+    int idx = func_022019F4((char *)w, key);
 
     func_02015BA4(w->obj, w->e[idx].h);
     w->e[idx].h = 0;

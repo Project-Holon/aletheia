@@ -52,7 +52,7 @@ extern void func_02040588(u32, u32);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
 
-void func_021D6100(void)
+void func_021D6100(u8 *a0)
 {
     struct BgTemplate b[8];
 

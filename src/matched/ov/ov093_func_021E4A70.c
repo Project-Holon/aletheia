@@ -20,7 +20,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern u8 *func_021C88A4(int a, int k, int b);
+extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern u32 func_021C83CC(u8 *p);
 
@@ -36,7 +36,7 @@ void func_021E4A70(int u, int a, int b)
         k = func_021D775C(6);
         w = func_021C83CC((u8 *)a);
         e = E_ONE;
-        s = func_021C88A4(a, 0xe, b);
+        s = func_021C88A4((char *)a, 0xe, b);
         s[0xf] = e;
         s[0x10] = k;
         ((struct Obj01898 *)s)->f4 = e;
@@ -45,7 +45,7 @@ void func_021E4A70(int u, int a, int b)
         ((struct Obj01898 *)s)->f8 = w;
         s[0xe] = 1;
         func_021C88C8((void *)a, s);
-        s = func_021C88A4(a, 0xe, b);
+        s = func_021C88A4((char *)a, 0xe, b);
         s[0xf] = e;
         s[0x10] = k;
         ((struct Obj01898 *)s)->f4 = 3;
@@ -53,7 +53,7 @@ void func_021E4A70(int u, int a, int b)
         ((struct Obj01898 *)s)->f8 = w;
         s[0xe] = 1;
         func_021C88C8((void *)a, s);
-        s = func_021C88A4(a, 0x13, b);
+        s = func_021C88A4((char *)a, 0x13, b);
         s[4] = b;
         func_021C88C8((void *)a, s);
     }

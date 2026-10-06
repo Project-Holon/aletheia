@@ -16,10 +16,10 @@ typedef unsigned int  u32;
 
 extern u32 func_0202ACC8(void *obj);
 extern void func_0202AEB8(void *obj, u32 value);
-extern void func_0202AEBC(u8 *p);
-extern u32  func_0202ACBC(u8 *p);
-extern void func_0202ADB4(u8 *p, u32 v);
-extern int  func_0202AD8C(u8 *p);
+extern int func_0202AEBC(int a0);
+extern u32 func_0202ACBC(u32 *p);
+extern int func_0202ADB4(int a0, int a1);
+extern int func_0202AD8C(int a0);
 extern void func_0202ABFC(void *obj, u32 value);
 
 void func_0202AC00(u8 *p)
@@ -29,10 +29,10 @@ void func_0202AC00(u8 *p)
 
     ((struct Obj15813 *)p)->f4 = 1;
     func_0202AEB8(p, 0);
-    func_0202AEBC(p);
-    func_0202ADB4(p, func_0202ACBC(p));
+    func_0202AEBC((int)p);
+    func_0202ADB4((int)p, func_0202ACBC((u32 *)p));
 
-    if (func_0202AD8C(p) == 1)
+    if (func_0202AD8C((int)p) == 1)
         func_0202ABFC(p, 1);
     else
         func_0202ABFC(p, 0);

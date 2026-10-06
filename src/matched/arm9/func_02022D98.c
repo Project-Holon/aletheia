@@ -24,7 +24,8 @@ struct Container {
     s32 count;
 };
 
-extern void *sub_02022D88(struct Container *obj, u32 idx);
+struct Obj;
+extern void *sub_02022D88(struct Obj *obj, u32 idx);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -34,7 +35,7 @@ void func_02022D98(void *p, struct Container *c)
     s32 i;
 
     for (i = 0; i < c->count; i++) {
-        u8 *ptr = (u8 *)sub_02022D88(c, i);
+        u8 *ptr = (u8 *)sub_02022D88((struct Obj *)c, i);
         MI_CpuCopy8(ptr + 0x300, ptr, 0x300);
     }
     func_02030EAC(p);

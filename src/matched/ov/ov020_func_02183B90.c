@@ -37,7 +37,8 @@ extern void func_0208068C(int a);
 extern void func_02082AC0(int v, u32 a, u32 b);
 extern void func_02080B98(void);
 extern int func_0202E888(void);
-extern void sub_0202E8CC(int a, u16 b);
+typedef signed int     s32;
+extern u8 sub_0202E8CC(s32 a, s32 b);
 extern u8 func_02012984(const struct BigObj *p);
 extern int func_02187808(int a, int b, int c);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
@@ -60,7 +61,7 @@ int func_02183B90(int a, int *state, int *p)
         (*state)++;
         break;
     case 1:
-        sub_0202E8CC(s, func_0202E888());
+        sub_0202E8CC(s, (u16)func_0202E888());
         t = func_02012984((const struct BigObj *)s);
         r = func_02187808(w, t, t);
         func_02012374((struct Evt *)a, (struct Evt **)r);

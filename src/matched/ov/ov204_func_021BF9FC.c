@@ -23,7 +23,8 @@ extern void func_0207ADC4(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
-extern void func_02047A60(void *, void *);
+struct Arg;
+extern void func_02047A60(void *a0, struct Arg *a1);
 
 void func_021BF9FC(char *p)
 {
@@ -38,6 +39,6 @@ void func_021BF9FC(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         func_0207ADC4(t.matrix);
-        func_02047A60((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), &t);
+        func_02047A60((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), (struct Arg *)(&t));
     }
 }

@@ -24,11 +24,14 @@
 
 typedef unsigned short u16;
 
-extern int func_0216F088(void *p);
-extern void func_02012EBC(int p);
+typedef unsigned int   u32;
+struct Big;
+struct Rec0200E714;
+extern int func_0216F088(int a0);
+extern void *func_02012EBC(struct Big *p);
 extern int func_0200E6F0(void);
-extern void func_0200E714(int a, int b, void *c);
-extern void func_0202715C(void *p);
+extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
+extern void func_0202715C(u32 a0);
 
 int func_0216F31C(char *a)
 {
@@ -36,10 +39,10 @@ int func_0216F31C(char *a)
     u16 *src;
     int t;
 
-    if (func_0216F088(a + 8) == 0)
+    if (func_0216F088((int)(a + 8)) == 0)
         return 4;
     if (*(u16 **)(a + 0x14) != 0) {
-        func_02012EBC(*(int *)(*(char **)(a + 0x18) + 4));
+        func_02012EBC((struct Big *)(*(int *)(*(char **)(a + 0x18) + 4)));
         t = func_0200E6F0();
         w = **(char ***)(a + 0x18);
         src = *(u16 **)(a + 0x14);
@@ -47,8 +50,8 @@ int func_0216F31C(char *a)
         *(u16 *)(w + 0x6e) = src[1];
         *(u16 *)(w + 0x70) = src[2];
         *(u16 *)(w + 0x72) = src[3];
-        func_0200E714(t, 0, *(void **)(a + 0x14));
-        func_0202715C(*(void **)(a + 0x14));
+        func_0200E714((struct Rec0200E714 *)t, 0, *(void **)(a + 0x14));
+        func_0202715C((u32)(*(void **)(a + 0x14)));
     }
     return 1;
 }

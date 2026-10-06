@@ -18,5 +18,5 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_021C4380(char *,int,u32,u32,u32);
-extern void func_021C43E4(char *,int,u32,u32,u32);
-void func_021C435C(char *p,int i,u32 a,u32 b,u32 c,int mode) { if(mode==0) func_021C4380(p,i,a,b,c); else func_021C43E4(p,i,a,b,c); }
+extern void func_021C43E4(u8 *p, int i, u32 a, u32 b, u32 c);
+void func_021C435C(char *p, int i, int a, int b, int c, int mode) { if(mode==0) func_021C4380(p,i,a,b,c); else func_021C43E4((u8 *)p,i,a,b,c); }

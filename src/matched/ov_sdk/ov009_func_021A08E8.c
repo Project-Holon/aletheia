@@ -28,12 +28,13 @@ typedef struct SBServerList SBServerList;
 typedef struct SBServer SBServer;
 
 extern int func_021A0414(int flags);
-extern int func_021A04C4(SBServerList *slist, char *buf, int len);
+struct SBL;
+extern int func_021A04C4(struct SBL *slist, char *buf, int len);
 extern int func_021A0440(const char *p, int n);
 extern int memcmp(const void *a, const void *b, unsigned long n);
-extern void func_021A059C(SBServerList *slist, char *buf, int len, unsigned int *ip, unsigned short *port);
-extern SBServer *func_0219E900(SBServerList *slist, unsigned int publicip, unsigned short publicport);
-extern int func_0219E9D8(SBServer *server);
+extern void func_021A059C(struct SBL *slist, unsigned char *buf, int len, unsigned int *ip, unsigned short *port);
+extern struct SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
+extern int func_0219E9D8(int v);
 extern int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist);
 extern void func_0219F638(struct SBServerList *slist, struct SBServer *server);
 extern char g_021A8250[];
@@ -54,7 +55,7 @@ int func_021A08E8(SBServerList *slist, char *buf, int len)
     if (len < i)
         return 0;
     if (flags & 0x40) {
-        if (!func_021A04C4(slist, buf + i, len - i))
+        if (!func_021A04C4((struct SBL *)slist, buf + i, len - i))
             return 0;
     }
     if (flags & 0x80) {
@@ -63,9 +64,9 @@ int func_021A08E8(SBServerList *slist, char *buf, int len)
     }
     if (!memcmp(buf + 1, g_021A8250, 4))
         return -1;
-    func_021A059C(slist, buf, len, &ip, &port);
-    server = func_0219E900(slist, ip, port);
-    if (func_0219E9D8(server))
+    func_021A059C((struct SBL *)slist, (unsigned char *)buf, len, &ip, &port);
+    server = func_0219E900((int)slist, ip, port);
+    if (func_0219E9D8((int)server))
         return -2;
     ret = func_021A060C(slist, server, buf, len, 1);
     func_0219F638(slist, server);

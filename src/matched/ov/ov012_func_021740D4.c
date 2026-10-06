@@ -24,14 +24,14 @@ extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
-extern void func_02034714(void *, int, void *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021840A4(int, u8);
 extern u8 d_02175624[];
 void func_021740D4(int a, int x, u8 *b, u8 *p)
 {
     if (a != func_0203D1A4((struct Link *)((int)func_020399A8()))) {
         if (((struct Obj12450 *)p)->f3528 == 0) {
-            func_02034714(d_02175624, 0, d_02175624);
+            func_02034714((const char *)d_02175624, 0, (const char *)d_02175624);
             return;
         }
         func_021840A4(((struct Obj12450 *)p)->f3528, *b);

@@ -45,7 +45,8 @@ struct Ctx {
 };
 
 extern u32 func_0203521C(u32 *p);
-extern struct Ctx *func_02035224(void);
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
 
 u32 sub_020362BC(struct Ctx *ctx)
 {
@@ -59,5 +60,5 @@ u32 sub_020362BC(struct Ctx *ctx)
 
 u32 sub_020362DC(void)
 {
-    return sub_020362BC(func_02035224());
+    return sub_020362BC((struct Ctx *)func_02035224());
 }

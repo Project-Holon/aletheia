@@ -59,7 +59,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201EC64(u16 heap);
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_020457B0(u32 size, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -92,7 +92,7 @@ void func_021C2F84(int s, Obj *p, char *a1, char *a2, u32 c, u32 d)
     heap = p->heap;
     m = func_02045B38(0, 2, 0xb0, heap);
     if (c == 0) {
-        x = func_0201EC64((heap & 0x7FFF) | 0x8000);
+        x = func_0201EC64((u16)((heap & 0x7FFF) | 0x8000));
         str = func_020457B0(8, (heap & 0x7FFF) | 0x8000);
         y = func_02045EC0(m, c);
         func_0201F02C(x, 0, (void *)s);

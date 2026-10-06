@@ -16,12 +16,13 @@
 typedef unsigned char u8;
 
 extern int _s32_div_f(int, int);
-extern int func_021BC6DC(u8 *p);
+typedef unsigned int   u32;
+extern u32 func_021BC6DC(void *p);
 
 void func_021BBD40(u8 *p, int a)
 {
     int base = p[0x32];
-    int x = func_021BC6DC(p);
+    int x = (int)func_021BC6DC(p);
     int s = base + a;
-    p[0x33] = (u8)((s + x) % func_021BC6DC(p));
+    p[0x33] = (u8)((s + x) % (int)func_021BC6DC(p));
 }

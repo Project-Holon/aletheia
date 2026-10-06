@@ -28,7 +28,8 @@ typedef struct Obj02072F5C {
     u8  state;
 } Obj02072F5C;
 
-extern void func_02075BAC(void *env, u32 a, u32 b);
+struct Obj02075BAC;
+extern void func_02075BAC(struct Obj02075BAC *o, u32 a, u32 b);
 
 void func_02072F5C(Obj02072F5C *volatile *pp, u32 a, u32 b)
 {
@@ -41,5 +42,5 @@ void func_02072F5C(Obj02072F5C *volatile *pp, u32 a, u32 b)
     if (o->state == 2) {
         return;
     }
-    func_02075BAC(o->env, a << 8, b);
+    func_02075BAC((struct Obj02075BAC *)o->env, a << 8, b);
 }

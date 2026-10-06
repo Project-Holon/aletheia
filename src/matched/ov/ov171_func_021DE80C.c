@@ -29,7 +29,10 @@ typedef struct Descriptor {
 extern void *func_02025538(unsigned int a0, void *a1);
 struct Bmp;
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
-extern void *func_020255A0(void *, Descriptor *);
+struct Grid;
+struct Param;
+struct Sys;
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_02025774(u8 *g, u32 a);
 void func_021DE80C(char *p)
 {
@@ -45,6 +48,6 @@ void func_021DE80C(char *p)
     descriptor.b = 0;
     descriptor.id = 0xFFFF;
     descriptor.extra = 0;
-    ((struct Obj01756 *)p)->fC54 = func_020255A0(((struct Obj01756 *)p)->fC50, &descriptor);
+    ((struct Obj01756 *)p)->fC54 = func_020255A0(((struct Obj01756 *)p)->fC50, (const struct Param *)(&descriptor));
     if (((struct Obj01756 *)p)->fC5F == 1) func_02025774(((struct Obj01756 *)p)->fC54, 0);
 }

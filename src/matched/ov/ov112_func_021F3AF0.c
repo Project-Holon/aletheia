@@ -28,15 +28,15 @@ typedef unsigned int u32;
 struct F5 { u32 v : 5; };
 struct BF { u16 a : 2; u16 c : 1; u16 b : 5; };
 extern char d_021F8380[];
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u32 tag);
-extern void *func_021F67E0(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
-extern void func_021F3CA4(void *o);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern char *func_021F67E0(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
+extern void func_021F3CA4(char *p);
 extern void func_021F3F00(void *o);
-extern void func_021F40F4(void *o);
-extern void *func_021F6F24(u32 heap, u32 v);
+extern void func_021F40F4(u8 *p);
+extern u8 *func_021F6F24(u32 heap, u32 v);
 extern void func_021F6FB0(void *a, u8 b);
-extern void func_021F75DC(void *a, u16 v);
-extern void func_021F7098(void *a, u16 v);
+extern void func_021F75DC(u8 *p, u16 v);
+extern void func_021F7098(u8 *p, u16 v);
 u8 *func_021F3AF0(u8 *src, u16 heap)
 {
     u8 i;
@@ -59,7 +59,7 @@ u8 *func_021F3AF0(u8 *src, u16 heap)
             }
         }
     }
-    func_021F3CA4(o);
+    func_021F3CA4((char *)o);
     func_021F3F00(o);
     func_021F40F4(o);
     *(void **)(o + 0x28) = func_021F6F24(*(u16 *)o, 0);

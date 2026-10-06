@@ -37,7 +37,9 @@ extern void func_02088234(void);
 extern long func_02078C28();
 extern int func_021D4C9C(char *a, char *b, int n);
 extern void *func_021D6414(unsigned long size, int alignment);
-extern long func_02078B70(FSFile *file, void *buffer, long length);
+typedef signed int     s32;
+struct FSFile;
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern int func_02078A80(FSFile *file);
 extern void func_020834C0(void *src, void *dst);
 extern void func_021D6438(void **mem);
@@ -64,7 +66,7 @@ void *func_021D4B68(char *path, unsigned long *size, int alignment)
     else
         align = alignment;
     buf = func_021D6414(siz, align);
-    func_02078B70(&file, buf, siz);
+    func_02078B70((struct FSFile *)(&file), buf, siz);
     func_02078A80(&file);
     if (align > 0)
         return buf;

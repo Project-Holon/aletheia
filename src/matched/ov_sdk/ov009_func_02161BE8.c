@@ -19,9 +19,10 @@
 
 struct CPSSoc;
 
-extern unsigned char *func_0215AE18(unsigned long *len, struct CPSSoc *soc);
+struct _CPSSoc;
+extern unsigned char *func_0215AE18(unsigned long *len, char *soc);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
-extern void func_0215AF14(unsigned long len, struct CPSSoc *soc);
+extern void func_0215AF14(unsigned long len, struct _CPSSoc *soc);
 
 static int func_02161BE8(unsigned char *d, int len, struct CPSSoc *soc)
 {
@@ -29,13 +30,13 @@ static int func_02161BE8(unsigned char *d, int len, struct CPSSoc *soc)
     unsigned char *s;
 
     do {
-        s = func_0215AE18(&thislen, soc);
+        s = func_0215AE18(&thislen, (char *)soc);
         if (thislen == 0)
             return -1;
         if (thislen > len)
             thislen = len;
         func_02082D44(s, d, thislen);
-        func_0215AF14(thislen, soc);
+        func_0215AF14(thislen, (struct _CPSSoc *)soc);
         len -= thislen;
         d += thislen;
     } while (len > 0);

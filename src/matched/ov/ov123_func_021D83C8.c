@@ -26,7 +26,7 @@ extern struct Sub02009448Obj *func_02009448(void *sys);
 typedef unsigned char  u8;
 struct Sub02009210Obj;
 extern void func_020092E0(struct Sub02009210Obj *obj, u8 value);
-extern void func_021D6EE0(char *, int, int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8958(char *p);
 void func_021D83C8(char *p)
 {
@@ -34,6 +34,6 @@ void func_021D83C8(char *p)
         func_021D5A60(*(char * *)&((struct Obj10447 *)p)->f18);
         func_020092E0((struct Sub02009210Obj *)func_02009448(((struct Obj10447 *)p)->f28), 1);
         p[0xaf] = 1;
-        func_021D6EE0(p, (int)func_021D8958, 0x6a2);
+        func_021D6EE0((u8 *)p, (int)func_021D8958, 0x6a2);
     }
 }

@@ -13,7 +13,7 @@
 
 typedef unsigned int   u32;
 extern void func_02035138(void *fn, u32 arg);
-void func_02012258(void)
+void func_02012258(void *o)
 {
     func_02035138(0, 0);
 }

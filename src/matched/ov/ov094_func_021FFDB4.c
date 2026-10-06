@@ -30,14 +30,14 @@ typedef struct {
     Entry e[14];            /* 0x008 */
 } Work;
 
-extern int func_022019F4(Work *w, int key);
+extern int func_022019F4(char *p, int key);
 typedef signed int     s32;
 struct McssFade;
-extern void func_02015F50(struct McssFade *w, u8 cur, u8 target, s32 step, u32 e);
+extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 
 void func_021FFDB4(Work *w, int key, u8 cur, u8 target, s8 step, u32 e)
 {
-    int idx = func_022019F4(w, key);
+    int idx = func_022019F4((char *)w, key);
 
     if (idx == -1)
         return;

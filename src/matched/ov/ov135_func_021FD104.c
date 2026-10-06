@@ -45,7 +45,7 @@ typedef struct {
 
 extern const WinDef tbl_02203668[];
 
-extern u32 func_020450F0(u8 bg, u8 x, u8 y, u8 w, u8 h, u8 pal, u16 base);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 struct Cfg;
@@ -59,17 +59,17 @@ void func_021FD104(Menu *p)
     const WinDef *d;
     u32 v;
 
-    p->frame = func_020450F0(4, 2, 0x13, 0x1b, 4, 1, 1);
+    p->frame = func_020450F0((u8)4, (u8)2, (u8)0x13, (u8)0x1b, 4, 1, (u16)1);
     if (p->flag == 0) {
-        p->side[0] = func_020450F0(4, 1, 0x15, 0xd, 2, 1, 1);
-        p->side[1] = func_020450F0(4, 0x11, 0x15, 0xd, 2, 1, 1);
+        p->side[0] = func_020450F0((u8)4, (u8)1, (u8)0x15, (u8)0xd, 2, 1, (u16)1);
+        p->side[1] = func_020450F0((u8)4, (u8)0x11, (u8)0x15, (u8)0xd, 2, 1, (u16)1);
     }
     for (i = 0; i < 16; i++) {
         d = &tbl_02203668[i];
         if (d->bg == 2) {
-            p->win[i] = func_020450F0(d->bg, d->x, d->y, d->w, d->h, 0xd, 1);
+            p->win[i] = func_020450F0((u8)d->bg, (u8)d->x, (u8)d->y, (u8)d->w, d->h, 0xd, (u16)1);
         } else {
-            p->win[i] = func_020450F0(d->bg, d->x, d->y, d->w, d->h, 1, 1);
+            p->win[i] = func_020450F0((u8)d->bg, (u8)d->x, (u8)d->y, (u8)d->w, d->h, 1, (u16)1);
         }
         v = p->win[i];
         func_02045334((struct Descriptor *)v);

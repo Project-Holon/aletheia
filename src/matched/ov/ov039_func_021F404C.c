@@ -57,16 +57,16 @@ extern u16 func_021A3050(u8 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern u8 func_021F36C0(int x, int z);
-extern int func_021F3DB8(u8 *s, int n);
+extern int func_021F3DB8(signed char *p, int i);
 extern u8 func_021F3DAC(int n);
 extern u8 func_021F3D98(u8 *s, int n);
 extern int func_02188D2C(int *p);
-extern void *func_021BE674(char *base, int i, u8 j, u16 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021F4158(u8 *p, int i);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F4610(void *a0, int *a1);
-extern void func_021F41A8(void);
+extern int func_021F41A8(void *a0, int *a1);
 
 int func_021F404C(void *a0)
 {
@@ -92,12 +92,12 @@ int func_021F404C(void *a0)
     if (n == 0xff) {
         return 0;
     }
-    if (func_021F3DB8(s, n)) {
+    if (func_021F3DB8((signed char *)s, n)) {
         c = func_021F3DAC(n);
         s[4] = func_021F3D98(s, n);
         k = s[4] + 1;
         h = func_02188D2C(sys);
-        func_021BE6B0(func_021BE674((char *)h, 0, c, k), 1);
+        func_021BE6B0(func_021BE674((char *)h, 0, (u8)c, (u16)k), 1);
         s[7] = c;
         if (func_021F4158(p, c)) {
             return (int)func_020122C0(a0, 0, func_021F4610, 0);

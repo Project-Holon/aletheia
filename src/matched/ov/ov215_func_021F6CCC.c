@@ -26,7 +26,7 @@ struct Obj;
 extern void func_02064CBC(struct Obj *x);
 extern void func_02015E4C(void *);
 extern void func_02063000(int p0, int p1, int p2, int p3);
-extern int func_020173B4(void *);
+extern int func_020173B4(int a0);
 extern int func_021F6D0C(char *);
 void func_021F6CCC(char *p,unsigned flag,int enable)
 {
@@ -38,5 +38,5 @@ void func_021F6CCC(char *p,unsigned flag,int enable)
     if(enable) {
         func_02063000((int)obj,1,(int)p,(int)func_021F6D0C);
         ((struct Obj06707 *)p)->f38=0;
-    } else func_020173B4(((struct Obj06707 *)p)->f34);
+    } else func_020173B4((int)(((struct Obj06707 *)p)->f34));
 }

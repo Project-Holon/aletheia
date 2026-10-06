@@ -26,19 +26,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern u32 func_02162564(void *p);
-extern void *func_021625CC(void *p, u16 id);
+struct Q;
+extern int func_02162564(char *p, struct Q *q);
+extern void *func_021625CC(char *p, unsigned i);
 extern int func_0218AEAC(u8 *p);
 extern int func_0218AECC(char *a0, int a1);
 
 u32 func_0218AE04(u8 *p, void *arg)
 {
-    u32 id = func_02162564(((struct Obj00705 *)p)->fC);
+    u32 id = (u32)func_02162564(((struct Obj00705 *)p)->fC, arg);
     void *obj;
 
     if (id == 0xFFFF)
         return 0xFFFF;
-    obj = func_021625CC(((struct Obj00705 *)p)->fC, id);
+    obj = func_021625CC(((struct Obj00705 *)p)->fC, (u16)id);
     if (!func_0218AEAC(obj) && !func_0218AECC(obj, ((struct Obj00705 *)p)->f24))
         return 0xFFFF;
     return id;

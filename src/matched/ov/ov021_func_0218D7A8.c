@@ -71,11 +71,11 @@ typedef struct Obj {
     int f64;            /* 0x64 */
 } Obj;
 
-extern int func_0218DD84(Cell *c);
-extern u32 func_0218DD98(Cell *c);
+extern int func_0218DD84(u32 a);
+extern u32 func_0218DD98(u8 *p);
 extern void func_0218DDA4(Cell *c, Vec *v);
-extern void func_0218DD70(Cell *c);
-extern void func_0218DD4C(void *d);
+extern int func_0218DD70(u32 a);
+extern void func_0218DD4C(void **a);
 extern void func_0218B9FC(int a, int obj);
 extern void func_02169500(u8 *p, u8 *q);
 extern void func_021694F8(u8 *p, u16 v);
@@ -93,35 +93,35 @@ int func_0218D7A8(Obj *p, Cell *nc)
 
     ret = 0;
     for (i = 0; i < p->n; i++) {
-        if (func_0218DD84(&p->entries[i].cell)) {
+        if (func_0218DD84((u32)(&p->entries[i].cell))) {
             u32 id;
             moved = 0;
-            id = func_0218DD98(&p->entries[i].cell);
+            id = func_0218DD98((u8 *)(&p->entries[i].cell));
             for (j = 0; j < p->n; j++) {
-                if (id == func_0218DD98(&nc[j]) && !moved) {
+                if (id == func_0218DD98((u8 *)(&nc[j])) && !moved) {
                     Vec v;
                     func_0218DDA4(&nc[j], &v);
                     func_02169500((u8 *)p->entries[i].obj, (u8 *)(&v));
-                    func_0218DD70(&nc[j]);
+                    func_0218DD70((u32)(&nc[j]));
                     moved = 1;
                 }
             }
             if (!moved) {
-                func_0218DD70(&p->entries[i].cell);
+                func_0218DD70((u32)(&p->entries[i].cell));
                 func_021694F8((u8 *)p->entries[i].obj, 0);
                 func_0218B9FC(p->f64, p->entries[i].obj);
-                func_0218DD4C(p->entries[i].desc);
+                func_0218DD4C((void **)p->entries[i].desc);
                 func_021694D4(p->entries[i].obj);
             }
         }
     }
     changed = 0;
     for (i = 0; i < p->n; i++) {
-        if (func_0218DD84(&nc[i])) {
+        if (func_0218DD84((u32)(&nc[i]))) {
             placed = 0;
             for (j = 0; j < p->n; j++) {
-                if (!func_0218DD84(&p->entries[j].cell) && !placed) {
-                    int obj = p->table[func_0218DD98(&nc[i])];
+                if (!func_0218DD84((u32)(&p->entries[j].cell)) && !placed) {
+                    int obj = p->table[func_0218DD98((u8 *)(&nc[i]))];
                     Vec v;
                     func_0218DDA4(&nc[i], &v);
                     if (obj != -1) {

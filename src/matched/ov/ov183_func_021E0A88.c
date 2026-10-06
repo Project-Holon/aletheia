@@ -30,7 +30,8 @@ extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021E0D00(char *,int);
-extern void func_021E0D38(void *,int);
+struct Coordinates;
+extern void func_021E0D38(struct Coordinates *p, int index);
 extern void func_021E0CE8(char *,int,int);
 void func_021E0A88(char *p)
 {
@@ -48,11 +49,11 @@ void func_021E0A88(char *p)
     func_021E0D00(p,0);
     func_0204B878(*(void **)(p+base-0xc8),0);func_0204B92C(*(void **)(p+base-0xc8),1);
     *(u16 *)(p+base-0xa4)=zero;*(u16 *)(p+base-0xa2)=zero;*(u32 *)(p+base-0xb8)=1;
-    func_021E0D38(p,0);
+    func_021E0D38((struct Coordinates *)p,0);
     func_0204B878(*(void **)(p+base-0xac),*(u32 *)(p+base-0xb8));
     func_0204B92C(*(void **)(p+base-0xac),1);func_0204B688(*(void **)(p+base-0xac),1);
     *(u16 *)(p+base-0x88)=zero;*(u16 *)(p+base-0x86)=zero;*(u32 *)(p+base-0x9c)=1;
-    func_021E0D38(p,zero);
+    func_021E0D38((struct Coordinates *)p,zero);
     func_0204B878(*(void **)(p+base-0x90),*(u32 *)(p+base-0x9c));
     func_0204B688(*(void **)(p+base-0x90),1);func_0204B92C(*(void **)(p+base-0x90),1);
     func_021E0CE8(p,1,zero);func_021E0CE8(p,2,zero);

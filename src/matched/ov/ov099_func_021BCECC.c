@@ -29,7 +29,8 @@ typedef unsigned long  u32;
 
 extern u32 func_0203D378(void);
 extern void func_021BCC4C(void *a);
-extern void func_021BBEB4(char *p, int a, u8 b, int c);
+struct O;
+extern void func_021BBEB4(struct O *p, int mask, u32 a, int mode);
 extern void func_021BA874(char *p, int id);
 extern void func_021BA978(char *p, int a, int b, int c);
 extern void func_021BAAB8(char *p, int a, int b);
@@ -43,7 +44,7 @@ int func_021BCECC(char *p, int v)
 {
     if (func_0203D378() == 0) {
         func_021BCC4C(p);
-        func_021BBEB4(p, 0, ((struct Obj22034 *)(*(u8 * *)&((struct Obj05262 *)p)->f248))->f48, 1);
+        func_021BBEB4((struct O *)p, 0, ((struct Obj22034 *)(*(u8 * *)&((struct Obj05262 *)p)->f248))->f48, 1);
         func_021BA874(p, ((struct Obj05262 *)p)->f242 - 1);
         func_021BA978(p, ((struct Obj05262 *)p)->f134C + 0x69 + (((struct Obj05262 *)p)->f134E << 2), 0, 1);
         ((struct Obj05262 *)p)->f1CC = 0x7A;

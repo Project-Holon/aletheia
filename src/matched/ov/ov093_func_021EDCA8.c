@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Flags { u8 shown : 1; u8 close : 1; };
-extern void func_02040B1C(u8, const void *, u32, u32);
+extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02040618(u32, u32, u32);
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);

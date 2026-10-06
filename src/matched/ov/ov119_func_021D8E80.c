@@ -12,6 +12,6 @@
  * Empty stub.
  */
 
-void func_021D8E80(void)
+void func_021D8E80(void *a0)
 {
 }

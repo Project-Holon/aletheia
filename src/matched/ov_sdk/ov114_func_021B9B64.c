@@ -27,18 +27,21 @@ typedef struct {
     char mq[0x1c];
 } ThreadInfo;
 
-extern int func_021BBEB8(void);
-extern void func_02085D94(void *mq, void **msgArray, int msgCount);
-extern void func_021BBEA0(ThreadInfo *threadInfo_p);
+typedef unsigned char  u8;
+extern int func_021BBEB8(u8 *p);
+typedef signed int     s32;
+struct OSMessageQueue;
+extern void func_02085D94(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
+extern void func_021BBEA0(u8 *p);
 extern void func_020853C0(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
 extern void func_02085868(void *thread);
 extern void func_021B9C60(void *);
 
 int func_021B9B64(ThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p)
 {
-    if (func_021BBEB8() == 0) {
-        func_02085D94(threadInfo_p, threadInfo_p->msgArray, 3);
-        func_021BBEA0(threadInfo_p);
+    if (func_021BBEB8((u8 *)threadInfo_p) == 0) {
+        func_02085D94((struct OSMessageQueue *)threadInfo_p, threadInfo_p->msgArray, 3);
+        func_021BBEA0((u8 *)threadInfo_p);
     }
     func_020853C0((char *)threadInfo_p + 0x2c, func_021B9C60, 0, (char *)stack_p + 0x2000, 0x2000, priority);
     func_02085868((char *)threadInfo_p + 0x2c);

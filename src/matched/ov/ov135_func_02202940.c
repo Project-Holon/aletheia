@@ -17,7 +17,8 @@
 typedef unsigned int u32;
 struct Ent { u32 a; u32 b; u32 c; };
 struct Obj { u32 w0; u32 w1; u32 w2; u32 w3; void *h; u32 n; struct Ent e[24]; };
-extern void func_0201CE48(void *);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *p);
 void func_02202940(struct Obj *p) {
     int i;
     for (i = 0; i < 24; i++) {

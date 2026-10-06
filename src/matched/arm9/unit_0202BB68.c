@@ -36,8 +36,11 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
 
-extern s32  func_0202BBFC(void *e, void *q);
-extern s32  func_0202BCA0(void *e, void *q, void *r);
+struct Listener;
+struct Rec;
+struct Vec;
+extern s32 func_0202BBFC(struct Rec *r, const struct Vec *p);
+extern s32 func_0202BCA0(const struct Listener *l, const struct Vec *ps, const struct Vec *pp);
 extern void sub_0202BC48(void *obj, u32 index, s32 cap);
 extern void sub_0202BC60(void *obj, u32 index, s32 cap);
 extern void sub_0202BDD0(void *obj, u32 index, s32 cap);
@@ -52,7 +55,7 @@ void func_0202BB68(u8 *o, int i)
     if (*(u32 *)(e + i * 0x1c) == 0) {
         return;
     }
-    v  = func_0202BBFC(e + i * 0x1c, o + 0xc);
+    v  = func_0202BBFC((struct Rec *)(e + i * 0x1c), (const struct Vec *)(o + 0xc));
     lv = *(s32 *)(o + i * 4 + 0x1e4);
     if (lv < v) {
         sub_0202BC48(o, i, v);
@@ -72,7 +75,7 @@ void func_0202BBB0(u8 *o, int i)
     if (*(u32 *)(e + i * 0x1c) == 0) {
         return;
     }
-    v  = func_0202BCA0(e + i * 0x1c, o + 0xc, o + 0x18);
+    v  = func_0202BCA0((const struct Listener *)(e + i * 0x1c), (const struct Vec *)(o + 0xc), (const struct Vec *)(o + 0x18));
     lv = *(s32 *)(o + i * 4 + 0x224);
     if (v < lv) {
         sub_0202BDD0(o, i, v);

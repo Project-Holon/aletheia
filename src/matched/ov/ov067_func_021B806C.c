@@ -60,8 +60,8 @@ extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int func_021B7CF8(struct S *s);
 extern int func_021B7E70(struct S *s);
 extern void func_020061E4(u32 id);
-extern void func_021B92F0(struct S *s, u16 a1, u16 a2);
-extern void func_021B8434(struct S *s, s8 a, u8 b, u16 c, u32 d);
+extern void func_021B92F0(struct S *p, u32 a1, u32 a2);
+extern void func_021B8434(u8 *p, int a, u8 b, u16 c, u32 d);
 extern void func_021B7BE0(struct S *s, int a1);
 extern void func_021B8990(struct S *s, int idx);
 extern void func_021B8C14(struct S *s, int a);
@@ -80,21 +80,21 @@ int func_021B806C(struct S *s)
     switch (r) {
     case 0:
         func_020061E4(0x548);
-        func_021B92F0(s, s->f5c, s->f60);
+        func_021B92F0(s, (u16)s->f5c, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         s->f4e = 4;
         return -12;
     case 1:
         func_020061E4(0x548);
-        func_021B92F0(s, s->f5c, s->f60);
+        func_021B92F0(s, (u16)s->f5c, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         s->f4e = 4;
         return -11;
     case 2:
-        func_021B8434(s, -s->fb[s->f95], 1, 4, 1);
+        func_021B8434((u8 *)s, (s8)(-s->fb[s->f95]), 1, 4, 1);
         return -10;
     case 3:
-        func_021B8434(s, (s8)s->fb[s->f95], 1, 4, 1);
+        func_021B8434((u8 *)s, (s8)s->fb[s->f95], 1, 4, 1);
         return -10;
     case 4:
         v = s->f5e;
@@ -103,8 +103,8 @@ int func_021B806C(struct S *s)
             s->f5c = 0;
             v = s->f62;
         }
-        func_021B92F0(s, 0xff, s->f60);
-        func_021B8434(s, -s->fb[0], v, 4, 0);
+        func_021B92F0(s, (u16)0xff, (u16)s->f60);
+        func_021B8434((u8 *)s, (s8)(-s->fb[0]), v, 4, 0);
         func_020061E4(0x548);
         return -7;
     case 5:
@@ -114,19 +114,19 @@ int func_021B806C(struct S *s)
             s->f5c = s->f5e - 1;
             v = s->f64 - s->f62;
         }
-        func_021B92F0(s, 0xff, s->f60);
-        func_021B8434(s, (s8)s->fb[0], v, 4, 0);
+        func_021B92F0(s, (u16)0xff, (u16)s->f60);
+        func_021B8434((u8 *)s, (s8)s->fb[0], v, 4, 0);
         func_020061E4(0x548);
         return -6;
     case 6:
         func_020061E4(0x548);
-        func_021B92F0(s, s->f5c, s->f60);
+        func_021B92F0(s, (u16)s->f5c, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         s->f4e = 4;
         return -5;
     case 7:
         func_020061E4(0x548);
-        func_021B92F0(s, s->f5c, s->f60);
+        func_021B92F0(s, (u16)s->f5c, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         s->f4e = 4;
         return -4;
@@ -143,19 +143,19 @@ int func_021B806C(struct S *s)
         func_020061E4(0x548);
         return -2;
     case 10:
-        func_021B92F0(s, 0xff, s->f60);
+        func_021B92F0(s, (u16)0xff, (u16)s->f60);
         func_021B8990(s, s->f7c);
         func_020061E4(0x645);
         return -9;
     case 11:
-        func_021B92F0(s, 0xff, s->f60);
+        func_021B92F0(s, (u16)0xff, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         func_021B8C14(s, s->f5c);
         func_020061E4(0x645);
         return -8;
     case 12:
         if (func_020355C4() == 1) {
-            func_021B92F0(s, s->f5c, s->f60);
+            func_021B92F0(s, (u16)s->f5c, (u16)s->f60);
             s->f20->f4(s->f24, s->f5c + s->f62, 1);
         }
         return s->f5c;

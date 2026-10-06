@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_021DCF50(void *);
+extern void *func_021DCF50(u8 *p);
 extern int func_021841A4(u8 *);
 extern void func_021DD924(char *);
-int func_021DDFC0(char *p,int state) {if(((struct Obj06535 *)p)->f481C){if(((struct Obj06535 *)p)->f481C!=(u32)func_021841A4(func_021DCF50(p))) ((struct Obj06535 *)p)->f481C=0;}((struct Obj06535 *)p)->f118=21;((struct Obj06535 *)p)->f124=0;func_021DD924(p);return state;}
+int func_021DDFC0(char *p,int state) {if(((struct Obj06535 *)p)->f481C){if(((struct Obj06535 *)p)->f481C!=(u32)func_021841A4(func_021DCF50((u8 *)p))) ((struct Obj06535 *)p)->f481C=0;}((struct Obj06535 *)p)->f118=21;((struct Obj06535 *)p)->f124=0;func_021DD924(p);return state;}

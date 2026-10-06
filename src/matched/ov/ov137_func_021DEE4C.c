@@ -16,7 +16,7 @@
  */
 #include "../include/Obj06537.h"
 typedef unsigned short u16;
-extern int *func_021E16C0(char *);
+extern char *func_021E16C0(char *p);
 extern void func_021E0C08(char *,int,int,int,int,int,int *);
 extern const u16 d_021E1FDC[][5];
 int func_021DEE4C(char *p)
@@ -25,7 +25,7 @@ int func_021DEE4C(char *p)
     int value, a, row;
     if (--((struct Obj06537 *)p)->fC>0) return 0;
     ((struct Obj06537 *)p)->fC=15;
-    r=func_021E16C0(p);
+    r=(int *)func_021E16C0(p);
     row=r[5]*10;
     value=*(const u16 *)((unsigned)d_021E1FDC+row+r[4]*2);
     a=*(u16 *)(p+0x7e + r[4]*4);

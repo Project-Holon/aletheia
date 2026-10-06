@@ -221,12 +221,12 @@ void sub_0200890C(void *sys, struct Sub02008828Rec *dest)
  * reachable from anything else in arm9_main, which is why these two functions
  * were the last unverifiable ones in this file.  See "The two near misses in
  * this run" in docs/MATCHING.md. */
-extern u8   sub_02014468(const void *src);
+extern u8 sub_02014468(struct Sub02014444Obj *o);
 extern void sub_02014464(struct Sub02014444Obj *o, u8 v);
 
 void sub_0200892C(struct Sub02008828Obj *obj, const void *src)
 {
-    obj->unk72 = sub_02014468(src);
+    obj->unk72 = sub_02014468((struct Sub02014444Obj *)src);
 }
 
 void sub_0200893C(const struct Sub02008828Obj *obj, void *dest)

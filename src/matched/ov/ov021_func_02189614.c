@@ -45,7 +45,7 @@ extern void func_02193ABC(char *p, int a, int b);
 extern u32 func_02012964(const struct BigObj *p);
 extern void func_02193AFC(u8 *p, u32 v);
 
-void func_02189614(void *p, char *q)
+void func_02189614(void *p, char *q, u16 id)
 {
     void *t;
     int k;

@@ -17,11 +17,11 @@
  */
 
 extern char g_021A5890[];
-extern char *func_02193F00(void);
+extern char *func_02193F00(char *s, char *key);
 
-char *func_02193FD0(void)
+char *func_02193FD0(char *s, char *key)
 {
-    char *p = func_02193F00();
+    char *p = func_02193F00(s, key);
 
     return p ? p : g_021A5890;
 }

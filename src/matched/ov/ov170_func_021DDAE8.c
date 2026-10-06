@@ -42,7 +42,7 @@ typedef struct {
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
 extern void func_021EC768(char *p, unsigned i, int flag);
-extern void func_021ED75C(char *p, int i);
+extern void func_021ED75C(char **p, int i);
 extern void func_021ED7C4(char *p, int i);
 
 int func_021DDAE8(unsigned char *p)
@@ -78,7 +78,7 @@ int func_021DDAE8(unsigned char *p)
         func_021EC768(*(char * *)&((struct Obj00000 *)p)->f2C, e->id, 0);
         break;
     }
-    func_021ED75C((char *)p, p[0x16]);
+    func_021ED75C((char **)p, p[0x16]);
     func_021ED7C4(*(char * *)&((struct Obj00000 *)p)->f2C, 0x24);
     return 1;
 }

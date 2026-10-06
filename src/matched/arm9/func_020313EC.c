@@ -51,10 +51,11 @@ typedef struct {
     u32 f1c;
 } Obj;
 
-extern void  func_020313A0(Obj *p, u32 b);
+extern int func_020313A0(int a0);
 extern u32   func_020315F0(Node *n);
 extern void func_02031590(void *ptr);
-extern Node *func_02031538(u32 a, u32 b, u32 c, u32 d);
+struct Obj02031538;
+extern struct Obj02031538 *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap);
 
 u32 func_020313EC(Obj *p)
 {
@@ -65,14 +66,14 @@ u32 func_020313EC(Obj *p)
         return 0;
     }
     if (p->f0c != 0) {
-        func_020313A0(p, p->f0c);
+        func_020313A0((int)p);
     }
     r = func_020315F0(p->node);
     if (r == 1) {
         if (p->f10 != 0) {
             prev = p->node->prev;
             func_02031590(p->node);
-            p->node = func_02031538(p->f14, p->f18, p->f1c, p->heap);
+            p->node = (Node *)func_02031538(p->f14, p->f18, p->f1c, p->heap);
             if (prev != 0) {
                 prev->next = p->node;
             }

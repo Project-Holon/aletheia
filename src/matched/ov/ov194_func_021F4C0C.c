@@ -27,10 +27,12 @@ extern const Entry d_021F5600[];
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void func_0203F8F4(unsigned short);
 extern void sub_02045088(unsigned short);
-extern void func_0203FC28(const Disp *);
+typedef unsigned int   u32;
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(unsigned char, const Bg *, unsigned char);
 extern void func_020414AC(unsigned char);
-extern void sub_02040588(unsigned char, unsigned char);
+extern void sub_02040588(u32 which, u32 enable);
 void func_021F4C0C(void *p, unsigned short heap)
 {
     unsigned i = 0;
@@ -39,12 +41,12 @@ void func_021F4C0C(void *p, unsigned short heap)
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
     sub_02045088(heap);
-    func_0203FC28(&d_021F55A4);
+    func_0203FC28((struct DispConfig *)(&d_021F55A4));
     for (; i < 8; i++) {
         id = d_021F5600[i].id;
         e = &d_021F5600[i];
         func_0203FCA0(id, &e->config, e->type);
         func_020414AC(id);
-        sub_02040588(id, e->enabled);
+        sub_02040588((unsigned char)id, (unsigned char)e->enabled);
     }
 }

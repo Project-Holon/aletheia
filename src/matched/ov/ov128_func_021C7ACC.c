@@ -34,7 +34,7 @@ struct Obj;
 struct R;
 struct U16Vec;
 extern void func_021C63AC(void *,u32 *,u32,u32,u8,u8,u8,u8,u32,u8);
-extern void func_021C88AC(u8 *, void *, const void *, u32, u32);
+extern void func_021C88AC(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap);
 extern void *func_021C3EE0(void *, void *, u32, u32);
 extern void func_021C4044(u8 *, int, int, int, int);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -63,7 +63,7 @@ void func_021C7ACC(u8 *p, void *unused, u8 *ctx, u16 heap)
             (u8)(iabs(d_021CA564[i].x) + 4), (u8)(iabs(d_021CA564[i].y) + 4), 0x1a, 0x11, 0xa, 0, 0);
     }
     for (j = 0; j < 3; j++)
-        func_021C88AC(p + 12 + j * 0x4c, ctx, (const void *)&d_021CA564[j], 0, heap);
+        func_021C88AC((u16 *)(p + 12 + j * 0x4c), (u16 *)ctx, (u16 *)((const void *)&d_021CA564[j]), 0, heap);
     *(u8 **)(p + 0x14) = p + 0xf0;
     *(u8 **)(p + 0xac) = p + 0xf8;
     *(u8 **)(p + 0x60) = p + 0xf8;

@@ -17,14 +17,14 @@
  */
 
 extern void func_021DE884(int *);
-extern void func_021DE368(int *);
-extern void func_021DE258(int *);
+extern void func_021DE368(char *p);
+extern void func_021DE258(char *p);
 extern void func_0204A5AC(void);
 
 void func_021DE014(int *p)
 {
     func_021DE884(p);
-    func_021DE368(p);
-    func_021DE258(p);
+    func_021DE368((char *)p);
+    func_021DE258((char *)p);
     func_0204A5AC();
 }

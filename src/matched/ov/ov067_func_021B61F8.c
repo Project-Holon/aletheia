@@ -11,7 +11,7 @@
  * trailing: matched ov06761FC/6200 then labelled6208; no follower C or consolidation.
  */
 #include "../include/Obj20596.h"
-void func_021B61F8(unsigned char *task, unsigned short value)
+void func_021B61F8(unsigned char *task, int value)
 {
     ((struct Obj20596 *)task)->fA = value;
 }

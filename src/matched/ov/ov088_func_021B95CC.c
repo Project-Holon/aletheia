@@ -30,7 +30,7 @@ extern void func_02040588(u32 which, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_020434DC(u32 mask, u32 enable);
 extern u32  func_0201160C(int a);
-extern void func_021B9E7C(void *a, int b);
+extern void func_021B9E7C(int *p, int x);
 
 void func_021B95CC(char *p)
 {
@@ -43,7 +43,7 @@ void func_021B95CC(char *p)
         ((struct Obj00462 *)p)->f94 = 1;
     }
     if (((struct Obj00462 *)p)->f94 == 2 && func_0201160C(((struct Obj00462 *)p)->f4C) == 0x015F3000)
-        func_021B9E7C(p + 0x40, 0x14B5);
+        func_021B9E7C((int *)(p + 0x40), 0x14B5);
     ((struct Obj00462 *)p)->f8C += 1;
     if (((struct Obj00462 *)p)->f8C > 0x1248) {
         ((struct Obj00462 *)p)->f4 = 1;

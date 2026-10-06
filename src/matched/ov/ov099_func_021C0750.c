@@ -45,7 +45,7 @@ extern struct Entry *func_020399A8(void);
 extern void func_0203D1E8(u32, void *);
 extern u8 func_021B97F4(struct W *);
 extern void *func_021BE2A8(char *, int);
-extern int func_021B9A60(char *);
+extern unsigned char func_021B9A60(char *p);
 extern void func_021B9A70(void *, struct Ent *, int);
 extern u32 func_021BDD48(int, struct S *);
 extern u32 func_021BDD54(int, struct S *);

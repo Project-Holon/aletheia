@@ -16,7 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void *func_02157450(void *a0, void *a1, u32 kind, void *rec);
+struct Rec;
+void *func_02157450(void *a0, void *a1, u32 kind, struct Rec *rec);
 
 u32 func_02174AD8(void *a0, u8 *a1, void *a2, void *a3, u32 a4, void **out, u8 *state)
 {

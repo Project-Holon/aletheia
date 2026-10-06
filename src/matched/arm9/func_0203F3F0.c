@@ -38,7 +38,8 @@ struct Block {
 
 extern struct Block g_021469FC;
 
-extern void func_0203F46C(struct Block *p);
+struct RtcRequest;
+extern void func_0203F46C(struct RtcRequest *req);
 
 void func_0203F3F0(void)
 {
@@ -50,5 +51,5 @@ void func_0203F3F0(void)
         return;
     }
     g_021469FC.unk_08 = 0;
-    func_0203F46C(&g_021469FC);
+    func_0203F46C((struct RtcRequest *)(&g_021469FC));
 }

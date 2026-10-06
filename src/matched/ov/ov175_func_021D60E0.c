@@ -27,7 +27,7 @@ extern int func_021E8844(const int *p);
 extern void func_021E8AB8(u32);
 extern void func_021D6550(u32 *,int);
 extern int func_021D65DC(char *);
-extern void func_021D65C8(u32 *);
+extern void func_021D65C8(char *obj);
 extern void func_021D6048(unsigned sys, int *state, int *p);
 extern void func_021D61CC(void *a, u32 **pp, char *p);
 void func_021D60E0(u32 sys,int *state,u32 *p)
@@ -41,7 +41,7 @@ void func_021D60E0(u32 sys,int *state,u32 *p)
     case 2:
         result=func_021D65DC((char *)p);
         if(result!=-1) {
-            func_021D65C8(p);
+            func_021D65C8((char *)p);
             switch(result) {
             case 0: ctx[1]=0; *state=3; break;
             case 1: func_021E8AA0((int *)sys,(int)func_021D6048); break;
