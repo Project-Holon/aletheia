@@ -319,6 +319,21 @@
  *   folder): the global table load is merged only by the first CSE, so cos is always numbered before the SR
  *   j*8 web; without SR on j, j*8 is numbered at the j-loop head, before the k-top pr.  The original order
  *   (flag, pr, j*8, cos) needs one of the two moved, and no source form found does that.
+ * note (pass 5 2026-10-06 P5L02): residue unchanged at 5 bytes; the body is unchanged.  41 real compiles.
+ *   New forms, none better: `int b` reused as the Part byte offset (`b *= sizeof(Part)`) with the cos stored in the
+ *   first-rotation c (or s, fx): instructions identical, 7 B, j*8 and pr right but b*0x14 30 above the c web 2C (both
+ *   are second webs and rank by def position, so b*0x14 at the k top always ranks above the cos); declaration order
+ *   of b and c in that form: same or 593/684 B.  A local struct {int s, c} for s2/cos: 14 B (promoted, cos 3C above
+ *   flag).  Function-scope `s16 sn, cs` shared with the object-level G3 rotation, cs reused for the k-loop cos: 5 B
+ *   base slots (narrow reuse is transparent); as int: 23 B (decl slot 0x48); a j-body `int n` node index reused for
+ *   the cos: 23 B; the function-scope int ox reused: 821 B.  Same 5 B: a `u16 pr2 = pr` (or int) copy for the rz
+ *   cos read (value numbering sees through it), a k-loop `const s16 *tab` for all table reads, pose.rot spelled
+ *   everywhere, a named s16 c2, the break as a goto, pr first assigned at the object-level G3 angle.  Named jo
+ *   (head or k loop): 7 B or 1040 B.  Strength reduction off or long j in the reuse forms: 13 B (J P B C order).
+ *   Reading (research in scratchpad wD9r/p5_P5L02): every measured order fits one birth-phase ranking (decl webs and
+ *   promoted aggregates, then code-order webs flag/pr/cos with the head j*8 first when not strength reduced, then
+ *   strength-reduced j*8, then load-deletion temps, then b*0x14, then second webs of reused ints).  The original
+ *   needs j*8 between pr and cos, which no tested source form produces.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
