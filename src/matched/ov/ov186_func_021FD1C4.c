@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
  * 2026-10-05 (wave P2, lane Q6, pengy share): first full draft, 1148 B,
  * same size as the original, 12 bytes differ. Constructor of the GDS
@@ -131,6 +131,18 @@
  * of A..D and of the icon-block locals, z first, B294 stack arg changes.
  * Open lead: a form that keeps A..D in real memory (not spilled registers).
  *
+ * pass 3 2026-10-06 P3L02: EXACT (c99 and c). The icon-block residue was the
+ * callee declaration, not the block: func_0204B6F4 declared `void *` (returns
+ * its object) instead of `void`. With a void declaration r0 is dead after the
+ * call and mwcc keeps the constant 1 in r7 across it (store z=1, later
+ * func_0204B688(obj,1)); with a value return it rebuilds `movs r1,#1` at each
+ * use, as the image does (docs/idioms/a-callee-declared-void-that-returns-a-
+ * value-changes-later-constant-copies.md). Evidence: the ARM body of
+ * func_0204B6F4 (src/matched/arm9/unit_0204B6F4.c, written there as void) never
+ * writes r0, so it is byte-identical to a definition that ends `return o;`.
+ * The integrator should know that the matched definition is spelled void.
+ * Also: t inlined into the func_0204AF28 call (same bytes, one fewer local).
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
@@ -229,7 +241,7 @@ extern int func_0204AF28(void *,u32,u32,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
 extern void *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
-extern void func_0204B6F4(void *,u32,u32);
+extern void *func_0204B6F4(void *,u32,u32);
 extern void func_0204B688(void *,u32);
 char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
 {
@@ -345,13 +357,11 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     if(B) {
         u32 hf;
         void *h;
-        int t;
         Req r;
         hf=(heap&0x7fff)|0x8000;
         h=func_020490F4(7,hf);
         *(int *)(p+0x2c)=func_0204ACEC(h,func_0201BC3C(),0,0x80,hf);
-        t=func_0201BC40();
-        *(int *)(p+0x34)=func_0204AF28(h,t,func_0201BCB4(),hf);
+        *(int *)(p+0x34)=func_0204AF28(h,func_0201BC40(),func_0201BCB4(),hf);
         *(int *)(p+0x30)=func_0204A6C8(h,func_0201BABC(B,C,D,A),0,0,hf);
         func_02049238(h);
         func_02082BCC(&r,0,8);
