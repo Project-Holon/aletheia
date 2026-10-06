@@ -15,7 +15,7 @@
  *   declaration order (unit_number declared first lands at +1) and sorts .bss by size
  *   with its own order inside a size class; the 4-byte statics are declared in the order
  *   that puts sRecvCallback at +8 (IRC_SetRecvCallback), sShutdownCallback +0xc,
- *   sConnectCallback +0x10, isSender +0x18 (IRC_IsSender); cnt_retry/isTry/flg_restore
+ *   sConnectCallback +0x10, isSender +0x18 (IRC_IsSender); cnt_retry/flg_restore/isTry (names per the irc.o DWARF, 2026-10-06)
  *   fill +4/+0x14/+0x1c by elimination (names from irc.o, slots not attested). Values
  *   are the image's (.data 0217AAB0 = ff ff).
  *
@@ -47,11 +47,11 @@ static u8 myUnitNumber = 0xFF;
 static u8 retry_count = 0;
 static int isSender = 0;
 static IRCConnectCallback sConnectCallback = 0;
-static int isTry = 0;
+static int flg_restore = 0;
 static IRCShutdownCallback sShutdownCallback = 0;
 static int cnt_retry = 0;
 static IRCRecvCallback sRecvCallback = 0;
-static int flg_restore = 0;
+static int isTry = 0;
 static u64 sStatus = 0;
 static u64 timeout = 0;
 static u8 sIrcBuf[184] = {0};
