@@ -75,6 +75,17 @@
  * stores; ret read back from d_021B3C50.f0; chained d_021B3C50.f0 = ret = 1 (17 or 23 B); block-scoped
  * VadState and VadCfg pointer locals in either declaration order. Cross-check: the original has no stm
  * between the f0 and f4 stores only because the 3C50 pool load sits between them. Parked.
+ *
+ * pass 2 2026-10-06 P2L32 (3 rounds, about 90 single compiles plus sweeps, best 15 B): adopted the
+ * sibling 021B3018 model (volatile f0 in VadCfg and VadState, which closed 3018): 17 -> 15 B. Sweeps:
+ * all 512 volatile subsets (c0+s0 only best), volatile x store order (96), every opt_* pragma name
+ * in mwccarm 1.1p1 on/off: none below 15. Same single residue: the 3C50 pool load takes the load
+ * stall instead of mov lr,#1. A side-effecting right-hand side moves the value before the address
+ * load and fixes schedule and colours: `ret = 0; d_021B4C2C.f4 = 0; d_021B3C50.f0 = ++ret;` (or
+ * `ret = d_021B4C2C.f4 = 0; ... = ++ret`) gives 2 B, but emits add lr,r3,#1 (from the zero
+ * register) for mov lr,#1; not a human form, not filed. Constant right-hand sides (ret = 1 first,
+ * chains, one-locals, inline helpers returning 1, propagation off) all keep the mov below the pool
+ * load. Lead: the original needs the #1 materialised textually before the 3C50 address load.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
@@ -90,8 +101,8 @@ typedef unsigned int u32;
 #define reg_CP_SQRT_RESULT   (*(volatile u32 *)0x040002B4)
 #define reg_CP_SQRT_PARAM    (*(volatile u32 *)0x040002B8)
 
-typedef struct VadCfg { u32 f0; u32 f4; s32 f8; } VadCfg;
-typedef struct VadState { u32 f0; u32 f4; s32 f8; } VadState;
+typedef struct VadCfg { volatile u32 f0; u32 f4; s32 f8; } VadCfg;
+typedef struct VadState { volatile u32 f0; u32 f4; s32 f8; } VadState;
 
 extern VadCfg d_021B3C50;
 extern u32 d_021B4C38[];
