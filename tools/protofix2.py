@@ -1765,13 +1765,16 @@ def declarer_protos(fam, fx, db):
             try:
                 ret, pl, _need = pf.resolve_proto(ret_txt, params, fi.td)
             except pf.Unrep as e:
-                return None, 'declaration in %s unreadable: %s' % (rel, e)
+                continue
             texts = []
             for p in split_params(params):
                 tk, pname, opq = pf.parse_param(p, fi.td)
                 if opq is not None or tk == ['...']:
-                    return None, 'declaration in %s has a function pointer or ...' % rel
+                    texts = None
+                    break
                 texts.append((pf.tok_text(tk), pname))
+            if texts is None:
+                continue
             out.append((rel, ret, pl, pf.tok_text(pf.tokens(ret_txt)), texts))
     if not out:
         return None, 'no declarers'
@@ -2158,6 +2161,170 @@ def cast_collapse_text(fam, db, fi, mm):
     return text, 'parameter typed by its only use: ' + ', '.join(done)
 
 
+def param_local_text(fam, db, fi, mm):
+    """P2: trailing parameters no declarer passes, whose first use in the body is an
+    assignment (`a3 = ...`), are locals of a lifted body: they leave the parameter
+    list and become `T aK;` at the top of the body."""
+    decls, why = declarer_protos(fam, _FX, db)
+    if decls is None:
+        return None, why
+    n = max(len(d[2]) for d in decls)
+    ps = split_params(fi.raw[mm.start(4):mm.end(4)])
+    if n >= len(ps):
+        return None, 'callers pass every parameter'
+    op = mm.end() - 1
+    cl = matching(fi.mask, op)
+    body = fi.mask[op + 1:cl]
+    locs = []
+    for p in ps[n:]:
+        tk, pname, opq = pf.parse_param(p, fi.td)
+        if opq is not None or not pname:
+            return None, 'parameter %s unreadable' % p
+        fu = re.search(r'(?<![\w.>])%s(?![\w])' % re.escape(pname), body)
+        if fu and not re.match(r'\s*=(?!=)', body[fu.end():]):
+            return None, 'parameter %s is read before it is written' % pname
+        locs.append(p.strip())
+    eol = file_eol(fi.raw, op)
+    ls = fi.raw.find('\n', op) + 1
+    m2 = re.match(r'[ \t]*', fi.raw[ls:])
+    indent = m2.group(0) if m2 and m2.group(0) else '    '
+    edits = [Edit(mm.start(4), mm.end(4), join_params(ps[:n]), fam[1], 'param-local')]
+    decl_txt = ''.join(indent + l + ';' + eol for l in locs)
+    if fi.raw[op + 1:op + 2] in ('\r', '\n'):
+        edits.append(Edit(ls, ls, decl_txt, fam[1], 'param-local'))
+    else:
+        edits.append(Edit(op + 1, op + 1, ' ' + ' '.join(l + ';' for l in locs) + ' ', fam[1], 'param-local'))
+    text, _a, _d = apply_edits(fi.raw, edits)
+    return text, '%d parameter(s) are locals: %s' % (len(locs), ', '.join(locs))
+
+
+def void_param_text(fam, db, fi, mm):
+    """P5: a void definition whose original leaves an incoming argument register
+    unchanged in r0 at every return returns that parameter, typed as the parameter
+    (any type).  Evidence: return_origins gives only {'entry', r_k}."""
+    rec = db['defs'].get((fi.region, int(fam[1][-8:], 16)), [None])[0]
+    if rec is None or rec['unrep'] or pf.norm_toks(rec['ret']) != 'void':
+        return None, 'definition is not void'
+    if '_sdk/' in fam[0]:
+        return None, 'SDK function: the vendor prototype decides'
+    ev = get_evidence()
+    fi_r, d = ev.rdef(*fam)
+    if d is None or not d.get('addr'):
+        return None, 'no regargs definition'
+    ro = return_origins(ev, d['region'], d['addr'])
+    if ro is None:
+        return None, 'original bytes unreadable'
+    orgs, tails, nret = ro
+    if tails or not nret or not orgs or {o[0] for o in orgs} != {'entry'}:
+        return None, 'r0 at return is not one incoming register'
+    regs = {o[1] for o in orgs}
+    if len(regs) != 1:
+        return None, 'different incoming registers'
+    w = int(next(iter(regs))[1:]) if next(iter(regs)) in ('r0', 'r1', 'r2', 'r3') else None
+    pi = None
+    for i, (first, nw) in enumerate(d['layout'] or []):
+        if w is not None and first <= w < first + nw and nw == 1:
+            pi = i
+    ps = split_params(fi.raw[mm.start(4):mm.end(4)])
+    if pi is None or pi >= len(ps):
+        return None, 'the register is not a declared one-word parameter'
+    tk, pname, opq = pf.parse_param(ps[pi], fi.td)
+    if opq is not None or not pname or not tk:
+        return None, 'parameter unreadable'
+    t = pf.tok_text(tk)
+    op = mm.end() - 1
+    cl = matching(fi.mask, op)
+    body = fi.mask[op + 1:cl]
+    edits = [Edit(mm.start(2), mm.end(2), t + ('' if t.endswith('*') else ' '), fam[1], 'def-ret')]
+    for rm in re.finditer(r'\breturn\s*;', body):
+        edits.append(Edit(op + 1 + rm.start(), op + 1 + rm.end(), 'return %s;' % pname, fam[1], 'def-return'))
+    end = len(body.rstrip())
+    if not re.search(r'\breturn\s*;\s*$', body[:end]):
+        ls = fi.raw.rfind('\n', 0, cl) + 1
+        prev = fi.raw.rfind('\n', 0, ls - 1) + 1
+        indent = re.match(r'[ \t]*', fi.raw[prev:]).group(0) or '    '
+        if fi.raw[ls:cl].strip() == '':
+            edits.append(Edit(ls, ls, indent + 'return %s;' % pname + file_eol(fi.raw, prev), fam[1], 'def-return'))
+        else:
+            edits.append(Edit(cl, cl, ' return %s; ' % pname, fam[1], 'def-return'))
+    text, _a, _d = apply_edits(fi.raw, edits)
+    return text, 'the original returns its incoming %s unchanged: return %s' % (next(iter(regs)), pname)
+
+
+_EXT = [(re.compile(r'^lsrs?\s+r\d+,\s*r\d+,\s*#(?:0x18|24)$'), 'u8'),
+        (re.compile(r'^lsrs?\s+r\d+,\s*r\d+,\s*#(?:0x10|16)$'), 'u16'),
+        (re.compile(r'^asrs?\s+r\d+,\s*r\d+,\s*#(?:0x18|24)$'), 's8'),
+        (re.compile(r'^asrs?\s+r\d+,\s*r\d+,\s*#(?:0x10|16)$'), 's16'),
+        (re.compile(r'^ands?\s+r\d+,\s*r\d+,\s*#(?:0xff|255)$'), 'u8'),
+        (re.compile(r'^uxtb\s+r\d+,\s*r\d+$'), 'u8'), (re.compile(r'^uxth\s+r\d+,\s*r\d+$'), 'u16'),
+        (re.compile(r'^sxtb\s+r\d+,\s*r\d+$'), 's8'), (re.compile(r'^sxth\s+r\d+,\s*r\d+$'), 's16')]
+_EXT_MAX = {'u8': 0xff, 'u16': 0xffff, 's8': 0x7f, 's16': 0x7fff}
+
+
+def width_evidence_text(fam, db, fi, mm):
+    """P3a: every original call site that computes argument i ends with the same
+    zero/sign extension (lsl/lsr #24 = u8, #16 = u16, asr = signed, and #0xff), or
+    passes a constant that fits: the original parameter type was that narrow type.
+    The definition parameter takes it; the callers' declarations follow."""
+    ev = get_evidence()
+    fi_r, d = ev.rdef(*fam)
+    if d is None or not d.get('addr') or not d['n']:
+        return None, 'no regargs definition'
+    ps = split_params(fi.raw[mm.start(4):mm.end(4)])
+    seen = {}
+    for rel in sorted(_FX.declarers[fam]):
+        fr = ev.byfile.get(rel)
+        if fr is None:
+            continue
+        for cd in fr['defs']:
+            if not cd.get('addr') or not re.search(r'(?<![\w])%s\s*\(' % re.escape(fam[1]), cd['body']):
+                continue
+            sites = ev.sc.sites_for(fr, cd, d['addr'])
+            for st in sites or []:
+                for i in range(min(d['n'], len(ps))):
+                    regs = ev.param_regs(d, i)
+                    if len(regs) != 1:
+                        continue
+                    org = st[2].get(regs[0], frozenset())
+                    for o in org:
+                        k = None
+                        if o[0] == 'ins':
+                            txt = o[2].strip()
+                            for rx, ty in _EXT:
+                                if rx.match(txt):
+                                    k = ty
+                            if k is None:
+                                mi = _MOVIMM.match(txt)
+                                k = ('const', int(mi.group(1), 0)) if mi else 'other'
+                        else:
+                            k = 'other'
+                        seen.setdefault(i, []).append(k)
+    edits, done = [], []
+    pos = mm.start(4)
+    for i, p in enumerate(ps):
+        i0 = fi.raw.find(p, pos)
+        pos = i0 + len(p)
+        ks = seen.get(i)
+        if not ks:
+            continue
+        exts = {k for k in ks if isinstance(k, str) and k in _EXT_MAX}
+        if len(exts) != 1 or 'other' in ks:
+            continue
+        ty = exts.pop()
+        if any(isinstance(k, tuple) and not (0 <= k[1] <= _EXT_MAX[ty]) for k in ks):
+            continue
+        tk, pname, opq = pf.parse_param(p, fi.td)
+        if opq is not None or not tk or '*' in pf.norm_toks(tk) or pf.norm_toks(tk) == ty:
+            continue
+        t = ty if pf.typedef_state(fi, ty, mm.start()) is True else pf.STD[ty]
+        edits.append(Edit(i0, i0 + len(p), t + ' ' + (pname or 'a%d' % i), fam[1], 'width-evidence'))
+        done.append('param %d %s' % (i, ty))
+    if not done:
+        return None, 'no parameter with one extension at every call'
+    text, _a, _d = apply_edits(fi.raw, edits)
+    return text, 'the callers extend the argument: ' + ', '.join(done)
+
+
 def make_newdef(rule, fam, db, subset=None):
     """-> (new definition text, new record, key, why) or (None, None, None, reason)."""
     rel, name = fam
@@ -2201,11 +2368,7 @@ def make_newdef(rule, fam, db, subset=None):
         if not rec or not rec[0]['ret'] or rec[0]['unrep']:
             return None, None, None, 'callee record unavailable'
         rec = rec[0]
-        for k, w in rec['need']:
-            if k == 'typedef' and pf.typedef_state(fi, w, mm.start()) is not True:
-                return None, None, None, 'return type needs typedef %s' % w
-            if k in ('struct', 'union') and not re.search(r'\b%s\s+%s\b' % (k, w), fi.mask[:mm.start()]):
-                return None, None, None, 'return type needs %s %s' % (k, w)
+        pass
         op = mm.end() - 1
         cl = matching(fi.mask, op)
         bm = fi.mask[op + 1:cl]
@@ -2217,6 +2380,13 @@ def make_newdef(rule, fam, db, subset=None):
         parts = call_parts(bm, c['name'], cms.start())
         if parts is None or not re.match(r'\s*;\s*$', bm[parts[2] + 1:]):
             return None, None, None, 'the call is not the last statement'
+        before = bm[:parts[0]].rstrip()
+        lhs = None
+        if before and before[-1] not in ';{}':
+            am = re.search(r'([^;{}]*?)=\s*$', before)
+            if not am or before.endswith(('==', '!=', '<=', '>=')) or not _LVALUE.match(am.group(1).strip()):
+                return None, None, None, 'the call is inside an expression'
+            lhs = re.sub(r'\s+', ' ', fi.raw[op + 1 + am.start(1):op + 1 + am.end(1)].strip())
         at = op + 1 + parts[0]
         rt = pf.tok_text(rec['ret'])
         decls, _w = declarer_protos(fam, _FX, db)
@@ -2235,9 +2405,32 @@ def make_newdef(rule, fam, db, subset=None):
                 if ok:
                     rt = ct
                     why += ' (as %s, the type its callers read)' % ct
-        edits = [Edit(mm.start(2), mm.end(2), rt + ' ' if not rt.endswith('*') else rt, name, 'def-ret'),
-                 Edit(at, at, 'return ', name, 'def-return')]
+        # a u8..s32 typedef missing before the definition: spell the builtin
+        for w in re.findall(r'[A-Za-z_]\w*', rt):
+            if w in pf.STD and pf.typedef_state(fi, w, mm.start()) is not True:
+                rt = re.sub(r'(?<![\w])%s(?![\w])' % w, pf.STD[w], rt)
+        fwd = ''
+        sm2 = re.match(r'(?:const\s+)?(struct|union)\s+(\w+)', rt)
+        if sm2 and not re.search(r'\b%s\s+%s\b' % sm2.groups(), fi.mask[:mm.start()]):
+            fwd = '%s %s;' % sm2.groups()
+        edits = [Edit(mm.start(2), mm.end(2), rt + ' ' if not rt.endswith('*') else rt, name, 'def-ret')]
+        if lhs is None:
+            edits.append(Edit(at, at, 'return ', name, 'def-return'))
+        else:
+            ce = fi.raw.find(';', op + 1 + parts[2]) + 1
+            ls = fi.raw.rfind('\n', 0, at) + 1
+            indent = re.match(r'[ \t]*', fi.raw[ls:]).group(0)
+            edits.append(Edit(ce, ce, file_eol(fi.raw, ls) + indent + 'return ' + lhs + ';', name, 'def-return'))
+        if fwd:
+            ls0 = fi.raw.rfind('\n', 0, mm.start()) + 1
+            edits.append(Edit(ls0, ls0, fwd + file_eol(fi.raw, ls0), name, 'def-fwd'))
         text, _a, _d = apply_edits(fi.raw, edits)
+    elif rule in ('param_local', 'void_param', 'width_evidence'):
+        fn = {'param_local': param_local_text, 'void_param': void_param_text,
+              'width_evidence': width_evidence_text}[rule]
+        text, why = fn(fam, db, fi, mm)
+        if text is None:
+            return None, None, None, why
     elif rule == 'void_chain':
         text, why = void_chain_text(fam, db, fi, mm)
         if text is None:
@@ -2614,6 +2807,10 @@ def return_origins(ev, region, addr):
         elif mn in R.BRANCHES and mn not in ('cbz', 'cbnz'):
             t = R.branch_target(ins)
             if t is not None and t not in idx:
+                tails.add(t & ~1)
+        elif bm in ('bx', 'mov') and 'lr' not in ins.op_str:
+            t = sc.jump_target(insns, i, data, base, thumb, loc[0])
+            if t is not None:
                 tails.add(t & ~1)
     return orgs, tails, nret
 
