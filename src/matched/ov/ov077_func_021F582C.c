@@ -7,7 +7,8 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH
+ * status: EXACT
+ * note 2026-10-06 (integrator): EXACT once tools/match.py accepts a game-code compiler template (the scale vector at 0x021F5A58, our compile's bytes, the only declared data within 0x40 bytes after the function).
  * 2026-10-05 (wP4 lane S3): first source for this function (pengy share, user-approved for this
  *   function only). Draws a w*h grid of textured quads through the geometry engine registers
  *   (MTX_PUSH 0x04000444, material/light 0x040004C0..0x040004CC, POLYGON_ATTR 0x040004A4,
@@ -82,6 +83,7 @@
  *   func_0207AF38 0x0207AF38 thumb
  *   func_0207D934 0x0207D934 arm
  *   d_020A1B38 0x020A1B38 data a2
+ *   d_021F5A58 0x021F5A58 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
