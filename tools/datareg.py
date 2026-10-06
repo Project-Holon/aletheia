@@ -14,7 +14,18 @@ output, addresses/sizes/types/counts/names, is committed.
 kinds: string, numeric (elem u8/u16/u32 + count), pointer_table (targets),
        struct (fields runs of u32/ptr + targets), zero, raw (byte array)
 
+Regions: arm9 (fixed scout range) and every overlay ovNNN (tail = everything
+after the last traced code line of the overlay listing).  Each object also
+carries "ev", the evidence classes that fix its start: tail (region start),
+label (listing label), datamap (layout/data_objects.txt, arm9), pool (a code
+literal pool word names it), ptr (a pointer stored in the tail names it),
+matched (a symbols: block of matched code names it), str (string split).  An
+object whose ev is only tail/str has no outside witness for its start: it is a
+boundary kept as large as the evidence allows.
+
 usage: python tools/datareg.py [--region arm9 --region ov203 ...]
+                               (no --region: arm9 and every overlay)
+       python tools/datareg.py --report     per-region coverage table
 """
 from __future__ import annotations
 
@@ -103,6 +114,47 @@ def scan_listing(path):
                 if h:
                     labels.setdefault(int(h.group(1), 16), name)
     return code_end, data, labels, words
+
+
+SYM_RE = re.compile(r"^\s*\*\s+\S+\s+(0x[0-9A-Fa-f]{8})")
+REGION_RE = re.compile(r"^ \* region:\s+(ov\d{3})")
+
+
+def load_matched_addrs():
+    """{region: set(addresses)} named by the symbols: blocks of matched overlay
+    code (src/matched/ov, src/matched/ov_sdk).  Read-only; headers only."""
+    out = {}
+    for sub in ("ov", "ov_sdk"):
+        d = os.path.join(ROOT, "src", "matched", sub)
+        if not os.path.isdir(d):
+            continue
+        for fn in os.listdir(d):
+            if not fn.endswith(".c"):
+                continue
+            region = None
+            in_sym = False
+            with open(os.path.join(d, fn), encoding="utf-8", errors="replace") as fh:
+                for line in fh:
+                    if not line.startswith(" *"):
+                        if region and line.startswith("#"):
+                            break
+                        if line.startswith("/*") or line.strip() == "":
+                            continue
+                        break
+                    m = REGION_RE.match(line)
+                    if m:
+                        region = m.group(1)
+                        continue
+                    if line.startswith(" * symbols:"):
+                        in_sym = True
+                        continue
+                    if in_sym:
+                        m = SYM_RE.match(line)
+                        if m and region:
+                            out.setdefault(region, set()).add(int(m.group(1), 16))
+                        elif line.strip() == "*":
+                            in_sym = False
+    return out
 
 
 def load_datamap_starts():
@@ -227,30 +279,44 @@ def classify(addr, b, syms):
 
 # --------------------------------------------------------------------------
 
-def build_region(layout, region, lo_hi, arm9_labels, datamap, old_names):
+def build_region(layout, region, lo_hi, arm9_labels, datamap, old_names, matched=None,
+                 arm9_data=None):
     base, img, listing = region_image(layout, region)
     code_end, data, labels, words = scan_listing(listing)
     if lo_hi:
         lo, hi = lo_hi
     else:
-        lo = min(a for a, s in data if a >= code_end)
+        cand = [a for a, s in data if a >= code_end]
+        if not cand:
+            return None
+        lo = min(cand)
         hi = max(a + s for a, s in data)
         hi = min(hi, base + len(img))
+    if lo >= hi:
+        return None
     b = img[lo - base:hi - base]
 
-    starts = {lo}
+    ev = {lo: {"tail"}}
     for a in labels:
         if lo < a < hi:
-            starts.add(a)
+            ev.setdefault(a, set()).add("label")
     if region == "arm9":
-        starts.update(a for a in datamap if lo < a < hi)
+        for a in datamap:
+            if lo < a < hi:
+                ev.setdefault(a, set()).add("datamap")
     for site, v in words:
         if lo < v < hi:
-            starts.add(v)
+            ev.setdefault(v, set()).add("ptr" if lo <= site < hi else "pool")
+    for a in (matched or {}).get(region, ()):
+        if lo < a < hi:
+            ev.setdefault(a, set()).add("matched")
+    starts = set(ev)
     # externs: labelled addresses outside the tail
     known = dict((a, n) for a, n in labels.items())
     if region != "arm9":
         for a, n in arm9_labels.items():
+            known.setdefault(a, n)
+        for a, n in (arm9_data or {}).items():
             known.setdefault(a, n)
     else:
         for a in datamap:
@@ -270,18 +336,20 @@ def build_region(layout, region, lo_hi, arm9_labels, datamap, old_names):
     for s, sb in segs:
         c = classify(s, sb, syms)
         if c["kind"] == "string":
-            for a2, sb2 in split_strings(s, sb):
-                objs.append((a2, sb2, {"kind": "string"} if not is_zero(sb2) else {"kind": "zero"}))
+            for k, (a2, sb2) in enumerate(split_strings(s, sb)):
+                e2 = set(ev[s]) if k == 0 else {"str"}
+                objs.append((a2, sb2, {"kind": "string"} if not is_zero(sb2) else {"kind": "zero"}, e2))
         else:
-            objs.append((s, sb, c))
+            objs.append((s, sb, c, ev[s]))
     externs = {}
     out = []
-    for a, sb, c in objs:
+    for a, sb, c, e in objs:
         o = {"addr": hx(a), "size": len(sb), "kind": c["kind"],
              "name": old_names.get(a, "g_%08X" % a)}
         for k in ("elem", "count", "fields", "targets"):
             if k in c:
                 o[k] = c[k]
+        o["ev"] = ",".join(x for x in EV_ORDER if x in e)
         out.append(o)
         for t in c.get("targets", []):
             if t:
@@ -290,10 +358,13 @@ def build_region(layout, region, lo_hi, arm9_labels, datamap, old_names):
                 if r and not (lo <= r[0] < hi):
                     nm = known.get(r[0], "g_%08X" % r[0])
                     kind = "func" if nm.startswith("func_") else "data"
-                    externs[r[0]] = {"addr": hx(r[0]), "name": ("func_%08X" % r[0]) if kind == "func" else "g_%08X" % r[0],
+                    externs[r[0]] = {"addr": hx(r[0]), "name": ("func_%08X" % r[0]) if kind == "func" else (arm9_data or {}).get(r[0], "g_%08X" % r[0]),
                                      "kind": kind}
     return {"base": hx(base), "range": [hx(lo), hx(hi)], "objects": out,
             "externs": [externs[k] for k in sorted(externs)]}
+
+
+EV_ORDER = ("matched", "pool", "label", "datamap", "ptr", "str", "tail")
 
 
 def dump(reg, path):
@@ -318,29 +389,78 @@ def dump(reg, path):
         fh.write("\n".join(lines) + "\n")
 
 
+HDR_DATA = re.compile(r"classified\s+0x[0-9A-F]+ bytes code \([0-9.]+%\), 0x([0-9A-F]+) bytes data")
+
+
+def listing_data_bytes(layout, region):
+    """Data bytes the listing header reports for the region (ovstats' figure)."""
+    _b, _i, path = region_image(layout, region)
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        for _ in range(30):
+            m = HDR_DATA.search(fh.readline())
+            if m:
+                return int(m.group(1), 16)
+    return 0
+
+
+def report(layout, reg):
+    rows = []
+    for r in reg:
+        if r == "arm9":
+            continue
+        R = reg[r]
+        cov = sum(o["size"] for o in R["objects"])
+        rows.append((r, len(R["objects"]), cov, listing_data_bytes(layout, r)))
+    print("%-6s %8s %10s %12s %12s" % ("region", "objects", "covered B", "listing data", "undescribed"))
+    to = tc = td = 0
+    for r, n, c, d in rows:
+        print("%-6s %8d %10d %12d %12d" % (r, n, c, d, max(d - c, 0)))
+        to += n
+        tc += c
+        td += d
+    all_ov = [o["id"] for o in layout["overlays"]]
+    missing = ["ov%03d" % i for i in all_ov if "ov%03d" % i not in reg]
+    print("overlays: %d regions with a tail, %d objects, %d B covered of %d B listing data "
+          "(%d B undescribed; %d overlays without a tail: %s)"
+          % (len(rows), to, tc, td, td - tc, len(missing), " ".join(missing)))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--region", action="append")
     ap.add_argument("--out", default=REG_PATH)
+    ap.add_argument("--report", action="store_true")
     a = ap.parse_args()
-    regions = a.region or ["arm9", "ov203"]
     layout = load_layout()
     old = {}
     if os.path.isfile(a.out):
         with open(a.out, encoding="utf-8") as fh:
             old = json.load(fh).get("regions", {})
+    if a.report:
+        report(layout, old)
+        return
+    regions = a.region or ["arm9"] + ["ov%03d" % o["id"] for o in layout["overlays"]]
     reg = dict(old)
     _c, _d, arm9_labels, _w = scan_listing(os.path.join(ASM, "arm9", "main.s"))
     arm9_labels = {k: v for k, v in arm9_labels.items() if v.startswith("func_")}
     datamap = load_datamap_starts()
+    matched = load_matched_addrs()
     for r in regions:
         names = {int(o["addr"], 16): o["name"] for o in old.get(r, {}).get("objects", [])
                  if o["name"] != "g_%s" % o["addr"][2:]}
-        reg[r] = build_region(layout, r, ARM9_TAIL if r == "arm9" else None,
-                              arm9_labels, datamap, names)
+        arm9_data = {int(o["addr"], 16): o["name"] for o in reg.get("arm9", {}).get("objects", [])}
+        res = build_region(layout, r, ARM9_TAIL if r == "arm9" else None,
+                           arm9_labels, datamap, names, matched, arm9_data)
+        if res is None:
+            reg.pop(r, None)
+        else:
+            reg[r] = res
     out = {"regions": {k: reg[k] for k in sorted(reg, key=lambda x: (x != "arm9", x))}}
     dump(out, a.out)
     for r in regions:
+        if r not in reg:
+            print(r, "no data tail")
+            continue
         c = Counter(o["kind"] for o in reg[r]["objects"])
         by = Counter()
         for o in reg[r]["objects"]:

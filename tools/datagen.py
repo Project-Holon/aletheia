@@ -12,7 +12,9 @@ values come from the image at run time; nothing generated is committed.
 
 Pointers are written as (char *)&name + addend where name is the registry name
 of the target (a defined object of the same file, or an extern from the
-registry's "externs" list); addend 1 encodes a Thumb entry bit.
+registry's "externs" list); addend 1 encodes a Thumb entry bit.  Regions are
+arm9 and every overlay ovNNN of the registry; without --region all of them run
+and check prints a total (exit status 1 if any object differs).
 """
 from __future__ import annotations
 
@@ -214,6 +216,7 @@ def main():
     layout = datareg.load_layout()
     reg = load_registry()
     regions = a.region or list(reg)
+    grand_ok = grand = 0
     for r in regions:
         if a.cmd == "gen":
             g, p, _i, _b = gen_region(layout, reg, r)
@@ -222,6 +225,8 @@ def main():
             res, fails = check_region(layout, reg, r)
             tot_ok = sum(c["ok"] for c in res.values())
             tot = sum(sum(c.values()) for c in res.values())
+            grand_ok += tot_ok
+            grand += tot
             print("%s: %d of %d objects byte-identical" % (r, tot_ok, tot))
             for k in sorted(res):
                 c = res[k]
@@ -231,6 +236,10 @@ def main():
                 print("  fail %-14s %-24s %d" % (k, w, n))
             for f in fails[:8]:
                 print("   ", f)
+    if a.cmd == "check":
+        print("total: %d of %d objects byte-identical in %d regions" % (grand_ok, grand, len(regions)))
+        if grand_ok != grand:
+            sys.exit(1)
 
 
 if __name__ == "__main__":
