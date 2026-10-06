@@ -7498,7 +7498,8 @@ def _selftest_overlay_id():
                 p10 = os.path.join(dp, "func_02010AC4.c")
                 break
         text = open(p10).read()
-        acc = os.path.join(work, "selfhint_acc.c")
+        # beside the original: the struct headers are included by relative path
+        acc = os.path.join(os.path.dirname(p10), "_selfhint_acc.c")
         with open(acc, "w", newline="\n") as fh:
             fh.write(text)
         r = run_one(acc, "func_02010AC4", 0x02010AC4, "1.1p1", ["-O4,p"],
@@ -7506,7 +7507,7 @@ def _selftest_overlay_id():
         _check(out, "sole-ref/self hint: func_02010AC4 (ov115 hint, "
                     "contested by ov021, loads ov115) is EXACT end to end",
                r.status, "EXACT")
-        ref = os.path.join(work, "selfhint_ref.c")
+        ref = os.path.join(os.path.dirname(p10), "_selfhint_ref.c")
         bad = re.sub(r"(ov115_id\s+)0x00000073", r"\g<1>0x0000007B", text)
         with open(ref, "w", newline="\n") as fh:
             fh.write(bad)
@@ -7520,6 +7521,10 @@ def _selftest_overlay_id():
                True)
     finally:
         shutil.rmtree(work, ignore_errors=True)
+        for leftover in ("_selfhint_acc.c", "_selfhint_ref.c"):
+            p = os.path.join(ROOT, "src", "matched", "arm9", leftover)
+            if os.path.exists(p):
+                os.remove(p)
     return out
 
 
