@@ -335,6 +335,16 @@
  *   strength-reduced j*8, then load-deletion temps, then b*0x14, then second webs of reused ints).  The original
  *   needs j*8 between pr and cos, which no tested source form produces.
  * symbols:
+ * note (pass 6 2026-10-06 P6L02): residue unchanged at 5 bytes; the body is unchanged.  New method: mwccarm traced
+ *   under a debugger (tools in scratchpad wD9r/p6_P6L02).  Measured: spill slots follow the creation order of the
+ *   compiler temps ("@N" names, lower N = higher slot).  The temps are made by IRO_CommonSubs, which runs twice here;
+ *   each run names its temps in IR program order.  Ours: the (int)pr temp and cos(pr) are made by the first run, j*8
+ *   only by the second run (at the j-loop head), b*0x14 later in the second run.  With long j the first run names
+ *   j*8 at the head (above pr).  The original order needs cos(pr) to become common only in the second run (its two
+ *   reads must differ at the first CSE and become equal through the copy/expression propagation that runs between
+ *   the two CSE runs), or j*8 named in the first run between the s2 read and the rz cos read.  No such form found:
+ *   a pr2 copy is removed before the first run (5 B), a second pr = pose.rot reloads pose (653 B).  The same 5 B with
+ *   dsi 1.1 to 1.6sp2; the hidden opt_* pragmas tested have no effect.
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
  *   func_02082B60 0x02082B60 arm
