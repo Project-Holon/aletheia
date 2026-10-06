@@ -98,6 +98,18 @@
  * Matched-assembly search: a constant materialised before its own pool base in one statement occurs
  * once in all listings (a phi value), the reverse order 122 times; a constant right-hand side is
  * always placed after the base. Notes: scratchpad wD9r/p3_P3L15/research.md.
+ * pass 4 2026-10-06 P4L09 (3 rounds, 40 compiles, 15 -> 6 B, c99 and c): opt_propagation off with
+ * do-while loops (P2L32 h1), a block-local VadState pointer p for the two d_021B4C2C stores and a
+ * block-local thr for the scaled root. The pointer copy moves mov lr,#1 into the load stall and fixes
+ * the 4C2C base (r2). Left: the lsr result gets ip (original r1), so the post-RA pass lifts the 3C50
+ * pool load (r1) above the f0 store; the pre-RA schedule still puts that pool load between the lsr and
+ * the store. Without thr: 8 (lsr r2, base ip). Tried (6 unless noted): p reused for 3C50 (one struct
+ * type), a separate q pointer for 3C50 (q only: 21), p before thr (8), thr in place (thr = REG;
+ * thr *= 3; thr >>= 1), root or sum reused for thr, initialised declarations, declaration orders,
+ * ret = 1 earlier with f0 = ret, extra pragmas common_subs/loop_invariants (6), lifetimes (189), volatile
+ * f4 (229), 3C50 store between the 4C2C stores (12), inline CP_GetSqrtResult32 (6, 8 without thr).
+ * Matched-assembly search: `op rA; str rA,[rB]; ldr rA,pool` occurs only here among ARM functions.
+ * Notes: scratchpad wD9r/p4_P4L09/research.md.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
@@ -132,6 +144,7 @@ static inline void CP_WaitSqrt(void)
     }
 }
 
+#pragma opt_propagation off
 u32 func_021B3084(u32 x, u32 sq, u8 *out)
 {
     u32 ret;
@@ -144,22 +157,30 @@ u32 func_021B3084(u32 x, u32 sq, u8 *out)
         *out = sq >> 8;
     if (d_021B3C50.f0 == 0) {
         i = sum = 0;
-        for (; i < 4; i++)
+        do {
             sum += d_021B4C38[i];
+            i++;
+        } while (i < 4);
         CP_SetSqrt32(sum >> 2);
         CP_WaitSqrt();
         root = reg_CP_SQRT_RESULT;
         if (sq != 0 && sq >= (root << 1)) {
             u32 sum2;
             u32 j;
+            VadState *p;
+            u32 thr;
 
             j = sum2 = 0;
-            for (; j < 4; j++)
+            do {
                 sum2 += d_021B4C38[j];
+                j++;
+            } while (j < 4);
             CP_SetSqrt32(sum2 >> 2);
             CP_WaitSqrt();
-            d_021B4C2C.f0 = (reg_CP_SQRT_RESULT * 3) >> 1;
-            d_021B4C2C.f4 = 0;
+            thr = (reg_CP_SQRT_RESULT * 3) >> 1;
+            p = &d_021B4C2C;
+            p->f0 = thr;
+            p->f4 = 0;
             d_021B3C50.f0 = 1;
             ret = 1;
         } else {
@@ -171,8 +192,10 @@ u32 func_021B3084(u32 x, u32 sq, u8 *out)
         d_021B4C38[d_021B4C2C.f4] = x;
         d_021B4C2C.f4 = (d_021B4C2C.f4 + 1) & 3;
         i = sum = 0;
-        for (; i < 4; i++)
+        do {
             sum += d_021B4C38[i];
+            i++;
+        } while (i < 4);
         CP_SetSqrt32(sum >> 2);
         CP_WaitSqrt();
         if (reg_CP_SQRT_RESULT <= d_021B4C2C.f0) {
@@ -190,3 +213,4 @@ u32 func_021B3084(u32 x, u32 sq, u8 *out)
     }
     return ret;
 }
+#pragma opt_propagation reset
