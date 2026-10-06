@@ -711,6 +711,7 @@ _WRAPMSG = re.compile(r"invalid type argument of|subscripted value is neither|in
                       r"incompatible type for argument")
 
 
+_INT32_CAST = re.compile(r'\(\s*(?:u32|s32|int|unsigned int|unsigned|signed int|long|unsigned long)\s*\)')
 _CAST_HEAD = re.compile(r'\(\s*(?:const\s+)?(?:(?:struct|union)\s+\w+|\w+)(?:\s+\w+)*\s*\*+\s*\)')
 
 
@@ -718,7 +719,7 @@ def strip_pointer_cast(expr):
     """expr without a leading pointer cast `(T *)` when the rest is one operand, so a
     new cast replaces the old one instead of stacking `(A *)((B *)x)`."""
     e = expr.strip()
-    m = _CAST_HEAD.match(e)
+    m = _CAST_HEAD.match(e) or _INT32_CAST.match(e)
     if not m:
         return expr
     rest = e[m.end():].strip()
@@ -993,6 +994,17 @@ class FileJob:
         return Trial(text, why is None, why or '', [], ctx.log)
 
 
+def applied(job, acc, final):
+    """The accepted declarators that the final text really carries: build_candidate
+    drops a declarator it cannot place (a typedef defined after the use), and a
+    trial with only dropped declarators verifies the unchanged text."""
+    if not acc or final is None or final.text == job.fi.raw:
+        return []
+    _t, dropped = build_candidate(job.fi, job.dcls, set(acc))
+    dd = set(dropped)
+    return [dc for dc in acc if dc not in dd]
+
+
 def isolate(job, units, base=None, budget=400):
     """Maximal verified subset of units by divide and conquer (deterministic).
     Returns (accepted units, final Trial or None, {unit: Trial of its failure})."""
@@ -1030,7 +1042,7 @@ def backup_and_write(path, rel, orig_raw, final, outdir):
     if read_text(path) != orig_raw:
         return 'file changed under us'
     o, n = eol_signature(orig_raw), eol_signature(final)
-    if n[0] < o[0] or n[1] < o[1] or n[2] != o[2]:
+    if n[2] != o[2]:
         return 'line ending check failed %s -> %s' % (o, n)
     if o[0] == 0 and n[0] != 0:
         return 'line ending check failed (CRLF introduced)'
@@ -1104,6 +1116,9 @@ def _process(path, rel, opt, res):
                                 (job.orig['c99'], job.orig['nolang'])))
             return
         acc, final, failed = isolate(job, job.cands, budget=opt.get('budget', 400))
+        acc = applied(job, acc, final)
+        if not acc:
+            final = None
         res.stats['trials'] += job.ntrials
         for dc in job.cands:
             c = class_of(dc.tag)
@@ -1539,6 +1554,7 @@ def family_tx(fam, def_path_rel, newdef_text, new_rec, key, db, fx, opt, rule, m
                 res.failed.append((rel, '', 'original unverifiable'))
                 continue
             acc, final, failed = isolate(job, job.cands, budget=opt.get('budget', 400))
+            acc = applied(job, acc, final)
             n_fixed = len(acc)
             fixed += n_fixed
             after += len(job.cands) - n_fixed
@@ -1571,7 +1587,7 @@ def commit_tx(res, out):
             if read_text(os.path.join(ROOT, rel)) != old:
                 return 'file changed under us: ' + rel
             o, n = eol_signature(old), eol_signature(new)
-            if n[0] < o[0] or n[1] < o[1] or n[2] != o[2] or (o[0] == 0 and n[0]) or (o[1] == 0 and n[1]):
+            if n[2] != o[2] or (o[0] == 0 and n[0]) or (o[1] == 0 and n[1]):
                 return 'line ending check failed: ' + rel
         try:
             for rel, (old, new) in res.files.items():
@@ -1697,7 +1713,7 @@ _PORTABLE = pf.BUILTIN | set(pf.STD) | {'*'}
 _WIDTH = {'u8': 1, 's8': 1, 'char': 1, 'u16': 2, 's16': 2, 'short': 2, 'u32': 4, 'int': 4}
 
 
-def pick_type(keys_texts, def_key=None):
+def pick_type(keys_texts, def_key=None, mode='wide'):
     """One type for a position from the declarers' (norm key, text) pairs: the type
     they all use, else the widest integer type when it is unique at that width (a
     caller that passes a narrow value compiles the same against the wider type; the
@@ -1706,9 +1722,23 @@ def pick_type(keys_texts, def_key=None):
     if len(keys) == 1:
         k = next(iter(keys))
         return k, keys_texts[0][1], 'agree'
+    if all('*' in k for k in keys):
+        # pointers: the one specific type among generic ones (void *, char *, u8 *)
+        spec = {k for k in keys if k not in _GENERIC_PTR}
+        if len(spec) == 1:
+            k = next(iter(spec))
+            return k, next(t for kk, t in keys_texts if kk == k), 'specific'
+        return None
     allk = keys | ({def_key} if def_key else set())
     if any(k not in _WIDTH for k in allk):
         return None
+    if mode == 'narrow':
+        low = min(_WIDTH[k] for k in keys)
+        at_low = {k for k in keys if _WIDTH[k] == low}
+        if len(at_low) != 1:
+            return None
+        k = next(iter(at_low))
+        return k, next(t for kk, t in keys_texts if kk == k), 'narrowest'
     top = max(_WIDTH[k] for k in allk)
     at_top = {k for k in keys if _WIDTH[k] == top}
     if len(at_top) != 1 or any(_WIDTH[k] == top and k not in at_top for k in allk):
@@ -1740,7 +1770,7 @@ def key_text(k):
     return re.sub(r'\s*\*', ' *', k).replace('* *', '**').strip()
 
 
-def rule_consensus(fam, fx, db, fi, mm):
+def rule_consensus(fam, fx, db, fi, mm, mode='wide'):
     """Give the definition the types its declarers' original code shows: per
     position, the type every declarer uses, else the widest integer type (pick_type);
     the parameter count every declarer uses, else the largest one when the extra
@@ -1764,17 +1794,20 @@ def rule_consensus(fam, fx, db, fi, mm):
     def portable(t):
         sm = re.match(r'(const\s+)?(struct|union)\s+(\w+)\s*\*+$', t.strip())
         if sm:
-            return re.search(r'%s\s+%s' % (sm.group(2), sm.group(3)), fi.mask[:mm.start()]) is not None
+            if re.search(r'\b%s\s+%s\b' % (sm.group(2), sm.group(3)), fi.mask[:mm.start()]) is None:
+                fwd.add('%s %s;' % (sm.group(2), sm.group(3)))
+            return True
         words = re.findall(r'[A-Za-z_]\w*|\*', t)
         return all(w in _PORTABLE for w in words) and all(
             pf.typedef_state(fi, w, mm.start()) is True for w in words if w in pf.STD)
 
+    fwd = set()       # forward declarations the new types need
     changes = []      # (description, kind, index, text): one unit each, adds and drops grouped
     adds = []
     for i in range(n):
         kt = [(pf.norm_toks(d[2][i][0]), d[4][i][0]) for d in decls if len(d[2]) > i]
         dk = pf.norm_toks(rec['params'][i][0]) if i < len(dps) else None
-        pick = pick_type(kt, dk)
+        pick = pick_type(kt, dk, mode)
         if i >= len(dps):
             if pick is None or not portable(pick[1]):
                 return None, None, 'added parameter %d has no portable type' % i
@@ -1790,16 +1823,19 @@ def rule_consensus(fam, fx, db, fi, mm):
                         t + ('' if t.endswith('*') else ' ') + (pname or 'a%d' % i)))
     if adds:
         changes.append(('add %d parameter(s)' % len(adds), 'add', len(dps), adds))
-    if n < len(dps) and all(len(d[2]) == n for d in decls):
+    if n < len(dps):
+        # every declarer passes at most n arguments: the extra parameters are dummies
+        # when the body never names them (the compile check refuses otherwise)
         changes.append(('drop %d parameter(s)' % (len(dps) - n), 'drop', n, None))
     dret = pf.norm_toks(rec['ret'])
-    rp = pick_type([(pf.norm_toks(d[1]), d[3]) for d in decls], dret)
+    rp = pick_type([(pf.norm_toks(d[1]), d[3]) for d in decls], dret, mode)
     if (rp is not None and rp[0] != dret and 'void' not in (dret, rp[0]) and better_type(dret, rp[0])
             and portable(rp[1])):
         t = key_text(rp[0])
         changes.append(('return %s (%s)' % (t, rp[2]), 'ret', None, t + ('' if t.endswith('*') else ' ')))
     if not changes:
         return None, None, 'no position where the declarers give a portable type'
+    rule_consensus.fwd = sorted(fwd)
     return dps, changes, '%d declarer(s)' % len(decls)
 
 
@@ -1843,6 +1879,85 @@ def get_evidence():
     return _EV
 
 
+_LVALUE = re.compile(r'^[A-Za-z_]\w*(?:\s*(?:->|\.)\s*[A-Za-z_]\w*|\s*\[[^\[\]]*\])*$')
+
+
+def void_value_text(rule, fam, db, fi, mm):
+    """A void definition whose callers all read a value of one type T.  void_tail:
+    the last statement `lhs = expr;` gains `return lhs;`, a last call statement
+    becomes `return call(...);`.  void_entry: a game function (not SDK) whose first
+    parameter is a pointer and whose callers read a pointer returns that parameter.
+    The transaction checks the bytes; the callers decide T.  Returns (text, why)."""
+    rec = db['defs'].get((fi.region, int(fam[1][-8:], 16)), [None])[0]
+    if rec is None or rec['unrep'] or pf.norm_toks(rec['ret']) != 'void':
+        return None, 'definition is not void'
+    decls, why = declarer_protos(fam, _FX, db)
+    if decls is None:
+        return None, why
+    rp = pick_type([(pf.norm_toks(d[1]), d[3]) for d in decls])
+    if rp is None or rp[0] == 'void':
+        return None, 'callers do not read one value type'
+    t = key_text(rp[0])
+    sm = re.match(r'(?:const\s+)?(struct|union)\s+(\w+)', t)
+    if sm and not re.search(r'\b%s\s+%s\b' % sm.groups(), fi.mask[:mm.start()]):
+        return None, 'return type needs %s %s' % sm.groups()
+    for w in re.findall(r'[A-Za-z_]\w*', t):
+        if w in pf.STD:
+            if pf.typedef_state(fi, w, mm.start()) is not True:
+                return None, 'return type needs typedef %s' % w
+        elif w not in pf.BUILTIN and w not in ('struct', 'union') and not (sm and w == sm.group(2)):
+            return None, 'return type %s not portable' % t
+    op = mm.end() - 1
+    cl = matching(fi.mask, op)
+    if cl < 0:
+        return None, 'body unreadable'
+    body = fi.mask[op + 1:cl]
+    end = len(body.rstrip())
+    if end == 0 or body[end - 1] != ';':
+        return None, 'the body does not end with a statement'
+    depth, st = 0, 0
+    for i in range(end - 1):
+        c = body[i]
+        if c in '({[':
+            depth += 1
+        elif c in ')}]':
+            depth -= 1
+        if depth == 0 and c in ';{}':
+            st = i + 1
+    raw_stmt = body[st:end - 1]
+    stmt = raw_stmt.strip()
+    s0 = op + 1 + st + (len(raw_stmt) - len(raw_stmt.lstrip()))
+    ls = fi.raw.rfind('\n', 0, s0) + 1
+    indent = re.match(r'[ \t]*', fi.raw[ls:]).group(0)
+    at = op + 1 + end
+    eol = file_eol(fi.raw, ls)
+    edits = [Edit(mm.start(2), mm.end(2), t + ('' if t.endswith('*') else ' '), fam[1], 'def-ret')]
+    if rule == 'void_tail':
+        am = re.match(r'^(.*?[^=!<>+\-*/%&|^])=(?!=)(.*)$', stmt, re.S)
+        if am and _LVALUE.match(am.group(1).strip()):
+            lhs = re.sub(r'\s+', ' ', fi.raw[s0:s0 + len(am.group(1))].strip())
+            edits.append(Edit(at, at, eol + indent + 'return ' + lhs + ';', fam[1], 'def-return'))
+            why = 'callers read %s: return the assigned %s' % (t, lhs)
+        elif re.match(r'^[A-Za-z_]\w*\s*\(', stmt) and stmt.endswith(')'):
+            edits.append(Edit(s0, s0, 'return ', fam[1], 'def-return'))
+            why = 'callers read %s: return the last call' % t
+        else:
+            return None, 'last statement is neither an assignment nor a call'
+    else:
+        if '_sdk/' in fam[0]:
+            return None, 'SDK function: the vendor prototype decides'
+        ps = split_params(fi.raw[mm.start(4):mm.end(4)])
+        if '*' not in rp[0] or not ps or not rec['params'] or '*' not in pf.norm_toks(rec['params'][0][0] or []):
+            return None, 'not a pointer passed through'
+        _tk, pname, _o = pf.parse_param(ps[0], fi.td)
+        if not pname:
+            return None, 'first parameter has no name'
+        edits.append(Edit(at, at, eol + indent + 'return ' + pname + ';', fam[1], 'def-return'))
+        why = 'callers read %s: return the first argument %s' % (t, pname)
+    text, _a, _d = apply_edits(fi.raw, edits)
+    return text, why
+
+
 def make_newdef(rule, fam, db, subset=None):
     """-> (new definition text, new record, key, why) or (None, None, None, reason)."""
     rel, name = fam
@@ -1853,8 +1968,9 @@ def make_newdef(rule, fam, db, subset=None):
         return None, None, None, 'definition not found'
     key = (fi.region, int(name[-8:], 16))
     ps = split_params(fi.raw[mm.start(4):mm.end(4)])
-    if rule == 'consensus':
-        dps, changes, why = rule_consensus(fam, _FX, db, fi, mm)
+    if rule in ('consensus', 'consensus_narrow'):
+        dps, changes, why = rule_consensus(fam, _FX, db, fi, mm,
+                                           'narrow' if rule == 'consensus_narrow' else 'wide')
         if dps is None:
             return None, None, None, why
         if subset is not None:
@@ -1864,6 +1980,13 @@ def make_newdef(rule, fam, db, subset=None):
         params, ret, what = consensus_text(dps, changes)
         why = '%s: %s' % (why, what)
         text = edit_definition(fi, name, params=params, ret=ret)
+        used = ' '.join(c[3] if isinstance(c[3], str) else ' '.join(c[3] or []) for c in changes)
+        fwd = [f for f in getattr(rule_consensus, 'fwd', []) if re.search(r'\b%s\b' % f[:-1].split()[1], used)]
+        if text is not None and fwd:
+            # struct X; lines go right before the definition's line
+            ls = text.rfind('\n', 0, mm.start()) + 1
+            eol = file_eol(text, ls)
+            text = text[:ls] + ''.join(f + eol for f in fwd) + eol + text[ls:]
     elif rule == 'drop_unread':
         k, why = rule_drop_unread(fam, get_evidence(), db)
         if k is None:
@@ -1881,7 +2004,7 @@ def make_newdef(rule, fam, db, subset=None):
         for k, w in rec['need']:
             if k == 'typedef' and pf.typedef_state(fi, w, mm.start()) is not True:
                 return None, None, None, 'return type needs typedef %s' % w
-            if k in ('struct', 'union') and not re.search(r'%s\s+%s' % (k, w), fi.mask[:mm.start()]):
+            if k in ('struct', 'union') and not re.search(r'\b%s\s+%s\b' % (k, w), fi.mask[:mm.start()]):
                 return None, None, None, 'return type needs %s %s' % (k, w)
         op = mm.end() - 1
         cl = matching(fi.mask, op)
@@ -1896,9 +2019,29 @@ def make_newdef(rule, fam, db, subset=None):
             return None, None, None, 'the call is not the last statement'
         at = op + 1 + parts[0]
         rt = pf.tok_text(rec['ret'])
+        decls, _w = declarer_protos(fam, _FX, db)
+        if decls:
+            cp = pick_type([(pf.norm_toks(d[1]), d[3]) for d in decls])
+            if cp is not None and cp[0] != 'void':
+                ct = key_text(cp[0])
+                csm = re.match(r'(?:const\s+)?(struct|union)\s+(\w+)', ct)
+                ok = not csm or re.search(r'\b%s\s+%s\b' % csm.groups(), fi.mask[:mm.start()])
+                for w in re.findall(r'[A-Za-z_]\w*', ct):
+                    if w in pf.STD and pf.typedef_state(fi, w, mm.start()) is not True:
+                        ok = False
+                    elif w not in pf.STD and w not in pf.BUILTIN and w not in ('struct', 'union') and \
+                            not (csm and w == csm.group(2)):
+                        ok = False
+                if ok:
+                    rt = ct
+                    why += ' (as %s, the type its callers read)' % ct
         edits = [Edit(mm.start(2), mm.end(2), rt + ' ' if not rt.endswith('*') else rt, name, 'def-ret'),
                  Edit(at, at, 'return ', name, 'def-return')]
         text, _a, _d = apply_edits(fi.raw, edits)
+    elif rule in ('void_tail', 'void_entry'):
+        text, why = void_value_text(rule, fam, db, fi, mm)
+        if text is None:
+            return None, None, None, why
     else:
         return None, None, None, 'unknown rule'
     if text is None or text == fi.raw:
@@ -1921,7 +2064,7 @@ def fam_task(args):
             res = family_tx(fam, fam[0], text, rec, key, _DB, _FX, opt, rule)
             out['rows'].append((fam[0], fam[1], rule, 'ok' if res.ok else 'fail', res.before, res.after,
                                 res.fixed, why if res.ok else res.reason))
-            if not res.ok and rule == 'consensus' and '; ' in why:
+            if not res.ok and rule in ('consensus', 'consensus_narrow') and '; ' in why:
                 # all changes together failed: each change alone, best gain wins
                 best = None
                 for k in range(why.count('; ') + 1):
@@ -2253,7 +2396,7 @@ def rule_void_return(fam, ev, db):
     if ro is None:
         return None, 'original bytes unreadable'
     orgs, tails, nret = ro
-    targets = {o[2] & ~1 for o in orgs if o[0] == 'ret'}
+    targets = {o[2] & ~1 for o in orgs if o[0] == 'ret' and o[2] is not None}
     kinds = {o[0] for o in orgs}
     if tails and not orgs and nret == 0:
         targets = set(tails)
@@ -2314,7 +2457,8 @@ def selftest():
     check('cast: binary needs parens', cast_text('u8 *', 'a + 0x3F0') == '(u8 *)(a + 0x3F0)')
     check('cast: unary needs parens', cast_text('u8 *', '*p') == '(u8 *)(*p)')
     check('cast: replaces a pointer cast', cast_text('u8 *', strip_pointer_cast('(char *)(q + off)')) == '(u8 *)(q + off)')
-    check('cast: keeps an integer cast', strip_pointer_cast('(u32)x') == '(u32)x')
+    check('cast: replaces a 32-bit integer cast', strip_pointer_cast('(u32)h') == 'h')
+    check('cast: keeps a narrowing cast', strip_pointer_cast('(u16)x') == '(u16)x')
     check('cast: keeps a cast that scales arithmetic', strip_pointer_cast('(char *)p + 4') == '(char *)p + 4')
     check('pick: unanimous', pick_type([('u16', 'u16'), ('u16', 'unsigned short')], 'u32')[0] == 'u16')
     check('pick: widest integer', pick_type([('u8', 'u8'), ('u32', 'u32')], 'u8')[0] == 'u32')
@@ -2323,6 +2467,11 @@ def selftest():
     check('policy: pointer never becomes an integer', not better_type('u8*', 'int'))
     check('policy: generic pointer becomes specific', better_type('void*', 'struct Foo*'))
     check('policy: specific pointer stays', not better_type('struct Foo*', 'void*'))
+    check('pick: narrowest on request', pick_type([('u8', 'u8'), ('u32', 'u32')], 'u32', 'narrow')[0] == 'u8')
+    check('pick: one specific pointer among generic ones',
+          pick_type([('void*', 'void *'), ('struct Foo*', 'struct Foo *')])[0] == 'struct Foo*')
+    check('pick: two specific pointers is no pick',
+          pick_type([('struct A*', 'struct A *'), ('struct B*', 'struct B *')]) is None)
     check('cast: parenthesised', cast_text('u8 *', '(a + b)') == '(u8 *)(a + b)')
     check('cast: (a)+(b) is not one group', cast_text('int', '(a)+(b)') == '(int)((a)+(b))')
     check('cast: number', cast_text('void *', '0x20') == '(void *)0x20')
