@@ -39,6 +39,16 @@
  *   0x10 as independent (also for a separate global); int[]/struct[] views make f14 independent too (20 B).
  *   AdpcmState member at +0x10 with &d_021B3C84.st as the call argument also gives 10 B (pool word folds to 021B3C94).
  *   Notes: scratchpad wD9r/p2_P2L22/research.md.
+ * pass 3 2026-10-06 P3L11 (38 compiles, 3 rounds): still DIFF 10 B. New facts: (1) one TU struct at 3C84 holding
+ *   the ctx and the 42C0 frames/counters, with `Ctx42C0 *w = &big.w` for the 42C0 side, puts both reset blocks in
+ *   original order (frame and ctx in one object: unknown frame offset vs ctx+8 is a same-object alias), but the
+ *   backend then drops the first `f8CC = f4` store and swaps str f8D4/cmp (72 B). Keeping that store needs the id
+ *   load to alias (id inside the struct: 12 B, but d_021B60D8 is used by many other TUs and TU B's bss ends at
+ *   4B98, so not plausible). (2) volatile flags, opt_pointer_analysis off (on segfaults the compiler),
+ *   c99_alias_by_type, opt_scalarize/decomposeaggregates, scheduling off, static/defined globals, `f = 0` init,
+ *   inline helpers under opt_propagation off, named `u32 *req`, 0F38 Frame layout: all 10 B or worse.
+ *   Open lead: a frame pointer the ARM backend cannot trace, still emitted as add r8, r6, r0 from the shared pool.
+ *   Notes: scratchpad wD9r/p3_P3L11/research.md.
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
  *   d_021B3C84  0x021B3C84  data  ov013  a4
