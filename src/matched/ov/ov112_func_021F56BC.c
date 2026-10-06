@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
  * note (2026-10-04, wave D3 lane 03): first complete structural draft, not tuned.
  *   Listing extent 021F56BC..021F5EDC (2080 bytes), frame 0x254, mid pool at 021F5A24
@@ -334,7 +334,6 @@
  *   promoted aggregates, then code-order webs flag/pr/cos with the head j*8 first when not strength reduced, then
  *   strength-reduced j*8, then load-deletion temps, then b*0x14, then second webs of reused ints).  The original
  *   needs j*8 between pr and cos, which no tested source form produces.
- * symbols:
  * note (pass 6 2026-10-06 P6L10): residue unchanged at 5 bytes; the body is unchanged.  4 real compiles plus about 25
  *   traced compiler runs (tools in scratchpad wD9r/p6_P6L10).  FX_SinIdx/FX_CosIdx inlines (`T[((idx >> 4) << 1)]`, + 1):
  *   5 B, the parameter is propagated before the first CSE and cos stays a first-run temp.  The b*0x14 split at the first
@@ -363,6 +362,15 @@
  *   the two CSE runs), or j*8 named in the first run between the s2 read and the rz cos read.  No such form found:
  *   a pr2 copy is removed before the first run (5 B), a second pr = pose.rot reloads pose (653 B).  The same 5 B with
  *   dsi 1.1 to 1.6sp2; the hidden opt_* pragmas tested have no effect.
+ * note (pass 6 2026-10-06 P6L12): EXACT (c99 and c).  The residue was the declaration-order ranking of named
+ *   spill webs, not CSE timing.  Measured with the temp tracer: named locals take spill slots in declaration order,
+ *   above all compiler temps.  Three changes together give the original slots (flag 3C, pr 38, j*8 34, cos 30):
+ *   (1) `long j` (NitroSDK s32): j*8 becomes a first-run CSE temp at the k preheader, above cos;
+ *   (2) the func_021F5EDC prototype takes the flag as `u8` (the matched callee is EXACT with `u8 mode` as well),
+ *   so the u8 flag is passed without a widening cast and keeps its own named web (no CAST(flag) temp);
+ *   (3) C89-style function-scope declarations: the k-loop ints (ang, fx, ... rz) before `u8 flag`, then `int pr`.
+ *   With int pr and the u8 flag named, declaration order places ang/fx/X, flag, pr in the original order.
+ * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
  *   func_02082B60 0x02082B60 arm
@@ -476,7 +484,7 @@ extern void func_0207CA00(void *a, void *b, void *c);
 extern void func_021F660C(Vec *p, void *m, Vec *out, int *w);
 extern void func_021F65EC(void);
 extern void func_021F5EDC(char *obj, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, Pose *q, Pose *r,
-                          int j, int flag, int *w, int h);
+                          int j, int flag, int *w, u8 h);
 
 typedef struct { u32 b0 : 1; u32 rest : 31; } Bits;
 typedef struct { u32 b0 : 1; u32 b1 : 1; u32 b2 : 1; u32 rest : 29; } Bits3;
@@ -564,13 +572,16 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
     CB cb;
     Ent *ent;
     TexInfo *attr;
-    int i, j;
+    int i;
+    long j;
     char **srcs;
     u8 k;
     char *obj;
     char *ctrl;
     int ox, oy;
+    int ang, fx, fz, c, s, X, Z, s2, rx, rz;
     u8 flag;
+    int pr;
 
     REG(0x04000444) = 0;
     REG(0x04000440) = 0;
@@ -676,8 +687,7 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
                           &sub, &pose, j, ((Bits *)&p[2])->b0, &cb.z, flag);
             for (k = 0; k < 8; k++) {
                 u8 b = ent->parts[k];
-                int ang, fx, fz, c, s, X, Z, s2, rx, rz;
-                u16 pr;
+
                 s64 psx, psy;
                 if (b == 0xFF)
                     break;
