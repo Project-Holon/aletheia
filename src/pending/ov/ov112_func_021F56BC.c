@@ -305,6 +305,20 @@
  *   alias at the head or in the k loop gives the SR-off row (6 B).  Reading: a reused variable's second web ranks
  *   below every optimizer temp, a first named web ranks in the named band, so cos in the original is a temp made
  *   after the SR-created j*8 web and before b*0x14; no source form found that delays the cos CSE that way.
+ * note (pass 4 2026-10-06 P4L03): residue unchanged at 5 bytes; the body is unchanged.  40 real compiles.
+ *   Same 5 B: RotA/RotB inlines with cos as a parameter and `Z * c`; a `const s16 *sc` pair pointer with
+ *   `Z * sc[1]` (with or without s2); `s16 sc[2]` with `Z * sc[1]`; rx/rz as `int r[2]` (const or non-const
+ *   table); `register` on pr or j.  Long-j row (6 B, flag 3C, j*8 38, pr 34, cos 30): u16 pr reused at
+ *   function scope for either G3 angle; s2 read above the X/Z reads (77 B, same slots); the head .h read as
+ *   a byte offset `j * 8 + 6` or `(j << 3) + 6` (merged under long j); `u16 pr = 0;` initialisers.  Long j
+ *   plus int pr with `pr >>= 4`: 9 B (pr 3C, flag 38); with u16 pr: 10 B (pr 3C, lsrs).  Long j plus int pr
+ *   reused for the obj+0xFC G3 angle: 18 B (pr 0x48).  `int sc[2]` for s2/cos: 14 B (the array-to-register
+ *   web takes 0x3C above flag).  Worse: `pr / 16` (15 B all reads, 656 B rz only), a {s, c} struct copied
+ *   from the table (576 B), one cos read as a char* byte offset (495/504 B: the table load is never merged
+ *   after CSE0), opt_propagation off (1898 B), opt_common_subs off (1438 B).  Reading (research in the lane
+ *   folder): the global table load is merged only by the first CSE, so cos is always numbered before the SR
+ *   j*8 web; without SR on j, j*8 is numbered at the j-loop head, before the k-top pr.  The original order
+ *   (flag, pr, j*8, cos) needs one of the two moved, and no source form found does that.
  * symbols:
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
