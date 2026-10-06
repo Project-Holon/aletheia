@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * note 2026-10-05 (lane P9): first draft, no source existed. DIFF, 1024 vs 1004 bytes.
  *   Structure matches the listing (loops, tail, callee arguments). Separate locals
  *   for rect/pos/cur (not one struct) give the right heap/index prologue; a static
@@ -66,6 +66,13 @@
  *   stays); callee prototypes re-grepped in src/matched (all match the draft). Without the
  *   pragma and with direct r.b[0]/r.b[1] reads (like matched 021DB938) the slots all match but
  *   both /3 and %3 are hoisted (84); `(u8)k` inline, `cols = 3` local did not stop the hoist.
+ * note pass 2 2026-10-06 P2L41: EXACT (c99 and c). Closed with `#pragma opt_lifetimes off` (beside
+ *   opt_loop_invariants off), one tile local per loop (tile, tile2, tile3, like y/y2/y3), x declared
+ *   before rx, int ry passed straight to func_020413B0 with the u32 x/y prototype used by matched
+ *   callers (ov217 021BA284, ov088 021BB810). Under lifetimes off the colour order follows degree
+ *   then declaration order: per-loop tiles make the tiles drop out first, then rx, then x, giving
+ *   x r4, rx r5, tile r6. Passing ry (not r.b[1]) keeps ry itself as the spilled web, so it takes
+ *   the slot after k (sp+0x1c) and index takes sp+0x18.
  * symbols:
  *   d_021DF86E 0x021DF86E data ov121 a2
  *   d_021DF86F 0x021DF86F data ov121 a1
@@ -108,7 +115,7 @@ extern const u8 d_021DF86F[];
 struct Descriptor;
 struct CharBuf;
 extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
-extern void func_020413B0(u32,u8,u8,u8,u8,u8);
+extern void func_020413B0(u32,u32,u32,u8,u8,u8);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
@@ -134,6 +141,7 @@ extern int func_021DC004(void *);
 extern int func_021DC024(void *);
 extern int func_021DC03C(void *);
 #pragma opt_loop_invariants off
+#pragma opt_lifetimes off
 void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
 {
     void *obj;
@@ -143,7 +151,8 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     int y, y2, y3;
     int m;
     const Rect *src;
-    int k, ry, rx, x, yy, tile;
+    int k, ry;
+    int x, rx, yy, tile, tile2, tile3;
     s16 dx, dy;
     void *dsc;
     Rect r;
@@ -179,9 +188,9 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         do {
             x = 0;
             yy = ry + y2;
-            tile = y2 * 32 + 384;
+            tile2 = y2 * 32 + 384;
             do {
-                func_02041300(3, (u16)(x + tile), (u8)(rx + x), (u8)yy, 1, 1, 3);
+                func_02041300(3, (u16)(x + tile2), (u8)(rx + x), (u8)yy, 1, 1, 3);
                 x++;
             } while (x < 12);
             y2++;
@@ -194,14 +203,14 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     do {
         x = 0;
         yy = ry + y3;
-        tile = y3 * 32 + 0x40;
+        tile3 = y3 * 32 + 0x40;
         do {
-            func_02041300(3, (u16)(x + tile), (u8)(rx + x), (u8)yy, 1, 1, 5);
+            func_02041300(3, (u16)(x + tile3), (u8)(rx + x), (u8)yy, 1, 1, 5);
             x++;
         } while (x < 12);
         y3++;
     } while (y3 < 7);
-    func_020413B0(3, r.b[0], r.b[1], 12, 7, (u8)func_021DC03C(tab + off));
+    func_020413B0(3, r.b[0], ry, 12, 7, (u8)func_021DC03C(tab + off));
     dsc = func_021DBF08(tab + off);
     func_02043814(dsc, func_02045770(*(void **)(p + 0xb08 + idx * 4)));
     func_02045334(*(void **)(p + 0xb08 + idx * 4));
@@ -247,5 +256,5 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         func_0204B404(*(void **)(p + 0xaf0), &cur, 0);
     }
 }
-#pragma opt_loop_invariants reset
+#pragma opt_lifetimes reset
 #pragma opt_loop_invariants reset
