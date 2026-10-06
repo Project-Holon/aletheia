@@ -8,7 +8,7 @@
  * lang: c99
  * isa: arm
  * status: EXACT
- * held 2026-10-06 (integrator): EXACT with volatile f0 fields, held for the user. volatile is on the banned list unless there is a human reason (here: f0 may be shared with the mic callback). The lane also found it by sweeping store orders and volatile subsets.
+ * note 2026-10-06 (integrator): volatile f0 fields accepted by the user (f0 is a flag shared with the mic callback).
  * lever: the f0 flag words of both state structs are volatile. Two volatile stores keep their order
  *   against each other, which places the d_021B3C50 pool load after the first d_021B4C2C store.
  *   All 120 plain store orders stay at 2 B or more; int/unsigned/pointer types and chained stores
