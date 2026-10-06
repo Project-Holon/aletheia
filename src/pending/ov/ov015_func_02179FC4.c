@@ -47,13 +47,26 @@
  *           K&R prototype, IRC_IsConnect inline guard, Raw second view for the flag. Worse: u8 cmd at function top (33,
  *           but the block order is then exactly the original), memset (79), init array (47), St *s pointer forms (20-22).
  *           Asm search: the sequence add r0,sp / mov r1 / global store / stack store / bl occurs only here.
+ *           pass 4 2026-10-06 P4L06 (34 compiles, 3 rounds): no gain, best stays 12/80 (body unchanged). Found the
+ *           vendor source: sdk/TwlSDK/add-ins/irc/lib/ARM9-TS/Release/libirc.a(irc.o) has IRC_Connect with DWARF.
+ *           Lines: 158 isSender = TRUE; 160 OS_Printf("IRC_Connect ..."); 163 u8 command = 0x56 (C99 mixed
+ *           declaration, local at fbreg 0); 164 IRCi_Write(&command, 1); 166 isTry = TRUE; 167 timeout =
+ *           OS_GetTick(). With the OS_Printf call our 1.1p1 rebuilds the library bytes exactly. The game build has no
+ *           print (FINALROM empty macro; IRC_InitCommon and IRCi_Shutdown in the game are the library code minus
+ *           the print calls). That faithful shape (two early-return guards, mixed declaration, no print) is 14 off,
+ *           and so are ((void)0), do {} while (0), (void)"...", an empty inline print, opt_dead_code off,
+ *           common_subs/propagation off, file statics with -ipa file, --lang c/c++, -proc v5te/arm926ej, and every
+ *           dsi compiler 1.1 to 1.6sp2 at -O2 to -O4. A list-scheduler model fitted to five of our outputs gives the
+ *           original order for this graph only with a longer argument-to-call latency, so the game's irc.o likely
+ *           comes from a compiler build or source revision we do not have. If a fix is wanted, file the vendor
+ *           shape (14) as the honest source; the 12-off body below is a named-pointer construct.
  *
  * symbols:
  *   func_0217A8EC  0x0217A8EC  arm    ov015
  *   OS_GetTick     0x020870D0  arm
  *   d_0217ABA8     0x0217ABA8  data   ov015
+ * integrator 2026-10-06: body switched to the vendor-confirmed shape (irc.o IRC_Connect DWARF: `u8 command = 0x56; IRCi_Write(&command, 1);` with the print macro empty), 14 B; the 12 B pointer form is a construct and is kept only in p4_P4L06/v15.
  */
-
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct {
@@ -66,22 +79,14 @@ typedef struct {
 extern St d_0217ABA8;
 extern void func_0217A8EC(unsigned char *data, unsigned char size);
 extern u64 OS_GetTick(void);
-
 #pragma opt_lifetimes off
-#pragma opt_propagation off
 void func_02179FC4(void)
 {
-    unsigned char buf[1];
-    unsigned char *p;
-
     if (d_0217ABA8.f24 == 0 && d_0217ABA8.f1C == 0) {
-        p = buf;
         d_0217ABA8.f1C = 1;
-        p[0] = 0x56;
-        func_0217A8EC(p, 1);
+        unsigned char command = 0x56;
+        func_0217A8EC(&command, 1);
         d_0217ABA8.f20 = 1;
         d_0217ABA8.tick = OS_GetTick();
     }
 }
-#pragma opt_propagation reset
-#pragma opt_lifetimes reset
