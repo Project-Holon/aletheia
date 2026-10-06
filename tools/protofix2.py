@@ -1894,6 +1894,14 @@ def rule_consensus(fam, fx, db, fi, mm, mode='wide'):
         pick = pick_type(kt, dk, mode)
         if i >= len(dps):
             if pick is None or not portable(pick[1]):
+                pick = majority_type(kt)
+                if pick is not None and not portable(pick[1]):
+                    pick = None
+                if pick is None and kt and all('*' in k for k, _t in kt):
+                    pick = ('void*', 'void *', 'unread, generic pointer')
+                if pick is None and kt and all('*' not in k for k, _t in kt):
+                    pick = ('int', 'int', 'unread, int')
+            if pick is None:
                 return None, None, 'added parameter %d has no portable type' % i
             pname = next((d[4][i][1] for d in decls if len(d[2]) > i and d[4][i][1]), '') or 'a%d' % i
             t = key_text(pick[0])
@@ -2050,6 +2058,106 @@ def void_value_text(rule, fam, db, fi, mm):
     return text, why
 
 
+_RET_STMT = re.compile(r'\breturn\b\s*([^;]*);')
+
+
+def void_chain_text(fam, db, fi, mm):
+    """Every declarer declares the function void but the definition returns a value:
+    usually the leftover of a void callee passed on (`a0 = f(a0); return a0;`).  The
+    definition becomes void: `x = call(...);` of a void callee loses the assignment,
+    `return call(...);` becomes the call, `return name;` / `return const;` go.
+    The transaction checks the bytes.  Returns (text, why) or (None, reason)."""
+    rec = db['defs'].get((fi.region, int(fam[1][-8:], 16)), [None])[0]
+    if rec is None or rec['unrep'] or pf.norm_toks(rec['ret']) == 'void':
+        return None, 'definition is void'
+    decls, why = declarer_protos(fam, _FX, db)
+    if decls is None:
+        return None, why
+    if any(pf.norm_toks(d[1]) != 'void' for d in decls):
+        return None, 'a declarer reads a value'
+    op = mm.end() - 1
+    cl = matching(fi.mask, op)
+    if cl < 0:
+        return None, 'body unreadable'
+    body = fi.mask[op + 1:cl]
+    edits = [Edit(mm.start(2), mm.end(2), 'void ', fam[1], 'def-ret')]
+    last_end = len(body.rstrip())
+    for rm in _RET_STMT.finditer(body):
+        e = rm.group(1).strip()
+        a, b = op + 1 + rm.start(), op + 1 + rm.end()
+        is_last = rm.end() == last_end
+        if not e:
+            continue
+        if re.match(r'^[A-Za-z_]\w*\s*\(', e) and e.endswith(')'):
+            new = fi.raw[op + 1 + rm.start(1):op + 1 + rm.end(1)].strip() + ';' + ('' if is_last else ' return;')
+        elif re.match(r'^(?:[A-Za-z_]\w*|-?(?:0[xX][0-9A-Fa-f]+|\d+)[uUlL]*)$', e):
+            new = '' if is_last else 'return;'
+        else:
+            return None, 'return of an expression: %s' % e[:40]
+        if new == '':
+            # drop the whole line when it holds only this statement
+            ls = fi.raw.rfind('\n', 0, a) + 1
+            le = fi.raw.find('\n', b)
+            if fi.raw[ls:a].strip() == '' and le >= 0 and fi.raw[b:le].strip() == '':
+                a, b = ls, le + 1
+        edits.append(Edit(a, b, new, fam[1], 'void-chain'))
+    # assignments from void callees inside the body
+    for am in re.finditer(r'([A-Za-z_]\w*)\s*=\s*([A-Za-z_]\w*)\s*\(', body):
+        cr, st = pf.find_callee(db, fi, am.group(2))
+        if cr is None or cr['unrep'] or pf.norm_toks(cr['ret']) != 'void':
+            continue
+        edits.append(Edit(op + 1 + am.start(), op + 1 + am.start(2), '', fam[1], 'void-chain'))
+    text, _a, _d = apply_edits(fi.raw, edits)
+    if text is None:
+        return None, 'overlapping edits'
+    return text, 'every declarer is void: the definition passes no value'
+
+
+def cast_collapse_text(fam, db, fi, mm):
+    """A parameter typed generically (int, u32, void *, char *, u8 *) whose every use
+    in the body is a cast to one struct pointer `(struct X *)p` becomes `struct X *p`
+    and the casts go.  Returns (text, why) or (None, reason)."""
+    op = mm.end() - 1
+    cl = matching(fi.mask, op)
+    if cl < 0:
+        return None, 'body unreadable'
+    body = fi.mask[op + 1:cl]
+    ptxt = fi.raw[mm.start(4):mm.end(4)]
+    ps = split_params(ptxt)
+    edits, done = [], []
+    pos = mm.start(4)
+    for p in ps:
+        i0 = fi.raw.find(p, pos)
+        pos = i0 + len(p)
+        tk, pname, opq = pf.parse_param(p, fi.td)
+        if opq is not None or not pname or not tk:
+            continue
+        k = pf.norm_toks(tk)
+        if k not in ('int', 'u32', 'void*', 'char*', 'u8*', 's32'):
+            continue
+        uses = [u.start() for u in re.finditer(r'(?<![\w.>])%s(?![\w])' % re.escape(pname), body)]
+        if not uses:
+            continue
+        cast_re = re.compile(r'\(\s*\(\s*(struct\s+\w+)\s*\*\s*\)\s*%s\s*\)|\(\s*(struct\s+\w+)\s*\*\s*\)\s*%s(?![\w])'
+                             % (re.escape(pname), re.escape(pname)))
+        casts = list(cast_re.finditer(body))
+        tags = {re.sub(r'\s+', ' ', c.group(1) or c.group(2)) for c in casts}
+        covered = sum(1 for u in uses if any(c.start() <= u < c.end() for c in casts))
+        if len(tags) != 1 or covered != len(uses):
+            continue
+        tag = tags.pop()
+        edits.append(Edit(i0, i0 + len(p), '%s *%s' % (tag, pname), fam[1], 'cast-collapse'))
+        for c in casts:
+            edits.append(Edit(op + 1 + c.start(), op + 1 + c.end(), pname, fam[1], 'cast-collapse'))
+        done.append('%s -> %s *' % (pname, tag))
+    if not done:
+        return None, 'no parameter used only through one struct cast'
+    text, _a, _d = apply_edits(fi.raw, edits)
+    if text is None:
+        return None, 'overlapping edits'
+    return text, 'parameter typed by its only use: ' + ', '.join(done)
+
+
 def make_newdef(rule, fam, db, subset=None):
     """-> (new definition text, new record, key, why) or (None, None, None, reason)."""
     rel, name = fam
@@ -2130,6 +2238,14 @@ def make_newdef(rule, fam, db, subset=None):
         edits = [Edit(mm.start(2), mm.end(2), rt + ' ' if not rt.endswith('*') else rt, name, 'def-ret'),
                  Edit(at, at, 'return ', name, 'def-return')]
         text, _a, _d = apply_edits(fi.raw, edits)
+    elif rule == 'void_chain':
+        text, why = void_chain_text(fam, db, fi, mm)
+        if text is None:
+            return None, None, None, why
+    elif rule == 'cast_collapse':
+        text, why = cast_collapse_text(fam, db, fi, mm)
+        if text is None:
+            return None, None, None, why
     elif rule in ('void_tail', 'void_entry'):
         text, why = void_value_text(rule, fam, db, fi, mm)
         if text is None:

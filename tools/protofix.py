@@ -494,6 +494,34 @@ def build_db(cache=None, jobs=6):
 NON_OVERLAY = ('arm9', 'twl', 'arm9_autoload0_ITCM')
 
 
+_SHARD_SRC = None
+
+
+def shard_sources():
+    """{(region, address): source path} of every EXACT/EXACT* shard entry: the file
+    the verification records name for that function."""
+    global _SHARD_SRC
+    if _SHARD_SRC is None:
+        import glob
+        import json
+        _SHARD_SRC = {}
+        for sp in glob.glob(os.path.join(ROOT, 'layout', 'matched', '*', '*.json')):
+            try:
+                with open(sp, encoding='utf-8') as f:
+                    d = json.load(f)
+            except Exception:
+                continue
+            for e in d.get('functions', []):
+                if not isinstance(e, dict) or not str(e.get('status', '')).startswith('EXACT'):
+                    continue
+                try:
+                    a = int(str(e.get('address')), 16)
+                except ValueError:
+                    continue
+                _SHARD_SRC.setdefault((e.get('region') or d.get('region'), a), e.get('source'))
+    return _SHARD_SRC
+
+
 def find_callee(db, fi, name):
     """-> (rec or None, status)."""
     sym = fi.h['symbols'].get(name)
@@ -515,7 +543,12 @@ def find_callee(db, fi, name):
     if len(regs) > 1:
         return None, 'ambiguous region'
     if len(cands) > 1:
-        return None, 'ambiguous duplicate definitions'
+        # two files define the function: the one its verification record names wins
+        src = shard_sources().get((regs[0], addr)) if regs else None
+        pick = [d for d in cands if d['file'] == src]
+        if len(pick) != 1:
+            return None, 'ambiguous duplicate definitions'
+        cands = pick
     rec = cands[0]
     if rec['file'] == fi.rel:
         return None, 'self'
