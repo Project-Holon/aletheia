@@ -105,7 +105,7 @@ extern void func_0204047C(int idx, unsigned short val);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207FDCC(u32 a);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern u32 func_02188C64(u8 *p);
 extern int func_021A01A4(u32 a, u32 b);
 extern void func_021C2320(int a, char *p, char *q, int d);

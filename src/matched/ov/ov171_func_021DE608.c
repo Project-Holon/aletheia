@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef signed int     s32;
 extern s16 func_0203F6D8(s32 x);
-extern int func_0203F684(u16);
+extern short func_0203F684(unsigned short x);
 typedef unsigned char  u8;
 extern void func_021DE0C0(u8 *p, int i, int x, int y);
 void func_021DE608(char *p, int i, int angle)

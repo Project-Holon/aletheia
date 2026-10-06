@@ -31,7 +31,7 @@ extern u32 func_020111E8(void);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02049238(unsigned char *);
 extern void func_020409B4(u32 index);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021B9788(unsigned short *p)
 {
     unsigned char *q = func_020490F4(0xdc, *p);

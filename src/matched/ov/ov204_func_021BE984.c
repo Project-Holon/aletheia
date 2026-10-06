@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct S { u8 pad[0xA8]; u8 data[4096]; };
 extern void func_020411E8(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041B6C(u32);
 int func_021BE984(struct S *p,u32 *q)
 {

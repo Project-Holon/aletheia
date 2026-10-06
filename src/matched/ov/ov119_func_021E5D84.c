@@ -18,7 +18,7 @@
  */
 #include "../include/Obj00001.h"
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);

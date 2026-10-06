@@ -36,7 +36,7 @@ extern void func_020409B4(u32);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *);
 void func_021F92CC(u8 *p)
 {

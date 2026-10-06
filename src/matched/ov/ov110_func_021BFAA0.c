@@ -26,7 +26,7 @@ typedef enum { WINDOW_NONE=0, WINDOW_0=1, WINDOW_1=2, WINDOW_OBJ=4 } Window;
 extern void func_021BAD2C(u8 *,int);
 extern void func_0207D63C(void *,int,int,int,int);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021BC868(u8 *p, int a, int b, int start, int end, int frames);
 static inline void inside(Plane wnd,BOOL effect) {
     unsigned tmp=(*(volatile u16 *)0x04000048 & ~0x3f00) | ((unsigned)wnd<<8);

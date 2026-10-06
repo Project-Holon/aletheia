@@ -44,7 +44,7 @@ extern void func_02049238(void *);
 extern u32 func_0202DA48(u32,u32,u32,u32);
 typedef signed int     s32;
 extern s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int func_0202DA6C(int,int,int,int);
+extern int func_0202DA6C(int a0, int a1, int a2, unsigned short a3);
 void func_021BC454(char *p,u32 handle)
 {
     Config a,b;

@@ -68,7 +68,7 @@ extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021DD3D8(void *,void *);
 extern void func_021DD1A4(void *a0, void *work);
 extern void *func_020056A0(u32,u32,u32);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *);
 extern void func_021DD2E0(u8 *,void *),func_021DD4A8(u8 *,void *),func_021DD5AC(u8 *),func_021DD638(u8 *);
 extern void func_021DCB78(u32 a);

@@ -94,7 +94,7 @@ extern u32 func_0217E2C0(int unused, int a);
 extern int func_0217E2F8(u8 *p, const void *q);
 extern int func_0217E1B8(int *);
 extern int func_0217E1C0(int *);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0217D1C8(char *,int);
 extern int func_0217D238(u8 *);
 extern u32 func_0200AE54(struct Reg *p, u32 id);

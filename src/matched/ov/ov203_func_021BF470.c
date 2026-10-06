@@ -35,7 +35,7 @@ extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0201F614(int a, u32 x);
 extern void func_02082BCC(void *,int,int);
 extern void func_0204047C(int,unsigned short);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021BF470(char *p)
 {
     if(*(void **)(p+0x20)) func_0201CE48(*(void **)(p+0x20));

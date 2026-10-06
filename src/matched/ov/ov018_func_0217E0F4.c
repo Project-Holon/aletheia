@@ -86,7 +86,7 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 func_0204B714(struct Obj *o);
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern const s8 d_021836A4[3][2];
 
 void func_0217E0F4(Work *p, Mon *m)

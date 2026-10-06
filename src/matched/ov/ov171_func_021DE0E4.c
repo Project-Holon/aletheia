@@ -24,7 +24,8 @@ typedef signed short s16;
 
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 
 void func_021DE0E4(u8 *obj, int i, s16 *out1, s16 *out2)
 {

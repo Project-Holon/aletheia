@@ -32,7 +32,7 @@ extern void func_021E1024(void *);
 extern void func_021E1030(char *p);
 typedef unsigned char  u8;
 extern void func_021DFD30(u8 *p, u32 v);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_021D8E84(void *,int);

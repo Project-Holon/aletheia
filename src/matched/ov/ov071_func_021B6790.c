@@ -27,7 +27,7 @@ struct WordSet;
 void func_021B6790(int *p)
 {
     void func_0201DD78(u32 r, u32 g, u32 b);
-    struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+    struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
     struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
     u32 func_0201C440(void *p);
     struct WordSet *func_0201EC64(u32 heap);

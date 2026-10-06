@@ -45,7 +45,8 @@ typedef struct {
 extern void func_0204B09C(int a, int b, P *c);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *h, struct PtS *out, unsigned int k);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 extern void func_0204B3DC(struct Obj *h, unsigned int v);
 

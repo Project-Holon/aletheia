@@ -82,7 +82,7 @@ typedef signed short s16;
 extern void func_02206AF8(char *p);
 extern void func_022043C0(Main *, int, int, int, int);
 extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_02203C2C(void *task, Ctx *c)
 {
     switch (c->state) {

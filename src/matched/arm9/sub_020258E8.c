@@ -32,7 +32,7 @@ struct Obj02025774 {
     u16           space;
 };
 
-extern void sub_0204B454(struct Actor *actor, struct PtS *out, u32 space);
+extern void sub_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 
 void func_020258E8(struct Obj02025774 *p, s16 *out_x, s16 *out_y)
 {

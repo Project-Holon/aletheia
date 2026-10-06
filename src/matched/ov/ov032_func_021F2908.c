@@ -37,7 +37,7 @@ struct Tcbl;
 struct U16Vec;
 struct WordSet;
 extern void func_021F2664(int a, char *p);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_020056A0(void *fn, void *ctx, u32 a);
 struct PalAnmSlot;
 struct PrintSys;

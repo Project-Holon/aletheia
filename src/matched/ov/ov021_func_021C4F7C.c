@@ -97,7 +97,7 @@ extern void func_021C53A0(int *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, int 
 extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 
 char *func_021C4F7C(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
 {

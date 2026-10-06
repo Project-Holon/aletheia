@@ -36,7 +36,7 @@ typedef struct {int x,y;} Pair;
 extern void func_02082BCC(void *,int,int);
 extern void *func_02049EB4(u32,u32,u32,u32,u32);
 extern void func_02040AE0(u32,const void *,u32);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020409B4(u32);
 extern void func_021F19A0(u8 *,void *,void *,u32);
 struct Descriptor;

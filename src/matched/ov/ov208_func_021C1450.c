@@ -53,7 +53,7 @@ struct Vec2;
 struct Vec3;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern u16 func_021BBB3C(char *, int, int);
 extern void func_021C0CCC(u16 *heap, u8 *p, int key);
 extern u8 func_021C0D5C(void *unused, char *p, int unused2, u8 x, u8 y);

@@ -38,7 +38,7 @@ extern void func_021B7A68(void *a, void *b);
 extern void func_021B7B10(int *a, char *b);
 extern void func_021B7BD8(void *p, int a);
 extern int func_021B7014(int *, const int *, int);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern const char d_021BA8A0[];
 

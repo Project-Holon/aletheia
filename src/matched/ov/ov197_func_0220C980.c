@@ -49,7 +49,7 @@ typedef unsigned int   u32;
 struct PalAnmSlot;
 struct Tcbl;
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern struct Tcbl *sub_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u8 *func_0220AF40(u16 v);
 extern void func_0220D5C0(char *),func_0220D6DC(char *),func_0220D798(char *);
 extern void func_0220BB78(char *);

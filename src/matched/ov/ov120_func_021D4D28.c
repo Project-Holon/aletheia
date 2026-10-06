@@ -52,7 +52,7 @@ extern int func_02035C08(const void *p);
 extern const u32 d_021D88D0[];
 extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D7EC4(u8 *p);
 extern void func_021D68C4(u8 *);
 extern void func_02028148(u8 *p);

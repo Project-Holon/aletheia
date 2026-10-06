@@ -60,7 +60,7 @@ extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 struct Actor;
 struct Node;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B800(struct Node *node, u32 val);
 extern void func_0204B84C(struct Obj *, u32);
 extern int func_021BA0AC(s16 *pos, int *size, u16 a, u16 b, u8 c, u8 d, u8 e, u8 f, u32 duration, u8 amplitude, u32 time);

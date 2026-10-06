@@ -29,7 +29,7 @@ extern void func_0203D7B0(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_021D846C(u8 *);
 extern void func_021D63F4(u8 *p, int flag, int mode);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D761C(u8 *p);
 extern void func_021D7B38(char *p);
 extern void func_021D883C(char *);

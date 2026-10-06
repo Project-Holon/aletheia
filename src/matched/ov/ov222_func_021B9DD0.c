@@ -26,7 +26,8 @@ struct Actor;
 struct Obj;
 struct PtS;
 struct Vec2;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B9DD0(char*p)
 {

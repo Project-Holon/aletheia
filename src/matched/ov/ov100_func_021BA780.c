@@ -65,7 +65,8 @@ extern void func_021BAA9C(int a);
 extern void func_021B96EC(char *);
 extern void func_021B974C(int,int,int,int,int);
 extern void func_021B95B8(u8 *p, u32 v);
-extern int func_0201EC74(u32,u32,u32);
+struct WordSet;
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -92,7 +93,7 @@ void func_021BA780(char *p) {
  void *resource;
  int i;
  func_0201DD68();
- ((struct Obj00178 *)p)->f28C=func_0201EC74(11,200,((struct Obj00178 *)p)->f278);
+ ((struct Obj00178 *)p)->f28C=(int)func_0201EC74(11,200,((struct Obj00178 *)p)->f278);
  func_021BA624((unsigned int)p);func_021BA028(p);
  ((struct Obj00178 *)p)->f298=(int)func_020457B0(200,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f294=(int)func_020457B0(200,((struct Obj00178 *)p)->f278);

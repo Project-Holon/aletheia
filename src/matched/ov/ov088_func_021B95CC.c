@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_0204363C(u32 swap);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_020434DC(u32 mask, u32 enable);
 struct Obj11245;

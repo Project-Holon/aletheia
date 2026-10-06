@@ -15,7 +15,7 @@
  */
 typedef struct { char pad[0x44]; int state; char pad48[4]; unsigned char a,b,c; char pad4f[0x1b4-0x4f]; int delta; } State;
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 struct S;
 extern void func_021BBE34(struct S *p, int v);

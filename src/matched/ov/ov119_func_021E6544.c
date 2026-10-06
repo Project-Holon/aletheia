@@ -23,7 +23,8 @@ typedef struct { int x,y,z; } T;
 typedef struct { T a,b,c,d,e; int i,n; } S;
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern int func_0207C7B4(int);
 extern void func_021E7248(S *,T *,T *,T *,T *,int);
 static inline int mul(int a,int b) { return (int)(((s64)a*b+0x800LL)>>12); }

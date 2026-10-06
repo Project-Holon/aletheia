@@ -45,7 +45,7 @@ extern u32 func_021D9A30(char *);
 extern void func_021D8EC8(u32 sys, int *state, char *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
 extern void func_021D9090(u32 sys, int *state, char *p);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D98E4(u32 *p, int mode);
 extern void func_021D99F4(char *);
 extern int func_021D9A08(char *);

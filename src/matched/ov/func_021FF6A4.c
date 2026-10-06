@@ -89,7 +89,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_021F4EA0(u32 a, u32 b, u32 c);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *obj, struct PtS *out, unsigned int c);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 
 void func_021FF6A4(Obj *p)
 {

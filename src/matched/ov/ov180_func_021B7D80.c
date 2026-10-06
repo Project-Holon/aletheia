@@ -75,7 +75,7 @@ extern int func_0202DA04(int);
 extern u32 func_0202DA48(u32,u32,u32,u32);
 typedef signed int     s32;
 extern s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int func_0202DA6C(int,int,int,int);
+extern int func_0202DA6C(int a0, int a1, int a2, unsigned short a3);
 extern void func_021B79F4(char *);
 void func_021B7D80(char *p) {
     Setup s;

@@ -114,7 +114,7 @@ struct LightSet;
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_02048C58(struct LightSlot *slots);
 extern void func_02046858(const u32 *src);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern const void *const d_021C8810;
 extern const Camera d_021C896C;
 extern const s16 FX_SinCosTable_[];

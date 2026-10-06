@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021F5C08(void *unused, char *p)
 {
     if (((struct Obj14705 *)p)->f6C) {

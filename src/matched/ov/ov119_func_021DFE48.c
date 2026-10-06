@@ -41,7 +41,7 @@ extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021E0FF4(void *,int,int);
 extern void func_021DFD30(u8 *,u32);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D8E84(void *,int);
 extern void func_021DFF40(char *p);
 void func_021DFE48(char *p)

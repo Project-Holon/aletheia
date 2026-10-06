@@ -36,7 +36,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern u32 func_02049B40(int,int,int,int,int,u16);
 extern void func_0201DD68(u32);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *p);
 void func_021F46A8(u8 *p)
 {

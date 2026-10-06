@@ -24,7 +24,7 @@ extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,int *);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021F8624(int,int *,char *);
-extern void func_021F86EC(int task, unsigned *state, char *p);
+extern void func_021F86EC(int *task, unsigned *state, char *p);
 void func_021F8670(int a,int b,char *p)
 {
     int x,y;

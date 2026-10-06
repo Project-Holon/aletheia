@@ -79,7 +79,7 @@ extern void func_021D5120(void);
 extern void func_021D424C(char *);
 extern void func_021D4884(char *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(u32,u32,u32,u32);
 extern u32 func_0201C440(void *);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);

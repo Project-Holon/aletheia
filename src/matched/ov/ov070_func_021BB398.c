@@ -20,7 +20,8 @@ typedef unsigned char u8;
 
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 

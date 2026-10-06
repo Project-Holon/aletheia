@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *,const Point *,u16);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021DE0DC(char *p)
 {
     Point pt;

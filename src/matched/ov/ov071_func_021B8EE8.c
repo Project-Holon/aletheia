@@ -76,7 +76,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *a);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02043598(u32 mask, u32 enable);
 
 int func_021B8EE8(struct Obj0203159C *a, int *b, u8 *c, u8 *o)

@@ -133,7 +133,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049238(void *);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02043B5C(struct CharBuf *, u8);
 extern void func_02045334(struct Descriptor *);
 extern void *func_02045770(struct Descriptor *);

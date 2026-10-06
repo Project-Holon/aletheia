@@ -100,7 +100,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021A0F94(u32 a);
 extern u8 func_02012B58(const struct BigObj *p);
 extern u32 func_0204B3F4(struct Obj *p);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern Mon *func_0217BEA8(int a0);
 extern int func_0217F284(u8 *p);
 extern void func_0217EC44(int x, int y, int w, int h, Rect *r);

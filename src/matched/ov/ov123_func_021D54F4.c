@@ -33,7 +33,7 @@ struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_02045088(u16);
 extern void func_0201DD60(void);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);

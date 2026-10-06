@@ -43,7 +43,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void *fn, void *arg, u32 c);
 extern void  func_021B96C8(void);
 extern void *func_02012EFC(void **p);

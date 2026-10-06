@@ -14,7 +14,7 @@
 #include "../include/Obj03267.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *, int, int, int, int);
 void func_021D6678(u8 *p)
 {

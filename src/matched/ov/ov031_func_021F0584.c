@@ -26,7 +26,7 @@ typedef struct { s16 x, y; } Pt;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_021F0628(char *p, int sel);
 extern void func_020061E4(u32 se);
 

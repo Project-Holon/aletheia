@@ -73,7 +73,7 @@ extern u32 func_02030CB0(u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_022026D8(void *ctx, u32 arg);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_021F489C(Work *p, Args *args);
 extern void func_0204335C(u32 keep);

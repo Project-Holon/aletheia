@@ -47,7 +47,7 @@ void func_021B83CC(W *w, X *x, unsigned y)
     extern signed char func_02012FFC(void);
     extern void *func_0201CCE4(void *, unsigned, unsigned, void *, unsigned,
                                unsigned, unsigned, unsigned, unsigned, unsigned);
-    extern void func_02040588(u32 which, unsigned char enable);
+    extern void func_02040588(unsigned char which, unsigned char enable);
 
     if (w->f40 != 0) {
         func_02034714(d_021BABF8, 0, d_021BABF8);

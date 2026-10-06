@@ -40,7 +40,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *a, unsigned int b);
 extern void func_020414EC(u32 a);
 extern void func_02040618(u32 a, u32 b, u32 c);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 
 void func_021BA8C4(u16 *a0, char *p)
 {

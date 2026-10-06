@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern int func_021BC898(u8 *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 static inline void outside(int wnd,int effect) {
     unsigned tmp=*(volatile u16 *)0x0400004a & ~0x3f;
     tmp|=wnd;

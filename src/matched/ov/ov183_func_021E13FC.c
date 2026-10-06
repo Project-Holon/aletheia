@@ -35,7 +35,7 @@ typedef struct {u32 x,y;} Pair;
 extern const int d_021E3998[],d_021E397C[];
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);

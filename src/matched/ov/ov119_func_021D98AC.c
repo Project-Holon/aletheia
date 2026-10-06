@@ -40,7 +40,7 @@ extern int func_021B6448(u8 *);
 extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);
 extern void func_021D9780(char *,int,int);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020061E4(u32 a);
 extern void func_021B63D0(struct S *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);

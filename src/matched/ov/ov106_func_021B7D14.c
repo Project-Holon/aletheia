@@ -80,7 +80,7 @@ struct Rec;
 struct U16Vec;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
-extern void func_02040588(u8, u32);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(unsigned int id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern unsigned int func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);

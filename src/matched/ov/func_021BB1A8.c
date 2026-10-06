@@ -32,7 +32,7 @@ struct Tcbl;
 struct U16Vec;
 extern struct U16Vec *sub_020457B0(u32 capacity, u32 heapId);
 extern void *unit_0201C440(int tag);
-extern struct Tcbl *sub_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_02028590(int a, int b, int c, int d);
 
 typedef struct {

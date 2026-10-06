@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct BgTemplate;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02041300(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern char d_021BA8DC[];
 extern char d_021BA8FC[];
 

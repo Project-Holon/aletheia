@@ -42,7 +42,7 @@ extern void func_02082D44(void *src, void *dst, int n);
 extern u32 func_020307B0(void *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern const u8 d_021F1050[];
 extern const u8 d_021F1070[];

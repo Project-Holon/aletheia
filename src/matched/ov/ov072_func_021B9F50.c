@@ -41,7 +41,7 @@ struct Obj;
 struct S;
 extern void func_021B63D0(struct S *p);
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);

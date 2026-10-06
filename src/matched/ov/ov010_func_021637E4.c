@@ -28,7 +28,7 @@ typedef unsigned short u16;
 extern int func_0216DC34(void *a0);
 typedef unsigned int   u32;
 extern int func_02163F40(int a, int dir);
-extern void func_0216DC18();
+extern int func_0216DC18(void *a0, int a1);
 extern void *func_0216D67C(void *a0);
 extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
@@ -36,7 +36,7 @@ extern int func_021AB440();
 extern int func_021AB358(int x);
 extern void func_021BBFB8(u32 a, u32 b, u32 c, u32 d);
 
-void func_021637E4(int a, int q)
+void func_021637E4(void *a, int q)
 {
     int r4, r7, s;
     u8 *t = *(u8 * *)&((struct Obj00110 *)q)->f10;
@@ -51,7 +51,7 @@ void func_021637E4(int a, int q)
     if (((struct Obj00110 *)q)->fE & 0x40) {
         r4 = *(int *)(q + 4);
     } else {
-        r7 = func_02163F40(a, 1);
+        r7 = func_02163F40((int)a, 1);
         if (func_021AB0F8(r7) & 0x40) {
             r4 = r7;
         }
@@ -65,6 +65,6 @@ void func_021637E4(int a, int q)
     if (func_021AB440(r4) == 1 || func_021AB358(r4) == 1) {
         r7 = 2;
     }
-    func_021BBFB8(s, a, ((struct Obj00110 *)q)->f14, r7);
+    func_021BBFB8(s, (u32)a, ((struct Obj00110 *)q)->f14, r7);
     func_0216DC18(a, 1);
 }

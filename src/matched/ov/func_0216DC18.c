@@ -24,8 +24,9 @@ typedef unsigned int u32;
 extern void *func_0216D568(void *p, u32 v);
 extern char *func_0216D570(char *p, u32 v);
 
-int func_0216DC18(void *a0, int a1, int a2)
+int func_0216DC18(void *a0, int a1)
 {
+    int a2;
     if (a1 == 1)
         return (int)func_0216D568(a0, 0x20000);
 

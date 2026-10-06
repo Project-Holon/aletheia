@@ -28,7 +28,7 @@ extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
-extern void func_021E26B8(int task, int *state, char *p);
+extern void func_021E26B8(int *task, int *state, char *p);
 extern u32 func_0201C440(void *);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 int func_021E2578(void *obj,int b,char *q)

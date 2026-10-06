@@ -25,7 +25,7 @@ extern u8 d_021BED28[];
 extern void *func_02030734(u32 heap, u32 size, int align, const char *file, u16 line);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 struct Tcbl;
-extern struct Tcbl *sub_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(int a, int b, int c, u16 d);
 extern u32 func_0201C440(void *p);
 

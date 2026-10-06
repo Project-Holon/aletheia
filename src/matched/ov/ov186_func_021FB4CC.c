@@ -33,7 +33,7 @@ typedef signed short s16;
 typedef struct PtS { s16 x, y; } PtS;
 
 struct Actor;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u32 space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 
 static inline int in_range(int v, int lo, int hi)
 {

@@ -26,7 +26,7 @@ extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 extern int func_021BC7DC(u8 *p);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 int func_021BBB0C(u8 *p, int a)
 {
     unsigned owner;

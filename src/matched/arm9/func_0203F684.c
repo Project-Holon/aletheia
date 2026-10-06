@@ -42,7 +42,7 @@ typedef int   s32;
 
 extern s16 tbl_020A1B38[];
 
-short func_0203F684(s32 x)
+short func_0203F684(unsigned short x)
 {
     return tbl_020A1B38[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
 }

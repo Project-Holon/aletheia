@@ -21,7 +21,8 @@ extern unsigned func_02040804(unsigned);
 extern void func_02041EE4(unsigned,unsigned,unsigned);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,unsigned);
 void func_021B9D38(unsigned char *p)
 {

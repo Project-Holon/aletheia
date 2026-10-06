@@ -74,7 +74,7 @@ extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02051C6C(void *p);
 extern void func_02041B6C(u32);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 
 void func_0219630C(int n, u32 *msg, Obj *a, Desc *d, int *xs, int *ys)
 {

@@ -51,7 +51,7 @@ extern int func_021D8AF4(int, char *);
 extern int func_021D8B0C(int, int);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void func_02082D44(int src, int dst, int n);

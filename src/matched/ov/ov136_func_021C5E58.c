@@ -59,7 +59,7 @@ struct Descriptor;
 struct GfFont;
 struct Tcbl;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *);
 extern u32 func_020450F0(u32 bg, u32 x, u32 y, u32 w, u8 h, u8 pal, u8 base);
 extern void *func_02045770(struct Descriptor *p);

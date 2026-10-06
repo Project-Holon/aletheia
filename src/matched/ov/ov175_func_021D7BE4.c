@@ -52,7 +52,7 @@ extern void func_021D8E30(u32 sys, int *state, char *ctx);
 extern void func_021D9344(u32 sys, int *state, char *p);
 extern void func_021D8EC8(u32 sys, int *state, char *p);
 extern void func_021D95B0(u32 sys, int *state, char *ctx);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D965C(struct Obj *),func_021D97E4(char *,u32);
 extern u32 func_021D97B8(char *);
 extern void func_021D98E4(u32 *p, int mode);

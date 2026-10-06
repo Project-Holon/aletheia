@@ -59,7 +59,7 @@ extern void func_021BB65C(void *c, u8 *p, int k);
 struct CharBuf;
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 a);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern u32  func_020275E4(void);
 extern u32  func_0202762C(void);
 extern void *func_020490F4(u32 id, u32 heap);

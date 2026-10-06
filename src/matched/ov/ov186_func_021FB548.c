@@ -13,5 +13,6 @@
  */
 #include "../include/Obj14456.h"
 struct Actor; struct PtS { short x,y; };
-extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 void func_021FB548(char *p,short *x,short *y) { struct PtS v;func_0204B454(*(struct Actor * *)&((struct Obj14456 *)p)->f0,&v,(unsigned short)((struct Obj14456 *)p)->f10);if(x)*x=v.x;if(y)*y=v.y; }

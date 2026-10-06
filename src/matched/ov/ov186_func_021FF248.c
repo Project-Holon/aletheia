@@ -30,7 +30,7 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void func_0204B5D4(struct Actor *actor, u32 value, u32 which);
 typedef signed int     s32;
-extern short func_0203F684(s32 x);
+extern short func_0203F684(unsigned short x);
 void func_021FF248(char *p)
 {
     int direction;

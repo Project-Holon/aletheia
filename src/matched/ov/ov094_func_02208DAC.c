@@ -70,7 +70,7 @@ extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size)
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void *func_021F86D4(void);

@@ -20,7 +20,8 @@ typedef struct {
 } Work;
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);

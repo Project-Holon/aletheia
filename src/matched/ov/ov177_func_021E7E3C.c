@@ -97,7 +97,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 struct Actor; struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern u32 func_020307B0(void *p);

@@ -46,7 +46,8 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
-extern void *func_0203101C(u16, u16, u32, u32);
+struct Tcbl;
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 static inline void *allocate(u16 heap, u32 size, const char *site, u16 line)
 {
     return func_02030734(heap, size, 0, site, line);

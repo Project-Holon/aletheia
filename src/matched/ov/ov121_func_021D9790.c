@@ -16,7 +16,7 @@
  *   d_021DF598 0x021DF598 data a4
  */
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02050ED4(void);
 extern void func_021D9960(char *p);
 struct DispConfig;

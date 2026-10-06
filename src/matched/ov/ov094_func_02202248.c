@@ -56,7 +56,7 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 extern void func_02024A20(u8, u8, void *, u16);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_0203D34C(u32, u32);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);

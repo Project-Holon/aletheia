@@ -136,7 +136,7 @@ extern void func_021A0FB4(u32 *p, u32 a);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);
 extern u32 func_0201C440(void *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);

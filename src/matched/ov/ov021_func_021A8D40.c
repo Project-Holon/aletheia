@@ -26,7 +26,7 @@ struct W {
     u32 f134;
 };
 
-extern short func_0203F684(s32 x);
+extern short func_0203F684(unsigned short x);
 extern void func_0207E5D0(void *src, u32 off, u32 n);
 
 void func_021A8D40(void *unused, struct W *w)

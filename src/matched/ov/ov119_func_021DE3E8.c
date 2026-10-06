@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct S S;
 typedef struct { char pad[0xfd8]; int obj[2][3]; } State;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern unsigned func_020221A4(void);
 extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *),func_021B6470(u8 *);

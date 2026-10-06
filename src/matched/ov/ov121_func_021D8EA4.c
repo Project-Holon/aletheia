@@ -32,7 +32,7 @@ typedef struct {s16 x,y;} Position;
 extern void func_021D6CF4(int *,int);
 extern void func_021D6D50(int *,int,int,int);
 extern int func_021D6D6C(void **,int);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021D694C(u16 *,int);
 extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);

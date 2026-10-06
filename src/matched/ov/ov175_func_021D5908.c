@@ -99,7 +99,7 @@ extern void func_020061E4(unsigned);
 extern void func_021D65C8(char *);
 extern void func_021E8AB4(unsigned, unsigned);
 extern void func_021D63F8(unsigned int *, unsigned int);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern int func_021D6460(char *);
 extern void func_021E8AA8(int);
 extern int func_021DA434(int);

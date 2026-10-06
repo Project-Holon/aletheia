@@ -34,7 +34,7 @@ extern void sub_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);
 extern u32 sub_0207C768(u32,u32);
 extern void func_0204047C(int,u16);
-extern void sub_02040588(u32 which, unsigned char enable);
+extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32,int,int,int,int);
 void func_021BF550(struct TcblNode *task,struct Context *ctx)
 {

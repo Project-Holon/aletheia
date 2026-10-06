@@ -32,7 +32,8 @@ struct O {
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02158DB0(int);
-extern int func_0201EC74(int, int, int);
+struct WordSet;
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_0215A514(int a, int heap);
@@ -53,7 +54,7 @@ int *func_02158E7C(u16 a, int b, int c, int d, int e, int f)
     p[10] = f;
     p[9] = func_02158DB0(f);
     if (p[9] == 0) {
-        p[11] = func_0201EC74(0x1C, 0x40, a);
+        p[11] = (int)func_0201EC74(0x1C, 0x40, a);
         p[12] = (int)func_020457B0(0x500, a);
         p[13] = (int)func_020457B0(0x500, a);
     } else {

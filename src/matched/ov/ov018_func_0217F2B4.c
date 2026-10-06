@@ -38,7 +38,8 @@ struct U16Vec;
 struct WordSet;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C54(u8 *p);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
+typedef unsigned short u16;
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern int func_021904B0(u32 a, u32 b);
 

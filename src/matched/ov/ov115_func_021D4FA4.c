@@ -33,7 +33,7 @@ typedef struct BgTemplate {
 } BgTemplate;
 extern const BgTemplate d_021D6464, d_021D6444, d_021D6424, d_021D6524;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void sub_02040588(u8, u32);
+extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void sub_020409B4(u8);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_02041300(u8, int, int, int, u8, u8, u8);

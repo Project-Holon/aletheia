@@ -134,7 +134,7 @@ struct DispVram;
 extern void func_020433E0(const struct DispVram *c);
 extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), void *ctx, int pri);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021C41C4(Work *p);

@@ -37,7 +37,7 @@ extern int func_021D42D8(int n, u8 *p);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA1C(void *);
 extern void func_021D79F4(u8 *p, u16 n);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D5AD4(u8 *p);
 void func_021D588C(u8 *p)

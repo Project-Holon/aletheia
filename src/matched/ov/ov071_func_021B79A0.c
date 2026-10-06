@@ -27,7 +27,7 @@ extern void func_0201DD78(u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u32 a8, u32 a9);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern char d_021BABF4[];
 
 void func_021B79A0(void **p, int *c, int idx)

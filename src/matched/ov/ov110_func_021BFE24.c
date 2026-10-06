@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef struct Vec2 { s16 x,y; } Vec2;
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BFE24(u8 *p,int y) { Vec2 pos; func_0204B454((struct Actor *)((struct Obj13804 *)p)->f1C,(struct PtS *)&pos,0); pos.y=y; if(pos.y<18) pos.y=18; if(pos.y>149) pos.y=149; func_0204B404(((struct Obj13804 *)p)->f1C,&pos,0); }

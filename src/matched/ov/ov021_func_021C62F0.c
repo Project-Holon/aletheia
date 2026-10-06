@@ -33,7 +33,7 @@ extern const Pt d_021DAAB4;
 typedef unsigned int   u32;
 struct St021D3244;
 struct St021D325C;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);

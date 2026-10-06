@@ -28,7 +28,7 @@ typedef struct {u8 a,b,c,d,e,f,g,h,i;} Entry;
 extern const Entry table[];
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
-extern struct Tcbl *func_0203101C(u32,u16,u32,u32);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0201DD78(u32,u32,u32);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void *func_02045770(struct Descriptor *);

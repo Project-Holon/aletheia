@@ -77,8 +77,9 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *a, struct PtS *p, unsigned int v);
-extern void func_0204B404(void *a, struct Pt *p, u16 v);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+struct Vec2;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u16 func_0204B898(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -109,7 +110,7 @@ void func_0202DD24(struct PmsDraw *p, u32 i, u32 j)
         func_0204B454(src->actor[k], (struct PtS *)&pt, (u16)v);
         pt.x += dx * 8;
         pt.y += dy * 8;
-        func_0204B404(dst->actor[k], &pt, v);
+        func_0204B404(dst->actor[k], (const struct Vec2 *)(&pt), (u16)v);
         func_0204B878(dst->actor[k], func_0204B898(src->actor[k]));
         func_0204B3DC(dst->actor[k], src->enabled[k]);
     }

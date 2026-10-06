@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef struct {s16 x,y;} Pair;
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor,struct PtS *out,unsigned int space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(void *,Pair *,u16);
 typedef unsigned int   u32;
 struct Obj;

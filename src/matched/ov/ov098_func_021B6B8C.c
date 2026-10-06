@@ -34,7 +34,7 @@ struct Cfg;
 
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *, u8);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02045374(struct Cfg *);
 extern void func_020409B4(u32);
 extern void func_02045334(struct Descriptor *);

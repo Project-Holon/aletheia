@@ -33,7 +33,7 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 func_0201C440(void *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(u32, u32, u32, u32);
 
 void func_021BAC74(char *p)

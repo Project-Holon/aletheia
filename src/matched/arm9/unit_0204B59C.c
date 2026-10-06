@@ -55,7 +55,7 @@ struct Pair {
     u32 y;
 };
 
-void sub_0204B59C(struct Obj *o, u16 v, u32 sel)
+void sub_0204B59C(struct Obj *o, signed short v, u32 sel)
 {
     if (sel == 0) {
         o->unk_10 = v;

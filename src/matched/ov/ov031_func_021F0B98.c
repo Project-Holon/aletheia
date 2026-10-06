@@ -26,7 +26,7 @@ typedef signed short   s16;
 extern u32 func_02035CB8(u32 *outA, u32 *outB);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern int func_02035C60(void);
 struct Obj;
 struct Vec2;

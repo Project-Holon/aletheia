@@ -39,7 +39,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void *func_0201F5DC(void*,u32,u32,u32);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0201DD78(u32,u32,u32);
 extern void func_02041B6C(u32);
 struct C {u16 heap; u8 pad[0x66]; void *task,*win1,*win0,*font; u32 f78;};

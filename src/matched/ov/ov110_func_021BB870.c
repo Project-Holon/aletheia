@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 extern void func_0207D63C(void *, int, int, int, int);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021BC868(u8 *p, int a, int b, int start, int end, int frames);
 extern int func_021BC898(u8 *p);
 void func_021BB870(u8 *p)

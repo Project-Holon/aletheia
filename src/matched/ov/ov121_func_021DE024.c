@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern void func_021DDD64(char *p, char *q, u16 heap);
 extern void func_021DA4A8(u8 *p);
 extern void func_021DA318(u8 *p);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021DE024(void *unused,char *p)
 {
     if (((struct Obj01931 *)p)->f12C) return;

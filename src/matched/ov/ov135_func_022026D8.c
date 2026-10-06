@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern void func_02082BCC(void *p, u32 v, u32 n);
 struct GfFont;
 struct Tcbl;
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *p);
 extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);

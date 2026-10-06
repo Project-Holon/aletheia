@@ -36,7 +36,7 @@ struct U16Vec;
 extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_0201D83C(void *ptr);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 
 void func_02196768(u8 *p)
 {

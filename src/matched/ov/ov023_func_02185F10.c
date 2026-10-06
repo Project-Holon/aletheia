@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef int s32;
 
 typedef signed short   s16;
-extern short func_0203F684(s32 x);
+extern short func_0203F684(unsigned short x);
 extern void GX_LoadOBJPltt(void *src, unsigned long offset, unsigned long size);
 
 void func_02185F10(u16 *p)

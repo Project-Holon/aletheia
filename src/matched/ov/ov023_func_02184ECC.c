@@ -51,7 +51,7 @@ struct Cfg;
 struct CharBuf;
 struct Tcbl;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *p);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);

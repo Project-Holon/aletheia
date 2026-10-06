@@ -29,7 +29,7 @@ extern void func_02082BCC(void *,int,u32);
 struct GfFont;
 struct Tcbl;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_021B63AC(u8 *p);
 extern void func_021B7ADC(unsigned char *p, u32 idx, int unused);
 extern void func_0203D34C(u32 a, u32 b);

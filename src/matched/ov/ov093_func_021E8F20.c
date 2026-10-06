@@ -42,7 +42,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u8 func_021D3D70(u8 *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u8 *func_021EAF7C(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u8 e2, int heap);
 extern void *func_021E9024(struct Scene *, void *, u32, void *, void *, void *, int, u16);
 extern void func_021EEC78(u32, u32, u32, u32);

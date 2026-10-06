@@ -57,7 +57,7 @@ struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void*,u32,u32);
 struct C;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040EBC(u32,u32);
 extern void func_0204E720(u32,int,int,int);

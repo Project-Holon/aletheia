@@ -23,15 +23,15 @@ extern int func_0216DC34(void *a0);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern int func_02163F40(int a, int dir);
-extern void func_0216DC18();
+extern int func_0216DC18(void *a0, int a1);
 extern u16 func_021AB0F8(u32 attr);
 
-void func_02163868(int a, int q)
+void func_02163868(void *a, int q)
 {
     u8 *t = *(u8 * *)&((struct Obj00110 *)q)->f10;
 
     if (t[6] != 0 && func_0216DC34((void *)a) != 0) {
-        int r = func_02163F40(a, 1);
+        int r = func_02163F40((int)a, 1);
 
         if (r == -1) {
             func_0216DC18(a, 0);

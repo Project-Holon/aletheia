@@ -40,7 +40,7 @@ extern const char d_021D6628[];
 extern void *sub_02030734(u32,u32,int,const char *,u16);
 extern void sub_02045088(u16);
 extern void func_0201DD60(void);
-extern struct Tcbl *sub_0203101C(u32,u16,u32,u32);
+extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 sub_0201C440(void *);
 extern struct U16Vec *sub_020457B0(u32,u32);
 extern struct GfFont *func_0201D7EC(int,int,int,int,u32);

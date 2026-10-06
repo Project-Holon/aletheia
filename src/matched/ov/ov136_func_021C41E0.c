@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 struct GfFont;
 struct Tcbl;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0203F8F4(u16);
 int func_021C41E0(void *a, void *b, u8 *p)
 {

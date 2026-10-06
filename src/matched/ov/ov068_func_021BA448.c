@@ -129,7 +129,7 @@ extern int func_021BA190(const int *p);
 extern int  func_021BA9DC(void *p);
 extern void func_021BA194(const u8 *p, int which, int *out);
 extern int  func_021BB508(int *rect, void *b);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020061E4(u32 a);
 extern void func_020061E4_2(int id);
 extern u8 func_020355C4(void);

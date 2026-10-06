@@ -37,7 +37,7 @@ extern void func_021FD860(int,int,Pair *);
 extern void func_021E2E48(char *p, int a, int b);
 extern int *func_021FD73C(int *p, int v);
 extern int func_021FD744(int *a);
-extern void func_021E2C2C(int task, unsigned *state, char *p);
+extern void func_021E2C2C(int *task, unsigned *state, char *p);
 extern void func_021E2AE0(int *task, unsigned *state, char *p);
 void func_021E2910(int *task,int *state,char *p) {
     u32 x,y;

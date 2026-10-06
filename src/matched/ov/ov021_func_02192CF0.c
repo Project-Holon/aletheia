@@ -42,7 +42,7 @@ extern void func_020409B4(u32 index);
 extern void func_02192FA4(int, int);
 extern void *func_02194670(u16 *a);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 
 void func_02192CF0(char *p, int flag)
 {

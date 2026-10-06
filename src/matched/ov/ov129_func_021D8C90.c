@@ -34,7 +34,7 @@ extern const int d_021DA830[], d_021DA84C[];
 extern void func_021D9E48(char *,int,int);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;

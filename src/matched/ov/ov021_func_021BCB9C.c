@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 void func_021BD0A0(void *p, int v);
 void func_021BD0A8(char *p);
 void func_021BD0C8(char *p);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021BC92C(void *p);
 
 void func_021BCB9C(void *p, int keep)

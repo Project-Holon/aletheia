@@ -44,7 +44,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 w[12]; } Desc;
 extern void func_021D9750(u8 *p);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern unsigned func_021D9744(char *p);
 extern void func_021D84D4(u8 *out, void *owner, const u8 *desc, void *save, void *list, void *a5, void *a6, u16 heap);
 extern void func_021D8C1C(u8 *p, int mode);

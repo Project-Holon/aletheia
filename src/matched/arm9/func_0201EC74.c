@@ -104,7 +104,7 @@ struct WordSet {
 
 extern void func_0201ED50(struct Tag *t);
 
-struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap)
+struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap)
 {
     struct WordSet *p;
     u32 i = 0;

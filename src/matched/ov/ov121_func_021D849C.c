@@ -20,7 +20,7 @@ extern void func_021DA2A8(u8 *p);
 extern void func_021DA280(u8 *p);
 typedef unsigned int   u32;
 extern void func_020409B4(unsigned);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021D849C(char *p) {
  if(((struct Obj00326 *)p)->f28C) {
   *(unsigned short *)0x04001050=0;

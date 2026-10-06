@@ -38,7 +38,7 @@ struct S {
     void *arrA0[4];
 };
 
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Cfg;

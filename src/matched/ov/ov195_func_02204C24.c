@@ -66,7 +66,7 @@ typedef signed int     s32;
 struct Anim;
 struct Owner;
 extern int func_02034AC4(s32 handle);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_0207D63C(int, int, int, int, int);

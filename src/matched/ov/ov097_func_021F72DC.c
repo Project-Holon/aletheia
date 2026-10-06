@@ -14,7 +14,8 @@
  */
 struct Actor;
 struct PtS { short x, y; };
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;

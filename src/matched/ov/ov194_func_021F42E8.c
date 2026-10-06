@@ -17,7 +17,8 @@
 #include "../include/Obj01576.h"
 typedef struct {short x,y;} Vec2;
 struct Actor; struct PtS;
-extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern unsigned func_02035D20(unsigned *,unsigned *);
 extern int func_021F4450(int *,int *);
 extern void func_021F4394(unsigned char *p);

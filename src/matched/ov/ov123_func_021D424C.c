@@ -37,7 +37,7 @@ extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
 extern void func_0204047C(int, u16);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_02041300(u32, u32, u32, u32, u8, u8, u8);
 void func_021D424C(char *a0)

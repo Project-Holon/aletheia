@@ -88,7 +88,7 @@ extern void func_0207D534(volatile u16 *reg, int brightness);
 struct BgTemplate;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 typedef signed int     s32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020414EC(u32 i);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);

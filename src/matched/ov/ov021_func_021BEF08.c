@@ -36,7 +36,7 @@ struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207FDCC(u32 a);
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02166B0C(void);
 extern S16 d_021D9F50;
 

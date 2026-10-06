@@ -29,7 +29,7 @@ struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 int func_021B3B14(char *p, int a)

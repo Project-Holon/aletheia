@@ -37,7 +37,7 @@ extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsi
 extern void func_020414AC(int);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 

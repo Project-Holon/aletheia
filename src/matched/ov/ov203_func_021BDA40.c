@@ -42,7 +42,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned func_0201C440(void *);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020434DC(unsigned, unsigned);
 extern void func_02043598(unsigned, unsigned);
 struct Cfg;

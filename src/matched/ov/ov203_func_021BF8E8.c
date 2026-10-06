@@ -16,7 +16,8 @@
  */
 #include "../include/Obj01776.h"
 struct Tcbl;struct GfFont;
-extern struct Tcbl *func_0203101C(unsigned,unsigned short,unsigned,unsigned);
+typedef unsigned short u16;
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
 extern struct GfFont *func_0201D7EC(int,int,int,int,unsigned);
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u32 heap);

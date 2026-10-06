@@ -12,5 +12,5 @@
  *   func_02040588 0x02040588 arm
  */
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021B97CC(void *p, int v) { func_02040588(5, v); func_02040588(6, v); }

@@ -29,8 +29,9 @@ typedef struct {
 } E;
 
 extern E d_021F0DF0[];
-extern void func_02040588(unsigned int which, unsigned char enable);
-extern void func_0203FCA0(unsigned char, void *, unsigned char);
+extern void func_02040588(unsigned char which, unsigned char enable);
+struct BgTemplate;
+extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 extern void func_020414AC(unsigned char);
 extern void func_02040618(unsigned char, unsigned, unsigned);
 typedef unsigned int   u32;
@@ -51,7 +52,7 @@ void func_021F06AC(char *p)
     for (j = 0; j < 2; j++) {
         e = &d_021F0DF0[j];
         id = e->f00;
-        func_0203FCA0(id, e->f04, e->f24);
+        func_0203FCA0((unsigned char)id, (const struct BgTemplate *)e->f04, (unsigned char)e->f24);
         func_020414AC(id);
         func_02040588((unsigned char)id, (unsigned char)e->f28);
         func_02040618(id, 0, 0);

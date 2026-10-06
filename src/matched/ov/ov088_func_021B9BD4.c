@@ -18,7 +18,7 @@
  */
 
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern u32 func_020111E8(void);
 

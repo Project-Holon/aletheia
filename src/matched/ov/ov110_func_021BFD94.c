@@ -21,5 +21,5 @@ struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor,struct PtS *out,unsigned int space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 u32 func_021BFD94(u8 *p,Vec2 *out) { u32 result; result=func_0204B3F4(((struct Obj13803 *)p)->f1C); func_0204B454(((struct Obj13803 *)p)->f1C,(struct PtS *)out,0); return result; }

@@ -15,7 +15,7 @@
 #include "../include/Obj04594.h"
 typedef unsigned int   u32;
 struct S02021D50;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02021D50(struct S02021D50 *p);
 void func_022051A8(int task, char *p)
 {

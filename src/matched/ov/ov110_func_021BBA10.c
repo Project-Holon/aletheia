@@ -43,7 +43,7 @@ extern u32 func_02040804(unsigned);
 extern void func_021BC78C(u8 *,int,int,int,int);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(unsigned);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021BBA10(u8 *p,unsigned n)
 {
     u32 owner,font;

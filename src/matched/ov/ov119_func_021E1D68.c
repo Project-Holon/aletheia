@@ -25,7 +25,7 @@
  */
 #include "../include/Obj03775.h"
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
 extern void func_0207D658(u32 addr, int plane, int brightness);

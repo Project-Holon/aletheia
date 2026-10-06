@@ -30,7 +30,7 @@ extern void *(*d_020A8148)(int, int, int);
 extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, u16 tag);
 typedef unsigned int   u32;
 struct Tcbl;
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern int func_02194A58(u32 a);
 typedef unsigned char  u8;
 extern u32 func_021954CC(u32 p, u8 *e);

@@ -51,7 +51,7 @@ extern int func_021B613C(void *);
 extern int func_021F86E0(void);
 struct Obj;
 extern struct Obj *func_02202058(int a, int b, int c, int d, int e, u16 k);
-extern struct Tcbl *func_0203101C(u32,u16,u32,u32);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern int func_021B6140(void *);
 extern u32 func_021B6150(u8 *);
 extern u8 *func_021B67D4(void *,void *,void *,u32);

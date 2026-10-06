@@ -55,7 +55,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 struct Rec94;
 extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern short func_0203F684(s32 x);
+extern short func_0203F684(unsigned short x);
 extern int _fflt(int a);
 extern int _fadd(int a, int b);
 extern int _fsub(int a, int b);

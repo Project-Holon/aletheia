@@ -21,7 +21,7 @@ typedef struct { u32 a[4]; u8 b[12]; u32 c; } Descriptor;
 extern const Descriptor d_021C60C4;
 extern void func_020403F4(u32 i);
 extern void func_0203FCA0(u8,void *,int);
-extern void func_02040588(u8,int);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021C5AAC(void *unused, u32 id, u8 *p)
 {
     Descriptor d;

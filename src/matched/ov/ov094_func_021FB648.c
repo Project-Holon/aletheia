@@ -28,7 +28,7 @@ struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *p);
 extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *file, u16 line);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern int func_02030DA8(int a, void (*fn)(void), int *p, int d);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021FE79C(void *h, int *s);

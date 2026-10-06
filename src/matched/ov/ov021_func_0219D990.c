@@ -28,18 +28,18 @@ extern u32 func_0216D7DC(void *p);
 extern u32 func_0216D7E4(void *p);
 extern void *func_0216E3C4(void *p);
 extern void func_0219DB0C(u32, u32, u32, u32);
-extern void func_0219DB5C(u32 a, u32 b, u32 c, u8 *d);
+extern void func_0219DB5C(void *a, u32 b, u32 c, u8 *d);
 
-void func_0219D990(u32 a)
+void func_0219D990(void *a)
 {
     u32 b;
     u32 c;
     u32 d;
-    if (func_0219D85C(a) != 0 && func_0216DB24(a) == 1) {
+    if (func_0219D85C((u32)a) != 0 && func_0216DB24((int)a) == 1) {
         b = func_0216D7DC((void *)a);
         c = func_0216D7E4((void *)a);
         d = (u32)func_0216E3C4((void *)a);
-        func_0219DB0C(a, b, c, d);
+        func_0219DB0C((u32)a, b, c, d);
         func_0219DB5C(a, b, c, (u8 *)d);
     }
 }

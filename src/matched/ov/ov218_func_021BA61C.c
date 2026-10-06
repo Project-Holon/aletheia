@@ -20,7 +20,8 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BA61C(char *ctx)

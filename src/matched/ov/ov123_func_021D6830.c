@@ -26,7 +26,7 @@ struct Pair { int x,y; };
 extern const s16 d_020A1B38[][2];
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);

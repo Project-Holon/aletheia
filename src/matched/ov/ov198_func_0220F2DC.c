@@ -23,7 +23,7 @@ struct Obj;
 struct Vec2;
 extern int func_022110D4(u8 *p, int i);
 struct Actor; struct PtS;
-extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_0220F2DC(char *p, int a1, int a2)

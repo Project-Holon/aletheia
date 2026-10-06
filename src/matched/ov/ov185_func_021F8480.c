@@ -41,7 +41,7 @@ extern u32 func_021FC4DC(u8 *p);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern void func_021FBE54(char *base, u32 idx, u32 area);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021F8EFC(char *p, int *source);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021F8604(int,int *,char *);

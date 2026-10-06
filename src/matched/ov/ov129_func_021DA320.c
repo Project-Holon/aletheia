@@ -16,7 +16,8 @@ typedef unsigned char u8;
 typedef struct { s16 x,y; } Pair;
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 void func_021DA320(char *p)
 {
     int i;

@@ -32,10 +32,11 @@ extern void func_0203F8F4(int);
 extern void func_02045088(int);
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u8,const void *,u8);
+struct BgTemplate;
+extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 extern void func_020414AC(u8);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *,int,int,int,int,int);
 extern void func_02049658(void *,int,int,int,int,int,int);
@@ -52,7 +53,7 @@ void func_021B78F4(void **p,int heap)
     func_0203F8F4(heap); func_02045088(heap); func_0203FC28((struct DispConfig *)d_021B8964);
     for(i=0;i<8;++i) {
         id=d_021B89B8[i];
-        func_0203FCA0((u8)id,d_021B8A08+i*32,(u8)d_021B8998[i]);
+        func_0203FCA0((u8)id,(const struct BgTemplate *)(d_021B8A08+i*32),(u8)d_021B8998[i]);
         func_020414AC((u8)id); func_02040588((u8)id,1);
     }
     archive=func_020490F4(0x5e,heap);

@@ -28,7 +28,7 @@ extern const struct BgTemplate d_021C2F78,d_021C2F18,d_021C2F38,d_021C2F58;
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(unsigned,const struct BgTemplate *,unsigned);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
 extern void func_02045088(u16);
 void func_021BA698(char *p)

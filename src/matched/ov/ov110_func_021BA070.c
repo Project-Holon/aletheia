@@ -52,7 +52,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 struct GfFont;
 extern void func_020414EC(u32 i);
-extern void func_02040588(u8,u32);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C450(u16,u32);
 void func_021BA070(u8 *p) {

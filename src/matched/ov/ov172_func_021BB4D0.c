@@ -27,7 +27,7 @@ struct PtS { s16 x, y; };
 extern u32 func_0204B98C(struct Actor *);
 extern u16 func_0204B898(struct Obj *);
 extern void func_02041EE4(u32, u32, u32);
-extern void func_0204B454(struct Actor *, struct PtS *, u32);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BB4D0(void *unused, u8 *q)

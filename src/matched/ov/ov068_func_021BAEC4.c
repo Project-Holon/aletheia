@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 extern void func_0207D658(u32 addr, int plane, int brightness);
 struct MsgBank;
 struct Rec;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02045C04(struct Rec *rec);
 extern void func_021BA28C(u8 *p, u32 a1, u32 a2, u32 a3, u32 a4);

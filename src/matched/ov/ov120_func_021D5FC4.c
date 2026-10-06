@@ -56,7 +56,7 @@ extern void func_0204A5AC(void);
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(u32,u32,u32);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 i);
 extern void func_0203F9B4(void);
 extern void func_02034A5C(int handle);

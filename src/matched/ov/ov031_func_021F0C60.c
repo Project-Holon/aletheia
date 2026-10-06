@@ -36,7 +36,7 @@ extern int func_021F0D40(B *);
 extern u32 func_021F0D58(void *unused, u32 d);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 
 void func_021F0C60(B *o, B *b)
 {

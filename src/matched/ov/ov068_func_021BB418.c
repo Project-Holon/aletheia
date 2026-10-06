@@ -34,7 +34,7 @@ typedef struct {
 extern void func_021BA9E0(u8 *p, Blk *out);
 extern u32  func_021BB0D0(Blk *b);
 extern void func_021BAE90(void *p, u32 value);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern u16  func_021BAEBC(u8 *p);
 extern void func_021BB138(void *p, int v);
 extern void func_021BB4A4(void *a, u32 b, u8 *p);

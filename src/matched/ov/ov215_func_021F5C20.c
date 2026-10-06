@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Context; struct GfFont;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern char *func_021F63CC(u32,u16);
 extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
 extern u32 func_0201C440(void *);

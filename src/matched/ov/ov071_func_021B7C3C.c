@@ -60,7 +60,7 @@ int func_021B7C3C(struct Obj0203159C *a, int *b, C *c)
     extern void func_02045808(struct U16Vec *vec);
     extern void func_021B6E1C(Inner *, void *, int, int, int, int, int, int, int);
     extern void func_021B7DE0(void *, C *);
-    extern void func_02040588(u32 which, unsigned char enable);
+    extern void func_02040588(unsigned char which, unsigned char enable);
     extern void func_020434DC(u32 mask, u32 enable);
     void *m;
     void *s;

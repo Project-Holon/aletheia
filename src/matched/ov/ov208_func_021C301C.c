@@ -34,7 +34,7 @@ struct Pos { s16 x; s16 y; };
 struct Pair { int x; int y; };
 
 struct Actor; struct PtS;
-extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
 struct Vec2;

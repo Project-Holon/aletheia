@@ -71,7 +71,7 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16
 extern void sub_02030F50(struct Tcbl *p, struct TcblNode *node);
 extern void sub_02030FC8(struct Tcbl *p);
 
-struct Tcbl *sub_0203101C(u32 heap, u16 tag, u32 count, u32 workSize)
+struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize)
 {
     struct Tcbl *p;
 

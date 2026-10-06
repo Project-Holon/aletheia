@@ -39,7 +39,7 @@ extern int func_0202DA04(int a0);
 extern void *func_0202DA48(void *a, int b, int c, u16 d);
 typedef signed int     s32;
 extern s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void *func_0202DA6C(int a, int b, int c, u16 d);
+extern int func_0202DA6C(int a0, int a1, int a2, unsigned short a3);
 extern void func_02049238(void *o);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
@@ -58,7 +58,7 @@ void func_021BB374(char *p, int a, int b)
     o = (void *)func_0202DA04((u16)b);
     ((struct Obj00008 *)p)->f184 = func_0202DA48(o, r, 1, b);
     ((struct Obj00008 *)p)->f188 = (void *)func_0202DA18((u32)o, r, 1, 0, b);
-    ((struct Obj00008 *)p)->f18C = func_0202DA6C(r, 2, 1, b);
+    ((struct Obj00008 *)p)->f18C = (void *)func_0202DA6C(r, 2, 1, b);
     func_02049238(o);
     ((struct Obj00008 *)p)->f180 = func_0204B294(((struct Obj00008 *)p)->f110, (unsigned int)((struct Obj00008 *)p)->f184, (unsigned int)((struct Obj00008 *)p)->f188, (unsigned int)((struct Obj00008 *)p)->f18C, &t, 1, b);
 }

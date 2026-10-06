@@ -58,7 +58,7 @@ extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void func_02045374(struct Cfg *);
 extern void func_020454E0(struct Cfg *, u16, u32);
 extern void func_020409B4(u32);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021B6C34(char *, int);
 u8 *func_021B67D4(void *a, void *b, void *c, u32 heap)
 {

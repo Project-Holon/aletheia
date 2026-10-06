@@ -48,7 +48,8 @@ typedef struct {
 } Slots;
 
 extern void func_021F44D8(int *p, Slots *q);
-extern void *func_0201EC74(int a, int b, int heap);
+struct WordSet;
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 struct MsgBank;
 struct Rec;
 struct U16Vec;

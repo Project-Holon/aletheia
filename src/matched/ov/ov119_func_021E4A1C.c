@@ -18,7 +18,8 @@ struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+typedef unsigned short u16;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 void func_021E4A1C(char *p)
 {
     short xy[2];

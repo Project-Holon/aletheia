@@ -30,7 +30,7 @@ struct Strbuf;
 extern void func_02045994(struct Strbuf *,const unsigned short *,u32);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020409B4(u32 index);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void *func_021DA1BC(int,Config *,int,int,int,void *,void *,void *,int);
 typedef unsigned short u16;

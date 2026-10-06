@@ -31,7 +31,7 @@ struct NitroFileHeader;
 struct Tcbl;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *p);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_021931F4(u32 a);
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);

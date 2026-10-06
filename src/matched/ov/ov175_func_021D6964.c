@@ -59,7 +59,7 @@ extern u32 *func_021E567C(int unused, int mode, int heap);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
+extern struct WordSet *func_0201EC74(u32 n, u32 size, unsigned short heap);
 typedef unsigned short u16;
 extern char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap);
 extern u32 func_021E8568(int,int,int,int,u32,u32,int);

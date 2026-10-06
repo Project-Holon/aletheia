@@ -33,7 +33,7 @@ extern void func_0216E084(void *a, unsigned int x, unsigned int y, unsigned int 
 extern int func_02164010(int a);
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_021A3044(u8 *p, void *v);
-extern void func_0216DC18(void *m, u32 v);
+extern int func_0216DC18(void *a0, int a1);
 
 void func_021F3CC4(u8 *p, int flag)
 {

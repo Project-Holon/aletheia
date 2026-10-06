@@ -32,8 +32,8 @@ typedef unsigned int   u32;
 extern int func_021FE7B0(int *);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int *func_021FD73C(int *p, int v);
-extern void func_021E2C2C(int task, unsigned *state, char *p);
-extern void func_021E2910(int task, int *state, char *p);
+extern void func_021E2C2C(int *task, unsigned *state, char *p);
+extern void func_021E2910(int *task, int *state, char *p);
 void func_021E2AE0(int *task,unsigned *state,char *p)
 {
     unsigned x,y;

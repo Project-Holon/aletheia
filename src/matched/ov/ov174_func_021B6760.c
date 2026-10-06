@@ -37,7 +37,7 @@ extern u8 func_0201F548(int i);
 extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201DD68(void);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *p);
 extern u32 func_02028590(int a, int b, int c, u32 d);
 extern void func_0201DD78(u32 r, u32 g, u32 b);

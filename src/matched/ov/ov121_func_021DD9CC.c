@@ -37,7 +37,9 @@ typedef struct { s16 kind,x,y; } Output;
 extern void func_0204B84C(void *,u8);
 extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
-extern void func_0204B454(void *,Point *,u16);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Actor;
 extern u16 func_0204B5FC(const struct Actor *actor);
 extern void func_021DE128(u8 *p, u16 b, int c, int d);
@@ -77,7 +79,7 @@ void func_021DD9CC(char *p)
     case 4:
         if(!*(int *)(p+0xe0))
             *(u32 *)(p+0xe8)=func_02006984(*(u16 *)(p+0xe4),*(u16 *)(p+0xe6),64,0,0,0,0,0);
-        func_0204B454(*(void **)(q+0x20),&pos,*(u32 *)(q+0x98));
+        func_0204B454(*(void **)(q+0x20),(struct PtS *)(&pos),*(u32 *)(q+0x98));
         func_021DE128((u8 *)(p+0xec),func_0204B5FC(*(void **)(q+0x20)),pos.x,pos.y);
         *(u16 *)(p+0xdc)=5;
         break;

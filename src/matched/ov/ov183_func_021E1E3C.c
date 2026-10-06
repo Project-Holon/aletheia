@@ -55,7 +55,7 @@ extern void *func_02012EBC(struct Big *p);
 typedef unsigned short u16;
 extern u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id);
 extern int *func_021FD73C(int *p, int v);
-extern void func_021E1DF0(int a, int *state, char *p);
+extern void func_021E1DF0(int *a, int *state, char *p);
 typedef unsigned char  u8;
 struct MsgBank;
 struct U16Vec;

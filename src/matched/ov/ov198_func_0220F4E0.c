@@ -47,7 +47,7 @@ typedef unsigned int u32;
 extern volatile u16 d_04001050[];
 struct Tcbl;
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern struct Tcbl *sub_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u8 *func_0220AF40(u16 v);
 extern void func_0220AFDC(char *p, void *v);
 extern void func_02211034(u8 *);

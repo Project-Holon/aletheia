@@ -110,7 +110,7 @@ extern void func_021D82A8(char *p, void *q, int start);
 extern void func_021D72A0(u8 *p, void *list, int n);
 extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *p);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D6D48(u8 *p);
 extern void func_021D7D3C(char *p);
 extern const u8 d_021D88D8[];

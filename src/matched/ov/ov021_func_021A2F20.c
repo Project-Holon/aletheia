@@ -18,13 +18,13 @@ typedef unsigned int u32;
 
 typedef unsigned char  u8;
 u32 func_02188CFC(u8 *p);
-int func_021C0CA4(int a, int b, int c, int d);
+int func_021C0CA4(u8 *a, int b, int c, int d);
 
 int func_021A2F20(u32 *p, int a, int b, int c)
 {
     int r = 0;
 
     if (func_02188CFC((u8 *)p[0]) == 0)
-        r = func_021C0CA4(p[2], a, b, c);
+        r = func_021C0CA4((u8 *)p[2], a, b, c);
     return r;
 }

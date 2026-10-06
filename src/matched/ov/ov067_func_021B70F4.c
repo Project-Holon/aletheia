@@ -66,7 +66,7 @@ typedef struct {
 extern u8 func_021B76C8(u32 a, u32 b, u32 c);
 extern void func_0204B404(int h, Pt *pt, u16 v);
 extern void func_021B7718(int which, int idx, void *data);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Cfg;

@@ -69,7 +69,7 @@ extern void func_02043B5C(struct CharBuf *,u8);
 extern void func_02045334(struct Descriptor *);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(u32);
-extern struct Tcbl *func_0203101C(u32,u16,u32,u32);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0201DD78(u32,u32,u32);
 extern signed char func_02012FFC(void);
 extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);

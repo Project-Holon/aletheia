@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 extern void func_02189A58(u8 *p, u32 v);
 typedef signed int     s32;
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(int a, int b, int c, int d, int e);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_0208068C(u32 a);

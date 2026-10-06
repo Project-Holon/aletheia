@@ -22,7 +22,7 @@ extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 typedef unsigned int   u32;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021FC640(void)
 {
     unsigned i,id;

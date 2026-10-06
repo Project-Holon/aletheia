@@ -51,7 +51,7 @@ struct Obj;
 extern void func_0204CF74(struct Obj *actor, u32 space, u16 *out);
 extern void sub_0204B53C(const struct Actor *actor, struct Pt *out);
 
-void sub_0204B454(struct Actor *actor, struct PtS *out, u32 space)
+void sub_0204B454(struct Actor *actor, struct PtS *out, u16 space)
 {
     struct PtS origin;
 

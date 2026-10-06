@@ -47,7 +47,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern unsigned char func_02045730(struct Descriptor *d);
 extern void func_020409B4(unsigned int index);
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_021BC838(char *p);
 extern void func_021BC848(char *p);

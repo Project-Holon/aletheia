@@ -101,7 +101,7 @@ extern void func_02006210(void);
 extern int func_021F8694(void);
 extern int func_021FFD9C(char *p, int key);
 extern int func_021FFF38(char *p, int key);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
 extern void func_021FF374(void *, int, int);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);

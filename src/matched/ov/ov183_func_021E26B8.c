@@ -63,7 +63,7 @@ extern u32 func_02035D20(u32 *,u32 *);
 extern void func_020061E4(u32 a);
 extern void func_021E2E48(char *p, int a, int b);
 extern int *func_021FD73C(int *p, int v);
-extern void func_021E2910(int task, int *state, char *p);
+extern void func_021E2910(int *task, int *state, char *p);
 extern int func_021FD744(int *a);
 void func_021E26B8(int *task,State *state,char *p) {
     u32 req[2];

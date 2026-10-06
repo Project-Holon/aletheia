@@ -44,7 +44,7 @@ extern void *func_02045770(struct Descriptor *a);
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020434DC(u32 mask, u32 enable);
 
 int func_021BA1FC(struct Obj0203159C *a, int *b, u8 *o, u8 *c)

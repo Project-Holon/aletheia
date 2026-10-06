@@ -48,7 +48,7 @@ extern void func_0204989C(int,int,int,int,int,int,int);
 extern void func_02049238(void *);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_021DA4DC(Desc *,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021D6CEC(u8 *p);

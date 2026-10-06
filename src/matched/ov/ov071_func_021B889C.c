@@ -55,7 +55,7 @@ int func_021B889C(struct Obj0203159C *a, int *b, C *c, u8 *d)
     extern void *func_02045770(struct Descriptor *p);
     extern u32 func_0201C6C4(struct PrintSys *p, void *v);
     extern void func_02045334(struct Descriptor *d);
-    extern void func_02040588(u32 which, unsigned char enable);
+    extern void func_02040588(unsigned char which, unsigned char enable);
     extern void func_02043598(u32 mask, u32 enable);
     u8 *m;
     int busy;

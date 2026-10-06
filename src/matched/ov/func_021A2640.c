@@ -27,7 +27,7 @@ struct PtS {
     s16 x;
     s16 y;
 };
-extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
+extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern u32 func_021A2C28(u8 *);
 
 void func_021A2640(u8 *a, struct PtS *b)

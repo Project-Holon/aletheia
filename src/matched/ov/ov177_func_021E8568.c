@@ -104,7 +104,7 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 S *func_021E8568(int a, int b, unsigned short c, unsigned short d, int e, int f, unsigned short heap)

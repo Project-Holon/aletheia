@@ -36,7 +36,7 @@ extern int func_021B629C(Out *, int, unsigned char, unsigned char, unsigned char
 extern void func_0204B3DC(struct Obj *, unsigned);
 extern void func_0204B92C(struct Obj *, unsigned);
 typedef unsigned int   u32;
-extern void func_02040588(u32 which, unsigned char enable);
+extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02043598(unsigned, unsigned);
 extern const char d_021C3D5C[];
 extern const struct Vec2 d_021C3BD0[];

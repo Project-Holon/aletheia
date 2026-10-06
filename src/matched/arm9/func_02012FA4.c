@@ -12,7 +12,7 @@
  * Unlabelled Thumb leaf: stores a byte at +0x1CF.
  */
 
-void func_02012FA4(char *p, char v)
+void func_02012FA4(char *p, unsigned char v)
 {
     *(char *)(p + 0x1cf) = v;
 }
