@@ -117,6 +117,22 @@
  * a-loop-invariant-buffer-read-through-the-field-colours-below-the-named-locals.md; mwcc_ref
  * ALLOCATOR_CASEBOOK numbering and cluster laws. Matched hits: 021B01FC image (step temp in r2 there),
  * 021AF628 image (index table not hoisted), 021AF494 (pending, h1 house style).
+ * pass 4 2026-10-06 P4L14: DIFF, 1320 B, 352 B differ (unchanged; 40 compiles, form kept). No gain from: a
+ * two-level inline (outer owns idx, 862), int return (1040, size), s16 sample (352), arm-form decl orders
+ * step,pred,idx,... (542), idx,pred,step,... (549), step not last (547), code before diff (655), diff,idx,pred
+ * (567), pred,diff,idx (435), pred declared late (525, 513: pred takes scratch r2 and the tables move); int ni
+ * beside int idx (443); st->index read in the arms with no idx local (420); pred += delta (400); the sample
+ * parameter reused as diff (632); initialised declarations (622); index update before the delta block (898);
+ * table pointers as helper locals (1186, guard changes); index stored first (355, colours identical); (u8) on
+ * the index store, long idx/step/code/pred (352, no change); u8 code (1078), s16 step (564); opt_lifetimes off
+ * (352, and 400 on P3 h35), opt_common_subs off (1149). Finding: the matched sibling 021B01FC has the same
+ * "reloaded index early, forwarded index late" colours; its steady order (low to high) is step/sample, a, code,
+ * diff, idx, pred and this image is the same with pred moved to the bottom. Open lead: a form where pred colours
+ * first without taking scratch r2, keeping the step local in the sign arms.
+ * Idioms checked: a-no-code-self-assignment-reorders-the-register-colouring.md (permuter-only, not used),
+ * a-byte-locals-signedness-flips-its-callee-saved-colour.md, a-long-index-colours-apart-from-an-int.md,
+ * an-arithmetic-loop-carried-definition-colours-last-unless-it-goes-through-a-copy.md, mwcc_ref casebook
+ * (grCastle cluster model). Asm search: movgt rX, #0x58 only in ov013 (ADPCM family).
  * symbols:
  *   d_021B3A04 0x021B3A04 data ov013 a1
  *   d_021B3A1C 0x021B3A1C data ov013 a2
