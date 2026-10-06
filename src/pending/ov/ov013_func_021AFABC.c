@@ -98,6 +98,25 @@
  * an-extra-inline-level-reverses-two-helper-locals-stack-slots.md; mwcc_ref Coloring.c and
  * docs/ALLOCATOR_CASEBOOK.md (web numbering). Matched hits: 021B01FC image read in full (same
  * forward and step-into-sample-register pattern), 021AF628 image; movgt #0x58 occurs only in ov013.
+ * pass 3 2026-10-06 P3L20: DIFF, 1320 B, 352 B differ (was 375; 40 compiles). Lever: step = d[idx] written
+ * as the first statement of each sign arm (statements per branch), with int idx updated in place
+ * (idx += adj[code]) and locals declared idx first. The two arm definitions keep step a named web
+ * (a single step local after the if/else is propagated into a temp that colours last), and the
+ * step-table read is out of the loop's first block, so the pool word order is now right (any step
+ * read in the first block hoists the index table first). In sample 1 the step load now sits after
+ * subs in the sample register, pred r5 and a r7 as in the image. Residue: forwarded index r6 (image
+ * sl), sample/step r8 (image r6), code sl (image r8); sample 0 idx r8 / diff r6 / step sb (image r6,
+ * sb, r8). Other decl orders of this form: 409-600 (diff,idx,...,pred gives the forwarded index sl
+ * but colours the caller's a first, 518). No gain: join-block step local in any decl order or type
+ * (642-725, step is a last-coloured temp), step in the arm tails (merged, 663), non-const tables,
+ * while loop, caller accumulator layouts, table pointers in the caller (hoisted above the guard),
+ * opt_propagation off (1145).
+ * Idioms checked: an-arithmetic-loop-carried-definition-colours-last-unless-it-goes-through-a-copy.md,
+ * a-self-narrowing-cast-statement-recolours-a-table-index.md, block-locals-declared-without-initialisers-
+ * colour-differently.md, a-table-load-hoisted-past-the-loop-guard-names-a-const-extern-table.md,
+ * a-loop-invariant-buffer-read-through-the-field-colours-below-the-named-locals.md; mwcc_ref
+ * ALLOCATOR_CASEBOOK numbering and cluster laws. Matched hits: 021B01FC image (step temp in r2 there),
+ * 021AF628 image (index table not hoisted), 021AF494 (pending, h1 house style).
  * symbols:
  *   d_021B3A04 0x021B3A04 data ov013 a1
  *   d_021B3A1C 0x021B3A1C data ov013 a2
@@ -114,22 +133,22 @@ extern const s8 d_021B3A04[8];
 extern const s16 d_021B3A1C[89];
 static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
 {
+    int idx;
     int pred;
-    u8 idx;
     int diff;
     int code;
     int delta;
     int np;
-    int ni;
     int step;
-    step = d_021B3A1C[st->index];
     idx = st->index;
     pred = st->pred;
     diff = sample - pred;
     if (diff < 0) {
+        step = d_021B3A1C[idx];
         code = 4;
         diff = -diff;
     } else {
+        step = d_021B3A1C[idx];
         code = 0;
     }
     if (diff >= step) {
@@ -146,13 +165,14 @@ static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
     np = pred + delta;
     if (np < -32768) np = -32768;
     if (np > 32767) np = 32767;
-    ni = idx + d_021B3A04[code];
-    if (ni < 0) ni = 0;
-    else if (ni > 88) ni = 88;
+    idx += d_021B3A04[code];
+    if (idx < 0) idx = 0;
+    else if (idx > 88) idx = 88;
     st->pred = (s16)np;
-    st->index = ni;
+    st->index = idx;
     return code;
 }
+
 void func_021AFABC(u8 *dst, s16 *src, u32 n, AdpcmState *st)
 {
     u32 i;
