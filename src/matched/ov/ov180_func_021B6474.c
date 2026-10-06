@@ -19,7 +19,7 @@ typedef unsigned short u16;
 struct WordSet; struct Rec;
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *);
-extern void func_0201D83C(void *);
-extern void func_02045C04(struct Rec *);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_02045C04(struct Rec *rec);
 void func_021B6474(char *p) {func_02045808(((struct Obj05469 *)p)->f9040);func_0201ED04(*(struct WordSet * *)&((struct Obj05469 *)p)->f903C);func_0201D83C(((struct Obj05469 *)p)->f9034);func_0201D83C(((struct Obj05469 *)p)->f9030);func_02045C04(*(struct Rec * *)&((struct Obj05469 *)p)->f9038);}

@@ -16,11 +16,11 @@
  */
 
 typedef unsigned int   u32;
-extern u32 func_021C29D8(u32 a0);
+extern u32 func_021C29D8(void *a0);
 
 void func_021BAAF4(int *p)
 {
     int i;
     for (i = 0; i < 5; i++)
-        func_021C29D8(p[i + 0x0E]);
+        func_021C29D8((void *)p[i + 0x0E]);
 }

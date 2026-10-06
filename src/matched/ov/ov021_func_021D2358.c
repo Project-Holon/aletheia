@@ -34,10 +34,11 @@ typedef unsigned short u16;
 struct Evt;
 extern void *func_021C7260(u32 a, u16 b, int c);
 extern void *func_021C71D4(u32 a, u32 b, u32 c);
-extern void func_021C6DE0(unsigned char *p, u32 a, u32 b);
+extern void func_021C6DE0(unsigned char *p, u32 *a, u32 b);
 extern u32 func_021A01D4(unsigned char *p);
 extern void func_021A01FC(unsigned char *p, u32 a, u32 b, u32 c);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 typedef unsigned char  u8;
 extern void func_021A30A4(u8 *p, u32 b);
 extern void *func_02184F88(void *p);
@@ -56,14 +57,14 @@ int func_021D2358(u32 a, int *seq, int *w)
             r6 = func_02188C64((unsigned char *)w[1]);
             r7 = (u32)func_021C7260(w[1], 0x14, 3);
             r4 = (u32)func_021C71D4(w[1], 0xc, 3);
-            func_021C6DE0((unsigned char *)s, r7, 0);
-            func_021C6DE0((unsigned char *)s, r4, r7);
+            func_021C6DE0((unsigned char *)s, (u32 *)r7, 0);
+            func_021C6DE0((unsigned char *)s, (u32 *)r4, r7);
             func_021A01FC((unsigned char *)r6, 0x7F0F, func_021A01D4((unsigned char *)r6), 0x1A);
         }
         (*seq)++;
         break;
     case 1:
-        func_021A30A4(func_02188CB4((unsigned char *)w[1]), 2);
+        func_021A30A4(func_02188CB4((struct Obj00020 *)w[1]), 2);
         (*seq)++;
         break;
     case 2:

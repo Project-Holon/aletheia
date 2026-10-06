@@ -41,7 +41,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 struct MsgBank;
 struct Obj;
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
 extern void  sub_02008500(void *a, void *b);

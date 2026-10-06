@@ -22,11 +22,12 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern int func_0218A220(u8 *p, int k, int slot);
 
-int func_021896E0(int a, int b) {
+int func_021896E0(struct Cursor *a, int b) {
     int r;
     int r2;
     int t;

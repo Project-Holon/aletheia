@@ -13,7 +13,9 @@
  */
 #include "../include/Obj03290.h"
 typedef unsigned char u8;
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 int func_021FBD78(int unused, char *p)
 {
     int a, b, c, d;

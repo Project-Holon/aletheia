@@ -65,8 +65,8 @@ extern u32 func_021904AC(u8 *p);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02041B6C(u32);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02041300(int, int, int, int, int, int, int);
 
 int func_021D29F0(u32 a, u32 b)

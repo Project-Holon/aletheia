@@ -17,7 +17,7 @@
 #include "../include/Obj23295.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021FDA74(u32, u32, int);
+extern void func_021FDA74(int a0, int a1, int a2);
 typedef signed int     s32;
 struct Entry;
 extern struct Entry *func_0203996C(s32 idx);

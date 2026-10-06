@@ -11,8 +11,9 @@
  *   func_02189170 0x02189170 thumb ov096
  */
 #include "../include/Obj21956.h"
-extern void func_02189170(int, int, int);
-int func_02189160(int a, int b)
+struct Cursor;
+extern int func_02189170(struct Cursor *a, int b, int c);
+int func_02189160(struct Cursor *a, int b)
 {
     func_02189170(a, b, 1);
     return ((struct Obj21956 *)b)->fC4;

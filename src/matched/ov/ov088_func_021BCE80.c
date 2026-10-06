@@ -48,7 +48,7 @@ struct Sub020072A4Ctrl;
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern void func_02005654(void (*fn)(void), int a);
+extern int func_02005654(int a, int b);
 extern void func_021BCE70(void);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern int func_02034AC4(s32 handle);
@@ -69,7 +69,7 @@ void func_021BCE80(u8 *p, int *a1)
     if (func_021BD188((char *)p) == 0) {
         d_021BDA20 = func_0202EE30(0, ((struct Obj00578 *)p)->f1C, 0xf, 0x10, 0x81);
         func_020409B4(func_02045730(((struct Obj00578 *)p)->f1C));
-        func_02005654(func_021BCE70, 0);
+        func_02005654((int)func_021BCE70, 0);
         r = func_020070A4();
         func_02034AC4((u32)ov228_id);
         func_021DFF18(0x81);

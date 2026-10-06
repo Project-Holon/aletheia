@@ -56,7 +56,7 @@ typedef struct {
 
 extern u32 func_021F4E30(u8 *p);
 extern void func_021F4E64(u8 *p);
-extern void func_0201F868(void *p);
+extern u32 func_0201F868(void *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);

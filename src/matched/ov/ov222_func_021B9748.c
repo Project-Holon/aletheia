@@ -41,7 +41,7 @@ struct S020315D4;
 extern void func_02030EAC(struct Node *n);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201D83C(void*);
+extern u32 func_0201D83C(void *ptr);
 extern void func_021B9FB8(char*);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);

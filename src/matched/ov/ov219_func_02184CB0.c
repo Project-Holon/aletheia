@@ -21,9 +21,12 @@ struct TaskMenuState;struct U16Vec;struct Descriptor;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02184C8C(u8 *p, u32 i);
-extern void func_02027FD8(struct TaskMenuState *);
-extern void func_02045808(struct U16Vec *),func_020452E8(struct Descriptor *),func_020403F4(unsigned);
-extern void func_0201D83C(void *),func_0201DD78(unsigned,unsigned,unsigned);
+extern u32 func_02027FD8(struct TaskMenuState *s);
+extern void func_02045808(struct U16Vec *);
+extern u32 func_020452E8(struct Descriptor *d);
+extern void func_020403F4(unsigned);
+extern u32 func_0201D83C(void *ptr);
+extern void func_0201DD78(unsigned,unsigned,unsigned);
 void func_02184CB0(char *p)
 {
     func_02184C8C((u8 *)p,0);func_02184C8C((u8 *)p,1);

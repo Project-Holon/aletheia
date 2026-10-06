@@ -31,7 +31,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 print, void *bmp, short x, short y, u32 str, u32 font, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, u16 color)
@@ -41,7 +41,7 @@ void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, 
     s = func_02045EC0(bank, idx);
     func_0201F250(((struct Obj00414 *)w)->f84, (void *)(*(u32 *)&((struct Obj00414 *)w)->f88), s);
     print = ((struct Obj00414 *)w)->f8C;
-    func_0201C724(print, func_02045770(*(void **)(w + i * 8 + 0x94)), x, y, *(u32 *)&((struct Obj00414 *)w)->f88, font, color);
+    func_0201C724((void *)print, (u32)func_02045770(*(void **)(w + i * 8 + 0x94)), (short)x, (short)y, *(u32 *)&((struct Obj00414 *)w)->f88, font, color);
     *(unsigned char *)(w + i * 8 + 0x98) = 1;
     func_02045808(s);
 }

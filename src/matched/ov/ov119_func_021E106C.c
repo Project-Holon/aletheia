@@ -15,7 +15,8 @@
 typedef unsigned char  u8;
 struct Descriptor;
 extern void func_0202F038(u8 *p);
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021E106C(char *p)
 {
     if (((struct Obj05330 *)p)->f5F0) {

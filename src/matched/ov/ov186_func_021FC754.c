@@ -25,7 +25,8 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021FC870(int,Pair *,const void *,void *,void *,Pair *);
-extern void func_0201C724(void *,void *,short,short,void *,void *,unsigned short);
+typedef unsigned short u16;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021FC754(char *p,void *a,void *b,void *font,unsigned short value)
 {
     Pair xy;
@@ -34,6 +35,6 @@ void func_021FC754(char *p,void *a,void *b,void *font,unsigned short value)
     func_02045CAC(a,(u32)b,((struct Obj02902 *)p)->f10);
     func_021FC870(((struct Obj02902 *)p)->f18,(Pair *)(p+28),func_02045770(((struct Obj02902 *)p)->fC),((struct Obj02902 *)p)->f10,font,&xy);
     owner=((struct Obj02902 *)p)->f8;
-    func_0201C724(owner,func_02045770(((struct Obj02902 *)p)->f0),xy.x,xy.y,((struct Obj02902 *)p)->f10,font,value);
+    func_0201C724(owner,(u32)func_02045770(((struct Obj02902 *)p)->f0),(short)xy.x,(short)xy.y,(u32)(((struct Obj02902 *)p)->f10),(u32)font,value);
     p[4]=1;
 }

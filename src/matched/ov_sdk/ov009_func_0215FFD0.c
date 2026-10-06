@@ -35,7 +35,8 @@ typedef struct CPSSslConnection {
 extern CPSSslSession g_021AA664[4];
 
 extern unsigned long func_02087988(void);
-extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
+typedef unsigned char  u8;
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern unsigned long func_0208799C(unsigned long state);
 
 static void func_0215FFD0(CPSSslConnection *con)
@@ -48,7 +49,7 @@ static void func_0215FFD0(CPSSslConnection *con)
     for (i = 0; i < 4; i++) {
         p = &g_021AA664[i];
         if (p->valid != 0) {
-            if (func_020923F0(p, con->session_id, 0x20) == 0) {
+            if (func_020923F0((const u8 *)p, con->session_id, 0x20) == 0) {
                 p->valid = 0;
                 break;
             }

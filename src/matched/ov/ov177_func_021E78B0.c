@@ -55,8 +55,8 @@ extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_0202DE64(struct PmsDraw *p, u16 v);
 extern void func_0202DC48(void *, void *, const void *, unsigned);
-extern void func_0201C724(unsigned print, void *bmp, short x, short y, void *str, unsigned font, u16 color);
-void func_021E78B0(Work *p, const Record *data, unsigned font, unsigned print, void *msg, void *fmt, int alt, u16 heap)
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+void func_021E78B0(Work *p, const Record *data, unsigned font, void *print, void *msg, void *fmt, int alt, u16 heap)
 {
     void *str;
     void *buf;
@@ -138,7 +138,7 @@ void func_021E78B0(Work *p, const Record *data, unsigned font, unsigned print, v
             break;
         }
         if (draw) {
-            func_0201C724(print, func_02045770(p->ent[j].win), 0, 0, str, font, color);
+            func_0201C724(print, (u32)func_02045770(p->ent[j].win), 0, 0, (u32)str, font, color);
             p->ent[j].shown = 1;
         }
     }

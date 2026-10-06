@@ -20,11 +20,11 @@
 struct Descriptor;
 struct Obj020437AC;
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
+extern unsigned int func_02045C04(struct Rec *rec);
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 
 void func_021BE8FC(char *p)
 {

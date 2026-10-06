@@ -23,7 +23,8 @@ typedef struct Conn {
 	void *ping;
 } Conn;
 
-extern int func_020923F0(const void *a, const void *b, unsigned long n);
+typedef unsigned char  u8;
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern unsigned int func_0217F264(void);
 extern int func_021951E8(Conn *c, int latency);
 extern unsigned char g_021A5940[];

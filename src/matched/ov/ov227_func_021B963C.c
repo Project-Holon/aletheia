@@ -114,7 +114,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013E4C(u32 a);

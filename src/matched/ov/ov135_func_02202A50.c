@@ -51,7 +51,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *print, void *bmp, s16 x, s16 y, void *str, void *font, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
@@ -72,7 +72,7 @@ void func_02202A50(Ctx *ctx, u32 num, u32 digits, u32 mode, void *win, int x, in
             ctx->slot[i].win = win;
             ctx->slot[i].shown = 0;
             print = ctx->print;
-            func_0201C724(print, func_02045770(ctx->slot[i].win), x, y, str, ctx->font, 0x3DC8);
+            func_0201C724(print, (u32)func_02045770(ctx->slot[i].win), (s16)x, (s16)y, (u32)str, (u32)ctx->font, 0x3DC8);
             ctx->slot[i].shown = 1;
             ctx->used[i] = 1;
             func_02045808(fmt);

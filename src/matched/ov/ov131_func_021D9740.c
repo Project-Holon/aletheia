@@ -50,7 +50,7 @@ extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_021DBA78(u8 *,int);
 extern void func_021DB468(u8 *,u8 *,u8,int);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_021DB7D0(u8 *,u8 *,u8 *);
+extern void func_021DB7D0(void *a0, void *a1, void *a2);
 extern void func_0204B878(struct Obj *p, u16 value);
 void func_021D9740(u8 *a,u8 *p)
 {

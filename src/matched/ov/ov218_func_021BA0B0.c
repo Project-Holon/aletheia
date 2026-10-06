@@ -34,7 +34,7 @@ extern void func_021B9B78(char *p, u32 id);
 extern int func_021B9C00(char *p);
 extern u32 func_021B9C88(char *p);
 extern struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap);
-extern u32 func_0204E804(void);
+extern int func_0204E804(void);
 extern int func_02024004(int a);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern int tbl_021BAC80[];

@@ -16,7 +16,8 @@ typedef struct {
 } Obj;
 
 struct WordSet;
-extern void func_0201ED04(struct WordSet *p);
+typedef unsigned int   u32;
+extern u32 func_0201ED04(struct WordSet *p);
 
 void func_021BD040(Obj *p)
 {

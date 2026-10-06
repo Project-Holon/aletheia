@@ -15,6 +15,6 @@
  * Addresses are Black-image addresses.
  */
 
-void func_021A5EA0(void)
+void func_021A5EA0(void *p, void *a, int b, int c, int d, int e)
 {
 }

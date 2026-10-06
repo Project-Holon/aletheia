@@ -28,7 +28,7 @@ extern void func_021B6704(u8 *p, int index);
 extern void func_021B68F8(u8 *p, int a);
 extern void func_021B6A04(u8 *p, int a);
 struct WordSet;
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u8 *func_02012944(void *p);

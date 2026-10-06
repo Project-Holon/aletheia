@@ -20,7 +20,8 @@
 
 extern void func_0200BD48(void *a, int b);
 extern int func_021C385C(void **p);
-extern void func_0200BC10(void *a);
+struct Obj06851;
+extern void func_0200BC10(struct Obj06851 *p);
 extern void func_021C33A4(void *a);
 
 int func_021C3378(void **p)

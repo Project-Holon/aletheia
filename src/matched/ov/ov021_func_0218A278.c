@@ -86,7 +86,8 @@ struct FieldInput {
 
 typedef struct Cell { u16 x, y, z, w; } Cell;
 
-extern void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos);
+struct Obj00020;
+extern void func_0218A4E0(struct FieldInput *p, void *sys, struct Obj00020 *pos);
 struct BigObj;
 struct Ctx;
 struct Desc;
@@ -111,7 +112,8 @@ extern void func_021A2F6C(u32 *p);
 extern int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u16 func_0216D5F8(void *obj);
 extern u16 func_02162A5C(void *set, void *flags, const void *where, u16 type);
-extern void *func_02188CB4(u8 *pos);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern int func_0218B310(void *a, unsigned char *s);
 extern int func_0218B13C(char *p, void *unused, void *x, int *alt);
 extern int func_0218B24C(char *p, void *q, void *x);
@@ -127,7 +129,7 @@ extern struct Desc *func_0215FC40(int a0, int a1, u16 a2);
 extern int func_021A0EB0(u32 *p, u32 a);
 extern struct Desc *func_0218ACA8(void *a);
 
-int func_0218A278(void *sys, u8 *pos)
+int func_0218A278(void *sys, struct Obj00020 *pos)
 {
     struct FieldInput in;
     Cell here;
@@ -137,7 +139,7 @@ int func_0218A278(void *sys, u8 *pos)
     int r;
     u32 msg;
 
-    func_0218A4E0(&in, sys, pos);
+    func_0218A4E0(&in, sys, (struct Obj00020 *)pos);
     model = func_021A3074((u8 *)in.f18);
     func_0219E634(model, (u32)(&here));
     r = func_0218A738((struct Ctx738 *)(&in));
@@ -156,11 +158,11 @@ int func_0218A278(void *sys, u8 *pos)
         r = func_0218B0CC((char *)(&in), sys, pos);
         if (r != 0)
             return r;
-        r = func_0218A9B0((struct Ctx9B0 *)(&in), pos);
+        r = func_0218A9B0((struct Ctx9B0 *)(&in), (u8 *)pos);
         if (r != 0)
             return r;
     }
-    r = func_0218B208((struct FieldCtx *)(&in), sys, pos);
+    r = func_0218B208((struct FieldCtx *)(&in), sys, (u8 *)pos);
     if (r != 0)
         return r;
     if (in.b0) {
@@ -194,7 +196,7 @@ int func_0218A278(void *sys, u8 *pos)
     if (r != 0)
         return r;
     if (in.b6 && func_020221A4()) {
-        void *pl = (void *)func_02188CCC(pos);
+        void *pl = (void *)func_02188CCC((u8 *)pos);
 
         if (func_0215FF34(sys) && func_021A0ED4((u32)pl)) {
             r = (int)func_0215FF54((int)sys, (int)pos, in.f0);
@@ -203,16 +205,16 @@ int func_0218A278(void *sys, u8 *pos)
         }
     }
     if (func_0201212C(sys) == 1 && func_020221A4() && in.b10)
-        return func_021C06CC(sys, pos);
+        return func_021C06CC(sys, (u8 *)pos);
     if (in.b1 && func_020221A4()) {
-        if (func_021A0F90((void *)func_02188CCC(pos)) == 6)
+        if (func_021A0F90((void *)func_02188CCC((u8 *)pos)) == 6)
             return 0;
         return (int)func_0215FC40((int)sys, (int)pos, in.f0);
     }
     {
         u32 f = (in.b7 && func_020221A4()) ? 1 : 0;
 
-        r = func_021A0EB0((void *)func_02188CCC(pos), f);
+        r = func_021A0EB0((void *)func_02188CCC((u8 *)pos), f);
         if (r != 0)
             return r;
     }

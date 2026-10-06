@@ -20,7 +20,8 @@ struct TaskMenuState;
 extern void func_02027858(struct TaskMenu *);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02027FD8(struct TaskMenuState *);
+typedef unsigned int   u32;
+extern u32 func_02027FD8(struct TaskMenuState *s);
 void func_02186694(char *p)
 {
     func_02027858(*(struct TaskMenu * *)&((struct Obj03625 *)p)->f178);

@@ -18,7 +18,9 @@
  *   func_021FDB08 0x021FDB08 thumb ov094
  */
 #include "../include/Obj00325.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern unsigned int func_021FE38C(char *, unsigned int);
 extern int func_021FD1A8(char *p, int v);
 extern void func_021FDB08(void *);

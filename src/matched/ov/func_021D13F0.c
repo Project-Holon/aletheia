@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 
 u32 func_021D13F0(u32 a)
 {

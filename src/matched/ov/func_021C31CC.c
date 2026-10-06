@@ -27,7 +27,8 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B5AC(int, unsigned int *);
+struct Pair;
+extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 
 void func_021C31CC(int unused, char *q)
 {
@@ -41,6 +42,6 @@ void func_021C31CC(int unused, char *q)
     buf.w[0] = 0x1000;
     buf.w[1] = 0x1000;
     func_0204B404((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (const struct Vec2 *)buf.h, 1);
-    func_0204B5AC(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54), buf.w);
+    func_0204B5AC((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (struct Pair *)buf.w);
     ((struct Obj09208 *)q)->f60 = 1;
 }

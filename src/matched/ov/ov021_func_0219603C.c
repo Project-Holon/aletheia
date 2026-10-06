@@ -41,7 +41,7 @@ extern void func_02040588(u32 which, u32 enable);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 
-void func_0219603C(void)
+void func_0219603C(void *a0)
 {
     B32 t0;
     B32 t1;

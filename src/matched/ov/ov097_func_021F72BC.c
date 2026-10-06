@@ -16,7 +16,8 @@
 struct Obj;
 struct Bank;
 extern void func_0204B3B4(struct Obj *);
-extern void func_0204B1CC(struct Bank *);
+typedef unsigned int   u32;
+extern u32 func_0204B1CC(struct Bank *bank);
 void func_021F72BC(char *p)
 {
     unsigned i;

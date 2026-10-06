@@ -16,7 +16,9 @@
  *   func_021FDBB0 0x021FDBB0 thumb ov094
  */
 #include "../include/Obj13595.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FDBB0(char *, int);
 
 int func_021FBE74(void *a, char *s)

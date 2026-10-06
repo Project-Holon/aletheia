@@ -24,7 +24,7 @@ struct Bank;
 extern void func_020434DC(u32, u32);
 extern void func_02043598(u32, u32);
 extern void func_02025588(void *);
-extern void func_0204B1CC(struct Bank *);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_02025358(void *);
 void func_021B68B4(void **p)

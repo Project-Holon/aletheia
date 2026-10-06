@@ -32,7 +32,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  func_02011608(int dev);
+struct Obj11244;
+extern u32 func_02011608(struct Obj11244 *p);
 typedef signed int     s32;
 struct IcaAnime;
 struct Rec12;
@@ -49,7 +50,7 @@ int func_021F40A0(int *p)
 {
     int flag;
     int a[3], b[3], c[3];
-    int x = func_02011608(p[0]) << 12;
+    int x = func_02011608((struct Obj11244 *)p[0]) << 12;
 
     if (x <= p[1]) {
         flag = 1;

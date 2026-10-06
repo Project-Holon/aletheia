@@ -15,11 +15,13 @@
  *   func_02201D5C  0x02201D5C  thumb  ov094
  */
 #include "../include/Obj21670.h"
-extern int func_0201134C(int a);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021F86F0(void);
 extern void func_02201D5C(char *o, int idx, int c, void *d, int s1, int s2, int s3);
 
-int func_021FB7F8(int a, char *b)
+int func_021FB7F8(struct Cursor *a, char *b)
 {
     int arr[3];
     int t0, t1, t3, t4, t5;

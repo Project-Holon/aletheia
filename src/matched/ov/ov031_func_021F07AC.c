@@ -79,7 +79,7 @@ extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
-extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, void *str, u32 font, u32 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
@@ -142,18 +142,18 @@ void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
         func_02045374((struct Cfg *)p->a[k]);
         func_02041B6C(func_02045730((struct Descriptor *)p->a[k]));
         q = p->w40;
-        func_0201C724(q, (u32)func_02045770((struct Descriptor *)p->s[k].h), 0, t.b, x, p->w44, 0x440);
+        func_0201C724((void *)q, (u32)func_02045770((struct Descriptor *)p->s[k].h), (s16)0, (s16)t.b, (u32)x, p->w44, (u32)0x440);
         p->s[k].f = 1;
         func_02045808(x);
         p->b[k] = 1;
     }
     buf = func_020457B0(8, 0x15);
     func_02045924(buf, (const u16 *)e);
-    func_0201C724(p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), 0, 0, buf, p->w44, 0x440);
+    func_0201C724((void *)p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), (s16)0, (s16)0, (u32)buf, p->w44, (u32)0x440);
     func_02045808(buf);
     if (e[0x22] != 0) {
         buf = func_02045EC0((struct MsgBank *)p->w48, (e[0x22] == 1) ? 4 : 5);
-        func_0201C724(p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), 0x74, 0, buf, p->w44, 0x440);
+        func_0201C724((void *)p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), (s16)0x74, (s16)0, (u32)buf, p->w44, (u32)0x440);
         func_02045808(buf);
     }
 }

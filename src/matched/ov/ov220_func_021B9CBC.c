@@ -81,12 +81,12 @@ extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern void func_0201C724(void *, void *, u32, u32, void *, void *, u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
@@ -142,8 +142,8 @@ void func_021B9CBC(struct Obj *p)
     h = (u32)func_020437DC(func_02045770(p->ptr[1]));
     if (h >= n) off = ((int)(h - n)) / 2;
     k = d_021BA314[1];
-    func_0201C724(p->bmp, func_02045770(p->ptr[1]), (s16)off, k, x, p->str, 0x440);
-    func_0201C724(p->bmp, func_02045770(p->ptr[1]), (s16)(u16)(off + w1 + 8), k, y, p->str, 0x440);
+    func_0201C724(p->bmp, (u32)func_02045770(p->ptr[1]), (s16)off, k, (u32)x, (u32)p->str, 0x440);
+    func_0201C724(p->bmp, (u32)func_02045770(p->ptr[1]), (s16)(u16)(off + w1 + 8), k, (u32)y, (u32)p->str, 0x440);
     func_02045808(y);
     func_02045808(x);
     m = *(u16 *)(b + 2);
@@ -161,8 +161,8 @@ void func_021B9CBC(struct Obj *p)
     h = (u32)func_020437DC(func_02045770(p->ptr[2]));
     if (h >= n) off = ((int)(h - n)) / 2;
     k = d_021BA314[2];
-    func_0201C724(p->bmp, func_02045770(p->ptr[2]), (s16)off, k, z, p->str, 0x440);
-    func_0201C724(p->bmp, func_02045770(p->ptr[2]), (s16)(u16)(off + w1 + 8), k, q, p->str, 0x440);
+    func_0201C724(p->bmp, (u32)func_02045770(p->ptr[2]), (s16)off, k, (u32)z, (u32)p->str, 0x440);
+    func_0201C724(p->bmp, (u32)func_02045770(p->ptr[2]), (s16)(u16)(off + w1 + 8), k, (u32)q, (u32)p->str, 0x440);
     func_02045808(q);
     func_02045808(z);
     func_02045808(t);
@@ -171,7 +171,7 @@ void func_021B9CBC(struct Obj *p)
     w1 = (u16)func_0201D304(y, (u32)p->str, 0);
     h = (u32)func_020437DC(func_02045770(p->ptr[3]));
     off = ((int)(h - w1)) / 2;
-    func_0201C724(p->bmp, func_02045770(p->ptr[3]), (s16)off, d_021BA314[3], y, p->str, 0x440);
+    func_0201C724(p->bmp, (u32)func_02045770(p->ptr[3]), (s16)off, d_021BA314[3], (u32)y, (u32)p->str, 0x440);
     func_02045808(y);
     for (i = 1; i < 4; i++) {
         void *d = p->ptr[i];

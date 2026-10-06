@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021F62C8(void)
+void func_021F62C8(int a0, char *a1)
 {
 
 }

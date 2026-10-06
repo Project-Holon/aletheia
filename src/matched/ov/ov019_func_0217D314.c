@@ -76,12 +76,12 @@ extern u32 func_020362DC(void);
 extern u16 func_0217EE40(int i);
 extern u16 func_0217EE1C(int i);
 extern u16 func_0217EDF8(int i);
-extern void func_0217F210(u8 *p, int a, u32 b);
+extern void func_0217F210(u8 *p, u8 *a, u32 b);
 extern void func_02172D20(u8 *a);
 extern int func_02172D68(u8 *a);
 extern u8 d_021807E4[];
 
-int func_0217D314(u8 *a, Obj *b, int c, u8 *d)
+int func_0217D314(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     int idx;
     int n;

@@ -22,7 +22,9 @@
 #include "../include/Obj21668.h"
 typedef short s16;
 
-extern int func_0201134C(int a);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FCF2C(int a, int b);
 extern int func_021F8694(void);
 extern void func_021FF3F4(void *obj, void *out, int idx);
@@ -30,7 +32,7 @@ extern int func_021F86F0(void);
 extern int func_02201AF8(int a, int b, int c, s16 d, s16 e, int f, int g);
 extern void func_0206DF3C(int *p, int *q, int *r);
 
-int func_021FB6F4(int a, char *b)
+int func_021FB6F4(struct Cursor *a, char *b)
 {
     int pt[3];
     int o1, o2;
@@ -38,7 +40,7 @@ int func_021FB6F4(int a, char *b)
 
     t0 = func_0201134C(a);
     t1 = func_0201134C(a);
-    t2 = func_021FCF2C(a, func_0201134C(a));
+    t2 = func_021FCF2C((int)a, func_0201134C(a));
     t3 = func_0201134C(a);
     t4 = func_0201134C(a);
     t5 = func_0201134C(a);

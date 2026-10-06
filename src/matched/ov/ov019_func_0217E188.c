@@ -81,7 +81,7 @@ extern void func_0217F098(unsigned char *base, u8 *x);
 extern int func_0217B974(int id);
 extern void func_0217F640(struct Self *self, u32 a1, u32 mask, int mode, int msg);
 extern u32 func_0217F794(char *p, u32 a);
-extern void func_0217F210(u8 *p, int a, u32 b);
+extern void func_0217F210(u8 *p, u8 *a, u32 b);
 extern u32 func_020362DC(void);
 extern void func_0217F7B8(char *p);
 
@@ -165,7 +165,7 @@ int func_0217E188(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         break;
     case 5:
         if (func_0217F794((char *)ctx, (u32)a2) == 1) {
-            func_0217F210((u8 *)ctx, (int)a2, 0x115);
+            func_0217F210((u8 *)ctx, (u8 *)a2, 0x115);
             (*state)++;
         }
         break;

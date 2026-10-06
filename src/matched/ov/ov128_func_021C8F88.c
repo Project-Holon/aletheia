@@ -78,7 +78,7 @@ typedef unsigned long long u64;
 typedef struct { u16 v[10]; } Tbl;
 extern const Tbl d_021CA674;
 extern void func_021C63AC(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
-extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void func_021CA4B4(char *p);
 struct BigObj;
 struct DWCstAccUserData;
@@ -118,7 +118,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
     key = func_0205994C(func_02009860((void *)func_0201283C(*(void **)(q + 4))));
     if (key != 0) {
         func_02045CAC(*(void **)(ctx + 4), 0x35, (void *)text);
-        func_021B6AE4(p, *(u32 *)(ctx + 0x34), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
+        func_021B6AE4(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
         func_021CA4B4(*(char **)p);
         pal = *(u32 *)(ctx + 0x17c);
         gfx = *(u32 *)(ctx + 0x34);
@@ -129,7 +129,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
         for (i = 1; i <= 12; i++) {
             func_0204581C((void *)text);
             func_02045AFC((void *)text, t.v[key % 10]);
-            func_021B6AE4(w1, gfx, (n - i) * 8 - x + 1, 0, text, pal, 0x3c40, 0);
+            func_021B6AE4(w1, (void *)gfx, (n - i) * 8 - x + 1, 0, text, pal, 0x3c40, 0);
             if (i % 4 == 0)
                 x += 8;
             key = key / 10;
@@ -137,7 +137,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
         func_021CA4B4(*(char **)(p + 8));
     } else {
         func_02045CAC(*(void **)(ctx + 4), 0x36, (void *)text);
-        func_021B6AE4(p, *(u32 *)(ctx + 0x34), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
+        func_021B6AE4(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
         func_021CA4B4(*(char **)p);
     }
     func_02045808((void *)text);

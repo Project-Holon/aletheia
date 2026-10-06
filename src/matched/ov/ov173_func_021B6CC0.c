@@ -125,7 +125,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_02045808(struct U16Vec *vec);
 static inline void flush(void *win)
 {

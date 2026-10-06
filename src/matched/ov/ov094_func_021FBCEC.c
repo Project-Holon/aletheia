@@ -17,7 +17,9 @@
  *   func_021FC744 0x021FC744 thumb ov094
  */
 #include "../include/Obj13592.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_020113D0(char *p, int val);
 extern int func_021FC744(void *, void *);
 

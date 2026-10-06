@@ -107,9 +107,10 @@ struct Obj;
 extern void func_0200AE14(void);
 extern int func_0201A090(void *rules, void *party, u32 *mask);
 extern void func_021DCB58(char *,void *,int);
-extern int func_021DCC28(char *,void *);
+struct Record;
+extern int func_021DCC28(char *p, u8 *out);
 extern u32 func_0201AA18(void *);
-extern void func_021DBC04(char *,int,void *);
+extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 struct Big;
 extern void *func_02012EBC(struct Big *p);
@@ -138,7 +139,7 @@ extern void func_021D7BE4(u32 sys, int *state, char *p);
 extern void func_021D8EC8(u32 sys, int *state, char *p);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_021DC2F4(char *,unsigned);
-extern int func_021DC338(char *);
+extern int func_021DC338(u8 *p);
 extern void func_021DC66C(const char *p, void *out);
 extern u32 func_0200B1A8(struct Reg2 *p);
 extern void func_021D9A1C(char *,void *);
@@ -207,7 +208,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 11:func_021E8738((int *)W(0x2c),W(0x14),0x5b,2);func_021E8AB4((u32)sys,12);*state=56;break;
     case 12:func_021DC2F4(H,*(u32 *)ctx[12]);*state=13;break;
     case 13:
-        r=func_021DC338(H);
+        r=func_021DC338((u8 *)H);
         if(r==1){func_021DC66C(H,p+0x10c);if(func_0200B1A8((struct Reg2 *)(p+0x10c)))*state=14;else *state=15;}
         else if(r==2)*state=15;
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
@@ -243,7 +244,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 35:if(func_021D97C4(p))*state=36;break;
     case 36:func_021D97A4(p);*state=42;break;
     case 37:func_021E8738((int *)W(0x2c),W(0x14),0x46,2);func_021E8AB4((u32)sys,38);*state=56;break;
-    case 38:if(*(u32 *)ctx[8]==0){func_02082BCC((void *)(ctx[13]+0x18),0,0x534);func_021DBC04(H,0,(void *)(CTX[13]+0x18));*state=39;}break;
+    case 38:if(*(u32 *)ctx[8]==0){func_02082BCC((void *)(ctx[13]+0x18),0,0x534);func_021DBC04((u8 *)H,0,(void *)(CTX[13]+0x18));*state=39;}break;
     case 39:
         r=func_021DBDAC(H);if(r==1){*(u32 *)CTX[8]=0x708;*state=40;}
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;

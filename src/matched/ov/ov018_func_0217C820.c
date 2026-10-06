@@ -51,7 +51,8 @@ typedef struct {
     int z;
 } Vec;
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216D410(void *, u16);
 struct VecFx32;

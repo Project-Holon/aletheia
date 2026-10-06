@@ -31,7 +31,8 @@ extern void func_0216D410(void *a0, u16 a1);
 extern void func_0216DAC8(unsigned int *p, unsigned int v);
 extern int func_0216D454(int);
 extern int func_0216D480(char *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 
 int func_0217B5E0(char *base, int *p, int r2, unsigned char *state)

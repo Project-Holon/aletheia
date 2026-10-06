@@ -68,7 +68,8 @@ struct BgEvent {
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *id, struct VecFx32 *out);
 struct BigObj;

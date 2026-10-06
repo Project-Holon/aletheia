@@ -26,7 +26,7 @@ typedef struct {
     u32 f4;
 } Slot;
 
-extern u32 func_021DFAA8(u32 a, u32 b);
+extern int func_021DFAA8(char *a, int b);
 extern int func_021DF644(int a, int b);
 extern void func_02059F54(u32 a, u32 b);
 extern u32 g_021E4D08[];
@@ -34,7 +34,7 @@ extern u32 g_021E4D08[];
 u32 func_021DF1C8(u32 a)
 {
     Slot *t = (Slot *)g_021E4D08;
-    u32 r5 = func_021DFAA8(t->f4, a);
+    u32 r5 = func_021DFAA8((char *)t->f4, a);
 
     if (r5 != 0) {
         u32 r4 = 8;

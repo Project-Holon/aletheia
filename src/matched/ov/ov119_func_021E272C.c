@@ -42,7 +42,7 @@ extern const Quad d_021E7974;
 extern u32 func_02017E1C(void *,u32,u32);
 struct Cfg;
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);

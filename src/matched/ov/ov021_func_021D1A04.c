@@ -29,7 +29,8 @@ extern void *func_0215A5F4(void *p);
 extern int func_02158F58(int a0);
 extern u16 func_02188C84(u8 *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern u8 *func_021D182C(u32 a, u32 b, u32 *c, u32 d);
@@ -44,7 +45,7 @@ int func_021D1A04(u32 a, u32 b)
     u32 k = func_02159B10((void *)a, (void *)b);
     u8 *r;
 
-    func_021A3038(func_02188CB4((u8 *)q[1]), (struct VecFx32 *)buf);
+    func_021A3038(func_02188CB4((struct Obj00020 *)q[1]), (struct VecFx32 *)buf);
     r = func_021D182C(q[1], k, buf, t);
     func_02159104(s, (u32)r);
     return 0;

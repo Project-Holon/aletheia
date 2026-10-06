@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021E8A78(void *);
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 void func_0217B344(int *p) {func_021E8A78(((struct Obj14356 *)p)->f0);func_02045C04(((struct Obj14356 *)p)->fC);func_020307B0(p);}

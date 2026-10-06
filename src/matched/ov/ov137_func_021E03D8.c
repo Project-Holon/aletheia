@@ -29,7 +29,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C724(void *,void *,int,int,void *,void *,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Cfg;
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *cfg);
@@ -45,7 +45,7 @@ void func_021E03D8(u8 *p,void *text,int index,int color)
     func_02043B5C(func_02045770(window),15);
     owner=((struct Obj14231 *)s)->f58;
     data=func_02045770(*(void **)(s+48+index*8));
-    func_0201C724(owner,data,4,1,text,((struct Obj14231 *)s)->f4,color);
+    func_0201C724(owner,(u32)data,4,1,(u32)text,(u32)(((struct Obj14231 *)s)->f4),color);
     *(u8 *)(s+52+index*8)=1;
     func_02045334(window);
     func_02045374(window);

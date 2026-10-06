@@ -16,12 +16,14 @@
  *   func_022097CC  0x022097CC  thumb  ov094
  */
 #include "../include/Obj21663.h"
-extern int func_0201134C(int a);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FCF2C(int a, int b);
 extern int func_021F8700(void);
 extern void func_022097CC(int a, int b, int c, int d, int e, int f, int g, int h);
 
-int func_021FB49C(int a, char *b)
+int func_021FB49C(struct Cursor *a, char *b)
 {
     int t0, t1, t2, t3, t4, t5, v;
 
@@ -31,7 +33,7 @@ int func_021FB49C(int a, char *b)
     t3 = func_0201134C(a);
     t4 = func_0201134C(a);
     t5 = func_0201134C(a);
-    v = func_021FCF2C(a, 14);
+    v = func_021FCF2C((int)a, 14);
     func_022097CC(func_021F8700(), v, t0, t1, t2, t3, t4, t5);
     return ((struct Obj21663 *)b)->f23C;
 }

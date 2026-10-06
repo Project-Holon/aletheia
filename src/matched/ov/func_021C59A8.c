@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201F868(u32);
+extern u32 func_0201F868(void *p);
 struct Obj;
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 
 int func_021C59A8(u32 a, u32 b, u32 c)
 {
 func_0202020C((struct Obj *)(((struct Obj12133 *)((u8 *)(a)))->f4), (u16 *)b, (u16 *)c);
-return func_0201F868(((struct Obj12133 *)((u8 *)(a)))->f0);
+return func_0201F868((void *)(((struct Obj12133 *)((u8 *)(a)))->f0));
 }
 

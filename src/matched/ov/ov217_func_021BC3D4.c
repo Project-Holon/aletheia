@@ -25,7 +25,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern int func_021BC3AC(void);
-u32 func_021BC3D4(u32 a0)
+u32 func_021BC3D4(void)
 {
     return func_021BC3AC() + 24;
 }

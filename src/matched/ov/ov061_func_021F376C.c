@@ -40,7 +40,8 @@ typedef struct {
 } V3;
 
 extern int func_02188D2C(int *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 typedef unsigned int   u32;
 struct BigObj;
 struct Ctx;
@@ -61,7 +62,7 @@ extern int func_02162478(char *p, int *v);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern void func_021BE6B0(u8 *p, int v);
 
-void func_021F376C(u8 *a)
+void func_021F376C(struct Obj00020 *a)
 {
     int *o;
     int s;
@@ -75,7 +76,7 @@ void func_021F376C(u8 *a)
     g = func_02188CB4(a);
     h = func_02012844(func_020120F4(func_02188C80(a)));
     o = func_021897BC((char *)a, 0);
-    cur = func_02188C9C(a);
+    cur = func_02188C9C((u8 *)a);
     if (o[2] != cur) {
         func_021F388C(o, (int)a);
         o[2] = cur;

@@ -21,7 +21,7 @@
 struct Descriptor;
 struct Obj;
 extern void func_020456F8(struct Descriptor *d);
-extern void func_020452E8(struct Descriptor *d);
+extern unsigned int func_020452E8(struct Descriptor *d);
 extern void func_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);

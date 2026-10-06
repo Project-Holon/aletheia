@@ -12,4 +12,4 @@
  *   func_0204A600 0x0204A600 arm
  */
 extern void func_0204A600(void);
-void func_021BE0E0(void){func_0204A600();}
+void func_021BE0E0(void *a0){func_0204A600();}

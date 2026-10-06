@@ -56,7 +56,7 @@ extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 extern int func_0217EE4C(int **p, int x, int y);
 typedef unsigned int   u32;
-extern void func_0217F210(u8 *p, int a, u32 b);
+extern void func_0217F210(u8 *p, u8 *a, u32 b);
 extern u32 func_02173BB0(unsigned char *p);
 extern u32 func_0217F1EC(u8 *p);
 extern void *func_0216F7F4(int a, void *b, int c);
@@ -68,7 +68,7 @@ extern int func_0217B8E4(char *p, char v);
 extern u8 d_021807E4[];
 extern u8 d_021807E8[];
 
-int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
+int func_0217CFA8(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     u8 *q;
     if (func_0217BB04((char *)a) == 1)

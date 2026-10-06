@@ -26,7 +26,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0201134C(void *);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void *func_021F9DD4(void *);
 extern void *func_021F9DDC(void *,u8);
 typedef struct { int x,y,z; } Vec;

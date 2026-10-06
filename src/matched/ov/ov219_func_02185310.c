@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 
 void func_02185310(char *p)
 {

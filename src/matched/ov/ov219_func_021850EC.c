@@ -27,7 +27,8 @@ extern u32 func_02184968(const u8 *p, int flag);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern BmpMenuWork *func_0201F81C(unsigned,unsigned);
 extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void func_02045C04(struct Rec *),func_02184FC8(char *,const struct Src *,unsigned);
+extern u32 func_02045C04(struct Rec *rec);
+extern void func_02184FC8(char *,const struct Src *,unsigned);
 void func_021850EC(char *p,const unsigned char *descriptor,const struct Src *cfg,unsigned file,const unsigned char *ids,unsigned count)
 {
     struct MsgBank *bank;

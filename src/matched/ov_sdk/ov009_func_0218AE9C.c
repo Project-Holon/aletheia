@@ -185,7 +185,7 @@ extern int func_0218A830(void **connection, GPIConnectData *data);
 extern int func_02084F40(char *dst, char *fmt, ...);
 extern int func_0209477C(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
-extern int func_020923F0(const void *a, const void *b, unsigned long n);
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern GPIProfile *func_0218FCD8(void **connection, int id);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_02193734(int *p, int b);
@@ -355,7 +355,7 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
             func_02189D78((int *)connection, __result__, 1);
             return __result__;
         }
-        if (func_020923F0(check, buffer, 32) != 0) {
+        if (func_020923F0((const u8 *)check, (const u8 *)buffer, 32) != 0) {
             func_02193710((int *)connection, 0x108, (int)g_021A4A38);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);

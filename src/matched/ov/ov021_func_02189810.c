@@ -55,7 +55,8 @@ extern void func_0206A854(void);
 extern void func_0206DB80(void);
 extern void func_021ABE0C(u32 a);
 extern void func_021C64E0(u32 a);
-extern void func_02050790(u32 a, u32 b, u32 c);
+struct tagLISTCB;
+extern void func_02050790(struct tagLISTCB *list, int b, int c);
 extern void func_0217F928(char *p);
 extern void func_021BB954(u8 *p);
 extern void func_021A1B38(u32 *p);
@@ -84,8 +85,8 @@ void func_02189810(u8 *p)
     func_0206DB80();
     func_021ABE0C(((struct Obj00704 *)p)->f94);
     func_021C64E0(((struct Obj00704 *)p)->f130);
-    func_02050790(((struct Obj00704 *)p)->fB0, ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
-    func_02050790(((struct Obj00704 *)p)->fB8, ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
+    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB0), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
+    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB8), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
     if (((struct Obj00704 *)p)->f98 != 0)
         func_0217F928((char *)(((struct Obj00704 *)p)->f98));
 
@@ -95,7 +96,7 @@ void func_02189810(u8 *p)
     g_02148BCC.flag &= ~0x50;
     func_0206A854();
     func_0206DB80();
-    func_02050790(((struct Obj00704 *)p)->fB4, ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
+    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB4), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
 
     MIi_CpuCopyFast(&saved, &g_02148B54, 0x40);
     g_02148BCC.flag &= ~0x50;

@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);

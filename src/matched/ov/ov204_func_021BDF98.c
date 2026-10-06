@@ -14,5 +14,5 @@
  */
 #include "../include/Obj25336.h"
 extern void func_0204A648(void);
-void func_021BDF98(void){func_0204A648();}
+void func_021BDF98(void *a0){func_0204A648();}
 unsigned func_021BDFA0(char *p){return ((struct Obj25336 *)p)->f0;}

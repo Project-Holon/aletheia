@@ -59,7 +59,7 @@ extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int,int,Pair *);
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
-extern int func_021D7540(int a, int x, int mode, u16 *state, int b, u16 c);
+extern int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
 extern void func_02082BCC(void *,int,unsigned);
 extern u8 *func_0200B928(void);
 extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
@@ -90,7 +90,7 @@ void func_021E2C2C(int task,unsigned *state,char *p)
         *(u16 *)(p+0x40)=0;*(u16 *)(p+0x42)=0;
         ++*state;break;
     case 3:
-        r=func_021D7540(*(int *)(*(char **)(p+0x3c)+0x14),*(int *)(p+0x10)+1,(unsigned char)(*(int *)(*(char **)(p+0x3c)+0x24)),(u16 *)(p+0x40),(int)(p+0x42),*(u16 *)(p+0x38));
+        r=func_021D7540((void *)(*(int *)(*(char **)(p+0x3c)+0x14)),*(int *)(p+0x10)+1,(unsigned char)(*(int *)(*(char **)(p+0x3c)+0x24)),(u16 *)(p+0x40),(u16 *)(p+0x42),*(u16 *)(p+0x38));
         if((unsigned)(r-2)<=1) {
             *(int *)(*(char **)(p+0x3c)+0x28)=1;
             *(int *)(*(char **)(p+0x3c)+0x2c)=*(int *)(p+0x10)+1;

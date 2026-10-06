@@ -27,7 +27,7 @@ extern u32 func_0204B98C(struct Actor *a);
 struct Obj;
 extern void func_0204B3DC(struct Obj *v, unsigned int k);
 extern void func_021F9660(u8 *p, u32 k);
-extern void func_0201F868(void *p);
+extern u32 func_0201F868(void *p);
 extern u8 g_022033FC[];
 
 int func_021FBC1C(u8 *p)

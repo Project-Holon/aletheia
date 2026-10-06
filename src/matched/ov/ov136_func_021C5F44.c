@@ -25,8 +25,8 @@ struct PrintSys;
 extern void func_0201C4C0(struct PrintSys *p);
 struct S02031140;
 extern void func_02031140(struct S02031140 *p);
-extern void func_020452E8(struct Descriptor *d);
-extern void func_0201D83C(void *ptr);
+extern u32 func_020452E8(struct Descriptor *d);
+extern u32 func_0201D83C(void *ptr);
 extern void func_020450C8(void);
 
 void func_021C5F44(u8 *p)

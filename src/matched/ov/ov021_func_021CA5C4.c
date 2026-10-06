@@ -277,7 +277,8 @@ extern int func_021CBCC4(void *a);
 extern void func_02087BCC(u32 a);
 extern void func_0200D85C(struct Blk3C *p);
 extern u32 func_0200D87C(struct Blk3C *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u16 func_021A3050(u8 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *t);
@@ -351,7 +352,7 @@ extern void func_021C9C54(u8 *w, u32 x);
 extern void func_021C9B78(u8 *w);
 extern void func_021CB9E4(u8 *p, void *a1, void *a2, void *a3);
 extern int func_021CA048(u32 a, u32 b);
-extern u32 func_02012134(u32 x);
+extern u32 func_02012134(u32 *p);
 extern u32 func_0202B578(u32 *p);
 extern void func_0202C0D0(u8 *p, u32 a);
 extern void func_021CA338(u8 *w, u8 alt);
@@ -889,7 +890,7 @@ int func_021CA5C4(void *a, u32 b)
         Slot i = 0;
         u16 n = func_0200DA54((struct Blk3C *)s40);
         if (n != 0) {
-            void *p = (void *)func_0202B578((u32 *)func_02012134(x));
+            void *p = (void *)func_0202B578((u32 *)func_02012134((u32 *)x));
             n = i + n + 1;
             for (; i < n; i++) {
                 if (i < 9 && i != 0)

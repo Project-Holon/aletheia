@@ -13,5 +13,6 @@
  */
 #include "../include/Obj13262.h"
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021BD61C(char *p) { func_020452E8(*(struct Descriptor * *)&((struct Obj13262 *)p)->f1FC); func_020452E8(*(struct Descriptor * *)&((struct Obj13262 *)p)->f200); }

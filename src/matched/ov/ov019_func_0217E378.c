@@ -27,13 +27,13 @@ typedef unsigned int u32;
 int func_0217BB20(char *p);
 void func_0217F074(void *p);
 int func_0217B8E4(char *p, char v);
-void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F210(u8 *p, u8 *a, u32 b);
 u32 func_0217F1EC(u8 *p);
 u32 func_02174E20(void);
 u32 func_02174E64(void);
 u32 func_020362DC(void);
 
-int func_0217E378(u8 *w, void *obj, int a2, u8 *state)
+int func_0217E378(u8 *w, void *obj, u8 *a2, u8 *state)
 {
     u8 *p;
 

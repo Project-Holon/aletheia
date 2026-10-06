@@ -36,7 +36,7 @@ extern u32 func_02188D38(u8 *p);
 extern void func_020061E4(u32);
 extern u32 func_021C7878(u32, u32, void *, u32);
 extern void *func_021C7220(u32 a, u16 b, int c, u32 d);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 
 int func_021B2218(u32 a, u32 b)
 {
@@ -57,7 +57,7 @@ int func_021B2218(u32 a, u32 b)
     v[1] = 0x96 << 12;
     v[2] = 0;
     p = func_021C7878(e, 0x18, v, o);
-    func_021C6DE0((u8 *)g, (u32)func_021C7220(e, 0x18, 3, o), 0);
-    func_021C6DE0((u8 *)g, p, 0);
+    func_021C6DE0((u8 *)g, (u32 *)func_021C7220(e, 0x18, 3, o), 0);
+    func_021C6DE0((u8 *)g, (u32 *)p, 0);
     return 0;
 }

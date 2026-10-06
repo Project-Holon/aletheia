@@ -18,9 +18,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02027FD8(int);
+typedef unsigned int   u32;
+struct TaskMenuState;
+extern u32 func_02027FD8(struct TaskMenuState *s);
 
 int func_021BB3AC(int *p)
 {
-    return func_02027FD8(p[0x97]);
+    return func_02027FD8((struct TaskMenuState *)p[0x97]);
 }

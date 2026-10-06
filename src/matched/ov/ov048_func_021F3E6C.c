@@ -34,7 +34,7 @@ extern int func_02088864(struct RTCDate *date);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
 extern void func_021F3D38(int *p, int a, int b, int *c);
-extern void func_0201ED04(struct WordSet *w);
+extern u32 func_0201ED04(struct WordSet *p);
 
 void func_021F3E6C(int *p)
 {

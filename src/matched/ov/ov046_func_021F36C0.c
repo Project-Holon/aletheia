@@ -62,11 +62,12 @@ extern void func_021BE760(u32 p, void *a, int b);
 extern void func_021F3838(u32 a0, int a1, V *a2, u16 *a3, int a4, int a5);
 extern void func_021F38D4(u8 *base, u32 t, int idx);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern int func_021F40D8(int *p);
-extern void func_021F3FA8(u32 a, u32 b, u32 c);
+extern void func_021F3FA8(char *a, u32 b, u32 c);
 extern void func_021F4078(u32 a, int b, int c);
 
 extern int d_021F4120;
@@ -108,7 +109,7 @@ void func_021F36C0(void *a0)
     func_021BE700((void *)t, 0, 0xf, 0, 1);
     func_021A3038(func_02188CB4((void *)a0), (struct VecFx32 *)vec);
     f = func_021F40D8(vec) != 0 ? 1 : 0;
-    func_021F3FA8(t, (u32)a0, f);
+    func_021F3FA8((char *)t, (u32)a0, f);
     ((struct Obj20520 *)x)->f24 = f;
     for (i = 0; i < 3; i++)
         func_021F4078((u32)a0, i, *(int *)(w + i * 12));

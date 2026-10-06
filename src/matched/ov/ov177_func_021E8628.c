@@ -29,7 +29,7 @@ extern void func_0202F038(unsigned char *p);
 extern int func_02028604(int p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_0201F7A8(void *p, unsigned kind);
-extern void func_020452E8(struct Descriptor *d);
+extern unsigned int func_020452E8(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C4C0(struct PrintSys *p);
 typedef unsigned int   u32;

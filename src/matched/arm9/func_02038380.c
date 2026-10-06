@@ -52,7 +52,7 @@ extern struct Oth *func_0203D798(void);
 extern u32  func_0203D680(void);
 extern u32  func_0203D6BC(void);
 extern int  func_020392B8(void);
-extern void func_02037224(u32 state, u32 line);
+extern void func_02037224(u8 v, int b);
 extern u32  func_02037258(void);
 extern void func_02038570(void);
 extern void func_02038924(u32 a, u32 b, u16 c);

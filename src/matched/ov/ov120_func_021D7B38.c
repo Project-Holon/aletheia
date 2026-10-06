@@ -23,5 +23,5 @@ extern void func_0201F7A8(void *,u32);
 struct Descriptor;
 extern void func_020456F8(struct Descriptor *d);
 extern void func_02041B6C(u32);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021D7B38(char *p) { if(((struct Obj06442 *)p)->f30) { func_0201F7A8(((struct Obj06442 *)p)->f30,2); func_020456F8(((struct Obj06442 *)p)->f30); func_02041B6C(1); func_020452E8(((struct Obj06442 *)p)->f30); ((struct Obj06442 *)p)->f30=0; } }

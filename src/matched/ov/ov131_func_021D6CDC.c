@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_0201ACDC(void *p, u32 pos, u32 mode);
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021D6CDC(unsigned char *a,unsigned char *b) {
  unsigned char *q=*(unsigned char * *)&((struct Obj14066 *)a)->f8;
  if(q[12]==1) func_0201ACDC(((struct Obj14067 *)q)->f0,a[0x1a],(u32)(((struct Obj10508 *)b)->fC));

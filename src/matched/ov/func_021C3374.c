@@ -16,7 +16,7 @@
  */
 
 
-void func_021C3374(void)
+void func_021C3374(void *a0, void *st, void *a2)
 {
 }
 

@@ -27,7 +27,8 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_021EAC98(void);
 extern void func_021EABD0(unsigned char *,int,void *,unsigned,int,int,unsigned,unsigned short);
-extern void func_02045C04(struct Rec *rec);
+typedef unsigned int   u32;
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_021EABA0(void **);
 void func_021EACA8(unsigned char *p) {
  unsigned char *w; void *bank;

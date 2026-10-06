@@ -28,7 +28,7 @@ extern u32 func_02026478(void *obj);
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
 
-int func_02175DE4(void *p)
+int func_02175DE4(void *p, u8 *a1)
 {
     Blk *b;
     int sv;

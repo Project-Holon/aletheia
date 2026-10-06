@@ -24,7 +24,7 @@ typedef struct {
 
 typedef unsigned char  u8;
 extern void func_0215A684(int *p, unsigned short v);
-extern int func_0215A690();
+extern int func_0215A690(char *a0);
 extern void func_0215A864(int *p);
 extern int func_0215A990(u8 *a);
 extern int func_0215A954(u8 *a);
@@ -38,7 +38,7 @@ int func_021B015C(int a0, int *st, Ctx *c)
         func_0215A684((int *)c->h, 8);
         (*st)++;
     case 1:
-        if (func_0215A690(c->h) == 1) {
+        if (func_0215A690((char *)c->h) == 1) {
             func_0215A864((int *)c->h);
             (*st)++;
         }

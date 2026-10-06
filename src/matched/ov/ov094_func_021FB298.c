@@ -17,7 +17,9 @@
  *   func_021F7F04 0x021F7F04 thumb ov094
  */
 #include "../include/Obj00177.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FCA04(char *, int, int *);
 extern void func_021F7F04(int);
 

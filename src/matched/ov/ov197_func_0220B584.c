@@ -44,7 +44,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *,void *,s16,s16,void *,u32,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -61,12 +61,12 @@ void func_0220B584(char *p)
     text=func_02045EC0(((struct Obj00314 *)p)->fC,28);
     width=func_0201D304(text,((struct Obj24999 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0);
     x=(func_02045738(handle)*8-width)/2;
-    func_0201C724(((struct Obj00314 *)p)->f18,surface,x,4,text,((struct Obj25000 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
+    func_0201C724(((struct Obj00314 *)p)->f18,(u32)surface,(s16)x,(s16)4,(u32)text,((struct Obj25000 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
     func_02045808(text);
     text=func_02045EC0(((struct Obj00314 *)p)->fC,29);
     func_0201EFA4(((struct Obj00314 *)p)->f10,0,((u8 *)p+((u8 *)p)[0x533])[0x539]+1,2,0,1);
     func_0201F250(((struct Obj00314 *)p)->f10,((struct Obj00314 *)p)->f14,text);
-    func_0201C724(((struct Obj00314 *)p)->f18,surface,x+width,4,((struct Obj00314 *)p)->f14,((struct Obj25001 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
+    func_0201C724(((struct Obj00314 *)p)->f18,(u32)surface,(s16)(x+width),(s16)4,(u32)(((struct Obj00314 *)p)->f14),((struct Obj25001 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
     func_02045808(text);
     text=func_02045EC0(((struct Obj00314 *)p)->fC,30);
     func_0201EFA4(((struct Obj00314 *)p)->f10,0,*(s16 *)(*(char * *)&((struct Obj00314 *)p)->f0+((u8 *)p)[0x533]*2+0x38)+1,2,0,1);
@@ -74,7 +74,7 @@ void func_0220B584(char *p)
     width=func_0201D304(((struct Obj00314 *)p)->f14,((struct Obj25002 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0);
     font=((struct Obj00314 *)p)->f18;
     lastSurface=func_02045770(((struct Obj00314 *)p)->f118);
-    func_0201C724(font,lastSurface,x-width,4,((struct Obj00314 *)p)->f14,((struct Obj25003 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
+    func_0201C724(font,(u32)lastSurface,(s16)(x-width),(s16)4,(u32)(((struct Obj00314 *)p)->f14),((struct Obj25003 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
     ((u8 *)p)[0x11C]=1;
     func_02045808(text);
 }

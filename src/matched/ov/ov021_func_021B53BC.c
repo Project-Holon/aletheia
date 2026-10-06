@@ -41,10 +41,11 @@ extern void *func_0201210C(const struct Ctx *p);
 struct Stream;
 extern void *func_02188C58(void *p);
 extern u16 func_02011330(struct Stream *s);
-extern u32 func_0201134C();
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_0218F900();
 
-int func_021B53BC(int a0, int a1)
+int func_021B53BC(struct Cursor *a0, int a1)
 {
     Out o;
     int r4;

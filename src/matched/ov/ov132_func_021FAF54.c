@@ -16,7 +16,9 @@
  */
 #include "../include/Obj10543.h"
 
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 
 int func_021FAF54(int a, char *b)
 {

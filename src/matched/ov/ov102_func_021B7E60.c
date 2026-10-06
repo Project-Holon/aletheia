@@ -43,7 +43,7 @@ extern u8 func_02045740(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C724(int, int, s16, s16, int, int, int);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021B7E60(u8 *p, void *q, int n)
 {
     int a, b, c;
@@ -58,6 +58,6 @@ void func_021B7E60(u8 *p, void *q, int n)
     x -= (u16)(func_0201D304((struct StrObj *)(((struct Obj02809 *)p)->fC), c, 0) >> 1);
     y -= (u16)(func_0201D42C((struct StrObj *)(((struct Obj02809 *)p)->fC), (void *)c) >> 1);
     func_0201C6EC((struct PrintSys *)b);
-    func_0201C724(b, (int)func_02045770((struct Descriptor *)((struct Obj02809 *)p)->f4), x, y, ((struct Obj02809 *)p)->fC, c, 0x3dc1);
+    func_0201C724((void *)b, (int)func_02045770((struct Descriptor *)((struct Obj02809 *)p)->f4), (s16)x, (s16)y, (int)(((struct Obj02809 *)p)->fC), (int)c, (int)0x3dc1);
     p[8] = 1;
 }

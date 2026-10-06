@@ -39,7 +39,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_021E3E60(void *);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);

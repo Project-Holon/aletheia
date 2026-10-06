@@ -12,7 +12,8 @@
  *   func_021E0E4C 0x021E0E4C thumb ov119
  */
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_021E0E4C(char *p);
 void func_021E293C(char *p,int i)
 {

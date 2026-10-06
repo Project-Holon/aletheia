@@ -15,17 +15,18 @@
  *   func_021F7F58  0x021F7F58  thumb  ov094
  */
 #include "../include/Obj13586.h"
-extern int func_0201134C(int a);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 extern int func_021FCF2C(int a, int b);
 typedef unsigned int   u32;
 extern void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e);
 
-int func_021FB2D0(int a, char *b)
+int func_021FB2D0(struct Cursor *a, char *b)
 {
     int t0, t1, t2, t3, t4;
 
     t0 = func_0201134C(a);
-    t1 = func_021FCF2C(a, func_0201134C(a));
+    t1 = func_021FCF2C((int)a, func_0201134C(a));
     t2 = func_0201134C(a);
     t3 = func_0201134C(a);
     t4 = func_0201134C(a);

@@ -9,4 +9,4 @@
  * status: EXACT*
  * extent: bx lr followed by two zero alignment bytes.
  */
-void func_021C88BC(void) {}
+void func_021C88BC(void *a0, void *a1) {}

@@ -23,12 +23,12 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021B9414(void *,int,int *);
-extern void func_0201C724(void *,void *,short,short,void *,int,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021B9380(u8 *p,void *a,void *b,int c) {
  int xy[2];
  func_02043B5C(((struct Obj03746 *)p)->f0,((struct Obj03746 *)p)->f4&31);
  func_02045CAC(a,(u32)b,((struct Obj03746 *)p)->f18);
  func_021B9414(p,c,xy);
- func_0201C724(((struct Obj03746 *)p)->f20,((struct Obj03746 *)p)->f0,(short)xy[0],(short)xy[1],((struct Obj03746 *)p)->f18,c,((struct Obj03746 *)p)->f4);
+ func_0201C724(((struct Obj03746 *)p)->f20,(u32)(((struct Obj03746 *)p)->f0),(short)xy[0],(short)xy[1],(u32)(((struct Obj03746 *)p)->f18),c,((struct Obj03746 *)p)->f4);
  ((struct Obj03746 *)p)->f8=1;
 }

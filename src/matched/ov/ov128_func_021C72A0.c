@@ -22,9 +22,9 @@ extern void func_021CA458(char *p, void *q);
 struct Descriptor;
 struct TaskMenuState;
 struct U16Vec;
-extern void func_02027FD8(struct TaskMenuState *s);
+extern unsigned int func_02027FD8(struct TaskMenuState *s);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_020452E8(struct Descriptor *d);
+extern unsigned int func_020452E8(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021C72A0(u8 *p, u8 *unused, u8 *q)

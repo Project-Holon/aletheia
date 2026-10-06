@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Descriptor;
 struct U16Vec;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02082BCC(u8 *, u32, u32);
 

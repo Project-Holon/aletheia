@@ -24,17 +24,18 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_0201134C(u8 *);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_0218A0F4(u8 *, int, int, int, int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_021D5B68(void *m);
 
-int func_02189E90(u8 *a, u8 *b, int c)
+int func_02189E90(struct Cursor *a, u8 *b, int c)
 {
     int t;
     int n;
     t = func_0201134C(a);
     n = func_0201134C(a);
-    return func_0218A0F4(a, c, func_021D5B68(func_0218A2FC(b, func_0218A160(b, t))), 1, n);
+    return func_0218A0F4((u8 *)a, c, func_021D5B68(func_0218A2FC(b, func_0218A160(b, t))), 1, n);
 }

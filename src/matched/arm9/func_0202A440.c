@@ -59,7 +59,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_0202A3AC(void *a0, void *a1);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void  func_02082A60(const void *src, void *dest, u32 size);
 extern void  func_0202428C(void *p);
 extern u32 func_020307B0(void *p);

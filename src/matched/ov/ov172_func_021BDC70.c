@@ -34,8 +34,8 @@ extern void func_0202F038(u8 *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201D83C(void *ptr);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201D83C(void *ptr);
 
 void func_021BDC70(u32 *a0)
 {

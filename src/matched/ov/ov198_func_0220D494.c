@@ -49,7 +49,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 func_02045738(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32, u32, s16, s16, void *, u32, u32);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -79,7 +79,7 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     w1 = func_0201D304(text, P->hdr->font, 0);
     x = ((func_02045738(handle) << 3) - w1) >> 1;
     ctx1 = P->f1EAC;
-    func_0201C724(ctx1, (u32)func_02045770(*(void **)(tab + slot)), x, 0, text, P->hdr->font, 0x3DC0);
+    func_0201C724((void *)ctx1, (u32)func_02045770(*(void **)(tab + slot)), (s16)x, (s16)0, (u32)text, P->hdr->font, (u32)0x3DC0);
     fl = p + 0x1F74;
     fl[slot] = 1;
     func_02045808(text);
@@ -89,7 +89,7 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     func_0201F250(P->f1EA4, h2, text2);
     w2 = func_0201D304(h2, P->hdr->font, 0);
     ctx2 = P->f1EAC;
-    func_0201C724(ctx2, (u32)func_02045770(*(void **)(tab + slot)), x - w2, 0, h2, P->hdr->font, 0x3DC0);
+    func_0201C724((void *)ctx2, (u32)func_02045770(*(void **)(tab + slot)), (s16)(x - w2), (s16)0, (u32)h2, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;
     func_02045808(text2);
     func_02045808(h2);
@@ -98,7 +98,7 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     func_0201EFA4(P->f1EA4, 0, a3, 3, 0, 1);
     func_0201F250(P->f1EA4, h3, text3);
     ctx3 = P->f1EAC;
-    func_0201C724(ctx3, (u32)func_02045770(*(void **)(tab + slot)), x + w1, 0, h3, P->hdr->font, 0x3DC0);
+    func_0201C724((void *)ctx3, (u32)func_02045770(*(void **)(tab + slot)), (s16)(x + w1), (s16)0, (u32)h3, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;
     func_02045808(text3);
     func_02045808(h3);

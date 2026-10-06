@@ -51,7 +51,7 @@ extern void func_020061E4(unsigned se);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(char **p, int box);
 extern int func_021DEDCC(char *p, int box);
-extern void func_021DEC98(char *p, int a, int dir);
+extern void func_021DEC98(char *p, void *a, int dir);
 extern void func_021ED544(char *p, int b);
 extern int func_021E00C4(char *p);
 extern int func_021E0128(char *p);
@@ -88,7 +88,7 @@ int func_021E087C(unsigned char *p)
                 r = func_021DD210(p, p[0x14], p[0x17]);
                 p[0x14] = p[0x17];
                 func_021EC35C((char **)p, p[0x14]);
-                func_021DEC98((char *)p, func_021DEDCC((char *)p, p[0x14]), r);
+                func_021DEC98((char *)p, (void *)func_021DEDCC((char *)p, p[0x14]), r);
                 if (r == 0)
                     b->state = 2;
                 else

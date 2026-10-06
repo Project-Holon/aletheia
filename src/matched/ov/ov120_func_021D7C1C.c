@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 void func_021D7C1C(char *p) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)p+(u32)i*4); if(((struct Obj10402 *)q)->f38) { func_020452E8(((struct Obj10402 *)q)->f38); ((struct Obj10402 *)q)->f38=0; } } func_0201DD78(1,2,0); }

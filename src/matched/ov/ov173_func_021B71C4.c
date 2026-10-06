@@ -109,7 +109,7 @@ extern void func_021B6C84(char *,u32,u32,u32,u8);
 extern u32 func_021B6BF8(char *,int,u32,u16,int,u8);
 extern u32 func_0201C1F4(u16);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_021B79E0(u8 *p, u16 id);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);

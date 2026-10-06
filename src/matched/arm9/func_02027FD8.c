@@ -23,8 +23,8 @@ struct TaskMenuState {
 
 extern u32 sub_020307B0(void *p);
 
-void func_02027FD8(struct TaskMenuState *s)
+u32 func_02027FD8(struct TaskMenuState *s)
 {
     sub_020307B0(s->child);
-    sub_020307B0(s);
+    return sub_020307B0(s);
 }

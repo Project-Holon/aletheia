@@ -67,7 +67,7 @@ extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void  func_02045A38(struct U16Vec *a, u16 *b, u32 c);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void  func_02049238(void *a);
 
 struct DistHdr {

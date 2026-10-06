@@ -26,6 +26,6 @@ extern void func_0204A8D4(u32);
 extern void func_0204ADA4(u32);
 extern void func_0204AFD8(u32);
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 void func_021DD570(u8 *p) {int i;u8 *q;func_02049238(((struct Obj10616 *)p)->f34);for(i=0;i<5;i++) {q=(u8 *)((u32)p+i*4);func_0204A8D4(((struct Obj14207 *)q)->f6C);func_0204ADA4(((struct Obj14207 *)q)->f80);}func_0204AFD8(((struct Obj10616 *)p)->f94);func_0204B1CC(((struct Obj10616 *)p)->f68);func_0204A5AC();}

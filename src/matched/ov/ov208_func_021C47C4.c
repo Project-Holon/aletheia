@@ -32,7 +32,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD,

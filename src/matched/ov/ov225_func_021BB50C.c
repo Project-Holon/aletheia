@@ -24,6 +24,6 @@ struct PrintSys;
 struct TaskMenuState;
 extern void func_0201C6EC(struct PrintSys *);
 extern void func_02028148(u8 *);
-extern void func_02027FD8(struct TaskMenuState *);
+extern u32 func_02027FD8(struct TaskMenuState *s);
 extern void sub_02041B6C(u32);
 void func_021BB50C(char *p) { u8 i; func_0201C6EC(*(struct PrintSys * *)&((struct Obj26253 *)(*(char * *)&((struct Obj14809 *)p)->f4))->f14); for(i=0;i<2;i++) func_02028148(*(u8 **)(p+i*4+12)); func_02027FD8(*(struct TaskMenuState * *)&((struct Obj14809 *)p)->f8); sub_02041B6C(5); }

@@ -32,7 +32,7 @@ extern void *func_0201F81C(int, int);
 extern void func_021B385C(char *p, int idx, int mode, int val, int arg);
 struct Slot;
 extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 void func_021B3A64(char *p, int i)
 {

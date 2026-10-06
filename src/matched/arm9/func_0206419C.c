@@ -25,7 +25,9 @@ struct O02064140;
 extern void func_02064140(struct O02064140 *o, u32 a);
 extern void func_020640DC(char *p, int a, int b);
 extern void func_02064120(char *p, int a, int b);
-extern void func_02064100(char *p, int a);
+typedef unsigned short u16;
+struct Obj02064100;
+extern void func_02064100(struct Obj02064100 *obj, u16 val);
 extern int func_02066ABC(int a0, int a1, int a2);
 
 void func_0206419C(char *self)
@@ -52,7 +54,7 @@ void func_0206419C(char *self)
         break;
     default:
         func_02064120(self + 0x3c, ((struct Obj03025 *)p)->f4, ((struct Obj03025 *)p)->f8);
-        func_02064100(self + 0x3c, ((struct Obj03025 *)p)->f2);
+        func_02064100((struct Obj02064100 *)(self + 0x3c), ((struct Obj03025 *)p)->f2);
         func_020640DC(self + 0x3c, ((struct Obj03025 *)p)->fC, ((struct Obj03025 *)p)->fE);
         break;
     }

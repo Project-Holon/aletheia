@@ -20,8 +20,8 @@ typedef unsigned int u32;
 struct PrintSys;
 struct Rec;
 struct WordSet;
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201D83C(void *);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_0201C4C0(struct PrintSys *p);
 void func_021F69C0(u8 *p) { func_02045C04(((struct Obj06345 *)p)->f14); func_0201D83C(((struct Obj06345 *)p)->fC); func_0201D83C(((struct Obj06345 *)p)->f10); func_0201ED04(((struct Obj06345 *)p)->f18); func_0201C4C0(((struct Obj06345 *)p)->f1C); }

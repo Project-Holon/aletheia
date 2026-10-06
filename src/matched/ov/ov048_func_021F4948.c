@@ -103,7 +103,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern int func_02047788(int *p);
 extern int func_02047554(int *p);
 extern int func_021875F4(int a0, int a1, int a2, u32 a3, u16 e0, u16 e1, u16 e2);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern int func_02047790(int *p, int i);
 extern Img *func_02047674(u32 a);
 extern int func_020477D4(struct Owner *owner, u32 index);

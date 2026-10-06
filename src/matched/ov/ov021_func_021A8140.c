@@ -27,7 +27,8 @@ typedef struct V {
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u16 func_021A3050(u8 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);

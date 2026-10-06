@@ -19,10 +19,10 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_020307B0(void *p);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_0201D83C(void *ptr);
-extern void func_0201F868(void *p);
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_0201F868(void *p);
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 struct Obj;
 extern void func_0201F9E8(struct Obj *o, u8 *out);
 

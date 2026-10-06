@@ -116,7 +116,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_021A9154(struct Obj *p, struct Item *it, const struct Src *s);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 void func_021A8BB8(Obj *p, void *q, int r)
 {

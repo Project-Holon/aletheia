@@ -15,8 +15,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02189E90(u8 *,u8 *,int);
-int func_02189E80(u8 *a, u8 *b)
+struct Cursor;
+extern int func_02189E90(struct Cursor *a, u8 *b, int c);
+int func_02189E80(struct Cursor *a, u8 *b)
 {
     func_02189E90(a,b,3); return ((struct Obj21977 *)b)->fC4;
 }

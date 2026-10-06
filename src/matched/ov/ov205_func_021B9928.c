@@ -29,12 +29,13 @@ struct WordSet;
 extern void func_0203115C(struct Tcbl *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_0201F7A8(void *,unsigned);
-extern void func_020452E8(struct Descriptor *d);
+extern unsigned int func_020452E8(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_02045C04(struct Rec *rec);
+extern unsigned int func_0201ED04(struct WordSet *p);
+extern unsigned int func_02045C04(struct Rec *rec);
 extern void func_020403F4(unsigned);
-extern void func_0201D83C(void *);
+typedef unsigned int   u32;
+extern u32 func_0201D83C(void *ptr);
 extern void func_021B99D8(void);
 void func_021B9928(char *p)
 {

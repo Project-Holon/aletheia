@@ -18,7 +18,8 @@ typedef struct {
 } Ov107Ctx;
 
 struct WordSet;
-void func_0201ED04(struct WordSet *p);
+typedef unsigned int   u32;
+u32 func_0201ED04(struct WordSet *p);
 
 void func_021F18EC(Ov107Ctx *p)
 {

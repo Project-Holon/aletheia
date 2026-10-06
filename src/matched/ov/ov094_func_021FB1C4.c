@@ -18,12 +18,14 @@
 #include "../include/Obj00177.h"
 typedef unsigned char u8;
 
-extern int func_0201134C(int a);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FCA04(int b, int t, int *out);
 extern int func_021F8694(void);
 extern void func_021FF470(void *p, int key, u8 v);
 
-int func_021FB1C4(int a, char *b)
+int func_021FB1C4(struct Cursor *a, char *b)
 {
     int buf[8];
     int n;

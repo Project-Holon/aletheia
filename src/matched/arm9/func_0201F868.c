@@ -29,8 +29,8 @@ extern void func_0201F8F4(struct Slot *s);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0201F868(void *p)
+u32 func_0201F868(void *p)
 {
     func_0201F8F4(p);
-    func_020307B0(p);
+    return func_020307B0(p);
 }

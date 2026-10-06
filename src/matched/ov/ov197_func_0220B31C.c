@@ -42,7 +42,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *,void *,s16,s16,void *,u32,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -67,7 +67,7 @@ void func_0220B31C(char *p,u32 i,int id,int w,int unused,int unused2)
         width=func_02045738(handle)*8-width;
         font=((struct Obj00845 *)p)->f18;
         surface=func_02045770(*(void **)(windows+w*8));
-        func_0201C724(font,surface,width/2,7,((struct Obj00845 *)p)->f14,((struct Obj24994 *)(*(char * *)&((struct Obj00845 *)p)->f0))->f4,0x3C40);
+        func_0201C724(font,(u32)surface,(s16)(width/2),(s16)7,(u32)(((struct Obj00845 *)p)->f14),((struct Obj24994 *)(*(char * *)&((struct Obj00845 *)p)->f0))->f4,0x3C40);
         (p+w*8)[0x2C]=1;
         func_02045808(text);
     }else{

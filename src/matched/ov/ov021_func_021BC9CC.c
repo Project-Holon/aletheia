@@ -28,7 +28,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern int func_021BD1FC(int a);
 extern int func_021BD204(int a);
-extern int func_021BD1EC(int a);
+extern int func_021BD1EC(u8 *a0);
 extern int func_021BD1F4(u8 *a0);
 typedef unsigned int   u32;
 struct Bmp;
@@ -46,7 +46,7 @@ void func_021BC9CC(char *p)
         b = (int)func_02045770((struct Descriptor *)*(int *)&((struct Obj01123 *)p)->f24);
         c = func_021BD1FC(r4);
         d = func_021BD204(r4) - 8;
-        e = func_021BD1EC(r4);
+        e = func_021BD1EC((u8 *)r4);
         f = func_021BD1F4((u8 *)r4);
         func_020439A0((struct Bmp *)a, (struct Bmp *)b, 0, 0, c, d, e, f, 0);
     }

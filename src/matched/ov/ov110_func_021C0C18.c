@@ -19,5 +19,5 @@ typedef unsigned int u32;
 struct Descriptor;
 struct Obj;
 extern void func_0202DC08(struct Obj *p);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021C0C18(u8 *p) { int i; func_0202DC08(((struct Obj22409 *)p)->f8C); for(i=0;i<4;i++) func_020452E8(*(void **)(p+0x6c+i*4)); }

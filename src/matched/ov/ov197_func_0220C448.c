@@ -25,7 +25,8 @@ extern void func_0204B3B4(struct Obj *);
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
 extern void func_0204AFD8(unsigned);
-extern void func_0204B1CC(struct Bank *);
+typedef unsigned int   u32;
+extern u32 func_0204B1CC(struct Bank *bank);
 void func_0220C448(char *p)
 {
     unsigned i;

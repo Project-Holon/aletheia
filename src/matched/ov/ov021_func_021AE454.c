@@ -19,7 +19,8 @@
 extern int d_021DE138;
 
 void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
-void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+void *func_02188CB4(struct Obj00020 *p);
 
 typedef struct { int w[6]; } S24;
 

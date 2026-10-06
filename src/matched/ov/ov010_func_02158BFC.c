@@ -42,7 +42,8 @@ extern u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3);
 extern void *func_02158D78(int a, int b);
 extern void func_0215A760(u8 *a, unsigned b, unsigned c);
 extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
-extern int func_0201134C(int *);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_02158E38(void *a);
 extern int d_0217062C;
 extern int d_021705D8;
@@ -76,7 +77,7 @@ int *func_02158BFC(u16 a0, int a1, u16 a2, u16 a3, int a4)
     }
     func_0201127C((struct ScriptVm *)o, (u8 *)o[0x2C / 4]);
     o[0x14 / 4] += n << 2;
-    o[0x14 / 4] += func_0201134C(o);
+    o[0x14 / 4] += func_0201134C((struct Cursor *)o);
     func_02158E38(o);
     return o;
 }

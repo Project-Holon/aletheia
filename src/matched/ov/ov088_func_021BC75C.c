@@ -46,7 +46,7 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_021BC870(u8 *p);
 
 #define W(o) (*(u32 *)(p + (o)))

@@ -22,11 +22,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0201134C(u8 *);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_0218A0F4(u8 *, int, int, int, int);
 extern u16 func_021C81C8(u8 *, u8 *, int);
 
-int func_02188E24(u8 *a, u8 *b)
+int func_02188E24(struct Cursor *a, u8 *b)
 {
     int k;
     int m;
@@ -48,6 +49,6 @@ int func_02188E24(u8 *a, u8 *b)
         k = 2;
         break;
     }
-    func_0218A0F4(a, k, x, y, m);
+    func_0218A0F4((u8 *)a, k, x, y, m);
     return ((struct Obj06341 *)b)->fC4;
 }

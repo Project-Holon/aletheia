@@ -117,7 +117,7 @@ extern void func_021EF534(struct WinMgr *mgr);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(char **p, int box);
 extern int func_021DEDCC(char *p, int box);
-extern void func_021DEC98(char *p, int a, int dir);
+extern void func_021DEC98(char *p, void *a, int dir);
 extern int func_021EF180(int a, int b);
 extern void func_021DD1E8(char *p);
 extern void func_021EE364(char **p, int idx, int v);

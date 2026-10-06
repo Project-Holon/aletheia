@@ -43,7 +43,8 @@ typedef struct Work {
 
 extern int func_02188D2C(int *p);
 extern VecFx32 *func_021BE480(void *p, int a, int b);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A3044(u8 *p, void *v);
 
 #pragma opt_propagation off

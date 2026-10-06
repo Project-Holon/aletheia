@@ -75,7 +75,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201CE48(struct Rec3 *p);
 extern int func_02028604(int a0);
 extern void func_021E8848(S *);
-extern int  func_020056BC(void);
+extern u32 func_020056BC(void);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02034714(const char *expr, u32 line, const char *file);

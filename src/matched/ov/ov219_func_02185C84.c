@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 struct Rec;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 int func_02185C84(unsigned key,unsigned optional,void *first,void *second,unsigned heap)
 {
     unsigned index;

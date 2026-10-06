@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-u32 sub_02033C9C(void *a, u32 b, u32 c, u32 d)
+u32 sub_02033C9C(void *a)
 {
     return func_020307B0(a);
 }

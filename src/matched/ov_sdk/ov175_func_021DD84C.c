@@ -54,7 +54,7 @@ extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLe
 extern s32 func_021DD64C(const char *p);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_0217EAE0(void *ptr);
-extern void func_021DD604(SAKERequestInternal *request);
+extern void func_021DD604(void *request);
 
 void func_021DD84C(int httpResult, int unused, void *responseData, void *userData)
 {

@@ -19,7 +19,8 @@
  *   func_021BECB4  0x021BECB4  thumb  ov021
  */
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 func_021A3050(u8 *p);
@@ -31,7 +32,7 @@ extern void *func_021BECB4(void *p, u32 b);
 
 int func_021BEDD4(void *a, int b)
 {
-    switch (func_021A3050(func_02188CB4((unsigned char *)b))) {
+    switch (func_021A3050(func_02188CB4((struct Obj00020 *)b))) {
     case 2:
     default:
         return func_021BED14((u32)a, b);

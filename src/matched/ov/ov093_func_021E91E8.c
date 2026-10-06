@@ -132,7 +132,7 @@ extern void func_021F7C2C(int a, int b);
 extern void func_021EAF00(u8 *p, int a);
 extern int func_021ED250(u32 a);
 extern void func_021EA7C8(void *ctx, int a);
-extern int func_021EA7E8(Obj *p, int v);
+extern int func_021EA7E8(void *w, int v);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 extern int func_021E9614(u32 a);
@@ -144,7 +144,7 @@ extern int func_021EA720(u32 *p);
 extern void func_02005D90(u32 a, u32 b);
 extern int func_02005F38(void);
 extern void func_021F7C0C(void);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 int func_021E91E8(Obj *p, int *state, Work *w)
 {

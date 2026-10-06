@@ -25,13 +25,13 @@ struct Descriptor;
 struct Node;
 struct WordSet;
 extern void func_02030EAC(struct Node *n);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_021B8D8C(u8 *);
 extern void func_021B89F4(u8 *);
 extern void func_0204ADA4(u32 i);
 extern void func_021B8B4C(void *);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_0201D83C(void *);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_0201D83C(void *ptr);
 extern void func_02082BCC(void *,int,int);
 void func_021B8304(u8 *p) {
     int i;

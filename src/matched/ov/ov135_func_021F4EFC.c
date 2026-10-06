@@ -30,7 +30,7 @@ extern void func_0204ADA4(u32 v);
 extern void func_0204A8D4(u32 v);
 extern void func_0204AFD8(u32 v);
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 
 void func_021F4EFC(u8 *p)

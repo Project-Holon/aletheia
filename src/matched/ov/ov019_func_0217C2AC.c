@@ -71,7 +71,7 @@ u16 func_0217EC28(int i);
 u16 func_0217ECA0(int i);
 u16 func_0217ECAC(int i);
 u16 func_0217ECB8(void ***ctx);
-void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F210(u8 *p, u8 *a, u32 b);
 u32 func_0217F1EC(u8 *p);
 void func_0217F360(char *p, u32 a);
 void func_0217F378(void *p);
@@ -84,7 +84,7 @@ u32 func_0201AA1C(void *p);
 u32 func_0201AAD4(void *p);
 u32 func_0201AA88(void *p);
 
-int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
+int func_0217C2AC(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
 {
     void *h;
     int r;
@@ -109,12 +109,12 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
             (*state)++;
         break;
     case 2:
-        func_0217F360((char *)ctx, a2);
+        func_0217F360((char *)ctx, (u32)a2);
         (*state)++;
         break;
     case 3:
         h = func_02012934((void *)ctx->sys->f8);
-        r = func_0217F380(ctx, a2);
+        r = func_0217F380(ctx, (int)a2);
         if (r == -1)
             break;
         func_0217F378(ctx);

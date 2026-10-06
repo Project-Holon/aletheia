@@ -80,7 +80,8 @@ extern u32 func_02012844(const struct BigObj *p);
 extern u16 func_02188C9C(u8 *p);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A2FE4(u32 *p);
 extern u32 func_021A3080(u8 *p);
 extern u32 func_021A308C(u8 *p);
@@ -92,16 +93,16 @@ extern u16 func_02014478(struct Sub02014444Obj *o);
 extern u32 func_021A30C8(void **ctx);
 extern int func_021A3584(void *v);
 
-void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos)
+void func_0218A4E0(struct FieldInput *p, void *sys, struct Obj00020 *pos)
 {
     void *obj;
 
     func_02082BCC(p, 0, 0x40);
-    p->f0 = func_02188C84(pos);
+    p->f0 = func_02188C84((u8 *)pos);
     p->sys = sys;
     p->f8 = func_020120F4(sys);
     p->fC = (void *)func_02012844(p->f8);
-    p->f10 = func_02188C9C(pos);
+    p->f10 = func_02188C9C((u8 *)pos);
     p->trg = func_020362DC();
     p->cont = func_0203630C();
     p->dir = 9;
@@ -113,7 +114,7 @@ void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos)
         p->dir = 2;
     else if (p->cont & 0x10)
         p->dir = 3;
-    p->pos = pos;
+    p->pos = (u8 *)pos;
     p->f18 = func_02188CB4(pos);
     func_021A2FE4(p->f18);
     p->f20 = func_021A3080(p->f18);

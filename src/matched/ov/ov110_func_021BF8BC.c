@@ -23,7 +23,7 @@ struct Descriptor;
 typedef unsigned int   u32;
 extern void func_0204B3B4(struct Obj *);
 extern void func_02045808(struct U16Vec *);
-extern void func_020452E8(struct Descriptor *);
+extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 void func_021BF8BC(u8 *p) {
     if(*(struct Obj * *)&((struct Obj03755 *)p)->f14) func_0204B3B4(*(struct Obj * *)&((struct Obj03755 *)p)->f14);

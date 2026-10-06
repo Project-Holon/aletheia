@@ -36,7 +36,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *, void *, s16, s16, void *, u32, u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
 extern const char d_0220DA3C[];
@@ -65,7 +65,7 @@ void func_0220B3EC(char *p, u32 i, int id, int w, int unused, int y, int unused2
     surface = func_02045770(*((void **) (windows + (w * 8))));
     tmp = p + 0x14;
     tmp1 = (u32 *) ((*((char **) p)) + 4);
-    func_0201C724(font, surface, 0, y, *((void **) tmp), *tmp1, 0x3C40);
+    func_0201C724(font, (u32)surface, (s16)0, (s16)y, (u32)(*((void **) tmp)), *tmp1, 0x3C40);
     (p + (w * 8))[0x2C] = 1;
     func_02045808(text);
   }

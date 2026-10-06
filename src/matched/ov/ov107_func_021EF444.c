@@ -54,7 +54,9 @@ extern unsigned int func_021F1B04(unsigned char *p);
 extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern void func_02045334(struct Descriptor *),func_02045374(struct Cfg *);
 extern u8 func_02045730(struct Descriptor *);
-extern void func_02045808(struct U16Vec *),func_02045C04(struct Rec *),func_020452E8(struct Descriptor *);
+extern void func_02045808(struct U16Vec *);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021EF444(u8 *p) {
  u32 bg,window;
  void *archive,*text;

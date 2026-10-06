@@ -31,11 +31,11 @@ typedef signed char    s8;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern int func_02190728(void *a);
 extern void func_02190788(u8 *p);
 

@@ -93,7 +93,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021B9A1C(Work *p, u32 heap)
 {
@@ -131,6 +131,6 @@ void func_021B9A1C(Work *p, u32 heap)
     p->buf = (u32)func_020457B0(0x40, heap);
     func_02045CAC((struct MsgBank *)p->msg, 1, (void *)p->buf);
     w = func_0201D304((struct StrObj *)p->buf, p->font, 0);
-    func_0201C724(p->print, p->bmp, 0x80 - w / 2, 0, p->buf, p->font, 0x440);
+    func_0201C724((void *)p->print, p->bmp, (s16)(0x80 - w / 2), (s16)0, p->buf, p->font, 0x440);
     p->f10 = 1;
 }

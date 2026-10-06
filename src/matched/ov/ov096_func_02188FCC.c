@@ -25,7 +25,8 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 func_021B8DE4(char *p, int i);
 extern char *func_021B9AF8(char *p, int i);
@@ -38,7 +39,7 @@ struct Unk021D62A8;
 extern int func_021D62A8(struct Unk021D62A8 *p);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 
-void func_02188FCC(int a, int b, int c)
+void func_02188FCC(struct Cursor *a, int b, int c)
 {
     int t0;
     int t1;

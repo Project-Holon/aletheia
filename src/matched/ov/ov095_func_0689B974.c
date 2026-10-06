@@ -26,7 +26,7 @@ extern Word func_0689B9D4(void);
 extern int func_0689B9E4(void *, int);
 extern void func_0689C104(void *, void *, u8);
 
-void func_0689B974(void *a, void *b)
+void func_0689B974(void *a, void *b, int c)
 {
     int t;
     int d;

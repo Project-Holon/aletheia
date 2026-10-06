@@ -24,7 +24,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EE0C(void *, u32, void *, u32, u32, u32);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 void func_021B9D54(u8 *p, int state)
 {
     int index;

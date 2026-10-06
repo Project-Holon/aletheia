@@ -22,7 +22,8 @@
 #include "../include/Obj26073.h"
 
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+typedef unsigned int   u32;
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_02082BCC(void *, int, int);
 

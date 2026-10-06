@@ -109,7 +109,8 @@ extern int func_021F4864(u32 a, u32 b, u8 *out);
 extern void func_02028B50(u8 *p, int a0);
 extern void func_02006210(void);
 extern u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A3044(u8 *p, void *v);
 extern void func_021F4A18(void *a0, struct Rec *a1);
 

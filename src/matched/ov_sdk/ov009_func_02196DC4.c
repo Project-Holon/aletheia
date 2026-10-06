@@ -91,7 +91,8 @@ extern const char g_021A5948[];
 extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern int func_02195408(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
-extern int func_020923F0();
+typedef unsigned char  u8;
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 struct Conn;
 struct Sock;
 extern int func_021954F4(char *p, int a1, int a2, int a3, int a4, int *a5);
@@ -123,7 +124,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
             return 0;
     }
 
-    magicString = (actualLength > 2) && !func_020923F0(actualMessage, g_021A5948, 2);
+    magicString = (actualLength > 2) && !func_020923F0(actualMessage, (const u8 *)g_021A5948, 2);
 
     if (!connection) {
         if (!func_021954F4((char *)socket, ip, port, (int)message, len, &handled))
@@ -158,7 +159,7 @@ int func_02196DC4(struct GTI2Socket *socket, unsigned char *message, int len, un
         return 1;
     }
 
-    if (magicString && actualLength >= 4 && !func_020923F0(actualMessage + 2, g_021A5948, 2)) {
+    if (magicString && actualLength >= 4 && !func_020923F0(actualMessage + 2, (const u8 *)g_021A5948, 2)) {
         message[3] = message[1];
         message[2] = message[0];
         message += 2;

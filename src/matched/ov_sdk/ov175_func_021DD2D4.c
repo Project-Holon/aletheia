@@ -25,7 +25,7 @@ typedef struct SAKERequestInternal SAKERequestInternal;
 typedef void (*SAKERequestCallback)(SAKEInternal *sake, SAKERequestInternal *request, int result, void *inputData, void *outputData, void *userData);
 
 extern int *func_021DD56C(int *ctx, int a1, int a2, int a3, int a4);
-extern void func_021DD604();
+extern void func_021DD604(void *request);
 
 SAKERequestInternal *func_021DD2D4(SAKEInternal *sake, void *input, SAKERequestCallback callback, void *userData, int type, int (*startRequestFunc)(SAKERequestInternal *))
 {

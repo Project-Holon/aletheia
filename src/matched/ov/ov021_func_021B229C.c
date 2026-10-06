@@ -45,7 +45,7 @@ extern void func_0216E084(u32 m, s16 x, s16 y, s16 z, u32 e);
 extern void func_0216D89C(u32, Vec *);
 extern void func_0216D8C0(u32, Vec *);
 extern void *func_021C7684(u32 a, u32 b, int c, int d);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 
 int func_021B229C(u32 a, u32 b)
 {
@@ -76,6 +76,6 @@ int func_021B229C(u32 a, u32 b)
     func_0216D89C(o, &pos);
     rot = d_021D9424;
     func_0216D8C0(o, &rot);
-    func_021C6DE0((u8 *)g, (u32)func_021C7684(e, o, 0x28, 0xfa), 0);
+    func_021C6DE0((u8 *)g, (u32 *)func_021C7684(e, o, 0x28, 0xfa), 0);
     return 0;
 }

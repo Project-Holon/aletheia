@@ -20,7 +20,7 @@
 extern void func_021EBFA8(char *p, int i, int v);
 extern void func_021EC35C(char **p, int box);
 extern int func_021DEDCC(char *p, int box);
-extern void func_021DEC98(char *p, int a, int dir);
+extern void func_021DEC98(char *p, void *a, int dir);
 
 void func_021DD16C(unsigned char *p, int dir)
 {
@@ -32,5 +32,5 @@ void func_021DD16C(unsigned char *p, int dir)
         func_021EBFA8(*(char * *)&((struct Obj00000 *)p)->f2C, 1, 4);
     }
     func_021EC35C((char **)p, p[0x14]);
-    func_021DEC98((char *)p, func_021DEDCC((char *)p, p[0x14]), dir);
+    func_021DEC98((char *)p, (void *)func_021DEDCC((char *)p, p[0x14]), dir);
 }

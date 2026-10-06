@@ -41,7 +41,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *a);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02030EAC(struct Node *n);
 extern void func_02031194(struct TcblNode *n);
 

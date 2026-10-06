@@ -30,7 +30,8 @@ extern void func_02030EAC(struct Node *n);
 struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201D83C(void *);
+typedef unsigned int   u32;
+extern u32 func_0201D83C(void *ptr);
 int func_021BC30C(int *p)
 {
     func_021BB3AC(p); func_021BAEE0((char *)p); func_021BAB74(p); func_021B9848(p);

@@ -15,7 +15,7 @@
 
 extern int func_02040DA8(int, int, int);
 
-int func_021F1878(void)
+int func_021F1878(void *a0)
 {
     return func_02040DA8(4, 1, 0);
 }

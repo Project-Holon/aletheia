@@ -26,45 +26,45 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0216A128();
-extern int func_02169E98();
+extern int func_02169E98(char *p);
 extern int func_0201C4C0();
 extern int func_02028604(int a0);
 extern int func_02031140();
 extern int func_02045808();
 extern int func_02045C04();
-extern int func_020307B0();
+extern u32 func_020307B0(void *p);
 
-int func_02169E0C(int a0)
+int func_02169E0C(char *a0)
 {
     int t4;
 
-t4 = a0 + 0;
-    a0 = func_0216A128(a0);
+t4 = (int)(a0 + 0);
+    a0 = (char *)func_0216A128(a0);
 loc_02169E14:
-a0 = t4 + 0;
-    a0 = func_02169E98(a0);
+a0 = (char *)(t4 + 0);
+    a0 = (char *)func_02169E98(a0);
 loc_02169E1A:
-a0 = *(int *)&((struct Obj00029 *)t4)->f18;
-a0 = ((struct Obj00029 *)a0)->f14;
-    a0 = func_0201C4C0(a0);
+a0 = (char *)(*(int *)&((struct Obj00029 *)t4)->f18);
+a0 = (char *)(((struct Obj00029 *)a0)->f14);
+    a0 = (char *)func_0201C4C0(a0);
 loc_02169E22:
-a0 = *(int *)&((struct Obj00029 *)t4)->f18;
-a0 = ((struct Obj00029 *)a0)->f1C;
-    a0 = func_02028604(a0);
+a0 = (char *)(*(int *)&((struct Obj00029 *)t4)->f18);
+a0 = (char *)(((struct Obj00029 *)a0)->f1C);
+    a0 = (char *)func_02028604((int)a0);
 loc_02169E2A:
-a0 = *(int *)&((struct Obj00029 *)t4)->f18;
-a0 = *(int *)&((struct Obj00029 *)((char *)a0))->f0;
-    a0 = func_02031140(a0);
+a0 = (char *)(*(int *)&((struct Obj00029 *)t4)->f18);
+a0 = (char *)(*(int *)&((struct Obj00029 *)((char *)a0))->f0);
+    a0 = (char *)func_02031140(a0);
 loc_02169E32:
-a0 = *(int *)&((struct Obj00029 *)t4)->f18;
-a0 = *(int *)&((struct Obj00029 *)a0)->f18;
-    a0 = func_02045808(a0);
+a0 = (char *)(*(int *)&((struct Obj00029 *)t4)->f18);
+a0 = (char *)(*(int *)&((struct Obj00029 *)a0)->f18);
+    a0 = (char *)func_02045808(a0);
 loc_02169E3A:
-a0 = *(int *)&((struct Obj00029 *)t4)->f18;
-a0 = *(int *)&((struct Obj00029 *)a0)->f4;
-    a0 = func_02045C04(a0);
+a0 = (char *)(*(int *)&((struct Obj00029 *)t4)->f18);
+a0 = (char *)(*(int *)&((struct Obj00029 *)a0)->f4);
+    a0 = (char *)func_02045C04(a0);
 loc_02169E42:
-a0 = *(int *)&((struct Obj00029 *)t4)->f18;
-    a0 = func_020307B0(a0);
+a0 = (char *)(*(int *)&((struct Obj00029 *)t4)->f18);
+    a0 = (char *)func_020307B0(a0);
 loc_02169E48:
-    return a0;}
+    return (int)a0;}

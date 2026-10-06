@@ -46,8 +46,8 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
 
 void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap)
 {

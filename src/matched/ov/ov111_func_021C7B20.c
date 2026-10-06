@@ -121,7 +121,7 @@ extern Rec sub_02008A54(void *obj, int i);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *p, void *q, int a, s16 x, void *str, void *r, int b);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_021C7AD4(Work *p, int x, int k, void *str);
 extern void func_02045808(struct U16Vec *vec);
 
@@ -143,12 +143,12 @@ void func_021C7B20(Work *p, int mode, int idx)
         func_02045CAC(p->f20, idx * 3 + 0x58, str);
         func_0201F250(p->f24, p->f28, str);
         v = p->f14;
-        func_0201C724(v, func_02045770(p->fC), 0, 0, p->f28, p->f4, 0x44F);
+        func_0201C724(v, (u32)func_02045770(p->fC), (int)0, (s16)0, (u32)p->f28, (u32)p->f4, (int)0x44F);
         p->f10 = 1;
         for (i = 1; i < 3; i++) {
             func_02045CAC(p->f20, i + (idx * 3 + 0x58), str);
             v = p->f14;
-            func_0201C724(v, func_02045770(p->fC), 0, i << 5, str, p->f4, 0x44F);
+            func_0201C724(v, (u32)func_02045770(p->fC), (int)0, (s16)(i << 5), (u32)str, (u32)p->f4, (int)0x44F);
             p->f10 = 1;
         }
         break;

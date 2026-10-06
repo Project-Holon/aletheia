@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 struct Sub02008700Obj;
 extern u32 func_02155A94(u8 *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u32 func_02008428(unsigned short *p);
+extern int func_02008428(unsigned short *p);
 extern void func_02196034(void *p, void *fn, u32 n);
 extern void func_02196804(u8 *p);
 extern void func_02197700(u8 *a);

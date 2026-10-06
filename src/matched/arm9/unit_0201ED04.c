@@ -85,7 +85,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0204581C(struct U16Vec *vec);
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_020246C8(u16 *p, u32 mode, u32 flag);
 extern u32 func_0202473C(u32 *p, u32 a);
@@ -123,7 +123,7 @@ extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF4C(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF5C(struct WordSet *p, u32 i, u32 v);
 
-void func_0201ED04(struct WordSet *p)
+u32 func_0201ED04(struct WordSet *p)
 {
     u32 i;
 
@@ -140,7 +140,7 @@ void func_0201ED04(struct WordSet *p)
         func_02045808(p->buf);
     }
     p->count = 0;
-    func_020307B0(p);
+    return func_020307B0(p);
 }
 
 void func_0201ED50(struct Tag *t)

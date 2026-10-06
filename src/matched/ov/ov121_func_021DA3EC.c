@@ -36,7 +36,7 @@ extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_020307B0(void *p);
 extern void func_021D9BE8(int,Pair *,void *,void *,int,Pair *);
-extern void func_0201C724(void *,void *,s16,s16,void *,int,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021DA3EC(char *p,char *desc,void *dst)
 {
     u32 i;
@@ -51,7 +51,7 @@ void func_021DA3EC(char *p,char *desc,void *dst)
             func_021D9BE8(((struct Obj03262 *)d)->fC,&pos,*(void **)(p+i*4+8),text,((struct Obj22886 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f8,&out);
             if(((struct Obj03262 *)d)->f8) func_02045838(text,(struct U16Vec *)(((struct Obj03262 *)d)->f8));
             else func_02045CAC((struct MsgBank *)(((struct Obj22887 *)(*(char * *)&((struct Obj06449 *)p)->f4))->fC),((struct Obj03262 *)d)->f4,text);
-            func_0201C724(dst,*(void **)(p+i*4+8),(s16)out.x,(s16)out.y,text,((struct Obj22888 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f8,((struct Obj03262 *)d)->f14);
+            func_0201C724(dst,(u32)(*(void **)(p+i*4+8)),(s16)out.x,(s16)out.y,(u32)text,((struct Obj22888 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f8,((struct Obj03262 *)d)->f14);
         }
     }
     func_020307B0(text);

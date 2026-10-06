@@ -39,10 +39,10 @@ struct Obj0202EA20 {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void sub_0202EA20(struct Obj0202EA20 *p)
+u32 sub_0202EA20(struct Obj0202EA20 *p)
 {
     func_020307B0(p->unk04);
     func_020307B0(p->unk00);
     func_020307B0(p->unk08);
-    func_020307B0(p);
+    return func_020307B0(p);
 }

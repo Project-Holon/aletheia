@@ -17,8 +17,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_02188CB4(u8 *p)
+void *func_02188CB4(struct Obj00020 *p)
 {
-    return ((struct Obj00020 *)p)->f8C;
+    return p->f8C;
 }
 

@@ -25,10 +25,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C099C(u32 a0);
+extern u32 func_021C099C(void *a0);
 u32 func_021B9884(u32 a0)
 {
-    func_021C099C(((struct Obj08431 *)(((u8*)a0)))->fC);
+    func_021C099C((void *)(((struct Obj08431 *)(((u8*)a0)))->fC));
     ((struct Obj08431 *)(((u8*)a0)))->fC = 0;
     return 0;
 }

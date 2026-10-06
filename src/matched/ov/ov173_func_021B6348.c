@@ -22,7 +22,7 @@ struct PrintSys;
 struct TaskMenuState;
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02027FD8(struct TaskMenuState *s);
+extern u32 func_02027FD8(struct TaskMenuState *s);
 extern void func_0201C4C0(struct PrintSys *p);
 void func_021B6348(u8 *p)
 {

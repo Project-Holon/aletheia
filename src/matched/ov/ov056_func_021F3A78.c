@@ -22,14 +22,15 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct IcaAnime;
-extern u32 func_02011608(struct IcaAnime *p);
+struct Obj11244;
+extern u32 func_02011608(struct Obj11244 *p);
 extern void func_020115EC(struct IcaAnime *p, s32 v);
 extern void func_021F3AB0(u32 *p);
 
 int func_021F3A78(u8 *p)
 {
     int flag;
-    s32 x = func_02011608(*(struct IcaAnime **)(p + 0x0)) << 12;
+    s32 x = func_02011608((struct Obj11244 *)(*(struct IcaAnime **)(p + 0x0))) << 12;
     s32 y = *(s32 *)(p + 0x28) + 0x1000;
 
     if (x <= y) {

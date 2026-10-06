@@ -53,7 +53,7 @@ struct Oth {
 extern void *func_0203D788(void);
 extern void *func_0203D798(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02037224(u32 state, u32 line);
+extern void func_02037224(u8 v, int b);
 extern u32  func_02037258(void);
 extern void func_02038380(void);
 extern int  func_02038524(void);

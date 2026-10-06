@@ -20,6 +20,6 @@ struct Descriptor;
 struct PrintSys;
 extern void func_0202F038(u8 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0201C6EC(struct PrintSys *p);
 void func_021BB7A4(void *p,u32 *s) { if(s[0]!=4) { if(s[13]!=0) {func_0202F038((u8 *)s[13]);s[13]=0;} func_0201F7A8((void *)s[1],1); func_020452E8((struct Descriptor *)s[1]); func_0201C6EC((struct PrintSys *)s[10]); s[0]=4; } }

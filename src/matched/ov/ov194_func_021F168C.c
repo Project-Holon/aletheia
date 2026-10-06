@@ -48,14 +48,14 @@ extern void func_021F1F7C(u8 *);
 extern void func_021F4608(void *p);
 extern void func_021F42A0(u8 *);
 extern void func_021F1968(u8 *);
-extern int func_021F1878(u8 *);
+extern int func_021F1878(void *a0);
 extern void func_02025588(void *);
 extern void func_021F4B84(unsigned char *p);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201D83C(void *);
+extern u32 func_0201D83C(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32);
 int func_021F168C(void *a,u32 b,u32 c,u8 *d)

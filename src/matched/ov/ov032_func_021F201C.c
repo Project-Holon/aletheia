@@ -34,7 +34,7 @@ struct Descriptor;
 extern void func_021F20A8(char *p, char *q, int *r);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7D0(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
-extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *a);
 extern void func_02045374(struct Cfg *cfg);
@@ -57,7 +57,7 @@ void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u3
         return;
     }
     v = ((struct Obj07634 *)p)->fB4;
-    func_0201C724(v, (u32)func_02045770((struct Descriptor *)((struct Obj06135 *)q)->f8), x, y, text,
+    func_0201C724((void *)v, (u32)func_02045770((struct Descriptor *)((struct Obj06135 *)q)->f8), x, y, (u32)text,
                   ((struct Obj07634 *)p)->fB0, col);
     ((struct Obj06135 *)q)->fC = 1;
     func_021F20A8(p, q, (int *)a7);

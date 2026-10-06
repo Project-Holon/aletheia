@@ -38,7 +38,8 @@ typedef struct {
     u32   w10;
 } Fx;
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u32 func_02188CD0(u8 *p);
 extern void func_021C76C4(Vec *out, float a, float b, float c);
 extern void func_0216D8C0(u32 a, Vec *v);
@@ -50,7 +51,7 @@ int func_021C7730(Fx *o)
     Vec v;
     u32 s;
 
-    func_02188CB4((unsigned char *)o->w4);
+    func_02188CB4((struct Obj00020 *)o->w4);
     s = o->w10;
     switch (o->st) {
     case 0:

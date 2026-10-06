@@ -27,7 +27,8 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201C724(int a, int b, int c, int d, int e, int f, int g);
+typedef unsigned short u16;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021BD59C(char *p)
 {
@@ -35,7 +36,7 @@ void func_021BD59C(char *p)
     ((struct Obj04353 *)p)->f1FC = func_020450F0(4, 7, 0x15, 0xB, 3, 0xE, 1);
     ((struct Obj04353 *)p)->f200 = func_020450F0(4, 0x14, 0x15, 5, 3, 0xE, 1);
     s = (int)func_02045EC0((struct MsgBank *)(((struct Obj04353 *)p)->f134), 0xAD);
-    func_0201C724(((struct Obj04353 *)p)->f140, (int)func_02045770((struct Descriptor *)((struct Obj04353 *)p)->f1FC), 0, 4, s,
+    func_0201C724((void *)(((struct Obj04353 *)p)->f140), (int)func_02045770((struct Descriptor *)((struct Obj04353 *)p)->f1FC), 0, 4, s,
                   ((struct Obj04353 *)p)->f138, 0x3C40);
     func_02045808((struct U16Vec *)s);
     ((struct Obj04353 *)p)->f204 = 1;

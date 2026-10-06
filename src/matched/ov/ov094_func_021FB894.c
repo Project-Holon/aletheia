@@ -24,11 +24,13 @@ typedef struct {
     int f23c;
 } State;
 
-extern int func_0201134C(int);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021F86F0(void);
 extern void func_02201DB4(char *base, int idx, u8 b, u8 c, s8 step, u16 d);
 
-int func_021FB894(int a, State *s)
+int func_021FB894(struct Cursor *a, State *s)
 {
     int v0 = func_0201134C(a);
     int v1 = func_0201134C(a);

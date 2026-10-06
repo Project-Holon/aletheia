@@ -64,7 +64,8 @@ typedef struct {
     VecFx32 b294;       /* 0x294 */
 } Ctx;
 
-extern u32 func_0201134C(void *p);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_021FDB20(Ctx *c);
 extern int func_021F8710(void);
 extern int func_021F8694(void);

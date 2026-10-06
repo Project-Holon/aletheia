@@ -51,7 +51,8 @@ extern void func_0216469C(unsigned short *c, unsigned short *a, unsigned short *
                           unsigned short *n);
 extern void func_021600E4(unsigned long old_priority);
 extern void func_02164D20(unsigned char *d, unsigned short *s, int numbytes, int digits);
-extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
+typedef unsigned char  u8;
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 
 static int func_02160764(CPSSslConnection *con, SOCLCaInfo *ca)
 {

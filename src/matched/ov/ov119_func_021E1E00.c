@@ -49,7 +49,7 @@ extern const Pair d_021E7944, d_021E793C;
 struct Descriptor;
 struct Cfg;
 struct MsgBank;
-extern void func_020452E8(struct Descriptor *);
+extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *);
 extern void func_02045334(struct Descriptor *);

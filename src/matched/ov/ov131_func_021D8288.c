@@ -45,11 +45,11 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_0201EC74(int, int, int);
-extern void func_0201C724(void *, void *, s16, s16, void *, void *, u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EE0C(void *, u32, const void *, u32, u32, u32);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern u32 sub_0201D2C8(struct StrObj *s);
 extern void *func_021D8784(void *, u8 *, u32);
 extern const u32 d_021DC24C[6];
@@ -116,7 +116,7 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
 
     if (isEgg == 0) {
         t = func_02045EC0(((struct Obj01547 *)p)->f38, v5c);
-        func_0201C724(((struct Obj00112 *)a)->f84, func_02045770(((struct Obj01547 *)p)->f34), 1, 1, t, ((struct Obj00112 *)a)->f80, 0x440);
+        func_0201C724(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)1, (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
         func_02045808(t);
         y = 0x10;
     }
@@ -209,7 +209,7 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
     func_0201EE0C(ws, 8, s68, best, 1, 2);
     t = func_02045EC0(((struct Obj01547 *)p)->f38, msg);
     func_0201F250(ws, str, t);
-    func_0201C724(((struct Obj00112 *)a)->f84, func_02045770(((struct Obj01547 *)p)->f34), 1, y + 1, str, ((struct Obj00112 *)a)->f80, 0x440);
+    func_0201C724(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)str, (u32)(((struct Obj00112 *)a)->f80), 0x440);
     func_0201ED04(ws);
     y += sub_0201D2C8(str) << 4;
     func_02045808(s68);
@@ -236,7 +236,7 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
             }
         }
         t = func_02045EC0(((struct Obj01547 *)p)->f38, best * 5 + 0x35 + max % 5);
-        func_0201C724(((struct Obj00112 *)a)->f84, func_02045770(((struct Obj01547 *)p)->f34), 1, y + 1, t, ((struct Obj00112 *)a)->f80, 0x440);
+        func_0201C724(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
         func_02045808(t);
     } else {
         u32 id;
@@ -250,7 +250,7 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
             id = 0x5a;
         }
         t = func_02045EC0(((struct Obj01547 *)p)->f38, id);
-        func_0201C724(((struct Obj00112 *)a)->f84, func_02045770(((struct Obj01547 *)p)->f34), 1, y + 1, t, ((struct Obj00112 *)a)->f80, 0x440);
+        func_0201C724(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
         func_02045808(t);
     }
 }

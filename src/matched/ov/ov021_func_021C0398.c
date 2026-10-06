@@ -36,7 +36,8 @@ typedef unsigned int   u32;
 
 typedef struct { u32 w[8]; } Blk32;
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 typedef unsigned short u16;
 extern void *func_02188C58(void *p);
 extern u32 func_02188D38(u8 *p);
@@ -44,7 +45,7 @@ extern void *func_021C7260(u32 a, u16 b, int c);
 extern void *func_021C71D4(u32 a, u32 b, u32 c);
 extern u32 func_021C77D8(u32 a, u32 b);
 extern u32 func_021C7814(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 extern void func_020061E4(u32 a);
 extern void *func_0218FE80(void *a);
 extern void func_0218FEA0(u8 *p, u32 v);
@@ -54,7 +55,7 @@ extern void func_0218FEC0(u8 *o);
 extern int func_0218FF00(u32 a);
 extern int func_021C6E48(u32 a);
 extern void func_0218FF20(u8 *a);
-extern void func_0218FE98(u32 a);
+extern void func_0218FE98(void *a0);
 
 int func_021C0398(u32 task, int *st, u8 *p)
 {
@@ -77,10 +78,10 @@ int func_021C0398(u32 task, int *st, u8 *p)
         b = (u32)func_021C71D4(obj, 0x14, 5);
         c = func_021C77D8(obj, 0x1e);
         e = func_021C7814(obj, 3, 0, 0x10, 1);
-        func_021C6DE0((u8 *)d, a, 0);
-        func_021C6DE0((u8 *)d, b, a);
-        func_021C6DE0((u8 *)d, c, 0);
-        func_021C6DE0((u8 *)d, e, c);
+        func_021C6DE0((u8 *)d, (u32 *)a, 0);
+        func_021C6DE0((u8 *)d, (u32 *)b, a);
+        func_021C6DE0((u8 *)d, (u32 *)c, 0);
+        func_021C6DE0((u8 *)d, (u32 *)e, c);
         if (((struct Obj01863 *)p)->f10 != 0)
             func_020061E4(0x6E7);
         else
@@ -105,7 +106,7 @@ int func_021C0398(u32 task, int *st, u8 *p)
         break;
     case 2:
         func_0218FF20((u8 *)(((struct Obj01863 *)p)->f70));
-        func_0218FE98(((struct Obj01863 *)p)->f70);
+        func_0218FE98((void *)(((struct Obj01863 *)p)->f70));
         return 1;
     }
     return 0;

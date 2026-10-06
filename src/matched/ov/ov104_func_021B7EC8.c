@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct U16Vec; struct Descriptor;
 extern void func_02045808(struct U16Vec *);
-extern void func_020452E8(struct Descriptor *);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02082BCC(void *,int,int);
 void func_021B7EC8(u8 *p) { func_02045808(*(struct U16Vec * *)&((struct Obj13743 *)p)->fC); func_020452E8(*(struct Descriptor * *)&((struct Obj13743 *)p)->f0); func_02082BCC(p,0,20); }

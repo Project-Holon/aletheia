@@ -17,8 +17,9 @@
 #include "../include/Obj20695.h"
 
 struct Descriptor;
+typedef unsigned int   u32;
 void func_021B7994(void *p)
 {
-    void func_020452E8(struct Descriptor *d);
+    u32 func_020452E8(struct Descriptor *d);
     func_020452E8(((struct Obj20695 *)p)->f0);
 }

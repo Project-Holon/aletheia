@@ -36,7 +36,7 @@ extern void func_021BBA28(int a, int b);
 extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 a, u32 b, int c, int d, u32 e, u32 f, u32 g);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021BB7E8(u8 *a, u32 *s, u32 x)
 {
@@ -52,7 +52,7 @@ void func_021BB7E8(u8 *a, u32 *s, u32 x)
     }
     func_021BBA28((int)a, (int)s);
     func_0201C6EC((struct PrintSys *)s[10]);
-    func_0201C724(s[10], (u32)func_02045770((struct Descriptor *)s[1]), 1, 1, t, ((struct Obj09930 *)a)->f138, 0x440);
+    func_0201C724((void *)s[10], (u32)func_02045770((struct Descriptor *)s[1]), 1, 1, t, ((struct Obj09930 *)a)->f138, 0x440);
     s[9] = 1;
     func_02045808((struct U16Vec *)t);
 }

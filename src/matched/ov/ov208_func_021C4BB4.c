@@ -53,13 +53,13 @@ extern u16 ov208_func_021BC3C0(int key);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern void func_0201C724(u32 print, void *bmp, s16 x, s16 y, void *text, u32 font, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *s);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct U16Vec *func_020457B0(u32 size, u32 heap);
 extern void func_0201EFA4(struct WordSet *ws, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201ED04(struct WordSet *ws);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void ov208_func_021C4B60(u16 *heap, struct Ov208Menu *p, int key, int i);
 extern struct MsgBank *data_020A7370;
 
@@ -85,7 +85,7 @@ void ov208_func_021C4BB4(u16 *heap, struct Ov208Menu *p, int key)
     bmp = func_02045770(p->win[0]);
     text = func_02045EC0(data_020A7370, species);
     width = func_0201D304(text, p->font, 0);
-    func_0201C724(p->print[0], bmp, (u16)((func_020437DC(bmp) - width) / 2), 1, text, p->font, 0x3c40);
+    func_0201C724((void *)p->print[0], (u32)bmp, (s16)((u16)((func_020437DC(bmp) - width) / 2)), (s16)1, (u32)text, p->font, 0x3c40);
     p->active[0] = 1;
     func_02045808((struct U16Vec *)text);
     bmp2 = func_02045770(p->win[1]);
@@ -94,7 +94,7 @@ void ov208_func_021C4BB4(u16 *heap, struct Ov208Menu *p, int key)
     str = func_020457B0(8, *heap);
     func_0201EFA4(ws, 0, ((struct Obj01179 *)p)->f54A, 2, 1, 1);
     func_0201F250(ws, str, src);
-    func_0201C724(p->print[1], bmp2, 0, 1, str, p->font, 0x3c40);
+    func_0201C724((void *)p->print[1], (u32)bmp2, (s16)0, (s16)1, (u32)str, p->font, 0x3c40);
     func_02045808(str);
     func_0201ED04(ws);
     ws2 = func_0201EC64(*heap);
@@ -102,7 +102,7 @@ void ov208_func_021C4BB4(u16 *heap, struct Ov208Menu *p, int key)
     str = func_020457B0(8, *heap);
     func_0201EFA4(ws2, 0, ((struct Obj01179 *)p)->f54C, 2, 1, 1);
     func_0201F250(ws2, str, src2);
-    func_0201C724(p->print[1], bmp2, 0, 0x11, str, p->font, 0x3c40);
+    func_0201C724((void *)p->print[1], (u32)bmp2, (s16)0, (s16)0x11, (u32)str, p->font, 0x3c40);
     func_02045808(str);
     func_0201ED04(ws2);
     p->active[1] = 1;

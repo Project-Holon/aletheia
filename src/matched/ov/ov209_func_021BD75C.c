@@ -29,7 +29,9 @@ extern void *func_02045EC0(struct MsgBank *, unsigned);
 extern void func_0201EFA4(struct WordSet *, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern void func_0201F250(struct WordSet *, void *, void *);
 extern void func_02045808(struct U16Vec *);
-extern void func_021B6AE4(unsigned char *, unsigned, u16, u16, unsigned, unsigned, u16, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 void func_021BD75C(char *p, unsigned char *dest, unsigned text0, unsigned index)
 {
     unsigned ps;
@@ -41,6 +43,6 @@ void func_021BD75C(char *p, unsigned char *dest, unsigned text0, unsigned index)
     func_0201EFA4(*(struct WordSet * *)&((struct Obj02924 *)p)->f40, 0, index, 3, 2, 1);
     func_0201F250(*(struct WordSet * *)&((struct Obj02924 *)p)->f40, ((struct Obj02924 *)p)->f44, text);
     func_02045808(text);
-    func_021B6AE4(dest, ps, 0, 4, *(unsigned *)&((struct Obj02924 *)p)->f44, ((struct Obj02924 *)p)->f38, 0x39e0, 0);
-    func_021B6AE4(dest, ps, 28, 4, text0, ((struct Obj02924 *)p)->f38, 0x39e0, 0);
+    func_021B6AE4(dest, (void *)ps, 0, 4, *(unsigned *)&((struct Obj02924 *)p)->f44, ((struct Obj02924 *)p)->f38, 0x39e0, 0);
+    func_021B6AE4(dest, (void *)ps, 28, 4, text0, ((struct Obj02924 *)p)->f38, 0x39e0, 0);
 }

@@ -25,7 +25,7 @@ extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB9AC(int, int, int, int);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021BB98C(void *p, u32 s);
-extern void func_021B9E3C(int);
+extern void func_021B9E3C(char *p);
 
 void func_021BC2C8(int p)
 {

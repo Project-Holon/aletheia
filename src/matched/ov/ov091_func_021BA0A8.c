@@ -52,7 +52,7 @@ extern void func_021BDCA0(u32 p, void *m);
 extern void func_021BB98C(void *p, u32 s);
 extern void func_021B7B98(u8 *);
 extern void func_021B9E20(u8 *p);
-extern void func_021B9E3C(void);
+extern void func_021B9E3C(char *p);
 extern void func_021BA4E4(u8 *p);
 #define W(k) (*(u32 *)(p+(k)))
 #define S (*(u8 **)(p+0x280))

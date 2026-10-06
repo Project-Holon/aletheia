@@ -17,9 +17,10 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201C724(void *,int,short,short,void *,int,unsigned short);
+typedef unsigned short u16;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021D614C(unsigned char *p,int a,int b,int c,short d,unsigned short e) {
  void *t=func_02045EC0(((struct Obj10506 *)p)->f7C,b);
- func_0201C724(((struct Obj10506 *)p)->f84,a,(short)c,d,t,((struct Obj10506 *)p)->f80,e);
+ func_0201C724(((struct Obj10506 *)p)->f84,a,(short)c,d,(u32)t,((struct Obj10506 *)p)->f80,e);
  func_02045808(t);
 }

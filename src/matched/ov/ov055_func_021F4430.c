@@ -15,5 +15,6 @@
 #include "../include/Obj07667.h"
 extern void func_021F45A4(unsigned short *,unsigned int);
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
+typedef unsigned int   u32;
+extern u32 func_02045C04(struct Rec *rec);
 void func_021F4430(unsigned char *p) { int i; for (i=0;i<16;i++) func_021F45A4((unsigned short *)(p+16+i*8),((struct Obj07667 *)p)->fC); ((struct Obj07667 *)p)->fC=0; func_02045C04(((struct Obj07667 *)p)->f8); ((struct Obj07667 *)p)->f8=0; }

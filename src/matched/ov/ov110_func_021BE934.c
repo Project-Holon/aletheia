@@ -40,7 +40,7 @@ extern void func_021BD868(u8 *);
 extern int func_021BE8B4(u8 *);
 extern void func_021BAF7C(unsigned p, int v);
 extern int func_021BB054(u8 *);
-extern int func_021BE890(u8 *);
+extern int func_021BE890(void *a0);
 extern int func_021BAFAC(u32 p);
 void func_021BE934(u8 *p,u32 *q)
 {

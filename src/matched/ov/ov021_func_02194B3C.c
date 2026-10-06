@@ -28,7 +28,7 @@ struct Rec3;
 extern int func_02194A74(u32 a);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_02195E90(struct FrameStyle *style, void *win);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 
 void func_02194B3C(u8 *p, u8 *e)
 {

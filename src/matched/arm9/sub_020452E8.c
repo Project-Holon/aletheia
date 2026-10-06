@@ -73,7 +73,7 @@ extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
 extern void sub_020437AC(struct Obj020437AC *p);
 extern u32 sub_020307B0(void *p);
 
-void sub_020452E8(struct Descriptor *d)
+u32 sub_020452E8(struct Descriptor *d)
 {
     u32 size;
 
@@ -84,5 +84,5 @@ void sub_020452E8(struct Descriptor *d)
     }
     sub_0203FB44(d->unk2, d->unkA, size * 32);
     sub_020437AC(d->heap);
-    sub_020307B0(d);
+    return sub_020307B0(d);
 }

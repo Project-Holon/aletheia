@@ -23,13 +23,14 @@ typedef unsigned int u32;
 extern void *func_0215A5F4(void *p);
 typedef unsigned char  u8;
 extern int func_02158F58(int a0);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_021A3238(u8 *p);
 
 int func_021B2040(u32 a, u32 b)
 {
-    void *x = func_02188CB4((u8 *)(((u32 *)func_02158F58((int)func_0215A5F4((void *)b)))[1]));
+    void *x = func_02188CB4((struct Obj00020 *)(((u32 *)func_02158F58((int)func_0215A5F4((void *)b)))[1]));
     u16 *o = func_02159AE8((void *)a, (void *)b);
 
     *o = func_021A3238(x);

@@ -50,7 +50,7 @@ extern void sub_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern u32 sub_020307B0(void *p);
 
-void sub_0204B1CC(struct Bank *bank)
+u32 sub_0204B1CC(struct Bank *bank)
 {
     int i;
 
@@ -63,5 +63,5 @@ void sub_0204B1CC(struct Bank *bank)
     }
 
     sub_020307B0(bank->actors);
-    sub_020307B0(bank);
+    return sub_020307B0(bank);
 }

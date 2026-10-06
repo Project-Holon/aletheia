@@ -12,5 +12,6 @@
  *   func_02188FCC 0x02188FCC thumb ov096
  */
 #include "../include/Obj21946.h"
-extern void func_02188FCC(int,int,int);
-int func_02188FAC(int a, unsigned char *b) { func_02188FCC(a,(int)b,2); return ((struct Obj21946 *)b)->fC4; }
+struct Cursor;
+extern void func_02188FCC(struct Cursor *a, int b, int c);
+int func_02188FAC(struct Cursor *a, unsigned char *b) { func_02188FCC(a,(int)b,2); return ((struct Obj21946 *)b)->fC4; }

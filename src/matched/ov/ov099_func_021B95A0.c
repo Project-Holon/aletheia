@@ -40,7 +40,7 @@ typedef unsigned int u32;
 typedef struct { u16 w, h; } WH;
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_021B9DC0(void *a, u32 b, u32 c);
-extern void func_021B9E04(void *a, u32 heap);
+extern void func_021B9E04(void *a, int heap);
 extern WH func_021BA810(int i);
 extern u32 func_021BA81C(int i);
 extern void *func_021C47A0(u32 w, u32 h, u32 heap);

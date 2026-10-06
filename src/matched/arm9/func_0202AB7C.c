@@ -17,9 +17,12 @@
  *       --func func_0202AB7C --addr 0x0202AB7C --thumb --cc 1.1p1
  */
 
-extern void func_0202AB8C(void);
+struct A;
+extern void func_0202AB8C(struct A *a0, void *a1);
 
-void func_0202AB7C(void)
+struct Node;
+
+void func_0202AB7C(struct Node *p, void *heapId)
 {
-    func_0202AB8C();
+    func_0202AB8C((struct A *)p, heapId);
 }

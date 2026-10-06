@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 
 void func_021BC7B0(u8 *p)
 {

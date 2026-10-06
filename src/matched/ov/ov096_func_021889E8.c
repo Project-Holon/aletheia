@@ -12,8 +12,9 @@
  *   func_02188A08 0x02188A08 thumb ov096
  */
 #include "../include/Obj21932.h"
-extern void func_02188A08(int, int, int);
-int func_021889E8(int a, int b)
+struct Cursor;
+extern int func_02188A08(struct Cursor *a, int b, int c);
+int func_021889E8(struct Cursor *a, int b)
 {
     func_02188A08(a, b, 2);
     return ((struct Obj21932 *)b)->fC4;

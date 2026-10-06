@@ -29,7 +29,7 @@ struct Obj;
 extern void func_021F21B0(char *p, char *q, int *r);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_020257D0(struct Obj *o);
 
 void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4)
@@ -43,6 +43,6 @@ void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4)
         func_020257D0((struct Obj *)t[0]);
         return;
     }
-    func_0201C724(((struct Obj07635 *)p)->fB4, t[1], 0, 0, text, ((struct Obj07635 *)p)->fB0, col);
+    func_0201C724((void *)(((struct Obj07635 *)p)->fB4), t[1], 0, 0, (u32)text, ((struct Obj07635 *)p)->fB0, col);
     func_021F21B0(p, q, (int *)a4);
 }

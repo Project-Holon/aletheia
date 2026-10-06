@@ -48,7 +48,8 @@ extern const u8 d_021836A0[4];
 struct Ctx;
 extern void func_020061E4(u32 a);
 extern int func_02188BE8(void *);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_0216D3CC(int a0);
 extern void *func_020120F4(const struct Ctx *p);
@@ -69,7 +70,7 @@ int func_0217C688(Rec *r, void *a1)
         break;
     case 1:
         if (func_02188BE8(r->f4) == 1) {
-            obj = func_021A3074(func_02188CB4(r->f4));
+            obj = func_021A3074(func_02188CB4((struct Obj00020 *)r->f4));
             if (func_0216D3CC((int)obj) == 1) {
                 if (r->fA >= 15 && r->f12 != 0 && d_021836A0[r->f11] == 1) {
                     r->f10++;

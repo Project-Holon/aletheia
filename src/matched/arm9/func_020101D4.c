@@ -73,9 +73,9 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201D83C(void *p);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_020437AC(struct Obj020437AC *p);
 extern u32 sub_02010158(u8 *obj, u32 a);
 

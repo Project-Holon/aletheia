@@ -16,7 +16,9 @@
  *   func_021F8010 0x021F8010 thumb ov094
  */
 #include "../include/Obj21662.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_021F8010(int);
 
 int func_021FB3C8(void *a, char *s)

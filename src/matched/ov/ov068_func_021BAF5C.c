@@ -34,16 +34,16 @@ extern unsigned int func_02008374(int a0);
 extern u32 func_020083AC(u32 a);
 extern u32 func_020083C8(u32 a);
 extern unsigned int func_02008390(char *a0);
-extern u32 func_02008428(u32 a);
+extern int func_02008428(unsigned short *p);
 
-void func_021BAF5C(u8 *p, u32 a)
+void func_021BAF5C(u8 *p, short unsigned int *a)
 {
     func_02082BCC(p, 0, 12);
     p[5] = 11;
-    *(u32 *)(p + 8) = a;
-    p[0] = func_02008374(a);
-    p[1] = func_020083AC(a);
-    p[2] = func_020083C8(a);
+    *(u32 *)(p + 8) = (u32)a;
+    p[0] = func_02008374((int)a);
+    p[1] = func_020083AC((u32)a);
+    p[2] = func_020083C8((u32)a);
     p[3] = func_02008390((char *)a);
     p[4] = func_02008428(a);
 }

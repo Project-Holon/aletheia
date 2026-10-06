@@ -18,8 +18,9 @@
 struct WordSet;struct PrintSys;
 struct Rec;
 struct U16Vec;
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201ED04(struct WordSet *);
+extern unsigned int func_02045C04(struct Rec *rec);
+typedef unsigned int   u32;
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_0201C4C0(struct PrintSys *);
 extern void func_02045808(struct U16Vec *vec);
 void func_0220D7D0(char *p){func_02045C04(((struct Obj08356 *)p)->fC);func_0201ED04(*(struct WordSet * *)&((struct Obj08356 *)p)->f10);func_0201C4C0(*(struct PrintSys * *)&((struct Obj08356 *)p)->f18);func_02045808(((struct Obj08356 *)p)->f14);}

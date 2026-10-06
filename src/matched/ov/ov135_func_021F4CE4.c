@@ -19,5 +19,5 @@ typedef unsigned int u32;
 struct TaskMenu;
 struct TaskMenuState;
 extern void func_02027858(struct TaskMenu *m);
-extern void func_02027FD8(struct TaskMenuState *s);
+extern u32 func_02027FD8(struct TaskMenuState *s);
 void func_021F4CE4(char *p) { if(((struct Obj00045 *)p)->fE08) { func_02027858(((struct Obj00045 *)p)->fE08); ((struct Obj00045 *)p)->fE08=0; } if(((struct Obj00045 *)p)->fE04) { func_02027FD8(((struct Obj00045 *)p)->fE04); ((struct Obj00045 *)p)->fE04=0; } }

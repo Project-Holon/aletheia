@@ -77,7 +77,7 @@ extern u32 func_02013CE0(u32 id);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *a);
 extern void func_021737A4(void *a, int b);
-extern void func_0217AE20(int a0, int a1, int a2);
+extern void func_0217AE20(u8 *a0, int a1, int a2);
 extern void func_021A0D68(u32 *a);
 extern int func_0216CD64(int a0);
 extern void func_021BE258(void *p);
@@ -116,7 +116,7 @@ int func_02188758(void *a, u8 *p)
     if (func_02013CC8(((struct Obj00518 *)p)->fD0) == 1 || func_02013CE0(((struct Obj00518 *)p)->fD0) == 1)
         func_021737A4((void *)((void *)func_02012138(a)), (int)p);
     else
-        func_0217AE20((int)p, ((struct Obj00518 *)p)->f4, ((struct Obj00518 *)p)->f8C);
+        func_0217AE20((u8 *)p, ((struct Obj00518 *)p)->f4, ((struct Obj00518 *)p)->f8C);
     func_021A0D68((u32 *)(((struct Obj00518 *)p)->f24));
     if (((struct Obj00518 *)p)->f38 != 0) {
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;

@@ -71,7 +71,7 @@ extern int STD_GetStringLength(const char *s);
 extern void *func_0206E62C(const void *dict, const char *name);
 struct GfFont;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void func_0201D83C(void *font);
+extern u32 func_0201D83C(void *ptr);
 extern void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f);
 extern void func_0216FE04(char *p, void *q);
 extern const Fmt d_021726A0[];

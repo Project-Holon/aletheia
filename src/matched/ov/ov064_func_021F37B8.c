@@ -36,7 +36,8 @@ typedef struct {
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *a, struct VecFx32 *v);
 typedef unsigned int   u32;

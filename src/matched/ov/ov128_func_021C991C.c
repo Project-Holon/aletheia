@@ -51,7 +51,7 @@ extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u8 func_02045748(struct Descriptor *p);
-extern void func_021B6B2C(u32 a0, u32 a1, u32 a2, u16 a3, u16 a4, u16 a5, u32 a6, u32 a7, u16 heap);
+extern void func_021B6B2C(u32 a0, void *a1, u32 a2, u16 a3, u16 a4, u16 a5, u32 a6, u32 a7, u16 heap);
 extern void func_021C9FC8(u8 *,void *,u8 *,u32,int,int,int);
 extern void func_021C6C94(char **,int);
 extern int func_021C6C20(u8 *,u8 *,int);
@@ -75,7 +75,7 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     for(i=0;i<10;i++) func_02043B5C(func_02045770(*(void **)(p+i*8+0x128)),0);
     offset=0x128;
     pos=func_02045748(*(void **)(p+offset));
-    func_021B6B2C((u32)(p+offset),*(u32 *)&((struct Obj00329 *)ctx)->f34,*(u32 *)&((struct Obj00329 *)ctx)->f17C,
+    func_021B6B2C((u32)(p+offset),(void *)(*(u32 *)&((struct Obj00329 *)ctx)->f34),*(u32 *)&((struct Obj00329 *)ctx)->f17C,
         (int)((u32)pos*8)/2,0,0x3C40,
         *(u8 *)((u32)q+((struct Obj00992 *)q)->fB+0x38)+1,((struct Obj00992 *)q)->f14,heap);
     func_021C9FC8(p+(offset+8),q,ctx,19,0,0,0x3C40);

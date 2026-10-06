@@ -59,7 +59,7 @@ extern void func_02190788(u8 *p);
 extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
 extern int func_02190728(void *a);
 extern u32 func_020362DC(void);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 int func_0217B084(int a0, int *state, Obj *o, u32 a3)
 {

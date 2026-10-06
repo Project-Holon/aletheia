@@ -15,7 +15,9 @@
  *   func_0201134C 0x0201134C thumb
  */
 #include "../include/Obj13594.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 
 int func_021FBE60(void *a, char *s)
 {

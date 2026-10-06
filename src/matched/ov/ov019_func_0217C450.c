@@ -42,10 +42,10 @@ int func_02173A04(int a, ...);
 int func_0217B8E4(void *ctx, int v);
 u16 func_0217EC40(int i, int j);
 u16 func_0217EC54(int i, int j);
-void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F210(u8 *p, u8 *a, u32 b);
 u32 func_0217F1EC(u8 *p);
 
-int func_0217C450(void *ctx, Obj *obj, int a2, u8 *state)
+int func_0217C450(void *ctx, Obj *obj, u8 *a2, u8 *state)
 {
     if (func_0217BB04(ctx) == 1)
         return 1;

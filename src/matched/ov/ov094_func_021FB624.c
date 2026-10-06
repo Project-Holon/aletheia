@@ -16,7 +16,8 @@
  *   func_021F839C 0x021F839C thumb ov094
  */
 #include "../include/Obj21667.h"
-extern int func_0201134C(void *);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 typedef unsigned int   u32;
 extern void func_021F839C(u32 a, u32 b);
 

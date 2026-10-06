@@ -33,9 +33,11 @@ typedef struct {
     int f2a0;
 } State;
 
-extern int func_0201134C(int);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 
-int func_021FBE90(int a, State *s)
+int func_021FBE90(struct Cursor *a, State *s)
 {
     int sel = func_0201134C(a);
     int v = func_0201134C(a);

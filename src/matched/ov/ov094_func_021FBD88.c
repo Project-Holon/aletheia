@@ -19,17 +19,19 @@ typedef struct {
     int f23c;
 } State;
 
-extern int func_0201134C(int);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FDBB0(State *s, int i);
 extern void func_021FBDD4(int a, int b, int c, int d, int e);
 
-int func_021FBD88(int a, State *s)
+int func_021FBD88(struct Cursor *a, State *s)
 {
     int x = func_021FDBB0(s, func_0201134C(a));
     int op = func_0201134C(a);
     int y = func_021FDBB0(s, func_0201134C(a));
     int z = func_0201134C(a);
 
-    func_021FBDD4(a, x, y, op, z);
+    func_021FBDD4((int)a, x, y, op, z);
     return s->f23c;
 }

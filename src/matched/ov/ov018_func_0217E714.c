@@ -137,13 +137,14 @@ void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 void func_0201EE0C(struct WordSet *p, u32 i, void *src, u32 n, u32 f, u32 g);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_0201C724(int a0, int a1, int a2, int a3, void *a4, int a5, int a6);
+void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 int func_02026608(u8 *p, u8 *out);
 int func_021585BC(u8 *p);
 int func_021583EC(void *a0, int a1);
 void func_021762C0(void *win, u32 slot, u8 *src, u16 heap);
 void func_021762D8(const void *obj, void *a1, void *a2, void *a3);
-void *func_02188CB4(u8 *p);
+struct Obj00020;
+void *func_02188CB4(struct Obj00020 *p);
 void func_021A3038(u8 *p, struct VecFx32 *out);
 int func_021D3554(void *arg0, int arg1);
 Mon *func_0217BEA8(int a0);
@@ -337,7 +338,7 @@ void func_0217E714(W *w, u8 *p, u16 q)
     if (done == 1) {
         func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), 0);
         n = w->f28;
-        func_0201C724(n, (int)func_02045770((struct Descriptor *)w->f4C), 0, 0, w->f3C, w->f1C, 0x3C40);
+        func_0201C724((void *)n, (int)func_02045770((struct Descriptor *)w->f4C), 0, 0, (u32)w->f3C, w->f1C, 0x3C40);
         w->f50 = 1;
         w->f108 = 0x5A;
     }

@@ -57,7 +57,7 @@ extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 i);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201D83C(void *ptr);
+extern u32 func_0201D83C(void *ptr);
 
 void func_021902BC(Obj *o)
 {

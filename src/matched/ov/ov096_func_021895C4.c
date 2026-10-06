@@ -26,11 +26,12 @@ typedef int s32;
 typedef struct { int a, b, c; } Tri;
 
 extern const Tri d_0218A580;
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 extern int func_021D59B4(u8 *p, int k);
 
-int func_021895C4(int a, int b) {
+int func_021895C4(struct Cursor *a, int b) {
     int r6;
     int r7;
     int x;

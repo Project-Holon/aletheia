@@ -51,7 +51,7 @@ extern int func_0217BB04(char *p);
 extern int func_0217B8E4(char *p, char v);
 extern u16 func_0217EC04(void ***ctx);
 extern u32 func_0217F1EC(u8 *p);
-extern void func_0217F210(u8 *p, int a, u32 b);
+extern void func_0217F210(u8 *p, u8 *a, u32 b);
 extern void func_02172D20(u8 *p);
 extern int func_02172D68(u8 *p);
 extern void func_021734A8(u8 *self, u32 id, u32 v);
@@ -68,7 +68,7 @@ extern u32 func_020362DC(void);
 extern void func_020061E4(u32 id);
 extern int  memcmp(const void *a, const void *b, u32 n);
 
-int func_0217BE64(void *w, Obj *obj, int a2, u8 *state)
+int func_0217BE64(void *w, Obj *obj, u8 *a2, u8 *state)
 {
     int i;
 

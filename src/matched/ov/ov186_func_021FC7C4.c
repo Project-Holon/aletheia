@@ -25,7 +25,9 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern void func_021FC870(int,Pair *,const void *,void *,void *,Pair *);
-extern void func_0201C724(void *,void *,short,short,void *,void *,unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021FC7C4(char *p,void *text,void *font,unsigned short value)
 {
     Pair xy;
@@ -34,6 +36,6 @@ void func_021FC7C4(char *p,void *text,void *font,unsigned short value)
     func_02045838(((struct Obj02903 *)p)->f10,text);
     func_021FC870(((struct Obj02903 *)p)->f18,(Pair *)(p+28),func_02045770(((struct Obj02903 *)p)->fC),((struct Obj02903 *)p)->f10,font,&xy);
     owner=((struct Obj02903 *)p)->f8;
-    func_0201C724(owner,func_02045770(((struct Obj02903 *)p)->f0),xy.x,xy.y,((struct Obj02903 *)p)->f10,font,value);
+    func_0201C724(owner,(u32)func_02045770(((struct Obj02903 *)p)->f0),(short)xy.x,(short)xy.y,(u32)(((struct Obj02903 *)p)->f10),(u32)font,value);
     p[4]=1;
 }

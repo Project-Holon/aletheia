@@ -16,10 +16,11 @@
  */
 
 extern char g_021A5A7C[];
-extern int func_020923F0(int a, char *p, int n);
+typedef unsigned char  u8;
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 
-int func_02199284(int a)
+int func_02199284(const u8 *a)
 {
-    return func_020923F0(a, g_021A5A7C, 6) == 0;
+    return func_020923F0(a, (const u8 *)g_021A5A7C, 6) == 0;
 }
 

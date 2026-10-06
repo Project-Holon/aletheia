@@ -25,11 +25,12 @@ typedef struct {
     u8 *p;
 } Ctx;
 
-extern u32 func_0201134C(Ctx *);
-extern void func_0215A6D0(void *, u8 *);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
+extern void func_0215A6D0(void *p, u32 v);
 
 int func_021B6AE0(Ctx *c, void *b)
 {
-    func_0215A6D0(b, c->p + func_0201134C(c));
+    func_0215A6D0(b, (u32)(c->p + func_0201134C((struct Cursor *)c)));
     return 0;
 }

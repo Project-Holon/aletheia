@@ -18,7 +18,9 @@
  *   func_02200468 0x02200468 thumb ov094
  */
 #include "../include/Obj21661.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021F8694(void);
 extern int func_0220041C(void *, int, int);
 extern void func_02200468(void *, int);

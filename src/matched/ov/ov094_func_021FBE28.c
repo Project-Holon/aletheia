@@ -18,13 +18,14 @@
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj21679.h"
-extern int func_0201134C(void *);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 extern int func_021F7F1C(int);
 typedef unsigned int   u32;
 struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
 
-int func_021FBE28(char *a, char *s)
+int func_021FBE28(struct Cursor *a, char *s)
 {
     int x = func_0201134C(a);
     int y = func_0201134C(a);

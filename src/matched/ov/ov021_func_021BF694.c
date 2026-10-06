@@ -34,7 +34,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Evt;
 extern void *func_02188C58(void *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u32 func_02188D38(u8 *p);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_0218E138(u8 *p);
@@ -45,7 +46,7 @@ extern void func_0216D410(void *a0, u16 a1);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_021C7684(u32 a, u32 b, int c, int d);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 extern int func_021C6E48(int);
 
 int func_021BF694(int a, int *s, int *q)
@@ -60,12 +61,12 @@ int func_021BF694(int a, int *s, int *q)
         q[2] = func_0218E138((u8 *)h);
         func_0218E13C((u8 *)h, 0);
         rot = d_021DA080;
-        t = func_021A3074(func_02188CB4((unsigned char *)q[1]));
+        t = func_021A3074(func_02188CB4((struct Obj00020 *)q[1]));
         func_0216D8C0(t, &rot);
         func_0216D410(t, 1);
         func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)q[0], q[1], 0, 1, 1, 0, 0));
-        r = (int)func_021C7684(q[1], (u32)func_021A3074(func_02188CB4((unsigned char *)q[1])), 0x28, 0xfa);
-        func_021C6DE0((u8 *)func_02188D38((u8 *)q[1]), r, 0);
+        r = (int)func_021C7684(q[1], (u32)func_021A3074(func_02188CB4((struct Obj00020 *)q[1])), 0x28, 0xfa);
+        func_021C6DE0((u8 *)func_02188D38((u8 *)q[1]), (u32 *)r, 0);
         s[0] = s[0] + 1;
         break;
     case 1:

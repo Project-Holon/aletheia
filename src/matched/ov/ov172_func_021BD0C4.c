@@ -40,7 +40,8 @@ struct MsgBank;
 struct U16Vec;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(u32 a, u32 b, int c, int d, u32 e, u32 f, int g);
+typedef unsigned short u16;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
@@ -53,7 +54,7 @@ void func_021BD0C4(void *a0, char *a1, int a2)
 
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00543 *)a1)->f2C)), 0xf);
     w = (u32)func_02045EC0((struct MsgBank *)y, a2);
-    func_0201C724(z, (u32)func_02045770((struct Descriptor *)((struct Obj00543 *)a1)->f2C), 0, 0, w, x, 0x440);
+    func_0201C724((void *)z, (u32)func_02045770((struct Descriptor *)((struct Obj00543 *)a1)->f2C), 0, 0, w, x, 0x440);
     func_02045808((struct U16Vec *)w);
     func_0201F73C((void *)(((struct Obj00543 *)a1)->f2C), 2, 0x140, 9);
     ((struct Obj00543 *)a1)->f20 = 1;

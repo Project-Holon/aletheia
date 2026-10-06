@@ -16,7 +16,7 @@
  *   func_02082BCC  0x02082BCC  arm
  */
 
-void func_021BA024(void *p)
+void func_021BA024(void *p, int heap)
 {
     void func_02082BCC(void *, int, int);
     func_02082BCC(p, 0, 0x20);

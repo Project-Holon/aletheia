@@ -68,7 +68,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 #pragma thumb on
 
-extern void func_0201C724(void *owner, void *a, s16 b, s16 c, void *d, u32 e, int f);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_02202B20(struct Obj *p, int arg1, void *arg2, int arg3, int arg4)
 {
@@ -84,7 +84,7 @@ void func_02202B20(struct Obj *p, int arg1, void *arg2, int arg3, int arg4)
             p->slots[i].f14 = 0;
             owner = p->f04;
             h = func_02045770(p->slots[i].f10);
-            func_0201C724(owner, h, arg3, arg4, buf, p->f00, 0x3DC8);
+            func_0201C724(owner, (u32)h, (s16)arg3, (s16)arg4, (u32)buf, p->f00, (int)0x3DC8);
             p->slots[i].f14 = 1;
             p->used[i] = 1;
             func_02045808(buf);

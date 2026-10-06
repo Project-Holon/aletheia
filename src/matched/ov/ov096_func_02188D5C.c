@@ -24,13 +24,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_021D5440(u8 *);
 struct QG;
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
 extern u16 func_021C7E14(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
-u32 func_02188D5C(int a, u8 *p)
+u32 func_02188D5C(struct Cursor *a, u8 *p)
 {
     int t = func_0201134C(a);
     u8 x = func_021D5440(*(u8 **)(p + 0xBC));

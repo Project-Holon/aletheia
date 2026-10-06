@@ -34,14 +34,16 @@ typedef unsigned char  u8;
 struct BigObj;
 struct Ctx;
 extern void *func_020173F0(u16 species, u16 level, unsigned long long id, u16 heap);
-extern int func_0200BCA0(u32);
+struct Obj11233;
+extern int func_0200BCA0(struct Obj11233 *p);
 extern void func_0216556C(void);
 extern void func_021C33E0(void *a);
 extern void func_021C3898(u32 *, u32);
 struct Party;
 struct PartyMon;
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void func_0200BC20(u32);
+struct Obj11232;
+extern void func_0200BC20(struct Obj11232 *p);
 extern u32 func_020307B0(void *p);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -53,12 +55,12 @@ void func_021C32F4(u32 *p, u32 b)
     u32 m = (u32)func_020173F0(1, 1, 1, ((struct Obj03142 *)p)->f0);
     u32 w;
 
-    if (func_0200BCA0(p[2]) == 1) {
+    if (func_0200BCA0((struct Obj11233 *)p[2]) == 1) {
         func_0216556C();
         func_021C33E0((void *)p[1]);
         func_021C3898(p, m);
         func_0201A98C((void *)b, (void *)m);
-        func_0200BC20(p[2]);
+        func_0200BC20((struct Obj11232 *)p[2]);
         func_020307B0((void *)m);
         w = (u32)func_020120F4(func_02188C80((void *)p[1]));
         func_0216AAE4((void *)w, (void *)b, func_02012984((const struct BigObj *)w));

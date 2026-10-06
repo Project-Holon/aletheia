@@ -31,7 +31,8 @@ struct IcaAnime;
 struct Light;
 struct Arg;
 struct Context { void *a0; u32 a4,a8,ac,a10,step; struct IcaAnime *anime; u8 *table; void *light; u32 a24,a28,count; u8 args[0x3c]; void *events; u16 *indices; void *a74; };
-extern u32 func_0201160C(void *);
+struct Obj11245;
+extern u32 func_0201160C(struct Obj11245 *p);
 extern void func_021BF858(void *,int,int);
 extern u32 func_020115C0(struct IcaAnime *,int);
 extern void func_02011B8C(void *,void *);
@@ -48,7 +49,7 @@ int func_021BE538(const struct Context *ctx, u32 frames)
 {
     u32 done;
     long advance = 0;
-    unsigned long time = func_0201160C(ctx->anime);
+    unsigned long time = func_0201160C((struct Obj11245 *)ctx->anime);
     u32 i;
     for(i=0;i<frames+1;i++) {
         if(ctx->a8 == 0) func_021BF858(ctx->events,time+advance,i);

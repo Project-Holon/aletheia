@@ -20,7 +20,8 @@ typedef unsigned short u16;
 struct Obj;
 extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *,u16 *,u16 *);
-extern void func_0201F868(void *);
+typedef unsigned int   u32;
+extern u32 func_0201F868(void *p);
 extern void func_021BA8EC(char *);
 void func_021C0290(char *p) {
  if (((struct Obj00008 *)p)->f1A4) {

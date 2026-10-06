@@ -13,7 +13,8 @@
  */
 #include "../include/Obj00060.h"
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021BA5F4(unsigned a)
 {
  if(*(unsigned *)&((struct Obj00060 *)a)->f27C!=0) func_020452E8(*(struct Descriptor * *)&((struct Obj00060 *)a)->f27C);

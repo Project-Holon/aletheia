@@ -41,7 +41,7 @@ typedef struct {
 } Work;
 
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 
 void func_021C78F8(Work *p)

@@ -22,11 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020452E8(u32);
+struct Descriptor;
+extern u32 func_020452E8(struct Descriptor *d);
 struct FrameStyle;
 extern void func_02195E90(struct FrameStyle *style, void *win);
 
-u32 func_02194A48(u32 a, u32 b)
+u32 func_02194A48(u32 a, struct Descriptor *b)
 {
 func_02195E90((struct FrameStyle *)a, (void *)b);
 return func_020452E8(b);

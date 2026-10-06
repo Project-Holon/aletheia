@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Point { u16 x, y; } Point;
-extern u8 *func_0202616C(void *p, int i);
+extern void *func_0202616C(void **obj, unsigned int idx);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;

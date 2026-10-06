@@ -19,7 +19,8 @@
  *   func_0218A6E8  0x0218A6E8  thumb  ov021
  */
 
-int func_0218A278(void *sys, unsigned char *pos);
+struct Obj00020;
+int func_0218A278(void *sys, struct Obj00020 *pos);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
@@ -30,7 +31,7 @@ u32 func_02189A70(u8 *p);
 void func_021F3B10(void);
 void func_0218A6E8(void *p, void *h);
 
-int func_0218A240(void *p, unsigned char *pos)
+int func_0218A240(void *p, struct Obj00020 *pos)
 {
     void *h;
     int r = func_0218A278(p, pos);

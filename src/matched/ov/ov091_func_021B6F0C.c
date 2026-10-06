@@ -15,4 +15,4 @@
 extern void func_0207D4B0(int,int,int);
 extern void func_021B7078(const void *,unsigned,unsigned);
 extern char d_021BEB7C[];
-void func_021B6F0C(void) { func_0207D4B0(1,0,0); func_021B7078(d_021BEB7C,0,0); }
+void func_021B6F0C(void *p) { func_0207D4B0(1,0,0); func_021B7078(d_021BEB7C,0,0); }

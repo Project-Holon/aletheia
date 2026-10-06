@@ -17,7 +17,9 @@
 #include "../include/Obj23258.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void *func_021F9DC4(void *, u8);
 extern void func_021F9F74(void *, u16, void *);
 int func_021FC014(int unused, char *p)

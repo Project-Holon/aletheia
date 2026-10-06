@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_021C1C78(void)
+int func_021C1C78(void *a0, void *a1, char *a2, int a3, int *a4)
 {
     return 1;
 }

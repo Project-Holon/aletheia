@@ -31,7 +31,8 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern void func_0201F868(void *);
+typedef unsigned int   u32;
+extern u32 func_0201F868(void *p);
 extern void func_02082BCC(void *, int, unsigned int);
 
 void func_021BF4E8(char *p)

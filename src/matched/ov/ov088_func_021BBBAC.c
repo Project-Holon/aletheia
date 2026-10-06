@@ -38,7 +38,7 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
@@ -50,7 +50,7 @@ static inline void print_line(char *p, u32 id, u32 y, u16 color)
 {
     u32 s = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06204 *)p)->f5C), id);
     u32 a = ((struct Obj06204 *)p)->f68;
-    func_0201C724(a, (u32)func_02045770((struct Descriptor *)((struct Obj06204 *)p)->fF0), 0, y, s, ((struct Obj06204 *)p)->f58, color);
+    func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj06204 *)p)->fF0), 0, y, s, ((struct Obj06204 *)p)->f58, color);
     ((struct Obj06204 *)p)->fF4 = 1;
     func_02045808((struct U16Vec *)s);
 }

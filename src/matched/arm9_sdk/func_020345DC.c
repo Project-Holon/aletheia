@@ -14,7 +14,7 @@ struct Struct020345DC {
     void *ptr;
 };
 
-extern void func_02033C9C(void *p);
+extern unsigned int func_02033C9C(void *a);
 typedef unsigned int   u32;
 extern u32 sub_020307B0(void *p);
 

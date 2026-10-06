@@ -26,7 +26,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Evt;
 extern void *func_02188C58(void *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_0218E138(u8 *p);
 extern void func_0218E13C(u8 *a, u32 s);
@@ -42,7 +43,7 @@ int func_021BFC98(int a, int *s, int *q)
     int h = (int)func_02188C58((void *)q[1]);
     void *t;
 
-    t = func_021A3074(func_02188CB4((unsigned char *)q[1]));
+    t = func_021A3074(func_02188CB4((struct Obj00020 *)q[1]));
     switch (s[0]) {
     case 0:
         q[2] = func_0218E138((u8 *)h);

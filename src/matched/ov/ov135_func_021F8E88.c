@@ -22,7 +22,7 @@
 #include "../include/Obj01743.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021F8A74(u8 *);
+extern int func_021F8A74(void *a0);
 extern int func_021F8A80(u8 *);
 extern int func_021F8AB0(u8 **);
 extern int func_021F8AF4(u8 *);

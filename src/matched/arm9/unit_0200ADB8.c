@@ -85,7 +85,7 @@ struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern const char func_0200ADF0_File[];

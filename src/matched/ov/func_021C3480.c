@@ -18,7 +18,7 @@
 #include "../include/Obj00146.h"
 
 
-extern int func_02006650(int);
+extern int func_02006650(void);
 extern void func_020065D8(void);
 
 void func_021C3480(int unused, char *p, int key)
@@ -26,7 +26,7 @@ void func_021C3480(int unused, char *p, int key)
     int v;
 
     if (((struct Obj00146 *)p)->f68 != 0) {
-        v = func_02006650(((struct Obj00146 *)p)->f68);
+        v = func_02006650();
         if (v != 0)
             func_020065D8();
         ((struct Obj00146 *)p)->f68 = 0;

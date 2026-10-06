@@ -33,12 +33,13 @@ typedef struct {
     int fc4;
 } Conn;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern unsigned char func_021D69AC(unsigned char *base, int idx);
 
-int func_0218948C(int a, Conn *b)
+int func_0218948C(struct Cursor *a, Conn *b)
 {
     b->f38 = func_021D69AC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, func_0201134C(a))), 0);
     return b->fc4;

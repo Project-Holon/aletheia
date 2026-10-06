@@ -30,7 +30,7 @@ extern u8 func_020355C4(void);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern const u16 d_02203D4A[][4];
-extern void func_021FF318(char *, int, int, int, int);
+extern void func_021FF318(u8 *p, u32 k, int b, int c, int d);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
 int func_021FF26C(char *p)
 {
@@ -40,7 +40,7 @@ int func_021FF26C(char *p)
             func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 0);
         else
             func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 1);
-        func_021FF318(p, 15, 1, 0, 0xf0f);
+        func_021FF318((u8 *)p, 15, 1, 0, 0xf0f);
         func_021F4E98((u8 *)p, 23, 26);
     }
     return 2;

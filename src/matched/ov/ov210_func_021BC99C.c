@@ -31,15 +31,15 @@ struct U16Vec;
 struct WordSet;
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_0201D83C(void *ptr);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_02045C04(struct Rec *rec);
 
-void func_021BC99C(u8 *p)
+u32 func_021BC99C(u8 *p)
 {
     func_02045808((struct U16Vec *)(((struct Obj00085 *)p)->f1D8));
     func_0201C4C0((struct PrintSys *)(((struct Obj00085 *)p)->f1DC));
     func_0201ED04((struct WordSet *)(((struct Obj00085 *)p)->f1D4));
     func_0201D83C((void *)(((struct Obj00085 *)p)->f1CC));
-    func_02045C04((struct Rec *)(((struct Obj00085 *)p)->f1D0));
+    return func_02045C04((struct Rec *)(((struct Obj00085 *)p)->f1D0));
 }

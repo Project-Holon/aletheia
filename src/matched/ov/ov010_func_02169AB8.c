@@ -98,7 +98,7 @@ typedef struct Work {
     Res *f18;           /* 0x18 */
 } Work;
 
-extern int func_02169E0C(int a0);
+extern int func_02169E0C(char *a0);
 extern void func_02169E4C(Work *w);
 extern void func_02169EA4(Work *w, u32 n);
 extern void func_02169EBC(Work *w);
@@ -144,7 +144,7 @@ extern void func_0201F7A8(void *p, u32 kind);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012F2C(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern void *func_020056BC(void);
+extern u32 func_020056BC(void);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern int func_02012DAC(int a0);
 extern int func_02012DD0(u8 *p);
@@ -156,7 +156,7 @@ extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern int func_02006254(u32 a);
 extern u32 func_020362DC(void);
 
@@ -234,7 +234,7 @@ int func_02169AB8(Work *w, u32 *state)
         break;
     case 8:
         if (func_0216A244(w) != 0) {
-            w->f18->f44 = func_0202EE30(func_020056BC(), w->f18->f08, 0xF, 0x10, w->f10);
+            w->f18->f44 = func_0202EE30((void *)func_020056BC(), w->f18->f08, 0xF, 0x10, w->f10);
             func_021A1530((u32 *)func_02188CCC(w->f08));
             func_0216A264(w);
             func_02012DAC((int)func_020120F4(w->f04));
@@ -304,14 +304,14 @@ int func_02169AB8(Work *w, u32 *state)
             w->f18->f4C++;
         break;
     case 17:
-        func_02169E0C((int)w);
+        func_02169E0C((char *)w);
         func_021A0F30(func_02188CCC(w->f08), 1);
         *state = 0x12;
         break;
     case 18:
         return 1;
     case 19:
-        func_02169E0C((int)w);
+        func_02169E0C((char *)w);
         func_021A0F30(func_02188CCC(w->f08), 0);
         *state = 0x14;
         break;

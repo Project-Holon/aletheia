@@ -11,8 +11,11 @@
  * blocker:  ABS32 func_0204BE38 at +0x08: no branch anywhere outside this range reaches 0x0204BE38
  */
 
-extern void func_0204BE38(void);
-void func_0204B0F4(void)
+struct Obj;
+extern void func_0204BE38(struct Obj *obj, int on);
+struct Actor;
+
+void func_0204B0F4(struct Actor *a0, int a1)
 {
-    func_0204BE38();
+    func_0204BE38((struct Obj *)a0, a1);
 }

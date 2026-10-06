@@ -33,7 +33,7 @@ struct S02030EE8;
 extern u32 func_02030EE8(struct S02030EE8 *p);
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 
 void func_022047F8(void *h)
 {

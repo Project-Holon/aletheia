@@ -20,7 +20,7 @@ typedef unsigned int  u32;
 
 struct Obj;
 extern unsigned short func_0202B804(struct Obj *o);
-extern void func_0202BEDC(u32 a, u32 b);
+extern void func_0202BEDC(int a, int b);
 
 void func_0202B744(u8 *o)
 {

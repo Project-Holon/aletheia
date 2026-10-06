@@ -33,7 +33,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct U16Vec;
 extern void func_02045A38(struct U16Vec *, u16 *, u32);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 typedef struct {
     int f0;

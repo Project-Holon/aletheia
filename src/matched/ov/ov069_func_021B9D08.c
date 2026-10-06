@@ -25,7 +25,7 @@ typedef short s16;
 struct GfFont;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *p);
-extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 
@@ -41,15 +41,15 @@ void func_021B9D08(u8 *p)
         p[i * 8 + 0x5C] = 0;
     }
     h = *(u32 *)&((struct Obj01133 *)p)->fE8;
-    func_0201C724(h, (int)func_02045770((struct Descriptor *)((struct Obj01133 *)p)->fA8), 0, 0,
+    func_0201C724((void *)h, (int)func_02045770((struct Descriptor *)((struct Obj01133 *)p)->fA8), 0, 0,
                   ((struct Obj01133 *)p)->f100, *(u32 *)&((struct Obj01133 *)p)->fC, 0x3DC0);
     p[0xAC] = 1;
     h = *(u32 *)&((struct Obj01133 *)p)->fE8;
-    func_0201C724(h, (int)func_02045770((struct Descriptor *)((struct Obj01133 *)p)->fC8), 0, 0,
+    func_0201C724((void *)h, (int)func_02045770((struct Descriptor *)((struct Obj01133 *)p)->fC8), 0, 0,
                   ((struct Obj01133 *)p)->f10C, *(u32 *)&((struct Obj01133 *)p)->fC, 0x3DC0);
     p[0xCC] = 1;
     h = *(u32 *)&((struct Obj01133 *)p)->fE8;
-    func_0201C724(h, (int)func_02045770((struct Descriptor *)((struct Obj01133 *)p)->fD8), 0, 0,
+    func_0201C724((void *)h, (int)func_02045770((struct Descriptor *)((struct Obj01133 *)p)->fD8), 0, 0,
                   ((struct Obj01133 *)p)->f118, *(u32 *)&((struct Obj01133 *)p)->fC, 0x3DC0);
     p[0xDC] = 1;
 }

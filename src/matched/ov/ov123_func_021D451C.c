@@ -32,7 +32,7 @@ struct MsgBank;
 struct Obj;
 extern void func_0204BA10(struct Actor *a);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern int func_02085D3C(void);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D4EF0(char *, int, int);

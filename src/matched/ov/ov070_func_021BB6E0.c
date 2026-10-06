@@ -26,12 +26,12 @@ typedef unsigned short u16;
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021BB6E0(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color)
 {
     u32 print = ((struct Obj01516 *)p)->f50C;
 
-    func_0201C724(print, (u32)func_02045770((struct Descriptor *)*obj), (s16)x, y, str, ((struct Obj01516 *)p)->f530, color);
+    func_0201C724((void *)print, (u32)func_02045770((struct Descriptor *)*obj), (s16)x, y, str, ((struct Obj01516 *)p)->f530, color);
     *((unsigned char *)obj + 4) = 1;
 }

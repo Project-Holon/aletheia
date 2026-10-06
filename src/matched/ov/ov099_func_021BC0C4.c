@@ -24,7 +24,8 @@ extern void func_021BBD80(char *s);
 extern void func_021BBC0C(void *p);
 extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern void func_0201F868(void *a);
+typedef unsigned int   u32;
+extern u32 func_0201F868(void *p);
 
 void func_021BC0C4(char *p)
 {

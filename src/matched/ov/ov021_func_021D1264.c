@@ -38,7 +38,8 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } V;
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 struct CharBuf;
 struct Light;
 extern void *func_02188C58(void *p);

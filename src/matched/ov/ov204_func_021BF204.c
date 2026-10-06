@@ -16,7 +16,7 @@
 #include "../include/Obj08384.h"
 
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
+extern unsigned int func_02045C04(struct Rec *rec);
 typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);

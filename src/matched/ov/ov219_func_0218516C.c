@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;struct Obj;
 extern void func_0201F7A8(void*,u32);
-extern void sub_020452E8(struct Descriptor*);
+extern u32 sub_020452E8(struct Descriptor *d);
 extern void func_0202020C(struct Obj*,u16*,u16*);
-extern void func_0201F868(void*);
+extern u32 func_0201F868(void *p);
 void func_0218516C(u8*p){func_0201F7A8(*(void* *)&((struct Obj08451 *)p)->fC018,0);sub_020452E8(*(struct Descriptor* *)&((struct Obj08451 *)p)->fC018);func_0202020C(*(struct Obj* *)&((struct Obj08451 *)p)->fC04C,0,0);func_0201F868(*(void* *)&((struct Obj08451 *)p)->fC050);}

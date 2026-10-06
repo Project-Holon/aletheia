@@ -45,9 +45,9 @@ extern void ENV_SetResourceSet(void *p);
 struct Descriptor;
 struct Obj0202EA20;
 struct PrintSys;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0202CA0C(struct WinMgr *mgr);
-extern void func_0202EA20(struct Obj0202EA20 *p);
+extern u32 func_0202EA20(struct Obj0202EA20 *p);
 extern void func_0201C4C0(struct PrintSys *p);
 
 void func_021B796C(struct S *s)

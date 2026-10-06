@@ -38,7 +38,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EE0C(u32 a, int b, u32 c, int d, int e, int f);
 extern void func_021B9CF4(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B878(struct Obj *p, u16 value);

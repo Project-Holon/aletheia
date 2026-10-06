@@ -22,7 +22,7 @@ typedef struct tagLISTCB {
 
 extern void DWCi_LSTlErase(void *ob);
 
-void func_02050790(LISTCB *list)
+void func_02050790(LISTCB *list, int b, int c)
 {
     DWCi_LSTlErase(list->tail);
 }

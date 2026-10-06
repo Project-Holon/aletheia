@@ -77,7 +77,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0203D34C(u32 a, u32 b);
 
@@ -182,7 +182,7 @@ void func_021BA2C4(void *a0, u8 *p)
     *(u32 *)&((struct Obj00276 *)p)->f4C = (u32)func_020450F0(4, 3, 1, 0x1c, 2, 0xa, 1);
     func_02043B5C((struct CharBuf *)((u32)func_02045770(((struct Obj00276 *)p)->f4C)), 0);
     s = func_02045EC0(s, 0xb);
-    func_0201C724(t3, (u32)func_02045770(((struct Obj00276 *)p)->f4C), 1, 0, (u32)s, t1, 0x440);
+    func_0201C724((void *)t3, (u32)func_02045770(((struct Obj00276 *)p)->f4C), 1, 0, (u32)s, t1, 0x440);
     func_02045808(s);
     ((struct Obj00276 *)p)->f40 = 1;
     ((struct Obj00276 *)p)->f0 = 0;

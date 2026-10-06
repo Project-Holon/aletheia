@@ -22,7 +22,7 @@
 
 extern void func_0202BF54(void);
 
-void func_0202BEDC(void)
+void func_0202BEDC(int a, int b)
 {
     func_0202BF54();
 }

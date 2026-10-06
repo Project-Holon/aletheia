@@ -33,7 +33,8 @@ typedef int s32;
 
 typedef struct { u8 p0[0x38]; int f38; u8 p1[0x58]; u8 f94; u8 p2[0x1b]; int fb0, fb4; char *fb8; u8 *fbc, *fc0; int fc4; } Obj;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 *func_0218A308(void *, u32);
@@ -46,7 +47,7 @@ extern u8 func_021B9B94(struct Q1 *p);
 extern u8 func_021D5440(u8 *p);
 extern int func_021D5B68(void *);
 
-int func_02189AC0(int a, Obj *b) {
+int func_02189AC0(struct Cursor *a, Obj *b) {
     int c;
     int x;
     int r4;

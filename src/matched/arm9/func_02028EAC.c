@@ -39,12 +39,12 @@ struct Cmd {
 struct SoundParam2;
 
 extern void func_02028F18(struct SoundParam2 *obj, u16 a1);
-extern void func_02028F30(struct SoundParam2 *obj, u16 a1);
-extern void func_02028F48(struct SoundParam2 *obj, u16 a1);
-extern void func_02028F60(struct SoundParam2 *obj, u16 a1, u16 a2);
-extern void func_02028F7C(struct SoundParam2 *obj, u32 a1, u16 a2, u16 a3);
-extern void func_02028F9C(struct SoundParam2 *obj, u32 a1, u16 a2);
-extern void func_02028FB8(struct SoundParam2 *obj, u16 a1);
+extern void func_02028F30(u8 *p, u32 a);
+extern void func_02028F48(u8 *p, u32 a);
+extern void func_02028F60(u8 *p, u32 a, u32 b);
+extern void func_02028F7C(u8 *p, u32 a, u32 b, u32 c);
+extern void func_02028F9C(u8 *p, u32 a, u32 b);
+extern void func_02028FB8(u8 *p, u32 a);
 
 void func_02028EAC(struct SoundParam2 *obj, struct Cmd *cmd)
 {
@@ -53,22 +53,22 @@ void func_02028EAC(struct SoundParam2 *obj, struct Cmd *cmd)
         func_02028F18(obj, cmd->unk0A);
         break;
     case 2:
-        func_02028F30(obj, cmd->unk08);
+        func_02028F30((u8 *)obj, cmd->unk08);
         break;
     case 3:
-        func_02028F48(obj, cmd->unk08);
+        func_02028F48((u8 *)obj, cmd->unk08);
         break;
     case 4:
-        func_02028F60(obj, cmd->unk08, cmd->unk0A);
+        func_02028F60((u8 *)obj, cmd->unk08, cmd->unk0A);
         break;
     case 5:
-        func_02028F7C(obj, cmd->unk04, cmd->unk08, cmd->unk0A);
+        func_02028F7C((u8 *)obj, cmd->unk04, cmd->unk08, cmd->unk0A);
         break;
     case 6:
-        func_02028F9C(obj, cmd->unk04, cmd->unk08);
+        func_02028F9C((u8 *)obj, cmd->unk04, cmd->unk08);
         break;
     case 7:
-        func_02028FB8(obj, (u16)cmd->unk04);
+        func_02028FB8((u8 *)obj, (u16)cmd->unk04);
         break;
     default:
         break;

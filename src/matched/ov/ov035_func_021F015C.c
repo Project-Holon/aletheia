@@ -16,7 +16,8 @@
 #include "../include/Obj20481.h"
 
 struct TaskMenuState;
-extern void func_02027FD8(struct TaskMenuState *s);
+typedef unsigned int   u32;
+extern u32 func_02027FD8(struct TaskMenuState *s);
 
 void func_021F015C(char *p)
 {

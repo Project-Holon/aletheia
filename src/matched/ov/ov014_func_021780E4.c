@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *g_021797A4;
-void func_021780E4(void)
+void func_021780E4(int a)
 {
     if (g_021797A4)
         *(u16 *)(g_021797A4 + 0xc6c) = 20;

@@ -78,8 +78,8 @@ extern void func_02045808(struct U16Vec *vec);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A90(u32 a, u32 b, u32 n);
 extern u8 func_02045738(struct Descriptor *p);
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201D83C(void *ptr);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201D83C(void *ptr);
 
 void func_021B9C04(u32 *p)
 {

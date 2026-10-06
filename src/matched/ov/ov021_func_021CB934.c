@@ -38,7 +38,7 @@ typedef struct {
 extern void *func_0215A5F4(void *p);
 struct Ctx;
 extern void func_0215A684(int *p, unsigned short v);
-extern int func_0215A690(void *a);
+extern int func_0215A690(char *a0);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C54(u8 *p);

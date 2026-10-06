@@ -41,7 +41,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_021B6AE4(u8 *,u32,u16,u16,u32,u32,u16,u32);
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void func_021CA4B4(char *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02049EF4(void *,u32,u32,void **,u16);
@@ -76,7 +76,7 @@ void func_021C7140(struct P *p, u8 *a, u8 *ctx, u16 heap)
         func_02045CAC(((struct Obj02482 *)ctx)->f4,i+1,text);
         func_0201F250(((struct Obj02482 *)ctx)->f0,buf,text);
         width=func_0201D304((struct StrObj *)((u32)buf),((struct Obj02482 *)ctx)->f17C,0);
-        func_021B6AE4((u8 *)p+12,((struct Obj02482 *)ctx)->f34,(192-width)/2,i*40+8,(u32)buf,((struct Obj02482 *)ctx)->f17C,0x440,0);
+        func_021B6AE4((u8 *)p+12,(void *)(((struct Obj02482 *)ctx)->f34),(192-width)/2,i*40+8,(u32)buf,((struct Obj02482 *)ctx)->f17C,0x440,0);
     }
     func_021CA4B4(((struct Obj02841 *)p)->fC);
     func_02045808(buf);

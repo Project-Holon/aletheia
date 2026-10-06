@@ -23,7 +23,7 @@
 #include "../include/Obj23409.h"
 extern unsigned int func_021F4E30(unsigned char *p);
 extern void func_021F4E64(unsigned char *p);
-extern void func_0201F868(void *);
+extern unsigned int func_0201F868(void *p);
 extern void *func_0200ADB4(void *);
 extern int func_021F6DE8(unsigned int handle);
 typedef unsigned int   u32;

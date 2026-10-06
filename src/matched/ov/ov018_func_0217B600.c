@@ -98,7 +98,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u32 func_0200FB24(void);
 extern u32 func_02026454(void *obj);
 extern void func_02026400(struct Comm *p);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern int func_0216D3CC(int a0);
 extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D480(char *p);

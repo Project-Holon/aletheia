@@ -29,7 +29,7 @@ extern void func_021D6C90(char *p, int i, void *h);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
-extern void func_0204B5AC(void *, struct Pair *);
+extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;

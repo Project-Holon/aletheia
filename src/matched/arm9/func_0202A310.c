@@ -36,7 +36,7 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void  func_02049238(void *h);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_0204581C(struct U16Vec *vec);
 
 void func_0202A310(int key, int want, void *dest, u32 heap)

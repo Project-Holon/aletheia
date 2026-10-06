@@ -51,7 +51,7 @@ struct Heap;
 extern int sub_02060E6C(int *p);
 extern s32 sub_02060E94(struct Heap *heap, s32 x);
 
-void sub_02030958(u32 heapId)
+void sub_02030958(u32 heapId, u32 size, const char *site, int tag)
 {
     void *arena;
 

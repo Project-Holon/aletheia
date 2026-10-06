@@ -26,7 +26,8 @@
 
 typedef struct { int x, y, z; } Vec;
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_02188C58(void *p);
 typedef unsigned char  u8;
 extern unsigned int func_0218E138(u8 *p);
@@ -35,7 +36,7 @@ extern void *func_021C71D4(unsigned int a, unsigned int b, unsigned int c);
 extern int func_021C7814(int, int, int, int, int);
 extern int func_021C7858(unsigned int a, unsigned int b, unsigned int c);
 extern unsigned int func_02188D38(u8 *p);
-extern void func_021C6DE0(u8 *p, unsigned int a, unsigned int b);
+extern void func_021C6DE0(u8 *p, unsigned int *a, unsigned int b);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern int func_021C6E48(int);
@@ -68,9 +69,9 @@ int func_021C04C0(int task, int *state, int *q)
             x = func_021C7858(obj, 0x18, (unsigned int)(&v));
         }
         d = func_02188D38((u8 *)obj);
-        func_021C6DE0((u8 *)d, w, 0);
-        func_021C6DE0((u8 *)d, x, 0);
-        func_021C6DE0((u8 *)d, e, x);
+        func_021C6DE0((u8 *)d, (unsigned int *)w, 0);
+        func_021C6DE0((u8 *)d, (unsigned int *)x, 0);
+        func_021C6DE0((u8 *)d, (unsigned int *)e, x);
         func_020061E4(0x676);
         (*state)++;
         break;

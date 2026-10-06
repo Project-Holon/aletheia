@@ -19,5 +19,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WordSet;
-extern void func_0201ED04(struct WordSet *p); extern void func_02045C04(void *); extern void func_0201C4C0(void *); extern void func_0201D83C(void *); extern void func_02082BCC(void *,int,u32);
+extern u32 func_0201ED04(struct WordSet *p); extern void func_02045C04(void *); extern void func_0201C4C0(void *); extern void func_0201D83C(void *); extern void func_02082BCC(void *,int,u32);
 void func_021B7FC8(u8 *p) {func_0201ED04(((struct Obj07982 *)p)->fC);func_02045C04(((struct Obj07982 *)p)->f4);func_0201C4C0(((struct Obj07982 *)p)->f8);func_0201D83C(((struct Obj07982 *)p)->f0);func_02082BCC(p,0,16);}

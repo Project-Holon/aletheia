@@ -36,7 +36,7 @@ struct VecFx32;
 extern void func_021A3898(unsigned char *, struct VecFx32 *);
 extern int func_02163E34(u32, int *, u32 *);
 extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB44C(int x);
+extern int func_021AB44C(u16 id);
 extern int func_021A57C0(u8 *p, int dir);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(u32, u32);

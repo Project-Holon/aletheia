@@ -51,7 +51,7 @@ typedef unsigned char  u8;
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
-extern int func_021D7630(int,int,u16 *,int,u16);
+extern int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c);
 extern void func_021FD73C(int *,int);
 extern void func_021DBC68(int a, int b, char *p);
 extern char d_021E3960[];
@@ -71,7 +71,7 @@ void func_021DC4FC(int *a,int *state,char *p)
     case 3: *(u16 *)(p+0xb6)=0;*(u16 *)(p+0xb8)=0;*state=4;break;
     case 4:
         if(*(int *)(*(char **)(p+0xd0)+8)>3) func_02034714(d_021E3960,0,d_021E3960);
-        if(func_021D7630(*(int *)(*(char **)(p+0xd0)+0x28),*(int *)(*(char **)(p+0xd0)+8),(u16 *)(p+0xb6),(int)(p+0xb8),*(u16 *)(p+0xb4))==2) {
+        if(func_021D7630((void *)(*(int *)(*(char **)(p+0xd0)+0x28)),*(int *)(*(char **)(p+0xd0)+8),(u16 *)(p+0xb6),(u16 *)(p+0xb8),*(u16 *)(p+0xb4))==2) {
             func_0200B490();
             *(int *)(p+0xc8)=(int)func_0200B98C(*(void **)(p+0xc4),5,0);
             *state=5;

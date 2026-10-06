@@ -40,7 +40,7 @@ extern u32 func_020221A4(void);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_021E106C(char *p);
 extern void func_021E57A4(int);

@@ -17,7 +17,7 @@
 #include "../include/Obj06214.h"
 struct Descriptor;
 struct Obj;
-extern void func_020452E8(struct Descriptor *);
+extern unsigned int func_020452E8(struct Descriptor *d);
 extern void func_0204B3B4(struct Obj *);
 extern void func_0204A8D4(unsigned int);
 typedef unsigned int   u32;

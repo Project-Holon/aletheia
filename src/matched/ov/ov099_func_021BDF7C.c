@@ -45,15 +45,16 @@ extern int func_021C1A44(char *p);
 extern void func_021C1AC0(char *p);
 extern void func_021BE384(void *p);
 extern void func_0204B084(void *p);
-extern void func_0204B1CC(struct Bank *bank);
+extern unsigned int func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_021BB0B4(char *p);
 extern void func_021BE538(char *p);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_0201D83C(void *p);
+extern unsigned int func_02045C04(struct Rec *rec);
+extern unsigned int func_0201ED04(struct WordSet *p);
+typedef unsigned int   u32;
+extern u32 func_0201D83C(void *ptr);
 extern void func_0204A648(void);
 void func_021BDF7C(char *p)
 {

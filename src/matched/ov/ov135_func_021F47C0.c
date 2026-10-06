@@ -25,14 +25,14 @@
 typedef unsigned char u8;
 extern void func_02005D28(void);
 extern void func_021F50EC(u8 *);
-extern void func_021F49A4(u8 *);
+extern void func_021F49A4(void *a0);
 typedef signed int     s32;
 struct Rec;
 struct S020314B8;
 struct S020315D4;
 struct WordSet;
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201ED04(struct WordSet *p);
+extern unsigned int func_02045C04(struct Rec *rec);
+extern unsigned int func_0201ED04(struct WordSet *p);
 extern void func_02030DA4(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);

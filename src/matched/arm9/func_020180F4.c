@@ -27,7 +27,7 @@
 
 extern void func_020180FC(void);
 
-void func_020180F4(void)
+void func_020180F4(void *p, int move)
 {
     func_020180FC();
 }

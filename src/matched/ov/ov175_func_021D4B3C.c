@@ -98,7 +98,7 @@ extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern void func_02045A38(struct U16Vec *, u16 *, unsigned int);
 extern void func_02045808(struct U16Vec *);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
 extern unsigned int func_020245D4(struct T *, unsigned int);
 extern void func_020242A4(void *, unsigned int);

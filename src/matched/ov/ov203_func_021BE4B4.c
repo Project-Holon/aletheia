@@ -30,7 +30,7 @@ extern void func_02011558(struct IcaAnime *p);
 extern void func_020480E4(struct Ctx *c, u32 i);
 extern void func_02047E54(struct Rec *p);
 extern u32 func_020307B0(void *p);
-void func_021BE4B4(char *ctx)
+void func_021BE4B4(char *ctx, int b, int c, u32 d)
 {
     unsigned i;
     func_021BF810(((struct Obj03354 *)ctx)->f6C);

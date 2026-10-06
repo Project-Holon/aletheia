@@ -34,7 +34,9 @@ extern void func_021F89BC(void *p);
 typedef unsigned int   u32;
 struct Actor;
 extern void func_0204B570(struct Actor *actor, u32 value);
-extern void func_0204B5AC(void *h, int *v);
+struct Obj;
+struct Pair;
+extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 
 void func_02201FF4(void *a, Obj *o)
 {
@@ -45,7 +47,7 @@ void func_02201FF4(void *a, Obj *o)
     v[0] = o->x;
     v[1] = o->y;
     func_0204B570(t[o->idx].h, 1);
-    func_0204B5AC(t[o->idx].h, v);
+    func_0204B5AC(t[o->idx].h, (struct Pair *)v);
     if (r == 1)
         func_021F89BC(a);
 }

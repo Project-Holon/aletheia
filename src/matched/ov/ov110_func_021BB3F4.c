@@ -50,7 +50,7 @@ extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 u8 *func_021BB3F4(u8 *p, u8 *q)
 {
     int x, y;

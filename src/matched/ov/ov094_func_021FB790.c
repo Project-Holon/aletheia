@@ -17,11 +17,13 @@
 #include "../include/Obj21669.h"
 typedef short s16;
 
-extern int func_0201134C(int a);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021F86F0(void);
 extern void func_02201CD0(char *o, int idx, int c, s16 *p, int s1, int s2, int s3);
 
-int func_021FB790(int a, char *b)
+int func_021FB790(struct Cursor *a, char *b)
 {
     s16 arr[2];
     int t0, t1, t3, t4, t5;

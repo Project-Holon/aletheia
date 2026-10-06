@@ -62,7 +62,8 @@ typedef struct Work {
 typedef unsigned short u16;
 struct Ctx;
 extern u16 func_02188C84(u8 *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_02188C58(void *p);
 extern u32 func_02188C98(u8 *p);
 extern u32 func_02188D24(u8 *p);

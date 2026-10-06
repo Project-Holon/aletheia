@@ -38,7 +38,8 @@ struct MsgBank;
 struct U16Vec;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u32 color);
+typedef unsigned short u16;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_021BE34C(void *p);
@@ -52,7 +53,7 @@ void func_021BD134(void *ctx, char *st, u32 msgId)
 
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30)), 0xf);
     str = (u32)func_02045EC0((struct MsgBank *)msgs, msgId);
-    func_0201C724(sys, (u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30), 0, 0, str, font, 0x440);
+    func_0201C724((void *)sys, (u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30), 0, 0, str, font, 0x440);
     func_02045808((struct U16Vec *)str);
     func_0201F73C((void *)(((struct Obj01266 *)st)->f30), 2, 0x140, 9);
     ((struct Obj01266 *)st)->f24 = 1;

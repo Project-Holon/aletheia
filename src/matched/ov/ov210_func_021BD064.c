@@ -43,7 +43,7 @@ extern void func_021BC800(u8 *p);
 extern u32 func_021BCA10(u8 *);
 extern void func_021BED54(int p);
 extern void func_021BE3B4(char *);
-extern u32 func_021BC99C(char *);
+extern u32 func_021BC99C(u8 *p);
 extern void func_021BC578(u32);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_02043534(u32);
@@ -61,7 +61,7 @@ int func_021BD064(char *p)
     func_021BCA10((u8 *)p);
     func_021BED54((int)p);
     func_021BE3B4(p);
-    func_021BC578(func_021BC99C(p));
+    func_021BC578(func_021BC99C((u8 *)p));
     func_0207D534((void *)0x0400006c, -16);
     func_0207D534((void *)0x0400106c, -16);
     *(volatile u16 *)0x04000050 = 0;

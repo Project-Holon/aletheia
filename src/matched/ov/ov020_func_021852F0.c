@@ -37,11 +37,13 @@ typedef short s16;
 
 typedef struct { u16 a, b; s16 c; u16 d; } H4;
 
-void *func_02188CB4(u8 *p);
+struct Obj00020;
+void *func_02188CB4(struct Obj00020 *p);
 u32 func_02188CFC(u8 *p);
 u16 func_02188C9C(u8 *p);
 void *func_021A3074(u8 *p);
-void func_021A36BC(int x, H4 *o);
+struct Obj18028;
+void func_021A36BC(struct Obj18028 *p, void *a1);
 void *func_0216D888(void *p);
 void func_02014184(void *d, int a, s16 b, int c, int e, int f);
 struct t;
@@ -50,7 +52,7 @@ void func_020141A8(struct t *p, int b, int d, u16 g, u16 i, s16 h);
 void func_021852F0(void *dst, int x)
 {
     H4 h;
-    int r5 = (int)func_02188CB4((u8 *)x);
+    int r5 = (int)func_02188CB4((struct Obj00020 *)x);
 
     if (func_02188CFC((u8 *)x) == 0) {
         int *v;
@@ -59,6 +61,6 @@ void func_021852F0(void *dst, int x)
         func_02014184(dst, func_02188C9C((u8 *)x), 1, v[0], v[1], v[2]);
         return;
     }
-    func_021A36BC(r5, &h);
+    func_021A36BC((struct Obj18028 *)r5, &h);
     func_020141A8(dst, func_02188C9C((u8 *)x), 2, h.a, h.d, h.c);
 }

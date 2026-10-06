@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_02082BCC(u32, u32, u32);
 extern int func_021C59A8(u32 a, u32 b, u32 c);
 

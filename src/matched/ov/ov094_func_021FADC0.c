@@ -35,7 +35,8 @@ typedef struct {
     int f28;
 } Req;
 
-extern int func_0201134C(void *);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
 extern int func_021FCA04(State *s, int id, int *out);

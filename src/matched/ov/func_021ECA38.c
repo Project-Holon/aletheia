@@ -23,7 +23,9 @@ typedef unsigned int   u32;
 struct Actor;
 struct Pt;
 extern void func_0204B588(struct Actor *actor, const struct Pt *src);
-extern void func_0204B5AC(int, int *);
+struct Obj;
+struct Pair;
+extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 extern void func_0204B570(struct Actor *actor, u32 value);
 void func_021ECA38(int *p)
 {
@@ -33,6 +35,6 @@ void func_021ECA38(int *p)
     func_0204B588((struct Actor *)(*p), (const struct Pt *)s.a);
     s.b[0] = 0x1000;
     s.b[1] = 0x1000;
-    func_0204B5AC(*p, s.b);
+    func_0204B5AC((struct Obj *)(*p), (struct Pair *)s.b);
     func_0204B570((struct Actor *)(*p), 0);
 }

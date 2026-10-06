@@ -79,7 +79,7 @@ struct Obj {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *win);
-extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201C7D0(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 
 void func_02020408(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel)
@@ -90,7 +90,7 @@ void func_02020408(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel)
         if (sel) {
             u32 a = obj->f2C;
             struct Target *t = obj->f28;
-            func_0201C724(a, (u32)func_02045770((struct Descriptor *)t->win), x, y, text, obj->f30,
+            func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
             t->dirty = 1;
         } else {
@@ -101,7 +101,7 @@ void func_02020408(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel)
         if (sel) {
             u32 a = obj->f2C;
             struct Target *t = obj->f28;
-            func_0201C724(a, (u32)func_02045770((struct Descriptor *)t->win), x, y, text, obj->f30,
+            func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
                           COLOR(obj->f17hi, obj->f18hi, obj->f18lo));
             t->dirty = 1;
         } else {

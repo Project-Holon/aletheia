@@ -27,7 +27,9 @@ typedef struct {
 } W;
 
 extern u16 func_021BBB3C(char *p, int a, int b);
-extern void func_0204B5AC(int obj, int *v);
+struct Obj;
+struct Pair;
+extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 
 void func_021BAD10(W *p, int s, int *r)
 {
@@ -51,6 +53,6 @@ void func_021BAD10(W *p, int s, int *r)
     if (p->obj != 0) {
         t[0] = s;
         t[1] = s;
-        func_0204B5AC(p->obj, t);
+        func_0204B5AC((struct Obj *)p->obj, (struct Pair *)t);
     }
 }

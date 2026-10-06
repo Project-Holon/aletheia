@@ -25,7 +25,8 @@ struct Obj;
 struct PrintSys;
 extern void func_0202DC08(struct Obj *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0204B1CC(struct Bank *bank);
+typedef unsigned int   u32;
+extern u32 func_0204B1CC(struct Bank *bank);
 void func_021C5E30(u8 *p)
 {
     func_0202DC08(((struct Obj23539 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f35C);

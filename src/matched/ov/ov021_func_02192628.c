@@ -41,7 +41,7 @@ extern void func_02045334(struct Descriptor *w);
 extern void func_020409B4(u32 layer);
 extern void func_021927E8(u32 *p);
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 
 void func_02192628(u32 *a)

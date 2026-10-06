@@ -17,7 +17,8 @@
  *   func_02201DA0 0x02201DA0 thumb ov094
  */
 #include "../include/Obj13589.h"
-extern int func_0201134C(void *);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 extern int func_021F86F0(void);
 typedef unsigned int   u32;
 extern u32 func_02201DA0(char *p, int i, int v);

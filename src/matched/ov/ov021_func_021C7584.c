@@ -45,7 +45,8 @@ typedef struct {
     VecFx32 to;
 } Work;
 
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 struct Vec3;

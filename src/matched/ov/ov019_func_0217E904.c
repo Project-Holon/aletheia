@@ -55,7 +55,7 @@ typedef struct {
 typedef unsigned short u16;
 typedef unsigned int   u32;
 u32 func_0217F1EC(u8 *p);
-void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F210(u8 *p, u8 *a, u32 b);
 void func_0217F074(void *p);
 void func_0217BAF0(char *p, int x, unsigned int v);
 int func_0217FEB8(u8 *p);
@@ -83,7 +83,7 @@ int func_020392B8(void);
 u16 func_02039338(void);
 u32 func_0203D1C0(u32 index);
 
-int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
+int func_0217E904(u8 *w, u8 *obj, u8 *a2, u8 *state)
 {
     u8 *p;
     int m;
@@ -91,12 +91,12 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
 
     p = *(u8 * *)&((struct Obj00033 *)w)->f355C;
     if (*state < 7 && func_0200FB24() != 0 && func_0217F1EC(w) == 1) {
-        func_0217BAF0((char *)w, a2, (int)1);
+        func_0217BAF0((char *)w, (int)a2, (int)1);
         *state = 7;
     }
     switch (*state) {
     case 0:
-        func_0217BAF0((char *)w, a2, (int)1);
+        func_0217BAF0((char *)w, (int)a2, (int)1);
         if (p[0xde] == 2) {
             if (func_0217F1EC(w) == 1)
                 *state = 6;

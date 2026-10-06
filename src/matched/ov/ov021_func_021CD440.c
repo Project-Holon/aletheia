@@ -23,7 +23,8 @@ typedef unsigned int u32;
 
 typedef unsigned char  u8;
 extern u16 func_02188C9C(u8 *p);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
 extern int func_0216D83C(void *p);
 extern int func_0216D86C(void *p);

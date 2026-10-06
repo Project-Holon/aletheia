@@ -18,7 +18,7 @@
 
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
-extern int func_020923F0(void *a, void *b, unsigned long n);
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 
 int func_021D4C9C(char *str0, char *str1, int n)
 {
@@ -29,6 +29,6 @@ int func_021D4C9C(char *str0, char *str1, int n)
 	len1 = func_0209477C((const u8 *)str1);
 	if (len0 < n || len1 < n)
 		return 0;
-	rs = func_020923F0(str0 + (len0 - n), str1 + (len1 - n), n);
+	rs = func_020923F0((const u8 *)(str0 + (len0 - n)), (const u8 *)(str1 + (len1 - n)), n);
 	return rs == 0;
 }

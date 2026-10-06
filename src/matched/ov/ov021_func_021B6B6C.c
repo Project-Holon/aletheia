@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec3;
 
 extern u32 func_02159B10(void *, void *);
-extern void *func_0215A6C4(void *);
+extern u32 func_0215A6C4(void *p);
 extern u16 func_0215A5D0(void *);
 struct Ctx;
 extern int func_021B6AB0(void *a);
@@ -44,7 +44,7 @@ extern void func_0215897C(void *vm, void *task);
 u32 func_021B6B6C(void *a, void *b)
 {
     u32 idx = func_02159B10(a, b);
-    void *tab = func_0215A6C4(b);
+    void *tab = (void *)func_0215A6C4(b);
 
     func_0215A5D0(b);
     if (idx < func_021B6AB0(tab)) {

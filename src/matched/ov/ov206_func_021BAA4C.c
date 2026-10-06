@@ -30,8 +30,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *d_020A7370;
-extern void func_021BAA08(int heap, int window, int bank, int printer, int font, int message, u16 x, u16 y, u16 color, int alignment, int expansion);
-extern void func_021BA960(int heap, int window, int printer, int font, int input, u16 right, u16 y, u16 color, int alignment, int expansion);
+struct MsgBank;
+extern void func_021BAA08(int heap, int window, struct MsgBank *bank, void *printer, int font, int message, unsigned short x, unsigned short y, unsigned short color, int alignment, int expansion);
+extern void func_021BA960(int heap, int window, void *printer, int font, int input, unsigned short right, unsigned short y, unsigned short color, int alignment, int expansion);
 extern void func_021BAF7C(char *p);
 struct MsgBank;
 struct U16Vec;
@@ -40,11 +41,11 @@ extern u32 func_020307B0(void *p);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, void *text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 void func_021BAA4C(char *p)
 {
@@ -71,7 +72,7 @@ void func_021BAA4C(char *p)
     }
     if (t == 0) t = ((struct Obj00031 *)p)->fC;
     if (((struct Obj00031 *)p)->f18 != 2) {
-        func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f6C, l2c, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, 0x90, 0, 5, 0x3c40, 2, 0);
+        func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f6C, (struct MsgBank *)l2c, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, 0x90, 0, 5, 0x3c40, 2, 0);
     }
     r7 = ((struct Obj00031 *)p)->fC;
     if (((struct Obj00031 *)p)->f4 == 0) {
@@ -82,28 +83,28 @@ void func_021BAA4C(char *p)
     if (r7 != 0x3e7) {
         h2 = (u32)func_0201EC64(((struct Obj00031 *)p)->f0);
         func_0201EFA4((struct WordSet *)h2, 0, r7, 3, 2, 1);
-        func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f270, 8, 5, 0x3e7 + 0x59, 0, h2);
+        func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f270, 8, 5, 0x3e7 + 0x59, 0, h2);
         func_0201ED04((struct WordSet *)h2);
     } else {
-        func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f274, 8, 5, 0x3e7 + 0x59, 0, 0);
+        func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f274, 8, 5, 0x3e7 + 0x59, 0, 0);
     }
     name = func_02045EC0(d_020A7370, ((struct Obj00031 *)p)->fC);
-    func_0201C724(((struct Obj00031 *)p)->f2C, (u32)func_02045770(((struct Obj00031 *)p)->f70), 0x30, 5, name, ((struct Obj00031 *)p)->f28, 0x440);
+    func_0201C724((void *)(((struct Obj00031 *)p)->f2C), (u32)func_02045770(((struct Obj00031 *)p)->f70), 0x30, 5, (u32)name, ((struct Obj00031 *)p)->f28, 0x440);
     func_02045808(name);
     m = 0;
     if (((struct Obj00031 *)p)->f8 != 0) m = ((struct Obj00031 *)p)->fC;
-    func_021BAA08(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, l28, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, m, 0, 0x16, 0x440, 2, 0);
-    func_021BA960(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f278, 0, 4, 0x440, 0, 0);
-    func_021BA960(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f27C, 0, 0x14, 0x440, 0, 0);
+    func_021BAA08(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (struct MsgBank *)l28, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, m, 0, 0x16, 0x440, 2, 0);
+    func_021BA960(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f278, 0, 4, 0x440, 0, 0);
+    func_021BA960(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f27C, 0, 0x14, 0x440, 0, 0);
     r6 = 0;
     if (((struct Obj00031 *)p)->f8 != 0) r6 = t;
-    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, l24, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, r6, 0x65, 4, 0x440, 1, 0);
+    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, (struct MsgBank *)l24, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, r6, 0x65, 4, 0x440, 1, 0);
     r6 = 0;
     if (((struct Obj00031 *)p)->f8 != 0) r6 = t;
-    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, l20, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, r6, 0x66, 0x14, 0x440, 1, 0);
+    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, (struct MsgBank *)l20, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, r6, 0x66, 0x14, 0x440, 1, 0);
     t = 0;
     if (((struct Obj00031 *)p)->f8 != 0) t = ((struct Obj00031 *)p)->fC;
-    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f78, l1c, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, t, 4, 5, 0x3c40, 0, 0);
+    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f78, (struct MsgBank *)l1c, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, t, 4, 5, 0x3c40, 0, 0);
     for (k = 0; k < 4; k++) {
         *(int *)(p + k * 4 + 0x7c) = 0;
     }

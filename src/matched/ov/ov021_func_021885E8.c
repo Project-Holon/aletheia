@@ -82,8 +82,9 @@ extern int func_02188CF0(u32 a);
 extern void func_0201209C(void *o, u32 v1, u32 v2);
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_020129DC(struct BigObj *p, u8 v);
-extern int func_0218A0E4(void *sys, u8 *pos);
-extern int func_0218A240(void *p, unsigned char *pos);
+struct Obj00020;
+extern int func_0218A0E4(void *sys, struct Obj00020 *pos);
+extern int func_0218A240(void *p, struct Obj00020 *pos);
 extern int func_0218A4BC(u32 a, u32 b, u32 c, u32 d);
 extern int func_0218A074(void *a, int b);
 

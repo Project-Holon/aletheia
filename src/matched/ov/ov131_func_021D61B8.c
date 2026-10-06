@@ -21,12 +21,13 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201C724(void *,int,short,short,void *,int,unsigned short);
+typedef unsigned short u16;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021D61B8(unsigned char *p,int a,void *b,int c,short d,short e,unsigned short f) {
  void *t=func_020457B0(16,((struct Obj08145 *)p)->f0);
  void *s=func_02045EC0(((struct Obj08145 *)p)->f7C,c);
  func_0201F250(b,t,s);
- func_0201C724(((struct Obj08145 *)p)->f84,a,d,e,t,((struct Obj08145 *)p)->f80,f);
+ func_0201C724(((struct Obj08145 *)p)->f84,a,d,e,(u32)t,((struct Obj08145 *)p)->f80,f);
  func_02045808(s);
  func_02045808(t);
 }

@@ -102,7 +102,7 @@ extern void func_021B9EF0(void*,char*,u32,u32,u32),func_0200B438(void*);
 extern void func_021BA650(int,char*),func_021BAAB0(int,int),func_021BA0DC(int,char*),func_021BA0A4(int,char*);
 extern void func_021BA254(void*,char*,u32);
 extern u32 func_021BA2B8(int unused, u8 *p);
-extern void *func_020056BC(void);
+extern u32 func_020056BC(void);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern u32 func_0200B6E0(void*,u16,u32,u32,u32,u16*,u16*);
 extern void func_0200B490(void),func_0202F038(u8*),func_020061E4(u32);
@@ -217,7 +217,7 @@ int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
     case 10:func_021BA254((void*)obj,p,9);*state=11;break;
     case 11:
         if(func_021BA2B8((int)obj,(u8 *)p)){
-            (*(u32*)(p+0x2ec))=(u32)func_0202EE30(func_020056BC(),(void*)(*(u32*)(p+0x6c)),15,16,*(u16*)p);
+            (*(u32*)(p+0x2ec))=(u32)func_0202EE30((void *)func_020056BC(),(void*)(*(u32*)(p+0x6c)),15,16,*(u16*)p);
             (*(u32*)(p+0x2b4))=0;*(u16*)(p+0x2b8)=0;*(u16*)(p+0x2ba)=0;(*(u32*)(p+0x2bc))=0;
             *state=12;
         }break;
@@ -248,7 +248,7 @@ int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
         if(done){
             if((*(u32*)(obj+8))){
                 func_02039C68((struct Link *)func_020399A8(),150,43);
-                (*(u32*)(p+0x2ec))=(u32)func_0202EE30(func_020056BC(),(void*)(*(u32*)(p+0x6c)),15,16,*(u16*)p);
+                (*(u32*)(p+0x2ec))=(u32)func_0202EE30((void *)func_020056BC(),(void*)(*(u32*)(p+0x6c)),15,16,*(u16*)p);
             }
             *state=17;
         }break;

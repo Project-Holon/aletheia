@@ -27,7 +27,7 @@ typedef signed int s32;
 struct TaskMenu;
 struct TaskMenuState;
 extern void func_02027858(struct TaskMenu *m);
-extern void func_02027FD8(struct TaskMenuState *s);
+extern u32 func_02027FD8(struct TaskMenuState *s);
 extern void func_021F5060(void);
 
 void func_021F4E64(u8 *p)

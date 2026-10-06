@@ -83,7 +83,7 @@ extern u8 *func_02012944(void *p);
 extern int func_0217BB20(char *p);
 extern void func_0217F074(void *p);
 extern int func_0217F060(int i);
-extern void func_0217F210(u8 *p, int a, u32 b);
+extern void func_0217F210(u8 *p, u8 *a, u32 b);
 extern u32 func_0217F1EC(u8 *p);
 extern int func_0217B8E4(char *p, char v);
 extern void func_0217BAF0(char *p, int x, unsigned int v);
@@ -97,7 +97,7 @@ extern void func_021CD60C(int h, void *a, void *b, void *c);
 extern u32 func_021CD688(u8 *p);
 extern u8 d_021807E4[];
 
-int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
+int func_0217D9A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
 {
     Work *w = *(Work * *)&((struct Obj07386 *)ctx)->f355C;
     int r;
@@ -127,16 +127,16 @@ int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         func_0203D7BC(0);
         if (func_0203D378() == 1) {
-            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), a2,
+            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), (int)a2,
                                     func_0217F060(obj->f2d),
                                     func_0217F060(obj->f2d), 0x41, 0, 0, 0);
             func_021CD60C(w->f168, ctx, func_0217DC64, func_0217DC94);
         } else if (obj->b1 == 0) {
-            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), a2,
+            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), (int)a2,
                                     func_0217F060(obj->f2d),
                                     func_0217F060(obj->f2d), 0x41, 2, 0, 0);
         } else {
-            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), a2,
+            w->f168 = func_021CD48C((int)func_02012944((void *)ctx->sys->f8), (int)a2,
                                     func_0217F060(obj->f2d),
                                     func_0217F060(obj->f2d), 0x41, 3, 0, 0);
         }
@@ -198,14 +198,14 @@ int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
     case 201:
         if (func_0217F1EC((u8 *)ctx) == 1) {
             func_0217B8E4((char *)ctx, 0x32);
-            func_0217BAF0((char *)ctx, a2, 1);
+            func_0217BAF0((char *)ctx, (int)a2, 1);
             return 1;
         }
         break;
     case 300:
         w->fde = 2;
         func_0217B8E4((char *)ctx, 0x32);
-        func_0217BAF0((char *)ctx, a2, 1);
+        func_0217BAF0((char *)ctx, (int)a2, 1);
         return 1;
     }
     return 0;

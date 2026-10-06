@@ -58,7 +58,7 @@ extern u32 func_02188D38(u8 *p);
 extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
 extern void *func_021C72AC(u32 a, u16 b, int c, int d);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 extern void *func_0218FE80(void *a);
 extern void func_0218FEA0(u8 *p, u32 v);
 extern void func_0218FEA4(int);
@@ -68,12 +68,13 @@ extern int func_0218FF00(u32 a);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021C6E48(int);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_02188CD0(u8 *p);
 extern void func_021AC528(u32 a, u32 b);
 extern void func_0218FF20(u8 *a);
-extern void func_0218FE98(int);
+extern void func_0218FE98(void *a0);
 
 int func_021BFA6C(int task, int *state, Q *q)
 {
@@ -99,7 +100,7 @@ int func_021BFA6C(int task, int *state, Q *q)
             (*state)++;
         break;
     case 2:
-        func_021C6DE0((u8 *)d, (u32)func_021C72AC(obj, 0x3c, 8, 1), 0);
+        func_021C6DE0((u8 *)d, (u32 *)func_021C72AC(obj, 0x3c, 8, 1), 0);
         r0 = (int)func_0218FE80((void *)obj);
         q->fc = 60;
         q->f50 = 1;
@@ -120,14 +121,14 @@ int func_021BFA6C(int task, int *state, Q *q)
         break;
     case 4:
         if (func_021C6E48(d) != 0) {
-            t = func_021A3074(func_02188CB4((unsigned char *)obj));
+            t = func_021A3074(func_02188CB4((struct Obj00020 *)obj));
             func_021AC528((u32)t, func_02188CD0((u8 *)obj));
             (*state)++;
         }
         break;
     case 5:
         func_0218FF20((u8 *)q->f58);
-        func_0218FE98(q->f58);
+        func_0218FE98((void *)q->f58);
         return 1;
     }
     return 0;

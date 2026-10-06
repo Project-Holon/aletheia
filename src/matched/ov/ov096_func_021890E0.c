@@ -11,8 +11,9 @@
  *   func_02189100 0x02189100 thumb ov096
  */
 #include "../include/Obj21953.h"
-extern void func_02189100(int, int, int);
-int func_021890E0(int a, int b)
+struct Cursor;
+extern int func_02189100(struct Cursor *a, int b, int c);
+int func_021890E0(struct Cursor *a, int b)
 {
     func_02189100(a, b, 2);
     return ((struct Obj21953 *)b)->fC4;

@@ -17,9 +17,9 @@
 typedef unsigned int u32;
 
 struct Descriptor;
-void func_020452E8(struct Descriptor *d);
+u32 func_020452E8(struct Descriptor *d);
 
-void func_02169E98(char *p)
+int func_02169E98(char *p)
 {
-    func_020452E8((struct Descriptor *)(((struct Obj19073 *)(*(char * *)&((struct Obj19072 *)p)->f18))->f8));
+    return func_020452E8((struct Descriptor *)(((struct Obj19073 *)(*(char * *)&((struct Obj19072 *)p)->f18))->f8));
 }

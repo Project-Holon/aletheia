@@ -31,7 +31,7 @@ struct Rec;
 struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 struct U16Vec;
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_02045808(struct U16Vec *vec);

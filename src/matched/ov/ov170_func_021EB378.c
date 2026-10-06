@@ -61,7 +61,7 @@ extern void func_020437AC(struct Obj020437AC *p);
 extern u32 func_020307B0(void *p);
 extern unsigned func_020275E4(void);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void func_02045808(struct U16Vec *vec);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -137,7 +137,7 @@ void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigne
     }
 
     str = func_02045EC0(*(void **)(WORK(p) + 0x80), msg);
-    func_021B6AE4((u8 *)(WORK(p) + 0x94 + idx * 8), (u32)(*(void **)(WORK(p) + 0x8C)), w * 8 / 2, 4, (u32)str,
+    func_021B6AE4((u8 *)(WORK(p) + 0x94 + idx * 8), (void *)(*(void **)(WORK(p) + 0x8C)), w * 8 / 2, 4, (u32)str,
                   *(unsigned *)(WORK(p) + 0x78), col, 2);
     func_02045808(str);
 }

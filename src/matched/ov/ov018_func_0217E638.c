@@ -66,7 +66,8 @@ struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_0201C724(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
+typedef unsigned short u16;
+void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_0217E638(Obj *p)
 {
@@ -107,6 +108,6 @@ void func_0217E638(Obj *p)
     func_0201F250((struct WordSet *)p->f24, (void *)p->f40, (void *)p->f38);
     func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f44)), 0);
     v = p->f28;
-    func_0201C724(v, (int)func_02045770((struct Descriptor *)p->f44), 0, 0, p->f40, p->f1C, 0x3C40);
+    func_0201C724((void *)v, (int)func_02045770((struct Descriptor *)p->f44), 0, 0, p->f40, p->f1C, 0x3C40);
     p->f48 = 1;
 }

@@ -41,7 +41,7 @@ extern int *func_021897BC(char *p, int idx);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *a);
 extern void *func_021F3938(void *p);
-extern void func_021F3850(u32 p);
+extern void func_021F3850(char *p);
 extern u8 func_021F3880(void *a, void *b, void *unused);
 extern void func_021BE580(void *p);
 extern void func_021F39F4(u8 *a, void *b);
@@ -62,7 +62,7 @@ void func_021F374C(void *o)
     v = func_021F3938((void *)func_02012138((const struct Ctx *)c));
     if (v != 0) {
         if (((Bf *)((u8 *)v + 0x86))->lo != *q) {
-            func_021F3850((u32)s);
+            func_021F3850((char *)s);
             *q = func_021F3880((void *)h, s, v);
         }
     }

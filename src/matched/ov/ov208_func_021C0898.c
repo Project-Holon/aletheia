@@ -16,8 +16,9 @@ typedef unsigned char u8;
 struct Rec;
 struct Descriptor;
 struct PrintSys;
-extern void func_02045C04(struct Rec *);
-extern void func_020452E8(struct Descriptor *);
+extern unsigned int func_02045C04(struct Rec *rec);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0201C6EC(struct PrintSys *);
 void func_021C0898(void *unused, char *p, void *a2)
 {

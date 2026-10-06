@@ -46,7 +46,8 @@
 
 typedef struct { int x, y, z; } Vec;
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 typedef unsigned char  u8;
 extern unsigned int func_02188CD0(u8 *p);
@@ -67,7 +68,7 @@ struct VecFx32;
 extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_021C754C(int, int, int *);
 extern u32 func_02188D38(u8 *p);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 extern int func_0218C8FC(unsigned char *p, int i);
 extern unsigned int func_0203630C(void);
 extern void func_0216D410(void *a0, u16 a1);
@@ -105,7 +106,7 @@ int func_021BFE2C(int task, int *state, int *q)
     Vec v;
     Vec w;
 
-    s = func_02188CB4((unsigned char *)q[1]);
+    s = func_02188CB4((struct Obj00020 *)q[1]);
     t = func_021A3074((void *)s);
     u = func_02188CD0((u8 *)q[1]);
     h = (int)func_02188C58((void *)q[1]);
@@ -149,7 +150,7 @@ int func_021BFE2C(int task, int *state, int *q)
             k = 0x78;
         if (k > 0) {
             e = func_021C754C(q[1], k, &q[5]);
-            func_021C6DE0((u8 *)func_02188D38((u8 *)q[1]), e, 0);
+            func_021C6DE0((u8 *)func_02188D38((u8 *)q[1]), (u32 *)e, 0);
             *state = 3;
         } else {
             *state = 4;
@@ -186,10 +187,10 @@ int func_021BFE2C(int task, int *state, int *q)
         c = func_021C6F00(q[1], 0x1e, 0xB4000);
         e = func_021C7814(q[1], 3, 0, 0x10, 0);
         d = func_02188D38((u8 *)q[1]);
-        func_021C6DE0((u8 *)d, a, 0);
-        func_021C6DE0((u8 *)d, b, 0);
-        func_021C6DE0((u8 *)d, c, 0);
-        func_021C6DE0((u8 *)d, e, c);
+        func_021C6DE0((u8 *)d, (u32 *)a, 0);
+        func_021C6DE0((u8 *)d, (u32 *)b, 0);
+        func_021C6DE0((u8 *)d, (u32 *)c, 0);
+        func_021C6DE0((u8 *)d, (u32 *)e, c);
         q[3] = 0;
         *state = 5;
         break;

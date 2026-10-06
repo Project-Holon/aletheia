@@ -23,7 +23,7 @@ extern u32 func_020362DC(void);
 extern int func_021D26AC(u32 *a);
 extern void func_021D25E8(u32 *p);
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 
 u32 func_021D26D0(u32 a, u32 *st, u32 *p)
 {

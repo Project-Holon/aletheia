@@ -26,7 +26,7 @@ struct MsgBank;
 struct Rec;
 extern void func_02040588(u32 which, u32 enable);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_021BA28C(u8 *p, u32 a1, u32 a2, u32 a3, u32 a4);
 
 void func_021BAEC4(void *a, u32 b, u32 c)

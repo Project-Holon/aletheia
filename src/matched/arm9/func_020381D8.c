@@ -49,7 +49,7 @@ extern void *func_0203D798(void);
 extern void *func_0203D788(void);
 extern u32 func_020380E4(u32 a0, u8 *rec, u32 len);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02037224(u32 a, u32 b);
+extern void func_02037224(u8 v, int b);
 extern u8 d_020A7A20[];
 extern u8 d_020A7A24[];
 extern u8 d_020A7A50[];

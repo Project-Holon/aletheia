@@ -11,6 +11,6 @@
  * note: 2026-10-05 integrator: label left open after the pengy waves; written from the listing.
  */
 
-void func_021FDA74(void)
+void func_021FDA74(int a0, int a1, int a2)
 {
 }

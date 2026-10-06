@@ -31,7 +31,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_021C080C(u8 *,int,int,int);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C724(void *,void *,unsigned,unsigned,void *,unsigned,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -48,7 +48,7 @@ void func_021C11B8(u8 *p,int index,int unused,int flag) {
         func_02043B5C(func_02045770(*(void **)(p+0x6c+index*4)),13);
         color=0x44d;
     }
-    func_0201C724(((struct Obj10286 *)p)->f5C,func_02045770(*(void **)(p+0x6c+index*4)),0,0,str,((struct Obj10286 *)p)->f58,color);
+    func_0201C724(((struct Obj10286 *)p)->f5C,(u32)func_02045770(*(void **)(p+0x6c+index*4)),0,0,(u32)str,((struct Obj10286 *)p)->f58,color);
     func_02045808(str);
     func_02045374(*(void **)(p+0x6c+index*4));
     func_02041B6C(func_02045730(*(void **)(p+0x6c+index*4)));

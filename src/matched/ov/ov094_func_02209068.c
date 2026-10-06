@@ -34,7 +34,7 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern u32 func_020307B0(void *p);
 
 void func_02209068(W *w)

@@ -117,7 +117,7 @@ extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_02017FA8(void *p);
 extern u32 func_0201808C(void *p, u32 move);
-extern void func_020180F4(void *p, u16 move);
+extern void func_020180F4(void *p, int move);
 extern void func_02018A00(void *p, u32 species, u32 arg);
 extern u16 func_02045A98(void);
 extern const void *func_020084F4(const void *p);

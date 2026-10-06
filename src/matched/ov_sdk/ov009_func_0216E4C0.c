@@ -35,7 +35,8 @@ typedef struct MatchCnt {
 extern void MIi_CpuClear32(int v, void *p, int size);
 extern int func_02175F3C(void);
 extern void func_0219C7C0(void *qr2, unsigned char *message, int len, SockAddrIn *saddr);
-extern int func_020923F0(void *a, void *b, int n);
+typedef unsigned char  u8;
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 struct SOCSockAddrIn;
 extern void func_0219AB8C(char *data, int len, struct SOCSockAddrIn *fromaddr);
 extern char g_021A5A7C[];
@@ -54,7 +55,7 @@ int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned cha
     if ((ip == 0xFE && message[1] == 0xFD) || ip == 0x5C) {
         if (((MatchCnt *)func_02175F3C())->f10 != 0)
             func_0219C7C0(((MatchCnt *)func_02175F3C())->f10, message, len, &saddr);
-    } else if (func_020923F0(message, g_021A5A7C, 6) == 0) {
+    } else if (func_020923F0(message, (const u8 *)g_021A5A7C, 6) == 0) {
         func_0219AB8C((char *)message, len, (struct SOCSockAddrIn *)(&saddr));
     } else {
         return 0;

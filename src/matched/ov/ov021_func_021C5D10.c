@@ -74,7 +74,8 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02188CE8(u8 *p);
 extern void *func_02012F2C(int *p);
 extern void *func_02188C7C(u8 *q);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
 struct VecFx32;
@@ -87,7 +88,7 @@ extern struct Obj *func_021AA180(struct Ctx *ctx, int mode);
 extern void func_0216D9A0(void *o);
 extern void func_021C5DF4(void);
 
-void *func_021C5D10(u8 *a, void *b)
+void *func_021C5D10(struct Obj00020 *a, void *b)
 {
     void *task;
     Work *w;
@@ -97,7 +98,7 @@ void *func_021C5D10(u8 *a, void *b)
     w = func_020124E8(task);
     func_02082BCC(w, 0, sizeof(Work));
     w->f0 = b;
-    w->f8 = a;
+    w->f8 = (u8 *)a;
     w->f4 = func_020120F4(b);
     w->fC = (void *)func_02188CE8(w->f8);
     w->f10 = (u32)func_02012F2C(w->f4);

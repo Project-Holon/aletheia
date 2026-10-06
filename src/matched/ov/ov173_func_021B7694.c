@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;struct Bank;
 extern void func_0204B3B4(struct Obj *);
-extern void func_0204B1CC(struct Bank *);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_02049238(void *);
 void func_021B7694(u8 *p) {u32 i;for(i=0;i<14;i++)func_0204B3B4(*(struct Obj **)(p+i*4+260));func_0204B1CC(*(struct Bank * *)&((struct Obj00362 *)p)->f100);func_0204A5AC();func_02049238(((struct Obj00362 *)p)->f13C);}

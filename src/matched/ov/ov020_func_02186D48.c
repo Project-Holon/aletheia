@@ -59,7 +59,8 @@ extern int func_02186278(char *p, int which);
 extern int func_02158F58(int a0);
 extern u32 func_02188C98(u8 *p);
 extern void *func_0218DC70(u8 *p);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_02188C7C(u8 *p);
 extern int func_020127F0(int a0);
 extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
@@ -108,7 +109,7 @@ int func_02186D48(int a0, int a1)
     } else {
     ent = (Ent *)func_02158F58((int)m);
     m = func_0218DC70((u8 *)func_02188C98((u8 *)ent->f4));
-    d = func_02188CB4((u8 *)ent->f4);
+    d = func_02188CB4((struct Obj00020 *)ent->f4);
     w = func_02188C7C((u8 *)ent->f4);
     s = (void *)func_020127F0((int)b);
     func_021A3460((u32)d, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));

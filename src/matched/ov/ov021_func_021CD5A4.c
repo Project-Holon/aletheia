@@ -35,7 +35,7 @@ struct WordSet;
 extern void func_02045808(struct U16Vec *vec);
 extern int func_02190E40(u32 a);
 extern void func_021904C8(struct Rec *a0);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern int func_0203CD98(void);
 extern void func_021CF17C(void);
 extern u32 func_020307B0(void *p);

@@ -28,12 +28,12 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-extern void  func_0201C724(u32 a, u32 bmp, s16 x, s16 y, void *text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021B9C64(u8 *p, u32 win, u32 idx, u32 x, s16 y, u16 color)
 {
     void *text = func_02045EC0((struct MsgBank *)(((struct Obj09926 *)p)->f134), idx);
-    func_0201C724(((struct Obj09926 *)p)->f140, (u32)func_02045770((struct Descriptor *)win), x, y, text,
+    func_0201C724((void *)(((struct Obj09926 *)p)->f140), (u32)func_02045770((struct Descriptor *)win), (s16)x, (s16)y, (u32)text,
                   ((struct Obj09926 *)p)->f13C, color);
     func_02045808(text);
 }

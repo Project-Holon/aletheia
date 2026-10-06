@@ -42,7 +42,7 @@ extern void func_021BB790(char *p, int *a, int *b, int *c);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021BA86C(char *p, int a, int b, int c, int s0, int s1, int s2, void *s3, u16 s4, int s5);
-extern int func_021BA7F8(void *p, u16 x, u16 y);
+extern void *func_021BA7F8(char *p, u32 b, int y);
 extern void func_021BAE9C(void *p, int a, int b, int c, int s0, int s1, u16 s2);
 extern void func_021BA7D4(char *p);
 
@@ -65,7 +65,7 @@ void func_021BA490(W *p, u16 x, u16 y, int a, u32 b, u32 c, u16 heap, int flag)
     for (; i < p->fC; i++) {
         func_021BA86C(p->f8 + i * 0x44, a, i, n, s0, s1, s2, (void *)c, heap, flag);
     }
-    e = func_021BA7F8(p, x, y);
+    e = (int)func_021BA7F8((char *)p, x, y);
     func_021BB790((char *)b, &t0, &t1, &t2);
     func_021BAE9C((char *)p + 0x20, e, n, t0, t1, t2, heap);
     p->f18 = 0;

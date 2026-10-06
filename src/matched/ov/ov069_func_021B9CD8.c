@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 void func_021B9CD8(u8 *p) { int i; for(i=0;i<10;i++) func_020452E8(*(void **)(p+i*4+0x10)); for(i=0;i<8;i++) func_020452E8(*(void **)(p+i*4+0x38)); func_020450C8(); }

@@ -12,8 +12,9 @@
  *   func_021887F4 0x021887F4 thumb ov096
  */
 #include "../include/Obj21921.h"
-extern void func_021887F4(int, int, int);
-int func_021887C4(int a, int b)
+struct Cursor;
+extern int func_021887F4(struct Cursor *a, int b, int c);
+int func_021887C4(struct Cursor *a, int b)
 {
     func_021887F4(a, b, 1);
     return ((struct Obj21921 *)((unsigned int)b))->fC4;

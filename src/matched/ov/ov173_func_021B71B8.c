@@ -11,7 +11,8 @@
  * symbols:
  *   func_0201F868 0x0201F868 thumb
  */
-extern void func_0201F868(void *p);
+typedef unsigned int   u32;
+extern u32 func_0201F868(void *p);
 void func_021B71B8(char *p)
 {
     func_0201F868(*(void **)(p + 0x58));

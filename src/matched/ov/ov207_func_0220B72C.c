@@ -65,7 +65,7 @@ extern void func_0201EEF4(struct WordSet *,u32,void *);
 extern void func_0201F164(struct WordSet *,u32,u32,u32);
 extern struct U16Vec *func_020457B0(u32,u32);
 extern void func_0201F250(struct WordSet *,void *,void *);
-extern void func_0201ED04(struct WordSet *);
+extern u32 func_0201ED04(struct WordSet *p);
 extern signed char func_02012FFC(void);
 extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_0220B9E0(int *);

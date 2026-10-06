@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021BA094(u32 v);
+extern void func_021BA094(int v);
 
 void func_021B9574(int unused, char *p)
 {

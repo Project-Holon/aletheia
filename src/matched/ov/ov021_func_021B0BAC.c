@@ -69,7 +69,7 @@ extern u32 func_02158F7C(u8 *p);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_0215A5CC(void *a0);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u8 *func_0215A63C(u8 *p);
 extern int func_02159190(int a0);

@@ -40,7 +40,7 @@ extern s32 func_020200CC(struct Obj *o);
 extern void func_021BA8EC(char *p);
 extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern void func_0201F868(void *p);
+extern u32 func_0201F868(void *p);
 
 int func_021BCAD0(char *p, int v)
 {

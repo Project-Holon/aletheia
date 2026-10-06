@@ -65,7 +65,7 @@ extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
 extern void func_02019B58(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern u16 *func_02045A90(struct U16Vec *vec);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);

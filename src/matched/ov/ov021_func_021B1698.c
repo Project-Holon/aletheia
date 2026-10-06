@@ -20,13 +20,14 @@
 
 void *func_0215A5F4(void *p);
 unsigned int func_02159B10(void *a0, void *a1);
-int func_0201134C(int *a);
+struct Cursor;
+unsigned int func_0201134C(struct Cursor *p);
 typedef unsigned int   u32;
 u32 func_021B1668(u32 a, u32 b);
 int func_02197D3C(int a, int b);
-void func_0215A6DC(int b, int c);
+void func_0215A6DC(int *p, int v);
 
-int func_021B1698(int *a, int b)
+int func_021B1698(int *a, int *b)
 {
     int r7;
     int r6;
@@ -34,8 +35,8 @@ int func_021B1698(int *a, int b)
 
     func_0215A5F4((void *)b);
     r7 = func_02159B10(a, (void *)b);
-    r6 = func_0201134C(a);
-    r0 = func_021B1668(b, r7);
+    r6 = func_0201134C((struct Cursor *)a);
+    r0 = func_021B1668((u32)b, r7);
     if (r0 == 0) {
         return 0;
     }

@@ -17,12 +17,13 @@
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj21682.h"
-extern int func_0201134C(void *);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 typedef unsigned int   u32;
 struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
 
-int func_021FC334(char *a, char *s)
+int func_021FC334(struct Cursor *a, char *s)
 {
     int off = func_0201134C(a);
     func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + off);

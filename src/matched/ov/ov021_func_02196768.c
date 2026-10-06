@@ -33,8 +33,8 @@ extern void func_0203FB44(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);
 struct Rec;
 struct U16Vec;
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201D83C(void *ptr);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201D83C(void *ptr);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02040588(u32 a, u32 b);
 

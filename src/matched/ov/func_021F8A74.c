@@ -18,7 +18,7 @@
 
 extern void func_02168064(void);
 
-int func_021F8A74(void)
+int func_021F8A74(void *a0)
 {
     func_02168064();
     return 1;

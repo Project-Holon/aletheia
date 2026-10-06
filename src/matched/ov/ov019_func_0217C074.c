@@ -53,10 +53,10 @@ int func_02172D68(u8 *p);
 void func_021734A8(u8 *self, u32 id, u32 v);
 int func_02173A90(void);
 int func_0217B8E4(char *p, char v);
-void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F210(u8 *p, u8 *a, u32 b);
 u32 func_0217F1EC(u8 *p);
 
-int func_0217C074(void *ctx, Obj *obj, int a2, u8 *state)
+int func_0217C074(void *ctx, Obj *obj, u8 *a2, u8 *state)
 {
     if (func_0217BB04(ctx) == 1)
         return 1;

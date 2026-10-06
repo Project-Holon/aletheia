@@ -31,7 +31,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_02008428();
+extern int func_02008428(unsigned short *p);
 
 int func_0215B028(int a0, int a1)
 {
@@ -58,7 +58,7 @@ a0 = t5 + 0;
 a1 = t6 + 0;
     dst = func_02159AE8((void *)a0, (void *)a1);
 loc_0215B04A:
-    a0 = func_02008428(t4);
+    a0 = func_02008428((short unsigned int *)t4);
 loc_0215B052:
     if (a0 == 0) goto loc_0215B05C;
 loc_0215B056:

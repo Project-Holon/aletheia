@@ -80,7 +80,8 @@ typedef struct Work {
 struct Evt;
 struct IcaAnime;
 extern int func_02188D2C(int *p);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_020114D0(u32 heap, u32 a1, u32 a2);
 extern void func_02011558(struct IcaAnime *p);
 extern int func_0216C270(Work *w);

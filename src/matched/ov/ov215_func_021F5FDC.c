@@ -17,7 +17,7 @@
 extern void func_02005DE4(void *p);
 extern int func_02005E64(void);
 
-void func_021F5FDC(void)
+void func_021F5FDC(void *a0, void *a1)
 {
     func_02005DE4((void *)1);
     func_02005E64();

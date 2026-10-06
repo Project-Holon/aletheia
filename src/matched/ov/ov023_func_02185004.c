@@ -29,7 +29,7 @@ extern void func_0203115C(struct Tcbl *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 
 void func_02185004(char *p)

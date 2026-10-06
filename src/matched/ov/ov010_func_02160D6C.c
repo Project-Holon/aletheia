@@ -37,7 +37,7 @@ extern void *func_0200CA1C(void *a);
 extern u8 *func_02012944(void *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern int func_02012134();
+extern u32 func_02012134(u32 *p);
 extern void func_02029DBC(u8 *a, u32 b);
 
 T *func_02160D6C(int *a0, int a1)
@@ -53,7 +53,7 @@ T *func_02160D6C(int *a0, int a1)
     p->b = func_0200CA1C(sys);
     p->c = func_02012944(p->a);
     s = func_02012A30(p->a);
-    func_02029DBC((u8 *)s, func_02012134(*(int *)a0[6]));
+    func_02029DBC((u8 *)s, func_02012134((u32 *)(*(int *)a0[6])));
     if (a1 != -1) {
         p->h = a1;
     } else {

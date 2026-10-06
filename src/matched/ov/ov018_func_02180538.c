@@ -132,7 +132,7 @@ void func_0217F2B4(Ov018Obj *p, void *sub);
 u8 *func_02175BCC(u8 *p);
 void *func_020127B8(void *);
 void func_02034714(const char *expr, u32 line, const char *file);
-int func_02175DE4(u8 *, u8 *);
+int func_02175DE4(void *p, u8 *a1);
 void func_0200BE24(struct Rec1B0 *p, s32 v);
 void func_0200BE00(struct Rec1B0 *p, s32 v);
 void func_021762D8(void *, void *, void *, u32);

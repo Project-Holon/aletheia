@@ -26,7 +26,8 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 struct Cur;
 struct QG;
 struct Work;
@@ -36,7 +37,7 @@ extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern u8 func_021D5478(struct Work *p);
 extern u8 func_021D5448(struct QG *p);
 
-int func_021899DC(int a, int b) {
+int func_021899DC(struct Cursor *a, int b) {
     int r4;
     int r7;
     u8 t;

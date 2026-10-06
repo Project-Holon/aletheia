@@ -24,7 +24,8 @@ struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_020456F8(struct Descriptor *d);
 extern void func_02045334(struct Descriptor *);
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_021E0E4C(char *p);
 extern void func_021E5EF8(void *);
 void func_021E2484(char *p,int a)

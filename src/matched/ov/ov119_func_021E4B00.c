@@ -55,7 +55,7 @@ extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void func_02082D44(int src, int dst, int n);
-extern int func_0201BBE8(int);
+extern int func_0201BBE8(void *a0);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
@@ -113,7 +113,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
                 func_02082D44(*(int *)&((struct Obj00001 *)p)->f1184 + idx * 0x200, vram + info.c, 0x200);
             }
             func_021E4AD0(p, a, j, rec, kind, row);
-            func_0204B6F4(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), func_0201BBE8(rec), 1);
+            func_0204B6F4(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), func_0201BBE8((void *)rec), 1);
             func_0204B92C(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
             func_0204B3DC(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
         }

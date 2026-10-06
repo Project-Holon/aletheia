@@ -99,7 +99,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern BmpMenuWork *func_0201F81C(u32 n, u16 heap);
 struct Slot;
 extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);

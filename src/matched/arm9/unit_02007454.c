@@ -113,7 +113,7 @@ extern u32 sub_02017E88(void *p, u32 id, u32 v);
 extern void sub_020181A0(void *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
 void sub_02007464(struct Sub02007454Header *h);

@@ -47,7 +47,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern unsigned short func_021BBB3C(char *p, int a, int b);
 extern u32 func_02013E4C(u32 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(u32 a, void *b, s16 x, s16 y, void *e, u32 f, u16 g);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -69,7 +69,7 @@ void func_021C1D30(u16 *heap, u8 *p, int key)
     func_02043B5C(func_02045770((struct Descriptor *)W(0x18)), 0);
     if (p[0x79] != 0xff) {
         str = func_02045EC0((struct MsgBank *)W(0x10), func_02013E4C(func_021BBB3C((char *)W(0x3c8), p[0x79], 0)));
-        func_0201C724(W(0x38), func_02045770((struct Descriptor *)W(0x18)), 0, 1, str, W(4), 0x3c40);
+        func_0201C724((void *)W(0x38), (u32)func_02045770((struct Descriptor *)W(0x18)), 0, 1, (u32)str, W(4), 0x3c40);
         func_02045808(str);
         W(0x28) = 1;
         func_021C0740(heap, p, key, 1);

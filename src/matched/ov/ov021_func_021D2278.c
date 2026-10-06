@@ -34,11 +34,12 @@ typedef struct { int x, y, z; } Vec;
 
 extern u32 func_02188D38(unsigned char *p);
 extern int func_021C7858(u32 a, u32 b, u32 c);
-extern void func_021C6DE0(unsigned char *p, u32 a, u32 b);
+extern void func_021C6DE0(unsigned char *p, u32 *a, u32 b);
 extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a0);
 extern int func_02006224(u32 a0);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 typedef unsigned char  u8;
 extern void func_021A30A4(u8 *p, u32 b);
@@ -62,7 +63,7 @@ int func_021D2278(u32 a, int *seq, int *w)
         v.x = 0;
         v.y = -0x40000;
         v.z = 0;
-        func_021C6DE0((unsigned char *)s, func_021C7858(w[1], 0x28, (u32)(&v)), 0);
+        func_021C6DE0((unsigned char *)s, (u32 *)func_021C7858(w[1], 0x28, (u32)(&v)), 0);
         w[3] = 8;
         (*seq)++;
         break;
@@ -78,7 +79,7 @@ int func_021D2278(u32 a, int *seq, int *w)
         if (func_02006224(func_02006148(0x63C)) != 0) {
             break;
         }
-        o = func_02188CB4((unsigned char *)w[1]);
+        o = func_02188CB4((struct Obj00020 *)w[1]);
         func_021A3074((void *)o);
         func_021A30A4(o, 3);
         func_021CD440((void *)w[1], &id);
@@ -86,11 +87,11 @@ int func_021D2278(u32 a, int *seq, int *w)
         (*seq)++;
         break;
     case 3:
-        func_0216D410(func_021A3074(func_02188CB4((unsigned char *)w[1])), 8);
+        func_0216D410(func_021A3074(func_02188CB4((struct Obj00020 *)w[1])), 8);
         (*seq)++;
         break;
     case 4:
-        if (func_0216D454(func_021A3074(func_02188CB4((unsigned char *)w[1])))) {
+        if (func_0216D454(func_021A3074(func_02188CB4((struct Obj00020 *)w[1])))) {
             return 1;
         }
         break;

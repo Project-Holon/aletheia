@@ -35,7 +35,7 @@ extern int func_021C23C8(void *a, void *b);
 extern void func_021C23D8(char *,int);
 extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern void func_0201F868(void *p);
+extern u32 func_0201F868(void *p);
 typedef enum { K274=0x274 } Off;
 int func_021C0698(char *p,int ret) {
     int r;

@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_021FB494(char *p);
 extern void func_021FCC80(char *p);
-extern void func_0201F868(void *);
+extern u32 func_0201F868(void *p);
 extern void func_021FBDA4(int a, unsigned mode);
 extern void func_020409B4(u32 index);
 int func_021DFF78(char *p, char *q)

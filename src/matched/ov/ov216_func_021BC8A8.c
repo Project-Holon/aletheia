@@ -19,7 +19,7 @@ struct Descriptor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B3B4(struct Obj *p);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0202DC08(struct Obj *p);
 void func_021BC8A8(char *p)
 {

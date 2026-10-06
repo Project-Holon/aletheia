@@ -25,7 +25,8 @@
  */
 #include "../include/Obj07926.h"
 typedef unsigned char u8;
-extern unsigned int func_0201134C(int);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 typedef unsigned int   u32;
@@ -40,7 +41,7 @@ extern u8 func_021B9B94(struct Q1 *p);
 extern int func_021D5B68(void *);
 extern u8 func_021D5448(struct QG *p);
 extern u8 func_021D554C(u8 *p, u8 i);
-int func_0218989C(int a, int b)
+int func_0218989C(struct Cursor *a, int b)
 {
     int x, z, n;
     char *p;

@@ -46,7 +46,7 @@ extern void func_0201DD78(u32,u32,u32);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void func_0201DD68(void);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_021DBCF4(u8 *p);
 void func_021D91F0(u8 *a,u8 *p,u8 *entry)
 {

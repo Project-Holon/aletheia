@@ -59,14 +59,14 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern u32 func_0201C1D8(u16);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_0201BD28(u16,u32);
 extern u32 func_0201C1F4(u16 id);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(void *,int,s16,s16,void *,int,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 void func_021DA488(u8 *a,u8 *p)
 {
     void *data,*object1,*object2,*table,*str;
@@ -108,7 +108,7 @@ void func_021DA488(u8 *a,u8 *p)
     }
     table=func_02045B38(0,2,202,((struct Obj04513 *)a)->f0);
     str=func_02045EC0(table,id);
-    func_0201C724(((struct Obj04513 *)a)->f84,(int)func_02045770(((struct Obj01408 *)p)->f88),1,1,str,((struct Obj04513 *)a)->f80,1088);
+    func_0201C724(((struct Obj04513 *)a)->f84,(int)func_02045770(((struct Obj01408 *)p)->f88),1,1,(u32)str,((struct Obj04513 *)a)->f80,1088);
     func_02045808(str);
     func_02045C04(table);
     ((struct Obj01408 *)p)->fC=0;

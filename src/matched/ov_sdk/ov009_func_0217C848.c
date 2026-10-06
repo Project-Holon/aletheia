@@ -19,7 +19,8 @@
  */
 
 struct SOCSockAddrIn { unsigned char len; unsigned char family; unsigned short port; unsigned long addr; };
-extern int func_020923F0(const void *a, const void *b, unsigned long n);
+typedef unsigned char  u8;
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern unsigned short g_021ACF7C[];
 extern unsigned char g_021ACF84[];
 extern char g_021A370C[];
@@ -29,11 +30,11 @@ int func_0217C848(char *packet, int len, struct SOCSockAddrIn *address, int *dis
     int bitfield;
     if (len < 7)
         return 1;
-    if (func_020923F0(&address->addr, g_021ACF84, 4) != 0)
+    if (func_020923F0((const u8 *)(&address->addr), g_021ACF84, 4) != 0)
         return 1;
     if (address->port != g_021ACF7C[3])
         return 1;
-    if (func_020923F0(packet, g_021A370C, 3) != 0)
+    if (func_020923F0((const u8 *)packet, (const u8 *)g_021A370C, 3) != 0)
         return 1;
     bitfield = (packet[3] << 24) & 0xff000000;
     bitfield |= (packet[4] << 16) & 0xff0000;

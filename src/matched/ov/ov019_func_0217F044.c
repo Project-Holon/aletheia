@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WordSet;
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 void func_0217F044(u8 *p)
 {
     if (((struct Obj09417 *)p)->f2804 != 0) {

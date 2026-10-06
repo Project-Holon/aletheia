@@ -12,4 +12,4 @@
  */
 typedef unsigned short u16;
 extern void func_02158A34(int a, int b, u16 c, int d);
-void func_02158A20(int a) { func_02158A34(a, 0, 9601, 2); }
+void func_02158A20(int a, int v) { func_02158A34(a, 0, 9601, 2); }

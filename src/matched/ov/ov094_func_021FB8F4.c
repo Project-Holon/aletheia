@@ -17,7 +17,9 @@
  *   func_02201CA4 0x02201CA4 thumb ov094
  */
 #include "../include/Obj21671.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021F86F0(void);
 struct Res;
 extern void func_02201CA4(struct Res *r, int i);

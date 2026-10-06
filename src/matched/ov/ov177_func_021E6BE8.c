@@ -57,7 +57,7 @@ extern void func_02008500(void *, void *);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *, void *, s16, s16, void *, int, int);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct PrintSys;
 extern void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap);
 extern void func_02045808(struct U16Vec *vec);
@@ -139,7 +139,7 @@ void func_021E6BE8(Work *w, const Info *info, void *a3, int a4, void *a5, void *
             break;
         }
         if (draw) {
-            func_0201C724(a5, func_02045770(w->slots[j].win), 0, 0, s2, a4, color);
+            func_0201C724(a5, (u32)func_02045770(w->slots[j].win), 0, 0, (u32)s2, a4, color);
             w->slots[j].shown = 1;
         }
     }

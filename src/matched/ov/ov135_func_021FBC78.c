@@ -21,7 +21,7 @@ extern u32 func_0204B98C(struct Actor *a);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int on);
 extern void func_021F9660(void *p, u32 mode);
-extern void func_0201F868(void *p);
+extern u32 func_0201F868(void *p);
 int func_021FBC78(u8 *p)
 {
     if (func_0204B98C(((struct Obj00098 *)p)->f8) != 0) return -1;

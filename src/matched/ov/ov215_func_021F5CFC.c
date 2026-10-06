@@ -26,14 +26,14 @@ typedef unsigned int u32;
 struct Node;
 struct PrintSys;
 extern void func_021F67B0(char *p);
-extern void func_021F62C8(u32,char *);
+extern void func_021F62C8(int a0, char *a1);
 extern void func_021F6114(void *unused, char *p);
 extern void func_021F5E38(void *unused, char *p);
-extern void func_021F5DA8(u32,char *);
+extern void func_021F5DA8(int a0, char *a1);
 extern void func_02030EAC(struct Node *n);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201D83C(void *ptr);
+extern u32 func_0201D83C(void *ptr);
 extern void func_021F6474(char *p);
 void func_021F5CFC(u32 a,char *p)
 {

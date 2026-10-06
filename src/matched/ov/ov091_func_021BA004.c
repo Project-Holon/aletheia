@@ -40,7 +40,7 @@ extern void func_021BA60C(u8 *p, void *q);
 extern void func_021BB98C(void *p, u32 s);
 extern void func_021BA5E0(u8 *p, void *q, u32 slot);
 extern void func_021BC6C0(char *p);
-extern void func_021B9E3C();
+extern void func_021B9E3C(char *p);
 extern void func_021B9804(u8 *p, int a1);
 extern void func_021BA0A8(u8 *p, int action);
 

@@ -11,5 +11,7 @@
  * status:   EXACT
  */
 
-extern void func_02061344(void);
-void func_0206E388(void){ func_02061344(); }
+typedef unsigned int   u32;
+struct Obj02061330;
+extern void func_02061344(struct Obj02061330 *o, u32 x);
+void func_0206E388(struct Obj02061330 *ctx, int field){ func_02061344(ctx, field); }

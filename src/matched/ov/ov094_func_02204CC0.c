@@ -152,11 +152,12 @@ extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02204C98(void *a, void *b, int *w, int *h);
+struct StrObj;
+extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern int func_02205768(int a, int b);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_02045808(struct U16Vec *vec);
 
 typedef struct Work {
@@ -238,7 +239,7 @@ void func_02204CC0(Work *p, const Slots *q)
             func_0201DD78(1, 2, 0);
             func_0201EF34((struct WordSet *)font, 0, q->id[i]);
             func_0201F250((struct WordSet *)font, str1, m0);
-            func_02204C98(str1, p->fnt, &w, &h);
+            func_02204C98(str1, (int)p->fnt, &w, &h);
             func_0201C7A4(p->win, d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, p->fnt);
             func_0201EFA4((struct WordSet *)font, 0, q->a[i], 2, 1, 1);
             func_0201EFA4((struct WordSet *)font, 1, q->b[i], 2, 1, 1);
@@ -249,7 +250,7 @@ void func_02204CC0(Work *p, const Slots *q)
             cr = (u8)((col >> 10) & 0x1f);
             func_0201DD78(cr, cg, cb);
             func_0201C7A4(p->win, t1.v[i].x, t1.v[i].y, m1, p->fnt);
-            func_02204C98(str2, p->fnt, &w, &h);
+            func_02204C98(str2, (int)p->fnt, &w, &h);
             func_0201C7A4(p->win, t2.v[i].x - w / 2, t2.v[i].y, str2, p->fnt);
             func_0201DD78(c[2], c[1], c[0]);
             p->f25a[i] = q->a[i] != 0;

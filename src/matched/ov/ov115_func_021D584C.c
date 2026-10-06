@@ -27,7 +27,7 @@ extern void func_0204ADA4(u32);
 extern void func_0204A8D4(u32);
 extern void func_0204AFD8(u32);
 extern void func_02030EAC(struct Node *n);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 void func_021D584C(u8 *p) {
     int i;

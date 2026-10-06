@@ -30,7 +30,7 @@ extern void func_02082BCC(void *,int,unsigned);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 void func_021B72A8(unsigned *p,unsigned b) {
  unsigned q;
  Desc t;

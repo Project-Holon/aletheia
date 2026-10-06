@@ -63,7 +63,8 @@ typedef struct {
 } Obj;
 
 extern u32 func_021BE17C(u8 *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u16 func_021A3050(u8 *p);
 extern int func_021BE1B0(u32 a);
 extern void func_021A7B08(u32 a, Vec *out);
@@ -81,7 +82,7 @@ void func_021BDDC0(Obj *p)
     int mode;
 
     func_021BE17C((u8 *)p);
-    h = func_02188CB4((unsigned char *)p->f0);
+    h = func_02188CB4((struct Obj00020 *)p->f0);
     mode = func_021A3050(h);
     switch (mode) {
     case 2:

@@ -73,7 +73,7 @@ extern u32   sub_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
 extern void  func_020282D8(u32 bg, struct Cfg *c, u32 d);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *bg);
-extern void  sub_0201C724(u32 owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void  func_02045334(struct Descriptor *bg);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -102,7 +102,7 @@ void func_02027A24(struct Obj *o, struct Cfg *cfg)
         func_020282D8(o->layers[i], cfg, o->rows[i].f08);
         rows = o->rows;
         row = &rows[i];
-        sub_0201C724(cfg->f14, (u32)func_02045770((struct Descriptor *)o->layers[i]), 0xa, 6,
+        sub_0201C724((void *)cfg->f14, (u32)func_02045770((struct Descriptor *)o->layers[i]), 0xa, 6,
                      rows[i].f00, cfg->f10, row->f04);
         bg = o->layers[i];
         func_02045334((struct Descriptor *)bg);

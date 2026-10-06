@@ -52,7 +52,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *, u8);
 extern unsigned func_0201D304(struct StrObj *, unsigned, unsigned);

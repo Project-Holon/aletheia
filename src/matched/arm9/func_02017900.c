@@ -80,7 +80,7 @@ struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
 extern void func_02017E64(void *a0, u32 a1, u32 a2);
-extern void func_02017C50(void *a0, u32 a1, u32 a2);
+extern void func_02017C50(int a0, int a1, int a2);
 extern void func_02017CC8(void *a0, void *a1, void *a2);
 struct MsgData;
 extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
@@ -100,7 +100,7 @@ u32 func_02017900(void *a0, u32 a1)
         func_02017E88(a0, 0x6f, 0);
         x = func_02017E88(a0, 0x75, 0);
         func_02017E64(a0, 5, a1);
-        func_02017C50(a0, a1, w);
+        func_02017C50((int)a0, a1, w);
         func_02017CC8(a0, (void *)a1, (void *)w);
         if (x == 0) {
             func_02045F5C(g_020A7370, a1, (u16 *)g_021462F0, 0x20);

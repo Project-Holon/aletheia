@@ -71,11 +71,11 @@ extern int func_0204E804(void);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F7A8(void *,u32);
-extern void func_020452E8(struct Descriptor *d);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_020452E8(struct Descriptor *d);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_020403F4(u32);
-extern void func_0201D83C(void *);
+extern u32 func_0201D83C(void *ptr);
 extern void func_021B9DAC(void);
 int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
 {

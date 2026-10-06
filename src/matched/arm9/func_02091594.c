@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_02091594(void){ }
+void func_02091594(int a, void *b){ }

@@ -33,9 +33,9 @@ struct WordSet;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern u32 func_0201D2C8(struct StrObj *s);
-void func_021B9AE4(u8 *p, u8 *a, u32 b, unsigned long long cd)
+void func_021B9AE4(u8 *p, u8 *a, void *b, unsigned long long cd)
 {
     u32 c = (u32)cd; u32 d = (u32)(cd >> 32);
     u32 r = 12;

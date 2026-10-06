@@ -54,7 +54,7 @@ struct Sub02008F80Obj *func_02008FEC(void *sys);
 void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 u32 func_020307B0(void *p);
 void func_02045808(struct U16Vec *vec);
-void func_02045C04(struct Rec *rec);
+u32 func_02045C04(struct Rec *rec);
 extern char d_02187DA4[];
 extern char d_02187DAC[];
 extern char d_02187DB4[];

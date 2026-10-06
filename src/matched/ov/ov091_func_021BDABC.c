@@ -30,7 +30,7 @@ typedef struct { s16 x,y; } Pair;
 extern int func_0205121C(u32,u32,u32);
 extern void *func_0203D7C8(u32,u32,const char *,u16);
 extern int func_02050C04(int,int,int,int);
-extern int func_020056BC(void);
+extern u32 func_020056BC(void);
 extern void func_02051230(u8 *,u32,u32,u32);
 extern void func_021BB3D4(void *a, u8 *s, u16 *out);
 extern int func_020515B4(void *p, int b, int c);

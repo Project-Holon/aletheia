@@ -23,7 +23,7 @@ typedef struct Obj {
 extern void func_022068E8(char *p);
 extern void func_022023D0(char *p);
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
+extern unsigned int func_02045C04(struct Rec *rec);
 extern void func_02209B30(void *);
 extern void func_02030DA4(void *);
 typedef unsigned int   u32;

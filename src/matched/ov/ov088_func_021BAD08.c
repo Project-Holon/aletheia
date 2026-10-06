@@ -94,7 +94,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201C724(void *, void *, int, int, void *, void *, int);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
@@ -133,7 +133,7 @@ void func_021BAD08(struct Menu *p)
 
     a = func_02045EC0(p->f5c, 0);
     bg = p->f68;
-    func_0201C724(bg, func_02045770(p->slot[0].obj), 0, 4, a, p->f58, 0x440);
+    func_0201C724(bg, (u32)func_02045770(p->slot[0].obj), 0, 4, (u32)a, (u32)p->f58, 0x440);
     p->slot[0].on = 1;
     func_02045808(a);
 
@@ -142,11 +142,11 @@ void func_021BAD08(struct Menu *p)
     func_0201F250(p->f60, p->f64, a);
     if (func_02008550(p->f04) == 0) {
         bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[1].obj), 0, 0, p->f64, p->f58, 0xC80);
+        func_0201C724(bg, (u32)func_02045770(p->slot[1].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0xC80);
         p->slot[1].on = 1;
     } else {
         bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[1].obj), 0, 0, p->f64, p->f58, 0x14C0);
+        func_0201C724(bg, (u32)func_02045770(p->slot[1].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x14C0);
         p->slot[1].on = 1;
     }
     func_02045808(a);
@@ -163,7 +163,7 @@ void func_021BAD08(struct Menu *p)
     func_0201F158(p->f60, 0, (u32)s);
     func_0201F250(p->f60, p->f64, a);
     bg = p->f68;
-    func_0201C724(bg, func_02045770(p->slot[2].obj), 0, 0, p->f64, p->f58, 0x440);
+    func_0201C724(bg, (u32)func_02045770(p->slot[2].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);
     p->slot[2].on = 1;
     func_02045808(a);
 
@@ -173,7 +173,7 @@ void func_021BAD08(struct Menu *p)
     func_0201EFA4(p->f60, 1, func_02008650(b), 2, 2, 1);
     func_0201F250(p->f60, p->f64, a);
     bg = p->f68;
-    func_0201C724(bg, func_02045770(p->slot[3].obj), 0, 0, p->f64, p->f58, 0x440);
+    func_0201C724(bg, (u32)func_02045770(p->slot[3].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);
     p->slot[3].on = 1;
     func_02045808(a);
 
@@ -182,7 +182,7 @@ void func_021BAD08(struct Menu *p)
         func_0201EFA4(p->f60, 0, func_0200D0AC(func_0200CA10(p->f00), 11), 3, 0, 1);
         func_0201F250(p->f60, p->f64, a);
         bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[4].obj), 0, 0, p->f64, p->f58, 0x440);
+        func_0201C724(bg, (u32)func_02045770(p->slot[4].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);
         p->slot[4].on = 1;
         func_02045808(a);
     }
@@ -191,14 +191,14 @@ void func_021BAD08(struct Menu *p)
     func_0201EFA4(p->f60, 0, func_0200C258(func_0200C0F0(p->f00)), 2, 0, 1);
     func_0201F250(p->f60, p->f64, a);
     bg = p->f68;
-    func_0201C724(bg, func_02045770(p->slot[5].obj), 0, 0, p->f64, p->f58, 0x440);
+    func_0201C724(bg, (u32)func_02045770(p->slot[5].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);
     p->slot[5].on = 1;
     func_02045808(a);
 
     a = func_02045EC0(p->f5c, 1);
     {
         void *bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[6].obj), 0, 4, a, p->f58, 0x440);
+        func_0201C724(bg, (u32)func_02045770(p->slot[6].obj), 0, 4, (u32)a, (u32)p->f58, 0x440);
     }
     p->slot[6].on = 1;
     func_02045808(a);
@@ -206,7 +206,7 @@ void func_021BAD08(struct Menu *p)
     a = func_02045EC0(p->f5c, 2);
     {
         void *bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[7].obj), 0, 4, a, p->f58, 0x440);
+        func_0201C724(bg, (u32)func_02045770(p->slot[7].obj), 0, 4, (u32)a, (u32)p->f58, 0x440);
     }
     p->slot[7].on = 1;
     func_02045808(a);
@@ -214,7 +214,7 @@ void func_021BAD08(struct Menu *p)
     a = func_02045EC0(p->f5c, 4);
     {
         void *bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[8].obj), 0, 4, a, p->f58, 0x440);
+        func_0201C724(bg, (u32)func_02045770(p->slot[8].obj), 0, 4, (u32)a, (u32)p->f58, 0x440);
     }
     p->slot[8].on = 1;
     func_02045808(a);
@@ -222,7 +222,7 @@ void func_021BAD08(struct Menu *p)
     a = func_02045EC0(p->f5c, 5);
     {
         void *bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[9].obj), 0, 4, a, p->f58, 0x440);
+        func_0201C724(bg, (u32)func_02045770(p->slot[9].obj), 0, 4, (u32)a, (u32)p->f58, 0x440);
     }
     p->slot[9].on = 1;
     func_02045808(a);
@@ -230,7 +230,7 @@ void func_021BAD08(struct Menu *p)
     a = func_02045EC0(p->f5c, 3);
     {
         void *bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[10].obj), 0, 4, a, p->f58, 0x440);
+        func_0201C724(bg, (u32)func_02045770(p->slot[10].obj), 0, 4, (u32)a, (u32)p->f58, 0x440);
     }
     p->slot[10].on = 1;
     func_02045808(a);
@@ -238,7 +238,7 @@ void func_021BAD08(struct Menu *p)
     a = func_02045EC0(p->f5c, 7);
     {
         void *bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[11].obj), 0, 4, a, p->f58, 0x440);
+        func_0201C724(bg, (u32)func_02045770(p->slot[11].obj), 0, 4, (u32)a, (u32)p->f58, 0x440);
     }
     p->slot[11].on = 1;
     func_02045808(a);
@@ -246,7 +246,7 @@ void func_021BAD08(struct Menu *p)
     a = func_02045EC0(p->f5c, 6);
     {
         void *bg = p->f68;
-        func_0201C724(bg, func_02045770(p->slot[12].obj), 0, 4, a, p->f58, 0x440);
+        func_0201C724(bg, (u32)func_02045770(p->slot[12].obj), 0, 4, (u32)a, (u32)p->f58, 0x440);
     }
     p->slot[12].on = 1;
     func_02045808(a);

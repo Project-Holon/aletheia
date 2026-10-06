@@ -32,7 +32,7 @@ struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_020456F8(struct Descriptor *d);
 extern void func_02041B6C(unsigned);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0201F73C(void *,int,int,int);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045374(struct Cfg *cfg);

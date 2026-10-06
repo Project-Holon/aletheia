@@ -26,10 +26,10 @@ extern void func_0201CE48(struct Rec3 *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_02045808(struct U16Vec *vec);
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
+extern unsigned int func_02045C04(struct Rec *rec);
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 void func_022052E8(int task, int *p)
 {
     func_02028604(((struct Obj02240 *)p)->f84);

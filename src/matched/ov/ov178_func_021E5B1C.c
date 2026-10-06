@@ -22,7 +22,7 @@ extern unsigned char ov178_id[];
 extern void func_0217E058(int);
 extern void func_02034A5C(int);
 
-void func_021E5B1C(int *p)
+void func_021E5B1C(int *p, void *c)
 {
     func_0217E058(*p);
     func_02034A5C((int)ov178_id);

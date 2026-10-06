@@ -13,7 +13,8 @@
  */
 #include "../include/Obj20671.h"
 struct Obj0202EA20;
-extern void func_0202EA20(struct Obj0202EA20 *p);
+typedef unsigned int   u32;
+extern u32 func_0202EA20(struct Obj0202EA20 *p);
 void func_021B8B6C(char *p)
 {
     func_0202EA20(*(struct Obj0202EA20 * *)&((struct Obj20671 *)p)->f850);

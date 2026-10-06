@@ -19,11 +19,12 @@ struct PrintSys;
 struct Rec;
 struct TaskMenuState;
 extern void func_02028148(u8 *p);
-extern void func_02027FD8(struct TaskMenuState *s);
+extern unsigned int func_02027FD8(struct TaskMenuState *s);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_020452E8(struct Descriptor *d);
-extern void func_02045C04(struct Rec *rec);
-extern void *func_0201D83C(void *);
+extern unsigned int func_020452E8(struct Descriptor *d);
+extern unsigned int func_02045C04(struct Rec *rec);
+typedef unsigned int   u32;
+extern u32 func_0201D83C(void *ptr);
 extern void func_0201DD68(void *);
 void func_021D485C(char *p)
 {
@@ -35,5 +36,5 @@ void func_021D485C(char *p)
     func_020452E8(((struct Obj00991 *)p)->f20);
     func_020452E8(((struct Obj00991 *)p)->f24);
     func_02045C04(((struct Obj00991 *)p)->f2C);
-    func_0201DD68(func_0201D83C(((struct Obj00991 *)p)->f28));
+    func_0201DD68((void *)func_0201D83C(((struct Obj00991 *)p)->f28));
 }

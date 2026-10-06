@@ -26,12 +26,13 @@ struct Obj;
 struct TaskMenuState;
 struct U16Vec;
 extern void func_0204B3B4(struct Obj *p);
-extern void func_020452E8(struct Descriptor *d);
+extern unsigned int func_020452E8(struct Descriptor *d);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02027FD8(struct TaskMenuState *s);
+typedef unsigned int   u32;
+extern u32 func_02027FD8(struct TaskMenuState *s);
 extern void func_021C4080(u8 *p);
 extern void func_021C3F80(u8 *);
-extern void func_021C88BC(u8 *,u8 *);
+extern void func_021C88BC(void *a0, void *a1);
 void func_021C7D48(u8 *p, void *unused, u8 *a)
 {
     int i;

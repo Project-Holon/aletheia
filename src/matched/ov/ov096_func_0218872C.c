@@ -13,8 +13,9 @@
  */
 #include "../include/Obj21917.h"
 typedef unsigned char u8;
-extern void func_0218875C(u8 *, int, int);
-int func_0218872C(u8 *a, u8 *b)
+struct Cursor;
+extern int func_0218875C(struct Cursor *a, int unused, int c);
+int func_0218872C(struct Cursor *a, u8 *b)
 {
     func_0218875C(a, (int)b, 1);
     return ((struct Obj21917 *)b)->fC4;

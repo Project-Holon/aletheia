@@ -36,8 +36,8 @@
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_0209D778(u8 *str);
-extern void func_0209D774(u8 *p);
+extern void func_0209D778(void *str);
+extern void func_0209D774(void *p);
 
 int func_0209D7D4(int handle, u8 *buffer, u32 *count)
 {

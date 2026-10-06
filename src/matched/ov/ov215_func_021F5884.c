@@ -90,7 +90,7 @@ extern int func_021F5F74(void *,char *),func_021F5E90(int,struct S021F5E68 *);
 extern void func_021F5F84(void *,char *),func_021F5FB0(void *,char *);
 extern int func_021F5FA0(void *,char *),func_021F5FCC(void *,char *);
 extern void func_021F6A3C(char *); extern int func_021F6A44(char *);
-extern void func_021F5FDC(u32 *,u32 *);
+extern void func_021F5FDC(void *a0, void *a1);
 extern void *func_020127A4(struct SaveBlock *);
 extern u8 *func_02012944(void *);
 extern u16 func_02012AC8(const struct Rec44 *);

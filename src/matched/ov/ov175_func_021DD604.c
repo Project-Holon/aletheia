@@ -18,7 +18,7 @@
 
 extern void func_0217EAE0(void);
 
-void func_021DD604(void)
+void func_021DD604(void *request)
 {
     func_0217EAE0();
 }

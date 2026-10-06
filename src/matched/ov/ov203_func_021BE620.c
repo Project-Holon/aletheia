@@ -17,5 +17,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
-extern u32 func_0201160C(void *);
+struct Obj11245;
+extern u32 func_0201160C(struct Obj11245 *p);
 int func_021BE620(char *p) { return func_0201160C(((struct Obj25315 *)p)->f18); }

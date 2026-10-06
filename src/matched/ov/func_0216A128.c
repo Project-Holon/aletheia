@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 struct TaskMenuState;
 struct U16Vec;
-extern void func_02027FD8(struct TaskMenuState *s);
+extern u32 func_02027FD8(struct TaskMenuState *s);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_0216A128(void *p)

@@ -24,7 +24,8 @@
 #include "../include/Obj04398.h"
 typedef unsigned short u16;
 
-extern int func_0201134C(int a);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 typedef unsigned int   u32;
 extern void func_0204047C(int idx, unsigned short val);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
@@ -37,7 +38,7 @@ extern int func_021F86E0(void);
 extern int func_021F8700(void);
 extern void func_02209784(int a, int b, int c);
 
-int func_021FB3DC(int a, char *b)
+int func_021FB3DC(struct Cursor *a, char *b)
 {
     int t;
 

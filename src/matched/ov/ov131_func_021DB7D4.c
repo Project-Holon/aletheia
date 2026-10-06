@@ -57,12 +57,12 @@ extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02045808(struct U16Vec *);
-extern void func_02045C04(struct Rec *);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_021D614C(u8 *,int,int,int,s16,u16);
 extern struct WordSet *func_0201EC64(u32);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
 extern void func_021D6244(u8 *,int,void *,int,u16,s16,u16);
-extern void func_0201ED04(struct WordSet *);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_021D61B8(u8 *,int,void *,int,s16,s16,u16);
 extern u8 *func_021DBAD0(u8 *a, const u8 *b);
 void func_021DB7D4(u8 *p,u8 *q,u8 *entry)

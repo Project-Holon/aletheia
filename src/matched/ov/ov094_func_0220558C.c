@@ -45,7 +45,7 @@ extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern int func_021F86E0(void);
 extern int func_02021728(char *, int);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);

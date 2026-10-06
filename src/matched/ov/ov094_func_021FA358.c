@@ -21,7 +21,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_0220AE68[];
-extern u32 func_0201134C(void *);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
 extern int func_020515CC(int *p, int a, int b, int c);

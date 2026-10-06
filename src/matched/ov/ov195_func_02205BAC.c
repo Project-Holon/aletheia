@@ -16,12 +16,14 @@
  */
 #include "../include/Obj24953.h"
 
-extern int func_0204B1CC(int);
+typedef unsigned int   u32;
+struct Bank;
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(int);
 extern void func_02082BCC(void *, int, int);
 
 void func_02205BAC(char *a)
 {
-    func_0204A5AC(func_0204B1CC(((struct Obj24953 *)a)->f0));
+    func_0204A5AC(func_0204B1CC((struct Bank *)(((struct Obj24953 *)a)->f0)));
     func_02082BCC(a, 0, 4);
 }

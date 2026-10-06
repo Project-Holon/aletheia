@@ -34,8 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern void func_02049A18(void *buf, u32 a1, u32 a2, u32 a3, u32 a4,
-                          u32 flag);
+extern u32 func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
 
 void sub_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags)
 {

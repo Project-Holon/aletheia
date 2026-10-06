@@ -26,9 +26,9 @@ struct Obj;
 
 extern void *func_0202B7F8(struct Obj *o);
 struct Node;
-extern struct Node *func_0202AAF4(u32 a, u32 heapId);
+extern struct Node *func_0202AAF4(u32 a, void *heapId);
 
 void func_0202B610(struct Obj *o)
 {
-    ((struct Obj00563 *)o)->f10 = (u32)func_0202AAF4((u32)func_0202B7F8(o), ((struct Obj00563 *)o)->f0);
+    ((struct Obj00563 *)o)->f10 = (u32)func_0202AAF4((u32)func_0202B7F8(o), (void *)(((struct Obj00563 *)o)->f0));
 }

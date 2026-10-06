@@ -44,8 +44,8 @@ extern void func_021CCB98(u8 *p);
 extern void func_021CC9A4(u8 *p);
 extern int func_021CCEE4(u32 a);
 struct Bank;
-extern void func_0201D83C(void *ptr);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern u32 func_020307B0(void *p);
 extern const char d_021DE5BC[];
 

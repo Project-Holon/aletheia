@@ -14,10 +14,12 @@
  *   func_0207D63C  0x0207D63C  arm
  */
 #include "../include/Obj13588.h"
-extern int func_0201134C(int a);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_0207D63C(int reg, int a, int b, int c, int d);
 
-int func_021FB574(int a, unsigned int *b)
+int func_021FB574(struct Cursor *a, unsigned int *b)
 {
     int t2;
 

@@ -25,5 +25,5 @@ struct Obj;
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021F9660(void *,u32);
-extern void func_0201F868(void *);
+extern u32 func_0201F868(void *p);
 int func_021FBE54(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660(p,2);func_0201F868(((struct Obj00098 *)p)->f30);return ((struct Obj00098 *)p)->f41; }

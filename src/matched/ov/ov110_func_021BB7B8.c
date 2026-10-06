@@ -35,7 +35,7 @@ int func_021BB7B8(u8 *p)
     }
     return 0;
 }
-void func_021BB804(void)
+void func_021BB804(u8 *a0)
 {
     func_02040618(1, 3, 16);
 }

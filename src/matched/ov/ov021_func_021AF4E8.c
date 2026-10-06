@@ -30,7 +30,7 @@ typedef struct {
 extern int func_02005C64(void);
 extern void func_02006CAC(void **out);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
-extern void func_0215A6B8(u32 a, u32 b);
+extern void func_0215A6B8(u32 *a, u32 b);
 
 int func_021AF4E8(u32 a, u32 b, Rec *c)
 {
@@ -48,6 +48,6 @@ int func_021AF4E8(u32 a, u32 b, Rec *c)
     } else {
         r = func_02006984(c->a, c->b, 0x40, 0, 0, 0, 0, 0);
     }
-    func_0215A6B8(c->f8, r);
+    func_0215A6B8((u32 *)c->f8, r);
     return 1;
 }

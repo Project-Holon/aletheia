@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 
 void func_021C0BA8(u8 *a0)
 {

@@ -23,7 +23,8 @@
 #include "../include/Obj06344.h"
 
 typedef unsigned char u8;
-extern int func_0201134C(int);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Cur;
@@ -36,7 +37,7 @@ extern u16 func_021D67A8(struct QL *p);
 extern u8 func_021D5440(u8 *p);
 extern u16 func_021C7E14(u8 *p, int a, int b, u32 c, int e0, int e1);
 
-int func_02189BFC(int a, int b)
+int func_02189BFC(struct Cursor *a, int b)
 {
     int t0;
     int t1;

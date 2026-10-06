@@ -13,7 +13,7 @@
  */
 #include "../include/Obj00008.h"
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern unsigned int func_020452E8(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 typedef struct {

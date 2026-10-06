@@ -14,7 +14,7 @@
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj06156.h"
-extern void func_0201D83C(void *ptr);
+extern unsigned int func_0201D83C(void *ptr);
 extern void func_021F4B40(int *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);

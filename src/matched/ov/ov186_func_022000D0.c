@@ -17,5 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021FCC80(char *),func_0201F868(void *),func_021FBDA4(int,unsigned);
+extern void func_021FCC80(char *);
+extern u32 func_0201F868(void *p);
+extern void func_021FBDA4(int,unsigned);
 void func_022000D0(u8 *p) { func_021FCC80(*(char * *)&((struct Obj06639 *)p)->f68); *(u32 *)&((struct Obj06639 *)p)->f68=0; func_0201F868(((struct Obj06639 *)p)->f64); *(u32 *)&((struct Obj06639 *)p)->f64=0; func_021FBDA4(((struct Obj06639 *)p)->f28,21); }

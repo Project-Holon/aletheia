@@ -30,10 +30,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02005654(void (*)(), int);
+extern int func_02005654(int a, int b);
 extern void func_021BAB50();
 void func_021BAB58(void *a0)
 {
-    func_02005654(func_021BAB50, 0);
+    func_02005654((int)func_021BAB50, 0);
 }
 

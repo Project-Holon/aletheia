@@ -52,7 +52,7 @@ extern u32 func_020307B0(void *p);
 extern int func_021647D8(int a0);
 extern void func_02027584(u8 *p);
 extern void func_0202E794(void *p);
-extern void func_0215E334(u32 p);
+extern void func_0215E334(void *ptr);
 extern void func_02006E64(struct Sub02006E40Obj *obj);
 extern void func_02007AC8(void *p);
 extern int func_0216CCB0(int a0);
@@ -67,7 +67,7 @@ void func_02012704(u8 *p)
     func_021647D8(((struct Obj01611 *)p)->f690);
     func_02027584((u8 *)(((struct Obj01611 *)p)->f68C));
     func_0202E794((void *)(((struct Obj01611 *)p)->f684));
-    func_0215E334(((struct Obj01611 *)p)->f5E4);
+    func_0215E334((void *)(((struct Obj01611 *)p)->f5E4));
     func_02006E64((struct Sub02006E40Obj *)(((struct Obj01611 *)p)->f1A4));
     func_020307B0((void *)(((struct Obj01611 *)p)->f1A0));
     func_02007AC8((void *)(((struct Obj01611 *)p)->f19C));

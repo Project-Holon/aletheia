@@ -20,10 +20,10 @@ struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021B6AE4(u8 *,u32,u16,u16,u32,u32,u16,u32);
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 void func_021C9FC8(u8 *p,void *unused,u8 *q,u32 item,int x,int y,int color)
 {
     func_02045CAC(((struct Obj00329 *)q)->f4,item,((struct Obj00329 *)q)->f20);
     func_0201F250(((struct Obj00329 *)q)->f0,(void *)(((struct Obj00329 *)q)->f1C),((struct Obj00329 *)q)->f20);
-    func_021B6AE4(p,*(u32 *)&((struct Obj00329 *)q)->f34,x,y,((struct Obj00329 *)q)->f1C,*(u32 *)&((struct Obj00329 *)q)->f17C,color,0);
+    func_021B6AE4(p,(void *)(*(u32 *)&((struct Obj00329 *)q)->f34),x,y,((struct Obj00329 *)q)->f1C,*(u32 *)&((struct Obj00329 *)q)->f17C,color,0);
 }

@@ -81,7 +81,7 @@ struct DispConfig;
 struct DispVram;
 extern int func_021B9A84(u32 p);
 extern void func_021B7078(const void *p, unsigned id, unsigned type);
-extern void func_021B6F0C(u8 *p);
+extern void func_021B6F0C(void *p);
 extern void func_020434CC(void);
 extern void func_02043588(void);
 extern void func_0202223C(u32 a, u32 color);

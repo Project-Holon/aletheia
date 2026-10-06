@@ -47,7 +47,7 @@ struct BbActSys {
 
 extern void func_0204F5A8(void *board, u32 idx);
 extern void func_0204ED24(void *board);
-extern void func_02033C9C(void *pool);
+extern u32 func_02033C9C(void *a);
 extern u32 func_020307B0(void *p);
 
 void func_0204FFFC(struct BbActSys *o)

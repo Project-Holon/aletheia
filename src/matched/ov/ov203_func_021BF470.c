@@ -31,7 +31,7 @@ extern void func_0201CE48(struct Rec3 *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201DD68(void);
 extern void func_0201F7A8(void *,unsigned);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0201F614(int a, u32 x);
 extern void func_02082BCC(void *,int,int);
 extern void func_0204047C(int,unsigned short);

@@ -25,7 +25,8 @@ typedef struct {
 
 struct PrintSys;
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201D83C(void *p);
+typedef unsigned int   u32;
+extern u32 func_0201D83C(void *ptr);
 
 void func_021C795C(Work *p)
 {

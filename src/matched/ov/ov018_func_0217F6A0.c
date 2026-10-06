@@ -96,9 +96,9 @@ int func_02173C6C(int a, int b);
 u8 func_0217BF28(u8 *p);
 int func_0219077C(u8 *p);
 u32 func_020362DC(void);
-void func_0201ED04(struct WordSet *p);
+u32 func_0201ED04(struct WordSet *p);
 int func_02190728(void *a);
-void func_02045C04(struct Rec *rec);
+u32 func_02045C04(struct Rec *rec);
 
 int func_0217F6A0(void *a0, int *state, Ctx *c)
 {

@@ -34,7 +34,8 @@ extern u32 func_02012138(const struct Ctx *p);
 extern int func_0215870C(void *p, int b);
 extern void *func_02188C7C(u8 *p);
 extern u32 func_02188BF8(u8 *a);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern int   func_021A2F54(u8 *p);
 extern int   func_021A34F8(u8 *p);
 
@@ -54,12 +55,12 @@ int func_021645E0(void *unused, int *st, int *w)
         (*st)++;
         /* fall through */
     case 1:
-        if (func_021A2F54((u8 *)func_02188CB4(h)) == 1) {
+        if (func_021A2F54((u8 *)func_02188CB4((struct Obj00020 *)h)) == 1) {
             (*st)++;
         }
         break;
     case 2:
-        if (func_021A34F8((u8 *)func_02188CB4(h)) == 1) {
+        if (func_021A34F8((u8 *)func_02188CB4((struct Obj00020 *)h)) == 1) {
             return 1;
         }
         break;

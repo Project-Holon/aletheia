@@ -24,7 +24,8 @@ typedef unsigned short u16;
 
 extern char d_0220AE68[];
 
-extern int func_0201134C(int a);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *file, u16 line);
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
@@ -33,7 +34,7 @@ extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021FE79C(void *h, int *s);
 extern void func_021FE8AC(void *h);
 
-int func_021FB648(int a, char *b)
+int func_021FB648(struct Cursor *a, char *b)
 {
     int *p;
 

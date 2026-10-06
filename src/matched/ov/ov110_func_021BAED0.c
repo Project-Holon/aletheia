@@ -22,4 +22,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021BFC20(u8 *p, unsigned visible);
-void func_021BAED0(u8 *p) { func_021BFC20((u8 *)(((struct Obj22352 *)p)->f5C), 1); }
+void func_021BAED0(u8 *p, u8 *a1, void *a2) { func_021BFC20((u8 *)(((struct Obj22352 *)p)->f5C), 1); }

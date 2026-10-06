@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021E9100  adds r0,#0x2c */
-u8 *func_021E9100(u8 *p) { return p + 0x2c; }
+u8 *func_021E9100(u8 *p, int n) { return p + 0x2c; }
 

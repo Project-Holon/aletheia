@@ -14,7 +14,8 @@
  */
 #include "../include/Obj00703.h"
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 void func_0217D904(char *p)
 {
     func_020452E8(*(struct Descriptor * *)&((struct Obj00703 *)p)->f44);

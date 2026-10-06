@@ -36,7 +36,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C724(void *,void *,int,int,void *,void *,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Cfg;
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *cfg);
@@ -61,7 +61,7 @@ void func_021E026C(u8 *p,int message,unsigned value)
     func_02043B5C(func_02045770(window),15);
     owner=((struct Obj02871 *)s)->f58;
     data=func_02045770(((struct Obj02871 *)s)->f28);
-    func_0201C724(owner,data,0,0,((struct Obj02871 *)s)->f5C,((struct Obj02871 *)s)->f4,1088);
+    func_0201C724(owner,(u32)data,0,0,(u32)(((struct Obj02871 *)s)->f5C),(u32)(((struct Obj02871 *)s)->f4),1088);
     ((struct Obj02871 *)s)->f2C=1;
     func_02045334(window);
     func_02045374(window);

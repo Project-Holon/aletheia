@@ -47,7 +47,7 @@ extern u32 func_020407E8(u32 layer);
 extern void func_0204B404(void *,const Pt *,u16);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(void *,void *,short,short,void *,int,int);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
 {
@@ -92,7 +92,7 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
         }
         func_0204B3DC(((struct Obj00133 *)p)->f18C,1);
         s=func_02045EC0(mgr,17);
-        func_0201C724(print,func_02045770(((struct Obj00133 *)p)->fB4),0,0,s,font,0x3c40);
+        func_0201C724(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     case 1:
@@ -107,7 +107,7 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
         }
         func_0204B3DC(((struct Obj00133 *)p)->f18C,0);
         s=func_02045EC0(mgr,18);
-        func_0201C724(print,func_02045770(((struct Obj00133 *)p)->fB4),0,0,s,font,0x3c40);
+        func_0201C724(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     case 2:
@@ -122,7 +122,7 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
         }
         func_0204B3DC(((struct Obj00133 *)p)->f18C,0);
         s=func_02045EC0(mgr,19);
-        func_0201C724(print,func_02045770(((struct Obj00133 *)p)->fB4),0,0,s,font,0x3c40);
+        func_0201C724(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     }

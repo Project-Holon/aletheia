@@ -40,7 +40,7 @@ extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern struct WordSet *func_0201EC64(u32);
 extern void func_0201F02C(struct WordSet *,u32,void *);
 extern void func_0201F250(struct WordSet *,void *,void *);
-extern void func_0201ED04(struct WordSet *);
+extern u32 func_0201ED04(struct WordSet *p);
 void func_021B91A8(struct Descriptor *desc,struct StrObj *text,void *value,u32 font) {
  u16 x,y; struct WordSet *set; struct U16Vec *expanded;
  if(!value) {

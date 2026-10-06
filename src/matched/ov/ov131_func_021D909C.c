@@ -13,7 +13,8 @@
 #include "../include/Obj04510.h"
 typedef unsigned char u8;
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021D909C(u8 *a,u8 *p)
 {
     ((struct Obj04510 *)p)->f0=0;

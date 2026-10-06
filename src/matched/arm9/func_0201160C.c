@@ -19,7 +19,7 @@
 
 typedef unsigned int u32;
 
-u32 func_0201160C(void *p)
+u32 func_0201160C(struct Obj11245 *p)
 {
-    return ((struct Obj11245 *)p)->f10;
+    return p->f10;
 }

@@ -34,7 +34,7 @@ struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void func_02017E64(void *p, u32 id, u32 v);
-extern int func_02017C50(int a0, int a1, int a2);
+extern void func_02017C50(int a0, int a1, int a2);
 extern void func_02017CC8(void *a0, void *a1, void *a2);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 

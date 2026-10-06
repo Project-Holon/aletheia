@@ -11,7 +11,8 @@
 typedef struct { void *pad0; void *res[8]; } Work;
 struct Descriptor;
 extern void func_020456F8(struct Descriptor *d);
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021E7B44(Work *p)
 {
     int i;

@@ -26,7 +26,8 @@ extern void func_021F32D4(char *);
 struct Bank;
 extern void func_02025588(void *p);
 extern void func_0204B084(int);
-extern void func_0204B1CC(struct Bank *bank);
+typedef unsigned int   u32;
+extern u32 func_0204B1CC(struct Bank *bank);
 
 void func_021F2FCC(char *p)
 {

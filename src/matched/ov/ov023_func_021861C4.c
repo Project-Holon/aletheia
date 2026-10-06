@@ -46,7 +46,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_0201C724(void *a, void *bmp, u32 x, u32 y, void *text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u16 a8, u32 a9);
 extern void func_02045334(struct Descriptor *d);
@@ -72,7 +72,7 @@ void func_021861C4(u8 *w, u32 msg, int mode)
     }
     if (mode == 0) {
         t = ((struct Obj00525 *)w)->f168;
-        func_0201C724(t, func_02045770(((struct Obj00525 *)w)->f15C), 0, 0, ((struct Obj00525 *)w)->f30, ((struct Obj00525 *)w)->fC, 0x44F);
+        func_0201C724(t, (u32)func_02045770(((struct Obj00525 *)w)->f15C), 0, 0, (u32)(((struct Obj00525 *)w)->f30), ((struct Obj00525 *)w)->fC, 0x44F);
         ((struct Obj00525 *)w)->f160 = 1;
     } else {
         ((struct Obj00525 *)w)->f16C = func_0201CCE4(((struct Obj00525 *)w)->f11C, 0, 0, ((struct Obj00525 *)w)->f30,

@@ -29,9 +29,9 @@ struct WordSet;
 extern void func_021E7DF0(int *p);
 extern void func_0217E058(int *p);
 extern void func_021E8A78(void *p);
-extern void func_0201D83C(void *ptr);
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201ED04(struct WordSet *p);
 void func_0217BA9C(int *p)
 {
     func_020307B0((void *)p[12]);

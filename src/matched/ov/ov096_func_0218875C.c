@@ -29,18 +29,19 @@ typedef int s32;
 
 typedef enum { Z0 } E;
 
-extern u8 *func_0201134C(u8 *);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u32 func_0203F0A8(void);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 
-void func_0218875C(u8 *a, int unused, int c) {
+int func_0218875C(struct Cursor *a, int unused, int c) {
     u8 *p;
     u32 v;
     int r;
     E z;
-    p = func_0201134C(a);
+    p = (u8 *)func_0201134C(a);
     r = (int)func_0201134C(a);
     v = func_0203F0A8();
     z = Z0;
-    func_0218A0F4(a, c, ((v >> 24) | (z << 8)), (int)p, r);
+    return func_0218A0F4((u8 *)a, c, ((v >> 24) | (z << 8)), (int)p, r);
 }

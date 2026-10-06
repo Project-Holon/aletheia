@@ -31,11 +31,13 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188CE8(u8 *p);
 extern void func_021AA8F8(void);
-extern int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB);
+struct Obj00020;
+extern int func_02189BD0(void *sys, struct Obj00020 *pos, int *outA, int *outB);
 extern void func_021AA8EC(u8 *p);
 extern u32 func_02188D20(u8 *p);
 extern int func_021BC5BC(u32 a);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A3550(u32 *p, int a);
 extern void func_021A356C(void **p);
 extern u32 func_02189A70(u8 *p);
@@ -53,7 +55,7 @@ int func_0218A074(void *a, int b)
     p = func_0201210C(a);
     q = (void *)func_02188CE8(p);
     func_021AA8F8();
-    r = func_02189BD0(a, (u8 *)b, &u, &v);
+    r = func_02189BD0(a, (struct Obj00020 *)b, &u, &v);
     if (r != 0) {
         if (u != 0)
             func_021AA8EC(q);

@@ -50,7 +50,7 @@ struct MsgBank;
 struct StrObj;
 extern void func_020456F8(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);

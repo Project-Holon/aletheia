@@ -15,11 +15,11 @@
  * Fire-and-forget wrapper: kick 0x021DF928 and report success.
  */
 
-extern int func_021DF928(void);
+extern void func_021DF928(char *obj, int v);
 
-int func_021DFAA8(void)
+int func_021DFAA8(char *a, int b)
 {
-    func_021DF928();
+    func_021DF928(a, b);
     return 0;
 }
 

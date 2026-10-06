@@ -17,11 +17,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_0201134C(int a);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 typedef unsigned int   u32;
 extern void func_021F8298(u32 a, u8 b, u8 c, u8 d, u16 e);
 
-int func_021FB5D4(int a, char *b)
+int func_021FB5D4(struct Cursor *a, char *b)
 {
     int t0, t1, t2, t3, t4;
 

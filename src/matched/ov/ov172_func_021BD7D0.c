@@ -25,7 +25,8 @@
 
 typedef unsigned int u32;
 
-extern u32  func_0204B1CC(u32 p);
+struct Bank;
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(u32 p);
 extern void func_020403F4(u32 i);
 extern void func_020450C8(void);
@@ -34,7 +35,7 @@ extern void func_0203F9B4(void);
 void func_021BD7D0(void *a0)
 {
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
-    func_0204A5AC(func_0204B1CC(((struct Obj24105 *)a0)->f1AC));
+    func_0204A5AC(func_0204B1CC((struct Bank *)(((struct Obj24105 *)a0)->f1AC)));
     func_020403F4(7);
     func_020403F4(6);
     func_020403F4(5);

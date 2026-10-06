@@ -16,7 +16,9 @@
  *   func_0204047C 0x0204047C arm
  */
 #include "../include/Obj13587.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_0204047C(int idx, unsigned short val);
 
 int func_021FB550(void *a, char *s)

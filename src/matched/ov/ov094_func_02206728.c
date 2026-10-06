@@ -42,9 +42,10 @@ extern void func_0201DE00(u8 *a, u8 *b, u8 *c);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02204C98(int a, int b, int *outn, int *outq);
+struct StrObj;
+extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 
 void func_02206728(char *s, char *b)
 {
@@ -64,7 +65,7 @@ void func_02206728(char *s, char *b)
     func_0201DD78(1, 2, 0);
     func_0201EFA4((struct WordSet *)h, 0, ((struct Obj21799 *)b)->fC4, 2, 0, 1);
     func_0201F250((struct WordSet *)h, v, w);
-    func_02204C98((int)v, ((struct Obj05249 *)s)->f224, &v18, &v14);
+    func_02204C98((struct StrObj *)v, ((struct Obj05249 *)s)->f224, &v18, &v14);
     func_0201C7A4((void *)(((struct Obj05249 *)s)->f234), 12 - v18 / 2, 0, v, (void *)(((struct Obj05249 *)s)->f224));
     func_0201DD78(c[2], c[1], c[0]);
     func_0201ED04((struct WordSet *)h);

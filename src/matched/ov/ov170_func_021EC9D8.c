@@ -13,7 +13,9 @@
  *   func_0204B5AC 0x0204B5AC arm
  */
 #include "../include/Obj04547.h"
-extern void func_0204B5AC(void *, int *);
+struct Obj;
+struct Pair;
+extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 int func_021EC9D8(char *p)
 {
     int pair[2];
@@ -24,6 +26,6 @@ int func_021EC9D8(char *p)
         return 0;
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    func_0204B5AC(((struct Obj04547 *)p)->f0, pair);
+    func_0204B5AC(((struct Obj04547 *)p)->f0, (struct Pair *)pair);
     return 1;
 }

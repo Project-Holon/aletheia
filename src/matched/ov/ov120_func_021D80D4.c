@@ -26,7 +26,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void func_020456F8(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021D80D4(char *p)
 {
     if (((struct Obj05352 *)p)->f84) {

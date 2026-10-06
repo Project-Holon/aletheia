@@ -69,7 +69,7 @@ extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 int func_0215D884(Ctx *c, void *vm)
 {

@@ -85,7 +85,7 @@ typedef unsigned int   u32;
 struct Sound;
 extern void func_021EC35C(char **p, int box);
 extern int func_021DEDCC(char *p, int box);
-extern void func_021DEC98(char *p, int a, int dir);
+extern void func_021DEC98(char *p, void *a, int dir);
 extern int func_021EF180(int a, int b);
 extern void func_021ECB20(char *p, int f, int c);
 extern void func_020061E4(unsigned se);

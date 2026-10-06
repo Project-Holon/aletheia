@@ -50,7 +50,7 @@ extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long l
 extern void func_02018A00(void *p, u32 a, u32 b);
 extern u32 func_02017988(void *p, u32 a);
 extern u16 func_0201808C(void *, u16);
-extern void func_020180F4(void *, u16);
+extern void func_020180F4(void *p, int move);
 
 void *func_0217C2A0(int heap, void *a1, const Entry *e)
 {
@@ -71,7 +71,7 @@ void *func_0217C2A0(int heap, void *a1, const Entry *e)
     func_02017988(mon, (u16)e->f23);
     if (e->move != 0) {
         if (func_0201808C(mon, e->move) == 0xFFFF)
-            func_020180F4(mon, e->move);
+            func_020180F4(mon, (u16)e->move);
     }
     return mon;
 }

@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 
 extern void func_021E5A44(void **pp, u32 *c);
-extern void func_021E5B1C(void *d, u32 *c);
+extern void func_021E5B1C(int *p, void *c);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 v);

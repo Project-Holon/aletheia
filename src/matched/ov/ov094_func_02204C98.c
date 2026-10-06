@@ -13,9 +13,9 @@ struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern int func_0207C994(int n, int d);
 
-void func_02204C98(int a, int b, int *outn, int *outq)
+void func_02204C98(struct StrObj *a, int b, int *outn, int *outq)
 {
-    int n = func_0201D304((struct StrObj *)a, b, 0);
+    int n = func_0201D304(a, b, 0);
     int q = n / 8;
     if (func_0207C994(n, 8) != 0)
         q++;

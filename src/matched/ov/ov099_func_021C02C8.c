@@ -45,7 +45,7 @@ extern int func_021C23C8(void *a, void *b);
 extern int func_021BDDD0(char *);
 extern int func_021BA8BC(void *);
 extern void func_0202020C(struct Obj *, u16 *, u16 *);
-extern void func_0201F868(void *);
+extern u32 func_0201F868(void *p);
 extern void func_021BA8EC(char *);
 extern void func_021BAAB8(char *, int, int);
 extern int func_0202EB14(void);

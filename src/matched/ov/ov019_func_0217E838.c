@@ -32,13 +32,14 @@ int func_0217BB20(char *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 void func_0217F074(void *p);
-void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F210(u8 *p, u8 *a, u32 b);
 u32 func_0217F1EC(u8 *p);
 void func_0217F22C(u8 *p, u32 a);
 int func_0217F268(char *p, u32 *out);
 void func_0217F24C(u8 *w);
 int func_0217B8E4(char *p, char v);
-void *func_02188CB4(u8 *p);
+struct Obj00020;
+void *func_02188CB4(struct Obj00020 *p);
 void *func_021A3074(u8 *p);
 int func_0216D3CC(int a0);
 void func_0216D410(void *a0, u16 a1);
@@ -57,7 +58,7 @@ int func_0217E838(u8 *w, void *obj, void *a2, u8 *state)
     }
     switch (*state) {
     case 0:
-        func_0217F210(w, (int)a2, 0x14e);
+        func_0217F210(w, (u8 *)a2, 0x14e);
         (*state)++;
         break;
     case 1:

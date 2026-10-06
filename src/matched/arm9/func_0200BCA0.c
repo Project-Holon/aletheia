@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 
-int func_0200BCA0(u8 *p)
+int func_0200BCA0(struct Obj11233 *p)
 {
-    return *(int *)&((struct Obj11233 *)p)->f1C8;
+    return *(int *)&p->f1C8;
 }

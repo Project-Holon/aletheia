@@ -66,7 +66,7 @@ struct PrintSys;
 extern void func_02030EAC(struct Node *n);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B084(void *p);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204AFD8(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);

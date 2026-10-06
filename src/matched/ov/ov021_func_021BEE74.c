@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern u32 func_0204E804(void);
+extern int func_0204E804(void);
 
 int func_021BEE74(u32 p0, int *st, u8 *q)
 {

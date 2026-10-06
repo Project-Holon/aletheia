@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_021C1C80(void)
+int func_021C1C80(void *connection, void *encryptor, char *buffer, int *bufferLen)
 {
     return 1;
 }

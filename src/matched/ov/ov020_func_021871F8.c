@@ -67,8 +67,8 @@ void func_0216CF2C(void *a);
 int func_02187508(char *p);
 int func_021875B8(char *p);
 void func_02045808(struct U16Vec *vec);
-void func_02045C04(struct Rec *rec);
-void func_0201ED04(struct WordSet *p);
+u32 func_02045C04(struct Rec *rec);
+u32 func_0201ED04(struct WordSet *p);
 
 #define P(o)  (*(void **)(o))
 #define P18   (*(void **)(o + 0x18))

@@ -16,12 +16,14 @@
  *   func_021FF6B0  0x021FF6B0  thumb  ov094
  */
 #include "../include/Obj00177.h"
-extern int func_0201134C(int a);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FCA04(int b, int t, int *out);
 extern int func_021F8694(void);
 extern void func_021FF6B0(void *p, int key, int a, int *arr, int b, int c, int d);
 
-int func_021FB214(int a, char *b)
+int func_021FB214(struct Cursor *a, char *b)
 {
     int arr[3];
     int buf[8];

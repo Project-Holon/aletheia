@@ -51,7 +51,7 @@ extern void func_02034714(const char *expr, unsigned int line, const char *file)
 extern int func_02174F4C(int a, int b, int c, int d);
 extern u16 func_0217EC94(int i);
 typedef unsigned int   u32;
-extern void func_0217F210(u8 *p, int a, u32 b);
+extern void func_0217F210(u8 *p, u8 *a, u32 b);
 extern u32 func_0217F1EC(u8 *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -64,7 +64,7 @@ extern void func_0217BAF0(char *p, int x, unsigned int v);
 extern int func_0217B8E4(char *p, char v);
 extern u8 d_021807E4[];
 
-int func_0217D7A4(u8 *a, Obj *b, int c, u8 *d)
+int func_0217D7A4(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     int *p;
     if (*d < 4 && func_0217BB04((char *)a) == 1)
@@ -96,7 +96,7 @@ int func_0217D7A4(u8 *a, Obj *b, int c, u8 *d)
         break;
     case 5:
         if (func_02174268(a) == 0) {
-            func_0217BAF0((char *)a, c, 1);
+            func_0217BAF0((char *)a, (int)c, 1);
             func_0217B8E4((char *)a, 0x28);
             return 1;
         }

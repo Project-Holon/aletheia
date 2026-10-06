@@ -25,14 +25,14 @@ struct Bank;
 struct Descriptor;
 struct Obj;
 struct Obj020437AC;
-extern void func_020452E8(struct Descriptor *d);
+extern unsigned int func_020452E8(struct Descriptor *d);
 extern void func_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern void func_020437AC(struct Obj020437AC *p);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 
 void func_021B9AF8(char *p)

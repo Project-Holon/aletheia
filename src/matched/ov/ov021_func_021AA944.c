@@ -59,7 +59,8 @@ typedef struct Self {
 
 struct BigObj;
 extern u32 func_02012A38(const struct BigObj *p);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
 extern void func_0216D828(void *p, Vec3s *out);
 extern u32 func_02005728(u32 v);

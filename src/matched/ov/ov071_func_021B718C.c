@@ -16,8 +16,9 @@
  */
 
 struct TaskMenuState;
+typedef unsigned int   u32;
 void func_021B718C(void *p)
 {
-    void func_02027FD8(struct TaskMenuState *s);
+    u32 func_02027FD8(struct TaskMenuState *s);
     func_02027FD8(p);
 }

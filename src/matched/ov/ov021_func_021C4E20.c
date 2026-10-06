@@ -30,11 +30,12 @@ typedef struct {
     V3 *pos;
 } R;
 
-extern u32 func_0201160C(u32 t);
+struct Obj11245;
+extern u32 func_0201160C(struct Obj11245 *p);
 
 u32 func_021C4E20(R *r)
 {
     if (r->task == 0)
         return 0;
-    return func_0201160C(r->task);
+    return func_0201160C((struct Obj11245 *)r->task);
 }

@@ -20,7 +20,9 @@ typedef struct {
     int f23c;
 } State;
 
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FCA04(State *s, int id, int *out);
 extern int func_021F8694(void);
 extern void func_021FF924(char *w, int key, int kind, int value, int a, int b, int c);

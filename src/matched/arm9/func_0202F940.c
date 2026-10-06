@@ -56,8 +56,8 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201D83C(void *ptr);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201D83C(void *ptr);
 extern void func_020437AC(struct Obj020437AC *p);
 
 void func_0202F940(u32 a0)

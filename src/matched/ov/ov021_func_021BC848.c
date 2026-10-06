@@ -59,7 +59,7 @@ typedef struct {
 
 extern const Params d_021D9B88;
 extern u32 func_021BD134(u8 *p);
-extern int func_021BD1EC(u32 a);
+extern int func_021BD1EC(u8 *a0);
 extern int func_021BD19C(u32 a, u32 b);
 struct U16Vec;
 extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
@@ -82,7 +82,7 @@ void func_021BC848(Obj *p)
         if (p->fC8[i] == 0) {
             prm.x += sub_0201DC6C((struct Font *)p->f18, 0x20);
         } else {
-            prm.x += func_021BD1EC(p->fC8[i]);
+            prm.x += func_021BD1EC((u8 *)p->fC8[i]);
         }
         prm.x += 1.0f;
     }

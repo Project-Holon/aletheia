@@ -12,5 +12,7 @@
  *   func_0218A0A4 0x0218A0A4 thumb ov096
  */
 #include "../include/Obj21984.h"
-extern int func_0218A0A4(unsigned char *, unsigned char *, int);
-int func_0218A074(unsigned char *a, unsigned char *b) { func_0218A0A4(a,b,0); return ((struct Obj21984 *)b)->fC4; }
+typedef unsigned char  u8;
+struct Cursor;
+extern int func_0218A0A4(struct Cursor *a, u8 *b, int c);
+int func_0218A074(struct Cursor *a, unsigned char *b) { func_0218A0A4(a,b,0); return ((struct Obj21984 *)b)->fC4; }

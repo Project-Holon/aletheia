@@ -12,5 +12,6 @@
  */
 #include "../include/Obj20919.h"
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+typedef unsigned int   u32;
+extern u32 func_0204B1CC(struct Bank *bank);
 void func_021BCE9C(unsigned int p) { func_0204B1CC((struct Bank *)(((struct Obj20919 *)p)->f1EC)); }

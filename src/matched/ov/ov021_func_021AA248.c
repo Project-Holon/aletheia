@@ -56,7 +56,8 @@ struct Sel {
 };
 
 struct Pos;
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 struct BigObj;
 struct Out;
 struct Unit;

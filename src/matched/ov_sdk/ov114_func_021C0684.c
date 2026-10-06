@@ -40,7 +40,7 @@ typedef struct GHIConnection {
     int f1ac;
 } GHIConnection;
 
-extern int func_021C1C78(GHIConnection *, void *, char *, int, int *);
+extern int func_021C1C78(void *a0, void *a1, char *a2, int a3, int *a4);
 extern int send(int, char *, int, int);
 extern int GOAGetLastError(int);
 

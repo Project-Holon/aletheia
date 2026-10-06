@@ -26,7 +26,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 void func_021E1A44(int a,int b,int x,int y,char *p)
 {
     int s;

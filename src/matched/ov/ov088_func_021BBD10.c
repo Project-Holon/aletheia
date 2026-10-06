@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_021BBB84(u8 x, u8 y, u8 w, u8 h, u8 bg);
 extern void func_02041570(int channel, u16 val);
 extern void func_02041EE4(u32, u32, u32);

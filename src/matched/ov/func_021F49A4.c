@@ -14,6 +14,6 @@
  * Empty stub: a bare `bx lr`, the overlay's no-op placeholder body.
  */
 
-void func_021F49A4(void)
+void func_021F49A4(void *a0)
 {
 }

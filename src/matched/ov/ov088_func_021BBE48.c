@@ -38,9 +38,9 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern void func_021BBA64(u8 x, u8 y, u8 w, u8 h, u8 bg);
@@ -56,7 +56,7 @@ void func_021BBE48(char *p)
     ((struct Obj05167 *)p)->fF0 = func_020450F0(0, 2, 2, 0x1e, 0x14, 5, 1);
     s = (u32)func_02045EC0((struct MsgBank *)msg, 0x20);
     a = ((struct Obj05167 *)p)->f68;
-    func_0201C724(a, (u32)func_02045770((struct Descriptor *)((struct Obj05167 *)p)->fF0), 0, 0, s, ((struct Obj05167 *)p)->f58, 0x440);
+    func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj05167 *)p)->fF0), 0, 0, s, ((struct Obj05167 *)p)->f58, 0x440);
     ((struct Obj05167 *)p)->fF4 = 1;
     func_02045808((struct U16Vec *)s);
     func_02045C04((struct Rec *)msg);

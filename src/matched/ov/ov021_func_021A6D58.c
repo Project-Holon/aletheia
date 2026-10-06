@@ -26,7 +26,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_02188C5C(u8 *p);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A3664(u32 *p, u32 heap);
 extern u32 func_021A36A4(u8 *p);
 extern void func_021BB3AC(u8 *p, u32 b);

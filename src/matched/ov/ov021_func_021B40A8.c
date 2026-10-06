@@ -23,7 +23,7 @@ struct Descriptor;
 struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 
 void func_021B40A8(u8 *w)
 {

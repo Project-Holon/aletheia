@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern u32 d_021469BC[];
 extern void func_020355F8(void *p, u32 v);
 
-void func_02035614(u32 v)
+void func_02035614(int v)
 {
     func_020355F8((void *)d_021469BC[0], v);
 }

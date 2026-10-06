@@ -31,7 +31,8 @@ typedef struct CPSSslConnection {
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 struct _CPSSslConnection;
 extern void func_021614BC(struct _CPSSslConnection *con, unsigned char *d, int flag);
-extern int func_020923F0(const void *s1, const void *s2, unsigned long n);
+typedef unsigned char  u8;
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern void func_02161598(struct _CPSSslConnection *con, unsigned char *d, int flag);
 
 static void func_02161678(CPSSslConnection *con, unsigned char *s)

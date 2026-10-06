@@ -61,7 +61,7 @@ extern void func_021B7C78(char *);
 struct Obj;
 struct Sub0200852CObj;
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
-extern void func_0204B0F4(struct Actor *,u32);
+extern void func_0204B0F4(struct Actor *a0, int a1);
 extern void func_0204B258(struct Bank *,void *);
 extern u32 func_021B75A4(char *,const char *);
 extern void func_021B746C(int *,int,int);

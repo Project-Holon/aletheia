@@ -33,7 +33,7 @@ extern void func_0201CE48(struct Rec3 *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_02028470(u8 *p, u32 v);
 struct Descriptor;
 extern void * func_02045770(struct Descriptor *);

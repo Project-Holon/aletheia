@@ -16,8 +16,8 @@
 
 typedef unsigned char u8;
 
-void func_0200BC10(u8 *p)
+void func_0200BC10(struct Obj06851 *p)
 {
-    if (*(int *)&((struct Obj06851 *)p)->f1C8 != 1)
-        *(int *)&((struct Obj06851 *)p)->f1C8 = 1;
+    if (*(int *)&p->f1C8 != 1)
+        *(int *)&p->f1C8 = 1;
 }

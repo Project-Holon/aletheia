@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef struct {u32 f0; u8 padding[36];} Entry;
 extern Entry d_021B9524[];
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);

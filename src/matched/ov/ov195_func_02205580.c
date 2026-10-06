@@ -20,5 +20,5 @@ struct Rec;
 extern void func_021B709C(u8 *);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *);
+extern u32 func_02045C04(struct Rec *rec);
 void func_02205580(void *unused,char *p) {func_021B709C(*(u8 * *)&((struct Obj04595 *)p)->f9C);*(u32 *)&((struct Obj04595 *)p)->f9C=0;if(((struct Obj04595 *)p)->f94)func_02045808((struct U16Vec *)(((struct Obj04595 *)p)->f94));if(((struct Obj04595 *)p)->f98)func_02045808((struct U16Vec *)(((struct Obj04595 *)p)->f98));func_02045C04(*(struct Rec * *)&((struct Obj04595 *)p)->f90);}

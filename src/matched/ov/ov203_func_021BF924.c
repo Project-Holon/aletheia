@@ -26,7 +26,7 @@ extern void func_0203115C(struct Tcbl *p);
 extern void func_02005DE4(void *);
 extern void func_02005DF8(u32 a);
 extern void func_02049238(void *);
-extern void func_0201D83C(void *);
+extern u32 func_0201D83C(void *ptr);
 extern void func_02031140(struct S02031140 *p);
 extern int func_02005E9C(void);
 void func_021BF924(char *p)

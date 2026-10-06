@@ -29,7 +29,7 @@ extern int func_02024450(const u16 *p);
 extern void func_0202DC48(u32 a, u32 b, u32 c, u32 d);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *, u32, short, short, void *, u32, u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045334(struct Descriptor *d);
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
@@ -55,7 +55,7 @@ void func_021C5360(u8 *p)
     }
     if (p[0xB] == 0) {
         u32 a = *(u32 *)&((struct Obj00160 *)p)->f98;
-        func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj00160 *)p)->f88), 0, 2, ((struct Obj23499 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C))->fC, *(u32 *)&((struct Obj00160 *)p)->f24, 0x440);
+        func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj00160 *)p)->f88), 0, 2, (u32)(((struct Obj23499 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C))->fC), *(u32 *)&((struct Obj00160 *)p)->f24, 0x440);
         p[0x8C] = 1;
         t = ((struct Obj00160 *)p)->f58;
         func_02045334((struct Descriptor *)t);

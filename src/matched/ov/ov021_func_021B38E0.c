@@ -48,7 +48,7 @@ extern u32 func_0201102C(u32 v);
 struct Slot;
 extern u32 func_021B3834(u8 *p, int n);
 extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 extern u8 d_021D946C[];
 extern u8 d_021D95DE[];

@@ -37,7 +37,8 @@ typedef struct {
 
 typedef struct { short x, y; } Pt;
 
-extern u32 func_0201134C(void *p);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_021F81B4(u32 a, u32 b);
 extern int func_021FCA04(State *s, int id, int *out);
 extern void func_021F8198(int a, int b);

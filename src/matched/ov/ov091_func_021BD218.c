@@ -48,7 +48,7 @@ struct WordSet;
 extern u32 func_0201BA68(void *mon);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
-extern int func_0201BBE8(int);
+extern int func_0201BBE8(void *a0);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Obj;
@@ -62,7 +62,7 @@ extern u32 func_02018430(void *p);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_021B9D58(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern const char d_021BED48[];
 #define P(k) (*(u32 *)(p+(k)))
 u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
@@ -88,7 +88,7 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
     species=(int)func_020185F4(mon);
     s[3]=func_0204A6C8(h,func_0201BA68((void *)species),0,1,((struct Obj02771 *)p)->f0);
     func_02049238(h);
-    frame=func_0201BBE8(species);
+    frame=func_0201BBE8((void *)species);
     a.a=x+16;a.b=y+8;a.c=1;a.d=16;a.e=2;
     {
         int obj=(int)func_0204B294((void *)P(0x1ec),s[3],P(0x194),P(0x1d0),&a,1,((struct Obj02771 *)p)->f0);

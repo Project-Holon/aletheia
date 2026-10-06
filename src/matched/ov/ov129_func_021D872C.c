@@ -32,7 +32,7 @@ struct PalAnmSlot;
 struct S020315D4;
 struct U16Vec;
 extern void func_02030EAC(struct Node *n);
-extern void func_0201D83C(void *);
+extern u32 func_0201D83C(void *ptr);
 extern void func_021D99F0(char *);
 extern void func_020450C8(void);
 extern void func_020434DC(unsigned,unsigned);

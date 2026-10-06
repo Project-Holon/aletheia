@@ -25,14 +25,15 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern u16 func_021D57FC(void *);
 extern u8 func_021E8CFC(int);
 extern int func_021E8D04(int x);
 
-int func_02189694(int a, int b) {
+int func_02189694(struct Cursor *a, int b) {
     int r;
     u8 k;
     int t;

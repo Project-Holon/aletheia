@@ -15,5 +15,8 @@
  */
 #include "../include/Obj25716.h"
 struct Bank;
-extern void func_0204B1CC(struct Bank *),func_0204A5AC(void),func_02082BCC(void *,unsigned,unsigned);
+typedef unsigned int   u32;
+extern u32 func_0204B1CC(struct Bank *bank);
+extern void func_0204A5AC(void);
+extern void func_02082BCC(void *,unsigned,unsigned);
 void func_021BAD98(void *p){func_0204B1CC(*(struct Bank * *)&((struct Obj25716 *)p)->f0);func_0204A5AC();func_02082BCC(p,0,4);}

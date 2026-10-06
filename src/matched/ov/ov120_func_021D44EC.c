@@ -22,7 +22,8 @@ extern const Halfwords d_021D8904;
 extern int func_0203CD98(void);
 typedef unsigned char  u8;
 extern void func_021D8430(u8 *p, void *q);
-extern void func_021D8484(char *p, int n);
+struct Obj05353;
+extern void func_021D8484(struct Obj05353 *p, void *n);
 extern void func_021D4244(int, void (*)(int), int);
 extern void func_021D44AC(char *p);
 void func_021D44EC(int a)
@@ -33,6 +34,6 @@ void func_021D44EC(int a)
         p = (const Halfwords *)(a + 0x174);
     ((struct Obj08075 *)a)->f14 = 0xb4;
     func_021D8430((u8 *)(((struct Obj08075 *)a)->f40), (void *)(((struct Obj08075 *)a)->f3C));
-    func_021D8484((char *)(((struct Obj08075 *)a)->f40), (int)p);
+    func_021D8484((struct Obj05353 *)(((struct Obj08075 *)a)->f40), (void *)p);
     func_021D4244(a, (void (*)(int))func_021D44AC, 0x232);
 }

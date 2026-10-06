@@ -37,7 +37,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *,void *,s16,s16,void *,u32,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *d);
 extern void func_0220B1D4(char *,int,int,int,u16);
@@ -59,7 +59,7 @@ void func_0220B248(char *p)
         text=func_02045EC0(((struct Obj03905 *)p)->fC,8);
         font=((struct Obj03905 *)p)->f18;
         surface=func_02045770(((struct Obj03905 *)p)->f48);
-        func_0201C724(font,surface,0,0,text,((struct Obj24992 *)(*(char * *)&((struct Obj03905 *)p)->f0))->f4,0x3C40);
+        func_0201C724(font,(u32)surface,0,0,(u32)text,((struct Obj24992 *)(*(char * *)&((struct Obj03905 *)p)->f0))->f4,0x3C40);
         p[0x4C]=1;
         func_02045808(text);
     }else{

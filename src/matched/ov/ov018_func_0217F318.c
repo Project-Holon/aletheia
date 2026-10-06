@@ -44,7 +44,7 @@ void func_021904C8(struct Rec *a0);
 struct U16Vec;
 struct WordSet;
 void func_02045808(struct U16Vec *vec);
-void func_0201ED04(struct WordSet *p);
+u32 func_0201ED04(struct WordSet *p);
 
 void func_0217F318(Ov018Obj *p)
 {

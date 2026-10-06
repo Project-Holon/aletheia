@@ -42,7 +42,7 @@ extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 struct Cfg;
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201DD78(u32,u32,u32);
 struct Descriptor;

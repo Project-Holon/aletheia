@@ -50,14 +50,14 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_0201EFC8(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFFC(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void  *func_020457B0(u32 size, u16 heap);
 extern void func_02045808(struct U16Vec *vec);
 extern void  *func_02045B38(int a, int b, u32 id, u16 heap);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void *sub_02024368(u16 *slots, u32 heap, int count)

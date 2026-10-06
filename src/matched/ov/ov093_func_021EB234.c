@@ -39,7 +39,7 @@ extern void func_021ED988(u8 *p);
 struct Descriptor;
 struct PrintSys;
 struct U16Vec;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_020403F4(u32 i);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02045808(struct U16Vec *vec);

@@ -28,7 +28,8 @@ typedef struct Self {
 } Self;
 
 typedef unsigned char  u8;
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
 extern void *func_02188C7C(u8 *p);
 typedef unsigned int   u32;

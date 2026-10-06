@@ -17,8 +17,10 @@
  *   func_021C33E0  0x021C33E0  thumb  ov021
  */
 
-extern int func_0200BCA0(void *a);
-extern void func_0200BC20(void *a);
+struct Obj11233;
+extern int func_0200BCA0(struct Obj11233 *p);
+struct Obj11232;
+extern void func_0200BC20(struct Obj11232 *p);
 extern void func_021C33E0(void *a);
 
 void func_021C335C(void **p)

@@ -19,5 +19,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Rec;struct WordSet;struct PrintSys;struct U16Vec;
-extern void func_02045C04(struct Rec *),func_0201D83C(void *),func_0201ED04(struct WordSet *),func_0201C4C0(struct PrintSys *),func_02045808(struct U16Vec *);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_0201ED04(struct WordSet *p);
+extern void func_0201C4C0(struct PrintSys *);
+extern void func_02045808(struct U16Vec *);
 void func_02210774(u8 *p) { func_02045C04(*(struct Rec * *)&((struct Obj06656 *)p)->f1EA0);func_0201D83C(((struct Obj06656 *)p)->f1E9C);func_0201ED04(*(struct WordSet * *)&((struct Obj06656 *)p)->f1EA4);func_0201C4C0(*(struct PrintSys * *)&((struct Obj06656 *)p)->f1EAC);func_02045808(*(struct U16Vec * *)&((struct Obj06656 *)p)->f1EA8); }

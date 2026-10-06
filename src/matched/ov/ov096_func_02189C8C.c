@@ -31,12 +31,13 @@ typedef struct { int v[7]; } Seven;
 typedef struct { u8 p0[0x38]; int f38; u8 p1[0x88]; int fc4; } Obj;
 
 extern const Seven d_0218A58C;
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_021D59B4(u8 *p, int k);
 
-int func_02189C8C(int a, Obj *b) {
+int func_02189C8C(struct Cursor *a, Obj *b) {
     u8 s;
     int v;
     u32 i;

@@ -27,7 +27,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_0203D6BC(void);
 extern u32 func_0203D680(void);
 extern void *func_0203D798(void);
-extern void func_02037224(u32 a, u32 b);
+extern void func_02037224(u8 v, int b);
 
 int func_02038A90(u32 a)
 {

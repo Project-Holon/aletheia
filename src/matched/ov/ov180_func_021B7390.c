@@ -19,6 +19,6 @@ typedef unsigned char u8;
 
 extern void func_02025588(void *);
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 void func_021B7390(char *p){func_02025588(((struct Obj04569 *)p)->f911C);func_0204B1CC(((struct Obj04569 *)p)->f9044);func_0204A5AC();}

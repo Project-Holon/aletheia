@@ -16,7 +16,7 @@
  */
 
 
-void func_021C337C(void)
+void func_021C337C(void *a0, void *st, void *a2)
 {
 }
 

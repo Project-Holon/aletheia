@@ -23,13 +23,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0201134C(u8 *);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 struct QL;
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern u16 func_021D67A8(struct QL *p);
 extern u16 func_021D679C(u8 *p);
-u32 func_02189548(u8 *x, u8 *p)
+u32 func_02189548(struct Cursor *x, u8 *p)
 {
     u8 *q;
     q = func_0218A2FC(p, func_0218A160(p, func_0201134C(x)));

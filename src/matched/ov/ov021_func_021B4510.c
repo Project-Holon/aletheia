@@ -38,7 +38,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern void func_021B44CC(u32 a, u32 b, int c, int d, u32 e, u32 f, u16 g);
+extern void func_021B44CC(void *a, u32 b, int c, int d, u32 e, u32 f, u16 g);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
@@ -54,7 +54,7 @@ void func_021B4510(u8 *p, int a, u8 b)
         func_0201F250((struct WordSet *)(((struct Obj02390 *)w)->f190), (void *)(((struct Obj02390 *)w)->f198), (void *)(((struct Obj02390 *)w)->f194));
         lo = func_0201D304((struct StrObj *)(((struct Obj02390 *)w)->f198), ((struct Obj02390 *)w)->f8, 0);
         hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj02390 *)w)->f16C)));
-        func_021B44CC(((struct Obj02390 *)w)->f1B0, (u32)func_02045770((struct Descriptor *)((struct Obj02390 *)w)->f16C), hi - lo, b,
+        func_021B44CC((void *)(((struct Obj02390 *)w)->f1B0), (u32)func_02045770((struct Descriptor *)((struct Obj02390 *)w)->f16C), hi - lo, b,
                       ((struct Obj02390 *)w)->f198, ((struct Obj02390 *)w)->f8, 0x31A0);
     }
 }

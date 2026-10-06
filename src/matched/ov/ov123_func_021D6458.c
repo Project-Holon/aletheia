@@ -36,23 +36,23 @@ extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned in
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern u32 func_0201BBE8(int);
+extern int func_0201BBE8(void *a0);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02049238(void *);
-void func_021D6458(u8 *p, int n, int i)
+void func_021D6458(struct Obj02181 *p, void *n, int i)
 {
     struct Pair a = d_021DA738;
     struct Pair b = d_021DA748;
     struct Point pt;
     void *h;
-    h = func_020490F4(7, ((struct Obj02181 *)p)->f43C4);
-    ((struct Obj02181 *)p)->f40 = (void *)func_0204A6C8(h,func_0201BA68((void *)n),0,2,((struct Obj02181 *)p)->f43C4);
+    h = func_020490F4(7, p->f43C4);
+    p->f40 = (void *)func_0204A6C8(h,func_0201BA68((void *)n),0,2,p->f43C4);
     if(i==0) { pt.x=a.b; pt.y=b.b; }
     else { pt.x=a.a; pt.y=b.a; }
     pt.f4=0; pt.f6=3; pt.f7=1;
-    ((struct Obj02181 *)p)->fA8 = func_0204B294((void *)((struct Obj02181 *)p)->fC,(unsigned int)((struct Obj02181 *)p)->f40,((struct Obj02181 *)p)->f28,((struct Obj02181 *)p)->f5C,&pt,(u16)i,((struct Obj02181 *)p)->f43C4);
-    func_0204B92C(((struct Obj02181 *)p)->fA8,0);
-    func_0204B3DC(((struct Obj02181 *)p)->fA8,1);
-    func_0204B6F4(((struct Obj02181 *)p)->fA8,func_0201BBE8(n),1);
+    p->fA8 = func_0204B294((void *)p->fC,(unsigned int)p->f40,p->f28,p->f5C,&pt,(u16)i,p->f43C4);
+    func_0204B92C(p->fA8,0);
+    func_0204B3DC(p->fA8,1);
+    func_0204B6F4(p->fA8,func_0201BBE8(n),1);
     func_02049238(h);
 }

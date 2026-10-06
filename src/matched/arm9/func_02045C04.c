@@ -42,7 +42,7 @@ typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_02049238(void *handle);
 
-void func_02045C04(struct Rec *rec)
+u32 func_02045C04(struct Rec *rec)
 {
     if (rec->unk_14 != 0) {
         func_020307B0(rec->unk_00);
@@ -51,5 +51,5 @@ void func_02045C04(struct Rec *rec)
         }
         func_02049238(rec->unk_14);
     }
-    func_020307B0(rec);
+    return func_020307B0(rec);
 }

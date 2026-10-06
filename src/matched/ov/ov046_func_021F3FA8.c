@@ -15,10 +15,10 @@
  */
 
 typedef unsigned int u32;
-extern void func_021BE4B4(u32, int, int, u32);
+extern void func_021BE4B4(char *ctx, int b, int c, u32 d);
 extern void func_021F4064(u32, int, u32);
 
-void func_021F3FA8(u32 a, u32 b, u32 c)
+void func_021F3FA8(char *a, u32 b, u32 c)
 {
     func_021BE4B4(a, 0, 15, c);
     func_021BE4B4(a, 0, 10, c);

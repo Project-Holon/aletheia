@@ -15,7 +15,8 @@
  */
 #include "../include/Obj24035.h"
 
-extern unsigned char *func_0202616C(void *obj, unsigned idx);
+typedef unsigned int   u32;
+extern void *func_0202616C(void **obj, u32 idx);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 
 void func_021EE3E4(char **p, unsigned idx)

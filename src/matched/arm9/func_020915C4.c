@@ -59,7 +59,7 @@ typedef u32 (*Fn020915C4)(u32, u32, u32 *, u32);
 
 struct S0209159C;
 extern void func_0209159C(struct S0209159C *p);
-extern void func_02091598(u32 a, u32 *b);
+extern void func_02091598(int a, void *b);
 
 int func_020915C4(struct S020915C4 *p, u32 *a1, int a2)
 {

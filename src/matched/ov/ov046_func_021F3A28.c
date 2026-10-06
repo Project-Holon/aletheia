@@ -34,11 +34,12 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(u32, u32);
 extern void func_021BE580(u32);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern int func_021F40D8(int *);
-extern void func_021F3FA8(u32 a, u32 b, u32 c);
+extern void func_021F3FA8(char *a, u32 b, u32 c);
 
 void func_021F3A28(void *a)
 {
@@ -53,7 +54,7 @@ void func_021F3A28(void *a)
     if (func_021F40D8(v) == 0)
         r4 = 0;
     if (r6[9] != r4) {
-        func_021F3FA8(r7, (u32)a, r4);
+        func_021F3FA8((char *)r7, (u32)a, r4);
         r6[9] = r4;
     }
 }

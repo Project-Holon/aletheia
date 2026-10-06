@@ -34,7 +34,7 @@ extern u32 func_021C6F00(u32 a, u16 b, u32 c);
 extern u32 func_021C7C10(u32 a, u16 b, void *c, void *d);
 extern u32 func_021C7AE4(u32 a, u32 b, void *c);
 extern u32 func_02188D38(u8 *p);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 
 void func_0219014C(u32 *a)
 {
@@ -54,9 +54,9 @@ void func_0219014C(u32 *a)
     v3 = func_021C7C10(h, k, o + 0xc, q + 8);
     v4 = func_021C7AE4(h, k, q + 0x14);
     h = func_02188D38((u8 *)h);
-    func_021C6DE0((u8 *)h, v0, 0);
-    func_021C6DE0((u8 *)h, v1, 0);
-    func_021C6DE0((u8 *)h, v2, 0);
-    func_021C6DE0((u8 *)h, v3, 0);
-    func_021C6DE0((u8 *)h, v4, 0);
+    func_021C6DE0((u8 *)h, (u32 *)v0, 0);
+    func_021C6DE0((u8 *)h, (u32 *)v1, 0);
+    func_021C6DE0((u8 *)h, (u32 *)v2, 0);
+    func_021C6DE0((u8 *)h, (u32 *)v3, 0);
+    func_021C6DE0((u8 *)h, (u32 *)v4, 0);
 }

@@ -35,7 +35,8 @@ extern void *func_02188C80(void *);
 extern int func_02188D2C(int *);
 extern int *func_021897BC(char *,int);
 extern int func_021BE480(char *p, unsigned i, int j);
-extern void *func_02188CB4(u8 *);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A3038(u8 *,struct VecFx32 *);
 extern void *func_020120F4(const struct Ctx *);
 extern u8 *func_02012EC4(struct Big *);
@@ -46,7 +47,7 @@ extern int func_02006224(u32);
 extern void func_02028A7C(struct SoundSys2 *,u32);
 #define W(p,k) (*(int *)((u8 *)(p)+(k)))
 #define H(p,k) (*(u16 *)((u8 *)(p)+(k)))
-void func_021F373C(u8 *p)
+void func_021F373C(struct Obj00020 *p)
 {
     struct VecFx32 pos;
     int first;

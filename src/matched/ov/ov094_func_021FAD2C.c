@@ -34,7 +34,9 @@ typedef struct {
     char pad[0x14];
 } Req;
 
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021FCA04(State *s, int id, int *out);
 extern int func_021F8694(void);
 extern void func_021FFA18(void *w, Req *r);
@@ -46,15 +48,15 @@ int func_021FAD2C(void *a, State *s)
     int n;
     int i;
 
-    n = func_021FCA04(s, func_0201134C(a), buf);
-    q.f8 = func_0201134C(a);
-    q.fc = func_0201134C(a);
-    q.f10 = func_0201134C(a);
-    q.f14 = func_0201134C(a);
-    q.f18 = func_0201134C(a) >> 12;
-    q.f1c = func_0201134C(a) >> 12;
-    q.f20 = func_0201134C(a) >> 12;
-    q.f24 = func_0201134C(a);
+    n = func_021FCA04(s, (int)func_0201134C(a), buf);
+    q.f8 = (int)func_0201134C(a);
+    q.fc = (int)func_0201134C(a);
+    q.f10 = (int)func_0201134C(a);
+    q.f14 = (int)func_0201134C(a);
+    q.f18 = (int)func_0201134C(a) >> 12;
+    q.f1c = (int)func_0201134C(a) >> 12;
+    q.f20 = (int)func_0201134C(a) >> 12;
+    q.f24 = (int)func_0201134C(a);
     if (n != 0 && q.f20 != 0) {
         for (i = 0; i < n; i++) {
             q.item = buf[i];

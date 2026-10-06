@@ -27,11 +27,12 @@ typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 struct Slot;
 extern void func_02190538(struct Slot *s);
-extern int func_02193130(u32 a);
+struct Descriptor;
+extern int func_02193130(struct Descriptor *a);
 
 int func_02190728(void *a)
 {
-func_02193130(((struct Obj12065 *)((u8 *)(a)))->f0);
+func_02193130((struct Descriptor *)(((struct Obj12065 *)((u8 *)(a)))->f0));
 func_02190538((struct Slot *)(((struct Obj12065 *)((u8 *)(a)))->f4));
 return func_020307B0(a);
 }

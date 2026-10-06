@@ -20,7 +20,7 @@
 
 typedef unsigned int u32;
 
-extern void func_02005654(void (*fn)(void), int a);
+extern int func_02005654(int a, int b);
 extern void func_02166A6C(void);
 extern u32 d_02172BA4[2];
 
@@ -28,5 +28,5 @@ void func_02166B0C(void)
 {
     d_02172BA4[0] = 0x3F800000;
     d_02172BA4[1] = 0;
-    func_02005654(func_02166A6C, 0);
+    func_02005654((int)func_02166A6C, 0);
 }

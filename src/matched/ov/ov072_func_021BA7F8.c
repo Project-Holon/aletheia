@@ -17,4 +17,4 @@
 typedef unsigned int u32;
 extern u32 func_02166C7C(void *a, u32 b);
 extern int func_021BA774(char *p, int i);
-void *func_021BA7F8(char *p, u32 b) { u32 i; u32 v; void *q; v=func_02166C7C(((struct Obj09909 *)p)->f0,b); for(i=0;i<((struct Obj09909 *)p)->fC;i++) { q=(void *)(((struct Obj09909 *)p)->f8+i*0x44); if(v==func_021BA774(q,0)) return q; } return 0; }
+void *func_021BA7F8(char *p, u32 b, int y) { u32 i; u32 v; void *q; v=func_02166C7C(((struct Obj09909 *)p)->f0,b); for(i=0;i<((struct Obj09909 *)p)->fC;i++) { q=(void *)(((struct Obj09909 *)p)->f8+i*0x44); if(v==func_021BA774(q,0)) return q; } return 0; }

@@ -25,10 +25,10 @@ typedef signed short s16;
 struct PrintSys;
 struct Rec;
 struct WordSet;
-extern void func_0201ED04(struct WordSet *p);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201D83C(void *ptr);
+extern u32 func_0201D83C(void *ptr);
 extern u32 func_020307B0(void *p);
 
 void func_022029D4(u8 *p)

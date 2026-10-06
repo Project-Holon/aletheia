@@ -12,8 +12,9 @@
  *   func_0218885C 0x0218885C thumb ov096
  */
 #include "../include/Obj21924.h"
-extern void func_0218885C(int, int, int);
-int func_0218883C(int a, int b)
+struct Cursor;
+extern int func_0218885C(struct Cursor *a, int b, int c);
+int func_0218883C(struct Cursor *a, int b)
 {
     func_0218885C(a, b, 3);
     return ((struct Obj21924 *)((unsigned int)b))->fC4;

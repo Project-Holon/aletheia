@@ -14,5 +14,7 @@
  *   func_020061E4 0x020061E4 thumb
  */
 #include "../include/Obj23416.h"
-extern void func_021FF318(char *,int,int,int,int);extern void func_021F4E98(char *,unsigned,unsigned);extern void func_020061E4(int);
-int func_021FE93C(char *p) {func_021FF318(p,171,4,0,0xf0f);func_021F4E98(p,24,31);((struct Obj23416 *)p)->fDFC=0;func_020061E4(0x557);return 2;}
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021FF318(u8 *p, u32 k, int b, int c, int d);extern void func_021F4E98(char *,unsigned,unsigned);extern void func_020061E4(int);
+int func_021FE93C(char *p) {func_021FF318((u8 *)p,171,4,0,0xf0f);func_021F4E98(p,24,31);((struct Obj23416 *)p)->fDFC=0;func_020061E4(0x557);return 2;}

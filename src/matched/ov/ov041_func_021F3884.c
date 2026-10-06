@@ -124,7 +124,8 @@ extern int func_021F3F44(int);
 extern int func_021F3FC0(u32, int);
 extern u16 func_021F3F18(int);
 extern void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u16 func_02011608(u32);
+struct Obj11244;
+extern u32 func_02011608(struct Obj11244 *p);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6CC(void *, int, u16, u16, int);
 extern int func_021BE6E8(int a, int b, int c, int d);
@@ -136,7 +137,8 @@ extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 extern void func_0218F900(void *, Req *, u8);
 extern int func_0218FE50(u8 *a);
 extern void func_0218E13C(u8 *a, u32 s);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
 extern void func_0216DAC8(unsigned int *p, unsigned int v);
 extern void func_0216D548(u32 *p, u32 v);
@@ -202,7 +204,7 @@ int func_021F3884(void *a0, int *state)
         if (v == -1)
             return 1;
         *(u32 *)(w + 0x714) = (u32)func_02011428((int)0x8015, (int)0x79, (int)v, (u32)(w + 4), (int)0x708);
-        *(u16 *)(w + 0x71A) = func_02011608(*(u32 *)(w + 0x714));
+        *(u16 *)(w + 0x71A) = func_02011608((struct Obj11244 *)(*(u32 *)(w + 0x714)));
         idx = (u16)d_021F4320[row][sel].k;
         c = d_021F4198[idx].c;
         len = d_021F4198[idx].d;

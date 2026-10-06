@@ -25,13 +25,14 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02188CFC(u8 *p);
 extern int func_0218A074(void *a, int b);
-extern int func_0218A240(void *p, unsigned char *pos);
+struct Obj00020;
+extern int func_0218A240(void *p, struct Obj00020 *pos);
 
 int func_0218A4BC(u32 a, u32 b, u32 c, u32 d)
 {
 if (func_02188CFC((u8 *)b) == 0) {
     return func_0218A074((void *)a, b);
 }
-return func_0218A240((void *)a, (unsigned char *)b);
+return func_0218A240((void *)a, (struct Obj00020 *)b);
 }
 

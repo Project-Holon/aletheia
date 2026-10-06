@@ -68,7 +68,7 @@ extern void func_021BB3F4(int p, int mode);
 extern void func_021BB580(char *p, int v);
 extern void func_021B7688(struct Obj *o);
 extern void func_021B795C(struct Obj *o);
-extern void func_021B832C(int p);
+extern void func_021B832C(struct Obj *p);
 extern void func_021BADB8(char *p, unsigned v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021B6EF8(u8 *p);
@@ -105,7 +105,7 @@ void func_021B7128(Obj *o)
     } else if (s == 4) {
         func_021B6100((char *)o, (int)((void *)func_021B795C));
     } else {
-        func_021B832C((int)o);
+        func_021B832C((struct Obj *)o);
         func_021BADB8((char *)o, o->f84C);
         func_021BADAC(o);
         func_0204B92C(o->f6A8, 0);

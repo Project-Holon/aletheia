@@ -54,7 +54,7 @@ extern void func_021C5B40(u8 *);
 extern void func_021C5508(void);
 extern void func_021C5518(u8 *);
 extern void func_021C574C(u8 *);
-extern void func_021C5828(u8 *);
+extern void func_021C5828(void *a0);
 extern void func_021C5E58(u8 *);
 extern void func_021C587C(u8 *);
 extern void func_021C64A8(u8 *);

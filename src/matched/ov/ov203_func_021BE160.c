@@ -109,7 +109,7 @@ extern void func_021BE63C(struct Context *ctx, struct Config *cfg, const struct 
 extern u32 func_021BE920(u32);
 extern int func_021BE938(void *a);
 extern void func_0204E8C0(u32);
-extern void func_02005654(void (*)(void), int);
+extern int func_02005654(int a, int b);
 extern void func_021BE150(void);
 extern void MTX_Identity33_(void *);
 extern u8 func_021BE7D8(unsigned x);
@@ -186,7 +186,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->f10 = func_021BE938((void *)ctx->id);
     if (ctx->f10) {
         func_0204E8C0(heap);
-        func_02005654(func_021BE150, 0);
+        func_02005654((int)func_021BE150, 0);
     }
     ctx->z30[0] = 0;
     ctx->z30[1] = 0;

@@ -12,7 +12,7 @@
  * Returns the constant 8.
  */
 
-int func_021BE4EC(void)
+int func_021BE4EC(int a)
 {
     return 8;
 }

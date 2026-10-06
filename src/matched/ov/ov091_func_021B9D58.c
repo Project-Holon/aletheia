@@ -33,14 +33,14 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void  func_0201C724(u32 a, u32 bmp, u32 x, u32 y, void *text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021B9D58(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color)
 {
     void *buf = func_020457B0(16, ((struct Obj02771 *)p)->f0);
     void *text = func_02045EC0((struct MsgBank *)(((struct Obj02771 *)p)->f134), idx);
     func_0201F250(set, buf, text);
-    func_0201C724(((struct Obj02771 *)p)->f140, (u32)func_02045770((struct Descriptor *)win), x, y, buf,
+    func_0201C724((void *)(((struct Obj02771 *)p)->f140), (u32)func_02045770((struct Descriptor *)win), x, y, (u32)buf,
                   ((struct Obj02771 *)p)->f13C, color);
     func_02045808(text);
     func_02045808(buf);

@@ -77,7 +77,8 @@ struct FieldInput {
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026474(void *obj);
-extern void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos);
+struct Obj00020;
+extern void func_0218A4E0(struct FieldInput *p, void *sys, struct Obj00020 *pos);
 struct Comm;
 struct Ctx;
 extern u32 func_0200FB24(void);
@@ -104,7 +105,7 @@ extern int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u8 func_0201212C(const struct Ctx *p);
 extern int func_0215FCE0(int a, int b, unsigned short c);
 
-int func_0218A0E4(void *sys, u8 *pos)
+int func_0218A0E4(void *sys, struct Obj00020 *pos)
 {
     struct FieldInput in;
     void *a;
@@ -120,10 +121,10 @@ int func_0218A0E4(void *sys, u8 *pos)
     if (ev == 0) {
         if (func_0200FB24() != 0) {
             if (func_020221A4() != 0)
-                return func_021C06CC(sys, pos);
+                return func_021C06CC(sys, (u8 *)pos);
             return 0;
         }
-        return (int)func_021850FC(sys, pos);
+        return (int)func_021850FC(sys, (u8 *)pos);
     }
     if (func_0217391C(ev) == 1) {
         if (func_02173928(ev) == 0)
@@ -137,7 +138,7 @@ int func_0218A0E4(void *sys, u8 *pos)
     if (in.b0 && (r = func_0217B83C(sys, pos)) != 0)
         return r;
     if (in.b0 && func_0217394C(sys) == 1) {
-        obj = func_0218B4B0((struct FieldCtx *)(&in), pos);
+        obj = func_0218B4B0((struct FieldCtx *)(&in), (u8 *)pos);
         if (obj != 0) {
             k = func_0216D5B8((void *)obj);
             if (func_02158D90(k) == 1) {
@@ -150,7 +151,7 @@ int func_0218A0E4(void *sys, u8 *pos)
         }
     }
     if (func_0201212C(sys) == 1 && func_020221A4() != 0)
-        return func_021C06CC(sys, pos);
+        return func_021C06CC(sys, (u8 *)pos);
     if (func_0217394C(sys) == 0)
         return 0;
     if (in.b1 && func_020221A4() != 0)

@@ -40,7 +40,8 @@ typedef struct {
     int fc4;
 } Conn;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A308(void *p, u32 i);
 extern u8 func_021B8DE4(char *p, int i);
@@ -50,7 +51,7 @@ struct Q1;
 extern u8 func_021B9B94(struct Q1 *p);
 extern int func_021D5B7C(void *);
 
-int func_02188E90(int a, Conn *b)
+int func_02188E90(struct Cursor *a, Conn *b)
 {
     int x;
     char *p;

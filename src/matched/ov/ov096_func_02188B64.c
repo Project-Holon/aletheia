@@ -19,11 +19,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
 
-int func_02188B64(int a, int b)
+int func_02188B64(struct Cursor *a, int b)
 {
     u16 *p;
     int m;

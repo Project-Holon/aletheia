@@ -26,7 +26,7 @@ struct S02031140;
 struct U16Vec;
 extern void func_02031140(struct S02031140 *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201D83C(void *p);
+extern unsigned int func_0201D83C(void *ptr);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 

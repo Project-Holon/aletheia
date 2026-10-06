@@ -80,7 +80,7 @@ int func_020141DC(const struct Rec020141DC *p);
 void func_02012A90(struct Rec44 *p, const struct Vec12 *src);
 void func_02012AA4(struct Rec44 *p, const struct H4 *src);
 void func_02012ABC(struct Rec44 *p, u8 v);
-void *func_02012134(void *p);
+u32 func_02012134(u32 *p);
 void func_0202B544(u32 a, u16 b);
 void func_02012854(struct BigObj *p, const struct Rec1C *src);
 void func_02012900(const struct BigObj *p, u16 v);

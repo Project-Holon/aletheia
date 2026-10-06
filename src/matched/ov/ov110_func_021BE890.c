@@ -15,4 +15,4 @@
 typedef struct { unsigned char b[16]; } Box;
 extern const Box d_021C39C4;
 extern int func_02035C08(const void *);
-int func_021BE890(void) { Box box=d_021C39C4; return func_02035C08(&box); }
+int func_021BE890(void *a0) { Box box=d_021C39C4; return func_02035C08(&box); }

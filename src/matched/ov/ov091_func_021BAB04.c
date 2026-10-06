@@ -40,7 +40,7 @@ struct Obj;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_02017F90(void *p);
 extern u32 func_02018430(void *p);

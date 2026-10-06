@@ -20,12 +20,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 extern int func_021C82D0(int unused, unsigned int v, int k);
 
-void func_02188A08(int a, int b, int c)
+int func_02188A08(struct Cursor *a, int b, int c)
 {
     int t0;
     int t1;
@@ -37,5 +38,5 @@ void func_02188A08(int a, int b, int c)
     t2 = func_0201134C(a);
     r = func_0218A160((u8 *)b, t0);
     r = func_021C82D0(((struct Obj21934 *)b)->fB4, r, t1);
-    func_0218A0F4((u8 *)a, c, r != 0, 1, t2);
+    return func_0218A0F4((u8 *)a, c, r != 0, 1, t2);
 }

@@ -35,7 +35,8 @@ struct Evt;
 extern void *func_02188C58(void *p);
 extern unsigned int func_0218E138(u8 *p);
 extern void func_0218E13C(u8 *a, unsigned int s);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216D8C0(void *, Vec *);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
@@ -43,7 +44,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_021C71D4(unsigned int a, unsigned int b, unsigned int c);
 extern int func_021C7858(unsigned int a, unsigned int b, unsigned int c);
 extern unsigned int func_02188D38(u8 *p);
-extern void func_021C6DE0(u8 *p, unsigned int a, unsigned int b);
+extern void func_021C6DE0(u8 *p, unsigned int *a, unsigned int b);
 extern int func_021C6E48(int);
 extern unsigned int func_02188CD0(u8 *p);
 extern void func_021AC528(unsigned int a, unsigned int b);
@@ -66,7 +67,7 @@ int func_021BFB90(int task, int *state, int *q)
     case 0:
         q[2] = func_0218E138((u8 *)h);
         func_0218E13C((u8 *)h, 0);
-        t = func_021A3074(func_02188CB4((unsigned char *)obj));
+        t = func_021A3074(func_02188CB4((struct Obj00020 *)obj));
         {
             Vec v;
             v.y = 0xA000;
@@ -84,8 +85,8 @@ int func_021BFB90(int task, int *state, int *q)
             x = func_021C7858(obj, -0x18, (unsigned int)(&v2));
         }
         d = func_02188D38((u8 *)obj);
-        func_021C6DE0((u8 *)d, w, 0);
-        func_021C6DE0((u8 *)d, x, 0);
+        func_021C6DE0((u8 *)d, (unsigned int *)w, 0);
+        func_021C6DE0((u8 *)d, (unsigned int *)x, 0);
         (*state)++;
         break;
     case 1:
@@ -93,7 +94,7 @@ int func_021BFB90(int task, int *state, int *q)
             (*state)++;
         break;
     case 2:
-        t = func_021A3074(func_02188CB4((unsigned char *)obj));
+        t = func_021A3074(func_02188CB4((struct Obj00020 *)obj));
         func_021AC528((unsigned int)t, func_02188CD0((u8 *)q[1]));
         func_020061E4(0x67B);
         (*state)++;

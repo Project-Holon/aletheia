@@ -43,7 +43,7 @@ struct SaveBlock;
 void *func_020120F4(const struct Ctx *p);
 void *func_020127A4(struct SaveBlock *p);
 void func_02012B2C(struct Rec44 *p, u32 v);
-int func_02012134(int a);
+u32 func_02012134(u32 *p);
 u32 func_0202B578(u32 *p);
 void func_0202C110(void *p);
 u8 func_02012984(const struct BigObj *p);
@@ -63,7 +63,7 @@ int func_02185694(int a0, int *st, int *p)
         break;
     case 1:
         func_02012B2C(func_020127A4(func_020120F4((const struct Ctx *)p[0])), 0);
-        func_0202C110((void *)func_0202B578((u32 *)func_02012134(p[0])));
+        func_0202C110((void *)func_0202B578((u32 *)func_02012134((u32 *)p[0])));
         r = func_02029DF4((void *)p[1], ((short *)p)[6], func_02012984((const struct BigObj *)p[1]));
         r = (int)func_020298A0((void *)p[0], r, 0, 0x3c);
         func_02012374((struct Evt *)a0, (struct Evt **)r);

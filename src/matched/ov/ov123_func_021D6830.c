@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
-extern void func_0204B5AC(void *, struct Pair *);
+extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 typedef unsigned char  u8;
 extern void func_021D679C(u8 *p);
 extern u32 func_020056EC(u32 range);

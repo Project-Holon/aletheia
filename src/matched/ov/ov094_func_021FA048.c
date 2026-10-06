@@ -21,7 +21,8 @@ typedef struct {
     int ret;            /* 0x23C */
 } Ctx;
 
-extern u32 func_0201134C(void *p);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern int func_021F8684(void);
 extern void func_021F7000(int cam, int mode, int v, int unused, int n, int g, int h);
 

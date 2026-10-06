@@ -43,7 +43,8 @@ struct Info {
 
 struct BigObj;
 extern u16 func_02188C9C(u8 *p);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u8 func_02013ED8(u32 id);
 extern u32 func_021A30C8(void **ctx);
 extern u16 func_021AB0F0(u32 attr);

@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_02045808(struct U16Vec *vec);
 void func_021B688C(char *p) { func_02045C04(((struct Obj06565 *)p)->f44); func_0201ED04(((struct Obj06565 *)p)->f48); func_02045808(((struct Obj06565 *)p)->f4C); func_02045808(((struct Obj06565 *)p)->f50); func_02045808(((struct Obj06565 *)p)->f54); }

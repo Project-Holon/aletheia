@@ -20,7 +20,9 @@
  *   func_020061F8 0x020061F8 thumb
  */
 #include "../include/Obj21673.h"
-extern int func_0201134C(void *);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void func_02006210(void);
 extern void func_020061F8(int i);
 

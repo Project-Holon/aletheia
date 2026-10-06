@@ -18,7 +18,8 @@
 #include "../include/Obj10549.h"
 #include "../include/Obj14102.h"
 typedef unsigned char u8;
-extern int func_0201134C(void *);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 extern int func_021FB1F4(char *, int);
 typedef unsigned int   u32;
 extern void *func_021F9DA0(char *p);

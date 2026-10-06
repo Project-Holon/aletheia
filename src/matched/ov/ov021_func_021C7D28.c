@@ -35,7 +35,8 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern u16 func_02188C84(u8 *p);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u32 func_02188CD0(u8 *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_021C6C70(int, int, int (*)(Obj *));

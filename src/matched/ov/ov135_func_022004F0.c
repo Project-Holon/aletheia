@@ -16,5 +16,7 @@
  */
 #include "../include/Obj02863.h"
 struct Obj;
-extern void func_022009A4(unsigned char *,unsigned,unsigned,unsigned,unsigned);extern void func_021F4E98(void *,unsigned,unsigned);extern void func_0204B92C(struct Obj *,unsigned);extern void func_021F4F90(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_022009A4(u8 *p, u32 n, int a2, int a3, int a4);extern void func_021F4E98(void *,unsigned,unsigned);extern void func_0204B92C(struct Obj *,unsigned);extern void func_021F4F90(void *);
 int func_022004F0(unsigned char *p) {func_022009A4(p,4,1,0,0xf0f);func_021F4E98(p,10,6);func_0204B92C(*(struct Obj * *)&((struct Obj02863 *)p)->fBF4,1);func_021F4F90(p);return 2;}

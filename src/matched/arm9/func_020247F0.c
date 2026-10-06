@@ -11,7 +11,7 @@
  */
 
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
+extern unsigned int func_02045C04(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_020247F0(char *p)

@@ -34,7 +34,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EE0C(void *, unsigned int, void *, unsigned int, unsigned int, unsigned int);
 extern void func_021B9C08(u8 *, unsigned int, void *);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 void func_021B9CBC(u8 *p, u8 *entry)
 {
     void *manager = (void *)func_021F4F10(*(u8 * *)&((struct Obj00004 *)p)->f1884);

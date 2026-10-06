@@ -21,7 +21,8 @@ typedef short s16;
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *v);
 extern u16 func_02188C9C(u8 *p);

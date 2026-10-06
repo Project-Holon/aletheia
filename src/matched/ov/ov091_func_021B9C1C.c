@@ -26,7 +26,7 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 a, u32 bmp, s16 x, s16 y, const void *text, u32 f, u16 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 
 #define W(o) (*(int *)(p + (o)))
@@ -36,6 +36,6 @@ void func_021B9C1C(u8 *p, u32 win, u32 id, int x, s16 y, u16 color)
     void *text;
 
     text = func_02045EC0((void *)W(0x134), id);
-    func_0201C724(W(0x140), (u32)func_02045770((struct Descriptor *)win), x, y, text, W(0x138), color);
+    func_0201C724((void *)W(0x140), (u32)func_02045770((struct Descriptor *)win), (s16)x, (s16)y, (u32)text, W(0x138), color);
     func_02045808(text);
 }

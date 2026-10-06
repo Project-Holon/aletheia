@@ -138,7 +138,7 @@ extern void *func_020124E8(struct Obj *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void *func_0202435C(void *slots, unsigned int heap);
 extern u32 func_02012964(const struct BigObj *p);
 extern void *func_0216DE94(void *p, u32 id);

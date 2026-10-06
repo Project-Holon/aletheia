@@ -48,7 +48,7 @@ typedef unsigned char  u8;
 extern u16 func_02188C84(u8 *p);
 extern int func_02188D2C(int *p);
 extern void *func_02188C80(void *p);
-extern int func_02012134(int);
+extern unsigned int func_02012134(unsigned int *p);
 extern unsigned int func_0202B57C(void *obj);
 typedef unsigned int   u32;
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
@@ -76,7 +76,7 @@ void func_021F3828(O *o, u32 q)
     i = 0;
     o->h0 = a;
     o->f64 = 0;
-    o->f4 = func_0202B57C((void *)func_02012134((int)func_02188C80((void *)q)));
+    o->f4 = func_0202B57C((void *)func_02012134((unsigned int *)func_02188C80((void *)q)));
     p = func_02048F60(0x94, 1, a);
     s0 = (int)func_021C4D14(q, func_021BE480((char *)t8, 0, 0), 8, p[0] << 12, p[1]);
     func_021C4DC0(s0, 0x94, 3, 10);

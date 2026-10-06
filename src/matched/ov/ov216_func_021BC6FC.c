@@ -19,9 +19,10 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_020452E8(u32);
+struct Descriptor;
+extern u32 sub_020452E8(struct Descriptor *d);
 
 u32 func_021BC6FC(u32 *p)
 {
-    return sub_020452E8(p[0x52]);
+    return sub_020452E8((struct Descriptor *)p[0x52]);
 }

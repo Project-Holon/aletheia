@@ -81,7 +81,7 @@ extern void func_021EBD94(u8 *);
 extern void func_021EC4E0(char *p);
 extern void func_021EC4FC(u8 *);
 extern int func_021DEDCC(char *p, int box);
-extern void func_021DEC98(char *p, int a, int dir);
+extern void func_021DEC98(char *p, void *a, int dir);
 extern void func_021EF274(char *);
 extern void func_021EACA8(u8 *);
 extern void func_021EACFC(u8 *);
@@ -117,7 +117,7 @@ int func_021E1E80(u8 *p)
     func_021EBD94(p);
     func_021EC4E0((char *)p);
     func_021EC4FC(p);
-    func_021DEC98((char *)p,func_021DEDCC((char *)p,p[0x14]),2);
+    func_021DEC98((char *)p,(void *)func_021DEDCC((char *)p,p[0x14]),2);
     func_021EF274((char *)p);
     func_021EACA8(p);
     func_021EACFC(p);

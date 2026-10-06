@@ -25,14 +25,14 @@ struct Node;
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0202AB64(void *obj, u32 unused, u32 value);
-extern void  func_0202AB7C(struct Node *p, u32 heapId);
+extern void func_0202AB7C(struct Node *p, void *heapId);
 
-struct Node *func_0202AAF4(u32 a, u32 heapId)
+struct Node *func_0202AAF4(u32 a, void *heapId)
 {
-    struct Node *p = (struct Node *)func_02030734(heapId, 0x1c, 0,
+    struct Node *p = (struct Node *)func_02030734((u32)heapId, 0x1c, 0,
                                                   (const void *)0x020A76E8, 0x92);
 
-    func_0202AB64(p, heapId, a);
+    func_0202AB64(p, (u32)heapId, a);
     func_0202AB7C(p, heapId);
     return p;
 }

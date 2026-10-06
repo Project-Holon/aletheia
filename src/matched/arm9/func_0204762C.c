@@ -34,7 +34,8 @@ struct Rec {
 };
 
 extern u32 g_02146A5C;
-extern void func_0206E388(u32 ctx, u32 field);
+struct Obj02061330;
+extern void func_0206E388(struct Obj02061330 *ctx, int field);
 extern u32 func_020307B0(void *p);
 
 void func_0204762C(struct Rec *p)
@@ -44,7 +45,7 @@ void func_0204762C(struct Rec *p)
     if (p->tag != 0x59D1)
         return;
 
-    func_0206E388(g_02146A5C, p->unk_04);
+    func_0206E388((struct Obj02061330 *)g_02146A5C, p->unk_04);
     p->tag = 0x59D1 - 1;
     func_020307B0(p);
 }

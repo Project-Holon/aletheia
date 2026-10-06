@@ -77,7 +77,7 @@ extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_021978D4(void);
 extern u32 func_020056A0(void (*)(void), void *, u32);
-extern void func_0219603C(u8 *);
+extern void func_0219603C(void *a0);
 extern void func_02196538(u8 *);
 extern u8 d_021DDBC4[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);

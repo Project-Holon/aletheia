@@ -36,7 +36,7 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 extern u16 func_021BCF00(int a0, int a1);
-extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -86,16 +86,16 @@ void func_021BE564(u8 *p)
         func_021BE44C(p, 9, func_021BCF00((int)p, Bytes021BE564(p)[3]), 0x40, 4, 0x3C40, 2);
     } else {
         s1 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00222 *)p)->f1D0), 0x31);
-        func_021B6AE4(p + 0x194, ((struct Obj00222 *)p)->f1DC, 0x42, 4, s1, ((struct Obj00222 *)p)->f1CC, 0x3C40, 2);
+        func_021B6AE4(p + 0x194, (void *)(((struct Obj00222 *)p)->f1DC), 0x42, 4, s1, ((struct Obj00222 *)p)->f1CC, 0x3C40, 2);
         w = func_0201D304((struct StrObj *)s1, ((struct Obj00222 *)p)->f1CC, 0);
         func_02045808((struct U16Vec *)s1);
         x = 0x40 - (u8)(w / 2);
         s2 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00222 *)p)->f1D0), func_021BCF00((int)p, Bytes021BE564(p)[3]));
-        func_021B6AE4(p + 0x194, ((struct Obj00222 *)p)->f1DC, x + 2, 4, s2, ((struct Obj00222 *)p)->f1CC, 0x3C40, 1);
+        func_021B6AE4(p + 0x194, (void *)(((struct Obj00222 *)p)->f1DC), x + 2, 4, s2, ((struct Obj00222 *)p)->f1CC, 0x3C40, 1);
         func_02045808((struct U16Vec *)s2);
         x += w;
         s3 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00222 *)p)->f1D0), func_021BCF00((int)p, Bytes021BE564(p)[4]));
-        func_021B6AE4(p + 0x194, ((struct Obj00222 *)p)->f1DC, x + 2, 4, s3, ((struct Obj00222 *)p)->f1CC, 0x3C40, 0);
+        func_021B6AE4(p + 0x194, (void *)(((struct Obj00222 *)p)->f1DC), x + 2, 4, s3, ((struct Obj00222 *)p)->f1CC, 0x3C40, 0);
         func_02045808((struct U16Vec *)s3);
     }
     func_021BE49C(p + 0x194);

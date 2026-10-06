@@ -47,9 +47,9 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(void *a, void *b, u32 c, u32 d, void *e, u32 f, u16 g);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 
 void func_021BB65C(void *ctx, u8 *p, int k)
 {
@@ -83,41 +83,41 @@ void func_021BB65C(void *ctx, u8 *p, int k)
         func_02043B5C(func_02045770(((struct Obj00836 *)p)->f48), 0xf);
         func_02045334(((struct Obj00836 *)p)->f48);
         w0 = func_02045EC0(h3c, 6);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x4, w0, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x4, (u32)w0, h34, 0x440);
         func_02045808(w0);
         w1 = func_02045EC0(h3c, 7);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x18, w1, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x18, (u32)w1, h34, 0x440);
         func_02045808(w1);
         w2 = func_02045EC0(h3c, 8);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x2c, w2, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x2c, (u32)w2, h34, 0x440);
         func_02045808(w2);
         w3 = func_02045EC0(h3c, 10);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x40, w3, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x40, (u32)w3, h34, 0x440);
         func_02045808(w3);
         last = func_02045EC0(h3c, 9);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x54, last, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x40, 0x54, (u32)last, h34, 0x440);
         func_02045808(last);
     } else {
         ((struct Obj00836 *)p)->f48 = (void *)func_020450F0(4, 2, 0x10, 0x1c, 6, 0xa, 1);
         func_02043B5C(func_02045770(((struct Obj00836 *)p)->f48), 0xf);
         func_02045334(((struct Obj00836 *)p)->f48);
         w4 = func_02045EC0(h3c, 0);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x8, 0x0, w4, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x8, 0x0, (u32)w4, h34, 0x440);
         func_02045808(w4);
         w5 = func_02045EC0(h3c, 1);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x8, 0x10, w5, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x8, 0x10, (u32)w5, h34, 0x440);
         func_02045808(w5);
         w6 = func_02045EC0(h3c, 2);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x8, 0x20, w6, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x8, 0x20, (u32)w6, h34, 0x440);
         func_02045808(w6);
         w7 = func_02045EC0(h3c, 3);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x50, 0x0, w7, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x50, 0x0, (u32)w7, h34, 0x440);
         func_02045808(w7);
         w8 = func_02045EC0(h3c, 4);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x50, 0x10, w8, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x50, 0x10, (u32)w8, h34, 0x440);
         func_02045808(w8);
         last = func_02045EC0(h3c, 5);
-        func_0201C724(h44, func_02045770(((struct Obj00836 *)p)->f48), 0x50, 0x20, last, h34, 0x440);
+        func_0201C724(h44, (u32)func_02045770(((struct Obj00836 *)p)->f48), 0x50, 0x20, (u32)last, h34, 0x440);
         func_02045808(last);
     }
     ((struct Obj00836 *)p)->f38 = 1;

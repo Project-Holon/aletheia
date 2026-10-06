@@ -29,10 +29,11 @@ extern void *func_0215A5F4(void *p);
 extern int func_02158F58(int a0);
 extern u32 func_02188D38(u8 *p);
 extern unsigned int func_02159B10(void *a, void *b);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_021C78DC(u32, int, void *, void *);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 
 int func_021B1DEC(u32 a, u32 b)
 {
@@ -66,6 +67,6 @@ int func_021B1DEC(u32 a, u32 b)
         v.z = zero;
     }
     w = func_021A3074(func_02188CB4((void *)x));
-    func_021C6DE0((u8 *)y, func_021C78DC(x, p, &v, w), 0);
+    func_021C6DE0((u8 *)y, (u32 *)func_021C78DC(x, p, &v, w), 0);
     return 0;
 }

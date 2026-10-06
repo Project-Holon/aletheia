@@ -35,7 +35,8 @@ typedef struct {
     u8 f2d;
 } Obj;
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(u8 *p);
 extern int func_0217BB20(char *p);
 extern void func_0217F074(void *ctx);

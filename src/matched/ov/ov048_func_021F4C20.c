@@ -54,7 +54,7 @@ extern u32 func_021C6F00(u32 a, u16 b, u32 c);
 extern u32 func_021C7058(u32 a, u16 b, u16 c);
 extern u32 func_021C701C(u32 a, u16 b, u16 c);
 extern u32 func_021C7AE4(u32 a, u16 b, void *c);
-extern void func_021C6DE0(u8 *p, u32 a, u32 b);
+extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
 extern int func_021C6E48(u32 a);
 extern u32 func_020362DC(void);
 
@@ -109,10 +109,10 @@ int func_021F4C20(int a0, int *state, W *w)
         r1 = func_021C7058(cam, w->h8, ang1);
         r2 = func_021C701C(cam, w->h8, ang2);
         r3 = func_021C7AE4(cam, w->h8, &vec);
-        func_021C6DE0((u8 *)h, r0, 0);
-        func_021C6DE0((u8 *)h, r1, 0);
-        func_021C6DE0((u8 *)h, r2, 0);
-        func_021C6DE0((u8 *)h, r3, 0);
+        func_021C6DE0((u8 *)h, (u32 *)r0, 0);
+        func_021C6DE0((u8 *)h, (u32 *)r1, 0);
+        func_021C6DE0((u8 *)h, (u32 *)r2, 0);
+        func_021C6DE0((u8 *)h, (u32 *)r3, 0);
         (*state)++;
         break;
     }
@@ -135,10 +135,10 @@ int func_021F4C20(int a0, int *state, W *w)
         r1 = func_021C7058(cam, w->h8, w->hA);
         r2 = func_021C701C(cam, w->h8, w->hC);
         r3 = func_021C7AE4(cam, w->h8, &w->v14);
-        func_021C6DE0((u8 *)h, r0, 0);
-        func_021C6DE0((u8 *)h, r1, 0);
-        func_021C6DE0((u8 *)h, r2, 0);
-        func_021C6DE0((u8 *)h, r3, 0);
+        func_021C6DE0((u8 *)h, (u32 *)r0, 0);
+        func_021C6DE0((u8 *)h, (u32 *)r1, 0);
+        func_021C6DE0((u8 *)h, (u32 *)r2, 0);
+        func_021C6DE0((u8 *)h, (u32 *)r3, 0);
         (*state)++;
         break;
     }

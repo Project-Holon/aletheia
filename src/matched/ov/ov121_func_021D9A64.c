@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D9BC0(void *, int, Pair *);
-extern void func_0201C724(void *, void *, s16, s16, void *, int, u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021D9A64(u8 *p, u16 a, int b, int c)
 {
     Pair xy;
@@ -36,7 +36,7 @@ void func_021D9A64(u8 *p, u16 a, int b, int c)
     func_02045CAC((struct MsgBank *)a, b, ((struct Obj01057 *)p)->f10);
     func_021D9BC0(p, c, &xy);
     q = ((struct Obj01057 *)p)->f8;
-    func_0201C724(q, func_02045770(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
-                 ((struct Obj01057 *)p)->f10, c, ((struct Obj01057 *)p)->f16);
+    func_0201C724(q, (u32)func_02045770(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
+                 (u32)(((struct Obj01057 *)p)->f10), c, ((struct Obj01057 *)p)->f16);
     p[4] = 1;
 }

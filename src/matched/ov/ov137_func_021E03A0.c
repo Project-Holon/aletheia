@@ -22,5 +22,5 @@ struct Descriptor;struct Cfg;struct CharBuf;struct Bank;struct Util;struct Setup
 extern void func_020456F8(struct Descriptor *);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_020409B4(u32);
-extern void func_020452E8(struct Descriptor *);
+extern u32 func_020452E8(struct Descriptor *d);
 void func_021E03A0(u8 *p){int i;u8 *s=p+0xce0;for(i=0;i<((struct Obj23774 *)s)->f0;i++){u8 *q=s+(u32)i*4;struct Descriptor *w=*(struct Descriptor * *)&((struct Obj14230 *)q)->f14;func_020456F8(w);func_020409B4(func_02045730(w));func_020452E8(*(struct Descriptor * *)&((struct Obj14230 *)q)->f14);}}

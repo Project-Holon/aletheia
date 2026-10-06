@@ -161,7 +161,7 @@ extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long l
 extern void func_02017E40(void *,u32,u32);
 extern u32 func_02017FA8(void *);
 extern u32 func_0201808C(void *,u32);
-extern void func_020180F4(void *,u32);
+extern void func_020180F4(void *p, int move);
 extern void func_02018A00(void *,u32,u32);
 extern u16 func_02045A98(void);
 extern const void *func_020084F4(const void *p);

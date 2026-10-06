@@ -73,7 +73,7 @@ int func_0217BB20(char *p);
 typedef unsigned int   u32;
 void func_0217F074(void *p);
 u32 func_0217F1EC(u8 *p);
-void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F210(u8 *p, u8 *a, u32 b);
 int func_0217B8E4(char *p, char v);
 void func_0217422C(u8 *p, int a, int b);
 int func_02174268(u8 *w);
@@ -97,7 +97,7 @@ void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 u32 func_020307B0(void *p);
 extern int d_021807E8[];
 
-int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
+int func_0217E5A0(u8 *w, u8 *obj, u8 *a2, u8 *state)
 {
     u8 *p;
     int idx;

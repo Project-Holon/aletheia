@@ -28,9 +28,10 @@ struct WordSet;
 extern void func_02031140(struct S02031140 *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_0201D83C(void *ptr);
-extern void func_02045C04(struct Rec *rec);
+extern unsigned int func_0201ED04(struct WordSet *p);
+typedef unsigned int   u32;
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_02045C04(struct Rec *rec);
 
 void func_021BACD8(int *p)
 {

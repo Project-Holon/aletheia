@@ -37,7 +37,7 @@ struct SBL;
 struct _SBServerList;
 extern int func_021A0E30(struct SBL *slist, char *buf, int len);
 extern int func_021A12DC(struct SBL *slist, char *buf, int len);
-extern int func_0217EC90(int sock, u8 *buf, int len, int flags);
+extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);
 extern int func_021A1254(struct _SBServerList *slist, char *buf, int len);
 extern int func_021A10D4(SBServerList *slist, u8 *buf, int len);
 extern int func_021A0F0C(SBServerList *slist, u8 *buf, int len);
@@ -71,7 +71,7 @@ int func_021A13D0(SBServerList *slist)
             ret = func_021A12DC((struct SBL *)slist, (char *)(slist->inbuffer + 3), msglen - 3);
             break;
         case 3:
-            if (func_0217EC90(slist->sock, slist->inbuffer, msglen, 0) <= 0)
+            if (func_0217EC90(slist->sock, (char *)slist->inbuffer, msglen, 0) <= 0)
                 return 3;
             break;
         case 4:

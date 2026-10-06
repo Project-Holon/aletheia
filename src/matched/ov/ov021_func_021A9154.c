@@ -97,7 +97,7 @@ extern void func_02045374(struct Cfg *cfg);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u32 color);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
@@ -119,7 +119,7 @@ void func_021A9154(Obj *p, Item *it, const Src *s)
     it->f04 = func_020450F0(6, s->f06, s->f07, 8, 2, 0xD, 1);
     func_02045374((struct Cfg *)it->f04);
     func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)it->f04)), 0);
-    func_0201C724(p->f12C, (int)func_02045770((struct Descriptor *)it->f04), 2, 1, s->f0C, k, 0x440);
+    func_0201C724((void *)p->f12C, (int)func_02045770((struct Descriptor *)it->f04), 2, 1, s->f0C, k, 0x440);
     if (s->f10 != 0) {
         it->f0C = func_0204A6C8((void *)s->f10, s->f14, 0, 1, p->f00);
         it->f10 = func_0204AF28((void *)s->f10, s->f18, s->f1C, p->f00);

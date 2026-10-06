@@ -18,11 +18,12 @@
  */
 #include "../include/Obj12189.h"
 
-extern unsigned char *func_0202616C(int, int);
+typedef unsigned int   u32;
+extern void *func_0202616C(void **obj, u32 idx);
 extern void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty);
 void func_021EEF74(char *q, int a, int b)
 {
-    unsigned char *x = func_0202616C(((struct Obj12189 *)q)->f70, a);
-    unsigned char *y = func_0202616C(((struct Obj12189 *)q)->f70, b);
+    unsigned char *x = func_0202616C((void **)(((struct Obj12189 *)q)->f70), a);
+    unsigned char *y = func_0202616C((void **)(((struct Obj12189 *)q)->f70), b);
     func_021EEFA4(q, x[0], x[1], y[0], y[1]);
 }

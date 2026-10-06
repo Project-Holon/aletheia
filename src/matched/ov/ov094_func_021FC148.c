@@ -36,7 +36,8 @@ typedef struct {
     int z;
 } Pt;
 
-extern int func_0201134C(int);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 extern unsigned short func_0202142C(int a0);
 extern void func_0206DF3C(Pt *p, int *a, int *b);
 extern int func_021F8694(void);
@@ -46,10 +47,10 @@ extern void func_021FF3F4(void *obj, void *out, int idx);
 typedef unsigned int   u32;
 extern int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16 y, u32 e, u32 f);
 
-int func_021FC148(int a, State *s)
+int func_021FC148(struct Cursor *a, State *s)
 {
     int idx = func_0201134C(a);
-    int q = func_021FCF2C(a, func_0201134C(a));
+    int q = func_021FCF2C((int)a, func_0201134C(a));
     int dx = func_0201134C(a);
     int dy = func_0201134C(a);
     int p5 = func_0201134C(a);

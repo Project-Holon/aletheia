@@ -29,7 +29,7 @@ typedef int BOOL;
 struct Descriptor;
 extern void sub_020456F8(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void sub_020452E8(struct Descriptor *d);
+extern u32 sub_020452E8(struct Descriptor *d);
 
 typedef struct {
     char pad[0x1A0];

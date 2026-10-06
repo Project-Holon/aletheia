@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_0209D774(void){ }
+void func_0209D774(void *p){ }

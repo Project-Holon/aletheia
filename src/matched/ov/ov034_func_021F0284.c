@@ -92,7 +92,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(u32,void *,u32,u32,void *,void *,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern int func_02088864(struct RTCDate *date);
 extern int func_0208890C(struct RTCTime *time);
@@ -121,13 +121,13 @@ extern u32 func_020086D8(const struct PlayTime *p);
 extern u32 func_020086E0(const struct PlayTime *p);
 extern u32 func_020086E8(const struct PlayTime *p);
 extern void func_02045334(struct Descriptor *d);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
 extern const u8 d_021F0A70[];
 static inline void print_record(u8 *p,u32 index,void *dst,void *s,u32 y,u16 color,u32 one)
 {
     u32 owner=((struct Obj09806 *)p)->f8;
-    func_0201C724(owner,func_02045770((struct Descriptor *)*(u32 *)(p+12+index*8)),0,y,dst,((struct Obj09806 *)p)->f4C,color);
+    func_0201C724((void *)owner,(u32)func_02045770((struct Descriptor *)*(u32 *)(p+12+index*8)),0,y,(u32)dst,(u32)(((struct Obj09806 *)p)->f4C),color);
     p[16+index*8]=one;
     func_02045808(s);
 }

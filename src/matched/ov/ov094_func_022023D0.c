@@ -36,7 +36,7 @@ extern void func_0204AFD8(u32);
 extern void func_0204B1CC(int);
 struct Descriptor;
 struct Node;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern int func_02024DCC(void);
 extern void func_022025B4(void);
 extern void func_02030EAC(struct Node *n);

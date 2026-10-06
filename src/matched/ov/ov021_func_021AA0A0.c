@@ -47,7 +47,8 @@ typedef struct {
     int f8;
 } S;
 
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u32 func_02188C6C(u8 *p);
 extern u16 func_021A1BF4(u8 *p);
 struct Ctx;
@@ -68,7 +69,7 @@ void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
     int h;
     Opts *o;
 
-    func_02188CB4((unsigned char *)s->f0);
+    func_02188CB4((struct Obj00020 *)s->f0);
     func_021A9350((struct Sel *)(&buf), (void *)s->f8, 0xff, 0, func_021A1BF4((u8 *)func_02188C6C((u8 *)s->f0)));
     o = &opts;
     func_02082BCC(o, 0, 0x28);

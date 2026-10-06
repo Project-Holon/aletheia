@@ -39,7 +39,7 @@ extern void func_02009108(struct Sub020090B0Obj *obj, u16 value);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6FF0(char *p);
 extern void func_021D76B8(char *p);
-extern void func_021D758C(int a);
+extern void func_021D758C(u8 *a);
 extern const char d_021DAB78[];
 void func_021D75D0(int a)
 {

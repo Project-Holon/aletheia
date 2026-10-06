@@ -21,8 +21,9 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
-extern void func_02045C04(struct Rec *rec);
+typedef unsigned int   u32;
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
 void func_021C5954(u8 *p)
 {
     func_02045808(((struct Obj10601 *)p)->f1D8);

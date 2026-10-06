@@ -23,7 +23,8 @@ typedef unsigned int u32;
 struct MsgBank;
 extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern int func_02045C04();
+struct Rec;
+extern u32 func_02045C04(struct Rec *rec);
 
 void *func_02156914(int a0, int a1)
 {
@@ -37,6 +38,6 @@ loc_0215691E:
 a1 = 0;
     t4 = func_02045EC0(t5, a1);
 loc_02156926:
-    a0 = func_02045C04(t5);
+    a0 = func_02045C04((struct Rec *)t5);
 loc_0215692E:
     return t4;}

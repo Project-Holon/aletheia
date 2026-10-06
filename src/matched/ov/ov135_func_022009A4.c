@@ -34,7 +34,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
-void func_022009A4(u8 *p, u32 n)
+void func_022009A4(u8 *p, u32 n, int a2, int a3, int a4)
 {
     u32 w;
     func_02045CAC((struct MsgBank *)(((struct Obj02863 *)p)->fB6C), n, ((struct Obj02863 *)p)->fB88);

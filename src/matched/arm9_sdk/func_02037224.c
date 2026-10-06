@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern u8 d_020A7A20;
 
-void func_02037224(u8 v)
+void func_02037224(u8 v, int b)
 {
     d_020A7A20 = v;
 }

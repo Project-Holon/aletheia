@@ -34,7 +34,8 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_02190538(struct Slot *s);
 extern int func_02190D48(void *a);
 extern void func_021927E8(u32 *p);
-extern u32 func_02194A48(u32, u32);
+struct Descriptor;
+extern u32 func_02194A48(u32 a, struct Descriptor *b);
 
 int func_021915B4(void *a)
 {
@@ -47,7 +48,7 @@ if (*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f20 != 0) {
 if (*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8 != 0) {
     func_02045808((struct U16Vec *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8));
 }
-func_02194A48(((struct Obj00005 *)((u8 *)(a)))->f10, ((struct Obj00005 *)((u8 *)(a)))->f18);
+func_02194A48(((struct Obj00005 *)((u8 *)(a)))->f10, (struct Descriptor *)(((struct Obj00005 *)((u8 *)(a)))->f18));
 func_021927E8((u32 *)a);
 return func_020307B0(a);
 }

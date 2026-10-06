@@ -18,7 +18,8 @@
  */
 
 extern int func_02188D2C(int a);
-extern void func_021BE4B4(int a, int b, int c, int d);
+typedef unsigned int   u32;
+extern void func_021BE4B4(char *ctx, int b, int c, u32 d);
 extern void func_021BE700(int a, int b, int c, unsigned short d, int e);
 extern int func_021BE674(int a, int b, int c, unsigned short d);
 extern void func_021BE6B8(int a, int b);
@@ -30,7 +31,7 @@ void func_021F37B8(int a)
     int j;
 
     r6 = func_02188D2C(a);
-    func_021BE4B4(r6, 0, 1, 0);
+    func_021BE4B4((char *)r6, 0, 1, 0);
     for (i = 0; i < 2; i++)
         func_021BE700(r6, 0, 1, i, 1);
     for (j = 0; j < 2; j++)

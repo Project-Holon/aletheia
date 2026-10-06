@@ -29,9 +29,9 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern void func_0201C724(int,int,short,short,int,int,unsigned short);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
-void func_021BA960(int heap,int window,int printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
+void func_021BA960(int heap,int window,void *printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
 {
     int buffer=(int)func_02045770((struct Descriptor *)window);
     unsigned short x;
@@ -53,6 +53,6 @@ void func_021BA960(int heap,int window,int printer,int font,int input,unsigned s
         break;
     }
     }
-    func_0201C724(printer,buffer,x,y,text,font,color);
+    func_0201C724(printer,(int)buffer,(short)x,(short)y,(int)text,(int)font,color);
     if(expansion) func_02045808((struct U16Vec *)text);
 }

@@ -31,7 +31,8 @@ extern void func_021E5BE4(int a);
 extern void func_021E5EF8(void *p);
 extern void func_021E625C(void *p);
 extern void func_020456F8(struct Descriptor *d);
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 
 void func_021E1CE8(void *p, int a1)
 {

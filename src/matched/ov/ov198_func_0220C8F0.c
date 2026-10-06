@@ -55,7 +55,8 @@ extern int func_022110D4(u8 *p, int i);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern u8 func_02045738(struct Descriptor *p);
-extern void func_0201C724(int, int, int, int, int, int, int);
+typedef unsigned short u16;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -64,7 +65,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 static inline void put(Big *a0, int win, int sel, int x, int h, int color)
 {
-    func_0201C724(win, (int)func_02045770((struct Descriptor *)sel), x, 0, h, a0->f0->fc, color);
+    func_0201C724((void *)win, (int)func_02045770((struct Descriptor *)sel), x, 0, h, a0->f0->fc, color);
 }
 
 void func_0220C8F0(Big *a0, int i)

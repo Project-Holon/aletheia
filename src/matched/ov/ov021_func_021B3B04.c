@@ -17,7 +17,8 @@
  */
 #include "../include/Obj19996.h"
 
-extern void func_0201F868(void *p);
+typedef unsigned int   u32;
+extern u32 func_0201F868(void *p);
 
 void func_021B3B04(char *w)
 {

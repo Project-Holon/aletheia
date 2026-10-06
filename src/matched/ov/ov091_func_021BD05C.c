@@ -46,7 +46,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern const char d_021BED48[];
 
@@ -76,7 +76,7 @@ u32 *func_021BD05C(u8 *p, u32 *list, u8 x, u8 y, u8 w)
     r[1] = func_020450F0(4, (u8)(x + 1 + ((u32)w >> 1)), (u8)(y + 1), 10, 2, 0xe, flag);
     bmp = (u32)func_020457B0(0x10, *(u16 *)p);
     func_02045924((struct Strbuf *)bmp, (const u16 *)list[1]);
-    func_0201C724(*(u32 *)(p + 0x140), (u32)func_02045770((struct Descriptor *)r[1]), 0, 0, bmp, *(u32 *)(p + 0x138), 0x3c40);
+    func_0201C724((void *)(*(u32 *)(p + 0x140)), (u32)func_02045770((struct Descriptor *)r[1]), 0, 0, bmp, *(u32 *)(p + 0x138), 0x3c40);
     func_02045808((struct U16Vec *)bmp);
     r[0] = flag;
     return r;

@@ -29,7 +29,7 @@ struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u8 func_02045738(struct Descriptor *p); extern u8 func_02045740(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b); extern unsigned func_0201D42C(void *,int);
-extern void func_0201C724(int,void *,s16,s16,void *,int,u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021B7E48(u8 *p,void *a,int b)
 {
  int bank; int font; int tag; u16 x,y;
@@ -39,6 +39,6 @@ void func_021B7E48(u8 *p,void *a,int b)
  x=func_02045738(((struct Obj02813 *)p)->f0)*4; y=func_02045740(((struct Obj02813 *)p)->f0)*4;
  x-= (u16)(func_0201D304(((struct Obj02813 *)p)->fC,tag,0)/2);
  y-= (u16)(func_0201D42C(((struct Obj02813 *)p)->fC,tag)/2);
- func_0201C724(font,func_02045770(((struct Obj02813 *)p)->f4),(s16)x,(s16)y,((struct Obj02813 *)p)->fC,tag,15812);
+ func_0201C724((void *)font,(u32)func_02045770(((struct Obj02813 *)p)->f4),(s16)x,(s16)y,(u32)(((struct Obj02813 *)p)->fC),tag,15812);
  p[8]=1;
 }

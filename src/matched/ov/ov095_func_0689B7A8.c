@@ -26,15 +26,15 @@ typedef unsigned int u32;
 
 extern u32 func_0689B7EC(u32 a);
 extern void func_0689BF3C(u32 e, u32 a, u32 x, u32 b, u32 c);
-extern void func_0689B7FC(u32 a, u32 b, u32 c, int t);
+extern void func_0689B7FC(void *a, void *b, u32 c, int t);
 
-void func_0689B7A8(u32 a, u32 b, u32 c, int d)
+void func_0689B7A8(void *a, u32 b, u32 c, int d)
 {
     u32 x;
 
-    x = func_0689B7EC(a);
+    x = func_0689B7EC((u32)a);
     if (d != 0)
-        func_0689BF3C((&c)[2], a, x, b, c);
+        func_0689BF3C((&c)[2], (u32)a, x, b, c);
     else
-        func_0689B7FC((&c)[2], a, x, b);
+        func_0689B7FC((void *)((&c)[2]), a, x, b);
 }

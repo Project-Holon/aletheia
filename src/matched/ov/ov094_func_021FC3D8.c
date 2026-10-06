@@ -29,14 +29,16 @@ typedef struct {
     int f23c;
 } State;
 
-extern int func_0201134C(int);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 extern void *func_02030DA8(void *owner, void *fn, void *p, unsigned a3);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021FE930(void *p);
 extern char d_0220AE68[];
 
-int func_021FC3D8(int a, State *s)
+int func_021FC3D8(struct Cursor *a, State *s)
 {
     int v = func_0201134C(a);
     int *p;

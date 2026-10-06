@@ -27,7 +27,7 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_02082BCC(void *,int,int);
 void func_021B7CA4(void **p) { int i; for(i=0;i<35;i++) if(p[i+10]) func_0204B3B4(p[i+10]); func_0204ADA4((u32)p[1]); func_0204A8D4((u32)p[2]); func_0204AFD8((u32)p[3]); func_0204ADA4((u32)p[4]); func_0204A8D4((u32)p[5]); func_0204AFD8((u32)p[6]); func_0204ADA4((u32)p[7]); func_0204A8D4((u32)p[8]); func_0204AFD8((u32)p[9]); func_0204B1CC(p[0]); func_0204A5AC(); func_02082BCC(p,0,0xb4); }

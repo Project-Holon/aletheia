@@ -28,8 +28,8 @@ extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *);
 extern void func_021F3ED0(u8 *);
-extern void func_020452E8(struct Descriptor *d);
-extern void func_0201D83C(void *);
+extern u32 func_020452E8(struct Descriptor *d);
+extern u32 func_0201D83C(void *ptr);
 extern u32 func_020307B0(void *p);
 void func_021F3BF0(u8 *p)
 {

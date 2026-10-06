@@ -55,7 +55,7 @@ extern void func_021B9C1C(char *p);
 extern void func_021B9694(unsigned int *p);
 extern void func_021B9734(char *p);
 extern void func_021B95CC(void);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_020315D4(struct S020315D4 *p);
 
 int func_021B94CC(void *a, void *b, char *c, char *d)

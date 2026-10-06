@@ -57,7 +57,7 @@ extern u16 func_0218DD10(u8 *p);
 extern int func_0218B974(int a, int o, void *p, int n);
 extern int func_02193924(u8 *a, void *q, int c, int d, int e, int f, int g, u16 h);
 extern int func_0218DCF4(unsigned int *a0);
-extern int func_0218DCFC(int q);
+extern int func_0218DCFC(unsigned int *a0);
 typedef unsigned int   u32;
 extern int func_021A7410(u32 a, u32 b, u32 c, u32 d);
 
@@ -119,7 +119,7 @@ int func_02193628(u8 *o, unsigned int *q)
         }
         func_02169580((int)o);
         if (func_0218DCF4(q))
-            func_021A7410(func_0218DCFC((int)q), func_02169560((unsigned char *)o), func_02169578((unsigned char *)o), func_02169598(o));
+            func_021A7410(func_0218DCFC((unsigned int *)q), func_02169560((unsigned char *)o), func_02169578((unsigned char *)o), func_02169598(o));
         *st = 4;
         break;
     case 4:

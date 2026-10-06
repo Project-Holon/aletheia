@@ -39,7 +39,7 @@ struct Obj;
 extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B5AC(void *obj, struct Pair *scale);
+extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
 
 #define OBJ(p) (*(void **)((p) + *(int *)((p) + 0x5c) * 4 + 0x54))
 

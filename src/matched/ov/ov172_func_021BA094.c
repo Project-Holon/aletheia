@@ -14,6 +14,6 @@
  * Addresses are Black-image addresses.
  */
 
-void func_021BA094(void)
+void func_021BA094(int v)
 {
 }

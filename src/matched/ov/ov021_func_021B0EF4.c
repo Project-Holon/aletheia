@@ -63,7 +63,8 @@ extern void *func_0216DE94(void *map, u32 id);
 struct Q;
 extern u8 *func_0215A63C(u8 *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 struct Actor;
 struct VecFx32;
@@ -103,7 +104,7 @@ int func_021B0EF4(void *a, int b)
     flag = 0;
     func_02082BCC(s, 0, 0x28);
     s->id = k2;
-    x = func_02188CB4(q[1]);
+    x = func_02188CB4((struct Obj00020 *)q[1]);
     y = (int)func_0215A5EC((void *)b);
     z = func_021A3074((void *)x);
     func_0216D88C(func_0216DE94((void *)y, s->id), (struct VecFx32 *)&v);

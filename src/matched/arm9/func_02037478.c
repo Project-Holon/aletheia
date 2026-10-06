@@ -60,7 +60,7 @@ extern void func_02082BCC(u8 *p, u32 v, u32 n);
 struct Rec;
 extern void func_0203640C(struct Rec *p, u32 a, int b);
 extern void func_02037234(u8 *p);
-extern void func_02037224(u32 a, u32 b);
+extern void func_02037224(u8 v, int b);
 extern int func_02036B4C(int a0);
 
 void func_02037478(void)

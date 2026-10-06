@@ -28,17 +28,18 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Obj;
 struct Slot;
-extern void func_0201F868(void *p);
+extern u32 func_0201F868(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern u32 func_020307B0(void *p);
 extern void func_02190538(struct Slot *s);
-extern int func_02193130(u32 a);
+struct Descriptor;
+extern int func_02193130(struct Descriptor *a);
 
 int func_021909BC(void *a)
 {
 func_0202020C((struct Obj *)(((struct Obj07209 *)((u8 *)(a)))->f10), 0, 0);
 func_0201F868((void *)(((struct Obj07209 *)((u8 *)(a)))->fC));
-func_02193130(((struct Obj07209 *)((u8 *)(a)))->f8);
+func_02193130((struct Descriptor *)(((struct Obj07209 *)((u8 *)(a)))->f8));
 func_02190538((struct Slot *)(((struct Obj07209 *)((u8 *)(a)))->f4));
 return func_020307B0(a);
 }

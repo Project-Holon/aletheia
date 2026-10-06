@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Descriptor;
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 
 void func_02028164(u8 *p)

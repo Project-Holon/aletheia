@@ -14,7 +14,7 @@
 
 void *func_0216D69C(void);
 
-void func_0219BF54(void)
+void func_0219BF54(int a0)
 {
     char *p = func_0216D69C();
 

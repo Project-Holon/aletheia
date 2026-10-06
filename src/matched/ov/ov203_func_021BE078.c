@@ -10,4 +10,4 @@
  * status: EXACT*
  * extent: final two bytes are alignment padding.
  */
-void func_021BE078(void){}
+void func_021BE078(void *a0){}

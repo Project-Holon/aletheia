@@ -16,6 +16,7 @@
 struct Descriptor;
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02082BCC(void *p,int v,int n);
 void func_021BB204(void **p) { func_02045808(p[1]); func_020452E8(p[0]); func_02082BCC(p,0,0x14); }

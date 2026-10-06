@@ -32,7 +32,8 @@ struct Stream;
 extern u16 func_02011330(struct Stream *s);
 extern u32 func_02012104(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void *func_021A3074(unsigned char *p);
 extern void *func_021854B0();
 

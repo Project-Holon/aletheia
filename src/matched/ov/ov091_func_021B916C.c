@@ -123,7 +123,7 @@ extern void func_021BDC3C(u32 p, void *m);
 extern int func_021B9AC8(u8 *p, void *mon, u8 bit);
 extern u32 func_021BA5B4(u8 *p, void *q);
 extern void func_021BA60C(u8 *p, void *q);
-extern void func_021B9E3C(void);
+extern void func_021B9E3C(char *p);
 extern void func_021BA4E4(u8 *p);
 extern void func_021BA098(u8 *p);
 extern void func_021B9EB0(u8 *p);

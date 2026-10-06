@@ -55,7 +55,7 @@ extern void *func_021BE2A8(char *p, int key);
 extern int func_0203CB00(void);
 extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern void func_0201F868(void *p);
+extern u32 func_0201F868(void *p);
 extern void func_021B9AE0(void *w, u8 *s);
 extern void func_021BE900(char *p);
 extern void func_021BA8EC(char *p);
@@ -66,7 +66,7 @@ extern u32 func_0202EB0C(void);
 extern void func_021BAAB8(char *p, int a, int b);
 extern int func_021BDDD0(char *p);
 extern int func_021BDD60(int x);
-extern void func_021BCC4C(char *p);
+extern void func_021BCC4C(void *a);
 extern int func_021BDDF4(char *p);
 extern int func_021C27E0(void *p);
 

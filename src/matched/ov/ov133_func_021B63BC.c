@@ -96,7 +96,7 @@ extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void func_021B9C90(u8 *),func_0201F73C(void *,int,int,int),func_021BA0C8(u8 *,u8);
 extern void func_0204047C(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
 extern void func_0201C6EC(struct PrintSys *p);
-extern void func_020452E8(struct Descriptor *d);
+extern u32 func_020452E8(struct Descriptor *d);
 struct Descriptor;
 extern u32 func_021BA20C(u8 *p);
 extern void func_021B9CBC(u8 *,u8 *);

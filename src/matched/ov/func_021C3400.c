@@ -21,9 +21,10 @@
 
 typedef int s32;
 
-extern int func_0200BCA0(int);
+struct Obj11233;
+extern int func_0200BCA0(struct Obj11233 *p);
 
 int func_021C3400(void *a)
 {
-    return func_0200BCA0(((struct Obj18300 *)a)->f8);
+    return func_0200BCA0((struct Obj11233 *)(((struct Obj18300 *)a)->f8));
 }

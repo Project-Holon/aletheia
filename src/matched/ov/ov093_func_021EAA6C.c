@@ -28,7 +28,7 @@ typedef struct {
     u32 obj;                   /* 0x28 */
 } CbSlot;
 
-extern u8 *func_021E9100(void *p, u32 k);
+extern u8 *func_021E9100(u8 *p, int n);
 extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern int func_021EAB18(int *st, u8 *b);
@@ -38,7 +38,7 @@ void func_021EAA6C(CbSlot *s, u32 k, u32 n)
     u8 *t;
 
     if (n != 1) {
-        t = func_021E9100(s, 8);
+        t = func_021E9100((u8 *)s, 8);
         t[0] = k;
         t[1] = n;
         t[5] = func_021B8BEC(s->battle, k, 0);

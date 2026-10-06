@@ -56,7 +56,7 @@ extern void func_020409B4(u8 channel);
 extern void func_02041B6C(u8 channel);
 extern u32 func_020307B0(void *p);
 
-void func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
+u32 func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
 {
     struct Pal *pal;
 
@@ -86,5 +86,5 @@ void func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
             func_020409E0((u8)channel, pal->data, size, a2);
         }
     }
-    func_020307B0(file);
+    return func_020307B0(file);
 }

@@ -28,7 +28,7 @@ struct Rec44;
 struct SaveBlock;
 struct BigObj;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012134(void *p);
+extern u32 func_02012134(u32 *p);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012B28(const struct Rec44 *p);
@@ -43,7 +43,7 @@ void func_02189518(char *p, unsigned int idx)
     int k;
 
     a = func_020120F4(((struct Obj12557 *)p)->f4);
-    b = func_02012134(((struct Obj12557 *)p)->f4);
+    b = (void *)func_02012134(((struct Obj12557 *)p)->f4);
     c = (void *)func_02012A30(a);
     k = func_02012B28(func_020127A4(a));
     func_0202B544((u32)b, idx);

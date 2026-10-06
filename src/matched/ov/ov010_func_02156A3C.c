@@ -62,7 +62,7 @@ extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 void func_02156A3C(Work *w, u8 j, void *ws, u32 slot)
 {

@@ -43,7 +43,7 @@ extern void func_021E4570(char *p);
 extern void func_021DD9DC(unsigned char *),func_021E36D8(void *,int),func_021E69A4(char *),func_021DF7D0(void *),func_021E2680(char *),func_021E4888(char *),func_021E2438(char *,int);
 extern void func_021B639C(u8 *p);
 extern void func_021E48E0(char *);
-extern void func_0204B1CC(struct Bank *bank);
+extern unsigned int func_0204B1CC(struct Bank *bank);
 extern void func_021E11A8(char *);
 extern void func_021DD174(char *);
 extern void func_021E293C(char *p, int i);

@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern void func_021BC704(u8 *p, u32 flag);
 extern u16 func_021BF71C(u8 *);
 extern void func_021BCF7C(u8 *p, int n, int v);
-void func_021BAE24(u8 *p) {
+void func_021BAE24(u8 *p, u8 *a1, void *a2) {
     if(**(u32 * *)&((struct Obj02459 *)p)->f78==1) {
         func_021BC704(*(u8 * *)&((struct Obj02459 *)p)->f54,0);
         func_021BCF7C(*(u8 * *)&((struct Obj02459 *)p)->f64,(u8)func_021BF71C(*(u8 * *)&((struct Obj02459 *)p)->f18),0);

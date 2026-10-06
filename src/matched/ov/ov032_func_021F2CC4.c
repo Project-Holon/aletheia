@@ -23,7 +23,8 @@ struct TaskMenuState;
 struct U16Vec;
 extern void func_02028148(u8 *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02027FD8(struct TaskMenuState *s);
+typedef unsigned int   u32;
+extern u32 func_02027FD8(struct TaskMenuState *s);
 extern int func_02028604(int a0);
 
 void func_021F2CC4(char *p)

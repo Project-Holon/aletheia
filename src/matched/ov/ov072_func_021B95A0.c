@@ -96,7 +96,7 @@ extern void func_021BB4B4(u32 *p, u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void func_021BA490(void *p, u16 x, u16 y, int a, u32 b, u32 c, int heap, int flag);
 extern void func_021BA04C(void *p, u32 a, u32 b, int heap);
-extern int func_021BA7F8(void *p, u16 x, u16 y);
+extern void *func_021BA7F8(char *p, u32 b, int y);
 extern int func_021BA774(char *p, int i);
 extern void func_021BA3CC(char *p, int *q);
 extern void func_021BAF74(u8 *p, u32 a, u32 b, int heap);
@@ -145,7 +145,7 @@ int func_021B95A0(void *a, void *b, Arg *c)
     func_02040618(func_021BB764(*(u32 *)&((struct Obj00433 *)o)->f0, 1), 3, -4);
     func_021BA490(o + 0x50, c->f8, c->fA, ((struct Obj00433 *)o)->f34, *(u32 *)&((struct Obj00433 *)o)->f0, (u32)func_020120F4((const struct Ctx *)((*(u32 **)(o + 0x130))[5])), 0x44, flag);
     func_021BA04C(o + 0x38, func_021BB784((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 1), func_021BB784((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 2), 0x44);
-    e = func_021BA7F8(o + 0x50, c->f8, c->fA);
+    e = (int)func_021BA7F8((char *)(o + 0x50), c->f8, c->fA);
     if (e != 0) {
         pt.x = func_021BA774((char *)e, 4);
         pt.y = func_021BA774((char *)e, 5);

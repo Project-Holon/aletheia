@@ -32,9 +32,9 @@ extern D d_021F6398;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 
 void func_021EECD8(void)
 {

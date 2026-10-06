@@ -22,6 +22,6 @@ struct PrintSys;
 struct Descriptor;
 extern void func_0201C6EC(struct PrintSys *);
 extern void sub_020456F8(struct Descriptor *);
-extern void sub_020452E8(struct Descriptor *);
+extern u32 sub_020452E8(struct Descriptor *d);
 extern void sub_02041B6C(u32);
 void func_021BBCF4(char *p) { u8 i; for(i=0;i<3;i++) { *(u32 *)(p+i*4+0x28)=0; func_0201C6EC(*(struct PrintSys **)(p+i*4+0x1c)); sub_020456F8(*(struct Descriptor **)(p+i*4+0x10)); sub_020452E8(*(struct Descriptor **)(p+i*4+0x10)); } sub_02041B6C(5); }

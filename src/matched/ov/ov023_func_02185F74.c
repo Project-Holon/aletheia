@@ -65,7 +65,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_02008500(void *a, void *b);
-extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045334(struct Descriptor *a);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -95,11 +95,11 @@ void func_02185F74(u32 *win, u16 color, W *p)
             func_02008500((void *)p->e1c8[i].w, (void *)p->arr18[i]);
             if (sel == i) {
                 t = p->f164;
-                func_0201C724(t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, 0xc80);
+                func_0201C724((void *)t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, 0xc80);
                 p->ent[i].f = 1;
             } else {
                 t = p->f164;
-                func_0201C724(t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, color);
+                func_0201C724((void *)t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, color);
                 p->ent[i].f = 1;
             }
         }

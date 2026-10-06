@@ -19,7 +19,8 @@
 
 extern void func_0204B084(void *);
 struct Bank;
-extern void func_0204B1CC(struct Bank *bank);
+typedef unsigned int   u32;
+extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void MI_CpuFill8(void *, int, int);
 

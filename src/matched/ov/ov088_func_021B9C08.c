@@ -22,10 +22,11 @@ struct PrintSys;
 struct Rec;
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern unsigned int func_02045C04(struct Rec *rec);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0201D83C(void *ptr);
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_0201D83C(void *ptr);
+extern u32 func_020452E8(struct Descriptor *d);
 
 void func_021B9C08(int *p)
 {

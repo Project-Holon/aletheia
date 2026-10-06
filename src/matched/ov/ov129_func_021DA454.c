@@ -46,7 +46,7 @@ extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_020257D0(struct Obj *o);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 void func_021DA454(u8 *p, int i, int a2, int a3, int a4)
 {
     void *bank,*msg,*bmp;

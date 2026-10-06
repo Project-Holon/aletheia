@@ -29,7 +29,7 @@ struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
 extern int func_021F7B9C(u8 *p, int event);
-extern void func_021FF318(void *,int,int,int,int);
+extern void func_021FF318(u8 *p, u32 k, int b, int c, int d);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 void func_021FE264(u8 *p, int mode)

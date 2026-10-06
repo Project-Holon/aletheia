@@ -30,7 +30,7 @@ typedef signed int s32;
 struct Obj;
 extern void func_02202940(struct Obj *p);
 struct Descriptor;
-extern void sub_020452E8(struct Descriptor *d);
+extern u32 sub_020452E8(struct Descriptor *d);
 extern void sub_020456F8(struct Descriptor *d);
 extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);

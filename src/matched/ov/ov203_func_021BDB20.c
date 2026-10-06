@@ -24,7 +24,7 @@ struct Rec;
 struct S020315D4;
 extern void func_02023F98(u32 mask);
 extern void func_021BDD18(char *);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021BE4B4(char *ctx);
 extern void func_021BDE98(char *ctx);

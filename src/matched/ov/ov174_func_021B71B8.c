@@ -53,7 +53,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 void func_021B71B8(u8 *p,u8 *q)

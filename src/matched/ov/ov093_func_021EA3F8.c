@@ -14,7 +14,7 @@
  */
 extern int func_021F7EB4(void);
 
-int func_021EA3F8(void)
+int func_021EA3F8(int a)
 {
     if (func_021F7EB4() == 0) {
         return 1;

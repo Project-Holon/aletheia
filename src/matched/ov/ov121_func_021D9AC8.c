@@ -26,7 +26,8 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct U16Vec;
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern void func_021D9BC0(void *, int, Pair *);
-extern void func_0201C724(void *, void *, s16, s16, void *, int, u16);
+typedef unsigned int   u32;
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021D9AC8(u8 *p, int a, int b)
 {
     Pair xy;
@@ -35,7 +36,7 @@ void func_021D9AC8(u8 *p, int a, int b)
     func_02045838(((struct Obj01057 *)p)->f10, (struct U16Vec *)a);
     func_021D9BC0(p, b, &xy);
     q = ((struct Obj01057 *)p)->f8;
-    func_0201C724(q, func_02045770(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
-                 ((struct Obj01057 *)p)->f10, b, ((struct Obj01057 *)p)->f16);
+    func_0201C724(q, (u32)func_02045770(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
+                 (u32)(((struct Obj01057 *)p)->f10), b, ((struct Obj01057 *)p)->f16);
     p[4] = 1;
 }

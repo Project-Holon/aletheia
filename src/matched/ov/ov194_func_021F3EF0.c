@@ -49,7 +49,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern signed char func_02012FFC(void);
 /* The caller consumes R0 returned by the legacy void forwarding wrapper. */
 extern int func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_021F46B4(unsigned char *p, int *state);
 void func_021F3EF0(char *p,char *q,int *w,u32 heap)
 {

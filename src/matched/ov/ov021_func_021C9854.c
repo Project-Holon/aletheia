@@ -28,7 +28,8 @@ typedef unsigned int u32;
 extern void func_020061E4(u32);
 extern int func_02006148(u32);
 extern int func_02006224(u32);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 typedef unsigned char  u8;
 extern u32 func_02188C98(u8 *p);
 struct VecFx32;
@@ -48,7 +49,7 @@ int func_021C9854(u32 a, u32 *q, u32 *p)
     case 0:
         if (p[4] == 0)
             func_020061E4(0x55D);
-        func_021A3038(func_02188CB4((unsigned char *)p[1]), (struct VecFx32 *)v);
+        func_021A3038(func_02188CB4((struct Obj00020 *)p[1]), (struct VecFx32 *)v);
         box[0] = v[2] - 0x10000;
         box[1] = v[2] + 0x10000;
         box[2] = v[0] - 0x10000;

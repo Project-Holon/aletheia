@@ -90,7 +90,8 @@ typedef struct Hex4 {
     char c[4];
 } Hex4;
 
-extern char *func_02094A28(const char *, int);
+typedef unsigned char  u8;
+extern u8 *func_02094A28(const u8 *s, int c);
 struct Ctx;
 extern int func_021C0004(struct Ctx *ctx, int ch);
 extern int func_021BFCEC(GHIBuffer *, char *, int);
@@ -120,7 +121,7 @@ GRes func_021C2C28(GHIPostState *state, GHIConnection *connection)
         if (connection->encrypted != 0)
             writeBuffer = &connection->sendBuffer;
         for (c = string[0]; c != 0; c = string[++i]) {
-            if (func_02094A28(g_021CED88, c) != 0) {
+            if (func_02094A28((const u8 *)g_021CED88, c) != 0) {
                 result = func_021C0004((struct Ctx *)writeBuffer, c);
             } else if (c == ' ') {
                 result = func_021C0004((struct Ctx *)writeBuffer, '+');

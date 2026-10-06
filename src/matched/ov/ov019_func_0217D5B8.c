@@ -83,12 +83,12 @@ extern u16 func_0217EE10(int i);
 extern u16 func_0217EDEC(int i);
 extern u16 func_0217EE1C(int i);
 extern u16 func_0217EDF8(int i);
-extern void func_0217F210(u8 *p, int a, u32 b);
+extern void func_0217F210(u8 *p, u8 *a, u32 b);
 extern void func_02172D20(u8 *a);
 extern void func_021734A8(u8 *self, u32 id, u32 v);
 extern u8 d_021807E8[];
 
-int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
+int func_0217D5B8(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     int *p;
     if (*d != 4 && *d != 5 && *d != 8 && func_0217BB04((char *)a) == 1)

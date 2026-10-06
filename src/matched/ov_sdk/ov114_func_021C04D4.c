@@ -48,8 +48,7 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern unsigned int func_0217F264(void);
-extern int func_021C1C80(GHIConnection *connection, void *encryptor, char *buffer,
-                         int *bufferLen);
+extern int func_021C1C80(void *connection, void *encryptor, char *buffer, int *bufferLen);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217ED54(int sock);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);

@@ -30,7 +30,8 @@ typedef struct {
 struct Descriptor;
 struct PrintSys;
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_020452E8(struct Descriptor *d);
+typedef unsigned int   u32;
+extern u32 func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 
 void func_021C60A0(Work *p)

@@ -19,11 +19,12 @@
 struct Bank;
 struct PrintSys;
 struct Rec;
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201D83C(void *);
+extern unsigned int func_02045C04(struct Rec *rec);
+typedef unsigned int   u32;
+extern u32 func_0201D83C(void *ptr);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_0204B1CC(struct Bank *bank);
+extern u32 func_0204B1CC(struct Bank *bank);
 void func_021F022C(char *p)
 {
     func_02045C04(((struct Obj06132 *)p)->f48);

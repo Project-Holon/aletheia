@@ -43,7 +43,7 @@ extern Word func_021E896C(int, int);
 extern void func_021C5C1C(u8 *, u8 *, int, Word);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021C6878(u8 *, u8 *, u16);
+extern void func_021C6878(u8 *p, u8 *a, int a2);
 extern int func_021C68A8(u8 *, u8 *, u8 *, u16);
 extern void func_021D5FC0(struct UtilWork *p, u32 n);
 extern void func_021BFE60(u8 *, u8 *);

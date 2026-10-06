@@ -28,6 +28,6 @@ extern void func_021F015C(char *);
 extern void func_021F0100(char *);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201D83C(void *);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201D83C(void *ptr);
 void func_021EFFD4(char *p) { func_021A0FB4(((struct Obj05127 *)p)->fC,((struct Obj05127 *)p)->f0); func_021F0218(p); func_021F015C(p); func_021F0100(p); func_0201C6EC(((struct Obj05127 *)p)->f3C); func_0201C4C0(((struct Obj05127 *)p)->f3C); func_02045C04(((struct Obj05127 *)p)->f38); func_0201D83C(((struct Obj05127 *)p)->f34); }

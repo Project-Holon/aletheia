@@ -21,7 +21,8 @@
 #include "../include/Obj21683.h"
 typedef unsigned short u16;
 
-extern int func_0201134C(void *);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *p);
 extern unsigned int func_020307B0(void *p);
 extern void *func_02048F60(unsigned int archive_id, unsigned int member, unsigned int heap);
 typedef unsigned int   u32;

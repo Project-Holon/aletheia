@@ -42,8 +42,8 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045C04(struct Rec *rec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void func_02045334(struct Descriptor *d);
 extern void func_020409B4(u32);
 void func_021DA578(void *p,int a,void *b,u32 c)

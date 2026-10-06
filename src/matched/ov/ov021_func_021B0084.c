@@ -41,7 +41,7 @@ typedef struct {
 struct Handle;
 extern void *func_0215A5F4(void *p);
 extern void func_0215A684(int *p, unsigned short v);
-extern u32 func_0215A690(u32 a);
+extern int func_0215A690(char *a0);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
@@ -58,7 +58,7 @@ int func_021B0084(u32 a0, int *st, Ctx *c)
         func_0215A684((int *)c->a0, 8);
         (*st)++;
     case 1:
-        if (func_0215A690(c->a0) == 1) {
+        if (func_0215A690((char *)c->a0) == 1) {
             c->h = (u32)func_02190BE4((u16 *)func_02188C54(func_0201210C(func_0215A5DC((void *)c->a0))), 0);
             (*st)++;
         }

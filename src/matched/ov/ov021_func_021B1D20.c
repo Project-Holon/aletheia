@@ -29,7 +29,8 @@ extern void *func_0215A5F4(void *p);
 struct Stream;
 extern int func_02158F58(int a0);
 extern u16 func_02011330(struct Stream *s);
-extern void *func_02188CB4(unsigned char *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A2F48(u8 *p, u32 a1);
 extern int func_021A2F54(u8 *p);
 extern void func_020113D0(char *p, int val);
@@ -43,7 +44,7 @@ int func_021B1D20(u32 a, u32 b)
 
     e = (u32 *)func_02158F58((int)func_0215A5F4((void *)b));
     v = func_02011330((struct Stream *)a);
-    o = func_02188CB4((unsigned char *)e[1]);
+    o = func_02188CB4((struct Obj00020 *)e[1]);
     func_021A2F48(o, v);
     if (func_021A2F54(o) == 1)
         return 0;

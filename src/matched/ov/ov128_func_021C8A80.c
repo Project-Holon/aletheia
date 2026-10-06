@@ -44,7 +44,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct Sub020097BCEnt *func_020099D4(struct Sub020097BCObj *obj, int i);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_021B6AE4(u8 *, u32, u16, u16, u32, u32, u16, u32);
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx, u16 heap)
 {
     struct { u16 colors[3]; s16 pos[4]; } local;
@@ -67,7 +67,7 @@ void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx
     }
     str = func_020457B0(128, heap);
     func_02045924(str, (const u16 *)func_020099D4(base, idx));
-    func_021B6AE4(*(u8 * *)&((struct Obj05381 *)p)->f8, ((struct Obj05382 *)b)->f34, d_021CA6C8[i].x * 8,
+    func_021B6AE4(*(u8 * *)&((struct Obj05381 *)p)->f8, (void *)(((struct Obj05382 *)b)->f34), d_021CA6C8[i].x * 8,
                  d_021CA6C8[i].y * 8 - 24, (u32)str, ((struct Obj05382 *)b)->f17C, *(u16 *)((u8 *)&local + result9 * 2), 0);
     func_02045808(str);
 }

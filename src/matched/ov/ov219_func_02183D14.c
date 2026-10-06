@@ -137,7 +137,7 @@ extern void func_02040588(unsigned, unsigned);
 extern void func_02043B5C(struct CharBuf *, u8);
 extern void func_02045334(struct Descriptor *);
 extern void *func_02045770(struct Descriptor *);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
 extern u32 func_0201C6B4(const struct PrintSys *p);

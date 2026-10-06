@@ -27,9 +27,9 @@ extern int func_021BEDEC(u8 *,void *);
 extern int func_021BD8A8(u8 *p);
 extern int func_021BD8B8(u8 *p);
 extern int func_021BD8C8(u8 *p);
-extern void func_021BAE24(void *,u8 *,void *);
+extern void func_021BAE24(u8 *p, u8 *a1, void *a2);
 extern void func_021BAE94(u8 *p, u8 *q, void *a2);
-extern void func_021BAED0(void *,u8 *,void *);
+extern void func_021BAED0(u8 *p, u8 *a1, void *a2);
 void func_021BD7A0(u8 *p,Handler fn) {
  *(Handler *)&((struct Obj00012 *)p)->f24=fn; ((struct Obj00012 *)p)->f20=0;
  if(fn==func_021BD894) { func_021BAE24(((struct Obj00012 *)p)->f14,p,((struct Obj00012 *)p)->f18); *(Handler *)&((struct Obj00012 *)p)->f74=(Handler)func_021BD8A8; }

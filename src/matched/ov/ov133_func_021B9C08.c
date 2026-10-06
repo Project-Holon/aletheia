@@ -34,7 +34,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201C724(void *, void *, unsigned int, unsigned int, const void *, void *, u16);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021B9C08(u8 *p, unsigned int index, void *object)
 {
     void *text = func_02045EC0(((struct Obj00004 *)p)->f18D8, index);
@@ -47,7 +47,7 @@ void func_021B9C08(u8 *p, unsigned int index, void *object)
         func_02045808(text);
         text = copy;
     }
-    func_0201C724(((struct Obj00004 *)p)->f18E8, func_02045770(((struct Obj00004 *)p)->f18EC), 2, 2, text, ((struct Obj00004 *)p)->f18E4, 1088);
+    func_0201C724(((struct Obj00004 *)p)->f18E8, (u32)func_02045770(((struct Obj00004 *)p)->f18EC), 2, 2, (u32)text, (u32)(((struct Obj00004 *)p)->f18E4), 1088);
     func_02045808(text);
     *(int *)&((struct Obj00004 *)p)->f18CC = 1;
 }

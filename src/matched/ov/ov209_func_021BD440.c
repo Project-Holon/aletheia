@@ -19,11 +19,13 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *, unsigned);
 extern void func_02045808(struct U16Vec *);
-extern void func_021B6AE4(unsigned char *, unsigned, u16, u16, unsigned, unsigned, u16, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 void func_021BD440(char *p, unsigned index, unsigned msg, unsigned x, unsigned y, u16 color, unsigned mode)
 {
     void *text;
     text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00123 *)p)->f3C, msg);
-    func_021B6AE4((unsigned char *)(p + 32 + index * 8), ((struct Obj00123 *)p)->f48, x, y, (unsigned)text, *(unsigned *)&((struct Obj00123 *)p)->f38, color, mode);
+    func_021B6AE4((unsigned char *)(p + 32 + index * 8), (void *)(((struct Obj00123 *)p)->f48), x, y, (unsigned)text, *(unsigned *)&((struct Obj00123 *)p)->f38, color, mode);
     func_02045808(text);
 }

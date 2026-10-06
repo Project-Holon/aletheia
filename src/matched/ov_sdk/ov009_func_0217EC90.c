@@ -18,7 +18,7 @@
 extern int func_0215F590(void);
 extern int func_0217EB00(int a, int b);
 
-int func_0217EC90(void)
+int func_0217EC90(int sock, char *buffer, int bufferLen, int flags)
 {
     return func_0217EB00(func_0215F590(), -1);
 }

@@ -68,7 +68,8 @@ struct O02064140;
 extern void func_02064140(struct O02064140 *o, u32 a);
 extern void func_020640DC(char *self, int a, int b);
 extern void func_02064120(char *self, int a, int b);
-extern void func_02064100(char *self, int a);
+struct Obj02064100;
+extern void func_02064100(struct Obj02064100 *obj, u16 val);
 extern void func_020643CC(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
 
 void func_020649D4(char *self, int a1)
@@ -96,7 +97,7 @@ void func_020649D4(char *self, int a1)
         break;
     default:
         func_02064120(self + 0x48, ((struct Obj03474 *)p)->f4, ((struct Obj03474 *)p)->f8);
-        func_02064100(self + 0x48, ((struct Obj03474 *)p)->f2);
+        func_02064100((struct Obj02064100 *)(self + 0x48), ((struct Obj03474 *)p)->f2);
         func_020640DC(self + 0x48, ((struct Obj03474 *)p)->fC, ((struct Obj03474 *)p)->fE);
         break;
     }

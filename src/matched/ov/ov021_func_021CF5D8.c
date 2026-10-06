@@ -33,7 +33,8 @@ typedef int BOOL;
 
 extern u16 func_02188C9C(u8 *p);
 extern u16 func_02013E40(u32 a);
-extern void *func_02188CB4(u8 *p);
+struct Obj00020;
+extern void *func_02188CB4(struct Obj00020 *p);
 extern u32 func_021A30C8(void **ctx);
 extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);
@@ -41,7 +42,7 @@ extern BOOL func_021AB2BC(u16 id);
 extern BOOL func_021AB364(u16 id);
 extern int func_021AB37C(u32 id);
 
-void func_021CF5D8(int id, int kind, int flag, u8 *pos, u32 *outType, u16 *outMsg)
+void func_021CF5D8(int id, int kind, int flag, struct Obj00020 *pos, u32 *outType, u16 *outMsg)
 {
     u32 attr;
     u16 m;
@@ -49,7 +50,7 @@ void func_021CF5D8(int id, int kind, int flag, u8 *pos, u32 *outType, u16 *outMs
     u32 type;
     u16 msg;
 
-    sp = func_02013E40(func_02188C9C(pos));
+    sp = func_02013E40(func_02188C9C((u8 *)pos));
     switch (id) {
     case 0x23B:
         *outMsg = 0x469;

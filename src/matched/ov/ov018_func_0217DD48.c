@@ -75,7 +75,7 @@ struct Sys;
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_02025774(u8 *g, u32 a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(void *, void *, int, int, void *, void *, int);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern int func_02012B70(const struct BigObj *p);
 extern const unsigned short d_021836AA[];
@@ -101,7 +101,7 @@ void func_0217DD48(Work *p)
         p->fc0[i] = func_020255A0(p->fb0, (const struct Param *)(&a));
         func_02025774(p->fc0[i], 0);
         str = func_02045EC0(p->f2c, i + 0x45);
-        func_0201C724(p->f28, p->fb4[i], 0, 0, str, p->f1c, 0x3c40);
+        func_0201C724(p->f28, (u32)p->fb4[i], 0, 0, (u32)str, (u32)p->f1c, 0x3c40);
         func_02045808(str);
     }
     if (p->f168 == 0 && func_02012B70(sys) == 0) {

@@ -48,7 +48,7 @@ extern u8 d_021D9430[];
 struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct Rec *rec);
 extern Entry *func_0201F81C(u32 a, u32 b);
 struct Slot;
 extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);

@@ -74,7 +74,7 @@ typedef struct {
 struct Self;
 int func_0217BB04(char *p);
 u32 func_0217F1EC(u8 *p);
-void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F210(u8 *p, u8 *a, u32 b);
 typedef unsigned short u16;
 struct BigObj;
 u16 func_0217EC34(int i);
@@ -101,7 +101,7 @@ u32 func_0201AAD4(void *p);
 u32 func_0201AA88(void *p);
 u32 func_020362DC(void);
 
-int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
+int func_0217C5A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
 {
     int flag;
     void *h;
@@ -128,7 +128,7 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
             func_0217F210((u8 *)ctx, a2, func_0217EC68(obj->f2d));
             if (func_0217B9BC(obj->f2d) == 1) {
                 func_0217BA10((char *)ctx, obj->f2d);
-                func_0217F640((struct Self *)ctx, a2, 0, func_0217B974(obj->f2d), 0);
+                func_0217F640((struct Self *)ctx, (u32)a2, 0, func_0217B974(obj->f2d), 0);
                 *state = 2;
             } else {
                 *state = 3;
@@ -140,12 +140,12 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         break;
     case 2:
-        if (func_0217F794((char *)ctx, a2) == 1)
+        if (func_0217F794((char *)ctx, (u32)a2) == 1)
             *state = 3;
         break;
     case 3:
         func_0217F7B8((char *)ctx);
-        func_0217F22C((u8 *)ctx, a2);
+        func_0217F22C((u8 *)ctx, (u32)a2);
         (*state)++;
         break;
     case 4:
@@ -184,11 +184,11 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         break;
     case 6:
-        func_0217F640((struct Self *)ctx, a2, obj->f64, func_0217B974(obj->f2d), 1);
+        func_0217F640((struct Self *)ctx, (u32)a2, obj->f64, func_0217B974(obj->f2d), 1);
         (*state)++;
         break;
     case 7:
-        if (func_0217F794((char *)ctx, a2) == 1 && (func_020362DC() & 3)) {
+        if (func_0217F794((char *)ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
             func_0217F7B8((char *)ctx);
             if (obj->f68 == -1)
                 *state = 10;
@@ -197,11 +197,11 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         break;
     case 8:
-        func_0217F640((struct Self *)ctx, a2, obj->f64, func_0217B974(obj->f2d), 2);
+        func_0217F640((struct Self *)ctx, (u32)a2, obj->f64, func_0217B974(obj->f2d), 2);
         (*state)++;
         break;
     case 9:
-        if (func_0217F794((char *)ctx, a2) == 1 && (func_020362DC() & 3)) {
+        if (func_0217F794((char *)ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
             func_0217F7B8((char *)ctx);
             *state = 10;
         }

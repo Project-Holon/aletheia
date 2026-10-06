@@ -75,10 +75,11 @@ extern void func_0201DD78(u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02204C98(int a, int b, int *outn, int *outq);
+struct StrObj;
+extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201ED04(struct WordSet *p);
+extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_020307B0(void *p);
@@ -113,7 +114,7 @@ void func_022050F0(char *s, Out *out, const Info *p)
             w = func_02045EC0(((struct Obj01909 *)s)->f5C, p->e[i].kind + 3);
             func_0201EEF4((void *)h, 0, p->e[i].text);
             func_0201F250((struct WordSet *)h, v, w);
-            func_02204C98((int)v, ((struct Obj01909 *)s)->f224, &ww, &hh);
+            func_02204C98((struct StrObj *)v, ((struct Obj01909 *)s)->f224, &ww, &hh);
             func_0201C7A4((void *)(((struct Obj01909 *)s)->f22C), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, (void *)(((struct Obj01909 *)s)->f224));
             func_02045808(w);
         }

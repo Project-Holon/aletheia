@@ -24,14 +24,16 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[0x4c]; u16 values[8]; u8 pad2[0xb0-0x5c]; int fb0, fb4, fb8; u8 *fbc; int fc0, fc4; } Obj;
-extern unsigned int func_0201134C(int);
+typedef unsigned int   u32;
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern int func_0218A378(Obj *, int, int);
 struct QG;
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
-int func_021892F8(int a, Obj *b, int c)
+int func_021892F8(struct Cursor *a, Obj *b, int c)
 {
     int k, z, y, r, i, t;
     unsigned int value;
