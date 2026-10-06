@@ -335,6 +335,14 @@
  *   strength-reduced j*8, then load-deletion temps, then b*0x14, then second webs of reused ints).  The original
  *   needs j*8 between pr and cos, which no tested source form produces.
  * symbols:
+ * note (pass 6 2026-10-06 P6L02, round 2): residue unchanged at 5 bytes; the body is unchanged.  Traced why j*8 and
+ *   b*0x14 are second-run CSE temps: their uses differ at the first CSE (k-loop j*8 rewritten into CAST/MUL temps by the
+ *   loop transforms; b uses split by the arg() call) and become equal after copy propagation.  Tried for cos(pr), each
+ *   traced: an index local for the rz read only (propagated back before the first CSE, 5 B); an index local for s2 and
+ *   rz (508 B, the loads stay different); a cos local (441 B); a const s16 *sc for s2 and rz (508 B).  Both cos reads
+ *   are in one block with no call between, so the first CSE always merges them; a store, a call or a struct copy put between the
+ *   two rotations (diagnostics) does not split them either.  A CSE run names each temp at the first reuse of the
+ *   expression (pr at the s2 read, cos at the rz read), so j*8 between them needs a j*8 reuse inside the rx statement.
  * note (pass 6 2026-10-06 P6L02): residue unchanged at 5 bytes; the body is unchanged.  New method: mwccarm traced
  *   under a debugger (tools in scratchpad wD9r/p6_P6L02).  Measured: spill slots follow the creation order of the
  *   compiler temps ("@N" names, lower N = higher slot).  The temps are made by IRO_CommonSubs, which runs twice here;
