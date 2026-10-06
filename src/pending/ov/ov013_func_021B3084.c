@@ -134,6 +134,14 @@
  * original needs an extra pre-RA node or edge after `str thr`. Tried: ret or p reused (11, 6),
  * goto split (6), f4 store spellings (6), volatile f4 (15), ring update per arm (317), 3C50
  * store after the join (225); all dsi builds give 6. Notes: scratchpad wD9r/p6_P6L03/research.md.
+ * pass 6 2026-10-06 P6L09 (3 rounds, 10 compiler runs, best stays 6 B): alias trace of the
+ * success block. The narrow-spill rule (ov093 021D09E0, 021D32E0) does not apply: no stack
+ * slots, and the residue is in the pre-RA pass. The unknown set G already holds every object;
+ * the three stores are k1 (4C2C+0, 4C2C+4, 3C50+0) and the backend traces p to the symbol across
+ * copies and blocks (opt_pointer_analysis off: same). Replay: only str thr -> str f4 plus
+ * str f4 -> str 3C50 (both lat 1) works, so str f4 must alias both f0 fields; no k1 object can.
+ * Tried: p at outer-block top (309), p at function scope (313), local aggregate for f0/f4 (430).
+ * Notes: scratchpad wD9r/p6_P6L09/research.md.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
