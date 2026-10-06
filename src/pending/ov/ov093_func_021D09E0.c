@@ -44,6 +44,14 @@
  * store, 13 B). Also no change: num = count after the call, block-scoped or separate loop counters, scores[i] = j = 0,
  * for-init comma with type, register count/i, u8 *const p, unprototyped func_021D57FC, struct view of p, K&R (288 B),
  * target reused as mon (282 B), type u8/u16 (16 B), type declared later (12 B), opt_dead_code off, --lang c99.
+ * pass 3 2026-10-06 P3L03: still 5 B, about 40 compiles. Probe: the right-entry form 'if (count > 0) { i = 0; do }'
+ * plus one more spilled zero def before the guard flips the entry back to ours, so any zero def between the call and
+ * the count compare puts the count home store late; the original has that zero and still the early store. No change
+ * (5 B unless noted): counter-guard do-while, goto guard, u8 i = 0 at declaration, u32/u16/int num copies (5/11/11 B),
+ * sibling 021D0980 u32 counter (9 B), u16 counter (69 B), loop names swapped (21 B), char *p, void *const target,
+ * u8 kind, static function, block-scoped body locals, (u32)/(u16) casts in the guard, extra call arguments, inline helper
+ * for loop 1 (16 B), const int type (16 B), call in both arms (101 B), opt_propagation off with copies or do-while (275 B),
+ * scheduling off (inert), ipa off and K&R after a prototype (CCERR).
  * symbols:
  *   func_0201C314 0x0201C314 thumb
  *   func_0201C1C8 0x0201C1C8 thumb
