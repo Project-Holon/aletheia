@@ -49,6 +49,22 @@
  * Residue is the colour pair x/y (x born first gets the higher register here,
  * the image has y higher). 40 compiles used.
  *
+ * pass 2 2026-10-06 P2L36: 20 of 88 bytes differ (was 25). Stores in field
+ * order v.x, v.y, v.z (y stored before z) under the same pragma give the
+ * image's head: movs k first, then ldr x, ldr z, ldr y. Left: x and y swap
+ * roles (image keeps y to the end in r5 and stores x at +0x38; here x's
+ * result is kept in r4 and stored last, y in r3 stored at +0x38), and lsls k
+ * sits right after the loads (image +0x2C). Tried (bytes off): store orders
+ * x,z,y 25 / z,x,y 36 / y,x,z 44 / z,y,x 37 / y,z,x 46; VEC_Set inline with
+ * body x,y,z 20, body x,z,y 25; VEC_Set with fields read in the arguments 40
+ * (args evaluate right to left; no pragma gives the same 88 B, base 0x20000);
+ * no-pragma locals with the bias at the use 86 B but the image's head and
+ * colours for x; x read inline 25; y read inline 48; sx/sz locals 46/47;
+ * x = pos->x >> 12 at the load 29; literal bias without k 29; k before the
+ * loads 30; z = pos->z + k 35; loads y,z,x 21; local declaration order 20;
+ * non-const pos 20; pragma scheduling off: no change; a tall dummy function
+ * earlier in the TU: no change. 40 compiles.
+ *
  * Snap the actor's position to the 16-unit grid (z biased by 32) and
  * write it to the ov021 map object. Size-exact, 27 bytes out: the image
  * loads x, z, y in that order and stores x, z, y; hoisting the call into
@@ -102,8 +118,8 @@ void func_0216C2A4(Work *w)
     k = 0x20000;
     z = z + k;
     v.x = (((x >> 12) / 16) << 16) + 0x8000;
-    v.z = (((z >> 12) / 16) << 16) + 0x8000;
     v.y = y;
+    v.z = (((z >> 12) / 16) << 16) + 0x8000;
     func_021A3044(q, &v);
 }
 #pragma opt_propagation reset
