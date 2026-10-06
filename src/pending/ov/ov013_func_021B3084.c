@@ -152,6 +152,41 @@
  * the 12-byte d_021B4C2C. Also ruled out: register-pressure pick mode (limit 14, peak 6), block
  * skip flags (set only after the pre pass), VadState.f4 as s32 (6), f4 direct (15).
  * Notes: scratchpad wD9r/p6_P6L11/research.md.
+ * pass 6 2026-10-06 P6L13 (3 rounds, about 30 compiler runs, best stays 6 B): declared object size
+ * lever. Direct field accesses get AO lookup(obj, 2*off, size) (lda pass 0x51B215 plus pointer
+ * analysis), pointer accesses lookup(obj, off, size); incomplete arrays never go to G. With a
+ * 12-byte d_021B4C2C nothing in the success block can be G. An 8-byte declaration (VadHead {f0,
+ * f4}) with the success f4 store direct makes block 16 exactly the original, but the ring updates
+ * then need their f4 accesses both outside G (else the ring store aliases them: 41-53 B) and on a
+ * late lda vreg (pointer form st: schedule exact, colours off, 25 B; regalloc-replay shows st must
+ * be numbered after the block's temps). f8 kept direct only with a flexible array member (f1, 37 B).
+ * No plausible form gives both. Notes: scratchpad wD9r/p6_P6L13/research.md.
+ * pass 6 2026-10-06 P6L14 (3 rounds, 13 compiler runs, best stays 6 B): refine log shows each access
+ * AO is the merge of a refine from the off-0 base and one from the lda's own IR offset, so the
+ * success f4 store reaches G only from an lda made for f8 (none in block 16, and lda sharing stops
+ * at the loop exit) or an object under 12 bytes. File statics get separate pool words (no 8-byte
+ * head plus counter variable) and stay in G (static ring with the 8-byte form: 37). VadCfg as its
+ * true 16-byte layout (6), ring declared [4] (6). Notes: scratchpad wD9r/p6_P6L14/research.md.
+ * pass 6 2026-10-06 P6L15 (3 rounds, 6 compiles plus 9 mwccdbg captures, best stays 6 B): TU context
+ * and control flow. All three objects defined in the TU (VadCfg 16 B with the .data values), all
+ * three file statics, and siblings 021B3018/021B3064 (address passed to memcpy) before the function:
+ * 6 B each, block-16 AOs unchanged. Flag form ret = (sq && sq >= root << 1); if (ret): 344; do/while(0)
+ * with break: 93; goto shared exit: 93 (block-16 DAG and picks unchanged). Volatile f4 replay: the
+ * new str thr -> str f4 edge takes the release count from the zero copy at cycle 3, so the 3C50
+ * pool load moves earlier (why volatile f4 was worse). desc is an instruction class (copy 0, store
+ * 1, alu 2, ldr 3, lda/mov-imm 4). storeload/localcse run before sched pre, so no vanishing node
+ * can feed str thr; no WAR is possible (thr and base defined in block 16). A second smaller extern
+ * name would need a second 4C2C pool word (the listing has one). Notes: wD9r/p6_P6L15/research.md.
+ * pass 6 2026-10-06 P6L16 (3 rounds, 9 compiler runs, best stays 6 B): block-boundary route. The pre
+ * pass sees 28 blocks, the post pass 19: loop preheaders and while-entry jumps (each a `b` to the next
+ * block) and if-convertible ifs are merged after pre, so a straight-line pre boundary is possible, but
+ * every source of one is a loop or a predicated if, and the binary has none after `str thr`. Tried:
+ * do { p->f0 = thr; ret = 1; } while (0) (labels gone before the backend, 6); one-trip for loop around
+ * the f4 store (folded, 6); ret flag with `if (ret) { f4 = 0; cfg = 1; }` after the join (no jump
+ * threading, 375); --skip-block pre:16 edit (23, so not a skipped block). Opcode table: no code-free
+ * barrier pseudo-op. Neighbour pragmas: + opt_common_subs off (as 021B33F8/021B3924) 6, opt_lifetimes off
+ * (as 021B0614) 198. Statement order cannot move the cycle-6 pick (decided by height, deadlines cannot
+ * separate the nodes). Notes: scratchpad wD9r/p6_P6L16/research.md.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
