@@ -65,6 +65,18 @@
  * fresh-register, an-integer-table-base-multiplies-into-a-copy-of-the-index, a-compound-product-on-a-byte-offset-local-
  * gives-the-index-the-late-colour, an-early-spilled-multiply-with-a-copy-into-r0-is-base-first-and-a-zero-local-on-the-
  * offset. Research: scratchpad/wD9r/p2_P2L46/research.md.
+ * pass 3 2026-10-06 P3L18: no gain, best stays 54/126 (40 compiles, 3 rounds). Tried, no gain: multiply before
+ * the c store (one read per count, 62/122; only n2 69/124), off declaration order, off reusing r or x, off = 0
+ * at four positions (before calls 75/67, after the call 54), off = 0 as the call argument (67; plain 76), d
+ * defined late (97, 96; enum 116), h assigned after the n0 step (97), plain form without h (134), inline
+ * helper for the step (zero folds, 87) or for the whole parse (129), buffer pointer local (85/120), size
+ * local, p120 store last (60, wrong store order), counts read up front (98), nested block locals, register,
+ * unsigned long off, non-const H, u8/u16 n locals, &o->size + 1 for h, separate off0..off3 (87, zero folds).
+ * Probes without the p120 or c12 stores keep h/d in r1/r0. Findings: in the plain-member form h is copy-
+ * propagated into the first count read ([o, k+4]), which is why the original reads n0 off o; the zero survives
+ * as a register only when off has several assignments. The residue stays the early colouring of h/d.
+ * Matched-assembly search (`movs rZ,#0` before a call, later `adds rA, rZ, rB`): ov021 021AD82C, ov093
+ * 021EDB3C, ov040 021F381C, ov036 021F36C0, no header-parser twin. Research: scratchpad/wD9r/p3_P3L18/research.md.
  * symbols:
  *   func_02013ECC  0x02013ECC  thumb
  *   func_020493D4  0x020493D4  arm
