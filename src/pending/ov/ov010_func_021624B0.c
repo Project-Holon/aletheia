@@ -52,6 +52,19 @@
  * n0 read before h (63). Matched-assembly regex search for `adds rA,rK,#4; adds rB,r5,rA; ldr [rB,rK]`: this function only.
  * Idioms read: of-two-equal-temps-the-later-born-one-gets-the-lower-register,
  * opt-propagation-off-with-named-locals-pins-argument-constants-against-stack-stores (no loops here; no change).
+ * pass 2 2026-10-06 P2L46: no gain, best stays 54/126 (40 compiles, 3 rounds). Findings: the original is 128 bytes
+ * because the second 0x14 multiply copies n2 into r0; this copy is a post-colouring two-address fixup (seen in matched
+ * ov093 021ED4E4, ov170 021EC548), so the whole residue is colouring: the int form colours h and d first (r1/r0),
+ * the original colours them last (r3/r2) and puts 0x14 in r7. Probe without the zero local (off = n0 * 0x14) gives
+ * the exact head 0x2A..0x3A (h r3, d r2), so the zero web is what pushes h/d into the early set. Record-pointer steps
+ * `off = (u32)((T14 *)off + n0)` (T14/T24 = 0x14/0x24-byte structs) give 74/128 with the head exact and the right
+ * size, but the zero then folds into `adds r0,r0,#0` and 0x14 takes r6. Tried, no gain: opt_propagation off with
+ * sz/char * cursor, opt_common_subs off, off = 0 inside the call argument or before the first step, int off,
+ * u16 n locals, d as char * or no d local (97), typed record pointer chain (88), product locals, x reused for the id,
+ * statement reorders (107), field read-backs (61). Idioms read: a-record-array-type-multiplies-a-dying-index-into-a-
+ * fresh-register, an-integer-table-base-multiplies-into-a-copy-of-the-index, a-compound-product-on-a-byte-offset-local-
+ * gives-the-index-the-late-colour, an-early-spilled-multiply-with-a-copy-into-r0-is-base-first-and-a-zero-local-on-the-
+ * offset. Research: scratchpad/wD9r/p2_P2L46/research.md.
  * symbols:
  *   func_02013ECC  0x02013ECC  thumb
  *   func_020493D4  0x020493D4  arm
