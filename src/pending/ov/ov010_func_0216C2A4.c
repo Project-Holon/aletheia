@@ -94,6 +94,20 @@
  * initialisers 25, Coord gx before the z,y loads 46. x raw never took r3.
  * 40 compiles.
  *
+ * pass 5 2026-10-06 P5L07: no better form, best stays 20 of 88. New
+ * pragma-free family: a local aggregate p filled from pos (p.x, p.y,
+ * p.z = pos->z + 0x20000, or the same as a block initialiser) and stores
+ * x,z,y from p gives 27 at 88 B with no casts or enum: base 0x20000, both
+ * 0x8000 derived by lsrs, z+k add after the x chain, tail exact; left: loads
+ * y,z,x (x is forward-substituted to its use) and colours x r4, k r3, y r2.
+ * p.z = pos->z; p.z += 0x20000 keeps the x load first (x r3, x>>12 r4 as
+ * image) but moves the bias to its use: base 0x8000, 86 B (43-55). Also
+ * (bytes off): gx/gz form with k declared first, k between loads, x in a
+ * block, VEC_Set, opt_lifetimes off, scheduling off: 35 each; literal bias
+ * in gz 40; inline GridSnap(dst, src, ofs) 52 / 29 with the pragma; inline
+ * SetGridPos(dst, x, y, z + bias) 45; p stores y,x,z 44 (head as image);
+ * p stores z,x,y 37; v = p copy 82; enum Bias k with p 27. 38 compiles.
+ *
  * Snap the actor's position to the 16-unit grid (z biased by 32) and
  * write it to the ov021 map object. Size-exact, 27 bytes out: the image
  * loads x, z, y in that order and stores x, z, y; hoisting the call into
