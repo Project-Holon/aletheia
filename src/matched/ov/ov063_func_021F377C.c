@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * checks: 1 own B7A84/B7D50 and narrowed ov010/ov021 callers confirm arities; 2 matched 36C0/3758/376C and neighbours refreshed; 3 unsigned table Cell and signed local Cell reduce DIFF1166 to 730, raw halfword buffer worse 1466/+24, const vector inputs retained; 4 grouped vector stores and reversed stack-local declarations tried (two scheduling variants), stack-object/fixed-float idioms read; 5 fresh idioms and neighbours, no new twin. Next: original height spill and frame layout; leave ov021 blockers to Ilias.
  * runs: W75 five fixed one runs plus baseline explain and first permuter300; prior four fixed runs retained as history, not repeated.
  * residual: 730 concrete bytes; compiled 1528, original code/pool ends 021F3D74 (1528, delta 0); handed 1572 includes trailing rodata. Relocations 77/79: ov021 B3D0/B388 unresolved and Ilias-owned, not filed.
@@ -16,6 +16,7 @@
  * note: recoup 2026-10-05 P30R9 (11 compiles, all DIFF 730 or worse): real callee types from matched callers (func_021AB0F8 returns u16 takes u32, func_021BB3C4 returns u32): 730, no change. const on BB3C4 / B7D50 record pointer: 730. Inline helper blocked(scene,cell) for both attribute tests: 730. Inline fetch(&cell,s) for the cell copy-in: 730. LocalCell *cp local set before the height call and used in the first BB3C4 call, set once or set again in the loop: 730 (mwcc propagates every single-use or repeated &cell, so the early add r6,sp,#0x1c is not a pointer variable in the source; it must come from a CSE of an address expression in the copy block, no source form found). Pragmas opt_dead_assignments off 1337, peephole off 730. s->end.y store moved after the scale line: 763. Frame facts: original spill slots are bound [sp,#4], case-5 temp [sp,#8], height [sp,#0xc], terrain [sp,#0x10], scale hi word [sp,#0x14]; compiled has no height slot (r6) and bound/temp swapped, so the 4-byte frame difference is exactly the missing height spill, caused by r6 being held by the cell address across func_021B7D50.
  * note: final push 2026-10-05 G10L4 (33 compiles, 3 rounds): instruction-level residue 53 -> 35 diff ops of 472 (byte count reads 1158 only because the missing 4-byte height spill shifts the pool and jump table; code is 1524 vs 1528). New real forms: inline vset(Vec*,x,y,z) for point=s->end (loads z,y,x then stores, replaces ldm/stm); inline vset16 for s->dir=delta; one struct type LocalCell (s16 c) for both s->cell and the local with struct assignments cell=s->cell and s->cell=cell (copy-back loads become ldrh as original); named temp top=s->start.y+0xa000 before the end.y store (fixes the +B4 schedule; reusing y breaks case 5 colours). Remaining: (A) original holds &cell in r6 across func_021B7D50 (add r6,sp,#0x1c hoisted into the copy block, adds r1,r6,#0 at the first func_021BB3C4 call), so height is spilled to [sp,#0xc] and the frame is sub #0x74 with no push r3; (B) bound/temp slots swapped ([sp,#4]/[sp,#8]). Tried for (A), all unchanged: u32/pointer/param-reuse holders, cp assigned at top/before copy/inside call argument, one-element array, inline copy helper, initialised declaration, memcpy (byte loop, worse), cast u16 buffer (worse), s16 height, per-function pragmas lifetimes/common_subs/dead_assignments/scheduling/peephole (no help). Only opt_propagation off with cp=&cell; *cp=s->cell makes the address live in a register shared with the stores, but it breaks the rest of the function (1357 B) and the original stores use a different base (r5), so it is not the source form.
  * note: pass 2 2026-10-06 P2L57 (3 rounds, about 58 compiles incl. probes): declaration order `int n,terrain,height,y,valid,i,bound,...` (y before bound) fixes the bound/y spill-slot swap ([sp,#4]/[sp,#8]); nd 35 -> 32 diff ops, bytes still 1158 (the shift from the missing height spill). Spill slots follow declaration order of the spilled locals (orig: terrain 0x10, height 0xc, y 0x8, bound 0x4). Twin found: ov021 func_021B7CD8 (`Rect4 old = *r; ... f(&old)`): a struct assignment creates an address temp that is held across calls (add r7,sp,#0 in the copy). Probes show the same form holds &cell in this function's case 0 when at most 3 fx-multiply rounding sequences ((s64)a*b+0x800)>>12 come before the copy; with 4 or more (the original has 6) the temp is dropped and rebuilt at each use, even for two uses in one block. Plain int math, plain calls, 64-bit mul or shift without the +0x800 add, and the same sequences after the copy do not drop it. Tried without effect: block-scoped `LocalCell cell = s->cell` with length, height declared first/last, u8 valid, ternary clamp (1169), block-scoped top/scale, opt_loop_invariants off, valid=0 at case top (1164), macro fxmul and 0x800LL (probes), s64 scale copy (probe). Next: the source form of the six fx multiplies that leaves the copy's address temp alive (e.g. a helper or vector routine the original used for start/end).
+ * note: pass 3 2026-10-06 P3L21 (21 compiles, 2 rounds): MATCH in --lang c99 and --lang c. Two source changes: (1) `u16 bound;` declared as its own u16 local and `bound=height+cell.c;` (no cast) makes the allocator spill height to [sp,#0xc] and keep &cell in r6 across func_021B7D50, as the original (closes the 4-byte frame shift); (2) case 5 pos and look sums each in their own braced block with `int y,z;` gives z r6 / y r7 as the original. Left: two ov021 callees without a witness (func_021BB3D0 and func_021BB388, both 8-byte thumb leaves in ov021: `ldr r0,[r0]; ldr r3,=func; bx r3` tail calls to 021B7D68 and to 021B79F0 with r1=1); the integrator seeds or files them.
  * symbols:
  *   func_0219E764 0x0219E764 thumb ov021
  *   func_0207CDB8 0x0207CDB8 arm
@@ -119,7 +120,9 @@ static inline void vset16(SmallVec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
 static inline void vset(Vec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
 void func_021F377C(int unused,S *s)
 {
- int n,terrain,height,y,valid,i,bound,scale,z,top;
+ int n,terrain,height,y,valid,i;
+ u16 bound;
+ int scale,top,z;
  Vec origin,delta,point,pos,look,finalpos;
  SmallVec dir;
  LocalCell cell;
@@ -142,7 +145,7 @@ void func_021F377C(int unused,S *s)
   valid=0;
   if(!(func_021AB0F8(func_021BB3C4(s->scene,&cell))&1)) valid=1;
   cell.c+=2;if(cell.c>height) cell.c=height;
-  bound=(u16)(height+cell.c);
+  bound=height+cell.c;
   for(i=0;i<bound;i++) {cell.c--;if(func_021AB0F8(func_021BB3C4(s->scene,&cell))&1)break;s->cell=cell;valid=1;}
   if(!valid) {s->state=9;return;}
   func_021B7D38(terrain,&s->cell,&s->end);
@@ -176,14 +179,20 @@ void func_021F377C(int unused,S *s)
   }
   if(s->obj!=0)func_021A3044(s->obj,&point);else func_0216D89C(s->model,&point);
   if(s->obj==0)break;
+  {
+  int y,z;
   z=s->oldpos.z+func_0207C768(fxmul(s->delta.z,s->step<<12),s->count<<12);
   y=s->oldpos.y+func_0207C768(fxmul(s->delta.y,s->step<<12),s->count<<12);
   pos.x=s->oldpos.x+func_0207C768(fxmul(s->delta.x,s->step<<12),s->count<<12);
   pos.y=y;pos.z=z;
+  }
+  {
+  int y,z;
   z=s->oldlook.z+func_0207C768(fxmul(s->lookdelta.z,s->step<<12),s->count<<12);
   y=s->oldlook.y+func_0207C768(fxmul(s->lookdelta.y,s->step<<12),s->count<<12);
   look.x=s->oldlook.x+func_0207C768(fxmul(s->lookdelta.x,s->step<<12),s->count<<12);
   look.y=y;look.z=z;
+  }
   func_0218EC90(s->player,&look);func_0218ECF4(s->player,&pos);
   break;
  case 8:
