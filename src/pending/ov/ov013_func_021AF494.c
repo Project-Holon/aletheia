@@ -86,6 +86,19 @@
  * u32 code or vp, ternary clamps, named half/quarter steps, `register` locals, opt_common_subs off,
  * both samples read first (236). 40 compiles.
  *
+ * pass 5 2026-10-06 P5L09: still DIFF 68 of 404, form unchanged. The per-sample index-table load is a
+ * spill rematerialisation (one sample per pass keeps the table hoisted), so the colouring seen is a
+ * second round. The image order equals named half taken at a simplify stall (lowest cost/degree)
+ * while code1/idx1/pred1 are still stuck; ours never stalls that early. No source form added that
+ * pressure without changing the body. No gain from: `i < n / 2` (94), void * params with named
+ * copies (94), split state-update inline (216), `AdpcmState s = *st` (414), `void *st` cast at the
+ * call, extra inline levels (both calls, second only), AdpcmEncodeByte(st, &src), whole loop in an
+ * inline block helper, `hi = Enc() << 4`, hi folded into the store, goto loop, `*dst = ..; dst++`,
+ * `i++, dst++` header, `half > i`, const n, const sample, `*const st`, step table as a parameter,
+ * C99 block lo/hi, dst[i] (70), `sample -= pred` (78), `*src; src++` (210), helper-local index
+ * table pointer (377), u16 n/half (356), down-counting half (276), opt_propagation off with a
+ * guarded do-while (350). dsi 1.2 to 1.6sp2 give the same 68. 40 compiles.
+ *
  * symbols:
  *   d_021B3A0C     0x021B3A0C  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2
