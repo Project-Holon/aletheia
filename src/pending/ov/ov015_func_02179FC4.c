@@ -36,6 +36,17 @@
  *           irc.o file statics as in ov_sdk 02179F74, const u8 * callee parameter, nested-block u8 cmd = 0x56, inline helper with
  *           the flag assignment as argument, block-scoped buf, &buf[0], sizeof(buf), volatile flag field, pragmas
  *           lifetimes/propagation/common_subs/dead_assignments/optimize_for_size, int *flag pointer (62), q = buf (38).
+ *           pass 3 2026-10-06 P3L13 (40 compiles, 3 rounds): best now 12/80 (body below). `#pragma scheduling` is an illegal
+ *           pragma on this front end (docs/MATCHING.md), so the order is the scheduler's; a pick model (height, then textual
+ *           order, memory edge from the direct flag store to the strb) predicts every form tried. A two-use pointer p = buf
+ *           assigned in the block under opt_propagation off moves add r0,sp up to the original position; left: the strb goes
+ *           through [r0] instead of [sp], and mov r1,r5 (always the call-time copy) stays after the stores. Inert (14):
+ *           opt_lifetimes off (irc.o setting) on the base, comma statement, stores in a comma size argument, inline helpers
+ *           (stores in body, &buf[0], enum size parameter, buffer-returning cmd(buf, 0x56)), named single-use p/n under
+ *           propagation/common_subs/dead_assignments off (front end substitutes them), buf[size++] builder, IRCHeader local,
+ *           K&R prototype, IRC_IsConnect inline guard, Raw second view for the flag. Worse: u8 cmd at function top (33,
+ *           but the block order is then exactly the original), memset (79), init array (47), St *s pointer forms (20-22).
+ *           Asm search: the sequence add r0,sp / mov r1 / global store / stack store / bl occurs only here.
  *
  * symbols:
  *   func_0217A8EC  0x0217A8EC  arm    ov015
@@ -56,15 +67,21 @@ extern St d_0217ABA8;
 extern void func_0217A8EC(unsigned char *data, unsigned char size);
 extern u64 OS_GetTick(void);
 
+#pragma opt_lifetimes off
+#pragma opt_propagation off
 void func_02179FC4(void)
 {
     unsigned char buf[1];
+    unsigned char *p;
 
     if (d_0217ABA8.f24 == 0 && d_0217ABA8.f1C == 0) {
+        p = buf;
         d_0217ABA8.f1C = 1;
-        buf[0] = 0x56;
-        func_0217A8EC(buf, 1);
+        p[0] = 0x56;
+        func_0217A8EC(p, 1);
         d_0217ABA8.f20 = 1;
         d_0217ABA8.tick = OS_GetTick();
     }
 }
+#pragma opt_propagation reset
+#pragma opt_lifetimes reset
