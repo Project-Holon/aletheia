@@ -335,6 +335,16 @@
  *   strength-reduced j*8, then load-deletion temps, then b*0x14, then second webs of reused ints).  The original
  *   needs j*8 between pr and cos, which no tested source form produces.
  * symbols:
+ * note (pass 6 2026-10-06 P6L10): residue unchanged at 5 bytes; the body is unchanged.  4 real compiles plus about 25
+ *   traced compiler runs (tools in scratchpad wD9r/p6_P6L10).  FX_SinIdx/FX_CosIdx inlines (`T[((idx >> 4) << 1)]`, + 1):
+ *   5 B, the parameter is propagated before the first CSE and cos stays a first-run temp.  The b*0x14 split at the first
+ *   CSE is caused by any branch between the uses, but only for the b chain (index under a memory-loaded base); the
+ *   const-table pr/cos chain crosses the same branches at the first CSE.  Single-use locals for the rz read (pointer,
+ *   cos value, second pose.rot read) are propagated back before the first CSE or leave the load read twice.  `long j`
+ *   plus `int pr`: 9 B with j*8, cos and b*0x14 correct and only pr/flag swapped; the trace shows that the flag slot
+ *   is the CAST(flag) temp and a named int pr outranks every temp, so the original pr must be a temp created between
+ *   the flag temp and the k-preheader j*8 temp, where no pr occurrence exists.  `#pragma opt_loop_invariants off`
+ *   with s2 above the X/Z reads: 77 B (the head j*8 stops being a CSE candidate).
  * note (pass 6 2026-10-06 P6L02, round 2): residue unchanged at 5 bytes; the body is unchanged.  Traced why j*8 and
  *   b*0x14 are second-run CSE temps: their uses differ at the first CSE (k-loop j*8 rewritten into CAST/MUL temps by the
  *   loop transforms; b uses split by the arg() call) and become equal after copy propagation.  Tried for cos(pr), each
