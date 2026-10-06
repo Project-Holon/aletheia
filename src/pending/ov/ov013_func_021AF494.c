@@ -74,6 +74,18 @@
  * with an assignment in the condition (342), lo/hi array (68), {i, half} struct (88), int lo (68),
  * optimization_level 3 (68), inline_bottom_up (68), flat and macro bodies (200+). 40 compiles.
  *
+ * pass 4 2026-10-06 P4L13: still DIFF 68 of 404, form unchanged. The image bound looks like a jam pick
+ * (lowest cost/degree) made while code1/idx1/pred1 are still significant, so the image has more pre-RA
+ * pressure in sample 1. Only two bound tiers were reachable: a temp (`i < n / 2`, a named half under a
+ * guard, an inline bound in a do-while test: r2, 94) and the named outer local (r5, 68). No gain from:
+ * inline clamp helper, code through a u8 *out, inline byte encoder (210), step declared last (68, inert),
+ * `if (half == 0) return;` (420 B), while loop, sibling `i < n / 2` with `a |=` (94), `i < n; i += 2`
+ * (94), else-if clamp (416 B), `vp + pred` (71), helper-only pragma, abs and pred copies, dst[i] (70),
+ * 021B01FC-style helper with table reads at each use (127, 153), named step/index table pointers (95 to
+ * 258: they swap which table is rematerialised), unrolled inner j loop (not unrolled), `s16 **` source,
+ * u32 code or vp, ternary clamps, named half/quarter steps, `register` locals, opt_common_subs off,
+ * both samples read first (236). 40 compiles.
+ *
  * symbols:
  *   d_021B3A0C     0x021B3A0C  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2
