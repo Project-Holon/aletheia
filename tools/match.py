@@ -4835,6 +4835,44 @@ def attest_template(place, off, addr, addend, ours=None, region=None,
                                                len(hits), where))
 
 
+GAME_TEMPLATE_WINDOW = 0x40
+
+
+def attest_game_template(fb, name, addend, decls, region, hi):
+    """The `template` class for game code, which has no vendor object.
+
+    mwccarm emits a function's own `@N` initializer template in the data
+    right after the function and its literal pool.  A declared data symbol
+    is accepted as that template when it is the only declared data address
+    within GAME_TEMPLATE_WINDOW bytes after the compared range whose image
+    bytes equal our compile's template bytes.  (decl, proof) or None.
+    """
+    ours = getattr(fb, "anon", {}).get(name)
+    if (addend != 0 or not ours or not any(ours) or hi is None
+            or region is None or not OVERLAY_NAME_RE.match(region)):
+        return None
+    hits = []
+    for d in decls.values():
+        a = getattr(d, "addr", None)
+        if a is None or getattr(d, "kind", None) != "data":
+            continue
+        if not (hi <= a < hi + GAME_TEMPLATE_WINDOW) or a % 4:
+            continue
+        r = _template_region(a, region)
+        if r is None or not in_overlay_data(r.name, a):
+            continue
+        o = a - r.base
+        if bytes(r.data[o:o + len(ours)]) == bytes(ours):
+            hits.append(d)
+    if len(hits) != 1:
+        return None
+    d = hits[0]
+    return d, ("template", 1, d.addr,
+               "%s (%d bytes): the image holds our compile's template at the "
+               "only declared data address in the %#x bytes after the "
+               "function" % (name, len(ours), GAME_TEMPLATE_WINDOW))
+
+
 def attest_section_rel(place, off, name, base, addend, lo, hi, src=None,
                        region=None):
     """A section-relative `.bss` target: (attest()'s proof, note) or None.
@@ -5022,6 +5060,13 @@ def _resolve_vendor_named(fb, st, place, decls, lo, hi, src, region):
         st.note = note
         return d.addr, "data"
     vt = vendor_template(place, off, region)
+    if vt is None:
+        got = attest_game_template(fb, name, addend, decls, region, hi)
+        if got is not None:
+            d, proof = got
+            st.cls, st.witnesses, st.witness = proof[:3]
+            st.note = proof[3]
+            return d.addr, d.kind
     if vt is None or vt[0] not in decls:
         st.reason = ("no address for %r: a compiler template is named by the "
                      "vendor object's own @N at this slot (%s), which the "
