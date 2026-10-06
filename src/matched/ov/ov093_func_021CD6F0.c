@@ -1,39 +1,19 @@
 /*
  * function: func_021CD6F0
- * address: 0x021CD6F0
- * packet: pkt_ov093_021CD6F0
- * region: ov093
+ * address:  0x021CD6F0
+ * packet:   pkt_ov093_021CD6F0
+ * region:   ov093
  * compiler: dsi/1.1p1
- * flags: -O4,p
- * lang: c99
- * isa: thumb
- * status: DIFF
- * note: final push 2026-10-05 G8L5: 496 B (same size as the original), 37 B differ, was 108 B
- *   differing at 492 B. Fix found: the 4-iteration loop stores the constant 0, not i (the copy
- *   adds r2,r3,#0 sits before the loop label; docs/idioms/a-copy-of-the-counter-before-the-loop-
- *   label-is-a-stored-zero.md). Remaining residue is only the entry schedule (+0006..+0054):
- *   the original puts the flag constant in r2 (movs r2,#1; str r2,[sp,#0xc]) so the heap
- *   write-back str [sp,#0x40] sinks below it and idx is loaded early (ldr r7); ours puts the
- *   constant in r0, which pins the write-back right after its load and moves ldr r7 last, and
- *   ldr r3 (heap) above strb e. Tried with no change in the 37 B: flag as 3rd alloc arg, flag=1
- *   inside the call args (3rd, 4th, 5th), decl initialiser, u8/u16/u32 flag, locals order,
- *   one = flag = 1, named locals with opt_propagation off (do-while loop), all six pragmas,
- *   halloc static inline, second extern name for the second alloc, u32 copy of heap, idx as
- *   int/u32/u8, c/d as u32, const on h and on a/b. heap as int, const u32, u16 or u8 drops the
- *   write-back or changes the frame (worse). Matched-assembly search for the same entry
- *   sequence (str r3; movs r2,#1; str r2) hit only ov021 02199B38 (outgoing stack args, not
- *   the same shape) and ov195 022083EC.
- *   Earlier: 2026-10-05 (wave P4 lane S10, pengy share) 492 B vs 496 B (the extra 2 B are the
- *   pool-alignment nop). Body, calls, field offsets and the callee argument order match. Residue
- *   1: prologue schedule: original orders adds r6/ldr r7 idx/ldr r0 heap/adds r4/str r3/movs r2,1/
- *   str flag, then the heap write-back str [sp,#0x40] after the pool load; ours puts the heap
- *   write-back and a movs r0,1 earlier. Residue 2: the 4-iteration byte-id loop has i in r3 and a
- *   copy r2=r3 stored after the increment is scheduled; ours uses i in r2 with no copy. Tried:
- *   u32 heap (fixes the heap word load, str write-back), u16 heap, flag as 3rd alloc arg vs literal
- *   1, locals k for the 021B9FBC result (fixes call order), i declared first, do-while loop,
- *   i++ in the store (UB form, wrong), all six per-function pragmas (opt_propagation off gives
- *   496 B but adds a loop guard; none helps). Params: 5th is u16 idx, 6th u16, 7th u8, 8th and 9th
- *   read as words (int), 11th read as word.
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * note: pass 2 2026-10-06 P2L44: EXACT (c99 and c). Three fixes over the DIFF draft: heap is a u16
+ *   parameter (the callers' prototype) and func_02030734 takes a u16 heap, so every heap use is a
+ *   word reload from the home slot that stays below the stores; the 4-iteration loop stores 0
+ *   (G8L5); `flag = 1` is the statement after the first allocation, not before it, which puts the
+ *   flag constant in r2 and the heap write-back below the flag store.
+ *
  * symbols:
  *   func_02030734 0x02030734 arm
  *   d_021F3A88 0x021F3A88 data a4
@@ -56,7 +36,7 @@ typedef unsigned int u32;
 typedef struct { u8 f0:1,f1:1,f2:1,f3:1,f4:1,f5:1,rest:2; } Flags;
 struct Copy24 { int x[6]; };
 extern u8 d_021F3A88[];
-extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *func_021EEA58(u32, int, u32, u32);
 extern char *func_021B9AF8(char *, int);
 extern int func_021CDA18(u8 *);
@@ -70,13 +50,13 @@ extern void *func_02187F00(void **, u32, u32, u32, u16);
 extern int func_021B90F8(u8 *);
 extern void *func_021EE5E4(u32);
 
-u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, int g, struct Copy24 *h, u32 heap)
+u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, int g, struct Copy24 *h, u16 heap)
 {
     u8 *p;
     u32 i;
     int flag, k;
-    flag = 1;
     p = func_02030734(heap, 0x1b8, 1, (const char *)d_021F3A88, 0x209);
+    flag = 1;
     if (c == 0 || e != 0)
         flag = 0;
     p[0x1a6] = idx;
