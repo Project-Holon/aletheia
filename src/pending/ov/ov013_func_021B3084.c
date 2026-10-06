@@ -110,6 +110,20 @@
  * f4 (229), 3C50 store between the 4C2C stores (12), inline CP_GetSqrtResult32 (6, 8 without thr).
  * Matched-assembly search: `op rA; str rA,[rB]; ldr rA,pool` occurs only here among ARM functions.
  * Notes: scratchpad wD9r/p4_P4L09/research.md.
+ * pass 5 2026-10-06 P5L03 (3 rounds, 40 compiles, best stays 6 B, c99 and c): same residue (the
+ * 3C50 pool load wins the pick after the lsr, so it is live across thr and thr gets ip). Tried (6
+ * unless noted): SDK nested CP_GetSqrtResult32 { CP_WaitSqrt(); return CP_GetSqrtResultImm32(); }
+ * at one or all sites (42 without thr); pointer/direct mixes for the three stores (f0 direct 6,
+ * f4 direct 15, q for 3C50 6); non-volatile SQRT_PARAM as in 021B33F8; ret = 1 between or after
+ * the 4C2C stores; all f0 volatile removed (still 6: the pointer copy alone holds the schedule, kept
+ * volatile for the shared struct with 021B3018); a volatile view for p (17); inline setter
+ * VadSetThreshold(st, thr) (17); inline VadThreshold(rms); &d_021B3C50 taken at the top; 3C50 as a
+ * u32 array; 3C50 store between or before the 4C2C stores (12, 24); ring update per arm (321);
+ * static const pointer to 3C50 (231, not folded); pragmas opt_pointer_analysis off,
+ * opt_pulloutconstants off, opt_moveinvariantsinaddressexpr off, opt_optimizecontrolflow off,
+ * peephole off; thr = REG then p then (thr*3)>>1 (8); ret u8; d_021B3C50.f0 = ret = 1; sq reused
+ * for thr; thr at function scope. Matched-assembly search: `str rA,[rB]; ldr rA,pool; str
+ * ..,[rB,#k]; str ..,[rA]` occurs only here. Notes: scratchpad wD9r/p5_P5L03/research.md.
  * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
