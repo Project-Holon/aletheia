@@ -494,6 +494,13 @@ def build_candidate(fi, dcls, active):
             sep = ';' + eol + s.indent + s.prefix
             p.new = sep.join(pieces)
         props.append(p)
+    for p in props:
+        late = [w for k, w in p.need if k == 'typedef' and pf.typedef_state(fi, w, p.cstart) is False]
+        for w in late:
+            p.new = re.sub(r'(?<![\w])%s(?![\w])' % w, pf.STD[w], p.new)
+            p.need.discard(('typedef', w))
+            for dc in p.dcls:
+                dc.spelled = True
     text, dropped = pf.build_text(fi, props)
     dd = []
     for p in dropped:
@@ -756,6 +763,20 @@ def ret_tag(dc):
     return 'K' if (('*' in ra) != ('*' in rb)) else 'O'
 
 
+_NARROW = {'u8', 's8', 'char', 'u16', 's16', 'short', 'unsigned char', 'signed char', 'unsigned short',
+           'short int', 'unsigned short int', 'BOOL8'}
+
+
+def narrow_pointer(a, b):
+    """True when one type is a pointer and the other an integer narrower than 32
+    bits: a cast between them has no plausible human reason."""
+    a, b = strip_aka(a or ''), strip_aka(b or '')
+    for x, y in ((a, b), (b, a)):
+        if '*' in x and re.sub(r'\b(const|volatile)\b', '', y).strip() in _NARROW:
+            return True
+    return False
+
+
 def _changed_call_in(text, a, b, ctx):
     """True when text[a:b] calls a callee whose declaration this trial changed."""
     return any(re.search(r'(?<![\w])' + re.escape(n) + r'\s*\(', text[a:b]) for n in ctx.by_name)
@@ -770,23 +791,28 @@ def diag_edits(d, text, m, ctx):
     mm = _PASS.match(msg)
     if mm:
         argno, fname = int(mm.group(1)), mm.group(2)
-        ctype = None
+        ctype = atype = None
         for n in d.notes:
-            nm = re.match(r"expected '([^']+)'(?: \{aka '[^']*'\})? but argument is of type", n)
+            nm = re.match(r"expected '([^']+)'(?: \{aka '[^']*'\})? but argument is of type '([^']+)'", n)
             if nm:
-                ctype = nm.group(1)
-        if ctype is None or d.caret is None:
+                ctype, atype = nm.group(1), nm.group(2)
+        if ctype is None or d.caret is None or narrow_pointer(ctype, atype):
             return out
         sp = find_call_args(m, fname, d.caret, argno)
         if sp is None and d.start is not None and d.finish is not None:
             sp = (d.start, d.finish)
         if sp is None:
             return out
-        e = cast_edit(text, sp[0], sp[1], ctype, 'cast-arg', fname)
+        e = retype_param_edit(text, m, sp, ctype, d.caret)
+        if e is None:
+            e = cast_edit(text, sp[0], sp[1], ctype, 'cast-arg', fname)
         return [e] if e else out
     mm = _ASSIGN.match(msg)
     if mm and d.caret is not None:
         ctype = mm.group(2)
+        fm = re.search(r"from '([^']+)'(?: \{aka '[^']*'\})? makes", msg)
+        if fm and narrow_pointer(ctype, fm.group(1)):
+            return out
         pos = d.caret
         if mm.group(1) == 'assignment to':
             if text[pos] != '=' or text[pos:pos + 2] == '==':
@@ -807,6 +833,8 @@ def diag_edits(d, text, m, ctx):
     if mm and d.caret is not None and ctx.stage >= 4:
         e, why = hidden_arg_edit(text, m, ctx, mm.group(1), d.caret)
         d.note = why
+        if isinstance(e, list):
+            return e
         return [e] if e else out
     mm = re.match(r"too many arguments to function '(\w+)'", msg)
     if mm and d.caret is not None:
@@ -874,6 +902,49 @@ def strict_edits(d, text, m, ctx):
         e = cast_edit(text, a, b, mm.group(2), 'cast-assign-sign', None)
         return [e] if e else []
     return []
+
+
+def enclosing_header(m, caret):
+    """DECL_RE match of the top-level function definition whose body holds caret."""
+    best = None
+    for mm in pf.DECL_RE.finditer(m):
+        if mm.group(5) != '{':
+            continue
+        op = mm.end() - 1
+        cl = matching(m, op)
+        if op < caret < cl:
+            best = mm
+    return best
+
+
+def retype_param_edit(text, m, sp, ctype, caret):
+    """When the argument is a bare parameter of the enclosing function and the
+    parameter's type may become ctype (better_type: an integer or a generic pointer
+    becomes a specific pointer), give the parameter that type instead of casting at
+    the call.  The trial verifies every other use of the parameter."""
+    a, b = span_trim(text, sp[0], sp[1])
+    arg = text[a:b].strip()
+    if not re.match(r'^[A-Za-z_]\w*$', arg) or '*' not in ctype:
+        return None
+    mm = enclosing_header(m, caret)
+    if mm is None:
+        return None
+    ps = split_params(text[mm.start(4):mm.end(4)])
+    off = mm.start(4)
+    pos = 0
+    for ptxt in pf.split_top(text[mm.start(4):mm.end(4)]) if ps else []:
+        i0 = text.find(ptxt.strip(), off + pos)
+        tk, pname, opq = pf.parse_param(ptxt, {})
+        if pname == arg and opq is None and tk:
+            old = pf.norm_toks(tk)
+            new = pf.norm_toks(pf.tokens(strip_aka(ctype)))
+            if old == new or not better_type(old, new):
+                return None
+            t = strip_aka(ctype)
+            return Edit(i0, i0 + len(ptxt.strip()), t + ('' if t.endswith('*') else ' ') + arg,
+                        None, 'retype-param')
+        pos = i0 - off + len(ptxt.strip())
+    return None
 
 
 def repair_text(text, ctx, workdir, cap=8):
@@ -1765,6 +1836,19 @@ def better_type(dk, pk):
     return dk in _GENERIC_PTR and pk not in _GENERIC_PTR
 
 
+def majority_type(keys_texts):
+    """The type most declarers read, when every key has one width (or all are
+    pointers); ties go to the first in sorted order.  Returns (key, text, how)."""
+    keys = [k for k, _t in keys_texts]
+    if all('*' in k for k in keys):
+        pass
+    elif any(k not in _WIDTH for k in keys) or len({_WIDTH[k] for k in keys}) != 1:
+        return None
+    c = collections.Counter(keys)
+    k = sorted(c, key=lambda x: (-c[x], x))[0]
+    return k, next(t for kk, t in keys_texts if kk == k), 'majority'
+
+
 def key_text(k):
     """Spelling of a normalised type key: 'u8*' -> 'u8 *'."""
     return re.sub(r'\s*\*', ' *', k).replace('* *', '**').strip()
@@ -1894,16 +1978,21 @@ def void_value_text(rule, fam, db, fi, mm):
     decls, why = declarer_protos(fam, _FX, db)
     if decls is None:
         return None, why
-    rp = pick_type([(pf.norm_toks(d[1]), d[3]) for d in decls])
+    kt = [(pf.norm_toks(d[1]), d[3]) for d in decls]
+    rp = pick_type(kt) or majority_type(kt)
     if rp is None or rp[0] == 'void':
         return None, 'callers do not read one value type'
     t = key_text(rp[0])
     sm = re.match(r'(?:const\s+)?(struct|union)\s+(\w+)', t)
     if sm and not re.search(r'\b%s\s+%s\b' % sm.groups(), fi.mask[:mm.start()]):
         return None, 'return type needs %s %s' % sm.groups()
+    add_td = []
     for w in re.findall(r'[A-Za-z_]\w*', t):
         if w in pf.STD:
-            if pf.typedef_state(fi, w, mm.start()) is not True:
+            st = pf.typedef_state(fi, w, mm.start())
+            if st is None:
+                add_td.append(w)
+            elif st is not True:
                 return None, 'return type needs typedef %s' % w
         elif w not in pf.BUILTIN and w not in ('struct', 'union') and not (sm and w == sm.group(2)):
             return None, 'return type %s not portable' % t
@@ -1954,6 +2043,9 @@ def void_value_text(rule, fam, db, fi, mm):
             return None, 'first parameter has no name'
         edits.append(Edit(at, at, eol + indent + 'return ' + pname + ';', fam[1], 'def-return'))
         why = 'callers read %s: return the first argument %s' % (t, pname)
+    if add_td:
+        ls0 = fi.raw.rfind('\n', 0, mm.start()) + 1
+        edits.append(Edit(ls0, ls0, ''.join(pf.STD_LINE[w] + eol for w in add_td), fam[1], 'def-typedef'))
     text, _a, _d = apply_edits(fi.raw, edits)
     return text, why
 
@@ -2191,6 +2283,9 @@ def origin_expr(d, regs_origins, regs):
             for i, (first, nw) in enumerate(d['layout']):
                 if first <= w < first + nw:
                     pi = i
+            if pi is None and w == sum(nw for _f, nw in d['layout']) and not d.get('var'):
+                names.add(('ADD', w))
+                continue
             if pi is None or pi >= len(d['pnames']) or not d['pnames'][pi]:
                 return None, 'incoming %s is not a declared parameter of the caller' % o[1]
             names.add(d['pnames'][pi])
@@ -2241,7 +2336,7 @@ def hidden_arg_edit(text, m, ctx, fname, caret):
         ss = [sites[idx]]
     else:
         ss = sites
-    extra = []
+    extra, added = [], []
     for i in range(k, n):
         regs = ev.param_regs(cd, i)
         if not regs:
@@ -2250,10 +2345,34 @@ def hidden_arg_edit(text, m, ctx, fname, caret):
         ex, why = origin_expr(d, opr, regs)
         if ex is None:
             return None, 'param %d: %s' % (i, why)
+        if isinstance(ex, tuple):
+            # the caller receives this value in its next free register: it becomes
+            # the caller's next parameter, typed as the callee's parameter
+            if added:
+                return None, 'param %d: two new caller parameters' % i
+            tk = dc.rec['params'][i][0]
+            if not tk or tk == ['...']:
+                return None, 'param %d: no type to add' % i
+            nm = 'a%d' % ex[1]
+            added.append((pf.tok_text(tk), nm))
+            ex = nm
         extra.append(ex)
     ins_at = args[-1][1] if args else op + 1
     new = (', ' if args else '') + ', '.join(extra)
-    return Edit(ins_at, ins_at, new, fname, 'hidden-args'), 'ok'
+    call = Edit(ins_at, ins_at, new, fname, 'hidden-args')
+    if not added:
+        return call, 'ok'
+    hm = enclosing_header(m, caret)
+    if hm is None or re.search(r'(?<![\w])%s(?![\w])' % added[0][1], m[hm.start():matching(m, hm.end() - 1)]):
+        return None, 'cannot name the new caller parameter'
+    t, nm = added[0]
+    ptxt = text[hm.start(4):hm.end(4)]
+    newp = t + ('' if t.endswith('*') else ' ') + nm
+    if ptxt.strip() in ('', 'void'):
+        pe = Edit(hm.start(4), hm.end(4), newp, None, 'add-caller-param')
+    else:
+        pe = Edit(hm.end(4), hm.end(4), ', ' + newp, None, 'add-caller-param')
+    return [call, pe], 'ok'
 
 
 # ---------------------------------------------------------------------------
@@ -2467,6 +2586,10 @@ def selftest():
     check('policy: pointer never becomes an integer', not better_type('u8*', 'int'))
     check('policy: generic pointer becomes specific', better_type('void*', 'struct Foo*'))
     check('policy: specific pointer stays', not better_type('struct Foo*', 'void*'))
+    check('cast: no pointer from a byte', narrow_pointer('void *', 'unsigned char'))
+    check('cast: pointer from a word is allowed', not narrow_pointer('void *', 'unsigned int'))
+    check('majority: one width', majority_type([('u32', 'u32'), ('int', 'int'), ('u32', 'u32')])[0] == 'u32')
+    check('majority: mixed widths is no pick', majority_type([('u8', 'u8'), ('u32', 'u32')]) is None)
     check('pick: narrowest on request', pick_type([('u8', 'u8'), ('u32', 'u32')], 'u32', 'narrow')[0] == 'u8')
     check('pick: one specific pointer among generic ones',
           pick_type([('void*', 'void *'), ('struct Foo*', 'struct Foo *')])[0] == 'struct Foo*')
