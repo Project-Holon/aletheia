@@ -61,6 +61,16 @@
  * (void) uses, dead later def of a count copy, type before scores, while and goto loops, restrict on params,
  * int counter (11 B), u16 type (16 B, slots), pragmas optimization_level 3 / optimize_for_size (306/272 B),
  * --cc 1.2. Probes only: volatile or &count give push {r0-r3}.
+ * pass 5 2026-10-06 P5L01: still 5 B, 29 compiles, 3 rounds. Mechanism found by probe: with 'u8 k = 0' before
+ * the call (k = loop-2 counter), value numbering turns i's post-call zero into a copy of k, the entry becomes
+ * P, C, k-store, T, O and the copy is rematerialised as 'movs r0,#0; str r0,[sp,#0x10]' after the call (the image's
+ * post-call code), but k keeps a pre-call store (298 B). Any pre-call zero that is dead after the copy coalesces
+ * with i and moves i's store before the call (dead_assignments off with type/power/temp/j = 0: 21-36 B); a
+ * single-def zero local is constant-propagated (5 B); value numbering is block-local (gz2 probe). No change (5 B):
+ * u32 count (9 B), num = count copies after the call (u32 5 B, int/u16 11 B), local struct {p, count}
+ * (scalar-replaced), int type initialiser first, c99 for-scoped i, ++i, zero local for scores[i]. Listing scan
+ * (param store before an r0 arg move, post-call zero before the first cmp): 20 matched hits, all with the stored
+ * param feeding a later call argument; no twin. opt_propagation off guards give beq (268 B). Left DIFF.
  * symbols:
  *   func_0201C314 0x0201C314 thumb
  *   func_0201C1C8 0x0201C1C8 thumb
