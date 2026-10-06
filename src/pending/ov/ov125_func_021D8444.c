@@ -8,6 +8,20 @@
  * lang: c99
  * isa: arm
  * status: DIFF
+ * pass 3 2026-10-06 P3L14: DIFF, 14 bytes unchanged (40 compiles, 4 rounds). Timing model: the trailing ldrb needs
+ *   3 slots before its strb (h37 ok = 1 shows ldrb, ldr lr, filler, strb). In the image nothing fills the second
+ *   slot, but the Data copy counter is always issuable there, so the image had the Data copy preheader in another
+ *   pre-RA block, or one more pre-RA node that a later pass deleted. Mechanism confirmed: break with the Data copy
+ *   after the loop gives dst r5 (176 B, block laid out last); `int k = 0x258` fills the slot (183 B, register
+ *   offset kept); `u8 ok = 1` the same (181 B). No zero-code split or vanishing filler found: unreferenced label,
+ *   goto to next label (also with opt_optimizecontrolflow / opt_dead_code off), label reached by an unreachable
+ *   goto, h = g copy (also opt_lifetimes off), dead r = 1 under opt_dead_assignments off, int and enum k = 8,
+ *   named int *p = g + 0x138, volatile 0x258 pointer, inline PutSav with and without return, comma-chained copies,
+ *   copy inside the && condition, Data source named at block top (218 B), struct-returning GetData (244 B),
+ *   member-of-pointed-struct destination; pragmas scheduling (no effect on ARM), common_subs, repositioncode,
+ *   recomposeaggregates, decomposeaggregates, scalarize, movepostops, pointer_analysis, rotateloops,
+ *   unrollpostloop off (all 14), optimization_level 3 (18). Asm search: no other function reuses a byte-copy
+ *   destination register as a struct-copy counter. Best form unchanged (also 14 in --lang c).
  * 2026-10-06 (pass 2 2026-10-06 P2L29): DIFF, 14 bytes unchanged (dst ip, image r5). Mechanism: the Data copy
  *   counter `mov #0x13` is scheduled pre-RA into the latency slot of the trailing ldrb, before the trailing strb,
  *   so it interferes with the Sav dst and dst cannot take r5. Any extra filler there moves the counter below the
