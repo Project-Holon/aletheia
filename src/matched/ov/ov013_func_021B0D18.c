@@ -7,9 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: arm
- * status: DIFF
+ * status: EXACT
  * volatile: SQRTCNT polls at 021B0D90; SQRT result/parameter are hardware registers at 040002B4/040002B8.
- * residual: DIFF 544/544 bytes, 10 concrete bytes differ; all twelve relocations resolved. Only +012C/+0130/+0134 reset store/RMW scheduling differs.
+ * residual: none; EXACT 544/544 in --lang c99 and --lang c, all twelve relocations resolved.
  * evidence: fresh xor-zero dependency, comma reset expression and byte reset bitfield each tied 10. Signed reset flag and own MATH_CountPopulation u8 return correction also tied 10.
  * checks: 1 own matched 3278/3604/04A8/1688 and MATH_CountPopulation bodies read; 3084 original reads x/sq/byte-output pointer, arity 3; 2 no exact reset twin; 3 signed f8 and exact u8 SDK return compiled without change; 4 inline, commutative-operand and named-field idioms read; 5 full directory and fresh ov013 neighbours reread, no addressed stack aggregate; next hypothesis a reset helper using an independently evidenced enclosing record.
  * permuter: earlier budget-300 search consumed; not repeated. Prior inline reset, enum flag and signed x did not improve.
@@ -49,6 +49,11 @@
  *   inline helpers under opt_propagation off, named `u32 *req`, 0F38 Frame layout: all 10 B or worse.
  *   Open lead: a frame pointer the ARM backend cannot trace, still emitted as add r8, r6, r0 from the shared pool.
  *   Notes: scratchpad wD9r/p3_P3L11/research.md.
+ * pass 4 2026-10-06 P4L05: closed. The frame flag byte f5 and the two reset-request flags f8 and f14 of
+ *   d_021B3C84 are volatile members. The request flags are set from other paths (021B0CD8 sets f8,
+ *   021B0614 and 021B074C set f14) and f5 is the flag byte of the frame buffer that the wireless layer
+ *   reads. Two volatile accesses keep their source order, so the f8 reset store stays after strb f5.
+ *   Volatile on f8/f14 alone (P3L11 a1) or on f5 alone stays 10 B; both sides are needed.
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
  *   d_021B3C84  0x021B3C84  data  ov013  a4
@@ -76,7 +81,7 @@ typedef unsigned int u32;
 typedef struct {
     u8 pad0[4];
     u8 f4;
-    u8 f5;
+    volatile u8 f5;
     u8 pad6[6];
     u8 data[0x460 - 0xc];
 } Frame;
@@ -95,12 +100,12 @@ typedef enum { FlagClear=0, FlagSet=1 } Flag;
 typedef struct {
     u32 f0;
     u32 f4;
-    u32 f8;
+    volatile u32 f8;
     u32 fC;
     u16 f10;
     u8 f12;
     u8 pad13;
-    u32 f14;
+    volatile u32 f14;
     u32 f18;
     int f1C;
     u32 f20;
@@ -123,8 +128,6 @@ extern void func_021B04A8(AdpcmHdr *a, void *b, int n, AdpcmState *c, int mode);
 extern void func_021B1588(u8 *dst, short *src, u32 n);
 extern void func_021B1688(u8 *dst, short *src, u32 n);
 extern u8 func_02080D24(u32 x);
-
-static inline void signal_reset(Frame *f,int *flag) { f->f5 |= 0x80; *flag=0; }
 
 Frame *func_021B0D18(void)
 {
