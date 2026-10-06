@@ -134,7 +134,7 @@ def eol_signature(text):
 # ---------------------------------------------------------------------------
 
 class Diag:
-    __slots__ = ('kind', 'msg', 'caret', 'start', 'finish', 'notes', 'line', 'macro', 'note')
+    __slots__ = ('kind', 'msg', 'caret', 'start', 'finish', 'notes', 'line', 'macro', 'note', 'strict')
 
     def __repr__(self):
         return 'Diag(%s %r @%s [%s,%s])' % (self.kind, self.msg, self.caret, self.start, self.finish)
@@ -151,14 +151,24 @@ def _loc_off(offs, loc):
     return offs[loc['line'] - 1] + loc.get('byte-column', loc.get('column', 1)) - 1
 
 
+# Pointer conversions GCC only warns about but the DS compiler rejects ("illegal
+# implicit conversion from 'unsigned char *' to 'const char *'").  GCC reports them
+# as errors with the option name; they only propose casts (see diag_edits) and are
+# never counted as remaining errors, so a conversion the original already had
+# does not fail a trial.
+STRICT = ('-Werror=pointer-sign', '-Werror=discarded-qualifiers',
+          '-Werror=discarded-array-qualifiers')
+
+
 def gcc_json(text, workdir, name='f.c'):
     """Run GCC on text.  Returns a list of Diag (errors only, each with children notes).
-    Offsets index text (latin1: one char per byte).  finish is exclusive."""
+    Offsets index text (latin1: one char per byte).  finish is exclusive.  Diag.strict
+    marks an error raised only by the STRICT options."""
     os.makedirs(workdir, exist_ok=True)
     p = os.path.join(workdir, name)
     write_text(p, text)
-    so, both = pf.sh([GCC, '-fsyntax-only', '-std=c99', '-w', '-fno-builtin',
-                      '-fdiagnostics-format=json', p])
+    so, both = pf.sh([GCC, '-fsyntax-only', '-std=c99', '-fno-builtin'] + list(STRICT) +
+                     ['-fdiagnostics-format=json', p])
     # stderr holds the JSON array; `sh` returns stdout and stdout+stderr
     err = both[len(so):].strip() if both.startswith(so) else both.strip()
     return parse_gcc_json(err, text)
@@ -179,6 +189,7 @@ def parse_gcc_json(err, text):
             continue
         x = Diag()
         x.kind, x.msg = d['kind'], d['message']
+        x.strict = d.get('option', '') in STRICT
         x.caret = x.start = x.finish = None
         x.line = None
         x.macro = False
@@ -700,6 +711,23 @@ _WRAPMSG = re.compile(r"invalid type argument of|subscripted value is neither|in
                       r"incompatible type for argument")
 
 
+_CAST_HEAD = re.compile(r'\(\s*(?:const\s+)?(?:(?:struct|union)\s+\w+|\w+)(?:\s+\w+)*\s*\*+\s*\)')
+
+
+def strip_pointer_cast(expr):
+    """expr without a leading pointer cast `(T *)` when the rest is one operand, so a
+    new cast replaces the old one instead of stacking `(A *)((B *)x)`."""
+    e = expr.strip()
+    m = _CAST_HEAD.match(e)
+    if not m:
+        return expr
+    rest = e[m.end():].strip()
+    if rest.startswith('(') and matching(rest, 0) == len(rest) - 1:
+        inner = rest[1:-1].strip()
+        return inner if is_postfix_simple(inner) else rest
+    return rest if is_postfix_simple(rest) else expr
+
+
 def cast_edit(text, a, b, ctype, rule, unit):
     a, b = span_trim(text, a, b)
     if a >= b:
@@ -707,6 +735,8 @@ def cast_edit(text, a, b, ctype, rule, unit):
     expr = text[a:b]
     if not balanced(expr):
         return None
+    if '*' in ctype:
+        expr = strip_pointer_cast(expr)
     new = cast_text(ctype, expr)
     if new == expr:
         return None
@@ -725,10 +755,17 @@ def ret_tag(dc):
     return 'K' if (('*' in ra) != ('*' in rb)) else 'O'
 
 
+def _changed_call_in(text, a, b, ctx):
+    """True when text[a:b] calls a callee whose declaration this trial changed."""
+    return any(re.search(r'(?<![\w])' + re.escape(n) + r'\s*\(', text[a:b]) for n in ctx.by_name)
+
+
 def diag_edits(d, text, m, ctx):
     """Edits that repair diagnostic d, or [] when no rule applies."""
     msg = d.msg
     out = []
+    if d.strict:
+        return strict_edits(d, text, m, ctx)
     mm = _PASS.match(msg)
     if mm:
         argno, fname = int(mm.group(1)), mm.group(2)
@@ -796,6 +833,48 @@ def diag_edits(d, text, m, ctx):
     return out
 
 
+_SPASS = re.compile(r"(?:pointer targets in passing argument (\d+) of '(\w+)' differ in signedness|"
+                    r"passing argument (\d+) of '(\w+)' discards '[^']*' qualifier)")
+_SASSIGN = re.compile(r"pointer targets in (assignment|initialization) from '[^']*' to '([^']+)' "
+                      r"differ in signedness")
+
+
+def strict_edits(d, text, m, ctx):
+    """Casts for a STRICT diagnostic, only where the trial changed the callee: an
+    argument of a call to a changed declaration, or the right side of an
+    assignment whose value comes from such a call."""
+    mm = _SPASS.match(d.msg)
+    if mm and d.caret is not None:
+        argno = int(mm.group(1) or mm.group(3))
+        fname = mm.group(2) or mm.group(4)
+        if fname not in ctx.by_name:
+            return []
+        ctype = None
+        for n in d.notes:
+            nm = re.match(r"expected '([^']+)'(?: \{aka '[^']*'\})? but argument is of type", n)
+            if nm:
+                ctype = nm.group(1)
+        sp = find_call_args(m, fname, d.caret, argno)
+        if ctype is None or sp is None:
+            return []
+        e = cast_edit(text, sp[0], sp[1], ctype, 'cast-arg-sign', fname)
+        return [e] if e else []
+    mm = _SASSIGN.match(d.msg)
+    if mm and d.caret is not None:
+        pos = d.caret
+        if mm.group(1) == 'assignment':
+            if text[pos] != '=' or text[pos:pos + 2] == '==':
+                return []
+            a, b = rhs_span(text, m, pos)
+        else:
+            a, b = rhs_span(text, m, pos - 1)
+        if not _changed_call_in(text, a, b, ctx):
+            return []
+        e = cast_edit(text, a, b, mm.group(2), 'cast-assign-sign', None)
+        return [e] if e else []
+    return []
+
+
 def repair_text(text, ctx, workdir, cap=8):
     """Diagnose-repair loop.  Returns (text, remaining diagnostics)."""
     name = os.path.basename(ctx.fi.rel)
@@ -808,15 +887,16 @@ def repair_text(text, ctx, workdir, cap=8):
         edits = []
         for d in diags:
             edits += diag_edits(d, text, m, ctx)
+        hard = [d for d in diags if not d.strict]
         if not edits:
-            return text, diags
+            return text, hard
         new, acc, dfr = apply_edits(text, edits)
         if new == text:
-            return text, diags
+            return text, hard
         for e in acc:
             ctx.log.append((e.why, e.unit))
         text = new
-    return text, gcc_json(text, workdir, name)
+    return text, [d for d in gcc_json(text, workdir, name) if not d.strict]
 
 
 # ---------------------------------------------------------------------------
@@ -874,7 +954,9 @@ class FileJob:
             self.cands = [dc for dc in self.dcls if class_of(dc.tag) in stage_classes]
         else:
             self.cands = [dc for dc in self.dcls if dc.fam == only]
-        self.tmp = os.path.join(opt['out'], 'tmp', re.sub(r'\W', '_', self.rel))
+        # one folder per process: two family transactions in different workers can
+        # verify the same declarer file at the same time
+        self.tmp = os.path.join(opt['out'], 'tmp', '%d_%s' % (os.getpid(), re.sub(r'\W', '_', self.rel)))
         self.orig = None
         self.ntrials = 0
 
@@ -1578,6 +1660,165 @@ def rule_drop_unread(fam, ev, db):
     return k, 'drop %d trailing unread parameter(s): original reads %s' % (len(unread) - k, sorted(R))
 
 
+def declarer_protos(fam, fx, db):
+    """[(rel, ret tokens, [(param tokens, name)], unresolved ret text, [param type text])]
+    for every declaration of fam in its declarer files, or (None, reason)."""
+    rel_def, name = fam
+    out = []
+    for rel in sorted(fx.declarers[fam]):
+        if rel == rel_def:
+            continue
+        fi = pf.parse_file(os.path.join(ROOT, rel), rel)
+        for nm, mm, ret_txt, params, _block in fi.decls:
+            if nm != name:
+                continue
+            rec, st = pf.find_callee(db, fi, nm)
+            if rec is None or (rec['file'], rec['name']) != fam:
+                continue
+            try:
+                ret, pl, _need = pf.resolve_proto(ret_txt, params, fi.td)
+            except pf.Unrep as e:
+                return None, 'declaration in %s unreadable: %s' % (rel, e)
+            texts = []
+            for p in split_params(params):
+                tk, pname, opq = pf.parse_param(p, fi.td)
+                if opq is not None or tk == ['...']:
+                    return None, 'declaration in %s has a function pointer or ...' % rel
+                texts.append((pf.tok_text(tk), pname))
+            out.append((rel, ret, pl, pf.tok_text(pf.tokens(ret_txt)), texts))
+    if not out:
+        return None, 'no declarers'
+    return out, ''
+
+
+_PORTABLE = pf.BUILTIN | set(pf.STD) | {'*'}
+
+
+_WIDTH = {'u8': 1, 's8': 1, 'char': 1, 'u16': 2, 's16': 2, 'short': 2, 'u32': 4, 'int': 4}
+
+
+def pick_type(keys_texts, def_key=None):
+    """One type for a position from the declarers' (norm key, text) pairs: the type
+    they all use, else the widest integer type when it is unique at that width (a
+    caller that passes a narrow value compiles the same against the wider type; the
+    transaction checks it).  Returns (key, text, how) or None."""
+    keys = {k for k, _t in keys_texts}
+    if len(keys) == 1:
+        k = next(iter(keys))
+        return k, keys_texts[0][1], 'agree'
+    allk = keys | ({def_key} if def_key else set())
+    if any(k not in _WIDTH for k in allk):
+        return None
+    top = max(_WIDTH[k] for k in allk)
+    at_top = {k for k in keys if _WIDTH[k] == top}
+    if len(at_top) != 1 or any(_WIDTH[k] == top and k not in at_top for k in allk):
+        return None
+    k = next(iter(at_top))
+    return k, next(t for kk, t in keys_texts if kk == k), 'widest'
+
+
+_GENERIC_PTR = {'void*', 'char*', 'u8*', 's8*', 'const void*', 'const char*', 'const u8*'}
+
+
+def better_type(dk, pk):
+    """True when the definition's type dk may become pk.  Integers may change width
+    or sign, an integer may become a pointer, a generic pointer (void *, char *, u8 *)
+    may become a specific one.  A pointer never becomes an integer or a more generic
+    pointer: the definition's own body is the better witness there."""
+    if dk is None:
+        return True
+    dp, pp = '*' in dk, '*' in pk
+    if not dp:
+        return True
+    if not pp:
+        return False
+    return dk in _GENERIC_PTR and pk not in _GENERIC_PTR
+
+
+def key_text(k):
+    """Spelling of a normalised type key: 'u8*' -> 'u8 *'."""
+    return re.sub(r'\s*\*', ' *', k).replace('* *', '**').strip()
+
+
+def rule_consensus(fam, fx, db, fi, mm):
+    """Give the definition the types its declarers' original code shows: per
+    position, the type every declarer uses, else the widest integer type (pick_type);
+    the parameter count every declarer uses, else the largest one when the extra
+    positions have a type by the same rule.  Each declarer file is EXACT with its own
+    declaration, so its declaration is evidence of what the call sends; the
+    transaction verifies the new definition and every declarer.  Returns
+    (params text, ret text or None, why) or (None, None, reason)."""
+    decls, why = declarer_protos(fam, fx, db)
+    if decls is None:
+        return None, None, why
+    rec = db['defs'].get((fi.region, int(fam[1][-8:], 16)), [None])[0]
+    if rec is None or rec['unrep']:
+        return None, None, 'definition record unavailable'
+    if any(tk == ['...'] or tk is None for tk, _n, _o in rec['params']):
+        return None, None, 'variadic or function pointer parameter in the definition'
+    dps = split_params(fi.raw[mm.start(4):mm.end(4)])
+    if len(dps) != len(rec['params']):
+        return None, None, 'definition parameters unreadable'
+    n = max(len(d[2]) for d in decls)
+
+    def portable(t):
+        sm = re.match(r'(const\s+)?(struct|union)\s+(\w+)\s*\*+$', t.strip())
+        if sm:
+            return re.search(r'%s\s+%s' % (sm.group(2), sm.group(3)), fi.mask[:mm.start()]) is not None
+        words = re.findall(r'[A-Za-z_]\w*|\*', t)
+        return all(w in _PORTABLE for w in words) and all(
+            pf.typedef_state(fi, w, mm.start()) is True for w in words if w in pf.STD)
+
+    changes = []      # (description, kind, index, text): one unit each, adds and drops grouped
+    adds = []
+    for i in range(n):
+        kt = [(pf.norm_toks(d[2][i][0]), d[4][i][0]) for d in decls if len(d[2]) > i]
+        dk = pf.norm_toks(rec['params'][i][0]) if i < len(dps) else None
+        pick = pick_type(kt, dk)
+        if i >= len(dps):
+            if pick is None or not portable(pick[1]):
+                return None, None, 'added parameter %d has no portable type' % i
+            pname = next((d[4][i][1] for d in decls if len(d[2]) > i and d[4][i][1]), '') or 'a%d' % i
+            t = key_text(pick[0])
+            adds.append(t + ('' if t.endswith('*') else ' ') + pname)
+            continue
+        if pick is None or pick[0] == dk or not better_type(dk, pick[0]) or not portable(pick[1]):
+            continue
+        _tk, pname, _o = pf.parse_param(dps[i], fi.td)
+        t = key_text(pick[0])
+        changes.append(('param %d %s (%s)' % (i, t, pick[2]), 'param', i,
+                        t + ('' if t.endswith('*') else ' ') + (pname or 'a%d' % i)))
+    if adds:
+        changes.append(('add %d parameter(s)' % len(adds), 'add', len(dps), adds))
+    if n < len(dps) and all(len(d[2]) == n for d in decls):
+        changes.append(('drop %d parameter(s)' % (len(dps) - n), 'drop', n, None))
+    dret = pf.norm_toks(rec['ret'])
+    rp = pick_type([(pf.norm_toks(d[1]), d[3]) for d in decls], dret)
+    if (rp is not None and rp[0] != dret and 'void' not in (dret, rp[0]) and better_type(dret, rp[0])
+            and portable(rp[1])):
+        t = key_text(rp[0])
+        changes.append(('return %s (%s)' % (t, rp[2]), 'ret', None, t + ('' if t.endswith('*') else ' ')))
+    if not changes:
+        return None, None, 'no position where the declarers give a portable type'
+    return dps, changes, '%d declarer(s)' % len(decls)
+
+
+def consensus_text(dps, changes):
+    """(params text, ret text or None, why) of the definition with `changes` applied."""
+    ps, ret = list(dps), None
+    for _d, kind, i, t in changes:
+        if kind == 'param':
+            ps[i] = t
+        elif kind == 'ret':
+            ret = t
+    for _d, kind, i, t in changes:
+        if kind == 'add':
+            ps = ps + list(t)
+        elif kind == 'drop':
+            ps = ps[:i]
+    return join_params(ps), ret, '; '.join(c[0] for c in changes)
+
+
 # ---------------------------------------------------------------------------
 # family driver
 # ---------------------------------------------------------------------------
@@ -1602,7 +1843,7 @@ def get_evidence():
     return _EV
 
 
-def make_newdef(rule, fam, db):
+def make_newdef(rule, fam, db, subset=None):
     """-> (new definition text, new record, key, why) or (None, None, None, reason)."""
     rel, name = fam
     path = os.path.join(ROOT, rel)
@@ -1612,7 +1853,18 @@ def make_newdef(rule, fam, db):
         return None, None, None, 'definition not found'
     key = (fi.region, int(name[-8:], 16))
     ps = split_params(fi.raw[mm.start(4):mm.end(4)])
-    if rule == 'drop_unread':
+    if rule == 'consensus':
+        dps, changes, why = rule_consensus(fam, _FX, db, fi, mm)
+        if dps is None:
+            return None, None, None, why
+        if subset is not None:
+            if subset >= len(changes):
+                return None, None, None, 'no such change'
+            changes = [changes[subset]]
+        params, ret, what = consensus_text(dps, changes)
+        why = '%s: %s' % (why, what)
+        text = edit_definition(fi, name, params=params, ret=ret)
+    elif rule == 'drop_unread':
         k, why = rule_drop_unread(fam, get_evidence(), db)
         if k is None:
             return None, None, None, why
@@ -1669,6 +1921,20 @@ def fam_task(args):
             res = family_tx(fam, fam[0], text, rec, key, _DB, _FX, opt, rule)
             out['rows'].append((fam[0], fam[1], rule, 'ok' if res.ok else 'fail', res.before, res.after,
                                 res.fixed, why if res.ok else res.reason))
+            if not res.ok and rule == 'consensus' and '; ' in why:
+                # all changes together failed: each change alone, best gain wins
+                best = None
+                for k in range(why.count('; ') + 1):
+                    t2, rec2, key2, why2 = make_newdef(rule, fam, _DB, subset=k)
+                    if t2 is None:
+                        continue
+                    r2 = family_tx(fam, fam[0], t2, rec2, key2, _DB, _FX, opt, rule)
+                    out['rows'].append((fam[0], fam[1], rule + '/1', 'ok' if r2.ok else 'fail', r2.before,
+                                        r2.after, r2.fixed, why2 if r2.ok else r2.reason))
+                    if r2.ok and (best is None or r2.before - r2.after > best[0].before - best[0].after):
+                        best = (r2, why2)
+                if best is not None:
+                    res, why = best
             if res.ok and not opt['dry_run']:
                 err = commit_tx(res, opt['out'])
                 if err:
@@ -2047,6 +2313,16 @@ def selftest():
     check('cast: member chain', cast_text('u32', 'a->b.c[2]') == '(u32)a->b.c[2]')
     check('cast: binary needs parens', cast_text('u8 *', 'a + 0x3F0') == '(u8 *)(a + 0x3F0)')
     check('cast: unary needs parens', cast_text('u8 *', '*p') == '(u8 *)(*p)')
+    check('cast: replaces a pointer cast', cast_text('u8 *', strip_pointer_cast('(char *)(q + off)')) == '(u8 *)(q + off)')
+    check('cast: keeps an integer cast', strip_pointer_cast('(u32)x') == '(u32)x')
+    check('cast: keeps a cast that scales arithmetic', strip_pointer_cast('(char *)p + 4') == '(char *)p + 4')
+    check('pick: unanimous', pick_type([('u16', 'u16'), ('u16', 'unsigned short')], 'u32')[0] == 'u16')
+    check('pick: widest integer', pick_type([('u8', 'u8'), ('u32', 'u32')], 'u8')[0] == 'u32')
+    check('pick: width tie of signs is no pick', pick_type([('u32', 'u32'), ('int', 'int')], 'u8') is None)
+    check('pick: mixed pointers is no pick', pick_type([('u8*', 'u8 *'), ('void*', 'void *')], 'u8*') is None)
+    check('policy: pointer never becomes an integer', not better_type('u8*', 'int'))
+    check('policy: generic pointer becomes specific', better_type('void*', 'struct Foo*'))
+    check('policy: specific pointer stays', not better_type('struct Foo*', 'void*'))
     check('cast: parenthesised', cast_text('u8 *', '(a + b)') == '(u8 *)(a + b)')
     check('cast: (a)+(b) is not one group', cast_text('int', '(a)+(b)') == '(int)((a)+(b))')
     check('cast: number', cast_text('void *', '0x20') == '(void *)0x20')
