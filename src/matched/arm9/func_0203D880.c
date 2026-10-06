@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern u32 func_02039414(void);
 
-void func_0203D880(void)
+u32 func_0203D880(void)
 {
-    func_02039414();
+    return func_02039414();
 }

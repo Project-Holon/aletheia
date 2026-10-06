@@ -57,7 +57,7 @@ extern unsigned func_0202136C(unsigned short);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void func_021DD2B4(int a, int b, int c, int d, int e);
 extern int func_021DD718(void **pp, void *mon);
-extern void func_021DD8A8(unsigned char *,unsigned);
+extern void func_021DD8A8(void **pp, u32 idx);
 extern void func_021EC48C(unsigned char *,int,int,int);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_021ED55C(char **p, int flag);
@@ -92,7 +92,7 @@ int func_021E96E8(unsigned char *p)
         mon=(void *)func_021DD2D0((void ***)p,p[0x14],p[0x16]);
         func_021DD2B4((int)p,p[0x16],p[0x14],6,ITEM);
         if(func_021DD718((void **)p,mon)==1) {
-            func_021DD8A8(p,p[0x16]);
+            func_021DD8A8((void **)p,p[0x16]);
             func_021EC48C(p,p[0x14],p[0x16],*(unsigned char *)(WORK+p[0x16]+0x3dd2));
         }
         func_02007F1C(((struct Obj23949 *)(*(char * *)&((struct Obj00000 *)p)->f0))->fC,ITEM,1,0x804c);

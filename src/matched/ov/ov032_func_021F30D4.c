@@ -38,7 +38,7 @@ extern char d_021F36A0[];
 extern void func_02082BCC(void *p, int v, int n);
 typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u32 heap);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 

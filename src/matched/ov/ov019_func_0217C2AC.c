@@ -70,18 +70,18 @@ u16 func_0217EC88(int i);
 u16 func_0217EC28(int i);
 u16 func_0217ECA0(int i);
 u16 func_0217ECAC(int i);
-int func_0217ECB8(Ctx *ctx);
-void func_0217F210(Ctx *ctx, int a, int msg);
-int func_0217F1EC(Ctx *ctx);
-void func_0217F360(Ctx *ctx, int a);
+u16 func_0217ECB8(void ***ctx);
+void func_0217F210(u8 *p, int a, u32 b);
+u32 func_0217F1EC(u8 *p);
+void func_0217F360(char *p, u32 a);
 void func_0217F378(void *p);
 int func_0217F380(void *ctx, int a);
 int func_0217B8E4(char *p, char v);
 void *func_02012934(const struct BigObj *p);
 struct Ctx;
 void *func_020120F4(const struct Ctx *p);
-int func_0201AA1C(void *a);
-int func_0201AAD4(void *a);
+u32 func_0201AA1C(void *p);
+u32 func_0201AAD4(void *p);
 u32 func_0201AA88(void *p);
 
 int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
@@ -97,19 +97,19 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
         if (obj->f6e == 1) {
             obj->f6e = 0;
         } else if (obj->f5c == 0) {
-            func_0217F210(ctx, a2, func_0217EC1C(obj->f14->flag));
+            func_0217F210((u8 *)ctx, a2, func_0217EC1C(obj->f14->flag));
             obj->f5c++;
         } else {
-            func_0217F210(ctx, a2, func_0217EC88(obj->f14->flag));
+            func_0217F210((u8 *)ctx, a2, func_0217EC88(obj->f14->flag));
         }
         (*state)++;
         break;
     case 1:
-        if (func_0217F1EC(ctx) == 1)
+        if (func_0217F1EC((u8 *)ctx) == 1)
             (*state)++;
         break;
     case 2:
-        func_0217F360(ctx, a2);
+        func_0217F360((char *)ctx, a2);
         (*state)++;
         break;
     case 3:
@@ -119,25 +119,25 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
             break;
         func_0217F378(ctx);
         if (r == -2 || r == 0) {
-            func_0217F210(ctx, a2, func_0217EC28(obj->f14->flag));
+            func_0217F210((u8 *)ctx, a2, func_0217EC28(obj->f14->flag));
             obj->f2d = 0;
             func_0217B8E4((char *)ctx, 8);
             return 1;
         }
         if (r == 0x18) {
             func_020120F4((const struct Ctx *)ctx->sys->fc);
-            if (func_0201AA1C(h) < 2) {
-                func_0217F210(ctx, a2, func_0217ECA0(obj->f14->flag));
+            if ((int)func_0201AA1C(h) < 2) {
+                func_0217F210((u8 *)ctx, a2, func_0217ECA0(obj->f14->flag));
                 *state = 4;
                 break;
             }
         } else if (r == 0x19) {
-            if (func_0201AAD4(h) > 0) {
-                func_0217F210(ctx, a2, func_0217ECB8(ctx));
+            if ((int)func_0201AAD4(h) > 0) {
+                func_0217F210((u8 *)ctx, a2, func_0217ECB8((void ***)ctx));
                 *state = 4;
                 break;
             } else if (func_0201AA88(h) == 0) {
-                func_0217F210(ctx, a2, func_0217ECAC(obj->f14->flag));
+                func_0217F210((u8 *)ctx, a2, func_0217ECAC(obj->f14->flag));
                 *state = 4;
                 break;
             }
@@ -150,7 +150,7 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
         func_0217B8E4((char *)ctx, 8);
         return 1;
     case 4:
-        if (func_0217F1EC(ctx) == 1)
+        if (func_0217F1EC((u8 *)ctx) == 1)
             *state = 0;
         break;
     }

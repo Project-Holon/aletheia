@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02021288(u32 id);
 
-int func_021AF750(u32 a, u32 b, u32 c, u32 d)
+int func_021AF750(u32 a)
 {
 return ((func_02021288(a) << 16) >> 16);
 }

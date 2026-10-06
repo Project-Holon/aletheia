@@ -36,7 +36,7 @@ extern unsigned func_0201D42C(struct StrObj *, void *);
 extern void *func_02045770(struct Descriptor *);
 extern u16 func_020437DC(const struct Bmp *bmp);
 typedef unsigned int   u32;
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern void func_0201C724(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern void func_02045808(struct U16Vec *);
 extern int func_021BAF48(char *);

@@ -21,7 +21,7 @@ struct Entry;
 extern int func_021DD3D4(const char *p, int n, int a, int b);
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_021D8E84(void *,int);
 extern void func_021DA1B4(char *p);
 void func_021DA1DC(char *p) {
@@ -30,7 +30,7 @@ void func_021DA1DC(char *p) {
     if(((struct Obj08053 *)p)->fF88==((struct Obj08053 *)p)->f630) v=1;
     n=func_021DD3D4(p,0,((struct Obj08053 *)p)->fF84,((struct Obj08053 *)p)->fF88);
     if(n!=-1) {
-        if(func_0203D3A8(func_020399A8(),n+0xC13,1,(u32)(&v))) {
+        if(func_0203D3A8(func_020399A8(),(u16)(n+0xC13),(u16)1,(u32)(&v))) {
             func_021D8E84(p,(int)func_021DA1B4);
             return;
         }

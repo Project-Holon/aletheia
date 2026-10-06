@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void *func_02009860(void *);
-extern void *func_02009CC0(void *);
+extern int func_02009CC0(void *a0);
 struct Sub0200852CObj;
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);

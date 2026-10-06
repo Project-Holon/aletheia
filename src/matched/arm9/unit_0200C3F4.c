@@ -139,7 +139,7 @@ u16 func_0200C468(const u8 *a)
     return n;
 }
 
-u8 func_0200C480(u8 *a, u8 id, u8 pos)
+u8 func_0200C480(u8 *a, int id, u8 pos)
 {
     s16 i;
     s16 j;

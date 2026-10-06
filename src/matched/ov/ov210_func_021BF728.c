@@ -32,19 +32,19 @@ extern int func_021B93B0(char *p);
 extern int func_021B93B8(char *p);
 extern int func_021B93C0(char *p);
 extern void func_021BEDB8(int p, int i, int v);
-extern int  func_021BEDD0(void *, int);
+extern int func_021BEDD0(int p, int i);
 
 void func_021BF728(u8 *p, int a)
 {
     int r6 = func_021B93B0((char *)(((struct Obj08414 *)p)->f1E0));
 
-    if (func_021BEDD0(p, 6) != 0xC || a == 0) {
+    if (func_021BEDD0((int)p, 6) != 0xC || a == 0) {
         if (func_021B93B8((char *)(((struct Obj08414 *)p)->f1E0)) == 0 && r6 == 0)
             func_021BEDB8((int)p, 6, 0x12);
         else
             func_021BEDB8((int)p, 6, 4);
     }
-    if (func_021BEDD0(p, 5) != 0xD || a == 0) {
+    if (func_021BEDD0((int)p, 5) != 0xD || a == 0) {
         if (func_021B93C0((char *)(((struct Obj08414 *)p)->f1E0)) == 0 &&
             r6 == ((struct Obj08414 *)p)->f2AC - 1)
             func_021BEDB8((int)p, 5, 0x13);

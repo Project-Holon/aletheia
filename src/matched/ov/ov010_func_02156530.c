@@ -98,7 +98,7 @@ extern u8 func_021568E8(Work *w, u8 idx);
 extern u32 func_021FD8F8(char *p, u32 index);
 extern u32 func_021FD4F8(struct Ctx *p, u8 key);
 extern int func_0215736C(int a0);
-extern u32 func_0200A644(struct Big *p, u32 index);
+extern u32 func_0200A644(struct Big *p, u8 index);
 extern u8 func_021572C0(struct Deal *d);
 extern u32 func_02005728(u32 range);
 extern void func_020307B0(void *p);

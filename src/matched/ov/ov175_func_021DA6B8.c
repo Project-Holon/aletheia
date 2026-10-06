@@ -55,7 +55,7 @@ extern void func_021DAE18(char *obj);
 extern struct Entry *func_020399A8(void);
 extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
 extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
-extern int func_021DC2C0(char *, void *);
+extern int func_021DC2C0(u32 ignored, void *p);
 extern u32 func_021DC2D8(char *, u32 *);
 extern int func_021DEE3C(int theGameId, int ssl_type);
 extern void func_021DCE24(char *, int, int);
@@ -67,7 +67,7 @@ extern void *func_021DF20C(void);
 extern void func_02082D44(const void *, void *, u32);
 extern s32 func_021DEFDC(void);
 extern void *func_021DF224(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 func_021DF1C8(u32 a);
 extern int func_021DF09C(u32 a0, u32 a1, u32 a2, u32 a3);
 extern int func_021DAE54(char *, char *, char *, u32, u32, u32, u32, u32);
@@ -125,7 +125,7 @@ int func_021DA6B8(char *p, u32 *out)
             *(u32 *)(p + 0x12c) = 4;
             break;
         }
-        if (func_021DC2C0(p, p + 0x188) != 0 || *(u32 *)(p + 0x160) != 0)
+        if (func_021DC2C0((u32)p, p + 0x188) != 0 || *(u32 *)(p + 0x160) != 0)
             *(u32 *)(p + 0x12c) = 3;
         break;
     case 3:

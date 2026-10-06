@@ -25,7 +25,7 @@ typedef signed int     s32;
 
 extern void func_02025588(void *p);
 
-void func_021C06E0(u8 *a0, u32 a1)
+void func_021C06E0(u8 *a0)
 {
     func_02025588((void *)((u32)(((struct Obj25966 *)a0)->f3A4)));
 }

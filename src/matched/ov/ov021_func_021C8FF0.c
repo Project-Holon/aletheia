@@ -29,7 +29,8 @@ extern T d_021DABCC;
 
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+typedef unsigned short u16;
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 struct Arg;
 extern int func_020478B8(void *a, int idx, int amount);
 extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);

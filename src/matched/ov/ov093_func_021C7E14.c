@@ -32,7 +32,7 @@ extern void func_021C64B4(u8 *p, int q, u8 *a, struct Out64B4 *out);
 extern int func_021C7DAC(u8 *p, int a, int b, int c);
 extern int func_021C1E74(u8 *p, u8 *a, u8 *b, u8 *c, u32 d, u32 e, u32 f, int g, u16 *out);
 
-u16 func_021C7E14(u8 *p, int a, int b, u32 c, int e0, int e1)
+u16 func_021C7E14(u8 *p, u8 a, u8 b, u32 c, int e0, int e1)
 {
     int buf[5];
     u16 o;

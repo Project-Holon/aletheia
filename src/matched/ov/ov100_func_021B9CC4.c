@@ -30,7 +30,7 @@ struct BigObj;
 struct TaskMenu;
 extern u32 func_0201283C(const struct BigObj *p);
 extern void func_02009CA8(void *account, void *out);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 extern void func_02027858(struct TaskMenu *m);

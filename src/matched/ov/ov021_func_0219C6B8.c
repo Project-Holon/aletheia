@@ -53,7 +53,7 @@ struct BbActSys;
 extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 extern char *func_0219D3E4(int i);
 extern void func_02050804(void *p, int idx, u32 v, u16 h);
-extern void func_0205082C(void *p, int idx, u16 h);
+extern void func_0205082C(void *p, int idx, u32 h);
 extern void func_020507F0(void *p, int idx, u32 v);
 extern void func_0219C9D0(u32 a, u32 b, u8 *p);
 

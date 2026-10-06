@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern char g_0209FD10[];
 
-void func_02028590(u32 a0, u32 a1, u32 a2, u32 a3)
+void func_02028590(u32 a0, u32 a1, u32 a2, u16 a3)
 {
     func_020285A4(a0, a1, a2, a3, g_0209FD10);
 }

@@ -26,7 +26,7 @@ typedef struct { int w[4]; } Q;
 extern int func_021B86C8(unsigned char **p);
 extern u8 func_021B8FE4(u8 *p);
 extern u8 func_021B8FF4(u8 *);
-extern u32 func_021B9000(u8 *p);
+extern u8 func_021B9000(u8 *p);
 extern u16 func_021BA020(char *, int);
 extern u8 func_021B904C(u8 *p, int k);
 extern u32 func_021B8588(void **p);

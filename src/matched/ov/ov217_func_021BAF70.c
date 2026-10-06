@@ -41,7 +41,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0203630C(void);
 extern u32 func_020362DC(void);
-extern int func_02035C08(void *p);
+extern int func_02035C08(const void *p);
 extern int func_02035BA4(const void *p);
 extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
@@ -60,7 +60,7 @@ extern void func_021BBD40(u8 *p, int a);
 extern void func_021BC580(char *p, int i);
 extern void func_021BC6EC(void *p, u8 v);
 extern u32 func_021BC6F4(u32 a0, u32 a1);
-extern void func_021BBAA4(void *p, u8 v);
+extern u32 func_021BBAA4(u32 a0, u8 a1);
 extern int func_021BC06C(char *p);
 extern int func_021BC428(void *p);
 extern u32 func_021BC0E8(u32 a0);
@@ -114,7 +114,7 @@ void func_021BAF70(char *p)
     }
     if (sel >= 0 && sel <= 9) {
         if (b >= 0x18 && b <= 0xa8 && func_021BC6F4((u32)p, (u8)sel) == 1) {
-            func_021BBAA4(p, (u8)sel);
+            func_021BBAA4((u32)p, (u8)sel);
             func_021BC6EC(p, ((struct Obj00025 *)p)->f32);
             func_021BC580(p, 2);
             func_020061E4(0x54c);

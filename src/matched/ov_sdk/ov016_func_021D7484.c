@@ -43,7 +43,7 @@ extern void *func_021D5410(long size, void *data, long dataSize);
 extern void *func_021D53DC(long size);
 struct ListCB;
 extern struct ListCB *func_021D6D44(void);
-extern void func_021D6E04(void *list, void *ob);
+extern void func_021D6E04(char *p, void *ob);
 extern void func_021D6DF4(char *p, void *ob);
 extern MemTaskT *g_021DE6E4;
 extern unsigned char g_021DAA84[2];

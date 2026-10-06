@@ -32,7 +32,7 @@ extern void *func_021D99A4(void *,u16,u8,u8,u8,u8,u16,u16,u16);
 extern void func_021D9B2C(char *p, u32 a, u32 b, int c);
 extern void func_021D9B28(u8 *p, unsigned v);
 extern void func_021D9AC8(u8 *p, int a, int b);
-extern void func_021D9A64(void *,u16,int,int);
+extern void func_021D9A64(u8 *p, u16 a, int b, int c);
 void *func_021DA1BC(void *a,const char *desc,u32 n,u16 b,u16 c,u16 d,u16 e,int f,u16 heap)
 {
     u32 i;

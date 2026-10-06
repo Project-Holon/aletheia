@@ -37,7 +37,7 @@ extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
 extern void func_021BBD10(char *p, int mode);
 extern int func_021BB840(char *p, int y);
-extern void func_021BB810(void *, int, int, int);
+extern void func_021BB810(void *p, u8 row, int y, int pal);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);

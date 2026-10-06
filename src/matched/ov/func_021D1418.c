@@ -29,7 +29,7 @@ extern void func_02041B6C(u32 bit);
 struct Descriptor;
 extern void func_020456F8(struct Descriptor *d);
 
-int func_021D1418(u32 a, u32 b, u32 c, u32 d)
+int func_021D1418(void *a)
 {
 func_020456F8((struct Descriptor *)(((struct Obj18373 *)((u8 *)(a)))->f4));
 func_02041B6C(3);

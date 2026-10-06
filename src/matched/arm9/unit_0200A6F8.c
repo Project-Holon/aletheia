@@ -84,7 +84,7 @@ struct Big {
     u8  unk2A0[4];
 };
 
-extern u32 func_0200A644(struct Big *p, u32 index);
+extern u32 func_0200A644(struct Big *p, u8 index);
 
 u32 func_0200A714(struct Big *p);
 

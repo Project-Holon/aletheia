@@ -29,7 +29,7 @@ extern int func_0216D81C(void *p);
 extern int func_0216D83C(void *p);
 extern int func_0216D86C(void *p);
 
-int func_0219B494(u32 a, u32 b, u32 c, u32 d)
+int func_0219B494(int a)
 {
 if (func_0216D83C((void *)a) != func_0216D804((void *)a)) {
     return 1;

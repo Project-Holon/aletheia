@@ -49,7 +49,7 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
+extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 extern u8 d_021DE288[];
 
 Obj *func_021B7400(u32 a, u32 b, int c)

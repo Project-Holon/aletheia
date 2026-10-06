@@ -16,7 +16,7 @@
  */
 #include "../include/Obj03849.h"
 extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
-extern void func_021EC08C(char *, int, short, short, short);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 typedef signed short   s16;
 struct Grid;
 struct Obj02025774;
@@ -27,10 +27,10 @@ void func_021ED918(char *p, int d)
     short t[2];
     int i = 0;
     func_021EC0B0(*(char * *)&((struct Obj03849 *)p)->f2C, 2, &t[1], &t[0], 0);
-    func_021EC08C(*(char * *)&((struct Obj03849 *)p)->f2C, 2, t[1] - d, t[0], 0);
+    func_021EC08C(*(char * *)&((struct Obj03849 *)p)->f2C, 2, (short)(t[1] - d), (short)t[0], (short)0);
     for (; i < 6u; i++) {
         func_021EC0B0(*(char * *)&((struct Obj03849 *)p)->f2C, i + 0x2d, &t[1], &t[0], 0);
-        func_021EC08C(*(char * *)&((struct Obj03849 *)p)->f2C, i + 0x2d, t[1] - d, t[0], 0);
+        func_021EC08C(*(char * *)&((struct Obj03849 *)p)->f2C, i + 0x2d, (short)(t[1] - d), (short)t[0], (short)0);
         func_020258E8(*(void **)(*(char * *)&((struct Obj03849 *)p)->f2C + i * 8 + 0xc), &t[1], &t[0]);
         func_0202590C(*(void **)(*(char * *)&((struct Obj03849 *)p)->f2C + i * 8 + 0xc), t[1] - d, t[0]);
     }

@@ -19,10 +19,10 @@
 
 typedef unsigned long u32;
 
-extern u32 func_02009CC0(u32 p);
+extern int func_02009CC0(void *a0);
 
 u32 func_021DD020(char *obj)
 {
-    return func_02009CC0(((struct Obj24397 *)obj)->f4);
+    return func_02009CC0((void *)(((struct Obj24397 *)obj)->f4));
 }
 

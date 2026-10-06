@@ -17,12 +17,12 @@ typedef unsigned short u16;
 typedef struct { u8 a, b, c, d; u16 e; } Record;
 extern const Record d_021D6544;
 extern void *func_0201FDA0(const Record *, u16, u8, u8, u16);
-void func_021D5FE8(u8 *p, int mode, int n) {
+void *func_021D5FE8(u8 *p, int mode, int n) {
     Record r = d_021D6544;
     r.e = ((struct Obj13854 *)p)->f0;
     switch (mode) {
     case 0: r.b = 24; r.c = 13; break;
     case 1: r.b = 24; r.c = 19; break;
     }
-    func_0201FDA0(&r, r.e, 12, n, ((struct Obj13854 *)p)->f4C);
+    return func_0201FDA0(&r, r.e, 12, n, ((struct Obj13854 *)p)->f4C);
 }

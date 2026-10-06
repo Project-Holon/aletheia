@@ -39,7 +39,7 @@ typedef unsigned int u32;
 extern void func_021D5A9C(char *p, int a);
 extern void func_021D964C(u8 *,u8 *);
 extern void func_021D9670(u8 *,u8 *);
-extern int func_021D8E24(u8 *,u8 *);
+extern int func_021D8E24(void *unused, u8 *p);
 struct Obj;
 extern unsigned int func_021D9428(unsigned char *p, unsigned int target);
 extern void func_021D949C(u8 *,u8 *);

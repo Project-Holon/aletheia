@@ -35,7 +35,7 @@ extern int func_0218F0F8(u8 *a);
 extern void func_0218F878(u8 *a);
 extern u32 func_021BB260(u32, u32);
 
-int func_021B52A4(u32 a, u32 b, u32 c, u32 d)
+int func_021B52A4(void *a, u32 b)
 {
 func_0218F878((u8 *)b);
 if (func_0218F0F8((u8 *)b) != 0) {

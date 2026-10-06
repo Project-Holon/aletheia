@@ -46,7 +46,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0203F1FC(const void *src, u32 size);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 struct QRec {
     u16 unk00[0x0C];
@@ -95,11 +95,11 @@ u32 func_0200B8AC(void *a, struct BattleRec *b)
     if (r->unk17D8 != 0xE281 || q->unk28 != 0xE281) {
         return 0;
     }
-    sum = func_0203F1FC(q, 0x38);
+    sum = func_0203F1FC((const u8 *)q, 0x38);
     if (sum != q->unk40) {
         return 0;
     }
-    sum = func_0203F1FC(r, 0x17DC);
+    sum = func_0203F1FC((const u8 *)r, 0x17DC);
     if (sum == r->unk17DC) {
         return 1;
     }

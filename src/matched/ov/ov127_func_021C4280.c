@@ -17,5 +17,5 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B918(struct Obj *p);
-void func_021C4280(char *p) { func_0204B918(((struct Obj23021 *)p)->f4); }
+extern u16 func_0204B918(struct Obj *p);
+int func_021C4280(char *p) { return func_0204B918(((struct Obj23021 *)p)->f4); }

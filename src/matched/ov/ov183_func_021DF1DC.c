@@ -57,7 +57,7 @@ extern Slot *func_0201F81C(u32,u32);
 extern void *func_021FC8C8(const Config *,u16);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);

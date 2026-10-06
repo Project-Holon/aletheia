@@ -24,7 +24,7 @@ extern unsigned char func_021B8DC0(unsigned char *p, void *a, unsigned int b);
 struct Unk021D6C50;
 extern int func_021D6C50(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
 extern void func_021EA8B4(char *ctx, u32 a, u32 b);
-extern int func_021EA8D4(void *w);
+extern int func_021EA8D4(u32 *p);
 
 int func_021D28AC(u8 *p, int *st, u32 *c)
 {

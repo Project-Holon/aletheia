@@ -29,7 +29,7 @@ typedef struct { u32 w[6]; } Copy;
 typedef struct { u8 a:1; u8 b:1; u8 c:1; } Bits;
 typedef struct { u8 a:4; u8 b:4; } Nibbles;
 extern int func_021D4270(void);
-extern int func_021D4294(u8);
+extern int func_021D4294(u16 v);
 extern int func_021D4348(void);
 extern int func_021D4360(void);
 extern u8 func_021D4378(void);

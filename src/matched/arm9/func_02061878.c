@@ -21,7 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02061878(u8 *p)
+struct Obj02061BD0;
+
+int func_02061878(struct Obj02061BD0 *p)
 {
     return ((struct Obj16394 *)p)->fC == 0 ? 1 : 0;
 }

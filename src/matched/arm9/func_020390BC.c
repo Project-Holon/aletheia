@@ -47,7 +47,7 @@ extern u8  *g_021469D0;
 extern u32 func_0203D6BC(void);
 extern u32 func_0203D680(void);
 extern void func_0203666C(u8 *p);
-extern int  func_020365E8(u8 *p);
+extern int func_020365E8(char *p);
 extern void func_02038DF0(u8 *p, s32 i, u32 v, u8 *q, u8 *s);
 
 void func_020390BC(void)
@@ -64,7 +64,7 @@ void func_020390BC(void)
     for (i = 0; i < n; i++) {
         func_0203666C(g_021469D0 + 0x4C + (i << 4));
         for (j = 0; j < 4; j++) {
-            if (func_020365E8(g_021469D0 + 0x4C + (i << 4)) > 0)
+            if (func_020365E8((char *)(g_021469D0 + 0x4C + (i << 4))) > 0)
                 func_02038DF0(g_021469D0 + 0x4C + (i << 4), i,
                               *(u32 *)(g_021469D0 + 0x18),
                               g_021469D0 + 0x11C + (i << 4), s);

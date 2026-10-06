@@ -39,10 +39,10 @@ typedef struct Obj {
 extern u32 func_021CC8B0(Obj *p, u32 *out);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021CCDF8(u8 *p);
-extern void func_021CCCC4(Obj *p);
+extern int func_021CCCC4(u32 a);
 extern void func_021CCB98(u8 *p);
 extern void func_021CC9A4(u8 *p);
-extern void func_021CCEE4(Obj *p);
+extern int func_021CCEE4(u32 a);
 struct Bank;
 extern void func_0201D83C(void *ptr);
 extern void func_0204B1CC(struct Bank *bank);
@@ -57,10 +57,10 @@ u32 func_021CC7B4(Obj *p, u32 *out)
     if (p->fC1 != 1)
         func_02034714(d_021DE5BC, 0, d_021DE5BC);
     func_021CCDF8((u8 *)p);
-    func_021CCCC4(p);
+    func_021CCCC4((u32)p);
     func_021CCB98((u8 *)p);
     func_021CC9A4((u8 *)p);
-    func_021CCEE4(p);
+    func_021CCEE4((u32)p);
     func_0201D83C((void *)p->fB8);
     func_0204B1CC((struct Bank *)p->f18);
     func_020307B0(p);

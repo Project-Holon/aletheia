@@ -93,8 +93,7 @@ extern void func_021C0370(void);
 extern int func_021C08B0(void);
 extern void func_021C0374(void);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
-extern int func_021BFBD0(GHIConnection *connection, void *buffer, int initialSize,
-                         int sizeIncrement);
+extern int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3);
 extern int func_021C0D40(GHIConnection *connection);
 extern GHIConnectionTable g_021D3B30;
 
@@ -158,13 +157,13 @@ GHIConnection *func_021C0998(void)
     connection->f1D0 = 0;
     connection->f1CC = 0;
 
-    bResult = func_021BFBD0(connection, connection->sendBuffer, 0x800, 0x1000);
+    bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->sendBuffer, 0x800, 0x1000);
     if (bResult)
-        bResult = func_021BFBD0(connection, connection->encodeBuffer, 0x800, 0x400);
+        bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->encodeBuffer, 0x800, 0x400);
     if (bResult)
-        bResult = func_021BFBD0(connection, connection->recvBuffer, 0x800, 0x800);
+        bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->recvBuffer, 0x800, 0x800);
     if (bResult)
-        bResult = func_021BFBD0(connection, connection->decodeBuffer, 0x800, 0x400);
+        bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->decodeBuffer, 0x800, 0x400);
     if (!bResult) {
         func_021C0D40(connection);
         func_021C0374();

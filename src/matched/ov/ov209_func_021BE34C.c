@@ -19,7 +19,7 @@ extern int func_021BD8F4(int, int);
 typedef signed short   s16;
 typedef unsigned int   u32;
 extern void func_021BD958(char *p, u32 idx, s16 *x, s16 *y, u16 space);
-extern void func_021BD934(char *p, int idx, int a, int b, unsigned short c);
+extern void func_021BD934(char *p, int idx, short a, short b, unsigned short c);
 extern void func_021BD8D8(char *p, u32 idx, u32 value);
 void func_021BE34C(char *p, int delta)
 {

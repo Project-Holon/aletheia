@@ -45,7 +45,8 @@ extern u32 func_020275FC(u32 a);
 extern u32 func_02027600(u32 a);
 extern void *func_0204AF28(void *h, unsigned a, unsigned b, unsigned heap);
 extern unsigned func_020275E8(void);
-extern void *func_0204ABF0(void *h, unsigned id, int a, unsigned b, unsigned heap);
+typedef signed int     s32;
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_0202774C(int a);
 extern int func_02027750(int a);
 extern int func_02027754(int a);
@@ -67,15 +68,15 @@ void func_021ECDF4(char *w)
     for (i = 0; i < 0x11; i++)
         *(void **)(w + i * 4 + 0xA094) = func_0204A6C8(h, func_020275F8(i), 0, 1, 0x4C);
     SLOT(w, 0xA144) = func_0204AF28(h, func_020275FC(2), func_02027600(2), 0x4C);
-    SLOT(w, 0xA118) = func_0204ABF0(h, func_020275E8(), 1, 0, 0x4C);
+    SLOT(w, 0xA118) = (void *)func_0204ABF0(h, func_020275E8(), 1, 0, 0x4C);
     SLOT(w, 0xA100) = func_0204A6C8(h, func_0202774C(2), 0, 1, 0x4C);
     SLOT(w, 0xA15C) = func_0204AF28(h, func_02027750(2), func_02027754(2), 0x4C);
-    SLOT(w, 0xA12C) = func_0204ABF0(h, func_02027748(), 1, 0xA0, 0x4C);
+    SLOT(w, 0xA12C) = (void *)func_0204ABF0(h, func_02027748(), 1, 0xA0, 0x4C);
     SLOT(w, 0xA104) = func_0204A6C8(h, func_0202776C(2), 0, 1, 0x4C);
     SLOT(w, 0xA160) = func_0204AF28(h, func_02027770(2), func_02027774(2), 0x4C);
-    SLOT(w, 0xA130) = func_0204ABF0(h, func_02027768(), 1, 0xC0, 0x4C);
+    SLOT(w, 0xA130) = (void *)func_0204ABF0(h, func_02027768(), 1, 0xC0, 0x4C);
     SLOT(w, 0xA0FC) = func_0204A6C8(h, func_0202774C(2), 0, 0, 0x4C);
     SLOT(w, 0xA158) = func_0204AF28(h, func_02027750(2), func_02027754(2), 0x4C);
-    SLOT(w, 0xA128) = func_0204ABF0(h, func_02027748(), 0, 0x1A0, 0x4C);
+    SLOT(w, 0xA128) = (void *)func_0204ABF0(h, func_02027748(), 0, 0x1A0, 0x4C);
     func_02049238(h);
 }

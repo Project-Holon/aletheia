@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_021A4F04(u32 *a)
+void func_021A4F04(u32 *a, void *a1, u32 a2)
 {
     *a = 4;
 }

@@ -26,7 +26,7 @@ struct Desc;
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 extern void *func_02188C80(void *p);
 
-int func_021AE930(u32 a, u32 b, u32 c, u32 d)
+int func_021AE930(int a, u32 b)
 {
 return (int)func_02158768((int)func_02188C80((void *)a), (226 << 4), b, 1);
 }

@@ -64,7 +64,8 @@ struct MCInstance;
 struct MultiCellBank;
 struct MultiCellData;
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
-extern void func_02064140(char *self, int v);
+struct O02064140;
+extern void func_02064140(struct O02064140 *o, u32 a);
 extern void func_020640DC(char *self, int a, int b);
 extern void func_02064120(char *self, int a, int b);
 extern void func_02064100(char *self, int a);
@@ -86,7 +87,7 @@ void func_020649D4(char *self, int a1)
     p = func_02062D40((struct CellAnim *)self);
     r7 = (int)func_020629E8((struct MultiCellBank *)(((struct Obj04783 *)self)->f44), ((struct Obj03474 *)p)->f0);
     kind = *(int *)(((struct Obj04783 *)self)->f1C + 4) & 0xff;
-    func_02064140(self + 0x48, 1);
+    func_02064140((struct O02064140 *)(self + 0x48), 1);
     switch (kind) {
     case 0:
         break;

@@ -25,7 +25,7 @@ typedef signed int s32;
 
 extern unsigned char func_021B8CFC(char *p, int i);
 
-int func_021B8DE4(char *p, int i)
+u8 func_021B8DE4(char *p, int i)
 {
     return func_021B8CFC(p, i);
 }

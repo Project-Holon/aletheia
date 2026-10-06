@@ -19,7 +19,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_02039CB4(struct Link *, u32, u32);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 int func_021BD9B4(char *p, int v)
 {
     if (func_02039CB4((struct Link *)func_020399A8(), 0x1b, 10) != 0) {

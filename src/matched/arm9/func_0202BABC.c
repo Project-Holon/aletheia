@@ -28,8 +28,8 @@ typedef unsigned short u16;
 extern u16 func_02005C44(void);
 struct Obj;
 extern u8 func_0202B9F0(const struct Obj *p, u32 key);
-extern void func_0202B9E0(void *o, u32 v);
-extern void func_0202BB48(void *o);
+extern int func_0202B9E0(int a0, int a1);
+extern int func_0202BB48(int a0);
 
 void func_0202BABC(u8 *o)
 {
@@ -37,6 +37,6 @@ void func_0202BABC(u8 *o)
         return;
     }
     ((struct Obj02601 *)o)->f4 = 1;
-    func_0202B9E0(o, func_0202B9F0((const struct Obj *)o, func_02005C44()));
-    func_0202BB48(o);
+    func_0202B9E0((int)o, func_0202B9F0((const struct Obj *)o, func_02005C44()));
+    func_0202BB48((int)o);
 }

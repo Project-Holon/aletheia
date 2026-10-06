@@ -38,7 +38,7 @@ void *func_0201210C(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Fx;
 void func_02034714(const char *expr, u32 line, const char *file);
-void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
+void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 
 void func_0217F528(Ov018Obj *p, int a, int b, int c, int d, int e)
 {

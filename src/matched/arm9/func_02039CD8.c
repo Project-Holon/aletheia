@@ -35,8 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_0203A2F0(u32 a0, u32 a1);
-extern u32  func_0203D3F8(void *obj, u32 a, u32 b, u32 c, void *slot,
-                          int d, int e, int f);
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
 
 struct Obj {
@@ -55,7 +54,7 @@ int func_02039CD8(struct Obj *p)
             continue;
         if (func_0203A2F0(p->key, i) != 0)
             continue;
-        if (func_0203D3F8(p, 0xff, 4, 0x10, p->slot[i], 1, 0, 1) != 0)
+        if (func_0203D3F8((u32)p, 0xff, 4, 0x10, (u32)p->slot[i], 1, 0, 1) != 0)
             func_0203A28C(p->key, i, 1);
         else
             return 0;

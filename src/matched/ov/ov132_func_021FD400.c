@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Entry;
 extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
-u32 func_021FD400(const char *p)
+int func_021FD400(const char *p)
 {
     u8 i;
     u32 n;

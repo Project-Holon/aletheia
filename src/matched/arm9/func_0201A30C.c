@@ -38,7 +38,7 @@ extern void *func_0201AB28(void *p, u32 idx);
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02019B58(void *p);
 
-void func_0201A30C(void *a0, void *a1)
+void func_0201A30C(void *a0, void *a1, u32 c)
 {
     int i;
 

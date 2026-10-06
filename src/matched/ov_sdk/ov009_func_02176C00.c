@@ -19,8 +19,8 @@
 extern void func_02195CC0(void);
 extern int func_02176C14(int (*func)(void *, unsigned char *, int, int));
 
-void func_02176C00(void)
+int func_02176C00(void)
 {
-    func_02176C14((int (*)(void *, unsigned char *, int,  int))func_02195CC0);
+    return func_02176C14((int (*)(void *, unsigned char *, int,  int))func_02195CC0);
 }
 

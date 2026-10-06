@@ -39,7 +39,7 @@ static inline void Outside(int wnd,int effect)
     if(effect) tmp |= 0x20;
     *(volatile u16 *)0x0400004A=(u16)tmp;
 }
-void func_021C87B0(u8 *p)
+void func_021C87B0(u8 *p, u8 *a1)
 {
     Point pos;
     func_0204B3DC(((struct Obj00179 *)p)->f1A0,1);

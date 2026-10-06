@@ -25,8 +25,8 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *tick, unsigned int value, unsigned int line);
 
-void func_021D9EEC(char *obj)
+int func_021D9EEC(char *obj)
 {
-    func_02039CB4((struct Link *)func_020399A8(), (unsigned char)((struct Obj24327 *)obj)->f14, 0x24);
+    return func_02039CB4((struct Link *)func_020399A8(), (unsigned char)((struct Obj24327 *)obj)->f14, 0x24);
 }
 

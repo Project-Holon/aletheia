@@ -16,7 +16,7 @@
 #include "../include/Obj14455.h"
 
 extern int func_021FB7B0(void *p, int i);
-extern void func_021FB514(void *, short, int);
+extern void func_021FB514(char *p, short x, int y);
 
 void func_021FAF08(char *p, int a1)
 {

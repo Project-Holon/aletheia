@@ -45,7 +45,7 @@ typedef struct Work {
 
 typedef unsigned int   u32;
 extern int func_021A8268(u32 a);
-extern u8 func_021A80FC(void *p);
+extern int func_021A80FC(u32 a);
 extern int func_02162370(int a);
 
 void func_021A7B88(Work *w)
@@ -56,7 +56,7 @@ void func_021A7B88(Work *w)
     a = w->f00;
     o = a->f0C;
     if (func_021A8268((u32)w) != 0) {
-        switch (func_021A80FC(o)) {
+        switch (func_021A80FC((u32)o)) {
         case 0:
         case 1:
         default:
@@ -91,7 +91,7 @@ void func_021A7B88(Work *w)
         w->step[4] = 8;
         return;
     } else {
-        switch (func_021A80FC(o)) {
+        switch (func_021A80FC((u32)o)) {
         case 0:
         case 1:
         default:

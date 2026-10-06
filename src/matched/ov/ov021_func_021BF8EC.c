@@ -33,12 +33,12 @@ typedef unsigned char  u8;
 struct Evt;
 extern void func_0218F0A8(u8 *a);
 extern u32 func_0218F0E8(u8 *a);
-extern void func_021BF9F4(void **q);
+extern int func_021BF9F4(void **a);
 extern void func_021BF978(void **q);
 extern void *func_021BFA18(int *q);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021C6E48(void *p);
-extern void func_021BF9E0(void **q);
+extern int func_021BF9E0(void **a);
 
 int func_021BF8EC(void *task, int *state, void **q)
 {

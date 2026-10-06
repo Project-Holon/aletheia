@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 u32 func_0203D378(void);
 u32 func_0203D1C0(u32 index);
-void func_021738E4(void *p, int i);
+int func_021738E4(void *a, int b);
 
 void func_02174B7C(unsigned char *p)
 {

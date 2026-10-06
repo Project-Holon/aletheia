@@ -23,7 +23,7 @@ extern void func_021D75EC(int key, u32 val);
 extern void func_021D70F0(void *a, int id);
 extern void func_021D7540(int line);
 
-void func_021C7B3C(u8 *p, u32 a, u32 b, u32 c)
+void func_021C7B3C(u8 *p, u32 a, u16 b, u16 c)
 {
     func_021D74F8(13068);
     func_021D75EC(2, a);

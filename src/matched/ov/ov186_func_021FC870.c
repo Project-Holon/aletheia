@@ -20,7 +20,7 @@ struct Bmp;
 typedef unsigned short u16;
 struct StrObj;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 void func_021FC870(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out)

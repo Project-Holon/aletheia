@@ -54,7 +54,7 @@ extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6CC(int p, int i, int j, u16 k, int v);
 extern V3 *func_021BE480(void *p, int i, u16 j);
 extern int func_021BE6BC(int *p);
-extern int func_02158780(void *p, int b, int c, int d, u16 e);
+extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 extern int func_021587B0(int a0, int a1, int a2, int a3);
 extern const V3 d_021F465C[];
 

@@ -30,7 +30,8 @@ typedef struct {
 } BattleSeq;
 
 extern int func_021D1C40(BattleSeq *s, u8 x, int *out);
-extern void func_021EAF18(void *msg, int a, int id);
+struct L;
+extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
 struct L;
 extern void func_021EAF50(struct L *p, u32 val);
@@ -43,7 +44,7 @@ int func_021D1BD0(BattleSeq *s, int *state, int *pp)
 
     switch (*state) {
     case 0:
-        func_021EAF18(s->msg, 1, func_021D1C40(s, pp[0], &t));
+        func_021EAF18((struct L *)s->msg, 1, func_021D1C40(s, pp[0], &t));
         if (t != 0)
             func_021EAF50((struct L *)s->msg, pp[0]);
         func_021EAF50((struct L *)s->msg, pp[1]);

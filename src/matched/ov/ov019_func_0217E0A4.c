@@ -39,7 +39,7 @@ extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(u8 *p);
 extern int func_0217BB20(char *p);
 extern void func_0217F074(void *ctx);
-extern void func_021750B0(u8 *p, u8 v);
+extern void func_021750B0(u8 *p, int v);
 typedef unsigned int   u32;
 extern u32 func_02174CE4(char *p);
 extern u8 func_021750D0(u8 *p);

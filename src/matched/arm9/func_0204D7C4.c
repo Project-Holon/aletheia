@@ -33,7 +33,8 @@ struct Ctl {
 };
 
 struct Obj;
-extern void *func_0204D410(struct Obj *o);
+struct Rec;
+extern struct Rec *func_0204D410(struct Obj *o);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 
 void func_0204D7C4(struct Ctl *c)

@@ -15,7 +15,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Fx;
-extern void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
+extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 void func_0217F434(void **p)
 {
     if (p[7] == 0) p[7] = func_02190708(p[9], (u32)p[3], 1, 0x13, 0x1e, 4);

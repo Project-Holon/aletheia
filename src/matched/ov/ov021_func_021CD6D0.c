@@ -121,7 +121,7 @@ extern u32 func_020399B8(u8 *p);
 extern u32 func_021CF1AC(u32 a, u32 b, u32 c);
 extern void func_021CE36C(u8 *p);
 extern void func_021CE41C(u32 *p);
-extern int func_021CE78C(Work *p);
+extern int func_021CE78C(u32 a);
 extern int func_021CE73C(Work *p);
 extern void func_021CEA28(Work *p);
 extern int func_0203D1B4(void);
@@ -197,7 +197,7 @@ int func_021CD6D0(Work *p)
     case 5:
         func_021CE36C((u8 *)p);
         func_021CE41C((u32 *)p);
-        if (func_021CE78C(p) == 1) {
+        if (func_021CE78C((u32)p) == 1) {
             n = func_021CE73C(p);
             saved = p->x574;
             p->x574 = 0xFFFF;

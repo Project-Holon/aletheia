@@ -34,7 +34,8 @@ extern void func_02167178(struct O *o);
 struct WordSet;
 extern struct WordSet *func_021671DC(int a0);
 extern void func_021671FC(struct O *o);
-extern int func_0219077C(int a);
+typedef unsigned char  u8;
+extern int func_0219077C(u8 *p);
 extern u32 func_020362DC(void);
 extern int func_021672B4(int a0);
 extern int func_021671EC(int a0);
@@ -52,7 +53,7 @@ int func_02167080(void *a, int *st, struct O *o)
         *st = *st + 1;
         break;
     case 1:
-        if (func_0219077C(o->f14) == 1)
+        if (func_0219077C((u8 *)o->f14) == 1)
             *st = *st + 1;
         break;
     case 2:

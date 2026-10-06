@@ -27,7 +27,9 @@ extern const struct BgTemplate d_021E1BE0,d_021E1B80,d_021E1BA0,d_021E1BC0,d_021
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
-extern void func_02040B94(u32,u32,u32,u32);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 void func_021DD1E0(void)
 {
     struct DispConfig d;

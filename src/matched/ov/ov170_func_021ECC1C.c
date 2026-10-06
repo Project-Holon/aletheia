@@ -24,7 +24,7 @@ typedef struct {
 } Top;
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021ED310(char *w);
 extern void func_021ED588(char *p);
 extern void func_021ED7C4(char *w, int i);

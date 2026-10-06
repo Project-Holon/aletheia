@@ -37,9 +37,9 @@ extern u32 func_021CD9E0(u8 *);
 struct QJ;
 extern void func_021D66D0(struct QJ *p, u32 v);
 extern void func_021EA768(u32 *p, u32 a2, u32 a3);
-extern int func_021EA778(u32, int);
+extern int func_021EA778(u32 *p, u32 a2);
 extern void func_021EA7A8(u32 *p, u32 a2);
-extern int func_021EA7B8(u32, int);
+extern int func_021EA7B8(u32 *p, u32 a2);
 extern u32 d_021F3B64[];
 int func_021D32E0(u32 *a, int *b, u32 *c)
 {
@@ -72,7 +72,7 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
         (*b)++;
         break;
     case 1:
-        func_021EA778(a[21], s);
+        func_021EA778((u32 *)a[21], s);
         if (d_021F3B64[1]) d_021F3B64[1]--;
         else {
             func_021EA768((u32 *)a[21], t, 0);
@@ -81,8 +81,8 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
         break;
     case 2: {
         u8 r, z;
-        r = func_021EA778(a[21], s);
-        z = func_021EA778(a[21], t);
+        r = func_021EA778((u32 *)a[21], s);
+        z = func_021EA778((u32 *)a[21], t);
         if (r && z) (*b)++;
         break;
     }
@@ -100,13 +100,13 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
         }
         break;
     case 5:
-        if (func_021EA7B8(a[21], s)) {
+        if (func_021EA7B8((u32 *)a[21], s)) {
             func_021EA7A8((u32 *)a[21], t);
             (*b)++;
         }
         break;
     case 6:
-        if (func_021EA7B8(a[21], t)) (*b)++;
+        if (func_021EA7B8((u32 *)a[21], t)) (*b)++;
         break;
     default:
         return 1;

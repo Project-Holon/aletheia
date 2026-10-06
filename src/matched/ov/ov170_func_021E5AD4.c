@@ -33,15 +33,15 @@ typedef unsigned char  u8;
 struct Sound;
 extern int func_02025DE8(struct Sound *obj);
 extern unsigned int func_0203633C(void);
-extern void func_021DD238(unsigned char *p);
+extern void func_021DD238(char *p);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern int func_020077B8(void *save, u32 box);
 extern void func_020061E4(unsigned se);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
-extern int func_020076D0(void *s, unsigned *a, unsigned *b);
-extern int func_021E8F50(unsigned char *p, int v);
+extern int func_020076D0(void *save, int *pbox, int *pslot);
+extern int func_021E8F50(char *p, int v);
 extern int func_021E9C94(unsigned char *p, int a, int n);
-extern int func_021E9CE0(unsigned char *p, int a, int n);
+extern int func_021E9CE0(char *p, int a, int n);
 extern int func_021E954C(unsigned char *p, int id, int lo, int arg);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -57,10 +57,10 @@ int func_021E5AD4(unsigned char *p)
     r = func_02025DE8(LIST(p));
     if (r == (unsigned)-1) {
         if (func_0203633C() & 0x200) {
-            func_021DD238(p);
+            func_021DD238((char *)p);
             r = 2;
         } else if (func_0203633C() & 0x100) {
-            func_021DD238(p);
+            func_021DD238((char *)p);
             r = 3;
         }
     }
@@ -76,12 +76,12 @@ int func_021E5AD4(unsigned char *p)
         }
         a = p[0x14];
         b = 0;
-        func_020076D0(*(void **)(TOP(p) + 4), &a, &b);
+        func_020076D0(*(void **)(TOP(p) + 4), (int *)(&a), (int *)(&b));
         *(unsigned char *)(WORK(p) + 0xA17E) = b;
         p[0x1A] = 0;
         p[0x17] = p[0x14];
         func_020061E4(0x54C);
-        return func_021E8F50(p, 0x36);
+        return func_021E8F50((char *)p, 0x36);
     case 2:
         func_020260E4(LIST(p), 0);
     case (unsigned)-6:
@@ -91,14 +91,14 @@ int func_021E5AD4(unsigned char *p)
         func_020260E4(LIST(p), 0);
     case (unsigned)-5:
         func_020061E4(0x548);
-        return func_021E9CE0(p, 0, 0x35);
+        return func_021E9CE0((char *)p, 0, 0x35);
     case 4:
     case (unsigned)-2:
         func_020061E4(0x551);
         *(unsigned char *)(WORK(p) + 0xA17E) = 0xFF;
         p[0x17] = p[0x14];
         p[0x1A] = 1;
-        return func_021E954C(p, 6, 9, func_021E8F50(p, 0x36));
+        return func_021E954C(p, 6, 9, func_021E8F50((char *)p, 0x36));
     case (unsigned)-4:
         func_020061E4(0x548);
         break;

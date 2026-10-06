@@ -30,7 +30,7 @@ struct Ent {
 
 extern const struct Ent d_021C37A4[];
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 
 void func_021C04CC(u8 *p)
 {

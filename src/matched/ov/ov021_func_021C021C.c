@@ -29,7 +29,7 @@ extern u32 func_02188D38(u8 *p);
 extern void func_021C029C(u8 *p);
 extern void func_021C02F8(u8 *p);
 extern int func_021C0374(u32 *p);
-extern void func_021C0360(u8 *p);
+extern int func_021C0360(u8 *a);
 extern int func_021C6E48(u32 a);
 extern void func_020061E4(u32 a);
 extern void func_02012374(struct Evt *evt, struct Evt **out);

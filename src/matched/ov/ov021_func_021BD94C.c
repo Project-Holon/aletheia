@@ -32,7 +32,7 @@ typedef struct {
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02029D44(u32 a, u32 b, u32 c, u32 d);
+extern void func_02029D44(u32 a, u32 b, u16 c, u8 d);
 
 void func_021BD94C(Obj *p)
 {

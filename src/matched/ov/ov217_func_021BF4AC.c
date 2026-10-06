@@ -28,7 +28,7 @@ struct Obj; struct Actor;
 struct Vec2 { short x,y; };
 extern const u16 d_021C3850[];
 typedef unsigned int   u32;
-extern u32 func_021BF910(u8 *p, u32 a1);
+extern u32 func_021BF910(u8 *p);
 extern u8 *func_021BF76C(void *p);
 extern u8 func_021C11DC(u8 *p, u8 key);
 extern void func_021C11FC(u8 *h, u8 key, s32 *px, s32 *py);
@@ -47,7 +47,7 @@ void func_021BF4AC(char *p)
     table=d_021C3850;
     if (((struct Obj00021 *)p)->f3C8==0) { func_0204B3DC(obj,0); return; }
     if (((struct Obj00021 *)p)->f34!=2) { func_0204B3DC(obj,0); return; }
-    index=func_021BF910((u8 *)p,((struct Obj00021 *)p)->f34);
+    index=func_021BF910((u8 *)p);
     if (func_021C11DC(func_021BF76C(p),index)==0) { func_0204B3DC(obj,0); return; }
     if (index==0) { func_0204B3DC(obj,0); return; }
     func_021C11FC(func_021BF76C(p),index,&x,&y);

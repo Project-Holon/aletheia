@@ -75,7 +75,7 @@ void func_020257D0(struct Obj *o);
 int func_0217F0FC(u8 *w);
 void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 void func_0217EC7C(u8 *p, u8 *w, int q);
-int func_0215841C(void *);
+u8 func_0215841C(void *p);
 u32 func_0203D1C0(u32 index);
 int func_021746AC(char *a, int b);
 u8 func_02158428(u8 *p);

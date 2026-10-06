@@ -53,7 +53,7 @@ extern int func_021C61D4(u32 a);
 extern void func_021C61EC(void *a, void *b, void *c);
 extern u32 func_02188CE8(u8 *p);
 extern int func_021A9F40(struct Ctx *ctx, int mode);
-extern int func_02158780(void *p, int b, int c, int d, u16 e);
+extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 extern void *func_02188C7C(u8 *p);
 extern void func_0216D9E4(void *o);
 

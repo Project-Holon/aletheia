@@ -30,11 +30,11 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201296C(const struct BigObj *p);
 extern unsigned func_0215A4D8(void *a, unsigned b);
-extern u32 func_02188C80(u32, u32, u32, u32);
-extern u32 func_021AE884(u32);
+extern void *func_02188C80(void *p);
+extern int func_021AE884(u32 a);
 
-int func_021AE890(u32 a, u32 b, u32 c, u32 d)
+int func_021AE890(u32 a, u32 b)
 {
-return func_0215A4D8((void *)func_0201296C(func_020120F4((const struct Ctx *)func_02188C80(a, b, c, d))), func_021AE884(b));
+return func_0215A4D8((void *)func_0201296C(func_020120F4((const struct Ctx *)func_02188C80((void *)a))), func_021AE884(b));
 }
 

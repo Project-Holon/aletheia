@@ -18,7 +18,7 @@
 
 extern signed char sub_02012FFC(void);
 
-void func_021F4ED4(void)
+int func_021F4ED4(void)
 {
-    sub_02012FFC();
+    return sub_02012FFC();
 }

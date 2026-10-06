@@ -25,7 +25,7 @@ typedef signed char    s8;
 struct S02030EE8;
 extern u32 func_02030EE8(struct S02030EE8 *p);
 
-int func_021C1094(u32 a, u32 b, u32 c, u32 d)
+int func_021C1094(void *a)
 {
 return ((struct Obj18274 *)((u8 *)(func_02030EE8((struct S02030EE8 *)a))))->f4;
 }

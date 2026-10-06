@@ -45,8 +45,8 @@ extern void func_021C54C8(int *a, int b, int c, int *d);
 extern s32 func_020200CC(struct Obj *o);
 extern u32 func_02020344(struct Obj *obj, u32 n);
 extern void func_020061E4(u32 se);
-extern u8 func_0200C480(void *a, int id, u8 pos);
-extern int func_021C59A8(char *p, u16 *a, u16 *b);
+extern u8 func_0200C480(u8 *a, int id, u8 pos);
+extern int func_021C59A8(u32 a, u32 b, u32 c);
 extern void func_021C58CC(char *p, u16 a, u16 b, u32 heap);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021C577C(void *list, int a, int b);
@@ -104,7 +104,7 @@ void func_021C553C(char *p)
             } else {
                 sel = func_0200C480(((struct Obj00523 *)p)->f20, sel, b[0]);
             }
-            func_021C59A8(p, &a[0], &a[1]);
+            func_021C59A8((u32)p, (u32)(&a[0]), (u32)(&a[1]));
             if (b[0] - 1 == sel) {
                 a[1]--;
             }

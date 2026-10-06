@@ -29,7 +29,7 @@ extern void func_020480E4(struct Ctx *c, u32 i);
 extern u32 func_021C1A84(u32);
 extern void func_021C2734(void **p);
 
-int func_021C2484(u32 a, u32 b, u32 c, u32 d)
+int func_021C2484(u8 *a, u8 *b)
 {
 func_021C2734((void **)b);
 func_020480E4((struct Ctx *)(((struct Obj07228 *)((u8 *)(a)))->f14), ((((struct Obj07228 *)((u8 *)(a)))->f18 << 16) >> 16));

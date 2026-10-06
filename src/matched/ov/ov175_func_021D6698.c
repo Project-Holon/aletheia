@@ -31,7 +31,7 @@ extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 func_0200DFD8(u32,u32,u32);
 extern u32 func_0201283C(const struct BigObj *p);
-extern u32 func_02009CC0(u32);
+extern int func_02009CC0(void *a0);
 void func_021D6698(u32 *p,u32 *q)
 {
     u32 save=((u32 *)((u32 *)q[16])[2])[0];
@@ -52,5 +52,5 @@ void func_021D6698(u32 *p,u32 *q)
         ctx=(u32 *)q[16];
         p[11]=func_0200DFD8(ctx[4],((u32 *)ctx[2])[1],2);
     }
-    p[18]=func_02009CC0(func_0201283C((const struct BigObj *)save));
+    p[18]=func_02009CC0((void *)func_0201283C((const struct BigObj *)save));
 }

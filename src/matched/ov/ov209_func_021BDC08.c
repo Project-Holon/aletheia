@@ -32,7 +32,8 @@ struct Actor;
 struct Bank;
 struct Blk37;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void *func_021C940C(void *, const Template *, u32);
+struct Obj;
+extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
 extern void func_0204BA20(struct Actor *a, u32 v);
 extern void func_021BD8D8(char *p, u32 idx, u32 value);
 extern void func_021BD890(char *, int, int);
@@ -51,7 +52,7 @@ void func_021BDC08(char *p)
         t.w8 = *(u32 *)(p + t.w8 * 4 + 0xb64);
         t.wC = *(u32 *)(p + t.wC * 4 + 0xbf4);
         t.w10 = *(u32 *)(p + t.w10 * 4 + 0xc0c);
-        *(void **)(p + i * 4 + 0xa74) = func_021C940C(((struct Obj04617 *)p)->fA70, &t, 0x6b);
+        *(void **)(p + i * 4 + 0xa74) = func_021C940C((u32)(((struct Obj04617 *)p)->fA70), (const u8 *)(&t), 0x6b);
         func_0204BA20(*(void **)(p + i * 4 + 0xa74), 0);
     }
     if (((struct Obj25570 *)(*(char * *)&((struct Obj04617 *)p)->f0))->fA <= 7) {

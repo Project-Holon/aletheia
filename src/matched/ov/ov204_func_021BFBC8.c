@@ -21,7 +21,7 @@ extern void *func_02048A18(void *,int);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 void func_021BFBC8(char *p,unsigned value)
 {
     void *ctl;

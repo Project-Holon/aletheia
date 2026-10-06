@@ -75,7 +75,7 @@ void func_02014454(struct Sub02014444Obj *o, u8 v);
 struct Rec1C *func_02012870(const struct BigObj *p);
 void func_0201289C(struct BigObj *p, const struct Rec1C *src);
 void func_02012AC4(struct Rec44 *p, u16 v);
-void func_02012ACC(void *p, int v);
+void func_02012ACC(struct Rec44 *p, int v);
 int func_020141DC(const struct Rec020141DC *p);
 void func_02012A90(struct Rec44 *p, const struct Vec12 *src);
 void func_02012AA4(struct Rec44 *p, const struct H4 *src);

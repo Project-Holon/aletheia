@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 
 struct G3dSys;
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
-extern void func_02047804(void *h, u16 i);
+struct AnmCtl;
+extern u32 func_02047804(struct AnmCtl *c, u16 idx);
 extern u8 *func_0218BCAC(u8 *p);
 extern u8 func_0218BD24(u8 *p);
 

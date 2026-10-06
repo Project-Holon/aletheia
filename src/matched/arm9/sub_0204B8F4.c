@@ -46,9 +46,9 @@ struct Obj {
     struct Sub unk_68;
 };
 
-extern struct Node *sub_0204D444(struct Sub *s);
+extern struct Node *sub_0204D444(struct Obj *o);
 
 u32 sub_0204B8F4(struct Obj *p)
 {
-    return sub_0204D444(&p->unk_68)->unk_10;
+    return sub_0204D444((struct Obj *)(&p->unk_68))->unk_10;
 }

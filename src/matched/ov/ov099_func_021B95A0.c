@@ -39,21 +39,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 w, h; } WH;
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void func_021B9DC0(char *a, u32 heap, u32 x);
+extern void func_021B9DC0(void *a, u32 b, u32 c);
 extern void func_021B9E04(void *a, u32 heap);
 extern WH func_021BA810(int i);
 extern u32 func_021BA81C(int i);
 extern void *func_021C47A0(u32 w, u32 h, u32 heap);
-extern void func_021C4800(void *g, u32 out);
+extern void func_021C4800(u8 *p, void *out);
 extern void *func_021C4880(u32 count, u32 heap);
-extern void func_021B9D30(char *p, u32 q, u32 heap);
+extern void func_021B9D30(u8 *p, void *q, u32 heap);
 extern void func_021C59D0(void *p);
 extern int func_021B9D6C(char *p, u32 heap, u32 x, u32 n);
-extern u32 func_021B9E0C(void *a, u32 heap, u32 x, u32 c);
+extern void func_021B9E0C(void *a, u32 b, u32 c, u32 d);
 extern void func_021BA60C(char *a, char *p, u32 unused, u32 arc);
 extern void *func_021C5EEC(int n, int heap);
 
-void func_021B95A0(char *p, u32 heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u32 a7)
+void func_021B95A0(char *p, int heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u32 a7)
 {
     WH t;
     u32 n = 0;
@@ -66,9 +66,9 @@ void func_021B95A0(char *p, u32 heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u3
     func_021B9E04(*(void **)(p + 0x10), heap);
     t = func_021BA810(n);
     *(void **)(p + 0x588) = func_021C47A0(t.w, t.h, heap);
-    func_021C4800(*(void **)(p + 0x588), func_021BA81C(n));
+    func_021C4800(*(void **)(p + 0x588), (void *)func_021BA81C(n));
     *(void **)(p + 0x58C) = func_021C4880(0x30, heap);
-    func_021B9D30(p, x3, heap);
+    func_021B9D30((u8 *)p, (void *)x3, heap);
     func_021C59D0(p + 0x594);
     func_021B9D6C(p, heap, x2, n);
     func_021B9E0C(*(void **)(p + 0x10), heap, x2, a5);

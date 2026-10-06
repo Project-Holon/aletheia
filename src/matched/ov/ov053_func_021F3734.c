@@ -27,7 +27,7 @@ extern void func_0202B914(int, int);
 typedef unsigned int   u32;
 extern void func_02005F24(u32 a0, u32 a1);
 extern void func_021F39D0(char *a, int b);
-extern void func_021C4DA8(int);
+extern int func_021C4DA8(u32 a);
 extern void func_021897A0(int, int);
 
 void func_021F3734(int a)

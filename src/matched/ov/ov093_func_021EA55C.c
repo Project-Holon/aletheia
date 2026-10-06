@@ -33,7 +33,7 @@ struct H {
 };
 
 extern void func_021EEE80(u32 a, u16 k, u32 *p);
-extern void func_021EEEF4(u32 a, u32 b, u32 c);
+extern void func_021EEEF4(u32 a, u16 b, u32 c);
 extern void func_021EF694(u32 a, u32 b);
 extern void func_021EF6A8(u32 a, u32 b, u32 c);
 extern void func_021EF6E8(u32 a, u32 b, u32 c);

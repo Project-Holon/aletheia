@@ -28,7 +28,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *sys);
 extern unsigned int func_02159B10(void *, void *);
 extern u8 func_0200D488(struct Blk38 *p, u32 i);
-extern void func_0215E440(void *sys, u32 which);
+extern void func_0215E440(void *sys, u8 which);
 
 int func_021B5154(u32 a, u32 b)
 {

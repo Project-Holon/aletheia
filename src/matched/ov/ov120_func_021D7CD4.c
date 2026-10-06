@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 extern int func_021D7C48(u8 *p, int n, int a, int b, int c, int d);
 
-void func_021D7CD4(int a, int b, int c, int d)
+int func_021D7CD4(int a, int b, int c, int d)
 {
-    func_021D7C48((u8 *)a, b, c, d, 0x14, 6);
+    return func_021D7C48((u8 *)a, b, c, d, 0x14, 6);
 }

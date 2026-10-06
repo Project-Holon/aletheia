@@ -22,7 +22,8 @@ typedef unsigned short u16;
 
 typedef struct { int w[7]; } Blk28;
 
-extern int func_021BE89C(int a, int b);
+typedef unsigned int   u32;
+extern int func_021BE89C(int a, u32 b);
 extern int func_021BE8B8(int a, int b);
 extern u8 sub_0202E8A4(u8 a);
 

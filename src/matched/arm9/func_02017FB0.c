@@ -59,7 +59,7 @@ static inline int Learn_IsEnd(const struct Learn *t)
     return end;
 }
 
-void func_02017FB0(void *p)
+u32 func_02017FB0(void *p)
 {
     u32 flag;
     u16 species;
@@ -92,5 +92,5 @@ void func_02017FB0(void *p)
             func_020180FC(p, d.move);
         i++;
     }
-    func_02017DE4(p, flag);
+    return func_02017DE4(p, flag);
 }

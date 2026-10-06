@@ -22,4 +22,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_021F50E0(const unsigned char *p);
-void func_021F4B30(u8 *p) { func_021F50E0((const unsigned char *)(((struct Obj22522 *)p)->f20)); }
+int func_021F4B30(u8 *p) { return func_021F50E0((const unsigned char *)(((struct Obj22522 *)p)->f20)); }

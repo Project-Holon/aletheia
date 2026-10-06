@@ -74,11 +74,11 @@ typedef unsigned int   u32;
 struct Evt;
 struct Obj;
 extern int func_021BDD48(struct Obj *o);
-extern int func_021A8244(Work *w);
-extern void func_021A7B10(void *o);
+extern int func_021A8244(u32 a);
+extern int func_021A7B10(void *a);
 extern void *func_021618E0(void *a, void *o);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_02029D44(void *a, void *b, u16 c, u8 d);
+extern void func_02029D44(u32 a, u32 b, u16 c, u8 d);
 extern int func_021A834C(Work *w);
 extern void func_020061E4(u32 a);
 extern void func_021A8324(void *task, Work *w);
@@ -144,7 +144,7 @@ int func_021A7F38(void *task, int *state, Work *w)
         }
         break;
     case 4:
-        if (func_021A8244(w) == 1) {
+        if (func_021A8244((u32)w) == 1) {
             *state = func_021A81EC(w);
             func_021A8200(w);
             if (w->f38 != 0) {
@@ -171,7 +171,7 @@ int func_021A7F38(void *task, int *state, Work *w)
         }
         break;
     case 6:
-        func_02029D44(w04, a08, a->f20, a->f45);
+        func_02029D44((u32)w04, (u32)a08, a->f20, a->f45);
         a->f48 = 1;
         *state = func_021A81EC(w);
         func_021A8200(w);

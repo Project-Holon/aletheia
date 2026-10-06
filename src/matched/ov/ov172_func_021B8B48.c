@@ -28,7 +28,7 @@ extern struct Entry *sub_020399A8(void);
 struct Link;
 extern u32 sub_02039CB4(struct Link *a, u32 b, u32 c);
 
-void func_021B8B48(void *p, u32 a, u32 b)
+int func_021B8B48(void *p, u32 a, u32 b)
 {
-    sub_02039CB4((struct Link *)sub_020399A8(), b, 0x20);
+    return sub_02039CB4((struct Link *)sub_020399A8(), b, 0x20);
 }

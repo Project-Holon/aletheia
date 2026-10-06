@@ -85,7 +85,7 @@ extern void func_020061E4(unsigned se);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_021DEFEC(Obj *p, unsigned b);
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern int func_021EA064(Obj *p, int i, int v);
+extern int func_021EA064(unsigned char *p, int i, int v);
 extern void func_021EE754(unsigned char *p, unsigned r);
 extern void func_021EE3E4(char **p, unsigned idx);
 extern void func_021DF040(char *p);
@@ -93,7 +93,7 @@ extern int func_021EF1D4(unsigned *a, unsigned *b);
 extern void func_021EA808(char *p);
 extern unsigned func_021EE96C(char *p);
 extern unsigned func_021EF1A4(void);
-extern int func_021EA0BC(Obj *p, unsigned i);
+extern int func_021EA0BC(unsigned char *p, unsigned char i);
 extern void func_021DF0BC(unsigned char *p);
 extern void func_021ECC1C(unsigned char *p);
 extern int func_021E9C94(Obj *p, int a, int n);
@@ -108,7 +108,7 @@ extern int func_021E1A28(char *p);
 extern int func_021E19D4(char *p);
 extern int func_021E8FE0(char *p, int v);
 extern int func_021E8FD0(char *p, int a);
-extern void func_021EA798(unsigned char *p, int sel);
+extern int func_021EA798(unsigned char *p, int sel);
 extern void func_021ECB84(char *w, unsigned i);
 extern int func_021EA114(char *p, int a);
 
@@ -135,7 +135,7 @@ int func_021E3E84(Obj *p)
                 func_020061E4(0x666);
                 func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
                 func_021DEFEC(p, r);
-                return func_021EA064(p, r, 0x20);
+                return func_021EA064((unsigned char *)p, r, 0x20);
             }
             func_020260E4(OBJ(p), r);
             func_021EE754((unsigned char *)p, r);
@@ -151,7 +151,7 @@ int func_021E3E84(Obj *p)
                 func_020061E4(0x666);
                 func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
                 func_021DEFEC(p, r + 0x1E);
-                return func_021EA064(p, r + 0x1E, 0x20);
+                return func_021EA064((unsigned char *)p, r + 0x1E, 0x20);
             }
             func_020260E4(OBJ(p), r + 0x1E);
             func_021EE754((unsigned char *)p, r + 0x1E);
@@ -261,7 +261,7 @@ int func_021E3E84(Obj *p)
             p->b16 = r;
             p->b17 = p->b14;
             func_021ECB84(p->work, p->b16);
-            return func_021EA0BC(p, p->b16);
+            return func_021EA0BC((unsigned char *)p, p->b16);
         }
         break;
     }

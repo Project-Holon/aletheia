@@ -57,7 +57,7 @@ extern u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, in
 extern void func_021B6A3C(unsigned char *p, unsigned char *q);
 extern void func_021B6A70(unsigned char *p, unsigned char *q, int r);
 extern u32 func_021CD978(struct QB *p);
-extern void func_021BAA94(int, int, u8, u8);
+extern void func_021BAA94(char *p, int b, u8 c, u8 d);
 extern void func_021BAB40(char *p);
 extern int func_021B83F4(int a);
 extern int func_021B8B9C(unsigned char *p, unsigned char k);
@@ -137,7 +137,7 @@ int func_021B6DD0(int unused, u8 *p)
     for (i = 0; i < 4; i++) {
         if (func_021B8B9C(p, i)) {
             k = func_021B8B78(p, (unsigned char)i);
-            func_021BAA94(((struct Obj00886 *)p)->f8, func_021CD978((struct QB *)(*(int *)(p + i * 4 + 0x10))), i, k);
+            func_021BAA94((char *)(((struct Obj00886 *)p)->f8), func_021CD978((struct QB *)(*(int *)(p + i * 4 + 0x10))), i, k);
         }
     }
     func_021BAB40((char *)(((struct Obj00886 *)p)->f8));

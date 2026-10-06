@@ -51,7 +51,7 @@ extern void func_0216D844(void *p, short v);
 extern void func_0216D85C(void *p, int v);
 extern void func_0216D874(int a0, int a1);
 
-void func_0219E6C8(u32 o, u32 id)
+void func_0219E6C8(u32 o, u16 id)
 {
     u32 h;
     s32 v[3];

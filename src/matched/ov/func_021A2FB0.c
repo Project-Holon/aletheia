@@ -28,7 +28,7 @@ extern u32 func_02188CFC(u8 *p);
 extern int func_021A5778(u32 a);
 extern int func_021A59DC(u32 a);
 
-int func_021A2FB0(u32 a, u32 b, u32 c, u32 d)
+u32 func_021A2FB0(u32 a)
 {
 if (func_02188CFC((u8 *)(((struct Obj09180 *)((u8 *)(a)))->f0)) == 0) {
     return func_021A5778(((struct Obj09180 *)((u8 *)(a)))->f8);

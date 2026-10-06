@@ -40,7 +40,7 @@ struct U16Vec;
 struct WordSet;
 extern u32 func_021BF854(char *p);
 extern void func_021C0FF8(u8 *p, int visible);
-extern void func_021C0F78(u8 *p, void *text);
+extern void func_021C0F78(u8 *p, struct U16Vec *text);
 extern u8 func_021C11C8(u8 *p, u8 key);
 extern u8 func_021C11DC(u8 *p, u8 key);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);

@@ -25,7 +25,7 @@ extern u32 func_021EEB64(struct QW *p, u32 *out);
 extern void func_021EE8F4(u8 *p, u8 idx, const void *src, u32 n);
 extern u32 func_021EE96C(u8 *p, int a, int b);
 
-void func_021BB650(u8 *p, int a, int b, int c)
+int func_021BB650(u8 *p, int a, int b, int c)
 {
     u32 i;
     u32 v;
@@ -38,5 +38,5 @@ void func_021BB650(u8 *p, int a, int b, int c)
             func_021EE8F4(p + 0x68, i, (const void *)r, (v << 22) >> 24);
         }
     }
-    func_021EE96C(p + 0x68, a, c);
+    return func_021EE96C(p + 0x68, a, c);
 }

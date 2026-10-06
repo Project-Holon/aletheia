@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 
-void func_021BEE04(int p, int i)
+int func_021BEE04(int p, int i)
 {
-    func_0204B3F4((struct Obj *)(((int *)(p + i * 4))[0xa]));
+    return func_0204B3F4((struct Obj *)(((int *)(p + i * 4))[0xa]));
 }

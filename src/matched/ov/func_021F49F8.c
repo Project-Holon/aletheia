@@ -78,7 +78,7 @@ struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u32 heap);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);

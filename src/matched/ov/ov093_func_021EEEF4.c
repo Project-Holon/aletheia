@@ -33,7 +33,7 @@ extern E d_021F39D8[];
 extern F d_021F39DC[];
 extern void func_021EF1CC(u32 a, u32 b, u32 c);
 
-void func_021EEEF4(u32 a, u32 b, u32 c)
+void func_021EEEF4(u32 a, u16 b, u32 c)
 {
     u32 i;
 

@@ -79,7 +79,7 @@ struct PalAnmSlot;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern int func_0204ABF0(void * a, int b, int c, int d, u16 e);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_021F86E0(void);
 extern int func_0204AEF4(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);

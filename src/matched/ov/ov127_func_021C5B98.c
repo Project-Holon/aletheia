@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned short u16;
 extern void func_02041300(u8,int,int,int,u8,u8,u8);
-extern void func_021C5C8C(void *,u8,u8,u8,u8,u8,void *,u8,u8,u8,u8);
+extern void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8 sy, int width, int height);
 void func_021C5B98(void *p,int layer,unsigned int q,s16 x,s16 y)
 {
     s16 width=((struct Obj14033 *)q)->f0/8;
@@ -34,5 +34,5 @@ void func_021C5B98(void *p,int layer,unsigned int q,s16 x,s16 y)
     if(height<sy+h) h-= (s16)(sy+h-height);
     func_02041300(layer,0,0,0,33,25,17);
     q+=12;
-    func_021C5C8C(p,layer,x,y,w,h,(void *)q,sx,sy,width,height);
+    func_021C5C8C(p,layer,x,y,w,h,(void *)q,sx,sy,(u8)width,(u8)height);
 }

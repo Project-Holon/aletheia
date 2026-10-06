@@ -34,7 +34,7 @@ extern u32 func_021D95F0(void *p);
 extern int func_021D9610(unsigned char *p);
 extern int func_021E12AC(char *p);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern void func_021DA798(char *p);

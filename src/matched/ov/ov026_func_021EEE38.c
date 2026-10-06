@@ -38,7 +38,7 @@ extern int *func_021A21B8(int *p);
 extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
-extern void func_021A26C4(int, Pt *);
+extern int func_021A26C4(u32 a, u32 b);
 extern int d_021EFD08[];
 
 void func_021EEE38(int a, int n, int idx)
@@ -69,6 +69,6 @@ void func_021EEE38(int a, int n, int idx)
         e[3] = 0;
         pt.x = r % 0x180 - 0x80;
         pt.y = r % 0x28 - 0x50;
-        func_021A26C4(obj, &pt);
+        func_021A26C4(obj, (u32)(&pt));
     }
 }

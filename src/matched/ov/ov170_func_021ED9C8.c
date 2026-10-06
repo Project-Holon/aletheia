@@ -19,7 +19,7 @@
 typedef struct { short x, y; int b, c, d, e; short f, g; } Desc;
 extern const Desc d_021EFD1C;
 extern unsigned char func_021DEB14(unsigned char *p, int a);
-extern void func_021EC08C(char *, int, short, short, short);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EDB64(char *, int, int);
 typedef signed short   s16;
 struct Grid;

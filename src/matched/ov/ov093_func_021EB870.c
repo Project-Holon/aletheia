@@ -62,7 +62,7 @@ extern int func_021ECF68(struct T *p);
 extern void func_021EDA04(struct E *e);
 extern void *func_021B86B8(void ***);
 extern void func_021F7998(u32);
-extern int func_021B8DE4(char *p, int i);
+extern u8 func_021B8DE4(char *p, int i);
 extern u16 func_021BA020(char *, int);
 extern void func_021F7F58(int, u32, u32, u32, u32);
 extern void func_021EE104(u8 *, u32 *, u32, u32, u32);

@@ -32,7 +32,7 @@ extern u8 tbl_02203270[];
 extern u8 tbl_022032FE[];
 extern u8 tbl_02203284[];
 
-extern int func_02035C08(void *rects);
+extern int func_02035C08(const void *p);
 
 int func_021F9A1C(void *p, int mode)
 {

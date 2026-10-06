@@ -62,7 +62,7 @@ int func_0204E804(void);
 void *func_020120F4(const struct Ctx *p);
 u8 *func_02012944(void *p);
 void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v);
-void func_02193B20(void *a, int b);
+int func_02193B20(u32 a, u32 b);
 void func_0216CF2C(void *a);
 int func_02187508(char *p);
 int func_021875B8(char *p);
@@ -168,7 +168,7 @@ int func_021871F8(void *a, int *st, char *o)
         if (func_0204E804() != 0)
             break;
         func_02161F90((int)P40, P44, P48, (int)func_02012944(func_020120F4(P(o))), H4C, H08);
-        func_02193B20(P28, H4C);
+        func_02193B20((u32)P28, H4C);
         func_0216CF2C(P30);
         func_0204E720(1, 0x10, 0, 0);
         *st = 15;

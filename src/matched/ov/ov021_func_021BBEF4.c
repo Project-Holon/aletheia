@@ -25,7 +25,7 @@ typedef struct Obj {
 
 typedef unsigned int   u32;
 struct BbActSys;
-extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
+extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
 
 void func_021BBEF4(int a0, Obj *p)
 {

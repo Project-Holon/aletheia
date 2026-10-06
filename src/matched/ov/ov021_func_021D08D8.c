@@ -31,7 +31,7 @@ typedef struct Blk021D08D8 {
 
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 struct Arg;
 extern int func_02047AC8(void *a0, struct Arg *a1);
 extern Blk021D08D8 d_021DE628;

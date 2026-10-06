@@ -26,7 +26,7 @@ typedef struct {
     void *p8;
 } S;
 
-extern void func_021A752C(E *e);
+extern int func_021A752C(u32 a);
 extern void func_020307B0(void *p);
 
 void func_021A7484(S *s)
@@ -34,7 +34,7 @@ void func_021A7484(S *s)
     u32 i;
     if (s->p8 != 0) {
         for (i = 0; i < s->n; i++) {
-            func_021A752C(&s->arr[i]);
+            func_021A752C((u32)(&s->arr[i]));
         }
         func_020307B0(s->arr);
         s->arr = 0;

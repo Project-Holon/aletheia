@@ -24,7 +24,7 @@ typedef unsigned long long u64;
 typedef struct { u16 a[32]; } Table;
 extern const Table d_021DA868;
 extern const u16 d_021DA864;
-extern int func_0203F1FC(const u8 *src, u32 len);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 struct U16Vec;
 extern void func_0204581C(struct U16Vec *vec);
 extern void func_02045AFC(struct U16Vec *vec, u16 value);

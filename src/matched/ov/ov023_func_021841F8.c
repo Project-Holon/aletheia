@@ -27,7 +27,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_02039338(int a);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
 extern void func_02082B0C(void *src, void *dst, u32 n);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
@@ -38,8 +39,8 @@ struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern void func_021844D8(u8 *d, int x, int y);
-extern void func_02186860(u8 *d, int x, int y);
+extern u32 func_021844D8(char *p, int x, int y);
+extern void func_02186860(char *p, int x, int y);
 
 void func_021841F8(int a, int b, u8 *c, u8 *d, int e)
 {
@@ -47,7 +48,7 @@ void func_021841F8(int a, int b, u8 *c, u8 *d, int e)
     int off;
     u32 t;
 
-    if (func_02039338(a) != 0) {
+    if (func_02039338() != 0) {
         off = c[0x3ec] * 0x3e8;
         if (off > 0x3840) {
             func_02082B0C(c, d + 0x4290 + off, 0x190);
@@ -65,9 +66,9 @@ void func_021841F8(int a, int b, u8 *c, u8 *d, int e)
         n = ((struct Obj01674 *)d)->f428C;
         if (n * 1000 < 0x3840) {
             ((struct Obj01674 *)d)->f428C += 1;
-            func_021844D8(d, ((struct Obj01674 *)d)->f428C, e);
+            func_021844D8((char *)d, ((struct Obj01674 *)d)->f428C, e);
         } else {
-            func_02186860(d, 0x2904, 0);
+            func_02186860((char *)d, 0x2904, 0);
         }
     }
 }

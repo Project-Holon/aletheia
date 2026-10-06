@@ -67,7 +67,7 @@ extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
 extern int func_021D5B68(void *p);
 extern int func_021B9A6C(int, u32);
-extern int func_021B8DE4(char *p, int i);
+extern u8 func_021B8DE4(char *p, int i);
 extern int func_021B8CE8(int, int, int);
 extern u64 func_020870D0(void);
 extern u32 func_0203F0A8(void);

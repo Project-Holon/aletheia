@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int func_021AB404(int x);
 
-int func_021A55FC(u32 a, u32 b, u32 c, u32 d)
+int func_021A55FC(int a)
 {
 if (func_021AB404(a) == 1) {
     return 1;

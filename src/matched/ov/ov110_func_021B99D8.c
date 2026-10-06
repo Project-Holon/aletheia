@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u32 func_021B98F8(u8 *p, u16 *src, u16 *out, u32 n);
-void func_021B99D8(u32 a, u32 b, u32 c) { func_021B98F8((u8 *)a, (u16 *)b, (u16 *)c, 0); }
+u32 func_021B99D8(u32 a, u32 b, u32 c) { return func_021B98F8((u8 *)a, (u16 *)b, (u16 *)c, 0); }

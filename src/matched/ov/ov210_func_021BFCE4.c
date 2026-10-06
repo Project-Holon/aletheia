@@ -14,9 +14,9 @@
  *   func_021BEDF0 0x021BEDF0 thumb
  */
 typedef unsigned int u32;
-extern int func_021BEE04(char *, int);
+extern int func_021BEE04(int p, int i);
 extern void func_021BEE58(char *, int, short *, short *, unsigned short);
-extern void func_021BEE38(char *, int, short, short, unsigned short);
+extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
 extern void func_021BEDF0(int p, int i, int v);
 
 void func_021BFCE4(char *p, int dx)
@@ -25,7 +25,7 @@ void func_021BFCE4(char *p, int dx)
     struct { short x; short y; } pos;
 
     for (i = 0xF; i < 0x1D; i++) {
-        if (func_021BEE04(p, i)) {
+        if (func_021BEE04((int)p, i)) {
             func_021BEE58(p, i, &pos.y, &pos.x, 0);
             func_021BEE38(p, i, pos.y, (short)(pos.x + dx), 0);
             if (pos.x + dx <= -20 || pos.x + dx >= 0xDC) {
@@ -39,7 +39,7 @@ void func_021BFCE4(char *p, int dx)
         func_021BEDF0((int)p, 9, 0);
     }
     for (i = 0x1D; i < 0x2B; i++) {
-        if (func_021BEE04(p, i)) {
+        if (func_021BEE04((int)p, i)) {
             func_021BEE58(p, i, &pos.y, &pos.x, 1);
             func_021BEE38(p, i, pos.y, (short)(pos.x + dx), 1);
             func_021BEE38(p, i + 0xE, pos.y, (short)(pos.x + dx), 1);

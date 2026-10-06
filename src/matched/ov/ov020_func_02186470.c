@@ -38,7 +38,7 @@ extern u16 func_02012AC8(const struct Rec44 *p);
 extern char *func_020127C4(int a);
 extern int func_02161ECC(char *p);
 extern int func_02186BA8(u8 *p);
-extern int func_02013DE0(int a0);
+extern int func_02013DE0(u16 a0);
 extern char *func_02186B2C(char *p, char *src);
 extern void func_02161E78(char *p);
 extern void func_02161E60(char *p, int a);

@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021ED544(char *p, int b);
 extern void func_021EC0B0(char *,int,short *,short *,u16);
-extern void func_021EC08C(char *,int,short,short,short);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_020061E4(unsigned);
 extern void func_021ED7C4(char *,int);
 #define W(p) (*(char **)((p)+0x2C))
@@ -40,7 +40,7 @@ int func_021E0778(u8 *p)
             break;
         }
         func_021EC0B0(W(p),4,&xy[1],&xy[0],0);
-        func_021EC08C(W(p),4,xy[1],xy[0]+2,0);
+        func_021EC08C(W(p),4,(short)xy[1],(short)(xy[0]+2),(short)0);
         (((struct Obj02502 *)s)->fE)++;
         break;
     case 2:
@@ -54,10 +54,10 @@ int func_021E0778(u8 *p)
             return 0;
         }
         func_021EC0B0(W(p),4,&xy[1],&xy[0],0);
-        func_021EC08C(W(p),4,xy[1],xy[0]-2,0);
+        func_021EC08C(W(p),4,(short)xy[1],(short)(xy[0]-2),(short)0);
         k=*(u8 *)(W(p)+0x3DF6);
         func_021EC0B0(W(p),k,&xy[1],&xy[0],0);
-        func_021EC08C(W(p),k,xy[1],xy[0]-2,0);
+        func_021EC08C(W(p),k,(short)xy[1],(short)(xy[0]-2),(short)0);
         func_021ED7C4(W(p),0x24);
         (((struct Obj02502 *)s)->fE)++;
         break;

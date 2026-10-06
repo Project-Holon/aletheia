@@ -33,7 +33,7 @@ extern int func_02158344(int a0);
 extern void *func_02012B38(const struct BigObj *p);
 extern u32 func_0201444C(struct Sub02014444Obj *o);
 struct Sub0200852CObj;
-extern int func_0215841C(void *p);
+extern u8 func_0215841C(void *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern u8 func_0200855C(const struct Sub0200852CObj *obj);

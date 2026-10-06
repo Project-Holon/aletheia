@@ -42,7 +42,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern const Rect d_021836D4;
 
-void func_0217DC14(int *p)
+void func_0217DC14(int *p, void *a1)
 {
     Rect r;
     int h;

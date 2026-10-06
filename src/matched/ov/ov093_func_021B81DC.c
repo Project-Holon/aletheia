@@ -35,7 +35,7 @@ struct QB;
 extern u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap);
 extern u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, int g, struct Copy24 *h, u16 heap);
 extern u32 func_021CD978(struct QB *p);
-extern void func_021BAA94(char *p, int b, int c, u8 d);
+extern void func_021BAA94(char *p, int b, u8 c, u8 d);
 extern void func_021BAACC(char *p, int a, int b, int c, u8 d);
 extern int func_021B8B9C(u8 *, u8);
 extern int func_021B6994(struct S **pp, u32 b);

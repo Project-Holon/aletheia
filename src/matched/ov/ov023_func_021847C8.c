@@ -48,7 +48,7 @@ extern void func_02184B34(void);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_0201D83C(void *ptr);
-extern int  func_02186558(u8 *);
+extern int func_02186558(char *p);
 extern void func_02184B04(char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
@@ -85,7 +85,7 @@ int func_021847C8(u32 a, int *seq, u8 *c, u8 *d)
         break;
     case 2:
         if (((struct Obj01361 *)d)->f9E78 != 0) {
-            if (func_02186558(d) == 1) {
+            if (func_02186558((char *)d) == 1) {
                 (*seq)++;
             }
         } else {

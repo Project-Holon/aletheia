@@ -30,8 +30,8 @@ struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *obj, struct VecFx32 *out);
 extern void func_02164208(int dir, int *p, int amt);
-extern u8 func_0216D91C(void *obj);
-extern u8 func_0216D924(void *obj);
+extern u8 func_0216D91C(int a0);
+extern u8 func_0216D924(int a0);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB11C(u32 attr);
@@ -52,8 +52,8 @@ int func_021C0D08(void *obj, u32 dir, void *map)
 
     func_0216D88C(obj, (struct VecFx32 *)&pos);
     func_02164208(dir, (int *)(&pos), 0x10000);
-    n = func_0216D91C(obj);
-    m = func_0216D924(obj);
+    n = func_0216D91C((int)obj);
+    m = func_0216D924((int)obj);
     flagB = 0;
     flagA = 0;
     for (i = 0; i < m; i++, pos.z -= 0x10000) {

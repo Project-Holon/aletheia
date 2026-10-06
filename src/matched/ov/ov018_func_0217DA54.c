@@ -20,11 +20,11 @@
  * Callees' matched definitions omit this unused input; no callee edits.
  */
 extern void func_0217DAA8(int *p, void *a1);
-extern void func_0217DB4C(void *, void *);
-extern void func_0217DBAC(void *, void *);
-extern void func_0217DC14(void *, void *);
+extern void func_0217DB4C(int *p, void *a1);
+extern void func_0217DBAC(int *p, void *a1);
+extern void func_0217DC14(int *p, void *a1);
 extern void func_0217DC9C(int *p, void *a1);
-extern void func_0217DCFC(void *, void *);
+extern void func_0217DCFC(int *p, void *a1);
 extern void func_0217DD48(void *, void *);
 void func_0217DA54(void *p, void *bg)
 {

@@ -15,7 +15,7 @@
  *   func_021D76BC  0x021D76BC  thumb  ov093
  */
 
-extern int func_021C815C(void *p);
+extern int func_021C815C(int *p);
 extern int func_021D775C(int key);
 typedef unsigned int   u32;
 extern int func_021D76BC(int key, u32 val);

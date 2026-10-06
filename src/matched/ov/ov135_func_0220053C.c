@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021F4EC0(u8 *, u32, u32);
 extern void func_021F4E98(u8 *, u32, u32);
-extern int func_021F4ED4(u8 *);
+extern int func_021F4ED4(void);
 extern void func_022009A4(u8 *, int, int, int, int);
 extern void func_02200A10(u8 *, int, int, int, int);
 extern void func_020061E4(u32 a);
@@ -49,7 +49,7 @@ void func_0220053C(u8 *p, int mode)
         ((struct Obj01749 *)p)->f28 = 9;
         break;
     case 2:
-        func_02200A10(p, 7, func_021F4ED4(p), 0, 0xF0F);
+        func_02200A10(p, 7, func_021F4ED4(), 0, 0xF0F);
         func_021F4E98(p, 10, 12);
         break;
     }

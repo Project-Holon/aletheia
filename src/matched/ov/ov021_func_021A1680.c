@@ -18,10 +18,10 @@ typedef unsigned char u8;
 
 typedef unsigned int   u32;
 u32 func_021A1780(u8 *p);
-void func_021A1750(u8 *p);
+int func_021A1750(u32 a);
 
 void func_021A1680(u8 *p)
 {
     if (func_021A1780(p + 0x20) != 0)
-        func_021A1750(p + 0x20);
+        func_021A1750((u32)(p + 0x20));
 }

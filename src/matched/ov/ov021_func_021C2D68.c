@@ -52,7 +52,7 @@ struct Bmp;
 struct Ctx;
 struct Obj020437AC;
 extern void *func_0201210C(const struct Ctx *p);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_021C2BE4(struct Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile);
 extern void func_021C2F84(int s, struct Obj *p, char *a1, char *a2, u32 c, u32 d);
 extern void func_020437AC(struct Obj020437AC *p);

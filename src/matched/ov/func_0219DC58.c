@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_0219DC34(u32 a1, u32 a2);
+extern int func_0219DC34(u32 a, u32 b);
 
 u32 func_0219DC58(u32 a1)
 {

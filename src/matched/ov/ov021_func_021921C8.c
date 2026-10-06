@@ -25,7 +25,7 @@ typedef short          s16;
 struct Bmp;
 struct CharBuf;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_020439A0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u16 i);
 

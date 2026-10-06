@@ -63,7 +63,7 @@ extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
-extern u32 func_0204ABF0(void *h, u32 a, u32 b, u32 c, u32 heap);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 

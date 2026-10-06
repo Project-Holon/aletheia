@@ -28,7 +28,7 @@ extern void func_0216D974(unsigned int *p, unsigned int v);
 struct X;
 extern void func_02193C80(struct X *x);
 
-int func_021938D4(u32 a, u32 b, u32 c, u32 d)
+u32 func_021938D4(u32 a)
 {
 func_02193C80((struct X *)a);
 if (*(u32 *)((u8 *)(a) + ((5 << 6))) != 0) {

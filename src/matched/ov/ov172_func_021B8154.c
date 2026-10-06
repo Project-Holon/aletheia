@@ -57,13 +57,13 @@ extern void func_021B8628(void *a, int b, int *t, int c);
 extern u32 func_021BE0F8(void *);
 extern void func_021BE0FC(void *, u32);
 extern u32 func_021BE0AC(void *);
-extern u32 func_021B7818(void *, u32);
+extern u32 func_021B7818(void *p, void *q);
 extern u32 func_021B785C(void *, u32);
 extern u32 func_021B77B8(void *, u32);
 extern u32 func_021B77E8(void *, u32);
 extern u32 func_021B8A14(int unused, char *q);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
-extern int func_021B8AD4(void *, char *);
+extern int func_021B8AD4(int unused, char *base);
 typedef struct { u8 x[0x21]; } S21;
 #define W(o) (*(int *)(b + (o)))
 #define B(o) (*(u8 *)(b + (o)))
@@ -119,7 +119,7 @@ void func_021B8154(void *a, char *b)
                     func_021BE0FC(a, 1);
                     if (func_021BE0AC(a) == 0) {
                         r7 = func_021BDFDC(a);
-                        s18 = func_021B7818(a, r7);
+                        s18 = func_021B7818(a, (void *)r7);
                         s1c = func_021B785C(a, r7);
                         func_02082A90((void *)s18, (void *)W(0x18c), s1c);
                         s20 = func_021B77B8(a, r7);
@@ -145,7 +145,7 @@ void func_021B8154(void *a, char *b)
             if (func_021B8740((int)a, (int)b, 5, 0) == 1) W(0x3cc) = 0;
         }
         if (W(0x3b4) == 1) {
-            if (func_021B8AD4(a, b) == 1) W(0x3b4) = 0;
+            if (func_021B8AD4((int)a, b) == 1) W(0x3b4) = 0;
         }
     }
     if (busy == 0) {

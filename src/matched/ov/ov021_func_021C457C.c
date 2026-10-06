@@ -19,14 +19,15 @@
 
 extern void *func_0215A64C(void *a);
 extern int func_021C1094(void *x);
-extern void func_021C10A0(void *x);
+typedef unsigned int   u32;
+extern int func_021C10A0(u32 a);
 
 int func_021C457C(void *a, void *b)
 {
     void *x = func_0215A64C(b);
 
     if (func_021C1094(x) == 1) {
-        func_021C10A0(x);
+        func_021C10A0((u32)x);
         return 1;
     }
     return 0;

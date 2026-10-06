@@ -54,7 +54,7 @@ extern u32 func_020437EC(const struct Bmp *bmp);
 extern void  func_020862F0(void *p, u32 n);
 typedef unsigned short u16;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern int func_0204ABBC(u32 idx, u32 flag);
 extern void  GX_LoadOBJ(void *src, u32 off, u32 n);
 extern void  GXS_LoadOBJ(void *src, u32 off, u32 n);
@@ -83,7 +83,7 @@ void func_020257D0(struct Obj *o)
         load = GXS_LoadOBJ;
     }
     cols = (s32)((u32)func_020437DC(o->bmp) >> 3);
-    rows = (s32)(func_020437E4(o->bmp) >> 3);
+    rows = (s32)((u32)func_020437E4(o->bmp) >> 3);
     last = (u32)((((s32)(u32)func_020437DC(o->bmp) % 32) / 8) * 32);
     if (last == 0) {
         last = 0x80;

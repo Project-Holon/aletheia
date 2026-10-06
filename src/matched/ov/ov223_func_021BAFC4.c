@@ -46,7 +46,7 @@ extern unsigned func_0201D42C(struct StrObj *, void *);
 struct Bmp;
 extern u16 func_020437DC(const struct Bmp *bmp);
 struct Bmp;
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern signed char func_02012FFC(void);
 extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
 extern void func_02045334(struct Descriptor *);

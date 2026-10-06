@@ -23,7 +23,7 @@ typedef unsigned char u8;
 
 extern u8 *g_021797A4;
 void *func_0203D798(void);
-int func_0203F1FC(const u8 *src, u32 len);
+u16 func_0203F1FC(const u8 *src, u32 len);
 
 typedef int (*CheckFn)(u8 a, u8 b, u32 c);
 typedef void (*NotifyFn)(u32 a, u8 *obj, u32 b, u32 c);

@@ -106,7 +106,7 @@ u32 func_0200B4E0(void *a, struct BattleRec *b, u32 heap, u32 *d, u32 id)
     return 1;
 }
 
-u32 func_0200B570(void *a, u32 heap, u32 *dp, u32 id)
+u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id)
 {
     if (gObj_0214616C != 0) {
         func_0200B448(gObj_0214616C);

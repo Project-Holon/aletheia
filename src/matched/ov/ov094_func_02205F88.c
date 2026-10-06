@@ -46,7 +46,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DE00(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);

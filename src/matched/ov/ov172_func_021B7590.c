@@ -24,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021BE100(int x);
+extern int func_021BE100(void);
 extern int func_021B688C(void *p);
 
 int func_021B7590(int x, char *p)
 {
-    if (func_021BE100(x) == 1) {
+    if (func_021BE100() == 1) {
         return func_021B688C(((struct Obj02992 *)p)->fA4);
     }
     return 1;

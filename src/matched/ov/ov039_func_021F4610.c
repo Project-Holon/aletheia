@@ -54,7 +54,7 @@ struct Big;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(unsigned int, unsigned int);
-extern int func_02158780(void *p, int b, int c, int d, u16 e);
+extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 extern int func_021587B0(int a0, int a1, int a2, int a3);
 extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
 extern int func_021F3DE4(void *p, u16 delta, u16 i);

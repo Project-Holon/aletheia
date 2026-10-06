@@ -19,8 +19,8 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-void func_021EAC98(void)
+void *func_021EAC98(void)
 {
-    func_02045B38(0, 2, 0xa, 0x4c);
+    return func_02045B38(0, 2, 0xa, 0x4c);
 }
 

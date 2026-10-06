@@ -76,7 +76,7 @@ extern u32 func_0200AE54(struct Reg *p, u32 id);
 struct RegAC;
 extern void func_0200B040(struct Reg *p, struct RegAC *out);
 extern void func_0201A2A8(void *a0, void *a1);
-extern void func_0201A30C(void *a, u32 b, u32 c);
+extern void func_0201A30C(void *a0, void *a1, u32 c);
 
 void func_02013160(u8 *o, void *a1, u32 a2)
 {
@@ -104,7 +104,7 @@ void func_02013160(u8 *o, void *a1, u32 a2)
     for (i = 0; i < 4; i++) {
         u8 *e = o + i * 4;
         if (((struct Obj08746 *)e)->f24 != 0) {
-            func_0201A30C(a1, ((struct Obj08746 *)e)->f24, a2);
+            func_0201A30C(a1, (void *)(((struct Obj08746 *)e)->f24), a2);
             func_0201A2A8(a1, (void *)(((struct Obj08746 *)e)->f24));
         }
     }

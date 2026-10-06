@@ -38,7 +38,7 @@ struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
 extern u8 *func_0218A308(void *, u32);
 extern u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d);
-extern int func_021B8DE4(char *p, int i);
+extern u8 func_021B8DE4(char *p, int i);
 extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(void *pp, unsigned int b);
 struct Q1;

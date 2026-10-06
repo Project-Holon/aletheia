@@ -35,11 +35,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
-extern int func_02062B30(void *p, u8 **out);
-extern int func_0204169C(int channel);
-extern int func_0204162C(u8 a);
-extern void func_020410D0(u8 index, u32 a1, u32 a2, u32 a3, u8 a4, void *a5, u8 a6,
-                          u8 a7, u8 a8, u8 a9);
+extern int func_02062B30(void *file, void **out);
+extern u8 func_0204169C(int channel);
+extern u32 func_0204162C(int channel);
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u8 a);
 extern void func_020307B0(void *p);
@@ -54,7 +53,7 @@ void func_021B6738(u32 a0, u32 a1, u32 a2, u32 a3,
     u16 *arr;
 
     h = func_0204A380((void *)a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
-    func_02062B30(h, &out);
+    func_02062B30(h, (void **)(&out));
     if (a3 != 0) {
         if (func_0204169C((u8)a2) == 0) {
             arr = (u16 *)(out + 0xc);
@@ -63,8 +62,8 @@ void func_021B6738(u32 a0, u32 a1, u32 a2, u32 a3,
             }
         }
     }
-    if (func_0204162C(a2)) {
-        func_020410D0(a2, k4, k5, k6, k7, out + 0xc, k0, k1, k2, k3);
+    if ((int)func_0204162C((u8)a2)) {
+        func_020410D0((u8)a2, k4, k5, k6, k7, (u32)(out + 0xc), k0, k1, k2, k3);
         func_020413B0(a2, k4, k5, k6, k7, k8);
         func_020409B4(a2);
     }

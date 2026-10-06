@@ -29,7 +29,7 @@ struct T {
     u32 d;
 };
 
-void func_021ED118(u8 *p, int a, int b, u16 c, u32 d, int e, u8 f)
+void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f)
 {
     struct T *q = (struct T *)(p + 0xf0);
 

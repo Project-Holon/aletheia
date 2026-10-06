@@ -61,7 +61,8 @@ struct Actor;
 struct Cmd;
 extern void func_02209C18(char *p);
 extern void func_02209C30(void *p);
-extern void *func_0204B324(u32 a, u32 b, u32 c, u32 d, Cfg *cfg, int n, u16 v);
+struct Obj;
+extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B8C4(struct Obj *p, u32 value);
@@ -82,7 +83,7 @@ int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
     }
     cfg.x = a;
     cfg.y = b;
-    p->h = func_0204B324(p->f0, p->fc, p->f10, p->f14, &cfg, 1, p->f2c);
+    p->h = func_0204B324(p->f0, p->fc, p->f10, p->f14, (u32)(&cfg), 1, p->f2c);
     func_0204B878(p->h, 0);
     func_0204B8C4(p->h, 0);
     func_0204B92C(p->h, 1);

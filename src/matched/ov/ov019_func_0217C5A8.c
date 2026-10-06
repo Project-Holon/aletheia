@@ -80,7 +80,7 @@ struct BigObj;
 u16 func_0217EC34(int i);
 u16 func_0217EC68(int i);
 u16 func_0217EC78(int i);
-int func_0217ECD0(Ctx *ctx);
+u16 func_0217ECD0(void ***ctx);
 int func_0217B8E4(Ctx *ctx, int v);
 int func_0217B9BC(unsigned int x);
 void func_0217BA10(char *p, int x);
@@ -213,7 +213,7 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
             else if (obj->f6e == 2)
                 func_0217F210((u8 *)ctx, a2, 0x2f);
             else if (obj->f6e == 3)
-                func_0217F210((u8 *)ctx, a2, func_0217ECD0(ctx));
+                func_0217F210((u8 *)ctx, a2, func_0217ECD0((void ***)ctx));
             else
                 func_0217F210((u8 *)ctx, a2, func_0217EC78(obj->f2d));
             func_0217B8E4(ctx, 0x27);

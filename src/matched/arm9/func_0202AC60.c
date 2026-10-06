@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 
 extern u32 func_0202ACC8(void *obj);
 extern int func_0202AD8C(int a0);
-extern int  func_0202ADA0(u8 *p, u32 a1);
-extern void func_0202AC4C(u8 *p);
+extern int func_0202ADA0(int a0, int a1);
+extern int func_0202AC4C(int a0);
 extern int func_0202ADB4(int a0, int a1);
 extern void func_0202AE60(void *obj, u32 value);
 extern void func_0202ABFC(void *obj, u32 value);
@@ -37,8 +37,8 @@ void func_0202AC60(u8 *p, u32 a1)
         return;
     }
     if (func_0202AD8C((int)p) == 1) {
-        if (func_0202ADA0(p, a1) == 1) {
-            func_0202AC4C(p);
+        if (func_0202ADA0((int)p, a1) == 1) {
+            func_0202AC4C((int)p);
             return;
         }
     }

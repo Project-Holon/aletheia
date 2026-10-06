@@ -30,7 +30,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern u32 func_0201AA18(void *p);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021EC000(char *p, int i, int v);
 extern const Pos d_021EFD4C[];
@@ -43,7 +43,7 @@ void func_021EC61C(unsigned char *p)
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);
-        func_021EC08C(WORK(p), win, d_021EFD4C[i].x + 0x98, d_021EFD4C[i].y, 0);
+        func_021EC08C(WORK(p), win, (short)(d_021EFD4C[i].x + 0x98), (short)d_021EFD4C[i].y, (short)0);
         func_021EC768(WORK(p), i + 0x1E, 1);
         if (i < n)
             func_021EC000(WORK(p), win, 1);

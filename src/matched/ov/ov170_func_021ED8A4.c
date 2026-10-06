@@ -17,7 +17,7 @@ typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
 extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_021EC08C(char *, int, short, short, short);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 void func_021ED8A4(char *p)
 {
     signed char t[2];
@@ -28,5 +28,5 @@ void func_021ED8A4(char *p)
     y = t[0] * 8 + 8;
     x = t[1] * 8 + 0x17;
     for (; i < 6; i++)
-        func_021EC08C(*(char * *)&((struct Obj14281 *)p)->f2C, i + 0xd, x + (i % 2) * 0x20, y + (i / 2) * 0x18, 0);
+        func_021EC08C(*(char * *)&((struct Obj14281 *)p)->f2C, i + 0xd, (short)(x + (i % 2) * 0x20), (short)(y + (i / 2) * 0x18), (short)0);
 }

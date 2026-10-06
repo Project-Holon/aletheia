@@ -42,7 +42,7 @@ extern void  func_020307B0(void *p);
 extern void  func_02082BCC(void *dst, u32 value, u32 size);
 extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
 
-void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId)
+void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId)
 {
     void *buf = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 0,
                              g_020A7E5C, 1362);

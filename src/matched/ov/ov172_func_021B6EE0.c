@@ -34,7 +34,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
 extern void *func_0204A380(void *, u32, u32, u32);
 extern u32 func_021BE010(void *);
-extern int func_021BE100(int);
+extern int func_021BE100(void);
 extern char *func_021B6100(int);
 extern void func_021B6950(char *, int);
 extern void func_021B69BC(void *p, u32 v);
@@ -57,7 +57,7 @@ char *func_021B6EE0(void *a, u16 b)
 
     p = func_02030734(b, 0xB4, 1, d_021C71E0, 0x67);
     r6 = func_021BE010(a);
-    if (func_021BE100(r6) == 1) {
+    if (func_021BE100() == 1) {
         ((struct Obj00439 *)p)->f0 = 0x6E;
         func_0203064C(1, 0x6E, 0x80000);
         *(char * *)&((struct Obj00439 *)p)->fA4 = func_021B6100(((struct Obj00439 *)p)->f0);

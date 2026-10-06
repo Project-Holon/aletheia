@@ -37,7 +37,7 @@ typedef struct {
 
 struct Obj;
 extern u32 func_02020350(struct Obj *obj, u32 what);
-extern void func_021C59A8(S *p, u32 a, u32 b);
+extern int func_021C59A8(u32 a, u32 b, u32 c);
 extern void func_021C58CC(char *p, u16 a, u16 b, u32 heap);
 extern void func_020061E4(u32 se);
 extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
@@ -52,7 +52,7 @@ void func_021C5440(S *p, int mode, u32 c, u32 *done)
 
     if (mode == 0) {
         n = func_02020350(p->msg, 3);
-        func_021C59A8(p, 0, 0);
+        func_021C59A8((u32)p, 0, 0);
         func_021C58CC((char *)p, (c - 1) - (n - 1), n - 1, p->h34);
         if (p->f24 == 1)
             p->f40 = 1;

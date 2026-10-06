@@ -31,7 +31,7 @@ typedef signed int     s32;
 
 extern int func_0219C648(u32 a);
 extern int func_0216D55C(int a0, int a1);
-extern u32 func_02197C9C(u32);
+extern int func_02197C9C(u32 a);
 extern int func_0216DAB4(void *a0);
 extern void func_020507F0(void *p, int idx, u32 v);
 extern int func_020507A0(void *p, int idx, u32 x);

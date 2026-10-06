@@ -27,7 +27,7 @@ extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned in
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern const Rect d_021836C4;
 
-void func_0217DCFC(int *p)
+void func_0217DCFC(int *p, void *a1)
 {
     Rect r;
     int h;

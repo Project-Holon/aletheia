@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 extern void sub_0202B90C(void *p);
 
-void func_0202B7EC(u8 *p)
+void func_0202B7EC(u8 *p, u32 b)
 {
     sub_0202B90C(((struct Obj08804 *)p)->f24);
 }

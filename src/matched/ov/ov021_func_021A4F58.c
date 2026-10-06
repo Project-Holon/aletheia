@@ -43,7 +43,7 @@ void func_02163E58(void *h, Vec021A4F58 *v, int *lim);
 void func_0216D570(char *h, u32 mask);
 void func_0216D89C(void *h, Vec021A4F58 *v);
 
-int func_021A4F58(u32 *p)
+int func_021A4F58(u32 *p, void *a1, u32 a2)
 {
     void *h = func_021A3960(*(unsigned char * *)&((struct Obj00262 *)p)->fC);
     Vec021A4F58 v;

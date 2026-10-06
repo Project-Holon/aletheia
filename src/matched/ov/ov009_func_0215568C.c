@@ -73,16 +73,15 @@ void func_02156C60(void);
 u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc);
 void func_02082BCC(void *p, int v, int n);
 u32 func_02094530(char *dst, u32 n, ...);
-int func_0203F004(char *s);
+u32 func_0203F004(const u8 *s);
 void func_02156C00(u32 a);
 void func_02155374(int v);
 u32 func_0203D650(void);
-int func_0216B284(int a, u8 n, void *b, Fn c, int d, Fn e, int f, Fn g,
-                  int h, Fn i, void *j, int k);
-void func_02177138(Fn f, int a);
-void func_02177160(Fn f, int a);
-void func_0216B634(Fn f, int a);
-void func_02177188(Fn f, int a);
+int func_0216B284(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
+int func_02177138(int a, int b);
+int func_02177160(int a, int b);
+int func_0216B634(int a, int b);
+int func_02177188(int a, int b);
 void func_02155674(void);
 u8 func_02155678(void);
 void func_02155D3C(int a, int b, int c, int d, int e);
@@ -105,7 +104,7 @@ int func_0215568C(void *a0, int n, int a2)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);
     func_02082BCC(d_021A8264->name, 0, 0x80);
     func_02094530(d_021A8264->name, (u32)d_021A1974, d_021A1C74, a0);
-    if (func_0203F004(d_021A8264->name) >= 0x80)
+    if ((int)func_0203F004((const u8 *)d_021A8264->name) >= 0x80)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);
     if (a2)
         func_0216CA04(1, d_021A8264->name, d_021A8264->name);
@@ -114,16 +113,16 @@ int func_0215568C(void *a0, int n, int a2)
     func_02155374(7);
     d_021A8264->n = n;
     if (func_0216B284(2, n, d_021A8264->name, (Fn)func_02155D3C,
-                      func_0203D650(), func_02155674,
-                      func_0203D650(), (Fn)func_02155D7C,
-                      func_0203D650(), (Fn)func_02155678,
-                      &d_021A8264->w750, func_0203D650()) == 0)
+                      (void *)func_0203D650(), func_02155674,
+                      (void *)func_0203D650(), (Fn)func_02155D7C,
+                      (void *)func_0203D650(), (Fn)func_02155678,
+                      &d_021A8264->w750, (void *)func_0203D650()) == 0)
         return 0;
     d_021A8264->w75C = 0;
-    func_02177138((Fn)func_02155D80, 0);
-    func_02177160((Fn)func_02155DCC, 0);
-    func_0216B634((Fn)func_02155E9C, 0);
-    func_02177188((Fn)func_02155BDC, 0);
+    func_02177138((int)((Fn)func_02155D80), 0);
+    func_02177160((int)((Fn)func_02155DCC), 0);
+    func_0216B634((int)((Fn)func_02155E9C), 0);
+    func_02177188((int)((Fn)func_02155BDC), 0);
     d_021A8264->w760 = 0;
     d_021A8264->b7A1 = 1;
     return 1;

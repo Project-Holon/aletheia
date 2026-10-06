@@ -19,7 +19,7 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 extern void func_021BD958(char *p, u32 idx, s16 *x, s16 *y, u16 space);
 extern int func_021B8AE4(struct S *s, unsigned int v);
-extern void func_021BD934(char *p, int idx, int a, int b, unsigned short c);
+extern void func_021BD934(char *p, int idx, short a, short b, unsigned short c);
 void func_021BE588(char *p)
 {
     short pos[2];

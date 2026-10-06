@@ -28,7 +28,7 @@ extern u8 func_02011400(int row, int col);
 struct RtcTime;
 extern void func_0203F4CC(struct RtcTime *time);
 
-int func_021BDCC0(char *p)
+int func_021BDCC0(char *p, u32 a1)
 {
     u32 t[3];
     u32 lo, hi;

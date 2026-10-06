@@ -43,7 +43,7 @@ typedef struct Rect4 {
 
 extern int func_021BB3C4(void *unused, u32 p);
 extern void func_021BB3FC(int unused, u8 *s, u8 *out);
-extern int  func_02035C08(void *rects);
+extern int func_02035C08(const void *p);
 extern int func_021BB468(int unused, int *p);
 extern void func_020061E4(u32 id);
 extern void func_021BAFA0(u8 *a, u8 *s, int k);

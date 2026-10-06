@@ -41,7 +41,7 @@ extern u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, in
 extern void func_021B6A3C(unsigned char *p, unsigned char *q);
 extern void func_021B6A70(unsigned char *p, unsigned char *q, int r);
 extern u32 func_021CD978(struct QB *p);
-extern void func_021BAA94(char *p, int b, int c, u8 d);
+extern void func_021BAA94(char *p, int b, u8 c, u8 d);
 extern void func_021BAB40(char *p);
 extern int func_021B83F4(int a);
 int func_021B6C5C(int unused, u8 *p)

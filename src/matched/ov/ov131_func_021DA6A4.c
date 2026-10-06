@@ -33,7 +33,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 struct Bmp;
 struct Descriptor;
 extern void func_02045798(struct Descriptor *p, u8 v);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_021D9EE8(u8 *,u8 *);
 extern void func_021DB7D4(u8 *p, u8 *q, u8 *entry);
 extern void func_021D614C(u8 *,int,int,int,s16,u16);

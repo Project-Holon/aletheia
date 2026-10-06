@@ -29,7 +29,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 struct MsgBank;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned,unsigned);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);

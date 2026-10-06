@@ -29,7 +29,7 @@ extern void func_02041B6C(u32 bit);
 struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
 
-int func_021D1400(u32 a, u32 b, u32 c, u32 d)
+int func_021D1400(void *a)
 {
 func_02045374((struct Cfg *)(((struct Obj18372 *)((u8 *)(a)))->f4));
 func_02041B6C(3);

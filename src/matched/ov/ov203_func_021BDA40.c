@@ -46,7 +46,7 @@ extern void func_020434DC(unsigned, unsigned);
 extern void func_02043598(unsigned, unsigned);
 struct Cfg;
 struct Ctx;
-extern struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u32 heap);
+extern struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap);
 extern void *func_021BDCC0(int, void *, void *, unsigned);
 extern u32 func_021BE62C(char *p);
 extern void func_021BE948(void *, int, u8 *, u8 *);

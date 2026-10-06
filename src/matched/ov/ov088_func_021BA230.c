@@ -16,7 +16,8 @@
 #include "../include/Obj01369.h"
 
 extern int func_021BB840(char *p, int y);
-extern void func_021BB810(void *, int, int, int);
+typedef unsigned char  u8;
+extern void func_021BB810(void *p, u8 row, int y, int pal);
 
 int func_021BA230(char *p)
 {

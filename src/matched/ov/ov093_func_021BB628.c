@@ -19,13 +19,13 @@
  */
 
 typedef unsigned char u8;
-extern int func_021BB650(u8 *, int, int, int *);
+extern int func_021BB650(u8 *p, int a, int b, int c);
 extern void func_021BB724(u8 *, int, int, int);
 int func_021BB628(u8 *p, int a, int b)
 {
  int n;
  int r;
- r = func_021BB650(p, a, b, &n);
+ r = func_021BB650(p, a, b, (int)(&n));
  if (r != 0) {
   func_021BB724(p, 10, r, n);
   return 1;

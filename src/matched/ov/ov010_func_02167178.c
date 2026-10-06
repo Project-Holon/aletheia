@@ -24,7 +24,9 @@ struct O {
 };
 
 extern int func_021672D0(int a0);
-extern int func_02190708(int a, int b, u16 c, u16 d, u16 e, u16 f);
+typedef unsigned int   u32;
+struct Fx;
+extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 
 void func_02167178(struct O *o)
 {
@@ -47,5 +49,5 @@ void func_02167178(struct O *o)
         c = 8;
         break;
     }
-    o->f14 = func_02190708(o->f10, o->f18, a, a, b, c);
+    o->f14 = (int)func_02190708((struct Fx *)o->f10, o->f18, a, a, b, c);
 }

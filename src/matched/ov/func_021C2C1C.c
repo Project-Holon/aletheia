@@ -21,7 +21,7 @@ extern int func_02005E50(void);
 extern void func_02005DE4(void *p);
 extern int func_02005E64(void);
 
-void func_021C2C1C(int unused, char *p)
+void func_021C2C1C(int unused, char *p, int a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 1) {
         if (func_02005E50() == 0) {

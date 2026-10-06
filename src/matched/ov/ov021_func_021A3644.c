@@ -25,11 +25,11 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_02188CFC(u8 *p);
-extern int func_021A54A0(void *p);
+extern int func_021A54A0(u32 a);
 extern void func_021A54B4(u8 *p);
 
 void func_021A3644(void **p)
 {
-    if (func_02188CFC(p[0]) == 0 && func_021A54A0(p[2]) == 1)
+    if (func_02188CFC(p[0]) == 0 && func_021A54A0((u32)p[2]) == 1)
         func_021A54B4(p[2]);
 }

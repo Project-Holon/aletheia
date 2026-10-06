@@ -70,7 +70,7 @@ typedef struct {
 extern u32 func_02021ED8(const char *ptr);
 extern u32 func_020362DC(void);
 extern void func_021F8168(void);
-extern int func_02035C08(void *key);
+extern int func_02035C08(const void *p);
 extern void func_02206B58(char *p);
 extern void func_02206B30(char *p);
 extern int func_0220648C(char *p);

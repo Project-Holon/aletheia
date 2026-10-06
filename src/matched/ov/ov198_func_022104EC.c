@@ -40,7 +40,7 @@ extern const struct BgTemplate d_02212174,d_022121B4,d_02212154,d_02212194;
 extern void func_0203FC6C(const struct BgVramReq *,u32);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
-extern void func_02040B94(u32,u32,u32,u32);
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void sub_02041B6C(u32);
 extern void sub_02043598(u32,u32);
 void func_022104EC(u8 *p)

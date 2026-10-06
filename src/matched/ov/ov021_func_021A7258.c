@@ -84,9 +84,9 @@ extern void func_021A3044(u8 *p, void *v);
 extern void func_021BB3B8(u8 *p);
 extern void func_0218E13C(u8 *a, u32 s);
 extern int func_0218EC60(u32 a);
-extern void func_0218E160(void *y);
+extern int func_0218E160(u32 a);
 extern void func_021A3680(void *p, VecFx32 *v);
-extern u32 func_021A36A4(void *p);
+extern u32 func_021A36A4(u8 *p);
 extern void func_021BB3AC(u8 *p, u32 b);
 extern void func_0218F05C(unsigned char *a);
 extern void func_0216D5E0(int a0, int a1);
@@ -120,7 +120,7 @@ void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16
         func_021BB3B8(x);
         func_0218E13C(y, 0);
         func_0218EC60((u32)y);
-        func_0218E160(y);
+        func_0218E160((u32)y);
     } else {
         func_021A3680(h->f04, pos);
         func_021BB3AC(x, func_021A36A4(h->f04));

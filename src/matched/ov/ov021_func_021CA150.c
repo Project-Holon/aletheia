@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern u16 func_02168AEC(u16 a0);
 
-void func_021CA150(u8 *p, int i)
+u32 func_021CA150(u8 *p, int i)
 {
-    func_02168AEC(*(u16 *)(p + i * 0x120 + 0x8c));
+    return func_02168AEC(*(u16 *)(p + i * 0x120 + 0x8c));
 }

@@ -193,7 +193,7 @@ extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *
 extern u32 func_0200C1DC(struct Blk34 *p);
 extern u16 *func_0200BE48(void *sys);
 extern void *func_02010F7C(u32 heap);
-extern void func_0200BF54(void *p, void *out, u32 n);
+extern void func_0200BF54(struct Rec1B0 *p, u8 *dest, u32 n);
 extern void *func_020127B8(void *save);
 extern void func_02010F8C(void *p);
 extern u32 func_0200C184(struct Blk34 *p);

@@ -46,7 +46,7 @@ extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId);
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040EBC(u32,u32);
 extern u32 func_02184968(const u8 *p, int flag);
 struct Descriptor;

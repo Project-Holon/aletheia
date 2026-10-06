@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 
 extern void func_020500A0(int p0);
 
-void func_0205085C(void *p, int idx, u16 v)
+void func_0205085C(void *p, int idx, u32 v)
 {
     char *e = (char *)(((struct Obj16158 *)p)->f18 + idx * 40);
 

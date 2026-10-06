@@ -62,7 +62,7 @@ extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void OS_GetOwnerInfo(void *info);
 
 extern u16   func_02045A98(void);
-extern int func_0203F1FC(const u8 *src, u32 len);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 struct Big;
 struct Blk34;

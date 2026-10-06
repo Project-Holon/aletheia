@@ -57,7 +57,7 @@ extern void *func_02184360(u8 *p, int value);
 extern void func_02184120(u8 *p, int a);
 typedef unsigned int   u32;
 extern int func_021BD9BC(u32 *p);
-extern int func_0215841C(void *p);
+extern u8 func_0215841C(void *p);
 extern int func_021746AC(char *a, int b);
 extern u8 func_02158428(u8 *p);
 

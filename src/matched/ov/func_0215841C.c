@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct BigObj;
 extern u8 func_02012B80(const struct BigObj *p);
 
-int func_0215841C(void *p)
+u8 func_0215841C(void *p)
 {
     return (u8)(unsigned)func_02012B80(p);
 }

@@ -40,7 +40,8 @@ void *func_020124E8(struct Obj *p);
 void func_02184CEC(void **o, void *p);
 u32 func_020142A4(u32 idx);
 int func_02184388(int a, int *state, u8 *p);
-void func_020141A8(void *o, int a, int s, int g, int i, int h);
+struct t;
+void func_020141A8(struct t *p, int b, int d, u16 g, u16 i, s16 h);
 
 void *func_02184D90(void *p, int unused, int a, const Q *q, u16 s, int t)
 {
@@ -49,7 +50,7 @@ void *func_02184D90(void *p, int unused, int a, const Q *q, u16 s, int t)
 
     func_02184CEC((void **)r4, p);
     s = func_020142A4(s);
-    func_020141A8(r4 + 0x10, a, (s16)s, q->f0, q->f6, q->f4);
+    func_020141A8((struct t *)(r4 + 0x10), a, (s16)s, q->f0, q->f6, q->f4);
     ((struct Obj00248 *)r4)->f2C = 0;
     ((struct Obj00248 *)r4)->f40 = t;
     return r0v;

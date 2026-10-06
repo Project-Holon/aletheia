@@ -59,7 +59,7 @@ extern void func_02185A68(void *a, int b);
 extern void func_021857C0(void *a, int b);
 extern u8 func_02012984(const struct BigObj *p);
 extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
-extern void *func_020298A0(void *a, u32 b, u16 c, u16 d);
+extern void *func_020298A0(void *a, u32 b, u32 c, u32 d);
 struct Ctx;
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);

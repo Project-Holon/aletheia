@@ -25,7 +25,7 @@ typedef unsigned long u32;
 extern int func_02156CD0(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 g_021E2C8C[];
 
 int func_021DA434(void)

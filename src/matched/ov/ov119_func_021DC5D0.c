@@ -11,7 +11,7 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern void func_020307B0(void *p);
-void func_021DC5D0(char *p)
+void func_021DC5D0(char *p, int a1)
 {
     unsigned i;
     for (i = 0; i < 3; i++)

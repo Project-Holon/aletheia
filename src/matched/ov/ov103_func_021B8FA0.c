@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern int func_02062B30(void *file, void **out);
-extern u8 func_0204169C(u8);
+extern u8 func_0204169C(int channel);
 extern u32 func_0204162C(int channel);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020413B0(u8,u8,u8,u8,u8,u8);
@@ -37,7 +37,7 @@ void func_021B8FA0(int a,int b,int c,int d,u8 e,u8 f,u8 g,u8 h,u8 i,u8 j,u8 k,u8
  int count;
  handle=func_0204A380((void *)a,b,n,(u16)((o&0x7fff)|0x8000));
  func_02062B30(handle,(void **)(&data));
- if(d && !func_0204169C(c)) {
+ if(d && !func_0204169C((u8)c)) {
   count=h*g;
   p=(u16 *)(data+12);
   for(t=0;t<(g*h);t++)p[t]+=(u16)d;

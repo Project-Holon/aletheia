@@ -83,7 +83,9 @@ void *func_0201210C(const struct Ctx *p);
 int func_02188BE8(void *);
 u32 func_02188C54(u8 *p);
 int func_021904B0(u32 a, u32 b);
-void *func_02190F64(void *, void *);
+struct Fx;
+struct Obj2;
+struct Obj2 *func_02190F64(struct Fx *a, u32 b);
 u32 func_0202648C(void *obj);
 void func_02190E74(u32 *p, u32 b, u32 c, u32 d);
 void *func_02029830(void *a, u32 b);
@@ -93,19 +95,19 @@ u32 func_02190EF0(u32 *p);
 u32 func_020362DC(void);
 int func_02190E40(u32 a);
 void func_02045C04(struct Rec *rec);
-void *func_02188CB4(void *p);
-int func_021A3238(void *);
+void *func_02188CB4(u8 *p);
+int func_021A3238(u8 *p);
 void func_0217C658(void *, void *, void *, int, int, int);
 int func_0217C688(void *, int);
 u32 func_0201296C(const struct BigObj *p);
 u32 func_020142E8(void *bitmap, s32 id);
-int func_02158780(void *p, int b, int c, int d, u16 e);
+int func_02158780(void *p, u16 b, int c, int d, u16 e);
 u8 func_02012B58(const struct BigObj *p);
 u32 func_02012204(const struct Ctx *p);
 u8 func_0201212C(const struct Ctx *p);
 int func_021C06CC(void *, void *);
 void func_02026484(void *);
-void func_020264F4(void *);
+void func_020264F4(u8 *p);
 void *func_02185214(void *a);
 
 int func_0217CAFC(void *a, int *seq, Ov018Work *work)
@@ -159,7 +161,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
         }
         z = (void *)func_02188C54(y);
         work->f00 = t = (void *)func_021904B0((u32)z, 0x2D);
-        work->f04 = func_02190F64(z, t);
+        work->f04 = func_02190F64(z, (u32)t);
         switch (work->f20) {
         case 1:
         case 2:

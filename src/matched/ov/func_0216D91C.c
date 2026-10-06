@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D91C(int a0)
+u8 func_0216D91C(int a0)
 {
 
 a0 = a0 + 0x7c;

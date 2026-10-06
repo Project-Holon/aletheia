@@ -125,10 +125,16 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02082BCC(void *,int,unsigned),func_021FBE54(char *,unsigned,unsigned);
 extern int func_021FC124(void *,int,Triple *);
-extern void func_02045CAC(int,unsigned,void *),func_0201EE0C(void *,int,unsigned,unsigned,int,int),func_0201F250(void *,void *,void *);
+struct MsgBank;
+struct ObjC4;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201EE0C(void *,int,unsigned,unsigned,int,int);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_021FB3BC(void *,void *,int,int,int,int,int,void *,u16);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
-extern void *func_0200B910(void),*func_0200D6D0(const void *,u16);
+extern struct ObjC4 *func_0200B910(void);
+extern void *func_0200D6D0(const void *src, u32 tag);
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern void func_021FD19C(char *p, void *q, void *text);
@@ -153,19 +159,19 @@ void func_021E301C(char *p,char *q)
     for(i=0;i<3;i++) {
         offset=(i+1)*4;
         if(*(unsigned *)(*(unsigned *)(q+0x18)+offset)) {
-            func_02045CAC(c,0x1a,s);
+            func_02045CAC((struct MsgBank *)c,0x1a,s);
             func_0201EE0C(a,0,*(unsigned *)(*(unsigned *)(q+0x18)+offset+0x10),*(unsigned *)(*(unsigned *)(q+0x18)+offset+0x20),1,2);
             func_0201F250(a,b,s);
-        }else func_02045CAC(c,9,b);
+        }else func_02045CAC((struct MsgBank *)c,9,b);
         *(void **)(p+i*4+0x14)=func_021FB3BC(&d,b,0xa0,1,*(int *)(q+4),*(int *)p,h,&t,*(u16 *)(p+0x38));
         d.y=d.y+0x28;
     }
     d.n=1;
     *(void **)(p+0x20)=func_021FB378(&d,4,0xa0,1,*(int *)(q+4),*(int *)p,h,c,&t,*(u16 *)(p+0x38));
     owner=func_0200B910();
-    tmp=func_0200D6D0(owner,(*(u16 *)(p+0x38)&0x7fff)|0x8000);
+    tmp=func_0200D6D0(owner,(u16)((*(u16 *)(p+0x38)&0x7fff)|0x8000));
     if(!*(void **)(p+8)) *(void **)(p+8)=func_021FD12C(*(int *)(q+8),(void *)(*(int *)(p+4)),*(u16 *)(p+0x38));
-    func_02045CAC(c,0x5c,s);
+    func_02045CAC((struct MsgBank *)c,0x5c,s);
     func_0201EE0C(a,0,(unsigned)tmp,func_0200D6EC(owner),1,2);
     func_0201F250(a,b,s);
     func_021FD19C(*(void **)(p+8),(void *)(*(int *)(q+8)),b);

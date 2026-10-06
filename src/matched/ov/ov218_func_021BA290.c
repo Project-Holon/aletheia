@@ -22,7 +22,7 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern int func_0204ABF0(unsigned, unsigned, unsigned, unsigned, unsigned short);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 void func_021BA290(char *ctx)
@@ -34,7 +34,7 @@ void func_021BA290(char *ctx)
     *(int *)&((struct Obj00243 *)ctx)->f2D8 = -1;
     archive = func_020490F4(193, heap);
     *(int *)&((struct Obj00243 *)ctx)->f2D0 = func_0204A6C8((void *)((unsigned)archive), 10, 0, 2, heap);
-    *(int *)&((struct Obj00243 *)ctx)->f2D4 = func_0204ABF0((unsigned)archive, 11, 2, 96, heap);
+    *(int *)&((struct Obj00243 *)ctx)->f2D4 = func_0204ABF0((void *)archive, 11, 2, 96, heap);
     *(int *)&((struct Obj00243 *)ctx)->f2D8 = func_0204AF28((void *)((unsigned)archive), 9, 8, heap);
     func_02049238(archive);
 }

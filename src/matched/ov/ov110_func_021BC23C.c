@@ -37,7 +37,8 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern unsigned func_021BF6D8(u8 *);
 extern void func_021BC58C(void *,Pair *);
 extern u32 func_021BF6F0(u8 *p, u32 i);
-extern void func_021BC5BC(Obj *,void *,Pair *,int,void *);
+struct Vec2;
+extern void func_021BC5BC(u8 *p, struct Descriptor *window, const struct Vec2 *input, u32 id, struct Obj *sprite);
 extern int func_021BC340(Obj *,void *,u8);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02041B6C(unsigned);
@@ -53,13 +54,13 @@ void func_021BC23C(Obj *p)
         switch(func_021BF6D8(p->state)) {
         case 0:
             func_021BC58C(p->desc[i],&p->pos[0]);
-            func_021BC5BC(p,p->desc[i],&p->pos[0],func_021BF6F0(p->state,0),p->items[0][i]);
+            func_021BC5BC((u8 *)p,p->desc[i],(const struct Vec2 *)(&p->pos[0]),func_021BF6F0(p->state,0),p->items[0][i]);
             break;
         case 1:
             func_021BC58C(p->desc[i],&p->pos[0]);
             func_021BC58C(p->desc[i],&p->pos[1]);
-            func_021BC5BC(p,p->desc[i],&p->pos[0],func_021BF6F0(p->state,0),p->items[0][i]);
-            func_021BC5BC(p,p->desc[i],&p->pos[1],func_021BF6F0(p->state,1),p->items[1][i]);
+            func_021BC5BC((u8 *)p,p->desc[i],(const struct Vec2 *)(&p->pos[0]),func_021BF6F0(p->state,0),p->items[0][i]);
+            func_021BC5BC((u8 *)p,p->desc[i],(const struct Vec2 *)(&p->pos[1]),func_021BF6F0(p->state,1),p->items[1][i]);
             break;
         case 2:
             p->count=func_021BC340(p,p->desc[i],i);

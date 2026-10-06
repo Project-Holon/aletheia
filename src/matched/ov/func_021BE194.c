@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021BE180(u32, u32, u32, u32);
+extern u8 *func_021BE180(u8 *p);
 
-int func_021BE194(u32 a, u32 b, u32 c, u32 d)
+int func_021BE194(u32 a)
 {
-return ((struct Obj18254 *)((u8 *)(func_021BE180(a, b, c, d))))->f0;
+return ((struct Obj18254 *)((u8 *)(func_021BE180((u8 *)a))))->f0;
 }
 

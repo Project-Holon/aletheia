@@ -24,7 +24,7 @@ extern void sub_0204B3DC(struct Obj *, u32);
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *, u32);
 extern void func_0202DCB0(struct Obj0202DC98 *, int, u32);
 extern void sub_02040588(u32 which, u32 enable);
-void func_021BD0E4(char *p, u32 index, u32 enable)
+void func_021BD0E4(char *p, u8 index, u32 enable)
 {
     char *entry;
     entry = p + 0x15c + index * 128;

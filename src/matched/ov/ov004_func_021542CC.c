@@ -68,7 +68,7 @@ struct Sub02008700Obj *func_0200873C(void *sys);
 struct Sub02008C20Obj *func_02008C58(void *sys);
 void *func_0201292C(const struct BigObj *p);
 u32 func_0200CA38(struct Blk37 *p);
-int func_02009CC0(int p);
+int func_02009CC0(void *a0);
 u32 func_02154390(void *obj, u32 *mode, u32 *args);
 
 int func_021542CC(int a, int b, int c)
@@ -99,7 +99,7 @@ int func_021542CC(int a, int b, int c)
     *(void **)&p[13] = func_0201292C((const struct BigObj *)r6);
     p[19] = a;
     p[14] = func_0200CA38((struct Blk37 *)p[7]);
-    p[15] = func_02009CC0(p[8]);
+    p[15] = func_02009CC0((void *)p[8]);
     p[16] = 0;
     p[17] = 0;
     return h;

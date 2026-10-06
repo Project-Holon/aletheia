@@ -59,7 +59,7 @@ extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u8 func_02045730(struct Descriptor *p);
-extern u32 func_02041648(int channel);
+extern u32 func_02041648(u8 channel);
 extern u32 func_02041664(u8 channel);
 extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
 extern void func_0204B528(struct Actor *actor, const struct Pt *src);

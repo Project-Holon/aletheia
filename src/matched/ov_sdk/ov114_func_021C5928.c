@@ -54,7 +54,7 @@ extern void func_02086004(void *mutex);
 extern void func_02086028(void *mutex);
 extern void func_021C659C(int err, int servererror);
 extern void OS_UnlockMutex(void *mutex);
-extern void *func_021C569C(unsigned long size, int align);
+extern void *func_021C569C(int a, int b);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern int func_02167FA8(char *svl, void *result);

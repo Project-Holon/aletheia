@@ -29,7 +29,7 @@ extern void func_021D62BC(u8 *, int, unsigned int);
 extern void func_021D62B4(u8 *p, unsigned int i);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern void func_021D6EE0(char *, int, int);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8130(char *p);
 void func_021D8154(char *p)
 {
@@ -42,5 +42,5 @@ void func_021D8154(char *p)
     func_021D62B4((u8 *)(*(char * *)&((struct Obj03795 *)p)->f14), 0);
     func_021D62B4((u8 *)(*(char * *)&((struct Obj03795 *)p)->f14), 12);
     func_020061E4(0x657);
-    func_021D6EE0(p, (int)func_021D8130, 0x5c3);
+    func_021D6EE0((u8 *)p, (int)func_021D8130, 0x5c3);
 }

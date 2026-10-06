@@ -32,7 +32,7 @@ extern void func_021E1030(char *p);
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 struct MsgBank;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);

@@ -40,7 +40,9 @@ extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern int func_02005E50(void);
 extern void func_02005D28(void),func_020061E4(u32),func_02005E30(u32),func_02015E4C(void *);
-extern int func_021B7268(char *,int),func_021B723C(char *,int,int),func_021B74B4(char *,int);
+extern int func_021B7268(char *,int);
+extern int func_021B723C(char *,int,int);
+extern int func_021B74B4(int *p, int i);
 extern void func_021B7438(u8 *p, int n, int x, int y);
 extern void func_021B746C(int *,int,int);
 extern void func_021B7488(u8 *p, int n, int v);
@@ -57,7 +59,7 @@ int func_021B6FAC(char *p) {
         else {func_020061E4(0x57A);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);}break;
     case 3:
         func_021B746C((int *)p,7,1);func_021B746C((int *)p,8,1);func_021B7488((u8 *)p,7,2);func_021B7488((u8 *)p,8,2);++((struct Obj00242 *)p)->f9190;break;
-    case 4: if(func_021B74B4(p,7)==0){func_020061E4(0x79E);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,16);}break;
+    case 4: if(func_021B74B4((int *)p,7)==0){func_020061E4(0x79E);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,16);}break;
     case 5: func_021B7C60(p,3,1);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);
     case 6: func_021B7C60(p,2,1);++((struct Obj00242 *)p)->f9190;break;
     case 7: if(((struct Obj00242 *)p)->f9188==300){((struct Obj00242 *)p)->f9188=0;++((struct Obj00242 *)p)->f9190;}else ++((struct Obj00242 *)p)->f9188;break;

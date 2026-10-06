@@ -62,7 +62,7 @@ extern struct s_aac0 d_0217AAC0;
 extern u8 d_0217ABA0[];
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern int func_0203F1FC(const u8 *src, u32 len);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02179D14(void);
 extern int func_02179C98(void);
 

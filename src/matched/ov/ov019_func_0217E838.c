@@ -35,7 +35,7 @@ void func_0217F074(void *p);
 void func_0217F210(u8 *p, int a, u32 b);
 u32 func_0217F1EC(u8 *p);
 void func_0217F22C(u8 *p, u32 a);
-int func_0217F268(u8 *w, int *flag);
+int func_0217F268(char *p, u32 *out);
 void func_0217F24C(u8 *w);
 int func_0217B8E4(char *p, char v);
 void *func_02188CB4(u8 *p);
@@ -67,7 +67,7 @@ int func_0217E838(u8 *w, void *obj, void *a2, u8 *state)
         }
         break;
     case 2:
-        if (func_0217F268(w, &flag) == 1) {
+        if (func_0217F268((char *)w, (u32 *)(&flag)) == 1) {
             func_0217F24C(w);
             if (flag == 0) {
                 *state = 3;

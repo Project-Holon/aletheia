@@ -29,7 +29,9 @@ struct G3dSys;
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern int func_02047790(int *p, int i);
 extern int func_02047674(int p);
-extern void func_0204784C(u32 h, u16 i, int *v);
+typedef signed int     s32;
+struct AnmCtl;
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 
 void func_0218C2E4(u32 *st, int n)
 {
@@ -41,7 +43,7 @@ void func_0218C2E4(u32 *st, int n)
     for (i = 0; i < q[2]; i++) {
         func_020477A4((struct G3dSys *)st[0], (u16)(base + i));
         v = *(u16 *)(*(u8 **)(func_02047674((int)func_02047790((int *)st[0], (u16)(base + i))) + 8) + 4) << 12;
-        func_0204784C(st[0], base + i, &v);
+        func_0204784C((struct AnmCtl *)st[0], base + i, &v);
         (st + base)[2 + i] = 4;
     }
 }

@@ -51,7 +51,7 @@ struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *a, u32 b);
 extern void func_020307B0(void *p);
 extern void func_021D11D8(u32 *p);
-extern void func_021D1194(u32 a);
+extern int func_021D1194(u32 a);
 extern char d_021DE674[];
 
 int func_021D10A8(u32 a, u32 *b, u32 *c)

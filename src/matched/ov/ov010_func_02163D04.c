@@ -38,8 +38,8 @@ typedef struct VecFx32 {
 typedef int (*AttrTest)(u16 attr);
 
 extern int func_0216DCB4(void *m);
-extern int func_0216D91C(int m);
-extern int func_0216D924(int m);
+extern u8 func_0216D91C(int a0);
+extern u8 func_0216D924(int a0);
 extern int func_02163E34(void *m, VecFx32 *pos, u32 *attr);
 extern int func_021AB11C(u32 attr);
 extern u32 func_0216D7DC(void *m);

@@ -132,7 +132,7 @@ extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_0218F818(u8 *a);
 extern void func_020061E4(u32);
-extern int func_02158780(void *p, int b, int c, int d, u16 e);
+extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 extern void func_0218F900(void *, Req *, u8);
 extern int func_0218FE50(u8 *a);
 extern void func_0218E13C(u8 *a, u32 s);

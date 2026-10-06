@@ -42,7 +42,7 @@ typedef unsigned int   u32;
 struct Descriptor;
 extern u8 func_02045730(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0204169C(int channel);
+extern u8 func_0204169C(int channel);
 extern void  func_02020A58(void *bmp, u32 a, u32 b, u32 c, u32 off);
 extern void  func_02020B5C(void *bmp, u32 a, u32 b, u32 c, u32 off);
 

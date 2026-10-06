@@ -32,12 +32,12 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Obj;
 extern int func_02031C30(struct Obj *a, struct Obj *b);
 
-void func_020073B0(char *a0, u32 a1)
+int func_020073B0(char *a0, u32 a1)
 {
     u32 *slot = (u32 *)(a0 + 0x14);
 
     if (slot[a1] == 0) {
         func_02034714(g_020A7064, 0, g_020A7064);
     }
-    func_02031C30((struct Obj *)((struct Obj15569 *)a0)->f10, (struct Obj *)slot[a1]);
+    return func_02031C30((struct Obj *)((struct Obj15569 *)a0)->f10, (struct Obj *)slot[a1]);
 }

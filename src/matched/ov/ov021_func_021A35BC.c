@@ -16,7 +16,8 @@
  *   func_020142E8  0x020142E8  thumb
  */
 
-int func_021A30BC(int a);
+typedef unsigned char  u8;
+int func_021A30BC(u8 *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct BigObj;
@@ -27,7 +28,7 @@ u32 func_020142E8(void *bitmap, s32 id);
 
 int func_021A35BC(int a)
 {
-    if (func_020142E8((void *)func_0201296C(func_020120F4((const struct Ctx *)func_021A30BC(a))), 0x963) != 0)
+    if (func_020142E8((void *)func_0201296C(func_020120F4((const struct Ctx *)func_021A30BC((u8 *)a))), 0x963) != 0)
         return 1;
     return 0;
 }

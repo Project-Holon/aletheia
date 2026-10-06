@@ -125,12 +125,12 @@ extern int func_0216A280(int a0);
 extern u32 func_02188CCC(u8 *p);
 extern int func_021A0F30(u32 a, u32 b);
 extern int func_021A0ED4(u32 a);
-extern int func_021A1518(u32 a);
+extern int func_021A1518(u32 *p);
 extern void func_021A1524(u32 *p);
-extern int func_021A1554(u32 a);
+extern int func_021A1554(u32 *p);
 extern void func_021A1530(u32 *p);
 extern void func_021A1548(u32 *p);
-extern int func_021A153C(u32 a);
+extern int func_021A153C(u32 *p);
 extern void func_021A0FB4(u32 *p, u32 a);
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
@@ -174,7 +174,7 @@ int func_02169AB8(Work *w, u32 *state)
         break;
     case 1:
         if (func_021A0ED4(func_02188CCC(w->f08)) == 1
-            && func_021A1518(func_02188CCC(w->f08)) == 1) {
+            && func_021A1518((u32 *)func_02188CCC(w->f08)) == 1) {
             w->f18 = func_02030734(w->f10, 0x50, 0, d_02172A50, 0x9F);
             w->f18->f04 = func_02045B38(0, 3, 0x9E, w->f10);
             w->f18->f18 = func_020457B0(0x200, w->f10);
@@ -216,7 +216,7 @@ int func_02169AB8(Work *w, u32 *state)
     case 5:
         func_02008DF0(func_02012F2C(func_020120F4(w->f04)), 1);
         func_021A1524((u32 *)func_02188CCC(w->f08));
-        if (func_021A1554(func_02188CCC(w->f08)) == 1)
+        if (func_021A1554((u32 *)func_02188CCC(w->f08)) == 1)
             func_02169FFC(w, 10);
         else
             func_02169FFC(w, 4);
@@ -260,7 +260,7 @@ int func_02169AB8(Work *w, u32 *state)
         }
         break;
     case 10:
-        if (func_021A153C(func_02188CCC(w->f08)) == 1) {
+        if (func_021A153C((u32 *)func_02188CCC(w->f08)) == 1) {
             func_020061E4(0x558);
             func_0216A280((int)w);
             func_0216A1F8((int)w);

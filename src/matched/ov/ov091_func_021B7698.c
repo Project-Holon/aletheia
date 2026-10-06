@@ -82,23 +82,23 @@ extern void func_021B8180(u8 *);
 extern int func_021BC17C(unsigned short *p, int id);
 extern int func_021BDD78(void *a, u32 id, int slot, u32 heap);
 extern int func_021BC350(u8 *,int);
-extern void func_021BE2B4(u32,u16,int,u16,u16);
-extern void func_021BB200(u8 *,u32,u32,int);
+extern int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
+extern void func_021BB200(u8 *a, u8 *s, int p, int q);
 extern void func_021BB2C0(u8 *a, u8 *s);
 extern u32 func_021BA670(u8 *p, u16 id);
-extern int func_021BDCC0(char *p);
+extern int func_021BDCC0(char *p, u32 a1);
 extern void func_021BDD58(u32 p, void *m);
 extern void func_021BC30C(int p);
 extern u32 func_021B9BF4(u8 *p, void *mon, u32 param);
 extern void func_021B9788(u8 *,int,int,int);
 extern void func_021BA624(u8 *,void *,u16);
-extern void func_021BB97C(u8 *,u32);
+extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB99C(int a, int b, int c, int d);
-extern void func_021BB9AC(u8 *,u32,u32,u16);
-extern void func_021BB9BC(u8 *,u32,u32,u16);
-extern void func_021BB9CC(u8 *,u32,u32,u16);
-extern void func_021BB98C(u8 *,u32);
-extern void func_021BC24C(u8 *,void *,u16);
+extern void func_021BB9AC(int a, int b, int c, int d);
+extern void func_021BB9BC(int a, u32 b, u32 c, int d);
+extern void func_021BB9CC(int a, int b, int c, int d);
+extern void func_021BB98C(void *p, u32 s);
+extern void func_021BC24C(void *unused, void *a, int b);
 extern void func_021BC288(int unused, int a, int b);
 extern int func_021BDBF8(u8 *,u32);
 extern void func_021BDC3C(u32 p, void *m);
@@ -149,7 +149,7 @@ void func_021B7698(u8 *p)
             if (r != -1) {
                 W(0x2c)=r; W(0x38)=(u32)func_0201AB28((void *)T(0),r);
                 func_021BC350(p,0);
-                func_021BE2B4(W(0x38),H(0x44),0,H(0x30),((struct Obj00009 *)p)->f0);
+                func_021BE2B4((void *)W(0x38),H(0x44),(int)0,H(0x30),(u16)(((struct Obj00009 *)p)->f0));
                 func_021BB2C0(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)));
                 W(0x24)=1; p[0xd]=p[0xc]; p[0xc]=0;
                 func_021BA670(p,H(0x44)); return;
@@ -160,8 +160,8 @@ void func_021B7698(u8 *p)
             func_021B7B98(p); p[0xd]=2; return;
         }
         T(0x40)=10;
-        func_021BB7A4(p,(u32 *)W(0x150)); func_021BB97C(p,W(0x150));
-        func_021BB9AC(p,W(0x150),0,H(0x44));
+        func_021BB7A4(p,(u32 *)W(0x150)); func_021BB97C((u16 *)p,W(0x150));
+        func_021BB9AC((int)p,(u32)W(0x150),(u32)0,(u16)H(0x44));
         func_021B9788(p,0xb3,1,(int)func_021B9E3C);
         func_021BB98C(p,W(0x150)); p[0xd]=p[0xc]; p[0xc]=0; return;
     case 7: case 8:
@@ -169,12 +169,12 @@ void func_021B7698(u8 *p)
         if (S[0x48] < 4) {
             old=func_02017E1C((void *)W(0x38),S[0x48]+0x36,0);
             off=0x150;
-            func_021BB97C(p,W(off)); func_021BB99C((int)p,W(off),0,W(0x38));
-            func_021BB9CC(p,W(off),1,old);
+            func_021BB97C((u16 *)p,W(off)); func_021BB99C((int)p,W(off),0,W(0x38));
+            func_021BB9CC((int)p,(u32)W(off),(u32)1,(u16)old);
             func_021B9788(p,0x28,1,(int)func_021BA004);
         } else {
             off=0x150;
-            func_021BB97C(p,W(off)); func_021BB9CC(p,W(off),1,H(0x46));
+            func_021BB97C((u16 *)p,W(off)); func_021BB9CC((int)p,(u32)W(off),(u32)1,(u16)H(0x46));
             func_021B9788(p,0x23,0,(int)func_021B9F34);
         }
         func_021BB98C(p,W(off));
@@ -189,17 +189,17 @@ void func_021B7698(u8 *p)
             if (old == 0) {
                 func_021BA624(p,(void *)W(0x38),H(0x44));
                 func_021BB2C0(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)));
-                func_021BB97C(p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
-                func_021BB9AC(p,W(0x150),1,H(0x44));
-                func_021BC24C(p,(void *)W(0x38),H(0x44));
+                func_021BB97C((u16 *)p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
+                func_021BB9AC((int)p,(u32)W(0x150),(u32)1,(u16)H(0x44));
+                func_021BC24C(p,(void *)W(0x38),(u16)H(0x44));
                 func_021BC288((int)p,(int)((void *)W(0x38)),H(0x44));
                 if (func_021BDBF8(p,W(0x38))==1) {
                     func_021BDC3C((u32)p,(void *)W(0x38)); func_021B9788(p,0x56,1,(int)func_021BA4E4); W(0x264)=1;
                 } else func_021B9788(p,0x56,1,(int)func_021B9E20);
                 func_021BB98C(p,W(0x150)); T(0x34)=0;
             } else {
-                func_021BB97C(p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
-                func_021BB9BC(p,W(0x150),1,old);
+                func_021BB97C((u16 *)p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
+                func_021BB9BC((int)p,W(0x150),1,(u16)old);
                 func_021B9788(p,0x3a,0,(int)func_021BA098); func_021BB98C(p,W(0x150));
             }
         }
@@ -208,20 +208,20 @@ void func_021B7698(u8 *p)
     case 11: case 12:
         W(0x2c)=T(0x3c); W(0x38)=(u32)func_0201AB28((void *)T(0),T(0x3c));
         old=func_02017E1C((void *)W(0x38),6,0);
-        func_021BB97C(p,W(0x150));
+        func_021BB97C((u16 *)p,W(0x150));
         if (old == 0) {
             id=0x56;
             func_021BB99C((int)p,W(0x150),0,W(0x38));
-            func_021BB9AC(p,W(0x150),1,H(0x44));
+            func_021BB9AC((int)p,(u32)W(0x150),(u32)1,(u16)H(0x44));
         } else {
             id=0x40;
             func_021BB99C((int)p,W(0x150),0,W(0x38));
-            func_021BB9AC(p,W(0x150),1,old);
-            func_021BB9AC(p,W(0x150),2,H(0x44));
+            func_021BB9AC((int)p,(u32)W(0x150),(u32)1,(u16)old);
+            func_021BB9AC((int)p,(u32)W(0x150),(u32)2,(u16)H(0x44));
         }
         func_021BA624(p,(void *)W(0x38),H(0x44));
         func_021BB2C0(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)));
-        func_021BC24C(p,(void *)W(0x38),H(0x44));
+        func_021BC24C(p,(void *)W(0x38),(u16)H(0x44));
         func_021BC288((int)p,(int)((void *)W(0x38)),H(0x44));
         if (func_021BDC5C(p,W(0x38))==1) {
             func_021BDCA0((u32)p,(void *)W(0x38)); func_021B9788(p,id,1,(int)func_021BA4E4); W(0x264)=2;

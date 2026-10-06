@@ -122,12 +122,13 @@ extern void func_02005DE4(void *p);
 extern int func_02005E64(void);
 extern void func_02005D90(int,int);
 extern int func_02005F38(void);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02005DF8(u32 a);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
-extern void func_0200BF08(u32,u32);
+struct Rec1B0;
+extern void func_0200BF08(struct Rec1B0 *p, u32 v);
 extern u8 func_02012B58(const struct BigObj *p);
 extern void func_020266AC(u32,u32,u32);
 extern int func_021B7114(void *);
@@ -230,7 +231,7 @@ write10:
     case 15:
         if (func_02035C60()!=0 || (func_020362DC()&3)) {
             func_021B98C4((char *)o);
-            func_0200BF08((u32)func_0200BE48(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
+            func_0200BF08((struct Rec1B0 *)func_0200BE48(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
             save=func_02012138((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
             func_020266AC(save,func_02012B58(func_020120F4((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);

@@ -15,7 +15,7 @@
 #include "../include/Obj25629.h"
 struct S;
 extern void func_021BEE58(char *, int, short *, short *, unsigned short);
-extern void func_021BEE38(char *p, int idx, unsigned short a, int b, unsigned short c);
+extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
 extern int func_021B8AE4(struct S *, unsigned int);
 void func_021BF6E0(char *p)
 {

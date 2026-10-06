@@ -48,7 +48,7 @@ extern void *func_0202435C(void *slots, unsigned int heap);
 extern void func_021EA5E4(unsigned char *p, void *src);
 extern void sub_02045808(struct U16Vec *vec);
 extern u16 func_021BA004(char *p, int i);
-extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EA5F0(char *p, struct H *h);
 

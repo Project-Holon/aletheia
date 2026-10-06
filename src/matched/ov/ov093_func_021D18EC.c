@@ -35,7 +35,7 @@ extern int func_021BA1A8(char **p, int m);
 extern u32 func_021B9210(u8 *p);
 extern u8 func_021B8FF4(u8 *p);
 struct L;
-extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EA614(char *p, struct H *h);

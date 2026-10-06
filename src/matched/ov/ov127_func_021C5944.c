@@ -17,7 +17,7 @@
 #include "../include/Obj00328.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021C4280(void *);
+extern int func_021C4280(char *p);
 typedef unsigned int   u32;
 extern u32 func_021C4270(char *p);
 struct obj;

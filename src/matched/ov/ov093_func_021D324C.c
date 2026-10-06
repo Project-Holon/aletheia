@@ -30,9 +30,9 @@ extern u8 *func_021B9934(char *p, int i);
 struct QJ;
 extern void func_021D66D0(struct QJ *p, u32 v);
 extern void func_021EA768(u32 *p, u32 a2, u32 a3);
-extern int func_021EA778(u32 a, int b);
+extern int func_021EA778(u32 *p, u32 a2);
 extern void func_021EA7A8(u32 *p, u32 a2);
-extern int func_021EA7B8(u32 a, int b);
+extern int func_021EA7B8(u32 *p, u32 a2);
 
 int func_021D324C(u32 *a, int *b, u32 *c)
 {
@@ -51,14 +51,14 @@ int func_021D324C(u32 *a, int *b, u32 *c)
         (*b)++;
         break;
     case 1:
-        if (func_021EA778(a[0x15], s) != 0) {
+        if (func_021EA778((u32 *)a[0x15], s) != 0) {
             func_021D66D0((struct QJ *)func_021B9934((char *)a[1], u), c[1]);
             func_021EA7A8((u32 *)a[0x15], s);
             (*b)++;
         }
         break;
     case 2:
-        if (func_021EA7B8(a[0x15], s) != 0) {
+        if (func_021EA7B8((u32 *)a[0x15], s) != 0) {
             (*b)++;
         }
         break;

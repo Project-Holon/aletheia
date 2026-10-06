@@ -47,7 +47,7 @@ struct FormCount {
 };
 
 extern const struct FormCount func_0200CA98_Table[];
-extern u32 func_0200C7F4(u16 id);
+extern u32 func_0200C7F4(u32 id);
 extern u32 func_0200C7C0(u16 id);
 extern void *func_0201ADE4(u32 a, int b, u32 c);
 struct Personal;

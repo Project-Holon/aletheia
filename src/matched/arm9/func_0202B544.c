@@ -29,7 +29,7 @@ extern void func_0202B7BC(struct Obj *o, u32 a1);
 extern void func_0202B7C8(u8 *p, u16 v);
 extern void func_0202B7D4(u8 *p, u32 key);
 extern void func_0202B7E0(u8 *p, u32 b);
-extern void func_0202B7EC(u32 a, u32 b);
+extern void func_0202B7EC(u8 *p, u32 b);
 
 void func_0202B544(u32 a, u16 b)
 {
@@ -38,5 +38,5 @@ void func_0202B544(u32 a, u16 b)
     func_0202B7C8((u8 *)a, b);
     func_0202B7D4((u8 *)a, b);
     func_0202B7E0((u8 *)a, b);
-    func_0202B7EC(a, b);
+    func_0202B7EC((u8 *)a, b);
 }

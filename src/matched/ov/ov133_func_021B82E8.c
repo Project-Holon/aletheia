@@ -58,7 +58,7 @@ extern u8 *func_021BA228(u8 *p);
 extern void func_021BA21C(u8 *p, const u8 *src);
 extern int func_021BA248(char *p);
 extern void func_021BA23C(u8 *p, u32 value);
-extern void func_021BA24C(u8 *, u16);
+extern void func_021BA24C(char *p, u32 v);
 extern void func_021B7A18(u8 *);
 extern void func_020061E4(u32 a);
 void func_021B82E8(u8 *p, int unused)
@@ -99,7 +99,7 @@ void func_021B82E8(u8 *p, int unused)
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const u8 *)(&fallback));
         func_021BA23C(*(u8 * *)&((struct Obj00004 *)p)->f38, 0);
     }
-    func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38, 10);
+    func_021BA24C((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38), 10);
     ((struct Obj14149 *)data)->fC = 0;
     func_021B7A18(p);
     func_020061E4(1574);

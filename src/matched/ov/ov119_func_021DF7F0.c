@@ -27,7 +27,7 @@ extern void func_021E67C4(void *,int);
 extern void func_021DF8A0(void *,int,int);
 extern int func_021D8A24(void *);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 void func_021DF7F0(void *p)
 {
     unsigned x,y;

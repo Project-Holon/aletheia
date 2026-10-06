@@ -40,7 +40,7 @@ extern u8 d_0217AAC4[];
 extern void func_02034714(void *a, int b, void *c);
 extern void func_02082D44(void *dst, void *src, int n);
 typedef unsigned int   u32;
-extern int func_0203F1FC(const u8 *src, u32 len);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0217A148(int a0, int a1, int a2);
 
 void func_021798DC(void *dst, int n, u8 a, u8 b)

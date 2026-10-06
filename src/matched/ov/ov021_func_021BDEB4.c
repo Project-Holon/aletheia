@@ -62,11 +62,11 @@ typedef struct {
 extern u32 func_021BE17C(u8 *p);
 extern void *func_02188CB4(unsigned char *p);
 extern u16 func_021A3050(u8 *p);
-extern int func_021BE1B0(A *a);
+extern int func_021BE1B0(u32 a);
 extern void func_021A7B08(u32 o, Vec *v);
 struct VecFx32;
 extern void func_021A3038(unsigned char *t, struct VecFx32 *v);
-extern void func_021BE158(u32 h, Vec *v);
+extern int func_021BE158(u32 a, u32 b);
 extern void func_0218FEA4(u32 p);
 extern void func_0218FE78(u32 p, void *sub);
 extern void func_0218FEC0(u8 *o);
@@ -99,7 +99,7 @@ void func_021BDEB4(A *a)
         return;
     s->f48 = 0;
     s->f44 = 0;
-    if (func_021BE1B0(a) != 0)
+    if (func_021BE1B0((u32)a) != 0)
         func_021A7B08(a->obj, &v);
     else
         func_021A3038(t, (struct VecFx32 *)&v);
@@ -117,8 +117,8 @@ void func_021BDEB4(A *a)
         s->f00 = 10;
         break;
     }
-    if (func_021BE1B0(a) != 0)
-        func_021BE158(h, &v);
+    if (func_021BE1B0((u32)a) != 0)
+        func_021BE158(h, (u32)(&v));
     func_0218FEA4(a->f54);
     func_0218FE78(a->f04, &s->in);
     switch (m) {

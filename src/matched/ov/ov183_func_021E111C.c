@@ -38,7 +38,7 @@ struct Obj;
 struct Obj020437AC;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 struct Param;
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);

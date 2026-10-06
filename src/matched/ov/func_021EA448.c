@@ -24,5 +24,5 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-void func_021EA448(u32 *p) { func_021ED304(p[0x5f]); }
+int func_021EA448(u32 *p) { return func_021ED304(p[0x5f]); }
 

@@ -30,7 +30,7 @@ typedef unsigned short u16;
 extern void func_021DE17C(char *p, int command, int player);
 extern u16 func_02039338(void);
 extern void func_021E172C(char *p, unsigned short *q);
-extern void func_021E1758(void *,int);
+extern void func_021E1758(char *p, int a1);
 extern void func_021E168C(int *p, int a);
 void func_021DCD14(int a,int b,u8 *c,u8 *p)
 {

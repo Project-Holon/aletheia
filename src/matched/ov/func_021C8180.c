@@ -16,7 +16,7 @@
 
 unsigned int func_021B8670(unsigned int **p);
 
-void func_021C8180(int *p)
+int func_021C8180(int *p)
 {
-    func_021B8670((unsigned int **)(((struct Obj18337 *)p)->f4));
+    return func_021B8670((unsigned int **)(((struct Obj18337 *)p)->f4));
 }

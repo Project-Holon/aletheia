@@ -64,7 +64,7 @@ struct Icon {
     GXOamAttr *f10;
 };
 
-extern u32 func_02036D64(struct Icon *c);
+extern u32 func_02036D64(u8 *p);
 extern u32 func_02036DC8(u32 engine, u32 b);
 
 void func_02036CA8(struct Icon *c)
@@ -73,7 +73,7 @@ void func_02036CA8(struct Icon *c)
     u32 name;
     GXOamAttr *oam;
 
-    mode = func_02036D64(c);
+    mode = func_02036D64((u8 *)c);
     name = func_02036DC8(mode, c->f00);
     if (mode == 1) {
         oam = (GXOamAttr *)0x07000000;

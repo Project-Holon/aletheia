@@ -19,7 +19,7 @@ extern char *d_0220AF20;
 typedef unsigned char  u8;
 extern int func_02207C94(u8 *p);
 
-void func_021F8180(void)
+int func_021F8180(void)
 {
-    func_02207C94(*(void **)(d_0220AF20 + 0x1a4));
+    return func_02207C94(*(void **)(d_0220AF20 + 0x1a4));
 }

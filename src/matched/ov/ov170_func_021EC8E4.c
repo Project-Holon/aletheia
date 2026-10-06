@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
 extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern const Off d_021EFCE0[];
 
 void func_021EC8E4(char *p)
@@ -35,5 +35,5 @@ void func_021EC8E4(char *p)
     y = buf[1] * 8;
     for (i = 0; i < 6; i++)
         func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + i + 0x3DF0),
-                      y + d_021EFCE0[i].a, x + d_021EFCE0[i].b, 0);
+                      (short)(y + d_021EFCE0[i].a), (short)(x + d_021EFCE0[i].b), (short)0);
 }

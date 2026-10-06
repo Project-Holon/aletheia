@@ -42,11 +42,12 @@ extern void func_0203F8F4(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32);
-extern void func_02040B94(u32, u32, u32, u32);
+typedef unsigned char  u8;
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020434DC(u32, u32);
 extern void func_02043598(u32, u32);
 
-void func_021C5518(void)
+void func_021C5518(u8 *a0)
 {
     func_0203F8F4(0x66);
     {

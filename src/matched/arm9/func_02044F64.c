@@ -35,12 +35,12 @@ typedef signed int     s32;
 
 struct Bmp { u8 *pixels; u16 width; u16 height; u16 depth; };
 
-extern struct Bmp *func_02043678(u32 w, u32 h, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 struct Obj020437AC;
 extern void func_020437AC(struct Obj020437AC *p);
 
-struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u32 heap)
+struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap)
 {
     struct Bmp *dst;
     s32 i, n;

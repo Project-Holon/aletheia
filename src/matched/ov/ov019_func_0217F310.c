@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *a, u32 b, const char *c);
 struct Handle;
 extern u32 func_02188C54(u8 *p);
-extern int func_0219049C(u32 a);
+extern int func_0219049C(u8 *p);
 extern int func_021909E4(struct Handle *h);
 extern u32 d_021807F8[];
 
@@ -37,7 +37,7 @@ int func_0217F310(char *p, u32 a1)
     if (h == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    if (h != 0 && func_0219049C(h) == 0) {
+    if (h != 0 && func_0219049C((u8 *)h) == 0) {
         return -1;
     }
     if (((struct Obj12529 *)p)->f2810 == 0) {

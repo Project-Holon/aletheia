@@ -20,7 +20,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 
-int func_021F4DBC(u32 a, u32 b)
+int func_021F4DBC(int a, int b)
 {
     return func_0204A1BC(0x77, a + 5, 0, b);
 }

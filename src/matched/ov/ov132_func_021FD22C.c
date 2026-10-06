@@ -23,7 +23,7 @@ extern int func_02008468(void);
 extern void func_02082D44(void *,void *,u32);
 extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-void func_021FD22C(char *p)
+int func_021FD22C(char *p)
 {
     u8 i;
     u32 n;
@@ -43,5 +43,5 @@ void func_021FD22C(char *p)
     h=func_0203996C(0xff);
     m=func_02008468();
     n=func_020173E8();
-    func_0203D3F8((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(((struct Obj14127 *)p)->f13C),1,0,1);
+    return func_0203D3F8((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(((struct Obj14127 *)p)->f13C),1,0,1);
 }

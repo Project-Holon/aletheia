@@ -31,7 +31,7 @@ extern void *func_021FB704(char *ctx, int section, unsigned item);
 extern void *func_021FB7D0(unsigned *const *,void *,int,u16);
 extern void func_021FAC20(struct Fields *,unsigned,unsigned,unsigned,void *,const void *,unsigned,u16);
 extern int func_021FAFA0(void *,int);
-extern void func_021FB514(char *p, short x, short y);
+extern void func_021FB514(char *p, short x, int y);
 extern void func_02045808(struct U16Vec *vec);
 void func_021FA0FC(u8 *p,int section,const int *pos)
 {
@@ -46,6 +46,6 @@ void func_021FA0FC(u8 *p,int section,const int *pos)
   func_021FAC20((struct Fields *)(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44),(u32)rec,((struct Obj01277 *)p)->f8,((struct Obj01277 *)p)->f48,((struct Obj01277 *)p)->f4,text,((struct Obj01277 *)p)->f10,((struct Obj01277 *)p)->f0);
   func_02045808(text);
   func_021FAFA0(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44,3);
-  if(pos)func_021FB514(*(void **)(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44+8),pos[0],pos[1]);
+  if(pos)func_021FB514(*(void **)(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44+8),pos[0],(short)pos[1]);
  }
 }

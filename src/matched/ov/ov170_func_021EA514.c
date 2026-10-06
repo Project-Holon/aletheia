@@ -29,7 +29,7 @@ typedef struct {
 } Obj;
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021ED6E4(char **p, int v);
 extern int func_021EA4DC(Obj *p);
 extern int func_021DDE80(unsigned char *p, unsigned a, unsigned b);
@@ -44,7 +44,7 @@ int func_021EA514(Obj *p, unsigned i)
     SEL(p) = i;
     p->b18 = 0;
     func_021EC0B0(p->work, 4, &t[1], &t[0], 0);
-    func_021EC08C(p->work, 10, t[1], t[0] + 8, 0);
+    func_021EC08C(p->work, 10, (short)t[1], (short)(t[0] + 8), (short)0);
     func_021ED6E4((char **)p, 0);
     if (SEL(p) == 0xFF)
         return func_021EA4DC(p);

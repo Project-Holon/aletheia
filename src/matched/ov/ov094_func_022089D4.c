@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef struct { char p0[0x40]; int f40, f44, f48, f4c; char p50[0x20]; u32 b0:1, b1:1, b2:1, b3:1, hi:28; char p74[12]; } E;
 typedef struct { char p0[0x40]; E e[8]; u32 b0:1, b1:1, b2:1, b3:1, hi:28; int f444; } O;
 extern int func_02005E50(void);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern int func_021F882C(void);
 extern void func_02005D90(u32, u32);
 extern void func_02208D24(int);

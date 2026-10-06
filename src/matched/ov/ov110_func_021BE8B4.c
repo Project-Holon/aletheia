@@ -18,7 +18,7 @@ typedef struct { u8 b[8]; } Box;
 extern const Box d_021C38F8;
 extern int func_021BB1F4(void);
 extern void func_021BB224(unsigned,int *,int *);
-extern int func_02035C08(const Box *);
+extern int func_02035C08(const void *p);
 int func_021BE8B4(u8 *a0) {
  Box box;
  int x,y;

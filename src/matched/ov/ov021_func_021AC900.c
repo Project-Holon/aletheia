@@ -42,7 +42,7 @@ extern int func_021AC9D8(u8 *p);
 extern u16 func_0216D608(void *p);
 extern void func_021AC154(u32 a);
 extern u32 func_020508EC(u8 *p, int i, u16 *out);
-extern void func_0205085C(void *p, int idx, u16 v);
+extern void func_0205085C(void *p, int idx, u32 v);
 extern u8 d_021D90C0[];
 extern u16 d_021D90C8[];
 

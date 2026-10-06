@@ -18,7 +18,7 @@ typedef unsigned short u16;
 struct Obj;
 extern u16 func_0204B898(struct Obj *p);
 
-void func_021BEDD0(int p, int i)
+int func_021BEDD0(int p, int i)
 {
-    func_0204B898((struct Obj *)(((int *)(p + i * 4))[0xa]));
+    return func_0204B898((struct Obj *)(((int *)(p + i * 4))[0xa]));
 }

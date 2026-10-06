@@ -116,7 +116,7 @@ extern int func_021C21B4(char *p);
 extern int func_021C223C(char *p);
 extern int func_021C22AC(char *p);
 extern void func_021C3158(u8 *p);
-extern void func_021C2484(u8 *p, u8 *q);
+extern int func_021C2484(u8 *a, u8 *b);
 extern void func_0216D5E0(int a0, int a1);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern u32 func_02188C60(u8 *p);

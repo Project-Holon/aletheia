@@ -30,7 +30,8 @@ typedef struct Lo3 {
 
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_02012B8C(void *p, u32 v);
+struct BigObj;
+extern void func_02012B8C(struct BigObj *p, u32 v);
 extern void func_02161FEC(char *p, u16 v);
 
 void func_02175710(u8 *o, u32 v)

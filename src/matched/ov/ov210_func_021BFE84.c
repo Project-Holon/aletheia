@@ -16,10 +16,10 @@
  */
 
 extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BEE38(int p, int a, short b, int c, int d);
+extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
 
 void func_021BFE84(int p, int n)
 {
     func_021BEDF0(p, 8, 1);
-    func_021BEE38(p, 8, n * 2 + 8, 0xa8, 0);
+    func_021BEE38((char *)p, 8, (short)(n * 2 + 8), 0xa8, (int)0);
 }

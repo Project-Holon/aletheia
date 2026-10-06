@@ -16,10 +16,10 @@
  * Tail call into func_02035C08 with the overlay's own state object.
  */
 
-extern void func_02035C08(const void *p);
+extern int func_02035C08(const void *p);
 extern char g_022037D4[];
 
-void func_021FE254(void)
+int func_021FE254(void)
 {
-    func_02035C08(g_022037D4);
+    return func_02035C08(g_022037D4);
 }

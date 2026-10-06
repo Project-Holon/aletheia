@@ -33,7 +33,7 @@ struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021C6E48(void *p);
 extern void func_020061E4(unsigned int a);
-extern void func_021C01E4(void **q);
+extern int func_021C01E4(void **a);
 
 int func_021C00C8(void *task, int *state, void **q)
 {

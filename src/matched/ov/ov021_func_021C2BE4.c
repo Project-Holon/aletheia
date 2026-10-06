@@ -67,11 +67,11 @@ extern unsigned char *func_0206E964(unsigned char *p);
 extern int func_021C2EDC(u8 *p, const char *name);
 extern int func_021C2F14(u8 *p, const char *name);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049F34(u32 arc, u32 file, PlttData **out, u16 heap);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
-extern struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u32 heap);
+extern struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void *func_02030830(u32 heapId);
 
@@ -99,7 +99,7 @@ void func_021C2BE4(Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile)
     p->chr = 0;
     p->pltt = 0;
     p->chrRes = func_02049DB4(0xb4, chrFile, 1, (u32)(&p->chr), heap);
-    p->plttRes = func_02049F34(0xb4, plttFile, &p->pltt, heap);
+    p->plttRes = func_02049F34(0xb4, plttFile, (u32)(&p->pltt), heap);
     src = p->chr->raw;
     buf = func_020437D4(p->canvas);
     func_02082A7C(0, buf, 0x2000);

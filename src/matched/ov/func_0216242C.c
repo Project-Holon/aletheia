@@ -35,7 +35,7 @@ typedef unsigned int u32;
 
 extern void func_021624B0(void *, unsigned);
 
-void func_0216242C(void *a0, unsigned a1, unsigned a2, unsigned a3)
+void func_0216242C(void *a0, u16 a1, u8 a2)
 {
     ((struct Obj17713 *)a0)->f10 = a1;
     func_021624B0(a0, a1);

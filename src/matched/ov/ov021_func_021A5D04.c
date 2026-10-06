@@ -34,7 +34,7 @@ extern int func_0216D3CC(int a0);
 extern int func_021A5CA4(void *a, void *b, int c, int d, int e, int f);
 extern u32 func_021A5B6C(void *a, void *b, int c, int d);
 extern int func_0219E664(void *o, u32 k, void *buf);
-extern u32 func_0219D724(void *b, u8 *buf);
+extern int func_0219D724(u32 a, u32 b);
 extern u16 func_021AB0F0(u32);
 extern u16 func_021AB0F8(u32 attr);
 extern int func_021AB158(u16);
@@ -65,7 +65,7 @@ int func_021A5D04(void *a, void *b, int c, int d, int e, int f)
     }
     if (r & 2) {
         func_0219E664(b, e, buf);
-        t = func_0219D724(b, buf);
+        t = func_0219D724((u32)b, (u32)buf);
         cls = 9;
         k = func_021AB0F0(t);
         func_021AB0F8(t);

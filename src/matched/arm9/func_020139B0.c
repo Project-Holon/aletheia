@@ -90,8 +90,7 @@ extern const char sZonedataFile[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void *func_0204A298(u32 archive_id, u32 member, u32 kind, u32 heap,
-                           u32 *size_out);
+extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
 
 void func_020139B0(u32 heap)
 {
@@ -104,13 +103,13 @@ void func_020139B0(u32 heap)
     g_sub02013AD0Obj = func_02030734(heap, 0x4c, 1, sZonedataFile, 0x60);
     g_sub02013AD0Obj->archive = func_020490F4(0x0c, heap);
 
-    g_sub02013AD0Obj->table38 = func_0204A298(0x51, 13, 0, heap, &size);
+    g_sub02013AD0Obj->table38 = (void *)func_0204A298(0x51, 13, 0, heap, &size);
     g_sub02013AD0Obj->count40 = size >> 2;
 
-    g_sub02013AD0Obj->table3c = func_0204A298(0x52, 1, 0, heap, &size);
+    g_sub02013AD0Obj->table3c = (void *)func_0204A298(0x52, 1, 0, heap, &size);
     g_sub02013AD0Obj->count42 = size >> 2;
 
-    g_sub02013AD0Obj->table44 = func_0204A298(0x95, 0, 0, heap, &size2);
+    g_sub02013AD0Obj->table44 = (void *)func_0204A298(0x95, 0, 0, heap, &size2);
     g_sub02013AD0Obj->count43 = size2 >> 2;
 
     g_sub02013AD0Obj->cached_id = 0x1ab;

@@ -24,9 +24,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02188CFC(u8 *p);
-extern u32 func_021A54A0(u32);
+extern int func_021A54A0(u32 a);
 
-int func_021A3624(u32 a, u32 b, u32 c, u32 d)
+int func_021A3624(void *a)
 {
 if (func_02188CFC((u8 *)(*(u32 *)&((struct Obj06010 *)((u8 *)(a)))->f0)) == 0) {
     if (func_021A54A0(*(u32 *)&((struct Obj06010 *)((u8 *)(a)))->f8) == 1) {

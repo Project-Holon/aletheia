@@ -51,7 +51,7 @@ struct Rec1B0 {
     unsigned long long unk1A8;
 };
 
-void func_0200BF08(struct Rec1B0 *p, u8 v)
+void func_0200BF08(struct Rec1B0 *p, u32 v)
 {
     p->unk1A0 = v;
 }
@@ -70,7 +70,7 @@ void func_0200BF18(struct Rec1B0 *p, s32 id)
     }
 }
 
-void func_0200BF54(struct Rec1B0 *p, u8 *dest)
+void func_0200BF54(struct Rec1B0 *p, u8 *dest, u32 n)
 {
     s32 i;
 

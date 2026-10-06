@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern u32 func_020056EC(u32 v);
-extern void func_021A26C4(int, s16 *);
+extern int func_021A26C4(u32 a, u32 b);
 struct Actor;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -43,7 +43,7 @@ void func_021EF454(int a, s16 *b, s16 *c, int d)
     c[3] = (r % 43) * 2 + 0x102;
     v[0] = r % 336 - 0x50;
     v[1] = r % 40 - 0x50;
-    func_021A26C4(a, v);
+    func_021A26C4(a, (u32)v);
     c[0] = v[0] << 3;
     c[1] = v[1] << 3;
     func_0204B878((struct Obj *)d, 1);

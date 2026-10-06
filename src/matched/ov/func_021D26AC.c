@@ -33,7 +33,7 @@ extern u32 func_0204B1CC(u32);
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 
-int func_021D26AC(u32 a, u32 b, u32 c, u32 d)
+int func_021D26AC(u32 *a)
 {
 func_0204B3B4((struct Obj *)(((struct Obj04899 *)((u8 *)(a)))->f8));
 func_0204A8D4(((struct Obj04899 *)((u8 *)(a)))->fC);

@@ -29,11 +29,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216DA50(u32);
-extern u32 func_02197EDC(u8 *p, u32 a1, u32 a2, u32 a3);
+extern u32 func_02197EDC(u8 *p);
 
 int func_0219B968(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02197EDC((u8 *)a, b, c, d) == 1) {
+if (func_02197EDC((u8 *)a) == 1) {
     func_0216DA50(a);
     ((struct Obj17959 *)((u8 *)(b)))->f0 = 0;
 }

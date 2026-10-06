@@ -99,7 +99,7 @@ extern void func_021B7BB4(int *a, char *p);
 extern void func_021B7BF0(void *);
 extern void func_021B7BFC(int *a, char *p, unsigned char m);
 extern void func_021B79A0(void **p, int *c, int idx);
-extern int func_021B7A08(void *,void *);
+extern int func_021B7A08(char *p, char *q);
 extern void func_021B7A14(void **p);
 extern int func_02035C60(void);
 extern u32 func_020362DC(void);
@@ -142,7 +142,7 @@ int func_021B739C(int a,int *state,C *c,D *d)
   else func_021B79A0((void **)d,(int *)c->f4,0x12);
   ++*state;break;
  case 2:
-  if(func_021B7A08(c->f4,d)!=1) break;
+  if(func_021B7A08((char *)c->f4,(char *)d)!=1) break;
   if(func_02035C60()==0 && (func_020362DC()&3)==0) break;
   func_021B7A14((void **)d);func_020061E4(0x547);
   if(func_02035C60()!=0) {d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);}
@@ -199,7 +199,7 @@ int func_021B739C(int a,int *state,C *c,D *d)
   else if(t==4) {func_021B79A0((void **)d,(int *)c->f4,0x14);*state=8;}
   break;
  case 7:case 8:
-  if(func_021B7A08(c->f4,d)!=1) break;
+  if(func_021B7A08((char *)c->f4,(char *)d)!=1) break;
   if(*state==7) {
   } else if(*state==8) {
    if(func_02035C60()==0 && !(func_020362DC()&3)) break;
@@ -211,7 +211,7 @@ int func_021B739C(int a,int *state,C *c,D *d)
   break;
  case 9:func_021B79A0((void **)d,(int *)c->f4,0x17);++*state;break;
  case 10:
-  if(func_021B7A08(c->f4,d)==1 && (func_02035C60()!=0 || (func_020362DC()&3)!=0)) {func_021B7A14((void **)d);*state=3;}
+  if(func_021B7A08((char *)c->f4,(char *)d)==1 && (func_02035C60()!=0 || (func_020362DC()&3)!=0)) {func_021B7A14((void **)d);*state=3;}
   break;
  case 11:
   if(func_021B6C74(c,3)==2) break;

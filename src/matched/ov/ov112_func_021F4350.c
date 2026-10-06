@@ -67,7 +67,7 @@ extern int func_021FCE00(char *p, int id);
 extern void func_021F4804(u8 *,u32);
 extern u32 func_0200FB24(void);
 extern u32 func_020362DC(void);
-extern int func_02035C08(const Box *);
+extern int func_02035C08(const void *p);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u32 func_0204B98C(struct Actor *a);

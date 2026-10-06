@@ -26,7 +26,7 @@
  */
 extern void func_0217DC28(int *);
 typedef unsigned char  u8;
-extern void func_0217DEA4(u8 *p, int a);
+extern void func_0217DEA4(int *p, int a);
 extern int func_0217DE8C(int *);
 typedef unsigned int   u32;
 extern u32 func_020362DC(void);
@@ -44,7 +44,7 @@ void func_0217D964(int *a, int *state, int *p)
 {
     int result;
     switch (*state) {
-    case 0: func_0217DC28(p); func_0217DEA4((u8 *)p, 1); *state = 1; break;
+    case 0: func_0217DC28(p); func_0217DEA4((int *)p, 1); *state = 1; break;
     case 1: if (func_0217DE8C(p)) *state = 2; break;
     case 2: if (func_020362DC() & 3) *state = 3; break;
     case 3: func_0217E000(p); func_0217DFF0((int)p, 1); func_0217DFD0(p, 0x6D, 1); *state = 4; break;

@@ -19,7 +19,7 @@
 
 extern int func_021BEE04(int p, int i);
 extern void func_021BEE58(char *p, int idx, short *outA, short *outB, unsigned short in);
-extern void func_021BEE38(int p, int i, short y, short x, int d);
+extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
 extern void func_021BEDF0(int p, int i, int v);
 
 void func_021BFBF8(int p, int v)
@@ -32,7 +32,7 @@ void func_021BFBF8(int p, int v)
             int t;
 
             func_021BEE58((char *)p, i, &pos[1], &pos[0], 0);
-            func_021BEE38(p, i, pos[1], pos[0] + v, 0);
+            func_021BEE38((char *)p, i, (short)pos[1], (short)(pos[0] + v), (int)0);
             t = pos[0] + v;
             if (t <= -12 || t >= 0xcc)
                 func_021BEDF0(p, i, 0);
@@ -43,8 +43,8 @@ void func_021BFBF8(int p, int v)
             int t;
 
             func_021BEE58((char *)p, i, &pos[1], &pos[0], 1);
-            func_021BEE38(p, i, pos[1], pos[0] + v, 1);
-            func_021BEE38(p, i + 2, pos[1], pos[0] + v, 1);
+            func_021BEE38((char *)p, i, (short)pos[1], (short)(pos[0] + v), (int)1);
+            func_021BEE38((char *)p, i + 2, (short)pos[1], (short)(pos[0] + v), (int)1);
             t = pos[0] + v;
             if (t <= -12 || t >= 0xcc) {
                 func_021BEDF0(p, i, 0);

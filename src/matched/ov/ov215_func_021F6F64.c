@@ -26,7 +26,9 @@ extern struct Record *func_021F66C8(unsigned,unsigned);
 extern unsigned func_020489F4(unsigned char *,int);
 extern unsigned func_02048A18(unsigned char *,int);
 extern unsigned func_020477A4(struct G3dSys *,unsigned);
-extern unsigned func_0204784C(struct AnmCtl *,unsigned,int *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 void func_021F6F64(char *p)
 {
     unsigned id;

@@ -30,11 +30,11 @@ extern u32 func_020307B0(u32);
 extern void func_0218B7F8(char *p);
 extern void func_0218D05C(char *p);
 extern u32 func_021938D4(u32);
-extern u32 func_021C0674(u32, u32, u32, u32);
+extern void func_021C0674(void **p);
 
-int func_0218CA4C(u32 a, u32 b, u32 c, u32 d)
+int func_0218CA4C(u32 a)
 {
-func_021C0674(((struct Obj05856 *)((u8 *)(a)))->f70, b, c, d);
+func_021C0674((void **)(((struct Obj05856 *)((u8 *)(a)))->f70));
 func_0218D05C((char *)a);
 func_021938D4(((struct Obj05856 *)((u8 *)(a)))->f6C);
 if (((struct Obj05856 *)((u8 *)(a)))->f64 != 0) {

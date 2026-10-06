@@ -24,7 +24,7 @@ extern char *d_0220AF20;
 extern int func_022088F4(u32 obj);
 extern void func_02208900(u32 obj, u32 v);
 extern void func_0220893C(u32 obj, u32 v);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02005D90(u32 a, u16 b);
 
 void func_021F878C(u32 a)

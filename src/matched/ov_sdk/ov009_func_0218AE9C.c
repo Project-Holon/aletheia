@@ -179,7 +179,7 @@ typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
-extern int func_020949F4(const char *a, const char *b, unsigned int n);
+extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern int func_0218AC4C(void **connection, GPIConnectData *data);
 extern int func_0218A830(void **connection, GPIConnectData *data);
 extern int func_02084F40(char *dst, char *fmt, ...);
@@ -247,7 +247,7 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
 
     switch (operation->state) {
     case 1:
-        if (func_020949F4(input, g_021A49A4, 5) != 0) {
+        if (func_020949F4((const u8 *)input, (const u8 *)g_021A49A4, 5) != 0) {
             func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);
@@ -272,7 +272,7 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
         }
         break;
     case 3:
-        if (func_020949F4(input, g_021A49DC, 5) != 0) {
+        if (func_020949F4((const u8 *)input, (const u8 *)g_021A49DC, 5) != 0) {
             func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);
@@ -298,7 +298,7 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
         operation->state = 2;
         break;
     case 2:
-        if (func_020949F4(input, g_021A4A14, 5) != 0) {
+        if (func_020949F4((const u8 *)input, (const u8 *)g_021A4A14, 5) != 0) {
             func_02193710((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
             func_02189D78((int *)connection, __result__, 1);

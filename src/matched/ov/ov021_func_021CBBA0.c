@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern int func_0216D63C(char *a0, int a1);
 
-void func_021CBBA0(u32 a)
+u32 func_021CBBA0(u32 a)
 {
-    func_0216D63C((char *)a, 1);
+    return func_0216D63C((char *)a, 1);
 }

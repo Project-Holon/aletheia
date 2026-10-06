@@ -35,7 +35,7 @@ typedef signed int     s32;
 extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049238(int);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern int func_0204ABF0(int, u32, u32, u32, u16);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_0201BABC(u32, u32, u32, u32);
@@ -67,7 +67,7 @@ void func_021BD9B4(struct R *p)
 
     h = (int)func_020490F4(0x9f, 0x806B);
     p->a[0x23] = func_0204A6C8((void *)h, 0x37, 0, 0, 0x6b);
-    p->b[5] = func_0204ABF0(h, 0x33, 0, 0, 0x6b);
+    p->b[5] = func_0204ABF0((void *)h, 0x33, 0, 0, 0x6b);
     p->c[5] = func_0204AF28((void *)h, 0x3d, 0x47, 0x6b);
     func_02049238(h);
 
@@ -93,7 +93,7 @@ void func_021BD9B4(struct R *p)
 
     h3 = (int)func_020490F4(func_020275E4(), 0x806B);
     p->a[0x22] = func_0204A6C8((void *)h3, func_02027618(), 0, 0, 0x6b);
-    p->b[4] = func_0204ABF0(h3, func_02027614(), 0, 0xe0, 0x6b);
+    p->b[4] = func_0204ABF0((void *)h3, func_02027614(), 0, 0xe0, 0x6b);
     a = func_0202761C(2);
     p->c[4] = func_0204AF28((void *)h3, a, func_02027620(2), 0x6b);
     func_02049238(h3);

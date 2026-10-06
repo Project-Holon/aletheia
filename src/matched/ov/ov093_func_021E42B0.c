@@ -23,7 +23,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int func_021D775C(int key);
 extern unsigned char func_021B9A40(unsigned int x);
 extern u8 func_021B9A5C(u32 x);
-extern int func_021C82C4(u8 *s, int a, int b);
+extern int func_021C82C4(int a, int b, int c);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
@@ -35,7 +35,7 @@ void func_021E42B0(int a0, u8 *s, int k, int *pf)
 
     if (k == func_021D775C(3)) {
         v = func_021B9A5C(func_021B9A40(k));
-        if (func_021C82C4(s, v, 9) != 0 || func_021C82C4(s, v, 10) != 0) {
+        if (func_021C82C4((int)s, v, 9) != 0 || func_021C82C4((int)s, v, 10) != 0) {
             e = func_021C88A4((char *)s, 0x1a, k);
             e[7] = v;
             e[4] = 3;

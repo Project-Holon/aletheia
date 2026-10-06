@@ -27,7 +27,7 @@ extern void func_021D3F54(u8 *p);
 extern void func_021D3FD0(unsigned char *p);
 typedef unsigned short u16;
 struct L;
-extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
 extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);

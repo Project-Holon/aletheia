@@ -104,7 +104,7 @@ extern int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
 extern void func_021BB200(u8 *a, u8 *s, int p, int q);
 extern void func_021BB2C0(u8 *a, u8 *s);
 extern u32 func_021BA670(u8 *p, u16 id);
-extern int func_021BDCC0(char *p);
+extern int func_021BDCC0(char *p, u32 a1);
 extern void func_021BDD58(u32 p, void *m);
 extern void func_021BC30C(int p);
 extern u32 func_021B9BF4(u8 *p, void *mon, u32 param);
@@ -112,7 +112,7 @@ extern void func_021B9788(u8 *,int,int,int);
 extern void func_021BA624(u8 *,void *,u16);
 extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB99C(int a, int b, int c, int d);
-extern void func_021BB9AC(u8 *,u32,u32,u16);
+extern void func_021BB9AC(int a, int b, int c, int d);
 extern void func_021BB9BC(int a, u32 b, u32 c, int d);
 extern void func_021BB9CC(int a, int b, int c, int d);
 extern void func_021BB98C(void *p, u32 s);
@@ -156,7 +156,7 @@ extern void func_021BB440(u8 *p, u32 *q, int v);
 extern int func_021BB43C(int *);
 extern void func_021BBE5C(int,int);
 extern void func_021BA394(u8 *p);
-extern int func_021B99E4(void *,u8);
+extern int func_021B99E4(void *p, int i);
 extern u32 func_0215EA14(int,u8 *);
 extern u32 func_02013E04(u32 id);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -237,7 +237,7 @@ void func_021B916C(u8 *p)
         }
         func_021BA624(p,(void *)W(0x38),0); func_021BB2C0(p,(u8 *)((u32)A));
         func_021BB97C((u16 *)p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
-        func_021BB9AC(p,W(0x150),1,old);
+        func_021BB9AC((int)p,(u32)W(0x150),(u32)1,(u16)old);
         if (func_021BDC5C(p,W(0x38))==1) {
             func_021BDCA0((u32)p,(void *)W(0x38)); func_021B9788(p,0x3e,1,(int)func_021BA4E4); W(0x264)=2;
         } else func_021B9788(p,0x3e,1,(int)func_021B9E20);
@@ -262,7 +262,7 @@ void func_021B916C(u8 *p)
             } else func_021BC30C((int)p);
             return;
         }
-        r=func_021B99E4((void *)W(0x38),W(0x3c)-16);
+        r=func_021B99E4((void *)W(0x38),(u8)(W(0x3c)-16));
         if ((u32)(r-22)<=1) {
             if (func_02013E04(H(0x30))==0) {
                 func_021B9788(p,0x50,1,(int)func_021B9E20); return;

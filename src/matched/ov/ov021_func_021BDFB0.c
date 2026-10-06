@@ -61,7 +61,7 @@ extern u16 func_021A3050(u8 *p);
 typedef unsigned int   u32;
 extern int func_021BE194(u32 a);
 extern struct Q func_021BE148(int a);
-extern int func_021BE1B0(void *a);
+extern int func_021BE1B0(u32 a);
 extern void func_021A7B08(int a, struct V3 *b);
 extern void func_021A3038(void *a, struct V3 *b);
 extern void func_0218FEA4(int a);
@@ -90,7 +90,7 @@ void func_021BDFB0(char *a)
     if (t30 == 0) {
         return;
     }
-    if (func_021BE1B0(a) != 0) {
+    if (func_021BE1B0((u32)a) != 0) {
         func_021A7B08(*(int *)&((struct Obj00282 *)a)->f0, &q.f40);
     } else {
         func_021A3038(r7, &q.f40);

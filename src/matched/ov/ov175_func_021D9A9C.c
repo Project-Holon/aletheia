@@ -53,7 +53,7 @@ extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 func_021DC194(char *obj);
 extern u32 func_0201283C(const struct BigObj *p);
-extern u32 func_02009CC0(u32 p);
+extern int func_02009CC0(void *a0);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern u16 func_0200B1C4(struct Reg2 *p);
 
@@ -71,7 +71,7 @@ void func_021D9A9C(char *dst, char *obj)
         ((struct Obj01067 *)dst)->f34 = s->blk[4];
     }
     ((struct Obj01067 *)dst)->f4C = func_021DC194((char *)(*(u32 *)&((struct Obj00013 *)obj)->f34));
-    ((struct Obj01067 *)dst)->f48 = func_02009CC0(func_0201283C((const struct BigObj *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)));
+    ((struct Obj01067 *)dst)->f48 = func_02009CC0((void *)func_0201283C((const struct BigObj *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)));
     h = ((struct Obj00013 *)obj)->f108;
     ((struct Obj01067 *)dst)->f40 = func_0200B078((struct Reg2 *)h, 2);
     ((struct Obj01067 *)dst)->f50 = func_0200B1C4((struct Reg2 *)h);

@@ -26,7 +26,7 @@ typedef signed int     s32;
 extern u32 sub_0202EB0C(void);
 extern int unit_0202EB14(void);
 
-int func_021BE100(int x)
+int func_021BE100(void)
 {
     if (sub_0202EB0C() == 1 && unit_0202EB14() == 0) {
         return 1;

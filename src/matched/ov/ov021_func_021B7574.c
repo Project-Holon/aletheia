@@ -55,7 +55,7 @@ extern struct Obj *func_021B7400(u32 a, u32 b, int c);
 extern void func_021B74CC(Obj *o);
 extern u32 func_02188C54(u8 *p);
 extern struct G *func_02192788(struct Fx *a);
-extern int func_0219077C(u32 a);
+extern int func_0219077C(u8 *p);
 extern u32 func_021907C0(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -64,7 +64,7 @@ extern void func_02045334(struct Descriptor *d);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 a);
 extern void func_021927B0(u8 *p);
-extern void func_021B7494(Obj *o);
+extern int func_021B7494(u32 a);
 extern void func_020307B0(void *p);
 
 int func_021B7574(void *task, int *st, Work *w)
@@ -85,7 +85,7 @@ int func_021B7574(void *task, int *st, Work *w)
         (*st)++;
         break;
     case 1:
-        if (func_0219077C(w->f4->fC) == 1) {
+        if (func_0219077C((u8 *)w->f4->fC) == 1) {
             (*st)++;
         }
         break;
@@ -100,7 +100,7 @@ int func_021B7574(void *task, int *st, Work *w)
         break;
     case 3:
         func_021927B0((u8 *)w->f4->f10);
-        func_021B7494(w->f4);
+        func_021B7494((u32)w->f4);
         (*st)++;
         break;
     case 4:

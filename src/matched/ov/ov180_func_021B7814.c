@@ -26,7 +26,7 @@ typedef signed short s16;
 struct Bmp; struct Sys; struct Grid; struct CharBuf; struct MsgBank; struct U16Vec;
 typedef struct { void *bmp; s16 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; } Param;
 typedef struct { struct Grid *grid; struct Bmp *bmp; } Holder;
-extern struct Bmp *func_02043678(u32,u32,u32,u32);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 struct Param;
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_02043B5C(struct CharBuf *,u8);

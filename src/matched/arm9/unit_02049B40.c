@@ -37,7 +37,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void sub_02049B90(u32 a, u32 b, u32 c, u32 zero, u32 d, u32 e, u16 f);
-extern void sub_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void sub_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 
 void sub_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {

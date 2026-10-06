@@ -30,7 +30,7 @@ struct Bmp;
 extern int func_021B9A84(u32 p);
 extern u8 func_021BB554(u8 *s);
 extern u32 func_02017E1C(void *obj, u32 key, u32 off);
-extern u32 func_0202D01C(u32 a, u32 b, u32 c);
+extern u8 func_0202D01C(u32 a, u32 b, u32 c);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);

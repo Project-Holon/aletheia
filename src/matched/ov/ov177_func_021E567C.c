@@ -41,7 +41,7 @@ extern void *func_020490F4(u32, u16);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_0204ABF0(void *, u32, u32, u32, u16);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern u32 func_0204AF28(void *, u32, u32, u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);

@@ -28,7 +28,7 @@ typedef struct {
 
 extern void func_021ED544(char *p, int b);
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_020061E4(unsigned se);
 extern void func_021ED108(char *p, int on);
 extern void func_021EBFA8(char *p, int i, int v);
@@ -52,7 +52,7 @@ int func_021E1458(char *p)
             break;
         }
         func_021EC0B0(WORK(p), 10, &t[1], &t[0], 0);
-        func_021EC08C(WORK(p), 10, t[1], t[0] + 2, 0);
+        func_021EC08C(WORK(p), 10, (short)t[1], (short)(t[0] + 2), (short)0);
         b->cnt++;
         break;
     case 2:

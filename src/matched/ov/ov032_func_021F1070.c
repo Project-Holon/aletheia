@@ -15,7 +15,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4);
-void func_021F1070(char *p, char *q, void *text, u32 a4)
+void func_021F1070(char *p, char *q, void *text, int a4)
 {
     func_021F2144(p, q, text, 0x3c60, a4);
 }

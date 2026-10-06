@@ -20,12 +20,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021B9B4C(u8 *);
+extern void func_021B9B4C(int *mutex_p);
 
 void func_021BEFA4(u8 *p)
 {
     if (*(u32 *)(p + 0x18) != 0)
         return;
-    func_021B9B4C(p);
+    func_021B9B4C((int *)p);
     *(u32 *)(p + 0x18) = 1;
 }

@@ -26,7 +26,7 @@ struct Obj;
 extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
 extern u16 func_02020324(struct Obj *obj, u32 n);
 extern void func_021C59F8(int *a, int b);
-extern void func_021C59A8(int *a, int b, int c);
+extern int func_021C59A8(u32 a, u32 b, u32 c);
 extern void func_021C58CC(char *p, u16 a, u16 b, u32 heap);
 extern void func_020061E4(u32 a);
 
@@ -43,7 +43,7 @@ void func_021C54C8(int *a, int b, int c, int *d)
             a[16] ^= 1;
         }
         if (a[16] == 0) {
-            func_021C59A8(a, 0, 0);
+            func_021C59A8((u32)a, 0, 0);
             func_021C58CC((char *)a, 0, 0, ((struct Obj04281 *)a)->f34);
         }
         func_020061E4(0x548);

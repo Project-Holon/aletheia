@@ -35,7 +35,8 @@ extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8CE8(int a, int b, int c);
 extern int func_021D1DF4(void *);
-extern void func_021EAF18(void *, int, int);
+struct L;
+extern void func_021EAF18(struct L *p, int kind, int id);
 extern int func_021B9F70(u8 *p, int i);
 struct H;
 struct L;
@@ -48,7 +49,7 @@ extern int func_021EA4C4(struct S *s);
 extern void func_021CDECC(u8 *p);
 static inline void message(u8 *p, int code, u32 value, u32 id)
 {
-    func_021EAF18(p + 0x58, 1, code);
+    func_021EAF18((struct L *)(p + 0x58), 1, code);
     func_021EAF50((struct L *)(p + 0x58), value);
     func_021EAF50((struct L *)(p + 0x58), id);
     func_021EA614(((struct Obj21146 *)p)->f54, (struct H *)(p + 0x58));
@@ -65,7 +66,7 @@ int func_021D1CF4(u8 *p, int *state, const u32 *params)
             id = func_021D5440(func_021B9920(((struct Obj01691 *)p)->f4, a, b));
             if (func_021B8CE8((int)(((struct Obj01691 *)p)->f0), p[0x1A6], a) == 0) {
                 if (p[0x1A6] == a) {
-                    func_021EAF18(p + 0x58, 1, func_021D1DF4(p));
+                    func_021EAF18((struct L *)(p + 0x58), 1, func_021D1DF4(p));
                     func_021EAF50((struct L *)(p + 0x58), id);
                     func_021EA614(((struct Obj01691 *)p)->f54, (struct H *)(p + 0x58));
                 } else {

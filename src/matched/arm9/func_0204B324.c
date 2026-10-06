@@ -67,11 +67,11 @@ struct Req;
 extern struct Obj *func_0204D048(void *owner, const struct Req *position,
                                 void *request, u32 space, u16 heap);
 
-void func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g)
+struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g)
 {
     struct Request req;
 
     sub_0204CFA4((struct Req *)(&req), i, j, (u32)(&g_02146A74->tc[i]), (u32)(&g_02146A74->ta[j]),
                  g_02146A74->tb[k].unk_08, g_02146A74->tb[k].unk_0c);
-    func_0204D048((void *)owner, (const struct Req *)e, &req, f, g);
+    return func_0204D048((void *)owner, (const struct Req *)e, &req, f, g);
 }

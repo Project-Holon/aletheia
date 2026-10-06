@@ -39,7 +39,7 @@ extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021CD64C(void *w, u8 id, ...);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021C7B3C(u8 *, int, u16, u16);
+extern void func_021C7B3C(u8 *p, u32 a, u16 b, u16 c);
 extern void func_021C7B7C(u8 *p, unsigned int i);
 struct QJ;
 extern void func_021D66D0(struct QJ *p, u32 v);

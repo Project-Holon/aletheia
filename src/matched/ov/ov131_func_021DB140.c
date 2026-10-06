@@ -52,7 +52,7 @@ extern void func_021D9EE8(u8 *,u8 *);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021DB614(void *,u8 *,int);
 extern void func_021DBA14(u8 *,u8 *);
-extern int func_02035C08(u8 *);
+extern int func_02035C08(const void *p);
 extern void *func_021D6064(u8 *);
 extern int func_02017E88(void *,int,int);
 extern u32 func_0202F72C(void *a, u16 b, u16 c);

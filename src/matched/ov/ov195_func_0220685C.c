@@ -54,16 +54,16 @@ extern char d_02208F68[];
 typedef signed int     s32;
 struct Bmp;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern int func_0202D060(void);
 extern s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049F34(u32 ctx, u32 file, PlttData **out, u16 heap);
+extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
-extern void func_02044F64(void *canvas, u32 v, u16 heap);
+extern struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap)
@@ -84,7 +84,7 @@ Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32
     g->chr = 0;
     g->pltt = 0;
     g->chrRes = func_02049E34(func_0202D060(), chrFile, 1, (u32)(&g->chr), heap);
-    g->plttRes = func_02049F34(func_0202D060(), plttFile, &g->pltt, heap);
+    g->plttRes = func_02049F34(func_0202D060(), plttFile, (u32)(&g->pltt), heap);
     src = g->chr->raw;
     buf = func_020437D4(g->canvas);
     func_02082A7C(0, buf, 0x2000);

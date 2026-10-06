@@ -22,7 +22,7 @@
 #include "../include/Obj00000.h"
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 typedef signed short   s16;
 struct Grid;
 struct Obj02025774;
@@ -46,26 +46,26 @@ void func_021EDD38(char *p, int d)
     for (i = 0; i < 6u; i++) {
         func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, &t[3], &t[2], 0);
         x = t[2] + step;
-        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, t[3], x, 0);
+        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, (short)t[3], (short)x, (short)0);
         func_020258E8(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), &t[1], &t[0]);
         y = t[0] + step;
         func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y);
         if (x < -0x10) {
             k = func_021DEB14((unsigned char *)p, 4);
             func_021EDB64(p, k, i + 0x2D);
-            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, t[3], x + 0xCC, 0);
+            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, (short)t[3], (short)(x + 0xCC), (short)0);
             func_021EB874((char **)p, k, i + 1);
             func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y + 0xCC);
         } else if (x >= 0xBA) {
             k = func_021DEB14((unsigned char *)p, -1);
             func_021EDB64(p, k, i + 0x2D);
-            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, t[3], x - 0xCC, 0);
+            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, (short)t[3], (short)(x - 0xCC), (short)0);
             func_021EB874((char **)p, k, i + 1);
             func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y - 0xCC);
         }
     }
     if (func_021EC01C(*(char * *)&((struct Obj00000 *)p)->f2C, 2) == 1) {
         func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 2, &t[3], &t[2], 0);
-        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, 2, t[3], t[2] + step, 0);
+        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, 2, (short)t[3], (short)(t[2] + step), (short)0);
     }
 }

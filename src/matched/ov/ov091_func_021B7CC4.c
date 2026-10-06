@@ -72,7 +72,7 @@ extern int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
 extern void func_021BB200(u8 *a, u8 *s, int p, int q);
 extern void func_021BB2C0(u8 *a, u8 *s);
 extern u32 func_021BA670(u8 *p, u16 id);
-extern int func_021BDCC0(u8 *,u32);
+extern int func_021BDCC0(char *p, u32 a1);
 extern void func_021BDD58(u32 p, void *m);
 extern void func_021BC30C(int p);
 extern u32 func_021B9BF4(u8 *p, void *mon, u32 param);
@@ -124,7 +124,7 @@ void func_021B7CC4(u8 *p)
             }
             func_021BA670(p,H(0x44)); return;
         }
-        if (H(0x44)==0x1d2 && func_021BDCC0(p,W(0x38))==1) {
+        if (H(0x44)==0x1d2 && func_021BDCC0((char *)p,W(0x38))==1) {
             func_021BDD58((u32)p,(void *)W(0x38)); T(0x40)=10; p[0xc]=14; W(0x264)=3; return;
         }
         func_021BC30C((int)p); return;

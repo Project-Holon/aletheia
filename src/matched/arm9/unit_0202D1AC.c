@@ -27,17 +27,14 @@
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0202D4A8(u32 a0, u32 a1, u32 a2, u32 a3,
-                          u32 s5, u32 s6, u32 s7,
-                          s32 *p8, s32 *p9, u32 s10,
-                          u32 s11, u32 s12, u32 s13);
+extern void func_0202D4A8(void *narc, u32 species, s32 form, s32 mode, u32 base, u32 shiny, u32 egg, u32 *out_index, u32 *out_pal, u32 *out_mode, u32 *out_base, u32 **out_ptr, u32 female);
 
 s32 func_0202D1AC(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
     s32 a;
 
-    func_0202D4A8(a0, a1, a2, a3, s5, s6, s7, &b, &a, 0, 0, 0, 0);
+    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
     return b + a + 7;
 }
 
@@ -46,7 +43,7 @@ s32 func_0202D1E0(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
     s32 b;
     s32 a;
 
-    func_0202D4A8(a0, a1, a2, a3, s5, s6, s7, &b, &a, 0, 0, 0, 0);
+    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
     return b + a + 8;
 }
 

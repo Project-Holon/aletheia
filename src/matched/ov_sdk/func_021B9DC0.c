@@ -27,7 +27,7 @@ typedef int BOOL;
 extern void func_021B9DE4(void *a, int b, u32 c);
 extern void func_021B9DF4(void *a, int b);
 
-void func_021B9DC0(void *a, int b, u32 c)
+void func_021B9DC0(void *a, u32 b, u32 c)
 {
     func_021B9DE4(a, b, c);
     func_021B9DF4(a, b);

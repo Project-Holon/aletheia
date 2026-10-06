@@ -61,11 +61,11 @@ u32 func_02026454(void *obj);
 void func_02026484(void *p);
 void func_02012B78(struct BigObj *p, u8 v);
 void func_02012B64(struct BigObj *p, u8 v);
-void func_02012B8C(struct BigObj *p, u8 v);
+void func_02012B8C(struct BigObj *p, u32 v);
 void func_02012B4C(struct BigObj *p, u8 v);
 void *func_02185C4C(void *p, void *a1, Rec *r);
 void *func_02188CB4(u8 *p);
-int func_021A3238(void *v);
+int func_021A3238(u8 *p);
 void func_0217BCDC(u8 *a, void *b, int c, u8 d, u8 e);
 int func_02158344(int a0);
 static inline void create_result(void *a, void *r6, Rec *s, void **out)

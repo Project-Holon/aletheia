@@ -45,7 +45,11 @@ struct U16Vec;
 struct WordSet;
 extern void *func_021FC6A4(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
 extern void func_021FC7C4(char *,void *,void *,u16);
-extern int func_0200DC08(int),func_02045EC0(int,int),func_0200DABC(int);
+struct Blk1AC;
+struct MsgBank;
+extern u8 func_0200DC08(struct Blk1AC *p);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u16 func_0200DABC(struct Blk1AC *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -68,17 +72,17 @@ void func_021DDCCC(char *p,char *q)
   rec=&d_021E338C[i]; slot=p+i*4;
   ((struct Obj14425 *)slot)->f34=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,((struct Obj00731 *)p)->f4,((struct Obj00731 *)p)->f7C);
   if(i==4){
-   v=func_0200DC08(*(int *)&((struct Obj00363 *)q)->f10);
-   text=func_02045EC0(second,rec->value);
+   v=func_0200DC08((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));
+   text=(int)func_02045EC0((struct MsgBank *)second,rec->value);
    obj=func_020457B0(0x80,((struct Obj00731 *)p)->f7C);
    func_0201EFA4((void *)third,0,v,2,1,1);
    func_0201F250((void *)third,obj,(void *)text);
    func_02045808((struct U16Vec *)text);
-  }else obj=(void *)func_02045EC0(second,rec->value);
+  }else obj=(void *)func_02045EC0((struct MsgBank *)second,rec->value);
   func_021FC7C4(*(char * *)&((struct Obj14425 *)slot)->f34,obj,(void *)first,0x3da0);
   func_02045808((struct U16Vec *)((int)obj));
  }
- v=func_0200DABC(*(int *)&((struct Obj00363 *)q)->f10);
+ v=func_0200DABC((struct Blk1AC *)(*(int *)&((struct Obj00363 *)q)->f10));
  func_021FC124(*(int *)&((struct Obj00363 *)q)->f8,13,&triple);
  func_021DE084(p+8,((struct Obj00363 *)q)->f4,(const char *)&triple,v,0xa0,0x20,((struct Obj00731 *)p)->f7C);
 }

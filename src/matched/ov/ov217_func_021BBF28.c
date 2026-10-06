@@ -18,7 +18,8 @@
 
 extern unsigned int func_021BBF04(unsigned int p, unsigned int slot);
 typedef unsigned int   u32;
-extern u32 func_02041648(int channel);
+typedef unsigned char  u8;
+extern u32 func_02041648(u8 channel);
 
 int func_021BBF28(unsigned char *p, unsigned int slot)
 {

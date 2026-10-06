@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int func_021AC1E0(u32 a);
 
-int func_021BB5C8(u32 a, u32 b, u32 c, u32 d)
+int func_021BB5C8(u32 a)
 {
 if (a != 0) {
     return ((struct Obj18172 *)((u8 *)(func_021AC1E0(a))))->f24;

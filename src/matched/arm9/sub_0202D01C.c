@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_0202D01C(u32 a, u32 b, u32 c)
+u8 func_0202D01C(u32 a, u32 b, u32 c)
 {
     u8 res = (a * c) / b;
 

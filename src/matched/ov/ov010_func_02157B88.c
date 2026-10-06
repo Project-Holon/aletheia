@@ -27,8 +27,8 @@ typedef struct { int a; u16 b; } Loc;
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-extern int func_0203F1FC(const u8 *src, u32 len);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 struct Link;
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 extern void func_02157960(int a, int b, int c);
@@ -42,7 +42,7 @@ void func_02157B88(int *p)
         int *s = *(int * *)&((struct Obj02664 *)b)->f664;
         l.b = func_0203F1FC((const u8 *)s[1], s[0]);
         l.a = ((struct Obj02664 *)b)->f668;
-        if (func_0203D3A8(func_020399A8(), (p[0] << 8) + 1, 8, (u32)(&l)) == 0)
+        if (func_0203D3A8(func_020399A8(), (u16)((p[0] << 8) + 1), (u16)8, (u32)(&l)) == 0)
             return;
         func_02039C68((struct Link *)func_020399A8(), 0x18, (u8)p[0]);
         ((struct Obj02664 *)b)->f670 = 0;
@@ -50,7 +50,7 @@ void func_02157B88(int *p)
         return;
     }
     ((struct Obj02664 *)b)->f66C = 1;
-    if (func_0203D3A8(func_020399A8(), (p[0] << 8) + 3, 4, (u32)(b + 0x66C)) == 0)
+    if (func_0203D3A8(func_020399A8(), (u16)((p[0] << 8) + 3), (u16)4, (u32)(b + 0x66C)) == 0)
         return;
     func_02039C68((struct Link *)func_020399A8(), 0x18, (u8)p[0]);
     ((struct Obj02664 *)b)->f670 = 0;

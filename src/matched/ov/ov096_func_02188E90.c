@@ -43,7 +43,7 @@ typedef struct {
 extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A308(void *p, u32 i);
-extern int func_021B8DE4(char *p, int i);
+extern u8 func_021B8DE4(char *p, int i);
 extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(void *pp, unsigned int b);
 struct Q1;

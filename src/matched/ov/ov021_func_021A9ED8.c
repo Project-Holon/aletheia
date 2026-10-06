@@ -37,7 +37,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012844(const struct BigObj *p);
 extern u32 func_0216255C(u32 a);
 extern void *func_021AA77C(int heap);
-extern void func_021AA7AC(u32 *p, u32 q);
+extern int func_021AA7AC(u32 a, u32 b);
 extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
 
 u32 *func_021A9ED8(u32 a)
@@ -56,6 +56,6 @@ u32 *func_021A9ED8(u32 a)
     p[3] = func_0216255C(func_02012844((const struct BigObj *)t));
     q = (u32)func_021AA77C(heap);
     p[4] = q;
-    func_021AA7AC(p, q);
+    func_021AA7AC((u32)p, q);
     return p;
 }

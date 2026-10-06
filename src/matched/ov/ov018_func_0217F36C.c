@@ -30,7 +30,10 @@ typedef struct {
 } Ov018Obj;
 
 void func_0217F3E4(Ov018Obj *p);
-void *func_02190F64(void *, void *);
+typedef unsigned int   u32;
+struct Fx;
+struct Obj2;
+struct Obj2 *func_02190F64(struct Fx *a, u32 b);
 
 void func_0217F36C(Ov018Obj *p)
 {
@@ -39,6 +42,6 @@ void func_0217F36C(Ov018Obj *p)
             func_0217F3E4(p);
         }
     } else {
-        p->f18 = func_02190F64(p->f24, p->f0C);
+        p->f18 = func_02190F64(p->f24, (u32)p->f0C);
     }
 }

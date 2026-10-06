@@ -34,7 +34,7 @@ struct RtcTime;
 extern void func_0203F4CC(struct RtcTime *time);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern int func_0204B918(int o);
+extern u16 func_0204B918(struct Obj *p);
 extern void func_0204B908(int a0, int a1);
 extern int func_02085D3C(void);
 extern u8 func_021F1F70(void);
@@ -42,7 +42,7 @@ extern int func_0203568C(void);
 
 static inline void SetFrame(int o, int v)
 {
-    if (v != func_0204B918(o)) {
+    if (v != func_0204B918((struct Obj *)o)) {
         func_0204B908(o, (u16)v);
     }
 }

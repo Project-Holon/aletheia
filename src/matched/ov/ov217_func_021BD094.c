@@ -19,7 +19,7 @@ struct S { char pad0[8]; u16 h8; char pad[0x136]; int arr[4]; };
 extern const struct Ent d_021C3470[];
 typedef unsigned int   u32;
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 
 void func_021BD094(struct S *p)
 {

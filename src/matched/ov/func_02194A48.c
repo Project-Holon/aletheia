@@ -26,7 +26,7 @@ extern u32 func_020452E8(u32);
 struct FrameStyle;
 extern void func_02195E90(struct FrameStyle *style, void *win);
 
-int func_02194A48(u32 a, u32 b, u32 c, u32 d)
+u32 func_02194A48(u32 a, u32 b)
 {
 func_02195E90((struct FrameStyle *)a, (void *)b);
 return func_020452E8(b);

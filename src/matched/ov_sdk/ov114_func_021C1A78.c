@@ -47,8 +47,7 @@ typedef struct GHIConnection {
     int completed;              /* +0x124 */
 } GHIConnection;
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
-                          const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0215FC80(int s, void *con);
 extern char g_021CE7B0[];       /* __FILE__ */
 extern char g_021CE6C7[];       /* __FUNCTION__ */
@@ -64,26 +63,26 @@ int func_021C1A78(GHIConnection *connection, GHIEncryptor *theEncryptor)
 {
     gsTwlSslInterface *sslInterface = theEncryptor->mInterface;
 
-    func_0217D254(8, 4, 15, g_021CEAE8, g_021CE7B0, g_021CE6C7, 1100);
+    func_0217D254(8, (char *)4, 15, g_021CEAE8, g_021CE7B0, g_021CE6C7, 1100);
 
     if (sslInterface->connected == 0) {
         int result = func_0215FC80(connection->socket, sslInterface->con);
         if (result < 0) {
             switch (result) {
             case -28:
-                func_0217D254(8, 4, 15, g_021CEBB0, g_021CE7B0, g_021CE6C7, 1113);
+                func_0217D254(8, (char *)4, 15, g_021CEBB0, g_021CE7B0, g_021CE6C7, 1113);
                 break;
             case -33:
-                func_0217D254(8, 4, 15, g_021CEBFC, g_021CE6C7, 1118);
+                func_0217D254(8, (char *)4, 15, g_021CEBFC, g_021CE6C7, 1118);
                 break;
             case -39:
-                func_0217D254(8, 4, 15, g_021CEC58, g_021CE7B0, g_021CE6C7, 1124);
+                func_0217D254(8, (char *)4, 15, g_021CEC58, g_021CE7B0, g_021CE6C7, 1124);
                 break;
             case -42:
-                func_0217D254(8, 4, 15, g_021CEC9C, g_021CE7B0, g_021CE6C7, 1129);
+                func_0217D254(8, (char *)4, 15, g_021CEC9C, g_021CE7B0, g_021CE6C7, 1129);
                 break;
             default:
-                func_0217D254(8, 4, 15, g_021CECD4, g_021CE7B0, g_021CE6C7, 1135, result);
+                func_0217D254(8, (char *)4, 15, g_021CECD4, g_021CE7B0, g_021CE6C7, 1135, result);
                 break;
             }
             connection->completed = 1;
@@ -96,6 +95,6 @@ int func_021C1A78(GHIConnection *connection, GHIEncryptor *theEncryptor)
 
     theEncryptor->mInitialized = 1;
     theEncryptor->mSessionStarted = 1;
-    func_0217D254(8, 4, 15, g_021CED20, g_021CE7B0, g_021CE6C7, 1154);
+    func_0217D254(8, (char *)4, 15, g_021CED20, g_021CE7B0, g_021CE6C7, 1154);
     return 1;
 }

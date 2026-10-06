@@ -44,7 +44,7 @@ struct Bmp;
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);

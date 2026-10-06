@@ -32,7 +32,7 @@ struct Payload;
 extern void func_021C3250(void *mon);
 extern void func_0200BC4C(struct Obj *p, s32 i, const struct Payload *src);
 extern u32 func_0201A9C8(struct Party *p, s32 idx);
-extern void func_021C38DC(u32, u32);
+extern int func_021C38DC(u32 a, u32 b);
 
 void func_021C3204(u32 *p, u32 b, u32 c)
 {

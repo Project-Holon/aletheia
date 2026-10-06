@@ -43,7 +43,7 @@ extern void func_021C8860(struct S *, u32);
 extern void func_021C88C8(void *, void *);
 extern int func_021C7D00(u8 *p, int b);
 extern u8 *func_021C8120(u8 *p, int b);
-extern int func_021C7F68(int *p, int b, u8 *out);
+extern u8 func_021C7F68(int *p, int b, u8 *out);
 void func_021E237C(void *a, void *b, u8 c, u8 *d)
 {
     u8 *p;

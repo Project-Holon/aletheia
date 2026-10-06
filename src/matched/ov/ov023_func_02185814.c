@@ -23,7 +23,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct Entry;
 extern struct Entry *func_0203996C(s32 idx);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02185354(char *p);
 extern void func_021857F4(char *p, int a, int b);
 extern void func_02186444(char *p, u32 v);

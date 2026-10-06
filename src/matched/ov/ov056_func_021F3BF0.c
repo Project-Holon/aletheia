@@ -27,8 +27,9 @@ extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *
 extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
-extern void func_020477A4(u32 h, u16 i);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
+struct G3dSys;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 
 void func_021F3BF0(u32 *p)
 {
@@ -43,6 +44,6 @@ void func_021F3BF0(u32 *p)
     v = 0;
     for (; i < 2; i++) {
         func_0204784C((struct AnmCtl *)p[7], (u16)i, &v);
-        func_020477A4(p[7], i);
+        func_020477A4((struct G3dSys *)p[7], (u16)i);
     }
 }

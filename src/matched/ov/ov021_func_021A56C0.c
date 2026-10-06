@@ -30,7 +30,7 @@ struct VecFx32;
 void func_0216D88C(const struct Actor *h, struct VecFx32 *v);
 void func_02163E58(void *h, Vec021A56C0 *v, int *lim);
 
-int func_021A56C0(u32 *p)
+u32 func_021A56C0(u32 *p, u32 a1, u32 a2, u32 a3)
 {
     void *h = func_021A3960(*(unsigned char * *)&((struct Obj12739 *)p)->fC);
     Vec021A56C0 v;

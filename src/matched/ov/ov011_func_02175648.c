@@ -44,7 +44,7 @@ extern int func_02012B70(const struct BigObj *p);
 extern int func_02012FCC(int p0);
 extern unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
 extern unsigned long long func_0200BF94(struct Rec1B0 *p);
-extern void  func_0200BF54(void *p, void *out, u32 n);
+extern void func_0200BF54(struct Rec1B0 *p, u8 *dest, u32 n);
 
 void func_02175648(void *sv, Out *o)
 {

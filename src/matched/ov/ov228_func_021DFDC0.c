@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0203F1FC(const u8 *src, u32 len);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 void func_021DFDC0(u8 *p)
 {
     p[0x379]=0;

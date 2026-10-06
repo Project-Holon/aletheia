@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern int func_021C7D00(u8 *p, int b);
-extern u8 func_021C7F68(void *p, u16 b, u8 *out);
+extern u8 func_021C7F68(int *p, int b, u8 *out);
 struct Unk021D62A8;
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
@@ -52,7 +52,7 @@ void func_021DB00C(int a, void *b, int c)
     u8 i;
     if (c == func_021D775C(2)) {
         flag = 0;
-        n = func_021C7F68(b, func_021C7D00(b, c) | 0x100, list);
+        n = func_021C7F68(b, (u16)(func_021C7D00(b, c) | 0x100), list);
         for (i = 0; i < n; i++) {
             m = func_021C7CF4(b, list[i]);
             if (func_021D62C4(m, 2)) {

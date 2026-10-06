@@ -11,4 +11,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021F4D9C(const u16 *p) { return *p; }
+u16 func_021F4D9C(const u16 *p) { return *p; }

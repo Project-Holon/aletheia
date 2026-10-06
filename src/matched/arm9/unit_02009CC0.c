@@ -25,11 +25,11 @@ extern int func_02009CB0(int a0, int a1);
 struct DWCstAccUserData;
 extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 
-void func_02009CC0(void *a0)
+int func_02009CC0(void *a0)
 {
     u8 buf[12];
     void *h = func_02009860(a0);
 
     func_02009CB0((int)a0, (int)buf);
-    func_020598EC(h, buf);
+    return func_020598EC(h, buf);
 }

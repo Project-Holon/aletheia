@@ -104,7 +104,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021A0FA0(int *p, int v);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 
-void func_021A85B4(Obj *p)
+u32 func_021A85B4(Obj *p)
 {
     u8 i;
     s16 v;
@@ -207,5 +207,5 @@ void func_021A85B4(Obj *p)
         p->f100 = 1;
         break;
     }
-    func_0201C4E4(p->f12C);
+    return func_0201C4E4(p->f12C);
 }

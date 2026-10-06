@@ -40,7 +40,7 @@ extern const Tmpl d_0217FFF8;
 extern const Pt d_0218001C[];
 extern const Pt d_0217FFE4[];
 
-int func_0217AE40(void *a, int b, u16 c, u32 d)
+int func_0217AE40(void *a, int b, u16 c, int d)
 {
     int t;
     u16 hi, lo;

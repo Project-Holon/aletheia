@@ -27,7 +27,8 @@ extern void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a
 extern void func_021BA814(void *);
 extern void func_021BA64C(char *p, int mode);
 extern void func_021BF63C(void *,char *,void *);
-extern void func_021BF620(void *,char *,void *);
+struct Ov208Heap;
+extern void func_021BF620(struct Ov208Heap *unused, int *p, int *ctx);
 void func_021BF280(void *first,char *q,void *third,int next)
 {
     struct Params p;
@@ -39,6 +40,6 @@ void func_021BF280(void *first,char *q,void *third,int next)
             func_021BA814(((struct Obj00442 *)q)->f8);
         } else func_021BA64C(((struct Obj00442 *)q)->f8,next);
         func_021BF63C(first,q,third);((struct Obj00442 *)q)->f98=next;
-        func_021BF620(first,q,third);
+        func_021BF620(first,(int *)q,third);
     }
 }

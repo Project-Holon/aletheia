@@ -67,7 +67,7 @@ extern void  func_0208B24C(void);
 extern int   func_02085D3C(void);
 extern void  func_02006D3C(u32 a, char *b);
 
-void func_02006CBC(u32 heap)
+void func_02006CBC(u16 heap)
 {
     struct Sub02006CBCObj *p;
     void *pool;

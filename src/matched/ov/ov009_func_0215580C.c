@@ -57,12 +57,11 @@ void func_02034714(const char *expr, u32 line, const char *file);
 void func_02156C60(void);
 void func_02156C00(u32 a);
 void func_02155374(int v);
-int func_0216B284(int a, u8 n, int b, Fn c, int d, Fn e, int f, int g,
-                  int h, int i, int j, int k);
-void func_02177138(Fn f, int a);
-void func_02177160(Fn f, int a);
-void func_0216B634(Fn f, int a);
-void func_02177188(Fn f, int a);
+int func_0216B284(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
+int func_02177138(int a, int b);
+int func_02177160(int a, int b);
+int func_0216B634(int a, int b);
+int func_02177188(int a, int b);
 void func_02155674(void);
 void func_02155D3C(int a, int b, int c, int d, int e);
 void func_02155D80(int a, u32 i);
@@ -83,14 +82,14 @@ int func_0215580C(int a0, int n, int a2, int a3)
         func_02156C00(i);
     func_02155374(7);
     d_021A8264->n = n;
-    if (func_0216B284(1, n, a0, (Fn)func_02155D3C, 0, func_02155674, 0, a2, a3,
+    if (func_0216B284(1, n, (char *)a0, (Fn)func_02155D3C, 0, func_02155674, 0, (void *)a2, (void *)a3,
                       0, 0, 0) == 0)
         return 0;
     d_021A8264->w75C = 0;
-    func_02177138((Fn)func_02155D80, 0);
-    func_02177160((Fn)func_02155DCC, 0);
-    func_0216B634((Fn)func_02155E9C, 0);
-    func_02177188((Fn)func_02155BDC, 0);
+    func_02177138((int)((Fn)func_02155D80), 0);
+    func_02177160((int)((Fn)func_02155DCC), 0);
+    func_0216B634((int)((Fn)func_02155E9C), 0);
+    func_02177188((int)((Fn)func_02155BDC), 0);
     d_021A8264->w760 = 0;
     d_021A8264->b7A1 = 1;
     d_021A8264->w758 = 0x3EF;

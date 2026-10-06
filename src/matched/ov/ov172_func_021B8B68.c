@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021B8B68(int unused, char *p)
+u8 func_021B8B68(int unused, char *p)
 {
     return ((struct Obj24088 *)p)->f3AE;
 }

@@ -10,6 +10,8 @@
  * status:   EXACT*
  */
 
-void func_0217FCC0(void)
+struct E;
+
+void func_0217FCC0(struct E *e)
 {
 }

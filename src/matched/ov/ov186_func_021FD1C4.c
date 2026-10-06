@@ -240,7 +240,7 @@ extern u32 func_0200D72C(struct RecGet *p);
 extern u32 func_0200D73C(struct RecGet *p);
 struct GdsProfile;
 extern u32 func_0200D74C(struct GdsProfile *p);
-extern u32 func_0200D760(void *);
+extern u32 func_0200D760(struct GdsProfile *p);
 extern u32 func_0200D810(struct GdsProfile *p);
 extern u32 func_0200D820(struct GdsProfile *p);
 extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);

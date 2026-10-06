@@ -61,7 +61,7 @@ extern void func_0204A600(void),func_02027974(void *),func_02028178(u8 *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_0201DE00(u8 *,u8 *,u8 *);
 extern void func_0201DD78(u32,u32,u32);
 extern void func_020310C4(struct Tcbl *p);

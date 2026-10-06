@@ -21,10 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0218E160(u32 *p, u32 v);
+extern int func_0218E160(u32 a);
 
 void func_0218E17C(u32 *p, u32 v)
 {
     p[4] = v;
-    func_0218E160(p, v);
+    func_0218E160((u32)p);
 }

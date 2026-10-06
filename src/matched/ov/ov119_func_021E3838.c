@@ -28,7 +28,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern const char d_021E81C0[];
 extern void func_02082BCC(void *, int, int);
 extern void func_021E380C(void *, void *, int);
-extern void func_021E37D8(void *, void *, int, int);
+typedef unsigned char  u8;
+extern void func_021E37D8(u16 *p, u8 *src, int k, int a3);
 extern void func_020862F0(void *, int);
 extern void func_0207F7FC(void *, int, int);
 extern void func_020307B0(void *);
@@ -45,7 +46,7 @@ void func_021E3838(char *p, int count)
         if (i == 0)
             func_021E380C(v, p + 0x5B6, 2);
         else
-            func_021E37D8(v, p + 0x2E6, i - 1, 2);
+            func_021E37D8((u16 *)v, (u8 *)(p + 0x2E6), i - 1, 2);
         func_020862F0(v, 0x200);
         func_0207F7FC(v, i * 0x200 + 0x3000, 0x200);
     }

@@ -336,7 +336,7 @@ int func_0200C33C(struct Blk34 *p, u32 i)
     return p->unk47[i];
 }
 
-void func_0200C344(struct Blk34 *p, u32 i, u8 v)
+void func_0200C344(struct Blk34 *p, u8 i, u8 v)
 {
     p->unk47[i] = v;
 }
@@ -351,7 +351,7 @@ void func_0200C358(struct Blk34 *p, u32 i, int v)
     p->unk4A[i] = v;
 }
 
-void func_0200C364(struct Blk34 *p, u32 i, u32 v)
+void func_0200C364(struct Blk34 *p, u8 i, int v)
 {
     u32 n = p->unk4A[i];
 

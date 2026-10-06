@@ -54,11 +54,19 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef struct Vec { int x, y, z; } Vec;
-extern u32 func_0200A644(void *sv, u8 i);
-extern u32 func_0200A680(void *sv, u8 i);
-extern u8 *func_0200A628(void *sv);
-extern u8 *func_021F48C0(void *owner, int count, u16 heap);
-extern u8 *func_021F4F10(u8 *);
+struct Big;
+extern u32 func_0200A644(struct Big *p, u8 index);
+extern u32 func_0200A680(struct Big *p, u8 index);
+typedef signed int     s32;
+struct Board;
+struct Desc;
+struct Layer;
+struct Object;
+struct Tagged;
+struct Vec3;
+extern u8 *func_0200A628(struct Big *p);
+extern struct Object *func_021F48C0(u32 owner, int count, u16 heap);
+extern u32 func_021F4F10(u8 *p);
 extern void *func_021F4B3C(int type);
 extern void func_021F4B4C(void *);
 extern u8 *func_021F4F54(u8 *, int);
@@ -66,30 +74,31 @@ extern int func_021F4F70(int *);
 extern void func_021F4EE8(u8 *, u8 *, int);
 extern u8 *func_021F4C1C(u8 *, int, u32, Vec *);
 extern void func_021F4E6C(u8 *, u8 *, u32);
-extern void func_021F4EB4(u8 *, u8 *, s16, s16);
-extern void func_021F4DE0(u8 *, u8 *, void *);
-extern void func_02046FF8(void *);
-extern u32 func_02047388(void *);
-extern u32 func_020473B8(void *);
-extern u16 *func_020473EC(void *);
-extern u8 *func_02046F48(void *);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
+extern void func_021F4DE0(char *p, char *e, void *a2);
+extern int func_02046FF8(int *self);
+extern u32 func_02047388(struct Layer *layer);
+extern u32 func_020473B8(struct Layer *layer);
+extern int func_020473EC(int a0);
+extern void *func_02046F48(struct Tagged *p);
 extern void *func_02047250(void *);
-extern void func_0206A124(void *, u32);
+extern void func_0206A124(int *p, int v);
 extern void func_0206A12C(void *, u32);
 extern void func_020862F0(void *, u32);
 extern void func_0204EDD0(int, u16 *, u16 *);
-extern int func_0204F044(void *, int, int, int, u32, u8, u8);
-extern u32 func_0204EFC8(void *, u32, u32, u32, u32, u32, u32);
-extern u32 func_0204F428(void *, u32, u16, u16, Vec *, u8, u32, u32);
+extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
+extern u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
+extern s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *, u32, u32 *);
 extern void func_021B9028(u8 *, int, u16);
 extern u8 *func_021BA0CC(u16, int);
-extern u8 *func_021BA19C(u16, void *, u8 *, Vec *);
-extern void func_021BA100(void *, u8 *);
-extern u8 *func_021BA218(u8 *);
+struct Object;
+extern u8 *func_021BA19C(u16 heap, struct Object *q, u8 *r, int *v);
+extern void func_021BA100(u8 *p, u8 *q);
+extern u32 func_021BA218(u8 *p);
 extern void func_021B7368(u8 *p, u16 id);
 extern void func_021B7A18(u8 *);
-extern void func_021B765C(u8 *, u16, s16, int, u16);
+extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
 extern u32 (*d_020A8148)(u32, u32, u32);
 extern u32 d_021BA3E0[];
 
@@ -133,8 +142,8 @@ void func_021B6F00(u8 *p)
         *(u32 *)(p + *(u16 *)(p + 0xa8) * 0x14 + 0xbc) = 1;
     }
 
-    *(u8 **)(p + 0x1884) = func_021F48C0(*(void **)(p + 0x188c), 0x98, *(u16 *)p);
-    table = func_021F4F10(*(u8 **)(p + 0x1884));
+    *(u8 **)(p + 0x1884) = (u8 *)func_021F48C0((u32)(*(void **)(p + 0x188c)), 0x98, *(u16 *)p);
+    table = (u8 *)func_021F4F10(*(u8 **)(p + 0x1884));
 
     for (i = 0; i < *(u16 *)(p + 0xa8); i++) {
         h = func_021F4B3C(*(u16 *)(p + i * 0x14 + 0xac));
@@ -146,7 +155,7 @@ void func_021B6F00(u8 *p)
         flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + i * 0x14 + 0xac)));
         func_0204EDD0(flags, &sizes[1], &sizes[0]);
         *(u32 *)(p + i * 0x14 + 0xb0) = func_0204F044(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
-        pal = func_020473EC(h);
+        pal = (u16 *)func_020473EC((int)h);
         n = sz >> 1;
         for (k = 0; k < n; k++) {
             u16 c = pal[k];
@@ -172,9 +181,9 @@ void func_021B6F00(u8 *p)
 
     for (i = 0; i < 14; i++) {
         Vec v = {0, 0, 0};
-        e = func_021BA19C(*(u16 *)p, *(void **)(p + 0x1884), p + 0xac + i * 0x14, &v);
+        e = func_021BA19C(*(u16 *)p, *(void **)(p + 0x1884), p + 0xac + i * 0x14, (int *)(&v));
         func_021BA100(*(void **)(p + 0x181c), e);
-        func_021F4EE8(*(u8 **)(p + 0x1884), func_021BA218(e), 0);
+        func_021F4EE8(*(u8 **)(p + 0x1884), (u8 *)func_021BA218(e), 0);
     }
 
     {
@@ -188,15 +197,15 @@ void func_021B6F00(u8 *p)
     *(u32 *)(p + 0x54) = func_0204F044(*(void **)(p + 0x188c), w, func_020473B8(h), 0, flags, dims[1], dims[0]);
     *(u8 **)(p + 0x4c) = func_021F4C1C(*(u8 **)(p + 0x1884), *(u16 *)(p + 0x50), *(u32 *)(p + 0x54), &v2);
     func_021F4E6C(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0);
-    func_021F4EB4(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0x1000, 0x1000);
-    func_021F4DE0(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), h);
+    func_021F4EB4((u32)(*(u8 **)(p + 0x1884)), (u32)(*(u8 **)(p + 0x4c)), 0x1000, 0x1000);
+    func_021F4DE0((char *)(*(u8 **)(p + 0x1884)), (char *)(*(u8 **)(p + 0x4c)), h);
     func_021F4B4C(h);
     }
 
     *(u32 *)(p + 0x58) = func_0204EFC8(*(void **)(p + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);
     for (k = 0; k < 14; k++) {
         Vec v3 = {0, 0, 0};
-        n = func_0204F428(*(void **)(p + 0x188c), *(u32 *)(p + 0x58), 0x1000, 0x1000, &v3, 0x1f, 0, 0);
+        n = func_0204F428(*(void **)(p + 0x188c), *(u32 *)(p + 0x58), 0x1000, 0x1000, (struct Vec3 *)(&v3), 0x1f, 0, 0);
         *(u32 *)(p + k * 4 + 0x5c) = n;
         func_0204F720(*(void **)(p + 0x188c), n, d_021BA3E0);
     }

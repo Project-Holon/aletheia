@@ -26,7 +26,7 @@ typedef unsigned int u32;
 typedef struct { unsigned char low:1, flag:1, rest:6; } Flag;
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 struct SoundSys;
 extern void func_02005DE4(void *p);
 extern void func_02005DF8(u32);

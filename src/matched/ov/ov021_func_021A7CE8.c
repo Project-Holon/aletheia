@@ -77,7 +77,7 @@ extern void func_021BDCC8(char *a, int *b);
 extern void func_02029D7C(void *a, void *b);
 extern void func_021A82D8(void *a, struct Src **pp);
 extern void func_021A8278(Work *w);
-extern int func_021A8244(Work *w);
+extern int func_021A8244(u32 a);
 extern void *func_021618E0(void *a, void *o);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021BDD40(void *p);
@@ -89,7 +89,7 @@ extern void func_021A8200(Work *w);
 extern u8 func_021A81DC(u32 a);
 extern int func_021C6E48(void *p);
 extern void func_021BDD34(u8 *p);
-extern void func_0218E160(void *h);
+extern int func_0218E160(u32 a);
 extern void func_021BDCB8(u8 *p);
 extern void func_021A8234(Work *w);
 
@@ -142,7 +142,7 @@ int func_021A7CE8(void *task, int *state, Work *w)
         func_021A8200(w);
         break;
     case 3:
-        if (func_021A8244(w) == 1) {
+        if (func_021A8244((u32)w) == 1) {
             *state = func_021A81EC(w);
             func_021A8200(w);
         }
@@ -174,7 +174,7 @@ int func_021A7CE8(void *task, int *state, Work *w)
         func_021A8200(w);
         break;
     case 7:
-        if (func_021A8244(w) == 1) {
+        if (func_021A8244((u32)w) == 1) {
             *state = func_021A81EC(w);
             func_021A8200(w);
         }
@@ -185,7 +185,7 @@ int func_021A7CE8(void *task, int *state, Work *w)
 
     if (func_021A81DC((u32)w) == 8 && func_021C6E48(d) != 0) {
         func_021BDD34(w->f08);
-        func_0218E160(h);
+        func_0218E160((u32)h);
         func_021BDCB8(w->f08);
         func_021A8234(w);
         return 1;

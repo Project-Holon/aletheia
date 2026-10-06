@@ -22,7 +22,7 @@ extern void func_02005DE4(void *p);
 extern int func_02005E64(void);
 extern void func_02005D90(unsigned int, unsigned int);
 extern int func_02005F38(void);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 int func_021B74F8(unsigned int state)
 {
     switch (state) {

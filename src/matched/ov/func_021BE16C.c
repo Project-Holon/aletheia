@@ -16,7 +16,9 @@
  */
 
 
-void func_021BE16C(void)
+struct Ov208Eff;
+
+void func_021BE16C(struct Ov208Eff *e)
 {
 }
 

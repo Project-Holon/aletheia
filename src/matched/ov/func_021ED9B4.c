@@ -17,7 +17,7 @@
 
 
 
-extern void func_021EC08C(char *p, int i, unsigned short a, int b, unsigned short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 void func_021ED9B4(int a)
 {
     func_021EC08C((char *)a, 2, 0x4b * 4, 0x22, 0);

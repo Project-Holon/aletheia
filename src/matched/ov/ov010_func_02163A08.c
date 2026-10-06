@@ -23,8 +23,9 @@
  *   func_0216D924 0x0216D924 thumb ov010
  */
 typedef short s16;
-extern int func_0216D91C(int p);
-extern int func_0216D924(int p);
+typedef unsigned char  u8;
+extern u8 func_0216D91C(int a0);
+extern u8 func_0216D924(int a0);
 typedef struct { s16 x0, y0, x1, y1; } Rect;
 void func_02163A08(int p, int x, int y, Rect *out)
 {

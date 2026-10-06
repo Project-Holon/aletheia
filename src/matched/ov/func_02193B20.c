@@ -32,7 +32,7 @@ struct V;
 extern struct E50 *func_02193EFC(struct V *v, u32 key);
 extern void func_02193F6C(struct E50 *e);
 
-int func_02193B20(u32 a, u32 b, u32 c, u32 d)
+int func_02193B20(u32 a, u32 b)
 {
 func_02193EB4((struct V *)a);
 func_02193F6C(func_02193EFC((struct V *)a, b));

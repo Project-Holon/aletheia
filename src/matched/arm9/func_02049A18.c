@@ -48,7 +48,7 @@ struct Pal {
 };
 
 extern int func_02062B30(void *file, void **out);
-extern int func_0204169C(int channel);
+extern u8 func_0204169C(int channel);
 extern u32 func_0204162C(int channel);
 extern void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);

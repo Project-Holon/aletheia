@@ -94,15 +94,20 @@ extern VecFx32 d_021BFCD4;
 extern VecFx32 d_021BFCEC;
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern int func_020113F0(u8, u8);
-extern struct Cam *func_021BE7A8(u32);
+struct Config;
+struct Context;
+struct G3dSys;
+struct Light;
+struct Record;
+extern int func_020113F0(int row, int col);
+extern u32 func_021BE7A8(u32 id);
 extern fx32 FX_Div(fx32, fx32);
 extern void *func_02048A24(int, int, int, int, int, int, int, int, VecFx32 *, VecFx32 *, VecFx32 *, int);
-extern void func_02048B9C(void *, u32 *);
-extern void func_02048BB0(void *, u32 *);
-extern void func_021BE63C(struct Ctx *, struct Cfg *, struct Cam *, u16);
+extern void func_02048B9C(struct Light *l, u32 *out);
+extern void func_02048BB0(struct Light *l, u32 *out);
+extern void func_021BE63C(struct Context *ctx, struct Config *cfg, const struct Record *record, u16 heap);
 extern u32 func_021BE920(u32);
-extern int func_021BE938(u32);
+extern int func_021BE938(void *a);
 extern void func_0204E8C0(u32);
 extern void func_02005654(void (*)(void), int);
 extern void func_021BE150(void);
@@ -116,13 +121,15 @@ extern int _ffix(int);
 extern void func_020115EC(u32, int);
 extern u32 func_02047CFC(u16, u16, u32);
 extern void *func_021BE7F0(u32);
-extern void func_021BE874(void *, void *, u8);
+extern void func_021BE874(char *ctx, const char *config, u8 type);
 extern u16 func_02047E88(u32, void *);
-extern void func_021BE85C(void *);
-extern u32 func_02048A18(u32, u16);
-extern int func_0204779C(u32);
-extern void func_020477A4(u32, u16);
-extern void func_0204784C(u32, u16, int *);
+extern void func_021BE85C(char *a);
+extern u32 func_02048A18(u8 *a0, int i);
+extern int func_0204779C(int *p);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+typedef signed int     s32;
+struct AnmCtl;
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 extern u32 func_021BF7C0(struct Ctx *, u32);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
@@ -149,7 +156,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->f78 = ctx->id;
     ctx->b80 = cfg->fc;
     ctx->f7c = cfg->f8;
-    ctx->b81 = func_020113F0(cfg->sec, cfg->fd);
+    ctx->b81 = func_020113F0((u8)cfg->sec, (u8)cfg->fd);
     ctx->b82 = cfg->bit7;
     ctx->b83 = cfg->fd;
     ctx->b84 = cfg->fe;
@@ -173,9 +180,9 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
                              &d_021BFCE0, &d_021BFCD4, &d_021BFCEC, heap);
     func_02048B9C(ctx->f20, &ctx->f24);
     func_02048BB0(ctx->f20, &ctx->f28);
-    func_021BE63C(ctx, cfg, ctx->f74, heap);
+    func_021BE63C((struct Context *)ctx, (struct Config *)cfg, (const struct Record *)ctx->f74, heap);
     ctx->f14 = func_021BE920(ctx->id);
-    ctx->f10 = func_021BE938(ctx->id);
+    ctx->f10 = func_021BE938((void *)ctx->id);
     if (ctx->f10) {
         func_0204E8C0(heap);
         func_02005654(func_021BE150, 0);
@@ -199,21 +206,21 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->f1c = func_02047CFC((u16)n, (u16)n, heap);
     e = func_021BE7F0(heap);
     for (i = 0; i < ctx->f2c; i++) {
-        func_021BE874(e, &ctx->f78, i);
+        func_021BE874(e, (const char *)(&ctx->f78), i);
         ctx->f70[i] = func_02047E88(ctx->f1c, e);
     }
     func_021BE85C(e);
     for (j = 0; j < ctx->f2c; j++) {
-        h = func_02048A18(ctx->f1c, ctx->f70[j]);
-        cnt = func_0204779C(h);
+        h = func_02048A18((u8 *)ctx->f1c, (u16)ctx->f70[j]);
+        cnt = func_0204779C((int *)h);
         for (k = 0; k < cnt; k++) {
             if (ctx->f7c)
                 r = _fadd(0x3f000000, _ffltu(ctx->f7c << 12));
             else
                 r = _fsub(_ffltu(ctx->f7c << 12), 0x3f000000);
             ang = _ffix(r);
-            func_020477A4(h, k);
-            func_0204784C(h, k, &ang);
+            func_020477A4((struct G3dSys *)h, (u16)k);
+            func_0204784C((struct AnmCtl *)h, k, &ang);
         }
     }
     ctx->f6c = func_021BF7C0(ctx, heap);

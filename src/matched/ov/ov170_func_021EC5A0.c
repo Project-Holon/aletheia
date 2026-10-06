@@ -19,7 +19,7 @@
 
 typedef struct { short x; short y; } Pos;
 extern unsigned func_0201AA18(void *party);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021EC000(char *p, int i, int v);
 extern const Pos d_021EFD4C[];

@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021EAE14(u32 *p) { func_021EE25C(p[0x5f]); }
+int func_021EAE14(u32 *p) { return func_021EE25C(p[0x5f]); }
 

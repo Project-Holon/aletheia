@@ -54,7 +54,7 @@ extern void *func_02188C7C(unsigned char *p);
 extern u32 func_02188C54(u8 *p);
 extern int func_021904B0(u32 a, u32 b);
 extern int func_021907A8();
-extern int func_0219077C();
+extern int func_0219077C(u8 *p);
 extern void func_02190788(u8 *p);
 extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
 extern int func_02190728(u32 a);
@@ -98,7 +98,7 @@ int func_0217B084(int a0, int *state, Obj *o)
         *state += 1;
         break;
     case 3:
-        if (func_0219077C(o->fc) == 1)
+        if (func_0219077C((u8 *)o->fc) == 1)
             *state += 1;
         break;
     case 4:
@@ -116,7 +116,7 @@ int func_0217B084(int a0, int *state, Obj *o)
         *state += 1;
         break;
     case 6:
-        if (func_0219077C(o->fc) == 1)
+        if (func_0219077C((u8 *)o->fc) == 1)
             *state += 1;
         break;
     case 7:

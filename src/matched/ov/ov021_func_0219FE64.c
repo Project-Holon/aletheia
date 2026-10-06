@@ -27,7 +27,7 @@ extern u16 func_0216D598(void *p);
 extern int func_0216D7A8(void *p, unsigned int v);
 extern int func_0216D910(int a0);
 extern u32 func_0219C9DC(u8 *p);
-extern void func_0205085C(void *p, int idx, u16 v);
+extern void func_0205085C(void *p, int idx, u32 v);
 
 void func_0219FE64(u32 a)
 {

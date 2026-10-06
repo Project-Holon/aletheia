@@ -91,12 +91,12 @@ struct BigObj;
 struct Ctx;
 struct Desc;
 extern void *func_021A3074(u8 *p);
-extern void func_0219E634(void *obj, Cell *c);
+extern int func_0219E634(void *a, u32 b);
 struct Ctx738;
 struct Ctx9B0;
 struct FieldCtx;
 extern int func_0218A738(struct Ctx738 *c);
-extern void func_0218A728(void *p);
+extern int func_0218A728(void *a);
 extern u32 func_0201296C(const struct BigObj *p);
 extern void func_0219E2F4(void *o, void *out);
 extern u16 func_02162958(void *c, void *a, int key);
@@ -139,7 +139,7 @@ int func_0218A278(void *sys, u8 *pos)
 
     func_0218A4E0(&in, sys, pos);
     model = func_021A3074((u8 *)in.f18);
-    func_0219E634(model, &here);
+    func_0219E634(model, (u32)(&here));
     r = func_0218A738((struct Ctx738 *)(&in));
     if (r != 0)
         return r;

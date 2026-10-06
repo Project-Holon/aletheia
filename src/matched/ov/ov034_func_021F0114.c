@@ -44,7 +44,7 @@ struct BgTemplate {
 extern void func_02040588(u32 which, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
-extern void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId);
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020409B4(u32 layer);
 
 extern struct BgTemplate d_021F0AA0;

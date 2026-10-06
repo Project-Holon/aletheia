@@ -29,7 +29,7 @@ void func_02012374(struct Evt *evt, struct Evt **out);
 void func_02034A5C(int id);
 int func_02034AC4(int id);
 typedef unsigned short u16;
-int func_02158780(void *p, int b, int c, int d, u16 e);
+int func_02158780(void *p, u16 b, int c, int d, u16 e);
 void *func_02184360(u8 *p, int value);
 void *func_021BFDD0(int a0, void *p, int a2, int a3);
 

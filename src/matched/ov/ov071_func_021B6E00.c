@@ -23,7 +23,7 @@ int func_021B6E0C(unsigned int x)
     return x <= 1 ? 0x42 : 0x22;
 }
 
-int func_021B6E18(void)
+int func_021B6E18(int a0)
 {
     return 3;
 }

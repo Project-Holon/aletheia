@@ -21,7 +21,7 @@ typedef struct {
 } S;
 
 struct BbActSys;
-extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
+extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
 
 void func_021C4938(void *a, S *s)
 {

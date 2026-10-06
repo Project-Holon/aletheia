@@ -81,10 +81,12 @@ typedef struct {
     int x54;        /* 0x54 */
 } Work;
 
-extern void func_021D1F50(Work *);
+extern int func_021D1F50(u32 a);
 struct P;
 extern int func_021904B0(u32 a, u32 b);
-extern void *func_02190F64(void *, void *);
+struct Fx;
+struct Obj2;
+extern struct Obj2 *func_02190F64(struct Fx *a, u32 b);
 struct Evt;
 struct Handle;
 struct MsgBank;
@@ -129,7 +131,7 @@ extern void func_021D2124(Work *);
 extern void func_0201ED04(struct WordSet *p);
 extern int func_02190E40(u32 a);
 extern void func_021904C8(void *);
-extern void func_021D1F64(Work *);
+extern int func_021D1F64(u32 a);
 
 int func_021D1C8C(void *proc, int *seq, Work *w)
 {
@@ -139,12 +141,12 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
 
     switch (*seq) {
     case 0:
-        func_021D1F50(w);
+        func_021D1F50((u32)w);
         *seq = 1;
         break;
     case 1:
         w->x18 = t = (void *)func_021904B0((u32)w->x1C, 88);
-        w->x20 = func_02190F64(w->x1C, t);
+        w->x20 = func_02190F64(w->x1C, (u32)t);
         w->x28 = func_0201EC64(21);
         w->x2C = func_020457B0(0x400, 21);
         func_021D20BC((u32 *)w);
@@ -261,7 +263,7 @@ int func_021D1C8C(void *proc, int *seq, Work *w)
         *seq = 14;
         break;
     case 14:
-        func_021D1F64(w);
+        func_021D1F64((u32)w);
         return 1;
     }
     return 0;

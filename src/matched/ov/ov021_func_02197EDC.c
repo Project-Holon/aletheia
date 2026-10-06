@@ -30,7 +30,7 @@ extern void func_0216D570(char *p, u32 v);
 extern void func_0216D7C0(void *p, u16 v);
 extern void func_0216D7C8(void *p, u16 v);
 
-u32 func_02197EDC(u8 *p, u32 a1, u32 a2, u32 a3)
+u32 func_02197EDC(u8 *p)
 {
     if (func_0216D7C4(p) != 0xff) {
         func_02197EB4((u32)p);

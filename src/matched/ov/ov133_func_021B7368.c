@@ -29,7 +29,7 @@ typedef struct { u32 x,y; } Pair;
 struct Object;
 extern void func_021B7458(void *unused, int *p);
 extern unsigned short func_021BA188(char *p);
-extern u8 *func_021BA19C(u32 heap, struct Object *q, u8 *r, int *v);
+extern u8 *func_021BA19C(u16 heap, struct Object *q, u8 *r, int *v);
 extern void func_021BA100(u8 *p, u8 *q);
 extern void func_021BA21C(u8 *p, const u8 *src);
 extern u32 func_021BA218(u8 *);

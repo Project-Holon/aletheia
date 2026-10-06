@@ -22,7 +22,7 @@ typedef unsigned short u16;
 struct Entry;
 struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
-int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 
 int func_02173A04(int a, int b, int c, int d)
 {

@@ -16,7 +16,9 @@
  */
 
 
-void func_021BF620(int unused, int *p)
+struct Ov208Heap;
+
+void func_021BF620(struct Ov208Heap *unused, int *p, int *ctx)
 {
     if (p[0x26] == 6)
         return;

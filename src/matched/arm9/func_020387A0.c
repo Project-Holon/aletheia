@@ -34,7 +34,7 @@ typedef signed int     s32;
 
 extern u8 *lbl_021469D0;
 extern u32 func_0203D6BC(void);
-extern int func_0203F1FC(const u8 *src, u32 len);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02039548(void);
 extern u32 func_0203CA98(void);
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);

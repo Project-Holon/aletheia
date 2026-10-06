@@ -24,7 +24,7 @@ typedef signed int     s32;
 extern void func_020403F4(u32 i);
 extern void func_0203F9B4(void);
 
-void func_021C6790(void)
+void func_021C6790(u8 *a0)
 {
     int i;
     for (i = 0; i < 5; i++)

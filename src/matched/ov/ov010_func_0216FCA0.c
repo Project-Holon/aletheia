@@ -70,7 +70,7 @@ typedef unsigned short u16;
 struct Bmp;
 extern u16 func_020437DC(const struct Bmp *bmp);
 struct Bmp;
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern u8 func_02043994(struct Bmp *b);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern int _s32_div_f(int a, int b);

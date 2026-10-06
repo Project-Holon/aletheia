@@ -45,7 +45,7 @@ void func_021A36BC(int x, H4 *o);
 void *func_0216D888(void *p);
 void func_02014184(void *d, int a, s16 b, int c, int e, int f);
 struct t;
-void func_020141A8(struct t *p, int b, u16 d, u16 g, u16 i, s16 h);
+void func_020141A8(struct t *p, int b, int d, u16 g, u16 i, s16 h);
 
 void func_021852F0(void *dst, int x)
 {

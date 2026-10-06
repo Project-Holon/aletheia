@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern u8 d_021DE3AC;
-extern u32 func_021A3068(u32 a);
+extern u32 func_021A3068(u8 *p);
 extern u32 func_021A36E0(u8 *p);
 extern u16 func_021AB0F0(u32 a);
 extern int func_021AB2E8(int id);
@@ -42,7 +42,7 @@ void func_021C1024(u32 a, u16 b, u32 c, u32 d)
     u32 *r;
 
     r = func_02030734((u16)(0x8000 | (d & 0x7fff)), 0x18, 1, (const char *)&d_021DE3AC, 0x1e6);
-    r[3] = func_021A3068(a);
+    r[3] = func_021A3068((u8 *)a);
     ((struct Obj05075 *)r)->f6 = b;
     r[4] = a;
     r[5] = func_021A36E0((u8 *)a);

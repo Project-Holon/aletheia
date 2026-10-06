@@ -30,7 +30,7 @@ struct Cmd { u32 a:8; u32 id:5; u32 b:19; };
 struct Unk021D62A8;
 struct UtilWork;
 extern int func_021B8D8C(void *p, void *a, u32 b);
-extern u8 func_021C7F68(void *, u16, u8 *);
+extern u8 func_021C7F68(int *p, int b, u8 *out);
 typedef signed int     s32;
 struct Slot;
 extern u8 *func_021B9934(char *p, int i);
@@ -50,7 +50,7 @@ int func_021CA5CC(const u8 *p, const struct Cmd *q)
     u8 *a;
     int changed;
     u8 t;
-    n = func_021C7F68((u8 *)p, func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, (u8)q->id) | 0x800, buf);
+    n = func_021C7F68((int *)p, (u16)(func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, (u8)q->id) | 0x800), buf);
     i = 0;
     if (i >= n) goto done;
 loop:

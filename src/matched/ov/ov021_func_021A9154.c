@@ -100,7 +100,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u32 color);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_0204B324(u32 a, u32 b, u32 c, u32 d, Hdr *h, u32 f, u32 g);
+extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void func_0204B954(struct Actor *a, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -134,7 +134,7 @@ void func_021A9154(Obj *p, Item *it, const Src *s)
         h.f10 = 0x1000;
         h.f14 = 0;
         h.f16 = 2;
-        it->f18 = func_0204B324(p->f11C, it->f0C, p->f104, it->f10, &h, 0, p->f00);
+        it->f18 = (u32)func_0204B324(p->f11C, it->f0C, p->f104, it->f10, (u32)(&h), 0, p->f00);
         func_0204B954((struct Actor *)it->f18, 0x1000);
         func_0204B92C((struct Obj *)it->f18, 1);
         func_0204B878((struct Obj *)it->f18, 0);

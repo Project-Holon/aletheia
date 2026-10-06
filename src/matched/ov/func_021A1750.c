@@ -27,7 +27,7 @@ struct Tagged;
 extern void func_02046EFC(struct Tagged *p);
 extern int func_020470D0(u32 *p);
 
-int func_021A1750(u32 a, u32 b, u32 c, u32 d)
+int func_021A1750(u32 a)
 {
 func_020470D0((u32 *)(((struct Obj07217 *)((u8 *)(a)))->f8));
 func_02046EFC((struct Tagged *)(((struct Obj07217 *)((u8 *)(a)))->f8));

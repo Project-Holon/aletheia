@@ -26,7 +26,7 @@ typedef signed char    s8;
 extern void func_020307B0(void *p);
 extern u32 func_0219EF14(u32);
 
-int func_0219EFFC(u32 a, u32 b, u32 c, u32 d)
+int func_0219EFFC(u32 a)
 {
 if (((struct Obj09178 *)((u8 *)(a)))->f0 != 0) {
     func_020307B0((void *)(((struct Obj09178 *)((u8 *)(a)))->f0));

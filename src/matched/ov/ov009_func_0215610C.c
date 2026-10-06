@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern char *g_021A8264;
 extern unsigned char func_0216B838(void);
 extern int func_0216B94C(u8);
-extern int func_02176DEC(u8);
+extern int func_02176DEC(int a);
 
 int func_0215610C(void)
 {
@@ -31,7 +31,7 @@ int func_0215610C(void)
     for (i = 0; i < *(int *)(g_021A8264 + 0x764); i++) {
         if (i != func_0216B838() && func_0216B94C(i)) {
             found = 1;
-            if (func_02176DEC(i) == 0) {
+            if (func_02176DEC((u8)i) == 0) {
                 return 0;
             }
         }

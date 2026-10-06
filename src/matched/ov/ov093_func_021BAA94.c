@@ -20,7 +20,7 @@ extern char *func_021B9AEC(char *, int);
 struct Q4;
 extern void func_021BB840(struct Q4 *p, int a, int b, int c);
 extern void func_021BB848(u8 *p, void *q, u8 v);
-void func_021BAA94(char *p, int b, int c, u8 d)
+void func_021BAA94(char *p, int b, u8 c, u8 d)
 {
  char *x;
  unsigned int q;

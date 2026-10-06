@@ -56,7 +56,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Struct36;
 extern void func_0204B7C8(const char *src, struct Struct36 *dst);
 extern void func_0204B784(char *dst, const struct Struct36 *src);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC048(char *p, int i, int c);
 extern void func_021EC030(char *p, int i, int c);
 extern void func_021EC000(char *p, int i, int v);
@@ -104,7 +104,7 @@ void func_021ED594(char *p, unsigned i)
         n7 = func_0204B864(((void **)(w + 0x9E74))[c]);
         for (; j < 8; j++) {
             func_0204B784(*(void **)(w + j * 4 + 0x9FD4), (const struct Struct36 *)(&buf));
-            func_021EC08C(w, j + 0x58, xy[1] + d_021EFCD0[j], xy[0] + d_021EFCC8[j], 0);
+            func_021EC08C(w, j + 0x58, (short)(xy[1] + d_021EFCD0[j]), (short)(xy[0] + d_021EFCC8[j]), (short)0);
             func_021EC048(w, j + 0x58, n6 + 1);
             func_021EC030(w, j + 0x58, n7);
             func_021EC000(w, j + 0x58, 1);

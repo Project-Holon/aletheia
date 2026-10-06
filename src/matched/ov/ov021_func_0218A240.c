@@ -25,7 +25,7 @@ typedef unsigned char  u8;
 struct Ctx;
 void *func_0201210C(const struct Ctx *p);
 u32 func_02188D20(u8 *p);
-void func_021BC5BC(int x);
+int func_021BC5BC(u32 a);
 u32 func_02189A70(u8 *p);
 void func_021F3B10(void);
 void func_0218A6E8(void *p, void *h);

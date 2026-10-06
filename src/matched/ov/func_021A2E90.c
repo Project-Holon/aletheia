@@ -30,7 +30,7 @@ extern void func_021A3810(u32 a0);
 extern void func_021A41A8(void);
 extern void func_021A5920(void);
 
-int func_021A2E90(u32 a, u32 b, u32 c, u32 d)
+int func_021A2E90(u32 a)
 {
 if (((struct Obj05861 *)((u8 *)(a)))->f8 != 0) {
     func_021A41A8();

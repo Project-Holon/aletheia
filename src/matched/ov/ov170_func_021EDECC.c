@@ -16,7 +16,7 @@
 #include "../include/Obj00000.h"
 extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
-extern void func_021EC08C(char *, int, short, short, short);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC000(char *, int, int);
 void func_021EDECC(unsigned char *p, int d)
 {

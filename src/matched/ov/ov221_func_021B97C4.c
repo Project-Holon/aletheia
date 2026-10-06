@@ -37,7 +37,7 @@ extern void func_02005DE4(void*);
 extern int func_02005E64(void);
 extern void func_02005D90(u32,unsigned short);
 extern int func_02005F38(void);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02005DF8(u32);
 extern void func_0204E720(u32,int,int,int);
 extern int func_0204E804(void);

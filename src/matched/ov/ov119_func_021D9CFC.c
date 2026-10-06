@@ -25,7 +25,7 @@ struct Entry;
 extern void func_021D9C00(char *p);
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned,unsigned);
 void func_021D9CFC(u8 *p) { int kind=func_021D8A24(p); u8 b; if(func_021E12AC((char *)p)) { if(kind==0) {p[0x11e0]=1;p[0x11e1]=1;func_021D8E84(p,(int)func_021D9C00);return;} b=1; if(func_0203D3A8(func_020399A8(),0xc00,1,(u32)(&b))==0) return; func_02039C68((struct Link *)func_020399A8(),26,8);func_021D8E84(p,(int)func_021D9C00); } }

@@ -111,7 +111,7 @@ extern u8 *func_02175BCC(u8 *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern void func_02026480(void *obj, u32 value);
 extern void func_02012B64(struct BigObj *p, u8 v);
-extern void func_02012B8C(struct BigObj *p, u8 v);
+extern void func_02012B8C(struct BigObj *p, u32 v);
 extern void func_02012B4C(struct BigObj *p, u8 v);
 extern void func_02012124(struct Ctx *p, u32 v);
 extern void func_02026680(u8 *p);

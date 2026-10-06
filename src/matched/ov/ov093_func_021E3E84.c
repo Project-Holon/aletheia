@@ -28,7 +28,7 @@ extern int func_021D6920(u8 *p, u32 n);
 extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
 extern int func_021C7D00(u8 *p, int b);
 extern int func_021C8010(u8 *p, unsigned int v);
-extern int func_021C7F68(int *p, int b, u8 *out);
+extern u8 func_021C7F68(int *p, int b, u8 *out);
 extern u32 func_021D78AC(u32 range);
 
 int func_021E3E84(int u, void *a, int c, int *w)

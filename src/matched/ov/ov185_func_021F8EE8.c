@@ -16,7 +16,7 @@
 
 extern void func_021FD640(int *p);
 
-void func_021F8EE8(char *p)
+void func_021F8EE8(char *p, int *a1)
 {
     if (((struct Obj10772 *)p)->f10 != 0) {
         func_021FD640((int *)(((struct Obj10772 *)p)->f10));

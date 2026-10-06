@@ -15,7 +15,9 @@
  *   func_0204B8F4  0x0204B8F4  arm
  */
 
-extern int func_0204B918(void *o);
+typedef unsigned short u16;
+struct Obj;
+extern u16 func_0204B918(struct Obj *p);
 typedef unsigned int   u32;
 struct Obj;
 extern u32 func_0204B8F4(struct Obj *p);

@@ -23,7 +23,7 @@ typedef signed short s16;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021C5E14(unsigned, unsigned);
-extern char *func_021C5E2C(char *, u8, u8, unsigned, int, int, s16 *);
+extern char *func_021C5E2C(char *p, u8 x, u8 y, unsigned mode, int w, int h, u16 *out);
 extern void func_020410D0(u8, u8, u8, u8, u8, void *, u8, u8, u32, u32);
 void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8 sy, int width, int height)
 {
@@ -66,7 +66,7 @@ void func_021C5C8C(void *p, u8 layer, u8 x, u8 y, u8 w, u8 h, void *q, u8 sx, u8
             }
             tx = ccs / 32;
             func_020410D0(layer, ccx, y, m, n,
-                func_021C5E2C(q, tx, ty, mode, width, height, out),
+                func_021C5E2C(q, tx, ty, mode, width, height, (u16 *)out),
                 ox, oy, (u8)out[0], (u8)out[1]);
             ccs = ccs + m;
             ccx = ccx + m;

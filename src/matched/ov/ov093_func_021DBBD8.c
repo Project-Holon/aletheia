@@ -37,7 +37,7 @@ extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D5B40(struct QI *p);
 extern int func_021C7D00(u8 *p, int b);
 extern u8 *func_021C8120(u8 *p, int b);
-extern int func_021C7F68(int *p, int b, u8 *out);
+extern u8 func_021C7F68(int *p, int b, u8 *out);
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern u16 func_021D6740(struct QK *p);
 extern u8 func_021D5440(u8 *p);

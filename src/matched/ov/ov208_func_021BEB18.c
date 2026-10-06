@@ -119,8 +119,8 @@ extern int func_021BC3B0(int *ctx);
 extern void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9, u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16);
 extern void func_021BA7C8(void *p);
 extern void func_021BF4C4(int unused, char *q, int c, int *tbl);
-extern void func_021BF5B8(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
-extern void func_021BF620(struct Ov208Heap *h, struct Ov208Scn *p, int *ctx);
+extern void func_021BF5B8(u16 *heap, u8 *p, int *ctx);
+extern void func_021BF620(struct Ov208Heap *unused, int *p, int *ctx);
 extern void func_021BC4D8(struct Ov208Blend *b);
 extern int func_021BC4C8(struct Ov208Blend *b);
 extern void func_021BDBA0(void *s);
@@ -180,8 +180,8 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
         p->f8 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 1, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
         func_021BA7C8(p->f8);
         func_021BF4C4((int)h, (char *)p, (int)ctx, (int *)tbl);
-        func_021BF5B8(h, p, ctx);
-        func_021BF620(h, p, ctx);
+        func_021BF5B8((u16 *)h, (u8 *)p, ctx);
+        func_021BF620(h, (int *)p, ctx);
         break;
     case 1:
         *state = 2;

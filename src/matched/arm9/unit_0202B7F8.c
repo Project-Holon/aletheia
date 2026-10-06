@@ -46,7 +46,7 @@ u16 func_0202B804(struct Obj *o)
     return func_02012AC8(func_0202B7F8(o));
 }
 
-u16 func_0202B810(void)
+u32 func_0202B810(void)
 {
     return func_02005C44();
 }

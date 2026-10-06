@@ -34,7 +34,7 @@ typedef unsigned int u32;
 
 extern void func_02082BCC(void *, unsigned, unsigned);
 
-void func_0216E180(void *a0, unsigned a1, unsigned a2, unsigned a3)
+void func_0216E180(void *a0)
 {
 
     func_02082BCC(a0, 0, 256);

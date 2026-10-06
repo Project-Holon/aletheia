@@ -34,7 +34,7 @@ extern u8 d_021B9EC0[];
 extern u8 ov_id_00CD[];
 extern int func_0215FA1C();
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_02158780(void *p, int b, int c, int d, u16 e);
+extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 
 int func_0215F64C(int a0, int *st, int *a2)
 {

@@ -33,7 +33,7 @@ struct Rec;
 extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
 struct S;
 extern int func_021AE288(int a, int b, int c, u16 *d);
-extern int func_021AE890(void *a, void *b);
+extern int func_021AE890(u32 a, u32 b);
 extern void func_021AE8B4(struct S *s, u32 a, u32 b, u32 c);
 
 int func_021AE1FC(int a, void *b, int c)
@@ -54,7 +54,7 @@ int func_021AE1FC(int a, void *b, int c)
     while (func_0216DD1C(r7, (struct Rec **)(&s14), (u32 *)(&s10)) == 1) {
         if (s14 != r4 && (b == 0 || b != s14)) {
             s8 = func_021AE288(s4, (int)s14, (int)r4, &sc);
-            if (s8 != -1 && func_021AE890((void *)a, s14) == 0) {
+            if (s8 != -1 && func_021AE890((u32)((void *)a), (u32)s14) == 0) {
                 func_021AE8B4((struct S *)s0, (u32)s14, s8, sc);
                 return 1;
             }

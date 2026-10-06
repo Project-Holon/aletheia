@@ -72,7 +72,7 @@ struct Bmp;
 struct CharBuf;
 struct Obj;
 struct U16Vec;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);

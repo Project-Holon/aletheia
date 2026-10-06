@@ -15,4 +15,4 @@
 typedef signed int     s32;
 struct Blk;
 extern s32 func_02028484(struct Blk *blk, void *h);
-void func_021B7A08(char *p, char *q) { func_02028484((struct Blk *)(p + 0x38), (void *)(*(int *)(q + 8))); }
+int func_021B7A08(char *p, char *q) { return func_02028484((struct Blk *)(p + 0x38), (void *)(*(int *)(q + 8))); }

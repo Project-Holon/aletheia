@@ -30,7 +30,7 @@ typedef struct {
 } Work;
 
 struct Fx;
-extern void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
+extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 
 void func_021CD004(Work *w)
 {

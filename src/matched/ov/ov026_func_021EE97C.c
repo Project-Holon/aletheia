@@ -31,7 +31,7 @@ extern unsigned char *func_021A2630(unsigned char *o);
 extern unsigned int func_021A2638(unsigned char *o);
 struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
-extern void func_021A26C4(int, Pt *);
+extern int func_021A26C4(u32 a, u32 b);
 extern void func_021A21E0(u32 *p);
 extern void func_0204B908(int, int);
 
@@ -58,7 +58,7 @@ void func_021EE97C(int a)
                 func_0204B908(h, 3);
             }
         }
-        func_021A26C4(a, &pt);
+        func_021A26C4(a, (u32)(&pt));
         break;
     case 1:
         h = p[0];

@@ -21,7 +21,8 @@ extern void *func_02062D40(struct CellAnim *anim);
 typedef unsigned int   u32;
 struct CellDataBank;
 extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
-extern void func_02064140(char *p, int v);
+struct O02064140;
+extern void func_02064140(struct O02064140 *o, u32 a);
 extern void func_020640DC(char *p, int a, int b);
 extern void func_02064120(char *p, int a, int b);
 extern void func_02064100(char *p, int a);
@@ -42,7 +43,7 @@ void func_0206419C(char *self)
     o = *(char * *)&((struct Obj00260 *)self)->f34;
     ((struct Obj00260 *)self)->f30 = (int)func_0206285C((struct CellDataBank *)o, ((struct Obj03025 *)p)->f0);
     kind = *(int *)(*(int *)&((struct Obj00260 *)self)->f1C + 4) & 0xff;
-    func_02064140(self + 0x3c, 1);
+    func_02064140((struct O02064140 *)(self + 0x3c), 1);
     switch (kind) {
     case 0:
         break;

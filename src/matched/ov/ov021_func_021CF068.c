@@ -32,7 +32,7 @@ extern u32 func_02188C54(u8 *p);
 extern u32 *func_02190BE4(u16 *a, u32 b);
 extern void func_021CE9E4(u8 *p, u32 m);
 extern int func_02190C78(struct Handle *h);
-extern int func_0219049C(u32);
+extern int func_0219049C(u8 *p);
 extern int func_021909BC(u32 a);
 
 int func_021CF068(u8 *p)
@@ -50,7 +50,7 @@ int func_021CF068(u8 *p)
         break;
     case 1:
         r = func_02190C78((struct Handle *)(((struct Obj04295 *)q)->f0));
-        if (func_0219049C(func_02188C54((u8 *)(((struct Obj00011 *)p)->f0))) == 1 && p[0x576] == 1)
+        if (func_0219049C((u8 *)func_02188C54((u8 *)(((struct Obj00011 *)p)->f0))) == 1 && p[0x576] == 1)
             r = 1;
         if (r != 2) {
             func_021909BC(((struct Obj04295 *)q)->f0);

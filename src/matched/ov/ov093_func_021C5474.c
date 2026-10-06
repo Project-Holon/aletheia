@@ -11,7 +11,8 @@
  */
 #include "../include/Obj21097.h"
 
-void func_021C5474(char *p)
+void *func_021C5474(char *p)
 {
     ((struct Obj21097 *)p)->f220 = 0;
+    return p;
 }

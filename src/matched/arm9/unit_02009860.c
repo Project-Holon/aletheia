@@ -103,7 +103,7 @@ struct Sub020097BCObj {
     u8 unk7C0[4];
 };
 
-void sub_02009860(void)
+void sub_02009860(struct Sub020097BCObj *obj)
 {
 }
 

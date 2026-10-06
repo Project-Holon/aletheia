@@ -97,7 +97,7 @@ extern void func_021DD16C(unsigned char *p, int dir);
 extern void func_021E0FB0(char *w, int x, int y);
 extern int func_021E00C4(char *p);
 extern int func_021E0128(char *p);
-extern int func_021DEAFC(unsigned char *p);
+extern int func_021DEAFC(int a);
 extern void func_021ED6E4(char **p, int v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -212,7 +212,7 @@ int func_021E1628(unsigned char *p)
         break;
     case 7:
     case 8:
-        if (func_021DEAFC(p) == 0) {
+        if (func_021DEAFC((int)p) == 0) {
             func_020061E4(0x667);
             if (b->state == 7) {
                 b->state = 9;

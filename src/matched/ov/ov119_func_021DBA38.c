@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 struct Entry;
 extern void func_021DBAF8(char *p);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 void func_021DBA38(void *p)
 {
     if (func_021D8A24(p)==0) {

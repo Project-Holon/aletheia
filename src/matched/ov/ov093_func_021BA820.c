@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Q5;
 u32 func_021BB964(struct Q5 *p);
 
-void func_021BA820(int *p)
+u32 func_021BA820(int *p)
 {
-    func_021BB964((struct Q5 *)p[2]);
+    return func_021BB964((struct Q5 *)p[2]);
 }

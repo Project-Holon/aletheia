@@ -20,7 +20,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 
 void func_021BD250(Obj *p)
 {

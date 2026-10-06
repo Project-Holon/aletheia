@@ -50,7 +50,7 @@ struct Obj;
 extern u32 func_0204B864(u8 *a0);
 extern void *func_021EBEE0(char *w, const Desc *s);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC048(char *p, int i, int c);
 extern void func_021EC030(char *p, int i, int c);
 extern void func_021EC000(char *p, int i, int v);
@@ -90,7 +90,7 @@ void func_021ED1C8(char *w)
         int n6 = func_0204B838((int)(((struct Obj08247 *)w)->f9E9C));
         int n7 = func_0204B864(((struct Obj08247 *)w)->f9E9C);
         for (; j < 8u; j++) {
-            func_021EC08C(w, j + 0x58, xy[1] + d_021EFCD0[j], xy[0] + d_021EFCC8[j], 0);
+            func_021EC08C(w, j + 0x58, (short)(xy[1] + d_021EFCD0[j]), (short)(xy[0] + d_021EFCC8[j]), (short)0);
             func_021EC048(w, j + 0x58, n6 + 1);
             func_021EC030(w, j + 0x58, n7);
             func_021EC000(w, j + 0x58, 0);

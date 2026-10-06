@@ -20,4 +20,4 @@ typedef int s32;
 
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
-void func_021B7DD4(u8 *p) { func_0201C4E4((struct PrintSys *)(((struct Obj22219 *)p)->f8)); }
+int func_021B7DD4(u8 *p) { return func_0201C4E4((struct PrintSys *)(((struct Obj22219 *)p)->f8)); }

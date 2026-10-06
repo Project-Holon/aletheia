@@ -62,7 +62,7 @@ extern int func_021C5FC0(u8 *p, u32 lim);
 extern void func_021C5FEC(u8 *p);
 extern void func_021C6018(u32 *p);
 extern void func_021C6054(u32 *p);
-extern int func_02158780(void *p, int b, int c, int d, u16 e);
+extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 struct S0201235C;
 extern void func_021AA8EC(u8 *p);

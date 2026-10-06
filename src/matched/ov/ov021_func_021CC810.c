@@ -40,10 +40,10 @@ typedef struct Obj {
 
 extern void func_021CCFC0(Obj *p);
 extern int func_021CCFE4(u32 a, u32 b);
-extern int func_021CCFF8(Obj *p);
+extern int func_021CCFF8(u8 *p);
 extern void func_021CCEFC(u8 *p);
-extern int func_0219049C(u32 a);
-extern u32 func_021CCF54(Obj *p);
+extern int func_0219049C(u8 *p);
+extern u32 func_021CCF54(u8 *p);
 extern void func_021CCF48(u8 *p);
 extern void func_021CD1AC(Obj *p);
 extern void func_021CCFD8(u8 *p);
@@ -59,14 +59,14 @@ int func_021CC810(Obj *p)
         p->fC0 = p->fC0 + 1;
         break;
     case 1:
-        if (func_021CCFF8(p) == 1) {
+        if (func_021CCFF8((u8 *)p) == 1) {
             func_021CCEFC((u8 *)p);
             p->fC0 = p->fC0 + 1;
         }
         break;
     case 2:
-        if (func_0219049C(p->fA4) == 1) {
-            r = func_021CCF54(p);
+        if (func_0219049C((u8 *)p->fA4) == 1) {
+            r = func_021CCF54((u8 *)p);
             if (r == -1)
                 break;
             func_021CCF48((u8 *)p);

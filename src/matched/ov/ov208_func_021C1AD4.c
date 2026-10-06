@@ -52,7 +52,7 @@ struct CharBuf;
 struct U16Vec;
 struct WordSet;
 extern void func_021C1F44(int a);
-extern Entry *func_021C1F28(u32 a, u32 b, u32 c);
+extern void *func_021C1F28(int a, int b, int c);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 struct MsgBank;

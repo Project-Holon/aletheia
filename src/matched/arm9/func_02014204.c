@@ -40,7 +40,7 @@ struct t {
 struct v3 { u32 x, y, z; };
 
 extern void func_020140F8(int p0);
-extern int  func_02013C70(int id);
+extern int func_02013C70(u32 a);
 extern void sub_02013B90(u32 id, u32 *out);
 extern void sub_02013B74(u32 id, u32 *out);
 

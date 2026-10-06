@@ -17,7 +17,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 int func_021739CC(void)
 {
     return func_0203D3A8(func_020399A8(), 0x1400, 0, 0);

@@ -33,8 +33,8 @@ extern const U8x4 data_021D8548;
 
 extern u16 func_0216D678(void *p);
 extern u32 func_0219FFD4(u32);
-extern void func_0205082C(void *p, int idx, u16 h);
-extern void func_0205085C(void *p, int idx, u16 v);
+extern void func_0205082C(void *p, int idx, u32 h);
+extern void func_0205085C(void *p, int idx, u32 v);
 extern u16 func_02050880(u8 *p, int i);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 

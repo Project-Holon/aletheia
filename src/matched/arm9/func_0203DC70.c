@@ -126,7 +126,7 @@ extern void func_0203D01C(void);
 extern int func_0203D0DC(int a0);
 extern void func_0203D17C(u32 a);
 extern u32 func_0203D210(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern struct Sys *func_0203D788(void);
 extern void func_0203DA20(void);
 extern void func_0203DC04(void);

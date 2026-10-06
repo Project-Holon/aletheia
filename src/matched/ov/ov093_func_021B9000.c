@@ -14,5 +14,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021B9010(u8 *, u8);
-u32 func_021B9000(u8 *p) { return func_021B9010(p,p[0x46c]); }
+extern u8 func_021B9010(u8 *p, u8 k);
+u8 func_021B9000(u8 *p) { return func_021B9010(p,p[0x46c]); }

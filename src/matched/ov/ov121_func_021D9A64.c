@@ -28,7 +28,7 @@ struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D9BC0(void *, int, Pair *);
 extern void func_0201C724(void *, void *, s16, s16, void *, int, u16);
-void func_021D9A64(u8 *p, int a, int b, int c)
+void func_021D9A64(u8 *p, u16 a, int b, int c)
 {
     Pair xy;
     void *q;

@@ -48,7 +48,7 @@ extern int func_021D6A9C(u8 *p, u32 n);
 extern void func_0202822C(char *p, int v);
 extern void func_021D4244(int, int, int);
 extern void func_021D4CC4(u8 *);
-extern u32 func_02035C08(const void *);
+extern int func_02035C08(const void *p);
 extern const u32 d_021D88D0[];
 extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *);

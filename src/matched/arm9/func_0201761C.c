@@ -69,7 +69,7 @@ extern u32   func_02018584(u16 a, u16 b, u16 c);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern u32   func_02019C7C(void *a);
 extern u8 func_02017F08(void *p);
-extern void  func_02017FB0(void *obj);
+extern u32 func_02017FB0(void *p);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 
 extern u8   g0209DF0C;

@@ -32,7 +32,7 @@ extern u32 func_0216D530(u32);
 extern void *func_0216D67C(void *a0);
 extern u32 func_021BB3C4(u32, u32);
 
-int func_0219D724(u32 a, u32 b, u32 c, u32 d)
+int func_0219D724(u32 a, u32 b)
 {
 return func_021BB3C4(func_0216D530((u32)func_0216D67C((void *)a)), b);
 }

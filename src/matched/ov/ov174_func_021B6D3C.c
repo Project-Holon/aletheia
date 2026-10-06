@@ -44,7 +44,8 @@ extern void func_0204B95C(struct Actor *a);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_0204B974(struct Actor *a);
 extern u32 func_0204B98C(struct Actor *a);
-extern int func_0204B918(void *);
+struct Obj;
+extern u16 func_0204B918(struct Obj *p);
 extern const u8 d_021B7485[],d_021B7481[];
 void func_021B6D3C(u8 *p,u8 *q)
 {

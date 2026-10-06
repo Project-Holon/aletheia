@@ -15,7 +15,7 @@
 extern void func_0204A5AC(void);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-void func_021DC484(void)
+void func_021DC484(void *a0)
 {
     func_0204A5AC();
     func_020450C8();

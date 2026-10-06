@@ -21,7 +21,7 @@ struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 extern int func_0201A918(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-void func_0217E1FC(int unused, int arg)
+int func_0217E1FC(int unused, int arg)
 {
     int flag;
     int obj;
@@ -33,5 +33,5 @@ void func_0217E1FC(int unused, int arg)
         flag = 0;
     obj = (int)func_020399A8();
     n = func_0201A918();
-    func_0203D3F8((int)obj, (unsigned char)flag, (int)0x1F00, n + 0xD4, (int)arg, (int)1, (int)1, (int)1);
+    return func_0203D3F8((int)obj, (unsigned char)flag, (int)0x1F00, n + 0xD4, (int)arg, (int)1, (int)1, (int)1);
 }

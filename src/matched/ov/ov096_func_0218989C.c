@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern u8 *func_0218A308(void *p, u32 i);
 struct QG;
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
-extern int func_021B8DE4(char *p, int i);
+extern u8 func_021B8DE4(char *p, int i);
 extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(void *pp, unsigned int b);
 struct Q1;

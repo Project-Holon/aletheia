@@ -43,7 +43,7 @@ struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u8);
-extern void func_02040B94(u8, int, int, int);
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040588(u8, int);
 
 void func_021B97F4(void)

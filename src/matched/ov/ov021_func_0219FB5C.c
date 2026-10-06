@@ -44,7 +44,7 @@ extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_0219FFBC(u32 a, u32 *p);
 extern u32 func_02050080(u32 *p);
 extern void func_0204F638(u8 *a0, int i, struct Trip *src);
-extern void func_0205082C(u32, u32, u32);
+extern void func_0205082C(void *p, int idx, u32 h);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 
 void func_0219FB5C(u32 a)
@@ -81,7 +81,7 @@ void func_0219FB5C(u32 a)
             break;
         }
         q[5] = x;
-        func_0205082C(r, ((struct Obj01496 *)q)->f0, m);
+        func_0205082C((void *)r, ((struct Obj01496 *)q)->f0, m);
         flag = 1;
     } else if (t == 0xd4 || t == 0xd6) {
         y = func_0219FFD4(a);
@@ -107,13 +107,13 @@ void func_0219FB5C(u32 a)
             }
         }
         q[5] = x;
-        func_0205082C(r, ((struct Obj01496 *)q)->f0, m);
+        func_0205082C((void *)r, ((struct Obj01496 *)q)->f0, m);
         flag = 1;
     } else {
         if (x == q[5])
             goto tail;
         q[5] = x;
-        func_0205082C(r, ((struct Obj01496 *)q)->f0, flag);
+        func_0205082C((void *)r, ((struct Obj01496 *)q)->f0, flag);
         flag = 1;
     }
 tail:

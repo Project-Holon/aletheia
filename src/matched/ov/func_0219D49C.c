@@ -31,7 +31,7 @@ typedef signed char    s8;
 extern u32 func_0216D528(u32);
 extern void *func_0216D67C(void *a0);
 
-int func_0219D49C(u32 a, u32 b, u32 c, u32 d)
+u32 func_0219D49C(u32 a)
 {
 return ((struct Obj17972 *)((u8 *)(func_0216D528((u32)func_0216D67C((void *)a)))))->f4;
 }

@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
 
-void func_021DE0AC(int *p, int i)
+int func_021DE0AC(int *p, int i)
 {
-    func_0204B98C((struct Actor *)(*(int *)((char *)p + i * 4 + 0xB74)));
+    return func_0204B98C((struct Actor *)(*(int *)((char *)p + i * 4 + 0xB74)));
 }

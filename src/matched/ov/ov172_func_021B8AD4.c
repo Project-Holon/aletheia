@@ -27,8 +27,8 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-void func_021B8AD4(int unused, char *base)
+int func_021B8AD4(int unused, char *base)
 {
     char *p = func_021B8B9C(unused, base);
-    func_0203D3F8((int)func_020399A8(), 0xFF, 0x2003, 0x21, (u32)p, 1, 1, 1);
+    return func_0203D3F8((int)func_020399A8(), 0xFF, 0x2003, 0x21, (u32)p, 1, 1, 1);
 }

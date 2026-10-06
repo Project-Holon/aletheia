@@ -40,7 +40,7 @@ extern void func_021BB798(char *p, u32 i, u32 arg);
 extern void func_021BB5E0(char *p, u32 idx, s16 y);
 struct Blk34;
 struct Obj;
-extern void func_021BB810(void *p, int row, int y, int pal);
+extern void func_021BB810(void *p, u8 row, int y, int pal);
 extern u8 func_0200C308(struct Blk34 *p, u32 i);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 

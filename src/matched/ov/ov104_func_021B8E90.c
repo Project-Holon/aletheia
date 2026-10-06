@@ -18,7 +18,7 @@
  */
 extern void func_02082BCC(void *, int, int);
 
-void func_021B8E90(int *p)
+void func_021B8E90(int *p, int a1)
 {
     func_02082BCC(p, 0, 16);
     p[1] = 1;

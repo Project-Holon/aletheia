@@ -86,7 +86,7 @@ extern void func_021CE7C4(u8 *);
 extern void func_021CF3B8(u8 *, u32);
 extern int func_021E9974(u32);
 extern void func_021E9954(void *);
-extern void func_021EAF18(u8 *, u32, u32);
+extern void func_021EAF18(struct L *p, int kind, int id);
 extern u8 func_021D5440(u8 *p);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021CE3B4(u8 *p, void *q);
@@ -196,7 +196,7 @@ int func_021CE4D0(u8 *p, u32 *st)
         ++*st; break;
     case 7:
         if (!func_021E9974(W(0x54))) break;
-        func_021EAF18(p + 0x58, 1, 0xC5);
+        func_021EAF18((struct L *)(p + 0x58), 1, 0xC5);
         func_021EAF50((struct L *)(p + 0x58), func_021D5440(P(8)));
         func_021CE3B4(p, p + 0x58);
         ++*st; break;

@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-void func_021750B0(u8 *p, u8 v)
+void func_021750B0(u8 *p, int v)
 {
     p[0xdc] = v;
     p[0xdd] = 0xff;

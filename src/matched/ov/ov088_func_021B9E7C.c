@@ -27,7 +27,8 @@ struct IcaAnime;
 extern void func_020115EC(struct IcaAnime *p, s32 v);
 extern u32 func_020489F4(u8 *a0, int i);
 extern u32 func_02048A18(u8 *a0, int i);
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+typedef unsigned short u16;
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 
 void func_021B9E7C(int *p, int x)
 {

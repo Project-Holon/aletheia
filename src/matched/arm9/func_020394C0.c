@@ -20,10 +20,11 @@
 
 typedef unsigned char u8;
 
-extern int func_020366A8(u8 *p);
+struct Conn;
+extern int func_020366A8(struct Conn *p);
 extern u8 *g_021469D0;
 
 int func_020394C0(void)
 {
-    return func_020366A8(g_021469D0 + 0xCC);
+    return func_020366A8((struct Conn *)(g_021469D0 + 0xCC));
 }

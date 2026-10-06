@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void *func_0205A17C(int name, unsigned long size, int align);
 
-void func_021C569C(int a, int b)
+void *func_021C569C(int a, int b)
 {
-    func_0205A17C(0xa, a, b);
+    return func_0205A17C(0xa, a, b);
 }

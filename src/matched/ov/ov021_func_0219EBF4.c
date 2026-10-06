@@ -54,7 +54,7 @@ extern u16 func_0216D5F8(void *p);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D438(int a0, int a1);
 extern u32 func_02197EDC(u8 *p);
-extern int func_0219EA10();
+extern int func_0219EA10(u32 *a, int b);
 extern u32 func_0219EA24(u32, u32);
 extern void func_0216D60C(u32, u16);
 extern int func_0219E418(u32, u16);
@@ -83,7 +83,7 @@ int func_0219EBF4(u32 o)
         if (!func_02197EDC((u8 *)o)) {
             break;
         }
-        e->cnt = func_0219EA10(d_021D84AC, -1);
+        e->cnt = func_0219EA10((u32 *)d_021D84AC, -1);
         e->state++;
     case 2:
         e->cnt--;

@@ -27,7 +27,7 @@ extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
-void func_021B91FC(char *p, int bg)
+void func_021B91FC(char *p, void *bg)
 {
     int a, b, c, d;
     int r = func_02008550((const struct Sub0200852CObj *)(((struct Obj04332 *)p)->f8));

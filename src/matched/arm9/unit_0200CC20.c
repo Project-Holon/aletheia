@@ -71,7 +71,7 @@ struct FormCount {
 
 extern const struct FormCount func_0200CA98_Table[];
 
-extern s32 func_0200C7F4(u32 a);
+extern u32 func_0200C7F4(u32 id);
 
 u16 func_0200CC20(u32 a)
 {

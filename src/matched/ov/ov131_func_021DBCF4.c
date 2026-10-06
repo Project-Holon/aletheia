@@ -28,7 +28,7 @@ extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_020437EC(const struct Bmp *bmp);
 extern void func_020862F0(void *,int);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern int func_0204ABBC(u32 idx, u32 flag);
 extern void func_0207E780(void *,void *,u32);
 extern void func_0207E804(void *,void *,u32);

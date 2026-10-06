@@ -35,7 +35,7 @@ struct BigObj;
 struct Ctx;
 u32 func_02012138(const struct Ctx *p);
 void *func_020120F4(const struct Ctx *p);
-int func_0215841C(void *);
+u8 func_0215841C(void *p);
 u8 func_02012B58(const struct BigObj *p);
 
 int func_0217FAE0(void *unused, int a)

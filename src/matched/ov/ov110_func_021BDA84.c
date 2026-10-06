@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 extern u8 d_021C3938[];
-extern int func_02035C08(void *);
+extern int func_02035C08(const void *p);
 int func_021BDA84(u8 *unused)
 {
     return func_02035C08(d_021C3938);

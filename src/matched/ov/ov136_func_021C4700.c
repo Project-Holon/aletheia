@@ -16,7 +16,7 @@
 #include "../include/Obj00274.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_02035C08(void *);
+extern int func_02035C08(const void *p);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_020061E4(u32 a);

@@ -27,7 +27,7 @@ extern u16 func_02039338(void);
 extern struct Entry *func_020399A8(void);
 extern int  func_0203D56C(void *h);
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02186A04(char *a, char *b);
 extern void func_021869C0(char *a, char *b);
 extern void func_02186958(char *a);

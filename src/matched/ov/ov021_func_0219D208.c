@@ -32,7 +32,7 @@ extern void func_0216E204(char *a, u32 v);
 extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
 typedef unsigned char  u8;
 extern void func_0219C880(u8 *o, u32 a, u32 b, u32 c);
-extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
+extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
 
 void func_0219D208(int a, unsigned int id)
 {

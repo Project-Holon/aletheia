@@ -64,7 +64,7 @@ struct S24 {
 
 typedef unsigned char  u8;
 extern u32 func_020056EC(u32 range);
-extern int func_021B74B4(char *, int);
+extern int func_021B74B4(int *p, int i);
 extern void func_021B75E8(char *, int);
 extern int func_021B75A4(char *, struct S24 *);
 extern void func_021B7488(u8 *p, int n, int v);
@@ -79,7 +79,7 @@ void func_021B7F38(char *p)
 
     for (i = 9; i < 0x21; i++) {
         if (((int *)(p + 0x9048))[i] != 0) {
-            if (func_021B74B4(p, i) != 1)
+            if (func_021B74B4((int *)p, i) != 1)
                 func_021B75E8(p, i);
         }
     }

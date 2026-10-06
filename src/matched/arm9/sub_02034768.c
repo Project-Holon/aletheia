@@ -100,7 +100,7 @@ struct CharBuf;
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void  func_0204E130(u32 a);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void sub_02043B5C(struct CharBuf *buf, u8 value);
 
 void sub_02034768(void)

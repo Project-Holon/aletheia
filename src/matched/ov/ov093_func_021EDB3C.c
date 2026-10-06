@@ -49,7 +49,7 @@ struct S {
 
 struct Bmp;
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 
 void func_021EDB3C(struct S *s, char *a1)
 {

@@ -46,7 +46,7 @@ struct AnmCtl {
     struct AnmSlot **slots; /* +8 */
 };
 
-u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame)
+u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame)
 {
     struct AnmSlot *s = c->slots[idx];
     struct AnmObj *a;

@@ -36,7 +36,8 @@ extern u16 func_0202F138(u32 i);
 extern unsigned func_02020F08(void),func_02020E60(unsigned,unsigned);
 extern void *func_020490F4(unsigned,u16);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
-extern int func_0204ABF0(void *,unsigned,unsigned,u16,u16);
+typedef signed int     s32;
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_02020F0C(void),func_02020F10(void);
 extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
 extern void func_02049238(void *);
@@ -51,7 +52,7 @@ void func_0220C0B4(char *p)
     arc=func_020490F4(func_02020F08(),(((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000);
     for(i=0;i<7;i++) {
         *(int *)(p+i*4+0x544)=func_0204A6C8(arc,func_02020E60(item,first),0,1,((struct Obj25017 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-        *(int *)(p+i*4+0x568)=func_0204ABF0(arc,func_02020E60(item,second),1,i*32,((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+        *(int *)(p+i*4+0x568)=func_0204ABF0(arc,func_02020E60(item,second),1,(u16)(i*32),((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     }
     a=func_02020F0C();
     ((struct Obj00315 *)p)->f58C=func_0204AF28(arc,a,func_02020F10(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);

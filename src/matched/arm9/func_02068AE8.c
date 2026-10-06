@@ -44,8 +44,7 @@ struct Surface {
     int   f10;    /* +0x10 stride in tiles */
 };
 
-extern void func_020682F8(char *tile, int xo, int yo, int tw, int th,
-                          u32 px, int bpp);
+extern void func_020682F8(u32 *dst, int x, int y, int w, int h, u32 val, int bpp);
 
 void func_02068AE8(struct Surface *s, u32 arg, int x, int y, int w, int h)
 {
@@ -92,7 +91,7 @@ void func_02068AE8(struct Surface *s, u32 arg, int x, int y, int w, int h)
             if (tw > 8)
                 tw = 8;
             tw -= xo;
-            func_020682F8(p, xo, yo, tw, th, arg, bpp);
+            func_020682F8((u32 *)p, xo, yo, tw, th, arg, bpp);
             p = p + tilesz;
         }
         row = row + rowadv;

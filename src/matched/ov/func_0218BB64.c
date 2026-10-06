@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void func_020307B0(void *p);
 
-int func_0218BB64(u32 a, u32 b, u32 c, u32 d)
+int func_0218BB64(char *a)
 {
 func_020307B0((void *)(((struct Obj01114 *)((u8 *)(a)))->f18));
 *(u16 *)((u8 *)(a) + ((107 << 2))) = 0;

@@ -41,7 +41,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
 
-void func_02050468(struct BbActSys *o, u32 first, u32 count)
+void func_02050468(struct BbActSys *o, u16 first, u32 count)
 {
     u32 i;
 

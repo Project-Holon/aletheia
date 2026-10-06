@@ -22,7 +22,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_0219077C(u32 h);
+extern int func_0219077C(u8 *p);
 struct Slot;
 struct WordSet;
 extern void func_02190794(struct Slot **p, int x, int y, int w, int h);
@@ -32,7 +32,7 @@ extern int func_02190758(u32 a, u32 b, u32 c, u32 d);
 
 int func_021CE84C(u32 *p, int n)
 {
-    if (p[3] && func_0219077C(p[3]) == 1) {
+    if (p[3] && func_0219077C((u8 *)p[3]) == 1) {
         func_02190794((struct Slot **)p[3], 0, 0x40, 0x90, 0x50);
         func_0201EFA4((struct WordSet *)p[1], 0, ((struct Obj02736 *)p)->f51D - n, 1, 0, 1);
         func_0201F250((struct WordSet *)p[1], (void *)p[10], (void *)p[9]);

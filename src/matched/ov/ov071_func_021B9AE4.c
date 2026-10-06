@@ -41,7 +41,8 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+typedef unsigned short u16;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 struct Grid;
 struct Param;
 struct Sys;

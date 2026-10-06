@@ -25,7 +25,7 @@ typedef signed char    s8;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 
-int func_021D13F0(u32 a, u32 b, u32 c, u32 d)
+u32 func_021D13F0(u32 a)
 {
 func_020452E8((struct Descriptor *)(((struct Obj04299 *)((u8 *)(a)))->f4));
 ((struct Obj04299 *)((u8 *)(a)))->f4 = 0;

@@ -15,7 +15,7 @@
  */
 #include "../include/Obj14527.h"
 
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02005D28(void);
 
 void func_02204FF8(int a, char *b)

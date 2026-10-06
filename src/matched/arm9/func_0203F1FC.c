@@ -44,7 +44,7 @@ extern struct Mt *g_021469F8;
 struct MATHCRC16Table;
 extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
 
-int func_0203F1FC(const u8 *src, u32 len)
+u16 func_0203F1FC(const u8 *src, u32 len)
 {
     if (len < 2) {
         u8 pair[2];

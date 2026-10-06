@@ -18,8 +18,8 @@
 
 int func_06898CF4(int a, int b);
 
-void func_021C82C4(int a, int b, int c)
+int func_021C82C4(int a, int b, int c)
 {
     (void)a;
-    func_06898CF4(b, c);
+    return func_06898CF4(b, c);
 }

@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 
 extern u32 d_021D84AC[];
 extern void *func_0219E968(u32 a, u32 size);
-extern u16 func_0219EA10(u32 *, int);
+extern int func_0219EA10(u32 *a, int b);
 extern void func_0216D674(void *p, u16 v);
 extern void func_0216DA50(u8 *p);
 

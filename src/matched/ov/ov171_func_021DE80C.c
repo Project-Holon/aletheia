@@ -28,7 +28,7 @@ typedef struct Descriptor {
 } Descriptor;
 extern void *func_02025538(unsigned int a0, void *a1);
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 struct Grid;
 struct Param;
 struct Sys;

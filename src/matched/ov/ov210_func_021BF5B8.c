@@ -13,7 +13,7 @@
  *   func_021BF618 0x021BF618 thumb ov210
  */
 extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BEE38(char *p, int idx, unsigned short a, int b, unsigned short c);
+extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
 extern void func_021BF618(char *);
 void func_021BF5B8(char *p)
 {

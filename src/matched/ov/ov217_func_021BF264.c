@@ -27,7 +27,7 @@ extern u32 func_021BF810(void *p);
 extern unsigned func_021BF910(char *);
 typedef unsigned char  u8;
 extern void func_021C0FF8(u8 *p, int visible);
-extern unsigned func_021C0F78(unsigned,struct U16Vec *);
+extern void func_021C0F78(u8 *p, struct U16Vec *text);
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern struct U16Vec *func_020457B0(unsigned,unsigned);
 extern void func_02045808(struct U16Vec *);
@@ -48,7 +48,7 @@ void func_021BF264(char *p)
     func_0201EE0C(*(struct WordSet * *)&((struct Obj00021 *)p)->f18,0,b,0,1,2);
     func_0201F250(*(struct WordSet * *)&((struct Obj00021 *)p)->f18,buf,a);
     func_021C0FF8((u8 *)(((struct Obj00021 *)p)->f358),1);
-    func_021C0F78(((struct Obj00021 *)p)->f358,buf);
+    func_021C0F78((u8 *)(((struct Obj00021 *)p)->f358),buf);
     func_02045808(a);
     func_02045808(buf);
     func_02045808(b);

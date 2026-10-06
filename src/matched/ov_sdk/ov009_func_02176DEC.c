@@ -17,8 +17,8 @@
 
 extern int func_02176DFC(int aid, int type);
 
-void func_02176DEC(int a)
+int func_02176DEC(int a)
 {
-    func_02176DFC(a, 1);
+    return func_02176DFC(a, 1);
 }
 

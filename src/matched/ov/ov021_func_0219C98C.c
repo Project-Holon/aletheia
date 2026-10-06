@@ -35,7 +35,7 @@ struct BbActSys;
 extern u32 func_0216D520(void *p);
 extern u32 func_020508D8(u8 *o, u32 i);
 extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
-extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
+extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
 
 void func_0219C98C(u32 a, u16 *b)
 {

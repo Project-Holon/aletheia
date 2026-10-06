@@ -23,7 +23,7 @@ extern void *func_02025538(u32,void *);
 struct Bmp;
 struct Grid;
 struct Sys;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_02025774(u8 *g, u32 a);
 void func_021EE120(char *p)

@@ -69,7 +69,7 @@ typedef struct Work {
 
 extern void func_0218FEA4(void *p);
 extern void func_0218FE78(void *p, void *q);
-extern void func_0218FF00(void *p);
+extern int func_0218FF00(u32 a);
 extern int func_021C6E48(void *p);
 extern void func_0218FE98(void *p);
 struct Evt;
@@ -108,7 +108,7 @@ int func_0216C0E8(void *evt, u32 *state, Work *w)
     case 0:
         func_0218FEA4(w->f60);
         func_0218FE78(w->f08, w->f18);
-        func_0218FF00(w->f60);
+        func_0218FF00((u32)w->f60);
         (*state)++;
         break;
     case 1:

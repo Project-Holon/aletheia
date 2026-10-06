@@ -40,7 +40,7 @@ struct Unk021D62A8;
 extern int func_021C99A0(void *w, const struct Msg *m);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021C7B3C(u8 *, u32, u32, u32);
+extern void func_021C7B3C(u8 *p, u32 a, u16 b, u16 c);
 extern void func_021C7B7C(u8 *p, unsigned int i);
 extern void func_021D8510(void *p);
 struct QJ;

@@ -57,9 +57,9 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern u8 func_021A80FC(void *p);
+extern int func_021A80FC(u32 a);
 extern void *func_021BDC94(void *p);
-extern void func_021A811C(void *p, void *q);
+extern int func_021A811C(u32 a, u32 b);
 extern void func_021A8214(Work *w);
 extern void func_021A7EB4(u8 *p);
 extern int func_02162370(int a);
@@ -76,13 +76,13 @@ void *func_021A7E3C(Args *a)
     w->f04 = (void *)func_02012A30(a->f08);
     w->f28 = 0;
     w->f18 = 0;
-    w->f1A = func_021A80FC(a->f0C);
+    w->f1A = func_021A80FC((u32)a->f0C);
     w->f36 = 0;
     w->f08 = func_021BDC94(a->f0C);
     w->f0C = a->f10;
     w->f10 = 0;
     w->f14 = 1;
-    func_021A811C(a->f0C, (u8 *)w + 0x1C);
+    func_021A811C((u32)a->f0C, (u32)((u8 *)w + 0x1C));
     func_021A8214(w);
     func_021A7EB4((u8 *)w);
     if (func_02162370((int)a->f10) != 0) {

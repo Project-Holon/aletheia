@@ -24,7 +24,8 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
-extern void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId);
+typedef unsigned char  u8;
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 void func_021D694C(u16 *p,int mode)
 {
     u16 heap=(*p&0x7fff)|0x8000;

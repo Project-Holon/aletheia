@@ -16,7 +16,7 @@
  *   func_0203D7BC 0x0203D7BC arm
  */
 #include "../include/Obj22056.h"
-extern int func_021C1154(char *, int);
+extern int func_021C1154(char *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -26,7 +26,7 @@ extern void func_0203D7B0(int);
 extern int func_0203D7BC(int);
 int func_021C14A8(char *p, int ret)
 {
-    if (func_021C1154(p, ret) == 0) {
+    if (func_021C1154(p) == 0) {
         if (func_02039CB4((struct Link *)func_020399A8(), 15, 10) != 0) {
             func_0203D7B0(1);
             func_0203D7BC(1);

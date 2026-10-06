@@ -26,9 +26,11 @@ typedef unsigned int   u32;
 
 extern int func_021AC1E0(u32 a);
 struct AnmCtl;
-extern u32 func_02047804(struct AnmCtl *c, u32 idx);
-extern void func_020477A4(u32 h, u16 i);
-extern void func_020477D4(u32 h, u16 i);
+extern u32 func_02047804(struct AnmCtl *c, u16 idx);
+struct G3dSys;
+struct Owner;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern int func_020477D4(struct Owner *owner, u32 index);
 
 void func_021D024C(void *obj, u32 sel)
 {
@@ -41,9 +43,9 @@ void func_021D024C(void *obj, u32 sel)
     for (i = 0; i < 4; i++) {
         func_02047804((struct AnmCtl *)(((struct Obj06104 *)q)->fC), (u16)i);
         if (i == sel)
-            func_020477A4(((struct Obj06104 *)q)->fC, i);
+            func_020477A4((struct G3dSys *)(((struct Obj06104 *)q)->fC), (u16)i);
         else
-            func_020477D4(((struct Obj06104 *)q)->fC, i);
+            func_020477D4((struct Owner *)(((struct Obj06104 *)q)->fC), (u16)i);
     }
     q[2] = sel;
     q[3] = 0;

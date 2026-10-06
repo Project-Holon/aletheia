@@ -121,7 +121,7 @@ extern void func_0218F878(u8 *a);
 extern u32 func_021BEA30(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_021854CC(void *p, u32 u, u16 u2, void *src, u16 h);
 extern u32 func_02188D20(u8 *p);
-extern void func_021BC5BC(u32 a);
+extern int func_021BC5BC(u32 a);
 extern u32 func_02043658(void);
 extern void func_02188DA0(void);
 extern void func_02043534(u32 planes);

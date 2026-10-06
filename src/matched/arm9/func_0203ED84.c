@@ -25,7 +25,7 @@ extern struct Entry *func_0203996C(s32 idx);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-void func_0203ED84(int a0)
+int func_0203ED84(int a0)
 {
     struct S sv;
     int t;
@@ -35,5 +35,5 @@ void func_0203ED84(int a0)
         t = (int)func_020399A8();
     sv.a = a0;
     sv.b = *(int *)((char *)g_021469F4 + 0x24);
-    func_0203D4D0(t, *(u8 *)((char *)g_021469F4 + 0x28), 0xf, 4, (u32)(&sv), 0, 1, 0);
+    return func_0203D4D0(t, *(u8 *)((char *)g_021469F4 + 0x28), 0xf, 4, (u32)(&sv), 0, 1, 0);
 }

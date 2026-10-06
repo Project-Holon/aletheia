@@ -28,7 +28,7 @@ extern int func_021D8F20(void *p, int idx);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_020173EC(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_021D8E84(void *p, int next);
 extern void func_021DE6AC(char *p);
 
@@ -37,7 +37,7 @@ void func_021DE70C(void *p)
     u8 v;
     if (func_021D8A24(p) != 0) {
         v = func_021D8F20(p, 0);
-        if (func_0203D3A8((struct Entry *)((u32)func_020399A8()), 0xC16, func_020173EC(), (u32)(&v)) == 0) {
+        if (func_0203D3A8((struct Entry *)((u32)func_020399A8()), (u16)0xC16, (u16)func_020173EC(), (u32)(&v)) == 0) {
             return;
         }
     }

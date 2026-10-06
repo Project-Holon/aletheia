@@ -49,7 +49,7 @@ extern int func_021AB11C(u32 attr);
 struct V;
 extern int func_021A7198(u32 a, u32 *b, struct V *c, u32 d);
 extern void func_021A712C(u32 a, u32 *b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern u32 func_021A3698(u32 a);
+extern u32 func_021A3698(u8 *p);
 extern void func_021A3674(u8 *p, u32 b, u32 c);
 
 void func_021A7010(u32 a, u32 *b)
@@ -87,6 +87,6 @@ void func_021A7010(u32 a, u32 *b)
             }
         }
     }
-    b[2] = func_021A3698(b[1]);
+    b[2] = func_021A3698((u8 *)b[1]);
     func_021A3674((u8 *)b[1], v14, r6);
 }

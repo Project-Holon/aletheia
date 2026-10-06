@@ -27,7 +27,7 @@ extern u8 func_021B8E70(u8 *p, u32 k);
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021D66D8(u8 *m, u8 v);
 extern void func_021EA888(char *ctx, int a);
-extern int func_021EA8A4(u32 a);
+extern int func_021EA8A4(u32 *p);
 
 int func_021D35C8(u32 *a, int *b, u32 *c)
 {
@@ -41,7 +41,7 @@ int func_021D35C8(u32 *a, int *b, u32 *c)
         (*b)++;
         break;
     case 1:
-        if (func_021EA8A4(a[0x15]) != 0) {
+        if (func_021EA8A4((u32 *)a[0x15]) != 0) {
             (*b)++;
         }
         break;

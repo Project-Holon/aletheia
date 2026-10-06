@@ -23,7 +23,8 @@ typedef short s16;
 typedef unsigned int   u32;
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
-extern int func_0204B918(void *o);
+struct Obj;
+extern u16 func_0204B918(struct Obj *p);
 extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 extern const unsigned int d_021F3224[];
 

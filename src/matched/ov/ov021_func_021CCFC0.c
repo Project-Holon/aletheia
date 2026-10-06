@@ -29,9 +29,11 @@ typedef struct {
     void *fB4;
 } Work;
 
-extern void *func_02190F64(void *a, void *b);
+struct Fx;
+struct Obj2;
+extern struct Obj2 *func_02190F64(struct Fx *a, u32 b);
 
 void func_021CCFC0(Work *w)
 {
-    w->fB0 = func_02190F64(w->fA4, w->fA8);
+    w->fB0 = func_02190F64(w->fA4, (u32)w->fA8);
 }

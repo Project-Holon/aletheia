@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void func_02190000(u32 *p);
 
-void func_0218FF20(u8 *a, u32 a1, u32 a2, u32 a3)
+void func_0218FF20(u8 *a)
 {
     if (((struct Obj04204 *)a)->fC != 0)
         func_02190000((u32 *)a);

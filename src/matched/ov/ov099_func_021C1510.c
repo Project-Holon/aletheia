@@ -21,7 +21,7 @@
  */
 #include "../include/Obj10211.h"
 typedef unsigned char u8;
-extern int func_021C1154(char *, int);
+extern int func_021C1154(char *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -44,7 +44,7 @@ int func_021C1510(char *p, int ret)
 {
     void *s;
     unsigned count;
-    if (func_021C1154(p, ret) == 0) {
+    if (func_021C1154(p) == 0) {
         if (func_02039CB4((struct Link *)func_020399A8(), 18, 10) != 0) {
             if (func_021C14EC(p) == 1) {
                 func_0200F4E4(func_020099C8((struct Sub020097BCObj *)func_0201283C(((struct Obj10211 *)p)->fC4), 0));

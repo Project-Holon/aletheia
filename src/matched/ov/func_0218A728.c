@@ -26,7 +26,7 @@ struct Sub02008C20Obj;
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void *func_02012F2C(int *p);
 
-int func_0218A728(u32 a, u32 b, u32 c, u32 d)
+int func_0218A728(void *a)
 {
 return func_02008DF0((struct Sub02008C20Obj *)func_02012F2C((int *)a), 0);
 }

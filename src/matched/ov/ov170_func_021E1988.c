@@ -16,7 +16,7 @@
 #include "../include/Obj10653.h"
 extern int func_021EBFEC(char *, int);
 extern void func_021DEA3C(int a, int b, int c, int d);
-extern int func_021DEAFC(unsigned char *);
+extern int func_021DEAFC(int a);
 int func_021E1988(unsigned char *p)
 {
     char *w = *(char * *)&((struct Obj10653 *)p)->f2C;
@@ -31,7 +31,7 @@ int func_021E1988(unsigned char *p)
         }
         break;
     case 1:
-        if (!func_021DEAFC(p)) {
+        if (!func_021DEAFC((int)p)) {
             ((struct Obj08237 *)b)->fC = 0;
             return 0;
         }

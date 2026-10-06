@@ -22,7 +22,7 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern u16 func_021AB0F8(u32 attr);
-extern u32 func_0219DC08(u32);
+extern int func_0219DC08(u32 a);
 extern void func_021AC760(u32 a, u32 b, u32 c, int d);
 
 void func_0219DA80(u32 a, u32 b, u32 a2, u32 a3)

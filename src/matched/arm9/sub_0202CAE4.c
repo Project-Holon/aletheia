@@ -42,8 +42,7 @@ struct WinMgr {
     u32 heap;
 };
 
-extern void *func_02049EB4(u32 arc, u32 member, u32 alloc, void **out,
-                           u16 heap);
+extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void sub_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
 extern void ENV_SetResourceSet(void *p);
 
@@ -52,7 +51,7 @@ void sub_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc)
     void *buf;
     void *res;
 
-    res = func_02049EB4(arc, member, alloc, &buf, mgr->heap);
+    res = func_02049EB4(arc, member, alloc, (u32)(&buf), mgr->heap);
     sub_0202CAC4(mgr, idx, (char *)buf + 0xc);
     ENV_SetResourceSet(res);
 }

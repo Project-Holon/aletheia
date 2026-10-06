@@ -32,9 +32,7 @@ typedef struct GPProfileSearchResponseArg {
 typedef void (*GPCallback)(void **, void *, void *);
 
 extern void func_02193734(int *p, int b);
-extern int func_021906E0(void **connection, char *nick, char *uniquenick, char *email,
-                         char *firstname, char *lastname, int icquin, int skip, int blocking,
-                         GPCallback callback, void *param);
+extern int func_021906E0(int *connection, char *nick, char *uniquenick, char *email, char *firstname, char *lastname, int icquin, int skip, int blocking, int callback, int param);
 extern char g_021A4010[];
 
 int func_02185B10(void **connection, char *nick, char *uniquenick, char *email,
@@ -55,6 +53,6 @@ int func_02185B10(void **connection, char *nick, char *uniquenick, char *email,
         callback(connection, &arg, param);
         return 0;
     }
-    return func_021906E0(connection, nick, uniquenick, email, firstname, lastname, icquin, 0,
-                         blocking, callback, param);
+    return func_021906E0((int *)connection, nick, uniquenick, email, firstname, lastname, icquin, 0,
+                         blocking, (int)callback, (int)param);
 }

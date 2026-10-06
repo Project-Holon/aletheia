@@ -34,7 +34,7 @@ extern void *func_0216D67C(void *a0);
 extern void *func_0216D69C(void *p);
 extern u32 func_021B7E60(u32, u32, u32, u32);
 
-int func_0219E634(u32 a, u32 b, u32 c, u32 d)
+int func_0219E634(void *a, u32 b)
 {
 func_0216D530((u32)func_0216D67C((void *)a));
 return func_021B7E60(((struct Obj17975 *)((u8 *)(func_0216D69C((void *)a))))->f0, func_0201441C(func_0216D5F8((void *)a)), b, 0);

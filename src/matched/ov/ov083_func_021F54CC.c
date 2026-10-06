@@ -42,7 +42,7 @@ extern u32 func_021910C0(u32 *);
 extern int func_02191008(u32 a);
 extern struct Obj *func_021907C4(struct Fx *a, u32 b, u32 c, u32 d, u16 e, u16 f);
 extern void func_02190854(u32 *p);
-extern int func_0219082C(void *);
+extern int func_0219082C(u32 a);
 extern void func_021F55D4(char *);
 extern void func_021F5400(u8 *);
 extern u32 func_020362DC(void);
@@ -73,7 +73,7 @@ int func_021F54CC(void *task, u32 *st, u8 *p) {
         break;
     default:
         func_02190854(*(void **)(p+24));
-        func_0219082C(*(void **)(p+24));
+        func_0219082C((u32)(*(void **)(p+24)));
         func_021F5400(p);
         return 1;
     }

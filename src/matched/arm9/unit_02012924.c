@@ -351,7 +351,7 @@ u16 func_02012AC8(const struct Rec44 *p)
     return p->unk00;
 }
 
-void func_02012ACC(struct Rec44 *p, u16 v)
+void func_02012ACC(struct Rec44 *p, int v)
 {
     p->unk18 = v;
 }

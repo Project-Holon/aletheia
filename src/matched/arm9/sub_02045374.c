@@ -61,8 +61,7 @@ extern const char str_020A7E70[];
 
 extern u8 func_02041680(int channel);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020410D0(u32 a, u32 b, u32 c, u32 d, u32 e, void *cells,
-                          u32 f, u32 g, u32 w, u32 h);
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020307B0(void *p);
 
 void sub_02045374(struct Cfg *cfg)
@@ -94,6 +93,6 @@ void sub_02045374(struct Cfg *cfg)
     }
 
     func_020410D0(cfg->unk_02, cfg->unk_03, cfg->unk_04, cfg->unk_07,
-                  cfg->unk_08, cells, 0, 0, cfg->unk_05, cfg->unk_06);
+                  cfg->unk_08, (u32)cells, 0, 0, cfg->unk_05, cfg->unk_06);
     func_020307B0(cells);
 }

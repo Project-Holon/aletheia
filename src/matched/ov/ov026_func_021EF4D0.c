@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021A2640(u8 *a, struct PtS *b);
 extern void func_021A21E0(u32 *p);
-extern void func_021A26C4(void *a, struct PtS *pt);
+extern int func_021A26C4(u32 a, u32 b);
 void func_021EF4D0(void *a, const struct B *b, s16 *c)
 {
     struct PtS pt;
@@ -50,6 +50,6 @@ void func_021EF4D0(void *a, const struct B *b, s16 *c)
     if (pt.x >= 0x100 || pt.y >= 0xc0) {
         func_021A21E0(a);
     } else {
-        func_021A26C4(a, &pt);
+        func_021A26C4((u32)a, (u32)(&pt));
     }
 }

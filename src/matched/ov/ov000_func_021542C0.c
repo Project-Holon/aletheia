@@ -99,7 +99,7 @@ extern void  func_02005B24(void);
 extern void  func_02005D90(u32 a0, u32 a1);
 extern void func_02005DF8(u32 a);
 extern void *func_020145CC(void *a0);
-extern void  func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02005DE4(void *p);
 extern int func_02005E64(void);
 extern void *func_020120F4(const struct Ctx *p);

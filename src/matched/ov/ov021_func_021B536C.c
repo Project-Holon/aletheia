@@ -22,7 +22,7 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C58(void *p);
-extern void func_021B52A4(void *, u32);
+extern int func_021B52A4(void *a, u32 b);
 
 int func_021B536C(u32 a, u32 b)
 {

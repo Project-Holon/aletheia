@@ -44,7 +44,8 @@ struct Obj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_021DA1BC(void *,const char *,u32,u16,u8,u32,u32,int,u16);
 extern void *func_020490F4(u32 id, u16 heap);
-extern int func_0204ABF0(void *,u32,u32,u16,u16);
+typedef signed int     s32;
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern void func_02049238(void *);
@@ -82,7 +83,7 @@ void *func_021DCFC8(const Desc *p,u16 heap)
     config=d_021DF99C;
     ((struct Obj00237 *)out)->f0=func_021DA1BC((void *)1,(const char *)&config,5,((struct Obj00237 *)out)->fA4,((struct Obj00237 *)out)->fAC,((struct Obj00237 *)out)->fC8,((struct Obj00237 *)out)->fC0,((struct Obj00237 *)out)->fC4,heap);
     arc=func_020490F4(34,heap);
-    *(int *)&((struct Obj00237 *)out)->f4=func_0204ABF0(arc,3,((struct Obj00237 *)out)->f98,p->w[4]<<5,heap);
+    *(int *)&((struct Obj00237 *)out)->f4=func_0204ABF0(arc,3,((struct Obj00237 *)out)->f98,(u16)(p->w[4]<<5),heap);
     *(int *)&((struct Obj00237 *)out)->fC=func_0204AF28(arc,33,36,heap);
     *(int *)&((struct Obj00237 *)out)->f8=func_0204A6C8(arc,12,0,((struct Obj00237 *)out)->f98,heap);
     func_02049238(arc);

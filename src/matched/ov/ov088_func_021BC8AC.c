@@ -29,7 +29,7 @@ extern C12 d_021BD83C;
 extern u32 func_020362DC(void);
 extern void func_021BC870(u8 *);
 extern void func_020061E4(u32);
-extern int func_02035C08(void *);
+extern int func_02035C08(const void *p);
 
 int func_021BC8AC(u8 *p)
 {

@@ -36,15 +36,14 @@ struct Obj02013734 {
 };
 
 extern void func_020134F4(struct Obj02013734 *o, u32 a1, u32 n, u32 a2, u32 a3);
-extern void func_02013284(struct Obj02013734 *o, u32 a1, u32 n, u8 *dst,
-                          u32 v, u32 v2);
+extern void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h);
 
 void func_02013734(struct Obj02013734 *o, u32 a1, u32 a2, u32 a3, u32 a4,
                    u32 a5, u32 a6)
 {
     func_020134F4(o, a1, 1, a2, a6);
-    func_02013284(o, a1, 2, (u8 *)o + 0x2c, a3, a6);
-    func_02013284(o, a1, 1, (u8 *)o + 0x28, a4, a6);
-    func_02013284(o, a1, 3, (u8 *)o + 0x30, a5, a6);
+    func_02013284((u8 *)o, (u32 *)a1, 2, (u32 *)((u8 *)o + 0x2c), a3, a6);
+    func_02013284((u8 *)o, (u32 *)a1, 1, (u32 *)((u8 *)o + 0x28), a4, a6);
+    func_02013284((u8 *)o, (u32 *)a1, 3, (u32 *)((u8 *)o + 0x30), a5, a6);
     *((u8 *)o + 0x22) = 3;
 }

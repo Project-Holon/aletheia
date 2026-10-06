@@ -29,7 +29,7 @@ struct Bmp {
     u16   kind;   /* 0x0a */
 };
 
-u32 func_020437E4(const struct Bmp *bmp)
+u16 func_020437E4(const struct Bmp *bmp)
 {
     return bmp->height;
 }

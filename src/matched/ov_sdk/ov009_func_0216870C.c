@@ -18,8 +18,8 @@
 typedef unsigned char  u8;
 extern u8 func_02168724(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString);
 
-void func_0216870C(int a, int b)
+u8 func_0216870C(int a, int b)
 {
-    func_02168724((void *)a, 0, 0, (char *)b);
+    return func_02168724((void *)a, 0, 0, (char *)b);
 }
 

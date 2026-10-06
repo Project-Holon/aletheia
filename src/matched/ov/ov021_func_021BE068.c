@@ -81,11 +81,11 @@ extern void *func_02188CB4(unsigned char *p);
 extern u16 func_021A3050(u8 *p);
 extern int func_021BE194(u32 a);
 extern void func_021BE148(u32 a, int b);
-extern int func_021BE1B0(A *a);
+extern int func_021BE1B0(u32 a);
 extern void func_021A7B08(u32 o, Vec *v);
 struct VecFx32;
 extern void func_021A3038(unsigned char *t, struct VecFx32 *v);
-extern void func_021BE158(u32 h, Vec *v);
+extern int func_021BE158(u32 a, u32 b);
 extern void func_0218FEA4(u32 p);
 extern void func_0218FE78(u32 p, u8 *sub);
 extern void func_0218FEC0(u8 *o);
@@ -109,12 +109,12 @@ void func_021BE068(A *a)
     a->f6C = rec.f34;
     if (a->f6C == 0)
         return;
-    if (func_021BE1B0(a) != 0)
+    if (func_021BE1B0((u32)a) != 0)
         func_021A7B08(a->obj, &v);
     else
         func_021A3038(t, (struct VecFx32 *)&v);
-    if (s->f44 != 0 && func_021BE1B0(a) != 0)
-        func_021BE158(h, &v);
+    if (s->f44 != 0 && func_021BE1B0((u32)a) != 0)
+        func_021BE158(h, (u32)(&v));
     func_0218FEA4(a->f54);
     func_0218FE78(a->f04, sub);
     s->f00 = rec.f2C;

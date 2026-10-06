@@ -95,7 +95,7 @@ extern u32 func_0201AA18(void *list);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u8 *func_0200A628(struct Big *p);
 extern Flags *func_0200A640(void *sv);
-extern u32 func_0200A644(struct Big *p, u32 index);
+extern u32 func_0200A644(struct Big *p, u8 index);
 extern u16 func_0200A75C(struct Big *p);
 extern u16 func_0200A780(struct Big *p);
 extern u8 func_0200A7A0(struct Big *p, u32 index);

@@ -24,11 +24,11 @@ typedef signed int     s32;
 struct AreaMan;
 extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
 
-void func_0203FAF0(u32 a, u32 b, u32 c)
+u32 func_0203FAF0(u32 a, u32 b, u32 c)
 {
     u32 d = func_020416B8(a & 0xff);
 
     d = *(u32 *)(g_02146A44 + 0x170 + a * 4) / d;
-    func_020341F0((struct AreaMan *)((a < 4) ? *(u32 *)(g_02146A44 + 0x168) : *(u32 *)(g_02146A44 + 0x16c)),
+    return func_020341F0((struct AreaMan *)((a < 4) ? *(u32 *)(g_02146A44 + 0x168) : *(u32 *)(g_02146A44 + 0x16c)),
                   d + b, c);
 }

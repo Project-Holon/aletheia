@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021CA270(int kind)
+int func_021CA270(u16 kind)
 {
     switch (kind) {
     case 0:

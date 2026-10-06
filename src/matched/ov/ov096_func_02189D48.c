@@ -28,7 +28,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_0201134C(int);
-extern int func_021B8DE4(char *p, int i);
+extern u8 func_021B8DE4(char *p, int i);
 extern u8 *func_021B9AF8(u8 *, int);
 struct QG;
 extern int func_021B99B8(void *pp, unsigned int b);

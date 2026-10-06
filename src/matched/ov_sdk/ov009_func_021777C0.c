@@ -20,7 +20,7 @@
  */
 
 extern int func_0216BAF4(int aid);
-extern int func_02176C00(void *connection);
+extern int func_02176C00(void);
 extern int gt2Send(void *connection, unsigned char *buffer, int size, int reliable);
 extern int func_02176CF8(void *connection, unsigned char *buffer, int size);
 extern void DWCi_SetError(int kind, int code);
@@ -32,7 +32,7 @@ void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int relia
 
     connection = (void *)func_0216BAF4(aid);
     if (reliable != 0) {
-        if (func_02176C00(connection) != 0) {
+        if (func_02176C00() != 0) {
             res = gt2Send(connection, buffer, size, reliable);
             if (res == 0)
                 return;

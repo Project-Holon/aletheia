@@ -25,7 +25,7 @@ extern void func_020414EC(u32 a);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
-void func_021954CC(u32 p, u8 *e)
+u32 func_021954CC(u32 p, u8 *e)
 {
     u32 k;
 
@@ -45,5 +45,5 @@ void func_021954CC(u32 p, u8 *e)
         break;
     }
     func_02049B40(5, 0, k, e[0x14] << 5, 0x20, ((struct Obj04218 *)e)->f0);
-    func_02049624((void *)5, (void *)5, (void *)(((struct Obj04218 *)e)->f10), (void *)(((struct Obj04218 *)e)->fC), 0, 0, ((struct Obj04218 *)e)->f0);
+    return func_02049624((void *)5, (void *)5, (void *)(((struct Obj04218 *)e)->f10), (void *)(((struct Obj04218 *)e)->fC), 0, 0, ((struct Obj04218 *)e)->f0);
 }

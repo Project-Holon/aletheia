@@ -36,7 +36,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021C8180(int a);
+int func_021C8180(int *p);
 int func_021D775C(int a);
 void *func_021C7CF4(int *p, int i);
 int func_021D5B68(void *p);
@@ -55,7 +55,7 @@ void func_021E5F48(void *a, int b, int c, int *d)
     void *r;
     u8 *p;
 
-    if ((u32)func_021C8180(b) <= 1)
+    if ((u32)func_021C8180((int *)b) <= 1)
         return;
     if (c != func_021D775C(3))
         return;

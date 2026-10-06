@@ -30,9 +30,9 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *,int,int);
 extern void *func_02045770(struct Descriptor *p);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern u8 func_02043994(struct Bmp *b);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 void *func_021DA338(char *p,u16 heap)
 {
     u32 i;

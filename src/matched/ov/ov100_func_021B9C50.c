@@ -27,7 +27,7 @@ extern struct Entry *func_020399A8(void);
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern void func_02087C6C(void *);
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021B96B8(u8 *a);

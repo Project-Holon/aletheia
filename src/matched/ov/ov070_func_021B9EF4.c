@@ -34,7 +34,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 typedef unsigned char  u8;
 struct Bmp;
 struct Sub0200852CObj;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02049238(void *);
 

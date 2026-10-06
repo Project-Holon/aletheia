@@ -19,7 +19,7 @@
 
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern const signed char d_021EFCD0[];
 extern const signed char d_021EFCC8[];
 
@@ -31,6 +31,6 @@ void func_021ED310(char *w)
         i = 0;
         func_021EC0B0(w, 0xA, &xy[1], &xy[0], 0);
         for (; i < 8; i++)
-            func_021EC08C(w, i + 0x58, xy[1] + d_021EFCD0[i], xy[0] + d_021EFCC8[i], 0);
+            func_021EC08C(w, i + 0x58, (short)(xy[1] + d_021EFCD0[i]), (short)(xy[0] + d_021EFCC8[i]), (short)0);
     }
 }

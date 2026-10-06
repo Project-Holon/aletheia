@@ -23,7 +23,8 @@ extern void func_0202EB04(struct CodeIn *p);
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern int func_021BB840(char *p, int y);
-extern void func_021BB810(void *, int, int, int);
+typedef unsigned char  u8;
+extern void func_021BB810(void *p, u8 row, int y, int pal);
 extern void func_021BB858(char *p, int d);
 
 int func_021BA4A0(char *p)

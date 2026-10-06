@@ -25,7 +25,7 @@
 #include "../include/Obj00136.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D8E24(u8 *,u8 *);
+extern int func_021D8E24(void *unused, u8 *p);
 extern u32 func_020362DC(void);
 extern void func_021D5A9C(char *p, int a);
 extern void func_021D8EA8(u8 *,u8 *);

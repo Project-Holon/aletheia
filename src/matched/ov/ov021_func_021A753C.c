@@ -54,7 +54,7 @@ static inline u32 res0(Res *x)
     return 0;
 }
 
-void func_021A753C(Ctx *s, u32 b, u32 c, u32 d)
+u32 func_021A753C(Ctx *s, u32 b, u32 c, u32 d)
 {
     u32 r6;
     r6 = res0((Res *)func_0206E954((u32)func_02046F48((struct Tagged *)b)));
@@ -66,4 +66,5 @@ void func_021A753C(Ctx *s, u32 b, u32 c, u32 d)
     func_02069C74(s->buf, s->v, r6, c);
     func_02069E88(d, s->buf);
     s->flags = (s->flags & ~1) | 1;
+    return s->flags;
 }

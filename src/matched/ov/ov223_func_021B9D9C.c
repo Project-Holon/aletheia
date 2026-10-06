@@ -57,7 +57,7 @@ extern void func_02082BCC(void *,int,u32);
 extern unsigned func_021BC520(unsigned char *p);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern u32 func_0204B324(u32,u32,u32,u32,void *,u16,u16);
+extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 typedef signed int     s32;
 extern void *func_020490F4(u32 id, u16 heap);
@@ -101,7 +101,7 @@ void func_021B9D9C(char *p)
         desc.sx=FIX((float)motion[j].b[6]/16.0f);desc.sy=FIX((float)motion[j].b[6]/16.0f);
         desc.e=0;desc.f=1;
         r=p+j*148;
-        ((struct Obj01595 *)r)->f70=func_0204B324(func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f60,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f68,&desc,1,((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f70=(unsigned int)func_0204B324(func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f60,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f68,(u32)(&desc),1,((struct Obj00211 *)p)->f0);
         func_0204B3DC((struct Obj *)((struct Obj01595 *)r)->f70,0);
     }
     for(i=0;i<3;i++) {

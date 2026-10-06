@@ -29,7 +29,7 @@ struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0219492C(u8 *p, int i);
 
-int func_0219194C(u32 a, u32 b, u32 c, u32 d)
+int func_0219194C(u32 a)
 {
 if (((struct Obj07210 *)((u8 *)(a)))->f0 != 0) {
     func_02045808((struct U16Vec *)(((struct Obj07210 *)((u8 *)(a)))->f0));

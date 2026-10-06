@@ -50,7 +50,7 @@ extern void func_021BE6CC(int a, int b, int c, u16 d, int e);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F384C(void *task, int *st);
 
-void func_021F37B8(int a)
+void *func_021F37B8(int a)
 {
     int i;
     void *sys;
@@ -67,5 +67,5 @@ void func_021F37B8(int a)
         func_021BE700(s, 0, 0, i, 1);
         func_021BE6CC(s, 0, 0, i, 0);
     }
-    func_020122C0((void *)a, 0, (void *)func_021F384C, 0);
+    return func_020122C0((void *)a, 0, (void *)func_021F384C, 0);
 }

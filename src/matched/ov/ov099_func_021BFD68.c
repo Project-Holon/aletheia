@@ -20,7 +20,7 @@ extern int func_021BA928(char *, int);
 typedef unsigned int   u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 int func_021BFD68(char *p, int ret)

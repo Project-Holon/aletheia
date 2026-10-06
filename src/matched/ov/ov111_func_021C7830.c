@@ -124,7 +124,7 @@ extern u32 func_02048A18(u8 *a0, int i);
 extern int func_0204779C(int *p);
 extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
 struct Arg;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 extern void func_02047964(void);
 extern void func_020479D8(void);
 extern void func_02047A60(void *a0, struct Arg *a1);

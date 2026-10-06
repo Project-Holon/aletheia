@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern void *func_0215A5F4(void *p);
 extern int func_02158F58(int a0);
 extern void *func_02158F54(void *p);
-extern void func_021C9924(u32 a);
+extern int func_021C9924(u32 a);
 int func_021CA57C(u32 a, u32 b)
 {
     void *h = func_0215A5F4((void *)b);

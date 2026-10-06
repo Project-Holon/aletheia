@@ -86,7 +86,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02045C04(struct Rec *rec);
-extern u16   func_0203F1FC(void *p, u32 size);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern const char func_0200ADF0_File[];
 
@@ -365,7 +365,7 @@ u32 func_0200B1A8(struct Reg2 *p)
 
 u16 func_0200B1C4(struct Reg2 *p)
 {
-    return func_0203F1FC(p, 0x15E);
+    return func_0203F1FC((const u8 *)p, 0x15E);
 }
 
 struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index)

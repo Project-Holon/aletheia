@@ -44,9 +44,9 @@ void func_021BBA14(char *p)
     func_020307B0(((struct Obj01790 *)p)->f10);
     func_020307B0(p);
 }
-void func_021BBA64(char *p)
+int func_021BBA64(char *p)
 {
-    func_021BA760(*(char * *)&((struct Obj26302 *)p)->f1C);
+    return func_021BA760(*(char * *)&((struct Obj26302 *)p)->f1C);
 }
 void func_021BBA70(void)
 {

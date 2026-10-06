@@ -42,7 +42,7 @@ extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern u32 func_021B8B68(int unused, char *p);
+extern u8 func_021B8B68(int unused, char *p);
 extern void func_021BE210(u8 *p, u32 v);
 void func_021BDD6C(u8 *p)
 {

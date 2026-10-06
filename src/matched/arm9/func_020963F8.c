@@ -56,8 +56,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef long long s64;
 
-extern u64 func_02096004(u32 a, u32 b, u32 cb, u32 *buf, u32 *p4, u32 *p3,
-                         u32 *p2);
+extern unsigned long long func_02096004(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
 extern int func_020946D8(u32 *p, u32 a1, u32 a2);
 extern u32 g_02153FAC;
 
@@ -69,8 +68,8 @@ s64 func_020963F8(u32 a0, u32 *a1, u32 a2)
 
     buf[0] = a0;
     buf[1] = 0;
-    r = (s64)func_02096004(a2, 0x7FFFFFFFu, (u32)func_020946D8, buf,
-                           &buf[4], &buf[3], &buf[2]);
+    r = (s64)func_02096004(a2, 0x7FFFFFFFu, (int (*)(void *, int,  int))func_020946D8, buf,
+                           (int *)(&buf[4]), (int *)(&buf[3]), (int *)(&buf[2]));
     if (a1 != 0)
         *a1 = a0 + buf[4];
     if (buf[2] != 0 ||

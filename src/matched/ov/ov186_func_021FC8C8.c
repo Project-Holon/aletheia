@@ -68,7 +68,7 @@ extern void func_0204B92C(struct Obj *,u32);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7D0(void *,short,short,void *,void *,u16);

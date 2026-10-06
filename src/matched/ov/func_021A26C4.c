@@ -25,7 +25,7 @@ typedef signed char    s8;
 extern u32 func_0204B404(u32, u32, u32);
 extern u32 func_021A2C28(u8 *p);
 
-int func_021A26C4(u32 a, u32 b, u32 c, u32 d)
+int func_021A26C4(u32 a, u32 b)
 {
 return func_0204B404(func_021A2C28((u8 *)a), b, 0);
 }

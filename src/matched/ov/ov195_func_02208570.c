@@ -90,7 +90,7 @@ typedef struct Quad {
     u8 f4e;
 } Quad;
 
-void func_02208570(Quad *p)
+void func_02208570(Quad *p, u16 heap)
 {
     int z;
 

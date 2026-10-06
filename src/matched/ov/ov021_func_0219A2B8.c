@@ -45,7 +45,7 @@ extern u16 func_0216D5F8(void *p);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D438(int a0, int a1);
 extern u32 func_02197EDC(u8 *p);
-extern u16 func_0219B0F0(void *, int);
+extern int func_0219B0F0(u32 a, u32 b);
 extern u32 func_0219B104(u32, u32);
 extern void func_0216D60C(u32, u16);
 extern int func_0219A4CC(u32, u32);
@@ -70,7 +70,7 @@ void func_0219A2B8(u32 a)
     case 1:
         if (func_02197EDC((u8 *)a) == 0)
             break;
-        p->timer = func_0219B0F0(d_021D4FA4, -1);
+        p->timer = func_0219B0F0((u32)d_021D4FA4, -1);
         p->state++;
     case 2:
         p->timer--;

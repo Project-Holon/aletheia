@@ -30,7 +30,8 @@ struct Work {
 };
 struct Root { char pad[0xc]; struct Work *w; };
 extern struct Root g_021AA860;
-extern unsigned char func_0216870C(struct Friend *f, char *str);
+typedef unsigned char  u8;
+extern u8 func_0216870C(int a, int b);
 void func_02169174(int index)
 {
 	struct { char pad[0x108]; char s[0x10c]; } status;
@@ -39,6 +40,6 @@ void func_02169174(int index)
 		g_021AA860.w->cb44(index, g_021AA860.w->arg48);
 	if (g_021AA860.w->cb34 == 0)
 		return;
-	st = func_0216870C(&g_021AA860.w->friends[index], status.s);
+	st = func_0216870C((int)(&g_021AA860.w->friends[index]), (int)status.s);
 	g_021AA860.w->cb34(index, st, status.s, g_021AA860.w->arg38);
 }

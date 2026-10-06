@@ -26,7 +26,7 @@ typedef unsigned int  u32;
 struct Obj;
 extern u32 func_0202B834(struct Obj *o);
 extern void func_0202B84C(void *a);
-extern unsigned short func_0202B810(void);
+extern u32 func_0202B810(void);
 extern void func_0202B6CC(u8 *p);
 extern void func_0202B6DC(u8 *p);
 extern void func_0202B6EC(u8 *p);

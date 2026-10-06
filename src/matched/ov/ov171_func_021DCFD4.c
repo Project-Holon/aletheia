@@ -15,11 +15,11 @@
 #include "../include/Obj14288.h"
 typedef unsigned int u32;
 
-extern int func_021DE0AC(void *p, u32 v);
+extern int func_021DE0AC(int *p, int i);
 
 u32 func_021DCFD4(char *p)
 {
-    if (func_021DE0AC(p, ((struct Obj14288 *)p)->fC64) == 0)
+    if (func_021DE0AC((int *)p, ((struct Obj14288 *)p)->fC64) == 0)
         return ((struct Obj14288 *)p)->fC68;
     return 3;
 }

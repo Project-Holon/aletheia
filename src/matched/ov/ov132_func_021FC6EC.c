@@ -35,7 +35,7 @@ extern void func_0203D7BC(u32);
 extern u32 func_0200FB24(void);
 extern u32 func_0203D378(void);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *,u16,u16,u32);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02012124(struct Ctx *p, u32 v);
 extern void func_021FCDEC(int,int);
 extern int func_021FCE00(char *p, int id);

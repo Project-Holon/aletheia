@@ -21,7 +21,8 @@
 #include "../include/Obj01145.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02040B94(u32,u32,u32,u32);
+typedef unsigned short u16;
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);

@@ -24,8 +24,9 @@ typedef unsigned int   u32;
 struct BbActSys;
 extern int func_0216D7A8(void *p, unsigned int v);
 extern u16 func_0216D598(void *p);
-extern void func_0219C880(int *, int, unsigned int, unsigned int);
-extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
+typedef unsigned char  u8;
+extern void func_0219C880(u8 *o, u32 a, u32 b, u32 c);
+extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
 
 void func_0219D324(int *obj, int *rec)
 {
@@ -34,7 +35,7 @@ void func_0219D324(int *obj, int *rec)
 
     h = rec[0];
     if (func_0216DA30(h, (int)rec) == 0) {
-        func_0219C880(obj, h, ((struct Obj02700 *)rec)->f4, *((unsigned short *)(rec + 1) + 1));
+        func_0219C880((u8 *)obj, h, ((struct Obj02700 *)rec)->f4, *((unsigned short *)(rec + 1) + 1));
         func_02050468((struct BbActSys *)obj[1], ((struct Obj02700 *)rec)->f4, 1);
         rec[0] = 0;
         return;
@@ -42,7 +43,7 @@ void func_0219D324(int *obj, int *rec)
     if ((unsigned short)func_0216D7A8((void *)h, 0) != 0xFFFF) {
         n = *((unsigned short *)(rec + 1) + 1);
         if (n != func_0216D598((void *)h)) {
-            func_0219C880(obj, h, ((struct Obj02700 *)rec)->f4, n);
+            func_0219C880((u8 *)obj, h, ((struct Obj02700 *)rec)->f4, n);
         }
         func_02050468((struct BbActSys *)obj[1], ((struct Obj02700 *)rec)->f4, 1);
         rec[0] = 0;

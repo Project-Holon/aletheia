@@ -27,7 +27,7 @@ extern u32 func_020113D8(u32);
 struct BigObj;
 extern u8 func_02012984(const struct BigObj *p);
 
-int func_02189A38(u32 a, u32 b, u32 c, u32 d)
+int func_02189A38(int a)
 {
 return func_020113D8(func_02012984((const struct BigObj *)(((struct Obj17890 *)((u8 *)(a)))->f8)));
 }

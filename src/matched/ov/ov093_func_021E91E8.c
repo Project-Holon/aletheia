@@ -108,7 +108,7 @@ extern int func_021EB52C(u32 a);
 struct H;
 struct Pair;
 extern u8 *func_021E9634(struct Pair *s, u32 k);
-extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF18(struct L *p, int kind, int id);
 extern u8 func_021D5440(u8 *p);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *p, u8 v);
@@ -123,7 +123,7 @@ extern void func_021E9624(u32 a);
 extern int func_021EA710(u32 *p);
 extern int func_021E95F4(u32 a);
 extern u32 func_0201BD28(u16 id, u32 field);
-extern void func_021ED118(u8 *p, int a, int b, u16 c, u32 d, int e, u8 f);
+extern void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f);
 extern int func_021ED1B0(char *p);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_0209C0A4(int a, int b);
@@ -140,7 +140,7 @@ extern void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d);
 extern int func_021E9E80(u8 *p);
 extern int func_021F7EB4(void);
 extern void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e);
-extern int func_021EA720(Obj *p);
+extern int func_021EA720(u32 *p);
 extern void func_02005D90(u32 a, u32 b);
 extern int func_02005F38(void);
 extern void func_021F7C0C(void);
@@ -285,7 +285,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         }
         break;
     case 18:
-        if (func_021EA720(p)) {
+        if (func_021EA720((u32 *)p)) {
             func_02005D90(0x518, 0xFFFF);
         }
         if (func_021EA710((u32 *)p)) {

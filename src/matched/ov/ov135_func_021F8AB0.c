@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void *func_02009860(void *p);
-extern u32 func_02009CC0(void *p);
+extern int func_02009CC0(void *a0);
 struct DWCstAccUserData;
 struct Sub0200852CObj;
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);

@@ -27,7 +27,7 @@ extern void func_0204A8D4(u32 i);
 extern u32 func_0204ADA4(u32);
 extern void func_0204AFD8(u32 i);
 
-int func_021CCCC4(u32 a, u32 b, u32 c, u32 d)
+int func_021CCCC4(u32 a)
 {
 func_0204A8D4(*(u16 *)((u8 *)((a + 156))));
 func_0204AFD8(*(u16 *)((u8 *)((a + 154))));

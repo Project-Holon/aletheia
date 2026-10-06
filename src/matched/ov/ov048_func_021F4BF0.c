@@ -17,5 +17,6 @@ typedef unsigned int   u32;
 struct AnmCtl;
 struct Owner;
 extern int func_020477D4(struct Owner *owner, u32 index);
-extern u32 func_02047804(struct AnmCtl *c, u32 idx);
+typedef unsigned short u16;
+extern u32 func_02047804(struct AnmCtl *c, u16 idx);
 void func_021F4BF0(int *p) { if(p[1]==1) { p[1]=0; func_020477D4((struct Owner *)p[4],((struct Obj05134 *)p)->f14); func_02047804((struct AnmCtl *)p[4],((struct Obj05134 *)p)->f14); } }

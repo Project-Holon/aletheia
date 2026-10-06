@@ -30,7 +30,7 @@ typedef unsigned int u32;
 extern int func_021F4D20(u32 a, u32 b);
 extern int func_021F4F50(int a);
 extern u32 func_021F4DA4(u8 *p, u16 a, u16 b);
-extern u32 func_021F4D9C(const u16 *p);
+extern u16 func_021F4D9C(const u16 *p);
 extern u16 func_021F4DA0(const u16 *p);
 extern int func_021F4F68(const u16 *p);
 extern unsigned short func_021F4F6C(char *base, int i, int j);

@@ -28,7 +28,7 @@ extern int func_021C89A8(u32 a);
 extern void func_021C8AD0(int *p);
 extern int func_0216D454(int a);
 extern void func_021C8B48(int *p);
-extern int func_021C8B5C(int *p);
+extern int func_021C8B5C(u32 a);
 extern int func_02006148(u32 a0);
 extern void func_020061F8(int a);
 extern void func_021C8B14(int *p);
@@ -48,7 +48,7 @@ int func_021C89BC(int a, int *st, int *p)
         func_021C8AD0(p);
         if (func_0216D454(p[3])) {
             func_021C8B48(p);
-            if (func_021C8B5C(p)) {
+            if (func_021C8B5C((u32)p)) {
                 func_020061F8(func_02006148(0x694));
                 *st = 2;
             } else {

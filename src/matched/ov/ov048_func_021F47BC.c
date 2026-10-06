@@ -74,7 +74,7 @@ typedef signed int     s32;
 struct AnmCtl;
 struct G3dSys;
 struct Owner;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern int func_020477D4(struct Owner *owner, u32 index);
 extern char d_021F523C[];

@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern u32 func_020056EC(u32 v);
-extern int func_02189A38();
+extern int func_02189A38(int a);
 extern int func_02189A2C(int *a);
 extern void func_021F4530(u16 *p, u32 a, u32 b, u32 c, u32 d);
 extern void func_021F4574(u16 *p, u32 x);
@@ -40,7 +40,7 @@ void func_021F4474(s16 *a, s16 *b, int *c)
 
     i = 0;
     rnd = func_020056EC(0);
-    x = func_02189A38(c);
+    x = func_02189A38((int)c);
     if (func_02189A2C(c) == 0) {
         a[0] = a[0] + 1;
         if (a[0] >= a[1]) {

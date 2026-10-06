@@ -31,7 +31,7 @@ extern int func_021DFA30(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021EA064(unsigned char *p, int i, int v)
+int func_021EA064(unsigned char *p, int i, int v)
 {
     p[0x17] = p[0x14];
     p[0x16] = i;
@@ -43,5 +43,5 @@ void func_021EA064(unsigned char *p, int i, int v)
     func_021EA1C0(p);
     ((struct Obj00000 *)p)->f28 = v;
     p[0x1A] = 2;
-    func_021E8FC0((char *)p, (int)func_021DFA30, 0x17);
+    return func_021E8FC0((char *)p, (int)func_021DFA30, 0x17);
 }

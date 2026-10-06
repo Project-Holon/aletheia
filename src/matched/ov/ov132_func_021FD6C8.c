@@ -24,8 +24,8 @@ typedef signed int     s32;
 
 extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
 
-void func_021FD6C8(u8 *p)
+int func_021FD6C8(u8 *p)
 {
     void *q = ((struct Obj23291 *)p)->f140;
-    func_021FCEA8((int)p, 4, (u32)(((struct Obj23292 *)q)->f20), 0xff);
+    return func_021FCEA8((int)p, 4, (u32)(((struct Obj23292 *)q)->f20), 0xff);
 }

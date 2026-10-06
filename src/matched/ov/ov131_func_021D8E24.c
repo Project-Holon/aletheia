@@ -28,9 +28,9 @@ typedef struct {
 
 extern s16 func_021D9440(u8 *p, u32 target);
 extern u32 func_021D9428(u8 *p, u32 target);
-extern void func_02035C08(const void *p);
+extern int func_02035C08(const void *p);
 
-void func_021D8E24(void *unused, u8 *p)
+int func_021D8E24(void *unused, u8 *p)
 {
     Rect r[11];
     u8 i;
@@ -58,5 +58,5 @@ void func_021D8E24(void *unused, u8 *p)
             r[i].x = 0xfd;
     }
     r[10].x = 0xff;
-    func_02035C08(r);
+    return func_02035C08(r);
 }

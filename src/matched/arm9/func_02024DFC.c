@@ -83,8 +83,7 @@ extern const u16 d_0209F830[];
 
 extern void func_02025154(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h);
 extern int  func_020251D8(int a0, const void *a1, int a2);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, void *a5, u8 a6,
-                          u8 a7, u8 a8, u8 a9);
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020409B4(u32 a0);
 extern u8 func_02035630(void);
 extern int  OS_IsRunOnTwl(void);
@@ -117,7 +116,7 @@ void func_02024DFC(void)
         buf.clk[7] = gInfoWin->f00 + ((gInfoWin->f07 << 12) + k);
         buf.clk[8] = buf.clk[3] + 0x10;
         buf.clk[9] = buf.clk[4] + 0x10;
-        func_020410D0(gInfoWin->f06, 1, 0, 5, 2, buf.clk, 0, 0, 5, 2);
+        func_020410D0(gInfoWin->f06, 1, 0, 5, 2, (u32)buf.clk, 0, 0, 5, 2);
         done = 1;
         gInfoWin->f04 = gInfoWin->f04 - 1;
     }
@@ -186,7 +185,7 @@ void func_02024DFC(void)
         buf.scr[2] = buf.scr[0] + 0x10;
         buf.scr[1] = buf.scr[0] + 0x400;
         buf.scr[3] = buf.scr[2] + 0x400;
-        func_020410D0(gInfoWin->f06, 0x1C, 0, 2, 2, buf.scr, 0, 0, 2, 2);
+        func_020410D0(gInfoWin->f06, 0x1C, 0, 2, 2, (u32)buf.scr, 0, 0, 2, 2);
         func_020251D8(13, d_0209F830, 1);
         done = 1;
         gInfoWin->f04 = gInfoWin->f04 - 0x20;

@@ -25,7 +25,7 @@ typedef struct { u32 k : 2; } K;
 
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 
 void func_021C6744(u32 *a, int idx, int mode, u32 val)
 {

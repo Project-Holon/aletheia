@@ -23,17 +23,18 @@ int func_021736D8(void);
 struct Entry;
 u16 func_02039338(void);
 struct Entry *func_020399A8(void);
-void func_021738BC(int a, int b, int *c, int d, void *e);
+typedef unsigned char  u8;
+void func_021738BC(int a, int b, int *c, u8 *d, void *e);
 typedef unsigned int   u32;
-int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 
-int func_021738E4(int a, int b, int c, int d)
+int func_021738E4(void *a, int b)
 {
     int h;
 
     if (func_021736D8() == 0) {
         h = func_02039338();
-        func_021738BC(h, 4, &b, a, func_020399A8());
+        func_021738BC(h, 4, &b, (u8 *)a, func_020399A8());
         return 1;
     }
     return func_0203D3A8(func_020399A8(), 0x204, 4, (u32)(&b));

@@ -24,13 +24,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021BE100(int x);
+extern int func_021BE100(void);
 extern int func_02085D3C(int a);
 extern void func_021B7B5C(int a, int b, int c);
 
 void func_021B7B3C(int x, int y, int z)
 {
-    int r = func_021BE100(x);
+    int r = func_021BE100();
     if (r != 1) {
         return;
     }

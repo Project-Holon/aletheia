@@ -36,7 +36,7 @@ extern const Tri d_021D3E50;
 
 struct Bmp;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 
 void func_021927FC(Cur *c, u32 win, u32 col)

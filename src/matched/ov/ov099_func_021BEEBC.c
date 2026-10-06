@@ -57,7 +57,7 @@ extern int func_021B96CC(int *p);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02009A54(struct Sub020097BCObj *obj);
-extern void func_021B95A0(char *,int,void *,int,int,int,void *,void *);
+extern void func_021B95A0(char *p, int heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u8 *func_021B9900(u8 *p, int v);
 extern void func_021BE21C(char *,void *);
 extern int func_021C1A44(char *);
@@ -91,7 +91,7 @@ void func_021BEEBC(char *p)
         kind=16;
         if(enabled)kind=17;
         ((struct Obj00008 *)p)->f132A=func_02009A54(((struct Obj00008 *)p)->f4);
-        func_021B95A0(p+0x274,33,h,kind,((struct Obj00008 *)p)->f132A,33,((struct Obj00008 *)p)->f110,((struct Obj00008 *)p)->f114);
+        func_021B95A0(p+0x274,33,(u32)h,kind,((struct Obj00008 *)p)->f132A,33,(u32)(((struct Obj00008 *)p)->f110),(u32)(((struct Obj00008 *)p)->f114));
         func_021BE21C(p,func_021B9900((u8 *)(p+0x274),kind));
     }
     if(!func_021C1A44(p))func_021C1A58(p,(int)h,33);

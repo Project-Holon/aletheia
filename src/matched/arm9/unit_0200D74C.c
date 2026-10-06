@@ -69,9 +69,9 @@ u32 func_0200D74C(struct GdsProfile *p)
     return func_02025C1C(p->unk17, p->unk18, func_0200D82C(p));
 }
 
-void func_0200D760(struct GdsProfile *p)
+u32 func_0200D760(struct GdsProfile *p)
 {
-    func_02025C30(p->unk17, p->unk18, func_0200D82C(p));
+    return func_02025C30(p->unk17, p->unk18, func_0200D82C(p));
 }
 
 void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)

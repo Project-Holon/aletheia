@@ -58,10 +58,8 @@ extern void func_021C1FF8(void);
 extern GHIConnection *func_021C0998(void);
 extern char *func_0217F1E0(const char *src);
 extern int func_021C0D40(GHIConnection *connection);
-extern int func_021BFC54(GHIConnection *connection, void *buffer, char *userBuffer,
-                         int size);
-extern int func_021BFBD0(GHIConnection *connection, void *buffer, int initialSize,
-                         int sizeIncrement);
+extern int func_021BFC54(int a, int *out, char *buf, int n);
+extern int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3);
 extern int func_021C2A78(GHIConnection *connection);
 extern int func_021C1DEC(GHIConnection *connection);
 extern void func_0217F2BC(unsigned int msec);
@@ -111,9 +109,9 @@ int func_021C20A4(const char *URL, const char *headers, char *buffer, int buffer
     connection->userBufferSupplied = (buffer != 0);
 
     if (connection->userBufferSupplied)
-        bResult = func_021BFC54(connection, connection->getFileBuffer, buffer, bufferSize);
+        bResult = func_021BFC54((int)connection, (int *)connection->getFileBuffer, buffer, bufferSize);
     else
-        bResult = func_021BFBD0(connection, connection->getFileBuffer, 0x800, 0x800);
+        bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->getFileBuffer, 0x800, 0x800);
     if (!bResult) {
         func_021C0D40(connection);
         return -1;

@@ -55,7 +55,9 @@ typedef void *(*DispatchFn)(struct Obj *o);
 
 extern DispatchFn const gUnk_020A1394[][3];
 
-void *sub_0204D410(struct Obj *o)
+struct Rec;
+
+struct Rec *sub_0204D410(struct Obj *o)
 {
     return gUnk_020A1394[7][o->type](o);
 }

@@ -18,7 +18,7 @@ struct Blk { u32 w[51]; };
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void func_0200A50C(void *base, u32 kind);
-extern void func_0200A4B8(void *p, int v);
+extern void func_0200A4B8(void *base, u32 kind);
 void func_021DFEB0(char *p, void *ctrl)
 {
     u8 *buf;

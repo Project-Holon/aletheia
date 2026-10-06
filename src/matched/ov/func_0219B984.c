@@ -28,7 +28,7 @@ extern void *func_0216D67C(void *a0);
 extern void *func_0216DEE0(void *a0);
 extern void func_0219B9B0(u32 a, u8 *s);
 
-int func_0219B984(u32 a, u32 b, u32 c, u32 d)
+int func_0219B984(u32 a, u32 b)
 {
 if (func_0216DEE0((void *)func_0216D67C((void *)a)) == 0) {
     ((struct Obj05008 *)((u8 *)(b)))->f1 = 0;

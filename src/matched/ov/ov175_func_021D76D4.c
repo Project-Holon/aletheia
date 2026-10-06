@@ -80,9 +80,10 @@ struct RecBig;
 struct Reg2;
 extern int func_0201A090(void *rules, void *party, u32 *mask);
 extern void func_021DCB58(char *,void *,int);
-extern int func_021DCC28(char *,void *);
+struct Record;
+extern int func_021DCC28(char *p, u8 *out);
 extern u32 func_0201AA18(void *p);
-extern void func_021DBC04(char *,int,void *);
+extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 extern void *func_02012EBC(struct Big *p);
 extern void * func_0200BAC8(void *);
@@ -143,7 +144,7 @@ void func_021D76D4(u32 sys,int *state,char *p)
         func_021DCB58((char *)W(0x34),(void *)(ctx[5]+0xd4),1);
         func_02082BCC(p+0x44,0,0x9c); *state=18; break;
     case 18:
-        r=func_021DCC28((char *)W(0x34),p+0x44);
+        r=func_021DCC28((char *)W(0x34),(u8 *)(p+0x44));
         if(r==1) {
             n=func_0201AA18((void *)(ctx[5]+0xd4)); empty=0;
             for(i=0;i<n;i++) if(((SlotView *)p)->slots[i]==0) empty++;
@@ -152,7 +153,7 @@ void func_021D76D4(u32 sys,int *state,char *p)
         switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;}
         break;
     case 19: func_021E8738((int *)W(0x2c),W(0x14),0x47,1); func_021E8AB4(sys,29); *state=30; break;
-    case 20: if(*(u32 *)ctx[8]==0) {func_021DBC04((char *)W(0x34),0,(void *)(ctx[5]+0xd4));*state=21;} break;
+    case 20: if(*(u32 *)ctx[8]==0) {func_021DBC04((u8 *)W(0x34),0,(void *)(ctx[5]+0xd4));*state=21;} break;
     case 21:
         r=func_021DBDAC((char *)W(0x34));
         if(r==1) {*(u32 *)((u32 *)W(0x104))[8]=0x708; *state=22;}

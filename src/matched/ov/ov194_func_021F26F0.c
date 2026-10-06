@@ -45,7 +45,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02045808(struct U16Vec *vec);
 extern u16 func_021F4DA0(const u16 *p);
-extern u16 func_021F4D9C(void *);
+extern u16 func_021F4D9C(const u16 *p);
 extern int func_021F2818(char *,Pair *,Box *);
 extern unsigned func_021F2614(char *,int *,u16 *);
 void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)

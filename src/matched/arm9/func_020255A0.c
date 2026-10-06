@@ -91,7 +91,7 @@ struct Actor;
 struct Bmp;
 struct Obj;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern s32 func_0204A7A0(u32 size, u32 a2, u16 heapId);
 extern u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg);
 extern struct Obj *func_0204B294(void *a, u32 res, u32 c, u32 d, const void *pt,

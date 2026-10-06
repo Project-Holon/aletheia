@@ -233,7 +233,7 @@ extern int func_021D9C34(char *obj, int trigger, int go);
 extern void func_021D9D40(char *obj);
 extern int func_021D9D50(char *obj, u32 *rec);
 extern void func_021D9ED4(char *obj, u32 v);
-extern int func_021D9EEC(void *ctx);
+extern int func_021D9EEC(char *obj);
 extern int func_021D9F04(char *ctx, void *a, void *b);
 extern void func_021DA0D4(char *obj, int mode, int extra, int group, int *rec);
 extern int func_021DA1E4(char *obj);
@@ -248,7 +248,7 @@ extern void func_021DB3A4(char *obj, u32 target, int kind, u32 arg);
 extern int func_021DB478(char *obj);
 extern u32 func_021DC1A0(char *obj, u32 data);
 extern u32 func_021DC1E4(char *obj, char **out);
-extern int func_021DC268(void *ctx, u32 *data);
+extern int func_021DC268(char *obj, u32 data);
 extern u32 func_021DC2A0(char *obj, u32 arg);
 extern void func_021DCA28(char *obj, u32 win, u16 tag);
 extern int func_021DCAEC(char *obj, int *out);
@@ -571,7 +571,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0x16:
         if (res == 0) {
-            if (func_021DC268(obj->f34, &obj->fe4) != 0) {
+            if (func_021DC268(obj->f34, (u32)(&obj->fe4)) != 0) {
                 *state = 0x17;
                 obj->ff0 = 0;
             }

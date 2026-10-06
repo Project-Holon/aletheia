@@ -32,8 +32,7 @@ typedef struct CPSSslConnection {
     char name[0x100];           /* +0x7b0 */
 } CPSSslConnection;
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
-                          const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021CE7B0[];       /* __FILE__ */
 extern char g_021CE686[];       /* __FUNCTION__ */
 extern char g_021CE8F8[];
@@ -47,15 +46,15 @@ extern char g_021CEA44[];
 
 int func_021C1668(int result, CPSSslConnection *con, int level)
 {
-    func_0217D254(8, 4, 8, g_021CE8F8, g_021CE7B0, g_021CE686, 938);
-    func_0217D254(8, 4, 8, g_021CE920, level, con->issuer, con->name, con->subject);
+    func_0217D254(8, (char *)4, 8, g_021CE8F8, g_021CE7B0, g_021CE686, 938);
+    func_0217D254(8, (char *)4, 8, g_021CE920, level, con->issuer, con->name, con->subject);
 
     if (result & 0x8000) {
-        func_0217D254(8, 4, 2, g_021CE93C, g_021CE7B0, g_021CE686, 946);
+        func_0217D254(8, (char *)4, 2, g_021CE93C, g_021CE7B0, g_021CE686, 946);
         result &= ~0x8000;
     }
     if (result & 0x4000) {
-        func_0217D254(8, 4, 2, g_021CE970, g_021CE7B0, g_021CE686, 954);
+        func_0217D254(8, (char *)4, 2, g_021CE970, g_021CE7B0, g_021CE686, 954);
         result &= ~0x4000;
     }
 
@@ -63,16 +62,16 @@ int func_021C1668(int result, CPSSslConnection *con, int level)
     case 0:
         break;
     case 1:
-        func_0217D254(8, 4, 2, g_021CE9AC, g_021CE7B0, g_021CE686, 963);
+        func_0217D254(8, (char *)4, 2, g_021CE9AC, g_021CE7B0, g_021CE686, 963);
         break;
     case 2:
-        func_0217D254(8, 4, 2, g_021CE9E4, g_021CE7B0, g_021CE686, 969);
+        func_0217D254(8, (char *)4, 2, g_021CE9E4, g_021CE7B0, g_021CE686, 969);
         break;
     case 3:
-        func_0217D254(8, 4, 2, g_021CEA14, g_021CE7B0, g_021CE686, 975);
+        func_0217D254(8, (char *)4, 2, g_021CEA14, g_021CE7B0, g_021CE686, 975);
         break;
     case 4:
-        func_0217D254(8, 4, 2, g_021CEA44, g_021CE7B0, g_021CE686, 981);
+        func_0217D254(8, (char *)4, 2, g_021CEA44, g_021CE7B0, g_021CE686, 981);
         break;
     }
     return result;

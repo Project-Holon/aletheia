@@ -39,7 +39,7 @@ extern void func_0218F1AC(u8 *p, u32 v);
 extern u32 func_02189A18(u8 *p);
 extern void func_021AB75C(u8 *p, u32 v);
 
-void func_0218FF78(u32 *p)
+u32 func_0218FF78(u32 *p)
 {
     u32 a = p[0];
     u32 b = p[1];
@@ -59,4 +59,5 @@ void func_0218FF78(u32 *p)
     }
     func_021AB75C((u8 *)func_02189A18((u8 *)a), 0);
     p[3] = 1;
+    return p[3];
 }

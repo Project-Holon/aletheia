@@ -31,20 +31,20 @@
 typedef unsigned int u32;
 
 extern void *func_0216D69C(void *p);
-extern int func_0219EAB8();
+extern int func_0219EAB8(u32 a, u32 b);
 extern int func_0219EB18();
 extern int func_0219EB4C(u32 o);
-extern int func_0219EB90();
+extern int func_0219EB90(u32 a);
 extern void func_0219EBA0(u32 o, u32 k);
 extern int func_0219EBF4(u32 o);
 extern int func_0219ED7C();
 extern int func_0219ED8C();
 extern int func_0219EDC4(u32 o);
-extern int func_0219EF04();
+extern int func_0219EF04(u32 a);
 
 int func_0219E854(u32 o)
 {
-    return func_0219EAB8(func_0216D69C((void *)o), o);
+    return func_0219EAB8((u32)func_0216D69C((void *)o), o);
 }
 
 int func_0219E864(u32 o) { return func_0219EB18(o, 0); }

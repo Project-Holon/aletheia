@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Ctx;
 struct Rec;
-extern u32 func_0216D5A8(u8 *p);
+extern u16 func_0216D5A8(u8 *p);
 extern u16 func_0216D590(void *p);
 extern void *func_0216D67C(void *a0);
 extern int func_021AE884(u32 a);

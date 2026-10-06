@@ -12,7 +12,7 @@
  *   func_02035C08 0x02035C08 arm
  *   d_02186AAC 0x02186AAC data a4
  */
-extern int func_02035C08(void *);
+extern int func_02035C08(const void *p);
 extern char d_02186AAC[];
 int func_021864A8(char *p)
 {

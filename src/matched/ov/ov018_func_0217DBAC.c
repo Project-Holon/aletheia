@@ -30,7 +30,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B92C(struct Obj *, unsigned int);
 extern const Rect d_021836DC;
 
-void func_0217DBAC(int *p)
+void func_0217DBAC(int *p, void *a1)
 {
     Rect r;
     int i;

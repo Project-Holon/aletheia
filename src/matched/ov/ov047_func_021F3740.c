@@ -54,7 +54,7 @@ extern u32 func_02005728(u32 range);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern s16 *func_0200B3A4(unsigned int, unsigned int);
-extern int func_0203F684(s32 x);
+extern short func_0203F684(s32 x);
 extern int _fflt(int a);
 extern int _fadd(int a, int b);
 extern int _fsub(int a, int b);

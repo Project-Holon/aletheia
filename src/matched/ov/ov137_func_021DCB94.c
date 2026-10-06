@@ -20,5 +20,5 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern void func_02082D44(const void *,void *,u32);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-void func_021DCB94(u8 *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=func_020399A8();q=(u8 *)((u32)p+4);func_02082D44(data,q+4,size);func_0203D3A8(v,id,size+4,(u32)q+4);}
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+void func_021DCB94(u8 *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=func_020399A8();q=(u8 *)((u32)p+4);func_02082D44(data,q+4,size);func_0203D3A8(v,(u16)id,(u16)(size+4),(u32)q+4);}

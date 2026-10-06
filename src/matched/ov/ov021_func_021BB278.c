@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 struct S;
 extern void func_0219EF7C(struct S *p, u32 b, u32 c);
 extern u8 *func_0219F018(u8 *p);
-extern void func_021B7934(u32, u32);
+extern int func_021B7934(u32 a, u32 b);
 extern void func_021BB0B4(u32 *a, u32 b, u32 c);
 extern void func_021AB840(u32, int, u32, u16);
 extern u32 func_021AB880(u8 *p);

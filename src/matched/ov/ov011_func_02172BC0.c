@@ -77,7 +77,7 @@ extern void  func_02173590(void *a, void *b, u32 c);
 extern void  func_02161F54(void *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02012B64(struct BigObj *p, u8 v);
-extern void func_02012B8C(struct BigObj *p, u8 v);
+extern void func_02012B8C(struct BigObj *p, u32 v);
 extern void func_02012B4C(struct BigObj *p, u8 v);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void  func_02008494(void *a, void *b);

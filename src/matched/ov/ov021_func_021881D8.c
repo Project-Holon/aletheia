@@ -139,7 +139,7 @@ extern void func_021C6534(u32 *p, u32 v);
 extern void func_02189614(void *p, char *q, u16 id);
 extern void func_02014110(void *p, u16 a, int b, int c, int d, int e, int f, int g);
 extern void func_0218CEE4(struct Obj *p, const struct Src *src, void *c);
-extern int func_02013C9C(u32 key);
+extern int func_02013C9C(u16 key);
 extern void func_021BB2F8(u32 a, u32 b, u32 c);
 extern int func_02189ACC(u16 id);
 struct T;

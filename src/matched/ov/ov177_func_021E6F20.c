@@ -48,7 +48,7 @@ extern u32 func_02027694(void);
 extern u32 func_02027698(void);
 extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);
-extern void *func_0204AC18(void *, u32, u32, u16, u32, u32, u16);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void func_02082BCC(void *, u32, u32);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern u32 func_0201BB5C(u32, u32, u32, u32);
@@ -73,7 +73,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
     }
     func_02049238(h);
     h = func_020490F4(func_020275E4(), heap);
-    w->pal2 = func_0204AC18(h, func_02027694(), w->layer, (u16)((w->palSlot + 3) << 5), (u32)0, (u32)1, (heap & 0x7fff) | 0x8000);
+    w->pal2 = (void *)func_0204AC18(h, func_02027694(), w->layer, (u16)((w->palSlot + 3) << 5), (u32)0, (u32)1, (heap & 0x7fff) | 0x8000);
     w->chr2 = (void *)func_0204A6C8(h, func_02027698(), 0, w->layer, (heap & 0x7fff) | 0x8000);
     w->cell2 = (void *)func_0204AF28(h, func_0202769C(2), func_020276A0(2), heap);
     func_02049238(h);

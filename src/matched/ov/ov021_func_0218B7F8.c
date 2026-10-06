@@ -23,7 +23,7 @@ extern void func_0218C860(void *p);
 typedef unsigned char  u8;
 extern void func_0218BE84(u8 *s, u8 *e);
 extern void func_0218BD94(u8 *s);
-extern void func_0218BB64(char *p);
+extern int func_0218BB64(char *a);
 extern void func_0218BC6C(unsigned char *p);
 extern void func_020307B0(void *p);
 

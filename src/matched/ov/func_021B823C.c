@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_021B8848();
 
-void func_021B823C(u8 *p)
+void func_021B823C(u8 *p, int k)
 {
     func_021B8848(p + 0x20);
 }

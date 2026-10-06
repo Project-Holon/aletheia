@@ -40,7 +40,7 @@ extern void func_021C7C18(void *);
 extern void func_021C8588(unsigned char *p);
 extern void func_021D8230(u8 *p);
 extern void func_021CC8C8(u32 *p);
-extern void *func_021C5474(void *);
+extern void *func_021C5474(char *p);
 extern void func_021BBB38(void *);
 void func_021BB9D8(u8 *p)
 {
@@ -57,7 +57,7 @@ void func_021BB9D8(u8 *p)
     func_021C8588(p);
     func_021D8230(p + 0x4b8);
     func_021CC8C8((u32 *)(p + 0x1d74));
-    func_021BBB38(func_021C5474(p + 0x1b50));
+    func_021BBB38(func_021C5474((char *)(p + 0x1b50)));
     p[0x786] = 0;
     p[0x787] = 0;
     ((Flags *)(p + 0x78a))->a = 0;

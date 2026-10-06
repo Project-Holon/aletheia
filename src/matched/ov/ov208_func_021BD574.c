@@ -31,10 +31,9 @@ struct Scrn {
 
 extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern int func_02062B30(void *file, void **out);
-extern int func_0204169C(int channel);
-extern int  func_0204162C(u8 channel);
-extern void func_020410D0(u8 index, u32 a1, u32 a2, u32 a3, u8 a4, void *a5, u8 a6,
-                          u8 a7, u8 a8, u8 a9);
+extern u8 func_0204169C(int channel);
+extern u32 func_0204162C(int channel);
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u8 channel);
 extern void func_020307B0(void *p);
@@ -54,8 +53,8 @@ void ov208_func_021BD574(u32 a0, u32 a1, u32 channel, u32 add, u8 a4, u8 a5, u8 
         for (i = 0; i < a6 * a7; i++)
             d[i] += (u16)add;
     }
-    if (func_0204162C(channel) != 0) {
-        func_020410D0(channel, x, y, w, h, scr->data, a4, a5, a6, a7);
+    if ((int)func_0204162C((u8)channel) != 0) {
+        func_020410D0((u8)channel, x, y, w, h, (u32)scr->data, a4, a5, a6, a7);
         func_020413B0(channel, x, y, w, h, pal);
         func_020409B4(channel);
     }

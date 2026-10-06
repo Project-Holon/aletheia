@@ -89,10 +89,9 @@ struct MemRegion {
     int end;
 };
 
-extern void           func_02060764(int *out, struct MBlock *blk);
-extern struct MBlock *func_02060790(struct MBlockList *list, struct MBlock *node);
-extern struct MBlock *func_020607B8(struct MBlockList *list, struct MBlock *node,
-                                    struct MBlock *after);
+extern void func_02060764(int *out, int *blk);
+extern void *func_02060790(int *p, int *node);
+extern void *func_020607B8(int *p, void *node, int *a);
 extern void *func_020607E8(int *p, int v);
 extern void           MIi_CpuClear32(u32 data, void *dest, u32 size);
 
@@ -107,22 +106,22 @@ void *func_02060888(struct ExpHeap *heap, struct MBlock *block, void *ptr,
     struct MBlock   *node;
     u32              sz;
 
-    func_02060764(&start, block);
+    func_02060764(&start, (int *)block);
     rest.end = end;
     end = (int)ptr - 0x10;
     rest.start = (int)(size + (u32)ptr);
 
-    prev = func_02060790(&heap->freeList, block);
+    prev = func_02060790((int *)(&heap->freeList), (int *)block);
     if ((u32)(end - start) < 0x14) {
         end = start;
     } else {
-        prev = func_020607B8(&heap->freeList, func_020607E8(&end - 1, 0x4652),
-                             prev);
+        prev = func_020607B8((int *)(&heap->freeList), func_020607E8(&end - 1, 0x4652),
+                             (int *)prev);
     }
     if ((u32)(rest.end - rest.start) < 0x14) {
         rest.start = rest.end;
     } else {
-        func_020607B8(&heap->freeList, func_020607E8((int *)&rest, 0x4652), prev);
+        func_020607B8((int *)(&heap->freeList), func_020607E8((int *)&rest, 0x4652), (int *)prev);
     }
 
     sz = (u32)(rest.start - end);
@@ -141,6 +140,6 @@ void *func_02060888(struct ExpHeap *heap, struct MBlock *block, void *ptr,
     sz = heap->groupId & 0xff;
     node->attr = node->attr & ~0xff;
     node->attr = node->attr | sz;
-    func_020607B8(&heap->usedList, node, heap->usedList.tail);
+    func_020607B8((int *)(&heap->usedList), node, (int *)heap->usedList.tail);
     return ptr;
 }

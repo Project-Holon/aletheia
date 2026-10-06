@@ -38,7 +38,7 @@ extern u32 func_021BA20C(u8 *p);
 extern u32 func_021BA218(u8 *p);
 typedef signed short   s16;
 struct Object;
-extern u8 *func_021BA19C(u32 heap, struct Object *q, u8 *r, int *v);
+extern u8 *func_021BA19C(u16 heap, struct Object *q, u8 *r, int *v);
 extern void func_021BA100(u8 *p, u8 *q);
 extern void func_021BA21C(u8 *p, const u8 *src);
 extern u8 *func_021BA228(u8 *p);

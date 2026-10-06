@@ -40,7 +40,7 @@ extern void func_021EC000(char *w, int i, int v);
 extern int func_021EBFEC(char *w, int i);
 extern void func_021DE980(unsigned char *p, int mode);
 extern void func_021DEA3C(int a, int b, int c, int d);
-extern int func_021DEAFC(unsigned char *p);
+extern int func_021DEAFC(int a);
 extern void func_020061E4(unsigned se);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -72,7 +72,7 @@ int func_021E122C(unsigned char *p)
         break;
     }
     case 3:
-        if (func_021DEAFC(p) != 0)
+        if (func_021DEAFC((int)p) != 0)
             break;
         if (p[0x17] != 0xFF && p[0x17] != p[0x14]) {
             b->state = 5;

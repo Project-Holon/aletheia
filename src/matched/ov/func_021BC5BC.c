@@ -27,7 +27,7 @@ extern u32 func_021BCA6C(u32);
 extern void func_021BCA80(u8 *p);
 extern void func_021BCB9C(void *p, int keep);
 
-int func_021BC5BC(u32 a, u32 b, u32 c, u32 d)
+int func_021BC5BC(u32 a)
 {
 func_021BCB9C((void *)a, 0);
 func_021BCA80((u8 *)a);

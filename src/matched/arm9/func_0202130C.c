@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 
 extern u32 func_02021288(u32 id);
 
-u8 func_0202130C(u16 id)
+u32 func_0202130C(u32 id)
 {
     if (func_02021288(id) == 0) {
         return 0xFF;

@@ -35,7 +35,7 @@ typedef struct {
 
 extern void func_02207960(char *p, int i);
 extern void func_0220778C(char *p, int i);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02208D24(int a);
 struct Node;
 extern void func_0204ADA4(u32 i);

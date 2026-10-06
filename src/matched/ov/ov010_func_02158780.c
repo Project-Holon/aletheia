@@ -21,7 +21,7 @@ struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 struct Desc;
 extern struct Desc *func_02158920(int a, int b, int c, int d, int e);
-int func_02158780(void *p, int b, int c, int d, u16 e)
+int func_02158780(void *p, u16 b, int c, int d, u16 e)
 {
     struct Desc *h = func_02158920((int)func_020124E4(p), e, b, c, d);
     int *q = func_020124E8((void *)h);

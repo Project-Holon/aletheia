@@ -23,7 +23,7 @@ extern int func_021D89A8(char *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_021D8E84(void *,int);
 extern void func_021DAB0C(char *p);
 void func_021DAB34(char *p) {

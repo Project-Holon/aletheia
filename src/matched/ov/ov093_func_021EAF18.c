@@ -19,7 +19,7 @@ struct L {
     u8 n : 4;
     u32 v[8];
 };
-void func_021EAF18(struct L *p, int kind, u16 id)
+void func_021EAF18(struct L *p, int kind, int id)
 {
     u32 i;
     for (i = 0; i < 8; i++)

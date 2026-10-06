@@ -33,7 +33,8 @@ struct S;
 extern void func_021C8860(struct S *p, unsigned int val);
 extern void func_021C88C8(void *a, void *b);
 typedef unsigned short u16;
-extern u16 func_021D70A8(void *p);
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
 typedef unsigned char u8;
 extern void func_021E03D8(u8 *a, int b);
 

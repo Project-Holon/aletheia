@@ -27,7 +27,7 @@ typedef signed int     s32;
 extern void func_021A0818(s16 *o, s32 a, u32 b);
 extern void func_021A08CC(s32 *o, const s16 *in, u32 c);
 
-void func_021A0980(u8 *a, u8 *b, u8 *c, u16 d)
+void func_021A0980(u8 *a, u8 *b, u8 *c, u32 d)
 {
     u8 *p0;
     u8 *p1;

@@ -31,7 +31,10 @@ struct W { u16 w, h; int p; int q; };
 
 extern int func_02158DB0(int);
 extern int func_0215A55C(const struct V *, int);
-extern int *func_0201121C(int, struct W *);
+typedef unsigned int   u32;
+struct ScriptVm;
+struct ScriptVmParams;
+extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
 typedef unsigned char  u8;
 struct ScriptVm;
 extern void func_0201126C(struct ScriptVm *vm, void *user);
@@ -63,7 +66,7 @@ int *func_02158BFC(u16 a0, int a1, u16 a2, u16 a3, int a4)
     w.h = 0x40;
     w.p = (int)&d_0217062C;
     w.q = d_021705D8;
-    o = func_0201121C(a0, &w);
+    o = (int *)func_0201121C(a0, (const struct ScriptVmParams *)(&w));
     func_0201126C((struct ScriptVm *)o, (void *)t);
     n = func_02158CD0(a2, a3, &s[2], &s[1], &s[0]);
     o[0x2C / 4] = (int)func_02158D78(s[2], a0);

@@ -29,7 +29,7 @@ typedef struct Fx {
 struct Obj2;
 extern struct Obj2 *func_02190DCC(struct Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f);
 
-void func_02190F64(Fx *a, u32 b)
+struct Obj2 *func_02190F64(Fx *a, u32 b)
 {
-    func_02190DCC(a, b, 1, 0x13, 0x1E, 4);
+    return func_02190DCC(a, b, 1, 0x13, 0x1E, 4);
 }

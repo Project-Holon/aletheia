@@ -42,7 +42,7 @@ struct Node;
 extern void func_0203A5E4(u32 key);
 extern void func_021E31BC(char *);
 extern void func_02030EAC(struct Node *n);
-extern void func_021DC5D0(void *,int);
+extern void func_021DC5D0(char *p, int a1);
 extern void func_021DC428(char *p);
 extern void func_021DC484(void *);
 extern void func_020315D4(struct S020315D4 *);

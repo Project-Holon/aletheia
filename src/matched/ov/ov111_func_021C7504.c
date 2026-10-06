@@ -120,7 +120,7 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern void *func_0204ABF0(void *arc, int id, int a, int b, int heap);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern const unsigned char d_020A1448[];
@@ -135,7 +135,7 @@ void func_021C7504(Work *p)
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
     p->fE0 = (void *)func_0204A6C8(p->f0, 0x1B, 0, 0, 0x27);
-    p->fDC = func_0204ABF0(p->f0, 2, 0, 0, 0x27);
+    p->fDC = (void *)func_0204ABF0(p->f0, 2, 0, 0, 0x27);
     p->fE4 = (void *)func_0204AF28(p->f0, 0x2D, 0x2F, 0x27);
     p->fEC = (void *)func_0204A6C8(arc, func_02027618(), 0, 0, 0x27);
     p->fE8 = (void *)func_0204AC18(arc, func_02027614(), 0, 0x160, 0, 3, 0x27);

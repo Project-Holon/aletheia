@@ -64,7 +64,7 @@ extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *a);
 
-void *func_020298A0(void *a, u32 b, u16 c, u16 d)
+void *func_020298A0(void *a, u32 b, u32 c, u32 d)
 {
     void *x = func_020120F4(a);
     void *task = func_020122C0(a, 0, func_02029868, 0x10);

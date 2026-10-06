@@ -43,8 +43,8 @@ typedef signed int     s32;
 extern s32 func_0202C8B8(void *a0, u32 a1, u32 a2);
 extern s32 func_0202C934(void *a0, u32 a1, u32 a2);
 extern u32 func_0202C970(void *a, void *b, u32 c);
-extern u32 func_0202C824(u32 a);
-extern u32 func_021647E8(u32 a, u16 b);
+extern int func_0202C824(int a0);
+extern u32 func_021647E8(void *arg, unsigned int b);
 extern u32 func_02013C10(u32 id);
 
 u8 func_0202C794(void *a0, u32 a1)
@@ -70,7 +70,7 @@ u8 func_0202C794(void *a0, u32 a1)
         return (u8)r;
     }
     if (func_0202C824(ctx) != 0) {
-        return (u8)func_021647E8(saved, (u16)a1);
+        return (u8)func_021647E8((void *)saved, (u16)a1);
     }
     return (u8)func_02013C10((u16)a1);
 }

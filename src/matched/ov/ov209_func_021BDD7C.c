@@ -63,7 +63,8 @@ extern u32 func_0200D288(struct Blk37 *p, u32 which);
 extern u32 func_0202D81C(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0202D7D8(int,int,int,int,int,int,int,int,u16,u16);
 extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern void *func_021C940C(void *,const Template *,u32);
+struct Obj;
+extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
 extern void func_0204BA20(struct Actor *a, u32 v);
 extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
@@ -116,7 +117,7 @@ void func_021BDD7C(char *p,u16 species)
     t.w8=*(unsigned *)(p+t.w8*4+0xb64);
     t.wC=*(unsigned *)(p+t.wC*4+0xbf4);
     t.w10=*(unsigned *)(p+t.w10*4+0xc0c);
-    *(void **)(p+0xa74+index*4)=func_021C940C(((struct Obj08410 *)p)->fA70,&t,0x6b);
+    *(void **)(p+0xa74+index*4)=func_021C940C((u32)(((struct Obj08410 *)p)->fA70),(const u8 *)(&t),0x6b);
     func_0204BA20(*(void **)(p+0xa74+index*4),0);
     personal=func_0201ADE4(species,(u16)outForm,0x806b);
     if (species!=0 && func_0201AE1C(personal,0x22)==0)

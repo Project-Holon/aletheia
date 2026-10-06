@@ -38,7 +38,7 @@ struct Work;
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC();
 extern u32 func_020173EC(void);
-extern int func_0203F1FC(const u8 *src, u32 len);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void *func_02012EBC(struct Big *p);
 extern u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode);
 extern void func_021AA304();

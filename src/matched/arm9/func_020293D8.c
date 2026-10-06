@@ -23,7 +23,7 @@ struct T {
     u32 f24;
 };
 
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02005DE4(void *p);
 struct S;
 extern void func_02028BDC(struct S *s, u32 mask);

@@ -31,8 +31,7 @@ struct InfoWin {
 
 extern struct InfoWin *gInfoWin;
 
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, void *a5, u8 a6,
-                   u8 a7, u8 a8, u8 a9);
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 
 void func_02025154(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h)
 {
@@ -53,5 +52,5 @@ void func_02025154(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h)
             i++;
         } while (i < w);
     }
-    func_020410D0(gInfoWin->f06, x, y, w, h, buf, 0, 0, w, h);
+    func_020410D0(gInfoWin->f06, x, y, w, h, (u32)buf, 0, 0, w, h);
 }

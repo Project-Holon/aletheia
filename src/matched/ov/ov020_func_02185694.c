@@ -48,7 +48,7 @@ u32 func_0202B578(u32 *p);
 void func_0202C110(void *p);
 u8 func_02012984(const struct BigObj *p);
 unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
-void *func_020298A0(void *a, u32 b, u16 c, u16 d);
+void *func_020298A0(void *a, u32 b, u32 c, u32 d);
 void func_02012374(struct Evt *evt, struct Evt **out);
 int func_020145FC(int a);
 

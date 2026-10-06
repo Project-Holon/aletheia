@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef struct { u8 bytes[16]; } Table16;
 extern const Table16 d_021D4BE4;
-extern int func_02035C08(void *);
+extern int func_02035C08(const void *p);
 extern void func_021D4940(char *,int);
 typedef unsigned int   u32;
 struct Ctx;

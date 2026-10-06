@@ -138,7 +138,7 @@ struct Desc;
 struct VecFx32;
 extern int func_021C868C(int a, char *b);
 extern int func_021AE0CC(int a);
-extern void func_0218A728(void *p);
+extern int func_0218A728(void *a);
 extern int func_0218A76C(void *p);
 extern int func_0218ACD0(u8 *p, void *a, void *arg);
 extern void *func_0218AD28(struct FieldCtx *p, u8 *pos);

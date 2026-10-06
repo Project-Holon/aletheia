@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern int func_021F36D4(u32 a);
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 
 int func_021F3C84(u32 *p)
 {

@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 u32 func_02013B10(u32 id, const u16 *table, s32 count);
 
-int func_02013DE0(int a0)
+int func_02013DE0(u16 a0)
 {
     return func_02013B10(a0, (const u16 *)d_0209DFEC, 9);
 }

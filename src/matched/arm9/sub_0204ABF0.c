@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 extern s32 sub_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-void sub_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g)
+s32 sub_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g)
 {
-    sub_0204AC18(a, b, c, d, 0, 0, g);
+    return sub_0204AC18(a, b, c, d, 0, 0, g);
 }

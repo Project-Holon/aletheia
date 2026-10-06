@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int func_021A5318(u32 *p, u32 m);
 
-int func_021A53BC(u32 a, u32 b, u32 c, u32 d)
+int func_021A53BC(u32 a)
 {
 if (func_021A5318((u32 *)a, 16) != 0) {
     return 1;

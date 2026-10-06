@@ -24,7 +24,7 @@ extern void func_021C2864(void *, u8);
 typedef unsigned int   u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 int func_021BD8D8(char *p, int ret)
 {
     Request request;

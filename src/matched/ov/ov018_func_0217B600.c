@@ -114,7 +114,7 @@ extern int func_02188CB4();
 extern int func_021904B0(u32 a, u32 b);
 extern int func_021907A8();
 extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
-extern int func_0219077C();
+extern int func_0219077C(u8 *p);
 extern int func_02190728(u32 a);
 extern void func_021909BC();
 extern int func_02190BE4();
@@ -178,7 +178,7 @@ int func_0217B600(int a0, int *state, Obj *o)
         *state += 1;
         break;
     case 4:
-        if (o->f4 == 0 || func_0219077C(o->f4) == 1)
+        if (o->f4 == 0 || func_0219077C((u8 *)o->f4) == 1)
             *state += 1;
         break;
     case 5:

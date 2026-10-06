@@ -20,7 +20,8 @@
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_0216D5A8(u8 *p);
+typedef unsigned short u16;
+extern u16 func_0216D5A8(u8 *p);
 extern int (*const data_021D5278[])(char *);
 
 int func_0219B440(char *a)

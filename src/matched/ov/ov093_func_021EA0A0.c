@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 func_021B8E70(u8 *p, u32 k);
-extern void func_021ED118(u32 p, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, u8 a7);
+extern void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f);
 
 void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7)
 {
@@ -32,5 +32,5 @@ void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7)
     } else {
         r2 = 0xff;
     }
-    func_021ED118(p[0x5f], r7, r2, a3, s5, s6, s7);
+    func_021ED118((u8 *)p[0x5f], r7, r2, a3, s5, s6, s7);
 }

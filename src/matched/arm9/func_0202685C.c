@@ -72,7 +72,7 @@ extern void func_0200E4CC(u8 *a0, u32 a1, u32 a2, int a3);
 extern void *func_0200C0F0(void *p);
 struct Blk34;
 extern int func_0200C33C(struct Blk34 *p, u32 i);
-extern void  func_0200C364(void *p, u8 i, int v);
+extern void func_0200C364(struct Blk34 *p, u8 i, int v);
 extern void  MI_CpuFill8(void *d, int v, u32 n);
 
 static inline u32 calc(struct Req *r, int id)

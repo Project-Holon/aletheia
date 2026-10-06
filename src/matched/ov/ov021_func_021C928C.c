@@ -22,7 +22,7 @@ typedef struct { u8 pad[0x10]; u8 f10; u8 f11; u8 f12; u8 f13; u32 f14; u32 f18;
 typedef signed int     s32;
 struct AnmCtl;
 extern int func_021AC1E0(u32 a);
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 void func_021C928C(u32 a)
 {
     u32 z;

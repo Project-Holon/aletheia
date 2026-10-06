@@ -33,7 +33,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021C815C(int a);
+int func_021C815C(int *p);
 int func_021D775C(int a);
 void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
@@ -49,9 +49,9 @@ void func_021E0BE8(void *a, int b, int c)
     u8 k;
     u16 t;
 
-    if (func_021C815C(b) == 0)
+    if (func_021C815C((int *)b) == 0)
         return;
-    if (func_021C815C(b) == 3)
+    if (func_021C815C((int *)b) == 3)
         return;
     k = (u8)func_021D775C(3);
     r = func_021C7CF4((int *)b, c);

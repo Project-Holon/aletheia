@@ -22,7 +22,7 @@ typedef struct Row { const Selector *selectors; unsigned words[4]; } Row;
 extern const Row d_021C1868[];
 typedef unsigned char  u8;
 extern void *func_021BE8F4(char *p, u8 *q);
-void func_021BE874(char *ctx, const char *config, unsigned type)
+void func_021BE874(char *ctx, const char *config, u8 type)
 {
     Entry *entries = *(Entry * *)&((struct Obj08376 *)ctx)->f0;
     char *extra = *(char * *)&((struct Obj08376 *)ctx)->f8;

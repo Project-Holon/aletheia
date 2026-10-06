@@ -18,7 +18,7 @@ typedef struct {
     unsigned directionY:1;
     unsigned count:30;
 } Motion;
-extern void func_021EC08C(char *w, int i, short x, short y, short z);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC0B0(char *w, int i, short *x, short *y, unsigned short z);
 extern void func_021ECC1C(unsigned char *p);
 #define WORK(p) (*(char **)((p) + 0x2C))

@@ -57,10 +57,9 @@ typedef struct {
 extern MatchCnt *func_02175F3C(void);
 extern int func_02176978(void);
 extern void func_02175F4C(int state);
-extern NodeInfo *func_0217637C(int index);
+extern char *func_0217637C(int index);
 extern int func_02172604(void);
-extern int func_0216FF2C(unsigned char command, int profileID, unsigned long ip, unsigned short port,
-                         unsigned long *data, int len);
+extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int func_021719A4(int error);
 
 int func_0217273C(void)
@@ -78,7 +77,7 @@ int func_0217273C(void)
     if (func_02175F3C()->linkProgress < func_02176978() - 1) {
         linkProgress = func_02176978() - 1 - func_02175F3C()->linkProgress;
         func_02175F4C(0x10);
-        pNodeInfo = func_0217637C(linkProgress);
+        pNodeInfo = (NodeInfo *)func_0217637C(linkProgress);
         senddata[0] = pNodeInfo->profileID;
         senddata[1] = linkProgress;
         senddata[2] = pNodeInfo->aid;
@@ -94,13 +93,13 @@ int func_0217273C(void)
     }
     if (func_02175F3C()->cmdState != 0x13) {
         if (func_021719A4(func_0216FF2C(8, pNew->profileID, pNew->publicInetAddress,
-                                       pNew->publicQueryPort, senddata, 9)))
+                                       pNew->publicQueryPort, (const unsigned int *)senddata, 9)))
             return result;
-        pNodeInfo = func_0217637C(linkProgress);
+        pNodeInfo = (NodeInfo *)func_0217637C(linkProgress);
         senddata[0] = pNew->profileID;
         senddata[1] = pNew->aid;
         if (func_021719A4(func_0216FF2C(10, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
-                                       pNodeInfo->publicQueryPort, senddata, 2)))
+                                       pNodeInfo->publicQueryPort, (const unsigned int *)senddata, 2)))
             return result;
         func_02175F3C()->flag = result;
     }

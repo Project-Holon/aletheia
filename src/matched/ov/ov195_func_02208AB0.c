@@ -60,7 +60,7 @@ extern u32 func_020489F4(u8 *a0, int i);
 extern u32 func_02048A18(u8 *a0, int i);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 
 void func_02208AB0(Anim *p)
 {

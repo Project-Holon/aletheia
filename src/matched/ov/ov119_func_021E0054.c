@@ -49,7 +49,7 @@ extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *,int);
 extern int func_021D8A24(void *);
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
 extern void func_02039C68(struct Link *,u32,u32);
 extern void func_021D8E84(void *,int);

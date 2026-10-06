@@ -49,7 +49,7 @@ extern u32 func_021BDFDC(void *);
 extern void func_021B7B3C(int x, int y, int z);
 extern int func_021BA270(void *p);
 extern u32 func_021B8B5C(void *, u32);
-extern u32 func_021B8B68(int unused, char *p);
+extern u8 func_021B8B68(int unused, char *p);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern int func_021B9F4C(int a, int b, int mode);
 extern void func_021BE0B8(void *);

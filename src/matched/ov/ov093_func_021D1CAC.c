@@ -29,7 +29,7 @@ typedef struct {
 
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern void func_021EA458(char *ctx, u16 a, u16 b);
-extern int func_021EA478(void *win);
+extern int func_021EA478(u32 *p);
 
 int func_021D1CAC(BattleSeq *s, int *state, int *pp)
 {

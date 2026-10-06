@@ -53,7 +53,7 @@ extern int func_02158630(int h);
 typedef unsigned int   u32;
 extern int func_021D2750(u32 a);
 extern u16 func_02188C84(u8 *p);
-extern void func_02158780(int a0, u16 id, int b, int c, int d);
+extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 extern int func_02158590(void *p);
 extern void func_02026400(struct Comm *p);
 extern u32 func_02026454(void *obj);
@@ -88,13 +88,13 @@ int func_02185D38(int a0, int *state, Ctx *c)
         }
         if (r == 0 && func_021D2750(c->f1c) != 0) {
             id = !flag ? 0x279A : 0x279B;
-            func_02158780(a0, id, 0, 0, func_02188C84((u8 *)c->f24));
+            func_02158780((void *)a0, id, 0, 0, func_02188C84((u8 *)c->f24));
             if (func_02158590((void *)c->f20) == 0)
                 func_02026400((struct Comm *)h);
             *state = 1;
         } else {
             id = !r ? 0x279C : 0x279D;
-            func_02158780(a0, id, 0, 0, func_02188C84((u8 *)c->f24));
+            func_02158780((void *)a0, id, 0, 0, func_02188C84((u8 *)c->f24));
             *state = 3;
         }
         break;
@@ -105,7 +105,7 @@ int func_02185D38(int a0, int *state, Ctx *c)
             func_02026484((void *)h);
         }
         if (c->f28 == 1 && func_02158630(h) != 3) {
-            func_02158780(a0, 0x279F, 0, 0, func_02188C84((u8 *)c->f24));
+            func_02158780((void *)a0, 0x279F, 0, 0, func_02188C84((u8 *)c->f24));
             *state = 3;
             break;
         }

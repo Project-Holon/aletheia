@@ -34,7 +34,8 @@ extern u8 func_021B8E70(u8 *, u32);
 extern void func_021F7CFC(u32, u16, u8, int, int);
 extern int func_021F7EB4(void);
 extern u8 *func_021B98AC(char *const *q, u8 b);
-extern void func_021EAF18(u8 *, int, int);
+struct L;
+extern void func_021EAF18(struct L *p, int kind, int id);
 extern u8 func_021D5440(u8 *p);
 struct L;
 extern void func_021EAF50(struct L *p, u32 val);
@@ -59,14 +60,14 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
         if (!func_021F7EB4()) {
             if (c[2]) {
                 u8 *p = func_021B98AC((char *const *)a[1], (u8)c[0]);
-                func_021EAF18((u8 *)a + 0x58, 1, 0x41);
+                func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x41);
                 func_021EAF50((struct L *)((u8 *)a + 0x58), func_021D5440(p));
                 func_021F883C(0x518);
             } else {
                 int msg;
                 if (c[1] < 4) msg = d_021EFF80[c[1]];
                 else msg = 0x3d;
-                func_021EAF18((u8 *)a + 0x58, 1, msg);
+                func_021EAF18((struct L *)((u8 *)a + 0x58), 1, msg);
             }
             func_021EA614((char *)a[21], (struct H *)((u8 *)a + 0x58));
             (*b)++;
@@ -87,7 +88,7 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
             func_021B92A0((u8 *)a[0]);
             if (c[3]) {
                 u8 *p = func_021B98AC((char *const *)a[1], (u8)c[0]);
-                func_021EAF18((u8 *)a + 0x58, 1, 0x42);
+                func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x42);
                 func_021EAF50((struct L *)((u8 *)a + 0x58), func_021D5440(p));
                 func_021EA614((char *)a[21], (struct H *)((u8 *)a + 0x58));
                 (*b)++;

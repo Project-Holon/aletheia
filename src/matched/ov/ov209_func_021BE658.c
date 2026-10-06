@@ -31,7 +31,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02035C08(void *);
+extern int func_02035C08(const void *p);
 struct Blk37;
 extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);

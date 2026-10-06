@@ -29,7 +29,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_0216D9A0(void *);
 extern void *func_02188C7C(unsigned char *p);
 
-int func_021D1F50(u32 a, u32 b, u32 c, u32 d)
+int func_021D1F50(u32 a)
 {
 return func_0216D9A0(func_02188C7C(func_0201210C((const struct Ctx *)((struct Obj18377 *)((u8 *)(a)))->f4)));
 }

@@ -23,7 +23,7 @@ typedef unsigned short u16;
 
 extern u8 *g_021797A4;
 
-int func_02178098(u8 i)
+u8 func_02178098(u8 i)
 {
     u8 *base = g_021797A4;
 

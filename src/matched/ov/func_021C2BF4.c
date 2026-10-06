@@ -17,15 +17,15 @@
 #include "../include/Obj00146.h"
 
 
-extern void func_02005E9C(int);
+extern int func_02005E9C(void);
 typedef unsigned int   u32;
 extern void func_02005DE4(void *p);
 extern void func_02005DF8(u32 a);
 
-void func_021C2BF4(int unused, char *p)
+void func_021C2BF4(void *unused, char *p, void *a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 2) {
-        func_02005E9C(((struct Obj00146 *)p)->fB8);
+        func_02005E9C();
         func_02005DE4(0);
     }
     func_02005DF8(0x3c);

@@ -38,7 +38,7 @@ extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern Word func_021D6314(void *, int);
 extern u16 func_021E8B80(Word);
 extern int func_021D5750(void *, u32);
-extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern u16 func_021D5B40(struct QI *p);
 extern u8 func_021D5440(u8 *p);

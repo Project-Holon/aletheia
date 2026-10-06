@@ -66,7 +66,7 @@ extern void *func_02012F08(int *p);
 extern u32 func_0200C274(struct Blk34 *p);
 extern int func_02190728(u32 a);
 struct Fx;
-extern void *func_02190708(struct Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
+extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 extern void func_02188D4C(u8 *p, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);

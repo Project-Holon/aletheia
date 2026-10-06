@@ -27,7 +27,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern u32 func_02013C9C(u16);
+extern int func_02013C9C(u16 key);
 extern u32 func_020490A8(u32 a, u32 b);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);

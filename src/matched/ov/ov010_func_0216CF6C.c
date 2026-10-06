@@ -30,7 +30,7 @@ extern int func_0216D948(int a0);
 extern void func_0216D76C(void *a0);
 extern int func_0216D55C(int a0, int a1);
 extern void func_0216D508(u32 v);
-extern void func_0216E180(u8 *o);
+extern void func_0216E180(void *a0);
 
 void func_0216CF6C(u32 x)
 {

@@ -52,7 +52,8 @@ extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 extern void func_021BC738(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
 extern void func_02049238(u32);
 extern void func_02082BCC(void *,u8,u32);
-extern u32 func_0204B324(u32,u32,u32,u32,void *,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
 {
@@ -74,7 +75,7 @@ void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
     func_02082BCC(&desc,0,24);
     desc.x=128;desc.y=128;desc.z=0;desc.a=0;desc.b=0;desc.c=0;desc.d=0;
     desc.sx=4096;desc.sy=4096;desc.e=0;desc.f=2;
-    *(u32 *)((u32)p+0x54+slot*4)=func_0204B324(((struct Obj00146 *)p)->f0,*(u32 *)((u32)p+0x44+slot*4),*(u32 *)((u32)p+0x3c+slot*4),*(u32 *)((u32)p+0x4c+slot*4),&desc,1,*heap);
+    *(u32 *)((u32)p+0x54+slot*4)=(u32)func_0204B324(((struct Obj00146 *)p)->f0,*(u32 *)((u32)p+0x44+slot*4),*(u32 *)((u32)p+0x3c+slot*4),*(u32 *)((u32)p+0x4c+slot*4),(u32)(&desc),1,*heap);
     func_0204B688((struct Actor *)(*(u32 *)((u32)p+0x54+slot*4)),0);
     ((struct Obj00146 *)p)->f60=0;
 }

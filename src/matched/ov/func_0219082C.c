@@ -29,7 +29,7 @@ struct Slot;
 extern void func_02190538(struct Slot *s);
 extern void func_02192BC0(u8 *p);
 
-int func_0219082C(u32 a, u32 b, u32 c, u32 d)
+int func_0219082C(u32 a)
 {
 func_02192BC0((u8 *)(((struct Obj12067 *)((u8 *)(a)))->f0));
 func_02190538((struct Slot *)(((struct Obj12067 *)((u8 *)(a)))->f4));

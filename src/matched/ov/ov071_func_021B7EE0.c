@@ -69,7 +69,7 @@ extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
 extern void func_021B82A4(int *a, char *p);
 extern void func_021B82FC(void *p);
-extern int func_02035C08(void *);
+extern int func_02035C08(const void *p);
 extern void func_020355D8(u8 v);
 extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);

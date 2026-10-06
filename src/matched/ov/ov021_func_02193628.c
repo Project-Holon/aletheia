@@ -51,11 +51,11 @@ extern int func_02169560(unsigned char *a);
 extern int func_02169578(unsigned char *a);
 extern int func_02169598(int o);
 extern int func_0218DD04(u8 *p);
-extern int func_0218DD08(int q);
-extern int func_0218DD0C(int q);
+extern int func_0218DD08(u8 *p);
+extern int func_0218DD0C(u8 *p);
 extern u16 func_0218DD10(u8 *p);
 extern int func_0218B974(int a, int o, void *p, int n);
-extern int func_02193924(int a, void *p, int b, int o, int prev, int x, int y, u16 c);
+extern int func_02193924(u8 *a, void *q, int c, int d, int e, int f, int g, u16 h);
 extern int func_0218DCF4(int q);
 extern int func_0218DCFC(int q);
 typedef unsigned int   u32;
@@ -107,14 +107,14 @@ int func_02193628(int o, int q)
         g = func_0218DD04((u8 *)q);
         base = h;
         boff = ((struct Obj07438 *)p)->f8;
-        n = func_0218DD0C(q);
-        id = func_0218DD08(q);
+        n = func_0218DD0C((u8 *)q);
+        id = func_0218DD08((u8 *)q);
         c = func_0218DD10((u8 *)q);
         x0 = (n % 2) * 4;
         y0 = (n / 2) * 4;
         for (j = 0; j < 4; j++) {
             for (i = 0; i < 4; i++) {
-                r = func_02193924(id, base + boff, g, o, r, x0 + i, y0 + j, c);
+                r = func_02193924((u8 *)id, base + boff, g, o, r, x0 + i, y0 + j, c);
             }
         }
         func_02169580(o);

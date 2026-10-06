@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_022083DC(char *p)
+int func_022083DC(char *p, u16 heap)
 {
     return ((struct Obj24977 *)p)->f28 == 1;
 }

@@ -39,7 +39,7 @@ extern int func_021E0778(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021EA0BC(unsigned char *p, unsigned char i)
+int func_021EA0BC(unsigned char *p, unsigned char i)
 {
     p[0x18] = 1;
     p[0x16] = i;
@@ -51,5 +51,5 @@ void func_021EA0BC(unsigned char *p, unsigned char i)
         func_021EF69C(WORK(p));
         func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
     }
-    func_021E8FC0((char *)p, (int)func_021E0778, 0x20);
+    return func_021E8FC0((char *)p, (int)func_021E0778, 0x20);
 }

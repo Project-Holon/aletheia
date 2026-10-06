@@ -79,7 +79,7 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_021F51E4(u8 *dst, unsigned arc, u32 member, u32 index, u16 width, u16 height, int pos, int mode, u16 heap);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);

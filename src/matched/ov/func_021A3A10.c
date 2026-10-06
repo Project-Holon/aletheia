@@ -27,7 +27,7 @@ extern u16 func_0216D598(void *p);
 extern int func_021A31D0(u16 id);
 extern void *func_021A3960(u8 *p);
 
-int func_021A3A10(u32 a, u32 b, u32 c, u32 d)
+int func_021A3A10(u32 a)
 {
 return func_021A31D0(func_0216D598(func_021A3960((u8 *)a)));
 }

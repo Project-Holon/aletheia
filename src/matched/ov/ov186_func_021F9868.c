@@ -40,7 +40,8 @@ void func_021F98F8(char *p, int skip, void *sys, int heap);
 struct Big;
 void *func_02012EBC(struct Big *p);
 typedef unsigned int   u32;
-u32 func_0200B570(void *a, u32 heap, u32 *dp, u32 id);
+typedef unsigned short u16;
+u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id);
 
 void func_021F9868(Top *p, Top *q)
 {

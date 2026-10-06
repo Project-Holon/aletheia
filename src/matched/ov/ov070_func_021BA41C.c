@@ -37,7 +37,7 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 extern void func_0202EB04(struct CodeIn *p);
-extern int func_021B61C8(char *);
+extern int func_021B61C8(u8 *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B908(int, int);
@@ -53,7 +53,7 @@ void func_021BA41C(char *p)
         func_021BB398((int)p, 1);
     }
     func_0202EB04((struct CodeIn *)(((struct Obj01365 *)p)->f850));
-    func_0204B3DC((struct Obj *)((struct Obj01365 *)p)->f6A8, func_021B61C8(p) >= 7);
+    func_0204B3DC((struct Obj *)((struct Obj01365 *)p)->f6A8, func_021B61C8((u8 *)p) >= 7);
     func_0204B908(((struct Obj01365 *)p)->f6A4, 0);
     func_0204B908(((struct Obj01365 *)p)->f6A8, 0);
 }

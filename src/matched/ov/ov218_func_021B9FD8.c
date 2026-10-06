@@ -37,7 +37,7 @@ extern void func_020061E4(u32);
 extern void func_021B61F8(unsigned char *,int);
 extern void func_021B9890(void *);
 extern int func_021B6448(unsigned char *);
-extern void func_021B9F98(int *,int);
+extern void func_021B9F98(u8 *p, int mode);
 int func_021B9FD8(unsigned char *task,char *p)
 {
     int active=0;
@@ -60,7 +60,7 @@ int func_021B9FD8(unsigned char *task,char *p)
     switch(func_021B6448(*(unsigned char * *)&((struct Obj02931 *)p)->f8)){
     case -1:case 0:case 2:case 3:case 4:case 5:break;
     case 1:
-        func_021B9F98((int *)p,1);
+        func_021B9F98((u8 *)p,1);
         func_021B61F8(task,65534);
         return 1;
     }

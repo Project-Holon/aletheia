@@ -24,7 +24,7 @@ static inline u8 random4(void)
     draw = func_0203F0A8();
     return ((u64)draw * 4) >> 32;
 }
-u32 func_021FD84C(u8 *p)
+int func_021FD84C(u8 *p)
 {
     u8 slots[4];
     u8 i, j, n;

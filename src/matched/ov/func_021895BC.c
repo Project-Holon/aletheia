@@ -26,7 +26,7 @@ struct SaveBlock;
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012AC4(u32, u32);
 
-int func_021895BC(u32 a, u32 b, u32 c, u32 d)
+int func_021895BC(void *a, u32 b)
 {
 return func_02012AC4((u32)func_020127A4((struct SaveBlock *)a), ((b << 16) >> 16));
 }

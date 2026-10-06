@@ -83,7 +83,7 @@ extern unsigned int func_0203630C(void);
 extern void *func_02188CB4(u8 *p);
 extern void func_021A2FE4(u32 *p);
 extern u32 func_021A3080(u8 *p);
-extern u32 func_021A308C(void *v);
+extern u32 func_021A308C(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
 extern void *func_0216D888(void *p);

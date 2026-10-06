@@ -107,7 +107,7 @@ struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u8 frame, const BgTemplate *t, int mode);
 extern void func_020414EC(u32 i);
-extern void func_02040B94(u8 frame, int size, int ofs, int heap);
+extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040588(u8 frame, int on);
 extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
 extern const BankCfg d_021C895C;

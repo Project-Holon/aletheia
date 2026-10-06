@@ -14,5 +14,5 @@
  */
 #include "../include/Obj14454.h"
 extern int func_021FB7B0(void *p, int i);
-extern void func_021FB514(char *p, short x, short y);
+extern void func_021FB514(char *p, short x, int y);
 void func_021FAEC0(char *p,unsigned index) { short x=(short)func_021FB7B0((void *)(((struct Obj14454 *)p)->fC),0);func_021FB514(((struct Obj14454 *)p)->f8,x,(short)(169-(index<<4))); }

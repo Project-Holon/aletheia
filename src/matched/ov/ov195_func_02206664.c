@@ -83,7 +83,8 @@ extern void func_02046858(const u32 *src);
 extern void func_02046B40(u8 *a0);
 struct Grid;
 extern void func_02207510(struct Grid *w, u16 heap);
-extern void func_02208570(void *quad, u16 heap);
+struct Quad;
+extern void func_02208570(struct Quad *p, u16 heap);
 
 void func_02206664(Owner *o)
 {

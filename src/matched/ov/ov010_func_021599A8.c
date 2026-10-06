@@ -40,7 +40,7 @@ extern int func_02188CCC(void *);
 extern u8 func_02012E40(const u8 *o);
 extern int func_02012DD0(u8 *p);
 extern u32 func_021A0F90(u8 *p);
-extern int func_021A153C(int);
+extern int func_021A153C(u32 *p);
 extern void func_021A1548(u32 *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_021590FC(void *p);
@@ -58,7 +58,7 @@ int func_021599A8(int a, int b)
     if (func_02012E40(s4) == 0) {
         ret = 1;
         if (func_021A0F90((u8 *)h) == 7) {
-            if (func_021A153C(h) == 0)
+            if (func_021A153C((u32 *)h) == 0)
                 ret = 0;
         }
     } else {

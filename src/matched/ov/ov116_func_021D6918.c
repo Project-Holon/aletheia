@@ -28,7 +28,7 @@ extern void func_021D7C58(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 extern void func_02034A5C(int handle);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02005DE4(void *);
 extern void func_02005DF8(unsigned);
 extern u8 ov_id[];

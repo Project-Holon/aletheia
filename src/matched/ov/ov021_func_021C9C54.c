@@ -31,7 +31,7 @@ typedef struct {
     u16 a2a[4];
 } Stats;
 
-extern int func_021CA270(int kind);
+extern int func_021CA270(u16 kind);
 struct Blk3C;
 extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
 extern void *func_021CA210(u8 *p);

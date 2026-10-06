@@ -27,7 +27,7 @@ extern u32 func_0216D534(void *p);
 extern void *func_0216D67C(void *a0);
 extern u32 func_02188CD0(u8 *p);
 
-int func_0219DC08(u32 a, u32 b, u32 c, u32 d)
+int func_0219DC08(u32 a)
 {
 return func_02188CD0((u8 *)func_0216D534((void *)func_0216D67C((void *)a)));
 }

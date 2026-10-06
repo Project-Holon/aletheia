@@ -30,7 +30,7 @@ extern u8   tbl_0209E010[];
 typedef signed int     s32;
 extern u32 func_02013B10(u32 id, const u16 *table, s32 count);
 
-void func_02013C70(u32 a)
+int func_02013C70(u32 a)
 {
-    func_02013B10(a, (const u16 *)tbl_0209E010, 0xb);
+    return func_02013B10(a, (const u16 *)tbl_0209E010, 0xb);
 }

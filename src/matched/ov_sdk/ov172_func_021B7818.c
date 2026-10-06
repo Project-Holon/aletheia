@@ -26,7 +26,7 @@ typedef signed int     s32;
 extern u32 func_021BE0A4(void *p);
 extern int func_021B7830(void *a0, char *a1, int a2);
 
-void func_021B7818(void *p, void *q)
+u32 func_021B7818(void *p, void *q)
 {
-    func_021B7830(p, q, func_021BE0A4(p));
+    return func_021B7830(p, q, func_021BE0A4(p));
 }

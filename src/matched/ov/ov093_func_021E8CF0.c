@@ -15,7 +15,7 @@
 
 unsigned short func_021E8CE0(unsigned int, unsigned int);
 
-void func_021E8CF0(int a)
+int func_021E8CF0(int a)
 {
-    func_021E8CE0(a, a);
+    return func_021E8CE0(a, a);
 }

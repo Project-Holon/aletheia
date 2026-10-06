@@ -40,15 +40,15 @@ extern void func_02165C34(struct Rec *r, void *buf);
 extern void func_0204581C(struct U16Vec *vec);
 struct Strbuf;
 extern void func_02165D50(struct Rec *r, struct Strbuf *buf);
-extern void func_021F10D8(u8 *p, u8 *q, void *r);
-extern void func_021F0F74(u8 *p, u8 *q, void *r);
-extern void func_021F1004(u8 *p, u8 *q, void *r);
+extern void func_021F10D8(char *this, u8 *p, int a);
+extern void func_021F0F74(char *p, u8 *q, void *r);
+extern void func_021F1004(char *p, u8 *q, int r);
 extern int func_02165E24(int a0);
 extern void func_02165D6C(void *r, void *buf);
 extern void func_02165D8C(void *r, void *buf);
-extern void func_021F1070(u8 *p, u8 *q, void *buf, int t);
-extern void func_021F1E40(u8 *p, u8 *q, void *r, int flag);
-extern void func_021F1080(u8 *p, u8 *q, int r, int t);
+extern void func_021F1070(char *p, char *q, void *text, int a4);
+extern void func_021F1E40(char *p, char *q, void *x, int flag);
+extern void func_021F1080(char *p, char *q, int r, int t);
 
 void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
 {
@@ -57,9 +57,9 @@ void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
     func_02165C34(r, ((struct Obj00225 *)q)->f24);
     func_0204581C(((struct Obj00225 *)q)->f20);
     func_02165D50(r, ((struct Obj00225 *)q)->f20);
-    func_021F10D8(p, q, r);
-    func_021F0F74(p, q, r);
-    func_021F1004(p, q, r);
+    func_021F10D8((char *)p, q, (int)r);
+    func_021F0F74((char *)p, q, r);
+    func_021F1004((char *)p, q, (int)r);
     if (skip != 0)
         return;
     switch (mode) {
@@ -67,21 +67,21 @@ void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
         switch (func_02165E24((int)r)) {
         case 0x18:
             func_02165D6C(r, ((struct Obj00007 *)p)->f118);
-            func_021F1070(p, q, ((struct Obj00007 *)p)->f118, t);
+            func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
             break;
         case 0x31:
             func_02165D8C(r, ((struct Obj00007 *)p)->f118);
-            func_021F1070(p, q, ((struct Obj00007 *)p)->f118, t);
+            func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
             break;
         }
-        func_021F1E40(p, q, r, 0);
+        func_021F1E40((char *)p, (char *)q, r, 0);
         break;
     case 1:
-        func_021F1070(p, q, ((struct Obj00225 *)q)->f20, t);
-        func_021F1E40(p, q, r, 1);
+        func_021F1070((char *)p, (char *)q, ((struct Obj00225 *)q)->f20, t);
+        func_021F1E40((char *)p, (char *)q, r, 1);
         break;
     case 2:
-        func_021F1080(p, q, 1, t);
+        func_021F1080((char *)p, (char *)q, 1, t);
         break;
     }
 }

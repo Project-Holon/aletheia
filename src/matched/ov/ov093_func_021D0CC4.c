@@ -29,7 +29,7 @@ typedef struct {
 } BattleSeq;
 
 struct L;
-extern void func_021EAF18(struct L *p, int kind, u16 id);
+extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
 extern int func_021EAC54(void *win, int *out);
 

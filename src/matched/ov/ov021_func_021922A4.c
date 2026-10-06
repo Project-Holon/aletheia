@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 struct Bmp;
 struct Obj020437AC;
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void func_020437AC(struct Obj020437AC *p);

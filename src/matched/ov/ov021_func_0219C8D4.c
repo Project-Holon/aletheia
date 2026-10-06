@@ -32,7 +32,8 @@ extern u32 func_0216D520(void *p);
 extern void func_0219D184(int *obj, int key);
 extern int func_0219D3B4(u8 *, u32, u16);
 extern void func_0219C880(u8 *o, u32 a, u32 b, u32 c);
-extern void func_02050468(u32, u16, u32);
+struct BbActSys;
+extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
 
 void func_0219C8D4(u32 o, u32 a)
 {
@@ -44,6 +45,6 @@ void func_0219C8D4(u32 o, u32 a)
     }
     if (func_0219D3B4(c, o, a) != 1) {
         func_0219C880(c, o, (u16)a, t);
-        func_02050468(((struct Obj00429 *)c)->f4, a, 1);
+        func_02050468((struct BbActSys *)(((struct Obj00429 *)c)->f4), a, 1);
     }
 }

@@ -52,7 +52,7 @@ extern void func_0219F990(u32, St *, u8);
 extern void func_0219FFBC(u32, u32 *);
 extern void func_02197CCC(u8 *p, s32 *out);
 extern void func_021A000C(u32, u32, u32, u32, u32);
-extern void func_0205082C(void *p, int idx, u16 h);
+extern void func_0205082C(void *p, int idx, u32 h);
 extern u32 func_02050080(u32 *p);
 extern void func_0204F638(u8 *a0, int i, struct Trip *src);
 

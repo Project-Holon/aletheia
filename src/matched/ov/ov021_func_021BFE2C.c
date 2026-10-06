@@ -74,7 +74,7 @@ extern void func_021AC528(void *, int);
 extern int func_021C6E48(int);
 extern void func_020061E4(u32 a);
 extern void func_0216D568(void *p, u32 v);
-extern int func_021C7858(int, int, Vec *);
+extern int func_021C7858(u32 a, u32 b, u32 c);
 extern int func_021C71D4(int, int, int);
 extern int func_021C6F00(int, int, int);
 extern int func_021C7814(int, int, int, int, int);
@@ -180,7 +180,7 @@ int func_021BFE2C(int task, int *state, int *q)
         w.x = 0;
         w.y = -0x1E000;
         w.z = 0;
-        a = func_021C7858(q[1], 0x22, &w);
+        a = func_021C7858(q[1], 0x22, (u32)(&w));
         b = func_021C71D4(q[1], 0x22, 5);
         c = func_021C6F00(q[1], 0x1e, 0xB4000);
         e = func_021C7814(q[1], 3, 0, 0x10, 0);

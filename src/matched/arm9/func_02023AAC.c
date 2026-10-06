@@ -11,4 +11,6 @@
  * status:   EXACT*
  */
 
-void func_02023AAC(void){ }
+struct Obj;
+
+void func_02023AAC(struct Obj *obj){ }

@@ -55,7 +55,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern u8 func_021A80FC(void *p);
+extern int func_021A80FC(u32 a);
 extern void *func_021BDC94(void *p);
 struct VecFx32;
 extern void func_021A810C(unsigned char *p, struct VecFx32 *q);
@@ -74,7 +74,7 @@ void *func_021A7B20(Args *a)
     w->f04 = (void *)func_02012A30(a->f08);
     w->f28 = 0;
     w->f18 = 0;
-    w->f1A = func_021A80FC(a->f0C);
+    w->f1A = func_021A80FC((u32)a->f0C);
     w->f36 = 0;
     w->f08 = func_021BDC94(a->f0C);
     w->f0C = a->f14;

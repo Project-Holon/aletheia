@@ -28,7 +28,7 @@
 
 typedef unsigned int u32;
 
-int func_020365E8(char *p, int a1, int a2, int a3)
+int func_020365E8(char *p)
 {
     int a = ((struct Obj01465 *)p)->fC;
 

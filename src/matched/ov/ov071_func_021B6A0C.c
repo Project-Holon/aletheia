@@ -89,7 +89,7 @@ struct MsgBank;
 struct Sys;
 struct U16Vec;
 struct WordSet;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);

@@ -33,7 +33,7 @@ struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern void *func_0204ABF0(void *,u32,u32,u32,u32);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 extern unsigned func_021BDD78(char *p);
@@ -48,18 +48,18 @@ int func_021BEBEC(char *p)
     arc=func_020490F4(170,((struct Obj00550 *)p)->f0);
     if(func_02008550(**(void ** *)&((struct Obj00550 *)p)->f4)==0){
         ((struct Obj00550 *)p)->f10B4=(void *)func_0204A6C8(arc,6,0,0,((struct Obj00550 *)p)->f0);
-        ((struct Obj00550 *)p)->f10C0=func_0204ABF0(arc,7,0,0,((struct Obj00550 *)p)->f0);
+        ((struct Obj00550 *)p)->f10C0=(void *)func_0204ABF0(arc,7,0,0,((struct Obj00550 *)p)->f0);
         ((struct Obj00550 *)p)->f10CC=(void *)func_0204AF28(arc,5,4,((struct Obj00550 *)p)->f0);
     }else{
         ((struct Obj00550 *)p)->f10B4=(void *)func_0204A6C8(arc,10,0,0,((struct Obj00550 *)p)->f0);
-        ((struct Obj00550 *)p)->f10C0=func_0204ABF0(arc,11,0,0,((struct Obj00550 *)p)->f0);
+        ((struct Obj00550 *)p)->f10C0=(void *)func_0204ABF0(arc,11,0,0,((struct Obj00550 *)p)->f0);
         ((struct Obj00550 *)p)->f10CC=(void *)func_0204AF28(arc,9,8,((struct Obj00550 *)p)->f0);
     }
     ((struct Obj00550 *)p)->f10B8=(void *)func_0204A6C8(arc,17,0,0,((struct Obj00550 *)p)->f0);
-    ((struct Obj00550 *)p)->f10C4=func_0204ABF0(arc,18,0,32,((struct Obj00550 *)p)->f0);
+    ((struct Obj00550 *)p)->f10C4=(void *)func_0204ABF0(arc,18,0,32,((struct Obj00550 *)p)->f0);
     ((struct Obj00550 *)p)->f10D0=(void *)func_0204AF28(arc,16,15,((struct Obj00550 *)p)->f0);
     ((struct Obj00550 *)p)->f10BC=(void *)func_0204A6C8(arc,21,0,0,((struct Obj00550 *)p)->f0);
-    ((struct Obj00550 *)p)->f10C8=func_0204ABF0(arc,22,0,64,((struct Obj00550 *)p)->f0);
+    ((struct Obj00550 *)p)->f10C8=(void *)func_0204ABF0(arc,22,0,64,((struct Obj00550 *)p)->f0);
     ((struct Obj00550 *)p)->f10D4=(void *)func_0204AF28(arc,20,19,((struct Obj00550 *)p)->f0);
     func_02049238(arc);
     local=init;

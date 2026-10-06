@@ -54,7 +54,7 @@ void func_02175240(u8 *p, int v);
 void func_02175208(u8 *p);
 int func_02175214(u8 *p);
 u32 func_02174D98(u32 p);
-int func_02174DF0(u8 *p);
+int func_02174DF0(u32 v);
 void *func_02012934(const struct BigObj *p);
 struct Link;
 struct Rec534;
@@ -125,7 +125,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
         break;
     case 7:
         if (func_0203D378() == 1) {
-            if (func_02174DF0(p + 0xcc) == 1)
+            if (func_02174DF0((u32)(p + 0xcc)) == 1)
                 (*state)++;
         } else {
             (*state)++;

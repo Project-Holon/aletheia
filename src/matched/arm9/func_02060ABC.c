@@ -64,8 +64,7 @@ struct ExpHeap {
     u16               feature;
 };
 
-extern void *func_02060888(struct MBlockList *list, struct MBlock *block,
-                           void *ptr, u32 size, int fromTail);
+extern void *func_02060888(struct ExpHeap *heap, struct MBlock *block, void *ptr, u32 size, u16 fromTail);
 
 void *func_02060ABC(struct ExpHeap *heap, u32 size, s32 align)
 {
@@ -98,5 +97,5 @@ void *func_02060ABC(struct ExpHeap *heap, u32 size, s32 align)
     if (found == 0) {
         return 0;
     }
-    return func_02060888(&heap->freeList, found, foundPtr, size, 1);
+    return func_02060888((struct ExpHeap *)(&heap->freeList), found, foundPtr, size, 1);
 }

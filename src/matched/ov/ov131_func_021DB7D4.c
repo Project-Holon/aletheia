@@ -52,7 +52,7 @@ extern void *func_021D6064(u8 *);
 extern u32 func_02017E88(void *,u32,u32);
 extern u32 func_0201BD28(u16,u32);
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);

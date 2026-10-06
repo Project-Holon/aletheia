@@ -22,7 +22,8 @@ typedef unsigned short u16;
 struct Queue;
 struct Rec;
 extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
-extern void func_021BD174(void *,void *,unsigned short,unsigned char);
+typedef unsigned char  u8;
+extern void func_021BD174(char *p, void *record, u16 unused, u8 slot);
 extern void func_021BD0E4(void *,unsigned char,int);
 extern void func_021BD448(char *p);
 typedef unsigned int   u32;
@@ -32,7 +33,7 @@ void func_021BCBA4(unsigned char *p)
 {
     func_021BCF08((char *)p);
     func_02165AC4(((struct Obj00051 *)p)->f24,((struct Obj00051 *)p)->f28,(u16 *)(p+0x2c),*(p+p[0x30]+0x31));
-    func_021BD174(p,((struct Obj00051 *)p)->f28,((struct Obj00051 *)p)->f2C,p[0x2e]);
+    func_021BD174((char *)p,((struct Obj00051 *)p)->f28,((struct Obj00051 *)p)->f2C,p[0x2e]);
     func_021BD0E4(p,p[0x2e],1);
     func_021BD0E4(p,p[0x2e]^1,0);
     func_021BD448((char *)p); func_021BCD60(p);

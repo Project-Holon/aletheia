@@ -58,7 +58,7 @@ extern void func_02043B5C(struct CharBuf *, u8);
 extern unsigned func_0201D304(struct StrObj *, unsigned, unsigned);
 extern unsigned func_0201D42C(struct StrObj *, void *);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern u32 func_020437E4(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern void func_0201C724(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern int func_021BAF48(char *);
 void func_021BB18C(char *p, int idx)

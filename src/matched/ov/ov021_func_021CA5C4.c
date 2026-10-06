@@ -288,7 +288,7 @@ extern void func_02014314(char *a0, int a1);
 extern void func_0201433C(char *a0, int a1);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern u32 func_021C9D30(u32 a);
-extern u32 func_021A30B0(void *a);
+extern u32 func_021A30B0(u8 *p);
 extern u16 func_021A3190(int i, int j);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(void *a, u32 id);
@@ -304,7 +304,7 @@ extern void func_0216D88C(const struct Actor *o, struct VecFx32 *v);
 extern u16 func_0216D5F8(void *p);
 extern void func_0216E014(void *a, int *p, int b);
 extern void func_0216DB4C(void *o, u32 v);
-extern u32 func_021CBBA0(void *o);
+extern u32 func_021CBBA0(u32 a);
 extern int func_021CA164(void *a, int unused, int mode);
 extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
 extern void *func_020127A4(struct SaveBlock *p);
@@ -340,7 +340,7 @@ extern void func_021C9D70(u32 x, u8 *w);
 extern void func_021C9FFC(u8 *w, u32 x);
 extern void func_021C9BCC(u8 *w);
 extern void func_021CA05C(u8 *w);
-extern u32 func_021CA150(u8 *w, u32 i);
+extern u32 func_021CA150(u8 *p, int i);
 extern void *func_0216C640(u8 *w, u32 x, void *s);
 extern u32 func_021C9DB0(u8 *w);
 extern void func_021C9E8C(u8 *w);
@@ -361,7 +361,7 @@ extern void *func_0200BAF4(int a0, int a1);
 extern void *func_02012934(const struct BigObj *p);
 extern int func_02019ED4(void *ctx, void *q);
 extern void func_021CA1E4(u8 *w);
-extern u32 func_021CA270(u16 kind);
+extern int func_021CA270(u16 kind);
 extern u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id);
 extern void func_0200BA58(void);
 extern void func_021EEE78(void *p);
@@ -610,7 +610,7 @@ int func_021CA5C4(void *a, u32 b)
         void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         *dst = 0;
         if (o != 0)
-            *dst = func_021CBBA0(o);
+            *dst = func_021CBBA0((u32)o);
         break;
     }
     case 27:

@@ -24,7 +24,7 @@ extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short spa
 extern void func_021EC428(char *p, int a, int i, int b);
 extern void func_021EC000(char *p, int i, int v);
 extern void func_021ECB74(char *a, int b);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 
 void func_021EC804(char **p, short dx)
 {

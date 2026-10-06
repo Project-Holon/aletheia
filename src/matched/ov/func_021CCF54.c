@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Handle;
 extern int func_021909E4(struct Handle *h);
 
-void func_021CCF54(u8 *p)
+u32 func_021CCF54(u8 *p)
 {
-    func_021909E4((struct Handle *)(((struct Obj18358 *)p)->fAC));
+    return func_021909E4((struct Handle *)(((struct Obj18358 *)p)->fAC));
 }

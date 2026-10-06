@@ -21,11 +21,11 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern int func_021BE1C4(u32 a);
-extern void func_0218FF00(void *a);
+extern int func_0218FF00(u32 a);
 
 void func_021BDD20(Obj *p)
 {
     if (func_021BE1C4((u32)p)) {
-        func_0218FF00(p->f54);
+        func_0218FF00((u32)p->f54);
     }
 }

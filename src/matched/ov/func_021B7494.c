@@ -39,7 +39,7 @@ extern void func_02045C04(struct Rec *rec);
 extern int func_02190728(u32 a);
 extern void func_02190788(u8 *p);
 
-int func_021B7494(u32 a, u32 b, u32 c, u32 d)
+int func_021B7494(u32 a)
 {
 func_02190788((u8 *)(((struct Obj04890 *)((u8 *)(a)))->fC));
 func_02190728(((struct Obj04890 *)((u8 *)(a)))->fC);

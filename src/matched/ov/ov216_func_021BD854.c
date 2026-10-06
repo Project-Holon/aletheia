@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int   u32;
 extern void func_021BD13C(u8 *p, int a);
-extern void func_021BD0E4(char *p, u32 index, u32 enable);
+extern void func_021BD0E4(char *p, u8 index, u32 enable);
 struct TcblNode;
 extern void sub_02031194(struct TcblNode *);
 void func_021BD854(struct TcblNode *task, char *p)

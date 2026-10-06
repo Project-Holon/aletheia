@@ -25,11 +25,11 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void func_021A53A4(u32 *p, int on);
 extern void func_021A54B4(u8 *p);
-extern u32 func_021A56C0(u32, u32, u32, u32);
+extern u32 func_021A56C0(u32 *p, u32 a1, u32 a2, u32 a3);
 
 int func_021A48A4(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021A56C0(a, b, c, d) == 1) {
+if (func_021A56C0((u32 *)a, b, c, d) == 1) {
     func_021A54B4((u8 *)a);
     func_021A53A4((u32 *)a, 0);
     return 1;

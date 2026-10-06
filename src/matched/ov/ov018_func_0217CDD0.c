@@ -12,7 +12,7 @@
  *   func_02158780 0x02158780 thumb ov010
  */
 typedef unsigned short u16;
-extern int func_02158780(void *, int, int, int, u16);
+extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
 int func_0217CDD0(void *p, int *state)
 {
     switch (*state) {

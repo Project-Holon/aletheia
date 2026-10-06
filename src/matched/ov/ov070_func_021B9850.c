@@ -64,7 +64,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_02045334(struct Descriptor *d);
 extern void func_020456F8(struct Descriptor *d);
 extern u8 func_02021350(u16 id);
-extern u8 func_0202130C(u16 id);
+extern u32 func_0202130C(u32 id);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_021BAB04(u8 *p, int x);
 extern void func_02020FB4(void *dst, u32 entry, u32 heap);

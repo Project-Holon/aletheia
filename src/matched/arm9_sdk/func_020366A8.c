@@ -13,9 +13,11 @@
  *   func_020366C0   0x020366C0  arm
  */
 
-extern int func_020366C0(void);
+extern int func_020366C0(char *p);
 
-int func_020366A8(void)
+struct Conn;
+
+int func_020366A8(struct Conn *p)
 {
-    return func_020366C0() == 0;
+    return func_020366C0((char *)p) == 0;
 }

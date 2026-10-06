@@ -45,7 +45,7 @@ extern u8 *func_021BA218(u8 *);
 extern void func_021BA22C(u8 *p, const u8 *src);
 extern void func_021F4E8C(int,int,Vec *);
 extern void func_021BA21C(u8 *p, const u8 *src);
-extern void func_021BA24C(u8 *,u16);
+extern void func_021BA24C(char *p, u16 v);
 extern void func_021B8254(u8 *);
 extern int func_021BA258(u8 *);
 extern u8 *func_021F5450(u8 *,int);
@@ -74,7 +74,7 @@ void func_021B8680(u8 *p)
         func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&posA));
         func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,&a);
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(p+0x44));
-        func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38,10);
+        func_021BA24C((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),10);
         func_021B8254(p);
         return;
     } else if(((struct Obj00004 *)p)->f40==3) {
@@ -98,7 +98,7 @@ void func_021B8680(u8 *p)
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&posB));
         currentB.x=((struct Obj00004 *)p)->f1C; currentB.y=*(int *)&((struct Obj00004 *)p)->f20;
         func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(&currentB));
-        func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38,10);
+        func_021BA24C((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),10);
         ((struct Obj00004 *)p)->f34=state;
         func_021B8444(p);
         ((struct Obj00004 *)p)->f34=10;
@@ -108,7 +108,7 @@ void func_021B8680(u8 *p)
         c=d_021BA5AC;
         sprite=func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
         func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const u8 *)(p+0x44));
-        func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38,10);
+        func_021BA24C((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),10);
         posC.x=((struct Obj00004 *)p)->f1C; posC.y=*(int *)&((struct Obj00004 *)p)->f20;
         if(((struct Obj00004 *)p)->f44>0) c.x=(int)(0.5f+(float)(((struct Obj00004 *)p)->f44<<12));
         else c.x=(int)((float)(((struct Obj00004 *)p)->f44<<12)-0.5f);

@@ -71,7 +71,7 @@ struct St {
 extern const u8 str_020A7A24[];
 extern const u8 str_020A7A50[];
 extern void *func_0203D798(void);
-extern int  func_020365E8(struct Src *s);
+extern int func_020365E8(char *p);
 extern u32 func_02036540(u32 a);
 extern u32 func_02036500(u32 a);
 extern int  func_020364D4(struct Src *s, u8 *buf, u32 n, u32 max);
@@ -92,7 +92,7 @@ void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
     int cnt;
 
     func_0203D798();
-    while (func_020365E8(src) != 0) {
+    while (func_020365E8((char *)src) != 0) {
         h = st->h;
         if (h == 0) {
             h = func_02036540((u32)src);
@@ -104,7 +104,7 @@ void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n)
         sv = src->pos;
         st->h = h;
         if (st->total == 0xFFFF) {
-            if (func_020365E8(src) < 3) {
+            if (func_020365E8((char *)src) < 3) {
                 src->pos = sv;
                 return;
             }

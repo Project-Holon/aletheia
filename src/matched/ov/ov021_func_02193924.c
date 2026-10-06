@@ -34,7 +34,7 @@ extern void func_021C93E4(u32 a, u8 *q, u32 x, u32 y, u32 z, u32 w, u32 n, u32 c
 extern u32 func_021C9450(u32 a, u32 b, u32 c, u32 d, int e, int f);
 extern void func_021C93D0(void **q);
 
-u32 func_02193924(u8 *a, void *q, int c, u32 d, u32 e, int f, int g, u16 h)
+int func_02193924(u8 *a, void *q, int c, int d, int e, int f, int g, u16 h)
 {
     Cell cell = func_02194038(a + 0x18, f, g);
     u32 *t;

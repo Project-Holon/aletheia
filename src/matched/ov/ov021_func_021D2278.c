@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef struct { int x, y, z; } Vec;
 
 extern u32 func_02188D38(u32 a);
-extern int func_021C7858(int, int, Vec *);
+extern int func_021C7858(u32 a, u32 b, u32 c);
 extern void func_021C6DE0(u32 a, u32 b, u32 c);
 extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a0);
@@ -62,7 +62,7 @@ int func_021D2278(u32 a, int *seq, int *w)
         v.x = 0;
         v.y = -0x40000;
         v.z = 0;
-        func_021C6DE0(s, func_021C7858(w[1], 0x28, &v), 0);
+        func_021C6DE0(s, func_021C7858(w[1], 0x28, (u32)(&v)), 0);
         w[3] = 8;
         (*seq)++;
         break;

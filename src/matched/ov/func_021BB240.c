@@ -28,11 +28,11 @@ typedef signed char    s8;
 extern u32 func_020307B0(u32);
 extern void func_0219EF6C(u8 *p);
 extern void func_021B791C(void **o);
-extern u32 func_021BB0A4(u32, u32, u32, u32);
+extern void func_021BB0A4(u8 *p, u32 a1, u32 a2, u32 a3);
 
 int func_021BB240(u32 a, u32 b, u32 c, u32 d)
 {
-func_021BB0A4(((struct Obj09191 *)((u8 *)(a)))->f8, b, c, d);
+func_021BB0A4((u8 *)(((struct Obj09191 *)((u8 *)(a)))->f8), b, c, d);
 func_021B791C((void **)(((struct Obj09191 *)((u8 *)(a)))->f0));
 func_0219EF6C((u8 *)(((struct Obj09191 *)((u8 *)(a)))->f4));
 return func_020307B0(a);

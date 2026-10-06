@@ -12,7 +12,7 @@
  *   func_021BEE38 0x021BEE38 thumb ov210
  */
 extern void func_021BEDF0(int p, int i, int v);
-extern void func_021BEE38(char *p, int idx, unsigned short a, int b, unsigned short c);
+extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
 void func_021BF4A4(char *p)
 {
     func_021BEDF0((int)p, 3, 0);

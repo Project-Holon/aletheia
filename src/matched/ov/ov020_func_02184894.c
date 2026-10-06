@@ -45,7 +45,7 @@ struct BigObj;
 u32 func_02012A30(const struct BigObj *p);
 struct Evt;
 void func_02012374(struct Evt *evt, struct Evt **out);
-void func_02029D44(u32 a, u32 b, u32 c, u32 d);
+void func_02029D44(u32 a, u32 b, u16 c, u8 d);
 void func_02029D7C(int a, int b);
 void func_0218403C(u8 *p);
 void *func_02184360(u8 *p, int value);

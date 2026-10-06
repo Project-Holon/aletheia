@@ -20,7 +20,7 @@ typedef struct H { u32 f0, f4, f8, fc, f10; } H;
 typedef struct W { u32 f0; H *h; u32 f8, fc, f10; u32 f14; } W;
 
 struct BbActSys;
-extern void func_02050468(struct BbActSys *o, u32 first, u32 count);
+extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
 
 void func_021AC384(u32 a, W *w)
 {

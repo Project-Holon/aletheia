@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u8 func_021B8DDC(u32 x);
-extern u32 func_021B9010(u8 *p, u8 k);
+extern u8 func_021B9010(u8 *p, u8 k);
 extern int func_021B8B9C(u8 *, unsigned int);
 extern char *func_021B9AF8(char *, int);
 char *func_021C7FE0(u8 *p, int v) { unsigned int k; k=func_021B9010(*(u8 * *)&((struct Obj00003 *)p)->f4, func_021B8DDC(v)); if(func_021B8B9C(*(u8 * *)&((struct Obj00003 *)p)->f4,k)) return func_021B9AF8(*(char * *)&((struct Obj00003 *)p)->f8,k); return 0; }

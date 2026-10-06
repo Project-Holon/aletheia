@@ -26,7 +26,7 @@ typedef struct Fx {
     u16 f06;
 } Fx;
 
-extern void *func_02190708(Fx *p, u32 a, u32 b, u32 c, u16 d, u16 e);
+extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 
 void func_021907A8(Fx *p, u32 a)
 {

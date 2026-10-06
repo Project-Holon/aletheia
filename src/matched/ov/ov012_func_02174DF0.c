@@ -20,8 +20,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-void func_02174DF0(u32 v) { func_0203D3A8(func_020399A8(),0x1507,4,v); }
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+int func_02174DF0(u32 v) { return func_0203D3A8(func_020399A8(),0x1507,4,v); }
 void func_02174E08(int index,int unused1,int unused2,u8 *ctx)
 {
     u8 *p = *(u8 * *)&((struct Obj19291 *)ctx)->f355C;

@@ -45,7 +45,7 @@ extern u32 func_02012A30(const struct BigObj *p);
 extern u8 func_02012984(const struct BigObj *p);
 extern u16 func_02188C9C(u8 *p);
 extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
-extern void *func_020298A0(void *a, u32 b, u16 c, u16 d);
+extern void *func_020298A0(void *a, u32 b, u32 c, u32 d);
 extern void func_0215897C(void *vm, void *task);
 extern void func_02028BDC(struct S *s, u32 mask);
 extern void func_02159168(int n);

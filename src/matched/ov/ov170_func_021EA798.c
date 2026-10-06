@@ -32,7 +32,7 @@ extern int func_021E00C4(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void func_021EA798(unsigned char *p, int sel)
+int func_021EA798(unsigned char *p, int sel)
 {
     int (*cb)(unsigned char *);
     int r = func_021DD210(p, p[0x14], *(unsigned char *)(WORK(p) + 0xA17F));
@@ -52,5 +52,5 @@ void func_021EA798(unsigned char *p, int sel)
         break;
     }
     func_020061E4(0x548);
-    func_021E8FC0((char *)p, (int)cb, ((struct Obj00000 *)p)->f28);
+    return func_021E8FC0((char *)p, (int)cb, ((struct Obj00000 *)p)->f28);
 }

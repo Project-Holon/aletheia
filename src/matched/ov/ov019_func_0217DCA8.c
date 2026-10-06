@@ -80,7 +80,7 @@ extern int func_0217FDC8(u8 *p);
 extern int func_0217FDF8(u8 *p);
 extern int func_0217B8E4(char *p, char v);
 extern void func_02174B40(u32 p);
-extern int func_02174BB8(Ent *e, int v);
+extern u32 func_02174BB8(u32 a, u32 b);
 extern int func_02174C34(u32 v);
 extern void func_0217357C(u8 *p, void *a, int b, int c);
 extern void func_02175094(Work *w, int v);
@@ -123,7 +123,7 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
             (*state)++;
         break;
     case 4:
-        if (func_02174BB8(&w->ents[me], 0) == 1)
+        if (func_02174BB8((u32)(&w->ents[me]), 0) == 1)
             (*state)++;
         break;
     case 5:

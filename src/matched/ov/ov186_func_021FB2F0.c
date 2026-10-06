@@ -16,7 +16,7 @@
 #include "../include/Obj01282.h"
 extern void func_021FAEE4(char *, int *);
 extern void func_021FB548(char *p, short *x, short *y);
-extern void func_021FB514(char *p, short x, short y);
+extern void func_021FB514(char *p, short x, int y);
 int func_021FB2F0(char *ctx)
 {
     int position[2];

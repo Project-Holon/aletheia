@@ -19,7 +19,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 int func_021737A8(void)
 {
     if (func_021736D8() == 0)

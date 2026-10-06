@@ -24,4 +24,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u8 func_021BAFDC(u8 *p);
-void func_021BF808(u8 *p) { func_021BAFDC((u8 *)(((struct Obj22400 *)p)->f1C)); }
+int func_021BF808(u8 *p) { return func_021BAFDC((u8 *)(((struct Obj22400 *)p)->f1C)); }

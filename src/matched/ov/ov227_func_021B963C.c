@@ -121,7 +121,7 @@ extern u32 func_02013E4C(u32 a);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_0200CED4(u32 a, u32 b);
+extern u32 func_0200CED4(struct Blk37 *p, u16 id);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern void *func_02012EBC(struct Big *p);
@@ -170,7 +170,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
             func_0202F190((void *)c->f2, 0, x20, x30, (u32)g->f30);
             fl = 0;
             x18 = func_0200CA38((struct Blk37 *)r7);
-            if (func_0200CED4(r7, (u16)func_02017E1C((void *)c->f2, 5, 0)) == 0) {
+            if (func_0200CED4((struct Blk37 *)r7, (u16)func_02017E1C((void *)c->f2, 5, 0)) == 0) {
                 fl = 1;
             }
             func_0200CFA0((struct Blk37 *)r7, (void *)c->f2);

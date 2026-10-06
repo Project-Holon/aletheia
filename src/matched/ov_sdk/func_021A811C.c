@@ -27,7 +27,7 @@ extern u32 func_02188CFC(u8 *p);
 extern u32 func_021A8140(u32, u32);
 extern u32 func_021A8198(u32, u32);
 
-int func_021A811C(u32 a, u32 b, u32 c, u32 d)
+int func_021A811C(u32 a, u32 b)
 {
 if (func_02188CFC((u8 *)a) == 1) {
     return func_021A8198(a, b);

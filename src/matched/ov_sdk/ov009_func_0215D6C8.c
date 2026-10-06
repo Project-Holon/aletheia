@@ -40,8 +40,7 @@ extern int func_0215F3D0(struct SOCLSocket *socket);
 extern int func_020879EC(void);
 extern int func_020860D0(void *mutex);
 extern void func_02086028(void *mutex);
-extern int func_0215D7FC(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
-                         unsigned long *remote_ip, int flag_block, int flags);
+extern int func_0215D7FC(char *a, int b, int c, int d, int e, int f, int g);
 extern void func_02086078(void *mutex);
 
 static inline int isNotReady(struct SOCLSocket *socket)
@@ -90,7 +89,7 @@ int func_0215D6C8(int s, void *buffer, int buffer_len, unsigned short *remote_po
     } else {
         func_02086028(recv_pipe->mutex);
     }
-    result = func_0215D7FC(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
+    result = func_0215D7FC((char *)socket, (int)buffer, buffer_len, (int)remote_port, (int)remote_ip, flag_block, flags);
     func_02086078(recv_pipe->mutex);
     return result;
 }

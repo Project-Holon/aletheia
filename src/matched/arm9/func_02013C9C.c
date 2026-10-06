@@ -24,7 +24,7 @@ extern struct Ent0209E026 sub_0209E026_Map[];
 typedef unsigned short u16;
 extern u16 func_02013A94(u32 key);
 
-int func_02013C9C(u32 key)
+int func_02013C9C(u16 key)
 {
     u32 r = func_02013A94(key);
     u32 i;

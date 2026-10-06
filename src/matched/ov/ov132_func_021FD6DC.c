@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
 
-void func_021FD6DC(char *p)
+int func_021FD6DC(char *p)
 {
-    func_021FCEA8((int)p, 5, *(int *)(((struct Obj23293 *)p)->f140 + 0x24), 0xff);
+    return func_021FCEA8((int)p, 5, *(int *)(((struct Obj23293 *)p)->f140 + 0x24), 0xff);
 }

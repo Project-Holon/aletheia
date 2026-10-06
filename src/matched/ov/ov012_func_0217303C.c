@@ -49,7 +49,7 @@ extern void func_02167590(void *a, struct Work *w);
 extern int func_0216786C(struct Work *w, struct Report *out);
 typedef unsigned int   u32;
 extern u32 func_02174C90(u32 a);
-extern void func_0217FF78(Q *q);
+extern void func_0217FF78(u32 *p);
 extern void func_02175110(u8 *p);
 extern void func_02175144(u8 *p);
 
@@ -70,7 +70,7 @@ void func_0217303C(Work *w)
                 }
             }
         }
-        func_0217FF78(w->q);
+        func_0217FF78((u32 *)w->q);
     }
     func_02175110((u8 *)w->q);
     func_02175144((u8 *)w->q);

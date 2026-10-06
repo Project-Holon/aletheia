@@ -38,7 +38,7 @@ struct Link;
 extern void func_02041B6C(u32 bit);
 extern struct Entry *func_020399A8(void);
 extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
-extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern void func_021B95B8(int, void (*)(void));
 extern void func_021BA290(int, int);

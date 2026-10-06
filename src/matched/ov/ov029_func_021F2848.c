@@ -41,7 +41,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021F3144(u8 *p, u8 v);
+extern void func_021F3144(u8 *p, int v);
 extern int func_021F2DA8(u8 *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);

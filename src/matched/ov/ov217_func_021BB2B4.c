@@ -23,7 +23,7 @@
  */
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_02035C08(void *p);
+extern int func_02035C08(const void *p);
 extern void func_020061E4(u32 a);
 extern void func_021BB91C(void *p);
 extern void func_021BB910(void *p, int v);

@@ -71,7 +71,8 @@ typedef struct {
 
 extern TE d_021726A0[];
 
-extern void *func_02043678(u32 a, u32 b, u32 c, u16 d);
+struct Bmp;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_0216FC74(void *a, u16 b, u16 c, u16 d, void *e, void *f);
 extern void func_0216FCA0(void *a, void *b);
 struct Bmp;

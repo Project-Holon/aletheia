@@ -41,7 +41,7 @@ extern void func_02005CA4(int,u32);
 extern void func_02006734(u8);
 extern int func_021F8B10(void);
 extern void func_021B92A0(u8 *p);
-extern int func_021EAE14(void *);
+extern int func_021EAE14(u32 *p);
 void func_021D3FDC(u8 *p, struct Q *q)
 {
     int changed, adjusted, input;

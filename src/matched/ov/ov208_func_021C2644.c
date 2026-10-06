@@ -49,7 +49,7 @@ extern void func_021C3374(void *a0, u8 *st, void *a2);
 extern void func_021C2D88(void *a0, u8 *st, void *a2);
 extern void func_021BC61C(char *p);
 extern void func_021BC464(char *p);
-extern void func_021C2BF4(void *a0, u8 *st, void *a2);
+extern void func_021C2BF4(void *unused, char *p, void *a2);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021BC34C(char *p);
@@ -77,7 +77,7 @@ u32 func_021C2644(void *a0, u32 a1, void *a2, u8 *st, void *a4)
     func_021BC464(*(char * *)&((struct Obj03934 *)st)->fC4);
     func_021BC464(*(char * *)&((struct Obj03934 *)st)->fC0);
     if (((struct Obj03934 *)st)->fB8 != 3) {
-        func_021C2BF4(a2, st, a4);
+        func_021C2BF4(a2, (char *)st, a4);
     }
     func_02030EAC(((struct Obj03934 *)st)->fBC);
     func_021BC34C((char *)a0);

@@ -107,7 +107,7 @@ extern void func_02045C04(struct Rec *rec);
 extern int func_02047790(int *p, int i);
 extern Img *func_02047674(u32 a);
 extern int func_020477D4(struct Owner *owner, u32 index);
-extern u32 func_02047804(struct AnmCtl *c, u32 idx);
+extern u32 func_02047804(struct AnmCtl *c, u16 idx);
 extern char d_021F523C[];
 
 R *func_021F4948(P *p, const Q *q, int c)

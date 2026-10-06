@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u32 func_021CD9E0(u8 *p);
 extern void func_021EA768(u32 *p, u32 a2, u32 a3);
-extern int func_021EA778(u32 a, int b);
+extern int func_021EA778(u32 *p, u32 a2);
 
 int func_021D3630(u32 *a, int *b, u32 *c)
 {
@@ -39,7 +39,7 @@ int func_021D3630(u32 *a, int *b, u32 *c)
         (*b)++;
         break;
     case 1:
-        if (func_021EA778(a[0x15], s) != 0) {
+        if (func_021EA778((u32 *)a[0x15], s) != 0) {
             (*b)++;
         }
         break;

@@ -177,7 +177,7 @@ u8 func_02012B80(const struct BigObj *p)
     return p->unk1CD;
 }
 
-void func_02012B8C(struct BigObj *p, u8 v)
+void func_02012B8C(struct BigObj *p, u32 v)
 {
     p->unk1CD = v;
 }

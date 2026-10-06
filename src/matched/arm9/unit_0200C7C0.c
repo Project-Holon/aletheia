@@ -77,7 +77,7 @@ u32 func_0200C7C0(u16 id)
     return (u32)-1;
 }
 
-u32 func_0200C7F4(u16 id)
+u32 func_0200C7F4(u32 id)
 {
     u32 i = 0;
 

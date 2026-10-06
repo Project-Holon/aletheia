@@ -48,7 +48,8 @@ extern void *func_021B6F40(u8 **p);
 struct Bmp;
 struct Pos;
 struct Rec;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+typedef unsigned short u16;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern int func_0216FE2C(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags);
 
 void func_021B9970(char **a, List *l, char *c)

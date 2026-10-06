@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02086004(void);
 
-void func_021B9B4C(void)
+void func_021B9B4C(int *mutex_p)
 {
     func_02086004();
 }

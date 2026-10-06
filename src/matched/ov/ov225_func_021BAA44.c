@@ -16,4 +16,6 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void sub_02041B6C(u32);
-void func_021BAA44(void) { sub_02041B6C(4); }
+struct Work;
+
+void func_021BAA44(struct Work *a0) { sub_02041B6C(4); }

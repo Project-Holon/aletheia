@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021C6AF8(u8 *p, u32 v)
+void func_021C6AF8(u32 *p, u32 v)
 {
     ((struct Obj18313 *)p)->f8 = v;
 }

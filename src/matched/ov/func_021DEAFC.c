@@ -17,8 +17,8 @@
 
 extern int func_021DEA6C(char *p, int a);
 
-void func_021DEAFC(int a)
+int func_021DEAFC(int a)
 {
-    func_021DEA6C((char *)a, 1);
+    return func_021DEA6C((char *)a, 1);
 }
 

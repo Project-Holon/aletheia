@@ -14,7 +14,7 @@
 
 int func_02175628(void);
 
-void func_021736D8(void)
+int func_021736D8(void)
 {
-    func_02175628();
+    return func_02175628();
 }

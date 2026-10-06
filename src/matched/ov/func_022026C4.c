@@ -23,7 +23,7 @@ typedef signed short s16;
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-void func_022026C4(u32 *p, u32 b, u32 a, u32 c)
+int func_022026C4(u32 *p, u32 b, u32 a, u32 c)
 {
-    func_0201D304((struct StrObj *)a, *p, (u16)c);
+    return func_0201D304((struct StrObj *)a, *p, (u16)c);
 }

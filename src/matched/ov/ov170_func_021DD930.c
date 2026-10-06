@@ -47,7 +47,7 @@ extern void func_021EC7B8(char *p, int i, unsigned j, int flag);
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
 extern int func_021EF4A4(struct WinMgr *mgr);
 extern void func_021EC000(char *p, int i, int v);
-extern void func_021EC08C(char *p, int i, short a, short b, short c);
+extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021ED75C(char **p, int i);
 extern void func_021ED7C4(char *p, int i);

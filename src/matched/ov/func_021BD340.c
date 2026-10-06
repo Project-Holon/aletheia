@@ -27,7 +27,7 @@ extern u32 func_021BD2D8(u8 *p);
 extern int func_021BD36C(void *p);
 extern int func_021BD394(void *p);
 
-int func_021BD340(u32 a, u32 b, u32 c, u32 d)
+int func_021BD340(void *a)
 {
 if (func_021BD2D8((u8 *)a) == 0) {
     return 1;

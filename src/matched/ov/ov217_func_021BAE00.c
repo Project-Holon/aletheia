@@ -32,7 +32,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_02035C08(void *);
+extern int func_02035C08(const void *p);
 extern int func_02035BA4(const void *p);
 extern u32 func_02035CB8(u32 *,u32 *);
 extern void func_020061E4(u32);

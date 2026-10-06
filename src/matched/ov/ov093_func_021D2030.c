@@ -31,7 +31,7 @@ extern u32 func_021CD9E0(u8 *p);
 extern unsigned int func_021B8590(unsigned char *p);
 extern u32 func_021D2000(Seq *s, u32 k, u32 b);
 extern void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7);
-extern int func_021EA0E4(void *win);
+extern int func_021EA0E4(u32 *p);
 int func_021D2030(Seq *s, int *state, const u32 *a)
 {
     u32 t2;

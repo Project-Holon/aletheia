@@ -29,7 +29,7 @@ extern Work *d_0220AF20;
 extern u32 func_022088F4(void *o);
 extern void func_0220893C(void *o, u32 v);
 extern void func_02208900(void *o, u32 v);
-extern void func_02005E9C(void);
+extern int func_02005E9C(void);
 extern void func_02005D90(u32 a, u32 b);
 
 void func_021F883C(u32 a)

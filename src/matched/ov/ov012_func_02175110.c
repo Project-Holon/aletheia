@@ -15,13 +15,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0203D378(void);
-extern int func_02174D2C(u8 *,int,int);
+extern int func_02174D2C(char *a, u32 b, u32 c);
 void func_02175110(u8 *p)
 {
     int i;
     if (func_0203D378()) {
         for (i=0;i<4;i++) {
-            if ((p+i)[0xd0] != 255 && func_02174D2C(p,i,(p+i)[0xd0]) == 1)
+            if ((p+i)[0xd0] != 255 && func_02174D2C((char *)p,i,(p+i)[0xd0]) == 1)
                 (p+i)[0xd0] = 255;
         }
     }

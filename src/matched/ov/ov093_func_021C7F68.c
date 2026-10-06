@@ -32,7 +32,7 @@ extern u8 *func_021B98A4(char *const *q, u8 b);
 extern int func_021D5B68(void *p);
 extern u8 func_021D5440(u8 *p);
 
-int func_021C7F68(int *p, int b, u8 *out)
+u8 func_021C7F68(int *p, int b, u8 *out)
 {
     u8 buf[8];
     volatile u32 n = (u32)func_021B8778((struct Unk021B8CB0 **)p[1], b, buf);

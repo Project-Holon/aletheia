@@ -26,7 +26,7 @@
 #include "../include/Obj04583.h"
 extern void func_021F8D5C(char *,char *);
 extern void func_021F8E60(char *,char *);
-extern void func_021F8EE8(char *,char *);
+extern void func_021F8EE8(char *p, int *a1);
 extern void func_021F8F58(char *,char *);
 extern void func_021F8FB0(char *,char *);
 struct PrintSys;
@@ -44,7 +44,7 @@ int func_021F8518(int obj,int b,char *q,char *p)
     int i;
     func_021F8D5C(p,q);
     func_021F8E60(p,q);
-    func_021F8EE8(p,q);
+    func_021F8EE8(p,(int *)q);
     func_021F8F58(p,q);
     func_021F8FB0(p,q);
     func_021FD714((void *)(((struct Obj03337 *)p)->f24));

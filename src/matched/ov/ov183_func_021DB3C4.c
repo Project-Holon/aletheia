@@ -51,13 +51,14 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021FE794(char *p, u32 index, u32 a, u32 b, u32 c);
 extern int func_021FE7B0(int *);
-extern void func_021FC734(void *);
+extern void func_021FC734(u8 *p);
 extern void func_021FEE24(char *p);
 extern int func_021FC830(u8 *p);
 extern void func_021F9BF4(unsigned *,unsigned);
 extern void func_021FD73C(int *,int);
 extern void func_021DB690(int *task);
-extern void func_020061E4(int),func_020409B4(int);
+extern void func_020061E4(u32 a);
+extern void func_020409B4(u32 index);
 extern int func_02035C60(void);
 void func_021DB3C4(int *task,int *state,char *p)
 {

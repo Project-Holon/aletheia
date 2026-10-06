@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-u32 func_0216D5A8(u8 *p)
+u16 func_0216D5A8(u8 *p)
 {
 return ((struct Obj17801 *)p)->f10;
 }

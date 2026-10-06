@@ -33,7 +33,7 @@ extern void func_021B81F4(u8 *p);
 extern void func_021B6138(char *p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern void func_0204B8C4();
+extern void func_0204B8C4(struct Obj *p, u32 value);
 extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -57,7 +57,7 @@ void func_021B8CE4(int p, int u, int a, int b)
     }
     ((struct Obj00002 *)p)->f864 = a;
     ((struct Obj00002 *)p)->f866 = 6;
-    func_0204B8C4(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710), 0);
+    func_0204B8C4((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), 0);
     func_0204B878((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), (unsigned short)x);
     func_0204B92C((struct Obj *)*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710), 1);
     *(int *)&((struct Obj00002 *)p)->f868 = b;

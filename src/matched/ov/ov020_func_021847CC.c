@@ -35,7 +35,7 @@ struct Evt;
 extern void *func_02161824(void *a, void *b);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 typedef unsigned int   u32;
-extern void func_02029D44(u32 a, u32 b, u32 c, u32 d);
+extern void func_02029D44(u32 a, u32 b, u16 c, u8 d);
 extern void func_02029D7C(int a, int b);
 extern void func_0218403C(u8 *p);
 extern void *func_02184360(u8 *p, int value);

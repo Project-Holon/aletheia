@@ -80,7 +80,7 @@ int func_021904B0(u32 a, u32 b);
 int func_021907A8(void *a0, int a1);
 struct WordSet *func_0201EC64(u32 heap);
 void func_020061E4(u32 a);
-int func_0215841C(void *p);
+u8 func_0215841C(void *p);
 int func_02190740(u32 a, u32 b, u32 c, u32 d);
 struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -94,7 +94,7 @@ int func_02173D2C(int a0, int a1);
 int func_02175FB4(u8 *p);
 int func_02173C6C(int a, int b);
 u8 func_0217BF28(u8 *p);
-int func_0219077C(int a0);
+int func_0219077C(u8 *p);
 u32 func_020362DC(void);
 void func_0201ED04(struct WordSet *p);
 int func_02190728(u32 a);
@@ -182,7 +182,7 @@ int func_0217F6A0(void *a0, int *state, Ctx *c)
         }
         break;
     case 5:
-        if (func_0219077C(c->f4) == 1) {
+        if (func_0219077C((u8 *)c->f4) == 1) {
             (*state)++;
         }
         break;

@@ -103,7 +103,7 @@ extern void func_021BDBA0(struct Ov208Scene *);
 extern void func_021BC6F8(char *p);
 extern void func_021BE854(struct Ov208Icon *);
 extern void func_021BDAE8(char *p, int v);
-extern void func_021C2BF4(void *,u8 *,void *);
+extern void func_021C2BF4(void *unused, char *p, void *a2);
 extern void func_021C3514(u16 *,u8 *,int);
 extern void func_021C3B14(void *,u8 *,int);
 extern void func_021BC508(int flag, int *p);
@@ -114,7 +114,7 @@ extern void func_021C3318(u16 *,u8 *,int);
 extern void func_021BC99C(char *p);
 extern void func_021BC46C(struct Ov208Blend *,struct Ov208Blend *);
 extern void func_021BC678(char *p);
-extern void func_021C2C1C(u16 *,u8 *,int);
+extern void func_021C2C1C(int unused, char *p, int a2);
 #define W(o) (*(u32 *)(p+(o)))
 /* Explicit caller r2 loads preserve trailing arguments on setup/update helpers. */
 int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
@@ -188,7 +188,7 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
             func_021BC6F8((char *)W(0xc8));
             func_021BE854(icon);
             if(W(0xcc)==2)func_021BDAE8(scene,0);
-            func_021C2BF4(heap,p,(void *)key);
+            func_021C2BF4(heap,(char *)p,(void *)key);
         }else func_021C3514(heap,p,key);
         break;
     case 5:
@@ -221,6 +221,6 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
     }
     func_021BC46C((struct Ov208Blend *)W(0xc0),(struct Ov208Blend *)W(0xc4));
     func_021BC678((char *)W(0xc8));
-    func_021C2C1C(heap,p,key);
+    func_021C2C1C((int)heap,(char *)p,key);
     return 0;
 }

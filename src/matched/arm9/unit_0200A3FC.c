@@ -318,7 +318,7 @@ void func_0200A640(void)
 {
 }
 
-u32 func_0200A644(struct Big *p, u32 index)
+u32 func_0200A644(struct Big *p, u8 index)
 {
     if (index < 100) {
         u8 shift = (s32)index % 8;
@@ -330,7 +330,7 @@ u32 func_0200A644(struct Big *p, u32 index)
     return 0;
 }
 
-u32 func_0200A680(struct Big *p, u32 index)
+u32 func_0200A680(struct Big *p, u8 index)
 {
     if (index < 100) {
         u8 shift = (s32)index % 8;
