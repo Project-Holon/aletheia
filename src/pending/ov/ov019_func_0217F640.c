@@ -79,6 +79,20 @@
  * declaration order, default-then-override pal (144), six pragmas (34,168,102,34,34,34),
  * opt_lifetimes off with shared h (48). Left DIFF.
  *
+ * pass 2 2026-10-06 P2L43 (40 compiles, 3 rounds): no change, still 34 B (colours only).
+ * Self's colour follows how many callee-saved webs the loop keeps: base (y, off spilled,
+ * pal kept) self r7; named y (y spilled, off kept) self r6; pal spilled (shared with h, or
+ * function-scope u32 flags as in the ov099 021BBEB4 twin) self r5 with an EXACT prologue but
+ * 332 B. The original keeps the base spill set and still has self r5. All 34 B: void* param
+ * plus `Self *self = work` (also under opt_propagation off), u32 *f3530 with [i+1]/[i+7],
+ * `mode = (mode == 1) ? 1 : 0`, staged call-argument locals (also under propagation off),
+ * call results staged in locals, inline helpers for the loop body, the setup part and one
+ * call, named tile pointer, block-scoped s, `for (long i ...)`, u8 mask, `register` self,
+ * opt_propagation off with do-while, opt_strength_reduction / opt_loop_invariants /
+ * opt_findoffsets off (no code change). Worse: `a1 = func_02188C54(a1)` (298), h as loop
+ * counter (40), y shared with h (43), y in a call argument (126), named y and off (126),
+ * `int flag = 1` at declaration (84), msg as loop counter (321).
+ *
  * symbols:
  *   func_02188C54  0x02188C54  thumb  ov021
  *   func_02034714  0x02034714  arm
