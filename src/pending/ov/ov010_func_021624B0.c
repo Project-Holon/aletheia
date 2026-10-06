@@ -77,6 +77,21 @@
  * as a register only when off has several assignments. The residue stays the early colouring of h/d.
  * Matched-assembly search (`movs rZ,#0` before a call, later `adds rA, rZ, rB`): ov021 021AD82C, ov093
  * 021EDB3C, ov040 021F381C, ov036 021F36C0, no header-parser twin. Research: scratchpad/wD9r/p3_P3L18/research.md.
+ * pass 4 2026-10-06 P4L12: no gain, best stays 54/126 (40 compiles, 4 rounds). Finding: the h/d colours
+ * (orig r3/r2, ours r1/r0) follow one switch. Every form with a zero register live across the read call
+ * (the back-end constant shared with the 0 argument) gives h r1 / d r0, whatever the order, names, scopes,
+ * types, inline helper, pragma or flags. Every form that folds the zero, or makes it after the call (probe
+ * with argument 1), gives the original's late h/d colours. Copy-form steps `nx = off + n * K; off = nx;`
+ * (idiom an-arithmetic-loop-carried-definition-colours-last...) give the exact head 0x2A..0x3A, but the zero
+ * folds and 0x14/0x24 are hoisted (86/126). Probes: h/d colours do not change when h or d live shorter or
+ * the function is cut to two sections, so this is not a degree effect. Tried, no gain: enum-typed zero
+ * (into off, or off itself an enum), opt_propagation off, loads before stores as the listing orders them
+ * (107), n3/c18 before p28 (103), named stride local (67), h assigned in the p120 or d expression, whole parse
+ * as a static inline, one-member struct for off, char * off, second pointer name t = o, `O *const o`, C99
+ * initialised declarations, do-while(0) block, nested length call, loop over a size table (not unrolled),
+ * pending + copy-form steps (83), pending with the n0 step before h (60), opt_lifetimes off (54, identical).
+ * Diagnostics: dsi/1.1, dsi/1.2, -O4,s, -O3,p give the same colours. Callee prototypes checked (all u32).
+ * Research: scratchpad/wD9r/p4_P4L12/research.md.
  * symbols:
  *   func_02013ECC  0x02013ECC  thumb
  *   func_020493D4  0x020493D4  arm
