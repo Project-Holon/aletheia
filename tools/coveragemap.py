@@ -387,9 +387,15 @@ def render_overlays(a, anchors):
         for name, ff in fam.items():
             fgroups.append(("%s %s" % (reg, name), ff))
     fgroups.sort(key=lambda kv: -sum(f["code_bytes"] for f in kv[1]))
-    headline = "Overlays: %.2f%% exact game (%s / %s B); +%s matched SDK of %s; %d/%d fns" % (
+    # Function counts use the same split as the bytes: game functions over game functions,
+    # SDK functions over SDK functions (the old single "%d/%d fns" mixed the two).
+    gfuncs = len([f for f in funcs if f["cls"] in ("open", "matched")])
+    sfuncs = len([f for f in funcs if f["cls"] in ("sdk", "matched_sdk")])
+    msfuncs = len([f for f in funcs if f["cls"] == "matched_sdk"])
+    headline = ("Overlays: %.2f%% exact game (%s / %s B, %d/%d fns); "
+                "+%s matched SDK of %s (%d/%d fns)") % (
         100.0 * matched_game / game if game else 0.0, format(matched_game, ","), format(game, ","),
-        format(matched_sdk, ","), format(sdk, ","), mfuncs, len(funcs))
+        mfuncs, gfuncs, format(matched_sdk, ","), format(sdk, ","), msfuncs, sfuncs)
     render(a.ov_out, headline, ("overlays", "source files"), [ugroups, fgroups],
            "tile area is code bytes; SDK and matched SDK are not game work", a.width, a.height)
     print("wrote %s: %d overlays, %d functions, %d bytes drawn, %.4f%% exact game of %d game bytes (+%d matched SDK of %d SDK)"
