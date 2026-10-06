@@ -2259,6 +2259,9 @@ _EXT = [(re.compile(r'^lsrs?\s+r\d+,\s*r\d+,\s*#(?:0x18|24)$'), 'u8'),
         (re.compile(r'^uxtb\s+r\d+,\s*r\d+$'), 'u8'), (re.compile(r'^uxth\s+r\d+,\s*r\d+$'), 'u16'),
         (re.compile(r'^sxtb\s+r\d+,\s*r\d+$'), 's8'), (re.compile(r'^sxth\s+r\d+,\s*r\d+$'), 's16')]
 _EXT_MAX = {'u8': 0xff, 'u16': 0xffff, 's8': 0x7f, 's16': 0x7fff}
+# a narrow load gives a value of that type without an extension
+_LOADW = [(re.compile(r'^ldrb\b'), 'u8'), (re.compile(r'^ldrh\b'), 'u16'),
+          (re.compile(r'^ldrsb\b'), 's8'), (re.compile(r'^ldrsh\b'), 's16')]
 
 
 def width_evidence_text(fam, db, fi, mm):
@@ -2290,14 +2293,16 @@ def width_evidence_text(fam, db, fi, mm):
                         k = None
                         if o[0] == 'ins':
                             txt = o[2].strip()
-                            for rx, ty in _EXT:
+                            for rx, ty in _EXT + _LOADW:
                                 if rx.match(txt):
                                     k = ty
                             if k is None:
                                 mi = _MOVIMM.match(txt)
                                 k = ('const', int(mi.group(1), 0)) if mi else 'other'
                         else:
-                            k = 'other'
+                            # the caller's own incoming value or a call result: it
+                            # carries its own type, neither for nor against
+                            k = 'neutral'
                         seen.setdefault(i, []).append(k)
     edits, done = [], []
     pos = mm.start(4)
@@ -2453,10 +2458,18 @@ def make_newdef(rule, fam, db, subset=None):
     return text, rec, key, why
 
 
+# rules that read every caller's original code are only worth their cost for the
+# mismatch kinds they can fix
+_RULE_TAGS = {'width_evidence': set('WS')}
+
+
 def fam_task(args):
-    fam, opt = args
+    fam, opt = args[0], args[1]
+    tags = args[2] if len(args) > 2 else None
     out = {'fam': fam, 'rows': [], 'written': []}
     for rule in opt['rules']:
+        if tags is not None and rule in _RULE_TAGS and not (tags & _RULE_TAGS[rule]):
+            continue
         try:
             text, rec, key, why = make_newdef(rule, fam, _DB)
             if text is None:
@@ -2512,6 +2525,17 @@ def fam_list(out, classes='KCVW'):
     return fams
 
 
+def fam_tagsets(out):
+    """{family: set of tag letters of its mismatching declarations} (decls.tsv)."""
+    tags = collections.defaultdict(set)
+    with open(os.path.join(out, 'decls.tsv'), newline='') as f:
+        r = csv.reader(f, delimiter='\t')
+        next(r)
+        for row in r:
+            tags[(row[3], row[2])] |= set(row[4])
+    return tags
+
+
 def famrun(a, db):
     fxcache = os.path.join(a.out, 'fam.pkl')
     fx = FamIndex.build(db, a.jobs, fxcache)
@@ -2531,7 +2555,8 @@ def famrun(a, db):
     rowsf = os.path.join(a.out, 'families.csv')
     with cf.ProcessPoolExecutor(a.jobs, initializer=fam_worker_init, initargs=(os.path.join(a.out, 'defs.pkl'),
                                                                                fxcache)) as ex:
-        for i, r in enumerate(ex.map(fam_task, [(f, opt) for f in todo], chunksize=1), 1):
+        tagsets = fam_tagsets(a.out)
+        for i, r in enumerate(ex.map(fam_task, [(f, opt, tagsets.get(f, set())) for f in todo], chunksize=1), 1):
             new = not os.path.exists(rowsf)
             with open(rowsf, 'a', newline='') as f:
                 w = csv.writer(f)
