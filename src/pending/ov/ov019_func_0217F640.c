@@ -93,6 +93,17 @@
  * counter (40), y shared with h (43), y in a call argument (126), named y and off (126),
  * `int flag = 1` at declaration (84), msg as loop counter (321).
  *
+ * pass 3 2026-10-06 P3L17 (40 compiles, 3 rounds): no change, still 34 B (colours only).
+ * The prologue colours follow the loop pop order: original pops i, self, tile temp, pal; here
+ * i, pal, tile temp, self. Every form that adds loop pressure gives an EXACT prologue but
+ * spills pal or changes the y/off code: `c = 0x41/0x11; pal = c << 6` (332/99), inner column
+ * loop (324), int prototype with (u16) cast (328), h reused as pal (332/99). All 34 B: u8 mode,
+ * u16 a1, u16 h with u16 callee types, ternary or if/else flag, register pal/h, two more
+ * declaration orders, staged w/t call locals, named tile pointer, asserts as inline helper,
+ * scheduling off, opt_lifetimes off, if/else id for the msg call. Worse: whole body as inline
+ * helper (40), pal declared first (40), mode as pal (39), mode as counter (45), explicit pw/pt
+ * (47), named y or one/two-word struct y (126), u8/u16 i (87), inverted mask test (37).
+ *
  * symbols:
  *   func_02188C54  0x02188C54  thumb  ov021
  *   func_02034714  0x02034714  arm
