@@ -253,6 +253,40 @@ def overlay_functions():
     return funcs
 
 
+# Smallest tile drawn on its own, in square pixels.  Functions below it are pooled per
+# colour into one tile, so every tile keeps the same inset and spacing; open (unmatched)
+# functions are never pooled, so they always stay visible.
+MIN_TILE_AREA = 6.0
+
+
+def _tile_key(f):
+    k = f["cls"]
+    if k == "matched":
+        return "sole" if f.get("sole_ref") else ("matched" if f["addr"] & 4 else "matched2")
+    if k == "open":
+        return "open" if f["addr"] & 4 else "open2"
+    return k
+
+
+def _unit_tiles(fns, ux, uy, uw, uh):
+    """Tiles (x, y, w, h, colour key) for one unit drawn inside its 2-pixel border."""
+    pad = 2 if uw > 6 and uh > 6 else 0
+    x, y, w, h = ux + pad, uy + pad, uw - 2 * pad, uh - 2 * pad
+    total = sum(f["code_bytes"] for f in fns)
+    if w <= 0 or h <= 0 or not total:
+        return []
+    scale = w * h / total
+    keep, pooled = [], {}
+    for f in fns:
+        k = _tile_key(f)
+        if f["code_bytes"] * scale >= MIN_TILE_AREA or f["cls"] == "open":
+            keep.append((f["code_bytes"], k))
+        else:
+            pooled[k] = pooled.get(k, 0) + f["code_bytes"]
+    items = sorted(keep + [(v, k) for k, v in pooled.items()], key=lambda t: -t[0])
+    return squarify(items, x, y, w, h)
+
+
 def panel(o, groups, y0, W, H):
     """Draw one treemap panel of groups (list of (label, [fn])) into o, between y0 and y0+H."""
     items = sorted(((sum(f["code_bytes"] for f in fns), i) for i, (_, fns) in enumerate(groups) if fns), reverse=True)
@@ -261,22 +295,10 @@ def panel(o, groups, y0, W, H):
         ug = sum(f["code_bytes"] for f in fns if f["cls"] in ("open", "matched"))
         um = sum(f["code_bytes"] for f in fns if f["cls"] == "matched")
         lab = 14 if uw > 70 and uh > 26 else 0
-        fitems = sorted(((f["code_bytes"], f) for f in fns), key=lambda t: -t[0])
-        # A unit narrower than its 2-pixel border has no inner area; lay its tiles over the
-        # whole unit instead of dropping them (dropped units showed as empty holes).
-        pad = 2 if uw > 4 and uh - lab > 4 else 0
-        for fx, fy, fw, fh, f in squarify(fitems, ux + pad, uy + pad + lab, uw - 2 * pad, uh - 2 * pad - lab):
-            # Tiles too small for the 0.3 inset are drawn without it.  Skipping them (the old
-            # behaviour) left the background showing through as dark "holes" that looked
-            # like unmatched code.
-            k = f["cls"]
-            inset = 0.3 if fw >= 1.2 and fh >= 1.2 else 0.0
-            if k == "matched":
-                k = "sole" if f.get("sole_ref") else ("matched" if f["addr"] & 4 else "matched2")
-            elif k == "open":
-                k = "open" if f["addr"] & 4 else "open2"
+        tiles = _unit_tiles(fns, ux, uy + lab, uw, uh - lab)
+        for fx, fy, fw, fh, k in tiles:
             o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s"/>'
-                     % (fx + inset, fy + inset, max(fw - 2 * inset, 0.3), max(fh - 2 * inset, 0.3), COL[k]))
+                     % (fx + 0.3, fy + 0.3, max(fw - 0.6, 0.3), max(fh - 0.6, 0.3), COL[k]))
         o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="none" stroke="%s" stroke-width="2"/>'
                  % (ux + 1, uy + 1, uw - 2, uh - 2, COL["line"]))
         if lab:
