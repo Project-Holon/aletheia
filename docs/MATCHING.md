@@ -90,6 +90,18 @@ granularity" below for why that is the right model and what it establishes.
 `tu` does not infer the instruction set, because the first function of a unit
 often has no label in the generated listing; pass `--thumb` for game code.
 
+When a near miss does not move with source changes, `tools/mwccdbg/mwccdbg.py`
+shows which compiler decision makes the difference. It runs the dsi/1.1p1
+compiler under a small Win32 debugger, with the same flags `match.py one` uses,
+and prints the register allocator's interference graph and colouring order
+(`regalloc`), the scheduler's DAG and picks per block (`sched`), alias objects
+and queries (`alias`), CSE temp creation and the IRO IR (`cse`, `ir`) and the
+pass order (`passes`). `regalloc-replay` and `sched-replay` replay the measured
+allocator and scheduler rules on a capture to test a change without compiling,
+and `edit` changes one decision at run time and prints the resulting verdict.
+Windows only. See `tools/mwccdbg/README.md` for the commands, the addresses and
+data layouts, and the measured rules.
+
 ## Relocation resolution
 
 A compiler cannot know what address `sub_0201F41C` will end up at, so it
