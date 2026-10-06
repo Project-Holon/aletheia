@@ -62,6 +62,18 @@
  * `code = 0` first (84), index update before the predictor clamp (275), opt_strength_reduction /
  * opt_loop_invariants off (68), opt_lifetimes off on the shared-local form (246). 39 compiles.
  *
+ * pass 3 2026-10-06 P3L19: still DIFF 68 of 404, form unchanged. Pop ranks seen: temps and
+ * promoted carriers (r2 tier) > outer named locals (first declared first) > loop-wrapper inline
+ * locals (last declared first) > encode inline locals (code, idx, pred, step). The image needs half
+ * inside the encode tier (after pred1, before step1); no spelling put it there. No gain from: n
+ * reused as counter (88), inline count helper with or without a local (68; in the test 94), src[0]/
+ * src[1] (210), src[i * 2] (334), int n (68), u16 n (94), diff reused as the delta (222), named
+ * sample (68), s16 pred (121), s16 step (68), u8 code (155), pred before idx (68), step after diff
+ * (76), step table read at each use (127), pred or index read at each use (121, 104), pointer
+ * params to pred/index (68), loop in an inline wrapper (72), C99 for-scope i and half (68), guard
+ * with an assignment in the condition (342), lo/hi array (68), {i, half} struct (88), int lo (68),
+ * optimization_level 3 (68), inline_bottom_up (68), flat and macro bodies (200+). 40 compiles.
+ *
  * symbols:
  *   d_021B3A0C     0x021B3A0C  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2
