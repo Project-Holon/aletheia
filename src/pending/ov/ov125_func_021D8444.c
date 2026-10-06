@@ -8,6 +8,22 @@
  * lang: c99
  * isa: arm
  * status: DIFF
+ * pass 4 2026-10-06 P4L08: DIFF, 14 bytes unchanged (40 compiles, 4 rounds). Diagnostic: the P2 h18 form (pool load
+ *   for the 0x258 base plus `mov lr, r4` source copy) schedules ldrb, ldr, mov lr, strb, ldr 0x258, mov cnt, add:
+ *   the image order plus one instruction, so the image needs two c1/c2 nodes that end as one `ldr lr`. A split
+ *   by `if (t != 0)` (no pragma) gives dst r5 but ldrb, strb | ldr lr, mov, ldr (no cross-block reorder), so the
+ *   image is not a plain block split. Asm search: no other function has a 1-slot ldrb/strb gap before a counted
+ *   copy preheader; the matched sibling 021D7A10 fills the ldrb slot with the counter like this build. Tried, all
+ *   14 unless stated: named `char **pp = s + 0x258`; Record (int words[78]) view; function-scope h = g copy (also
+ *   with opt_lifetimes, opt_dead_assignments, opt_common_subs off); u32 base local in the block or as inline casts;
+ *   Sav dst as extern d_021D9E46; no-parameter inline Publish(); Glob/Pkt member chain; `*(t = &d.sav) = tok`;
+ *   u16/int k = 8 for the +8 (folded); pragmas opt_marknonregtemps, opt_scalarizeliveranges,
+ *   opt_serializeassignments, opt_optimizenonregaccess, opt_pulloutconstants, opt_treetransformation,
+ *   opt_moveinvariantsinaddressexpr, opt_prelinearize. Worse: inline CopySav(dst, src) returning dst (18), sibling
+ *   inline copy() returning dst (20), named Data *dst/*src (20), u32 g with `*(Data *)g` source (17, mov lr, r4),
+ *   function-scope u32 base (130 B, kept in r5), block `Sav tmp` (376 B), `u16 k = 0x258` (183 B, filler works but
+ *   register offset kept), `int ofs = 0` source offset (185 B, add #0 kept), user quad loop without pragma (340 B),
+ *   optimization_level 2 (18) and 1 (283 B).
  * pass 3 2026-10-06 P3L14: DIFF, 14 bytes unchanged (40 compiles, 4 rounds). Timing model: the trailing ldrb needs
  *   3 slots before its strb (h37 ok = 1 shows ldrb, ldr lr, filler, strb). In the image nothing fills the second
  *   slot, but the Data copy counter is always issuable there, so the image had the Data copy preheader in another
