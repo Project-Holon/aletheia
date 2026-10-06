@@ -7,9 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  *
- * DIFF, 7 concrete bytes, 176/176 bytes, all 12 relocations resolved.
+ * EXACT in --lang c99 and --lang c, 176/176 bytes, all 12 relocations resolved.
  * recoup 2026-10-05 (lane C1, ~27 compiles): the older draft (docs/notes) was 110 B off at 172 B.
  * Fixes: hi and wi are plain u32 with an unsigned shift, no u16 or enum (no lsls/lsrs pairs),
  * the area is signed (int)(wi * h) / 8 with h the raw table halfword, and n is an int (a u32 n
@@ -41,6 +41,12 @@
  * also flips the entry (str r1,[sp,#8] first, index in r1). Forms that do not keep h in memory:
  * inline out-pointer helper, hp = &h, unused &w, union, one-member struct/array, nested blocks
  * (all folded or scalarised). optimization_level 1 shows the f load is textually last.
+ * pass 3 2026-10-06 P3L08 (3 compiles): EXACT. h is a u16 local (the table halfword) and
+ * hi = (u32)h >> 3 keeps lsrs. mwcc keeps the u16 stack parameter f load behind the spill
+ * store of a narrow local, but hoists it above the spill of a u32 local (docs/idioms
+ * a-u16-stack-parameter-passed-to-a-u16-callee-stays-behind-a-spill-store.md, sub_0201B2B0
+ * pidHigh; a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md for the (u32) widen).
+ * The earlier u16 h try (154 B) used h >> 3, which promotes to int and gives asrs.
  * symbols:
  *   d_021726A0     0x021726A0  data  ov010
  *   func_02043678  0x02043678  arm
@@ -77,7 +83,7 @@ extern void func_020437AC(void *p);
 
 void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
 {
-    u32 h;
+    u16 h;
     u32 hi;
     u32 wi;
     void *buf;
@@ -88,7 +94,7 @@ void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
     u32 base;
 
     h = d_021726A0[*(u16 *)(a + 2)].w;
-    hi = h >> 3;
+    hi = (u32)h >> 3;
     wi = (u32)d_021726A0[*(u16 *)a].w >> 3;
     tmp = func_02043678(wi, hi, 0x20, f);
     buf = func_02043678(wi, hi, 0x20, f);
