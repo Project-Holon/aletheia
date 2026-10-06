@@ -107,7 +107,9 @@ def _group_by_anchor(funcs, anchors, region_filter, tail_key):
         if not merged or merged[-1][1] != name:
             merged.append((a, name))
     if not merged:
-        return {}
+        # A region with no __FILE__ anchor is one group; returning {} dropped its
+        # functions from the source-file panel and left empty holes there.
+        return {tail_key: list(funcs)} if funcs else {}
     mstarts = [a for a, _ in merged]
     groups = {}
     for fn in funcs:
@@ -260,16 +262,21 @@ def panel(o, groups, y0, W, H):
         um = sum(f["code_bytes"] for f in fns if f["cls"] == "matched")
         lab = 14 if uw > 70 and uh > 26 else 0
         fitems = sorted(((f["code_bytes"], f) for f in fns), key=lambda t: -t[0])
-        for fx, fy, fw, fh, f in squarify(fitems, ux + 2, uy + 2 + lab, uw - 4, uh - 4 - lab):
-            if fw < 1.2 or fh < 1.2:
-                continue
+        # A unit narrower than its 2-pixel border has no inner area; lay its tiles over the
+        # whole unit instead of dropping them (dropped units showed as empty holes).
+        pad = 2 if uw > 4 and uh - lab > 4 else 0
+        for fx, fy, fw, fh, f in squarify(fitems, ux + pad, uy + pad + lab, uw - 2 * pad, uh - 2 * pad - lab):
+            # Tiles too small for the 0.3 inset are drawn without it.  Skipping them (the old
+            # behaviour) left the background showing through as dark "holes" that looked
+            # like unmatched code.
             k = f["cls"]
+            inset = 0.3 if fw >= 1.2 and fh >= 1.2 else 0.0
             if k == "matched":
                 k = "sole" if f.get("sole_ref") else ("matched" if f["addr"] & 4 else "matched2")
             elif k == "open":
                 k = "open" if f["addr"] & 4 else "open2"
             o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s"/>'
-                     % (fx + 0.3, fy + 0.3, max(fw - 0.6, 0.3), max(fh - 0.6, 0.3), COL[k]))
+                     % (fx + inset, fy + inset, max(fw - 2 * inset, 0.3), max(fh - 2 * inset, 0.3), COL[k]))
         o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="none" stroke="%s" stroke-width="2"/>'
                  % (ux + 1, uy + 1, uw - 2, uh - 2, COL["line"]))
         if lab:
