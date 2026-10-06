@@ -78,6 +78,26 @@
  * opt-propagation-off-with-named-locals-pins-argument-constants-against-stack-stores.md
  * (propagation off is much worse here). Matched hits: 021B01FC (source of the forms),
  * 021AFFE4, 021AF340, 021AF628 read.
+ * pass 2 2026-10-06 P2L55: DIFF, 1320 B, 375 B differ (was 383; 40 compiles). The helper keeps
+ * the read index in a u8 local and computes the new index in a separate int ni, then stores ni
+ * (sibling-style np/ni pair). Declaration order of the helper locals is a real lever here (a
+ * later-declared local is coloured earlier): idx before pred 379, decoder order 608, others
+ * 484-652. Residue is colour-only (the post-RA scheduler follows it): in the samples without a
+ * reload, the image colours the forwarded index (and #0xff after strb) last (sl) and lets step
+ * share the sample register (r6), code r8; every build here colours the forwarded index early
+ * (r5/r6) when a step local exists. Without a step local (2-bit sibling form) the forwarded index
+ * follows declaration rank as in the sibling, but step then colours last and the caller's a takes
+ * r5 (642-719). No effect or worse: step after diff (489-500) or after the sign diamond (707, pool
+ * order right), pred read at each use (383), sample through a pointer parameter (383), parameters
+ * swapped (379), s16 step (484), index stored before pred (382, still forwarded), next-index
+ * inline helper (575), state-update inline helper (1195), macro or block expansion in the loop
+ * (1010, 1045), diff reused as the delta (566), opt_propagation off (1143).
+ * Idioms checked: a-local-declared-at-its-first-use-schedules-its-store-there.md,
+ * an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md,
+ * a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer.md,
+ * an-extra-inline-level-reverses-two-helper-locals-stack-slots.md; mwcc_ref Coloring.c and
+ * docs/ALLOCATOR_CASEBOOK.md (web numbering). Matched hits: 021B01FC image read in full (same
+ * forward and step-into-sample-register pattern), 021AF628 image; movgt #0x58 occurs only in ov013.
  * symbols:
  *   d_021B3A04 0x021B3A04 data ov013 a1
  *   d_021B3A1C 0x021B3A1C data ov013 a2
@@ -95,11 +115,12 @@ extern const s16 d_021B3A1C[89];
 static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
 {
     int pred;
-    int idx;
+    u8 idx;
     int diff;
     int code;
     int delta;
     int np;
+    int ni;
     int step;
     step = d_021B3A1C[st->index];
     idx = st->index;
@@ -125,11 +146,11 @@ static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
     np = pred + delta;
     if (np < -32768) np = -32768;
     if (np > 32767) np = 32767;
-    idx += d_021B3A04[code];
-    if (idx < 0) idx = 0;
-    else if (idx > 88) idx = 88;
+    ni = idx + d_021B3A04[code];
+    if (ni < 0) ni = 0;
+    else if (ni > 88) ni = 88;
     st->pred = (s16)np;
-    st->index = idx;
+    st->index = ni;
     return code;
 }
 void func_021AFABC(u8 *dst, s16 *src, u32 n, AdpcmState *st)
