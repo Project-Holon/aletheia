@@ -1,0 +1,351 @@
+/*
+ * file:     unit_02087180.c
+ * unit:     yes
+ * function: OSi_SetTimer, func_02087208, func_02087244, func_02087254, func_02087264, func_0208738C, func_020873F8, func_0208747C, func_0208748C
+ * address:  0x02087180
+ * region:   arm9
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   OS_GetTick              0x020870D0  arm
+ *   OSi_EnterTimerCallback  0x020848F8  arm
+ *   OS_EnableIrqMask        0x02084968  arm
+ *   OSi_AlarmHandler        0x0208747C  arm
+ *   OSi_SetTimerReserved  0x02086FC4  arm
+ *   OS_DisableIrqMask     0x02084998  arm
+ *   g_02151340            0x02151340  data
+ *   _ll_udiv      0x0209C00C  arm
+ *   OS_Terminate          0x02088234  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   SDK_AUTOLOAD_DTCM_START  0x02FE0000  data
+ */
+typedef unsigned long u32;
+
+typedef unsigned short u16;
+
+typedef long long s64;
+
+typedef unsigned long long u64;
+
+typedef volatile u16 vu16;
+
+typedef u64 OSTick;
+
+typedef u32 OSIrqMask;
+
+typedef struct OSiAlarm OSAlarm;
+
+typedef void (*OSAlarmHandler)(void *arg);
+
+struct OSiAlarm {
+    OSAlarmHandler handler;
+    void *arg;
+    u32 tag;
+    OSTick fire;
+    OSAlarm *prev;
+    OSAlarm *next;
+    OSTick period;
+    OSTick start;
+};
+
+typedef int BOOL;
+
+typedef u32 OSIntrMode;
+
+typedef struct OSAlarmQueue {
+    OSAlarm *head;
+    OSAlarm *tail;
+} OSAlarmQueue;
+
+/* os_alarm.o .bss from 0x02151340, addressed from one pool word. */
+typedef struct OsAlarmBss {
+    u16 OSi_UseAlarm;
+    OSAlarmQueue OSi_AlarmQueue;
+} OsAlarmBss;
+
+extern OSTick OS_GetTick(void);
+extern void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void *), void *arg);
+extern OSIrqMask OS_EnableIrqMask(OSIrqMask intr);
+extern void OSi_AlarmHandler(void *arg);
+extern OSIntrMode OS_DisableInterrupts(void);
+extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+extern void OSi_SetTimerReserved(int timerNum);
+extern u32 OS_DisableIrqMask(u32 intr);
+extern void OS_Terminate(void);
+void OSi_SetTimer(OSAlarm *alarm);
+void func_02087208(void);
+asm void func_02087244(void);
+asm void func_02087254(void);
+void OSi_InsertAlarm(OSAlarm *alarm, OSTick fire);
+void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg);
+void func_020873F8(OSAlarm *alarm);
+asm void func_0208747C(void);
+void func_0208748C(void);
+extern OsAlarmBss g_02151340;
+extern char SDK_AUTOLOAD_DTCM_START[];
+
+#define reg_OS_TM1CNT_L (*(vu16 *)0x04000104)
+
+#define reg_OS_TM1CNT_H (*(vu16 *)0x04000106)
+
+
+
+
+
+void OSi_SetTimer(OSAlarm *alarm)
+{
+    s64 delta;
+    OSTick tick = OS_GetTick();
+    u16 timerCount;
+
+    reg_OS_TM1CNT_H = 0;
+
+    delta = (s64)(alarm->fire - tick);
+
+    OSi_EnterTimerCallback(1, OSi_AlarmHandler, 0);
+
+    if (delta < 0) {
+        timerCount = (u16)~1;
+    } else if (delta < 0x10000) {
+        timerCount = (u16)(~delta);
+    } else {
+        timerCount = 0;
+    }
+
+    reg_OS_TM1CNT_L = timerCount;
+    reg_OS_TM1CNT_H = (u16)(0x0080 | 0x0040 | 0x0001);
+
+    (void)OS_EnableIrqMask(0x10);
+}
+
+
+
+
+
+
+/*
+ * sdk:      OS_InitAlarm (os_alarm.o)
+ */
+void func_02087208(void)
+{
+    if (!g_02151340.OSi_UseAlarm) {
+        g_02151340.OSi_UseAlarm = 1;
+
+        OSi_SetTimerReserved(1);
+
+        g_02151340.OSi_AlarmQueue.head = 0;
+        g_02151340.OSi_AlarmQueue.tail = 0;
+
+        (void)OS_DisableIrqMask(0x10);
+    }
+}
+
+
+
+
+
+
+asm void func_02087244(void)
+{
+    ldr r0, =g_02151340
+    ldrh r0, [r0]
+    bx lr
+}
+
+
+
+
+
+
+asm void func_02087254(void)
+{
+    mov	r1, #0
+    str	r1, [r0]
+    str	r1, [r0, #8]
+    bx	lr
+}
+
+
+
+
+
+
+void OSi_InsertAlarm(OSAlarm *alarm, OSTick fire)
+{
+    OSAlarm *prev;
+    OSAlarm *next;
+
+    if (alarm->period > 0) {
+        OSTick tick = OS_GetTick();
+
+        fire = alarm->start;
+        if (alarm->start < tick) {
+            fire += alarm->period * ((tick - alarm->start) / alarm->period + 1);
+        }
+    }
+
+    alarm->fire = fire;
+
+    for (next = g_02151340.OSi_AlarmQueue.head; next; next = next->next) {
+        if ((s64)(fire - next->fire) >= 0) {
+            continue;
+        }
+
+        alarm->prev = next->prev;
+        next->prev = alarm;
+        alarm->next = next;
+        prev = alarm->prev;
+        if (prev) {
+            prev->next = alarm;
+        } else {
+            g_02151340.OSi_AlarmQueue.head = alarm;
+            OSi_SetTimer(alarm);
+        }
+        return;
+    }
+
+    alarm->next = 0;
+    prev = g_02151340.OSi_AlarmQueue.tail;
+    g_02151340.OSi_AlarmQueue.tail = alarm;
+    alarm->prev = prev;
+    if (prev) {
+        prev->next = alarm;
+    } else {
+        g_02151340.OSi_AlarmQueue.head = g_02151340.OSi_AlarmQueue.tail = alarm;
+        OSi_SetTimer(alarm);
+    }
+}
+
+
+
+
+
+void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg)
+{
+    OSIntrMode enabled;
+
+    if (!alarm || alarm->handler) {
+        OS_Terminate();
+    }
+
+    enabled = OS_DisableInterrupts();
+
+    alarm->period = 0;
+    alarm->handler = handler;
+    alarm->arg = arg;
+
+    OSi_InsertAlarm(alarm, OS_GetTick() + tick);
+
+    (void)OS_RestoreInterrupts(enabled);
+}
+
+
+
+
+/*
+ * sdk:      OS_CancelAlarm (os_alarm.o)
+ */
+void func_020873F8(OSAlarm *alarm)
+{
+    OSAlarm *next;
+    OSIntrMode enabled = OS_DisableInterrupts();
+
+    if (alarm->handler == 0) {
+        (void)OS_RestoreInterrupts(enabled);
+        return;
+    }
+
+    next = alarm->next;
+    if (next == 0) {
+        g_02151340.OSi_AlarmQueue.tail = alarm->prev;
+    } else {
+        next->prev = alarm->prev;
+    }
+
+    if (alarm->prev) {
+        alarm->prev->next = next;
+    } else {
+        g_02151340.OSi_AlarmQueue.head = next;
+        if (next) {
+            OSi_SetTimer(next);
+        }
+    }
+
+    alarm->handler = 0;
+    alarm->period = 0;
+
+    (void)OS_RestoreInterrupts(enabled);
+}
+
+
+
+
+asm void func_0208747C(void)
+{
+    stmdb	sp!, {r0, lr}
+    bl	func_0208748C
+    ldmia	sp!, {r0, lr}
+    bx	lr
+}
+
+#define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
+
+
+/*
+ * sdk:      OSi_ArrangeTimer (os_alarm.o)
+ */
+void func_0208748C(void)
+{
+    OSTick tick;
+    OSAlarm *alarm;
+    OSAlarm *next;
+    OSAlarmHandler handler;
+
+    *(volatile u16 *)0x04000106 = 0;
+    (void)OS_DisableIrqMask(0x10);
+    OSi_IRQ_CHECK_FLAG |= 0x10;
+
+    tick = OS_GetTick();
+    alarm = g_02151340.OSi_AlarmQueue.head;
+
+    if (alarm == 0) {
+        return;
+    }
+
+    if (tick < alarm->fire) {
+        OSi_SetTimer(alarm);
+        return;
+    }
+
+    next = alarm->next;
+    g_02151340.OSi_AlarmQueue.head = next;
+    if (next == 0) {
+        g_02151340.OSi_AlarmQueue.tail = 0;
+    } else {
+        next->prev = 0;
+    }
+
+    handler = alarm->handler;
+    if (!alarm->period) {
+        alarm->handler = 0;
+    }
+    if (handler) {
+        handler(alarm->arg);
+    }
+
+    if (alarm->period) {
+        alarm->handler = handler;
+        OSi_InsertAlarm(alarm, 0);
+    }
+
+    if (g_02151340.OSi_AlarmQueue.head) {
+        OSi_SetTimer(g_02151340.OSi_AlarmQueue.head);
+    }
+}

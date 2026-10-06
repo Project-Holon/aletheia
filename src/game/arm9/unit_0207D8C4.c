@@ -1,0 +1,129 @@
+/*
+ * file:     unit_0207D8C4.c
+ * unit:     yes
+ * function: func_0207D8C4, func_0207D8E0, func_0207D8FC, func_0207D918, func_0207D934, func_0207D950
+ * address:  0x0207D8C4
+ * region:   arm9
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_02080CA8   0x02080CA8  arm
+ *   func_02080C84   0x02080C84  arm
+ *   func_02082B60   0x02082B60  arm
+ *   MI_Copy36B   0x02082B60  arm
+ */
+typedef long fx32;
+
+typedef unsigned long u32;
+
+typedef int BOOL;
+
+typedef volatile u32 vu32;
+
+typedef struct {
+    fx32 x, y, z;
+} VecFx32;
+
+typedef union {
+    struct {
+        fx32 _00, _01, _02, _03;
+        fx32 _10, _11, _12, _13;
+        fx32 _20, _21, _22, _23;
+        fx32 _30, _31, _32, _33;
+    };
+    fx32 m[4][4];
+    fx32 a[16];
+} MtxFx44;
+
+typedef union {
+    struct {
+        fx32 _00, _01, _02;
+        fx32 _10, _11, _12;
+        fx32 _20, _21, _22;
+        fx32 _30, _31, _32;
+    };
+    fx32 m[4][3];
+    fx32 a[12];
+} MtxFx43;
+
+typedef union {
+    struct {
+        fx32 _00, _01, _02;
+        fx32 _10, _11, _12;
+        fx32 _20, _21, _22;
+    };
+    fx32 m[3][3];
+    fx32 a[9];
+} MtxFx33;
+
+extern void func_02080CA8(const void *src);
+extern void func_02080C84(const void *src);
+extern void func_02082B60(const void *src);
+extern void MI_Copy36B(const void *pSrc, void *pDest);
+void G3_LoadMtx44(const void *m);
+void G3_LoadMtx43(const void *m);
+void G3_MultMtx44(const void *m);
+void G3_MultMtx43(const void *m);
+void G3_MultMtx33(const void *m);
+void func_0207D950(const MtxFx33 *mtx, const VecFx32 *trans);
+
+
+void G3_LoadMtx44(const void *m)
+{
+    *(volatile unsigned int *)0x04000400 = 0x16;
+    func_02080CA8(m);
+}
+
+
+void G3_LoadMtx43(const void *m)
+{
+    *(volatile unsigned int *)0x04000400 = 0x17;
+    func_02080C84(m);
+}
+
+
+void G3_MultMtx44(const void *m)
+{
+    *(volatile unsigned int *)0x04000400 = 0x18;
+    func_02080CA8(m);
+}
+
+
+void G3_MultMtx43(const void *m)
+{
+    *(volatile unsigned int *)0x04000400 = 0x19;
+    func_02080C84(m);
+}
+
+
+void G3_MultMtx33(const void *m)
+{
+    *(volatile unsigned int *)0x04000400 = 0x1a;
+    func_02082B60(m);
+}
+
+
+#define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
+
+#define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
+
+#define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
+
+
+/*
+ * sdk:      G3_MultTransMtx33 (libgx.TWL.HYB.a g3imm.o)
+ */
+void func_0207D950(const MtxFx33 *mtx, const VecFx32 *trans)
+{
+    reg_G3X_GXFIFO = 0x19;
+    MI_Copy36B(mtx, (void *)&reg_G3X_GXFIFO);
+    reg_G3X_GXFIFO = (u32)trans->x;
+    reg_G3X_GXFIFO = (u32)trans->y;
+    reg_G3X_GXFIFO = (u32)trans->z;
+}

@@ -1,0 +1,69 @@
+/*
+ * file:     unit_02061B2C_p04.c
+ * unit:     yes
+ * function: func_0206207C, func_0206210C
+ * address:  0x0206207C
+ * region:   arm9
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_02061D0C  0x02061D0C  arm
+ */
+#include "../../matched/include/Obj03022.h"
+#include "../../matched/include/Obj03466.h"
+
+struct Node;
+struct Range;
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef struct Node0206207C {
+    u32 f00;
+    u32 f04;
+    struct Node0206207C *f08;
+    struct Node0206207C *f0c;
+} Node0206207C;
+
+extern u32 func_02061D0C(struct Node **head1, struct Node **head2, struct Range *range);
+int func_0206207C(void *headp, void *freep, int a2, int a3);
+int func_0206210C(int v);
+
+
+int func_0206207C(void *headp, void *freep, int a2, int a3)
+{
+    u32 buf[2];
+    Node0206207C *x;
+
+    buf[0] = a2;
+    buf[1] = a2 + a3;
+    func_02061D0C(headp, freep, (struct Range *)buf);
+    x = *(Node0206207C * *)&((struct Obj03466 *)freep)->f0;
+    if (x != 0) {
+        *(Node0206207C * *)&((struct Obj03466 *)freep)->f0 = x->f0c;
+    }
+    if (x == 0) {
+        return 0;
+    }
+    x->f00 = buf[0];
+    x->f04 = buf[1] - buf[0];
+    x->f08 = 0;
+    x->f0c = 0;
+    if (*(Node0206207C * *)&((struct Obj03022 *)headp)->f0 != 0) {
+        (*(Node0206207C * *)&((struct Obj03022 *)headp)->f0)->f08 = x;
+    }
+    x->f0c = *(Node0206207C * *)&((struct Obj03022 *)headp)->f0;
+    x->f08 = 0;
+    *(Node0206207C * *)&((struct Obj03022 *)headp)->f0 = x;
+    return 1;
+}
+
+int func_0206210C(int v){ return v << 4; }

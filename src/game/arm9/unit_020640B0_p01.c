@@ -1,0 +1,219 @@
+/*
+ * file:     unit_020640B0_p01.c
+ * unit:     yes
+ * unit:     yes
+ * function: func_020640B0
+ * address:  0x020640B0
+ * packet:   pkt_02063640
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * The per-node SRT control block of the NNS G2D cell-animation module, and
+ * the three setters the multi-cell node walk at func_020643CC drives.
+ *
+ * The block is 0x14 bytes:
+ *   +0x00  u32  mode      (1 = SRT enabled; every setter below is a no-op
+ *                          when it is anything else)
+ *   +0x04  s32  scale x   (fx32)
+ *   +0x08  s32  scale y   (fx32)
+ *   +0x0C  s16  translate x
+ *   +0x0E  s16  translate y
+ *   +0x10  u16  rotation
+ *   +0x12  u16  dirty flags: bit1 scale, bit2 rotation, bit3 translation
+ *
+ * This is the layer the `a/0/0/4` rig question lands on.  func_020643CC's
+ * node loop ends with
+ *
+ *     slot = nodeStates + i * 0x28;
+ *     slot->enabled = 1;
+ *     func_020640DC(&slot->srt, (s16)node->x, (s16)node->y);
+ *
+ * i.e. the NMCR node's own signed (x, y) is written into the node's
+ * translation verbatim.  There is no table indexed by species, form or
+ * node id anywhere between the NMCR node record and this store, and no
+ * second placement source: the only other writes to the same block are
+ * the scale and rotation func_0206469C pulls out of the node's NANR
+ * frame record.
+ *
+ * func_020640B0 fills three words with -1 (a "no cell bound" sentinel for
+ * the three-slot table func_020640CC / func_020640D4 index), which is the
+ * same table, not a fourth placement lane.
+ *
+ * Only the three table leaves are in this file.  The three setters
+ * themselves (func_020640DC translate, func_02064100 rotate,
+ * func_02064120 scale) are byte-correct except that the original never
+ * predicates the guarded block and every C spelling tried does; that near
+ * miss and its evidence are in docs/notes/g2d_srt_setters.c.txt, and the
+ * struct layout above is read off those three functions.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_020640B0.c \
+ *       --addr 0x020640B0 --arm
+ */
+
+typedef signed short   s16;
+typedef unsigned short u16;
+typedef signed int     s32;
+typedef unsigned int   u32;
+
+struct Srt {
+    u32 mode;
+    s32 scaleX;
+    s32 scaleY;
+    s16 tx;
+    s16 ty;
+    u16 rot;
+    u16 dirty;
+};
+
+/*
+ * The per-node SRT control block of the NNS G2D cell-animation module, and
+ * the three setters the multi-cell node walk at func_020643CC drives.
+ *
+ * The block is 0x14 bytes:
+ *   +0x00  u32  mode      (1 = SRT enabled; every setter below is a no-op
+ *                          when it is anything else)
+ *   +0x04  s32  scale x   (fx32)
+ *   +0x08  s32  scale y   (fx32)
+ *   +0x0C  s16  translate x
+ *   +0x0E  s16  translate y
+ *   +0x10  u16  rotation
+ *   +0x12  u16  dirty flags: bit1 scale, bit2 rotation, bit3 translation
+ *
+ * This is the layer the `a/0/0/4` rig question lands on.  func_020643CC's
+ * node loop ends with
+ *
+ *     slot = nodeStates + i * 0x28;
+ *     slot->enabled = 1;
+ *     func_020640DC(&slot->srt, (s16)node->x, (s16)node->y);
+ *
+ * i.e. the NMCR node's own signed (x, y) is written into the node's
+ * translation verbatim.  There is no table indexed by species, form or
+ * node id anywhere between the NMCR node record and this store, and no
+ * second placement source: the only other writes to the same block are
+ * the scale and rotation func_0206469C pulls out of the node's NANR
+ * frame record.
+ *
+ * func_020640B0 fills three words with -1 (a "no cell bound" sentinel for
+ * the three-slot table func_020640CC / func_020640D4 index), which is the
+ * same table, not a fourth placement lane.
+ *
+ * Only the three table leaves are in this file.  The three setters
+ * themselves (func_020640DC translate, func_02064100 rotate,
+ * func_02064120 scale) are byte-correct except that the original never
+ * predicates the guarded block and every C spelling tried does; that near
+ * miss and its evidence are in docs/notes/g2d_srt_setters.c.txt, and the
+ * struct layout above is read off those three functions.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_020640B0.c \
+ *       --addr 0x020640B0 --arm
+ */
+void func_020640B0(s32 *tbl)
+{
+    int i;
+
+    for (i = 0; i < 3; i++) {
+        tbl[i] = -1;
+    }
+}
+
+/*
+ * The per-node SRT control block of the NNS G2D cell-animation module, and
+ * the three setters the multi-cell node walk at func_020643CC drives.
+ *
+ * The block is 0x14 bytes:
+ *   +0x00  u32  mode      (1 = SRT enabled; every setter below is a no-op
+ *                          when it is anything else)
+ *   +0x04  s32  scale x   (fx32)
+ *   +0x08  s32  scale y   (fx32)
+ *   +0x0C  s16  translate x
+ *   +0x0E  s16  translate y
+ *   +0x10  u16  rotation
+ *   +0x12  u16  dirty flags: bit1 scale, bit2 rotation, bit3 translation
+ *
+ * This is the layer the `a/0/0/4` rig question lands on.  func_020643CC's
+ * node loop ends with
+ *
+ *     slot = nodeStates + i * 0x28;
+ *     slot->enabled = 1;
+ *     func_020640DC(&slot->srt, (s16)node->x, (s16)node->y);
+ *
+ * i.e. the NMCR node's own signed (x, y) is written into the node's
+ * translation verbatim.  There is no table indexed by species, form or
+ * node id anywhere between the NMCR node record and this store, and no
+ * second placement source: the only other writes to the same block are
+ * the scale and rotation func_0206469C pulls out of the node's NANR
+ * frame record.
+ *
+ * func_020640B0 fills three words with -1 (a "no cell bound" sentinel for
+ * the three-slot table func_020640CC / func_020640D4 index), which is the
+ * same table, not a fourth placement lane.
+ *
+ * Only the three table leaves are in this file.  The three setters
+ * themselves (func_020640DC translate, func_02064100 rotate,
+ * func_02064120 scale) are byte-correct except that the original never
+ * predicates the guarded block and every C spelling tried does; that near
+ * miss and its evidence are in docs/notes/g2d_srt_setters.c.txt, and the
+ * struct layout above is read off those three functions.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_020640B0.c \
+ *       --addr 0x020640B0 --arm
+ */
+void func_020640CC(s32 *tbl, u32 i, u32 v)
+{
+    tbl[i] = v;
+}
+
+/*
+ * The per-node SRT control block of the NNS G2D cell-animation module, and
+ * the three setters the multi-cell node walk at func_020643CC drives.
+ *
+ * The block is 0x14 bytes:
+ *   +0x00  u32  mode      (1 = SRT enabled; every setter below is a no-op
+ *                          when it is anything else)
+ *   +0x04  s32  scale x   (fx32)
+ *   +0x08  s32  scale y   (fx32)
+ *   +0x0C  s16  translate x
+ *   +0x0E  s16  translate y
+ *   +0x10  u16  rotation
+ *   +0x12  u16  dirty flags: bit1 scale, bit2 rotation, bit3 translation
+ *
+ * This is the layer the `a/0/0/4` rig question lands on.  func_020643CC's
+ * node loop ends with
+ *
+ *     slot = nodeStates + i * 0x28;
+ *     slot->enabled = 1;
+ *     func_020640DC(&slot->srt, (s16)node->x, (s16)node->y);
+ *
+ * i.e. the NMCR node's own signed (x, y) is written into the node's
+ * translation verbatim.  There is no table indexed by species, form or
+ * node id anywhere between the NMCR node record and this store, and no
+ * second placement source: the only other writes to the same block are
+ * the scale and rotation func_0206469C pulls out of the node's NANR
+ * frame record.
+ *
+ * func_020640B0 fills three words with -1 (a "no cell bound" sentinel for
+ * the three-slot table func_020640CC / func_020640D4 index), which is the
+ * same table, not a fourth placement lane.
+ *
+ * Only the three table leaves are in this file.  The three setters
+ * themselves (func_020640DC translate, func_02064100 rotate,
+ * func_02064120 scale) are byte-correct except that the original never
+ * predicates the guarded block and every C spelling tried does; that near
+ * miss and its evidence are in docs/notes/g2d_srt_setters.c.txt, and the
+ * struct layout above is read off those three functions.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_020640B0.c \
+ *       --addr 0x020640B0 --arm
+ */
+s32 func_020640D4(const s32 *tbl, u32 i)
+{
+    return tbl[i];
+}
