@@ -16,13 +16,12 @@
  * symbols:
  *   g_02146A7C  0x02146A7C  data
  */
-typedef struct {
-    int f0;
-} G_02146A7C;
 
-extern G_02146A7C *g_02146A7C;
+#include "../include/G_Run0204E720.h"
+
+extern struct Run0204E720 *g_02146A7C;
 
 int func_0204E804(void)
 {
-    return g_02146A7C->f0 != 0;
+    return g_02146A7C->unk00 != 0;
 }

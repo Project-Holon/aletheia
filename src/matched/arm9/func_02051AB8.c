@@ -20,18 +20,14 @@
  *   g_02146A88   0x02146A88  data
  */
 #include "../include/Obj11460.h"
+#include "../include/G_02146A88.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Ctx {
-    u8   pad_00[0x44];
-    u8  *base;      /* 0x44 */
-};
-
 extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
-extern struct Ctx *g_02146A88;
+extern struct G_02146A88 *g_02146A88;
 
 u32 func_02051AB8(u32 a, u32 b)
 {

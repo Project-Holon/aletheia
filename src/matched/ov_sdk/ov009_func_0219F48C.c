@@ -19,9 +19,10 @@
  *   g_021A8230  0x021A8230  data
  */
 
+#include "../include/G_021AEB04.h"
+
 struct SBL { char pad0[0x498]; char sortkey[0x208]; int ascending; };
-struct G { int pad; struct SBL *slist; };
-extern struct G g_021AEB04;
+extern struct G_021AEB04 g_021AEB04;
 extern int g_021A8230;
 struct _SBServer;
 extern char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def);

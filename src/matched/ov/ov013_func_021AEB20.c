@@ -22,10 +22,12 @@
  *   d_021B3C80     0x021B3C80  data  ov013
  */
 
+#include "../include/G_Work.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 *d_021B3C80;
+extern struct Work *d_021B3C80;
 
 extern void func_0208B24C(void);
 extern void func_0208B8B0(void);
@@ -46,8 +48,8 @@ void func_021AEB20(void)
     func_0208BF38(3);
     func_021B0CD8(1);
     func_020726D0();
-    func_020737C0((struct S *)(d_021B3C80 + 0x19B8));
-    func_02082AC0(0, d_021B3C80 + 0x1104, 0x880);
-    *(u32 *)(d_021B3C80 + 0x1A44) = 0;
+    func_020737C0((struct S *)(((u8 *)d_021B3C80) + 0x19B8));
+    func_02082AC0(0, ((u8 *)d_021B3C80) + 0x1104, 0x880);
+    *(u32 *)(((u8 *)d_021B3C80) + 0x1A44) = 0;
     func_021B0D08(1);
 }

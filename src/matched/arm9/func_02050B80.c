@@ -29,16 +29,12 @@
  *   pkt_02050A70_File 0x020A7FC0  data
  */
 
+#include "../include/G_02146A88.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-struct Ctx {
-    u32  words[16];     /* 0x00 */
-    u32  f40;           /* 0x40 */
-    u32  f44;           /* 0x44 */
-};
-
-extern struct Ctx *g_02146A88;
+extern struct G_02146A88 *g_02146A88;
 extern const char pkt_02050A70_File[];
 
 typedef unsigned short u16;
@@ -55,5 +51,5 @@ void func_02050B80(u32 heap)
     }
 
     g_02146A88->f40 = 0;
-    g_02146A88->f44 = 0;
+    g_02146A88->base = 0;
 }

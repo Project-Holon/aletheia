@@ -32,6 +32,8 @@
  *       --func sub_02039338 --addr 0x02039338 --cc 1.1p1 --arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed int     s32;
@@ -51,7 +53,7 @@ struct Mode {
     u8 unk65;
 };
 
-extern void *g_021469D0;
+extern struct LinkState *g_021469D0;
 extern void *func_0203D788(void);
 extern struct Mode *func_0203D798(void);
 

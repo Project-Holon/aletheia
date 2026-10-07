@@ -25,6 +25,9 @@
  * file's header for the member map).  ../2.0/sp2 and sp2p2 identical;
  * 1.1p1 is 320 bytes.
  */
+
+#include "../include/G_Scr.h"
+
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
@@ -52,12 +55,8 @@ struct RendererBss {
     MtxFx32 mtxStackFor2DHW_[32];
 };
 
-struct RendererData {
-    u16 firstSRTransformedMtxIdx_;
-};
-
 extern struct RendererBss g_02147B88;
-extern struct RendererData g_020A81F8;
+extern struct Scr g_020A81F8;
 extern void func_02066754(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 extern fx32 func_0207C778(fx32 v);
 

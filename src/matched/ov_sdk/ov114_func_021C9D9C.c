@@ -21,6 +21,8 @@
  *   g_021CF7AC  0x021CF7AC  data
  */
 
+#include "../include/G_Session.h"
+
 typedef unsigned char u8;
 typedef unsigned long u32;
 
@@ -35,7 +37,7 @@ extern void func_021C9890(u32 seed);
 extern u8 func_021C98A4(void);
 extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
 extern u32 func_021C9858(u32 len);
-extern Session g_021CF7AC;
+extern struct Session g_021CF7AC;
 
 int func_021C9D9C(u8 *outbuf, u8 *header, u32 headerlen, u8 *srcbuf, u32 srclen)
 {
@@ -55,7 +57,7 @@ int func_021C9D9C(u8 *outbuf, u8 *header, u32 headerlen, u8 *srcbuf, u32 srclen)
     func_021C9890(sum);
     for (i = 0; i < (int)(srclen + headerlen); i++)
         tmpbuf[4 + i] ^= func_021C98A4();
-    sum ^= g_021CF7AC.key;
+    sum ^= g_021CF7AC.key4;
     tmpbuf[0] = (u8)(sum >> 24);
     tmpbuf[1] = (u8)(sum >> 16);
     tmpbuf[2] = (u8)(sum >> 8);

@@ -16,8 +16,10 @@
  *   FormatVersionNumber              0x02146b00 data
  */
 
+#include "../include/G_NCFGBackupBss.h"
+
 extern long func_0205F648(void);
-extern unsigned char FormatVersionNumber;
+extern struct NCFGBackupBss FormatVersionNumber;
 
 unsigned char func_0205F700(void)
 {
@@ -28,7 +30,7 @@ unsigned char func_0205F700(void)
     if (result != 0) {
         return 0;
     }
-    version = FormatVersionNumber;
+    version = (*(unsigned char *)&FormatVersionNumber);
     if (version == 0xFF) {
         version = 0x10;
     }

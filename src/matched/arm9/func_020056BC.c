@@ -20,11 +20,13 @@
  * Addresses are Black-image addresses.
  */
 
+#include "../include/G_GflSys.h"
+
 typedef unsigned int u32;
 
-extern unsigned char d_020AA194[];
+extern struct GflSys d_020AA194;
 
 u32 func_020056BC(void)
 {
-    return *(u32 *)(*(u32 *)(d_020AA194 + 0x10) + 0x20);
+    return *(u32 *)(*(u32 *)(((unsigned char *)&d_020AA194) + 0x10) + 0x20);
 }

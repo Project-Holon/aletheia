@@ -23,6 +23,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov016_func_021D2FEC.c \n *       --func DWCi_MOV_WH_StateOutEndParentMP --addr 0x021D2FEC --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_DWC_MOV_WH_BSS.h"
+
 /*
  * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
@@ -74,7 +77,7 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-extern DWC_MOV_WH_BSS dwc_mov_wh_bss;
+extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 
 typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
 

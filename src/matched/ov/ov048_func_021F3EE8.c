@@ -37,6 +37,7 @@
  *   d_021F50C0     0x021F50C0  data  a4
  */
 #include "../include/Obj02413.h"
+#include "../include/G_T.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -68,7 +69,7 @@ extern u32 func_02045C04(struct Rec *rec);
 extern int func_021F4488(unsigned char *p);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
 extern u32 d_021F5124[];
-extern u8 d_021F50C0[];
+extern struct T d_021F50C0;
 
 void func_021F3EE8(int *p)
 {
@@ -129,9 +130,9 @@ void func_021F3EE8(int *p)
         f = 0xc4;
         break;
     }
-    m.a = *(u16 *)(d_021F50C0 + 6);
-    m.b = *(int *)(d_021F50C0 + 0x30);
-    m.c = *(int *)(d_021F50C0 + 0x4c);
+    m.a = *(u16 *)(((u8 *)&d_021F50C0) + 6);
+    m.b = *(int *)(((u8 *)&d_021F50C0) + 0x30);
+    m.c = *(int *)(((u8 *)&d_021F50C0) + 0x4c);
     m.d = 2;
     m.e = 0x26;
     m.f = f;

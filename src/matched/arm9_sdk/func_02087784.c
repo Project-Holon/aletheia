@@ -23,6 +23,8 @@
  *   g_0215134C               0x0215134C  data
  */
 
+#include "../include/G_OsVAlarmBss.h"
+
 typedef unsigned long u32;
 typedef long s32;
 typedef short s16;
@@ -53,14 +55,9 @@ typedef struct OSVAlarmQueue {
 } OSVAlarmQueue;
 
 /* os_valarm.o .bss from 0x0215134C, addressed from one pool word. */
-typedef struct OsVAlarmBss {
-    u16 OSi_UseVAlarm;
-    s32 OSi_PreviousVCount;
-    s32 OSi_VFrameCount;
-    OSVAlarmQueue OSi_VAlarmQueue;
-} OsVAlarmBss;
+typedef struct OsVAlarmBss OsVAlarmBss;
 
-extern OsVAlarmBss g_0215134C;
+extern struct OsVAlarmBss g_0215134C;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -96,7 +93,7 @@ void func_02087784(void)
         (void)OSi_GetVFrame((((dispstat >> 8) & 0xFF) | ((dispstat << 1) & 0x100)) - 1);
     }
 
-    while ((alarm = g_0215134C.OSi_VAlarmQueue.head) != 0) {
+    while ((alarm = g_0215134C.OSi_VAlarmQueue_head) != 0) {
         s32 currentVCount = reg_GX_VCOUNT;
 
         currentVFrame = OSi_GetVFrame(currentVCount);

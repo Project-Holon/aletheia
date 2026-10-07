@@ -14,11 +14,14 @@
  * symbols:
  *   d_021F6F90   0x021F6F90  data
  */
+
+#include "../include/G_WmBase.h"
+
 typedef unsigned short u16;
 
-extern char d_021F6F90[];
+extern struct WmBase d_021F6F90;
 
 u16 MB_GetTgid(void)
 {
-    return *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0xC);
+    return *(u16 *)(*(char **)(((char *)&d_021F6F90) + 0xC) + 0xC);
 }

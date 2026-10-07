@@ -64,6 +64,7 @@
  *   EXACT, 284 bytes, 9 relocation sites, all resolved.
  */
 #include "../include/Obj01319.h"
+#include "../include/G_02146A88.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -76,7 +77,7 @@ extern void func_02061824(void *p);
 extern int func_02062594(u32 id);
 extern u32 func_020307B0(void *p);
 extern u32 func_02048AC4(void *ptr);
-extern u32 *g_02146A88;
+extern struct G_02146A88 *g_02146A88;
 
 void func_02050DB8(u8 *p)
 {
@@ -122,9 +123,9 @@ void func_02050DB8(u8 *p)
     {
         int j = 0;
         for (;;) {
-            u32 t = g_02146A88[j];
+            u32 t = ((u32 *)g_02146A88)[j];
             if (t == (u32)p) {
-                g_02146A88[j] = z;
+                ((u32 *)g_02146A88)[j] = z;
                 break;
             }
             j++;

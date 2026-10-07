@@ -21,6 +21,8 @@
  *   nvramBuf2           0x02146B40 data a16
  */
 
+#include "../include/G_NCFGBackupBss.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
@@ -41,7 +43,7 @@ typedef struct {
     u16 nvramBuf2[16];
 } NCFGBackupBss;
 
-extern NCFGBackupBss FormatVersionNumber;
+extern struct NCFGBackupBss FormatVersionNumber;
 extern u8 nvramBuf[32];
 extern u8 nvramBuf2[32];
 

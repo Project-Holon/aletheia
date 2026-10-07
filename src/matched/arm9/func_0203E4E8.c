@@ -26,15 +26,17 @@
  *       --func func_0203E4E8 --addr 0x0203E4E8 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Ctx.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern int func_0203CEAC(int a0);
-extern u8  *g_021469F0;
+extern struct Ctx *g_021469F0;
 
 u32 func_0203E4E8(void)
 {
-    u8 *p = g_021469F0;
+    u8 *p = ((u8 *)g_021469F0);
 
     if (p == 0)
         return 0;
@@ -42,6 +44,6 @@ u32 func_0203E4E8(void)
         return 0;
     p[0x107] = p[0x108] + 1;
     func_0203CEAC(0);
-    g_021469F0[0x109] = 9;
+    ((u8 *)g_021469F0)[0x109] = 9;
     return 1;
 }

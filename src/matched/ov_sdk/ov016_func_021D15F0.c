@@ -44,6 +44,9 @@
  *   g_021DA9FE     0x021DA9FE  data
  */
 
+#include "../include/G_MemWinT.h"
+#include "../include/G_CoordT.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -68,8 +71,8 @@ extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, u
 extern void func_021D7724(int kind, void *task);
 extern void func_021D17FC(void *task);
 extern void func_021D16B0(void);
-extern MemWinT *g_021DE658;
-extern CoordT g_021DA9FE[];
+extern struct MemWinT *g_021DE658;
+extern struct CoordT g_021DA9FE[];
 
 void func_021D15F0(void *task)
 {

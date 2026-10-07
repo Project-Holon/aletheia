@@ -19,8 +19,10 @@
  *   s_020A7E00      0x020A7E00  data
  */
 
+#include "../include/G_Ctx.h"
+
 typedef unsigned char u8;
-extern int *g_021469F0;
+extern struct Ctx *g_021469F0;
 extern int *g_021469F4;
 extern char s_020A7D34[];
 extern char s_020A7D4C[];
@@ -32,8 +34,8 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 void func_0203E5AC(int a0)
 {
-    if (g_021469F0 == 0)
+    if (((int *)g_021469F0) == 0)
         func_02034714(s_020A7D34, 0x31a, s_020A7D68);
-    if (g_021469F0 != 0)
-        *(u8 *)((char *)g_021469F0 + 0x10b) = (u8)a0;
+    if (((int *)g_021469F0) != 0)
+        *(u8 *)((char *)((int *)g_021469F0) + 0x10b) = (u8)a0;
 }

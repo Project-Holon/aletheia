@@ -43,11 +43,13 @@
  * why the pair is parked rather than finished here.
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8  *g_021469DC;
+extern struct Sys *g_021469DC;
 extern char g_020A7BA8[];
 extern char g_020A7BB4[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -57,12 +59,12 @@ extern void  func_0203AE20(u8 *p);
 
 void func_0203AD8C(u32 a0)
 {
-    if (g_021469DC != 0) {
+    if (((u8 *)g_021469DC) != 0) {
         func_02034714(g_020A7BA8, 0xb8, g_020A7BB4);
     }
-    g_021469DC = (u8 *)func_02030734(a0, 0x64, 1, g_020A7BA8, 0xb9);
-    *(u16 *)(g_021469DC + 0x46) = 0x32;
-    *(u8 *)(g_021469DC + 0x4c) = 1;
-    func_0203AE20(g_021469DC + 0xc);
+    g_021469DC = (struct Sys *)((u8 *)func_02030734(a0, 0x64, 1, g_020A7BA8, 0xb9));
+    *(u16 *)(((u8 *)g_021469DC) + 0x46) = 0x32;
+    *(u8 *)(((u8 *)g_021469DC) + 0x4c) = 1;
+    func_0203AE20(((u8 *)g_021469DC) + 0xc);
     func_0203A494(0, 0, 0, 0, a0);
 }

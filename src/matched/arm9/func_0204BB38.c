@@ -23,15 +23,12 @@
  *       --func func_0204BB38 --addr 0x0204BB38 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-struct Sys {
-    u8  pad_000[0xfc];
-    u32 unk_0fc;   /* 0xfc */
-};
-
-extern struct Sys *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 u32 func_0204BB38(void)
 {

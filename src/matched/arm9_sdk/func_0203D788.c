@@ -19,11 +19,13 @@
  *       --func func_0203D788 --addr 0x0203D788 --arm --cc 1.1p1
  */
 
+#include "../include/G_Singleton.h"
+
 typedef unsigned char u8;
 
-extern u8 g_021469E0[];
+extern struct Singleton g_021469E0;
 
 void *func_0203D788(void)
 {
-    return *(void **)(g_021469E0 + 8);
+    return *(void **)(((u8 *)&g_021469E0) + 8);
 }

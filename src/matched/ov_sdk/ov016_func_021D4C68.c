@@ -17,12 +17,14 @@
  *   g_021DE66C  0x021DE66C  data
  */
 
+#include "../include/G_MemArc.h"
+
 extern void func_021D6438(void **mem);
 extern void func_021D546C(void *que, void *elem);
-extern char *g_021DE66C;
+extern struct MemArc *g_021DE66C;
 
 void func_021D4C68(void *file)
 {
 	func_021D6438(&file);
-	func_021D546C(*(void **)(g_021DE66C + 0x84), file);
+	func_021D546C(*(void **)(((char *)g_021DE66C) + 0x84), file);
 }

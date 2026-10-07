@@ -30,6 +30,8 @@
  *   g_021AA878     0x021AA878  data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef unsigned char u8;
 
 typedef struct {
@@ -44,12 +46,7 @@ typedef struct {
     void *sb;
 } Ctl;
 
-typedef struct {
-    int pad;
-    Ctl *ctl;
-} Root;
-
-extern Root g_021AA878;
+extern struct DwcGlobal g_021AA878;
 
 struct ServerBrowser;
 struct qr2_implementation_s;
@@ -71,38 +68,38 @@ extern void func_0205A1B0(int name, void *ptr, long size);
 
 void func_0216AD50(void)
 {
-    if (g_021AA878.ctl == 0)
+    if (g_021AA878.st == 0)
         return;
-    if (g_021AA878.ctl->qr2 != 0) {
-        func_0219B540(g_021AA878.ctl->qr2);
-        g_021AA878.ctl->qr2 = 0;
+    if (((Ctl *)g_021AA878.st)->qr2 != 0) {
+        func_0219B540(((Ctl *)g_021AA878.st)->qr2);
+        ((Ctl *)g_021AA878.st)->qr2 = 0;
     }
-    g_021AA878.ctl->flag = 0;
-    if (g_021AA878.ctl->sb != 0) {
-        func_0219ED4C(g_021AA878.ctl->sb);
-        g_021AA878.ctl->sb = 0;
+    ((Ctl *)g_021AA878.st)->flag = 0;
+    if (((Ctl *)g_021AA878.st)->sb != 0) {
+        func_0219ED4C(((Ctl *)g_021AA878.st)->sb);
+        ((Ctl *)g_021AA878.st)->sb = 0;
     }
     func_02176B34();
     func_02169FF8();
     func_02193D00();
     func_0216A00C();
-    if (g_021AA878.ctl->gpConn != 0) {
-        func_0218597C(&g_021AA878.ctl->gpConn, 0, 0, 0);
-        func_0218597C(&g_021AA878.ctl->gpConn, 3, 0, 0);
-        func_0218597C(&g_021AA878.ctl->gpConn, 1, 0, 0);
-        func_0218597C(&g_021AA878.ctl->gpConn, 2, 0, 0);
-        func_02185948(&g_021AA878.ctl->gpConn);
-        func_0218592C((int **)(&g_021AA878.ctl->gpConn));
-        g_021AA878.ctl->gpConn = 0;
+    if (((Ctl *)g_021AA878.st)->gpConn != 0) {
+        func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 0, 0, 0);
+        func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 3, 0, 0);
+        func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 1, 0, 0);
+        func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 2, 0, 0);
+        func_02185948(&((Ctl *)g_021AA878.st)->gpConn);
+        func_0218592C((int **)(&((Ctl *)g_021AA878.st)->gpConn));
+        ((Ctl *)g_021AA878.st)->gpConn = 0;
     }
     func_0216A404();
     func_021691FC();
     func_0216F334();
     func_0217772C();
-    if (g_021AA878.ctl->socket != 0) {
-        func_02195AD8(g_021AA878.ctl->socket);
-        g_021AA878.ctl->socket = 0;
+    if (((Ctl *)g_021AA878.st)->socket != 0) {
+        func_02195AD8(((Ctl *)g_021AA878.st)->socket);
+        ((Ctl *)g_021AA878.st)->socket = 0;
     }
-    func_0205A1B0(4, g_021AA878.ctl, 0);
-    g_021AA878.ctl = 0;
+    func_0205A1B0(4, g_021AA878.st, 0);
+    g_021AA878.st = 0;
 }

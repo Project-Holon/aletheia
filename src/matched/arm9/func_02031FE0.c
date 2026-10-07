@@ -56,6 +56,7 @@
 #include "../include/Obj08817.h"
 #include "../include/Obj08818.h"
 #include "../include/Obj15881.h"
+#include "../include/G_SaveMain.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -70,7 +71,6 @@ struct Save {
     u8   pad38[0x108];
     u32  f140;
 };
-struct SaveMain { u8 pad000[0x204]; u32 unk204; };
 
 extern struct SaveMain *g_02146994;
 extern const char str_020A7848[];

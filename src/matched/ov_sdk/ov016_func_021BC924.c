@@ -19,6 +19,8 @@
  *   g_021D9FF8  0x021D9FF8  data
  */
 
+#include "../include/G_Ani.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,7 +37,7 @@ typedef struct {
 	u8 cnt;
 } Ani;
 
-extern Ani *g_021DE504;
+extern struct Ani *g_021DE504;
 extern u8 g_021D9FF8[];
 
 extern int func_0207C994(int a, int b);
@@ -50,10 +52,10 @@ void func_021BC924(void)
 	g_021DE504->cnt = func_0207C994(g_021DE504->cnt + 1, 40);
 	name = func_0207C958(g_021DE504->cnt, 5) + 0x47;
 	func_021D52D4(0, name, g_021DE504->obj);
-	g_021DE504->obj->h4 = (g_021DE504->obj->h4 & ~0xc00) | 0x400;
+	((Obj *)g_021DE504->obj)->h4 = (((Obj *)g_021DE504->obj)->h4 & ~0xc00) | 0x400;
 	pal = g_021D9FF8[g_021DE504->color];
 	o = g_021DE504->obj;
 	o->w0 &= ~0xc00;
 	o->h4 = (o->h4 & ~0xf000) | (pal << 12);
-	g_021DE504->obj->w0 = (g_021DE504->obj->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
+	((Obj *)g_021DE504->obj)->w0 = (((Obj *)g_021DE504->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
 }

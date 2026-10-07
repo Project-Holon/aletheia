@@ -19,18 +19,15 @@
  *   g_021AB180      0x021AB180  data
  */
 
-typedef struct TransInfo {
-    unsigned char pad0[0x700];
-    void (*f700)(int size, int aid, int param);
-    unsigned char pad1[0x710 - 0x704];
-    int f710;
-} TransInfo;
+#include "../include/G_TransInfo.h"
+
+typedef struct TransInfo TransInfo;
 
 extern int func_02059F38(void);
 extern int DWC_IsValidAID(int aid);
 extern unsigned char func_0216B838(void);
 extern void DWCi_SendUnreliable(int myaid, int aid, void *buffer, int size, int flag);
-extern TransInfo *g_021AB180;
+extern struct TransInfo *g_021AB180;
 
 int func_02177044(unsigned char aid, void *buffer, int size)
 {
@@ -41,7 +38,7 @@ int func_02177044(unsigned char aid, void *buffer, int size)
     if (size > 0x5B6)
         return 0;
     DWCi_SendUnreliable(func_0216B838(), aid, buffer, size, 1);
-    if (g_021AB180->f700 != 0)
-        g_021AB180->f700(size, aid, g_021AB180->f710);
+    if (g_021AB180->sendCallback != 0)
+        g_021AB180->sendCallback(size, aid, g_021AB180->sendCallbackParam);
     return 1;
 }

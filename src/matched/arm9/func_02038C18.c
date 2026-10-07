@@ -56,6 +56,8 @@
  *       --func func_02038C18 --addr 0x02038C18 --cc 1.1p1 --arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
@@ -76,7 +78,7 @@ struct Err {
     u32 f0c;
 };
 
-extern struct Handle *g_021469D0;
+extern struct LinkState *g_021469D0;
 
 extern void *func_0203D798(void);
 extern u32 func_02039414(void);
@@ -101,14 +103,14 @@ int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7)
         flag = 0;
 
     rec = func_0203D798();
-    if (g_021469D0 == 0)
+    if (((struct Handle *)g_021469D0) == 0)
         return 0;
     if (func_02039414() != 0 || func_0203C990() != 0)
         return 0;
     if (func_02039594() == 0)
         return 0;
 
-    h = g_021469D0;
+    h = ((struct Handle *)g_021469D0);
     if ((int)a3 >= (int)h->f1e0 && flag == 1)
         flag = 0;
 

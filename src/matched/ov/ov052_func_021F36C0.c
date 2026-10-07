@@ -20,8 +20,7 @@
  *   d_021F3A2C     0x021F3A2C  data  a4
  */
 #include "../include/Obj05135.h"
-
-typedef struct { void (*f0)(void *, void *); void (*f1)(void *, void *); void (*f2)(void *, void *); } Ent;
+#include "../include/G_021F3A2C.h"
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
@@ -37,7 +36,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct Rec94;
 extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern Ent d_021F3A2C[];
+extern struct G_021F3A2C d_021F3A2C[];
 
 void func_021F36C0(void *a)
 {

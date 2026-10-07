@@ -37,6 +37,8 @@
  *   func_02060F40  0x02060F40  arm
  */
 
+#include "../include/G_Obj.h"
+
 typedef unsigned int u32;
 
 typedef struct {
@@ -49,7 +51,7 @@ typedef struct {
     u32 f18;
 } Obj;
 
-extern Obj *d_021A8268;
+extern struct Obj *d_021A8268;
 extern char d_021A1C78[];
 extern char d_021A1C7C[];
 

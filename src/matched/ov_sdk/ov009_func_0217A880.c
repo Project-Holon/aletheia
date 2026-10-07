@@ -18,6 +18,8 @@
  *   g_021ACE5C     0x021ACE5C  data
  */
 
+#include "../include/G_G.h"
+
 typedef struct {
     void *(*alloc)(unsigned long, long);
     void (*free)(unsigned long, void *, long);
@@ -29,7 +31,7 @@ typedef struct {
     int pad[3];
     int flag;
 } G;
-extern G g_021ACE5C;
+extern struct G g_021ACE5C;
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void OS_InitMutex(void *mutex);
 extern void func_0217AAF4(void);

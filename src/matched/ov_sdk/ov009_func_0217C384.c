@@ -19,11 +19,13 @@
  *   g_021ACEF4             0x021ACEF4  data
  */
 
+#include "../include/G_Svl.h"
+
 typedef struct {
     int unk0;
     void (*free)(unsigned long, void *, long);
 } Svl;
-extern Svl *g_021ACEF4;
+extern struct Svl *g_021ACEF4;
 extern int OS_IsThreadTerminated(void *thread);
 extern int func_0217C448(void);
 extern void func_02179CF4(char *http);

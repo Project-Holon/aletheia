@@ -26,6 +26,8 @@
  *   func_021C4EC8  0x021C4EC8  arm  ov016
  */
 
+#include "../include/G_SCENESETAOSSBUTT_BSS.h"
+
 extern int func_021D5580();
 extern int func_021BCB58();
 extern void func_021C08B0(int a);
@@ -37,27 +39,27 @@ extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E40(unsigned int v);
 extern void func_021CC998();
 extern void func_021C4EC8();
-extern unsigned char g_021DE5CC;
+extern struct SCENESETAOSSBUTT_BSS g_021DE5CC;
 
 void func_021C4D04(void)
 {
     if (func_021D5580(0))
         return;
-    if (g_021DE5CC == 0) {
+    if ((*(unsigned char *)&g_021DE5CC) == 0) {
         if (func_021D5580(1))
             return;
     }
     if (!func_021BCB58())
         return;
-    func_021C08B0(g_021DE5CC != 0);
+    func_021C08B0((*(unsigned char *)&g_021DE5CC) != 0);
     func_021BC8EC();
     func_021D5CA8(0);
-    if (g_021DE5CC == 0) {
+    if ((*(unsigned char *)&g_021DE5CC) == 0) {
         func_021BD138();
         func_021D6090(1, 1);
     }
     func_021D6090(0, 0x15);
-    if (g_021DE5CC == 0) {
+    if ((*(unsigned char *)&g_021DE5CC) == 0) {
         func_021C0E50(2, 1);
         func_021C0E40((unsigned int)func_021CC998);
     } else {

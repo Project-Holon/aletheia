@@ -16,6 +16,8 @@
  *   g_02150FD0  0x02150FD0  data
  */
 
+#include "../include/G_OsThreadBss.h"
+
 typedef unsigned long u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -66,19 +68,13 @@ typedef struct OSThreadInfo {
 /* os_thread.o .bss from 0x02150FD0, addressed section-relative from one pool
    word.  +0, +4, +8 and +0x1C are fixed by the accesses; the four words at
    +0x0C are the object's other 4-byte data in an order no access here reads. */
-typedef struct OsThreadBss {
-    void *OSi_SystemCallbackInSwitchThread;
-    u32 OSi_RescheduleCount;
-    OSThread **OSi_CurrentThreadPtr;
-    u32 other[4];
-    OSThreadInfo OSi_ThreadInfo;
-} OsThreadBss;
+typedef struct OsThreadBss OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern struct OsThreadBss g_02150FD0;
 
 OSThread *OS_SelectThread(void)
 {
-    OSThread *t = g_02150FD0.OSi_ThreadInfo.list;
+    OSThread *t = g_02150FD0.OSi_ThreadInfo_list;
 
     while (t && t->state != OS_THREAD_STATE_READY) {
         t = t->next;

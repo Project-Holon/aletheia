@@ -25,18 +25,13 @@
  *       --func func_0203F3F0 --addr 0x0203F3F0 --cc 1.1p1 --arm
  */
 
+#include "../include/G_021469FC.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
 
-struct Block {
-    u32 unk_00;
-    u32 unk_04;
-    s32 unk_08;
-    u8  pad_0c[0x3c];
-};
-
-extern struct Block g_021469FC;
+extern struct G_021469FC g_021469FC;
 
 struct RtcRequest;
 extern void func_0203F46C(struct RtcRequest *req);

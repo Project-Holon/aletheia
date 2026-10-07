@@ -13,10 +13,13 @@
  *
  * Reads byte 0x108 of the singleton, or 0 when it is not allocated.
  */
-extern unsigned char *d_021469F0;
+
+#include "../include/G_Ctx.h"
+
+extern struct Ctx *d_021469F0;
 int func_0203E590(void)
 {
-    unsigned char *p = d_021469F0;
+    unsigned char *p = ((unsigned char *)d_021469F0);
     if (p == 0) return 0;
     return p[0x108];
 }

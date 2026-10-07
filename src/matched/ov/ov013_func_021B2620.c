@@ -16,19 +16,18 @@
  *   func_02176E90  0x02176E90  arm  ov009
  */
 
+#include "../include/G_Stat.h"
+
 typedef unsigned char u8;
 
 typedef struct Ctx {
     u8 b0;
 } Ctx;
 
-typedef struct Stat {
-    int f0;
-    unsigned int mask;
-} Stat;
+typedef struct Stat Stat;
 
 extern Ctx d_021B60D8;
-extern Stat d_021B4BD0;
+extern struct Stat d_021B4BD0;
 extern void func_021B25FC(u8 *a, u8 *b);
 extern int func_02176E90(int i, u8 *p, int n);
 

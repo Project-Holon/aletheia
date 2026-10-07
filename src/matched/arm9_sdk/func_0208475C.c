@@ -14,10 +14,12 @@
  *   g_02FE00A0  0x02FE00A0  data  a4
  */
 
-extern int g_02FE00A0[2];
+#include "../include/G_OSThreadQueue.h"
+
+extern struct OSThreadQueue g_02FE00A0;
 
 void func_0208475C(void)
 {
-    g_02FE00A0[1] = 0;
-    g_02FE00A0[0] = 0;
+    ((int *)&g_02FE00A0)[1] = 0;
+    ((int *)&g_02FE00A0)[0] = 0;
 }

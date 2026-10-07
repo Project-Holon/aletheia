@@ -13,13 +13,16 @@
  *   func_02178138 0x02178138 thumb ov014
  *   func_02179050 0x02179050 thumb ov014
  */
+
+#include "../include/G_S.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *g_021797A8;
+extern struct S *g_021797A8;
 extern void func_02178138(int);
 extern int func_02179050(u16);
 u16 func_02179024(void) {
  func_02178138(1);
- *(u16 *)(g_021797A8 + 0x1EAC) = func_02179050(*(u16 *)(g_021797A8 + 0x1EB0));
- return *(u16 *)(g_021797A8 + 0x1EAC);
+ *(u16 *)(((u8 *)g_021797A8) + 0x1EAC) = func_02179050(*(u16 *)(((u8 *)g_021797A8) + 0x1EB0));
+ return *(u16 *)(((u8 *)g_021797A8) + 0x1EAC);
 }

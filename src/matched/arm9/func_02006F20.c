@@ -67,21 +67,10 @@
  *       --func func_02006F20 --addr 0x02006F20 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_SaveCtrl.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
-struct SaveCtrl
-{
-  u8 unk00;
-  u8 unk01;
-  u8 unk02;
-  u8 unk03;
-  u8 unk04;
-  u8 unk05;
-  u8 pad06[6];
-  u32 unk0C;
-  void *unk10;
-  void *unk14[9];
-};
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
 typedef unsigned short u16;

@@ -30,6 +30,8 @@
  *   func_021C5724  0x021C5724  arm  ov114
  */
 
+#include "../include/G_NdState.h"
+
 typedef struct NdParam {
     char gamecd[0x20];
     char passwd[0x20];
@@ -39,15 +41,7 @@ typedef struct NdParam {
     unsigned char thread[0xa78 - 0x9b8];
 } NdParam;
 
-typedef struct NdState {
-    void (*userCallback)(int, int, int);
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-    int f14;
-    NdParam *f18;
-} NdState;
+typedef struct NdState NdState;
 
 extern int func_02059F38(void);
 extern void func_02086004(void *mutex);
@@ -64,7 +58,7 @@ extern void func_020853C0(void *thread, void (*func)(void *), void *arg, void *s
 extern void func_02085868(void *thread);
 extern void func_021C5724(void);
 
-extern NdState g_021D3B68;
+extern struct NdState g_021D3B68;
 extern char g_021D3B84[];
 extern char g_021CF370[];
 
@@ -82,26 +76,26 @@ int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd)
     g_021D3B68.f14 = 2;
     OS_UnlockMutex(g_021D3B84);
     g_021D3B68.f10 = 0;
-    g_021D3B68.fc = 0;
+    g_021D3B68.fC = 0;
     g_021D3B68.f8 = 0;
-    g_021D3B68.userCallback = callback;
+    g_021D3B68.cb = callback;
     g_021D3B68.f4 = 0;
-    g_021D3B68.f18 = func_021C569C(sizeof(NdParam), 0x20);
-    if (g_021D3B68.f18 == 0) {
+    g_021D3B68.svl = func_021C569C(sizeof(NdParam), 0x20);
+    if (g_021D3B68.svl == 0) {
         func_021C659C(1, 0);
         return 0;
     }
-    func_02082BCC(g_021D3B68.f18, 0, sizeof(NdParam));
-    g_021D3B68.f18->f40 = 0;
-    strncpy(g_021D3B68.f18->gamecd, gamecd, 31);
-    strncpy(g_021D3B68.f18->passwd, passwd, 31);
-    if (func_02167FA8(g_021CF370, g_021D3B68.f18->svl) == 0) {
-        func_021C56B4((int)g_021D3B68.f18);
-        g_021D3B68.f18 = 0;
+    func_02082BCC(g_021D3B68.svl, 0, sizeof(NdParam));
+    ((NdParam *)g_021D3B68.svl)->f40 = 0;
+    strncpy(((NdParam *)g_021D3B68.svl)->gamecd, gamecd, 31);
+    strncpy(((NdParam *)g_021D3B68.svl)->passwd, passwd, 31);
+    if (func_02167FA8(g_021CF370, ((NdParam *)g_021D3B68.svl)->svl) == 0) {
+        func_021C56B4((int)g_021D3B68.svl);
+        g_021D3B68.svl = 0;
         return 0;
     }
-    func_020853C0(g_021D3B68.f18->thread, (void (*)(void *))func_021C5724, 0,
-                  g_021D3B68.f18->stack + sizeof(g_021D3B68.f18->stack), 0x800, 0x10);
-    func_02085868(g_021D3B68.f18->thread);
+    func_020853C0(((NdParam *)g_021D3B68.svl)->thread, (void (*)(void *))func_021C5724, 0,
+                  ((NdParam *)g_021D3B68.svl)->stack + sizeof(((NdParam *)g_021D3B68.svl)->stack), 0x800, 0x10);
+    func_02085868(((NdParam *)g_021D3B68.svl)->thread);
     return 1;
 }

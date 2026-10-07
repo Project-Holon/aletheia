@@ -31,6 +31,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B7BF0.c \
  *       --func AstsRestartReq --addr 0x021B7BF0 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_BSS.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -68,7 +71,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct {
     char SendSeqID[8];

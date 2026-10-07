@@ -22,18 +22,17 @@
  * Requests cleanup of the WCM: only valid in the idle phase, dispatched to the WM or NWM cleanup by device id.
  */
 
+#include "../include/G_WCMState.h"
+
 typedef struct WCMWork {
     unsigned char pad0[0x12DE];
     unsigned char phase;
     unsigned char deviceId;
 } WCMWork;
 
-typedef struct WCMState {
-    long pad0;
-    WCMWork *work;
-} WCMState;
+typedef struct WCMState WCMState;
 
-extern WCMState g_021AA7D4;
+extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern long func_021669B8(void);
@@ -50,7 +49,7 @@ long func_02165088(void)
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (g_021AA7D4.work->phase) {
+    switch (((WCMWork *)g_021AA7D4.work)->phase) {
     case 4:
         OS_RestoreInterrupts(e);
         return 2;
@@ -63,7 +62,7 @@ long func_02165088(void)
     case 3:
         break;
     }
-    switch (g_021AA7D4.work->deviceId) {
+    switch (((WCMWork *)g_021AA7D4.work)->deviceId) {
     case 1:
         wcmResult = func_021669B8();
         break;

@@ -15,6 +15,8 @@
  *   func_0203B258  0x0203B258  arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned int u32;
 
 struct Sys;
@@ -28,5 +30,5 @@ extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
 
 void func_0203B2D0(u32 val)
 {
-    func_0203AD80((struct NetState *)g_021469DC, func_0203B258, 0, 0x222);
+    func_0203AD80((struct NetState *)((struct Sys *)g_021469DC), func_0203B258, 0, 0x222);
 }

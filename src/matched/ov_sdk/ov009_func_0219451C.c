@@ -18,6 +18,8 @@
  *   g_021ADFE0   0x021ADFE0  data
  */
 
+#include "../include/G_StatsConn.h"
+
 typedef struct {
     int type;
     int localid;
@@ -31,15 +33,15 @@ typedef struct {
 extern int func_02184200(const int *p);
 extern serverreq_t *func_02184208(void *array, int n);
 extern void func_0218437C(int a, int b);
-extern int g_021ADFE0[];
+extern struct StatsConn g_021ADFE0;
 
 void func_0219451C(int reqindex, int success, long modified, char *data, int length)
 {
     serverreq_t *req;
 
-    if (reqindex < 0 || reqindex >= func_02184200((void *)g_021ADFE0[5]))
+    if (reqindex < 0 || reqindex >= func_02184200((void *)((int *)&g_021ADFE0)[5]))
         return;
-    req = func_02184208((void *)g_021ADFE0[5], reqindex);
+    req = func_02184208((void *)((int *)&g_021ADFE0)[5], reqindex);
     if (req->callback != 0) {
         switch (req->type) {
         case 0:
@@ -56,5 +58,5 @@ void func_0219451C(int reqindex, int success, long modified, char *data, int len
             break;
         }
     }
-    func_0218437C((int)((void *)g_021ADFE0[5]), reqindex);
+    func_0218437C((int)((void *)((int *)&g_021ADFE0)[5]), reqindex);
 }

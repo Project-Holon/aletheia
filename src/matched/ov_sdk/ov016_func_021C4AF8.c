@@ -27,6 +27,8 @@
  *   func_021C4E00  0x021C4E00  arm  ov016
  */
 
+#include "../include/G_SCENESETAOSSBUTT_BSS.h"
+
 typedef struct Choose {
     unsigned char way;
     void *task;
@@ -44,7 +46,7 @@ extern void func_021CFFAC(unsigned int v);
 extern void func_021BCB9C();
 extern void func_021C4E4C();
 extern void func_021C4E00();
-extern Choose g_021DE5CC;
+extern struct SCENESETAOSSBUTT_BSS g_021DE5CC;
 
 void func_021C4AF8(void)
 {
@@ -55,22 +57,22 @@ void func_021C4AF8(void)
     case 0:
         return;
     case 1:
-        if (g_021DE5CC.task == 0)
+        if (g_021DE5CC.Task == 0)
             return;
-        g_021DE5CC.way = 1;
-        func_021D7744(1, g_021DE5CC.task);
-        g_021DE5CC.task = 0;
+        g_021DE5CC.Choose = 1;
+        func_021D7744(1, g_021DE5CC.Task);
+        g_021DE5CC.Task = 0;
         func_021C0E40((unsigned int)func_021C4E4C);
         return;
     case 2:
-        if (g_021DE5CC.task == 0)
+        if (g_021DE5CC.Task == 0)
             return;
         func_021D0014();
         func_021D1208(0xC, 1, 1, -1, 0);
         func_021CFFAC(9);
         func_021BCB9C();
-        func_021D7744(1, g_021DE5CC.task);
-        g_021DE5CC.task = 0;
+        func_021D7744(1, g_021DE5CC.Task);
+        g_021DE5CC.Task = 0;
         func_021C0E40((unsigned int)func_021C4E00);
         return;
     }

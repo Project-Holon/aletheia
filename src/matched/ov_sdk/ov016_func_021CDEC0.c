@@ -17,11 +17,14 @@
  *   func_021CDF10  0x021CDF10  arm
  *   g_021DE628  0x021DE628  data  a1
  */
+
+#include "../include/G_021DE628.h"
+
 extern signed char func_021BCB14(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021C0E40(unsigned int v);
 extern void func_021CDF10(void);
-extern unsigned char g_021DE628;
+extern struct G_021DE628 g_021DE628;
 
 void func_021CDEC0(void)
 {
@@ -31,7 +34,7 @@ void func_021CDEC0(void)
         break;
     case 1:
         func_021CFFAC(6);
-        g_021DE628 = 1;
+        (*(unsigned char *)&g_021DE628) = 1;
         break;
     default:
         return;

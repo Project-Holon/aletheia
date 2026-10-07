@@ -24,6 +24,7 @@
  * table at bank+6), entry -> node (relative offset at entry+0).
  */
 #include "../include/Obj16622.h"
+#include "../include/G_Root.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -35,11 +36,11 @@ typedef struct { Hdr *h; u8 pad[0xD0]; Bank *bank; } Root;
 typedef struct { u16 flags; u32 f04; u32 f08; u32 f0C; } Node;
 typedef struct { u32 rel00; } Ent;
 
-extern Root *g_02148DB0;
+extern struct Root *g_02148DB0;
 
 void func_0206EBB8(u32 *out)
 {
-    Root *r = g_02148DB0;
+    Root *r = ((Root *)g_02148DB0);
     Bank *b;
     Node *n;
     u8 *t;

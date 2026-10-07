@@ -38,6 +38,7 @@
  *       --func func_0203802C --addr 0x0203802C --cc 1.1p1 --arm
  */
 #include "../include/Obj15934.h"
+#include "../include/G_LinkState.h"
 
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -52,7 +53,7 @@ extern struct Entry *func_020399A8(void);
 extern u32 func_0203D6BC(void);
 extern int func_02037D98(int a);
 extern void func_020381D8(u32 a, u32 b);
-extern u8 *g_021469D0;
+extern struct LinkState *g_021469D0;
 extern u8 d_020A7A20[];
 
 void func_0203802C(void)
@@ -62,7 +63,7 @@ void func_0203802C(void)
 
     p = func_0203D788();
 
-    if (func_020366A8((struct Conn *)(g_021469D0 + 0xCC)) != 0)
+    if (func_020366A8((struct Conn *)(((u8 *)g_021469D0) + 0xCC)) != 0)
         func_0203D3A8(func_020399A8(), 0x10, 0, 0);
 
     v = *(u32 *)(((struct Obj15934 *)p)->f340 + 0x9C);
@@ -77,6 +78,6 @@ void func_0203802C(void)
     if (func_02037D98(0) == 0)
         return;
 
-    func_020381D8(*(u32 *)g_021469D0, v);
+    func_020381D8(*(u32 *)((u8 *)g_021469D0), v);
     *(u8 *)(d_020A7A20 + 1) = 4;
 }

@@ -21,10 +21,7 @@
  *   g_021A1CD8  0x021A1CD8  data
  */
 
-typedef struct {
-	char pad0[0x18];
-	void *(*alloc)(unsigned long size);
-} Cfg;
+#include "../include/G_021A1CD8.h"
 
 extern unsigned long func_0215D200(void *param);
 extern unsigned long OS_DisableInterrupts(void);
@@ -32,7 +29,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern unsigned char *func_0215D2A8(void *socket, void *param);
 extern void func_0215F2DC(int a);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern Cfg *g_021A1CD8;
+extern struct G_021A1CD8 *g_021A1CD8;
 
 void *func_0215D198(void *param)
 {

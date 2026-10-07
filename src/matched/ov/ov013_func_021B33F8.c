@@ -72,6 +72,8 @@
  *   d_021B4C48  0x021B4C48  data  a4
  */
 
+#include "../include/G_021B4C48.h"
+
 typedef short s16;
 typedef int s32;
 typedef unsigned short u16;
@@ -93,19 +95,7 @@ static inline void CP_SetSqrt32(u32 param)
     reg_CP_SQRT_PARAM = param;
 }
 
-typedef struct St {
-    s16 att;
-    s16 pad0;
-    s32 pad1;
-    s32 rd;
-    s32 wr;
-    s32 pad4;
-    s32 c[6];
-    s32 x[6];
-    unsigned char pad2[0x484 - 0x44];
-    s16 buf[0x800];
-} St;
-extern St d_021B4C48;
+extern struct G_021B4C48 d_021B4C48;
 
 #pragma opt_common_subs off
 void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)

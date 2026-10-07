@@ -19,11 +19,13 @@
  *       --func func_0203BDEC --addr 0x0203BDEC --cc 1.1p1 --arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 struct NetState;
 extern void *func_0203D788(void);

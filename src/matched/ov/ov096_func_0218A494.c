@@ -14,6 +14,7 @@
  *   D_0218A7C0     0x0218A7C0  data
  */
 #include "../include/Obj04408.h"
+#include "../include/G_Slot.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ typedef struct {
     void *obj[4];
 } Slot;
 
-extern Slot *D_0218A7C0;
+extern struct Slot *D_0218A7C0;
 struct ArcFile;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 

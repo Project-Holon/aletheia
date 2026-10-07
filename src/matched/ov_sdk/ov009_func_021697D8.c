@@ -18,7 +18,9 @@
  *   func_021698C0  0x021698C0  arm
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 extern char g_021A200C[];
 extern int func_02185D04(void **connection, int profile, char *reason);
 extern int func_021698C0(int result);
@@ -27,7 +29,7 @@ int func_021697D8(int profileID)
 {
     int gpResult;
 
-    gpResult = func_02185D04(*(void ***)(*(char **)(g_021AA860 + 0xc) + 4), profileID, g_021A200C);
+    gpResult = func_02185D04(*(void ***)(*(char **)(((char *)&g_021AA860) + 0xc) + 4), profileID, g_021A200C);
     func_021698C0(gpResult);
     return gpResult;
 }

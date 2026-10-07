@@ -17,18 +17,21 @@
  *   sDispMode                        0x02150e0c data
  */
 
+#include "../include/G_GXBssState.h"
+#include "../include/G_GXDataState.h"
+
 #define reg_GX_DISPCNT (*(volatile unsigned long *)0x04000000)
 
 extern void PMi_SetDispOffCount(void);
-extern unsigned short sIsDispOn;
-extern unsigned short sDispMode;
+extern struct GXDataState sIsDispOn;
+extern struct GXBssState sDispMode;
 
 void func_0207D42C(void)
 {
     unsigned long tmp = reg_GX_DISPCNT;
 
-    sIsDispOn = 0;
-    sDispMode = (unsigned short)((tmp & 0x30000) >> 16);
+    (*(unsigned short *)&sIsDispOn) = 0;
+    (*(unsigned short *)&sDispMode) = (unsigned short)((tmp & 0x30000) >> 16);
     reg_GX_DISPCNT = tmp & ~0x30000;
     PMi_SetDispOffCount();
 }

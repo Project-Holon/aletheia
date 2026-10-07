@@ -21,10 +21,10 @@
  *   d_021BA140 0x021BA140 data a2
  */
 #include "../include/Obj01592.h"
+#include "../include/G_Vec2.h"
 typedef unsigned short u16;
 
-struct Obj; struct Vec2 { short x,y; };
-extern struct Vec2 d_021BA140;
+struct Obj; extern struct Vec2 d_021BA140;
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef signed int     s32;
 typedef unsigned int   u32;

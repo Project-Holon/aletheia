@@ -42,17 +42,17 @@
  *       --func func_0206EC50 --addr 0x0206EC50 --cc ../2.0/sp2 --arm
  */
 #include "../include/Obj16624.h"
+#include "../include/G_Root.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
 typedef struct { u8 unk00; u8 idx01; } Hdr;
 typedef struct { u8 unk00; u8 cnt01; u8 unk02[4]; u16 off06; } Bank;
-typedef struct Root { Hdr *h; u8 pad[0xD0]; Bank *bank; u8 pad2[0x10];
-                 void (*hook)(void *, void *, Hdr *, u32); } Root;
+typedef struct Root Root;
 typedef struct { u32 rel00; } Ent;
 
-extern Root *g_02148DB0;
+extern struct Root *g_02148DB0;
 
 static inline u8 *entry_of(Bank *b, u32 idx)
 {

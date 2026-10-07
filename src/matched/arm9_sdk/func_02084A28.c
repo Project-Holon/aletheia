@@ -15,16 +15,15 @@
  *   g_02150FC8    0x02150FC8  data
  */
 
+#include "../include/G_OsPxiBss.h"
+
 typedef unsigned short u16;
 typedef int BOOL;
 
 /* os_pxi.o .bss from 0x02150FC8, addressed from one pool word. */
-typedef struct OsPxiBss {
-    u16 OSi_IsResetOccurred;
-    u16 OSi_IsTerminateOccurred;
-} OsPxiBss;
+typedef struct OsPxiBss OsPxiBss;
 
-extern OsPxiBss g_02150FC8;
+extern struct OsPxiBss g_02150FC8;
 
 BOOL func_02084A28(void)
 {

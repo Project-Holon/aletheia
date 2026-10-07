@@ -34,6 +34,8 @@
  *       --func sub_0204ADA4 --addr 0x0204ADA4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -43,15 +45,10 @@ struct Entry {
     u32 unk_14_31 : 1;
 };
 
-struct Sys {
-    u8            pad_000[0x110];
-    struct Entry *entries;
-};
-
-extern struct Sys *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 void sub_0204ADA4(u32 i)
 {
-    g_02146A74->entries[i].unk_14_31 = 1;
-    g_02146A74->entries[i].unk_14_0 = 0;
+    ((struct Entry *)g_02146A74->owner_slots2)[i].unk_14_31 = 1;
+    ((struct Entry *)g_02146A74->owner_slots2)[i].unk_14_0 = 0;
 }

@@ -31,12 +31,9 @@
  *       --func func_0203D798 --addr 0x0203D798 --cc 1.1p1 --arm
  */
 
-typedef unsigned char u8;
+#include "../include/G_Singleton.h"
 
-struct Singleton {
-    u8    pad_00[8];
-    void *unk_08;
-};
+typedef unsigned char u8;
 
 extern struct Singleton g_021469E0;
 

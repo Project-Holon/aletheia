@@ -60,6 +60,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B62C0.c \
  *       --func AOSS_Init_old --addr 0x021B62C0 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_DATA_SECTION.h"
+
 struct product_info {
     unsigned short reserved;    /* DWARF gives the size only; member names are not the vendor's */
     unsigned short length;
@@ -245,7 +248,7 @@ typedef struct {
 } AOSS_DATA_SECTION;
 
 extern AOSS_BSS aoss_bss;
-extern AOSS_DATA_SECTION aoss_data;
+extern struct AOSS_DATA_SECTION aoss_data;
 extern const struct _retry aoss_rodata;   /* aoss.o .rodata: the compiler's @8259, retry1's initialiser { -1, -1 } */
 
 extern void *AOSS_Memset(void *s, int c, int n);

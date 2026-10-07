@@ -22,18 +22,17 @@
  * Sets the WCM phase under a critical section, managing the keep-alive alarm when entering or leaving the connected phase.
  */
 
+#include "../include/G_WCMState.h"
+
 typedef struct WCMWork {
     unsigned char pad0[0x1294];
     unsigned char keepAlive[0x4A];
     unsigned char phase;
 } WCMWork;
 
-typedef struct WCMState {
-    long pad0;
-    WCMWork *work;
-} WCMState;
+typedef struct WCMState WCMState;
 
-extern WCMState g_021AA7D4;
+extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern void OS_CancelAlarm(void *alarm);
 extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
@@ -45,15 +44,15 @@ void func_02165A4C(unsigned char phase)
     unsigned long e;
 
     e = OS_DisableInterrupts();
-    if (g_021AA7D4.work->phase == 9 && phase != 9) {
-        OS_CancelAlarm(g_021AA7D4.work->keepAlive);
+    if (((WCMWork *)g_021AA7D4.work)->phase == 9 && phase != 9) {
+        OS_CancelAlarm(((WCMWork *)g_021AA7D4.work)->keepAlive);
     }
-    if (g_021AA7D4.work->phase != 0xB) {
-        g_021AA7D4.work->phase = phase;
+    if (((WCMWork *)g_021AA7D4.work)->phase != 0xB) {
+        ((WCMWork *)g_021AA7D4.work)->phase = phase;
     }
     if (phase == 9) {
-        OS_CancelAlarm(g_021AA7D4.work->keepAlive);
-        OS_SetAlarm(g_021AA7D4.work->keepAlive, 0x022F5341ULL, func_02165B5C, 0);
+        OS_CancelAlarm(((WCMWork *)g_021AA7D4.work)->keepAlive);
+        OS_SetAlarm(((WCMWork *)g_021AA7D4.work)->keepAlive, 0x022F5341ULL, func_02165B5C, 0);
     }
     OS_RestoreInterrupts(e);
 }

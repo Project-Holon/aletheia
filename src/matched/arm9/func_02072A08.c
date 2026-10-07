@@ -35,17 +35,13 @@
  *       --func func_02072A08 --addr 0x02072A08 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Global0214DEC0.h"
+
 typedef unsigned int u32;
 
-struct Struct0214DEC0 {
-    u32 field0;
-    u32 field4;
-    u32 field8;
-};
-
-extern struct Struct0214DEC0 g_0214DEC0;
+extern struct Global0214DEC0 g_0214DEC0;
 
 void func_02072A08(u32 bit)
 {
-    g_0214DEC0.field4 &= ~(1U << bit);
+    g_0214DEC0.flags4 &= ~(1U << bit);
 }

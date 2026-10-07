@@ -23,6 +23,8 @@
  *   @16077  0x021CE1B8  data
  */
 
+#include "../include/G_Session.h"
+
 typedef unsigned char u8;
 typedef unsigned long u32;
 
@@ -54,7 +56,7 @@ extern void func_0217FA90(const char *input, char *output, int inlen, int encodi
 extern u32 func_021C9858(u32 len);
 extern void func_020816B8(void *digest, void *data, u32 len);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
-extern Session g_021CF7AC;
+extern struct Session g_021CF7AC;
 typedef struct { char c[20]; } Key20;
 
 int func_021C99D0(char *buf, int len)

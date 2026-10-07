@@ -19,16 +19,12 @@
  *   func_0217A0CC  0x0217A0CC  arm  ov015
  *   d_0217ABA8     0x0217ABA8  data  ov015
  */
+
+#include "../include/G_ov015_0217ABA8.h"
+
 typedef unsigned int u32;
 typedef unsigned long long u64;
-typedef struct {
-    int f0, f4, f8, fC, f10, f14, f18;
-    int f1C;
-    u32 f20;
-    int f24;
-    u64 tick;
-} St;
-extern St d_0217ABA8;
+extern struct G_ov015_0217ABA8 d_0217ABA8;
 extern u64 func_020870D0(void);
 extern void func_0217A0CC(int a);
 

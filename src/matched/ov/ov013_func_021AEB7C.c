@@ -27,11 +27,13 @@
  *   d_021B3C80     0x021B3C80  data  ov013
  */
 
+#include "../include/G_Work.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *d_021B3C80;
+extern struct Work *d_021B3C80;
 
 extern void func_02082BCC(void *p, int v, u32 n);
 extern u32 func_0202EB0C(void);
@@ -56,28 +58,28 @@ void func_021AEB7C(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6)
         return;
     }
     if (func_0202EB0C() == 0) {
-        if (d_021B3C80[0x1A4B] != 0) {
-            func_0208B2BC(d_021B3C80 + 0x1A20, func_021AEB78, 0);
-            d_021B3C80[0x1A4B] = 0;
+        if (((u8 *)d_021B3C80)[0x1A4B] != 0) {
+            func_0208B2BC(((u8 *)d_021B3C80) + 0x1A20, func_021AEB78, 0);
+            ((u8 *)d_021B3C80)[0x1A4B] = 0;
         }
     } else {
-        if (d_021B3C80[0x1A4B] != 0) {
-            func_0208B4C8(d_021B3C80 + 0x1A20, func_021AEB78, 0);
-            d_021B3C80[0x1A4B] = 0;
+        if (((u8 *)d_021B3C80)[0x1A4B] != 0) {
+            func_0208B4C8(((u8 *)d_021B3C80) + 0x1A20, func_021AEB78, 0);
+            ((u8 *)d_021B3C80)[0x1A4B] = 0;
         }
     }
     if ((u32)(func_0208B4B8() - (u32)addr) < size) {
         addr = addr + size;
     }
     if (((*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15) != 0
-        || *(u16 *)(d_021B3C80 + 0x19B2) != 0) {
-        addr = d_021B3C80 + 0x1104;
+        || *(u16 *)(((u8 *)d_021B3C80) + 0x19B2) != 0) {
+        addr = ((u8 *)d_021B3C80) + 0x1104;
     }
     for (i = 0; i < n; i++) {
         func_021B0B48(bufs[i], size, 0);
     }
-    if (*(u16 *)(d_021B3C80 + 0x19B0) == 0) {
+    if (*(u16 *)(((u8 *)d_021B3C80) + 0x19B0) == 0) {
         func_021B07F8(addr, size);
     }
-    d_021B3C80[0x1A4A] = 2;
+    ((u8 *)d_021B3C80)[0x1A4A] = 2;
 }

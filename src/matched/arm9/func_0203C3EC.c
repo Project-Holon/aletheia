@@ -31,13 +31,15 @@
  *   func_0203C064  0x0203C064  arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef struct Hdr021469DC {
     unsigned int pad0;
     unsigned int pad4;
     unsigned int v8;
 } Hdr021469DC;
 
-extern unsigned int g_021469DC;
+extern struct Sys *g_021469DC;
 extern void func_0203C0F4(void *p);
 extern void func_0203C0B4(void);
 extern void func_0203C068(void);
@@ -46,7 +48,7 @@ extern void func_0203C064(void);
 
 int func_0203C3EC(void)
 {
-    Hdr021469DC **pp = (Hdr021469DC **)(&g_021469DC);
+    Hdr021469DC **pp = (Hdr021469DC **)(&(*(unsigned int *)&g_021469DC));
     unsigned int v = (*pp)->v8;
 
     if (v == (unsigned int)(void *)func_0203C0F4) {

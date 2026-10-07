@@ -17,13 +17,15 @@
  *   g_021DE58C  0x021DE58C  data
  */
 
+#include "../include/G_MemMsg.h"
+
 extern void *func_021D6414(unsigned long size, int align);
 extern void *func_021D5410(long size, void *data, long dsize);
-extern char *g_021DE58C;
+extern struct MemMsg *g_021DE58C;
 
 void func_021C0F60(void)
 {
 	void *m = func_021D6414(0x64, 4);
 	g_021DE58C = m;
-	*(void **)(g_021DE58C + 0x60) = func_021D5410(8, m, 0xc);
+	*(void **)(((char *)g_021DE58C) + 0x60) = func_021D5410(8, m, 0xc);
 }

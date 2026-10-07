@@ -55,6 +55,8 @@
  *       --func func_020319F0 --addr 0x020319F0 --cc 1.1p1 --arm
  */
 
+#include "../include/G_SaveMain.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -67,13 +69,8 @@ struct Job {
     u8  f1c;
 };
 
-struct Dev {
-    u8  pad_00[0x208];
-    u32 f208;
-};
-
 extern const char str_020A7848[];
-extern struct Dev *g_02146994;
+extern struct SaveMain *g_02146994;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02034F84(u32 a);
@@ -102,7 +99,7 @@ int func_020319F0(struct Job *job, u32 heap)
     func_02082A7C(0xFFFFFFFF, page, 0x1000);
 
     for (off = 0; off < job->f08; off += 0x1000)
-        func_020335AC(off + job->f00, (u32)page, 0x1000, g_02146994->f208);
+        func_020335AC(off + job->f00, (u32)page, 0x1000, g_02146994->unk208);
 
     func_020307B0(page);
     func_020319C0((u8 *)job);

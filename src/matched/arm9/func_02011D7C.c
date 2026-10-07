@@ -30,12 +30,9 @@
  *       --func func_02011D7C --addr 0x02011D7C --cc 1.1p1 --thumb
  */
 
-typedef unsigned int u32;
+#include "../include/G_G02146248.h"
 
-struct G02146248 {
-    u32 unk00;
-    u32 unk04;
-};
+typedef unsigned int u32;
 
 extern void *sub_020056A0(u32 a, u32 b, u32 c);
 extern void  func_02011D34(void);

@@ -37,17 +37,12 @@
  *       --func func_021782B4 --addr 0x021782B4 --region ov009 --arm --cc 1.1p1 --lang c99 --diff
  */
 
+#include "../include/G_DWCWFCUtil.h"
+#include "../include/G_DWCHttpParam.h"
+
 typedef struct DWCHttp DWCHttp;
 
-typedef struct DWCHttpParam
-{
-    const char *url;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-    int f14;
-} DWCHttpParam;
+typedef struct DWCHttpParam DWCHttpParam;
 
 typedef struct DWCAuth
 {
@@ -58,11 +53,7 @@ typedef struct DWCAuth
     char pad1200[0];
 } DWCAuth;
 
-typedef struct DWCWFCUtil
-{
-    int f0;
-    char *auth;
-} DWCWFCUtil;
+typedef struct DWCWFCUtil DWCWFCUtil;
 
 typedef struct
 {
@@ -79,30 +70,30 @@ extern int func_0217967C(char *http);
 extern unsigned long func_02085A30(void *thread);
 extern void func_02179718(char *http, unsigned long prio);
 
-extern DWCHttpParam g_021A2358;
-extern DWCHttpParam g_021A2358_arg;
+extern struct DWCHttpParam g_021A2358;
+extern struct DWCHttpParam g_021A2358_arg;
 extern char g_021A2374[];
-extern DWCWFCUtil g_021AB184;
+extern struct DWCWFCUtil g_021AB184;
 extern char g_021AB190[];
 extern OSThreadInfo g_02150FEC;
 
-#define AUTH_RESULT (*(int *)(g_021AB184.auth + 0x1004))
-#define AUTH_HTTP (*(DWCHttp **)(g_021AB184.auth + 0x1314))
+#define AUTH_RESULT (*(int *)(((char *)g_021AB184.auth) + 0x1004))
+#define AUTH_HTTP (*(DWCHttp **)(((char *)g_021AB184.auth) + 0x1314))
 
 int func_021782B4(int getwifiinfofromflash)
 {
     if (func_020948E0(g_021A2358.url, g_021A2374) != 0)
         g_021A2358.f14 = 1;
 
-    g_021A2358.fc = *(int *)(g_021AB184.auth + 0x120c);
-    g_021A2358.f10 = *(int *)(g_021AB184.auth + 0x1210);
+    g_021A2358.fc = *(int *)(((char *)g_021AB184.auth) + 0x120c);
+    g_021A2358.f10 = *(int *)(((char *)g_021AB184.auth) + 0x1210);
     if (func_0217956C(AUTH_HTTP, &g_021A2358_arg) != 0)
         return 4;
 
     if (getwifiinfofromflash == 1)
         func_02058518((struct tagDWCWiFiInfo *)g_021AB190);
 
-    AUTH_RESULT = func_02178A94(AUTH_HTTP, g_021AB184.auth + 0x1200, (unsigned short *)(g_021AB184.auth + 0x11cc));
+    AUTH_RESULT = func_02178A94(AUTH_HTTP, ((char *)g_021AB184.auth) + 0x1200, (unsigned short *)(((char *)g_021AB184.auth) + 0x11cc));
     if (AUTH_RESULT != 0)
         return 4;
 

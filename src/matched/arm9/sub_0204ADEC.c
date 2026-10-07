@@ -39,16 +39,13 @@
  * evidence about the function's real arity.
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Slot {
     u8 pad_00[0x18];
-};
-
-struct Ctx {
-    u8           pad_00[0x110];
-    struct Slot *slots;
 };
 
 struct Dest {
@@ -57,7 +54,7 @@ struct Dest {
     void *unk_0c;
 };
 
-extern struct Ctx *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 extern int func_0206380C(char *p, int i);
 extern int func_02063800(char *p, int i);
@@ -73,15 +70,15 @@ void sub_0204ADEC(u32 idx, struct Dest *dest, u32 count, u32 size)
         size = dest->unk_08;
     }
 
-    if (func_0206380C((char *)(&g_02146A74->slots[idx]), 1) != 0) {
-        void *src = (void *)func_02063800((char *)(&g_02146A74->slots[idx]), 1);
+    if (func_0206380C((char *)(&((struct Slot *)g_02146A74->owner_slots2)[idx]), 1) != 0) {
+        void *src = (void *)func_02063800((char *)(&((struct Slot *)g_02146A74->owner_slots2)[idx]), 1);
 
         func_020862F0(dest->unk_0c, size);
         func_0207E51C(dest->unk_0c, src, size);
     }
 
-    if (func_0206380C((char *)(&g_02146A74->slots[idx]), 2) != 0) {
-        void *src = (void *)func_02063800((char *)(&g_02146A74->slots[idx]), 2);
+    if (func_0206380C((char *)(&((struct Slot *)g_02146A74->owner_slots2)[idx]), 2) != 0) {
+        void *src = (void *)func_02063800((char *)(&((struct Slot *)g_02146A74->owner_slots2)[idx]), 2);
 
         func_020862F0(dest->unk_0c, size);
         func_0207E5D0(dest->unk_0c, src, size);

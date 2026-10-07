@@ -20,6 +20,8 @@
  *   g_021DE67C 0x021DE67C data
  */
 
+#include "../include/G_MEMEFFECT.h"
+
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -39,7 +41,7 @@ typedef struct { s8 b[4]; } S4;
 
 extern U4 g_021DAA68;
 extern S4 g_021DAA64;
-extern Prm *g_021DE67C;
+extern struct MEMEFFECT *g_021DE67C;
 
 extern long func_0207C958(long a, long b);
 extern void func_0207D6C0(u32 addr, int brightness);
@@ -58,13 +60,13 @@ void func_021D566C(void *task, void *work)
         value = 16 - value;
     if (TABLE.b[prm->index] & 0x10)
         value = -value;
-    if (prm == g_021DE67C)
+    if (prm == ((Prm *)g_021DE67C))
         func_0207D6C0(0x04001050, value);
     else
         func_0207D6C0(0x04000050, value);
     if (prm->count < prm->max)
         return;
-    if (prm == g_021DE67C)
+    if (prm == ((Prm *)g_021DE67C))
         func_0207D6C0(0x04001050, BRIGHT.b[prm->index]);
     else
         func_0207D6C0(0x04000050, BRIGHT.b[prm->index]);

@@ -14,9 +14,11 @@
  *   g_02150FD0  0x02150FD0  data  a4
  */
 
-extern int g_02150FD0[];
+#include "../include/G_OsThreadBss.h"
+
+extern struct OsThreadBss g_02150FD0;
 
 int func_02084FB4(void)
 {
-    return ++g_02150FD0[6];
+    return ++((int *)&g_02150FD0)[6];
 }

@@ -25,6 +25,8 @@
  *       --func SendPacketUDP --addr 0x021B7D94 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
 
+#include "../include/G_AOSS_BSS.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -62,7 +64,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct {
     unsigned long addr;
@@ -88,8 +90,8 @@ int SendPacketUDP(unsigned char *packet, int size, unsigned char Mac, int port)
     AOSS_Memset(&server, 0, sizeof(server));
     server.family = 2;
     server.port = AOSS_Htons(0x5790);
-    server.addr.addr = AOSS_Htonl(aoss_bss.gData.apAddr);
-    if (Mac == 0xff || aoss_bss.gData.ip_chg == 0)
+    server.addr.addr = AOSS_Htonl(aoss_bss.gData_apAddr);
+    if (Mac == 0xff || aoss_bss.gData_ip_chg == 0)
         server.addr.addr = 0xffffffff;
     byte = AOSS_Sendto(port, packet, size, 0, &server, sizeof(server));
     return byte;

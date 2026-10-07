@@ -29,6 +29,9 @@
  *   func_021B12FC  0x021B12FC  arm  ov013
  *   func_021B3364  0x021B3364  arm  ov013
  */
+
+#include "../include/G_Ctx42C0.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -73,7 +76,7 @@ typedef struct {
 } Pair;
 
 extern const Pair d_021B3AD0[];
-extern Ctx42C0 d_021B42C0;
+extern struct Ctx42C0 d_021B42C0;
 extern void *d_021B3CB0[3];
 extern Slot d_021B3CBC[3];
 

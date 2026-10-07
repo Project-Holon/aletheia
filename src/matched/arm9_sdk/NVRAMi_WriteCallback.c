@@ -41,6 +41,8 @@
  *   DC_StoreRange              0x020862D4  arm
  */
 
+#include "../include/G_NvramBss.h"
+
 typedef unsigned long u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -99,13 +101,9 @@ typedef struct NVRAMWork {
 /* nvram.o .bss from 0x02150EA0: nvramInitialized at +0, nvramTemp (32-byte
    aligned) at +0x20.  A direct read or write of nvramTemp goes through this
    section base; taking its address uses the nvramTemp symbol. */
-typedef struct NvramBss {
-    u32 nvramInitialized;
-    u8 pad04[0x1C];
-    u32 nvramTemp[8];
-} NvramBss;
+typedef struct NvramBss NvramBss;
 
-extern NvramBss g_02150EA0;
+extern struct NvramBss g_02150EA0;
 extern u32 nvramTemp[8];
 extern NVRAMWork nvramw;
 

@@ -17,6 +17,8 @@
  *   g_021DE648  0x021DE648  data
  */
 
+#include "../include/G_SND.h"
+
 typedef struct {
 	char pad[0xa8];
 	void *task;
@@ -24,7 +26,7 @@ typedef struct {
 
 extern void func_021D7724(int kind, void *task);
 extern void func_021D6438(void **mem);
-extern SND *g_021DE648;
+extern struct SND *g_021DE648;
 
 void func_021CFF80(void)
 {

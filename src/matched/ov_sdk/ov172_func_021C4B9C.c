@@ -44,22 +44,12 @@
  * Addresses are Black-image addresses.
  */
 
+#include "../include/G_Ae90.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
-
-struct Ae90 {
-    u16 f0;
-    u16 f2;
-    u32 f4;
-    u8  f8;
-    u8  pad9;
-    u16 fa;
-    u32 fc;
-    u32 f10;
-    u32 f14;
-};
 
 struct Adf0 {
     u32 f0;
@@ -95,17 +85,17 @@ u32 func_021C4B9C(int a0, int a1, int a2, u8 *a3, u32 a4)
     u32 local;
 
     g_021CADF0.f14 = a0;
-    g_021CAE90.f0 = 0x1000;
-    g_021CAE90.f2 = 7;
-    g_021CAE90.f4 = 0x1C;
-    if (g_021CAE90.f4 > 0x1E)
-        g_021CAE90.f4 = 0x1E;
+    g_021CAE90.tag = 0x1000;
+    g_021CAE90.type = 7;
+    g_021CAE90.count = 0x1C;
+    if (g_021CAE90.count > 0x1E)
+        g_021CAE90.count = 0x1E;
     g_021CAE90.f8 = 0;
     g_021CAE90.fa = 0;
     g_021CAE90.fc = 0;
     g_021CAE90.f10 = 0;
     g_021CAE90.f14 = 0;
-    func_02082BCC(g_021CAEC6, 0, g_021CAE90.f4);
+    func_02082BCC(g_021CAEC6, 0, g_021CAE90.count);
 
     local = 0;
     if (func_02085D3C() == 1)

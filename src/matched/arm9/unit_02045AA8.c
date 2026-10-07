@@ -30,6 +30,8 @@
  *       --addr 0x02045AA8 --arm
  */
 
+#include "../include/G_AllocStamp.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -41,7 +43,7 @@ struct U16Vec {
     u16 entries[1];
 };
 
-extern u16 g_020A7E7C;
+extern struct AllocStamp g_020A7E7C;
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
@@ -62,5 +64,5 @@ void sub_02045AFC(struct U16Vec *vec, u16 value)
         return;
 
     vec->entries[vec->used++] = value;
-    vec->entries[vec->used] = g_020A7E7C;
+    vec->entries[vec->used] = (*(u16 *)&g_020A7E7C);
 }

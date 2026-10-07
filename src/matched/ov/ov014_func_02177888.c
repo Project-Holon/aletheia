@@ -22,12 +22,13 @@
  *   func_0203D754  0x0203D754  arm
  */
 #include "../include/Obj02358.h"
+#include "../include/G_W.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern u8 *g_021797A4;
+extern struct W *g_021797A4;
 int func_02178E4C(void);
 int func_02177AEC(void);
 void func_021777FC(void);
@@ -42,7 +43,7 @@ void func_0203D754(u32 a);
 void func_02177888(u32 arg)
 {
     int mode = func_02178E4C();
-    u8 *base = g_021797A4;
+    u8 *base = ((u8 *)g_021797A4);
 
     if (func_02177AEC() == 0)
         func_021777FC();

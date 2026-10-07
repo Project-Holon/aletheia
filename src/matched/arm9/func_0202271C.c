@@ -32,6 +32,8 @@
  * slots the two uses differ by the slot offset, so one name suffices there.
  */
 
+#include "../include/G_020A73D0.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -46,23 +48,13 @@ struct T {
     u32 f2c;
 };
 
-struct G {
-    u32 f00;
-    u8  pad04[0xc];
-    u32 f10;
-    u8  pad14[0xc];
-    u32 f20;
-    u32 pad24;
-    u32 f28;
-};
-
 extern void func_020222A8(u32 v);
 struct Task;
 extern void func_020238B4(struct Task *t, u32 a1);
 extern u32 func_0202390C(struct Task *t);
 extern const u32 d_0209F570[];
-extern struct G g_020A73D0;
-extern struct G g_wipe_slot0;
+extern struct G_020A73D0 g_020A73D0;
+extern struct G_020A73D0 g_wipe_slot0;
 
 void func_0202271C(struct T *p)
 {

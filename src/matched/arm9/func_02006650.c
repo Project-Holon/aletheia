@@ -18,16 +18,18 @@
  * Addresses are Black-image addresses.
  */
 
+#include "../include/G_Sub02006544State.h"
+
 typedef unsigned char u8;
 
-extern u8 d_02140484;
+extern struct Sub02006544State d_02140484;
 
 int func_02006650(void)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        if (*(int *)(&d_02140484 + i * 0x34 + 4) == 1)
+        if (*(int *)(&(*(u8 *)&d_02140484) + i * 0x34 + 4) == 1)
             return 1;
     }
     return 0;

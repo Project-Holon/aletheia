@@ -20,6 +20,8 @@
  *   d_021F63F4  0x021F63F4  data  a4
  */
 
+#include "../include/G_Countdown.h"
+
 typedef unsigned int u32;
 
 typedef struct {
@@ -27,10 +29,10 @@ typedef struct {
     u32 count;
 } Countdown;
 
-extern Countdown d_021F63F4;
+extern struct Countdown d_021F63F4;
 extern u32 func_021EF9D0(Countdown *p);
 
 u32 func_021EF8B8(void)
 {
-    return func_021EF9D0(&d_021F63F4);
+    return func_021EF9D0(((Countdown *)&d_021F63F4));
 }

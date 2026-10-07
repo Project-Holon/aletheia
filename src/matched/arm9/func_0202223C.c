@@ -37,17 +37,15 @@
  *       --func func_0202223C --addr 0x0202223C --cc 1.1p1 --thumb
  */
 
+#include "../include/G_021468E4.h"
+
 typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 
 extern void func_020222CC(u32 which, int brightness);
 
-struct G {
-    u8  pad[0x10];
-    u16 f10;
-};
-extern struct G g_021468E4;
+extern struct G_021468E4 g_021468E4;
 
 void func_0202223C(u32 a, u32 color)
 {

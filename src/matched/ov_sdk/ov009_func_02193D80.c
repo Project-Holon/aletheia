@@ -22,6 +22,9 @@
  *   g_021ADFE0     0x021adfe0  data
  */
 
+#include "../include/G_StatsSocket.h"
+#include "../include/G_StatsConn.h"
+
 typedef struct {
     int pad;
     int sock;
@@ -42,8 +45,8 @@ extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern void func_02193D00(void);
 extern int func_02194494(char *buff, int len);
 extern void *func_02092364(void *dest, const void *src, unsigned int n);
-extern StatsSocket g_021A57C8;
-extern StatsConn g_021ADFE0;
+extern struct StatsSocket g_021A57C8;
+extern struct StatsConn g_021ADFE0;
 
 int func_02193D80(void)
 {

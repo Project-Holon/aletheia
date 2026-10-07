@@ -35,6 +35,9 @@
  * twin: firstSRTransformedMtxIdx_ (u16, 0xFFFE = NNS_G2D_OAM_AFFINE_IDX_NONE).
  * ../2.0/sp2 and sp2p2 identical; 1.1p1 is 276 bytes.
  */
+
+#include "../include/G_Scr.h"
+
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
@@ -62,12 +65,8 @@ struct RendererBss {
     MtxFx32 mtxStackFor2DHW_[32];
 };
 
-struct RendererData {
-    u16 firstSRTransformedMtxIdx_;
-};
-
 extern struct RendererBss g_02147B88;
-extern struct RendererData g_020A81F8;
+extern struct Scr g_020A81F8;
 extern void func_02066754(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 
 static inline void NNSi_G2dSetRotate(MtxFx32 *m, fx32 sin, fx32 cos)

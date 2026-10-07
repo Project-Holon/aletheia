@@ -28,6 +28,12 @@
  *   g_021DA85E                       0x021DA85E  data
  *   procInit                         0x021CCBA4  arm   ov016
  */
+
+#include "../include/G_FocusState.h"
+#include "../include/G_021DA85C.h"
+#include "../include/G_tagRECT4.h"
+#include "../include/G_021DA85E.h"
+
 typedef _Bool bool;
 typedef signed char s8;
 typedef unsigned char u8;
@@ -37,21 +43,13 @@ struct tagSETTINGINFO {
     u8 pad[0xf4];
     u8 page;
 };
-struct tagRECT4 {
-    u16 v[4];
-};
-struct SelWayBss {
-    s8 FocusLast;
-    s8 Sel;
-    s8 Flag2;
-};
 
-extern struct SelWayBss g_021DE614;
+extern struct FocusState g_021DE614;
 extern s8 g_021DA7D8[7];
 extern struct tagRECT4 g_021DA858[4][4];
-extern struct tagRECT4 g_021DA85C[4][4];
+extern struct G_021DA85C g_021DA85C[4][4];
 extern struct tagRECT4 g_021DA85A[4][4];
-extern struct tagRECT4 g_021DA85E[4][4];
+extern struct G_021DA85E g_021DA85E[4][4];
 
 extern struct tagSETTINGINFO *DWCi_SETTIGNlGet(void);
 extern int DWCi_Language(void);
@@ -70,22 +68,22 @@ void DWCi_SceneSetSelectWay(void)
     struct tagSETTINGINFO *info;
 
     info = DWCi_SETTIGNlGet();
-    g_021DE614.Flag2 = 0;
-    if (g_021DE614.FocusLast == 0)
-        g_021DE614.FocusLast = 1;
+    g_021DE614.flag = 0;
+    if (g_021DE614.last == 0)
+        g_021DE614.last = 1;
     if (DWCi_Language() != 0) {
-        if (g_021DE614.Sel == 2)
-            g_021DE614.Sel = 0;
-        if (g_021DE614.FocusLast == 2)
-            g_021DE614.FocusLast = 1;
+        if (g_021DE614.cur == 2)
+            g_021DE614.cur = 0;
+        if (g_021DE614.last == 2)
+            g_021DE614.last = 1;
     }
     initGraphics();
     DWCi_HLlLoadSet();
     DWCi_COMMENTlDispEx(0x32, g_021DA7D8[DWCi_Language()], info->page + 1);
     DWCi_CMNlStep(1);
-    DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.Sel].v[0],
-                     g_021DA85C[DWCi_Flag(1)][g_021DE614.Sel].v[0],
-                     g_021DA85A[DWCi_Flag(1)][g_021DE614.Sel].v[0],
-                     g_021DA85E[DWCi_Flag(1)][g_021DE614.Sel].v[0]);
+    DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.cur].v[0],
+                     g_021DA85C[DWCi_Flag(1)][g_021DE614.cur].v[0],
+                     g_021DA85A[DWCi_Flag(1)][g_021DE614.cur].v[0],
+                     g_021DA85E[DWCi_Flag(1)][g_021DE614.cur].v[0]);
     DWCi_ChangeScene(procInit);
 }

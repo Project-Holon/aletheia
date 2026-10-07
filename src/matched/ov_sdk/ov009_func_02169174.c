@@ -16,6 +16,8 @@
  *   g_021AA860  0x021AA860  data
  */
 
+#include "../include/G_FriendGlobal.h"
+
 struct Friend { int a, b, c; };
 struct Work {
 	int state;
@@ -28,18 +30,17 @@ struct Work {
 	void (*cb44)(int index, void *arg);
 	void *arg48;
 };
-struct Root { char pad[0xc]; struct Work *w; };
-extern struct Root g_021AA860;
+extern struct FriendGlobal g_021AA860;
 typedef unsigned char  u8;
 extern u8 func_0216870C(int a, int b);
 void func_02169174(int index)
 {
 	struct { char pad[0x108]; char s[0x10c]; } status;
 	unsigned char st;
-	if (g_021AA860.w->cb44 != 0 && g_021AA860.w->state != 1)
-		g_021AA860.w->cb44(index, g_021AA860.w->arg48);
-	if (g_021AA860.w->cb34 == 0)
+	if (g_021AA860.ctl->cb44 != 0 && g_021AA860.ctl->state != 1)
+		g_021AA860.ctl->cb44(index, g_021AA860.ctl->arg48);
+	if (g_021AA860.ctl->cb34 == 0)
 		return;
-	st = func_0216870C((int)(&g_021AA860.w->friends[index]), (int)status.s);
-	g_021AA860.w->cb34(index, st, status.s, g_021AA860.w->arg38);
+	st = func_0216870C((int)(&g_021AA860.ctl->friends[index]), (int)status.s);
+	g_021AA860.ctl->cb34(index, st, status.s, g_021AA860.ctl->arg38);
 }

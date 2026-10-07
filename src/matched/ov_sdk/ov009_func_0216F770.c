@@ -50,6 +50,10 @@
  *   d_021A20E0     0x021A20E0  data
 
  */
+
+#include "../include/G_NNThinkGlobal.h"
+#include "../include/G_MatchAnchorA.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -85,11 +89,6 @@ typedef struct {
     int sbUpdateCount;          /* 0x7ac */
 } DWCstMatchControl;
 
-typedef struct {
-    int pad[3];
-    char *addFilter;            /* +0xc */
-} NNThinkStatics;
-
 extern DWCstMatchControl *func_02175F3C(void);
 extern u32 func_021685CC(u32 max);
 extern int func_0216FAD4(char *filter, int profileID, u8 numEntry, u8 matchType, u8 hostState);
@@ -99,8 +98,8 @@ extern int func_0219EED4(struct ServerBrowser *sb, int async, int disconnectOnCo
 extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern u64 OS_GetTick(void);
 extern DWCstGameMatchKeyData stGameMatchKeys[154];
-extern int s_anybodyServerSearchRatio;
-extern NNThinkStatics s_bInNNThink;
+extern struct MatchAnchorA s_anybodyServerSearchRatio;
+extern struct NNThinkGlobal s_bInNNThink;
 extern char d_021A2090[];
 extern char d_021A209C[];
 extern char d_021A20A4[];
@@ -142,14 +141,14 @@ static SBError func_0216F770(int profileID)
     }
     switch (func_02175F3C()->state) {
     case 2:
-        if (s_anybodyServerSearchRatio == -2) {
+        if ((*(int *)&s_anybodyServerSearchRatio) == -2) {
             searchHostType = (u8)(func_02175F3C()->friendToggle == 1 ? 2 : 3);
             func_02175F3C()->friendToggle = 0;
-        } else if (s_anybodyServerSearchRatio == -1) {
+        } else if ((*(int *)&s_anybodyServerSearchRatio) == -1) {
             searchHostType = (u8)(func_02175F3C()->friendToggle ? 2 : 0);
             func_02175F3C()->friendToggle ^= 1;
         } else {
-            searchHostType = (u8)((int)func_021685CC(100) < s_anybodyServerSearchRatio ? 2 : 0);
+            searchHostType = (u8)((int)func_021685CC(100) < (*(int *)&s_anybodyServerSearchRatio) ? 2 : 0);
         }
         len = func_0216FAD4(filter, ((volatile DWCstMatchControl *)func_02175F3C())->profileID, ((volatile DWCstMatchControl *)func_02175F3C())->qr2NumEntry, ((volatile DWCstMatchControl *)func_02175F3C())->qr2MatchType, searchHostType);
         if (s_bInNNThink.addFilter) {

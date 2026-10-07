@@ -40,15 +40,11 @@
  *       --addr 0x02019C54 --thumb
  */
 
+#include "../include/G_Memo.h"
+
 typedef unsigned short u16;
 typedef unsigned char  u8;
 typedef unsigned int   u32;
-
-struct Memo {
-    u16 b;
-    u16 a;
-    u8  obj[0x10];
-};
 
 extern struct Memo g_02146270;
 

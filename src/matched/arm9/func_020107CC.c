@@ -35,13 +35,10 @@
  *           class does not reach it.  Byte-correct as it stands.
  */
 
+#include "../include/G_WihCtx.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct WihCtx {
-    u8 *f0;         /* +0x00 */
-    u8 *f4;         /* +0x04 */
-};
 
 extern struct WihCtx g_021461E0;
 extern u8 sWihDwc;
@@ -54,5 +51,5 @@ void func_020107CC(void)
     if (g_021461E0.f4 == 0) {
         func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
     }
-    func_0205FAA8(g_021461E0.f4 + 0x600, 0);
+    func_0205FAA8(((u8 *)g_021461E0.f4) + 0x600, 0);
 }

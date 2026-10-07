@@ -15,17 +15,14 @@
  *   g_021F6EF4     0x021F6EF4  data
  */
 
+#include "../include/G_SUnlock.h"
+
 typedef struct MBGameInfo {
     unsigned char pad[0x4BC];
     struct MBGameInfo *next;
 } MBGameInfo;
 
-typedef struct {
-    unsigned char pad[0x18];
-    MBGameInfo *list;
-} MBCtx;
-
-extern MBCtx g_021F6EF4;
+extern struct SUnlock g_021F6EF4;
 
 void func_021F3F34(MBGameInfo *newGameInfop)
 {

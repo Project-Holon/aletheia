@@ -16,6 +16,8 @@
  *   g_0215134C         0x0215134C  data
  */
 
+#include "../include/G_OsVAlarmBss.h"
+
 typedef unsigned long u32;
 typedef long s32;
 typedef short s16;
@@ -46,14 +48,9 @@ typedef struct OSVAlarmQueue {
 } OSVAlarmQueue;
 
 /* os_valarm.o .bss from 0x0215134C, addressed from one pool word. */
-typedef struct OsVAlarmBss {
-    u16 OSi_UseVAlarm;
-    s32 OSi_PreviousVCount;
-    s32 OSi_VFrameCount;
-    OSVAlarmQueue OSi_VAlarmQueue;
-} OsVAlarmBss;
+typedef struct OsVAlarmBss OsVAlarmBss;
 
-extern OsVAlarmBss g_0215134C;
+extern struct OsVAlarmBss g_0215134C;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -63,16 +60,16 @@ extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
 
 void func_02087634(OSVAlarm *alarm)
 {
-    OSVAlarm *prev = g_0215134C.OSi_VAlarmQueue.tail;
+    OSVAlarm *prev = g_0215134C.OSi_VAlarmQueue_tail;
 
     alarm->prev = prev;
     alarm->next = 0;
-    g_0215134C.OSi_VAlarmQueue.tail = alarm;
+    g_0215134C.OSi_VAlarmQueue_tail = alarm;
 
     if (prev) {
         prev->next = alarm;
     } else {
-        g_0215134C.OSi_VAlarmQueue.head = alarm;
+        g_0215134C.OSi_VAlarmQueue_head = alarm;
         OSi_SetNextVAlarm(alarm);
     }
 }

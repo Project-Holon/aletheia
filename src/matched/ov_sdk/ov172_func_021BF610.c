@@ -20,19 +20,13 @@
  * Addresses are Black-image addresses.
  */
 
+#include "../include/G_BCode2.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int s32;
 
-typedef struct {
-    s32 byte;      /* +0x00 current byte */
-    u32 pad0;      /* +0x04 */
-    u32 pad1;      /* +0x08 */
-    u32 esc;       /* +0x0c escape flag */
-    u32 bits;      /* +0x10 bits left */
-} BitState;
-
-extern BitState g_021C88F0[];
+extern struct BCode2 g_021C88F0[];
 
 int func_021BF610(u8 *a0, int *a1)
 {

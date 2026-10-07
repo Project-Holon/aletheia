@@ -25,24 +25,22 @@
  *   g_021DA85A                       0x021DA85A  data
  *   g_021DA85E                       0x021DA85E  data
  */
+
+#include "../include/G_FocusState.h"
+#include "../include/G_021DA85C.h"
+#include "../include/G_tagRECT4.h"
+#include "../include/G_021DA85E.h"
+
 typedef _Bool bool;
 typedef signed char s8;
 typedef unsigned short u16;
 
-struct tagRECT4 {
-    u16 v[4];
-};
-struct SelWayBss {
-    s8 FocusLast;
-    s8 Sel;
-};
-
 extern struct tagRECT4 g_021DA818[4][4];
-extern struct SelWayBss g_021DE614;
+extern struct FocusState g_021DE614;
 extern struct tagRECT4 g_021DA858[4][4];
-extern struct tagRECT4 g_021DA85C[4][4];
+extern struct G_021DA85C g_021DA85C[4][4];
 extern struct tagRECT4 g_021DA85A[4][4];
-extern struct tagRECT4 g_021DA85E[4][4];
+extern struct G_021DA85E g_021DA85E[4][4];
 
 extern bool DWCi_Flag(unsigned long flag);
 extern bool DWCi_TPlCheckTrigger(struct tagRECT4 *r);
@@ -60,11 +58,11 @@ static void input(void)
     for (i = 0; i < 4; i++) {
         if (DWCi_TPlCheckTrigger(&g_021DA818[DWCi_Flag(1)][i])) {
             DWCi_BTNlSet(1);
-            g_021DE614.Sel = i;
-            DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.Sel].v[0],
-                             g_021DA85C[DWCi_Flag(1)][g_021DE614.Sel].v[0],
-                             g_021DA85A[DWCi_Flag(1)][g_021DE614.Sel].v[0],
-                             g_021DA85E[DWCi_Flag(1)][g_021DE614.Sel].v[0]);
+            g_021DE614.cur = i;
+            DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.cur].v[0],
+                             g_021DA85C[DWCi_Flag(1)][g_021DE614.cur].v[0],
+                             g_021DA85A[DWCi_Flag(1)][g_021DE614.cur].v[0],
+                             g_021DA85E[DWCi_Flag(1)][g_021DE614.cur].v[0]);
             return;
         }
     }

@@ -18,18 +18,17 @@
  *   g_021AA860  0x021AA860  data
  */
 
+#include "../include/G_FriendGlobal.h"
+
 typedef struct FriendCtl {
 	unsigned char pad0[0x34];
 	void (*statusCallback)(int, unsigned char, char *, void *);
 	void *statusParam;
 } FriendCtl;
 
-typedef struct FriendGlobal {
-	int pad0[3];
-	FriendCtl *ctl;
-} FriendGlobal;
+typedef struct FriendGlobal FriendGlobal;
 
-extern FriendGlobal g_021AA860;
+extern struct FriendGlobal g_021AA860;
 
 extern int func_0216AA70(void);
 typedef unsigned int   u32;

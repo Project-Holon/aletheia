@@ -16,14 +16,16 @@
  *   func_02082BCC  0x02082BCC  arm
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 
 void func_0216959C(void *friendData, int deleteIndex, int otherIndex)
 {
-    if (*(char **)(g_021AA860 + 0xc) == 0) return;
+    if (*(char **)(((char *)&g_021AA860) + 0xc) == 0) return;
     func_02082BCC((char *)friendData + deleteIndex * 0xc, 0, 0xc);
-    if (*(int *)(*(char **)(g_021AA860 + 0xc) + 0x3c) == 0) return;
-    (*(void (*)(int, int, int))(*(int *)(*(char **)(g_021AA860 + 0xc) + 0x3c)))(
-        deleteIndex, otherIndex, *(int *)(*(char **)(g_021AA860 + 0xc) + 0x40));
+    if (*(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x3c) == 0) return;
+    (*(void (*)(int, int, int))(*(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x3c)))(
+        deleteIndex, otherIndex, *(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x40));
 }

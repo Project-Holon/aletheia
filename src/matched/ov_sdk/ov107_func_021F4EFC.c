@@ -65,6 +65,8 @@
  *   mbi_life_mp                0x021F6E58  data
  */
 
+#include "../include/G_MBiData.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -243,16 +245,6 @@ struct MBiBss {
 };
 
 /* .data anchor at mbi_life_mp (0x021F6E58) */
-struct MBiData {
-    u16 mbi_life_mp;
-    u16 mbi_life_cam;
-    u16 mbi_life_table_no;
-    u16 mbi_life_frame;
-    BOOL mbi_power_save_mode;
-    u32 unkC;
-    u32 rejectGgid;
-    u32 rejectGgidMask;
-};
 
 extern struct MBiBss WM_DMA_NO;
 extern struct MBiData mbi_life_mp;
@@ -325,7 +317,7 @@ static void MBi_ChildCallback(void *arg)
         }
         p_param->callback(0x15, arg);
         MBi_CheckWmErrcode(0x1D, WM_SetLifeTime(MBi_ChildCallback, mbi_life_mp.mbi_life_table_no,
-                                                mbi_life_mp.mbi_life_cam, mbi_life_mp.mbi_life_frame,
+                                                mbi_life_mp.cam, mbi_life_mp.frame,
                                                 mbi_life_mp.mbi_life_mp));
         return;
     case 0x1D:

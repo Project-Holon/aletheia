@@ -14,8 +14,10 @@
  *   d_021DCE40                   0x021DCE40  data
 */
 
+#include "../include/G_OSMessageQueue.h"
+
 extern void OS_SendMessage(void);
-extern unsigned char d_021DCE40[];
+extern struct OSMessageQueue d_021DCE40;
 
 asm void alarmCallback(void)
 {

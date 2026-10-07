@@ -16,6 +16,8 @@
  *   g_02151384   0x02151384  data
  */
 
+#include "../include/G_OsArgumentBss.h"
+
 typedef unsigned long long u64;
 typedef unsigned long u32;
 typedef unsigned short u16;
@@ -40,13 +42,9 @@ typedef struct OSDeliverArgInfo {
 
 /* os_argument.o .bss from 0x02151384, addressed from one pool word: sPtr
    (a cursor into the argument buffer), the buffer state and the buffer. */
-typedef struct OsArgumentBss {
-    u8 *sPtr;
-    u32 sBufferState;
-    OSDeliverArgInfo *sBufferPtr;
-} OsArgumentBss;
+typedef struct OsArgumentBss OsArgumentBss;
 
-extern OsArgumentBss g_02151384;
+extern struct OsArgumentBss g_02151384;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
@@ -56,10 +54,10 @@ void func_02087F60(OSDeliverArgInfo *info, int binSize)
     MI_CpuFill8(info, 0, sizeof(OSDeliverArgInfo));
     g_02151384.sBufferState = 3;
 
-    g_02151384.sBufferPtr->header.argBufferSize = (u16)(748 - binSize);
-    g_02151384.sBufferPtr->header.binarySize = 0;
+    ((OSDeliverArgInfo *)g_02151384.sBufferPtr)->header.argBufferSize = (u16)(748 - binSize);
+    ((OSDeliverArgInfo *)g_02151384.sBufferPtr)->header.binarySize = 0;
 
-    g_02151384.sPtr = g_02151384.sBufferPtr->buf;
-    g_02151384.sBufferPtr->buf[0] = 0;
-    g_02151384.sPtr[1] = 0;
+    g_02151384.sPtr = ((OSDeliverArgInfo *)g_02151384.sBufferPtr)->buf;
+    ((OSDeliverArgInfo *)g_02151384.sBufferPtr)->buf[0] = 0;
+    ((u8 *)g_02151384.sPtr)[1] = 0;
 }

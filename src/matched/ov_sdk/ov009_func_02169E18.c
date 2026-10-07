@@ -31,6 +31,8 @@
  *   g_021AA860  0x021AA860  data
  */
 
+#include "../include/G_FriendGlobal.h"
+
 typedef struct {
     unsigned char data[12];
 } DWCFriendData;
@@ -41,10 +43,6 @@ typedef struct {
     unsigned char pad1c;
     unsigned char buddyUpdated;
 } DWCFriendControl;
-typedef struct {
-    char pad0[0xc];
-    DWCFriendControl *friendcnt;
-} DWCStatics;
 typedef struct {
     int result;
     int profile;
@@ -70,7 +68,7 @@ extern void func_02059240(void *frienddata, int setflag);
 extern int func_0205912C(DWCFriendData *frienddata);
 extern void func_02059270(void *frienddata, int setflag);
 extern void func_02169174(int index);
-extern DWCStatics g_021AA860;
+extern struct FriendGlobal g_021AA860;
 
 void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
 {
@@ -82,22 +80,22 @@ void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
 
     if (arg->result != 0)
         return;
-    for (i = 0; i < g_021AA860.friendcnt->friendListLen; i++) {
-        if (func_020591CC(&g_021AA860.friendcnt->friendList[i]) == 1) {
-            func_02059A44((void *)func_0216A39C(), &g_021AA860.friendcnt->friendList[i], userName);
+    for (i = 0; i < ((DWCFriendControl *)g_021AA860.ctl)->friendListLen; i++) {
+        if (func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 1) {
+            func_02059A44((void *)func_0216A39C(), &((DWCFriendControl *)g_021AA860.ctl)->friendList[i], userName);
             if (func_020948E0(userName, arg->lastname) == 0) {
-                func_02059A10(&g_021AA860.friendcnt->friendList[i], arg->profile);
-                func_02059214(&g_021AA860.friendcnt->friendList[i]);
+                func_02059A10(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i], arg->profile);
+                func_02059214(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]);
                 listChanged = 1;
             }
-        } else if (func_020591CC(&g_021AA860.friendcnt->friendList[i]) == 3
-                   || func_020591CC(&g_021AA860.friendcnt->friendList[i]) == 2) {
-            if (func_020598EC((struct DWCstAccUserData *)func_0216A39C(), &g_021AA860.friendcnt->friendList[i]) == arg->profile) {
-                if (func_0205915C(&g_021AA860.friendcnt->friendList[i]) == 1)
+        } else if (func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 3
+                   || func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 2) {
+            if (func_020598EC((struct DWCstAccUserData *)func_0216A39C(), &((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == arg->profile) {
+                if (func_0205915C(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 1)
                     alreadyBuddy = 1;
                 else {
-                    func_02059A10(&g_021AA860.friendcnt->friendList[i], arg->profile);
-                    func_02059214(&g_021AA860.friendcnt->friendList[i]);
+                    func_02059A10(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i], arg->profile);
+                    func_02059214(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]);
                     listChanged = 1;
                 }
             }
@@ -105,12 +103,12 @@ void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
     }
     if (!listChanged)
         return;
-    index = func_021696B0((u8 *)g_021AA860.friendcnt->friendList, g_021AA860.friendcnt->friendListLen, arg->profile);
+    index = func_021696B0((u8 *)((DWCFriendControl *)g_021AA860.ctl)->friendList, ((DWCFriendControl *)g_021AA860.ctl)->friendListLen, arg->profile);
     if (!alreadyBuddy) {
-        func_02059240(&g_021AA860.friendcnt->friendList[index], 1);
-        if (func_0205912C(&g_021AA860.friendcnt->friendList[index]))
-            func_02059270(&g_021AA860.friendcnt->friendList[index], 1);
+        func_02059240(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index], 1);
+        if (func_0205912C(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index]))
+            func_02059270(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index], 1);
         func_02169174(index);
     }
-    g_021AA860.friendcnt->buddyUpdated = 1;
+    ((DWCFriendControl *)g_021AA860.ctl)->buddyUpdated = 1;
 }

@@ -67,11 +67,12 @@
  *     +001A THM_CALL func_0217963C - unresolved, no outside witness.
  */
 #include "../include/Obj11238.h"
+#include "../include/G_WihCtx.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 g_021461E0;
+extern struct WihCtx g_021461E0;
 extern u8  sWihDwc;
 extern u8  ov015_id[];
 
@@ -82,12 +83,12 @@ extern void func_02034A5C(int handle);
 
 void func_020103E4(u8 *p)
 {
-    if (g_021461E0 == 0) {
+    if ((*(u32 *)&g_021461E0) == 0) {
         func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
     }
     func_0217963C(0);
     func_0203D7FC((void *)((struct Obj11238 *)p)->f300);
     func_0203D7FC(p);
-    g_021461E0 = 0;
+    (*(u32 *)&g_021461E0) = 0;
     func_02034A5C((int)ov015_id);
 }

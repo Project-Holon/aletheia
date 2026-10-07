@@ -24,6 +24,8 @@
  * address from being hoisted above the guard.
  */
 
+#include "../include/G_02208D1C.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -35,7 +37,7 @@ typedef struct {
 } Entry;
 
 extern u8 d_02208CA0[];
-extern Entry d_02208D1C[];
+extern struct G_02208D1C d_02208D1C[];
 extern void func_02082BCC(void *, int, int);
 extern void func_0203F8F4(void *);
 extern void func_02045088(void *);
@@ -57,7 +59,7 @@ void func_02205AC0(void *a, void *b)
     for (i = 0; i < 6; i++) {
         u32 v = d_02208D1C[(int)i].id;
         if (v <= 3) {
-            Entry *e = &d_02208D1C[i];
+            Entry *e = &((Entry *)d_02208D1C)[i];
             func_0203FCA0((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
             func_020414AC(v);
             func_02040588(v, e->mode);

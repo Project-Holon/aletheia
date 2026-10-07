@@ -21,6 +21,9 @@
  *   procError                        0x021CBC44  arm   ov016
  *   endScene                         0x021CBAF4  arm   ov016
  */
+
+#include "../include/G_SearchBss.h"
+
 typedef _Bool bool;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,11 +34,6 @@ typedef struct {
     u8 pad1[1];
 } tagAPINFO;
 
-struct SearchBss {
-    u8 Choose;
-    u8 pad;
-    u16 Count;
-};
 extern struct SearchBss g_021DE608;
 
 extern void DWCi_SNDlStop(void);

@@ -21,17 +21,19 @@
  *   func_021C38EC  0x021C38EC  arm  ov016
  */
 
+#include "../include/G_021DE5B8.h"
+
 extern void func_021C386C();
 extern void func_021BD674();
 extern int func_021BD060();
 extern void func_021BD29C();
 extern void func_021C0E40(unsigned int v);
 extern void func_021C38EC();
-extern unsigned char g_021DE5B8;
+extern struct G_021DE5B8 g_021DE5B8;
 
 void func_021C3824(void)
 {
-    g_021DE5B8 = 0;
+    (*(unsigned char *)&g_021DE5B8) = 0;
     func_021C386C();
     func_021BD674(0x13);
     func_021BD060(0x3C, -1, 0);

@@ -39,6 +39,8 @@
  *       --func func_02050A70 --addr 0x02050A70 --cc 1.1p1 --arm
  */
 
+#include "../include/G_02146A84.h"
+
 typedef unsigned int u32;
 
 typedef struct Slot {
@@ -51,26 +53,26 @@ typedef struct Slot {
     u32        : 29;
 } Slot;
 
-extern Slot *g_02146A84;
+extern struct G_02146A84 *g_02146A84;
 extern void func_02050B14(u32 i);
 
 void func_02050A70(void)
 {
     int i;
 
-    if (g_02146A84 == 0)
+    if (((Slot *)g_02146A84) == 0)
         return;
 
     for (i = 0; i < 4; i++) {
-        if (g_02146A84[i].active) {
-            g_02146A84[i].active = 0;
-            if (g_02146A84[i].unk08 >> 11) {
+        if (((Slot *)g_02146A84)[i].active) {
+            ((Slot *)g_02146A84)[i].active = 0;
+            if (((Slot *)g_02146A84)[i].unk08 >> 11) {
                 func_02050B14(i);
-                g_02146A84[i].torn = 1;
+                ((Slot *)g_02146A84)[i].torn = 1;
             }
         }
-        if (g_02146A84[i].kill) {
-            g_02146A84[i].kill = 0;
+        if (((Slot *)g_02146A84)[i].kill) {
+            ((Slot *)g_02146A84)[i].kill = 0;
             func_02050B14(i);
         }
     }

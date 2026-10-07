@@ -53,11 +53,13 @@
  *   g_021469DC     0x021469DC  data
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  g_021469DC;
+extern struct Sys *g_021469DC;
 extern void unk_0203C00C(void);
 
 struct Vt {
@@ -103,5 +105,5 @@ void func_0203AF40(struct Rec *p)
         p->f2c(func_0203D650());
         p->f2c = 0;
     }
-    func_0203AD80((struct NetState *)g_021469DC, (void *)unk_0203C00C, 0, 0x12f);
+    func_0203AD80((struct NetState *)(*(u32 *)&g_021469DC), (void *)unk_0203C00C, 0, 0x12f);
 }

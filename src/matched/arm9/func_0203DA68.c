@@ -13,8 +13,11 @@
  *
  * Stores a word into the singleton at +0x74.
  */
-extern unsigned char *d_021469F0;
+
+#include "../include/G_Ctx.h"
+
+extern struct Ctx *d_021469F0;
 void func_0203DA68(unsigned int value)
 {
-    *(unsigned int *)(d_021469F0 + 0x74) = value;
+    *(unsigned int *)(((unsigned char *)d_021469F0) + 0x74) = value;
 }

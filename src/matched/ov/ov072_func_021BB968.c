@@ -18,10 +18,11 @@
  *   func_02082BCC  0x02082BCC  arm
  *   d_021BBC28     0x021BBC28  data  a4
  */
+
+#include "../include/G_Ent.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct Ent { u32 id; u8 pad[0x24]; };
 
 extern struct Ent d_021BBC28[];
 

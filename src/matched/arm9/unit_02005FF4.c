@@ -49,6 +49,8 @@
  * disasm.py's prologue sweep cannot see it.
  */
 
+#include "../include/G_Sub02006118Entry.h"
+
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
@@ -67,11 +69,6 @@ struct Sub02005FF4State {
     u32 unk28;
     int unk2C;
     int unk30;
-};
-
-struct Sub02006118Entry {
-    u32 unk00;
-    u32 unk04;
 };
 
 extern struct Sub02005FF4State sub_02005FF4_State;

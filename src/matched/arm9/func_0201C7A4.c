@@ -26,14 +26,13 @@
  * register and copies it into r0 at each site, byte-exact under the
  * default compiler.
  */
+
+#include "../include/G_Scratch.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
-
-struct Scratch {
-    u8 unk_00[1];
-};
 
 extern struct Scratch g_0214655C;
 

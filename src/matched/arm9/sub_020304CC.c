@@ -49,6 +49,8 @@
  *       --func sub_020304CC --addr 0x020304CC --cc 1.1p1 --arm
  */
 
+#include "../include/G_EnvModule.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,15 +61,6 @@ struct EnvEntry {
     u32 field08;
     u16 field0c;
     u8  field0e;
-};
-
-struct EnvModule {
-    struct EnvEntry *entries;
-    u8 *ids;
-    u16 count;
-    u16 field0a;
-    u16 field0c;
-    u16 error;
 };
 
 extern struct EnvModule g_EnvModule;

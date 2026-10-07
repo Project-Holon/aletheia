@@ -38,11 +38,13 @@
  *       --func func_020390BC --addr 0x020390BC --cc 1.1p1 --arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef int           s32;
 
-extern u8  *g_021469D0;
+extern struct LinkState *g_021469D0;
 
 extern u32 func_0203D6BC(void);
 extern u32 func_0203D680(void);
@@ -56,18 +58,18 @@ void func_020390BC(void)
     u8 *s;
 
     s = (u8 *)func_0203D6BC();
-    if (g_021469D0 == 0)
+    if (((u8 *)g_021469D0) == 0)
         return;
 
     n = func_0203D680();
 
     for (i = 0; i < n; i++) {
-        func_0203666C(g_021469D0 + 0x4C + (i << 4));
+        func_0203666C(((u8 *)g_021469D0) + 0x4C + (i << 4));
         for (j = 0; j < 4; j++) {
-            if (func_020365E8((char *)(g_021469D0 + 0x4C + (i << 4))) > 0)
-                func_02038DF0(g_021469D0 + 0x4C + (i << 4), i,
-                              *(u32 *)(g_021469D0 + 0x18),
-                              g_021469D0 + 0x11C + (i << 4), s);
+            if (func_020365E8((char *)(((u8 *)g_021469D0) + 0x4C + (i << 4))) > 0)
+                func_02038DF0(((u8 *)g_021469D0) + 0x4C + (i << 4), i,
+                              *(u32 *)(((u8 *)g_021469D0) + 0x18),
+                              ((u8 *)g_021469D0) + 0x11C + (i << 4), s);
         }
     }
 }

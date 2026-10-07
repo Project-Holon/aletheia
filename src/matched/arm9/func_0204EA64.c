@@ -33,11 +33,13 @@
  * and shared with the store of 0 to +8.
  */
 
+#include "../include/G_Double3Ddisp.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *g_02146A80;
+extern struct Double3Ddisp *g_02146A80;
 
 extern void func_0204EB68(void);
 extern void func_0204EAD4(void);
@@ -47,14 +49,14 @@ void func_0204EA64(void)
     if (*(volatile u16 *)0x04000606 != 0) {
         return;
     }
-    if (*(u32 *)(g_02146A80 + 8) == 0) {
+    if (*(u32 *)(((u8 *)g_02146A80) + 8) == 0) {
         return;
     }
-    if (*(u32 *)(g_02146A80 + 4) != 0) {
+    if (*(u32 *)(((u8 *)g_02146A80) + 4) != 0) {
         func_0204EB68();
     } else {
         func_0204EAD4();
     }
-    *(u32 *)(g_02146A80 + 8) = 0;
-    *(u32 *)(g_02146A80 + 4) = (*(u32 *)(g_02146A80 + 4) == 0) ? 1 : 0;
+    *(u32 *)(((u8 *)g_02146A80) + 8) = 0;
+    *(u32 *)(((u8 *)g_02146A80) + 4) = (*(u32 *)(((u8 *)g_02146A80) + 4) == 0) ? 1 : 0;
 }

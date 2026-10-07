@@ -16,10 +16,7 @@
  *   func_021B2958  0x021B2958  arm  ov013
  */
 
-struct Sess {
-    unsigned char pad[0x10];
-    int f10;
-};
+#include "../include/G_Sess.h"
 
 struct Chan {
     unsigned char pad[4];

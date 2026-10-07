@@ -28,6 +28,8 @@
  * callback takes the connection first.
  */
 
+#include "../include/G_FriendGlobal.h"
+
 typedef unsigned char u8;
 
 typedef struct GPUniqueMatch {
@@ -53,7 +55,7 @@ typedef struct MatchCnt {
     u8 reverseChanged;              /* +0x1D */
 } MatchCnt;
 
-extern unsigned char g_021AA860[];
+extern struct FriendGlobal g_021AA860;
 
 extern int func_02168D7C(void);
 extern void DWC_Free(int name, void *ptr, unsigned long size);
@@ -67,7 +69,7 @@ extern void func_02059240(void *frienddata, int setflag);
 extern int func_0205912C(FriendData *frienddata);
 extern void func_02059270(void *frienddata, int setflag);
 
-#define CNT (*(MatchCnt **)(g_021AA860 + 0xC))
+#define CNT (*(MatchCnt **)(((unsigned char *)&g_021AA860) + 0xC))
 #define PTR5C (*(void **)((u8 *)CNT + 0x5C))
 
 void func_0216A020(void *connection, GPGetReverseBuddiesListResponseArg *arg)

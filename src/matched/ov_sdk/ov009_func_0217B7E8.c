@@ -17,6 +17,8 @@
  *   g_021ACE5C      0x021ACE5C  data
  */
 
+#include "../include/G_G.h"
+
 typedef struct {
     char pad0[0x11dc];
     int mutex;
@@ -25,13 +27,13 @@ typedef struct {
     void *http;
     NC *nc;
 } G;
-extern G g_021ACE5C;
+extern struct G g_021ACE5C;
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 
 void func_0217B7E8(int error)
 {
-    OS_LockMutex((char *)g_021ACE5C.nc + 0x11dc);
-    *(int *)((char *)g_021ACE5C.nc + 0x1000) = error;
-    OS_UnlockMutex((char *)g_021ACE5C.nc + 0x11dc);
+    OS_LockMutex((char *)((NC *)g_021ACE5C.nc) + 0x11dc);
+    *(int *)((char *)((NC *)g_021ACE5C.nc) + 0x1000) = error;
+    OS_UnlockMutex((char *)((NC *)g_021ACE5C.nc) + 0x11dc);
 }

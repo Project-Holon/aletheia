@@ -23,6 +23,8 @@
  *   func_0215E980  0x0215E980  arm  ov009
  */
 
+#include "../include/G_SOCLResource.h"
+
 struct SOCLCommand {
 	unsigned char pad[8];
 	int field8;
@@ -35,11 +37,6 @@ struct SOCLSocket {
 	short state;
 	signed char flag_block;
 	signed char flag_mode;
-};
-
-struct SOCLResource {
-	int a;
-	int b;
 };
 
 extern struct SOCLResource g_021AA4AC;

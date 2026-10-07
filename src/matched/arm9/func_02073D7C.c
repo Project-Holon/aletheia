@@ -28,22 +28,15 @@
  *   func_02089638  0x02089638  arm
  */
 
+#include "../include/G_St.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-typedef struct St {
-    u32 f00;
-    u32 f04;
-    u8  pad08[0x1c];
-    u32 f24;
-    u8  pad28[0x14];
-    u8  f3c[0x10];
-    u32 f4c;
-    s32 f50;
-} St;
+typedef struct St St;
 
-extern St   g_0214E9FC;
+extern struct St g_0214E9FC;
 struct LerpObj;
 struct Obj;
 extern void func_02075C08(struct LerpObj *obj);

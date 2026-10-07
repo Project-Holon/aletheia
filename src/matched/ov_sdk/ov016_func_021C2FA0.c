@@ -28,17 +28,11 @@
  *   g_021DE5A8 0x021DE5A8 data
  */
 
+#include "../include/G_FocusPosT.h"
+
 typedef unsigned char u8;
 
-typedef struct {
-    u8 pos;
-    u8 flag;
-    char pad2[2];
-    void *file;
-    void *obj;
-} Focus;
-
-extern Focus g_021DE5A8;
+extern struct FocusPosT g_021DE5A8;
 
 extern int func_021D5580(int lcd);
 extern int func_021BCB58(void);
@@ -65,7 +59,7 @@ void func_021C2FA0(void)
     func_021D6F38(g_021DE5A8.obj);
     func_021BD5A8();
     func_021BD138();
-    func_021D4C68(g_021DE5A8.file);
+    func_021D4C68(g_021DE5A8.ptr);
     func_021D6090(1, 1);
     func_021D6090(0, 0x14);
     if (g_021DE5A8.flag == 0) {
@@ -73,7 +67,7 @@ void func_021C2FA0(void)
         func_021C0E40((unsigned int)func_021C1984);
         return;
     }
-    switch (g_021DE5A8.pos) {
+    switch (g_021DE5A8.idx) {
     case 0:
         func_021C0E50(0, (unsigned int)((void *)1));
         func_021C0E40((unsigned int)func_021C255C);

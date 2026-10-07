@@ -19,6 +19,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov016_func_021D298C.c \n *       --func DWCi_MOV_WH_MemInit --addr 0x021D298C --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_DWC_MOV_WH_BSS.h"
+
 /*
  * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
@@ -70,15 +73,15 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-extern DWC_MOV_WH_BSS dwc_mov_wh_bss;
+extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 
 typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
 
 void DWCi_MOV_WH_MemInit(void *mw)
 {
     dwc_mov_wh_bss.wh = (WHWork *)mw;
-    dwc_mov_wh_bss.wh->sysState = 0;
-    dwc_mov_wh_bss.wh->f_13A8 = 0;
-    dwc_mov_wh_bss.wh->parentWEPKeyGenerator = 0;
-    dwc_mov_wh_bss.wh->f_13B0 = 0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->sysState = 0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_13A8 = 0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->parentWEPKeyGenerator = 0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_13B0 = 0;
 }

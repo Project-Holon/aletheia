@@ -50,12 +50,14 @@
  * Note 2026-10-04 (wD1 lane06): Not retried (203 bytes, stack slot order only). No new finding.
  */
 
+#include "../include/G_Bg.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u8 d_021C367C[];
 extern u8 d_021C3D44[][17];
-extern u8 d_021C386C[];
+extern struct Bg d_021C386C;
 extern u8 d_021C3900[];
 extern u8 d_021C3994[];
 struct Big;
@@ -120,7 +122,7 @@ void func_021BFC60(char *p)
             char *r = q + j * 12;
             u32 x;
             *(u16 *)(r + 0x44) = s;
-            *(u8 *)(r + 0x46) = d_021C386C[s];
+            *(u8 *)(r + 0x46) = ((u8 *)&d_021C386C)[s];
             *(u8 *)(r + 0x47) = d_021C3900[s];
             *(u8 *)(r + 0x48) = d_021C3994[s];
             x = A[k][j];

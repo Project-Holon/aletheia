@@ -16,6 +16,8 @@
  *   g_021D3B20  0x021D3B20  data
  */
 
+#include "../include/G_Init.h"
+
 typedef struct {
     int f0;
     int f1;
@@ -33,7 +35,7 @@ typedef struct {
     int count;
     Entry *head;
 } Init;
-extern Init g_021D3B20;
+extern struct Init g_021D3B20;
 extern void *DWC_Alloc(int name, unsigned long size);
 
 Entry *func_021BFA08(Param *param)

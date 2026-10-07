@@ -14,10 +14,13 @@
  *   func_0217A014 0x0217A014 arm ov015
  *   func_0217A5A4 0x0217A5A4 arm ov015
  */
+
+#include "../include/G_s_aba0.h"
+#include "../include/G_State.h"
+
 typedef unsigned char u8;
-struct State { u8 pad0[14]; u8 f14; u8 pad1[13]; u8 f28, f29; };
 extern struct State d_0217AB80;
-extern u8 d_0217ABA0[];
+extern struct s_aba0 d_0217ABA0;
 extern unsigned int func_0217A014(void);
 extern unsigned int func_0217A5A4(void);
-void func_02179CE4(void) { d_0217AB80.f28 = func_0217A014(); d_0217ABA0[7] = func_0217A5A4(); d_0217AB80.f29 = 1; d_0217ABA0[2] = 0; d_0217ABA0[3] = 14; if (d_0217AB80.f28 != 1) d_0217AB80.f14 = 1; }
+void func_02179CE4(void) { d_0217AB80.f28 = func_0217A014(); ((u8 *)&d_0217ABA0)[7] = func_0217A5A4(); d_0217AB80.f29 = 1; ((u8 *)&d_0217ABA0)[2] = 0; ((u8 *)&d_0217ABA0)[3] = 14; if (d_0217AB80.f28 != 1) d_0217AB80.f14 = 1; }

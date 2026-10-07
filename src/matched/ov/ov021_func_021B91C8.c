@@ -14,6 +14,8 @@
  *   func_021B8820  0x021B8820  thumb  ov021
  */
 
+#include "../include/G_Elem.h"
+
 typedef unsigned short u16;
 
 typedef struct {
@@ -30,7 +32,7 @@ typedef struct {
     void *f24;
 } Obj;
 
-extern int d_021D9A0C;
+extern struct Elem d_021D9A0C;
 
 extern void *func_021B8820(void *a, void *b);
 
@@ -42,5 +44,5 @@ void *func_021B91C8(Obj *p)
     case 1:
         return func_021B8820(p->f24, p->f4->f10);
     }
-    return &d_021D9A0C;
+    return &(*(int *)&d_021D9A0C);
 }

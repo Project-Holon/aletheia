@@ -48,6 +48,8 @@
  *   taskMove                         0x021d15f0 arm  ov016
  */
 
+#include "../include/G_MemWinT.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -87,7 +89,7 @@ extern void taskMove(void *task);
 
 extern u8 g_021DAA58[6];
 extern void *g_021DE598;
-extern MemWinT *g_021DE658;
+extern struct MemWinT *g_021DE658;
 extern const u8 g_021DA9A0[6];
 extern const u8 g_021DA9A6[6];
 extern const u8 g_021DA9C8[][2];
@@ -110,7 +112,7 @@ void func_021D1208(int msg, int type, bool dark, int n, int num)
     EFF[5] = g_021DAA58[5];
 
     ms = DWCi_MSGlGetEx(g_021DE598, msg, n, num);
-    g_021DE658 = (MemWinT *)DWCi_HEAPlAllocEx(0x20, 4);
+    g_021DE658 = (struct MemWinT *)((MemWinT *)DWCi_HEAPlAllocEx(0x20, 4));
     g_021DE658->type = type;
     g_021DE658->input = -2;
     g_021DE658->dark = dark;

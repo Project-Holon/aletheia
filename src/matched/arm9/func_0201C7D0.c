@@ -31,14 +31,13 @@
  * image does, and the stacked u16 read keeps the 1.1p1 base.  This retires
  * the ../2.0/sp2 near miss (2 out) the notes carried.
  */
+
+#include "../include/G_Scratch.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
-
-struct Scratch {
-    u8 unk_00[1];
-};
 
 extern struct Scratch g_0214655C;
 

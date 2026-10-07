@@ -16,12 +16,14 @@
  * func_0204EA64 and func_0204EAD4 write.
  */
 
+#include "../include/G_Double3Ddisp.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u8 *g_02146A80;
+extern struct Double3Ddisp *g_02146A80;
 
 u32 func_0204EA38(void)
 {
-    return *(u32 *)(g_02146A80 + 4);
+    return *(u32 *)(((u8 *)g_02146A80) + 4);
 }

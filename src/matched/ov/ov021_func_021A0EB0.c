@@ -14,18 +14,14 @@
  * Addresses are Black-image addresses.
  */
 
+#include "../include/G_021D8738.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-typedef struct {
-    int (*init)(void *, u32);
-    void (*fn)(void *);
-    u8 rest[0x14];
-} Entry;
-
-extern Entry d_021D8738[];
+extern struct G_021D8738 d_021D8738[];
 
 int func_021A0EB0(u32 *p, u32 a)
 {

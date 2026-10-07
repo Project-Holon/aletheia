@@ -41,6 +41,8 @@
  *   CARDi_ReadRomSyncCore           0x02077168  arm
  */
 
+#include "../include/G_CARDiRomCacheState.h"
+
 typedef unsigned char u8;
 typedef unsigned long u32;
 typedef int BOOL;
@@ -94,7 +96,7 @@ typedef struct {
 extern CARDiCommon cardi_common;
 extern CARDiRomState cardi_rom_base;
 extern CARDTransferInfo CARDiDmaReadInfo[1];
-extern BOOL CARDiEnableCacheInvalidationDC;
+extern struct CARDiRomCacheState CARDiEnableCacheInvalidationDC;
 
 extern void CARD_CheckEnabled(void);
 extern int CARDi_GetAccessLevel(void);
@@ -148,7 +150,7 @@ void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, MIDmaCallback c
             if (cardi_rom_base.enableCacheInvalidationIC) {
                 CARDi_ICInvalidateSmart((void *)c->dst, c->len, c->flush_threshold_ic);
             }
-            if (CARDiEnableCacheInvalidationDC) {
+            if ((*(BOOL *)&CARDiEnableCacheInvalidationDC)) {
                 CARDi_DCInvalidateSmart((void *)c->dst, c->len, c->flush_threshold_dc);
             }
             (void)OS_RestoreInterrupts(bak_psr);

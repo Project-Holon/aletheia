@@ -49,6 +49,8 @@
  *   d_021F4CA0    0x021F4CA0 data a4
  */
 
+#include "../include/G_Vec.h"
+
 typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -119,7 +121,7 @@ extern void func_021F4A18(void *a0, struct Rec *a1);
 extern u32 d_021F4C38[];
 extern s8 d_021F4C28[][2];
 extern Vec d_021F4D54;
-extern Vec d_021F4CA0[];
+extern struct Vec d_021F4CA0[];
 
 void func_021F3A34(int a0, void *a1)
 {

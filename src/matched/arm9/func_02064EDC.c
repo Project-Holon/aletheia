@@ -36,6 +36,10 @@
  * currenVramTransferHandle_, mtxI_ }.  EXACT under ../2.0/sp2, sp2p2 and
  * 1.1p1 alike; the compiler line keeps the family's 2.0 row.
  */
+
+#include "../include/G_Aff.h"
+#include "../include/G_SlotRec.h"
+
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
@@ -74,8 +78,8 @@ struct RendererData {
 
 extern struct RendererBss g_02147B88;
 extern struct RendererData g_020A81F8;
-extern NNSG2dRndCore2DMtxCache g_02148318[32];
-extern MCMMtxState g_02147C18[32];
+extern struct Aff g_02148318[32];
+extern struct SlotRec g_02147C18[32];
 extern void func_02082AC0(u32 data, void *dest, u32 size);
 
 static inline void MI_CpuFillFast(void *dest, u32 data, u32 size)
@@ -114,7 +118,7 @@ static inline void NNSi_G2dGetMtxRS(const MtxFx32 *m, MtxFx22 *pRet)
 
 static inline NNSG2dRndCore2DMtxCache *NNSi_RMCGetMtxCacheByIdx(u16 idx)
 {
-    return &g_02148318[idx];
+    return &((NNSG2dRndCore2DMtxCache *)g_02148318)[idx];
 }
 
 static inline u16 NNSi_RMCUseNewMtxCache(void)
@@ -145,7 +149,7 @@ static inline u16 GetMtxStateGroupID_(const MCMMtxState *pMtxState)
 
 static inline MCMMtxState *GetCuurentMtxState_(void)
 {
-    return &g_02147C18[NNSi_G2dGetMtxStackPos()];
+    return &((MCMMtxState *)g_02147C18)[NNSi_G2dGetMtxStackPos()];
 }
 
 static inline void SetParentMtxStateLoaded_(u16 mtxCacheIdx, u16 groupID)
@@ -154,11 +158,11 @@ static inline void SetParentMtxStateLoaded_(u16 mtxCacheIdx, u16 groupID)
     const u16 currntStackPos = NNSi_G2dGetMtxStackPos();
 
     for (i = currntStackPos; i >= 0; i--) {
-        if (GetMtxStateGroupID_(&g_02147C18[i]) != groupID) {
+        if (GetMtxStateGroupID_(&((MCMMtxState *)g_02147C18)[i]) != groupID) {
             break;
         } else {
-            g_02147C18[i].stateType = 3;
-            SetMtxStateMtxCacheIdx_(&g_02147C18[i], mtxCacheIdx);
+            g_02147C18[i].state = 3;
+            SetMtxStateMtxCacheIdx_(&((MCMMtxState *)g_02147C18)[i], mtxCacheIdx);
         }
     }
 }

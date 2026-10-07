@@ -27,13 +27,14 @@
  */
 
 #include "../arm9_sdk/libc/string.h"
+#include "../include/G__ATERMApConfigParam.h"
 typedef struct {
     int type;
     int defkey;
 } EncCommon;
 
 extern int func_021BA5C8(unsigned char *byDest, char *szStr, int nLen);
-extern char g_021DD13C[];
+extern struct _ATERMApConfigParam g_021DD13C;
 extern struct {
     int pad[3];
     int auth_mode;
@@ -56,7 +57,7 @@ int func_021BA67C(void)
     int ret;
 
     ret = 1;
-    strcpy(g_021DD13C, g_021DD324);
+    strcpy(((char *)&g_021DD13C), g_021DD324);
     switch (g_021DD350.type) {
     case 0:
         g_021DD150.auth_mode = 0;

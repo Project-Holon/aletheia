@@ -33,6 +33,8 @@
  *   d_0217ABA8     0x0217ABA8  data   ov015
  */
 
+#include "../include/G_ov015_0217ABA8.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
@@ -40,20 +42,7 @@ typedef unsigned long long u64;
 extern u8 g_0217ABD8[];
 extern u8 g_0217ABDC[];
 extern u8 g_0217AAB0[];
-typedef struct {
-    int f0;
-    int f4;
-    void (*onData)(u8 *, u8, u8, u8);
-    int fC;
-    void (*onDone)(u8, int);
-    int f14;
-    int f18;
-    int f1C;
-    int f20;
-    int f24;
-    u64 tick;
-} St;
-extern St d_0217ABA8;
+extern struct G_ov015_0217ABA8 d_0217ABA8;
 
 extern int func_0217A7AC(u8 *buf);
 extern int func_0217A178(u32 n);

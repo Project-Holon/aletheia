@@ -30,6 +30,9 @@
  *   g_02147D18  0x02147D18  data  a4
  *   g_020A81F8  0x020A81F8  data  a4
  */
+
+#include "../include/G_Mtx.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef int fx32;
@@ -61,7 +64,7 @@ struct Scr {
 };
 
 extern struct Bank g_02147B88;
-extern Mtx         g_02147D18[];
+extern struct Mtx g_02147D18[];
 extern struct Scr  g_020A81F8;
 
 static inline Mtx *GetMtx(void)
@@ -71,7 +74,7 @@ static inline Mtx *GetMtx(void)
         g_020A81F8.mtx.ty = g_02147D18[g_02147B88.f0c].ty;
         return &g_020A81F8.mtx;
     }
-    return &g_02147D18[g_02147B88.f0c];
+    return &((Mtx *)g_02147D18)[g_02147B88.f0c];
 }
 
 void func_020653A4(void *a0, void *a1, void *a2)

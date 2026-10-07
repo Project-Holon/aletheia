@@ -50,13 +50,17 @@
  *   d_021B824C 0x021B824C data a4
  *   d_021B8264 0x021B8264 data a4
  */
+
+#include "../include/G_021B81EC.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { u32 w[8]; } Setup;
 struct Actor; struct Bank; struct Player;
 extern const Setup d_021B82B4;
-extern const char d_021B8204[],d_021B81EC[],d_021B824C[],d_021B8264[];
+extern struct G_021B81EC d_021B81EC;
+extern const char d_021B8204[], d_021B824C[], d_021B8264[];
 extern void func_021B7C78(char *);
 struct Obj;
 struct Sub0200852CObj;
@@ -87,7 +91,7 @@ void func_021B7D80(char *p) {
     func_0204B0F4(*(struct Actor **)(p+0x9118),1);
     func_0204B258(*(struct Bank **)(p+0x9044),*(void **)(p+0x9118));
     *(u32 *)(p+0x9064)=(u32)func_021B75A4(p,d_021B8204);
-    *(u32 *)(p+0x9068)=(u32)func_021B75A4(p,d_021B81EC);
+    *(u32 *)(p+0x9068)=(u32)func_021B75A4(p,((char *)&d_021B81EC));
     func_021B746C((int *)p,7,0); func_021B746C((int *)p,8,0);
     h=func_020490F4(216,0x808d);
     *(int *)(p+0x90e0)=func_0204A6C8(h,25,0,1,141);

@@ -20,12 +20,13 @@
  *   func_02039A2C  0x02039A2C  arm
  */
 #include "../include/Obj02672.h"
+#include "../include/G_S.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern u8 *g_021797A8;
+extern struct S *g_021797A8;
 void func_0217814C(int err);
 void func_02178138(int a);
 void func_0217807C(void);
@@ -52,11 +53,11 @@ void func_02178204(u8 *obj)
     }
     switch (((struct Obj02672 *)obj)->f8) {
     case 2:
-        *(u16 *)(g_021797A8 + 0x1EBA) += 1;
+        *(u16 *)(((u8 *)g_021797A8) + 0x1EBA) += 1;
         break;
     case 7:
-        if (*(ConnFn *)(g_021797A8 + 0x1E7C) != 0)
-            ok = (*(ConnFn *)(g_021797A8 + 0x1E7C))(obj, func_0203D650());
+        if (*(ConnFn *)(((u8 *)g_021797A8) + 0x1E7C) != 0)
+            ok = (*(ConnFn *)(((u8 *)g_021797A8) + 0x1E7C))(obj, func_0203D650());
         if (ok == 0) {
             res = func_0208F938(0, ((struct Obj02672 *)obj)->f10);
             if (res != 2) {
@@ -64,17 +65,17 @@ void func_02178204(u8 *obj)
                 func_02178138(9);
             }
         } else {
-            *(u16 *)(g_021797A8 + 0x1EAA) |= mask;
-            cb = *(SlotFn *)(g_021797A8 + 0x1E84);
+            *(u16 *)(((u8 *)g_021797A8) + 0x1EAA) |= mask;
+            cb = *(SlotFn *)(((u8 *)g_021797A8) + 0x1E84);
             if (cb != 0)
                 cb(((struct Obj02672 *)obj)->f10);
         }
         break;
     case 9:
     case 0x1A:
-        if (*(u16 *)(g_021797A8 + 0x1EAA) & (1 << ((struct Obj02672 *)obj)->f10)) {
-            *(u16 *)(g_021797A8 + 0x1EAA) &= ~mask;
-            cb = *(SlotFn *)(g_021797A8 + 0x1E80);
+        if (*(u16 *)(((u8 *)g_021797A8) + 0x1EAA) & (1 << ((struct Obj02672 *)obj)->f10)) {
+            *(u16 *)(((u8 *)g_021797A8) + 0x1EAA) &= ~mask;
+            cb = *(SlotFn *)(((u8 *)g_021797A8) + 0x1E80);
             if (cb != 0)
                 cb(((struct Obj02672 *)obj)->f10);
             func_0217807C();

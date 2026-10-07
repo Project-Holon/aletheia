@@ -40,6 +40,9 @@
  *   python tools/match.py one --src src/matched/func_02073F3C.c \
  *       --func func_02073F3C --addr 0x02073F3C --cc ../2.0/sp2 --arm
  */
+
+#include "../include/G_St.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
@@ -58,14 +61,14 @@ struct G {
     s32 f2c;
 };
 
-extern struct G g_0214E9FC;
+extern struct St g_0214E9FC;
 extern void func_02082A7C(u32 a, u32 b, u32 c);
 extern void func_020862F0(u32 a, u32 b);
 extern void func_020894B4(u32 a, u32 b, u32 c, u32 d);
 
 void func_02073F3C(void)
 {
-    struct G *g = &g_0214E9FC;
+    struct G *g = ((struct G *)&g_0214E9FC);
     u32 m;
 
     if (g->f00 == 0) return;

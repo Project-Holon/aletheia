@@ -44,24 +44,19 @@
  *       --func func_0202F9F8 --addr 0x0202F9F8 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_02146948.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
-struct State {
-    u16 f00;
-    u8  f02;
-    u8  f03;
-    u32 f04;
-};
 
 extern u8 ov088_id[];
 extern u8 ov179_id[];
 extern u8 d_021BD8E8[];
 extern u8 d_021B68D8[];
 extern u8 d_021BD574[];
-extern struct State g_02146948;
-extern u8 g_02146948_arg[];
+extern struct G_02146948 g_02146948;
+extern struct G_02146948 g_02146948_arg;
 
 extern void func_020312CC(u32 ovl, u32 proc, u32 arg);
 
@@ -77,14 +72,14 @@ int func_0202F9F8(void *unused, u32 *state)
         g_02146948.f00 = 0;
         g_02146948.f02 = 1;
         g_02146948.f03 = 0;
-        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)g_02146948_arg);
+        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
         *state = 2;
         break;
     case 2:
         if (g_02146948.f03 == 0) {
             g_02146948.f00 = 1;
             g_02146948.f03 = 0;
-            func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)g_02146948_arg);
+            func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
             *state = 3;
             break;
         }
@@ -93,7 +88,7 @@ int func_0202F9F8(void *unused, u32 *state)
     case 3:
         g_02146948.f00 = 2;
         g_02146948.f03 = 0;
-        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)g_02146948_arg);
+        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
         *state = 4;
         break;
     case 4:

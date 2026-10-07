@@ -17,16 +17,11 @@
  *   g_021F7008     0x021F7008  data
  */
 
+#include "../include/G_piece.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
-
-struct piece {
-    int f0;
-    u8 *buf;
-    int size;
-    int max;
-};
 
 extern struct piece g_021F7008;
 
@@ -49,10 +44,10 @@ u8 *func_021F6A24(ChildBlockHeader *hdr, u16 child)
     if (piece > g_021F7008.max)
         return 0;
     func_02082D44((u8 *)hdr + 3,
-                  g_021F7008.buf + (child - 1) * 32 + piece * g_021F7008.size,
+                  ((u8 *)g_021F7008.buf) + (child - 1) * 32 + piece * g_021F7008.size,
                   g_021F7008.size);
-    *(u32 *)(g_021F7008.buf + 0x1E0 + (child - 1) * 4) |= 1 << piece;
+    *(u32 *)(((u8 *)g_021F7008.buf) + 0x1E0 + (child - 1) * 4) |= 1 << piece;
     if (func_021F6AA4(child))
-        return g_021F7008.buf + (child - 1) * 32;
+        return ((u8 *)g_021F7008.buf) + (child - 1) * 32;
     return 0;
 }

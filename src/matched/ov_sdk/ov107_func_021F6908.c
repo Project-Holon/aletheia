@@ -18,15 +18,10 @@
  *   g_021F7008     0x021F7008  data
  */
 
+#include "../include/G_piece.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
-
-struct piece {
-    int f0;
-    u8 *buf;
-    int size;
-    int max;
-};
 
 struct hdr {
     u8 type;
@@ -52,7 +47,7 @@ u8 *func_021F6908(u8 *recvbuf, struct hdr *hdr, u16 child_id)
     switch (type) {
     case 7:
         if (func_021F6AA4(child_id))
-            return g_021F7008.buf + (child_id - 1) * 32;
+            return ((u8 *)g_021F7008.buf) + (child_id - 1) * 32;
         idx = recvbuf[1];
         *((u8 *)hdr + 2) = idx;
         if (idx > g_021F7008.max)

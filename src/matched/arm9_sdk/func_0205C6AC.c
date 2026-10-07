@@ -20,6 +20,8 @@
  * the second argument slot (r2) is an unused parameter.
  */
 
+#include "../include/G_INETBSS.h"
+
 typedef struct {
     int ac_state;
     unsigned short state;
@@ -38,7 +40,7 @@ typedef struct {
     DWCstInetControl *stpInetCntl;
 } INETBSS;
 
-extern INETBSS g_02146AD4;
+extern struct INETBSS g_02146AD4;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void CPS_SetSslHandshakePriority(unsigned short priority);

@@ -42,6 +42,9 @@
  * 0/1/2/3 live in callee-saved registers across the whole switch, which is
  * dsi/1.1p1's own habit (../2.0/sp2 is 957 bytes out).
  */
+
+#include "../include/G_SaveMain.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -62,7 +65,6 @@ struct Save {
     u32  f14c;
     u32  f150;
 };
-struct SaveMain { u8 pad000[0x208]; u32 unk208; u16 unk20C; };
 
 extern struct SaveMain *g_02146994;
 extern const char str_020A7848[];

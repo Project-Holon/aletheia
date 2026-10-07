@@ -53,6 +53,8 @@
  *       --func sub_0202FDC4 --addr 0x0202FDC4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_EnvModule.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -63,13 +65,6 @@ struct EnvEntry {
     u32   field04;
     u32   field08;
     u16   field0c;
-};
-
-struct EnvModule {
-    struct EnvEntry *entries;
-    u8              *ids;
-    u8               pad_08[6];
-    u16              error;
 };
 
 extern struct EnvModule g_EnvModule;
@@ -92,7 +87,7 @@ int sub_0202FDC4(u32 src, u32 dst, u32 param)
     }
     dst = dst & 0x7fff;
 
-    if (g_EnvModule.ids[dst] != 0xff) {
+    if (((u8 *)g_EnvModule.ids)[dst] != 0xff) {
         g_EnvModule.error = 1;
         goto fail;
     }

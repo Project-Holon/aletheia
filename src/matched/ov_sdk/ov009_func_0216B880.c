@@ -20,7 +20,9 @@
  *   func_0217637C  0x0217637C  arm  ov009
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 extern unsigned char g_021AA880[];
 extern int func_0216C82C(void);
 extern void MI_CpuFill8(void *p, int v, int n);
@@ -31,7 +33,7 @@ int func_0216B880(unsigned char **out)
 {
     int i;
 
-    if (*(int *)(g_021AA878 + 4) == 0 || func_0216C82C() == 0) {
+    if (*(int *)(((char *)&g_021AA878) + 4) == 0 || func_0216C82C() == 0) {
         return 0;
     }
     MI_CpuFill8(g_021AA880, 0, 0x20);

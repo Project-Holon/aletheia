@@ -33,6 +33,9 @@
  *   fsi_str_root  0x020A84B4  data
  */
 
+#include "../include/G_FSiRomState.h"
+#include "../include/G_fsi_arc_rom.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -60,14 +63,10 @@ typedef struct CARDRomHeader
     CARDRomRegion fat;
 } CARDRomHeader;
 
-typedef struct FSiRomState
-{
-    u32 default_dma_no;
-    s32 card_lock_id;
-} FSiRomState;
+typedef struct FSiRomState FSiRomState;
 
-extern FSiRomState fsi_default_dma_no;
-extern FSArchive fsi_arc_rom;
+extern struct FSiRomState fsi_default_dma_no;
+extern struct G_fsi_arc_rom fsi_arc_rom;
 extern const char fsi_str_rom[];
 extern const char fsi_str_root[];
 
@@ -109,29 +108,29 @@ void func_0207AB10(u32 default_dma_no)
     CARD_Init();
     fsi_default_dma_no.default_dma_no = default_dma_no;
     fsi_default_dma_no.card_lock_id = OS_GetLockID();
-    FS_InitArchive(&fsi_arc_rom);
-    (void)FS_RegisterArchiveName(&fsi_arc_rom, fsi_str_rom, 3);
+    FS_InitArchive(((FSArchive *)&fsi_arc_rom));
+    (void)FS_RegisterArchiveName(((FSArchive *)&fsi_arc_rom), fsi_str_rom, 3);
     if (OS_GetBootType() == 1)
     {
         const CARDRomRegion *const fnt = CARD_GetRomRegionFNT();
         const CARDRomRegion *const fat = CARD_GetRomRegionFAT();
 
-        FS_SetArchiveProc(&fsi_arc_rom, FSi_RomArchiveProc, 0x682);
+        FS_SetArchiveProc(((FSArchive *)&fsi_arc_rom), FSi_RomArchiveProc, 0x682);
         if ((fnt->offset != 0xFFFFFFFF) && (fnt->offset != 0) &&
             (fat->offset != 0xFFFFFFFF) && (fat->offset != 0))
         {
-            (void)FS_LoadArchive(&fsi_arc_rom, 0, fat->offset, fat->length, fnt->offset, fnt->length,
+            (void)FS_LoadArchive(((FSArchive *)&fsi_arc_rom), 0, fat->offset, fat->length, fnt->offset, fnt->length,
                                  FSi_ReadRomCallback, 0);
         }
     }
     else
     {
-        (void)FSi_OverrideRomArchive(&fsi_arc_rom);
+        (void)FSi_OverrideRomArchive(((FSArchive *)&fsi_arc_rom));
     }
-    if (!FS_IsArchiveLoaded(&fsi_arc_rom))
+    if (!FS_IsArchiveLoaded(((FSArchive *)&fsi_arc_rom)))
     {
-        FS_SetArchiveProc(&fsi_arc_rom, FSi_EmptyArchiveProc, 0xFFFFFFFF);
-        (void)FS_LoadArchive(&fsi_arc_rom, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
+        FS_SetArchiveProc(((FSArchive *)&fsi_arc_rom), FSi_EmptyArchiveProc, 0xFFFFFFFF);
+        (void)FS_LoadArchive(((FSArchive *)&fsi_arc_rom), 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
     }
     (void)FS_SetCurrentDirectory(fsi_str_root);
 }

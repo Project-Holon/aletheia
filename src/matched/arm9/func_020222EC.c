@@ -41,6 +41,9 @@
  *   python tools/match.py one --src src/matched/func_020222EC.c \
  *       --func func_020222EC --addr 0x020222EC --cc 1.1p1 --thumb
  */
+
+#include "../include/G_021467A4.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -67,7 +70,7 @@ struct G {
     u16         f150;
 };
 
-extern struct G g_021467A4;
+extern struct G_021467A4 g_021467A4;
 
 struct Obj;
 struct Screen;

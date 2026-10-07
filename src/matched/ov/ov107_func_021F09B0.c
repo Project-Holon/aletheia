@@ -15,6 +15,9 @@
  *   d_021F6EAC 0x021F6EAC data a4
  *   func_021F0D1C 0x021F0D1C thumb ov107
  */
+
+#include "../include/G_Masks.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,7 +27,7 @@ extern u32 func_02087988(void);
 extern u32 func_0208799C(u32);
 extern void func_021F0D1C(u16);
 typedef struct {u8 pad[10];u16 f0A,f0C,f0E,f10,f12,f14;} Masks;
-extern Masks d_021F6EAC;
+extern struct Masks d_021F6EAC;
 void func_021F09B0(u16 aid){u16 mask;u32 state;u16 bit;
 if(!func_021F1C30(aid,2)){mask=~(1<<aid);state=func_02087988();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;func_0208799C(state);func_021F5FB0(aid);}
 else {state=func_02087988();mask=~(1<<aid);bit=1<<aid;d_021F6EAC.f0E&=mask;d_021F6EAC.f10|=bit;func_0208799C(state);}}

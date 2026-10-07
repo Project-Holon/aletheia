@@ -24,10 +24,12 @@
  *       --func func_0203BD30 --addr 0x0203BD30 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 extern void *func_0203D788(void);
 typedef unsigned short u16;
@@ -41,19 +43,19 @@ void func_0203BD30(u32 a0, u32 a1, u8 *a2)
 {
     func_0203D788();
 
-    g_021469DC[0x53] = (u8)a1;
-    g_021469DC[0x56] = (u8)a0;
+    ((u8 *)g_021469DC)[0x53] = (u8)a1;
+    ((u8 *)g_021469DC)[0x56] = (u8)a0;
 
     if (a2 != 0)
-        MI_CpuCopy8(a2, g_021469DC + 0x57, 6);
+        MI_CpuCopy8(a2, ((u8 *)g_021469DC) + 0x57, 6);
     else
-        MI_CpuFill8(g_021469DC + 0x57, 0xFF, 6);
+        MI_CpuFill8(((u8 *)g_021469DC) + 0x57, 0xFF, 6);
 
-    if (g_021469DC[0x56] == 2)
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B48C, 0, 0x430);
+    if (((u8 *)g_021469DC)[0x56] == 2)
+        func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203B48C, 0, 0x430);
 
-    if (g_021469DC[0x56] == 1) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BCE0, 0, 0x438);
-        func_0203BCE0(g_021469DC);
+    if (((u8 *)g_021469DC)[0x56] == 1) {
+        func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203BCE0, 0, 0x438);
+        func_0203BCE0(((u8 *)g_021469DC));
     }
 }

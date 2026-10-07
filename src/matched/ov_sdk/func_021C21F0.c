@@ -24,6 +24,8 @@
  *   func_021C231C  0x021C231C  arm
  */
 
+#include "../include/G_SCENEOPTERASE_BSS.h"
+
 typedef unsigned char u8;
 
 extern int  func_021D5580(int x);
@@ -33,7 +35,7 @@ extern void func_021BD138(void);
 extern void func_021D6090(int a, int b);
 extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E40(unsigned int v);
-extern u8   g_021DE5A4[];
+extern struct SCENEOPTERASE_BSS g_021DE5A4;
 extern void func_021C2A3C(void);
 extern void func_021C231C(void);
 
@@ -41,19 +43,19 @@ void func_021C21F0(void)
 {
     if (func_021D5580(0) != 0)
         return;
-    if (g_021DE5A4[0] == 0) {
+    if (((u8 *)&g_021DE5A4)[0] == 0) {
         if (func_021D5580(1) != 0)
             return;
     }
     if (func_021BCB58() == 0)
         return;
     func_021D5CA8(0);
-    if (g_021DE5A4[0] == 0) {
+    if (((u8 *)&g_021DE5A4)[0] == 0) {
         func_021BD138();
         func_021D6090(1, 1);
     }
     func_021D6090(0, 0x15);
-    if (g_021DE5A4[0] == 0) {
+    if (((u8 *)&g_021DE5A4)[0] == 0) {
         func_021C0E50(0, 1);
         func_021C0E40((unsigned int)func_021C2A3C);
     } else {

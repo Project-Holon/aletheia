@@ -25,6 +25,8 @@
  *       --func func_0203B868 --addr 0x0203B868 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -33,7 +35,7 @@ struct B868 {
     void (*unk_2C)(u32);
 };
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 extern void *func_0203D798(void);
 extern u8  *func_0203D788(void);
@@ -54,7 +56,7 @@ void func_0203B868(struct B868 *p)
         return;
 
     if (func_0203DA4C() == 1) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B7F8, 0, 0x354);
+        func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203B7F8, 0, 0x354);
         return;
     }
 
@@ -63,5 +65,5 @@ void func_0203B868(struct B868 *p)
         p->unk_2C = 0;
     }
 
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x35B);
+    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203C00C, 0, 0x35B);
 }

@@ -28,6 +28,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B785C.c \
  *       --func GetSecurityData --addr 0x021B785C --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_BSS.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -65,7 +68,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct SEND_INFO SEND_INFO;
 
@@ -190,6 +193,6 @@ int GetSecurityData(int Mode, unsigned char *pData, int Length, ASTS_DATA_INFO *
         Len -= wLen;
         pData += wLen;
     } while (Len > 0);
-    aoss_bss.gData.aLevel |= Level;
+    aoss_bss.gData_aLevel |= Level;
     return 0;
 }

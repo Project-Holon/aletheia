@@ -32,6 +32,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C87A4.c \
  *       --func input --addr 0x021C87A4 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -95,7 +98,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -129,7 +132,7 @@ extern void moveFocus(int dir);
 
 void input(void)
 {
-    if (scenesetlist_bss.MemSsl->task != 0 || scenesetlist_bss.MemSsl->scroll != 0)
+    if (((MEMSSL *)scenesetlist_bss.MemSsl)->task != 0 || ((MEMSSL *)scenesetlist_bss.MemSsl)->scroll != 0)
         return;
     if (inputWinButton())
         return;
@@ -137,40 +140,40 @@ void input(void)
         pushWinButton(scenesetlist_bss.Focus);
     } else if (DWCi_IPTlCheckTrigger(2)) {
         DWCi_SNDlPlay(7);
-        scenesetlist_bss.MemSsl->choose = 13;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->choose = 13;
         DWCi_ChangeScene(endScene);
     } else if (DWCi_IPTlCheckRepeat(0x200)) {
         if (scenesetlist_bss.Pos == 145) {
-            if (!scenesetlist_bss.MemSsl->sound[1]) {
+            if (!((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1]) {
                 DWCi_SNDlPlay(9);
-                scenesetlist_bss.MemSsl->sound[1] = 1;
+                ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1] = 1;
             }
         } else {
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+            ((MEMSSL *)scenesetlist_bss.MemSsl)->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
         }
     } else if (DWCi_IPTlCheckRelease(0x200)) {
-        scenesetlist_bss.MemSsl->sound[1] = 0;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1] = 0;
     } else if (DWCi_IPTlCheckRepeat(0x100)) {
         if (scenesetlist_bss.Pos == 0) {
-            if (!scenesetlist_bss.MemSsl->sound[1]) {
+            if (!((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1]) {
                 DWCi_SNDlPlay(9);
-                scenesetlist_bss.MemSsl->sound[1] = 1;
+                ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1] = 1;
             }
         } else {
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            ((MEMSSL *)scenesetlist_bss.MemSsl)->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
         }
     } else if (DWCi_IPTlCheckRelease(0x100)) {
-        scenesetlist_bss.MemSsl->sound[1] = 0;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1] = 0;
     } else if (DWCi_IPTlCheckRepeat(0x40)) {
         moveFocus(1);
     } else if (DWCi_IPTlCheckRelease(0x40)) {
-        scenesetlist_bss.MemSsl->sound[1] = 0;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1] = 0;
     } else if (DWCi_IPTlCheckRepeat(0x80)) {
         moveFocus(3);
     } else if (DWCi_IPTlCheckRelease(0x80)) {
-        scenesetlist_bss.MemSsl->sound[1] = 0;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1] = 0;
     } else if (DWCi_IPTlCheckRepeat(0x20)) {
         moveFocus(0);
     } else if (DWCi_IPTlCheckRepeat(0x10)) {

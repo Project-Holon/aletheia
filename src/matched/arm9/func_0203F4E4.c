@@ -21,14 +21,9 @@
  *       --func func_0203F4E4 --addr 0x0203F4E4 --cc 1.1p1 --arm
  */
 
-typedef unsigned int u32;
+#include "../include/G_RtcDate.h"
 
-struct RtcDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
+typedef unsigned int u32;
 
 extern struct RtcDate g_02146A0C;
 

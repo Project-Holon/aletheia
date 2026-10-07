@@ -13,11 +13,9 @@
  *   g_021469F0      0x021469F0  data
  */
 
-typedef struct G_021469F0 {
-    unsigned char pad[0x7c];
-    void *(*fn)(void *);
-} G_021469F0;
-extern G_021469F0 *g_021469F0;
+#include "../include/G_Ctx.h"
+
+extern struct Ctx *g_021469F0;
 void *func_0203E458(void *arg)
 {
     void *r;

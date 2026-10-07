@@ -39,6 +39,8 @@
  *       --func func_02006CBC --addr 0x02006CBC --cc 1.1p1 --thumb
  */
 
+#include "../include/G_Sub02006D44Obj.h"
+
 typedef unsigned int u32;
 
 struct Sub02006CBCObj {
@@ -56,7 +58,7 @@ struct Sub02006CBCObj {
 
 extern char g_020A703C[];
 extern char g_020A7030[];
-extern void *g_02146164;
+extern struct Sub02006D44Obj *g_02146164;
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -84,5 +86,5 @@ void func_02006CBC(u16 heap)
     if (func_02085D3C() == 1) {
         func_02006D3C(0, g_020A7030);
     }
-    g_02146164 = p;
+    g_02146164 = (struct Sub02006D44Obj *)(p);
 }

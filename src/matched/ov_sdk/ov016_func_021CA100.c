@@ -29,6 +29,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021CA100.c \
  *       --func moveFocus --addr 0x021CA100 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -92,7 +95,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -151,15 +154,15 @@ void moveFocus(int dir)
             break;
         }
         if (dir == 3)
-            scenesetlist_bss.Focus = scenesetlist_bss.MemSsl->focusLast;
+            scenesetlist_bss.Focus = ((MEMSSL *)scenesetlist_bss.MemSsl)->focusLast;
         else
             move = 2;
         break;
     case 11:
         if (dir == 1) {
-            if (!scenesetlist_bss.MemSsl->sound[1]) {
+            if (!((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1]) {
                 DWCi_SNDlPlay(9);
-                scenesetlist_bss.MemSsl->sound[1] = 1;
+                ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1] = 1;
             }
             return;
         }
@@ -175,7 +178,7 @@ void moveFocus(int dir)
         break;
     case 12:
     case 13:
-        scenesetlist_bss.MemSsl->focusLast = f;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->focusLast = f;
         if (dir == 1) {
             scenesetlist_bss.Focus = 10;
             scenesetlist_bss.FocusClm = 3;
@@ -185,9 +188,9 @@ void moveFocus(int dir)
             break;
         }
         if (dir == 3) {
-            if (!scenesetlist_bss.MemSsl->sound[1]) {
+            if (!((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1]) {
                 DWCi_SNDlPlay(9);
-                scenesetlist_bss.MemSsl->sound[1] = 1;
+                ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[1] = 1;
             }
             return;
         }
@@ -203,7 +206,7 @@ void moveFocus(int dir)
                 break;
             }
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            ((MEMSSL *)scenesetlist_bss.MemSsl)->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
             return;
         }
         if (dir == 3) {
@@ -212,7 +215,7 @@ void moveFocus(int dir)
                 break;
             }
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+            ((MEMSSL *)scenesetlist_bss.MemSsl)->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
             return;
         }
         move = 2;

@@ -16,15 +16,17 @@
  *   g_021ADFE0   0x021ADFE0  data
  */
 
+#include "../include/G_StatsConn.h"
+
 extern void *func_021937D0(void *set, char *name, int type, void *initialvalue);
-extern int g_021ADFE0[];
+extern struct StatsConn g_021ADFE0;
 
 void *func_02194834(int *game, char *name, void *(*func)(void *, char *, void *), void *value)
 {
     void *ret;
 
     if (game == 0)
-        game = (int *)g_021ADFE0[3];
+        game = (int *)((int *)&g_021ADFE0)[3];
     if (game == 0)
         return value;
     ret = func((void *)game[3], name, value);

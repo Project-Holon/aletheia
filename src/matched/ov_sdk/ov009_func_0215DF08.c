@@ -22,6 +22,8 @@
  *   original performs); the vendor DWARF declares the object without volatile.
  */
 
+#include "../include/G_021A1CD8.h"
+
 struct SOCLiUdpData {
 	struct SOCLiUdpData *next;
 	unsigned short len;
@@ -39,11 +41,6 @@ struct SOCLRecvPipe {
 	unsigned char queue[1];
 };
 
-struct SOCLConfig {
-	unsigned char pad[0x18];
-	void *(*alloc)(unsigned long size);
-};
-
 struct CPSSoc {
 	unsigned char pad0[0xa];
 	unsigned short local_port;
@@ -58,7 +55,7 @@ struct CPSSoc {
 	unsigned short socket_port;
 };
 
-extern struct SOCLConfig *g_021A1CD8;
+extern struct G_021A1CD8 *g_021A1CD8;
 extern unsigned long g_021AA4A4[2];
 
 extern unsigned long func_02087988(void);

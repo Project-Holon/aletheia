@@ -32,10 +32,12 @@
  *       --func func_02038298 --addr 0x02038298 --cc 1.1p1 --arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 *g_021469D0;
+extern struct LinkState *g_021469D0;
 extern void *func_0203D798(void);
 extern void *func_0203D788(void);
 extern u32 func_0203D6BC(void);
@@ -53,20 +55,20 @@ void func_02038298(void)
     p = func_0203D788();
     v = func_0203D6BC();
 
-    if (*(u8 *)(g_021469D0 + 0x1E7) == 0)
+    if (*(u8 *)(((u8 *)g_021469D0) + 0x1E7) == 0)
         return;
-    if (*(u8 *)(g_021469D0 + 0x1ED) == 0) {
-        if (func_02038AE0((struct Hdr *)(*(u32 *)g_021469D0), (struct Conn *)(g_021469D0 + 0xCC),
+    if (*(u8 *)(((u8 *)g_021469D0) + 0x1ED) == 0) {
+        if (func_02038AE0((struct Hdr *)(*(u32 *)((u8 *)g_021469D0)), (struct Conn *)(((u8 *)g_021469D0) + 0xCC),
                           func_0203D6BC(),
-                          *(u8 *)(g_021469D0 + 0x1D5)) != 0)
-            *(u8 *)(g_021469D0 + 0x1ED) = 1;
+                          *(u8 *)(((u8 *)g_021469D0) + 0x1D5)) != 0)
+            *(u8 *)(((u8 *)g_021469D0) + 0x1ED) = 1;
     }
 
-    if (*(u8 *)(g_021469D0 + 0x1ED) != 1)
+    if (*(u8 *)(((u8 *)g_021469D0) + 0x1ED) != 1)
         return;
     if (((u32 (*)(u32, u32, u32, u32))
-             * (u32 *)(*(u32 *)(p + 0x340) + 0x64))(*(u32 *)g_021469D0, v,
+             * (u32 *)(*(u32 *)(p + 0x340) + 0x64))(*(u32 *)((u8 *)g_021469D0), v,
                                                     0, 0) == 0)
         return;
-    *(u8 *)(g_021469D0 + 0x1ED) = 0;
+    *(u8 *)(((u8 *)g_021469D0) + 0x1ED) = 0;
 }

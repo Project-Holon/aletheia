@@ -24,6 +24,8 @@
  *   g_0217AAB4     0x0217AAB4  data
  */
 
+#include "../include/G_IRCParam.h"
+
 typedef struct {
     int unk0;
     unsigned char *wp;
@@ -37,8 +39,8 @@ extern void func_0217A5B4(void);
 extern void func_02084E2C();
 extern void func_02075EAC(unsigned short lock_id);
 extern unsigned char g_0217AD58[181];
-extern IRCParam g_0217AC90;
-extern IRCParam g_0217AC90_b;
+extern struct IRCParam g_0217AC90;
+extern struct IRCParam g_0217AC90_b;
 extern unsigned short g_0217AAB4;
 
 void func_0217A8EC(unsigned char *data, unsigned char size)
@@ -46,22 +48,22 @@ void func_0217A8EC(unsigned char *data, unsigned char size)
     int i;
     int n;
 
-    g_0217AC90.wp = g_0217AD58;
-    g_0217AC90.rp = 0;
+    g_0217AC90.send = g_0217AD58;
+    g_0217AC90.recv = 0;
     g_0217AD58[0] = 2;
     func_02075E9C(g_0217AAB4);
     func_02084DF4(g_0217AAB4);
     while (*(volatile unsigned short *)0x040001A0 & 0x80)
         ;
     *(volatile unsigned short *)0x040001A0 = 0xA042;
-    func_0217A674(&g_0217AC90_b);
+    func_0217A674(((IRCParam *)&g_0217AC90_b));
     func_0217A5B4();
-    g_0217AC90.wp = data;
+    g_0217AC90.send = data;
     n = size;
     for (i = 0; (i < size) ? 1 : 0; i++) {
         if (i == n - 1)
             *(volatile unsigned short *)0x040001A0 = 0xA002;
-        func_0217A674(&g_0217AC90_b);
+        func_0217A674(((IRCParam *)&g_0217AC90_b));
     }
     while (*(volatile unsigned short *)0x040001A0 & 0x80)
         ;

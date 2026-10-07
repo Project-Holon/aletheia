@@ -21,10 +21,12 @@
  *   d_021BFE9C 0x021BFE9C data a4
  *   d_021BFEBC 0x021BFEBC data a4
  */
+
+#include "../include/G_DispConfig.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct DispConfig { u32 a,b,c,d; };
 struct BgTemplate { u32 a,b,c,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u32 n; };
 extern struct DispConfig d_021BFD80;
 extern const struct BgTemplate d_021BFEFC,d_021BFEDC,d_021BFE7C,d_021BFE9C,d_021BFEBC;

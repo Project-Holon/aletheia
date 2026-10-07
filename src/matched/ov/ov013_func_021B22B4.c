@@ -17,6 +17,8 @@
  *   func_020870D0  0x020870D0  arm
  */
 
+#include "../include/G_Sess.h"
+
 struct Node {
     unsigned int f0;
     unsigned char f4;
@@ -47,11 +49,6 @@ extern struct Pool g_021B4BE0;
 struct Stats {
     unsigned int f0;
     unsigned int f4;
-};
-
-struct Sess {
-    unsigned char pad[0x14];
-    unsigned int f14;
 };
 
 extern struct Stats g_021B4BD0;

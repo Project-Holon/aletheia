@@ -40,6 +40,8 @@
  * front end derives from `+ 2` / `& 0xf`.
  */
 
+#include "../include/G_SaveMain.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -85,7 +87,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const u8 str_020A7848[];
 extern const u8 str_020A7858[];
 extern const u8 str_020A7868[];
-extern u32 g_02146994;
+extern struct SaveMain *g_02146994;
 
 struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 {
@@ -93,7 +95,7 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
     u32 n;
     void *tbl;
 
-    if (g_02146994 == 0)
+    if ((*(u32 *)&g_02146994) == 0)
         func_02034714((const char *)str_020A7848, 0x10c, (const char *)str_020A7858);
 
     b = (struct Blk *)func_02030734(heap, 0x154, 1, str_020A7848, 0x10e);

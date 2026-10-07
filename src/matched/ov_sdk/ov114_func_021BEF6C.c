@@ -20,16 +20,18 @@
  * Drains the module list, then empties the module head pointer.
  */
 
+#include "../include/G_Conn.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 g_021CF984;
+extern struct Conn *g_021CF984;
 extern u32 func_021BEC48(void);
 
 void func_021BEF6C(void)
 {
-    if (g_021CF984 != 0)
+    if ((*(u32 *)&g_021CF984) != 0)
         func_021BEC48();
-    g_021CF984 = 0;
+    (*(u32 *)&g_021CF984) = 0;
 }

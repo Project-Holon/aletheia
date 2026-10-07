@@ -17,15 +17,13 @@
  *   func_021B20B0 0x021B20B0 arm ov013
  *   func_021B1F54 0x021B1F54 arm ov013
  */
+
+#include "../include/G_Work.h"
+
 typedef unsigned char u8;
 struct Node;
 
-struct W {
-    u8 pad[0x1A1C];
-    struct Node *f1A1C;
-};
-
-extern struct W *d_021B3C80;
+extern struct Work *d_021B3C80;
 
 extern struct Node *func_021B1F2C(unsigned int i);
 extern int func_021B20B0(int p, int x);

@@ -30,6 +30,8 @@
  *   g_021DE6B0  0x021DE6B0  data
  */
 
+#include "../include/G_VRAMBANK.h"
+
 typedef struct {
 	int bg;
 	int obj;
@@ -61,7 +63,7 @@ extern int GX_DisableBankForARM7(void);
 extern int GX_DisableBankForLCDC(void);
 extern void GX_SetBankForARM7(int arm7);
 extern void func_021D73BC(void);
-extern VRAMBANK g_021DE6B0;
+extern struct VRAMBANK g_021DE6B0;
 
 void func_021D7274(void)
 {

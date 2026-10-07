@@ -13,16 +13,15 @@
  *   d_021DD614     0x021DD614  data  ov021  a4
  */
 
+#include "../include/G_Ent021DD614.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct Ent021DD614 {
-    u32 id;
-    u32 flag;
-} Ent021DD614;
+typedef struct Ent021DD614 Ent021DD614;
 
-extern Ent021DD614 d_021DD614[];
+extern struct Ent021DD614 d_021DD614[];
 
 int func_021D21E0(u32 id)
 {

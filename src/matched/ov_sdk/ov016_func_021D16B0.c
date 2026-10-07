@@ -25,6 +25,9 @@
  *   g_021DA9BF  0x021DA9BF  data
  */
 
+#include "../include/G_MemWinT.h"
+#include "../include/G_021DAA2E.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -57,9 +60,9 @@ extern void func_021D600C(const struct tagCOORD *coord, const struct tagCOORD *s
 extern int func_021D696C(u16 *a);
 extern int func_021D6824(unsigned int f);
 extern void func_021D1A80(int idx);
-extern MemWinT *g_021DE658;
+extern struct MemWinT *g_021DE658;
 extern u8 g_021DA9A6[6];
-extern CoordT g_021DAA2E[][2];
+extern struct G_021DAA2E g_021DAA2E[][2];
 extern u8 g_021DA9B4[][2];
 extern CoordT g_021DA9D2[];
 extern signed char g_021DA9BE[][2];

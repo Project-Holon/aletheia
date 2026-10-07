@@ -14,10 +14,11 @@
  *   func_021BEB88 0x021BEB88 thumb ov217
  */
 #include "../include/Obj25909.h"
+#include "../include/G_E.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 x,y,w,h; u8 rest[32]; } E;
-extern E d_021C3AC8[];
+extern struct E d_021C3AC8[];
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
 extern u32 func_021BEB88(u32);
@@ -27,10 +28,10 @@ void func_021BE9B8(u8 *p)
     case 0:
     case 2:
     case 3:
-        func_020413B0(2, d_021C3AC8[*(u32 *)(p + 52)].x,
-            d_021C3AC8[*(u32 *)(p + 52)].y,
-            d_021C3AC8[*(u32 *)(p + 52)].w,
-            d_021C3AC8[*(u32 *)(p + 52)].h, 6);
+        func_020413B0(2, d_021C3AC8[*(u32 *)(p + 52)].a,
+            d_021C3AC8[*(u32 *)(p + 52)].b,
+            d_021C3AC8[*(u32 *)(p + 52)].c,
+            d_021C3AC8[*(u32 *)(p + 52)].d, 6);
         break;
     case 1:
         func_020413B0(2,13,4,19,4,6);

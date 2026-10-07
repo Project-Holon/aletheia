@@ -23,10 +23,12 @@
  *       --func func_0203CA04 --addr 0x0203CA04 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 extern u8  g_020A7BA8[];
 extern u8  g_020A7BEC[];
 
@@ -38,7 +40,7 @@ void func_0203CA04(void)
     u8 *q;
     u32 t;
 
-    if (g_021469DC == 0)
+    if (((u8 *)g_021469DC) == 0)
         return;
 
     q = func_0203D798();
@@ -52,8 +54,8 @@ void func_0203CA04(void)
     if (t == 0)
         func_02034714((const char *)((u32)g_020A7BA8), 0x8B7, (const char *)((u32)g_020A7BEC));
 
-    *(u32 *)(g_021469DC + 0x30) = 0;
-    *(u32 *)(g_021469DC + 0x34) = 0;
-    *(u32 *)(g_021469DC + 0x38) = 0;
-    *(u32 *)(g_021469DC + 0x3C) = 0;
+    *(u32 *)(((u8 *)g_021469DC) + 0x30) = 0;
+    *(u32 *)(((u8 *)g_021469DC) + 0x34) = 0;
+    *(u32 *)(((u8 *)g_021469DC) + 0x38) = 0;
+    *(u32 *)(((u8 *)g_021469DC) + 0x3C) = 0;
 }

@@ -65,9 +65,10 @@
  *       --func func_02022490 --addr 0x02022490 --cc 1.1p1 --thumb --lang c99
  */
 #include "../include/Obj11272.h"
+#include "../include/G_G021468A4.h"
 typedef unsigned int u32;
 
-extern char g_021468A4[];
+extern struct G021468A4 g_021468A4;
 extern void func_02022478(int a0, int *p);
 extern void func_020225F0(void);
 extern void *func_02005624(u32 a, u32 b, u32 c);
@@ -77,7 +78,7 @@ void func_02022490(char *p, int a1, int a2, int a3)
     int i4;
 
     if (((struct Obj11272 *)p)->f10 == 0 && ((struct Obj11272 *)p)->f14 == 0)
-        *(u32 *)(g_021468A4 + 0x54) =
+        *(u32 *)(((char *)&g_021468A4) + 0x54) =
             (u32)func_02005624((int)func_02022478, (u32)p, 0);
 
     i4 = a3 * 4;

@@ -17,17 +17,19 @@
  *   g_021D4228     0x021D4228  data
  */
 
+#include "../include/G_Session.h"
+
 typedef struct {
     char pad[0x44];
     unsigned int mul;
     unsigned int add;
     unsigned int mod;
 } Session;
-extern Session g_021CF7AC;
+extern struct Session g_021CF7AC;
 extern int g_021D4228;
 
 unsigned char func_021C98A4(void)
 {
-    g_021D4228 = (g_021CF7AC.mul * g_021D4228 + g_021CF7AC.add) % g_021CF7AC.mod;
+    g_021D4228 = (g_021CF7AC.key1 * g_021D4228 + g_021CF7AC.key2) % g_021CF7AC.key3;
     return g_021D4228 >> 16;
 }

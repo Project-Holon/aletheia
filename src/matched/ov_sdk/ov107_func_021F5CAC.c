@@ -27,11 +27,13 @@
  *   g_021F6F90     0x021F6F90  data
  */
 
+#include "../include/G_WmBase.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-extern unsigned char g_021F6F90[];
+extern struct WmBase g_021F6F90;
 
 extern unsigned long func_02087988(void);
 extern void func_02082A48(u16 data, void *destp, u32 size);
@@ -46,8 +48,8 @@ extern int func_020885EC(int fifotag, int proc);
 extern void func_021F1D80(u16 type, void *arg);
 extern void func_021F46C8(void *arg);
 
-#define WM   (*(u8 **)(g_021F6F90 + 0xC))
-#define PBUF (*(u8 **)(g_021F6F90 + 0x10))
+#define WM   (*(u8 **)(((unsigned char *)&g_021F6F90) + 0xC))
+#define PBUF (*(u8 **)(((unsigned char *)&g_021F6F90) + 0x10))
 
 int func_021F5CAC(int channel)
 {
@@ -58,7 +60,7 @@ int func_021F5CAC(int channel)
 
     enabled = func_02087988();
     *(u16 *)(WM + 0x32) = channel;
-    *(u32 *)(g_021F6F90 + 4) = ((u32)PBUF + 0x1f + 0x7d00) & ~0x1f;
+    *(u32 *)(((unsigned char *)&g_021F6F90) + 4) = ((u32)PBUF + 0x1f + 0x7d00) & ~0x1f;
     cb_tmp = *(void (**)(u16, u32, void *))(PBUF + 0x1000 + 0x4e4);
     func_02082A48(0, PBUF + 0x1340, 0x69c0);
     func_021F1B3C(cb_tmp);

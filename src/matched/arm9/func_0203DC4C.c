@@ -17,12 +17,9 @@
  *   g_021469F0     0x021469F0  data
  */
 
-typedef unsigned char u8;
+#include "../include/G_Ctx.h"
 
-struct Ctx {
-    u8 pad_00[0x103];
-    u8 f103;
-};
+typedef unsigned char u8;
 
 extern struct Ctx *g_021469F0;
 

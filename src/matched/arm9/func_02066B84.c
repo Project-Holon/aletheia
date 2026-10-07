@@ -38,6 +38,8 @@
  * ../2.0/sp2p2 identical; 1.1p1 is 600 bytes.
  */
 
+#include "../include/G_02148B2C.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -90,7 +92,7 @@ typedef struct SpriteParams {
 
 typedef void (*UVFlipCorrectFunc)(fx32 *pU0, fx32 *pV0, fx32 *pU1, fx32 *pV1, BOOL bFlipH, BOOL bFlipV);
 
-extern UVFlipCorrectFunc g_02148B2C;           /* s_pUVFlipCorrectFunc */
+extern struct G_02148B2C g_02148B2C;           /* s_pUVFlipCorrectFunc */
 extern const u16 tbl_020A17F0[3][4];           /* NNSi_objSizeWTbl */
 extern const u16 tbl_020A17D8[3][4];           /* NNSi_objSizeHTbl */
 extern const u32 tbl_020A1824[8];              /* GetNumTexChar_::texSize_ */
@@ -156,8 +158,8 @@ static inline void DoFlip_(BOOL bFlipH, BOOL bFlipV, fx32 *pRetU0, fx32 *pRetU1,
             *pRetV1 = temp;
         }
 
-        if (g_02148B2C) {
-            (*g_02148B2C)(pRetU0, pRetV0, pRetU1, pRetV1, bFlipH, bFlipV);
+        if ((*(UVFlipCorrectFunc *)&g_02148B2C)) {
+            (*(*(UVFlipCorrectFunc *)&g_02148B2C))(pRetU0, pRetV0, pRetU1, pRetV1, bFlipH, bFlipV);
         }
     }
 }

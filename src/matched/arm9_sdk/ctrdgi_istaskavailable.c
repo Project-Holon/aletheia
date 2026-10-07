@@ -21,9 +21,11 @@
  *   bx   lr
  */
 
-extern char d_0214BAB4;
+#include "../include/G_GeState.h"
+
+extern struct GeState d_0214BAB4;
 
 int CTRDGi_IsTaskAvailable(void)
 {
-    return *(void **)&d_0214BAB4 != 0;
+    return *(void **)&(*(char *)&d_0214BAB4) != 0;
 }

@@ -19,29 +19,28 @@
  *   g_021DE568     0x021DE568  data
  */
 
+#include "../include/G_AossCtl.h"
+
 typedef struct AossWork {
     unsigned char pad0[0x116];
     unsigned char state;
     unsigned char area[1];
 } AossWork;
 
-typedef struct AossCtl {
-    unsigned char status;
-    AossWork *work;
-} AossCtl;
+typedef struct AossCtl AossCtl;
 
 extern int AOSSi_EndLocal();
 extern void func_021CFABC(void *area);
 extern void func_021D6438(void **mem);
-extern AossCtl g_021DE564;
+extern struct AossCtl g_021DE564;
 extern void *g_021DE568;
 
 void func_021C08B0(int a)
 {
     AOSSi_EndLocal();
     if (a) {
-        if (g_021DE564.work->state == 0 && g_021DE564.status == 1)
-            func_021CFABC(g_021DE564.work->area);
+        if (((AossWork *)g_021DE564.work)->state == 0 && g_021DE564.status == 1)
+            func_021CFABC(((AossWork *)g_021DE564.work)->area);
     }
     func_021D6438(&g_021DE568);
 }

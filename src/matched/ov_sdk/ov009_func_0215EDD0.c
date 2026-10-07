@@ -19,11 +19,7 @@
  *   g_021A1CD8     0x021A1CD8  data
  */
 
-typedef struct {
-    unsigned char pad0[0x18];
-    void *(*alloc)(unsigned long size);
-    void (*free)(void *ptr);
-} SoclConfig;
+#include "../include/G_021A1CD8.h"
 
 typedef struct {
     unsigned char pad0[0x48];
@@ -35,7 +31,7 @@ typedef struct {
     unsigned char pad5c[0xa0 - 0x5c];
 } CpsSoc;
 
-extern SoclConfig *g_021A1CD8;
+extern struct G_021A1CD8 *g_021A1CD8;
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_0215AA5C(int v);
 extern unsigned long func_0215C910(char *name);

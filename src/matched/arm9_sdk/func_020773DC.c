@@ -18,14 +18,10 @@
  *   CARDi_PulledOutCallback  0x02077410  arm
  */
 
+#include "../include/G_CARDPulledOutState.h"
+
 typedef unsigned long u32;
 typedef int BOOL;
-
-struct CARDPulledOutState {
-    u32 slot_reset_count;
-    BOOL is_pulled_out;
-    BOOL (*callback)(void);
-};
 
 extern struct CARDPulledOutState CARDiSlotResetCount;
 

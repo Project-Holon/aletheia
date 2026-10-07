@@ -15,11 +15,7 @@
  *   CARDiSlotResetCount  0x02150B00  data
  */
 
-struct CARDPulledOutState {
-    unsigned long slot_reset_count;
-    int is_pulled_out;
-    int (*callback)(void);
-};
+#include "../include/G_CARDPulledOutState.h"
 
 extern struct CARDPulledOutState CARDiSlotResetCount;
 

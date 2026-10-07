@@ -14,12 +14,15 @@
  * symbols:
  *   d_021CF7AC   0x021CF7AC  data
  */
+
+#include "../include/G_Session.h"
+
 typedef unsigned long u32;
 
-extern char d_021CF7AC[];
+extern struct Session d_021CF7AC;
 
 u32 DWCi_EncSessionGetResponse(u32 *out)
 {
-    *out = *(u32 *)(d_021CF7AC + 0x6C);
-    return *(u32 *)(d_021CF7AC + 0x68);
+    *out = *(u32 *)(((char *)&d_021CF7AC) + 0x6C);
+    return *(u32 *)(((char *)&d_021CF7AC) + 0x68);
 }

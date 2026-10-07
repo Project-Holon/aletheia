@@ -36,17 +36,12 @@
  *   python tools/match.py one --src src/matched/func_020625D8.c \
  *       --func func_020625D8 --addr 0x020625D8 --arm --cc ../2.0/sp2
  */
+
+#include "../include/G_Hdr02062474.h"
+
 typedef unsigned int u32;
-struct Cfg
-{
-  u32 head;
-  u32 pool;
-  u32 f08;
-  u32 f0c;
-  u32 f10;
-};
-extern struct Cfg g_02146BB0_blk;
-extern u32 g_02146BB0;
+extern struct Hdr02062474 g_02146BB0_blk;
+extern struct Hdr02062474 g_02146BB0;
 extern u32 g_02146BB4;
 extern void func_02061DF0(u32 *head);
 struct Node02061DFC;
@@ -58,7 +53,7 @@ extern void func_02061FF8(void *pp, int arg);
 void func_020625D8(void)
 {
     g_02146BB0_blk.pool = (u32)func_02061DFC((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
-    func_02061DF0(&g_02146BB0);
-    func_02061E48((struct List02061E48 *)(&g_02146BB0), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
-    func_02061FF8(&g_02146BB0, (int)(&g_02146BB4));
+    func_02061DF0(&(*(u32 *)&g_02146BB0));
+    func_02061E48((struct List02061E48 *)(&(*(u32 *)&g_02146BB0)), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
+    func_02061FF8(&(*(u32 *)&g_02146BB0), (int)(&g_02146BB4));
 }

@@ -23,6 +23,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C9700.c \
  *       --func drawString --addr 0x021C9700 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -86,7 +89,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -131,7 +134,7 @@ void drawString(unsigned char *txt, int idx)
     y = idx * 29 + 2;
     if (len <= 16)
         y += 5;
-    DWCi_FNTlDrawStringEx(scenesetlist_bss.MemSsl->canv, 0x48, y, 2, 8, buf, 1);
+    DWCi_FNTlDrawStringEx(((MEMSSL *)scenesetlist_bss.MemSsl)->canv, 0x48, y, 2, 8, buf, 1);
     if (len <= 16)
         return;
     MI_CpuFill8(buf, 0, sizeof(buf));
@@ -142,5 +145,5 @@ void drawString(unsigned char *txt, int idx)
         else
             buf[i] = txt[i + 16];
     }
-    DWCi_FNTlDrawStringEx(scenesetlist_bss.MemSsl->canv, 0x48, y + 12, 2, 8, buf, 1);
+    DWCi_FNTlDrawStringEx(((MEMSSL *)scenesetlist_bss.MemSsl)->canv, 0x48, y + 12, 2, 8, buf, 1);
 }

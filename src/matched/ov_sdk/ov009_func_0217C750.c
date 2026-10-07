@@ -28,7 +28,8 @@
  *   g_021ACF8D                     0x021ACF8D  data
  */
 
-struct SOCSockAddrIn { unsigned char len; unsigned char family; unsigned short port; unsigned long addr; };
+#include "../include/G_SOCSockAddrIn.h"
+
 struct gsAC {
     int sock;
     char pad0[8];

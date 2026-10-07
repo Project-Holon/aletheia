@@ -28,19 +28,10 @@
  *   g_021DA018  0x021DA018  data
  */
 
+#include "../include/G_tagMEMBTN.h"
+
 typedef struct { unsigned short l, t, r, b; } Rect;
 typedef struct { unsigned short x, y; } Coord;
-typedef struct {
-    void *cellButton[2];
-    void *cellBack;
-    void *task;
-    void *release;
-    unsigned short count;
-    signed char input;
-    unsigned char kind;
-    unsigned char disable;
-    unsigned char end;
-} MemBtnT;
 
 typedef unsigned short u16;
 struct tagCOORD;
@@ -53,7 +44,7 @@ extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D51F0(void *cell, int idx, int priority);
 extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 extern void func_021BCF5C(void *task);
-extern MemBtnT *g_021DE508;
+extern struct tagMEMBTN *g_021DE508;
 extern unsigned char g_021DA008[7];
 extern Coord g_021DA010[2];
 extern unsigned char g_021DA026[7][2];

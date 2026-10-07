@@ -19,17 +19,15 @@
  *   g_021DE558_b  0x021DE558  data
  */
 
-typedef struct MemIcon {
-    void *obj;
-    void *task;
-    signed char type;
-} MemIcon;
+#include "../include/G_MemIcon.h"
+
+typedef struct MemIcon MemIcon;
 
 extern void func_021D7744(unsigned int idx, void *r4);
 extern void func_021D6F38(unsigned int *obj);
 extern void func_021D6438(void **mem);
-extern MemIcon *g_021DE558;
-extern MemIcon *g_021DE558_b;
+extern struct MemIcon *g_021DE558;
+extern struct MemIcon *g_021DE558_b;
 
 void func_021BD7F4(void)
 {

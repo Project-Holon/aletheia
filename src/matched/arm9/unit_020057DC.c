@@ -64,28 +64,13 @@
  * image calls 0x02035108.
  */
 
+#include "../include/G_Sub020057DCCur.h"
+#include "../include/G_Sub020057DCSlot.h"
+
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Sub020057DCSlot {
-    u32 unk00;
-    u16 unk04;
-    u16 unk06;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
-    u32 unk18;
-};
-
-struct Sub020057DCCur {
-    u16   unk00;
-    u16   unk02;
-    int   index;
-    u32 **unk08;
-};
-
-extern struct Sub020057DCCur  sub_020057DC_Cur;
+extern struct Sub020057DCCur sub_020057DC_Cur;
 extern struct Sub020057DCSlot sub_020057DC_Table[];
 
 extern void func_02072DB0(int idx, int v);

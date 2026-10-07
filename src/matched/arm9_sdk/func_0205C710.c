@@ -16,6 +16,8 @@
  *   g_02146AD4 0x02146AD4 data
  */
 
+#include "../include/G_INETBSS.h"
+
 typedef struct {
     int ac_state;
     unsigned short state;
@@ -34,7 +36,7 @@ typedef struct {
     DWCstInetControl *stpInetCntl;
 } INETBSS;
 
-extern INETBSS g_02146AD4;
+extern struct INETBSS g_02146AD4;
 
 extern int OS_IsRunOnTwl(void);
 
@@ -47,6 +49,6 @@ void func_0205C710(long size)
         return;
     }
     if (OS_IsRunOnTwl()) {
-        g_02146AD4.stpInetCntl->rwin = size;
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->rwin = size;
     }
 }

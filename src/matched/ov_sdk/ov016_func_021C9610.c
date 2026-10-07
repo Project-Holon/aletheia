@@ -23,6 +23,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C9610.c \
  *       --func dispObj --addr 0x021C9610 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -86,7 +89,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -128,12 +131,12 @@ void dispObj(int kind, int st, int idx)
     X[2] = 0xC0;
     X[3] = 0x8F;
     X[4] = 0x8F;
-    ob = &scenesetlist_bss.MemSsl->obj[idx];
+    ob = &((MEMSSL *)scenesetlist_bss.MemSsl)->obj[idx];
     if (kind == 1 || kind == 2) {
         if (calcIdxColumn(idx) == 2)
-            ob = &scenesetlist_bss.MemSsl->obj[5];
+            ob = &((MEMSSL *)scenesetlist_bss.MemSsl)->obj[5];
         else
-            ob = &scenesetlist_bss.MemSsl->obj[6];
+            ob = &((MEMSSL *)scenesetlist_bss.MemSsl)->obj[6];
     }
     if (scenesetlist_rodata.CELL_IDX[kind][st] != 0) {
         DWCi_CEINlSet(0, scenesetlist_rodata.CELL_IDX[kind][st], *ob);

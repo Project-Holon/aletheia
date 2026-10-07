@@ -40,6 +40,8 @@
  * takes &MemSssa through its own pool word; both spellings are declared.
  */
 
+#include "../include/G_SCENESETSELECTAP_BSS.h"
+
 typedef unsigned char u8;
 typedef unsigned long u32;
 
@@ -58,12 +60,7 @@ typedef struct tagSETTINGINFO {
     u8 e7;
 } SETTINGINFO;
 
-typedef struct SsaStatics {
-    u8 FocusPos;        /* +0x00 */
-    MEMSSSA *MemSssa;   /* +0x04 */
-} SsaStatics;
-
-extern SsaStatics g_021DE60C;
+extern struct SCENESETSELECTAP_BSS g_021DE60C;
 extern MEMSSSA *g_021DE610;
 
 extern int func_021D5580(int lcd);
@@ -100,22 +97,22 @@ static void func_021CC2D0(void)
     if (!func_021BCB58())
         return;
 
-    for (i = 0; i < NELEMS(g_021DE60C.MemSssa->cellA); i++) {
-        if (g_021DE60C.MemSssa->cellA[i])
-            func_021D4F60(g_021DE60C.MemSssa->cellA[i]);
+    for (i = 0; i < NELEMS(((MEMSSSA *)g_021DE60C.MemSssa)->cellA); i++) {
+        if (((MEMSSSA *)g_021DE60C.MemSssa)->cellA[i])
+            func_021D4F60(((MEMSSSA *)g_021DE60C.MemSssa)->cellA[i]);
     }
-    for (i = 0; i < NELEMS(g_021DE60C.MemSssa->cellB); i++) {
-        if (g_021DE60C.MemSssa->cellB[i])
-            func_021D4F60(g_021DE60C.MemSssa->cellB[i]);
+    for (i = 0; i < NELEMS(((MEMSSSA *)g_021DE60C.MemSssa)->cellB); i++) {
+        if (((MEMSSSA *)g_021DE60C.MemSssa)->cellB[i])
+            func_021D4F60(((MEMSSSA *)g_021DE60C.MemSssa)->cellB[i]);
     }
     func_021BD5A8();
     func_021BD138();
-    func_021D4C68(g_021DE60C.MemSssa->arc);
+    func_021D4C68(((MEMSSSA *)g_021DE60C.MemSssa)->arc);
     func_021BD1D4("char/ybObjMain.ncl.l", func_0207E51C);
     func_021D6090(1, 1);
     func_021D6090(0, 0x14);
 
-    if (g_021DE60C.MemSssa->mode == 2) {
+    if (((MEMSSSA *)g_021DE60C.MemSssa)->mode == 2) {
         func_021C0E50((unsigned int)((void *)0), (unsigned int)((void *)0));
         func_021C0E40((unsigned int)func_021C1984);
     } else {

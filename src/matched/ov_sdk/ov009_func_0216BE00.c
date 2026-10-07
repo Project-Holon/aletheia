@@ -15,6 +15,8 @@
  *   func_0216A3B8  0x0216A3B8  arm  ov009
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef struct DwcState {
 	void *gt2Socket;
 	unsigned char pad0a[0x10];
@@ -34,12 +36,9 @@ typedef struct DwcState {
 	unsigned char updateBuf1[0x100];
 } DwcState;
 
-typedef struct DwcGlobal {
-	int lastSocketError;
-	DwcState *st;
-} DwcGlobal;
+typedef struct DwcGlobal DwcGlobal;
 
-extern DwcGlobal g_021AA878;
+extern struct DwcGlobal g_021AA878;
 
 extern void func_0216A3B8(int error, int errorCode);
 

@@ -33,6 +33,8 @@
  *       --func sub_0202FE68 --addr 0x0202FE68 --cc 1.1p1 --arm
  */
 
+#include "../include/G_EnvModule.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -46,13 +48,6 @@ struct EnvEntry {
     u8    pad_0f;
 };
 
-struct EnvModule {
-    struct EnvEntry *entries;
-    u8              *ids;
-    u8               pad_08[6];
-    u16              error;
-};
-
 extern struct EnvModule g_EnvModule;
 
 extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
@@ -62,7 +57,7 @@ int sub_0202FE68(void *bound, u32 param, u32 dst)
     u32 idx;
 
     idx = dst & 0x7fff;
-    if (g_EnvModule.ids[idx] != 0xff) {
+    if (((u8 *)g_EnvModule.ids)[idx] != 0xff) {
         g_EnvModule.error = 1;
         goto fail;
     }
@@ -71,7 +66,7 @@ int sub_0202FE68(void *bound, u32 param, u32 dst)
         goto fail;
     }
 
-    g_EnvModule.entries[g_EnvModule.ids[idx]].field0e = 1;
+    g_EnvModule.entries[((u8 *)g_EnvModule.ids)[idx]].field0e = 1;
     return 1;
 
 fail:

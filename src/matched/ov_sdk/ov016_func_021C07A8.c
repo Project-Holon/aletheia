@@ -24,6 +24,8 @@
  *   g_021DA468 0x021DA468 data
  */
 
+#include "../include/G_AossCtl.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -47,12 +49,7 @@ typedef struct {
     u8 mac[6];
 } Work;
 
-typedef struct {
-    u8 success;
-    Work *work;
-} Aoss;
-
-extern Aoss g_021DE564;
+extern struct AossCtl g_021DE564;
 extern char g_021DA468[12];
 
 extern void *func_021D6414(u32 size, int alignment);
@@ -69,19 +66,19 @@ void func_021C07A8(void)
     Pi pi;
 
     g_021DE564.work = func_021D6414(0x26c, 4);
-    g_021DE564.success = 0;
+    g_021DE564.status = 0;
     MIi_CpuClear16(0, &pi, sizeof(Pi));
     pi.version = 0x50;
     pi.len = 12;
     func_02082D44(g_021DA468, pi.name, 12);
-    g_021DE564.work->kind = 3;
-    g_021DE564.work->pi = pi;
-    g_021DE564.work->f106 = 1;
-    g_021DE564.work->f108 = -1;
-    g_021DE564.work->f10a = 1;
-    g_021DE564.work->f10c = -1;
-    g_021DE564.work->f10e = -1;
-    func_02087C6C(g_021DE564.work->mac);
+    ((Work *)g_021DE564.work)->kind = 3;
+    ((Work *)g_021DE564.work)->pi = pi;
+    ((Work *)g_021DE564.work)->f106 = 1;
+    ((Work *)g_021DE564.work)->f108 = -1;
+    ((Work *)g_021DE564.work)->f10a = 1;
+    ((Work *)g_021DE564.work)->f10c = -1;
+    ((Work *)g_021DE564.work)->f10e = -1;
+    func_02087C6C(((Work *)g_021DE564.work)->mac);
     if (func_021B84E4(func_021C0954, func_021C0964))
         func_02088234();
 }

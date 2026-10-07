@@ -13,6 +13,8 @@
  *   d_021F6EAC  0x021F6EAC  data
  */
 
+#include "../include/G_Masks.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -20,5 +22,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u8 d_021F6EAC[];
-void func_021F0D1C(u16 v) { *(u16 *)(d_021F6EAC + 8) = v; }
+extern struct Masks d_021F6EAC;
+void func_021F0D1C(u16 v) { *(u16 *)(((u8 *)&d_021F6EAC) + 8) = v; }

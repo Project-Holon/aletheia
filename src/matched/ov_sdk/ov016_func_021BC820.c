@@ -38,6 +38,8 @@
  *   func_021BC924  0x021BC924  arm  ov016
  */
 
+#include "../include/G_Ani.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,7 +56,7 @@ typedef struct {
 	u8 cnt;
 } Ani;
 
-extern Ani *g_021DE504;
+extern struct Ani *g_021DE504;
 extern const u8 g_021D9FF8[];
 
 extern void *func_021D6414(unsigned long size, int alignment);
@@ -70,10 +72,10 @@ void func_021BC820(int color)
 	g_021DE504->color = color;
 	g_021DE504->obj = func_021D5368(0, 0x47);
 	pal = g_021D9FF8[color];
-	g_021DE504->obj->h4 = (g_021DE504->obj->h4 & ~0xc00) | 0x400;
+	((Obj *)g_021DE504->obj)->h4 = (((Obj *)g_021DE504->obj)->h4 & ~0xc00) | 0x400;
 	o = g_021DE504->obj;
 	o->w0 &= ~0xc00;
 	o->h4 = (o->h4 & ~0xf000) | (pal << 12);
-	g_021DE504->obj->w0 = (g_021DE504->obj->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
+	((Obj *)g_021DE504->obj)->w0 = (((Obj *)g_021DE504->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
 	g_021DE504->task = func_021D7680(1, func_021BC924, 0, 0x78);
 }

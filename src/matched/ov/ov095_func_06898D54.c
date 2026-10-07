@@ -14,6 +14,8 @@
  *   func_06898DD0  0x06898DD0  thumb  ov095
  */
 
+#include "../include/G_Row.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -31,7 +33,7 @@ typedef struct {
     E e[14];
 } Row;
 
-extern Row g_0689E7E0[2];
+extern struct Row g_0689E7E0[2];
 extern void func_06898DD0(void *p);
 
 void func_06898D54(void (*cb)(u8, u32, u32), u32 arg)
@@ -43,7 +45,7 @@ void func_06898D54(void (*cb)(u8, u32, u32), u32 arg)
         Row *row;
 
         i = 0;
-        row = &g_0689E7E0[j];
+        row = &((Row *)g_0689E7E0)[j];
 
         for (; i < 14; i++) {
             E *e = &row->e[i];

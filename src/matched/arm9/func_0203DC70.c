@@ -54,44 +54,11 @@
  *   func_02087C6C  0x02087C6C  arm
  */
 
+#include "../include/G_Ctx.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
-struct Ctx {
-    u8    pad_00[0x2C];
-    void *f2c;
-    u8    pad_30[0x60 - 0x30];
-    u8    f60;
-    u8    pad_61[3];
-    u8    f64;
-    u8    f65;
-    u8    pad_66;
-    u8    f67;
-    u8    pad_68[0x6E - 0x68];
-    u16   f6e;
-    u32   f70;
-    u32   f74;
-    u8    pad_78[0x80 - 0x78];
-    void *f80;
-    void (*f84)(u32 arg);
-    void (*f88)(u32 arg, int flag);
-    void (*f8c)(u32 arg);
-    u8    f90[4];
-    u8    f94[0x100 - 0x94];
-    u8    f100;
-    u8    f101;
-    u8    f102;
-    u8    f103;
-    u8    f104;
-    u8    f105;
-    u8    pad_106;
-    u8    f107;
-    u8    f108;
-    u8    f109;
-    u8    f10a;
-    u8    f10b;
-};
 
 struct VTbl {
     u8    pad_00[0xC8];
@@ -171,17 +138,17 @@ void func_0203DC70(void)
         p->f100--;
         if (func_0203D210()) {
             if (g_021469F0->f8c != 0)
-                g_021469F0->f8c(g_021469F0->f70);
-            if (p->f10a != 0 && p->f60 == 4 && p->f105 == 0) {
+                g_021469F0->f8c(g_021469F0->arg);
+            if (p->f10a != 0 && p->base_f60 == 4 && p->f105 == 0) {
                 func_0203DC68(p, 0xE);
                 p->f108++;
-            } else if (p->f105 == 0 && p->f60 == 4) {
+            } else if (p->f105 == 0 && p->base_f60 == 4) {
                 p->f108++;
                 func_0203CEAC(0);
-                p->f88(p->f70, 1);
+                p->f88(p->arg, 1);
                 func_0203DC68(p, 4);
             } else {
-                p->f88(p->f70, 0);
+                p->f88(p->arg, 0);
                 func_0203DC68(p, 9);
             }
         }
@@ -191,13 +158,13 @@ void func_0203DC70(void)
     case 4:
         if (func_0203CD98() != 0)
             return;
-        p->f65 = 3;
-        p->f2c = (void *)func_0203DC4C;
+        p->base_f65 = 3;
+        p->base_fn_2c = (void *)func_0203DC4C;
         if (p->f10b != 0)
             p->f67 = p->f10b;
         p->f102 = 0;
         p->f103 = 0;
-        func_0203CBAC((struct Req *)p, 0, p->f70);
+        func_0203CBAC((struct Req *)p, 0, p->arg);
         func_0203DC68(p, 5);
         break;
     case 5:
@@ -227,7 +194,7 @@ void func_0203DC70(void)
         if (func_0203D210() == 0)
             return;
         if (g_021469F0->f8c != 0)
-            g_021469F0->f8c(g_021469F0->f70);
+            g_021469F0->f8c(g_021469F0->arg);
         func_0203DC68(p, 9);
         break;
     case 9:
@@ -237,10 +204,10 @@ void func_0203DC70(void)
             p->f6e = 0;
             p->f67 = p->f10b;
         }
-        p->f65 = 0;
-        p->f2c = p->f80;
-        p->f64 = p->f104;
-        func_0203CBAC((struct Req *)p, 0, p->f70);
+        p->base_f65 = 0;
+        p->base_fn_2c = p->fn_2c;
+        p->base_f64 = p->f104;
+        func_0203CBAC((struct Req *)p, 0, p->arg);
         g_021469F0->f101 = 0;
         func_0203DC68(p, 0xA);
         break;
@@ -250,7 +217,7 @@ void func_0203DC70(void)
         if (p->f105 == 0) {
             func_0203D01C();
             func_0203DC68(p, 0xC);
-        } else if (p->f60 == 4) {
+        } else if (p->base_f60 == 4) {
             func_0203D010();
             func_0203DC68(p, 0xB);
         } else {
@@ -295,24 +262,24 @@ void func_0203DC70(void)
     case 13:
         if (p->f105 != 0) {
             if (p->f84 != 0)
-                p->f84(p->f70);
+                p->f84(p->arg);
             func_0203DA20();
         } else {
             if (func_020399EC() < p->f107)
                 return;
             if (p->f84 != 0)
-                p->f84(p->f70);
+                p->f84(p->arg);
             func_0203DA20();
         }
         break;
     case 14:
         if (func_0203CD98() != 0)
             return;
-        p->f65 = 3;
-        p->f2c = (void *)func_0203DC4C;
+        p->base_f65 = 3;
+        p->base_fn_2c = (void *)func_0203DC4C;
         p->f102 = 0;
         p->f103 = 0;
-        func_0203CBAC((struct Req *)p, 0, p->f70);
+        func_0203CBAC((struct Req *)p, 0, p->arg);
         func_0203DC68(p, 0xF);
         break;
     case 15:
@@ -342,7 +309,7 @@ void func_0203DC70(void)
         if (func_0203D210() == 0 && p->f100 != 0)
             return;
         if (g_021469F0->f8c != 0)
-            g_021469F0->f8c(g_021469F0->f70);
+            g_021469F0->f8c(g_021469F0->arg);
         if (p->f10a != 0 && p->f108 < 3) {
             p->f108++;
             if (p->f108 >= 3)

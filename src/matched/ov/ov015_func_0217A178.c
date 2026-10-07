@@ -20,15 +20,17 @@
  *   d_0217ABA8     0x0217ABA8  data  ov015
  */
 
+#include "../include/G_ov015_0217ABA8.h"
+
 extern unsigned char g_0217ABD8[];
-extern char d_0217ABA8[];
+extern struct G_ov015_0217ABA8 d_0217ABA8;
 
 int func_0217A178(unsigned long n)
 {
     unsigned long i;
 
     if (n == 1) {
-        if (*(int *)(d_0217ABA8 + 0x24))
+        if (*(int *)(((char *)&d_0217ABA8) + 0x24))
             return 1;
         return g_0217ABD8[0] != 0xFC;
     }

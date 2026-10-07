@@ -36,18 +36,16 @@
  *   func_021BE700  0x021BE700  thumb  ov021
  */
 
+#include "../include/G__anon_V.h"
+
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V;
+typedef struct _anon_V V;
 
 extern char d_021F3918[];
 extern char d_021F38F8[];
-extern V d_021F3970;
+extern struct _anon_V d_021F3970;
 
 struct Ctx;
 extern void *func_02188C80(void *p);

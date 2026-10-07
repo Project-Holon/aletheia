@@ -17,6 +17,8 @@
  *   g_021A826C                       0x021a826c data
  */
 
+#include "../include/G_CPSFragTable.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -41,7 +43,7 @@ struct CPSVars {
     void (*free)(void *);
 };
 
-extern CPSFragTable g_021A8A64[8];
+extern struct CPSFragTable g_021A8A64[8];
 extern struct CPSVars g_021A826C;
 extern unsigned long long OS_GetTick(void);
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
@@ -73,7 +75,7 @@ u8 *func_0215A450(u8 *buf, u32 *fragmented)
     header_len = (buf[0] & 0xf) << 2;
     ipfrom = NTOHL(buf + 0xc);
     id = *(u16 *)(buf + 4);
-    p = g_021A8A64;
+    p = ((CPSFragTable *)g_021A8A64);
     for (i = 0; i < 8; i++, p++) {
         if (p->count != 0 && p->ipfrom == ipfrom && p->id == id)
             break;

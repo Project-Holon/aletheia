@@ -15,16 +15,18 @@
  *   func_02178E4C  0x02178E4C  thumb  ov014
  */
 
+#include "../include/G_W.h"
+
 typedef unsigned char u8;
 
-extern u8 *g_021797A4;
+extern struct W *g_021797A4;
 extern unsigned short func_021795A4(void);
 extern unsigned int func_02177ACC(void);
 extern int func_02178E4C(void);
 
 int func_021779F4(void)
 {
-    if (g_021797A4 == 0)
+    if (((u8 *)g_021797A4) == 0)
         return 0;
     if (func_021795A4() == 0 && func_02177ACC() == 0)
         return 0;

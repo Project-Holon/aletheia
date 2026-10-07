@@ -31,14 +31,9 @@
  *   g_021DB04C     0x021DB04C  data
  */
 
-typedef struct UtilState {
-    unsigned char lang;
-    unsigned char end;
-    unsigned char pad2[2];
-    void *work;
-    unsigned int param;
-    void (*scene)(void);
-} UtilState;
+#include "../include/G_UtilState.h"
+
+typedef struct UtilState UtilState;
 
 extern int OS_IsRunOnTwl(void);
 extern int func_021C0A2C(int lang, unsigned int param);
@@ -55,7 +50,7 @@ extern void func_021D7448(void);
 extern void func_02087AE4(void);
 extern void func_021C0DE8(void);
 extern void func_021C16F4(void);
-extern UtilState g_021DE56C;
+extern struct UtilState g_021DE56C;
 extern char g_021DB04C[];
 
 int func_021C0970(void *work, int language, int param)

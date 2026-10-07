@@ -16,16 +16,18 @@
  *   func_0216B9B0  0x0216B9B0  arm  ov009
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 extern unsigned char func_0216B9B0(void);
 
 int func_0216BA08(void)
 {
-    if (*(char **)(g_021AA878 + 4) == 0) {
+    if (*(char **)(((char *)&g_021AA878) + 4) == 0) {
         return 0;
     }
     if (func_0216B9B0() == 0xff) {
         return 0;
     }
-    return *(unsigned char *)(*(char **)(g_021AA878 + 4) + 0x366) == 2;
+    return *(unsigned char *)(*(char **)(((char *)&g_021AA878) + 4) + 0x366) == 2;
 }

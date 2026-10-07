@@ -19,12 +19,13 @@
  *       --func func_0203B950 --addr 0x0203B950 --cc 1.1p1 --arm
  */
 #include "../include/Obj08841.h"
+#include "../include/G_Sys.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 struct NetState;
 extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
@@ -34,7 +35,7 @@ extern void func_0203BCE0(u8 *p);
 void func_0203B950(u8 *p)
 {
     if (func_02039338() != 0) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B758, 0, 0x383);
+        func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203B758, 0, 0x383);
         return;
     }
 
@@ -46,6 +47,6 @@ void func_0203B950(u8 *p)
         return;
     }
 
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BCE0, 0, 0x390);
+    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203BCE0, 0, 0x390);
     func_0203BCE0(p);
 }

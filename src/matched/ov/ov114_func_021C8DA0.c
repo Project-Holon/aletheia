@@ -17,15 +17,19 @@
  *   func_021CA470 0x021CA470 arm ov114
  *   func_021CA1B4 0x021CA1B4 arm ov114
  */
+
+#include "../include/G_Six.h"
+
 extern void *d_021D3D28;
-extern unsigned d_021D3D2C[], d_021CF538[], d_021CF69C[], d_021D3D40[];
+extern struct Six d_021D3D40;
+extern unsigned d_021D3D2C[], d_021CF538[], d_021CF69C[];
 extern void func_021C9EE4(int server, char *initdata);
 extern int func_021CA470(void *, unsigned, void *, unsigned, unsigned);
 extern void func_021CA1B4(void);
 void func_021C8DA0(void)
 {
     func_021C9EE4((int)d_021D3D28, (char *)d_021CF538);
-    if (func_021CA470(d_021CF69C, d_021D3D2C[2], d_021D3D40, 0, 0) == 0) {
+    if (func_021CA470(d_021CF69C, d_021D3D2C[2], ((unsigned *)&d_021D3D40), 0, 0) == 0) {
         d_021D3D2C[0] = 20;
         return;
     }

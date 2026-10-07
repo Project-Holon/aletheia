@@ -34,13 +34,14 @@
  *       --func func_0203B9D4 --addr 0x0203B9D4 --cc 1.1p1 --arm
  */
 #include "../include/Obj03451.h"
+#include "../include/G_Sys.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned long long u64;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 extern void *func_0203D788(void);
 struct NetState;
@@ -53,7 +54,7 @@ void func_0203B9D4(u8 *p)
 
     if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0xAC))() == 1) {
         (*(void (**)(void))(*(u32 *)(s + 0x340) + 0xB4))();
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B868, 0, 0x3A5);
+        func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203B868, 0, 0x3A5);
         return;
     }
 

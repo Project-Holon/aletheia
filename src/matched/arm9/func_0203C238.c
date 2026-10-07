@@ -19,12 +19,14 @@
  *       --func func_0203C238 --addr 0x0203C238 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef signed char   s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 extern void *func_0203D788(void);
 extern void *func_0203D798(void);
 struct NetState;
@@ -44,5 +46,5 @@ void func_0203C238(s8 *p)
     func_02037D78();
     func_020398B4((u32)s);
     func_02039834((u32)s);
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C0F4, 0, 0x5AC);
+    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203C0F4, 0, 0x5AC);
 }

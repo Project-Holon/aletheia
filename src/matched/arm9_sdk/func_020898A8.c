@@ -30,13 +30,11 @@
  *   SNDi_SharedWork                  0x02152FA0 data
  */
 
+#include "../include/G_SNDCommand.h"
+
 typedef unsigned long u32;
 
-typedef struct SNDCommand {
-    struct SNDCommand *next;
-    int id;
-    u32 arg[4];
-} SNDCommand;
+typedef struct SNDCommand SNDCommand;
 
 typedef struct SNDSharedWork {
     u32 opaque[160];
@@ -55,7 +53,7 @@ typedef struct SndCommandBss {
 } SndCommandBss;
 
 extern SndCommandBss sCommandBss;
-extern SNDCommand sCommandArray[256];
+extern struct SNDCommand sCommandArray[256];
 extern SNDSharedWork sSharedWork;
 extern SNDSharedWork *SNDi_SharedWork;
 

@@ -25,6 +25,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B8F80.c \
  *       --func APC_Init --addr 0x021B8F80 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_APC_BSS.h"
+
 typedef struct {
     long  dmano;
     void *pbdbuffer;
@@ -50,7 +53,7 @@ typedef struct {
     unsigned char *apci_Wep;              /* +0x24 */
 } APC_BSS;
 
-extern APC_BSS apc_bss;
+extern struct APC_BSS apc_bss;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
@@ -65,12 +68,12 @@ int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size
     enabled = OS_DisableInterrupts();
     apc_bss.apci_Wep = workbuffer;
     apc_bss.apci_WCMConfig = (WCMConfig *)(((unsigned long)workbuffer + 0x50 + 3) & ~3);
-    apc_bss.apci_WCMBuffer = (void *)(((unsigned long)apc_bss.apci_WCMConfig + sizeof(WCMConfig) + 0x1F) & ~0x1F);
+    apc_bss.apci_WCMBuffer = (void *)(((unsigned long)((WCMConfig *)apc_bss.apci_WCMConfig) + sizeof(WCMConfig) + 0x1F) & ~0x1F);
     apc_bss.apci_wmbssdesc = (void *)(((unsigned long)apc_bss.apci_WCMBuffer + 0x2300 + 0x1F) & ~0x1F);
-    apc_bss.apci_WCMConfig->pbdbuffer = (void *)(((unsigned long)apc_bss.apci_wmbssdesc + 0xC0 + 0x1F) & ~0x1F);
-    apc_bss.apci_WCMConfig->nbdbuffer = ((unsigned long)workbuffer + work_size) - (unsigned long)apc_bss.apci_WCMConfig->pbdbuffer;
-    apc_bss.apci_WCMConfig->nbdmode = 0;
-    apc_bss.apci_WCMConfig->dmano = 3;
+    ((WCMConfig *)apc_bss.apci_WCMConfig)->pbdbuffer = (void *)(((unsigned long)apc_bss.apci_wmbssdesc + 0xC0 + 0x1F) & ~0x1F);
+    ((WCMConfig *)apc_bss.apci_WCMConfig)->nbdbuffer = ((unsigned long)workbuffer + work_size) - (unsigned long)((WCMConfig *)apc_bss.apci_WCMConfig)->pbdbuffer;
+    ((WCMConfig *)apc_bss.apci_WCMConfig)->nbdmode = 0;
+    ((WCMConfig *)apc_bss.apci_WCMConfig)->dmano = 3;
     apc_bss.apci_user_callback = user_callback;
     if (apc_bss.apci_state == 0) {
         if (WCM_Init(apc_bss.apci_WCMBuffer, 0x2300) != 0) {

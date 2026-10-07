@@ -45,6 +45,8 @@
  *       --func func_02006544 --addr 0x02006544 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_Sub02006544State.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -74,7 +76,7 @@ struct Sub02006544Pair {
     u16 hi;
 };
 
-extern u16 g_02140484;
+extern struct Sub02006544State g_02140484;
 extern u8  g_02140524[];
 extern u8  g_02140504[];
 extern u8  g_02140534[];
@@ -89,7 +91,7 @@ void func_02006544(u16 a0, u32 a1, u32 a2)
     struct Sub02006544Voice *p;
     int i;
 
-    g_02140484 = a0;
+    (*(u16 *)&g_02140484) = a0;
     g_02140524[0xC] = 0x7F;
     for (i = 0; i < 3; i++) {
         p = &g_02140488[i];

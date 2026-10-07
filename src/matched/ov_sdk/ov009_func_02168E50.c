@@ -19,7 +19,9 @@
  *   func_02169294  0x02169294  arm
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 extern void func_02059F54(int error, int errorCode);
 extern int func_02168D7C(void);
 extern void func_0205A1B0(int name, void *ptr, int flag);
@@ -27,17 +29,17 @@ extern void func_02169294(void);
 
 void func_02168E50(int error, int errorCode)
 {
-    if (*(char **)(g_021AA860 + 0xc) == 0 || error == 0) return;
+    if (*(char **)(((char *)&g_021AA860) + 0xc) == 0 || error == 0) return;
     func_02059F54(error, errorCode);
     if (func_02168D7C() != 0) {
-        if (*(void **)(*(char **)(g_021AA860 + 0xc) + 0x5c) != 0) {
-            func_0205A1B0(4, *(void **)(*(char **)(g_021AA860 + 0xc) + 0x5c), 0);
-            *(int *)(*(char **)(g_021AA860 + 0xc) + 0x5c) = 0;
+        if (*(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x5c) != 0) {
+            func_0205A1B0(4, *(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x5c), 0);
+            *(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x5c) = 0;
         }
-        (*(void (*)(int, unsigned char, int))(*(int *)(*(char **)(g_021AA860 + 0xc) + 0x2c)))(
+        (*(void (*)(int, unsigned char, int))(*(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x2c)))(
             error,
-            *(unsigned char *)(*(char **)(g_021AA860 + 0xc) + 0x1d),
-            *(int *)(*(char **)(g_021AA860 + 0xc) + 0x30));
+            *(unsigned char *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x1d),
+            *(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x30));
     }
     func_02169294();
 }

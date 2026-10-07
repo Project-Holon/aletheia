@@ -18,18 +18,16 @@
  *   d_021F6398     0x021F6398  data  ov093  a4
  *   d_021F63C8     0x021F63C8  data  a4
  */
+
+#include "../include/G_ov093_021F6398.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed int s32;
 typedef char *va_list;
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 #define va_arg(ap, t) (*(t *)((ap += 4) - 4))
 
-typedef struct {
-    u8 pad[0x30];
-    s32 a[8];
-} Tbl;
-
-extern Tbl d_021F6398;
+extern struct G_ov093_021F6398 d_021F6398;
 extern s32 d_021F63C8[];
 extern void func_021EEE80(u32 a, u16 k, u32 *p);
 

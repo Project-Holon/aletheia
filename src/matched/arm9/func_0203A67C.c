@@ -50,12 +50,10 @@
  *       --func func_0203A67C --addr 0x0203A67C --cc 1.1p1 --arm
  */
 
-typedef unsigned int u32;
+#include "../include/G_Entry.h"
+#include "../include/G_BaseTable.h"
 
-struct BaseTable {
-    void *list;
-    int   listNum;
-};
+typedef unsigned int u32;
 
 struct HugeRecv {
     u32 a;
@@ -65,10 +63,10 @@ struct HugeRecv {
 };
 
 extern struct BaseTable g_020A7AE8;
-extern void  *g_020A7AE8_arr[];
+extern struct BaseTable g_020A7AE8_arr;
 extern char   g_020A7AF8[];
 extern char   g_020A7B08[];
-extern struct HugeRecv *g_021469D8;
+extern struct Entry *g_021469D8;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 struct BaseTable *func_0203A67C(u32 cmd)
@@ -80,10 +78,10 @@ struct BaseTable *func_0203A67C(u32 cmd)
     if (hi == 0) {
         if (g_020A7AE8.listNum <= lo)
             func_02034714(g_020A7AF8, 0x10D, g_020A7B08);
-        return (struct BaseTable *)g_020A7AE8_arr;
+        return (struct BaseTable *)((void *)&g_020A7AE8_arr);
     }
     for (i = 0; i < 4; i++) {
-        struct HugeRecv *r = g_021469D8 + i;
+        struct HugeRecv *r = ((struct HugeRecv *)g_021469D8) + i;
         if (hi == r->key) {
             if (r->count <= lo)
                 return 0;

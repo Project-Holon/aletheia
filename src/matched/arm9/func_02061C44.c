@@ -28,6 +28,8 @@
  * neither can attest this file.  Every concrete byte here reproduces.
  */
 
+#include "../include/G_Queue.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -36,12 +38,7 @@ typedef struct Node {
     u32  f0c;   /* 0x0c, byte size consumed */
 } Node;
 
-typedef struct Rec {
-    char pad_00[0x10];
-    u32  f10;   /* 0x10, running byte total */
-} Rec;
-
-extern Rec g_02146B80;
+extern struct Queue g_02146B80;
 extern u32 func_02061BB0(u8 *p);
 struct Obj02061BD0;
 extern u32 func_02061BD0(struct Obj02061BD0 *p);
@@ -53,7 +50,7 @@ void func_02061C44(void)
 
     while (func_02061BD0((struct Obj02061BD0 *)(&g_02146B80)) != 0) {
         func_02061B2C((u32 *)n);
-        g_02146B80.f10 -= n->f0c;
+        g_02146B80.total -= n->f0c;
         n = (Node *)func_02061BB0((u8 *)(&g_02146B80));
     }
 }

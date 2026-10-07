@@ -22,10 +22,9 @@
  *   g_021D3B68     0x021D3B68  data
  */
 
-typedef struct NdState {
-    unsigned char pad0[0x14];
-    int f14;
-} NdState;
+#include "../include/G_NdState.h"
+
+typedef struct NdState NdState;
 
 extern int func_02059F38(void);
 extern void func_02086028(void *mutex);
@@ -34,7 +33,7 @@ extern void OS_UnlockMutex(void *mutex);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_021C7124(void *filelist, int offset, int num);
 extern char g_021D3B84[];
-extern NdState g_021D3B68;
+extern struct NdState g_021D3B68;
 
 int func_021C5C38(void *filelist, unsigned int offset, unsigned int num)
 {

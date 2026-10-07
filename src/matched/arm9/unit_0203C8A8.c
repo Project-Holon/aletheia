@@ -24,10 +24,12 @@
  *       --addr 0x0203C8A8 --arm --cc 1.1p1
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 extern void *func_0203D788(void);
 extern void func_0203C864(void);
@@ -45,21 +47,21 @@ void func_0203C8A8(void)
 
     func_0203D798();
     func_0203516C(1);
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C864, 0, 0x760);
+    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203C864, 0, 0x760);
 }
 
 void func_0203C8E8(u8 v)
 {
-    if (g_021469DC != 0)
-        g_021469DC[0x4F] = v;
+    if (((u8 *)g_021469DC) != 0)
+        ((u8 *)g_021469DC)[0x4F] = v;
 }
 
 void func_0203C900(u8 v)
 {
     u8 *s = func_0203D788();
 
-    if (g_021469DC != 0)
-        g_021469DC[0x50] = v;
+    if (((u8 *)g_021469DC) != 0)
+        ((u8 *)g_021469DC)[0x50] = v;
 
     (*(void (**)(u32))(*(u32 *)(s + 0x340) + 0x8C))(v);
 }

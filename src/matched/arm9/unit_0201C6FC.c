@@ -50,6 +50,8 @@
  *   g_0214655C   0x0214655C  data
  */
 
+#include "../include/G_Scratch.h"
+
 typedef unsigned char      u8;
 typedef unsigned short     u16;
 typedef unsigned int       u32;
@@ -88,7 +90,7 @@ struct PrintSys {
     struct PrintCtx *unk14;
 };
 
-extern struct PrintCtx g_0214655C;
+extern struct Scratch g_0214655C;
 
 extern int func_0203D1B4(void);
 extern u32   func_0201D6B8(void *s);
@@ -105,16 +107,16 @@ void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
 
 void sub_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e)
 {
-    sub_0201C808(&g_0214655C, e, a, b, c);
-    sub_0201C758(p, &g_0214655C, s);
+    sub_0201C808(((struct PrintCtx *)&g_0214655C), e, a, b, c);
+    sub_0201C758(p, ((struct PrintCtx *)&g_0214655C), s);
 }
 
 void sub_0201C724(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e,
                   u16 f)
 {
-    sub_0201C808(&g_0214655C, e, a, b, c);
-    sub_0201C8A4((struct Rec2 *)(&g_0214655C), f);
-    sub_0201C758(p, &g_0214655C, s);
+    sub_0201C808(((struct PrintCtx *)&g_0214655C), e, a, b, c);
+    sub_0201C8A4((struct Rec2 *)(((struct PrintCtx *)&g_0214655C)), f);
+    sub_0201C758(p, ((struct PrintCtx *)&g_0214655C), s);
 }
 
 void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s)

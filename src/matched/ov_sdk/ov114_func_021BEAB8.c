@@ -18,16 +18,12 @@
  *   g_021CF984_hdr 0x021CF984 data
  */
 
-typedef struct Conn {
-    char pad[0x10];
-    void *f10;
-    void *f14;
-    char pad2[8];
-    struct Conn *next;
-} Conn;
+#include "../include/G_Conn.h"
 
-extern Conn *g_021CF984;
-extern Conn *g_021CF984_hdr;
+typedef struct Conn Conn;
+
+extern struct Conn *g_021CF984;
+extern struct Conn *g_021CF984_hdr;
 
 extern void func_021BEFCC(void);
 extern void func_021BEFD8(void *mutexInfo_p);

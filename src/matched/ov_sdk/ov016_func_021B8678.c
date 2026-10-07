@@ -30,19 +30,16 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B8678.c \
  *       --func AOSSi_WLANGetBSSList --addr 0x021B8678 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_OSMessageQueue.h"
+#include "../include/G_AOSSLINK_BSS.h"
+
 typedef struct _OSThreadQueue {
     void *head;
     void *tail;
 } OSThreadQueue;
 
-typedef struct OSMessageQueue {
-    OSThreadQueue queueSend;
-    OSThreadQueue queueReceive;
-    void        **msgArray;
-    long          msgCount;
-    long          firstIndex;
-    long          usedCount;
-} OSMessageQueue;
+typedef struct OSMessageQueue OSMessageQueue;
 
 /*
  * aosslink.o's .bss statics from 0x021DCE20: the vendor object addresses AOSSi_Free and
@@ -56,7 +53,7 @@ typedef struct {
     void  (*AOSSi_Free)(void *ptr);
 } AOSSLINK_BSS;
 
-extern AOSSLINK_BSS aosslink_bss;
+extern struct AOSSLINK_BSS aosslink_bss;
 
 typedef struct OSiAlarm OSAlarm;
 struct OSiAlarm {
@@ -119,7 +116,7 @@ struct wlla_bss_list {
     struct wlla_bss_info BssInfo[1];
 };
 
-extern OSMessageQueue aoss_mq;
+extern struct OSMessageQueue aoss_mq;
 extern void alarmCallback(void *event);
 extern int APC_SearchStart(unsigned char *bssid, unsigned char *essid, int essid_len, unsigned long option);
 extern void OS_CreateAlarm(OSAlarm *alarm);

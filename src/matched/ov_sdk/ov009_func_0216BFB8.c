@@ -17,6 +17,8 @@
  *   g_021AA878  0x021AA878  data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef struct DwcState {
 	void *gt2Socket;
 	unsigned char pad0a[0x10];
@@ -42,12 +44,9 @@ typedef struct DwcState {
 	unsigned char b05;
 } DwcState;
 
-typedef struct DwcGlobal {
-	int lastSocketError;
-	DwcState *st;
-} DwcGlobal;
+typedef struct DwcGlobal DwcGlobal;
 
-extern DwcGlobal g_021AA878;
+extern struct DwcGlobal g_021AA878;
 
 extern void func_0216BC84(int state);
 extern void func_0216EC18(void);
@@ -55,15 +54,15 @@ extern void func_0216EC18(void);
 void func_0216BFB8(int error, int cancel, int self, int isServer, int index)
 {
 	if (error == 0 && cancel != 0) {
-		if (g_021AA878.st->a96c == 0) {
+		if (((DwcState *)g_021AA878.st)->a96c == 0) {
 			func_0216BC84(3);
 			func_0216EC18();
 		}
 	} else if (error == 0) {
 		func_0216BC84(5);
 	}
-	if (g_021AA878.st->b05 == 0)
-		((void (*)(int, int, int, int, int, void *))g_021AA878.st->matchedCallback)(error, cancel, self, isServer, index, g_021AA878.st->matchedParam);
-	if (error != 0 && g_021AA878.st != 0 && (unsigned int)(g_021AA878.st->state - 4) <= 1)
+	if (((DwcState *)g_021AA878.st)->b05 == 0)
+		((void (*)(int, int, int, int, int, void *))((DwcState *)g_021AA878.st)->matchedCallback)(error, cancel, self, isServer, index, ((DwcState *)g_021AA878.st)->matchedParam);
+	if (error != 0 && g_021AA878.st != 0 && (unsigned int)(((DwcState *)g_021AA878.st)->state - 4) <= 1)
 		func_0216BC84(3);
 }

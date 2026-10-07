@@ -24,6 +24,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov016_func_021D3264.c \n *       --func DWCi_MOV_WH_StartMeasureChannel --addr 0x021D3264 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_DWC_MOV_WH_BSS.h"
+
 /*
  * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
@@ -75,7 +78,7 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-extern DWC_MOV_WH_BSS dwc_mov_wh_bss;
+extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 
 typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
 
@@ -95,10 +98,10 @@ int DWCi_MOV_WH_StartMeasureChannel(void)
     unsigned short result;
 
     OS_GetMacAddress(macAddr);
-    dwc_mov_wh_bss.wh->randSeed = (unsigned long)(OS_GetVBlankCount() + *(unsigned short *)&macAddr[0] + *(unsigned short *)&macAddr[2] + *(unsigned short *)&macAddr[4]);
-    dwc_mov_wh_bss.wh->randSeed = dwc_mov_wh_bss.wh->randSeed * 69069 + 12345;
-    dwc_mov_wh_bss.wh->channel = 0;
-    dwc_mov_wh_bss.wh->minBusyRatio = 101;
+    ((WHWork *)dwc_mov_wh_bss.wh)->randSeed = (unsigned long)(OS_GetVBlankCount() + *(unsigned short *)&macAddr[0] + *(unsigned short *)&macAddr[2] + *(unsigned short *)&macAddr[4]);
+    ((WHWork *)dwc_mov_wh_bss.wh)->randSeed = ((WHWork *)dwc_mov_wh_bss.wh)->randSeed * 69069 + 12345;
+    ((WHWork *)dwc_mov_wh_bss.wh)->channel = 0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->minBusyRatio = 101;
     DWCi_MOV_WH_ChangeSysState(3);
     result = DWCi_MOV_WH_StateInMeasureChannel(1);
     if (result == 24) {

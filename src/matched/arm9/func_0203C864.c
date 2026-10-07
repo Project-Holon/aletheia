@@ -25,12 +25,13 @@
  *       --func func_0203C864 --addr 0x0203C864 --cc 1.1p1 --arm
  */
 #include "../include/Obj15970.h"
+#include "../include/G_Sys.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 extern void *func_0203D798(void);
 struct NetState;
@@ -44,5 +45,5 @@ void func_0203C864(void)
     if (func_02037700(0x200, ((struct Obj15970 *)p)->f56) == 0)
         return;
 
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C7E0, 0, 0x74A);
+    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203C7E0, 0, 0x74A);
 }

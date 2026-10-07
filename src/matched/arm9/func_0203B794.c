@@ -19,11 +19,13 @@
  *       --func func_0203B794 --addr 0x0203B794 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 struct B794 {
     u8     pad_00[0x2C];
@@ -50,5 +52,5 @@ void func_0203B794(struct B794 *p)
         p->unk_2C = 0;
     }
 
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x325);
+    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203C00C, 0, 0x325);
 }

@@ -29,6 +29,8 @@
  *   @20752         0x021DB350  data
  */
 
+#include "../include/G_FocusPosT.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
@@ -59,7 +61,7 @@ extern void GX_LoadBGPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void func_021D4C68(void *file);
 extern void GX_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte);
 extern void GX_LoadBG2Scr(const void *pSrc, u32 offset, u32 szByte);
-extern FocusPosT g_021DE5A8;
+extern struct FocusPosT g_021DE5A8;
 
 #define BG_PRIORITY_3(reg) (*(vu16 *)(reg) = (u16)((*(vu16 *)(reg) & ~3) | 3))
 

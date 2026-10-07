@@ -20,7 +20,9 @@
  *   g_021AA878     0x021AA878  data
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 extern void func_0216A3B8(int error, int errorCode);
 extern void func_0216EB68(int error, int errorCode);
 extern void func_02168E50(int error, int errorCode);
@@ -37,14 +39,14 @@ int func_0216BD04(int result)
     case 3: dwcError = 6; errorCode = -10; break;
     case 4: dwcError = 6; errorCode = -20; break;
     }
-    switch (*(int *)(*(char **)(g_021AA878 + 4) + 0x24)) {
+    switch (*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x24)) {
     case 1:
         errorCode += (int)0xffff11b8;
         func_0216A3B8(dwcError, errorCode);
         break;
     case 2:
         errorCode += (int)0xffff11b8;
-        if (*(int *)(*(char **)(g_021AA878 + 4) + 0x94) < 1)
+        if (*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x94) < 1)
             func_0216A3B8(dwcError, errorCode);
         break;
     case 4:

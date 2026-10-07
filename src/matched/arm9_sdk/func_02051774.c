@@ -20,11 +20,13 @@
  * Addresses are Black-image addresses.
  */
 
+#include "../include/G_02146A88.h"
+
 typedef unsigned int u32;
 
-extern u32 d_02146A88;
+extern struct G_02146A88 *d_02146A88;
 
 u32 func_02051774(void)
 {
-    return *(u32 *)(*(u32 *)&d_02146A88 + 0x40);
+    return *(u32 *)(*(u32 *)&(*(u32 *)&d_02146A88) + 0x40);
 }

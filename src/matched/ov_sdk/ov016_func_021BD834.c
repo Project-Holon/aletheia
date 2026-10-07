@@ -19,6 +19,8 @@
  *   g_021DA090     0x021DA090  data
  */
 
+#include "../include/G_MemIcon.h"
+
 typedef struct GXOamAttr {
     union {
         struct {
@@ -31,18 +33,14 @@ typedef struct GXOamAttr {
     unsigned short attr3;
 } GXOamAttr;
 
-typedef struct MemIcon {
-    GXOamAttr *obj;
-    void *task;
-    signed char type;
-} MemIcon;
+typedef struct MemIcon MemIcon;
 
 typedef enum { LV0, LV1, LV2, LV3 } WMLinkLevel;
 
 extern unsigned short func_0208EE60(void);
 extern WMLinkLevel func_0208EE9C(void);
 extern void func_021D52D4(int lcd, int idx, GXOamAttr *obj);
-extern MemIcon *g_021DE558;
+extern struct MemIcon *g_021DE558;
 extern unsigned char g_021DA090[][4];
 
 void func_021BD834(void)
@@ -56,6 +54,6 @@ void func_021BD834(void)
     (void)*ime;
     *ime = old;
     func_021D52D4(0, g_021DA090[g_021DE558->type][lv], g_021DE558->obj);
-    g_021DE558->obj->u.attr01 = (g_021DE558->obj->u.attr01 & 0xFE00FF00) | 0x26 | (0xE5 << 16);
-    g_021DE558->obj->attr2 = (g_021DE558->obj->attr2 & ~0xC00) | 0x800;
+    ((GXOamAttr *)g_021DE558->obj)->u.attr01 = (((GXOamAttr *)g_021DE558->obj)->u.attr01 & 0xFE00FF00) | 0x26 | (0xE5 << 16);
+    ((GXOamAttr *)g_021DE558->obj)->attr2 = (((GXOamAttr *)g_021DE558->obj)->attr2 & ~0xC00) | 0x800;
 }

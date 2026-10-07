@@ -14,9 +14,11 @@
  *   g_02151384  0x02151384  data  a4
  */
 
-extern int g_02151384[];
+#include "../include/G_OsArgumentBss.h"
+
+extern struct OsArgumentBss g_02151384;
 
 void func_02088118(void)
 {
-    g_02151384[1] = 0;
+    ((int *)&g_02151384)[1] = 0;
 }

@@ -21,6 +21,8 @@
  *   g_02146AD4 0x02146AD4 data
  */
 
+#include "../include/G_INETBSS.h"
+
 typedef struct {
     int ac_state;
     unsigned short state;
@@ -46,7 +48,7 @@ typedef struct {
     DWCstInetControl *stpInetCntl;
 } INETBSS;
 
-extern INETBSS g_02146AD4;
+extern struct INETBSS g_02146AD4;
 
 extern int DWC_AC_ProcessGetWDSInfo(void);
 extern void DWC_AC_CleanupGetWDSInfo(void);
@@ -60,34 +62,34 @@ void func_0205C8E0(void)
     if (g_02146AD4.stpInetCntl == 0) {
         return;
     }
-    switch (g_02146AD4.stpInetCntl->processWDSstate) {
+    switch (((DWCstInetControl *)g_02146AD4.stpInetCntl)->processWDSstate) {
     case 1:
-        g_02146AD4.stpInetCntl->ac_state = 0;
-        g_02146AD4.stpInetCntl->processWDSstate = DWC_AC_ProcessGetWDSInfo();
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->ac_state = 0;
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->processWDSstate = DWC_AC_ProcessGetWDSInfo();
         return;
     case 2:
         DWC_AC_CleanupGetWDSInfo();
-        func_0205C81C(g_02146AD4.stpInetCntl->nspotInfo.ssid, g_02146AD4.stpInetCntl->nspotInfo.wep,
-                      g_02146AD4.stpInetCntl->nspotInfo.wepMode, g_02146AD4.stpInetCntl->nspotInfo.mtu,
-                      g_02146AD4.stpInetCntl->nspotInfo.apSpotInfo, 8);
+        func_0205C81C(((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.ssid, ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.wep,
+                      ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.wepMode, ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.mtu,
+                      ((DWCstInetControl *)g_02146AD4.stpInetCntl)->nspotInfo.apSpotInfo, 8);
         DWCi_AC_InvalidatePriorityWPA();
-        g_02146AD4.stpInetCntl->processWDSstate = 0;
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->processWDSstate = 0;
         return;
     case 3:
         DWC_AC_CleanupGetWDSInfo();
-        g_02146AD4.stpInetCntl->ac_state = -1;
-        g_02146AD4.stpInetCntl->wontExecuteWDS = 1;
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->ac_state = -1;
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->wontExecuteWDS = 1;
         return;
     case 4:
     case 5:
         return;
     }
-    if (g_02146AD4.stpInetCntl->state == 2) {
-        g_02146AD4.stpInetCntl->ac_state = DWC_AC_Process();
-    } else if (g_02146AD4.stpInetCntl->state == 4 && g_02146AD4.stpInetCntl->online != 0) {
+    if (((DWCstInetControl *)g_02146AD4.stpInetCntl)->state == 2) {
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->ac_state = DWC_AC_Process();
+    } else if (((DWCstInetControl *)g_02146AD4.stpInetCntl)->state == 4 && ((DWCstInetControl *)g_02146AD4.stpInetCntl)->online != 0) {
         if (WCM_GetPhase() != 9) {
-            g_02146AD4.stpInetCntl->online = 0;
-            g_02146AD4.stpInetCntl->state = 6;
+            ((DWCstInetControl *)g_02146AD4.stpInetCntl)->online = 0;
+            ((DWCstInetControl *)g_02146AD4.stpInetCntl)->state = 6;
         }
     }
 }

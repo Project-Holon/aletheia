@@ -15,6 +15,9 @@
  *   func_021D780C  0x021D780C  thumb  ov093
  *   _ll_mul        0x0209C054  arm
  */
+
+#include "../include/G_Tbl.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef signed long long s64;
@@ -27,13 +30,13 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern Tbl g_021F3ECC;
+extern struct Tbl g_021F3ECC;
 extern int func_021D77E8(Tbl *p, int key);
 extern int func_021D780C(Tbl *p, int i, int v);
 
 void func_021D7704(int key, s32 m)
 {
-    Tbl *t = &g_021F3ECC;
+    Tbl *t = ((Tbl *)&g_021F3ECC);
     int i = func_021D77E8(t, key);
 
     if (i >= 0 && t->c[i] == 3) {

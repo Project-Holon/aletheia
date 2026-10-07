@@ -34,6 +34,7 @@
  */
 
 #include "../arm9_sdk/libc/string.h"
+#include "../include/G_NdState.h"
 
 typedef unsigned long u32;
 
@@ -46,13 +47,7 @@ typedef struct SvlResult {
     char svltoken[1];           /* +0x89 */
 } SvlResult;
 
-typedef struct NdStatics {
-    void *s_userCallback;       /* +0x00 */
-    char pad4[0x18 - 4];
-    SvlResult *svl;             /* +0x18 */
-} NdStatics;
-
-extern NdStatics g_021D3B68;
+extern struct NdState g_021D3B68;
 
 extern int func_02168040(void);
 extern void func_021C58C8(int reason, int error, int servererror);
@@ -76,22 +71,22 @@ static void func_021C5724(void)
     while (1) {
         switch (func_02168040()) {
         case 3:
-            if (strlen(g_021D3B68.svl->svlhost) + strlen("https:///download") > sizeof(url) - 1) {
+            if (strlen(((SvlResult *)g_021D3B68.svl)->svlhost) + strlen("https:///download") > sizeof(url) - 1) {
                 func_021C58C8(0, 8, -1);
                 return;
             }
-            func_02084F80(url, sizeof(url), "https://%s/download", g_021D3B68.svl->svlhost);
-            if (func_02059B40(g_021D3B68.svl->svltoken, strlen(g_021D3B68.svl->svltoken),
+            func_02084F80(url, sizeof(url), "https://%s/download", ((SvlResult *)g_021D3B68.svl)->svlhost);
+            if (func_02059B40(((SvlResult *)g_021D3B68.svl)->svltoken, strlen(((SvlResult *)g_021D3B68.svl)->svltoken),
                               token, sizeof(token)) < 0) {
                 func_021C58C8(0, 8, -1);
                 return;
             }
-            if (!func_021C6348(func_021C569C, func_021C56B4, url, token, g_021D3B68.svl->gamecd,
-                               g_021D3B68.svl->passwd, func_021C58C8)) {
+            if (!func_021C6348(func_021C569C, func_021C56B4, url, token, ((SvlResult *)g_021D3B68.svl)->gamecd,
+                               ((SvlResult *)g_021D3B68.svl)->passwd, func_021C58C8)) {
                 func_021C58C8(0, 8, -1);
                 return;
             }
-            g_021D3B68.svl->status = 1;
+            ((SvlResult *)g_021D3B68.svl)->status = 1;
             func_021C58C8(0, 0, -1);
             return;
         case 4:

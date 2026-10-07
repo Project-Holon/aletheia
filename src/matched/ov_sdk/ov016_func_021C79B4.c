@@ -20,17 +20,16 @@
  *   func_021C7A0C  0x021C7A0C  arm  ov016
  */
 
-typedef struct MemSsea {
-    unsigned char pad0[0x15];
-    unsigned char result;
-} MemSsea;
+#include "../include/G_MemSsea.h"
+
+typedef struct MemSsea MemSsea;
 
 extern signed char func_021D1568(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021D1524();
 extern void func_021C0E40(unsigned int v);
 extern void func_021C7A0C();
-extern MemSsea *g_021DE5E4;
+extern struct MemSsea *g_021DE5E4;
 
 void func_021C79B4(void)
 {

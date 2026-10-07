@@ -20,6 +20,8 @@
  * Ends an AP search: only valid in the search phases, moves to the search-ending phase and reports pending.
  */
 
+#include "../include/G_WCMState.h"
+
 typedef struct WCMWork {
     unsigned char pad0[0x12DA];
     unsigned short notify;
@@ -27,12 +29,9 @@ typedef struct WCMWork {
     unsigned char phase;
 } WCMWork;
 
-typedef struct WCMState {
-    long pad0;
-    WCMWork *work;
-} WCMState;
+typedef struct WCMState WCMState;
 
-extern WCMState g_021AA7D4;
+extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02165A4C(unsigned char phase);
@@ -46,10 +45,10 @@ long func_02165204(int a, int b)
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (g_021AA7D4.work->phase) {
+    switch (((WCMWork *)g_021AA7D4.work)->phase) {
     case 6:
         func_02165A4C(7);
-        g_021AA7D4.work->notify = 4;
+        ((WCMWork *)g_021AA7D4.work)->notify = 4;
         break;
     case 7:
         OS_RestoreInterrupts(e);

@@ -14,13 +14,15 @@
  *   d_021F63F4  0x021F63F4  data  a4
  */
 
+#include "../include/G_Countdown.h"
+
 typedef unsigned int u32;
 typedef struct { u32 v; } Slot;
 
-extern char d_021F63F4;
+extern struct Countdown d_021F63F4;
 extern int func_021EF9F4(void *mem, u32 b, Slot c, int d);
 
 int func_021EF8C8(u32 a, Slot c)
 {
-    return func_021EF9F4(&d_021F63F4, a, c, 1);
+    return func_021EF9F4(&(*(char *)&d_021F63F4), a, c, 1);
 }

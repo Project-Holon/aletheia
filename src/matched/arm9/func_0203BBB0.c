@@ -28,11 +28,12 @@
  *       --func func_0203BBB0 --addr 0x0203BBB0 --cc 1.1p1 --arm
  */
 #include "../include/Obj06945.h"
+#include "../include/G_Sys.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 struct Slot;
 extern void *func_0203D788(void);
@@ -49,14 +50,14 @@ void func_0203BBB0(u32 a)
     u8 *s = func_0203D788();
     u8 *g;
 
-    g = g_021469DC;
+    g = ((u8 *)g_021469DC);
     if (g[0x56] == 2 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B950) {
         if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) != 0) {
-            func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B90C, 0, 0x3E0);
+            func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)func_0203B90C, 0, 0x3E0);
         }
     }
 
-    g = g_021469DC;
+    g = ((u8 *)g_021469DC);
     if (g[0x56] == 1 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B5D4) {
         func_0203AD80((struct NetState *)g, (void *)func_0203B48C, 0, 0x3E9);
     }

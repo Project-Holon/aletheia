@@ -21,10 +21,9 @@
  *   g_021CE60C                       0x021ce60c data
  */
 
-typedef struct GHIThrottle {
-    unsigned int timeDelay;     /* ghiThrottleTimeDelay */
-    int bufferSize;             /* ghiThrottleBufferSize */
-} GHIThrottle;
+#include "../include/G_GHIThrottle.h"
+
+typedef struct GHIThrottle GHIThrottle;
 
 typedef struct GHIConnection {
     char pad0[0x40];
@@ -52,7 +51,7 @@ extern int func_021C1C80(void *connection, void *encryptor, char *buffer, int *b
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217ED54(int sock);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern GHIThrottle g_021CE5AC;
+extern struct GHIThrottle g_021CE5AC;
 extern char g_021CE60C[];
 
 int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen)

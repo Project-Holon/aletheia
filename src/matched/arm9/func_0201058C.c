@@ -51,11 +51,12 @@
  *       --func func_0201058C --addr 0x0201058C --thumb
  */
 #include "../include/Obj03426.h"
+#include "../include/G_WihCtx.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *g_021461E0;
+extern struct WihCtx g_021461E0;
 
 extern void *func_0203D798(void);
 extern int  func_0203D1B4(void);
@@ -83,7 +84,7 @@ u32 func_0201058C(void *key)
     struct WihInfo info;
     u8 s;
 
-    if (g_021461E0 == 0)
+    if ((*(u8 * *)&g_021461E0) == 0)
         return flags;
 
     if (sub_020107FC(key) != -1)
@@ -101,50 +102,50 @@ u32 func_0201058C(void *key)
         }
     }
 
-    for (j = 0; j < *(u16 *)(g_021461E0 + 0x316); j++) {
-        rec = g_021461E0 + j * 0xC0;
+    for (j = 0; j < *(u16 *)((*(u8 * *)&g_021461E0) + 0x316); j++) {
+        rec = (*(u8 * *)&g_021461E0) + j * 0xC0;
         if (sub_020104F8(rec)) {
-            *(int *)(g_021461E0 + 0x318) = 600;
+            *(int *)((*(u8 * *)&g_021461E0) + 0x318) = 600;
         } else if (func_0201054C(rec)) {
-            *(int *)(g_021461E0 + 0x31C) = 600;
-        } else if (func_0205D01C(*(u32 *)(g_021461E0 + 0x300), rec, &info)) {
+            *(int *)((*(u8 * *)&g_021461E0) + 0x31C) = 600;
+        } else if (func_0205D01C(*(u32 *)((*(u8 * *)&g_021461E0) + 0x300), rec, &info)) {
             switch (info.kind) {
             case 0: case 1: case 2: case 3:
             case 10: case 11: case 12:
-                *(int *)(g_021461E0 + 0x318) = 600;
+                *(int *)((*(u8 * *)&g_021461E0) + 0x318) = 600;
                 break;
             case 4: case 5: case 6: case 8:
-                *(int *)(g_021461E0 + 0x31C) = 600;
+                *(int *)((*(u8 * *)&g_021461E0) + 0x31C) = 600;
                 break;
             case 7: case 9:
                 break;
             }
         } else if (((struct Obj03426 *)rec)->fA != 0) {
             if (func_0201057C((const struct Ctx *)rec) == 0)
-                *(int *)(g_021461E0 + 0x320) = 400;
+                *(int *)((*(u8 * *)&g_021461E0) + 0x320) = 400;
             else
-                *(int *)(g_021461E0 + 0x324) = 400;
+                *(int *)((*(u8 * *)&g_021461E0) + 0x324) = 400;
         }
     }
 
-    if (*(int *)(g_021461E0 + 0x318) > 0)
+    if (*(int *)((*(u8 * *)&g_021461E0) + 0x318) > 0)
         flags |= 0x40;
-    if (*(int *)(g_021461E0 + 0x31C) > 0)
+    if (*(int *)((*(u8 * *)&g_021461E0) + 0x31C) > 0)
         flags |= 0x80;
-    if (*(int *)(g_021461E0 + 0x320) > 0)
+    if (*(int *)((*(u8 * *)&g_021461E0) + 0x320) > 0)
         flags |= 0x100;
-    if (*(int *)(g_021461E0 + 0x324) > 0)
+    if (*(int *)((*(u8 * *)&g_021461E0) + 0x324) > 0)
         flags |= 0x200;
-    if (*(u16 *)(g_021461E0 + 0x30E) != 0)
-        *(u16 *)(g_021461E0 + 0x30E) = *(u16 *)(g_021461E0 + 0x30E) - 1;
+    if (*(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) != 0)
+        *(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) = *(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) - 1;
 
     if (flags == 0) {
-        *(u16 *)(g_021461E0 + 0x312) = 0;
-    } else if (*(u16 *)(g_021461E0 + 0x314) != 0 && *(u16 *)(g_021461E0 + 0x30E) == 0) {
-        *(u16 *)(g_021461E0 + 0x312) = *(u16 *)(g_021461E0 + 0x314);
-        *(u16 *)(g_021461E0 + 0x30E) = 400;
-        *(u16 *)(g_021461E0 + 0x314) = 0;
+        *(u16 *)((*(u8 * *)&g_021461E0) + 0x312) = 0;
+    } else if (*(u16 *)((*(u8 * *)&g_021461E0) + 0x314) != 0 && *(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) == 0) {
+        *(u16 *)((*(u8 * *)&g_021461E0) + 0x312) = *(u16 *)((*(u8 * *)&g_021461E0) + 0x314);
+        *(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) = 400;
+        *(u16 *)((*(u8 * *)&g_021461E0) + 0x314) = 0;
     }
-    *(u16 *)(g_021461E0 + 0x316) = 0;
+    *(u16 *)((*(u8 * *)&g_021461E0) + 0x316) = 0;
     return flags | 2;
 }

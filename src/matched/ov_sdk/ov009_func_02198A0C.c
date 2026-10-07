@@ -90,6 +90,7 @@
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"
+#include "../include/G_Magic6.h"
 
 typedef struct SOCSockAddrIn {
     unsigned char len;
@@ -162,7 +163,7 @@ static int gotADDRESS1b = 0;
 static char strAddressArray[44] = {0};
 extern char g_021AE498[];
 extern char g_021A59B4[];
-extern char g_021A5A7C[];
+extern struct Magic6 g_021A5A7C;
 extern char g_021A59CC[];
 extern char g_021A59F0[];
 extern char g_021A5A20[];
@@ -187,7 +188,7 @@ int func_02198A0C(int sock, NAT *nat)
             break;
         }
 
-        if (func_020923F0(g_021AE498, g_021A5A7C, 6) != 0)
+        if (func_020923F0(g_021AE498, ((char *)&g_021A5A7C), 6) != 0)
             return 1;
 
         ptype = *(unsigned char *)(g_021AE498 + 7);

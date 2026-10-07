@@ -23,12 +23,13 @@
  *   func_02045C04 0x02045C04 arm
  */
 #include "../include/Obj02556.h"
+#include "../include/G_Template.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-typedef struct Template {u8 pad[0x18];u8 page;u8 pad19;u16 start;u8 pad1c[8];void *owner;} Template;
-extern Template d_021BB060;
-extern Template template_021BB060;
+typedef struct Template Template;
+extern struct Template d_021BB060;
+extern struct Template template_021BB060;
 extern int tbl_021BAC80[];
 struct S;
 struct Tmpl;

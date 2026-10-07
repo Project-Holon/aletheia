@@ -39,6 +39,9 @@
  *   func_02066754  0x02066754  arm
  */
 
+#include "../include/G_Mtx.h"
+#include "../include/G_02148018.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef int           fx32;
@@ -54,8 +57,8 @@ struct Manager {
 
 extern struct Manager g_02147B88;
 extern fx32 g_02147B98[];
-extern Mtx  g_02147D18[];
-extern Mtx  g_02148018[];
+extern struct Mtx g_02147D18[];
+extern struct G_02148018 g_02148018[];
 
 extern void func_02066754(const Mtx *a, const Mtx *b, Mtx *out);
 
@@ -76,7 +79,7 @@ void func_020663D0(fx32 x, fx32 y, fx32 z)
     m.m11 = 0x1000;
     m.tx = x;
     m.ty = y;
-    func_02066754(&m, &g_02147D18[g_02147B88.slot], &g_02147D18[g_02147B88.slot]);
-    func_02066754(&m, &g_02148018[g_02147B88.slot], &g_02148018[g_02147B88.slot]);
+    func_02066754(&m, &((Mtx *)g_02147D18)[g_02147B88.slot], &((Mtx *)g_02147D18)[g_02147B88.slot]);
+    func_02066754(&m, &((Mtx *)g_02148018)[g_02147B88.slot], &((Mtx *)g_02148018)[g_02147B88.slot]);
     g_02147B98[g_02147B88.slot] += z;
 }

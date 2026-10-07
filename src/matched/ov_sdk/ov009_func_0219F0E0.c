@@ -28,6 +28,8 @@
  *   g_021A8230  0x021A8230  data
  */
 
+#include "../include/G_021AEB04.h"
+
 typedef struct {
     char sortkey[256];
     int sorttype;
@@ -38,10 +40,6 @@ typedef struct {
     SBSortInfo prevsortinfo;
     int sortascending;
 } SBServerList;
-typedef struct {
-    int pad0;
-    SBServerList *slist;
-} SBSortGlobals;
 typedef struct SBServer SBServer;
 
 extern int func_0219E120(struct SBServer *server, char *key, int idefault);
@@ -50,7 +48,7 @@ struct _SBServer;
 extern char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def);
 extern int func_020948E0(const char *a, const char *b);
 extern int func_0209ABF8(const char *a, const char *b);
-extern SBSortGlobals g_021AEB04;
+extern struct G_021AEB04 g_021AEB04;
 extern char g_021A8230[];
 
 int func_0219F0E0(SBServer *server1, SBServer *server2)
@@ -59,14 +57,14 @@ int func_0219F0E0(SBServer *server1, SBServer *server2)
     int diff;
     double f;
 
-    prevsortkey = g_021AEB04.slist->prevsortinfo.sortkey;
-    switch (g_021AEB04.slist->prevsortinfo.sorttype) {
+    prevsortkey = ((SBServerList *)g_021AEB04.slist)->prevsortinfo.sortkey;
+    switch (((SBServerList *)g_021AEB04.slist)->prevsortinfo.sorttype) {
     case 0:
         diff = func_0219E120(server1, prevsortkey, 0) - func_0219E120(server2, prevsortkey, 0);
         break;
     case 1:
         f = func_0219E1B8(server1, prevsortkey, 0) - func_0219E1B8(server2, prevsortkey, 0);
-        if (!g_021AEB04.slist->sortascending)
+        if (!((SBServerList *)g_021AEB04.slist)->sortascending)
             f = 0 - f;
         if ((float)f > 0)
             return 1;
@@ -82,7 +80,7 @@ int func_0219F0E0(SBServer *server1, SBServer *server2)
     default:
         return 0;
     }
-    if (!g_021AEB04.slist->sortascending)
+    if (!((SBServerList *)g_021AEB04.slist)->sortascending)
         diff = -diff;
     return diff;
 }

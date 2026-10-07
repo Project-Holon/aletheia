@@ -40,12 +40,9 @@
  *       --func func_020729C0 --addr 0x020729C0 --cc ../2.0/sp2 --arm
  */
 
-struct Global0214DEC0_2 {
-    char pad[4];
-    int flags4;
-};
+#include "../include/G_Global0214DEC0.h"
 
-extern struct Global0214DEC0_2 g_0214DEC0;
+extern struct Global0214DEC0 g_0214DEC0;
 
 int func_020729C0(void)
 {

@@ -24,6 +24,11 @@
  *   d_020A1EB8 0x020A1EB8 data a2
  *   d_021BFD54 0x021BFD54 data a4
  */
+
+#include "../include/G_021BFD68.h"
+#include "../include/G_021BFD5C.h"
+#include "../include/G_021BFD74.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,14 +44,16 @@ extern void func_02048B60(struct Light *l, const u32 *in);
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_02048C58(struct LightSlot *slots);
 extern void func_021BDB70(void);
-extern Vec3 d_021BFD68, d_021BFD5C, d_021BFD74;
+extern struct G_021BFD68 d_021BFD68;
+extern struct G_021BFD5C d_021BFD5C;
+extern struct G_021BFD74 d_021BFD74;
 extern const short d_020A1EB8[];
 extern const struct LightSet d_021BFD54;
 void func_021BE03C(char *p, u8 heap)
 {
     u32 far_clip, near_clip;
     func_02046440(0, 2, 0, 2, 0, heap, func_021BDB70);
-    *(u32 **)p = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, &d_021BFD68, &d_021BFD5C, &d_021BFD74, heap);
+    *(u32 **)p = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&d_021BFD68), ((Vec3 *)&d_021BFD5C), ((Vec3 *)&d_021BFD74), heap);
     far_clip = 0x800000;
     near_clip = 0x19A;
     func_02048B6C(*(struct Light **)p, &far_clip);

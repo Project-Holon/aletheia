@@ -23,6 +23,8 @@
  *   g_021AA860     0x021AA860  data
  */
 
+#include "../include/G_FriendGlobal.h"
+
 typedef unsigned char u8;
 
 struct Work {
@@ -31,8 +33,7 @@ struct Work {
     char pad1c;
     u8 flag;
 };
-struct Root { char pad[0xc]; struct Work *w; };
-extern struct Root g_021AA860;
+extern struct FriendGlobal g_021AA860;
 
 extern int func_02168FF0(int index);
 extern int func_020591CC(void *friendData);
@@ -63,11 +64,11 @@ int func_021696B0(u8 *friendList, int friendListLen, int profileID)
                 func_02059A10(friendList + i * 12, pid_i);
             if (func_0205915C(friendList + j * 12)) {
                 func_02059214(friendList + i * 12);
-                if (func_0205912C(g_021AA860.w->friendList + i * 12))
-                    func_02059270(g_021AA860.w->friendList + i * 12, 1);
+                if (func_0205912C(g_021AA860.ctl->friendList + i * 12))
+                    func_02059270(g_021AA860.ctl->friendList + i * 12, 1);
             }
             func_0216959C(friendList, j, i);
-            g_021AA860.w->flag = 1;
+            g_021AA860.ctl->flag = 1;
         }
     }
     return index;

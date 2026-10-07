@@ -31,18 +31,14 @@
  *   EXACT, 72 bytes, 2 relocation sites, all 2 resolved.
  */
 
+#include "../include/G_Ptrs020A8150.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ent020A816C {
     u32 w[6];
-};
-
-struct Ptrs020A8150 {
-    u32 unk0;
-    u32 unk4;
-    u32 p[5];
 };
 
 extern struct Ent020A816C  g_020A816C[];

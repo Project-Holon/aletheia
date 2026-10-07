@@ -31,15 +31,12 @@
  *       --func func_0204A648 --addr 0x0204A648 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-struct Sys {
-    u8  pad_000[0xec];
-    u32 unk_0ec;
-};
-
-extern struct Sys *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 extern u32  func_0204BB04(void);
 extern void func_0204BB20(u32 v);
@@ -57,7 +54,7 @@ void func_0204A648(void)
 
     func_0204BCF4((struct Obj *)g_02146A74);
 
-    if (g_02146A74->unk_0ec != 0)
+    if (g_02146A74->field_EC != 0)
         func_0204C7A4((struct Table *)((char *)g_02146A74 + 0xe0));
 
     func_0204BB20(1);

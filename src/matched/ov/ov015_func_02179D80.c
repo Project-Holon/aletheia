@@ -31,11 +31,13 @@
  *   _u32_div_f           0x0209C2B0  arm
  */
 
+#include "../include/G_State.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 d_0217AB80[];
+extern struct State d_0217AB80;
 extern u8 d_0217AAC0[];
 
 extern void func_02179B38(u8 *pkt, u32 len, u32 type);
@@ -56,7 +58,7 @@ void func_02179D80(void)
 {
     u8 *w = d_0217AAC0;
 
-    if (d_0217AB80[0x1D] != 0 || W(0xC0) < W(0xBC) || W(0xC0) == 0) {
+    if (((u8 *)&d_0217AB80)[0x1D] != 0 || W(0xC0) < W(0xBC) || W(0xC0) == 0) {
 
         if (W(0xC0) == 0)
             func_0217A334();

@@ -19,11 +19,13 @@
  *   g_021ACE5C             0x021ACE5C  data
  */
 
+#include "../include/G_G.h"
+
 typedef struct {
     void *http;
     char *nc;
 } G;
-extern G g_021ACE5C;
+extern struct G g_021ACE5C;
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long size, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);

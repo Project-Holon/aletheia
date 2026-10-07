@@ -30,6 +30,8 @@
  *   python tools/match.py tu --src src/matched/unit_0201C020.c  *       --addr 0x0201C020 --thumb
  */
 
+#include "../include/G_WazaTool.h"
+
 typedef unsigned char  u8;
 typedef signed char    s8;
 typedef unsigned short u16;
@@ -40,12 +42,6 @@ struct Waza {
     u8  unk00[0x15];
     u8  unk15[3];
     s8  unk18[3];
-};
-
-struct WazaTool {
-    struct Waza **recs;
-    u16 *vals;
-    s32 count;
 };
 
 extern struct WazaTool *gWazaTool;
@@ -62,18 +58,18 @@ u8 sub_0201C020(u16 id)
 
     if (gWazaTool != 0) {
         for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
+            if (((u16 *)gWazaTool->vals)[i] == 0) {
+                ((u16 *)gWazaTool->vals)[i] = id;
                 func_02048F4C(gWazaTool->recs[i], 0x15, id);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (id == ((u16 *)gWazaTool->vals)[i]) {
                 break;
             }
         }
         if (i == gWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
+            ((u16 *)gWazaTool->vals)[i] = id;
             func_02048F4C(gWazaTool->recs[i], 0x15, id);
         }
         rec = gWazaTool->recs[i];
@@ -98,18 +94,18 @@ u8 sub_0201C0BC(u16 id, u32 idx, s32 *out)
 
     if (gWazaTool != 0) {
         for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
+            if (((u16 *)gWazaTool->vals)[i] == 0) {
+                ((u16 *)gWazaTool->vals)[i] = id;
                 func_02048F4C(gWazaTool->recs[i], 0x15, id);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (id == ((u16 *)gWazaTool->vals)[i]) {
                 break;
             }
         }
         if (i == gWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
+            ((u16 *)gWazaTool->vals)[i] = id;
             func_02048F4C(gWazaTool->recs[i], 0x15, id);
         }
         rec = gWazaTool->recs[i];

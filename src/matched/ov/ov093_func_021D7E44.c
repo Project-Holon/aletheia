@@ -15,6 +15,8 @@
  *   data_021F6360  0x021F6360  data  ov093
  */
 
+#include "../include/G_Unk021F6360.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,7 +24,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-struct Unk021F6360 { u32 pad0; u16 *tbl; };
 extern struct Unk021F6360 data_021F6360;
 int func_021D7E90(const u16 *p, u32 n, u32 v);
 u32 func_021D78AC(u32 range);
@@ -34,7 +35,7 @@ u16 func_021D7E44(int a, int b)
 
     for (i = 1; i < 0x230; i++) {
         if (func_021D7E90((const u16 *)a, b, i) == 0)
-            data_021F6360.tbl[n++] = i;
+            ((u16 *)data_021F6360.tbl)[n++] = i;
     }
-    return data_021F6360.tbl[(u16)func_021D78AC(n)];
+    return ((u16 *)data_021F6360.tbl)[(u16)func_021D78AC(n)];
 }

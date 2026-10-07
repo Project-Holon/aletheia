@@ -21,6 +21,8 @@
  *   g_021AB190  0x021AB190  data  ov009
  */
 
+#include "../include/G_DWCWFCUtil.h"
+
 typedef struct DWCAuthParam
 {
     unsigned short ingamesn[26];
@@ -41,12 +43,7 @@ typedef struct DWCAuth
     char pad1318[0x13f4 - 0x1318];
 } DWCAuth;
 
-typedef struct DWCWFCUtil
-{
-    int f0;
-    DWCAuth *auth;
-    int state;
-} DWCWFCUtil;
+typedef struct DWCWFCUtil DWCWFCUtil;
 
 struct DWCHttp;
 extern int func_0217A484(struct DWCHttp *http, int noparsebody);
@@ -56,59 +53,59 @@ extern int func_02058DD0(struct tagDWCWiFiInfo *wifiinfo, void *work);
 extern int func_02058E20(struct tagDWCWiFiInfo *wifiinfo);
 extern int func_02058D88(void *work);
 
-extern DWCWFCUtil g_021AB184;
+extern struct DWCWFCUtil g_021AB184;
 extern char g_021AB190[];
 
 int func_02178678(void)
 {
-    void *(*alloc)(unsigned long, long) = g_021AB184.auth->param.alloc;
-    void (*free)(unsigned long, void *, long) = g_021AB184.auth->param.free;
+    void *(*alloc)(unsigned long, long) = ((DWCAuth *)g_021AB184.auth)->param.alloc;
+    void (*free)(unsigned long, void *, long) = ((DWCAuth *)g_021AB184.auth)->param.free;
     unsigned char *bmwork;
 
-    if (func_0217A484(g_021AB184.auth->http, 0) != 1)
+    if (func_0217A484(((DWCAuth *)g_021AB184.auth)->http, 0) != 1)
     {
-        g_021AB184.auth->error = 20100;
+        ((DWCAuth *)g_021AB184.auth)->error = 20100;
         return 14;
     }
     if (func_02178814() != 0)
         return 14;
 
-    if (g_021AB184.auth->error < 20100)
+    if (((DWCAuth *)g_021AB184.auth)->error < 20100)
     {
-        if (g_021AB184.auth->error == 20002)
+        if (((DWCAuth *)g_021AB184.auth)->error == 20002)
         {
             bmwork = (unsigned char *)alloc(0, 0x101f);
             if (bmwork == 0)
             {
-                g_021AB184.auth->error = 20100;
+                ((DWCAuth *)g_021AB184.auth)->error = 20100;
                 return 2;
             }
             if (func_02058DD0((struct tagDWCWiFiInfo *)g_021AB190, (void *)(((unsigned long)bmwork + 31) & ~31)) != 1)
             {
                 free(0, bmwork, 0);
-                g_021AB184.auth->error = 20100;
+                ((DWCAuth *)g_021AB184.auth)->error = 20100;
                 return 15;
             }
             free(0, bmwork, 0);
         }
         return 21;
     }
-    switch (g_021AB184.auth->error)
+    switch (((DWCAuth *)g_021AB184.auth)->error)
     {
     case 20104:
         func_02058E20((struct tagDWCWiFiInfo *)g_021AB190);
-        g_021AB184.auth->error = 20104;
+        ((DWCAuth *)g_021AB184.auth)->error = 20104;
         return 16;
     case 20108:
         bmwork = (unsigned char *)alloc(0, 0x1000);
         if (bmwork == 0)
         {
-            g_021AB184.auth->error = 20108;
+            ((DWCAuth *)g_021AB184.auth)->error = 20108;
             return 17;
         }
         func_02058D88((void *)(((unsigned long)bmwork + 31) & ~31));
         free(0, bmwork, 0);
-        g_021AB184.auth->error = 20108;
+        ((DWCAuth *)g_021AB184.auth)->error = 20108;
         return 17;
     default:
         return 18;

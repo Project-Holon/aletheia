@@ -20,14 +20,13 @@
  *   g_021A5C60     0x021A5C60  data
  */
 
+#include "../include/G_Magic6.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct Magic6
-{
-    u8 b[6];
-} Magic6;
+typedef struct Magic6 Magic6;
 
 typedef struct NatNegPacket
 {
@@ -67,7 +66,7 @@ extern char *SOC_InetNtoA();
 extern void gsDebugFormat();
 extern void SendPacket();
 extern u32 current_time(void);
-extern Magic6 g_021A5A7C;
+extern struct Magic6 g_021A5A7C;
 extern char g_021A5C60[];
 
 void func_02199A90(NATNegotiator *neg)

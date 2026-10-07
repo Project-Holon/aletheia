@@ -15,12 +15,9 @@
  *   g_021469DC  0x021469DC  data
  */
 
-struct Card0203C5EC {
-    unsigned char pad[0x4a];
-    unsigned char f4a;
-};
+#include "../include/G_Sys.h"
 
-extern struct Card0203C5EC *g_021469DC;
+extern struct Sys *g_021469DC;
 
 int func_0203C5EC(void)
 {

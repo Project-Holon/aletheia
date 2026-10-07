@@ -47,6 +47,8 @@
  *       --func func_02031DC0 --addr 0x02031DC0 --cc 1.1p1 --arm
  */
 
+#include "../include/G_SaveMain.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -58,7 +60,7 @@ typedef struct Obj02031DC0 {
     u8  f1c;
 } Obj02031DC0;
 
-extern u32 *g_02146994;
+extern struct SaveMain *g_02146994;
 
 extern int func_02031FE0(Obj02031DC0 *o, u32 a1, u32 flag, u32 a2);
 extern int func_02032688(Obj02031DC0 *o, u32 flag, u32 a2);
@@ -67,7 +69,7 @@ int func_02031DC0(Obj02031DC0 *a0, u32 a1, u32 a2)
 {
     int st;
 
-    if (*g_02146994 == 0)
+    if (*((u32 *)g_02146994) == 0)
         return 4;
     if (a0->f00 != a0->f04)
         st = func_02031FE0(a0, a1, 1, a2);

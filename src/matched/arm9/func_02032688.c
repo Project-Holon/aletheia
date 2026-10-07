@@ -51,6 +51,7 @@
  *       --func func_02032688 --addr 0x02032688 --arm
  */
 #include "../include/Obj08819.h"
+#include "../include/G_SaveMain.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -66,7 +67,6 @@ struct Save {
     u32  f140;
 };
 
-struct SaveMain { u8 pad000[0x204]; u32 unk204; };
 extern struct SaveMain *g_02146994;
 
 extern void func_020333F8(Save *self);

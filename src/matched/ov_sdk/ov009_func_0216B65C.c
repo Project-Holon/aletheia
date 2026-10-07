@@ -30,6 +30,8 @@
  *   g_021AA8A0                   0x021AA8A0 data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef unsigned char u8;
 
 struct GT2Socket { int pad; };
@@ -46,18 +48,13 @@ struct DWCControl {
     u8 fb05;
 };
 
-struct DWCModule {
-    int lastSocketError;
-    struct DWCControl *ctrl;
-};
-
 struct DWCstNodeInfo {
     int profileID;
     u8 pad0[0x16 - 0x4];
     u8 aid;
 };
 
-extern struct DWCModule g_021AA878;
+extern struct DwcGlobal g_021AA878;
 extern void *g_021AA8A0[32];
 
 extern int DWC_CancelMatch(void);
@@ -82,11 +79,11 @@ int func_0216B65C(void)
     int i;
     int anyGT2ConnectionExist = 0;
 
-    g_021AA878.ctrl->fb05 = 1;
+    ((struct DWCControl *)g_021AA878.st)->fb05 = 1;
     if (DWC_CancelMatch())
         return 1;
-    if (g_021AA878.ctrl == 0 || func_02059F38() ||
-        (g_021AA878.ctrl->state != 4 && g_021AA878.ctrl->state != 5))
+    if (g_021AA878.st == 0 || func_02059F38() ||
+        (((struct DWCControl *)g_021AA878.st)->state != 4 && ((struct DWCControl *)g_021AA878.st)->state != 5))
         return -1;
     for (i = 0; i < 32; i++) {
         if (g_021AA8A0[i] != 0) {
@@ -105,16 +102,16 @@ int func_0216B65C(void)
         func_0216F6C0();
         return 1;
     }
-    g_021AA878.ctrl->f2d = 1;
-    func_02195DE4((int *)g_021AA878.ctrl->socket);
+    ((struct DWCControl *)g_021AA878.st)->f2d = 1;
+    func_02195DE4((int *)((struct DWCControl *)g_021AA878.st)->socket);
     while (func_0217603C() > 1) {
         for (i = 0; i < func_0217603C(); i++) {
             pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
-            if (pNodeInfo->profileID != g_021AA878.ctrl->myProfileID)
+            if (pNodeInfo->profileID != ((struct DWCControl *)g_021AA878.st)->myProfileID)
                 func_0216C230(0, 0, 1, pNodeInfo->aid);
         }
     }
-    g_021AA878.ctrl->f2d = 0;
+    ((struct DWCControl *)g_021AA878.st)->f2d = 0;
     func_0217601C();
     func_02175F4C(0);
     func_0216F6C0();

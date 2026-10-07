@@ -15,10 +15,12 @@
  *   g_021AA7DC  0x021AA7DC  data
  */
 
-extern char g_021AA7DC[];
+#include "../include/G_WCMCpsifWork.h"
+
+extern struct WCMCpsifWork g_021AA7DC;
 
 void *func_02166378(void)
 {
-    return g_021AA7DC;
+    return ((char *)&g_021AA7DC);
 }
 

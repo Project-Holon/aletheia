@@ -19,12 +19,13 @@
 #include "../include/Obj07354.h"
 #include "../include/Obj09380.h"
 #include "../include/Obj09381.h"
+#include "../include/G_W.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *g_021797A4;
+extern struct W *g_021797A4;
 extern int func_0203CD98(void);
 extern void *func_0203D798(void);
 extern void func_02088234(void);
@@ -44,7 +45,7 @@ void func_0217778C(void)
 
     if (func_0203CD98() == 0)
         return;
-    w = g_021797A4;
+    w = ((u8 *)g_021797A4);
     st = func_0203D798();
     sfn = *(SizeFn *)&((struct Obj09380 *)st)->f1C;
     if (sfn == 0)

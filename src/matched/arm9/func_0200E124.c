@@ -35,13 +35,10 @@
  *       --func func_0200E124 --addr 0x0200E124 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_Rec.h"
+
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
-struct Rec {
-    u16 a;
-    u16 b;
-};
 
 extern struct Rec g_0209DE90[];
 extern u32 func_0200E0BC(u32 value);

@@ -15,11 +15,13 @@
  *   g_021AA4AC  0x021AA4AC  data
  */
 
-extern char g_021AA4AC[];
+#include "../include/G_SOCLResource.h"
+
+extern struct SOCLResource g_021AA4AC;
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_0215F0D4(void)
 {
-    func_02082BCC(g_021AA4AC, 0, 8);
+    func_02082BCC(((char *)&g_021AA4AC), 0, 8);
 }
 

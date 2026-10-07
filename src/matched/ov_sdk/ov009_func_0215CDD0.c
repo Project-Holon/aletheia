@@ -16,10 +16,8 @@
  *   g_021A1CD8  0x021A1CD8  data
  */
 
-typedef struct {
-	char pad0[0x1c];
-	void (*free)(void *p);
-} Cfg;
+#include "../include/G_021A1CD8.h"
+#include "../include/G_Cmd.h"
 
 typedef struct {
 	void *packets;
@@ -29,8 +27,8 @@ typedef struct {
 	int b;
 } Cmd;
 
-extern Cmd g_021AA480;
-extern Cfg *g_021A1CD8;
+extern struct Cmd g_021AA480;
+extern struct G_021A1CD8 *g_021A1CD8;
 
 int func_0215CDD0(void)
 {

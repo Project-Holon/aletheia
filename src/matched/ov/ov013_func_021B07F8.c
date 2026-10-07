@@ -22,6 +22,9 @@
  *   _ll_udiv       0x0209C00C  arm
 
  */
+
+#include "../include/G_Ctx42C0.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,7 +62,7 @@ typedef struct
 } PacketHeader;
 extern Ctx3C84 d_021B3C84;
 extern Req * const d_021B3CB0[3];
-extern Ctx42C0 d_021B42C0;
+extern struct Ctx42C0 d_021B42C0;
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 extern u64 func_020870D0(void);
 #pragma opt_propagation off

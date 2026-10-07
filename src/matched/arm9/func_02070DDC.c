@@ -34,6 +34,8 @@
  *   g_02149BC0  0x02149BC0  data
  */
 
+#include "../include/G_Root.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
@@ -55,14 +57,9 @@ struct Desc {
     u8 mode;     /* 0x03 */
 };
 
-struct Bank {
-    u8  pad_00[0xc4];
-    u32 bits[1];  /* 0xc4 */
-};
-
 struct Row { struct Vec v; s32 pad[3]; };  /* 0x18 bytes */
 
-extern struct Bank *g_02148DB0;
+extern struct Root *g_02148DB0;
 extern struct Row  g_02149BC0[];
 
 void func_02070DDC(struct Owner *oo, s32 *src, struct Desc *d, u32 f)

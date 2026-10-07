@@ -15,12 +15,14 @@
  *   g_021AA860  0x021AA860  data
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 
 int func_02168994(void (*callback)(int, void *), void *param)
 {
-    if (*(char **)(g_021AA860 + 0xc) == 0) return 0;
-    *(void **)(*(char **)(g_021AA860 + 0xc) + 0x44) = (void *)callback;
-    *(void **)(*(char **)(g_021AA860 + 0xc) + 0x48) = param;
+    if (*(char **)(((char *)&g_021AA860) + 0xc) == 0) return 0;
+    *(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x44) = (void *)callback;
+    *(void **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x48) = param;
     return 1;
 }

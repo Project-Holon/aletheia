@@ -22,18 +22,11 @@
  *   d_021F6398     0x021F6398  data  ov093  a4
  *   d_021F63D8     0x021F63D8  data  ov093  a4
  */
-typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-typedef struct {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 t[8];
-    u8 pad[0x20];
-    u32 f50;
-    u32 f54;
-} G;
+#include "../include/G_ov093_021F6398.h"
+#include "../include/G_H.h"
+
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 typedef struct {
     u8 pad[0x10];
@@ -50,8 +43,8 @@ typedef struct {
     int fc;
 } P;
 
-extern G d_021F6398;
-extern H d_021F63D8;
+extern struct G_ov093_021F6398 d_021F6398;
+extern struct H d_021F63D8;
 struct WordSet;
 extern u8 func_021B8DDC(u32 x);
 extern int func_021B8CE8(int a, int b, int c);

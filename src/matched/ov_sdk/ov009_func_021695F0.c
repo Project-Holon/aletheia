@@ -19,6 +19,8 @@
  *   g_021AA860  0x021AA860  data
  */
 
+#include "../include/G_FriendGlobal.h"
+
 typedef struct FriendData {
 	unsigned char data[12];
 } FriendData;
@@ -28,12 +30,9 @@ typedef struct FriendCtl {
 	unsigned char needRefresh;
 } FriendCtl;
 
-typedef struct FriendGlobal {
-	int pad0[3];
-	FriendCtl *ctl;
-} FriendGlobal;
+typedef struct FriendGlobal FriendGlobal;
 
-extern FriendGlobal g_021AA860;
+extern struct FriendGlobal g_021AA860;
 extern int func_020591CC(FriendData *friendData);
 extern int func_02168FF0(int index);
 extern int func_0205915C(FriendData *friendData);
@@ -53,7 +52,7 @@ int func_021695F0(FriendData *friendList, int index, int profileID)
 				func_0216959C(friendList, i, index);
 			else
 				func_0216959C(friendList, index, i);
-			g_021AA860.ctl->needRefresh = 1;
+			((FriendCtl *)g_021AA860.ctl)->needRefresh = 1;
 			return 1;
 		}
 	}

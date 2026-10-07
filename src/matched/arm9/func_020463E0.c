@@ -24,21 +24,17 @@
  *       --func func_020463E0 --addr 0x020463E0 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Rec02046300.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-struct Ctx {
-    u8  pad_00[4];
-    u32 unk_04;
-    u32 unk_08;
-};
-
-extern struct Ctx *g_02146A58;
+extern struct Rec02046300 *g_02146A58;
 
 void func_020463E0(u32 x, u32 y)
 {
-    g_02146A58->unk_04 = (x << 28) | (x << 24) | (x << 20) | (x << 16) |
+    g_02146A58->unk04 = (x << 28) | (x << 24) | (x << 20) | (x << 16) |
                          (x << 12) | (x << 8) | (x << 4) | x;
-    g_02146A58->unk_08 = (y << 28) | (y << 24) | (y << 20) | (y << 16) |
+    g_02146A58->unk08 = (y << 28) | (y << 24) | (y << 20) | (y << 16) |
                          (y << 12) | (y << 8) | (y << 4) | y;
 }

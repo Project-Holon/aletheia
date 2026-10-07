@@ -16,11 +16,7 @@
  *   func_021B2958  0x021B2958  arm  ov013
  */
 
-struct Sess {
-    unsigned char pad[0xc];
-    int fc;
-    int f10;
-};
+#include "../include/G_Sess.h"
 
 extern struct Sess g_021B60D8;
 extern void func_021B2848(void *a, void *b, unsigned int c);

@@ -26,17 +26,11 @@
  * 0x020A8148 `literal x15`, 0x02062594 `label x5` and 0x020A814C `literal x15`.
  */
 
+#include "../include/G_Hdr02062474.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-
-struct Hdr02062474 {
-    u32 unk0;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-    u32 unk10;
-};
 
 extern struct Hdr02062474 g_02146BB0;
 extern u32 g_020A8148;
@@ -47,9 +41,9 @@ extern int func_02062594(u32 id);
 
 void func_02062474(u32 a, u32 b, u32 c, u32 d)
 {
-    g_02146BB0.unk8 = a;
-    g_02146BB0.unkC = b;
-    g_02146BB0.unk10 = c;
+    g_02146BB0.f08 = a;
+    g_02146BB0.f0c = b;
+    g_02146BB0.f10 = c;
     func_020625D8();
     if (d == 0) {
         return;

@@ -33,6 +33,8 @@
  *   g_021A2044              0x021A2044  data
  */
 
+#include "../include/G_NNThinkGlobal.h"
+
 extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern int func_0216FAD4(char *filter, int profileID, unsigned char numEntry, unsigned char matchType, unsigned char hostState);
 typedef unsigned char  u8;
@@ -52,12 +54,7 @@ extern void func_0219B490(void *qrec);
 extern int func_0216F770(int profileID);
 extern void func_02174058(void *sb, int reason, void *server);
 
-typedef struct {
-    int pad0[3];
-    char *filter;
-} MatchGlobal;
-
-extern MatchGlobal g_021AAA20;
+extern struct NNThinkGlobal g_021AAA20;
 extern char g_021A2044[];
 
 void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, unsigned char *connectionUserData, void *attemptParam)
@@ -66,19 +63,19 @@ void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addF
     unsigned long addFilterLenMax;
     char filter[511];
 
-    if (g_021AAA20.filter != 0) {
-        DWC_Free(4, g_021AAA20.filter, 0);
-        g_021AAA20.filter = 0;
+    if (g_021AAA20.addFilter != 0) {
+        DWC_Free(4, g_021AAA20.addFilter, 0);
+        g_021AAA20.addFilter = 0;
     }
     if (addFilter != 0) {
         addFilterLenMax = 0x1ff - func_0216FAD4(filter, -1, 32, 3, 3) - func_0209477C((const u8 *)g_021A2044);
-        g_021AAA20.filter = DWC_Alloc(4, addFilterLenMax);
-        if (g_021AAA20.filter == 0) {
+        g_021AAA20.addFilter = DWC_Alloc(4, addFilterLenMax);
+        if (g_021AAA20.addFilter == 0) {
             func_0216EB68(9, -80001);
             return;
         }
-        MI_CpuCopy8(addFilter, g_021AAA20.filter, addFilterLenMax);
-        (g_021AAA20.filter + addFilterLenMax)[-1] = 0;
+        MI_CpuCopy8(addFilter, g_021AAA20.addFilter, addFilterLenMax);
+        (g_021AAA20.addFilter + addFilterLenMax)[-1] = 0;
     }
     func_0216F5FC(0, numEntry, matchedCallback, matchedParam);
     *(void **)(func_02175F3C() + 0x778) = newClientCallback;

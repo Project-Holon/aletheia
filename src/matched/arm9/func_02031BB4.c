@@ -29,9 +29,11 @@
  *       --func func_02031BB4 --addr 0x02031BB4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_SaveMain.h"
+
 typedef unsigned int u32;
 
-extern u32 *g_02146994;
+extern struct SaveMain *g_02146994;
 extern int func_02032CD0(u32 a0, void *out);
 struct SaveBackup;
 extern void func_020331A4(struct SaveBackup *p, u32 result, u32 flag);
@@ -41,7 +43,7 @@ int func_02031BB4(u32 a0)
     int r;
     u32 v;
 
-    if (*g_02146994 == 0)
+    if (*((u32 *)g_02146994) == 0)
         return 3;
     r = func_02032CD0(a0, &v);
     if (r != 0 && r != 1)

@@ -16,13 +16,15 @@
  *   func_02176A8C  0x02176A8C  arm  ov009
  */
 
-extern char g_021AAA20[];
+#include "../include/G_NNThinkGlobal.h"
+
+extern struct NNThinkGlobal g_021AAA20;
 extern void func_02176A8C(int a, int b);
 
 void func_02175F4C(int state)
 {
-    if (*(int *)(*(char **)(g_021AAA20 + 4) + 0x61c) != state) {
-        func_02176A8C(*(int *)(*(char **)(g_021AAA20 + 4) + 0x61c), state);
+    if (*(int *)(*(char **)(((char *)&g_021AAA20) + 4) + 0x61c) != state) {
+        func_02176A8C(*(int *)(*(char **)(((char *)&g_021AAA20) + 4) + 0x61c), state);
     }
-    *(int *)(*(char **)(g_021AAA20 + 4) + 0x61c) = state;
+    *(int *)(*(char **)(((char *)&g_021AAA20) + 4) + 0x61c) = state;
 }

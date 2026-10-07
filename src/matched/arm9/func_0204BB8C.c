@@ -34,6 +34,8 @@
  *       --func func_0204BB8C --addr 0x0204BB8C --cc 1.1p1 --arm
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 
 struct Bank {
@@ -41,12 +43,7 @@ struct Bank {
     struct Bank *next;   /* 0x10 */
 };
 
-struct Sys {
-    u8           pad_000[0x100];
-    struct Bank *head;   /* 0x100 */
-};
-
-extern struct Sys *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 struct Ring;
 extern void func_0204C944(struct Ring *b);

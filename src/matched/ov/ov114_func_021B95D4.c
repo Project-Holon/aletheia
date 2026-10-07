@@ -27,11 +27,12 @@
  *   func_0208D80C 0x0208D80C arm
  */
 #include "../include/Obj08035.h"
+#include "../include/G_Pair.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 format,mode; } Pair;
 extern char d_021CE2D4[],d_021CE280[];
-extern Pair d_021CE284[];
+extern struct Pair d_021CE284[];
 extern unsigned int func_021B95A0(unsigned int,unsigned int);
 extern void func_021B95B0(int);
 extern int func_021B95C0(int,int,u32 *);

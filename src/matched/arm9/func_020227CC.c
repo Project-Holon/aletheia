@@ -27,6 +27,8 @@
  *   python tools/match.py one --src src/matched/func_020227CC.c  *       --func func_020227CC --addr 0x020227CC --thumb --cc 1.1p1
  */
 
+#include "../include/G_020A73D0.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -41,22 +43,12 @@ struct T {
     u32 f2c;
 };
 
-struct G {
-    u32 f00;
-    u8  pad04[0xc];
-    u32 f10;
-    u8  pad14[0xc];
-    u32 f20;
-    u32 pad24;
-    u32 f28;
-};
-
 extern void func_020222A8(u32 v);
 struct Task;
 extern void func_020238B4(struct Task *t, u32 a1);
 extern u32 func_0202390C(struct Task *t);
 extern const u32 d_0209F568[];
-extern struct G g_020A73D0;
+extern struct G_020A73D0 g_020A73D0;
 
 void func_020227CC(struct T *p)
 {

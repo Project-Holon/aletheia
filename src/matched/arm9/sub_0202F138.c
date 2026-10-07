@@ -23,15 +23,12 @@
  *       --func sub_0202F138 --addr 0x0202F138 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_020A03C8.h"
+
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Entry {
-    u16 a;
-    u16 b;
-};
-
-extern struct Entry g_020A03C8[];
+extern struct G_020A03C8 g_020A03C8[];
 
 u16 sub_0202F138(u32 i)
 {

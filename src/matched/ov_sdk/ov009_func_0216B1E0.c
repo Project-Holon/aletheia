@@ -19,6 +19,8 @@
  *   g_021AA878  0x021AA878  data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef struct DwcState {
 	unsigned char pad0[0x24];
 	int state;
@@ -34,12 +36,9 @@ typedef struct DwcState {
 	unsigned char updateBuf1[0x100];
 } DwcState;
 
-typedef struct DwcGlobal {
-	int lastSocketError;
-	DwcState *st;
-} DwcGlobal;
+typedef struct DwcGlobal DwcGlobal;
 
-extern DwcGlobal g_021AA878;
+extern struct DwcGlobal g_021AA878;
 
 
 
@@ -50,10 +49,10 @@ extern void func_0216BF98(int error, int isChanged);
 
 int func_0216B1E0(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam)
 {
-	if (func_02059F38() || g_021AA878.st->state < 3 || func_02168D7C())
+	if (func_02059F38() || ((DwcState *)g_021AA878.st)->state < 3 || func_02168D7C())
 		return 0;
-	g_021AA878.st->updateCallback = updateCallback;
-	g_021AA878.st->updateParam = updateParam;
-	func_02168DA4((int)g_021AA878.st->updateBuf0, (int)g_021AA878.st->updateBuf1, (int)func_0216BF98, 0, (int)statusCallback, (int)statusParam, (int)deleteCallback, (int)deleteParam);
+	((DwcState *)g_021AA878.st)->updateCallback = updateCallback;
+	((DwcState *)g_021AA878.st)->updateParam = updateParam;
+	func_02168DA4((int)((DwcState *)g_021AA878.st)->updateBuf0, (int)((DwcState *)g_021AA878.st)->updateBuf1, (int)func_0216BF98, 0, (int)statusCallback, (int)statusParam, (int)deleteCallback, (int)deleteParam);
 	return 1;
 }

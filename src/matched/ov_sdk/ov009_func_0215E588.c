@@ -36,6 +36,8 @@
  *       --lang c99 --diff
  */
 
+#include "../include/G_CPSConfig.h"
+
 typedef struct {
 	char pad0[0x38];
 	unsigned short mss;
@@ -52,16 +54,11 @@ typedef struct {
 	Thr *cur;
 } Info;
 
-typedef struct {
-	char pad0[0x24];
-	int bufSize;
-} Cfg;
-
 extern unsigned long func_02087988(void);
 extern unsigned long func_0208799C(unsigned long state);
 extern int func_0209C0A4(int a, int b);
 extern Info g_02150FEC;
-extern Cfg g_021AA450;
+extern struct CPSConfig g_021AA450;
 
 int func_0215E588(int len)
 {

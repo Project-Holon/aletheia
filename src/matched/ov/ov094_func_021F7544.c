@@ -41,6 +41,9 @@
  *   func_02006674  0x02006674  thumb
  *   func_021F8B90  0x021F8B90  thumb  ov094
  */
+
+#include "../include/G_0220AF20.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -101,7 +104,7 @@ typedef struct {
     u16 w;
 } Rect;
 
-extern Work *d_0220AF20;
+extern struct G_0220AF20 *d_0220AF20;
 extern const char d_0220AC90[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -144,7 +147,7 @@ void func_021F7544(Param *p, int arg, u16 heap)
     u16 out[10];
 
     w = sub_02030734(heap, sizeof(Work), 1, d_0220AC90, 0x116);
-    d_0220AF20 = w;
+    d_0220AF20 = (struct G_0220AF20 *)(w);
     w->param = *p;
     w->heap = heap;
     d_0220AF20->buf = sub_02030734(heap, func_02030CB0(0x20), 1, d_0220AC90, 0x11c);
@@ -163,8 +166,8 @@ void func_021F7544(Param *p, int arg, u16 heap)
         v = p->f11;
     }
     d_0220AF20->h194 = func_021F6560(p->f0, tbl[p->f8].a13[p->fc], v, heap);
-    if (d_0220AF20->param.battle != 0) {
-        d_0220AF20->h198 = func_021F6B04(func_021BA1A8(d_0220AF20->param.battle, 0x400), tbl[p->f8].a2[p->fc], v, heap);
+    if (d_0220AF20->param_battle != 0) {
+        d_0220AF20->h198 = func_021F6B04(func_021BA1A8(d_0220AF20->param_battle, 0x400), tbl[p->f8].a2[p->fc], v, heap);
     } else {
         d_0220AF20->h198 = func_021F6B04(0, tbl[p->f8].a2[p->fc], v, heap);
     }
@@ -187,8 +190,8 @@ void func_021F7544(Param *p, int arg, u16 heap)
     for (i = 0; i < 8; i++) {
         d_0220AF20->slots[i] = -1;
     }
-    if (d_0220AF20->param.battle != 0) {
-        if (func_021BA1A8(d_0220AF20->param.battle, 0x800)) {
+    if (d_0220AF20->param_battle != 0) {
+        if (func_021BA1A8(d_0220AF20->param_battle, 0x800)) {
             d_0220AF20->f244 = 300;
         } else {
             d_0220AF20->f244 = 900;

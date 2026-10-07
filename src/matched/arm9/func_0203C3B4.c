@@ -15,14 +15,11 @@
  *   str_0203C238   0x0203C238  data
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char u8;
 typedef signed char   s8;
 typedef unsigned int  u32;
-
-struct Sys {
-    u8 pad[0x48];
-    s8 flag;
-};
 
 extern struct Sys *g_021469DC;
 extern const char str_0203C238[];

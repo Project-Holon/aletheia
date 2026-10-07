@@ -23,6 +23,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov016_func_021D2B14.c \n *       --func DWCi_MOV_WH_StateInSetParentWEPKey --addr 0x021D2B14 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_DWC_MOV_WH_BSS.h"
+
 /*
  * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
@@ -74,7 +77,7 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-extern DWC_MOV_WH_BSS dwc_mov_wh_bss;
+extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 
 typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
 
@@ -89,8 +92,8 @@ static int DWCi_MOV_WH_StateInSetParentWEPKey(void)
     int result;
 
     DWCi_MOV_WH_ChangeSysState(3);
-    wepmode = dwc_mov_wh_bss.wh->parentWEPKeyGenerator(dwc_mov_wh_bss.wh->wepkey, dwc_mov_wh_bss.wh);
-    result = WM_SetWEPKey(DWCi_MOV_WH_StateOutSetParentWEPKey, wepmode, dwc_mov_wh_bss.wh->wepkey);
+    wepmode = ((WHWork *)dwc_mov_wh_bss.wh)->parentWEPKeyGenerator(((WHWork *)dwc_mov_wh_bss.wh)->wepkey, dwc_mov_wh_bss.wh);
+    result = WM_SetWEPKey(DWCi_MOV_WH_StateOutSetParentWEPKey, wepmode, ((WHWork *)dwc_mov_wh_bss.wh)->wepkey);
     if (result == 2)
         return 1;
     DWCi_MOV_WH_SetError(result);

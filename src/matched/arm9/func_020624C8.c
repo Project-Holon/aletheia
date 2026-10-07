@@ -43,9 +43,11 @@
  *       --flags "-O4,p -proc arm946e"
  */
 
+#include "../include/G_Hdr02062474.h"
+
 typedef unsigned int u32;
 
-extern u32 g_02146BB0;
+extern struct Hdr02062474 g_02146BB0;
 extern u32 g_02146BB4;
 
 struct Blk;
@@ -66,13 +68,13 @@ u32 func_020624C8(u32 size, u32 flag)
     if (size >= 0x7FFF8)
         return 0;
     if (flag != 0) {
-        r = func_02061EB8((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 8);
+        r = func_02061EB8((struct Blk **)(&(*(u32 *)&g_02146BB0)), (struct Blk **)(&g_02146BB4), &addr, size, 8);
         if (addr + size > 0x10000) {
-            func_0206207C(&g_02146BB0, &g_02146BB4, addr, size);
+            func_0206207C(&(*(u32 *)&g_02146BB0), &g_02146BB4, addr, size);
             return 0;
         }
     } else {
-        r = func_02061EB8((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 0x10);
+        r = func_02061EB8((struct Blk **)(&(*(u32 *)&g_02146BB0)), (struct Blk **)(&g_02146BB4), &addr, size, 0x10);
     }
     if (r == 0)
         return 0;

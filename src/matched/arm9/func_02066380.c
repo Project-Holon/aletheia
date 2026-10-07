@@ -37,6 +37,8 @@
  *   g_020A81F8  0x020A81F8  data  a2
  */
 
+#include "../include/G_Scr.h"
+
 typedef unsigned short u16;
 typedef unsigned char u8;
 
@@ -50,7 +52,7 @@ typedef struct
 } Manager;
 
 extern Manager g_02147B88;
-extern u16 g_020A81F8;
+extern struct Scr g_020A81F8;
 
 void func_02066380(int n)
 {
@@ -59,9 +61,9 @@ void func_02066380(int n)
         return;
     {
     int s = ((volatile Manager *)&g_02147B88)->slot - 1;
-    u16 c = (*(volatile u16 *)&g_020A81F8);
+    u16 c = (*(volatile u16 *)&(*(u16 *)&g_020A81F8));
     ((volatile Manager *)&g_02147B88)->slot = s;
     if (c > s)
-        g_020A81F8 = 0xFFFE;
+        (*(u16 *)&g_020A81F8) = 0xFFFE;
     }
 }

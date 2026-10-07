@@ -57,6 +57,8 @@
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"
+#include "../include/G_Magic6.h"
+#include "../include/G_qr2_implementation_s.h"
 
 typedef struct SOCSockAddr {
     unsigned char len;
@@ -80,44 +82,13 @@ typedef struct qr2_buffer_s {
     int len;
 } qr2_buffer_s;
 
-typedef struct qr2_implementation_s {
-    int hbsock;                                        /* 0x000 */
-    unsigned char pad0[0x80];
-    char instance_key[4];                              /* 0x084 */
-    void *server_key_callback;                         /* 0x088 */
-    void *player_key_callback;                         /* 0x08C */
-    void *team_key_callback;                           /* 0x090 */
-    void *key_list_callback;                           /* 0x094 */
-    void *playerteam_count_callback;                   /* 0x098 */
-    void (*adderror_callback)(int, char *, void *);    /* 0x09C */
-    void *nn_callback;                                 /* 0x0A0 */
-    void *cm_callback;                                 /* 0x0A4 */
-    void *pa_callback;                                 /* 0x0A8 */
-    void *cc_callback;                                 /* 0x0AC */
-    void (*hr_callback)(void *);                       /* 0x0B0 */
-    unsigned int lastheartbeat;                        /* 0x0B4 */
-    unsigned int lastka;                               /* 0x0B8 */
-    int userstatechangerequested;                      /* 0x0BC */
-    int listed_state;                                  /* 0x0C0 */
-    int ispublic;                                      /* 0x0C4 */
-    int qport;                                         /* 0x0C8 */
-    int read_socket;                                   /* 0x0CC */
-    int nat_negotiate;                                 /* 0x0D0 */
-    char hbaddr[8];                                    /* 0x0D4 */
-    void (*cdkeyprocess)(char *, int, SOCSockAddr *);  /* 0x0DC */
-    int client_message_keys[10];                       /* 0x0E0 */
-    int cur_message_key;                               /* 0x108 */
-    unsigned int publicip;                             /* 0x10C */
-    unsigned short publicport;                         /* 0x110 */
-    void *udata;                                       /* 0x114 */
-    unsigned char backendoptions;                      /* 0x118 */
-} qr2_implementation_s;
+typedef struct qr2_implementation_s qr2_implementation_s;
 
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | \
                    (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 
-extern qr2_implementation_s *current_rec;
-extern unsigned char g_021A5A7C[];
+extern struct qr2_implementation_s *current_rec;
+extern struct Magic6 g_021A5A7C;
 extern char g_021A7874[];
 extern char g_021A788C[];
 extern char g_021A78B4[];
@@ -182,7 +153,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
         }
         return;
     }
-    if (len >= 6 && func_020923F0(query, g_021A5A7C, 6) == 0) {
+    if (len >= 6 && func_020923F0(query, ((unsigned char *)&g_021A5A7C), 6) == 0) {
         func_0217D254(3, 0, 8, g_021A78F0);
         func_0219AB8C(query, len, (SOCSockAddrIn *)sender);
         return;

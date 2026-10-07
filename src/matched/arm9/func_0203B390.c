@@ -37,10 +37,12 @@
  *   str_0203B950   0x0203B950  data
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u32  g_021469DC;
+extern struct Sys *g_021469DC;
 extern void func_0203B01C(void);
 extern char str_0203B950[];
 
@@ -82,11 +84,11 @@ void func_0203B390(struct Slot *p)
 
     if (func_02037A6C(1, (u32)&p->f57, n, (u32)func_0203B01C) == 0)
         return;
-    func_0203AD80(g_021469DC, str_0203B950, func_0203B2FC((char *)p), n + 0x45);
+    func_0203AD80((*(u32 *)&g_021469DC), str_0203B950, func_0203B2FC((char *)p), n + 0x45);
     return;
 
 alt:
     if (func_02037928(1, n) == 0)
         return;
-    func_0203AD80(g_021469DC, str_0203B950, func_0203B344((char *)p), n + 0x4a);
+    func_0203AD80((*(u32 *)&g_021469DC), str_0203B950, func_0203B344((char *)p), n + 0x4a);
 }

@@ -51,6 +51,8 @@
  *       --func func_0206EE60 --addr 0x0206EE60 --arm --cc ../2.0/sp2p2
  */
 
+#include "../include/G_Root.h"
+
 typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
@@ -86,7 +88,7 @@ typedef struct {
     void (*hook)(Out *, u32 *, u32, u32);
 } Disp;
 
-extern Disp *g_02148DB0;
+extern struct Root *g_02148DB0;
 
 typedef signed short   s16;
 extern void func_0206EBB8(u32 *out);
@@ -223,7 +225,7 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
 
     {
         u32 k = (out->f00 & 1) ? 4 : 0;
-        Disp *d = g_02148DB0;
+        Disp *d = ((Disp *)g_02148DB0);
         d->hook(out, &res[0], d->first, k);
     }
 }

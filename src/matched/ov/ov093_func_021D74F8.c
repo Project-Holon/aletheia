@@ -14,6 +14,9 @@
  *   data_021F3AB4  0x021F3AB4  data
  *   func_02034714  0x02034714  arm
  */
+
+#include "../include/G_Tbl.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct {
@@ -25,13 +28,13 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern Tbl g_021F3ECC;
+extern struct Tbl g_021F3ECC;
 extern char data_021F3AB4[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_021D74F8(int line)
 {
-    Tbl *p = &g_021F3ECC;
+    Tbl *p = ((Tbl *)&g_021F3ECC);
     while (p->count < 0x60) {
         if (p->keys[p->count] == 0) break;
         p->count++;

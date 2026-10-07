@@ -18,11 +18,13 @@
  *   g_021AA878     0x021AA878  data
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 
 void DWCi_UpdateServersCallback(int error, int isChanged)
 {
-    char *p = *(char **)(g_021AA878 + 4);
+    char *p = *(char **)(((char *)&g_021AA878) + 4);
 
     ((void (*)(int, int, int))*(void **)(p + 0x78))(error, isChanged,
         *(int *)(p + 0x7c));

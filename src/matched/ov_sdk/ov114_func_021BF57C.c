@@ -17,17 +17,19 @@
  *   g_021D3B20     0x021D3B20  data
  */
 
-extern int g_021D3B20;
+#include "../include/G_Init.h"
+
+extern struct Init g_021D3B20;
 extern void func_021C204C(void);
 extern void func_021BFB20(void);
 
 int func_021BF57C(void)
 {
-    if (g_021D3B20 <= 0) {
+    if ((*(int *)&g_021D3B20) <= 0) {
         return 1;
     }
     func_021C204C();
-    if (--g_021D3B20 == 0) {
+    if (--(*(int *)&g_021D3B20) == 0) {
         func_021BFB20();
     }
     return 1;

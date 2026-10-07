@@ -13,12 +13,14 @@
  *   g_021469DC      0x021469DC  data
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned long long u64;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 extern void *func_0203D798(void);
 extern void *func_0203D788(void);
@@ -43,22 +45,22 @@ void func_0203BA98(u16 a0, u32 a1, u8 a2)
 
     if (s[0x65] == 3 || s[0x65] == 4) {
         func_020377B8(0);
-        *(u32 *)(g_021469DC + 0x2C) = a1;
-        p = g_021469DC;
+        *(u32 *)(((u8 *)g_021469DC) + 0x2C) = a1;
+        p = ((u8 *)g_021469DC);
         x = *(u64 *)(p + 0x0C);
         y = *(u64 *)(p + 0x14);
         r = y * x + *(u64 *)(p + 0x1C);
         *(u64 *)(p + 0x0C) = r;
         func_0203AD80((u32)p, (u32)func_0203B9D4, (u32)(((u64)(u32)(r >> 32) * delay) >> 32), delay + 0x3A8);
     } else {
-        p = g_021469DC;
+        p = ((u8 *)g_021469DC);
         if (p[0x53] != 0 && p[0x56] != 1) {
             func_02037A6C(1, (u32)(p + 0x57), 0x200, (u32)func_0203B01C);
         } else {
             func_02037928(1, 0x200);
         }
-        *(u32 *)(g_021469DC + 0x2C) = a1;
-        p = g_021469DC;
+        *(u32 *)(((u8 *)g_021469DC) + 0x2C) = a1;
+        p = ((u8 *)g_021469DC);
         func_0203AD80((u32)p, (u32)func_0203B950, delay, delay + 0x3B4);
     }
 }

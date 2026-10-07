@@ -22,6 +22,8 @@
  *   CARDi_cache_buf  0x02150900  data
  */
 
+#include "../include/G_CARDiRomCacheState.h"
+
 typedef unsigned char u8;
 typedef unsigned long u32;
 typedef volatile u32 vu32;
@@ -30,13 +32,9 @@ typedef int BOOL;
 #define reg_MI_MCCNT1 (*(vu32 *)0x040001A4)
 #define reg_MI_MCD1 (*(vu32 *)0x04100010)
 
-typedef struct CARDiRomCacheState
-{
-    BOOL enable_dc_invalidation;
-    u32 cached_page;
-} CARDiRomCacheState;
+typedef struct CARDiRomCacheState CARDiRomCacheState;
 
-extern CARDiRomCacheState CARDiEnableCacheInvalidationDC;
+extern struct CARDiRomCacheState CARDiEnableCacheInvalidationDC;
 extern u8 CARDi_cache_buf[512] __attribute__((aligned(32)));
 
 extern void CARDi_StartRomPageTransfer(u32 offset);

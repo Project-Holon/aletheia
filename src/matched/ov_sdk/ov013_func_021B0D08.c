@@ -13,10 +13,12 @@
  *   d_021B3C84                   0x021B3C84  data
 */
 
-extern unsigned char d_021B3C84[];
+#include "../include/G_021B3C84.h"
+
+extern struct G_021B3C84 d_021B3C84;
 
 void CTRDG_SetPulledOutCallback(void *cb)
 {
-	*(void **)(d_021B3C84 + 0x18) = cb;
+	*(void **)(((unsigned char *)&d_021B3C84) + 0x18) = cb;
 }
 

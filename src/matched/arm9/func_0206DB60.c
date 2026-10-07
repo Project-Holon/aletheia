@@ -16,7 +16,9 @@
  *       --func func_0206DB60 --addr 0x0206DB60 --cc 1.1p1 --arm
  */
 
-extern char  *g_0214BAB4;
+#include "../include/G_GeState.h"
+
+extern struct GeState g_0214BAB4;
 extern void   func_0206DB80(void);
 
 void *func_0206DB60(void)
@@ -24,7 +26,7 @@ void *func_0206DB60(void)
     void *r;
 
     func_0206DB80();
-    r = g_0214BAB4;
-    g_0214BAB4 = 0;
+    r = (*(char * *)&g_0214BAB4);
+    (*(char * *)&g_0214BAB4) = 0;
     return r;
 }

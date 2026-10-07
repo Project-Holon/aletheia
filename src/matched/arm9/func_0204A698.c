@@ -18,17 +18,19 @@
  * back on.  No render update compared with func_0204A600.
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 extern void func_0204BAEC(u32 v);
 extern void func_0204BB54(void);
 
 void func_0204A698(void)
 {
-    if (g_02146A74 == 0) {
+    if (((u8 *)g_02146A74) == 0) {
         return;
     }
     func_0204BAEC(0);

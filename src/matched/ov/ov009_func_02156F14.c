@@ -16,12 +16,14 @@
  *   func_020306F0  0x020306F0  arm
  */
 
+#include "../include/G_Obj.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct {
     u32 f0; u32 f4; u32 f8; u32 fC; u32 f10; u32 f14; u32 f18; u32 f1C; u16 f20;
 } Obj;
-extern Obj *d_021A8268;
+extern struct Obj *d_021A8268;
 extern void func_02060C94(void *heap);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32 heap);

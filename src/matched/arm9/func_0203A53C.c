@@ -13,15 +13,17 @@
  *   g_021469D8      0x021469D8  data
  */
 
+#include "../include/G_Entry.h"
+
 extern void func_02082BCC(int a, int b, int c);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern int *g_021469D8;
+extern struct Entry *g_021469D8;
 void func_0203A53C(void)
 {
-    if (g_021469D8 == 0)
+    if (((int *)g_021469D8) == 0)
         return;
-    func_02082BCC((int)g_021469D8, 0, 0x22c);
-    func_020307B0(g_021469D8);
+    func_02082BCC((int)((int *)g_021469D8), 0, 0x22c);
+    func_020307B0(((int *)g_021469D8));
     g_021469D8 = 0;
 }

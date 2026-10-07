@@ -40,6 +40,7 @@
  */
 
 #include "../arm9_sdk/libc/string.h"
+#include "../include/G_Magic6.h"
 
 typedef struct SOCSockAddrIn {
     unsigned char len;
@@ -102,7 +103,7 @@ extern void func_021992A8(int sock, unsigned int toaddr, unsigned short toport, 
 extern unsigned short func_02199360(int sock);
 extern unsigned int func_0217F264(void);
 
-extern unsigned char g_021A5A7C[6];
+extern struct Magic6 g_021A5A7C;
 extern char g_021ACEFC[];
 extern unsigned int g_021AE6C4;
 extern unsigned int g_021AE6C0;
@@ -122,7 +123,7 @@ void func_0219972C(NATNegotiator *neg)
     int packetlen;
 
     p = (NatNegPacket *)buffer;
-    memcpy(p->magic, g_021A5A7C, 6);
+    memcpy(p->magic, ((unsigned char *)&g_021A5A7C), 6);
     p->version = 4;
     p->packettype = 0;
     p->cookie = NN_HTONL((unsigned int)neg->cookie);

@@ -41,6 +41,8 @@
  *   Also: `while (loop_flag)` instead of gotos, u8 wep_id per DWARF, no `cp`.
  */
 
+#include "../include/G_OSMessageQueue.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -62,14 +64,7 @@ typedef struct _OSThreadQueue {
     void *tail;
 } OSThreadQueue;
 
-typedef struct OSMessageQueue {
-    OSThreadQueue queueSend;
-    OSThreadQueue queueReceive;
-    void **msgArray;
-    long msgCount;
-    long firstIndex;
-    long usedCount;
-} OSMessageQueue;
+typedef struct OSMessageQueue OSMessageQueue;
 
 typedef struct WMBssDesc {
     u16 length;
@@ -104,7 +99,7 @@ extern void func_021B84AC(int *p, int a, int c);
 extern void func_021B84D0(void *event);
 
 extern u8 g_021DCF20[96];
-extern OSMessageQueue g_021DCE40;
+extern struct OSMessageQueue g_021DCE40;
 static WMBssDesc g_021DCE60 __attribute__((aligned(32))) = {0};
 
 int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)

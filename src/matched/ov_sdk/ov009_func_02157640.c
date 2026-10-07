@@ -28,10 +28,14 @@
  *   g_021A826C  0x021A826C  data
  */
 
-extern char g_021A85E4[];
-extern char g_021A86A4[];
+#include "../include/G_021A85E4.h"
+#include "../include/G_021A86A4.h"
+#include "../include/G__OSThread.h"
+
+extern struct G_021A85E4 g_021A85E4;
+extern struct G_021A86A4 g_021A86A4;
 extern char g_021A82FC[];
-extern char g_021A8524[];
+extern struct _OSThread g_021A8524;
 extern char g_021A826C[];
 extern int func_021575DC(void);
 extern void func_02085710(void *thread);
@@ -48,14 +52,14 @@ void func_02157640(void)
     unsigned long enable;
 
     func_021575DC();
-    func_02085710(g_021A85E4);
-    func_020855BC(g_021A86A4);
+    func_02085710(((char *)&g_021A85E4));
+    func_020855BC(((char *)&g_021A86A4));
     func_020873F8(g_021A82FC);
     enable = func_02087988();
-    if (!func_0208574C(g_021A8524))
-        func_02085868(g_021A8524);
+    if (!func_0208574C(((char *)&g_021A8524)))
+        func_02085868(((char *)&g_021A8524));
     func_0208799C(enable);
-    func_02085710(g_021A8524);
+    func_02085710(((char *)&g_021A8524));
     *(unsigned long *)(g_021A826C + 0x54) = 0;
     func_02157290(0);
     *(unsigned long *)(g_021A826C + 0x20) = 0;

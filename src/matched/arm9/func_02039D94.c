@@ -47,6 +47,7 @@
  */
 #include "../include/Obj04750.h"
 #include "../include/Obj08835.h"
+#include "../include/G_Votes.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -76,7 +77,7 @@ extern u32 func_0203D650(void);
 extern void *func_0203D798(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 
-extern u8 *g_021469D4;
+extern struct Votes *g_021469D4;
 extern const char file_020A7A68[];
 extern const char msg_020A7A94[];
 
@@ -98,15 +99,15 @@ void func_02039D94(void)
     if (func_0203D378() != 0) {
         e = (u8 *)func_0203996C(0xff);
         for (i = 0; i < 9; i++) {
-            u8 *r = g_021469D4 + i;
+            u8 *r = ((u8 *)g_021469D4) + i;
             if (r[0x18] != 1)
                 continue;
             if (func_0203D4D0(e, r[0x10], 8, 2,
-                              g_021469D4 + i * 2, 0, 0, 0) == 0)
+                              ((u8 *)g_021469D4) + i * 2, 0, 0, 0) == 0)
                 continue;
-            if ((g_021469D4 + i)[0x10] == 0)
+            if ((((u8 *)g_021469D4) + i)[0x10] == 0)
                 func_02034714(file_020A7A68, 0x29a, msg_020A7A94);
-            (g_021469D4 + i)[0x18] = 0;
+            (((u8 *)g_021469D4) + i)[0x18] = 0;
         }
     }
 

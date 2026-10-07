@@ -23,6 +23,8 @@
  *   g_021ADFE0   0x021ADFE0  data
  */
 
+#include "../include/G_StatsConn.h"
+
 extern char *func_02193FD0(char *s, char *key);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
@@ -32,7 +34,7 @@ extern void func_0219451C(int reqindex, int success, long modified, char *data, 
 extern char g_021A5898[];
 extern char g_021A58A0[];
 extern char g_021A58A4[];
-extern int g_021ADFE0[];
+extern struct StatsConn g_021ADFE0;
 
 void func_021940DC(char *buf)
 {
@@ -47,6 +49,6 @@ void func_021940DC(char *buf)
     reqindex = func_0219405C(0, lid, 0);
     if (reqindex == -1)
         return;
-    func_02184208((void *)g_021ADFE0[5], reqindex)[2] = pid;
+    func_02184208((void *)((int *)&g_021ADFE0)[5], reqindex)[2] = pid;
     func_0219451C(reqindex, pid > 0, 0, errmsg, 0);
 }

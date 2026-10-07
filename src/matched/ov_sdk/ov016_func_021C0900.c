@@ -16,18 +16,17 @@
  *   g_021DE564     0x021DE564  data
  */
 
+#include "../include/G_AossCtl.h"
+
 typedef struct AossWork {
     unsigned char pad0[0x116];
     unsigned char state;
 } AossWork;
 
-typedef struct AossCtl {
-    unsigned char status;
-    AossWork *work;
-} AossCtl;
+typedef struct AossCtl AossCtl;
 
 extern int AOSSi_Init(AossWork *work);
-extern AossCtl g_021DE564;
+extern struct AossCtl g_021DE564;
 
 int func_021C0900(void)
 {
@@ -35,7 +34,7 @@ int func_021C0900(void)
         g_021DE564.status = 1;
         return 1;
     }
-    if (g_021DE564.work->state == 1 || (unsigned char)(g_021DE564.work->state + 0xFD) <= 2)
+    if (((AossWork *)g_021DE564.work)->state == 1 || (unsigned char)(((AossWork *)g_021DE564.work)->state + 0xFD) <= 2)
         return 0;
     return 2;
 }

@@ -44,6 +44,8 @@
  *   g_020A1B38     0x020A1B38  data  a2
  */
 
+#include "../include/G_Scr.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed   short s16;
@@ -69,11 +71,6 @@ struct B8802065878 {
     int unk_08;
 };
 
-struct Scr02065878 {
-    u8  pad_00[4];
-    int unk_04;
-};
-
 extern void  func_02065438(void *a);
 extern void func_0206615C(void);
 struct G2dOamState;
@@ -84,7 +81,7 @@ extern void  func_02066620(fx32 sn, fx32 cs);
 extern void  func_020664CC(fx32 sx, fx32 sy, fx32 sz);
 extern void  func_02066380(int a);
 extern struct B8802065878 g_02147B88;
-extern struct Scr02065878 g_020A81F8;
+extern struct Scr g_020A81F8;
 extern s16 g_020A1B38[];
 
 static inline void Draw(struct Obj02065878 *c, void *a)
@@ -92,9 +89,9 @@ static inline void Draw(struct Obj02065878 *c, void *a)
     int r;
     r = !(c->unk_38 == -1);
     if (r != 0) {
-        g_020A81F8.unk_04 = c->unk_38;
+        g_020A81F8.currenVramTransferHandle_ = c->unk_38;
         func_02065438(a);
-        g_020A81F8.unk_04 = -1;
+        g_020A81F8.currenVramTransferHandle_ = -1;
     } else {
         func_02065438(a);
     }

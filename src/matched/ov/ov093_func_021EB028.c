@@ -33,11 +33,13 @@
  *   d_021F3970 0x021F3970 data a4
  */
 #include "../include/Obj00970.h"
+#include "../include/G__anon_V.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct BgTemplate;
-extern const struct BgTemplate d_021F3930, d_021F3950, d_021F3970;
+extern struct _anon_V d_021F3970;
+extern const struct BgTemplate d_021F3930, d_021F3950;
 extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 struct S;
 extern int func_021F86E0(void);
@@ -70,7 +72,7 @@ void func_021EB028(u8 *p)
     u32 tile;
     func_0203FCA0(1, &d_021F3930, 0);
     func_0203FCA0(2, &d_021F3950, 0);
-    func_0203FCA0(3, &d_021F3970, 0);
+    func_0203FCA0(3, &(*(struct BgTemplate *)&d_021F3970), 0);
     func_020215EC((struct PalAnmSlot *)func_021F86E0(), 0xb, 0x5a, ((struct Obj00970 *)p)->f13C, 0, 0x20, 0, 0);
     func_020215EC((struct PalAnmSlot *)func_021F86E0(), 0xb, 0xd6, ((struct Obj00970 *)p)->f13C, 0, 0x60, 0x10, 0x10);
     zero = 0;

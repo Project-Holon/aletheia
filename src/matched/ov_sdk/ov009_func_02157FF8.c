@@ -20,18 +20,14 @@
  *   g_021A8384               0x021A8384  data
  */
 
-typedef struct CPSArpCache {
-	unsigned long ip;
-	unsigned char mac[6];
-	unsigned short time;
-} CPSArpCache;
+#include "../include/G_ArpEntry.h"
 
 extern unsigned long func_02157888(unsigned long ip);
 extern int func_02157928(unsigned v);
 extern unsigned long long OS_GetTick(void);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern unsigned char g_021A826C;
-extern CPSArpCache g_021A8384[8];
+extern struct ArpEntry g_021A8384[8];
 
 #define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
 
@@ -51,7 +47,7 @@ void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry)
 	now = (unsigned short)(OS_GetTick() >> 16);
 	for (i = 0; i < 8; i++) {
 		if (g_021A8384[i].ip == ip) {
-			g_021A8384[i].time = now;
+			g_021A8384[i].when = now;
 			MI_CpuCopy(mac, g_021A8384[i].mac, 6);
 			return;
 		}
@@ -65,12 +61,12 @@ void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry)
 			candidate = i;
 			break;
 		}
-		if ((short)(now - g_021A8384[i].time) > oldest_time) {
+		if ((short)(now - g_021A8384[i].when) > oldest_time) {
 			candidate = i;
-			oldest_time = now - g_021A8384[i].time;
+			oldest_time = now - g_021A8384[i].when;
 		}
 	}
 	g_021A8384[candidate].ip = ip;
 	MI_CpuCopy(mac, g_021A8384[candidate].mac, 6);
-	g_021A8384[candidate].time = now;
+	g_021A8384[candidate].when = now;
 }

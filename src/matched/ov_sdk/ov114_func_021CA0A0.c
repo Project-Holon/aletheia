@@ -23,6 +23,8 @@
  *   g_021CF7AC     0x021CF7AC  data
  */
 
+#include "../include/G_Session.h"
+
 typedef struct {
     int state;
     int active;
@@ -30,7 +32,7 @@ typedef struct {
     char pad0[0x48];
     char *buf;
 } Session;
-extern Session g_021CF7AC;
+extern struct Session g_021CF7AC;
 extern int func_021BF6C4(char *url, int bufferlen, int buffer_clear, void (*progress)(void), void (*completed)(void), void *param);
 extern int func_021BF5B8(void);
 extern void func_021CA06C(void);
@@ -44,8 +46,8 @@ int func_021CA0A0(void)
         func_021CA06C();
         break;
     case 4:
-        g_021CF7AC.result = func_021BF6C4(g_021CF7AC.buf, 0, 0, func_021C9B60, (void (*)(void))func_021C9B64, 0);
-        if (g_021CF7AC.result >= 0) {
+        g_021CF7AC.reqid = func_021BF6C4(g_021CF7AC.request, 0, 0, func_021C9B60, (void (*)(void))func_021C9B64, 0);
+        if (g_021CF7AC.reqid >= 0) {
             g_021CF7AC.state = 5;
         } else {
             func_021CA06C();
@@ -57,8 +59,8 @@ int func_021CA0A0(void)
         }
         break;
     case 6:
-        g_021CF7AC.result = func_021BF6C4(g_021CF7AC.buf, 0, 0, func_021C9B60, (void (*)(void))func_021C9B64, 0);
-        if (g_021CF7AC.result >= 0) {
+        g_021CF7AC.reqid = func_021BF6C4(g_021CF7AC.request, 0, 0, func_021C9B60, (void (*)(void))func_021C9B64, 0);
+        if (g_021CF7AC.reqid >= 0) {
             g_021CF7AC.state = 7;
         } else {
             func_021CA06C();

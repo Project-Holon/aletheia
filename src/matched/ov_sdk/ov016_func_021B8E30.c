@@ -23,6 +23,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B8E30.c \
  *       --func APC_SearchEnd --addr 0x021B8E30 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_APC_BSS.h"
+
 typedef struct {
     long  dmano;
     void *pbdbuffer;
@@ -48,7 +51,7 @@ typedef struct {
     unsigned char *apci_Wep;              /* +0x24 */
 } APC_BSS;
 
-extern APC_BSS apc_bss;
+extern struct APC_BSS apc_bss;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 

@@ -19,6 +19,8 @@
  *   g_021ACF88     0x021ACF88  data
  */
 
+#include "../include/G_SOCSockAddrIn.h"
+
 typedef struct {
     int sock;
     char pad[0x48];
@@ -26,7 +28,7 @@ typedef struct {
     int time;
 } AC;
 extern AC g_021ACF7C;
-extern char g_021ACF80[];
+extern struct SOCSockAddrIn g_021ACF80;
 extern char g_021ACF88[];
 struct SOCSockAddr;
 extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
@@ -34,6 +36,6 @@ extern unsigned int func_0217F264(void);
 
 void func_0217C704(void)
 {
-    func_0217ECA4(g_021ACF7C.sock, g_021ACF88, g_021ACF7C.len, 0, (struct SOCSockAddr *)g_021ACF80, 8);
+    func_0217ECA4(g_021ACF7C.sock, g_021ACF88, g_021ACF7C.len, 0, (struct SOCSockAddr *)((char *)&g_021ACF80), 8);
     g_021ACF7C.time = func_0217F264();
 }

@@ -33,6 +33,8 @@
  * Addresses are Black-image addresses.
  */
 
+#include "../include/G_Glb.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -67,7 +69,7 @@ typedef struct {
 
 extern const Node d_021D9AA4;
 extern MtxFx44 g_02148B54;
-extern Glb g_02148BCC;
+extern struct Glb g_02148BCC;
 
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern void func_0206A854(void);

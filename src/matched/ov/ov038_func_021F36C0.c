@@ -39,6 +39,8 @@
  *   func_021BE748  0x021BE748  thumb  ov021
  */
 
+#include "../include/G_S3A08.h"
+
 typedef unsigned short u16;
 typedef unsigned int u32;
 
@@ -51,7 +53,7 @@ typedef struct {
 extern int d_021F464C;
 extern V d_021F46E8[];
 extern V d_021F4748[];
-extern V d_021F4694[];
+extern struct S3A08 d_021F4694[];
 
 struct Ctx;
 extern int func_02188D2C(int *p);
@@ -128,7 +130,7 @@ void func_021F36C0(void *a0)
         t = n + 0x12;
         m = n + 0x19;
         e = func_021BE480(r5, 0, t);
-        v = d_021F4694[n];
+        v = ((V *)d_021F4694)[n];
         *e = v;
         *func_021BE480(r5, 0, m) = v;
         func_021BE4A4(r5, 0, (u16)t, 1);

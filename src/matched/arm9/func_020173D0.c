@@ -12,12 +12,14 @@
  *   g_02146270      0x02146270  data
  */
 
+#include "../include/G_Memo.h"
+
 typedef unsigned int u32;
 
 extern void func_0201AD88(u32 heap);
-extern unsigned char g_02146270[];
+extern struct Memo g_02146270;
 void func_020173D0(u32 heap)
 {
     func_0201AD88(heap);
-    *(unsigned short *)(g_02146270 + 2) = 0x28b;
+    *(unsigned short *)(((unsigned char *)&g_02146270) + 2) = 0x28b;
 }

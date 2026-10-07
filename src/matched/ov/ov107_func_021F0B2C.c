@@ -35,6 +35,7 @@
  *   d_021F6E24 0x021F6E24 data a4
  */
 #include "../include/Obj04440.h"
+#include "../include/G_Masks.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,7 +50,7 @@ extern u32 func_020307B0(void *p);
 extern void func_0203D7FC(void *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef struct {void *f00,*f04;u16 f08,f0A,f0C,f0E,f10,f12,f14;} Masks;
-extern Masks d_021F6EAC;
+extern struct Masks d_021F6EAC;
 extern u8 d_021F6EC8[],d_021F6EDE[],d_021F6EDF[],d_021F6EE0[],d_021F6EE1[],d_021F6EE2[],d_021F6EE3[],d_021F6EE4[],d_021F6E24[];
 #define H(o) (*(u16 *)((u32)&d_021F6EAC+(o)))
 #define P(o) (*(void **)((u32)&d_021F6EAC+(o)))

@@ -31,6 +31,8 @@
  * callee-saved register that flag has in the object.
  */
 
+#include "../include/G_021A86A4.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -94,7 +96,7 @@ struct thread_info {
 };
 
 extern struct thread_info g_02150FEC;
-extern u8 g_021A86A4[];
+extern struct G_021A86A4 g_021A86A4;
 extern u8 g_021A8328[90];
 extern struct net_vars g_021A826C;
 
@@ -118,7 +120,7 @@ u32 func_02158714(u8 *data, u32 len, CPSSoc *soc, u8 flag)
     if ((flag & 5) == 0 && soc->state == 0)
         return len;
 
-    if (g_02150FEC.current == g_021A86A4)
+    if (g_02150FEC.current == ((u8 *)&g_021A86A4))
         hdr = g_021A8328 + 0x22;
     else
         hdr = soc->sndbuf.data + 0x22;

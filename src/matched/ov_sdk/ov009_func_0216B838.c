@@ -17,7 +17,9 @@
  *   func_021763AC  0x021763AC  arm  ov009
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 extern int func_0216C82C(void);
 extern char *func_021763AC(int pid);
 
@@ -25,10 +27,10 @@ unsigned char func_0216B838(void)
 {
     unsigned char *node;
 
-    if (*(char **)(g_021AA878 + 4) == 0 || func_0216C82C() == 0) {
+    if (*(char **)(((char *)&g_021AA878) + 4) == 0 || func_0216C82C() == 0) {
         return 0xff;
     }
-    node = (unsigned char *)func_021763AC(*(int *)(*(char **)(g_021AA878 + 4) + 0x64));
+    node = (unsigned char *)func_021763AC(*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x64));
     if (node == 0) {
         return 0xff;
     }

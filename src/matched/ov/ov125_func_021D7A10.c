@@ -22,6 +22,8 @@
  *   d_021D9E40 0x021D9E40 data a4
  */
 
+#include "../include/G_Clear.h"
+
 /*
  * 2026-10-05 (wave D4 lane07): DIFF, unchanged 2 bytes (+CC/+D0, str/cmp use r4 instead of the call result r0). Tried (all identical output): chained `*(int *)&hdr = sz = f(id)`, `sz = *(int *)&hdr = f(id)`, `hdr = tmp = f(); sz = tmp`, `sz = tmp = f(); hdr = tmp`, assignment inside the if condition, tmp unsigned, callee returning unsigned, sz parameter unsigned, hdr stored first and compared through hdr then copied to sz (before or after the check). The same str r0/cmp r0 shape appears for the global store D(0x25c) = f(); if (D(0x25c) == -1) in this function, so the original probably compared a value the compiler did not merge with sz.
  */
@@ -138,9 +140,9 @@ extern int func_021D891C(int);
 extern char *func_021D7C7C(int);
 extern int func_021D7D30(void);
 extern void *func_02092344(void *, const void *, unsigned);
-extern char d_021D9E40[];
+extern struct Clear d_021D9E40;
 static inline void cp4(W4 *d, const W4 *s) { *d = *s; }
-#define D(o) (*(int *)(d_021D9E40 + (o)))
+#define D(o) (*(int *)(((char *)&d_021D9E40) + (o)))
 int func_021D7A10(int id, void *buf, int x, int sz)
 {
     int tmp;
@@ -191,7 +193,7 @@ int func_021D7A10(int id, void *buf, int x, int sz)
     p[0] = h[0]; p[1] = h[1]; p[2] = h[2]; p[3] = h[3];
     q = *(char **)&D(0x258);
     *(unsigned short *)(q + 4) = id;
-    *(Blob *)(q + 8) = *(Blob *)d_021D9E40;
+    *(Blob *)(q + 8) = *(Blob *)((char *)&d_021D9E40);
     z = 0;
     *(unsigned short *)(q + 6) = z;
     func_02092344(q + 0x140, buf, sz - 0x140);

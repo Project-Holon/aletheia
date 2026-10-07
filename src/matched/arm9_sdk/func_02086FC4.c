@@ -15,19 +15,17 @@
  *   OSi_TimerReserved  0x0215132C  data
  */
 
+#include "../include/G_OsTickBss.h"
+
 typedef unsigned long long u64;
 typedef unsigned long u32;
 typedef unsigned short u16;
 typedef int BOOL;
 
 /* os_tick.o .bss from 0x02151330, addressed from one pool word. */
-typedef struct OsTickBss {
-    u16 OSi_UseTick;
-    BOOL OSi_NeedResetTimer;
-    u64 OSi_TickCounter;
-} OsTickBss;
+typedef struct OsTickBss OsTickBss;
 
-extern OsTickBss g_02151330;
+extern struct OsTickBss g_02151330;
 
 #define reg_OS_TM0CNT_L (*(volatile u16 *)0x04000100)
 #define reg_OS_TM0CNT_H (*(volatile u16 *)0x04000102)

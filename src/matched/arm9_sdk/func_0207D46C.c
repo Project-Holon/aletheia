@@ -16,21 +16,24 @@
  *   sIsDispOn  0x020A84BC  data
  */
 
+#include "../include/G_GXBssState.h"
+#include "../include/G_GXDataState.h"
+
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef volatile u32 vu32;
 
 #define reg_GX_DISPCNT (*(vu32 *)0x04000000)
 
-extern u16 sDispMode;
-extern u16 sIsDispOn;
+extern struct GXBssState sDispMode;
+extern struct GXDataState sIsDispOn;
 
 void func_0207D46C(void)
 {
-    sIsDispOn = 1;
-    if (sDispMode)
+    (*(u16 *)&sIsDispOn) = 1;
+    if ((*(u16 *)&sDispMode))
     {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x30000) | (sDispMode << 16);
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x30000) | ((*(u16 *)&sDispMode) << 16);
     }
     else
     {

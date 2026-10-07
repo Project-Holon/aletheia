@@ -23,16 +23,18 @@
  *       --func func_02037D78 --addr 0x02037D78 --cc 1.1p1 --arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned int u32;
 
 extern void func_02037478(void);
-extern u32  g_021469D0;
+extern struct LinkState *g_021469D0;
 
 void func_02037D78(void)
 {
     u32 v;
 
-    v = g_021469D0;
+    v = (*(u32 *)&g_021469D0);
     if (v == 0)
         return;
     func_02037478();

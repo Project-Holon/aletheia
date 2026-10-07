@@ -20,6 +20,8 @@
  *   g_02146AD4 0x02146AD4 data
  */
 
+#include "../include/G_INETBSS.h"
+
 typedef struct {
     int ac_state;
     unsigned short state;
@@ -38,7 +40,7 @@ typedef struct {
     DWCstInetControl *stpInetCntl;
 } INETBSS;
 
-extern INETBSS g_02146AD4;
+extern struct INETBSS g_02146AD4;
 
 extern void DWC_AC_CancelGetWDSInfo(void);
 extern int DWC_AC_ProcessGetWDSInfo(void);
@@ -53,8 +55,8 @@ void func_0205CC20(void)
     if (g_02146AD4.stpInetCntl == 0) {
         return;
     }
-    if (g_02146AD4.stpInetCntl->state == 1) {
-        if (g_02146AD4.stpInetCntl->processWDSstate == 1) {
+    if (((DWCstInetControl *)g_02146AD4.stpInetCntl)->state == 1) {
+        if (((DWCstInetControl *)g_02146AD4.stpInetCntl)->processWDSstate == 1) {
             DWC_AC_CancelGetWDSInfo();
             while (1) {
                 state = DWC_AC_ProcessGetWDSInfo();

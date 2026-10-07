@@ -41,6 +41,9 @@
  *   func_0203A494  0x0203A494  arm
  *   func_02037010  0x02037010  arm
  */
+
+#include "../include/G_Singleton.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -74,16 +77,11 @@ struct Sess {
     u8  f352;
 };
 
-struct Mod {
-    u8  pad_00[8];
-    struct Sess *f08;
-};
-
 extern const char file_020A7CA0[];
 extern const char str_020A7CA8[];
 extern const char str_020A7CB8[];
 extern const char str_020A7CE8[];
-extern struct Mod g_021469E0;
+extern struct Singleton g_021469E0;
 
 extern void  func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -108,7 +106,7 @@ void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
     else
         func_0203064C(req->f54, req->f56, 0x7800);
     s = (struct Sess *)func_02030734(req->f56, 0x354, 1, file_020A7CA0, 0x6a);
-    g_021469E0.f08 = s;
+    g_021469E0.unk_08 = s;
     s->f352 = 1;
     s->f340 = (u32 (**)(void))func_0200F17C(req->f65);
     if (s->f340 == 0)

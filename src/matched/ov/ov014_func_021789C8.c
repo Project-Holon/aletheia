@@ -16,11 +16,13 @@
  *   func_0208F84C  0x0208F84C  arm
  */
 
+#include "../include/G_S.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern u8 *g_021797A8;
+extern struct S *g_021797A8;
 void func_02178138(int a);
 void func_0217814C(int a);
 void func_02178A18(u8 *m);
@@ -30,10 +32,10 @@ int func_021789C8(void)
 {
     int r;
 
-    if (*(u32 *)(g_021797A8 + 0x1E70) - 4 <= 1)
+    if (*(u32 *)(((u8 *)g_021797A8) + 0x1E70) - 4 <= 1)
         return 1;
     func_02178138(3);
-    r = func_0208F84C((void *)func_02178A18, g_021797A8 + 0xF40, g_021797A8 + 0x1EC4, 1, 0);
+    r = func_0208F84C((void *)func_02178A18, ((u8 *)g_021797A8) + 0xF40, ((u8 *)g_021797A8) + 0x1EC4, 1, 0);
     if (r != 2) {
         func_0217814C(r);
         return 0;

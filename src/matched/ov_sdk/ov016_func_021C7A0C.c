@@ -21,19 +21,15 @@
  *   func_021C77F4  0x021C77F4  arm  ov016
  */
 
+#include "../include/G_MemSsea.h"
+
 typedef struct GXOamAttr {
     unsigned int attr01;
     unsigned short attr2;
     unsigned short attr3;
 } GXOamAttr;
 
-typedef struct MemSsea {
-    unsigned char pad0[4];
-    GXOamAttr *caret;
-    char text[4][3];
-    unsigned char pos;
-    unsigned char result;
-} MemSsea;
+typedef struct MemSsea MemSsea;
 
 typedef struct FuncTable {
     void (*f[5])(char *);
@@ -44,7 +40,7 @@ extern void func_021C0E40(unsigned int v);
 extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern void func_021C7314();
 extern void func_021C77F4();
-extern MemSsea *g_021DE5E4;
+extern struct MemSsea *g_021DE5E4;
 extern FuncTable g_021DB4DC;
 
 void func_021C7A0C(void)
@@ -55,7 +51,7 @@ void func_021C7A0C(void)
     if (func_021D157C())
         return;
     if (g_021DE5E4->result == 0) {
-        g_021DE5E4->caret->attr01 &= 0xC1FFFCFF;
+        ((GXOamAttr *)g_021DE5E4->caret)->attr01 &= 0xC1FFFCFF;
         func_021C0E40((unsigned int)func_021C7314);
         return;
     }

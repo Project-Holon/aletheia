@@ -17,21 +17,11 @@
  *   func_021BCD00  0x021bcd00  arm  ov016
  */
 
+#include "../include/G_tagMEMBTN.h"
+
 typedef _Bool bool;
 
-typedef struct tagMEMBTN {
-    void *cellButton[2];
-    void *cellBack;
-    void *task;
-    void *release;
-    unsigned short count;
-    signed char input;
-    unsigned char kind;
-    bool disable;
-    bool end;
-} MEMBTN;
-
-extern MEMBTN *g_021DE508;
+extern struct tagMEMBTN *g_021DE508;
 
 extern void func_021D771C(char *p, unsigned int v);
 extern void func_021BCD00(void);

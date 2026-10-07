@@ -28,10 +28,9 @@
  *   func_021C82FC  0x021C82FC  arm  ov016
  */
 
-typedef struct MemSsea {
-    unsigned char pad0[4];
-    void *caret;
-} MemSsea;
+#include "../include/G_MemSsea.h"
+
+typedef struct MemSsea MemSsea;
 
 extern void func_021BD138();
 extern void func_021D6F38(unsigned int *obj);
@@ -45,7 +44,7 @@ extern void func_021C0E40(unsigned int v);
 extern void func_021D6438(void **mem);
 extern void func_0207E51C();
 extern void func_021C82FC();
-extern MemSsea *g_021DE5E4;
+extern struct MemSsea *g_021DE5E4;
 extern unsigned char g_021DB550[];
 
 void func_021C77F4(void)

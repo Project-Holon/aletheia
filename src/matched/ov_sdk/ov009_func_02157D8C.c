@@ -24,15 +24,11 @@
  *   g_021A838E  0x021A838E  data
  */
 
+#include "../include/G_ArpEntry.h"
+
 struct NetVars {
 	unsigned char pad0[0x50];
 	unsigned long myip;
-};
-
-struct ArpEntry {
-	unsigned long ip;
-	unsigned char mac[6];
-	unsigned short when;
 };
 
 extern unsigned long func_02087988(void);

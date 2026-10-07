@@ -18,10 +18,8 @@
  *   g_021AA7DC  0x021AA7DC  data
  */
 
-struct WCMCpsifWork {
-    char pad[0x28];
-    void (*cb)(unsigned char *s, unsigned char *d, unsigned char *dat, long len);
-};
+#include "../include/G_WCMCpsifWork.h"
+
 extern struct WCMCpsifWork g_021AA7DC;
 
 void func_02166358(unsigned char *s, unsigned char *d, unsigned char *dat, long len)

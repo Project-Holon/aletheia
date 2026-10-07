@@ -95,6 +95,8 @@
  *   g_021DD310        0x021dd310 data
  */
 #include "../../matched/arm9_sdk/libc/string.h"
+#include "../include/G_ATERMSET_DATA.h"
+#include "../include/G_ATERMSET_BSS.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -152,12 +154,12 @@ typedef struct {
     int            gMaxBssIdList;
 } ATERMSET_DATA;
 
-extern ATERMSET_BSS g_021DCFD0;
+extern struct ATERMSET_BSS g_021DCFD0;
 extern unsigned char btAutoResult;
 /* OS_Printf compiles to nothing in the Rom (FINALROM) build. */
 #define OS_Printf(fmt, arg) ((void)0)
 
-extern ATERMSET_DATA g_021DAB58;
+extern struct ATERMSET_DATA g_021DAB58;
 extern u8 g_021DD490[16];
 extern u8 g_021DDD04[2048];
 extern int g_021DD020;

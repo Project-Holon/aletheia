@@ -22,20 +22,8 @@
  *   g_021AB208     0x021AB208  data
  */
 
-struct DWCAuthParam {
-	unsigned char ingamesn[0x34];
-	unsigned char gsbrcd[0xc];
-	void *(*allocator)(unsigned long, long);
-	void (*deallocator)(unsigned long, void *, long);
-};
-
-struct DWCAuthState {
-	int s_finished;
-	int f4;
-	int f8;
-	unsigned long long userid;
-	unsigned long long tick;
-};
+#include "../include/G_DWCAuthState.h"
+#include "../include/G_DWCAuthParam.h"
 
 extern struct DWCAuthParam g_021AB1C0;
 extern unsigned char g_021AB1F4[];

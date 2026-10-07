@@ -46,6 +46,8 @@
  *   func_02063784  0x02063784  arm
  */
 
+#include "../include/G_Mtx.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -115,7 +117,7 @@ struct Cell {
 };
 
 extern struct Manager g_02147B88;
-extern Mtx            g_02147D18[];
+extern struct Mtx g_02147D18[];
 extern struct Scr     g_020A81F8;
 
 extern int func_02066740(int *p);
@@ -168,7 +170,7 @@ void func_020651B8(struct Cell *c, void *a1, void *a2)
         return;
 
     if (g_02147B88.unk_04 == 0) {
-        m = &g_02147D18[g_02147B88.slot];
+        m = &((Mtx *)g_02147D18)[g_02147B88.slot];
     } else {
         g_020A81F8.mtx.tx = g_02147D18[g_02147B88.slot].tx;
         g_020A81F8.mtx.ty = g_02147D18[g_02147B88.slot].ty;

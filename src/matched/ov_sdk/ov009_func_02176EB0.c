@@ -20,6 +20,8 @@
  *   g_021AB180  0x021AB180  data
  */
 
+#include "../include/G_TransInfo.h"
+
 typedef struct {
     int size;
     unsigned short type;
@@ -63,7 +65,7 @@ extern int func_02176DFC(int aid, int type);
 extern void func_021771B0(TransHeader *header, unsigned short type, int size);
 extern void func_021777C0(unsigned char aid, unsigned char *buffer, int size, int reliable);
 extern int func_02177E64(unsigned char aid);
-extern TransInfo *g_021AB180;
+extern struct TransInfo *g_021AB180;
 
 int func_02176EB0(unsigned short type, unsigned char aid, void *buffer, int size)
 {

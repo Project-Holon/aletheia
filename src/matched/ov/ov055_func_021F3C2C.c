@@ -24,18 +24,13 @@
  *   func_0216D8C0  0x0216D8C0  thumb  ov010
  */
 
+#include "../include/G_V.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct V {
-    u16 h0;
-    u16 h2;
-    int pad4[2];
-    u16 hc;
-    u16 he;
-    int pad10[5];
-} V;
+typedef struct V V;
 
 typedef struct O {
     u8 f0;
@@ -65,8 +60,8 @@ typedef struct T {
     u32 f3c;
 } T;
 
-extern V d_021F4620;
-extern V d_021F4620_b;
+extern struct V d_021F4620;
+extern struct V d_021F4620_b;
 
 extern u32 func_020056EC(u32);
 extern int func_0216CE60(int, void *, int);

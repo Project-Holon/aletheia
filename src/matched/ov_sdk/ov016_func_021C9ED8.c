@@ -23,6 +23,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C9ED8.c \
  *       --func taskVBlank --addr 0x021C9ED8 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -86,7 +89,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -113,11 +116,11 @@ void taskVBlank(void)
     int cell;
     int oft;
 
-    if (!scenesetlist_bss.MemSsl->renew)
+    if (!((MEMSSL *)scenesetlist_bss.MemSsl)->renew)
         return;
     cell = FX_DivS32(scenesetlist_bss.Pos, 29);
     oft = FX_ModS32(scenesetlist_bss.Pos, 29) - 0x33;
     *(volatile unsigned long *)0x04000010 = (unsigned long)((oft << 16) & 0x01FF0000);
     *(volatile unsigned long *)0x04000018 = (unsigned long)(((oft + scenesetlist_rodata.OFS_BACK[cell]) << 16) & 0x01FF0000);
-    scenesetlist_bss.MemSsl->renew = 0;
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->renew = 0;
 }

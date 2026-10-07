@@ -14,6 +14,8 @@
  *   g_021B60D8  0x021B60D8  data  a4
  */
 
+#include "../include/G_Sess.h"
+
 struct Node {
     unsigned int f0;
     unsigned char f4;
@@ -33,11 +35,6 @@ struct Pool {
     unsigned int add;
     struct Node freeList;
     struct Node active;
-};
-
-struct Sess {
-    unsigned char pad[0x10];
-    unsigned int f10;
 };
 
 extern struct Pool g_021B4BE0;

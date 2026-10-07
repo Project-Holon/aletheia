@@ -21,6 +21,8 @@
  *   func_021BAFA8  0x021BAFA8  thumb  ov068
  */
 
+#include "../include/G__anon_Entry.h"
+
 typedef unsigned char  u8;
 typedef signed char    s8;
 typedef unsigned short u16;
@@ -41,7 +43,7 @@ typedef struct {
 extern Tab d_021BB570[];
 extern u16 d_021BB572[];
 extern u8  d_021BB574[];
-extern Ent d_021BB704[];
+extern struct _anon_Entry d_021BB704[];
 extern Ent d_021BB708[];
 extern void func_021BAFA8(u8 *p);
 
@@ -67,7 +69,7 @@ void func_021BB000(u8 *p, int i, int delta)
             cur = p[i];
 
             v = t->list[j];
-            f = d_021BB704[v].f4;
+            f = d_021BB704[v].value;
             if (f == cur) {
                 break;
             }

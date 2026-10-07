@@ -18,7 +18,9 @@
  *   g_021F6F90 0x021F6F90 data
  */
 
-extern unsigned char g_021F6F90[];
+#include "../include/G_WmBase.h"
+
+extern struct WmBase g_021F6F90;
 
 extern unsigned long func_02087988(void);
 extern unsigned long func_0208799C(unsigned long state);
@@ -28,7 +30,7 @@ int func_021F5B4C(unsigned short sendSize, unsigned short maxChildren)
 {
     unsigned long enabled = func_02087988();
 
-    if ((*(unsigned char **)(g_021F6F90 + 0xC))[0x50D] != 0) {
+    if ((*(unsigned char **)(((unsigned char *)&g_021F6F90) + 0xC))[0x50D] != 0) {
         func_0208799C(enabled);
         return 0;
     }
@@ -36,9 +38,9 @@ int func_021F5B4C(unsigned short sendSize, unsigned short maxChildren)
         func_0208799C(enabled);
         return 0;
     }
-    *(unsigned short *)(*(unsigned char **)(g_021F6F90 + 0xC) + 0x10) = maxChildren;
-    *(unsigned short *)(*(unsigned char **)(g_021F6F90 + 0xC) + 0x500) = sendSize;
-    *(unsigned short *)(*(unsigned char **)(g_021F6F90 + 0xC) + 0x502) = 8;
+    *(unsigned short *)(*(unsigned char **)(((unsigned char *)&g_021F6F90) + 0xC) + 0x10) = maxChildren;
+    *(unsigned short *)(*(unsigned char **)(((unsigned char *)&g_021F6F90) + 0xC) + 0x500) = sendSize;
+    *(unsigned short *)(*(unsigned char **)(((unsigned char *)&g_021F6F90) + 0xC) + 0x502) = 8;
     func_0208799C(enabled);
     return 1;
 }

@@ -47,12 +47,10 @@
  *    conflict is recorded here rather than silently resolved.
  */
 
+#include "../include/G_Desc.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct Desc {
-    u8 data[0x18];
-};
 
 struct Ctrl {
     u8    unk00;

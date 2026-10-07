@@ -12,12 +12,13 @@
  *   d_021B4BD0 0x021B4BD0 data a4
  */
 #include "../include/Obj00947.h"
+#include "../include/G_Stats.h"
 typedef unsigned char u8;
-extern int d_021B4BD0[];
+extern struct Stats d_021B4BD0;
 void func_021B25FC(u8 *a,u8 *b)
 {
     if(b[10] == 1) {
         b[11]=a[4];
-        ((struct Obj00947 *)b)->fC=d_021B4BD0[1];
+        ((struct Obj00947 *)b)->fC=((int *)&d_021B4BD0)[1];
     }
 }

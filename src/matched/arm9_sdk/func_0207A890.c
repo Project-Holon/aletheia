@@ -23,20 +23,18 @@
  *   FSi_MemArchiveProc  0x0207A7C4  arm
  */
 
+#include "../include/G_FSArchive.h"
+
 typedef unsigned char u8;
 typedef unsigned long u32;
 typedef int BOOL;
 
 typedef struct FSFile FSFile;
 
-typedef struct FSArchive
-{
-    u8 pad00[0x14];
-    u32 flag;
-} FSArchive;
+typedef struct FSArchive FSArchive;
 
 extern BOOL fsi_mem_init;
-extern FSArchive fsi_arc_mem;
+extern struct FSArchive fsi_arc_mem;
 
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);

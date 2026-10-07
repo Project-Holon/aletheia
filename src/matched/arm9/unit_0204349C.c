@@ -26,12 +26,9 @@
  * reverse).
  */
 
-typedef unsigned int u32;
+#include "../include/G_Flags.h"
 
-struct Flags {
-    u32 unk_00;
-    u32 unk_04;
-};
+typedef unsigned int u32;
 
 extern struct Flags g_02146A48;
 

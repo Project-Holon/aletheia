@@ -25,17 +25,12 @@
  *       --func func_0203F3B4 --addr 0x0203F3B4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_021469FC.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-struct Block {
-    u32 unk_00;
-    u32 unk_04;
-    u32 unk_08;
-    u8  pad_0c[0x3c];
-};
-
-extern struct Block g_021469FC;
+extern struct G_021469FC g_021469FC;
 
 extern void func_02088788(void);
 extern void func_02082BCC(void *dst, u32 value, u32 size);

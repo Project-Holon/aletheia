@@ -78,6 +78,8 @@
  *   g_0217AAB4     0x0217AAB4  data
  */
 
+#include "../include/G_IRCParam.h"
+
 #pragma opt_lifetimes off
 
 
@@ -91,8 +93,8 @@ struct irc_param {
 };
 
 extern u8 g_0217ACA0[181];
-extern struct irc_param g_0217AC90;
-extern struct irc_param g_0217AC90b;
+extern struct IRCParam g_0217AC90;
+extern struct IRCParam g_0217AC90b;
 extern u16 g_0217AAB4;
 
 extern void func_02075E9C(u16 id);
@@ -117,9 +119,9 @@ int func_0217A7AC(u8 *buf)
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
     *(volatile u16 *)0x040001A0 = 0xA042;
-    func_0217A674(&g_0217AC90b);
+    func_0217A674(((struct irc_param *)&g_0217AC90b));
     func_0217A5B4();
-    func_0217A718(&g_0217AC90b);
+    func_0217A718(((struct irc_param *)&g_0217AC90b));
     func_0217A5B4();
     size = buf[0];
     if ((unsigned int)size > 0xB5)
@@ -132,11 +134,11 @@ int func_0217A7AC(u8 *buf)
         for (; (i < size) ? 1 : 0; i++) {
             if (i == size - 1)
                 *(volatile u16 *)0x040001A0 = 0xA002;
-            func_0217A718(&g_0217AC90b);
+            func_0217A718(((struct irc_param *)&g_0217AC90b));
         }
     } else {
         *(volatile u16 *)0x040001A0 = 0xA002;
-        func_0217A718(&g_0217AC90b);
+        func_0217A718(((struct irc_param *)&g_0217AC90b));
     }
     for (i = 0; (i < size) ? 1 : 0; i++) {
         buf[i] ^= 0xAA;

@@ -23,6 +23,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C8C50.c \
  *       --func pushDnsAuto --addr 0x021C8C50 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -86,7 +89,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -115,7 +118,7 @@ void pushDnsAuto(bool yes)
 
     if (info->dnsAuto == yes)
         return;
-    scenesetlist_bss.MemSsl->lastDns = yes;
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->lastDns = yes;
     DWCi_SETTINGlSetDnsAuto(yes);
     drawWindow();
 }

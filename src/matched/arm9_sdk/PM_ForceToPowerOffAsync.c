@@ -20,6 +20,8 @@
  *   PM_SendUtilityCommandAsync     0x0208BC44  arm
  */
 
+#include "../include/G_PMiGenCallbackInfo.h"
+
 typedef unsigned long u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -30,12 +32,7 @@ typedef u32 OSIntrMode;
 
 typedef void (*PMCallback)(u32 result, void *arg);
 
-typedef struct PMiGenCallbackInfo {
-    void (*callback)(void *);
-    void *arg;
-    int priority;
-    struct PMiGenCallbackInfo *next;
-} PMGenCallbackInfo;
+typedef struct PMiGenCallbackInfo PMGenCallbackInfo;
 
 typedef struct PMiWork {
     volatile BOOL lock;
@@ -65,7 +62,7 @@ static inline u32 OS_GetVBlankCount(void)
     return *(vu32 *)0x02FFFC3C;
 }
 
-extern PMGenCallbackInfo *g_02732FAC;
+extern struct PMiGenCallbackInfo *g_02732FAC;
 extern void PMi_LCDOnAvoidReset(void);
 extern BOOL OS_IsRunOnTwl(void);
 extern void PMi_ExecuteList(PMGenCallbackInfo *listp);

@@ -27,6 +27,7 @@
  */
 #include "../include/Obj00057.h"
 #include "../include/Obj22273.h"
+#include "../include/G_Counter.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,7 +50,7 @@ extern void func_02034F84(u32);
 extern void func_021EEEAC(void);
 extern void func_021EEEB4(void);
 extern void func_021EEEF8(void);
-extern u8 d_021F6EA0[];
+extern struct Counter d_021F6EA0;
 void func_021EE740(u8 *p) {
  p[0x25]=0;
  ((struct Obj00057 *)p)->f20=0;
@@ -67,7 +68,7 @@ void func_021EE740(u8 *p) {
   func_0200C1B0(*(struct Blk34 * *)&((struct Obj00057 *)p)->f4C,4);
  } else {
   *(u32 *)&((struct Obj00057 *)p)->f4C=0;
-  *(u16 *)(d_021F6EA0+2)=0;
+  *(u16 *)(((u8 *)&d_021F6EA0)+2)=0;
  }
  ((struct Obj00057 *)p)->f4=func_020056A0((u32)func_021EEEAC,(u32)p,8);
  if(!p[0x28]) func_02005654((int)func_021EEEB4,0);

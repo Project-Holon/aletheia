@@ -43,6 +43,8 @@
  *       --func sub_0202FC48 --addr 0x0202FC48 --cc 1.1p1 --arm
  */
 
+#include "../include/G_EnvModule.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -54,15 +56,6 @@ struct EnvEntry {
     u16   field0c;
     u8    field0e;
     u8    pad_0f;
-};
-
-struct EnvModule {
-    struct EnvEntry *entries;
-    u8              *ids;
-    u16              idCount;
-    u16              resCount;
-    u16              entryCount;
-    u16              error;
 };
 
 struct EnvRes {
@@ -105,10 +98,10 @@ int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra)
 
     g_EnvModule.ids = sub_02086788(0, idCount, 4);
     for (i = 0; i < idCount; i++) {
-        g_EnvModule.ids[i] = 0xff;
+        ((u8 *)g_EnvModule.ids)[i] = 0xff;
     }
 
-    g_EnvModule.idCount = idCount;
+    g_EnvModule.count = idCount;
     g_EnvModule.resCount = count;
     g_EnvModule.entryCount = total;
     g_EnvModule.error = 0;
@@ -117,7 +110,7 @@ int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra)
         mem = sub_02086788(0, res[i].size, 4);
         if (mem != 0) {
             g_EnvModule.entries[i].ptr00 = sub_02060C5C(mem, res[i].size, 0);
-            g_EnvModule.ids[i] = i;
+            ((u8 *)g_EnvModule.ids)[i] = i;
         } else {
             g_EnvModule.error = i;
             return 0;

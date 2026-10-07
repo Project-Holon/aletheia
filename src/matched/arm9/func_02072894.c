@@ -23,11 +23,13 @@
  * r2 being needed for b again at the call.
  */
 
+#include "../include/G_Ctl.h"
+
 typedef unsigned char  u8;
 typedef signed char    s8;
 typedef unsigned int   u32;
 
-extern s8  g_0214BAC0[];
+extern struct Ctl g_0214BAC0;
 extern u8  g_0214BB00[];
 struct SNDDriverInfo;
 struct SNDTrackInfo;
@@ -35,7 +37,7 @@ extern int func_0208A0A4(struct SNDDriverInfo *, int playerNo, int trackNo, stru
 
 int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo)
 {
-    s8 idx = g_0214BAC0[0];
+    s8 idx = ((s8 *)&g_0214BAC0)[0];
     u8 *p;
 
     if (idx < 0) p = 0;

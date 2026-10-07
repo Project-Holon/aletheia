@@ -17,13 +17,15 @@
  *   g_02202FC4     0x02202FC4  data
  */
 
+#include "../include/G_0220301C.h"
+
 typedef signed short s16;
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef struct { u32 unk; s16 key; s16 val; } Entry;
-extern Entry g_0220301C[12];
+extern struct G_0220301C g_0220301C[12];
 extern Entry g_02202FC4[11];
 
 struct MsgBank;
@@ -38,7 +40,7 @@ void func_021F8178(void *win, void *bank, int idx, u32 e, u32 x, u32 y, u16 colo
     void *str;
 
     if (idx != -1) {
-        tab = g_0220301C;
+        tab = ((Entry *)g_0220301C);
         if (alt != 0) {
             tab = g_02202FC4;
         }

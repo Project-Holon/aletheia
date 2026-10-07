@@ -20,20 +20,16 @@
  *   g_021A5A70  0x021A5A70  data
  */
 
+#include "../include/G_NatSocks.h"
+
 typedef struct {
     void *list;
     int pad4[7];
     int natifyActive;
 } NegotiateGlobals;
 
-typedef struct {
-    int natType;
-    int sock1;
-    int sock2;
-} NatGlobals;
-
 extern NegotiateGlobals g_021AE698;
-extern NatGlobals g_021A5A70;
+extern struct NatSocks g_021A5A70;
 extern int func_02199BE4(int sock);
 struct _NATNegotiator;
 extern int func_02184200(const int *p);
@@ -45,7 +41,7 @@ void func_0219A4A4(void *p)
     int i;
 
     if (g_021AE698.natifyActive)
-        g_021AE698.natifyActive = func_02199BE4(g_021A5A70.sock2) && func_02199BE4(g_021A5A70.sock1);
+        g_021AE698.natifyActive = func_02199BE4(g_021A5A70.mappingSock) && func_02199BE4(g_021A5A70.ertSock);
     if (!g_021AE698.list)
         return;
     for (i = func_02184200(g_021AE698.list) - 1; i >= 0; i--)

@@ -14,17 +14,13 @@
  *   _ull_mul       0x0209C054  arm
  */
 
+#include "../include/G_Unk021F6360.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 typedef unsigned long long u64;
 
-struct Unk021F6360 {
-    u8 pad0[8];
-    u64 seed;
-    u64 mul;
-    u64 add;
-};
 extern struct Unk021F6360 data_021F6360;
 
 u32 func_021D78AC(u32 range)

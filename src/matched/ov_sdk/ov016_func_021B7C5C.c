@@ -23,6 +23,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B7C5C.c \
  *       --func SetStaData --addr 0x021B7C5C --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_BSS.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -60,7 +63,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct {
     unsigned char  DataID;
@@ -83,10 +86,10 @@ short SetStaData(char *StaData)
 
     size = 0;
     Data = (VariableData *)StaData;
-    Data->DataID = aoss_bss.gData.p_type;
+    Data->DataID = aoss_bss.gData_p_type;
     Data->DataType = 1;
-    Len = aoss_bss.gData.p_name_len;
-    AOSS_Memcpy(Data->Data, aoss_bss.gData.p_name, Len);
+    Len = aoss_bss.gData_p_name_len;
+    AOSS_Memcpy(Data->Data, aoss_bss.gData_p_name, Len);
     Data->length = AOSS_Htons(Len);
     Len += 6;
     Len = (Len + 1) / 2 * 2;

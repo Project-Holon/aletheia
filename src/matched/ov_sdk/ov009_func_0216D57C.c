@@ -81,6 +81,9 @@
  *   s_bInNNThink                     0x021aaa20 data
  */
 
+#include "../include/G_NNThinkGlobal.h"
+#include "../include/G_MatchAnchorA.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -168,22 +171,8 @@ typedef struct DWCstMatchControl {
     u8 retryCountMax;               /* +0x7B6 */
 } DWCstMatchControl;
 
-struct MatchAnchorA {
-    int anybodyServerSearchRatio;   /* +0x0 */
-    int meshMakeNNRetryMax;         /* +0x4 */
-};
-
-struct MatchAnchorB {
-    int bInNNThink;                 /* +0x00 */
-    int f4;
-    int bNNFreeNegotiateList;       /* +0x08 */
-    int fC;
-    int needSbFree;                 /* +0x10 */
-    int sbCallbackLevel;            /* +0x14 */
-};
-
 extern struct MatchAnchorA s_anybodyServerSearchRatio;
-extern struct MatchAnchorB s_bInNNThink;
+extern struct NNThinkGlobal s_bInNNThink;
 
 extern DWCstMatchControl *DWCi_GetMatchCnt(void);
 extern int DWCi_IsError(void);

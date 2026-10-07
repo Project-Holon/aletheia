@@ -27,15 +27,13 @@
  *   sWaitingCommandListQueue  0x02151490  data
  */
 
+#include "../include/G_SNDCommand.h"
+
 typedef unsigned long u32;
 typedef int BOOL;
 typedef u32 OSIntrMode;
 
-typedef struct SNDCommand {
-    struct SNDCommand *next;
-    int id;
-    u32 arg[4];
-} SNDCommand;
+typedef struct SNDCommand SNDCommand;
 
 #define SND_COMMAND_BLOCK        0x1
 #define SND_COMMAND_IMMEDIATE    0x2
@@ -57,7 +55,7 @@ typedef struct {
 } SNDCommandState;
 
 extern SNDCommandState sFreeList;
-extern SNDCommand sCommandArray[SND_COMMAND_NUM];
+extern struct SNDCommand sCommandArray[SND_COMMAND_NUM];
 extern SNDCommand *sWaitingCommandListQueue[SND_PXI_FIFO_MESSAGE_BUFSIZE + 1];
 
 extern OSIntrMode OS_DisableInterrupts(void);

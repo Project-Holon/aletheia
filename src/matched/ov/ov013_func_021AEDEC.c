@@ -14,8 +14,11 @@
  *   func_021B1F54 0x021B1F54 arm ov013
  *   func_02156400 0x02156400 thumb ov009
  */
+
+#include "../include/G_Work.h"
+
 typedef unsigned char u8;
-extern u8 *d_021B3C80;
+extern struct Work *d_021B3C80;
 struct Node;
 extern void func_021B074C(void *);
 extern int func_021B1F54(struct Node *);
@@ -24,6 +27,6 @@ void func_021AEDEC(struct Node *p)
 {
     func_021B074C(p);
     func_021B1F54(p);
-    *(int *)(d_021B3C80 + 0x1A1C) = 0;
+    *(int *)(((u8 *)d_021B3C80) + 0x1A1C) = 0;
     func_02156400();
 }

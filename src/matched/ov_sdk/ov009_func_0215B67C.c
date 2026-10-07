@@ -41,6 +41,9 @@
  * ternary helper. The object compiles the two shapes differently.
  */
 
+#include "../include/G_ArpEntry.h"
+#include "../include/G_CPSFragTable.h"
+
 typedef struct CPSSocBuf {
     unsigned long size;
     unsigned char *data;
@@ -121,9 +124,9 @@ extern CPSSoc g_021A83E4;
 extern struct net_vars g_021A826C;
 extern unsigned char g_021A88E4[384];
 extern unsigned char g_021A8764[384];
-extern CPSArpCache g_021A8384[8];
+extern struct ArpEntry g_021A8384[8];
 extern struct thread_info g_02150FEC;
-extern CPSFragTable g_021A8A64[8];
+extern struct CPSFragTable g_021A8A64[8];
 
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern void func_0215AA5C(int v);
@@ -290,7 +293,7 @@ void func_0215B67C(void)
 
         for (i = 0; i < 8; i++)
         {
-            arp = &g_021A8384[i];
+            arp = &((CPSArpCache *)g_021A8384)[i];
             if (arp->ip && (short)(now - arp->when) > 957)
                 arp->ip = 0;
         }
@@ -331,7 +334,7 @@ void func_0215B67C(void)
 
         for (i = 0; i < 8; i++)
         {
-            CPSFragTable *f = &g_021A8A64[i];
+            CPSFragTable *f = &((CPSFragTable *)g_021A8A64)[i];
             if (f->frags && (long)(now - f->when) > 239)
             {
                 g_021A826C.free(f->buf);

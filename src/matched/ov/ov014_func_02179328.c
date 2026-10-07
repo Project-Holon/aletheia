@@ -11,6 +11,9 @@
  * symbols:
  *   g_021797A8 0x021797A8 data a4
  */
+
+#include "../include/G_S.h"
+
 typedef unsigned char u8;
-extern u8 *g_021797A8;
-void func_02179328(void *v) { *(void **)(g_021797A8 + 0x1E7C) = v; }
+extern struct S *g_021797A8;
+void func_02179328(void *v) { *(void **)(((u8 *)g_021797A8) + 0x1E7C) = v; }

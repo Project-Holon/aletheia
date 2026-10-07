@@ -12,8 +12,10 @@
  *   d_021F6360 0x021F6360 data a4
  *   func_020307B0 0x020307B0 arm
  */
-typedef struct { unsigned int f0; void *f4; } State;
-extern State d_021F6360;
+
+#include "../include/G__anon_State.h"
+
+extern struct _anon_State d_021F6360;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021D7894(void) { if (d_021F6360.f4) { func_020307B0(d_021F6360.f4); d_021F6360.f4 = 0; } }

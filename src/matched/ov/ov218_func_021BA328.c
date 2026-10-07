@@ -20,9 +20,11 @@
  *   d_021BAB80 0x021BAB80 data ov218 a4
  */
 #include "../include/Obj00243.h"
+#include "../include/G_Config.h"
 typedef unsigned int u32;
-typedef struct Config {u32 a,b,c,d,e;unsigned short f,g;} Config;
-extern const Config d_021BABC8,d_021BAB68,d_021BAB98,d_021BABB0,d_021BAB80;
+typedef struct Config Config;
+extern struct Config d_021BAB68;
+extern const Config d_021BABC8, d_021BAB98, d_021BABB0, d_021BAB80;
 struct Obj;
 extern u32 func_021BA960(char *p);
 extern struct Obj *func_021BA4D4(u32 owner, char *p);

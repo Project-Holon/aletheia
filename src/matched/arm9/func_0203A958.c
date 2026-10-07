@@ -30,10 +30,13 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0203A958.c  *       --func func_0203A958 --addr 0x0203A958 --arm --cc 1.1p1
  */
+
+#include "../include/G_Entry.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *g_021469D8;
+extern struct Entry *g_021469D8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203A81C(u32 a0, u32 a1, u32 a2);
@@ -52,23 +55,23 @@ void func_0203A958(int a0, int a1, const u8 *a2, int a3, int a4)
     return;
   if (func_0203A81C(*((u16 *) (a2 + 6)), a0, *((u32 *) a2)) == 0)
     return;
-  if ((*((u8 *) ((g_021469D8 + (i * 0x14)) + 0xca))) != 0)
+  if ((*((u8 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xca))) != 0)
     func_02034714(sNet3730, 0x1ff, sNet3733);
-  *((u8 *) ((g_021469D8 + (i * 0x14)) + 0xca)) = 1;
+  *((u8 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xca)) = 1;
   {
     u32 w = *((u32 *) a2);
-    *((u32 *) ((g_021469D8 + (i * 0x14)) + 0xb8)) = w;
-    *((u32 *) ((g_021469D8 + (i * 0x14)) + 0xbc)) = func_0203A81C(*((u16 *) (a2 + 6)), a0, w);
+    *((u32 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xb8)) = w;
+    *((u32 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xbc)) = func_0203A81C(*((u16 *) (a2 + 6)), a0, w);
   }
-  if ((*((u32 *) ((g_021469D8 + (i * 0x14)) + 0xbc))) == 0)
+  if ((*((u32 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xbc))) == 0)
     func_02034714(sNet3730, 0x203, sNet3734);
   v0 = *((u16 *) (a2 + 6));
   v2 = *((u16 *) (a2 + 8));
   v8 = *((u16 *) (a2 + 0xa));
   v6 = *((u16 *) (a2 + 4));
-  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc0)) = v0;
-  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc2)) = v2;
-  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc8)) = v8;
-  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc6)) = v6;
-  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc4)) = 0;
+  *((u16 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xc0)) = v0;
+  *((u16 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xc2)) = v2;
+  *((u16 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xc8)) = v8;
+  *((u16 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xc6)) = v6;
+  *((u16 *) ((((u8 *)g_021469D8) + (i * 0x14)) + 0xc4)) = 0;
 }

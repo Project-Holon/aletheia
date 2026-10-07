@@ -38,6 +38,8 @@
  *       --func sub_02061CA4 --addr 0x02061CA4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Queue.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
@@ -47,11 +49,6 @@ struct Req {
     u32 unk_04;
     u32 unk_08;
     s32 size;
-};
-
-struct Queue {
-    u8 pad_00[0x10];
-    s32 total;
 };
 
 extern struct Queue g_02146B80;

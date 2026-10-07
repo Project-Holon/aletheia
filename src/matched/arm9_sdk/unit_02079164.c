@@ -52,6 +52,8 @@
  *   python tools/match.py tu --src src/matched/unit_02079164.c  *       --addr 0x02079164 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Node.h"
+
 
 typedef unsigned int u32;
 
@@ -69,7 +71,7 @@ struct Iter020792B8 {
     u32 pad[7];
 };
 
-extern struct Node02079164 *g_021542B8;
+extern struct Node *g_021542B8;
 
 extern u32  func_02087988(void);
 extern void func_0208799C(u32 e);
@@ -97,7 +99,7 @@ void func_02079164(struct Iter020792B8 *it)
 
         e = func_02087988();
 
-        list = g_021542B8;
+        list = ((struct Node02079164 *)g_021542B8);
         prev = 0;
         cur = list;
         while (cur != 0) {
@@ -111,7 +113,7 @@ void func_02079164(struct Iter020792B8 *it)
                     head = cur;
                 }
                 if (list == cur) {
-                    g_021542B8 = next;
+                    g_021542B8 = (struct Node *)(next);
                     list = next;
                 }
                 cur->next = 0;

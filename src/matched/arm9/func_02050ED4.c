@@ -25,9 +25,11 @@
  *       --func func_02050ED4 --addr 0x02050ED4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_02146A88.h"
+
 typedef unsigned int u32;
 
-extern u32 *g_02146A88;
+extern struct G_02146A88 *g_02146A88;
 typedef unsigned char  u8;
 extern void func_02050DB8(u8 *p);
 extern u32 func_020307B0(void *p);
@@ -37,11 +39,11 @@ void func_02050ED4(void)
     int i;
 
     for (i = 0; i < 16; i++) {
-        u32 v = g_02146A88[i];
+        u32 v = ((u32 *)g_02146A88)[i];
 
         if (v != 0)
             func_02050DB8((u8 *)v);
     }
-    func_020307B0((void *)((u32)g_02146A88));
+    func_020307B0((void *)((u32)((u32 *)g_02146A88)));
     g_02146A88 = 0;
 }

@@ -19,6 +19,8 @@
  *   g_021F6F90 0x021F6F90 data
  */
 
+#include "../include/G_WmBase.h"
+
 typedef struct {
     unsigned short dmaNo;
     unsigned short pad;
@@ -28,7 +30,7 @@ typedef struct {
     unsigned char *ext;
 } WmBase;
 
-extern WmBase g_021F6F90;
+extern struct WmBase g_021F6F90;
 
 extern void func_021F6148(unsigned short time);
 extern int func_0208F370(void *wmSysBuf, void *callback, unsigned short dmaNo);
@@ -44,9 +46,9 @@ int func_021F5BE0(void)
     *(unsigned short *)(g_021F6F90.work + 0x526) = errcode;
     *(unsigned short *)(g_021F6F90.work + 0x548) = errcode;
     func_021F6148(0x1E);
-    if (*(int *)(g_021F6F90.ext + 0x1320) == 0) {
+    if (*(int *)(((unsigned char *)g_021F6F90.ext) + 0x1320) == 0) {
         do {
-            errcode = func_0208F370(g_021F6F90.wmSysBuf, *(void **)(g_021F6F90.work + 0x508), g_021F6F90.dmaNo);
+            errcode = func_0208F370(g_021F6F90.wmSysBuf, *(void **)(g_021F6F90.work + 0x508), g_021F6F90.WM_DMA_NO);
         } while (errcode == 4);
         if (errcode != 2) {
             return 8;

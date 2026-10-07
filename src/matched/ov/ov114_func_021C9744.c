@@ -19,10 +19,14 @@
  *   func_021CA470 0x021CA470 arm ov114
  *   func_021CA1B4 0x021CA1B4 arm ov114
  */
+
+#include "../include/G_Block.h"
+
 extern void *d_021D3EFC;
 typedef struct { unsigned words[103]; unsigned value; } State;
 extern State d_021D4084;
-extern unsigned d_021CF6D4[], d_021CF78C[], d_021D4098[];
+extern struct Block d_021D4098;
+extern unsigned d_021CF6D4[], d_021CF78C[];
 extern void func_02087C6C(void *);
 extern void *func_02092344(void *, const void *, unsigned);
 extern void func_021C9EE4(int server, char *initdata);
@@ -31,10 +35,10 @@ extern void func_021CA1B4(void);
 void func_021C9744(unsigned char *p, unsigned x)
 {
     func_02087C6C(p + 0x1c);
-    func_02092344(d_021D4098, p, 100);
+    func_02092344(((unsigned *)&d_021D4098), p, 100);
     d_021D4084.value = x;
     func_021C9EE4((int)d_021D3EFC, (char *)d_021CF6D4);
-    if (func_021CA470(d_021CF78C, d_021D4084.words[2], d_021D4098, 100, 0) == 0) {
+    if (func_021CA470(d_021CF78C, d_021D4084.words[2], ((unsigned *)&d_021D4098), 100, 0) == 0) {
         d_021D4084.words[0] = 10;
         return;
     }

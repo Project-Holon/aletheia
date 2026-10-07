@@ -41,17 +41,11 @@
  *       --func func_0204E8C0 --addr 0x0204E8C0 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Double3Ddisp.h"
+
 typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
-
-struct Double3Ddisp {
-    u16 heap;   /* 0x00 */
-    u16 pad02;  /* 0x02 */
-    s32 unk04;  /* 0x04 */
-    s32 unk08;  /* 0x08 */
-    u32 pad0c[24];
-};
 
 extern struct Double3Ddisp *g_02146A80;
 extern const char double3Ddisp_File[];

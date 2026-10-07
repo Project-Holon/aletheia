@@ -10,5 +10,8 @@
  * symbols:
  *   d_0214616C 0x0214616C data a4
  */
-extern char *d_0214616C;
-char *func_021D7700(void) { return d_0214616C; }
+
+#include "../include/G_BattleRec.h"
+
+extern struct BattleRec *d_0214616C;
+char *func_021D7700(void) { return ((char *)d_0214616C); }

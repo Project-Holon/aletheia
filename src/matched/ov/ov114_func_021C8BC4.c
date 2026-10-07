@@ -68,11 +68,12 @@
  *   func_021CA1B4 0x021CA1B4  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
+#include "../include/G_Six.h"
 extern unsigned int *d_021D3D28;
 extern unsigned int d_021D3D2C[];
 extern unsigned int d_021CF538[];
 extern unsigned int d_021CF634[];
-extern unsigned int d_021D3D40[];
+extern struct Six d_021D3D40;
 extern void func_021C9EE4(int server, char *initdata);
 extern int func_021CA470(void *, unsigned int, void *, unsigned int, unsigned int);
 extern void func_021CA1B4(void);
@@ -80,9 +81,9 @@ extern void func_021CA1B4(void);
 void func_021C8BC4(const void *p, unsigned int x)
 {
     d_021D3D2C[0x72] = x;
-    memcpy(d_021D3D40, p, 8);
+    memcpy(((unsigned int *)&d_021D3D40), p, 8);
     func_021C9EE4((int)d_021D3D28, (char *)d_021CF538);
-    if (func_021CA470(d_021CF634, d_021D3D2C[2], d_021D3D40, 8, 0) == 0) {
+    if (func_021CA470(d_021CF634, d_021D3D2C[2], ((unsigned int *)&d_021D3D40), 8, 0) == 0) {
         d_021D3D2C[0] = 14;
         return;
     }

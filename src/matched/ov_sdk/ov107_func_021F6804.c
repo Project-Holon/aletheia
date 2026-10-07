@@ -15,16 +15,19 @@
  *   d_021F7008   0x021F7008  data
  *   _s32_div_f   0x0209C0A4  arm
  */
+
+#include "../include/G_piece.h"
+
 typedef unsigned short u16;
 typedef int s32;
 
-extern char d_021F7008[];
+extern struct piece d_021F7008;
 
 void MBi_SetChildMPMaxSize(u16 childMaxSize)
 {
     s32 n = childMaxSize - 2;
 
-    *(s32 *)(d_021F7008 + 8) = n;
-    *(s32 *)(d_021F7008 + 0xC) = 0x1E / n;
-    *(s32 *)(d_021F7008 + 0x10) = 0x1E;
+    *(s32 *)(((char *)&d_021F7008) + 8) = n;
+    *(s32 *)(((char *)&d_021F7008) + 0xC) = 0x1E / n;
+    *(s32 *)(((char *)&d_021F7008) + 0x10) = 0x1E;
 }

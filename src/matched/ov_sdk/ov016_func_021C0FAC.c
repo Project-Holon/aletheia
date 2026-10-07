@@ -17,6 +17,8 @@
  *   g_021DE58C  0x021DE58C  data
  */
 
+#include "../include/G_MemMsg.h"
+
 typedef struct {
 	int a;
 	int b;
@@ -25,7 +27,7 @@ typedef struct {
 
 extern void *func_021D54C4(void *que);
 extern void *func_021D4B68(char *path, unsigned long *size, int alignment);
-extern char *g_021DE58C;
+extern struct MemMsg *g_021DE58C;
 
 void *func_021C0FAC(char *file)
 {
@@ -34,7 +36,7 @@ void *func_021C0FAC(char *file)
 	char *msg;
 	int *hdr;
 
-	info = (Info *)func_021D54C4(*(void **)(g_021DE58C + 0x60));
+	info = (Info *)func_021D54C4(*(void **)(((char *)g_021DE58C) + 0x60));
 	msg = func_021D4B68(file, &size, 4);
 	hdr = (int *)(msg + 0x20);
 	info->c = (int)msg;

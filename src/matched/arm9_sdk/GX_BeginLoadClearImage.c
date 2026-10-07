@@ -14,8 +14,10 @@
  *   g_02150E2C 0x02150E2C data
  */
 
+#include "../include/G_GXLoad3DState.h"
+
 extern void func_0208098C(int a0, int a1, int a2, int a3);
-extern int g_02150E2C;
+extern struct GXLoad3DState g_02150E2C;
 
 asm void GX_BeginLoadClearImage(void)
 {

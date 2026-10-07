@@ -46,12 +46,14 @@
  *       --func func_0201DD78 --addr 0x0201DD78 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_FontState.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u8  g_02146578[3];
+extern struct FontState g_02146578;
 extern u16 g_02146588[256];
 
 void func_0201DD78(u32 r, u32 g, u32 b)
@@ -67,9 +69,9 @@ void func_0201DD78(u32 r, u32 g, u32 b)
     c[1] = r;
     c[2] = g;
     c[3] = b;
-    g_02146578[0] = (u8)r;
-    g_02146578[1] = (u8)g;
-    g_02146578[2] = (u8)b;
+    ((u8 *)&g_02146578)[0] = (u8)r;
+    ((u8 *)&g_02146578)[1] = (u8)g;
+    ((u8 *)&g_02146578)[2] = (u8)b;
     n = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {

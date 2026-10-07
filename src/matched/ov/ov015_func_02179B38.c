@@ -28,6 +28,9 @@
  *   func_02179C98  0x02179C98  thumb  ov015
  */
 #include "../include/Obj01643.h"
+#include "../include/G_s_ab40.h"
+#include "../include/G_s_aba0.h"
+#include "../include/G_State.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,13 +43,7 @@ struct flags_ab80 {
     u8 b1 : 1;
 };
 
-extern u8 d_0217AB80[];
-struct s_ab40 {
-    u8 pad[0x38];
-    u32 f38;
-    u8 pad2[0xC];
-    int (*f48)(u8 a, u8 b);
-};
+extern struct State d_0217AB80;
 
 struct s_aac0 {
     int (*f0)(u16 id, u8 *data, u16 len);
@@ -59,7 +56,7 @@ struct s_aac0 {
 extern struct s_ab40 d_0217AB40;
 extern u8 d_0217AAAC[];
 extern struct s_aac0 d_0217AAC0;
-extern u8 d_0217ABA0[];
+extern struct s_aba0 d_0217ABA0;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
@@ -79,7 +76,7 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
 
     lo = pkt[3] & 0xF;
     hi = pkt[3] >> 4;
-    ((struct flags_ab80 *)d_0217AB80)->fE = 1;
+    ((struct flags_ab80 *)((u8 *)&d_0217AB80))->fE = 1;
 
     if (len > 0xB4)
         func_02034714((const char *)d_0217AAAC, 0, (const char *)d_0217AAAC);
@@ -99,9 +96,9 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
 
     if (((struct Obj01643 *)pkt)->f8 == d_0217AAC0.f8 &&
         ((struct Obj01643 *)pkt)->f4 == d_0217AB40.f38) {
-        if (!((struct flags_ab80 *)d_0217AB80)->b1) {
+        if (!((struct flags_ab80 *)((u8 *)&d_0217AB80))->b1) {
             func_02179D14();
-            ((struct flags_ab80 *)d_0217AB80)->b1 = 1;
+            ((struct flags_ab80 *)((u8 *)&d_0217AB80))->b1 = 1;
         }
     } else if (((struct Obj01643 *)pkt)->f8 == 0 && d_0217AB40.f38 == 0) {
         d_0217AAC0.fC = ((struct Obj01643 *)pkt)->f4;
@@ -112,7 +109,7 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
         d_0217AAC0.fC = ((struct Obj01643 *)pkt)->f4;
         d_0217AB40.f38 = ((struct Obj01643 *)pkt)->f4;
     } else {
-        if (((struct flags_ab80 *)d_0217AB80)->b1)
+        if (((struct flags_ab80 *)((u8 *)&d_0217AB80))->b1)
             return;
         if (d_0217AB40.f38 == ((struct Obj01643 *)pkt)->f4)
             return;
@@ -123,27 +120,27 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
     if (type >= 0xF0)
         return;
 
-    if (d_0217ABA0[1] == 1 && d_0217ABA0[4] == 0) {
-        if (hi == d_0217ABA0[2]) {
-            if (d_0217ABA0[2] < 0xF)
-                d_0217ABA0[2] = d_0217ABA0[2] + 1;
+    if (((u8 *)&d_0217ABA0)[1] == 1 && ((u8 *)&d_0217ABA0)[4] == 0) {
+        if (hi == ((u8 *)&d_0217ABA0)[2]) {
+            if (((u8 *)&d_0217ABA0)[2] < 0xF)
+                ((u8 *)&d_0217ABA0)[2] = ((u8 *)&d_0217ABA0)[2] + 1;
             else
-                d_0217ABA0[2] = 0;
-            d_0217ABA0[1] = 0;
+                ((u8 *)&d_0217ABA0)[2] = 0;
+            ((u8 *)&d_0217ABA0)[1] = 0;
         } else {
-            d_0217ABA0[4] = 1;
+            ((u8 *)&d_0217ABA0)[4] = 1;
         }
     }
 
     if (type == 0xEE)
         return;
-    if (d_0217ABA0[3] == lo)
+    if (((u8 *)&d_0217ABA0)[3] == lo)
         return;
 
     {
         int id = func_02179C98();
         recv = d_0217AAC0.f0;
         if (recv == 0 || recv((u16)id, pkt + 0xE, (u16)(len - 0xE)) != 0)
-            d_0217ABA0[3] = lo;
+            ((u8 *)&d_0217ABA0)[3] = lo;
     }
 }

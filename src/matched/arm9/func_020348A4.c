@@ -20,9 +20,11 @@
  *   func_0204E328 0x0204E328  arm
  */
 
+#include "../include/G_Console.h"
+
 typedef unsigned int u32;
 
-extern char g_021469AC[];
+extern struct Console g_021469AC;
 extern const char str_020A796C[];
 extern void func_0204E328(const char *s, const char *d);
 
@@ -30,7 +32,7 @@ void func_020348A4(char *s)
 {
     int f;
 
-    func_0204E328(s, g_021469AC);
+    func_0204E328(s, ((char *)&g_021469AC));
     f = 0;
     while (*s != 0) {
         if (*s++ == '\n') {
@@ -39,6 +41,6 @@ void func_020348A4(char *s)
         }
     }
     if (f == 0) {
-        func_0204E328(str_020A796C, g_021469AC);
+        func_0204E328(str_020A796C, ((char *)&g_021469AC));
     }
 }

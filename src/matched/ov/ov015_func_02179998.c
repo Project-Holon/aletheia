@@ -12,10 +12,13 @@
  *   d_0217AB80 0x0217AB80 data ov015 a1
  *   func_0217A134 0x0217A134 arm ov015
  */
-extern unsigned char d_0217AB80[];
+
+#include "../include/G_State.h"
+
+extern struct State d_0217AB80;
 extern void func_0217A134(void);
 void func_02179998(void)
 {
-    if (d_0217AB80[0xC] == 1) func_0217A134();
-    d_0217AB80[0xC] = 0;
+    if (((unsigned char *)&d_0217AB80)[0xC] == 1) func_0217A134();
+    ((unsigned char *)&d_0217AB80)[0xC] = 0;
 }

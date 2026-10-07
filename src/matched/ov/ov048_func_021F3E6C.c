@@ -19,13 +19,14 @@
  *   d_021F50C0     0x021F50C0  data  a4
  */
 
+#include "../include/G_T.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct WordSet;
 struct Date { int a, b, c, d; };
 struct Rec { u16 h; u32 f4, f8, fc, f10, f14, f18; };
 struct Tab { u16 pad[2]; u16 h4; };
-struct T { u16 a0, a1, h, a3; u32 pad[9]; u32 f2c; u32 pad2[6]; u32 f48; };
 extern struct T d_021F50C0;
 
 extern struct WordSet *func_0201EC64(u32 heap);

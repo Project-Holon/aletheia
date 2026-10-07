@@ -23,6 +23,8 @@
  *   g_02147C18     0x02147C18  data
  */
 #include "../include/Obj02326.h"
+#include "../include/G_Aff.h"
+#include "../include/G_SlotRec.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -31,8 +33,8 @@ extern void func_02067A60(struct S *p);
 extern void func_02082AC0(int a, void *p, int n);
 extern u8 g_02147B88[];
 extern u8 g_020A81F8[];
-extern u8 g_02148318[];
-extern u8 g_02147C18[];
+extern struct Aff g_02148318;
+extern struct SlotRec g_02147C18;
 
 void func_02065AA8(u8 *o)
 {
@@ -57,7 +59,7 @@ void func_02065AA8(u8 *o)
     *(u16 *)g_020A81F8 = 0xFFFE;
     m1 = -1;
     sz = 0x10;
-    p = g_02148318;
+    p = ((u8 *)&g_02148318);
     do {
         func_02082AC0(m1, p + 0x10, sz);
         i = i + 1;
@@ -65,6 +67,6 @@ void func_02065AA8(u8 *o)
     } while (i < 0x20);
     *(u16 *)g_02147B88 = 0;
     *(u16 *)(g_02147B88 + 2) = 0;
-    func_02082AC0(0, g_02147C18, 0x100);
+    func_02082AC0(0, ((u8 *)&g_02147C18), 0x100);
     *(u32 *)(g_02147B88 + 4) = 0;
 }

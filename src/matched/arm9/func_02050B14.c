@@ -47,16 +47,11 @@
  *   EXACT, 108 bytes, 3 relocation sites, all resolved.
  */
 
+#include "../include/G_02146A84.h"
+
 typedef unsigned int u32;
 
-typedef struct Slot {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0C;
-} Slot;
-
-extern Slot *g_02146A84;
+extern struct G_02146A84 *g_02146A84;
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 s);
 

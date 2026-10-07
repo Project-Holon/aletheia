@@ -20,8 +20,10 @@
  *   g_021A86A4  0x021A86A4  data
  */
 
+#include "../include/G_021A86A4.h"
+
 extern char g_02150FEC[];
-extern char g_021A86A4[];
+extern struct G_021A86A4 g_021A86A4;
 extern unsigned long func_0215938C(unsigned long ip);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -32,7 +34,7 @@ extern void func_02157E54(unsigned long ip);
 
 void func_021593A8(char *soc, unsigned char flag)
 {
-    if (func_0215938C(*(unsigned long *)(soc + 0x1c)) != 0 || *(char **)(g_02150FEC + 4) != g_021A86A4) {
+    if (func_0215938C(*(unsigned long *)(soc + 0x1c)) != 0 || *(char **)(g_02150FEC + 4) != ((char *)&g_021A86A4)) {
         func_02158714(0, 0, (struct _CPSSoc *)soc, flag);
     } else {
         func_02157E54(func_021578C8(*(unsigned long *)(soc + 0x1c)));

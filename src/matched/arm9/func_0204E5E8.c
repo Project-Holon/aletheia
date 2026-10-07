@@ -27,6 +27,8 @@
  *   g_02146A7C      0x02146A7C  data
  */
 
+#include "../include/G_Run0204E720.h"
+
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
@@ -34,7 +36,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  MI_CpuFill8(void *dst, u32 val, u32 size);
 extern void  func_0204E708(void);
 extern const char fade_File[];
-extern void *g_02146A7C;
+extern struct Run0204E720 *g_02146A7C;
 
 void func_0204E5E8(u32 heap)
 {

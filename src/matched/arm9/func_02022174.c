@@ -34,6 +34,9 @@
  *   python tools/match.py one --src src/matched/func_02022174.c \
  *       --func func_02022174 --addr 0x02022174 --cc 1.1p1 --thumb
  */
+
+#include "../include/G_021467A4.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -59,7 +62,7 @@ struct G {
     u8          f14F;
 };
 
-extern struct G g_021467A4;
+extern struct G_021467A4 g_021467A4;
 
 struct Cluster;
 extern u32 func_02022340(struct Cluster *p, void *top, void *bottom);
@@ -69,7 +72,7 @@ void func_02022174(void)
 {
     struct G *g;
 
-    g = &g_021467A4;
+    g = ((struct G *)&g_021467A4);
     if (g_021467A4.f14C != 0) {
         if (func_02022340((struct Cluster *)g, &g->f14, &g->f44) == 1)
             func_020222EC(g);

@@ -15,10 +15,12 @@
  *   g_021A57C8  0x021A57C8  data
  */
 
-extern char g_021A57C8[];
+#include "../include/G_StatsSocket.h"
+
+extern struct StatsSocket g_021A57C8;
 
 int func_02193D64(void)
 {
-    return *(int *)(g_021A57C8 + 4) != -1;
+    return *(int *)(((char *)&g_021A57C8) + 4) != -1;
 }
 

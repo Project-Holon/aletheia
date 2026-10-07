@@ -27,6 +27,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021BE3E4.c \
  *       --func touch --addr 0x021BE3E4 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_tagRECT.h"
+
 typedef _Bool bool;
 
 /* keyboard.o was built with plain char unsigned: every DWARF `char` below is
@@ -34,7 +37,7 @@ typedef _Bool bool;
    into input with mov, not mvn). */
 
 typedef struct tagCOORD { unsigned short x, y; } COORD;
-typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
+typedef struct tagRECT RECT;
 typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
 typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
 
@@ -86,7 +89,7 @@ typedef struct {
 } KEYBOARD_DATA;
 extern KEYBOARD_DATA keyboard_data;
 
-extern RECT DWCi_R_SCR;
+extern struct tagRECT DWCi_R_SCR;
 
 /* keyboard.o single-symbol .rodata sections */
 extern const COORD C_KEY[47];

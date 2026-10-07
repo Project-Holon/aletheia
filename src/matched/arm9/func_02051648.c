@@ -51,13 +51,17 @@
  *   EXACT, 272 bytes, 5 relocation sites, all resolved (label x2, literal x3).
  */
 
+#include "../include/G_020A1590.h"
+#include "../include/G_020A1584.h"
+#include "../include/G_020A1578.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int g_020A1590;
-extern int g_020A1584;
-extern int g_020A1578;
+extern struct G_020A1590 g_020A1590;
+extern struct G_020A1584 g_020A1584;
+extern struct G_020A1578 g_020A1578;
 
 extern int func_02048A24(int a0, int a1, int a2, int a3, int a4, int a5,
                          int a6, int a7, int a8, int a9, int a10, int a11);
@@ -80,14 +84,14 @@ struct Dst648 {
 void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3,
                    int *a4, int *a5, u32 a6)
 {
-    if (a3 == 0) a3 = &g_020A1590;
-    if (a4 == 0) a4 = &g_020A1584;
+    if (a3 == 0) a3 = &(*(int *)&g_020A1590);
+    if (a4 == 0) a4 = &(*(int *)&g_020A1584);
 
     this->f24 = 0;
     this->f28 = 0;
     this->f2c = 0;
 
-    if (a5 == 0) a5 = &g_020A1578;
+    if (a5 == 0) a5 = &(*(int *)&g_020A1578);
 
     this->f30 = a2;
 

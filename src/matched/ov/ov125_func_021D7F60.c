@@ -14,15 +14,18 @@
  *   func_0215F638 0x0215F638 arm ov009
  *   func_0215F644 0x0215F644 arm ov009
  */
-extern unsigned d_021D9E40[];
+
+#include "../include/G_Clear.h"
+
+extern struct Clear d_021D9E40;
 extern char d_021DA258[];
 extern int func_0215F638(int s, int how);
 extern int func_0215F644(int s);
 extern void func_021D8C5C(void *);
 void func_021D7F60(void) {
- if (d_021D9E40[0x26c/4] == -1u) return;
- func_0215F638(d_021D9E40[0x26c/4], 2);
- func_0215F644(d_021D9E40[0x26c/4]);
- d_021D9E40[0x26c/4] = -1u;
+ if (((unsigned *)&d_021D9E40)[0x26c/4] == -1u) return;
+ func_0215F638(((unsigned *)&d_021D9E40)[0x26c/4], 2);
+ func_0215F644(((unsigned *)&d_021D9E40)[0x26c/4]);
+ ((unsigned *)&d_021D9E40)[0x26c/4] = -1u;
  func_021D8C5C(d_021DA258);
 }

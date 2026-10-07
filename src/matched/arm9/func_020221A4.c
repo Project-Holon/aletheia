@@ -29,16 +29,14 @@
  *   python tools/match.py one --src src/matched/func_020221A4.c \
  *       --func func_020221A4 --addr 0x020221A4 --cc 1.1p1 --thumb
  */
+
+#include "../include/G_021467A4.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct G {
-    u8  pad00[0x14C];
-    u16 f14C;
-};
-
-extern struct G g_021467A4;
+extern struct G_021467A4 g_021467A4;
 
 u32 func_020221A4(void)
 {

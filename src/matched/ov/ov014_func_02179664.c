@@ -12,9 +12,11 @@
  *   d_021797A8  0x021797A8  data
  */
 
-extern unsigned char *d_021797A8;
+#include "../include/G_S.h"
+
+extern struct S *d_021797A8;
 
 void func_02179664(unsigned char v)
 {
-    d_021797A8[0x1EDE] = v;
+    ((unsigned char *)d_021797A8)[0x1EDE] = v;
 }

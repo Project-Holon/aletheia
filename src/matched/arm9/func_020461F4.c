@@ -62,15 +62,10 @@
  *       --func func_020461F4 --addr 0x020461F4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Rec02046300.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct Record020461F4 {
-    void *data;
-    u32 unk04;
-    u32 unk08;
-    u32 builtin;
-};
 
 struct File020461F4 {
     u32 words[18];
@@ -79,7 +74,7 @@ struct File020461F4 {
 extern const char func_020461F4_File[];
 extern const u8 g_020A08D0[];
 
-extern struct Record020461F4 *g_02146A58;
+extern struct Rec02046300 *g_02146A58;
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);

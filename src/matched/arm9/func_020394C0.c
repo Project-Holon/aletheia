@@ -18,13 +18,15 @@
  * the long-branch veneer at 0x0203D56C.
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char u8;
 
 struct Conn;
 extern int func_020366A8(struct Conn *p);
-extern u8 *g_021469D0;
+extern struct LinkState *g_021469D0;
 
 int func_020394C0(void)
 {
-    return func_020366A8((struct Conn *)(g_021469D0 + 0xCC));
+    return func_020366A8((struct Conn *)(((u8 *)g_021469D0) + 0xCC));
 }

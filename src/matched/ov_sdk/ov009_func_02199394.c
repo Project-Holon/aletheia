@@ -25,14 +25,14 @@
  *   g_021A5AB4     0x021A5AB4  data
  */
 
+#include "../include/G_Magic6.h"
+#include "../include/G_NatSocks.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct Magic6
-{
-    u8 b[6];
-} Magic6;
+typedef struct Magic6 Magic6;
 
 typedef struct NatNegPacket
 {
@@ -70,10 +70,7 @@ typedef struct NegotiateAnchor
     u32 matchup1ip;
 } NegotiateAnchor;
 
-typedef struct NatSocks
-{
-    int natType;
-} NatSocks;
+typedef struct NatSocks NatSocks;
 
 #define NN_SWAP32(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
 
@@ -82,9 +79,9 @@ extern void *memcpy();
 extern char *SOC_InetNtoA();
 extern void gsDebugFormat();
 extern void SendPacket();
-extern Magic6 g_021A5A7C;
+extern struct Magic6 g_021A5A7C;
 extern char g_021ACEFC[];
-extern NatSocks g_021A5A70;
+extern struct NatSocks g_021A5A70;
 extern NegotiateAnchor g_021AE698;
 extern u32 g_021AE6C4;
 extern char g_021A5AB4[];

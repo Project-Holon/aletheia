@@ -12,6 +12,8 @@
  *   data_02732EFC 0x02732EFC data twl
  */
 
+#include "../include/G_twl_data_02732EFC.h"
+
 struct Entry {
     int unk0;
     int unk4;
@@ -19,10 +21,10 @@ struct Entry {
     int unkC;
 };
 
-extern struct Entry data_02732EFC[];
+extern struct G_twl_data_02732EFC data_02732EFC[];
 
 void func_0272FD7C(void) {
-    register struct Entry *e = data_02732EFC;
+    register struct Entry *e = ((struct Entry *)data_02732EFC);
     register int i = 0;
     do {
         e->unk0 = 1;

@@ -18,17 +18,19 @@
  *   g_021A85E4  0x021A85E4  data
  */
 
-extern char g_021A85E4[];
+#include "../include/G_021A85E4.h"
+
+extern struct G_021A85E4 g_021A85E4;
 extern int func_0208574C(void *thread);
 extern void func_0215BAC0(void);
 extern void func_020857B0(void *queue);
 
 void func_0215BBB0(void)
 {
-    if (func_0208574C(g_021A85E4))
+    if (func_0208574C(((char *)&g_021A85E4)))
         return;
     do {
         func_0215BAC0();
         func_020857B0(0);
-    } while (!func_0208574C(g_021A85E4));
+    } while (!func_0208574C(((char *)&g_021A85E4)));
 }

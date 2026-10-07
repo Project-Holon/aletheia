@@ -14,6 +14,9 @@
  *   func_021D6F08  0x021D6F08  thumb  ov093
  *   func_021D7494  0x021D7494  thumb  ov093
  */
+
+#include "../include/G_NodeList.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -35,12 +38,7 @@ typedef struct Node {
     Flags f18;
 } Node;
 
-typedef struct {
-    u32 f0;
-    Node *head;
-} List;
-
-extern List g_021F3CB0;
+extern struct NodeList g_021F3CB0;
 extern void func_021D6F08(void);
 extern void func_021D7494(void *p);
 

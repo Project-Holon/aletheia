@@ -12,11 +12,14 @@
  *   d_021B60D8 0x021B60D8 data a4
  *   func_021B24FC 0x021B24FC arm ov013
  */
-extern unsigned int d_021B60D8[];
+
+#include "../include/G_Sess.h"
+
+extern struct Sess d_021B60D8;
 struct Node;
 extern struct Node *func_021B24FC(unsigned int);
 struct Node *func_021B1F2C(unsigned int i)
 {
-    if (d_021B60D8[4] == 0 || d_021B60D8[4] == 2) return 0;
+    if (((unsigned int *)&d_021B60D8)[4] == 0 || ((unsigned int *)&d_021B60D8)[4] == 2) return 0;
     return func_021B24FC(i);
 }

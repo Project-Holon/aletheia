@@ -20,15 +20,9 @@
  *   g_021AA440  0x021AA440  data
  */
 
-typedef struct {
-	int pad0;
-	unsigned long myIp;
-	unsigned long netMask;
-	unsigned long gatewayIp;
-	unsigned long dnsIp[2];
-} Cfg;
+#include "../include/G_021A1CD8.h"
 
-extern Cfg *g_021A1CD8;
+extern struct G_021A1CD8 *g_021A1CD8;
 extern unsigned long g_021A82BC;
 extern unsigned long g_021A827C;
 extern unsigned long g_021A8298;

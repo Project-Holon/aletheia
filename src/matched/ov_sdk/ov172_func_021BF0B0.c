@@ -24,7 +24,9 @@
  * `int i; int dx;` in the DWARF order (locals listed reverse: dx then i).
  */
 
-extern unsigned int g_021C88F0[];
+#include "../include/G_BCode2.h"
+
+extern struct BCode2 g_021C88F0;
 extern int func_021BF610(unsigned char *b, int *p);
 
 int func_021BF0B0(unsigned char *s, int *p, int ax, int cx)
@@ -34,7 +36,7 @@ int func_021BF0B0(unsigned char *s, int *p, int ax, int cx)
 
     if (cx != 0) {
         dx = 0;
-        if ((unsigned int)(*p + 1) >= g_021C88F0[2])
+        if ((unsigned int)(*p + 1) >= ((unsigned int *)&g_021C88F0)[2])
             return dx;
         if (func_021BF610(s, p) == 0) {
             dx = (1 << cx) - 1;
@@ -44,7 +46,7 @@ int func_021BF0B0(unsigned char *s, int *p, int ax, int cx)
             cx--;
         }
         for (i = 0; i < cx; i++) {
-            if ((unsigned int)(*p + 1) >= g_021C88F0[2])
+            if ((unsigned int)(*p + 1) >= ((unsigned int *)&g_021C88F0)[2])
                 return 0;
             ax = (ax << 1) | func_021BF610(s, p);
         }

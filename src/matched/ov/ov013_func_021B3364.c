@@ -17,9 +17,11 @@
  *   d_021B4C5C  0x021B4C5C  data  a4
  */
 
+#include "../include/G_021B4C48.h"
+
 typedef short s16;
 
-extern int d_021B4C48[];
+extern struct G_021B4C48 d_021B4C48;
 extern s16 d_021B3C60[];
 extern s16 d_021B50CC[];
 extern int d_021B4C74[];
@@ -31,8 +33,8 @@ void func_021B3364(void)
     s16 *src;
 
     src = d_021B3C60;
-    d_021B4C48[3] = 0;
-    d_021B4C48[2] = 0x19D;
+    ((int *)&d_021B4C48)[3] = 0;
+    ((int *)&d_021B4C48)[2] = 0x19D;
     for (i = 0; i < 0x800; i++)
         d_021B50CC[i] = 0;
     for (i = 0; i < 6; i++) {

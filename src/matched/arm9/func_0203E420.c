@@ -21,13 +21,10 @@
  *   func_02082D44  0x02082D44  arm
  */
 
+#include "../include/G_Ctx.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct Ctx {
-    u8    pad_00[0x78];
-    void *(*fn_78)(void *arg);
-};
 
 extern struct Ctx *g_021469F0;
 extern void func_02082D44(const void *src, void *dst, u32 size);
@@ -39,7 +36,7 @@ void *func_0203E420(void *arg)
 
     if (p == 0)
         return 0;
-    r = p->fn_78(arg);
+    r = p->fn_18(arg);
     func_02082D44(r, (u8 *)p + 0xB4, 0x4C);
     return (u8 *)p + 0x90;
 }

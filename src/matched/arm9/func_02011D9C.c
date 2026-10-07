@@ -50,6 +50,9 @@
  * that listing: 25 of 25 sites (ov230_id as overlay_id, func_0215FA00
  * sole-ref/code with the ov010 hint).
  */
+
+#include "../include/G_G02146248.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -68,7 +71,7 @@ extern void  func_02034A5C(s32 id);
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *p, u32 v, u32 size);
-extern void *g_02146248;
+extern struct G02146248 g_02146248;
 struct Blk34;
 struct Ctx;
 struct IcaAnime;
@@ -117,7 +120,7 @@ u32 func_02011D9C(void *a0, u32 a1, u32 a2)
     func_02034A5C((s32)ov230_id);
     p = func_0203159C(a0, size, 3);
     func_02082BCC(p, 0, size);
-    g_02146248 = p;
+    (*(void * *)&g_02146248) = p;
     func_02011FB8(p, 3, a2);
     func_02012108(p, func_0215FA00(p, a2));
     if ((base + off) % 0x12af != 0) {

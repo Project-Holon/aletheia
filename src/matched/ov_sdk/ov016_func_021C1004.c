@@ -17,14 +17,13 @@
  *   g_021DE58C     0x021DE58C  data
  */
 
-typedef struct MemMsg {
-    unsigned char pad0[0x60];
-    void *queue;
-} MemMsg;
+#include "../include/G_MemMsg.h"
+
+typedef struct MemMsg MemMsg;
 
 extern void func_021D4C68(void *file);
 extern void func_021D546C(void *queue, void *data);
-extern MemMsg *g_021DE58C;
+extern struct MemMsg *g_021DE58C;
 
 void func_021C1004(void *msg)
 {

@@ -15,12 +15,14 @@
  *   func_0217A034  0x0217A034  arm  ov015
  */
 
-extern char d_0217ABA8[];
+#include "../include/G_ov015_0217ABA8.h"
+
+extern struct G_ov015_0217ABA8 d_0217ABA8;
 extern unsigned char d_0217AAB0[];
 extern void func_0217A034(int a0, int a1, int a2, int a3);
 
 void func_0217A148(int a0, int a1, int a2)
 {
-    if (*(int *)(d_0217ABA8 + 0x24))
+    if (*(int *)(((char *)&d_0217ABA8) + 0x24))
         func_0217A034(a0, a1, a2, d_0217AAB0[0]);
 }

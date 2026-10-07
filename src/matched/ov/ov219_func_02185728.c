@@ -16,10 +16,14 @@
  *   d_020A1EB8 0x020A1EB8 data a4
  */
 #include "../include/Obj10975.h"
+#include "../include/G_02185E0C.h"
+#include "../include/G_Vec3.h"
 typedef unsigned short u16;
 typedef struct {unsigned x,y,z;} Vec3;
 typedef struct {Vec3 vec;short x,y;} Config;
-extern Vec3 d_02185F00,d_02185E0C,d_02185DF4;
+extern struct G_02185E0C d_02185E0C;
+extern struct Vec3 d_02185DF4;
+extern Vec3 d_02185F00;
 extern Config d_020A1EB8;
 extern void *func_02048A24(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,Vec3 *,Vec3 *,Vec3 *,u16);
 struct Light;
@@ -30,6 +34,6 @@ void func_02185728(char *p)
     u16 heap;
     heap=((struct Obj10975 *)p)->f0;
     vec=d_02185F00;
-    ((struct Obj10975 *)p)->fC36C=func_02048A24(0,d_020A1EB8.x,d_020A1EB8.y,5461,0,4096,4194304,0,&d_02185E0C,&vec,&d_02185DF4,heap);
+    ((struct Obj10975 *)p)->fC36C=func_02048A24(0,d_020A1EB8.x,d_020A1EB8.y,5461,0,4096,4194304,0,((Vec3 *)&d_02185E0C),&vec,((Vec3 *)&d_02185DF4),heap);
     func_02048AD0(((struct Obj10975 *)p)->fC36C);
 }

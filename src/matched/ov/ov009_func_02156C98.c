@@ -14,5 +14,8 @@
  * symbols:
  *   g_021A8264 0x021A8264 data a4
  */
-extern unsigned char *g_021A8264;
-void func_02156C98(int unused) { g_021A8264[0x7A2]=0; }
+
+#include "../include/G__anon_Work.h"
+
+extern struct _anon_Work *g_021A8264;
+void func_02156C98(int unused) { ((unsigned char *)g_021A8264)[0x7A2]=0; }

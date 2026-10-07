@@ -24,6 +24,8 @@
  *   g_021AEB04  0x021AEB04  data
  */
 
+#include "../include/G_021AEB04.h"
+
 typedef struct {
     char sortkey[256];
     int pad100;
@@ -34,27 +36,23 @@ typedef struct {
     SBSortInfo prevsortinfo;
     int sortascending;
 } SBServerList;
-typedef struct {
-    int pad0;
-    SBServerList *slist;
-} SBSortGlobals;
 typedef struct SBServer SBServer;
 
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
 extern int func_0219F0E0(SBServer *server1, SBServer *server2);
-extern SBSortGlobals g_021AEB04;
+extern struct G_021AEB04 g_021AEB04;
 
 int func_0219F2F8(void *entry1, void *entry2)
 {
     SBServer *server1 = *(SBServer **)entry1;
     SBServer *server2 = *(SBServer **)entry2;
     double f;
-    char *currsortkey = g_021AEB04.slist->currsortinfo.sortkey;
+    char *currsortkey = ((SBServerList *)g_021AEB04.slist)->currsortinfo.sortkey;
 
     f = func_0219E1B8(server1, currsortkey, 0) - func_0219E1B8(server2, currsortkey, 0);
     if (!((float)f > 0 || (float)f < 0))
         return func_0219F0E0(server1, server2);
-    if (!g_021AEB04.slist->sortascending)
+    if (!((SBServerList *)g_021AEB04.slist)->sortascending)
         f = 0 - f;
     if ((float)f > 0)
         return 1;

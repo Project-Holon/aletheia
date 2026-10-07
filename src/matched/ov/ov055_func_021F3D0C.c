@@ -19,17 +19,12 @@
  *   d_021F45C8     0x021F45C8  data  ov055  a4
  */
 
+#include "../include/G_V.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-typedef struct V {
-    u16 h0;
-    u16 h2;
-    int pad4[2];
-    u16 hc;
-    u16 he;
-    int pad10[5];
-} V;
+typedef struct V V;
 
 typedef struct O {
     u8 f0;
@@ -46,7 +41,7 @@ typedef struct O {
     u16 h16;
 } O;
 
-extern V d_021F4620;
+extern struct V d_021F4620;
 extern void (* const d_021F45C8[])(O *);
 
 extern void func_0216DAC8(unsigned int *p, unsigned int v);

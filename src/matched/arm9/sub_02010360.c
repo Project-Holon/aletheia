@@ -54,14 +54,10 @@
  *       --func sub_02010360 --addr 0x02010360 --thumb
  */
 #include "../include/Obj07083.h"
+#include "../include/G_WihCtx.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
-struct WihCtx {
-    u8 *f0;         /* +0x00 */
-    u8 *f4;         /* +0x04 */
-};
 
 extern struct WihCtx g_021461E0;
 extern u8 sWihDwc;

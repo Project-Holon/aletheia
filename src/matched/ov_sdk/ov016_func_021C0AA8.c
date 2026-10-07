@@ -34,14 +34,9 @@
  *   g_021DE56C     0x021DE56C  data
  */
 
-typedef struct UtilState {
-    unsigned char lang;
-    unsigned char end;
-    unsigned char pad2[2];
-    void *work;
-    unsigned int param;
-    void (*scene)(void);
-} UtilState;
+#include "../include/G_UtilState.h"
+
+typedef struct UtilState UtilState;
 
 extern void func_0207D42C(void);
 extern int func_02087058(void);
@@ -62,7 +57,7 @@ extern void func_021D551C(void);
 extern void *func_021D6414(unsigned long size, int alignment);
 extern int func_020589D0(void *work);
 extern void func_021D6438(void **mem);
-extern UtilState g_021DE56C;
+extern struct UtilState g_021DE56C;
 
 void func_021C0AA8(void)
 {

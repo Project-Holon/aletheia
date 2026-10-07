@@ -45,6 +45,8 @@
  *       --func func_02039B5C --addr 0x02039B5C --cc 1.1p1 --arm
  */
 
+#include "../include/G_Votes.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -52,12 +54,6 @@ typedef unsigned int   u32;
 struct Msg {
     u16 tag;
     u8  mask;
-};
-
-struct Votes {
-    u16 tag[8];
-    u8  mask[8];
-    u8  ready[8];
 };
 
 struct Entry;

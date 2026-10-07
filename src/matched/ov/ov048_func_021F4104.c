@@ -15,6 +15,8 @@
  *   d_021F50C0     0x021F50C0  data  a4
  */
 
+#include "../include/G_T.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -22,7 +24,7 @@ typedef unsigned int   u32;
 struct RTCDate;
 extern int func_02088864(struct RTCDate *date);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
-extern u8 d_021F50C0[];
+extern struct T d_021F50C0;
 
 void func_021F4104(int *p)
 {
@@ -39,9 +41,9 @@ void func_021F4104(int *p)
     case 5: s.f = *(int *)(p[7] + 0x38); break;
     case 6: s.f = *(int *)(p[7] + 0x2c); break;
     }
-    s.a = *(u16 *)(d_021F50C0 + 0xa);
-    s.b = *(int *)(d_021F50C0 + 0x38);
-    s.c = *(int *)(d_021F50C0 + 0x54);
+    s.a = *(u16 *)(((u8 *)&d_021F50C0) + 0xa);
+    s.b = *(int *)(((u8 *)&d_021F50C0) + 0x38);
+    s.c = *(int *)(((u8 *)&d_021F50C0) + 0x54);
     s.d = 2;
     s.e = 0x26;
     s.g = 0;

@@ -16,9 +16,12 @@
  *   func_0206207C  0x0206207C  arm
  */
 
+#include "../include/G_Cfg.h"
+
 typedef unsigned int u32;
 
-extern u32 g_02146B94, g_02146B98, g_02146B9C;
+extern struct Cfg g_02146B94;
+extern u32 g_02146B98, g_02146B9C;
 extern int func_0206207C(void *headp, void *freep, int a2, int a3);
 
 u32 func_020621FC(u32 h)
@@ -32,7 +35,7 @@ u32 func_020621FC(u32 h)
         if (flag != 0) {
             r = func_0206207C((void *)((u32)&g_02146B98), (void *)((u32)&g_02146B9C), a2, a3);
         } else {
-            r = func_0206207C((void *)((u32)&g_02146B94), (void *)((u32)&g_02146B9C), a2, a3);
+            r = func_0206207C((void *)((u32)&(*(u32 *)&g_02146B94)), (void *)((u32)&g_02146B9C), a2, a3);
         }
         if (r != 0) return 0;
         return 1;

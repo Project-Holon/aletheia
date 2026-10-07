@@ -42,14 +42,11 @@
  *   func_02082760  0x02082760  arm
  */
 
+#include "../include/G_GeState.h"
+
 typedef unsigned int u32;
 
 struct GxList { u32 count; u32 cmds[1]; };
-struct GeState {
-    struct GxList *list;
-    volatile u32 busy;
-    u32 f8;
-};
 extern struct GeState g_0214BAB4;
 extern u32 g_020A84C0;      /* GXi_DmaId */
 

@@ -23,6 +23,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov016_func_021D34E0.c \n *       --func DWCi_MOV_WH_GetMeasureChannel --addr 0x021D34E0 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_DWC_MOV_WH_BSS.h"
+
 /*
  * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
@@ -74,7 +77,7 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-extern DWC_MOV_WH_BSS dwc_mov_wh_bss;
+extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 
 typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
 
@@ -85,11 +88,11 @@ extern const char dwc_mov_wh_str_14204[];
 
 unsigned short DWCi_MOV_WH_GetMeasureChannel(void)
 {
-    if (dwc_mov_wh_bss.wh->sysState != 7)
+    if (((WHWork *)dwc_mov_wh_bss.wh)->sysState != 7)
         OS_Terminate();
     DWCi_MOV_WH_ChangeSysState(1);
-    dwc_mov_wh_bss.wh->channel = SelectChannel(dwc_mov_wh_bss.wh->busyChannelBitmap);
+    ((WHWork *)dwc_mov_wh_bss.wh)->channel = SelectChannel(((WHWork *)dwc_mov_wh_bss.wh)->busyChannelBitmap);
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14204, dwc_mov_wh_bss.wh->channel);
-    return dwc_mov_wh_bss.wh->channel;
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14204, ((WHWork *)dwc_mov_wh_bss.wh)->channel);
+    return ((WHWork *)dwc_mov_wh_bss.wh)->channel;
 }

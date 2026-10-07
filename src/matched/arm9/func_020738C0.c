@@ -33,11 +33,12 @@
  * size = (size * frames) << 5;`).  Folded into one expression the multiply
  * comes out `mul r0, fp, r0` instead of the image's `mul r1, r0, fp`.
  */
+
+#include "../include/G_SlotDesc.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed   int  s32;
-
-struct SlotDesc { u32 a; u32 b; };
 
 struct SndObj {
     u8  pad_00[0x28];

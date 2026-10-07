@@ -19,19 +19,15 @@
  *   g_021D3B68     0x021D3B68  data
  */
 
-typedef struct NdState {
-    unsigned char pad0[8];
-    int f8;
-    int fC;
-    int f10;
-    int f14;
-} NdState;
+#include "../include/G_NdState.h"
+
+typedef struct NdState NdState;
 
 extern void func_021C659C(int err, int servererror);
 extern void func_02086028(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern char g_021D3B84[];
-extern NdState g_021D3B68;
+extern struct NdState g_021D3B68;
 
 void func_021C58C8(int reason, int error, int servererror)
 {

@@ -25,19 +25,16 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B85A8.c \
  *       --func AOSSi_EndLocal --addr 0x021B85A8 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_OSMessageQueue.h"
+#include "../include/G_AOSSLINK_BSS.h"
+
 typedef struct _OSThreadQueue {
     void *head;
     void *tail;
 } OSThreadQueue;
 
-typedef struct OSMessageQueue {
-    OSThreadQueue queueSend;
-    OSThreadQueue queueReceive;
-    void        **msgArray;
-    long          msgCount;
-    long          firstIndex;
-    long          usedCount;
-} OSMessageQueue;
+typedef struct OSMessageQueue OSMessageQueue;
 
 /*
  * aosslink.o's .bss statics from 0x021DCE20: the vendor object addresses AOSSi_Free and
@@ -51,9 +48,9 @@ typedef struct {
     void  (*AOSSi_Free)(void *ptr);
 } AOSSLINK_BSS;
 
-extern AOSSLINK_BSS aosslink_bss;
+extern struct AOSSLINK_BSS aosslink_bss;
 
-extern OSMessageQueue aoss_mq;
+extern struct OSMessageQueue aoss_mq;
 extern int APC_End(void);
 extern int OS_ReceiveMessage(OSMessageQueue *mq, void **msg, long flags);
 extern unsigned long OS_DisableInterrupts(void);

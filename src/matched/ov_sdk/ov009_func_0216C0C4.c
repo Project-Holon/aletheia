@@ -24,6 +24,7 @@
  */
 
 #include "../arm9_sdk/libc/string.h"
+#include "../include/G_DwcGlobal.h"
 
 typedef unsigned char u8;
 
@@ -40,14 +41,9 @@ typedef struct {
     volatile u8 mode;   /* volatile: the image reloads it for each compare */
 } Ctl;
 
-typedef struct {
-    int pad;
-    Ctl *ctl;
-} Root;
-
 extern char g_021A2030[];
 extern char g_021A2038[];
-extern Root g_021AA878;
+extern struct DwcGlobal g_021AA878;
 extern int memcmp(const void *a, const void *b, unsigned long n);
 extern char *strchr(const char *s, int c);
 extern char *strncpy(char *d, const char *s, unsigned long n);
@@ -73,10 +69,10 @@ void func_0216C0C4(void **pconnection, GPRecvBuddyMessageArg *arg)
     message += len + 1;
     if (memcmp(message, g_021A2038, strlen(g_021A2038)) != 0)
         return;
-    if (g_021AA878.ctl->state != 4) {
-        if (g_021AA878.ctl->state != 5)
+    if (((Ctl *)g_021AA878.st)->state != 4) {
+        if (((Ctl *)g_021AA878.st)->state != 5)
             return;
-        if (g_021AA878.ctl->mode != 2 && g_021AA878.ctl->mode != 3)
+        if (((Ctl *)g_021AA878.st)->mode != 2 && ((Ctl *)g_021AA878.st)->mode != 3)
             return;
     }
     func_0216EAB8(pconnection, arg->profile, message + strlen(g_021A2038));

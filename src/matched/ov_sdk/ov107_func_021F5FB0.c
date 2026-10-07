@@ -23,6 +23,8 @@
  * (0x021F6F90), so the block is a struct overlay named by offset.
  */
 
+#include "../include/G_WmBase.h"
+
 typedef unsigned char  u8;
 typedef signed char    s8;
 typedef unsigned short u16;
@@ -62,19 +64,13 @@ typedef struct MBiFileSlot {
     u8 pad0[0x1788];
     MBiFileInfo fi;
 } MBiFileSlot;
-#define FILEINFO(id)     (((MBiFileSlot *)((u8 *)g_021F6F90.mbc + (id) * sizeof(MBiFileInfo)))->fi)
-
-typedef struct MBWmBaseStatics {
-    u16 WM_DMA_NO;
-    u8 pad2[0xe];
-    MBiParam *mbc;
-} MBWmBaseStatics;
+#define FILEINFO(id)     (((MBiFileSlot *)((u8 *)((MBiParam *)g_021F6F90.ext) + (id) * sizeof(MBiFileInfo)))->fi)
 
 extern int func_0208F938(void (*callback)(void *), u16 aid);
 extern void func_02082BCC(void *dstp, u8 data, u32 size);
 extern void func_021F6850(u16 child_aid);
 extern void func_021F46C8(void *arg);
-extern MBWmBaseStatics g_021F6F90;
+extern struct WmBase g_021F6F90;
 
 void func_021F5FB0(u16 aid)
 {
@@ -82,23 +78,23 @@ void func_021F5FB0(u16 aid)
     func_0208F938(func_021F46C8, aid);
     if (aid == 0 || aid >= 16)
         return;
-    g_021F6F90.mbc->childversion[aid - 1] = 0;
-    func_02082BCC(&g_021F6F90.mbc->childggid[aid - 1], 0, sizeof(u32));
-    func_02082BCC(g_021F6F90.mbc->childInfo[aid - 1], 0, 0x16);
+    ((MBiParam *)g_021F6F90.ext)->childversion[aid - 1] = 0;
+    func_02082BCC(&((MBiParam *)g_021F6F90.ext)->childggid[aid - 1], 0, sizeof(u32));
+    func_02082BCC(((MBiParam *)g_021F6F90.ext)->childInfo[aid - 1], 0, 0x16);
     func_021F6850(aid);
-    g_021F6F90.mbc->child_seq[aid - 1] = 0;
-    if (g_021F6F90.mbc->req_fid[aid - 1] != -1) {
-        u8 fid = (u8)g_021F6F90.mbc->req_fid[aid - 1];
+    ((MBiParam *)g_021F6F90.ext)->child_seq[aid - 1] = 0;
+    if (((MBiParam *)g_021F6F90.ext)->req_fid[aid - 1] != -1) {
+        u8 fid = (u8)((MBiParam *)g_021F6F90.ext)->req_fid[aid - 1];
         u16 child = aid;
 
         FILEINFO(fid).active_child_bmp &= (u16)~(1 << child);
         FILEINFO(fid).update_child_bmp |= (u16)(1 << child);
-        g_021F6F90.mbc->req_fid[child - 1] = -1;
+        ((MBiParam *)g_021F6F90.ext)->req_fid[child - 1] = -1;
         FILEINFO(fid).gameinfo_child_bmp &= (u16)~(1 << child);
     }
-    if (g_021F6F90.mbc->req_bmp & (1 << aid)) {
-        g_021F6F90.mbc->req_num--;
-        g_021F6F90.mbc->req_bmp &= (u16)~(1 << aid);
+    if (((MBiParam *)g_021F6F90.ext)->req_bmp & (1 << aid)) {
+        ((MBiParam *)g_021F6F90.ext)->req_num--;
+        ((MBiParam *)g_021F6F90.ext)->req_bmp &= (u16)~(1 << aid);
     }
-    g_021F6F90.mbc->p_comm_state[aid - 1] = 0;
+    ((MBiParam *)g_021F6F90.ext)->p_comm_state[aid - 1] = 0;
 }

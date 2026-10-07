@@ -21,6 +21,8 @@
  *   g_021A5A70         0x021A5A70  data
  */
 
+#include "../include/G_NatSocks.h"
+
 typedef unsigned int u32;
 
 typedef struct NAT
@@ -40,12 +42,7 @@ typedef struct NatifyState
     u32 natifyStartTime;
 } NatifyState;
 
-typedef struct NatSocks
-{
-    int natType;
-    int ertSock;
-    int mappingSock;
-} NatSocks;
+typedef struct NatSocks NatSocks;
 
 extern u32 current_time(void);
 extern int NatifyThink();
@@ -53,7 +50,7 @@ extern int DetermineNatType();
 extern int closesocket();
 extern NatifyState g_021AE698;
 extern NAT g_021AE6C8;
-extern NatSocks g_021A5A70;
+extern struct NatSocks g_021A5A70;
 
 int func_02199BE4(int sock)
 {

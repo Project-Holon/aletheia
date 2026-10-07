@@ -52,6 +52,8 @@
  *       --func sub_0200545C --addr 0x0200545C --cc 1.1p1 --thumb
  */
 
+#include "../include/G_GflSys.h"
+
 typedef unsigned char      u8;
 typedef unsigned int       u32;
 typedef unsigned long long u64;
@@ -64,15 +66,6 @@ struct GflHeaps {
     void *unk1C;
     void *unk20;
     void *unk24;
-};
-
-struct GflSys {
-    void *unk00;
-    u32   unk04;
-    void (*unk08)(void *);
-    u32   unk0C;
-    struct GflHeaps *heaps;
-    void *unk14;
 };
 
 extern struct GflSys g_020AA194;

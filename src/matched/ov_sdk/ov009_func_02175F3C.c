@@ -15,10 +15,12 @@
  *   g_021AAA20  0x021AAA20  data
  */
 
-extern char g_021AAA20[];
+#include "../include/G_NNThinkGlobal.h"
+
+extern struct NNThinkGlobal g_021AAA20;
 
 int func_02175F3C(void)
 {
-    return *(int *)(g_021AAA20 + 4);
+    return *(int *)(((char *)&g_021AAA20) + 4);
 }
 

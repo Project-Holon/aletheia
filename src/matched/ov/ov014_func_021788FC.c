@@ -16,12 +16,14 @@
  *   func_0208799C  0x0208799C  arm
  */
 
+#include "../include/G_S.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef signed short s16;
 
-extern u8 *g_021797A8;
+extern struct S *g_021797A8;
 void func_02178138(int a);
 int func_0217863C(void);
 int func_02087988(void);
@@ -34,15 +36,15 @@ int func_021788FC(void)
 
     irq = func_02087988();
 
-    if (*(u32 *)(g_021797A8 + 0x1E70) == 2) {
-        if (*(s16 *)(g_021797A8 + 0x1EBE) != 0) {
+    if (*(u32 *)(((u8 *)g_021797A8) + 0x1E70) == 2) {
+        if (*(s16 *)(((u8 *)g_021797A8) + 0x1EBE) != 0) {
             if (func_0217863C() == 0)
                 func_02178138(9);
         }
-        *(s16 *)(g_021797A8 + 0x1EBE) = -1;
-        *(u16 *)(g_021797A8 + 0x1EB4) = 0;
+        *(s16 *)(((u8 *)g_021797A8) + 0x1EBE) = -1;
+        *(u16 *)(((u8 *)g_021797A8) + 0x1EB4) = 0;
         r = 1;
-        g_021797A8[0x1EDF] = 1;
+        ((u8 *)g_021797A8)[0x1EDF] = 1;
         func_02178138(3);
     }
     func_0208799C(irq);

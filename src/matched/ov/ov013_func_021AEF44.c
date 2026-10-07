@@ -14,7 +14,10 @@
  *   d_021B3C80 0x021B3C80 data ov013 a4
  *   func_021B38B0 0x021B38B0 arm ov013
  */
-extern void *d_021B3C80;
+
+#include "../include/G_Work.h"
+
+extern struct Work *d_021B3C80;
 extern int func_021B38B0(int a, int b, int c);
 int func_021AEF44(int a, int b, int c)
 {

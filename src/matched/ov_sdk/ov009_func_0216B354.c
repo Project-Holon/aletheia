@@ -21,6 +21,8 @@
  *   g_021AA878  0x021AA878  data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef struct DwcState {
 	void *gt2Socket;
 	unsigned char pad0a[0x10];
@@ -42,12 +44,9 @@ typedef struct DwcState {
 	unsigned char updateBuf1[0x100];
 } DwcState;
 
-typedef struct DwcGlobal {
-	int lastSocketError;
-	DwcState *st;
-} DwcGlobal;
+typedef struct DwcGlobal DwcGlobal;
 
-extern DwcGlobal g_021AA878;
+extern struct DwcGlobal g_021AA878;
 
 extern int func_02059F38(void);
 extern void func_0216BB98(void);
@@ -58,11 +57,11 @@ extern void func_0216BFB8(int error, int cancel, int self, int isServer, int ind
 
 int func_0216B354(int topology, unsigned char maxEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam)
 {
-	if (func_02059F38() || g_021AA878.st->state != 3)
+	if (func_02059F38() || ((DwcState *)g_021AA878.st)->state != 3)
 		return 0;
 	func_0216BB98();
-	g_021AA878.st->matchedCallback = matchedCallback;
-	g_021AA878.st->matchedParam = matchedParam;
+	((DwcState *)g_021AA878.st)->matchedCallback = matchedCallback;
+	((DwcState *)g_021AA878.st)->matchedParam = matchedParam;
 	func_0216BC84(4);
 	func_0216C7E0(2);
 	func_0216D138(topology, (unsigned char)(maxEntry - 1), (int)func_0216BFB8, 0, (int)newClientCallback, (int)newClientParam, (int)attemptCallback, (int)connectionUserData, (int)attemptParam);

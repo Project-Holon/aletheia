@@ -22,19 +22,17 @@
  *   g_021AB1A4     0x021AB1A4  data
  */
 
+#include "../include/G_DWCAuthState.h"
+#include "../include/G_DWCAuthParam.h"
+
 typedef struct {
     int code;
     char pad[0x1c0];
 } AuthResult;
-typedef struct {
-    int finished;
-    int returnCode;
-    int state;
-} Finished;
 
-extern char g_021AB1C0[];
+extern struct DWCAuthParam g_021AB1C0;
 extern char g_021AB208[];
-extern Finished g_021AB1A4;
+extern struct DWCAuthState g_021AB1A4;
 extern int func_021781DC(void);
 struct DWCAuthParam;
 extern void func_02178224(int *result);
@@ -54,12 +52,12 @@ void func_02178DB4(void)
         if (result.code == 0x4e22) {
             func_02178144();
             func_02178CE0();
-            if (func_02177EE8((struct DWCAuthParam *)g_021AB1C0, g_021AB208) == 0) {
+            if (func_02177EE8((struct DWCAuthParam *)((char *)&g_021AB1C0), g_021AB208) == 0) {
                 return;
             }
             returnCode = -20100;
         } else {
-            g_021AB1A4.finished = 1;
+            g_021AB1A4.s_finished = 1;
             g_021AB1A4.state = 1;
             return;
         }
@@ -72,7 +70,7 @@ void func_02178DB4(void)
         func_02178144();
         returnCode = result.code;
     }
-    g_021AB1A4.finished = 1;
+    g_021AB1A4.s_finished = 1;
     g_021AB1A4.state = 0;
     g_021AB1A4.returnCode = returnCode;
 }

@@ -19,18 +19,17 @@
  *   g_021AA860  0x021AA860  data
  */
 
+#include "../include/G_FriendGlobal.h"
+
 typedef struct FriendCtl {
 	unsigned char pad0[0x34];
 	void (*statusCallback)(int, unsigned char, char *, void *);
 	void *statusParam;
 } FriendCtl;
 
-typedef struct FriendGlobal {
-	int pad0[3];
-	FriendCtl *ctl;
-} FriendGlobal;
+typedef struct FriendGlobal FriendGlobal;
 
-extern FriendGlobal g_021AA860;
+extern struct FriendGlobal g_021AA860;
 
 typedef struct BuddyStatus {
 	int profile;
@@ -63,8 +62,8 @@ void func_02168F4C(void **connection, RecvArg *arg)
 			func_02186220(connection, arg->profile);
 		return;
 	}
-	if (g_021AA860.ctl->statusCallback == 0)
+	if (((FriendCtl *)g_021AA860.ctl)->statusCallback == 0)
 		return;
 	func_02185FD4(connection, arg->index, (struct GPBuddyStatus *)(&status));
-	g_021AA860.ctl->statusCallback(friendIdx, status.status, status.locationString, g_021AA860.ctl->statusParam);
+	((FriendCtl *)g_021AA860.ctl)->statusCallback(friendIdx, status.status, status.locationString, ((FriendCtl *)g_021AA860.ctl)->statusParam);
 }

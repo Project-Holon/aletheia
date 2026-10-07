@@ -26,10 +26,12 @@
  *   g_021DA85E     0x021DA85E  data
  */
 
+#include "../include/G_FocusState.h"
+
 typedef struct { signed char last; signed char cur; unsigned char flag; void *screen; } FocusState;
 typedef struct { unsigned short left, top, right, bottom; } Rect;
 
-extern FocusState g_021DE614;
+extern struct FocusState g_021DE614;
 extern signed char g_021DA7DF[2][4][4];
 extern Rect g_021DA858[2][4];
 extern int func_021C0EF0(unsigned long flag);

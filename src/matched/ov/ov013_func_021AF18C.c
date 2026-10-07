@@ -13,12 +13,14 @@
  *   d_021B3C80     0x021B3C80  data  ov013
  */
 
+#include "../include/G_Work.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 *d_021B3C80;
+extern struct Work *d_021B3C80;
 
 void func_021AF18C(void (*cb)(void))
 {
-    *(void (**)(void))(d_021B3C80 + 0x1984) = cb;
+    *(void (**)(void))(((u8 *)d_021B3C80) + 0x1984) = cb;
 }

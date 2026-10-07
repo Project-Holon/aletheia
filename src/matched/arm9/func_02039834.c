@@ -55,12 +55,13 @@
  *       --func func_02039834 --addr 0x02039834 --cc 1.1p1 --arm
  */
 #include "../include/Obj15945.h"
+#include "../include/G_Votes.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *g_021469D4;
+extern struct Votes *g_021469D4;
 extern const char file_020A7A68[];
 extern const char msg_020A7A7C[];
 

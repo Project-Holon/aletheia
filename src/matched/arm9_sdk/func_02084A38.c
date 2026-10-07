@@ -16,6 +16,8 @@
  *   g_02150FC8    0x02150FC8  data
  */
 
+#include "../include/G_OsPxiBss.h"
+
 typedef unsigned long u32;
 typedef unsigned short u16;
 typedef int BOOL;
@@ -28,12 +30,9 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 
 extern void OS_Terminate(void);
 /* os_pxi.o .bss from 0x02150FC8, addressed from one pool word. */
-typedef struct OsPxiBss {
-    u16 OSi_IsResetOccurred;
-    u16 OSi_IsTerminateOccurred;
-} OsPxiBss;
+typedef struct OsPxiBss OsPxiBss;
 
-extern OsPxiBss g_02150FC8;
+extern struct OsPxiBss g_02150FC8;
 
 void func_02084A38(int tag, u32 data, BOOL err)
 {

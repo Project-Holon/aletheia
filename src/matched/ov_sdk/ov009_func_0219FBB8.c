@@ -25,6 +25,7 @@
  */
 
 #include "../arm9_sdk/libc/string.h"
+#include "../include/G_021AEB04.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ typedef struct {
     u8 **addrList;
 } SOCHostEnt;
 
-extern char *g_021AEB04;
+extern struct G_021AEB04 g_021AEB04;
 extern char g_021A8234[];
 
 extern int func_0219FB64(char *s, int numbuckets);
@@ -71,8 +72,8 @@ int func_0219FBB8(SBServerList *slist)
     int masterIndex;
 
     masterIndex = func_0219FB64(slist->gamename, 20);
-    if (g_021AEB04)
-        func_021803BC(masterHostname, g_021AEB04, 128);
+    if ((*(char * *)&g_021AEB04))
+        func_021803BC(masterHostname, (*(char * *)&g_021AEB04), 128);
     else
         func_02084F40(masterHostname, g_021A8234, slist->gamename, masterIndex);
     saddr.family = 2;

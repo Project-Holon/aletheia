@@ -12,13 +12,15 @@
  *   g_021797A4  0x021797A4  data  a4
  */
 
+#include "../include/G_W.h"
+
 typedef unsigned char u8;
 
-extern u8 *g_021797A4;
+extern struct W *g_021797A4;
 
 int func_02177AEC(void)
 {
-    u8 *w = g_021797A4;
+    u8 *w = ((u8 *)g_021797A4);
 
     if (w != 0 && w[0xCEB] != 0)
         return 1;

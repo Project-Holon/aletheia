@@ -14,6 +14,8 @@
  *   d_021D3D5C     0x021D3D5C  data  a4
  */
 
+#include "../include/G_Ops.h"
+
 typedef struct {
     void (*f0)(void *p, void *s);
     void (*f4)(void *p, int idx, int c);
@@ -25,7 +27,7 @@ typedef struct {
     int *f4;
 } Obj;
 
-extern Ops d_021D3D5C[];
+extern struct Ops d_021D3D5C[];
 typedef unsigned char  u8;
 u8 *func_0218BCAC(u8 *p);
 

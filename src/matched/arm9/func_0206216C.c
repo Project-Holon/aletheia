@@ -30,9 +30,12 @@
  *   func_02061EA4  0x02061EA4  arm
  */
 
+#include "../include/G_Cfg.h"
+
 typedef unsigned int u32;
 
-extern u32 g_02146B94, g_02146B98, g_02146B9C;
+extern struct Cfg g_02146B94;
+extern u32 g_02146B98, g_02146B9C;
 extern u32 func_02061EA4(u32 a, u32 b, u32 *out, u32 size);
 
 u32 func_0206216C(u32 size, u32 flag)
@@ -42,7 +45,7 @@ u32 func_0206216C(u32 size, u32 flag)
 
     if (n >= 0x7fff0) return 0;
     if (flag != 0) r = func_02061EA4((u32)&g_02146B98, (u32)&g_02146B9C, &local, n);
-    else           r = func_02061EA4((u32)&g_02146B94, (u32)&g_02146B9C, &local, n);
+    else           r = func_02061EA4((u32)&(*(u32 *)&g_02146B94), (u32)&g_02146B9C, &local, n);
     if (r == 0) return 0;
     return ((n >> 4) << 16) | ((local << 13) >> 16) | (flag << 31);
 }

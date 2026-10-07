@@ -82,6 +82,8 @@
  *   d_021F40B4     0x021F40B4  data  a2
  */
 
+#include "../include/G__anon_E.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -89,13 +91,12 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 typedef struct { int id; int x, y, z; int k; } Ent;
 typedef struct { u16 a; u16 b; u8 e; u8 c; u8 d; u8 f; } Anim;
-typedef struct { u16 a; u16 pad; u16 b; } E6;
 typedef struct { u8 pad[0x24]; u16 a; u16 b; u8 pad2[8]; int c; int d; int e; int f; int g; u8 pad3[4]; } Req;
 typedef struct { int a, b, c, d, e, f; } Six;
 
 extern Ent d_021F4320[][4];
 extern Anim d_021F4198[];
-extern E6 d_021F40F0[];
+extern struct _anon_E d_021F40F0[];
 extern u16 d_021F4084[];
 extern u16 d_021F408C[];
 extern u16 d_021F4094[];

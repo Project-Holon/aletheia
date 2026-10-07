@@ -29,11 +29,12 @@
  *       --addr 0x0203BF9C --arm --cc 1.1p1
  */
 #include "../include/Obj11878.h"
+#include "../include/G_Sys.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_021469DC;
+extern struct Sys *g_021469DC;
 
 typedef unsigned short u16;
 struct NetState;
@@ -42,20 +43,20 @@ extern void func_0203BF4C(void);
 
 void func_0203BF9C(u32 v)
 {
-    u8 *p = g_021469DC;
+    u8 *p = ((u8 *)g_021469DC);
 
     if (p != 0 && p[0x51] != 0)
         return;
 
     ((struct Obj11878 *)p)->f28 = v;
-    g_021469DC[0x51] = 1;
-    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203BF4C, 5, 0x4B7);
+    ((u8 *)g_021469DC)[0x51] = 1;
+    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)func_0203BF4C, 5, 0x4B7);
 }
 
 void func_0203BFF0(void)
 {
-    if (g_021469DC != 0)
-        g_021469DC[0x51] = 0;
+    if (((u8 *)g_021469DC) != 0)
+        ((u8 *)g_021469DC)[0x51] = 0;
 }
 
 void func_0203C00C(void)

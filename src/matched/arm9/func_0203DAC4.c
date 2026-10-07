@@ -28,10 +28,12 @@
  *   func_0203C938  0x0203C938  arm
  */
 
+#include "../include/G_Ctx.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_021469F0;
+extern struct Ctx *g_021469F0;
 typedef signed int     s32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(const void *src, void *dst, u32 size);
@@ -41,18 +43,18 @@ void func_0203DAC4(const u8 *mac)
 {
     int i;
 
-    if (g_021469F0 == 0)
+    if (((u8 *)g_021469F0) == 0)
         return;
     for (i = 0; i < 4; i++) {
-        if (func_0203EFC8(mac, g_021469F0 + 0x94 + i * 8, 6) == 0)
+        if (func_0203EFC8(mac, ((u8 *)g_021469F0) + 0x94 + i * 8, 6) == 0)
             return;
     }
     {
         u8 buf[6] = {0, 0, 0, 0, 0, 0};
         for (i = 0; i < 4; i++) {
-            if (func_0203EFC8(buf, g_021469F0 + 0x94 + i * 8, 6) == 0) {
-                func_02082D44(mac, g_021469F0 + 0x94 + i * 8, 6);
-                *(u32 *)(g_021469F0 + 0x90) = i;
+            if (func_0203EFC8(buf, ((u8 *)g_021469F0) + 0x94 + i * 8, 6) == 0) {
+                func_02082D44(mac, ((u8 *)g_021469F0) + 0x94 + i * 8, 6);
+                *(u32 *)(((u8 *)g_021469F0) + 0x90) = i;
                 return;
             }
         }

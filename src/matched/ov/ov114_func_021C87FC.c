@@ -24,11 +24,13 @@
  *   func_021CA1B4 0x021CA1B4  arm
  */
 
+#include "../include/G_Six.h"
+
 extern unsigned int *d_021D3D28;
 extern unsigned int d_021D3D2C[];
 extern unsigned int d_021CF538[];
 extern unsigned int d_021CF5B8[];
-extern unsigned int d_021D3D40[];
+extern struct Six d_021D3D40;
 
 extern void func_021C9EE4(int server, char *initdata);
 extern int func_021CA470(void *, unsigned int, void *, unsigned int, unsigned int);
@@ -38,7 +40,7 @@ void func_021C87FC(unsigned int x)
 {
     d_021D3D2C[0x72] = x;
     func_021C9EE4((int)((void *)d_021D3D28), (char *)d_021CF538);
-    if (func_021CA470(d_021CF5B8, d_021D3D2C[2], d_021D3D40, 0x1b0, 0) == 0) {
+    if (func_021CA470(d_021CF5B8, d_021D3D2C[2], ((unsigned int *)&d_021D3D40), 0x1b0, 0) == 0) {
         d_021D3D2C[0] = 6;
         return;
     }

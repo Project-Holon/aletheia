@@ -13,10 +13,12 @@
  *   d_0217AB40  0x0217AB40  data  ov015
  */
 
+#include "../include/G_s_ab40.h"
+
 typedef unsigned int u32;
 
 extern int func_0217A024(void);
-extern u32 d_0217AB40[];
+extern struct s_ab40 d_0217AB40;
 
 int func_02179D3C(void)
 {
@@ -25,8 +27,8 @@ int func_02179D3C(void)
 
     if (func_0217A024() == 1)
         return 1;
-    a = d_0217AB40[0x3c / 4];
-    b = d_0217AB40[0x40 / 4];
+    a = ((u32 *)&d_0217AB40)[0x3c / 4];
+    b = ((u32 *)&d_0217AB40)[0x40 / 4];
     if (b < a || (b == 0 && a == 0))
         return 1;
     return 0;

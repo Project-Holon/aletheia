@@ -36,9 +36,11 @@
  *       --func func_02062594 --addr 0x02062594 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Hdr02062474.h"
+
 typedef unsigned int u32;
 
-extern u32 g_02146BB0[];
+extern struct Hdr02062474 g_02146BB0;
 extern u32 g_02146BB4[];
 extern int func_0206207C(void *headp, void *freep, int a2, int a3);
 
@@ -47,5 +49,5 @@ int func_02062594(u32 id)
     u32 lo = (id & 0xFFFFu) << 3;
     u32 hi = ((id & 0xFFFF0000u) >> 16) << 3;
 
-    return func_0206207C(g_02146BB0, g_02146BB4, lo, hi) == 0;
+    return func_0206207C(((u32 *)&g_02146BB0), g_02146BB4, lo, hi) == 0;
 }

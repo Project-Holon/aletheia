@@ -18,6 +18,8 @@
  *   g_021AB184  0x021AB184  data  ov009
  */
 
+#include "../include/G_DWCWFCUtil.h"
+
 typedef struct DWCAuthParam
 {
     unsigned short ingamesn[26];
@@ -38,18 +40,13 @@ typedef struct DWCAuth
     char pad1318[0x13f4 - 0x1318];
 } DWCAuth;
 
-typedef struct DWCWFCUtil
-{
-    int f0;
-    DWCAuth *auth;
-    int state;
-} DWCWFCUtil;
+typedef struct DWCWFCUtil DWCWFCUtil;
 
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern int func_021782B4(int getwifiinfofromflash);
 extern void func_02177FFC(void);
 
-extern DWCWFCUtil g_021AB184;
+extern struct DWCWFCUtil g_021AB184;
 
 int func_02177EE8(DWCAuthParam *param, void *http)
 {
@@ -61,16 +58,16 @@ int func_02177EE8(DWCAuthParam *param, void *http)
     if (g_021AB184.auth == 0)
         return 2;
     func_02082BCC(g_021AB184.auth, 0, sizeof(DWCAuth));
-    g_021AB184.auth->http = http;
+    ((DWCAuth *)g_021AB184.auth)->http = http;
     g_021AB184.state = 0;
-    func_02082BCC((char *)g_021AB184.auth + 0x1008, 0, 0x1c4);
-    g_021AB184.auth->error = 20100;
-    g_021AB184.auth->param = *param;
-    g_021AB184.auth->param.ingamesn[25] = 0;
-    g_021AB184.auth->param.gsbrcd[11] = 0;
-    g_021AB184.auth->result = func_021782B4(1);
-    if (g_021AB184.auth->result != 0)
-        return g_021AB184.auth->result;
+    func_02082BCC((char *)((DWCAuth *)g_021AB184.auth) + 0x1008, 0, 0x1c4);
+    ((DWCAuth *)g_021AB184.auth)->error = 20100;
+    ((DWCAuth *)g_021AB184.auth)->param = *param;
+    ((DWCAuth *)g_021AB184.auth)->param.ingamesn[25] = 0;
+    ((DWCAuth *)g_021AB184.auth)->param.gsbrcd[11] = 0;
+    ((DWCAuth *)g_021AB184.auth)->result = func_021782B4(1);
+    if (((DWCAuth *)g_021AB184.auth)->result != 0)
+        return ((DWCAuth *)g_021AB184.auth)->result;
     g_021AB184.f0 = 0;
     func_02177FFC();
     return 0;

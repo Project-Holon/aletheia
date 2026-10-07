@@ -27,7 +27,9 @@
  * at sizes 400 and 403.
  */
 
-extern int  g_021469DC;
+#include "../include/G_Sys.h"
+
+extern struct Sys *g_021469DC;
 extern char s_020A7BA8[];
 extern char s_020A7BC8[];
 typedef unsigned int   u32;
@@ -42,15 +44,15 @@ extern void func_0203B038(u8 *a0);
 
 void func_0203B0C4(int a0, int a1)
 {
-    if ((g_021469DC + 0x40) & 1) {
+    if (((*(int *)&g_021469DC) + 0x40) & 1) {
         func_02034714(s_020A7BA8, 395, s_020A7BC8);
     }
     if (a0 != 0) {
-        func_02082D44(a0, g_021469DC + 0x40, 6);
+        func_02082D44(a0, (*(int *)&g_021469DC) + 0x40, 6);
     }
     if (a1 != 0) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B084, 0, 400);
+        func_0203AD80((struct NetState *)(*(int *)&g_021469DC), (void *)func_0203B084, 0, 400);
     } else {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B038, 0, 403);
+        func_0203AD80((struct NetState *)(*(int *)&g_021469DC), (void *)func_0203B038, 0, 403);
     }
 }

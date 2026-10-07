@@ -33,28 +33,23 @@
  *       --func func_0204BA7C --addr 0x0204BA7C --cc 1.1p1 --arm
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Sys {
-    u8  pad_000[0xf0];
-    u16 unk_0f0;   /* 0xf0 */
-    u16 unk_0f2;   /* 0xf2 */
-    u32 unk_0f4;   /* 0xf4 */
-};
-
-extern struct Sys *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 extern int func_02063800(char *p, int i);
 
 void func_0204BA7C(u32 set, u16 bias, u32 v)
 {
-    g_02146A74->unk_0f0 = (u32)func_02063800((char *)set, (u32)1) >> 5;
-    g_02146A74->unk_0f2 = (u32)func_02063800((char *)set, (u32)2) >> 5;
+    g_02146A74->unk_f0 = (u32)func_02063800((char *)set, (u32)1) >> 5;
+    g_02146A74->unk_f2 = (u32)func_02063800((char *)set, (u32)2) >> 5;
 
-    g_02146A74->unk_0f0 += bias;
-    g_02146A74->unk_0f2 += bias;
+    g_02146A74->unk_f0 += bias;
+    g_02146A74->unk_f2 += bias;
 
-    g_02146A74->unk_0f4 = v;
+    g_02146A74->unk_f4 = v;
 }

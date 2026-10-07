@@ -23,6 +23,8 @@
  *   g_021DAA30     0x021DAA30  data
  */
 
+#include "../include/G_MemWinT.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -44,7 +46,7 @@ extern char *func_021D4FE0(char *p, unsigned int i);
 extern void func_021D52D4();
 extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D51F0(void *cell, int idx, int priority);
-extern MemWinT *g_021DE658;
+extern struct MemWinT *g_021DE658;
 extern u8 g_021DA9C8[][2];
 extern u8 g_021DA9B4[][2];
 extern u16 g_021DAA2E[][4];

@@ -48,6 +48,9 @@
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"
+#include "../include/G_ATERMSET_DATA.h"
+#include "../include/G__ATERMApConfigParam.h"
+#include "../include/G_ATERMSET_BSS.h"
 
 struct WCMConfig;
 struct WMBssDesc;
@@ -88,7 +91,7 @@ typedef struct {
     void                    (*gAtermNotify)(struct _ATERMApConfigState *state);
 } ATERMSET_BSS;
 
-extern ATERMSET_BSS g_021DCFD0;
+extern struct ATERMSET_BSS g_021DCFD0;
 
 /*
  * atermset.o's .data words from 0x021DAB58 (lpElementData), addressed through
@@ -102,19 +105,12 @@ typedef struct {
     int            gMaxBssIdList;
 } ATERMSET_DATA;
 
-extern ATERMSET_DATA g_021DAB58;
+extern struct ATERMSET_DATA g_021DAB58;
 
 struct _OSThread;
-typedef struct _ATERMApConfigParam {
-    char ssid[32];
-    int auth_mode;
-    int wepkeyid;
-    char wepkey[4][32];
-    char wpakey[64];
-} ATERMApConfigParam;
 
 extern struct _OSThread g_021DD07C;
-extern ATERMApConfigParam g_021DD13C;
+extern struct _ATERMApConfigParam g_021DD13C;
 
 extern int func_021B97A8(int maxap);
 extern int func_020853B0(void);

@@ -33,6 +33,8 @@
  *   func_0206DE88  0x0206DE88  arm
  */
 
+#include "../include/G_TexImageCmd.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -63,7 +65,7 @@ typedef struct {
     u32 op;
     u32 prm;
 } TexImageCmd;
-extern TexImageCmd g_020A82B8;
+extern struct TexImageCmd g_020A82B8;
 
 typedef struct {
     u8  pad00[0x10];

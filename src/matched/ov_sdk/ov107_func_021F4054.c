@@ -20,8 +20,11 @@
  *   func_021F3FA4  0x021F3FA4  arm  ov107
  */
 
-extern unsigned char g_021F6EF4[];
-extern unsigned char g_021F6F20[];
+#include "../include/G_SUnlock.h"
+#include "../include/G_MbBeacon.h"
+
+extern struct SUnlock g_021F6EF4;
+extern struct MbBeacon g_021F6F20;
 extern unsigned long func_021F628C(void);
 extern unsigned short func_021F62A0(void);
 extern int func_02090CD4(void *callback, void *userGameInfo, unsigned short size, unsigned long ggid, unsigned short tgid, unsigned char attr);
@@ -31,18 +34,18 @@ int func_021F4054(void)
 {
     unsigned char *nextGameInfop;
 
-    if (*(int *)(g_021F6EF4 + 0x18) == 0) {
+    if (*(int *)(((unsigned char *)&g_021F6EF4) + 0x18) == 0) {
         unsigned long ggid = func_021F628C();
-        func_02090CD4(0, g_021F6F20, 0x70, ggid, func_021F62A0(), 8);
+        func_02090CD4(0, ((unsigned char *)&g_021F6F20), 0x70, ggid, func_021F62A0(), 8);
         return 0;
     }
-    if (*(unsigned char **)(g_021F6EF4 + 0x1C) != 0 && (nextGameInfop = *(unsigned char **)(*(unsigned char **)(g_021F6EF4 + 0x1C) + 0x4BC)) != 0) {
+    if (*(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C) != 0 && (nextGameInfop = *(unsigned char **)(*(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C) + 0x4BC)) != 0) {
     } else {
-        nextGameInfop = *(unsigned char **)(g_021F6EF4 + 0x18);
+        nextGameInfop = *(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x18);
     }
-    *(unsigned char **)(g_021F6EF4 + 0x1C) = nextGameInfop;
+    *(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C) = nextGameInfop;
     func_021F3FA4();
-    g_021F6EF4[0x26] = (*(unsigned char **)(g_021F6EF4 + 0x1C))[0x4B4];
-    g_021F6EF4[0x24] = 2;
+    ((unsigned char *)&g_021F6EF4)[0x26] = (*(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C))[0x4B4];
+    ((unsigned char *)&g_021F6EF4)[0x24] = 2;
     return 1;
 }

@@ -17,19 +17,21 @@
  *   g_021ADFE0   0x021ADFE0  data
  */
 
+#include "../include/G_StatsConn.h"
+
 extern int func_02184200(const int *p);
 extern int *func_02184208(void *array, int n);
-extern int g_021ADFE0[];
+extern struct StatsConn g_021ADFE0;
 
 int func_0219405C(int reqtype, int localid, int profileid)
 {
     int *req;
     int i;
 
-    if (g_021ADFE0[5] == 0)
+    if (((int *)&g_021ADFE0)[5] == 0)
         return -1;
-    for (i = 0; i < func_02184200((void *)g_021ADFE0[5]); i++) {
-        req = func_02184208((void *)g_021ADFE0[5], i);
+    for (i = 0; i < func_02184200((void *)((int *)&g_021ADFE0)[5]); i++) {
+        req = func_02184208((void *)((int *)&g_021ADFE0)[5], i);
         if (req[0] == reqtype && req[1] == localid && req[2] == profileid)
             return i;
     }

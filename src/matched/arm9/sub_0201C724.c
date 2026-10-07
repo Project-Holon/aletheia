@@ -37,13 +37,11 @@
  *       --func sub_0201C724 --addr 0x0201C724 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_Scratch.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
-struct Scratch {
-    u8 unk_00[1];
-};
 
 extern struct Scratch g_0214655C;
 

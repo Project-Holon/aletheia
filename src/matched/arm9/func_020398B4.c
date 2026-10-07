@@ -38,6 +38,8 @@
  *       --func func_020398B4 --addr 0x020398B4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Votes.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -46,7 +48,7 @@ struct Entry {
     void *handle[8];
 };
 
-extern void *g_021469D4;
+extern struct Votes *g_021469D4;
 extern const char file_020A7A68[];
 extern const char msg_020A7A88[];
 

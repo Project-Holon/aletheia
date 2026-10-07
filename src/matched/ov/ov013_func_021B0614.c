@@ -20,6 +20,9 @@
  *   func_021B19BC  0x021B19BC  arm  ov013
  *   func_021B3018  0x021B3018  arm  ov013
  */
+
+#include "../include/G_Ctx42C0.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -62,7 +65,7 @@ typedef struct {
 extern Ctx3C84 d_021B3C84;
 extern Req *d_021B3CB0[3];
 extern Slot d_021B3CBC[3];
-extern Ctx42C0 d_021B42C0;
+extern struct Ctx42C0 d_021B42C0;
 
 extern u16 func_02087170(void);
 extern void func_021B16E4(u32 i);

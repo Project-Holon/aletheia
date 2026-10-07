@@ -47,11 +47,13 @@
  *       --func func_0204E130 --addr 0x0204E130 --cc 1.1p1 --arm
  */
 
+#include "../include/G_TextCtx.h"
+
 typedef unsigned int u32;
 
 extern const char func_0204E130_File[];
 
-extern void *g_02146A78;
+extern struct TextCtx *g_02146A78;
 
 extern void  func_020461F4(u32 a);
 typedef unsigned short u16;

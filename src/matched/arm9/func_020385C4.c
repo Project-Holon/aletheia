@@ -34,6 +34,7 @@
  * the usual func_02034714(file, line, expr) triple.
  */
 #include "../include/Obj03447.h"
+#include "../include/G_LinkState.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -66,7 +67,7 @@ extern int  func_02039160(u32 a);
 extern const u8 str_020A7A24[];
 extern const u8 str_020A7A54[];
 extern u8   g_020A7A20[];
-extern u32 *g_021469D0;
+extern struct LinkState *g_021469D0;
 
 void func_020385C4(void)
 {
@@ -79,7 +80,7 @@ void func_020385C4(void)
             return;
         if (o->f64 != 0)
             func_02034714((const char *)str_020A7A24, 0x4d5, (const char *)str_020A7A54);
-        if (g_020A7A20[0] == 4 && *(u32 *)((u8 *)g_021469D0 + 0x1ac) != 0
+        if (g_020A7A20[0] == 4 && *(u32 *)((u8 *)((u32 *)g_021469D0) + 0x1ac) != 0
             && func_02038524() != 0)
             func_02037224(1, 0x4da);
         if (g_020A7A20[0] != 1)
@@ -87,7 +88,7 @@ void func_020385C4(void)
         {
             u32 t = func_02037258();
             if (((int (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
-                    ((u32 *)g_021469D0)[2], t, 0, 0) == 0)
+                    ((u32 *)((u32 *)g_021469D0))[2], t, 0, 0) == 0)
                 return;
         }
         func_02037224(4, 0x4e1);
@@ -96,11 +97,11 @@ void func_020385C4(void)
     }
     if ((u8)(s + 0xfd) <= 1) {
         if (g_020A7A20[0] == 4) {
-            u8 *g = (u8 *)g_021469D0;
+            u8 *g = (u8 *)((u32 *)g_021469D0);
             u32 t = func_02037258();
 
             func_02038AE0((struct Hdr *)(((struct Obj03447 *)g)->f8), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
-            g = (u8 *)g_021469D0;
+            g = (u8 *)((u32 *)g_021469D0);
             g[0x1d4] = (u8)(g[0x1d4] + 1);
             func_02037224(1, 0x4f4);
         }
@@ -112,11 +113,11 @@ void func_020385C4(void)
     if (func_02038524() == 0)
         return;
     if (g_020A7A20[0] == 4) {
-        u8 *g = (u8 *)g_021469D0;
+        u8 *g = (u8 *)((u32 *)g_021469D0);
         u32 t = func_02037258();
 
         func_02038AE0((struct Hdr *)(((struct Obj03447 *)g)->f8), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
-        g = (u8 *)g_021469D0;
+        g = (u8 *)((u32 *)g_021469D0);
         g[0x1d4] = (u8)(g[0x1d4] + 1);
         func_02037224(1, 0x501);
     }

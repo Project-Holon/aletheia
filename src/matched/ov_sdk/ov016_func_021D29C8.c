@@ -23,6 +23,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov016_func_021D29C8.c \n *       --func DWCi_MOV_WH_ChangeSysState --addr 0x021D29C8 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_DWC_MOV_WH_BSS.h"
+
 /*
  * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
@@ -74,7 +77,7 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-extern DWC_MOV_WH_BSS dwc_mov_wh_bss;
+extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 
 typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
 
@@ -85,8 +88,8 @@ extern const char dwc_mov_wh_str_13638[];
 static void DWCi_MOV_WH_ChangeSysState(int state)
 {
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13637, wh_statenames[dwc_mov_wh_bss.wh->sysState]);
-    dwc_mov_wh_bss.wh->sysState = state;
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13637, wh_statenames[((WHWork *)dwc_mov_wh_bss.wh)->sysState]);
+    ((WHWork *)dwc_mov_wh_bss.wh)->sysState = state;
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13638, wh_statenames[dwc_mov_wh_bss.wh->sysState]);
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13638, wh_statenames[((WHWork *)dwc_mov_wh_bss.wh)->sysState]);
 }

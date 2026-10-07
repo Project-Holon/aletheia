@@ -14,6 +14,8 @@
  *   func_02060640    0x02060640  arm
  */
 
+#include "../include/G_NNSFndList.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,12 +23,12 @@ typedef unsigned int u32;
 struct DList;
 struct Elem;
 extern struct Elem *func_02060640(struct DList *list, u32 val);
-extern u32 g_02146B64;
+extern struct NNSFndList g_02146B64;
 
 void *func_020606A8(u32 a)
 {
-    void *r = &g_02146B64;
-    u32 v = (u32)func_02060640((struct DList *)(&g_02146B64), a);
+    void *r = &(*(u32 *)&g_02146B64);
+    u32 v = (u32)func_02060640((struct DList *)(&(*(u32 *)&g_02146B64)), a);
 
     if (v != 0) {
         r = (void *)(v + 0xc);

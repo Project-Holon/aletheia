@@ -26,6 +26,9 @@
  *   g_021DE5A8  0x021DE5A8  data
  */
 
+#include "../include/G_FocusPosT.h"
+#include "../include/G_RectT.h"
+
 typedef struct {
 	unsigned short l;
 	unsigned short t;
@@ -48,8 +51,8 @@ extern int func_021D6824(unsigned int f);
 extern int func_021D6864(unsigned int f);
 extern void func_021C30AC(int dir);
 extern RectT g_021DA4B8[3];
-extern RectT g_021DA4D0[3];
-extern FocusPosT g_021DE5A8;
+extern struct RectT g_021DA4D0[3];
+extern struct FocusPosT g_021DE5A8;
 
 void func_021C2D74(void)
 {

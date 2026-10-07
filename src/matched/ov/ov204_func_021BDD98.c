@@ -18,6 +18,9 @@
  *   d_021BFD80 0x021BFD80 data a4
  *   d_021BFF1C 0x021BFF1C data a4
  */
+
+#include "../include/G_DispConfig.h"
+
 struct DispConfig; struct BgTemplate;
 extern const unsigned d_021BFF1C[][11];
 extern struct DispConfig d_021BFD80;
@@ -36,7 +39,7 @@ void func_021BDD98(void *p, unsigned heap)
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
     func_02045088(heap);
-    func_0203FC28(&d_021BFD80);
+    func_0203FC28(&(*(struct DispConfig *)&d_021BFD80));
     for (i = 0; i < 4; i++) {
         row = d_021BFF1C[i];
         layer = row[0];

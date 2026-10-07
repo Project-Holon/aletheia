@@ -20,6 +20,8 @@
  *   gGXState             0x02150E4C  data
  */
 
+#include "../include/G_GX_State.h"
+
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef volatile u8 vu8;
@@ -44,15 +46,7 @@ typedef enum {
     GX_VRAM_TEX_012_ACD = 0x0d
 } GXVRamTex;
 
-typedef struct {
-    u16 lcdc;
-    u16 bg;
-    u16 obj;
-    u16 arm7;
-    u16 tex;
-} GXVRamState;
-
-extern GXVRamState gGXState;
+extern struct GX_State gGXState;
 
 extern void GX_VRAMCNT_SetLCDC_(int lcdc);
 
@@ -70,8 +64,8 @@ extern void GX_VRAMCNT_SetLCDC_(int lcdc);
 
 void GX_SetBankForTex(GXVRamTex tex)
 {
-    gGXState.lcdc = (u16)(~tex & (gGXState.lcdc | gGXState.tex));
-    gGXState.tex = (u16)tex;
+    gGXState.vramCnt_lcdc = (u16)(~tex & (gGXState.vramCnt_lcdc | gGXState.vramCnt_tex));
+    gGXState.vramCnt_tex = (u16)tex;
 
     if (tex == GX_VRAM_TEX_NONE) {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_TME_MASK);
@@ -129,5 +123,5 @@ void GX_SetBankForTex(GXVRamTex tex)
             break;
         }
     }
-    GX_VRAMCNT_SetLCDC_(gGXState.lcdc);
+    GX_VRAMCNT_SetLCDC_(gGXState.vramCnt_lcdc);
 }

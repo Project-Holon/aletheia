@@ -16,11 +16,13 @@
  *   func_02087C6C  0x02087C6C  arm
  */
 
+#include "../include/G_S.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern u8 *g_021797A8;
+extern struct S *g_021797A8;
 void func_02178138(int a);
 void func_0217814C(int a);
 int func_02178F1C(u16 n);
@@ -35,10 +37,10 @@ int func_02178E84(void)
 
     func_02087C6C(t);
     x = *(volatile u32 *)0x02FFFC3C;
-    *(u32 *)(g_021797A8 + 0x1E9C) = t[2] + (t[1] + (t[0] + x));
-    *(u32 *)(g_021797A8 + 0x1E9C) = *(u32 *)(g_021797A8 + 0x1E9C) * 0x10DCD + 0x3039;
-    *(u16 *)(g_021797A8 + 0x1EAC) = 0;
-    *(u16 *)(g_021797A8 + 0x1EAE) = 0x65;
+    *(u32 *)(((u8 *)g_021797A8) + 0x1E9C) = t[2] + (t[1] + (t[0] + x));
+    *(u32 *)(((u8 *)g_021797A8) + 0x1E9C) = *(u32 *)(((u8 *)g_021797A8) + 0x1E9C) * 0x10DCD + 0x3039;
+    *(u16 *)(((u8 *)g_021797A8) + 0x1EAC) = 0;
+    *(u16 *)(((u8 *)g_021797A8) + 0x1EAE) = 0x65;
     func_02178138(3);
     ok = 1;
     r = func_02178F1C(1);

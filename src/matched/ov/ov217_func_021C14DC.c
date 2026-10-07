@@ -26,6 +26,8 @@
  * Addresses are Black-image addresses.
  */
 
+#include "../include/G_Glb.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -35,12 +37,8 @@ extern V d_02148D8C;
 extern V d_02148D98;
 extern V d_02148DA4;
 extern V d_02148B98;
-struct Gx {
-    u8 pad[0x7C];
-    u32 flags;
-};
 
-extern struct Gx d_02148BCC;
+extern struct Glb d_02148BCC;
 extern V d_02148B54;
 
 extern void func_0207D7C4(V *a, V *b, V *c, int d, int e);
@@ -72,8 +70,8 @@ void func_021C14DC(u8 *p)
     d_02148D98 = b;
     d_02148DA4 = c;
     func_0207BCA0(&a, &b, &c, &d_02148B98);
-    d_02148BCC.flags &= ~0xE8;
+    d_02148BCC.flag &= ~0xE8;
     func_0207C554(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, &d_02148B54);
-    d_02148BCC.flags &= ~0x50;
+    d_02148BCC.flag &= ~0x50;
     func_0206A854();
 }

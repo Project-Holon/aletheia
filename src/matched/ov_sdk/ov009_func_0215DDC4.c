@@ -20,6 +20,8 @@
  *   g_021A1CD8  0x021A1CD8  data
  */
 
+#include "../include/G_021A1CD8.h"
+
 struct SOCLiSocketUdpData {
     struct SOCLiSocketUdpData *next;
     unsigned short size;
@@ -49,17 +51,12 @@ struct SOCLSocket {
     signed char flag_mode;
 };
 
-struct SOCLiConfig {
-    unsigned char pad0[0x1c];
-    void (*free)(void *);
-};
-
 extern unsigned long func_02087988(void);
 extern void func_020857B0(void *queue);
 extern int func_0215F3D0(struct SOCLSocket *socket);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
 extern unsigned long func_0208799C(unsigned long state);
-extern struct SOCLiConfig *g_021A1CD8;
+extern struct G_021A1CD8 *g_021A1CD8;
 
 static inline int isNotReady(struct SOCLSocket *socket)
 {

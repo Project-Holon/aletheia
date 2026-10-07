@@ -84,14 +84,11 @@
  *   EXACT, 316 bytes, 1 relocation site, resolved.
  */
 
+#include "../include/G_Arena02146B74.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
-struct Arena02146B74 {
-    u32 cur;    /* 0x00  low  cursor, grows upward   */
-    u32 end;    /* 0x04  high cursor, grows downward */
-};
 
 extern struct Arena02146B74 g_02146B74;
 
@@ -116,7 +113,7 @@ u32 func_020616CC(u32 size, u32 flag, u32 dir)
     }
 
     if (dir == 1) {
-        u32 cur = g_02146B74.cur;
+        u32 cur = g_02146B74.a;
 
         if (flag != 0) {
             off = (8 - (cur & 7)) & 7;
@@ -124,7 +121,7 @@ u32 func_020616CC(u32 size, u32 flag, u32 dir)
             off = (16 - (cur & 0xf)) & 0xf;
         }
         len = n + off;
-        if (g_02146B74.end - cur < len) {
+        if (g_02146B74.b - cur < len) {
             goto fail1;
         }
         top = cur + len;
@@ -133,14 +130,14 @@ u32 func_020616CC(u32 size, u32 flag, u32 dir)
             goto done;
         }
         addr = cur + off;
-        g_02146B74.cur = g_02146B74.cur + len;
+        g_02146B74.a = g_02146B74.a + len;
         ok = 1;
         goto done;
 fail1:
         ok = 0;
         goto done;
     } else {
-        u32 end = g_02146B74.end;
+        u32 end = g_02146B74.b;
 
         if (end < n) {
             goto fail2;
@@ -151,7 +148,7 @@ fail1:
             off = (end - n) & 0xf;
         }
         ln = n + off;
-        cur2 = g_02146B74.cur;
+        cur2 = g_02146B74.a;
         if (end - cur2 < ln) {
             goto fail2;
         }
@@ -160,8 +157,8 @@ fail1:
             goto done;
         }
         ok = 1;
-        g_02146B74.end = g_02146B74.end - ln;
-        addr = g_02146B74.end;
+        g_02146B74.b = g_02146B74.b - ln;
+        addr = g_02146B74.b;
         goto done;
 fail2:
         ok = 0;

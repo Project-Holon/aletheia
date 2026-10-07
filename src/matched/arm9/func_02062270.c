@@ -57,18 +57,11 @@
  *   python tools/match.py one --src src/matched/func_02062270.c \
  *       --func func_02062270 --addr 0x02062270 --arm --cc ../2.0/sp2
  */
+
+#include "../include/G_Cfg.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
-struct Cfg
-{
-  u32 head_a;
-  u32 head_b;
-  u32 pool;
-  u32 f0c;
-  u32 f10;
-  u32 f14;
-  u32 f18;
-};
 struct Rgn
 {
   u32 avail;
@@ -80,7 +73,7 @@ struct Rgns
   struct Rgn r[4];
 };
 extern struct Cfg g_02146B94_blk;
-extern u32 g_02146B94;
+extern struct Cfg g_02146B94;
 extern u32 g_02146B98;
 extern u32 g_02146B9C;
 extern const struct Rgns g_020A17A8;
@@ -136,7 +129,7 @@ void func_02062270(u32 a, u32 b, u32 c, u32 d)
         }
     }
 
-    func_02061DF0(&g_02146B94);
+    func_02061DF0(&(*(u32 *)&g_02146B94));
     func_02061DF0(&g_02146B98);
     g_02146B94_blk.pool = (u32)func_02061DFC((struct Node02061DFC *)g_02146B94_blk.f14, g_02146B94_blk.f18 >> 4);
 
@@ -145,20 +138,20 @@ void func_02062270(u32 a, u32 b, u32 c, u32 d)
     {
         u32 a = t.r[0].acc8;
         if (t.r[0].acc4 != 0)
-            func_02061E48((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), a, t.r[0].acc4);
+            func_02061E48((struct List02061E48 *)(&(*(u32 *)&g_02146B94)), (struct Pool02061E48 *)(&g_02146B9C), a, t.r[0].acc4);
     }
     if (t.r[2].acc8 != 0)
         func_02061E48((struct List02061E48 *)(&g_02146B98), (struct Pool02061E48 *)(&g_02146B9C), 0x40000, t.r[2].acc8);
     {
         u32 a = t.r[2].acc8;
         if (t.r[2].acc4 != 0)
-            func_02061E48((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x40000 + a, t.r[2].acc4);
+            func_02061E48((struct List02061E48 *)(&(*(u32 *)&g_02146B94)), (struct Pool02061E48 *)(&g_02146B9C), 0x40000 + a, t.r[2].acc4);
     }
     if (t.r[3].acc4 != 0)
-        func_02061E48((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x60000, t.r[3].acc4);
+        func_02061E48((struct List02061E48 *)(&(*(u32 *)&g_02146B94)), (struct Pool02061E48 *)(&g_02146B9C), 0x60000, t.r[3].acc4);
     if (t.r[1].acc4 != 0)
-        func_02061E48((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x20000 + half, t.r[1].acc4);
+        func_02061E48((struct List02061E48 *)(&(*(u32 *)&g_02146B94)), (struct Pool02061E48 *)(&g_02146B9C), 0x20000 + half, t.r[1].acc4);
 
-    func_02061FF8(&g_02146B94, &g_02146B9C);
+    func_02061FF8(&(*(u32 *)&g_02146B94), &g_02146B9C);
     func_02061FF8(&g_02146B98, &g_02146B9C);
 }

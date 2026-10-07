@@ -22,13 +22,15 @@
  *       --func func_02073D5C --addr 0x02073D5C --cc 1.1p1 --arm
  */
 
+#include "../include/G_St.h"
+
 typedef unsigned int u32;
 
 extern u32 g_0214E9B4;
-extern u32 g_0214E9FC;
+extern struct St g_0214E9FC;
 
 void func_02073D5C(void)
 {
     g_0214E9B4 = 0;
-    g_0214E9FC = 0;
+    (*(u32 *)&g_0214E9FC) = 0;
 }

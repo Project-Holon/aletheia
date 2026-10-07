@@ -17,6 +17,8 @@
  *   g_021AA878  0x021AA878  data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef struct DwcState {
 	unsigned char pad0[0x24];
 	int state;
@@ -32,12 +34,9 @@ typedef struct DwcState {
 	unsigned char updateBuf1[0x100];
 } DwcState;
 
-typedef struct DwcGlobal {
-	int lastSocketError;
-	DwcState *st;
-} DwcGlobal;
+typedef struct DwcGlobal DwcGlobal;
 
-extern DwcGlobal g_021AA878;
+extern struct DwcGlobal g_021AA878;
 
 extern void func_0216BC84(int state);
 extern void func_0216909C(void);
@@ -45,12 +44,12 @@ extern void func_0216909C(void);
 void func_0216BF38(int error, int profileID)
 {
 	if (error == 0) {
-		g_021AA878.st->profileID = profileID;
+		((DwcState *)g_021AA878.st)->profileID = profileID;
 		func_0216BC84(3);
 		func_0216909C();
 	} else {
 		func_0216BC84(0);
 	}
-	if (g_021AA878.st->loginCallback != 0)
-		g_021AA878.st->loginCallback(error, profileID, g_021AA878.st->loginParam);
+	if (((DwcState *)g_021AA878.st)->loginCallback != 0)
+		((DwcState *)g_021AA878.st)->loginCallback(error, profileID, ((DwcState *)g_021AA878.st)->loginParam);
 }

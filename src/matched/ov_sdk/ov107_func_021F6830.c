@@ -14,13 +14,16 @@
  * symbols:
  *   d_021F7008   0x021F7008  data
  */
+
+#include "../include/G_piece.h"
+
 typedef unsigned long u32;
 
-extern char d_021F7008[];
+extern struct piece d_021F7008;
 extern void MI_CpuFill8(void *dst, int val, u32 len);
 
 void MBi_SetParentPieceBuffer(void *buf)
 {
-    *(void **)(d_021F7008 + 4) = buf;
+    *(void **)(((char *)&d_021F7008) + 4) = buf;
     MI_CpuFill8(buf, 0, 0x21C);
 }

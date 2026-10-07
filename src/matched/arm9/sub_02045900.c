@@ -28,6 +28,8 @@
  *   python tools/match.py one --src src/matched/sub_02045900.c  *       --func sub_02045900 --addr 0x02045900 --cc 1.1p1 --arm
  */
 
+#include "../include/G_AllocStamp.h"
+
 typedef unsigned short u16;
 typedef unsigned int u32;
 
@@ -54,11 +56,6 @@ struct U16Vec {
  * the relocation: 0x020A7E80 has exactly one pool reference image-wide
  * and so no witness of its own, while the base has thirty-six.
  */
-struct AllocStamp {
-    u16  value;      /* 0x020A7E7C, the stamp every object copies to +0x8 */
-    u16  pad;
-    char site[1];    /* 0x020A7E80, the allocator's fourth argument */
-};
 
 extern struct AllocStamp g_020A7E7C;
 

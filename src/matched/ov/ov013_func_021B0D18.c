@@ -70,6 +70,8 @@
 
  */
 
+#include "../include/G_Ctx42C0.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -113,7 +115,7 @@ typedef struct {
     int f28;
 } Ctx3C84;
 
-extern Ctx42C0 d_021B42C0;
+extern struct Ctx42C0 d_021B42C0;
 extern Ctx3C84 d_021B3C84;
 extern u32 d_021B3C24;
 extern u8 d_021B3C94[];

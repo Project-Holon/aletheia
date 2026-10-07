@@ -12,10 +12,13 @@
  *   func_02082BCC 0x02082BCC arm
  * note: Follower after veneer 0x06898BEC; next function starts with push at 0x06898C10.
  */
+
+#include "../include/G_Row.h"
+
 typedef unsigned char u8;
-extern u8 g_0689E7E0[];
+extern struct Row g_0689E7E0;
 extern void func_02082BCC(void *p, int v, int n);
 void func_06898BFC(void)
 {
-    func_02082BCC(g_0689E7E0, 0, 448);
+    func_02082BCC(((u8 *)&g_0689E7E0), 0, 448);
 }

@@ -20,12 +20,11 @@
  *   g_02146A74     0x02146A74  data
  *   func_02063378  0x02063378  arm
  */
+
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct Mgr {
-    u8 pad_000[0x20];
-};
 
 extern struct Mgr *g_02146A74;
 extern void func_02063378(void *block, u32 arg);

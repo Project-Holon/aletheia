@@ -20,7 +20,9 @@
  *   func_02195DC4  0x02195DC4  arm  ov009
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 extern int func_02059F38(void);
 struct GTI2Connection;
 extern int func_0216BAF4(int aid);
@@ -33,9 +35,9 @@ int func_0216BEA4(unsigned char aid)
     int conn;
     unsigned char *node;
 
-    if (*(char **)(g_021AA878 + 4) == 0 || func_02059F38() != 0 ||
-        (*(int *)(*(char **)(g_021AA878 + 4) + 0x24) != 4 &&
-         *(int *)(*(char **)(g_021AA878 + 4) + 0x24) != 5)) {
+    if (*(char **)(((char *)&g_021AA878) + 4) == 0 || func_02059F38() != 0 ||
+        (*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x24) != 4 &&
+         *(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x24) != 5)) {
         return -1;
     }
     conn = func_0216BAF4(aid);

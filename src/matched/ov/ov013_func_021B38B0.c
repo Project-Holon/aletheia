@@ -14,13 +14,9 @@
  *   func_021B3924  0x021B3924  arm  ov013
  */
 
-typedef struct {
-    int pad[4];
-    void (*fn)(int, int, int, int);
-    int arg;
-} G;
+#include "../include/G_021B60CC.h"
 
-extern G d_021B60CC;
+extern struct G_021B60CC d_021B60CC;
 extern int func_021B3924(int a, int b, int c, int *out);
 
 int func_021B38B0(int a, int b, int c)

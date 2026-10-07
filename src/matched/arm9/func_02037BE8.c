@@ -25,14 +25,16 @@
  *       --func func_02037BE8 --addr 0x02037BE8 --cc 1.1p1 --arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned int u32;
 
 extern void func_02037680(int i);
-extern u32  g_021469D0;
+extern struct LinkState *g_021469D0;
 
 void func_02037BE8(u32 a)
 {
-    if (g_021469D0 == 0)
+    if ((*(u32 *)&g_021469D0) == 0)
         return;
     if (a >= 8)
         return;

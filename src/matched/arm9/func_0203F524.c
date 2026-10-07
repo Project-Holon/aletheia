@@ -26,20 +26,10 @@
  *       --func func_0203F524 --addr 0x0203F524 --cc 1.1p1 --arm
  */
 
+#include "../include/G_RtcDate.h"
+#include "../include/G_RtcTime.h"
+
 typedef unsigned int u32;
-
-struct RtcDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
-
-struct RtcTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-};
 
 extern struct RtcDate g_02146A0C;
 extern struct RtcTime g_02146A1C;

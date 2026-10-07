@@ -22,6 +22,8 @@
  *   g_021AA4DC     0x021AA4DC  data
  */
 
+#include "../include/G_SOCLAlloc.h"
+
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 
 typedef struct {
@@ -36,15 +38,8 @@ extern unsigned long func_0215EDD0(char *hostname);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern int func_0208CB10(char *destp, const char *srcp, int siz);
 
-typedef struct {
-	unsigned long hostip;
-	unsigned char gap[0x14];
-	unsigned char *addrList[2];
-	HostEnt hostent;
-} Statics;
-
-extern Statics g_021AA4BC;
-extern unsigned long g_021AA4BC_ip;
+extern struct SOCLAlloc g_021AA4BC;
+extern struct SOCLAlloc g_021AA4BC_ip;
 extern unsigned char *g_021AA4D4[2];
 extern HostEnt g_021AA4DC;
 extern char g_021AA544[0x101];
@@ -59,13 +54,13 @@ HostEnt *func_0215F650(const char *name)
 	}
 	func_02082BCC(g_021AA544, 0, 0x101);
 	func_0208CB10(g_021AA544, name, 0x101);
-	g_021AA4BC.hostent.name = g_021AA544;
-	g_021AA4BC.hostent.aliases = 0;
-	g_021AA4BC.hostent.addrType = 2;
-	g_021AA4BC.hostent.length = 4;
-	g_021AA4BC.hostent.addrList = g_021AA4D4;
-	g_021AA4BC.addrList[0] = (unsigned char *)&g_021AA4BC_ip;
+	g_021AA4BC.hostent_name = g_021AA544;
+	g_021AA4BC.hostent_aliases = 0;
+	g_021AA4BC.hostent_addrType = 2;
+	g_021AA4BC.hostent_length = 4;
+	g_021AA4BC.hostent_addrList = g_021AA4D4;
+	g_021AA4BC.addrList[0] = (unsigned char *)&(*(unsigned long *)&g_021AA4BC_ip);
 	g_021AA4BC.addrList[1] = 0;
-	g_021AA4BC.hostip = SWAP32(h);
+	g_021AA4BC.w00 = SWAP32(h);
 	return &g_021AA4DC;
 }

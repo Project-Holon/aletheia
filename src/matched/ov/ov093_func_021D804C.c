@@ -11,8 +11,11 @@
  * symbols:
  *   data_021F6360 0x021F6360 data ov093 a2
  */
+
+#include "../include/G_Unk021F6360.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 data_021F6360;
-void func_021D804C(u32 n) { data_021F6360=n; }
+extern struct Unk021F6360 data_021F6360;
+void func_021D804C(u32 n) { (*(u16 *)&data_021F6360)=n; }

@@ -11,6 +11,9 @@
  * symbols:
  *   g_021797A8 0x021797A8 data a4
  */
+
+#include "../include/G_S.h"
+
 typedef unsigned char u8;
-extern u8 *g_021797A8;
-int func_02178E4C(void) { if (g_021797A8 == 0) return 0; return *(int *)(g_021797A8 + 0x1E70); }
+extern struct S *g_021797A8;
+int func_02178E4C(void) { if (((u8 *)g_021797A8) == 0) return 0; return *(int *)(((u8 *)g_021797A8) + 0x1E70); }

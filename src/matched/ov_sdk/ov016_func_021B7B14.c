@@ -34,6 +34,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B7B14.c \
  *       --func AstsSetSecureReq --addr 0x021B7B14 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_BSS.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -71,7 +74,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct SEND_INFO SEND_INFO;
 
@@ -138,7 +141,7 @@ int AstsSetSecureReq(SEND_INFO *send_info, SEQID_INFO *pSeqID, int sFd)
     CapData.info.SubAttrNo = 2;
     CapData.info.SubAttrVer = 0;
     CapData.info.length = AOSS_Htons(4);
-    CapData.EncryptLevel = aoss_bss.gData.sLevel;
+    CapData.EncryptLevel = aoss_bss.gData_sLevel;
     CapData.EncryptLevel = AOSS_Htonl(CapData.EncryptLevel);
     packet_size = sizeof(CapData);
     PacketDataSet(aoss_bss.SecurityType, send_msg->udpipmsg + sizeof(tagASTSpktHeader),

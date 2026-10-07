@@ -46,15 +46,12 @@
  *   g_021469DC     0x021469DC  data
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void func_0203C934(void);
-
-struct Sys {
-    u8  pad_00[8];
-    void (*f08)(u32 a);
-};
 
 extern struct Sys *g_021469DC;
 
@@ -64,8 +61,8 @@ u32 func_0203B1D8(void)
 
     if (s == 0)
         return 1;
-    if (s->f08 != 0)
-        s->f08((u32)s);
+    if (s->cb != 0)
+        s->cb((u32)s);
     if (g_021469DC == 0)
         return 1;
     func_0203C934();

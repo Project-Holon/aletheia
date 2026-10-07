@@ -32,22 +32,21 @@
  * field indexed by k (`p->cnt[k]`), not a pointer q = a1 + k; the CSE temp a1 + k then
  * takes the slot below n, as in the original.
  */
+
+#include "../include/G_Vec.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct Vec {
-    int x;
-    int y;
-    int z;
-} Vec;
+typedef struct Vec Vec;
 
 typedef struct Rec {
     u8 pad[0x21EC];
     u8 cnt[4];
 } Rec;
 
-extern Vec d_021F4CA0[];
+extern struct Vec d_021F4CA0[];
 
 struct BigObj;
 struct Ctx;

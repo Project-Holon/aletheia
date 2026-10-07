@@ -18,7 +18,9 @@
  *   func_0216BCD0  0x0216BCD0  arm  ov009
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 extern int func_0216C82C(void);
 extern int func_0216B880(unsigned char **out);
 extern int func_0216BCD0(unsigned char *p, int n);
@@ -28,7 +30,7 @@ int func_0216B908(void)
     unsigned char *list;
     int n;
 
-    if (*(int *)(g_021AA878 + 4) == 0 || func_0216C82C() == 0) {
+    if (*(int *)(((char *)&g_021AA878) + 4) == 0 || func_0216C82C() == 0) {
         return 0;
     }
     n = func_0216B880(&list);

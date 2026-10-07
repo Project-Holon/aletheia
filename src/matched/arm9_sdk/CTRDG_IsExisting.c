@@ -22,6 +22,8 @@
  *   CTRDGi_UnlockByProcessor       0x0209112C  arm
  */
 
+#include "../include/G_CtrdgBss.h"
+
 typedef unsigned long u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -58,13 +60,9 @@ typedef struct CTRDGHeader {
 } CTRDGHeader;
 
 /* ctrdg.o .bss: CTRDGi_EnableFlag at +0, CTRDGi_Work (lockID at +2) at +4 */
-typedef struct CtrdgBss {
-    BOOL enableFlag;
-    u16 subpInit;
-    u16 lockID;
-} CtrdgBss;
+typedef struct CtrdgBss CtrdgBss;
 
-extern CtrdgBss g_02153B80;
+extern struct CtrdgBss g_02153B80;
 
 #define CTRDGi_ROM   ((CTRDGHeader *)0x08000000)
 #define CTRDGi_INFO  ((CTRDGModuleInfo *)0x02FFFC30)

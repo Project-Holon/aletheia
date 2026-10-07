@@ -23,6 +23,8 @@
  *       --func sub_0204B270 --addr 0x0204B270 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 
 struct Bank {
@@ -34,10 +36,10 @@ struct Bank {
     u8    pad_0f[9];
 };
 
-extern u8 *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 void sub_0204B270(struct Bank *bank)
 {
-    bank->unk_08 = g_02146A74 + 0x40;
+    bank->unk_08 = ((u8 *)g_02146A74) + 0x40;
     bank->source = 0;
 }

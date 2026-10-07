@@ -24,17 +24,18 @@
  *       --func func_020515CC --addr 0x020515CC --cc 1.1p1 --arm
  */
 #include "../include/Obj08873.h"
+#include "../include/G_02146A88.h"
 
 extern int func_020525A0(char *p, int b, void (*fn)(void *));
-extern int *g_02146A88;
+extern struct G_02146A88 *g_02146A88;
 int func_020515CC(int *p, int a, int b, int c)
 {
     int r;
     if (*(int *)((char *)((struct Obj08873 *)p)->f0 + 8) >= 0x18)
         return -1;
-    g_02146A88[0x10] = c;
+    ((int *)g_02146A88)[0x10] = c;
     r = func_020525A0((void *)p[0], a, (void (*)(void *))b);
-    g_02146A88[0x10] = 0;
+    ((int *)g_02146A88)[0x10] = 0;
     p[2] = r;
     return r;
 }

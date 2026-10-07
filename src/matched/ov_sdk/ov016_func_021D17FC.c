@@ -18,6 +18,8 @@
  *   g_021DE658     0x021DE658  data
  */
 
+#include "../include/G_MemWinT.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -38,7 +40,7 @@ typedef struct {
 extern void func_021D7724();
 extern void *func_021D7680();
 extern void func_021D1B3C(void *task);
-extern MemWinT *g_021DE658;
+extern struct MemWinT *g_021DE658;
 
 void func_021D17FC(void *task)
 {

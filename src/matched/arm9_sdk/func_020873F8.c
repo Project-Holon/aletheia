@@ -18,6 +18,8 @@
  *   g_02151340            0x02151340  data
  */
 
+#include "../include/G_OsAlarmBss.h"
+
 typedef unsigned long long u64;
 typedef unsigned long u32;
 typedef unsigned short u16;
@@ -45,12 +47,9 @@ typedef struct OSAlarmQueue {
 } OSAlarmQueue;
 
 /* os_alarm.o .bss from 0x02151340, addressed from one pool word. */
-typedef struct OsAlarmBss {
-    u16 OSi_UseAlarm;
-    OSAlarmQueue OSi_AlarmQueue;
-} OsAlarmBss;
+typedef struct OsAlarmBss OsAlarmBss;
 
-extern OsAlarmBss g_02151340;
+extern struct OsAlarmBss g_02151340;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -68,7 +67,7 @@ void func_020873F8(OSAlarm *alarm)
 
     next = alarm->next;
     if (next == 0) {
-        g_02151340.OSi_AlarmQueue.tail = alarm->prev;
+        g_02151340.OSi_AlarmQueue_tail = alarm->prev;
     } else {
         next->prev = alarm->prev;
     }
@@ -76,7 +75,7 @@ void func_020873F8(OSAlarm *alarm)
     if (alarm->prev) {
         alarm->prev->next = next;
     } else {
-        g_02151340.OSi_AlarmQueue.head = next;
+        g_02151340.OSi_AlarmQueue_head = next;
         if (next) {
             OSi_SetTimer(next);
         }

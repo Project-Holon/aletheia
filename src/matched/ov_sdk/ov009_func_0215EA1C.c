@@ -21,6 +21,8 @@
  *   g_021A1CD8     0x021A1CD8  data
  */
 
+#include "../include/G_021A1CD8.h"
+
 typedef struct UdpData UdpData;
 struct UdpData {
 	UdpData *next;
@@ -49,18 +51,13 @@ typedef struct {
 	signed char flag_mode;
 } Socket;
 
-typedef struct {
-	unsigned char pad0[0x1c];
-	void (*func1c)(void *);
-} Config;
-
 extern void func_0215EB14(unsigned char *pipe);
 extern void func_02085800(void *queue);
 extern unsigned long func_02087988(void);
 extern void func_0215F31C(int a);
 extern void func_0215F3B8(int a);
 extern unsigned long func_0208799C(unsigned long state);
-extern Config *g_021A1CD8;
+extern struct G_021A1CD8 *g_021A1CD8;
 
 static inline int IsStream(Socket *socket)
 {
@@ -88,7 +85,7 @@ void func_0215EA1C(Socket *socket)
 		udpdata = socket->recv_pipe->udpdata.head;
 		while (udpdata) {
 			udpdata_next = udpdata->next;
-			g_021A1CD8->func1c(udpdata);
+			g_021A1CD8->free(udpdata);
 			udpdata = udpdata_next;
 		}
 		socket->recv_pipe->udpdata.size = 0;
@@ -102,6 +99,6 @@ void func_0215EA1C(Socket *socket)
 	enable = func_02087988();
 	func_0215F31C((int)socket);
 	func_0215F3B8((int)socket);
-	g_021A1CD8->func1c(socket);
+	g_021A1CD8->free(socket);
 	func_0208799C(enable);
 }

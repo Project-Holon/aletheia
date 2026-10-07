@@ -23,6 +23,8 @@
  *   g_021AA878     0x021AA878  data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef unsigned short u16;
 typedef unsigned long u32;
 
@@ -38,12 +40,7 @@ typedef struct {
     void *param;
 } Ctl;
 
-typedef struct {
-    int pad;
-    Ctl *ctl;
-} Root;
-
-extern Root g_021AA878;
+extern struct DwcGlobal g_021AA878;
 
 extern int func_02059F38(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
@@ -60,23 +57,23 @@ int func_0216B0E0(u16 *ingamesn, int reserved, void (*callback)(int, int, void *
 
     if (!ingamesn)
         return 0;
-    if (func_02059F38() || g_021AA878.ctl->state != 0)
+    if (func_02059F38() || ((Ctl *)g_021AA878.st)->state != 0)
         return 0;
-    g_021AA878.ctl->callback = callback;
-    g_021AA878.ctl->param = param;
+    ((Ctl *)g_021AA878.st)->callback = callback;
+    ((Ctl *)g_021AA878.st)->param = param;
     if (!ingamesn || ingamesn[0] == 0) {
         len = 0;
     } else {
-        MIi_CpuClear16(0, g_021AA878.ctl->ingamesn, 0x34);
+        MIi_CpuClear16(0, ((Ctl *)g_021AA878.st)->ingamesn, 0x34);
         len = (u32)func_021686E0(ingamesn) > 25 ? 25 : (u32)func_021686E0(ingamesn);
-        MIi_CpuCopy16(ingamesn, g_021AA878.ctl->ingamesn, len * 2);
+        MIi_CpuCopy16(ingamesn, ((Ctl *)g_021AA878.st)->ingamesn, len * 2);
     }
-    g_021AA878.ctl->ingamesn[len] = 0;
+    ((Ctl *)g_021AA878.st)->ingamesn[len] = 0;
     if (func_0205CA20() != 4) {
         func_0216A3B8(2, -60010);
         return 0;
     }
     func_0216BC84(1);
-    func_0217C750(g_021AA878.ctl->gamename);
+    func_0217C750(((Ctl *)g_021AA878.st)->gamename);
     return 1;
 }

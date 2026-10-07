@@ -13,6 +13,9 @@
  *   g_021F3ECC     0x021F3ECC  data
  *   func_021D77E8  0x021D77E8  thumb  ov093
  */
+
+#include "../include/G_Tbl.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct {
@@ -24,12 +27,12 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern Tbl g_021F3ECC;
+extern struct Tbl g_021F3ECC;
 extern int func_021D77E8(Tbl *p, int key);
 
 int func_021D76BC(int key, u32 val)
 {
-    Tbl *t = &g_021F3ECC;
+    Tbl *t = ((Tbl *)&g_021F3ECC);
     int i = func_021D77E8(t, key);
 
     if (i >= 0 && t->c[i] <= 1) {

@@ -48,11 +48,11 @@
  *   SND_FlushCommand          0x02089B38  arm
  */
 
+#include "../include/G_Ctl.h"
+
 typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned int u32;
-
-struct Ctl { s8 idx; u8 p01[3]; u32 pending; u32 tag; };
 
 extern struct Ctl g_0214BAC0;
 extern u8 g_0214BB00[];
@@ -73,16 +73,16 @@ u32 func_020727B4(void)
         if (SND_IsFinishedCommandTag(g_0214BAC0.tag) == 0)
             return 0;
 
-        if (g_0214BAC0.idx < 0)
-            g_0214BAC0.idx = 1;
+        if (g_0214BAC0.b00 < 0)
+            g_0214BAC0.b00 = 1;
 
-        SND_ReadDriverInfo(&g_0214BB00[g_0214BAC0.idx * 0x11E0]);
+        SND_ReadDriverInfo(&g_0214BB00[g_0214BAC0.b00 * 0x11E0]);
         g_0214BAC0.tag = SND_GetCurrentCommandTag();
-        if (g_0214BAC0.idx == 0)
-            g_0214BAC0.idx = 1;
+        if (g_0214BAC0.b00 == 0)
+            g_0214BAC0.b00 = 1;
         else
-            g_0214BAC0.idx = 0;
-        DC_InvalidateRange(&g_0214BB00[g_0214BAC0.idx * 0x11E0], 0x11E0);
+            g_0214BAC0.b00 = 0;
+        DC_InvalidateRange(&g_0214BB00[g_0214BAC0.b00 * 0x11E0], 0x11E0);
         SND_FlushCommand(0);
         return 1;
     }

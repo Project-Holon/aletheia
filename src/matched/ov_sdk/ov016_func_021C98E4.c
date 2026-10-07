@@ -26,6 +26,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C98E4.c \
  *       --func setOffset --addr 0x021C98E4 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -89,7 +92,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -133,28 +136,28 @@ void setOffset(void)
 
     cell = FX_DivS32(scenesetlist_bss.Pos, 29);
     dif = 0x34 - FX_ModS32(scenesetlist_bss.Pos, 29);
-    if (scenesetlist_bss.MemSsl->icon) {
+    if (((MEMSSL *)scenesetlist_bss.MemSsl)->icon) {
         if (!cell)
             x = 38;
         else
             x = 256;
-        G2_SetOBJPosition(scenesetlist_bss.MemSsl->icon, x, dif);
+        G2_SetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->icon, x, dif);
     }
     for (i = 0, cy = dif; i < 5; i++, cy += 29) {
-        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[i], (unsigned long *)&x, (unsigned long *)&y);
-        G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[i], x, cy);
+        G2_GetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[i], (unsigned long *)&x, (unsigned long *)&y);
+        G2_SetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[i], x, cy);
     }
     if (cell <= 2) {
-        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[5], (unsigned long *)&x, (unsigned long *)&y);
-        G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[5], x, (2 - cell) * 29 + dif);
+        G2_GetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[5], (unsigned long *)&x, (unsigned long *)&y);
+        G2_SetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[5], x, (2 - cell) * 29 + dif);
     } else {
-        G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[5], 256, 0);
+        G2_SetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[5], 256, 0);
     }
     if (cell >= 2 && cell <= 6) {
-        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[6], (unsigned long *)&x, (unsigned long *)&y);
-        G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[6], x, (6 - cell) * 29 + dif);
+        G2_GetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[6], (unsigned long *)&x, (unsigned long *)&y);
+        G2_SetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[6], x, (6 - cell) * 29 + dif);
     } else {
-        G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[6], 256, 0);
+        G2_SetOBJPosition(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[6], 256, 0);
     }
-    scenesetlist_bss.MemSsl->renew = 1;
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->renew = 1;
 }

@@ -23,12 +23,14 @@
  *   func_021CCE58  0x021CCE58  arm  ov016
  */
 
+#include "../include/G_FocusState.h"
+
 extern signed char func_021BCB14(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021CD108(void);
 extern void func_021C0E40(unsigned int v);
 typedef struct { signed char last; signed char cur; unsigned char flag; void *screen; } FocusState;
-extern FocusState g_021DE614;
+extern struct FocusState g_021DE614;
 extern void func_021CCE58(void);
 
 void func_021CCE04(void)

@@ -20,25 +20,28 @@
  *   g_021ADFE0   0x021ADFE0  data
  */
 
+#include "../include/G_StatsSocket.h"
+#include "../include/G_StatsConn.h"
+
 extern int func_0217EB9C(int sock, int how);
 extern int func_0217EB2C(int sock);
 extern void func_02194614(void);
 extern void func_0217EAE0(void *ptr);
-extern int g_021A57C8[];
-extern int g_021ADFE0[];
+extern struct StatsSocket g_021A57C8;
+extern struct StatsConn g_021ADFE0;
 
 void func_02193D00(void)
 {
-    if (g_021A57C8[1] != -1) {
-        func_0217EB9C(g_021A57C8[1], 2);
-        func_0217EB2C(g_021A57C8[1]);
+    if (((int *)&g_021A57C8)[1] != -1) {
+        func_0217EB9C(((int *)&g_021A57C8)[1], 2);
+        func_0217EB2C(((int *)&g_021A57C8)[1]);
     }
-    g_021A57C8[1] = -1;
+    ((int *)&g_021A57C8)[1] = -1;
     func_02194614();
-    if (g_021ADFE0[10] != 0) {
-        func_0217EAE0((void *)g_021ADFE0[10]);
-        g_021ADFE0[10] = 0;
-        g_021ADFE0[6] = 0;
-        g_021ADFE0[2] = 0;
+    if (((int *)&g_021ADFE0)[10] != 0) {
+        func_0217EAE0((void *)((int *)&g_021ADFE0)[10]);
+        ((int *)&g_021ADFE0)[10] = 0;
+        ((int *)&g_021ADFE0)[6] = 0;
+        ((int *)&g_021ADFE0)[2] = 0;
     }
 }

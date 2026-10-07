@@ -36,13 +36,16 @@
  * func_021CA1B4 0x021CA1B4 arm ov114
  * d_021CF634 0x021CF634 data a4
  */
+
+#include "../include/G_Six.h"
+
 extern void *d_021D3D28;
 typedef unsigned char u8;
 typedef struct { unsigned int words[6]; unsigned char pad[2], byte; unsigned char gap[0x1c8-0x1b]; unsigned int x; } State;
 typedef struct { u8 a,b,c,d,e,f; } Six;
 extern State d_021D3D2C;
 extern unsigned int d_021CF538[], d_021CF634[];
-extern Six d_021D3D40;
+extern struct Six d_021D3D40;
 extern void func_021C9EE4(int server, char *initdata);
 extern int func_021CA470(void *, unsigned, void *, unsigned, unsigned);
 extern void func_021CA1B4(void);
@@ -51,7 +54,7 @@ void func_021C8B18(const Six *p, int x, unsigned int y)
 {
     Six *o;
     u8 a, b, c, d, e, f;
-    o = &d_021D3D40;
+    o = ((Six *)&d_021D3D40);
     d_021D3D2C.x = y;
     a = p->a; b = p->b; c = p->c; d = p->d; e = p->e; f = p->f;
     o->f = f;
@@ -62,7 +65,7 @@ void func_021C8B18(const Six *p, int x, unsigned int y)
     o->e = e;
     d_021D3D2C.byte = x;
     func_021C9EE4((int)d_021D3D28, (char *)d_021CF538);
-    if (func_021CA470(d_021CF634, d_021D3D2C.words[2], &d_021D3D40, 7, 0) == 0) {
+    if (func_021CA470(d_021CF634, d_021D3D2C.words[2], ((Six *)&d_021D3D40), 7, 0) == 0) {
         d_021D3D2C.words[0] = 14;
         return;
     }

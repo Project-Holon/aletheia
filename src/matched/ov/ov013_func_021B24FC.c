@@ -15,6 +15,8 @@
  *   func_021B2724  0x021B2724  arm  ov013
  */
 
+#include "../include/G_Pool.h"
+
 typedef unsigned char u8;
 
 typedef struct Ctx {
@@ -26,13 +28,10 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-typedef struct Pool {
-    Node *head;
-    Node *freeList;
-} Pool;
+typedef struct Pool Pool;
 
 extern Ctx d_021B60D8;
-extern Pool d_021B4BE0;
+extern struct Pool d_021B4BE0;
 extern void func_021B2724(Node *n, unsigned int idx);
 
 Node *func_021B24FC(unsigned int idx)
@@ -43,12 +42,12 @@ Node *func_021B24FC(unsigned int idx)
         return 0;
     if (idx == d_021B60D8.b0)
         return 0;
-    n = d_021B4BE0.head;
+    n = d_021B4BE0.nodes;
     if (n == 0)
         return 0;
-    d_021B4BE0.head = n->next;
+    d_021B4BE0.nodes = n->next;
     func_021B2724(n, idx);
-    n->next = d_021B4BE0.freeList;
-    d_021B4BE0.freeList = n;
+    n->next = d_021B4BE0.head;
+    d_021B4BE0.head = n;
     return n;
 }

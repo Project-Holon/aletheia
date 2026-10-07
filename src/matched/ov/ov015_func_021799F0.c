@@ -17,9 +17,11 @@
  *   d_0217AB80  0x0217AB80  data  ov015  a1
  */
 
-extern unsigned char d_0217AB80[];
+#include "../include/G_State.h"
+
+extern struct State d_0217AB80;
 
 unsigned char func_021799F0(void)
 {
-    return d_0217AB80[0xc];
+    return ((unsigned char *)&d_0217AB80)[0xc];
 }

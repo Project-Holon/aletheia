@@ -17,14 +17,16 @@
 
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 
 void func_0216BC84(int v)
 {
-    char *p = *(char **)(g_021AA878 + 4);
+    char *p = *(char **)(((char *)&g_021AA878) + 4);
 
     *(int *)(p + 0x28) = *(int *)(p + 0x24);
-    p = *(char **)(g_021AA878 + 4);
+    p = *(char **)(((char *)&g_021AA878) + 4);
     *(int *)(p + 0x24) = v;
 }
 

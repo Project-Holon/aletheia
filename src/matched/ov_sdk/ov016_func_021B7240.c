@@ -26,6 +26,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B7240.c \
  *       --func AstsSetSecureRes --addr 0x021B7240 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_BSS.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -63,7 +66,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct SEND_INFO SEND_INFO;
 
@@ -181,7 +184,7 @@ int AstsSetSecureRes(int Mode, RECV_INFO *recv_info, int *Retry, SEQID_INFO *pSe
         (*Retry)++;
         return Mode;
     }
-    if ((aoss_bss.gData.aLevel & aoss_bss.gData.sLevel) == 0)
+    if ((aoss_bss.gData_aLevel & aoss_bss.gData_sLevel) == 0)
         return Mode;
     *Retry = 0;
     return 2;

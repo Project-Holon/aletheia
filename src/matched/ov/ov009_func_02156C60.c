@@ -16,7 +16,9 @@
  *   func_02156BD8  0x02156BD8  thumb  ov009
  */
 
-extern char *g_021A8264;
+#include "../include/G__anon_Work.h"
+
+extern struct _anon_Work *g_021A8264;
 typedef unsigned int   u32;
 extern void func_02156BD8(u32 i);
 
@@ -28,6 +30,6 @@ void func_02156C60(void)
         func_02156BD8(i);
     }
 
-    *(unsigned char *)(g_021A8264 + 0x7a6) = 1;
+    *(unsigned char *)(((char *)g_021A8264) + 0x7a6) = 1;
 }
 

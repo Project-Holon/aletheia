@@ -17,6 +17,7 @@
 
  */
 #include "../include/Obj18651.h"
+#include "../include/G__anon_Work.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ typedef signed char    s8;
 
 void func_021563D0(void)
 {
-    extern char *g_021A8264;
+    extern struct _anon_Work *g_021A8264;
     void func_021AF13C(void);
-    if (((struct Obj18651 *)g_021A8264)->f76C) func_021AF13C();
+    if (((struct Obj18651 *)((char *)g_021A8264))->f76C) func_021AF13C();
 }

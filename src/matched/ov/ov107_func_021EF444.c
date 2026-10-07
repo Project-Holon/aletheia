@@ -33,12 +33,13 @@
  *   d_021F6EA0 0x021F6EA0 data a4
  */
 #include "../include/Obj00057.h"
+#include "../include/G_Counter.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor;struct MsgBank;struct Rec;struct U16Vec;struct CharBuf;struct Cfg;
-extern u8 d_021F6EA0[];
+extern struct Counter d_021F6EA0;
 extern void func_02040588(u32 which, unsigned char enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -61,8 +62,8 @@ void func_021EF444(u8 *p) {
  u32 bg,window;
  void *archive,*text;
  struct MsgBank *bank;
- if(!p[0x28]) {*(u32 *)(d_021F6EA0+4)=1;bg=4;}
- else {*(u32 *)(d_021F6EA0+4)=0;bg=2;}
+ if(!p[0x28]) {*(u32 *)(((u8 *)&d_021F6EA0)+4)=1;bg=4;}
+ else {*(u32 *)(((u8 *)&d_021F6EA0)+4)=0;bg=2;}
  func_02040588(bg,0);
  archive=func_020490F4(22,((struct Obj00057 *)p)->f0);
  func_02049B68((void *)((u32)archive),0,4,224,32,((struct Obj00057 *)p)->f0);

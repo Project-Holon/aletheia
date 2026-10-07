@@ -19,13 +19,15 @@
  *       --func func_0203D814 --addr 0x0203D814 --arm --cc 1.1p1
  */
 
+#include "../include/G_Singleton.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 g_021469E0[];
+extern struct Singleton g_021469E0;
 
 void func_0203D814(u32 a, u32 b)
 {
-    *(u32 *)(g_021469E0 + 0xc) = a;
-    *(u32 *)(g_021469E0 + 4) = b;
+    *(u32 *)(((u8 *)&g_021469E0) + 0xc) = a;
+    *(u32 *)(((u8 *)&g_021469E0) + 4) = b;
 }

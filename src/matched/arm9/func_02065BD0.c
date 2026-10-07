@@ -38,6 +38,11 @@
  *   func_02082AC0  0x02082AC0  arm
  *   func_02064E3C  0x02064E3C  arm
  */
+
+#include "../include/G_Scr.h"
+#include "../include/G_Aff.h"
+#include "../include/G_SlotRec.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -54,9 +59,9 @@ struct Bank {
 struct Ent { u8 pad_00[0x10]; u8 unk_10[0x10]; };
 
 extern struct Bank g_02147B88;
-extern struct Ent  g_02148318[];
-extern u8          g_02147C18[];
-extern u16 g_020A81F8;
+extern struct Aff g_02148318[];
+extern struct SlotRec g_02147C18;
+extern struct Scr g_020A81F8;
 extern void func_02082AC0(u32 value, void *dst, u32 size);
 extern void func_02064E3C(void);
 
@@ -67,11 +72,11 @@ void func_02065BD0(void *obj)
 
     g_02147B88.obj = obj;
     g_02147B88.unk_0c = 0;
-    *(volatile u16 *)&g_020A81F8 = 0xfffe;
+    *(volatile u16 *)&(*(u16 *)&g_020A81F8) = 0xfffe;
 
     i = 0;
     if (i < ((volatile struct Bank *)&g_02147B88)->count) {
-        p = g_02148318;
+        p = ((struct Ent *)g_02148318);
         do {
             func_02082AC0((u32)-1, p->unk_10, 0x10);
             i++;
@@ -81,7 +86,7 @@ void func_02065BD0(void *obj)
 
     g_02147B88.count = 0;
     g_02147B88.unk_02 = 0;
-    func_02082AC0(0, g_02147C18, 0x100);
+    func_02082AC0(0, ((u8 *)&g_02147C18), 0x100);
 
     *(volatile u32 *)0x04000444 = 0;
     *(volatile u32 *)0x04000454 = 0;

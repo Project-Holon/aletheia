@@ -21,13 +21,9 @@
  *       --func func_0203F4CC --addr 0x0203F4CC --cc 1.1p1 --arm
  */
 
-typedef unsigned int u32;
+#include "../include/G_RtcTime.h"
 
-struct RtcTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-};
+typedef unsigned int u32;
 
 extern struct RtcTime g_02146A1C;
 

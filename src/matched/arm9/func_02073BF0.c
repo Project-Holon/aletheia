@@ -24,12 +24,14 @@
  * with two mutations: declaration order step, i, base, and the slot's
  * buffer address bound to its own local before the add.
  */
+
+#include "../include/G_SlotDesc.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
 
-struct Ent { u32 a; u32 b; };
-extern struct Ent g_0214E934[];
+extern struct SlotDesc g_0214E934[];
 extern u32 g_0214E8F4[];
 
 struct Obj {

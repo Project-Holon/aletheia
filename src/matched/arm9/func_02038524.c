@@ -13,11 +13,13 @@
  *   func_02039160 0x02039160  arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *g_021469D0;
+extern struct LinkState *g_021469D0;
 extern u32 func_02039160(u16 a);
 
 int func_02038524(void)
@@ -25,7 +27,7 @@ int func_02038524(void)
     int i;
 
     for (i = 0; i < 8; i++) {
-        if (func_02039160((u16)i) != 0 && *(int *)(g_021469D0 + 0x1b4 + i * 4) > 0) {
+        if (func_02039160((u16)i) != 0 && *(int *)(((u8 *)g_021469D0) + 0x1b4 + i * 4) > 0) {
             return 0;
         }
     }

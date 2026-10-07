@@ -27,6 +27,8 @@
  *   g_021DBFE0  0x021DBFE0  data
  */
 
+#include "../include/G_MemArc.h"
+
 typedef struct { unsigned char b[0x48]; } FSFile;
 typedef struct { unsigned char pad[0x84]; void *queue; } MemArc;
 
@@ -45,7 +47,7 @@ extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern int func_02078A80(FSFile *file);
 extern void func_020834C0(void *src, void *dst);
 extern void func_021D6438(void **mem);
-extern MemArc *g_021DE66C;
+extern struct MemArc *g_021DE66C;
 extern char g_021DBFE0[];
 
 void *func_021D4B68(char *path, unsigned long *size, int alignment)

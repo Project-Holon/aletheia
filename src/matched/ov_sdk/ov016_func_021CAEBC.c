@@ -24,6 +24,9 @@
  *   func_021CB0A8  0x021CB0A8  arm
  *   g_021DE5FC  0x021DE5FC  data  a1
  */
+
+#include "../include/G_021DE5FC.h"
+
 extern int func_021D5580(int x);
 extern int func_021BCB58(void);
 extern void func_021BC8EC(void);
@@ -35,13 +38,13 @@ extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E40(unsigned int v);
 extern void func_021CC998(void);
 extern void func_021CB0A8(void);
-extern unsigned char g_021DE5FC;
+extern struct G_021DE5FC g_021DE5FC;
 
 void func_021CAEBC(void)
 {
     if (func_021D5580(0) != 0)
         return;
-    if (g_021DE5FC == 0) {
+    if ((*(unsigned char *)&g_021DE5FC) == 0) {
         if (func_021D5580(1) != 0)
             return;
     }
@@ -49,12 +52,12 @@ void func_021CAEBC(void)
         return;
     func_021BC8EC();
     func_021D5CA8(0);
-    if (g_021DE5FC == 0) {
+    if ((*(unsigned char *)&g_021DE5FC) == 0) {
         func_021BD138();
         func_021D6090(1, 1);
     }
     func_021C14F4();
-    if (g_021DE5FC == 0) {
+    if ((*(unsigned char *)&g_021DE5FC) == 0) {
         func_021C0E50(2, 1);
         func_021C0E40((unsigned int)func_021CC998);
     } else {

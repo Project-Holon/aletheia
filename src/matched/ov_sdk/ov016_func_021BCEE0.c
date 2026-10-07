@@ -19,27 +19,19 @@
  *   g_021DE508_b  0x021DE508  data
  */
 
+#include "../include/G_tagMEMBTN.h"
+
 typedef _Bool bool;
 
-typedef struct tagMEMBTN {
-    void *cellButton[2];
-    void *cellBack;
-    void *task;
-    void *release;
-    unsigned short count;
-    signed char input;
-    unsigned char kind;
-    bool disable;
-    bool end;
-} MEMBTN;
+typedef struct tagMEMBTN MEMBTN;
 
-extern MEMBTN *g_021DE508;
+extern struct tagMEMBTN *g_021DE508;
 
 extern void func_021D7724(int kind, void *task);
 typedef unsigned char  u8;
 extern void func_021D4F60(u8 *p);
 extern void func_021D6438(void **mem);
-extern MEMBTN *g_021DE508_b;
+extern struct tagMEMBTN *g_021DE508_b;
 
 void func_021BCEE0(void *task)
 {

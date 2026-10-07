@@ -15,9 +15,11 @@
  *   func_02177660  0x02177660  thumb  ov014
  */
 
+#include "../include/G_W.h"
+
 typedef unsigned char u8;
 
-extern u8 *g_021797A4;
+extern struct W *g_021797A4;
 extern int func_02179498(void);
 typedef unsigned int   u32;
 extern void func_0217727C(u32 *p, u32 v);
@@ -25,13 +27,13 @@ extern void func_02177660(u8 *p);
 
 int func_021776C4(void)
 {
-    u8 *w = g_021797A4;
+    u8 *w = ((u8 *)g_021797A4);
 
     if (w == 0)
         return 1;
     if (w[0xCE7] == 0 && func_02179498() != 0) {
         w[0xCF5] = 0xFF;
-        func_0217727C((u32 *)g_021797A4, (u32)func_02177660);
+        func_0217727C((u32 *)((u8 *)g_021797A4), (u32)func_02177660);
         return 1;
     }
     return 0;

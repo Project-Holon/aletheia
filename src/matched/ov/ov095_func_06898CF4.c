@@ -17,13 +17,15 @@
  *   g_0689E7E0     0x0689E7E0  data
  */
 
+#include "../include/G_Row.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 g_0689E7E0[];
+extern struct Row g_0689E7E0;
 
 int func_06898CF4(int a, int b)
 {
-    return *(u32 *)(g_0689E7E0 + a * 0xe0 + b * 16) != 0;
+    return *(u32 *)(((u8 *)&g_0689E7E0) + a * 0xe0 + b * 16) != 0;
 }

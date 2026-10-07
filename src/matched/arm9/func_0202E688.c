@@ -50,6 +50,8 @@
  *       --func func_0202E688 --addr 0x0202E688 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_Glb.h"
+
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
@@ -85,7 +87,7 @@ static inline s16 FX_CosIdx(int idx)
 extern s16      g_020A2B38[];
 extern u32      g_02148B54[];
 extern u32      g_02148B98[];
-extern u32      g_02148BCC[];
+extern struct Glb g_02148BCC;
 extern VecFx32  g_02148D8C;
 extern VecFx32  g_02148D98;
 extern VecFx32  g_02148DA4;
@@ -112,12 +114,12 @@ void func_0202E688(u32 a0)
 
     MTX_Perspective(FX_SinIdx(0xE38), FX_CosIdx(0xE38), 0x1555, 0x1000,
                     0x400000, g_02148B54);
-    g_02148BCC[31] &= ~0x50u;
+    ((u32 *)&g_02148BCC)[31] &= ~0x50u;
     g_02148D8C = cam;
     g_02148D98 = tgt;
     g_02148DA4 = up;
     MTX_LookAt(&cam, &tgt, &up, g_02148B98);
-    g_02148BCC[31] &= ~0xe8u;
+    ((u32 *)&g_02148BCC)[31] &= ~0xe8u;
     MTX_RotX33_(&buf.m, g_020A2B38[0], g_020A2B38[1]);
     func_02047A60((void *)a0, (struct Arg *)buf.f);
 }

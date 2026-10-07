@@ -16,6 +16,8 @@
  *   disableBankForX_   0x02080A18  arm
  */
 
+#include "../include/G_GX_State.h"
+
 typedef long fx32;
 typedef short fx16;
 typedef unsigned char u8;
@@ -79,10 +81,10 @@ typedef enum {
     GX_VRAM_I = 0x0100
 } GXVRam;
 
-extern GX_State gGXState;
+extern struct GX_State gGXState;
 extern int disableBankForX_(u16 *g3bit);
 
 GXVRam func_02080AEC(void)
 {
-    return (GXVRam)disableBankForX_(&gGXState.vramCnt.obj);
+    return (GXVRam)disableBankForX_(&gGXState.vramCnt_obj);
 }

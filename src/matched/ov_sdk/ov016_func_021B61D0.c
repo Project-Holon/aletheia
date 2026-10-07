@@ -32,6 +32,10 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B61D0.c \
  *       --func AOSSi_Init --addr 0x021B61D0 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_BSS.h"
+#include "../include/G_AOSS_DATA_SECTION.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -69,7 +73,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct {
     unsigned char  pad00[0x10];
@@ -85,7 +89,7 @@ typedef struct {
     SOCConfig soconfig;
 } AOSS_DATA_SECTION;
 
-extern AOSS_DATA_SECTION aoss_data;
+extern struct AOSS_DATA_SECTION aoss_data;
 
 struct product_info {
     unsigned short reserved;    /* DWARF gives the size only; member names are not the vendor's */

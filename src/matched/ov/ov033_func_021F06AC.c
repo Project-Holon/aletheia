@@ -20,6 +20,7 @@
  *   d_021F0DF0 0x021F0DF0 data ov033 a4
  */
 #include "../include/Obj09802.h"
+#include "../include/G_ov033_021F0DF0.h"
 
 typedef struct {
     unsigned f00;
@@ -28,7 +29,7 @@ typedef struct {
     unsigned f28;
 } E;
 
-extern E d_021F0DF0[];
+extern struct G_ov033_021F0DF0 d_021F0DF0[];
 extern void func_02040588(unsigned char which, unsigned char enable);
 struct BgTemplate;
 extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
@@ -50,7 +51,7 @@ void func_021F06AC(char *p)
     for (i = 4; i <= 7; i++)
         func_02040588((unsigned char)i, (unsigned char)0);
     for (j = 0; j < 2; j++) {
-        e = &d_021F0DF0[j];
+        e = &((E *)d_021F0DF0)[j];
         id = e->f00;
         func_0203FCA0((unsigned char)id, (const struct BgTemplate *)e->f04, (unsigned char)e->f24);
         func_020414AC(id);

@@ -15,14 +15,16 @@
  *   func_02034714  0x02034714  arm
  */
 
-extern unsigned char d_0217AB80[];
+#include "../include/G_State.h"
+
+extern struct State d_0217AB80;
 extern unsigned char d_0217AAAC[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_021799CC(void)
 {
-    if (d_0217AB80[0xc] != 0)
+    if (((unsigned char *)&d_0217AB80)[0xc] != 0)
         func_02034714((const char *)d_0217AAAC, 0, (const char *)d_0217AAAC);
-    d_0217AB80[0xc] = 1;
+    ((unsigned char *)&d_0217AB80)[0xc] = 1;
 }

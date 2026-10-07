@@ -31,6 +31,7 @@
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00704.h"
+#include "../include/G_Glb.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -45,7 +46,7 @@ typedef struct {
     u32 flag;
 } Glb;
 
-extern Glb g_02148BCC;
+extern struct Glb g_02148BCC;
 
 extern void func_0219047C(u8 *p);
 extern void func_0218CC64(char *p, int a, int m);

@@ -24,7 +24,9 @@
  *   func_0216F20C  0x0216F20C  arm  ov009
  */
 
-extern char g_021AAA20[];
+#include "../include/G_NNThinkGlobal.h"
+
+extern struct NNThinkGlobal g_021AAA20;
 struct ServerBrowser;
 extern int func_02175F3C(void);
 extern void func_0219ED4C(struct ServerBrowser *sb);
@@ -42,8 +44,8 @@ void func_0216F6C0(void)
         return;
     }
     if (*(void **)(func_02175F3C() + 0x5e0) != 0) {
-        if (*(int *)(g_021AAA20 + 0x14) != 0) {
-            *(int *)(g_021AAA20 + 0x10) = 1;
+        if (*(int *)(((char *)&g_021AAA20) + 0x14) != 0) {
+            *(int *)(((char *)&g_021AAA20) + 0x10) = 1;
         } else {
             func_0219ED4C(*(void **)(func_02175F3C() + 0x5e0));
             *(void **)(func_02175F3C() + 0x5e0) = 0;
@@ -51,9 +53,9 @@ void func_0216F6C0(void)
     }
     func_02176B34();
     func_02175F4C(0);
-    if (*(void **)(g_021AAA20 + 0xc) != 0) {
-        DWC_Free(4, *(void **)(g_021AAA20 + 0xc), 0);
-        *(void **)(g_021AAA20 + 0xc) = 0;
+    if (*(void **)(((char *)&g_021AAA20) + 0xc) != 0) {
+        DWC_Free(4, *(void **)(((char *)&g_021AAA20) + 0xc), 0);
+        *(void **)(((char *)&g_021AAA20) + 0xc) = 0;
     }
     func_02173B18();
     *(unsigned char *)(func_02175F3C() + 0x4c) = 1;

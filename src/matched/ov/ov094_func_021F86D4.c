@@ -13,7 +13,9 @@
  *   g_0220AF20  0x0220AF20  data
  */
 
-extern void *g_0220AF20;
+#include "../include/G_0220AF20.h"
+
+extern struct G_0220AF20 *g_0220AF20;
 
 void *func_021F86D4(void)
 {

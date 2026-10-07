@@ -16,6 +16,10 @@
  *   d_021F6EAC 0x021F6EAC data a4
  *   d_021F6EB4 0x021F6EB4 data a4
  */
+
+#include "../include/G_Zero.h"
+#include "../include/G_Masks.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,8 +27,8 @@ extern u32 func_02087988(void);
 extern u32 func_0208799C(u32);
 extern void func_02082D44(const void *, void *, u32);
 typedef struct {u8 pad[10];u16 f0A;} Masks;
-extern Masks d_021F6EAC;
-extern u8 d_021F6EB4[];
+extern struct Masks d_021F6EAC;
+extern struct Zero d_021F6EB4;
 typedef struct {u16 f00,f02,f04,f06,f08,f0A,f0C,f0E,f10,f12;} Snapshot;
 int func_021F0D34(u16 aid)
 {
@@ -37,7 +41,7 @@ int func_021F0D34(u16 aid)
         func_0208799C(state);
         return 0;
     }
-    func_02082D44(d_021F6EB4, &snap, 20);
+    func_02082D44(((u8 *)&d_021F6EB4), &snap, 20);
     func_0208799C(state);
     if (snap.f04 & bit) return 2;
     if (snap.f06 & bit) return 3;

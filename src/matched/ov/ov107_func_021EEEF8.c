@@ -13,7 +13,10 @@
  *   d_021F6EA0 0x021F6EA0 data a4
  *   func_02040618 0x02040618 arm
  */
+
+#include "../include/G_Counter.h"
+
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 typedef struct {u16 f0;volatile u16 f2;} Counter;
-extern Counter d_021F6EA0; extern void func_02040618(unsigned,unsigned,unsigned);
+extern struct Counter d_021F6EA0; extern void func_02040618(unsigned,unsigned,unsigned);
 void func_021EEEF8(void) { d_021F6EA0.f2++; if(d_021F6EA0.f2>=5){d_021F6EA0.f2=0;func_02040618(3,5,1);func_02040618(7,5,1);} }

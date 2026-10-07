@@ -45,9 +45,11 @@
  *       --func sub_020104F8 --addr 0x020104F8 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_WihCtx.h"
+
 typedef unsigned char u8;
 
-extern u8 *g_021461E0;
+extern struct WihCtx g_021461E0;
 
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -60,11 +62,11 @@ int sub_020104F8(u8 *obj)
     u8 *q = obj + 0xC;
 
     for (; i < 3; i++) {
-        u8 *slot = *(u8 **)(g_021461E0 + 0x304) + 0x640 + i * 0x100;
+        u8 *slot = *(u8 **)((*(u8 * *)&g_021461E0) + 0x304) + 0x640 + i * 0x100;
         int n = func_0203F004(slot);
 
         if (n > 0) {
-            slot = *(u8 **)(g_021461E0 + 0x304) + 0x640 + i * 0x100;
+            slot = *(u8 **)((*(u8 * *)&g_021461E0) + 0x304) + 0x640 + i * 0x100;
             if (func_0203EFC8(slot, q, n) == 0)
                 return 1;
         }

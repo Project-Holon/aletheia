@@ -17,13 +17,15 @@
  *   g_0217AC90     0x0217AC90  data
  */
 
+#include "../include/G_IRCParam.h"
+
 extern long func_02084EB8(void);
 extern unsigned short g_0217AAB4;
-extern int g_0217AC90;
+extern struct IRCParam g_0217AC90;
 
 void func_0217A60C(void)
 {
-    g_0217AC90 = 1;
+    (*(int *)&g_0217AC90) = 1;
     if (g_0217AAB4 != 0xFFFD)
         return;
     g_0217AAB4 = func_02084EB8();

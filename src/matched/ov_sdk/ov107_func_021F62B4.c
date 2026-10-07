@@ -14,14 +14,17 @@
  * symbols:
  *   d_021F6F90   0x021F6F90  data
  */
+
+#include "../include/G_WmBase.h"
+
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern char d_021F6F90[];
+extern struct WmBase d_021F6F90;
 
 unsigned char MBi_GetAttribute(void)
 {
-    char *base = *(char **)(d_021F6F90 + 0xC);
+    char *base = *(char **)(((char *)&d_021F6F90) + 0xC);
 
     return (*(u16 *)(base + 0xE) ? 1 : 0) | (*(u16 *)(base + 0x12) ? 2 : 0) |
            (*(u16 *)(base + 0x14) ? 4 : 0) | (*(u16 *)(base + 0x16) ? 8 : 0);

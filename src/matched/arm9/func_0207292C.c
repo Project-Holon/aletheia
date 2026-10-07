@@ -35,10 +35,7 @@
  *       --func func_0207292C --addr 0x0207292C --cc ../2.0/sp2 --arm
  */
 
-struct Global0214DEC0 {
-    char pad[8];
-    int flags8;
-};
+#include "../include/G_Global0214DEC0.h"
 
 extern struct Global0214DEC0 g_0214DEC0;
 typedef unsigned int   u32;

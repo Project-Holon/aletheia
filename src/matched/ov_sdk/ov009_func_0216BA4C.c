@@ -24,6 +24,8 @@
  *   g_021AA878  0x021AA878  data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef struct DwcState {
 	void *gt2Socket;
 	unsigned char pad0a[0x10];
@@ -43,12 +45,9 @@ typedef struct DwcState {
 	unsigned char updateBuf1[0x100];
 } DwcState;
 
-typedef struct DwcGlobal {
-	int lastSocketError;
-	DwcState *st;
-} DwcGlobal;
+typedef struct DwcGlobal DwcGlobal;
 
-extern DwcGlobal g_021AA878;
+extern struct DwcGlobal g_021AA878;
 
 extern unsigned long func_021685CC(unsigned long max);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
@@ -65,13 +64,13 @@ int func_0216BA4C(void)
 	int gt2Result;
 	unsigned short baseport;
 
-	if (g_021AA878.st->gt2Socket != 0)
+	if (((DwcState *)g_021AA878.st)->gt2Socket != 0)
 		return 0;
 	baseport = func_021685CC(0x4000) + 0xc000;
-	gt2Result = func_02195AB4(&g_021AA878.st->gt2Socket, func_02198620(0, baseport, 0), g_021AA878.st->outSize, g_021AA878.st->inSize, func_0216C7A8);
+	gt2Result = func_02195AB4(&((DwcState *)g_021AA878.st)->gt2Socket, func_02198620(0, baseport, 0), ((DwcState *)g_021AA878.st)->outSize, ((DwcState *)g_021AA878.st)->inSize, func_0216C7A8);
 	if (func_0216BE00(gt2Result))
 		return gt2Result;
-	func_02195B20(g_021AA878.st->gt2Socket, (int)func_0216E5B0);
-	func_02195E68(g_021AA878.st->gt2Socket, (int)func_0216E4C0);
+	func_02195B20(((DwcState *)g_021AA878.st)->gt2Socket, (int)func_0216E5B0);
+	func_02195E68(((DwcState *)g_021AA878.st)->gt2Socket, (int)func_0216E4C0);
 	return gt2Result;
 }

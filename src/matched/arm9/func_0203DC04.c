@@ -19,19 +19,12 @@
  *   func_02039338  0x02039338  arm
  */
 
+#include "../include/G_Ctx.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-struct S0203DC04 {
-    u8 pad00[0x102];
-    u8 f102;
-    u8 pad103;
-    u8 pad104;
-    u8 f105;
-    u8 f106;
-};
-
-extern struct S0203DC04 *g_021469F0;
+extern struct Ctx *g_021469F0;
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 

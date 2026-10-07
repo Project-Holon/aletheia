@@ -45,6 +45,8 @@
  *       --func sub_0204A8D4 --addr 0x0204A8D4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -64,14 +66,7 @@ struct Slot {
     u32           unk_3c_31 : 1;
 };
 
-struct Sys {
-    u8            pad_000[0x104];
-    void         *unk_104;
-    void         *unk_108;
-    struct Slot  *slots;
-};
-
-extern struct Sys *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 struct Sentinel;
 extern int sub_02034640(struct Sentinel *p);
@@ -83,24 +78,24 @@ void sub_0204A8D4(u32 i)
 {
     void *payload;
 
-    if (sub_02034640((struct Sentinel *)(&g_02146A74->slots[i].unk_2c)) == 0) {
-        sub_020346B8(g_02146A74->unk_104, (struct Sentinel *)(&g_02146A74->slots[i].unk_2c));
+    if (sub_02034640((struct Sentinel *)(&g_02146A74->owner_slots[i].unk_2c)) == 0) {
+        sub_020346B8(g_02146A74->unk_104, (struct Sentinel *)(&g_02146A74->owner_slots[i].unk_2c));
     }
 
-    if (sub_02034640((struct Sentinel *)(&g_02146A74->slots[i].unk_34)) == 0) {
-        sub_020346B8(g_02146A74->unk_108, (struct Sentinel *)(&g_02146A74->slots[i].unk_34));
+    if (sub_02034640((struct Sentinel *)(&g_02146A74->owner_slots[i].unk_34)) == 0) {
+        sub_020346B8(g_02146A74->unk_108, (struct Sentinel *)(&g_02146A74->owner_slots[i].unk_34));
     }
 
-    payload = g_02146A74->slots[i].unk_24;
+    payload = g_02146A74->owner_slots[i].unk_24;
     if (payload != 0) {
-        if (g_02146A74->slots[i].unk_3c_0 == 0) {
+        if (g_02146A74->owner_slots[i].unk_3c_0 == 0) {
             sub_020307B0(payload);
         } else {
-            g_02146A74->slots[i].unk_3c_0 = 0;
+            g_02146A74->owner_slots[i].unk_3c_0 = 0;
         }
-        g_02146A74->slots[i].unk_24 = 0;
+        g_02146A74->owner_slots[i].unk_24 = 0;
     }
 
-    g_02146A74->slots[i].unk_3c_31 = 1;
-    g_02146A74->slots[i].unk_3c_1 = 0;
+    g_02146A74->owner_slots[i].unk_3c_31 = 1;
+    g_02146A74->owner_slots[i].unk_3c_1 = 0;
 }

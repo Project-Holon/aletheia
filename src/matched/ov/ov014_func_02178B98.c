@@ -19,12 +19,13 @@
  *   func_0209004C  0x0209004C  arm
  */
 #include "../include/Obj12474.h"
+#include "../include/G_S.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern u8 *g_021797A8;
+extern struct S *g_021797A8;
 void func_02178138(int a);
 void func_0217814C(int a);
 int func_02179498(void);
@@ -49,7 +50,7 @@ void func_02178B98(u8 *m)
     }
     switch (((struct Obj12474 *)m)->f4) {
     case 0xA:
-        if (*(u32 *)(g_021797A8 + 0x1E74) == 5) {
+        if (*(u32 *)(((u8 *)g_021797A8) + 0x1E74) == 5) {
             int r;
             int n;
 
@@ -59,7 +60,7 @@ void func_02178B98(u8 *m)
             c = 1;
             if (func_0203D5D4() == 2)
                 c = 0;
-            r = func_0209004C(g_021797A8 + 0x1444, 0xD, mask, (u16)who, c);
+            r = func_0209004C(((u8 *)g_021797A8) + 0x1444, 0xD, mask, (u16)who, c);
             if (r != 0) {
                 func_0217814C(r);
                 func_02179498();

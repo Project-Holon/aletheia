@@ -36,6 +36,9 @@
  *   procErase                        0x021CC740  arm   ov016
  *   endScene                         0x021CC208  arm   ov016
  */
+
+#include "../include/G_SCENESETSELECTAP_BSS.h"
+
 typedef _Bool bool;
 typedef unsigned char u8;
 typedef signed char s8;
@@ -44,12 +47,7 @@ struct SelApObj {
     u8 pad0[0x1d];
     u8 state;
 };
-struct SelApBss {
-    u8 FocusPos;
-    u8 pad[3];
-    struct SelApObj *obj;
-};
-extern struct SelApBss g_021DE60C;
+extern struct SCENESETSELECTAP_BSS g_021DE60C;
 extern const s8 g_021DA724[7];
 
 extern int DWCi_BTNlGet(void);
@@ -79,7 +77,7 @@ static void button(void)
         switch (DWCi_Entry()) {
         case 0:
             DWCi_SNDlPlay(7);
-            g_021DE60C.obj->state = 2;
+            ((struct SelApObj *)g_021DE60C.MemSssa)->state = 2;
             break;
         case 1:
             DWCi_BTNlDisable();
@@ -88,7 +86,7 @@ static void button(void)
         }
         break;
     case 1:
-        g_021DE60C.obj->state = 1;
+        ((struct SelApObj *)g_021DE60C.MemSssa)->state = 1;
         if (g_021DE60C.FocusPos >= 4) {
             idx = g_021DE60C.FocusPos - 4;
             if (DWCi_SETTINGlGetSetType(idx) == 0xff) {

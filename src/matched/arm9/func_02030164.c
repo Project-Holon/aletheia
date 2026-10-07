@@ -62,6 +62,8 @@
  *       --func func_02030164 --addr 0x02030164 --cc 1.1p1 --arm
  */
 
+#include "../include/G_EnvModule.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -72,15 +74,6 @@ struct EnvEntry {
     u32 field08;
     u16 field0c;
     u8  field0e;
-};
-
-struct EnvModule {
-    struct EnvEntry *entries;
-    u8 *ids;
-    u16 count;
-    u16 field0a;
-    u16 field0c;
-    u16 error;
 };
 
 struct HeapBlock {
@@ -126,7 +119,7 @@ u32 func_02030164(void *p)
         goto fail;
     }
     intr = OS_DisableInterrupts();
-    g_EnvModule.entries[g_EnvModule.ids[heapId]].field0c--;
+    g_EnvModule.entries[((u8 *)g_EnvModule.ids)[heapId]].field0c--;
     hdr->magic = 0x194D;
     func_02060E30(arena, hdr);
     OS_RestoreInterrupts(intr);

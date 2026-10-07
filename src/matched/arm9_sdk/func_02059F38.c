@@ -19,9 +19,11 @@
  *   g_02146AA4  0x02146AA4  data  a4
  */
 
-extern int g_02146AA4;
+#include "../include/G_DWCErrorInfo.h"
+
+extern struct DWCErrorInfo g_02146AA4;
 
 int func_02059F38(void)
 {
-    return g_02146AA4 != 0;
+    return (*(int *)&g_02146AA4) != 0;
 }

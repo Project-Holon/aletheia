@@ -30,6 +30,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C8C88.c \
  *       --func draw --addr 0x021C8C88 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -93,7 +96,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -127,26 +130,26 @@ void draw(void)
 {
     int def;
 
-    if (scenesetlist_bss.MemSsl->task)
+    if (((MEMSSL *)scenesetlist_bss.MemSsl)->task)
         return;
-    if (scenesetlist_bss.MemSsl->disp)
-        scenesetlist_bss.MemSsl->disp--;
+    if (((MEMSSL *)scenesetlist_bss.MemSsl)->disp)
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->disp--;
     switch (DWCi_SBlGetState()) {
     case 0:
         break;
     case 1:
-        scenesetlist_bss.MemSsl->scroll = 1;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->scroll = 1;
         break;
     case 2:
-        if (scenesetlist_bss.MemSsl->disp)
+        if (((MEMSSL *)scenesetlist_bss.MemSsl)->disp)
             break;
         DWCi_FOCUSlDelete();
         scenesetlist_bss.Pos = DWCi_SBlGet() * 145 / 55;
         drawWindow();
-        scenesetlist_bss.MemSsl->disp = 4;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->disp = 4;
         break;
     case 3:
-        scenesetlist_bss.MemSsl->scroll = 0;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->scroll = 0;
         scenesetlist_bss.Pos = DWCi_SBlGet() * 145 / 55;
         DWCi_SNDlPlay(0x13);
         drawWindow();
@@ -154,35 +157,35 @@ void draw(void)
         if (def == 0)
             applyForcus();
         else if (def < 16)
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            ((MEMSSL *)scenesetlist_bss.MemSsl)->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
         else
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+            ((MEMSSL *)scenesetlist_bss.MemSsl)->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
         break;
     case 4:
         if (scenesetlist_bss.Pos == 0) {
-            if (!scenesetlist_bss.MemSsl->sound[0]) {
+            if (!((MEMSSL *)scenesetlist_bss.MemSsl)->sound[0]) {
                 DWCi_SNDlPlay(9);
-                scenesetlist_bss.MemSsl->sound[0] = 1;
+                ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[0] = 1;
             }
         } else {
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            ((MEMSSL *)scenesetlist_bss.MemSsl)->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
         }
         break;
     case 6:
         if (scenesetlist_bss.Pos == 145) {
-            if (!scenesetlist_bss.MemSsl->sound[0]) {
+            if (!((MEMSSL *)scenesetlist_bss.MemSsl)->sound[0]) {
                 DWCi_SNDlPlay(9);
-                scenesetlist_bss.MemSsl->sound[0] = 1;
+                ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[0] = 1;
             }
         } else {
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+            ((MEMSSL *)scenesetlist_bss.MemSsl)->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
         }
         break;
     case 5:
     case 7:
-        scenesetlist_bss.MemSsl->sound[0] = 0;
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->sound[0] = 0;
         break;
     }
 }

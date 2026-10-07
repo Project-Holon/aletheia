@@ -28,6 +28,8 @@
  *       --func func_0204B324 --addr 0x0204B324 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -47,18 +49,11 @@ struct RecB {
     u8  pad_10[4];
 };
 
-struct Sys {
-    u8           pad_000[0x10c];
-    struct RecC *tc;
-    struct RecA *ta;
-    struct RecB *tb;
-};
-
 struct Request {
     u8 b[0x20];
 };
 
-extern struct Sys *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 struct Req;
 extern void sub_0204CFA4(struct Req *r, u16 a, u16 b, u32 c, u32 d, u32 e, u32 f);
@@ -71,7 +66,7 @@ struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g)
 {
     struct Request req;
 
-    sub_0204CFA4((struct Req *)(&req), i, j, (u32)(&g_02146A74->tc[i]), (u32)(&g_02146A74->ta[j]),
+    sub_0204CFA4((struct Req *)(&req), i, j, (u32)(&((struct RecC *)g_02146A74->owner_slots)[i]), (u32)(&g_02146A74->owner_slots2[j]),
                  g_02146A74->tb[k].unk_08, g_02146A74->tb[k].unk_0c);
     return func_0204D048((void *)owner, (const struct Req *)e, &req, f, g);
 }

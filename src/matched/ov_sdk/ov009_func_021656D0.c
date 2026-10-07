@@ -19,17 +19,16 @@
  * Merges new option bits into the WCM option word under a critical section and returns the previous word.
  */
 
+#include "../include/G_WCMState.h"
+
 typedef struct WCMWork {
     unsigned char pad0[0x12D4];
     unsigned long option;
 } WCMWork;
 
-typedef struct WCMState {
-    long pad0;
-    WCMWork *work;
-} WCMState;
+typedef struct WCMState WCMState;
 
-extern WCMState g_021AA7D4;
+extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
@@ -41,7 +40,7 @@ unsigned long func_021656D0(unsigned long option)
 
     e = OS_DisableInterrupts();
     filter = 0;
-    old_option = g_021AA7D4.work->option;
+    old_option = ((WCMWork *)g_021AA7D4.work)->option;
     if (g_021AA7D4.work == 0) {
         OS_RestoreInterrupts(e);
         return 0;
@@ -64,7 +63,7 @@ unsigned long func_021656D0(unsigned long option)
     if ((option & 0x800000) != 0) {
         filter |= 0x400000;
     }
-    g_021AA7D4.work->option = option | (old_option & ~filter);
+    ((WCMWork *)g_021AA7D4.work)->option = option | (old_option & ~filter);
     OS_RestoreInterrupts(e);
     return old_option;
 }

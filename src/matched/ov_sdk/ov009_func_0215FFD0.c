@@ -18,21 +18,18 @@
  *   g_021AA664  0x021AA664  data
  */
 
+#include "../include/G_CPSSslSession.h"
 
 
-typedef struct CPSSslSession {
-    unsigned char id[0x20];
-    unsigned char pad20[0x5a - 0x20];
-    unsigned char valid;                /* +0x5a */
-    unsigned char pad5b;
-} CPSSslSession;
+
+typedef struct CPSSslSession CPSSslSession;
 
 typedef struct CPSSslConnection {
     unsigned char pad0[0x74];
     unsigned char session_id[0x20];     /* +0x74 */
 } CPSSslConnection;
 
-extern CPSSslSession g_021AA664[4];
+extern struct CPSSslSession g_021AA664[4];
 
 extern unsigned long func_02087988(void);
 typedef unsigned char  u8;

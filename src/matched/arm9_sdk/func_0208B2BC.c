@@ -22,6 +22,8 @@
  * an unmasked ternary allocates the join differently.
  */
 
+#include "../include/G_DWCHttp.h"
+
 typedef unsigned long u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -51,8 +53,8 @@ typedef struct MicBss {
     u16 *dst_buf;
 } MicBss;
 
-extern MicBss g_02152FE0;
-#define micWork g_02152FE0
+extern struct DWCHttp g_02152FE0;
+#define micWork (*(MicBss *)&g_02152FE0)
 
 typedef struct MICAutoParam {
     int type;

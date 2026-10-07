@@ -17,13 +17,15 @@
  *   func_02169BB0  0x02169BB0  arm
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 extern int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
                          void (*callback)(void **, void *, void *), void *param);
 extern void func_02169BB0(void **connection, void *arg);
 
 void func_02168ECC(void **connection, int *arg)
 {
-    if (*(int *)(*(char **)(g_021AA860 + 0xc) + 0x18) == 0) return;
+    if (*(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x18) == 0) return;
     func_02185BD8(connection, *arg, 0, 0, (void (*)(void **, void *, void *))func_02169BB0, 0);
 }

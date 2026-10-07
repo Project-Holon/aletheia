@@ -24,22 +24,13 @@
  *   d_021B3C80     0x021B3C80  data  ov013
  */
 
+#include "../include/G_Work.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 typedef unsigned long long u64;
-
-struct Work {
-    u8 pad0000[0x19A8];
-    s32 f19A8;
-    s32 f19AC;
-    u16 f19B0;
-    u8 pad19B2[0x1A3C - 0x19B2];
-    u64 f1A3C;
-    s32 f1A44;
-    u16 f1A48;
-};
 
 extern struct Work *d_021B3C80;
 

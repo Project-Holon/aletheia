@@ -16,6 +16,8 @@
  *   g_02146AD4 0x02146AD4 data
  */
 
+#include "../include/G_INETBSS.h"
+
 typedef struct {
     int ac_state;
     unsigned short state;
@@ -34,7 +36,7 @@ typedef struct {
     DWCstInetControl *stpInetCntl;
 } INETBSS;
 
-extern INETBSS g_02146AD4;
+extern struct INETBSS g_02146AD4;
 
 extern int DWC_GetInetStatus(void);
 
@@ -43,10 +45,10 @@ int func_0205C88C(void)
     if (g_02146AD4.stpInetCntl == 0) {
         return 0;
     }
-    if (g_02146AD4.stpInetCntl->ac_state != 0) {
-        g_02146AD4.stpInetCntl->state = 3;
+    if (((DWCstInetControl *)g_02146AD4.stpInetCntl)->ac_state != 0) {
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->state = 3;
         DWC_GetInetStatus();
-        return g_02146AD4.stpInetCntl->wontExecuteWDS ? 1 : 0;
+        return ((DWCstInetControl *)g_02146AD4.stpInetCntl)->wontExecuteWDS ? 1 : 0;
     }
     return 0;
 }

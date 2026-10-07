@@ -48,15 +48,10 @@
  *       --func func_02046300 --addr 0x02046300 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Rec02046300.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
-
-struct Rec02046300 {
-    void *data;
-    u32 unk04;
-    u32 unk08;
-    u32 builtin;
-};
 
 extern struct Rec02046300 *g_02146A58;
 extern u32 func_0204638C(u32 b);

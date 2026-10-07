@@ -16,9 +16,11 @@
  *   g_02146A80 0x02146A80 data a4
  */
 
-extern char *g_02146A80;
+#include "../include/G_Double3Ddisp.h"
+
+extern struct Double3Ddisp *g_02146A80;
 
 void func_0204EA4C(void)
 {
-    *(int *)(g_02146A80 + 8) = 1;
+    *(int *)(((char *)g_02146A80) + 8) = 1;
 }

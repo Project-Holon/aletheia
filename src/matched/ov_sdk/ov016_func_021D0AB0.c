@@ -59,6 +59,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021D0AB0.c \n *       --func DWCi_STEPlChangeScr --addr 0x021D0AB0 --region ov016 --cc 1.1p1 --arm --lang c99
  */
+
+#include "../include/G_STEP_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagCOORD { unsigned short x, y; } COORD;
@@ -77,7 +80,7 @@ typedef struct {
     void    *File;                    /* 0x00 */
     MEMSTEP *MemStep;                 /* 0x04 */
 } STEP_BSS;
-extern STEP_BSS step_bss;
+extern struct STEP_BSS step_bss;
 
 /* step.o .rodata (the dump prints DWARF dimensions reversed: rows are five bytes) */
 extern const unsigned char CELL_IDX[3][5];

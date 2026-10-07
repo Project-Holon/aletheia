@@ -46,13 +46,14 @@
  *       --func func_02073AD0 --addr 0x02073AD0 --cc ../2.0/sp2 --arm
  */
 
+#include "../include/G_SlotDesc.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed   int   s32;
 
-struct Ent { u32 a; u32 b; };
-extern struct Ent g_0214E934[];
+extern struct SlotDesc g_0214E934[];
 
 extern unsigned short func_0208A24C(int dB);
 extern void func_02089638(u32 chBitMask, int volume, int shift);

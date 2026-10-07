@@ -18,14 +18,11 @@
  * the listing emits it as data words.
  */
 
+#include "../include/G__anon_Work.h"
+
 typedef signed short s16;
 
-typedef struct {
-    char pad[0x782];
-    s16 val;
-} Work;
-
-extern Work *g_021A8264;
+extern struct _anon_Work *g_021A8264;
 
 s16 func_02156B70(void)
 {

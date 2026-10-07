@@ -30,6 +30,7 @@
  */
 #include "../include/Obj05777.h"
 #include "../include/Obj16628.h"
+#include "../include/G_Root.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -45,7 +46,7 @@ typedef struct { u8 c; u8 pad[3]; } Perm;
 
 typedef struct { u32 f00; u8 pad04[0x24]; int m[9]; } Out;
 
-extern Root *g_02148DB0;
+extern struct Root *g_02148DB0;
 extern const Perm g_020A1998[];
 extern const Perm g_020A1999[];
 extern const Perm g_020A199A[];
@@ -77,7 +78,7 @@ static inline u8 *resolve(Bank *b, u32 idx)
 
 void func_0206ECE0(Out *out)
 {
-    Root *r = g_02148DB0;
+    Root *r = ((Root *)g_02148DB0);
     u8 *node;
     u32 f;
     s16 *p;

@@ -30,23 +30,24 @@
  *       --addr 0x02010848 --thumb
  */
 #include "../include/Obj11819.h"
+#include "../include/G_WihCtx.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *g_021461E0;
+extern struct WihCtx g_021461E0;
 
 u16 func_02010848(void)
 {
-    if (g_021461E0 != 0)
-        return *(u16 *)(g_021461E0 + 0x312);
+    if ((*(u8 * *)&g_021461E0) != 0)
+        return *(u16 *)((*(u8 * *)&g_021461E0) + 0x312);
     return 0;
 }
 
 void func_02010864(u32 v)
 {
-    u8 *o = g_021461E0;
+    u8 *o = (*(u8 * *)&g_021461E0);
 
     if (o != 0 && (int)((struct Obj11819 *)o)->f314 < (int)v && v < 4)
         ((struct Obj11819 *)o)->f314 = v;

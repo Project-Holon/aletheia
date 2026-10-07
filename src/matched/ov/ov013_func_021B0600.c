@@ -11,5 +11,8 @@
  * symbols:
  *   d_021B3C84 0x021B3C84 data a4
  */
-extern int d_021B3C84[];
-void func_021B0600(void) { d_021B3C84[8] = 0; }
+
+#include "../include/G_021B3C84.h"
+
+extern struct G_021B3C84 d_021B3C84;
+void func_021B0600(void) { ((int *)&d_021B3C84)[8] = 0; }

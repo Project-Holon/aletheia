@@ -17,6 +17,8 @@
  *   func_021F4EFC 0x021F4EFC arm ov107
  */
 
+#include "../include/G_WmBase.h"
+
 typedef struct {
     char pad[0x508];
     void *callback;
@@ -32,7 +34,7 @@ typedef struct {
     unsigned char *work;
 } WmBase;
 
-extern WmBase g_021F6F90;
+extern struct WmBase g_021F6F90;
 
 extern int func_021F6158(void *callback, unsigned short *sendData, unsigned short sendDataSize, unsigned short arg3, unsigned short pollbmp);
 extern void func_021F4EFC(void *arg);

@@ -22,10 +22,9 @@
  *   g_021DE6A0     0x021DE6A0  data
  */
 
-typedef struct ItrState {
-    void (*func)(void);
-    unsigned long mask;
-} ItrState;
+#include "../include/G_ItrState.h"
+
+typedef struct ItrState ItrState;
 
 extern unsigned long OS_SetIrqMask(unsigned long intr);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
@@ -34,7 +33,7 @@ extern void OS_SetIrqFunction(unsigned long intrBit, void (*function)(void));
 extern unsigned long OS_ResetRequestIrqMask(unsigned long intr);
 extern unsigned long OS_EnableInterrupts(void);
 extern void func_021D6D1C(void);
-extern ItrState g_021DE6A0;
+extern struct ItrState g_021DE6A0;
 
 void func_021D6C78(void)
 {

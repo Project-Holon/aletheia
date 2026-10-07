@@ -15,14 +15,12 @@
  *   d_021B4C0C  0x021B4C0C  data  a4
  */
 
+#include "../include/G_Sess.h"
+#include "../include/G_N.h"
+
 typedef unsigned char u8;
 
-typedef struct N {
-    int a;
-    u8 id;
-    u8 pad[15];
-    struct N *next;
-} N;
+typedef struct N N;
 
 typedef struct {
     int x;
@@ -32,16 +30,16 @@ typedef struct {
     u8 id;
 } G;
 
-extern int d_021B60D8[];
+extern struct Sess d_021B60D8;
 extern G d_021B4BE0;
-extern N d_021B4C0C;
+extern struct N d_021B4C0C;
 
 N *func_021B2A20(int id)
 {
     N *n;
 
     n = d_021B4BE0.head;
-    if (d_021B60D8[4] == 2) {
+    if (((int *)&d_021B60D8)[4] == 2) {
         if (d_021B4BE0.flag != 0 && d_021B4BE0.id == id)
             return &d_021B4C0C;
         return 0;

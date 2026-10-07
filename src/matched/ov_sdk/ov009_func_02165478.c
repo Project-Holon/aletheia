@@ -23,6 +23,8 @@
  * Requests disconnection: valid only in the connected phase, either flagging the reset or dispatching to the WM or NWM disconnect.
  */
 
+#include "../include/G_WCMState.h"
+
 typedef struct WCMWork {
     unsigned char pad0[0x12DA];
     unsigned short notify;
@@ -32,12 +34,9 @@ typedef struct WCMWork {
     unsigned char deviceId;
 } WCMWork;
 
-typedef struct WCMState {
-    long pad0;
-    WCMWork *work;
-} WCMState;
+typedef struct WCMState WCMState;
 
-extern WCMState g_021AA7D4;
+extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02165A4C(unsigned char phase);
@@ -56,7 +55,7 @@ long func_02165478(void)
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (g_021AA7D4.work->phase) {
+    switch (((WCMWork *)g_021AA7D4.work)->phase) {
     case 10:
         OS_RestoreInterrupts(e);
         return 2;
@@ -69,11 +68,11 @@ long func_02165478(void)
     case 9:
         break;
     }
-    if (g_021AA7D4.work->resetting == 1) {
+    if (((WCMWork *)g_021AA7D4.work)->resetting == 1) {
         func_02165A4C(10);
-        g_021AA7D4.work->notify = 6;
+        ((WCMWork *)g_021AA7D4.work)->notify = 6;
     } else {
-        switch (g_021AA7D4.work->deviceId) {
+        switch (((WCMWork *)g_021AA7D4.work)->deviceId) {
         case 1:
             wcmResult = func_02166BD8();
             break;

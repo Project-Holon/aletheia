@@ -44,9 +44,11 @@
  *       --func func_02051394 --addr 0x02051394 --cc 1.1p1 --arm
  */
 
+#include "../include/G_02146A88.h"
+
 typedef unsigned int u32;
 
-extern u32 *g_02146A88;
+extern struct G_02146A88 *g_02146A88;
 extern void func_020528A8(u32 a);
 extern void func_020528BC(u32 a);
 extern int  func_020528D0(u32 o, u32 alloc);
@@ -57,7 +59,7 @@ void func_02051394(u32 *p)
     u32 a;
     u32 v;
 
-    g_02146A88[0x11] = (u32)p;
+    ((u32 *)g_02146A88)[0x11] = (u32)p;
 
     a = p[6];
     v = p[0];
@@ -73,5 +75,5 @@ void func_02051394(u32 *p)
     else
         func_020528D0(v, a);
 
-    g_02146A88[0x11] = 0;
+    ((u32 *)g_02146A88)[0x11] = 0;
 }

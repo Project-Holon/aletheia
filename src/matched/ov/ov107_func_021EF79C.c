@@ -42,6 +42,7 @@
  */
 #include "../include/Obj00072.h"
 #include "../include/Obj22277.h"
+#include "../include/G_Counter.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -68,7 +69,7 @@ extern int func_021EFC10(void);
 extern int func_0208EE9C(void);
 extern u32 func_020370F4(u32);
 extern void func_02037154(void);
-extern u8 d_021F6EA0[];
+extern struct Counter d_021F6EA0;
 extern void func_021EFCA8(u8 *p);
 int func_021EF79C(u8 *p)
 {
@@ -79,7 +80,7 @@ int func_021EF79C(u8 *p)
  }
  switch(p[0x24]){
  case 0:
-  *(int *)(d_021F6EA0+8)=0;((struct Obj00072 *)p)->f1C=1;
+  *(int *)(((u8 *)&d_021F6EA0)+8)=0;((struct Obj00072 *)p)->f1C=1;
   func_021790E4(((struct Obj00072 *)p)->f0,(int)func_021EFC10,0);
   func_02037010(240,0,0,((struct Obj00072 *)p)->f0);
   if(p[0x28]==0)func_02037118(0,((struct Obj00072 *)p)->f0);
@@ -107,8 +108,8 @@ int func_021EF79C(u8 *p)
   func_021F1B38(((struct Obj00072 *)p)->f68,1);func_0204B878(((struct Obj00072 *)p)->f7C,15);p[0x24]=5;break;
  case 5:((struct Obj00072 *)p)->f30=1;p[0x24]=6;break;
  case 8:p[0x24]=6;break;
- case 6:*(int *)(d_021F6EA0+8)=0;func_02179570((void (*)(int))((int (*)(int))func_021EFC10));((struct Obj00072 *)p)->f1C=0;p[0x24]=7;break;
- case 7:if(*(int *)(d_021F6EA0+8)==1){func_020351F8(0,0);func_02179158();return 1;}break;
+ case 6:*(int *)(((u8 *)&d_021F6EA0)+8)=0;func_02179570((void (*)(int))((int (*)(int))func_021EFC10));((struct Obj00072 *)p)->f1C=0;p[0x24]=7;break;
+ case 7:if(*(int *)(((u8 *)&d_021F6EA0)+8)==1){func_020351F8(0,0);func_02179158();return 1;}break;
  }
  func_020370F4(3-func_0208EE9C());func_02037154();return 0;
 }

@@ -25,6 +25,8 @@
  * would give): with plain `- 2 - 6` the compiler folds the two subtracts.
  */
 
+#include "../include/G_exifenc_vars.h"
+
 typedef struct exif_tag_entry {
     unsigned short tag;
     unsigned short type;
@@ -53,18 +55,11 @@ typedef struct jpeg_exif_data_structure {
     long thumb_compressed_length;
 } jpeg_exif_data_structure;
 
-typedef struct exifenc_vars {
-    int dateTimeDataFlag;       /* +0x00 */
-    unsigned long pos;          /* +0x04 */
-    unsigned long f08;
-    unsigned long f0C;
-    unsigned long f10;
-    unsigned char *buf;         /* +0x14 */
-} exifenc_vars;
+typedef struct exifenc_vars exifenc_vars;
 
 extern unsigned long func_021C2DC8(exif_tag_entry *entry);
 extern void func_021C2E1C(exif_tag_entry *entry);
-extern exifenc_vars g_021CADF0;
+extern struct exifenc_vars g_021CADF0;
 
 #define PUT(v)  (g_021CADF0.buf[g_021CADF0.pos++] = (unsigned char)(v))
 

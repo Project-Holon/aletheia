@@ -15,13 +15,16 @@
  *   d_021F6F90   0x021F6F90  data
  *   func_021F5CAC   0x021F5CAC  arm
  */
+
+#include "../include/G_WmBase.h"
+
 typedef unsigned long u32;
 
-extern char d_021F6F90[];
+extern struct WmBase d_021F6F90;
 extern int func_021F5CAC(int channel);
 
 int MB_StartParentFromIdle(int channel)
 {
-    *(u32 *)(*(char **)(d_021F6F90 + 0x10) + 0x1320) = 1;
+    *(u32 *)(*(char **)(((char *)&d_021F6F90) + 0x10) + 0x1320) = 1;
     return func_021F5CAC(channel);
 }

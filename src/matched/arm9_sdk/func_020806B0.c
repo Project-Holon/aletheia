@@ -16,6 +16,8 @@
  *   gGXState              0x02150E4C  data
  */
 
+#include "../include/G_GX_State.h"
+
 typedef long fx32;
 typedef short fx16;
 typedef unsigned char u8;
@@ -79,13 +81,13 @@ typedef enum {
     GX_VRAM_I = 0x0100
 } GXVRam;
 
-extern GX_State gGXState;
+extern struct GX_State gGXState;
 extern void GX_VRAMCNT_SetLCDC_(int lcdc);
 
 void func_020806B0(int sub_bg)
 {
-    gGXState.vramCnt.lcdc = (u16)(~sub_bg & (gGXState.vramCnt.lcdc | gGXState.vramCnt.sub_bg));
-    gGXState.vramCnt.sub_bg = (u16)sub_bg;
+    gGXState.vramCnt_lcdc = (u16)(~sub_bg & (gGXState.vramCnt_lcdc | gGXState.vramCnt_sub_bg));
+    gGXState.vramCnt_sub_bg = (u16)sub_bg;
 
     switch (sub_bg) {
     case 0x004:
@@ -102,5 +104,5 @@ void func_020806B0(int sub_bg)
     default:
         break;
     }
-    GX_VRAMCNT_SetLCDC_(gGXState.vramCnt.lcdc);
+    GX_VRAMCNT_SetLCDC_(gGXState.vramCnt_lcdc);
 }

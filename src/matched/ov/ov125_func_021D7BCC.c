@@ -19,9 +19,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int d_021D9E40[];
+#include "../include/G_Clear.h"
+
+extern struct Clear d_021D9E40;
 
 unsigned int func_021D7BCC(void)
 {
-    return d_021D9E40[0x4f];
+    return ((unsigned int *)&d_021D9E40)[0x4f];
 }

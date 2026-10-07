@@ -14,17 +14,20 @@
  * symbols:
  *   d_021F6F90   0x021F6F90  data
  */
+
+#include "../include/G_WmBase.h"
+
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern char d_021F6F90[];
+extern struct WmBase d_021F6F90;
 
 static int MBi_IsSendEnabled(void)
 {
     int ret = 0;
     int g = 0;
     int f = 0;
-    char *base = *(char **)(d_021F6F90 + 0xC);
+    char *base = *(char **)(((char *)&d_021F6F90) + 0xC);
 
     if (*(u16 *)(base + 0x528) == 1 && *(u8 *)(base + 0x50C) == 0)
         f = 1;

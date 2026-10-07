@@ -17,6 +17,8 @@
  *   func_021CE7B0  0x021CE7B0  arm  ov016
  */
 
+#include "../include/G_FocusPosT.h"
+
 typedef struct {
 	unsigned char idx;
 	unsigned char flag;
@@ -25,7 +27,7 @@ typedef struct {
 } FocusPosT;
 
 extern void func_021CE7B0(void *p, int a, int b);
-extern FocusPosT g_021DE5A8;
+extern struct FocusPosT g_021DE5A8;
 extern unsigned char g_021DA4B0[3];
 
 void func_021C3130(void)

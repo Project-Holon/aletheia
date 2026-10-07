@@ -42,6 +42,8 @@
  *       --addr 0x0201C6B4 --thumb
  */
 
+#include "../include/G_Scratch.h"
+
 typedef unsigned char      u8;
 typedef unsigned short     u16;
 typedef unsigned int       u32;
@@ -80,7 +82,7 @@ struct PrintSys {
     struct PrintCtx *unk14;
 };
 
-extern struct PrintCtx g_0214655C;
+extern struct Scratch g_0214655C;
 
 struct Rec2;
 struct Ring;

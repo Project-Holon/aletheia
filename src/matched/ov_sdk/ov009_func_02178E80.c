@@ -15,10 +15,12 @@
  *   g_021AB1A4  0x021AB1A4  data
  */
 
-extern char g_021AB1A4[];
+#include "../include/G_DWCAuthState.h"
+
+extern struct DWCAuthState g_021AB1A4;
 
 int func_02178E80(void)
 {
-    return *(int *)(g_021AB1A4 + 8);
+    return *(int *)(((char *)&g_021AB1A4) + 8);
 }
 

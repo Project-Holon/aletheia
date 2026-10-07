@@ -40,6 +40,8 @@
  * the same instructions with those two registers swapped, 10 bytes out).
  */
 
+#include "../include/G_02148B2C.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -105,9 +107,7 @@ static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
     return (GXOamShape)(oam->attr01 & (0x0000c000 | 0xc0000000));
 }
 
-struct Ctx { u32 f00; fx32 f04; u32 f08; };
-
-extern struct Ctx g_02148B2C;
+extern struct G_02148B2C g_02148B2C;
 extern const u16 tbl_020A17F0[3][4];
 extern const u16 tbl_020A17D8[3][4];
 extern const fx32 g_020A8218;

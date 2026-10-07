@@ -17,11 +17,13 @@
  */
 #include "../include/Obj00180.h"
 #include "../include/Obj05449.h"
+#include "../include/G_021B81EC.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 id,value;} Row;
-extern const Row d_021B81FC[],d_021B81EC[];
+extern struct G_021B81EC d_021B81EC[];
+extern const Row d_021B81FC[];
 extern u32 func_0201C440(void *);
 struct MsgBank;
 struct R;
@@ -41,7 +43,7 @@ void func_021B6278(u8 *p)
         ((struct Obj05449 *)q)->f1EC=r->value;
     }
     for(i=0;i<2;i++) {
-        r=&d_021B81EC[i];q=p+i*12;
+        r=&((Row *)d_021B81EC)[i];q=p+i*12;
         ((struct Obj05449 *)q)->f1FC=func_02045EC0(((struct Obj00180 *)p)->f44,r->id);
         ((struct Obj05449 *)q)->f200=14819;
         ((struct Obj05449 *)q)->f204=r->value;

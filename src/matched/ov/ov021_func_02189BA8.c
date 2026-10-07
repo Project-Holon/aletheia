@@ -14,14 +14,9 @@
  *   d_021D373C     0x021D373C  data  a4
  */
 
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    unsigned char pad[0x3C];
-} Ent;
+#include "../include/G__anon_Ent.h"
 
-extern Ent d_021D373C[];
+extern struct _anon_Ent d_021D373C[];
 unsigned int func_02189B28(unsigned int x);
 
 int func_02189BA8(int x)

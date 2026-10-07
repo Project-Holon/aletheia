@@ -31,6 +31,8 @@
  *   g_021A23DC     0x021A23DC  data ov009
  */
 
+#include "../include/G_DWCWFCUtil.h"
+
 typedef struct DWCHttp DWCHttp;
 
 typedef struct DWCAuth {
@@ -47,11 +49,7 @@ typedef struct DWCAuth {
     DWCHttp *http;
 } DWCAuth;
 
-typedef struct DWCWFCUtil {
-    int f0;
-    DWCAuth *auth;
-    int state;
-} DWCWFCUtil;
+typedef struct DWCWFCUtil DWCWFCUtil;
 
 extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
@@ -64,7 +62,7 @@ typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern int func_0217A7C8(DWCHttp *http, char *label, char *buffer, int buffer_len);
 
-extern DWCWFCUtil g_021AB184;
+extern struct DWCWFCUtil g_021AB184;
 extern int g_02153FAC;
 extern char g_021A2394[];
 extern char g_021A239C[];
@@ -81,43 +79,43 @@ int func_02178814(void)
     int returncode;
 
     endptr = 0;
-    endptr = func_0217A728(g_021AB184.auth->http, g_021A2394);
+    endptr = func_0217A728(((DWCAuth *)g_021AB184.auth)->http, g_021A2394);
     if (endptr != 0)
         func_02168250(endptr);
 
     endptr = 0;
     g_02153FAC = 0;
-    returncode = func_020964E0((u32)func_0217A728(g_021AB184.auth->http, g_021A239C));
+    returncode = func_020964E0((u32)func_0217A728(((DWCAuth *)g_021AB184.auth)->http, g_021A239C));
     if (g_02153FAC == 0x22) {
-        g_021AB184.auth->error = 20101;
+        ((DWCAuth *)g_021AB184.auth)->error = 20101;
         return 12;
     }
     if (returncode != 200) {
-        g_021AB184.auth->error = returncode + 23000;
+        ((DWCAuth *)g_021AB184.auth)->error = returncode + 23000;
         return 18;
     }
-    if (func_0217A77C(g_021AB184.auth->http, g_021A23A8, g_021AB184.auth->retcode, 4) <= 0) {
-        g_021AB184.auth->error = 20101;
+    if (func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23A8, ((DWCAuth *)g_021AB184.auth)->retcode, 4) <= 0) {
+        ((DWCAuth *)g_021AB184.auth)->error = 20101;
         return 14;
     }
-    returncode = func_02095F40((u32)g_021AB184.auth->retcode, (u32 *)(&endptr), 10);
-    if (endptr != g_021AB184.auth->retcode + func_0209477C((const u8 *)g_021AB184.auth->retcode)) {
-        g_021AB184.auth->error = 20101;
+    returncode = func_02095F40((u32)((DWCAuth *)g_021AB184.auth)->retcode, (u32 *)(&endptr), 10);
+    if (endptr != ((DWCAuth *)g_021AB184.auth)->retcode + func_0209477C((const u8 *)((DWCAuth *)g_021AB184.auth)->retcode)) {
+        ((DWCAuth *)g_021AB184.auth)->error = 20101;
         return 12;
     }
-    g_021AB184.auth->error = returncode + 20000;
+    ((DWCAuth *)g_021AB184.auth)->error = returncode + 20000;
     if (returncode < 100) {
-        g_021AB184.auth->f1052[0] = 0;
-        g_021AB184.auth->f101f[0] = 0;
-        g_021AB184.auth->f117f[0] = 0;
-        g_021AB184.auth->f1010[0] = 0;
-        g_021AB184.auth->f1188[0] = 0;
-        func_0217A77C(g_021AB184.auth->http, g_021A23B4, g_021AB184.auth->f1052, 0x12d);
-        func_0217A77C(g_021AB184.auth->http, g_021A23BC, g_021AB184.auth->f101f, 0x33);
-        func_0217A77C(g_021AB184.auth->http, g_021A23C4, g_021AB184.auth->f117f, 9);
-        func_0217A77C(g_021AB184.auth->http, g_021A23D0, g_021AB184.auth->f1010, 0xf);
-        func_0217A7C8(g_021AB184.auth->http, g_021A23DC, g_021AB184.auth->f1188, 0x41);
-        g_021AB184.auth->f11b3 = 0;
+        ((DWCAuth *)g_021AB184.auth)->f1052[0] = 0;
+        ((DWCAuth *)g_021AB184.auth)->f101f[0] = 0;
+        ((DWCAuth *)g_021AB184.auth)->f117f[0] = 0;
+        ((DWCAuth *)g_021AB184.auth)->f1010[0] = 0;
+        ((DWCAuth *)g_021AB184.auth)->f1188[0] = 0;
+        func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23B4, ((DWCAuth *)g_021AB184.auth)->f1052, 0x12d);
+        func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23BC, ((DWCAuth *)g_021AB184.auth)->f101f, 0x33);
+        func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23C4, ((DWCAuth *)g_021AB184.auth)->f117f, 9);
+        func_0217A77C(((DWCAuth *)g_021AB184.auth)->http, g_021A23D0, ((DWCAuth *)g_021AB184.auth)->f1010, 0xf);
+        func_0217A7C8(((DWCAuth *)g_021AB184.auth)->http, g_021A23DC, ((DWCAuth *)g_021AB184.auth)->f1188, 0x41);
+        ((DWCAuth *)g_021AB184.auth)->f11b3 = 0;
         if (returncode != 40)
             g_021AB184.state = 1;
         else

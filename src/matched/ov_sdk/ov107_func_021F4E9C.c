@@ -14,6 +14,9 @@
  * symbols:
  *   d_021F6F90   0x021F6F90  data
  */
+
+#include "../include/G_WmBase.h"
+
 typedef unsigned short u16;
 
 struct WMPortRecvCallback {
@@ -22,7 +25,7 @@ struct WMPortRecvCallback {
     u16 field4;
 };
 
-extern char d_021F6F90[];
+extern struct WmBase d_021F6F90;
 
 static void MBi_ChildPortCallback(void *arg)
 {
@@ -38,7 +41,7 @@ static void MBi_ChildPortCallback(void *arg)
     case 0x1A:
         break;
     case 0x15:
-        callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
+        callback = *(void (**)(int, void *))(*(char **)(((char *)&d_021F6F90) + 0xC) + 0x51C);
         callback(9, arg);
         break;
     }

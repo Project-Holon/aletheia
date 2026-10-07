@@ -13,17 +13,19 @@
  *   g_020AA194     0x020AA194  data  a4
  */
 
-extern int g_020AA194;
+#include "../include/G_GflSys.h"
+
+extern struct GflSys g_020AA194;
 
 int func_02005654(int a, int b)
 {
-    int v = *(int *)((char *)&g_020AA194 + 8);
+    int v = *(int *)((char *)&(*(int *)&g_020AA194) + 8);
 
     if (v != 0) {
         return 0;
     }
 
-    *(int *)((char *)&g_020AA194 + 8) = a;
-    g_020AA194 = b;
+    *(int *)((char *)&(*(int *)&g_020AA194) + 8) = a;
+    (*(int *)&g_020AA194) = b;
     return 1;
 }

@@ -31,14 +31,13 @@
  *   func_021EED90 0x021EED90 thumb ov093
  *   d_021F63D8 0x021F63D8 data ov093 a4
  */
+
+#include "../include/G_H.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef struct {
-    char pad[0x1a];
-    u16 f1a;
-} Settings;
-extern Settings d_021F63D8;
+extern struct H d_021F63D8;
 extern u16 func_02045A98(void);
 struct U16Vec;
 struct WordSet;

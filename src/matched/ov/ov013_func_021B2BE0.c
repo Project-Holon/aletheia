@@ -32,6 +32,10 @@
  *   func_020870D0  0x020870D0  arm
  */
 
+#include "../include/G_Pool.h"
+#include "../include/G_Stats.h"
+#include "../include/G_N.h"
+
 struct Node {
     unsigned int state;
     unsigned char f4;
@@ -41,16 +45,6 @@ struct Node {
     unsigned int fc;
     unsigned int f10;
     struct Node *next;
-};
-
-struct Pool {
-    struct Node *nodes;
-    unsigned int f4;
-    void *tick;
-    unsigned int mul;
-    unsigned int add;
-    struct Node freeList;
-    struct Node active;
 };
 
 struct Pkt {
@@ -71,15 +65,9 @@ struct Event {
     struct Node *node;
 };
 
-struct Stats {
-    unsigned int f0;
-    unsigned int f4;
-    unsigned long long f8;
-};
-
 extern struct Pool g_021B4BE0;
 extern struct Stats g_021B4BD0;
-extern struct Node d_021B4C0C;
+extern struct N d_021B4C0C;
 typedef unsigned char  u8;
 struct Ctx;
 struct Msg;
@@ -94,9 +82,9 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
     struct Node *n;
     int r;
 
-    if (g_021B4BE0.active.state == 2) {
-        if (g_021B4BE0.active.f4 == pkt->f8) {
-            n = &d_021B4C0C;
+    if (g_021B4BE0.active_state == 2) {
+        if (g_021B4BE0.id == pkt->f8) {
+            n = ((struct Node *)&d_021B4C0C);
             r = func_021B2894((struct Ctx *)n, (struct Msg *)pkt);
             switch (r) {
             case -2:
@@ -119,16 +107,16 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
     } else {
         if (!(g_021B4BD0.f4 & ((pkt->f8 != 0) ? (1 << pkt->f8) : 1)))
             return 0;
-        g_021B4BE0.active.f4 = pkt->f8;
-        g_021B4BE0.active.state = 2;
-        g_021B4BE0.active.fc = 0;
-        n = &d_021B4C0C;
+        g_021B4BE0.id = pkt->f8;
+        g_021B4BE0.active_state = 2;
+        g_021B4BE0.active_fc = 0;
+        n = ((struct Node *)&d_021B4C0C);
         r = func_021B2894((struct Ctx *)n, (struct Msg *)pkt);
         switch (r) {
         case -3:
         case -2:
         case -1:
-            g_021B4BE0.active.state = 0;
+            g_021B4BE0.active_state = 0;
             return 0;
         }
         ev->type = func_021B279C((u8 *)pkt, (struct Q *)n);

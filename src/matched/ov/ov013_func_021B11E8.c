@@ -18,6 +18,8 @@
  *   func_02177044  0x02177044  arm  ov009
  */
 
+#include "../include/G_Ctx42C0.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -46,7 +48,7 @@ typedef struct {
 } Ctx60D8;
 
 extern Ctx3C84 d_021B3C84;
-extern Ctx42C0 d_021B42C0;
+extern struct Ctx42C0 d_021B42C0;
 extern Ctx60D8 d_021B60D8;
 extern u8 d_021B3ADA[][3];
 

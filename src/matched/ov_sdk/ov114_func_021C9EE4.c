@@ -23,6 +23,8 @@
  *   g_021CF8A8  0x021CF8A8  data
  */
 
+#include "../include/G_Session.h"
+
 typedef unsigned char u8;
 typedef unsigned long u32;
 
@@ -64,7 +66,7 @@ extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 extern u32 func_02095EAC(u32 a0, u32 *a1, u32 mode);
 extern int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4);
 extern int func_021BF558();
-extern Session g_021CF7AC;
+extern struct Session g_021CF7AC;
 extern char *g_021CF7A8;
 extern char g_021CF85C[];
 extern char g_021CF884[];

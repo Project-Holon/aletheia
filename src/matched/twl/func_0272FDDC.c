@@ -15,7 +15,9 @@
  *   func_0272FD40 0x0272FD40 arm twl
  */
 
-extern char data_02732EFC[];
+#include "../include/G_twl_data_02732EFC.h"
+
+extern struct G_twl_data_02732EFC data_02732EFC;
 void func_02087988(void);
 void func_0208799C(void);
 void func_0272FD40(int a0);

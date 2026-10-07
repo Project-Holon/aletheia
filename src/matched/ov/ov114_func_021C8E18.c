@@ -19,10 +19,14 @@
  *   func_021CA470 0x021CA470 arm ov114
  *   func_021CA1B4 0x021CA1B4 arm ov114
  */
+
+#include "../include/G_Six.h"
+
 extern void *d_021D3D28;
 typedef struct { unsigned words[114]; unsigned value; } State;
 extern State d_021D3D2C;
-extern unsigned d_021CF538[], d_021CF6B8[], d_021D3D40[];
+extern struct Six d_021D3D40;
+extern unsigned d_021CF538[], d_021CF6B8[];
 extern void func_02087C6C(void *);
 extern void *func_02092344(void *, const void *, unsigned);
 extern void func_021C9EE4(int server, char *initdata);
@@ -31,10 +35,10 @@ extern void func_021CA1B4(void);
 void func_021C8E18(unsigned char *p, unsigned x)
 {
     func_02087C6C(p + 0x1c);
-    func_02092344(d_021D3D40, p, 100);
+    func_02092344(((unsigned *)&d_021D3D40), p, 100);
     d_021D3D2C.value = x;
     func_021C9EE4((int)d_021D3D28, (char *)d_021CF538);
-    if (func_021CA470(d_021CF6B8, d_021D3D2C.words[2], d_021D3D40, 100, 0) == 0) {
+    if (func_021CA470(d_021CF6B8, d_021D3D2C.words[2], ((unsigned *)&d_021D3D40), 100, 0) == 0) {
         d_021D3D2C.words[0] = 22;
         return;
     }

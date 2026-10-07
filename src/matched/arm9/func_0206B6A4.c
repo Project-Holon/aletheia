@@ -56,6 +56,8 @@
  * DIFF near miss (4 bytes short; residue in docs/notes/pkt_0206AFE4.c.txt).
 */
 
+#include "../include/G_Root.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -77,7 +79,7 @@ struct Obj0206B6A4 {
     u32 f38;
 };
 
-extern u32 g_02148DB0;
+extern struct Root *g_02148DB0;
 
 extern void func_02082A7C(u32 val, void *dst, u32 len);
 extern void func_0206B63C(void *p, u32 v);
@@ -99,11 +101,11 @@ void func_0206B6A4(struct Obj0206B6A4 *p)
             func_0206B63C((char *)p + 0x4c, p->f18);
         p->f00 &= ~0x10;
     }
-    if (g_02148DB0 != 0) {
-        func_0206B4A0((void *)g_02148DB0, p);
+    if ((*(u32 *)&g_02148DB0) != 0) {
+        func_0206B4A0((void *)(*(u32 *)&g_02148DB0), p);
     } else {
-        g_02148DB0 = (u32)work;
+        (*(u32 *)&g_02148DB0) = (u32)work;
         func_0206B4A0(work, p);
-        g_02148DB0 = 0;
+        (*(u32 *)&g_02148DB0) = 0;
     }
 }

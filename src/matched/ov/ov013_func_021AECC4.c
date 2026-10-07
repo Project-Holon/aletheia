@@ -15,18 +15,19 @@
  *   d_021B3C80     0x021B3C80  data  ov013
  */
 #include "../include/Obj19303.h"
+#include "../include/G_Work.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 *d_021B3C80;
+extern struct Work *d_021B3C80;
 
 extern int func_021B2180(int a, int b);
 extern int func_021B0614(void *p);
 
 int func_021AECC4(int x)
 {
-    u8 *p = *(u8 **)(d_021B3C80 + 0x1A1C);
+    u8 *p = *(u8 **)(((u8 *)d_021B3C80) + 0x1A1C);
     int r;
 
     if (p != 0 && ((struct Obj19303 *)p)->fC == 4) {
@@ -34,7 +35,7 @@ int func_021AECC4(int x)
         if (func_021B2180((int)p, 0) != 0) {
             return r;
         }
-        if (func_021B0614(*(void **)(d_021B3C80 + 0x1A1C)) != 0) {
+        if (func_021B0614(*(void **)(((u8 *)d_021B3C80) + 0x1A1C)) != 0) {
             r = 1;
         }
         return r;

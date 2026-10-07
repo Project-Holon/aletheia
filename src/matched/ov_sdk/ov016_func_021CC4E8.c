@@ -21,6 +21,8 @@
  * dir test, which the second local next reproduces.
  */
 
+#include "../include/G_SCENESETSELECTAP_BSS.h"
+
 typedef unsigned char u8;
 
 typedef struct tagMEMSSSA {
@@ -28,12 +30,7 @@ typedef struct tagMEMSSSA {
     u8 column;          /* +0x1c */
 } MEMSSSA;
 
-typedef struct SsaStatics {
-    u8 FocusPos;        /* +0x00 */
-    MEMSSSA *MemSssa;   /* +0x04 */
-} SsaStatics;
-
-extern SsaStatics g_021DE60C;
+extern struct SCENESETSELECTAP_BSS g_021DE60C;
 
 extern void func_021CFFAC(unsigned int v);
 extern void func_021CC46C(void);
@@ -46,7 +43,7 @@ static void func_021CC4E8(int dir)
 
     switch (g_021DE60C.FocusPos) {
     case 0:
-        g_021DE60C.MemSssa->column = 0;
+        ((MEMSSSA *)g_021DE60C.MemSssa)->column = 0;
         if (dir == 0)
             g_021DE60C.FocusPos = 2;
         else if (dir == 2)
@@ -57,7 +54,7 @@ static void func_021CC4E8(int dir)
             g_021DE60C.FocusPos = 4;
         break;
     case 1:
-        g_021DE60C.MemSssa->column = 1;
+        ((MEMSSSA *)g_021DE60C.MemSssa)->column = 1;
         if (dir == 0)
             g_021DE60C.FocusPos = 0;
         else if (dir == 2)
@@ -68,7 +65,7 @@ static void func_021CC4E8(int dir)
             g_021DE60C.FocusPos = 5;
         break;
     case 2:
-        g_021DE60C.MemSssa->column = 2;
+        ((MEMSSSA *)g_021DE60C.MemSssa)->column = 2;
         if (dir == 0)
             g_021DE60C.FocusPos = 1;
         else if (dir == 2)
@@ -79,7 +76,7 @@ static void func_021CC4E8(int dir)
             g_021DE60C.FocusPos = 6;
         break;
     case 3:
-        clear = g_021DE60C.MemSssa->column;
+        clear = ((MEMSSSA *)g_021DE60C.MemSssa)->column;
         next = clear + 4;
         if (dir == 1)
             g_021DE60C.FocusPos = next;
@@ -89,7 +86,7 @@ static void func_021CC4E8(int dir)
             move = 0;
         break;
     case 4:
-        g_021DE60C.MemSssa->column = 0;
+        ((MEMSSSA *)g_021DE60C.MemSssa)->column = 0;
         if (dir == 0)
             g_021DE60C.FocusPos = 6;
         else if (dir == 2)
@@ -100,7 +97,7 @@ static void func_021CC4E8(int dir)
             g_021DE60C.FocusPos = 3;
         break;
     case 5:
-        g_021DE60C.MemSssa->column = 1;
+        ((MEMSSSA *)g_021DE60C.MemSssa)->column = 1;
         if (dir == 0)
             g_021DE60C.FocusPos = 4;
         else if (dir == 2)
@@ -111,7 +108,7 @@ static void func_021CC4E8(int dir)
             g_021DE60C.FocusPos = 3;
         break;
     case 6:
-        g_021DE60C.MemSssa->column = 2;
+        ((MEMSSSA *)g_021DE60C.MemSssa)->column = 2;
         if (dir == 0)
             g_021DE60C.FocusPos = 5;
         else if (dir == 2)

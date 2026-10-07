@@ -18,13 +18,15 @@
  * the compiler's usual `ldr ip, [pc, #4]` / `bx ip` plus a second pool word.
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u8 *g_02146A74;
+extern struct Mgr *g_02146A74;
 extern void func_02063378(u32 a0, u32 a1);
 
 void func_0204C024(u32 v)
 {
-    func_02063378((u32)g_02146A74, v);
+    func_02063378((u32)((u8 *)g_02146A74), v);
 }

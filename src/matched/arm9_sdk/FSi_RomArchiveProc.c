@@ -16,11 +16,13 @@
  *   g_02150DA0 0x02150DA0 data
  */
 
+#include "../include/G_FSiRomState.h"
+
 typedef unsigned short u16;
 extern void func_02075E10(u16 lock_id);
 extern void func_02075E80(void);
 extern void func_0207A980(void);
-extern int g_02150DA0;
+extern struct FSiRomState g_02150DA0;
 
 asm int FSi_RomArchiveProc(void *p_file, int cmd)
 {

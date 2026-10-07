@@ -39,6 +39,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C82FC.c \
  *       --func DWCi_SceneSetList --addr 0x021C82FC --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -102,7 +105,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -152,8 +155,8 @@ void DWCi_SceneSetList(void)
 
     info = DWCi_SETTIGNlGet();
     scenesetlist_bss.MemSsl = DWCi_HEAPlAllocEx(sizeof(MEMSSL), 4);
-    scenesetlist_bss.MemSsl->lastDns = info->dnsAuto;
-    scenesetlist_bss.MemSsl->focusLast = 12;
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->lastDns = info->dnsAuto;
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->focusLast = 12;
     calcParam();
     initGraphics();
     if (scenesetlist_bss.RetScene == 0)
@@ -163,21 +166,21 @@ void DWCi_SceneSetList(void)
     DWCi_CMNlStep(1);
     DWCi_HLlLoadList();
     DWCi_SBlInit(2, 0x55, 0xF1, 0x41, scenesetlist_bss.Pos * 55 / 145);
-    scenesetlist_bss.MemSsl->canv = DWCi_FNTlFormBgEx(0, 1);
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->canv = DWCi_FNTlFormBgEx(0, 1);
     for (i = 0; i < 7; i++)
-        scenesetlist_bss.MemSsl->obj[i] = DWCi_CEINlSetExObj(0, 0x29);
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->obj[i] = DWCi_CEINlSetExObj(0, 0x29);
     switch (info->ap.setType) {
     case 1:
-        scenesetlist_bss.MemSsl->icon = DWCi_CEINlSetExObj(0, 0x50);
-        G2_SetOBJPriority(scenesetlist_bss.MemSsl->icon, 3);
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->icon = DWCi_CEINlSetExObj(0, 0x50);
+        G2_SetOBJPriority(((MEMSSL *)scenesetlist_bss.MemSsl)->icon, 3);
         break;
     case 2:
-        scenesetlist_bss.MemSsl->icon = DWCi_CEINlSetExObj(0, 0x51);
-        G2_SetOBJPriority(scenesetlist_bss.MemSsl->icon, 3);
+        ((MEMSSL *)scenesetlist_bss.MemSsl)->icon = DWCi_CEINlSetExObj(0, 0x51);
+        G2_SetOBJPriority(((MEMSSL *)scenesetlist_bss.MemSsl)->icon, 3);
         break;
     }
-    scenesetlist_bss.MemSsl->taskV = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x6E);
-    scenesetlist_bss.MemSsl->push.task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskPushCount, 0, 0x78);
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->taskV = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x6E);
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->push.task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskPushCount, 0, 0x78);
     drawWindow();
     dispFocus();
     DWCi_ChangeScene(procInit);

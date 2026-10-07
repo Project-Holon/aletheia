@@ -25,14 +25,13 @@
  *       --func func_0219A52C --addr 0x0219A52C --region ov009 --arm --cc 1.1p1 --lang c99
  */
 
+#include "../include/G_Magic6.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct Magic6
-{
-    u8 b[6];
-} Magic6;
+typedef struct Magic6 Magic6;
 
 typedef struct NatNegPacket
 {
@@ -67,7 +66,7 @@ typedef struct SOCSockAddrIn
 
 extern void gsDebugFormat();
 extern void SendPacket();
-extern Magic6 g_021A5A7C;
+extern struct Magic6 g_021A5A7C;
 extern char g_021A61E8[];
 
 void func_0219A52C(NATNegotiator *neg, SOCSockAddrIn *toaddr)

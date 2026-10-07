@@ -26,6 +26,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov016_func_021D2C0C.c \n *       --func DWCi_MOV_WH_StateOutStartParent --addr 0x021D2C0C --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_DWC_MOV_WH_BSS.h"
+
 /*
  * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
@@ -77,7 +80,7 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-extern DWC_MOV_WH_BSS dwc_mov_wh_bss;
+extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 
 typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
 
@@ -113,7 +116,7 @@ static void DWCi_MOV_WH_StateOutStartParent(void *arg)
     case 7:
         if (dwc_mov_wh_bss.wh_trace)
             dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13726, cb->aid);
-        if (dwc_mov_wh_bss.wh->judgeAcceptFunc != 0 && !dwc_mov_wh_bss.wh->judgeAcceptFunc(cb)) {
+        if (((WHWork *)dwc_mov_wh_bss.wh)->judgeAcceptFunc != 0 && !((WHWork *)dwc_mov_wh_bss.wh)->judgeAcceptFunc(cb)) {
             result = WM_Disconnect(0, cb->aid);
             if (result == 2)
                 return;
@@ -121,12 +124,12 @@ static void DWCi_MOV_WH_StateOutStartParent(void *arg)
             DWCi_MOV_WH_ChangeSysState(9);
             return;
         }
-        dwc_mov_wh_bss.wh->bitmap |= target_bitmap;
+        ((WHWork *)dwc_mov_wh_bss.wh)->bitmap |= target_bitmap;
         break;
     case 9:
         if (dwc_mov_wh_bss.wh_trace)
             dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13728, cb->aid);
-        dwc_mov_wh_bss.wh->bitmap &= ~target_bitmap;
+        ((WHWork *)dwc_mov_wh_bss.wh)->bitmap &= ~target_bitmap;
         break;
     case 0:
         if (!DWCi_MOV_WH_StateInStartParentMP())

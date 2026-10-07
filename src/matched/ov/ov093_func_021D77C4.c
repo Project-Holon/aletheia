@@ -11,6 +11,9 @@
  *
  * symbols:
  */
+
+#include "../include/G_Tbl.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct {
@@ -22,7 +25,7 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern Tbl g_021F3ECC;
+extern struct Tbl g_021F3ECC;
 
 u32 func_021D77C4(Tbl *p, int key)
 {

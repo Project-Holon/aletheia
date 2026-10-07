@@ -20,12 +20,7 @@
  *   gTimers                          0x021ad064 data
  */
 
-struct GSLintTimer {
-    unsigned int start;
-    unsigned int total;
-    unsigned int entries;
-    unsigned int started;
-};
+#include "../include/G_GSLintTimer.h"
 
 extern struct GSLintTimer gTimers[9];
 extern unsigned int current_time_hires(void);

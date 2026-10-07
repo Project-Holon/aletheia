@@ -29,19 +29,16 @@
  *       --func sub_020305E4 --addr 0x020305E4 --cc 1.1p1
  */
 
+#include "../include/G_EnvHeapModule.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
-
-struct EnvHeapModule {
-    void *unk0;
-    u8   *ids;
-};
 
 extern struct EnvHeapModule g_EnvHeapModule;
 extern int OS_FreeToHeap(u32 heapId, void *ptr, u32 idx);
 
 int sub_020305E4(u32 idx)
 {
-    OS_FreeToHeap(4, g_EnvHeapModule.ids, idx);
+    OS_FreeToHeap(4, g_EnvHeapModule.heapHandle, idx);
     return 1;
 }

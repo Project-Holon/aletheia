@@ -30,6 +30,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021BE618.c \
  *       --func key --addr 0x021BE618 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_KEYBOARD_DATA.h"
+
 typedef _Bool bool;
 
 /* keyboard.o was built with plain char unsigned: every DWARF `char` below is
@@ -87,7 +90,7 @@ typedef struct {
     unsigned short *KEY_CHR[3];       /* 0x0C */
     int             SKEY_TOUCH_SND[4];/* 0x18 */
 } KEYBOARD_DATA;
-extern KEYBOARD_DATA keyboard_data;
+extern struct KEYBOARD_DATA keyboard_data;
 
 extern RECT DWCi_R_SCR;
 

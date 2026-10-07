@@ -14,8 +14,8 @@
  *   d_021F0DF0 0x021F0DF0 data ov033 a4
  */
 #include "../include/Obj20474.h"
-typedef struct { unsigned f00; unsigned f04[8]; unsigned f24; unsigned f28; } E;
-extern E d_021F0DF0[];
+#include "../include/G_ov033_021F0DF0.h"
+extern struct G_ov033_021F0DF0 d_021F0DF0[];
 struct Bank;
 extern unsigned int func_0204B1CC(struct Bank *bank);
 typedef unsigned int   u32;

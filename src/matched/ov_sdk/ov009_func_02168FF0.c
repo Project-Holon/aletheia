@@ -17,13 +17,15 @@
  *   DWC_GetGsProfileId  0x020598EC  arm
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 extern int func_0216A39C(void);
 extern int DWC_GetGsProfileId(void *user, void *data);
 
 int func_02168FF0(int index)
 {
-    char *list = *(char **)(*(char **)(g_021AA860 + 0xc) + 0x18);
+    char *list = *(char **)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x18);
     int pid;
 
     if (list == 0) {

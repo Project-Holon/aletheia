@@ -17,12 +17,9 @@
  *   func_0203C464  0x0203C464  arm
  */
 
-struct Card0203C628 {
-    unsigned char pad[8];
-    void *cb;
-};
+#include "../include/G_Sys.h"
 
-extern struct Card0203C628 *g_021469DC;
+extern struct Sys *g_021469DC;
 extern void func_0203C0F4(void *p);
 extern int func_0203C464(int a0, int a1, int a2, int a3);
 

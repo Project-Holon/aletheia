@@ -15,11 +15,13 @@
  *   g_021AA878  0x021AA878  data
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 
 int func_0216B994(void)
 {
-    int *p = *(int **)(g_021AA878 + 4);
+    int *p = *(int **)(((char *)&g_021AA878) + 4);
 
     return p != 0 ? *(int *)((char *)p + 0x24) : 0;
 }

@@ -14,16 +14,12 @@
  *   d_021F40F0     0x021F40F0  data  a2
  */
 
+#include "../include/G__anon_E.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-typedef struct {
-    u16 a;
-    u16 pad;
-    u16 b;
-} E;
-
-extern E d_021F40F0[];
+extern struct _anon_E d_021F40F0[];
 
 u8 func_021F3EE4(int a, int b)
 {

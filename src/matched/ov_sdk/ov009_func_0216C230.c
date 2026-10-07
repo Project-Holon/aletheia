@@ -53,6 +53,8 @@
 
  */
 
+#include "../include/G_DwcGlobal.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -117,12 +119,7 @@ struct DWCControl {
     int fb14;                         /* 0xb14 */
 };
 
-struct DWCModule {
-    int f00;                          /* 0x00 */
-    struct DWCControl *ctrl;          /* 0x04 */
-};
-
-extern struct DWCModule g_021AA878;
+extern struct DwcGlobal g_021AA878;
 extern int g_021AA8A0[];
 
 extern int DWCi_IsShutdownMatch(void);
@@ -205,11 +202,11 @@ void func_0216C230(struct GTI2Connection *connection, int reason,
         }
 
         profileID = DWCi_DeleteAID(aid);
-        g_021AA878.ctrl->f36c &= ~(1 << aid);
+        ((struct DWCControl *)g_021AA878.st)->f36c &= ~(1 << aid);
 
-        if (g_021AA878.ctrl->f398 != 0 && isServer) {
+        if (((struct DWCControl *)g_021AA878.st)->f398 != 0 && isServer) {
             if (!DWCi_IsBackupMine())
-                g_021AA878.ctrl->f394 = 1;
+                ((struct DWCControl *)g_021AA878.st)->f394 = 1;
         }
 
         i = 0;
@@ -221,52 +218,52 @@ void func_0216C230(struct GTI2Connection *connection, int reason,
             g_021AA8A0[conninfo->index] = 0;
     }
 
-    if (g_021AA878.ctrl->fb14 == 1 && DWC_IsServerMyself())
-        g_021AA878.ctrl->fb14 = 1;
-    else if ((g_021AA878.ctrl->f365 == 3 || g_021AA878.ctrl->f365 == 2))
-        g_021AA878.ctrl->fb14 = 0;
+    if (((struct DWCControl *)g_021AA878.st)->fb14 == 1 && DWC_IsServerMyself())
+        ((struct DWCControl *)g_021AA878.st)->fb14 = 1;
+    else if ((((struct DWCControl *)g_021AA878.st)->f365 == 3 || ((struct DWCControl *)g_021AA878.st)->f365 == 2))
+        ((struct DWCControl *)g_021AA878.st)->fb14 = 0;
     else if (DWC_GetNumConnectionHost() == 1)
-        g_021AA878.ctrl->fb14 = 1;
+        ((struct DWCControl *)g_021AA878.st)->fb14 = 1;
     else
-        g_021AA878.ctrl->fb14 = 0;
+        ((struct DWCControl *)g_021AA878.st)->fb14 = 0;
 
     if (DWCi_IsBackupMine()) {
         struct DWCstNodeInfo *pNodeInfo;
 
-        g_021AA878.ctrl->fadc = 0;
+        ((struct DWCControl *)g_021AA878.st)->fadc = 0;
 
         for (i = 0; i < DWCi_NodeInfoList_GetCount(); ) {
             pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
 
-            if (pNodeInfo->profileID != g_021AA878.ctrl->f9c8 &&
+            if (pNodeInfo->profileID != ((struct DWCControl *)g_021AA878.st)->f9c8 &&
                 DWCi_GetGT2Connection(pNodeInfo->aid) == 0) {
-                if (g_021AA878.ctrl->cb88 != 0) {
-                    g_021AA878.ctrl->cb88(dwcError, reason == 0, isServer,
+                if (((struct DWCControl *)g_021AA878.st)->cb88 != 0) {
+                    ((struct DWCControl *)g_021AA878.st)->cb88(dwcError, reason == 0, isServer,
                                           pNodeInfo->aid,
                                           DWCi_GetFriendListIndex(pNodeInfo->profileID),
-                                          g_021AA878.ctrl->f8c);
+                                          ((struct DWCControl *)g_021AA878.st)->f8c);
                 }
                 DWCi_DeleteAID(pNodeInfo->aid);
             } else {
                 pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
-                g_021AA878.ctrl->fadc |= 1 << pNodeInfo->aid;
+                ((struct DWCControl *)g_021AA878.st)->fadc |= 1 << pNodeInfo->aid;
                 i++;
             }
         }
     }
 
     if (reason != 0 && DWC_IsServerMyself() == 1) {
-        g_021AA878.ctrl->faf0 = 0;
+        ((struct DWCControl *)g_021AA878.st)->faf0 = 0;
 
         if (DWCi_IsFullMesh()) {
-            if (g_021AA878.ctrl->f96c == 0x10 && g_021AA878.ctrl->fa28 == 8) {
-                g_021AA878.ctrl->fab8 = 0;
+            if (((struct DWCControl *)g_021AA878.st)->f96c == 0x10 && ((struct DWCControl *)g_021AA878.st)->fa28 == 8) {
+                ((struct DWCControl *)g_021AA878.st)->fab8 = 0;
             }
         }
     }
 
-    if (g_021AA878.ctrl->f2d == 0 && g_021AA878.ctrl->f24 == 5 && aidValid == 0) {
-        if (!(g_021AA878.ctrl->f364 == 2 && dwcError == 0))
+    if (((struct DWCControl *)g_021AA878.st)->f2d == 0 && ((struct DWCControl *)g_021AA878.st)->f24 == 5 && aidValid == 0) {
+        if (!(((struct DWCControl *)g_021AA878.st)->f364 == 2 && dwcError == 0))
             return;
 
         DWCi_GPSetServerStatus(-1);
@@ -284,8 +281,8 @@ void func_0216C230(struct GTI2Connection *connection, int reason,
         return;
     }
 
-    if (g_021AA878.ctrl->f364 == 2) {
-        if (g_021AA878.ctrl->f2d == 0)
+    if (((struct DWCControl *)g_021AA878.st)->f364 == 2) {
+        if (((struct DWCControl *)g_021AA878.st)->f2d == 0)
             DWCi_GPSetServerStatus(-1);
         else if (DWCi_NodeInfoList_GetCount() == 1)
             DWCi_GPSetServerStatus(1);
@@ -293,34 +290,34 @@ void func_0216C230(struct GTI2Connection *connection, int reason,
         DWCi_GPSetServerStatus(1);
     }
 
-    if (g_021AA878.ctrl->f366 == 2)
-        qr2_send_statechanged(g_021AA878.ctrl->f360);
+    if (((struct DWCControl *)g_021AA878.st)->f366 == 2)
+        qr2_send_statechanged(((struct DWCControl *)g_021AA878.st)->f360);
 
-    if (g_021AA878.ctrl->cb88 != 0 && aidValid != 0) {
-        g_021AA878.ctrl->cb88(dwcError, reason == 0, isServer, aid,
+    if (((struct DWCControl *)g_021AA878.st)->cb88 != 0 && aidValid != 0) {
+        ((struct DWCControl *)g_021AA878.st)->cb88(dwcError, reason == 0, isServer, aid,
                               DWCi_GetFriendListIndex(profileID),
-                              g_021AA878.ctrl->f8c);
+                              ((struct DWCControl *)g_021AA878.st)->f8c);
     }
 
-    if (g_021AA878.ctrl->f2d == 0 && g_021AA878.ctrl->f364 == 2)
+    if (((struct DWCControl *)g_021AA878.st)->f2d == 0 && ((struct DWCControl *)g_021AA878.st)->f364 == 2)
         return;
 
     if (DWCi_StopMeshMaking() == 1)
         DWCi_SetMatchStatus(1);
 
     if (DWCi_NodeInfoList_GetCount() == 1) {
-        if (g_021AA878.ctrl->f2d != 0) {
+        if (((struct DWCControl *)g_021AA878.st)->f2d != 0) {
             DWCi_NNFreeNegotiateList();
             DWCi_SetState(3);
             DWCi_ClearQR2Key();
-            g_021AA878.ctrl->f366 = 0;
+            ((struct DWCControl *)g_021AA878.st)->f366 = 0;
         } else {
             DWCi_SetMatchStatus(0xb);
         }
         return;
     }
 
-    if (g_021AA878.ctrl->f364 == 3 && isServer && DWCi_NodeInfoList_GetCount() >= 1) {
+    if (((struct DWCControl *)g_021AA878.st)->f364 == 3 && isServer && DWCi_NodeInfoList_GetCount() >= 1) {
         if (DWCi_NodeInfoList_GetCount() == 1 && DWCi_IsServerChangeEnabled())
             DWCi_SetMatchStatus(0xb);
         else

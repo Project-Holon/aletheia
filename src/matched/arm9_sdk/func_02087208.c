@@ -17,6 +17,8 @@
  *   g_02151340            0x02151340  data
  */
 
+#include "../include/G_OsAlarmBss.h"
+
 typedef unsigned long long u64;
 typedef unsigned long u32;
 typedef unsigned short u16;
@@ -44,12 +46,9 @@ typedef struct OSAlarmQueue {
 } OSAlarmQueue;
 
 /* os_alarm.o .bss from 0x02151340, addressed from one pool word. */
-typedef struct OsAlarmBss {
-    u16 OSi_UseAlarm;
-    OSAlarmQueue OSi_AlarmQueue;
-} OsAlarmBss;
+typedef struct OsAlarmBss OsAlarmBss;
 
-extern OsAlarmBss g_02151340;
+extern struct OsAlarmBss g_02151340;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -65,8 +64,8 @@ void func_02087208(void)
 
         OSi_SetTimerReserved(1);
 
-        g_02151340.OSi_AlarmQueue.head = 0;
-        g_02151340.OSi_AlarmQueue.tail = 0;
+        g_02151340.OSi_AlarmQueue_head = 0;
+        g_02151340.OSi_AlarmQueue_tail = 0;
 
         (void)OS_DisableIrqMask(0x10);
     }

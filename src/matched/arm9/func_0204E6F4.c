@@ -20,19 +20,10 @@
  *       --func func_0204E6F4 --addr 0x0204E6F4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Run0204E720.h"
+
 typedef signed int   s32;
 typedef unsigned int u32;
-
-struct Run0204E720 {
-    u32 unk00; /* 0x00 */
-    s32 unk04; /* 0x04 */
-    s32 unk08; /* 0x08 */
-    s32 unk0c; /* 0x0c */
-    s32 unk10; /* 0x10 */
-    s32 unk14; /* 0x14 */
-    s32 unk18; /* 0x18 */
-    s32 unk1c; /* 0x1c */
-};
 
 extern struct Run0204E720 *g_02146A7C;
 

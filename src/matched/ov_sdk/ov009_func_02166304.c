@@ -21,16 +21,9 @@
  * One-time initialisation of the CPS interface work: clears the MAC address and the state words, then initialises the send mutex.
  */
 
-typedef struct WCMCpsifWork {
-    unsigned char inited;
-    unsigned char pad0[3];
-    long field4;
-    long field8;
-    unsigned char mutex[0x18];
-    unsigned short field24;
-} WCMCpsifWork;
+#include "../include/G_ov009_021AA7DC.h"
 
-extern WCMCpsifWork g_021AA7DC;
+extern struct G_ov009_021AA7DC g_021AA7DC;
 extern unsigned char g_021AA80C[];
 extern unsigned char g_021AA7E8[];
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);

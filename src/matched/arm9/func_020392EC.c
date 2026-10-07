@@ -29,19 +29,21 @@
  *       --func func_020392EC --addr 0x020392EC --cc 1.1p1 --arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void *func_0203D788(void);
 extern void *func_0203D798(void);
-extern u32 g_021469D0;
+extern struct LinkState *g_021469D0;
 
 int func_020392EC(void)
 {
     u8 *s = func_0203D788();
     u8 *p = func_0203D798();
 
-    if (g_021469D0 != 0 && (u8)(p[0x65] + 0xFF) <= 3)
+    if ((*(u32 *)&g_021469D0) != 0 && (u8)(p[0x65] + 0xFF) <= 3)
         return 1;
 
     return (*(int (**)(void))(*(u32 *)(s + 0x340) + 0x6C))();

@@ -24,6 +24,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C984C.c \
  *       --func drawAddress --addr 0x021C984C --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -87,7 +90,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -118,5 +121,5 @@ void drawAddress(const unsigned char *addr, int idx)
 
     OS_SNPrintf(tmpbuf, 16, scenesetlist_str_22070, addr[0], addr[1], addr[2], addr[3]);
     DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 16);
-    DWCi_FNTlDrawStringEx(scenesetlist_bss.MemSsl->canv, 0x5F, idx * 29 + 8, 2, 7, buf, 1);
+    DWCi_FNTlDrawStringEx(((MEMSSL *)scenesetlist_bss.MemSsl)->canv, 0x5F, idx * 29 + 8, 2, 7, buf, 1);
 }

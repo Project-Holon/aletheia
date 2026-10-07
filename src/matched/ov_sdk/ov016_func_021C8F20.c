@@ -47,6 +47,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021C8F20.c \
  *       --func endScene2 --addr 0x021C8F20 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -110,7 +113,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -167,31 +170,31 @@ void endScene2(void)
         return;
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_TSKlDeleteEx(0, scenesetlist_bss.MemSsl->push.task);
-    DWCi_TSKlDeleteEx(1, scenesetlist_bss.MemSsl->taskV);
+    DWCi_TSKlDeleteEx(0, ((MEMSSL *)scenesetlist_bss.MemSsl)->push.task);
+    DWCi_TSKlDeleteEx(1, ((MEMSSL *)scenesetlist_bss.MemSsl)->taskV);
     for (i = 0; i < 7; i++)
-        DWCi_OBJlDelete(scenesetlist_bss.MemSsl->obj[i]);
-    if (scenesetlist_bss.MemSsl->icon)
-        DWCi_OBJlDelete(scenesetlist_bss.MemSsl->icon);
+        DWCi_OBJlDelete(((MEMSSL *)scenesetlist_bss.MemSsl)->obj[i]);
+    if (((MEMSSL *)scenesetlist_bss.MemSsl)->icon)
+        DWCi_OBJlDelete(((MEMSSL *)scenesetlist_bss.MemSsl)->icon);
     DWCi_SBlEnd();
     DWCi_FNTlDeleteBgLcd(0);
     DWCi_FOCUSlDelete();
-    if (scenesetlist_bss.MemSsl->choose != 12)
+    if (((MEMSSL *)scenesetlist_bss.MemSsl)->choose != 12)
         DWCi_COMMENTlDelete();
     DWCi_SCREENlEnd();
-    DWCi_ARClRelease(scenesetlist_bss.MemSsl->back);
+    DWCi_ARClRelease(((MEMSSL *)scenesetlist_bss.MemSsl)->back);
     for (i = 0; i < 2; i++)
-        DWCi_ARClRelease(scenesetlist_bss.MemSsl->pltt[i]);
+        DWCi_ARClRelease(((MEMSSL *)scenesetlist_bss.MemSsl)->pltt[i]);
     DWCi_CMNlLoadResource(scenesetlist_str_21900, GX_LoadOBJPltt);
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x1D);
     *(volatile unsigned long *)0x04000010 = 0;
     *(volatile unsigned long *)0x04000018 = 0;
     *(volatile unsigned short *)0x0400000C = (unsigned short)((*(volatile unsigned short *)0x0400000C & 0x43) | 0xE10);
-    switch (scenesetlist_bss.MemSsl->choose) {
+    switch (((MEMSSL *)scenesetlist_bss.MemSsl)->choose) {
     case 0:
     case 1:
-        DWCi_SetParam2_((void *)scenesetlist_bss.MemSsl->choose, 0);
+        DWCi_SetParam2_((void *)((MEMSSL *)scenesetlist_bss.MemSsl)->choose, 0);
         DWCi_SetParam_((void *)2, 0);
         DWCi_ChangeScene(DWCi_SceneSetEdit32);
         break;
@@ -200,8 +203,8 @@ void endScene2(void)
     case 6:
     case 9:
     case 10:
-        ix = scenesetlist_bss.MemSsl->choose - 4;
-        if (scenesetlist_bss.MemSsl->choose >= 9)
+        ix = ((MEMSSL *)scenesetlist_bss.MemSsl)->choose - 4;
+        if (((MEMSSL *)scenesetlist_bss.MemSsl)->choose >= 9)
             ix -= 2;
         DWCi_SetParam_((void *)2, 0);
         DWCi_SetParam2_((void *)ix, 0);

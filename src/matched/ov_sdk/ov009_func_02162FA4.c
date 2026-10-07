@@ -15,11 +15,13 @@
  *   g_021AA664  0x021AA664  data
  */
 
-extern char g_021AA664[];
+#include "../include/G_CPSSslSession.h"
+
+extern struct CPSSslSession g_021AA664;
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_02162FA4(void)
 {
-    func_02082BCC(g_021AA664, 0, 0x170);
+    func_02082BCC(((char *)&g_021AA664), 0, 0x170);
 }
 

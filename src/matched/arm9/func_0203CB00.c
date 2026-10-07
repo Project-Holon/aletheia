@@ -18,17 +18,19 @@
  *   func_0203CADC  0x0203CADC  arm
  */
 
+#include "../include/G_Sys.h"
+
 struct Card0203CB00 {
     unsigned char pad[8];
     void *cb;
 };
 
-extern struct Card0203CB00 *g_021469DC;
+extern struct Sys *g_021469DC;
 extern void func_0203CADC(void);
 
 int func_0203CB00(void)
 {
-    struct Card0203CB00 *c = g_021469DC;
+    struct Card0203CB00 *c = ((struct Card0203CB00 *)g_021469DC);
     if (c != 0 && c->cb == (void *)func_0203CADC) {
         return 1;
     }

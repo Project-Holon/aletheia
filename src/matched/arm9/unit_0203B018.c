@@ -28,14 +28,11 @@
  * Integrator: seed 0x0203B01C arm (member of this unit, no label).
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned short u16;
 
-struct NetState {
-    unsigned char pad_00[0x46];
-    u16 f46;
-};
-
-extern struct NetState *g_021469DC;
+extern struct Sys *g_021469DC;
 
 void func_0203B018(void)
 {

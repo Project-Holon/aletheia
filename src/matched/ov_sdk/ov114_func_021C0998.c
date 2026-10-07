@@ -21,6 +21,8 @@
  *   g_021D3B30                       0x021d3b30 data
  */
 
+#include "../include/G_GHIGlobals.h"
+
 typedef struct GHIConnection {
     int inUse;               /* +0x000 */
     int index;               /* +0x004 */
@@ -82,20 +84,13 @@ typedef struct GHIConnection {
     char pad1D4[0x0];
 } GHIConnection;
 
-typedef struct GHIConnectionTable {
-    int connectionsLen;         /* ghiConnectionsLen */
-    int numConnections;         /* ghiNumConnections */
-    int nextUniqueID;           /* ghiNextUniqueID */
-    GHIConnection **connections; /* ghiConnections */
-} GHIConnectionTable;
-
 extern void func_021C0370(void);
 extern int func_021C08B0(void);
 extern void func_021C0374(void);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
 extern int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3);
 extern int func_021C0D40(GHIConnection *connection);
-extern GHIConnectionTable g_021D3B30;
+extern struct GHIGlobals g_021D3B30;
 
 GHIConnection *func_021C0998(void)
 {
@@ -111,7 +106,7 @@ GHIConnection *func_021C0998(void)
         return 0;
     }
 
-    connection = g_021D3B30.connections[slot];
+    connection = ((GHIConnection **)g_021D3B30.connections)[slot];
     func_020923B0(connection, 0, sizeof(GHIConnection));
     connection->inUse = 1;
     connection->index = slot;

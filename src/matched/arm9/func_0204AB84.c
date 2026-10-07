@@ -18,13 +18,10 @@
  * of four registers and a trailing word.
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct Mgr {
-    u8  pad_000[0x10c];
-    u8 *tbl;
-};
 
 extern struct Mgr *g_02146A74;
 
@@ -34,7 +31,7 @@ struct Rec {
 
 void func_0204AB84(u32 idx, struct Rec *dst)
 {
-    struct Rec *src = (struct Rec *)(g_02146A74->tbl + idx * 64);
+    struct Rec *src = (struct Rec *)(((u8 *)g_02146A74->owner_slots) + idx * 64);
 
     *dst = *src;
 }

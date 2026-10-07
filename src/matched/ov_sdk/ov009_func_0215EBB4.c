@@ -18,10 +18,12 @@
  *   g_021AA4B8  0x021AA4B8  data
  */
 
+#include "../include/G_021AA4B8.h"
+
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_0215EA1C(void *socket);
-extern void *g_021AA4B8;
+extern struct G_021AA4B8 *g_021AA4B8;
 
 void func_0215EBB4(void)
 {

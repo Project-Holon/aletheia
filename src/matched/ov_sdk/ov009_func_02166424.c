@@ -19,12 +19,9 @@
  * Installs the DCF receive callback in the CPS interface work under a critical section.
  */
 
-typedef struct WCMCpsifWork {
-    unsigned char pad0[0x28];
-    void (*recvCb)(unsigned char *, unsigned char *, unsigned char *, long);
-} WCMCpsifWork;
+#include "../include/G_ov009_021AA7DC.h"
 
-extern WCMCpsifWork g_021AA7DC;
+extern struct G_ov009_021AA7DC g_021AA7DC;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 

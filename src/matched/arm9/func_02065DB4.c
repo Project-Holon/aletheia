@@ -45,6 +45,9 @@
  * declared with an empty parameter list, as NitroSystem declares it, and
  * called with 1.  ../2.0/sp2 and sp2p2 identical; 1.1p1 273 out.
  */
+
+#include "../include/G_G18.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -91,15 +94,8 @@ struct RendererBss {
     s32 stackPos_;
 };
 
-typedef struct MCRenderState {
-    u16 currentCellAnimIdx;
-    u16 pad16_;
-    void *cellAnimMtxCacheTbl[256];
-    BOOL bDrawMC;
-} MCRenderState;
-
 extern struct RendererBss g_02147B88;
-extern MCRenderState g_02148718;        /* mcRenderState_ */
+extern struct G18 g_02148718;        /* mcRenderState_ */
 
 extern fx32 func_02066E20(void);        /* NNSi_G2dGetOamSoftEmuAutoZOffsetStep */
 extern void func_02066DEC(BOOL flag);   /* NNSi_G2dSetOamSoftEmuAutoZOffsetFlag */
@@ -153,7 +149,7 @@ void func_02065DB4(const NNSG2dMultiCellInstance *pMC)
     u16 i;
     if (pMC->mcType == 1) {
         for (i = 0; i < pMC->pCurrentMultiCell->numCellAnim; i++) {
-            g_02148718.cellAnimMtxCacheTbl[i] = 0;
+            g_02148718.arr04[i] = 0;
         }
 
         g_02148718.bDrawMC = 1;

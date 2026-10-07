@@ -29,6 +29,9 @@
  *       --func func_02064E3C --addr 0x02064E3C --arm --cc 1.1p1
  */
 
+#include "../include/G_Mtx.h"
+#include "../include/G_02148018.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -50,10 +53,10 @@ struct Blk02064E3C {
 
 extern struct B8802064E3C g_02147B88;
 extern u32 g_02147B98[];
-extern struct Blk02064E3C g_02147D18[];
+extern struct Mtx g_02147D18[];
 extern u8 g_02147D28[];
 extern u8 g_02147D2C[];
-extern struct Blk02064E3C g_02148018[];
+extern struct G_02148018 g_02148018[];
 
 void func_02064E3C(void)
 {
@@ -63,7 +66,7 @@ void func_02064E3C(void)
         *(u32 *)&g_02147D28[i * 0x18] = 0;
         *(u32 *)&g_02147D2C[i * 0x18] = 0;
     } else {
-        struct Blk02064E3C *s = &g_02147D18[i];
+        struct Blk02064E3C *s = &((struct Blk02064E3C *)g_02147D18)[i];
 
         s->unk_00 = 0x1000;
         s->unk_04 = 0;
@@ -71,7 +74,7 @@ void func_02064E3C(void)
         s->unk_0c = 0x1000;
         s->unk_10 = 0;
         s->unk_14 = 0;
-        g_02148018[i] = *s;
+        ((struct Blk02064E3C *)g_02148018)[i] = *s;
     }
 
     g_02147B98[i] = 0;

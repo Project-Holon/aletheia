@@ -27,6 +27,8 @@
  * is the exifenc.o file-static block based at dateTimeDataFlag.
  */
 
+#include "../include/G_exifenc_vars.h"
+
 typedef struct exif_tag_entry {
     unsigned short tag;
     unsigned short type;
@@ -48,21 +50,11 @@ typedef struct exif_ifd_data {
     long next_ifd_pointer;
 } exif_ifd_data;
 
-typedef struct exifenc_vars {
-    int dateTimeDataFlag;       /* +0x00 */
-    unsigned long pos;          /* +0x04 */
-    unsigned long f08;
-    unsigned long f0C;
-    unsigned long len2;         /* +0x10 */
-    unsigned char *buf;         /* +0x14 */
-    unsigned long len1;         /* +0x18 */
-    unsigned char *ptr1;        /* +0x1c */
-    unsigned char *ptr2;        /* +0x20 */
-} exifenc_vars;
+typedef struct exifenc_vars exifenc_vars;
 
 extern unsigned long func_021C2DC8(exif_tag_entry *entry);
 extern void func_021C2E1C(exif_tag_entry *entry);
-extern exifenc_vars g_021CADF0;
+extern struct exifenc_vars g_021CADF0;
 
 #define PUT(v)  (g_021CADF0.buf[g_021CADF0.pos++] = (unsigned char)(v))
 

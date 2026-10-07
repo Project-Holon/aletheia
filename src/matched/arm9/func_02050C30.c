@@ -41,13 +41,15 @@
  * stand.
  */
 
+#include "../include/G_02146A88.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef struct { u32 x, y, z; } Vec3;
 
-extern u32 *g_02146A88;
+extern struct G_02146A88 *g_02146A88;
 extern const char g_020A7FC0[];
 extern Vec3 g_020A1590;
 extern Vec3 g_020A1584;
@@ -82,7 +84,7 @@ void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap)
     u32 *tab;
     int i = 0;
 
-    tab = g_02146A88;
+    tab = ((u32 *)g_02146A88);
     do {
         if (tab[i] == 0)
             break;
@@ -102,7 +104,7 @@ void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap)
     e->f10 = a0;
     e->f14 = a0 + a1;
     e->f25a = (u8)i;
-    g_02146A88[i] = (u32)e;
+    ((u32 *)g_02146A88)[i] = (u32)e;
 
     if (a2 == 1)
         func_02051648((struct Dst648 *)e, 0, 0x2000, 0, 0, 0, heap);

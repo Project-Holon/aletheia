@@ -33,6 +33,8 @@
  * the state argument of the same call.
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -58,7 +60,7 @@ extern void func_02038570(void);
 extern void func_02038924(u32 a, u32 b, u16 c);
 extern int func_02038A90(u32 a);
 extern u8   g_020A7A20[];
-extern u32 *g_021469D0;
+extern struct LinkState *g_021469D0;
 
 void func_02038380(void)
 {
@@ -71,7 +73,7 @@ void func_02038380(void)
             if (((int (*)(void))c->f340[0x70 / 4])() != 0) {
                 u32 t = func_02037258();
                 if (((int (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
-                        g_021469D0[2], t, 0, (u32)func_02038A90) != 0)
+                        ((u32 *)g_021469D0)[2], t, 0, (u32)func_02038A90) != 0)
                     goto tail;
                 func_02037224(1, 0x46a + 4);
                 goto tail;
@@ -82,19 +84,19 @@ void func_02038380(void)
                 func_02037224(1, 0x475);
                 goto tail;
             }
-            if (*(u8 *)(g_021469D0[2] + 2) == 0)
+            if (*(u8 *)(((u32 *)g_021469D0)[2] + 2) == 0)
                 return;
             {
                 u32 t = func_0203D6BC();
                 ((void (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
-                    g_021469D0[2], t, 0x64, 0);
+                    ((u32 *)g_021469D0)[2], t, 0x64, 0);
             }
         }
     }
 tail:
     if (g_020A7A20[0] == 2) {
         func_02038570();
-        func_02038924(0, (u32)g_021469D0[2], (u16)func_02037258());
+        func_02038924(0, (u32)((u32 *)g_021469D0)[2], (u16)func_02037258());
         func_02037224(3, 0x490 - 3);
     }
     if (((int (*)(void))c->f340[0x70 / 4])() == 0)

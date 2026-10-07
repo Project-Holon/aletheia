@@ -14,10 +14,12 @@
  *   d_021F63F4  0x021F63F4  data  a4
  */
 
-extern char d_021F63F4;
+#include "../include/G_Countdown.h"
+
+extern struct Countdown d_021F63F4;
 extern void *func_021EFCE4(char *arg0, int arg1);
 
 int func_021EF948(int a)
 {
-    return (int)func_021EFCE4(&d_021F63F4, a);
+    return (int)func_021EFCE4(&(*(char *)&d_021F63F4), a);
 }

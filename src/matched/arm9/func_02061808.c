@@ -13,6 +13,8 @@
  *   g_02146B74       0x02146B74  data
  */
 
+#include "../include/G_Arena02146B74.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,7 +24,7 @@ struct Pair02061808 {
     u32 b;
 };
 
-extern struct Pair02061808 g_02146B74;
+extern struct Arena02146B74 g_02146B74;
 
 void func_02061808(struct Pair02061808 *dst)
 {

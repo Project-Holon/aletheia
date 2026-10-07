@@ -15,27 +15,15 @@
  *   g_021B3C84     0x021B3C84  data  a4
  */
 
+#include "../include/G_021B3C84.h"
+#include "../include/G_Sess.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-struct Cfg {
-    u8 pad[0x10];
-    int f10;
-};
-
-struct St {
-    u8 pad[0xC];
-    int fC;
-    u16 f10;
-    u8 f12;
-    u8 pad13;
-    u8 pad14[8];
-    int f1C;
-};
-
-extern struct Cfg g_021B60D8;
+extern struct Sess g_021B60D8;
 extern const u8 g_021B3AD0[5][2];
-extern struct St g_021B3C84;
+extern struct G_021B3C84 g_021B3C84;
 
 int func_021B0C64(int x)
 {

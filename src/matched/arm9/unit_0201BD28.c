@@ -59,6 +59,8 @@
  *       --addr 0x0201BD28 --thumb
  */
 
+#include "../include/G_WazaTool.h"
+
 typedef unsigned char  u8;
 typedef signed char    s8;
 typedef unsigned short u16;
@@ -91,12 +93,6 @@ struct Waza {
     u8  unk1B[3];
 };
 
-struct WazaTool {
-    struct Waza **recs;
-    u16 *vals;
-    s32 count;
-};
-
 extern struct WazaTool *gWazaTool;
 extern struct Waza g_02146534;
 
@@ -111,18 +107,18 @@ u32 sub_0201BD28(u16 id, u32 field)
 
     if (gWazaTool != 0) {
         for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
+            if (((u16 *)gWazaTool->vals)[i] == 0) {
+                ((u16 *)gWazaTool->vals)[i] = id;
                 func_02048F4C(gWazaTool->recs[i], 0x15, id);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (id == ((u16 *)gWazaTool->vals)[i]) {
                 break;
             }
         }
         if (i == gWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
+            ((u16 *)gWazaTool->vals)[i] = id;
             func_02048F4C(gWazaTool->recs[i], 0x15, id);
         }
         rec = gWazaTool->recs[i];

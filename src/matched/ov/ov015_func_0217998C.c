@@ -16,11 +16,13 @@
  *   d_0217AB40  0x0217AB40  data ov015
  */
 
+#include "../include/G_s_ab40.h"
+
 typedef unsigned char u8;
 
-extern u8 d_0217AB40[];
+extern struct s_ab40 d_0217AB40;
 
 void func_0217998C(int v)
 {
-    *(int *)(d_0217AB40 + 0x3C) = v;
+    *(int *)(((u8 *)&d_0217AB40) + 0x3C) = v;
 }

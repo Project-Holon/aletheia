@@ -14,9 +14,12 @@
  * symbols:
  *   g_021797A4 0x021797A4 data a4
  */
+
+#include "../include/G_W.h"
+
 typedef unsigned char u8;
-extern u8 *g_021797A4;
+extern struct W *g_021797A4;
 int func_021775AC(int a, int b, int c)
 {
-    return (*(int (**)(int, int, int))(g_021797A4 + 4))(a,b,c);
+    return (*(int (**)(int, int, int))(((u8 *)g_021797A4) + 4))(a,b,c);
 }

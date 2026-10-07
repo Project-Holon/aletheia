@@ -34,20 +34,21 @@
  *       --func func_0201045C --addr 0x0201045C --thumb
  */
 #include "../include/Obj05697.h"
+#include "../include/G_WihCtx.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *g_021461E0;
+extern struct WihCtx g_021461E0;
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 void func_0201045C(const void *src)
 {
-    u8 *o = g_021461E0;
+    u8 *o = (*(u8 * *)&g_021461E0);
 
     if (((struct Obj05697 *)o)->f310 != 0 && ((struct Obj05697 *)o)->f316 < ((struct Obj05697 *)o)->f310 && ((struct Obj05697 *)o)->f316 < 4) {
         MI_CpuCopy8(src, o + ((struct Obj05697 *)o)->f316 * 0xC0, 0xC0);
-        *(u16 *)(g_021461E0 + 0x316) = *(u16 *)(g_021461E0 + 0x316) + 1;
+        *(u16 *)((*(u8 * *)&g_021461E0) + 0x316) = *(u16 *)((*(u8 * *)&g_021461E0) + 0x316) + 1;
     }
 }

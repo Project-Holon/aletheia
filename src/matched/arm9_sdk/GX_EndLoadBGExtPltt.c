@@ -21,6 +21,8 @@
  *   MI_WaitDma                 0x02082594  arm
  */
 
+#include "../include/G_GXLoad2DState.h"
+
 typedef unsigned long u32;
 typedef int BOOL;
 
@@ -47,7 +49,7 @@ typedef struct {
     int subOBJExtPltt;
 } GXLoad2DState;
 
-extern GXLoad2DState sSubBGExtPltt;
+extern struct GXLoad2DState sSubBGExtPltt;
 
 extern void MI_NDmaCopyAsync(u32 ndmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg);
 extern void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);

@@ -34,10 +34,12 @@
  *       --func func_0203B52C --addr 0x0203B52C --cc 1.1p1 --arm
  */
 
+#include "../include/G_Sys.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u32  g_021469DC;
+extern struct Sys *g_021469DC;
 extern void func_0203B4DC(void);
 extern void func_0203C00C(void);
 
@@ -62,7 +64,7 @@ void func_0203B52C(struct Slot *p)
     if (func_020393D0() != 0)
         return;
     if (func_020393A8() == 0) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B4DC, 0, 0x297);
+        func_0203AD80((struct NetState *)(*(u32 *)&g_021469DC), (void *)func_0203B4DC, 0, 0x297);
         return;
     }
     if (func_020399EC() == 0)
@@ -73,5 +75,5 @@ void func_0203B52C(struct Slot *p)
         ((void (*)(u32))p->f2c)(func_0203D650());
         p->f2c = 0;
     }
-    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C00C, 0, 0x2a6);
+    func_0203AD80((struct NetState *)(*(u32 *)&g_021469DC), (void *)func_0203C00C, 0, 0x2a6);
 }

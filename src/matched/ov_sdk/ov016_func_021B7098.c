@@ -25,6 +25,8 @@
  *       --func AOSS_StatusExclusion --addr 0x021B7098 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
 
+#include "../include/G_AOSS_DATA_SECTION.h"
+
 /*
  * aoss.o's 96-byte .data section (0x021DAAB4): s_sFd, AOSS_StatusExclusion's
  * static before, and soconfig, declared as one object because the vendor
@@ -44,7 +46,7 @@ typedef struct {
     SOCConfig soconfig;
 } AOSS_DATA_SECTION;
 
-extern AOSS_DATA_SECTION aoss_data;
+extern struct AOSS_DATA_SECTION aoss_data;
 extern int AOSSi_Status(int stat);
 
 int AOSS_StatusExclusion(int stat)

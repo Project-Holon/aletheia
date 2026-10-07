@@ -12,9 +12,12 @@
  *   func_02020FE4 0x02020FE4 thumb
  *   data_021F6360 0x021F6360 data ov093 a2
  */
+
+#include "../include/G_Unk021F6360.h"
+
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 data_021F6360;
+extern struct Unk021F6360 data_021F6360;
 extern u32 func_02020FE4(void *,u32,u32);
 void func_021D8058(void) { }
-u32 func_021D805C(void *p,u32 n) { return func_02020FE4(p,n,data_021F6360); }
+u32 func_021D805C(void *p,u32 n) { return func_02020FE4(p,n,(*(u16 *)&data_021F6360)); }

@@ -27,6 +27,9 @@
  *   g_021DA720    0x021DA720 data
  *   g_021DE60C    0x021DE60C data
  */
+
+#include "../include/G_SCENESETSELECTAP_BSS.h"
+
 struct tagCOORD {
     unsigned short x;
     unsigned short y;
@@ -37,19 +40,13 @@ struct selobj {
     void *cell[6];
 };
 
-struct focusobj {
-    unsigned char focus;
-    unsigned char pad[3];
-    struct selobj *obj;
-};
-
 extern unsigned char func_021CF7F4(unsigned int i);
 extern void *func_021D5394(int lcd, int idx, int head);
 extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D51F0(void *cell, int idx, int priority);
 extern const struct tagCOORD g_021DA72C[6];
 extern unsigned char g_021DA720[4];
-extern struct focusobj g_021DE60C;
+extern struct SCENESETSELECTAP_BSS g_021DE60C;
 
 void func_021CBDF8(void)
 {
@@ -63,12 +60,12 @@ void func_021CBDF8(void)
             type = 3;
         } else {
             j = i + 3;
-            g_021DE60C.obj->cell[i + 3] = func_021D5394(0, 0x11, 1);
-            func_021D5118(g_021DE60C.obj->cell[i + 3], -1, g_021DA72C[j].x, g_021DA72C[j].y);
-            func_021D51F0(g_021DE60C.obj->cell[i + 3], -1, 3);
+            g_021DE60C.MemSssa->cell[i + 3] = func_021D5394(0, 0x11, 1);
+            func_021D5118(g_021DE60C.MemSssa->cell[i + 3], -1, g_021DA72C[j].x, g_021DA72C[j].y);
+            func_021D51F0(g_021DE60C.MemSssa->cell[i + 3], -1, 3);
         }
-        g_021DE60C.obj->cell[i] = func_021D5394(0, g_021DA720[type], 1);
-        func_021D5118(g_021DE60C.obj->cell[i], -1, g_021DA72C[i].x, g_021DA72C[i].y);
-        func_021D51F0(g_021DE60C.obj->cell[i], -1, 3);
+        g_021DE60C.MemSssa->cell[i] = func_021D5394(0, g_021DA720[type], 1);
+        func_021D5118(g_021DE60C.MemSssa->cell[i], -1, g_021DA72C[i].x, g_021DA72C[i].y);
+        func_021D51F0(g_021DE60C.MemSssa->cell[i], -1, 3);
     }
 }

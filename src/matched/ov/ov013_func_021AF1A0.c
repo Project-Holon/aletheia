@@ -21,18 +21,13 @@
  *   func_02156FDC  0x02156FDC  thumb  ov009
  */
 
+#include "../include/G_Work.h"
+
 typedef unsigned char u8;
 
-typedef struct Work {
-    u8 pad0[0x880];
-    void *f880;
-    u8 pad884[0x1984 - 0x884];
-    void (*f1984)(void);
-    u8 pad1988[0x19B8 - 0x1988];
-    u8 f19B8[4];
-} Work;
+typedef struct Work Work;
 
-extern Work *d_021B3C80;
+extern struct Work *d_021B3C80;
 typedef unsigned int   u32;
 extern u32 func_0202EB0C(void);
 extern int func_0208B480(void);

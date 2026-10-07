@@ -69,6 +69,7 @@
  *   str_020A7CE8   0x020A7CE8  data
  */
 #include "../include/Obj03452.h"
+#include "../include/G_Singleton.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -81,7 +82,7 @@ extern void func_020306F0(u32 a);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02034FB8(u32 a);
 extern void func_0200F234(u32 a);
-extern u32 g_021469E0[];
+extern struct Singleton g_021469E0;
 extern char str_020A7CA0[];
 extern char str_020A7CE8[];
 
@@ -111,7 +112,7 @@ void func_0203CDD4(void)
     func_0200F234(m);
     func_020307B0(s);
 
-    g_021469E0[2] = 0;
+    ((u32 *)&g_021469E0)[2] = 0;
 
     switch (m) {
     case 1:

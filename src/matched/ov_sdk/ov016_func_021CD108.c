@@ -20,8 +20,10 @@
  *   g_021DE614     0x021DE614  data
  */
 
+#include "../include/G_FocusState.h"
+
 typedef struct { signed char last; signed char cur; unsigned char flag; void *screen; } FocusState;
-extern FocusState g_021DE614;
+extern struct FocusState g_021DE614;
 typedef struct { unsigned char b[4]; } Palette4;
 extern Palette4 g_021DA7D4;
 extern void func_021CE7B0(void *src, int sColor, int dColor);

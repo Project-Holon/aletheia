@@ -31,21 +31,23 @@
  *       --addr 0x0201DE00 --thumb
  */
 
+#include "../include/G_FontState.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u8 g_02146578[3];
+extern struct FontState g_02146578;
 
 void func_0201DE00(u8 *r, u8 *g, u8 *b)
 {
-    *r = g_02146578[0];
-    *g = g_02146578[1];
-    *b = g_02146578[2];
+    *r = ((u8 *)&g_02146578)[0];
+    *g = ((u8 *)&g_02146578)[1];
+    *b = ((u8 *)&g_02146578)[2];
 }
 
 u32 func_0201DE18(u32 r, u32 g, u32 b)
 {
-    if (r != g_02146578[0] || g != g_02146578[1] || b != g_02146578[2]) {
+    if (r != ((u8 *)&g_02146578)[0] || g != ((u8 *)&g_02146578)[1] || b != ((u8 *)&g_02146578)[2]) {
         return 1;
     }
     return 0;

@@ -22,17 +22,16 @@
  * Starts an AP search on the active device (WM or NWM), returning a WCM result code.
  */
 
+#include "../include/G_WCMState.h"
+
 typedef struct WCMWork {
     unsigned char pad0[0x12DF];
     unsigned char deviceId;
 } WCMWork;
 
-typedef struct WCMState {
-    long pad0;
-    WCMWork *work;
-} WCMState;
+typedef struct WCMState WCMState;
 
-extern WCMState g_021AA7D4;
+extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern long func_02166A24(void *bssid, void *essid, unsigned long option);
@@ -49,7 +48,7 @@ long func_02165164(void *bssid, void *essid, unsigned long option)
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (g_021AA7D4.work->deviceId) {
+    switch (((WCMWork *)g_021AA7D4.work)->deviceId) {
     case 1:
         wcmResult = func_02166A24(bssid, essid, option);
         break;

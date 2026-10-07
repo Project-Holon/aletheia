@@ -50,6 +50,9 @@
  *   g_021A1CFC                  0x021A1CFC data
  *   g_021A82BC                  0x021A82BC data
  */
+
+#include "../include/G_SOCLSocketParam.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -103,7 +106,7 @@ static u32 SOCLiRequestedIP = 0;
 static u32 SOCLiUDPSendSocket = 0;
 static u32 SOCLiYieldWait = 0;
 
-extern u16 g_021A1CFC[];
+extern struct SOCLSocketParam g_021A1CFC;
 extern u32 g_021A82BC;
 
 void MI_CpuFill8(void *dstp, u8 data, u32 size);
@@ -150,9 +153,9 @@ static void SOCLi_StartupCPS(void)
     } else if (mss < 0x240) {
         mss = 0x240;
     }
-    g_021A1CFC[1] = (u16)(socl_config->rwin != 0 ? socl_config->rwin : 0x10C0);
+    ((u16 *)&g_021A1CFC)[1] = (u16)(socl_config->rwin != 0 ? socl_config->rwin : 0x10C0);
     cps_config->mymss = (u32)(mss - 0x28);
-    g_021A1CFC[2] = (u16)((mss - 0x28) * 2);
+    ((u16 *)&g_021A1CFC)[2] = (u16)((mss - 0x28) * 2);
     g_021A82BC = 0;
     if (socl_config->use_dhcp != 0) {
         cps_config->mode = 0;

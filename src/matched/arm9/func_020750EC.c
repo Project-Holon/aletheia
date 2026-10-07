@@ -50,14 +50,10 @@
  *    found the decl-order swap, and the minimal readable form is this one.
  */
 
+#include "../include/G_ArcHdr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct ArcHdr {
-    u32 pad[0xe];
-    u32 count;                  /* +0x38 entries in the offset table   */
-    u32 off[1];                 /* +0x3c the table, count words        */
-};
 
 extern struct ArcHdr d_0214EA54;
 extern struct ArcHdr d_0214EA54_hdr;

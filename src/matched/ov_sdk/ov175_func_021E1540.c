@@ -25,6 +25,8 @@
  *   g_021E45DC  0x021E45DC  data
  */
 
+#include "../include/G_021E534C.h"
+
 typedef struct {
     void *request;
     void *a;
@@ -42,7 +44,7 @@ typedef struct {
     int index;
 } Tbl;
 extern Tbl g_021E5334;
-extern Work g_021E534C[];
+extern struct G_021E534C g_021E534C[];
 extern char g_021E45DC[];
 extern int func_021E1830(int *result);
 extern void func_021E214C(void);
@@ -64,7 +66,7 @@ int func_021E1540(char *gdb_name, int record_id, void *fields, int field_num)
         return result;
     }
     func_021E214C();
-    work = &g_021E534C[g_021E5334.index];
+    work = &((Work *)g_021E534C)[g_021E5334.index];
     work->a = gdb_name;
     work->b = (void *)record_id;
     work->c = fields;

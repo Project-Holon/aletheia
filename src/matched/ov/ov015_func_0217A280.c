@@ -20,8 +20,10 @@
  *   d_0217ABA8     0x0217ABA8  data  ov015
  */
 
+#include "../include/G_ov015_0217ABA8.h"
+
 extern unsigned char g_0217ABD8[];
-extern char d_0217ABA8[];
+extern struct G_ov015_0217ABA8 d_0217ABA8;
 extern unsigned short func_02179EE0(void *input, unsigned long length);
 extern void func_02179F28(void);
 
@@ -43,10 +45,10 @@ int func_0217A280(unsigned long n)
     pk[3] = sum >> 8;
     pk[2] = sum;
     if (calc == sum) {
-        d_0217ABA8[0] = 0;
+        ((char *)&d_0217ABA8)[0] = 0;
         return 1;
     }
-    if (*(int *)(d_0217ABA8 + 0x24)) {
+    if (*(int *)(((char *)&d_0217ABA8) + 0x24)) {
         for (i = 0; (i < n) ? 1 : 0; i++)
             ;
         func_02179F28();

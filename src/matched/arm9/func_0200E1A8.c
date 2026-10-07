@@ -49,14 +49,11 @@
  *       --func func_0200E1A8 --addr 0x0200E1A8 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_Rec.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
-struct Rec {
-    u16 a;
-    u16 b;
-};
 
 struct Entry {
     u32 f0  : 11;

@@ -46,6 +46,10 @@
  *   g_02147C18     0x02147C18  data  a4
  */
 
+#include "../include/G_Mtx.h"
+#include "../include/G_02148018.h"
+#include "../include/G_SlotRec.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -66,17 +70,10 @@ struct Manager {
     int slot;
 };
 
-struct SlotRec {
-    u16 unk_00;
-    u16 unk_02;
-    u16 state;
-    u16 unk_06;
-};
-
 extern struct Manager g_02147B88;
 extern fx32 g_02147B98[];
-extern Mtx  g_02147D18[];
-extern Mtx  g_02148018[];
+extern struct Mtx g_02147D18[];
+extern struct G_02148018 g_02148018[];
 extern struct SlotRec g_02147C18[];
 
 static inline void CopySlot(int next)

@@ -21,9 +21,11 @@
  *       --func func_02051574 --addr 0x02051574 --cc 1.1p1 --arm
  */
 
+#include "../include/G_02146A88.h"
+
 typedef unsigned int u32;
 
-extern u32 *g_02146A88;
+extern struct G_02146A88 *g_02146A88;
 extern int func_020514F4(u32 *p);
 
 int func_02051574(void)
@@ -32,8 +34,8 @@ int func_02051574(void)
     int n = 0;
 
     for (i = 0; i < 16; i++) {
-        if (g_02146A88[i] != 0) {
-            func_020514F4((u32 *)g_02146A88[i]);
+        if (((u32 *)g_02146A88)[i] != 0) {
+            func_020514F4((u32 *)((u32 *)g_02146A88)[i]);
             n++;
         }
     }

@@ -13,14 +13,17 @@
  *   d_021B3C50 0x021B3C50 data a4
  *   func_021B3018 0x021B3018 arm ov013
  */
-extern int d_021B3C50[];
+
+#include "../include/G_VadCfg.h"
+
+extern struct VadCfg d_021B3C50;
 extern void func_021B3018(void);
 typedef enum { CountZero } Count;
 void func_021B3250(void)
 {
     Count n=15;
     short stride=68;
-    d_021B3C50[2]=n;
-    d_021B3C50[3]=(short)n*stride;
+    ((int *)&d_021B3C50)[2]=n;
+    ((int *)&d_021B3C50)[3]=(short)n*stride;
     func_021B3018();
 }

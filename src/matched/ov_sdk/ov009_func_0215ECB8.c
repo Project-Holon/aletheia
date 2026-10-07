@@ -20,20 +20,18 @@
  *   g_021AA4B8     0x021AA4B8  data
  */
 
+#include "../include/G_Sock.h"
+#include "../include/G_021AA4B8.h"
+#include "../include/G_Socket.h"
+
 typedef struct Socket Socket;
-struct Socket {
-	unsigned char pad0[0xac];
-	short state;
-	unsigned char pad1[0x0a];
-	Socket *next;
-};
 
 extern unsigned long func_02087988(void);
 extern unsigned long func_0208799C(unsigned long state);
 extern int func_0215E84C(int s);
-extern Socket *g_021AA44C;
-extern Socket *g_021AA4B4;
-extern Socket *g_021AA4B8;
+extern struct Sock *g_021AA44C;
+extern struct Socket *g_021AA4B4;
+extern struct G_021AA4B8 *g_021AA4B8;
 
 int func_0215ECB8(void)
 {
@@ -42,8 +40,8 @@ int func_0215ECB8(void)
 
 	for (;;) {
 		enable = func_02087988();
-		for (socket = g_021AA4B4; socket != 0; socket = socket->next) {
-			if (socket != g_021AA44C && (socket->state & 0x10) == 0) {
+		for (socket = ((Socket *)g_021AA4B4); socket != 0; socket = socket->next) {
+			if (socket != ((Socket *)g_021AA44C) && (socket->state & 0x10) == 0) {
 				break;
 			}
 		}
@@ -53,8 +51,8 @@ int func_0215ECB8(void)
 		}
 		func_0215E84C((int)socket);
 	}
-	if (g_021AA4B4 == 0 || (g_021AA4B4 == g_021AA44C && g_021AA4B4->next == 0)) {
-		if (g_021AA4B8 == 0) {
+	if (((Socket *)g_021AA4B4) == 0 || (((Socket *)g_021AA4B4) == ((Socket *)g_021AA44C) && g_021AA4B4->next == 0)) {
+		if (((Socket *)g_021AA4B8) == 0) {
 			return 0;
 		}
 	}

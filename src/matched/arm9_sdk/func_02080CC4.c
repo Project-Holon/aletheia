@@ -15,6 +15,8 @@
  *   gGXState   0x02150E4C  data
  */
 
+#include "../include/G_GX_State.h"
+
 typedef long fx32;
 typedef short fx16;
 typedef unsigned char u8;
@@ -61,23 +63,23 @@ typedef struct {
 
 #define GX_FX32_FX16(x) ((fx16)((x) >> 4))
 
-extern GX_State gGXState;
+extern struct GX_State gGXState;
 
 void func_02080CC4(void)
 {
-    gGXState.vramCnt.lcdc = 0;
-    gGXState.vramCnt.bg = 0;
-    gGXState.vramCnt.obj = 0;
-    gGXState.vramCnt.arm7 = 0;
-    gGXState.vramCnt.tex = 0;
-    gGXState.vramCnt.texPltt = 0;
-    gGXState.vramCnt.clrImg = 0;
-    gGXState.vramCnt.bgExtPltt = 0;
-    gGXState.vramCnt.objExtPltt = 0;
-    gGXState.vramCnt.sub_bg = 0;
-    gGXState.vramCnt.sub_obj = 0;
-    gGXState.vramCnt.sub_bgExtPltt = 0;
-    gGXState.vramCnt.sub_objExtPltt = 0;
+    gGXState.vramCnt_lcdc = 0;
+    gGXState.vramCnt_bg = 0;
+    gGXState.vramCnt_obj = 0;
+    gGXState.vramCnt_arm7 = 0;
+    gGXState.vramCnt_tex = 0;
+    gGXState.vramCnt_texPltt = 0;
+    gGXState.vramCnt_clrImg = 0;
+    gGXState.vramCnt_bgExtPltt = 0;
+    gGXState.vramCnt_objExtPltt = 0;
+    gGXState.vramCnt_sub_bg = 0;
+    gGXState.vramCnt_sub_obj = 0;
+    gGXState.vramCnt_sub_bgExtPltt = 0;
+    gGXState.vramCnt_sub_objExtPltt = 0;
     reg_GX_VRAMCNT = 0;
     reg_GX_VRAMCNT_E = 0;
     reg_GX_VRAMCNT_F = 0;

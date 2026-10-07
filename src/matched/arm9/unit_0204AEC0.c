@@ -27,6 +27,8 @@
  * files the site would have no witness of any class.
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -43,18 +45,13 @@ struct Slot {
     u32           unk_14;
 };
 
-struct Ctx {
-    u8           pad_00[0x110];
-    struct Slot *slots;
-};
-
-extern struct Ctx *g_02146A74;
+extern struct Mgr *g_02146A74;
 
 extern int func_02063800(char *p, int i);
 
 void sub_0204AEC0(u32 idx, struct Record *dest)
 {
-    *dest = g_02146A74->slots[idx].record;
+    *dest = ((struct Slot *)g_02146A74->owner_slots2)[idx].record;
 }
 
 int sub_0204AEF4(u32 idx, u32 alternate)

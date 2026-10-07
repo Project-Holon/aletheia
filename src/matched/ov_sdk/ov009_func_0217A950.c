@@ -17,11 +17,13 @@
  *   g_021ACE5C     0x021ACE5C  data
  */
 
+#include "../include/G_G.h"
+
 typedef struct {
     void *http;
     char *nc;
 } G;
-extern G g_021ACE5C;
+extern struct G g_021ACE5C;
 extern void func_02179CF4(char *http);
 extern void func_02178144(void);
 

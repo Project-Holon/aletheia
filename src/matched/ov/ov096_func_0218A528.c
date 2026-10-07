@@ -14,6 +14,8 @@
  *   D_0218A7C0     0x0218A7C0  data
  */
 
+#include "../include/G_Slot.h"
+
 typedef unsigned char u8;
 
 typedef struct {
@@ -22,7 +24,7 @@ typedef struct {
     void *obj[4];
 } Slot;
 
-extern Slot *D_0218A7C0;
+extern struct Slot *D_0218A7C0;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 

@@ -16,9 +16,11 @@
  *   func_02177614  0x02177614  thumb  ov014
  */
 
+#include "../include/G_W.h"
+
 typedef unsigned char u8;
 
-extern u8 *g_021797A4;
+extern struct W *g_021797A4;
 extern int func_02178E4C(void);
 extern void func_0217945C(void);
 typedef unsigned int   u32;
@@ -29,16 +31,16 @@ void func_02177660(u8 *p)
 {
     p[0xCF5]--;
     if (func_02178E4C() == 0 || func_02178E4C() == 1) {
-        func_0217727C((u32 *)g_021797A4, 0);
+        func_0217727C((u32 *)((u8 *)g_021797A4), 0);
         return;
     }
     if (func_02178E4C() == 9) {
         func_0217945C();
-        func_0217727C((u32 *)g_021797A4, (u32)func_02177614);
+        func_0217727C((u32 *)((u8 *)g_021797A4), (u32)func_02177614);
         return;
     }
     if (p[0xCF5] == 0) {
         func_0217945C();
-        func_0217727C((u32 *)g_021797A4, (u32)func_02177614);
+        func_0217727C((u32 *)((u8 *)g_021797A4), (u32)func_02177614);
     }
 }

@@ -34,18 +34,12 @@
  *   func_020621FC   0x020621FC  arm
  */
 
+#include "../include/G_Cfg.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-struct Save {
-    u8  pad_00[0xc];
-    u32 f0c;    /* 0x0c */
-    u32 f10;    /* 0x10 */
-    u32 f14;    /* 0x14 */
-    u32 f18;    /* 0x18 */
-};
-
-extern struct Save g_02146B94;
+extern struct Cfg g_02146B94;
 
 extern void (*g_020A8140)(void);
 extern void (*g_020A8144)(void);

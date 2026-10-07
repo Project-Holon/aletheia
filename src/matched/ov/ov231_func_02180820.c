@@ -41,6 +41,8 @@
  * user to accept or reject that form.
  */
 
+#include "../include/G_Buf.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,8 +52,8 @@ typedef struct {
     u8 *f4;
     u8 *f8;
 } Buf;
-extern Buf d_02180A20;
-extern Buf d_02180A20_b;
+extern struct Buf d_02180A20;
+extern struct Buf d_02180A20_b;
 extern u8 d_02180A30;
 extern u16 d_02180A00;
 extern u64 func_020870D0(void);

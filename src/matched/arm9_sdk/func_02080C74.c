@@ -14,27 +14,13 @@
  *   gGXState  0x02150E4C  data  a4
  */
 
+#include "../include/G_GX_State.h"
+
 typedef unsigned short u16;
 
-typedef struct {
-    u16 lcdc;
-    u16 bg;
-    u16 obj;
-    u16 arm7;
-    u16 tex;
-    u16 texPltt;
-    u16 clrImg;
-    u16 bgExtPltt;
-    u16 objExtPltt;
-    u16 sub_bg;
-    u16 sub_obj;
-    u16 sub_bgExtPltt;
-    u16 sub_objExtPltt;
-} GX_VRAMCnt;
-
-extern GX_VRAMCnt gGXState;
+extern struct GX_State gGXState;
 
 u16 func_02080C74(void)
 {
-    return gGXState.sub_objExtPltt;
+    return gGXState.vramCnt_sub_objExtPltt;
 }

@@ -15,17 +15,20 @@
  *   func_02179D3C  0x02179D3C  thumb  ov015
  */
 
-extern unsigned char d_0217AB80[];
-extern unsigned char d_0217ABA0[];
+#include "../include/G_s_aba0.h"
+#include "../include/G_State.h"
+
+extern struct State d_0217AB80;
+extern struct s_aba0 d_0217ABA0;
 extern int func_02179D3C(void);
 
 int func_02179CAC(void)
 {
-    if (d_0217AB80[0xc] == 0)
+    if (((unsigned char *)&d_0217AB80)[0xc] == 0)
         return 0;
-    if (d_0217ABA0[5] != 0)
+    if (((unsigned char *)&d_0217ABA0)[5] != 0)
         return 1;
-    if (d_0217AB80[0x1d] == 1) {
+    if (((unsigned char *)&d_0217AB80)[0x1d] == 1) {
         if (func_02179D3C() == 0)
             return 1;
     }

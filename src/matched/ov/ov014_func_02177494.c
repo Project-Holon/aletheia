@@ -16,12 +16,13 @@
 #include "../include/Obj04174.h"
 #include "../include/Obj07353.h"
 #include "../include/Obj19328.h"
+#include "../include/G_W.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern u8 *g_021797A4;
+extern struct W *g_021797A4;
 void *func_0203D798(void);
 u16 func_0203F1FC(const u8 *src, u32 len);
 
@@ -29,7 +30,7 @@ typedef int (*CheckFn)(u8 a, u8 b, u32 c);
 
 int func_02177494(u8 *obj, u32 flags)
 {
-    u8 *base = g_021797A4;
+    u8 *base = ((u8 *)g_021797A4);
     u8 *st = func_0203D798();
     int v67 = st[0x67];
     u16 v50 = ((struct Obj07353 *)st)->f50;

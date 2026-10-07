@@ -26,6 +26,9 @@
  *   g_021DA72E                       0x021DA72E  data
  *   procErase1                       0x021CC8A0  arm   ov016
  */
+
+#include "../include/G_SCENESETSELECTAP_BSS.h"
+
 struct tagCOORD {
     unsigned short x;
     unsigned short y;
@@ -34,11 +37,6 @@ struct selobj {
     int f0;
     void *a[3];
     void *b[3];
-};
-struct focusobj {
-    unsigned char focus;
-    unsigned char pad[3];
-    struct selobj *obj;
 };
 
 extern int DWCi_WINlGet(void);
@@ -51,7 +49,7 @@ extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void DWCi_CELLlDelete(void *cell);
 extern void DWCi_WINlEnd(void);
 extern void DWCi_ChangeScene(void (*scene)());
-extern struct focusobj g_021DE60C;
+extern struct SCENESETSELECTAP_BSS g_021DE60C;
 extern struct tagCOORD g_021DA72C[6];
 extern struct tagCOORD g_021DA72E[6];
 
@@ -61,22 +59,22 @@ static void procErase(void)
 {
     int ix;
 
-    ix = g_021DE60C.focus - 4;
+    ix = g_021DE60C.FocusPos - 4;
     switch (DWCi_WINlGet()) {
     case 1:
         DWCi_SNDlPlay(14);
         DWCi_SETTINGlErasePage(ix);
-        DWCi_CEINlSet(0, 0x56, DWCi_CELLlGetObj(g_021DE60C.obj->a[ix], 0));
-        DWCi_CELLlSetPosition(g_021DE60C.obj->a[ix], -1, g_021DA72C[ix].x, g_021DA72E[ix].x);
-        DWCi_CELLlSetPriority(g_021DE60C.obj->a[ix], -1, 3);
-        DWCi_CELLlDelete(g_021DE60C.obj->b[ix]);
-        g_021DE60C.obj->b[ix] = 0;
+        DWCi_CEINlSet(0, 0x56, DWCi_CELLlGetObj(g_021DE60C.MemSssa->a[ix], 0));
+        DWCi_CELLlSetPosition(g_021DE60C.MemSssa->a[ix], -1, g_021DA72C[ix].x, g_021DA72E[ix].x);
+        DWCi_CELLlSetPriority(g_021DE60C.MemSssa->a[ix], -1, 3);
+        DWCi_CELLlDelete(g_021DE60C.MemSssa->b[ix]);
+        g_021DE60C.MemSssa->b[ix] = 0;
         break;
     case 0:
         DWCi_SNDlPlay(7);
-        DWCi_CEINlSet(0, 0x11, DWCi_CELLlGetObj(g_021DE60C.obj->b[ix], 0));
-        DWCi_CELLlSetPosition(g_021DE60C.obj->b[ix], -1, g_021DA72C[ix + 3].x, g_021DA72E[ix + 3].x);
-        DWCi_CELLlSetPriority(g_021DE60C.obj->b[ix], -1, 3);
+        DWCi_CEINlSet(0, 0x11, DWCi_CELLlGetObj(g_021DE60C.MemSssa->b[ix], 0));
+        DWCi_CELLlSetPosition(g_021DE60C.MemSssa->b[ix], -1, g_021DA72C[ix + 3].x, g_021DA72E[ix + 3].x);
+        DWCi_CELLlSetPriority(g_021DE60C.MemSssa->b[ix], -1, 3);
         break;
     default:
         return;

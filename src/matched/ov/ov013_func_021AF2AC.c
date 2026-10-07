@@ -14,15 +14,13 @@
  *   func_021B2254  0x021B2254  arm  ov013
  */
 
+#include "../include/G_Work.h"
+
 typedef unsigned char u8;
 
-typedef struct Work {
-    u8 pad0[0x19A0];
-    int a[2];
-    int f19A8;
-} Work;
+typedef struct Work Work;
 
-extern Work *d_021B3C80;
+extern struct Work *d_021B3C80;
 extern int func_021B2254(int a);
 
 int func_021AF2AC(int n)

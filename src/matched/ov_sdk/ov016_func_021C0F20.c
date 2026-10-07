@@ -15,15 +15,17 @@
  *   g_021DE56C     0x021DE56C  data
  */
 
-extern unsigned char g_021DE56C;
+#include "../include/G_UtilState.h"
+
+extern struct UtilState g_021DE56C;
 
 unsigned char func_021C0F20(void)
 {
-    if (g_021DE56C == 6)
+    if ((*(unsigned char *)&g_021DE56C) == 6)
         return 0x38;
-    if (g_021DE56C == 1) {
-        if (!((*(unsigned int *)((char *)&g_021DE56C + 8) >> 4) & 2))
+    if ((*(unsigned char *)&g_021DE56C) == 1) {
+        if (!((*(unsigned int *)((char *)&(*(unsigned char *)&g_021DE56C) + 8) >> 4) & 2))
             return 0x37;
     }
-    return g_021DE56C + 0x31;
+    return (*(unsigned char *)&g_021DE56C) + 0x31;
 }

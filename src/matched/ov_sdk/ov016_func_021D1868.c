@@ -32,6 +32,10 @@
  *   g_021DAA16  0x021DAA16  data
  */
 
+#include "../include/G_MemWinT.h"
+#include "../include/G_CoordT.h"
+#include "../include/G_021DAA2E.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -62,11 +66,11 @@ extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D19F4(void *cell, int y);
 extern void func_021D5FF4(int x0, int y0, int x1, int y1, RectT *r);
 extern void func_021D60EC(int a, int b, RectT *r);
-extern MemWinT *g_021DE658;
-extern CoordT g_021DA9FE[];
+extern struct MemWinT *g_021DE658;
+extern struct CoordT g_021DA9FE[];
 extern u8 g_021DA9A6[6];
 extern u8 g_021DA9B4[][2];
-extern CoordT g_021DAA2E[][2];
+extern struct G_021DAA2E g_021DAA2E[][2];
 extern u16 g_021DAA18[][2];
 extern u16 g_021DAA16[][2];
 

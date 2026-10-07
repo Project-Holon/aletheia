@@ -13,14 +13,15 @@
  *   g_020AA194      0x020AA194  data
  */
 
-typedef struct { char pad[0xc]; int f0c; char *f10; } G;
-extern G g_020AA194;
+#include "../include/G_GflSys.h"
+
+extern struct GflSys g_020AA194;
 extern int func_02030D28(int);
 extern int func_020419E4(int);
 extern int func_02050A70(int);
 extern int func_0204E638(int);
 void func_0200567C(void)
 {
-    func_0204E638(func_02050A70(func_020419E4(func_02030D28(*(int *)(g_020AA194.f10 + 0x20)))));
-    g_020AA194.f0c++;
+    func_0204E638(func_02050A70(func_020419E4(func_02030D28(*(int *)(((char *)g_020AA194.heaps) + 0x20)))));
+    g_020AA194.unk0C++;
 }

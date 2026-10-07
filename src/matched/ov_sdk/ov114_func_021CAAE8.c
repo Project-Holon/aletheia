@@ -16,10 +16,7 @@
  *   g_021D422C     0x021D422C  data
  */
 
-struct CryptoAllocators {
-	void (*free_fn)(void *);
-	void *(*alloc_fn)(unsigned long);
-};
+#include "../include/G_CryptoAllocators.h"
 
 extern void func_020869E8(int id, int heap, void *ptr);
 extern struct CryptoAllocators g_021D422C;

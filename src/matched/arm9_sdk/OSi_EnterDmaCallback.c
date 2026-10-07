@@ -16,18 +16,16 @@
  *   OS_EnableIrqMask               0x02084968  arm
  */
 
+#include "../include/G_OSIrqCallbackInfo.h"
+
 typedef unsigned long u32;
 typedef int BOOL;
 typedef u32 OSIrqMask;
 typedef void (*OSIrqFunction)(void);
 
-typedef struct OSIrqCallbackInfo {
-    void (*func)(void *);
-    u32 enable;
-    void *arg;
-} OSIrqCallbackInfo;
+typedef struct OSIrqCallbackInfo OSIrqCallbackInfo;
 
-extern OSIrqCallbackInfo g_02150F38[];   /* OSi_IrqCallbackInfo */
+extern struct OSIrqCallbackInfo g_02150F38[];   /* OSi_IrqCallbackInfo */
 extern OSIrqFunction g_02FE0020[];       /* OS_IRQTable (DTCM) */
 #define OSi_IrqCallbackInfo g_02150F38
 #define OS_IRQTable g_02FE0020

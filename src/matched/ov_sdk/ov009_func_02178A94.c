@@ -29,6 +29,8 @@
  *   g_021A2418  0x021A2418  data  ov009
  */
 
+#include "../include/G_DWCWFCUtil.h"
+
 typedef struct DWCHttp DWCHttp;
 
 typedef struct DWCCalInfo
@@ -36,13 +38,7 @@ typedef struct DWCCalInfo
     char data[0x94];
 } DWCCalInfo;
 
-typedef struct DWCWFCUtil
-{
-    int f0;
-    void *auth;
-    int state;
-    unsigned long long userid;
-} DWCWFCUtil;
+typedef struct DWCWFCUtil DWCWFCUtil;
 
 typedef unsigned char  u8;
 struct DWCWiFiInfo;
@@ -53,7 +49,7 @@ extern int func_02178F78(struct DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int func_02096578(const u16 *s);
 
-extern DWCWFCUtil g_021AB184;
+extern struct DWCWFCUtil g_021AB184;
 extern char g_021A23E8[];
 extern char g_021A23F4[];
 extern char g_021A23FC[];

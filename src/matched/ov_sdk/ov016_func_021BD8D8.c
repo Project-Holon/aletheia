@@ -41,6 +41,9 @@
  *   python tools/match.py one --src src/pending/ov016_func_021BD8D8.c \
  *       --func DWCi_KBlInit --addr 0x021BD8D8 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_KEYBOARD_DATA.h"
+
 typedef unsigned char bool;
 
 /* keyboard.o was built with plain char unsigned: every DWARF `char` below is
@@ -98,7 +101,7 @@ typedef struct {
     unsigned short *KEY_CHR[3];       /* 0x0C */
     int             SKEY_TOUCH_SND[4];/* 0x18 */
 } KEYBOARD_DATA;
-extern KEYBOARD_DATA keyboard_data;
+extern struct KEYBOARD_DATA keyboard_data;
 extern unsigned short *KEY_CHR[3];
 
 extern RECT DWCi_R_SCR;

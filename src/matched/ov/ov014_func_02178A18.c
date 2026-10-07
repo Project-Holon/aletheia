@@ -15,12 +15,13 @@
  *   func_02178AB8  0x02178AB8  thumb  ov014
  */
 #include "../include/Obj04957.h"
+#include "../include/G_S.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern u8 *g_021797A8;
+extern struct S *g_021797A8;
 void func_02178138(int a);
 void func_0217814C(int a);
 int func_02178AB8(void);
@@ -57,8 +58,8 @@ void func_02178A18(u8 *m)
             func_02178138(3);
             return;
         }
-        *(u16 *)(g_021797A8 + 0x1EA8) = ((struct Obj04957 *)m)->fA;
-        cb = *(void (**)(int))(g_021797A8 + 0x1E84);
+        *(u16 *)(((u8 *)g_021797A8) + 0x1EA8) = ((struct Obj04957 *)m)->fA;
+        cb = *(void (**)(int))(((u8 *)g_021797A8) + 0x1E84);
         if (cb != 0)
             cb(((struct Obj04957 *)m)->fA);
         return;

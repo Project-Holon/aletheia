@@ -32,6 +32,8 @@
  * land as in the image.
  */
 
+#include "../include/G_TextCtx.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -54,7 +56,7 @@ typedef struct {
     u8  bg : 4;
 } TextParam;
 
-extern TextCtx *g_02146A78;
+extern struct TextCtx *g_02146A78;
 
 extern int func_020463C0(void);
 struct Bmp;

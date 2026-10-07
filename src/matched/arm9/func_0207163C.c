@@ -45,15 +45,13 @@
  *   python tools/match.py one --src src/matched/func_0207163C.c \
  *       --func func_0207163C --addr 0x0207163C --arm --cc ../2.0/sp2
  */
+
+#include "../include/G_Root.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 typedef int            s32;
 typedef long long      s64;
-
-struct Owner {
-    u8  pad_00[0xc4];
-    u32 bits[1];
-};
 
 struct Obj {
     u32 flags;
@@ -70,7 +68,7 @@ struct Idx {
 };
 
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern struct Owner *g_02148DB0;
+extern struct Root *g_02148DB0;
 extern s32 g_02149BB4[][6];
 
 void func_0207163C(struct Obj *o, s32 *m, struct Idx *idx, u32 flags)

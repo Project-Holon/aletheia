@@ -13,5 +13,8 @@
  *   func_021D7CC0 0x021D7CC0 arm ov125
  *   d_021D9E40 0x021D9E40 data a4
  */
-extern void func_021D7CAC(void); extern unsigned int func_021D7BCC(void); extern void func_021D7CC0(void); extern char d_021D9E40[];
-char *func_021D7BDC(void) {func_021D7CAC(); if(func_021D7BCC()!=8){func_021D7CC0();return 0;} func_021D7CC0();return *(char **)(d_021D9E40+0x260)+4;}
+
+#include "../include/G_Clear.h"
+
+extern void func_021D7CAC(void); extern unsigned int func_021D7BCC(void); extern void func_021D7CC0(void); extern struct Clear d_021D9E40;
+char *func_021D7BDC(void) {func_021D7CAC(); if(func_021D7BCC()!=8){func_021D7CC0();return 0;} func_021D7CC0();return *(char **)(((char *)&d_021D9E40)+0x260)+4;}

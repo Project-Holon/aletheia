@@ -51,6 +51,9 @@
  *   g_021C88C0 0x021C88C0 data ov172
  *   write_exif_ifd_tables 0x021C3A28 arm ov172
  */
+
+#include "../include/G_Ae90.h"
+
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -129,7 +132,7 @@ static char SSPiSoftware[30] = {0};
 
 extern const char g_021C88AC[];
 extern const char g_021C88B4[];
-extern struct Slot g_021CAE90;
+extern struct Ae90 g_021CAE90;
 extern const char g_021CAEC6[];
 extern const char g_021C88BC[];
 extern const char g_021C88C0[];
@@ -384,11 +387,11 @@ s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 t
   s->tag = g_021CAE90.tag;
   s->type = g_021CAE90.type;
   s->count = g_021CAE90.count;
-  s->field8 = g_021CAE90.field8;
-  s->fieldA = g_021CAE90.fieldA;
-  s->fieldC = g_021CAE90.fieldC;
-  s->field10 = g_021CAE90.field10;
-  s->field14 = g_021CAE90.field14;
+  s->field8 = g_021CAE90.f8;
+  s->fieldA = g_021CAE90.fa;
+  s->fieldC = g_021CAE90.fc;
+  s->field10 = g_021CAE90.f10;
+  s->field14 = g_021CAE90.f14;
   func_0208CB10(s->str, g_021CAEC6, s->count);
   s->field54 = 0;
   sb->count2++;

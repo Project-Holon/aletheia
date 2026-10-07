@@ -19,6 +19,8 @@
  *   g_021DA5D4     0x021DA5D4  data
  */
 
+#include "../include/G_MemSsea.h"
+
 typedef struct GXOamAttr {
     union {
         struct {
@@ -31,15 +33,9 @@ typedef struct GXOamAttr {
     unsigned short attr3;
 } GXOamAttr;
 
-typedef struct MemSsea {
-    unsigned char pad0[4];
-    GXOamAttr *caret;
-    unsigned char pad1[0xC];
-    unsigned char pos;
-    unsigned char result;
-} MemSsea;
+typedef struct MemSsea MemSsea;
 
-extern MemSsea *g_021DE5E4;
+extern struct MemSsea *g_021DE5E4;
 extern unsigned char g_021DA5D4[];
 
 static inline void SetObjPosition(GXOamAttr *oam, int x, int y)

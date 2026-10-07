@@ -40,6 +40,8 @@
  *   g_021F3B64      0x021F3B64  data
  */
 
+#include "../include/G_StateData.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -60,13 +62,7 @@ typedef struct {
     u8 side;            /* 0x1A6 */
 } LearnSeq;
 
-typedef struct {
-    u16 move;
-    u8 unk02[0xE];
-    u32 iter;
-} LearnWork;
-
-extern LearnWork g_021F3B64;
+extern struct StateData g_021F3B64;
 
 extern u8 func_021D5440(u8 *p);
 extern void *func_021D5844(void *mon);

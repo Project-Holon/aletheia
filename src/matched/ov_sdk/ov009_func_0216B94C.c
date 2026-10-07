@@ -17,13 +17,15 @@
  *   g_021AA878  0x021AA878  data
  */
 
+#include "../include/G_DwcGlobal.h"
+
 extern unsigned char func_0216B838(void);
 extern char *func_02176410(unsigned char aid);
-extern char g_021AA878[];
+extern struct DwcGlobal g_021AA878;
 
 int func_0216B94C(unsigned char aid)
 {
-	if (*(int *)(g_021AA878 + 4) == 0)
+	if (*(int *)(((char *)&g_021AA878) + 4) == 0)
 		return 0;
 	if (aid == func_0216B838())
 		return 0;

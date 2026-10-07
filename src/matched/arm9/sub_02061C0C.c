@@ -53,16 +53,11 @@
  *       --func sub_02061C0C --addr 0x02061C0C --cc 1.1p1 --arm
  */
 
+#include "../include/G_Queue.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed int    s32;
-
-struct Queue {
-    void *unk_00;
-    u32 capacity;
-    u8 pad_08[8];
-    s32 total;
-};
 
 extern struct Queue g_02146B80;
 extern struct Queue g_02146B80_cb;

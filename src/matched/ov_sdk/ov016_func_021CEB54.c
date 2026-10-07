@@ -22,6 +22,8 @@
  *   g_021DA8BB  0x021DA8BB  data
  */
 
+#include "../include/G_tagRECT.h"
+
 typedef struct {
 	void *cell;
 	int pad0[2];
@@ -50,7 +52,7 @@ extern int func_021D6B64(struct tagCOORD *c);
 extern void func_021CEC24(int pos);
 extern void func_021CEEE8(int pos);
 extern void func_021D0014();
-extern char g_021DAA7C[];
+extern struct tagRECT g_021DAA7C;
 extern SB *g_021DE63C;
 extern unsigned char g_021DA8BB[];
 
@@ -60,7 +62,7 @@ void func_021CEB54(void)
 	int pos;
 	int s;
 
-	if (func_021D68E4((u16 *)g_021DAA7C)) {
+	if (func_021D68E4((u16 *)((char *)&g_021DAA7C))) {
 		func_021D6B64((struct tagCOORD *)(&c));
 		if (c.x >= g_021DE63C->x - 30) {
 			pos = g_021DE63C->base + (c.y - g_021DE63C->off);

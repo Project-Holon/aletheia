@@ -22,10 +22,12 @@
  *   func_02082D44 0x02082D44  arm
  */
 
+#include "../include/G_Ctx.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_021469F0;
+extern struct Ctx *g_021469F0;
 extern const u8 str_020A7D34[];
 extern const u8 str_020A7D48[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -33,7 +35,7 @@ extern void func_02082D44(void *dst, const void *src, u32 size);
 
 void func_0203DBB0(const void *src, u32 i)
 {
-    u8 *g = g_021469F0;
+    u8 *g = ((u8 *)g_021469F0);
 
     if (g != 0) {
         func_02082D44(g + 0x94 + i * 8, src, 6);

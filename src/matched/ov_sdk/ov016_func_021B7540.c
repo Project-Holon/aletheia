@@ -25,6 +25,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B7540.c \
  *       --func GetProductInfo --addr 0x021B7540 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_BSS.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -62,7 +65,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct {
     unsigned char  DataID;
@@ -111,10 +114,10 @@ int GetProductInfo(char *ProductData, PRODUCT_INFO_AOSS *ProductInfo)
                 return -2;
             break;
         case 5:
-            aoss_bss.gData.apAddr = AOSS_Ntohl(aoss_get_bin(Data->Data, length));
+            aoss_bss.gData_apAddr = AOSS_Ntohl(aoss_get_bin(Data->Data, length));
             break;
         case 6:
-            aoss_bss.gData.apMask = AOSS_Ntohl(aoss_get_bin(Data->Data, length));
+            aoss_bss.gData_apMask = AOSS_Ntohl(aoss_get_bin(Data->Data, length));
             break;
         default:
             return -1;

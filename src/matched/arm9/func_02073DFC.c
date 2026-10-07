@@ -32,21 +32,16 @@
  * image's `ldr r0,[r4,#0x28]; cmp r0,#0; beq; bl` was always passing it.
  * Declared void(void), the three callee-saved locals rotated r5/r6/r7.
  */
+
+#include "../include/G_St.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-typedef struct St {
-    u32 f00;
-    u32 f04;
-    u8  pad08[0x18];
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    s32 f2c;
-} St;
+typedef struct St St;
 
-extern St   g_0214E9FC;
+extern struct St g_0214E9FC;
 extern u8   g_0214E9BC[];
 extern void func_020894DC(u32 a, u32 b, u32 c, s32 d);
 extern s32  func_02089D40(void);

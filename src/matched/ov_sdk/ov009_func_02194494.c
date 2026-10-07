@@ -19,10 +19,12 @@
  *   g_021A57C8   0x021A57C8  data
  */
 
+#include "../include/G_StatsSocket.h"
+
 extern char *func_02193FF4(char *buff, int len);
 extern void func_02193EB8(char *buf, int len);
 extern void func_021943A4(char *buff, int len);
-extern char *g_021A57C8;
+extern struct StatsSocket g_021A57C8;
 extern char g_021A57F0[];
 
 int func_02194494(char *buff, int len)
@@ -34,7 +36,7 @@ int func_02194494(char *buff, int len)
     pos = func_02193FF4(buff, len);
 
     while (len > 0 && pos != 0) {
-        g_021A57C8 = g_021A57F0;
+        (*(char * *)&g_021A57C8) = g_021A57F0;
         func_02193EB8(buff, pos - buff);
         func_021943A4(buff, pos - buff);
         len -= (pos - buff) + 7;

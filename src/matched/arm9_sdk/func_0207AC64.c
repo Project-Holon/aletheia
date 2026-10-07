@@ -20,13 +20,16 @@
  *   fsi_arc_rom  0x02150DA8  data
  */
 
+#include "../include/G_FSiRomState.h"
+#include "../include/G_fsi_arc_rom.h"
+
 typedef unsigned long u32;
 typedef int BOOL;
 
 typedef struct FSArchive FSArchive;
 
-extern u32 fsi_default_dma_no;
-extern FSArchive fsi_arc_rom;
+extern struct FSiRomState fsi_default_dma_no;
+extern struct G_fsi_arc_rom fsi_arc_rom;
 
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
@@ -36,13 +39,13 @@ extern BOOL FS_ResumeArchive(FSArchive *arc);
 u32 func_0207AC64(u32 dma_no)
 {
     u32 bak_psr = OS_DisableInterrupts();
-    u32 bak_dma_no = fsi_default_dma_no;
-    BOOL bak_stat = FS_SuspendArchive(&fsi_arc_rom);
+    u32 bak_dma_no = (*(u32 *)&fsi_default_dma_no);
+    BOOL bak_stat = FS_SuspendArchive(&(*(FSArchive *)&fsi_arc_rom));
 
-    fsi_default_dma_no = dma_no;
+    (*(u32 *)&fsi_default_dma_no) = dma_no;
     if (bak_stat)
     {
-        (void)FS_ResumeArchive(&fsi_arc_rom);
+        (void)FS_ResumeArchive(&(*(FSArchive *)&fsi_arc_rom));
     }
     (void)OS_RestoreInterrupts(bak_psr);
     return bak_dma_no;

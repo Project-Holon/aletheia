@@ -17,6 +17,8 @@
  *   g_021AB184     0x021AB184  data
  */
 
+#include "../include/G_DWCAuthGlobal.h"
+
 struct DWCAuthCtx {
 	unsigned char pad0[0x1004];
 	int error;
@@ -30,11 +32,6 @@ struct DWCAuthCtx {
 	unsigned char pad3[0x50];
 	unsigned char mutex[0x18];
 	int abort_flag;
-};
-
-struct DWCAuthGlobal {
-	int pad;
-	struct DWCAuthCtx *ctx;
 };
 
 extern struct DWCAuthGlobal g_021AB184;

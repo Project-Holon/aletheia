@@ -20,12 +20,13 @@
  *   func_0203C05C  0x0203C05C  arm
  */
 #include "../include/Obj11369.h"
+#include "../include/G_Sys.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
 
-extern int  g_021469DC;
+extern struct Sys *g_021469DC;
 extern void *func_0203D788(void);
 typedef unsigned short u16;
 struct NetState;
@@ -43,13 +44,13 @@ void func_0203C0F4(void *p)
     s32 res = ((s32 (*)(int))obj[3])(0);
 
     if (res == 1000) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C0B4, 0, 1403);
+        func_0203AD80((struct NetState *)(*(int *)&g_021469DC), (void *)func_0203C0B4, 0, 1403);
         return;
     }
 
     obj = *(u32 * *)&((struct Obj11369 *)net)->f340;
     if (((s32 (*)(void))obj[0xac / 4])() != 0) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C0B4, 0, 1407);
+        func_0203AD80((struct NetState *)(*(int *)&g_021469DC), (void *)func_0203C0B4, 0, 1407);
         return;
     }
 
@@ -58,17 +59,17 @@ void func_0203C0F4(void *p)
     }
 
     if (res == 1001) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C060, 0, 1413);
+        func_0203AD80((struct NetState *)(*(int *)&g_021469DC), (void *)func_0203C060, 0, 1413);
         return;
     }
 
     if (res == 1002) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C064, 0, 1416);
+        func_0203AD80((struct NetState *)(*(int *)&g_021469DC), (void *)func_0203C064, 0, 1416);
         return;
     }
 
     if (res >= 10) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C064, 0, 1420);
+        func_0203AD80((struct NetState *)(*(int *)&g_021469DC), (void *)func_0203C064, 0, 1420);
         return;
     }
 
@@ -77,5 +78,5 @@ void func_0203C0F4(void *p)
     }
 
     func_0203C0DC(p, res);
-    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C05C, 0, 1424);
+    func_0203AD80((struct NetState *)(*(int *)&g_021469DC), (void *)func_0203C05C, 0, 1424);
 }

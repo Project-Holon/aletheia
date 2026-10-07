@@ -16,6 +16,9 @@
  *   func_021EF2D4  0x021EF2D4  thumb  ov188
  *   g_0214616C     0x0214616C  data
  */
+
+#include "../include/G_BattleRec.h"
+
 typedef unsigned int u32;
 
 extern void func_021EEFE4(void *p, char *b, u32 c);
@@ -23,11 +26,11 @@ typedef unsigned char  u8;
 extern void func_021EF090(u8 *a, u8 *b);
 extern int func_021EF1D8(char *p, char *a1);
 extern int func_021EF2D4(u8 *a, const u8 *b);
-extern char *g_0214616C;
+extern struct BattleRec *g_0214616C;
 
 void func_021EEEA8(void *p, u32 c)
 {
-    char *q = g_0214616C + 0xc4;
+    char *q = ((char *)g_0214616C) + 0xc4;
 
     func_021EEFE4(p, q, c);
     func_021EF090(p, (u8 *)q);

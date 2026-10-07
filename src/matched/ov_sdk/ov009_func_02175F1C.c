@@ -15,16 +15,18 @@
  *   g_021AAA20  0x021AAA20  data
  */
 
-extern char g_021AAA20[];
+#include "../include/G_NNThinkGlobal.h"
+
+extern struct NNThinkGlobal g_021AAA20;
 extern unsigned long long func_020870D0(int a);
 
 void func_02175F1C(int a)
 {
     unsigned long long v;
 
-    *(int *)(g_021AAA20 + 4) = a;
+    *(int *)(((char *)&g_021AAA20) + 4) = a;
     v = func_020870D0(a);
-    *(int *)(g_021AAA20 + 0x18) = (int)v;
-    *(int *)(g_021AAA20 + 0x1c) = (int)(v >> 32);
+    *(int *)(((char *)&g_021AAA20) + 0x18) = (int)v;
+    *(int *)(((char *)&g_021AAA20) + 0x1c) = (int)(v >> 32);
 }
 

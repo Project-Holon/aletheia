@@ -21,13 +21,15 @@
  *   g_021A1CD8  0x021A1CD8  data
  */
 
+#include "../include/G_021A1CD8.h"
+
 extern void func_02004EB0(const void *symbol);
 extern void func_0215F0D4(void);
 extern void func_0215CB24(void);
 extern int func_0215CAE4(void);
 extern void func_0215EC90(void);
 extern char g_020050C4[42];
-extern void *g_021A1CD8;
+extern struct G_021A1CD8 *g_021A1CD8;
 
 int func_0215CA8C(void *socl_config)
 {

@@ -20,7 +20,9 @@
  *   func_021F42D4  0x021F42D4  arm  ov107
  */
 
-extern unsigned char g_021F6EF4[];
+#include "../include/G_SUnlock.h"
+
+extern struct SUnlock g_021F6EF4;
 extern int func_021F4054(void);
 extern void func_021F40F4(void);
 extern void func_021F4140(unsigned long ggid, unsigned short tgid, unsigned char attribute);
@@ -30,7 +32,7 @@ extern void func_021F42D4(unsigned long ggid, unsigned short tgid, unsigned char
 void func_021F3FC8(unsigned long ggid, unsigned short tgid, unsigned char attribute)
 {
     while (1) {
-        switch (g_021F6EF4[0x24]) {
+        switch (((unsigned char *)&g_021F6EF4)[0x24]) {
         case 0:
         case 1:
             if (!func_021F4054())

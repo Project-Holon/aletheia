@@ -50,6 +50,9 @@
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CBF00.c \
  *       --func procInit --addr 0x021CBF00 --region ov016 --cc 1.1p1 --arm --lang c99
  */
+
+#include "../include/G_SCENEMENU_BSS.h"
+
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -59,7 +62,7 @@ typedef struct {
     unsigned char  FocusPos;          /* 0x00 */
     void          *Palette;           /* 0x04 */
 } SCENEMENU_BSS;
-extern SCENEMENU_BSS scenemenu_bss;
+extern struct SCENEMENU_BSS scenemenu_bss;
 
 /* scenemenu.o .rodata at 0x021DA478, members at their vendor offsets */
 typedef struct {

@@ -15,17 +15,20 @@
  * symbols:
  *   d_021F6EF4   0x021F6EF4  data
  */
+
+#include "../include/G_SUnlock.h"
+
 typedef unsigned long u32;
 typedef unsigned char u8;
 
-extern char d_021F6EF4[];
+extern struct SUnlock d_021F6EF4;
 extern void MBi_ClearSendStatus(void);
 
 void MB_InitSendGameInfoStatus(void)
 {
-    *(u32 *)(d_021F6EF4 + 0x18) = 0;
-    *(u32 *)(d_021F6EF4 + 0x1C) = 0;
-    *(u8 *)(d_021F6EF4 + 0x24) = 1;
-    *(u32 *)(d_021F6EF4 + 0x14) = 0;
+    *(u32 *)(((char *)&d_021F6EF4) + 0x18) = 0;
+    *(u32 *)(((char *)&d_021F6EF4) + 0x1C) = 0;
+    *(u8 *)(((char *)&d_021F6EF4) + 0x24) = 1;
+    *(u32 *)(((char *)&d_021F6EF4) + 0x14) = 0;
     MBi_ClearSendStatus();
 }

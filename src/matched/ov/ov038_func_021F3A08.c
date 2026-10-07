@@ -13,11 +13,7 @@
  *   d_021F4694 0x021F4694 data a4
  */
 
-struct S3A08 {
-    int a;
-    int b;
-    int c;
-};
+#include "../include/G_S3A08.h"
 
 extern struct S3A08 d_021F4694[];
 

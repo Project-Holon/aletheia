@@ -18,12 +18,14 @@
  *       --func func_0206AA3C --addr 0x0206AA3C --cc 1.1p1 --arm
  */
 
+#include "../include/G_Glb.h"
+
 typedef unsigned int u32;
 
-extern u32 g_02148BCC[];
+extern struct Glb g_02148BCC;
 
 void func_0206AA3C(int idx, int a, int b, int c)
 {
-    g_02148BCC[idx] = (u32)(((a >> 3) & 0x3FF) | (((b >> 3) & 0x3FF) << 10)
+    ((u32 *)&g_02148BCC)[idx] = (u32)(((a >> 3) & 0x3FF) | (((b >> 3) & 0x3FF) << 10)
                             | (((c >> 3) & 0x3FF) << 20) | (idx << 30));
 }

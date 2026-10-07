@@ -14,14 +14,17 @@
  * symbols:
  *   d_021F6EF4   0x021F6EF4  data
  */
+
+#include "../include/G_SUnlock.h"
+
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern char d_021F6EF4[];
+extern struct SUnlock d_021F6EF4;
 
 void MBi_InitSendVolatBeacon(void)
 {
-    *(u16 *)(*(char **)(d_021F6EF4 + 0x1C) + 0x4B0) = 1;
-    *(u8 *)(d_021F6EF4 + 0x26) = *(u8 *)(*(char **)(d_021F6EF4 + 0x1C) + 0x4B4);
-    *(u8 *)(d_021F6EF4 + 0x24) = 5;
+    *(u16 *)(*(char **)(((char *)&d_021F6EF4) + 0x1C) + 0x4B0) = 1;
+    *(u8 *)(((char *)&d_021F6EF4) + 0x26) = *(u8 *)(*(char **)(((char *)&d_021F6EF4) + 0x1C) + 0x4B4);
+    *(u8 *)(((char *)&d_021F6EF4) + 0x24) = 5;
 }

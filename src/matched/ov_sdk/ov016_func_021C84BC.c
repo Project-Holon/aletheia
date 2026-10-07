@@ -49,6 +49,9 @@
  *   python tools/match.py one --src src/pending/ov_sdk/ov016_func_021C84BC.c \
  *       --func func_021C84BC --addr 0x021C84BC --region ov016 --lang c99 --arm
  */
+
+#include "../include/G_SCENESETLIST_BSS.h"
+
 typedef unsigned char bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
@@ -112,7 +115,7 @@ typedef struct {
     unsigned short Pos;               /* 0x04 */
     MEMSSL        *MemSsl;            /* 0x08 */
 } SCENESETLIST_BSS;
-extern SCENESETLIST_BSS scenesetlist_bss;
+extern struct SCENESETLIST_BSS scenesetlist_bss;
 
 /* scenesetlist.o .rodata at 0x021DA61C, members at their vendor offsets */
 typedef struct {
@@ -177,13 +180,13 @@ void func_021C84BC(void)
     DWCi_CMNlLoadResource(PLLT.s, GX_LoadBGPltt);
     DWCi_CMNlLoadResource(scenesetlist_str_21709, GX_LoadBG3Scr);
     n = DWCi_Char(SCR_BACK.s);
-    scenesetlist_bss.MemSsl->back = DWCi_ARClReadEx(n, 0, 4);
-    DWCi_SCREENlInit(scenesetlist_bss.MemSsl->back);
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->back = DWCi_ARClReadEx(n, 0, 4);
+    DWCi_SCREENlInit(((MEMSSL *)scenesetlist_bss.MemSsl)->back);
     DWCi_SCREENlRenew();
     n = DWCi_Char(PLLT.s);
-    scenesetlist_bss.MemSsl->pltt[0] = DWCi_ARClReadEx(n, 0, 4);
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->pltt[0] = DWCi_ARClReadEx(n, 0, 4);
     n = DWCi_Char(PLLT_PUSH.s);
-    scenesetlist_bss.MemSsl->pltt[1] = DWCi_ARClReadEx(n, 0, 4);
+    ((MEMSSL *)scenesetlist_bss.MemSsl)->pltt[1] = DWCi_ARClReadEx(n, 0, 4);
     SetBGPriority((volatile unsigned short *)0x04001008, 3);
     SetBGPriority((volatile unsigned short *)0x0400100A, 3);
     SetBGPriority((volatile unsigned short *)0x04000008, 3);

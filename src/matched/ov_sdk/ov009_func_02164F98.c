@@ -24,18 +24,17 @@
  * Starts up the WCM: configures it in the idle phase, then starts the WM or NWM device if a channel is allowed.
  */
 
+#include "../include/G_WCMState.h"
+
 typedef struct WCMWork {
     unsigned char pad0[0x12DE];
     unsigned char phase;
     unsigned char deviceId;
 } WCMWork;
 
-typedef struct WCMState {
-    long pad0;
-    WCMWork *work;
-} WCMState;
+typedef struct WCMState WCMState;
 
-extern WCMState g_021AA7D4;
+extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 struct WCMConfig;
@@ -55,7 +54,7 @@ long func_02164F98(void *config, void (*notify)(void *))
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (g_021AA7D4.work->phase) {
+    switch (((WCMWork *)g_021AA7D4.work)->phase) {
     case 1:
         func_021657D8(config, notify);
         break;
@@ -72,7 +71,7 @@ long func_02164F98(void *config, void (*notify)(void *))
     if (func_0208EE60() == 0) {
         return 5;
     }
-    switch (g_021AA7D4.work->deviceId) {
+    switch (((WCMWork *)g_021AA7D4.work)->deviceId) {
     case 1:
         wcmResult = func_02166880();
         break;

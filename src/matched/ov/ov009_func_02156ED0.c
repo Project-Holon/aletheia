@@ -18,6 +18,8 @@
  *   func_02156F14  0x02156F14  thumb  ov009
  */
 
+#include "../include/G_Obj.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 
@@ -33,7 +35,7 @@ typedef struct {
     u16 f20;
 } Obj;
 
-extern Obj *d_021A8268;
+extern struct Obj *d_021A8268;
 extern char d_021A1C78[];
 extern char d_021A1C7C[];
 

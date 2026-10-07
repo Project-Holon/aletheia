@@ -21,24 +21,26 @@
  *   g_021AA44C     0x021AA44C  data
  */
 
+#include "../include/G_Sock.h"
+
 extern int func_0215ECB8(void);
 extern int func_0215E84C(int s);
 extern int func_0215E794(int s);
 extern void func_0215EBB4(void);
 extern int func_021575DC(void);
 extern void func_02166424(void (*callback)(unsigned char *, unsigned char *, unsigned char *, long));
-extern int g_021AA44C;
+extern struct Sock *g_021AA44C;
 
 int func_0215ED60(void)
 {
 	int result;
 
-	if (g_021AA44C) {
+	if ((*(int *)&g_021AA44C)) {
 		result = func_0215ECB8();
 		if (result == 0) {
-			func_0215E84C(g_021AA44C);
-			if (func_0215E794(g_021AA44C)) {
-				g_021AA44C = 0;
+			func_0215E84C((*(int *)&g_021AA44C));
+			if (func_0215E794((*(int *)&g_021AA44C))) {
+				(*(int *)&g_021AA44C) = 0;
 			}
 			result = -26;
 		}

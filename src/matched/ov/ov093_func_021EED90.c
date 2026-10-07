@@ -22,6 +22,9 @@
  *   func_0201F134  0x0201F134  thumb
  *   d_021F6398     0x021F6398  data  ov093  a4
  */
+
+#include "../include/G_ov093_021F6398.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct WordSet;
@@ -35,7 +38,7 @@ extern u8 func_0202A3CC(u32 cls);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
-extern void *d_021F6398;
+extern struct G_ov093_021F6398 d_021F6398;
 
 void func_021EED90(void *win, u8 slot, u8 k)
 {
@@ -43,19 +46,19 @@ void func_021EED90(void *win, u8 slot, u8 k)
     int v;
 
     if (k != 4) {
-        if (func_021B9F70(d_021F6398, k) != 0) {
-            if ((int)func_021B86B8(d_021F6398) == 1) {
-                v = func_021BA004(d_021F6398, k);
+        if (func_021B9F70((*(void * *)&d_021F6398), k) != 0) {
+            if ((int)func_021B86B8((*(void * *)&d_021F6398)) == 1) {
+                v = func_021BA004((*(void * *)&d_021F6398), k);
                 if (v != 0)
                     func_0201F134(win, slot, v);
             } else {
-                v = func_021B9FAC(d_021F6398, k, &t);
+                v = func_021B9FAC((*(void * *)&d_021F6398), k, &t);
                 func_0201EE0C(win, slot, (void *)v, func_0202A3CC(t), 1, 2);
             }
         } else {
-            func_0201F02C(win, slot, (void *)func_021BA064(d_021F6398, k));
+            func_0201F02C(win, slot, (void *)func_021BA064((*(void * *)&d_021F6398), k));
         }
     } else {
-        func_0201F02C(win, slot, (void *)func_021BA080(d_021F6398));
+        func_0201F02C(win, slot, (void *)func_021BA080((*(void * *)&d_021F6398)));
     }
 }

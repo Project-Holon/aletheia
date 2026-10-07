@@ -15,18 +15,20 @@
  *   g_021A57C8   0x021A57C8  data
  */
 
-extern char *g_021A57C8;
+#include "../include/G_StatsSocket.h"
+
+extern struct StatsSocket g_021A57C8;
 
 void func_02193EB8(char *buf, int len)
 {
     int i;
     char *pos;
 
-    pos = g_021A57C8;
+    pos = (*(char * *)&g_021A57C8);
     for (i = 0; i < len; i++) {
         buf[i] ^= *pos;
         pos++;
         if (*pos == 0)
-            pos = g_021A57C8;
+            pos = (*(char * *)&g_021A57C8);
     }
 }

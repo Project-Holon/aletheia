@@ -21,18 +21,13 @@
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj25908.h"
+#include "../include/G_E.h"
 
 typedef unsigned char u8;
 
-typedef struct E {
-    u8 a;
-    u8 b;
-    u8 c;
-    u8 d;
-    u8 pad[0x20];
-} E;
+typedef struct E E;
 
-extern E d_021C3AC8[];
+extern struct E d_021C3AC8[];
 typedef unsigned int   u32;
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int func_020409B4(int);

@@ -27,6 +27,9 @@
  *   sIsDispOn       0x020A84BC  data
  */
 
+#include "../include/G_GXBssState.h"
+#include "../include/G_GXDataState.h"
+
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef long s32;
@@ -64,8 +67,8 @@ typedef struct {
     u32 dmaId;
 } GXDataState;
 
-extern GXBssState sDispMode;
-extern GXDataState sIsDispOn;
+extern struct GXBssState sDispMode;
+extern struct GXDataState sIsDispOn;
 
 extern void GX_InitGXState(void);
 extern s32 OS_GetLockID(void);

@@ -19,14 +19,11 @@
  *   g_021AA440  0x021AA440  data
  */
 
-typedef struct {
-	char pad0[0x20];
-	long cpMaxCount;
-} Cfg;
+#include "../include/G_021A1CD8.h"
 
 extern int func_0215CD3C(long cp_max_count);
 extern void *func_0215D070(void *param);
-extern Cfg *g_021A1CD8;
+extern struct G_021A1CD8 *g_021A1CD8;
 extern int g_021A1D14;
 extern void *g_021AA440[4];
 

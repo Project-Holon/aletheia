@@ -13,6 +13,8 @@
  *   d_021D9A0C     0x021D9A0C  data  a4
  */
 
+#include "../include/G_Elem.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,7 +40,7 @@ typedef struct {
     void **p28;
 } Table;
 
-extern Elem d_021D9A0C;
+extern struct Elem d_021D9A0C;
 
 Elem *func_021B8820(Table *t, u16 i)
 {
@@ -48,5 +50,5 @@ Elem *func_021B8820(Table *t, u16 i)
     if (i == 0xFFFF) {
         return 0;
     }
-    return &d_021D9A0C;
+    return ((Elem *)&d_021D9A0C);
 }

@@ -34,6 +34,8 @@
  *       --addr 0x0202FBAC --arm
  */
 
+#include "../include/G_EnvModule.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,37 +47,32 @@ struct EnvEntry {
     u16 field0c;
 };
 
-struct EnvModule {
-    struct EnvEntry *entries;
-    u8 *ids;
-};
-
 extern struct EnvModule g_EnvModule;
 
 void *sub_0202FBAC(u32 idx)
 {
-    u8 id = g_EnvModule.ids[idx];
+    u8 id = ((u8 *)g_EnvModule.ids)[idx];
     if (id == 0xff) return 0;
     return g_EnvModule.entries[id].ptr00;
 }
 
 u32 sub_0202FBD0(u32 idx)
 {
-    u8 id = g_EnvModule.ids[idx];
+    u8 id = ((u8 *)g_EnvModule.ids)[idx];
     if (id == 0xff) return 0;
     return g_EnvModule.entries[id].field04;
 }
 
 u32 sub_0202FBF8(u32 idx)
 {
-    u8 id = g_EnvModule.ids[idx];
+    u8 id = ((u8 *)g_EnvModule.ids)[idx];
     if (id == 0xff) return 0;
     return g_EnvModule.entries[id].field08;
 }
 
 u16 sub_0202FC20(u32 idx)
 {
-    u8 id = g_EnvModule.ids[idx];
+    u8 id = ((u8 *)g_EnvModule.ids)[idx];
     if (id == 0xff) return 0;
     return g_EnvModule.entries[id].field0c;
 }

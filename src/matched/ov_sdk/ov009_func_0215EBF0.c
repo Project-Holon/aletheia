@@ -23,6 +23,8 @@
  *   g_021AA450     0x021AA450  data
  */
 
+#include "../include/G_CPSConfig.h"
+
 typedef struct {
 	unsigned char pad0[0x1c];
 	unsigned long field1c;
@@ -43,7 +45,7 @@ extern void func_0215F0D4(void);
 extern unsigned long g_021AA444;
 extern unsigned long g_021A82BC;
 extern SOCConfig *g_021A1CD8;
-extern CPSConfig g_021AA450;
+extern struct CPSConfig g_021AA450;
 
 int func_0215EBF0(void)
 {

@@ -42,6 +42,9 @@
  *   python tools/match.py one --src src/matched/func_020224DC.c \
  *       --func func_020224DC --addr 0x020224DC --cc 1.1p1 --thumb
  */
+
+#include "../include/G_G021468A4.h"
+
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
@@ -51,11 +54,6 @@ struct Slots {
     void   *ctx[2];
     Handler fn[2];
     u32     arg[2];
-};
-
-struct G021468A4 {
-    u8    pad00[0x54];
-    void *f54;
 };
 
 extern struct G021468A4 g_021468A4;

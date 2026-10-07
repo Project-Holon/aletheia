@@ -15,11 +15,13 @@
  *   g_021AA860  0x021AA860  data
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 
 int func_02169FE4(void)
 {
-    int blk = *(int *)(g_021AA860 + 0xc);
+    int blk = *(int *)(((char *)&g_021AA860) + 0xc);
 
     return *(int *)(blk + 0x20);
 }

@@ -22,11 +22,14 @@
  *   func_021D7CC0 0x021D7CC0 arm ov125
  *   func_021D8438 0x021D8438 arm ov125
  */
+
+#include "../include/G_Clear.h"
+
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned long long u64;
-extern u32 d_021D9E40[];
-extern u8 d_021D9E40b[];
+extern struct Clear d_021D9E40;
+extern struct Clear d_021D9E40b;
 extern char d_021DA18C[];
 extern u64 OS_GetTick(void);
 extern void func_020853C0(void *, void (*)(void *), int, void *, int, unsigned);
@@ -47,51 +50,51 @@ int func_021D824C(void)
     int ret = 0;
 
     t0 = OS_GetTick();
-    func_020853C0(d_021DA18C, func_021D81EC, 0, d_021D9E40b, 0x800, d_021D9E40[0x270 / 4]);
-    d_021D9E40[0x40C / 4] = -6;
-    d_021D9E40[0x410 / 4] = 0;
-    d_021D9E40[0x414 / 4] = 0;
+    func_020853C0(d_021DA18C, func_021D81EC, 0, ((u8 *)&d_021D9E40b), 0x800, ((u32 *)&d_021D9E40)[0x270 / 4]);
+    ((u32 *)&d_021D9E40)[0x40C / 4] = -6;
+    ((u32 *)&d_021D9E40)[0x410 / 4] = 0;
+    ((u32 *)&d_021D9E40)[0x414 / 4] = 0;
     func_02085868(d_021DA18C);
     start = t0 / 0x7fd88;
     for (;;) {
-        if (d_021D9E40[0x24C / 4] != 0 && (int)((OS_GetTick() / 0x7fd88) - start) >= (int)d_021D9E40[0x24C / 4]) {
-            d_021D9E40[0x250 / 4] = 12;
+        if (((u32 *)&d_021D9E40)[0x24C / 4] != 0 && (int)((OS_GetTick() / 0x7fd88) - start) >= (int)((u32 *)&d_021D9E40)[0x24C / 4]) {
+            ((u32 *)&d_021D9E40)[0x250 / 4] = 12;
             func_020855BC(d_021DA18C);
             return ret;
         }
-        if (d_021D9E40[0x414 / 4] == 0) {
+        if (((u32 *)&d_021D9E40)[0x414 / 4] == 0) {
             continue;
         }
-        r = d_021D9E40[0x40C / 4];
+        r = ((u32 *)&d_021D9E40)[0x40C / 4];
         if (r != -6) {
             if (r <= 0) {
-                d_021D9E40[0x250 / 4] = 9;
+                ((u32 *)&d_021D9E40)[0x250 / 4] = 9;
                 func_020855BC(d_021DA18C);
                 return 0;
             }
             count += r;
             if (count >= 4 && word == -1) {
                 u8 *h = (u8 *)&word;
-                u8 *q = (u8 *)d_021D9E40[0x260 / 4];
+                u8 *q = (u8 *)((u32 *)&d_021D9E40)[0x260 / 4];
                 h[0] = q[0]; h[1] = q[1]; h[2] = q[2]; h[3] = q[3];
             }
             if (count == word) {
                 if (word != -1) {
-                    d_021D9E40[0x25C / 4] = word - 4;
+                    ((u32 *)&d_021D9E40)[0x25C / 4] = word - 4;
                     break;
                 }
             }
-            d_021D9E40[0x410 / 4] = count;
+            ((u32 *)&d_021D9E40)[0x410 / 4] = count;
         }
         func_021D7CAC();
-        if (d_021D9E40[0x268 / 4] == 1) {
-            d_021D9E40[0x250 / 4] = 13;
+        if (((u32 *)&d_021D9E40)[0x268 / 4] == 1) {
+            ((u32 *)&d_021D9E40)[0x250 / 4] = 13;
             func_021D7CC0();
             func_020855BC(d_021DA18C);
             return 0;
         }
         func_021D7CC0();
-        d_021D9E40[0x414 / 4] = zero;
+        ((u32 *)&d_021D9E40)[0x414 / 4] = zero;
         func_021D8438(1);
     }
     func_020855BC(d_021DA18C);

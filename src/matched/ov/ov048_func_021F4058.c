@@ -24,6 +24,7 @@
  *   d_021F50C0     0x021F50C0  data  a4
  */
 #include "../include/Obj00270.h"
+#include "../include/G_T.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,7 +46,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
-extern u8 d_021F50C0[];
+extern struct T d_021F50C0;
 
 void func_021F4058(int *p)
 {
@@ -65,9 +66,9 @@ void func_021F4058(int *p)
     func_0201EE0C(h, 0, (const void *)r6, 0, 1, 0);
     func_02045808((struct U16Vec *)r6);
     func_02045C04((struct Rec *)r7);
-    s.a = *(u16 *)(d_021F50C0 + 8);
-    s.b = *(int *)(d_021F50C0 + 0x34);
-    s.c = *(int *)(d_021F50C0 + 0x50);
+    s.a = *(u16 *)(((u8 *)&d_021F50C0) + 8);
+    s.b = *(int *)(((u8 *)&d_021F50C0) + 0x34);
+    s.c = *(int *)(((u8 *)&d_021F50C0) + 0x50);
     s.d = 2;
     s.e = 0x26;
     s.f = *(int *)(p[7] + 0x20);

@@ -18,11 +18,13 @@
  *   d_021DE5E4     0x021DE5E4  data
  */
 
+#include "../include/G_MemSsea.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern char *d_021DE5E4;
+extern struct MemSsea *d_021DE5E4;
 
 void func_021C78A0(void);
 
@@ -31,7 +33,7 @@ void func_021C7ABC(void)
     int i;
 
     for (i = 0; i < 4; i++) {
-        char *row = d_021DE5E4 + 8 + i * 3;
+        char *row = ((char *)d_021DE5E4) + 8 + i * 3;
         int j;
         for (j = 0; j < 3; j++) {
             u8 c = row[j];

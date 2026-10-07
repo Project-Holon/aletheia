@@ -12,10 +12,12 @@
  *   d_021BB704 0x021BB704 data a4
  *   func_021BAFA8 0x021BAFA8 thumb ov068
  */
+
+#include "../include/G__anon_Entry.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
-typedef struct { u32 offset, value, rest[4]; } Entry;
-extern Entry d_021BB704[];
+extern struct _anon_Entry d_021BB704[];
 extern void func_021BAFA8(u8 *);
 void func_021BAFD8(u8 *p, int i)
 {

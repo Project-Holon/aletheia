@@ -15,10 +15,12 @@
  *   g_021A8264  0x021A8264  data
  */
 
-extern char *g_021A8264;
+#include "../include/G__anon_Work.h"
+
+extern struct _anon_Work *g_021A8264;
 
 void func_02155374(int v)
 {
-    *(int *)(g_021A8264 + 0x754) = v;
+    *(int *)(((char *)g_021A8264) + 0x754) = v;
 }
 

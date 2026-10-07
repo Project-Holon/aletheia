@@ -17,7 +17,9 @@
  *   func_02195E78  0x02195E78  arm  ov009
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 extern int g_021AA8A0[];
 extern int func_02195E78(const int *p);
 
@@ -25,7 +27,7 @@ int func_0216BAF4(int aid)
 {
     int i;
 
-    if (*(int *)(g_021AA878 + 4) == 0) {
+    if (*(int *)(((char *)&g_021AA878) + 4) == 0) {
         return 0;
     }
     for (i = 0; i < 0x20; i++) {

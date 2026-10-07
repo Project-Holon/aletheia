@@ -28,6 +28,9 @@
  *   python tools/match.py one --src src/matched/ov016_func_021B6D8C.c \
  *       --func AOSS_seq_data_copy --addr 0x021B6D8C --region ov016 --cc ../2.0/sp1p2 --thumb
  */
+
+#include "../include/G_AOSS_BSS.h"
+
 /*
  * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
  * addresses these statics section-relative (one pool word for the section
@@ -65,7 +68,7 @@ typedef struct {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-extern AOSS_BSS aoss_bss;
+extern struct AOSS_BSS aoss_bss;
 
 typedef struct {
     int  Enable;
@@ -150,7 +153,7 @@ int AOSS_seq_data_copy(struct aoss_info *aossInfo)
     aes = &SecurityInfo[0].AesData;
     if (ptr == 0)
         return -1;
-    aossInfo->supportSecurity = aoss_bss.gData.sLevel & aoss_bss.gData.aLevel;
+    aossInfo->supportSecurity = aoss_bss.gData_sLevel & aoss_bss.gData_aLevel;
     AOSS_Memset(ptr, 0, sizeof(struct aoss_secure_info));
     if (aossInfo->supportSecurity & 1) {
         AOSS_Memcpy(ptr->WEP40Key1, wep40->Data[0], wep40->KeyLen);

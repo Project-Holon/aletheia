@@ -27,6 +27,8 @@
  *       --func func_0203D210 --addr 0x0203D210 --cc 1.1p1 --arm
  */
 
+#include "../include/G_Singleton.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -38,11 +40,6 @@ struct NetVtbl {
 struct NetSys {
     u8              pad_000[0x340];
     struct NetVtbl *vtbl;
-};
-
-struct Singleton {
-    u8    pad_00[8];
-    void *unk_08;
 };
 
 extern struct Singleton g_021469E0;

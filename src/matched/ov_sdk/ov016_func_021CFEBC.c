@@ -27,6 +27,8 @@
  *   g_021DB8D4  0x021DB8D4  data
  */
 
+#include "../include/G_SND.h"
+
 typedef struct {
 	char pad[0xa0];
 	int handle;
@@ -46,7 +48,7 @@ extern void NNS_SndPlayerSetPlayableSeqCount();
 extern void NNS_SndPlayerSetAllocatableChannel();
 extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 extern void func_021D0034(void);
-extern SND *g_021DE648;
+extern struct SND *g_021DE648;
 extern char g_021DB8D4[];
 
 void func_021CFEBC(void)
@@ -54,10 +56,10 @@ void func_021CFEBC(void)
 	unsigned long size;
 	int playerNo;
 
-	g_021DE648 = (SND *)func_021D6414(0xac, 4);
+	g_021DE648 = (struct SND *)((SND *)func_021D6414(0xac, 4));
 	g_021DE648->arc = func_021D4B68(g_021DB8D4, &size, 0x20);
 	NNS_SndInit();
-	NNS_SndArcInitOnMemory(g_021DE648, g_021DE648->arc);
+	NNS_SndArcInitOnMemory(((SND *)g_021DE648), g_021DE648->arc);
 	NNS_SndArcPlayerSetup(0);
 	NNS_SndHandleInit(&g_021DE648->handle);
 	for (playerNo = 0; playerNo < 0x20; playerNo++) {

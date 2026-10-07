@@ -38,6 +38,9 @@
  *   python3 tools/match.py one --src src/matched/func_02087FBC.c \
  *       --func func_02087FBC --addr 0x02087FBC --arm --cc 1.1p1
  */
+
+#include "../include/G_OsArgumentBss.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,30 +53,25 @@ typedef struct {
     u8  pad0c[4];
     u16 crc;            /* 0x10 */
 } ArgHeader;
-typedef struct {
-    u32        f00;
-    u32        flag;    /* 0x04 */
-    ArgHeader *info;    /* 0x08 */
-} ArgState;
-extern ArgState s_02151384;
+extern struct OsArgumentBss s_02151384;
 extern u64      s_02151390;
 extern u16 SVC_GetCRC16(u32 start, const void *data, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 int func_02087FBC(void)
 {
-    if ((s_02151384.flag & 1) == 0) return -1;
-    s_02151384.info->makerCode = *(u16 *)0x02FFE010;
+    if ((s_02151384.sBufferState & 1) == 0) return -1;
+    ((ArgHeader *)s_02151384.sBufferPtr)->makerCode = *(u16 *)0x02FFE010;
     {
-        ArgHeader *p = s_02151384.info;
+        ArgHeader *p = s_02151384.sBufferPtr;
         p->titleId = *(u64 *)0x02FFE230;
         p->f09 = 3;
     }
-    s_02151390 = s_02151384.info->titleId;
-    s_02151384.info->crc = 0;
-    s_02151384.info->crc = SVC_GetCRC16(0xFFFF, s_02151384.info, 0x300);
-    MI_CpuCopy8(s_02151384.info, (void *)0x02000000, 0x300);
-    MI_CpuFill8(s_02151384.info, 0, 0x300);
-    s_02151384.flag = 0;
+    s_02151390 = ((ArgHeader *)s_02151384.sBufferPtr)->titleId;
+    ((ArgHeader *)s_02151384.sBufferPtr)->crc = 0;
+    ((ArgHeader *)s_02151384.sBufferPtr)->crc = SVC_GetCRC16(0xFFFF, s_02151384.sBufferPtr, 0x300);
+    MI_CpuCopy8(s_02151384.sBufferPtr, (void *)0x02000000, 0x300);
+    MI_CpuFill8(s_02151384.sBufferPtr, 0, 0x300);
+    s_02151384.sBufferState = 0;
     return 0;
 }

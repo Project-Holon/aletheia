@@ -26,9 +26,11 @@
  *       --func func_02037BA4 --addr 0x02037BA4 --cc 1.1p1 --arm
  */
 
+#include "../include/G_LinkState.h"
+
 typedef unsigned char u8;
 
-extern char *g_021469D0;
+extern struct LinkState *g_021469D0;
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern int   func_020393A8(void);
@@ -36,7 +38,7 @@ extern void  func_02037B08(void);
 
 void func_02037BA4(void)
 {
-    if (*(u8 *)(g_021469D0 + 0x1EC) == 0)
+    if (*(u8 *)(((char *)g_021469D0) + 0x1EC) == 0)
         return;
     if (func_02039338() == 0) {
         if (func_020393A8() == 0)

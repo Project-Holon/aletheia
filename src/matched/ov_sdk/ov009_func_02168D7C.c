@@ -17,12 +17,14 @@
 
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 
 int func_02168D7C(void)
 {
     int r = 0;
-    char *p = *(char **)(g_021AA860 + 0xc);
+    char *p = *(char **)(((char *)&g_021AA860) + 0xc);
 
     if (p != 0 && *(int *)p == 1) r = 1;
     return r;

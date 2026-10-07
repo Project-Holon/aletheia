@@ -20,11 +20,13 @@
  *   g_021CE5B0  0x021CE5B0  data
  */
 
+#include "../include/G_GHIThrottle.h"
+
 extern void func_021C0370(void);
 extern void func_021C0368(void);
 extern void func_021C0374(void);
 extern int g_021D3B64;
-extern int g_021CE5AC;
+extern struct GHIThrottle g_021CE5AC;
 extern int g_021CE5B0;
 
 void func_021C1FF8(void)
@@ -33,7 +35,7 @@ void func_021C1FF8(void)
 	if (++g_021D3B64 == 1) {
 		func_021C0368();
 		g_021CE5B0 = 125;
-		g_021CE5AC = 250;
+		(*(int *)&g_021CE5AC) = 250;
 	} else {
 		func_021C0374();
 	}

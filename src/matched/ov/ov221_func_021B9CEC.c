@@ -18,8 +18,10 @@
  *   func_0204B404 0x0204B404 arm
  *   d_021BA140 0x021BA140 data a2
  */
+
+#include "../include/G_Vec2.h"
+
 struct Obj;
-struct Vec2 { short x,y; };
 extern struct Vec2 d_021BA140;
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);

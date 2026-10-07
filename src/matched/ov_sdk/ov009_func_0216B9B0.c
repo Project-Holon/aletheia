@@ -16,12 +16,14 @@
  *   func_0217637C  0x0217637C  arm  ov009
  */
 
-extern char g_021AA878[];
+#include "../include/G_DwcGlobal.h"
+
+extern struct DwcGlobal g_021AA878;
 extern char *func_0217637C(int index);
 
 unsigned char func_0216B9B0(void)
 {
-    char *p = *(char **)(g_021AA878 + 4);
+    char *p = *(char **)(((char *)&g_021AA878) + 4);
     unsigned char *node;
 
     if (p == 0 || *(int *)(p + 0x96c) == 0 || *(int *)(p + 0x96c) == 9 ||

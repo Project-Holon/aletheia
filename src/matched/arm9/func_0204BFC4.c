@@ -17,16 +17,11 @@
  * block, its u16 at +0xf0 is the id and the word at +0xf4 the payload.
  */
 
+#include "../include/G_Mgr.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
-struct Mgr {
-    u8  pad_000[0xf0];
-    u16 unk_f0;
-    u16 unk_f2;
-    u32 unk_f4;
-};
 
 extern struct Mgr *g_02146A74;
 

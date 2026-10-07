@@ -21,6 +21,9 @@
  *   func_020056EC  0x020056EC  thumb
  */
 
+#include "../include/G_s_ab40.h"
+#include "../include/G_s_aba0.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -29,14 +32,6 @@ struct s_aac0 {
     u32 f8;
     u8 pad1[4];
     u8 f10;
-};
-struct s_ab40 {
-    u8 pad[0x3C];
-    u32 f3c;
-};
-struct s_aba0 {
-    u8 pad[6];
-    u8 b6;
 };
 
 extern struct s_aac0 d_0217AAC0;

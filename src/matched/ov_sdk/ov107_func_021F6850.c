@@ -16,16 +16,11 @@
  *   g_021F7008     0x021F7008  data
  */
 
+#include "../include/G_piece.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
-
-struct piece {
-    int f0;
-    u8 *buf;
-    int size;
-    int max;
-};
 
 extern struct piece g_021F7008;
 
@@ -38,6 +33,6 @@ void func_021F6850(u16 child_aid)
     if (g_021F7008.buf == 0)
         return;
     i = child_aid - 1;
-    func_02082BCC(g_021F7008.buf + i * 32, 0, 30);
-    *(int *)(g_021F7008.buf + 0x1E0 + i * 4) = 0;
+    func_02082BCC(((u8 *)g_021F7008.buf) + i * 32, 0, 30);
+    *(int *)(((u8 *)g_021F7008.buf) + 0x1E0 + i * 4) = 0;
 }

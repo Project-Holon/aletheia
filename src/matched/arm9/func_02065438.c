@@ -47,6 +47,11 @@
  *   func_02067BA4  0x02067BA4  arm
  *   func_02067CB0  0x02067CB0  arm
  */
+
+#include "../include/G_Mtx.h"
+#include "../include/G_SlotRec.h"
+#include "../include/G_G18.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed   short s16;
@@ -81,23 +86,9 @@ struct Manager {
     u32         slot;
 };
 
-struct SlotRec {
-    u16 f0;
-    u16 f2;
-    u16 state;
-    u16 f6;
-};
-
 struct Aff {
     fx32 m00, m01, m10, m11;
     u8   f10[0x10];
-};
-
-struct G18 {
-    u16          h00;
-    u8           pad_02[2];
-    struct Aff  *arr04[0x100];
-    int          f404;
 };
 
 struct Scr {
@@ -109,10 +100,10 @@ struct Scr {
 
 extern struct Manager g_02147B88;
 extern struct Scr     g_020A81F8;
-extern struct G18     g_02148718;
+extern struct G18 g_02148718;
 extern struct SlotRec g_02147C18[];
 extern struct Aff     g_02148318[];
-extern Mtx            g_02147D18[];
+extern struct Mtx g_02147D18[];
 extern fx32           g_02147B98[];
 
 extern void func_02064EDC(void);
@@ -137,7 +128,7 @@ static inline Mtx *GetMtx(void)
         g_020A81F8.mtx.ty = g_02147D18[g_02147B88.slot].ty;
         return &g_020A81F8.mtx;
     }
-    return &g_02147D18[g_02147B88.slot];
+    return &((Mtx *)g_02147D18)[g_02147B88.slot];
 }
 
 static inline struct Aff *GetAff(void)
@@ -150,16 +141,16 @@ static inline struct Aff *GetAff(void)
     else
         r = 0;
     if (r != 0) {
-        if (g_02148718.f404 != 0) {
-            aff = g_02148718.arr04[g_02148718.h00];
+        if (g_02148718.bDrawMC != 0) {
+            aff = g_02148718.arr04[g_02148718.currentCellAnimIdx];
             if (aff == 0) {
                 func_02064EDC();
-                aff = &g_02148318[g_02147C18[(u16)g_02147B88.slot].f0];
-                g_02148718.arr04[g_02148718.h00] = aff;
+                aff = &g_02148318[g_02147C18[(u16)g_02147B88.slot].mtxCacheIdx];
+                g_02148718.arr04[g_02148718.currentCellAnimIdx] = aff;
             }
         } else {
             func_02064EDC();
-            aff = &g_02148318[g_02147C18[(u16)g_02147B88.slot].f0];
+            aff = &g_02148318[g_02147C18[(u16)g_02147B88.slot].mtxCacheIdx];
         }
     }
     return aff;

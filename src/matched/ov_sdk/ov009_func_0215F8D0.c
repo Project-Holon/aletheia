@@ -15,6 +15,8 @@
  *   g_021AA4BC   0x021aa4bc data
  */
 
+#include "../include/G_SOCLAlloc.h"
+
 typedef struct {
     unsigned long w00;
     void (*free_)(int, void *, unsigned long);
@@ -22,7 +24,7 @@ typedef struct {
     void *(*alloc_)(int, unsigned long);
 } SOCLAlloc;
 
-extern SOCLAlloc g_021AA4BC;
+extern struct SOCLAlloc g_021AA4BC;
 
 static void FreeFunc_SOCL(void *ptr)
 {

@@ -28,18 +28,14 @@
  *   DWCi_SceneSetRakuReady           0x021CB2E8  arm
  *   DWCi_SceneSetList                0x021C82FC  arm
  */
+
+#include "../include/G_FocusState.h"
+
 typedef _Bool bool;
 typedef signed char s8;
 typedef unsigned char u8;
 
-struct SelWayBss {
-    s8 FocusLast;
-    s8 Sel;
-    u8 Flag2;
-    u8 pad;
-    void *file;
-};
-extern struct SelWayBss g_021DE614;
+extern struct FocusState g_021DE614;
 
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_BTNlIsEnd(void);
@@ -67,15 +63,15 @@ static void endScene2(void)
         return;
     DWCi_FOCUSlDelete();
     DWCi_COMMENTlDelete();
-    DWCi_ARClRelease(g_021DE614.file);
+    DWCi_ARClRelease(g_021DE614.screen);
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x14);
-    if (g_021DE614.Flag2 == 0) {
+    if (g_021DE614.flag == 0) {
         DWCi_SetParam_(2, 0);
         DWCi_ChangeScene(DWCi_SceneSetSelectAp);
         return;
     }
-    switch (g_021DE614.Sel) {
+    switch (g_021DE614.cur) {
     case 0:
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene(DWCi_SceneSetSearch);

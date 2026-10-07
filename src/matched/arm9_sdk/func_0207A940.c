@@ -17,18 +17,20 @@
  *   fsi_arc_mem  0x02150D44  data
  */
 
+#include "../include/G_FSArchive.h"
+
 typedef unsigned long u32;
 typedef int BOOL;
 
 typedef struct FSFile FSFile;
 typedef struct FSArchive FSArchive;
 
-extern FSArchive fsi_arc_mem;
+extern struct FSArchive fsi_arc_mem;
 extern void FSi_InitMemArchive(void);
 extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 
 BOOL func_0207A940(FSFile *p_file, void *buf, u32 size)
 {
     FSi_InitMemArchive();
-    return FS_OpenFileDirect(p_file, &fsi_arc_mem, (u32)buf, (u32)buf + size, 0);
+    return FS_OpenFileDirect(p_file, &(*(FSArchive *)&fsi_arc_mem), (u32)buf, (u32)buf + size, 0);
 }

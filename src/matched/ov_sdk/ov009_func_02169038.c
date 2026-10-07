@@ -16,17 +16,19 @@
  *   func_02168FF0  0x02168FF0  arm  ov009
  */
 
-extern char g_021AA860[];
+#include "../include/G_FriendGlobal.h"
+
+extern struct FriendGlobal g_021AA860;
 extern int func_02168FF0(int index);
 
 int func_02169038(int pid)
 {
     int i;
 
-    if (*(char **)(g_021AA860 + 0xc) == 0 || pid == 0) {
+    if (*(char **)(((char *)&g_021AA860) + 0xc) == 0 || pid == 0) {
         return -1;
     }
-    for (i = 0; i < *(int *)(*(char **)(g_021AA860 + 0xc) + 0x14); i++) {
+    for (i = 0; i < *(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x14); i++) {
         if (pid == func_02168FF0(i)) {
             return i;
         }

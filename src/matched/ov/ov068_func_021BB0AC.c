@@ -11,10 +11,12 @@
  * symbols:
  *   d_021BB704 0x021BB704 data a4
  */
+
+#include "../include/G__anon_Entry.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
-typedef struct { u32 offset, value, rest[4]; } Entry;
-extern Entry d_021BB704[];
+extern struct _anon_Entry d_021BB704[];
 int func_021BB0AC(u8 *p, int i)
 {
     if (p[d_021BB704[i].offset] == d_021BB704[i].value) return 1;

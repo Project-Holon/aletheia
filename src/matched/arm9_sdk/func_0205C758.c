@@ -20,6 +20,8 @@
  *   g_02146AD4 0x02146AD4 data
  */
 
+#include "../include/G_INETBSS.h"
+
 typedef struct {
     int ac_state;
     unsigned short state;
@@ -38,7 +40,7 @@ typedef struct {
     DWCstInetControl *stpInetCntl;
 } INETBSS;
 
-extern INETBSS g_02146AD4;
+extern struct INETBSS g_02146AD4;
 
 typedef struct {
     void *(*alloc)(unsigned long name, long size);
@@ -61,17 +63,17 @@ void func_0205C758(void)
     DWCACConfig inp;
 
     if (g_02146AD4.stpInetCntl != 0) {
-        if (g_02146AD4.stpInetCntl->state != 1) {
+        if (((DWCstInetControl *)g_02146AD4.stpInetCntl)->state != 1) {
             return;
         }
         MI_CpuFill8(&inp, 0, sizeof(inp));
-        inp.dmaNo = g_02146AD4.stpInetCntl->dmaNo;
-        inp.powerMode = g_02146AD4.stpInetCntl->powerMode;
-        inp.rwin = g_02146AD4.stpInetCntl->rwin;
+        inp.dmaNo = ((DWCstInetControl *)g_02146AD4.stpInetCntl)->dmaNo;
+        inp.powerMode = ((DWCstInetControl *)g_02146AD4.stpInetCntl)->powerMode;
+        inp.rwin = ((DWCstInetControl *)g_02146AD4.stpInetCntl)->rwin;
         inp.alloc = DWC_Alloc;
         inp.free = DWC_Free;
-        inp.wontExecuteEULACheck = g_02146AD4.stpInetCntl->wontExecuteEULACheck;
-        g_02146AD4.stpInetCntl->state = 2;
+        inp.wontExecuteEULACheck = ((DWCstInetControl *)g_02146AD4.stpInetCntl)->wontExecuteEULACheck;
+        ((DWCstInetControl *)g_02146AD4.stpInetCntl)->state = 2;
         if (!DWC_AC_Create(&inp)) {
             DWCi_SetError(9, -50199);
         }

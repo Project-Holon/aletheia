@@ -16,6 +16,8 @@
  *   g_021DE550                       0x021DE550  data
  */
 
+#include "../include/G_MemFocus.h"
+
 typedef unsigned char u8;
 typedef unsigned long u32;
 
@@ -23,7 +25,7 @@ typedef struct {
     void *cell[4];
 } MemFocus;
 
-extern MemFocus *g_021DE550;
+extern struct MemFocus *g_021DE550;
 extern void DWCi_CELLlDelete(void *cell);
 
 void func_021BD5A8(void)

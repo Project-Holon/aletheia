@@ -17,11 +17,13 @@
  * points to. Called from the ov175 root func_021D7E18 (0x021D85E0).
  */
 
+#include "../include/G_Obj.h"
+
 typedef unsigned short u16;
 
-extern char *d_021A8268;
+extern struct Obj *d_021A8268;
 
 void func_02156F50(int a)
 {
-    *(u16 *)(d_021A8268 + 0x20) = a;
+    *(u16 *)(((char *)d_021A8268) + 0x20) = a;
 }

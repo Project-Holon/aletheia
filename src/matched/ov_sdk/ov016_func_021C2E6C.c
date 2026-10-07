@@ -22,6 +22,8 @@
  *   func_021C2F14  0x021C2F14  arm  ov016
  */
 
+#include "../include/G_FocusPosT.h"
+
 typedef struct {
 	unsigned char idx;
 	unsigned char flag;
@@ -42,7 +44,7 @@ extern void func_021BCB44(int idx);
 extern void func_021C3130(void);
 extern void func_021C0E40(unsigned int v);
 extern void func_021C2F14(void);
-extern FocusPosT g_021DE5A8;
+extern struct FocusPosT g_021DE5A8;
 
 void func_021C2E6C(void)
 {

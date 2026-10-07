@@ -32,13 +32,10 @@
  *       --func func_02010794 --addr 0x02010794 --cc 1.1p1 --thumb
  */
 
+#include "../include/G_WihCtx.h"
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
-
-struct WihCtx {
-    u8 *f0;         /* +0x00 */
-    u8 *f4;         /* +0x04 */
-};
 
 extern struct WihCtx g_021461E0;
 extern u8 sWihDwc;

@@ -32,6 +32,8 @@
  *   g_021A7408  0x021A7408  data
  */
 
+#include "../include/G_021A6604.h"
+
 typedef struct SOCInAddr {
     unsigned int addr;
 } SOCInAddr;
@@ -86,7 +88,7 @@ typedef struct qr2_implementation_s {
 } qr2_implementation_s;
 
 extern char g_021A73A0[];
-extern qr2_implementation_s g_021A6604;
+extern struct G_021A6604 g_021A6604;
 extern char g_021AE9B8[64];
 extern char g_021A73B4[];
 extern char g_021A73D4[];
@@ -124,7 +126,7 @@ int func_0219AEB4(qr2_implementation_s **qrec, int s, int boundport, char *gamen
     func_0217D254(3, (char *)4, 0x40, g_021A73A0);
 
     if (qrec == 0) {
-        cr = &g_021A6604;
+        cr = ((qr2_implementation_s *)&g_021A6604);
     } else {
         *qrec = (qr2_implementation_s *)func_0217EAB0(sizeof(qr2_implementation_s));
         cr = *qrec;

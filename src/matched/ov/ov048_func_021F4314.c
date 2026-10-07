@@ -23,6 +23,8 @@
  *   d_021F50C0     0x021F50C0  data  a4
  */
 
+#include "../include/G_T.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,7 +40,7 @@ extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u8 d_021F50C0[];
+extern struct T d_021F50C0;
 
 void func_021F4314(int *p)
 {
@@ -66,9 +68,9 @@ void func_021F4314(int *p)
     for (i = 0; i < cnt; i++)
         func_0201EE60(h, i, buf[i]);
     func_0201F02C(h, 6, func_02012944((void *)p[2]));
-    s.a = *(u16 *)(d_021F50C0 + 0xa);
-    s.b = *(int *)(d_021F50C0 + 0x38);
-    s.c = *(int *)(d_021F50C0 + 0x54);
+    s.a = *(u16 *)(((u8 *)&d_021F50C0) + 0xa);
+    s.b = *(int *)(((u8 *)&d_021F50C0) + 0x38);
+    s.c = *(int *)(((u8 *)&d_021F50C0) + 0x54);
     s.d = 2;
     s.e = 0x26;
     s.f = f;

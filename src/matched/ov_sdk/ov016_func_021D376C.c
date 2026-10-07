@@ -26,6 +26,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov016_func_021D376C.c \n *       --func DWCi_MOV_WH_ParentConnect --addr 0x021D376C --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_DWC_MOV_WH_BSS.h"
+
 /*
  * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
@@ -77,7 +80,7 @@ typedef struct {
     WHWork *wh;
 } DWC_MOV_WH_BSS;
 
-extern DWC_MOV_WH_BSS dwc_mov_wh_bss;
+extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 
 typedef struct { unsigned short apiid; unsigned short errcode; } WMCallback;
 
@@ -91,26 +94,26 @@ extern const char dwc_mov_wh_str_14263[];
 
 int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short channel)
 {
-    if (dwc_mov_wh_bss.wh->sysState != 1)
+    if (((WHWork *)dwc_mov_wh_bss.wh)->sysState != 1)
         OS_Terminate();
-    dwc_mov_wh_bss.wh->recvBufSize = 0x180;
-    dwc_mov_wh_bss.wh->sendBufSize = 0xE0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->recvBufSize = 0x180;
+    ((WHWork *)dwc_mov_wh_bss.wh)->sendBufSize = 0xE0;
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13820, dwc_mov_wh_bss.wh->recvBufSize);
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13820, ((WHWork *)dwc_mov_wh_bss.wh)->recvBufSize);
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13821, dwc_mov_wh_bss.wh->sendBufSize);
-    dwc_mov_wh_bss.wh->connectMode = mode;
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13821, ((WHWork *)dwc_mov_wh_bss.wh)->sendBufSize);
+    ((WHWork *)dwc_mov_wh_bss.wh)->connectMode = mode;
     DWCi_MOV_WH_ChangeSysState(3);
-    dwc_mov_wh_bss.wh->tgid = tgid;
-    dwc_mov_wh_bss.wh->pchannel = channel;
-    dwc_mov_wh_bss.wh->f_18 = WM_GetDispersionBeaconPeriod();
-    dwc_mov_wh_bss.wh->f_34 = 0xD0;
-    dwc_mov_wh_bss.wh->f_36 = 0x44;
-    dwc_mov_wh_bss.wh->f_10 = 2;
-    dwc_mov_wh_bss.wh->f_16 = 0;
-    dwc_mov_wh_bss.wh->f_12 = 0;
-    dwc_mov_wh_bss.wh->f_0E = 1;
-    dwc_mov_wh_bss.wh->f_14 = (mode == 2) ? 1 : 0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->tgid = tgid;
+    ((WHWork *)dwc_mov_wh_bss.wh)->pchannel = channel;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_18 = WM_GetDispersionBeaconPeriod();
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_34 = 0xD0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_36 = 0x44;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_10 = 2;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_16 = 0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_12 = 0;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_0E = 1;
+    ((WHWork *)dwc_mov_wh_bss.wh)->f_14 = (mode == 2) ? 1 : 0;
     switch (mode) {
     case 0:
     case 2:

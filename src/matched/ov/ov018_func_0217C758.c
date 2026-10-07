@@ -33,6 +33,8 @@
  *   g_02183AF0     0x02183AF0  data  a4
  */
 
+#include "../include/G_Tmpl.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -60,8 +62,8 @@ typedef struct {
     u16 fC;
 } Tmpl;
 
-extern Tmpl d_02183AF0;
-extern Tmpl g_02183AF0;
+extern struct Tmpl d_02183AF0;
+extern struct Tmpl g_02183AF0;
 
 extern void func_02082BCC(void *, int, int);
 struct BigObj;
@@ -107,8 +109,8 @@ void func_0217C758(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
         d_02183AF0.fC = idx;
         x = func_0216D83C(obj);
         y = func_0216D86C(obj);
-        func_0216E618(&g_02183AF0, x, y, func_0216D8AC(obj));
-        r->f14 = func_0216CE60(sys, &g_02183AF0, zone);
+        func_0216E618(((Tmpl *)&g_02183AF0), x, y, func_0216D8AC(obj));
+        r->f14 = func_0216CE60(sys, ((Tmpl *)&g_02183AF0), zone);
         func_0217BCDC(a3, r->f0, r->fC, r->fE, r->fF);
         func_0216DAC8(obj, 1);
         func_0216DAC8(r->f14, 0);

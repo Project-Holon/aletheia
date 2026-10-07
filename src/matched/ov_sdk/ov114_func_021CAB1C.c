@@ -15,11 +15,14 @@
  * symbols:
  *   d_021D422C   0x021D422C  data
  */
-extern char d_021D422C[];
+
+#include "../include/G_CryptoAllocators.h"
+
+extern struct CryptoAllocators d_021D422C;
 
 void CRYPTO_SetMemAllocator(void *alloc, void *free, void *realloc)
 {
-    *(void **)(d_021D422C + 4) = alloc;
-    *(void **)(d_021D422C + 0) = free;
-    *(void **)(d_021D422C + 8) = realloc;
+    *(void **)(((char *)&d_021D422C) + 4) = alloc;
+    *(void **)(((char *)&d_021D422C) + 0) = free;
+    *(void **)(((char *)&d_021D422C) + 8) = realloc;
 }

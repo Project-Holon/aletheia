@@ -15,12 +15,15 @@
  *   d_021F39A0     0x021F39A0  data  a2
  *   d_021F6398     0x021F6398  data  ov093  a4
  */
+
+#include "../include/G_ov093_021F6398.h"
+
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021B8BD0(unsigned char *p, unsigned char k);
 extern void func_021EEEC8(u32 a, u32 b, u32 c);
 extern const u16 d_021F39A0[];
-extern void *d_021F6398;
+extern struct G_ov093_021F6398 d_021F6398;
 
 void func_021EEE80(u32 a, u16 k, u32 *p)
 {
@@ -28,7 +31,7 @@ void func_021EEE80(u32 a, u16 k, u32 *p)
 
     for (i = 0; i < 27; i++) {
         if (k == d_021F39A0[i]) {
-            if (func_021B8BD0(d_021F6398, (u8)*p) == 0)
+            if (func_021B8BD0((*(void * *)&d_021F6398), (u8)*p) == 0)
                 k = k + 1;
             break;
         }

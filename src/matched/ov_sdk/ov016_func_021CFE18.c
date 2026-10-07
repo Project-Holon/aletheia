@@ -43,6 +43,9 @@
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CFE18.c \
  *       --func DWCi_SETTINGlConvAddress --addr 0x021CFE18 --region ov016 --cc 1.1p1 --arm
  */
+
+#include "../include/G_tagMEMSET.h"
+
 typedef _Bool bool;
 
 typedef struct NCFGApInfo {
@@ -84,12 +87,6 @@ typedef struct tagSETTINGINFO {
 
 typedef struct MATHCRC16Table { unsigned short table[256]; } MATHCRC16Table;
 
-typedef struct tagMEMSET {
-    DWCMemMap      map;               /* 0x000 */
-    SETTINGINFO    temp;              /* 0x400 */
-    MATHCRC16Table tbl;               /* 0x4F8 */
-} MEMSET;
-
 typedef struct _ATERMApConfigParam {
     char ssid[32];                    /* 0x00 */
     int  auth_mode;                   /* 0x20 */
@@ -123,7 +120,7 @@ typedef struct tagDWCWiFiInfo {
 } DWCWiFiInfo;
 
 /* setting.o .bss/.data */
-extern MEMSET *MemSet;
+extern struct tagMEMSET *MemSet;
 extern const unsigned char SETTING_NONE[4];
 extern const char setting_str_20971[];
 
