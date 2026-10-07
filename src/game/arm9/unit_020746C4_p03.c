@@ -48,9 +48,6 @@ void func_020749B4(void *node)
     func_02060468((int)node, 0);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- */
 int func_020749C4(struct Table *t, void *heap)
 {
     func_02060468((int)(&t->list), 0xc);
@@ -61,9 +58,6 @@ int func_020749C4(struct Table *t, void *heap)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- */
 int func_020749F8(struct Table *t)
 {
     void *node = (void *)func_02061124(t->heap, 0x14, 4);
@@ -75,9 +69,6 @@ int func_020749F8(struct Table *t)
     return 1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- */
 void func_02074A34(void)
 {
     void *p = (void *)func_02089D40();

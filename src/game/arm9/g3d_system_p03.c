@@ -1458,24 +1458,6 @@ u32 sub_020489F4(u8 *a0, int i)
 
 
 
-/*
- * Four twelve-byte accessors on the 8-byte record array that func_02048918
- * walks: two halfword getters at +0x1a and +0x1c of record `i`, and two word
- * getters through the pointers at +0 and +0xc of a different object.
- *
- * None of them carries a label in the generated listing: they are leaves whose
- * prologue saves nothing, and `disasm.py` only auto-labels a function whose
- * prologue saves `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They were
- * read out of the bytes.  The worklist's own function list for pkt_02048330
- * stops at the labelled bodies, so these four are the 48-byte hole between
- * func_02048918 and func_02048A24 - the range is contiguous and this unit
- * reproduces all of it.
- *
- * Three of the four instructions in the first pair are the same in both:
- * `add r0, r0, r1, lsl #3` is the record stride of 8 folded into the add, and
- * the halfword offset rides in the load.
- */
 u32 sub_02048A00(u8 *a0, int i)
 {
     return *(u16 *)(a0 + i * 8 + 0x1c);
@@ -1484,24 +1466,6 @@ u32 sub_02048A00(u8 *a0, int i)
 
 
 
-/*
- * Four twelve-byte accessors on the 8-byte record array that func_02048918
- * walks: two halfword getters at +0x1a and +0x1c of record `i`, and two word
- * getters through the pointers at +0 and +0xc of a different object.
- *
- * None of them carries a label in the generated listing: they are leaves whose
- * prologue saves nothing, and `disasm.py` only auto-labels a function whose
- * prologue saves `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They were
- * read out of the bytes.  The worklist's own function list for pkt_02048330
- * stops at the labelled bodies, so these four are the 48-byte hole between
- * func_02048918 and func_02048A24 - the range is contiguous and this unit
- * reproduces all of it.
- *
- * Three of the four instructions in the first pair are the same in both:
- * `add r0, r0, r1, lsl #3` is the record stride of 8 folded into the add, and
- * the halfword offset rides in the load.
- */
 u32 sub_02048A0C(u8 *a0, int i)
 {
     return *(u32 *)((u8 *)((struct Obj17329 *)a0)->f0 + i * 4);
@@ -1510,24 +1474,6 @@ u32 sub_02048A0C(u8 *a0, int i)
 
 
 
-/*
- * Four twelve-byte accessors on the 8-byte record array that func_02048918
- * walks: two halfword getters at +0x1a and +0x1c of record `i`, and two word
- * getters through the pointers at +0 and +0xc of a different object.
- *
- * None of them carries a label in the generated listing: they are leaves whose
- * prologue saves nothing, and `disasm.py` only auto-labels a function whose
- * prologue saves `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They were
- * read out of the bytes.  The worklist's own function list for pkt_02048330
- * stops at the labelled bodies, so these four are the 48-byte hole between
- * func_02048918 and func_02048A24 - the range is contiguous and this unit
- * reproduces all of it.
- *
- * Three of the four instructions in the first pair are the same in both:
- * `add r0, r0, r1, lsl #3` is the record stride of 8 folded into the add, and
- * the halfword offset rides in the load.
- */
 u32 sub_02048A18(u8 *a0, int i)
 {
     return *(u32 *)((u8 *)((struct Obj17330 *)a0)->fC + i * 4);
@@ -1627,44 +1573,6 @@ void func_02048AD0(struct Light *l)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048AE8(struct Light *l, VecFx32 *out)
 {
     *out = l->unk20;
@@ -1672,44 +1580,6 @@ void func_02048AE8(struct Light *l, VecFx32 *out)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048AFC(struct Light *l, const VecFx32 *in)
 {
     l->unk20 = *in;
@@ -1717,44 +1587,6 @@ void func_02048AFC(struct Light *l, const VecFx32 *in)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B0C(struct Light *l, VecFx32 *out)
 {
     *out = l->unk2C;
@@ -1762,44 +1594,6 @@ void func_02048B0C(struct Light *l, VecFx32 *out)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B20(struct Light *l, const VecFx32 *in)
 {
     l->unk2C = *in;
@@ -1807,44 +1601,6 @@ void func_02048B20(struct Light *l, const VecFx32 *in)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B30(struct Light *l, VecFx32 *out)
 {
     *out = l->unk38;
@@ -1852,44 +1608,6 @@ void func_02048B30(struct Light *l, VecFx32 *out)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B44(struct Light *l, const VecFx32 *in)
 {
     l->unk38 = *in;
@@ -1897,44 +1615,6 @@ void func_02048B44(struct Light *l, const VecFx32 *in)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B54(struct Light *l, u32 *out)
 {
     *out = l->unk14;
@@ -1942,44 +1622,6 @@ void func_02048B54(struct Light *l, u32 *out)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B60(struct Light *l, const u32 *in)
 {
     l->unk14 = *in;
@@ -1987,44 +1629,6 @@ void func_02048B60(struct Light *l, const u32 *in)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B6C(struct Light *l, const u32 *in)
 {
     l->unk18 = *in;
@@ -2032,44 +1636,6 @@ void func_02048B6C(struct Light *l, const u32 *in)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 int func_02048B78(struct Light *l)
 {
     return l->unk00;
@@ -2077,44 +1643,6 @@ int func_02048B78(struct Light *l)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B80(struct Light *l, u32 v)
 {
     l->unk04 = v;
@@ -2122,44 +1650,6 @@ void func_02048B80(struct Light *l, u32 v)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B88(struct Light *l, u32 *out)
 {
     *out = l->unk08;
@@ -2167,44 +1657,6 @@ void func_02048B88(struct Light *l, u32 *out)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B94(struct Light *l, u32 v)
 {
     l->unk08 = v;
@@ -2212,44 +1664,6 @@ void func_02048B94(struct Light *l, u32 v)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048B9C(struct Light *l, u32 *out)
 {
     *out = l->unk04;
@@ -2257,44 +1671,6 @@ void func_02048B9C(struct Light *l, u32 *out)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048BA8(struct Light *l, u32 v)
 {
     l->unk04 = v;
@@ -2302,44 +1678,6 @@ void func_02048BA8(struct Light *l, u32 v)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048BB0(struct Light *l, u32 *out)
 {
     *out = l->unk08;
@@ -2347,44 +1685,6 @@ void func_02048BB0(struct Light *l, u32 *out)
 
 
 
-/*
- * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
- * fifteen of them `bx lr` leaves that save no lr and therefore carry no
- * disasm.py label of their own (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the whole run
- * is one translation unit.
- *
- *   0x02048AD0  two-stage reset: the sibling at 0x02046858 over the object,
- *               then 0x02046B40 over the vector block at +0x20
- *   0x02048AE8  read the vector at +0x20 out to the caller's VecFx32
- *   0x02048AFC  write it
- *   0x02048B0C  read the vector at +0x2C, 0x02048B20 writes it
- *   0x02048B30  read the vector at +0x38, 0x02048B44 writes it
- *   0x02048B54  read +0x14 out through a pointer, 0x02048B60 writes it
- *   0x02048B6C  write +0x18 through a pointer
- *   0x02048B78  return +0x00 by value
- *   0x02048B80  store +0x04 by value
- *   0x02048B88  read +0x08 out through a pointer, 0x02048B94 stores it by
- *               value
- *   0x02048B9C  read +0x04 out through a pointer, 0x02048BA8 stores it
- *   0x02048BB0  read +0x08 out through a pointer, 0x02048BBC stores it
- *
- * The last six are byte-for-byte duplicates of the pair at 0x02048B80 and
- * 0x02048B88: the same three offsets accessed twice over, which is what a
- * second object type sharing the first three words looks like in source.
- * They are written out here as separate functions over a second struct tag
- * rather than folded, because the image has six separate entry points.
- *
- * The twelve-byte vector moves are plain aggregate assignments; the paired
- * `ldm`/`stm` is the inlined struct copy, not a loop
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048AD0.c \
- *       --addr 0x02048AD0 --cc 1.1p1 --arm
- */
 void func_02048BBC(struct Light *l, u32 v)
 {
     l->unk08 = v;

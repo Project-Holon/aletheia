@@ -67,17 +67,6 @@ u8 sub_0201C1C8(void *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two truncating wrappers around sub_0201BD28 (0x0201BD28, still open, a
- * getter dispatched by a small id constant), one narrowing the result to a
- * byte for id 0, the other to a halfword for id 3.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C1C8.c \
- *       --addr 0x0201C1C8 --thumb
- */
 u16 sub_0201C1D8(void *p)
 {
     return (u16)sub_0201BD28(p, 3);
@@ -147,27 +136,6 @@ u32 sub_0201C1F4(u16 id)
 }
 
 
-/*
- * waza_tool.c: two predicates over a move record, "is field 4 equal to 0x65"
- * and "is field 0x0E equal to 6", which are the same two special values
- * src/matched/unit_0201BD28.c's getter substitutes for at ids 4 and 7.
- *
- * Both carry their own copy of that file's cache lookup rather than calling
- * it: the slot search, the "cache full, reuse the last slot" fixup, the
- * func_02048F4C load and the not-yet-built fallback to 0x02146534 are written
- * out again in each.  The duplication is in the source, not an inlining
- * decision: sub_0201BD28 is a real function with eight callers, and the
- * bodies here reach the record directly instead of going through its
- * 32 case getter.
- *
- * VERSION SENSITIVITY: 0x65 and 6 are content ids of the move table, not
- * offsets.  They are expected to be identical in Pokemon White but are the
- * constants to re-read first if a White build diverges.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C1F4.c \
- *       --addr 0x0201C1F4 --thumb
- */
 u32 sub_0201C284(u16 id)
 {
     struct Waza *rec;

@@ -208,29 +208,6 @@ void func_02020CF8(struct Obj *p, int heap)
     func_020206C0(p);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * func_02020D0C and func_02020D10 carry no label in the generated listing:
- * they are a two-instruction word getter and a two-instruction byte setter
- * with no register-saving prologue, so disasm.py's prologue sweep never
- * fires on them and the listing prints them as a run of data between
- * func_02020CF8 and func_02020D18
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * func_02020D18 is a debug-allocator constructor in the
- * `sub_02030734(heap, size, count, file, line)` shape documented for
- * playtime.c: it allocates a 12-byte object tagged with the string at
- * 0x020A73A0 and line 0x3a, zeroing the first word when the allocation
- * succeeds.  0x020A73A0 spells "bmp_cursor.c", the second original source
- * file name this project has recovered (after playtime.c); the functions
- * keep their sub_<address> names because the file identity is attested and
- * the individual entry points are not.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020CF8.c \
- *       --addr 0x02020CF8 --thumb
- */
 u32 func_02020D0C(u8 *p)
 {
     return ((struct Obj17238 *)p)->f1C;
@@ -239,29 +216,6 @@ u32 func_02020D0C(u8 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * func_02020D0C and func_02020D10 carry no label in the generated listing:
- * they are a two-instruction word getter and a two-instruction byte setter
- * with no register-saving prologue, so disasm.py's prologue sweep never
- * fires on them and the listing prints them as a run of data between
- * func_02020CF8 and func_02020D18
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * func_02020D18 is a debug-allocator constructor in the
- * `sub_02030734(heap, size, count, file, line)` shape documented for
- * playtime.c: it allocates a 12-byte object tagged with the string at
- * 0x020A73A0 and line 0x3a, zeroing the first word when the allocation
- * succeeds.  0x020A73A0 spells "bmp_cursor.c", the second original source
- * file name this project has recovered (after playtime.c); the functions
- * keep their sub_<address> names because the file identity is attested and
- * the individual entry points are not.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020CF8.c \
- *       --addr 0x02020CF8 --thumb
- */
 void func_02020D10(u8 *p, u32 v)
 {
     p[0x4A] = v;
@@ -270,29 +224,6 @@ void func_02020D10(u8 *p, u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * func_02020D0C and func_02020D10 carry no label in the generated listing:
- * they are a two-instruction word getter and a two-instruction byte setter
- * with no register-saving prologue, so disasm.py's prologue sweep never
- * fires on them and the listing prints them as a run of data between
- * func_02020CF8 and func_02020D18
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * func_02020D18 is a debug-allocator constructor in the
- * `sub_02030734(heap, size, count, file, line)` shape documented for
- * playtime.c: it allocates a 12-byte object tagged with the string at
- * 0x020A73A0 and line 0x3a, zeroing the first word when the allocation
- * succeeds.  0x020A73A0 spells "bmp_cursor.c", the second original source
- * file name this project has recovered (after playtime.c); the functions
- * keep their sub_<address> names because the file identity is attested and
- * the individual entry points are not.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020CF8.c \
- *       --addr 0x02020CF8 --thumb
- */
 void *func_02020D18(u32 heap)
 {
     void *p = func_02030734((u16)heap, 0xc, 1, func_02020D18_File, 0x3a);
@@ -536,50 +467,6 @@ u32 func_02020F20(void *handle, u32 item, u32 arg)
 }
 
 
-/*
- * The item archive's own accessor block: 0x02020E60..0x02020F84, seven
- * functions, five of them unlabelled leaves that print as a `.word`/`.byte`
- * run in the listing (see docs/idioms/unlabelled-leaf-functions-hide-in-
- * word-runs.md).
- *
- * This is the file that closes the item chain
- * func_02021014 <- func_02020FE4 <- func_02020F34: three separate functions
- * here name the item archive id 0x18 as a plain immediate
- * (func_02020F14's handle open, func_02020F34's one-shot member read) and
- * two name the item graphics archive 0x19 (func_02020F08 answers it as a
- * constant, func_02020F34 reads members of it).  Archive ids are the
- * decimal spelling of the a/X/Y/Z path, so 0x18 = 24 = a/0/2/4 and
- * 0x19 = 25 = a/0/2/5.
- *
- * 626 is the last item id: a/0/2/4 has 627 members, 0..626.  Both bounds
- * checks in this file clamp an out of range id to 0 rather than rejecting.
- *
- * Blocked at MATCH, not EXACT: three relocation sites have no witness
- * outside this range.
- *   - item_gfx_member_x (0x0209E9E8) and func_0202F170 (0x0202F170) are
- *     named only from here anywhere in the image.
- *   - item_gfx_member (0x0209EB6C) has exactly one literal witness,
- *     0x02020F7C, which is func_02020F34's own pool and therefore inside
- *     this range.  func_02020E60's copy of the same word sits at
- *     0x02020EF4 but is not indexed as a literal pool by disasm.py: that
- *     pool is inside the `.byte` run this unit's leaf functions live in.
- *     Splitting func_02020E60 and func_02020F34 into two files does not
- *     fix it either: verified separately, the split leaves
- *     func_02020E60 attested (literal 0x02020F7C, now outside its range)
- *     and func_02020F34 still not, since its only witness is its own
- *     pool word.  `tu --suggest-split` agrees and leaves both out.
- *
- * The middle piece that --suggest-split does keep, the five leaf
- * accessors 0x02020F08..0x02020F34, is filed EXACT on its own as
- * src/matched/unit_02020F08.c; this file stays as the whole-range record.
- *
- * Every concrete byte of this range is reproduced; only the relocation
- * fields above stay wildcarded.
- *
- * Verified with:
- *   python tools/match.py tu --src src/pending/unit_02020E60.c \
- *       --addr 0x02020E60 --thumb
- */
 void *func_02020F34(u32 item, u32 which, u32 heap)
 {
     if (item > 626) {

@@ -170,52 +170,6 @@ void *sub_02013AD0(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013B50, sub_02013B5C, sub_02013B68, sub_02013B74,
- *           sub_02013B90
- *
- * alias: the record-cache accessor every function in unit_02013BA8.c,
- * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
- * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and sub_02013B44 point at.
- *
- * sub_02013A94, the id remapper this file calls, is immediately before it
- * and is a documented near miss (see below); it is only reached here as an
- * ordinary extern call, which does not need its body to be attested, only
- * the call to it.
- *
- * g_sub02013AD0Obj is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
- * cached record every accessor in the other files of this run reads
- * through the pointer sub_02013AD0() returns, and P+0x34 is the id that
- * record was cached for.  sub_02013AD0 reloads the record through
- * sub_0204944C only when the requested id (after remapping through
- * sub_02013A94) does not match the cached one.
- *
- * sub_02013B74 and sub_02013B90 read the same three fields (+0x24, +0x28,
- * +0x2c); sub_02013B74 additionally shifts each left 16 bits, which is an
- * integer-to-Fx32 conversion (multiply by 0x10000) rather than a
- * truncation, since the source field is the full 32-bit word both
- * functions load.
- *
- * Near miss: sub_02013A94 (0x02013A94 to 0x02013AD0, 60 bytes) reproduces
- * every concrete byte but caps at MATCH.  It reads a two-entry { from; to }
- * substitution table at 0x020A72A8; the only other two words in the image
- * that hold that address are themselves data (an unrelated 0x01A80000 in
- * two overlay listings, not a reference to it), so the table has no
- * attestable witness anywhere outside this one function's own pool.  It is
- * not in this file.  What looks like a small version- or form-exclusive id
- * substitution, gated per entry by a two-byte flag array on the same
- * cached object this file's sub_02013AD0 maintains, is worth flagging as
- * possibly version-specific, though nothing at this address range says
- * which meaning it carries.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
- *       --addr 0x02013AD0 --thumb
- */
 u32 sub_02013B10(u32 id, const u16 *table, s32 count)
 {
     u32 rid = sub_02013A94(id);
@@ -229,52 +183,6 @@ u32 sub_02013B10(u32 id, const u16 *table, s32 count)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013B50, sub_02013B5C, sub_02013B68, sub_02013B74,
- *           sub_02013B90
- *
- * alias: the record-cache accessor every function in unit_02013BA8.c,
- * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
- * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and sub_02013B44 point at.
- *
- * sub_02013A94, the id remapper this file calls, is immediately before it
- * and is a documented near miss (see below); it is only reached here as an
- * ordinary extern call, which does not need its body to be attested, only
- * the call to it.
- *
- * g_sub02013AD0Obj is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
- * cached record every accessor in the other files of this run reads
- * through the pointer sub_02013AD0() returns, and P+0x34 is the id that
- * record was cached for.  sub_02013AD0 reloads the record through
- * sub_0204944C only when the requested id (after remapping through
- * sub_02013A94) does not match the cached one.
- *
- * sub_02013B74 and sub_02013B90 read the same three fields (+0x24, +0x28,
- * +0x2c); sub_02013B74 additionally shifts each left 16 bits, which is an
- * integer-to-Fx32 conversion (multiply by 0x10000) rather than a
- * truncation, since the source field is the full 32-bit word both
- * functions load.
- *
- * Near miss: sub_02013A94 (0x02013A94 to 0x02013AD0, 60 bytes) reproduces
- * every concrete byte but caps at MATCH.  It reads a two-entry { from; to }
- * substitution table at 0x020A72A8; the only other two words in the image
- * that hold that address are themselves data (an unrelated 0x01A80000 in
- * two overlay listings, not a reference to it), so the table has no
- * attestable witness anywhere outside this one function's own pool.  It is
- * not in this file.  What looks like a small version- or form-exclusive id
- * substitution, gated per entry by a two-byte flag array on the same
- * cached object this file's sub_02013AD0 maintains, is worth flagging as
- * possibly version-specific, though nothing at this address range says
- * which meaning it carries.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
- *       --addr 0x02013AD0 --thumb
- */
 u32 sub_02013B38(u32 id)
 {
     struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
@@ -282,52 +190,6 @@ u32 sub_02013B38(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013B50, sub_02013B5C, sub_02013B68, sub_02013B74,
- *           sub_02013B90
- *
- * alias: the record-cache accessor every function in unit_02013BA8.c,
- * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
- * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and sub_02013B44 point at.
- *
- * sub_02013A94, the id remapper this file calls, is immediately before it
- * and is a documented near miss (see below); it is only reached here as an
- * ordinary extern call, which does not need its body to be attested, only
- * the call to it.
- *
- * g_sub02013AD0Obj is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
- * cached record every accessor in the other files of this run reads
- * through the pointer sub_02013AD0() returns, and P+0x34 is the id that
- * record was cached for.  sub_02013AD0 reloads the record through
- * sub_0204944C only when the requested id (after remapping through
- * sub_02013A94) does not match the cached one.
- *
- * sub_02013B74 and sub_02013B90 read the same three fields (+0x24, +0x28,
- * +0x2c); sub_02013B74 additionally shifts each left 16 bits, which is an
- * integer-to-Fx32 conversion (multiply by 0x10000) rather than a
- * truncation, since the source field is the full 32-bit word both
- * functions load.
- *
- * Near miss: sub_02013A94 (0x02013A94 to 0x02013AD0, 60 bytes) reproduces
- * every concrete byte but caps at MATCH.  It reads a two-entry { from; to }
- * substitution table at 0x020A72A8; the only other two words in the image
- * that hold that address are themselves data (an unrelated 0x01A80000 in
- * two overlay listings, not a reference to it), so the table has no
- * attestable witness anywhere outside this one function's own pool.  It is
- * not in this file.  What looks like a small version- or form-exclusive id
- * substitution, gated per entry by a two-byte flag array on the same
- * cached object this file's sub_02013AD0 maintains, is worth flagging as
- * possibly version-specific, though nothing at this address range says
- * which meaning it carries.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
- *       --addr 0x02013AD0 --thumb
- */
 u32 sub_02013B44(u32 id)
 {
     struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
@@ -335,52 +197,6 @@ u32 sub_02013B44(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013B50, sub_02013B5C, sub_02013B68, sub_02013B74,
- *           sub_02013B90
- *
- * alias: the record-cache accessor every function in unit_02013BA8.c,
- * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
- * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and sub_02013B44 point at.
- *
- * sub_02013A94, the id remapper this file calls, is immediately before it
- * and is a documented near miss (see below); it is only reached here as an
- * ordinary extern call, which does not need its body to be attested, only
- * the call to it.
- *
- * g_sub02013AD0Obj is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
- * cached record every accessor in the other files of this run reads
- * through the pointer sub_02013AD0() returns, and P+0x34 is the id that
- * record was cached for.  sub_02013AD0 reloads the record through
- * sub_0204944C only when the requested id (after remapping through
- * sub_02013A94) does not match the cached one.
- *
- * sub_02013B74 and sub_02013B90 read the same three fields (+0x24, +0x28,
- * +0x2c); sub_02013B74 additionally shifts each left 16 bits, which is an
- * integer-to-Fx32 conversion (multiply by 0x10000) rather than a
- * truncation, since the source field is the full 32-bit word both
- * functions load.
- *
- * Near miss: sub_02013A94 (0x02013A94 to 0x02013AD0, 60 bytes) reproduces
- * every concrete byte but caps at MATCH.  It reads a two-entry { from; to }
- * substitution table at 0x020A72A8; the only other two words in the image
- * that hold that address are themselves data (an unrelated 0x01A80000 in
- * two overlay listings, not a reference to it), so the table has no
- * attestable witness anywhere outside this one function's own pool.  It is
- * not in this file.  What looks like a small version- or form-exclusive id
- * substitution, gated per entry by a two-byte flag array on the same
- * cached object this file's sub_02013AD0 maintains, is worth flagging as
- * possibly version-specific, though nothing at this address range says
- * which meaning it carries.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
- *       --addr 0x02013AD0 --thumb
- */
 u32 sub_02013B50(u32 id)
 {
     struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
@@ -388,52 +204,6 @@ u32 sub_02013B50(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013B50, sub_02013B5C, sub_02013B68, sub_02013B74,
- *           sub_02013B90
- *
- * alias: the record-cache accessor every function in unit_02013BA8.c,
- * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
- * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and sub_02013B44 point at.
- *
- * sub_02013A94, the id remapper this file calls, is immediately before it
- * and is a documented near miss (see below); it is only reached here as an
- * ordinary extern call, which does not need its body to be attested, only
- * the call to it.
- *
- * g_sub02013AD0Obj is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
- * cached record every accessor in the other files of this run reads
- * through the pointer sub_02013AD0() returns, and P+0x34 is the id that
- * record was cached for.  sub_02013AD0 reloads the record through
- * sub_0204944C only when the requested id (after remapping through
- * sub_02013A94) does not match the cached one.
- *
- * sub_02013B74 and sub_02013B90 read the same three fields (+0x24, +0x28,
- * +0x2c); sub_02013B74 additionally shifts each left 16 bits, which is an
- * integer-to-Fx32 conversion (multiply by 0x10000) rather than a
- * truncation, since the source field is the full 32-bit word both
- * functions load.
- *
- * Near miss: sub_02013A94 (0x02013A94 to 0x02013AD0, 60 bytes) reproduces
- * every concrete byte but caps at MATCH.  It reads a two-entry { from; to }
- * substitution table at 0x020A72A8; the only other two words in the image
- * that hold that address are themselves data (an unrelated 0x01A80000 in
- * two overlay listings, not a reference to it), so the table has no
- * attestable witness anywhere outside this one function's own pool.  It is
- * not in this file.  What looks like a small version- or form-exclusive id
- * substitution, gated per entry by a two-byte flag array on the same
- * cached object this file's sub_02013AD0 maintains, is worth flagging as
- * possibly version-specific, though nothing at this address range says
- * which meaning it carries.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
- *       --addr 0x02013AD0 --thumb
- */
 u32 sub_02013B5C(u32 id)
 {
     struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
@@ -441,52 +211,6 @@ u32 sub_02013B5C(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013B50, sub_02013B5C, sub_02013B68, sub_02013B74,
- *           sub_02013B90
- *
- * alias: the record-cache accessor every function in unit_02013BA8.c,
- * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
- * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and sub_02013B44 point at.
- *
- * sub_02013A94, the id remapper this file calls, is immediately before it
- * and is a documented near miss (see below); it is only reached here as an
- * ordinary extern call, which does not need its body to be attested, only
- * the call to it.
- *
- * g_sub02013AD0Obj is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
- * cached record every accessor in the other files of this run reads
- * through the pointer sub_02013AD0() returns, and P+0x34 is the id that
- * record was cached for.  sub_02013AD0 reloads the record through
- * sub_0204944C only when the requested id (after remapping through
- * sub_02013A94) does not match the cached one.
- *
- * sub_02013B74 and sub_02013B90 read the same three fields (+0x24, +0x28,
- * +0x2c); sub_02013B74 additionally shifts each left 16 bits, which is an
- * integer-to-Fx32 conversion (multiply by 0x10000) rather than a
- * truncation, since the source field is the full 32-bit word both
- * functions load.
- *
- * Near miss: sub_02013A94 (0x02013A94 to 0x02013AD0, 60 bytes) reproduces
- * every concrete byte but caps at MATCH.  It reads a two-entry { from; to }
- * substitution table at 0x020A72A8; the only other two words in the image
- * that hold that address are themselves data (an unrelated 0x01A80000 in
- * two overlay listings, not a reference to it), so the table has no
- * attestable witness anywhere outside this one function's own pool.  It is
- * not in this file.  What looks like a small version- or form-exclusive id
- * substitution, gated per entry by a two-byte flag array on the same
- * cached object this file's sub_02013AD0 maintains, is worth flagging as
- * possibly version-specific, though nothing at this address range says
- * which meaning it carries.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
- *       --addr 0x02013AD0 --thumb
- */
 u32 sub_02013B68(u32 id)
 {
     struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
@@ -494,52 +218,6 @@ u32 sub_02013B68(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013B50, sub_02013B5C, sub_02013B68, sub_02013B74,
- *           sub_02013B90
- *
- * alias: the record-cache accessor every function in unit_02013BA8.c,
- * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
- * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and sub_02013B44 point at.
- *
- * sub_02013A94, the id remapper this file calls, is immediately before it
- * and is a documented near miss (see below); it is only reached here as an
- * ordinary extern call, which does not need its body to be attested, only
- * the call to it.
- *
- * g_sub02013AD0Obj is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
- * cached record every accessor in the other files of this run reads
- * through the pointer sub_02013AD0() returns, and P+0x34 is the id that
- * record was cached for.  sub_02013AD0 reloads the record through
- * sub_0204944C only when the requested id (after remapping through
- * sub_02013A94) does not match the cached one.
- *
- * sub_02013B74 and sub_02013B90 read the same three fields (+0x24, +0x28,
- * +0x2c); sub_02013B74 additionally shifts each left 16 bits, which is an
- * integer-to-Fx32 conversion (multiply by 0x10000) rather than a
- * truncation, since the source field is the full 32-bit word both
- * functions load.
- *
- * Near miss: sub_02013A94 (0x02013A94 to 0x02013AD0, 60 bytes) reproduces
- * every concrete byte but caps at MATCH.  It reads a two-entry { from; to }
- * substitution table at 0x020A72A8; the only other two words in the image
- * that hold that address are themselves data (an unrelated 0x01A80000 in
- * two overlay listings, not a reference to it), so the table has no
- * attestable witness anywhere outside this one function's own pool.  It is
- * not in this file.  What looks like a small version- or form-exclusive id
- * substitution, gated per entry by a two-byte flag array on the same
- * cached object this file's sub_02013AD0 maintains, is worth flagging as
- * possibly version-specific, though nothing at this address range says
- * which meaning it carries.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
- *       --addr 0x02013AD0 --thumb
- */
 void sub_02013B74(u32 id, u32 *out)
 {
     struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
@@ -550,52 +228,6 @@ void sub_02013B74(u32 id, u32 *out)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013B50, sub_02013B5C, sub_02013B68, sub_02013B74,
- *           sub_02013B90
- *
- * alias: the record-cache accessor every function in unit_02013BA8.c,
- * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
- * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of sub_02013B10 and sub_02013B44 point at.
- *
- * sub_02013A94, the id remapper this file calls, is immediately before it
- * and is a documented near miss (see below); it is only reached here as an
- * ordinary extern call, which does not need its body to be attested, only
- * the call to it.
- *
- * g_sub02013AD0Obj is a single cached object (call it P): P+0x00 is the
- * handle sub_0204944C reads records from, P+0x04..0x33 (0x30 bytes) is the
- * cached record every accessor in the other files of this run reads
- * through the pointer sub_02013AD0() returns, and P+0x34 is the id that
- * record was cached for.  sub_02013AD0 reloads the record through
- * sub_0204944C only when the requested id (after remapping through
- * sub_02013A94) does not match the cached one.
- *
- * sub_02013B74 and sub_02013B90 read the same three fields (+0x24, +0x28,
- * +0x2c); sub_02013B74 additionally shifts each left 16 bits, which is an
- * integer-to-Fx32 conversion (multiply by 0x10000) rather than a
- * truncation, since the source field is the full 32-bit word both
- * functions load.
- *
- * Near miss: sub_02013A94 (0x02013A94 to 0x02013AD0, 60 bytes) reproduces
- * every concrete byte but caps at MATCH.  It reads a two-entry { from; to }
- * substitution table at 0x020A72A8; the only other two words in the image
- * that hold that address are themselves data (an unrelated 0x01A80000 in
- * two overlay listings, not a reference to it), so the table has no
- * attestable witness anywhere outside this one function's own pool.  It is
- * not in this file.  What looks like a small version- or form-exclusive id
- * substitution, gated per entry by a two-byte flag array on the same
- * cached object this file's sub_02013AD0 maintains, is worth flagging as
- * possibly version-specific, though nothing at this address range says
- * which meaning it carries.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
- *       --addr 0x02013AD0 --thumb
- */
 void sub_02013B90(u32 id, u32 *out)
 {
     struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
@@ -627,20 +259,6 @@ u8 sub_02013BA8(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: three bitfield accessors on the record sub_02013AD0() returns for a
- * given id.  The halfword at +0x1c of that record is split into three
- * bitfields with no gap: bits[0:5] (6 bits, read by the neighbouring
- * sub_02013C10, not in this file), bits[6:8] (3 bits, sub_02013BA8) and
- * bits[9:15] (7 bits, sub_02013BBC).  sub_02013BD0 reads the separate plain
- * halfword at +0x20.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013BA8.c \
- *       --addr 0x02013BA8 --thumb
- */
 u8 sub_02013BBC(u32 id)
 {
     struct Sub02013AD0Rec_02013BA8 *r = sub_02013AD0(id);
@@ -648,20 +266,6 @@ u8 sub_02013BBC(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: three bitfield accessors on the record sub_02013AD0() returns for a
- * given id.  The halfword at +0x1c of that record is split into three
- * bitfields with no gap: bits[0:5] (6 bits, read by the neighbouring
- * sub_02013C10, not in this file), bits[6:8] (3 bits, sub_02013BA8) and
- * bits[9:15] (7 bits, sub_02013BBC).  sub_02013BD0 reads the separate plain
- * halfword at +0x20.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013BA8.c \
- *       --addr 0x02013BA8 --thumb
- */
 u32 sub_02013BD0(u32 id)
 {
     struct Sub02013AD0Rec_02013BA8 *r = sub_02013AD0(id);
@@ -759,42 +363,6 @@ u32 sub_02013C10(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013C50, sub_02013C60
- *
- * alias: continues the run of leaf accessors on the record sub_02013AD0()
- * returns for a given id.  sub_02013BDC, the dense-switch dispatcher
- * immediately before this range, is a documented near miss and is not in
- * this file; see its header note for why.
- *
- * The record's halfword at +0x1c holds the same three-way bitfield as
- * unit_02013BA8.c (bits[0:5] here, bits[6:8] and bits[9:15] there);
- * sub_02013C10 is the low six bits and needs no narrowing return, unlike its
- * two neighbours there, which return u8 and pick up an extra truncation pair
- * for it.  The halfword at +0x1e is five single-bit flags at bits 10, 12,
- * 13, 14 and 15 (bit 11 has no accessor in this range).
- *
- * Near miss: sub_02013C70, sub_02013C80 and sub_02013C9C (0x02013C70 to
- * 0x02013CC8, 88 bytes) reproduce every concrete byte but cap at MATCH.
- * sub_02013C70 tail calls sub_02013B10 (defined in the neighbouring packet)
- * through a pool word, and also holds a pointer to sub_02013C70_Table
- * (0x0209E010); sub_02013C9C searches sub_02013C9C_Table (0x0209E026).  All
- * three addresses are named in the image only inside this same 88-byte
- * range: the other five images of the sub_02013B10 pointer are themselves
- * unlabelled leaf thunks (data words, not literal pools, in the same
- * function's neighbourhood further down this file), sub_02013C9C's only
- * caller anywhere is sub_02013C80 one function above it, and neither table
- * is referenced from anywhere else at all.  No cut of this file moves any
- * of those three witnesses outside the range that needs them, so this is
- * the "only caller in the ROM" case from docs/MATCHING.md rather than
- * anything a rewrite of the C would fix.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013C10.c \
- *       --addr 0x02013C10 --thumb
- */
 u32 sub_02013C20(u32 id)
 {
     struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
@@ -802,42 +370,6 @@ u32 sub_02013C20(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013C50, sub_02013C60
- *
- * alias: continues the run of leaf accessors on the record sub_02013AD0()
- * returns for a given id.  sub_02013BDC, the dense-switch dispatcher
- * immediately before this range, is a documented near miss and is not in
- * this file; see its header note for why.
- *
- * The record's halfword at +0x1c holds the same three-way bitfield as
- * unit_02013BA8.c (bits[0:5] here, bits[6:8] and bits[9:15] there);
- * sub_02013C10 is the low six bits and needs no narrowing return, unlike its
- * two neighbours there, which return u8 and pick up an extra truncation pair
- * for it.  The halfword at +0x1e is five single-bit flags at bits 10, 12,
- * 13, 14 and 15 (bit 11 has no accessor in this range).
- *
- * Near miss: sub_02013C70, sub_02013C80 and sub_02013C9C (0x02013C70 to
- * 0x02013CC8, 88 bytes) reproduce every concrete byte but cap at MATCH.
- * sub_02013C70 tail calls sub_02013B10 (defined in the neighbouring packet)
- * through a pool word, and also holds a pointer to sub_02013C70_Table
- * (0x0209E010); sub_02013C9C searches sub_02013C9C_Table (0x0209E026).  All
- * three addresses are named in the image only inside this same 88-byte
- * range: the other five images of the sub_02013B10 pointer are themselves
- * unlabelled leaf thunks (data words, not literal pools, in the same
- * function's neighbourhood further down this file), sub_02013C9C's only
- * caller anywhere is sub_02013C80 one function above it, and neither table
- * is referenced from anywhere else at all.  No cut of this file moves any
- * of those three witnesses outside the range that needs them, so this is
- * the "only caller in the ROM" case from docs/MATCHING.md rather than
- * anything a rewrite of the C would fix.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013C10.c \
- *       --addr 0x02013C10 --thumb
- */
 u32 sub_02013C30(u32 id)
 {
     struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
@@ -845,42 +377,6 @@ u32 sub_02013C30(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013C50, sub_02013C60
- *
- * alias: continues the run of leaf accessors on the record sub_02013AD0()
- * returns for a given id.  sub_02013BDC, the dense-switch dispatcher
- * immediately before this range, is a documented near miss and is not in
- * this file; see its header note for why.
- *
- * The record's halfword at +0x1c holds the same three-way bitfield as
- * unit_02013BA8.c (bits[0:5] here, bits[6:8] and bits[9:15] there);
- * sub_02013C10 is the low six bits and needs no narrowing return, unlike its
- * two neighbours there, which return u8 and pick up an extra truncation pair
- * for it.  The halfword at +0x1e is five single-bit flags at bits 10, 12,
- * 13, 14 and 15 (bit 11 has no accessor in this range).
- *
- * Near miss: sub_02013C70, sub_02013C80 and sub_02013C9C (0x02013C70 to
- * 0x02013CC8, 88 bytes) reproduce every concrete byte but cap at MATCH.
- * sub_02013C70 tail calls sub_02013B10 (defined in the neighbouring packet)
- * through a pool word, and also holds a pointer to sub_02013C70_Table
- * (0x0209E010); sub_02013C9C searches sub_02013C9C_Table (0x0209E026).  All
- * three addresses are named in the image only inside this same 88-byte
- * range: the other five images of the sub_02013B10 pointer are themselves
- * unlabelled leaf thunks (data words, not literal pools, in the same
- * function's neighbourhood further down this file), sub_02013C9C's only
- * caller anywhere is sub_02013C80 one function above it, and neither table
- * is referenced from anywhere else at all.  No cut of this file moves any
- * of those three witnesses outside the range that needs them, so this is
- * the "only caller in the ROM" case from docs/MATCHING.md rather than
- * anything a rewrite of the C would fix.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013C10.c \
- *       --addr 0x02013C10 --thumb
- */
 u32 sub_02013C40(u32 id)
 {
     struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
@@ -888,42 +384,6 @@ u32 sub_02013C40(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013C50, sub_02013C60
- *
- * alias: continues the run of leaf accessors on the record sub_02013AD0()
- * returns for a given id.  sub_02013BDC, the dense-switch dispatcher
- * immediately before this range, is a documented near miss and is not in
- * this file; see its header note for why.
- *
- * The record's halfword at +0x1c holds the same three-way bitfield as
- * unit_02013BA8.c (bits[0:5] here, bits[6:8] and bits[9:15] there);
- * sub_02013C10 is the low six bits and needs no narrowing return, unlike its
- * two neighbours there, which return u8 and pick up an extra truncation pair
- * for it.  The halfword at +0x1e is five single-bit flags at bits 10, 12,
- * 13, 14 and 15 (bit 11 has no accessor in this range).
- *
- * Near miss: sub_02013C70, sub_02013C80 and sub_02013C9C (0x02013C70 to
- * 0x02013CC8, 88 bytes) reproduce every concrete byte but cap at MATCH.
- * sub_02013C70 tail calls sub_02013B10 (defined in the neighbouring packet)
- * through a pool word, and also holds a pointer to sub_02013C70_Table
- * (0x0209E010); sub_02013C9C searches sub_02013C9C_Table (0x0209E026).  All
- * three addresses are named in the image only inside this same 88-byte
- * range: the other five images of the sub_02013B10 pointer are themselves
- * unlabelled leaf thunks (data words, not literal pools, in the same
- * function's neighbourhood further down this file), sub_02013C9C's only
- * caller anywhere is sub_02013C80 one function above it, and neither table
- * is referenced from anywhere else at all.  No cut of this file moves any
- * of those three witnesses outside the range that needs them, so this is
- * the "only caller in the ROM" case from docs/MATCHING.md rather than
- * anything a rewrite of the C would fix.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013C10.c \
- *       --addr 0x02013C10 --thumb
- */
 u32 sub_02013C50(u32 id)
 {
     struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
@@ -931,42 +391,6 @@ u32 sub_02013C50(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013C50, sub_02013C60
- *
- * alias: continues the run of leaf accessors on the record sub_02013AD0()
- * returns for a given id.  sub_02013BDC, the dense-switch dispatcher
- * immediately before this range, is a documented near miss and is not in
- * this file; see its header note for why.
- *
- * The record's halfword at +0x1c holds the same three-way bitfield as
- * unit_02013BA8.c (bits[0:5] here, bits[6:8] and bits[9:15] there);
- * sub_02013C10 is the low six bits and needs no narrowing return, unlike its
- * two neighbours there, which return u8 and pick up an extra truncation pair
- * for it.  The halfword at +0x1e is five single-bit flags at bits 10, 12,
- * 13, 14 and 15 (bit 11 has no accessor in this range).
- *
- * Near miss: sub_02013C70, sub_02013C80 and sub_02013C9C (0x02013C70 to
- * 0x02013CC8, 88 bytes) reproduce every concrete byte but cap at MATCH.
- * sub_02013C70 tail calls sub_02013B10 (defined in the neighbouring packet)
- * through a pool word, and also holds a pointer to sub_02013C70_Table
- * (0x0209E010); sub_02013C9C searches sub_02013C9C_Table (0x0209E026).  All
- * three addresses are named in the image only inside this same 88-byte
- * range: the other five images of the sub_02013B10 pointer are themselves
- * unlabelled leaf thunks (data words, not literal pools, in the same
- * function's neighbourhood further down this file), sub_02013C9C's only
- * caller anywhere is sub_02013C80 one function above it, and neither table
- * is referenced from anywhere else at all.  No cut of this file moves any
- * of those three witnesses outside the range that needs them, so this is
- * the "only caller in the ROM" case from docs/MATCHING.md rather than
- * anything a rewrite of the C would fix.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013C10.c \
- *       --addr 0x02013C10 --thumb
- */
 u32 sub_02013C60(u32 id)
 {
     struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);

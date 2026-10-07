@@ -122,16 +122,6 @@ void sub_0202AE60(void *obj, u32 value)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * A setter at offset 0x10 immediately followed by a getter at offset 0xc,
- * back to back with no gap. Neither has a relocation.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202AE60.c \
- *       --addr 0x0202AE60 --thumb
- */
 u32 sub_0202AE64(void *obj)
 {
     return ((struct Obj11306 *)obj)->fC;

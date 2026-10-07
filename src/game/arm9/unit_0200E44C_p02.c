@@ -149,17 +149,6 @@ int sub_0200E874(void)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The twelve bytes after func_0200E7BC: two unlabelled leaves that save
- * nothing at all, so their bytes print as part of the same `.word` run as
- * the pool word in front of them (docs/idioms/
- * unlabelled-leaf-functions-hide-in-word-runs.md).  The first is a size
- * getter returning 0x10, the second is a tail call to the SDK's
- * MI_CpuFill8 (arm: the pool word is even, so `bx r3` switches to ARM) that
- * clears 0x10 bytes from whatever pointer it is handed.
- */
 void sub_0200E878(void *dst)
 {
     func_02082BCC(dst, 0, 0x10);
@@ -211,42 +200,6 @@ void sub_0200E884(void *sys, void *src)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 void sub_0200E89C(void *sys, void *dest)
 {
     void *obj = sub_020071CC(sys, 0x40);
@@ -255,42 +208,6 @@ void sub_0200E89C(void *sys, void *dest)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 u32 sub_0200E8B0(void)
 {
     return 0x6204;
@@ -298,42 +215,6 @@ u32 sub_0200E8B0(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 void sub_0200E8B8(void *dest)
 {
     MI_CpuFill8(dest, 0, sub_0200E8B0());
@@ -341,84 +222,12 @@ void sub_0200E8B8(void *dest)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 void sub_0200E8CC(void)
 {
 }
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 void *sub_0200E8D0(void *obj)
 {
     return (u8 *)obj + 0x6000;
@@ -426,42 +235,6 @@ void *sub_0200E8D0(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 u32 sub_0200E8D8(const void *obj)
 {
     return *(const u32 *)&((struct Obj17085 *)obj)->f6200;
@@ -469,42 +242,6 @@ u32 sub_0200E8D8(const void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 void sub_0200E8E0(void *obj, u32 value)
 {
     ((struct Obj17086 *)obj)->f6200 = value;
@@ -512,42 +249,6 @@ void sub_0200E8E0(void *obj, u32 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 u32 sub_0200E8E8(void)
 {
     return 0x5c;
@@ -555,42 +256,6 @@ u32 sub_0200E8E8(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 void sub_0200E8EC(void *dest)
 {
     MI_CpuFill8(dest, 0, 0x5c);
@@ -598,42 +263,6 @@ void sub_0200E8EC(void *dest)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 void *sub_0200E8F8(void *sys)
 {
     return sub_020071CC(sys, 0x41);
@@ -641,42 +270,6 @@ void *sub_0200E8F8(void *sys)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0200E8CC, sub_0200E8D0, sub_0200E8D8, sub_0200E8E0,
- *           sub_0200E8E8, sub_0200E8EC, sub_0200E8F8, sub_0200E904
- *
- * alias: twelve functions on the same big object as unit_0200E938.c, all
- * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
- * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
- * which sub_0200E8B8 uses as the zero-fill size for the whole object;
- * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
- * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
- * getter/setter on the field at +0x6200; sub_0200E8E8 returns the constant
- * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
- * (the same 0x5c constant this compiler would otherwise route through
- * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
- * scratch object and hands it to func_02087C6C.
- *
- * Four of the twelve carry no label in the generated listing: they are
- * two- and three-instruction leaves with no register-saving prologue, so
- * disasm.py's sweep never fires on them and the listing prints them as a
- * run of .word data between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * This file merges what used to be four single-function files
- * (sub_0200E884.c, sub_0200E89C.c, sub_0200E8B0.c, sub_0200E904.c) and
- * unit_0200E8B8.c: the five are contiguous in the image with no gap and no
- * intervening matched/sdk address, and the whole 0x0200E884..0x0200E918
- * range still reproduces EXACT as a single translation unit.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E884.c \
- *       --addr 0x0200E884 --thumb
- */
 void sub_0200E904(void *obj)
 {
     MI_CpuFill8(obj, 0, 0x5a);
@@ -707,21 +300,6 @@ u8 sub_0200E918(const u8 *base, u32 idx)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: a byte array at offset 6 of some base object, indexed by the second
- * parameter.  sub_0200E918 is the plain getter; sub_0200E920 adds a signed
- * delta to one element and clamps the result to 0..255 before storing it
- * back.  sub_0200E918 has no register-saving prologue (two instructions, no
- * push), so disasm.py's sweep never labelled it; it sits in the listing as a
- * .word between two functions.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E918.c \
- *       --addr 0x0200E918 --thumb
- */
 void sub_0200E920(u8 *base, u32 idx, int delta)
 {
     u8 *p = base + 6;
@@ -762,22 +340,6 @@ void sub_0200E938(u8 *obj, u32 id, void *dest)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: three accessors on an array of 6-byte records that starts 0xa bytes
- * into the object, indexed by "id mod 10".  sub_0200E938 reads a record out,
- * sub_0200E958 stores one in, and sub_0200E978 writes a single byte field at
- * +0x10 past an extra caller-given offset from the same slot.  Each divides
- * by 10 for the remainder only; the
- * quotient the helper also returns is never used, per
- * docs/idioms/div-and-mod-are-two-calls.md and
- * docs/idioms/runtime-helper-reloc.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E938.c \
- *       --addr 0x0200E938 --thumb
- */
 void sub_0200E958(u8 *obj, u32 id, const void *src)
 {
     u32 idx = id % 10;
@@ -787,22 +349,6 @@ void sub_0200E958(u8 *obj, u32 id, const void *src)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: three accessors on an array of 6-byte records that starts 0xa bytes
- * into the object, indexed by "id mod 10".  sub_0200E938 reads a record out,
- * sub_0200E958 stores one in, and sub_0200E978 writes a single byte field at
- * +0x10 past an extra caller-given offset from the same slot.  Each divides
- * by 10 for the remainder only; the
- * quotient the helper also returns is never used, per
- * docs/idioms/div-and-mod-are-two-calls.md and
- * docs/idioms/runtime-helper-reloc.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200E938.c \
- *       --addr 0x0200E938 --thumb
- */
 void sub_0200E978(u8 *obj, u32 id, u32 extra, u8 value)
 {
     u32 idx = id % 10;

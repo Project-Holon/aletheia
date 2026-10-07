@@ -130,27 +130,15 @@ void func_02024134(char *a, void *b)
 }
 
 
-/*
- * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
- */
 u32 func_02024144(const u8 *p) { return p[0]; }
 
 
-/*
- * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
- */
 void *func_02024148(char *p){return *(void **)(p+8);}
 
 
-/*
- * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
- */
 void *func_0202414C(char *p){return *(void **)(p+12);}
 
 
-/*
- * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
- */
 int func_02024150(Bits_02024150 *p){return p->flag;}
 
 
@@ -167,15 +155,9 @@ u32 func_02024158(const u8 *p)
 }
 
 
-/*
- * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
- */
 int func_02024160(Bits_02024160 *p){return p->flag;}
 
 
-/*
- * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
- */
 void func_02024168(const Input *p,u16 *a,u16 *b) {
     Pair v;
     switch(p->mode) {

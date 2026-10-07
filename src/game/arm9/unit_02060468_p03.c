@@ -163,15 +163,6 @@ void *func_02060614(struct DList *list, void *elem)
     return ((struct DListNode *)((char *)elem + list->node_offset))->next;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * DList iterators and recursive range query.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02060614.c \
- *       --addr 0x02060614 --arm
- */
 void *func_0206062C(struct DList *list, void *elem)
 {
     if (elem == 0) {
@@ -180,15 +171,6 @@ void *func_0206062C(struct DList *list, void *elem)
     return ((struct DListNode *)((char *)elem + list->node_offset))->prev;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * DList iterators and recursive range query.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02060614.c \
- *       --addr 0x02060614 --arm
- */
 struct Elem *func_02060640(struct DList *list, u32 val)
 {
     struct Elem *elem;

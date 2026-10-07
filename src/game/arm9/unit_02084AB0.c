@@ -214,9 +214,6 @@ s32 func_02084C78(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL d
 
 
 
-/*
- * sdk:      FSi_HasEnoughSpaceToCreateUserFile (libfs.TWL.HYB.a fs_sysareaex.o)
- */
 s32 func_02084CEC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
     return func_02084C78(lockID, lockp, ctrlFuncp, 0);
@@ -258,9 +255,6 @@ s32 func_02084CFC(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL d
 
 
 
-/*
- * sdk:      FSi_HasEnoughSpaceToCreateUserFile (libfs.TWL.HYB.a fs_sysareaex.o)
- */
 s32 func_02084D68(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
     return func_02084CFC(lockID, lockp, ctrlFuncp, 0);

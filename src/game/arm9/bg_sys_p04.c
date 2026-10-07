@@ -254,15 +254,6 @@ void func_0204152C(int channel, u16 val)
     func_020409B4(channel);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Channel clear and audio dispatcher functions.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204152C.c \
- *       --addr 0x0204152C --arm
- */
 void func_02041570(int channel, u16 val)
 {
 
@@ -273,15 +264,6 @@ void func_02041570(int channel, u16 val)
     func_02041B6C(channel);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Channel clear and audio dispatcher functions.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204152C.c \
- *       --addr 0x0204152C --arm
- */
 u32 func_020415B4(u32 channel)
 {
     switch (channel) {
@@ -313,81 +295,26 @@ u32 func_0204162C(int channel)
     return (u32)g_02146A44->bgs[channel].buf;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           func_0204169C, func_020416B8
- *
- * Channel state struct member accessors.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204162C.c \
- *       --addr 0x0204162C --arm
- */
 u32 func_02041648(u8 channel)
 {
     return g_02146A44->bgs[channel].scrollX;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           func_0204169C, func_020416B8
- *
- * Channel state struct member accessors.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204162C.c \
- *       --addr 0x0204162C --arm
- */
 u32 func_02041664(u8 channel)
 {
     return g_02146A44->bgs[channel].scrollY;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           func_0204169C, func_020416B8
- *
- * Channel state struct member accessors.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204162C.c \
- *       --addr 0x0204162C --arm
- */
 u8 func_02041680(int channel)
 {
     return g_02146A44->bgs[channel].type;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           func_0204169C, func_020416B8
- *
- * Channel state struct member accessors.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204162C.c \
- *       --addr 0x0204162C --arm
- */
 u8 func_0204169C(int channel)
 {
     return g_02146A44->bgs[channel].unk_16;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           func_0204169C, func_020416B8
- *
- * Channel state struct member accessors.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204162C.c \
- *       --addr 0x0204162C --arm
- */
 u8 func_020416B8(int channel)
 {
     return g_02146A44->bgs[channel].unk_17;
@@ -777,64 +704,12 @@ void func_02041F28(u32 which, u32 op, u16 value)
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-/*
- * Three consecutive "bring one video slot up" entry points, 68 bytes each
- * and no padding between them, differing only in the helper they call:
- * each hands the slot record (base +8, stride 0x2c) to its helper and then
- * sets that slot's own bit in the halfword at +4 of the same context.
- *
- * Each helper is the three-argument set/add/sub family matched as
- * src/matched/sub_02043228.c and its siblings, so `op` and `value` pass
- * straight through in r1/r2 and the call site prepares only r0.  That is
- * what pins the register the context value lands in: written as a
- * one-argument call every instruction of the body is still right but the
- * context load comes out in r1, four bytes per function; with the two
- * pass-through parameters declared, r1/r2 are live across the address
- * computation and the scratch goes to r3.  See
- * docs/idioms/arguments-left-in-place-keep-the-low-registers-out-of-the-scratch-pool.md.
- *
- * The bit set is the u16 truncation idiom, not a mask: `1 << which` is
- * materialised and then narrowed with the lsl #0x10 / lsr #16 pair the
- * `orr` takes as a shifted operand, which only a `u16` lvalue produces.
- * The context pointer is re-read from its own slot after the call, because
- * the callee may store it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02041F28.c \
- *       --addr 0x02041F28 --arm
- */
 void func_02041F6C(u32 which, u32 op, u32 value)
 {
     func_02043264(&g_02146A44->bgs[which], op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-/*
- * Three consecutive "bring one video slot up" entry points, 68 bytes each
- * and no padding between them, differing only in the helper they call:
- * each hands the slot record (base +8, stride 0x2c) to its helper and then
- * sets that slot's own bit in the halfword at +4 of the same context.
- *
- * Each helper is the three-argument set/add/sub family matched as
- * src/matched/sub_02043228.c and its siblings, so `op` and `value` pass
- * straight through in r1/r2 and the call site prepares only r0.  That is
- * what pins the register the context value lands in: written as a
- * one-argument call every instruction of the body is still right but the
- * context load comes out in r1, four bytes per function; with the two
- * pass-through parameters declared, r1/r2 are live across the address
- * computation and the scratch goes to r3.  See
- * docs/idioms/arguments-left-in-place-keep-the-low-registers-out-of-the-scratch-pool.md.
- *
- * The bit set is the u16 truncation idiom, not a mask: `1 << which` is
- * materialised and then narrowed with the lsl #0x10 / lsr #16 pair the
- * `orr` takes as a shifted operand, which only a `u16` lvalue produces.
- * The context pointer is re-read from its own slot after the call, because
- * the callee may store it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02041F28.c \
- *       --addr 0x02041F28 --arm
- */
 void func_02041FB0(u32 which, u32 op, u16 value)
 {
     func_020432E4(&g_02146A44->bgs[which], op, value);

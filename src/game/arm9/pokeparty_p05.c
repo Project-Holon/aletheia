@@ -610,83 +610,11 @@ struct Party_0201A4D4 *sub_0201A920(u32 heap)
 
 
 
-/*
- *           sub_0201A9C8
- *
- * pokeparty.c: the container's constructor, its initialiser, and the add and
- * remove operations.  The allocation at 0x0201A930 names the file itself, the
- * string at 0x020A7304 being "pokeparty.c"; the line numbers 65 (here) and
- * 382 (src/matched/unit_0201AB48.c) put these two ranges in one original
- * source file with about three hundred lines between them.
- *
- * The container is 0x534 bytes: a capacity at +0x00, a live count at +0x04,
- * six 0xDC byte records from +0x08, and one byte at +0x530.  Two independent
- * things say the last byte is a member rather than padding: the initialiser
- * stores zero into it, and it reaches it with `subs r0, r7, #4` off the
- * pooled 0x534, then a register-offset `strb`, because 0x530 is far past the
- * byte immediate's reach of 31
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).  Writing
- * `sizeof(struct Party)` for the clear and the allocation is what puts that
- * one constant in the pool for both uses.
- *
- * sub_0201A948 is the six-slot spelling of sub_0201A954 and is a bare tail
- * call, three instructions and a pool word
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
- *
- * sub_0201A98C's guard is an early return on the full container: the
- * conditional branch is taken into the body, so the fall-through arm is the
- * failure the source wrote first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * sub_0201A9C8 compacts the array by copying each record down one slot, and
- * its loop bound re-reads `p->count` on every iteration rather than caching
- * it, which is visible as the `ldr`/`subs #1` pair inside the loop.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201A920.c \
- *       --addr 0x0201A920 --thumb
- */
 void sub_0201A948(struct Party_0201A4D4 *p)
 {
     sub_0201A954(p, 6);
 }
 
-/*
- *           sub_0201A9C8
- *
- * pokeparty.c: the container's constructor, its initialiser, and the add and
- * remove operations.  The allocation at 0x0201A930 names the file itself, the
- * string at 0x020A7304 being "pokeparty.c"; the line numbers 65 (here) and
- * 382 (src/matched/unit_0201AB48.c) put these two ranges in one original
- * source file with about three hundred lines between them.
- *
- * The container is 0x534 bytes: a capacity at +0x00, a live count at +0x04,
- * six 0xDC byte records from +0x08, and one byte at +0x530.  Two independent
- * things say the last byte is a member rather than padding: the initialiser
- * stores zero into it, and it reaches it with `subs r0, r7, #4` off the
- * pooled 0x534, then a register-offset `strb`, because 0x530 is far past the
- * byte immediate's reach of 31
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).  Writing
- * `sizeof(struct Party)` for the clear and the allocation is what puts that
- * one constant in the pool for both uses.
- *
- * sub_0201A948 is the six-slot spelling of sub_0201A954 and is a bare tail
- * call, three instructions and a pool word
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
- *
- * sub_0201A98C's guard is an early return on the full container: the
- * conditional branch is taken into the body, so the fall-through arm is the
- * failure the source wrote first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * sub_0201A9C8 compacts the array by copying each record down one slot, and
- * its loop bound re-reads `p->count` on every iteration rather than caching
- * it, which is visible as the `ldr`/`subs #1` pair inside the loop.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201A920.c \
- *       --addr 0x0201A920 --thumb
- */
 void sub_0201A954(struct Party_0201A4D4 *p, s32 capacity)
 {
     s32 i;
@@ -700,42 +628,6 @@ void sub_0201A954(struct Party_0201A4D4 *p, s32 capacity)
     }
 }
 
-/*
- *           sub_0201A9C8
- *
- * pokeparty.c: the container's constructor, its initialiser, and the add and
- * remove operations.  The allocation at 0x0201A930 names the file itself, the
- * string at 0x020A7304 being "pokeparty.c"; the line numbers 65 (here) and
- * 382 (src/matched/unit_0201AB48.c) put these two ranges in one original
- * source file with about three hundred lines between them.
- *
- * The container is 0x534 bytes: a capacity at +0x00, a live count at +0x04,
- * six 0xDC byte records from +0x08, and one byte at +0x530.  Two independent
- * things say the last byte is a member rather than padding: the initialiser
- * stores zero into it, and it reaches it with `subs r0, r7, #4` off the
- * pooled 0x534, then a register-offset `strb`, because 0x530 is far past the
- * byte immediate's reach of 31
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).  Writing
- * `sizeof(struct Party)` for the clear and the allocation is what puts that
- * one constant in the pool for both uses.
- *
- * sub_0201A948 is the six-slot spelling of sub_0201A954 and is a bare tail
- * call, three instructions and a pool word
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
- *
- * sub_0201A98C's guard is an early return on the full container: the
- * conditional branch is taken into the body, so the fall-through arm is the
- * failure the source wrote first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * sub_0201A9C8 compacts the array by copying each record down one slot, and
- * its loop bound re-reads `p->count` on every iteration rather than caching
- * it, which is visible as the `ldr`/`subs #1` pair inside the loop.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201A920.c \
- *       --addr 0x0201A920 --thumb
- */
 u32 sub_0201A98C(struct Party_0201A4D4 *p, const struct PartyMon *src)
 {
     if (p->count >= p->capacity) {
@@ -747,42 +639,6 @@ u32 sub_0201A98C(struct Party_0201A4D4 *p, const struct PartyMon *src)
     return 1;
 }
 
-/*
- *           sub_0201A9C8
- *
- * pokeparty.c: the container's constructor, its initialiser, and the add and
- * remove operations.  The allocation at 0x0201A930 names the file itself, the
- * string at 0x020A7304 being "pokeparty.c"; the line numbers 65 (here) and
- * 382 (src/matched/unit_0201AB48.c) put these two ranges in one original
- * source file with about three hundred lines between them.
- *
- * The container is 0x534 bytes: a capacity at +0x00, a live count at +0x04,
- * six 0xDC byte records from +0x08, and one byte at +0x530.  Two independent
- * things say the last byte is a member rather than padding: the initialiser
- * stores zero into it, and it reaches it with `subs r0, r7, #4` off the
- * pooled 0x534, then a register-offset `strb`, because 0x530 is far past the
- * byte immediate's reach of 31
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).  Writing
- * `sizeof(struct Party)` for the clear and the allocation is what puts that
- * one constant in the pool for both uses.
- *
- * sub_0201A948 is the six-slot spelling of sub_0201A954 and is a bare tail
- * call, three instructions and a pool word
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
- *
- * sub_0201A98C's guard is an early return on the full container: the
- * conditional branch is taken into the body, so the fall-through arm is the
- * failure the source wrote first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * sub_0201A9C8 compacts the array by copying each record down one slot, and
- * its loop bound re-reads `p->count` on every iteration rather than caching
- * it, which is visible as the `ldr`/`subs #1` pair inside the loop.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201A920.c \
- *       --addr 0x0201A920 --thumb
- */
 u32 sub_0201A9C8(struct Party_0201A4D4 *p, s32 idx)
 {
     s32 i;
@@ -814,18 +670,6 @@ u32 sub_0201AA14(void *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two plain word getters, four bytes each: the object's first word and the
- * word at +4.  Both are called from sub_0201AA1C (0x0201AA1C, still open)
- * and sub_0201AA18 is also called from the unit at 0x0201AC2C, which is
- * where the concrete relocations against it are attested from.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AA14.c \
- *       --addr 0x0201AA14 --thumb
- */
 u32 sub_0201AA18(void *p)
 {
     return ((struct Obj17208 *)p)->f4;
@@ -885,41 +729,6 @@ u32 sub_0201AA1C(void *p)
 }
 
 
-/*
- *           sub_0201AB08, sub_0201AB18
- *
- * Four counters over the 0xDC-byte-record array container of
- * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
- * predicate-passing wrappers in front of the search routine sub_0201AD58.
- * Each counter walks 0 to sub_0201AA18(p) and tests one or two fields of the
- * entry through the getter func_02017E1C.
- *
- * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
- * veneers, which is what their shape suggests at first: they are ordinary
- * Thumb tail calls (docs/idioms/tail-call-is-a-pool-word-and-bx.md) whose
- * second argument is the address of a function, so each carries two pool
- * words, one for the predicate and one for the callee.  Neither carries a
- * label in the generated listing, so they arrive there as a run of `.word`s
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the second
- * one is this unit's unlabelled follower.
- *
- * Three of the four counters declare the loop index before the running
- * count, which is the only thing that puts the index in r4 and the count in
- * r5 (docs/idioms/declaration-order-decides-which-register-a-local-gets.md);
- * the initialising assignments stay in the original's order, count first,
- * and are unaffected.  sub_0201AA50 is the exception and wants the other
- * order, because there the element count lives in r7 rather than on the
- * stack.
- *
- * sub_0201AA50 really does call sub_0201AB28 twice with the same arguments
- * and drops the first result.  A call is never dead-code eliminated by this
- * front end, so the discarded one is in the source; it is not a scheduling
- * artefact of the surviving call.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AA1C.c \
- *       --addr 0x0201AA1C --thumb
- */
 u32 sub_0201AA50(void *p)
 {
     u32 n = 0;
@@ -937,41 +746,6 @@ u32 sub_0201AA50(void *p)
 }
 
 
-/*
- *           sub_0201AB08, sub_0201AB18
- *
- * Four counters over the 0xDC-byte-record array container of
- * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
- * predicate-passing wrappers in front of the search routine sub_0201AD58.
- * Each counter walks 0 to sub_0201AA18(p) and tests one or two fields of the
- * entry through the getter func_02017E1C.
- *
- * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
- * veneers, which is what their shape suggests at first: they are ordinary
- * Thumb tail calls (docs/idioms/tail-call-is-a-pool-word-and-bx.md) whose
- * second argument is the address of a function, so each carries two pool
- * words, one for the predicate and one for the callee.  Neither carries a
- * label in the generated listing, so they arrive there as a run of `.word`s
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the second
- * one is this unit's unlabelled follower.
- *
- * Three of the four counters declare the loop index before the running
- * count, which is the only thing that puts the index in r4 and the count in
- * r5 (docs/idioms/declaration-order-decides-which-register-a-local-gets.md);
- * the initialising assignments stay in the original's order, count first,
- * and are unaffected.  sub_0201AA50 is the exception and wants the other
- * order, because there the element count lives in r7 rather than on the
- * stack.
- *
- * sub_0201AA50 really does call sub_0201AB28 twice with the same arguments
- * and drops the first result.  A call is never dead-code eliminated by this
- * front end, so the discarded one is in the source; it is not a scheduling
- * artefact of the surviving call.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AA1C.c \
- *       --addr 0x0201AA1C --thumb
- */
 u32 sub_0201AA88(void *p)
 {
     s32 i;
@@ -992,41 +766,6 @@ u32 sub_0201AA88(void *p)
 }
 
 
-/*
- *           sub_0201AB08, sub_0201AB18
- *
- * Four counters over the 0xDC-byte-record array container of
- * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
- * predicate-passing wrappers in front of the search routine sub_0201AD58.
- * Each counter walks 0 to sub_0201AA18(p) and tests one or two fields of the
- * entry through the getter func_02017E1C.
- *
- * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
- * veneers, which is what their shape suggests at first: they are ordinary
- * Thumb tail calls (docs/idioms/tail-call-is-a-pool-word-and-bx.md) whose
- * second argument is the address of a function, so each carries two pool
- * words, one for the predicate and one for the callee.  Neither carries a
- * label in the generated listing, so they arrive there as a run of `.word`s
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the second
- * one is this unit's unlabelled follower.
- *
- * Three of the four counters declare the loop index before the running
- * count, which is the only thing that puts the index in r4 and the count in
- * r5 (docs/idioms/declaration-order-decides-which-register-a-local-gets.md);
- * the initialising assignments stay in the original's order, count first,
- * and are unaffected.  sub_0201AA50 is the exception and wants the other
- * order, because there the element count lives in r7 rather than on the
- * stack.
- *
- * sub_0201AA50 really does call sub_0201AB28 twice with the same arguments
- * and drops the first result.  A call is never dead-code eliminated by this
- * front end, so the discarded one is in the source; it is not a scheduling
- * artefact of the surviving call.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AA1C.c \
- *       --addr 0x0201AA1C --thumb
- */
 u32 sub_0201AAD4(void *p)
 {
     s32 i;
@@ -1045,82 +784,12 @@ u32 sub_0201AAD4(void *p)
 }
 
 
-/*
- *           sub_0201AB08, sub_0201AB18
- *
- * Four counters over the 0xDC-byte-record array container of
- * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
- * predicate-passing wrappers in front of the search routine sub_0201AD58.
- * Each counter walks 0 to sub_0201AA18(p) and tests one or two fields of the
- * entry through the getter func_02017E1C.
- *
- * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
- * veneers, which is what their shape suggests at first: they are ordinary
- * Thumb tail calls (docs/idioms/tail-call-is-a-pool-word-and-bx.md) whose
- * second argument is the address of a function, so each carries two pool
- * words, one for the predicate and one for the callee.  Neither carries a
- * label in the generated listing, so they arrive there as a run of `.word`s
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the second
- * one is this unit's unlabelled follower.
- *
- * Three of the four counters declare the loop index before the running
- * count, which is the only thing that puts the index in r4 and the count in
- * r5 (docs/idioms/declaration-order-decides-which-register-a-local-gets.md);
- * the initialising assignments stay in the original's order, count first,
- * and are unaffected.  sub_0201AA50 is the exception and wants the other
- * order, because there the element count lives in r7 rather than on the
- * stack.
- *
- * sub_0201AA50 really does call sub_0201AB28 twice with the same arguments
- * and drops the first result.  A call is never dead-code eliminated by this
- * front end, so the discarded one is in the source; it is not a scheduling
- * artefact of the surviving call.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AA1C.c \
- *       --addr 0x0201AA1C --thumb
- */
 u32 sub_0201AB08(void *p)
 {
     return sub_0201AD58(p, sub_0201AD18);
 }
 
 
-/*
- *           sub_0201AB08, sub_0201AB18
- *
- * Four counters over the 0xDC-byte-record array container of
- * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
- * predicate-passing wrappers in front of the search routine sub_0201AD58.
- * Each counter walks 0 to sub_0201AA18(p) and tests one or two fields of the
- * entry through the getter func_02017E1C.
- *
- * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
- * veneers, which is what their shape suggests at first: they are ordinary
- * Thumb tail calls (docs/idioms/tail-call-is-a-pool-word-and-bx.md) whose
- * second argument is the address of a function, so each carries two pool
- * words, one for the predicate and one for the callee.  Neither carries a
- * label in the generated listing, so they arrive there as a run of `.word`s
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); the second
- * one is this unit's unlabelled follower.
- *
- * Three of the four counters declare the loop index before the running
- * count, which is the only thing that puts the index in r4 and the count in
- * r5 (docs/idioms/declaration-order-decides-which-register-a-local-gets.md);
- * the initialising assignments stay in the original's order, count first,
- * and are unaffected.  sub_0201AA50 is the exception and wants the other
- * order, because there the element count lives in r7 rather than on the
- * stack.
- *
- * sub_0201AA50 really does call sub_0201AB28 twice with the same arguments
- * and drops the first result.  A call is never dead-code eliminated by this
- * front end, so the discarded one is in the source; it is not a scheduling
- * artefact of the surviving call.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AA1C.c \
- *       --addr 0x0201AA1C --thumb
- */
 u32 sub_0201AB18(void *p)
 {
     return sub_0201AD58(p, sub_0201AD40);
@@ -1157,28 +826,6 @@ void *sub_0201AB28(void *p, u32 idx)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * sub_0201AB28 is the index calculator this whole neighbourhood shares: an
- * entry of an array of 0xDC-byte records starting eight bytes into the
- * object.  sub_0201AB34 looks the entry up and, if it is non-null (in
- * practice it always is; the check reads as a defensive null guard rather
- * than a reachable branch), tail-hands it to sub_0201AD18 (0x0201AC2C..,
- * still open at the time of writing but pinned as an extern here since a
- * `label` witness for it exists outside this range).
- *
- * Immediately in front of sub_0201AB28, at 0x0201AB08..0x0201AB28, are two
- * back to back linker long-branch veneers (`ldr r1,[pc,#4]; ldr r3,[pc,#8];
- * bx r3` plus two pool words each) that this file does not claim; see
- * docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md
- * for the general shape, though here both are Thumb-encoded stubs rather
- * than the ARM long-branch form.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AB28.c \
- *       --addr 0x0201AB28 --thumb
- */
 u32 sub_0201AB34(void *p, u32 idx)
 {
     void *entry = sub_0201AB28(p, idx);
@@ -1244,50 +891,6 @@ void sub_0201AB48(struct Party_0201AB28 *p, u32 idx, const struct PartyMon *src)
     p->count += d;
 }
 
-/*
- * pokeparty.c: the store-at-index and swap-two-indices operations on the
- * party container, an array of 0xDC byte records eight bytes into the object
- * with a running count at +0x04.  The file name is the image's own: the debug
- * allocator call in sub_0201AB8C passes 0x020A7304, which spells
- * "pokeparty.c", and its neighbours in the string area are
- * "poke_regulation.c" and "poke_personal.c".
- *
- * Both functions copy a whole record with a plain struct assignment, which
- * this front end inlines as a counted `ldm`/`stm` loop of 27 eight-byte steps
- * plus a trailing word rather than as a call
- * (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md).  The record is
- * declared as an array of `u32` and not of `u8` for exactly that reason: a
- * one-aligned declaration gives a byte loop of 0xDC iterations, the same
- * shape with completely different bytes.
- *
- * sub_0201AB48 reads field 0xA9 (the "slot is occupied" derived id, see
- * src/pending/sub_02018E34.c) out of the destination slot before the copy and
- * out of the source after it, and adds the difference to the count, so the
- * count stays right whether the write fills an empty slot or overwrites a
- * full one.
- *
- * Two spellings in sub_0201AB48 are load bearing and neither is obvious.  The
- * destination of the copy is written as byte arithmetic,
- * `(u8 *)p + idx * sizeof(rec) + 8`, while the getter's argument is the
- * ordinary `&p->mon[idx]`: written the same way twice the compiler common
- * subexpression eliminates them and keeps the finished address in a
- * callee-saved register across both calls, which is four bytes short.  What
- * the original keeps alive across the calls is the *product*, and only two
- * differently associated address expressions produce that.  And the second
- * getter's result is not bound to a local: `a - func_02017E1C(...)` puts the
- * `subs` at the call, where the original has it, while a named `b` sinks it
- * past the copy loop (the mirror of
- * docs/idioms/cmp-operand-order-names-the-temporary.md).
- *
- * sub_0201AB8C swaps two slots through a heap-allocated temporary of exactly
- * one record, then swaps the two slots' 0x1B-keyed side values through
- * sub_0201ACC4 / sub_0201ACDC (src/matched/unit_0201AC2C.c).  It returns 0
- * unconditionally.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AB48.c \
- *       --addr 0x0201AB48 --thumb
- */
 u32 sub_0201AB8C(struct Party_0201AB28 *p, u32 i, u32 j, u32 heap)
 {
     u32 a;
@@ -1384,69 +987,6 @@ struct Rec {
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
- *
- * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
- * this file leaves as an unresolved extern because its own definition is
- * still open elsewhere in the image.
- *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
- * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
- * argument order, is what gets the `ldm`/`stm` loop's read and write sides
- * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
- * is declared as a `u32` array so it is four-aligned rather than one-aligned,
- * which is what selects the register loop over a byte loop).
- *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
- * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
- * first hunting for one whose entry's id-5 getter matches a target and
- * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
- * matters for register allocation, not just its value:
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
- * the general rule and it is `i` declared before `n` here, `count`
- * initialised to zero on the same line as `i`.
- *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
- * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
- * over a double array-indexed expression (not a named pointer hoisted above
- * the `if`) is what keeps the address computation inside each arm instead of
- * being shared ahead of the branch.
- *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
- * src/matched/unit_0200E884.c) with a literal id of 0x1A.
- *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
- * the guard-chain-shares-one-exit-block shape
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
- * applied to a genuine conjunction rather than the more common early-return
- * failure chain: writing it as `a == 1 || b == 0` and returning 0 for that
- * case, which reads more naturally, does not reproduce the byte where the
- * shared block sits, because with only two operands the last one gets the
- * idiom's special direct-result treatment
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md) and
- * the observed shape has both comparisons branching to one identical exit,
- * which only the `&&`-guards-the-good-path phrasing produces.
- *
- * sub_0201AD58 is a linear search over the record array taking a function
- * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
- * the register-order tell.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
- *       --addr 0x0201AC2C --thumb
- */
 u32 sub_0201AC44(struct Rec *p, u32 target)
 {
     s32 i;
@@ -1469,69 +1009,6 @@ extern u32   sub_0201AA18(void *p);
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
- *
- * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
- * this file leaves as an unresolved extern because its own definition is
- * still open elsewhere in the image.
- *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
- * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
- * argument order, is what gets the `ldm`/`stm` loop's read and write sides
- * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
- * is declared as a `u32` array so it is four-aligned rather than one-aligned,
- * which is what selects the register loop over a byte loop).
- *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
- * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
- * first hunting for one whose entry's id-5 getter matches a target and
- * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
- * matters for register allocation, not just its value:
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
- * the general rule and it is `i` declared before `n` here, `count`
- * initialised to zero on the same line as `i`.
- *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
- * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
- * over a double array-indexed expression (not a named pointer hoisted above
- * the `if`) is what keeps the address computation inside each arm instead of
- * being shared ahead of the branch.
- *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
- * src/matched/unit_0200E884.c) with a literal id of 0x1A.
- *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
- * the guard-chain-shares-one-exit-block shape
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
- * applied to a genuine conjunction rather than the more common early-return
- * failure chain: writing it as `a == 1 || b == 0` and returning 0 for that
- * case, which reads more naturally, does not reproduce the byte where the
- * shared block sits, because with only two operands the last one gets the
- * idiom's special direct-result treatment
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md) and
- * the observed shape has both comparisons branching to one identical exit,
- * which only the `&&`-guards-the-good-path phrasing produces.
- *
- * sub_0201AD58 is a linear search over the record array taking a function
- * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
- * the register-order tell.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
- *       --addr 0x0201AC2C --thumb
- */
 u32 sub_0201AC80(void *p)
 {
     s32 n = sub_0201AA18(p);
@@ -1552,69 +1029,6 @@ u32 sub_0201AC80(void *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
- *
- * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
- * this file leaves as an unresolved extern because its own definition is
- * still open elsewhere in the image.
- *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
- * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
- * argument order, is what gets the `ldm`/`stm` loop's read and write sides
- * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
- * is declared as a `u32` array so it is four-aligned rather than one-aligned,
- * which is what selects the register loop over a byte loop).
- *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
- * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
- * first hunting for one whose entry's id-5 getter matches a target and
- * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
- * matters for register allocation, not just its value:
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
- * the general rule and it is `i` declared before `n` here, `count`
- * initialised to zero on the same line as `i`.
- *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
- * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
- * over a double array-indexed expression (not a named pointer hoisted above
- * the `if`) is what keeps the address computation inside each arm instead of
- * being shared ahead of the branch.
- *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
- * src/matched/unit_0200E884.c) with a literal id of 0x1A.
- *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
- * the guard-chain-shares-one-exit-block shape
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
- * applied to a genuine conjunction rather than the more common early-return
- * failure chain: writing it as `a == 1 || b == 0` and returning 0 for that
- * case, which reads more naturally, does not reproduce the byte where the
- * shared block sits, because with only two operands the last one gets the
- * idiom's special direct-result treatment
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md) and
- * the observed shape has both comparisons branching to one identical exit,
- * which only the `&&`-guards-the-good-path phrasing produces.
- *
- * sub_0201AD58 is a linear search over the record array taking a function
- * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
- * the register-order tell.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
- *       --addr 0x0201AC2C --thumb
- */
 int sub_0201ACC4(void *p, u32 pos)
 {
     u8 b = ((u8 *)p)[0x530];
@@ -1628,69 +1042,6 @@ int sub_0201ACC4(void *p, u32 pos)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
- *
- * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
- * this file leaves as an unresolved extern because its own definition is
- * still open elsewhere in the image.
- *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
- * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
- * argument order, is what gets the `ldm`/`stm` loop's read and write sides
- * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
- * is declared as a `u32` array so it is four-aligned rather than one-aligned,
- * which is what selects the register loop over a byte loop).
- *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
- * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
- * first hunting for one whose entry's id-5 getter matches a target and
- * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
- * matters for register allocation, not just its value:
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
- * the general rule and it is `i` declared before `n` here, `count`
- * initialised to zero on the same line as `i`.
- *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
- * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
- * over a double array-indexed expression (not a named pointer hoisted above
- * the `if`) is what keeps the address computation inside each arm instead of
- * being shared ahead of the branch.
- *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
- * src/matched/unit_0200E884.c) with a literal id of 0x1A.
- *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
- * the guard-chain-shares-one-exit-block shape
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
- * applied to a genuine conjunction rather than the more common early-return
- * failure chain: writing it as `a == 1 || b == 0` and returning 0 for that
- * case, which reads more naturally, does not reproduce the byte where the
- * shared block sits, because with only two operands the last one gets the
- * idiom's special direct-result treatment
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md) and
- * the observed shape has both comparisons branching to one identical exit,
- * which only the `&&`-guards-the-good-path phrasing produces.
- *
- * sub_0201AD58 is a linear search over the record array taking a function
- * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
- * the register-order tell.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
- *       --addr 0x0201AC2C --thumb
- */
 void sub_0201ACDC(void *p, u32 pos, u32 mode)
 {
     if (mode == 1) {
@@ -1703,69 +1054,6 @@ void sub_0201ACDC(void *p, u32 pos, u32 mode)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
- *
- * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
- * this file leaves as an unresolved extern because its own definition is
- * still open elsewhere in the image.
- *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
- * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
- * argument order, is what gets the `ldm`/`stm` loop's read and write sides
- * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
- * is declared as a `u32` array so it is four-aligned rather than one-aligned,
- * which is what selects the register loop over a byte loop).
- *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
- * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
- * first hunting for one whose entry's id-5 getter matches a target and
- * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
- * matters for register allocation, not just its value:
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
- * the general rule and it is `i` declared before `n` here, `count`
- * initialised to zero on the same line as `i`.
- *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
- * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
- * over a double array-indexed expression (not a named pointer hoisted above
- * the `if`) is what keeps the address computation inside each arm instead of
- * being shared ahead of the branch.
- *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
- * src/matched/unit_0200E884.c) with a literal id of 0x1A.
- *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
- * the guard-chain-shares-one-exit-block shape
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
- * applied to a genuine conjunction rather than the more common early-return
- * failure chain: writing it as `a == 1 || b == 0` and returning 0 for that
- * case, which reads more naturally, does not reproduce the byte where the
- * shared block sits, because with only two operands the last one gets the
- * idiom's special direct-result treatment
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md) and
- * the observed shape has both comparisons branching to one identical exit,
- * which only the `&&`-guards-the-good-path phrasing produces.
- *
- * sub_0201AD58 is a linear search over the record array taking a function
- * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
- * the register-order tell.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
- *       --addr 0x0201AC2C --thumb
- */
 void *sub_0201AD0C(void *sys)
 {
     return sub_020071CC(sys, 0x1A);
@@ -1774,69 +1062,6 @@ void *sub_0201AD0C(void *sys)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
- *
- * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
- * this file leaves as an unresolved extern because its own definition is
- * still open elsewhere in the image.
- *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
- * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
- * argument order, is what gets the `ldm`/`stm` loop's read and write sides
- * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
- * is declared as a `u32` array so it is four-aligned rather than one-aligned,
- * which is what selects the register loop over a byte loop).
- *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
- * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
- * first hunting for one whose entry's id-5 getter matches a target and
- * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
- * matters for register allocation, not just its value:
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
- * the general rule and it is `i` declared before `n` here, `count`
- * initialised to zero on the same line as `i`.
- *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
- * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
- * over a double array-indexed expression (not a named pointer hoisted above
- * the `if`) is what keeps the address computation inside each arm instead of
- * being shared ahead of the branch.
- *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
- * src/matched/unit_0200E884.c) with a literal id of 0x1A.
- *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
- * the guard-chain-shares-one-exit-block shape
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
- * applied to a genuine conjunction rather than the more common early-return
- * failure chain: writing it as `a == 1 || b == 0` and returning 0 for that
- * case, which reads more naturally, does not reproduce the byte where the
- * shared block sits, because with only two operands the last one gets the
- * idiom's special direct-result treatment
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md) and
- * the observed shape has both comparisons branching to one identical exit,
- * which only the `&&`-guards-the-good-path phrasing produces.
- *
- * sub_0201AD58 is a linear search over the record array taking a function
- * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
- * the register-order tell.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
- *       --addr 0x0201AC2C --thumb
- */
 u32 sub_0201AD18(void *p)
 {
     u32 a = func_02017E1C(p, 0x4C, 0);
@@ -1851,69 +1076,6 @@ u32 sub_0201AD18(void *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
- *
- * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
- * this file leaves as an unresolved extern because its own definition is
- * still open elsewhere in the image.
- *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
- * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
- * argument order, is what gets the `ldm`/`stm` loop's read and write sides
- * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
- * is declared as a `u32` array so it is four-aligned rather than one-aligned,
- * which is what selects the register loop over a byte loop).
- *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
- * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
- * first hunting for one whose entry's id-5 getter matches a target and
- * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
- * matters for register allocation, not just its value:
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
- * the general rule and it is `i` declared before `n` here, `count`
- * initialised to zero on the same line as `i`.
- *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
- * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
- * over a double array-indexed expression (not a named pointer hoisted above
- * the `if`) is what keeps the address computation inside each arm instead of
- * being shared ahead of the branch.
- *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
- * src/matched/unit_0200E884.c) with a literal id of 0x1A.
- *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
- * the guard-chain-shares-one-exit-block shape
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
- * applied to a genuine conjunction rather than the more common early-return
- * failure chain: writing it as `a == 1 || b == 0` and returning 0 for that
- * case, which reads more naturally, does not reproduce the byte where the
- * shared block sits, because with only two operands the last one gets the
- * idiom's special direct-result treatment
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md) and
- * the observed shape has both comparisons branching to one identical exit,
- * which only the `&&`-guards-the-good-path phrasing produces.
- *
- * sub_0201AD58 is a linear search over the record array taking a function
- * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
- * the register-order tell.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
- *       --addr 0x0201AC2C --thumb
- */
 u32 sub_0201AD40(void *p)
 {
     u32 r = 0;
@@ -1927,69 +1089,6 @@ u32 sub_0201AD40(void *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
- *
- * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
- * this file leaves as an unresolved extern because its own definition is
- * still open elsewhere in the image.
- *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
- * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
- * argument order, is what gets the `ldm`/`stm` loop's read and write sides
- * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
- * is declared as a `u32` array so it is four-aligned rather than one-aligned,
- * which is what selects the register loop over a byte loop).
- *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
- * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
- * first hunting for one whose entry's id-5 getter matches a target and
- * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
- * matters for register allocation, not just its value:
- * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
- * the general rule and it is `i` declared before `n` here, `count`
- * initialised to zero on the same line as `i`.
- *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
- * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
- * over a double array-indexed expression (not a named pointer hoisted above
- * the `if`) is what keeps the address computation inside each arm instead of
- * being shared ahead of the branch.
- *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
- * src/matched/unit_0200E884.c) with a literal id of 0x1A.
- *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
- * the guard-chain-shares-one-exit-block shape
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
- * applied to a genuine conjunction rather than the more common early-return
- * failure chain: writing it as `a == 1 || b == 0` and returning 0 for that
- * case, which reads more naturally, does not reproduce the byte where the
- * shared block sits, because with only two operands the last one gets the
- * idiom's special direct-result treatment
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md) and
- * the observed shape has both comparisons branching to one identical exit,
- * which only the `&&`-guards-the-good-path phrasing produces.
- *
- * sub_0201AD58 is a linear search over the record array taking a function
- * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
- * the register-order tell.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
- *       --addr 0x0201AC2C --thumb
- */
 u32 sub_0201AD58(void *p, Predicate pred)
 {
     s32 i;
@@ -2095,30 +1194,6 @@ void sub_0201ADD0(u32 a, int b, void *c)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * sub_0201ADD0 is a second, smaller wrapper around sub_0201AFD4 (see
- * src/matched/unit_0201ADA4.c for why it is not merged with that file); here
- * the result goes straight to one handler call with a literal id of 0x12.
- *
- * sub_0201ADE4 constructs an object from the debug allocator,
- * func_02030734(heap, size, zero, file, tag), with the __FILE__
- * argument an ABS32 into the packed string area rather than a locally
- * emitted string (docs/idioms/file-string-is-an-abs32-into-the-string-area.md).
- * The string is "poke_personal.c" at 0x020A7310, attested by the `string`
- * class off the terminator of "pokeparty.c" just before it; both sit in the
- * same run of Pokemon-data file names as "poke_tool.c", "poke_regulation.c"
- * and "shinka_check.c" starting at 0x020A72E4, which is the strongest single
- * clue to this packet's subsystem: species/personal-data records, not the
- * WCM/NHTTP wireless code the neighbouring packets' sdk_calls hint at.  It
- * then forwards to sub_0201ADA4 (src/matched/unit_0201ADA4.c) and returns the
- * newly allocated object.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201ADD0.c \
- *       --addr 0x0201ADD0 --thumb
- */
 void *sub_0201ADE4(u32 a, int b, u32 c)
 {
     void *obj = func_02030734(c, 0x3C, 0, sub_0201ADE4_File, 0x76);
@@ -2349,59 +1424,6 @@ u32 sub_0201AF6C(u32 v)
 
 
 
-/*
- * The tail of poke_personal.c: the "is this a placeholder ability id"
- * predicate and the form-table loader.  Cut out of
- * src/matched/unit_0201AE14.c together with src/matched/sub_0201AE1C.c so
- * that the 44 field getter at 0x0201AE1C gets a manifest entry of its own
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).  The C is
- * unchanged; only the file boundary moved.  This file still starts at the
- * address of its own first function, so it loses no entry by the same rule:
- * sub_0201AF80 was already an interior function of unit_0201AE14.c.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- * Three content constants live here and every one of them is a number the
- * game's data, not its structure, decides:
- *
- *   0x29C (668)  sub_0201AF80's archive member id, the form table.  It is the
- *                index of one member inside the handle at 0x0214652C, so it
- *                moves if the archive is repacked; IRAO is expected to share
- *                the packing but this is the first thing to re-read.
- *   999          sub_0201AF80's "no entry" sentinel in that form table.  It is
- *                a species-space sentinel, not a count, and it is what the
- *                entry count is measured against.
- *   0, 0xFE,0xFF sub_0201AF6C's three accepted ids.  The callers (0x02017D00,
- *                0x0201860E, 0x020186AE, 0x020186FE, 0x02018718) all feed it a
- *                value read out of the personal record, so these are content
- *                ids in the same space as the record's own fields.
- *
- * ---------------------------------------------------------------------------
- * THE TWO FUNCTIONS
- * ---------------------------------------------------------------------------
- * sub_0201AF6C is a disjunction and not a conjunction.  The `beq` from the
- * first test lands on the `movs r0, #1` that the second test's `bhi` falls
- * through to, and the `movs r0, #0` is out of line behind it; written
- * `if (v != 0 && v - 0xFE > 1) return 0;` every byte is still right and the
- * two exit blocks come out in the opposite order
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md,
- * docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * sub_0201AF80 narrows the byte length the archive hands back to a halfword
- * count with a single `lsls #0xf` / `lsrs #0x10` pair.  The amounts are
- * unequal, so it is a cast folded with a shift and not a bitfield: 32 - 16 is
- * the width and 15 - 16 is the shift, i.e. `(u16)(len >> 1)`
- * (docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md).
- * Writing `(u16)(len / 2)` costs a second pair.  The counter's zero is a copy
- * of the accumulator's (`adds r2, r5, #0`), which is what says the
- * accumulator is assigned first
- * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201AF6C.c \
- *       --addr 0x0201AF6C --thumb
- */
 u16 *sub_0201AF80(u32 heap, u16 *countOut)
 {
     u32 len;
@@ -2626,69 +1648,6 @@ void sub_0201B100(void *party, s32_0201B100 amount)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The two writers of the packed byte field id 0x97 that
- * src/matched/unit_0201B220.c reads: sub_0201B100 counts its low nibble down
- * across the whole party, and sub_0201B170 spreads it to the neighbouring
- * slots one time in three.
- *
- * sub_0201B100 walks every occupied slot, clears the low nibble outright when
- * the amount to subtract is larger than it or larger than 4, subtracts it
- * otherwise, and forces 0x10 when the whole byte comes out zero so that the
- * high nibble stays distinguishable from "never set".  sub_0201B170 copies a
- * slot's byte into the slot before and the slot after it whenever theirs has
- * no high nibble, and advances the index an extra step when it wrote forwards
- * so that a value cannot propagate down the party in one pass.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- * No species, item or move id.  What is content shaped:
- *
- *   4      sub_0201B100's threshold: an amount above it always clears the
- *          nibble instead of subtracting, so it is a rule about the field's
- *          range rather than about its layout.
- *   0x10   the value written when the subtraction leaves zero, i.e. the low
- *          nibble empty and the high nibble at one.
- *   3      sub_0201B170's odds, one call in three.
- *   0xF, 0xF0   the two nibble masks, the field's own layout.
- *   0x97, 5   party record ids in src/matched/sub_02018DB4.c's space.
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * sub_0201B170's odds are a 64 bit multiply and not a modulo:
- * `(u64)rand() * 3 >> 32` puts the answer in the `_ull_mul` call's **r1**, and
- * the `movs r1, #0` in front of the call is the draw's high half rather than a
- * second argument.  See
- * docs/idioms/random-below-n-is-a-64-bit-multiply-high.md.
- *
- * It has no `last` variable.  The original loads the count once, tests it,
- * decrements it and spills the result, which reads like `last = n - 1` written
- * after an `if (n > 0)` guard; it is not.  It is `if (i < n - 1)` inside the
- * loop, with `n - 1` hoisted into the loop preheader by the compiler, which is
- * why the decrement lands after the loop's own entry guard rather than before
- * it.  Writing the guard and the local out by hand costs six bytes.
- *
- * sub_0201B100's two arms are not spelled the same way.  The masking arm is a
- * compound assignment, `v &= 0xF0`, and the subtracting arm carries an explicit
- * `(u8)` cast; written with the cast on both, the two truncations cross-jump
- * into one block that both arms branch to and the function is four bytes
- * short.  That is
- * docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md
- * seen on a local rather than on a field: the compound form is the one that
- * does not materialise a fresh truncation.
- *
- * Both loop counters are signed, and in sub_0201B100 the amount and the
- * extracted nibble are signed too: the comparisons are `blt` and `ble`, not
- * `blo` and `bls`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201B100.c \
- *       --addr 0x0201B100 --thumb
- */
 void sub_0201B170(void *party)
 {
     s32_0201B100 i;
@@ -2793,53 +1752,6 @@ u32 sub_0201B220(void *party)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201B28C
- *
- * Five readers of one packed byte field, id 0x97 of the party record, whose
- * two nibbles are written by the loop at 0x0201B0DC in the same file.
- *
- * sub_0201B220 answers a bitmask of the party slots whose field is non zero,
- * one bit per slot, and is the value the code at 0x0201B056 tests before it
- * writes a new one.  sub_0201B268 asks whether the low nibble is set and
- * sub_0201B28C whether the high nibble is set and the low one is not;
- * sub_0201B25C and sub_0201B280 are their two-instruction wrappers over
- * func_020185F0.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- * No species, item or move id appears here.  0x97 is a party record id in
- * src/matched/sub_02018DB4.c's space, and the two nibble masks 0xF and 0xF0
- * are the field's own layout.  What is worth re-reading for IRAO is the
- * meaning rather than the numbers: the field is a counter in the low nibble
- * and a flag set in the high one, and a version that widened either would
- * change all five of these functions and the writer at 0x0201B0DC together.
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * sub_0201B220 assigns the mask before it asks for the party count, which is
- * what keeps the zero a `movs` in the prologue and lets the loop index take a
- * second `movs` after the call rather than a pool word
- * (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
- * Its shift is truncated to a byte at the use, `mask |= (u8)(1 << i)`, which is
- * the cast placement docs/MATCHING.md pins for sub_0200A6BC: held in a `u8`
- * temporary instead, the truncation cannot sink and the tail of the loop comes
- * out with every register moved.
- *
- * sub_0201B28C reads the field into a `u8` local and tests it twice, so the
- * constant is the `tst`'s first operand and the field its second; sub_0201B268
- * tests the call result directly and gets the other operand order.  That one
- * byte is the only difference between the two shapes, and it is the same tell
- * docs/idioms/cmp-operand-order-names-the-temporary.md records for `cmp`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201B220.c \
- *       --addr 0x0201B220 --thumb
- */
 u32 sub_0201B25C(void *a)
 {
     return sub_0201B268(func_020185F0(a));
@@ -2847,53 +1759,6 @@ u32 sub_0201B25C(void *a)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201B28C
- *
- * Five readers of one packed byte field, id 0x97 of the party record, whose
- * two nibbles are written by the loop at 0x0201B0DC in the same file.
- *
- * sub_0201B220 answers a bitmask of the party slots whose field is non zero,
- * one bit per slot, and is the value the code at 0x0201B056 tests before it
- * writes a new one.  sub_0201B268 asks whether the low nibble is set and
- * sub_0201B28C whether the high nibble is set and the low one is not;
- * sub_0201B25C and sub_0201B280 are their two-instruction wrappers over
- * func_020185F0.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- * No species, item or move id appears here.  0x97 is a party record id in
- * src/matched/sub_02018DB4.c's space, and the two nibble masks 0xF and 0xF0
- * are the field's own layout.  What is worth re-reading for IRAO is the
- * meaning rather than the numbers: the field is a counter in the low nibble
- * and a flag set in the high one, and a version that widened either would
- * change all five of these functions and the writer at 0x0201B0DC together.
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * sub_0201B220 assigns the mask before it asks for the party count, which is
- * what keeps the zero a `movs` in the prologue and lets the loop index take a
- * second `movs` after the call rather than a pool word
- * (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
- * Its shift is truncated to a byte at the use, `mask |= (u8)(1 << i)`, which is
- * the cast placement docs/MATCHING.md pins for sub_0200A6BC: held in a `u8`
- * temporary instead, the truncation cannot sink and the tail of the loop comes
- * out with every register moved.
- *
- * sub_0201B28C reads the field into a `u8` local and tests it twice, so the
- * constant is the `tst`'s first operand and the field its second; sub_0201B268
- * tests the call result directly and gets the other operand order.  That one
- * byte is the only difference between the two shapes, and it is the same tell
- * docs/idioms/cmp-operand-order-names-the-temporary.md records for `cmp`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201B220.c \
- *       --addr 0x0201B220 --thumb
- */
 u32 sub_0201B268(void *mon)
 {
     u32 r;
@@ -2907,53 +1772,6 @@ u32 sub_0201B268(void *mon)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201B28C
- *
- * Five readers of one packed byte field, id 0x97 of the party record, whose
- * two nibbles are written by the loop at 0x0201B0DC in the same file.
- *
- * sub_0201B220 answers a bitmask of the party slots whose field is non zero,
- * one bit per slot, and is the value the code at 0x0201B056 tests before it
- * writes a new one.  sub_0201B268 asks whether the low nibble is set and
- * sub_0201B28C whether the high nibble is set and the low one is not;
- * sub_0201B25C and sub_0201B280 are their two-instruction wrappers over
- * func_020185F0.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- * No species, item or move id appears here.  0x97 is a party record id in
- * src/matched/sub_02018DB4.c's space, and the two nibble masks 0xF and 0xF0
- * are the field's own layout.  What is worth re-reading for IRAO is the
- * meaning rather than the numbers: the field is a counter in the low nibble
- * and a flag set in the high one, and a version that widened either would
- * change all five of these functions and the writer at 0x0201B0DC together.
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * sub_0201B220 assigns the mask before it asks for the party count, which is
- * what keeps the zero a `movs` in the prologue and lets the loop index take a
- * second `movs` after the call rather than a pool word
- * (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
- * Its shift is truncated to a byte at the use, `mask |= (u8)(1 << i)`, which is
- * the cast placement docs/MATCHING.md pins for sub_0200A6BC: held in a `u8`
- * temporary instead, the truncation cannot sink and the tail of the loop comes
- * out with every register moved.
- *
- * sub_0201B28C reads the field into a `u8` local and tests it twice, so the
- * constant is the `tst`'s first operand and the field its second; sub_0201B268
- * tests the call result directly and gets the other operand order.  That one
- * byte is the only difference between the two shapes, and it is the same tell
- * docs/idioms/cmp-operand-order-names-the-temporary.md records for `cmp`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201B220.c \
- *       --addr 0x0201B220 --thumb
- */
 u32 sub_0201B280(void *a)
 {
     return sub_0201B28C(func_020185F0(a));
@@ -2961,53 +1779,6 @@ u32 sub_0201B280(void *a)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201B28C
- *
- * Five readers of one packed byte field, id 0x97 of the party record, whose
- * two nibbles are written by the loop at 0x0201B0DC in the same file.
- *
- * sub_0201B220 answers a bitmask of the party slots whose field is non zero,
- * one bit per slot, and is the value the code at 0x0201B056 tests before it
- * writes a new one.  sub_0201B268 asks whether the low nibble is set and
- * sub_0201B28C whether the high nibble is set and the low one is not;
- * sub_0201B25C and sub_0201B280 are their two-instruction wrappers over
- * func_020185F0.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- * No species, item or move id appears here.  0x97 is a party record id in
- * src/matched/sub_02018DB4.c's space, and the two nibble masks 0xF and 0xF0
- * are the field's own layout.  What is worth re-reading for IRAO is the
- * meaning rather than the numbers: the field is a counter in the low nibble
- * and a flag set in the high one, and a version that widened either would
- * change all five of these functions and the writer at 0x0201B0DC together.
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * sub_0201B220 assigns the mask before it asks for the party count, which is
- * what keeps the zero a `movs` in the prologue and lets the loop index take a
- * second `movs` after the call rather than a pool word
- * (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
- * Its shift is truncated to a byte at the use, `mask |= (u8)(1 << i)`, which is
- * the cast placement docs/MATCHING.md pins for sub_0200A6BC: held in a `u8`
- * temporary instead, the truncation cannot sink and the tail of the loop comes
- * out with every register moved.
- *
- * sub_0201B28C reads the field into a `u8` local and tests it twice, so the
- * constant is the `tst`'s first operand and the field its second; sub_0201B268
- * tests the call result directly and gets the other operand order.  That one
- * byte is the only difference between the two shapes, and it is the same tell
- * docs/idioms/cmp-operand-order-names-the-temporary.md records for `cmp`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201B220.c \
- *       --addr 0x0201B220 --thumb
- */
 u32 sub_0201B28C(void *mon)
 {
     u32 r;
@@ -3352,65 +2123,6 @@ void *sub_0201B70C(u32 heap)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * shinka_check.c's data layer: the four small routines the evolution checker
- * at 0x0201B2B0 reads its per-species evolution table through, plus the "does
- * this Pokemon already know that move" predicate one of its arms needs.
- *
- * All three archive routines name the same narc member kind, 0x13, the way
- * src/matched/unit_0201BD28.c's waza_tool.c names 0x15 and
- * src/matched/unit_0201ADD0.c's poke_personal.c names 0x12.  The record is
- * 0x2C bytes: seven six byte rows and a trailing halfword, and the three
- * halfwords of a row are what sub_0201B718's three arm switch selects between,
- * which is how the row layout is readable at all.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- *   0x13   the archive member kind for the evolution table.  A kind rather
- *          than a species id, so it moves only if the archive set is
- *          repacked, but it is content in the sense that nothing in the code
- *          derives it.
- *   7      the number of evolution rows per species, as the 0x2C byte record
- *          size fixes it.  A White build that gave a species an eighth
- *          evolution would change this record size and every one of these
- *          four functions with it.
- *   0x36, 0x3A   sub_0201B774's move id range: the four move slots of the
- *          party record, in src/matched/sub_02018DB4.c's id space.  Structure
- *          rather than content, but listed because the loop bound is written
- *          as the literal 0x3A and not as "0x36 + 4".
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * sub_0201B70C and sub_0201B764 are tail calls and nothing else, eight bytes
- * of code and a pool word each
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  Neither could pass a
- * fourth argument even if it wanted to, because r3 carries the target
- * (docs/idioms/a-tail-call-cannot-pass-a-fourth-argument.md); sub_0201B764
- * passes exactly three and is at the limit.
- *
- * sub_0201B718's switch is a `cmp`/`beq` chain and not a jump table even
- * though its three labels are dense from zero, which is the count and not the
- * density deciding it
- * (docs/idioms/empty-switch-arms-are-what-make-the-table.md records the
- * opposite direction for a seven label switch).  The record's address is held
- * in r6 across the call because it is passed to it, so `case 0` reaches the
- * row with a register offset off r6 while `case 1` and `case 2` rebuild
- * `sp + 2` and `sp + 4`: that is the member offset, not a second pointer.
- *
- * sub_0201B774 keeps its answer in a stack slot carved out by the `r3` of the
- * prologue's `push`, and the third argument's zero is common
- * subexpression eliminated into r7 for the whole loop, which is why the
- * literal has to stay a literal at the call site rather than becoming a named
- * local.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201B70C.c \
- *       --addr 0x0201B70C --thumb
- */
 u32 sub_0201B718(void *a, u32 id, u32 row, u32 field)
 {
     struct EvoTable t;
@@ -3429,65 +2141,6 @@ u32 sub_0201B718(void *a, u32 id, u32 row, u32 field)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * shinka_check.c's data layer: the four small routines the evolution checker
- * at 0x0201B2B0 reads its per-species evolution table through, plus the "does
- * this Pokemon already know that move" predicate one of its arms needs.
- *
- * All three archive routines name the same narc member kind, 0x13, the way
- * src/matched/unit_0201BD28.c's waza_tool.c names 0x15 and
- * src/matched/unit_0201ADD0.c's poke_personal.c names 0x12.  The record is
- * 0x2C bytes: seven six byte rows and a trailing halfword, and the three
- * halfwords of a row are what sub_0201B718's three arm switch selects between,
- * which is how the row layout is readable at all.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- *   0x13   the archive member kind for the evolution table.  A kind rather
- *          than a species id, so it moves only if the archive set is
- *          repacked, but it is content in the sense that nothing in the code
- *          derives it.
- *   7      the number of evolution rows per species, as the 0x2C byte record
- *          size fixes it.  A White build that gave a species an eighth
- *          evolution would change this record size and every one of these
- *          four functions with it.
- *   0x36, 0x3A   sub_0201B774's move id range: the four move slots of the
- *          party record, in src/matched/sub_02018DB4.c's id space.  Structure
- *          rather than content, but listed because the loop bound is written
- *          as the literal 0x3A and not as "0x36 + 4".
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * sub_0201B70C and sub_0201B764 are tail calls and nothing else, eight bytes
- * of code and a pool word each
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  Neither could pass a
- * fourth argument even if it wanted to, because r3 carries the target
- * (docs/idioms/a-tail-call-cannot-pass-a-fourth-argument.md); sub_0201B764
- * passes exactly three and is at the limit.
- *
- * sub_0201B718's switch is a `cmp`/`beq` chain and not a jump table even
- * though its three labels are dense from zero, which is the count and not the
- * density deciding it
- * (docs/idioms/empty-switch-arms-are-what-make-the-table.md records the
- * opposite direction for a seven label switch).  The record's address is held
- * in r6 across the call because it is passed to it, so `case 0` reaches the
- * row with a register offset off r6 while `case 1` and `case 2` rebuild
- * `sp + 2` and `sp + 4`: that is the member offset, not a second pointer.
- *
- * sub_0201B774 keeps its answer in a stack slot carved out by the `r3` of the
- * prologue's `push`, and the third argument's zero is common
- * subexpression eliminated into r7 for the whole loop, which is why the
- * literal has to stay a literal at the call site rather than becoming a named
- * local.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201B70C.c \
- *       --addr 0x0201B70C --thumb
- */
 void sub_0201B764(u32 id, void *dest)
 {
     func_02048F4C(dest, 0x13, id);
@@ -3495,65 +2148,6 @@ void sub_0201B764(u32 id, void *dest)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * shinka_check.c's data layer: the four small routines the evolution checker
- * at 0x0201B2B0 reads its per-species evolution table through, plus the "does
- * this Pokemon already know that move" predicate one of its arms needs.
- *
- * All three archive routines name the same narc member kind, 0x13, the way
- * src/matched/unit_0201BD28.c's waza_tool.c names 0x15 and
- * src/matched/unit_0201ADD0.c's poke_personal.c names 0x12.  The record is
- * 0x2C bytes: seven six byte rows and a trailing halfword, and the three
- * halfwords of a row are what sub_0201B718's three arm switch selects between,
- * which is how the row layout is readable at all.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- *   0x13   the archive member kind for the evolution table.  A kind rather
- *          than a species id, so it moves only if the archive set is
- *          repacked, but it is content in the sense that nothing in the code
- *          derives it.
- *   7      the number of evolution rows per species, as the 0x2C byte record
- *          size fixes it.  A White build that gave a species an eighth
- *          evolution would change this record size and every one of these
- *          four functions with it.
- *   0x36, 0x3A   sub_0201B774's move id range: the four move slots of the
- *          party record, in src/matched/sub_02018DB4.c's id space.  Structure
- *          rather than content, but listed because the loop bound is written
- *          as the literal 0x3A and not as "0x36 + 4".
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * sub_0201B70C and sub_0201B764 are tail calls and nothing else, eight bytes
- * of code and a pool word each
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  Neither could pass a
- * fourth argument even if it wanted to, because r3 carries the target
- * (docs/idioms/a-tail-call-cannot-pass-a-fourth-argument.md); sub_0201B764
- * passes exactly three and is at the limit.
- *
- * sub_0201B718's switch is a `cmp`/`beq` chain and not a jump table even
- * though its three labels are dense from zero, which is the count and not the
- * density deciding it
- * (docs/idioms/empty-switch-arms-are-what-make-the-table.md records the
- * opposite direction for a seven label switch).  The record's address is held
- * in r6 across the call because it is passed to it, so `case 0` reaches the
- * row with a register offset off r6 while `case 1` and `case 2` rebuild
- * `sp + 2` and `sp + 4`: that is the member offset, not a second pointer.
- *
- * sub_0201B774 keeps its answer in a stack slot carved out by the `r3` of the
- * prologue's `push`, and the third argument's zero is common
- * subexpression eliminated into r7 for the whole loop, which is why the
- * literal has to stay a literal at the call site rather than becoming a named
- * local.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201B70C.c \
- *       --addr 0x0201B70C --thumb
- */
 u32 sub_0201B774(void *mon, u32 move)
 {
     u32 found;

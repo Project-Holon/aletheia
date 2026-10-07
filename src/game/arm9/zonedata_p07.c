@@ -77,59 +77,11 @@ u32 sub_020140B4(void *a)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_020140D8, sub_020140DC, sub_020140E0, sub_020140E4
- *
- * alias: sub_020140B4 is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
- * it always spends a pool word and `bx` rather than ever emitting a direct
- * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
- * wrapper's own body is otherwise empty.
- *
- * sub_020140BC through sub_020140E4 are seven more leaf accessors on a
- * small object passed in directly (not through sub_02013AD0()), hiding in
- * the same way: none of the seven save `lr`, so disasm.py's prologue sweep
- * never labels them and they print as a run of `.word`s between two
- * literal pools (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Two of them (offsets 0x04 and 0x05) return the sentinel 0xFFFFFFFF in
- * place of a stored byte value of 0xFF, rather than the plain
- * zero-extended byte every other accessor here returns.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020140B4.c \
- *       --addr 0x020140B4 --thumb
- */
 u16 sub_020140BC(struct Sub020140BCObj *p)
 {
     return p->f02;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_020140D8, sub_020140DC, sub_020140E0, sub_020140E4
- *
- * alias: sub_020140B4 is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
- * it always spends a pool word and `bx` rather than ever emitting a direct
- * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
- * wrapper's own body is otherwise empty.
- *
- * sub_020140BC through sub_020140E4 are seven more leaf accessors on a
- * small object passed in directly (not through sub_02013AD0()), hiding in
- * the same way: none of the seven save `lr`, so disasm.py's prologue sweep
- * never labels them and they print as a run of `.word`s between two
- * literal pools (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Two of them (offsets 0x04 and 0x05) return the sentinel 0xFFFFFFFF in
- * place of a stored byte value of 0xFF, rather than the plain
- * zero-extended byte every other accessor here returns.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020140B4.c \
- *       --addr 0x020140B4 --thumb
- */
 u32 sub_020140C0(struct Sub020140BCObj *p)
 {
     if (p->f04 == 0xFF)
@@ -137,30 +89,6 @@ u32 sub_020140C0(struct Sub020140BCObj *p)
     return p->f04;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_020140D8, sub_020140DC, sub_020140E0, sub_020140E4
- *
- * alias: sub_020140B4 is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
- * it always spends a pool word and `bx` rather than ever emitting a direct
- * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
- * wrapper's own body is otherwise empty.
- *
- * sub_020140BC through sub_020140E4 are seven more leaf accessors on a
- * small object passed in directly (not through sub_02013AD0()), hiding in
- * the same way: none of the seven save `lr`, so disasm.py's prologue sweep
- * never labels them and they print as a run of `.word`s between two
- * literal pools (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Two of them (offsets 0x04 and 0x05) return the sentinel 0xFFFFFFFF in
- * place of a stored byte value of 0xFF, rather than the plain
- * zero-extended byte every other accessor here returns.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020140B4.c \
- *       --addr 0x020140B4 --thumb
- */
 u32 sub_020140CC(struct Sub020140BCObj *p)
 {
     if (p->f05 == 0xFF)
@@ -168,117 +96,21 @@ u32 sub_020140CC(struct Sub020140BCObj *p)
     return p->f05;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_020140D8, sub_020140DC, sub_020140E0, sub_020140E4
- *
- * alias: sub_020140B4 is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
- * it always spends a pool word and `bx` rather than ever emitting a direct
- * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
- * wrapper's own body is otherwise empty.
- *
- * sub_020140BC through sub_020140E4 are seven more leaf accessors on a
- * small object passed in directly (not through sub_02013AD0()), hiding in
- * the same way: none of the seven save `lr`, so disasm.py's prologue sweep
- * never labels them and they print as a run of `.word`s between two
- * literal pools (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Two of them (offsets 0x04 and 0x05) return the sentinel 0xFFFFFFFF in
- * place of a stored byte value of 0xFF, rather than the plain
- * zero-extended byte every other accessor here returns.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020140B4.c \
- *       --addr 0x020140B4 --thumb
- */
 u8 sub_020140D8(struct Sub020140BCObj *p)
 {
     return p->f06;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_020140D8, sub_020140DC, sub_020140E0, sub_020140E4
- *
- * alias: sub_020140B4 is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
- * it always spends a pool word and `bx` rather than ever emitting a direct
- * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
- * wrapper's own body is otherwise empty.
- *
- * sub_020140BC through sub_020140E4 are seven more leaf accessors on a
- * small object passed in directly (not through sub_02013AD0()), hiding in
- * the same way: none of the seven save `lr`, so disasm.py's prologue sweep
- * never labels them and they print as a run of `.word`s between two
- * literal pools (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Two of them (offsets 0x04 and 0x05) return the sentinel 0xFFFFFFFF in
- * place of a stored byte value of 0xFF, rather than the plain
- * zero-extended byte every other accessor here returns.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020140B4.c \
- *       --addr 0x020140B4 --thumb
- */
 u8 sub_020140DC(struct Sub020140BCObj *p)
 {
     return p->f07;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_020140D8, sub_020140DC, sub_020140E0, sub_020140E4
- *
- * alias: sub_020140B4 is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
- * it always spends a pool word and `bx` rather than ever emitting a direct
- * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
- * wrapper's own body is otherwise empty.
- *
- * sub_020140BC through sub_020140E4 are seven more leaf accessors on a
- * small object passed in directly (not through sub_02013AD0()), hiding in
- * the same way: none of the seven save `lr`, so disasm.py's prologue sweep
- * never labels them and they print as a run of `.word`s between two
- * literal pools (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Two of them (offsets 0x04 and 0x05) return the sentinel 0xFFFFFFFF in
- * place of a stored byte value of 0xFF, rather than the plain
- * zero-extended byte every other accessor here returns.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020140B4.c \
- *       --addr 0x020140B4 --thumb
- */
 u8 sub_020140E0(struct Sub020140BCObj *p)
 {
     return p->f08;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_020140D8, sub_020140DC, sub_020140E0, sub_020140E4
- *
- * alias: sub_020140B4 is a bare tail call to the ARM function
- * sub_020307B0: the compiler cannot tell caller and callee interwork, so
- * it always spends a pool word and `bx` rather than ever emitting a direct
- * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
- * wrapper's own body is otherwise empty.
- *
- * sub_020140BC through sub_020140E4 are seven more leaf accessors on a
- * small object passed in directly (not through sub_02013AD0()), hiding in
- * the same way: none of the seven save `lr`, so disasm.py's prologue sweep
- * never labels them and they print as a run of `.word`s between two
- * literal pools (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Two of them (offsets 0x04 and 0x05) return the sentinel 0xFFFFFFFF in
- * place of a stored byte value of 0xFF, rather than the plain
- * zero-extended byte every other accessor here returns.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020140B4.c \
- *       --addr 0x020140B4 --thumb
- */
 u8 sub_020140E4(struct Sub020140BCObj *p)
 {
     return p->f09;

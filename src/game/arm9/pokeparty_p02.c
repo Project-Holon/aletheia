@@ -169,40 +169,12 @@ u32 func_02019C7C(void *h)
 }
 
 
-/*
- * func_02019CE0 carries no label in the generated listing: it saves r3 and r4
- * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
- * arrive as a run of .word between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  It is one
- * struct assignment: 27 ldm/stm pairs of eight bytes plus a trailing word is
- * 0xDC bytes, and the eight byte step is what says the record is at least four
- * aligned, which is docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *
- * The range stops at 0x02019CF8, which is an eight byte tail call whose pool
- * word names 0x02019BBC.  That address carries no func_ label and no other
- * pool word in the image holds it, so neither the label nor the literal class
- * can attest it and the stub cannot be matched from either side.
- */
 u32 func_02019C90(u16 a, u16 b, u32 k)
 {
     return func_0201AE1C(func_02019C54(a, b), k);
 }
 
 
-/*
- * func_02019CE0 carries no label in the generated listing: it saves r3 and r4
- * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
- * arrive as a run of .word between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  It is one
- * struct assignment: 27 ldm/stm pairs of eight bytes plus a trailing word is
- * 0xDC bytes, and the eight byte step is what says the record is at least four
- * aligned, which is docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *
- * The range stops at 0x02019CF8, which is an eight byte tail call whose pool
- * word names 0x02019BBC.  That address carries no func_ label and no other
- * pool word in the image holds it, so neither the label nor the literal class
- * can attest it and the stub cannot be matched from either side.
- */
 void func_02019CA0(void *p, u32 v)
 {
     u32 a = func_02017E1C(p, 5, 0);
@@ -213,20 +185,6 @@ void func_02019CA0(void *p, u32 v)
 }
 
 
-/*
- * func_02019CE0 carries no label in the generated listing: it saves r3 and r4
- * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
- * arrive as a run of .word between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  It is one
- * struct assignment: 27 ldm/stm pairs of eight bytes plus a trailing word is
- * 0xDC bytes, and the eight byte step is what says the record is at least four
- * aligned, which is docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *
- * The range stops at 0x02019CF8, which is an eight byte tail call whose pool
- * word names 0x02019BBC.  That address carries no func_ label and no other
- * pool word in the image holds it, so neither the label nor the literal class
- * can attest it and the stub cannot be matched from either side.
- */
 void func_02019CE0(const struct RecDC *src, struct RecDC *dest)
 {
     *dest = *src;

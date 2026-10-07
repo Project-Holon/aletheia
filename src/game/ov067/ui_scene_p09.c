@@ -1,0 +1,268 @@
+/*
+ * file:     ui_scene_p09.c
+ * unit:     yes
+ * function: func_021B7378, func_021B76B0, func_021B76C8
+ * address:  0x021B7378
+ * region:   ov067
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_020362DC  0x020362DC  arm
+ *   func_02035D20  0x02035D20  arm
+ *   func_020061E4  0x020061E4  thumb
+ *   func_020355D8  0x020355D8  arm
+ *   func_020355C4  0x020355C4  arm
+ *   func_0204B404  0x0204B404  arm
+ *   d_021B94C4     0x021B94C4  data  a1
+ *   func_02035D40  0x02035D40  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   d_021B94D0     0x021B94D0  data  a2
+ *   func_02045770  0x02045770  arm
+ *   func_0201C6C4  0x0201C6C4  thumb
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_021B7718  0x021B7718  thumb  ov067
+ *   d_021B94B8  0x021B94B8  data  a1
+ *   d_021B94BC  0x021B94BC  data  a1
+ */
+struct Cfg;
+struct Descriptor;
+struct Obj;
+struct Ctx;
+struct Vec2;
+struct PrintSys;
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef struct { u8 v[12]; } Rect12;
+
+struct Step {
+    u16 frame;
+    u16 idx;
+};
+
+typedef struct S_021B7378 {
+    u8 pad00[0x0c];
+    int fc;
+    u32 f10;
+    u8 pad14[0x16 - 0x14];
+    u8 f16;
+    u8 f17;
+    u8 pad18[0x1c - 0x18];
+    u32 f1c;
+    u8 pad20[0x22 - 0x20];
+    u16 f22[1][16];
+    u8 pad42[0x88 - 0x42];
+    void *f88;
+    void *f8c;
+    int f90;
+    int f94;
+    u32 f98;
+    int f9c;
+    void *fa0[4];
+    u8 padb0[0xc0 - 0xb0];
+    int fc0;
+    u8 fc4;
+    u8 padc5;
+    u16 fc6;
+    u16 fc8;
+} S_021B7378;
+
+typedef struct S_021B76B0 {
+    u8 pad00[0x98];
+    u32 f98;
+    int f9c;
+} S_021B76B0;
+
+typedef struct { u8 v[2][2]; } T1;
+
+typedef struct { u8 v[4][2]; } T2;
+
+extern u32 func_020362DC(void);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void func_020061E4(u32 id);
+extern void func_020355D8(u8 v);
+extern u8 func_020355C4(void);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_02041B6C(u32 bit);
+extern void func_021B7718(int which, int idx, void *data);
+void func_021B7378(S_021B7378 *p);
+int func_021B76B0(S_021B76B0 *p);
+u8 func_021B76C8(u32 a, u32 b, u32 c);
+extern const Rect12 d_021B94C4;
+extern const struct Step d_021B94D0[10];
+extern const T1 d_021B94B8;
+extern const T2 d_021B94BC;
+
+
+void func_021B7378(S_021B7378 *p)
+{
+    Rect12 rect;
+    u32 x;
+    u32 y;
+    u16 pt[2];
+    int update;
+    int touch;
+    int handled;
+    u32 keys;
+    int changed;
+    u8 i;
+    void *o;
+
+    update = 0;
+    keys = func_020362DC();
+    touch = func_02035D20(&x, &y);
+    switch (p->f98) {
+    case 0:
+        break;
+    case 1:
+        p->f98 = 2;
+        break;
+    case 2:
+        handled = 0;
+        if (keys & 2) {
+            func_020061E4(0x552);
+            p->f9c = 0;
+            handled = 1;
+            func_020355D8(0);
+        }
+        if (!handled && func_020355C4() == 0 && keys != 0) {
+            changed = 0;
+            if (keys & 1) {
+                if (p->fc0 == 0) {
+                    func_020061E4(0x54d);
+                    p->f9c = 1;
+                } else {
+                    func_020061E4(0x552);
+                    p->f9c = 0;
+                }
+                handled = 1;
+            } else if (keys & 0x40) {
+                if (p->fc0 != 0) {
+                    p->fc0 = 0;
+                    changed = 1;
+                }
+            } else if (keys & 0x80) {
+                if (p->fc0 != 1) {
+                    p->fc0 = 1;
+                    changed = 1;
+                }
+            }
+            if (changed) {
+                for (i = 0; i < 4; i++) {
+                    pt[0] = func_021B76C8(p->fc0, i, 0);
+                    pt[1] = func_021B76C8(p->fc0, i, 1);
+                    func_0204B404(p->fa0[i], (const struct Vec2 *)pt, (u16)p->f1c);
+                }
+                func_020061E4(0x548);
+            }
+        }
+        if (!handled && touch != 0) {
+            int res;
+            rect = d_021B94C4;
+            res = (int)func_02035D40((struct Ctx *)(&rect), x, y);
+            if (res != -1) {
+                if (res == 0) {
+                    func_020061E4(0x54d);
+                    p->f9c = 1;
+                } else if (res == 1) {
+                    func_020061E4(0x552);
+                    p->f9c = 0;
+                }
+                handled = 1;
+                func_020355D8(1);
+            }
+        }
+        if (!handled && func_020355C4() == 1 && keys != 0) {
+            for (i = 0; i < 4; i++) {
+                func_0204B3DC(p->fa0[i], 1);
+                func_0204B92C(p->fa0[i], 1);
+            }
+            func_020061E4(0x548);
+            func_020355D8(0);
+        }
+        if (handled) {
+            for (i = 0; i < 4; i++) {
+                func_0204B3DC(p->fa0[i], 0);
+                func_0204B92C(p->fa0[i], 0);
+            }
+            p->f98 = 3;
+            p->fc4 = 0;
+            p->fc8 = 1;
+            p->fc6 = 1;
+        }
+        break;
+    case 3:
+        if (p->fc6 < 10) {
+            if (p->fc8 == d_021B94D0[p->fc6].frame) {
+                p->fc4 = d_021B94D0[p->fc6].idx;
+                update = 1;
+                p->fc6++;
+            }
+            p->fc8++;
+        } else {
+            p->f98 = 4;
+        }
+        break;
+    case 4:
+        break;
+    }
+    if (p->f98 != 0) {
+        if (p->f90 == 0 && func_0201C6C4((struct PrintSys *)p->fc, (void *)((int)func_02045770(p->f88))) == 0) {
+            o = p->f88;
+            func_02045334(o);
+            func_02045374(o);
+            func_02041B6C(func_02045730(o));
+            p->f90 = 1;
+        }
+        if (p->f94 == 0 && func_0201C6C4((struct PrintSys *)p->fc, (void *)((int)func_02045770(p->f8c))) == 0) {
+            o = p->f8c;
+            func_02045334(o);
+            func_02045374(o);
+            func_02041B6C(func_02045730(o));
+            p->f94 = 1;
+        }
+    }
+    if (update) {
+        func_021B7718((u32)p->f10, (u8)(p->f9c == 1 ? p->f16 : p->f17), p->f22[p->fc4]);
+    }
+}
+
+
+/*
+ * Unlabelled leaf after func_021B7378's pool (inside its handed extent).
+ */
+int func_021B76B0(S_021B76B0 *p)
+{
+    if (p->f98 != 0 && p->f98 != 4)
+        return 2;
+    return p->f9c;
+}
+
+
+u8 func_021B76C8(u32 a, u32 b, u32 c)
+{
+    T1 t1 = d_021B94B8;
+    T2 t2 = d_021B94BC;
+    return t1.v[a][c] + t2.v[b][c];
+}

@@ -167,15 +167,6 @@ void *func_02092344(void *dest, const void *src, size_t n)
     return dest;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Byte-wise memcpy (func_02092344) and memmove (func_02092364).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02092344.c \
- *       --addr 0x02092344 --arm
- */
 void *func_02092364(void *dest, const void *src, size_t n)
 {
     if ((const unsigned char *)src >= (unsigned char *)dest) {
@@ -223,16 +214,6 @@ void *func_020923B0(void *p, int c, u32 n)
     return p;
 }
 
-/*
- * String / memory utilities:
- *   func_020923B0 (20 B)  wraps func_02092430 (memset) and returns ptr
- *   func_020923C4 (44 B)  memchr (byte search)
- *   func_020923F0 (64 B)  memcmp (memory comparison)
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020923B0.c \
- *       --addr 0x020923B0
- */
 u8 *func_020923C4(u8 *s, u32 c, u32 n)
 {
     u8 val = (u8)c;
@@ -1903,13 +1884,6 @@ u8 *func_02094860(u8 *dest, const u8 *src, u32 n)
     } while (1);
 }
 
-/*
- * strncpy and strcat implementations in standard string utility module.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02094860.c \
- *       --addr 0x02094860 --arm --cc 1.1p1
- */
 u8 *func_020948B0(u8 *dest, const u8 *src)
 {
     u8 *d = dest;

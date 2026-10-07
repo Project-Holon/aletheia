@@ -1,0 +1,24 @@
+/*
+ * function: func_021C06FC
+ * address:  0x021C06FC
+ * packet:   pkt_021C06FC
+ * region:   ov210
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_021BFCE4  0x021BFCE4  thumb  ov210
+ *   func_021BF728  0x021BF728  thumb  ov210
+ */
+
+extern void func_021BFCE4(char *p, int dx);
+typedef unsigned char  u8;
+extern void func_021BF728(u8 *p, int a);
+
+void func_021C06FC(int a, int b)
+{
+    func_021BFCE4((char *)a, (signed char)(-b));
+    func_021BF728((u8 *)a, 1);
+}

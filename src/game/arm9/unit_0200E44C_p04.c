@@ -382,44 +382,12 @@ u32 sub_0200ECB4(char *o)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The tail of this packet: three unlabelled accessors of the object
- * func_0200EBD0 and func_0200EC2C work on (their bytes print as `.word`
- * runs because none of them saves lr, see docs/idioms/
- * unlabelled-leaf-functions-hide-in-word-runs.md).  The byte range here is
- * 0x0200ECB4..0x0200ECF0, its two leading pad bytes belong to
- * sub_0200EC98 (which is not part of this file), and the three pool words
- * between the functions are each function's own.
- *
- * sub_0200ECD0 is a tail call through a pool word to
- * src/matched/func_0200EC14.c, and the pool word is the only reference to
- * 0x0200EC14 anywhere in the image, so that entry is what makes this file
- * verifiable at all (the `matched` class).
- */
 u32 sub_0200ECC4(char *o, u32 n)
 {
     return ((struct Obj17089 *)o)->f1558 - n;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The tail of this packet: three unlabelled accessors of the object
- * func_0200EBD0 and func_0200EC2C work on (their bytes print as `.word`
- * runs because none of them saves lr, see docs/idioms/
- * unlabelled-leaf-functions-hide-in-word-runs.md).  The byte range here is
- * 0x0200ECB4..0x0200ECF0, its two leading pad bytes belong to
- * sub_0200EC98 (which is not part of this file), and the three pool words
- * between the functions are each function's own.
- *
- * sub_0200ECD0 is a tail call through a pool word to
- * src/matched/func_0200EC14.c, and the pool word is the only reference to
- * 0x0200EC14 anywhere in the image, so that entry is what makes this file
- * verifiable at all (the `matched` class).
- */
 int sub_0200ECD0(char *o, int idx)
 {
     int n = ((struct Obj17090 *)o)->f1554 - 1 - idx;
@@ -579,24 +547,6 @@ int sub_0200EDC4(struct L0200EDC4 *l, u32 val)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The three functions that follow func_0200ED54 (src/matched/
- * func_0200ED54.c) inside this packet, none of which carries a label in
- * the generated listing: 0x0200EDC4 saves registers but not lr, and the
- * other two save nothing, so disasm.py's lr-saving prologue sweep never
- * fired on any of them and they print as runs of `.word` (docs/idioms/
- * unlabelled-leaf-functions-hide-in-word-runs.md).  Nothing branches to
- * them either: the only references are the calls from the two functions
- * just past the end of the range.
- *
- * 0x0200EDC4, 40 bytes, is `contains` on the same 32-entry list
- * func_0200ED54 inserts into, and 0x0200EDEC / 0x0200EE14 are the
- * get-bit and set-bit pair of a 256-bit bitmap at +0x84 of the same
- * object, both written with a signed index (`/ 32` and `% 32`, which is
- * what the `asrs`/`rors` pair is).
- */
 int sub_0200EDEC(char *obj, int i)
 {
     u32 *bits = (u32 *)(obj + 0x84);
@@ -604,24 +554,6 @@ int sub_0200EDEC(char *obj, int i)
     return (bits[i / 32] >> (i % 32)) & 1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The three functions that follow func_0200ED54 (src/matched/
- * func_0200ED54.c) inside this packet, none of which carries a label in
- * the generated listing: 0x0200EDC4 saves registers but not lr, and the
- * other two save nothing, so disasm.py's lr-saving prologue sweep never
- * fired on any of them and they print as runs of `.word` (docs/idioms/
- * unlabelled-leaf-functions-hide-in-word-runs.md).  Nothing branches to
- * them either: the only references are the calls from the two functions
- * just past the end of the range.
- *
- * 0x0200EDC4, 40 bytes, is `contains` on the same 32-entry list
- * func_0200ED54 inserts into, and 0x0200EDEC / 0x0200EE14 are the
- * get-bit and set-bit pair of a 256-bit bitmap at +0x84 of the same
- * object, both written with a signed index (`/ 32` and `% 32`, which is
- * what the `asrs`/`rors` pair is).
- */
 void sub_0200EE14(char *obj, int i)
 {
     if (i >= 256)

@@ -489,19 +489,11 @@ static inline u32 SPLRandom_U32(u32 bits)
     return SPLRandom_Next() >> (sizeof(u32) * 8 - bits);
 }
 
-/**
- * @brief Generates a random number in the range [0, 2^bits)
- * @param bits The number of bits to generate
- */
 static inline s32 SPLRandom_S32(u32 bits)
 {
     return (s32)(SPLRandom_Next() >> (sizeof(u32) * 8 - bits));
 }
 
-/**
- * @brief Generates a random number in the range [0, 2^bits)
- * @param bits The number of bits to generate
- */
 static inline fx32 SPLRandom_FX32(u32 bits)
 {
     return (fx32)SPLRandom_Next() >> (sizeof(u32) * 8 - bits);

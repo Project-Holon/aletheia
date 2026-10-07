@@ -1,0 +1,121 @@
+/*
+ * function: func_021F3B40
+ * address:  0x021F3B40
+ * packet:   pkt_ov053_021F3B40
+ * region:   ov053
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Called from func_021F3778 with (p + 0x1a, h, func_02188CB4(a)).
+ * Two spellings carry it:
+ *   - the state range test is `(u16)(o->state + 0xffff) <= 1` (the image
+ *     adds a pooled 0xFFFF); `(u16)(o->state - 1)` gives subs #1, and a
+ *     switch or `>= 1 && <= 2` gives a compare pair;
+ *   - the difference is `d = o->prev; d = v[2] - d;` (self-recompute): the
+ *     plain `v[2] - o->prev`, a copy into another local, or an abs macro or
+ *     inline all load v[2] before o->prev.
+ * The 576-byte handed extent is this function (0x17C bytes with its pool)
+ * plus data that follows it.
+ *
+ * symbols:
+ *   func_02006148  0x02006148  thumb
+ *   func_02006224  0x02006224  thumb
+ *   func_020061F8  0x020061F8  thumb
+ *   func_020062BC  0x020062BC  thumb
+ *   func_020061E4  0x020061E4  thumb
+ *   func_0218ECE4  0x0218ECE4  thumb  ov021
+ *   func_021A34EC  0x021A34EC  thumb  ov021
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef short          s16;
+
+typedef struct Obj {
+    int prev;
+    int hist[32];
+    s16 head;
+    s16 count;
+    s16 vol;
+    u16 state;
+    u16 se;
+} Obj;
+
+extern int func_02006148(u32 a0);
+extern int func_02006224(u32 a0);
+extern void func_020061F8(int i);
+extern void func_020062BC(int i, u32 level);
+extern void func_020061E4(u32 id);
+extern void func_0218ECE4(int, int *);
+typedef unsigned char  u8;
+extern int func_021A34EC(u8 *p);
+
+void func_021F3B40(Obj *o, int h, u8 *a2)
+{
+    int v[3];
+    int d;
+    int i;
+    int n;
+    int t;
+    u32 se;
+
+    if ((u16)(o->state + 0xffff) <= 1) {
+        if (func_02006224(func_02006148(0x7eb)) == 0) {
+            o->state = 0;
+        }
+        if (o->state == 2) {
+            o->vol -= 16;
+            n = o->vol;
+            if (n < 0) {
+                func_020061F8(func_02006148(o->se));
+                o->state = 0;
+            } else {
+                func_020062BC(func_02006148(o->se), n);
+            }
+        }
+    }
+    func_0218ECE4(h, v);
+    d = o->prev;
+    d = v[2] - d;
+    if (d < 0) {
+        d = -d;
+    }
+    if (d > 0) {
+        n = o->count;
+        if (n < 32) {
+            i = (o->head + n) % 32;
+            o->count = n + 1;
+        } else {
+            i = o->head;
+            o->head = (i + 1) % 32;
+        }
+        o->hist[i] = v[1];
+    } else {
+        o->count = 0;
+        o->head = 0;
+        if (o->state == 1 && v[2] > 0x718000) {
+            o->state = 2;
+            o->vol = 0x7f;
+        }
+    }
+    if (o->count > 0) {
+        if (func_021A34EC(a2) == 0) {
+            t = 0x75c000;
+            se = 0x7ed;
+        } else {
+            t = 0x7bc000;
+            se = 0x7eb;
+        }
+        if ((v[2] < t && o->prev > t) || (v[2] > t && o->prev < t)) {
+            if (o->hist[o->head] - v[1] >= 0x64000) {
+                func_020061E4(se);
+                o->state = 1;
+                o->se = se;
+            }
+        }
+    }
+    o->prev = v[2];
+}

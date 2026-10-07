@@ -1,0 +1,226 @@
+/*
+ * file:     zukan_info_p07.c
+ * unit:     yes
+ * function: func_021BB79C, func_021BB92C, func_021BB980
+ * address:  0x021BB79C
+ * region:   ov206
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_020275E8 0x020275E8 thumb
+ *   func_020275EC 0x020275EC thumb
+ *   func_020275F8 0x020275F8 thumb
+ *   func_020275FC 0x020275FC thumb
+ *   func_02027600 0x02027600 thumb
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B6F4 0x0204B6F4 arm
+ *   func_0204B800 0x0204B800 arm
+ *   func_0204B688 0x0204B688 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_02049DF4 0x02049DF4 arm
+ *   func_0204AA94 0x0204AA94 arm
+ *   func_020307B0 0x020307B0 arm
+ *   d_021BC128 0x021BC128 data a2
+ *   d_021BC150 0x021BC150 data a1
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_0204A8D4 0x0204A8D4 arm
+ */
+#include "../../matched/include/Obj25407.h"
+
+struct Actor;
+struct Node;
+struct Obj;
+struct Vec2;
+typedef enum { B_FALSE, B_TRUE } Bool;
+
+typedef struct {
+    short a, b, c;
+    unsigned char d, e;
+} Rect;
+
+typedef struct {
+    short x, y;
+} Pos;
+
+typedef struct {
+    unsigned char a, b;
+} Tile;
+
+typedef struct {
+    char pad[0x14];
+    int f14;
+} Blob;
+
+typedef struct {
+    short x, y, z, w;
+} Rect4;
+
+typedef signed int     s32;
+
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
+typedef unsigned char  u8;
+
+typedef struct {
+    unsigned short f0;
+    char pad02[0x18 - 2];
+    int f18;
+    int f1c;
+    char pad20[4];
+    void *f24;
+    char pad28[0xb8 - 0x28];
+    int m[2][2];
+    void *fc8;
+    void *fcc;
+    void *n[2][2];
+    int fe0;
+    int fe4;
+    void *a[0x11];
+    void *b[0x11];
+    unsigned char f170;
+    unsigned char f171;
+    char pad172[0x1b4 - 0x172];
+    int f1b4;
+    char pad1b8[0x1c4 - 0x1b8];
+    void *f1c4;
+    char pad1c8[0x1d0 - 0x1c8];
+    void *f1d0;
+} Ent;
+
+struct State { char pad[0xb8]; int ids[3][2]; void *objects[2][2]; int selected,mode; };
+
+extern void *func_02049DF4(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned short a4);
+extern void func_0204AA94(int a, void *b, unsigned int c, int d, int e);
+extern unsigned int func_020307B0(void *p);
+extern u32 func_020275E8(void);
+extern u8 func_020275EC(int i);
+extern u32 func_020275F8(u32 a);
+extern u32 func_020275FC(u32 a);
+extern u32 func_02027600(u32 a);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, unsigned short, unsigned short);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B3B4(struct Obj *p);
+extern void func_0204A8D4(u32 i);
+void func_021BB79C(Ent *p, unsigned x, unsigned y, int z, int row);
+void func_021BB92C(char *p, int index);
+void func_021BB980(struct State *p);
+extern const unsigned short d_021BC128[];
+extern const Tile d_021BC150[];
+
+
+void func_021BB79C(Ent *p, unsigned x, unsigned y, int z, int row)
+{
+    Rect4 rr[2];
+    Pos pos[2];
+    unsigned char sel[2];
+    void *arc;
+    void *handle;
+    int data;
+    int ta;
+    int tb;
+    unsigned char id;
+    int ifv;
+    int tern;
+    short v;
+    int j;
+    short *zp;
+    Blob *blob;
+
+    zp = (short *)rr;
+    zp[0] = 0;
+    zp[1] = 0;
+    zp[2] = 0;
+    zp[3] = 0;
+    zp[4] = 0;
+    zp[5] = 0;
+    zp[6] = 0;
+    zp[7] = 0;
+    ifv = 0;
+    if (p->f1c != 0) ifv = 1;
+    tern = p->f1c == 0 ? B_FALSE : B_TRUE;
+    sel[0] = x;
+    sel[1] = y;
+    rr[0].x = 0xa8;
+    v = p->f1b4 + 0x54;
+    rr[0].y = v;
+    rr[1].x = 0xd0;
+    rr[1].y = v;
+    arc = p->f1d0;
+    handle = func_02049DF4(p->f1c4, d_021BC128[z], 0, (unsigned int)(&blob), p->f0);
+    data = blob->f14;
+    for (j = 0; j < 2; j++) {
+        p->m[row][j] = -1;
+        id = sel[j];
+        if (id != 0x11) {
+            p->m[row][j] = (int)func_0204A6C8(arc, func_020275F8(id), 0, ifv, p->f0);
+            ta = d_021BC150[id].b << 7;
+            tb = d_021BC150[id].a << 11;
+            func_0204AA94((int)((void *)p->m[row][j]), (void *)(data + (tb + ta)), 0x80, 0, ifv);
+            func_0204AA94((int)((void *)p->m[row][j]), (void *)(data + ((tb + (1 << 10)) + ta)), 0x80, 0x80, ifv);
+        }
+    }
+    func_020307B0(handle);
+    for (j = 0; j < 2; j++) {
+        if (p->m[row][j] != -1) {
+            p->n[row][j] = func_0204B294(p->f24, (u32)p->m[row][j], (u32)p->fc8, (u32)p->fcc, &rr[j], (unsigned short)tern, p->f0);
+            func_0204B6F4(p->n[row][j], func_020275EC(sel[j]), 1);
+            func_0204B800(p->n[row][j], 2);
+            func_0204B688(p->n[row][j], 1);
+        }
+    }
+}
+
+void func_021BB92C(char *p, int index)
+{
+    int i;
+    if (((struct Obj25407 *)p)->fE4 == 0) {
+        for (i = 0; i < 2; i++) {
+            if (*(int *)(p + index * 8 + i * 4 + 0xb8) != -1)
+                func_0204B3B4((struct Obj *)(*(int *)(p + index * 8 + i * 4 + 0xd0)));
+        }
+        for (i = 0; i < 2; i++) {
+            if (*(int *)(p + index * 8 + i * 4 + 0xb8) != -1) {
+                func_0204A8D4(*(int *)(p + index * 8 + i * 4 + 0xb8));
+                *(int *)(p + index * 8 + i * 4 + 0xb8) = -1;
+            }
+        }
+    }
+}
+
+/*
+ * tail: zero alignment halfword at 0x021BB9DE before 0x021BB9E0.
+ * lever: two-dimensional arrays as struct fields avoid hoisted raw-offset bases.
+ */
+void func_021BB980(struct State *p)
+{
+    u8 i,j;
+    if (p->mode==0) {
+        for(i=0;i<2;i++) {
+            if(i != p->selected) {
+                for(j=0;j<2;j++) {
+                    if(p->ids[i][j]!=-1)
+                        func_0204B3DC(p->objects[i][j],0);
+                }
+            }
+        }
+    }
+}

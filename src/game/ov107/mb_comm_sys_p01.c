@@ -1,0 +1,380 @@
+/*
+ * file:     mb_comm_sys_p01.c
+ * unit:     yes
+ * function: func_021EE740, func_021EE824, func_021EE894, func_021EEEAC
+ * address:  0x021EE740
+ * region:   ov107
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_021EEF28 0x021EEF28 thumb ov107
+ *   func_021EF0F4 0x021EF0F4 thumb ov107
+ *   func_021F1404 0x021F1404 thumb ov107
+ *   func_021F0DE8 0x021F0DE8 thumb ov107
+ *   func_021EF444 0x021EF444 thumb ov107
+ *   func_02012EBC 0x02012EBC thumb
+ *   func_0200C0F0 0x0200C0F0 thumb
+ *   func_0200C1B0 0x0200C1B0 thumb
+ *   func_020056A0 0x020056A0 thumb
+ *   func_02005654 0x02005654 thumb
+ *   func_02005D90 0x02005D90 thumb
+ *   func_02034F84 0x02034F84 arm
+ *   func_021EEEB4 0x021EEEB4 thumb ov107
+ *   func_021EEEF8 0x021EEEF8 thumb ov107
+ *   d_021F6EA0 0x021F6EA0 data a4
+ *   func_02034FB8 0x02034FB8 arm
+ *   func_02030EAC 0x02030EAC arm
+ *   func_0200566C 0x0200566C thumb
+ *   func_020370C8 0x020370C8 arm
+ *   func_02005D28 0x02005D28 thumb
+ *   func_0201296C 0x0201296C thumb
+ *   func_020143CC 0x020143CC thumb
+ *   func_020307B0 0x020307B0 arm
+ *   func_021F0E40 0x021F0E40 thumb ov107
+ *   func_021F1520 0x021F1520 thumb ov107
+ *   func_021EF080 0x021EF080 thumb ov107
+ *   func_021F0E6C 0x021F0E6C thumb ov107
+ *   func_021EFC1C 0x021EFC1C thumb ov107
+ *   func_021F1628 0x021F1628 thumb ov107
+ *   func_021F1704 0x021F1704 thumb ov107
+ *   func_021F1A58 0x021F1A58 thumb ov107
+ *   func_021F1B24 0x021F1B24 thumb ov107
+ *   func_021F1B14 0x021F1B14 thumb ov107
+ *   func_021F19E4 0x021F19E4 thumb ov107
+ *   func_021F1A2C 0x021F1A2C thumb ov107
+ *   func_021F1898 0x021F1898 thumb ov107
+ *   func_021F1A24 0x021F1A24 thumb ov107
+ *   func_021EF588 0x021EF588 thumb ov107
+ *   func_021EF79C 0x021EF79C thumb ov107
+ *   func_021EF74C 0x021EF74C thumb ov107
+ *   func_021F0EFC 0x021F0EFC thumb ov107
+ *   func_021F1008 0x021F1008 thumb ov107
+ *   func_021F1018 0x021F1018 thumb ov107
+ *   func_021F1050 0x021F1050 thumb ov107
+ *   func_021F1370 0x021F1370 thumb ov107
+ *   func_021F1060 0x021F1060 thumb ov107
+ *   func_021F1174 0x021F1174 thumb ov107
+ *   func_021F1184 0x021F1184 thumb ov107
+ *   func_021F11BC 0x021F11BC thumb ov107
+ *   func_021F11F0 0x021F11F0 thumb ov107
+ *   func_021F11E8 0x021F11E8 thumb ov107
+ *   func_021F1064 0x021F1064 thumb ov107
+ *   func_021F1028 0x021F1028 thumb ov107
+ *   func_021F1040 0x021F1040 thumb ov107
+ *   func_021F0FE8 0x021F0FE8 thumb ov107
+ *   func_021F1010 0x021F1010 thumb ov107
+ *   func_021F15B0 0x021F15B0 thumb ov107
+ *   func_021EFD24 0x021EFD24 thumb ov107
+ *   func_021EFE40 0x021EFE40 thumb ov107
+ *   func_021EFE3C 0x021EFE3C thumb ov107
+ *   func_021EFFB0 0x021EFFB0 thumb ov107
+ *   func_0203D34C 0x0203D34C arm
+ *   func_020461E4 0x020461E4 arm
+ *   func_020788AC 0x020788AC arm
+ *   func_02078C18 0x02078C18 arm
+ *   func_02078B44 0x02078B44 arm
+ *   func_02078C28 0x02078C28 arm
+ *   func_02078B70 0x02078B70 arm
+ *   func_02078A80 0x02078A80 arm
+ *   func_02034714 0x02034714 arm
+ *   func_02030734 0x02030734 arm
+ *   func_0204A600 0x0204A600 arm
+ *   func_0204A648 0x0204A648 arm
+ *   func_02012E40 0x02012E40 thumb
+ *   func_02012E08 0x02012E08 thumb
+ *   func_0202208C 0x0202208C thumb
+ *   func_020221A4 0x020221A4 thumb
+ *   func_0202EB44 0x0202EB44 thumb
+ *   func_02012FFC 0x02012FFC thumb
+ *   func_02005E30 0x02005E30 thumb
+ *   func_0200C184 0x0200C184 thumb
+ *   func_0200575C 0x0200575C thumb
+ *   func_02012F2C 0x02012F2C thumb
+ *   func_02008DF0 0x02008DF0 thumb
+ *   func_0201293C 0x0201293C thumb
+ *   func_02007774 0x02007774 thumb
+ *   d_021F6E08 0x021F6E08 data a4
+ *   d_021F6E0C 0x021F6E0C data a4
+ */
+#include "../../matched/include/Obj00057.h"
+#include "../../matched/include/Obj22273.h"
+#include "../../matched/include/G_Counter.h"
+#include "../../matched/include/Obj00979.h"
+#include "../../matched/include/Obj22274.h"
+
+#define P(k) (*(void **)(p+(k)))
+#define W(k) (*(u32 *)(p+(k)))
+#define H(k) (*(u16 *)(p+(k)))
+#define O P(12)
+#define M P(104)
+#define SAVE (*(void **)((u8 *)P(8)+4))
+#define PHASE (*(Phase *)(p+32))
+struct Big;
+struct Blk34;
+struct Object;
+struct Work;
+struct Node;
+struct BigObj;
+struct Bits;
+struct FSFile;
+struct Sub02008C20Obj;
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef enum { FS_OK=0, FS_ERROR=1 } FSResult;
+
+typedef struct File {
+ struct File *next; void *userdata; void *arc; u32 stat;
+ void *argument; FSResult error; void *queue[2];
+ u8 reserved1[16]; u8 arg[24];
+} File;
+
+typedef signed int     s32;
+
+typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
+
+typedef enum { Phase0=0,Phase33=33 } Phase;
+
+extern void func_021EEF28(u8 *);
+extern void func_021EF0F4(u8 *);
+extern struct Work *func_021F1404(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern struct Object *func_021F0DE8(u16);
+extern void func_021EF444(u8 *);
+extern void *func_02012EBC(struct Big *);
+extern void *func_0200C0F0(void *);
+extern void func_0200C1B0(struct Blk34 *,u32);
+extern void *func_020056A0(u32,u32,u32);
+extern int func_02005654(int,int);
+extern void func_02005D90(u32,u16);
+extern void func_02034F84(u32);
+extern void func_021EEEB4(void);
+extern void func_021EEEF8(void);
+extern void func_02034FB8(u32 v);
+extern void func_02030EAC(struct Node *n);
+extern void func_0200566C(void);
+extern void func_020370C8(void);
+extern void func_02005D28(void);
+extern u32 func_0201296C(const struct BigObj *p);
+extern u32 func_020143CC(u32 a, u32 b);
+extern u32 func_020307B0(void *p);
+extern void func_021F0E40(void *);
+extern void func_021F1520(char *p);
+extern void func_021EF080(char *p);
+extern void func_021F0E6C(void *),func_021EFC1C(u8 *,int);
+extern u8 func_02012E40(const u8 *);
+extern void func_02012E08(char *p);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 func_020221A4(void);
+extern int func_0202EB44(void);
+extern signed char func_02012FFC(void);
+extern void func_02005E30(u32),func_0203D34C(u32,u32);
+extern void func_021F1628(void *,int);
+extern void func_021F1704(void *,int,int);
+extern void func_021F1A58(char *p, int a);
+extern void func_021F1B24(void *,int);
+extern int func_021F1B14(void *),func_021F1A2C(void *);
+extern void func_021F19E4(void *,int);
+extern void func_021F1898(void *);
+extern void func_021F1A24(u8 *p);
+extern void func_021EF588(u8 *),func_021EF74C(u8 *),func_021F0EFC(void *);
+extern int func_021EF79C(u8 *);
+extern int func_021F1008(void *);
+extern int func_021F1050(int *p);
+extern void func_021F1018(u8 *p);
+extern u32 func_020461E4(int);
+extern u32 func_0200C184(struct Blk34 *p);
+extern int func_021F1370(void *,void *),func_021F1060(void *);
+extern void *func_0200575C(u32);
+extern void func_020788AC(File *);
+extern int func_02078C18(File *,void *),func_02078A80(File *);
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern u32 func_02078C28(struct FSFile *a0);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_021F1174(int a, int b, int c);
+extern void func_021F1184(void *);
+extern void *func_02012F2C(int *p);
+extern u32 func_0201293C(const struct BigObj *p);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern int func_02007774(void *);
+extern int func_021F11BC(void *);
+extern int func_021F11E8(struct Bits *a);
+extern int func_021F11F0(void *,u8,u32);
+extern void func_021EFD24(u8 *),func_021EFE40(u8 *),func_021EFE3C(u8 *),func_021EFFB0(u8 *);
+extern void func_021F1064(unsigned char *p);
+extern void func_021F1028(int *p);
+extern void func_021F0FE8(void *);
+extern int func_021F1040(int *p);
+extern int func_021F1010(void *);
+extern void *func_021F15B0(void *);
+extern void func_0204A600(void *);
+extern void func_0204A648(void);
+void func_021EE740(u8 *p);
+void func_021EE824(u8 *p);
+int func_021EE894(u8 *p);
+void func_021EEEAC(void);
+extern struct Counter d_021F6EA0;
+extern u8 d_021F6E08[],d_021F6E0C[];
+
+void func_021EE740(u8 *p) {
+ p[0x25]=0;
+ ((struct Obj00057 *)p)->f20=0;
+ p[0x28]=**(u8 * *)&((struct Obj00057 *)p)->f8;
+ func_021EEF28(p);
+ func_021EF0F4(p);
+ if(!p[0x28]) ((struct Obj00057 *)p)->f68=func_021F1404(((struct Obj00057 *)p)->f0,5,5,72,0,0);
+ else ((struct Obj00057 *)p)->f68=func_021F1404(((struct Obj00057 *)p)->f0,1,1,72,0,1);
+ ((struct Obj00057 *)p)->fC=func_021F0DE8(((struct Obj00057 *)p)->f0);
+ ((struct Obj00057 *)p)->f2C=0;
+ ((struct Obj00057 *)p)->f60=0;
+ func_021EF444(p);
+ if(!p[0x28]) {
+  ((struct Obj00057 *)p)->f4C=func_0200C0F0(func_02012EBC(*(struct Big * *)&((struct Obj22273 *)(*(u8 * *)&((struct Obj00057 *)p)->f8))->f4));
+  func_0200C1B0(*(struct Blk34 * *)&((struct Obj00057 *)p)->f4C,4);
+ } else {
+  *(u32 *)&((struct Obj00057 *)p)->f4C=0;
+  *(u16 *)(((u8 *)&d_021F6EA0)+2)=0;
+ }
+ ((struct Obj00057 *)p)->f4=func_020056A0((u32)func_021EEEAC,(u32)p,8);
+ if(!p[0x28]) func_02005654((int)func_021EEEB4,0);
+ else { func_02005654((int)func_021EEEF8,0); func_02005D90(1154,0xffff); }
+ ((struct Obj00057 *)p)->f1C=0;
+ ((struct Obj00057 *)p)->f44=0;
+ ((struct Obj00057 *)p)->f48=0;
+ ((struct Obj00057 *)p)->f38=0;
+ ((struct Obj00057 *)p)->f3A=0;
+ ((struct Obj00057 *)p)->f3C=0;
+ func_02034F84(16);
+}
+
+void func_021EE824(u8 *p) {
+ void *q; u16 *a,*b;
+ func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();func_020370C8();
+ if(p[40]==1) func_02005D28();
+ else { q=(void *)func_0201296C(((struct Obj22274 *)(*(u8 * *)&((struct Obj00979 *)p)->f8))->f4); a=(u16 *)func_020143CC((u32)q,16384);b=(u16 *)func_020143CC((u32)q,16385);*a=((struct Obj00979 *)p)->f38;*b=((struct Obj00979 *)p)->f3A; }
+ if(((struct Obj00979 *)p)->f60) func_020307B0(((struct Obj00979 *)p)->f60);
+ func_021F0E40(((struct Obj00979 *)p)->fC);func_021F1520(((struct Obj00979 *)p)->f68);func_021EF080((char *)p);
+}
+
+static inline void load_payload(u8 *p) {
+ File file; void *name;
+ name=func_0200575C(142);func_020788AC(&file);
+ if(!func_02078C18(&file,name))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
+ func_02078B44((struct FSFile *)(&file),0,0);W(100)=func_02078C28((struct FSFile *)(&file));
+ P(96)=func_02030734(H(0),W(100),1,(const char *)d_021F6E0C,660);
+ func_02078B70((struct FSFile *)(&file),P(96),W(100));
+ if(!func_02078A80(&file))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
+ W(32)=13;
+}
+
+int func_021EE894(u8 *p) {
+ u32 result;
+ func_021F0E6C(O);
+ if(W(16)==1 && W(32)!=2 && W(32)!=3) {
+  W(24)=func_02012E40(SAVE);
+  if(W(24)==1)func_02012E08(SAVE);
+  W(32)=2;func_021EFC1C(p,3);
+ }
+ switch(PHASE) {
+ case 0:func_0202208C(0,1,1,0,6,1,H(0));W(32)=1;break;
+ case 1:
+  if(func_020221A4()==1) {
+   if(func_0202EB44()==1){if(p[40]==0)W(32)=7;else W(32)=4;}
+   else {func_021F1628(M,5);func_021F1A58(M,func_02012FFC());func_021F1B24(M,1);W(32)=33;}
+  }break;
+ case 2:
+  if(*(u8 *)P(8)==0)func_0202208C(0,0,0,0,6,1,H(0));
+  else {func_0202208C(0,0,0,32767,6,1,H(0));func_02005E30(6);}
+  W(32)=3;break;
+ case 3:if(func_020221A4()==1)return 1;break;
+ case 4:func_021F1628(M,5);func_021F1704(M,43,func_02012FFC());W(32)=5;break;
+ case 5:if(func_021F1B14(M)==1){func_021F19E4(M,0);W(32)=6;}break;
+ case 6:
+  result=func_021F1A2C(M);
+  if(result==1){W(32)=7;func_021F1898(M);func_021F1A24(M);}
+  else if(result==2)W(32)=2;break;
+ case 7:func_021EF588(p);W(32)=8;break;
+ case 8:if(func_021EF79C(p)==1)W(32)=9;break;
+ case 9:
+  func_021EF74C(p);
+  if(W(48)==1){W(32)=10;H(42)=0;func_021F0EFC(O);if(p[40]==0)func_0203D34C(0,H(0));else func_0203D34C(1,H(0));}
+  else W(32)=2;break;
+ case 10:if(func_021F1008(O)==1){W(32)=11;func_021F1018(O);}break;
+ case 11:
+  H(42)++;
+  if(H(42)>=1800){func_021EFC1C(p,3);W(32)=30;}
+  else if(func_021F1050(O)==1){
+   W(88)=func_02012FFC();p[94]=func_020461E4(W(88));
+   if(p[40]==0)H(92)=func_0200C184(P(76));
+   if(func_021F1370(O,p+88)==1){if(p[40]==0)W(32)=12;else W(32)=32;}
+  }break;
+ case 12:load_payload(p);break;
+ case 13:W(32)=14;break;
+ case 14:
+  if(func_021F1060(O)==10)goto failure;
+  if(func_021F1060(O)==2){
+   if(W(44)==0){W(44)=1;func_021F1174((int)O,(int)P(96),W(100));}
+   func_021F1704(M,2,func_02012FFC());W(32)=15;
+  }break;
+ case 15:
+  if(func_021F1060(O)==3){func_021F1704(M,3,func_02012FFC());W(32)=16;}
+  else if(func_021F1060(O)==13){func_021EFC1C(p,4);func_021F1704(M,8,func_02012FFC());func_021F1028(O);W(32)=28;}
+ case 16:
+  if(func_021F1060(O)==4){func_021F1184(O);func_021F1704(M,4,func_02012FFC());W(32)=17;}break;
+ case 17:
+  if(func_021F1060(O)==5){func_02008DF0(func_02012F2C(SAVE),120);H(58)++;W(32)=18;}
+  else if(func_021F1060(O)==8){func_02008DF0(func_02012F2C(SAVE),120);H(58)++;func_021EFC1C(p,2);W(32)=23;}
+  break;
+ case 18:if(func_021F11BC(O)==1 && func_021F11F0(O,0,0)==1)W(32)=19;break;
+ case 19:
+  if(func_021F11E8(O)==1 || p[40]==1){
+   if(func_021F1060(O)==6)W(32)=20;
+   else if(func_021F1060(O)==10){
+    if(p[40]==0){
+failure:func_021EFC1C(p,3);func_021F1704(M,8,func_02012FFC());
+fail_tail:func_021F1028(O);W(32)=28;
+    }else {func_021F1704(M,38,func_02012FFC());func_021F1B24(M,1);W(32)=26;}
+   }
+  }break;
+ case 20:func_021EFD24(p);W(32)=21;p[36]=9;break;
+ case 21:func_021EFE40(p);break;
+ case 22:
+  func_021EFE3C(p);
+  if(p[40]==0){func_021F1704(M,7,func_02012FFC());W(32)=23;}
+  else {func_021F1704(M,39,func_02012FFC());func_021F1B24(M,1);W(32)=27;}break;
+ case 23:
+  if(func_021F1B14(M)==1) {u16 cnt=func_02007774((void *)func_0201293C(SAVE));if(func_021F11F0(O,5,cnt)==1){func_021F1704(M,11,func_02012FFC());W(32)=24;}}break;
+ case 24:
+  if(func_021F1060(O)==2){func_021F1064(O);W(32)=14;}
+  else if(func_021F1060(O)==9 || func_021F1060(O)==10){
+   if(func_021F1060(O)==10)func_021EFC1C(p,3);
+   func_021F1704(M,8,func_02012FFC());W(32)=27;
+  }break;
+ case 27:if(func_021F11F0(O,18,0)!=1)break;goto fail_tail;
+ case 28:if(func_021F1B14(M)==1 && func_021F1040(O)==1){func_021F0FE8(O);W(32)=29;}break;
+ case 29:if(func_021F1010(O)==1){if(p[40]==0)W(32)=2;else W(32)=25;}break;
+ case 25:
+  if(func_021F1B14(M)==1){func_021F1898(M);func_021F1628(M,1);func_021F1704(M,35,func_02012FFC());func_021F1B24(M,1);W(32)=26;}break;
+ case 26:if(func_021F1010(O)==1 && func_021F1B14(M)==1)W(32)=2;break;
+ case 30:func_021F1704(M,10,func_02012FFC());func_021F1B24(M,1);W(32)=31;func_021F0FE8(O);break;
+ case 31:if(func_021F1B14(M)==1)W(32)=29;
+ case 32:func_021EFFB0(p);break;
+ case 33:if(func_021F1B14(M)==1)W(32)=2;break;
+ }
+ func_0204A600(func_021F15B0(M));return 0;
+}
+
+/*
+ * note: Full 8-byte tailstub loads the even ARM target 0204A648; its own matched body takes no inputs.
+ */
+void func_021EEEAC(void) { func_0204A648(); }

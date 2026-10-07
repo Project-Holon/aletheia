@@ -180,17 +180,6 @@ void func_0203C8A8(void)
 
 
 
-/*
- * 140 bytes, three functions.  The middle one, 0x0203C8E8, is a 16-byte leaf
- * that saves nothing and so carries no label in the generated listing; the
- * per-function file for 0x0203C8A8 therefore reported an `EXACT*`.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0203C8A8.c \
- *       --addr 0x0203C8A8 --arm --cc 1.1p1
- */
 void func_0203C8E8(u8 v)
 {
     if (g_021469DC != 0)
@@ -199,17 +188,6 @@ void func_0203C8E8(u8 v)
 
 
 
-/*
- * 140 bytes, three functions.  The middle one, 0x0203C8E8, is a 16-byte leaf
- * that saves nothing and so carries no label in the generated listing; the
- * per-function file for 0x0203C8A8 therefore reported an `EXACT*`.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0203C8A8.c \
- *       --addr 0x0203C8A8 --arm --cc 1.1p1
- */
 void func_0203C900(u8 v)
 {
     u8 *s = func_0203D788();

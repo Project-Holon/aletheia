@@ -215,34 +215,6 @@ void func_020181A0(void *p)
 
 
 
-/*
- * Two move-slot writers over the record's ids 0x36..0x39 (the four move ids),
- * 0x3A..0x3D (their current PP) and 0x3E..0x41 (their PP-up counts), the same
- * three groups func_02018E34 reads.  func_020181A0 refills every non-empty
- * slot's PP to the maximum func_0201C158 computes from the move and its PP-up
- * count; func_020181FC writes one slot outright, clearing the PP-up count and
- * setting the PP to the fresh maximum, or to zero when the move is zero.
- * func_020181F4 in front of it is an eight byte
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk, `local` because its
- * target is the next function in this unit.
- *
- * func_020181FC is what makes this unit and src/matched/unit_02018094.c-shaped
- * callers attest each other: its two call sites in the image are the thunk
- * here and one inside func_02018094, so neither range can hold both.
- *
- * Two spellings are load bearing.  func_020181A0's loop counter is unsigned,
- * because the bound test is `blo` and not `blt`; the counter of the otherwise
- * identical loop in func_02018094 and func_02018240 is signed and those use
- * `blt`.  And the two truncations in func_020181A0 sit at the call, `(u16)m`
- * and `(u8)u` on word locals, rather than on narrower locals, which is the
- * same shape as src/matched/unit_02018430.c.
- *
- * Nothing here is version specific: 0x36, 0x3A and 0x3E are field selectors.
- *
- * Verified with
- *   python tools/match.py tu --src src/matched/unit_020181A0.c \
- *       --addr 0x020181A0 --thumb
- */
 void func_020181F4(void *p, u16 move, u32 slot)
 {
     func_020181FC(p, move, slot);
@@ -252,34 +224,6 @@ void func_020181F4(void *p, u16 move, u32 slot)
 
 
 
-/*
- * Two move-slot writers over the record's ids 0x36..0x39 (the four move ids),
- * 0x3A..0x3D (their current PP) and 0x3E..0x41 (their PP-up counts), the same
- * three groups func_02018E34 reads.  func_020181A0 refills every non-empty
- * slot's PP to the maximum func_0201C158 computes from the move and its PP-up
- * count; func_020181FC writes one slot outright, clearing the PP-up count and
- * setting the PP to the fresh maximum, or to zero when the move is zero.
- * func_020181F4 in front of it is an eight byte
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk, `local` because its
- * target is the next function in this unit.
- *
- * func_020181FC is what makes this unit and src/matched/unit_02018094.c-shaped
- * callers attest each other: its two call sites in the image are the thunk
- * here and one inside func_02018094, so neither range can hold both.
- *
- * Two spellings are load bearing.  func_020181A0's loop counter is unsigned,
- * because the bound test is `blo` and not `blt`; the counter of the otherwise
- * identical loop in func_02018094 and func_02018240 is signed and those use
- * `blt`.  And the two truncations in func_020181A0 sit at the call, `(u16)m`
- * and `(u8)u` on word locals, rather than on narrower locals, which is the
- * same shape as src/matched/unit_02018430.c.
- *
- * Nothing here is version specific: 0x36, 0x3A and 0x3E are field selectors.
- *
- * Verified with
- *   python tools/match.py tu --src src/matched/unit_020181A0.c \
- *       --addr 0x020181A0 --thumb
- */
 void func_020181FC(void *p, u16 move, u32 slot)
 {
     u32 pp = 0;
@@ -545,33 +489,6 @@ u32 func_02018430(void *p)
 }
 
 
-/*
- * The record's level accessor: it unlocks the block area, reads ids 5, 0x6F
- * and 8 out of it (species, form and experience), locks it again and hands the
- * three to func_0201850C (src/matched/unit_0201850C.c), which is the same
- * computation id 0x9E of func_02018E34 performs directly on the substructs.
- * func_02018430 in front of it is an eight byte
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk with no prologue, and
- * its pool word is `local` because its target is the next function in the same
- * unit.
- *
- * The three values are held in word locals and truncated at the call, not at
- * the assignment: the two `lsls #0x10` / `lsrs #0x10` pairs sit immediately in
- * front of the `bl`, after the lock call, which is what fixes func_0201850C's
- * first two parameters as u16 and func_02017E88's return as a word.  The same
- * shape appears in src/matched/unit_02017E64.c and src/matched/unit_0201854C.c.
- *
- * The range stops at 0x02018480, where another eight byte thunk forwards to
- * func_02018488; that thunk's pool word is the only reference to func_02018488
- * in the image, and func_02018488 in turn is the only caller of 0x020084F8, so
- * neither can be attested and both are left out.
- *
- * Nothing here is version specific: 5, 0x6F and 8 are field selectors.
- *
- * Verified with
- *   python tools/match.py tu --src src/matched/unit_02018430.c \
- *       --addr 0x02018430 --thumb
- */
 u32 func_02018438(void *p)
 {
     u32 t = func_02017DBC(p);
@@ -740,27 +657,6 @@ u32 func_0201854C(void *p)
 
 
 
-/*
- * 0x0201854C..0x02018598, 76 bytes, two functions.
- *
- * What held it open, and what closed it: func_02018584 is the only caller of
- * func_02019BA4 in the whole image, so the `label` class has no witness once
- * the compared range holds that call, and no cut helps because the range
- * cannot be made smaller than the one function that needs it.  The `matched`
- * class carries it: 0x02019BA4 is inside src/matched/unit_02019B58.c, an
- * EXACT entry whose byte comparison covered that address over a range this
- * file does not touch.  Keeping func_0201854C with func_02018584 costs
- * nothing, since func_0201854C is in turn the only caller of func_02018584.
- *
- * The three ids this reads, 5, 0x6F and 0x9E, are the same three
- * func_020188B4 and func_02019CA0 read, and all three values are truncated to
- * u16 at the call rather than at the assignment, which is what fixes
- * func_02018584's parameters as u16 and the accessor's return as a word.
- *
- * Verified with
- *   python tools/match.py tu --src src/matched/unit_0201854C.c \
- *       --addr 0x0201854C --thumb
- */
 u32 func_02018584(u16 a, u16 b, u16 c)
 {
     return func_02019BA4(func_02019C90(a, b, 0x17), c);
@@ -785,16 +681,6 @@ u8 func_02018598(void *p)
 
 
 
-/*
- * The middle piece of the run 0x0201854C..0x0201862C.  Its two neighbours are
- * parked in src/pending/: func_02018584 is the only caller of func_02019BA4
- * in the image and func_020185C4 the only caller of func_02018A7C, so neither
- * has a witness outside itself and no cut reaches them.
- *
- * func_02018598 carries no label: it is the eight byte pool-word tail call of
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md to the function that follows
- * it, so the site is the `local` class.
- */
 u8 func_020185A0(void *p)
 {
     return (u8)func_02017E88(p, 0x70, 0);
@@ -802,16 +688,6 @@ u8 func_020185A0(void *p)
 
 
 
-/*
- * The middle piece of the run 0x0201854C..0x0201862C.  Its two neighbours are
- * parked in src/pending/: func_02018584 is the only caller of func_02019BA4
- * in the image and func_020185C4 the only caller of func_02018A7C, so neither
- * has a witness outside itself and no cut reaches them.
- *
- * func_02018598 carries no label: it is the eight byte pool-word tail call of
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md to the function that follows
- * it, so the site is the `local` class.
- */
 void func_020185B0(void *p, u32 v)
 {
     func_02017E40(p, 0x70, v);
@@ -864,12 +740,6 @@ void func_020185F0(void)
 
 
 
-/*
- * func_020185F0 and func_020185F4 are a bare `bx lr` padded to four bytes,
- * which is `void f(void) {}`: a hook that was never filled in.  Neither
- * carries a label in the generated listing.  func_020185F0 is reached from
- * func_02019B58, which is what attests the pair's addresses.
- */
 void *func_020185F4(void *p)
 {
     return p;
@@ -877,12 +747,6 @@ void *func_020185F4(void *p)
 
 
 
-/*
- * func_020185F0 and func_020185F4 are a bare `bx lr` padded to four bytes,
- * which is `void f(void) {}`: a hook that was never filled in.  Neither
- * carries a label in the generated listing.  func_020185F0 is reached from
- * func_02019B58, which is what attests the pair's addresses.
- */
 u32 func_020185F8(int a, int b, int c)
 {
     u32 r = 8;
@@ -1165,17 +1029,6 @@ u32 func_020188B4(void *p, s32 v)
 }
 
 
-/*
- *           func_0201897C
- *
- * The three functions at 0x020189D0, 0x020189D8 and 0x020189F0 sit between
- * this file and src/matched/unit_02018A00.c and are a documented near miss:
- * every concrete byte of them is reproduced, but func_020189F0 loads the
- * s8[][5] table at 0x0209E2A4 and the only word in the image that holds that
- * address is the pool word under test, so no cut attests it.  See
- * docs/idioms/a-string-after-a-data-table-has-no-witness.md for the same
- * shape on a string.
- */
 u32 func_020188E0(u16 a, u16 b, s32 v)
 {
     u32 r;
@@ -1191,17 +1044,6 @@ u32 func_020188E0(u16 a, u16 b, s32 v)
 }
 
 
-/*
- *           func_0201897C
- *
- * The three functions at 0x020189D0, 0x020189D8 and 0x020189F0 sit between
- * this file and src/matched/unit_02018A00.c and are a documented near miss:
- * every concrete byte of them is reproduced, but func_020189F0 loads the
- * s8[][5] table at 0x0209E2A4 and the only word in the image that holds that
- * address is the pool word under test, so no cut attests it.  See
- * docs/idioms/a-string-after-a-data-table-has-no-witness.md for the same
- * shape on a string.
- */
 u32 func_0201891C(void *p, s32 v)
 {
     u16 a = (u16)func_02017E1C(p, 5, 0);
@@ -1211,17 +1053,6 @@ u32 func_0201891C(void *p, s32 v)
 }
 
 
-/*
- *           func_0201897C
- *
- * The three functions at 0x020189D0, 0x020189D8 and 0x020189F0 sit between
- * this file and src/matched/unit_02018A00.c and are a documented near miss:
- * every concrete byte of them is reproduced, but func_020189F0 loads the
- * s8[][5] table at 0x0209E2A4 and the only word in the image that holds that
- * address is the pool word under test, so no cut attests it.  See
- * docs/idioms/a-string-after-a-data-table-has-no-witness.md for the same
- * shape on a string.
- */
 u32 func_02018948(u16 a, u16 b, s32 v)
 {
     u32 r;
@@ -1237,17 +1068,6 @@ u32 func_02018948(u16 a, u16 b, s32 v)
 }
 
 
-/*
- *           func_0201897C
- *
- * The three functions at 0x020189D0, 0x020189D8 and 0x020189F0 sit between
- * this file and src/matched/unit_02018A00.c and are a documented near miss:
- * every concrete byte of them is reproduced, but func_020189F0 loads the
- * s8[][5] table at 0x0209E2A4 and the only word in the image that holds that
- * address is the pool word under test, so no cut attests it.  See
- * docs/idioms/a-string-after-a-data-table-has-no-witness.md for the same
- * shape on a string.
- */
 u32 func_0201897C(struct Hdr *p)
 {
     u32 r;

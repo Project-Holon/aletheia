@@ -699,38 +699,12 @@ void sub_0204349C(void)
 }
 
 
-/*
- * The tail of the packet: two one-line mask-downs of the same 32-bit word
- * at +4 of the object that starts at 0x02146A48, and the wrapper that runs
- * both.  Each accessor keeps only the bits its own half owns (0x10 for the
- * first, 0x0f for the second), so calling both in sequence clears the word
- * outright; the wrapper is the reset path.
- *
- * Kept as one unit so the two `bl` sites in sub_020434CC are `local`: they
- * are that pair's only callers image-wide, and split into three files
- * neither could attest the other
- * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md in
- * reverse).
- */
 void sub_020434B4(void)
 {
     g_02146A48.unk_04 = g_02146A48.unk_04 & 0xf;
 }
 
 
-/*
- * The tail of the packet: two one-line mask-downs of the same 32-bit word
- * at +4 of the object that starts at 0x02146A48, and the wrapper that runs
- * both.  Each accessor keeps only the bits its own half owns (0x10 for the
- * first, 0x0f for the second), so calling both in sequence clears the word
- * outright; the wrapper is the reset path.
- *
- * Kept as one unit so the two `bl` sites in sub_020434CC are `local`: they
- * are that pair's only callers image-wide, and split into three files
- * neither could attest the other
- * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md in
- * reverse).
- */
 void sub_020434CC(void)
 {
     sub_0204349C();
@@ -767,19 +741,6 @@ void sub_020434DC(u32 mask, u32 enable)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The engine-A visible-plane trio, against gVisiblePlane[1] and DISPCNT at
- * 0x04000000: toggle one plane only if the requested state differs, replace
- * the whole set, and reset to the one plane in bit 4.  The register address
- * is a rotated ARM immediate here (`mov r2, #0x4000000`), where the
- * engine-B twins at 0x02043598 / 0x020435F4 must pool 0x04001000.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020434DC.c \
- *       --addr 0x020434DC --arm
- */
 void sub_02043534(u32 planes)
 {
     gVisiblePlane[1] = planes;
@@ -788,19 +749,6 @@ void sub_02043534(u32 planes)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The engine-A visible-plane trio, against gVisiblePlane[1] and DISPCNT at
- * 0x04000000: toggle one plane only if the requested state differs, replace
- * the whole set, and reset to the one plane in bit 4.  The register address
- * is a rotated ARM immediate here (`mov r2, #0x4000000`), where the
- * engine-B twins at 0x02043598 / 0x020435F4 must pool 0x04001000.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020434DC.c \
- *       --addr 0x020434DC --arm
- */
 void sub_02043558(void)
 {
     gVisiblePlane[0] &= 0x10;
@@ -836,29 +784,6 @@ void func_02043570(void)
 }
 
 
-/*
- * Two of the engine-B visible-plane mask writers, 0x02043570-0x02043598.
- *
- *   0x02043570  keep only the four background bits of the software copy
- *               gVisiblePlane[0] (mask 0xF)
- *   0x02043588  the pair call: run the sibling at 0x02043558, which keeps
- *               only bit 4 (the OBJ plane), then the one above, so the two
- *               together clear the software copy outright
- *
- * 0x02043570 has exactly one branch reference image-wide, the `bl` at
- * 0x02043590 inside 0x02043588, so folding the two into one unit costs no
- * witness (docs/idioms/a-unit-attests-only-its-own-start-address.md): the
- * interior address is nobody else's sole witness.
- *
- * The mask constants are plain `and` immediates, not a bitfield: both fit an
- * ARM rotated immediate and neither carries a narrowing shift pair.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02043570.c \
- *       --addr 0x02043570 --cc 1.1p1 --arm
- */
 void func_02043588(void)
 {
     func_02043558();
@@ -931,24 +856,6 @@ void func_0204361C(void)
 }
 
 
-/*
- * Three display-control leaves, 0x0204361C-0x02043668.  The two after the
- * first save no lr, so disasm.py does not label them and they print as a
- * run of `.word`s between literal pools; neither has a branch reference
- * anywhere in the image, so folding them into this unit costs no witness.
- *
- *   0x0204361C  reset the sub engine, then turn on bit 16 of GXS_DISPCNT
- *   0x0204363C  write the LCD-swap bit (bit 15) of POWCNT1 from bit 0 of
- *               the argument; the plain `orr ..., lsl #15` with no
- *               narrowing says this is arithmetic on the register word, not
- *               a one-bit bitfield (which would carry an `lsr #16` shifter
- *               operand, see the bitfield-cast idiom)
- *   0x02043658  read back gVisiblePlane[1], the engine-B software copy
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204361C.c \
- *       --addr 0x0204361C --cc 1.1p1 --arm
- */
 void func_0204363C(u32 swap)
 {
     *(volatile u16 *)0x04000304 =
@@ -956,24 +863,6 @@ void func_0204363C(u32 swap)
 }
 
 
-/*
- * Three display-control leaves, 0x0204361C-0x02043668.  The two after the
- * first save no lr, so disasm.py does not label them and they print as a
- * run of `.word`s between literal pools; neither has a branch reference
- * anywhere in the image, so folding them into this unit costs no witness.
- *
- *   0x0204361C  reset the sub engine, then turn on bit 16 of GXS_DISPCNT
- *   0x0204363C  write the LCD-swap bit (bit 15) of POWCNT1 from bit 0 of
- *               the argument; the plain `orr ..., lsl #15` with no
- *               narrowing says this is arithmetic on the register word, not
- *               a one-bit bitfield (which would carry an `lsr #16` shifter
- *               operand, see the bitfield-cast idiom)
- *   0x02043658  read back gVisiblePlane[1], the engine-B software copy
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204361C.c \
- *       --addr 0x0204361C --cc 1.1p1 --arm
- */
 u32 func_02043658(void)
 {
     return gVisiblePlane[1];
@@ -2070,23 +1959,6 @@ void func_02044D88(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value)
 
 
 
-/*
- * bmp.c fill worker (8bpp tiled, one byte per pixel), reached from the
- * fill dispatcher func_02043AF4.  Clips right/bottom against the
- * descriptor before the loops and left/top per pixel (the signed
- * cmp/cmpge/blt triple), then stores the fill byte at the 8x8-tiled
- * address.  0x02044CE0 and 0x02044EBC are byte-identical twins.
- *
- * THE LEVER (2026-09-22, wave 10): the address is ONE integer expression
- * over the pixel pointer cast to u32, evaluated inside the guarded body,
- * with only the tile-row mask lifted into a function-scope local.  The
- * compiler hoists that local and the product out of the inner loop into
- * the preheader AFTER the entry test (the image's placement) but does not
- * fold the tile row and the in-tile row into one mla, which it does for
- * every pointer-arithmetic or subscript spelling.  Pointer arithmetic
- * (u8 *) with the same terms stays at 17 out; the per-row locals of the
- * older best source at 81.
- */
 void func_02044EBC(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value)
 {
     s32 i;
@@ -2644,754 +2516,78 @@ u8 sub_02045730(struct Descriptor_02045730 *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 u8 sub_02045738(struct Descriptor_02045730 *p)
 {
     return p->unk5;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 u8 sub_02045740(struct Descriptor_02045730 *p)
 {
     return p->unk6;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 u8 sub_02045748(struct Descriptor_02045730 *p)
 {
     return p->unk7;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 u8 sub_02045750(struct Descriptor_02045730 *p)
 {
     return p->unk8;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 u8 sub_02045758(struct Descriptor_02045730 *p)
 {
     return p->unk3;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 u8 sub_02045760(struct Descriptor_02045730 *p)
 {
     return p->unk4;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 u16 sub_02045768(struct Descriptor_02045730 *p)
 {
     return p->unkA;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 void *sub_02045770(struct Descriptor_02045730 *p)
 {
     return p->heap;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 u8 sub_02045778(struct Descriptor_02045730 *p)
 {
     return p->unk9;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 void sub_02045780(struct Descriptor_02045730 *p, u8 v)
 {
     p->unk3 = v;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 void sub_02045788(struct Descriptor_02045730 *p, u8 v)
 {
     p->unk4 = v;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 void sub_02045790(struct Descriptor_02045730 *p, u8 v)
 {
     p->unk8 = v;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
- *
- * The leaf accessor bank of the allocator family's descriptor object.
- * Fourteen relocation-free 8-byte functions in a row, each one load or
- * store of a single field, which is why they can be folded into one unit
- * with no witnesses required at all.
- *
- * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
- * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
- * exposes:
- *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
- *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
- * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
- * owning-context handle rather than a payload pointer. It carries the
- * largest fan-in of the whole bank (1149 branch references image-wide),
- * which is consistent with every user of a descriptor reaching for its
- * heap handle.
- *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
- * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
- * should be seeded into layout/function_starts.txt by the integrator.
- *
- * Field names are left descriptive rather than semantic: this whole
- * family is scheduled for a semantic rename once the allocator's argument
- * shapes settle.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045730.c \
- *       --addr 0x02045730 --arm --cc 1.1p1
- */
 void sub_02045798(struct Descriptor_02045730 *p, u8 v)
 {
     p->unk9 = v;
@@ -3887,21 +3083,6 @@ void sub_02045AA8(struct U16Vec *dst, struct U16Vec *src)
 }
 
 
-/*
- * The two mutators of the u16 vector sub_020457B0 allocates, folded into one
- * translation unit covering 0x02045AA8..0x02045B38 (both functions and the
- * single trailing pool word).  See src/matched/sub_02045AFC.c for the object
- * layout this pair pins down, in particular why the entries begin at +0x8
- * and why one slot past `capacity` is reserved for a terminator.
- *
- * sub_02045AA8 concatenates one vector onto another, copying src->used + 1
- * halfwords so that the source's terminator becomes the destination's.
- * sub_02045AFC pushes a single entry and re-plants the terminator behind it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045AA8.c \
- *       --addr 0x02045AA8 --arm
- */
 void sub_02045AFC(struct U16Vec *vec, u16 value)
 {
     if (vec->used + 1 >= vec->capacity)
@@ -4068,57 +3249,6 @@ struct MsgBank_23 *func_02045C44(const void *file, u32 heapId)
 
 
 
-/*
- * The whole of pkt_02045C44, 448 bytes with both literal pools: the message
- * bank's constructor and its one reader.  Both functions are EXACT
- * individually as well (src/matched/func_02045C44.c and
- * src/matched/func_02045CAC.c); this unit is the consolidated shape.
- *
- * The object is 0x1c bytes and its layout is pinned by the pair:
- *
- *   +0x00  const MsgFile *file   the mapped message file header
- *   +0x04  void          *base   entry table plus payload, when resident
- *   +0x08  MsgEntry       cache  one streamed descriptor
- *   +0x10  u32            origin file offset of the bank inside the archive
- *   +0x14  void          *stream archive handle
- *   +0x18  u16            heapId
- *   +0x1a  u8             langIndex
- *   +0x1b  u8             resident
- *
- * func_02045CAC has two residency modes.  Resident: the entry descriptor is
- * &((MsgEntry *)(base + 4))[index] and the payload is base + e->off, handed
- * straight to func_02045A00.  Streamed: the descriptor is an 8-byte archive
- * read into the cache at +0x8, then a scratch buffer of 2 * e->len bytes is
- * allocated, filled by a second read, consumed and freed.  The allocator
- * heap id for that scratch buffer is (u16)((heapId & 0x7fff) | 0x8000), the
- * "allocate from the far end" form.
- *
- * Both file offsets are origin + file->langOff[langIndex] plus the entry's
- * own displacement, so langOff[] at +0xc of the file header is a
- * per-language section table and the entry table starts four bytes into its
- * section.
- *
- * Shape note that cost the last eleven bytes of func_02045CAC: both guards
- * test bank->resident, but the source spells them `== 0`, not `!= 0`.  That
- * puts the streamed arm on the fall-through and leaves the short arm to be
- * if-converted (ldrne/addne), per
- * docs/idioms/the-fall-through-arm-is-the-source-order.md.  The other
- * polarity emits exactly the same instructions but transposes
- * `ldr r3, [sb, #0x10]` and `lsl r0, r8, #3` in the seek block: the arm
- * linearisation order is what breaks the scheduler's tie between the two
- * ready gap fillers.
- *
- * The fourth argument of sub_02030734 is the BSS provenance object at
- * 0x020A7E8C, not a __FILE__ string: it sits above the arm9 static image
- * end and has 41 pool references image-wide.  In func_02045C44 the
- * allocator's third argument (clear) shares one `mov r5, #0` with the two
- * zero field stores, so it is written as a plain literal at the call rather
- * than bound to a named local (the shape of src/matched/sub_020457B0.c).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045C44.c \
- *       --addr 0x02045C44 --arm
- */
 void func_02045CAC(struct MsgBank_23 *bank, u32 index, void *dest)
 {
     u32 size;

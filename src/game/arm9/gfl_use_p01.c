@@ -257,16 +257,6 @@ int func_020051D8(void)
 
 
 
-/*
- * Boot path, 0x020051D8..0x0200520C: a three-step readiness test (each
- * step its own early `return 0`, per the image's four epilogues) and the
- * unlabelled forwarding thunk func_02005204 to sub_02005610
- * (src/matched/unit_0200560C.c), a pool-word tail call.
- *
- * Rewritten wave 16 from src/pending/func_020051D8.c, a one-line generated
- * body with implicit declarations that was EXACT* on its own.
- * Integrator: seed 0x02005204 (unlabelled follower, member of this unit).
- */
 void func_02005204(void)
 {
     sub_02005610();

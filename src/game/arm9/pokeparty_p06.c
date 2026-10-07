@@ -465,49 +465,6 @@ void sub_0201B9F0(void *mon)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * pokeparty.c's healer: sub_0201B9F0 restores one Pokemon (current HP to its
- * maximum, status to zero, and every move slot that is short of PP back to
- * full), and sub_0201BA34 runs it over every occupied slot of a party.
- * sub_0201BA34 is the packet's only entry point, reached from 0x02011062.
- *
- * Both of its calls into the neighbouring functions resolve, and the second one
- * is the interesting one.  0x0201B920 is covered by src/matched/
- * unit_0201B920.c, so the `matched` class would carry it on its own;
- * 0x0201B970 is a near miss (docs/notes/sub_0201B970.c.txt) and has no matched
- * entry at all, and the only `bl` to it inside arm9_main is the one in this
- * file.  What attests it is an overlay: ov118 branches to 0x0201B970 at
- * 0x021BE4D0, and to 0x0201B920 at 0x021BDF2A, and those are real instructions
- * outside the compared range, which is exactly what the `label` class asks for
- * once it reads branches from the whole image rather than from arm9 alone.
- * The two functions here would otherwise have had to be split apart or parked.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- * No species, item or move id.  0x7F is the "fill the slot" sentinel
- * sub_0201B970 tests for and has to stay in step with it; 4 is the move slot
- * count written out as the loop bound; 0xA9, 0xA0, 0xA1 and 0x9D are party
- * record ids in src/matched/sub_02018DB4.c's space.
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * The id 0xA1 read is used directly as the id 0xA0 write's third argument with
- * nothing bound to a local, so the result reaches r2 straight out of r0; this
- * is the site where the inline spelling is the right one
- * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
- *
- * sub_0201B9F0's `for` runs 0 to 3 with no entry guard, because the compiler
- * can see the bound; the 0x7F is hoisted into r6 in front of the loop and the
- * index's zero is set before the two writes that precede it.
- *
- * Verified with
- *   python tools/match.py tu --src src/matched/unit_0201B9F0.c \
- *       --addr 0x0201B9F0 --thumb
- */
 void sub_0201BA34(void *party)
 {
     s32 n;
@@ -604,66 +561,6 @@ u32 sub_0201BA68(void *mon)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The graphics index of a Pokemon: sub_0201BA68 unpacks the four values that
- * decide it out of the record and sub_0201BABC turns them into a member number
- * of archive 7.  The pair that follows them, sub_0201BB5C and sub_0201BBE8, is
- * the same index arithmetic over a different table and is parked in
- * src/pending/unit_0201BB5C.c because that table has no witness; the cut
- * between the two pairs is what lets this half land
- * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
- *
- * sub_0201BA68 brackets its four reads with func_02017DBC and func_02017DE4,
- * which is the pair the region uses around a run of raw field reads; that is
- * why the reads here are func_02017E88 and not the func_02017E1C of
- * src/matched/sub_02018A7C.c.  The fourth read is written inline as the call's
- * fourth argument rather than bound to a local, which is what puts it in r3
- * with the other three already in place.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- * Four content constants, and the index arithmetic that ties them together is
- * itself a statement about how the sprite archive is packed:
- *
- *   490    the species whose egg has a graphic of its own.  Every other
- *          species shares one egg graphic.
- *   650    the index the ordinary egg occupies, so 651 is that species' egg;
- *          the same 650/651 pair src/matched/unit_0201AFD4.c rejects as
- *          species ids.
- *   7      the first member of archive 7 that belongs to a species, and the
- *          stride is two members per index.
- *   1311   the member the alternate forms start at, which is 652 * 2 + 7, i.e.
- *          immediately after the two egg indices.  A White build with a
- *          different species count would move this number and only this one.
- *   0x1F, 0x20, 0x23   the three personal-record attributes func_02019C90
- *          answers: the form block's first index, the form count, and the flag
- *          that says the forms are not drawn separately.
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * The `case 1` arm binds the archive query to a local before assigning the
- * gender.  Written inline, `gender = 1;` is hoisted in front of the `blx` and
- * six bytes come out in the wrong order; the named local is what pins the
- * order, the same way
- * docs/idioms/cmp-operand-order-names-the-temporary.md pins a comparison.
- *
- * `case 2`'s `gender = 0;` and `case 1`'s failure arm are one block, reached
- * by a `b` whose displacement is zero: the source writes the statement out in
- * both arms and the compiler cross-jumps the two copies
- * (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).  The switch
- * is a `cmp`/`beq` chain rather than a table, because three labels are too few
- * for mwccarm to build one
- * (docs/idioms/empty-switch-arms-are-what-make-the-table.md, the other side of
- * the density rule).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201BA68.c \
- *       --addr 0x0201BA68 --thumb
- */
 u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
 {
     u32 first;
@@ -789,61 +686,6 @@ u32 sub_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg)
 
 
 
-/*
- * note:     224 bytes, two functions
- *
- * The nibble-table twin of src/matched/unit_0201BA68.c: the same egg and
- * alternate-form index arithmetic, indexing a packed table of two four bit
- * values per entry instead of an archive.  sub_0201BBE8 unpacks the four
- * inputs out of a Pokemon record, bracketed by the func_02017DBC /
- * func_02017DE4 pair, and hands them over.
- *
- * The index is the same logical number unit_0201BA68.c computes, one step
- * short of it: there the answer is `n * 2 + 7`, a member of archive 7, here it
- * is `n` itself, and the alternate-form case reaches it as `first + form +
- * 651` where the other reaches `(first + form - 1) * 2 + 1311`.  1311 is
- * 652 * 2 + 7, so the two agree.
- *
- * ---------------------------------------------------------------------------
- * WHY IT WAS CAPPED (HISTORY)
- * ---------------------------------------------------------------------------
- * NO LONGER CAPPED (re-verified 2026-09-22).  The pool word at 0x0201BBE4 is
- * still the only word in the image that holds 0x0209E474, so the `literal`
- * class does discard its only witness.  What closed it is the sole-ref
- * widening of 2026-09-21: 0x0209E474 is 4-aligned and starts a recognised
- * data object, so the site now resolves as `sole-ref` and the unit is EXACT.
- * The old "WHY IT IS CAPPED" reading below is kept only as history.
- *
- * The cut between this pair and sub_0201BA68/sub_0201BABC is what let those
- * two land EXACT.  sub_0201BB5C is reached only from 0x0201BC34, inside this
- * range, so that call is the `local` class and needs no evidence.
- *
- * ---------------------------------------------------------------------------
- * VERSION SENSITIVITY, read this before porting to Pokemon White
- * ---------------------------------------------------------------------------
- *   490    the species whose egg has an entry of its own.
- *   650    the ordinary egg's index, so 651 is that species' egg; 651 again is
- *          the base the alternate-form block is counted from.
- *   0x1F, 0x20, 0x23   the three personal-record attributes func_02019C90
- *          answers: the form block's first index, the form count, and the
- *          "not drawn separately" flag.
- *   0x0209E474  the table itself, one packed byte per index.  Its contents are
- *          content and are not reproduced here.
- *
- * ---------------------------------------------------------------------------
- * NOTES
- * ---------------------------------------------------------------------------
- * The two returns are unequal shift pairs, not bitfields: `lsls #0x14` /
- * `lsrs #0x18` is `(u8)(x >> 4)`, because 32 - 24 is the width and 20 - 24 is
- * the shift, and the low half's equal pair is a plain `(u8)`
- * (docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md).
- * The mask has to be written out as well as the cast; `x >> 4` on its own
- * loses the `ands`.
- *
- * Verified with
- *   python tools/match.py tu --src src/pending/unit_0201BB5C.c \
- *       --addr 0x0201BB5C --thumb
- */
 u32 sub_0201BBE8(void *mon)
 {
     u32 save;
@@ -893,19 +735,6 @@ int func_0201BC3C(void)
 
 
 
-/*
- *           func_0201BCEC
- *
- * Five leaves after func_0201BBE8.  The first returns 0.  The other four read
- * the OBJ character mapping bits of DISPCNT (bit 4, 1D mapping, and bits
- * 20..21, the 1D boundary) for the main engine (0x04000000) or the sub engine
- * (0x04001000) and turn the 32/64/128 KB boundary into a shift: 2/4/6 and
- * 1/3/5, with the unlisted 256 KB case falling into a separate default that
- * repeats the last value.  Seeded from ov208 0x021C5304, 0x021C531E,
- * 0x021C5324 (func_021C52F0) and ov021 0x021CC8EA, 0x021CC906, 0x021CC90C.
- *
- * Addresses are Black-image addresses.
- */
 int func_0201BC40(void)
 {
     switch (REG_DISPCNT & OBJ_MAPPING_MASK) {
@@ -918,19 +747,6 @@ int func_0201BC40(void)
 
 
 
-/*
- *           func_0201BCEC
- *
- * Five leaves after func_0201BBE8.  The first returns 0.  The other four read
- * the OBJ character mapping bits of DISPCNT (bit 4, 1D mapping, and bits
- * 20..21, the 1D boundary) for the main engine (0x04000000) or the sub engine
- * (0x04001000) and turn the 32/64/128 KB boundary into a shift: 2/4/6 and
- * 1/3/5, with the unlisted 256 KB case falling into a separate default that
- * repeats the last value.  Seeded from ov208 0x021C5304, 0x021C531E,
- * 0x021C5324 (func_021C52F0) and ov021 0x021CC8EA, 0x021CC906, 0x021CC90C.
- *
- * Addresses are Black-image addresses.
- */
 int func_0201BC78(void)
 {
     switch (REG_DB_DISPCNT & OBJ_MAPPING_MASK) {
@@ -943,19 +759,6 @@ int func_0201BC78(void)
 
 
 
-/*
- *           func_0201BCEC
- *
- * Five leaves after func_0201BBE8.  The first returns 0.  The other four read
- * the OBJ character mapping bits of DISPCNT (bit 4, 1D mapping, and bits
- * 20..21, the 1D boundary) for the main engine (0x04000000) or the sub engine
- * (0x04001000) and turn the 32/64/128 KB boundary into a shift: 2/4/6 and
- * 1/3/5, with the unlisted 256 KB case falling into a separate default that
- * repeats the last value.  Seeded from ov208 0x021C5304, 0x021C531E,
- * 0x021C5324 (func_021C52F0) and ov021 0x021CC8EA, 0x021CC906, 0x021CC90C.
- *
- * Addresses are Black-image addresses.
- */
 int func_0201BCB4(void)
 {
     switch (REG_DISPCNT & OBJ_MAPPING_MASK) {
@@ -968,19 +771,6 @@ int func_0201BCB4(void)
 
 
 
-/*
- *           func_0201BCEC
- *
- * Five leaves after func_0201BBE8.  The first returns 0.  The other four read
- * the OBJ character mapping bits of DISPCNT (bit 4, 1D mapping, and bits
- * 20..21, the 1D boundary) for the main engine (0x04000000) or the sub engine
- * (0x04001000) and turn the 32/64/128 KB boundary into a shift: 2/4/6 and
- * 1/3/5, with the unlisted 256 KB case falling into a separate default that
- * repeats the last value.  Seeded from ov208 0x021C5304, 0x021C531E,
- * 0x021C5324 (func_021C52F0) and ov021 0x021CC8EA, 0x021CC906, 0x021CC90C.
- *
- * Addresses are Black-image addresses.
- */
 int func_0201BCEC(void)
 {
     switch (REG_DB_DISPCNT & OBJ_MAPPING_MASK) {
@@ -1069,51 +859,6 @@ u32 sub_0201BD28(u16 id, u32 field)
 
 
 
-/*
- * waza_tool.c: the cached single-field read of a move record, and the 32 case
- * getter it ends in.
- *
- * sub_0201BD28 finds the move's record in the cache the constructor in
- * src/matched/unit_0201C328.c builds, loading it through func_02048F4C if the
- * slot it picks is empty or is holding a different move, and falls back to
- * the single record buffer at 0x02146534 when the cache has not been built.
- * The slot search, the "cache full, reuse the last slot" fixup and the load
- * are the same three blocks sub_0201C1F4 and sub_0201C020 repeat for their
- * own records.
- *
- * sub_0201BDB4 has to stay in this file.  The `bl` at 0x0201BDA6 is the only
- * branch to it anywhere in the image, so split off it would have no witness
- * at all; kept here the site is the `local` class and needs none
- * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, read the
- * other way round).
- *
- * The getter is an ordinary dense switch: `cmp #0x1F` / `bhi` and a table of
- * 32 signed halfword displacements
- * (docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md).  Two things
- * the table says that the C has to repeat exactly:
- *
- *   * entry 29 points at the default body, so id 29 has no case label at all.
- *     It is a gap in the middle of the range and not an empty arm, which is
- *     the distinction docs/idioms/empty-switch-arms-are-what-make-the-table.md
- *     draws;
- *   * the arms are emitted in source order, and that order is not the numeric
- *     order: id 28 is written between 15 and 16, and the three three-way
- *     groups (16, 19, 22), (17, 20, 23) and (18, 21, 24) share one body each.
- *
- * The three grouped bodies index byte arrays at +0x15, +0x18 and +0x1B with a
- * run-time index, so the middle one costs a `movs`/`ldrsb` register-offset
- * pair rather than an immediate load, which is the only thing that says that
- * field is signed (docs/idioms/ldrsh-register-offset-is-signedness.md).
- *
- * Ids 4 and 7 answer a substitute value for one particular stored value,
- * 0x64 for 0x65 and 0 for 6; both reach the function's shared `bx lr` with
- * the loaded value still in r0, which is what says the source returns the
- * value in the ordinary path rather than assigning a result variable.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201BD28.c \
- *       --addr 0x0201BD28 --thumb
- */
 u32 sub_0201BDB4(const struct Waza *p, u32 id)
 {
     u32 v;

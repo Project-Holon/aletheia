@@ -168,41 +168,6 @@ struct GdsProfile *func_0200D59C(u32 heap)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- * 52 bytes, 0x0200D59C..0x0200D5D0, 2 functions, one of which carries no
- * label in the generated listing.
- *
- * alias: 0x020A71E8 spells "gds_profile.c", the sixth original source file
- * name this project has recovered, attested by the `string` class off the
- * terminator of "musical_dist_save.c" at 0x020A71E6.  The constructor at
- * 0x0200D59C passes it to the debug allocator at 0x02030734 with line 0x50,
- * and the rest of the file is src/matched/unit_0200D6D0.c,
- * src/matched/unit_0200D6EC.c and src/matched/unit_0200D74C.c, with
- * func_0200D5D0 the one function of it left out; see below.
- *
- * The record is 0x80 bytes, which is what the constructor allocates and
- * clears, and which src/matched/unit_0200D5D0.c fills field by field.
- *
- * The heap id is a full word cast to `u16` at the call, not a `u16`
- * parameter: this front end assumes an incoming `u16` parameter is already
- * zero extended and emits nothing, so the `lsls #0x10` / `lsrs #0x10` pair at
- * 0x0200D5A2 is a narrowing the source wrote.  The same reading applies to
- * the tag parameters of func_0200D6D0 and func_0200D774.
- *
- * func_0200D5C8 is the destructor and is eight bytes: a pool word and a `bx`,
- * with no argument set-up at all; see
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.
- *
- * Left out of this range: func_0200D5D0, 256 bytes, which builds the whole
- * record.  Every concrete byte of it reproduces and it is capped at MATCH,
- * because 0x0200C164 is the target of exactly one branch in the image, its
- * own call at 0x0200D610, so the `label` class has no witness outside the
- * compared range and no cut helps.  The source is parked in
- * src/matched/unit_0200D5D0.c.
- */
 void func_0200D5C8(struct GdsProfile *p)
 {
     func_020307B0(p);

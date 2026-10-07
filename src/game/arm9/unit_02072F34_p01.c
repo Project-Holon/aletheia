@@ -100,240 +100,48 @@ void func_02072F88(struct Obj *o, u32 v)
     func_020893E8(o->p->b3c, v);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Nine members of one dispatch family: a null guard on o->p, then a call that
- *  * passes the object's byte at +0x3c plus the member's own leftover argument
- *  * registers.
- *  *
- *  * The arity is read off the guard's scratch register, which is the only thing
- *  * that distinguishes the members: a two-argument member (r1 live) loads the
- *  * guard into r2, a three-argument one (r1 and r2 live) into r3. Writing the
- *  * unused parameters is what buys the byte:
- *  *
- *  *   struct Obj * volatile p  -> the guard's load and the use's load are two
- *  *   loads; a plain field folds them into one and the member is four bytes
- *  *   short.
- *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
- *  * the same family, is NOT in this unit: this front end if-converts a
- *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
- *  * miss. See docs/notes/pkt_02072EA8.c.txt.
- *  *
- *  * Verified with:
- *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
- */
 void func_02072FA8(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_02089580(o->p->b3c, v, w);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Nine members of one dispatch family: a null guard on o->p, then a call that
- *  * passes the object's byte at +0x3c plus the member's own leftover argument
- *  * registers.
- *  *
- *  * The arity is read off the guard's scratch register, which is the only thing
- *  * that distinguishes the members: a two-argument member (r1 live) loads the
- *  * guard into r2, a three-argument one (r1 and r2 live) into r3. Writing the
- *  * unused parameters is what buys the byte:
- *  *
- *  *   struct Obj * volatile p  -> the guard's load and the use's load are two
- *  *   loads; a plain field folds them into one and the member is four bytes
- *  *   short.
- *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
- *  * the same family, is NOT in this unit: this front end if-converts a
- *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
- *  * miss. See docs/notes/pkt_02072EA8.c.txt.
- *  *
- *  * Verified with:
- *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
- */
 void func_02072FC8(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_020895B0(o->p->b3c, v, w);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Nine members of one dispatch family: a null guard on o->p, then a call that
- *  * passes the object's byte at +0x3c plus the member's own leftover argument
- *  * registers.
- *  *
- *  * The arity is read off the guard's scratch register, which is the only thing
- *  * that distinguishes the members: a two-argument member (r1 live) loads the
- *  * guard into r2, a three-argument one (r1 and r2 live) into r3. Writing the
- *  * unused parameters is what buys the byte:
- *  *
- *  *   struct Obj * volatile p  -> the guard's load and the use's load are two
- *  *   loads; a plain field folds them into one and the member is four bytes
- *  *   short.
- *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
- *  * the same family, is NOT in this unit: this front end if-converts a
- *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
- *  * miss. See docs/notes/pkt_02072EA8.c.txt.
- *  *
- *  * Verified with:
- *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
- */
 void func_02072FE8(struct Obj *o, u32 v, int a)
 {
     if (o->p == 0) return;
     func_02089400(o->p->b3c, v, g_020A5D08[a]);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Nine members of one dispatch family: a null guard on o->p, then a call that
- *  * passes the object's byte at +0x3c plus the member's own leftover argument
- *  * registers.
- *  *
- *  * The arity is read off the guard's scratch register, which is the only thing
- *  * that distinguishes the members: a two-argument member (r1 live) loads the
- *  * guard into r2, a three-argument one (r1 and r2 live) into r3. Writing the
- *  * unused parameters is what buys the byte:
- *  *
- *  *   struct Obj * volatile p  -> the guard's load and the use's load are two
- *  *   loads; a plain field folds them into one and the member is four bytes
- *  *   short.
- *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
- *  * the same family, is NOT in this unit: this front end if-converts a
- *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
- *  * miss. See docs/notes/pkt_02072EA8.c.txt.
- *  *
- *  * Verified with:
- *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
- */
 void func_02073018(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_0208941C(o->p->b3c, v, w);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Nine members of one dispatch family: a null guard on o->p, then a call that
- *  * passes the object's byte at +0x3c plus the member's own leftover argument
- *  * registers.
- *  *
- *  * The arity is read off the guard's scratch register, which is the only thing
- *  * that distinguishes the members: a two-argument member (r1 live) loads the
- *  * guard into r2, a three-argument one (r1 and r2 live) into r3. Writing the
- *  * unused parameters is what buys the byte:
- *  *
- *  *   struct Obj * volatile p  -> the guard's load and the use's load are two
- *  *   loads; a plain field folds them into one and the member is four bytes
- *  *   short.
- *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
- *  * the same family, is NOT in this unit: this front end if-converts a
- *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
- *  * miss. See docs/notes/pkt_02072EA8.c.txt.
- *  *
- *  * Verified with:
- *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
- */
 void func_02073038(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_02089438(o->p->b3c, v, w);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Nine members of one dispatch family: a null guard on o->p, then a call that
- *  * passes the object's byte at +0x3c plus the member's own leftover argument
- *  * registers.
- *  *
- *  * The arity is read off the guard's scratch register, which is the only thing
- *  * that distinguishes the members: a two-argument member (r1 live) loads the
- *  * guard into r2, a three-argument one (r1 and r2 live) into r3. Writing the
- *  * unused parameters is what buys the byte:
- *  *
- *  *   struct Obj * volatile p  -> the guard's load and the use's load are two
- *  *   loads; a plain field folds them into one and the member is four bytes
- *  *   short.
- *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
- *  * the same family, is NOT in this unit: this front end if-converts a
- *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
- *  * miss. See docs/notes/pkt_02072EA8.c.txt.
- *  *
- *  * Verified with:
- *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
- */
 void func_02073058(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_02089454(o->p->b3c, v, w);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Nine members of one dispatch family: a null guard on o->p, then a call that
- *  * passes the object's byte at +0x3c plus the member's own leftover argument
- *  * registers.
- *  *
- *  * The arity is read off the guard's scratch register, which is the only thing
- *  * that distinguishes the members: a two-argument member (r1 live) loads the
- *  * guard into r2, a three-argument one (r1 and r2 live) into r3. Writing the
- *  * unused parameters is what buys the byte:
- *  *
- *  *   struct Obj * volatile p  -> the guard's load and the use's load are two
- *  *   loads; a plain field folds them into one and the member is four bytes
- *  *   short.
- *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
- *  * the same family, is NOT in this unit: this front end if-converts a
- *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
- *  * miss. See docs/notes/pkt_02072EA8.c.txt.
- *  *
- *  * Verified with:
- *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
- */
 void func_02073078(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_02089470(o->p->b3c, v, w);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Nine members of one dispatch family: a null guard on o->p, then a call that
- *  * passes the object's byte at +0x3c plus the member's own leftover argument
- *  * registers.
- *  *
- *  * The arity is read off the guard's scratch register, which is the only thing
- *  * that distinguishes the members: a two-argument member (r1 live) loads the
- *  * guard into r2, a three-argument one (r1 and r2 live) into r3. Writing the
- *  * unused parameters is what buys the byte:
- *  *
- *  *   struct Obj * volatile p  -> the guard's load and the use's load are two
- *  *   loads; a plain field folds them into one and the member is four bytes
- *  *   short.
- *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
- *  * the same family, is NOT in this unit: this front end if-converts a
- *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
- *  * miss. See docs/notes/pkt_02072EA8.c.txt.
- *  *
- *  * Verified with:
- *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
- */
 void func_02073098(struct Obj *o, u32 v)
 {
     if (o->p == 0) return;

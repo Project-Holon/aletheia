@@ -1,0 +1,61 @@
+/*
+ * function: func_02163028
+ * address:  0x02163028
+ * packet:   pkt_ov010_02163028
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0216DA20  0x0216DA20  thumb  ov010
+ *   func_021630F4  0x021630F4  thumb  ov010
+ *   func_0216310C  0x0216310C  thumb  ov010
+ *   func_02163130  0x02163130  thumb  ov010
+ *   func_0216D57C  0x0216D57C  thumb  ov010
+ *   func_02197EB4  0x02197EB4  thumb  ov021
+ *   func_0216DB10  0x0216DB10  thumb  ov010
+ *   func_02163090  0x02163090  thumb  ov010
+ *   func_0219B41C  0x0219B41C  thumb  ov021
+ *   func_0216D708  0x0216D708  thumb  ov010
+ *   func_02163154  0x02163154  thumb  ov010
+ *   func_02163188  0x02163188  thumb  ov010
+ */
+
+extern int func_0216DA20(void *p, unsigned int v);
+extern void func_021630F4();
+extern void func_0216310C(char *p);
+extern void func_02163130(char *p);
+extern unsigned int func_0216D57C(void *p, unsigned int v);
+typedef unsigned int   u32;
+extern void func_02197EB4(u32 a);
+extern int func_0216DB10(void *a0);
+extern int func_02163090();
+extern int func_0219B41C();
+extern void func_0216D708(void *a0);
+extern void func_02163154(char *p);
+extern void func_02163188(char *p);
+
+void func_02163028(void *a)
+{
+    int t = 2;
+
+    if (func_0216DA20((void *)a, t) == 0) {
+        func_021630F4(a);
+        func_0216310C((char *)a);
+        func_02163130((char *)a);
+        if (func_0216D57C(a, t << 8) != 0) {
+            func_02197EB4((u32)a);
+        } else if (func_0216DB10((void *)a) == 0) {
+            if (func_02163090(a) == 1) {
+                if (func_0219B41C(a) == 0) {
+                    func_0216D708((void *)a);
+                }
+            }
+        }
+        func_02163154((char *)a);
+        func_02163188((char *)a);
+    }
+}

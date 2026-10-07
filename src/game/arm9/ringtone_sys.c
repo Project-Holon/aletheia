@@ -538,19 +538,6 @@ void sub_02029344(void *obj, u32 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two leaf helpers on the same object as the six checker/trampoline pairs of
- * pkt_0202918C's neighbour packets: sub_02029344 is a plain word setter at
- * offset 4, and sub_02029348 clears four fields (two words at +0xc/+0x1c,
- * two halfwords at +0x18/+0x1a) that the checker wrappers elsewhere test and
- * arm. Neither function has a relocation of any kind.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029344.c \
- *       --addr 0x02029344 --thumb
- */
 void sub_02029348(void *obj)
 {
     ((struct Obj01618 *)obj)->f1C = 0;
@@ -1003,23 +990,6 @@ u32 func_020295D8(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * One of the sixteen (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  Every pair has the same shape: a small state machine
- * driven by the counter the task system hands it, and a spawner that allocates
- * the 0x10 byte work block, parks the body's address in it and fills in the
- * parameters the body will read.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is the ABS32 pool word at 0x02029654, and a pool word is not a branch, so
- * the body has no `label` witness anywhere in the image; with the two in
- * separate files the spawner caps at MATCH.  In one object the body is a
- * `local` symbol and the relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020295D8.c \
- *       --addr 0x020295D8 --thumb
- */
 void *func_02029620(void *a, u32 b, u32 c)
 {
     void *x = func_020120F4(a);
@@ -1074,19 +1044,6 @@ u32 func_02029658(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * One of the (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  The body issues one command 4 and then reports done on the next tick.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029658.c  *       --addr 0x02029658 --thumb
- */
 void *func_02029690(void *a, u32 b, u32 c)
 {
     void *x = func_020120F4(a);
@@ -1150,21 +1107,6 @@ u32 func_020296C8(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * One of the (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  The body asks the sound system how many entries it holds and issues one
- * command 4 per entry, the last of them carrying the parameter the spawner
- * stored.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020296C8.c  *       --addr 0x020296C8 --thumb
- */
 void *func_0202972C(void *a, u16 b)
 {
     void *x = func_020120F4(a);
@@ -1216,19 +1158,6 @@ u32 func_02029760(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * One of the (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  The body issues a command 3 and a command 5 in the same tick.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029760.c  *       --addr 0x02029760 --thumb
- */
 void *func_020297AC(void *a, u32 b, u32 c, u32 d)
 {
     void *x = func_020120F4(a);
@@ -1283,20 +1212,6 @@ u32 func_020297EC(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * One of the (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  The body issues a command 3 with a literal 6 and a command 7 in the same
- * tick.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020297EC.c  *       --addr 0x020297EC --thumb
- */
 void *func_02029830(void *a, u32 b)
 {
     void *x = func_020120F4(a);
@@ -1352,19 +1267,6 @@ u32 func_02029868(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body issues one command 5 carrying all three stored parameters.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029868.c  *       --addr 0x02029868 --thumb
- */
 void *func_020298A0(void *a, u32 b, u32 c, u32 d)
 {
     void *x = func_020120F4(a);
@@ -1481,20 +1383,6 @@ u32 func_02029938(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body issues a command 2 with a literal 6 and a command 7, then waits
- * for the system to go idle before reporting done.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029938.c  *       --addr 0x02029938 --thumb
- */
 void *func_02029984(void *a, u32 b)
 {
     void *x = func_020120F4(a);
@@ -1555,20 +1443,6 @@ u32 func_020299B8(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The same shape as unit_02029938.c with the command 2's third argument taken
- * from the work block instead of the literal 6.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020299B8.c  *       --addr 0x020299B8 --thumb
- */
 void *func_02029A04(void *a, u32 b, u16 c)
 {
     void *x = func_020120F4(a);
@@ -1628,25 +1502,6 @@ u32 func_02029A3C(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  A one shot body: it issues both commands on the first tick and reports done
- * immediately.  The second command's 1001 is a pool word because it does not
- * fit a Thumb `movs` immediate, not because it is a relocation.
- *
- * VERSION SENSITIVITY: 1001 is a content id in the same space as the other
- * command 7 arguments in this family, so it is one to re-read for a Pokemon
- * White build; nothing else in this file is version dependent.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029A3C.c  *       --addr 0x02029A3C --thumb
- */
 void *func_02029A74(void *a, u16 b)
 {
     void *x = func_020120F4(a);
@@ -1707,20 +1562,6 @@ u32 func_02029AA8(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body issues a command 3 with a literal 6 and a command 7, then waits
- * for the system to go idle before reporting done.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029AA8.c  *       --addr 0x02029AA8 --thumb
- */
 void *func_02029AF4(void *a, u32 b)
 {
     void *x = func_020120F4(a);
@@ -1826,22 +1667,6 @@ u32 func_02029B5C(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  A four state body whose first state picks command 2 or command 3 by asking
- * the queue depth.  Both arms of that choice write out the whole call and the
- * compiler cross-jumps all of it but the `movs r3, #6`
- * (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029B5C.c  *       --addr 0x02029B5C --thumb
- */
 void *func_02029BCC(void *a, u32 b)
 {
     void *x = func_020120F4(a);
@@ -1934,20 +1759,6 @@ u32 func_02029C38(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body waits until the system's mode word leaves the set
- * src/matched/func_02028988.c accepts, then reports done.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029C38.c  *       --addr 0x02029C38 --thumb
- */
 void *func_02029C64(void *a)
 {
     void *x = func_020120F4(a);
@@ -2004,20 +1815,6 @@ u32 func_02029C94(void *task, u32 *state, struct Work *work)
 
 
 
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body waits until src/matched/func_020289D4.c says the system will take
- * another request, then reports done.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029C94.c  *       --addr 0x02029C94 --thumb
- */
 void *func_02029CC0(void *a)
 {
     void *x = func_020120F4(a);

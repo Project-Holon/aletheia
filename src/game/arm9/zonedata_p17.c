@@ -231,10 +231,6 @@ void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6)
 }
 
 
-/*
- * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
- *           every relocation site resolves and match.py one reports EXACT.
- */
 void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6)
 {
     void *r = func_020122C0(a0, 0, (void *)((int)func_020147B0), 0x1c);

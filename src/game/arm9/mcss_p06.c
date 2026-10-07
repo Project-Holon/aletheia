@@ -475,32 +475,6 @@ void sub_02016BA0(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: a teardown chain on the same object class as unit_02015BA4.c.
- * sub_02016BA0 releases eight pointer fields of the object through
- * func_020307B0 (a generic release call reached by blx, so it is ARM),
- * zeroes three of them (+0x98, +0xd4, +0xd8, all past the immediate str
- * reach so the compiler adds the offset into a register first), then
- * zeroes the other four (+0xc, +0x1c, +0x14, +0x24, +0x2c) and, if the
- * object's own field at +0 is non-zero, recurses into sub_02016C0C with
- * that field's value before zeroing it too. sub_02016C0C turns an id into
- * an object through func_02030EE8, releases one or two of the object's own
- * pointer fields the same way, releases the object itself, and finally
- * releases the id through func_02030EAC.
- *
- * The immediate follower, sub_02016C38 (38 bytes, same shape over a third
- * field, one level of extra indirection), is a documented near miss: this
- * front end assigns it only two callee-saved registers (padding a filler
- * into r3) where the original spends three (r4, r5, r6), so the second
- * fetch of the inner pointer is a register move here and a reload from
- * memory in every source shape tried. Left out rather than forced.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02016BA0.c \
- *       --addr 0x02016BA0 --thumb
- */
 void sub_02016C0C(void *id)
 {
     void *obj = (void *)func_02030EE8(id);
@@ -907,22 +881,6 @@ void func_02017100(void *p, struct Stats *out, u32 lvl)
     func_02017114(func_020185F4(p), out, lvl);
 }
 
-/*
- * The first of two parallel fillers of the same nine word record.
- * func_02017168 builds it from the five values func_02017114 reads out of the
- * save block and writes 0 into the last word; its twin at 0x02017214 builds
- * the same record from a pair of pointers and writes 1, so that word is the
- * tag saying which of the two produced it.  The twin is parked in
- * src/pending/unit_02017214.c: it is the only caller of six of its eight
- * callees.
- *
- * func_02017100 passes its first argument through func_020185F4 rather than
- * holding it in a callee-saved register, which is only possible because that
- * function returns its argument: it is the two byte `bx lr` at 0x020185F4 that
- * src/matched/unit_020185F0.c matches as an empty hook.  Written as a void
- * call followed by func_02017114(p, ...) the first argument would have to be
- * saved across it and the function grows a register.
- */
 void func_02017114(void *p, struct Stats *out, u32 lvl)
 {
     u32 a0 = func_02017E88(p, 5, 0);
@@ -934,22 +892,6 @@ void func_02017114(void *p, struct Stats *out, u32 lvl)
     func_02017168(a0, a1, a2, a3, a4, out, lvl);
 }
 
-/*
- * The first of two parallel fillers of the same nine word record.
- * func_02017168 builds it from the five values func_02017114 reads out of the
- * save block and writes 0 into the last word; its twin at 0x02017214 builds
- * the same record from a pair of pointers and writes 1, so that word is the
- * tag saying which of the two produced it.  The twin is parked in
- * src/pending/unit_02017214.c: it is the only caller of six of its eight
- * callees.
- *
- * func_02017100 passes its first argument through func_020185F4 rather than
- * holding it in a callee-saved register, which is only possible because that
- * function returns its argument: it is the two byte `bx lr` at 0x020185F4 that
- * src/matched/unit_020185F0.c matches as an empty hook.  Written as a void
- * call followed by func_02017114(p, ...) the first argument would have to be
- * saved across it and the function grows a register.
- */
 void func_02017168(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, struct Stats *out,
                    u32 a6)
 {

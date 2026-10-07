@@ -1,0 +1,164 @@
+/*
+ * file:     unit_021C255C.c
+ * unit:     yes
+ * function: func_021C255C, func_021C2590, func_021C2610, func_021C2820, func_021C2888, func_021C28C4
+ * address:  0x021C255C
+ * region:   ov016
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   initGraphics        0x021C2590  arm
+ *   DWCi_HLlLoad        0x021BD674  arm
+ *   DWCi_COMMENTlDispEx 0x021BD060  arm
+ *   DWCi_ChangeScene    0x021C0E40  arm
+ *   func_021BD1D4  0x021BD1D4  arm
+ *   DWCi_FNTlFormBgEx                    0x021D5A58  arm
+ *   OS_GetMacAddress                     0x02087C6C  arm
+ *   OS_SNPrintf                          0x02084F80  arm
+ *   DWCi_STRlConvertStringAsciiToUnicode 0x021D722C  arm
+ *   DWCi_FNTlDrawRect                    0x021D5E5C  arm
+ *   DWCi_BM_GetWiFiInfo                  0x02058518  arm
+ *   _ll_udiv                             0x0209C00C  arm
+ *   _ull_mod                             0x0209C018  arm
+ *   DWCi_FNTlRenewBg                     0x021D5FC4  arm
+ *   g_021DB2F0                           0x021DB2F0  data  a1
+ *   g_021DB310                           0x021DB310  data  a1
+ *   g_021DB324                           0x021DB324  data  a1
+ *   DWCi_EFFlFade     0x021D55A4  arm
+ *   DWCi_GXlVisible   0x021D603C  arm
+ *   DWCi_EFFlCheck    0x021D5580  arm
+ *   DWCi_CMNlButton   0x021BD264  arm
+ *   DWCi_BTNlGet     0x021BCB14  arm
+ *   DWCi_BTNlEnable  0x021BCB84  arm
+ *   procScene        0x021C28E8  arm
+ */
+typedef unsigned short u16;
+
+typedef struct {
+    u16 priority : 2;
+    u16 rest : 14;
+} BgCnt;
+
+struct tagDWCWiFiInfo {
+    unsigned long long id;
+    unsigned char pad[12];
+};
+
+void initGraphics(void);
+void DWCi_HLlLoad(int idx);
+int DWCi_COMMENTlDispEx(int messageId, int n, int num);
+void DWCi_ChangeScene(void (*scene)(void));
+void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+void *DWCi_FNTlFormBgEx(int lcd, int font);
+void OS_GetMacAddress(unsigned char *macAddress);
+int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
+int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, char *src, int len);
+void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
+void DWCi_BM_GetWiFiInfo(struct tagDWCWiFiInfo *buf);
+void DWCi_FNTlRenewBg(void *canvas);
+int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
+void DWCi_GXlVisible(int lcd, int plane);
+int DWCi_EFFlCheck(int lcd);
+void DWCi_CMNlButton(int kind);
+int DWCi_BTNlGet(void);
+void DWCi_BTNlEnable(void);
+void procScene(void);
+void DWCi_SceneOptInfo(void);
+void func_021C2590(void);
+void drawInfo(void);
+void procInit(void);
+void procInit1(void);
+void procInit2(void);
+extern char g_021DB2F0[];
+extern char g_021DB310[];
+extern char g_021DB324[];
+
+
+void DWCi_SceneOptInfo(void)
+{
+    initGraphics();
+    DWCi_HLlLoad(0x11);
+    DWCi_COMMENTlDispEx(0x3a, -1, 0);
+    drawInfo();
+    DWCi_ChangeScene(procInit);
+}
+
+
+void func_021C2590(void)
+{
+    func_021BD1D4((void *)0x021DB2DC, (void *)0x0207EB78);
+    ((BgCnt *)0x04001008)->priority = 3;
+    ((BgCnt *)0x0400100A)->priority = 3;
+    ((BgCnt *)0x04000008)->priority = 3;
+    ((BgCnt *)0x0400000A)->priority = 3;
+    ((BgCnt *)0x0400000C)->priority = 3;
+}
+
+
+void drawInfo(void)
+{
+    struct tagDWCWiFiInfo info;
+    unsigned long long id;
+    int tmp[4];
+    int i;
+    unsigned short buf[20];
+    char tmpbuf[20];
+    unsigned char mac[6];
+    void *canvas;
+
+    canvas = DWCi_FNTlFormBgEx(0, 0);
+    OS_GetMacAddress(mac);
+    OS_SNPrintf(tmpbuf, 20, g_021DB2F0, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
+    DWCi_FNTlDrawRect(canvas, 8, 0x40, 0xf0, 0x1c, 2, 0x480, buf);
+    DWCi_BM_GetWiFiInfo(&info);
+    id = info.id;
+    if (id != 0) {
+        tmp[3] = (int)((id % 10) * 1000);
+        id /= 10;
+        for (i = 0; i < 3; i++) {
+            tmp[2 - i] = (int)(id % 10000);
+            id /= 10000;
+        }
+        OS_SNPrintf(tmpbuf, 20, g_021DB310, tmp[0], tmp[1], tmp[2], tmp[3]);
+        DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
+    } else {
+        OS_SNPrintf(tmpbuf, 20, g_021DB324);
+        DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
+    }
+    DWCi_FNTlDrawRect(canvas, 8, 0x78, 0xf0, 0x1c, 2, 0x480, buf);
+    DWCi_FNTlRenewBg(canvas);
+}
+
+
+void procInit(void)
+{
+    DWCi_EFFlFade(2, 1, 1, 8);
+    DWCi_EFFlFade(2, 0, 0x15, 8);
+    DWCi_GXlVisible(1, 1);
+    DWCi_GXlVisible(0, 0x15);
+    DWCi_ChangeScene(procInit1);
+}
+
+
+void procInit1(void)
+{
+    if (DWCi_EFFlCheck(1)) return;
+    if (DWCi_EFFlCheck(0)) return;
+    DWCi_CMNlButton(2);
+    DWCi_ChangeScene(procInit2);
+}
+
+
+void procInit2(void)
+{
+    if (DWCi_BTNlGet() == -2) return;
+    DWCi_BTNlEnable();
+    DWCi_ChangeScene(procScene);
+}

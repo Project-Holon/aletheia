@@ -1,0 +1,143 @@
+/*
+ * file:     unit_021F36C0_p05.c
+ * unit:     yes
+ * function: func_021F3B10, func_021F3BF0
+ * address:  0x021F3B10
+ * region:   ov056
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_020490F4  0x020490F4  arm
+ *   func_021A3074  0x021A3074  thumb  ov021
+ *   func_0207ADC4  0x0207ADC4  arm
+ *   func_02008550  0x02008550  thumb
+ *   func_02046E24  0x02046E24  arm
+ *   func_02047180  0x02047180  arm
+ *   func_02049238  0x02049238  arm
+ *   d_021F4308     0x021F4308  data  a4
+ *   d_021F4264     0x021F4264  data  a2
+ *   d_021F426C     0x021F426C  data  ov056  a4
+ *   func_02047400  0x02047400  arm
+ *   func_02047564  0x02047564  arm
+ *   func_0204767C  0x0204767C  arm
+ *   func_0204784C  0x0204784C  arm
+ *   func_020477A4  0x020477A4  arm
+ */
+struct Sub0200852CObj;
+struct G3dOwner;
+struct G3dRec;
+struct AnmCtl;
+struct G3dSys;
+typedef unsigned char  u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
+typedef struct Vec {
+    int x;
+    int y;
+    int z;
+} Vec;
+
+typedef struct Mtx33 {
+    int m[9];
+} Mtx33;
+
+typedef struct Obj {
+    void *res0;
+    void *res1;
+    void *res2;
+    int f0c;
+    u8 pad10[0x10];
+    Vec pos;
+    Vec scale;
+    Mtx33 rot;
+    int f5c;
+    int f60;
+    void *f64;
+    void *f68;
+    Vec f6c;
+    u16 f78;
+    u16 pad7a;
+    int f7c;
+} Obj;
+
+typedef signed int     s32;
+
+extern void *func_020490F4(u32 id, u32 heap);
+extern void *func_021A3074(unsigned char *p);
+extern void func_0207ADC4(Mtx33 *m);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern int func_02047180(u32 *p);
+extern void func_02049238(void *);
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+void func_021F3B10(Obj *o, void *a1, int a2, int a3, int idx);
+void func_021F3BF0(u32 *p);
+extern const Vec d_021F4308[];
+extern const u16 d_021F4264[];
+extern const Vec d_021F426C;
+
+
+void func_021F3B10(Obj *o, void *a1, int a2, int a3, int idx)
+{
+    void *h;
+    int k;
+
+    idx = (u32)idx;
+    h = func_020490F4(0x96, (u16)((a3 & 0x7fff) | 0x8000));
+    o->f7c = 0;
+    o->f5c = 0;
+    o->f6c = d_021F4308[idx];
+    o->f60 = a2;
+    o->f78 = d_021F4264[idx];
+    o->f64 = a1;
+    o->f68 = func_021A3074(a1);
+    o->pos = d_021F426C;
+    o->scale.x = 0x1000;
+    o->scale.y = 0x1000;
+    o->scale.z = 0x1000;
+    func_0207ADC4(&o->rot);
+    if (func_02008550((const struct Sub0200852CObj *)a2) == 0) {
+        k = idx * 6;
+        o->res0 = func_02046E24((u32)h, k + 3);
+        o->res2 = func_02046E24((u32)h, k + 4);
+    } else {
+        k = idx * 6;
+        o->res0 = func_02046E24((u32)h, k + 1);
+        o->res2 = func_02046E24((u32)h, k + 2);
+    }
+    o->res1 = func_02046E24((u32)h, k + 5);
+    func_02047180(o->res0);
+    o->f0c = 1;
+    func_02049238(h);
+}
+
+
+void func_021F3BF0(u32 *p)
+{
+    int i;
+    int v;
+
+    i = 0;
+    p[4] = (u32)func_02047400((void *)p[0], 0, (void *)p[0]);
+    p[5] = (u32)func_02047564((struct G3dOwner *)p[4], (const struct G3dOwner *)p[1], 0);
+    p[6] = (u32)func_02047564((struct G3dOwner *)p[4], (const struct G3dOwner *)p[2], 0);
+    p[7] = (u32)func_0204767C(p[4], &p[5], 2);
+    v = 0;
+    for (; i < 2; i++) {
+        func_0204784C((struct AnmCtl *)p[7], (u16)i, &v);
+        func_020477A4((struct G3dSys *)p[7], (u16)i);
+    }
+}

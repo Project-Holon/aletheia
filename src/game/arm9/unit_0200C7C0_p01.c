@@ -129,46 +129,6 @@ u32 func_0200C7C0(u16 id)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 88 bytes, 0x0200C7C0..0x0200C818, 2 functions, neither of which carries a
- * label in the generated listing.
- *
- * alias: inside "musical_dist_save.c"; see src/matched/unit_0200C6D8.c for
- * how the name is attested.
- *
- * Two searches of the same zero-terminated table of `{u16 id, u16 count}`
- * pairs at 0x0209DE4C: the first returns the running sum of the counts in
- * front of the match, which is a base index into a flat array, and the second
- * returns the entry's own index.  Both return ~0 when the id is not listed,
- * spelled `movs r0, #0` / `mvns r0, r0` rather than a pool word.
- *
- * Both are `do`/`while` loops and not `while` loops: the key of entry zero is
- * never tested before the first body, so the table is known to be non-empty
- * by construction.  A `while (tbl[i].key != 0)` adds the entry test in front
- * of the loop and moves every instruction after it.
- *
- * The declaration order of the two locals in func_0200C7C0 is load bearing
- * and is the only thing the bytes say about it: the running sum is declared
- * first and lands in r2, the index second and lands in r3.  Declared the
- * other way round the two swap registers and five bytes differ with nothing
- * else moving.
- *
- * The pool word holding 0x0209DE4C is attested as `literal`: three literal
- * pools in the image hold that address, so even with both of these functions
- * in one range a witness survives outside it.
- *
- * The two neighbours immediately before this range, func_0200C780 and
- * func_0200C7A0, reproduce every concrete byte and stay at MATCH.  Each is a
- * linear scan of a `u16` table, at 0x0209DE2C with fifteen entries and at
- * 0x0209DE20 with six, and each table's address appears in exactly one
- * literal pool in the whole image: its own.  The `literal` class discards
- * that witness under the honesty rule and no cut helps, because shrinking the
- * range to one function keeps its own pool word in it.  Evidence class:
- * `literal`, no outside witness; the C is not in question.
- */
 u32 func_0200C7F4(u32 id)
 {
     u32 i = 0;
@@ -366,356 +326,59 @@ u32 func_0200C9EC(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 void func_0200C9F4(struct Blk37_0200C9EC *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk37_0200C9EC));
     p->unk00 = 0xBEEFCAFE;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 void *func_0200CA10(void *sys)
 {
     return func_020071CC(sys, 0x37);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 void *func_0200CA1C(void *a)
 {
     return func_0200CA10(func_02012EBC(a));
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 struct Blk37_0200C9EC *func_0200CA28(struct Blk37_0200C9EC *p)
 {
     p->f0 = 1;
     return p;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 u32 func_0200CA38(struct Blk37_0200C9EC *p)
 {
     return p->f0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 struct Blk37_0200C9EC *func_0200CA40(struct Blk37_0200C9EC *p)
 {
     p->f1 = 1;
     return p;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 u32 func_0200CA54(struct Blk37_0200C9EC *p)
 {
     return p->f1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 void func_0200CA5C(struct Blk37_0200C9EC *p, u32 v)
 {
     p->f11 = v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 u32 func_0200CA70(struct Blk37_0200C9EC *p)
 {
     return p->f11;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 void func_0200CA78(struct Blk37_0200C9EC *p, u32 v)
 {
     p->f12 = v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
- *
- * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
- * label in the generated listing.
- *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
- * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
- * checked rather than merely zeroed; nothing in this range reads it back.
- *
- * The word at +0x04 is a packed set of bitfields, and the widths are read off
- * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
- * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
- * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
- * the second shift pair in it and is a return type rather than a field width.
- *
- * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
- * three module-level tables and is not attempted here.
- */
 u16 func_0200CA8C(struct Blk37_0200C9EC *p)
 {
     return p->f12;

@@ -777,17 +777,6 @@ u32 *sub_02005C3C(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Two eight byte forwarders, one `ldr r3, [pc]` and one `bx r3` each.  Both
- * targets are Thumb and both are reached from elsewhere in the image, so the
- * two pool words resolve with the Thumb bit set and the ranges are EXACT.
- * The pair is worth keeping as a unit because it is the cheapest possible
- * demonstration that a tail call to a function in another section is always
- * a pool word: there is nothing else in either function.
- */
 u16 sub_02005C44(void)
 {
     return sub_020058D0();
@@ -837,18 +826,6 @@ u32 sub_02005C4C(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Three predicates.  sub_02005C8C carries no label, because it saves
- * nothing: it reads the DS interrupt enable register at 0x04000210 and
- * reports one bit of it.  0x04000210 reaches the literal pool as a plain
- * constant with no relocation, while the mask 0x80000 does not reach the
- * pool at all: `movs r0, #2` and `lsls r0, r0, #0x12` is two halfwords
- * against the four bytes a pool word plus its `ldr` would cost, so any
- * constant that is a small value shifted left is built rather than loaded.
- */
 int sub_02005C64(void)
 {
     if (sub_02005C4C_State.unk14 == 0) {
@@ -872,18 +849,6 @@ int sub_02005C64(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Three predicates.  sub_02005C8C carries no label, because it saves
- * nothing: it reads the DS interrupt enable register at 0x04000210 and
- * reports one bit of it.  0x04000210 reaches the literal pool as a plain
- * constant with no relocation, while the mask 0x80000 does not reach the
- * pool at all: `movs r0, #2` and `lsls r0, r0, #0x12` is two halfwords
- * against the four bytes a pool word plus its `ldr` would cost, so any
- * constant that is a small value shifted left is built rather than loaded.
- */
 int sub_02005C8C(void)
 {
     if (*(volatile u32 *)0x04000210 & 0x80000) {
@@ -941,22 +906,6 @@ void sub_02005CA4(int a, u32 mask)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005D14, sub_02005D28
- *
- * A bit-per-channel broadcast and the callback hook that goes with it.
- *
- * sub_02005CA4 forwards its second argument without ever mentioning it: the
- * original never touches r1 between entry and either call, which is what a
- * parameter that is only ever passed on looks like.  The one thing to get
- * right is that both arms call the same function with a different first
- * argument rather than computing the argument and calling once; written as
- * `sub_02005CBC(a == 1 ? 0x7F : 0, b)` the compiler folds the two calls into
- * one and the function is four bytes shorter.
- */
 void sub_02005CBC(u32 value, u32 mask)
 {
     int i;
@@ -980,22 +929,6 @@ void sub_02005CBC(u32 value, u32 mask)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005D14, sub_02005D28
- *
- * A bit-per-channel broadcast and the callback hook that goes with it.
- *
- * sub_02005CA4 forwards its second argument without ever mentioning it: the
- * original never touches r1 between entry and either call, which is what a
- * parameter that is only ever passed on looks like.  The one thing to get
- * right is that both arms call the same function with a different first
- * argument rather than computing the argument and calling once; written as
- * `sub_02005CBC(a == 1 ? 0x7F : 0, b)` the compiler folds the two calls into
- * one and the function is four bytes shorter.
- */
 int sub_02005CE0(void *arg)
 {
     if (sub_02005C64() == 0) {
@@ -1019,22 +952,6 @@ int sub_02005CE0(void *arg)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005D14, sub_02005D28
- *
- * A bit-per-channel broadcast and the callback hook that goes with it.
- *
- * sub_02005CA4 forwards its second argument without ever mentioning it: the
- * original never touches r1 between entry and either call, which is what a
- * parameter that is only ever passed on looks like.  The one thing to get
- * right is that both arms call the same function with a different first
- * argument rather than computing the argument and calling once; written as
- * `sub_02005CBC(a == 1 ? 0x7F : 0, b)` the compiler folds the two calls into
- * one and the function is four bytes shorter.
- */
 void sub_02005D08(int (*hook)(void *arg))
 {
     sub_02005CE0_State.unk04 = hook;
@@ -1052,22 +969,6 @@ void sub_02005D08(int (*hook)(void *arg))
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005D14, sub_02005D28
- *
- * A bit-per-channel broadcast and the callback hook that goes with it.
- *
- * sub_02005CA4 forwards its second argument without ever mentioning it: the
- * original never touches r1 between entry and either call, which is what a
- * parameter that is only ever passed on looks like.  The one thing to get
- * right is that both arms call the same function with a different first
- * argument rather than computing the argument and calling once; written as
- * `sub_02005CBC(a == 1 ? 0x7F : 0, b)` the compiler folds the two calls into
- * one and the function is four bytes shorter.
- */
 void sub_02005D14(void)
 {
     func_02072E7C((void **)sub_0200590C(), 0);
@@ -1086,22 +987,6 @@ void sub_02005D14(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005D14, sub_02005D28
- *
- * A bit-per-channel broadcast and the callback hook that goes with it.
- *
- * sub_02005CA4 forwards its second argument without ever mentioning it: the
- * original never touches r1 between entry and either call, which is what a
- * parameter that is only ever passed on looks like.  The one thing to get
- * right is that both arms call the same function with a different first
- * argument rather than computing the argument and calling once; written as
- * `sub_02005CBC(a == 1 ? 0x7F : 0, b)` the compiler folds the two calls into
- * one and the function is four bytes shorter.
- */
 void sub_02005D28(void)
 {
     sub_02005F90();
@@ -1356,40 +1241,6 @@ void sub_02005DF8(u32 a)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Two of the five functions of the range the header of
- * src/matched/unit_02005DAC.c recorded as a near miss.  sub_02005E04 sets the
- * link's two power levels and remembers the first of them in the state block;
- * sub_02005DF8 is the twelve byte forwarder that supplies the fixed second
- * argument 0x7F.
- *
- * Why this is its own byte range, and where the file boundary comes from.
- * func_02072F5C is reached from exactly three `blx` sites in the whole image:
- * 0x02005E16 and 0x02005E22 inside sub_02005E04, and 0x02005E40 inside
- * sub_02005E30.  Matched as one range with sub_02005E30 all three witnesses
- * are inside the bytes under test, the honesty rule discards them all and the
- * range caps at MATCH.  Cut here, each of the two files is the other's
- * witness and both come out EXACT: this file's two sites attest
- * src/matched/unit_02005E30.c and that file's one site attests these two.
- * The cut cannot go anywhere else, because sub_02005DF8's pool word is the
- * only reference to sub_02005E04 in the image, so those two have to share a
- * range and be `local` to each other.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * `python tools/match.py tu --suggest-split`, which is what found the cut.
- *
- * sub_02005DE4, the function immediately before this range, stays open and is
- * deliberately not in this file.  It is the only caller of 0x02072E8C
- * anywhere in the image, so the single witness for that call is the call
- * itself: no cut can put it outside the range under test, and the address is
- * an ARM library routine that cannot be made `local` either.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02005DF8.c \
- *       --addr 0x02005DF8 --thumb
- */
 void sub_02005E04(u32 a, u32 b)
 {
     sub_02005FBC();
@@ -1658,25 +1509,6 @@ int sub_02005F38(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005FBC
- *
- * The setup and teardown of the connection request block at 0x020AA260.
- * The range stops at 0x02005FF4 rather than running on to 0x02006148 for an
- * evidence reason: func_02072F34 is called from five places image wide and
- * four of them are inside sub_02005FF4, so the two files witness each
- * other's calls.
- *
- * sub_02005F5C ends in a tail call to sub_02005F90, which is in this same
- * range, and it still goes through a literal pool and `bx r3` rather than a
- * branch: one section per function means the compiler cannot encode the
- * displacement even to its own neighbour, and the pool word is an ABS32 the
- * linker fills in.  Here that makes the site `local` and costs no image
- * evidence at all.
- */
 void sub_02005F5C(void)
 {
     sub_02005F38_State.unk2C = 60;
@@ -1693,25 +1525,6 @@ void sub_02005F5C(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005FBC
- *
- * The setup and teardown of the connection request block at 0x020AA260.
- * The range stops at 0x02005FF4 rather than running on to 0x02006148 for an
- * evidence reason: func_02072F34 is called from five places image wide and
- * four of them are inside sub_02005FF4, so the two files witness each
- * other's calls.
- *
- * sub_02005F5C ends in a tail call to sub_02005F90, which is in this same
- * range, and it still goes through a literal pool and `bx r3` rather than a
- * branch: one section per function means the compiler cannot encode the
- * displacement even to its own neighbour, and the pool word is an ABS32 the
- * linker fills in.  Here that makes the site `local` and costs no image
- * evidence at all.
- */
 void sub_02005F70(u32 a, u16 b, int c, int d)
 {
     sub_02005F38_State.unk26 = b;
@@ -1733,25 +1546,6 @@ void sub_02005F70(u32 a, u16 b, int c, int d)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005FBC
- *
- * The setup and teardown of the connection request block at 0x020AA260.
- * The range stops at 0x02005FF4 rather than running on to 0x02006148 for an
- * evidence reason: func_02072F34 is called from five places image wide and
- * four of them are inside sub_02005FF4, so the two files witness each
- * other's calls.
- *
- * sub_02005F5C ends in a tail call to sub_02005F90, which is in this same
- * range, and it still goes through a literal pool and `bx r3` rather than a
- * branch: one section per function means the compiler cannot encode the
- * displacement even to its own neighbour, and the pool word is an ABS32 the
- * linker fills in.  Here that makes the site `local` and costs no image
- * evidence at all.
- */
 void sub_02005F90(void)
 {
     sub_02005F38_State.unk1C = 0;
@@ -1772,25 +1566,6 @@ void sub_02005F90(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005FBC
- *
- * The setup and teardown of the connection request block at 0x020AA260.
- * The range stops at 0x02005FF4 rather than running on to 0x02006148 for an
- * evidence reason: func_02072F34 is called from five places image wide and
- * four of them are inside sub_02005FF4, so the two files witness each
- * other's calls.
- *
- * sub_02005F5C ends in a tail call to sub_02005F90, which is in this same
- * range, and it still goes through a literal pool and `bx r3` rather than a
- * branch: one section per function means the compiler cannot encode the
- * displacement even to its own neighbour, and the pool word is an ABS32 the
- * linker fills in.  Here that makes the site `local` and costs no image
- * evidence at all.
- */
 void sub_02005FBC(void)
 {
     u32 id;
@@ -1911,27 +1686,6 @@ void sub_02005FF4(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The three state connection pump, plus the initialiser and the address-of
- * accessor for the five entry table at 0x020AA294.
- *
- * sub_02005FF4 is where the signal strength bar comes from: `unk24` counts
- * up towards `unk2C` while the current access point matches the one being
- * connected to and back down towards zero when it does not, and the value
- * handed to func_02072F34 is `unk24 * 0x7F / unk2C` or `unk24 * 0x7F /
- * unk30`.  Both divisions are signed, so they call the compiler's own
- * `_s32_div_f` helper rather than `_u32_div_f`: `unk24` is a `u16` that
- * promotes to `int` and the two limits are `int`.  Getting that wrong is not
- * a codegen difference but a relocation with a different symbol name, and
- * the name is what the harness resolves against.
- *
- * sub_02006138 carries no label: it is `lsls`, `adds`, `adds`, `bx lr`, the
- * address of one table entry's second word, and it saves nothing, so
- * disasm.py's prologue sweep cannot see it.
- */
 void sub_02006118(void)
 {
     int i;
@@ -1951,27 +1705,6 @@ void sub_02006118(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The three state connection pump, plus the initialiser and the address-of
- * accessor for the five entry table at 0x020AA294.
- *
- * sub_02005FF4 is where the signal strength bar comes from: `unk24` counts
- * up towards `unk2C` while the current access point matches the one being
- * connected to and back down towards zero when it does not, and the value
- * handed to func_02072F34 is `unk24 * 0x7F / unk2C` or `unk24 * 0x7F /
- * unk30`.  Both divisions are signed, so they call the compiler's own
- * `_s32_div_f` helper rather than `_u32_div_f`: `unk24` is a `u16` that
- * promotes to `int` and the two limits are `int`.  Getting that wrong is not
- * a codegen difference but a relocation with a different symbol name, and
- * the name is what the harness resolves against.
- *
- * sub_02006138 carries no label: it is `lsls`, `adds`, `adds`, `bx lr`, the
- * address of one table entry's second word, and it saves nothing, so
- * disasm.py's prologue sweep cannot see it.
- */
 u32 *sub_02006138(int i)
 {
     return &sub_02006118_Table[i].unk04;
@@ -2053,18 +1786,6 @@ void sub_0200616C(void *arg, int i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020061F8, sub_02006210
- *
- * Registering and tearing down the five entries of the table at 0x020AA294,
- * and three forwarders over sub_020061A4.  sub_020061E4 and sub_020061F0
- * both tail call it through the same pool word, the first supplying a -1 for
- * the second argument and the second passing both of its own straight
- * through, which is four bytes of code and one relocation each.
- */
 void sub_020061A4(u32 a, u32 b)
 {
     int i;
@@ -2092,18 +1813,6 @@ void sub_020061A4(u32 a, u32 b)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020061F8, sub_02006210
- *
- * Registering and tearing down the five entries of the table at 0x020AA294,
- * and three forwarders over sub_020061A4.  sub_020061E4 and sub_020061F0
- * both tail call it through the same pool word, the first supplying a -1 for
- * the second argument and the second passing both of its own straight
- * through, which is four bytes of code and one relocation each.
- */
 void sub_020061E4(u32 a)
 {
     sub_020061A4(a, -1);
@@ -2118,18 +1827,6 @@ void sub_020061E4(u32 a)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020061F8, sub_02006210
- *
- * Registering and tearing down the five entries of the table at 0x020AA294,
- * and three forwarders over sub_020061A4.  sub_020061E4 and sub_020061F0
- * both tail call it through the same pool word, the first supplying a -1 for
- * the second argument and the second passing both of its own straight
- * through, which is four bytes of code and one relocation each.
- */
 void sub_020061F0(u32 a, u32 b)
 {
     sub_020061A4(a, b);
@@ -2144,18 +1841,6 @@ void sub_020061F0(u32 a, u32 b)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020061F8, sub_02006210
- *
- * Registering and tearing down the five entries of the table at 0x020AA294,
- * and three forwarders over sub_020061A4.  sub_020061E4 and sub_020061F0
- * both tail call it through the same pool word, the first supplying a -1 for
- * the second argument and the second passing both of its own straight
- * through, which is four bytes of code and one relocation each.
- */
 void sub_020061F8(int i)
 {
     func_02072E7C((void **)(&sub_0200616C_Table[i].unk04), 0);
@@ -2170,18 +1855,6 @@ void sub_020061F8(int i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020061F8, sub_02006210
- *
- * Registering and tearing down the five entries of the table at 0x020AA294,
- * and three forwarders over sub_020061A4.  sub_020061E4 and sub_020061F0
- * both tail call it through the same pool word, the first supplying a -1 for
- * the second argument and the second passing both of its own straight
- * through, which is four bytes of code and one relocation each.
- */
 void sub_02006210(void)
 {
     int i;
@@ -2267,29 +1940,6 @@ int sub_02006238(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020062D8, sub_020062EC, sub_02006300
- *
- * The two thread bodies and the routine that starts one.  sub_020062D8 and
- * sub_020062EC carry no label: both are six instructions with no prologue
- * that dereference the thread argument, read one field of the state block
- * and tail call func_02074AC4 with a different constant, and the only
- * references to them in the image are the two pool words of sub_02006300
- * immediately below.  That is why the three have to be one byte range:
- * outside it neither thread body has a witness, and inside it both are
- * `local`.
- *
- * sub_02006300's call to func_020853C0 is an OS thread creation: the thread
- * object at 0x020AA354, the entry point, the argument, the stack at
- * 0x020AA9B4, and 0x400 and 0x11 on the stack for the stack size and the
- * priority.  The argument, 0x020AA26C, is the address of the state block's
- * own `unk0C` field, which is the word sub_02006300 has just written, so it
- * reaches the relocation as the state symbol with an addend of 0xC rather
- * than as an object of its own.
- */
 int sub_02006254(u32 a)
 {
     if (func_02072EE0(a) != 0) {
@@ -2307,29 +1957,6 @@ int sub_02006254(u32 a)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020062D8, sub_020062EC, sub_02006300
- *
- * The two thread bodies and the routine that starts one.  sub_020062D8 and
- * sub_020062EC carry no label: both are six instructions with no prologue
- * that dereference the thread argument, read one field of the state block
- * and tail call func_02074AC4 with a different constant, and the only
- * references to them in the image are the two pool words of sub_02006300
- * immediately below.  That is why the three have to be one byte range:
- * outside it neither thread body has a witness, and inside it both are
- * `local`.
- *
- * sub_02006300's call to func_020853C0 is an OS thread creation: the thread
- * object at 0x020AA354, the entry point, the argument, the stack at
- * 0x020AA9B4, and 0x400 and 0x11 on the stack for the stack size and the
- * priority.  The argument, 0x020AA26C, is the address of the state block's
- * own `unk0C` field, which is the word sub_02006300 has just written, so it
- * reaches the relocation as the state symbol with an addend of 0xC rather
- * than as an object of its own.
- */
 void sub_02006268(int i, u32 a, u32 b, u32 c)
 {
     if (a != -1) {
@@ -2352,29 +1979,6 @@ void sub_02006268(int i, u32 a, u32 b, u32 c)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020062D8, sub_020062EC, sub_02006300
- *
- * The two thread bodies and the routine that starts one.  sub_020062D8 and
- * sub_020062EC carry no label: both are six instructions with no prologue
- * that dereference the thread argument, read one field of the state block
- * and tail call func_02074AC4 with a different constant, and the only
- * references to them in the image are the two pool words of sub_02006300
- * immediately below.  That is why the three have to be one byte range:
- * outside it neither thread body has a witness, and inside it both are
- * `local`.
- *
- * sub_02006300's call to func_020853C0 is an OS thread creation: the thread
- * object at 0x020AA354, the entry point, the argument, the stack at
- * 0x020AA9B4, and 0x400 and 0x11 on the stack for the stack size and the
- * priority.  The argument, 0x020AA26C, is the address of the state block's
- * own `unk0C` field, which is the word sub_02006300 has just written, so it
- * reaches the relocation as the state symbol with an addend of 0xC rather
- * than as an object of its own.
- */
 void sub_020062BC(int i, u32 level)
 {
     if (level > 0x7F) {
@@ -2392,29 +1996,6 @@ void sub_020062BC(int i, u32 level)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020062D8, sub_020062EC, sub_02006300
- *
- * The two thread bodies and the routine that starts one.  sub_020062D8 and
- * sub_020062EC carry no label: both are six instructions with no prologue
- * that dereference the thread argument, read one field of the state block
- * and tail call func_02074AC4 with a different constant, and the only
- * references to them in the image are the two pool words of sub_02006300
- * immediately below.  That is why the three have to be one byte range:
- * outside it neither thread body has a witness, and inside it both are
- * `local`.
- *
- * sub_02006300's call to func_020853C0 is an OS thread creation: the thread
- * object at 0x020AA354, the entry point, the argument, the stack at
- * 0x020AA9B4, and 0x400 and 0x11 on the stack for the stack size and the
- * priority.  The argument, 0x020AA26C, is the address of the state block's
- * own `unk0C` field, which is the word sub_02006300 has just written, so it
- * reaches the relocation as the state symbol with an addend of 0xC rather
- * than as an object of its own.
- */
 void sub_020062D8(u32 *arg)
 {
     func_02074AC4(*arg, 3, sub_02006300_State.unk10);
@@ -2429,29 +2010,6 @@ void sub_020062D8(u32 *arg)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020062D8, sub_020062EC, sub_02006300
- *
- * The two thread bodies and the routine that starts one.  sub_020062D8 and
- * sub_020062EC carry no label: both are six instructions with no prologue
- * that dereference the thread argument, read one field of the state block
- * and tail call func_02074AC4 with a different constant, and the only
- * references to them in the image are the two pool words of sub_02006300
- * immediately below.  That is why the three have to be one byte range:
- * outside it neither thread body has a witness, and inside it both are
- * `local`.
- *
- * sub_02006300's call to func_020853C0 is an OS thread creation: the thread
- * object at 0x020AA354, the entry point, the argument, the stack at
- * 0x020AA9B4, and 0x400 and 0x11 on the stack for the stack size and the
- * priority.  The argument, 0x020AA26C, is the address of the state block's
- * own `unk0C` field, which is the word sub_02006300 has just written, so it
- * reaches the relocation as the state symbol with an addend of 0xC rather
- * than as an object of its own.
- */
 void sub_020062EC(u32 *arg)
 {
     func_02074AC4(*arg, 4, sub_02006300_State.unk10);
@@ -2466,29 +2024,6 @@ void sub_020062EC(u32 *arg)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020062D8, sub_020062EC, sub_02006300
- *
- * The two thread bodies and the routine that starts one.  sub_020062D8 and
- * sub_020062EC carry no label: both are six instructions with no prologue
- * that dereference the thread argument, read one field of the state block
- * and tail call func_02074AC4 with a different constant, and the only
- * references to them in the image are the two pool words of sub_02006300
- * immediately below.  That is why the three have to be one byte range:
- * outside it neither thread body has a witness, and inside it both are
- * `local`.
- *
- * sub_02006300's call to func_020853C0 is an OS thread creation: the thread
- * object at 0x020AA354, the entry point, the argument, the stack at
- * 0x020AA9B4, and 0x400 and 0x11 on the stack for the stack size and the
- * priority.  The argument, 0x020AA26C, is the address of the state block's
- * own `unk0C` field, which is the word sub_02006300 has just written, so it
- * reaches the relocation as the state symbol with an addend of 0xC rather
- * than as an object of its own.
- */
 void sub_02006300(u32 a, int mode)
 {
     sub_02006300_State.unk0C = a;
@@ -2790,19 +2325,6 @@ void sub_020064F4(u32 a)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Three short entry points that take the current connection slot's payload
- * from sub_0200590C, which is the last function of
- * src/matched/unit_020057DC.c, and hand it to the library.  sub_02006518 is
- * the odd one: it does not use the slot at all but looks the same object up
- * twice, through two different library entry points, with the same constant
- * 0x3F2, and shuts both results down.  0x3F2 is past the range of a Thumb
- * `movs` immediate, so it arrives in r4 through a literal pool word and is
- * used twice from there.
- */
 void sub_02006504(void)
 {
     func_02072E7C((void **)sub_0200590C(), 0);
@@ -2815,19 +2337,6 @@ void sub_02006504(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Three short entry points that take the current connection slot's payload
- * from sub_0200590C, which is the last function of
- * src/matched/unit_020057DC.c, and hand it to the library.  sub_02006518 is
- * the odd one: it does not use the slot at all but looks the same object up
- * twice, through two different library entry points, with the same constant
- * 0x3F2, and shuts both results down.  0x3F2 is past the range of a Thumb
- * `movs` immediate, so it arrives in r4 through a literal pool word and is
- * used twice from there.
- */
 void sub_02006518(void)
 {
     u32 a = *(u32 *)func_020743EC(0x3F2);
@@ -2965,52 +2474,6 @@ void sub_020065D8(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The four functions that walk the three element voice array.
- *
- * There is one object here, not five.  sub_02006544_State is a single
- * 0xB0 byte record at 0x02140484: a halfword, three 0x34 byte entries at
- * +0x04, and a tail of five scalars at +0xA0.  The tail is reached through
- * literal pool words holding 0x02140504 and 0x02140524, which are the same
- * symbol with the addends 0x80 and 0xA0, because the Thumb immediate cannot
- * reach 0xA0 bytes from the symbol itself.  Which addend the compiler picks
- * follows the reach of the access width: the base is the field offset with
- * the low bits of the reach masked off, 0x7F for a word, 0x3F for a
- * halfword, 0x1F for a byte, so the word and halfword group at +0xA0..+0xA8
- * shares the base 0x02140504 and the byte at +0xAC gets 0x02140524.
- * Reading each pool word as a separate object is the wrong conclusion and
- * costs the file its relocations.
- *
- * sub_02006674 passes 0x020A7024 to the debug allocator at 0x02030734 with
- * the line number 0x105, and the bytes at 0x020A7024 spell "pm_voice.c", so
- * this run is that file.  The string is named by one literal pool word in
- * the image and it is this function's own, so the `literal` class discards
- * its only witness; the `string` class carries it, because
- * "wb_sound_data.sdat" ends with its NUL at 0x020A7022 and one byte of
- * padding puts the next string at 0x020A7024 by construction.
- *
- * sub_02006650 carries no label in the generated listing, because it saves
- * nothing: it is four instructions of loop, an early `return 1` and a
- * `return 0`, and `disasm.py` prints it as a run of `.word`s.  It is also
- * the reason this range and the next one can be matched at all.  The pool
- * word at 0x02006670 is one of the only two in the image that hold
- * 0x02140484, the other being 0x020065C0 inside sub_02006544, so each of
- * those two functions is the outside witness the other ranges need.
- *
- * The near miss immediately before this range is sub_02006544,
- * 0x02006544..0x020065D8, 148 bytes.  Evidence class `literal`, witness
- * census 1 image wide and 1 inside the range: the halfword pair table at
- * 0x0209D8C0 that its loop indexes is named by exactly one literal pool
- * word in the whole 3.9 MB image, 0x020065CC, which is sub_02006544's own
- * pool.  0x0209D8C0 is read only data in the image, so `label`, `veneer`
- * and `string` cannot apply and `literal` is the only class available; no
- * cut helps, because the witness is the pool word of the very function that
- * needs it.  It closes the day anything else in the image loads that
- * address.
- */
 void sub_020065FC(void)
 {
     struct Sub02006544Entry *e;
@@ -3040,52 +2503,6 @@ void sub_020065FC(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The four functions that walk the three element voice array.
- *
- * There is one object here, not five.  sub_02006544_State is a single
- * 0xB0 byte record at 0x02140484: a halfword, three 0x34 byte entries at
- * +0x04, and a tail of five scalars at +0xA0.  The tail is reached through
- * literal pool words holding 0x02140504 and 0x02140524, which are the same
- * symbol with the addends 0x80 and 0xA0, because the Thumb immediate cannot
- * reach 0xA0 bytes from the symbol itself.  Which addend the compiler picks
- * follows the reach of the access width: the base is the field offset with
- * the low bits of the reach masked off, 0x7F for a word, 0x3F for a
- * halfword, 0x1F for a byte, so the word and halfword group at +0xA0..+0xA8
- * shares the base 0x02140504 and the byte at +0xAC gets 0x02140524.
- * Reading each pool word as a separate object is the wrong conclusion and
- * costs the file its relocations.
- *
- * sub_02006674 passes 0x020A7024 to the debug allocator at 0x02030734 with
- * the line number 0x105, and the bytes at 0x020A7024 spell "pm_voice.c", so
- * this run is that file.  The string is named by one literal pool word in
- * the image and it is this function's own, so the `literal` class discards
- * its only witness; the `string` class carries it, because
- * "wb_sound_data.sdat" ends with its NUL at 0x020A7022 and one byte of
- * padding puts the next string at 0x020A7024 by construction.
- *
- * sub_02006650 carries no label in the generated listing, because it saves
- * nothing: it is four instructions of loop, an early `return 1` and a
- * `return 0`, and `disasm.py` prints it as a run of `.word`s.  It is also
- * the reason this range and the next one can be matched at all.  The pool
- * word at 0x02006670 is one of the only two in the image that hold
- * 0x02140484, the other being 0x020065C0 inside sub_02006544, so each of
- * those two functions is the outside witness the other ranges need.
- *
- * The near miss immediately before this range is sub_02006544,
- * 0x02006544..0x020065D8, 148 bytes.  Evidence class `literal`, witness
- * census 1 image wide and 1 inside the range: the halfword pair table at
- * 0x0209D8C0 that its loop indexes is named by exactly one literal pool
- * word in the whole 3.9 MB image, 0x020065CC, which is sub_02006544's own
- * pool.  0x0209D8C0 is read only data in the image, so `label`, `veneer`
- * and `string` cannot apply and `literal` is the only class available; no
- * cut helps, because the witness is the pool word of the very function that
- * needs it.  It closes the day anything else in the image loads that
- * address.
- */
 int sub_02006650(void)
 {
     int i;
@@ -3104,52 +2521,6 @@ int sub_02006650(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The four functions that walk the three element voice array.
- *
- * There is one object here, not five.  sub_02006544_State is a single
- * 0xB0 byte record at 0x02140484: a halfword, three 0x34 byte entries at
- * +0x04, and a tail of five scalars at +0xA0.  The tail is reached through
- * literal pool words holding 0x02140504 and 0x02140524, which are the same
- * symbol with the addends 0x80 and 0xA0, because the Thumb immediate cannot
- * reach 0xA0 bytes from the symbol itself.  Which addend the compiler picks
- * follows the reach of the access width: the base is the field offset with
- * the low bits of the reach masked off, 0x7F for a word, 0x3F for a
- * halfword, 0x1F for a byte, so the word and halfword group at +0xA0..+0xA8
- * shares the base 0x02140504 and the byte at +0xAC gets 0x02140524.
- * Reading each pool word as a separate object is the wrong conclusion and
- * costs the file its relocations.
- *
- * sub_02006674 passes 0x020A7024 to the debug allocator at 0x02030734 with
- * the line number 0x105, and the bytes at 0x020A7024 spell "pm_voice.c", so
- * this run is that file.  The string is named by one literal pool word in
- * the image and it is this function's own, so the `literal` class discards
- * its only witness; the `string` class carries it, because
- * "wb_sound_data.sdat" ends with its NUL at 0x020A7022 and one byte of
- * padding puts the next string at 0x020A7024 by construction.
- *
- * sub_02006650 carries no label in the generated listing, because it saves
- * nothing: it is four instructions of loop, an early `return 1` and a
- * `return 0`, and `disasm.py` prints it as a run of `.word`s.  It is also
- * the reason this range and the next one can be matched at all.  The pool
- * word at 0x02006670 is one of the only two in the image that hold
- * 0x02140484, the other being 0x020065C0 inside sub_02006544, so each of
- * those two functions is the outside witness the other ranges need.
- *
- * The near miss immediately before this range is sub_02006544,
- * 0x02006544..0x020065D8, 148 bytes.  Evidence class `literal`, witness
- * census 1 image wide and 1 inside the range: the halfword pair table at
- * 0x0209D8C0 that its loop indexes is named by exactly one literal pool
- * word in the whole 3.9 MB image, 0x020065CC, which is sub_02006544's own
- * pool.  0x0209D8C0 is read only data in the image, so `label`, `veneer`
- * and `string` cannot apply and `literal` is the only class available; no
- * cut helps, because the witness is the pool word of the very function that
- * needs it.  It closes the day anything else in the image loads that
- * address.
- */
 void sub_02006674(int n, u32 heap)
 {
     struct Sub02006544Entry *e;
@@ -3229,33 +2600,6 @@ void sub_020066E8(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006768, sub_020067A4, sub_020067D0
- *
- * The teardown, the master volume pair, the round robin picker and the two
- * entry reset routines.  Three of the seven carry no label, because they
- * save nothing: sub_02006734 and sub_02006740 are a two instruction setter
- * and its reset, and sub_020067D0 is two stores and a tail call through a
- * pool word into sub_020067A4, which is the shape
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes.
- *
- * _s32_div_f, at 0x0209C0A4, is the signed 32 bit division helper, the
- * counterpart of the `_u32_div_f` at 0x0209C2B0 that
- * docs/idioms/runtime-helper-reloc.md records.  sub_0200674C scales a u8 by
- * the master volume and both operands promote to `int`, so the signed
- * helper is what that source shape produces; nothing in the C names it.
- *
- * Why this range starts here and not one function earlier: sub_020065D8 is
- * called from exactly two places in the whole image, 0x0200667C inside
- * sub_02006674 and 0x020066EA inside sub_020066E8.  Put both in one range
- * and the honesty rule discards both witnesses and the site is unresolved;
- * cut between them, as src/matched/unit_020065D8.c and this file do, and
- * each call is the other's outside witness.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
- */
 void sub_02006734(u8 volume)
 {
     sub_02006544_State.unkAC = volume;
@@ -3267,33 +2611,6 @@ void sub_02006734(u8 volume)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006768, sub_020067A4, sub_020067D0
- *
- * The teardown, the master volume pair, the round robin picker and the two
- * entry reset routines.  Three of the seven carry no label, because they
- * save nothing: sub_02006734 and sub_02006740 are a two instruction setter
- * and its reset, and sub_020067D0 is two stores and a tail call through a
- * pool word into sub_020067A4, which is the shape
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes.
- *
- * _s32_div_f, at 0x0209C0A4, is the signed 32 bit division helper, the
- * counterpart of the `_u32_div_f` at 0x0209C2B0 that
- * docs/idioms/runtime-helper-reloc.md records.  sub_0200674C scales a u8 by
- * the master volume and both operands promote to `int`, so the signed
- * helper is what that source shape produces; nothing in the C names it.
- *
- * Why this range starts here and not one function earlier: sub_020065D8 is
- * called from exactly two places in the whole image, 0x0200667C inside
- * sub_02006674 and 0x020066EA inside sub_020066E8.  Put both in one range
- * and the honesty rule discards both witnesses and the site is unresolved;
- * cut between them, as src/matched/unit_020065D8.c and this file do, and
- * each call is the other's outside witness.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
- */
 void sub_02006740(void)
 {
     sub_02006544_State.unkAC = 0x7F;
@@ -3305,33 +2622,6 @@ void sub_02006740(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006768, sub_020067A4, sub_020067D0
- *
- * The teardown, the master volume pair, the round robin picker and the two
- * entry reset routines.  Three of the seven carry no label, because they
- * save nothing: sub_02006734 and sub_02006740 are a two instruction setter
- * and its reset, and sub_020067D0 is two stores and a tail call through a
- * pool word into sub_020067A4, which is the shape
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes.
- *
- * _s32_div_f, at 0x0209C0A4, is the signed 32 bit division helper, the
- * counterpart of the `_u32_div_f` at 0x0209C2B0 that
- * docs/idioms/runtime-helper-reloc.md records.  sub_0200674C scales a u8 by
- * the master volume and both operands promote to `int`, so the signed
- * helper is what that source shape produces; nothing in the C names it.
- *
- * Why this range starts here and not one function earlier: sub_020065D8 is
- * called from exactly two places in the whole image, 0x0200667C inside
- * sub_02006674 and 0x020066EA inside sub_020066E8.  Put both in one range
- * and the honesty rule discards both witnesses and the site is unresolved;
- * cut between them, as src/matched/unit_020065D8.c and this file do, and
- * each call is the other's outside witness.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
- */
 u8 sub_0200674C(u8 volume)
 {
     return (u8)(volume * sub_02006544_State.unkAC / 0x7F);
@@ -3343,33 +2633,6 @@ u8 sub_0200674C(u8 volume)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006768, sub_020067A4, sub_020067D0
- *
- * The teardown, the master volume pair, the round robin picker and the two
- * entry reset routines.  Three of the seven carry no label, because they
- * save nothing: sub_02006734 and sub_02006740 are a two instruction setter
- * and its reset, and sub_020067D0 is two stores and a tail call through a
- * pool word into sub_020067A4, which is the shape
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes.
- *
- * _s32_div_f, at 0x0209C0A4, is the signed 32 bit division helper, the
- * counterpart of the `_u32_div_f` at 0x0209C2B0 that
- * docs/idioms/runtime-helper-reloc.md records.  sub_0200674C scales a u8 by
- * the master volume and both operands promote to `int`, so the signed
- * helper is what that source shape produces; nothing in the C names it.
- *
- * Why this range starts here and not one function earlier: sub_020065D8 is
- * called from exactly two places in the whole image, 0x0200667C inside
- * sub_02006674 and 0x020066EA inside sub_020066E8.  Put both in one range
- * and the honesty rule discards both witnesses and the site is unresolved;
- * cut between them, as src/matched/unit_020065D8.c and this file do, and
- * each call is the other's outside witness.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
- */
 u16 sub_02006768(void)
 {
     struct Sub02006544Entry *e;
@@ -3394,33 +2657,6 @@ u16 sub_02006768(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006768, sub_020067A4, sub_020067D0
- *
- * The teardown, the master volume pair, the round robin picker and the two
- * entry reset routines.  Three of the seven carry no label, because they
- * save nothing: sub_02006734 and sub_02006740 are a two instruction setter
- * and its reset, and sub_020067D0 is two stores and a tail call through a
- * pool word into sub_020067A4, which is the shape
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes.
- *
- * _s32_div_f, at 0x0209C0A4, is the signed 32 bit division helper, the
- * counterpart of the `_u32_div_f` at 0x0209C2B0 that
- * docs/idioms/runtime-helper-reloc.md records.  sub_0200674C scales a u8 by
- * the master volume and both operands promote to `int`, so the signed
- * helper is what that source shape produces; nothing in the C names it.
- *
- * Why this range starts here and not one function earlier: sub_020065D8 is
- * called from exactly two places in the whole image, 0x0200667C inside
- * sub_02006674 and 0x020066EA inside sub_020066E8.  Put both in one range
- * and the honesty rule discards both witnesses and the site is unresolved;
- * cut between them, as src/matched/unit_020065D8.c and this file do, and
- * each call is the other's outside witness.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
- */
 void sub_020067A4(struct Sub02006544Entry *e)
 {
     e->unk08 = 0;
@@ -3438,33 +2674,6 @@ void sub_020067A4(struct Sub02006544Entry *e)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006768, sub_020067A4, sub_020067D0
- *
- * The teardown, the master volume pair, the round robin picker and the two
- * entry reset routines.  Three of the seven carry no label, because they
- * save nothing: sub_02006734 and sub_02006740 are a two instruction setter
- * and its reset, and sub_020067D0 is two stores and a tail call through a
- * pool word into sub_020067A4, which is the shape
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes.
- *
- * _s32_div_f, at 0x0209C0A4, is the signed 32 bit division helper, the
- * counterpart of the `_u32_div_f` at 0x0209C2B0 that
- * docs/idioms/runtime-helper-reloc.md records.  sub_0200674C scales a u8 by
- * the master volume and both operands promote to `int`, so the signed
- * helper is what that source shape produces; nothing in the C names it.
- *
- * Why this range starts here and not one function earlier: sub_020065D8 is
- * called from exactly two places in the whole image, 0x0200667C inside
- * sub_02006674 and 0x020066EA inside sub_020066E8.  Put both in one range
- * and the honesty rule discards both witnesses and the site is unresolved;
- * cut between them, as src/matched/unit_020065D8.c and this file do, and
- * each call is the other's outside witness.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
- */
 void sub_020067D0(struct Sub02006544Entry *e)
 {
     e->unk04 = 0;
@@ -3572,62 +2781,6 @@ int sub_020067E0(struct Sub02006544Entry *e, u32 id)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The loader and the player.  sub_020067E0 resolves an id to a resource,
- * reads the header at the end of the loaded block and fills in the entry's
- * four playback fields; sub_02006868 opens one or two channels for the
- * entry and marks it running.
- *
- * Three things in here are worth keeping.
- *
- * The first word of the object func_02074450 returns is read with a
- * `lsls #8` / `lsrs #8` pair, which is a 24 bit unsigned bitfield and not a
- * mask; src/matched/unit_020064B8.c matched the same object through the
- * same entry point and
- * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md is the
- * finding.
- *
- * The byte at +0x1E of an entry is two four bit unsigned bitfields, not one
- * value: sub_02006868 reads it twice, once as `lsls #0x1C` / `lsrs #0x1C`
- * and once as `lsls #0x18` / `lsrs #0x1C`, and passes each to
- * func_02072A44.  The same byte is written in sub_02006544 with a
- * `bics`/`orrs` pair against 0x0F and against 0xF0.  The first declared
- * field is the low nibble, so this front end allocates a `u8` bitfield from
- * the least significant end.
- *
- * The pair of `blx 0x0209C00C` with `asrs r3, r2, #0x1f` in front of each is
- * one 64 bit division chained twice, not two 32 bit ones: the helper takes
- * the dividend in r0:r1 and returns it in r0:r1, so the second call consumes
- * the first call's result.  The constant it starts from is
- * 0x7FD87F8000, which is 16756991 * 0x8000, and 16756991 is half the DS
- * system clock; only its low word is in a literal pool, because the high
- * word 0x7F fits a `movs`.  The `asrs` is the sign extension of an `int`
- * operand to the 64 bit type of the dividend, which is what a `u16` field
- * promoted to `int` and then converted costs.
- *
- * The two functions of this range are separated from the two before them
- * and from sub_02006948 after them by what the evidence allows rather than
- * by taste.  sub_020067A4's only branch in the image is the `bl` at
- * 0x0200697C inside sub_02006948, so a range holding both has no witness for
- * it; ending this range at 0x02006948 leaves the pool word at 0x020067DC,
- * which is the other kind of witness for the same address, outside it.
- *
- * The near miss immediately after this range is sub_02006948,
- * 0x02006948..0x02006984, 60 bytes.  Evidence class `label`, witness census
- * 2 image wide and 2 inside the range, for each of three separate targets:
- * func_02072BDC is branched to from 0x0200694E and 0x02006966, func_02072D20
- * from 0x02006954 and 0x0200696C, and func_02072A88 from 0x0200695A and
- * 0x02006972, and every one of those six sites is inside sub_02006948
- * itself.  ov172 holds the words 0x02072A88 and 0x02072BDC in its own
- * literal pools, but overlay pool words are deliberately not admitted to
- * the `literal` class, and nothing anywhere branches to those three
- * addresses from outside this one function.  No cut helps, because the
- * witnesses are the calls the function has to make.  Each closes the day a
- * second caller appears.
- */
 int sub_02006868(struct Sub02006544Entry *e)
 {
     int v;
@@ -3990,83 +3143,6 @@ s8 sub_02006B20(u32 i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
- *
- * Nine consecutive functions of the sound channel file.  The object is a
- * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
- * in the region hold its address, and the index arithmetic is a `muls` by
- * 0x34 rather than a shift because the size is not a power of two.
- *
- * Six of the nine carry no label in the generated listing, because a getter
- * that saves nothing has no prologue for disasm.py's sweep to fire on and
- * lands in the listing as a run of `.word`s:
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
- *
- * Three details pin the source:
- *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
- *    which is the only evidence anywhere in the range that the field is
- *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
- *    other function in the run computes it before the test.  That is the
- *    difference between subscripting the table twice and binding a local
- *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
- *    conjunction and not a disjunction.  For unsigned operands that is
- *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
- *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
- *    past it, which is the `||` shape with both tests negated.  Written with
- *    `||` the two branches invert and land on the other arm.  The constants
- *    are the national dex range, 1 to 649, and the pair 492 / 650 the second
- *    test maps is a species with a second form.
- *
- * What is left out below this range, and why.  The whole run
- * 0x02006A64..0x02006D3C reproduces every concrete byte as one compile and
- * comes out MATCH, so none of the five functions held out is a codegen
- * failure; every one of them is blocked by the honesty rule, and the census
- * is from `tu --suggest-split`.
- *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
- *               and it is the `bl` at 0x02006A70 inside this very function.
- *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
- *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
- *               function, so the pairwise split of
- *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
- *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
- *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
- *               inside it.
- *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
- *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
- *               this function.  Its guard chain is
- *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_02006D3C is
- *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
- *               0x020A703C, which spells "snd_mic.c" and is the original file
- *               name of this range, and 0x020A7030, are each named by one pool
- *               word and it is this function's own.  The `string` class does
- *               not reach either: the run in front of 0x020A703C is not
- *               printable ASCII, and 0x020A7030 is itself that run.  Its
- *               allocate, clear and store sequence is
- *               docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md.
- *
- * Between the last two sits 0x02006D3C, four bytes of ARM followed by its
- * pointer word: `ldr pc, [pc, #-4]` over 0x027047C0.  That is a linker
- * veneer, so no C produces it, and the `veneer` class refuses it as well
- * because 0x027047C0 is not inside any region of layout/layout.json and so
- * cannot be shown to name code.  The Thumb side of the range therefore ends
- * at 0x02006D3C and resumes at 0x02006D44 in
- * src/matched/unit_02006D44.c.
- */
 u32 sub_02006B3C(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
@@ -4082,83 +3158,6 @@ u32 sub_02006B3C(u32 i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
- *
- * Nine consecutive functions of the sound channel file.  The object is a
- * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
- * in the region hold its address, and the index arithmetic is a `muls` by
- * 0x34 rather than a shift because the size is not a power of two.
- *
- * Six of the nine carry no label in the generated listing, because a getter
- * that saves nothing has no prologue for disasm.py's sweep to fire on and
- * lands in the listing as a run of `.word`s:
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
- *
- * Three details pin the source:
- *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
- *    which is the only evidence anywhere in the range that the field is
- *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
- *    other function in the run computes it before the test.  That is the
- *    difference between subscripting the table twice and binding a local
- *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
- *    conjunction and not a disjunction.  For unsigned operands that is
- *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
- *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
- *    past it, which is the `||` shape with both tests negated.  Written with
- *    `||` the two branches invert and land on the other arm.  The constants
- *    are the national dex range, 1 to 649, and the pair 492 / 650 the second
- *    test maps is a species with a second form.
- *
- * What is left out below this range, and why.  The whole run
- * 0x02006A64..0x02006D3C reproduces every concrete byte as one compile and
- * comes out MATCH, so none of the five functions held out is a codegen
- * failure; every one of them is blocked by the honesty rule, and the census
- * is from `tu --suggest-split`.
- *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
- *               and it is the `bl` at 0x02006A70 inside this very function.
- *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
- *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
- *               function, so the pairwise split of
- *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
- *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
- *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
- *               inside it.
- *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
- *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
- *               this function.  Its guard chain is
- *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_02006D3C is
- *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
- *               0x020A703C, which spells "snd_mic.c" and is the original file
- *               name of this range, and 0x020A7030, are each named by one pool
- *               word and it is this function's own.  The `string` class does
- *               not reach either: the run in front of 0x020A703C is not
- *               printable ASCII, and 0x020A7030 is itself that run.  Its
- *               allocate, clear and store sequence is
- *               docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md.
- *
- * Between the last two sits 0x02006D3C, four bytes of ARM followed by its
- * pointer word: `ldr pc, [pc, #-4]` over 0x027047C0.  That is a linker
- * veneer, so no C produces it, and the `veneer` class refuses it as well
- * because 0x027047C0 is not inside any region of layout/layout.json and so
- * cannot be shown to name code.  The Thumb side of the range therefore ends
- * at 0x02006D3C and resumes at 0x02006D44 in
- * src/matched/unit_02006D44.c.
- */
 u32 sub_02006B5C(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
@@ -4174,83 +3173,6 @@ u32 sub_02006B5C(u32 i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
- *
- * Nine consecutive functions of the sound channel file.  The object is a
- * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
- * in the region hold its address, and the index arithmetic is a `muls` by
- * 0x34 rather than a shift because the size is not a power of two.
- *
- * Six of the nine carry no label in the generated listing, because a getter
- * that saves nothing has no prologue for disasm.py's sweep to fire on and
- * lands in the listing as a run of `.word`s:
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
- *
- * Three details pin the source:
- *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
- *    which is the only evidence anywhere in the range that the field is
- *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
- *    other function in the run computes it before the test.  That is the
- *    difference between subscripting the table twice and binding a local
- *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
- *    conjunction and not a disjunction.  For unsigned operands that is
- *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
- *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
- *    past it, which is the `||` shape with both tests negated.  Written with
- *    `||` the two branches invert and land on the other arm.  The constants
- *    are the national dex range, 1 to 649, and the pair 492 / 650 the second
- *    test maps is a species with a second form.
- *
- * What is left out below this range, and why.  The whole run
- * 0x02006A64..0x02006D3C reproduces every concrete byte as one compile and
- * comes out MATCH, so none of the five functions held out is a codegen
- * failure; every one of them is blocked by the honesty rule, and the census
- * is from `tu --suggest-split`.
- *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
- *               and it is the `bl` at 0x02006A70 inside this very function.
- *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
- *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
- *               function, so the pairwise split of
- *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
- *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
- *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
- *               inside it.
- *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
- *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
- *               this function.  Its guard chain is
- *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_02006D3C is
- *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
- *               0x020A703C, which spells "snd_mic.c" and is the original file
- *               name of this range, and 0x020A7030, are each named by one pool
- *               word and it is this function's own.  The `string` class does
- *               not reach either: the run in front of 0x020A703C is not
- *               printable ASCII, and 0x020A7030 is itself that run.  Its
- *               allocate, clear and store sequence is
- *               docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md.
- *
- * Between the last two sits 0x02006D3C, four bytes of ARM followed by its
- * pointer word: `ldr pc, [pc, #-4]` over 0x027047C0.  That is a linker
- * veneer, so no C produces it, and the `veneer` class refuses it as well
- * because 0x027047C0 is not inside any region of layout/layout.json and so
- * cannot be shown to name code.  The Thumb side of the range therefore ends
- * at 0x02006D3C and resumes at 0x02006D44 in
- * src/matched/unit_02006D44.c.
- */
 u32 sub_02006B78(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
@@ -4266,83 +3188,6 @@ u32 sub_02006B78(u32 i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
- *
- * Nine consecutive functions of the sound channel file.  The object is a
- * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
- * in the region hold its address, and the index arithmetic is a `muls` by
- * 0x34 rather than a shift because the size is not a power of two.
- *
- * Six of the nine carry no label in the generated listing, because a getter
- * that saves nothing has no prologue for disasm.py's sweep to fire on and
- * lands in the listing as a run of `.word`s:
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
- *
- * Three details pin the source:
- *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
- *    which is the only evidence anywhere in the range that the field is
- *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
- *    other function in the run computes it before the test.  That is the
- *    difference between subscripting the table twice and binding a local
- *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
- *    conjunction and not a disjunction.  For unsigned operands that is
- *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
- *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
- *    past it, which is the `||` shape with both tests negated.  Written with
- *    `||` the two branches invert and land on the other arm.  The constants
- *    are the national dex range, 1 to 649, and the pair 492 / 650 the second
- *    test maps is a species with a second form.
- *
- * What is left out below this range, and why.  The whole run
- * 0x02006A64..0x02006D3C reproduces every concrete byte as one compile and
- * comes out MATCH, so none of the five functions held out is a codegen
- * failure; every one of them is blocked by the honesty rule, and the census
- * is from `tu --suggest-split`.
- *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
- *               and it is the `bl` at 0x02006A70 inside this very function.
- *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
- *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
- *               function, so the pairwise split of
- *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
- *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
- *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
- *               inside it.
- *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
- *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
- *               this function.  Its guard chain is
- *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_02006D3C is
- *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
- *               0x020A703C, which spells "snd_mic.c" and is the original file
- *               name of this range, and 0x020A7030, are each named by one pool
- *               word and it is this function's own.  The `string` class does
- *               not reach either: the run in front of 0x020A703C is not
- *               printable ASCII, and 0x020A7030 is itself that run.  Its
- *               allocate, clear and store sequence is
- *               docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md.
- *
- * Between the last two sits 0x02006D3C, four bytes of ARM followed by its
- * pointer word: `ldr pc, [pc, #-4]` over 0x027047C0.  That is a linker
- * veneer, so no C produces it, and the `veneer` class refuses it as well
- * because 0x027047C0 is not inside any region of layout/layout.json and so
- * cannot be shown to name code.  The Thumb side of the range therefore ends
- * at 0x02006D3C and resumes at 0x02006D44 in
- * src/matched/unit_02006D44.c.
- */
 u32 sub_02006B94(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
@@ -4358,83 +3203,6 @@ u32 sub_02006B94(u32 i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
- *
- * Nine consecutive functions of the sound channel file.  The object is a
- * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
- * in the region hold its address, and the index arithmetic is a `muls` by
- * 0x34 rather than a shift because the size is not a power of two.
- *
- * Six of the nine carry no label in the generated listing, because a getter
- * that saves nothing has no prologue for disasm.py's sweep to fire on and
- * lands in the listing as a run of `.word`s:
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
- *
- * Three details pin the source:
- *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
- *    which is the only evidence anywhere in the range that the field is
- *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
- *    other function in the run computes it before the test.  That is the
- *    difference between subscripting the table twice and binding a local
- *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
- *    conjunction and not a disjunction.  For unsigned operands that is
- *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
- *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
- *    past it, which is the `||` shape with both tests negated.  Written with
- *    `||` the two branches invert and land on the other arm.  The constants
- *    are the national dex range, 1 to 649, and the pair 492 / 650 the second
- *    test maps is a species with a second form.
- *
- * What is left out below this range, and why.  The whole run
- * 0x02006A64..0x02006D3C reproduces every concrete byte as one compile and
- * comes out MATCH, so none of the five functions held out is a codegen
- * failure; every one of them is blocked by the honesty rule, and the census
- * is from `tu --suggest-split`.
- *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
- *               and it is the `bl` at 0x02006A70 inside this very function.
- *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
- *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
- *               function, so the pairwise split of
- *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
- *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
- *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
- *               inside it.
- *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
- *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
- *               this function.  Its guard chain is
- *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_02006D3C is
- *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
- *               0x020A703C, which spells "snd_mic.c" and is the original file
- *               name of this range, and 0x020A7030, are each named by one pool
- *               word and it is this function's own.  The `string` class does
- *               not reach either: the run in front of 0x020A703C is not
- *               printable ASCII, and 0x020A7030 is itself that run.  Its
- *               allocate, clear and store sequence is
- *               docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md.
- *
- * Between the last two sits 0x02006D3C, four bytes of ARM followed by its
- * pointer word: `ldr pc, [pc, #-4]` over 0x027047C0.  That is a linker
- * veneer, so no C produces it, and the `veneer` class refuses it as well
- * because 0x027047C0 is not inside any region of layout/layout.json and so
- * cannot be shown to name code.  The Thumb side of the range therefore ends
- * at 0x02006D3C and resumes at 0x02006D44 in
- * src/matched/unit_02006D44.c.
- */
 void sub_02006BB4(u32 i)
 {
     if (sub_02006B20_Table[i].unk00 == 1) {
@@ -4447,83 +3215,6 @@ void sub_02006BB4(u32 i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
- *
- * Nine consecutive functions of the sound channel file.  The object is a
- * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
- * in the region hold its address, and the index arithmetic is a `muls` by
- * 0x34 rather than a shift because the size is not a power of two.
- *
- * Six of the nine carry no label in the generated listing, because a getter
- * that saves nothing has no prologue for disasm.py's sweep to fire on and
- * lands in the listing as a run of `.word`s:
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
- *
- * Three details pin the source:
- *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
- *    which is the only evidence anywhere in the range that the field is
- *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
- *    other function in the run computes it before the test.  That is the
- *    difference between subscripting the table twice and binding a local
- *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
- *    conjunction and not a disjunction.  For unsigned operands that is
- *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
- *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
- *    past it, which is the `||` shape with both tests negated.  Written with
- *    `||` the two branches invert and land on the other arm.  The constants
- *    are the national dex range, 1 to 649, and the pair 492 / 650 the second
- *    test maps is a species with a second form.
- *
- * What is left out below this range, and why.  The whole run
- * 0x02006A64..0x02006D3C reproduces every concrete byte as one compile and
- * comes out MATCH, so none of the five functions held out is a codegen
- * failure; every one of them is blocked by the honesty rule, and the census
- * is from `tu --suggest-split`.
- *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
- *               and it is the `bl` at 0x02006A70 inside this very function.
- *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
- *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
- *               function, so the pairwise split of
- *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
- *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
- *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
- *               inside it.
- *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
- *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
- *               this function.  Its guard chain is
- *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_02006D3C is
- *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
- *               0x020A703C, which spells "snd_mic.c" and is the original file
- *               name of this range, and 0x020A7030, are each named by one pool
- *               word and it is this function's own.  The `string` class does
- *               not reach either: the run in front of 0x020A703C is not
- *               printable ASCII, and 0x020A7030 is itself that run.  Its
- *               allocate, clear and store sequence is
- *               docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md.
- *
- * Between the last two sits 0x02006D3C, four bytes of ARM followed by its
- * pointer word: `ldr pc, [pc, #-4]` over 0x027047C0.  That is a linker
- * veneer, so no C produces it, and the `veneer` class refuses it as well
- * because 0x027047C0 is not inside any region of layout/layout.json and so
- * cannot be shown to name code.  The Thumb side of the range therefore ends
- * at 0x02006D3C and resumes at 0x02006D44 in
- * src/matched/unit_02006D44.c.
- */
 u32 sub_02006BD0(u32 i)
 {
     return sub_02006B20_Table[i].unk00;
@@ -4534,83 +3225,6 @@ u32 sub_02006BD0(u32 i)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
- *
- * Nine consecutive functions of the sound channel file.  The object is a
- * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
- * in the region hold its address, and the index arithmetic is a `muls` by
- * 0x34 rather than a shift because the size is not a power of two.
- *
- * Six of the nine carry no label in the generated listing, because a getter
- * that saves nothing has no prologue for disasm.py's sweep to fire on and
- * lands in the listing as a run of `.word`s:
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
- *
- * Three details pin the source:
- *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
- *    which is the only evidence anywhere in the range that the field is
- *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
- *    other function in the run computes it before the test.  That is the
- *    difference between subscripting the table twice and binding a local
- *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
- *    conjunction and not a disjunction.  For unsigned operands that is
- *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
- *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
- *    past it, which is the `||` shape with both tests negated.  Written with
- *    `||` the two branches invert and land on the other arm.  The constants
- *    are the national dex range, 1 to 649, and the pair 492 / 650 the second
- *    test maps is a species with a second form.
- *
- * What is left out below this range, and why.  The whole run
- * 0x02006A64..0x02006D3C reproduces every concrete byte as one compile and
- * comes out MATCH, so none of the five functions held out is a codegen
- * failure; every one of them is blocked by the honesty rule, and the census
- * is from `tu --suggest-split`.
- *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
- *               and it is the `bl` at 0x02006A70 inside this very function.
- *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
- *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
- *               function, so the pairwise split of
- *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
- *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
- *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
- *               inside it.
- *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
- *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
- *               this function.  Its guard chain is
- *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_02006D3C is
- *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
- *               0x020A703C, which spells "snd_mic.c" and is the original file
- *               name of this range, and 0x020A7030, are each named by one pool
- *               word and it is this function's own.  The `string` class does
- *               not reach either: the run in front of 0x020A703C is not
- *               printable ASCII, and 0x020A7030 is itself that run.  Its
- *               allocate, clear and store sequence is
- *               docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md.
- *
- * Between the last two sits 0x02006D3C, four bytes of ARM followed by its
- * pointer word: `ldr pc, [pc, #-4]` over 0x027047C0.  That is a linker
- * veneer, so no C produces it, and the `veneer` class refuses it as well
- * because 0x027047C0 is not inside any region of layout/layout.json and so
- * cannot be shown to name code.  The Thumb side of the range therefore ends
- * at 0x02006D3C and resumes at 0x02006D44 in
- * src/matched/unit_02006D44.c.
- */
 void sub_02006BE0(u8 *p, u32 n)
 {
     u32 i;
@@ -4628,83 +3242,6 @@ void sub_02006BE0(u8 *p, u32 n)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
- *
- * Nine consecutive functions of the sound channel file.  The object is a
- * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
- * in the region hold its address, and the index arithmetic is a `muls` by
- * 0x34 rather than a shift because the size is not a power of two.
- *
- * Six of the nine carry no label in the generated listing, because a getter
- * that saves nothing has no prologue for disasm.py's sweep to fire on and
- * lands in the listing as a run of `.word`s:
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
- *
- * Three details pin the source:
- *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
- *    which is the only evidence anywhere in the range that the field is
- *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
- *    other function in the run computes it before the test.  That is the
- *    difference between subscripting the table twice and binding a local
- *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
- *    conjunction and not a disjunction.  For unsigned operands that is
- *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
- *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
- *    past it, which is the `||` shape with both tests negated.  Written with
- *    `||` the two branches invert and land on the other arm.  The constants
- *    are the national dex range, 1 to 649, and the pair 492 / 650 the second
- *    test maps is a species with a second form.
- *
- * What is left out below this range, and why.  The whole run
- * 0x02006A64..0x02006D3C reproduces every concrete byte as one compile and
- * comes out MATCH, so none of the five functions held out is a codegen
- * failure; every one of them is blocked by the honesty rule, and the census
- * is from `tu --suggest-split`.
- *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
- *               and it is the `bl` at 0x02006A70 inside this very function.
- *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
- *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
- *               function, so the pairwise split of
- *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
- *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
- *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
- *               inside it.
- *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
- *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
- *               this function.  Its guard chain is
- *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_02006D3C is
- *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
- *               0x020A703C, which spells "snd_mic.c" and is the original file
- *               name of this range, and 0x020A7030, are each named by one pool
- *               word and it is this function's own.  The `string` class does
- *               not reach either: the run in front of 0x020A703C is not
- *               printable ASCII, and 0x020A7030 is itself that run.  Its
- *               allocate, clear and store sequence is
- *               docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md.
- *
- * Between the last two sits 0x02006D3C, four bytes of ARM followed by its
- * pointer word: `ldr pc, [pc, #-4]` over 0x027047C0.  That is a linker
- * veneer, so no C produces it, and the `veneer` class refuses it as well
- * because 0x027047C0 is not inside any region of layout/layout.json and so
- * cannot be shown to name code.  The Thumb side of the range therefore ends
- * at 0x02006D3C and resumes at 0x02006D44 in
- * src/matched/unit_02006D44.c.
- */
 void sub_02006C00(u32 species, u32 form, u32 *out)
 {
     if (species < 1 && species > 649) {

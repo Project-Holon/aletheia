@@ -197,28 +197,6 @@ void func_0202BB68(u8 *o, int i)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * iss_3ds_sys.c, the per-slot twins that func_0202BAF4 steps: for a live
- * entry (0x1c-byte stride at +0x24), run the entry's comparator and move the
- * slot's s32 level (+0x1E4 or +0x224, indexed by i) toward the result through
- * the clamp helpers of unit_0202BC48 / sub_0202BDD0 / sub_0202BDE8, which
- * take the comparator result as their third argument.  func_0202BBB0's
- * comparator takes the extra sub-object at +0x18, and its two compares are
- * the mirror of func_0202BB68's.
- *
- * What closed them (wave 17, from 37 and 36 out): callee arity read from
- * the callee bodies.  Both clamp helpers compare against r2
- * (src/matched/unit_0202BC48.c, sub_0202BDD0.c, sub_0202BDE8.c are
- * (obj, index, cap)); declaring them with two parameters dropped the
- * image's `adds r2, r0, #0` copy of the comparator result, the one
- * instruction the note had chased as a register-order problem.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202BB68.c \
- *       --addr 0x0202BB68 --thumb
- */
 void func_0202BBB0(u8 *o, int i)
 {
     u8 *e = o + 0x24;
@@ -299,25 +277,6 @@ void sub_0202BC48(void *obj, u32 index, s32_0202BC48 cap)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * A clamp-increment and a clamp-decrement on the same signed 32-bit array,
- * offset 0x1E4 of the object, indexed by the second argument and clamped
- * against a caller-supplied bound passed as the third: sub_0202BC48 adds
- * 0x10 and caps at the bound from above, sub_0202BC60 subtracts 0x10 and
- * floors at the bound from below. The two are otherwise identical, back to
- * back with no gap, and neither has a relocation.
- *
- * The comparison order in each is a deliberate `cmp`-operand tell
- * (docs/idioms/cmp-operand-order-names-the-temporary.md): sub_0202BC48
- * compares the bound against the computed value (`cmp r2, r1`), which is
- * what `if (cap < v)` compiles to, not `if (v > cap)`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202BC48.c \
- *       --addr 0x0202BC48 --thumb
- */
 void sub_0202BC60(void *obj, u32 index, s32_0202BC48 cap)
 {
     s32_0202BC48 *arr = (s32_0202BC48 *)((char *)obj + 0x1E4);

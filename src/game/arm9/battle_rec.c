@@ -575,34 +575,6 @@ void func_0200B348(struct Rec2FC *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 52 bytes, 0x0200B348..0x0200B37C, 4 functions, none of which carries a
- * label in the generated listing.
- *
- * func_0200B364 returns 0x94 and func_0200B368 clears 0x94 bytes and then
- * writes -1 into the first word, which is the "a block file opens with a
- * function returning its own size, and the constructor clears exactly that"
- * shape this range keeps producing.  The -1 is free: the compiler already
- * has 0x94 in a register for the fill and reaches -1 with `subs r4, #0x95`.
- *
- * This unit starts at 0x0200B348 rather than at the end of
- * src/matched/unit_0200ADB8.c because of a near miss between them:
- * func_0200B2A4, 162 bytes, which walks a list and pushes four fields of each
- * entry into the record through func_0200B254.  Every instruction is
- * reproduced and the size is right; what differs is that the original keeps
- * the constant 0 alive in r7 for the whole loop (it gets there as a copy of
- * the loop counter's initial value) and therefore rematerialises `(u8)i`
- * before each of the four calls, where this source has one register less in
- * play, common-subexpression-eliminates `(u8)i` into r5 and rematerialises
- * the 0 instead.  The two are the same eighteen instructions per iteration in
- * a different order with every register renumbered.
- *
- * This unit stops at 0x0200B37C because of a near miss there; see
- * src/matched/unit_0200B394.c for what it is.
- */
 void *func_0200B358(void *sys)
 {
     return func_020071CC(sys, 0x2F);
@@ -617,34 +589,6 @@ void *func_0200B358(void *sys)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 52 bytes, 0x0200B348..0x0200B37C, 4 functions, none of which carries a
- * label in the generated listing.
- *
- * func_0200B364 returns 0x94 and func_0200B368 clears 0x94 bytes and then
- * writes -1 into the first word, which is the "a block file opens with a
- * function returning its own size, and the constructor clears exactly that"
- * shape this range keeps producing.  The -1 is free: the compiler already
- * has 0x94 in a register for the fill and reaches -1 with `subs r4, #0x95`.
- *
- * This unit starts at 0x0200B348 rather than at the end of
- * src/matched/unit_0200ADB8.c because of a near miss between them:
- * func_0200B2A4, 162 bytes, which walks a list and pushes four fields of each
- * entry into the record through func_0200B254.  Every instruction is
- * reproduced and the size is right; what differs is that the original keeps
- * the constant 0 alive in r7 for the whole loop (it gets there as a copy of
- * the loop counter's initial value) and therefore rematerialises `(u8)i`
- * before each of the four calls, where this source has one register less in
- * play, common-subexpression-eliminates `(u8)i` into r5 and rematerialises
- * the 0 instead.  The two are the same eighteen instructions per iteration in
- * a different order with every register renumbered.
- *
- * This unit stops at 0x0200B37C because of a near miss there; see
- * src/matched/unit_0200B394.c for what it is.
- */
 u32 func_0200B364(void)
 {
     return sizeof(struct Rec94);
@@ -659,34 +603,6 @@ u32 func_0200B364(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 52 bytes, 0x0200B348..0x0200B37C, 4 functions, none of which carries a
- * label in the generated listing.
- *
- * func_0200B364 returns 0x94 and func_0200B368 clears 0x94 bytes and then
- * writes -1 into the first word, which is the "a block file opens with a
- * function returning its own size, and the constructor clears exactly that"
- * shape this range keeps producing.  The -1 is free: the compiler already
- * has 0x94 in a register for the fill and reaches -1 with `subs r4, #0x95`.
- *
- * This unit starts at 0x0200B348 rather than at the end of
- * src/matched/unit_0200ADB8.c because of a near miss between them:
- * func_0200B2A4, 162 bytes, which walks a list and pushes four fields of each
- * entry into the record through func_0200B254.  Every instruction is
- * reproduced and the size is right; what differs is that the original keeps
- * the constant 0 alive in r7 for the whole loop (it gets there as a copy of
- * the loop counter's initial value) and therefore rematerialises `(u8)i`
- * before each of the four calls, where this source has one register less in
- * play, common-subexpression-eliminates `(u8)i` into r5 and rematerialises
- * the 0 instead.  The two are the same eighteen instructions per iteration in
- * a different order with every register renumbered.
- *
- * This unit stops at 0x0200B37C because of a near miss there; see
- * src/matched/unit_0200B394.c for what it is.
- */
 void func_0200B368(struct Rec94 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Rec94));
@@ -759,33 +675,6 @@ s32 *func_0200B394(struct Rec94 *p, s32 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B3B0, func_0200B3C8, func_0200B3DC
- *
- * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71C4 spells "battle_rec.c", the third original source file
- * name recovered by this project, attested by the `string` class off the
- * terminator of "regulation.c" at 0x020A71C2.  The constructor at 0x0200B3DC
- * allocates 0x2000 bytes at line 0x67 and hands them to func_0200B448, which
- * is the first function of the next packet.
- *
- * Near miss, and the reason this unit starts at 0x0200B394 rather than
- * 0x0200B37C: func_0200B37C, 24 bytes, which writes -1 into the first word
- * and then fills a 32-entry array with 0..31.  The original carries one more
- * instruction than any spelling tried here, an `adds r2, r3, #0` that copies
- * the loop counter before the body and lets the increment be scheduled ahead
- * of the store, and it initialises the counter before the -1 store rather
- * than after.  Five loop spellings (for, while, do/while, a separate value
- * variable, a hoisted array pointer) all produce the same eleven
- * instructions in the other order, so the difference is a register the
- * original had a reason to spend and this source does not give it.  Nineteen
- * bytes differ and the size is right to the padding.
- */
 s32 *func_0200B3A4(struct Rec94 *p, u32 b)
 {
     return p->unk04;
@@ -798,33 +687,6 @@ s32 *func_0200B3A4(struct Rec94 *p, u32 b)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B3B0, func_0200B3C8, func_0200B3DC
- *
- * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71C4 spells "battle_rec.c", the third original source file
- * name recovered by this project, attested by the `string` class off the
- * terminator of "regulation.c" at 0x020A71C2.  The constructor at 0x0200B3DC
- * allocates 0x2000 bytes at line 0x67 and hands them to func_0200B448, which
- * is the first function of the next packet.
- *
- * Near miss, and the reason this unit starts at 0x0200B394 rather than
- * 0x0200B37C: func_0200B37C, 24 bytes, which writes -1 into the first word
- * and then fills a 32-entry array with 0..31.  The original carries one more
- * instruction than any spelling tried here, an `adds r2, r3, #0` that copies
- * the loop counter before the body and lets the increment be scheduled ahead
- * of the store, and it initialises the counter before the -1 store rather
- * than after.  Five loop spellings (for, while, do/while, a separate value
- * variable, a hoisted array pointer) all produce the same eleven
- * instructions in the other order, so the difference is a register the
- * original had a reason to spend and this source does not give it.  Nineteen
- * bytes differ and the size is right to the padding.
- */
 u8 *func_0200B3A8(struct Rec94 *p, u32 a1)
 {
     return p->unk84;
@@ -837,33 +699,6 @@ u8 *func_0200B3A8(struct Rec94 *p, u32 a1)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B3B0, func_0200B3C8, func_0200B3DC
- *
- * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71C4 spells "battle_rec.c", the third original source file
- * name recovered by this project, attested by the `string` class off the
- * terminator of "regulation.c" at 0x020A71C2.  The constructor at 0x0200B3DC
- * allocates 0x2000 bytes at line 0x67 and hands them to func_0200B448, which
- * is the first function of the next packet.
- *
- * Near miss, and the reason this unit starts at 0x0200B394 rather than
- * 0x0200B37C: func_0200B37C, 24 bytes, which writes -1 into the first word
- * and then fills a 32-entry array with 0..31.  The original carries one more
- * instruction than any spelling tried here, an `adds r2, r3, #0` that copies
- * the loop counter before the body and lets the increment be scheduled ahead
- * of the store, and it initialises the counter before the -1 store rather
- * than after.  Five loop spellings (for, while, do/while, a separate value
- * variable, a hoisted array pointer) all produce the same eleven
- * instructions in the other order, so the difference is a register the
- * original had a reason to spend and this source does not give it.  Nineteen
- * bytes differ and the size is right to the padding.
- */
 s32 func_0200B3AC(struct Rec94 *p)
 {
     return p->unk00;
@@ -876,33 +711,6 @@ s32 func_0200B3AC(struct Rec94 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B3B0, func_0200B3C8, func_0200B3DC
- *
- * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71C4 spells "battle_rec.c", the third original source file
- * name recovered by this project, attested by the `string` class off the
- * terminator of "regulation.c" at 0x020A71C2.  The constructor at 0x0200B3DC
- * allocates 0x2000 bytes at line 0x67 and hands them to func_0200B448, which
- * is the first function of the next packet.
- *
- * Near miss, and the reason this unit starts at 0x0200B394 rather than
- * 0x0200B37C: func_0200B37C, 24 bytes, which writes -1 into the first word
- * and then fills a 32-entry array with 0..31.  The original carries one more
- * instruction than any spelling tried here, an `adds r2, r3, #0` that copies
- * the loop counter before the body and lets the increment be scheduled ahead
- * of the store, and it initialises the counter before the -1 store rather
- * than after.  Five loop spellings (for, while, do/while, a separate value
- * variable, a hoisted array pointer) all produce the same eleven
- * instructions in the other order, so the difference is a register the
- * original had a reason to spend and this source does not give it.  Nineteen
- * bytes differ and the size is right to the padding.
- */
 void func_0200B3B0(struct Rec94 *dest, void *sys)
 {
     func_02082A90(dest, func_020071CC(sys, 0x30), sizeof(struct Rec94));
@@ -915,33 +723,6 @@ void func_0200B3B0(struct Rec94 *dest, void *sys)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B3B0, func_0200B3C8, func_0200B3DC
- *
- * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71C4 spells "battle_rec.c", the third original source file
- * name recovered by this project, attested by the `string` class off the
- * terminator of "regulation.c" at 0x020A71C2.  The constructor at 0x0200B3DC
- * allocates 0x2000 bytes at line 0x67 and hands them to func_0200B448, which
- * is the first function of the next packet.
- *
- * Near miss, and the reason this unit starts at 0x0200B394 rather than
- * 0x0200B37C: func_0200B37C, 24 bytes, which writes -1 into the first word
- * and then fills a 32-entry array with 0..31.  The original carries one more
- * instruction than any spelling tried here, an `adds r2, r3, #0` that copies
- * the loop counter before the body and lets the increment be scheduled ahead
- * of the store, and it initialises the counter before the -1 store rather
- * than after.  Five loop spellings (for, while, do/while, a separate value
- * variable, a hoisted array pointer) all produce the same eleven
- * instructions in the other order, so the difference is a register the
- * original had a reason to spend and this source does not give it.  Nineteen
- * bytes differ and the size is right to the padding.
- */
 void func_0200B3C8(void *sys, const struct Rec94 *src)
 {
     func_02082A90(func_020071CC(sys, 0x30), src, sizeof(struct Rec94));
@@ -954,33 +735,6 @@ void func_0200B3C8(void *sys, const struct Rec94 *src)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B3B0, func_0200B3C8, func_0200B3DC
- *
- * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71C4 spells "battle_rec.c", the third original source file
- * name recovered by this project, attested by the `string` class off the
- * terminator of "regulation.c" at 0x020A71C2.  The constructor at 0x0200B3DC
- * allocates 0x2000 bytes at line 0x67 and hands them to func_0200B448, which
- * is the first function of the next packet.
- *
- * Near miss, and the reason this unit starts at 0x0200B394 rather than
- * 0x0200B37C: func_0200B37C, 24 bytes, which writes -1 into the first word
- * and then fills a 32-entry array with 0..31.  The original carries one more
- * instruction than any spelling tried here, an `adds r2, r3, #0` that copies
- * the loop counter before the body and lets the increment be scheduled ahead
- * of the store, and it initialises the counter before the -1 store rather
- * than after.  Five loop spellings (for, while, do/while, a separate value
- * variable, a hoisted array pointer) all produce the same eleven
- * instructions in the other order, so the difference is a register the
- * original had a reason to spend and this source does not give it.  Nineteen
- * bytes differ and the size is right to the padding.
- */
 void *func_0200B3DC(u32 heap)
 {
     void *p = func_02030734(heap, 0x2000, 1, func_0200B3DC_File, 0x67);
@@ -1055,33 +809,6 @@ void func_0200B424(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 72 bytes, 0x0200B400..0x0200B448, 4 functions, three of which carry no
- * label in the generated listing: the last three save nothing or nothing but
- * r4, so the range arrives as a run of `.word`s.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * alias: this continues "battle_rec.c", whose constructor func_0200B3DC is
- * the last function of src/matched/unit_0200B394.c and is what func_0200B400
- * calls.  The object it builds is hung off the single global at 0x0214616C,
- * the same one src/matched/unit_0200B900.c reads.
- *
- * func_0200B400 frees the old object before building the new one and clears
- * the global in between, which is a guard the source wrote rather than dead
- * code: the store of NULL is inside the `if`, and the fresh pointer is
- * assigned unconditionally afterwards.  The address of the global is
- * materialised twice, once for the test and free and once for the final
- * store, because the pool word is reloaded after the call rather than kept
- * in the callee-saved register that already holds it.
- *
- * func_0200B440 returns 0x18A4 out of its own pool word, which is the
- * "a block file opens with a function returning its own size" shape this
- * region keeps producing, except that here the size belongs to whatever the
- * next file allocates rather than to the 0x2000 buffer above it.
- */
 void func_0200B438(void *p)
 {
     func_020307B0(p);
@@ -1095,33 +822,6 @@ void func_0200B438(void *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 72 bytes, 0x0200B400..0x0200B448, 4 functions, three of which carry no
- * label in the generated listing: the last three save nothing or nothing but
- * r4, so the range arrives as a run of `.word`s.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * alias: this continues "battle_rec.c", whose constructor func_0200B3DC is
- * the last function of src/matched/unit_0200B394.c and is what func_0200B400
- * calls.  The object it builds is hung off the single global at 0x0214616C,
- * the same one src/matched/unit_0200B900.c reads.
- *
- * func_0200B400 frees the old object before building the new one and clears
- * the global in between, which is a guard the source wrote rather than dead
- * code: the store of NULL is inside the `if`, and the fresh pointer is
- * assigned unconditionally afterwards.  The address of the global is
- * materialised twice, once for the test and free and once for the final
- * store, because the pool word is reloaded after the call rather than kept
- * in the callee-saved register that already holds it.
- *
- * func_0200B440 returns 0x18A4 out of its own pool word, which is the
- * "a block file opens with a function returning its own size" shape this
- * region keeps producing, except that here the size belongs to whatever the
- * next file allocates rather than to the 0x2000 buffer above it.
- */
 u32 func_0200B440(void)
 {
     return 0x18A4;
@@ -1179,38 +879,6 @@ void func_0200B448(struct BattleRec *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B4B8
- *
- * 152 bytes, 0x0200B448..0x0200B4E0, 5 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: this continues "battle_rec.c"; func_0200B448 is the buffer clear the
- * constructor func_0200B3DC calls, and the object is the 0x18A4-byte record
- * at 0x0214616C that src/matched/unit_0200B400.c allocates and
- * src/matched/unit_0200B938.c publishes.
- *
- * Two things are worth recording.
- *
- *  - func_0200B490 and func_0200B4B8 are the same four instructions of
- *    checksum arithmetic as func_0200B938, but as **tail calls**, and that
- *    changes the callee's arity.  A tail call needs r3 for the branch target,
- *    so the fourth argument func_0200B938 passes cannot be passed here: the
- *    `ldrh r3` that loads the halfword is overwritten by the `ldr r3, [pc]`
- *    that loads func_0200B900's address.  The callee is therefore declared
- *    with three parameters in this file and with four in
- *    src/matched/unit_0200B900.c, and both are right, because nothing in
- *    func_0200B900 reads its arguments.  A four-argument call here compiles
- *    to `push {r3, lr}` / `bl` / `pop` and is eight bytes longer.
- *  - the length 0x17DC is reached as `subs r1, #0xc4` off the 0x18A0 the
- *    halfword load already needed, and 0x18A0 itself is a pool word rather
- *    than a `movs`, so the file spends one pool word where func_0200B938
- *    spends none for the same value.  That is a consequence of the tail call
- *    having no register to spare, not of the source.
- */
 u32 func_0200B45C(void)
 {
     if (func_0203F2FC((const u8 *)(&gObj_0214616C->unkC4), sizeof(gObj_0214616C->unkC4))
@@ -1228,38 +896,6 @@ u32 func_0200B45C(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B4B8
- *
- * 152 bytes, 0x0200B448..0x0200B4E0, 5 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: this continues "battle_rec.c"; func_0200B448 is the buffer clear the
- * constructor func_0200B3DC calls, and the object is the 0x18A4-byte record
- * at 0x0214616C that src/matched/unit_0200B400.c allocates and
- * src/matched/unit_0200B938.c publishes.
- *
- * Two things are worth recording.
- *
- *  - func_0200B490 and func_0200B4B8 are the same four instructions of
- *    checksum arithmetic as func_0200B938, but as **tail calls**, and that
- *    changes the callee's arity.  A tail call needs r3 for the branch target,
- *    so the fourth argument func_0200B938 passes cannot be passed here: the
- *    `ldrh r3` that loads the halfword is overwritten by the `ldr r3, [pc]`
- *    that loads func_0200B900's address.  The callee is therefore declared
- *    with three parameters in this file and with four in
- *    src/matched/unit_0200B900.c, and both are right, because nothing in
- *    func_0200B900 reads its arguments.  A four-argument call here compiles
- *    to `push {r3, lr}` / `bl` / `pop` and is eight bytes longer.
- *  - the length 0x17DC is reached as `subs r1, #0xc4` off the 0x18A0 the
- *    halfword load already needed, and 0x18A0 itself is a pool word rather
- *    than a `movs`, so the file spends one pool word where func_0200B938
- *    spends none for the same value.  That is a consequence of the tail call
- *    having no register to spare, not of the source.
- */
 void func_0200B480(void)
 {
     func_0200B448(gObj_0214616C);
@@ -1273,38 +909,6 @@ void func_0200B480(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B4B8
- *
- * 152 bytes, 0x0200B448..0x0200B4E0, 5 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: this continues "battle_rec.c"; func_0200B448 is the buffer clear the
- * constructor func_0200B3DC calls, and the object is the 0x18A4-byte record
- * at 0x0214616C that src/matched/unit_0200B400.c allocates and
- * src/matched/unit_0200B938.c publishes.
- *
- * Two things are worth recording.
- *
- *  - func_0200B490 and func_0200B4B8 are the same four instructions of
- *    checksum arithmetic as func_0200B938, but as **tail calls**, and that
- *    changes the callee's arity.  A tail call needs r3 for the branch target,
- *    so the fourth argument func_0200B938 passes cannot be passed here: the
- *    `ldrh r3` that loads the halfword is overwritten by the `ldr r3, [pc]`
- *    that loads func_0200B900's address.  The callee is therefore declared
- *    with three parameters in this file and with four in
- *    src/matched/unit_0200B900.c, and both are right, because nothing in
- *    func_0200B900 reads its arguments.  A four-argument call here compiles
- *    to `push {r3, lr}` / `bl` / `pop` and is eight bytes longer.
- *  - the length 0x17DC is reached as `subs r1, #0xc4` off the 0x18A0 the
- *    halfword load already needed, and 0x18A0 itself is a pool word rather
- *    than a `movs`, so the file spends one pool word where func_0200B938
- *    spends none for the same value.  That is a consequence of the tail call
- *    having no register to spare, not of the source.
- */
 void func_0200B490(void)
 {
     u16 v = gObj_0214616C->unkC4.unk17DC;
@@ -1320,38 +924,6 @@ void func_0200B490(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B4B8
- *
- * 152 bytes, 0x0200B448..0x0200B4E0, 5 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: this continues "battle_rec.c"; func_0200B448 is the buffer clear the
- * constructor func_0200B3DC calls, and the object is the 0x18A4-byte record
- * at 0x0214616C that src/matched/unit_0200B400.c allocates and
- * src/matched/unit_0200B938.c publishes.
- *
- * Two things are worth recording.
- *
- *  - func_0200B490 and func_0200B4B8 are the same four instructions of
- *    checksum arithmetic as func_0200B938, but as **tail calls**, and that
- *    changes the callee's arity.  A tail call needs r3 for the branch target,
- *    so the fourth argument func_0200B938 passes cannot be passed here: the
- *    `ldrh r3` that loads the halfword is overwritten by the `ldr r3, [pc]`
- *    that loads func_0200B900's address.  The callee is therefore declared
- *    with three parameters in this file and with four in
- *    src/matched/unit_0200B900.c, and both are right, because nothing in
- *    func_0200B900 reads its arguments.  A four-argument call here compiles
- *    to `push {r3, lr}` / `bl` / `pop` and is eight bytes longer.
- *  - the length 0x17DC is reached as `subs r1, #0xc4` off the 0x18A0 the
- *    halfword load already needed, and 0x18A0 itself is a pool word rather
- *    than a `movs`, so the file spends one pool word where func_0200B938
- *    spends none for the same value.  That is a consequence of the tail call
- *    having no register to spare, not of the source.
- */
 void func_0200B4B8(void)
 {
     u16 v = gObj_0214616C->unkC4.unk17DC;
@@ -1437,39 +1009,6 @@ u32 func_0200B4E0(void *a, struct BattleRec *b, u32 heap, u32 *d, u32 id)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 236 bytes, 0x0200B4E0..0x0200B5CC, 3 functions, all three of which carry a
- * label in the generated listing.
- *
- * alias: inside "battle_rec.c"; see src/matched/unit_0200B394.c for how the
- * name at 0x020A71C4 is attested and src/matched/unit_0200B448.c for the
- * 0x18A4-byte record these work on.
- *
- * func_0200B4E0 loads a saved battle record and classifies the result into
- * the caller's status word: 0 when the block is absent, 3 when the load
- * failed, 0 again when the record's own check rejects it, 2 when the second
- * check does, and 1 when it is good.  Every arm writes the status and returns
- * 1, and the last arm shares its `movs r0, #1` between the store and the
- * return, which is the compiler reusing one constant and not two statements.
- *
- * The address of the checksummed sub-record is a named local, not
- * `&b->unkC4` written out at each of the three uses: with the local the base
- * is formed once as `adds r0, #0xc4` and the field offset 0x17DC is the
- * register operand, and written inline the compiler folds 0xC4 + 0x17DC into
- * one pool word of 0x18A0 and then subtracts 0xC4 back off it, which is two
- * instructions more.
- *
- * This range stops at 0x0200B5CC and src/matched/unit_0200B5CC.c starts
- * there, because func_0200B888 and func_0200B8AC are each called exactly
- * twice in the image, once from func_0200B4E0 and once from func_0200B5CC;
- * one range holding both pairs has no witness left for either and caps at
- * MATCH with every byte right.  Cut between them, each file is the other's
- * witness.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md. *
- */
 u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id)
 {
     if (gObj_0214616C != 0) {
@@ -1487,39 +1026,6 @@ u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 236 bytes, 0x0200B4E0..0x0200B5CC, 3 functions, all three of which carry a
- * label in the generated listing.
- *
- * alias: inside "battle_rec.c"; see src/matched/unit_0200B394.c for how the
- * name at 0x020A71C4 is attested and src/matched/unit_0200B448.c for the
- * 0x18A4-byte record these work on.
- *
- * func_0200B4E0 loads a saved battle record and classifies the result into
- * the caller's status word: 0 when the block is absent, 3 when the load
- * failed, 0 again when the record's own check rejects it, 2 when the second
- * check does, and 1 when it is good.  Every arm writes the status and returns
- * 1, and the last arm shares its `movs r0, #1` between the store and the
- * return, which is the compiler reusing one constant and not two statements.
- *
- * The address of the checksummed sub-record is a named local, not
- * `&b->unkC4` written out at each of the three uses: with the local the base
- * is formed once as `adds r0, #0xc4` and the field offset 0x17DC is the
- * register operand, and written inline the compiler folds 0xC4 + 0x17DC into
- * one pool word of 0x18A0 and then subtracts 0xC4 back off it, which is two
- * instructions more.
- *
- * This range stops at 0x0200B5CC and src/matched/unit_0200B5CC.c starts
- * there, because func_0200B888 and func_0200B8AC are each called exactly
- * twice in the image, once from func_0200B4E0 and once from func_0200B5CC;
- * one range holding both pairs has no witness left for either and caps at
- * MATCH with every byte right.  Cut between them, each file is the other's
- * witness.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md. *
- */
 struct BattleRec *func_0200B5A4(void *a, u32 heap, u32 *dp, u32 id)
 {
     struct BattleRec *p = func_0200B3DC(heap);
@@ -1655,47 +1161,6 @@ u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
 
 
 
-/*
- * 264 bytes, 0x0200B67C..0x0200B784, 2 functions, both labelled.  Every
- * concrete byte reproduces.
- *
- * What held it open, and what closed it.  Two call targets have exactly one
- * caller in the whole image and that caller is here:
- *
- *   0x02007324  reached only from 0x0200B6A6, inside func_0200B67C
- *   0x0200B7D8  reached only from 0x0200B71A, inside func_0200B6E0
- *
- * Shrinking the range to one function keeps the call that needs the witness in
- * it, which is the limit `docs/MATCHING.md` states for the cut remedy, so no
- * image class could carry either site.  Both are now `matched`:
- * 0x02007324 is src/matched/unit_02007324.c and 0x0200B7D8 is
- * src/matched/unit_0200B7D8.c, two EXACT entries proved byte for byte against
- * the original over ranges this file does not touch.  Pulling either function
- * across the boundary into this range is no longer needed, and would have been
- * wrong anyway: the two belong to different original files.
- *
- * alias: inside "battle_rec.c"; the two steps of the record-save state machine
- * that func_0200B4E0 and func_0200B5CC read back.
- *
- * Three things cost time here.
- *
- *  - func_02012EBC is declared with **one** parameter, not four.  The call
- *    leaves r1 through r3 holding this function's own second, third and fourth
- *    arguments, which reads like a four-argument call and is not one: declaring
- *    four parameters keeps `b` live from the entry and the whole of
- *    func_0200B6E0's case 0 is then allocated the other way round, with the two
- *    sub-record pointers sharing registers with `b` instead of with `a`.  Seven
- *    bytes, and none of them in the arithmetic.  src/matched/unit_0200C9EC.c
- *    declares the same extern with one parameter.
- *  - inside case 0 the two sub-record pointers have to be assigned
- *    `q = &p->unk80;` first and `r = &p->unkC4;` second.  The second assignment
- *    is the last use of `p`, so it takes over `p`'s register and the first one
- *    gets the copy; writing them the other way round swaps which of the two is
- *    the `adds rD, rP, #0` and is five bytes.
- *  - the state word is read with `switch (*state)` over the constants 0 and 1,
- *    which is the `cmp #0` / `beq` / `cmp #1` / `beq` / `b` chain the original
- *    has; an `if` / `else if` inverts the first test.
- */
 u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
 {
     void *h;
@@ -1906,35 +1371,6 @@ u32 func_0200B888(void *a, struct BattleRec *b)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 120 bytes, 0x0200B888..0x0200B900, 2 functions, both of which carry a label
- * in the generated listing.
- *
- * alias: inside "battle_rec.c"; the two validity checks src/matched/
- * unit_0200B4E0.c and unit_0200B5CC.c run over a loaded record, and the reason
- * those two are separate files.
- *
- * 0xE281 is the record's magic, stamped into both halves by func_0200B6E0 and
- * into the 0x44-byte header's +0x28 by func_0200B938.  func_0200B888 answers
- * "this record is NOT stamped", so its result is 1 on failure; func_0200B8AC
- * answers "this record is whole", checking the magic in both halves and then
- * both checksums.
- *
- * Both take a first parameter they never read.  func_0200B888 reaches the
- * 0x17D8 field of the second half as one folded offset 0x189C off the record
- * pointer, because the source names the field through the record rather than
- * through a local, while func_0200B8AC needs a local for the sub-record and so
- * carries 0x17D8 in a register instead; the difference is two instructions and
- * is a statement about the source rather than about the value.
- *
- * The two checksum comparisons each bind the call result to a local before
- * comparing, which is what puts it in `cmp`'s left slot; written inline the
- * operand order flips and the entry is two bytes out.  See
- * docs/idioms/cmp-operand-order-names-the-temporary.md.
- */
 u32 func_0200B8AC(void *a, struct BattleRec *b)
 {
     struct RecC4 *r = &b->unkC4;
@@ -1998,32 +1434,6 @@ void func_0200B900(void *a, u32 b, u32 c)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B928, func_0200B934
- *
- * 56 bytes, 0x0200B900..0x0200B938, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * Four accessors on the single object whose address lives at 0x0214616C and
- * two forwarders to a pair of ARM routines.  The three pool words holding
- * 0x0214616C inside this range are not its only ones: seven literal pools in
- * the image hold that address, so the `literal` class keeps a witness outside
- * whatever is compared.
- *
- * The two forwarders are written with their parameters declared and **not**
- * passed on, and that is a property of the codegen rather than a claim about
- * the callees.  This front end only emits the pool-word tail call
- * `ldr r3, [pc, #0]; bx r3` when there is no argument register to set up; a
- * call that names its arguments, even when every one of them is already in
- * the right register, comes out as `push {r3, lr}; blx; pop {r3, pc}`, which
- * is four instructions and eight bytes wrong.  The callers do pass four
- * arguments through func_0200B900 (func_0200B938 sets r0 through r3 before
- * the `bl`), so the forwarding is real and is simply not expressible here.
- * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
- */
 void func_0200B908(void *a, u32 b, u32 c)
 {
     func_0203F328(a, b, c);
@@ -2035,32 +1445,6 @@ void func_0200B908(void *a, u32 b, u32 c)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B928, func_0200B934
- *
- * 56 bytes, 0x0200B900..0x0200B938, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * Four accessors on the single object whose address lives at 0x0214616C and
- * two forwarders to a pair of ARM routines.  The three pool words holding
- * 0x0214616C inside this range are not its only ones: seven literal pools in
- * the image hold that address, so the `literal` class keeps a witness outside
- * whatever is compared.
- *
- * The two forwarders are written with their parameters declared and **not**
- * passed on, and that is a property of the codegen rather than a claim about
- * the callees.  This front end only emits the pool-word tail call
- * `ldr r3, [pc, #0]; bx r3` when there is no argument register to set up; a
- * call that names its arguments, even when every one of them is already in
- * the right register, comes out as `push {r3, lr}; blx; pop {r3, pc}`, which
- * is four instructions and eight bytes wrong.  The callers do pass four
- * arguments through func_0200B900 (func_0200B938 sets r0 through r3 before
- * the `bl`), so the forwarding is real and is simply not expressible here.
- * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
- */
 struct BattleRec *func_0200B910(void)
 {
     return gObj_0214616C;
@@ -2072,32 +1456,6 @@ struct BattleRec *func_0200B910(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B928, func_0200B934
- *
- * 56 bytes, 0x0200B900..0x0200B938, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * Four accessors on the single object whose address lives at 0x0214616C and
- * two forwarders to a pair of ARM routines.  The three pool words holding
- * 0x0214616C inside this range are not its only ones: seven literal pools in
- * the image hold that address, so the `literal` class keeps a witness outside
- * whatever is compared.
- *
- * The two forwarders are written with their parameters declared and **not**
- * passed on, and that is a property of the codegen rather than a claim about
- * the callees.  This front end only emits the pool-word tail call
- * `ldr r3, [pc, #0]; bx r3` when there is no argument register to set up; a
- * call that names its arguments, even when every one of them is already in
- * the right register, comes out as `push {r3, lr}; blx; pop {r3, pc}`, which
- * is four instructions and eight bytes wrong.  The callers do pass four
- * arguments through func_0200B900 (func_0200B938 sets r0 through r3 before
- * the `bl`), so the forwarding is real and is simply not expressible here.
- * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
- */
 u8 *func_0200B91C(void)
 {
     return (u8 *)&gObj_0214616C->unkC4;
@@ -2109,32 +1467,6 @@ u8 *func_0200B91C(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B928, func_0200B934
- *
- * 56 bytes, 0x0200B900..0x0200B938, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * Four accessors on the single object whose address lives at 0x0214616C and
- * two forwarders to a pair of ARM routines.  The three pool words holding
- * 0x0214616C inside this range are not its only ones: seven literal pools in
- * the image hold that address, so the `literal` class keeps a witness outside
- * whatever is compared.
- *
- * The two forwarders are written with their parameters declared and **not**
- * passed on, and that is a property of the codegen rather than a claim about
- * the callees.  This front end only emits the pool-word tail call
- * `ldr r3, [pc, #0]; bx r3` when there is no argument register to set up; a
- * call that names its arguments, even when every one of them is already in
- * the right register, comes out as `push {r3, lr}; blx; pop {r3, pc}`, which
- * is four instructions and eight bytes wrong.  The callers do pass four
- * arguments through func_0200B900 (func_0200B938 sets r0 through r3 before
- * the `bl`), so the forwarding is real and is simply not expressible here.
- * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
- */
 u8 *func_0200B928(void)
 {
     return (u8 *)&gObj_0214616C->unk80;
@@ -2146,32 +1478,6 @@ u8 *func_0200B928(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200B928, func_0200B934
- *
- * 56 bytes, 0x0200B900..0x0200B938, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * Four accessors on the single object whose address lives at 0x0214616C and
- * two forwarders to a pair of ARM routines.  The three pool words holding
- * 0x0214616C inside this range are not its only ones: seven literal pools in
- * the image hold that address, so the `literal` class keeps a witness outside
- * whatever is compared.
- *
- * The two forwarders are written with their parameters declared and **not**
- * passed on, and that is a property of the codegen rather than a claim about
- * the callees.  This front end only emits the pool-word tail call
- * `ldr r3, [pc, #0]; bx r3` when there is no argument register to set up; a
- * call that names its arguments, even when every one of them is already in
- * the right register, comes out as `push {r3, lr}; blx; pop {r3, pc}`, which
- * is four instructions and eight bytes wrong.  The callers do pass four
- * arguments through func_0200B900 (func_0200B938 sets r0 through r3 before
- * the `bl`), so the forwarding is real and is simply not expressible here.
- * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
- */
 u8 *func_0200B934(struct BattleRec *p)
 {
     return (u8 *)&p->unk80;
@@ -2310,40 +1616,6 @@ u32 func_0200BA38(u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 32 bytes, 0x0200BA38..0x0200BA58, 2 functions, one of which carries a
- * label in the generated listing.
- *
- * func_0200BA44 stamps the record's own checksum into its last halfword, and
- * 0x17DC is both the length checksummed and the store's offset, so the
- * compiler holds it in one register and the store is a register-offset
- * `strh`; 0x17DC is far past the 62-byte reach of the immediate form anyway.
- *
- * Near miss, and the reason this range starts at 0x0200BA38: func_0200B98C,
- * 172 bytes, an eight-case dispatcher returning `long long`.  Every case, the
- * jump table and the three pool words reproduce; what does not is one
- * instruction in the `case 3` table search.  The original keeps the loop
- * index in r2 and copies it into r0 to return it (`adds r0, r2, #0`), where
- * every spelling tried here allocates the index to r0 directly and drops the
- * copy, which is two bytes short and moves the four later table entries.
- * Nine shapes were compiled and ranked: the table as a named `const u16 *`
- * local declared before and after the compared value, the comparison in both
- * operand orders, `while` against `for`, a `continue` form, the index at
- * function scope and at case scope, and the compared field as `u16` and
- * `u32`.  All nine are 168 bytes against the original's 172 and the ranking
- * is flat, so the missing copy is not reachable from the source shape.  Same
- * class as the near misses at 0x0200B2A4 and 0x0200B37C.
- *
- * Near miss, and the reason this range stops at 0x0200BA58: func_0200BA58 and
- * func_0200BA68, eight bytes of tail call each.  Both reproduce every
- * instruction but hold their argument in a pool word rather than in a `movs`,
- * and 0xBC fits a `movs` immediate, so the argument cannot be an integer
- * literal.  Both are now matched on their own: src/matched/arm9/
- * func_0200BA58.c and func_0200BA68.c. *
- */
 void func_0200BA44(struct RecC4 *p)
 {
     p->unk17DC = func_0203F1FC((const u8 *)p, 0x17DC);
@@ -2413,29 +1685,6 @@ u32 func_0200BA78(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 80 bytes, 0x0200BA78..0x0200BAC8, 2 functions, one of which carries a
- * label in the generated listing.
- *
- * The size getter and the constructor of a 0x35C-byte record: six 0x88-byte
- * entries, then 0x14 bytes at +0x330 that a resource read fills.  The two
- * agree, which is what pins the entry size: 6 * 0x88 is 0x330.
- *
- * The entry is declared as an array of words rather than of bytes, because
- * func_0200BAD4 in src/matched/unit_0200BAD4.c copies one with an eight-byte
- * stepped `ldm`/`stm` loop; a one-aligned declaration gives a byte loop
- * instead.  See docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *
- * The range stops at 0x0200BAC8 because of func_0200BAC8, an eight-byte tail
- * call whose pool word names 0x020271CC and which nothing else in the image
- * branches to or holds a pointer to, so the `label` and `literal` classes are
- * both empty and no cut helps.  It is now matched on its own, as are the
- * other two: src/matched/arm9/func_0200BAC8.c, func_0200BA58.c and
- * func_0200BA68.c. *
- */
 void func_0200BA80(struct Rec35C *p)
 {
     u32 i;
@@ -2650,45 +1899,6 @@ void func_0200BBC8(struct Obj *p, u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C,
- *           func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8,
- *           func_0200BCD8, func_0200BCEC
- *
- * 384 bytes, 0x0200BBC8..0x0200BD48, 14 functions, none of which carries a
- * label in the generated listing: not one of them saves lr, so the whole
- * range arrives as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * The object is two 0xE4-byte slots at +0x000, each an in-use word, a
- * 0xDC-byte payload and a word behind it, plus a flag word at +0x1C8.  That
- * is 0x1CC bytes and it is exactly what func_0200BD98 in
- * src/matched/unit_0200BD98.c returns as the size of the save block with id
- * 0x32, so the record is pinned from both ends.  The halfword of bits at
- * +0x358 that func_0200BBC8, func_0200BBD8 and func_0200BBFC reach is past
- * that end and therefore belongs to some other object the same file also
- * serves; it is declared here as one struct only because nothing in the range
- * distinguishes the two.  The three sizes are pinned by the three
- * `ldm`/`stm` copies and agree: 0x1B pairs plus a word is the 0xDC payload
- * func_0200BC4C stores, and 0x1C pairs plus a word is the whole 0xE4 slot
- * func_0200BCEC swaps through a stack temporary.  See
- * docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; both copies are
- * eight-byte stepped, which is what says the payload is word aligned rather
- * than a byte array.
- *
- * func_0200BBEC belongs to a different object: it is pure address arithmetic
- * over a 0x330-byte record holding six 0x88-byte entries, and it is here only
- * because the file it was written in also holds the accessors above.  Its one
- * caller in this region, func_0200BBA8, is outside this range.
- *
- * Every guard in the file that ends in a shared exit is written as one
- * conjunction rather than as a run of early returns, which is what gives the
- * single epilogue the original has; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- */
 void func_0200BBD8(struct Obj *p, int v)
 {
     p->unk358 &= ~v;
@@ -2697,45 +1907,6 @@ void func_0200BBD8(struct Obj *p, int v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C,
- *           func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8,
- *           func_0200BCD8, func_0200BCEC
- *
- * 384 bytes, 0x0200BBC8..0x0200BD48, 14 functions, none of which carries a
- * label in the generated listing: not one of them saves lr, so the whole
- * range arrives as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * The object is two 0xE4-byte slots at +0x000, each an in-use word, a
- * 0xDC-byte payload and a word behind it, plus a flag word at +0x1C8.  That
- * is 0x1CC bytes and it is exactly what func_0200BD98 in
- * src/matched/unit_0200BD98.c returns as the size of the save block with id
- * 0x32, so the record is pinned from both ends.  The halfword of bits at
- * +0x358 that func_0200BBC8, func_0200BBD8 and func_0200BBFC reach is past
- * that end and therefore belongs to some other object the same file also
- * serves; it is declared here as one struct only because nothing in the range
- * distinguishes the two.  The three sizes are pinned by the three
- * `ldm`/`stm` copies and agree: 0x1B pairs plus a word is the 0xDC payload
- * func_0200BC4C stores, and 0x1C pairs plus a word is the whole 0xE4 slot
- * func_0200BCEC swaps through a stack temporary.  See
- * docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; both copies are
- * eight-byte stepped, which is what says the payload is word aligned rather
- * than a byte array.
- *
- * func_0200BBEC belongs to a different object: it is pure address arithmetic
- * over a 0x330-byte record holding six 0x88-byte entries, and it is here only
- * because the file it was written in also holds the accessors above.  Its one
- * caller in this region, func_0200BBA8, is outside this range.
- *
- * Every guard in the file that ends in a shared exit is written as one
- * conjunction rather than as a run of early returns, which is what gives the
- * single epilogue the original has; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- */
 void *func_0200BBEC(void *base, u32 i, u32 j)
 {
     return (u8 *)base + i * 0x330 + j * 0x88;
@@ -2744,45 +1915,6 @@ void *func_0200BBEC(void *base, u32 i, u32 j)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C,
- *           func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8,
- *           func_0200BCD8, func_0200BCEC
- *
- * 384 bytes, 0x0200BBC8..0x0200BD48, 14 functions, none of which carries a
- * label in the generated listing: not one of them saves lr, so the whole
- * range arrives as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * The object is two 0xE4-byte slots at +0x000, each an in-use word, a
- * 0xDC-byte payload and a word behind it, plus a flag word at +0x1C8.  That
- * is 0x1CC bytes and it is exactly what func_0200BD98 in
- * src/matched/unit_0200BD98.c returns as the size of the save block with id
- * 0x32, so the record is pinned from both ends.  The halfword of bits at
- * +0x358 that func_0200BBC8, func_0200BBD8 and func_0200BBFC reach is past
- * that end and therefore belongs to some other object the same file also
- * serves; it is declared here as one struct only because nothing in the range
- * distinguishes the two.  The three sizes are pinned by the three
- * `ldm`/`stm` copies and agree: 0x1B pairs plus a word is the 0xDC payload
- * func_0200BC4C stores, and 0x1C pairs plus a word is the whole 0xE4 slot
- * func_0200BCEC swaps through a stack temporary.  See
- * docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; both copies are
- * eight-byte stepped, which is what says the payload is word aligned rather
- * than a byte array.
- *
- * func_0200BBEC belongs to a different object: it is pure address arithmetic
- * over a 0x330-byte record holding six 0x88-byte entries, and it is here only
- * because the file it was written in also holds the accessors above.  Its one
- * caller in this region, func_0200BBA8, is outside this range.
- *
- * Every guard in the file that ends in a shared exit is written as one
- * conjunction rather than as a run of early returns, which is what gives the
- * single epilogue the original has; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- */
 u32 func_0200BBFC(struct Obj *p, u32 mask)
 {
     if ((p->unk358 & mask) != 0) {
@@ -2823,45 +1955,6 @@ struct Payload *func_0200BC2C(struct Obj *p, s32 i)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C,
- *           func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8,
- *           func_0200BCD8, func_0200BCEC
- *
- * 384 bytes, 0x0200BBC8..0x0200BD48, 14 functions, none of which carries a
- * label in the generated listing: not one of them saves lr, so the whole
- * range arrives as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * The object is two 0xE4-byte slots at +0x000, each an in-use word, a
- * 0xDC-byte payload and a word behind it, plus a flag word at +0x1C8.  That
- * is 0x1CC bytes and it is exactly what func_0200BD98 in
- * src/matched/unit_0200BD98.c returns as the size of the save block with id
- * 0x32, so the record is pinned from both ends.  The halfword of bits at
- * +0x358 that func_0200BBC8, func_0200BBD8 and func_0200BBFC reach is past
- * that end and therefore belongs to some other object the same file also
- * serves; it is declared here as one struct only because nothing in the range
- * distinguishes the two.  The three sizes are pinned by the three
- * `ldm`/`stm` copies and agree: 0x1B pairs plus a word is the 0xDC payload
- * func_0200BC4C stores, and 0x1C pairs plus a word is the whole 0xE4 slot
- * func_0200BCEC swaps through a stack temporary.  See
- * docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; both copies are
- * eight-byte stepped, which is what says the payload is word aligned rather
- * than a byte array.
- *
- * func_0200BBEC belongs to a different object: it is pure address arithmetic
- * over a 0x330-byte record holding six 0x88-byte entries, and it is here only
- * because the file it was written in also holds the accessors above.  Its one
- * caller in this region, func_0200BBA8, is outside this range.
- *
- * Every guard in the file that ends in a shared exit is written as one
- * conjunction rather than as a run of early returns, which is what gives the
- * single epilogue the original has; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- */
 void func_0200BC4C(struct Obj *p, s32 i, const struct Payload *src)
 {
     if (i >= 0 && i < 2 && p->slot[i].unk00 != 1) {
@@ -2874,45 +1967,6 @@ void func_0200BC4C(struct Obj *p, s32 i, const struct Payload *src)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C,
- *           func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8,
- *           func_0200BCD8, func_0200BCEC
- *
- * 384 bytes, 0x0200BBC8..0x0200BD48, 14 functions, none of which carries a
- * label in the generated listing: not one of them saves lr, so the whole
- * range arrives as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * The object is two 0xE4-byte slots at +0x000, each an in-use word, a
- * 0xDC-byte payload and a word behind it, plus a flag word at +0x1C8.  That
- * is 0x1CC bytes and it is exactly what func_0200BD98 in
- * src/matched/unit_0200BD98.c returns as the size of the save block with id
- * 0x32, so the record is pinned from both ends.  The halfword of bits at
- * +0x358 that func_0200BBC8, func_0200BBD8 and func_0200BBFC reach is past
- * that end and therefore belongs to some other object the same file also
- * serves; it is declared here as one struct only because nothing in the range
- * distinguishes the two.  The three sizes are pinned by the three
- * `ldm`/`stm` copies and agree: 0x1B pairs plus a word is the 0xDC payload
- * func_0200BC4C stores, and 0x1C pairs plus a word is the whole 0xE4 slot
- * func_0200BCEC swaps through a stack temporary.  See
- * docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; both copies are
- * eight-byte stepped, which is what says the payload is word aligned rather
- * than a byte array.
- *
- * func_0200BBEC belongs to a different object: it is pure address arithmetic
- * over a 0x330-byte record holding six 0x88-byte entries, and it is here only
- * because the file it was written in also holds the accessors above.  Its one
- * caller in this region, func_0200BBA8, is outside this range.
- *
- * Every guard in the file that ends in a shared exit is written as one
- * conjunction rather than as a run of early returns, which is what gives the
- * single epilogue the original has; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- */
 void func_0200BC88(struct Obj *p, s32 i)
 {
     if (i >= 0 && i < 2 && p->slot[i].unk00 == 1) {
@@ -2958,45 +2012,6 @@ u32 func_0200BCB8(struct Obj *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C,
- *           func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8,
- *           func_0200BCD8, func_0200BCEC
- *
- * 384 bytes, 0x0200BBC8..0x0200BD48, 14 functions, none of which carries a
- * label in the generated listing: not one of them saves lr, so the whole
- * range arrives as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * The object is two 0xE4-byte slots at +0x000, each an in-use word, a
- * 0xDC-byte payload and a word behind it, plus a flag word at +0x1C8.  That
- * is 0x1CC bytes and it is exactly what func_0200BD98 in
- * src/matched/unit_0200BD98.c returns as the size of the save block with id
- * 0x32, so the record is pinned from both ends.  The halfword of bits at
- * +0x358 that func_0200BBC8, func_0200BBD8 and func_0200BBFC reach is past
- * that end and therefore belongs to some other object the same file also
- * serves; it is declared here as one struct only because nothing in the range
- * distinguishes the two.  The three sizes are pinned by the three
- * `ldm`/`stm` copies and agree: 0x1B pairs plus a word is the 0xDC payload
- * func_0200BC4C stores, and 0x1C pairs plus a word is the whole 0xE4 slot
- * func_0200BCEC swaps through a stack temporary.  See
- * docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; both copies are
- * eight-byte stepped, which is what says the payload is word aligned rather
- * than a byte array.
- *
- * func_0200BBEC belongs to a different object: it is pure address arithmetic
- * over a 0x330-byte record holding six 0x88-byte entries, and it is here only
- * because the file it was written in also holds the accessors above.  Its one
- * caller in this region, func_0200BBA8, is outside this range.
- *
- * Every guard in the file that ends in a shared exit is written as one
- * conjunction rather than as a run of early returns, which is what gives the
- * single epilogue the original has; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- */
 u32 func_0200BCD8(struct Obj *p, u32 i)
 {
     if (i >= 2) {
@@ -3070,24 +2085,6 @@ u32 func_0200BD98(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 36 bytes, 0x0200BD98..0x0200BDBC, 3 functions, none of which carries a
- * label in the generated listing.
- *
- * The size, constructor and lookup of the save block with id 0x32.  0x1CC is
- * exactly 2 * 0xE4 + 4, which is the two-slot record the accessors of
- * src/matched/unit_0200BBC8.c reach through a slot stride of 0xE4 and a flag
- * word at +0x1C8, so this is that object's header and the range immediately
- * before it is its accessor set.
- *
- * Both of the last two functions are bare tail calls, which is why neither
- * has a prologue and why each spends a literal pool word on its callee: see
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  The constructor does
- * nothing but clear the block, so there is no field this file pins.
- */
 void func_0200BDA0(struct Blk32 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk32));
@@ -3095,24 +2092,6 @@ void func_0200BDA0(struct Blk32 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 36 bytes, 0x0200BD98..0x0200BDBC, 3 functions, none of which carries a
- * label in the generated listing.
- *
- * The size, constructor and lookup of the save block with id 0x32.  0x1CC is
- * exactly 2 * 0xE4 + 4, which is the two-slot record the accessors of
- * src/matched/unit_0200BBC8.c reach through a slot stride of 0xE4 and a flag
- * word at +0x1C8, so this is that object's header and the range immediately
- * before it is its accessor set.
- *
- * Both of the last two functions are bare tail calls, which is why neither
- * has a prologue and why each spends a literal pool word on its callee: see
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  The constructor does
- * nothing but clear the block, so there is no field this file pins.
- */
 void *func_0200BDB0(void *sys)
 {
     return func_020071CC(sys, 0x32);
@@ -3158,35 +2137,6 @@ u32 func_0200BDBC(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BDFC, func_0200BE00, func_0200BE24
- *
- * 140 bytes, 0x0200BDBC..0x0200BE48, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * A 0x1B0-byte record: func_0200BDBC returns its size and func_0200BDC4
- * clears exactly that many bytes, which is the block-file opening this region
- * keeps producing.  The constructor then seeds the byte at +0x1A0 with 0x30
- * and reaches it by subtracting 0x10 from the size it already has in a
- * register rather than materialising 0x1A0 again; that is the compiler's
- * doing and not a second constant in the source.
- *
- * func_0200BDE4 hands the first sixteen bytes to func_021763BC, which lives
- * in overlay address space.  The call is attested because ov019's generated
- * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
- * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
- *
- * func_0200BE00 and func_0200BE24 are the same clamped adder over two
- * neighbouring `u16` counters, and the ceiling 999 arrives from a literal
- * pool in each of them because it does not fit a Thumb immediate.  The
- * increment has to be written `p->f += v` with a **signed** parameter: the
- * comparison is a signed `ble`, and spelling the store as
- * `p->f = p->f + (u16)v` adds the truncation pair the store already does for
- * free.
- */
 void func_0200BDC4(struct Rec1B0_0200BDBC *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Rec1B0_0200BDBC));
@@ -3196,35 +2146,6 @@ void func_0200BDC4(struct Rec1B0_0200BDBC *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BDFC, func_0200BE00, func_0200BE24
- *
- * 140 bytes, 0x0200BDBC..0x0200BE48, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * A 0x1B0-byte record: func_0200BDBC returns its size and func_0200BDC4
- * clears exactly that many bytes, which is the block-file opening this region
- * keeps producing.  The constructor then seeds the byte at +0x1A0 with 0x30
- * and reaches it by subtracting 0x10 from the size it already has in a
- * register rather than materialising 0x1A0 again; that is the compiler's
- * doing and not a second constant in the source.
- *
- * func_0200BDE4 hands the first sixteen bytes to func_021763BC, which lives
- * in overlay address space.  The call is attested because ov019's generated
- * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
- * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
- *
- * func_0200BE00 and func_0200BE24 are the same clamped adder over two
- * neighbouring `u16` counters, and the ceiling 999 arrives from a literal
- * pool in each of them because it does not fit a Thumb immediate.  The
- * increment has to be written `p->f += v` with a **signed** parameter: the
- * comparison is a signed `ble`, and spelling the store as
- * `p->f = p->f + (u16)v` adds the truncation pair the store already does for
- * free.
- */
 void func_0200BDE4(struct Rec1B0_0200BDBC *p)
 {
     MI_CpuFill8(p, 0, 0x10);
@@ -3233,35 +2154,6 @@ void func_0200BDE4(struct Rec1B0_0200BDBC *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BDFC, func_0200BE00, func_0200BE24
- *
- * 140 bytes, 0x0200BDBC..0x0200BE48, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * A 0x1B0-byte record: func_0200BDBC returns its size and func_0200BDC4
- * clears exactly that many bytes, which is the block-file opening this region
- * keeps producing.  The constructor then seeds the byte at +0x1A0 with 0x30
- * and reaches it by subtracting 0x10 from the size it already has in a
- * register rather than materialising 0x1A0 again; that is the compiler's
- * doing and not a second constant in the source.
- *
- * func_0200BDE4 hands the first sixteen bytes to func_021763BC, which lives
- * in overlay address space.  The call is attested because ov019's generated
- * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
- * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
- *
- * func_0200BE00 and func_0200BE24 are the same clamped adder over two
- * neighbouring `u16` counters, and the ceiling 999 arrives from a literal
- * pool in each of them because it does not fit a Thumb immediate.  The
- * increment has to be written `p->f += v` with a **signed** parameter: the
- * comparison is a signed `ble`, and spelling the store as
- * `p->f = p->f + (u16)v` adds the truncation pair the store already does for
- * free.
- */
 u16 func_0200BDF8(struct Rec1B0_0200BDBC *p)
 {
     return p->unk0C;
@@ -3269,35 +2161,6 @@ u16 func_0200BDF8(struct Rec1B0_0200BDBC *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BDFC, func_0200BE00, func_0200BE24
- *
- * 140 bytes, 0x0200BDBC..0x0200BE48, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * A 0x1B0-byte record: func_0200BDBC returns its size and func_0200BDC4
- * clears exactly that many bytes, which is the block-file opening this region
- * keeps producing.  The constructor then seeds the byte at +0x1A0 with 0x30
- * and reaches it by subtracting 0x10 from the size it already has in a
- * register rather than materialising 0x1A0 again; that is the compiler's
- * doing and not a second constant in the source.
- *
- * func_0200BDE4 hands the first sixteen bytes to func_021763BC, which lives
- * in overlay address space.  The call is attested because ov019's generated
- * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
- * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
- *
- * func_0200BE00 and func_0200BE24 are the same clamped adder over two
- * neighbouring `u16` counters, and the ceiling 999 arrives from a literal
- * pool in each of them because it does not fit a Thumb immediate.  The
- * increment has to be written `p->f += v` with a **signed** parameter: the
- * comparison is a signed `ble`, and spelling the store as
- * `p->f = p->f + (u16)v` adds the truncation pair the store already does for
- * free.
- */
 u16 func_0200BDFC(struct Rec1B0_0200BDBC *p)
 {
     return p->unk0E;
@@ -3305,35 +2168,6 @@ u16 func_0200BDFC(struct Rec1B0_0200BDBC *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BDFC, func_0200BE00, func_0200BE24
- *
- * 140 bytes, 0x0200BDBC..0x0200BE48, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * A 0x1B0-byte record: func_0200BDBC returns its size and func_0200BDC4
- * clears exactly that many bytes, which is the block-file opening this region
- * keeps producing.  The constructor then seeds the byte at +0x1A0 with 0x30
- * and reaches it by subtracting 0x10 from the size it already has in a
- * register rather than materialising 0x1A0 again; that is the compiler's
- * doing and not a second constant in the source.
- *
- * func_0200BDE4 hands the first sixteen bytes to func_021763BC, which lives
- * in overlay address space.  The call is attested because ov019's generated
- * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
- * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
- *
- * func_0200BE00 and func_0200BE24 are the same clamped adder over two
- * neighbouring `u16` counters, and the ceiling 999 arrives from a literal
- * pool in each of them because it does not fit a Thumb immediate.  The
- * increment has to be written `p->f += v` with a **signed** parameter: the
- * comparison is a signed `ble`, and spelling the store as
- * `p->f = p->f + (u16)v` adds the truncation pair the store already does for
- * free.
- */
 void func_0200BE00(struct Rec1B0_0200BDBC *p, s32 v)
 {
     if (p->unk0C + v > 999) {
@@ -3345,35 +2179,6 @@ void func_0200BE00(struct Rec1B0_0200BDBC *p, s32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BDFC, func_0200BE00, func_0200BE24
- *
- * 140 bytes, 0x0200BDBC..0x0200BE48, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * A 0x1B0-byte record: func_0200BDBC returns its size and func_0200BDC4
- * clears exactly that many bytes, which is the block-file opening this region
- * keeps producing.  The constructor then seeds the byte at +0x1A0 with 0x30
- * and reaches it by subtracting 0x10 from the size it already has in a
- * register rather than materialising 0x1A0 again; that is the compiler's
- * doing and not a second constant in the source.
- *
- * func_0200BDE4 hands the first sixteen bytes to func_021763BC, which lives
- * in overlay address space.  The call is attested because ov019's generated
- * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
- * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
- *
- * func_0200BE00 and func_0200BE24 are the same clamped adder over two
- * neighbouring `u16` counters, and the ceiling 999 arrives from a literal
- * pool in each of them because it does not fit a Thumb immediate.  The
- * increment has to be written `p->f += v` with a **signed** parameter: the
- * comparison is a signed `ble`, and spelling the store as
- * `p->f = p->f + (u16)v` adds the truncation pair the store already does for
- * free.
- */
 void func_0200BE24(struct Rec1B0_0200BDBC *p, s32 v)
 {
     if (p->unk0E + v > 999) {
@@ -3409,21 +2214,6 @@ u16 *func_0200BE48(void *sys)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 60 bytes, 0x0200BE48..0x0200BE84, 3 functions, one of which carries no
- * label in the generated listing.
- *
- * The lookup of the save block with id 0x35 and the two directions of an
- * eight halfword copy in and out of it.  Both loops count **down** from 8
- * with `subs`/`bne` and no compare at all, which a `for (i = 0; i < 8; i++)`
- * does not produce: that spelling keeps the induction variable and costs a
- * `cmp` and a `blt`.  `for (i = 8; i != 0; i--)` over an unsigned counter is
- * what gives the original's six instruction body, and so does the equivalent
- * `do`/`while (--i != 0)`.
- */
 void func_0200BE54(void *sys, const u16 *src)
 {
     u16 *d = func_0200BE48(sys);
@@ -3437,21 +2227,6 @@ void func_0200BE54(void *sys, const u16 *src)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 60 bytes, 0x0200BE48..0x0200BE84, 3 functions, one of which carries no
- * label in the generated listing.
- *
- * The lookup of the save block with id 0x35 and the two directions of an
- * eight halfword copy in and out of it.  Both loops count **down** from 8
- * with `subs`/`bne` and no compare at all, which a `for (i = 0; i < 8; i++)`
- * does not produce: that spelling keeps the induction variable and costs a
- * `cmp` and a `blt`.  `for (i = 8; i != 0; i--)` over an unsigned counter is
- * what gives the original's six instruction body, and so does the equivalent
- * `do`/`while (--i != 0)`.
- */
 void func_0200BE6C(void *sys, u16 *dest)
 {
     const u16 *s = func_0200BE48(sys);
@@ -3568,35 +2343,6 @@ void func_0200BF08(struct Rec1B0_0200BF08 *p, u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BF70, func_0200BF78, func_0200BF94
- *
- * 156 bytes, 0x0200BF08..0x0200BFA4, 7 functions, none of which carries a
- * label in the generated listing.
- *
- * The tail of the 0x1B0-byte record whose size getter and constructor are
- * src/matched/unit_0200BDBC.c: a byte at +0x1A0, a two-byte bitmap at +0x1A1,
- * a clamped counter at +0x1A4 and a `u64` at +0x1A8, which is 0x1B0 exactly.
- * func_0200BF94 is the tell for the last of those: it returns +0x1A8 in r0
- * and +0x1AC in r1, which is one 64-bit value and not two out-parameters.
- * See docs/idioms/long-long-aligns-to-four.md.
- *
- * func_0200BF18 sets one bit of the bitmap for an id in 0x21..0x26, and the
- * index arithmetic is signed: `lsrs #0x1F` / `lsls #0x1D` / `subs` /
- * `rors #0x1D` is `% 8` on a signed value, exactly as in
- * src/matched/sub_0200A6BC.c, and `& 7` would have been a two-instruction
- * `movs`/`ands`.  The two range tests branch to one exit, so they are one
- * conjunction rather than two early returns.
- *
- * The base address 0x1A1 arrives from a literal pool in both functions that
- * touch the bitmap, because a register-offset `ldrb`/`strb` has no immediate
- * at all; that is the forced case of
- * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md
- * and not evidence of a second object.
- */
 u8 func_0200BF10(struct Rec1B0_0200BF08 *p)
 {
     return p->unk1A0;
@@ -3604,35 +2350,6 @@ u8 func_0200BF10(struct Rec1B0_0200BF08 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BF70, func_0200BF78, func_0200BF94
- *
- * 156 bytes, 0x0200BF08..0x0200BFA4, 7 functions, none of which carries a
- * label in the generated listing.
- *
- * The tail of the 0x1B0-byte record whose size getter and constructor are
- * src/matched/unit_0200BDBC.c: a byte at +0x1A0, a two-byte bitmap at +0x1A1,
- * a clamped counter at +0x1A4 and a `u64` at +0x1A8, which is 0x1B0 exactly.
- * func_0200BF94 is the tell for the last of those: it returns +0x1A8 in r0
- * and +0x1AC in r1, which is one 64-bit value and not two out-parameters.
- * See docs/idioms/long-long-aligns-to-four.md.
- *
- * func_0200BF18 sets one bit of the bitmap for an id in 0x21..0x26, and the
- * index arithmetic is signed: `lsrs #0x1F` / `lsls #0x1D` / `subs` /
- * `rors #0x1D` is `% 8` on a signed value, exactly as in
- * src/matched/sub_0200A6BC.c, and `& 7` would have been a two-instruction
- * `movs`/`ands`.  The two range tests branch to one exit, so they are one
- * conjunction rather than two early returns.
- *
- * The base address 0x1A1 arrives from a literal pool in both functions that
- * touch the bitmap, because a register-offset `ldrb`/`strb` has no immediate
- * at all; that is the forced case of
- * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md
- * and not evidence of a second object.
- */
 void func_0200BF18(struct Rec1B0_0200BF08 *p, s32 id)
 {
     s32 n = id - 0x21;
@@ -3644,35 +2361,6 @@ void func_0200BF18(struct Rec1B0_0200BF08 *p, s32 id)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BF70, func_0200BF78, func_0200BF94
- *
- * 156 bytes, 0x0200BF08..0x0200BFA4, 7 functions, none of which carries a
- * label in the generated listing.
- *
- * The tail of the 0x1B0-byte record whose size getter and constructor are
- * src/matched/unit_0200BDBC.c: a byte at +0x1A0, a two-byte bitmap at +0x1A1,
- * a clamped counter at +0x1A4 and a `u64` at +0x1A8, which is 0x1B0 exactly.
- * func_0200BF94 is the tell for the last of those: it returns +0x1A8 in r0
- * and +0x1AC in r1, which is one 64-bit value and not two out-parameters.
- * See docs/idioms/long-long-aligns-to-four.md.
- *
- * func_0200BF18 sets one bit of the bitmap for an id in 0x21..0x26, and the
- * index arithmetic is signed: `lsrs #0x1F` / `lsls #0x1D` / `subs` /
- * `rors #0x1D` is `% 8` on a signed value, exactly as in
- * src/matched/sub_0200A6BC.c, and `& 7` would have been a two-instruction
- * `movs`/`ands`.  The two range tests branch to one exit, so they are one
- * conjunction rather than two early returns.
- *
- * The base address 0x1A1 arrives from a literal pool in both functions that
- * touch the bitmap, because a register-offset `ldrb`/`strb` has no immediate
- * at all; that is the forced case of
- * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md
- * and not evidence of a second object.
- */
 void func_0200BF54(struct Rec1B0_0200BF08 *p, u8 *dest, u32 n)
 {
     s32 i;
@@ -3684,35 +2372,6 @@ void func_0200BF54(struct Rec1B0_0200BF08 *p, u8 *dest, u32 n)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BF70, func_0200BF78, func_0200BF94
- *
- * 156 bytes, 0x0200BF08..0x0200BFA4, 7 functions, none of which carries a
- * label in the generated listing.
- *
- * The tail of the 0x1B0-byte record whose size getter and constructor are
- * src/matched/unit_0200BDBC.c: a byte at +0x1A0, a two-byte bitmap at +0x1A1,
- * a clamped counter at +0x1A4 and a `u64` at +0x1A8, which is 0x1B0 exactly.
- * func_0200BF94 is the tell for the last of those: it returns +0x1A8 in r0
- * and +0x1AC in r1, which is one 64-bit value and not two out-parameters.
- * See docs/idioms/long-long-aligns-to-four.md.
- *
- * func_0200BF18 sets one bit of the bitmap for an id in 0x21..0x26, and the
- * index arithmetic is signed: `lsrs #0x1F` / `lsls #0x1D` / `subs` /
- * `rors #0x1D` is `% 8` on a signed value, exactly as in
- * src/matched/sub_0200A6BC.c, and `& 7` would have been a two-instruction
- * `movs`/`ands`.  The two range tests branch to one exit, so they are one
- * conjunction rather than two early returns.
- *
- * The base address 0x1A1 arrives from a literal pool in both functions that
- * touch the bitmap, because a register-offset `ldrb`/`strb` has no immediate
- * at all; that is the forced case of
- * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md
- * and not evidence of a second object.
- */
 u32 func_0200BF70(struct Rec1B0_0200BF08 *p)
 {
     return p->unk1A4;
@@ -3720,35 +2379,6 @@ u32 func_0200BF70(struct Rec1B0_0200BF08 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BF70, func_0200BF78, func_0200BF94
- *
- * 156 bytes, 0x0200BF08..0x0200BFA4, 7 functions, none of which carries a
- * label in the generated listing.
- *
- * The tail of the 0x1B0-byte record whose size getter and constructor are
- * src/matched/unit_0200BDBC.c: a byte at +0x1A0, a two-byte bitmap at +0x1A1,
- * a clamped counter at +0x1A4 and a `u64` at +0x1A8, which is 0x1B0 exactly.
- * func_0200BF94 is the tell for the last of those: it returns +0x1A8 in r0
- * and +0x1AC in r1, which is one 64-bit value and not two out-parameters.
- * See docs/idioms/long-long-aligns-to-four.md.
- *
- * func_0200BF18 sets one bit of the bitmap for an id in 0x21..0x26, and the
- * index arithmetic is signed: `lsrs #0x1F` / `lsls #0x1D` / `subs` /
- * `rors #0x1D` is `% 8` on a signed value, exactly as in
- * src/matched/sub_0200A6BC.c, and `& 7` would have been a two-instruction
- * `movs`/`ands`.  The two range tests branch to one exit, so they are one
- * conjunction rather than two early returns.
- *
- * The base address 0x1A1 arrives from a literal pool in both functions that
- * touch the bitmap, because a register-offset `ldrb`/`strb` has no immediate
- * at all; that is the forced case of
- * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md
- * and not evidence of a second object.
- */
 u32 func_0200BF78(struct Rec1B0_0200BF08 *p)
 {
     if (p->unk1A4 < 99999) {
@@ -3759,35 +2389,6 @@ u32 func_0200BF78(struct Rec1B0_0200BF08 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200BF70, func_0200BF78, func_0200BF94
- *
- * 156 bytes, 0x0200BF08..0x0200BFA4, 7 functions, none of which carries a
- * label in the generated listing.
- *
- * The tail of the 0x1B0-byte record whose size getter and constructor are
- * src/matched/unit_0200BDBC.c: a byte at +0x1A0, a two-byte bitmap at +0x1A1,
- * a clamped counter at +0x1A4 and a `u64` at +0x1A8, which is 0x1B0 exactly.
- * func_0200BF94 is the tell for the last of those: it returns +0x1A8 in r0
- * and +0x1AC in r1, which is one 64-bit value and not two out-parameters.
- * See docs/idioms/long-long-aligns-to-four.md.
- *
- * func_0200BF18 sets one bit of the bitmap for an id in 0x21..0x26, and the
- * index arithmetic is signed: `lsrs #0x1F` / `lsls #0x1D` / `subs` /
- * `rors #0x1D` is `% 8` on a signed value, exactly as in
- * src/matched/sub_0200A6BC.c, and `& 7` would have been a two-instruction
- * `movs`/`ands`.  The two range tests branch to one exit, so they are one
- * conjunction rather than two early returns.
- *
- * The base address 0x1A1 arrives from a literal pool in both functions that
- * touch the bitmap, because a register-offset `ldrb`/`strb` has no immediate
- * at all; that is the forced case of
- * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md
- * and not evidence of a second object.
- */
 unsigned long long func_0200BF94(struct Rec1B0_0200BF08 *p)
 {
     return p->unk1A8;
@@ -3840,24 +2441,6 @@ u64 func_0200BFA4(u8 *p, void *q, u32 mode)
 
 
 
-/*
- * battle_rec.c, 0x0200BFA4..0x0200C058: the play-clock accumulator and the
- * unlabelled 4-byte follower func_0200C054 (`return 0xEC;`, a size getter).
- *
- * func_0200BFA4 converts the h:m:s clock at q to seconds and, by mode,
- * latches it (0), adds the elapsed delta into the u64 at +0x1A8 (1), or
- * returns that total plus the delta without storing it (2).  What closed it
- * after docs/notes/pkt_0200BFA4.c.txt (79 out, 4 bytes short):
- *   - the three clock fields are u64 LOCALS: the image zeroes the high half
- *     (`movs r4, #0`) right after the first call and keeps four stack
- *     words, which a u32 t[3] never gives;
- *   - the sum is written minutes first, `mm * 60 + hh * 3600 + ss` (the
- *     _ull_mul calls follow source order);
- *   - mode 2 returns `total + (v - g)`, not `total - g` (the four missing
- *     bytes were that add).
- *
- * Integrator: seed 0x0200C054 (unlabelled follower, member of this unit).
- */
 u32 func_0200C054(void)
 {
     return 0xEC;
@@ -3949,54 +2532,6 @@ void *func_0200C0E8(void *sys)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void *func_0200C0F0(void *sys)
 {
     return func_020071CC(sys, 0x34);
@@ -4005,54 +2540,6 @@ void *func_0200C0F0(void *sys)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C0FC(struct Blk34 *p, u32 i, u8 v)
 {
     p->unk0C[i] = v;
@@ -4060,54 +2547,6 @@ void func_0200C0FC(struct Blk34 *p, u32 i, u8 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u8 func_0200C104(struct Blk34 *p, u32 i)
 {
     return p->unk0C[i];
@@ -4115,54 +2554,6 @@ u8 func_0200C104(struct Blk34 *p, u32 i)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C10C(struct Blk34 *p)
 {
     MI_CpuFill8(p->unk0C, 0, sizeof(p->unk0C));
@@ -4170,54 +2561,6 @@ void func_0200C10C(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C11C(struct Blk34 *p, u16 a, u32 b, u32 c, u32 d)
 {
     p->unk08 = a;
@@ -4228,54 +2571,6 @@ void func_0200C11C(struct Blk34 *p, u16 a, u32 b, u32 c, u32 d)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C164(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d)
 {
     *a = p->unk08;
@@ -4286,54 +2581,6 @@ void func_0200C164(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C184(struct Blk34 *p)
 {
     return p->f14_0;
@@ -4341,54 +2588,6 @@ u32 func_0200C184(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C18C(struct Blk34 *p, u32 v)
 {
     p->f14_0 = v;
@@ -4396,54 +2595,6 @@ void func_0200C18C(struct Blk34 *p, u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u8 func_0200C1A4(struct Blk34 *p)
 {
     return p->f14_28;
@@ -4451,54 +2602,6 @@ u8 func_0200C1A4(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C1B0(struct Blk34 *p, u32 v)
 {
     p->f14_28 = v;
@@ -4506,54 +2609,6 @@ void func_0200C1B0(struct Blk34 *p, u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C1C4(struct Blk34 *p)
 {
     return p->unk18;
@@ -4561,54 +2616,6 @@ u32 func_0200C1C4(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C1C8(struct Blk34 *p)
 {
     if (p->unk18 < 99999) {
@@ -4619,54 +2626,6 @@ u32 func_0200C1C8(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C1DC(struct Blk34 *p)
 {
     return p->unk1C;
@@ -4674,54 +2633,6 @@ u32 func_0200C1DC(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C1E0(struct Blk34 *p)
 {
     if (p->unk1C < 99999) {
@@ -4732,54 +2643,6 @@ u32 func_0200C1E0(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u16 *func_0200C1F4(struct Blk34 *p)
 {
     return p->unk20;
@@ -4787,54 +2650,6 @@ u16 *func_0200C1F4(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C1F8(struct Blk34 *p, const u16 *src)
 {
     func_02045A38((struct U16Vec *)src, p->unk20, 9);
@@ -4842,54 +2657,6 @@ void func_0200C1F8(struct Blk34 *p, const u16 *src)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u16 *func_0200C20C(struct Blk34 *p)
 {
     return p->unk32;
@@ -4897,54 +2664,6 @@ u16 *func_0200C20C(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C210(struct Blk34 *p, const u16 *src)
 {
     func_02045A38((struct U16Vec *)src, p->unk32, 9);
@@ -4952,54 +2671,6 @@ void func_0200C210(struct Blk34 *p, const u16 *src)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u8 func_0200C224(struct Blk34 *p)
 {
     return p->unk44;
@@ -5007,54 +2678,6 @@ u8 func_0200C224(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C22C(struct Blk34 *p, u8 v)
 {
     p->unk44 = v;
@@ -5062,54 +2685,6 @@ void func_0200C22C(struct Blk34 *p, u8 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C234(struct Blk34 *p, u32 bit)
 {
     return (p->unk04 & (1 << bit)) != 0;
@@ -5117,54 +2692,6 @@ u32 func_0200C234(struct Blk34 *p, u32 bit)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C248(struct Blk34 *p, u32 bit)
 {
     p->unk04 |= 1 << bit;
@@ -5172,54 +2699,6 @@ void func_0200C248(struct Blk34 *p, u32 bit)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C258(struct Blk34 *p)
 {
     u32 n = 0;
@@ -5235,54 +2714,6 @@ u32 func_0200C258(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C274(struct Blk34 *p)
 {
     return p->unk00;
@@ -5290,54 +2721,6 @@ u32 func_0200C274(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C278(struct Blk34 *p, u32 v)
 {
     if (v > 9999999) {
@@ -5353,54 +2736,6 @@ u32 func_0200C278(struct Blk34 *p, u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C29C(struct Blk34 *p, u32 v)
 {
     if (p->unk00 < v) {
@@ -5413,54 +2748,6 @@ u32 func_0200C29C(struct Blk34 *p, u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C2B0(struct Blk34 *p, u32 i, const u16 *src)
 {
     s32 j;
@@ -5472,54 +2759,6 @@ void func_0200C2B0(struct Blk34 *p, u32 i, const u16 *src)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C2D0(struct Blk34 *p, u32 i, u16 *dest)
 {
     s32 j;
@@ -5531,54 +2770,6 @@ void func_0200C2D0(struct Blk34 *p, u32 i, u16 *dest)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C2F0(struct Blk34 *p, u32 i, u8 v)
 {
     p->unk45 |= (u8)(v << (i * 2));
@@ -5586,54 +2777,6 @@ void func_0200C2F0(struct Blk34 *p, u32 i, u8 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u8 func_0200C308(struct Blk34 *p, u32 i)
 {
     return (u8)((p->unk45 >> (i * 2)) & 3);
@@ -5641,54 +2784,6 @@ u8 func_0200C308(struct Blk34 *p, u32 i)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u8 func_0200C31C(struct Blk34 *p)
 {
     return p->unk45;
@@ -5696,54 +2791,6 @@ u8 func_0200C31C(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C324(struct Blk34 *p, u8 v)
 {
     p->unk45 = v;
@@ -5751,54 +2798,6 @@ void func_0200C324(struct Blk34 *p, u8 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u8 func_0200C32C(struct Blk34 *p)
 {
     return p->unk46;
@@ -5806,54 +2805,6 @@ u8 func_0200C32C(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C334(struct Blk34 *p, u8 v)
 {
     p->unk46 = v;
@@ -5861,54 +2812,6 @@ void func_0200C334(struct Blk34 *p, u8 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 int func_0200C33C(struct Blk34 *p, u32 i)
 {
     return p->unk47[i];
@@ -5916,54 +2819,6 @@ int func_0200C33C(struct Blk34 *p, u32 i)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C344(struct Blk34 *p, u8 i, u8 v)
 {
     p->unk47[i] = v;
@@ -5971,54 +2826,6 @@ void func_0200C344(struct Blk34 *p, u8 i, u8 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u16 func_0200C34C(struct Blk34 *p, u32 i)
 {
     return p->unk4A[i];
@@ -6026,54 +2833,6 @@ u16 func_0200C34C(struct Blk34 *p, u32 i)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C358(struct Blk34 *p, u32 i, int v)
 {
     p->unk4A[i] = v;
@@ -6081,54 +2840,6 @@ void func_0200C358(struct Blk34 *p, u32 i, int v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C364(struct Blk34 *p, u8 i, int v)
 {
     u32 n = p->unk4A[i];
@@ -6142,54 +2853,6 @@ void func_0200C364(struct Blk34 *p, u8 i, int v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 unsigned long long func_0200C37C(struct Blk34 *p)
 {
     return p->unk50.q;
@@ -6197,54 +2860,6 @@ unsigned long long func_0200C37C(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C384(struct Blk34 *p, u32 lo, u32 hi)
 {
     p->unk50.w.lo = lo;
@@ -6253,54 +2868,6 @@ void func_0200C384(struct Blk34 *p, u32 lo, u32 hi)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C38C(struct Blk34 *p, s32 i, u32 v)
 {
     if (i < 8) {
@@ -6310,54 +2877,6 @@ void func_0200C38C(struct Blk34 *p, s32 i, u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u32 func_0200C39C(struct Blk34 *p, s32 i)
 {
     if (i >= 8) {
@@ -6368,54 +2887,6 @@ u32 func_0200C39C(struct Blk34 *p, s32 i)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u16 func_0200C3B0(struct Blk34 *p)
 {
     return p->unkE0;
@@ -6423,54 +2894,6 @@ u16 func_0200C3B0(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C3B8(struct Blk34 *p, u16 v)
 {
     p->unkE0 = v;
@@ -6478,54 +2901,6 @@ void func_0200C3B8(struct Blk34 *p, u16 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C3C0(struct Blk34 *p, u16 v)
 {
     if (v <= p->unkE0) {
@@ -6537,54 +2912,6 @@ void func_0200C3C0(struct Blk34 *p, u16 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 u8 func_0200C3E0(struct Blk34 *p)
 {
     return p->unkDC;
@@ -6592,54 +2919,6 @@ u8 func_0200C3E0(struct Blk34 *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200C10C, func_0200C11C, func_0200C164, func_0200C184,
- *           func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4,
- *           func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4,
- *           func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224,
- *           func_0200C22C, func_0200C234, func_0200C248, func_0200C258,
- *           func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0,
- *           func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C,
- *           func_0200C324, func_0200C32C, func_0200C334, func_0200C33C,
- *           func_0200C344, func_0200C34C, func_0200C358, func_0200C364,
- *           func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C,
- *           func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0,
- *           func_0200C3EC
- *
- * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
- * no label in the generated listing: the file is almost entirely accessors
- * and none of them saves lr.
- *
- * The object is the save block with id 0x34: func_0200C0F0 is the whole of
- * its lookup, `func_020071CC(sys, 0x34)`, and func_0200C0E8 is a wrapper
- * that forwards to it.  The layout below is read off the accessors and is
- * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
- * sizeof, because the size getter of this block belongs to whatever file
- * precedes it, so the tail past +0xE2 is not pinned.
- *
- * Three things in it cost real time.
- *
- *  - func_0200C164 takes a **const** pointer, and that is the whole
- *    difference between it and the twelve-byte-longer version.  Its three
- *    bitfield reads come out of one `ldrb` in the original, and through a
- *    non-const pointer this compiler reloads the byte before each of the two
- *    later ones, because the intervening `str` through a `u32 *` may alias
- *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - func_0200C3C0 goes the other way and reads +0xE0 twice, once for the
- *    compare and once for the subtraction, with the address recomputed each
- *    time.  Nothing that leaves the field ordinary reproduces that: the
- *    compiler folds the two reads into one under every spelling of the
- *    branch, the arms, the cast and the pointer.  Declaring the field
- *    `volatile` is what keeps both reads, and it costs nothing in the getter
- *    and setter on either side of it, which touch it once each.
- *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
- *    64-bit value and func_0200C384 stores the two halves from two register
- *    arguments.
- */
 void func_0200C3EC(struct Blk34 *p, u32 v)
 {
     p->unkDC = v;

@@ -1,0 +1,53 @@
+/*
+ * file:     p_sta_oam_p06.c
+ * unit:     yes
+ * function: func_021D618C, func_021D61B8
+ * address:  0x021D618C
+ * region:   ov131
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_021D614C 0x021D614C thumb ov131
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_020457B0 0x020457B0 arm
+ */
+#include "../../matched/include/Obj08145.h"
+
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+typedef unsigned int   u32;
+
+typedef unsigned short u16;
+
+extern void *func_02045770(struct Descriptor *p);
+extern void func_021D614C(unsigned char *,int,int,int,unsigned short,unsigned short);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+void func_021D618C(unsigned char *p,unsigned int a,int b,int c,unsigned short d,unsigned short e);
+void func_021D61B8(unsigned char *p,int a,void *b,int c,short d,short e,unsigned short f);
+
+void func_021D618C(unsigned char *p,unsigned int a,int b,int c,unsigned short d,unsigned short e) {
+ func_021D614C(p,(int)func_02045770((struct Descriptor *)a),b,c,d,e);
+}
+
+void func_021D61B8(unsigned char *p,int a,void *b,int c,short d,short e,unsigned short f) {
+ void *t=func_020457B0(16,((struct Obj08145 *)p)->f0);
+ void *s=func_02045EC0(((struct Obj08145 *)p)->f7C,c);
+ func_0201F250(b,t,s);
+ func_0201C724(((struct Obj08145 *)p)->f84,a,d,e,(u32)t,((struct Obj08145 *)p)->f80,f);
+ func_02045808(s);
+ func_02045808(t);
+}

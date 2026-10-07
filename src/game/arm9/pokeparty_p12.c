@@ -237,246 +237,36 @@ void sub_0201CDF4(int v, u8 *out)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201CE34, sub_0201CE38, sub_0201CE48
- *
- * sub_0201CDF4 splits a signed delta into a sign-magnitude pair of output
- * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
- * the absolute value and byte[0]=0 when it is negative.  The two branches
- * store to the two bytes in opposite order from each other, which is what
- * the original does and is not an artefact of how it is written.
- *
- * sub_0201CE0C, sub_0201CE20 and sub_0201CE38 are three single-bit
- * operations on a byte at offset 0x22 of an object: set bit 0 (written
- * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
- * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
- * a plain OR.  All three read and write the field through two separate
- * `((u8 *)p)[0x22]` expressions rather than a named pointer local, which is
- * what keeps the load address and the store address computed independently
- * the way the original does it.
- *
- * sub_0201CE30 and sub_0201CE34 are the two four-byte word getters this
- * neighbourhood keeps reusing (the same shape as
- * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
- * label either of them, since a two-instruction leaf saves nothing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
- * read directly out of the `.word` run the listing prints between
- * sub_0201CE20 and sub_0201CE38.
- *
- * sub_0201CE48 frees and clears an owned pointer at offset 0x10 if it is
- * non-null.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
- *       --addr 0x0201CDF4 --thumb
- */
 void sub_0201CE0C(void *p)
 {
     ((u8 *)p)[0x22] = (((u8 *)p)[0x22] & ~1u) | 1u;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201CE34, sub_0201CE38, sub_0201CE48
- *
- * sub_0201CDF4 splits a signed delta into a sign-magnitude pair of output
- * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
- * the absolute value and byte[0]=0 when it is negative.  The two branches
- * store to the two bytes in opposite order from each other, which is what
- * the original does and is not an artefact of how it is written.
- *
- * sub_0201CE0C, sub_0201CE20 and sub_0201CE38 are three single-bit
- * operations on a byte at offset 0x22 of an object: set bit 0 (written
- * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
- * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
- * a plain OR.  All three read and write the field through two separate
- * `((u8 *)p)[0x22]` expressions rather than a named pointer local, which is
- * what keeps the load address and the store address computed independently
- * the way the original does it.
- *
- * sub_0201CE30 and sub_0201CE34 are the two four-byte word getters this
- * neighbourhood keeps reusing (the same shape as
- * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
- * label either of them, since a two-instruction leaf saves nothing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
- * read directly out of the `.word` run the listing prints between
- * sub_0201CE20 and sub_0201CE38.
- *
- * sub_0201CE48 frees and clears an owned pointer at offset 0x10 if it is
- * non-null.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
- *       --addr 0x0201CDF4 --thumb
- */
 void sub_0201CE20(void *p)
 {
     ((u8 *)p)[0x22] = ((u8 *)p)[0x22] & ~1u;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201CE34, sub_0201CE38, sub_0201CE48
- *
- * sub_0201CDF4 splits a signed delta into a sign-magnitude pair of output
- * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
- * the absolute value and byte[0]=0 when it is negative.  The two branches
- * store to the two bytes in opposite order from each other, which is what
- * the original does and is not an artefact of how it is written.
- *
- * sub_0201CE0C, sub_0201CE20 and sub_0201CE38 are three single-bit
- * operations on a byte at offset 0x22 of an object: set bit 0 (written
- * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
- * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
- * a plain OR.  All three read and write the field through two separate
- * `((u8 *)p)[0x22]` expressions rather than a named pointer local, which is
- * what keeps the load address and the store address computed independently
- * the way the original does it.
- *
- * sub_0201CE30 and sub_0201CE34 are the two four-byte word getters this
- * neighbourhood keeps reusing (the same shape as
- * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
- * label either of them, since a two-instruction leaf saves nothing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
- * read directly out of the `.word` run the listing prints between
- * sub_0201CE20 and sub_0201CE38.
- *
- * sub_0201CE48 frees and clears an owned pointer at offset 0x10 if it is
- * non-null.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
- *       --addr 0x0201CDF4 --thumb
- */
 u32 sub_0201CE30(void *p)
 {
     return ((struct Obj17219 *)p)->f0;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201CE34, sub_0201CE38, sub_0201CE48
- *
- * sub_0201CDF4 splits a signed delta into a sign-magnitude pair of output
- * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
- * the absolute value and byte[0]=0 when it is negative.  The two branches
- * store to the two bytes in opposite order from each other, which is what
- * the original does and is not an artefact of how it is written.
- *
- * sub_0201CE0C, sub_0201CE20 and sub_0201CE38 are three single-bit
- * operations on a byte at offset 0x22 of an object: set bit 0 (written
- * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
- * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
- * a plain OR.  All three read and write the field through two separate
- * `((u8 *)p)[0x22]` expressions rather than a named pointer local, which is
- * what keeps the load address and the store address computed independently
- * the way the original does it.
- *
- * sub_0201CE30 and sub_0201CE34 are the two four-byte word getters this
- * neighbourhood keeps reusing (the same shape as
- * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
- * label either of them, since a two-instruction leaf saves nothing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
- * read directly out of the `.word` run the listing prints between
- * sub_0201CE20 and sub_0201CE38.
- *
- * sub_0201CE48 frees and clears an owned pointer at offset 0x10 if it is
- * non-null.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
- *       --addr 0x0201CDF4 --thumb
- */
 u32 sub_0201CE34(void *p)
 {
     return ((struct Obj17220 *)p)->f4;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201CE34, sub_0201CE38, sub_0201CE48
- *
- * sub_0201CDF4 splits a signed delta into a sign-magnitude pair of output
- * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
- * the absolute value and byte[0]=0 when it is negative.  The two branches
- * store to the two bytes in opposite order from each other, which is what
- * the original does and is not an artefact of how it is written.
- *
- * sub_0201CE0C, sub_0201CE20 and sub_0201CE38 are three single-bit
- * operations on a byte at offset 0x22 of an object: set bit 0 (written
- * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
- * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
- * a plain OR.  All three read and write the field through two separate
- * `((u8 *)p)[0x22]` expressions rather than a named pointer local, which is
- * what keeps the load address and the store address computed independently
- * the way the original does it.
- *
- * sub_0201CE30 and sub_0201CE34 are the two four-byte word getters this
- * neighbourhood keeps reusing (the same shape as
- * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
- * label either of them, since a two-instruction leaf saves nothing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
- * read directly out of the `.word` run the listing prints between
- * sub_0201CE20 and sub_0201CE38.
- *
- * sub_0201CE48 frees and clears an owned pointer at offset 0x10 if it is
- * non-null.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
- *       --addr 0x0201CDF4 --thumb
- */
 void sub_0201CE38(void *p)
 {
     ((u8 *)p)[0x22] = ((u8 *)p)[0x22] | 4u;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0201CE34, sub_0201CE38, sub_0201CE48
- *
- * sub_0201CDF4 splits a signed delta into a sign-magnitude pair of output
- * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
- * the absolute value and byte[0]=0 when it is negative.  The two branches
- * store to the two bytes in opposite order from each other, which is what
- * the original does and is not an artefact of how it is written.
- *
- * sub_0201CE0C, sub_0201CE20 and sub_0201CE38 are three single-bit
- * operations on a byte at offset 0x22 of an object: set bit 0 (written
- * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
- * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
- * a plain OR.  All three read and write the field through two separate
- * `((u8 *)p)[0x22]` expressions rather than a named pointer local, which is
- * what keeps the load address and the store address computed independently
- * the way the original does it.
- *
- * sub_0201CE30 and sub_0201CE34 are the two four-byte word getters this
- * neighbourhood keeps reusing (the same shape as
- * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
- * label either of them, since a two-instruction leaf saves nothing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
- * read directly out of the `.word` run the listing prints between
- * sub_0201CE20 and sub_0201CE38.
- *
- * sub_0201CE48 frees and clears an owned pointer at offset 0x10 if it is
- * non-null.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
- *       --addr 0x0201CDF4 --thumb
- */
 void sub_0201CE48(struct Rec3 *p)
 {
     if (p->unk10 != 0) {
@@ -524,33 +314,6 @@ void sub_0201CE5C(struct Rec_0201CE5C *p, s32_0201CE5C v)
     }
 }
 
-/*
- * Four more operations on the object src/matched/unit_0201CDF4.c works on,
- * continuing its run of single-bit edits of the flag byte at +0x22: this
- * range sets bit 4 and bit 3, clears bit 3, and reads bit 3 back.
- *
- * sub_0201CE5C lowers a level-like byte at +0x1E and, when the new value is
- * zero, replaces the pair at +0x1C/+0x1D through sub_0201CE8C with whatever
- * func_02013080(2) returns.  sub_0201CEB8 is the undo: it clears the bit and
- * restores the pair from the backup at +0x18/+0x19.
- *
- * sub_0201CED4 is an unlabelled follower, eight bytes with no prologue.  It
- * reads bit 3 as a `lsls #0x1C` / `lsrs #0x1F` pair, which is the bitfield
- * extraction shape of
- * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md rather than
- * the `lsrs #3` / `ands #1` a shift and mask would give.
- *
- * The bit read has to be cast to u32 before the shift pair: on the promoted
- * `int` the right shift is an `asrs` and the one byte is wrong.
- *
- * Every one of the four reaches the flag byte through two independent
- * `((u8 *)p)[0x22]` expressions, the same spelling unit_0201CDF4.c needs, so
- * the load address and the store address are computed separately.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CE5C.c \
- *       --addr 0x0201CE5C --thumb
- */
 void sub_0201CE8C(struct Rec_0201CE5C *p, s32_0201CE5C v)
 {
     u8 tmp[2];
@@ -561,33 +324,6 @@ void sub_0201CE8C(struct Rec_0201CE5C *p, s32_0201CE5C v)
     ((u8 *)p)[0x22] = 8u | ((u8 *)p)[0x22];
 }
 
-/*
- * Four more operations on the object src/matched/unit_0201CDF4.c works on,
- * continuing its run of single-bit edits of the flag byte at +0x22: this
- * range sets bit 4 and bit 3, clears bit 3, and reads bit 3 back.
- *
- * sub_0201CE5C lowers a level-like byte at +0x1E and, when the new value is
- * zero, replaces the pair at +0x1C/+0x1D through sub_0201CE8C with whatever
- * func_02013080(2) returns.  sub_0201CEB8 is the undo: it clears the bit and
- * restores the pair from the backup at +0x18/+0x19.
- *
- * sub_0201CED4 is an unlabelled follower, eight bytes with no prologue.  It
- * reads bit 3 as a `lsls #0x1C` / `lsrs #0x1F` pair, which is the bitfield
- * extraction shape of
- * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md rather than
- * the `lsrs #3` / `ands #1` a shift and mask would give.
- *
- * The bit read has to be cast to u32 before the shift pair: on the promoted
- * `int` the right shift is an `asrs` and the one byte is wrong.
- *
- * Every one of the four reaches the flag byte through two independent
- * `((u8 *)p)[0x22]` expressions, the same spelling unit_0201CDF4.c needs, so
- * the load address and the store address are computed separately.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CE5C.c \
- *       --addr 0x0201CE5C --thumb
- */
 void sub_0201CEB8(struct Rec_0201CE5C *p)
 {
     ((u8 *)p)[0x22] = ((u8 *)p)[0x22] & ~8u;
@@ -595,33 +331,6 @@ void sub_0201CEB8(struct Rec_0201CE5C *p)
     p->unk1C = p->unk18;
 }
 
-/*
- * Four more operations on the object src/matched/unit_0201CDF4.c works on,
- * continuing its run of single-bit edits of the flag byte at +0x22: this
- * range sets bit 4 and bit 3, clears bit 3, and reads bit 3 back.
- *
- * sub_0201CE5C lowers a level-like byte at +0x1E and, when the new value is
- * zero, replaces the pair at +0x1C/+0x1D through sub_0201CE8C with whatever
- * func_02013080(2) returns.  sub_0201CEB8 is the undo: it clears the bit and
- * restores the pair from the backup at +0x18/+0x19.
- *
- * sub_0201CED4 is an unlabelled follower, eight bytes with no prologue.  It
- * reads bit 3 as a `lsls #0x1C` / `lsrs #0x1F` pair, which is the bitfield
- * extraction shape of
- * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md rather than
- * the `lsrs #3` / `ands #1` a shift and mask would give.
- *
- * The bit read has to be cast to u32 before the shift pair: on the promoted
- * `int` the right shift is an `asrs` and the one byte is wrong.
- *
- * Every one of the four reaches the flag byte through two independent
- * `((u8 *)p)[0x22]` expressions, the same spelling unit_0201CDF4.c needs, so
- * the load address and the store address are computed separately.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201CE5C.c \
- *       --addr 0x0201CE5C --thumb
- */
 u32 sub_0201CED4(struct Rec_0201CE5C *p)
 {
     return ((u32)((u8 *)p)[0x22] << 28) >> 31;

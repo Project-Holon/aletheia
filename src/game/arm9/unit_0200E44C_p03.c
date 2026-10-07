@@ -56,20 +56,12 @@ int func_0200EA00(int p)
 }
 
 
-/*
- * Unlabelled leaf accessor matched to give overlay call sites a `matched`
- * witness.  Addresses are Black-image addresses.
- */
 int func_0200EA04(int p)
 {
     return p + 0x5a;
 }
 
 
-/*
- * Unlabelled leaf accessor matched to give overlay call sites a matched
- * witness.  Addresses are Black-image addresses.
- */
 int func_0200EA08(int p)
 {
     return p;

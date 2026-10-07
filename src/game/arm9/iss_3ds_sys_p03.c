@@ -128,10 +128,6 @@ void func_0202B920(void *m, int i, int a, int b)
 
 
 
-/*
- * Unlabelled arm9 leaf, filed as a relocation witness for ov021
- * func_021C4D14 (wave A1, lane 13).
- */
 int func_0202B928(int a, int b)
 {
     return *(int *)(a + b * 0x1c + 0x24);
@@ -298,10 +294,6 @@ void func_0202BA24(u8 *p)
 
 
 
-/*
- * Unlabelled arm9 leaf, filed as a relocation witness for ov021
- * func_021C4D14 (wave A1, lane 13).
- */
 void func_0202BA60(M *m, int i, int a, int b)
 {
     E *e = &m->e[i];

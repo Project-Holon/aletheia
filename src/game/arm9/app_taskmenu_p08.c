@@ -237,10 +237,6 @@ void func_02028748(struct Obj *obj, int n, int mask)
 }
 
 
-/*
- * A pair of leaf accessors over a 32-bit flag word at offset 0x14: or
- * `mask << n` into it, and test bit `n`.  Neither calls anything.
- */
 u32 func_02028754(struct Obj *obj, u32 n)
 {
     return (obj->flags >> n) & 1;
@@ -307,43 +303,6 @@ void func_0202878C(struct Fader *s)
 }
 
 
-/*
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
- *
- * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
- * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
- *
- * The nine functions are one file because five of them are reached only from
- * inside it and two of those five are reached only through a tail call's pool
- * word, which is not a branch and therefore not a `label` witness
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
- * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
- *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
- * not a shift, which is what says the operands are `int` rather than unsigned
- * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
- * the multiply's destination register, so the level pair is the left operand
- * of the multiply and the elapsed count the right
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * Its four locals also need their declaration order and their initialisation
- * order to disagree: declared elapsed, from, to, frames but assigned from, to,
- * elapsed, frames.  Declaration order picks the registers and initialisation
- * order picks the order of the four loads, and no single order gives both
- * (docs/idioms/declaration-order-picks-the-register-initialisation-order-picks-the-load.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202878C.c \
- *       --addr 0x0202878C --thumb
- */
 void func_02028794(struct Fader *s, u8 level, u16 frames)
 {
     if (frames == 0) {
@@ -354,43 +313,6 @@ void func_02028794(struct Fader *s, u8 level, u16 frames)
 }
 
 
-/*
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
- *
- * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
- * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
- *
- * The nine functions are one file because five of them are reached only from
- * inside it and two of those five are reached only through a tail call's pool
- * word, which is not a branch and therefore not a `label` witness
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
- * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
- *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
- * not a shift, which is what says the operands are `int` rather than unsigned
- * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
- * the multiply's destination register, so the level pair is the left operand
- * of the multiply and the elapsed count the right
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * Its four locals also need their declaration order and their initialisation
- * order to disagree: declared elapsed, from, to, frames but assigned from, to,
- * elapsed, frames.  Declaration order picks the registers and initialisation
- * order picks the order of the four loads, and no single order gives both
- * (docs/idioms/declaration-order-picks-the-register-initialisation-order-picks-the-load.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202878C.c \
- *       --addr 0x0202878C --thumb
- */
 void func_020287A8(struct Fader *s, u8 mute)
 {
     s->unk08 = mute;
@@ -398,43 +320,6 @@ void func_020287A8(struct Fader *s, u8 mute)
 }
 
 
-/*
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
- *
- * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
- * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
- *
- * The nine functions are one file because five of them are reached only from
- * inside it and two of those five are reached only through a tail call's pool
- * word, which is not a branch and therefore not a `label` witness
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
- * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
- *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
- * not a shift, which is what says the operands are `int` rather than unsigned
- * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
- * the multiply's destination register, so the level pair is the left operand
- * of the multiply and the elapsed count the right
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * Its four locals also need their declaration order and their initialisation
- * order to disagree: declared elapsed, from, to, frames but assigned from, to,
- * elapsed, frames.  Declaration order picks the registers and initialisation
- * order picks the order of the four loads, and no single order gives both
- * (docs/idioms/declaration-order-picks-the-register-initialisation-order-picks-the-load.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202878C.c \
- *       --addr 0x0202878C --thumb
- */
 void func_020287B4(struct Fader *s)
 {
     s->unk00 = 0;
@@ -447,43 +332,6 @@ void func_020287B4(struct Fader *s)
 }
 
 
-/*
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
- *
- * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
- * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
- *
- * The nine functions are one file because five of them are reached only from
- * inside it and two of those five are reached only through a tail call's pool
- * word, which is not a branch and therefore not a `label` witness
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
- * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
- *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
- * not a shift, which is what says the operands are `int` rather than unsigned
- * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
- * the multiply's destination register, so the level pair is the left operand
- * of the multiply and the elapsed count the right
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * Its four locals also need their declaration order and their initialisation
- * order to disagree: declared elapsed, from, to, frames but assigned from, to,
- * elapsed, frames.  Declaration order picks the registers and initialisation
- * order picks the order of the four loads, and no single order gives both
- * (docs/idioms/declaration-order-picks-the-register-initialisation-order-picks-the-load.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202878C.c \
- *       --addr 0x0202878C --thumb
- */
 void func_020287CC(struct Fader *s, u8 target, u16 frames)
 {
     s->unk01 = func_0202880C(s);
@@ -493,43 +341,6 @@ void func_020287CC(struct Fader *s, u8 target, u16 frames)
 }
 
 
-/*
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
- *
- * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
- * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
- *
- * The nine functions are one file because five of them are reached only from
- * inside it and two of those five are reached only through a tail call's pool
- * word, which is not a branch and therefore not a `label` witness
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
- * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
- *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
- * not a shift, which is what says the operands are `int` rather than unsigned
- * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
- * the multiply's destination register, so the level pair is the left operand
- * of the multiply and the elapsed count the right
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * Its four locals also need their declaration order and their initialisation
- * order to disagree: declared elapsed, from, to, frames but assigned from, to,
- * elapsed, frames.  Declaration order picks the registers and initialisation
- * order picks the order of the four loads, and no single order gives both
- * (docs/idioms/declaration-order-picks-the-register-initialisation-order-picks-the-load.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202878C.c \
- *       --addr 0x0202878C --thumb
- */
 void func_020287E4(struct Fader *s, u8 level)
 {
     s->unk01 = level;
@@ -540,43 +351,6 @@ void func_020287E4(struct Fader *s, u8 level)
 }
 
 
-/*
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
- *
- * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
- * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
- *
- * The nine functions are one file because five of them are reached only from
- * inside it and two of those five are reached only through a tail call's pool
- * word, which is not a branch and therefore not a `label` witness
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
- * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
- *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
- * not a shift, which is what says the operands are `int` rather than unsigned
- * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
- * the multiply's destination register, so the level pair is the left operand
- * of the multiply and the elapsed count the right
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * Its four locals also need their declaration order and their initialisation
- * order to disagree: declared elapsed, from, to, frames but assigned from, to,
- * elapsed, frames.  Declaration order picks the registers and initialisation
- * order picks the order of the four loads, and no single order gives both
- * (docs/idioms/declaration-order-picks-the-register-initialisation-order-picks-the-load.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202878C.c \
- *       --addr 0x0202878C --thumb
- */
 void func_020287F8(struct Fader *s)
 {
     if (s->unk06 < s->unk04) {
@@ -586,43 +360,6 @@ void func_020287F8(struct Fader *s)
 }
 
 
-/*
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
- *
- * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
- * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
- *
- * The nine functions are one file because five of them are reached only from
- * inside it and two of those five are reached only through a tail call's pool
- * word, which is not a branch and therefore not a `label` witness
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
- * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
- *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
- * not a shift, which is what says the operands are `int` rather than unsigned
- * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
- * the multiply's destination register, so the level pair is the left operand
- * of the multiply and the elapsed count the right
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * Its four locals also need their declaration order and their initialisation
- * order to disagree: declared elapsed, from, to, frames but assigned from, to,
- * elapsed, frames.  Declaration order picks the registers and initialisation
- * order picks the order of the four loads, and no single order gives both
- * (docs/idioms/declaration-order-picks-the-register-initialisation-order-picks-the-load.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202878C.c \
- *       --addr 0x0202878C --thumb
- */
 u32 func_0202880C(struct Fader *s)
 {
     u16 elapsed;
@@ -643,43 +380,6 @@ u32 func_0202880C(struct Fader *s)
 }
 
 
-/*
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
- *
- * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
- * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
- *
- * The nine functions are one file because five of them are reached only from
- * inside it and two of those five are reached only through a tail call's pool
- * word, which is not a branch and therefore not a `label` witness
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
- * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
- *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
- * not a shift, which is what says the operands are `int` rather than unsigned
- * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
- * the multiply's destination register, so the level pair is the left operand
- * of the multiply and the elapsed count the right
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * Its four locals also need their declaration order and their initialisation
- * order to disagree: declared elapsed, from, to, frames but assigned from, to,
- * elapsed, frames.  Declaration order picks the registers and initialisation
- * order picks the order of the four loads, and no single order gives both
- * (docs/idioms/declaration-order-picks-the-register-initialisation-order-picks-the-load.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202878C.c \
- *       --addr 0x0202878C --thumb
- */
 void func_02028828(struct Fader *s)
 {
     u32 level = func_0202880C(s);

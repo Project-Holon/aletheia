@@ -1,0 +1,395 @@
+/*
+ * file:     plist_battle_p18.c
+ * unit:     yes
+ * function: func_021BDC5C, func_021BDCA0, func_021BDCC0, func_021BDD58, func_021BDD78
+ * address:  0x021BDC5C
+ * region:   ov091
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02017988 0x02017988 thumb
+ *   func_0200CDE0 0x0200CDE0 thumb
+ *   func_02017F90  0x02017F90  thumb
+ *   func_02011400  0x02011400  thumb
+ *   func_0203F4CC  0x0203F4CC  arm
+ *   func_02020F34 0x02020F34 thumb
+ *   func_02021014 0x02021014 thumb
+ *   func_0201C158 0x0201C158 thumb
+ *   func_0201B920 0x0201B920 thumb
+ *   func_020307B0 0x020307B0 arm
+ *   func_021BE9BC 0x021BE9BC thumb ov091
+ */
+#include "../../matched/include/Obj00009.h"
+#include "../../matched/include/Obj20928.h"
+#include "../../matched/include/Obj20929.h"
+#include "../../matched/include/Obj20930.h"
+#include "../../matched/include/Obj20931.h"
+
+struct Blk37;
+struct RtcTime;
+struct Rec;
+typedef unsigned int u32;
+
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 func_02017988(void *, u32);
+extern void func_0200CDE0(struct Blk37 *, void *);
+extern u32 func_02017F90(void *p);
+extern u8 func_02011400(int row, int col);
+extern void func_0203F4CC(struct RtcTime *time);
+extern void *func_02020F34(u32 item, u32 which, u32 heap);
+extern u32 func_02021014(struct Rec *p, u32 sel);
+extern u8 func_0201C158(u16, u32);
+extern u8 func_0201B920(void *, u32);
+extern u32 func_020307B0(void *p);
+extern int func_021BE9BC(void *, void *);
+int func_021BDC5C(char *p);
+void func_021BDCA0(u32 p, void *m);
+int func_021BDCC0(char *p, u32 a1);
+void func_021BDD58(u32 p, void *m);
+int func_021BDD78(void *a, u32 id, int slot, u32 heap);
+
+
+int func_021BDC5C(char *p)
+{
+    int r = 0;
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 6, 0) == 0x70)
+        return 0;
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 5, r) != 0x1E7)
+        return 0;
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 0x6F, r) == 1)
+        r = 1;
+    return r;
+}
+
+/*
+ * Extent tail: two bytes of alignment padding at 0x021BDCBE.
+ */
+void func_021BDCA0(u32 p, void *m)
+{
+    func_02017988(m, 0);
+    func_0200CDE0(*(struct Blk37 **)(((struct Obj20928 *)p)->f280 + 0x18), m);
+}
+
+
+int func_021BDCC0(char *p, u32 a1)
+{
+    u32 t[3];
+    u32 lo, hi;
+    int r = 0;
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 5, 0) != 0x1EC)
+        return r;
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 0x6F, r) != 0)
+        return r;
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 0x6D, r) != 1)
+        return r;
+    if (func_02017F90(((struct Obj00009 *)p)->f38) & 0x20)
+        return r;
+    lo = func_02011400(((struct Obj20929 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f5F, r);
+    hi = func_02011400(((struct Obj20930 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f5F, 3);
+    func_0203F4CC((struct RtcTime *)t);
+    if (t[0] < lo || t[0] >= hi)
+        return 0;
+    return 1;
+}
+
+void func_021BDD58(u32 p, void *m)
+{
+    func_02017988(m, 1);
+    func_0200CDE0(*(struct Blk37 **)(((struct Obj20931 *)p)->f280 + 0x18), m);
+}
+
+int func_021BDD78(void *a, u32 id, int slot, u32 heap)
+{
+  void *p;
+  u32 r;
+  u32 sex;
+  u32 hp;
+  int i;
+  long s1;
+  long s2;
+  long s3;
+  long s4;
+  long s5;
+  long s0;
+  int flag;
+  int v;
+  int tmp;
+  p = func_02020F34(id, 0, (u16)heap);
+  r = 0;
+  if (func_02021014(p, 14) != 1)
+  {
+    func_020307B0(p);
+    return r;
+  }
+  ;
+  sex = func_02017F90(a);
+  if ((func_02021014(p, 18) != 0) && (sex == 2))
+  {
+    func_020307B0(p);
+    return 1;
+  }
+  ;
+  if ((func_02021014(p, 19) != 0) && (sex == 5))
+  {
+    func_020307B0(p);
+    return 1;
+  }
+  ;
+  if ((func_02021014(p, 20) != 0) && (sex == 4))
+  {
+    func_020307B0(p);
+    return 1;
+  }
+  ;
+  if ((func_02021014(p, 21) != 0) && (sex == 3))
+  {
+    func_020307B0(p);
+    return 1;
+  }
+  ;
+  if ((func_02021014(p, 22) != 0) && (sex == 1))
+  {
+    func_020307B0(p);
+    return 1;
+  }
+  ;
+  hp = func_02017E1C(a, 0xA0, 0);
+  if (((func_02021014(p, 26) != 0) || (func_02021014(p, 27) != 0)) && (func_02021014(p, 28) == 0))
+  {
+    if (hp == 0)
+    {
+      func_020307B0(p);
+      return 1;
+    }
+    ;
+  }
+  else
+    if (((func_02021014(p, 41) != 0) && (hp != 0)) && (hp < func_02017E1C(a, 0xA1, 0)))
+  {
+    func_020307B0(p);
+    return 1;
+  }
+  ;
+  if ((func_02021014(p, 28) != 0) && (func_02017E1C(a, 0x9E, 0) < 100))
+  {
+    func_020307B0(p);
+    return 1;
+  }
+  ;
+  if ((func_02021014(p, 37) != 0) || (func_02021014(p, 38) != 0))
+  {
+    r = 0;
+    if ((func_02017E1C(a, slot + 0x3E, 0) < 3) && (func_0201C158((u16) func_02017E1C(a, slot + 0x36, 0), r) >= 5))
+    {
+      func_020307B0(p);
+      return 1;
+    }
+    ;
+  }
+  if ((func_02021014(p, 39) != 0) && (func_0201B920(a, slot) == 1))
+  {
+    func_020307B0(p);
+    return 1;
+  }
+  ;
+  if (func_02021014(p, 40) != 0)
+  {
+    for (i = 0; i < 4; i++)
+    {
+      if (func_0201B920(a, i) == 1)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+      ;
+    }
+
+  }
+  s0 = func_02017E1C(a, 13, 0);
+  s1 = func_02017E1C(a, 14, 0);
+  s2 = func_02017E1C(a, 15, 0);
+  s3 = func_02017E1C(a, 16, 0);
+  s4 = func_02017E1C(a, 17, 0);
+  s5 = func_02017E1C(a, 18, 0);
+  flag = func_02021014(p, 48);
+  if (func_02017E1C(a, 5, 0) != 0x124)
+    if (func_02021014(p, 42) != 0)
+  {
+    v = func_02021014(p, 52);
+    if (v > 0)
+    {
+      if ((((s0 < 100) || (flag != 0)) && (s0 < 255)) && ((((((s0 + s1) + s2) + s3) + s4) + s5) < 510))
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+    else
+      if (v < 0)
+    {
+      if (s0 > 0)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+      if (func_021BE9BC(a, p) == 1)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+  }
+  ;
+  if (func_02021014(p, 43) != 0)
+  {
+    v = func_02021014(p, 53);
+    if (v > 0)
+    {
+      if ((((s1 < 100) || (flag != 0)) && (s1 < 255)) && ((((((s0 + s1) + s2) + s3) + s4) + s5) < 510))
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+    else
+      if (v < 0)
+    {
+      if (s1 > 0)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+      if (func_021BE9BC(a, p) == 1)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+  }
+  ;
+  if (func_02021014(p, 44) != 0)
+  {
+    v = func_02021014(p, 54);
+    if (v > 0)
+    {
+      if ((((s2 < 100) || (flag != 0)) && (s2 < 255)) && ((((((s0 + s1) + s2) + s3) + s4) + s5) < 510))
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+    else
+      if (v < 0)
+    {
+      if (s2 > 0)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+      if (func_021BE9BC(a, p) == 1)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+  }
+  ;
+  if (func_02021014(p, 45) != 0)
+  {
+    v = func_02021014(p, 55);
+    if (v > 0)
+    {
+      if ((((s3 < 100) || (flag != 0)) && (s3 < 255)) && ((((((s0 + s1) + s2) + s3) + s4) + s5) < 510))
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+    else
+      if (v < 0)
+    {
+      if (s3 > 0)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+      if (func_021BE9BC(a, p) == 1)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+  }
+  ;
+  if (func_02021014(p, 46) != 0)
+  {
+    v = func_02021014(p, 56);
+    if (v > 0)
+    {
+      if ((((s4 < 100) || (flag != 0)) && (s4 < 255)) && ((((((s0 + s1) + s2) + s3) + s4) + s5) < 510))
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+    else
+      if (v < 0)
+    {
+      if (s4 > 0)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+      if (func_021BE9BC(a, p) == 1)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+  }
+  ;
+  if (func_02021014(p, 47) != 0)
+  {
+    v = func_02021014(p, 57);
+    tmp = v > 0;
+    if (tmp)
+    {
+      if ((((s5 < 100) || (flag != 0)) && (s5 < 255)) && ((((((s0 + s1) + s2) + s3) + s4) + s5) < 510))
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+    else
+      if (v < 0)
+    {
+      if (s5 > 0)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+      if (func_021BE9BC(a, p) == 1)
+      {
+        func_020307B0(p);
+        return 1;
+      }
+    }
+  }
+  ;
+  {
+    func_020307B0(p);
+    return 0;
+  }
+  ;
+}

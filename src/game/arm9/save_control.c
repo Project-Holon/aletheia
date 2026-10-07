@@ -692,38 +692,6 @@ void sub_02007084(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * alias: this is "save_control.c".  The constructor of the object these two
- * reach, sub_02006F20 at the head of the same original file, passes
- * 0x020A7054 to the debug allocator, and the bytes at 0x020A7054 spell
- * "save_control.c".  That function is a near miss and is not in this tree;
- * see the header of src/matched/unit_020071E4.c for the census.
- *
- * The teardown and the checked getter for the one global the file keeps: a
- * pointer at 0x02146168 to the 0x38 byte control block.  sub_020070A4 loads
- * that pointer twice out of one pool word, once for the assertion and once
- * for the result, which is what a global read either side of a call looks
- * like.
- *
- * The range stops at 0x020070C8 for an evidence reason.  sub_020070C8, 134
- * bytes, is the per-frame step of the same object and it calls
- * sub_020087C0, whose only branch anywhere in the 3.9 MB image is the `bl`
- * at 0x02007140 inside it: `label` has one witness and it is in the bytes
- * under test, `literal` sees no pool word naming the address at all, and no
- * cut can move the caller out of the range that contains it.  It closes the
- * day anything else in the image calls 0x020087C0.
- *
- * 0x020A7064 is the empty string, not a file name.  "save_control.c" ends
- * with its NUL at 0x020A7062 and the next twelve bytes are NUL up to
- * "box_savedata.c" at 0x020A706C, so the assertion helper at 0x02034714 is
- * being passed an empty message here and at six further sites in the same
- * original file.  The address is carried by the `literal` class: the pool
- * word at 0x02007080, inside sub_02006F20 and so outside this range, holds
- * it too.
- */
 struct Sub02007084Ctrl *sub_020070A4(void)
 {
     if (sub_02007084_Ptr == 0) {
@@ -916,148 +884,16 @@ u8 sub_020071E4(const struct Sub020071E4Ctrl *ctrl)
     return ctrl->unk00;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 u32 sub_020071E8(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk0C;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 u8 sub_020071EC(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk01;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 int sub_020071F0(struct Sub020071E4Ctrl *ctrl)
 {
     if (sub_020071E4(ctrl) == 1 && sub_020071EC(ctrl) == 1) {
@@ -1066,246 +902,26 @@ int sub_020071F0(struct Sub020071E4Ctrl *ctrl)
     return 0;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 u8 sub_02007210(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk04;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 void sub_02007214(struct Sub020071E4Ctrl *ctrl, u8 v)
 {
     ctrl->unk04 = v;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 u8 sub_02007218(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk05;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 void sub_0200721C(struct Sub020071E4Ctrl *ctrl, u8 v)
 {
     ctrl->unk05 = v;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 void *sub_02007220(struct Sub020071E4Ctrl *ctrl)
 {
     ctrl->unk00 = 1;
@@ -1313,99 +929,11 @@ void *sub_02007220(struct Sub020071E4Ctrl *ctrl)
     return func_020319C0(ctrl->unk10);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 void *sub_02007230(struct Sub020071E4Ctrl *ctrl)
 {
     return (void *)func_020319F0(ctrl->unk10, 1);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
- *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
- * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
- */
 void *sub_0200723C(struct Sub020071E4Ctrl *ctrl)
 {
     return veneer_020319E4(ctrl->unk10);
@@ -1518,37 +1046,6 @@ void sub_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id)
 }
 
 
-/*
- * One of nine save-stream slots the save_control block tracks at +0x14.
- * The slot is opened through the backup-system stream constructor, the open
- * is checked by func_02008784, and on success the record is committed by
- * func_02031DC0.
- *
- * Two findings closed this function and its sibling (the other of the pair
- * is noted in each file):
- *
- * 1. func_02031DC0's second and third arguments are (heap, buf), NOT
- *    (buf, heap).  The image names the order directly: heap is loaded into
- *    r1 from its stack home and the func_020087D4 result is dereferenced
- *    into r2.  Every statement reordering, temporary and pointer/type
- *    variation leaves a flat 5-byte residue at exactly those two loads --
- *    tools/permuter.py could not move it at all in 74 (0x0200725C) and 90
- *    (0x020072CC) mutations -- because the residue is in the DECLARATION,
- *    not the body.  Compare src/matched/func_02031DC0.c, whose own
- *    parameters are (Obj *, u32 a1, u32 a2) with a1 passed straight to
- *    func_02031FE0/func_02032688; this file fixes which of the two is heap.
- *
- * 2. The heap parameter is u8, not u32.  With u32 the constant set-up sinks
- *    past the incoming spill (`str r2, [sp]` moves four halfwords later),
- *    which is the residue docs/notes recorded for both functions and which
- *    src/matched/unit_020072A4.c's header describes as unexplained.  It is
- *    a heap id, a small byte value, and narrowing the PARAMETER is what
- *    closes it: a u32 parameter with a u8 local copy, or a u8 in the callee
- *    prototype alone, both stay DIFF.  The matched callers
- *    (src/matched/unit_0200B4E0.c, unit_0200B5CC.c) spell the argument u32;
- *    that is a caller-side widening and does not contradict this, but the
- *    conflict is recorded here rather than silently resolved.
- */
 u32 func_020072CC(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size)
 {
     ctrl->unk14[id] = func_02031948(&func_020072CC_Table[id], heap, buf, size, 1);
@@ -1584,25 +1081,6 @@ void sub_02007324(struct Sub02007324Ctrl *ctrl, u32 id, u32 heap, u32 a,
     ctrl->unk14[id] = func_02031948(&sub_02007324_Table[id], heap, (void *)a, b, 0);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The open-for-write that does not register the stream afterwards, and a
- * second copy of the close.  sub_02007324 passes zero where sub_020072CC
- * passes one as the fifth argument of func_02031948, and stores the result
- * with a plain `str r0, [r1, #0x14]` rather than through the `+0x14` base
- * register the other accessors build, because the slot is written once and
- * never read back in this function.
- *
- * 0x0209D950 is the table of 0x18 byte stream descriptors, indexed by the
- * stream id and passed by address.  Three pool words in this original file
- * name it, at 0x020072A0, 0x02007320 and 0x02007348, and the first two are
- * outside this range, which is what carries it under the `literal` class.
- * func_02031948 is likewise reached from exactly two places in the image,
- * 0x020072EE and 0x0200733C, so the cut at 0x02007324 is what leaves the one
- * inside this range a witness.
- */
 void sub_0200734C(struct Sub02007324Ctrl *ctrl, u32 id)
 {
     if (ctrl->unk14[id] == 0) {
@@ -1822,66 +1300,6 @@ void sub_02007454(struct Sub02007454Header *h)
     sub_02007464(h);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020074D8, sub_0200752C
- *
- * alias: this is where "box_savedata.c" starts.  The header of
- * src/matched/unit_020079BC.c records the file name, recovered from the
- * string at 0x020A706C that sub_02007AA4 passes to the debug allocator, and
- * says the file's boundaries are bracketed rather than located.  The front
- * one is located now: 0x02007454 is the first function of it.  What fixes it
- * is the pair 0x02007454 and 0x0200745C, the twelve bytes immediately after
- * the last function of "save_control.c".  0x0200745C returns 0x3E0, which is
- * sizeof of the 0x3DE byte box header rounded up to its four byte alignment,
- * and 0x02007464, the very next function, is the constructor that clears
- * exactly that header.  Every block file in this region opens with that
- * pair; see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The
- * function before them, sub_02007428, passes no file name at all, but the
- * one before that passes 0x020A7064, the empty string "save_control.c" uses,
- * and the first function of this file that names anything names 0x020A7068,
- * which is the empty string every assert in unit_020079BC.c, unit_02007774.c
- * and the rest of "box_savedata.c" passes.  So the seam is between 0x02007454
- * and 0x02007428 and the two halves use different assertion strings across
- * it.
- *
- * The struct is the one unit_020079BC.c already declares: a current box index
- * at +0, twenty-four 0x28 byte names at +4, twenty-four bytes at +0x3C4, a
- * flag at +0x3DC and the box count at +0x3DD.  Four details are worth
- * naming, and three of them are worth three bytes each.
- *
- *  - sub_02007464 seeds the twenty-four bytes at +0x3C4 with a counter that
- *    wraps at sixteen, and the reset is `adds r4, r1, #0` off a register
- *    holding zero rather than a `movs`, which is the same "derive the
- *    constant from a register that already has one" the rest of this region
- *    shows.  The counter is not a `u8`: a byte variable would carry a
- *    `lsls #24` / `lsrs #24` pair at the increment and there is none, so it
- *    is an unsigned `int` stored through a `u8` array.  Which of the two
- *    zeroes the copy in r1 is taken from is decided by which is written
- *    first, so the counter has to be cleared in the `for` initialiser
- *    alongside the index (`for (i = 0, c = 0; ...)`); clearing it in the
- *    statement before the loop swaps r3 and r4 throughout.
- *  - sub_0200752C copies a whole 0x88 byte entry with an inline `ldm`/`stm`
- *    loop of seventeen iterations, which is
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: the entry has
- *    to be declared four-aligned (`u32 data[0x22]`), because a byte-aligned
- *    declaration turns the same assignment into a 0x88 iteration
- *    `ldrb`/`strb` loop.
- *  - sub_020074D8 walks the boxes from the current one and stops when it
- *    comes back to it, so the loop is a `do`/`while` with no guard, and the
- *    box count it reads on the way round is still live after the loop: the
- *    `cmp r1, #0x18` that follows compares the last value read inside it,
- *    not a fresh load, and the extra box it then opens is that value.  Its
- *    declaration order is load bearing for the same reason as the counter
- *    above: with the header pointer declared first it lands in r4 and the
- *    box index in r5, and the original has them the other way round.
- *  - the very next statement, the one that bumps the box count by eight,
- *    re-reads the field even though the value is sitting in r1.  Only the
- *    compound form does that; see
- *    docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md.
- */
 u32 sub_0200745C(void)
 {
     return sizeof(struct Sub02007454Header);
@@ -1889,66 +1307,6 @@ u32 sub_0200745C(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020074D8, sub_0200752C
- *
- * alias: this is where "box_savedata.c" starts.  The header of
- * src/matched/unit_020079BC.c records the file name, recovered from the
- * string at 0x020A706C that sub_02007AA4 passes to the debug allocator, and
- * says the file's boundaries are bracketed rather than located.  The front
- * one is located now: 0x02007454 is the first function of it.  What fixes it
- * is the pair 0x02007454 and 0x0200745C, the twelve bytes immediately after
- * the last function of "save_control.c".  0x0200745C returns 0x3E0, which is
- * sizeof of the 0x3DE byte box header rounded up to its four byte alignment,
- * and 0x02007464, the very next function, is the constructor that clears
- * exactly that header.  Every block file in this region opens with that
- * pair; see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The
- * function before them, sub_02007428, passes no file name at all, but the
- * one before that passes 0x020A7064, the empty string "save_control.c" uses,
- * and the first function of this file that names anything names 0x020A7068,
- * which is the empty string every assert in unit_020079BC.c, unit_02007774.c
- * and the rest of "box_savedata.c" passes.  So the seam is between 0x02007454
- * and 0x02007428 and the two halves use different assertion strings across
- * it.
- *
- * The struct is the one unit_020079BC.c already declares: a current box index
- * at +0, twenty-four 0x28 byte names at +4, twenty-four bytes at +0x3C4, a
- * flag at +0x3DC and the box count at +0x3DD.  Four details are worth
- * naming, and three of them are worth three bytes each.
- *
- *  - sub_02007464 seeds the twenty-four bytes at +0x3C4 with a counter that
- *    wraps at sixteen, and the reset is `adds r4, r1, #0` off a register
- *    holding zero rather than a `movs`, which is the same "derive the
- *    constant from a register that already has one" the rest of this region
- *    shows.  The counter is not a `u8`: a byte variable would carry a
- *    `lsls #24` / `lsrs #24` pair at the increment and there is none, so it
- *    is an unsigned `int` stored through a `u8` array.  Which of the two
- *    zeroes the copy in r1 is taken from is decided by which is written
- *    first, so the counter has to be cleared in the `for` initialiser
- *    alongside the index (`for (i = 0, c = 0; ...)`); clearing it in the
- *    statement before the loop swaps r3 and r4 throughout.
- *  - sub_0200752C copies a whole 0x88 byte entry with an inline `ldm`/`stm`
- *    loop of seventeen iterations, which is
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: the entry has
- *    to be declared four-aligned (`u32 data[0x22]`), because a byte-aligned
- *    declaration turns the same assignment into a 0x88 iteration
- *    `ldrb`/`strb` loop.
- *  - sub_020074D8 walks the boxes from the current one and stops when it
- *    comes back to it, so the loop is a `do`/`while` with no guard, and the
- *    box count it reads on the way round is still live after the loop: the
- *    `cmp r1, #0x18` that follows compares the last value read inside it,
- *    not a fresh load, and the extra box it then opens is that value.  Its
- *    declaration order is load bearing for the same reason as the counter
- *    above: with the header pointer declared first it lands in r4 and the
- *    box index in r5, and the original has them the other way round.
- *  - the very next statement, the one that bumps the box count by eight,
- *    re-reads the field even though the value is sitting in r1.  Only the
- *    compound form does that; see
- *    docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md.
- */
 void sub_02007464(struct Sub02007454Header *h)
 {
     void *msg;
@@ -1974,131 +1332,11 @@ void sub_02007464(struct Sub02007454Header *h)
     h->unk3DD = 8;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020074D8, sub_0200752C
- *
- * alias: this is where "box_savedata.c" starts.  The header of
- * src/matched/unit_020079BC.c records the file name, recovered from the
- * string at 0x020A706C that sub_02007AA4 passes to the debug allocator, and
- * says the file's boundaries are bracketed rather than located.  The front
- * one is located now: 0x02007454 is the first function of it.  What fixes it
- * is the pair 0x02007454 and 0x0200745C, the twelve bytes immediately after
- * the last function of "save_control.c".  0x0200745C returns 0x3E0, which is
- * sizeof of the 0x3DE byte box header rounded up to its four byte alignment,
- * and 0x02007464, the very next function, is the constructor that clears
- * exactly that header.  Every block file in this region opens with that
- * pair; see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The
- * function before them, sub_02007428, passes no file name at all, but the
- * one before that passes 0x020A7064, the empty string "save_control.c" uses,
- * and the first function of this file that names anything names 0x020A7068,
- * which is the empty string every assert in unit_020079BC.c, unit_02007774.c
- * and the rest of "box_savedata.c" passes.  So the seam is between 0x02007454
- * and 0x02007428 and the two halves use different assertion strings across
- * it.
- *
- * The struct is the one unit_020079BC.c already declares: a current box index
- * at +0, twenty-four 0x28 byte names at +4, twenty-four bytes at +0x3C4, a
- * flag at +0x3DC and the box count at +0x3DD.  Four details are worth
- * naming, and three of them are worth three bytes each.
- *
- *  - sub_02007464 seeds the twenty-four bytes at +0x3C4 with a counter that
- *    wraps at sixteen, and the reset is `adds r4, r1, #0` off a register
- *    holding zero rather than a `movs`, which is the same "derive the
- *    constant from a register that already has one" the rest of this region
- *    shows.  The counter is not a `u8`: a byte variable would carry a
- *    `lsls #24` / `lsrs #24` pair at the increment and there is none, so it
- *    is an unsigned `int` stored through a `u8` array.  Which of the two
- *    zeroes the copy in r1 is taken from is decided by which is written
- *    first, so the counter has to be cleared in the `for` initialiser
- *    alongside the index (`for (i = 0, c = 0; ...)`); clearing it in the
- *    statement before the loop swaps r3 and r4 throughout.
- *  - sub_0200752C copies a whole 0x88 byte entry with an inline `ldm`/`stm`
- *    loop of seventeen iterations, which is
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: the entry has
- *    to be declared four-aligned (`u32 data[0x22]`), because a byte-aligned
- *    declaration turns the same assignment into a 0x88 iteration
- *    `ldrb`/`strb` loop.
- *  - sub_020074D8 walks the boxes from the current one and stops when it
- *    comes back to it, so the loop is a `do`/`while` with no guard, and the
- *    box count it reads on the way round is still live after the loop: the
- *    `cmp r1, #0x18` that follows compares the last value read inside it,
- *    not a fresh load, and the extra box it then opens is that value.  Its
- *    declaration order is load bearing for the same reason as the counter
- *    above: with the header pointer declared first it lands in r4 and the
- *    box index in r5, and the original has them the other way round.
- *  - the very next statement, the one that bumps the box count by eight,
- *    re-reads the field even though the value is sitting in r1.  Only the
- *    compound form does that; see
- *    docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md.
- */
 struct Sub02007454Header *sub_020074CC(void **save)
 {
     return sub_020071CC(*save, 0);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020074D8, sub_0200752C
- *
- * alias: this is where "box_savedata.c" starts.  The header of
- * src/matched/unit_020079BC.c records the file name, recovered from the
- * string at 0x020A706C that sub_02007AA4 passes to the debug allocator, and
- * says the file's boundaries are bracketed rather than located.  The front
- * one is located now: 0x02007454 is the first function of it.  What fixes it
- * is the pair 0x02007454 and 0x0200745C, the twelve bytes immediately after
- * the last function of "save_control.c".  0x0200745C returns 0x3E0, which is
- * sizeof of the 0x3DE byte box header rounded up to its four byte alignment,
- * and 0x02007464, the very next function, is the constructor that clears
- * exactly that header.  Every block file in this region opens with that
- * pair; see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The
- * function before them, sub_02007428, passes no file name at all, but the
- * one before that passes 0x020A7064, the empty string "save_control.c" uses,
- * and the first function of this file that names anything names 0x020A7068,
- * which is the empty string every assert in unit_020079BC.c, unit_02007774.c
- * and the rest of "box_savedata.c" passes.  So the seam is between 0x02007454
- * and 0x02007428 and the two halves use different assertion strings across
- * it.
- *
- * The struct is the one unit_020079BC.c already declares: a current box index
- * at +0, twenty-four 0x28 byte names at +4, twenty-four bytes at +0x3C4, a
- * flag at +0x3DC and the box count at +0x3DD.  Four details are worth
- * naming, and three of them are worth three bytes each.
- *
- *  - sub_02007464 seeds the twenty-four bytes at +0x3C4 with a counter that
- *    wraps at sixteen, and the reset is `adds r4, r1, #0` off a register
- *    holding zero rather than a `movs`, which is the same "derive the
- *    constant from a register that already has one" the rest of this region
- *    shows.  The counter is not a `u8`: a byte variable would carry a
- *    `lsls #24` / `lsrs #24` pair at the increment and there is none, so it
- *    is an unsigned `int` stored through a `u8` array.  Which of the two
- *    zeroes the copy in r1 is taken from is decided by which is written
- *    first, so the counter has to be cleared in the `for` initialiser
- *    alongside the index (`for (i = 0, c = 0; ...)`); clearing it in the
- *    statement before the loop swaps r3 and r4 throughout.
- *  - sub_0200752C copies a whole 0x88 byte entry with an inline `ldm`/`stm`
- *    loop of seventeen iterations, which is
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: the entry has
- *    to be declared four-aligned (`u32 data[0x22]`), because a byte-aligned
- *    declaration turns the same assignment into a 0x88 iteration
- *    `ldrb`/`strb` loop.
- *  - sub_020074D8 walks the boxes from the current one and stops when it
- *    comes back to it, so the loop is a `do`/`while` with no guard, and the
- *    box count it reads on the way round is still live after the loop: the
- *    `cmp r1, #0x18` that follows compares the last value read inside it,
- *    not a fresh load, and the extra box it then opens is that value.  Its
- *    declaration order is load bearing for the same reason as the counter
- *    above: with the header pointer declared first it lands in r4 and the
- *    box index in r5, and the original has them the other way round.
- *  - the very next statement, the one that bumps the box count by eight,
- *    re-reads the field even though the value is sitting in r1.  Only the
- *    compound form does that; see
- *    docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md.
- */
 int sub_020074D8(void **save, const struct Sub02007454Entry *src)
 {
     u32 box;
@@ -2126,66 +1364,6 @@ int sub_020074D8(void **save, const struct Sub02007454Entry *src)
     return 0;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_020074D8, sub_0200752C
- *
- * alias: this is where "box_savedata.c" starts.  The header of
- * src/matched/unit_020079BC.c records the file name, recovered from the
- * string at 0x020A706C that sub_02007AA4 passes to the debug allocator, and
- * says the file's boundaries are bracketed rather than located.  The front
- * one is located now: 0x02007454 is the first function of it.  What fixes it
- * is the pair 0x02007454 and 0x0200745C, the twelve bytes immediately after
- * the last function of "save_control.c".  0x0200745C returns 0x3E0, which is
- * sizeof of the 0x3DE byte box header rounded up to its four byte alignment,
- * and 0x02007464, the very next function, is the constructor that clears
- * exactly that header.  Every block file in this region opens with that
- * pair; see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The
- * function before them, sub_02007428, passes no file name at all, but the
- * one before that passes 0x020A7064, the empty string "save_control.c" uses,
- * and the first function of this file that names anything names 0x020A7068,
- * which is the empty string every assert in unit_020079BC.c, unit_02007774.c
- * and the rest of "box_savedata.c" passes.  So the seam is between 0x02007454
- * and 0x02007428 and the two halves use different assertion strings across
- * it.
- *
- * The struct is the one unit_020079BC.c already declares: a current box index
- * at +0, twenty-four 0x28 byte names at +4, twenty-four bytes at +0x3C4, a
- * flag at +0x3DC and the box count at +0x3DD.  Four details are worth
- * naming, and three of them are worth three bytes each.
- *
- *  - sub_02007464 seeds the twenty-four bytes at +0x3C4 with a counter that
- *    wraps at sixteen, and the reset is `adds r4, r1, #0` off a register
- *    holding zero rather than a `movs`, which is the same "derive the
- *    constant from a register that already has one" the rest of this region
- *    shows.  The counter is not a `u8`: a byte variable would carry a
- *    `lsls #24` / `lsrs #24` pair at the increment and there is none, so it
- *    is an unsigned `int` stored through a `u8` array.  Which of the two
- *    zeroes the copy in r1 is taken from is decided by which is written
- *    first, so the counter has to be cleared in the `for` initialiser
- *    alongside the index (`for (i = 0, c = 0; ...)`); clearing it in the
- *    statement before the loop swaps r3 and r4 throughout.
- *  - sub_0200752C copies a whole 0x88 byte entry with an inline `ldm`/`stm`
- *    loop of seventeen iterations, which is
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: the entry has
- *    to be declared four-aligned (`u32 data[0x22]`), because a byte-aligned
- *    declaration turns the same assignment into a 0x88 iteration
- *    `ldrb`/`strb` loop.
- *  - sub_020074D8 walks the boxes from the current one and stops when it
- *    comes back to it, so the loop is a `do`/`while` with no guard, and the
- *    box count it reads on the way round is still live after the loop: the
- *    `cmp r1, #0x18` that follows compares the last value read inside it,
- *    not a fresh load, and the extra box it then opens is that value.  Its
- *    declaration order is load bearing for the same reason as the counter
- *    above: with the header pointer declared first it lands in r4 and the
- *    box index in r5, and the original has them the other way round.
- *  - the very next statement, the one that bumps the box count by eight,
- *    re-reads the field even though the value is sitting in r1.  Only the
- *    compound form does that; see
- *    docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md.
- */
 int sub_0200752C(void **save, u32 box, const struct Sub02007454Entry *src)
 {
     struct Sub02007454Header *h = sub_020074CC(save);
@@ -2251,29 +1429,6 @@ int sub_020075B0(void *save, u32 box, u32 slot,
     return 0;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Writing one box entry and swapping two of them.  Both reach the entry
- * array through sub_02007AF4 the way every function of this file does, and
- * both copy a whole 0x88 byte entry with the inline eight byte ldm/stm loop
- * of docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: 0x11
- * iterations of two words.  The entry struct is therefore declared as an
- * array of u32 and not of u8, because a one aligned struct would have given
- * a 0x88 iteration ldrb/strb loop instead.
- *
- * sub_020075B0 bounds the box index against the header byte at 0x3DD rather
- * than against the constant 0x18 the rest of the file uses, and that byte is
- * past every Thumb immediate, so it arrives as a pool word and a register
- * offset ldrb.  The failure arm passes 0x020A7068 twice to func_02034714,
- * the same empty string and the same three argument assert shape as
- * sub_020077B8 in unit_02007774.c.
- *
- * sub_02007610 is the three assignment swap through a 0x88 byte stack
- * temporary, and its fifth argument arrives on the stack: `ldr r1, [sp,
- * #0xa0]` is 0x88 of locals plus the six saved registers, not a local.
- */
 void sub_02007610(void *save, u32 box1, u32 slot1, u32 box2, u32 slot2)
 {
     struct Sub020075B0Entry tmp;
@@ -2317,72 +1472,18 @@ void sub_02007664(void *save, u32 box, u32 slot)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * The box accessors: sub_020074CC turns the caller's save handle into the
- * 0x3DE byte box header, and sub_02007AF4 turns a box index into that box's
- * array of thirty 0x88 byte entries.
- *
- * Two encodings to note.  The header's `unk3DD` sits past every Thumb
- * immediate, so it arrives as a pool word and a register offset `ldrb`
- * rather than as an offset in the instruction, and sub_020076B4 loads that
- * same pool word twice, once for the read-modify-write and once for the
- * value it returns.  And the entry index is scaled by 0x88, which is not a
- * power of two, so it is a real `muls` with the constant materialised by
- * `movs r1, #0x88`: that is what indexing an array of a non power of two
- * sized struct looks like, and it is what says the element is 0x88 bytes
- * rather than that there is a multiply in the source.
- */
 u32 sub_02007698(void *save)
 {
     return ((struct Sub02007664Header *)sub_020074CC(save))->unk00;
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * The box accessors: sub_020074CC turns the caller's save handle into the
- * 0x3DE byte box header, and sub_02007AF4 turns a box index into that box's
- * array of thirty 0x88 byte entries.
- *
- * Two encodings to note.  The header's `unk3DD` sits past every Thumb
- * immediate, so it arrives as a pool word and a register offset `ldrb`
- * rather than as an offset in the instruction, and sub_020076B4 loads that
- * same pool word twice, once for the read-modify-write and once for the
- * value it returns.  And the entry index is scaled by 0x88, which is not a
- * power of two, so it is a real `muls` with the constant materialised by
- * `movs r1, #0x88`: that is what indexing an array of a non power of two
- * sized struct looks like, and it is what says the element is 0x88 bytes
- * rather than that there is a multiply in the source.
- */
 u8 sub_020076A4(void *save)
 {
     return ((struct Sub02007664Header *)sub_020074CC(save))->unk3DD;
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * The box accessors: sub_020074CC turns the caller's save handle into the
- * 0x3DE byte box header, and sub_02007AF4 turns a box index into that box's
- * array of thirty 0x88 byte entries.
- *
- * Two encodings to note.  The header's `unk3DD` sits past every Thumb
- * immediate, so it arrives as a pool word and a register offset `ldrb`
- * rather than as an offset in the instruction, and sub_020076B4 loads that
- * same pool word twice, once for the read-modify-write and once for the
- * value it returns.  And the entry index is scaled by 0x88, which is not a
- * power of two, so it is a real `muls` with the constant materialised by
- * `movs r1, #0x88`: that is what indexing an array of a non power of two
- * sized struct looks like, and it is what says the element is 0x88 bytes
- * rather than that there is a multiply in the source.
- */
 u8 sub_020076B4(void *save)
 {
     struct Sub02007664Header *h = (struct Sub02007664Header *)sub_020074CC(save);
@@ -2505,29 +1606,6 @@ int sub_02007774(void *save)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007838
- *
- * Counting the occupied entries of every box and of one box, the box
- * cursor's setter, and the getter and setter for the per-box byte at
- * 0x3C4.  sub_02017E88 is the "is this entry empty" test, asked with the
- * field id 0xA9 throughout.
- *
- * sub_02007774 spills its outer loop counter to the stack even though it is
- * an ordinary `int`: r4 through r7 are already carrying the inner counter,
- * the running total, the entry base and the constant 0x88, and the save
- * handle is on the stack too.  The spill is register pressure and not a
- * pointer in the source.
- *
- * The failure path of sub_020077B8 passes the same pointer as the first and
- * the third argument of func_02034714, which is the shape of an assertion
- * helper taking a file name twice.  The address is declared in the
- * `symbols:` block rather than written as `__FILE__`; see
- * docs/idioms/file-string-is-an-abs32-into-the-string-area.md.
- */
 int sub_020077B8(void *save, u32 box)
 {
     struct Sub02007774Header *h = (struct Sub02007774Header *)sub_020074CC(save);
@@ -2553,29 +1631,6 @@ int sub_020077B8(void *save, u32 box)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007838
- *
- * Counting the occupied entries of every box and of one box, the box
- * cursor's setter, and the getter and setter for the per-box byte at
- * 0x3C4.  sub_02017E88 is the "is this entry empty" test, asked with the
- * field id 0xA9 throughout.
- *
- * sub_02007774 spills its outer loop counter to the stack even though it is
- * an ordinary `int`: r4 through r7 are already carrying the inner counter,
- * the running total, the entry base and the constant 0x88, and the save
- * handle is on the stack too.  The spill is register pressure and not a
- * pointer in the source.
- *
- * The failure path of sub_020077B8 passes the same pointer as the first and
- * the third argument of func_02034714, which is the shape of an assertion
- * helper taking a file name twice.  The address is declared in the
- * `symbols:` block rather than written as `__FILE__`; see
- * docs/idioms/file-string-is-an-abs32-into-the-string-area.md.
- */
 void sub_0200780C(void *save, u32 box)
 {
     struct Sub02007774Header *h = (struct Sub02007774Header *)sub_020074CC(save);
@@ -2587,29 +1642,6 @@ void sub_0200780C(void *save, u32 box)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007838
- *
- * Counting the occupied entries of every box and of one box, the box
- * cursor's setter, and the getter and setter for the per-box byte at
- * 0x3C4.  sub_02017E88 is the "is this entry empty" test, asked with the
- * field id 0xA9 throughout.
- *
- * sub_02007774 spills its outer loop counter to the stack even though it is
- * an ordinary `int`: r4 through r7 are already carrying the inner counter,
- * the running total, the entry base and the constant 0x88, and the save
- * handle is on the stack too.  The spill is register pressure and not a
- * pointer in the source.
- *
- * The failure path of sub_020077B8 passes the same pointer as the first and
- * the third argument of func_02034714, which is the shape of an assertion
- * helper taking a file name twice.  The address is declared in the
- * `symbols:` block rather than written as `__FILE__`; see
- * docs/idioms/file-string-is-an-abs32-into-the-string-area.md.
- */
 u8 sub_0200781C(void *save, u32 box)
 {
     struct Sub02007774Header *h = (struct Sub02007774Header *)sub_020074CC(save);
@@ -2622,29 +1654,6 @@ u8 sub_0200781C(void *save, u32 box)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007838
- *
- * Counting the occupied entries of every box and of one box, the box
- * cursor's setter, and the getter and setter for the per-box byte at
- * 0x3C4.  sub_02017E88 is the "is this entry empty" test, asked with the
- * field id 0xA9 throughout.
- *
- * sub_02007774 spills its outer loop counter to the stack even though it is
- * an ordinary `int`: r4 through r7 are already carrying the inner counter,
- * the running total, the entry base and the constant 0x88, and the save
- * handle is on the stack too.  The spill is register pressure and not a
- * pointer in the source.
- *
- * The failure path of sub_020077B8 passes the same pointer as the first and
- * the third argument of func_02034714, which is the shape of an assertion
- * helper taking a file name twice.  The address is declared in the
- * `symbols:` block rather than written as `__FILE__`; see
- * docs/idioms/file-string-is-an-abs32-into-the-string-area.md.
- */
 void sub_02007838(void *save, u32 box, u8 v)
 {
     struct Sub02007774Header *h = (struct Sub02007774Header *)sub_020074CC(save);
@@ -2707,40 +1716,6 @@ void sub_0200785C(void *save, u32 box, void *dest)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007984, sub_020079A0
- *
- * The box name getter and setter, two per box counts, and the whole-storage
- * totals that sum each of them over all 24 boxes.
- *
- * The range has to be exactly these six functions.  sub_020078C4 is called
- * from one place in the image and sub_0200791C from one place, and those two
- * places are sub_02007984 and sub_020079A0 respectively, so a file that
- * stopped before the summing loops would leave both counts with no witness
- * outside the compared range and cap at MATCH.  Inside one range they are
- * `local` and cost no image evidence at all.  It cuts the other way too: the
- * file cannot start any later than 0x0200785C, because that is where the
- * 0x28 byte name array's first user is.
- *
- * The header's layout falls out of the two shapes.  The name accessors do
- * `adds r2, r1, #4` and then multiply the box index by 0x28, so the names
- * are an array of 24 0x28 byte entries starting at offset 4 and ending at
- * 4 + 24 * 0x28 = 0x3C4, which is exactly where the per box byte the rest of
- * the file reads begins.
- *
- * Two of the six needed their locals reordering before they matched, and the
- * evidence is only ever which register a value lands in.  sub_0200791C
- * declares its slot counter before the entry base, the reverse of
- * sub_020078C4 immediately above it, and that one line is the whole
- * difference between r4/r5 and r5/r4 throughout its loop.  The two summing
- * loops initialise the box index before the running total, which is why
- * they are written `for (box = 0, n = 0; ...)` rather than initialising the
- * total at its declaration: the order of the two `movs rN, #0` follows the
- * order of the initialisers, and nothing else in either function does.
- */
 void sub_02007898(void *save, u32 box, const void *src)
 {
     struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
@@ -2754,40 +1729,6 @@ void sub_02007898(void *save, u32 box, const void *src)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007984, sub_020079A0
- *
- * The box name getter and setter, two per box counts, and the whole-storage
- * totals that sum each of them over all 24 boxes.
- *
- * The range has to be exactly these six functions.  sub_020078C4 is called
- * from one place in the image and sub_0200791C from one place, and those two
- * places are sub_02007984 and sub_020079A0 respectively, so a file that
- * stopped before the summing loops would leave both counts with no witness
- * outside the compared range and cap at MATCH.  Inside one range they are
- * `local` and cost no image evidence at all.  It cuts the other way too: the
- * file cannot start any later than 0x0200785C, because that is where the
- * 0x28 byte name array's first user is.
- *
- * The header's layout falls out of the two shapes.  The name accessors do
- * `adds r2, r1, #4` and then multiply the box index by 0x28, so the names
- * are an array of 24 0x28 byte entries starting at offset 4 and ending at
- * 4 + 24 * 0x28 = 0x3C4, which is exactly where the per box byte the rest of
- * the file reads begins.
- *
- * Two of the six needed their locals reordering before they matched, and the
- * evidence is only ever which register a value lands in.  sub_0200791C
- * declares its slot counter before the entry base, the reverse of
- * sub_020078C4 immediately above it, and that one line is the whole
- * difference between r4/r5 and r5/r4 throughout its loop.  The two summing
- * loops initialise the box index before the running total, which is why
- * they are written `for (box = 0, n = 0; ...)` rather than initialising the
- * total at its declaration: the order of the two `movs rN, #0` follows the
- * order of the initialisers, and nothing else in either function does.
- */
 int sub_020078C4(void *save, u32 box)
 {
     struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
@@ -2813,40 +1754,6 @@ int sub_020078C4(void *save, u32 box)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007984, sub_020079A0
- *
- * The box name getter and setter, two per box counts, and the whole-storage
- * totals that sum each of them over all 24 boxes.
- *
- * The range has to be exactly these six functions.  sub_020078C4 is called
- * from one place in the image and sub_0200791C from one place, and those two
- * places are sub_02007984 and sub_020079A0 respectively, so a file that
- * stopped before the summing loops would leave both counts with no witness
- * outside the compared range and cap at MATCH.  Inside one range they are
- * `local` and cost no image evidence at all.  It cuts the other way too: the
- * file cannot start any later than 0x0200785C, because that is where the
- * 0x28 byte name array's first user is.
- *
- * The header's layout falls out of the two shapes.  The name accessors do
- * `adds r2, r1, #4` and then multiply the box index by 0x28, so the names
- * are an array of 24 0x28 byte entries starting at offset 4 and ending at
- * 4 + 24 * 0x28 = 0x3C4, which is exactly where the per box byte the rest of
- * the file reads begins.
- *
- * Two of the six needed their locals reordering before they matched, and the
- * evidence is only ever which register a value lands in.  sub_0200791C
- * declares its slot counter before the entry base, the reverse of
- * sub_020078C4 immediately above it, and that one line is the whole
- * difference between r4/r5 and r5/r4 throughout its loop.  The two summing
- * loops initialise the box index before the running total, which is why
- * they are written `for (box = 0, n = 0; ...)` rather than initialising the
- * total at its declaration: the order of the two `movs rN, #0` follows the
- * order of the initialisers, and nothing else in either function does.
- */
 int sub_0200791C(void *save, u32 box)
 {
     struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
@@ -2873,40 +1780,6 @@ int sub_0200791C(void *save, u32 box)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007984, sub_020079A0
- *
- * The box name getter and setter, two per box counts, and the whole-storage
- * totals that sum each of them over all 24 boxes.
- *
- * The range has to be exactly these six functions.  sub_020078C4 is called
- * from one place in the image and sub_0200791C from one place, and those two
- * places are sub_02007984 and sub_020079A0 respectively, so a file that
- * stopped before the summing loops would leave both counts with no witness
- * outside the compared range and cap at MATCH.  Inside one range they are
- * `local` and cost no image evidence at all.  It cuts the other way too: the
- * file cannot start any later than 0x0200785C, because that is where the
- * 0x28 byte name array's first user is.
- *
- * The header's layout falls out of the two shapes.  The name accessors do
- * `adds r2, r1, #4` and then multiply the box index by 0x28, so the names
- * are an array of 24 0x28 byte entries starting at offset 4 and ending at
- * 4 + 24 * 0x28 = 0x3C4, which is exactly where the per box byte the rest of
- * the file reads begins.
- *
- * Two of the six needed their locals reordering before they matched, and the
- * evidence is only ever which register a value lands in.  sub_0200791C
- * declares its slot counter before the entry base, the reverse of
- * sub_020078C4 immediately above it, and that one line is the whole
- * difference between r4/r5 and r5/r4 throughout its loop.  The two summing
- * loops initialise the box index before the running total, which is why
- * they are written `for (box = 0, n = 0; ...)` rather than initialising the
- * total at its declaration: the order of the two `movs rN, #0` follows the
- * order of the initialisers, and nothing else in either function does.
- */
 int sub_02007984(void *save)
 {
     int n;
@@ -2919,40 +1792,6 @@ int sub_02007984(void *save)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007984, sub_020079A0
- *
- * The box name getter and setter, two per box counts, and the whole-storage
- * totals that sum each of them over all 24 boxes.
- *
- * The range has to be exactly these six functions.  sub_020078C4 is called
- * from one place in the image and sub_0200791C from one place, and those two
- * places are sub_02007984 and sub_020079A0 respectively, so a file that
- * stopped before the summing loops would leave both counts with no witness
- * outside the compared range and cap at MATCH.  Inside one range they are
- * `local` and cost no image evidence at all.  It cuts the other way too: the
- * file cannot start any later than 0x0200785C, because that is where the
- * 0x28 byte name array's first user is.
- *
- * The header's layout falls out of the two shapes.  The name accessors do
- * `adds r2, r1, #4` and then multiply the box index by 0x28, so the names
- * are an array of 24 0x28 byte entries starting at offset 4 and ending at
- * 4 + 24 * 0x28 = 0x3C4, which is exactly where the per box byte the rest of
- * the file reads begins.
- *
- * Two of the six needed their locals reordering before they matched, and the
- * evidence is only ever which register a value lands in.  sub_0200791C
- * declares its slot counter before the entry base, the reverse of
- * sub_020078C4 immediately above it, and that one line is the whole
- * difference between r4/r5 and r5/r4 throughout its loop.  The two summing
- * loops initialise the box index before the running total, which is why
- * they are written `for (box = 0, n = 0; ...)` rather than initialising the
- * total at its declaration: the order of the two `movs rN, #0` follows the
- * order of the initialisers, and nothing else in either function does.
- */
 int sub_020079A0(void *save)
 {
     int n;
@@ -3018,42 +1857,6 @@ int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007A9C, sub_02007AA4
- *
- * The checked entry accessor in its two forms, the flag byte at 0x3DC, the
- * size of one box page, and the four byte allocation the box code hangs its
- * per-save state on.
- *
- * alias: the file identity is in the image.  sub_02007AA4 passes 0x020A706C
- * to the debug allocator at 0x02030734, and the bytes at 0x020A706C spell
- * "box_savedata.c".  That is this code.  sub_02007B20, further down the same
- * run, passes 0x020A707C instead, and those bytes spell "perapvoice.c", so a
- * translation unit boundary falls between the two and the run
- * 0x02007664..0x02007B54 is at least two original files rather than one.
- * Neither name is used as a source file name in this tree yet, because the
- * boundary is bracketed (somewhere in 0x02007AC8..0x02007B20) rather than
- * located.
- *
- * The range used to stop at 0x02007AA4 for an evidence reason, and the
- * `string` class now carries it.  0x020A706C is named by exactly one pool
- * word in the image and it is this function's own, so `literal` has no
- * witness; the ten NUL bytes between "save_control.c"'s terminator at
- * 0x020A7062 and 0x020A706C used to be more padding than the class allowed.
- * They are not dead bytes: 0x020A7068 is an empty string, and it is the one
- * the five assert calls above pass.  The rule now walks the whole NUL run up
- * to twelve bytes and demands that 0x020A706C be the only address in it at
- * which a string begins, which it is: the empty string at 0x020A7068 is not
- * one.  See "The string class" in docs/MATCHING.md.
- *
- * sub_02007A9C carries no label because it saves nothing: `movs r0, #0xFF`,
- * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
- * one box, and it never reaches a literal pool because a byte shifted left
- * costs two halfwords against a pool word plus its `ldr`.
- */
 struct Sub02007AC8Entry *sub_02007A18(void **save, u32 box, u32 slot)
 {
     struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
@@ -3071,42 +1874,6 @@ struct Sub02007AC8Entry *sub_02007A18(void **save, u32 box, u32 slot)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007A9C, sub_02007AA4
- *
- * The checked entry accessor in its two forms, the flag byte at 0x3DC, the
- * size of one box page, and the four byte allocation the box code hangs its
- * per-save state on.
- *
- * alias: the file identity is in the image.  sub_02007AA4 passes 0x020A706C
- * to the debug allocator at 0x02030734, and the bytes at 0x020A706C spell
- * "box_savedata.c".  That is this code.  sub_02007B20, further down the same
- * run, passes 0x020A707C instead, and those bytes spell "perapvoice.c", so a
- * translation unit boundary falls between the two and the run
- * 0x02007664..0x02007B54 is at least two original files rather than one.
- * Neither name is used as a source file name in this tree yet, because the
- * boundary is bracketed (somewhere in 0x02007AC8..0x02007B20) rather than
- * located.
- *
- * The range used to stop at 0x02007AA4 for an evidence reason, and the
- * `string` class now carries it.  0x020A706C is named by exactly one pool
- * word in the image and it is this function's own, so `literal` has no
- * witness; the ten NUL bytes between "save_control.c"'s terminator at
- * 0x020A7062 and 0x020A706C used to be more padding than the class allowed.
- * They are not dead bytes: 0x020A7068 is an empty string, and it is the one
- * the five assert calls above pass.  The rule now walks the whole NUL run up
- * to twelve bytes and demands that 0x020A706C be the only address in it at
- * which a string begins, which it is: the empty string at 0x020A7068 is not
- * one.  See "The string class" in docs/MATCHING.md.
- *
- * sub_02007A9C carries no label because it saves nothing: `movs r0, #0xFF`,
- * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
- * one box, and it never reaches a literal pool because a byte shifted left
- * costs two halfwords against a pool word plus its `ldr`.
- */
 void sub_02007A68(void *save, u32 bits)
 {
     struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
@@ -3115,42 +1882,6 @@ void sub_02007A68(void *save, u32 bits)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007A9C, sub_02007AA4
- *
- * The checked entry accessor in its two forms, the flag byte at 0x3DC, the
- * size of one box page, and the four byte allocation the box code hangs its
- * per-save state on.
- *
- * alias: the file identity is in the image.  sub_02007AA4 passes 0x020A706C
- * to the debug allocator at 0x02030734, and the bytes at 0x020A706C spell
- * "box_savedata.c".  That is this code.  sub_02007B20, further down the same
- * run, passes 0x020A707C instead, and those bytes spell "perapvoice.c", so a
- * translation unit boundary falls between the two and the run
- * 0x02007664..0x02007B54 is at least two original files rather than one.
- * Neither name is used as a source file name in this tree yet, because the
- * boundary is bracketed (somewhere in 0x02007AC8..0x02007B20) rather than
- * located.
- *
- * The range used to stop at 0x02007AA4 for an evidence reason, and the
- * `string` class now carries it.  0x020A706C is named by exactly one pool
- * word in the image and it is this function's own, so `literal` has no
- * witness; the ten NUL bytes between "save_control.c"'s terminator at
- * 0x020A7062 and 0x020A706C used to be more padding than the class allowed.
- * They are not dead bytes: 0x020A7068 is an empty string, and it is the one
- * the five assert calls above pass.  The rule now walks the whole NUL run up
- * to twelve bytes and demands that 0x020A706C be the only address in it at
- * which a string begins, which it is: the empty string at 0x020A7068 is not
- * one.  See "The string class" in docs/MATCHING.md.
- *
- * sub_02007A9C carries no label because it saves nothing: `movs r0, #0xFF`,
- * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
- * one box, and it never reaches a literal pool because a byte shifted left
- * costs two halfwords against a pool word plus its `ldr`.
- */
 int sub_02007A80(void *save, u32 bits)
 {
     struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
@@ -3162,84 +1893,12 @@ int sub_02007A80(void *save, u32 bits)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007A9C, sub_02007AA4
- *
- * The checked entry accessor in its two forms, the flag byte at 0x3DC, the
- * size of one box page, and the four byte allocation the box code hangs its
- * per-save state on.
- *
- * alias: the file identity is in the image.  sub_02007AA4 passes 0x020A706C
- * to the debug allocator at 0x02030734, and the bytes at 0x020A706C spell
- * "box_savedata.c".  That is this code.  sub_02007B20, further down the same
- * run, passes 0x020A707C instead, and those bytes spell "perapvoice.c", so a
- * translation unit boundary falls between the two and the run
- * 0x02007664..0x02007B54 is at least two original files rather than one.
- * Neither name is used as a source file name in this tree yet, because the
- * boundary is bracketed (somewhere in 0x02007AC8..0x02007B20) rather than
- * located.
- *
- * The range used to stop at 0x02007AA4 for an evidence reason, and the
- * `string` class now carries it.  0x020A706C is named by exactly one pool
- * word in the image and it is this function's own, so `literal` has no
- * witness; the ten NUL bytes between "save_control.c"'s terminator at
- * 0x020A7062 and 0x020A706C used to be more padding than the class allowed.
- * They are not dead bytes: 0x020A7068 is an empty string, and it is the one
- * the five assert calls above pass.  The rule now walks the whole NUL run up
- * to twelve bytes and demands that 0x020A706C be the only address in it at
- * which a string begins, which it is: the empty string at 0x020A7068 is not
- * one.  See "The string class" in docs/MATCHING.md.
- *
- * sub_02007A9C carries no label because it saves nothing: `movs r0, #0xFF`,
- * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
- * one box, and it never reaches a literal pool because a byte shifted left
- * costs two halfwords against a pool word plus its `ldr`.
- */
 u32 sub_02007A9C(void)
 {
     return 0xFF0;
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007A9C, sub_02007AA4
- *
- * The checked entry accessor in its two forms, the flag byte at 0x3DC, the
- * size of one box page, and the four byte allocation the box code hangs its
- * per-save state on.
- *
- * alias: the file identity is in the image.  sub_02007AA4 passes 0x020A706C
- * to the debug allocator at 0x02030734, and the bytes at 0x020A706C spell
- * "box_savedata.c".  That is this code.  sub_02007B20, further down the same
- * run, passes 0x020A707C instead, and those bytes spell "perapvoice.c", so a
- * translation unit boundary falls between the two and the run
- * 0x02007664..0x02007B54 is at least two original files rather than one.
- * Neither name is used as a source file name in this tree yet, because the
- * boundary is bracketed (somewhere in 0x02007AC8..0x02007B20) rather than
- * located.
- *
- * The range used to stop at 0x02007AA4 for an evidence reason, and the
- * `string` class now carries it.  0x020A706C is named by exactly one pool
- * word in the image and it is this function's own, so `literal` has no
- * witness; the ten NUL bytes between "save_control.c"'s terminator at
- * 0x020A7062 and 0x020A706C used to be more padding than the class allowed.
- * They are not dead bytes: 0x020A7068 is an empty string, and it is the one
- * the five assert calls above pass.  The rule now walks the whole NUL run up
- * to twelve bytes and demands that 0x020A706C be the only address in it at
- * which a string begins, which it is: the empty string at 0x020A7068 is not
- * one.  See "The string class" in docs/MATCHING.md.
- *
- * sub_02007A9C carries no label because it saves nothing: `movs r0, #0xFF`,
- * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
- * one box, and it never reaches a literal pool because a byte shifted left
- * costs two halfwords against a pool word plus its `ldr`.
- */
 u32 *sub_02007AA4(u32 heap, u32 value)
 {
     u32 *p = func_02030734(heap, 4, 0, sub_02007AA4_File, 0x3B9);
@@ -3279,30 +1938,6 @@ void sub_02007AC8(void *p)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
- */
 void sub_02007AD0(struct Sub02007AC8Entry *base)
 {
     u32 i;
@@ -3312,147 +1947,27 @@ void sub_02007AD0(struct Sub02007AC8Entry *base)
     }
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
- */
 u32 sub_02007AEC(void)
 {
     return 0xFF0;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
- */
 struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box)
 {
     return sub_020071CC(*save, box + 1);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
- */
 u32 sub_02007B00(void)
 {
     return 0x3EC;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
- */
 void sub_02007B08(void *p)
 {
     func_02082A7C(0, p, 0x3EC);
     ((struct Obj16869 *)p)->f0 = 0;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
- */
 void *sub_02007B20(u32 heap)
 {
     void *p = func_02030734(heap, 0x3EC, 1, sub_02007B20_File, 0x57);
@@ -3461,59 +1976,11 @@ void *sub_02007B20(u32 heap)
     return p;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
- */
 struct Sub02007AC8Entry *sub_02007B44(void *sys)
 {
     return sub_020071CC(sys, 0x24);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
- */
 void *sub_02007B50(void **p)
 {
     return *p;
@@ -3562,127 +2029,16 @@ void sub_02007B54(struct PerapVoice *p)
     p->unk00 = 0;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007BD0, sub_02007C20, sub_02007C34, sub_02007C70
- *
- * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
- * file names the object: its constructor allocates 0x3EC bytes and its clear
- * routine zeroes 0x3EC, and the same 0x3EC is what sub_02007C20 copies here.
- * The object is one `u32` flag followed by 1000 bytes, and sub_02007B50 in
- * the neighbouring file reads the flag that sub_02007B54 and sub_02007B5C
- * write.
- *
- * Four of the eight carry no label, because none of them saves lr.
- * sub_02007B5C is the `= 1` twin of sub_02007B54, sub_02007B64 returns the
- * address of the payload, sub_02007B68 and sub_02007BD0 are the codec pair,
- * and sub_02007C20 is a tail call into MI_CpuCopy8.
- *
- * What the range teaches:
- *
- *  - the payload is 1000 bytes holding two signed four bit samples each.
- *    sub_02007B68 expands them to 8000 bytes, four copies of each sample in
- *    the high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the
- *    exact inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- *    directions is what makes the four bit field signed.
- *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
- *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
- *    the value is assigned to an `s8` local before the inner store loop, and
- *    writing the shift straight into the store gives `lsls #4` alone.
- *  - sub_02007BD0 packs the two nibbles into one byte with a plain store
- *    followed by an `|=`, which is why the byte is stored, reloaded with
- *    `ldrb` and stored again.  Neither half is masked on the way in, so the
- *    source is two `u8` statements and not a bitfield.
- *  - sub_02007B68 reloads `src[i]` for the second nibble rather than keeping
- *    it: source and destination are both `s8 *`, so the stores in between may
- *    alias and the compiler has to re-read.
- */
 void sub_02007B5C(struct PerapVoice *p)
 {
     p->unk00 = 1;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007BD0, sub_02007C20, sub_02007C34, sub_02007C70
- *
- * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
- * file names the object: its constructor allocates 0x3EC bytes and its clear
- * routine zeroes 0x3EC, and the same 0x3EC is what sub_02007C20 copies here.
- * The object is one `u32` flag followed by 1000 bytes, and sub_02007B50 in
- * the neighbouring file reads the flag that sub_02007B54 and sub_02007B5C
- * write.
- *
- * Four of the eight carry no label, because none of them saves lr.
- * sub_02007B5C is the `= 1` twin of sub_02007B54, sub_02007B64 returns the
- * address of the payload, sub_02007B68 and sub_02007BD0 are the codec pair,
- * and sub_02007C20 is a tail call into MI_CpuCopy8.
- *
- * What the range teaches:
- *
- *  - the payload is 1000 bytes holding two signed four bit samples each.
- *    sub_02007B68 expands them to 8000 bytes, four copies of each sample in
- *    the high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the
- *    exact inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- *    directions is what makes the four bit field signed.
- *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
- *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
- *    the value is assigned to an `s8` local before the inner store loop, and
- *    writing the shift straight into the store gives `lsls #4` alone.
- *  - sub_02007BD0 packs the two nibbles into one byte with a plain store
- *    followed by an `|=`, which is why the byte is stored, reloaded with
- *    `ldrb` and stored again.  Neither half is masked on the way in, so the
- *    source is two `u8` statements and not a bitfield.
- *  - sub_02007B68 reloads `src[i]` for the second nibble rather than keeping
- *    it: source and destination are both `s8 *`, so the stores in between may
- *    alias and the compiler has to re-read.
- */
 u8 *sub_02007B64(struct PerapVoice *p)
 {
     return p->data;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007BD0, sub_02007C20, sub_02007C34, sub_02007C70
- *
- * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
- * file names the object: its constructor allocates 0x3EC bytes and its clear
- * routine zeroes 0x3EC, and the same 0x3EC is what sub_02007C20 copies here.
- * The object is one `u32` flag followed by 1000 bytes, and sub_02007B50 in
- * the neighbouring file reads the flag that sub_02007B54 and sub_02007B5C
- * write.
- *
- * Four of the eight carry no label, because none of them saves lr.
- * sub_02007B5C is the `= 1` twin of sub_02007B54, sub_02007B64 returns the
- * address of the payload, sub_02007B68 and sub_02007BD0 are the codec pair,
- * and sub_02007C20 is a tail call into MI_CpuCopy8.
- *
- * What the range teaches:
- *
- *  - the payload is 1000 bytes holding two signed four bit samples each.
- *    sub_02007B68 expands them to 8000 bytes, four copies of each sample in
- *    the high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the
- *    exact inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- *    directions is what makes the four bit field signed.
- *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
- *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
- *    the value is assigned to an `s8` local before the inner store loop, and
- *    writing the shift straight into the store gives `lsls #4` alone.
- *  - sub_02007BD0 packs the two nibbles into one byte with a plain store
- *    followed by an `|=`, which is why the byte is stored, reloaded with
- *    `ldrb` and stored again.  Neither half is masked on the way in, so the
- *    source is two `u8` statements and not a bitfield.
- *  - sub_02007B68 reloads `src[i]` for the second nibble rather than keeping
- *    it: source and destination are both `s8 *`, so the stores in between may
- *    alias and the compiler has to re-read.
- */
 void sub_02007B68(s8 *dest, const s8 *src)
 {
     int i;
@@ -3710,43 +2066,6 @@ void sub_02007B68(s8 *dest, const s8 *src)
     }
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007BD0, sub_02007C20, sub_02007C34, sub_02007C70
- *
- * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
- * file names the object: its constructor allocates 0x3EC bytes and its clear
- * routine zeroes 0x3EC, and the same 0x3EC is what sub_02007C20 copies here.
- * The object is one `u32` flag followed by 1000 bytes, and sub_02007B50 in
- * the neighbouring file reads the flag that sub_02007B54 and sub_02007B5C
- * write.
- *
- * Four of the eight carry no label, because none of them saves lr.
- * sub_02007B5C is the `= 1` twin of sub_02007B54, sub_02007B64 returns the
- * address of the payload, sub_02007B68 and sub_02007BD0 are the codec pair,
- * and sub_02007C20 is a tail call into MI_CpuCopy8.
- *
- * What the range teaches:
- *
- *  - the payload is 1000 bytes holding two signed four bit samples each.
- *    sub_02007B68 expands them to 8000 bytes, four copies of each sample in
- *    the high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the
- *    exact inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- *    directions is what makes the four bit field signed.
- *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
- *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
- *    the value is assigned to an `s8` local before the inner store loop, and
- *    writing the shift straight into the store gives `lsls #4` alone.
- *  - sub_02007BD0 packs the two nibbles into one byte with a plain store
- *    followed by an `|=`, which is why the byte is stored, reloaded with
- *    `ldrb` and stored again.  Neither half is masked on the way in, so the
- *    source is two `u8` statements and not a bitfield.
- *  - sub_02007B68 reloads `src[i]` for the second nibble rather than keeping
- *    it: source and destination are both `s8 *`, so the stores in between may
- *    alias and the compiler has to re-read.
- */
 void sub_02007BD0(struct PerapVoice *p, const s8 *src)
 {
     int i;
@@ -3767,85 +2086,11 @@ void sub_02007BD0(struct PerapVoice *p, const s8 *src)
     }
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007BD0, sub_02007C20, sub_02007C34, sub_02007C70
- *
- * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
- * file names the object: its constructor allocates 0x3EC bytes and its clear
- * routine zeroes 0x3EC, and the same 0x3EC is what sub_02007C20 copies here.
- * The object is one `u32` flag followed by 1000 bytes, and sub_02007B50 in
- * the neighbouring file reads the flag that sub_02007B54 and sub_02007B5C
- * write.
- *
- * Four of the eight carry no label, because none of them saves lr.
- * sub_02007B5C is the `= 1` twin of sub_02007B54, sub_02007B64 returns the
- * address of the payload, sub_02007B68 and sub_02007BD0 are the codec pair,
- * and sub_02007C20 is a tail call into MI_CpuCopy8.
- *
- * What the range teaches:
- *
- *  - the payload is 1000 bytes holding two signed four bit samples each.
- *    sub_02007B68 expands them to 8000 bytes, four copies of each sample in
- *    the high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the
- *    exact inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- *    directions is what makes the four bit field signed.
- *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
- *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
- *    the value is assigned to an `s8` local before the inner store loop, and
- *    writing the shift straight into the store gives `lsls #4` alone.
- *  - sub_02007BD0 packs the two nibbles into one byte with a plain store
- *    followed by an `|=`, which is why the byte is stored, reloaded with
- *    `ldrb` and stored again.  Neither half is masked on the way in, so the
- *    source is two `u8` statements and not a bitfield.
- *  - sub_02007B68 reloads `src[i]` for the second nibble rather than keeping
- *    it: source and destination are both `s8 *`, so the stores in between may
- *    alias and the compiler has to re-read.
- */
 void sub_02007C20(struct PerapVoice *dest, const struct PerapVoice *src)
 {
     MI_CpuCopy8(src, dest, sizeof(struct PerapVoice));
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007BD0, sub_02007C20, sub_02007C34, sub_02007C70
- *
- * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
- * file names the object: its constructor allocates 0x3EC bytes and its clear
- * routine zeroes 0x3EC, and the same 0x3EC is what sub_02007C20 copies here.
- * The object is one `u32` flag followed by 1000 bytes, and sub_02007B50 in
- * the neighbouring file reads the flag that sub_02007B54 and sub_02007B5C
- * write.
- *
- * Four of the eight carry no label, because none of them saves lr.
- * sub_02007B5C is the `= 1` twin of sub_02007B54, sub_02007B64 returns the
- * address of the payload, sub_02007B68 and sub_02007BD0 are the codec pair,
- * and sub_02007C20 is a tail call into MI_CpuCopy8.
- *
- * What the range teaches:
- *
- *  - the payload is 1000 bytes holding two signed four bit samples each.
- *    sub_02007B68 expands them to 8000 bytes, four copies of each sample in
- *    the high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the
- *    exact inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- *    directions is what makes the four bit field signed.
- *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
- *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
- *    the value is assigned to an `s8` local before the inner store loop, and
- *    writing the shift straight into the store gives `lsls #4` alone.
- *  - sub_02007BD0 packs the two nibbles into one byte with a plain store
- *    followed by an `|=`, which is why the byte is stored, reloaded with
- *    `ldrb` and stored again.  Neither half is masked on the way in, so the
- *    source is two `u8` statements and not a bitfield.
- *  - sub_02007B68 reloads `src[i]` for the second nibble rather than keeping
- *    it: source and destination are both `s8 *`, so the stores in between may
- *    alias and the compiler has to re-read.
- */
 void sub_02007C34(struct PerapVoice *p, void *a)
 {
     int i;
@@ -3859,43 +2104,6 @@ void sub_02007C34(struct PerapVoice *p, void *a)
     sub_02007B54(p);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007BD0, sub_02007C20, sub_02007C34, sub_02007C70
- *
- * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
- * file names the object: its constructor allocates 0x3EC bytes and its clear
- * routine zeroes 0x3EC, and the same 0x3EC is what sub_02007C20 copies here.
- * The object is one `u32` flag followed by 1000 bytes, and sub_02007B50 in
- * the neighbouring file reads the flag that sub_02007B54 and sub_02007B5C
- * write.
- *
- * Four of the eight carry no label, because none of them saves lr.
- * sub_02007B5C is the `= 1` twin of sub_02007B54, sub_02007B64 returns the
- * address of the payload, sub_02007B68 and sub_02007BD0 are the codec pair,
- * and sub_02007C20 is a tail call into MI_CpuCopy8.
- *
- * What the range teaches:
- *
- *  - the payload is 1000 bytes holding two signed four bit samples each.
- *    sub_02007B68 expands them to 8000 bytes, four copies of each sample in
- *    the high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the
- *    exact inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- *    directions is what makes the four bit field signed.
- *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
- *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
- *    the value is assigned to an `s8` local before the inner store loop, and
- *    writing the shift straight into the store gives `lsls #4` alone.
- *  - sub_02007BD0 packs the two nibbles into one byte with a plain store
- *    followed by an `|=`, which is why the byte is stored, reloaded with
- *    `ldrb` and stored again.  Neither half is masked on the way in, so the
- *    source is two `u8` statements and not a bitfield.
- *  - sub_02007B68 reloads `src[i]` for the second nibble rather than keeping
- *    it: source and destination are both `s8 *`, so the stores in between may
- *    alias and the compiler has to re-read.
- */
 u32 sub_02007C70(struct PerapVoice *p)
 {
     if ((u32)sub_02007B50((void **)p) == 1) {
@@ -3983,136 +2191,12 @@ u32 sub_02007CB0(void)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_02007CB8(void *p)
 {
     MI_CpuFill8(p, 0, 0x9C0);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_02007CC8(u8 *base, void *buf, u32 id, int save)
 {
     void *p;
@@ -4127,68 +2211,6 @@ void sub_02007CC8(u8 *base, void *buf, u32 id, int save)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007D00(u8 *base, u32 id, void **pp, u32 *pn)
 {
     switch (id) {
@@ -4220,68 +2242,6 @@ u32 sub_02007D00(u8 *base, u32 id, void **pp, u32 *pn)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007D6C(u8 *base, u32 a, void **pp, u32 *pn, u16 d)
 {
     u32 id = func_02020FE4((void *)a, 5, d);
@@ -4291,68 +2251,6 @@ u32 sub_02007D6C(u8 *base, u32 a, void **pp, u32 *pn, u16 d)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 struct Item *sub_02007D94(struct Item *arr, u32 n, u16 id, u16 qty, u16 max)
 {
     u32 i;
@@ -4377,68 +2275,6 @@ struct Item *sub_02007D94(struct Item *arr, u32 n, u16 id, u16 qty, u16 max)
     return &arr[free];
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 struct Item *sub_02007DF8(u8 *base, u16 id, u16 qty, u16 d)
 {
     void *p;
@@ -4450,68 +2286,6 @@ struct Item *sub_02007DF8(u8 *base, u16 id, u16 qty, u16 d)
     return sub_02007D94(p, n, id, qty, 999);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007E3C(u8 *base, u16 id, u16 qty, u16 d)
 {
     if (sub_02007DF8(base, id, qty, d) != NULL) {
@@ -4520,68 +2294,6 @@ u32 sub_02007E3C(u8 *base, u16 id, u16 qty, u16 d)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007E50(u8 *base, u16 id, u16 qty, u16 d)
 {
     void *p;
@@ -4611,68 +2323,6 @@ u32 sub_02007E50(u8 *base, u16 id, u16 qty, u16 d)
     return 1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 struct Item *sub_02007ECC(struct Item *arr, u32 n, u16 id, u16 qty)
 {
     u32 i;
@@ -4688,68 +2338,6 @@ struct Item *sub_02007ECC(struct Item *arr, u32 n, u16 id, u16 qty)
     return NULL;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 struct Item *sub_02007EF8(u8 *base, u16 id, u16 qty, u16 d)
 {
     void *p;
@@ -4759,68 +2347,6 @@ struct Item *sub_02007EF8(u8 *base, u16 id, u16 qty, u16 d)
     return sub_02007ECC(p, n, id, qty);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007F1C(u8 *base, u16 id, u16 qty, u16 d)
 {
     void *p;
@@ -4839,68 +2365,6 @@ u32 sub_02007F1C(u8 *base, u16 id, u16 qty, u16 d)
     return 1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007F68(u8 *base, u16 id, u16 qty, u16 d)
 {
     if (sub_02007EF8(base, id, qty, d) != NULL) {
@@ -4909,68 +2373,6 @@ u32 sub_02007F68(u8 *base, u16 id, u16 qty, u16 d)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007F7C(const struct Item *arr, u32 n)
 {
     u32 c = 0;
@@ -4986,68 +2388,6 @@ u32 sub_02007F7C(const struct Item *arr, u32 n)
     return c;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007FA0(u8 *base, u32 id)
 {
     void *p;
@@ -5057,68 +2397,6 @@ u32 sub_02007FA0(u8 *base, u32 id)
     return sub_02007F7C(p, n);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_02007FB8(u8 *base, u16 id, u16 d)
 {
     struct Item *e = sub_02007EF8(base, id, 1, d);
@@ -5129,68 +2407,6 @@ u32 sub_02007FB8(u8 *base, u16 id, u16 d)
     return e->qty;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_02007FD0(struct Item *a, struct Item *b)
 {
     struct Item t;
@@ -5200,68 +2416,6 @@ void sub_02007FD0(struct Item *a, struct Item *b)
     *b = t;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_02007FF4(struct Item *arr, u32 n)
 {
     struct Item t;
@@ -5281,68 +2435,6 @@ void sub_02007FF4(struct Item *arr, u32 n)
     MI_CpuCopy8(&t, arr, sizeof(struct Item));
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_02008038(struct Item *arr, u32 n)
 {
     u32 i;
@@ -5354,68 +2446,6 @@ void sub_02008038(struct Item *arr, u32 n)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_02008058(struct Item *arr, u32 n)
 {
     u32 lim;
@@ -5432,68 +2462,6 @@ void sub_02008058(struct Item *arr, u32 n)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_020080A0(struct Item *arr, u32 n)
 {
     u32 lim;
@@ -5511,68 +2479,6 @@ void sub_020080A0(struct Item *arr, u32 n)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_020080FC(struct Item *arr, u32 n)
 {
     u32 lim;
@@ -5591,68 +2497,6 @@ void sub_020080FC(struct Item *arr, u32 n)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 void sub_0200816C(u8 *base)
 {
     void *p;
@@ -5670,68 +2514,6 @@ void sub_0200816C(u8 *base)
     sub_02008058(p, n);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 struct Item *sub_020081DC(u8 *base, u32 id, u32 index)
 {
     u32 n;
@@ -5763,68 +2545,6 @@ struct Item *sub_020081DC(u8 *base, u32 id, u32 index)
     return (struct Item *)(base + index * 4);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
- *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
- *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
- */
 u32 sub_0200823C(u32 a)
 {
     if (func_02021288(a) == 1) {
@@ -5887,412 +2607,44 @@ void *sub_02008254(u32 heap)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 void sub_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b)
 {
     *a = p->unk0A[i];
     *b = p->unk00[i];
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 u16 sub_02008284(const struct MyItemSave *p)
 {
     return p->unk14;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 void sub_02008288(struct MyItemSave *p, int i, s16 a, s16 b)
 {
     p->unk0A[i] = a;
     p->unk00[i] = b;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 void sub_02008298(struct MyItemSave *p, u16 v)
 {
     p->unk14 = v;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 void sub_0200829C(const struct MyItemSave *p, int i, s16 *a, s16 *b)
 {
     *a = p->unk20[i];
     *b = p->unk18[i];
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 u16 sub_020082B0(const struct MyItemSave *p)
 {
     return p->unk28;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 u16 sub_020082B4(const struct MyItemSave *p)
 {
     return p->unk2A;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 void sub_020082B8(struct MyItemSave *p, const s16 *a, const s16 *b)
 {
     u32 i;
@@ -6303,52 +2655,6 @@ void sub_020082B8(struct MyItemSave *p, const s16 *a, const s16 *b)
     }
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
- */
 void sub_020082D4(struct MyItemSave *p, u16 a, u16 b)
 {
     p->unk28 = a;

@@ -218,22 +218,6 @@ void func_020206C0(struct Obj_020206C0 *obj)
     }
 }
 
-/*
- * The two redraw entry points of the menu-cursor block, func_020206C0 and
- * func_0202071C, folded into one translation unit so 0x020206C0..0x0202077E
- * reproduces end to end.  Both dispatch on the same one-bit field at the top
- * of the u16 at +0x1A through a four-entry PC-relative halfword table whose
- * cases 1..3 are empty arms; the empty arms are what make the table exist
- * (docs/idioms/empty-switch-arms-are-what-make-the-table.md).
- *
- * Both pass the same derived byte, f17lo + <row> * (u8)(f22 + f1Amid), to
- * their callee; in func_020206C0 the row is the cursor's own f42 and the
- * value must be bound to a named local computed BEFORE the switch (as must
- * f16), or the compiler sinks both into the case-0 arm and the function is
- * four bytes short.  In func_0202071C the row is the function's second
- * argument and the same value is an inline argument, scheduled per site
- * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
- */
 void func_0202071C(struct Obj_020206C0 *obj, u32 n)
 {
     switch (obj->f1Atop) {

@@ -2070,12 +2070,6 @@ int func_020337B8(u16 a0, u32 *a1, u32 a2)
     return 0;
 }
 
-/*
- *           --suggest-split offers nothing (single function, the one
- *           unresolved site's only witness is inside this range).
- *           the only branch to it in the image is this function's own call.
- *           Every concrete byte of the body reproduces.
- */
 void func_0203386C(u16 a)
 {
     if (func_02076B8C() == 0) {
@@ -2270,16 +2264,6 @@ u32 sub_02033BF0(struct Obj02033BF0 *p)
     return p->unk04;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two plain field accessors on the same object, no relocations. Called
- * repeatedly through the rest of this packet.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02033BF0.c \
- *       --addr 0x02033BF0 --arm
- */
 u32 sub_02033BF8(struct Obj02033BF0 *p)
 {
     return p->unk0c;
@@ -2377,35 +2361,6 @@ s32 sub_02033CA8(struct AreaMan *p, u32 len)
     return sub_02033CC0(p, 0, p->unk00, len);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Previously parked at MATCH: the two dispatch arms 0x02033CFC and
- * 0x02033E30 are each reached by exactly one branch in the whole image, the
- * one in sub_02033CC0 itself, so neither had an outside witness.  Both now
- * close on the `matched` class (src/matched/sub_02033CFC.c and
- * src/matched/sub_02033E30.c); nothing in this file had to change.
- *
- * areaman.c, the front door of the variable length record allocator built on
- * the 0x02033C00 object.  sub_02033CA8 is the "search the whole bitmap" entry
- * point: it forwards to the ranged form with a start of zero and a limit of
- * the object's bit count.  sub_02033CC0 validates the request against the
- * bitmap extent and then dispatches on the run length: runs shorter than
- * eight bits go to the bit-at-a-time scanner at 0x02033CFC, longer runs to
- * the word-at-a-time scanner at 0x02033E30.  Both dispatch arms are written
- * out as their own return so that each gets its own `bl`/`pop` pair, which is
- * what the original has.
- *
- * The forwarding tail call in sub_02033CA8 is the pool-word-and-bx idiom
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md): one section per function
- * means the call to the very next function in the same file still costs a
- * pool word.  Keeping the two in one unit makes that site `local`, which is
- * what closes it without an outside witness.
- *
- * Verified with:
- *   python tools/match.py tu --src src/pending/unit_02033CA8.c \
- *       --addr 0x02033CA8 --arm
- */
 s32 sub_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len)
 {
     if (limit < len || start + len > p->unk00) {
@@ -3067,31 +3022,6 @@ void sub_02034630(struct Sentinel *p)
     p->hi = 0xFFFFFFFFu;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The packet's first function, sub_020345F8 (a five-entry linear search
- * over two small tables, neither of which has a witness anywhere else in
- * the ARM9 image), matches byte for byte but keeps two wildcarded ABS32
- * sites, so it is MATCH rather than EXACT and lives at
- * src/pending/sub_020345F8.c instead of in this file.
- *
- * sub_02034630/sub_02034640 are a sentinel pair on a two-word struct:
- * sub_02034630 marks it invalid (both words 0xFFFFFFFF) and sub_02034640
- * reports whether it currently is.
- *
- * The rest of this packet (sub_02034660, sub_020346B8, sub_020346D8,
- * sub_020346EC) is a separate, non-contiguous piece of this same small
- * file; see unit_020346D8.c and unit_020346EC.c for the two of those four
- * that matched cleanly. sub_02034660 (calls sub_0209C2B0 twice and
- * sub_02033CA8) and sub_020346B8 (calls sub_0203422C then this file's own
- * sub_02034630) are left open: both reach into the array/table subsystem
- * around pkt_020339D0 whose argument shapes are not pinned down yet.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020345F8.c \
- *       --addr 0x02034630 --arm
- */
 int sub_02034640(struct Sentinel *p)
 {
     return p->lo == 0xFFFFFFFFu && p->hi == 0xFFFFFFFFu;

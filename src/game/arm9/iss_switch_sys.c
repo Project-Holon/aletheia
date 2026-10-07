@@ -1505,23 +1505,6 @@ u32 func_0202C6A0(void *p)
     return (u32)func_0202C6BC(p, 0);
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two unlabelled leaves, back to back
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md): each is a
- * three-instruction, six-byte forwarding call with a literal second
- * argument, padded to eight with a `nop` and its own pool word. Reached
- * only through sub_0202C570 and sub_0202C578's pool-word-and-bx tail
- * calls (src/matched/unit_0202C548.c). Neither carries a
- * register-saving prologue, so neither is in the worklist's function
- * list; both sit exactly between func_0202C688's last instruction and
- * sub_0202C6B8's label.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202C6A0.c \
- *       --addr 0x0202C6A0 --thumb
- */
 u32 func_0202C6AC(void *p)
 {
     return (u32)func_0202C6BC(p, 1);
@@ -2101,23 +2084,11 @@ u16 *func_0202CF84(struct WinMgr *mgr, u32 idx)
     return mgr->wins[idx].tiles;
 }
 
-/*
- * bgwinfrm.c window-record accessors, 0x0202CF84..0x0202D01A: tile
- * pointer, bg index, scroll pair, the two 6-bit size bitfields, the clip
- * box setter and one empty function.  Same struct Win as
- * src/matched/func_0202CDD4.c.  All leaves; the unit calls nothing.
- */
 u8 func_0202CF8C(struct WinMgr *mgr, u32 idx)
 {
     return mgr->wins[idx].bg;
 }
 
-/*
- * bgwinfrm.c window-record accessors, 0x0202CF84..0x0202D01A: tile
- * pointer, bg index, scroll pair, the two 6-bit size bitfields, the clip
- * box setter and one empty function.  Same struct Win as
- * src/matched/func_0202CDD4.c.  All leaves; the unit calls nothing.
- */
 void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y)
 {
     if (x != 0) {
@@ -2128,12 +2099,6 @@ void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y)
     }
 }
 
-/*
- * bgwinfrm.c window-record accessors, 0x0202CF84..0x0202D01A: tile
- * pointer, bg index, scroll pair, the two 6-bit size bitfields, the clip
- * box setter and one empty function.  Same struct Win as
- * src/matched/func_0202CDD4.c.  All leaves; the unit calls nothing.
- */
 void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h)
 {
     if (w != 0) {
@@ -2153,12 +2118,6 @@ void func_0202CFEC(struct WinMgr *mgr, u32 idx, s8 xmin, s8 xmax,
     mgr->wins[idx].ymax = ymax;
 }
 
-/*
- * bgwinfrm.c window-record accessors, 0x0202CF84..0x0202D01A: tile
- * pointer, bg index, scroll pair, the two 6-bit size bitfields, the clip
- * box setter and one empty function.  Same struct Win as
- * src/matched/func_0202CDD4.c.  All leaves; the unit calls nothing.
- */
 void func_0202D018(void)
 {
 }
@@ -2213,17 +2172,6 @@ s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
     return c + (b + a);
 }
 
-/*
- * The two consecutive three-out-pointer wrappers around the 13-argument
- * text/window measurement routine at 0x0202D4A8, folded into one
- * translation unit. The first sets the trailing flag to one and returns the
- * plain sum of the three accumulators; the second leaves every flag zero
- * and adds two.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202D064.c \
- *       --addr 0x0202D064 --cc 1.1p1 --thumb
- */
 s32 func_0202D09C(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
@@ -2278,17 +2226,6 @@ s32 func_0202D110(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
     return b + a + 4;
 }
 
-/*
- * The three consecutive wrappers around the 13-argument text/window
- * measurement routine at 0x0202D4A8, folded into one translation unit.
- * Each forwards its three stack arguments, hands the callee two
- * out-pointers and returns their sum plus a per-function constant
- * (4, 5, 6).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202D110.c \
- *       --addr 0x0202D110 --cc 1.1p1 --thumb
- */
 s32 func_0202D144(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
@@ -2298,17 +2235,6 @@ s32 func_0202D144(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
     return b + a + 5;
 }
 
-/*
- * The three consecutive wrappers around the 13-argument text/window
- * measurement routine at 0x0202D4A8, folded into one translation unit.
- * Each forwards its three stack arguments, hands the callee two
- * out-pointers and returns their sum plus a per-function constant
- * (4, 5, 6).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202D110.c \
- *       --addr 0x0202D110 --cc 1.1p1 --thumb
- */
 s32 func_0202D178(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
@@ -2338,17 +2264,6 @@ s32 func_0202D1AC(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
     return b + a + 7;
 }
 
-/*
- * The two consecutive wrappers around the 13-argument text/window
- * measurement routine at 0x0202D4A8, folded into one translation unit.
- * Each forwards its three stack arguments, hands the callee two
- * out-pointers and returns their sum plus a per-function constant
- * (7, 8).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202D1AC.c \
- *       --addr 0x0202D1AC --cc 1.1p1 --thumb
- */
 s32 func_0202D1E0(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
@@ -3121,29 +3036,11 @@ u32 func_0202DC98(struct PmsDraw *o)
     return o->selected;
 }
 
-/*
- * Three leaves before func_0202DCC4 over an object with a count at +0x28 and
- * an array of 0x28-byte elements at +0xc: the count getter, and two
- * forwarders that pass element i and one argument to func_0202E38C and
- * func_0202E3E4.  Seeded from ov031 0x021F069A, ov110 0x021C0CC6, ov111
- * 0x021C61D2, ov216 0x021BD12A.
- *
- * Addresses are Black-image addresses.
- */
 void func_0202DC9C(struct PmsDraw *o, int i, u32 a1)
 {
     func_0202E38C(&o->elems[i], a1);
 }
 
-/*
- * Three leaves before func_0202DCC4 over an object with a count at +0x28 and
- * an array of 0x28-byte elements at +0xc: the count getter, and two
- * forwarders that pass element i and one argument to func_0202E38C and
- * func_0202E3E4.  Seeded from ov031 0x021F069A, ov110 0x021C0CC6, ov111
- * 0x021C61D2, ov216 0x021BD12A.
- *
- * Addresses are Black-image addresses.
- */
 void func_0202DCB0(struct PmsDraw *o, int i, u32 a1)
 {
     func_0202E3E4(&o->elems[i], a1);

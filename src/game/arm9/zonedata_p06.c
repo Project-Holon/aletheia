@@ -174,50 +174,6 @@ u32 sub_02013DF0(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013E6C, sub_02013E7C
- *
- * alias: the last id predicate, sub_02013E04, and three more leaf accessors
- * on the record sub_02013AD0() returns.  sub_02013D74 (a documented near
- * miss, see unit_02013C10.c) is only reached here as an ordinary extern
- * call from sub_02013E04, which does not need sub_02013D74's own body to
- * be attested, only the call to it.
- *
- * sub_02013E04 returns true only when NONE of five predicates
- * (sub_02013CC8, sub_02013CE0, sub_02013D00, sub_02013D5C, sub_02013D74)
- * match, written as the direct disjunction `if (a || b || c || d || e)
- * return 0; return 1;`.  Splitting the disjunction into two `if`s, or
- * writing the same thing as `if (x) return 0;` five times, both changed
- * which comparisons share the shared-exit block with which: this compiler
- * only tail-merges an early `return 0;` across every operand of one `||`
- * expression, and only the last operand gets different codegen (its
- * comparison result stands for the whole expression rather than branching
- * past a shared block), so the five calls have to be one source-level
- * disjunction to reproduce the original's four-shared/one-different shape.
- *
- * The record's halfword at +0x1a is a ten-bit low field and a six-bit high
- * field, the same two-way split as the +0x1c and +0x1e halfwords documented
- * in unit_02013C10.c and unit_02013BA8.c.  sub_02013E4C reads the low field
- * and then substitutes 0x70 for either of the two values immediately above
- * it (0x70 and 0x71): the substitution test adds the POOL CONSTANT 0xff90
- * (-0x70 as an unsigned 16-bit value) rather than subtracting the immediate
- * 0x70, the same non-foldable-immediate shape documented in
- * unit_02013CC8.c for sub_02013CE0 and sub_02013D00.
- *
- * Near miss: sub_02013E90 (0x02013E90 to 0x02013EC0, 48 bytes) reproduces
- * every concrete byte of its first half (the va==vb case) but the two
- * remaining special cases (0 and 0xaf treated as equivalent to each other)
- * compile to a different shared-exit shape than the original under every
- * phrasing tried: two plain `&&` conjunctions, one written as a nested
- * `if`, and both orders of the pair.  It is not in this file; see
- * unit_02013EC0.c for what resumes after it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013DF0.c \
- *       --addr 0x02013DF0 --thumb
- */
 u32 sub_02013E04(u32 id)
 {
     if (sub_02013CC8(id) || sub_02013CE0(id) || sub_02013D00(id) ||
@@ -227,50 +183,6 @@ u32 sub_02013E04(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013E6C, sub_02013E7C
- *
- * alias: the last id predicate, sub_02013E04, and three more leaf accessors
- * on the record sub_02013AD0() returns.  sub_02013D74 (a documented near
- * miss, see unit_02013C10.c) is only reached here as an ordinary extern
- * call from sub_02013E04, which does not need sub_02013D74's own body to
- * be attested, only the call to it.
- *
- * sub_02013E04 returns true only when NONE of five predicates
- * (sub_02013CC8, sub_02013CE0, sub_02013D00, sub_02013D5C, sub_02013D74)
- * match, written as the direct disjunction `if (a || b || c || d || e)
- * return 0; return 1;`.  Splitting the disjunction into two `if`s, or
- * writing the same thing as `if (x) return 0;` five times, both changed
- * which comparisons share the shared-exit block with which: this compiler
- * only tail-merges an early `return 0;` across every operand of one `||`
- * expression, and only the last operand gets different codegen (its
- * comparison result stands for the whole expression rather than branching
- * past a shared block), so the five calls have to be one source-level
- * disjunction to reproduce the original's four-shared/one-different shape.
- *
- * The record's halfword at +0x1a is a ten-bit low field and a six-bit high
- * field, the same two-way split as the +0x1c and +0x1e halfwords documented
- * in unit_02013C10.c and unit_02013BA8.c.  sub_02013E4C reads the low field
- * and then substitutes 0x70 for either of the two values immediately above
- * it (0x70 and 0x71): the substitution test adds the POOL CONSTANT 0xff90
- * (-0x70 as an unsigned 16-bit value) rather than subtracting the immediate
- * 0x70, the same non-foldable-immediate shape documented in
- * unit_02013CC8.c for sub_02013CE0 and sub_02013D00.
- *
- * Near miss: sub_02013E90 (0x02013E90 to 0x02013EC0, 48 bytes) reproduces
- * every concrete byte of its first half (the va==vb case) but the two
- * remaining special cases (0 and 0xaf treated as equivalent to each other)
- * compile to a different shared-exit shape than the original under every
- * phrasing tried: two plain `&&` conjunctions, one written as a nested
- * `if`, and both orders of the pair.  It is not in this file; see
- * unit_02013EC0.c for what resumes after it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013DF0.c \
- *       --addr 0x02013DF0 --thumb
- */
 u32 sub_02013E40(u32 id)
 {
     struct Sub02013AD0Rec_02013DF0 *r = sub_02013AD0(id);
@@ -278,50 +190,6 @@ u32 sub_02013E40(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013E6C, sub_02013E7C
- *
- * alias: the last id predicate, sub_02013E04, and three more leaf accessors
- * on the record sub_02013AD0() returns.  sub_02013D74 (a documented near
- * miss, see unit_02013C10.c) is only reached here as an ordinary extern
- * call from sub_02013E04, which does not need sub_02013D74's own body to
- * be attested, only the call to it.
- *
- * sub_02013E04 returns true only when NONE of five predicates
- * (sub_02013CC8, sub_02013CE0, sub_02013D00, sub_02013D5C, sub_02013D74)
- * match, written as the direct disjunction `if (a || b || c || d || e)
- * return 0; return 1;`.  Splitting the disjunction into two `if`s, or
- * writing the same thing as `if (x) return 0;` five times, both changed
- * which comparisons share the shared-exit block with which: this compiler
- * only tail-merges an early `return 0;` across every operand of one `||`
- * expression, and only the last operand gets different codegen (its
- * comparison result stands for the whole expression rather than branching
- * past a shared block), so the five calls have to be one source-level
- * disjunction to reproduce the original's four-shared/one-different shape.
- *
- * The record's halfword at +0x1a is a ten-bit low field and a six-bit high
- * field, the same two-way split as the +0x1c and +0x1e halfwords documented
- * in unit_02013C10.c and unit_02013BA8.c.  sub_02013E4C reads the low field
- * and then substitutes 0x70 for either of the two values immediately above
- * it (0x70 and 0x71): the substitution test adds the POOL CONSTANT 0xff90
- * (-0x70 as an unsigned 16-bit value) rather than subtracting the immediate
- * 0x70, the same non-foldable-immediate shape documented in
- * unit_02013CC8.c for sub_02013CE0 and sub_02013D00.
- *
- * Near miss: sub_02013E90 (0x02013E90 to 0x02013EC0, 48 bytes) reproduces
- * every concrete byte of its first half (the va==vb case) but the two
- * remaining special cases (0 and 0xaf treated as equivalent to each other)
- * compile to a different shared-exit shape than the original under every
- * phrasing tried: two plain `&&` conjunctions, one written as a nested
- * `if`, and both orders of the pair.  It is not in this file; see
- * unit_02013EC0.c for what resumes after it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013DF0.c \
- *       --addr 0x02013DF0 --thumb
- */
 u32 sub_02013E4C(u32 id)
 {
     struct Sub02013AD0Rec_02013DF0 *r = sub_02013AD0(id);
@@ -333,50 +201,6 @@ u32 sub_02013E4C(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013E6C, sub_02013E7C
- *
- * alias: the last id predicate, sub_02013E04, and three more leaf accessors
- * on the record sub_02013AD0() returns.  sub_02013D74 (a documented near
- * miss, see unit_02013C10.c) is only reached here as an ordinary extern
- * call from sub_02013E04, which does not need sub_02013D74's own body to
- * be attested, only the call to it.
- *
- * sub_02013E04 returns true only when NONE of five predicates
- * (sub_02013CC8, sub_02013CE0, sub_02013D00, sub_02013D5C, sub_02013D74)
- * match, written as the direct disjunction `if (a || b || c || d || e)
- * return 0; return 1;`.  Splitting the disjunction into two `if`s, or
- * writing the same thing as `if (x) return 0;` five times, both changed
- * which comparisons share the shared-exit block with which: this compiler
- * only tail-merges an early `return 0;` across every operand of one `||`
- * expression, and only the last operand gets different codegen (its
- * comparison result stands for the whole expression rather than branching
- * past a shared block), so the five calls have to be one source-level
- * disjunction to reproduce the original's four-shared/one-different shape.
- *
- * The record's halfword at +0x1a is a ten-bit low field and a six-bit high
- * field, the same two-way split as the +0x1c and +0x1e halfwords documented
- * in unit_02013C10.c and unit_02013BA8.c.  sub_02013E4C reads the low field
- * and then substitutes 0x70 for either of the two values immediately above
- * it (0x70 and 0x71): the substitution test adds the POOL CONSTANT 0xff90
- * (-0x70 as an unsigned 16-bit value) rather than subtracting the immediate
- * 0x70, the same non-foldable-immediate shape documented in
- * unit_02013CC8.c for sub_02013CE0 and sub_02013D00.
- *
- * Near miss: sub_02013E90 (0x02013E90 to 0x02013EC0, 48 bytes) reproduces
- * every concrete byte of its first half (the va==vb case) but the two
- * remaining special cases (0 and 0xaf treated as equivalent to each other)
- * compile to a different shared-exit shape than the original under every
- * phrasing tried: two plain `&&` conjunctions, one written as a nested
- * `if`, and both orders of the pair.  It is not in this file; see
- * unit_02013EC0.c for what resumes after it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013DF0.c \
- *       --addr 0x02013DF0 --thumb
- */
 u32 sub_02013E6C(u32 id)
 {
     struct Sub02013AD0Rec_02013DF0 *r = sub_02013AD0(id);
@@ -384,50 +208,6 @@ u32 sub_02013E6C(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02013E6C, sub_02013E7C
- *
- * alias: the last id predicate, sub_02013E04, and three more leaf accessors
- * on the record sub_02013AD0() returns.  sub_02013D74 (a documented near
- * miss, see unit_02013C10.c) is only reached here as an ordinary extern
- * call from sub_02013E04, which does not need sub_02013D74's own body to
- * be attested, only the call to it.
- *
- * sub_02013E04 returns true only when NONE of five predicates
- * (sub_02013CC8, sub_02013CE0, sub_02013D00, sub_02013D5C, sub_02013D74)
- * match, written as the direct disjunction `if (a || b || c || d || e)
- * return 0; return 1;`.  Splitting the disjunction into two `if`s, or
- * writing the same thing as `if (x) return 0;` five times, both changed
- * which comparisons share the shared-exit block with which: this compiler
- * only tail-merges an early `return 0;` across every operand of one `||`
- * expression, and only the last operand gets different codegen (its
- * comparison result stands for the whole expression rather than branching
- * past a shared block), so the five calls have to be one source-level
- * disjunction to reproduce the original's four-shared/one-different shape.
- *
- * The record's halfword at +0x1a is a ten-bit low field and a six-bit high
- * field, the same two-way split as the +0x1c and +0x1e halfwords documented
- * in unit_02013C10.c and unit_02013BA8.c.  sub_02013E4C reads the low field
- * and then substitutes 0x70 for either of the two values immediately above
- * it (0x70 and 0x71): the substitution test adds the POOL CONSTANT 0xff90
- * (-0x70 as an unsigned 16-bit value) rather than subtracting the immediate
- * 0x70, the same non-foldable-immediate shape documented in
- * unit_02013CC8.c for sub_02013CE0 and sub_02013D00.
- *
- * Near miss: sub_02013E90 (0x02013E90 to 0x02013EC0, 48 bytes) reproduces
- * every concrete byte of its first half (the va==vb case) but the two
- * remaining special cases (0 and 0xaf treated as equivalent to each other)
- * compile to a different shared-exit shape than the original under every
- * phrasing tried: two plain `&&` conjunctions, one written as a nested
- * `if`, and both orders of the pair.  It is not in this file; see
- * unit_02013EC0.c for what resumes after it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013DF0.c \
- *       --addr 0x02013DF0 --thumb
- */
 u32 sub_02013E7C(u32 id)
 {
     struct Sub02013AD0Rec_02013DF0 *r = sub_02013AD0(id);
@@ -488,17 +268,6 @@ u32 sub_02013EC0(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: the last two leaf accessors on the record sub_02013AD0() returns,
- * and the end of pkt_02013BA8.  sub_02013E90, immediately before this
- * file, is a documented near miss; see unit_02013DF0.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013EC0.c \
- *       --addr 0x02013EC0 --thumb
- */
 u32 sub_02013ECC(u32 id)
 {
     struct Sub02013AD0Rec_02013EC0 *r = sub_02013AD0(id);
@@ -545,38 +314,6 @@ u8 sub_02013ED8(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: continues the record-cache family of unit_02013AD0.c and
- * unit_02013BA8.c: every accessor here that calls sub_02013AD0() reads
- * through the same cached record, at offsets not used by those two files.
- * g_sub02013AD0Obj2 is the same cache object (0x02146264) as
- * unit_02013AD0.c's g_sub02013AD0Obj, redeclared here with only the extra
- * fields (0x38..0x43, two of its three small lookup tables and their
- * counts) this file touches; nothing about the two declarations needs to
- * agree byte for byte, only the addresses they claim.
- *
- * The halfword at the cached record's offset 0x1e holds two adjacent 5 bit
- * fields with no gap (bits[0:4] and bits[5:9]); sub_02013ED8 is the
- * accessor for the high one (unit_02014034.c has the low one).
- * sub_02013EEC/F2C/F6C are three independent { key(u16); val(u16) } lookup
- * tables reached through the cache object, differing only in the width of
- * their count field and in their not-found sentinel (0x0FFFFFFF for the
- * first two, 0 for the third).  The third table's array pointer and count
- * sit at offsets 0x44/0x43, immediately after this file's range in the
- * struct, and are declared again in unit_02014034.c.
- *
- * Near miss: sub_02013FA8 (0x02013FA8..0x02013FD8, 48 bytes), a five entry
- * table lookup unrelated to the cache object, reproduces every concrete
- * byte and caps at MATCH: the only pool word anywhere in the image that
- * names its table address is its own, so the honesty rule refuses the
- * witness.  Parked at src/pending/sub_02013FA8.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013ED8.c \
- *       --addr 0x02013ED8 --thumb
- */
 u32 sub_02013EEC(u32 id)
 {
     u32 result = 0x0FFFFFFFu;
@@ -594,38 +331,6 @@ u32 sub_02013EEC(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: continues the record-cache family of unit_02013AD0.c and
- * unit_02013BA8.c: every accessor here that calls sub_02013AD0() reads
- * through the same cached record, at offsets not used by those two files.
- * g_sub02013AD0Obj2 is the same cache object (0x02146264) as
- * unit_02013AD0.c's g_sub02013AD0Obj, redeclared here with only the extra
- * fields (0x38..0x43, two of its three small lookup tables and their
- * counts) this file touches; nothing about the two declarations needs to
- * agree byte for byte, only the addresses they claim.
- *
- * The halfword at the cached record's offset 0x1e holds two adjacent 5 bit
- * fields with no gap (bits[0:4] and bits[5:9]); sub_02013ED8 is the
- * accessor for the high one (unit_02014034.c has the low one).
- * sub_02013EEC/F2C/F6C are three independent { key(u16); val(u16) } lookup
- * tables reached through the cache object, differing only in the width of
- * their count field and in their not-found sentinel (0x0FFFFFFF for the
- * first two, 0 for the third).  The third table's array pointer and count
- * sit at offsets 0x44/0x43, immediately after this file's range in the
- * struct, and are declared again in unit_02014034.c.
- *
- * Near miss: sub_02013FA8 (0x02013FA8..0x02013FD8, 48 bytes), a five entry
- * table lookup unrelated to the cache object, reproduces every concrete
- * byte and caps at MATCH: the only pool word anywhere in the image that
- * names its table address is its own, so the honesty rule refuses the
- * witness.  Parked at src/pending/sub_02013FA8.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013ED8.c \
- *       --addr 0x02013ED8 --thumb
- */
 u32 sub_02013F2C(u32 id)
 {
     u32 result = 0x0FFFFFFFu;
@@ -643,38 +348,6 @@ u32 sub_02013F2C(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: continues the record-cache family of unit_02013AD0.c and
- * unit_02013BA8.c: every accessor here that calls sub_02013AD0() reads
- * through the same cached record, at offsets not used by those two files.
- * g_sub02013AD0Obj2 is the same cache object (0x02146264) as
- * unit_02013AD0.c's g_sub02013AD0Obj, redeclared here with only the extra
- * fields (0x38..0x43, two of its three small lookup tables and their
- * counts) this file touches; nothing about the two declarations needs to
- * agree byte for byte, only the addresses they claim.
- *
- * The halfword at the cached record's offset 0x1e holds two adjacent 5 bit
- * fields with no gap (bits[0:4] and bits[5:9]); sub_02013ED8 is the
- * accessor for the high one (unit_02014034.c has the low one).
- * sub_02013EEC/F2C/F6C are three independent { key(u16); val(u16) } lookup
- * tables reached through the cache object, differing only in the width of
- * their count field and in their not-found sentinel (0x0FFFFFFF for the
- * first two, 0 for the third).  The third table's array pointer and count
- * sit at offsets 0x44/0x43, immediately after this file's range in the
- * struct, and are declared again in unit_02014034.c.
- *
- * Near miss: sub_02013FA8 (0x02013FA8..0x02013FD8, 48 bytes), a five entry
- * table lookup unrelated to the cache object, reproduces every concrete
- * byte and caps at MATCH: the only pool word anywhere in the image that
- * names its table address is its own, so the honesty rule refuses the
- * witness.  Parked at src/pending/sub_02013FA8.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013ED8.c \
- *       --addr 0x02013ED8 --thumb
- */
 u32 sub_02013F6C(u32 id)
 {
     u32 result = 0;
@@ -745,304 +418,48 @@ u8 sub_02013FD8(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u32 sub_02013FEC(u32 id)
 {
     return sub_02013B10(id, (const u16 *)0x0209DFDC, 8);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u32 sub_02013FFC(u32 id)
 {
     return sub_02013B10(id, (const u16 *)0x0209DFB8, 4);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u32 sub_0201400C(u32 id)
 {
     return id == 0xF6;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u32 sub_02014018(u32 id)
 {
     return id == 0xF7;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u32 sub_02014024(u32 id)
 {
     return sub_02013B10(id, (const u16 *)0x0209DFD2, 5);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u32 sub_02014034(u32 id)
 {
     return id >= 0x4C && id <= 0x69;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u32 sub_02014044(u32 id)
 {
     return id == 0x17A || id == 0x176;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u8 sub_0201405C(u32 id)
 {
     struct { u8 unk00; u8 unk01; } *r = sub_02013AD0(id);
@@ -1050,38 +467,6 @@ u8 sub_0201405C(u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02014018, sub_02014024, sub_02014034, sub_02014044,
- *           sub_0201405C, sub_02014068
- *
- * alias: sub_02013FD8 is the low 5 bit accessor of the cache record's
- * offset 0x1e halfword (unit_02013ED8.c has the high one).
- *
- * sub_02013FEC, sub_02013FFC and sub_02014024 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
- * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
- * tail call as a pool word and `bx` even to a function outside the unit
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
- * with no prologue, invisible to disasm.py's prologue sweep and printed
- * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
- * class, attested by the same address in unit_02013AD0.c's callers); the
- * table addresses themselves need no attestation, since they are ordinary
- * immediate constants passed by value, not relocated pointers into this
- * range.
- *
- * sub_02014034 and sub_02014044 are plain range/equality tests on the raw
- * id (no call to sub_02013AD0).  sub_0201405C is another cache-record
- * accessor, the byte at offset 0x01.  sub_02014068 forwards to the
- * existing sub_02013E40 (unit_02013DF0.c region), an accessor on the same
- * cache record's offset 0x18.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013FD8.c \
- *       --addr 0x02013FD8 --thumb
- */
 u32 sub_02014068(u32 id)
 {
     return sub_02013E40(id) == 0xD6;

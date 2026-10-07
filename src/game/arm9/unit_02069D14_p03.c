@@ -186,32 +186,6 @@ u32 func_02069F08(Node_02069D14 **head, Node_02069D14 *target)
 
 
 
-/*
- * The list-removal pair, folded into one translation unit so that
- * func_02069F7C's three calls to func_02069F08 are `local` relocations
- * attested by the unit's own layout rather than by a separate manifest
- * entry.
- *
- * func_02069F08  unlinks `target` from the list rooted at *head (next at
- *                +0x10), returning 1 on success and clearing the removed
- *                node's own next pointer.
- * func_02069F7C  tries all three of the owner's lists (+0x08, +0x10, +0x18)
- *                in turn and sets bit 4 of the owner's word at +0x00 if any
- *                of them claimed the node.
- *
- * Two shape notes from the derivation:
- *  - In func_02069F08, `q` must be DECLARED BEFORE `p`; with the natural
- *    order the trailing cursor takes r0 instead of r2 and eleven bytes go
- *    wrong across the search loop. The inner unlink is `p->next = q->next`,
- *    not `p->next = target->next`, so the load comes off the cursor.
- *  - In func_02069F7C the three guards must NEST (each failure falling into
- *    the next attempt) so the three success paths share one tail; three
- *    separate early returns duplicate the flag store.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02069F08.c \
- *       --addr 0x02069F08 --arm
- */
 void func_02069F7C(Owner_02069D14 *o, Node_02069D14 *item)
 {
     if (!func_02069F08(&o->l08, item)) {

@@ -1,0 +1,154 @@
+/*
+ * file:     zukan_info_p06.c
+ * unit:     yes
+ * function: func_021BB304, func_021BB480
+ * address:  0x021BB304
+ * region:   ov206
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_020275E8 0x020275E8 thumb
+ *   func_020275EC 0x020275EC thumb
+ *   func_020275F8 0x020275F8 thumb
+ *   func_020275FC 0x020275FC thumb
+ *   func_02027600 0x02027600 thumb
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B6F4 0x0204B6F4 arm
+ *   func_0204B800 0x0204B800 arm
+ *   func_0204B688 0x0204B688 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_021BB92C 0x021BB92C thumb ov206
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_0204A8D4 0x0204A8D4 arm
+ *   func_0204AFD8 0x0204AFD8 arm
+ *   func_0204ADA4 0x0204ADA4 arm
+ */
+#include "../../matched/include/Obj00173.h"
+#include "../../matched/include/Obj14639.h"
+
+struct Actor;
+struct Node;
+struct Obj;
+typedef enum { B_FALSE, B_TRUE } Bool;
+
+typedef struct {
+    unsigned short a, b, c;
+    unsigned char d, e;
+} Rect;
+
+typedef unsigned int   u32;
+
+typedef unsigned char  u8;
+
+typedef signed int     s32;
+
+typedef unsigned short u16;
+
+typedef struct {
+    unsigned short f0;
+    char pad02[0x18 - 2];
+    int f18;
+    int f1c;
+    char pad20[4];
+    void *f24;
+    char pad28[0xb8 - 0x28];
+    int m[2][2];
+    void *fc8;
+    void *fcc;
+    char padd0[0xe0 - 0xd0];
+    int fe0;
+    int fe4;
+    void *a[0x11];
+    void *b[0x11];
+    unsigned char f170;
+    unsigned char f171;
+    char pad172[0x1d0 - 0x172];
+    void *f1d0;
+} Ent;
+
+extern u32 func_020275E8(void);
+extern u8 func_020275EC(int i);
+extern u32 func_020275F8(u32 a);
+extern u32 func_020275FC(u32 a);
+extern u32 func_02027600(u32 a);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_021BB92C(char *,int);
+extern void func_0204B3B4(struct Obj *p);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
+extern void func_0204ADA4(u32 i);
+void func_021BB304(Ent *p);
+void func_021BB480(char *p);
+
+
+void func_021BB304(Ent *p)
+{
+    unsigned char a, b, i;
+    int flag;
+    int sh;
+    void *u;
+    void *arc;
+    Rect r;
+
+    u = (void *)p->f1c;
+    flag = (int)u == 0 ? B_FALSE : B_TRUE;
+    sh = 0;
+    if (u != 0) sh = 1;
+    arc = p->f1d0;
+    for (a = 0; a < 2; a++) {
+        for (b = 0; b < 2; b++) {
+            p->m[a][b] = -1;
+        }
+    }
+    p->fe0 = 0;
+    p->fc8 = (void *)func_0204AC18(arc, func_020275E8(), flag, 0x40, 0, 3, p->f0);
+    p->fcc = (void *)func_0204AF28(arc, func_020275FC(2), func_02027600(2), p->f0);
+    if (p->f18 == 2 && p->f1c == 0) {
+        r.a = 0; r.b = 0; r.c = 0; r.d = 0; r.e = 0;
+        p->fe4 = 1;
+        p->f170 = 0x11;
+        p->f171 = 0x11;
+        for (i = 0; i < 0x11; i++) {
+            p->a[i] = (void *)func_0204A6C8(arc, func_020275F8(i), 0, flag, p->f0);
+            p->b[i] = func_0204B294(p->f24, (unsigned int)p->a[i], (unsigned int)p->fc8, (unsigned int)p->fcc, &r, sh, p->f0);
+            func_0204B6F4(p->b[i], func_020275EC(i), 1);
+            func_0204B800(p->b[i], 2);
+            func_0204B688(p->b[i], 1);
+            func_0204B3DC(p->b[i], 0);
+        }
+    } else {
+        p->fe4 = 0;
+    }
+}
+
+void func_021BB480(char *p)
+{
+    unsigned char i;
+    for(i=0;i<2;i++) func_021BB92C(p,i);
+    if(((struct Obj00173 *)p)->fE4) {
+        for(i=0;i<17;i++) {
+            char *slot=p+i*4;
+            func_0204B3B4((struct Obj *)(((struct Obj14639 *)slot)->f12C));
+            func_0204A8D4(((struct Obj14639 *)slot)->fE8);
+        }
+        ((struct Obj00173 *)p)->fE4=0;
+    }
+    func_0204AFD8(((struct Obj00173 *)p)->fCC);
+    func_0204ADA4(((struct Obj00173 *)p)->fC8);
+}

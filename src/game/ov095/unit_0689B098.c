@@ -1,0 +1,96 @@
+/*
+ * file:     unit_0689B098.c
+ * unit:     yes
+ * function: func_0689B098, func_0689B0D4
+ * address:  0x0689B098
+ * region:   ov095
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_0689AE34 0x0689AE34 thumb ov095
+ *   func_0689B354  0x0689B354  thumb  ov095
+ *   func_0689B174  0x0689B174  thumb  ov095
+ *   func_0689B184  0x0689B184  thumb  ov095
+ *   func_0689B194  0x0689B194  thumb  ov095
+ *   func_0689B1A4  0x0689B1A4  thumb  ov095
+ *   func_0689B1B4  0x0689B1B4  thumb  ov095
+ *   func_0689B1C4  0x0689B1C4  thumb  ov095
+ *   func_0689B1D4  0x0689B1D4  thumb  ov095
+ */
+#include "../../matched/include/Obj00409.h"
+
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef struct {
+    u32 pad : 7;
+    u32 id : 16;
+    u32 rest : 9;
+} Q;
+
+extern void func_0689AE34(u8 *list, u8 n, int unused, u8 *s);
+extern void func_0689B354(u8 *p, u8 *s);
+extern int func_0689B174(u32 a);
+extern u32 func_0689B184(u32 a);
+extern void func_0689B194(u32 a, u32 b, u32 c);
+extern u8 *func_0689B1A4(void);
+extern void func_0689B1B4(Q *q, u16 id, u8 c);
+extern u8 func_0689B1C4(u16 id, int k);
+extern u8 func_0689B1D4(u32 a);
+void func_0689B098(u8 *p, u8 *s);
+u8 func_0689B0CC(u8 *p);
+int func_0689B0D4(int unused, u8 *s);
+
+
+/*
+ * trailing: unlabelled byte accessor at 0x0689B0CC, followed by alignment padding.
+ */
+void func_0689B098(u8 *p, u8 *s)
+{
+    if (p[0] != 0) {
+        func_0689AE34(p + 3, p[0], 0, s);
+    } else if (p[2] == 1) {
+        func_0689AE34(p + 3, p[1], 1, s);
+    } else {
+        func_0689AE34(p + 3, p[1], 2, s);
+    }
+}
+
+
+u8 func_0689B0CC(u8 *p)
+{
+    return p[0x89];
+}
+
+
+int func_0689B0D4(int unused, u8 *s)
+{
+    u8 c;
+
+    func_0689B354(s + 0x80, s);
+    if (func_0689B174(*(u32 *)&((struct Obj00409 *)s)->fA0) == 2) {
+        c = 6;
+        if (s[0x80] != 0) {
+            func_0689B194(*(u32 *)&((struct Obj00409 *)s)->fA0, *(u32 *)&((struct Obj00409 *)s)->fA4,
+                          func_0689B184(*(u32 *)&((struct Obj00409 *)s)->f6C));
+            c = func_0689B1A4()[4];
+        }
+        func_0689B1B4(*(Q * *)&((struct Obj00409 *)s)->f70, (*(Q * *)&((struct Obj00409 *)s)->f70)->id, c);
+        s[0x89] = 1;
+    }
+    func_0689B098(s + 0x80, s);
+    s[0x89] = 0;
+    s[0x8a] = func_0689B1C4((*(Q * *)&((struct Obj00409 *)s)->f70)->id, 0x1b);
+    if ((*(Q * *)&((struct Obj00409 *)s)->f70)->id == 0xae)
+        s[0x8a] = func_0689B1D4(*(u32 *)&((struct Obj00409 *)s)->f6C);
+    return 1;
+}

@@ -482,25 +482,6 @@ void func_02027634(void *arc, int id, u32 heap, int base, u32 pal)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_02027694(void)
 {
     return 0x42;
@@ -511,25 +492,6 @@ u32 func_02027694(void)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_02027698(void)
 {
     return 0x41;
@@ -540,25 +502,6 @@ u32 func_02027698(void)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_0202769C(u32 i)
 {
     return i + 0x43;
@@ -569,25 +512,6 @@ u32 func_0202769C(u32 i)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276A0(u32 i)
 {
     return i + 0x46;
@@ -598,25 +522,6 @@ u32 func_020276A0(u32 i)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276A4(void)
 {
     return 0x49;
@@ -627,25 +532,6 @@ u32 func_020276A4(void)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276A8(void)
 {
     return 0x4a;
@@ -656,25 +542,6 @@ u32 func_020276A8(void)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276AC(u32 i)
 {
     return i + 0x4b;
@@ -685,25 +552,6 @@ u32 func_020276AC(u32 i)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276B0(u32 i)
 {
     return i + 0x4e;
@@ -714,25 +562,6 @@ u32 func_020276B0(u32 i)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276B4(void)
 {
     return 0xb;
@@ -743,25 +572,6 @@ u32 func_020276B4(void)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276B8(void)
 {
     return 0xc;
@@ -772,25 +582,6 @@ u32 func_020276B8(void)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276BC(u32 i)
 {
     return i + 0xd;
@@ -801,25 +592,6 @@ u32 func_020276BC(u32 i)
 
 
 
-/*
- *           func_020276A0, func_020276A4, func_020276A8, func_020276AC,
- *           func_020276B0, func_020276B4, func_020276B8, func_020276BC,
- *           func_020276C0
- * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
- * copy its 0x60 colours into the archive's copy and re-base each entry
- * (colour index + base, palette number in the top nibble), then twelve
- * unlabelled 4-byte resource-id getters in groups of four (two constants,
- * two offsets of their argument).
- *
- * What closed the loader after docs/notes/pkt_02027634.c.txt (100 bytes
- * against 96): the palette is a u16[0x60] FIELD at +0x540 of one struct
- * type, and the archive data is that same struct 0xC bytes into the file;
- * with both written as `->pal` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image.  The re-base is
- * `(pal << 12) + (base + (c & 0xfff))`.
- *
- * Integrator: seed the twelve leaves 0x02027694..0x020276C0 (members).
- */
 u32 func_020276C0(u32 i)
 {
     return i + 0x10;
@@ -855,18 +627,6 @@ int func_02027710(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027714(int a)
 {
     return a + 0x54;
@@ -876,18 +636,6 @@ int func_02027714(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027718(int a)
 {
     return a + 0xa6;
@@ -897,18 +645,6 @@ int func_02027718(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_0202771C(int a)
 {
     return a + 0xa9;
@@ -918,18 +654,6 @@ int func_0202771C(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027720(int a)
 {
     if (a == 0) {
@@ -942,18 +666,6 @@ int func_02027720(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_0202772C(int a)
 {
     if (a == 0) {
@@ -966,18 +678,6 @@ int func_0202772C(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027738(int dummy, int b)
 {
     return b + 0x89;
@@ -987,18 +687,6 @@ int func_02027738(int dummy, int b)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027740(int dummy, int b)
 {
     return b + 0x8c;
@@ -1008,18 +696,6 @@ int func_02027740(int dummy, int b)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027748(void)
 {
     return 0x8f;
@@ -1029,18 +705,6 @@ int func_02027748(void)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_0202774C(int a)
 {
     return a + 0x90;
@@ -1050,18 +714,6 @@ int func_0202774C(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027750(int a)
 {
     return a + 0x93;
@@ -1071,18 +723,6 @@ int func_02027750(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027754(int a)
 {
     return a + 0x96;
@@ -1092,18 +732,6 @@ int func_02027754(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027758(void)
 {
     return 0;
@@ -1113,18 +741,6 @@ int func_02027758(void)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_0202775C(int a)
 {
     return a + 2;
@@ -1134,18 +750,6 @@ int func_0202775C(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027760(int a)
 {
     return a + 5;
@@ -1155,18 +759,6 @@ int func_02027760(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027764(int a)
 {
     return a + 8;
@@ -1176,18 +768,6 @@ int func_02027764(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027768(void)
 {
     return 0x99;
@@ -1197,18 +777,6 @@ int func_02027768(void)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_0202776C(int a)
 {
     return a + 0x9a;
@@ -1218,18 +786,6 @@ int func_0202776C(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027770(int a)
 {
     return a + 0x9d;
@@ -1239,18 +795,6 @@ int func_02027770(int a)
 
 
 
-/*
- *           func_02027720, func_0202772C, func_02027738, func_02027740,
- *           func_02027748, func_0202774C, func_02027750, func_02027754,
- *           func_02027758, func_0202775C, func_02027760, func_02027764,
- *           func_02027768, func_0202776C, func_02027770, func_02027774
- *
- * Offset accessors and constants in beacon_status.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02027710.c \
- *       --addr 0x02027710 --thumb --cc 1.1p1
- */
 int func_02027774(int a)
 {
     return a + 0xa0;

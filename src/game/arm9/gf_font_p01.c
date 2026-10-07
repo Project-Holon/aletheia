@@ -982,44 +982,6 @@ u32 func_0201D5C4(void)
 }
 
 
-/*
- *           func_0201D658, func_0201D670, func_0201D688
- *
- * The message-tag primitives of the text stack, seven functions and 216 bytes.
- * A tag is a run of halfwords opening with 0xF000: the halfword at +2 packs a
- * group in its high byte and a kind in its low byte, +4 is the parameter count,
- * and the parameters follow at +6.  func_0201D688 steps a cursor over one tag
- * and is what every walker in this region loops on.
- *
- * Three of the seven carry no label in the generated listing, because a
- * two-instruction leaf saves nothing and disasm.py's prologue sweep never fires
- * on it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md);
- * func_0201D5F4, func_0201D658 and func_0201D670 were read out of the `.word`
- * run the listing prints.
- *
- * Three details cost time and each is in an existing idiom:
- *
- *   - `k == 1 || k == 2` compiles to a `subs` / `cmp` / `bhi` range check and is
- *     two bytes short.  The original compares twice, which is what a `switch`
- *     with two empty falling case labels gives.
- *   - the group byte is `(u8)(p[1] >> 8)` and the shift is an `asrs`, because
- *     the u16 promotes to a signed int before the shift; writing the field as
- *     u32 gives `lsrs` and one wrong byte.
- *   - func_0201D670 indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
- *     form folds the addition into the index and scales once, the pointer form
- *     scales `i` and leaves the +3 as the load's immediate, which is
- *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
- *
- * func_0201D60C's parameter count is `u16`, not `u32`: it is passed straight to
- * func_02045AFC with no truncation, and a `u32` parameter costs the `lsls` /
- * `lsrs` pair there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
- *       --addr 0x0201D5C4 --thumb
- */
 u32 func_0201D5CC(const u16 *p)
 {
     u32 k;
@@ -1038,44 +1000,6 @@ u32 func_0201D5CC(const u16 *p)
 }
 
 
-/*
- *           func_0201D658, func_0201D670, func_0201D688
- *
- * The message-tag primitives of the text stack, seven functions and 216 bytes.
- * A tag is a run of halfwords opening with 0xF000: the halfword at +2 packs a
- * group in its high byte and a kind in its low byte, +4 is the parameter count,
- * and the parameters follow at +6.  func_0201D688 steps a cursor over one tag
- * and is what every walker in this region loops on.
- *
- * Three of the seven carry no label in the generated listing, because a
- * two-instruction leaf saves nothing and disasm.py's prologue sweep never fires
- * on it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md);
- * func_0201D5F4, func_0201D658 and func_0201D670 were read out of the `.word`
- * run the listing prints.
- *
- * Three details cost time and each is in an existing idiom:
- *
- *   - `k == 1 || k == 2` compiles to a `subs` / `cmp` / `bhi` range check and is
- *     two bytes short.  The original compares twice, which is what a `switch`
- *     with two empty falling case labels gives.
- *   - the group byte is `(u8)(p[1] >> 8)` and the shift is an `asrs`, because
- *     the u16 promotes to a signed int before the shift; writing the field as
- *     u32 gives `lsrs` and one wrong byte.
- *   - func_0201D670 indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
- *     form folds the addition into the index and scales once, the pointer form
- *     scales `i` and leaves the +3 as the load's immediate, which is
- *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
- *
- * func_0201D60C's parameter count is `u16`, not `u32`: it is passed straight to
- * func_02045AFC with no truncation, and a `u32` parameter costs the `lsls` /
- * `lsrs` pair there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
- *       --addr 0x0201D5C4 --thumb
- */
 u32 func_0201D5F4(const u16 *p)
 {
     if (p[0] == 0xF000) {
@@ -1085,44 +1009,6 @@ u32 func_0201D5F4(const u16 *p)
 }
 
 
-/*
- *           func_0201D658, func_0201D670, func_0201D688
- *
- * The message-tag primitives of the text stack, seven functions and 216 bytes.
- * A tag is a run of halfwords opening with 0xF000: the halfword at +2 packs a
- * group in its high byte and a kind in its low byte, +4 is the parameter count,
- * and the parameters follow at +6.  func_0201D688 steps a cursor over one tag
- * and is what every walker in this region loops on.
- *
- * Three of the seven carry no label in the generated listing, because a
- * two-instruction leaf saves nothing and disasm.py's prologue sweep never fires
- * on it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md);
- * func_0201D5F4, func_0201D658 and func_0201D670 were read out of the `.word`
- * run the listing prints.
- *
- * Three details cost time and each is in an existing idiom:
- *
- *   - `k == 1 || k == 2` compiles to a `subs` / `cmp` / `bhi` range check and is
- *     two bytes short.  The original compares twice, which is what a `switch`
- *     with two empty falling case labels gives.
- *   - the group byte is `(u8)(p[1] >> 8)` and the shift is an `asrs`, because
- *     the u16 promotes to a signed int before the shift; writing the field as
- *     u32 gives `lsrs` and one wrong byte.
- *   - func_0201D670 indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
- *     form folds the addition into the index and scales once, the pointer form
- *     scales `i` and leaves the +3 as the load's immediate, which is
- *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
- *
- * func_0201D60C's parameter count is `u16`, not `u32`: it is passed straight to
- * func_02045AFC with no truncation, and a `u32` parameter costs the `lsls` /
- * `lsrs` pair there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
- *       --addr 0x0201D5C4 --thumb
- */
 void func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr)
 {
     u32 i;
@@ -1136,44 +1022,6 @@ void func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr)
 }
 
 
-/*
- *           func_0201D658, func_0201D670, func_0201D688
- *
- * The message-tag primitives of the text stack, seven functions and 216 bytes.
- * A tag is a run of halfwords opening with 0xF000: the halfword at +2 packs a
- * group in its high byte and a kind in its low byte, +4 is the parameter count,
- * and the parameters follow at +6.  func_0201D688 steps a cursor over one tag
- * and is what every walker in this region loops on.
- *
- * Three of the seven carry no label in the generated listing, because a
- * two-instruction leaf saves nothing and disasm.py's prologue sweep never fires
- * on it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md);
- * func_0201D5F4, func_0201D658 and func_0201D670 were read out of the `.word`
- * run the listing prints.
- *
- * Three details cost time and each is in an existing idiom:
- *
- *   - `k == 1 || k == 2` compiles to a `subs` / `cmp` / `bhi` range check and is
- *     two bytes short.  The original compares twice, which is what a `switch`
- *     with two empty falling case labels gives.
- *   - the group byte is `(u8)(p[1] >> 8)` and the shift is an `asrs`, because
- *     the u16 promotes to a signed int before the shift; writing the field as
- *     u32 gives `lsrs` and one wrong byte.
- *   - func_0201D670 indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
- *     form folds the addition into the index and scales once, the pointer form
- *     scales `i` and leaves the +3 as the load's immediate, which is
- *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
- *
- * func_0201D60C's parameter count is `u16`, not `u32`: it is passed straight to
- * func_02045AFC with no truncation, and a `u32` parameter costs the `lsls` /
- * `lsrs` pair there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
- *       --addr 0x0201D5C4 --thumb
- */
 u32 func_0201D658(const u16 *p)
 {
     if (p[0] == 0xF000) {
@@ -1183,44 +1031,6 @@ u32 func_0201D658(const u16 *p)
 }
 
 
-/*
- *           func_0201D658, func_0201D670, func_0201D688
- *
- * The message-tag primitives of the text stack, seven functions and 216 bytes.
- * A tag is a run of halfwords opening with 0xF000: the halfword at +2 packs a
- * group in its high byte and a kind in its low byte, +4 is the parameter count,
- * and the parameters follow at +6.  func_0201D688 steps a cursor over one tag
- * and is what every walker in this region loops on.
- *
- * Three of the seven carry no label in the generated listing, because a
- * two-instruction leaf saves nothing and disasm.py's prologue sweep never fires
- * on it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md);
- * func_0201D5F4, func_0201D658 and func_0201D670 were read out of the `.word`
- * run the listing prints.
- *
- * Three details cost time and each is in an existing idiom:
- *
- *   - `k == 1 || k == 2` compiles to a `subs` / `cmp` / `bhi` range check and is
- *     two bytes short.  The original compares twice, which is what a `switch`
- *     with two empty falling case labels gives.
- *   - the group byte is `(u8)(p[1] >> 8)` and the shift is an `asrs`, because
- *     the u16 promotes to a signed int before the shift; writing the field as
- *     u32 gives `lsrs` and one wrong byte.
- *   - func_0201D670 indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
- *     form folds the addition into the index and scales once, the pointer form
- *     scales `i` and leaves the +3 as the load's immediate, which is
- *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
- *
- * func_0201D60C's parameter count is `u16`, not `u32`: it is passed straight to
- * func_02045AFC with no truncation, and a `u32` parameter costs the `lsls` /
- * `lsrs` pair there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
- *       --addr 0x0201D5C4 --thumb
- */
 u32 func_0201D670(const u16 *p, u32 i)
 {
     if (p[0] == 0xF000) {
@@ -1230,44 +1040,6 @@ u32 func_0201D670(const u16 *p, u32 i)
 }
 
 
-/*
- *           func_0201D658, func_0201D670, func_0201D688
- *
- * The message-tag primitives of the text stack, seven functions and 216 bytes.
- * A tag is a run of halfwords opening with 0xF000: the halfword at +2 packs a
- * group in its high byte and a kind in its low byte, +4 is the parameter count,
- * and the parameters follow at +6.  func_0201D688 steps a cursor over one tag
- * and is what every walker in this region loops on.
- *
- * Three of the seven carry no label in the generated listing, because a
- * two-instruction leaf saves nothing and disasm.py's prologue sweep never fires
- * on it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md);
- * func_0201D5F4, func_0201D658 and func_0201D670 were read out of the `.word`
- * run the listing prints.
- *
- * Three details cost time and each is in an existing idiom:
- *
- *   - `k == 1 || k == 2` compiles to a `subs` / `cmp` / `bhi` range check and is
- *     two bytes short.  The original compares twice, which is what a `switch`
- *     with two empty falling case labels gives.
- *   - the group byte is `(u8)(p[1] >> 8)` and the shift is an `asrs`, because
- *     the u16 promotes to a signed int before the shift; writing the field as
- *     u32 gives `lsrs` and one wrong byte.
- *   - func_0201D670 indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
- *     form folds the addition into the index and scales once, the pointer form
- *     scales `i` and leaves the +3 as the load's immediate, which is
- *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
- *
- * func_0201D60C's parameter count is `u16`, not `u32`: it is passed straight to
- * func_02045AFC with no truncation, and a `u32` parameter costs the `lsls` /
- * `lsrs` pair there.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
- *       --addr 0x0201D5C4 --thumb
- */
 u16 *func_0201D688(u16 *p)
 {
     if (p[0] == 0xF000) {
@@ -1328,92 +1100,12 @@ u32 func_0201D69C(void *s)
 }
 
 
-/*
- * The first three functions of gf_font.c.  The file identity is in the image:
- * the constructor at 0x0201D7EC passes 0x020A7358 to the debug allocator at
- * 0x02030734 and the bytes there spell "gf_font.c"; 0x0201D9BC and 0x0201DA88
- * name the same string.  This unit stops at 0x0201D6D8 because the two
- * functions after it are an unsolved register allocation, not a missing
- * declaration; see the note at the end of this comment.
- *
- * func_0201D69C sizes a string's storage: two bytes per character plus the
- * terminator, rounded up to a multiple of four.  The rounding is a `while`
- * loop over `n & 3`, not an `& ~3` or a `+ 3 & ~3`: this front end has no
- * immediate `bic`, so either of those would materialise the mask and the
- * function would be four bytes shorter with no loop at all.  The loop really
- * is in the original.
- *
- * func_0201D6C4 is the used-byte count of a wrap-around byte ring.  The
- * fall-through arm of `cmp r1, r2` / `bhs` is the non-wrapped case, so the
- * source wrote `if (head < tail)` first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md); written as the
- * wrapped case first it is ten of the twenty bytes wrong.
- *
- * Left open at 0x0201D6D8: func_0201D6D8 and func_0201D768 reproduce the
- * right size and the right instruction multiset but allocate registers the
- * other way round.  The original keeps the ring's write cursor in a
- * callee-saved register across the MI_CpuCopy8 call and spills the loop
- * counter; every source shape tried so far (three local layouts, six
- * declaration orders, struct against scalars, one against two assignments of
- * the buffer base) gives the opposite choice and 72 differing bytes, with no
- * variation between them.  The buffer base is assigned twice, once as the
- * object pointer and once with 0x18 added, which is the aggregate-member
- * non-folding of
- * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md, but
- * modelling it as an aggregate member does not move the diff either.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201D69C.c \
- *       --addr 0x0201D69C --thumb
- */
 u32 func_0201D6B8(void *s)
 {
     return func_0201D69C(s) + 0x20;
 }
 
 
-/*
- * The first three functions of gf_font.c.  The file identity is in the image:
- * the constructor at 0x0201D7EC passes 0x020A7358 to the debug allocator at
- * 0x02030734 and the bytes there spell "gf_font.c"; 0x0201D9BC and 0x0201DA88
- * name the same string.  This unit stops at 0x0201D6D8 because the two
- * functions after it are an unsolved register allocation, not a missing
- * declaration; see the note at the end of this comment.
- *
- * func_0201D69C sizes a string's storage: two bytes per character plus the
- * terminator, rounded up to a multiple of four.  The rounding is a `while`
- * loop over `n & 3`, not an `& ~3` or a `+ 3 & ~3`: this front end has no
- * immediate `bic`, so either of those would materialise the mask and the
- * function would be four bytes shorter with no loop at all.  The loop really
- * is in the original.
- *
- * func_0201D6C4 is the used-byte count of a wrap-around byte ring.  The
- * fall-through arm of `cmp r1, r2` / `bhs` is the non-wrapped case, so the
- * source wrote `if (head < tail)` first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md); written as the
- * wrapped case first it is ten of the twenty bytes wrong.
- *
- * Left open at 0x0201D6D8: func_0201D6D8 and func_0201D768 reproduce the
- * right size and the right instruction multiset but allocate registers the
- * other way round.  The original keeps the ring's write cursor in a
- * callee-saved register across the MI_CpuCopy8 call and spills the loop
- * counter; every source shape tried so far (three local layouts, six
- * declaration orders, struct against scalars, one against two assignments of
- * the buffer base) gives the opposite choice and 72 differing bytes, with no
- * variation between them.  The buffer base is assigned twice, once as the
- * object pointer and once with 0x18 added, which is the aggregate-member
- * non-folding of
- * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md, but
- * modelling it as an aggregate member does not move the diff either.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201D69C.c \
- *       --addr 0x0201D69C --thumb
- */
 u32 func_0201D6C4(const struct Ring *p)
 {
     if (p->head < p->tail) {

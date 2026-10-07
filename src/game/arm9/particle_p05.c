@@ -265,9 +265,6 @@ void func_0205085C(void *p, int idx, u32 v)
 }
 
 
-/*
- * Leaf witness for ov021 0x0219F058 and siblings (lane wA1-06).
- */
 u16 func_02050880(u8 *p, int i)
 {
     return *(u16 *)(*(u8 * *)&((struct Obj11455 *)p)->f18 + i * 40 + 0x10);
@@ -306,9 +303,6 @@ int func_02050894(void *p, int idx, int j)
 }
 
 
-/*
- * Leaf witness for ov021 0x021BBF10 / 0x021BC138 (lane wA1-12).
- */
 int func_020508C4(Mgr_020508C4 *p, int i)
 {
     return p->f18[i].f0;

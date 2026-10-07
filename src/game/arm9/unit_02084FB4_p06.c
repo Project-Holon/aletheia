@@ -223,9 +223,6 @@ struct _OSThread_02085868 {
     int systemErrno;
 };
 
-/* os_thread.o .bss from 0x02150FD0, addressed section-relative from one pool
-   word.  +0x14 is the destructor stack (OSi_ExitThread_ArgSpecified passes it
-   to OS_InitContext as the new sp); +0x10 is the one 4-byte local left. */
 typedef struct OsThreadBss_02085868 {
     void *OSi_SystemCallbackInSwitchThread;
     u32 OSi_RescheduleCount;
@@ -298,9 +295,6 @@ struct _OSThread_020858D8 {
     int systemErrno;
 };
 
-/* os_thread.o .bss from 0x02150FD0, addressed section-relative from one pool
-   word.  +0x14 is the destructor stack (OSi_ExitThread_ArgSpecified passes it
-   to OS_InitContext as the new sp); +0x10 is the one 4-byte local left. */
 typedef struct OsThreadBss_020858D8 {
     void *OSi_SystemCallbackInSwitchThread;
     u32 OSi_RescheduleCount;
@@ -347,9 +341,6 @@ struct _OSThread_02085988 {
     int systemErrno;
 };
 
-/* os_thread.o .bss from 0x02150FD0, addressed section-relative from one pool
-   word.  +0x14 is the destructor stack (OSi_ExitThread_ArgSpecified passes it
-   to OS_InitContext as the new sp); +0x10 is the one 4-byte local left. */
 typedef struct OsThreadBss_02085988 {
     void *OSi_SystemCallbackInSwitchThread;
     u32 OSi_RescheduleCount;

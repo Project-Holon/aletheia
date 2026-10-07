@@ -350,119 +350,6 @@ void *sub_020056A0(void (*callback)(struct Node *, void *), void *work, u32 key)
     return func_02030DA8(sub_020056A0_Sys.unk10->unk20, callback, work, key);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The tail of the packet: the second heap's allocator wrapper, the shutdown
- * pair, and the two random number draws.  0x020AA194 is the same system
- * record src/matched/unit_0200560C.c reaches, and the pointer at its +0x10 is
- * the same object; the two files name it separately because each pins its own
- * address block.
- *
- * The two draws are a 64 bit linear congruential generator.  0x0209C054 is
- * mwccarm's own `_ull_mul` runtime helper (`umull` plus two `mla`, ARM, at the
- * near end of the helper block that also holds `_u32_div_f`), so the pair of
- * calls in each function is one 64 bit multiply each and not an SDK call:
- *
- *   seed = mul * seed + add;
- *   return (u32)(((seed >> 32) * range) >> 32);
- *
- * The second multiply is what makes the shape readable.  `range` is a u32 and
- * so is the high half of the seed, but the helper is called with r1 and r3
- * both zeroed, which is two operands already widened to 64 bits; that is
- * `(seed >> 32) * range` on a `u64` seed and not a `umull` of two words, and
- * taking the returned r1 is the `>> 32`.  sub_020056EC is the same draw with
- * a range of zero meaning "the whole word", and its two arms merge on r1,
- * which is why the zero arm loads the high half into r1 and moves rather than
- * loading it into r0.
- *
- * sub_020056EC reloads the high half from memory after the step and
- * sub_02005728 keeps it in the register the `adcs` left it in.  That is not a
- * difference in the source: it falls out of the branch in the first one, and
- * both come from the same expression.
- *
- * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and sub_020056C8 is a tail call through a
- * pool word.  sub_020056C8 is in this range rather than a range of its own
- * because sub_020056D0 is its only caller anywhere in the image, so the call
- * has to be the `local` class; splitting them leaves it with no witness at
- * all.
- *
- * ------------------------------------------------------------------------
- * The near miss register for pkt_020051D8
- *
- * This packet is the system boot path, and that is exactly the shape of code
- * the honesty rule is hardest on: it calls each subsystem's initialiser once
- * and nothing else in the 3.9 MB image calls it again, so the only witness
- * for the target address is the call under test.  Of the packet's 1160 code
- * bytes, 334 are matched in four files (0x0200530C, 0x02005430, 0x0200560C,
- * 0x020056A0) and the rest is listed here with the class and the census that
- * blocks it.  None of it is a codegen failure; nothing below was written and
- * then rejected for wrong bytes.
- *
- *   0x020051D8..0x02005202, 42 bytes.  `label`, 0x0203D26C has one witness
- *       image wide and it is the `blx` at 0x020051E6 inside the function.
- *   0x02005204..0x0200520C, 8 bytes.  A tail call whose pool word holds
- *       0x02005611.  0x02005610 has no `func_` label, because it saves
- *       nothing, and the word appears in exactly one literal pool in the
- *       image, its own at 0x02005208, so `label` has no label and `literal`
- *       discards its only witness.  Seeding the label would not help: nothing
- *       in the image branches to 0x02005610 either.
- *   0x0200520C..0x02005230, 36 bytes.  `label`, the only caller of
- *       sub_02005640 is the `bl` at 0x0200520E.  sub_02005640 is matched, in
- *       src/matched/unit_0200560C.c, but it is 0x434 bytes away with two
- *       blocked functions and three linker veneers in between, so no
- *       contiguous range makes the site `local`.
- *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       sub_02005430 is the `bl` at 0x02005232 and the only caller of
- *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
- *       both directions at once.
- *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
- *       `label` with a census of one, plus 0x020A0480 whose only literal
- *       witness is the pool word at 0x020052DC.  This is the once-per-boot
- *       call sequence itself.
- *   0x020052EC..0x0200530C, 32 bytes.  5 unresolved sites, all `label` with a
- *       census of one.
- *   0x02005328..0x020053E4, 188 bytes.  11 unresolved sites.  Two are
- *       structural rather than merely rare: the veneer at 0x020053E4, whose
- *       only witness is the `blx` at 0x020053AA, and the pool word at
- *       0x020053DC naming sub_02005440, an address no other word or branch in
- *       the image mentions.
- *   0x020053EC..0x02005420, 52 bytes.  The veneers at 0x02005420 and
- *       0x02005428, each witnessed only by its own call site at 0x02005400
- *       and 0x02005412, plus EL_Export at 0x020351D0 with a census of one.
- *   0x02005438..0x02005440, 8 bytes.  `literal`, CTRDG_DummyInit at
- *       0x020911A0 is named by exactly one word in the image and it is this
- *       function's own pool word at 0x0200543C.  It is a labelled SDK symbol,
- *       but no branch anywhere reaches it, so the `label` class has nothing.
- *   0x02005440..0x02005454, 20 bytes.  The veneer at 0x02005454, witnessed
- *       only by the `blx` at 0x02005444.
- *   0x0200545C..0x020055F8, 412 bytes.  19 unresolved sites; the packet's
- *       largest function and its arena, heap and DWC set up.
- *   0x020055F8..0x0200560C, 20 bytes.  3 unresolved sites, all with a census
- *       of one.
- *   0x0200567C..0x020056A0, 36 bytes.  One unresolved site: 0x02050A70,
- *       `label`, one witness image wide and it is the `blx` at 0x0200568C
- *       inside the function.  This is the single function that keeps
- *       src/matched/unit_0200560C.c and this file apart; the day anything
- *       else in the image calls 0x02050A70, the two files and it become one
- *       336 byte range.
- *
- * The four ARM stubs at 0x020053E4, 0x02005420, 0x02005428 and 0x02005454 are
- * not functions and are in no file here.  Each is `ldr pc, [pc, #-4]` and a
- * pointer word, and each pointer (0x0273154C, 0x027315D0, 0x027314F0,
- * 0x027315C0) lies outside every region of layout/layout.json, which is why
- * the `veneer` attestation class cannot carry them: its fourth condition
- * wants the pointer to name code in a known region.  See
- * docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md
- * for what they are and why they force the unit boundaries in this packet.
- * ------------------------------------------------------------------------
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020056A0.c \
- *       --addr 0x020056A0 --thumb
- */
 void *sub_020056BC(void)
 {
     return sub_020056A0_Sys.unk10->unk20;
@@ -471,119 +358,6 @@ void *sub_020056BC(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The tail of the packet: the second heap's allocator wrapper, the shutdown
- * pair, and the two random number draws.  0x020AA194 is the same system
- * record src/matched/unit_0200560C.c reaches, and the pointer at its +0x10 is
- * the same object; the two files name it separately because each pins its own
- * address block.
- *
- * The two draws are a 64 bit linear congruential generator.  0x0209C054 is
- * mwccarm's own `_ull_mul` runtime helper (`umull` plus two `mla`, ARM, at the
- * near end of the helper block that also holds `_u32_div_f`), so the pair of
- * calls in each function is one 64 bit multiply each and not an SDK call:
- *
- *   seed = mul * seed + add;
- *   return (u32)(((seed >> 32) * range) >> 32);
- *
- * The second multiply is what makes the shape readable.  `range` is a u32 and
- * so is the high half of the seed, but the helper is called with r1 and r3
- * both zeroed, which is two operands already widened to 64 bits; that is
- * `(seed >> 32) * range` on a `u64` seed and not a `umull` of two words, and
- * taking the returned r1 is the `>> 32`.  sub_020056EC is the same draw with
- * a range of zero meaning "the whole word", and its two arms merge on r1,
- * which is why the zero arm loads the high half into r1 and moves rather than
- * loading it into r0.
- *
- * sub_020056EC reloads the high half from memory after the step and
- * sub_02005728 keeps it in the register the `adcs` left it in.  That is not a
- * difference in the source: it falls out of the branch in the first one, and
- * both come from the same expression.
- *
- * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and sub_020056C8 is a tail call through a
- * pool word.  sub_020056C8 is in this range rather than a range of its own
- * because sub_020056D0 is its only caller anywhere in the image, so the call
- * has to be the `local` class; splitting them leaves it with no witness at
- * all.
- *
- * ------------------------------------------------------------------------
- * The near miss register for pkt_020051D8
- *
- * This packet is the system boot path, and that is exactly the shape of code
- * the honesty rule is hardest on: it calls each subsystem's initialiser once
- * and nothing else in the 3.9 MB image calls it again, so the only witness
- * for the target address is the call under test.  Of the packet's 1160 code
- * bytes, 334 are matched in four files (0x0200530C, 0x02005430, 0x0200560C,
- * 0x020056A0) and the rest is listed here with the class and the census that
- * blocks it.  None of it is a codegen failure; nothing below was written and
- * then rejected for wrong bytes.
- *
- *   0x020051D8..0x02005202, 42 bytes.  `label`, 0x0203D26C has one witness
- *       image wide and it is the `blx` at 0x020051E6 inside the function.
- *   0x02005204..0x0200520C, 8 bytes.  A tail call whose pool word holds
- *       0x02005611.  0x02005610 has no `func_` label, because it saves
- *       nothing, and the word appears in exactly one literal pool in the
- *       image, its own at 0x02005208, so `label` has no label and `literal`
- *       discards its only witness.  Seeding the label would not help: nothing
- *       in the image branches to 0x02005610 either.
- *   0x0200520C..0x02005230, 36 bytes.  `label`, the only caller of
- *       sub_02005640 is the `bl` at 0x0200520E.  sub_02005640 is matched, in
- *       src/matched/unit_0200560C.c, but it is 0x434 bytes away with two
- *       blocked functions and three linker veneers in between, so no
- *       contiguous range makes the site `local`.
- *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       sub_02005430 is the `bl` at 0x02005232 and the only caller of
- *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
- *       both directions at once.
- *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
- *       `label` with a census of one, plus 0x020A0480 whose only literal
- *       witness is the pool word at 0x020052DC.  This is the once-per-boot
- *       call sequence itself.
- *   0x020052EC..0x0200530C, 32 bytes.  5 unresolved sites, all `label` with a
- *       census of one.
- *   0x02005328..0x020053E4, 188 bytes.  11 unresolved sites.  Two are
- *       structural rather than merely rare: the veneer at 0x020053E4, whose
- *       only witness is the `blx` at 0x020053AA, and the pool word at
- *       0x020053DC naming sub_02005440, an address no other word or branch in
- *       the image mentions.
- *   0x020053EC..0x02005420, 52 bytes.  The veneers at 0x02005420 and
- *       0x02005428, each witnessed only by its own call site at 0x02005400
- *       and 0x02005412, plus EL_Export at 0x020351D0 with a census of one.
- *   0x02005438..0x02005440, 8 bytes.  `literal`, CTRDG_DummyInit at
- *       0x020911A0 is named by exactly one word in the image and it is this
- *       function's own pool word at 0x0200543C.  It is a labelled SDK symbol,
- *       but no branch anywhere reaches it, so the `label` class has nothing.
- *   0x02005440..0x02005454, 20 bytes.  The veneer at 0x02005454, witnessed
- *       only by the `blx` at 0x02005444.
- *   0x0200545C..0x020055F8, 412 bytes.  19 unresolved sites; the packet's
- *       largest function and its arena, heap and DWC set up.
- *   0x020055F8..0x0200560C, 20 bytes.  3 unresolved sites, all with a census
- *       of one.
- *   0x0200567C..0x020056A0, 36 bytes.  One unresolved site: 0x02050A70,
- *       `label`, one witness image wide and it is the `blx` at 0x0200568C
- *       inside the function.  This is the single function that keeps
- *       src/matched/unit_0200560C.c and this file apart; the day anything
- *       else in the image calls 0x02050A70, the two files and it become one
- *       336 byte range.
- *
- * The four ARM stubs at 0x020053E4, 0x02005420, 0x02005428 and 0x02005454 are
- * not functions and are in no file here.  Each is `ldr pc, [pc, #-4]` and a
- * pointer word, and each pointer (0x0273154C, 0x027315D0, 0x027314F0,
- * 0x027315C0) lies outside every region of layout/layout.json, which is why
- * the `veneer` attestation class cannot carry them: its fourth condition
- * wants the pointer to name code in a known region.  See
- * docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md
- * for what they are and why they force the unit boundaries in this packet.
- * ------------------------------------------------------------------------
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020056A0.c \
- *       --addr 0x020056A0 --thumb
- */
 void sub_020056C8(void *heap)
 {
     func_0203F258(heap);
@@ -592,119 +366,6 @@ void sub_020056C8(void *heap)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The tail of the packet: the second heap's allocator wrapper, the shutdown
- * pair, and the two random number draws.  0x020AA194 is the same system
- * record src/matched/unit_0200560C.c reaches, and the pointer at its +0x10 is
- * the same object; the two files name it separately because each pins its own
- * address block.
- *
- * The two draws are a 64 bit linear congruential generator.  0x0209C054 is
- * mwccarm's own `_ull_mul` runtime helper (`umull` plus two `mla`, ARM, at the
- * near end of the helper block that also holds `_u32_div_f`), so the pair of
- * calls in each function is one 64 bit multiply each and not an SDK call:
- *
- *   seed = mul * seed + add;
- *   return (u32)(((seed >> 32) * range) >> 32);
- *
- * The second multiply is what makes the shape readable.  `range` is a u32 and
- * so is the high half of the seed, but the helper is called with r1 and r3
- * both zeroed, which is two operands already widened to 64 bits; that is
- * `(seed >> 32) * range` on a `u64` seed and not a `umull` of two words, and
- * taking the returned r1 is the `>> 32`.  sub_020056EC is the same draw with
- * a range of zero meaning "the whole word", and its two arms merge on r1,
- * which is why the zero arm loads the high half into r1 and moves rather than
- * loading it into r0.
- *
- * sub_020056EC reloads the high half from memory after the step and
- * sub_02005728 keeps it in the register the `adcs` left it in.  That is not a
- * difference in the source: it falls out of the branch in the first one, and
- * both come from the same expression.
- *
- * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and sub_020056C8 is a tail call through a
- * pool word.  sub_020056C8 is in this range rather than a range of its own
- * because sub_020056D0 is its only caller anywhere in the image, so the call
- * has to be the `local` class; splitting them leaves it with no witness at
- * all.
- *
- * ------------------------------------------------------------------------
- * The near miss register for pkt_020051D8
- *
- * This packet is the system boot path, and that is exactly the shape of code
- * the honesty rule is hardest on: it calls each subsystem's initialiser once
- * and nothing else in the 3.9 MB image calls it again, so the only witness
- * for the target address is the call under test.  Of the packet's 1160 code
- * bytes, 334 are matched in four files (0x0200530C, 0x02005430, 0x0200560C,
- * 0x020056A0) and the rest is listed here with the class and the census that
- * blocks it.  None of it is a codegen failure; nothing below was written and
- * then rejected for wrong bytes.
- *
- *   0x020051D8..0x02005202, 42 bytes.  `label`, 0x0203D26C has one witness
- *       image wide and it is the `blx` at 0x020051E6 inside the function.
- *   0x02005204..0x0200520C, 8 bytes.  A tail call whose pool word holds
- *       0x02005611.  0x02005610 has no `func_` label, because it saves
- *       nothing, and the word appears in exactly one literal pool in the
- *       image, its own at 0x02005208, so `label` has no label and `literal`
- *       discards its only witness.  Seeding the label would not help: nothing
- *       in the image branches to 0x02005610 either.
- *   0x0200520C..0x02005230, 36 bytes.  `label`, the only caller of
- *       sub_02005640 is the `bl` at 0x0200520E.  sub_02005640 is matched, in
- *       src/matched/unit_0200560C.c, but it is 0x434 bytes away with two
- *       blocked functions and three linker veneers in between, so no
- *       contiguous range makes the site `local`.
- *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       sub_02005430 is the `bl` at 0x02005232 and the only caller of
- *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
- *       both directions at once.
- *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
- *       `label` with a census of one, plus 0x020A0480 whose only literal
- *       witness is the pool word at 0x020052DC.  This is the once-per-boot
- *       call sequence itself.
- *   0x020052EC..0x0200530C, 32 bytes.  5 unresolved sites, all `label` with a
- *       census of one.
- *   0x02005328..0x020053E4, 188 bytes.  11 unresolved sites.  Two are
- *       structural rather than merely rare: the veneer at 0x020053E4, whose
- *       only witness is the `blx` at 0x020053AA, and the pool word at
- *       0x020053DC naming sub_02005440, an address no other word or branch in
- *       the image mentions.
- *   0x020053EC..0x02005420, 52 bytes.  The veneers at 0x02005420 and
- *       0x02005428, each witnessed only by its own call site at 0x02005400
- *       and 0x02005412, plus EL_Export at 0x020351D0 with a census of one.
- *   0x02005438..0x02005440, 8 bytes.  `literal`, CTRDG_DummyInit at
- *       0x020911A0 is named by exactly one word in the image and it is this
- *       function's own pool word at 0x0200543C.  It is a labelled SDK symbol,
- *       but no branch anywhere reaches it, so the `label` class has nothing.
- *   0x02005440..0x02005454, 20 bytes.  The veneer at 0x02005454, witnessed
- *       only by the `blx` at 0x02005444.
- *   0x0200545C..0x020055F8, 412 bytes.  19 unresolved sites; the packet's
- *       largest function and its arena, heap and DWC set up.
- *   0x020055F8..0x0200560C, 20 bytes.  3 unresolved sites, all with a census
- *       of one.
- *   0x0200567C..0x020056A0, 36 bytes.  One unresolved site: 0x02050A70,
- *       `label`, one witness image wide and it is the `blx` at 0x0200568C
- *       inside the function.  This is the single function that keeps
- *       src/matched/unit_0200560C.c and this file apart; the day anything
- *       else in the image calls 0x02050A70, the two files and it become one
- *       336 byte range.
- *
- * The four ARM stubs at 0x020053E4, 0x02005420, 0x02005428 and 0x02005454 are
- * not functions and are in no file here.  Each is `ldr pc, [pc, #-4]` and a
- * pointer word, and each pointer (0x0273154C, 0x027315D0, 0x027314F0,
- * 0x027315C0) lies outside every region of layout/layout.json, which is why
- * the `veneer` attestation class cannot carry them: its fourth condition
- * wants the pointer to name code in a known region.  See
- * docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md
- * for what they are and why they force the unit boundaries in this packet.
- * ------------------------------------------------------------------------
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020056A0.c \
- *       --addr 0x020056A0 --thumb
- */
 void sub_020056D0(void)
 {
     sub_020056C8(sub_020056A0_Sys.unk10);
@@ -714,119 +375,6 @@ void sub_020056D0(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The tail of the packet: the second heap's allocator wrapper, the shutdown
- * pair, and the two random number draws.  0x020AA194 is the same system
- * record src/matched/unit_0200560C.c reaches, and the pointer at its +0x10 is
- * the same object; the two files name it separately because each pins its own
- * address block.
- *
- * The two draws are a 64 bit linear congruential generator.  0x0209C054 is
- * mwccarm's own `_ull_mul` runtime helper (`umull` plus two `mla`, ARM, at the
- * near end of the helper block that also holds `_u32_div_f`), so the pair of
- * calls in each function is one 64 bit multiply each and not an SDK call:
- *
- *   seed = mul * seed + add;
- *   return (u32)(((seed >> 32) * range) >> 32);
- *
- * The second multiply is what makes the shape readable.  `range` is a u32 and
- * so is the high half of the seed, but the helper is called with r1 and r3
- * both zeroed, which is two operands already widened to 64 bits; that is
- * `(seed >> 32) * range` on a `u64` seed and not a `umull` of two words, and
- * taking the returned r1 is the `>> 32`.  sub_020056EC is the same draw with
- * a range of zero meaning "the whole word", and its two arms merge on r1,
- * which is why the zero arm loads the high half into r1 and moves rather than
- * loading it into r0.
- *
- * sub_020056EC reloads the high half from memory after the step and
- * sub_02005728 keeps it in the register the `adcs` left it in.  That is not a
- * difference in the source: it falls out of the branch in the first one, and
- * both come from the same expression.
- *
- * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and sub_020056C8 is a tail call through a
- * pool word.  sub_020056C8 is in this range rather than a range of its own
- * because sub_020056D0 is its only caller anywhere in the image, so the call
- * has to be the `local` class; splitting them leaves it with no witness at
- * all.
- *
- * ------------------------------------------------------------------------
- * The near miss register for pkt_020051D8
- *
- * This packet is the system boot path, and that is exactly the shape of code
- * the honesty rule is hardest on: it calls each subsystem's initialiser once
- * and nothing else in the 3.9 MB image calls it again, so the only witness
- * for the target address is the call under test.  Of the packet's 1160 code
- * bytes, 334 are matched in four files (0x0200530C, 0x02005430, 0x0200560C,
- * 0x020056A0) and the rest is listed here with the class and the census that
- * blocks it.  None of it is a codegen failure; nothing below was written and
- * then rejected for wrong bytes.
- *
- *   0x020051D8..0x02005202, 42 bytes.  `label`, 0x0203D26C has one witness
- *       image wide and it is the `blx` at 0x020051E6 inside the function.
- *   0x02005204..0x0200520C, 8 bytes.  A tail call whose pool word holds
- *       0x02005611.  0x02005610 has no `func_` label, because it saves
- *       nothing, and the word appears in exactly one literal pool in the
- *       image, its own at 0x02005208, so `label` has no label and `literal`
- *       discards its only witness.  Seeding the label would not help: nothing
- *       in the image branches to 0x02005610 either.
- *   0x0200520C..0x02005230, 36 bytes.  `label`, the only caller of
- *       sub_02005640 is the `bl` at 0x0200520E.  sub_02005640 is matched, in
- *       src/matched/unit_0200560C.c, but it is 0x434 bytes away with two
- *       blocked functions and three linker veneers in between, so no
- *       contiguous range makes the site `local`.
- *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       sub_02005430 is the `bl` at 0x02005232 and the only caller of
- *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
- *       both directions at once.
- *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
- *       `label` with a census of one, plus 0x020A0480 whose only literal
- *       witness is the pool word at 0x020052DC.  This is the once-per-boot
- *       call sequence itself.
- *   0x020052EC..0x0200530C, 32 bytes.  5 unresolved sites, all `label` with a
- *       census of one.
- *   0x02005328..0x020053E4, 188 bytes.  11 unresolved sites.  Two are
- *       structural rather than merely rare: the veneer at 0x020053E4, whose
- *       only witness is the `blx` at 0x020053AA, and the pool word at
- *       0x020053DC naming sub_02005440, an address no other word or branch in
- *       the image mentions.
- *   0x020053EC..0x02005420, 52 bytes.  The veneers at 0x02005420 and
- *       0x02005428, each witnessed only by its own call site at 0x02005400
- *       and 0x02005412, plus EL_Export at 0x020351D0 with a census of one.
- *   0x02005438..0x02005440, 8 bytes.  `literal`, CTRDG_DummyInit at
- *       0x020911A0 is named by exactly one word in the image and it is this
- *       function's own pool word at 0x0200543C.  It is a labelled SDK symbol,
- *       but no branch anywhere reaches it, so the `label` class has nothing.
- *   0x02005440..0x02005454, 20 bytes.  The veneer at 0x02005454, witnessed
- *       only by the `blx` at 0x02005444.
- *   0x0200545C..0x020055F8, 412 bytes.  19 unresolved sites; the packet's
- *       largest function and its arena, heap and DWC set up.
- *   0x020055F8..0x0200560C, 20 bytes.  3 unresolved sites, all with a census
- *       of one.
- *   0x0200567C..0x020056A0, 36 bytes.  One unresolved site: 0x02050A70,
- *       `label`, one witness image wide and it is the `blx` at 0x0200568C
- *       inside the function.  This is the single function that keeps
- *       src/matched/unit_0200560C.c and this file apart; the day anything
- *       else in the image calls 0x02050A70, the two files and it become one
- *       336 byte range.
- *
- * The four ARM stubs at 0x020053E4, 0x02005420, 0x02005428 and 0x02005454 are
- * not functions and are in no file here.  Each is `ldr pc, [pc, #-4]` and a
- * pointer word, and each pointer (0x0273154C, 0x027315D0, 0x027314F0,
- * 0x027315C0) lies outside every region of layout/layout.json, which is why
- * the `veneer` attestation class cannot carry them: its fourth condition
- * wants the pointer to name code in a known region.  See
- * docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md
- * for what they are and why they force the unit boundaries in this packet.
- * ------------------------------------------------------------------------
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020056A0.c \
- *       --addr 0x020056A0 --thumb
- */
 u32 sub_020056EC(u32 range)
 {
     struct Sub020056A0Heaps *p = sub_020056A0_Sys.unk10;
@@ -844,119 +392,6 @@ u32 sub_020056EC(u32 range)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The tail of the packet: the second heap's allocator wrapper, the shutdown
- * pair, and the two random number draws.  0x020AA194 is the same system
- * record src/matched/unit_0200560C.c reaches, and the pointer at its +0x10 is
- * the same object; the two files name it separately because each pins its own
- * address block.
- *
- * The two draws are a 64 bit linear congruential generator.  0x0209C054 is
- * mwccarm's own `_ull_mul` runtime helper (`umull` plus two `mla`, ARM, at the
- * near end of the helper block that also holds `_u32_div_f`), so the pair of
- * calls in each function is one 64 bit multiply each and not an SDK call:
- *
- *   seed = mul * seed + add;
- *   return (u32)(((seed >> 32) * range) >> 32);
- *
- * The second multiply is what makes the shape readable.  `range` is a u32 and
- * so is the high half of the seed, but the helper is called with r1 and r3
- * both zeroed, which is two operands already widened to 64 bits; that is
- * `(seed >> 32) * range` on a `u64` seed and not a `umull` of two words, and
- * taking the returned r1 is the `>> 32`.  sub_020056EC is the same draw with
- * a range of zero meaning "the whole word", and its two arms merge on r1,
- * which is why the zero arm loads the high half into r1 and moves rather than
- * loading it into r0.
- *
- * sub_020056EC reloads the high half from memory after the step and
- * sub_02005728 keeps it in the register the `adcs` left it in.  That is not a
- * difference in the source: it falls out of the branch in the first one, and
- * both come from the same expression.
- *
- * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and sub_020056C8 is a tail call through a
- * pool word.  sub_020056C8 is in this range rather than a range of its own
- * because sub_020056D0 is its only caller anywhere in the image, so the call
- * has to be the `local` class; splitting them leaves it with no witness at
- * all.
- *
- * ------------------------------------------------------------------------
- * The near miss register for pkt_020051D8
- *
- * This packet is the system boot path, and that is exactly the shape of code
- * the honesty rule is hardest on: it calls each subsystem's initialiser once
- * and nothing else in the 3.9 MB image calls it again, so the only witness
- * for the target address is the call under test.  Of the packet's 1160 code
- * bytes, 334 are matched in four files (0x0200530C, 0x02005430, 0x0200560C,
- * 0x020056A0) and the rest is listed here with the class and the census that
- * blocks it.  None of it is a codegen failure; nothing below was written and
- * then rejected for wrong bytes.
- *
- *   0x020051D8..0x02005202, 42 bytes.  `label`, 0x0203D26C has one witness
- *       image wide and it is the `blx` at 0x020051E6 inside the function.
- *   0x02005204..0x0200520C, 8 bytes.  A tail call whose pool word holds
- *       0x02005611.  0x02005610 has no `func_` label, because it saves
- *       nothing, and the word appears in exactly one literal pool in the
- *       image, its own at 0x02005208, so `label` has no label and `literal`
- *       discards its only witness.  Seeding the label would not help: nothing
- *       in the image branches to 0x02005610 either.
- *   0x0200520C..0x02005230, 36 bytes.  `label`, the only caller of
- *       sub_02005640 is the `bl` at 0x0200520E.  sub_02005640 is matched, in
- *       src/matched/unit_0200560C.c, but it is 0x434 bytes away with two
- *       blocked functions and three linker veneers in between, so no
- *       contiguous range makes the site `local`.
- *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       sub_02005430 is the `bl` at 0x02005232 and the only caller of
- *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
- *       both directions at once.
- *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
- *       `label` with a census of one, plus 0x020A0480 whose only literal
- *       witness is the pool word at 0x020052DC.  This is the once-per-boot
- *       call sequence itself.
- *   0x020052EC..0x0200530C, 32 bytes.  5 unresolved sites, all `label` with a
- *       census of one.
- *   0x02005328..0x020053E4, 188 bytes.  11 unresolved sites.  Two are
- *       structural rather than merely rare: the veneer at 0x020053E4, whose
- *       only witness is the `blx` at 0x020053AA, and the pool word at
- *       0x020053DC naming sub_02005440, an address no other word or branch in
- *       the image mentions.
- *   0x020053EC..0x02005420, 52 bytes.  The veneers at 0x02005420 and
- *       0x02005428, each witnessed only by its own call site at 0x02005400
- *       and 0x02005412, plus EL_Export at 0x020351D0 with a census of one.
- *   0x02005438..0x02005440, 8 bytes.  `literal`, CTRDG_DummyInit at
- *       0x020911A0 is named by exactly one word in the image and it is this
- *       function's own pool word at 0x0200543C.  It is a labelled SDK symbol,
- *       but no branch anywhere reaches it, so the `label` class has nothing.
- *   0x02005440..0x02005454, 20 bytes.  The veneer at 0x02005454, witnessed
- *       only by the `blx` at 0x02005444.
- *   0x0200545C..0x020055F8, 412 bytes.  19 unresolved sites; the packet's
- *       largest function and its arena, heap and DWC set up.
- *   0x020055F8..0x0200560C, 20 bytes.  3 unresolved sites, all with a census
- *       of one.
- *   0x0200567C..0x020056A0, 36 bytes.  One unresolved site: 0x02050A70,
- *       `label`, one witness image wide and it is the `blx` at 0x0200568C
- *       inside the function.  This is the single function that keeps
- *       src/matched/unit_0200560C.c and this file apart; the day anything
- *       else in the image calls 0x02050A70, the two files and it become one
- *       336 byte range.
- *
- * The four ARM stubs at 0x020053E4, 0x02005420, 0x02005428 and 0x02005454 are
- * not functions and are in no file here.  Each is `ldr pc, [pc, #-4]` and a
- * pointer word, and each pointer (0x0273154C, 0x027315D0, 0x027314F0,
- * 0x027315C0) lies outside every region of layout/layout.json, which is why
- * the `veneer` attestation class cannot carry them: its fourth condition
- * wants the pointer to name code in a known region.  See
- * docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md
- * for what they are and why they force the unit boundaries in this packet.
- * ------------------------------------------------------------------------
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020056A0.c \
- *       --addr 0x020056A0 --thumb
- */
 u32 sub_02005728(u32 range)
 {
     struct Sub020056A0Heaps *p = sub_020056A0_Sys.unk10;
@@ -994,24 +429,6 @@ void *sub_0200575C(u32 index)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * A pointer table lookup and a spin loop.  sub_0200575C was already matched
- * as a single function in arm9/legacy.json; it is the first function of this
- * range and is absorbed here.
- *
- * sub_02005768 waits until four bits of func_0203630C's result are all set,
- * pumping func_02034F5C once per turn.  The four masks are 0x200, 0x100,
- * 0x400 and 0x800 and none of them is materialised with a literal pool word:
- * the compiler builds 0x100 with `movs`/`lsls` and then derives the other
- * three from it with one `lsls` each, hoisted out of the loop.  Testing them
- * as one combined `(x & 0xF00) == 0xF00` gives a single `ldr` from a pool and
- * a different loop, so the four separate short circuited tests are in the
- * source, and their order in the source is 0x200, 0x100, 0x400, 0x800, not
- * the ascending order the hoisted constants suggest.
- */
 void sub_02005768(void)
 {
     u32 x;
@@ -1079,52 +496,6 @@ void sub_02005794(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Two twelve byte thunks that set the master volume to its two extremes, and
- * the function that hands both of them to func_0203508C as a pair of
- * callbacks.  48 bytes, three sections, three literal pools.
- *
- * This range was the near miss recorded in the header of
- * src/matched/unit_020057DC.c, and what closes it is the `veneer` attestation
- * class.  Both thunks tail call 0x02072788, and the bytes there are not a
- * function the analysis can see:
- *
- *   02072788  E59FC000   ldr ip, [pc, #0]
- *   0207278C  E12FFF1C   bx  ip
- *   02072790  0208970C   .word SND_SetMasterVolume
- *
- * a linker veneer.  It has no prologue, so disasm.py's sweep never fires on
- * it and the listing prints the twelve bytes as data; nothing in the image
- * branches to it, so the `label` class has nothing to offer; and the only two
- * words in the 3.9 MB image that hold its address are the two pool words
- * inside this very range, so the `literal` class discards both.  The stub
- * itself is the evidence: a fixed twelve byte encoding that loads a constant
- * into ip and branches to it, with the constant naming SND_SetMasterVolume in
- * layout/symbols_sdk.txt, read entirely from outside the compared range.  See
- * "The veneer class" in docs/MATCHING.md and
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The extern is declared at the veneer's address rather than at
- * SND_SetMasterVolume's, because that is the address the pool word holds and
- * a matched file has to reproduce the word the linker wrote.  It is declared
- * `arm`, which is what a veneer body is, so the ABS32 resolves with the Thumb
- * bit clear and the `bx r3` lands in ARM state.
- *
- * The function at 0x020057C4 immediately after this range stays open and is
- * not part of this file: it is the only caller of 0x02035108 anywhere in the
- * image, so the one witness for that call is the call itself and no cut can
- * put it outside the range under test.  It also needs sub_02005794 local, for
- * the pool word at 0x020057D8, which is why it cannot simply be given a range
- * of its own either.  `python tools/match.py tu --src ... --suggest-split`
- * reports both constraints.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02005794.c \
- *       --addr 0x02005794 --thumb
- */
 void sub_020057A0(void)
 {
     veneer_02072788(0x7F);
@@ -1133,52 +504,6 @@ void sub_020057A0(void)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Two twelve byte thunks that set the master volume to its two extremes, and
- * the function that hands both of them to func_0203508C as a pair of
- * callbacks.  48 bytes, three sections, three literal pools.
- *
- * This range was the near miss recorded in the header of
- * src/matched/unit_020057DC.c, and what closes it is the `veneer` attestation
- * class.  Both thunks tail call 0x02072788, and the bytes there are not a
- * function the analysis can see:
- *
- *   02072788  E59FC000   ldr ip, [pc, #0]
- *   0207278C  E12FFF1C   bx  ip
- *   02072790  0208970C   .word SND_SetMasterVolume
- *
- * a linker veneer.  It has no prologue, so disasm.py's sweep never fires on
- * it and the listing prints the twelve bytes as data; nothing in the image
- * branches to it, so the `label` class has nothing to offer; and the only two
- * words in the 3.9 MB image that hold its address are the two pool words
- * inside this very range, so the `literal` class discards both.  The stub
- * itself is the evidence: a fixed twelve byte encoding that loads a constant
- * into ip and branches to it, with the constant naming SND_SetMasterVolume in
- * layout/symbols_sdk.txt, read entirely from outside the compared range.  See
- * "The veneer class" in docs/MATCHING.md and
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The extern is declared at the veneer's address rather than at
- * SND_SetMasterVolume's, because that is the address the pool word holds and
- * a matched file has to reproduce the word the linker wrote.  It is declared
- * `arm`, which is what a veneer body is, so the ABS32 resolves with the Thumb
- * bit clear and the `bx r3` lands in ARM state.
- *
- * The function at 0x020057C4 immediately after this range stays open and is
- * not part of this file: it is the only caller of 0x02035108 anywhere in the
- * image, so the one witness for that call is the call itself and no cut can
- * put it outside the range under test.  It also needs sub_02005794 local, for
- * the pool word at 0x020057D8, which is why it cannot simply be given a range
- * of its own either.  `python tools/match.py tu --src ... --suggest-split`
- * reports both constraints.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02005794.c \
- *       --addr 0x02005794 --thumb
- */
 void sub_020057AC(void)
 {
     func_0203508C((u32)sub_02005794, (u32)sub_020057A0, 0);
@@ -1271,51 +596,6 @@ void sub_020057DC(u32 **a)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 void sub_020057E8(u32 i)
 {
     sub_020057DC_Table[i].unk00 = 0;
@@ -1330,51 +610,6 @@ void sub_020057E8(u32 i)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 void sub_02005834(u32 v)
 {
     struct Sub020057DCSlot *slot =
@@ -1390,51 +625,6 @@ void sub_02005834(u32 v)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 void sub_02005858(void)
 {
     struct Sub020057DCSlot *slot =
@@ -1448,51 +638,6 @@ void sub_02005858(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 void sub_02005888(u16 a)
 {
     int i;
@@ -1510,51 +655,6 @@ void sub_02005888(u16 a)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 u16 sub_020058D0(void)
 {
     struct Sub020057DCSlot *slot =
@@ -1574,51 +674,6 @@ u16 sub_020058D0(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 u32 sub_02005900(void)
 {
     return sub_020057DC_Cur.index;
@@ -1627,51 +682,6 @@ u32 sub_02005900(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 u32 *sub_0200590C(void)
 {
     return &sub_020057DC_Table[sub_020057DC_Cur.index].unk08;
@@ -1680,51 +690,6 @@ u32 *sub_0200590C(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 int sub_02005924(u32 a)
 {
     struct Sub020057DCSlot *slot =
@@ -1747,51 +712,6 @@ int sub_02005924(u32 a)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 void sub_0200597C(void)
 {
     struct Sub020057DCSlot *slot =
@@ -1803,51 +723,6 @@ void sub_0200597C(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 int sub_020059A0(u32 a)
 {
     struct Sub020057DCSlot *slot =
@@ -1861,51 +736,6 @@ int sub_020059A0(u32 a)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 void sub_020059C8(void)
 {
     struct Sub020057DCSlot *slot =
@@ -1923,51 +753,6 @@ void sub_020059C8(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
- *
- * The accessors of a six element table of 0x1C byte connection slots at
- * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
- * slot's payload, was already matched as a single function in
- * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
- * which is what the payload at offset 8 of a slot is.
- *
- * What the range teaches:
- *
- *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
- *    to five different fields of one slot and loads five different pool
- *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
- *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
- *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
- *    the compiler folds the member offset into the symbol instead.  Reading
- *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
- *    a 0 for the first store and derives the -1 for the next four from it
- *    with `subs r1, r4, #1`.
- *
- * The near miss this header used to record, the run
- * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
- * `veneer` attestation class carries 0x02072788, so the two twelve byte
- * thunks and the function at 0x020057AC that passes both of their addresses
- * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
- *
- * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
- * unchanged and structural: func_02035108 has exactly one caller anywhere in
- * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
- * function.  Shrinking the range cannot help, because the witness is the call
- * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
- * 0x020057D8 that holds its address.  It closes the day anything else in the
- * image calls 0x02035108.
- */
 int sub_02005A00(void)
 {
     struct Sub020057DCSlot *slot =

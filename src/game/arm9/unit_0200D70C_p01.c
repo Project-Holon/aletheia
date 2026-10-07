@@ -167,38 +167,6 @@ u32 func_0200D6EC(struct RecGet *p)
     return v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D73C
- *
- * 96 bytes, 0x0200D6EC..0x0200D74C, 5 functions, none of which carries a
- * label in the generated listing.
- *
- * Five validating getters on one record: a byte at +0x14, three bitfields
- * packed into the byte at +0x1B and a halfword at +0x1C.  Each one reads the
- * field and substitutes a safe value when it is out of range, and the shape
- * of the guard is what says how the source was written.
- *
- * func_0200D6EC and func_0200D72C both test the value against 0 and then
- * against 1 with two `beq` to the same address, which is one `if` with `&&`
- * and not two statements; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- * That the test survives at all in func_0200D72C is the interesting part: the
- * field there is one bit wide, so `v != 0 && v != 1` is provably false and
- * the compiler still emits both compares, which is the same reading as
- * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md.
- *
- * func_0200D73C clamps rather than zeroes, and the branch is `bls` over a
- * `movs r0, #1`, so its guard is `if (v > 1) v = 1;` and the fall-through arm
- * is the assignment.
- *
- * The bitfield widths are read off the shift pairs: `lsls #0x1F` / `lsrs
- * #0x1F` is bit 0, `lsls #0x18` / `lsrs #0x1F` is bit 7, and `lsls #0x19` /
- * `lsrs #0x1A` is the six bits between them, which is what func_0200D70C
- * passes as the second argument of func_02019D58.
- */
 u32 func_0200D6FC(struct RecGet *p)
 {
     u32 v = p->unk1C;
@@ -209,38 +177,6 @@ u32 func_0200D6FC(struct RecGet *p)
     return v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D73C
- *
- * 96 bytes, 0x0200D6EC..0x0200D74C, 5 functions, none of which carries a
- * label in the generated listing.
- *
- * Five validating getters on one record: a byte at +0x14, three bitfields
- * packed into the byte at +0x1B and a halfword at +0x1C.  Each one reads the
- * field and substitutes a safe value when it is out of range, and the shape
- * of the guard is what says how the source was written.
- *
- * func_0200D6EC and func_0200D72C both test the value against 0 and then
- * against 1 with two `beq` to the same address, which is one `if` with `&&`
- * and not two statements; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- * That the test survives at all in func_0200D72C is the interesting part: the
- * field there is one bit wide, so `v != 0 && v != 1` is provably false and
- * the compiler still emits both compares, which is the same reading as
- * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md.
- *
- * func_0200D73C clamps rather than zeroes, and the branch is `bls` over a
- * `movs r0, #1`, so its guard is `if (v > 1) v = 1;` and the fall-through arm
- * is the assignment.
- *
- * The bitfield widths are read off the shift pairs: `lsls #0x1F` / `lsrs
- * #0x1F` is bit 0, `lsls #0x18` / `lsrs #0x1F` is bit 7, and `lsls #0x19` /
- * `lsrs #0x1A` is the six bits between them, which is what func_0200D70C
- * passes as the second argument of func_02019D58.
- */
 u32 func_0200D70C(struct RecGet *p)
 {
     if (p->unk1C >= 0x28B) {
@@ -249,38 +185,6 @@ u32 func_0200D70C(struct RecGet *p)
     return func_02019D58(p->unk1C, p->b1);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D73C
- *
- * 96 bytes, 0x0200D6EC..0x0200D74C, 5 functions, none of which carries a
- * label in the generated listing.
- *
- * Five validating getters on one record: a byte at +0x14, three bitfields
- * packed into the byte at +0x1B and a halfword at +0x1C.  Each one reads the
- * field and substitutes a safe value when it is out of range, and the shape
- * of the guard is what says how the source was written.
- *
- * func_0200D6EC and func_0200D72C both test the value against 0 and then
- * against 1 with two `beq` to the same address, which is one `if` with `&&`
- * and not two statements; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- * That the test survives at all in func_0200D72C is the interesting part: the
- * field there is one bit wide, so `v != 0 && v != 1` is provably false and
- * the compiler still emits both compares, which is the same reading as
- * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md.
- *
- * func_0200D73C clamps rather than zeroes, and the branch is `bls` over a
- * `movs r0, #1`, so its guard is `if (v > 1) v = 1;` and the fall-through arm
- * is the assignment.
- *
- * The bitfield widths are read off the shift pairs: `lsls #0x1F` / `lsrs
- * #0x1F` is bit 0, `lsls #0x18` / `lsrs #0x1F` is bit 7, and `lsls #0x19` /
- * `lsrs #0x1A` is the six bits between them, which is what func_0200D70C
- * passes as the second argument of func_02019D58.
- */
 u32 func_0200D72C(struct RecGet *p)
 {
     u32 v = p->b7;
@@ -291,38 +195,6 @@ u32 func_0200D72C(struct RecGet *p)
     return v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D73C
- *
- * 96 bytes, 0x0200D6EC..0x0200D74C, 5 functions, none of which carries a
- * label in the generated listing.
- *
- * Five validating getters on one record: a byte at +0x14, three bitfields
- * packed into the byte at +0x1B and a halfword at +0x1C.  Each one reads the
- * field and substitutes a safe value when it is out of range, and the shape
- * of the guard is what says how the source was written.
- *
- * func_0200D6EC and func_0200D72C both test the value against 0 and then
- * against 1 with two `beq` to the same address, which is one `if` with `&&`
- * and not two statements; see
- * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- * That the test survives at all in func_0200D72C is the interesting part: the
- * field there is one bit wide, so `v != 0 && v != 1` is provably false and
- * the compiler still emits both compares, which is the same reading as
- * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md.
- *
- * func_0200D73C clamps rather than zeroes, and the branch is `bls` over a
- * `movs r0, #1`, so its guard is `if (v > 1) v = 1;` and the fall-through arm
- * is the assignment.
- *
- * The bitfield widths are read off the shift pairs: `lsls #0x1F` / `lsrs
- * #0x1F` is bit 0, `lsls #0x18` / `lsrs #0x1F` is bit 7, and `lsls #0x19` /
- * `lsrs #0x1A` is the six bits between them, which is what func_0200D70C
- * passes as the second argument of func_02019D58.
- */
 u32 func_0200D73C(struct RecGet *p)
 {
     u32 v = p->b0;
@@ -352,35 +224,11 @@ u32 func_0200D74C(struct GdsProfile *p)
     return func_02025C1C(p->unk17, p->unk18, func_0200D82C(p));
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D820, func_0200D82C
- *
- * 268 bytes, 0x0200D74C..0x0200D858, 6 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: the tail of "gds_profile.c"; the constructor at 0x0200D59C names
- * 0x020A71E8, see src/matched/unit_0200D59C.c.
- */
 u32 func_0200D760(struct GdsProfile *p)
 {
     return func_02025C30(p->unk17, p->unk18, func_0200D82C(p));
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D820, func_0200D82C
- *
- * 268 bytes, 0x0200D74C..0x0200D858, 6 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: the tail of "gds_profile.c"; the constructor at 0x0200D59C names
- * 0x020A71E8, see src/matched/unit_0200D59C.c.
- */
 void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
 {
     u32 a;
@@ -421,18 +269,6 @@ void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D820, func_0200D82C
- *
- * 268 bytes, 0x0200D74C..0x0200D858, 6 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: the tail of "gds_profile.c"; the constructor at 0x0200D59C names
- * 0x020A71E8, see src/matched/unit_0200D59C.c.
- */
 u32 func_0200D810(struct GdsProfile *p)
 {
     u32 v = p->unk15;
@@ -443,18 +279,6 @@ u32 func_0200D810(struct GdsProfile *p)
     return v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D820, func_0200D82C
- *
- * 268 bytes, 0x0200D74C..0x0200D858, 6 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: the tail of "gds_profile.c"; the constructor at 0x0200D59C names
- * 0x020A71E8, see src/matched/unit_0200D59C.c.
- */
 u32 func_0200D820(struct GdsProfile *p)
 {
     u32 v = p->unk16;
@@ -465,18 +289,6 @@ u32 func_0200D820(struct GdsProfile *p)
     return v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D820, func_0200D82C
- *
- * 268 bytes, 0x0200D74C..0x0200D858, 6 functions, three of which carry no
- * label in the generated listing.
- *
- * alias: the tail of "gds_profile.c"; the constructor at 0x0200D59C names
- * 0x020A71E8, see src/matched/unit_0200D59C.c.
- */
 u32 func_0200D82C(struct GdsProfile *p)
 {
     u32 v = p->unk1A;
@@ -545,197 +357,21 @@ u32 func_0200D858(void)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 void func_0200D85C(struct Blk3C *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk3C));
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 void func_0200D868(struct Blk3C *p, u32 v)
 {
     p->f1 = (u16)v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 u32 func_0200D87C(struct Blk3C *p)
 {
     return p->f1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 u32 func_0200D884(struct Blk3C *p, u32 id, void *out)
 {
     switch (id) {
@@ -770,50 +406,6 @@ u32 func_0200D884(struct Blk3C *p, u32 id, void *out)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 void func_0200D914(struct Blk3C *p, u32 id, const void *src)
 {
     switch (id) {
@@ -856,50 +448,6 @@ void func_0200D914(struct Blk3C *p, u32 id, const void *src)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 void func_0200D9E8(struct Blk3C *p, s32 a, s32 b, s32 c)
 {
     if (p->unk03 + a < 255) {
@@ -913,50 +461,6 @@ void func_0200D9E8(struct Blk3C *p, s32 a, s32 b, s32 c)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 void func_0200DA14(struct Blk3C *p)
 {
     u8 v = 0;
@@ -964,50 +468,6 @@ void func_0200DA14(struct Blk3C *p)
     func_0200D914(p, 1, &v);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 void func_0200DA28(struct Blk3C *p)
 {
     u8 v = func_0200D884(p, 1, 0);
@@ -1018,50 +478,6 @@ void func_0200DA28(struct Blk3C *p)
     func_0200D914(p, 1, &v);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D884, func_0200D914, func_0200D9E8, func_0200DA14,
- *           func_0200DA28, func_0200DA54
- *
- * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
- * label in the generated listing.
- *
- * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * func_0200D858 returns 0x3C and func_0200D85C clears exactly that many bytes
- * as a bare tail call, which is the block-file opening this region keeps
- * producing.
- *
- * The first halfword is seven bitfields and the widths come off the shift
- * pairs rather than a guess: `lsls #0x1A` / `lsrs #0x1C` is bits 2..5,
- * `lsls #0x17` / `lsrs #0x1D` is bits 6..8, and the three single-bit fields
- * at 0, 9 and 10 are `lsls #k` / `lsrs #0x1F`.  The setter arm for each is the
- * mirror image, and the three masks that need a literal pool word
- * (0xFFFFFE3F, 0xFFFFFDFF, 0xFFFFFBFF) are exactly the complements of those
- * fields, which is the independent check.
- *
- * Both dispatchers carry twelve dense case labels from zero and both tables
- * are complete, so no arm is a gap; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The three
- * arms that move a block of bytes return 0 like the default does, and the
- * default is reached by the `bhi` in the preamble, so there is one `return 0`
- * after the switch and not a `default:` label.
- *
- * func_0200D868 truncates its value to `u16` before extracting the bit, which
- * a `u16` parameter does not produce: the parameter is wider and the source
- * casts at the use, the same shape as func_0200BBC8 in
- * src/matched/unit_0200BBC8.c.
- *
- * func_0200D9E8 adds three deltas into three counters, each guarded against
- * its own type's maximum, and each sum is computed once and reused by both
- * the compare and the store; the two halfword guards share one literal pool
- * word holding 0xFFFF.
- *
- * func_0200DA28 reads the counter at id 1 through the getter, increments it
- * in a stack byte and writes it back through the setter, reloading the byte
- * after storing it because its address escapes into the setter call.
- */
 u16 func_0200DA54(struct Blk3C *p)
 {
     return func_0200D884(p, 1, 0);
@@ -1121,106 +537,12 @@ u32 func_0200DA64(void)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DA6C(struct Blk1AC *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk1AC));
     p->unk03 = 1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DA80(struct Blk1AC *p, s32 v)
 {
     s32 n = p->unk00 + v;
@@ -1232,53 +554,6 @@ void func_0200DA80(struct Blk1AC *p, s32 v)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DA98(struct Blk1AC *p, u16 v)
 {
     s16 n = (s16)p->unk00 - (s16)v;
@@ -1290,261 +565,26 @@ void func_0200DA98(struct Blk1AC *p, u16 v)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u16 func_0200DABC(struct Blk1AC *p)
 {
     return p->unk00;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u32 func_0200DAC0(u32 i)
 {
     return i;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u16 func_0200DAC4(struct Blk1AC *p, u32 i)
 {
     return p->unk08[func_0200DAC0(i)];
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u16 func_0200DAD8(struct Blk1AC *p, u32 i)
 {
     return p->unk1A[func_0200DAC0(i)];
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DAEC(struct Blk1AC *p, u32 i, u16 v)
 {
     u32 k = func_0200DAC0(i);
@@ -1554,209 +594,21 @@ void func_0200DAEC(struct Blk1AC *p, u32 i, u16 v)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DB08(struct Blk1AC *p, u32 i, u16 v)
 {
     p->unk08[func_0200DAC0(i)] = v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DB1C(struct Blk1AC *p, u32 i)
 {
     p->unk2C[func_0200DAC0(i)] = 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DB30(struct Blk1AC *p, u32 i)
 {
     p->unk2C[func_0200DAC0(i)] = 1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u32 func_0200DB44(struct Blk1AC *p, u32 i)
 {
     if (p->unk2C[func_0200DAC0(i)] != 0) {
@@ -1765,53 +617,6 @@ u32 func_0200DB44(struct Blk1AC *p, u32 i)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DB60(struct Blk1AC *p, u32 i)
 {
     u32 k = func_0200DAC0(i);
@@ -1821,53 +626,6 @@ void func_0200DB60(struct Blk1AC *p, u32 i)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u16 func_0200DB80(struct Blk1AC *p, u32 i)
 {
     u16 n = p->unk2C[func_0200DAC0(i)] - 1;
@@ -1878,53 +636,6 @@ u16 func_0200DB80(struct Blk1AC *p, u32 i)
     return n;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op)
 {
     u32 j;
@@ -1949,53 +660,6 @@ u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DBF0(struct Blk1AC *p)
 {
     if (p->unk03 < 10) {
@@ -2003,53 +667,6 @@ void func_0200DBF0(struct Blk1AC *p)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DBFC(struct Blk1AC *p)
 {
     if (p->unk03 > 1) {
@@ -2057,105 +674,11 @@ void func_0200DBFC(struct Blk1AC *p)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u8 func_0200DC08(struct Blk1AC *p)
 {
     return p->unk03;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u8 func_0200DC0C(struct Blk1AC *p, u32 kind)
 {
     switch (kind) {
@@ -2177,53 +700,6 @@ u8 func_0200DC0C(struct Blk1AC *p, u32 kind)
     return p->unk02;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DC50(struct Blk1AC *p, u32 which, const void *src)
 {
     if (which == 0) {
@@ -2233,53 +709,6 @@ void func_0200DC50(struct Blk1AC *p, u32 which, const void *src)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DC74(struct Blk1AC *p, u32 which, void *dest)
 {
     if (which == 0) {
@@ -2289,53 +718,6 @@ void func_0200DC74(struct Blk1AC *p, u32 which, void *dest)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 void func_0200DC94(struct Blk1AC *p, const struct Src *q)
 {
     u16 a;
@@ -2358,105 +740,11 @@ void func_0200DC94(struct Blk1AC *p, const struct Src *q)
     p->unk3E = a + c + d;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u16 func_0200DCF8(struct Blk1AC *p)
 {
     return p->unk3E;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DABC, func_0200DAC0, func_0200DAC4, func_0200DAD8,
- *           func_0200DAEC, func_0200DB08, func_0200DB1C, func_0200DB30,
- *           func_0200DB44, func_0200DB60, func_0200DB80, func_0200DBA0,
- *           func_0200DBF0, func_0200DBFC, func_0200DC08, func_0200DC0C,
- *           func_0200DC50, func_0200DC74, func_0200DC94, func_0200DCF8,
- *           func_0200DCFC
- *
- * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
- * label in the generated listing.
- *
- * A 0x1AC-byte save record of counters: one clamped total at +0x00, a streak
- * byte at +0x02, a level byte at +0x03 that the constructor seeds with 1, a
- * word of eleven flag bits at +0x04, three nine-entry `u16` arrays at +0x08,
- * +0x1A and +0x2C, a derived score at +0x3E, and two 0xB4-byte blobs at +0x44
- * and +0xF8.  The size getter and the constructor's `MI_CpuFill8(p, 0, 0x1AC)`
- * agree with 0xF8 + 0xB4, which is what pins the last field's length.
- *
- * Five things here are worth naming.
- *
- *  - func_0200DAC0 is `bx lr` and nothing else, and it is a function, not
- *    padding: eight of the accessors `bl` it with the index in r0 and use
- *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
- *    that was never filled in, and the calls to it are what make the three
- *    arrays indexed rather than direct.
- *  - func_0200DBA0 takes a **signed** index, which the `blt` on the range
- *    check says and the `blo` inside the shift loop does not contradict: the
- *    loop counter is unsigned, so the comparison against it is unsigned too.
- *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
- *    the source wrote them in; written 0, 1, 2 the case-2 body stops being
- *    the fall-through and the function grows a branch.
- *  - the mask is cleared with `~(u32)0 ^ mask`, not `~mask`: the original
- *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
- *    `eors`, which is two instructions where `mvns r1, r4` would have been
- *    one.
- *  - func_0200DC0C's two arms both end in a call to func_0200DBA0 followed
- *    by a store to +0x02, and the compiler cross-jumps them into one copy
- *    that each arm sets up its arguments for and branches to.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - in func_0200DC94 the two products are each truncated to `u16` and their
- *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
- *    original does not have, which is the whole of the difference between
- *    that function and EXACT.
- */
 u8 func_0200DCFC(struct Blk1AC *p)
 {
     return p->unk3E / 1000;

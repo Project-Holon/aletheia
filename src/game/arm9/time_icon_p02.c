@@ -280,39 +280,6 @@ u8 sub_0202E888(void)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Four small date helpers. sub_0202E888 asks the ARM clock getter for a
- * 0x10-byte record and reduces its second word to a two-bit value;
- * sub_0202E8A4 and sub_0202E8B8 step that value forwards and backwards
- * around the same four-element cycle.
- *
- * The `lsrs #0x1F` / `lsls #0x1E` / `subs` / `rors #0x1E` quartet in the
- * two steppers is a signed `% 4` and nothing else: `& 3` is a two
- * instruction `movs`/`ands`, which is exactly what sub_0202E888 uses at
- * the top, and `/ 4` carries a different rounding correction. Both
- * spellings appear four instructions apart in the same 80 bytes, so the
- * pair of them pins the signedness of each operand independently.
- *
- * The `lsls #0x18` / `lsrs #0x18` at the end of all three is the `(u8)`
- * return type.
- *
- * sub_0202E8CC is a twelve byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) that narrows its
- * second argument to `u8` on the way through. It nearly cost the file a
- * cut: the pool word at 0x0202E8D4 is the only occurrence of 0x0201298D
- * anywhere in the image, 0x0201298C carries no `func_` label, and the
- * pool word is inside this range, so the `literal` class has nothing and
- * no cut can reach further since the range cannot be smaller than that
- * one function. The `matched` class covers it instead: 0x0201298C is
- * already an EXACT manifest entry from earlier work, and that witness is
- * a compilation rather than a byte of this range.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202E888.c \
- *       --addr 0x0202E888 --thumb
- */
 u8 sub_0202E8A4(u8 x)
 {
     return (u8)((x + 1) % 4);
@@ -322,39 +289,6 @@ u8 sub_0202E8A4(u8 x)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Four small date helpers. sub_0202E888 asks the ARM clock getter for a
- * 0x10-byte record and reduces its second word to a two-bit value;
- * sub_0202E8A4 and sub_0202E8B8 step that value forwards and backwards
- * around the same four-element cycle.
- *
- * The `lsrs #0x1F` / `lsls #0x1E` / `subs` / `rors #0x1E` quartet in the
- * two steppers is a signed `% 4` and nothing else: `& 3` is a two
- * instruction `movs`/`ands`, which is exactly what sub_0202E888 uses at
- * the top, and `/ 4` carries a different rounding correction. Both
- * spellings appear four instructions apart in the same 80 bytes, so the
- * pair of them pins the signedness of each operand independently.
- *
- * The `lsls #0x18` / `lsrs #0x18` at the end of all three is the `(u8)`
- * return type.
- *
- * sub_0202E8CC is a twelve byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) that narrows its
- * second argument to `u8` on the way through. It nearly cost the file a
- * cut: the pool word at 0x0202E8D4 is the only occurrence of 0x0201298D
- * anywhere in the image, 0x0201298C carries no `func_` label, and the
- * pool word is inside this range, so the `literal` class has nothing and
- * no cut can reach further since the range cannot be smaller than that
- * one function. The `matched` class covers it instead: 0x0201298C is
- * already an EXACT manifest entry from earlier work, and that witness is
- * a compilation rather than a byte of this range.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202E888.c \
- *       --addr 0x0202E888 --thumb
- */
 u8 sub_0202E8B8(s32_0202E818 x)
 {
     return (u8)((x + 3) % 4);
@@ -364,39 +298,6 @@ u8 sub_0202E8B8(s32_0202E818 x)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Four small date helpers. sub_0202E888 asks the ARM clock getter for a
- * 0x10-byte record and reduces its second word to a two-bit value;
- * sub_0202E8A4 and sub_0202E8B8 step that value forwards and backwards
- * around the same four-element cycle.
- *
- * The `lsrs #0x1F` / `lsls #0x1E` / `subs` / `rors #0x1E` quartet in the
- * two steppers is a signed `% 4` and nothing else: `& 3` is a two
- * instruction `movs`/`ands`, which is exactly what sub_0202E888 uses at
- * the top, and `/ 4` carries a different rounding correction. Both
- * spellings appear four instructions apart in the same 80 bytes, so the
- * pair of them pins the signedness of each operand independently.
- *
- * The `lsls #0x18` / `lsrs #0x18` at the end of all three is the `(u8)`
- * return type.
- *
- * sub_0202E8CC is a twelve byte pool-word-and-bx tail call
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) that narrows its
- * second argument to `u8` on the way through. It nearly cost the file a
- * cut: the pool word at 0x0202E8D4 is the only occurrence of 0x0201298D
- * anywhere in the image, 0x0201298C carries no `func_` label, and the
- * pool word is inside this range, so the `literal` class has nothing and
- * no cut can reach further since the range cannot be smaller than that
- * one function. The `matched` class covers it instead: 0x0201298C is
- * already an EXACT manifest entry from earlier work, and that witness is
- * a compilation rather than a byte of this range.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202E888.c \
- *       --addr 0x0202E888 --thumb
- */
 u8 sub_0202E8CC(s32_0202E818 a, s32_0202E818 b)
 {
     return func_0201298C(a, (u8)b);

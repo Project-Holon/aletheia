@@ -1601,27 +1601,6 @@ u32 sub_020407E8(u32 layer)
     return g_02146A44->bgs[layer].scrollX;
 }
 
-/*
- * The two scroll-register accessors for the BG configuration table, both of
- * them leaf functions that save nothing and therefore carry no `func_` label
- * in the listing at all: they print as an anonymous run of `.word`s between
- * the literal pool of sub_02040618 and the next labelled function at
- * 0x02040820 (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * They were found by sweeping the address range, not by reading labels.
- *
- * Both index the same 0x2C-byte per-layer record hanging off the single
- * pointer at 0x02146A44, and return the horizontal (+0x14) and vertical
- * (+0x18) scroll values that sub_02040618 flushes to the hardware.  The
- * `mla r1, r0, r1, r2` is the array subscript: 0x2C is not a shift, so the
- * scale is a real multiply folded into the base add.
- *
- * Kept as one unit rather than two files because the pair is contiguous and
- * the whole 56-byte range, both literal pools included, reproduces exactly.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020407E8.c \
- *       --addr 0x020407E8 --arm --cc 1.1p1
- */
 u32 sub_02040804(u32 layer)
 {
     return g_02146A44->bgs[layer].scrollY;

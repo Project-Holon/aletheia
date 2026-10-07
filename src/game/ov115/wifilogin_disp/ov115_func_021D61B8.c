@@ -1,0 +1,21 @@
+/*
+ * function: func_021D61B8
+ * address: 0x021D61B8
+ * packet: pkt_ov115_021D61B8
+ * region: ov115
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021D5C24 0x021D5C24 thumb ov115
+ *   func_021D6134 0x021D6134 thumb ov115
+ *   func_021D61D8 0x021D61D8 thumb ov115
+ */
+#include "../../../matched/include/Obj22606.h"
+typedef unsigned char u8;typedef unsigned int u32;
+extern void func_021D5C24(void *,int);
+extern void func_021D6134(void *a0, int a1, int a2);
+extern void func_021D61D8(u8 *);
+void func_021D61B8(u8 *p) { func_021D5C24(((struct Obj22606 *)p)->f8,26);func_021D6134(p,(int)func_021D61D8,0x194); }

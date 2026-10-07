@@ -189,16 +189,6 @@ u32 sub_0202ABF8(void *obj)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * A getter/setter pair on a word field at offset 8 of the same object, back
- * to back with no gap. Neither function has a relocation.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202ABF8.c \
- *       --addr 0x0202ABF8 --thumb
- */
 void sub_0202ABFC(void *obj, u32 value)
 {
     ((struct Obj17263 *)obj)->f8 = value;

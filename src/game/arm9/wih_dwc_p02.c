@@ -130,20 +130,6 @@ void func_0201042C(void)
 }
 
 
-/*
- * Two mirror-image four-word functions: set and clear one flag halfword of
- * entry 0xC3 in a table reached through the pointer variable at 0x0214617C's
- * neighbour, 0x021461E0.  0x021461E0 is a plain literal pool word (the same
- * address is loaded by nine other functions in this file's neighbourhood, at
- * 0x020103D4, 0x02010420 and so on), so it needed no relocation resolution,
- * the same situation documented in src/matched/sub_0200F800.c for 0x0214617C.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201042C.c \
- *       --addr 0x0201042C --thumb
- */
 void func_02010444(void)
 {
     struct Entry *arr = *(struct Entry **)0x021461E0;

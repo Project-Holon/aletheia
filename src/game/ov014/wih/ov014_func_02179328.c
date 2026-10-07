@@ -1,0 +1,19 @@
+/*
+ * function: func_02179328
+ * address: 0x02179328
+ * packet: pkt_ov014_02179328
+ * region: ov014
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   g_021797A8 0x021797A8 data a4
+ */
+
+#include "../../../matched/include/G_S.h"
+
+typedef unsigned char u8;
+extern struct S *g_021797A8;
+void func_02179328(void *v) { *(void **)(((u8 *)g_021797A8) + 0x1E7C) = v; }

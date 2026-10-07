@@ -584,988 +584,114 @@ u32 func_02012924(const struct BigObj *p)
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void *func_0201292C(const struct BigObj *p)
 {
     return p->unk190;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void *func_02012934(const struct BigObj *p)
 {
     return p->unk194;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_0201293C(const struct BigObj *p)
 {
     return p->unk19C;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u8 *func_02012944(void *p)
 {
     return func_020127A4(p) + 0x20;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 struct Rec44_0 *func_02012950(struct Sub24 *p, u32 i)
 {
     return &p->unk24[i];
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_0201295C(const struct BigObj *p)
 {
     return p->unk1A4;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_02012964(const struct BigObj *p)
 {
     return p->unk1A8;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_0201296C(const struct BigObj *p)
 {
     return p->unk1AC;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_02012974(const struct BigObj *p)
 {
     return p->unk1B0;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_0201297C(const struct BigObj *p)
 {
     return p->unk690;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u8 func_02012984(const struct BigObj *p)
 {
     return p->unk1C4;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_0201298C(struct BigObj *p, u8 v)
 {
     p->unk1C4 = v;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u8 func_02012994(const struct BigObj *p)
 {
     return p->unk1C5;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_020129A0(struct BigObj *p, u8 v)
 {
     p->unk1C5 = v;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u8 func_020129AC(const struct BigObj *p)
 {
     return p->unk1C6;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_020129B8(struct BigObj *p, u32 v)
 {
     p->unk1C6 = v;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u8 func_020129C4(const struct BigObj *p)
 {
     return p->unk1C7;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_020129D0(struct BigObj *p, u8 v)
 {
     p->unk1C7 = v;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_020129DC(struct BigObj *p, u8 v)
 {
     p->unk1C9 = v;
@@ -1575,104 +701,12 @@ void func_020129DC(struct BigObj *p, u8 v)
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_020129F0(struct BigObj *p)
 {
     p->unk1C8 = 0;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u8 func_020129FC(struct BigObj *p)
 {
     if (p->unk1C9 != 0) {
@@ -1682,364 +716,42 @@ u8 func_020129FC(struct BigObj *p)
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u8 func_02012A24(const struct BigObj *p)
 {
     return p->unk1C9;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_02012A30(const struct BigObj *p)
 {
     return p->unk1B4;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_02012A38(const struct BigObj *p)
 {
     return p->unk5E4;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_02012A44(const struct BigObj *p)
 {
     return p->unk1BC;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_02012A4C(struct BigObj *p, u32 v)
 {
     p->unk1BC = v;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u32 func_02012A54(const struct BigObj *p)
 {
     return p->unk68C;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_02012A60(struct Rec44_0 *p)
 {
     p->unk3D = 0;
@@ -2060,364 +772,42 @@ void func_02012A60(struct Rec44_0 *p)
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_02012A90(struct Rec44_0 *p, const struct Vec12 *src)
 {
     p->unk04 = *src;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 struct Vec12 *func_02012AA0(struct Rec44_0 *p)
 {
     return &p->unk04;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_02012AA4(struct Rec44_0 *p, const struct H4 *src)
 {
     p->unk10.all = *src;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 struct H4 *func_02012AB8(struct Rec44_0 *p)
 {
     return &p->unk10.all;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_02012ABC(struct Rec44_0 *p, u8 v)
 {
     p->unk1B = v;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u8 func_02012AC0(const struct Rec44_0 *p)
 {
     return p->unk1B;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 struct Rec44_0 *func_02012AC4(struct Rec44_0 *p, u16 v)
 {
     p->unk00 = v;
@@ -2425,156 +815,18 @@ struct Rec44_0 *func_02012AC4(struct Rec44_0 *p, u16 v)
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u16 func_02012AC8(const struct Rec44_0 *p)
 {
     return p->unk00;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 void func_02012ACC(struct Rec44_0 *p, int v)
 {
     p->unk18 = v;
 }
 
 
-/*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
- *
- * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
- * label in the generated listing: the rest are leaf accessors that save no lr
- * and arrive in asm/arm9/src/004_02010BB8.s as runs of .word, which is
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Two objects are accessed here and they are not the same struct.
- *
- *  - BigObj is reached through a plain pointer argument and every field this
- *    file touches is past +0x18C, so each access is a register offset built
- *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
- *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
- *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
- *    constructor: its store order is the source's statement order, and the
- *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
- *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
- *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
- * otherwise the same eighteen instructions.  See
- * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
- *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
- * the header of src/matched/unit_02012AE4.c for that near miss.
- *
- * Addresses are Black-image addresses.  Nothing here reads a version flag or
- * a species table, so none of it looks version specific.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012924.c \
- *       --addr 0x02012924 --thumb
- */
 u16 func_02012AD0(const struct Rec44_0 *p)
 {
     return p->unk18;
@@ -2658,671 +910,66 @@ u32 func_02012AE4(const struct Rec44_1 *p)
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 u32 func_02012B28(const struct Rec44_1 *p)
 {
     return p->unk40;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 void func_02012B2C(struct Rec44_1 *p, u32 v)
 {
     p->unk40 = v;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 void func_02012B30(struct Rec44_1 *p, u16 v)
 {
     p->unk1C = v;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 u16 func_02012B34(const struct Rec44_1 *p)
 {
     return p->unk1C;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 void *func_02012B38(const struct BigObj_02012AE4 *p)
 {
     return p->unk1B8;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 u8 func_02012B40(const struct BigObj_02012AE4 *p)
 {
     return p->unk1CA;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 void func_02012B4C(struct BigObj_02012AE4 *p, u8 v)
 {
     p->unk1CA = v;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 u8 func_02012B58(const struct BigObj_02012AE4 *p)
 {
     return p->unk1CB;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 void func_02012B64(struct BigObj_02012AE4 *p, u8 v)
 {
     p->unk1CB = v;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 int func_02012B70(const struct BigObj_02012AE4 *p)
 {
     return p->unk1CC;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 struct BigObj_02012AE4 *func_02012B78(struct BigObj_02012AE4 *p, u8 v)
 {
     p->unk1CC = v;
@@ -3330,305 +977,30 @@ struct BigObj_02012AE4 *func_02012B78(struct BigObj_02012AE4 *p, u8 v)
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 u8 func_02012B80(const struct BigObj_02012AE4 *p)
 {
     return p->unk1CD;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 void func_02012B8C(struct BigObj_02012AE4 *p, u32 v)
 {
     p->unk1CD = v;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 u8 func_02012B98(const struct BigObj_02012AE4 *p, u32 i)
 {
     return p->unk1D0[i];
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 void func_02012BA4(struct BigObj_02012AE4 *p, int i, u8 v)
 {
     p->unk1D0[i] = v;
 }
 
 
-/*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
- *
- * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
- * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
- *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
- * result local has to be declared **before** the field is read into its own
- * local, or the compiler puts the result in r0, keeps its scratch in r1 and
- * duplicates `bx lr` into every arm instead of branching to one
- * `adds r0, r1, #0; bx lr` tail; that spelling is 28 concrete bytes wrong and
- * two bytes short with identical control flow.  Seven source shapes were
- * compiled and only the two with the result declared first are EXACT.
- *
- * Two near misses bracket this file, and neither is a codegen failure: both
- * reproduce every concrete byte and are held at MATCH by the honesty rule.
- *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
- *    0x0209DFA8.  That address appears in exactly one literal pool in the
- *    image, the one inside this function, so the `literal` class discards its
- *    only witness and no cut helps.  It is data, so no label will ever exist
- *    for it.  The source is
- *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
- *        {
- *            p->unk18 = func_02012AD4_Table[i];
- *        }
- *
- *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
- *    witnesses outside.
- *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
- *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
- *    with no register-saving prologue, so disasm.py never labelled it, and
- *    this pool word is the only reference to it anywhere in the image.  The
- *    source is
- *
- *        void func_02012BC8(struct BigObj *p, u32 v)
- *        {
- *            func_02008450(p->unk198, v != 0);
- *        }
- *
- *    0x02008450 goes into layout/function_starts.txt with a branch that
- *    attests it, which this file cannot provide because it is the only user.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
- *       --addr 0x02012AE4 --thumb
- */
 u32 func_02012BB0(const struct BigObj_02012AE4 *p)
 {
     if (func_02008448((int)p->unk198) == 1) {
@@ -3935,84 +1307,24 @@ void *sub_02012EBC(struct Big *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02012ED8
- *
- * Five leaf accessors on one large record.  Offsets 0x5ec and 0x688 are out
- * of Thumb immediate reach so each costs a pool word, while 0x680 is
- * 0x1a << 6 and is rematerialised with `movs`/`lsls` instead.  Two of the
- * five read the same word at +0, which the compiler keeps as two separate
- * sections rather than folding.  None saves lr, so none is labelled.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012EBC.c \
- *       --addr 0x02012EBC --thumb
- */
 void *sub_02012EC0(struct Big *p)
 {
     return p->unk_00;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02012ED8
- *
- * Five leaf accessors on one large record.  Offsets 0x5ec and 0x688 are out
- * of Thumb immediate reach so each costs a pool word, while 0x680 is
- * 0x1a << 6 and is rematerialised with `movs`/`lsls` instead.  Two of the
- * five read the same word at +0, which the compiler keeps as two separate
- * sections rather than folding.  None saves lr, so none is labelled.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012EBC.c \
- *       --addr 0x02012EBC --thumb
- */
 u8 *sub_02012EC4(struct Big *p)
 {
     return &p->unk_5ec;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02012ED8
- *
- * Five leaf accessors on one large record.  Offsets 0x5ec and 0x688 are out
- * of Thumb immediate reach so each costs a pool word, while 0x680 is
- * 0x1a << 6 and is rematerialised with `movs`/`lsls` instead.  Two of the
- * five read the same word at +0, which the compiler keeps as two separate
- * sections rather than folding.  None saves lr, so none is labelled.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012EBC.c \
- *       --addr 0x02012EBC --thumb
- */
 u8 *sub_02012ED0(struct Big *p)
 {
     return &p->unk_680;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02012ED8
- *
- * Five leaf accessors on one large record.  Offsets 0x5ec and 0x688 are out
- * of Thumb immediate reach so each costs a pool word, while 0x680 is
- * 0x1a << 6 and is rematerialised with `movs`/`lsls` instead.  Two of the
- * five read the same word at +0, which the compiler keeps as two separate
- * sections rather than folding.  None saves lr, so none is labelled.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012EBC.c \
- *       --addr 0x02012EBC --thumb
- */
 void *sub_02012ED8(struct Big *p)
 {
     return p->unk_688;
@@ -4129,12 +1441,6 @@ void *func_02012F68(void **h)
 }
 
 
-/*
- * Two leaves before func_02012F80 (the +0x6a8 getter): save-block getter
- * for block 0x42 through the handle's first word, and the +0x6a8 setter.
- * Seeded from ov048/ov171/ov205 (0x02012F68) and ov010 func_0215DDC8 and
- * func_0215DE0C (0x02012F74).
- */
 void func_02012F74(void *h, void *w)
 {
     ((struct Obj17167 *)h)->f6A8 = w;
@@ -4230,15 +1536,6 @@ void sub_02012FF0(void *val)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Battle setup global pointer setter and clamped index lookup into data_0209DFB0.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012FF0.c \
- *       --addr 0x02012FF0 --thumb
- */
 signed char sub_02012FFC(void)
 {
     u32 val = sub_02008374((int)sub_0200873C(ptr_020A7298));
@@ -4276,15 +1573,6 @@ signed char sub_02013020(void)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Mode mapping helpers calling clamped lookup sub_02013080.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013020.c \
- *       --addr 0x02013020 --thumb
- */
 signed char sub_02013050(void)
 {
     u32 val = sub_02008374((int)sub_0200873C(ptr_020A7298));
@@ -4303,15 +1591,6 @@ signed char sub_02013050(void)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Mode mapping helpers calling clamped lookup sub_02013080.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02013020.c \
- *       --addr 0x02013020 --thumb
- */
 signed char sub_02013080(u32 idx)
 {
     if (idx >= 5) {

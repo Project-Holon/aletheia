@@ -1,0 +1,54 @@
+/*
+ * function: func_021B97E8
+ * address:  0x021B97E8
+ * packet:   pkt_ov070_021B97E8
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * blocked: func_0201C1E8 (arm9 unlabelled leaf, Ilias's; 12 bytes, tail stub)
+ * has no witness outside this function. Verified C for the leaf (EXACT,
+ * thumb, arm9, no region):
+ *   extern int func_0201BD28(int, int);   // symbols: func_0201BD28 0x0201BD28 thumb
+ *   int func_0201C1E8(int a) { return func_0201BD28(a, 2); }
+ *
+ * symbols:
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_021B61B8  0x021B61B8  thumb  ov070
+ *   func_021B616C  0x021B616C  thumb  ov070
+ *   func_020212B0  0x020212B0  thumb
+ *   func_0201C1E8  0x0201C1E8  thumb
+ *   func_0201C1C8  0x0201C1C8  thumb
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern int func_021B61B8(u8 *p);
+extern unsigned short *func_021B616C(char *, int);
+extern u16 func_020212B0(u16 id);
+extern int func_0201C1E8(int);
+extern u8 func_0201C1C8(void *p);
+
+void func_021B97E8(char *p, int mode)
+{
+    int r;
+    if (mode == 1) {
+        *(int *)(p + 0x840) = 1;
+    } else {
+        *(int *)(p + 0x840) = 2;
+    }
+    if (*(int *)(p + 0x6A0) != 0) {
+        func_0204B3DC((struct Obj *)(*(int *)(p + 0x6A0)), mode);
+    }
+    r = func_020212B0(*func_021B616C(p, func_021B61B8((u8 *)p)));
+    if (r != 0) {
+        func_0204B3DC((struct Obj *)(*(int *)(p + func_0201C1E8(r) * 4 + 0x6C0)), mode);
+        func_0204B3DC((struct Obj *)(*(int *)(p + func_0201C1C8((void *)r) * 4 + 0x6CC)), mode);
+    }
+}

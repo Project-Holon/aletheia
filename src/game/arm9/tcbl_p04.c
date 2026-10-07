@@ -259,38 +259,6 @@ struct Node_02030DA8 *sub_02030DA8(struct Ctx_02030DA8 *c, void (*a)(struct Node
     return n;
 }
 
-/*
- * Previously capped at MATCH: 0x02030C44 has exactly one caller image-wide,
- * the call inside sub_02030DC8 below, so no `label` witness exists and no cut
- * could free the site.  src/matched/unit_02030C44.c now reproduces the node
- * allocator's own byte range, so the PC24 at +0x34 resolves in the `matched`
- * class and the unit is EXACT.
- *
- * Insert one node into the context's circular list, kept sorted ascending on
- * the key at +0x0C, plus the re-entry wrapper that guards it.
- *
- * The two functions are one unit rather than two files because nothing in
- * the image branches to 0x02030DC8 except the wrapper: as separate files the
- * wrapper's call has no witness of any class and caps at MATCH, while in one
- * translation unit it is `local` and needs no image evidence at all
- * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md read the
- * other way round).
- *
- * The wrapper takes four parameters, not one.  Its own bytes never set r1,
- * r2 or r3 before the call, which is what forwarding untouched parameters
- * looks like, and the tell is the register the constant 1 lands in: `mov ip,
- * #1` before the call and `mov r1, #0` after it.  With fewer parameters
- * declared, r1 is free on both sides and the compiler uses it twice.
- *
- * The list is doubly linked through +0x04 (prev) and +0x08 (next) with the
- * sentinel embedded in the context at +0x08, which is why `c->head.unk_04`
- * is the same word as the context's +0x0C and the loop bound is the address
- * of the sentinel itself.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02030DA8.c \
- *       --addr 0x02030DA8 --arm
- */
 struct Node_02030DA8 *sub_02030DC8(struct Ctx_02030DA8 *c, void (*a)(struct Node_02030DA8 *, void *), void *b, u32 key)
 {
     struct Node_02030DA8 *n;

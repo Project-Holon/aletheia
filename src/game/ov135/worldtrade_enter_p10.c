@@ -1,0 +1,135 @@
+/*
+ * file:     worldtrade_enter_p10.c
+ * unit:     yes
+ * function: func_021F9EEC, func_021F9F00, func_021F9F58
+ * address:  0x021F9EEC
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_020061E4  0x020061E4  thumb
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_0204B878  0x0204B878  arm
+ *   func_021FB2F0  0x021FB2F0  thumb
+ *   func_021FBF04  0x021FBF04  thumb
+ */
+struct Obj;
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef signed int s32;
+
+typedef signed short s16;
+
+typedef signed char s8;
+
+typedef struct {
+    void *str;
+    int val;
+} Item;
+
+typedef struct {
+    void **wins;
+    u8 pad4[0xC - 4];
+    u32 up;
+    u32 down;
+    u8 pad14[0x18 - 0x14];
+    void *mgr;
+    u8 pad1C[0x30 - 0x1C];
+    Item *items;
+    void *num;
+    u8 pad38[0x56 - 0x38];
+    s16 page;
+    int total;
+    u8 pad5C[0x7C - 0x5C];
+    u8 g[4];
+} Menu;
+
+extern u32 func_0209C0A4(u8 *p, u32 n, u32 m);
+extern void func_020061E4(u32 se);
+extern void func_0204B92C(struct Obj *v, u32 k);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_021FB2F0(Menu *m, int page, int total);
+extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
+u32 func_021F9EEC(u8 *p, u32 n);
+int func_021F9F00(Menu *m, int key);
+void func_021F9F58(Menu *m, int dir);
+
+
+/*
+ * Step one byte short of the end, or report 1 when there is no buffer.
+ */
+u32 func_021F9EEC(u8 *p, u32 n)
+{
+    u32 m;
+
+    if (p == 0) {
+        return 1;
+    }
+    m = n - 1;
+    return func_0209C0A4(p + m, n, m);
+}
+
+
+int func_021F9F00(Menu *m, int key)
+{
+    int idx;
+
+    switch (key) {
+    case 4:
+        return -2;
+    case 5:
+        func_021F9F58(m, -1);
+        return -1;
+    case 6:
+        func_021F9F58(m, 1);
+        return -1;
+    }
+    idx = key + m->page * 4;
+    if (idx < m->total) {
+        func_020061E4(0x54C);
+        return m->items[idx].val;
+    }
+    return -1;
+}
+
+
+void func_021F9F58(Menu *m, int dir)
+{
+    int last;
+
+    last = func_021F9EEC((u8 *)m->total, 4) - 1;
+    if (last == 0) {
+        return;
+    }
+    if (dir < 0) {
+        func_020061E4(0x548);
+        func_0204B92C((struct Obj *)m->down, 1);
+        func_0204B878((struct Obj *)m->down, 0x27);
+        if (m->page != 0) {
+            m->page = m->page - 1;
+        } else {
+            m->page = last;
+        }
+    } else {
+        func_020061E4(0x548);
+        func_0204B92C((struct Obj *)m->up, 1);
+        func_0204B878((struct Obj *)m->up, 0x26);
+        if (m->page < last) {
+            m->page = m->page + 1;
+        } else {
+            m->page = 0;
+        }
+    }
+    func_021FB2F0(m, m->page, m->total);
+    func_021FBF04(m->mgr, m->num, m->wins[4], m->page, func_021F9EEC((u8 *)m->total, 4));
+}

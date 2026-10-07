@@ -184,20 +184,6 @@ void func_02072440(struct DST *d, struct SRC_02072440 *s)
     d->f10 = ((0 - (s32)s->f20) * t) >> 12;
 }
 
-/*
- * Two functions of the 0x02071CDC constructor family, 228 bytes: the
- * all-s16 variant at 0x02072440 (164 B, no smull anywhere - every term is
- * a plain `ldrsh` times an `ldrh`) and the UNLABELLED leaf at 0x020724E4
- * (64 B), which saves no lr and so never gets a func_ label. Folding the
- * follower in here is what turns the lead function's EXACT* into EXACT.
- *
- * The third leaf of the file, the pure-identity writer at 0x02072524
- * (36 B, byte-identical to the one at 0x02071EFC), is NOT in this unit:
- * 1.1p1 -O4,p hoists `mov r1, #0` ahead of `mov r2, #0x1000` where the
- * image materialises 0x1000 first. Nine store-order and constant-binding
- * spellings all give the same 3-instruction swap; see
- * docs/notes/func_02071EFC.c.txt.
- */
 void func_020724E4(struct DST *d, struct SRC_02072440 *s)
 {
     d->f00 = s->f18;

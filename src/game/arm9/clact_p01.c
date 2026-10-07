@@ -1290,19 +1290,6 @@ void sub_0204AEC0(u32 idx, struct Record *dest)
     *dest = g_02146A74->owner.slots2[idx].record;
 }
 
-/*
- * A getter and its one caller.  sub_0204AEC0 copies the 0x14-byte record
- * out of slot `idx` of the 0x18-byte-stride table at +0x110 of the
- * singleton behind 0x02146A74; the copy is an inlined `ldm`/`stm` pair plus
- * a trailing word, which is what a whole-struct assignment of this size
- * compiles to (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- * sub_0204AEF4 takes that copy on its own stack and submits it to
- * func_02063800 under selector 1 or 2.
- *
- * Kept as one unit so the `bl` at sub_0204AEF4+0x1c is `local`:
- * sub_0204AEF4 is sub_0204AEC0's only caller image-wide, so split into two
- * files the site would have no witness of any class.
- */
 int sub_0204AEF4(u32 idx, u32 alternate)
 {
     struct Record record;
@@ -1596,59 +1583,11 @@ void sub_0204B22C(struct Bank *bank, u32 mode)
     bank->mode = mode;
 }
 
-/*
- * Three leaf accessors of clact.c's bank header, packed end to end with no
- * literal pool between them.  Only the first has a `func_` label in the
- * listing, because none of the three saves lr
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); 0x0204B248 and
- * 0x0204B258 are unlabelled followers and are seeds for
- * layout/function_starts.txt.
- *
- * The byte at +0x0e is two 4-bit unsigned bitfields.  The low nibble is a
- * source selector paired with the pointer at +0x08: sub_0204B270 sets it to 0
- * for the shared default at g_02146A74 + 0x40, and 0x0204B258 sets it to 1
- * for a caller-supplied pointer.  The high nibble is written by 0x0204B22C
- * and read back by 0x0204B248, and never appears next to the pointer, so it
- * is an independent mode.
- *
- * The nibble accesses are the giveaway: a plain u8 field masked and shifted
- * would fold to `ands`, while the write here is `bic` plus a shifted `orr`
- * and the read is the unequal `lsl #24` / `lsr #28` pair, which is a bitfield
- * extraction (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B22C.c \
- *       --addr 0x0204B22C --cc 1.1p1 --arm
- */
 u32 sub_0204B248(struct Bank *bank)
 {
     return bank->mode;
 }
 
-/*
- * Three leaf accessors of clact.c's bank header, packed end to end with no
- * literal pool between them.  Only the first has a `func_` label in the
- * listing, because none of the three saves lr
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); 0x0204B248 and
- * 0x0204B258 are unlabelled followers and are seeds for
- * layout/function_starts.txt.
- *
- * The byte at +0x0e is two 4-bit unsigned bitfields.  The low nibble is a
- * source selector paired with the pointer at +0x08: sub_0204B270 sets it to 0
- * for the shared default at g_02146A74 + 0x40, and 0x0204B258 sets it to 1
- * for a caller-supplied pointer.  The high nibble is written by 0x0204B22C
- * and read back by 0x0204B248, and never appears next to the pointer, so it
- * is an independent mode.
- *
- * The nibble accesses are the giveaway: a plain u8 field masked and shifted
- * would fold to `ands`, while the write here is `bic` plus a shifted `orr`
- * and the read is the unequal `lsl #24` / `lsr #28` pair, which is a bitfield
- * extraction (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B22C.c \
- *       --addr 0x0204B22C --cc 1.1p1 --arm
- */
 void sub_0204B258(struct Bank *bank, void *p)
 {
     bank->unk_08 = p;
@@ -1784,65 +1723,11 @@ void sub_0204B3DC(struct Actor *p, u32 v)
     p->unk_60_26 = v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Three consecutive members of one object's interface.  The object carries a
- * handle at +8, a packed flag word at +0x60 and an embedded sub-object at
- * +0x68 that the 0x0204Cxxx/0x0204Dxxx layer operates on.
- *
- *   sub_0204B3DC  set bit 26 of the flag word at +0x60.
- *   sub_0204B3F4  read it back.  Saves no lr, so disasm.py never labels it.
- *   sub_0204B404  move by a delta: ask func_0204CF74 for the current
- *                 position into a scratch pair, add the caller's s16 x/y
- *                 pair to it in a second scratch pair, and hand that to
- *                 func_0204B528.
- *
- * The two 4-byte scratch pairs sit at sp+0 and sp+4; the later declaration
- * takes the lower stack address, so `pos` is declared before `dest`.
- *
- * The range deliberately starts at 0x0204B3DC rather than at this file's
- * real first function, sub_0204B3B4: that one's call to func_0204D104 has
- * no witness anywhere in the image, so including it caps the whole unit at
- * MATCH.  --suggest-split names this exact cut; sub_0204B3B4 is parked in
- * src/pending/sub_0204B3B4.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B3DC.c \
- *       --addr 0x0204B3DC --arm
- */
 u32 sub_0204B3F4(struct Actor *p)
 {
     return p->unk_60_26;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Three consecutive members of one object's interface.  The object carries a
- * handle at +8, a packed flag word at +0x60 and an embedded sub-object at
- * +0x68 that the 0x0204Cxxx/0x0204Dxxx layer operates on.
- *
- *   sub_0204B3DC  set bit 26 of the flag word at +0x60.
- *   sub_0204B3F4  read it back.  Saves no lr, so disasm.py never labels it.
- *   sub_0204B404  move by a delta: ask func_0204CF74 for the current
- *                 position into a scratch pair, add the caller's s16 x/y
- *                 pair to it in a second scratch pair, and hand that to
- *                 func_0204B528.
- *
- * The two 4-byte scratch pairs sit at sp+0 and sp+4; the later declaration
- * takes the lower stack address, so `pos` is declared before `dest`.
- *
- * The range deliberately starts at 0x0204B3DC rather than at this file's
- * real first function, sub_0204B3B4: that one's call to func_0204D104 has
- * no witness anywhere in the image, so including it caps the whole unit at
- * MATCH.  --suggest-split names this exact cut; sub_0204B3B4 is parked in
- * src/pending/sub_0204B3B4.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B3DC.c \
- *       --addr 0x0204B3DC --arm
- */
 void sub_0204B404(struct Actor *p, const struct Vec2 *delta, u32 which)
 {
     struct Vec2 pos;
@@ -2031,26 +1916,6 @@ void sub_0204B570(struct Actor *actor, u32 value)
     actor->unk_60_18 = value;
 }
 
-/*
- * Two more leaf accessors of the 0xE4-byte cell actor.  0x0204B588 saves no
- * lr and so carries no label in the listing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); it is a seed
- * for layout/function_starts.txt.
- *
- * sub_0204B570 writes a two-bit field at bits 18..19 of the u32 flag word at
- * +0x60.  The base type has to be u32, not u8 as in
- * src/matched/unit_0204B22C.c: a u8-based bitfield would truncate the
- * incoming value with an `and r1, r1, #0xff` first, and there is no such
- * instruction here.
- *
- * 0x0204B588 is the +0x10 twin of src/matched/sub_0204B528.c, so the actor
- * carries two halfword pairs, the screen position at +0x0c and this second
- * pair at +0x10.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B570.c \
- *       --addr 0x0204B570 --cc 1.1p1 --arm
- */
 void sub_0204B588(struct Actor *actor, const struct Pt *src)
 {
     actor->unk_10.x = src->x;
@@ -2100,29 +1965,6 @@ void func_0204B5AC(struct Actor *dst, struct Pair *src)
     dst->p = v;
 }
 
-/*
- * Three leaf accessors on the display object, 56 bytes end to end with no
- * padding.  Only the first carries a label in the listing: the other two
- * save nothing and so are invisible to disasm.py's prologue rule
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They are
- * folded into one unit here rather than three files, which also makes the
- * range self-contained: the unit has no relocation sites at all.
- *
- * sub_0204B59C selects between the +0x10 and +0x12 halfwords on a flag; the
- * front end if-converts it to a `strheq`/`strhne` pair with no branch, and
- * the `eq` arm being first is the source order of the `if`
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * sub_0204B5AC and sub_0204B5C0 are the setter and getter for the 8-byte
- * pair at +0x14.  Both words are loaded before either is stored, which is
- * what two independent field assignments give when neither store can be
- * proved to feed the following load; writing them as one 8-byte struct
- * assignment is the same code.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B59C.c \
- *       --addr 0x0204B59C --arm
- */
 void sub_0204B5C0(const struct Actor *o, struct Pair *p)
 {
     p->x = o->p.x;
@@ -2155,19 +1997,6 @@ void sub_0204B5D4(struct Actor_0204B5D4 *actor, u32 value, u32 which)
     }
 }
 
-/*
- * Write and read one of the two u32 slots at +0x14 and +0x18 of the cell
- * actor, selected by the last argument.  0x0204B5E4 is an unlabelled leaf and
- * is a seed for layout/function_starts.txt.
- *
- * Both bodies if-convert to a single predicated memory access, the same shape
- * as src/matched/sub_0204B550.c and src/matched/sub_0204B560.c have for the
- * halfword pair at +0x0c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B5D4.c \
- *       --addr 0x0204B5D4 --cc 1.1p1 --arm
- */
 u32 sub_0204B5E4(const struct Actor_0204B5D4 *actor, u32 which)
 {
     if (which == 0) {
@@ -2197,21 +2026,6 @@ void sub_0204B5F4(struct Actor_0204B5F4 *actor, u16 value)
     actor->unk_58 = value;
 }
 
-/*
- * The write and read of the u16 at +0x58 of the cell actor.  Neither saves lr,
- * so only the first carries a label in the listing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); 0x0204B5FC is
- * a seed for layout/function_starts.txt.
- *
- * The unit deliberately stops here rather than running on to the end of the
- * listing extent at 0x0204B658.  The next leaf, 0x0204B604, is a closed near
- * miss recorded in docs/notes/sub_0204B604.c.txt, and folding it in would put
- * this range back to DIFF.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B5F4.c \
- *       --addr 0x0204B5F4 --cc 1.1p1 --arm
- */
 u16 sub_0204B5FC(const struct Actor_0204B5F4 *actor)
 {
     return actor->unk_58;
@@ -2314,36 +2128,6 @@ void sub_0204B688(struct Actor_0204B688 *actor, u32 value)
     }
 }
 
-/*
- * Two accessors of the cell actor's u32 flag word at +0x60.  0x0204B6E4 saves
- * no lr and so carries no label in the listing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); it is a seed
- * for layout/function_starts.txt.
- *
- * The flag word is a dense pile of bitfields.  This pair owns the two-bit
- * field at bits 22..23, and writing it also maintains bit 3 of the four-bit
- * field at bits 8..11: setting a non-zero value sets that bit, setting zero
- * clears it.
- *
- * The clear is spelled `^= 8` under a `& 8` guard, not `&= ~8`.  That is
- * visible in the bytes: `&= ~8` on a four-bit field folds to a single
- * `bic r1, r1, #8`, while the original keeps the guard's `tst r1, #8` and then
- * an `eor r1, r1, #8`, which only a real exclusive or produces.
- *
- * Both arms re-read the field out of the value they just stored, so the write
- * of bits 22..23 has to come first as its own statement; the compiler forwards
- * the store and never reloads from +0x60.
- *
- * The polarity matters: the zero case is the source's then-arm
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md), and inside it the
- * `& 8` test is an early `return`, which is what the original's `bxeq lr` is.
- * Written the other way round the compiler predicates the whole clear
- * sequence, which is four bytes short and moves every instruction.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B688.c \
- *       --addr 0x0204B688 --cc 1.1p1 --arm
- */
 u32 sub_0204B6E4(const struct Actor_0204B688 *actor)
 {
     return actor->f_16;
@@ -2381,32 +2165,6 @@ void sub_0204B6F4(struct Obj_0204B6F4 *o, u32 v, u32 flag)
     o->bits60.flag = flag;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * A packed bitfield word at +0x60 of the 0x0204Bxxx object: a 12-bit field
- * at bits 0-11 (untouched here), a 4-bit field at bits 12-15, 15 pad bits,
- * and a 1-bit flag at bit 31.
- *
- *   sub_0204B6F4  set the 4-bit field and the top flag bit together (one
- *                 read-modify-write of the whole word).
- *   sub_0204B714  read the 4-bit field back out.
- *
- * The setter's double shift (`lsl r1,r1,#28` then `orr r1,r3,r1,lsr#16`) is
- * the compiler's general bitfield-store formula, value << (32-width) then
- * >> (32-width-offset); the getter's `lsl #16`/`lsr #28` is the matching
- * read formula, << (32-width-offset) then >> (32-width).  The flag bit
- * collapses to a single `lsl #31` because its offset+width is 32.
- *
- * The getter's redundant `and r0, r0, #0xff` (the field is already 0-15) is
- * only there because the source narrows the result to `unsigned char`
- * before returning it; reading the bitfield straight through as `u32` loses
- * those four bytes.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B6F4.c \
- *       --addr 0x0204B6F4 --arm
- */
 u32 sub_0204B714(struct Obj_0204B6F4 *o)
 {
     return (unsigned char)o->bits60.fieldB;
@@ -2482,29 +2240,6 @@ void func_0204B764(const char *src, Struct20 *dst)
     *dst = *s;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Three aggregate struct copies out of a cell actor, laid out as one unit so
- * the whole 140-byte range (padding included) is the evidence.
- *
- * docs/notes/pkt_0204B764.c.txt records these as a two-instruction scheduling
- * residue; that note is SUPERSEDED for all three.  The spelling that closes it
- * is in the body below: the unit's middle function binds the copy to a named
- * struct local (`Struct36 s; ... s = *src; *(Struct36 *)(dst + 0x1c) = s;`),
- * which is what puts the source address ahead of the destination move, and the
- * two wrappers cast the base once and assign through it.  `tu` reports EXACT,
- * 3 code sections, 140 bytes, 2 of 2 relocation sites resolved.
- *
- * The previous header carried one per-function block per function rather than
- * one `unit: yes` block, so `manifest --verify` recorded only the LAST of the
- * three and 0x0204B764 / 0x0204B784 stayed open in the worklist although the
- * bytes had been reproduced.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B764.c \
- *       --addr 0x0204B764 --arm
- */
 void func_0204B784(char *dst, const Struct36 *src)
 {
     Struct36 s;
@@ -2514,29 +2249,6 @@ void func_0204B784(char *dst, const Struct36 *src)
     *(Struct36 *)(dst + 0x1c) = s;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Three aggregate struct copies out of a cell actor, laid out as one unit so
- * the whole 140-byte range (padding included) is the evidence.
- *
- * docs/notes/pkt_0204B764.c.txt records these as a two-instruction scheduling
- * residue; that note is SUPERSEDED for all three.  The spelling that closes it
- * is in the body below: the unit's middle function binds the copy to a named
- * struct local (`Struct36 s; ... s = *src; *(Struct36 *)(dst + 0x1c) = s;`),
- * which is what puts the source address ahead of the destination move, and the
- * two wrappers cast the base once and assign through it.  `tu` reports EXACT,
- * 3 code sections, 140 bytes, 2 of 2 relocation sites resolved.
- *
- * The previous header carried one per-function block per function rather than
- * one `unit: yes` block, so `manifest --verify` recorded only the LAST of the
- * three and 0x0204B764 / 0x0204B784 stayed open in the worklist although the
- * bytes had been reproduced.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B764.c \
- *       --addr 0x0204B764 --arm
- */
 void func_0204B7C8(const char *src, Struct36 *dst)
 {
     const Struct36 *s = (const Struct36 *)(src + 0x1c);
@@ -2650,37 +2362,6 @@ u16 sub_0204B898(struct Obj_0204B898 *p)
     return p->unk_5a;
 }
 
-/*
- * A whole translation unit range, matched as one byte range.
- *
- * Two members of the interface of the object whose flag word sits at
- * +0x60 (see src/matched/unit_0204B3DC.c and unit_0204B92C.c).  The state
- * this corner of the file owns is the u16 at +0x5a:
- *
- *   sub_0204B898  read it.  Saves no lr, so disasm.py never labels it.
- *   sub_0204B8A0  the guarded write: do nothing when the value is
- *                 unchanged, otherwise hand it to sub_0204B878 (which
- *                 stores it and pushes it down into the 0x0204Dxxx layer)
- *                 and re-run sub_0204B95C on top.
- *
- * The `cmp r1, r2` operand order is the tell that the incoming value is
- * the left operand of the comparison and the field the right one
- * (docs/idioms/cmp-operand-order-names-the-temporary.md), so the guard is
- * written `v == p->unk_5a`, not the other way round.
- *
- * This is a cut out of a larger file: the neighbouring functions
- * 0x0204B8C4, 0x0204B8D4, 0x0204B908 and 0x0204B918 are all byte-correct
- * but each calls a 0x0204Dxxx (or, for 0x0204B918, an 0x02062F1C) entry
- * point that has no caller anywhere else in the image, so they are capped
- * at MATCH and parked in src/pending/, next to the 0x0204B878 that an
- * earlier wave parked there for the same reason.  0x0204B8F4,
- * the other clean one, is in src/matched/sub_0204B8F4.c; it is not
- * contiguous with this pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B898.c \
- *       --addr 0x0204B898 --arm
- */
 void sub_0204B8A0(struct Obj_0204B898 *p, u16 v)
 {
     if (v == p->unk_5a) {
@@ -2790,17 +2471,6 @@ void sub_0204B92C(struct Obj_204B92C *p, u32 v)
     p->unk_60_25 = v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * A setter/getter pair for one bit of the flag word at +0x60 of a widely
- * passed object (bit 25).  The unlabelled getter at 0x0204B944 saves no lr,
- * so disasm.py never labels it; it is only visible by sweeping addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B92C.c \
- *       --addr 0x0204B92C --arm
- */
 u32 sub_0204B944(struct Obj_204B92C *p)
 {
     return p->unk_60_25;
@@ -2934,67 +2604,11 @@ void func_0204B9C4(struct Actor_204B9C4 *a, u32 v)
     }
 }
 
-/*
- * Three functions, 0x0204B9C4 / 0x0204BA00 / 0x0204BA10.  Only the first is
- * labelled: the other two save no lr, so `disasm.py` never named them and the
- * extent walk from 0x0204B9C4 runs straight through both
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They are
- * folded into this unit because that is the only way they get a manifest
- * entry at all; neither can ever be attested by the `label` class.
- *
- * func_0204B9C4 stores a 4-bit field into the actor's +0x60 word and then
- * pushes the same value into the animation record.  The field is a bitfield,
- * not a mask-and-shift: `lsl #0x1c` followed by `orr ..., lsr #1` is the
- * compiler's insert sequence for width 4 at bit offset 27, where an explicit
- * `(v & 0xf) << 27` would have produced an `and` and a single shift
- * (docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md).
- *
- * The zero arm clears two fields and the non-zero arm writes one, which is
- * what makes the compiler predicate all three stores off the single `cmp r4,
- * #0` instead of branching.
- *
- * func_0204BA00 and func_0204BA10 are tail-call thunks that only re-base the
- * actor pointer onto its +0x68 sub-object.  Each is a pool word and a `bx`,
- * never a displacement branch, because every function gets its own section
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B9C4.c \
- *       --addr 0x0204B9C4 --cc 1.1p1 --arm
- */
 void func_0204BA00(struct Actor_204B9C4 *a, const struct Cmd *cmd)
 {
     func_0204D768(&a->ctl, cmd);
 }
 
-/*
- * Three functions, 0x0204B9C4 / 0x0204BA00 / 0x0204BA10.  Only the first is
- * labelled: the other two save no lr, so `disasm.py` never named them and the
- * extent walk from 0x0204B9C4 runs straight through both
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They are
- * folded into this unit because that is the only way they get a manifest
- * entry at all; neither can ever be attested by the `label` class.
- *
- * func_0204B9C4 stores a 4-bit field into the actor's +0x60 word and then
- * pushes the same value into the animation record.  The field is a bitfield,
- * not a mask-and-shift: `lsl #0x1c` followed by `orr ..., lsr #1` is the
- * compiler's insert sequence for width 4 at bit offset 27, where an explicit
- * `(v & 0xf) << 27` would have produced an `and` and a single shift
- * (docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md).
- *
- * The zero arm clears two fields and the non-zero arm writes one, which is
- * what makes the compiler predicate all three stores off the single `cmp r4,
- * #0` instead of branching.
- *
- * func_0204BA00 and func_0204BA10 are tail-call thunks that only re-base the
- * actor pointer onto its +0x68 sub-object.  Each is a pool word and a `bx`,
- * never a displacement branch, because every function gets its own section
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204B9C4.c \
- *       --addr 0x0204B9C4 --cc 1.1p1 --arm
- */
 void func_0204BA10(struct Actor_204B9C4 *a)
 {
     func_0204D7C4(&a->ctl);

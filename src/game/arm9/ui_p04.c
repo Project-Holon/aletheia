@@ -146,23 +146,6 @@ void sub_02035120(struct Obj02035120 *p, u32 a, u32 b)
     p->unk2C = b;
 }
 
-/*
- * Two more plain field setters right after sub_02035080's pair, same shape:
- * "str r1,[r0,#0x18]; str r2,[r0,#0x2c]; bx lr" then
- * "str r1,[r0,#0x20]; str r2,[r0,#0x30]; bx lr", twelve bytes each, no
- * relocations.  A third function follows in the same block at 0x02035138
- * (not attempted here: it loads through two pool words and is not a plain
- * accessor).
- *
- * The struct here only pins the four offsets these two functions touch, not
- * the real layout.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02035120.c \
- *       --addr 0x02035120 --arm
- */
 void sub_0203512C(struct Obj02035120 *p, u32 a, u32 b)
 {
     p->unk20 = a;

@@ -1396,53 +1396,6 @@ void func_020111EC(ScriptVm *vm)
 
 
 
-/*
- * The bottom two functions of the game's script virtual machine ("vm.c", the
- * __FILE__ string this unit's allocation site passes, at 0x020A7268, fixed by
- * the terminator of "net_save.c" at 0x020A725C).
- *
- * func_0201121C is the constructor: it takes a heap id and a 12-byte
- * descriptor { u16 stack_cap; u16 ring_cap; const ScriptCmdFn *cmds;
- * u32 cmd_count; }, allocates the 0x30-byte context plus both arrays behind
- * it in one block, copies the descriptor into the head of the context (12
- * bytes, so the copy is an inlined ldm/stm triple,
- * docs/idioms/aggregate-assignment-is-ldm-stm.md), and points +0x1c at the
- * first array and +0x18 one ring_cap past it.  Both capacities are read back
- * out of the caller's descriptor, not out of the context that was just
- * written, which is why the second ldrh addresses r5 and not r7.
- *
- * func_020111EC is the reset: program counter, both stack depths, the state
- * byte, the wait callback and the pre-dispatch hook all cleared, and both
- * arrays filled with zero at their declared capacities.  It is the shared
- * prologue of the two entry points in the next unit (func_0201126C and
- * func_0201127C, 0x0201126C and 0x0201127C).
- *
- * The 0x30-byte context is:
- *   +0x00 u16 stack_cap      (0x100 for the field script system)
- *   +0x02 u16 ring_cap       (0x40)
- *   +0x04 const ScriptCmdFn *cmds
- *   +0x08 u32 cmd_count
- *   +0x0c u8  stack depth
- *   +0x0d u8  state (0 stopped, 1 running, 2 waiting on the callback)
- *   +0x0e u8  ring depth
- *   +0x10 wait callback
- *   +0x14 u8 *pc
- *   +0x18 u32 *stack
- *   +0x1c u32 *ring
- *   +0x20 user object
- *   +0x24 pre-dispatch hook, +0x28 its argument
- *   +0x2c owner-defined word (the loaded script file, for the field system)
- *
- * The unit stops one word short of the Thumb-to-ARM veneer at 0x02011264
- * (`ldr r3,[pc,#0]; bx r3; .word 0x020307B0`), which no tu range may span
- * (docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020111EC.c \
- *       --addr 0x020111EC --thumb --cc 1.1p1
- */
 ScriptVm *func_0201121C(u32 heapId, const ScriptVmParams *params)
 {
     u32 size;
@@ -1531,63 +1484,6 @@ void func_0201126C(ScriptVm *vm, void *user)
 
 
 
-/*
- *           sub_02011324, sub_02011328
- *
- * The step function of the game's script virtual machine ("vm.c"), plus the
- * four small entry points around it.  The context layout and the
- * constructor are in src/matched/unit_020111EC.c.
- *
- * func_02011298 is the interpreter core, called once per frame by the owner
- * of the context:
- *
- *   state 0  stopped, nothing to do
- *   state 1  running: fetch a u16 opcode with func_02011330 (the cursor read
- *            that advances +0x14 by two), bounds-check it against +0x08, run
- *            the optional pre-dispatch hook at +0x24, then call
- *            cmds[opcode](vm, user).  A handler returning 1 yields for this
- *            frame; returning 0 continues straight into the next opcode, so
- *            the whole loop is one frame's worth of script.
- *   state 2  waiting: call the callback at +0x10 with (vm, user) every frame
- *            until it returns 1, then clear it and go back to running.  A
- *            null callback in this state is treated as "done waiting".
- *
- * Every abnormal exit (null pc, opcode past the table, hook veto) stops the
- * machine by writing 0 to +0x0d and returning 0, and every yield returns 1;
- * the default arm's `state = 0; return 1` and the handler's `return 1` share
- * one tail (docs/idioms/switch-arms-tail-merge.md).
- *
- * Two shapes in the switch are load-bearing and neither is optional.  The
- * arms are written in the order 0, 2, 1, default: state 2 falls through into
- * state 1 once its callback is gone, which is what puts the wait block
- * physically before the loop and lets the fall-through reach the loop head
- * with no branch.  And the interpreter loop leaves through `break` twice
- * over (out of the `for`, then out of the switch) rather than by returning
- * in place, so that the yield and the default arm's stop share one
- * `movs r0, #1; pop` tail; writing `return 1` at either site splits that
- * tail and costs four bytes
- * (docs/idioms/switch-arms-tail-merge.md,
- * docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md).
- *
- * The wait callback has to be bound to a local: the original loads +0x10
- * once and both tests and calls that register, which a re-read of the field
- * across the call would not reproduce.
- *
- * sub_02011290, sub_02011324 and sub_02011328 carry no label in the
- * generated listing: none of the three saves `lr`, so disasm.py's prologue
- * sweep never fires and their bytes print as a `.word` run
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * The field script system instantiates this VM in overlay 10 at
- * func_02158BFC with a 609-entry command table at 0x0217062C; see the
- * "Script virtual machine" section of docs/ASSETS.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201126C.c \
- *       --addr 0x0201126C --thumb --cc 1.1p1
- */
 void func_0201127C(ScriptVm *vm, u8 *pc)
 {
     func_020111EC(vm);
@@ -1597,63 +1493,6 @@ void func_0201127C(ScriptVm *vm, u8 *pc)
 
 
 
-/*
- *           sub_02011324, sub_02011328
- *
- * The step function of the game's script virtual machine ("vm.c"), plus the
- * four small entry points around it.  The context layout and the
- * constructor are in src/matched/unit_020111EC.c.
- *
- * func_02011298 is the interpreter core, called once per frame by the owner
- * of the context:
- *
- *   state 0  stopped, nothing to do
- *   state 1  running: fetch a u16 opcode with func_02011330 (the cursor read
- *            that advances +0x14 by two), bounds-check it against +0x08, run
- *            the optional pre-dispatch hook at +0x24, then call
- *            cmds[opcode](vm, user).  A handler returning 1 yields for this
- *            frame; returning 0 continues straight into the next opcode, so
- *            the whole loop is one frame's worth of script.
- *   state 2  waiting: call the callback at +0x10 with (vm, user) every frame
- *            until it returns 1, then clear it and go back to running.  A
- *            null callback in this state is treated as "done waiting".
- *
- * Every abnormal exit (null pc, opcode past the table, hook veto) stops the
- * machine by writing 0 to +0x0d and returning 0, and every yield returns 1;
- * the default arm's `state = 0; return 1` and the handler's `return 1` share
- * one tail (docs/idioms/switch-arms-tail-merge.md).
- *
- * Two shapes in the switch are load-bearing and neither is optional.  The
- * arms are written in the order 0, 2, 1, default: state 2 falls through into
- * state 1 once its callback is gone, which is what puts the wait block
- * physically before the loop and lets the fall-through reach the loop head
- * with no branch.  And the interpreter loop leaves through `break` twice
- * over (out of the `for`, then out of the switch) rather than by returning
- * in place, so that the yield and the default arm's stop share one
- * `movs r0, #1; pop` tail; writing `return 1` at either site splits that
- * tail and costs four bytes
- * (docs/idioms/switch-arms-tail-merge.md,
- * docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md).
- *
- * The wait callback has to be bound to a local: the original loads +0x10
- * once and both tests and calls that register, which a re-read of the field
- * across the call would not reproduce.
- *
- * sub_02011290, sub_02011324 and sub_02011328 carry no label in the
- * generated listing: none of the three saves `lr`, so disasm.py's prologue
- * sweep never fires and their bytes print as a `.word` run
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * The field script system instantiates this VM in overlay 10 at
- * func_02158BFC with a 609-entry command table at 0x0217062C; see the
- * "Script virtual machine" section of docs/ASSETS.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201126C.c \
- *       --addr 0x0201126C --thumb --cc 1.1p1
- */
 ScriptVm *sub_02011290(ScriptVm *vm)
 {
     vm->state = 0;
@@ -1663,63 +1502,6 @@ ScriptVm *sub_02011290(ScriptVm *vm)
 
 
 
-/*
- *           sub_02011324, sub_02011328
- *
- * The step function of the game's script virtual machine ("vm.c"), plus the
- * four small entry points around it.  The context layout and the
- * constructor are in src/matched/unit_020111EC.c.
- *
- * func_02011298 is the interpreter core, called once per frame by the owner
- * of the context:
- *
- *   state 0  stopped, nothing to do
- *   state 1  running: fetch a u16 opcode with func_02011330 (the cursor read
- *            that advances +0x14 by two), bounds-check it against +0x08, run
- *            the optional pre-dispatch hook at +0x24, then call
- *            cmds[opcode](vm, user).  A handler returning 1 yields for this
- *            frame; returning 0 continues straight into the next opcode, so
- *            the whole loop is one frame's worth of script.
- *   state 2  waiting: call the callback at +0x10 with (vm, user) every frame
- *            until it returns 1, then clear it and go back to running.  A
- *            null callback in this state is treated as "done waiting".
- *
- * Every abnormal exit (null pc, opcode past the table, hook veto) stops the
- * machine by writing 0 to +0x0d and returning 0, and every yield returns 1;
- * the default arm's `state = 0; return 1` and the handler's `return 1` share
- * one tail (docs/idioms/switch-arms-tail-merge.md).
- *
- * Two shapes in the switch are load-bearing and neither is optional.  The
- * arms are written in the order 0, 2, 1, default: state 2 falls through into
- * state 1 once its callback is gone, which is what puts the wait block
- * physically before the loop and lets the fall-through reach the loop head
- * with no branch.  And the interpreter loop leaves through `break` twice
- * over (out of the `for`, then out of the switch) rather than by returning
- * in place, so that the yield and the default arm's stop share one
- * `movs r0, #1; pop` tail; writing `return 1` at either site splits that
- * tail and costs four bytes
- * (docs/idioms/switch-arms-tail-merge.md,
- * docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md).
- *
- * The wait callback has to be bound to a local: the original loads +0x10
- * once and both tests and calls that register, which a re-read of the field
- * across the call would not reproduce.
- *
- * sub_02011290, sub_02011324 and sub_02011328 carry no label in the
- * generated listing: none of the three saves `lr`, so disasm.py's prologue
- * sweep never fires and their bytes print as a `.word` run
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * The field script system instantiates this VM in overlay 10 at
- * func_02158BFC with a 609-entry command table at 0x0217062C; see the
- * "Script virtual machine" section of docs/ASSETS.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201126C.c \
- *       --addr 0x0201126C --thumb --cc 1.1p1
- */
 int func_02011298(ScriptVm *vm)
 {
     u32 op;
@@ -1771,63 +1553,6 @@ int func_02011298(ScriptVm *vm)
 
 
 
-/*
- *           sub_02011324, sub_02011328
- *
- * The step function of the game's script virtual machine ("vm.c"), plus the
- * four small entry points around it.  The context layout and the
- * constructor are in src/matched/unit_020111EC.c.
- *
- * func_02011298 is the interpreter core, called once per frame by the owner
- * of the context:
- *
- *   state 0  stopped, nothing to do
- *   state 1  running: fetch a u16 opcode with func_02011330 (the cursor read
- *            that advances +0x14 by two), bounds-check it against +0x08, run
- *            the optional pre-dispatch hook at +0x24, then call
- *            cmds[opcode](vm, user).  A handler returning 1 yields for this
- *            frame; returning 0 continues straight into the next opcode, so
- *            the whole loop is one frame's worth of script.
- *   state 2  waiting: call the callback at +0x10 with (vm, user) every frame
- *            until it returns 1, then clear it and go back to running.  A
- *            null callback in this state is treated as "done waiting".
- *
- * Every abnormal exit (null pc, opcode past the table, hook veto) stops the
- * machine by writing 0 to +0x0d and returning 0, and every yield returns 1;
- * the default arm's `state = 0; return 1` and the handler's `return 1` share
- * one tail (docs/idioms/switch-arms-tail-merge.md).
- *
- * Two shapes in the switch are load-bearing and neither is optional.  The
- * arms are written in the order 0, 2, 1, default: state 2 falls through into
- * state 1 once its callback is gone, which is what puts the wait block
- * physically before the loop and lets the fall-through reach the loop head
- * with no branch.  And the interpreter loop leaves through `break` twice
- * over (out of the `for`, then out of the switch) rather than by returning
- * in place, so that the yield and the default arm's stop share one
- * `movs r0, #1; pop` tail; writing `return 1` at either site splits that
- * tail and costs four bytes
- * (docs/idioms/switch-arms-tail-merge.md,
- * docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md).
- *
- * The wait callback has to be bound to a local: the original loads +0x10
- * once and both tests and calls that register, which a re-read of the field
- * across the call would not reproduce.
- *
- * sub_02011290, sub_02011324 and sub_02011328 carry no label in the
- * generated listing: none of the three saves `lr`, so disasm.py's prologue
- * sweep never fires and their bytes print as a `.word` run
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * The field script system instantiates this VM in overlay 10 at
- * func_02158BFC with a 609-entry command table at 0x0217062C; see the
- * "Script virtual machine" section of docs/ASSETS.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201126C.c \
- *       --addr 0x0201126C --thumb --cc 1.1p1
- */
 void *sub_02011324(ScriptVm *vm)
 {
     return vm->user;
@@ -1835,63 +1560,6 @@ void *sub_02011324(ScriptVm *vm)
 
 
 
-/*
- *           sub_02011324, sub_02011328
- *
- * The step function of the game's script virtual machine ("vm.c"), plus the
- * four small entry points around it.  The context layout and the
- * constructor are in src/matched/unit_020111EC.c.
- *
- * func_02011298 is the interpreter core, called once per frame by the owner
- * of the context:
- *
- *   state 0  stopped, nothing to do
- *   state 1  running: fetch a u16 opcode with func_02011330 (the cursor read
- *            that advances +0x14 by two), bounds-check it against +0x08, run
- *            the optional pre-dispatch hook at +0x24, then call
- *            cmds[opcode](vm, user).  A handler returning 1 yields for this
- *            frame; returning 0 continues straight into the next opcode, so
- *            the whole loop is one frame's worth of script.
- *   state 2  waiting: call the callback at +0x10 with (vm, user) every frame
- *            until it returns 1, then clear it and go back to running.  A
- *            null callback in this state is treated as "done waiting".
- *
- * Every abnormal exit (null pc, opcode past the table, hook veto) stops the
- * machine by writing 0 to +0x0d and returning 0, and every yield returns 1;
- * the default arm's `state = 0; return 1` and the handler's `return 1` share
- * one tail (docs/idioms/switch-arms-tail-merge.md).
- *
- * Two shapes in the switch are load-bearing and neither is optional.  The
- * arms are written in the order 0, 2, 1, default: state 2 falls through into
- * state 1 once its callback is gone, which is what puts the wait block
- * physically before the loop and lets the fall-through reach the loop head
- * with no branch.  And the interpreter loop leaves through `break` twice
- * over (out of the `for`, then out of the switch) rather than by returning
- * in place, so that the yield and the default arm's stop share one
- * `movs r0, #1; pop` tail; writing `return 1` at either site splits that
- * tail and costs four bytes
- * (docs/idioms/switch-arms-tail-merge.md,
- * docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md).
- *
- * The wait callback has to be bound to a local: the original loads +0x10
- * once and both tests and calls that register, which a re-read of the field
- * across the call would not reproduce.
- *
- * sub_02011290, sub_02011324 and sub_02011328 carry no label in the
- * generated listing: none of the three saves `lr`, so disasm.py's prologue
- * sweep never fires and their bytes print as a `.word` run
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * The field script system instantiates this VM in overlay 10 at
- * func_02158BFC with a 609-entry command table at 0x0217062C; see the
- * "Script virtual machine" section of docs/ASSETS.md.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201126C.c \
- *       --addr 0x0201126C --thumb --cc 1.1p1
- */
 void sub_02011328(ScriptVm *vm, ScriptHookFn hook, void *arg)
 {
     vm->hook = hook;
@@ -1987,52 +1655,6 @@ u32 func_0201134C(struct Stream *s)
 
 
 
-/*
- *           func_020113B0, func_020113B4, func_020113C4
- *
- * Seven functions, no external calls at all, over two small structs read and
- * written by cursor.  Two of the seven carry no label in the generated
- * listing at all: func_0201134C and func_020113B0, both leaves whose
- * prologue (or total absence of one) saves no `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * func_020113B0 is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
- * setter of the +0x14 field that func_020113B4 and func_020113C4 reach only
- * through a history ring.
- *
- * func_02011330 and func_0201134C are a matched pair, a little-endian u16
- * and u32 read off a byte cursor at +0x14, advancing it by 2 and by 4.
- * func_0201134C carries no label in the generated listing: it opens with
- * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
- * fires on it and its 48 bytes print as a `.word` run between func_02011330
- * and func_0201137C (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Its four byte reads are built MSB-first through a Horner chain
- * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
- * allocator does with a `for` loop counting down; the two-byte version is
- * small enough that the same loop unrolls into the flat expression used
- * below.
- *
- * func_0201137C and func_02011398 are a fixed-capacity ring: a byte count at
- * +0xC bounded by a halfword capacity at +0x0, backed by a `u32` array
- * pointed to by +0x18.  func_0201137C pushes if there is room and returns
- * whether it did; func_02011398 pops the oldest entry, or 0 if the ring is
- * empty (and leaves the count at 0 rather than going negative).
- *
- * func_020113B4 and func_020113C4 are a different struct's accessors for a
- * plain u32 field at +0x14, the same offset func_020113B0 sets directly:
- * func_020113B4 pushes the field's old value onto a func_0201137C ring
- * before overwriting it with the new one, and func_020113C4 pops a
- * func_02011398 ring back into the field.  Both take the ring struct
- * pointer as the same first argument as the field's owner, so the two
- * structs are declared distinctly here (Ring and Cur) even though nothing
- * in this file proves they are not the same struct in the original; only
- * the offsets that are read are declared.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011330.c \
- *       --addr 0x02011330 --thumb
- */
 void func_0201137C(struct Ring *r, u32 v)
 {
     if (r->count + 1 < r->cap) {
@@ -2042,52 +1664,6 @@ void func_0201137C(struct Ring *r, u32 v)
 }
 
 
-/*
- *           func_020113B0, func_020113B4, func_020113C4
- *
- * Seven functions, no external calls at all, over two small structs read and
- * written by cursor.  Two of the seven carry no label in the generated
- * listing at all: func_0201134C and func_020113B0, both leaves whose
- * prologue (or total absence of one) saves no `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * func_020113B0 is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
- * setter of the +0x14 field that func_020113B4 and func_020113C4 reach only
- * through a history ring.
- *
- * func_02011330 and func_0201134C are a matched pair, a little-endian u16
- * and u32 read off a byte cursor at +0x14, advancing it by 2 and by 4.
- * func_0201134C carries no label in the generated listing: it opens with
- * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
- * fires on it and its 48 bytes print as a `.word` run between func_02011330
- * and func_0201137C (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Its four byte reads are built MSB-first through a Horner chain
- * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
- * allocator does with a `for` loop counting down; the two-byte version is
- * small enough that the same loop unrolls into the flat expression used
- * below.
- *
- * func_0201137C and func_02011398 are a fixed-capacity ring: a byte count at
- * +0xC bounded by a halfword capacity at +0x0, backed by a `u32` array
- * pointed to by +0x18.  func_0201137C pushes if there is room and returns
- * whether it did; func_02011398 pops the oldest entry, or 0 if the ring is
- * empty (and leaves the count at 0 rather than going negative).
- *
- * func_020113B4 and func_020113C4 are a different struct's accessors for a
- * plain u32 field at +0x14, the same offset func_020113B0 sets directly:
- * func_020113B4 pushes the field's old value onto a func_0201137C ring
- * before overwriting it with the new one, and func_020113C4 pops a
- * func_02011398 ring back into the field.  Both take the ring struct
- * pointer as the same first argument as the field's owner, so the two
- * structs are declared distinctly here (Ring and Cur) even though nothing
- * in this file proves they are not the same struct in the original; only
- * the offsets that are read are declared.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011330.c \
- *       --addr 0x02011330 --thumb
- */
 u32 func_02011398(struct Ring *r)
 {
     if (r->count == 0) {
@@ -2099,104 +1675,12 @@ u32 func_02011398(struct Ring *r)
 
 
 
-/*
- *           func_020113B0, func_020113B4, func_020113C4
- *
- * Seven functions, no external calls at all, over two small structs read and
- * written by cursor.  Two of the seven carry no label in the generated
- * listing at all: func_0201134C and func_020113B0, both leaves whose
- * prologue (or total absence of one) saves no `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * func_020113B0 is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
- * setter of the +0x14 field that func_020113B4 and func_020113C4 reach only
- * through a history ring.
- *
- * func_02011330 and func_0201134C are a matched pair, a little-endian u16
- * and u32 read off a byte cursor at +0x14, advancing it by 2 and by 4.
- * func_0201134C carries no label in the generated listing: it opens with
- * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
- * fires on it and its 48 bytes print as a `.word` run between func_02011330
- * and func_0201137C (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Its four byte reads are built MSB-first through a Horner chain
- * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
- * allocator does with a `for` loop counting down; the two-byte version is
- * small enough that the same loop unrolls into the flat expression used
- * below.
- *
- * func_0201137C and func_02011398 are a fixed-capacity ring: a byte count at
- * +0xC bounded by a halfword capacity at +0x0, backed by a `u32` array
- * pointed to by +0x18.  func_0201137C pushes if there is room and returns
- * whether it did; func_02011398 pops the oldest entry, or 0 if the ring is
- * empty (and leaves the count at 0 rather than going negative).
- *
- * func_020113B4 and func_020113C4 are a different struct's accessors for a
- * plain u32 field at +0x14, the same offset func_020113B0 sets directly:
- * func_020113B4 pushes the field's old value onto a func_0201137C ring
- * before overwriting it with the new one, and func_020113C4 pops a
- * func_02011398 ring back into the field.  Both take the ring struct
- * pointer as the same first argument as the field's owner, so the two
- * structs are declared distinctly here (Ring and Cur) even though nothing
- * in this file proves they are not the same struct in the original; only
- * the offsets that are read are declared.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011330.c \
- *       --addr 0x02011330 --thumb
- */
 void func_020113B0(struct Cur *c, u32 v)
 {
     c->unk14 = v;
 }
 
 
-/*
- *           func_020113B0, func_020113B4, func_020113C4
- *
- * Seven functions, no external calls at all, over two small structs read and
- * written by cursor.  Two of the seven carry no label in the generated
- * listing at all: func_0201134C and func_020113B0, both leaves whose
- * prologue (or total absence of one) saves no `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * func_020113B0 is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
- * setter of the +0x14 field that func_020113B4 and func_020113C4 reach only
- * through a history ring.
- *
- * func_02011330 and func_0201134C are a matched pair, a little-endian u16
- * and u32 read off a byte cursor at +0x14, advancing it by 2 and by 4.
- * func_0201134C carries no label in the generated listing: it opens with
- * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
- * fires on it and its 48 bytes print as a `.word` run between func_02011330
- * and func_0201137C (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Its four byte reads are built MSB-first through a Horner chain
- * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
- * allocator does with a `for` loop counting down; the two-byte version is
- * small enough that the same loop unrolls into the flat expression used
- * below.
- *
- * func_0201137C and func_02011398 are a fixed-capacity ring: a byte count at
- * +0xC bounded by a halfword capacity at +0x0, backed by a `u32` array
- * pointed to by +0x18.  func_0201137C pushes if there is room and returns
- * whether it did; func_02011398 pops the oldest entry, or 0 if the ring is
- * empty (and leaves the count at 0 rather than going negative).
- *
- * func_020113B4 and func_020113C4 are a different struct's accessors for a
- * plain u32 field at +0x14, the same offset func_020113B0 sets directly:
- * func_020113B4 pushes the field's old value onto a func_0201137C ring
- * before overwriting it with the new one, and func_020113C4 pops a
- * func_02011398 ring back into the field.  Both take the ring struct
- * pointer as the same first argument as the field's owner, so the two
- * structs are declared distinctly here (Ring and Cur) even though nothing
- * in this file proves they are not the same struct in the original; only
- * the offsets that are read are declared.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011330.c \
- *       --addr 0x02011330 --thumb
- */
 void func_020113B4(struct Ring *r, u32 v)
 {
     struct Cur *c = (struct Cur *)r;
@@ -2206,52 +1690,6 @@ void func_020113B4(struct Ring *r, u32 v)
 }
 
 
-/*
- *           func_020113B0, func_020113B4, func_020113C4
- *
- * Seven functions, no external calls at all, over two small structs read and
- * written by cursor.  Two of the seven carry no label in the generated
- * listing at all: func_0201134C and func_020113B0, both leaves whose
- * prologue (or total absence of one) saves no `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * func_020113B0 is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
- * setter of the +0x14 field that func_020113B4 and func_020113C4 reach only
- * through a history ring.
- *
- * func_02011330 and func_0201134C are a matched pair, a little-endian u16
- * and u32 read off a byte cursor at +0x14, advancing it by 2 and by 4.
- * func_0201134C carries no label in the generated listing: it opens with
- * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
- * fires on it and its 48 bytes print as a `.word` run between func_02011330
- * and func_0201137C (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * Its four byte reads are built MSB-first through a Horner chain
- * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
- * allocator does with a `for` loop counting down; the two-byte version is
- * small enough that the same loop unrolls into the flat expression used
- * below.
- *
- * func_0201137C and func_02011398 are a fixed-capacity ring: a byte count at
- * +0xC bounded by a halfword capacity at +0x0, backed by a `u32` array
- * pointed to by +0x18.  func_0201137C pushes if there is room and returns
- * whether it did; func_02011398 pops the oldest entry, or 0 if the ring is
- * empty (and leaves the count at 0 rather than going negative).
- *
- * func_020113B4 and func_020113C4 are a different struct's accessors for a
- * plain u32 field at +0x14, the same offset func_020113B0 sets directly:
- * func_020113B4 pushes the field's old value onto a func_0201137C ring
- * before overwriting it with the new one, and func_020113C4 pops a
- * func_02011398 ring back into the field.  Both take the ring struct
- * pointer as the same first argument as the field's owner, so the two
- * structs are declared distinctly here (Ring and Cur) even though nothing
- * in this file proves they are not the same struct in the original; only
- * the offsets that are read are declared.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011330.c \
- *       --addr 0x02011330 --thumb
- */
 u32 func_020113C4(struct Ring *r)
 {
     struct Cur *c = (struct Cur *)r;
@@ -2305,13 +1743,6 @@ int func_020113F0(int row, int col)
 
 
 
-/*
- * vm.c, 0x020113F0..0x02011410: two byte lookups in constant 2D tables,
- * rows of 0x18 and 5 bytes.  Plain subscripts `tbl[row][col]` give the
- * image's `base + row * stride` then `ldrb [col, base]`; the old pending
- * park (byte-offset arithmetic, docs/notes/pkt_020113F0.c.txt) was capped on
- * the two single-pool rodata tables, which sole-ref/self now carries.
- */
 u8 func_02011400(int row, int col)
 {
     return tbl_0209DF10[row][col];
@@ -2527,34 +1958,6 @@ u32 func_02011590(struct IcaAnime *p, s32 v)
 }
 
 
-/*
- * ica_anime.c, 0x02011590..0x02011610: the frame-clock advance and its two
- * neighbours, plus the two four-byte getters that sit between them (they
- * carry no label because they have no prologue, so they are written here as
- * what they are).
- *
- *   func_02011590   advance the clock, reset it if the frame count is
- *                   reached, and poke the animation when the new frame falls
- *                   outside [f14, f14 + f18)
- *   func_020115C0   the same advance but returning "already finished" when
- *                   the frame at entry is past the count
- *   func_020115EC   set the clock outright
- *   (0x02011608)    getter: +0x0C
- *   (0x0201160C)    getter: +0x10
- *
- * The range check is one disjunction in every case: the original reaches the
- * single `bl func_0201183C` from both compares.
- *
- * Signedness: the frame is `f10 >> 12` with an arithmetic shift (asrs), but
- * the compare against f0c is unsigned (bhi/bhs), so f0c is a u32 field while
- * the clock and the frame bounds are s32.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011590.c \
- *       --addr 0x02011590 --thumb
- */
 u32 func_020115C0(struct IcaAnime *p, s32 v)
 {
     s32 f = p->f10 >> 12;
@@ -2570,34 +1973,6 @@ u32 func_020115C0(struct IcaAnime *p, s32 v)
 }
 
 
-/*
- * ica_anime.c, 0x02011590..0x02011610: the frame-clock advance and its two
- * neighbours, plus the two four-byte getters that sit between them (they
- * carry no label because they have no prologue, so they are written here as
- * what they are).
- *
- *   func_02011590   advance the clock, reset it if the frame count is
- *                   reached, and poke the animation when the new frame falls
- *                   outside [f14, f14 + f18)
- *   func_020115C0   the same advance but returning "already finished" when
- *                   the frame at entry is past the count
- *   func_020115EC   set the clock outright
- *   (0x02011608)    getter: +0x0C
- *   (0x0201160C)    getter: +0x10
- *
- * The range check is one disjunction in every case: the original reaches the
- * single `bl func_0201183C` from both compares.
- *
- * Signedness: the frame is `f10 >> 12` with an arithmetic shift (asrs), but
- * the compare against f0c is unsigned (bhi/bhs), so f0c is a u32 field while
- * the clock and the frame bounds are s32.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011590.c \
- *       --addr 0x02011590 --thumb
- */
 void func_020115EC(struct IcaAnime *p, s32 v)
 {
     s32 f = v >> 12;
@@ -2656,29 +2031,6 @@ u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst)
 }
 
 
-/*
- * ica_anime.c, 0x02011610..0x02011688: three copies of one accessor on three
- * parallel field pairs, each of which copies a twelve-byte record out of a
- * table indexed by the current frame.
- *
- *   func_02011610   guard +0x28, table +0x1C
- *   func_02011638   guard +0x2C, table +0x20
- *   (0x02011660)    guard +0x30, table +0x24 - unlabelled in the listing
- *                   (no prologue: the function saves nothing), written here
- *                   as the third copy
- *
- * The index is `(f10 >> 12) - f14`, which is why the original does an asrs
- * by twelve and then a subtract before the multiply by twelve, and the copy
- * itself is one twelve-byte struct assignment (ldm/stm pair plus the third
- * word).  Returning 0 when the table pointer is null is what makes the two
- * epilogues.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011610.c \
- *       --addr 0x02011610 --thumb
- */
 u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst)
 {
     if (p->f2c != 0) {
@@ -2689,29 +2041,6 @@ u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst)
 }
 
 
-/*
- * ica_anime.c, 0x02011610..0x02011688: three copies of one accessor on three
- * parallel field pairs, each of which copies a twelve-byte record out of a
- * table indexed by the current frame.
- *
- *   func_02011610   guard +0x28, table +0x1C
- *   func_02011638   guard +0x2C, table +0x20
- *   (0x02011660)    guard +0x30, table +0x24 - unlabelled in the listing
- *                   (no prologue: the function saves nothing), written here
- *                   as the third copy
- *
- * The index is `(f10 >> 12) - f14`, which is why the original does an asrs
- * by twelve and then a subtract before the multiply by twelve, and the copy
- * itself is one twelve-byte struct assignment (ldm/stm pair plus the third
- * word).  Returning 0 when the table pointer is null is what makes the two
- * epilogues.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011610.c \
- *       --addr 0x02011610 --thumb
- */
 u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst)
 {
     if (p->f30 != 0) {
@@ -3157,37 +2486,6 @@ u32 func_02011D28(u32 (*fn)(void))
 
 
 
-/*
- * func_02011D28 calls its argument, if not null, purely for effect: the
- * call falls straight through into `mvns r0, r4` with no branch around it,
- * so the return value is always the bitwise complement of the function
- * pointer itself, never whatever the call returned.
- *
- * func_02011D34 calls func_0203F0A8 twice and returns nothing, a debug
- * marker pair (begin/end) around nothing in between.
- *
- * func_02011D40 and func_02011D7C, on either side of the function between
- * this pair, were a documented register-swap near miss on their single
- * `struct.unk04 += 1`; now EXACT (src/matched/func_02011D40.c and
- * src/matched/func_02011D7C.c). The fix was declaring the global as a
- * real struct and using field syntax (`g_02146248.unk04 += 1`) instead
- * of raw pointer-plus-offset arithmetic; not merged into this unit
- * because func_02011D60 between them stays out of the manifest (see
- * below).
- *
- * The function between them, func_02011D60, reproduces every byte the
- * comparison covers, but is left out of the manifest: the listing's extent
- * runs two bytes long across the `00 00` alignment pad in front of
- * func_02011D7C, an `EXACT*` this territory's policy does not accept
- * because the follower carries a real label rather than being the
- * unlabelled-follower case `EXACT*` is meant for.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02011D28.c \
- *       --addr 0x02011D28 --thumb
- */
 void func_02011D34(void)
 {
     func_0203F0A8();
@@ -3738,329 +3036,42 @@ u32 func_020120F0(const struct Ctx *p)
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 void *func_020120F4(const struct Ctx *p)
 {
     return p->unk1C;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 u8 *func_020120F8(const struct Ctx *p)
 {
     return func_020127A4(p->unk1C);
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 u32 func_02012104(const struct Ctx *p)
 {
     return p->unk18;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 void func_02012108(struct Ctx *p, u32 v)
 {
     p->unk18 = v;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 void *func_0201210C(const struct Ctx *p)
 {
     return p->unk20;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 void func_02012110(struct Ctx *p, void *v)
 {
     p->unk20 = v;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 u32 func_02012114(const struct Ctx *p)
 {
     if (p->unk20 != 0) {
@@ -4070,94 +3081,12 @@ u32 func_02012114(const struct Ctx *p)
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 void func_02012124(struct Ctx *p, u32 v)
 {
     p->unk30 = v;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 u8 func_0201212C(const struct Ctx *p)
 {
     return p->unk30;
@@ -4170,188 +3099,24 @@ u32 func_02012134(const struct Ctx *p)
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 u32 func_02012138(const struct Ctx *p)
 {
     return p->unk24;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 void func_0201213C(struct Ctx *p, u32 v)
 {
     p->unk32 = v;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 u8 func_02012144(const struct Ctx *p)
 {
     return p->unk32;
 }
 
 
-/*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
- *
- * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
- * label: every one of them is a two- or three-instruction accessor on a
- * 0x34-byte context record, and the whole run arrives in the listing as .word
- * data between two literal pools.
- *
- * The size of the record is not a guess: func_02011F24 is
- * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
- * src/matched/unit_02011F24.c against the same declaration.  The two byte
- * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
- * `strb` immediate only reaches +31, which is
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
- * source.
- *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
- * both are ABS32 against a Thumb target, so the pool word is odd.
- *
- * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
- * listing (it has no register-saving prologue) and no other reference anywhere
- * in the image, so neither the `label` nor the `literal` class has a witness
- * outside the twelve bytes under test.  Every concrete byte reproduces from
- *
- *     void func_02012158(const struct Ctx *p, u32 v)
- *     {
- *         func_02012BC8(p->unk1C, v);
- *     }
- *
- * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020120F0.c \
- *       --addr 0x020120F0 --thumb
- */
 u32 func_0201214C(const struct Ctx *p)
 {
     return func_02012BB0(p->unk1C);
@@ -4446,20 +3211,6 @@ u32 func_02012204(const struct Ctx *p)
 }
 
 
-/*
- * The getter and the clearer of bit 0 of the byte at +0x33 of the same
- * 0x34-byte context record src/matched/unit_020120F0.c describes.  The
- * `lsls #0x1f` / `lsrs #0x1f` pair is a one bit field, not a cast: 32 - 31 is
- * not an integer width, which is
- * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md, and the
- * clearer's `movs r1, #1` / `bics` is what `p->unk33_0 = 0;` compiles to
- * because Thumb has no immediate bic.  Neither function has a relocation.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02012204.c  *       --addr 0x02012204 --thumb
- */
 void func_02012210(struct Ctx *p)
 {
     p->unk33_0 = 0;
@@ -4871,57 +3622,18 @@ void *sub_020124E4(struct Obj *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Four two-byte leaf accessors in a row on the same object.  None of them
- * saves lr, so disasm.py labels none of them and the whole run prints as a
- * `.byte` blob between two pools; they are only reachable by sweeping
- * addresses.  sub_020124EC returns the address of the embedded sub-object
- * at +8 rather than a stored pointer.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020124E4.c \
- *       --addr 0x020124E4 --thumb
- */
 void *sub_020124E8(struct Obj *p)
 {
     return p->unk_0c;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Four two-byte leaf accessors in a row on the same object.  None of them
- * saves lr, so disasm.py labels none of them and the whole run prints as a
- * `.byte` blob between two pools; they are only reachable by sweeping
- * addresses.  sub_020124EC returns the address of the embedded sub-object
- * at +8 rather than a stored pointer.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020124E4.c \
- *       --addr 0x020124E4 --thumb
- */
 u32 *sub_020124EC(struct Obj *p)
 {
     return &p->unk_08;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Four two-byte leaf accessors in a row on the same object.  None of them
- * saves lr, so disasm.py labels none of them and the whole run prints as a
- * `.byte` blob between two pools; they are only reachable by sweeping
- * addresses.  sub_020124EC returns the address of the embedded sub-object
- * at +8 rather than a stored pointer.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020124E4.c \
- *       --addr 0x020124E4 --thumb
- */
 void *sub_020124F0(struct Obj *p)
 {
     return p->unk_00;
@@ -5119,20 +3831,6 @@ void *func_020127A4(struct SaveBlock *p)
 }
 
 
-/*
- * Two address-of-member accessors on the same save-data block, neither of
- * which saves lr, so neither carries a label
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md) and the pair
- * has to be worked as one unit.
- *
- * Both offsets are out of Thumb immediate range and are built as
- * `movs #n / lsls #2`, which is why 0x114 appears as 0x45 and 0x1d4 as 0x75.
- * The second takes an index into a 16-byte array that starts at +0x1d4.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020127A4.c \
- *       --addr 0x020127A4 --thumb
- */
 void *func_020127AC(struct SaveBlock *p, u32 idx)
 {
     return p->unk_1d4[idx];
@@ -5275,468 +3973,72 @@ u32 func_0201283C(const struct BigObj *p)
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 u32 func_02012844(const struct BigObj *p)
 {
     return p->unk158;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 struct Rec1C *func_0201284C(const struct BigObj *p)
 {
     return p->unk160;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 void func_02012854(struct BigObj *p, const struct Rec1C *src)
 {
     *p->unk160 = *src;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 struct Rec1C *func_02012870(const struct BigObj *p)
 {
     return p->unk164;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 void func_02012878(struct BigObj *p, const struct Rec1C *src)
 {
     *p->unk164 = *src;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 struct Rec1C *func_02012894(const struct BigObj *p)
 {
     return p->unk168;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 void func_0201289C(struct BigObj *p, const struct Rec1C *src)
 {
     *p->unk168 = *src;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 struct Rec1C *func_020128B8(const struct BigObj *p)
 {
     return p->unk16C;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 void func_020128C0(struct BigObj *p, const struct Rec1C *src)
 {
     *p->unk16C = *src;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 struct Rec1C *func_020128DC(struct BigObj *p)
 {
     return &p->unk170;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 void func_020128E4(struct BigObj *p, const struct Rec1C *src)
 {
     p->unk170 = *src;
 }
 
 
-/*
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
- *
- * 214 bytes, 0x0201283C..0x02012914, 13 functions, five of them labelled.  It
- * abuts src/matched/unit_02012924.c at the far end, across the one function
- * the cut below moved out.
- *
- * Four pointer fields at +0x160, +0x164, +0x168 and +0x16C and one inline
- * record at +0x170 all hold the same 28-byte thing, and each has a getter and
- * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
- * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
- * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
- * and the `adds r2, r0, r1` that opens each.
- *
- * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
- * callers of func_02008850 in the image: one range holding both leaves the
- * `label` class no witness and the whole unit reads MATCH with every concrete
- * byte right.  Split, each is the other's outside witness and both are EXACT.
- * That is docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
- * the other half is src/matched/unit_02012914.c.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201283C.c \
- *       --addr 0x0201283C --thumb
- */
 void func_02012900(const struct BigObj *p, u16 v)
 {
     *func_02008850((void *)p->unk15C) = v;

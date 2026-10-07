@@ -298,72 +298,6 @@ struct Sub02008C20Obj *sub_02008C58(void *sys)
 
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008CD4
- *
- * alias: the head of the save block with id 0x26, 0x1E0 bytes.  The original
- * file opens at 0x02008C20 with the four bytes that return that size
- * (src/matched/sub_02008C20.c) and this range follows the constructor; the
- * file runs on past 0x02008CF8, where it starts reaching into the static
- * tables at 0x0209DDB4 and 0x020A70C4, which is where this range stops.
- *
- * What the attestation rules say about the run after it, checked with the
- * indexes behind `python tools/match.py tu --suggest-split`:
- *
- *  - sub_02008CF8 itself stays blocked, and not for want of a cut.  It loads
- *    0x020A70C4 and 0x0209DDB4, and each of those two addresses is named by
- *    exactly one pool word in the whole image, its own, at 0x02008D14 and
- *    0x02008D18.  The `literal` class has nothing outside the range, and the
- *    `string` class cannot reach either: 0x020A70C4 is the data table
- *    immediately after "playtime.c", not a string.  It closes the day
- *    anything else in the image loads one of them.
- *  - the four functions after it, 0x02008D1C..0x02008E30, are no longer
- *    blocked by attestation at all, only by not having been written.  Each of
- *    them calls sub_02008C64, sub_02008C94, sub_02008CB4, sub_02008CD4 and
- *    sub_02008CF8, and the callers of each of those five are spread across
- *    several of the four, so any range holding at most two of the four leaves
- *    every one of the five a witness outside it.  0x02008D1C..0x02008DAC and
- *    0x02008DAC..0x02008E30 is such a pair, and the twelve byte thunk at
- *    0x02008DF0 is `local` to the second of them.
- *
- * The block is a flat table with two element widths and its own checksum:
- *
- *   +0x000  u32[0x47]   indices 0x00..0x46
- *   +0x11C  u16[0x60]   indices 0x47..0xA6
- *   +0x1DC  u16         the low half of a checksum over +4..+0x1DC
- *   +0x1DE  u16         ... and its high half
- *
- * sub_02008CB4 and sub_02008CD4 are the getter and setter over that split
- * index space, and both answer 0 for an index at or past 0xA7.  The setter
- * returns what the getter would return, by calling it: the `bl` at the point
- * where both arms have joined is a tail call the compiler could not turn into
- * a `b` because it still has `r4` to pop.
- *
- * The checksum covers 0x1D8 bytes starting at +4, not the whole block, and the
- * pair at +0x1DC and +0x1DE is one 32 bit value split across two `u16` fields:
- * sub_02008C64 reassembles it with an `adds`, not an `orrs`, so the source
- * adds rather than ors.
- *
- * NEAR MISS, 0x02008C28, 48 bytes, 3 concrete bytes wrong, skipped.  The
- * constructor clears the block and then seeds +0x1DE from the word at
- * 0x02FFFC3C in the region the two processors share.  That word is read twice
- * in a row and the two loads are not commoned up, which is a `volatile` read
- * and nothing else: written as a plain `extern u32` the function is two
- * instructions short.  With the `volatile` the size, the schedule and every
- * instruction are the original's, and the three wrong bytes are the register
- * numbering of the three loads alone: the original puts the pool address in
- * `r1` and the first value in `r0`, the compiler does the reverse.  Eleven
- * source shapes were tried (both operand orders, a temporary for either side,
- * a cast on either side, an array-typed declaration, a `const volatile`
- * declaration, and the multiply that folds the two terms into one) and none of
- * them moves it off three.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008C58.c  *       --addr 0x02008C58 --thumb
- */
 void sub_02008C64(struct Sub02008C20Obj *obj, int commit)
 {
     if (commit) {
@@ -373,72 +307,6 @@ void sub_02008C64(struct Sub02008C20Obj *obj, int commit)
     }
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008CD4
- *
- * alias: the head of the save block with id 0x26, 0x1E0 bytes.  The original
- * file opens at 0x02008C20 with the four bytes that return that size
- * (src/matched/sub_02008C20.c) and this range follows the constructor; the
- * file runs on past 0x02008CF8, where it starts reaching into the static
- * tables at 0x0209DDB4 and 0x020A70C4, which is where this range stops.
- *
- * What the attestation rules say about the run after it, checked with the
- * indexes behind `python tools/match.py tu --suggest-split`:
- *
- *  - sub_02008CF8 itself stays blocked, and not for want of a cut.  It loads
- *    0x020A70C4 and 0x0209DDB4, and each of those two addresses is named by
- *    exactly one pool word in the whole image, its own, at 0x02008D14 and
- *    0x02008D18.  The `literal` class has nothing outside the range, and the
- *    `string` class cannot reach either: 0x020A70C4 is the data table
- *    immediately after "playtime.c", not a string.  It closes the day
- *    anything else in the image loads one of them.
- *  - the four functions after it, 0x02008D1C..0x02008E30, are no longer
- *    blocked by attestation at all, only by not having been written.  Each of
- *    them calls sub_02008C64, sub_02008C94, sub_02008CB4, sub_02008CD4 and
- *    sub_02008CF8, and the callers of each of those five are spread across
- *    several of the four, so any range holding at most two of the four leaves
- *    every one of the five a witness outside it.  0x02008D1C..0x02008DAC and
- *    0x02008DAC..0x02008E30 is such a pair, and the twelve byte thunk at
- *    0x02008DF0 is `local` to the second of them.
- *
- * The block is a flat table with two element widths and its own checksum:
- *
- *   +0x000  u32[0x47]   indices 0x00..0x46
- *   +0x11C  u16[0x60]   indices 0x47..0xA6
- *   +0x1DC  u16         the low half of a checksum over +4..+0x1DC
- *   +0x1DE  u16         ... and its high half
- *
- * sub_02008CB4 and sub_02008CD4 are the getter and setter over that split
- * index space, and both answer 0 for an index at or past 0xA7.  The setter
- * returns what the getter would return, by calling it: the `bl` at the point
- * where both arms have joined is a tail call the compiler could not turn into
- * a `b` because it still has `r4` to pop.
- *
- * The checksum covers 0x1D8 bytes starting at +4, not the whole block, and the
- * pair at +0x1DC and +0x1DE is one 32 bit value split across two `u16` fields:
- * sub_02008C64 reassembles it with an `adds`, not an `orrs`, so the source
- * adds rather than ors.
- *
- * NEAR MISS, 0x02008C28, 48 bytes, 3 concrete bytes wrong, skipped.  The
- * constructor clears the block and then seeds +0x1DE from the word at
- * 0x02FFFC3C in the region the two processors share.  That word is read twice
- * in a row and the two loads are not commoned up, which is a `volatile` read
- * and nothing else: written as a plain `extern u32` the function is two
- * instructions short.  With the `volatile` the size, the schedule and every
- * instruction are the original's, and the three wrong bytes are the register
- * numbering of the three loads alone: the original puts the pool address in
- * `r1` and the first value in `r0`, the compiler does the reverse.  Eleven
- * source shapes were tried (both operand orders, a temporary for either side,
- * a cast on either side, an array-typed declaration, a `const volatile`
- * declaration, and the multiply that folds the two terms into one) and none of
- * them moves it off three.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008C58.c  *       --addr 0x02008C58 --thumb
- */
 void sub_02008C94(struct Sub02008C20Obj *obj, int commit)
 {
     if (commit) {
@@ -447,72 +315,6 @@ void sub_02008C94(struct Sub02008C20Obj *obj, int commit)
     }
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008CD4
- *
- * alias: the head of the save block with id 0x26, 0x1E0 bytes.  The original
- * file opens at 0x02008C20 with the four bytes that return that size
- * (src/matched/sub_02008C20.c) and this range follows the constructor; the
- * file runs on past 0x02008CF8, where it starts reaching into the static
- * tables at 0x0209DDB4 and 0x020A70C4, which is where this range stops.
- *
- * What the attestation rules say about the run after it, checked with the
- * indexes behind `python tools/match.py tu --suggest-split`:
- *
- *  - sub_02008CF8 itself stays blocked, and not for want of a cut.  It loads
- *    0x020A70C4 and 0x0209DDB4, and each of those two addresses is named by
- *    exactly one pool word in the whole image, its own, at 0x02008D14 and
- *    0x02008D18.  The `literal` class has nothing outside the range, and the
- *    `string` class cannot reach either: 0x020A70C4 is the data table
- *    immediately after "playtime.c", not a string.  It closes the day
- *    anything else in the image loads one of them.
- *  - the four functions after it, 0x02008D1C..0x02008E30, are no longer
- *    blocked by attestation at all, only by not having been written.  Each of
- *    them calls sub_02008C64, sub_02008C94, sub_02008CB4, sub_02008CD4 and
- *    sub_02008CF8, and the callers of each of those five are spread across
- *    several of the four, so any range holding at most two of the four leaves
- *    every one of the five a witness outside it.  0x02008D1C..0x02008DAC and
- *    0x02008DAC..0x02008E30 is such a pair, and the twelve byte thunk at
- *    0x02008DF0 is `local` to the second of them.
- *
- * The block is a flat table with two element widths and its own checksum:
- *
- *   +0x000  u32[0x47]   indices 0x00..0x46
- *   +0x11C  u16[0x60]   indices 0x47..0xA6
- *   +0x1DC  u16         the low half of a checksum over +4..+0x1DC
- *   +0x1DE  u16         ... and its high half
- *
- * sub_02008CB4 and sub_02008CD4 are the getter and setter over that split
- * index space, and both answer 0 for an index at or past 0xA7.  The setter
- * returns what the getter would return, by calling it: the `bl` at the point
- * where both arms have joined is a tail call the compiler could not turn into
- * a `b` because it still has `r4` to pop.
- *
- * The checksum covers 0x1D8 bytes starting at +4, not the whole block, and the
- * pair at +0x1DC and +0x1DE is one 32 bit value split across two `u16` fields:
- * sub_02008C64 reassembles it with an `adds`, not an `orrs`, so the source
- * adds rather than ors.
- *
- * NEAR MISS, 0x02008C28, 48 bytes, 3 concrete bytes wrong, skipped.  The
- * constructor clears the block and then seeds +0x1DE from the word at
- * 0x02FFFC3C in the region the two processors share.  That word is read twice
- * in a row and the two loads are not commoned up, which is a `volatile` read
- * and nothing else: written as a plain `extern u32` the function is two
- * instructions short.  With the `volatile` the size, the schedule and every
- * instruction are the original's, and the three wrong bytes are the register
- * numbering of the three loads alone: the original puts the pool address in
- * `r1` and the first value in `r0`, the compiler does the reverse.  Eleven
- * source shapes were tried (both operand orders, a temporary for either side,
- * a cast on either side, an array-typed declaration, a `const volatile`
- * declaration, and the multiply that folds the two terms into one) and none of
- * them moves it off three.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008C58.c  *       --addr 0x02008C58 --thumb
- */
 u32 sub_02008CB4(const struct Sub02008C20Obj *obj, int i)
 {
     if (i < 0x47) {
@@ -524,72 +326,6 @@ u32 sub_02008CB4(const struct Sub02008C20Obj *obj, int i)
     return 0;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008CD4
- *
- * alias: the head of the save block with id 0x26, 0x1E0 bytes.  The original
- * file opens at 0x02008C20 with the four bytes that return that size
- * (src/matched/sub_02008C20.c) and this range follows the constructor; the
- * file runs on past 0x02008CF8, where it starts reaching into the static
- * tables at 0x0209DDB4 and 0x020A70C4, which is where this range stops.
- *
- * What the attestation rules say about the run after it, checked with the
- * indexes behind `python tools/match.py tu --suggest-split`:
- *
- *  - sub_02008CF8 itself stays blocked, and not for want of a cut.  It loads
- *    0x020A70C4 and 0x0209DDB4, and each of those two addresses is named by
- *    exactly one pool word in the whole image, its own, at 0x02008D14 and
- *    0x02008D18.  The `literal` class has nothing outside the range, and the
- *    `string` class cannot reach either: 0x020A70C4 is the data table
- *    immediately after "playtime.c", not a string.  It closes the day
- *    anything else in the image loads one of them.
- *  - the four functions after it, 0x02008D1C..0x02008E30, are no longer
- *    blocked by attestation at all, only by not having been written.  Each of
- *    them calls sub_02008C64, sub_02008C94, sub_02008CB4, sub_02008CD4 and
- *    sub_02008CF8, and the callers of each of those five are spread across
- *    several of the four, so any range holding at most two of the four leaves
- *    every one of the five a witness outside it.  0x02008D1C..0x02008DAC and
- *    0x02008DAC..0x02008E30 is such a pair, and the twelve byte thunk at
- *    0x02008DF0 is `local` to the second of them.
- *
- * The block is a flat table with two element widths and its own checksum:
- *
- *   +0x000  u32[0x47]   indices 0x00..0x46
- *   +0x11C  u16[0x60]   indices 0x47..0xA6
- *   +0x1DC  u16         the low half of a checksum over +4..+0x1DC
- *   +0x1DE  u16         ... and its high half
- *
- * sub_02008CB4 and sub_02008CD4 are the getter and setter over that split
- * index space, and both answer 0 for an index at or past 0xA7.  The setter
- * returns what the getter would return, by calling it: the `bl` at the point
- * where both arms have joined is a tail call the compiler could not turn into
- * a `b` because it still has `r4` to pop.
- *
- * The checksum covers 0x1D8 bytes starting at +4, not the whole block, and the
- * pair at +0x1DC and +0x1DE is one 32 bit value split across two `u16` fields:
- * sub_02008C64 reassembles it with an `adds`, not an `orrs`, so the source
- * adds rather than ors.
- *
- * NEAR MISS, 0x02008C28, 48 bytes, 3 concrete bytes wrong, skipped.  The
- * constructor clears the block and then seeds +0x1DE from the word at
- * 0x02FFFC3C in the region the two processors share.  That word is read twice
- * in a row and the two loads are not commoned up, which is a `volatile` read
- * and nothing else: written as a plain `extern u32` the function is two
- * instructions short.  With the `volatile` the size, the schedule and every
- * instruction are the original's, and the three wrong bytes are the register
- * numbering of the three loads alone: the original puts the pool address in
- * `r1` and the first value in `r0`, the compiler does the reverse.  Eleven
- * source shapes were tried (both operand orders, a temporary for either side,
- * a cast on either side, an array-typed declaration, a `const volatile`
- * declaration, and the multiply that folds the two terms into one) and none of
- * them moves it off three.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008C58.c  *       --addr 0x02008C58 --thumb
- */
 u32 sub_02008CD4(struct Sub02008C20Obj *obj, int i, u32 value)
 {
     if (i < 0x47) {
@@ -643,25 +379,6 @@ u32 sub_02008D1C(struct Sub02008C20Obj *obj, int i, u32 value)
     return result;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * alias: the first half of the clamped read-modify-write layer over the save
- * block with id 0x26 (src/matched/unit_02008C58.c).  Each of these takes the
- * block and a counter index, looks the counter's ceiling up with
- * sub_02008CF8, unlocks the block with sub_02008C94, writes through
- * sub_02008CD4 and re-checksums with sub_02008C64.
- *
- * The cut at 0x02008DAC is the one the header of unit_02008C58.c recorded as
- * viable: sub_02008CF8, sub_02008C64, sub_02008C94, sub_02008CB4 and
- * sub_02008CD4 are each called from both halves, so each half is the other's
- * outside witness and no site is left without one.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008D1C.c \
- *       --addr 0x02008D1C --thumb
- */
 u32 sub_02008D58(struct Sub02008C20Obj *obj, int i, u32 limit)
 {
     u32 max = sub_02008CF8(i);
@@ -724,59 +441,11 @@ u32 sub_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta)
     return result;
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * alias: the second half of the clamped read-modify-write layer over the save
- * block with id 0x26; see src/matched/unit_02008D1C.c for the cut.
- *
- * sub_02008DF0 is twelve bytes with no prologue and carries no label in the
- * listing: `ldr r3, [pc, #4]; movs r2, #1; bx r3` plus the pool word
- * 0x02008DAD.  That is `return sub_02008DAC(obj, i, 1);`, the increment-by-one
- * spelling of the function above it, and it is `local` to this range because
- * sub_02008DAC is in it.
- *
- * The one byte that had to be found: `adds r2, r0, r7` in sub_02008DAC is the
- * counter plus the delta with the *call result* in the left slot, and that
- * only happens when a named local holds it.  Written inline in either operand
- * order, `sub_02008CB4(obj, i) + delta` and `delta + sub_02008CB4(obj, i)`
- * both give `adds r2, r7, r0`.  See
- * docs/idioms/commutative-operand-order-names-the-temporary.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008DAC.c \
- *       --addr 0x02008DAC --thumb
- */
 u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i)
 {
     return sub_02008DAC(obj, i, 1);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * alias: the second half of the clamped read-modify-write layer over the save
- * block with id 0x26; see src/matched/unit_02008D1C.c for the cut.
- *
- * sub_02008DF0 is twelve bytes with no prologue and carries no label in the
- * listing: `ldr r3, [pc, #4]; movs r2, #1; bx r3` plus the pool word
- * 0x02008DAD.  That is `return sub_02008DAC(obj, i, 1);`, the increment-by-one
- * spelling of the function above it, and it is `local` to this range because
- * sub_02008DAC is in it.
- *
- * The one byte that had to be found: `adds r2, r0, r7` in sub_02008DAC is the
- * counter plus the delta with the *call result* in the left slot, and that
- * only happens when a named local holds it.  Written inline in either operand
- * order, `sub_02008CB4(obj, i) + delta` and `delta + sub_02008CB4(obj, i)`
- * both give `adds r2, r7, r0`.  See
- * docs/idioms/commutative-operand-order-names-the-temporary.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008DAC.c \
- *       --addr 0x02008DAC --thumb
- */
 u32 sub_02008DFC(struct Sub02008C20Obj *obj, int i)
 {
     u32 max = sub_02008CF8(i);
@@ -862,97 +531,11 @@ void sub_02008E68(struct Sub02008C20Obj *obj, u32 value)
     }
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * alias: the named entry points on top of the clamped counter layer of
- * src/matched/unit_02008D1C.c and src/matched/unit_02008DAC.c.  Counter 0x7B
- * has a ceiling of 6 and counter 0x7C a ceiling of 9999, and each writer range
- * checks its argument against that ceiling before writing.
- *
- * The ceiling table sub_02008CF8 indexes is at 0x0209DDB4 and is six words:
- * 999999999, 999999, 65535, 9999, 999, 6.  That is what makes the bare 9999
- * here and the 7 in sub_02008E68 readable.
- *
- * sub_02008EA0 is twelve bytes with no prologue and no label:
- * `ldr r3, [pc, #4]; movs r1, #0x7c; bx r3` over the pool word 0x02008DFD,
- * that is `return sub_02008DFC(obj, 0x7C);`.
- *
- * NEAR MISS, 0x02008E30, 56 bytes, MATCH with every concrete byte right,
- * skipped.  It walks a five entry table of counter index pairs at 0x0209DDA0,
- *
- *   1A 1B  51 52  53 54  55 56  57 58
- *
- * copying the value of each pair's second counter into its first through
- * sub_02008D58 and then zeroing the second with sub_02008D1C.  Written as
- *
- *   for (i = 0; i < 5; i++) {
- *       int src = tbl[i].unk02;
- *       sub_02008D58(obj, tbl[i].unk00, sub_02008DFC(obj, src));
- *       sub_02008D1C(obj, src, 0);
- *   }
- *
- * over `struct { u16 unk00; u16 unk02; }` it reproduces all 56 bytes, both
- * loads of the one pool word included, and caps at MATCH on the pool word
- * itself: 0x0209DDA0 is named by exactly one word in the 3.9 MB image, its own
- * at 0x02008E64, so the `literal` class discards its only witness and no cut
- * helps.  `--suggest-split` reports the same and leaves this one function out.
- * It is a table of halfwords, not a string, so the `string` class cannot reach
- * it either.  It closes the day anything else in the image loads 0x0209DDA0.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008E68.c \
- *       --addr 0x02008E68 --thumb
- */
 u8 sub_02008E78(struct Sub02008C20Obj *obj)
 {
     return sub_02008DFC(obj, 0x7B);
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * alias: the named entry points on top of the clamped counter layer of
- * src/matched/unit_02008D1C.c and src/matched/unit_02008DAC.c.  Counter 0x7B
- * has a ceiling of 6 and counter 0x7C a ceiling of 9999, and each writer range
- * checks its argument against that ceiling before writing.
- *
- * The ceiling table sub_02008CF8 indexes is at 0x0209DDB4 and is six words:
- * 999999999, 999999, 65535, 9999, 999, 6.  That is what makes the bare 9999
- * here and the 7 in sub_02008E68 readable.
- *
- * sub_02008EA0 is twelve bytes with no prologue and no label:
- * `ldr r3, [pc, #4]; movs r1, #0x7c; bx r3` over the pool word 0x02008DFD,
- * that is `return sub_02008DFC(obj, 0x7C);`.
- *
- * NEAR MISS, 0x02008E30, 56 bytes, MATCH with every concrete byte right,
- * skipped.  It walks a five entry table of counter index pairs at 0x0209DDA0,
- *
- *   1A 1B  51 52  53 54  55 56  57 58
- *
- * copying the value of each pair's second counter into its first through
- * sub_02008D58 and then zeroing the second with sub_02008D1C.  Written as
- *
- *   for (i = 0; i < 5; i++) {
- *       int src = tbl[i].unk02;
- *       sub_02008D58(obj, tbl[i].unk00, sub_02008DFC(obj, src));
- *       sub_02008D1C(obj, src, 0);
- *   }
- *
- * over `struct { u16 unk00; u16 unk02; }` it reproduces all 56 bytes, both
- * loads of the one pool word included, and caps at MATCH on the pool word
- * itself: 0x0209DDA0 is named by exactly one word in the 3.9 MB image, its own
- * at 0x02008E64, so the `literal` class discards its only witness and no cut
- * helps.  `--suggest-split` reports the same and leaves this one function out.
- * It is a table of halfwords, not a string, so the `string` class cannot reach
- * it either.  It closes the day anything else in the image loads 0x0209DDA0.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008E68.c \
- *       --addr 0x02008E68 --thumb
- */
 void sub_02008E88(struct Sub02008C20Obj *obj, u32 value)
 {
     if (value < 9999) {
@@ -960,49 +543,6 @@ void sub_02008E88(struct Sub02008C20Obj *obj, u32 value)
     }
 }
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * alias: the named entry points on top of the clamped counter layer of
- * src/matched/unit_02008D1C.c and src/matched/unit_02008DAC.c.  Counter 0x7B
- * has a ceiling of 6 and counter 0x7C a ceiling of 9999, and each writer range
- * checks its argument against that ceiling before writing.
- *
- * The ceiling table sub_02008CF8 indexes is at 0x0209DDB4 and is six words:
- * 999999999, 999999, 65535, 9999, 999, 6.  That is what makes the bare 9999
- * here and the 7 in sub_02008E68 readable.
- *
- * sub_02008EA0 is twelve bytes with no prologue and no label:
- * `ldr r3, [pc, #4]; movs r1, #0x7c; bx r3` over the pool word 0x02008DFD,
- * that is `return sub_02008DFC(obj, 0x7C);`.
- *
- * NEAR MISS, 0x02008E30, 56 bytes, MATCH with every concrete byte right,
- * skipped.  It walks a five entry table of counter index pairs at 0x0209DDA0,
- *
- *   1A 1B  51 52  53 54  55 56  57 58
- *
- * copying the value of each pair's second counter into its first through
- * sub_02008D58 and then zeroing the second with sub_02008D1C.  Written as
- *
- *   for (i = 0; i < 5; i++) {
- *       int src = tbl[i].unk02;
- *       sub_02008D58(obj, tbl[i].unk00, sub_02008DFC(obj, src));
- *       sub_02008D1C(obj, src, 0);
- *   }
- *
- * over `struct { u16 unk00; u16 unk02; }` it reproduces all 56 bytes, both
- * loads of the one pool word included, and caps at MATCH on the pool word
- * itself: 0x0209DDA0 is named by exactly one word in the 3.9 MB image, its own
- * at 0x02008E64, so the `literal` class discards its only witness and no cut
- * helps.  `--suggest-split` reports the same and leaves this one function out.
- * It is a table of halfwords, not a string, so the `string` class cannot reach
- * it either.  It closes the day anything else in the image loads 0x0209DDA0.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008E68.c \
- *       --addr 0x02008E68 --thumb
- */
 u32 sub_02008EA0(struct Sub02008C20Obj *obj)
 {
     return sub_02008DFC(obj, 0x7C);
@@ -1242,331 +782,31 @@ u32 sub_02008F80(const struct Sub02008F80Obj_02008F80 *obj)
     return obj->unk00;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 u8 *sub_02008F84(struct Sub02008F80Obj_02008F80 *obj)
 {
     return obj->unk08;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 void sub_02008F88(struct Sub02008F80Obj_02008F80 *obj, const void *src)
 {
     MI_CpuCopy8(src, obj->unk08, sizeof(obj->unk08));
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 u8 sub_02008F9C(const struct Sub02008F80Obj_02008F80 *obj)
 {
     return obj->unk04;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 void sub_02008FA0(struct Sub02008F80Obj_02008F80 *obj, u8 value)
 {
     obj->unk04 = value;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 u8 sub_02008FA4(const struct Sub02008F80Obj_02008F80 *obj)
 {
     return obj->unk07;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 void sub_02008FA8(struct Sub02008F80Obj_02008F80 *obj, u32 value)
 {
     if (value < 0xC) {
@@ -1574,386 +814,36 @@ void sub_02008FA8(struct Sub02008F80Obj_02008F80 *obj, u32 value)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 u8 sub_02008FB0(const struct Sub02008F80Obj_02008F80 *obj)
 {
     return obj->unk05;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 void sub_02008FB4(struct Sub02008F80Obj_02008F80 *obj, u8 value)
 {
     obj->unk05 = value;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 u8 sub_02008FB8(const struct Sub02008F80Obj_02008F80 *obj)
 {
     return obj->unk06;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 void sub_02008FBC(struct Sub02008F80Obj_02008F80 *obj, u8 value)
 {
     obj->unk06 = value;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 u16 sub_02008FC0(const struct Sub02008F80Obj_02008F80 *obj)
 {
     return obj->unk1E;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 void sub_02008FC4(struct Sub02008F80Obj_02008F80 *obj, u16 value)
 {
     obj->unk1E = value;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 struct Sub02008F80Entry *sub_02008FC8(struct Sub02008F80Obj_02008F80 *obj, u32 i)
 {
     if (i < 3) {
@@ -1962,56 +852,6 @@ struct Sub02008F80Entry *sub_02008FC8(struct Sub02008F80Obj_02008F80 *obj, u32 i
     return &obj->unk20[0];
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 void sub_02008FD8(struct Sub02008F80Obj_02008F80 *obj, void *arg, u32 i)
 {
     if (i < 3) {
@@ -2019,56 +859,6 @@ void sub_02008FD8(struct Sub02008F80Obj_02008F80 *obj, void *arg, u32 i)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008FA0, sub_02008FA4, sub_02008FA8, sub_02008FB0,
- *           sub_02008FB4, sub_02008FB8, sub_02008FBC, sub_02008FC0,
- *           sub_02008FC4, sub_02008FC8, sub_02008FD8, sub_02008FEC
- *
- * The accessor tail of the 0x38-byte object the allocator at 0x02008F08 hands
- * out, plus the two functions after it.  The range is closed on the right by
- * 0x02008FFC, which is a four-byte function returning 0x460: the size-returning
- * opener of the next file, the same seam that separates the three save block
- * files before this one.  On the left it is closed by the end of sub_02008F48
- * at 0x02008F7E.
- *
- * Fourteen of the sixteen carry no label in the generated listing, because
- * disasm.py's prologue sweep only fires on a function that saves `lr` and a
- * two-instruction accessor saves nothing; the listing emits them as data words
- * and they were read out of the bytes.
- *
- * Object layout, from the accessors:
- *
- *   +0x00  u32   get by sub_02008F80, written by sub_02008F48
- *   +0x04  u8    get/set
- *   +0x05  u8    get/set
- *   +0x06  u8    get/set
- *   +0x07  u8    get by sub_02008F9C's neighbour; the setter refuses >= 0xC
- *   +0x08  0x10  a block copied in whole by sub_02008F88, address handed out
- *                by sub_02008F84
- *   +0x1E  u16   get/set
- *   +0x20  3 x 8 a small table, indexed with a range check that folds out of
- *                range to entry 0 rather than failing
- *
- * Two things worth naming:
- *
- *  - sub_02008F88 copies *into* the object, not out of it.  The argument
- *    shuffle says so: `adds r2, r0, #0` / `adds r2, #8` builds the field
- *    address in `r2`, then `adds r0, r1, #0` puts the caller's pointer in the
- *    source register and `adds r1, r2, #0` the field in the destination
- *    register.  Reading the `#8` as the first argument inverts the function.
- *  - sub_02008FC8 falls through to the in-range arm and puts the out of range
- *    arm at the end, so the source tests `i < 3` first and returns entry 0
- *    after it.  Written the other way round the compiler emits the same six
- *    instructions with the branch inverted and the two arms swapped, which is
- *    ten wrong bytes in a sixteen-byte function.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02008F80.c \
- *       --addr 0x02008F80 --thumb
- */
 struct Sub02008F80Obj_02008F80 *sub_02008FEC(void *sys)
 {
     return sub_020071CC(sub_02012EBC(sys), 0x28);

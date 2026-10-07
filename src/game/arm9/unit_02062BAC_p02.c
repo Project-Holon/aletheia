@@ -50,6 +50,16 @@ int func_02062D08(void *p, u32 i)
 }
 
 
+/*
+ * *
+ * Returns the cell-animation's current animation-sequence record: the sequence
+ * pointer array member at +0x04 of the animation state, dereferenced once. The
+ * value it yields is the 16-byte NANR sequence record the multi-cell node's
+ * own sequence index selected.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02062D40.c  *       --func func_02062D40 --addr 0x02062D40 --cc 1.1p1
+ */
 void *func_02062D40(struct CellAnim *anim)
 {
     return *anim->sequence;

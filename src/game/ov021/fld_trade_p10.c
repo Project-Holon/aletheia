@@ -1,0 +1,550 @@
+/*
+ * file:     fld_trade_p10.c
+ * unit:     yes
+ * function: func_021CDAB8, func_021CDD5C, func_021CDF18, func_021CE12C, func_021CE1F4, func_021CE24C
+ * address:  0x021CDAB8
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_021CE9E4  0x021CE9E4  thumb  ov021
+ *   func_02190EF0  0x02190EF0  thumb  ov021
+ *   func_021CEB64  0x021CEB64  thumb  ov021
+ *   func_021CE81C  0x021CE81C  thumb  ov021
+ *   func_021CEB20  0x021CEB20  thumb  ov021
+ *   func_0203D010  0x0203D010  arm
+ *   func_021CEB84  0x021CEB84  thumb  ov021
+ *   func_0201F02C  0x0201F02C  thumb
+ *   func_021CE7AC  0x021CE7AC  thumb  ov021
+ *   func_021CF068  0x021CF068  thumb  ov021
+ *   func_021CF0F4  0x021CF0F4  thumb  ov021
+ *   func_021CF32C  0x021CF32C  thumb  ov021
+ *   func_021CE9A0  0x021CE9A0  thumb  ov021
+ *   func_020399A8  0x020399A8  arm
+ *   func_02039C68  0x02039C68  arm
+ *   func_02039CB4  0x02039CB4  arm
+ *   func_0203D650  0x0203D650  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_02082D44  0x02082D44  arm
+ *   func_021CF17C  0x021CF17C  thumb  ov021
+ *   func_0203CEAC  0x0203CEAC  arm
+ *   func_0203CDBC  0x0203CDBC  arm
+ *   func_0203CBAC  0x0203CBAC  arm
+ *   func_0203CD98  0x0203CD98  arm
+ *   func_021CF164  0x021CF164  thumb  ov021
+ *   func_0200FB24  0x0200FB24  thumb
+ *   data_021DB498  0x021DB498  data   ov021
+ *   func_021CF1AC  0x021CF1AC  thumb  ov021
+ *   func_021CF220  0x021CF220  thumb  ov021
+ *   func_021CF288  0x021CF288  thumb  ov021
+ *   func_021CF3FC  0x021CF3FC  thumb  ov021
+ *   func_02008494  0x02008494  thumb
+ *   func_0203D1C0  0x0203D1C0  arm
+ *   func_021CE3D8  0x021CE3D8  thumb  ov021
+ *   func_021CEA84  0x021CEA84  thumb  ov021
+ *   func_021CEAB0  0x021CEAB0  thumb  ov021
+ */
+#include "../../matched/include/Obj02098.h"
+
+#define U32(o) (*(u32 *)(p + (o)))
+struct Req;
+struct WordSet;
+struct Entry;
+struct Link;
+typedef unsigned char  u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
+extern void func_021CE9E4(u8 *p, int n);
+extern u32 func_02190EF0(u32 *p);
+extern void func_021CEB64(u8 *p);
+extern void func_021CE81C(u32 *p);
+extern void func_021CEB20(u8 *p);
+extern void func_0203D010(void);
+extern u32 func_021CEB84(u8 *p);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_021CE7AC(u32 *p);
+extern int func_021CF068(u8 *p);
+extern void func_021CF0F4(u8 *p);
+extern u32 func_021CF32C(u32 flag);
+extern void func_021CE9A0(u8 *p);
+extern struct Entry *func_020399A8(void);
+extern void func_02039C68(struct Link *h, u32 a, u32 b);
+extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
+extern u32 func_0203D650(void);
+extern void *func_0203D798(void);
+extern void func_02082D44(void *src, void *dst, int n);
+extern void func_021CF17C(void);
+extern int func_0203CEAC(int a0);
+extern int func_0203CDBC(void);
+extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
+extern int func_0203CD98(void);
+extern void func_021CF164(u32 a);
+extern u32 func_0200FB24(void);
+extern u32 func_021CF1AC(u32 a, u32 b, u32 c);
+extern u32 func_021CF220(u32 a, u32 flag, u32 c);
+extern u32 func_021CF288(u32 a, u32 flag, u32 c);
+extern u32 func_021CF3FC(u32 a, u32 b, int c);
+extern void func_02008494(void *a, void *b);
+extern u32 func_0203D1C0(u32 index);
+extern void func_021CE3D8(u8 *p, u8 i);
+extern void func_021CEA84(u8 *p, int n);
+extern void func_021CEAB0(u8 *p);
+int func_021CDAB8(u8 *p);
+int func_021CDD5C(u8 *p);
+int func_021CDF18(u8 *p);
+void func_021CE12C(u8 *p);
+u8 func_021CE1F4(u8 *p);
+void func_021CE24C(u8 *p);
+extern u8 data_021DB498[];
+
+
+/*
+ * Addresses are Black-image addresses.
+ */
+int func_021CDAB8(u8 *p)
+{
+    switch (p[0x51E]) {
+    case 0:
+        func_021CE9E4(p, *(u16 *)(data_021DB498 + p[0x520] * 12 + 10));
+        p[0x51E]++;
+        break;
+    case 1:
+        if (func_02190EF0((u32 *)U32(0x14)) == 1) {
+            p[0x51E]++;
+        }
+        break;
+    case 2:
+        func_021CEB64(p);
+        func_021CE81C((u32 *)p);
+        U32(0x404) = 0;
+        func_021CEB20(p);
+        func_0203D010();
+        p[0x51E]++;
+        break;
+    case 3:
+        switch (func_021CEB84(p)) {
+        case 1:
+            func_021CEB64(p);
+            if (p[0x519] == 1) {
+                p[0x51E] = 6;
+            } else if (p[0x51A] == 1) {
+                p[0x51E] = 8;
+            } else {
+                func_0201F02C((struct WordSet *)U32(4), 0, (void *)U32(0x404));
+                func_021CE9E4(p, 0x21);
+                p[0x51E] = 4;
+            }
+            break;
+        case 2:
+            func_021CEB64(p);
+            p[0x51E] = 10;
+            break;
+        case 3:
+            func_021CEB64(p);
+            p[0x51E] = 0xe;
+            break;
+        }
+        break;
+    case 4:
+        if (func_02190EF0((u32 *)U32(0x14)) == 1) {
+            func_021CE9E4(p, 0x22);
+            func_021CE7AC((u32 *)p);
+            p[0x51E]++;
+        }
+        break;
+    case 5:
+        if (func_021CF068(p) == 2) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 0xe;
+            break;
+        }
+        if (p[0x577] == 1) {
+            if (func_021CF32C(p[0x51B]) == 1) {
+                p[0x577] = 0;
+            }
+        }
+        func_021CE9A0(p);
+        if (p[0x519] == 1) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 6;
+        } else if (p[0x51A] == 1) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 8;
+        }
+        break;
+    case 6:
+        if (p[0x520] == 0) {
+            func_021CE9E4(p, 0x1e);
+        }
+        p[0x51E] = 7;
+        func_02039C68((struct Link *)func_020399A8(), 1, 0x27);
+        break;
+    case 7:
+        if (p[0x520] != 0 || func_02190EF0((u32 *)U32(0x14)) == 1) {
+            if (func_02039CB4((struct Link *)func_020399A8(), 1, 0x27) == 1) {
+                U32(0x2c) = 1;
+                p[0x51E] = 0xf;
+            } else if (p[0x51A] == 1) {
+                p[0x51E] = 8;
+            }
+        }
+        break;
+    case 8:
+        func_021CE9E4(p, *(u16 *)(data_021DB498 + p[0x520] * 12 + 8));
+        p[0x51E] = 9;
+        break;
+    case 9:
+        if (func_02190EF0((u32 *)U32(0x14)) == 1) {
+            p[0x51E] = 0xe;
+        }
+        break;
+    case 10:
+        U32(0x484) = func_0203D650();
+        func_02082D44(func_0203D798(), p + 0x414, 0x70);
+        func_021CF17C();
+        func_0203CEAC(0);
+        func_0201F02C((struct WordSet *)U32(4), 0, (void *)((int)(p + 0x530)));
+        func_021CE9E4(p, 0x1f);
+        p[0x51E] = 0xb;
+        break;
+    case 11:
+        if (func_0203CDBC() == 1 && func_02190EF0((u32 *)U32(0x14)) == 1) {
+            p[0x51E] = 0xc;
+        }
+        break;
+    case 12:
+        func_0203CBAC((struct Req *)(p + 0x414), 0, (u32)((void *)U32(0x484)));
+        p[0x51E] = 0xd;
+        break;
+    case 13:
+        if (func_0203CD98() == 1) {
+            func_021CF164((u32)p);
+            p[0x51E] = 0;
+        }
+        break;
+    case 14:
+        U32(0x2c) = 2;
+        p[0x51E] = 0xf;
+        break;
+    case 15:
+        func_021CEB64(p);
+        func_021CE81C((u32 *)p);
+        return 1;
+    }
+    if (func_0200FB24() != 0) {
+        func_021CF0F4(p);
+        func_021CEB64(p);
+        U32(0x2c) = 4;
+        return 1;
+    }
+    return 0;
+}
+
+
+int func_021CDD5C(u8 *p)
+{
+    switch (p[0x51E]) {
+    case 0:
+        func_021CE9E4(p, 0x15);
+        p[0x51E]++;
+        break;
+    case 1:
+        if (func_021CF1AC((u32)(p + 0x30), 1, p[0x51B]) == 1) {
+            p[0x51E]++;
+        }
+        break;
+    case 2:
+        func_021CE7AC((u32 *)p);
+        p[0x51E]++;
+        break;
+    case 3:
+        if (func_021CF068(p) == 2) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 10;
+            break;
+        }
+        if (p[0x577] == 1) {
+            if (func_021CF32C(p[0x51B]) == 1) {
+                p[0x577] = 0;
+            }
+        }
+        func_021CE9A0(p);
+        if (p[0x519] == 1) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 4;
+        } else if (p[0x51A] == 1) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 6;
+        }
+        break;
+    case 4:
+        if (p[0x520] == 0) {
+            func_021CE9E4(p, 0x1e);
+        }
+        p[0x51E] = 5;
+        func_02039C68((struct Link *)func_020399A8(), 1, 0x27);
+        break;
+    case 5:
+        if (p[0x520] != 0 || func_02190EF0((u32 *)U32(0x14)) == 1) {
+            if (func_02039CB4((struct Link *)func_020399A8(), 1, 0x27) == 1) {
+                U32(0x2c) = 1;
+                p[0x51E] = 0xb;
+            } else if (p[0x51A] == 1) {
+                p[0x51E] = 6;
+            }
+        }
+        break;
+    case 6:
+        func_021CE9E4(p, *(u16 *)(data_021DB498 + p[0x520] * 12 + 8));
+        p[0x51E] = 7;
+        break;
+    case 7:
+        if (func_02190EF0((u32 *)U32(0x14)) == 1) {
+            U32(0x2c) = 2;
+            p[0x51E] = 0xb;
+        }
+        break;
+    case 8:
+        func_0203CEAC(0);
+        func_0201F02C((struct WordSet *)U32(4), 0, (void *)U32(0x404));
+        func_021CE9E4(p, 0x1f);
+        p[0x51E] = 9;
+        break;
+    case 9:
+        if (func_0203CDBC() == 1 && func_02190EF0((u32 *)U32(0x14)) == 1) {
+            U32(0x2c) = 3;
+            p[0x51E] = 0xb;
+        }
+        break;
+    case 10:
+        U32(0x2c) = 2;
+        p[0x51E] = 0xb;
+        break;
+    case 11:
+        func_021CE81C((u32 *)p);
+        return 1;
+    }
+    if (func_0200FB24() != 0) {
+        func_021CF0F4(p);
+        U32(0x2c) = 4;
+        return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * Case 2's r == 2 arm really calls func_021CF0F4 twice: the original's
+ * branch lands on case 4's second-call tail after its own call.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_021CDF18(u8 *p)
+{
+    switch (p[0x51E]) {
+    case 0:
+        func_021CE9E4(p, 0x15);
+        p[0x51E]++;
+        break;
+    case 1:
+        U32(0x52C) = 0;
+        if (func_021CF1AC((u32)(p + 0x30), 0, p[0x51B]) == 1) {
+            p[0x51E] = 2;
+        }
+        break;
+    case 2:
+        if (func_021CF068(p) == 2) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            func_021CF0F4(p);
+            p[0x51E] = 0xb;
+            break;
+        }
+        if (U32(0x52C) == 1) {
+            p[0x51E] = 3;
+            func_021CF0F4(p);
+        } else if (U32(0x52C) == 2) {
+            p[0x51E] = 9;
+            func_021CF0F4(p);
+        } else if (p[0x519] == 1) {
+            p[0x51E] = 5;
+            func_021CF0F4(p);
+        } else if (p[0x51A] == 1) {
+            p[0x51E] = 0xb;
+            func_021CF0F4(p);
+        }
+        break;
+    case 3:
+        func_021CE7AC((u32 *)p);
+        p[0x51E]++;
+        break;
+    case 4:
+        if (func_021CF068(p) == 2) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 0xb;
+            break;
+        }
+        if (p[0x577] == 1) {
+            if (func_021CF32C(p[0x51B]) == 1) {
+                p[0x577] = 0;
+            }
+        }
+        func_021CE9A0(p);
+        if (p[0x519] == 1) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 5;
+        } else if (p[0x51A] == 1) {
+            func_021CE81C((u32 *)p);
+            func_021CF0F4(p);
+            p[0x51E] = 7;
+        }
+        break;
+    case 5:
+        if (p[0x520] == 0) {
+            func_021CE9E4(p, 0x1e);
+        }
+        p[0x51E] = 6;
+        func_02039C68((struct Link *)func_020399A8(), 1, 0x27);
+        break;
+    case 6:
+        if (p[0x520] != 0 || func_02190EF0((u32 *)U32(0x14)) == 1) {
+            if (func_02039CB4((struct Link *)func_020399A8(), 1, 0x27) == 1) {
+                U32(0x2c) = 1;
+                p[0x51E] = 0xc;
+            } else if (p[0x51A] == 1) {
+                p[0x51E] = 7;
+            }
+        }
+        break;
+    case 7:
+        func_021CE9E4(p, *(u16 *)(data_021DB498 + p[0x520] * 12 + 8));
+        p[0x51E] = 8;
+        break;
+    case 8:
+        if (func_02190EF0((u32 *)U32(0x14)) == 1) {
+            U32(0x2c) = 2;
+            p[0x51E] = 0xc;
+        }
+        break;
+    case 9:
+        func_0203CEAC(0);
+        func_0201F02C((struct WordSet *)U32(4), 0, (void *)((int)(p + 0x530)));
+        func_021CE9E4(p, 0x1f);
+        p[0x51E] = 10;
+        break;
+    case 10:
+        if (func_0203CDBC() == 1 && func_02190EF0((u32 *)U32(0x14)) == 1) {
+            U32(0x2c) = 3;
+            p[0x51E] = 0xc;
+        }
+        break;
+    case 11:
+        U32(0x2c) = 2;
+        p[0x51E] = 0xc;
+        break;
+    case 12:
+        func_021CE81C((u32 *)p);
+        return 1;
+    }
+    if (func_0200FB24() != 0) {
+        func_021CF0F4(p);
+        U32(0x2c) = 4;
+        return 1;
+    }
+    return 0;
+}
+
+
+void func_021CE12C(u8 *p)
+{
+    u8 i;
+    int bit;
+    u8 n;
+
+    for (i = 0; i < 4; i++) {
+        bit = 1 << i;
+        if (p[0x521] & bit) {
+            if (func_021CF220(i, p[0x51B], (u32)(p + 0x30)) == 1)
+                p[0x521] ^= (u8)bit;
+        } else if (p[0x522] & bit) {
+            if (func_021CF288(i, p[0x51B], (u32)(p + 0x30)) == 1)
+                p[0x522] ^= (u8)bit;
+        }
+    }
+    if (p[0x523] == 1 && p[0x525] == 0) {
+        n = func_021CE1F4(p);
+        if (n > 1) {
+            if (func_021CF3FC((u32)(p + 0x494), n, p[0x51B]) == 1) {
+                p[0x523] = 0;
+                p[0x525] = 1;
+            }
+        }
+    }
+}
+
+
+/*
+ * ldr r3,=0x02082D44; movs r2,#0x20; bx r3) has no witness outside the range.
+ * Verified C for the leaf: void func_02008494(void *a, void *b) { func_02082D44(a, b, 0x20); }
+ * (verified EXACT, 12 bytes, thumb, with func_02082D44 0x02082D44 arm; leaf not filed here.)
+ *
+ * Addresses are Black-image addresses.
+ */
+u8 func_021CE1F4(u8 *p)
+{
+    u8 i;
+    u8 mask;
+    u8 *buf;
+    u8 *e;
+
+    mask = 0;
+    i = 0;
+    e = p + 0x50;
+    buf = p + 0x494;
+    for (; i < 4; i++) {
+        if (p[0x70 + i * 0x2c]) {
+            func_02008494(e + i * 0x2c, buf + i * 32);
+            mask |= 1 << i;
+        }
+    }
+    p[0x514] = mask;
+    return 1 | mask;
+}
+
+
+void func_021CE24C(u8 *p)
+{
+    u8 i;
+    int off;
+
+    for (i = 0; i < 4; i++) {
+        off = i * 0x2c;
+        if (p[0x70 + off] && !func_0203D1C0(i)) {
+            void (*cb)(u32, u8 *, u8 *) = *(void (**)(u32, u8 *, u8 *))(p + 0x490);
+
+            if (cb) {
+                cb(((struct Obj02098 *)p)->f488, p + 0x50 + off, p + 0x73 + off);
+            }
+            func_021CE3D8(p, i);
+            func_021CEA84(p, i);
+            func_021CEAB0(p);
+        }
+    }
+}

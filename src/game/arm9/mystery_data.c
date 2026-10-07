@@ -665,51 +665,6 @@ u32 sub_02009A34(struct Sub020097BCObj *obj)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009B3C, sub_02009B80, sub_02009BB8
- *
- * alias: wifilist.c's list maintenance.  The two parallel arrays of
- * src/matched/unit_02009860.c hold 32 slots each, an 0x0C-byte DWC friend
- * record at +0x40 and an 0x30-byte entry at +0x1C0, and every function here
- * moves both together.
- *
- * sub_02009B3C is the compaction pass and is the one worth reading.  It scans
- * the 32 slots keeping `j` at the first hole it has seen, and when it finds a
- * used slot after a hole it moves it down with sub_02009AE4 and then sets
- * `i = -1` so the `i++` restarts the scan from zero.  The compiler cross-jumps
- * the two assignments to `j`: the restart arm's `j = -1` and the hole arm's
- * `j = i` become one `adds r5, r4, #0` reached from both, which is only
- * correct because `i` has just been set to -1 on the first path.  Reading that
- * shared instruction as a single statement is what makes the restart visible.
- *
- * -1 costs three materialisations here, one in a register and two in stack
- * slots, because the function is out of callee-saved registers: the same
- * constant is the loop's sentinel, the value assigned to `i`, and the value
- * compared against in the other arm.
- *
- * The tail of sub_02009A74 is where the shape of the source is visible.  It
- * clears slot 31 of both arrays, and the original reaches it as base plus
- * offset in two separate adds: `obj + 0x1C0` and then `+ 0x5D0`, with the
- * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
- * Written as `&obj->unk1C0[31]` the compiler folds the two constants into one
- * 0x790 and the tail is 34 bytes different; only a local pointer, assigned
- * from the array *after* the loop and indexed with the literal 31, keeps them
- * apart.  Assigning the same pointers before the loop is wrong too: they then
- * stay live in callee-saved registers and the reload of `obj` from its stack
- * slot disappears.
- *
- * sub_02009B80 stamps the entry with the date.  func_0203F4E4 fills a 0x10-byte
- * record on the stack whose first three words are year, month and day, and the
- * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
- * in front of the `strh`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009A34.c \
- *       --addr 0x02009A34 --thumb
- */
 u32 sub_02009A54(struct Sub020097BCObj *obj)
 {
     int i;
@@ -724,51 +679,6 @@ u32 sub_02009A54(struct Sub020097BCObj *obj)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009B3C, sub_02009B80, sub_02009BB8
- *
- * alias: wifilist.c's list maintenance.  The two parallel arrays of
- * src/matched/unit_02009860.c hold 32 slots each, an 0x0C-byte DWC friend
- * record at +0x40 and an 0x30-byte entry at +0x1C0, and every function here
- * moves both together.
- *
- * sub_02009B3C is the compaction pass and is the one worth reading.  It scans
- * the 32 slots keeping `j` at the first hole it has seen, and when it finds a
- * used slot after a hole it moves it down with sub_02009AE4 and then sets
- * `i = -1` so the `i++` restarts the scan from zero.  The compiler cross-jumps
- * the two assignments to `j`: the restart arm's `j = -1` and the hole arm's
- * `j = i` become one `adds r5, r4, #0` reached from both, which is only
- * correct because `i` has just been set to -1 on the first path.  Reading that
- * shared instruction as a single statement is what makes the restart visible.
- *
- * -1 costs three materialisations here, one in a register and two in stack
- * slots, because the function is out of callee-saved registers: the same
- * constant is the loop's sentinel, the value assigned to `i`, and the value
- * compared against in the other arm.
- *
- * The tail of sub_02009A74 is where the shape of the source is visible.  It
- * clears slot 31 of both arrays, and the original reaches it as base plus
- * offset in two separate adds: `obj + 0x1C0` and then `+ 0x5D0`, with the
- * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
- * Written as `&obj->unk1C0[31]` the compiler folds the two constants into one
- * 0x790 and the tail is 34 bytes different; only a local pointer, assigned
- * from the array *after* the loop and indexed with the literal 31, keeps them
- * apart.  Assigning the same pointers before the loop is wrong too: they then
- * stay live in callee-saved registers and the reload of `obj` from its stack
- * slot disappears.
- *
- * sub_02009B80 stamps the entry with the date.  func_0203F4E4 fills a 0x10-byte
- * record on the stack whose first three words are year, month and day, and the
- * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
- * in front of the `strh`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009A34.c \
- *       --addr 0x02009A34 --thumb
- */
 void sub_02009A74(struct Sub020097BCObj *obj, u32 i)
 {
     struct Sub020097BCEnt *ents;
@@ -790,51 +700,6 @@ void sub_02009A74(struct Sub020097BCObj *obj, u32 i)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009B3C, sub_02009B80, sub_02009BB8
- *
- * alias: wifilist.c's list maintenance.  The two parallel arrays of
- * src/matched/unit_02009860.c hold 32 slots each, an 0x0C-byte DWC friend
- * record at +0x40 and an 0x30-byte entry at +0x1C0, and every function here
- * moves both together.
- *
- * sub_02009B3C is the compaction pass and is the one worth reading.  It scans
- * the 32 slots keeping `j` at the first hole it has seen, and when it finds a
- * used slot after a hole it moves it down with sub_02009AE4 and then sets
- * `i = -1` so the `i++` restarts the scan from zero.  The compiler cross-jumps
- * the two assignments to `j`: the restart arm's `j = -1` and the hole arm's
- * `j = i` become one `adds r5, r4, #0` reached from both, which is only
- * correct because `i` has just been set to -1 on the first path.  Reading that
- * shared instruction as a single statement is what makes the restart visible.
- *
- * -1 costs three materialisations here, one in a register and two in stack
- * slots, because the function is out of callee-saved registers: the same
- * constant is the loop's sentinel, the value assigned to `i`, and the value
- * compared against in the other arm.
- *
- * The tail of sub_02009A74 is where the shape of the source is visible.  It
- * clears slot 31 of both arrays, and the original reaches it as base plus
- * offset in two separate adds: `obj + 0x1C0` and then `+ 0x5D0`, with the
- * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
- * Written as `&obj->unk1C0[31]` the compiler folds the two constants into one
- * 0x790 and the tail is 34 bytes different; only a local pointer, assigned
- * from the array *after* the loop and indexed with the literal 31, keeps them
- * apart.  Assigning the same pointers before the loop is wrong too: they then
- * stay live in callee-saved registers and the reload of `obj` from its stack
- * slot disappears.
- *
- * sub_02009B80 stamps the entry with the date.  func_0203F4E4 fills a 0x10-byte
- * record on the stack whose first three words are year, month and day, and the
- * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
- * in front of the `strh`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009A34.c \
- *       --addr 0x02009A34 --thumb
- */
 void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src)
 {
     MI_CpuCopy8(&obj->unk1C0[src], &obj->unk1C0[dest], sizeof(obj->unk1C0[0]));
@@ -844,51 +709,6 @@ void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009B3C, sub_02009B80, sub_02009BB8
- *
- * alias: wifilist.c's list maintenance.  The two parallel arrays of
- * src/matched/unit_02009860.c hold 32 slots each, an 0x0C-byte DWC friend
- * record at +0x40 and an 0x30-byte entry at +0x1C0, and every function here
- * moves both together.
- *
- * sub_02009B3C is the compaction pass and is the one worth reading.  It scans
- * the 32 slots keeping `j` at the first hole it has seen, and when it finds a
- * used slot after a hole it moves it down with sub_02009AE4 and then sets
- * `i = -1` so the `i++` restarts the scan from zero.  The compiler cross-jumps
- * the two assignments to `j`: the restart arm's `j = -1` and the hole arm's
- * `j = i` become one `adds r5, r4, #0` reached from both, which is only
- * correct because `i` has just been set to -1 on the first path.  Reading that
- * shared instruction as a single statement is what makes the restart visible.
- *
- * -1 costs three materialisations here, one in a register and two in stack
- * slots, because the function is out of callee-saved registers: the same
- * constant is the loop's sentinel, the value assigned to `i`, and the value
- * compared against in the other arm.
- *
- * The tail of sub_02009A74 is where the shape of the source is visible.  It
- * clears slot 31 of both arrays, and the original reaches it as base plus
- * offset in two separate adds: `obj + 0x1C0` and then `+ 0x5D0`, with the
- * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
- * Written as `&obj->unk1C0[31]` the compiler folds the two constants into one
- * 0x790 and the tail is 34 bytes different; only a local pointer, assigned
- * from the array *after* the loop and indexed with the literal 31, keeps them
- * apart.  Assigning the same pointers before the loop is wrong too: they then
- * stay live in callee-saved registers and the reload of `obj` from its stack
- * slot disappears.
- *
- * sub_02009B80 stamps the entry with the date.  func_0203F4E4 fills a 0x10-byte
- * record on the stack whose first three words are year, month and day, and the
- * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
- * in front of the `strh`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009A34.c \
- *       --addr 0x02009A34 --thumb
- */
 void sub_02009B3C(struct Sub020097BCObj *obj)
 {
     int i;
@@ -910,51 +730,6 @@ void sub_02009B3C(struct Sub020097BCObj *obj)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009B3C, sub_02009B80, sub_02009BB8
- *
- * alias: wifilist.c's list maintenance.  The two parallel arrays of
- * src/matched/unit_02009860.c hold 32 slots each, an 0x0C-byte DWC friend
- * record at +0x40 and an 0x30-byte entry at +0x1C0, and every function here
- * moves both together.
- *
- * sub_02009B3C is the compaction pass and is the one worth reading.  It scans
- * the 32 slots keeping `j` at the first hole it has seen, and when it finds a
- * used slot after a hole it moves it down with sub_02009AE4 and then sets
- * `i = -1` so the `i++` restarts the scan from zero.  The compiler cross-jumps
- * the two assignments to `j`: the restart arm's `j = -1` and the hole arm's
- * `j = i` become one `adds r5, r4, #0` reached from both, which is only
- * correct because `i` has just been set to -1 on the first path.  Reading that
- * shared instruction as a single statement is what makes the restart visible.
- *
- * -1 costs three materialisations here, one in a register and two in stack
- * slots, because the function is out of callee-saved registers: the same
- * constant is the loop's sentinel, the value assigned to `i`, and the value
- * compared against in the other arm.
- *
- * The tail of sub_02009A74 is where the shape of the source is visible.  It
- * clears slot 31 of both arrays, and the original reaches it as base plus
- * offset in two separate adds: `obj + 0x1C0` and then `+ 0x5D0`, with the
- * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
- * Written as `&obj->unk1C0[31]` the compiler folds the two constants into one
- * 0x790 and the tail is 34 bytes different; only a local pointer, assigned
- * from the array *after* the loop and indexed with the literal 31, keeps them
- * apart.  Assigning the same pointers before the loop is wrong too: they then
- * stay live in callee-saved registers and the reload of `obj` from its stack
- * slot disappears.
- *
- * sub_02009B80 stamps the entry with the date.  func_0203F4E4 fills a 0x10-byte
- * record on the stack whose first three words are year, month and day, and the
- * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
- * in front of the `strh`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009A34.c \
- *       --addr 0x02009A34 --thumb
- */
 void sub_02009B80(struct Sub020097BCObj *obj, int i)
 {
     struct Sub0203F4E4Date date;
@@ -966,51 +741,6 @@ void sub_02009B80(struct Sub020097BCObj *obj, int i)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009B3C, sub_02009B80, sub_02009BB8
- *
- * alias: wifilist.c's list maintenance.  The two parallel arrays of
- * src/matched/unit_02009860.c hold 32 slots each, an 0x0C-byte DWC friend
- * record at +0x40 and an 0x30-byte entry at +0x1C0, and every function here
- * moves both together.
- *
- * sub_02009B3C is the compaction pass and is the one worth reading.  It scans
- * the 32 slots keeping `j` at the first hole it has seen, and when it finds a
- * used slot after a hole it moves it down with sub_02009AE4 and then sets
- * `i = -1` so the `i++` restarts the scan from zero.  The compiler cross-jumps
- * the two assignments to `j`: the restart arm's `j = -1` and the hole arm's
- * `j = i` become one `adds r5, r4, #0` reached from both, which is only
- * correct because `i` has just been set to -1 on the first path.  Reading that
- * shared instruction as a single statement is what makes the restart visible.
- *
- * -1 costs three materialisations here, one in a register and two in stack
- * slots, because the function is out of callee-saved registers: the same
- * constant is the loop's sentinel, the value assigned to `i`, and the value
- * compared against in the other arm.
- *
- * The tail of sub_02009A74 is where the shape of the source is visible.  It
- * clears slot 31 of both arrays, and the original reaches it as base plus
- * offset in two separate adds: `obj + 0x1C0` and then `+ 0x5D0`, with the
- * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
- * Written as `&obj->unk1C0[31]` the compiler folds the two constants into one
- * 0x790 and the tail is 34 bytes different; only a local pointer, assigned
- * from the array *after* the loop and indexed with the literal 31, keeps them
- * apart.  Assigning the same pointers before the loop is wrong too: they then
- * stay live in callee-saved registers and the reload of `obj` from its stack
- * slot disappears.
- *
- * sub_02009B80 stamps the entry with the date.  func_0203F4E4 fills a 0x10-byte
- * record on the stack whose first three words are year, month and day, and the
- * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
- * in front of the `strh`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009A34.c \
- *       --addr 0x02009A34 --thumb
- */
 void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c)
 {
     if (i < 0 || i >= 0x20) {
@@ -1075,25 +805,6 @@ void sub_02009C24(struct Sub020097BCObj *obj, int src, int dest)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * alias: wifilist.c.  sub_02009C24 folds one entry's three counters into
- * another's, clamping each at 9999 the way sub_02009BB8 does, and then clears
- * the entry it drained.
- *
- * The cut between this range and src/matched/unit_02009CB0.c is what makes
- * both halves EXACT.  DWC_CreateExchangeToken is reached from exactly two
- * places in the image, the pool word of sub_02009CA8 at 0x02009CAC and the
- * `blx` inside sub_02009CB0 at 0x02009CB8, and a range holding both leaves the
- * address with no witness at all.  Split, the `blx` attests this file's pool
- * word and the pool word attests that file's `blx`.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009C24.c  *       --addr 0x02009C24 --thumb
- */
 void sub_02009CA8(void *account, void *out)
 {
     DWC_CreateExchangeToken(account, out);
@@ -1189,63 +900,6 @@ u32 sub_02009CE4(struct Sub020097BCObj *obj)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * alias: the DWC-facing end of wifilist.c.  sub_02009D08 is the one that names
- * the save block: it fetches block id 0x1E out of sub_020071CC and hands it
- * straight to the entry accessor of src/matched/unit_02009860.c, so the wifi
- * friend list lives in block 0x1E.
- *
- * sub_02009860, the two-byte `bx lr` in src/matched/unit_02009860.c, is used
- * here the way sub_020084F4 is used in src/matched/unit_02008F48.c: its result
- * feeds the next call's first argument with no move in between, so it is an
- * identity accessor and is declared with the type that call needs.
- *
- * NEAR MISS, 0x02009CB0 and 0x02009CC0, 50 bytes, skipped for attestation and
- * not for codegen.  They are
- *
- *   void sub_02009CB0(struct WifiList *obj, void *out)
- *   {
- *       DWC_CreateExchangeToken(sub_02009860(obj), out);
- *   }
- *
- *   void sub_02009CC0(struct WifiList *obj)
- *   {
- *       u8 token[0xC];
- *       void *account = sub_02009860(obj);
- *
- *       sub_02009CB0(obj, token);
- *       DWC_GetGsProfileId(account, token);
- *   }
- *
- * and with sub_02009C24 they reproduce every concrete byte.  The chain that
- * blocks them is two links long.  DWC_CreateExchangeToken is reached from
- * exactly two places in the image: the pool word of sub_02009CA8 at 0x02009CAC
- * and the `blx` in sub_02009CB0 at 0x02009CB8.  Whichever of the two is in the
- * range, the other is its witness, so exactly one of them can be matched, and
- * src/matched/unit_02009C24.c takes sub_02009CA8 because that choice is what
- * lets its own pool word be attested by the `blx`.  sub_02009CB0 is then
- * unmatched, and the only branch to *it* anywhere in the image is the one in
- * sub_02009CC0, so sub_02009CC0 cannot be matched either.  Both close the day
- * anything else in the image calls either address.
- *
- * sub_02009D50 compares two call results against two parameters, and both
- * comparisons only come out `cmp r0, rN` when a named local holds the result:
- * written inline, in either operand order or as one `&&` chain, the compiler
- * normalises to `cmp rN, r0` and the file is two bytes wrong.  See
- * docs/idioms/cmp-operand-order-names-the-temporary.md.
- *
- * sub_02009D50's second parameter is dead: nothing in it reads r1, and
- * sub_02009D1C still computes sub_020084F4(p) to pass there.  Leaving the
- * parameter out moves every argument and the function does not match, so the
- * dead argument is part of the shape.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009C24.c \
- *       --addr 0x02009C24 --thumb
- */
 struct Sub020097BCObj *sub_02009D08(void *sys)
 {
     struct Sub020097BCObj *obj = sub_020071CC(sys, 0x1E);
@@ -1255,63 +909,6 @@ struct Sub020097BCObj *sub_02009D08(void *sys)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * alias: the DWC-facing end of wifilist.c.  sub_02009D08 is the one that names
- * the save block: it fetches block id 0x1E out of sub_020071CC and hands it
- * straight to the entry accessor of src/matched/unit_02009860.c, so the wifi
- * friend list lives in block 0x1E.
- *
- * sub_02009860, the two-byte `bx lr` in src/matched/unit_02009860.c, is used
- * here the way sub_020084F4 is used in src/matched/unit_02008F48.c: its result
- * feeds the next call's first argument with no move in between, so it is an
- * identity accessor and is declared with the type that call needs.
- *
- * NEAR MISS, 0x02009CB0 and 0x02009CC0, 50 bytes, skipped for attestation and
- * not for codegen.  They are
- *
- *   void sub_02009CB0(struct WifiList *obj, void *out)
- *   {
- *       DWC_CreateExchangeToken(sub_02009860(obj), out);
- *   }
- *
- *   void sub_02009CC0(struct WifiList *obj)
- *   {
- *       u8 token[0xC];
- *       void *account = sub_02009860(obj);
- *
- *       sub_02009CB0(obj, token);
- *       DWC_GetGsProfileId(account, token);
- *   }
- *
- * and with sub_02009C24 they reproduce every concrete byte.  The chain that
- * blocks them is two links long.  DWC_CreateExchangeToken is reached from
- * exactly two places in the image: the pool word of sub_02009CA8 at 0x02009CAC
- * and the `blx` in sub_02009CB0 at 0x02009CB8.  Whichever of the two is in the
- * range, the other is its witness, so exactly one of them can be matched, and
- * src/matched/unit_02009C24.c takes sub_02009CA8 because that choice is what
- * lets its own pool word be attested by the `blx`.  sub_02009CB0 is then
- * unmatched, and the only branch to *it* anywhere in the image is the one in
- * sub_02009CC0, so sub_02009CC0 cannot be matched either.  Both close the day
- * anything else in the image calls either address.
- *
- * sub_02009D50 compares two call results against two parameters, and both
- * comparisons only come out `cmp r0, rN` when a named local holds the result:
- * written inline, in either operand order or as one `&&` chain, the compiler
- * normalises to `cmp rN, r0` and the file is two bytes wrong.  See
- * docs/idioms/cmp-operand-order-names-the-temporary.md.
- *
- * sub_02009D50's second parameter is dead: nothing in it reads r1, and
- * sub_02009D1C still computes sub_020084F4(p) to pass there.  Leaving the
- * parameter out moves every argument and the function does not match, so the
- * dead argument is part of the shape.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009C24.c \
- *       --addr 0x02009C24 --thumb
- */
 int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p,
                  u32 *out)
 {
@@ -1322,63 +919,6 @@ int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p,
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * alias: the DWC-facing end of wifilist.c.  sub_02009D08 is the one that names
- * the save block: it fetches block id 0x1E out of sub_020071CC and hands it
- * straight to the entry accessor of src/matched/unit_02009860.c, so the wifi
- * friend list lives in block 0x1E.
- *
- * sub_02009860, the two-byte `bx lr` in src/matched/unit_02009860.c, is used
- * here the way sub_020084F4 is used in src/matched/unit_02008F48.c: its result
- * feeds the next call's first argument with no move in between, so it is an
- * identity accessor and is declared with the type that call needs.
- *
- * NEAR MISS, 0x02009CB0 and 0x02009CC0, 50 bytes, skipped for attestation and
- * not for codegen.  They are
- *
- *   void sub_02009CB0(struct WifiList *obj, void *out)
- *   {
- *       DWC_CreateExchangeToken(sub_02009860(obj), out);
- *   }
- *
- *   void sub_02009CC0(struct WifiList *obj)
- *   {
- *       u8 token[0xC];
- *       void *account = sub_02009860(obj);
- *
- *       sub_02009CB0(obj, token);
- *       DWC_GetGsProfileId(account, token);
- *   }
- *
- * and with sub_02009C24 they reproduce every concrete byte.  The chain that
- * blocks them is two links long.  DWC_CreateExchangeToken is reached from
- * exactly two places in the image: the pool word of sub_02009CA8 at 0x02009CAC
- * and the `blx` in sub_02009CB0 at 0x02009CB8.  Whichever of the two is in the
- * range, the other is its witness, so exactly one of them can be matched, and
- * src/matched/unit_02009C24.c takes sub_02009CA8 because that choice is what
- * lets its own pool word be attested by the `blx`.  sub_02009CB0 is then
- * unmatched, and the only branch to *it* anywhere in the image is the one in
- * sub_02009CC0, so sub_02009CC0 cannot be matched either.  Both close the day
- * anything else in the image calls either address.
- *
- * sub_02009D50 compares two call results against two parameters, and both
- * comparisons only come out `cmp r0, rN` when a named local holds the result:
- * written inline, in either operand order or as one `&&` chain, the compiler
- * normalises to `cmp rN, r0` and the file is two bytes wrong.  See
- * docs/idioms/cmp-operand-order-names-the-temporary.md.
- *
- * sub_02009D50's second parameter is dead: nothing in it reads r1, and
- * sub_02009D1C still computes sub_020084F4(p) to pass there.  Leaving the
- * parameter out moves every argument and the function does not match, so the
- * dead argument is part of the shape.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009C24.c \
- *       --addr 0x02009C24 --thumb
- */
 int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
                  u32 kind, u32 *out)
 {
@@ -1426,23 +966,6 @@ u32 sub_02009D9C(void)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * alias: the head of the next file after wifilist.c, a 0xD54-byte record whose
- * rest is in pkt_02009DB8.  Same opening as every other record here: a four
- * byte function returning the size over its own pool word, then a constructor
- * that clears exactly that many bytes.
- *
- * Unlike the 0x23 block in src/matched/unit_02009448.c, this constructor
- * *calls* the size function instead of spelling the constant a second time, so
- * the two files differ in the source and not only in the bytes.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009D9C.c \
- *       --addr 0x02009D9C --thumb
- */
 void sub_02009DA4(struct Sub02009D9CObj_0 *obj)
 {
     MI_CpuFill8(obj, 0, sub_02009D9C());
@@ -1490,33 +1013,6 @@ int sub_02009DB8(struct Sub02009D9CObj_1 *obj, u32 id)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
- *
- * alias: the body of the 0xD54-byte record whose head is
- * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
- * of the 0x20-byte object of src/matched/unit_0200852C.c, plus one counter:
- *
- *   +0x000  Sub0200852CObj[100]   0x20 bytes each
- *   +0xD50  u32                   a use count, saturating at 99999
- *
- * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
- * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
- * copies the new object into slot 0, so slot 0 is the most recent; when the
- * object is already in the list only its +0x1C byte is refreshed.
- *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
- * `mvns r0, r0` rather than as a pool word, and every caller compares against
- * that same pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
- *       --addr 0x02009DB8 --thumb
- */
 void sub_02009DE8(struct Sub02009D9CObj_1 *obj, struct Sub0200852CObj *p)
 {
     u32 id = sub_02008530(p);
@@ -1536,33 +1032,6 @@ void sub_02009DE8(struct Sub02009D9CObj_1 *obj, struct Sub0200852CObj *p)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
- *
- * alias: the body of the 0xD54-byte record whose head is
- * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
- * of the 0x20-byte object of src/matched/unit_0200852C.c, plus one counter:
- *
- *   +0x000  Sub0200852CObj[100]   0x20 bytes each
- *   +0xD50  u32                   a use count, saturating at 99999
- *
- * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
- * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
- * copies the new object into slot 0, so slot 0 is the most recent; when the
- * object is already in the list only its +0x1C byte is refreshed.
- *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
- * `mvns r0, r0` rather than as a pool word, and every caller compares against
- * that same pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
- *       --addr 0x02009DB8 --thumb
- */
 u32 sub_02009E40(struct Sub02009D9CObj_1 *obj, u32 i)
 {
     if (i >= 100) {
@@ -1572,33 +1041,6 @@ u32 sub_02009E40(struct Sub02009D9CObj_1 *obj, u32 i)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
- *
- * alias: the body of the 0xD54-byte record whose head is
- * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
- * of the 0x20-byte object of src/matched/unit_0200852C.c, plus one counter:
- *
- *   +0x000  Sub0200852CObj[100]   0x20 bytes each
- *   +0xD50  u32                   a use count, saturating at 99999
- *
- * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
- * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
- * copies the new object into slot 0, so slot 0 is the most recent; when the
- * object is already in the list only its +0x1C byte is refreshed.
- *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
- * `mvns r0, r0` rather than as a pool word, and every caller compares against
- * that same pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
- *       --addr 0x02009DB8 --thumb
- */
 struct Sub0200852CObj *sub_02009E54(struct Sub02009D9CObj_1 *obj, u32 i)
 {
     if (i >= 100) {
@@ -1611,33 +1053,6 @@ struct Sub0200852CObj *sub_02009E54(struct Sub02009D9CObj_1 *obj, u32 i)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
- *
- * alias: the body of the 0xD54-byte record whose head is
- * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
- * of the 0x20-byte object of src/matched/unit_0200852C.c, plus one counter:
- *
- *   +0x000  Sub0200852CObj[100]   0x20 bytes each
- *   +0xD50  u32                   a use count, saturating at 99999
- *
- * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
- * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
- * copies the new object into slot 0, so slot 0 is the most recent; when the
- * object is already in the list only its +0x1C byte is refreshed.
- *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
- * `mvns r0, r0` rather than as a pool word, and every caller compares against
- * that same pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
- *       --addr 0x02009DB8 --thumb
- */
 u32 sub_02009E74(struct Sub02009D9CObj_1 *obj, u32 id)
 {
     if (sub_02009DB8(obj, id) != -1) {
@@ -1647,33 +1062,6 @@ u32 sub_02009E74(struct Sub02009D9CObj_1 *obj, u32 id)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
- *
- * alias: the body of the 0xD54-byte record whose head is
- * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
- * of the 0x20-byte object of src/matched/unit_0200852C.c, plus one counter:
- *
- *   +0x000  Sub0200852CObj[100]   0x20 bytes each
- *   +0xD50  u32                   a use count, saturating at 99999
- *
- * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
- * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
- * copies the new object into slot 0, so slot 0 is the most recent; when the
- * object is already in the list only its +0x1C byte is refreshed.
- *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
- * `mvns r0, r0` rather than as a pool word, and every caller compares against
- * that same pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
- *       --addr 0x02009DB8 --thumb
- */
 int sub_02009E8C(struct Sub02009D9CObj_1 *obj)
 {
     int i;
@@ -1687,66 +1075,12 @@ int sub_02009E8C(struct Sub02009D9CObj_1 *obj)
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
- *
- * alias: the body of the 0xD54-byte record whose head is
- * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
- * of the 0x20-byte object of src/matched/unit_0200852C.c, plus one counter:
- *
- *   +0x000  Sub0200852CObj[100]   0x20 bytes each
- *   +0xD50  u32                   a use count, saturating at 99999
- *
- * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
- * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
- * copies the new object into slot 0, so slot 0 is the most recent; when the
- * object is already in the list only its +0x1C byte is refreshed.
- *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
- * `mvns r0, r0` rather than as a pool word, and every caller compares against
- * that same pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
- *       --addr 0x02009DB8 --thumb
- */
 u32 sub_02009EA8(const struct Sub02009D9CObj_1 *obj)
 {
     return obj->unkD50;
 }
 
 
-/*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0
- *
- * alias: the body of the 0xD54-byte record whose head is
- * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
- * of the 0x20-byte object of src/matched/unit_0200852C.c, plus one counter:
- *
- *   +0x000  Sub0200852CObj[100]   0x20 bytes each
- *   +0xD50  u32                   a use count, saturating at 99999
- *
- * sub_02008468, four bytes returning 0x20, is the element size, and
- * sub_02009DE8 uses it for both of its block moves rather than spelling 0x20
- * out.  The insert shifts the whole list up by one slot with MI_CpuMove and
- * copies the new object into slot 0, so slot 0 is the most recent; when the
- * object is already in the list only its +0x1C byte is refreshed.
- *
- * sub_02009DB8 returns -1 for "not found", materialised as `movs r0, #0` and
- * `mvns r0, r0` rather than as a pool word, and every caller compares against
- * that same pair.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
- *       --addr 0x02009DB8 --thumb
- */
 void sub_02009EB0(struct Sub02009D9CObj_1 *obj)
 {
     obj->unkD50 = obj->unkD50 + 1;
@@ -2306,93 +1640,6 @@ u32 func_0200A3FC(struct Obj *obj)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 u32 func_0200A400(struct Obj *obj)
 {
     switch (obj->unk04) {
@@ -2405,186 +1652,12 @@ u32 func_0200A400(struct Obj *obj)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void *func_0200A418(struct Obj *obj)
 {
     return obj->unk00;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void *func_0200A41C(struct Obj *obj)
 {
     switch (obj->unk04) {
@@ -2597,93 +1670,6 @@ void *func_0200A41C(struct Obj *obj)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void *func_0200A43C(struct Obj *obj, u32 index)
 {
     func_0200A400(obj);
@@ -2697,279 +1683,18 @@ void *func_0200A43C(struct Obj *obj, u32 index)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void func_0200A480(struct Obj *obj)
 {
     func_0200A4B8(func_0200A418(obj), func_0200A3FC(obj));
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void func_0200A49C(struct Obj *obj)
 {
     func_0200A50C(func_0200A418(obj), func_0200A3FC(obj));
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void func_0200A4B8(void *base, u32 kind)
 {
     u32 size;
@@ -2997,93 +1722,6 @@ void func_0200A4B8(void *base, u32 kind)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void func_0200A50C(void *base, u32 kind)
 {
     u32 size;
@@ -3104,186 +1742,12 @@ void func_0200A50C(void *base, u32 kind)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 u32 func_0200A53C(void)
 {
     return sizeof(struct Big);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void func_0200A544(struct Big *p)
 {
     u8 i;
@@ -3313,186 +1777,12 @@ void func_0200A544(struct Big *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void *func_0200A5F8(void *sys)
 {
     return func_020071CC(sys, 0x2A);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void func_0200A604(struct Big *p)
 {
     u8 i;
@@ -3503,371 +1793,23 @@ void func_0200A604(struct Big *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 u8 *func_0200A628(struct Big *p)
 {
     return (u8 *)p->unk1B0;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 u32 func_0200A630(struct Bits *p)
 {
     return p->unk00_16 != 0;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void func_0200A640(void)
 {
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 u32 func_0200A644(struct Big *p, u8 index)
 {
     if (index < 100) {
@@ -3881,93 +1823,6 @@ u32 func_0200A644(struct Big *p, u8 index)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 u32 func_0200A680(struct Big *p, u8 index)
 {
     if (index < 100) {
@@ -3981,93 +1836,6 @@ u32 func_0200A680(struct Big *p, u8 index)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
- *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
- *           func_0200A644, func_0200A680, func_0200A6BC
- *
- * 764 bytes, 0x0200A3FC..0x0200A6F8, 19 functions.  Five of the nineteen
- * carry no label in the generated listing (0x0200A53C, 0x0200A628,
- * 0x0200A630, 0x0200A640 and 0x0200A680): none of them saves lr, so
- * disasm.py's prologue sweep does not fire and the listing prints their
- * bytes as `.word` data in the middle of a literal pool.  They were read out
- * of those words.  0x0200A53C is the giveaway of the three: `movs r0, #0xa9;
- * lsls r0, #2; bx lr` returns 0x2A4, which is exactly the size the
- * constructor at 0x0200A544 clears, the same "a block file opens with a
- * function returning its own size" shape docs/MATCHING.md records for the
- * 0x0200857C run.
- *
- * This unit absorbs the previously matched single function
- * src/matched/sub_0200A6BC.c (0x0200A6BC, 60 bytes), which is its last
- * function.  Its legacy manifest entry is superseded by this unit.
- *
- * What the range is.  Two objects, and two layers.
- *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
- * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
- * over that kind with the default falling through to a zero return, and the
- * two arms are byte for byte identical in three of the four cases, so the
- * distinction is in the source and not in the code.  The 0x0200A4B8 /
- * 0x0200A50C pair stamps and clears a four byte header sitting at the end of
- * the block (offset 0x364 or 0xA90 for the two kinds), holding a 32-bit key
- * built out of a system word and handed to the pair of routines at
- * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
- *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
- * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
- * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
- * clears the record, seeds two arrays and then sets fifteen of those bits by
- * hand.  100 (0x64) is the bound on every one of the three, so 100 of the
- * 256 bits are in use.
- *
- * Three things in this unit cost time and are recorded under docs/idioms/:
- *
- *  - the assignment that both arms of a switch make is emitted once, at a
- *    merge point the default case jumps over.  Writing it after the switch
- *    instead puts the default's branch on that merge point and changes one
- *    branch target and the whole register allocation of the function.  See
- *    docs/idioms/switch-arms-tail-merge.md.
- *  - a repeated read of a hardware address has to be written as two named
- *    locals.  `(X << 8) | X` on a volatile lvalue interleaves the shift
- *    between the two loads; the original loads both and then shifts.  See
- *    docs/idioms/volatile-reread-needs-two-locals.md.
- *  - 0x02FFFC3C is a cast address constant and not an extern.  An `extern
- *    volatile u32` at that address produces an ABS32 relocation and puts the
- *    address in a different register.  Same idiom file as above.
- *
- * Near miss, left out of this unit deliberately: the function at
- * 0x0200A3D0, which is the one immediately before it and is almost certainly
- * part of the same original file.  Two separate reasons, either of which is
- * enough:
- *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
- *     rule for those: a target inside an overlay per layout/layout.json is
- *     attested when that overlay's own listing carries a `func_` label at the
- *     address, the label's ISA is the declared ISA, and some branch outside
- *     the compared range targets it.  The third part holds here (a `bl` from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
- *     first does not.  0x021DFDB8 is inside seven overlays at once, because
- *     overlays share load windows, and they disagree about what is there:
- *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
- *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
- *     labels it, so nothing says which of the seven the call means and the
- *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
- *     veneer shape, which the `veneer` class deliberately does not recognise:
- *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
- *     veneer class" in docs/MATCHING.md.)
- *  2. two concrete bytes are wrong regardless.  The original materialises the
- *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
- *     where every spelling of the integer 228 tried here (decimal, hex,
- *     suffixed, cast, enumerator, `sizeof`, `offsetof`) compiles to `movs
- *     r0, #0xE4` under all nine front ends at every optimisation level.  The
- *     function immediately before it does the same thing with the same value,
- *     so whatever the construct is, it is used twice in a row and is not an
- *     accident.  The rest of the function is byte for byte right.
- */
 void func_0200A6BC(struct Big *p, u32 index)
 {
     u8 shift, byte;
@@ -4141,55 +1909,6 @@ void func_0200A6F8(struct Big *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u32 func_0200A714(struct Big *p)
 {
     u32 count;
@@ -4205,55 +1924,6 @@ u32 func_0200A714(struct Big *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u32 func_0200A73C(struct Big *p)
 {
     if (func_0200A714(p) == 100) {
@@ -4263,165 +1933,18 @@ u32 func_0200A73C(struct Big *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 struct BigSub4 *func_0200A750(struct Big *p, u32 index)
 {
     return &p->unk1E0[index];
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u16 func_0200A75C(struct Big *p)
 {
     return p->unk252;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 void func_0200A768(struct Big *p)
 {
     if (p->unk252 < 0xFFFF) {
@@ -4430,110 +1953,12 @@ void func_0200A768(struct Big *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u16 func_0200A780(struct Big *p)
 {
     return p->unk254;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 void func_0200A788(struct Big *p)
 {
     if (p->unk254 < 0xFFFF) {
@@ -4542,550 +1967,60 @@ void func_0200A788(struct Big *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u8 func_0200A7A0(struct Big *p, u32 index)
 {
     return p->unk298[index];
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 void func_0200A7AC(struct Big *p, u32 index, u8 value)
 {
     p->unk298[index] = value;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u8 func_0200A7B8(struct Big *p)
 {
     return p->unk29C;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 void func_0200A7C0(struct Big *p, u8 value)
 {
     p->unk29C = value;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u8 func_0200A7C8(struct Big *p)
 {
     return p->unk29D;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 void func_0200A7D4(struct Big *p, u8 value)
 {
     p->unk29D = value;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u8 func_0200A7E0(struct Big *p)
 {
     return p->unk29E;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 void func_0200A7EC(struct Big *p, u8 value)
 {
     p->unk29E = value;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u8 *func_0200A7F8(struct Big *p)
 {
     return p->unk208;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 void func_0200A800(struct Big *p, s32 delta)
 {
     s32 v = p->unk256 + delta;
@@ -5098,165 +2033,18 @@ void func_0200A800(struct Big *p, s32 delta)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u16 func_0200A81C(struct Big *p)
 {
     return p->unk256;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 u32 func_0200A828(struct Big *p)
 {
     return p->unk29F;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A75C, func_0200A768, func_0200A780, func_0200A788,
- *           func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0,
- *           func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC,
- *           func_0200A800, func_0200A7F8, func_0200A81C, func_0200A828,
- *           func_0200A834
- *
- * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
- * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
- * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
- * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
- *
- * Fourteen of the twenty-one carry no label in the generated listing: none of
- * them saves lr, so disasm.py's prologue sweep does not fire and the listing
- * prints their bytes as `.word` data.  They are the accessor half of the file
- * and were read out of those words, the same way the sixteen accessors of
- * unit_0200852C.c were.
- *
- * 0x0200A6F8 is the one docs/MATCHING.md already named under "The two
- * missing labels": the 28-byte loop that clears the second of the two
- * bitmaps func_0200A6BC sets a bit in.  It is in
- * layout/function_starts.txt, attested by the bl from ov133 at 0x021B62A2,
- * which is why it has a label here and its fourteen neighbours do not.
- *
- * 0x0200A714 counts how many of the 256 bit positions are set in the first
- * bitmap by calling func_0200A644 on every one of them, and 0x0200A73C asks
- * whether that count has reached 100, which is the same bound the three
- * bitmap routines in unit_0200A3FC.c check their index against.  So 100 is
- * the population of whatever the bitmap enumerates and this pair is its
- * "have you seen all of them" test.
- *
- * Two details pin source shapes here, both of them one-line fixes that look
- * like body diffs:
- *
- *  - in 0x0200A714 the accumulator has to be declared before the loop
- *    counter.  Declared the other way round the two locals swap registers,
- *    which is six differing bytes spread over the whole function and nothing
- *    else.  Same finding as docs/idioms/local-declaration-order-is-stack-
- *    order.md, one level up: the rule holds for register-allocated locals and
- *    not only for stack slots.
- *  - 0x0200A800 saturates at 0xFFFF, and the source tests `v < 0xFFFF` with
- *    the saturating store in the `else`.  Written the other way round the
- *    compiler emits `blt` where the original has `bge` and swaps the two
- *    stores, which is four bytes and reads as a different function.
- */
 void func_0200A834(struct Big *p, u8 value)
 {
     p->unk29F = value;
@@ -5361,276 +2149,36 @@ void *func_0200A864(void *sys)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 void func_0200A870(struct Rec2Head *dest, const struct Rec2Head *src)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Rec2Head));
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Rec2Head));
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 u8 *func_0200A890(struct Rec2 *p)
 {
     return p->unk1E8;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 u8 *func_0200A898(struct Rec2 *p)
 {
     return p->unk1FC;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 void *func_0200A8A0(void *sys)
 {
     return func_020071CC(sys, 0x2C);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 s32 func_0200A8AC(struct Rec *r)
 {
     s32 i;
@@ -5644,184 +2192,24 @@ s32 func_0200A8AC(struct Rec *r)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 struct Entry_0 *func_0200A8C8(struct Rec *r, u32 index)
 {
     return &r->entries[index];
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 u8 func_0200A8D0(struct Rec *r, u32 index)
 {
     return r->entries[index].f10_0;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 u16 func_0200A8E4(struct Rec *r, u32 index)
 {
     return r->entries[index].f10_7;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8,
- *           func_0200A8D0, func_0200A8E4, func_0200A8F8
- *
- * 162 bytes, 0x0200A864..0x0200A906, 11 functions, six of which carry no
- * label in the generated listing.
- *
- * The object is a 0x34C-byte record holding thirty 0x1C-byte entries
- * followed by one word of flags; 30 * 0x1C is 0x348, which is exactly the
- * offset func_0200A930 reads that word at, so the array length and the
- * record size check against each other.  Each entry carries a packed word at
- * +0x10 whose fields this file reads one at a time: 7 bits at bit 0, 10 bits
- * at bit 7, one bit at bit 17, and one bit at bit 31 that func_0200A8AC
- * scans for to find how many entries are in use.
- *
- * The bit widths are not guesses.  Each getter is a `lsls`/`lsrs` pair whose
- * two shift counts give the field's position and width directly, and where
- * the return type is narrower than the field the compiler adds a second
- * truncating pair: func_0200A8D0's `lsls #25 / lsrs #25` is the 7-bit field
- * and its `lsls #24 / lsrs #24` is the `u8` return, and dropping either
- * changes two instructions.
- *
- * Near miss, and the reason this unit stops where it does: func_0200A908 at
- * 0x0200A908, 40 bytes, which unpacks four fields of one entry through four
- * out-parameters.  Two of the four are bitfields of the same byte at +0x1B,
- * and the original loads that byte exactly once, with `ldrb` into the
- * register that held the entry pointer, and then does each field's shift pair
- * immediately before its own store.  Writing the two reads directly is two
- * `ldrb`s, because the intervening store through a `u8 *` may alias the
- * struct and the compiler reloads; writing them into locals first gets the
- * single load but hoists both shift pairs above both stores.  Sixteen
- * spellings were tried (locals for each subset of the four outputs, a nested
- * one-byte bitfield struct copied to a local, the whole tail as a `u32`
- * bitfield container, and the shifts written out by hand), and the best of
- * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
- * of the function is right.  The next unit therefore resumes at 0x0200A930.
- */
 u32 func_0200A8F8(struct Rec *r, u32 index)
 {
     return r->entries[index].f10_17;
@@ -5904,21 +2292,6 @@ int sub_0200A9A4(struct T0200A9A4 *o, u32 v)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The two helpers between func_0200A940 and func_0200AA00, both invisible
- * to the worklist: each saves registers but not lr and nothing branches to
- * either from outside, so disasm.py prints the pair as a single run of
- * `.word` (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * The 92 bytes here cover the whole gap.
- *
- * Both walk the same array of 0x1e records of 0x1c bytes that
- * func_0200A940 above them indexes, and both accept a record on the same
- * pair of tests: the u32 at +0x14 equal to the key and bit 31 of the u32
- * at +0x10 set.  The first returns bit 7 of the byte at +0x1b of the
- * matching record, the second returns 1.
- */
 int sub_0200A9D4(struct T0200A9A4 *o, u32 v)
 {
     int i;
@@ -6078,20 +2451,6 @@ void sub_0200AB04(struct Rec0200AB04 *o)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two unlabelled leaves at the end of the packet, after func_0200AA68:
- * `push {r4, r5}` with no lr for the first, nothing at all for the second,
- * so both print as `.word` (docs/idioms/
- * unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * The first clears bit 7 of the byte at +0x1b of each of the same 0x1e
- * records of 0x1c bytes the two helpers at 0x0200A9A4 index (that byte's
- * bit 7 is the flag sub_0200A9A4 returns); the second is a four-byte
- * constant getter for 0x34c, which Thumb spells `movs r0, #0xd3; lsls
- * r0, r0, #2`.
- */
 int sub_0200AB24(void)
 {
     return 0x34c;
@@ -6434,310 +2793,30 @@ void func_0200ADB8(void *dest, const void *src, u32 a2)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200ADD0(struct RegB *p, u32 value)
 {
     p->unkF0 = value;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200ADD8(struct RegB *p, u32 value)
 {
     p->unkF4 = value;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 u16 func_0200ADE0(struct RegB *p)
 {
     return p->unkEE;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 u32 func_0200ADE8(void)
 {
     return 0x2FC;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 struct Reg *func_0200ADF0(u32 heap)
 {
     return func_02030734(heap, sizeof(struct Reg), 1, func_0200ADF0_File,
@@ -6745,185 +2824,17 @@ struct Reg *func_0200ADF0(u32 heap)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200AE08(const struct Reg *src, struct Reg *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Reg));
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200AE14(void)
 {
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200AE18(struct Reg *p, void *dest)
 {
     void *g = func_02045B38(0, 2, 0xA6, 1);
@@ -6933,62 +2844,6 @@ void func_0200AE18(struct Reg *p, void *dest)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void *func_0200AE3C(struct Reg *p, u32 heap)
 {
     void *dest = func_020457B0(0x1A, heap);
@@ -6998,62 +2853,6 @@ void *func_0200AE3C(struct Reg *p, u32 heap)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 u32 func_0200AE54(struct Reg *p, u32 id)
 {
     u32 v = 0;
@@ -7084,62 +2883,6 @@ u32 func_0200AE54(struct Reg *p, u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200AEE8(struct Reg *p, u32 id, s32 value)
 {
     switch (id) {
@@ -7167,62 +2910,6 @@ void func_0200AEE8(struct Reg *p, u32 id, s32 value)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 u32 func_0200AFD4(struct Reg *p, u32 id, s32 n)
 {
     s32 byte = n / 8;
@@ -7249,62 +2936,6 @@ u32 func_0200AFD4(struct Reg *p, u32 id, s32 n)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200B040(struct Reg *p, struct RegAC *out)
 {
     MI_CpuFill8(out, 0, sizeof(struct RegAC));
@@ -7316,124 +2947,12 @@ void func_0200B040(struct Reg *p, struct RegAC *out)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 u8 *func_0200B074(struct Reg2 *p)
 {
     return p->unkC0;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 s32 func_0200B078(struct Reg2 *p, u32 id)
 {
     switch (id) {
@@ -7453,62 +2972,6 @@ s32 func_0200B078(struct Reg2 *p, u32 id)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200B110(struct Reg2 *p, u32 id, s32 value)
 {
     switch (id) {
@@ -7528,62 +2991,6 @@ void func_0200B110(struct Reg2 *p, u32 id, s32 value)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 u32 func_0200B1A8(struct Reg2 *p)
 {
     if (p->unk15E == func_0200B1C4(p)) {
@@ -7593,372 +3000,36 @@ u32 func_0200B1A8(struct Reg2 *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 u16 func_0200B1C4(struct Reg2 *p)
 {
     return func_0203F1FC((const u8 *)p, 0x15E);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index)
 {
     return &arr[index];
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200B1E0(struct Rec160 *arr, u32 index, const struct Rec160 *src)
 {
     arr[index] = *src;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200B1F8(struct Rec1E *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Rec1E));
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 struct Rec1E *func_0200B204(struct RecBig *p, u32 index)
 {
     return &p->unk2C0[index];
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 s32 func_0200B214(struct Rec1E *p, u32 id, u8 n)
 {
     switch (id) {
@@ -7971,62 +3042,6 @@ s32 func_0200B214(struct Rec1E *p, u32 id, u8 n)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
- *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
- *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
- *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
- *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
- *           func_0200B254
- *
- * alias: the original source file is named in the image.  The constructor at
- * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
- * bytes there spell "regulation.c"; the string before it is
- * "mystery_data.c", which is what the `string` attestation class uses to fix
- * the address without reading the pool word under test.  That makes this the
- * second original source file name this project has recovered, after
- * "playtime.c".  The functions keep their func_<address> names, because the
- * file identity is attested and the individual entry points are not.
- *
- * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
- * label in the generated listing.
- *
- * What a regulation is, read off the accessors: a 0xBC-byte record of
- * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
- * scalar interface, a get and a set indexed by a rule id in 0..22, and the
- * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
- * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
- * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
- * and 14 are missing from both tables because they are not scalars: they are
- * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
- * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
- * larger record that contains this one at offset 0, over ids 1..12 and a set
- * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
- * checksum stored at +0x15E.
- *
- * Four things here are worth naming:
- *
- *  - a dense switch becomes a PC-relative halfword jump table, and the whole
- *    of it, table included, comes out of ordinary C.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
- *    is what reads the case list back: an entry pointing at the common exit
- *    is a case that is absent from the source, which is how ids 9, 10 and 14
- *    above are known to be missing rather than empty.
- *  - func_0200B078 falls off the end of its switch with no return statement,
- *    and the original's default arm is a bare `bx lr` that returns the
- *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
- *    an instruction and moves every case body.
- *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
- *    rather than a call, but only when the struct is four-aligned; declared
- *    as a `u8` array it is a byte loop instead.  See
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
- *    field promotes to `int` before the shift.  Writing the field as `u32`,
- *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
- */
 void func_0200B254(struct Rec1E *p, int id, u8 n, s32 value)
 {
     switch (id) {

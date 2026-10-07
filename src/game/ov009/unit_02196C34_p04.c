@@ -1,0 +1,96 @@
+/*
+ * file:     unit_02196C34_p04.c
+ * unit:     yes
+ * function: func_02197C5C, func_02197CE0
+ * address:  0x02197C5C
+ * region:   ov009
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   gti2UShortToBuffer      0x02195EA0 arm
+ *   gti2ConnectionSendData  0x02195750 arm
+ *   func_02197594  0x02197594  arm  ov009
+ *   func_02197930  0x02197930  arm  ov009
+ */
+struct GTI2Connection;
+struct GTI2Socket;
+struct GTI2Buffer;
+struct GTI2OutgoingBufferMessage;
+struct GTI2Socket {
+    char pad00[0x44];
+    int field_44;
+};
+
+struct GTI2Buffer {
+    unsigned char *data;
+    int size;
+    int position;
+};
+
+struct GTI2OutgoingBufferMessage {
+    unsigned int offset;
+    int len;
+    unsigned short SN;
+    unsigned short pad;
+    unsigned int sendTime;
+};
+
+struct GTI2Connection {
+    char pad00[8];
+    struct GTI2Socket *socket;
+    char pad0c[0x44];
+    struct GTI2Buffer buffer;
+    char pad5c[8];
+    unsigned short field_64;
+    unsigned short field_66;
+    char pad68[0x20];
+    unsigned int lastSend;
+    unsigned int field_8c;
+};
+
+typedef unsigned char  u8;
+
+extern void gti2UShortToBuffer(unsigned char *buffer, int pos, unsigned short s);
+extern int gti2ConnectionSendData(struct GTI2Connection *connection,
+                                  unsigned char *message, int len);
+extern void func_02197594(int a, int b, int c);
+extern int func_02197930(struct GTI2Connection *connection, u8 *message, int len);
+int gti2ResendMessage(struct GTI2Connection *connection, struct GTI2OutgoingBufferMessage *message);
+void func_02197CE0(int a, int b, int c, int d);
+
+
+int gti2ResendMessage(struct GTI2Connection *connection,
+                      struct GTI2OutgoingBufferMessage *message)
+{
+    gti2UShortToBuffer(connection->buffer.data,
+                       message->offset + connection->socket->field_44 + 5,
+                       connection->field_66);
+    if (gti2ConnectionSendData(connection,
+                               connection->buffer.data + message->offset,
+                               message->len) == 0)
+        return 0;
+    message->sendTime = connection->lastSend;
+    if (connection->buffer.data[message->offset +
+                                connection->socket->field_44 + 2] == 2)
+        connection->field_8c = connection->lastSend;
+    return 1;
+}
+
+
+/*
+ * Dispatches on the fourth argument.
+ */
+void func_02197CE0(int a, int b, int c, int d)
+{
+    if (d != 0) {
+        func_02197594(a, b, c);
+    } else {
+        func_02197930((struct GTI2Connection *)a, (u8 *)b, c);
+    }
+}

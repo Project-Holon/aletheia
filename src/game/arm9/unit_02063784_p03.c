@@ -143,19 +143,6 @@ void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out)
 
 
 
-/*
- * Upload one VRAM resource: optionally repoint the 2D/3D VRAM control word,
- * flush the source range, hand it to the matching GX loader (3D texture,
- * main OBJ, sub OBJ), then fill the caller's descriptor.  When f8 (the bank
- * control word) is zero the two halfword dimensions are translated from
- * pixel sizes (1,2,4,8,0x10,0x20) to GX size codes 0..5; otherwise they are
- * stored raw.
- *
- * 1.1p1 CSEs the shared zero into a callee-saved register (costing r8 and a
- * six-register frame) and cross-jumps the two VRAM-control arms, giving 532
- * bytes against the original's 556; under ../2.0/sp2 the same C is 556
- * bytes, 0 mismatches.  See docs/FRONTEND-PINS.md.
- */
 void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out)
 {
     u32 bank = r->f8;

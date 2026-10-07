@@ -1,0 +1,45 @@
+/*
+ * function: func_021C5028
+ * address:  0x021C5028
+ * packet:   pkt_ov016_021C5028
+ * region:   ov016
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      endScene1 (libdwcutil.TWL.HYB.a(scenesetaosscomp))
+ * symbols:
+ *   func_021D5580  0x021D5580  arm
+ *   func_021D5CA8  0x021D5CA8  arm
+ *   func_021BD138  0x021BD138  arm
+ *   func_021D6090  0x021D6090  arm
+ *   func_021C0E50  0x021C0E50  arm
+ *   func_021C0E8C  0x021C0E8C  arm
+ *   func_021C0E40  0x021C0E40  arm
+ *   func_021CD80C  0x021CD80C  arm
+ */
+extern int func_021D5580(int x);
+extern void func_021D5CA8(int x);
+extern void func_021BD138(void);
+extern void func_021D6090(int a, int b);
+extern void func_021C0E50(unsigned int a, unsigned int b);
+extern void func_021C0E8C(unsigned int a, unsigned int b);
+extern void func_021C0E40(unsigned int v);
+extern void func_021CD80C(void);
+
+void func_021C5028(void)
+{
+    if (func_021D5580(1) != 0)
+        return;
+    if (func_021D5580(0) != 0)
+        return;
+    func_021D5CA8(0);
+    func_021BD138();
+    func_021D6090(1, 1);
+    func_021D6090(0, 0x15);
+    func_021C0E50(0, 0);
+    func_021C0E8C(0, 1);
+    func_021C0E40((unsigned int)func_021CD80C);
+}

@@ -170,31 +170,6 @@ void func_02017E64(void *p, u32 id, u32 v)
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u32 func_02017E88(void *p, u32 id, u32 v)
 {
     u32 r;
@@ -206,62 +181,12 @@ u32 func_02017E88(void *p, u32 id, u32 v)
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u32 func_02017EAC(void *p)
 {
     return func_02017EB4(p);
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u32 func_02017EB4(void *p)
 {
     u32 a = func_02017E88(p, 7, 0);
@@ -270,31 +195,6 @@ u32 func_02017EB4(void *p)
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u32 func_02017ED8(u32 a, u32 b)
 {
     u32 x = ((a & 0xFFFF0000) >> 16) ^ (u16)a ^ ((b & 0xFFFF0000) >> 16) ^ (u16)b;
@@ -306,62 +206,12 @@ u32 func_02017ED8(u32 a, u32 b)
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u8 func_02017F00(void *p)
 {
     return func_02017F08(p);
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u8 func_02017F08(void *p)
 {
     u32 t = func_02017DBC(p);
@@ -374,31 +224,6 @@ u8 func_02017F08(void *p)
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u8 func_02017F50(u32 a, u16 b, u32 c)
 {
     u8 n = func_0201AE1C(func_02019C54(a, b), 0x14);
@@ -421,93 +246,18 @@ u8 func_02017F50(u32 a, u16 b, u32 c)
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u32 func_02017F90(void *p)
 {
     return func_02017E1C(p, 0x9D, 0);
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 void func_02017F9C(void *p, u32 v)
 {
     func_02017E40(p, 0x9D, v);
 }
 
 
-/*
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
- *
- * Five of the eleven carry no label in the generated listing: the three eight
- * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
- * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
- * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
- * makes two of the three sites the `local` class.
- *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
- * exactly one source order, which is not the order the `eors` appear in; see
- * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
- *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
- * a comparison for everything else.  The three tests are one `switch`: written
- * as a chain of `if (n == k) return v;` statements each return gets its own
- * epilogue, while the switch puts the three bodies after the compare chain and
- * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
- * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
- * a byte local.
- */
 u32 func_02017FA8(void *p)
 {
     return func_02017FB0(p);

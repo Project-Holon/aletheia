@@ -321,43 +321,6 @@ void func_02079164(struct Iter020792B8 *it)
     }
 }
 
-/*
- * 0x02079164..0x02079264: the callback-flush worker and its one-line
- * wrapper.
- *
- * func_02079164 repeatedly detaches, inside the 0x02087988/0x0208799C
- * critical section, every node of the global list g_021542B8 whose
- * callback argument (+8) falls in the descriptor's byte range, or whose
- * callback function (+4) does when the argument is null, then runs the
- * detached callbacks with interrupts restored and starts over.  The
- * branch back to the function header is that restart: a callback may
- * queue new nodes, so the list is rescanned until a pass detaches
- * nothing.  The range is [it->base, it->base + it->len0 + it->len1).
- *
- * func_02079254 is folded into the same unit deliberately.  The `bl` at
- * 0x02079258 is 0x02079164's only reference in the whole image, so as two
- * separate files neither can attest the other and both cap at MATCH; in
- * one unit that call site is class `local` and the range is EXACT, which
- * in turn attests 0x02079254 for src/matched/func_020792B8.c.
- *
- * Three things the byte match pinned down, in the order they cost time:
- *
- *  - 0x02087988's result is live in r0 across the whole scan loop and is
- *    0x0208799C's argument (the SDK disable/restore-interrupts pair).
- *    Spelling both as `void f(void)` leaves r0 free, and the allocator
- *    then has one spare register and picks a different colouring for
- *    every local in the function.
- *  - `cur->arg` and `cur->fn` are read into locals before the test, not
- *    referenced inside it: the original loads +4 unconditionally, ahead
- *    of the branch that only one arm of the test needs.
- *  - which locals live in the function scope and which in the `for` body
- *    block decides the colouring outright.  `prev` and `list` outlive the
- *    loop body's declarations here; moving either one inside the block
- *    moves eight or more bytes.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02079164.c  *       --addr 0x02079164 --cc 1.1p1 --arm
- */
 int func_02079254(struct Iter020792B8 *it)
 {
     func_02079164(it);

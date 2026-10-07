@@ -326,22 +326,6 @@ void func_0203BF9C(u32 v)
 
 
 
-/*
- * 116 bytes, three functions: the setter, the 28-byte leaf that clears the
- * same flag, and the four-byte `bx lr` stub the card task is handed as a
- * callback (src/pending/func_0203C010.c passes it at 0x0203C00C).
- *
- * The two leaves carry no label in the generated listing - neither saves `lr`
- * - so this range used to stop at 0x0203BF9C with an `EXACT*`, the inferred
- * extent running on to the next labelled function at 0x0203C010.  Writing
- * them as the unit's own functions is what closes the range.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0203BF9C.c \
- *       --addr 0x0203BF9C --arm --cc 1.1p1
- */
 void func_0203BFF0(void)
 {
     if (g_021469DC != 0)
@@ -350,22 +334,6 @@ void func_0203BFF0(void)
 
 
 
-/*
- * 116 bytes, three functions: the setter, the 28-byte leaf that clears the
- * same flag, and the four-byte `bx lr` stub the card task is handed as a
- * callback (src/pending/func_0203C010.c passes it at 0x0203C00C).
- *
- * The two leaves carry no label in the generated listing - neither saves `lr`
- * - so this range used to stop at 0x0203BF9C with an `EXACT*`, the inferred
- * extent running on to the next labelled function at 0x0203C010.  Writing
- * them as the unit's own functions is what closes the range.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0203BF9C.c \
- *       --addr 0x0203BF9C --arm --cc 1.1p1
- */
 void func_0203C00C(void)
 {
 }

@@ -129,43 +129,11 @@ void sub_02039C68(struct Link *p, u32 lo, u32 hi)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The setter and the two matchers for the packed 16-bit key at +0x44/+0x46
- * of the link record: the key is always assembled as `lo + (hi << 8)` from a
- * pair of separate arguments rather than passed whole.
- *
- * sub_02039CA0 has no label in the listing: it is a leaf that saves nothing,
- * so disasm.py prints it inside sub_02039C68's extent (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Keeping the
- * three in one unit is what reproduces its bytes at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02039C68.c \
- *       --addr 0x02039C68 --arm
- */
 u32 sub_02039CA0(struct Link *p, u32 key)
 {
     return p->unk44 == key;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The setter and the two matchers for the packed 16-bit key at +0x44/+0x46
- * of the link record: the key is always assembled as `lo + (hi << 8)` from a
- * pair of separate arguments rather than passed whole.
- *
- * sub_02039CA0 has no label in the listing: it is a leaf that saves nothing,
- * so disasm.py prints it inside sub_02039C68's extent (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Keeping the
- * three in one unit is what reproduces its bytes at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02039C68.c \
- *       --addr 0x02039C68 --arm
- */
 u32 sub_02039CB4(struct Link *p, u32 lo, u32 hi)
 {
     if (p == 0) {

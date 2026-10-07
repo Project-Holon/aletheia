@@ -91,6 +91,35 @@ int func_02062820(int a, int *out);
 
 
 
+/*
+ * *
+ * Returns the idx'th animation sequence of an NNS G2D cell-animation bank
+ * (the NANR file's 'KNBA' block body), or NULL when idx is out of range.
+ * The `lsl #4` pins the sequence stride at 16 bytes.
+ *
+ * This is the lookup a multi-cell node's own u16 index feeds: func_020643CC
+ * passes the node's +0x00 field straight in, so a node names a sequence, and
+ * the sequence's current frame is what names the cell to draw.
+ *
+ * The sibling fixup routine at 0x02062688 pins the rest of the block:
+ *
+ *   bank  +0x00  u16 numSequences
+ *         +0x02  u16 numTotalFrames
+ *         +0x04  offset -> sequence array, 16 bytes per entry
+ *         +0x08  offset -> frame-entry array, 8 bytes per entry
+ *         +0x0C  offset -> frame-data pool
+ *
+ *   sequence  +0x00  u16 numFrames
+ *             +0x02  u16 loopStartFrameIdx
+ *             +0x04  u32 animType (low byte 0/1/2 selects the frame-data
+ *                                  record shape, see func_0206419C)
+ *             +0x08  u32 playMode
+ *             +0x0C  offset -> this sequence's own run of frame entries,
+ *                              relative to the bank's +0x08 array
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020627D8.c  *       --func func_020627D8 --addr 0x020627D8 --cc 1.1p1
+ */
 struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx)
 {
     if (bank->numSequences > idx) {
@@ -140,6 +169,31 @@ int func_02062820(int a, int *out)
 
 
 
+/*
+ * *
+ * Returns the idx'th cell of an NNS G2D cell data bank (the NCER file's
+ * 'KBEC' block body), or NULL when idx is out of range.
+ *
+ *   bank  +0x00  u16 numCells
+ *         +0x02  u16 bankAttr    bit0: cells carry a bounding box
+ *         +0x04  offset -> cell array
+ *         +0x08  u32 mappingType
+ *         +0x0C  offset -> VRAM transfer data, or 0
+ *         +0x14  offset -> embedded cell-animation bank, or 0
+ *
+ * The `tst #1` plus the two shifts pin the cell stride: 8 bytes for a plain
+ * cell ({u16 numOam; u16 cellAttr; offset oam;}) and 16 for one that carries
+ * the extra bounding-box rectangle. Every cell in the a/0/0/4 rig archive is
+ * the plain 8-byte kind.
+ *
+ * func_02062884 fixes the block up and is what pins the OAM array's own base:
+ * it walks the cells adding the address *past* the end of the cell array
+ * (func_020627F0) to each cell's own offset field, so a cell's OAM offset is
+ * relative to the byte after the last cell record, not to the block.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206285C.c  *       --func func_0206285C --addr 0x0206285C --cc 1.1p1
+ */
 void *func_0206285C(struct CellDataBank *bank, u32 idx)
 {
     if (idx >= bank->numCells) {
@@ -291,6 +345,29 @@ void func_0206296C(volatile struct MultiCellBank *bank)
 
 
 
+/*
+ * *
+ * Returns the idx'th multi-cell descriptor of an NNS G2D multi-cell bank
+ * (the NMCR file's 'KBCM' block body), or NULL when idx is out of range.
+ * The `lsl #3` pins the descriptor stride at 8 bytes, and the sibling fixup
+ * routine at 0x0206296C (see docs/notes/func_0206296C.c.txt) pins the rest
+ * of the block layout:
+ *
+ *   bank  +0x00  u16 numMultiCell
+ *         +0x02  u16 (padding)
+ *         +0x04  offset -> descriptor array, 8 bytes per entry
+ *         +0x08  offset -> base that per-descriptor node arrays are relative to
+ *         +0x10  offset -> embedded cell-animation bank ('KNBA'/NANR body), or 0
+ *
+ *   descriptor  +0x00  u16 numNodes
+ *               +0x02  u16
+ *               +0x04  offset -> this multi-cell's node array
+ *
+ * A 10- or 12-byte descriptor stride is not what this game reads.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020629E8.c  *       --func func_020629E8 --addr 0x020629E8 --cc 1.1p1
+ */
 struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx)
 {
     if (idx < bank->numMultiCell) {
@@ -325,6 +402,14 @@ s32 func_02062A00(struct NitroFileHeader *file, void **out)
 
 
 
+/*
+ * *
+ * One-field offset-to-pointer fixup for the character-data bank ('RAHC' / NCGR body): the u32 at +0x14 is a
+ * self-relative offset that becomes an absolute pointer.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02062A3C.c  *       --func func_02062A3C --addr 0x02062A3C --cc 1.1p1
+ */
 void func_02062A3C(u8 *block)
 {
     ((struct Obj11515 *)block)->f14 = ((struct Obj11515 *)block)->f14 + (u32)block;
@@ -355,6 +440,14 @@ s32 func_02062A4C(struct NitroFileHeader *file, void **out)
 
 
 
+/*
+ * *
+ * One-field offset-to-pointer fixup for the second 'RAHC' consumer, same fixup: the u32 at +0x14 is a
+ * self-relative offset that becomes an absolute pointer.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02062A88.c  *       --func func_02062A88 --addr 0x02062A88 --cc 1.1p1
+ */
 void func_02062A88(u8 *block)
 {
     ((struct Obj11517 *)block)->f14 = ((struct Obj11517 *)block)->f14 + (u32)block;
@@ -408,6 +501,14 @@ s32 func_02062AD4(struct NitroFileHeader *file, void **out)
 
 
 
+/*
+ * *
+ * One-field offset-to-pointer fixup for the palette-compress-proxy bank ('PMCP' body): the u32 at +0x4 is a
+ * self-relative offset that becomes an absolute pointer.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02062B10.c  *       --func func_02062B10 --addr 0x02062B10 --cc 1.1p1
+ */
 void func_02062B10(u8 *block)
 {
     ((struct Obj11520 *)block)->f4 = ((struct Obj11520 *)block)->f4 + (u32)block;
@@ -415,6 +516,14 @@ void func_02062B10(u8 *block)
 
 
 
+/*
+ * *
+ * One-field offset-to-pointer fixup for the palette bank ('TTLP' / NCLR body): the u32 at +0xc is a
+ * self-relative offset that becomes an absolute pointer.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02062B20.c  *       --func func_02062B20 --addr 0x02062B20 --cc 1.1p1
+ */
 void func_02062B20(u8 *block)
 {
     ((struct Obj11521 *)block)->fC = ((struct Obj11521 *)block)->fC + (u32)block;

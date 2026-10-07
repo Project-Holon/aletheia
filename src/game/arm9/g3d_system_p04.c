@@ -411,41 +411,6 @@ void func_02048C58(struct LightSlot *slots)
 
 
 
-/*
- * g3d_light.c's tail, 0x02048C58-0x02048D00: the four-slot upload loop and
- * the per-slot colour accessors over the same eight-byte slot the builder at
- * 0x02048BC4 fills, three halfwords of colour and one spare.
- *
- *   0x02048C58  push all four slots through 0x02046A94; the `and r0, #0xff`
- *               on the loop counter is the callee's `u8` first parameter,
- *               not a narrow counter (the counter itself increments and
- *               compares as a plain `int`)
- *   0x02048C80  read slot i's colour out, 0x02048CA4 writes it
- *   0x02048CCC  read slot i's spare halfword out, 0x02048CDC writes it
- *   0x02048CEC  seed the three-word global at 0x02146A68 from two arguments
- *               and a zero
- *
- * 0x02048CA4 pushes {r3, lr} and calls nothing: lr is spilled purely as a
- * scratch register for the third halfword of the copy.  Its source pointer
- * must not be `const`: with `const` mwcc proves the two halfword stores
- * cannot reach the source and hoists all three loads ahead of them, which is
- * thirteen bytes wrong; without it the third load stays after the first two
- * stores, in source order.
- *
- * The six-byte colour moves are aggregate assignments of the nested struct,
- * which is why the loads pair up ahead of the stores rather than
- * interleaving one field at a time
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md, halfword form).
- *
- * The unit starts at 0x02048C58 and not earlier because 0x02048C4C holds an
- * ARM long-branch veneer that no `tu` range may span.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048C58.c \
- *       --addr 0x02048C58 --cc 1.1p1 --arm
- */
 void func_02048C80(struct LightSlot *slots, u8 i, struct Rgb555 *out)
 {
     *out = slots[i].col;
@@ -458,41 +423,6 @@ void func_02048C80(struct LightSlot *slots, u8 i, struct Rgb555 *out)
 
 
 
-/*
- * g3d_light.c's tail, 0x02048C58-0x02048D00: the four-slot upload loop and
- * the per-slot colour accessors over the same eight-byte slot the builder at
- * 0x02048BC4 fills, three halfwords of colour and one spare.
- *
- *   0x02048C58  push all four slots through 0x02046A94; the `and r0, #0xff`
- *               on the loop counter is the callee's `u8` first parameter,
- *               not a narrow counter (the counter itself increments and
- *               compares as a plain `int`)
- *   0x02048C80  read slot i's colour out, 0x02048CA4 writes it
- *   0x02048CCC  read slot i's spare halfword out, 0x02048CDC writes it
- *   0x02048CEC  seed the three-word global at 0x02146A68 from two arguments
- *               and a zero
- *
- * 0x02048CA4 pushes {r3, lr} and calls nothing: lr is spilled purely as a
- * scratch register for the third halfword of the copy.  Its source pointer
- * must not be `const`: with `const` mwcc proves the two halfword stores
- * cannot reach the source and hoists all three loads ahead of them, which is
- * thirteen bytes wrong; without it the third load stays after the first two
- * stores, in source order.
- *
- * The six-byte colour moves are aggregate assignments of the nested struct,
- * which is why the loads pair up ahead of the stores rather than
- * interleaving one field at a time
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md, halfword form).
- *
- * The unit starts at 0x02048C58 and not earlier because 0x02048C4C holds an
- * ARM long-branch veneer that no `tu` range may span.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048C58.c \
- *       --addr 0x02048C58 --cc 1.1p1 --arm
- */
 void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in)
 {
     slots[i].col = *in;
@@ -505,41 +435,6 @@ void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in)
 
 
 
-/*
- * g3d_light.c's tail, 0x02048C58-0x02048D00: the four-slot upload loop and
- * the per-slot colour accessors over the same eight-byte slot the builder at
- * 0x02048BC4 fills, three halfwords of colour and one spare.
- *
- *   0x02048C58  push all four slots through 0x02046A94; the `and r0, #0xff`
- *               on the loop counter is the callee's `u8` first parameter,
- *               not a narrow counter (the counter itself increments and
- *               compares as a plain `int`)
- *   0x02048C80  read slot i's colour out, 0x02048CA4 writes it
- *   0x02048CCC  read slot i's spare halfword out, 0x02048CDC writes it
- *   0x02048CEC  seed the three-word global at 0x02146A68 from two arguments
- *               and a zero
- *
- * 0x02048CA4 pushes {r3, lr} and calls nothing: lr is spilled purely as a
- * scratch register for the third halfword of the copy.  Its source pointer
- * must not be `const`: with `const` mwcc proves the two halfword stores
- * cannot reach the source and hoists all three loads ahead of them, which is
- * thirteen bytes wrong; without it the third load stays after the first two
- * stores, in source order.
- *
- * The six-byte colour moves are aggregate assignments of the nested struct,
- * which is why the loads pair up ahead of the stores rather than
- * interleaving one field at a time
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md, halfword form).
- *
- * The unit starts at 0x02048C58 and not earlier because 0x02048C4C holds an
- * ARM long-branch veneer that no `tu` range may span.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048C58.c \
- *       --addr 0x02048C58 --cc 1.1p1 --arm
- */
 void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out)
 {
     *out = slots[i].unk06;
@@ -552,41 +447,6 @@ void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out)
 
 
 
-/*
- * g3d_light.c's tail, 0x02048C58-0x02048D00: the four-slot upload loop and
- * the per-slot colour accessors over the same eight-byte slot the builder at
- * 0x02048BC4 fills, three halfwords of colour and one spare.
- *
- *   0x02048C58  push all four slots through 0x02046A94; the `and r0, #0xff`
- *               on the loop counter is the callee's `u8` first parameter,
- *               not a narrow counter (the counter itself increments and
- *               compares as a plain `int`)
- *   0x02048C80  read slot i's colour out, 0x02048CA4 writes it
- *   0x02048CCC  read slot i's spare halfword out, 0x02048CDC writes it
- *   0x02048CEC  seed the three-word global at 0x02146A68 from two arguments
- *               and a zero
- *
- * 0x02048CA4 pushes {r3, lr} and calls nothing: lr is spilled purely as a
- * scratch register for the third halfword of the copy.  Its source pointer
- * must not be `const`: with `const` mwcc proves the two halfword stores
- * cannot reach the source and hoists all three loads ahead of them, which is
- * thirteen bytes wrong; without it the third load stays after the first two
- * stores, in source order.
- *
- * The six-byte colour moves are aggregate assignments of the nested struct,
- * which is why the loads pair up ahead of the stores rather than
- * interleaving one field at a time
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md, halfword form).
- *
- * The unit starts at 0x02048C58 and not earlier because 0x02048C4C holds an
- * ARM long-branch veneer that no `tu` range may span.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048C58.c \
- *       --addr 0x02048C58 --cc 1.1p1 --arm
- */
 void func_02048CDC(struct LightSlot *slots, u32 i, u16 *in)
 {
     slots[i].unk06 = *in;
@@ -599,41 +459,6 @@ void func_02048CDC(struct LightSlot *slots, u32 i, u16 *in)
 
 
 
-/*
- * g3d_light.c's tail, 0x02048C58-0x02048D00: the four-slot upload loop and
- * the per-slot colour accessors over the same eight-byte slot the builder at
- * 0x02048BC4 fills, three halfwords of colour and one spare.
- *
- *   0x02048C58  push all four slots through 0x02046A94; the `and r0, #0xff`
- *               on the loop counter is the callee's `u8` first parameter,
- *               not a narrow counter (the counter itself increments and
- *               compares as a plain `int`)
- *   0x02048C80  read slot i's colour out, 0x02048CA4 writes it
- *   0x02048CCC  read slot i's spare halfword out, 0x02048CDC writes it
- *   0x02048CEC  seed the three-word global at 0x02146A68 from two arguments
- *               and a zero
- *
- * 0x02048CA4 pushes {r3, lr} and calls nothing: lr is spilled purely as a
- * scratch register for the third halfword of the copy.  Its source pointer
- * must not be `const`: with `const` mwcc proves the two halfword stores
- * cannot reach the source and hoists all three loads ahead of them, which is
- * thirteen bytes wrong; without it the third load stays after the first two
- * stores, in source order.
- *
- * The six-byte colour moves are aggregate assignments of the nested struct,
- * which is why the loads pair up ahead of the stores rather than
- * interleaving one field at a time
- * (docs/idioms/aggregate-assignment-is-ldm-stm.md, halfword form).
- *
- * The unit starts at 0x02048C58 and not earlier because 0x02048C4C holds an
- * ARM long-branch veneer that no `tu` range may span.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048C58.c \
- *       --addr 0x02048C58 --cc 1.1p1 --arm
- */
 void func_02048CEC(u32 a, u32 b)
 {
     g_02146A68.unk00 = (u32 *)a;
@@ -828,90 +653,6 @@ void func_02048DDC(struct ArcFile *arc, u32 id)
 
 
 
-/*
- * The whole of packet pkt_02048DDC, 0x02048DDC-0x02048F4C: arc_tool.c's
- * archive binder (func_02048DDC) and the member resolver it hands off to
- * (func_02048E34), both open functions on the eidos port's blocked list.
- * Verified as one translation unit, so the literal pool at 0x02048E30
- * between the two functions and the two pool words at 0x02048F44/0x02048F48
- * are inside the compared range: 2 sections, 368 bytes, no padding, 16 of 16
- * relocation sites resolved (attestation classes: label for the five SDK
- * entry points and func_02034734, literal for g_02146A68 and the arc_tool.c
- * string, string for the assertion text).
- *
- * ---------------------------------------------------------------------------
- * func_02048DDC - "open archive by id"
- *
- * FS_InitFile binds the caller's 0x48-byte handle, then the one global at
- * 0x02146A68 picks the archive's storage: with its +0x08 flag clear the
- * +0x00 pointer is the 235-entry name table (installed by
- * func_02048CEC(0x020A6C58, 0xeb), see docs/ASSETS.md) and the member's name
- * is opened by path; with the flag set the same table is an array of 8-byte
- * {start, end} extents and the member is bound straight out of memory as
- * (start, end - start).  Nothing in the image ever sets +0x08, so the second
- * arm is dead code kept for the id-as-pointer build.
- *
- * The two arms must each read the +0x00 table pointer themselves: the
- * original spends a separate `ldr` in each arm and the record arm's pointer
- * lands in r3.  Three things in this spelling are shape, not semantics, and
- * each is load-bearing for -O4,p at 1.1p1 - each was measured against a
- * variant that differs only in the qualifier or the declaration:
- *
- *   - `u32 * volatile unk00`: without `volatile` the optimizer
- *     common-subexpresses the two arms' table-pointer loads, hoists the one
- *     load above the `bne` (the word arm then begins with `mov r0, r5` at
- *     +0x20 instead of +0x24) and the record arm reuses it.  A volatile load
- *     cannot be CSE'd, so each arm reloads, and the function is 88 bytes
- *     instead of 76.
- *   - `volatile u32 end` in the extent type: without it mwcc merges the
- *     record's two field loads into `ldm r2, {r1, r2}`, which is four bytes
- *     short and re-tiles the low word onto the materialised address.
- *   - `u32 *tbl` bound before the record pointer: with the pointer expression
- *     inlined into the subscript
- *     (`(struct ArcRecord *)g_02146A68.unk00 + id`) the same code comes out
- *     with the table in r1 and the materialised address in r2, i.e. every
- *     register in the record arm is off by one slot.  Naming the loaded table
- *     first makes mwcc keep it in r3 and use r1 for the address, as the
- *     original does.
- *
- * The 8-byte extent is {start, end} and the requested length is end - start;
- * the two locals mirror the original's evaluation order, which loads the high
- * word first.  A plain `u32 *` (or a plain `u32` plus a cast in the word arm)
- * instead of `u32 * volatile` is 76-84 bytes, never 88.  The sibling unit
- * src/matched/unit_02048C58.c declares the same global as three plain u32
- * fields, which is right for what it does (func_02048CEC writes it) and is
- * not enough for this reader.  See docs/notes/pkt_02048DDC.c.txt.
- *
- * ---------------------------------------------------------------------------
- * func_02048E34 - resolve one member's extent
- *
- * Read the FAT offset out of the file header at +0xc, read the tail of the
- * table it points to ({u32 image delta, u16 count} at fatOffset+4), range
- * check the member index, walk to the member's {u32 start, u32 end} pair at
- * fatOffset+0xc+member*8 and seek to its first byte at base+image+8+start.
- * Returns the member's byte length, or `size` when the caller supplied one
- * (that is the `size_out` argument the sibling readers in src/matched/ pass
- * as 0).  The u32 at +4 doubles as the scratch the first two reads share,
- * which is why it is zeroed before the 2-byte read: the top half of the
- * u32 stays clear.
- *
- * The assertion's variadic tail is two values, the count and the member: r3
- * is never written on the assert path, so the `ldrh` that fed the guard's
- * `cmp` is still live and only the member reaches the stack
- * (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
- * 0x020A7EE0 is the arc_tool.c anchor src/matched/func_02048D54.c already
- * pins; 0x020A7EEC is the assertion text, fixed from outside by the
- * terminator of the string in front of it.  The `ldreq`/`subeq` tail is
- * "take the caller's size if it is non-zero, else end - start".
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02048DDC.c \
- *       --addr 0x02048DDC --cc 1.1p1 --arm
- * (both halves were also verified individually as `one` before folding them
- * into this unit: func_02048DDC 88 bytes, func_02048E34 280 bytes.)
- */
 u32 func_02048E34(struct ArcHandle *arc, u32 member, u32 base, u32 size)
 {
     u32 range[2];
@@ -1832,15 +1573,6 @@ u32 func_0204994C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Sound / audio event trigger wrappers.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204994C.c \
- *       --addr 0x0204994C --arm
- */
 u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
 {
     u32 res = (u32)func_0204A380(a0, a1, a6, a7);
@@ -1849,15 +1581,6 @@ u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Sound / audio event trigger wrappers.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204994C.c \
- *       --addr 0x0204994C --arm
- */
 u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
 {
     u32 res = (u32)func_0204A380(a0, a1, a6, a7);
@@ -1945,25 +1668,6 @@ void sub_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
 
 
 
-/*
- * A whole translation unit range, matched as one byte range.
- *
- * Two sibling entry points of the text-printing layer, each a six-to-seven
- * argument forwarder that splices a zero in as the fourth argument of the
- * real worker (sub_02049B90 and sub_02049BDC respectively).
- *
- * The shape is the whole content: `stmdb sp!, {lr}` plus `sub sp, #0xc`
- * builds the outgoing stack argument area, the two incoming stack
- * arguments are lifted out at [sp,#0x10] and [sp,#0x14], and `stm sp,
- * {r3, lr}` writes the displaced r3 and the first lifted argument into
- * the callee's slots in one go.  Only then is r3 reloaded with the
- * spliced 0.  The last argument is read with `ldrh`, which is the only
- * evidence that it is a u16 rather than a word.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02049B40.c \
- *       --addr 0x02049B40 --arm
- */
 void sub_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {
     sub_02049BDC(a, b, c, 0, d, e, f);
@@ -2118,13 +1822,6 @@ void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
@@ -2139,13 +1836,6 @@ void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
@@ -2160,13 +1850,6 @@ void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
@@ -2181,13 +1864,6 @@ void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
@@ -2202,13 +1878,6 @@ void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049EF4(void *a0, u32 a1, u32 a2, void **out, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
@@ -2223,13 +1892,6 @@ void *func_02049EF4(void *a0, u32 a1, u32 a2, void **out, u16 a4)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3)
 {
     void *res = (void *)func_0204A1BC(a0, a1, 0, a3);
@@ -2244,13 +1906,6 @@ void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3)
 {
     void *res = func_0204A380(a0, a1, 0, a3);
@@ -2265,13 +1920,6 @@ void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
@@ -2286,13 +1934,6 @@ void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * Cell-actor binding helpers.  Each binds an actor of a given kind through
- * func_0204A1BC (kind table 1, 5-argument form) or func_0204A380 (kind
- * table 2, wrapper over func_0204A39C), runs the per-kind hook, and releases
- * the actor again when the hook fails.  func_02049F34 / func_02049F78 are
- * the 4-argument forms and pass 0 as the third argument.
- */
 void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
@@ -2338,9 +1979,6 @@ void *func_0204A07C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- */
 void *func_0204A0BC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
@@ -2355,9 +1993,6 @@ void *func_0204A0BC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- */
 void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
@@ -2372,9 +2007,6 @@ void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- */
 void *func_0204A13C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
@@ -2389,9 +2021,6 @@ void *func_0204A13C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- */
 void *func_0204A17C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);

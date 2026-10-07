@@ -314,10 +314,6 @@ u32 func_0200CED4(struct Blk37 *p, u16 id)
     return r;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- */
 u16 func_0200CF08(struct Blk37 *p, u32 heap)
 {
     if (func_0200CA38(p) != 0) {
@@ -326,10 +322,6 @@ u16 func_0200CF08(struct Blk37 *p, u32 heap)
     return func_0200CF54(p, heap);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- */
 u16 func_0200CF28(struct Blk37 *p)
 {
     s32 n;
@@ -344,10 +336,6 @@ u16 func_0200CF28(struct Blk37 *p)
     return (u16)n;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- */
 u16 func_0200CF54(struct Blk37 *p, u32 heap)
 {
     u16 i;
@@ -366,10 +354,6 @@ u16 func_0200CF54(struct Blk37 *p, u32 heap)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- */
 void func_0200CFA0(struct Blk37 *p, void *m)
 {
     u32 saved;
@@ -475,32 +459,6 @@ u32 func_0200D0AC(struct Blk37 *p, u32 heap)
     return func_0200D0F8(p, heap);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- * 152 bytes, 0x0200D0AC..0x0200D144, 3 functions, all labelled.
- *
- * The "seen" counterpart of src/matched/unit_0200CED4.c: the same three
- * functions over func_0200D064's four-bitmap test instead of func_0200CED4's
- * single one.  0x289 is 649, one past the last species id this block tracks,
- * and 0x3E7 is the 999 the id-to-index table uses for "no entry".
- *
- * Near miss, and the reason this range starts at 0x0200D0AC: func_0200D064,
- * 72 bytes, the four-bitmap test itself.  Every instruction reproduces bar the
- * placement of one `adds`: the original recomputes `p + i * 0x54 + (id >> 3)`
- * inside the loop, and mwccarm hoists the loop-invariant `p + (id >> 3)` into
- * the preheader instead, which leaves the same instruction count and the same
- * 72 bytes with 30 concrete bytes differing in register numbers.  Eighty
- * source shapes were compiled and ranked: the loop counter as `u16`, `u32` and
- * `s32`, the index with and without a `(u16)` cast, the bit mask and the byte
- * index as locals and inline, `for` against `do`/`while`, `goto` against
- * `return`, and the row as a pointer local, a dereferenced sum and a flat
- * index.  Only the `(u16)` cast on the index and the mask in a local reach the
- * right size at all, and past that the ranking is flat at 30, so the hoist is
- * not reachable from the source shape.  Same class as the near misses at
- * 0x0200B2A4 and 0x0200B37C.
- */
 u16 func_0200D0CC(struct Blk37 *p)
 {
     s32 n;
@@ -515,32 +473,6 @@ u16 func_0200D0CC(struct Blk37 *p)
     return (u16)n;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- * 152 bytes, 0x0200D0AC..0x0200D144, 3 functions, all labelled.
- *
- * The "seen" counterpart of src/matched/unit_0200CED4.c: the same three
- * functions over func_0200D064's four-bitmap test instead of func_0200CED4's
- * single one.  0x289 is 649, one past the last species id this block tracks,
- * and 0x3E7 is the 999 the id-to-index table uses for "no entry".
- *
- * Near miss, and the reason this range starts at 0x0200D0AC: func_0200D064,
- * 72 bytes, the four-bitmap test itself.  Every instruction reproduces bar the
- * placement of one `adds`: the original recomputes `p + i * 0x54 + (id >> 3)`
- * inside the loop, and mwccarm hoists the loop-invariant `p + (id >> 3)` into
- * the preheader instead, which leaves the same instruction count and the same
- * 72 bytes with 30 concrete bytes differing in register numbers.  Eighty
- * source shapes were compiled and ranked: the loop counter as `u16`, `u32` and
- * `s32`, the index with and without a `(u16)` cast, the bit mask and the byte
- * index as locals and inline, `for` against `do`/`while`, `goto` against
- * `return`, and the row as a pointer local, a dereferenced sum and a flat
- * index.  Only the `(u16)` cast on the index and the mask in a local reach the
- * right size at all, and past that the ranking is flat at 30, so the hoist is
- * not reachable from the source shape.  Same class as the near misses at
- * 0x0200B2A4 and 0x0200B37C.
- */
 u16 func_0200D0F8(struct Blk37 *p, u32 heap)
 {
     u16 i;
@@ -798,47 +730,6 @@ u16 func_0200D368(struct Blk37 *p, u32 heap)
     return n;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- * 172 bytes, 0x0200D368..0x0200D414, 2 functions, one of which carries a label
- * in the generated listing.
- *
- * The tail of the save block with id 0x37, whose head is
- * src/matched/unit_0200C9EC.c.  func_0200D368 counts the species this block
- * records as seen that the id table has an entry for and that func_0200C7A0
- * accepts; func_0200D3C0 reads a bit out of the flat 0x1B0-byte bitmap at
- * +0x320, indexed by `(b - 1) + (a - 1) * 7` over a range of 0x1ED rows.
- *
- * func_0200D3C0 saves `r4` without saving `lr`, so `disasm.py` does not label
- * it and it arrives in the listing as a run of `.word`s.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
- *
- * Its second selector is rejected above 8 and at exactly 6, and then
- * decremented above 6, so the seven live values 1..5, 7, 8 map onto 0..6; the
- * hole at 6 and the shift around it are in the original and are what the two
- * compares and the `subs` encode.
- *
- * This range starts at 0x0200D368 rather than at the head of the group because
- * func_0200C7A0 is reached from exactly two places in the image, 0x0200D33A in
- * func_0200D310 and 0x0200D392 here, so a range holding both has no witness
- * left for it.  Cut between them and this half closes.  See
- * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.  The other
- * half does not close, because func_0200C780 is reached only from
- * func_0200D2D8; it is parked in src/pending/unit_0200D288.c.
- *
- * Near miss in the same original file: func_0200D144, 322 bytes at
- * 0x0200D144, the five-way reader over the same bitmaps.  It reaches the right
- * size and the right control flow, and sixteen bytes in its last arm differ in
- * register numbers alone: the original keeps the shifted id in one register and
- * masks it into a scratch, and mwccarm masks in place and allocates the bit and
- * the loaded byte the other way round.  Adding a named local for the mask
- * fixes the arm before it, which is where the original also spends a register
- * copy, and adding one here costs an instruction the original does not have;
- * all 120 permutations of the five locals and every spelling of the two
- * operands rank flat at sixteen.
- */
 u32 func_0200D3C0(struct Blk37 *p, u32 a, u32 b)
 {
     s32 x;
@@ -908,90 +799,12 @@ u32 func_0200D414(void)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void *func_0200D418(void *sys)
 {
     return func_020071CC(sys, 0x38);
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void func_0200D424(struct Blk38 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk38));
@@ -999,45 +812,6 @@ void func_0200D424(struct Blk38 *p)
     p->unk31 = 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void func_0200D440(void *sys)
 {
     struct Blk38 *p = func_0200D418(sys);
@@ -1045,89 +819,11 @@ void func_0200D440(void *sys)
     p->unk30 = func_02005728(0x11);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 u8 func_0200D454(struct Blk38 *p)
 {
     return p->unk30;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void func_0200D45C(struct Blk38 *p, u16 v)
 {
     if (p->unk00 != v) {
@@ -1136,354 +832,42 @@ void func_0200D45C(struct Blk38 *p, u16 v)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 u8 func_0200D468(struct Blk38 *p, u32 i)
 {
     return p->unk2E[i];
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void func_0200D470(struct Blk38 *p, u32 i, u32 v)
 {
     p->unk2E[i] = v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 u8 func_0200D478(struct Blk38 *p, u32 i)
 {
     return p->unk2C[i];
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void func_0200D480(struct Blk38 *p, u32 i, u8 v)
 {
     p->unk2C[i] = v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 u8 func_0200D488(struct Blk38 *p, u32 i)
 {
     return p->unk04[i].unk12;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void func_0200D494(struct GdsEnt *e)
 {
     MI_CpuFill8(e, 0, sizeof(struct GdsEnt));
     e->unk00 = 0xFFFF;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i)
 {
     return &p->unk04[i];
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 u32 func_0200D4B8(const struct GdsEnt *e, u32 i)
 {
     switch (i) {
@@ -1513,45 +897,6 @@ u32 func_0200D4B8(const struct GdsEnt *e, u32 i)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void func_0200D50C(struct GdsEnt *e, u32 i, u32 v)
 {
     switch (i) {
@@ -1590,89 +935,11 @@ void func_0200D50C(struct GdsEnt *e, u32 i, u32 v)
     }
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 void func_0200D55C(struct Blk38 *p, u8 v)
 {
     p->unk31 = v;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 u32 func_0200D564(struct Blk38 *p)
 {
     if (p->unk31 != 0) {
@@ -1684,45 +951,6 @@ u32 func_0200D564(struct Blk38 *p)
     return 0;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200D454, func_0200D45C, func_0200D468, func_0200D470,
- *           func_0200D478, func_0200D480, func_0200D488, func_0200D494,
- *           func_0200D4AC, func_0200D4B8, func_0200D50C, func_0200D55C,
- *           func_0200D564, func_0200D58C
- *
- * 392 bytes, 0x0200D414..0x0200D59C, 18 functions, sixteen of which carry no
- * label in the generated listing: everything here but the constructor and
- * func_0200D440 is a leaf that saves nothing.
- *
- * The object is the save block with id 0x38: func_0200D414 returns 0x34,
- * func_0200D418 is the whole of the lookup `func_020071CC(sys, 0x38)`, and
- * func_0200D424 clears exactly 0x34 bytes, which is the block-file opening
- * this region keeps producing.  The record is a pair of 0x14-byte entries at
- * +0x04 with four byte fields and two counters behind them.
- *
- * Three things cost time here.
- *
- *  - the two dispatchers at 0x0200D4B8 and 0x0200D50C emit their arms in the
- *    order 1, 2, 3, 10, 4, 5, 6, 7, 8, 9, which is the order the source wrote
- *    them in and not the numeric order of the labels; the `.hword` table is
- *    what says so, since the entry for 10 sits between the entries for 3 and
- *    4 in address order.  See
- *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *  - both tables have an eleventh entry, for 0, pointing at the function's
- *    exit.  That entry is before every real arm, so it is an empty `case 0:`
- *    the source wrote rather than a gap: without it the labels are 1..10 and
- *    this front end emits a compare chain instead of a table.  See
- *    docs/idioms/empty-switch-arms-are-what-make-the-table.md.
- *  - func_0200D564 reads +0x31 three times and stores it once with the
- *    address recomputed before each access, and nothing that leaves the field
- *    ordinary reproduces that: every spelling folds the three reads into one.
- *    Declaring it `volatile` keeps them, and it costs nothing in
- *    func_0200D55C or func_0200D58C, which touch it once each.  The same
- *    reading as `volatile u16 unkE0` in src/matched/unit_0200C0E8.c.
- */
 u32 func_0200D58C(struct Blk38 *p)
 {
     if (p->unk31 == 0) {

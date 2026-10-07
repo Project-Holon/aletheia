@@ -104,22 +104,6 @@ u8 sub_0201C020(u16 id)
 }
 
 
-/*
- * waza_tool.c: two more readers over a move record, each with its own copy of
- * the cache lookup src/matched/unit_0201BD28.c and
- * src/matched/unit_0201C1F4.c also carry.  sub_0201C020 counts how many of
- * the three bytes at +0x15 are set; sub_0201C0BC hands one of the three
- * signed bytes at +0x18 back through an out-parameter, or zero when the
- * matching +0x15 byte is clear.
- *
- * The +0x18 read is a `movs`/`ldrsb` register-offset pair because the index
- * is a run-time value and Thumb has no immediate-offset `ldrsb`, which is
- * also the only evidence that the field is signed where its +0x15 neighbour
- * is not (docs/idioms/ldrsh-register-offset-is-signedness.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C020.c  *       --addr 0x0201C020 --thumb
- */
 u8 sub_0201C0BC(u16 id, u32 idx, s32 *out)
 {
     struct Waza *rec;
@@ -207,44 +191,6 @@ u8 sub_0201C158(u16 move, u32 ppUp)
 }
 
 
-/*
- * waza_tool.c: the effective PP calculation, a four-entry id translation and
- * one more named field read.
- *
- * sub_0201C158 is the function src/pending/sub_02018E34.c's field map calls
- * for ids 0x42 to 0x45: base PP (field 5 of the move record, through
- * src/matched/unit_0201BD28.c) plus base * 20 * ppUp / 100, with ppUp clamped
- * to 3 and every intermediate truncated to u8.  The two `muls` are one
- * expression and their order is the source's: the clamped count multiplies
- * the already-scaled base, not the other way round
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * The clamp compares unsigned (`bls`) while the division calls _s32_div_f,
- * so the count is an unsigned parameter and the product is cast to `int`
- * before the divide; written unsigned throughout, every concrete byte is
- * still right and the call goes to _u32_div_f instead, which is a different
- * address and a DIFF.
- *
- * sub_0201C184 is a sparse four-case switch, which this front end lowers as a
- * binary search rather than a table: `> 0xF1`, then `< 0xF0`, then the two
- * equality tests.  The bodies are still emitted in source order, so the arms
- * are written 0xF0, 0xF1, 0xC9, 0x102 even though the comparisons are in
- * value order, and the value is signed: the two range tests are `bgt`/`blt`,
- * so the parameter is `int` and not `u32`.  0x102 arrives from a pool word because it is past the 255 a
- * `movs` immediate reaches.
- *
- * VERSION SENSITIVITY: 0xF0, 0xF1, 0xC9 and 0x102 are content ids (moves or
- * items), not offsets.  They are expected to be the same in Pokemon White,
- * which shares Black's numbering, but they are the constants to re-read first
- * if a White build diverges here.
- *
- * sub_0201C1BC is an unlabelled tail call, three instructions and two pool
- * words (docs/idioms/tail-call-is-a-pool-word-and-bx.md), reading field 1.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C158.c \
- *       --addr 0x0201C158 --thumb
- */
 u32 sub_0201C184(int id)
 {
     switch (id) {
@@ -257,44 +203,6 @@ u32 sub_0201C184(int id)
 }
 
 
-/*
- * waza_tool.c: the effective PP calculation, a four-entry id translation and
- * one more named field read.
- *
- * sub_0201C158 is the function src/pending/sub_02018E34.c's field map calls
- * for ids 0x42 to 0x45: base PP (field 5 of the move record, through
- * src/matched/unit_0201BD28.c) plus base * 20 * ppUp / 100, with ppUp clamped
- * to 3 and every intermediate truncated to u8.  The two `muls` are one
- * expression and their order is the source's: the clamped count multiplies
- * the already-scaled base, not the other way round
- * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *
- * The clamp compares unsigned (`bls`) while the division calls _s32_div_f,
- * so the count is an unsigned parameter and the product is cast to `int`
- * before the divide; written unsigned throughout, every concrete byte is
- * still right and the call goes to _u32_div_f instead, which is a different
- * address and a DIFF.
- *
- * sub_0201C184 is a sparse four-case switch, which this front end lowers as a
- * binary search rather than a table: `> 0xF1`, then `< 0xF0`, then the two
- * equality tests.  The bodies are still emitted in source order, so the arms
- * are written 0xF0, 0xF1, 0xC9, 0x102 even though the comparisons are in
- * value order, and the value is signed: the two range tests are `bgt`/`blt`,
- * so the parameter is `int` and not `u32`.  0x102 arrives from a pool word because it is past the 255 a
- * `movs` immediate reaches.
- *
- * VERSION SENSITIVITY: 0xF0, 0xF1, 0xC9 and 0x102 are content ids (moves or
- * items), not offsets.  They are expected to be the same in Pokemon White,
- * which shares Black's numbering, but they are the constants to re-read first
- * if a White build diverges here.
- *
- * sub_0201C1BC is an unlabelled tail call, three instructions and two pool
- * words (docs/idioms/tail-call-is-a-pool-word-and-bx.md), reading field 1.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C158.c \
- *       --addr 0x0201C158 --thumb
- */
 u32 sub_0201C1BC(u16 move)
 {
     return sub_0201BD28(move, 1);

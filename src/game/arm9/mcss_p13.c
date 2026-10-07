@@ -143,13 +143,6 @@ void func_02018A00(void *p, u32 a, u32 b)
 
 
 
-/*
- * The two functions after src/matched/unit_020188B4.c and the three that its
- * header records as a near miss.  func_02018A00 is the eight byte
- * `ldr r3, [pc, #0]; bx r3` tail call that
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes; its callee is the
- * next function in this same range, so the site is the `local` class.
- */
 void func_02018A08(void *p, u32 a, u32 b)
 {
     void *h;
@@ -397,18 +390,6 @@ u32 func_02018D10(struct Sav *p)
     return r;
 }
 
-/*
- * The four lock/unlock helpers every accessor wrapper in this region opens and
- * closes with.  The object is the same record as src/matched/unit_02017D30.c:
- * a seed word at +0x00, three flag bits at +0x04, a halfword checksum at
- * +0x06, an 0x80 byte area at +0x08 and a 0x54 byte area at +0x88, each
- * area XOR masked in place by func_02019A50.  Bit 2 of +0x04 is the sticky
- * "checksum did not match" flag func_02018D34 sets.
- *
- * The three flag tests are `lsls`/`lsrs` pairs of width one, which is the
- * bitfield shape of docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md;
- * spelling them as masks gives movs/ands instead.
- */
 u32 func_02018D34(struct Sav *p)
 {
     u32 r = 1;
@@ -425,18 +406,6 @@ u32 func_02018D34(struct Sav *p)
     return r;
 }
 
-/*
- * The four lock/unlock helpers every accessor wrapper in this region opens and
- * closes with.  The object is the same record as src/matched/unit_02017D30.c:
- * a seed word at +0x00, three flag bits at +0x04, a halfword checksum at
- * +0x06, an 0x80 byte area at +0x08 and a 0x54 byte area at +0x88, each
- * area XOR masked in place by func_02019A50.  Bit 2 of +0x04 is the sticky
- * "checksum did not match" flag func_02018D34 sets.
- *
- * The three flag tests are `lsls`/`lsrs` pairs of width one, which is the
- * bitfield shape of docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md;
- * spelling them as masks gives movs/ands instead.
- */
 void func_02018D6C(struct Sav *p)
 {
     if (p->b0 == 0) {
@@ -445,18 +414,6 @@ void func_02018D6C(struct Sav *p)
     }
 }
 
-/*
- * The four lock/unlock helpers every accessor wrapper in this region opens and
- * closes with.  The object is the same record as src/matched/unit_02017D30.c:
- * a seed word at +0x00, three flag bits at +0x04, a halfword checksum at
- * +0x06, an 0x80 byte area at +0x08 and a 0x54 byte area at +0x88, each
- * area XOR masked in place by func_02019A50.  Bit 2 of +0x04 is the sticky
- * "checksum did not match" flag func_02018D34 sets.
- *
- * The three flag tests are `lsls`/`lsrs` pairs of width one, which is the
- * bitfield shape of docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md;
- * spelling them as masks gives movs/ands instead.
- */
 void func_02018D8C(struct Sav *p)
 {
     if (p->b1 == 0) {

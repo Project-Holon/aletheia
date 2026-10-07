@@ -349,35 +349,6 @@ void func_0201FC5C(BmpMenu *m)
 
 
 
-/*
- * bmp_menu.c: the three drawing helpers the constructor func_0201F93C calls.
- *   func_0201FC5C  clear the window bitmap to 0xFF and print every item of
- *                  the xmax * ymax grid (column-major index j + i * ymax)
- *                  through the print-util inline (the func_02020D5C shape:
- *                  print via func_0201C6FC, then util->drawn = 1).
- *   func_0201FD18  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
- *                  place the cursor at the pixel position of the current item.
- *   func_0201FD54  item index -> pixel position: column = pos / ymax, row =
- *                  pos % ymax.
- *
- * Declaration facts that closed them (all three had DIFF notes,
- * docs/notes/pkt_0201FC5C.c.txt and lane2_func_0201FD54.c.txt):
- *  - 0x0209C0A4 is _s32_div_f (layout/runtime_arm9.txt), which returns the
- *    quotient in r0 and the remainder in r1: the "unexplained" r1 of the
- *    second call in func_0201FD54 is `pos % ymax`, not a register tie
- *    (docs/idioms/div-and-mod-are-two-calls.md).
- *  - header byte +0x0B is three UNSIGNED bitfields 4:2:2 (func_0201FDA0
- *    writes them with 0x0F / 0x30 / 0xC0 masks); an unsigned field gives the
- *    `lsrs` func_0201FD18 needs where a shift expression gave `asrs`.
- *  - the print call is an inline taking the util handle first, which is what
- *    keeps the handle in a spill slot across the call in func_0201FC5C.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201FC5C.c \
- *       --addr 0x0201FC5C --thumb
- */
 void func_0201FD18(BmpMenu *m)
 {
     u8 x, y;
@@ -390,35 +361,6 @@ void func_0201FD18(BmpMenu *m)
 
 
 
-/*
- * bmp_menu.c: the three drawing helpers the constructor func_0201F93C calls.
- *   func_0201FC5C  clear the window bitmap to 0xFF and print every item of
- *                  the xmax * ymax grid (column-major index j + i * ymax)
- *                  through the print-util inline (the func_02020D5C shape:
- *                  print via func_0201C6FC, then util->drawn = 1).
- *   func_0201FD18  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
- *                  place the cursor at the pixel position of the current item.
- *   func_0201FD54  item index -> pixel position: column = pos / ymax, row =
- *                  pos % ymax.
- *
- * Declaration facts that closed them (all three had DIFF notes,
- * docs/notes/pkt_0201FC5C.c.txt and lane2_func_0201FD54.c.txt):
- *  - 0x0209C0A4 is _s32_div_f (layout/runtime_arm9.txt), which returns the
- *    quotient in r0 and the remainder in r1: the "unexplained" r1 of the
- *    second call in func_0201FD54 is `pos % ymax`, not a register tie
- *    (docs/idioms/div-and-mod-are-two-calls.md).
- *  - header byte +0x0B is three UNSIGNED bitfields 4:2:2 (func_0201FDA0
- *    writes them with 0x0F / 0x30 / 0xC0 masks); an unsigned field gives the
- *    `lsrs` func_0201FD18 needs where a shift expression gave `asrs`.
- *  - the print call is an inline taking the util handle first, which is what
- *    keeps the handle in a spill slot across the call in func_0201FC5C.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201FC5C.c \
- *       --addr 0x0201FC5C --thumb
- */
 void func_0201FD54(BmpMenu *m, u8 *x, u8 *y, u8 pos)
 {
     *x = (pos / m->hdr.ymax) * (m->width + m->xspc * 2);

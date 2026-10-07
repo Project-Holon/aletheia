@@ -210,57 +210,6 @@ void func_0200C5A4(struct MusicalDist *p)
     func_020307B0(p);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- * 84 bytes, 0x0200C5A4..0x0200C5F8, 2 functions, both of which carry a label
- * in the generated listing.
- *
- * alias: inside "musical_dist_save.c"; see src/matched/unit_0200C6D8.c for
- * how the file name at 0x020A71D4 is attested.  The record the file works on
- * is 0x2C bytes: a heap id at +0x00, a flag at +0x04, a state counter at
- * +0x08, a 0x10-byte header at +0x0C, the working buffer at +0x1C, the
- * buffer's base again at +0x20, the payload at base + 0x10 in +0x24, and the
- * system pointer at +0x28.  Every field is pinned by the constructor at
- * 0x0200C52C and by func_0200C5F8, neither of which is in this range; see the
- * two near misses below.
- *
- * func_0200C5A4 is the destructor.  The guard around the buffer free is
- * written as a plain `if`, and the fall-through arm is the free, so the test
- * in the source is `p->unk1C != 0` and not the inverse; see
- * docs/idioms/the-fall-through-arm-is-the-source-order.md.
- *
- * Two near misses bracket this range, and they are of different kinds.
- *
- *  - func_0200C52C, 118 bytes, the constructor.  It is a codegen miss and not
- *    an evidence one: 0x0200C52C is attested by one branch from an overlay,
- *    so it resolves here as `label`.  The original spends one instruction
- *    this source cannot buy, `movs r7, #6` at 0x0200C56C, which parks the
- *    save-block id in a callee-saved register so that the second use of it
- *    (the func_020073D8 call at 0x0200C560) is a register copy rather than a
- *    second `movs`.  Doing so costs the original a register, and the visible
- *    consequence is that the first parameter is homed to the stack at entry
- *    (`str r0, [sp, #4]`) while the func_02012EBC result keeps r6; every
- *    source shape tried here does the reverse and is 116 bytes against the
- *    original's 118.  Thirty-six shapes were compiled and ranked by diff
- *    count: six permutations of the three field stores crossed with four
- *    positions for the func_020072CC call, the result as a named local
- *    against the call written inline in the `if`, the id 6 as a literal
- *    against a local, five declaration orders for the locals, and a six
- *    argument reading of func_020072CC.  The ranking is flat at 57 to 80
- *    concrete bytes and every one of them is 116 bytes, so the missing
- *    instruction is not reachable by statement order.  All nine front ends
- *    agree, at every optimisation level.  Same class as the near misses at
- *    0x0200B2A4 and 0x0200B37C: a register the original spends and the source
- *    does not.
- *  - func_0200C5F8, 224 bytes, the state machine.  Every concrete byte of it
- *    reproduces; it is capped at MATCH because 0x0200A7F8 is branched to from
- *    exactly one instruction in the whole image, its own call at 0x0200C680,
- *    so the `label` class has no witness left once that call is inside the
- *    compared range and no cut helps.  The source is parked in
- *    src/matched/unit_0200C5F8.c.
- */
 struct MusicalDist *func_0200C5C8(void *sys, const void *src, u32 size,
                                   u32 heap)
 {
@@ -375,142 +324,22 @@ u32 func_0200C6D8(struct Blk2C *p)
     return p->unk24;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200C6F0, func_0200C720
- *
- * 96 bytes, 0x0200C6D8..0x0200C738, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * alias: this range is inside "musical_dist_save.c".  The constructor of the
- * file, func_0200C52C, loads 0x020A71D4 as the file-name argument to the
- * debug allocator at 0x02030734, and the bytes at 0x020A71D4 spell
- * "musical_dist_save.c"; the string before it is "battle_rec.c", whose
- * terminator at 0x020A71DF fixes that start.  That is the fourth original
- * source file name this project has recovered, after "playtime.c",
- * "box_savedata.c" and "battle_rec.c".  The functions keep their
- * `func_<address>` names, because the file identity is attested and the
- * individual entry points are not.
- *
- * The two getters at the top reach the 0x2C-byte object func_0200C52C
- * allocates; func_0200C6F0 works on a 0x2000-byte buffer instead, comparing
- * the 0x20 bytes at +0x1FE0 against a cleared stack copy of the same length,
- * which is a "is this record still blank" test.  func_0200C6EC is `bx lr` and
- * nothing else, a hook that was never filled in.
- *
- * func_0200C720 is the shape docs/idioms/the-fall-through-arm-is-the-source-order.md
- * warns about, read the other way: the `beq` jumps **into** the `return 1`
- * block and the `bls` jumps **past** it, which is the short-circuit `||` of
- * one `if`, not two statements.
- */
 u32 func_0200C6DC(struct Blk2C *p)
 {
     return *p->unk20;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200C6F0, func_0200C720
- *
- * 96 bytes, 0x0200C6D8..0x0200C738, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * alias: this range is inside "musical_dist_save.c".  The constructor of the
- * file, func_0200C52C, loads 0x020A71D4 as the file-name argument to the
- * debug allocator at 0x02030734, and the bytes at 0x020A71D4 spell
- * "musical_dist_save.c"; the string before it is "battle_rec.c", whose
- * terminator at 0x020A71DF fixes that start.  That is the fourth original
- * source file name this project has recovered, after "playtime.c",
- * "box_savedata.c" and "battle_rec.c".  The functions keep their
- * `func_<address>` names, because the file identity is attested and the
- * individual entry points are not.
- *
- * The two getters at the top reach the 0x2C-byte object func_0200C52C
- * allocates; func_0200C6F0 works on a 0x2000-byte buffer instead, comparing
- * the 0x20 bytes at +0x1FE0 against a cleared stack copy of the same length,
- * which is a "is this record still blank" test.  func_0200C6EC is `bx lr` and
- * nothing else, a hook that was never filled in.
- *
- * func_0200C720 is the shape docs/idioms/the-fall-through-arm-is-the-source-order.md
- * warns about, read the other way: the `beq` jumps **into** the `return 1`
- * block and the `bls` jumps **past** it, which is the short-circuit `||` of
- * one `if`, not two statements.
- */
 u32 func_0200C6E4(void)
 {
     return 0x2600;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200C6F0, func_0200C720
- *
- * 96 bytes, 0x0200C6D8..0x0200C738, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * alias: this range is inside "musical_dist_save.c".  The constructor of the
- * file, func_0200C52C, loads 0x020A71D4 as the file-name argument to the
- * debug allocator at 0x02030734, and the bytes at 0x020A71D4 spell
- * "musical_dist_save.c"; the string before it is "battle_rec.c", whose
- * terminator at 0x020A71DF fixes that start.  That is the fourth original
- * source file name this project has recovered, after "playtime.c",
- * "box_savedata.c" and "battle_rec.c".  The functions keep their
- * `func_<address>` names, because the file identity is attested and the
- * individual entry points are not.
- *
- * The two getters at the top reach the 0x2C-byte object func_0200C52C
- * allocates; func_0200C6F0 works on a 0x2000-byte buffer instead, comparing
- * the 0x20 bytes at +0x1FE0 against a cleared stack copy of the same length,
- * which is a "is this record still blank" test.  func_0200C6EC is `bx lr` and
- * nothing else, a hook that was never filled in.
- *
- * func_0200C720 is the shape docs/idioms/the-fall-through-arm-is-the-source-order.md
- * warns about, read the other way: the `beq` jumps **into** the `return 1`
- * block and the `bls` jumps **past** it, which is the short-circuit `||` of
- * one `if`, not two statements.
- */
 void func_0200C6EC(void)
 {
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200C6F0, func_0200C720
- *
- * 96 bytes, 0x0200C6D8..0x0200C738, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * alias: this range is inside "musical_dist_save.c".  The constructor of the
- * file, func_0200C52C, loads 0x020A71D4 as the file-name argument to the
- * debug allocator at 0x02030734, and the bytes at 0x020A71D4 spell
- * "musical_dist_save.c"; the string before it is "battle_rec.c", whose
- * terminator at 0x020A71DF fixes that start.  That is the fourth original
- * source file name this project has recovered, after "playtime.c",
- * "box_savedata.c" and "battle_rec.c".  The functions keep their
- * `func_<address>` names, because the file identity is attested and the
- * individual entry points are not.
- *
- * The two getters at the top reach the 0x2C-byte object func_0200C52C
- * allocates; func_0200C6F0 works on a 0x2000-byte buffer instead, comparing
- * the 0x20 bytes at +0x1FE0 against a cleared stack copy of the same length,
- * which is a "is this record still blank" test.  func_0200C6EC is `bx lr` and
- * nothing else, a hook that was never filled in.
- *
- * func_0200C720 is the shape docs/idioms/the-fall-through-arm-is-the-source-order.md
- * warns about, read the other way: the `beq` jumps **into** the `return 1`
- * block and the `bls` jumps **past** it, which is the short-circuit `||` of
- * one `if`, not two statements.
- */
 u32 func_0200C6F0(struct Buf2000 *p)
 {
     u8 blank[0x20];
@@ -523,36 +352,6 @@ u32 func_0200C6F0(struct Buf2000 *p)
     return r;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/002_020095C8.s.
- *
- *           func_0200C6F0, func_0200C720
- *
- * 96 bytes, 0x0200C6D8..0x0200C738, 6 functions, none of which carries a
- * label in the generated listing.
- *
- * alias: this range is inside "musical_dist_save.c".  The constructor of the
- * file, func_0200C52C, loads 0x020A71D4 as the file-name argument to the
- * debug allocator at 0x02030734, and the bytes at 0x020A71D4 spell
- * "musical_dist_save.c"; the string before it is "battle_rec.c", whose
- * terminator at 0x020A71DF fixes that start.  That is the fourth original
- * source file name this project has recovered, after "playtime.c",
- * "box_savedata.c" and "battle_rec.c".  The functions keep their
- * `func_<address>` names, because the file identity is attested and the
- * individual entry points are not.
- *
- * The two getters at the top reach the 0x2C-byte object func_0200C52C
- * allocates; func_0200C6F0 works on a 0x2000-byte buffer instead, comparing
- * the 0x20 bytes at +0x1FE0 against a cleared stack copy of the same length,
- * which is a "is this record still blank" test.  func_0200C6EC is `bx lr` and
- * nothing else, a hook that was never filled in.
- *
- * func_0200C720 is the shape docs/idioms/the-fall-through-arm-is-the-source-order.md
- * warns about, read the other way: the `beq` jumps **into** the `return 1`
- * block and the `bls` jumps **past** it, which is the short-circuit `||` of
- * one `if`, not two statements.
- */
 u32 func_0200C720(u32 v)
 {
     if (v == 0 || v > 0x289) {

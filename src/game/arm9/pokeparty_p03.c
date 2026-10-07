@@ -74,19 +74,6 @@ u32 func_02019D00(u32 id)
 
 
 
-/*
- * Neither carries a label in the generated listing.  func_02019D00
- * is a dense switch over 0x74..0x77 whose four arms each return a constant,
- * and the `subs r0, #0x74` in front of the `cmp`/`bhi` is the compiler's
- * normalisation of the range rather than anything the source wrote; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *
- * The range stops at 0x02019D58.  The two unlabelled search loops after it,
- * at 0x02019D58 and 0x02019D84, reproduce every concrete byte but read
- * halfword tables at 0x0209E280 and 0x0209E42C, and each of those addresses
- * appears in exactly one literal pool in the whole image, the one under test,
- * so the literal class discards its only witness and no cut helps.
- */
 u32 func_02019D30(u32 a, u32 n)
 {
     if (a != 0x28A) {

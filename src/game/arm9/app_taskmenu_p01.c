@@ -580,20 +580,6 @@ void func_020263D8(struct Comm *p, u32 a1, u32 a2)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * game_comm.c, 0x020263D8..0x02026454: start a request, the unlabelled
- * forwarding leaf func_02026400 (func_0202640C(p, 0, 0) as a pool-word tail
- * call), and the request update.  The byte at +4 of the comm object and of
- * its 8-byte sub-object at +0xC is a set of one-bit flags; every clear is a
- * `bics` and every set an `orrs`, which only bitfield stores give
- * (docs/families/game_comm.h).  func_020263D8 clears bit 1 between its two
- * plain stores: f14, bit, f05 is the one order whose flag load lands after
- * the f14 store (the other two schedule the f05 store first).
- *
- * Integrator: seed 0x02026400 (unlabelled follower, member of this unit).
- */
 void func_02026400(struct Comm *p)
 {
     func_0202640C(p, 0, 0);
@@ -604,20 +590,6 @@ void func_02026400(struct Comm *p)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * game_comm.c, 0x020263D8..0x02026454: start a request, the unlabelled
- * forwarding leaf func_02026400 (func_0202640C(p, 0, 0) as a pool-word tail
- * call), and the request update.  The byte at +4 of the comm object and of
- * its 8-byte sub-object at +0xC is a set of one-bit flags; every clear is a
- * `bics` and every set an `orrs`, which only bitfield stores give
- * (docs/families/game_comm.h).  func_020263D8 clears bit 1 between its two
- * plain stores: f14, bit, f05 is the one order whose flag load lands after
- * the f14 store (the other two schedule the f05 store first).
- *
- * Integrator: seed 0x02026400 (unlabelled follower, member of this unit).
- */
 void func_0202640C(struct Comm *p, u32 a, u32 b)
 {
     if (*((u8 *)&p->sub + 4) == 2) {
@@ -689,33 +661,6 @@ u32 sub_02026454(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0202647C, sub_02026480, sub_02026484, sub_0202648C
- *
- * Eight two-to-five-instruction accessors on one object, none of them
- * pushing a register: only the first is a real label in the generated
- * listing (a `func_starts` seed reached it some other way), and the other
- * seven print as `.word` runs between the two named functions this range
- * sits between, the same gap docs/idioms/unlabelled-leaf-functions-hide-
- * in-word-runs.md describes.
- *
- * sub_02026454 returns byte field +5 unconditionally: the original's
- * `bne`-around-a-redundant-`movs r0,#0` is what a plain `return v;`
- * compiles to when `v` is already known nonzero on one path, not a
- * guard. sub_02026460 is a genuine conjunction, `field5 != 0 &&
- * field0x10 != 2`, and only that phrasing (not two early-return `if`s)
- * produces the shared branch target both comparisons jump to
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- * The rest are plain word/byte getters and setters on fields +0x18, +0,
- * +6 and +8, one of them (sub_02026484) a "clear to zero" specialisation
- * of the setter that immediately follows it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026454.c \
- *       --addr 0x02026454 --thumb
- */
 u32 sub_02026460(void *obj)
 {
     if (*((u8 *)obj + 5) != 0 && *((u8 *)obj + 0x10) != 2) {
@@ -732,33 +677,6 @@ u32 sub_02026460(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0202647C, sub_02026480, sub_02026484, sub_0202648C
- *
- * Eight two-to-five-instruction accessors on one object, none of them
- * pushing a register: only the first is a real label in the generated
- * listing (a `func_starts` seed reached it some other way), and the other
- * seven print as `.word` runs between the two named functions this range
- * sits between, the same gap docs/idioms/unlabelled-leaf-functions-hide-
- * in-word-runs.md describes.
- *
- * sub_02026454 returns byte field +5 unconditionally: the original's
- * `bne`-around-a-redundant-`movs r0,#0` is what a plain `return v;`
- * compiles to when `v` is already known nonzero on one path, not a
- * guard. sub_02026460 is a genuine conjunction, `field5 != 0 &&
- * field0x10 != 2`, and only that phrasing (not two early-return `if`s)
- * produces the shared branch target both comparisons jump to
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- * The rest are plain word/byte getters and setters on fields +0x18, +0,
- * +6 and +8, one of them (sub_02026484) a "clear to zero" specialisation
- * of the setter that immediately follows it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026454.c \
- *       --addr 0x02026454 --thumb
- */
 u32 sub_02026474(void *obj)
 {
     return ((struct Obj17245 *)obj)->f18;
@@ -772,33 +690,6 @@ u32 sub_02026474(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0202647C, sub_02026480, sub_02026484, sub_0202648C
- *
- * Eight two-to-five-instruction accessors on one object, none of them
- * pushing a register: only the first is a real label in the generated
- * listing (a `func_starts` seed reached it some other way), and the other
- * seven print as `.word` runs between the two named functions this range
- * sits between, the same gap docs/idioms/unlabelled-leaf-functions-hide-
- * in-word-runs.md describes.
- *
- * sub_02026454 returns byte field +5 unconditionally: the original's
- * `bne`-around-a-redundant-`movs r0,#0` is what a plain `return v;`
- * compiles to when `v` is already known nonzero on one path, not a
- * guard. sub_02026460 is a genuine conjunction, `field5 != 0 &&
- * field0x10 != 2`, and only that phrasing (not two early-return `if`s)
- * produces the shared branch target both comparisons jump to
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- * The rest are plain word/byte getters and setters on fields +0x18, +0,
- * +6 and +8, one of them (sub_02026484) a "clear to zero" specialisation
- * of the setter that immediately follows it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026454.c \
- *       --addr 0x02026454 --thumb
- */
 u32 sub_02026478(void *obj)
 {
     return ((struct Obj17246 *)obj)->f0;
@@ -812,33 +703,6 @@ u32 sub_02026478(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0202647C, sub_02026480, sub_02026484, sub_0202648C
- *
- * Eight two-to-five-instruction accessors on one object, none of them
- * pushing a register: only the first is a real label in the generated
- * listing (a `func_starts` seed reached it some other way), and the other
- * seven print as `.word` runs between the two named functions this range
- * sits between, the same gap docs/idioms/unlabelled-leaf-functions-hide-
- * in-word-runs.md describes.
- *
- * sub_02026454 returns byte field +5 unconditionally: the original's
- * `bne`-around-a-redundant-`movs r0,#0` is what a plain `return v;`
- * compiles to when `v` is already known nonzero on one path, not a
- * guard. sub_02026460 is a genuine conjunction, `field5 != 0 &&
- * field0x10 != 2`, and only that phrasing (not two early-return `if`s)
- * produces the shared branch target both comparisons jump to
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- * The rest are plain word/byte getters and setters on fields +0x18, +0,
- * +6 and +8, one of them (sub_02026484) a "clear to zero" specialisation
- * of the setter that immediately follows it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026454.c \
- *       --addr 0x02026454 --thumb
- */
 u32 sub_0202647C(void *obj)
 {
     return *((u8 *)obj + 6);
@@ -852,33 +716,6 @@ u32 sub_0202647C(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0202647C, sub_02026480, sub_02026484, sub_0202648C
- *
- * Eight two-to-five-instruction accessors on one object, none of them
- * pushing a register: only the first is a real label in the generated
- * listing (a `func_starts` seed reached it some other way), and the other
- * seven print as `.word` runs between the two named functions this range
- * sits between, the same gap docs/idioms/unlabelled-leaf-functions-hide-
- * in-word-runs.md describes.
- *
- * sub_02026454 returns byte field +5 unconditionally: the original's
- * `bne`-around-a-redundant-`movs r0,#0` is what a plain `return v;`
- * compiles to when `v` is already known nonzero on one path, not a
- * guard. sub_02026460 is a genuine conjunction, `field5 != 0 &&
- * field0x10 != 2`, and only that phrasing (not two early-return `if`s)
- * produces the shared branch target both comparisons jump to
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- * The rest are plain word/byte getters and setters on fields +0x18, +0,
- * +6 and +8, one of them (sub_02026484) a "clear to zero" specialisation
- * of the setter that immediately follows it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026454.c \
- *       --addr 0x02026454 --thumb
- */
 void sub_02026480(void *obj, u32 value)
 {
     ((struct Obj17248 *)obj)->f8 = value;
@@ -892,33 +729,6 @@ void sub_02026480(void *obj, u32 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0202647C, sub_02026480, sub_02026484, sub_0202648C
- *
- * Eight two-to-five-instruction accessors on one object, none of them
- * pushing a register: only the first is a real label in the generated
- * listing (a `func_starts` seed reached it some other way), and the other
- * seven print as `.word` runs between the two named functions this range
- * sits between, the same gap docs/idioms/unlabelled-leaf-functions-hide-
- * in-word-runs.md describes.
- *
- * sub_02026454 returns byte field +5 unconditionally: the original's
- * `bne`-around-a-redundant-`movs r0,#0` is what a plain `return v;`
- * compiles to when `v` is already known nonzero on one path, not a
- * guard. sub_02026460 is a genuine conjunction, `field5 != 0 &&
- * field0x10 != 2`, and only that phrasing (not two early-return `if`s)
- * produces the shared branch target both comparisons jump to
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- * The rest are plain word/byte getters and setters on fields +0x18, +0,
- * +6 and +8, one of them (sub_02026484) a "clear to zero" specialisation
- * of the setter that immediately follows it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026454.c \
- *       --addr 0x02026454 --thumb
- */
 void sub_02026484(void *obj)
 {
     ((struct Obj17249 *)obj)->f8 = 0;
@@ -932,33 +742,6 @@ void sub_02026484(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0202647C, sub_02026480, sub_02026484, sub_0202648C
- *
- * Eight two-to-five-instruction accessors on one object, none of them
- * pushing a register: only the first is a real label in the generated
- * listing (a `func_starts` seed reached it some other way), and the other
- * seven print as `.word` runs between the two named functions this range
- * sits between, the same gap docs/idioms/unlabelled-leaf-functions-hide-
- * in-word-runs.md describes.
- *
- * sub_02026454 returns byte field +5 unconditionally: the original's
- * `bne`-around-a-redundant-`movs r0,#0` is what a plain `return v;`
- * compiles to when `v` is already known nonzero on one path, not a
- * guard. sub_02026460 is a genuine conjunction, `field5 != 0 &&
- * field0x10 != 2`, and only that phrasing (not two early-return `if`s)
- * produces the shared branch target both comparisons jump to
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- * The rest are plain word/byte getters and setters on fields +0x18, +0,
- * +6 and +8, one of them (sub_02026484) a "clear to zero" specialisation
- * of the setter that immediately follows it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026454.c \
- *       --addr 0x02026454 --thumb
- */
 u32 sub_0202648C(void *obj)
 {
     return ((struct Obj17250 *)obj)->f8;
@@ -1008,28 +791,6 @@ void sub_02026490(void *obj, u32 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The labelled sub_02026490 (8 bytes) is followed immediately by two more
- * unlabelled leaves reaching to the next real label at 0x020264B4, the
- * same shape as src/matched/unit_02026454.c just above it in the image.
- *
- * sub_02026490 sets byte field +4 to its argument and unconditionally
- * sets byte field +5 to 1. sub_02026498 and sub_020264AC are a
- * setter/getter pair on bit 2 of field +4: the setter narrows its 32-bit
- * argument to a byte before taking bit 0 of it
- * (`u8 f = (u8)flag;` is what produces the `lsls #0x18`/`lsrs #0x18`
- * truncation pair, not a mask, per the halfword-narrowing case in
- * docs/MATCHING.md), and the getter's `lsls #0x1d`/`lsrs #0x1f` pair is a
- * bitfield extraction rather than a type conversion (32 - 0x1d is 3, not
- * 8/16/32), which only reproduces from an actual bitfield member
- * declaration: docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026490.c \
- *       --addr 0x02026490 --thumb
- */
 void sub_02026498(void *obj, u32 flag)
 {
     u8 f = (u8)flag;
@@ -1047,28 +808,6 @@ void sub_02026498(void *obj, u32 flag)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The labelled sub_02026490 (8 bytes) is followed immediately by two more
- * unlabelled leaves reaching to the next real label at 0x020264B4, the
- * same shape as src/matched/unit_02026454.c just above it in the image.
- *
- * sub_02026490 sets byte field +4 to its argument and unconditionally
- * sets byte field +5 to 1. sub_02026498 and sub_020264AC are a
- * setter/getter pair on bit 2 of field +4: the setter narrows its 32-bit
- * argument to a byte before taking bit 0 of it
- * (`u8 f = (u8)flag;` is what produces the `lsls #0x18`/`lsrs #0x18`
- * truncation pair, not a mask, per the halfword-narrowing case in
- * docs/MATCHING.md), and the getter's `lsls #0x1d`/`lsrs #0x1f` pair is a
- * bitfield extraction rather than a type conversion (32 - 0x1d is 3, not
- * 8/16/32), which only reproduces from an actual bitfield member
- * declaration: docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026490.c \
- *       --addr 0x02026490 --thumb
- */
 u32 sub_020264AC(void *obj)
 {
     return ((struct Field4 *)((u8 *)obj + 4))->bit2;
@@ -1686,19 +1425,6 @@ void *sub_02026BFC(u8 *base, int n)
 
 
 
-/*
- * Five unlabelled leaves between func_02026A60 and func_02026CA0
- * (0x02026BFC..0x02026CA0), tu-verified: two ring-slot accessors, their
- * g_GameBeacon tail-call wrappers, and the +0xBA8 count getter.
- *   sub_02026BFC  slot n of the ring if n is below the s8 at +0xBAE
- *   sub_02026C1C  sub_02026BFC(g_GameBeacon, n)
- *   sub_02026C30  the slot n records back from the hi cursor, wrapped at 30;
- *                 the zero test on count - n is `c - n == 0` (a `subs`),
- *                 not `c == n` (a `cmp`)
- *   sub_02026C78  sub_02026C30(g_GameBeacon, n)
- *   sub_02026C8C  the +0xBA8 insert count
- * None has an lr save, so the integrator should seed all five starts.
- */
 void *sub_02026C1C(int n)
 {
     return sub_02026BFC((u8 *)g_GameBeacon, n);
@@ -1712,19 +1438,6 @@ void *sub_02026C1C(int n)
 
 
 
-/*
- * Five unlabelled leaves between func_02026A60 and func_02026CA0
- * (0x02026BFC..0x02026CA0), tu-verified: two ring-slot accessors, their
- * g_GameBeacon tail-call wrappers, and the +0xBA8 count getter.
- *   sub_02026BFC  slot n of the ring if n is below the s8 at +0xBAE
- *   sub_02026C1C  sub_02026BFC(g_GameBeacon, n)
- *   sub_02026C30  the slot n records back from the hi cursor, wrapped at 30;
- *                 the zero test on count - n is `c - n == 0` (a `subs`),
- *                 not `c == n` (a `cmp`)
- *   sub_02026C78  sub_02026C30(g_GameBeacon, n)
- *   sub_02026C8C  the +0xBA8 insert count
- * None has an lr save, so the integrator should seed all five starts.
- */
 void *sub_02026C30(u8 *base, int n)
 {
     u32 c = ((struct Obj11840 *)base)->fBA8;
@@ -1747,19 +1460,6 @@ void *sub_02026C30(u8 *base, int n)
 
 
 
-/*
- * Five unlabelled leaves between func_02026A60 and func_02026CA0
- * (0x02026BFC..0x02026CA0), tu-verified: two ring-slot accessors, their
- * g_GameBeacon tail-call wrappers, and the +0xBA8 count getter.
- *   sub_02026BFC  slot n of the ring if n is below the s8 at +0xBAE
- *   sub_02026C1C  sub_02026BFC(g_GameBeacon, n)
- *   sub_02026C30  the slot n records back from the hi cursor, wrapped at 30;
- *                 the zero test on count - n is `c - n == 0` (a `subs`),
- *                 not `c == n` (a `cmp`)
- *   sub_02026C78  sub_02026C30(g_GameBeacon, n)
- *   sub_02026C8C  the +0xBA8 insert count
- * None has an lr save, so the integrator should seed all five starts.
- */
 void *sub_02026C78(int n)
 {
     return sub_02026C30((u8 *)g_GameBeacon, n);
@@ -1773,19 +1473,6 @@ void *sub_02026C78(int n)
 
 
 
-/*
- * Five unlabelled leaves between func_02026A60 and func_02026CA0
- * (0x02026BFC..0x02026CA0), tu-verified: two ring-slot accessors, their
- * g_GameBeacon tail-call wrappers, and the +0xBA8 count getter.
- *   sub_02026BFC  slot n of the ring if n is below the s8 at +0xBAE
- *   sub_02026C1C  sub_02026BFC(g_GameBeacon, n)
- *   sub_02026C30  the slot n records back from the hi cursor, wrapped at 30;
- *                 the zero test on count - n is `c - n == 0` (a `subs`),
- *                 not `c == n` (a `cmp`)
- *   sub_02026C78  sub_02026C30(g_GameBeacon, n)
- *   sub_02026C8C  the +0xBA8 insert count
- * None has an lr save, so the integrator should seed all five starts.
- */
 u32 sub_02026C8C(void)
 {
     return g_GameBeacon->field_BA8;
@@ -2320,51 +2007,6 @@ void sub_020271F8(u16 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 static void sub_02027220(void *dst, u16 value)
 {
     ((struct Obj00121 *)dst)->f30 = 0xe;
@@ -2386,51 +2028,6 @@ static void sub_02027258(void *dst, u16 value);
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 void sub_02027230(u16 value)
 {
     if (sub_02027060(0xf)) {
@@ -2447,51 +2044,6 @@ void sub_02027230(u16 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 static void sub_02027258(void *dst, u16 value)
 {
     ((struct Obj00121 *)dst)->f30 = 0xf;
@@ -2513,51 +2065,6 @@ static void sub_02027290(void *dst, u16 value);
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 void sub_02027268(u16 value)
 {
     if (sub_02027060(0x10)) {
@@ -2574,51 +2081,6 @@ void sub_02027268(u16 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 static void sub_02027290(void *dst, u16 value)
 {
     ((struct Obj17252 *)dst)->f30 = 0x10;
@@ -2639,51 +2101,6 @@ static void sub_020272D0(void *dst, u16 a, u16 b);
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 void sub_020272A4(u16 a, u16 b)
 {
     if (sub_02027060(0x11)) {
@@ -2700,51 +2117,6 @@ void sub_020272A4(u16 a, u16 b)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 static void sub_020272D0(void *dst, u16 a, u16 b)
 {
     ((struct Obj00121 *)dst)->f30 = 0x11;
@@ -2767,51 +2139,6 @@ static void sub_02027314(void *dst, u16 value);
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 void sub_020272EC(u16 value)
 {
     if (sub_02027060(0x14)) {
@@ -2828,51 +2155,6 @@ void sub_020272EC(u16 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 static void sub_02027314(void *dst, u16 value)
 {
     ((struct Obj00121 *)dst)->f30 = 0x14;
@@ -2894,51 +2176,6 @@ static void sub_0202734C(void *dst, u16 value);
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 void sub_02027324(u16 value)
 {
     if (sub_02027060(0x23)) {
@@ -2955,51 +2192,6 @@ void sub_02027324(u16 value)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_02027268, sub_02027290, sub_020272A4, sub_020272D0,
- *           sub_020272EC, sub_02027314, sub_02027324, sub_0202734C
- *
- * Six checker/trampoline pairs, one per numeric event id (0xe, 0xf, 0x10,
- * 0x11, 0x14, 0x23), all working the same event-queue object obtained as
- * `g_System + 4`. Every checker has the same shape: ask
- * `sub_02027060(id)` (a priority gate against the object's current mode,
- * not itself in this packet) whether the id is allowed to run right now,
- * and if so, forward the caller's argument(s) into the queue object
- * through the matching trampoline and then hand the queue object to
- * `sub_02026FB8` (the dispatcher, also outside this packet). The queue
- * object is re-read from `g_System` between the trampoline call and the
- * dispatch call rather than kept in a register, because the compiler
- * cannot see across those two calls that the global does not change: this
- * is only reproduced by declaring `g_System` `volatile`, which is exactly
- * the case docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
- * records.
- *
- * The trampolines write the event id to +0x30 of the queue object and, in
- * four of the six (0xe, 0xf, 0x14, 0x23), a single 16-bit argument to
- * +0x32 or +0x34 before tail-calling the shared `func_0202744C`, which
- * marks the object "pending" independently of which id was just set. The
- * 0x10 trampoline instead tail-calls `func_020270AC(value, dst+0x34)`
- * directly, skipping `func_0202744C`; sub_020272A4/sub_020272D0 (id 0x11)
- * takes two arguments and does both: it stores the first at +0x32,
- * forwards the second to `func_020270AC(b, dst+0x34)`, and then also
- * calls `func_0202744C`. `func_020270AC` and `sub_02026FB8` are themselves
- * open in this packet's neighbour pkt_02026250, so they are left as
- * unresolved externs here and attest through the whole-image `label`
- * class, since both are called from more places than just this unit.
- *
- * All twelve functions, 356 bytes, one contiguous run with no gap: the
- * trampoline of one pair ends exactly where the checker of the next
- * begins. 31 of 31 relocations resolve (`local` for the intra-file calls,
- * `label` for sub_02027060/sub_02026FB8/func_020270AC/func_0202744C, and
- * `literal` for g_System, which is loaded from the pool at least 26 times
- * elsewhere in the ARM9 image).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020271F8.c \
- *       --addr 0x020271F8 --thumb
- */
 static void sub_0202734C(void *dst, u16 value)
 {
     ((struct Obj00121 *)dst)->f30 = 0x23;
@@ -3055,10 +2247,6 @@ void func_020273C4(char *p, unsigned short v)
 
 
 
-/*
- * Unlabelled leaf accessor matched to give overlay call sites a `matched`
- * witness.  Addresses are Black-image addresses.
- */
 void func_020273DC(char *p, unsigned short v)
 {
     ((struct Obj05717 *)p)->f48 = (((struct Obj05717 *)p)->f48 & ~0xff) | 1;
@@ -3071,10 +2259,6 @@ void func_020273DC(char *p, unsigned short v)
 
 
 
-/*
- * Unlabelled leaf accessor matched to give overlay call sites a `matched`
- * witness.  Addresses are Black-image addresses.
- */
 void func_020273F8(char *p, unsigned short v)
 {
     ((struct Obj05718 *)p)->f48 = (((struct Obj05718 *)p)->f48 & ~0xff) | 2;
@@ -3087,10 +2271,6 @@ void func_020273F8(char *p, unsigned short v)
 
 
 
-/*
- * Unlabelled leaf accessor matched to give overlay call sites a `matched`
- * witness.  Addresses are Black-image addresses.
- */
 void func_02027414(char *p, unsigned short v)
 {
     ((struct Obj05719 *)p)->f48 = (((struct Obj05719 *)p)->f48 & ~0xff) | 3;
@@ -3103,10 +2283,6 @@ void func_02027414(char *p, unsigned short v)
 
 
 
-/*
- * Unlabelled leaf accessor matched to give overlay call sites a `matched`
- * witness.  Addresses are Black-image addresses.
- */
 void func_02027430(char *p, unsigned short v)
 {
     ((struct Obj05720 *)p)->f48 = (((struct Obj05720 *)p)->f48 & ~0xff) | 4;
@@ -3292,9 +2468,6 @@ u32 func_020275A8(u32 a) { return a; }
 
 
 
-/*
- * Unlabelled arm9 leaf. Filed as the relocation witness for ov032 (wave D2).
- */
 u8 func_020275AC(u8 *p) { return p[0xb0e]; }
 
 
@@ -3303,9 +2476,6 @@ u8 func_020275AC(u8 *p) { return p[0xb0e]; }
 
 
 
-/*
- * Unlabelled arm9 leaf. Filed as the relocation witness for ov032 (wave D2).
- */
 void func_020275B8(char *p, int v) { p[0xb0e] = v; }
 
 
@@ -3327,7 +2497,4 @@ int func_020275C4(void *p)
 
 
 
-/*
- * Unlabelled arm9 leaf. Filed as the relocation witness for ov032 (wave D2).
- */
 void *func_020275D0(char *p) { return p + 0xb0c; }

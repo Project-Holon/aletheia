@@ -121,36 +121,6 @@ set:
     n->attr0C = (n->attr0C & ~0xf) | v;
 }
 
-/*
- * A family of five near-identical bitfield setters over the same inlined
- * two-step resolve: root -> bank (relative offset at +0x08), bank -> entry
- * (indexed table at bank+4+off0A, element stride read as a u16 at that same
- * address), entry -> node (relative offset at entry+0). The five differ only
- * in which field of node->attr0C they clear and set:
- *   func_0206E394  bits 0..3     (mask 0x0000000f, shift 0)
- *   func_0206E40C  bits 4..5     (mask 0x00000030, shift 4)
- *   func_0206E484  bits 6..7     (mask 0x000000c0, shift 6)
- *   func_0206E4FC  bits 24..29   (mask 0x3f000000, shift 24)
- *   func_0206E574  bits 16..20   (mask 0x001f0000, shift 16)
- * func_0206E5EC (already EXACT, next packet boundary) loops func_0206E4FC.
- *
- * Two shape notes that cost the derivation real time:
- *  - Every NULL arm shares ONE tail (`n = 0` at the very end), so each early
- *    bail has to be a `goto` to that block; writing them as nested else arms
- *    predicates `moveq r1,#0` at the top instead of branching to +0x60.
- *  - The resolved entry pointer is carried in the `idx` PARAMETER's register
- *    (r1), not in a fresh local: declaring a separate `Ent *e` allocates r0
- *    and flips `mla r1,r0,r1,r3` to `mla r0,r1,r0,r3`. Reassigning `idx`
- *    itself is what reproduces the original register choice.
- *
- * No proc hint for this packet; compiled with the default arm946e. No
- * interworking-conflict or constant-materialisation tell was observed, so
- * docs/FRONTEND-PINS.md does not apply here.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0206E394.c \
- *       --addr 0x0206E394 --arm
- */
 void func_0206E40C(Root *r, u32 idx, u32 v)
 {
     Bank *b;
@@ -176,36 +146,6 @@ set:
     n->attr0C = (n->attr0C & ~0x30) | (v << 4);
 }
 
-/*
- * A family of five near-identical bitfield setters over the same inlined
- * two-step resolve: root -> bank (relative offset at +0x08), bank -> entry
- * (indexed table at bank+4+off0A, element stride read as a u16 at that same
- * address), entry -> node (relative offset at entry+0). The five differ only
- * in which field of node->attr0C they clear and set:
- *   func_0206E394  bits 0..3     (mask 0x0000000f, shift 0)
- *   func_0206E40C  bits 4..5     (mask 0x00000030, shift 4)
- *   func_0206E484  bits 6..7     (mask 0x000000c0, shift 6)
- *   func_0206E4FC  bits 24..29   (mask 0x3f000000, shift 24)
- *   func_0206E574  bits 16..20   (mask 0x001f0000, shift 16)
- * func_0206E5EC (already EXACT, next packet boundary) loops func_0206E4FC.
- *
- * Two shape notes that cost the derivation real time:
- *  - Every NULL arm shares ONE tail (`n = 0` at the very end), so each early
- *    bail has to be a `goto` to that block; writing them as nested else arms
- *    predicates `moveq r1,#0` at the top instead of branching to +0x60.
- *  - The resolved entry pointer is carried in the `idx` PARAMETER's register
- *    (r1), not in a fresh local: declaring a separate `Ent *e` allocates r0
- *    and flips `mla r1,r0,r1,r3` to `mla r0,r1,r0,r3`. Reassigning `idx`
- *    itself is what reproduces the original register choice.
- *
- * No proc hint for this packet; compiled with the default arm946e. No
- * interworking-conflict or constant-materialisation tell was observed, so
- * docs/FRONTEND-PINS.md does not apply here.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0206E394.c \
- *       --addr 0x0206E394 --arm
- */
 void func_0206E484(Root *r, u32 idx, u32 v)
 {
     Bank *b;
@@ -231,36 +171,6 @@ set:
     n->attr0C = (n->attr0C & ~0xc0) | (v << 6);
 }
 
-/*
- * A family of five near-identical bitfield setters over the same inlined
- * two-step resolve: root -> bank (relative offset at +0x08), bank -> entry
- * (indexed table at bank+4+off0A, element stride read as a u16 at that same
- * address), entry -> node (relative offset at entry+0). The five differ only
- * in which field of node->attr0C they clear and set:
- *   func_0206E394  bits 0..3     (mask 0x0000000f, shift 0)
- *   func_0206E40C  bits 4..5     (mask 0x00000030, shift 4)
- *   func_0206E484  bits 6..7     (mask 0x000000c0, shift 6)
- *   func_0206E4FC  bits 24..29   (mask 0x3f000000, shift 24)
- *   func_0206E574  bits 16..20   (mask 0x001f0000, shift 16)
- * func_0206E5EC (already EXACT, next packet boundary) loops func_0206E4FC.
- *
- * Two shape notes that cost the derivation real time:
- *  - Every NULL arm shares ONE tail (`n = 0` at the very end), so each early
- *    bail has to be a `goto` to that block; writing them as nested else arms
- *    predicates `moveq r1,#0` at the top instead of branching to +0x60.
- *  - The resolved entry pointer is carried in the `idx` PARAMETER's register
- *    (r1), not in a fresh local: declaring a separate `Ent *e` allocates r0
- *    and flips `mla r1,r0,r1,r3` to `mla r0,r1,r0,r3`. Reassigning `idx`
- *    itself is what reproduces the original register choice.
- *
- * No proc hint for this packet; compiled with the default arm946e. No
- * interworking-conflict or constant-materialisation tell was observed, so
- * docs/FRONTEND-PINS.md does not apply here.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0206E394.c \
- *       --addr 0x0206E394 --arm
- */
 void func_0206E4FC(Root *r, u32 idx, u32 v)
 {
     Bank *b;
@@ -286,36 +196,6 @@ set:
     n->attr0C = (n->attr0C & ~0x3f000000) | (v << 24);
 }
 
-/*
- * A family of five near-identical bitfield setters over the same inlined
- * two-step resolve: root -> bank (relative offset at +0x08), bank -> entry
- * (indexed table at bank+4+off0A, element stride read as a u16 at that same
- * address), entry -> node (relative offset at entry+0). The five differ only
- * in which field of node->attr0C they clear and set:
- *   func_0206E394  bits 0..3     (mask 0x0000000f, shift 0)
- *   func_0206E40C  bits 4..5     (mask 0x00000030, shift 4)
- *   func_0206E484  bits 6..7     (mask 0x000000c0, shift 6)
- *   func_0206E4FC  bits 24..29   (mask 0x3f000000, shift 24)
- *   func_0206E574  bits 16..20   (mask 0x001f0000, shift 16)
- * func_0206E5EC (already EXACT, next packet boundary) loops func_0206E4FC.
- *
- * Two shape notes that cost the derivation real time:
- *  - Every NULL arm shares ONE tail (`n = 0` at the very end), so each early
- *    bail has to be a `goto` to that block; writing them as nested else arms
- *    predicates `moveq r1,#0` at the top instead of branching to +0x60.
- *  - The resolved entry pointer is carried in the `idx` PARAMETER's register
- *    (r1), not in a fresh local: declaring a separate `Ent *e` allocates r0
- *    and flips `mla r1,r0,r1,r3` to `mla r0,r1,r0,r3`. Reassigning `idx`
- *    itself is what reproduces the original register choice.
- *
- * No proc hint for this packet; compiled with the default arm946e. No
- * interworking-conflict or constant-materialisation tell was observed, so
- * docs/FRONTEND-PINS.md does not apply here.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0206E394.c \
- *       --addr 0x0206E394 --arm
- */
 void func_0206E574(Root *r, u32 idx, u32 v)
 {
     Bank *b;

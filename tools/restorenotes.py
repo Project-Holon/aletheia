@@ -77,6 +77,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--tree', default=os.path.join(ROOT, 'src', 'game'))
     ap.add_argument('--dry-run', action='store_true')
+    ap.add_argument('--dedupe', action='store_true', help='also drop repeated identical note blocks')
     a = ap.parse_args()
     idx = definitions_index()
     cache = {}
@@ -90,6 +91,7 @@ def main():
             m = pf.mask(raw)
             tab = pf.depth_table(m)
             edits = []
+            used = set()                        # one note per matched file per merged file
             for mm in pf.DECL_RE.finditer(m):
                 if mm.group(5) != '{' or pf.depth_at(tab, mm.start()) != 0:
                     continue
@@ -102,11 +104,14 @@ def main():
                 if srcs[0] not in cache:
                     cache[srcs[0]] = notes_of(open(srcs[0], encoding='latin1').read())
                 notes = cache[srcs[0]]
-                if not notes:
+                if not notes or srcs[0] in used:
                     continue
+                used.add(srcs[0])
                 ls = raw.rfind('\n', 0, mm.start()) + 1
-                before = raw[max(0, ls - 400):ls]
-                if notes[0].strip() and notes[0].strip()[:40] in before:
+                # already there (a note can be long, so look well back)
+                before = re.sub(r'\s+', ' ', re.sub(r'[/*]', ' ', raw[max(0, ls - 6000):ls]))
+                key = re.sub(r'\s+', ' ', re.sub(r'[/*]', ' ', ' '.join(t.strip() for t in notes))).strip()[:80]
+                if key.strip() and key in before:
                     continue
                 eol = '\r\n' if raw[ls - 2:ls] == '\r\n' else '\n'
                 block = '/*' + eol + ''.join((' * ' + t).rstrip() + eol for t in notes) + ' */' + eol
@@ -120,6 +125,29 @@ def main():
                     with open(p, 'w', encoding='latin1', newline='') as fh:
                         fh.write(raw)
     print('%s %d note(s) in %d file(s)' % ('would add' if a.dry_run else 'added', nnotes, nfiles))
+    if a.dedupe:
+        blk = re.compile('/' + chr(92) + '*(?:(?!' + chr(92) + '*/).)*' + chr(92) + '*/[ ' + chr(92) + 't]*' + chr(92) + 'r?' + chr(92) + 'n', re.S)
+        nd = 0
+        for dp, _dn, fn in os.walk(a.tree):
+            for f in fn:
+                if not f.endswith('.c'):
+                    continue
+                p = os.path.join(dp, f)
+                raw = open(p, encoding='latin1', newline='').read()
+                seen, out, pos = set(), [], 0
+                for bm in blk.finditer(raw):
+                    t = bm.group(0)
+                    if t.count(chr(10)) >= 3 and t in seen and bm.start() > 200:
+                        out.append(raw[pos:bm.start()])
+                        pos = bm.end()
+                        nd += 1
+                    seen.add(t)
+                out.append(raw[pos:])
+                new = ''.join(out)
+                if new != raw and not a.dry_run:
+                    with open(p, 'w', encoding='latin1', newline='') as fh:
+                        fh.write(new)
+        print('removed %d repeated note block(s)' % nd)
 
 
 if __name__ == '__main__':

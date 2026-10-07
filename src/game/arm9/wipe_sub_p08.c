@@ -215,30 +215,6 @@ struct Q {
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * func_02022608 picks one of two sub-objects at fixed offsets (0x14, 0x44)
- * of its argument depending on a mode field at +0xc, then returns a
- * halfword out of that sub-object when its own flag at +0x28 is 1, or
- * else falls back to a halfword 0x150 bytes into the *original* argument
- * (0x15 << 4), untouched by the sub-object selection.
- *
- * func_02022628 alone comes out EXACT* against `one`: its own extent runs
- * two bytes into the ordinary linker fill in front of func_0202262C, a
- * real, separately meaningful function.  Pairing the two in one
- * translation unit lets `tu` lay out both sections with that fill in
- * between, which reproduces cleanly.
- *
- * func_0202262C reads a field 0x10 bytes into its second argument and
- * forwards it, with a fixed 0, to func_020222CC (whose own second
- * argument it never reads: see src/matched/func_020222CC.c), then calls
- * func_02030EAC on the first argument.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02022608.c \
- *       --addr 0x02022608 --thumb
- */
 void func_0202262C(void *obj, struct Q *q)
 {
     func_020222CC(q->unk10, 0);
@@ -341,41 +317,6 @@ void func_020226A0(u8 *p)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * func_020226A0 is five back-to-back MI_CpuFill8 zero-fills over five
- * sub-ranges of one object (sizes 0x14, 0x30, 0x30, 0x18, 0xC0 at offsets
- * 0, 0x14, 0x44, 0x74, 0x8C); it is one of the "0x0209F5xx/0x0209F6xx"
- * cluster's neighbours and clears the object the setup functions in
- * src/matched/func_02022804.c and siblings configure.
- *
- * func_020226E0 checks a delegate pointer at +0xc, the same guard shape as
- * that cluster: when set, the call forwards to func_02022A44 and returns
- * its result; the fall-through has to be written on the guard's
- * complement (`== 0`) with the delegate call left unconditional after it,
- * or the two blocks come out in the wrong order.  The fall-through sets
- * the flag pair at +0x28 and +0x2c to (1, 1) and calls func_020229A4(p, 1).
- *
- * func_020226FC, immediately after this range, is the same shape again
- * with (0, 1) and mode 0 (src/matched/func_020226FC.c); it is kept in its
- * own file specifically so that its calls to func_020229A4 and
- * func_02022A44 stay outside this range and keep attesting them, and vice
- * versa (docs/MATCHING.md, "the label class" and "the pairwise case across
- * two files").  Bundling all three into one file drops both relocations to
- * MATCH, because each one's only other witness is then inside the same
- * compared range.
- *
- * func_020226A0 alone comes out EXACT* against `one`: its own extent runs
- * two bytes into the ordinary linker fill in front of func_020226E0, which
- * is a real, separately-matched function and not an unlabelled follower.
- * Pairing the two in one translation unit lets `tu` lay out both sections
- * with that fill in between, which reproduces cleanly.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020226A0.c \
- *       --addr 0x020226A0 --thumb
- */
 u32 func_020226E0(struct Obj_1 *p)
 {
     if (p->unk0C == 0) {

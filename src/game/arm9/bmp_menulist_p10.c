@@ -318,54 +318,6 @@ u32 func_02021014(struct Rec *p, u32 sel)
     return 0;
 }
 
-/*
- * A whole translation unit range, matched as one byte range.
- *
- * The two halves of one property-getter interface over a packed record: a
- * caller hands in a record pointer and a property id, and gets an unsigned
- * quantity back.  Ids 0..0x11 are answered by func_02021014 out of the record
- * header; anything above that is delegated, for one of the two header layouts,
- * to func_020210C8 on the sub-record at +0x10, which answers ids 0x12..0x3E out
- * of a seventeen-byte bitfield block.
- *
- * The two are one file rather than two because func_02021014's call to
- * func_020210C8 is the only branch to that address anywhere in the image: as
- * separate files neither can attest the other and both cap at MATCH, while in
- * one translation unit the call is `local` and needs no image evidence at all
- * (docs/AGENT-BRIEF.md section 5, the `local` class).
- *
- * Two shape findings, both of which cost real bytes:
- *
- *  - func_02021014's dispatch runs in r2, not in the switch value's own r1
- *    (docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md: the
- *    index register is the switch value's register only when that register is
- *    dead across the arms).  Here it is not dead, and the reason is the
- *    delegation: func_020210C8 takes the property id as its second argument,
- *    which is already sitting in r1, so the call site sets only r0 and r1 stays
- *    live to the end of the function.  Declaring func_020210C8 as a one
- *    argument function is byte for byte right everywhere else and wrong in
- *    those nine bytes.  func_020210C8's own `subs r1, #0x12` is the independent
- *    confirmation that its second parameter is the same id.
- *  - the fall-through of func_02021014 is a two-case `switch` on the header
- *    byte at +0xC, not a chain of `if`s: the switch form emits
- *    cmp/beq, cmp/beq, b-to-default, the `if` chain emits the inverted
- *    bne-over form and is two bytes shorter.
- *
- * The `ldrsb r0, [r0, r1]` arms of func_020210C8 are the signedness evidence
- * for the six plain fields at +7..+0xC and the three at +0xF..+0x11: there is
- * no immediate-offset `ldrsb`, so a signed byte load has to materialise its
- * offset in a register (docs/idioms/ldrsh-register-offset-is-signedness.md).
- * +0xD and +0xE load with a plain `ldrb` and are unsigned, which is why the
- * declared return type has to be signed for the rest to sign-extend.
- *
- * Addresses are Black-image addresses.  The bitfield block's contents are
- * content data, not code shape: if Pokemon White sizes this record
- * differently, the field list here is the thing to re-derive, not the dispatch.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02021014.c \
- *       --addr 0x02021014 --thumb
- */
 int func_020210C8(struct Sub *q, u32 sel)
 {
     switch (sel) {

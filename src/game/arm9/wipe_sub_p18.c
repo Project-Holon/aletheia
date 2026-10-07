@@ -204,9 +204,6 @@ u8 func_02024584(u32 i)
 void func_02024598(void *p0, int p1, int p2){ ((struct Obj05795 *)p0)->f0 = (unsigned short)p1; ((struct Obj05795 *)p0)->f2 = (unsigned short)p2; }
 
 
-/*
- * Tiny Thumb leaf that blocks an ov110 caller; filed by wave D2 lane 06.
- */
 void func_020245A0(u8 *p,unsigned i,u16 v) {
     if(i<2) *(u16 *)(p+4+2*i)=v;
 }

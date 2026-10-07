@@ -198,24 +198,6 @@ u16 func_02010848(void)
 
 
 
-/*
- * wih_dwc.c: three unlabelled leaves after sub_020107FC (whose listing extent
- * runs to 0x02010888 because none of them saves lr): a getter of the halfword
- * at +0x312 of the object behind 0x021461E0 (0 when there is none), a raising
- * setter of the halfword at +0x314 (only upward, and only below 4; the first
- * compare is signed, the bound unsigned, so the parameter is u32 and the
- * field is compared as int), and an empty function.  func_02010888
- * (src/matched/func_02010888.c) follows.
- *
- * SEED REQUEST for the integrator: arm9 0x02010848 thumb, 0x02010864 thumb,
- * 0x02010884 thumb (witness: this unit).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02010848.c \
- *       --addr 0x02010848 --thumb
- */
 void func_02010864(u32 v)
 {
     u8 *o = g_021461E0;
@@ -227,24 +209,6 @@ void func_02010864(u32 v)
 
 
 
-/*
- * wih_dwc.c: three unlabelled leaves after sub_020107FC (whose listing extent
- * runs to 0x02010888 because none of them saves lr): a getter of the halfword
- * at +0x312 of the object behind 0x021461E0 (0 when there is none), a raising
- * setter of the halfword at +0x314 (only upward, and only below 4; the first
- * compare is signed, the bound unsigned, so the parameter is u32 and the
- * field is compared as int), and an empty function.  func_02010888
- * (src/matched/func_02010888.c) follows.
- *
- * SEED REQUEST for the integrator: arm9 0x02010848 thumb, 0x02010864 thumb,
- * 0x02010884 thumb (witness: this unit).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02010848.c \
- *       --addr 0x02010848 --thumb
- */
 void func_02010884(void)
 {
 }
@@ -321,46 +285,6 @@ void *func_0201088C(u32 heap, u32 a1)
 
 
 
-/*
- * The whole range 0x0201088C..0x0201093C: two constructors for the same
- * 0x14-byte object, its destructor-or-poll, and the eight-byte tail-call
- * stub that sits between them and func_0201093C.
- *
- *   func_0201088C   allocator + one stored field (+0x0C)
- *   func_020108C4   allocator + three stored fields (+0x00, +0x04, +0x0C)
- *   func_02010904   fire the +0x08 callback, then two liveness tests
- *   (0x02010934)    `ldr r3, [pc, #0]; bx r3; .word func_020307B0`
- *
- * The stub is a real function: `ov119` at 0x021E0C5C and `ov137` at
- * 0x021DF696 both `bl` it.  It carries no label because it has no prologue
- * (disasm.py only labels a function that saves lr), so it is written here as
- * the tail call it is - a void function whose body is one call to the ARM
- * function 0x020307B0 with the object passed through in r0, which is what
- * puts the pool word and the `bx r3` there and what makes the unit's extent
- * end at 0x0201093C.  Since then seeded as a start in
- * layout/function_starts.txt (both callers set r0 to the object at +0xEF8 /
- * their own field before the bl), so the listing labels it func_02010934.
- *
- * Both constructors end with the same two statements: the SDK debug
- * allocator func_02030734(heap, 0x14, 1, "net_save.c", line) - 0x020A725C is
- * two bytes into the "net_save.c" string at 0x020A7258, so the file anchor is
- * net_save.c - and then func_02010888(p, func_0201093C), which stores the
- * callback into +0x08.  The two pool words per constructor are the file
- * string and that callback address with its Thumb bit, 0x0201093D.
- *
- * func_02010904 calls the callback with the object in r0, then tests
- * func_0200FB24()'s result.  That call is left with no argument of its own:
- * r0 still holds whatever the callback returned, which is what the original
- * does and what a no-argument call in the source produces.  The two `return
- * 1` arms are written separately (two `movs r0, #1` epilogues in the
- * original) and the +0x08 load is re-read after the calls.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201088C.c \
- *       --addr 0x0201088C --thumb
- */
 void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3)
 {
     struct Sub0201088CObj *p;
@@ -377,46 +301,6 @@ void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3)
 
 
 
-/*
- * The whole range 0x0201088C..0x0201093C: two constructors for the same
- * 0x14-byte object, its destructor-or-poll, and the eight-byte tail-call
- * stub that sits between them and func_0201093C.
- *
- *   func_0201088C   allocator + one stored field (+0x0C)
- *   func_020108C4   allocator + three stored fields (+0x00, +0x04, +0x0C)
- *   func_02010904   fire the +0x08 callback, then two liveness tests
- *   (0x02010934)    `ldr r3, [pc, #0]; bx r3; .word func_020307B0`
- *
- * The stub is a real function: `ov119` at 0x021E0C5C and `ov137` at
- * 0x021DF696 both `bl` it.  It carries no label because it has no prologue
- * (disasm.py only labels a function that saves lr), so it is written here as
- * the tail call it is - a void function whose body is one call to the ARM
- * function 0x020307B0 with the object passed through in r0, which is what
- * puts the pool word and the `bx r3` there and what makes the unit's extent
- * end at 0x0201093C.  Since then seeded as a start in
- * layout/function_starts.txt (both callers set r0 to the object at +0xEF8 /
- * their own field before the bl), so the listing labels it func_02010934.
- *
- * Both constructors end with the same two statements: the SDK debug
- * allocator func_02030734(heap, 0x14, 1, "net_save.c", line) - 0x020A725C is
- * two bytes into the "net_save.c" string at 0x020A7258, so the file anchor is
- * net_save.c - and then func_02010888(p, func_0201093C), which stores the
- * callback into +0x08.  The two pool words per constructor are the file
- * string and that callback address with its Thumb bit, 0x0201093D.
- *
- * func_02010904 calls the callback with the object in r0, then tests
- * func_0200FB24()'s result.  That call is left with no argument of its own:
- * r0 still holds whatever the callback returned, which is what the original
- * does and what a no-argument call in the source produces.  The two `return
- * 1` arms are written separately (two `movs r0, #1` epilogues in the
- * original) and the +0x08 load is re-read after the calls.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201088C.c \
- *       --addr 0x0201088C --thumb
- */
 u32 func_02010904(struct Sub0201088CObj *p)
 {
     if (p->f8 != 0)
@@ -431,46 +315,6 @@ u32 func_02010904(struct Sub0201088CObj *p)
     return 0;
 }
 
-/*
- * The whole range 0x0201088C..0x0201093C: two constructors for the same
- * 0x14-byte object, its destructor-or-poll, and the eight-byte tail-call
- * stub that sits between them and func_0201093C.
- *
- *   func_0201088C   allocator + one stored field (+0x0C)
- *   func_020108C4   allocator + three stored fields (+0x00, +0x04, +0x0C)
- *   func_02010904   fire the +0x08 callback, then two liveness tests
- *   (0x02010934)    `ldr r3, [pc, #0]; bx r3; .word func_020307B0`
- *
- * The stub is a real function: `ov119` at 0x021E0C5C and `ov137` at
- * 0x021DF696 both `bl` it.  It carries no label because it has no prologue
- * (disasm.py only labels a function that saves lr), so it is written here as
- * the tail call it is - a void function whose body is one call to the ARM
- * function 0x020307B0 with the object passed through in r0, which is what
- * puts the pool word and the `bx r3` there and what makes the unit's extent
- * end at 0x0201093C.  Since then seeded as a start in
- * layout/function_starts.txt (both callers set r0 to the object at +0xEF8 /
- * their own field before the bl), so the listing labels it func_02010934.
- *
- * Both constructors end with the same two statements: the SDK debug
- * allocator func_02030734(heap, 0x14, 1, "net_save.c", line) - 0x020A725C is
- * two bytes into the "net_save.c" string at 0x020A7258, so the file anchor is
- * net_save.c - and then func_02010888(p, func_0201093C), which stores the
- * callback into +0x08.  The two pool words per constructor are the file
- * string and that callback address with its Thumb bit, 0x0201093D.
- *
- * func_02010904 calls the callback with the object in r0, then tests
- * func_0200FB24()'s result.  That call is left with no argument of its own:
- * r0 still holds whatever the callback returned, which is what the original
- * does and what a no-argument call in the source produces.  The two `return
- * 1` arms are written separately (two `movs r0, #1` epilogues in the
- * original) and the +0x08 load is re-read after the calls.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201088C.c \
- *       --addr 0x0201088C --thumb
- */
 void func_02010934(struct Sub0201088CObj *p)
 {
     func_020307B0(p);

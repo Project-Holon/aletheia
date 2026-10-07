@@ -1,0 +1,189 @@
+/*
+ * file:     comm_player_p03.c
+ * unit:     yes
+ * function: func_02167688, func_021676E4, func_02167794
+ * address:  0x02167688
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_02012114  0x02012114  thumb
+ *   func_02034714  0x02034714  arm
+ *   func_02167658  0x02167658  thumb
+ *   func_021942C8  0x021942C8  thumb  ov021
+ *   d_02172A28     0x02172A28  data
+ *   func_0201210C  0x0201210C  thumb
+ *   func_02188C7C  0x02188C7C  thumb  ov021
+ *   func_02194284  0x02194284  thumb  ov021
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_021675D0  0x021675D0  thumb
+ */
+struct Ctx;
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef unsigned long long u64;
+
+typedef struct Blk12 {
+    u64 lo;
+    u32 hi;
+} Blk12;
+
+typedef struct Ent_02167688 {
+    Blk12 pos;
+    u32 f0c;
+    u16 f10;
+    u16 f12;
+    u8 used : 1;
+    u8 pend : 1;
+    u8 dir : 4;
+    u8 f15[3];
+    u32 f18;
+} Ent_02167688;
+
+typedef struct Slot {
+    u8 used : 1;
+    u8 pend : 1;
+    u8 dir : 4;
+    u8 pad[0x1B];
+} Slot;
+
+typedef struct Work_02167688 {
+    void *sys;
+    void *obj;
+    Ent_02167688 e[4];
+} Work_02167688;
+
+typedef struct Flags {
+    u8 used : 1;
+    u8 pend : 1;
+    u8 dir : 4;
+} Flags;
+
+typedef struct Ent_021676E4 {
+    Blk12 pos;
+    u32 f0c;
+    u16 f10;
+    u16 f12;
+    Flags fl;
+    u8 f15[3];
+    u32 f18;
+} Ent_021676E4;
+
+typedef struct Work_021676E4 {
+    void *sys;
+    void *obj;
+    Ent_021676E4 e[4];
+    u8 pad78[0x8C - 0x78];
+    u16 f8c;
+    u8 f8e;
+    u8 pad8f;
+    u8 f90;
+} Work_021676E4;
+
+typedef struct Vec3 {
+    u32 x;
+    u32 y;
+    u32 z;
+} Vec3;
+
+typedef struct Src {
+    u32 f0;
+    Vec3 pos;
+    u16 f10;
+    u8 dir;
+} Src;
+
+typedef struct Work_02167794 {
+    void *sys;
+    void *obj;
+} Work_02167794;
+
+extern u32 func_02012114(const struct Ctx *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_02167658(Work_02167688 *w, int i);
+extern void func_021942C8(void *obj);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02188C7C(u8 *p);
+extern void *func_02194284(int a, void *b, int heap, int c);
+extern void func_02082BCC(void *p, int v, int n);
+extern void func_021675D0(struct Work_021676E4 *w, int idx, int a2, struct Src *src);
+void func_02167688(Work_02167688 *w);
+void func_021676E4(Work_021676E4 *w);
+void func_02167794(Work_02167794 *w);
+extern u8 d_02172A28[];
+
+
+void func_02167688(Work_02167688 *w)
+{
+    Slot *s;
+    int i;
+
+    if (func_02012114(w->sys) != 1)
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+    if (w->obj != 0) {
+        i = 0;
+        s = (Slot *)((char *)w + 0x1C);
+        for (; i < 4; i++) {
+            if (s[i].used == 1) {
+                func_02167658(w, i);
+                *(u8 *)&s[i] |= 2;
+            }
+        }
+        func_021942C8(w->obj);
+        w->obj = 0;
+    }
+}
+
+
+void func_021676E4(Work_021676E4 *w)
+{
+    Src t;
+    Slot *s;
+    int i;
+
+    if (func_02012114(w->sys) != 1)
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+    if (w->obj != 0)
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+    w->obj = func_02194284(w->f8e, func_02188C7C(func_0201210C(w->sys)), w->f8c, w->f90);
+    func_02082BCC(&t, 0, 0x14);
+    s = (Slot *)w;
+    s = (Slot *)((char *)s + 0x1C);
+    for (i = 0; i < 4; i++) {
+        if (s[i].pend == 1) {
+            t.pos = *(Vec3 *)&w->e[i].pos;
+            t.f10 = w->e[i].f10;
+            t.f0 = 0;
+            t.dir = s[i].dir;
+            func_021675D0(w, i, w->e[i].f12, &t);
+        }
+    }
+}
+
+
+void func_02167794(Work_02167794 *w)
+{
+    Slot *s;
+    int i;
+
+    if (func_02012114(w->sys) != 1)
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+    if (w->obj != 0)
+        func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
+    i = 0;
+    s = (Slot *)((char *)w + 0x1C);
+    for (; i < 4; i++) {
+        if (s[i].pend == 1)
+            s[i].pend = 0;
+    }
+}

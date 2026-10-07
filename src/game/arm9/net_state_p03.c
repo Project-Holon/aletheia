@@ -104,21 +104,6 @@ u32 sub_020362BC(struct Ctx *ctx)
     return rec->unk_1c;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * sub_020362BC picks one of two key masks out of the record returned by
- * func_0203521C, keyed on a one-byte mode tag at +0x3d of its own argument;
- * sub_020362DC is the two-call wrapper that runs func_02035224 first.
- *
- * The two are kept in one unit deliberately: sub_020362DC's only call to
- * sub_020362BC has no witness anywhere else in the image, so as separate
- * files sub_020362DC caps at MATCH.  Inside one range the site is `local`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020362BC.c \
- *       --addr 0x020362BC --arm
- */
 u32 sub_020362DC(void)
 {
     return sub_020362BC((struct Ctx *)func_02035224());
@@ -155,51 +140,11 @@ u32 sub_020362EC(struct Ctx *ctx)
     return rec->unk_18;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0203634C, sub_02036370
- *
- * Three more of the mode-keyed record accessors that src/matched/
- * unit_020362BC.c opens: each picks one of two key masks out of the record
- * func_0203521C returns, keyed on the one-byte mode tag at +0x3d of the
- * context, and each is paired with a no-context wrapper that supplies the
- * context from func_02035224().  sub_0203634C is the two-output form and
- * reads the same field pair for either mode.
- *
- * The three workers have no caller but their own wrapper in this file, so
- * as separate files every wrapper would cap at MATCH; inside one range each
- * site is `local`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020362EC.c \
- *       --addr 0x020362EC --arm
- */
 u32 sub_0203630C(void)
 {
     return sub_020362EC((struct Ctx *)func_02035224());
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0203634C, sub_02036370
- *
- * Three more of the mode-keyed record accessors that src/matched/
- * unit_020362BC.c opens: each picks one of two key masks out of the record
- * func_0203521C returns, keyed on the one-byte mode tag at +0x3d of the
- * context, and each is paired with a no-context wrapper that supplies the
- * context from func_02035224().  sub_0203634C is the two-output form and
- * reads the same field pair for either mode.
- *
- * The three workers have no caller but their own wrapper in this file, so
- * as separate files every wrapper would cap at MATCH; inside one range each
- * site is `local`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020362EC.c \
- *       --addr 0x020362EC --arm
- */
 u32 sub_0203631C(struct Ctx *ctx)
 {
     struct Rec_020362EC *rec = (struct Rec_020362EC *)func_0203521C((u32 *)ctx);
@@ -210,51 +155,11 @@ u32 sub_0203631C(struct Ctx *ctx)
     return rec->unk_20;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0203634C, sub_02036370
- *
- * Three more of the mode-keyed record accessors that src/matched/
- * unit_020362BC.c opens: each picks one of two key masks out of the record
- * func_0203521C returns, keyed on the one-byte mode tag at +0x3d of the
- * context, and each is paired with a no-context wrapper that supplies the
- * context from func_02035224().  sub_0203634C is the two-output form and
- * reads the same field pair for either mode.
- *
- * The three workers have no caller but their own wrapper in this file, so
- * as separate files every wrapper would cap at MATCH; inside one range each
- * site is `local`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020362EC.c \
- *       --addr 0x020362EC --arm
- */
 u32 sub_0203633C(void)
 {
     return sub_0203631C((struct Ctx *)func_02035224());
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0203634C, sub_02036370
- *
- * Three more of the mode-keyed record accessors that src/matched/
- * unit_020362BC.c opens: each picks one of two key masks out of the record
- * func_0203521C returns, keyed on the one-byte mode tag at +0x3d of the
- * context, and each is paired with a no-context wrapper that supplies the
- * context from func_02035224().  sub_0203634C is the two-output form and
- * reads the same field pair for either mode.
- *
- * The three workers have no caller but their own wrapper in this file, so
- * as separate files every wrapper would cap at MATCH; inside one range each
- * site is `local`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020362EC.c \
- *       --addr 0x020362EC --arm
- */
 void sub_0203634C(struct Ctx *ctx, u32 *outA, u32 *outB)
 {
     struct Rec_020362EC *rec = (struct Rec_020362EC *)func_0203521C((u32 *)ctx);
@@ -263,26 +168,6 @@ void sub_0203634C(struct Ctx *ctx, u32 *outA, u32 *outB)
     *outB = rec->unk_44;
 }
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           sub_0203634C, sub_02036370
- *
- * Three more of the mode-keyed record accessors that src/matched/
- * unit_020362BC.c opens: each picks one of two key masks out of the record
- * func_0203521C returns, keyed on the one-byte mode tag at +0x3d of the
- * context, and each is paired with a no-context wrapper that supplies the
- * context from func_02035224().  sub_0203634C is the two-output form and
- * reads the same field pair for either mode.
- *
- * The three workers have no caller but their own wrapper in this file, so
- * as separate files every wrapper would cap at MATCH; inside one range each
- * site is `local`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020362EC.c \
- *       --addr 0x020362EC --arm
- */
 void sub_02036370(u32 *outA, u32 *outB)
 {
     sub_0203634C((struct Ctx *)func_02035224(), outA, outB);

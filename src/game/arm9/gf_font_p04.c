@@ -137,23 +137,6 @@ u32 func_0201DC6C(struct Font_0201DC6C *p, u16 ch)
     return ((u32 (*)(struct Font_0201DC6C *, u32))p->unk6C)(p, func_0201DB20(p, ch));
 }
 
-/*
- * The gf_font.c width query and the accessor for the byte at +0x59.
- *
- * func_0201DC6C returns whatever the function pointer at +0x6C returns, and the
- * tail call shape (`ldr r2, [r4, #0x6c]`, `blx r2`, `pop {r4, pc}`) is the same
- * bytes whether the C declares a return value or not, so the return type is
- * fixed by the caller instead: func_0201D528 adds the result to a running width.
- *
- * func_0201DC80 has no label in the listing; it is three halfwords between two
- * literal pools.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201DC6C.c \
- *       --addr 0x0201DC6C --thumb
- */
 u32 func_0201DC80(struct Font_0201DC6C *p)
 {
     return p->unk58[1];
@@ -250,27 +233,6 @@ u32 func_0201DD58(struct Font_0201DC6C *p)
     return p->unk58[6];
 }
 
-/*
- * Three unlabelled leaves of gf_font.c: the accessor for the byte at +0x5E and
- * a two-step thunk that resets the text colour to (1, 2, 0).
- *
- * func_0201DD60 and func_0201DD68 are both the pool-word-and-bx shape
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes, and neither carries
- * a label, because a tail call saves nothing and the prologue sweep never fires.
- * The chain is real: func_0201DD60 tail-calls func_0201DD68, which tail-calls
- * func_0201DD78 with three constants.  Writing it as one function that calls
- * func_0201DD78 directly loses eight bytes.
- *
- * func_0201DD78 itself, the 4x4x4x4 colour expansion at 0x0201DD78, is still
- * open: the original keeps its two outer loop counters in ip and lr and spills
- * only the third, and no declaration order tried reproduces that split.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201DD58.c \
- *       --addr 0x0201DD58 --thumb
- */
 void func_0201DD60(void)
 {
     func_0201DD68();
@@ -278,27 +240,6 @@ void func_0201DD60(void)
 
 
 
-/*
- * Three unlabelled leaves of gf_font.c: the accessor for the byte at +0x5E and
- * a two-step thunk that resets the text colour to (1, 2, 0).
- *
- * func_0201DD60 and func_0201DD68 are both the pool-word-and-bx shape
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes, and neither carries
- * a label, because a tail call saves nothing and the prologue sweep never fires.
- * The chain is real: func_0201DD60 tail-calls func_0201DD68, which tail-calls
- * func_0201DD78 with three constants.  Writing it as one function that calls
- * func_0201DD78 directly loses eight bytes.
- *
- * func_0201DD78 itself, the 4x4x4x4 colour expansion at 0x0201DD78, is still
- * open: the original keeps its two outer loop counters in ip and lr and spills
- * only the third, and no declaration order tried reproduces that split.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201DD58.c \
- *       --addr 0x0201DD58 --thumb
- */
 void func_0201DD68(void)
 {
     func_0201DD78(1, 2, 0);
@@ -395,24 +336,6 @@ void func_0201DE00(u8 *r, u8 *g, u8 *b)
 }
 
 
-/*
- * The current text colour, read back and compared.  g_02146578 is the three
- * bytes func_0201DD78 stores the last requested colour into.
- *
- * func_0201DE18 returns 1 when the colour differs, and its shape is the
- * disjunction form rather than the conjunction: the first two comparisons branch
- * to one shared `movs r0, #1` block and only the last one branches past it,
- * which is what `if (r != c[0] || g != c[1] || b != c[2]) return 1;` gives.
- * Written as `if (all equal) return 0; return 1;` the arms swap and ten of the
- * forty bytes are wrong
- * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201DE00.c \
- *       --addr 0x0201DE00 --thumb
- */
 u32 func_0201DE18(u32 r, u32 g, u32 b)
 {
     if (r != g_02146578[0] || g != g_02146578[1] || b != g_02146578[2]) {

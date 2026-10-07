@@ -1,0 +1,86 @@
+/*
+ * function: func_021BC0E8
+ * address: 0x021BC0E8
+ * packet: pkt_ov093_021BC0E8
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * note 2026-10-05 (lane V10): the old draft (296 B) kept the entry pointer in one register and e spilled. What fixed the frame and the loop: i spilled with a persistent byte offset `off = i * 16` in r7 (first segment `q = &e[i]`, later segments `q = (E *)((u32)e + off)`; an all-`&e[i]` or all-cast spelling merges every sum and loses the persistent offset), line literals 1076, 1079, 1087, 1090 (an `ln` local gave the same bytes, so literals are kept), and pack() written as low | (a | (c | b)) so the result is stored at sp+0x20 and reloaded late. Tried without effect on the swap: E *q declared first, separate q2/q3 per segment, opt_lifetimes off, opt_common_subs off, opt_propagation off, int i, typed entry macro, inline segment helpers. 25 compiles used.
+ * recoup 2026-10-05 (lane R9): still DIFF, 213 B. New finding: the original has a 2-byte copy `adds r0,r6,#0; ldr r0,[r0,#4]` at the action() read (ours loads [r5,#4] directly), so our body is 2 B shorter and only the pool padding makes the size equal; the loop branch targets are all 2 B off because of it. Tried, no effect: E *q declared first, q = e before the loop, i as int, off as int, off declared before i, q assigned before off, q = cast form first, no q local at all (ENTRY/cast macros per use), block-local q2/q3, action() with const E *, with B * (&q->b), with u8 * or u32 parameter, as a non-inline static (292 B), as a direct ternary, as a B struct copy, action(ENTRY(i)), result reused for value, pragma opt_dead_assignments off (210 B, copy still absent), pragma peephole off. u8 n shifts every offset and is not the cause. Open: what makes mwcc keep the inline parameter copy of the entry pointer in r0 (q must interfere with the parameter temp), likely the same cause as the e/q colour swap.
+ * final push 2026-10-05 G9L4: still DIFF, 213 of 312 B; 40 compiles, 3 rounds. Model from mwcc Coloring.c/SpillCode.c: the e/q swap and the missing `adds r0,r6,#0` copy are one cause (an un-coalesced copy leaves q with lower degree, so q is popped later and gets the higher register). Even a real later use of q after action() does not make mwcc keep the copy (it substitutes the argument), so the copy comes from an IR shape not yet found. Tried with no byte change (213): local `E *list = e`, `u8 *pp = p`, q/q2/q3 block locals, action arg as &e[i], ENTRY(i), `q = &e[i]` inside the argument, action(E *, u32 i), action(void *), action with `B *b = &e->b` local, `r = 0; if ... r = ...` form, entry() inline returning &e[i], `inline` and `#pragma auto_inline on` spellings, set_accuracy/update expanded by hand, u8 * q with casts. Worse: action(E by value) 320 B, action((E *)((u32)e + off)) 320 B, q = ... inside the argument with cast 320 B, opt_propagation off (304 B, frame 0x20, 235), word/manual-extract action (304 B), q kept live across the whole segment (316 B, 281). Matched-asm hits for `adds rA,rM,#0 ; ld* rA,[rA,#N]`: ov198 0220D884 (copy at a nested u8 bitfield read of an indexed element `((Rec *)p)[idx].fl.hi`, same sum read plainly before and after without a copy) and ov021 021A2254 (list walk), ov016 021BC63C (callback); none gives a form that reproduces it here.
+ * pass 2 2026-10-06 P2L54: EXACT (c99 and c). Closed by reading the action bitfield through a second
+ *   16-byte struct view E2 at the index, ((E2 *)e)[i].b.a / .b.action, as the matched sibling func_021BC610
+ *   does for its id reload. The view keeps the uncoalesced copy (adds r0,r6,#0) of the entry sum and
+ *   gives e=r5, q=r6. Earlier forms are kept in the notes above.
+ * symbols:
+ *   func_021BC948 0x021BC948 thumb ov093
+ *   func_021D8454 0x021D8454 thumb ov093
+ *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   func_021BC8EC 0x021BC8EC thumb ov093
+ *   func_021CC95C 0x021CC95C thumb ov093
+ *   func_021C6350 0x021C6350 thumb ov093
+ *   func_021BC874 0x021BC874 thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 a:4; u32 b:3; u32 action:16; u32 rest:9; } B;
+typedef struct { u8 *a; B b; u32 c; u8 d,f; u16 pad; } E;
+typedef struct { u8 *a; B b; u32 c; u8 d,f; u16 pad; } E2;
+extern u16 func_021BC948(u8 *, u8 *, int);
+extern u32 func_021D8454(B *);
+extern u32 func_021CC8D8(void *, int);
+extern int func_021BC8EC(u8 *, u32, u8 *);
+extern void func_021CC95C(u32 *p, u32 v, int line);
+extern u8 func_021C6350(u8 *, u8 *);
+extern void func_021BC874(E *, u32);
+static inline void set_accuracy(E *e, u16 v)
+{
+    e->c = (v & 0x1fff) | (e->c & 0xffffe000);
+}
+static inline u32 pack(u16 low, u8 a, u8 b, u8 c)
+{
+    return (low & 0x1fff) | (((u16)(a << 13)) | ((((u32)(u16)(c << 13) << 9)) | (((u32)b & 63) << 16)));
+}
+static inline void update(E *e, int result)
+{
+    u16 low = (u16)(e->c & 0x1fff);
+    u8 a = (e->c >> 13) & 7;
+    u8 c = (e->c >> 22) & 7;
+    e->c = pack(low, a, result, c);
+}
+#define ENTRY(i) (&e[i])
+void func_021BC0E8(u8 *p, E *e, u32 n)
+{
+    u32 i;
+    u32 off;
+    u32 type;
+    u16 value;
+    u32 lock;
+    int result;
+    E *q;
+    for (i = 0; i < n; i++) {
+        off = i * 16;
+        q = &e[i];
+        set_accuracy(q, func_021BC948(p, ENTRY(i)->a, 1));
+        type = func_021D8454(&q->b);
+        if (type == 1) {
+            if (((E2 *)e)[i].b.a == 1) value = ((E2 *)e)[i].b.action; else value = 0;
+            lock = func_021CC8D8(p + 0x1d74, 1076);
+            q = (E *)((u32)e + off);
+            result = func_021BC8EC(p, value, q->a);
+            update(q, result);
+            func_021CC95C((u32 *)(p + 0x1d74), lock, 1079);
+        }
+        if (type == 1 || type == 5) {
+            lock = func_021CC8D8(p + 0x1d74, 1087);
+            q = (E *)((u32)e + off);
+            q->c = ((func_021C6350(p, q->a) & 7) << 13) | (q->c & 0xffff1fff);
+            func_021CC95C((u32 *)(p + 0x1d74), lock, 1090);
+        }
+    }
+    func_021BC874(e, n);
+}

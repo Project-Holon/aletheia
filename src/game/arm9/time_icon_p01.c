@@ -473,9 +473,6 @@ char *func_0202E7DC(char *p)
 u32 func_0202E7E0(State *p) { return p->mode; }
 
 
-/*
- * Witness leaf for ov093 func_021C4744 (tiny unlabelled arm9 leaf).
- */
 void func_0202E7E4(State *p)
 {
     p->old = p->mode;

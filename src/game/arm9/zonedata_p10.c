@@ -201,26 +201,6 @@ u32 sub_02014274(u32 idx)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: sub_02014274 and sub_020142A4 are two dense switches over a small
- * id (docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md): the
- * range each `cmp`/`bhi` accepts has one slot with no case of its own,
- * which lands on the same body as the function's default arm
- * (docs/idioms/empty-switch-arms-are-what-make-the-table.md); the id that
- * hits it is not a real case, it is written as the default.
- *
- * sub_020142D0 is a bare constant getter, hiding the same way the tail
- * calls elsewhere in this packet do: no prologue, so disasm.py's sweep
- * never labels it. sub_020142D8 is a tail call to the ARM function
- * sub_02082BCC forwarding its own argument and two more constants; the
- * same target is reached by an ordinary `blx` from unit_02014368.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02014274.c \
- *       --addr 0x02014274 --thumb
- */
 u32 sub_020142A4(u32 idx)
 {
     switch (idx) {
@@ -233,52 +213,12 @@ u32 sub_020142A4(u32 idx)
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: sub_02014274 and sub_020142A4 are two dense switches over a small
- * id (docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md): the
- * range each `cmp`/`bhi` accepts has one slot with no case of its own,
- * which lands on the same body as the function's default arm
- * (docs/idioms/empty-switch-arms-are-what-make-the-table.md); the id that
- * hits it is not a real case, it is written as the default.
- *
- * sub_020142D0 is a bare constant getter, hiding the same way the tail
- * calls elsewhere in this packet do: no prologue, so disasm.py's sweep
- * never labels it. sub_020142D8 is a tail call to the ARM function
- * sub_02082BCC forwarding its own argument and two more constants; the
- * same target is reached by an ordinary `blx` from unit_02014368.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02014274.c \
- *       --addr 0x02014274 --thumb
- */
 u32 sub_020142D0(void)
 {
     return 0x3EA;
 }
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * alias: sub_02014274 and sub_020142A4 are two dense switches over a small
- * id (docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md): the
- * range each `cmp`/`bhi` accepts has one slot with no case of its own,
- * which lands on the same body as the function's default arm
- * (docs/idioms/empty-switch-arms-are-what-make-the-table.md); the id that
- * hits it is not a real case, it is written as the default.
- *
- * sub_020142D0 is a bare constant getter, hiding the same way the tail
- * calls elsewhere in this packet do: no prologue, so disasm.py's sweep
- * never labels it. sub_020142D8 is a tail call to the ARM function
- * sub_02082BCC forwarding its own argument and two more constants; the
- * same target is reached by an ordinary `blx` from unit_02014368.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02014274.c \
- *       --addr 0x02014274 --thumb
- */
 u32 sub_020142D8(u32 a)
 {
     return sub_02082BCC(a, 0, 0x3EA);

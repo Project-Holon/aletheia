@@ -192,33 +192,6 @@ void func_02020268(struct Obj_02020268 *obj, u8 a, u8 b, u8 c)
     obj->f18hi = c;
 }
 
-/*
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020268.c \
- *       --addr 0x02020268 --thumb
- *
- * The bmp_menulist.c attribute block 0x02020268..0x02020408, eight
- * functions of which only 0x02020268 was ever near a label.  The
- * worklist entry 0x020202CC (a "32-byte open function") is NOT a
- * function start: it is the middle of func_02020298 (the colour-override
- * setter), seeded into layout/function_starts.txt from a pending header
- * that misnamed sub_02022AC4's tail-call target (the pool word there is
- * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
- * the worklist counted are func_02020298's last eight instructions.
- *
- *   func_02020268  set the three colour nibbles f17hi / f18lo / f18hi
- *   func_02020298  set the override nibbles f34lo / f34hi / f35lo and the
- *                  override flag f38top (func_0201FF30 seeds the same
- *                  three from f17hi / f18lo / f18hi)
- *   func_020202EC  *out = f40 + f42 (list index of the cursor row)
- *   func_020202FC  optional out-pointers for f40 and f42
- *   func_02020314  tail call to func_02020324 with the cursor row f42
- *   func_02020324  pixel y of row n: f17lo + n * (u8)(f22 + f1Amid),
- *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].unk04, the item's value word
- *   func_02020350  twenty-way attribute getter; case 4 has no arm and
- *                  shares the default's -1
- */
 void func_02020298(struct Obj_02020268 *obj, u8 a, u8 b, u8 c)
 {
     obj->f34lo = a;
@@ -227,65 +200,11 @@ void func_02020298(struct Obj_02020268 *obj, u8 a, u8 b, u8 c)
     obj->f38top = 1;
 }
 
-/*
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020268.c \
- *       --addr 0x02020268 --thumb
- *
- * The bmp_menulist.c attribute block 0x02020268..0x02020408, eight
- * functions of which only 0x02020268 was ever near a label.  The
- * worklist entry 0x020202CC (a "32-byte open function") is NOT a
- * function start: it is the middle of func_02020298 (the colour-override
- * setter), seeded into layout/function_starts.txt from a pending header
- * that misnamed sub_02022AC4's tail-call target (the pool word there is
- * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
- * the worklist counted are func_02020298's last eight instructions.
- *
- *   func_02020268  set the three colour nibbles f17hi / f18lo / f18hi
- *   func_02020298  set the override nibbles f34lo / f34hi / f35lo and the
- *                  override flag f38top (func_0201FF30 seeds the same
- *                  three from f17hi / f18lo / f18hi)
- *   func_020202EC  *out = f40 + f42 (list index of the cursor row)
- *   func_020202FC  optional out-pointers for f40 and f42
- *   func_02020314  tail call to func_02020324 with the cursor row f42
- *   func_02020324  pixel y of row n: f17lo + n * (u8)(f22 + f1Amid),
- *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].unk04, the item's value word
- *   func_02020350  twenty-way attribute getter; case 4 has no arm and
- *                  shares the default's -1
- */
 void func_020202EC(struct Obj_02020268 *obj, u16 *out)
 {
     *out = obj->f40 + obj->f42;
 }
 
-/*
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020268.c \
- *       --addr 0x02020268 --thumb
- *
- * The bmp_menulist.c attribute block 0x02020268..0x02020408, eight
- * functions of which only 0x02020268 was ever near a label.  The
- * worklist entry 0x020202CC (a "32-byte open function") is NOT a
- * function start: it is the middle of func_02020298 (the colour-override
- * setter), seeded into layout/function_starts.txt from a pending header
- * that misnamed sub_02022AC4's tail-call target (the pool word there is
- * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
- * the worklist counted are func_02020298's last eight instructions.
- *
- *   func_02020268  set the three colour nibbles f17hi / f18lo / f18hi
- *   func_02020298  set the override nibbles f34lo / f34hi / f35lo and the
- *                  override flag f38top (func_0201FF30 seeds the same
- *                  three from f17hi / f18lo / f18hi)
- *   func_020202EC  *out = f40 + f42 (list index of the cursor row)
- *   func_020202FC  optional out-pointers for f40 and f42
- *   func_02020314  tail call to func_02020324 with the cursor row f42
- *   func_02020324  pixel y of row n: f17lo + n * (u8)(f22 + f1Amid),
- *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].unk04, the item's value word
- *   func_02020350  twenty-way attribute getter; case 4 has no arm and
- *                  shares the default's -1
- */
 void func_020202FC(struct Obj_02020268 *obj, u16 *a, u16 *b)
 {
     if (a != 0) {
@@ -300,129 +219,21 @@ u16 func_02020324(struct Obj_02020268 *obj, u32 n);
 
 
 
-/*
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020268.c \
- *       --addr 0x02020268 --thumb
- *
- * The bmp_menulist.c attribute block 0x02020268..0x02020408, eight
- * functions of which only 0x02020268 was ever near a label.  The
- * worklist entry 0x020202CC (a "32-byte open function") is NOT a
- * function start: it is the middle of func_02020298 (the colour-override
- * setter), seeded into layout/function_starts.txt from a pending header
- * that misnamed sub_02022AC4's tail-call target (the pool word there is
- * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
- * the worklist counted are func_02020298's last eight instructions.
- *
- *   func_02020268  set the three colour nibbles f17hi / f18lo / f18hi
- *   func_02020298  set the override nibbles f34lo / f34hi / f35lo and the
- *                  override flag f38top (func_0201FF30 seeds the same
- *                  three from f17hi / f18lo / f18hi)
- *   func_020202EC  *out = f40 + f42 (list index of the cursor row)
- *   func_020202FC  optional out-pointers for f40 and f42
- *   func_02020314  tail call to func_02020324 with the cursor row f42
- *   func_02020324  pixel y of row n: f17lo + n * (u8)(f22 + f1Amid),
- *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].unk04, the item's value word
- *   func_02020350  twenty-way attribute getter; case 4 has no arm and
- *                  shares the default's -1
- */
 u16 func_02020314(struct Obj_02020268 *obj)
 {
     return func_02020324(obj, obj->f42);
 }
 
-/*
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020268.c \
- *       --addr 0x02020268 --thumb
- *
- * The bmp_menulist.c attribute block 0x02020268..0x02020408, eight
- * functions of which only 0x02020268 was ever near a label.  The
- * worklist entry 0x020202CC (a "32-byte open function") is NOT a
- * function start: it is the middle of func_02020298 (the colour-override
- * setter), seeded into layout/function_starts.txt from a pending header
- * that misnamed sub_02022AC4's tail-call target (the pool word there is
- * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
- * the worklist counted are func_02020298's last eight instructions.
- *
- *   func_02020268  set the three colour nibbles f17hi / f18lo / f18hi
- *   func_02020298  set the override nibbles f34lo / f34hi / f35lo and the
- *                  override flag f38top (func_0201FF30 seeds the same
- *                  three from f17hi / f18lo / f18hi)
- *   func_020202EC  *out = f40 + f42 (list index of the cursor row)
- *   func_020202FC  optional out-pointers for f40 and f42
- *   func_02020314  tail call to func_02020324 with the cursor row f42
- *   func_02020324  pixel y of row n: f17lo + n * (u8)(f22 + f1Amid),
- *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].unk04, the item's value word
- *   func_02020350  twenty-way attribute getter; case 4 has no arm and
- *                  shares the default's -1
- */
 u16 func_02020324(struct Obj_02020268 *obj, u32 n)
 {
     return (u16)(obj->f17lo + n * (u8)(obj->f22 + obj->f1Amid));
 }
 
-/*
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020268.c \
- *       --addr 0x02020268 --thumb
- *
- * The bmp_menulist.c attribute block 0x02020268..0x02020408, eight
- * functions of which only 0x02020268 was ever near a label.  The
- * worklist entry 0x020202CC (a "32-byte open function") is NOT a
- * function start: it is the middle of func_02020298 (the colour-override
- * setter), seeded into layout/function_starts.txt from a pending header
- * that misnamed sub_02022AC4's tail-call target (the pool word there is
- * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
- * the worklist counted are func_02020298's last eight instructions.
- *
- *   func_02020268  set the three colour nibbles f17hi / f18lo / f18hi
- *   func_02020298  set the override nibbles f34lo / f34hi / f35lo and the
- *                  override flag f38top (func_0201FF30 seeds the same
- *                  three from f17hi / f18lo / f18hi)
- *   func_020202EC  *out = f40 + f42 (list index of the cursor row)
- *   func_020202FC  optional out-pointers for f40 and f42
- *   func_02020314  tail call to func_02020324 with the cursor row f42
- *   func_02020324  pixel y of row n: f17lo + n * (u8)(f22 + f1Amid),
- *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].unk04, the item's value word
- *   func_02020350  twenty-way attribute getter; case 4 has no arm and
- *                  shares the default's -1
- */
 u32 func_02020344(struct Obj_02020268 *obj, u32 n)
 {
     return obj->arr[n].unk04;
 }
 
-/*
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02020268.c \
- *       --addr 0x02020268 --thumb
- *
- * The bmp_menulist.c attribute block 0x02020268..0x02020408, eight
- * functions of which only 0x02020268 was ever near a label.  The
- * worklist entry 0x020202CC (a "32-byte open function") is NOT a
- * function start: it is the middle of func_02020298 (the colour-override
- * setter), seeded into layout/function_starts.txt from a pending header
- * that misnamed sub_02022AC4's tail-call target (the pool word there is
- * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
- * the worklist counted are func_02020298's last eight instructions.
- *
- *   func_02020268  set the three colour nibbles f17hi / f18lo / f18hi
- *   func_02020298  set the override nibbles f34lo / f34hi / f35lo and the
- *                  override flag f38top (func_0201FF30 seeds the same
- *                  three from f17hi / f18lo / f18hi)
- *   func_020202EC  *out = f40 + f42 (list index of the cursor row)
- *   func_020202FC  optional out-pointers for f40 and f42
- *   func_02020314  tail call to func_02020324 with the cursor row f42
- *   func_02020324  pixel y of row n: f17lo + n * (u8)(f22 + f1Amid),
- *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].unk04, the item's value word
- *   func_02020350  twenty-way attribute getter; case 4 has no arm and
- *                  shares the default's -1
- */
 u32 func_02020350(struct Obj_02020268 *obj, u32 what)
 {
     switch (what) {

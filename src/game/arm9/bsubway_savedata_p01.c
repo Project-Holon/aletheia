@@ -142,59 +142,11 @@ u8 func_0200DE5C(struct RecSlot_0200DE5C *p)
     return p->unkFE;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DEA0
- *
- * 76 bytes, 0x0200DE5C..0x0200DEA8, 5 functions, four of which carry no label
- * in the generated listing.
- *
- * One slot of a record that holds a 0x690-byte payload at +0x104 behind a
- * present flag at +0xFE and two byte tags at +0x100 and +0x101.
- * func_0200DE6C fills all four in one go, and the three constants it needs
- * are one constant in the compiled code: 0x104 is materialised once in r7 and
- * the two stores reach +0x101 and +0x100 as `subs r0, r7, #3` and
- * `subs r0, r7, #4`.  That is the compiler reusing a live value and not three
- * offsets in the source.
- *
- * The two getters are the same function at two neighbouring offsets and they
- * do not compile alike: +0x100 is `movs r1, #1` / `lsls r1, #8` and +0x101
- * needs a literal pool word, because the first is a shifted eight-bit
- * immediate and the second is not.  Neither offset fits a `ldrb` immediate,
- * whose reach is 31, so both are register-offset loads; see
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md.
- */
 u8 func_0200DE64(struct RecSlot_0200DE5C *p)
 {
     return p->unkFF;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DEA0
- *
- * 76 bytes, 0x0200DE5C..0x0200DEA8, 5 functions, four of which carry no label
- * in the generated listing.
- *
- * One slot of a record that holds a 0x690-byte payload at +0x104 behind a
- * present flag at +0xFE and two byte tags at +0x100 and +0x101.
- * func_0200DE6C fills all four in one go, and the three constants it needs
- * are one constant in the compiled code: 0x104 is materialised once in r7 and
- * the two stores reach +0x101 and +0x100 as `subs r0, r7, #3` and
- * `subs r0, r7, #4`.  That is the compiler reusing a live value and not three
- * offsets in the source.
- *
- * The two getters are the same function at two neighbouring offsets and they
- * do not compile alike: +0x100 is `movs r1, #1` / `lsls r1, #8` and +0x101
- * needs a literal pool word, because the first is a shifted eight-bit
- * immediate and the second is not.  Neither offset fits a `ldrb` immediate,
- * whose reach is 31, so both are register-offset loads; see
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md.
- */
 void func_0200DE6C(struct RecSlot_0200DE5C *p, const void *src, u8 a, u8 b)
 {
     MI_CpuCopy8(src, p->unk104, sizeof(p->unk104));
@@ -203,59 +155,11 @@ void func_0200DE6C(struct RecSlot_0200DE5C *p, const void *src, u8 a, u8 b)
     p->unkFE = 1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DEA0
- *
- * 76 bytes, 0x0200DE5C..0x0200DEA8, 5 functions, four of which carry no label
- * in the generated listing.
- *
- * One slot of a record that holds a 0x690-byte payload at +0x104 behind a
- * present flag at +0xFE and two byte tags at +0x100 and +0x101.
- * func_0200DE6C fills all four in one go, and the three constants it needs
- * are one constant in the compiled code: 0x104 is materialised once in r7 and
- * the two stores reach +0x101 and +0x100 as `subs r0, r7, #3` and
- * `subs r0, r7, #4`.  That is the compiler reusing a live value and not three
- * offsets in the source.
- *
- * The two getters are the same function at two neighbouring offsets and they
- * do not compile alike: +0x100 is `movs r1, #1` / `lsls r1, #8` and +0x101
- * needs a literal pool word, because the first is a shifted eight-bit
- * immediate and the second is not.  Neither offset fits a `ldrb` immediate,
- * whose reach is 31, so both are register-offset loads; see
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md.
- */
 u8 func_0200DE94(struct RecSlot_0200DE5C *p)
 {
     return p->unk101;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DEA0
- *
- * 76 bytes, 0x0200DE5C..0x0200DEA8, 5 functions, four of which carry no label
- * in the generated listing.
- *
- * One slot of a record that holds a 0x690-byte payload at +0x104 behind a
- * present flag at +0xFE and two byte tags at +0x100 and +0x101.
- * func_0200DE6C fills all four in one go, and the three constants it needs
- * are one constant in the compiled code: 0x104 is materialised once in r7 and
- * the two stores reach +0x101 and +0x100 as `subs r0, r7, #3` and
- * `subs r0, r7, #4`.  That is the compiler reusing a live value and not three
- * offsets in the source.
- *
- * The two getters are the same function at two neighbouring offsets and they
- * do not compile alike: +0x100 is `movs r1, #1` / `lsls r1, #8` and +0x101
- * needs a literal pool word, because the first is a shifted eight-bit
- * immediate and the second is not.  Neither offset fits a `ldrb` immediate,
- * whose reach is 31, so both are register-offset loads; see
- * docs/idioms/thumb-immediate-reach-costs-an-adds.md.
- */
 u8 func_0200DEA0(struct RecSlot_0200DE5C *p)
 {
     return p->unk100;
@@ -321,121 +225,16 @@ void func_0200DF10(struct RecSlot_0200DEA8 *p, const void *src, u8 a, u8 b)
     p->unkFF = 1;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DF94, func_0200DFB4, func_0200DFCC
- *
- * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71F8 spells "bsubway_savedata.c", the fifth original source
- * file name this project has recovered, attested by the `string` class off
- * the terminator of "gds_profile.c" at 0x020A71F5.  func_0200DF58 passes it
- * to the debug allocator at 0x02030734 with line 0x508.
- *
- * The second slot of the record whose first slot is
- * src/matched/unit_0200DE5C.c: a 0x3FC-byte payload at +0x794 behind a
- * present flag at +0xFF and two byte tags at +0x102 and +0x103.  0x3FC is
- * thirty entries of 0x22 bytes, which is what func_0200DF94 walks, so the
- * payload's element type is pinned by the stride rather than assumed.
- *
- * Three details are worth having.
- *
- *  - func_0200DF58 allocates a copy of the payload and returns it; the size
- *    0x3FC is live in r6 across the allocation and is used again as the copy
- *    length, which is what writing it as `sizeof` at both sites gives.
- *  - in func_0200DF94 the loop index is declared **before** the counter even
- *    though the counter is the one assigned first in the output.  Declared
- *    the other way round the two swap registers and nothing else moves; see
- *    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- *  - func_0200DFB4 assembles a little-endian word out of four bytes and the
- *    compiler schedules the loads 0x16, 0x17, 0x14, 0x15, which is not the
- *    source order.  Every spelling tried, field by field or through an array,
- *    with or without casts on the operands, produces exactly these bytes, so
- *    the schedule says nothing about how it was written.
- */
 int func_0200DF40(struct RecSlot_0200DEA8 *p)
 {
     return p->unk103;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DF94, func_0200DFB4, func_0200DFCC
- *
- * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71F8 spells "bsubway_savedata.c", the fifth original source
- * file name this project has recovered, attested by the `string` class off
- * the terminator of "gds_profile.c" at 0x020A71F5.  func_0200DF58 passes it
- * to the debug allocator at 0x02030734 with line 0x508.
- *
- * The second slot of the record whose first slot is
- * src/matched/unit_0200DE5C.c: a 0x3FC-byte payload at +0x794 behind a
- * present flag at +0xFF and two byte tags at +0x102 and +0x103.  0x3FC is
- * thirty entries of 0x22 bytes, which is what func_0200DF94 walks, so the
- * payload's element type is pinned by the stride rather than assumed.
- *
- * Three details are worth having.
- *
- *  - func_0200DF58 allocates a copy of the payload and returns it; the size
- *    0x3FC is live in r6 across the allocation and is used again as the copy
- *    length, which is what writing it as `sizeof` at both sites gives.
- *  - in func_0200DF94 the loop index is declared **before** the counter even
- *    though the counter is the one assigned first in the output.  Declared
- *    the other way round the two swap registers and nothing else moves; see
- *    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- *  - func_0200DFB4 assembles a little-endian word out of four bytes and the
- *    compiler schedules the loads 0x16, 0x17, 0x14, 0x15, which is not the
- *    source order.  Every spelling tried, field by field or through an array,
- *    with or without casts on the operands, produces exactly these bytes, so
- *    the schedule says nothing about how it was written.
- */
 u8 func_0200DF4C(struct RecSlot_0200DEA8 *p)
 {
     return p->unk102;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DF94, func_0200DFB4, func_0200DFCC
- *
- * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71F8 spells "bsubway_savedata.c", the fifth original source
- * file name this project has recovered, attested by the `string` class off
- * the terminator of "gds_profile.c" at 0x020A71F5.  func_0200DF58 passes it
- * to the debug allocator at 0x02030734 with line 0x508.
- *
- * The second slot of the record whose first slot is
- * src/matched/unit_0200DE5C.c: a 0x3FC-byte payload at +0x794 behind a
- * present flag at +0xFF and two byte tags at +0x102 and +0x103.  0x3FC is
- * thirty entries of 0x22 bytes, which is what func_0200DF94 walks, so the
- * payload's element type is pinned by the stride rather than assumed.
- *
- * Three details are worth having.
- *
- *  - func_0200DF58 allocates a copy of the payload and returns it; the size
- *    0x3FC is live in r6 across the allocation and is used again as the copy
- *    length, which is what writing it as `sizeof` at both sites gives.
- *  - in func_0200DF94 the loop index is declared **before** the counter even
- *    though the counter is the one assigned first in the output.  Declared
- *    the other way round the two swap registers and nothing else moves; see
- *    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- *  - func_0200DFB4 assembles a little-endian word out of four bytes and the
- *    compiler schedules the loads 0x16, 0x17, 0x14, 0x15, which is not the
- *    source order.  Every spelling tried, field by field or through an array,
- *    with or without casts on the operands, produces exactly these bytes, so
- *    the schedule says nothing about how it was written.
- */
 struct Buf3FC *func_0200DF58(struct RecSlot_0200DEA8 *p, u32 heap)
 {
     struct Buf3FC *copy = func_02030734(heap, sizeof(p->unk794), 1,
@@ -445,41 +244,6 @@ struct Buf3FC *func_0200DF58(struct RecSlot_0200DEA8 *p, u32 heap)
     return copy;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DF94, func_0200DFB4, func_0200DFCC
- *
- * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71F8 spells "bsubway_savedata.c", the fifth original source
- * file name this project has recovered, attested by the `string` class off
- * the terminator of "gds_profile.c" at 0x020A71F5.  func_0200DF58 passes it
- * to the debug allocator at 0x02030734 with line 0x508.
- *
- * The second slot of the record whose first slot is
- * src/matched/unit_0200DE5C.c: a 0x3FC-byte payload at +0x794 behind a
- * present flag at +0xFF and two byte tags at +0x102 and +0x103.  0x3FC is
- * thirty entries of 0x22 bytes, which is what func_0200DF94 walks, so the
- * payload's element type is pinned by the stride rather than assumed.
- *
- * Three details are worth having.
- *
- *  - func_0200DF58 allocates a copy of the payload and returns it; the size
- *    0x3FC is live in r6 across the allocation and is used again as the copy
- *    length, which is what writing it as `sizeof` at both sites gives.
- *  - in func_0200DF94 the loop index is declared **before** the counter even
- *    though the counter is the one assigned first in the output.  Declared
- *    the other way round the two swap registers and nothing else moves; see
- *    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- *  - func_0200DFB4 assembles a little-endian word out of four bytes and the
- *    compiler schedules the loads 0x16, 0x17, 0x14, 0x15, which is not the
- *    source order.  Every spelling tried, field by field or through an array,
- *    with or without casts on the operands, produces exactly these bytes, so
- *    the schedule says nothing about how it was written.
- */
 u32 func_0200DF94(struct Buf3FC *b)
 {
     s32 i;
@@ -493,82 +257,12 @@ u32 func_0200DF94(struct Buf3FC *b)
     return n;
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DF94, func_0200DFB4, func_0200DFCC
- *
- * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71F8 spells "bsubway_savedata.c", the fifth original source
- * file name this project has recovered, attested by the `string` class off
- * the terminator of "gds_profile.c" at 0x020A71F5.  func_0200DF58 passes it
- * to the debug allocator at 0x02030734 with line 0x508.
- *
- * The second slot of the record whose first slot is
- * src/matched/unit_0200DE5C.c: a 0x3FC-byte payload at +0x794 behind a
- * present flag at +0xFF and two byte tags at +0x102 and +0x103.  0x3FC is
- * thirty entries of 0x22 bytes, which is what func_0200DF94 walks, so the
- * payload's element type is pinned by the stride rather than assumed.
- *
- * Three details are worth having.
- *
- *  - func_0200DF58 allocates a copy of the payload and returns it; the size
- *    0x3FC is live in r6 across the allocation and is used again as the copy
- *    length, which is what writing it as `sizeof` at both sites gives.
- *  - in func_0200DF94 the loop index is declared **before** the counter even
- *    though the counter is the one assigned first in the output.  Declared
- *    the other way round the two swap registers and nothing else moves; see
- *    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- *  - func_0200DFB4 assembles a little-endian word out of four bytes and the
- *    compiler schedules the loads 0x16, 0x17, 0x14, 0x15, which is not the
- *    source order.  Every spelling tried, field by field or through an array,
- *    with or without casts on the operands, produces exactly these bytes, so
- *    the schedule says nothing about how it was written.
- */
 u32 func_0200DFB4(struct SubEnt *e)
 {
     return e->unk14[0] | (e->unk14[1] << 8) | (e->unk14[2] << 16)
            | (e->unk14[3] << 24);
 }
 
-/*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/003_0200CA1C.s.
- *
- *           func_0200DF94, func_0200DFB4, func_0200DFCC
- *
- * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
- * label in the generated listing.
- *
- * alias: 0x020A71F8 spells "bsubway_savedata.c", the fifth original source
- * file name this project has recovered, attested by the `string` class off
- * the terminator of "gds_profile.c" at 0x020A71F5.  func_0200DF58 passes it
- * to the debug allocator at 0x02030734 with line 0x508.
- *
- * The second slot of the record whose first slot is
- * src/matched/unit_0200DE5C.c: a 0x3FC-byte payload at +0x794 behind a
- * present flag at +0xFF and two byte tags at +0x102 and +0x103.  0x3FC is
- * thirty entries of 0x22 bytes, which is what func_0200DF94 walks, so the
- * payload's element type is pinned by the stride rather than assumed.
- *
- * Three details are worth having.
- *
- *  - func_0200DF58 allocates a copy of the payload and returns it; the size
- *    0x3FC is live in r6 across the allocation and is used again as the copy
- *    length, which is what writing it as `sizeof` at both sites gives.
- *  - in func_0200DF94 the loop index is declared **before** the counter even
- *    though the counter is the one assigned first in the output.  Declared
- *    the other way round the two swap registers and nothing else moves; see
- *    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- *  - func_0200DFB4 assembles a little-endian word out of four bytes and the
- *    compiler schedules the loads 0x16, 0x17, 0x14, 0x15, which is not the
- *    source order.  Every spelling tried, field by field or through an array,
- *    with or without casts on the operands, produces exactly these bytes, so
- *    the schedule says nothing about how it was written.
- */
 void func_0200DFCC(void *p)
 {
     MI_CpuFill8(p, 0, 0x42);
@@ -589,12 +283,6 @@ u16 func_0200DFD8(Row *table, int row, int col)
 
 
 
-/*
- * Two leaves after func_0200DFCC on a table of three-halfword records:
- * read entry [row][col], and write it clamped to 0..0xFFFF (signed
- * compares, so the value is an int). Seeded from ov175 (0x021D62E8,
- * 0x021D6502, 0x021D9DA2 and their siblings).
- */
 void func_0200DFE4(Row *table, int row, int col, int value)
 {
     if (value > 0xFFFF) {

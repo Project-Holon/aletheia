@@ -232,16 +232,6 @@ u32 sub_0202B57C(void *obj)
 
 
 
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two word getters, at offsets 0x24 and 0x18, packed into a single 8-byte
- * pair with no gap. Neither has a relocation.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202B57C.c \
- *       --addr 0x0202B57C --thumb
- */
 u32 sub_0202B580(void *obj)
 {
     return ((struct Obj17266 *)obj)->f18;

@@ -1,0 +1,207 @@
+/*
+ * file:     zukan_detail_form_p04.c
+ * unit:     yes
+ * function: func_021C47C4, func_021C48CC, func_021C4A48
+ * address:  0x021C47C4
+ * region:   ov208
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_021BC3C0  0x021BC3C0  thumb
+ *   func_0201EC64  0x0201EC64  thumb
+ *   func_020457B0  0x020457B0  arm
+ *   func_0201EE60  0x0201EE60  thumb
+ *   func_0201F250  0x0201F250  thumb
+ *   func_0201ED04  0x0201ED04  thumb
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02049B90  0x02049B90  arm
+ *   func_020450F0  0x020450F0  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_02045334  0x02045334  arm
+ *   func_02045B38  0x02045B38  arm
+ *   func_0204A298  0x0204A298  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02045808  0x02045808  arm
+ *   ov208_func_021C4B60  0x021C4B60  thumb
+ *   data_021C8830  0x021C8830  data
+ *   data_021C8794  0x021C8794  data
+ *   func_0201C6EC 0x0201C6EC thumb
+ *   func_020452E8 0x020452E8 arm
+ *   func_02045C04 0x02045C04 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+#include "../../matched/include/Obj06686.h"
+#include "../../matched/include/Obj10908.h"
+
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+struct Descriptor;
+struct CharBuf;
+struct PrintSys;
+struct Rec;
+typedef unsigned char  u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
+struct Ov208Menu {
+    u32 f0;
+    u32 f4;
+    u8  pad8[0x54c];
+    u32 win[5];
+    u32 active[5];
+    u32 print[5];
+    u32 msg;
+    u32 arc;
+    u32 msg2;
+    u32 str[6];
+};
+
+struct Ov208WinTbl {
+    u8 d[5][7];
+};
+
+extern u16  func_021BC3C0(int key);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_0201ED04(struct WordSet *p);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void *func_02045770(struct Descriptor *);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *win);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_02045808(struct U16Vec *vec);
+extern void ov208_func_021C4B60(u16 *heap, struct Ov208Menu *p, int key, int i);
+extern void func_0201C6EC(struct PrintSys *p);
+extern u32 func_020452E8(struct Descriptor *d);
+extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_020307B0(void *p);
+void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD, u16 idx);
+void ov208_func_021C48CC(u16 *heap, struct Ov208Menu *p, int key);
+void func_021C4A48(void *unused,u8 *p);
+extern const struct Ov208WinTbl data_021C8830;
+extern const u16 data_021C8794[6];
+
+
+void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int *outC, int *outD,
+                         u16 idx)
+{
+    u32 str = 0;
+    u32 b = 0;
+    int c = 0;
+    int d = 0;
+    u16 k;
+    u32 ws;
+    u32 src;
+    u16 n;
+    u16 i;
+
+    k = func_021BC3C0(key);
+    switch (*(u32 *)(p + 0x148 + idx * 16)) {
+    case 0:
+        ws = (u32)func_0201EC64(*heap);
+        src = ((struct Obj06686 *)p)->f5A4;
+        str = (u32)func_020457B0(0x40, *heap);
+        func_0201EE60((struct WordSet *)ws, 0, k);
+        func_0201F250((struct WordSet *)ws, (void *)str, (void *)src);
+        func_0201ED04((struct WordSet *)ws);
+        c = 1;
+        break;
+    case 1:
+        switch (*(u16 *)(p + 0x150 + idx * 16)) {
+        case 0:
+            str = ((struct Obj06686 *)p)->f5A8;
+            break;
+        case 1:
+            str = ((struct Obj06686 *)p)->f5AC;
+            break;
+        }
+        break;
+    case 2:
+        n = *(u16 *)(p + 0x150 + idx * 16);
+        for (i = 0; i != n; i++) {
+            k = (*(u16 **)(p + 0x594))[k];
+            if (k == 0)
+                break;
+        }
+        str = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06686 *)p)->f598), k);
+        c = 1;
+        break;
+    }
+    switch (*(u32 *)(p + 0x14c + idx * 16)) {
+    case 0:
+    case 1:
+        break;
+    case 2:
+        b = ((struct Obj06686 *)p)->f5B0;
+        d = 0;
+        break;
+    }
+    *outStr = str;
+    *outB = b;
+    *outC = c;
+    *outD = d;
+}
+
+
+void ov208_func_021C48CC(u16 *heap, struct Ov208Menu *p, int key)
+{
+    struct Ov208WinTbl t;
+    u32 size;
+    u32 bmp;
+    u32 s;
+    u8 i;
+
+    t = data_021C8830;
+    func_02049B90(0x17, 5, 4, 0, 0, 0x20, *heap);
+    func_02049B90(0x17, 5, 0, 0, 0, 0x20, *heap);
+    for (i = 0; i < 5; i++) {
+        p->win[i] = func_020450F0(t.d[i][0], t.d[i][1], t.d[i][2], t.d[i][3], t.d[i][4],
+                                  t.d[i][5], t.d[i][6]);
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[i])), 0);
+        func_02045334((struct Descriptor *)p->win[i]);
+    }
+    p->msg = (u32)func_02045B38(0, 2, 0xea, *heap);
+    p->msg2 = (u32)func_02045B38(0, 2, 0xf4, *heap);
+    p->arc = func_0204A298(0x62, 0, 0, *heap, &size);
+    bmp = (u32)func_02045770((struct Descriptor *)p->win[2]);
+    s = (u32)func_02045EC0((struct MsgBank *)p->msg, 0xb8);
+    func_0201C724((void *)p->print[2], bmp, 0, 1, s, p->f4, 0x3c40);
+    func_02045808((struct U16Vec *)s);
+    s = (u32)func_02045EC0((struct MsgBank *)p->msg, 0xb9);
+    func_0201C724((void *)p->print[2], bmp, 0, 0x11, s, p->f4, 0x3c40);
+    func_02045808((struct U16Vec *)s);
+    p->active[2] = 1;
+    ov208_func_021C4B60(heap, p, key, 2);
+    for (i = 0; i < 6; i++)
+        p->str[i] = (u32)func_02045EC0((struct MsgBank *)p->msg, data_021C8794[i]);
+}
+
+void func_021C4A48(void *unused,u8 *p)
+{
+    u8 i;
+    for(i=0;i<5;i++) {
+        *(u32 *)(p+i*4+0x568)=0;
+        func_0201C6EC(*(struct PrintSys **)(p+i*4+0x57c));
+        func_020452E8(*(struct Descriptor **)(p+i*4+0x554));
+    }
+    for(i=0;i<6;i++)func_02045808(*(struct U16Vec **)(p+i*4+0x59c));
+    func_02045C04(*(struct Rec * *)&((struct Obj10908 *)p)->f590);
+    func_02045C04(*(struct Rec * *)&((struct Obj10908 *)p)->f598);
+    func_020307B0(((struct Obj10908 *)p)->f594);
+}

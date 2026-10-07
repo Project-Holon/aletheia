@@ -179,37 +179,6 @@ void sub_0201C328(s32_0201C328 n, u32 heap)
 }
 
 
-/*
- * waza_tool.c: the module's constructor, its destructor, its "is it up"
- * predicate, and (folded back in this run) sub_0201C41C, which resets
- * something with 0xFFFF and hands func_02043678's result to the static at
- * 0x02146558.  sub_0201C41C used to be cut out into src/pending/sub_0201C41C.c
- * because its one call, to func_020457A0, had no witness anywhere in the
- * image; func_020457A0 is now EXACT in src/matched/sub_020457A0.c, giving the
- * `matched` class a witness, so the range folds back into one unit.  The file
- * name is the image's own, 0x020A7340 spelling "waza_tool.c" between
- * "shinka_check.c" and "printsys.c".
- *
- * The module object at 0x02146530 is three words: an array of `n` pointers to
- * 0x24 byte records, an array of `n` halfwords, and `n` itself.  Each of the
- * four allocations passes a different __LINE__, and the four values 577, 578,
- * 579 and 584 are visible in the bytes as one pool word holding 577 and three
- * `adds r0, r0, #k` off it, which is what fixes both the line numbers and the
- * order of the statements.  577 is too large for a `movs` immediate, so the
- * first one is a pool word rather than a relocation
- * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md is the
- * case where it is the other way round).
- *
- * sub_0201C408 is an unlabelled follower: eight halfwords with no prologue
- * sitting between two literal pools, which the listing prints as `.word` data
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Its `!= 0`
- * arm is the fall-through, so the source returns 1 first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C328.c \
- *       --addr 0x0201C328 --thumb
- */
 void sub_0201C3C0(void)
 {
     s32_0201C328 i;
@@ -226,37 +195,6 @@ void sub_0201C3C0(void)
 }
 
 
-/*
- * waza_tool.c: the module's constructor, its destructor, its "is it up"
- * predicate, and (folded back in this run) sub_0201C41C, which resets
- * something with 0xFFFF and hands func_02043678's result to the static at
- * 0x02146558.  sub_0201C41C used to be cut out into src/pending/sub_0201C41C.c
- * because its one call, to func_020457A0, had no witness anywhere in the
- * image; func_020457A0 is now EXACT in src/matched/sub_020457A0.c, giving the
- * `matched` class a witness, so the range folds back into one unit.  The file
- * name is the image's own, 0x020A7340 spelling "waza_tool.c" between
- * "shinka_check.c" and "printsys.c".
- *
- * The module object at 0x02146530 is three words: an array of `n` pointers to
- * 0x24 byte records, an array of `n` halfwords, and `n` itself.  Each of the
- * four allocations passes a different __LINE__, and the four values 577, 578,
- * 579 and 584 are visible in the bytes as one pool word holding 577 and three
- * `adds r0, r0, #k` off it, which is what fixes both the line numbers and the
- * order of the statements.  577 is too large for a `movs` immediate, so the
- * first one is a pool word rather than a relocation
- * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md is the
- * case where it is the other way round).
- *
- * sub_0201C408 is an unlabelled follower: eight halfwords with no prologue
- * sitting between two literal pools, which the listing prints as `.word` data
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Its `!= 0`
- * arm is the fall-through, so the source returns 1 first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C328.c \
- *       --addr 0x0201C328 --thumb
- */
 u32 sub_0201C408(void)
 {
     if (gWazaTool != 0) {
@@ -266,37 +204,6 @@ u32 sub_0201C408(void)
 }
 
 
-/*
- * waza_tool.c: the module's constructor, its destructor, its "is it up"
- * predicate, and (folded back in this run) sub_0201C41C, which resets
- * something with 0xFFFF and hands func_02043678's result to the static at
- * 0x02146558.  sub_0201C41C used to be cut out into src/pending/sub_0201C41C.c
- * because its one call, to func_020457A0, had no witness anywhere in the
- * image; func_020457A0 is now EXACT in src/matched/sub_020457A0.c, giving the
- * `matched` class a witness, so the range folds back into one unit.  The file
- * name is the image's own, 0x020A7340 spelling "waza_tool.c" between
- * "shinka_check.c" and "printsys.c".
- *
- * The module object at 0x02146530 is three words: an array of `n` pointers to
- * 0x24 byte records, an array of `n` halfwords, and `n` itself.  Each of the
- * four allocations passes a different __LINE__, and the four values 577, 578,
- * 579 and 584 are visible in the bytes as one pool word holding 577 and three
- * `adds r0, r0, #k` off it, which is what fixes both the line numbers and the
- * order of the statements.  577 is too large for a `movs` immediate, so the
- * first one is a pool word rather than a relocation
- * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md is the
- * case where it is the other way round).
- *
- * sub_0201C408 is an unlabelled follower: eight halfwords with no prologue
- * sitting between two literal pools, which the listing prints as `.word` data
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Its `!= 0`
- * arm is the fall-through, so the source returns 1 first
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C328.c \
- *       --addr 0x0201C328 --thumb
- */
 void sub_0201C41C(void *arg)
 {
     func_020457A0(0xFFFF);
@@ -377,115 +284,16 @@ void *sub_0201C450(u16 n, u32 heap)
 }
 
 
-/*
- * The head of printsys.c: the module constructor and three accessors on the
- * object it builds.  The file identity is in the image, the same way
- * src/matched/unit_0201D69C.c recovers gf_font.c: the constructor loads
- * 0x020A734C as the debug allocator's __FILE__ argument and the bytes there
- * spell "printsys.c", with "waza_tool.c" ending at 0x020A734B so the `string`
- * class carries the address.  The __LINE__ argument is 287.
- *
- * The constructor was a documented two-byte near miss and this is what closed
- * it: the field at +8 is one `u64`, not two `u32`.  Written as two words the
- * whole function is right except that the pool constant 0x1130 arrives in r1
- * instead of r2; assigning it to a 64 bit field makes the compiler take the
- * other scratch register, because the high half comes from the register that
- * already holds zero.  See
- * docs/idioms/a-u64-field-store-picks-a-different-scratch-register.md.
- *
- * sub_0201C4DC writes the two halves of that u64 separately, which is what
- * fixes the field as a union of the 64 bit value and a two-word struct rather
- * than a plain `u64` (docs/idioms/long-long-aligns-to-four.md is why +8 is a
- * legal offset for it at all).
- *
- * The size the constructor allocates is (u16)(n + 0x1C) rounded up to a
- * multiple of four and then + 0x18, and the rounding is a `while (v % 4)` loop
- * over a `u16` local: the signed `lsrs #31` / `lsls #30` / `subs` / `rors #30`
- * quartet is `% 4` on the promoted int, exactly as src/matched/sub_0200A6BC.c
- * records for `% 8`.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C450.c \
- *       --addr 0x0201C450 --thumb
- */
 void sub_0201C4C0(struct PrintSys_0201C450 *p)
 {
     func_020307B0(p);
 }
 
-/*
- * The head of printsys.c: the module constructor and three accessors on the
- * object it builds.  The file identity is in the image, the same way
- * src/matched/unit_0201D69C.c recovers gf_font.c: the constructor loads
- * 0x020A734C as the debug allocator's __FILE__ argument and the bytes there
- * spell "printsys.c", with "waza_tool.c" ending at 0x020A734B so the `string`
- * class carries the address.  The __LINE__ argument is 287.
- *
- * The constructor was a documented two-byte near miss and this is what closed
- * it: the field at +8 is one `u64`, not two `u32`.  Written as two words the
- * whole function is right except that the pool constant 0x1130 arrives in r1
- * instead of r2; assigning it to a 64 bit field makes the compiler take the
- * other scratch register, because the high half comes from the register that
- * already holds zero.  See
- * docs/idioms/a-u64-field-store-picks-a-different-scratch-register.md.
- *
- * sub_0201C4DC writes the two halves of that u64 separately, which is what
- * fixes the field as a union of the 64 bit value and a two-word struct rather
- * than a plain `u64` (docs/idioms/long-long-aligns-to-four.md is why +8 is a
- * legal offset for it at all).
- *
- * The size the constructor allocates is (u16)(n + 0x1C) rounded up to a
- * multiple of four and then + 0x18, and the rounding is a `while (v % 4)` loop
- * over a `u16` local: the signed `lsrs #31` / `lsls #30` / `subs` / `rors #30`
- * quartet is `% 4` on the promoted int, exactly as src/matched/sub_0200A6BC.c
- * records for `% 8`.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C450.c \
- *       --addr 0x0201C450 --thumb
- */
 void sub_0201C4C8(struct PrintSys_0201C450 *p, u32 v)
 {
     ((u8 *)p)[7] = (((u8 *)p)[7] & ~0xF0u) | (u8)((u8)v << 4);
 }
 
-/*
- * The head of printsys.c: the module constructor and three accessors on the
- * object it builds.  The file identity is in the image, the same way
- * src/matched/unit_0201D69C.c recovers gf_font.c: the constructor loads
- * 0x020A734C as the debug allocator's __FILE__ argument and the bytes there
- * spell "printsys.c", with "waza_tool.c" ending at 0x020A734B so the `string`
- * class carries the address.  The __LINE__ argument is 287.
- *
- * The constructor was a documented two-byte near miss and this is what closed
- * it: the field at +8 is one `u64`, not two `u32`.  Written as two words the
- * whole function is right except that the pool constant 0x1130 arrives in r1
- * instead of r2; assigning it to a 64 bit field makes the compiler take the
- * other scratch register, because the high half comes from the register that
- * already holds zero.  See
- * docs/idioms/a-u64-field-store-picks-a-different-scratch-register.md.
- *
- * sub_0201C4DC writes the two halves of that u64 separately, which is what
- * fixes the field as a union of the 64 bit value and a two-word struct rather
- * than a plain `u64` (docs/idioms/long-long-aligns-to-four.md is why +8 is a
- * legal offset for it at all).
- *
- * The size the constructor allocates is (u16)(n + 0x1C) rounded up to a
- * multiple of four and then + 0x18, and the rounding is a `while (v % 4)` loop
- * over a `u16` local: the signed `lsrs #31` / `lsls #30` / `subs` / `rors #30`
- * quartet is `% 4` on the promoted int, exactly as src/matched/sub_0200A6BC.c
- * records for `% 8`.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0201C450.c \
- *       --addr 0x0201C450 --thumb
- */
 void sub_0201C4DC(struct PrintSys_0201C450 *p, u32 lo, u32 hi)
 {
     p->unk08.w.lo = lo;

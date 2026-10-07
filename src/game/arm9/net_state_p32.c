@@ -262,20 +262,6 @@ u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 
 
 
-/*
- * The net_command.c command-queue trio, 0x0203AA94..0x0203AD6C, folded into
- * one translation unit: the enqueue (func_0203AA94), the header pump
- * (func_0203ABC0) and the chunk pump (func_0203ACAC).  All three walk the
- * same five 0x18-byte slot table at g_021469D8 and share the 4-bit status
- * nibble pair at record +0x17 / table +0x57.  Filed as a unit because the
- * three are individually EXACT and reproduce the range with its pools.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0203AA94.c \
- *       --addr 0x0203AA94 --arm
- */
 u32 func_0203ABC0(void)
 {
     u16 hdr[6];
@@ -305,20 +291,6 @@ u32 func_0203ABC0(void)
 
 
 
-/*
- * The net_command.c command-queue trio, 0x0203AA94..0x0203AD6C, folded into
- * one translation unit: the enqueue (func_0203AA94), the header pump
- * (func_0203ABC0) and the chunk pump (func_0203ACAC).  All three walk the
- * same five 0x18-byte slot table at g_021469D8 and share the 4-bit status
- * nibble pair at record +0x17 / table +0x57.  Filed as a unit because the
- * three are individually EXACT and reproduce the range with its pools.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0203AA94.c \
- *       --addr 0x0203AA94 --arm
- */
 void func_0203ACAC(void)
 {
     int i;
@@ -362,13 +334,6 @@ void func_0203AD74(struct NetState *s, void *p, u16 v)
     s->unk46 = v;
 }
 
-/*
- * Setter and its tail-call export in net_state.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0203AD74.c \
- *       --addr 0x0203AD74 --arm --cc 1.1p1
- */
 void func_0203AD80(struct NetState *s, void *p, u16 v, int line)
 {
     func_0203AD74(s, p, v);
