@@ -46,3 +46,5 @@ Parts:
 - `unit_0215FDA4_p16.c`
 - `unit_0215FDA4_p17.c`
 - `unit_0215FDA4_p18.c`
+
+Round 5 (lane s04): not started (18 parts). The gt2 lesson from unit_02195E80.c applies: write one canonical CPSSslConnection/CPSSslSession/CPSSoc block by offset, then re-run the greedy merge.

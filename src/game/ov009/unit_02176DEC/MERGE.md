@@ -1,15 +1,16 @@
 # unit_02176DEC (ov009)
 
-Merged as far as the greedy pass allows: 5 part files remain (unit_02176DEC_pNN.c, address order),
-each byte-exact. Adjacent parts do not merge because of:
+3 part files remain (p01 .. p03, address order), each byte-exact.
 
-- the same global or struct seen through different local views (DWC structs such as
-  LoginCnt, DWCstMatchControl, DWCstNodeInfo, DWCstGameMatchKeyData, DWCstDwcCnt, DwcState):
-  offsets conflict (scalar vs pointer, void ** vs void *, nested struct vs u32) or a field
-  type the unifier cannot size;
-- globals declared two ways (for example g_021AA874, g_021AA8A0) whose uses need casts that
-  change the bytes;
-- prototypes that differ between members (void * vs typed parameters).
+Round 5 (r5 s05): old p01+p02+p03 (0x02176DEC..0x021770EC) are one part now. It holds the
+canonical TransConn / TransInfo structs (g_021AB180 is a TransInfo pointer), the narrow
+func_02176E90(unsigned char aid, ...) that fixed the DIFF at the old p02, and a typed
+DWC_SendReliable call.
 
-Offset-compatible views were already unified by scratchpad tool un3.py. A later struct
-pass has to settle the conflicting offsets.
+Next: old p04 (now p02, 0x021770EC..0x02177E64, 27 functions) reaches TransInfo through
+raw offsets (sTransInfo macro cast to char **, connection + 0x1d) and through its own
+DWCstTransportInfo / DWCstTransportConnection copies. Rewrite those functions with the
+TransInfo and TransConn fields of p01 (sendCallback at 0x700, sendSplitMax at 0x720,
+connKeepAliveTime at 0x724), use func_02177770 / func_02177788 / func_021777C0 /
+func_02177E64 as the names of the functions it defines (its symbol rows give them second
+names DWCs_GetTransConnection, DWCs_GetRecvState, DWCs_Send), then join with p01 and p03.

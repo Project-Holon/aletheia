@@ -7,9 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0208799C 0x0208799C arm
+ *   func_02731210 0x02731210 arm twl
  */
+typedef unsigned int u32;
 
-asm void func_02731254(void)
+extern void func_0208799C(u32);
+extern void func_02731210(u32 id);
+
+void func_02731254(u32 id, u32 irq)
 {
+    func_02731210(id);
+    func_0208799C(irq);
 }

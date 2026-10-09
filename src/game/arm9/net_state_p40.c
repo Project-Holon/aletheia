@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p40.c
  * unit:     yes
- * function: func_0203B6EC, func_0203B758, func_0203B794, func_0203B7F8, func_0203B868, func_0203B90C, func_0203B950, func_0203B9D4
- * address:  0x0203B6EC
+ * function: func_0203D210, func_0203D24C, func_0203D26C, func_0203D29C, func_0203D2CC, func_0203D34C, func_0203D378, func_0203D394, func_0203D3A8, func_0203D3F8, func_0203D4D0, func_0203D56C, func_0203D578
+ * address:  0x0203D210
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,265 +13,409 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
- *   func_0203D788   0x0203D788  arm
- *   func_0203D798   0x0203D798  arm
- *   func_02039ACC   0x02039ACC  arm
- *   func_0203DA4C   0x0203DA4C  arm
- *   func_0203D650   0x0203D650  arm
- *   func_0203AD80   0x0203AD80  arm
+ *   g_021469E0     0x021469E0  data
+ *   func_0203D788  0x0203D788  arm
+ *   func_0203D798  0x0203D798  arm
+ *   g_020A7CA0     0x020A7CA0  data
+ *   g_020A7CE8     0x020A7CE8  data
+ *   func_020338F8  0x020338F8  arm
+ *   func_02034714  0x02034714  arm
+ *   func_02037010  0x02037010  arm
+ *   func_020370C8  0x020370C8  arm
+ *   func_02037118  0x02037118  arm
+ *   func_02039338  0x02039338  arm
+ *   func_020395EC  0x020395EC  arm
+ *   func_02038C18  0x02038C18  arm
+ *   g_020A7CEC     0x020A7CEC  data
+ *   func_02039468  0x02039468  arm
+ *   func_020394C0  0x020394C0  arm
  */
-#include "../../matched/include/Obj08841.h"
-#include "../../matched/include/Obj03451.h"
-
-struct NetState;
 struct Entry;
+struct NetEntry;
 typedef unsigned char u8;
-
-typedef unsigned short u16;
 
 typedef unsigned int  u32;
 
-struct B794 {
-    u8     pad_00[0x2C];
-    void (*unk_2C)(u32);
+struct NetVtbl {
+    u8 pad_00[0x6c];
+    u32 (*unk_6c)(void);
 };
 
-typedef signed int     s32;
-
-struct B868 {
-    u8     pad_00[0x2C];
-    void (*unk_2C)(u32);
+struct NetSys_0203D210 {
+    u8              pad_000[0x340];
+    struct NetVtbl *vtbl;
 };
 
-typedef unsigned long long u64;
+struct Singleton {
+    u8    pad_00[8];
+    void *unk_08;
+};
 
-extern u8 *func_0203D788(void);
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-extern u32 func_02037894(u32 a, u32 b, u32 c, u32 d);
-extern int func_0203B6B4(int a0, int a1, int a2, int a3);
-extern int func_0203B688(int a0, int a1, int a2, int a3);
+typedef unsigned short u16;
+
+struct NetState_0 {
+    u8  pad_00[0x5c];
+    u16 unk_5c;
+    u16 unk_5e;
+};
+
+struct NetSys_0203D24C {
+    u8 pad_00[0x65];
+    u8 mode;
+};
+
+struct NetState_1 {
+    u8  pad_00[0x56];
+    u16 unk_56;
+    u8  pad_58[4];
+    u16 unk_5c;
+    u16 unk_5e;
+    u8  pad_60[5];
+    u8  mode;
+};
+
+struct NetEntry {
+    u8 pad_00[0x4a];
+    u8 state;
+};
+
+extern struct NetSys_0203D210   *func_0203D788(void);
 extern void *func_0203D798(void);
-extern int func_02039ACC(void);
-extern struct Entry *func_020399A8(void);
-extern u32 func_020399B8(u8 *p);
-extern u32 func_0203D650(void);
-extern struct Entry *func_0203996C(s32 idx);
-extern u32 func_020399EC(u32 a);
+extern u32  func_020338F8(void);
+extern void func_02034714(const char *file, u32 line, const char *msg);
+extern void func_02037010(u32 a, u32 b, u32 c, u32 d);
+extern void func_020370C8(void);
+extern void func_02037118(u32 a, u32 b);
 extern u16 func_02039338(void);
-extern int func_0203DA4C(void);
-extern void func_0203BCE0(u8 *p);
-void func_0203B90C(void);
-void func_0203B950(u8 *p);
-void func_0203B6EC(u8 *p);
-void func_0203B758(void);
-void func_0203B9D4(u8 *p);
-extern u8 *g_021469DC;
+extern int func_020395EC(struct Entry *a);
+extern int   func_02038C18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32   func_02039468(u32 a, u32 b);
+extern int func_020394C0(void);
+u32 func_0203D210(void);
+void func_0203D24C(u16 a, u16 b);
+u32 func_0203D26C(void);
+u32 func_0203D29C(void);
+void func_0203D2CC(void);
+void func_0203D34C(u32 a, u32 b);
+u32 func_0203D378(void);
+u32 func_0203D394(struct NetEntry *e);
+int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+void func_0203D56C(void);
+void func_0203D578(int a, u32 b);
+extern struct Singleton g_021469E0;
+extern char g_020A7CA0[];
+extern char g_020A7CE8[];
+extern char g_020A7CEC[];
+
+
+/*
+ * TU: net.c.
+ *
+ * "Nothing running, or the +0x6c hook says idle".  The first test reads
+ * g_021469E0.unk_08 straight out of the singleton (the same two
+ * instructions func_0203D788 is made of), while the second goes through the
+ * real call; that asymmetry is what says the first read is a file-local
+ * access and not an inlined copy of the extern.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D210.c \
+ *       --func func_0203D210 --addr 0x0203D210 --cc 1.1p1 --arm
+ */
+u32 func_0203D210(void)
+{
+    if (g_021469E0.unk_08 == 0) {
+        return 1;
+    }
+    return (struct NetSys *)func_0203D788()->vtbl->unk_6c() == 0;
+}
+
 
 
 
 /*
- * Addresses are Black-image addresses.
+ * TU: net.c.
+ *
+ * Store a halfword pair into +0x5c/+0x5e of the network state block, if it
+ * exists.  Both stores are predicated off the one null test, which is why
+ * the two parameters have to survive the accessor call in r5/r4.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B6EC.c \
- *       --func func_0203B6EC --addr 0x0203B6EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D24C.c \
+ *       --func func_0203D24C --addr 0x0203D24C --cc 1.1p1 --arm
  */
-void func_0203B6EC(u8 *p)
+void func_0203D24C(u16 a, u16 b)
 {
-    if ((*(u32 (**)(void))(*(u32 *)(func_0203D788() + 0x340) + 0x78))() == 0)
-        return;
-    if (func_02037894(0, 0x200, 0, (u32)func_0203B6B4) == 0)
-        return;
+    struct NetState_0 *s = func_0203D798();
 
-    p[0x4C] = 0;
-    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B688, 0x1E, 0x2FC);
+    if (s != 0) {
+        s->unk_5c = a;
+        s->unk_5e = b;
+    }
+}
+
+
+
+
+/*
+ * TU: net.c.
+ *
+ * "State is 3 or 4" predicate on the +0x65 mode byte of the network
+ * singleton.  The range test is written as one unsigned compare on the
+ * biased byte, so the original spells `- 3` as `add r0, r0, #0xfd` with the
+ * `and r0, r0, #0xff` that the u8 cast forces.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D26C.c \
+ *       --func func_0203D26C --addr 0x0203D26C --cc 1.1p1 --arm
+ */
+u32 func_0203D26C(void)
+{
+    struct NetSys_0203D24C *s = (void *)func_0203D788();
+
+    if (s != 0) {
+        if ((u8)(s->mode + 0xfd) <= 1) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+
+
+/*
+ * TU: net.c.
+ *
+ * Sibling of func_0203D26C one range lower: "state is 1 or 2" on the +0x65
+ * mode byte.  Same shape, `add r0, r0, #0xff` for the bias instead of
+ * `#0xfd`.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D29C.c \
+ *       --func func_0203D29C --addr 0x0203D29C --cc 1.1p1 --arm
+ */
+u32 func_0203D29C(void)
+{
+    struct NetSys_0203D24C *s = (void *)func_0203D788();
+
+    if (s != 0) {
+        if ((u8)(s->mode + 0xff) <= 1) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+
+
+/*
+ * TU: net.c.  This is the function that names it: the assert call at
+ * 0x0203D2EC passes the string at 0x020A7CA0, which reads "net.c", with
+ * line 0x364 (868) and the message string "0" at 0x020A7CE8.
+ *
+ * Refresh of the on-screen connection indicator.  Both accessors are
+ * called even though they return the same singleton field (func_0203D798
+ * null-checks it, func_0203D788 does not); the original keeps both results
+ * live in r4 and r5 and uses r4 only for the mode test, so the two calls
+ * are in the source, not an artefact.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D2CC.c \
+ *       --func func_0203D2CC --addr 0x0203D2CC --cc 1.1p1 --arm
+ */
+void func_0203D2CC(void)
+{
+    struct NetState_1 *a = func_0203D798();
+    struct NetState_1 *b = (void *)func_0203D788();
+
+    if (func_020338F8() == 1) {
+        func_02034714(g_020A7CA0, 868, g_020A7CE8);
+        return;
+    }
+    if (b != 0 && a->mode != 3) {
+        u32 flag = 0;
+
+        if ((u8)(b->mode + 0xff) <= 1) {
+            flag = 1;
+        }
+        func_02037010(b->unk_5c, b->unk_5e, flag, b->unk_56);
+    } else {
+        func_020370C8();
+    }
+}
+
+
+
+
+/*
+ * TU: net.c.
+ *
+ * Three-call sequence: stamp the (0xf0, 0) pair into the state block, run
+ * the transfer at 0x02037118 with this function's own two arguments, then
+ * kick the state machine at 0x0203D2CC.  Both arguments have to outlive the
+ * first call, which is what spends r5/r4.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D34C.c \
+ *       --func func_0203D34C --addr 0x0203D34C --cc 1.1p1 --arm
+ */
+void func_0203D34C(u32 a, u32 b)
+{
+    func_0203D24C(0xf0, 0);
+    func_02037118(a, b);
+    func_0203D2CC();
+}
+
+
+
+
+/*
+ * TU: net.c.
+ *
+ * Inverted forward: 1 when func_02039338 reports zero.  The result local is
+ * initialised before the call, so the zero lands in r4 ahead of the `bl`
+ * and the true case is a single `moveq`; writing `return f() == 0;`
+ * instead puts the materialisation after the call and loses the shape.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D378.c \
+ *       --func func_0203D378 --addr 0x0203D378 --cc 1.1p1 --arm
+ */
+u32 func_0203D378(void)
+{
+    u32 res = 0;
+
+    if (func_02039338() == 0) {
+        res = 1;
+    }
+    return res;
+}
+
+
+
+
+/*
+ * TU: net.c.
+ *
+ * Leaf predicate on the +0x4a byte of an entry: "is this entry in state 5".
+ * No relocation and no frame; the same three-instruction body appears
+ * inlined inside func_020399B8.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D394.c \
+ *       --func func_0203D394 --addr 0x0203D394 --cc 1.1p1 --arm
+ */
+u32 func_0203D394(struct NetEntry *e)
+{
+    return e->state == 5;
 }
 
 
 
 /*
- * Addresses are Black-image addresses.
+ * TU: net.c.
+ *
+ * Seven-argument send wrapper.  The leading func_0203D798 call is made for
+ * effect only, its result is dead in the original, and the four incoming
+ * arguments all have to survive it, which is what spends r4-r7.  Arguments
+ * five to seven go on the stack, hence the `sub sp, sp, #0xc`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B758.c \
- *       --func func_0203B758 --addr 0x0203B758 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D3A8.c \
+ *       --func func_0203D3A8 --addr 0x0203D3A8 --cc 1.1p1 --arm
  */
-void func_0203B758(void)
+int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d)
 {
     func_0203D798();
-    if (func_02039ACC() == 0)
-        return;
-
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B794, 0, 0x30E);
+    return func_02038C18(b, d, c, 0, func_020395EC(a), 0xff, 0);
 }
 
 
 
 /*
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B794.c \
- *       --func func_0203B794 --addr 0x0203B794 --cc 1.1p1 --arm
+ *           the image and it is the call inside this function, so `label` has
+ *           no outside witness for either and no manifest entry covers them
+ *           yet.  File those two addresses first and this graduates with no
+ *           change to its C (every other site resolves).
  */
-void func_0203B794(struct B794 *p)
+u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h)
 {
-    u8 *s = func_0203D798();
+    u8 mask;
 
-    if (func_020399B8((u8 *)((u32)func_020399A8())) == 0)
-        return;
-
-    if (p->unk_2C != 0) {
-        p->unk_2C(func_0203D650());
-        p->unk_2C = 0;
+    func_0203D798();
+    mask = 0xff;
+    if (func_0203D394((struct NetEntry *)entry) == 0 && c >= 0x11) {
+        return 0;
     }
-
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x325);
+    if (g != 0 && func_02039468(c, func_020395EC((void *)entry)) != 0) {
+        return 0;
+    }
+    if (sendID != 0xff) {
+        if (sendID >= 7) {
+            func_02034714(g_020A7CA0, 1019, g_020A7CEC);
+        }
+        mask = 1 << sendID;
+    }
+    return func_02038C18(c, e, d, f, func_020395EC((void *)entry), mask, h);
 }
 
 
+
 /*
- * Addresses are Black-image addresses.
+ * TU: net.c.
+ *
+ * The explicit-mask sibling of func_0203D3F8: identical guards, but the
+ * destination bitmask arrives as the second parameter instead of being
+ * derived from a send id, so there is no assert and no `lsl`, and the mask
+ * stays in r6 across the whole body.  The two stack arguments that live
+ * next to each other go out as one `stmib`.
+ *
+ * EXACT*, not EXACT: the inferred extent runs to 0x0203D578 because the
+ * follower at 0x0203D56C has no label.  It is not a byte difference; the
+ * follower is a twelve-byte ARM long-branch veneer (ldr ip, [pc]; bx ip;
+ * .word 0x020394C0) that saves no lr and so is invisible to disasm.py.  It
+ * wants seeding into layout/function_starts.txt, which is the integrator's
+ * file.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B7F8.c \
- *       --func func_0203B7F8 --addr 0x0203B7F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D4D0.c \
+ *       --func func_0203D4D0 --addr 0x0203D4D0 --cc 1.1p1 --arm
  */
-void func_0203B7F8(struct B794 *p)
+u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g,
+                  u32 h)
 {
     func_0203D798();
-
-    func_0203996C(0xFF);
-    if ((int)func_020399EC((u32)func_020399A8()) < 2)
-        return;
-
-    func_02039338();
-
-    if (p->unk_2C != 0) {
-        p->unk_2C(func_0203D650());
-        p->unk_2C = 0;
+    if (func_0203D394((struct NetEntry *)entry) == 0 && c >= 0x11) {
+        return 0;
     }
-
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x33F);
+    if (g != 0 && func_02039468(c, func_020395EC((void *)entry)) != 0) {
+        return 0;
+    }
+    return func_02038C18(c, e, d, f, func_020395EC((void *)entry), mask, h);
 }
 
 
-/*
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B868.c \
- *       --func func_0203B868 --addr 0x0203B868 --cc 1.1p1 --arm
- */
-void func_0203B868(struct B868 *p)
+void func_0203D56C(void)
 {
-    func_0203D798();
-
-    if ((*(u32 (**)(void))(*(u32 *)(func_0203D788() + 0x340) + 0xA8))() != 1)
-        return;
-    if (func_02039ACC() == 0)
-        return;
-
-    if (func_0203DA4C() == 1) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B7F8, 0, 0x354);
-        return;
-    }
-
-    if (p->unk_2C != 0) {
-        p->unk_2C(func_0203D650());
-        p->unk_2C = 0;
-    }
-
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C00C, 0, 0x35B);
+    func_020394C0();
 }
 
 
-/*
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B90C.c \
- *       --func func_0203B90C --addr 0x0203B90C --cc 1.1p1 --arm
- */
-void func_0203B90C(void)
-{
-    if ((*(u32 (**)(void))(*(u32 *)(func_0203D788() + 0x340) + 0x78))() == 0)
-        return;
-
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B6EC, 0, 0x371);
-}
-
 
 /*
- * Addresses are Black-image addresses.
+ * Forwards the first argument through func_020395EC and passes the result
+ * with the second argument to func_02039468.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B950.c \
- *       --func func_0203B950 --addr 0x0203B950 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D578.c \
+ *       --func func_0203D578 --addr 0x0203D578 --arm --cc 1.1p1
  */
-void func_0203B950(u8 *p)
+void func_0203D578(int a, u32 b)
 {
-    if (func_02039338() != 0) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B758, 0, 0x383);
-        return;
-    }
+    u32 r = func_020395EC((void *)a);
 
-    if (p[0x56] == 2)
-        return;
-
-    if (((struct Obj08841 *)p)->f46 != 0) {
-        (((struct Obj08841 *)p)->f46)--;
-        return;
-    }
-
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203BCE0, 0, 0x390);
-    func_0203BCE0(p);
-}
-
-
-/*
- * A frame's 64-bit accumulator advanced by a 64-bit multiply: the pair at
- * +0x0c (little-endian u64) is multiplied by the pair at +0x14, the pair at
- * +0x1c is added in, both halves are stored back, and the new high half is
- * re-scaled by 30/2^32 into the u16 countdown at +0x46.
- *
- * Two spellings are load-bearing.  The multiply has to be written `y * x`
- * with x at +0x0c and y at +0x14: the other order loads +0x0c first and
- * swaps two `ldr`s.  And the addend has to stay inline in the multiply's own
- * statement (`r = y * x + *(u64 *)(p + 0x1c);`) with the low half stored by
- * a single 64-bit store: with a named addend and two u32 stores mwcc puts
- * the sum's low half in `ip` and the high half in `r2`, a five-instruction
- * difference in register choice alone.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B9D4.c \
- *       --func func_0203B9D4 --addr 0x0203B9D4 --cc 1.1p1 --arm
- */
-void func_0203B9D4(u8 *p)
-{
-    u8 *s = func_0203D788();
-    u64 x, y, r;
-
-    if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0xAC))() == 1) {
-        (*(void (**)(void))(*(u32 *)(s + 0x340) + 0xB4))();
-        func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203B868, 0, 0x3A5);
-        return;
-    }
-
-    if (((struct Obj03451 *)p)->f46 != 0) {
-        ((struct Obj03451 *)p)->f46 = ((struct Obj03451 *)p)->f46 - 1;
-        return;
-    }
-
-    x = *(u64 *)(p + 0x0C);
-    y = *(u64 *)(p + 0x14);
-    r = y * x + *(u64 *)(p + 0x1C);
-
-    ((struct Obj03451 *)p)->f46 = (u16)((u32)(((u64)(u32)(r >> 32) * 30) >> 32) + 15);
-    *(u64 *)(p + 0x0C) = r;
-
-    (*(void (**)(u32))(*(u32 *)(s + 0x340) + 0x08))(0);
+    func_02039468(b, r);
 }

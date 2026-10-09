@@ -1,8 +1,8 @@
 /*
  * file:     btl_server_p11.c
  * unit:     yes
- * function: func_021BD148, func_021BD170, func_021BD1B0, func_021BD1D0, func_021BD1E0, func_021BD200
- * address:  0x021BD148
+ * function: func_021BD2B4, func_021BD338, func_021BD34C, func_021BD3E8, func_021BD43C
+ * address:  0x021BD2B4
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,24 +13,34 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021BCA08 0x021BCA08 thumb ov093
- *   func_021BCB98 0x021BCB98 thumb ov093
- *   func_021BCAAC  0x021BCAAC  thumb  ov093
- *   func_021BCC50 0x021BCC50 thumb ov093
- *   func_021BD264  0x021BD264  thumb  ov093
- *   func_021BD274  0x021BD274  thumb  ov093
- *   func_021BD284  0x021BD284  thumb  ov093
- *   func_021BD294  0x021BD294  thumb  ov093
- *   func_021BD2A4  0x021BD2A4  thumb  ov093
+ *   func_021BB878  0x021BB878  thumb  ov093
+ *   func_021B9C00  0x021B9C00  thumb  ov093
+ *   func_021D5B68  0x021D5B68  thumb  ov093
+ *   func_021B8588 0x021B8588 thumb ov093
+ *   func_021BB85C  0x021BB85C  thumb  ov093
+ *   func_021B9BF0  0x021B9BF0  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021B8DDC  0x021B8DDC  thumb  ov093
+ *   func_021B9AEC  0x021B9AEC  thumb  ov093
+ *   func_021B9C98  0x021B9C98  thumb  ov093
+ *   func_021C5D88  0x021C5D88  thumb  ov093
+ *   func_021BD4E4  0x021BD4E4  thumb  ov093
+ *   func_021B8BEC  0x021B8BEC  thumb  ov093
+ *   func_021BD4D4  0x021BD4D4  thumb  ov093
+ *   func_021B9C10  0x021B9C10  thumb  ov093
+ *   func_021CD4B0  0x021CD4B0  thumb  ov093
+ *   func_021D5FC0  0x021D5FC0  thumb  ov093
  */
+#include "../../matched/include/Obj13305.h"
+#include "../../matched/include/Obj13306.h"
+
+struct S2;
+struct UtilWork;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
-
-typedef struct { u32 a, b, c; u8 d0, flag; u16 pad; } E;
 
 typedef signed char s8;
 
@@ -38,127 +48,171 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-struct Unk021BD1E0 {
-    u16 f0;
-    u8 f2;
-    u8 f3;
-    u8 f4;
-    u8 b0 : 1;
-    u8 b1 : 1;
-    u8 rest : 6;
-};
+typedef union {
+    struct { u32 type:4, select:3, move:16, arg:8, rest:1; } full;
+    struct { u32 type:4, select:3, move:3, rest:22; } small;
+} Action;
 
-struct Unk021BD200 {
-    u16 f0;
-    u8 f2;
-    u8 f3;
-    u8 f4;
-    u8 b0 : 1;
-    u8 b1 : 1;
-    u8 rest : 6;
-};
+typedef struct {
+    u8 *a;      /* 0x0 */
+    Action b;   /* 0x4 */
+    u32 c;      /* 0x8 */
+    u8 d;       /* 0xc */
+    u8 done;    /* 0xd */
+    u8 f;       /* 0xe */
+    u8 pad;     /* 0xf */
+} Entry;
 
-typedef struct { u8 *a; u32 b, c, d; } E_021BC8EC;
+typedef struct {
+    u8 *f0;                         /* 0x000 */
+    void *f4;                       /* 0x004 */
+    void *f8;                       /* 0x008 */
+    void *fC;                       /* 0x00c */
+    u32 f10;                        /* 0x010 */
+    u32 f14;                        /* 0x014 */
+    u8 pad18[0x4b8 - 0x18];
+    u8 w4b8[0x782 - 0x4b8];         /* 0x4b8 */
+    u8 n;                           /* 0x782 */
+    u8 pad783;
+    u8 f784;                        /* 0x784 */
+    u8 pad785;
+    u8 f786;                        /* 0x786 */
+    u8 pad787[3];
+    union {
+        u8 raw;
+        struct { u8 b0:1, b1:1, b2:1, rest:5; } bits;
+    } f78a;                         /* 0x78a */
+    u8 f78b[0x7c1 - 0x78b];         /* 0x78b */
+    u8 flags[0x7e0 - 0x7c1];        /* 0x7c1 */
+    Entry e[6];                     /* 0x7e0 */
+    Entry t;                        /* 0x840 */
+    u8 pad850[0x1ab8 - 0x850];
+    u8 w1ab8[0x1d74 - 0x1ab8];      /* 0x1ab8 */
+    u32 lock;                       /* 0x1d74 */
+    u8 pad1d78[0x1f78 - 0x1d78];
+    int f1f78;                      /* 0x1f78 */
+    u8 pad1f7c[0x1fe8 - 0x1f7c];
+    u8 f1fe8;                       /* 0x1fe8 */
+} Server;
 
-typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E_021BC8EC e[4]; } S_021BC874;
-
-extern E_021BC8EC *func_021BCA08(S_021BC874 *p, u8 x);
-typedef struct { u32 a; u32 b, c; u8 d0; u8 flag; u16 pad; } E_021BCB68;
-
-typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E_021BCB68 e[6]; E_021BCB68 t; } S_021BCB98;
-
-extern int func_021BCB98(S_021BCB98 *p, E_021BCB68 *cur, int start);
-extern u8 *func_021BCAAC(u8 *p, u8 *q, u8 i);
-extern void func_021BCC50(S_021BCB98 *p, E_021BCB68 *cur);
+extern u8 *func_021BB878(u8 *p, u32 i);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
+extern int func_021D5B68(void *p);
+extern u32 func_021B8588(void **p);
+extern u8 *func_021BB85C(u8 *p, unsigned int i);
+extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern u8 func_021D5440(u8 *p);
-extern int func_021BD264(int t);
-extern u8 func_021BD274(u8 *p, u8 x);
-extern int func_021BD284(int t);
-extern u8 *func_021BD294(int t, int k);
-extern u8 func_021BD2A4(u8 *p, u8 x);
-int func_021BD148(void *p, u8 x);
-int func_021BD170(u8 *p, u8 *q);
-int func_021BD1B0(void *p, u8 x);
-void func_021BD1D0(u8 *p, u8 n);
-void func_021BD1E0(struct Unk021BD1E0 *p);
-void func_021BD200(struct Unk021BD200 *p, u8 *q, u8 *a, int t);
+extern u8 func_021B8DDC(u32 x);
+extern char *func_021B9AEC(char *p, int i);
+extern int func_021B9C98(u8 *p, u32 v);
+extern void func_021C5D88(Server *p, u8 *a, int b);
+extern void func_021BD4E4(Server *p, int i, u8 a, u8 b);
+extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
+extern void func_021BD4D4(u8 *p, int a, int b);
+extern void func_021B9C10(u32 *p, int a, int b);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void func_021D5FC0(struct UtilWork *p, u32 n);
+void func_021BD2B4(u8 *p, u8 **q);
+void func_021BD338(u8 *p, Server *q);
+int func_021BD34C(u8 *p, u8 **q, u8 **out);
+void func_021BD3E8(Server *p, u8 *a);
+void func_021BD43C(Server *p, int i, u8 a, u8 b, int c);
 
 
-int func_021BD148(void *p, u8 x)
+
+void func_021BD2B4(u8 *p, u8 **q)
 {
-    E *e = (E *)func_021BCA08((S_021BC874 *)p, x);
-    if (e && e->flag == 0) {
-        if (func_021BCB98((S_021BCB98 *)p, (E_021BCB68 *)e, 0) >= 0) return 1;
+    u8 i = 0;
+    u8 *m;
+    u8 j;
+    u8 *x;
+    int f;
+    p[0] = i;
+    p[1] = i;
+    p[2] = 1;
+    p[3] = i;
+    for (; i < 4; i++) {
+        m = func_021BB878(*q, i);
+        if (m == 0) continue;
+        for (j = 0; j < m[9]; j++) {
+            x = func_021B9C00((struct S2 *)(*(u8 * *)&((struct Obj13305 *)m)->f4), j);
+            if (x) f = func_021D5B68(x) == 0;
+            else f = 0;
+            if (f) {
+                p[0] = i;
+                p[2] = 0;
+                p[1] = j;
+                return;
+            }
+        }
     }
-    return 0;
+}
+
+
+void func_021BD338(u8 *p, Server *q)
+{
+    if (func_021B8588(q->f4) == 3) p[3] = 1;
 }
 
 
 
-
-int func_021BD170(u8 *p, u8 *q)
+int func_021BD34C(u8 *p, u8 **q, u8 **out)
 {
-    int i = 0;
+    u8 *m;
+    u8 *x;
+    u8 n;
+    int f;
+    if (p[2] != 0) return 0;
+    *out = (u8 *)func_021B9BF0((struct S2 *)(*(u8 **)(func_021BB85C(*q, p[0]) + 4)), p[1]);
+    p[1]++;
+    while (p[0] < 4) {
+        m = func_021BB878(*q, p[0]);
+        if (m) {
+            n = p[3] == 0 ? m[9] : 3;
+            for (; p[1] < n; p[1]++) {
+                x = (u8 *)func_021B9BF0((struct S2 *)(*(u8 * *)&((struct Obj13306 *)m)->f4), p[1]);
+                if (x) f = func_021D5B68(x) == 0;
+                else f = 0;
+                if (f) return 1;
+            }
+        }
+        p[0]++;
+        p[1] = 0;
+    }
+    p[2] = 1;
+    return 1;
+}
+
+
+
+void func_021BD3E8(Server *p, u8 *a)
+{
+    int i;
     int r;
-    u8 *x = func_021BCAAC(p, q, 0);
-    r = 0;
-    while (x) {
-        i = func_021BCB98((S_021BCB98 *)p, (E_021BCB68 *)((E *)x), i);
-        if (i < 0) break;
-        i++;
-        x = func_021BCAAC(p, q, i);
-        r = 1;
+    i = func_021B8DDC(func_021D5440(a));
+    r = func_021B9C98((u8 *)func_021B9AEC((char *)p->f8, i), (u32)a);
+    if (r == 0 || r == 2) {
+        func_021BD43C(p, i, r, 1, 0);
+        func_021C5D88(p, a, 0xe7);
+        func_021BD4E4(p, i, r, 1);
     }
-    return r;
 }
 
 
-
-int func_021BD1B0(void *p, u8 x)
+void func_021BD43C(Server *p, int i, u8 a, u8 b, int c)
 {
-    E *e = (E *)func_021BCA08((S_021BC874 *)p, x);
-    if (e && e->flag == 0) {
-        func_021BCC50((S_021BCB98 *)p, (E_021BCB68 *)e);
-        return 1;
-    }
-    return 0;
-}
-
-
-
-/* 021BD1D0  guard on a callee's pointer result, then set a byte */
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; bl func_021BCA08; cmp r0, #0; beq loc_021BD1DE; movs r1, #1; strb r1, [r0, #0xd]; pop {r3, pc}.
- */
-void func_021BD1D0(u8 *p, u8 n)
-{
-    u8 *e = (u8 *)(E *)func_021BCA08((S_021BC874 *)p, n);
-    if (e != 0)
-        e[0xd] = 1;
-}
-
-
-
-void func_021BD1E0(struct Unk021BD1E0 *p)
-{
-    p->f0 = 0;
-    p->f2 = 6;
-    p->f3 = 6;
-    p->f4 = 0;
-    p->b0 = 0;
-    p->b1 = 0;
-}
-
-
-
-void func_021BD200(struct Unk021BD200 *p, u8 *q, u8 *a, int t)
-{
-    int r = func_021BD264(t);
-    p->f2 = func_021BD274(q + 0x1ab8, func_021D5440(a));
-    p->f3 = 6;
-    p->b0 = 0;
-    p->b1 = 0;
-    if (r == 1 && func_021BD284(t)) {
-        p->f3 = func_021BD2A4(q + 0x1ab8, func_021D5440(func_021BD294(t, 0)));
+    char *s = func_021B9AEC((char *)p->f8, i);
+    int x = func_021B8BEC((u8 *)p->f4, i, a);
+    int y = func_021B8BEC((u8 *)p->f4, i, b);
+    u8 *q;
+    u8 *r;
+    func_021BD4D4(p->w1ab8, x, y);
+    func_021B9C10((u32 *)s, a, b);
+    if (c == 0) {
+        func_021CD4B0(p->fC, 0x44, i, x, y);
+        q = (u8 *)func_021B9BF0((struct S2 *)s, a);
+        r = (u8 *)func_021B9BF0((struct S2 *)s, b);
+        if (!func_021D5B68(q)) func_021D5FC0((struct UtilWork *)q, 0xc);
+        if (!func_021D5B68(r)) func_021D5FC0((struct UtilWork *)r, 0xc);
     }
 }

@@ -1,47 +1,60 @@
 /*
- * function: func_0203AFCC
- * address:  0x0203AFCC
- * packet:   pkt_0203AF40
+ * file:     net_state_p30.c
+ * unit:     yes
+ * function: func_0203C5C8, func_0203C5EC
+ * address:  0x0203C5C8
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * blocker:  +0018 PC24 func_0203AD8C -- `label`: the only branch to 0x0203AD8C
- *           anywhere in the image is this call, so the site has no witness
- *           outside 0203AFCC..0203B018 and stays wildcarded.
- *           +0044 ABS32 func_0203AF40 -- the word is the previous function's
- *           address; its only two occurrences in the image are the pool words
- *           inside this very range (0x0203B010 here and 0x0203AFC0 in
- *           func_0203AF40), so `label` (no branch reaches it) and `literal`
- *           (self-witness) both refuse.  Filing func_0203AF40 as an EXACT
- *           manifest entry converts this site to `matched` and leaves
- *           func_0203AD8C as the only cap.
- *           Every concrete byte of the body and of the pool words reproduces
- *           (76 of 76; dsi/1.1p1).
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02034F84  0x02034F84  arm
- *   func_0203AD80  0x0203AD80  arm
- *   g_021469DC     0x021469DC  data
+ *   func_0203C554  0x0203C554  arm
+ *   unk_021469DC   0x021469DC  data
+ *   g_021469DC  0x021469DC  data
  */
+typedef unsigned char u8;
 
-typedef unsigned int u32;
+typedef unsigned int  u32;
 
-extern void func_02034F84(u32 a);
-extern void func_0203AD8C(u32 a0);
-typedef unsigned short u16;
-struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-struct Rec;
-extern void func_0203AF40(struct Rec *p);
-extern u32 *g_021469DC;
+struct Card0203C5EC {
+    unsigned char pad[0x4a];
+    unsigned char f4a;
+};
 
-void func_0203AFCC(void *a, u32 b)
+extern void func_0203C554(u32 a);
+void func_0203C5C8(void);
+int func_0203C5EC(void);
+extern u32  unk_021469DC;
+extern struct Card0203C5EC *g_021469DC;
+
+
+/*
+ * Arms the sequence: the slot call with a literal 1, then the same 1 into the
+ * object's byte at +0x4A.  The 1 lives in r4 across the call, which is why the
+ * function pushes r4 at all.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203C5C8.c \
+ *       --func func_0203C5C8 --addr 0x0203C5C8 --cc 1.1p1 --arm
+ */
+void func_0203C5C8(void)
 {
-    func_02034F84(4);
-    func_0203AD8C((u32)a);
-    g_021469DC[0xb] = b;
-    func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203AF40, 0, 0x13F);
+    func_0203C554(1);
+    ((u8 *)unk_021469DC)[0x4A] = 1;
+}
+
+
+/*
+ * Unlabelled ARM leaf: byte at +0x4a of the card task object.
+ */
+int func_0203C5EC(void)
+{
+    return g_021469DC->f4a;
 }

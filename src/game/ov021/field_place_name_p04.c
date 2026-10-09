@@ -1,8 +1,8 @@
 /*
  * file:     field_place_name_p04.c
  * unit:     yes
- * function: func_021BCF1C, func_021BCF20, func_021BCF24, func_021BCF88, func_021BCFA4, func_021BCFD8, func_021BCFE0, func_021BCFF0, func_021BD008, func_021BD01C, func_021BD040, func_021BD054, func_021BD068, func_021BD07C, func_021BD090, func_021BD094, func_021BD098, func_021BD09C, func_021BD0A0, func_021BD0A4, func_021BD0A8, func_021BD0B0, func_021BD0C0, func_021BD0C8, func_021BD0D0, func_021BD0E0, func_021BD0FC, func_021BD118, func_021BD120, func_021BD134, func_021BD138, func_021BD140, func_021BD148, func_021BD184, func_021BD19C, func_021BD1CC, func_021BD1D4, func_021BD1DC, func_021BD1E4
- * address:  0x021BCF1C
+ * function: func_021BD1EC, func_021BD1F4, func_021BD1FC, func_021BD204, func_021BD20C, func_021BD214, func_021BD22C, func_021BD234, func_021BD250, func_021BD264, func_021BD278, func_021BD2A4, func_021BD2B8, func_021BD2BC, func_021BD2C0, func_021BD2C4, func_021BD2C8, func_021BD2D0, func_021BD2D8, func_021BD2DC, func_021BD2E8, func_021BD2F4, func_021BD2FC, func_021BD304, func_021BD308, func_021BD30C, func_021BD340, func_021BD36C, func_021BD394, func_021BD3BC, func_021BD3EC
+ * address:  0x021BD1EC
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,276 +13,239 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0207D63C  0x0207D63C  arm
- *   _ffltu         0x0209BE04  arm
- *   _fdiv          0x0209CE10  arm
- *   _fmul          0x0209C77C  arm
- *   _ffix          0x0209C494  arm
- *   _fsub          0x0209CB8C  arm
- *   _fadd          0x0209C95C  arm
- *   d_021DE354     0x021DE354  data  a4
- *   func_02082BCC  0x02082BCC  arm
- *   func_020120F4  0x020120F4  thumb
+ *   d_021DE368     0x021DE368  data  a4
  *   func_020307B0  0x020307B0  arm
- *   func_02045C04  0x02045C04  arm
- *   func_02045808  0x02045808  arm
- *   func_02008998  0x02008998  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02008854  0x02008854  thumb
- *   func_020089A0  0x020089A0  thumb
- *   func_021BD214  0x021BD214  thumb  ov021
- *   func_021BD234  0x021BD234  thumb  ov021
- *   func_021BD2BC  0x021BD2BC  thumb  ov021
- *   func_021BD250  0x021BD250  thumb  ov021
- *   func_021BD278  0x021BD278  thumb  ov021
- *   func_021BD5F8  0x021BD5F8  thumb  ov021
- *   func_021BD2A4  0x021BD2A4  thumb  ov021
- *   func_021BD264  0x021BD264  thumb  ov021
- *   func_021BD22C  0x021BD22C  thumb  ov021
- *   func_021BD2C4  0x021BD2C4  thumb  ov021
- *   func_021BD2D0  0x021BD2D0  thumb  ov021
- *   func_021BD30C  0x021BD30C  thumb  ov021
- *   func_021BD57C  0x021BD57C  thumb  ov021
- *   func_021BD588  0x021BD588  thumb  ov021
- *   func_021BD554  0x021BD554  thumb  ov021
- *   func_021BD3BC  0x021BD3BC  thumb
- *   func_021BD474  0x021BD474  thumb
- *   func_021BD308  0x021BD308  thumb
+ *   func_020437AC  0x020437AC  arm
+ *   func_0209C494  0x0209C494  arm
+ *   func_021BD604  0x021BD604  thumb  ov021
+ *   func_021BD430  0x021BD430  thumb  ov021
+ *   func_021BD5D4  0x021BD5D4  thumb  ov021
+ *   func_021BD47C  0x021BD47C  thumb  ov021
+ *   _fdiv          0x0209CE10  arm
+ *   _fadd          0x0209C95C  arm
  */
-#include "../../matched/include/Obj20119.h"
-#include "../../matched/include/Obj00575.h"
-#include "../../matched/include/Obj18206.h"
-#include "../../matched/include/Obj18207.h"
-#include "../../matched/include/Obj18208.h"
-#include "../../matched/include/Obj18209.h"
-#include "../../matched/include/Obj20122.h"
-#include "../../matched/include/Obj18210.h"
-#include "../../matched/include/Obj20124.h"
-#include "../../matched/include/Obj18211.h"
-#include "../../matched/include/Obj18214.h"
-#include "../../matched/include/Obj18215.h"
-#include "../../matched/include/Obj12115.h"
+#include "../../matched/include/Obj06054.h"
+#include "../../matched/include/Obj18217.h"
+#include "../../matched/include/Obj18218.h"
+#include "../../matched/include/Obj18219.h"
+#include "../../matched/include/Obj18220.h"
+#include "../../matched/include/Obj18221.h"
+#include "../../matched/include/Obj18222.h"
+#include "../../matched/include/Obj18223.h"
+#include "../../matched/include/Obj18226.h"
+#include "../../matched/include/Obj18227.h"
+#include "../../matched/include/Obj18228.h"
 
-struct Ctx;
-struct WordSet;
-struct MsgBank;
-struct U16Vec;
-struct Rec;
-struct Descriptor;
-struct Big;
-struct Sub02008828Obj;
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct { u32 f0; u32 f4; u32 pad8[8]; int f28; u32 pad2C[6]; u16 f44; u16 f46; u32 f48; u32 f4C; } X;
-
+struct Bmp;
+struct Obj020437AC;
+struct Grid;
+struct Param;
+struct Sys;
 typedef unsigned char  u8;
 
-typedef struct {
-    char pad[8];
-    void *f8;
-} Obj_021BCFE0;
+typedef unsigned short u16;
 
-typedef struct {
-    char pad[0x14];
-    void *f14;
-} Obj_021BCFF0;
+typedef unsigned int   u32;
 
-typedef struct {
-    char pad[0x1C];
-    void *f1C;
-} Obj_021BD008;
-
-typedef struct {
-    char pad[0x24];
-    void *f24;
-} Obj_021BD01C;
-
-typedef struct {
-    char pad[8];
-    void *f8;
-} Obj_021BD040;
-
-typedef signed int     s32;
-
-typedef struct {
-    char pad[0x24];
-    void *f24;
-} Obj_021BD07C;
-
-typedef struct {
-    char pad[0xC];
-    u16 hC;
-} Obj_021BD098;
-
-typedef struct {
-    char pad[0x3C];
-    int f3C;
-} Obj_021BD0A0;
-
-typedef struct {
-    char pad[0x42];
-    u16 h42;
-} Obj_021BD0B0;
-
-typedef struct {
-    char pad[0x40];
-    u8 b40;
-} Obj_021BD0D0;
-
-typedef struct {
-    void *f0;
-    char pad[0x42];
-    u16 h46;
-} Obj_021BD0E0;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
-
-typedef struct {
-    char pad[0x44];
-    u16 h44;
-    u16 h46;
-} Obj;
-
-extern void func_0207D63C(int, int, int, int, int);
-extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
-extern void func_02082BCC(void *, int, int);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_020307B0(void *p);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_020452E8(struct Descriptor *d);
-extern void *func_02012EBC(struct Big *p);
-extern struct Sub02008828Obj *func_02008854(void *sys);
-extern u16 func_02008998(const struct Sub02008828Obj *obj);
-extern u32 func_020089A0(u32, u32);
-extern u32 func_02013E6C(u32 id);
-extern void *func_021BD214(int a);
 typedef struct {
     char pad[0x44];
     int f44;
     u16 h48;
 } Obj_021BD234;
 
-extern void func_021BD234(Obj_021BD234 *p);
-extern void func_021BD2BC(u8 *p, int v);
 typedef struct {
     u16 h0;
     char pad[6];
     void *f8;
 } Obj_021BD250;
 
-extern void func_021BD250(Obj_021BD250 *p);
-extern void func_021BD278(void *p, int a, int b, int c);
-extern void func_021BD5F8(void *p, unsigned int a);
-extern u32 func_021BD22C(void *a0);
-extern void func_021BD264(u8 *p);
-extern u32 func_021BD2A4(u32, u32, u32, u32);
-extern void func_021BD2C4(u8 *p, u32 v);
-extern void func_021BD2D0(u8 *p, u16 v);
-extern void func_021BD30C(char *p);
-extern u32 func_021BD554(u32, u32);
-extern void func_021BD57C(u8 *p);
-extern void func_021BD588(u32 *p);
-extern void func_021BD3BC(void *p);
-extern void func_021BD474();
-extern int func_021BD308(u8 *p);
-void func_021BCF1C(int a);
-void func_021BCF20(int a);
-void func_021BCF24(char *p);
-void *func_021BCF88(int a);
-void func_021BCFA4(X *x, u32 b);
-void func_021BCFD8(int a);
-void func_021BCFE0(Obj_021BCFE0 *p);
-void func_021BCFF0(Obj_021BCFF0 *p);
-void func_021BD008(Obj_021BD008 *p);
-void func_021BD01C(Obj_021BD01C *p);
-void func_021BD040(Obj_021BD040 *p);
-void func_021BD054(u8 *p);
-void func_021BD068(u8 *p);
-void func_021BD07C(Obj_021BD07C *p);
-u16 func_021BD090(u8 *p);
-u32 func_021BD094(u8 *p);
-void func_021BD098(Obj_021BD098 *p, u16 v);
-void func_021BD09C(u8 *p, u32 v);
-void func_021BD0A0(Obj_021BD0A0 *p, int v);
-u32 func_021BD0A4(u8 *p);
-void func_021BD0A8(char *p);
-void func_021BD0B0(Obj_021BD0B0 *p);
-u8 func_021BD0C0(u8 *p);
-void func_021BD0C8(char *p);
-void func_021BD0D0(Obj_021BD0D0 *p);
-void func_021BD0E0(Obj_021BD0E0 *p);
-int func_021BD0FC(u32 a);
-u16 func_021BD118(u8 *p);
-void func_021BD120(Obj *p, u16 v);
-u32 func_021BD134(u8 *p);
-u8 func_021BD138(u8 *p);
-void func_021BD140(void *a, int b, int c);
-void *func_021BD148(int a0, int a1, int a2, int a3);
-int func_021BD184(void *a, u32 b, u32 c, u32 d);
-int func_021BD19C(u32 a, u32 b);
-void func_021BD1CC(void *a);
-void func_021BD1D4(void *a);
-int func_021BD1DC(u8 *a0);
-void func_021BD1E4(void *p, unsigned int a);
-extern int d_021DE354;
+typedef signed int     s32;
+
+typedef struct {
+    void *f0;
+    u16 h4;
+    u16 h6;
+    int f8;
+    int fC;
+    u8 b10;
+    u8 b11;
+    u16 h12;
+    int f14;
+} Desc;
+
+typedef struct {
+    char pad[8];
+    void *f8;
+    void *fC;
+} Obj_021BD278;
+
+typedef struct {
+    char pad[0xC];
+    void *fC;
+} Obj_021BD2A4;
+
+typedef signed short   s16;
+
+typedef signed char    s8;
+
+typedef struct {
+    char pad[0x28];
+    int f;
+} Inner_021BD36C;
+
+typedef struct {
+    char pad[0x2C];
+    int f;
+} Inner_021BD394;
+
+typedef struct {
+    float f00;
+    char pad04[4];
+    float f08;
+    char pad0c[4];
+    float f10;
+    char pad14[4];
+    float f18;
+    char pad1c[0xc];
+    int f28;
+} T;
+
+typedef struct {
+    char pad00[0x10];
+    T t;
+} S;
+
+extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
+extern u32 func_020307B0(void *p);
+extern void func_02082BCC(void *p, int v, int n);
+extern u16 func_02045A98(void);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern void func_020437AC(struct Obj020437AC *p);
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern void func_0202570C(struct Grid *g);
+extern void func_0209C494(u32 v);
+extern void func_021BD604(void *a, void *b, void *c, void *d, void *e);
+extern void func_021BD430(void *p);
+typedef struct {
+    char pad[0xC];
+    void *fC;
+} Obj_021BD5D4;
+
+extern void func_021BD5D4(Obj_021BD5D4 *p);
+extern void func_021BD47C(u8 *p);
+int func_021BD1EC(u8 *a0);
+int func_021BD1F4(u8 *a0);
+void func_021BD1FC(u32 *a0);
+void func_021BD204(u32 *a0);
+unsigned int func_021BD20C(char *p);
+void *func_021BD214(int a);
+u32 func_021BD22C(void *a0);
+void func_021BD234(Obj_021BD234 *p);
+void func_021BD250(Obj_021BD250 *p);
+void func_021BD264(u8 *p);
+void func_021BD278(Obj_021BD278 *p, int a, u16 b, int c);
+void func_021BD2A4(Obj_021BD2A4 *p);
+u16 func_021BD2B8(u8 *p);
+void func_021BD2BC(u8 *p, int v);
+u32 func_021BD2C0(u8 *p);
+void func_021BD2C4(u8 *p, u32 v);
+u16 func_021BD2C8(u8 *p);
+void func_021BD2D0(u8 *p, u16 v);
+u32 func_021BD2D8(u8 *p);
+void func_021BD2DC(u32 *p);
+void func_021BD2E8(u32 *p);
+u8 func_021BD2F4(u8 *p);
+u8 func_021BD2FC(u8 *p);
+u8 *func_021BD304(u8 *p);
+int func_021BD308(u8 *p);
+void func_021BD30C(char *p);
+int func_021BD340(void *a);
+int func_021BD36C(void *p);
+int func_021BD394(void *p);
+void func_021BD3BC(void *p);
+void func_021BD3EC(S *p);
+extern int d_021DE368;
+
+
+
+
+
+
+int func_021BD1EC(u8 *a0)
+{
+    return func_021BD2F4(a0);
+}
+
+
+
+
 
 
 /*
- * Unlabelled leaf (bx lr stub) filed as the blocker of func_021BC4F0.
- */
-void func_021BCF1C(int a)
-{
-}
-
-
-void func_021BCF20(int a)
-{
-}
-
-
-
-void func_021BCF24(char *p)
-{
-    float t;
-    int a;
-
-    t = (float)(u32)((struct Obj20119 *)p)->f42 / 20.0f;
-    a = (int)(16.0f * (1.0f - t));
-    func_0207D63C(0x04000050, 8, 0x11, a, (int)(4.0f + 12.0f * t));
-}
-
-
-
-void *func_021BCF88(int a)
-{
-    return func_02030734(a, 0x154, 1, (const char *)&d_021DE354, 0x73C);
-}
-
-
-/*
+ * Tail-call thunk: forwards to func_021BD2FC with no argument change.
+ *
  * Addresses are Black-image addresses.
  */
-void func_021BCFA4(X *x, u32 b)
+int func_021BD1F4(u8 *a0)
 {
-    func_02082BCC(x, 0, 0x154);
-    x->f0 = b;
-    x->f4 = (u32)func_020120F4((const struct Ctx *)b);
-    x->f28 = -1;
-    x->f4C = 0;
-    x->f48 = 0;
-    x->f44 = 0x1AB;
-    x->f46 = 0x1AB;
+    return func_021BD2FC(a0);
 }
+
+
+
+
+
+
+/*
+ * Tail-call thunk: forwards to func_021BD2DC with no argument change.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_021BD1FC(u32 *a0)
+{
+    func_021BD2DC(a0);
+}
+
+
+
+
+
+
+/*
+ * Tail-call thunk: forwards to func_021BD2E8 with no argument change.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_021BD204(u32 *a0)
+{
+    func_021BD2E8(a0);
+}
+
+
+
+
+
+
+/*
+ * Unlabelled leaf: tail call to func_021BD2D8 (loads +0x44).
+ */
+unsigned int func_021BD20C(char *p)
+{
+    return func_021BD2D8((u8 *)p);
+}
+
+
+
+
+
+
+void *func_021BD214(int a)
+{
+    return func_02030734(a, 0x4C, 0, (const char *)&d_021DE368, 0x170);
+}
+
+
+
 
 
 
@@ -291,303 +254,346 @@ void func_021BCFA4(X *x, u32 b)
  *
  * Addresses are Black-image addresses.
  */
-void func_021BCFD8(int a)
+u32 func_021BD22C(void *a0)
 {
-    func_020307B0((void *)a);
+    return func_020307B0(a0);
 }
 
 
 
-void func_021BCFE0(Obj_021BCFE0 *p)
+
+
+
+void func_021BD234(Obj_021BD234 *p)
 {
-    p->f8 = func_0201EC64(func_021BD090((u8 *)p));
+    func_02082BCC(p, 0, 0x4C);
+    p->f44 = 0;
+    p->h48 = func_02045A98();
 }
 
 
 
-void func_021BCFF0(Obj_021BCFF0 *p)
+
+
+
+void func_021BD250(Obj_021BD250 *p)
 {
-    p->f14 = func_02045B38(0, 2, 0x59, func_021BD090((u8 *)p));
+    p->f8 = func_02043678(2, 2, 0x20, p->h0);
 }
 
 
 
-void func_021BD008(Obj_021BD008 *p)
+
+
+
+void func_021BD264(u8 *p)
 {
-    p->f1C = func_020457B0(0x21, func_021BD090((u8 *)p));
-}
-
-
-
-void func_021BD01C(Obj_021BD01C *p)
-{
-    func_021BD090((unsigned char *)p);
-    p->f24 = (void *)func_020450F0(3, 0, 1, 0x20, 2, 0, 0);
-}
-
-
-
-void func_021BD040(Obj_021BD040 *p)
-{
-    if (p->f8 != 0) {
-        func_0201ED04(p->f8);
-        p->f8 = 0;
-    }
-}
-
-
-
-/*
- * Pattern-generated from the ov021 family.
- *
- * Addresses are Black-image addresses.
- */
-void func_021BD054(u8 *p)
-{
-    u32 v = ((struct Obj00575 *)p)->f14;
+    u32 v = ((struct Obj06054 *)p)->f8;
     if (v != 0) {
-        func_02045C04((struct Rec *)v);
-        ((struct Obj00575 *)p)->f14 = 0;
+        func_020437AC((struct Obj020437AC *)v);
+        ((struct Obj06054 *)p)->f8 = 0;
     }
 }
 
 
 
-void func_021BD068(u8 *p)
+
+
+
+void func_021BD278(Obj_021BD278 *p, int a, u16 b, int c)
 {
-    u32 v = ((struct Obj00575 *)p)->f1C;
-    if (v != 0) {
-        func_02045808((struct U16Vec *)v);
-        ((struct Obj00575 *)p)->f1C = 0;
+    Desc d;
+
+    d.f0 = p->f8;
+    d.h4 = 0;
+    d.h6 = 0;
+    d.f8 = c;
+    d.fC = 0;
+    d.b10 = 0;
+    d.b11 = 0;
+    d.h12 = b;
+    d.f14 = 0;
+    p->fC = func_020255A0((struct Sys *)a, (const struct Param *)(&d));
+}
+
+
+
+
+
+
+void func_021BD2A4(Obj_021BD2A4 *p)
+{
+    if (p->fC != 0) {
+        func_0202570C(p->fC);
+        p->fC = 0;
     }
 }
 
 
 
-void func_021BD07C(Obj_021BD07C *p)
+
+
+
+/*
+ * Field getter at +0x0.
+ *
+ * Addresses are Black-image addresses.
+ */
+u16 func_021BD2B8(u8 *p)
 {
-    if (p->f24 != 0) {
-        func_020452E8(p->f24);
-        p->f24 = 0;
+    return ((struct Obj18217 *)p)->f0;
+}
+
+
+
+
+
+
+/*
+ * Field setter at +0x0.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_021BD2BC(u8 *p, int v)
+{
+    ((struct Obj18218 *)p)->f0 = v;
+}
+
+
+
+
+
+
+/*
+ * Loads the 32-bit word at byte +0x4 of the object.
+ */
+u32 func_021BD2C0(u8 *p)
+{
+    return ((struct Obj18219 *)p)->f4;
+}
+
+
+
+
+
+
+void func_021BD2C4(u8 *p, u32 v)
+{
+    ((struct Obj18220 *)p)->f4 = v;
+}
+
+
+
+
+
+
+/*
+ * Loads the halfword at byte +0x48 of the object.
+ */
+u16 func_021BD2C8(u8 *p)
+{
+    return ((struct Obj18221 *)p)->f48;
+}
+
+
+
+
+
+
+/*
+ * Field setter at +0x48 through a displaced pointer.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_021BD2D0(u8 *p, u16 v)
+{
+    ((struct Obj18222 *)p)->f48 = v;
+}
+
+
+
+
+
+
+/*
+ * Loads the 32-bit word at byte +0x44 of the object.
+ */
+u32 func_021BD2D8(u8 *p)
+{
+    return ((struct Obj18223 *)p)->f44;
+}
+
+
+
+
+
+
+/*
+ * Unlabelled tail-call thunk on the word at +0x10; callee of func_021BD1FC.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_021BD2DC(u32 *p)
+{
+    func_0209C494(p[4]);
+}
+
+
+
+
+
+
+/*
+ * Unlabelled tail-call thunk on the word at +0x14; callee of func_021BD204.
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_021BD2E8(u32 *p)
+{
+    func_0209C494(p[5]);
+}
+
+
+
+
+
+
+u8 func_021BD2F4(u8 *p)
+{
+    return ((struct Obj18226 *)p)->f40;
+}
+
+
+
+
+
+
+/*
+ * Unlabelled leaf byte getter at +0x41.
+ *
+ * Addresses are Black-image addresses.
+ */
+u8 func_021BD2FC(u8 *p)
+{
+    return ((struct Obj18227 *)p)->f41;
+}
+
+
+
+
+
+
+/*
+ * Returns the object pointer advanced by 0x10 bytes.
+ */
+u8 *func_021BD304(u8 *p)
+{
+    return p + 0x10;
+}
+
+
+
+
+
+
+int func_021BD308(u8 *p)
+{
+    return ((struct Obj18228 *)p)->f8;
+}
+
+
+
+
+
+
+void func_021BD30C(char *p)
+{
+    void *a;
+    void *b;
+
+    a = (void *)func_021BD2C0((u8 *)p);
+    b = (void *)func_021BD2C8((u8 *)p);
+    func_021BD604(a, b, (void *)func_021BD2B8((u8 *)p), p + 0x40, p + 0x41);
+}
+
+
+
+
+
+int func_021BD340(void *a)
+{
+if (func_021BD2D8((u8 *)a) == 0) {
+    return 1;
+}
+if (func_021BD36C((void *)a) != 0) {
+    if (func_021BD394((void *)a) != 0) {
+        return 1;
+    }
+}
+return 0;
+}
+
+
+
+
+
+int func_021BD36C(void *p)
+{
+    Inner_021BD36C *q = (Inner_021BD36C *)func_021BD304(p);
+
+    if (func_021BD2D8(p) == 0) {
+        return 1;
+    }
+    if (q->f <= 0) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+
+
+int func_021BD394(void *p)
+{
+    Inner_021BD394 *q = (Inner_021BD394 *)func_021BD304(p);
+
+    if (func_021BD2D8(p) == 0) {
+        return 1;
+    }
+    if (q->f <= 0) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+void func_021BD3BC(void *p)
+{
+    if (func_021BD2D8(p)) {
+        func_021BD3EC(p);
+        func_021BD430(p);
+        func_021BD5D4((Obj_021BD5D4 *)p);
+        if (func_021BD340(p) == 1) {
+            func_021BD47C(p);
+        }
     }
 }
 
 
-
-/*
- * Loads the 16-bit halfword at +0xc of the object.
- */
-u16 func_021BD090(u8 *p)
+void func_021BD3EC(S *p)
 {
-    return ((struct Obj18206 *)p)->fC;
-}
-
-
-
-u32 func_021BD094(u8 *p)
-{
-    return ((struct Obj18207 *)p)->f10;
-}
-
-
-
-void func_021BD098(Obj_021BD098 *p, u16 v)
-{
-    p->hC = v;
-}
-
-
-
-/*
- * Field setter at +0x18.
- *
- * Addresses are Black-image addresses.
- */
-void func_021BD09C(u8 *p, u32 v)
-{
-    ((struct Obj18208 *)p)->f18 = v;
-}
-
-
-
-void func_021BD0A0(Obj_021BD0A0 *p, int v)
-{
-    p->f3C = v;
-}
-
-
-
-u32 func_021BD0A4(u8 *p)
-{
-    return ((struct Obj18209 *)p)->f3C;
-}
-
-
-
-void func_021BD0A8(char *p)
-{
-    ((struct Obj20122 *)p)->f42 = 0;
-}
-
-
-
-void func_021BD0B0(Obj_021BD0B0 *p)
-{
-    p->h42++;
-}
-
-
-
-u8 func_021BD0C0(u8 *p)
-{
-    return ((struct Obj18210 *)p)->f40;
-}
-
-
-
-void func_021BD0C8(char *p)
-{
-    ((struct Obj20124 *)p)->f40 = 0;
-}
-
-
-
-void func_021BD0D0(Obj_021BD0D0 *p)
-{
-    p->b40++;
-}
-
-
-
-void func_021BD0E0(Obj_021BD0E0 *p)
-{
-    p->h46 = func_02008998(func_02008854(func_02012EBC(func_020120F4(p->f0))));
-}
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021BD0FC(u32 a)
-{
-return func_020089A0((u32)func_02008854(func_02012EBC(func_020120F4((const struct Ctx *)(((struct Obj00575 *)((u8 *)(a)))->f0)))), *(u16 *)((u8 *)((a + 70))));
-}
-
-
-
-u16 func_021BD118(u8 *p)
-{
-    return ((struct Obj18211 *)p)->f46;
-}
-
-
-
-void func_021BD120(Obj *p, u16 v)
-{
-    p->h44 = p->h46;
-    p->h46 = v;
-}
-
-
-
-u32 func_021BD134(u8 *p)
-{
-    return ((struct Obj18214 *)p)->f1C;
-}
-
-
-
-/*
- * Loads the byte at byte +0x20 of the object.
- */
-u8 func_021BD138(u8 *p)
-{
-    return ((struct Obj18215 *)p)->f20;
-}
-
-
-
-void func_021BD140(void *a, int b, int c)
-{
-    func_02013E6C((u32)a);
-}
-
-
-
-void *func_021BD148(int a0, int a1, int a2, int a3)
-{
-    void *p = func_021BD214(a0);
-    func_021BD234((Obj_021BD234 *)p);
-    func_021BD2BC(p, a0);
-    func_021BD250((Obj_021BD250 *)p);
-    func_021BD278(p, a1, a2, a3);
-    func_021BD5F8(p, 0);
-    return p;
-}
-
-
-
-int func_021BD184(void *a, u32 b, u32 c, u32 d)
-{
-func_021BD2A4((u32)a, b, c, d);
-func_021BD264((u8 *)a);
-return func_021BD22C(a);
-}
-
-
-
-int func_021BD19C(u32 a, u32 b)
-{
-func_021BD2C4((u8 *)a, ((struct Obj12115 *)((u8 *)(b)))->f20);
-func_021BD2D0((u8 *)a, ((struct Obj12115 *)((u8 *)(b)))->f24);
-func_021BD30C((char *)a);
-func_021BD57C((u8 *)a);
-func_021BD588((u32 *)a);
-return func_021BD554(a, b);
-}
-
-
-
-/*
- * Tail-call thunk: forwards to func_021BD3BC with no argument change.
- *
- * Addresses are Black-image addresses.
- */
-void func_021BD1CC(void *a)
-{
-    func_021BD3BC(a);
-}
-
-
-
-void func_021BD1D4(void *a)
-{
-    func_021BD474();
-}
-
-
-
-/*
- * Tail-call thunk: forwards to func_021BD308 with no argument change.
- *
- * Addresses are Black-image addresses.
- */
-int func_021BD1DC(u8 *a0)
-{
-    return func_021BD308(a0);
-}
-
-
-
-/*
- * Tail-call thunk: forwards to func_021BD5F8 with no argument change.
- *
- * Addresses are Black-image addresses.
- */
-void func_021BD1E4(void *p, unsigned int a)
-{
-func_021BD5F8(p, a);
+    T *q;
+
+    if (func_021BD36C(p) == 1) {
+        return;
+    }
+    q = &p->t;
+    p->t.f00 = p->t.f00 + (q->f08 + q->f10 / 2.0f);
+    q->f08 = q->f08 + q->f10;
+    q->f28 = q->f28 - 1;
+    if (q->f28 == 0) {
+        q->f00 = q->f18;
+    }
 }

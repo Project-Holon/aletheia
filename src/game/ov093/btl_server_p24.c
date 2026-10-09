@@ -1,8 +1,7 @@
 /*
- * file:     btl_server_p24.c
- * unit:     yes
- * function: func_021BF244, func_021BF27C, func_021BF2B4, func_021BF2EC, func_021BF324
- * address:  0x021BF244
+ * function: func_021BF3D8
+ * address:  0x021BF3D8
+ * packet:   pkt_ov093_021BF3D8
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,113 +9,54 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
  * symbols:
- *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
+ *   func_021CC8A0  0x021CC8A0  thumb  ov093
+ *   func_021CC8B0  0x021CC8B0  thumb  ov093
+ *   func_021BF46C  0x021BF46C  thumb  ov093
+ *   func_021BF47C  0x021BF47C  thumb  ov093
+ *   func_021BF48C  0x021BF48C  thumb  ov093
+ *   func_021BF49C  0x021BF49C  thumb  ov093
+ *   func_021C6E3C  0x021C6E3C  thumb  ov093
+ *   func_021C7C24  0x021C7C24  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021BF3B8  0x021BF3B8  thumb  ov093
- *   func_021BF3C8  0x021BF3C8  thumb  ov093
- *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D62D8  0x021D62D8  thumb  ov093
+ *   func_021B8DDC  0x021B8DDC  thumb  ov093
+ *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   func_021BA1B4  0x021BA1B4  thumb  ov093
  */
-#include "../../matched/include/Obj07752.h"
+#include "../../matched/include/Obj13315.h"
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-struct Unk021D62A8;
-struct UtilSlots;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-struct Lock { u32 a:10, b:9, c:9, d:1, e:1, f:1, g:1; };
-
-typedef unsigned short u16;
-
-extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021D74F8(int);
-extern void func_021D75EC(int, u32);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D7540(int);
+extern void func_021CC8A0(u32 *p);
+extern void func_021CC8B0(u32 *p, u32 i, u32 b);
+extern void func_021BF46C(int d);
+extern u8 *func_021BF47C(int d);
+extern void func_021BF48C(int d, u8 *x);
+extern u8 *func_021BF49C(int d);
+extern int func_021C6E3C(u8 *p, u8 *a, u8 *b, u8 *q, int flag);
+extern void func_021C7C24(u16 *p, int unused, u8 *b, u8 *c, int e);
 extern u8 func_021D5440(u8 *p);
-extern int func_021BF3B8(u8 *q, int k, u32 n);
-extern int func_021BF3C8(u8 *q, int k, u32 n);
-extern int func_021D59B4(u8 *p, int k);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern u16 func_021D62D8(struct UtilSlots *p, int i);
-void func_021BF244(u8 *p, u32 a, u32 b);
-void func_021BF27C(u8 *p, u32 a, u32 b);
-void func_021BF2B4(u8 *p, u32 a, u32 b);
-void func_021BF2EC(u8 *p, u32 a, u32 b, int k);
-int func_021BF324(u8 *p, u8 *a, u8 *b);
+extern u8 func_021B8DDC(u32 x);
+extern u8 func_021B8FF4(u8 *p);
+extern void func_021BA1B4(char **p, int i);
 
-
-/*
- * interface: The four-byte Lock getter returns its entire original word in
- * r0 (021CC8DA,021CC900); restore 021CC95C stores that word unchanged.
- * Scalar payload follows matched caller 021BCEFC and preserves every bit.
- */
-void func_021BF244(u8 *p, u32 a, u32 b)
+void func_021BF3D8(u8 *p, int b, u8 *a, int d, void *arr)
 {
-    int line = 0x11e7;
-    u32 old = func_021CC8D8((struct Lock *)(p + 0x1d74), line);
-    func_021BF2EC(p, a, b, 0x25);
-    func_021CC95C((u32 *)(p + 0x1d74), old, line + 2);
-}
-
-
-void func_021BF27C(u8 *p, u32 a, u32 b)
-{
-    int line = 0x11f6;
-    u32 old = func_021CC8D8((struct Lock *)(p + 0x1d74), line);
-    func_021BF2EC(p, a, b, 0x26);
-    func_021CC95C((u32 *)(p + 0x1d74), old, line + 2);
-}
-
-
-void func_021BF2B4(u8 *p, u32 a, u32 b)
-{
-    int line = 0x1205;
-    u32 old = func_021CC8D8((struct Lock *)(p + 0x1d74), line);
-    func_021BF2EC(p, a, b, 0x27);
-    func_021CC95C((u32 *)(p + 0x1d74), old, line + 2);
-}
-
-
-void func_021BF2EC(u8 *p, u32 a, u32 b, int k)
-{
-    int line = 0x1214;
-    func_021D74F8(line);
-    func_021D75EC(2, a);
-    func_021D75EC(0x12, b);
-    func_021D70F0(p, k);
-    func_021D7540(line + 4);
-}
-
-
-int func_021BF324(u8 *p, u8 *a, u8 *b)
-{
-    u8 t;
-    if (func_021BF3B8(p + 0x1ab8, *(int *)&((struct Obj07752 *)p)->f4, func_021D5440(a)) != 0) {
-        if (func_021D59B4(a, 0x11) == 0x63)
-            return 1;
+    u8 *x;
+    int r;
+    int e;
+    func_021CC8A0(arr);
+    func_021BF46C(d);
+    x = func_021BF47C(d);
+    while (x != 0) {
+        r = func_021C6E3C(p, a, x, (u8 *)b, 1);
+        func_021CC8B0(arr, func_021D5440(x), r);
+        if (r == 0) {
+            func_021BF48C(d, x);
+            func_021C7C24((u16 *)(p + 0x1f7c), (int)p, a, x, 0);
+            e = func_021B8DDC(func_021D5440(a));
+            if (e == func_021B8FF4(*(u8 * *)&((struct Obj13315 *)p)->f4))
+                func_021BA1B4((char **)(*(u8 * *)&((struct Obj13315 *)p)->f4), 0x4b);
+        }
+        x = func_021BF49C(d);
     }
-    if (func_021BF3C8(p + 0x1ab8, *(int *)&((struct Obj07752 *)p)->f4, func_021D5440(b)) != 0) {
-        if (func_021D59B4(b, 0x11) == 0x63)
-            return 1;
-    }
-    if (func_021D62C4((struct Unk021D62A8 *)a, 0x1c) != 0)
-        return 1;
-    if (func_021D62C4((struct Unk021D62A8 *)a, 0x1d) != 0) {
-        t = func_021D62D8((struct UtilSlots *)a, 0x1d);
-        if (t == func_021D5440(b))
-            return 1;
-    }
-    return 0;
 }

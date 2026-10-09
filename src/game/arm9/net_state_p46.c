@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p46.c
  * unit:     yes
- * function: func_0203C494, func_0203C554
- * address:  0x0203C494
+ * function: func_0203D798, func_0203D7B0
+ * address:  0x0203D798
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,93 +13,65 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
- *   func_0203C464  0x0203C464  arm
- *   func_0203C05C  0x0203C05C  arm
+ *   g_021469E0  0x021469E0  data
+ *   func_0203C8E8  0x0203C8E8  arm
  */
-struct NetState;
 typedef unsigned char u8;
 
-typedef unsigned int  u32;
+struct Singleton {
+    u8    pad_00[8];
+    void *unk_08;
+};
 
-typedef unsigned short u16;
-
-typedef signed char   s8;
-
-extern void *func_0203D788(void);
-extern int func_0203C464(int a0, int a1, int a2, int a3);
-extern void func_0203C05C(void);
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-extern void func_020394DC(u8 v);
-extern void func_02037D78(void);
-extern void func_020398B4(u32 a);
-extern void func_02039834(u32 a);
-extern u16 func_02039338(void);
-void func_0203C494(u8 *p);
-void func_0203C554(u32 a);
-extern u8 *g_021469DC;
+extern void func_0203C8E8(u8 v);
+void *func_0203D798(void);
+void func_0203D7B0(u8 a0);
+extern struct Singleton g_021469E0;
 
 
 /*
- * The other half of the connect/disconnect pair whose partner is
- * src/matched/func_0203C554.c: it turns the state byte at +0x4B into the
- * vtable's +0x54 hook, then either starts the link layer or, when the +0x0C
- * hook reports a negative result, files line 0x655.
+ * Accessor for the +8 handle of the singleton at 0x021469E0, with the null
+ * case spelled out.  The `moveq r0, #0` is a no-op on the value it guards,
+ * so it is only there because the source writes the null return
+ * explicitly; a plain `return g->unk_08;` loses the `cmp` and the `moveq`
+ * and is eight bytes short.
  *
- * `v` is materialised as 0 before the first call and raised to 1 by
- * `moveq` on the state byte's own compare, so the hook's first argument
- * shares a register with the loop's zero rather than being rematerialised.
- *
- * Addresses are Black-image addresses.
+ * EXACT*, not EXACT: the inferred extent runs to 0x0203D7C8 because the
+ * follower at 0x0203D7B0 has no label.  It is not a byte difference; the
+ * follower is a pair of eight-byte ARM long-branch veneers (0x0203D7B0 ->
+ * 0x0203C8E8 and 0x0203D7BC -> 0x0203C900), which save no lr and so are
+ * invisible to disasm.py.  Both want seeding into
+ * layout/function_starts.txt, which is the integrator's file.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C494.c \
- *       --func func_0203C494 --addr 0x0203C494 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D798.c \
+ *       --func func_0203D798 --addr 0x0203D798 --cc 1.1p1 --arm
  */
-void func_0203C494(u8 *p)
+void *func_0203D798(void)
 {
-    u8 *s = func_0203D788();
-    u32 v = 0;
-
-    func_020394DC(0);
-
-    if (p[0x4B] == 0)
-        v = 1;
-
-    if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x54))(v, 0) != 0) {
-        func_02037D78();
-        func_020398B4((u32)s);
-        func_02039834((u32)s);
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C464, 0, 0x64F);
-    } else if ((*(int (**)(u32))(*(u32 *)(s + 0x340) + 0x0C))(0) < 0) {
-        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203C05C, 0, 0x655);
+    if (g_021469E0.unk_08 == 0) {
+        return 0;
     }
+    return g_021469E0.unk_08;
 }
 
 
 /*
- * Addresses are Black-image addresses.
+ *           prologue is `ldr r1, [pc, #0xc]` and saves no lr, so disasm.py
+ *           emitted no func_ label there (the unlabelled-leaf idiom) and
+ *           evidence().labels has no entry.  sole-ref/code therefore refuses
+ *           it, veneer_at() does not recognise it, and the pool word under
+ *           test is the only reference to it in the image, so `literal` and
+ *           `label` both discard their only witness.  All 12 bytes are
+ *           correct.  It becomes EXACT the moment 0x0203C8E8 is seeded into
+ *           layout/function_starts.txt (the integrator's file) or a second
+ *           referrer is decompiled.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C554.c \
- *       --func func_0203C554 --addr 0x0203C554 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/pending/func_0203D7B0.c \
+ *       --func func_0203D7B0 --addr 0x0203D7B0 --cc 1.1p1 --arm
  */
-void func_0203C554(u32 a)
+void func_0203D7B0(u8 a0)
 {
-    u8 *p = g_021469DC;
-
-    if (p == 0)
-        return;
-
-    if (a != 0) {
-        if (func_02039338() == 0)
-            g_021469DC[0x4B] = 0;
-        else
-            g_021469DC[0x4B] = 1;
-    } else {
-        p[0x4B] = 0;
-    }
-
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C494, 0, 0x671);
-    func_0203C494((u8 *)((u32)g_021469DC));
+    func_0203C8E8(a0);
 }

@@ -1,6 +1,14 @@
-﻿# zukan_detail_form merge status (r4_ov10)
+# zukan_detail_form merge status (r5 s10)
 
-5 parts left (was 6; r4_ov10 closed old p01|p02: func_020056A0 callback type, ov208_func_021C47B4 prototype dropped from p01, ov208_func_021BC3A8 returns void *, ov208_func_021BC508 takes void *, key typed int in func_021BC3C0 and func_021C3280).
-Remaining boundaries (p01..p05):
-- p01|p02: views Ov208Menu_021C31CC/4E54/4F78 and Anm_021C5214 are one 0x6e4-byte form object (allocated in ov208_func_021C4AC4's caller with size 0x6e4). A canonical struct Ov208Form (offsets: f0 0, font 4, cam 8, item[4] at 0xc stride 0x44, mem 0x11c, heap3d 0x120, arc 0x128, res 0x12c, j 0x134, k 0x138, obj 0x13c, cur 0x144, ents 0x148 stride 0x10, count 0x548, sel 0x54e, sel2 0x550, win 0x554, active 0x568, print 0x57c, msg 0x590, marc 0x594, msg2 0x598, str 0x59c, state 0x6b8) plus u8 *p -> struct pointer in 44 signatures compiles in the merged file, but the result is DIFF: ov208_func_021C36CC (view struct Ov208Scroll, a sub-object at 0x18..0x30) comes out 4 bytes short (the 0xffff literal pool entry disappears) and func_021C3A24 comes out 6 bytes short. Not solved. Unused trailing int key is needed on ov208_func_021C4F78 and ov208_func_021C52F0 (callers pass 3 arguments). func_021C4FDC is (u16 *heap, form *p, int key) with p->cam, p->mem, p->heap3d.
-- p02|p03, p03|p04, p04|p05: see r3_ov10 notes (struct Ov208Menu views in old p03 differ again: owner/arc/res/j/k/obj/cur/ents/sel; keys int versus void *; anonymous struct pointers). The canonical Ov208Form above already covers p03's Ov208Menu and Ov208Ent.
+4 parts left (was 5). Round 5 closed old p01|p02: the DIFF was not in func_021C36CC or func_021C3A24
+any more; the only difference was func_021C48CC, which stored the func_0204A298 result in p->arc (0x128)
+where the image stores it at 0x594 (p->marc). Fixed with p->marc = (u32)func_0204A298(...).
+Merged p01 is EXACT and carries the canonical struct Ov208Form (0x6e4 bytes).
+
+Remaining boundaries (p01|p02, p02|p03, p03|p04): p02, p03 and p04 still address the form object as
+u8 *p with W(o)/H(o) offset macros (about 220 uses) and per-part struct Ov208Menu/Ov208Mdl views. Merging
+fails with 'illegal implicit conversion from struct Ov208Form * to unsigned char *' at the calls into
+func_021C5664, func_021C580C, func_021C5D64 and others. Next step: change the u8 *p parameters of the
+p02..p04 functions to struct Ov208Form *p and replace W/H/MDL by the named fields (offsets listed in
+the Ov208Form block of p01), then merge. Also p01 still has hack views in func_021C4A48 (Obj10908 casts)
+and the W/PW/OBJ/H macros in its first half.

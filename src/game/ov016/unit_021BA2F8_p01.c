@@ -4,8 +4,8 @@
  * function: func_021BA2F8, func_021BA3F4, AsciiToHex, func_021BA67C
  * address:  0x021BA2F8
  * region:   ov016
- * compiler: dsi/../2.0/sp1p2
- * flags:    -O4,p
+ * compiler: ../2.0/sp1p2
+ * flags:    -O4,p -ipa file
  * lang:     c99
  * isa:      thumb
  * status:   EXACT

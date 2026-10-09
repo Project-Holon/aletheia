@@ -1,40 +1,56 @@
 /*
- * function: func_0203D0FC
- * address:  0x0203D0FC
- * packet:   pkt_0203D0FC
+ * file:     net_state_p53.c
+ * unit:     yes
+ * function: func_0203DC4C, func_0203DC68
+ * address:  0x0203DC4C
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * PROMOTED from src/pending/.  The `bl` to 0x0203C010 was this file's only
- * open relocation site; 0x0203C010 is now an EXACT manifest entry, so the
- * site resolves as `matched` and the file no longer needs its old cap.
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_0203C010  0x0203C010  arm
- *
- * Two calls and nothing else: reset the sub-state, then re-enter the state
- * whose constructor src/matched/func_0203C010.c reproduces.  This function
- * was parked at MATCH until 0x0203C010 was matched - that call was its only
- * open relocation site, and the callee's single branch site image-wide is
- * this one.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D0FC.c \
- *       --func func_0203D0FC --addr 0x0203D0FC --cc 1.1p1 --arm
+ *   g_021469F0     0x021469F0  data
  */
+typedef unsigned char u8;
 
-extern void *func_0203D788(void);
-extern void func_0203C010(void);
+struct Ctx_0203DC4C {
+    u8 pad_00[0x103];
+    u8 f103;
+};
 
-void func_0203D0FC(int a)
+struct Ctx_0203DC68 {
+    u8 pad_00[0x109];
+    u8 state;
+};
+
+void func_0203DC4C(void);
+extern struct Ctx_0203DC4C *g_021469F0;
+
+
+/*
+ * net_irc_wireless.c.  Callback installed at +0x2C by func_0203D8F0 and
+ * by states 4 and 14 of func_0203DC70: flags +0x103 of the live context.
+ * An unlabelled ARM leaf.
+ */
+void func_0203DC4C(void)
 {
-    func_0203D788();
-    func_0203C010();
+    struct Ctx_0203DC4C *p = g_021469F0;
+
+    if (p != 0)
+        p->f103 = 1;
+}
+
+
+/*
+ * net_irc_wireless.c.  The state setter of the wireless state machine
+ * func_0203DC70: stores the new state at +0x109.  An unlabelled ARM leaf
+ * (no lr save), filed as the `matched` witness for func_0203DC70's 27 calls.
+ */
+void func_0203DC68(struct Ctx_0203DC68 *p, int state)
+{
+    p->state = state;
 }

@@ -68,7 +68,7 @@
 #include "../../matched/include/Obj13878.h"
 
 #define HEAP (*(u16 *)(p + 0x5F4))
-#define OBJ(i) (((u32 *)(p + 0x844))[i])
+#define OBJ(i) (((void **)(p + 0x844))[i])
 #define WORK (*(u8 **)(p + 0xc))
 struct IcaAnime;
 struct Rec12;
@@ -299,10 +299,10 @@ void func_021D5A60(u8 *p)
     func_021E36C8(p, 1, 0, func_021D8FA4(p, 1), 1);
     func_021E36C8(p, 2, 0, func_021D8FA4(p, 0), 1);
     func_021E36C8(p, 3, 1, func_021D8FA4(p, 1), 1);
-    func_02015EA0((void *)OBJ(0));
-    func_02015EA0((void *)OBJ(1));
-    func_02015EA0((void *)OBJ(2));
-    func_02015EA0((void *)OBJ(3));
+    func_02015EA0(OBJ(0));
+    func_02015EA0(OBJ(1));
+    func_02015EA0(OBJ(2));
+    func_02015EA0(OBJ(3));
     func_021E2F34(WORK);
     func_021E2D70(WORK, 3);
     func_021E2FB0((char *)WORK);

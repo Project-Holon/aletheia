@@ -90,9 +90,9 @@
 #include "../../matched/include/Obj22663.h"
 
 #define FRAME (*(s32 *)(p + 0xF2C))
-#define OBJ(i) (((u32 *)(p + 0x844))[i])
+#define OBJ(i) (((void **)(p + 0x844))[i])
 #define HEAP (*(u16 *)(p + 0x5F4))
-#define SLOT0 (*(u32 *)(p + 0x85C))
+#define SLOT0 (*(void **)(p + 0x85C))
 #define WORK (*(u8 **)(p + 0xc))
 struct WordSet;
 struct MsgBank;
@@ -230,27 +230,27 @@ void func_021D4664(u8 *p)
             func_02006984(a, b, 0x40, 0, 0, 0, 0, (u32)(&buf));
         }
         if (SLOT0 != 0) {
-            func_020307B0((void *)SLOT0);
+            func_020307B0(SLOT0);
             SLOT0 = 0;
         }
         if (((struct Obj05324 *)p)->f11ED == 0) {
-            func_02015C30((void *)OBJ(0), (u32 *)(&v1));
+            func_02015C30(OBJ(0), (u32 *)(&v1));
             func_021DFD24((u32 *)SLOT0);
             if (((struct Obj05324 *)p)->f11EF != 0) {
-                SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x14, &v1, d_021D86A0, HEAP);
+                SLOT0 = func_021DFBB4(OBJ(0), (void *)0x14, &v1, d_021D86A0, HEAP);
             } else {
-                SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x12, &v1, (void *)d_021D7D00, HEAP);
+                SLOT0 = func_021DFBB4(OBJ(0), (void *)0x12, &v1, (void *)d_021D7D00, HEAP);
             }
             func_021E36C8(p, 2, 0, func_021D8FA4(p, func_021D8AA8(p)), 1);
-            func_02015E04((void *)OBJ(2));
-            func_02015EA0((void *)OBJ(2));
+            func_02015E04(OBJ(2));
+            func_02015EA0(OBJ(2));
         } else {
-            func_02015C30((void *)OBJ(0), (u32 *)(&v2));
+            func_02015C30(OBJ(0), (u32 *)(&v2));
             func_021DFD24((u32 *)SLOT0);
             if (((struct Obj05324 *)p)->f11EF != 0) {
-                SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x14, &v2, d_021D86A0, HEAP);
+                SLOT0 = func_021DFBB4(OBJ(0), (void *)0x14, &v2, d_021D86A0, HEAP);
             } else {
-                SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x28, &v2, (void *)d_021D7DD8, HEAP);
+                SLOT0 = func_021DFBB4(OBJ(0), (void *)0x28, &v2, (void *)d_021D7DD8, HEAP);
             }
         }
         func_021D8E84(p, (int)func_021D48F0);
@@ -290,12 +290,12 @@ void func_021D48F0(u8 *p)
         func_021D4820(p);
     }
     if (((struct Obj00983 *)p)->f11ED == 0 && FRAME == 6) {
-        func_02015C30((void *)OBJ(0), (u32 *)(&v));
-        func_02015C48((void *)OBJ(2), (u32 *)(&v));
-        func_02015EB0((void *)OBJ(2));
-        func_02015EA0((void *)OBJ(0));
-        func_02015E4C((void *)OBJ(2));
-        *(u32 *)SLOT0 = OBJ(2);
+        func_02015C30(OBJ(0), (u32 *)(&v));
+        func_02015C48(OBJ(2), (u32 *)(&v));
+        func_02015EB0(OBJ(2));
+        func_02015EA0(OBJ(0));
+        func_02015E4C(OBJ(2));
+        *(void **)SLOT0 = OBJ(2);
     }
     if (FRAME > 0xC8 && func_021E12AC((char *)p) != 0) {
         func_021E1098((char *)p);
@@ -305,12 +305,12 @@ void func_021D48F0(u8 *p)
             OBJ(2) = 0;
         }
         if (SLOT0 != 0) {
-            func_020307B0((void *)SLOT0);
+            func_020307B0(SLOT0);
             SLOT0 = 0;
         }
         func_021D8E84(p, (int)func_021D4B14);
     }
-    func_021DFC68((void *)SLOT0, (int)p);
+    func_021DFC68(SLOT0, (int)p);
 }
 
 
@@ -410,9 +410,9 @@ void func_021D4B14(u8 *p)
     func_021E36C8(p, 1, 0, func_021D8FA4(p, 1), 1);
     func_021E36C8(p, 2, 0, func_021D8FA4(p, 0), 1);
     func_021E36C8(p, 3, 1, func_021D8FA4(p, 1), 1);
-    func_02015EA0((void *)OBJ(1));
-    func_02015EA0((void *)OBJ(2));
-    func_02015EA0((void *)OBJ(3));
+    func_02015EA0(OBJ(1));
+    func_02015EA0(OBJ(2));
+    func_02015EA0(OBJ(3));
     func_021E2F34(WORK);
     func_021E2FB0((char *)WORK);
     func_021E2D70(WORK, 1);

@@ -1,7 +1,7 @@
 /*
  * file:     net_state_p03.c
  * unit:     yes
- * function: func_02036B4C, func_02036B88, func_02036B98, func_02036BD4, func_02036CA8, func_02036D64, func_02036DC8, func_02036E74, func_02036E80, func_02036EC8, func_02036F04, func_02036F24, func_02036FD8, func_02037010, func_020370C8, func_020370F4, func_02037118, func_02037154, func_02037174, func_02037190, func_020371AC, func_020371D8, func_02037200, func_02037224, func_02037234, func_02037258, func_02037288, func_02037478
+ * function: func_02036B4C, func_02036B88, func_02036B98, func_02036BD4, func_02036CA8, func_02036D64, func_02036DC8, func_02036E74, func_02036E80, func_02036EC8, func_02036F04, func_02036F24, func_02036FD8, func_02037010, func_020370C8, func_020370F4, func_02037118, func_02037154, func_02037174, func_02037190, func_020371AC, func_020371D8, func_02037200, func_02037224, func_02037234, func_02037258, func_02037288, func_02037478, func_02037680, func_02037700, func_0203778C
  * address:  0x02036B4C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,13 +31,15 @@
  *   func_0203D788  0x0203D788  arm
  *   func_0203D6BC  0x0203D6BC  arm
  *   func_0203D680  0x0203D680  arm
- *   lbl_021469D0   0x021469D0  data
  *   str_020A7A24   0x020A7A24  data
  *   func_02036AF4  0x02036AF4  arm
  *   g_021469D0     0x021469D0  data
  *   str_020A7A20   0x020A7A20  data
  *   func_02082BCC  0x02082BCC  arm
  *   func_0203640C  0x0203640C  arm
+ *   str_020A7A34   0x020A7A34  data
+ *   func_0203D798  0x0203D798  arm
+ *   g_020387A0     0x020387A0  data
  */
 #include "../../matched/include/Obj04065.h"
 #include "../../matched/include/Obj15906.h"
@@ -46,6 +48,7 @@
 #include "../../matched/include/Obj06937.h"
 #include "../../matched/include/Obj05733.h"
 #include "../../matched/include/Obj08828.h"
+#include "../../matched/include/Obj15915.h"
 
 struct Sub0200F16CHdr;
 struct Handler;
@@ -109,34 +112,66 @@ struct Pool_02036B4C {
     int f1C;
 };
 
-struct Net_02037288 {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    void *f10;
-    void *f14;
-    void *f18;
-    u8  pad1C[0x1ac - 0x1c];
-    u32 f1AC;
-    u8  pad1B0[0x1e0 - 0x1b0];
-    u32 f1E0;
-};
-
 typedef signed int     s32;
 
-struct Net_02037478 {
-    u32  f00;
-    u32 *f04;
+struct NetRing {
+    u8  pad00[8];
+    u32 state;          /* 0x08 */
+    u8  pad0C[4];
+};
+
+/* The object g_021469D0 points at (0x1f0 bytes, allocated by func_02037288). */
+struct Net {
+    u8  *f00;           /* 0x00 */
+    u8  *f04;
     u8  *f08;
     u8  *f0C;
     u8  *f10;
     u8  *f14;
-    u8   pad18[0x1b0 - 0x18];
-    u32  f1B0;
-    u32  f1B4[8];
-    u8   pad1D4[0x1e0 - 0x1d4];
-    u32  f1E0;
+    u8  *f18;
+    struct NetRing f1C;
+    struct NetRing f2C;
+    struct NetRing f3C;
+    struct NetRing f4C[8];
+    u8  fCC[0x28];
+    u8  fF4[0x28];
+    u8  f11C[8][16];
+    u8  f19C[16];
+    u32 f1AC;
+    int f1B0;
+    int f1B4[8];
+    u8  f1D4;
+    u8  f1D5;
+    u8  f1D6;
+    u8  f1D7[8];
+    u8  pad1DF;
+    u32 f1E0;
+    u16 f1E4;
+    u8  pad1E6;
+    u8  f1E7;
+    u8  f1E8;
+    u8  f1E9;
+    u8  f1EA;
+    u8  f1EB;
+    u8  f1EC;
+    u8  f1ED;
+    u8  pad1EE[2];
+};
+
+struct Ctx {
+    u8   pad00[0x64];
+    u8   f64;          /* 0x64 */
+    u8   pad65[0x6c - 0x65];
+    u16  f6c;          /* 0x6c */
+    u8   pad6e[0x340 - 0x6e];
+    u32 *f340;         /* 0x340 */
+    u32  pad344[2];    /* 0x344, 0x348 */
+    u32  f34c;         /* 0x34c */
+};
+
+struct Oth {
+    u8  pad0[0x56];
+    u16 f56;           /* 0x56 */
 };
 
 extern u32 func_020307B0(void *p);
@@ -156,6 +191,7 @@ extern u32  func_0203D6BC(void);
 extern u32  func_0203D680(void);
 extern void func_02036AF4(u8 *p, u32 n, u32 a, u32 b);
 extern void func_0203640C(struct Rec *p, u32 a, int b);
+extern void *func_0203D798(void);
 int func_02036B4C(int a0);
 void func_02036B88(void *a0);
 int func_02036B98(char *p, int v);
@@ -184,15 +220,20 @@ void func_02037234(u8 *p);
 u32 func_02037258(void);
 int func_02037288(u32 a0, u32 heap, u32 c);
 void func_02037478(void);
+void func_02037680(int i);
+int func_02037700(u32 a0, u32 a1);
+u32 func_0203778C(u32 p);
 extern struct Notifier g_021469C8;
 extern const char wm_icon_File[];
 extern const char str_020A79F0[];
 extern const char str_020A79FC[];
 extern u8 d_020A7A20;
-extern struct Net_02037288 *lbl_021469D0;
 extern char str_020A7A24[];
-extern struct Net_02037478 *g_021469D0;
+extern struct Net *g_021469D0;
 extern u8 str_020A7A20[];
+extern const u8 str_020A7A34[];
+extern u8   g_020387A0[];
+
 
 
 int func_02036B4C(int a0)
@@ -210,7 +251,9 @@ int func_02036B4C(int a0)
 
 
 
+
 void func_02036B88(void *a0){ func_020307B0((void *)((int)((struct Obj15906 *)((char *)(a0)))->f18)); }
+
 
 
 
@@ -245,6 +288,7 @@ int func_02036B98(char *p, int v)
     }
     return 0;
 }
+
 
 
 
@@ -295,6 +339,7 @@ struct Handler *func_02036BD4(u32 unused, u32 b, u32 c, u32 d, u32 e,
 
 
 
+
 static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority,
                                  int mode, BOOL mosaic, int effect, int shape,
                                  int color, int charName, int cParam, int rsParam)
@@ -309,6 +354,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority,
                         (rsParam << 25));
     oam->attr2 = (u16)((charName << 0) | (priority << 10) | (cParam << 12));
 }
+
 
 
 
@@ -354,6 +400,7 @@ void func_02036CA8(struct Icon *c)
 
 
 
+
 u32 func_02036D64(u8 *p)
 {
     switch (p[0xd]) {
@@ -364,6 +411,7 @@ u32 func_02036D64(u8 *p)
     }
     return 1;
 }
+
 
 
 
@@ -413,12 +461,14 @@ u32 func_02036DC8(u32 engine, u32 b)
 }
 
 
+
 struct Handler *func_02036E74(struct Handler *p, int v)
 {
     if (v < 4)
         p->unk00 = v;
     return p;
 }
+
 
 
 
@@ -454,6 +504,7 @@ void func_02036E80(unsigned char *p)
 
 
 
+
 /*
  * Stamp the two status bytes at +0x0d / +0x0e of the handler block, then
  * feed the result of func_02036D64 straight into func_02036F24.  The `mov
@@ -475,7 +526,9 @@ void func_02036EC8(struct Handler *p, u32 a, u32 b)
 }
 
 
+
 int func_02036F04(int a0){ int t0, t1; if ((unsigned int)(a0) == (unsigned int)(1)) { t0 = func_02080C24(); } else { t1 = func_02080C64(); }  return 0; }
+
 
 
 
@@ -505,7 +558,9 @@ void func_02036F24(int a0, int b, int c)
 }
 
 
+
 int func_02036FD8(void){ int t0 = func_0207E684((int)0x20A0810, (int)0, (int)0x20); int t1 = func_0207E708((int)0x20A0810, (int)0, (int)0x20); return t1; }
+
 
 
 
@@ -556,6 +611,7 @@ void func_02037010(u32 a, u32 b, u32 c, u32 d)
 
 
 
+
 /*
  * Two-stage shutdown guarded on a global word: always run func_02036FD8,
  * then, only when g_021469C8.handler is set, run func_02036E80 and clear the flag.
@@ -574,6 +630,7 @@ void func_020370C8(void)
     func_02036E80((unsigned char *)g_021469C8.handler);
     g_021469C8.handler = 0;
 }
+
 
 
 
@@ -599,6 +656,7 @@ u32 func_020370F4(u32 a)
 }
 
 
+
 /*
  * Notifier fan-out.  The first call is told which of two kinds of event
  * this is by testing the first argument (`movs r5, r0` sets the flags and
@@ -618,6 +676,7 @@ void func_02037118(u32 a, u32 b)
     if (g_021469C8.handler != 0)
         func_02036EC8(g_021469C8.handler, a, b);
 }
+
 
 
 
@@ -648,6 +707,7 @@ void func_02037154(void)
 
 
 
+
 /*
  * Sets the flag byte at +0x0F of the armed handler, and does nothing at all
  * when the handler is not armed - the `movne`/`strbne` pair is the whole body.
@@ -670,6 +730,7 @@ void func_02037174(void)
 
 
 
+
 /*
  * Clears the flag byte at +0x0F of the armed handler; the only difference from
  * src/matched/func_02037174.c is the `movne r0, #0` instead of `#1`.
@@ -689,11 +750,13 @@ void func_02037190(void)
         q[0x0F] = 0;
 }
 
+
 void func_020371AC(unsigned short a, unsigned short b)
 {
     g_021469C8.unk00 = a;
     g_021469C8.unk02 = b;
 }
+
 
 
 
@@ -719,6 +782,7 @@ void func_020371D8(u32 mode)
 
 
 
+
 u32 func_02037200(void)
 {
     if (g_021469C8.handler == 0) {
@@ -730,10 +794,12 @@ u32 func_02037200(void)
 
 
 
+
 void func_02037224(u8 v, int b)
 {
     d_020A7A20 = v;
 }
+
 
 
 
@@ -759,6 +825,7 @@ void func_02037234(u8 *p)
     ((struct Obj05733 *)p)->f4 = 0;
     ((struct Obj05733 *)p)->f0 = 0;
 }
+
 
 
 
@@ -793,6 +860,7 @@ u32 func_02037258(void)
 
 
 
+
 /*
  * Closes the 4-byte residue docs/notes/pkt_02037288_wave25.c.txt records
  * (the `mov r3, r4` / `lsl r1, r1, #1` pair at +0x00B0).  The lever is the
@@ -813,38 +881,39 @@ int func_02037288(u32 a0, u32 heap, u32 c)
     u32 n;
     u32 m;
 
-    if (lbl_021469D0 == 0) {
+    if (g_021469D0 == 0) {
         n = func_0203D680();
         m = func_02037258();
-        lbl_021469D0 = func_02030734(heap, 0x1f0, 1, str_020A7A24, 0xdd);
+        g_021469D0 = func_02030734(heap, 0x1f0, 1, str_020A7A24, 0xdd);
         if (c != 0)
-            lbl_021469D0->f1E0 = m + 0x40;
+            g_021469D0->f1E0 = m + 0x40;
         else
-            lbl_021469D0->f1E0 = a0 + 0x40;
+            g_021469D0->f1E0 = a0 + 0x40;
 
-        lbl_021469D0->f14 = func_02030734(heap, lbl_021469D0->f1E0 * 3, 1,
+        g_021469D0->f14 = func_02030734(heap, g_021469D0->f1E0 * 3, 1,
                                           str_020A7A24, 0xe6);
-        lbl_021469D0->f18 = func_02030734(heap, lbl_021469D0->f1E0 * 2, 1,
+        g_021469D0->f18 = func_02030734(heap, g_021469D0->f1E0 * 2, 1,
                                           str_020A7A24, 0xe8);
-        lbl_021469D0->f10 = func_02030734(heap, n * lbl_021469D0->f1E0, 1,
+        g_021469D0->f10 = func_02030734(heap, n * g_021469D0->f1E0, 1,
                                           str_020A7A24, 0xe9);
-        lbl_021469D0->f00 = func_02030734(heap, func_0203D6BC(), 1,
+        g_021469D0->f00 = func_02030734(heap, func_0203D6BC(), 1,
                                           str_020A7A24, 0xec);
-        lbl_021469D0->f04 = func_02030734(heap, func_0203D6BC() * 15, 1,
+        g_021469D0->f04 = func_02030734(heap, func_0203D6BC() * 15, 1,
                                           str_020A7A24, 0xed);
-        lbl_021469D0->f08 = func_02030734(heap, m, 1, str_020A7A24, 0xee);
-        lbl_021469D0->f0C = func_02030734(heap, m * 2, 1, str_020A7A24, 0xef);
-        func_02036AF4((u8 *)lbl_021469D0 + 0xcc, 0x64,
-                      (u32)((u8 *)lbl_021469D0 + 0x1c), heap);
-        func_02036AF4((u8 *)lbl_021469D0 + 0xf4, 0xb4,
-                      (u32)((u8 *)lbl_021469D0 + 0x3c), heap);
-        lbl_021469D0->f1AC = 1;
+        g_021469D0->f08 = func_02030734(heap, m, 1, str_020A7A24, 0xee);
+        g_021469D0->f0C = func_02030734(heap, m * 2, 1, str_020A7A24, 0xef);
+        func_02036AF4(g_021469D0->fCC, 0x64,
+                      (u32)&g_021469D0->f1C, heap);
+        func_02036AF4(g_021469D0->fF4, 0xb4,
+                      (u32)&g_021469D0->f3C, heap);
+        g_021469D0->f1AC = 1;
         func_02037478();
     }
-    *(u16 *)((u8 *)lbl_021469D0 + 0x100 + 0xe4) = 0;
-    *((u8 *)lbl_021469D0 + 0x1e7) = 0;
+    g_021469D0->f1E4 = 0;
+    g_021469D0->f1E7 = 0;
     return 1;
 }
+
 
 
 
@@ -875,37 +944,106 @@ void func_02037478(void)
 
     func_02082BCC(g_021469D0->f10, 0, g_021469D0->f1E0 * n1);
     for (i = 0; i < n1; i++) {
-        func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x4c + i * 16),
+        func_0203640C((struct Rec *)&g_021469D0->f4C[i],
               (u32)(g_021469D0->f10 + i * g_021469D0->f1E0), g_021469D0->f1E0);
-        ((u8 *)g_021469D0)[0x1d7 + i] = 0;
+        g_021469D0->f1D7[i] = 0;
     }
 
     func_02082BCC(g_021469D0->f0C, 0, n2 + n2);
-    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x3c), (u32)g_021469D0->f0C, (u32)n2 << 1);
+    func_0203640C((struct Rec *)&g_021469D0->f3C, (u32)g_021469D0->f0C, (u32)n2 << 1);
     for (i = 0; i < n2; i++)
         g_021469D0->f08[i] = 0;
 
-    func_02082BCC((u8 *)g_021469D0->f04, 0, n3 * 16 - n3);
-    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x1c), (u32)((u8 *)g_021469D0->f04), ((u32)n3 << 4) - n3);
-    *(u8 *)g_021469D0->f00 = 0xff;
+    func_02082BCC(g_021469D0->f04, 0, n3 * 16 - n3);
+    func_0203640C((struct Rec *)&g_021469D0->f1C, (u32)g_021469D0->f04, ((u32)n3 << 4) - n3);
+    *g_021469D0->f00 = 0xff;
     for (i = 1; i < n3; i++)
-        ((u8 *)g_021469D0->f00)[i] = 0;
+        g_021469D0->f00[i] = 0;
 
     func_02082BCC(g_021469D0->f14, 0, g_021469D0->f1E0 + g_021469D0->f1E0 * 2);
-    func_0203640C((struct Rec *)((u8 *)g_021469D0 + 0x2c), (u32)g_021469D0->f14,
+    func_0203640C((struct Rec *)&g_021469D0->f2C, (u32)g_021469D0->f14,
                   g_021469D0->f1E0 * 3);
     for (i = 0; i < 8; i++) {
-        func_02037234((u8 *)g_021469D0 + 0x11c + i * 16);
+        func_02037234(g_021469D0->f11C[i]);
         g_021469D0->f1B4[i] = 0;
     }
     g_021469D0->f1B0 = 0;
-    func_02037234((u8 *)g_021469D0 + 0x19c);
+    func_02037234(g_021469D0->f19C);
     func_02037224(4, 0x13a);
     str_020A7A20[1] = 4;
-    func_02036B4C((int)((u8 *)g_021469D0 + 0xcc));
-    func_02036B4C((int)((u8 *)g_021469D0 + 0xf4));
-    ((u8 *)g_021469D0)[0x1e8] = 0;
-    ((u8 *)g_021469D0)[0x1eb] = 1;
-    ((u8 *)g_021469D0)[0x1ea] = 0;
-    ((u8 *)g_021469D0)[0x1ed] = 0;
+    func_02036B4C((int)g_021469D0->fCC);
+    func_02036B4C((int)g_021469D0->fF4);
+    g_021469D0->f1E8 = 0;
+    g_021469D0->f1EB = 1;
+    g_021469D0->f1EA = 0;
+    g_021469D0->f1ED = 0;
+}
+
+
+
+/*
+ * Reset one net_system slot (docs/families/net_system.h).  The 8-byte
+ * "colouring" residue of docs/notes/pkt_02037288_wave25.c.txt was a wrong
+ * reading of the callee's argument list: func_0203640C here takes THREE
+ * arguments, (header, buffer, length), and r2 at the call is the slot
+ * stride f1E0 passed on purpose as the buffer length, not a leftover of
+ * the mla.  The slot header is initialised to { f10 + i * f1E0, f1E0 }.
+ */
+void func_02037680(int i)
+{
+    if (i >= 8) {
+        func_02034714((const char *)str_020A7A24, 0x155, (const char *)str_020A7A34);
+    }
+    g_021469D0->f1B4[i] = 0;
+    func_0203640C((struct Rec *)&g_021469D0->f4C[i], (u32)(g_021469D0->f10 + i * g_021469D0->f1E0), g_021469D0->f1E0);
+    g_021469D0->f1D7[i] = 0;
+    func_02037234(g_021469D0->f11C[i]);
+}
+
+
+
+/*
+ * Filed on lane 1 as the single-caller callee of src/pending/func_0203C864.c.
+ * The 0x340 field is a table of function pointers reached through two
+ * indirect calls; the third reaches a slot at +0x68 past two unread words at
+ * +0x44 and +0x48, which is why the struct keeps them as padding.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02037700.c \
+ *       --func func_02037700 --addr 0x02037700 --cc 1.1p1 --arm
+ */
+int func_02037700(u32 a0, u32 a1)
+{
+    struct Oth *o = (struct Oth *)func_0203D798();
+    struct Ctx *c = func_0203D788();
+    u32 flag = 0;
+
+    if (c->f64 != 0 && c->f6c != 0)
+        flag = 1;
+    func_02037288(a0, a1, flag);
+    ((void (*)(u16, struct Ctx *, u32, u32))c->f340[1])(o->f56, c, 0, c->f34c);
+    ((void (*)(u32))c->f340[2])(0);
+    ((void (*)(u8 *))c->f340[0x68 / 4])(g_020387A0);
+    return 1;
+}
+
+
+
+/*
+ * 32-byte hook dispatcher: func_0203D788 returns the current context, whose
+ * word at +0x340 names a vtable whose slot +0x90 is called with the incoming
+ * argument.  The call is a real `blx r1` and not a tail call because r4 has to
+ * be restored afterwards, which is what makes it `return f(p)` and not a
+ * `bx`.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203778C.c \
+ *       --func func_0203778C --addr 0x0203778C --cc 1.1p1 --arm
+ */
+u32 func_0203778C(u32 p)
+{
+    char *c = func_0203D788();
+    u32 (*f)(u32) = *(u32 (**)(u32))(*(char * *)&((struct Obj15915 *)c)->f340 + 0x90);
+
+    return f(p);
 }

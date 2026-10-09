@@ -29,3 +29,24 @@ A draft in plain C gets the structure right but not the bytes (not injected). Op
 original keeps the loop counter u8 i in r6, an int copy n in r5 (args 2 and 4 of func_021BE674/700/6B8/6CC,
 not narrowed), and j = (u8)i once in r7; the draft makes the compiler merge n and i, or narrows the 4th
 argument. Frame size also differs by one slot.
+
+## Round 5 note (r5 g01): draft is 18 bytes off, only stack slot numbers differ
+
+Best draft: scratchpad r5g01/ov039_func_021F36FC_best18.c (824 bytes, same size, same
+instructions, all registers equal; 18 bytes differ, each one an sp offset). What fixed the
+earlier residue (u8 i in r6, int n in r5, j once in r7, extra stack slot):
+
+- There is no n variable in the first loop. The arguments 2 and 4 are literal 0: the compiler
+  hoists the zero into r5 (copy of the zero that i starts with) and reuses it for the key
+  argument of func_02030DA8 and as the counter of the second loop. Write literal 0 in the
+  calls, and a separate int n only for the second loop: for (n = 0; n < 4; n++).
+- i is u32 with i = (u8)(i + 1) (docs/idioms: a u8-stepped counter re-truncated at each narrow
+  argument is a 32-bit counter), and a u8 j (j = i; j = i + 4; j = i + 8) gives the (u8)i pair
+  once in r7.
+- The pointer q + i (CSE shape ldr [sp,#0x1c]; adds r0,r0,r6; str r0,[sp,#0xc]) is a local
+  u8 *p = (u8 *)q + i, read as p[0x10]; the third group reads f before j = i + 8.
+
+Left: spill slot order. Original: x [8], p [0xc], f [0x10]/[0x14]. Draft: f [8]/[0xc], x [0x10],
+p [0x14]. Declaration order of x, f, p did not move the slots; inlining x (ternary twice) made
+it worse (339 lines). Needs the Work type with a task field at +0 and Save with int v[4] at +0.
+Not injected (not EXACT).

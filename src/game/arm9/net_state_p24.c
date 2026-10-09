@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p24.c
  * unit:     yes
- * function: func_0203A118, func_0203A150, func_0203A27C, func_0203A28C, func_0203A2F0, func_0203A338, func_0203A388, func_0203A424, func_0203A458, func_0203A494
- * address:  0x0203A118
+ * function: func_0203BA98, func_0203BBB0, func_0203BC58, func_0203BCE0, func_0203BD30, func_0203BDEC, func_0203BE5C, func_0203BEAC, func_0203BEC8, func_0203BF4C, func_0203BF9C, func_0203BFF0, func_0203C00C
+ * address:  0x0203BA98
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,423 +13,380 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
- *   func_020395EC  0x020395EC  arm
- *   func_0203EFC8  0x0203EFC8  arm
- *   func_0203996C  0x0203996C  arm
- *   func_0203DAC4  0x0203DAC4  arm
- *   OS_GetMacAddress  0x02087C6C  arm
- *   func_02034714  0x02034714  arm
- *   file_020A7A68  0x020A7A68  data
- *   file_020A7AB0  0x020A7AB0  data
- *   func_02039658  0x02039658  arm
- *   func_0203971C  0x0203971C  arm
- *   func_020307B0  0x020307B0  arm
- *   func_02030734  0x02030734  arm
- *   MI_CpuCopy8    0x02082D44  arm
- *   file_020A7ACC  0x020A7ACC  data
- *   g_021469D8     0x021469D8  data
- *   g_020A7AE8     0x020A7AE8  data
- *   g_020A7AF8     0x020A7AF8  data
- *   func_0203A574  0x0203A574  arm
+ *   g_021469DC      0x021469DC  data
+ *   func_0203D788   0x0203D788  arm
+ *   func_0203AD80   0x0203AD80  arm
+ *   MI_CpuCopy8     0x02082D44  arm
+ *   MI_CpuFill8     0x02082BCC  arm
+ *   func_02039338  0x02039338  arm
+ *   func_0203CEAC  0x0203CEAC  arm
+ *   func_0203D798   0x0203D798  arm
+ *   func_0203AEEC   0x0203AEEC  arm
  */
-#include "../../matched/include/Obj15952.h"
-#include "../../matched/include/Obj15954.h"
-#include "../../matched/include/Obj06942.h"
+#include "../../matched/include/Obj06945.h"
+#include "../../matched/include/Obj11878.h"
 
+struct Slot;
+struct NetState;
 struct Entry;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
+typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-struct Msg
-{
-    u8 pad_00[6];
-    u8 mac[6];
-    u8 f0c;
-    u8 f0d;
-    u8 f0e;
-    u8 f0f;
-};
+typedef unsigned int   u32;
 
-struct Peer
-{
-    u8 pad_00[0x4a];
-    u8 f4a;
-};
+typedef unsigned long long u64;
 
-struct Glob
-{
-    u8 pad_00[0xc];
-    void (*f0c)(int, u32);
-    u8 pad_10[0x57];
-    u8 f67;
-    u8 pad_68[6];
-    u16 f6e;
-};
-
-typedef signed int     s32;
-
-struct Slot {
-    void *buf;
-    u32   len;
-};
-
-extern void *func_0203D788(void);
 extern void *func_0203D798(void);
-extern int func_020395EC(struct Entry *a);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern struct Peer *func_0203996C(u32);
-extern void func_0203DAC4(const u8 *mac);
-extern void OS_GetMacAddress(u8 *);
-extern void func_02034714(const char *file, u32 line, const char *msg);
-extern void func_02039658(struct Entry *e, u32 idx);
-extern void func_0203971C(unsigned char *a, u32 b);
-extern u32 func_020307B0(void *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void  func_0203A574(u32 a0, u32 a1, u32 a2, u32 a3);
-void func_0203A118(u8 *p);
-void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer);
-void func_0203A27C(u32 a0, u32 a1, u8 *msg, u32 a3, u32 a4);
-u16 func_0203A28C(u16 mask, u32 idx, u32 set);
-u32 func_0203A2F0(u32 a0, u32 a1);
-void func_0203A338(u32 a0);
-void func_0203A388(int id, u32 len, const void *src, u32 a3, void *obj);
-void func_0203A424(char *p, int a, int b, int c);
-void func_0203A458(u8 *a0, u32 a1);
-void func_0203A494(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern const char file_020A7A68[];
-extern const char file_020A7AB0[];
-extern const char file_020A7ACC[];
-extern u8   *g_021469D8;
-extern u8    g_020A7AE8[];
-extern char  g_020A7AF8[];
+extern void *func_0203D788(void);
+extern u32  func_020377B8(u8);
+extern void func_0203AD80(u32, u32, u32, u32);
+extern void func_0203B9D4(u8 *);
+extern void func_0203B950(u8 *p);
+extern void func_0203B01C(void);
+extern u32  func_02037928(u32, u16);
+extern u32 func_02037A6C(u32, u32, u16, u32);
+extern void func_0203B90C(void);
+extern void func_0203B5D4(struct Slot *p);
+extern void func_0203B48C(void);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+extern int func_0203CEAC(int a0);
+extern u16 func_02039338(void);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern void func_0203AEEC(u8 *p);
+void func_0203BA98(u16 a0, u32 a1, u8 a2);
+void func_0203BBB0(u32 a);
+void func_0203BC58(u8 v56, u8 v53, const void *src);
+void func_0203BCE0(u8 *p);
+void func_0203BD30(u32 a0, u32 a1, u8 *a2);
+void func_0203BDEC(void);
+void func_0203BE5C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+u32 func_0203BEAC(void);
+void func_0203BEC8(u8 *p);
+void func_0203BF4C(void);
+void func_0203BF9C(u32 v);
+void func_0203BFF0(void);
+void func_0203C00C(void);
+extern u8 *g_021469DC;
 
 
-
-/*
- * Conditional state repair: when the context's +0x352 flag is clear the
- * object's +0x4A state is only pushed to 7 if it is not already 5, otherwise
- * 7 is stored unconditionally.  The `!= 0` arm is the branch and the `== 0`
- * arm is the fall-through, so that polarity is the source order; the inner
- * store is the conditional `movne`/`strbne` pair.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A118.c \
- *       --func func_0203A118 --addr 0x0203A118 --cc 1.1p1 --arm
- */
-void func_0203A118(u8 *p)
+void func_0203BA98(u16 a0, u32 a1, u8 a2)
 {
-    if (((struct Obj15952 *)((char *)func_0203D788()))->f352 == 0) {
-        if (p[0x4A] != 5)
-            p[0x4A] = 7;
+    u8 *s = func_0203D798();
+    u8 *p;
+    u64 x, y, r;
+    u32 delay = 30;
+
+    func_0203D788();
+    func_0203BC58(0, a2, 0);
+
+    if (s[0x65] == 3 || s[0x65] == 4) {
+        func_020377B8(0);
+        *(u32 *)(g_021469DC + 0x2C) = a1;
+        p = g_021469DC;
+        x = *(u64 *)(p + 0x0C);
+        y = *(u64 *)(p + 0x14);
+        r = y * x + *(u64 *)(p + 0x1C);
+        *(u64 *)(p + 0x0C) = r;
+        func_0203AD80((u32)p, (u32)func_0203B9D4, (u32)(((u64)(u32)(r >> 32) * delay) >> 32), delay + 0x3A8);
     } else {
-        p[0x4A] = 7;
+        p = g_021469DC;
+        if (p[0x53] != 0 && p[0x56] != 1) {
+            func_02037A6C(1, (u32)(p + 0x57), 0x200, (u32)func_0203B01C);
+        } else {
+            func_02037928(1, 0x200);
+        }
+        *(u32 *)(g_021469DC + 0x2C) = a1;
+        p = g_021469DC;
+        func_0203AD80((u32)p, (u32)func_0203B950, delay, delay + 0x3B4);
     }
 }
 
 
 
-void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
-{
-    struct Glob *g;
-    u8 mac[8];
-    u32 id;
-
-    g = func_0203D798();
-    id = func_020395EC((struct Entry *)peer);
-    if (id == 0xff)
-    {
-        peer->f4a = 5;
-        return;
-    }
-
-    if (g->f6e != 0)
-    {
-        if (g->f6e != msg->f0f)
-            func_0203A118((u8 *)peer);
-        if (g->f6e != msg->f0e)
-            func_0203A118((u8 *)peer);
-    }
-    else
-    {
-        if (g->f67 != msg->f0f)
-            func_0203A118((u8 *)peer);
-        if (g->f67 != msg->f0e)
-            func_0203A118((u8 *)peer);
-    }
-
-    OS_GetMacAddress(mac);
-    if (func_0203EFC8(msg->mac, mac, 6) == 0)
-    {
-        if (msg->f0c != func_020395EC((struct Entry *)peer))
-            func_0203A118((u8 *)peer);
-    }
-
-    if (peer->f4a == 7)
-        return;
-
-    func_0203996C(msg->f0c)->f4a = 5;
-
-    if (g->f0c != 0)
-        g->f0c(a3, msg->f0c);
-
-    func_0203DAC4(msg->mac);
-    func_0203DAC4((const u8 *)msg);
-}
-
-
-
-
 /*
- * A message-table handler that forwards to func_0203A338 with the message's
- * first byte as its only argument.  The five-argument table shape puts the
- * message pointer in r2, so the whole body is `ldrb r0,[r2]` followed by the
- * tail call, which one section per function forces to be a pool word and a
- * `bx ip` rather than a displacement branch
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  The remaining
- * parameters are leftovers and are not passed
- * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
+ * Two presets that differ only in the state byte they match and the handler
+ * they advertise.  Each test is a conjunction of the state byte and the
+ * eight-byte pointer stored beside it, and the first arm also refuses when
+ * the vtable's +0x10 hook answers zero.
+ *
+ * The four code addresses are declared as the functions they are: written as
+ * integer literals the front end folds two nearby ones into one pool word plus
+ * a `sub`, which is four bytes shorter than the original.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A27C.c \
- *       --func func_0203A27C --addr 0x0203A27C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203BBB0.c \
+ *       --func func_0203BBB0 --addr 0x0203BBB0 --cc 1.1p1 --arm
  */
-void func_0203A27C(u32 a0, u32 a1, u8 *msg, u32 a3, u32 a4)
+void func_0203BBB0(u32 a)
 {
-    func_0203A338(*msg);
-}
-
-
-
-
-/*
- * Set or clear one bit of the 16-bit slot mask, reporting at line 0x391 (913)
- * when the bit index is the 0xFF sentinel.  This is the write half of
- * func_0203A2F0's read (line 0x3AB), sharing its file/message pair.
- *
- * The mask is a u16 throughout, which is what the `lsl #0x10` / `lsr #16`
- * pairs around every store of it are: `1 << idx` is built in a word, narrowed
- * to 16 bits for the OR, and the complement for the clear arm is narrowed
- * THREE times: `~` widens back to int, the AND is done in int, and the result
- * is narrowed once more on the way to the variable.  Writing the clear arm as
- * the compound `mask &= (u16)~(u16)(1 << idx)` is 8 bytes short (one
- * `lsl`/`lsr` pair missing); the narrowing has to be spelled on the whole
- * assignment, `mask = (u16)((u16)mask & (u16)~(u16)(1 << idx))`.  The
- * set arm is the `orrne` and the clear arm the `mvneq` chain, so the source
- * polarity is `set != 0` first (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A28C.c \
- *       --func func_0203A28C --addr 0x0203A28C --cc 1.1p1 --arm
- */
-u16 func_0203A28C(u16 mask, u32 idx, u32 set)
-{
-    if (idx == 0xFF)
-        func_02034714(file_020A7A68, 0x391, file_020A7AB0);
-
-    if (set != 0)
-        mask |= (u16)(1 << idx);
-    else
-        mask = (u16)((u16)mask & (u16)~(u16)(1 << idx));
-
-    return mask;
-}
-
-
-
-
-/*
- * Tests one bit of a channel mask, the 0xFF argument being a non-fatal
- * report at line 0x3AB (939).  The mask is truncated to a byte before the
- * `tst`, which is the `(u8)` cast in the shift expression, and the result is
- * materialised as 1/0 in r0 rather than left as the `tst` flags.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A2F0.c \
- *       --func func_0203A2F0 --addr 0x0203A2F0 --cc 1.1p1 --arm
- */
-u32 func_0203A2F0(u32 a0, u32 a1)
-{
-    if (a1 == 0xFF)
-        func_02034714(file_020A7A68, 0x3AB, file_020A7AB0);
-    return (a0 & (u8)(1 << a1)) != 0;
-}
-
-
-
-
-/*
- * Promoted from src/pending/ on lane 1: every concrete byte is right (80 of
- * 80).  The one open site was the `bl` to 0x0203971C, whose only branch site
- * image-wide is this one, so `label` had no outside witness.  With
- * src/matched/func_0203971C.c filed EXACT the site resolves through the
- * `matched` class and the file prints EXACT with no change to its C.
- *
- * Pushes a slot's identity into both halves of the table, reporting at line
- * 0x3BE (958) when the identity is the 0xFF sentinel.  Each half is
- * `record((struct Entry *)func_0203996C(selector), id)` with the selector's result already in
- * r0, so the second call's first argument is the first call's return value
- * and no local is needed to hold it.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A338.c \
- *       --func func_0203A338 --addr 0x0203A338 --cc 1.1p1 --arm
- */
-void func_0203A338(u32 a0)
-{
-    if (a0 == 0xFF)
-        func_02034714(file_020A7A68, 0x3BE, file_020A7AB0);
-    func_02039658((struct Entry *)func_0203996C(a0), a0);
-    func_0203971C((unsigned char *)(struct Entry *)func_0203996C(0xFF), a0);
-}
-
-
-
-
-/*
- * Install a payload into slot `id`: bail out when the receiver is the own
- * link (func_020395EC returning 0xFF), report at line 0x3D1 (977) when the
- * slot index is out of range, free whatever the slot already holds, allocate
- * `len` bytes out of the heap named by the record's +0x56 halfword (line
- * 0x3D8), publish the buffer and its length together, and copy the payload
- * in.
- *
- * THIS FUNCTION TAKES FIVE PARAMETERS, NOT FOUR.  That is the whole of what
- * docs/notes/pkt_0203A388.c.txt diagnosed as a register-colouring residue.
- * The prologue is `push {r3, r4, r5, r6, r7, lr}`, six registers and so 0x18
- * bytes of frame, which makes the `ldr r0, [sp, #0x18]` at +0x18 a read
- * ABOVE the frame -- the caller's fifth argument -- and not the r3 home slot
- * the note read it as.  r3 is a dead fourth argument, the table-handler shape
- * this family uses throughout (func_0203A150, func_02039B5C, func_0203A27C).
- * Written with four parameters the compiler has to keep the receiver in a
- * register across func_0203D798, which costs r8, an extra callee-saved and a
- * spill slot: 172 bytes against 156.  With the fifth parameter the body is
- * size-exact and two bytes out, both of them trivial:
- *
- *   - the slot bound is SIGNED (`int id`, `id >= 9`).  The image's `blt`
- *     becomes `blo` the moment the index is unsigned.
- *   - the allocator's name argument is the file string 0x020A7A68, the same
- *     word the assert's first argument uses, NOT the message 0x020A7ACC.
- *     Both are pool words at nearly the same displacement, so the wrong one
- *     costs exactly one byte of `ldr` offset.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A388.c \
- *       --func func_0203A388 --addr 0x0203A388 --cc 1.1p1 --arm
- */
-void func_0203A388(int id, u32 len, const void *src, u32 a3, void *obj)
-{
+    u8 *s = func_0203D788();
     u8 *g;
-    struct Slot *s;
 
-    g = func_0203D798();
-    if (func_020395EC(obj) == 0xff)
-        return;
-    if (id >= 9)
-        func_02034714(file_020A7A68, 0x3D1, file_020A7ACC);
-    s = (struct Slot *)(struct Entry *)func_0203996C(id);
-    if (s->buf != 0)
-        func_020307B0(s->buf);
-    s->buf = func_02030734(((struct Obj15954 *)g)->f56, len, 1, file_020A7A68, 0x3D8);
-    s->len = len;
-    MI_CpuCopy8(src, s->buf, len);
-}
-
-
-
-void func_0203A424(char *p, int a, int b, int c)
-{
-    if (p == 0)
-        return;
-    ((struct Obj06942 *)p)->f46 = (unsigned short)(a + (b << 8));
-    p[0x48] = (char)c;
-    if (func_020395EC((struct Entry *)p) == 0xff)
-        p[0x49] = 0;
-    else
-        p[0x49] = 1;
-}
-
-
-
-
-/*
- * Broadcasts a byte value to the +0xE and +0xF bytes of all nine channel
- * records at ((u32 *)arg0)[i + 2], skipping the ones whose +0xD flag is
- * clear.  The argument truncation is written at both stores and the compiler
- * hoists the single `and r1, r1, #0xff` out of the loop into the argument
- * register itself, after the loop counter has been initialised.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A458.c \
- *       --func func_0203A458 --addr 0x0203A458 --cc 1.1p1 --arm
- */
-void func_0203A458(u8 *a0, u32 a1)
-{
-    int i;
-
-    if (a0 == 0)
-        return;
-    for (i = 0; i < 9; i++) {
-        u8 *q = *(u8 **)(a0 + (i << 2) + 8);
-
-        if (q != 0 && q[0xD] != 0) {
-            q[0xE] = (u8)a1;
-            q[0xF] = (u8)a1;
+    g = g_021469DC;
+    if (g[0x56] == 2 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B950) {
+        if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) != 0) {
+            func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)func_0203B90C), 0, 0x3E0);
         }
     }
+
+    g = g_021469DC;
+    if (g[0x56] == 1 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B5D4) {
+        func_0203AD80((u32)((struct NetState *)g), (u32)((void *)func_0203B48C), 0, 0x3E9);
+    }
 }
 
 
 
 
 /*
- * Lazy-init wrapper: the 0x22c-byte context at g_021469D8 is allocated on
- * first use with the debug allocator (heap 0, size 0x22c, flags 1, line
- * 0x96), the delegate func_0203A574 is called, arg3 is published at +8 of
- * the state object in g_020A7AE8, and the 8-byte run at +0x220 plus the byte
- * at +0x228 are cleared.
- *
- * The clearing loop reloads g_021469D8 from memory on every iteration
- * (`ldr r1, [r0]` sits inside the back edge), which is what a global
- * POINTER read in a loop body compiles to when nothing in the loop proves it
- * cannot change -- writing `u8 *p = g_021469D8;` first would hoist the load
- * and change three instructions.  The loop counter is initialised before the
- * `str r5, [r0, #8]` store (`mov r3, #0` at +0x60), and the byte index is
- * added to the reloaded pointer rather than to a running cursor.
+ * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A494.c \
- *       --func func_0203A494 --addr 0x0203A494 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203BC58.c \
+ *       --func func_0203BC58 --addr 0x0203BC58 --cc 1.1p1 --arm
  */
-void func_0203A494(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+void func_0203BC58(u8 v56, u8 v53, const void *src)
 {
-    int i;
+    func_0203D788();
+    g_021469DC[0x53] = v53;
+    g_021469DC[0x56] = v56;
 
-    if (g_021469D8 == 0) {
-        g_021469D8 = (u8 *)func_02030734(0, 0x22c, 1, g_020A7AF8, 0x96);
+    if (src != 0) {
+        MI_CpuCopy8(src, g_021469DC + 0x57, 6);
+    } else {
+        MI_CpuFill8(g_021469DC + 0x57, 0xFF, 6);
     }
-    func_0203A574(a0, a1, a2, a3);
-    *(u32 *)(g_020A7AE8 + 8) = a3;
-    for (i = 0; i < 8; i++) {
-        g_021469D8[0x220 + i] = 0;
+
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203BBB0), 0, 0x406);
+    func_0203BBB0((u32)g_021469DC);
+}
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BCE0.c \
+ *       --func func_0203BCE0 --addr 0x0203BCE0 --cc 1.1p1 --arm
+ */
+void func_0203BCE0(u8 *p)
+{
+    u8 *s = func_0203D788();
+
+    if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) == 0)
+        return;
+
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203B90C), 0, 0x411);
+}
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BD30.c \
+ *       --func func_0203BD30 --addr 0x0203BD30 --cc 1.1p1 --arm
+ */
+void func_0203BD30(u32 a0, u32 a1, u8 *a2)
+{
+    func_0203D788();
+
+    g_021469DC[0x53] = (u8)a1;
+    g_021469DC[0x56] = (u8)a0;
+
+    if (a2 != 0)
+        MI_CpuCopy8(a2, g_021469DC + 0x57, 6);
+    else
+        MI_CpuFill8(g_021469DC + 0x57, 0xFF, 6);
+
+    if (g_021469DC[0x56] == 2)
+        func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203B48C), 0, 0x430);
+
+    if (g_021469DC[0x56] == 1) {
+        func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203BCE0), 0, 0x438);
+        func_0203BCE0(g_021469DC);
     }
-    g_021469D8[0x228] = 0;
+}
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BDEC.c \
+ *       --func func_0203BDEC --addr 0x0203BDEC --cc 1.1p1 --arm
+ */
+void func_0203BDEC(void)
+{
+    u8 *p = func_0203D798();
+    u8 *s = func_0203D788();
+
+    if ((u8)(p[0x65] + 0xFD) <= 1) {
+        if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0xAC))() != 0)
+            return;
+        func_0203CEAC(0);
+    } else {
+        u8 *s2 = func_0203D788();
+
+        if (((*(u32 (**)(void))(*(u32 *)(s2 + 0x340) + 0x7C))() & 0xFFFE) != 0)
+            return;
+        func_0203CEAC(0);
+    }
+}
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BE5C.c \
+ *       --func func_0203BE5C --addr 0x0203BE5C --cc 1.1p1 --arm
+ */
+void func_0203BE5C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+{
+    func_0203D3A8((void *)a4, 2, 0, 0);
+
+    if (func_02039338() != 0)
+        return;
+
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203BDEC), 0, 0x46C);
+}
+
+
+
+
+/*
+ * "If the state is non-zero, park the card interface."  The result of the
+ * test is kept in a local and returned, so the zero path is the `popeq` that
+ * gives back r0 == 0 and the busy path returns whatever func_0203CEAC leaves
+ * in r0 - no second `mov r0, #0` anywhere.
+ *
+ * The local is load-bearing: spelling it `if (func_02039338() == 0) return 0;
+ * return func_0203CEAC(0);` hoists the `mov r0, #0` that sets up the call's
+ * argument above the conditional return and lands two instructions late.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BEAC.c \
+ *       --func func_0203BEAC --addr 0x0203BEAC --cc 1.1p1 --arm
+ */
+u32 func_0203BEAC(void)
+{
+    u32 r;
+
+    r = func_02039338();
+    if (r != 0)
+        r = func_0203CEAC(0);
+    return r;
+}
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BEC8.c \
+ *       --func func_0203BEC8 --addr 0x0203BEC8 --cc 1.1p1 --arm
+ */
+void func_0203BEC8(u8 *p)
+{
+    u8 *s;
+
+    func_0203D798();
+    s = func_0203D788();
+
+    if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0x78))() != 0) {
+        if ((*(u32 (**)(u32))(*(u32 *)(s + 0x340) + 0x14))(0) == 0)
+            return;
+        func_0203AEEC(p);
+        return;
+    }
+
+    if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0x6C))() != 0)
+        return;
+    if ((*(u32 (**)(u32))(*(u32 *)(s + 0x340) + 0x14))(0) == 0)
+        return;
+    func_0203AEEC(p);
+}
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203BF4C.c \
+ *       --func func_0203BF4C --addr 0x0203BF4C --cc 1.1p1 --arm
+ */
+void func_0203BF4C(void)
+{
+    u8 *s = func_0203D788();
+
+    if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) == 0)
+        return;
+
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)0x0203BEC8), 0, 0x4A4);
+}
+
+
+
+
+/*
+ * 116 bytes, three functions: the setter, the 28-byte leaf that clears the
+ * same flag, and the four-byte `bx lr` stub the card task is handed as a
+ * callback (src/pending/func_0203C010.c passes it at 0x0203C00C).
+ *
+ * The two leaves carry no label in the generated listing - neither saves `lr`
+ * - so this range used to stop at 0x0203BF9C with an `EXACT*`, the inferred
+ * extent running on to the next labelled function at 0x0203C010.  Writing
+ * them as the unit's own functions is what closes the range.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0203BF9C.c \
+ *       --addr 0x0203BF9C --arm --cc 1.1p1
+ */
+void func_0203BF9C(u32 v)
+{
+    u8 *p = g_021469DC;
+
+    if (p != 0 && p[0x51] != 0)
+        return;
+
+    ((struct Obj11878 *)p)->f28 = v;
+    g_021469DC[0x51] = 1;
+    func_0203AD80((u32)((struct NetState *)g_021469DC), (u32)((void *)func_0203BF4C), 5, 0x4B7);
+}
+
+
+
+
+void func_0203BFF0(void)
+{
+    if (g_021469DC != 0)
+        g_021469DC[0x51] = 0;
+}
+
+
+
+
+void func_0203C00C(void)
+{
 }

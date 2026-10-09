@@ -8,8 +8,18 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT*
+ *
+ * symbols:
+ *   func_02085CBC 0x02085CBC arm
+ *   func_02086DB0 0x02086DB0 arm
  */
+typedef unsigned int u32;
 
-asm void func_027312B4(void)
+extern void func_02085CBC(void);
+extern void func_02086DB0(u32, u32, u32);
+
+void func_027312B4(void)
 {
+    func_02085CBC();
+    func_02086DB0(3, 0x8000000, 0x32);
 }

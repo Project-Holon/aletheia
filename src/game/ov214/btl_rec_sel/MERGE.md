@@ -1,6 +1,0 @@
-# btl_rec_sel: 2 parts plus btl_rec_sel_graphic.c (r3_ov10)
-
-p02|p03 closed (d_021BB498 unified to const u32 [][11] and the use rewritten as d_021BB498[i][0]).
-p01|p02: struct S (p01), S_021BA6F0 and S_021BAE10 (p02) are three views of one object; func_021BA5C8, func_021BA8DC, func_021BA4E8, func_021BAF64, func_021BA794 take them as different pointer types; func_0201C724 and func_020307B0 prototypes differ (int versus void * first argument). Needs one canonical struct.
-Unmatched code: 0x021BB0D8..0x021BB178 (about 160 bytes) lies between btl_rec_sel_p02 and btl_rec_sel_graphic.c and is covered by no function.
-r4_ov10 note: the uncovered range is one function, func_021BB0D4 (push {r3,r4,r5,lr} at 0x021BB0D4, pop at 0x021BB15C, literal pool 0x021BB160..0x021BB178): calls func_020434DC(1,1), clears and sets bits in the 16-bit registers at 0x04000008 and 0x04000060 (pool 0xFFFFCFFD and 0xCFEF/0xCFFB/0xCFDF masks), calls 0x0207DC44 and 0x0207DD24, stores 0xBFFF0000 to 0x04000580, then loops i<4 calling 0x02046A94((u8)i, tbl + i*8) with tbl at 0x021BB568, and ends with 0x02046BE0(0,0). Not written yet: the mask constants share one register (r5 = 0xFFFFCFFD) so the C form needs care. Boundary stays.

@@ -1,13 +1,16 @@
 # field_place_name (ov021)
 
-10 parts, every one EXACT (was 11). Round 4 (r4_ov06) injected the hidden function func_021BBF74
-(`void func_021BBF74(void) {}`, the `bx lr` leaf at 021BBF74) and merged old p02, the leaf and old p03
-into the new p02. Parts were renumbered: new p03..p10 are the old p04..p11. Open boundaries:
-- p01|p02: two different struct Head (typedef redefined; 'tab' is not a member of the other view).
-- p02|p03 (old p03|p04): DIFF without compile error.
-- p03|p04 (old p04|p05): func_021BD184 is called with one argument and defined with four; removing the
-  prototype is not enough, struct Obj has no h42 in one view.
-- p04|p05: func_021BD2A4 (u32 x4 against Obj *). p05|p06: struct Q / Obj_021BC704 views.
-- p06|p07: func_021BD93C takes u32 * in one part and u32 in the other.
-- p07|p08: Inner_021BD904 differs. p08|p09: func_021BDD9C one argument against two (definition is void).
-- p09|p10: func_021BE148 returns struct Q and takes (u32, int) in one part, one argument in the other.
+Nine parts remain, every one EXACT (was 10). Round 5 (r5s08): struct Head had two views
+(p01: pad[4], void *h4, u16 tab[]; p02: int h0, int h4). It is now one typedef struct Head
+{ int h0; int h4; u16 tab[1]; } in both, with a (void *) cast at the func_02050340 call; the old p01 and p02 merged.
+
+Open boundaries (greedy merge result, numbers are the new part numbers):
+- p01|p02 (021BC704): c99=DIFF with no mismatching rows in the diff window (code before the boundary
+  ends in `pop {r4, pc}`; no uncovered code). Needs a look at the size table of the merged build.
+- p02|p03: func_021BD184 is (void *) in one part and four u32 parameters in another;
+  an `h42` member is missing in one view of an object.
+- p03|p04: u32 passed where an anonymous struct pointer is expected (func_021BD1EC area).
+- p04|p05 .. p07|p08: anonymous struct views (f00, f0, f4 members missing in one view), u32 * against u32.
+- p08|p09: func_021BDD9C takes (struct *, void *) in one part and (struct *) in the other;
+  func_021BE148 is (u32) against (u32, int).
+Each needs one canonical struct per object, offsets checked against every view.

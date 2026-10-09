@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p58.c
  * unit:     yes
- * function: func_0203D5AC, func_0203D5D4, func_0203D5EC, func_0203D610
- * address:  0x0203D5AC
+ * function: func_0203E538, func_0203E590, func_0203E5AC
+ * address:  0x0203E538
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,102 +11,60 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   g_021469F0      0x021469F0  data
+ *   g_021469F4      0x021469F4  data
+ *   s_020A7D34      0x020A7D34  data
+ *   s_020A7D4C      0x020A7D4C  data
+ *   s_020A7D68      0x020A7D68  data
+ *   s_020A7D74      0x020A7D74  data
+ *   s_020A7DA0      0x020A7DA0  data
+ *   s_020A7E00      0x020A7E00  data
+ *   d_021469F0 0x021469F0 data a4
  */
-#include "../../matched/include/Obj11374.h"
-#include "../../matched/include/Obj11375.h"
-
-struct Entry;
 typedef unsigned char u8;
 
-typedef unsigned int  u32;
+typedef unsigned int   u32;
 
-typedef signed int     s32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+void func_0203E538(int a0);
+int func_0203E590(void);
+void func_0203E5AC(int a0);
+extern int *g_021469F0;
+extern int *g_021469F4;
+extern char s_020A7D34[];
+extern char s_020A7D4C[];
+extern char s_020A7D68[];
+extern char s_020A7D74[];
+extern char s_020A7DA0[];
+extern char s_020A7E00[];
+extern unsigned char *d_021469F0;
 
-extern void *func_0203D788(void);
-extern void *func_0203D798(void);
-extern struct Entry *func_0203996C(s32 idx);
-extern void func_0203A458(u8 *a0, u32 a1);
-void func_0203D5AC(int a, int b);
-u32 func_0203D5D4(void);
-u32 func_0203D5EC(void);
-u32 func_0203D610(void);
-
-
-/*
- * PROMOTED from src/pending/.  The `bl` to 0x0203A458 was this file's last
- * open site; it now resolves as `matched` against that function's own EXACT
- * shard entry, so the cap is gone.
- *
- * Sets the net context's +0x67 byte to the argument (after forcing the
- * context through func_0203D788), then updates the channel with
- * func_0203996C(0xff) and func_0203A458.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D5AC.c \
- *       --func func_0203D5AC --addr 0x0203D5AC --arm --cc 1.1p1
- */
-void func_0203D5AC(int a, int b)
+void func_0203E538(int a0)
 {
-    u8 *p;
-
-    func_0203D788();
-    p = func_0203D798();
-    p[0x67] = (u8)a;
-    func_0203A458((u8 *)func_0203996C(0xff), a);
-}
-
-
-
-/*
- * Returns the byte at +0x67 of the net context, or 0 when there is none.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D5D4.c \
- *       --func func_0203D5D4 --addr 0x0203D5D4 --arm --cc 1.1p1
- */
-u32 func_0203D5D4(void)
-{
-    u8 *p = func_0203D798();
-
-    return p != 0 ? p[0x67] : 0;
-}
-
-
-
-/*
- * Calls the net context's +0x44 callback with its +0x34c argument, or
- * returns 0 when no callback is installed.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D5EC.c \
- *       --func func_0203D5EC --addr 0x0203D5EC --arm --cc 1.1p1
- */
-u32 func_0203D5EC(void)
-{
-    u8 *p = func_0203D788();
-
-    if (((struct Obj11374 *)p)->f44 == 0) {
-        return 0;
+    if (g_021469F0 == 0)
+        func_02034714(s_020A7D34, 0x2e4, s_020A7D68);
+    if (g_021469F0 != 0) {
+        *(u8 *)((char *)g_021469F0 + 0x106) = (u8)(a0 + 1);
+        *(u8 *)((char *)g_021469F0 + 0x10a) = 1;
     }
-    return ((u32 (*)(u32)) * (u32 *)(p + 0x44))(((struct Obj11374 *)p)->f34C);
 }
 
-
-
 /*
- * Calls the net context's +0x40 callback with its +0x34c argument, or
- * returns 0 when no callback is installed.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D610.c \
- *       --func func_0203D610 --addr 0x0203D610 --arm --cc 1.1p1
+ * Reads byte 0x108 of the singleton, or 0 when it is not allocated.
  */
-u32 func_0203D610(void)
+int func_0203E590(void)
 {
-    u8 *p = func_0203D788();
+    unsigned char *p = d_021469F0;
+    if (p == 0) return 0;
+    return p[0x108];
+}
 
-    if (((struct Obj11375 *)p)->f40 == 0) {
-        return 0;
-    }
-    return ((u32 (*)(u32)) * (u32 *)(p + 0x40))(((struct Obj11375 *)p)->f34C);
+void func_0203E5AC(int a0)
+{
+    if (g_021469F0 == 0)
+        func_02034714(s_020A7D34, 0x31a, s_020A7D68);
+    if (g_021469F0 != 0)
+        *(u8 *)((char *)g_021469F0 + 0x10b) = (u8)a0;
 }

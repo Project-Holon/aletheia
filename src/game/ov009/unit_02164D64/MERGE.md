@@ -4,8 +4,9 @@
   system.o statics (WCMi_OverridedDeviceId, wcmw) as file statics. Verdict MATCH, not EXACT: the
   ABS32 pool words that point at the ov009 .bss statics cannot be attested by match.py (the
   tool cannot resolve a .bss-relative target in an overlay), so every use of `wcmw` shows as
-  unresolved. The code bytes are identical. 0x02164D64 is still a 16-byte `asm` stand-in
-  (`ldr ip,=WCM_InitEx; mov r2,#1; bx ip`, a tail call mwcc does not emit from plain C).
+  unresolved. The code bytes are identical. Round 5: the 16-byte asm stand-in at 0x02164D64 is
+  now plain C (`void CRYPTOi__BN_lshift1(void *buf, long len) { WCM_InitEx(buf, len, 1); }`,
+  mwcc emits the tail call by itself).
 - `unit_02164D64_p02.c` (02165B68 WCMi_GetDefaultDeviceId): EXACT.
 
 Boundary p01 | p02: 12-byte linker veneer at 0x02165B5C..0x02165B68 (WcmKeepAliveAlarm).

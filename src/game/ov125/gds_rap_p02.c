@@ -1,6 +1,7 @@
 /*
  * function: func_021D770C
  * address: 0x021D770C
+ * lang:     c99
  * packet: pkt_ov125_021D770C
  * region: ov125
  * compiler: dsi/1.1p1

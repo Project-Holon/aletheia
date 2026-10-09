@@ -187,7 +187,14 @@
  * barrier pseudo-op. Neighbour pragmas: + opt_common_subs off (as 021B33F8/021B3924) 6, opt_lifetimes off
  * (as 021B0614) 198. Statement order cannot move the cycle-6 pick (decided by height, deadlines cannot
  * separate the nodes). Notes: scratchpad wD9r/p6_P6L16/research.md.
- * symbols:
+ * pass 7 2026-10-09 r5g02 (about 8 compiles, best stays 6 B): checked the pick table of pre block 16
+ * again. Putting d_021B4C2C.f8 = 0 into the success block (a real G-set store after the f0 store)
+ * gives the wanted order 5 7 10 (str thr, str f4, then the 3C50 load), because h(str thr) rises to
+ * 5 and ties the pool load, which loses on desc. So the original has one more node after str thr
+ * with a latency path of 2 to the end; no emitted instruction can be that node. Same family as the
+ * 8-byte head result of P6L13: with f1 (flexible f8) only the two ring updates differ (37 B), and a
+ * ring declared [4] changes nothing (the ring store AO stays inside G, so str ring -> str f4 stays
+ * an edge). Not filed. * symbols:
  *   d_021B3C50  0x021B3C50  data  a4
  *   d_021B4C38  0x021B4C38  data  a4
  *   d_021B4C2C  0x021B4C2C  data  a4

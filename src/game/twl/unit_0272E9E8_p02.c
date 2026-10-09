@@ -1,7 +1,7 @@
 /*
  * file:     unit_0272E9E8_p02.c
  * unit:     yes
- * function: func_0272EBDC, func_0272EC38, func_0272ED4C, func_0272EE2C, func_0272EE98, func_0272EFB0, func_0272F0BC, func_0272F368, func_0272F570, func_0272F740
+ * function: func_0272EBDC, func_0272EC38
  * address:  0x0272EBDC
  * region:   twl
  * compiler: dsi/1.1p1
@@ -16,17 +16,6 @@ typedef unsigned int u32;
 
 asm u32 func_0272EBDC(void *r0);
 asm void func_0272EC38(void);
-asm void func_0272ED4C(void);
-asm void func_0272EE2C(void);
-asm void func_0272EE98(void);
-asm void func_0272EFB0(void);
-asm void func_0272F0BC(void);
-asm void func_0272F368(void);
-asm void func_0272F570(void);
-asm void func_0272F740(void);
-
-
-
 
 asm u32 func_0272EBDC(void *r0)
 {
@@ -59,54 +48,5 @@ asm u32 func_0272EBDC(void *r0)
 
 
 asm void func_0272EC38(void)
-{
-}
-
-
-
-
-asm void func_0272ED4C(void)
-{
-}
-
-
-
-
-asm void func_0272EE2C(void)
-{
-}
-
-
-
-
-asm void func_0272EE98(void)
-{
-}
-
-
-
-asm void func_0272EFB0(void)
-{
-}
-
-
-
-asm void func_0272F0BC(void)
-{
-}
-
-
-
-asm void func_0272F368(void)
-{
-}
-
-
-
-asm void func_0272F570(void)
-{
-}
-
-asm void func_0272F740(void)
 {
 }

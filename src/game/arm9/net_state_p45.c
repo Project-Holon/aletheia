@@ -1,14 +1,29 @@
 /*
- * unit:     no
- * function: func_0203C464
- * address:  0x0203C464
- * packet:   pkt_0203C304
+ * function: func_0203D788
+ * address:  0x0203D788
+ * packet:   pkt_0203D788
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   g_021469E0  0x021469E0  data
+ *
+ * Returns the net context pointer the manager keeps at +8 of 0x021469E0.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D788.c \
+ *       --func func_0203D788 --addr 0x0203D788 --arm --cc 1.1p1
  */
 
-int func_0203C464(int a0, int a1, int a2, int a3){ int t0 = func_0203D788(); int t1 = func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203C0F4, (int)0, (int)0x637); return t1; }
+typedef unsigned char u8;
+
+extern u8 g_021469E0[];
+
+void *func_0203D788(void)
+{
+    return *(void **)(g_021469E0 + 8);
+}

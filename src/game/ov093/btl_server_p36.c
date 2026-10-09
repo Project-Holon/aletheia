@@ -1,217 +1,126 @@
 /*
- * file:     btl_server_p36.c
- * unit:     yes
- * function: func_021C0C34, func_021C0C38, func_021C0CB4, func_021C0CE8, func_021C0D70, func_021C0D90
- * address:  0x021C0C34
- * region:   ov093
+ * function: func_021C0F24
+ * address: 0x021C0F24
+ * packet: pkt_ov093_021C0F24
+ * region: ov093
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   EXACT
- *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: full-word aggregate eighth slot and declarations in spill order.
+ * budget: 3 one runs; both permitted scheduling variants consumed.
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
- *   func_021C0EC4 0x021C0EC4 thumb ov093
- *   func_021C0ED4 0x021C0ED4 thumb ov093
- *   func_021C0EE4 0x021C0EE4 thumb ov093
- *   func_021C0EF4 0x021C0EF4 thumb ov093
+ *   func_021C1144 0x021C1144 thumb ov093
+ *   func_021C1154 0x021C1154 thumb ov093
+ *   func_021C1164 0x021C1164 thumb ov093
+ *   func_021C1174 0x021C1174 thumb ov093
+ *   func_021D5440 0x021D5440 thumb ov093
+ *   func_021B8590 0x021B8590 thumb ov093
+ *   func_021D62A8 0x021D62A8 thumb ov093
+ *   func_021D5B68 0x021D5B68 thumb ov093
+ *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   func_021CD64C 0x021CD64C thumb ov093
  *   func_021C0A4C 0x021C0A4C thumb ov093
- *   func_021CD4FC 0x021CD4FC thumb ov093
- *   func_021C0F04 0x021C0F04 thumb ov093
  *   func_021C11A4 0x021C11A4 thumb ov093
- *   func_021BEC08 0x021BEC08 thumb ov093
- *   func_021BA1B4 0x021BA1B4 thumb ov093
- *   func_021C0F14 0x021C0F14 thumb ov093
+ *   func_021C195C 0x021C195C thumb ov093
+ *   func_021BFA60 0x021BFA60 thumb ov093
+ *   func_021C15AC 0x021C15AC thumb ov093
+ *
+ * Single dynamic executor loop: 0FD4..10B8. Sum/counters retain full-word
+ * wrapping adds and unsigned bound comparison; bound is reread after calls.
+ * Both flag stores 0FF0/0FF8 precede executor calls. Own C091C proves
+ * u32 return/fifth argument. C1144 targets matched ov095 CC70 u32 iterator;
+ * 1154/1164/1174 target matched D5C8 (u8 key/result). Own C0A4C/C11A4
+ * prove seven/eight physical slots, including 1000 and explicit final zero.
+ * C15AC primary 15AC..15CE compares full signed r1 without truncation.
+ * Flags is exactly one u32 with no padding, initialized by f.word=0.
+ * Original 0FA4/0FA6 copies the initialized index-zero to sp28; 1048/104A
+ * writes that full word to outgoing sp0C. Own C11A4 copies all 32 bits of
+ * its eighth input unchanged into C11F0's eighth slot; scalar/aggregate
+ * spelling changes neither bits nor arity. Run02/03 retain identical
+ * physical argument stores, with only the five spill offsets corrected.
  */
-#include "../../matched/include/Obj21064.h"
-#include "../../matched/include/Obj21066.h"
-#include "../../matched/include/Obj01373.h"
-
+#include "../../matched/include/Obj02134.h"
+#include "../../matched/include/Obj21074.h"
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
+struct State { u8 pad[5]; u8 a:1; u8 b:1; };
+struct Flags { u32 word; };
+struct Entry { u16 value; u16 id:5, mode:4, type:4, marked:1, special:1, error:1; };
+struct List { u8 good, bad, count, pad; struct Entry entries[1]; };
+struct Q { u16 h0; u8 pad[6]; u32 w8; };
+struct Slot { u32 a:3; u32 rest:29; };
+struct Unk021D62A8 { u8 pad[0x1c]; struct Slot e[6]; };
+extern u32 func_021C1144(void *, u32);
+extern u8 func_021C1154(u8 *, u8);
+extern u8 func_021C1164(u8 *, u8);
+extern u8 func_021C1174(u8 *, u8);
+extern u8 func_021D5440(u8 *p);
+extern unsigned int func_021B8590(unsigned char *p);
+extern int func_021D62A8(struct Unk021D62A8 *);
+extern int func_021D5B68(void *);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void func_021CD64C(void *, u8, ...);
+extern void func_021C0A4C(u8 *, u8 *, u8 *, const u8 *, const u32 *, u16, struct List *);
+extern u32 func_021C11A4(u8 *, u16 *, u8 *, u8 *, u8 *, u8 *, u32, struct Flags);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
+extern int func_021BFA60(u8 *, u8 *, u8 *, struct Q *);
+extern void func_021C15AC(u8 *, int);
 
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef struct { u16 v; u16 idx:5, b:4, pad:4, c:1, pad2:1, flag:1; } Rec;
-
-typedef struct { u8 pad0[2]; u8 n; u8 pad3[1]; Rec r[1]; } List;
-
-struct Ent_021C0CB4 {
-    u16 v;
-    u16 lo:5;
-    u16 b:4;
-    u16 c:4;
-    u16 d:1;
-    u16 e:1;
-    u16 f:1;
-};
-
-struct Q_021C0CB4 { u8 pad0[2]; u8 n; u8 pad3; struct Ent_021C0CB4 e[]; };
-
-struct Ent_021C0CE8 {
-    u16 v;
-    u16 lo : 5;
-    u16 b : 4;
-    u16 c : 4;
-    u16 d : 1;
-    u16 e : 1;
-    u16 f : 1;
-};
-
-struct Q_021C0CE8 { u8 pad0[2]; u8 n; u8 pad3; struct Ent_021C0CE8 e[1]; };
-
-typedef struct Flags { u32 a:1; u32 b:1; } Flags;
-
-extern u8 *func_021B9934(char *p, int i);
-extern u32 func_021C0EC4(u8 *);
-extern u32 func_021C0ED4(u8 *);
-extern void func_021C0EE4(u8 *, u8 *, u8 *);
-extern void func_021C0EF4(u8 *, u8 *, u8 *);
-extern void func_021C0A4C(u8 *, u8 *, u8 *, u8 *, u32, u32, u8 *);
-extern u32 func_021CD4FC(u8 *, u32);
-extern u32 func_021C0F04(u8 *);
-extern u32 func_021C11A4(u8 *, u8 *, u8 *, u8 *, u8 *, u8 *, u32, Flags);
-extern int func_021BEC08(u8 *p, u8 *a);
-extern void func_021BA1B4(char **p, int i);
-extern u32 func_021C0F14(u8 *);
-u32 func_021C0C34(u8 *p);
-int func_021C0C38(u8 *p, const List *l, u32 *o0, u16 *o1, u32 *o2, u8 *o3);
-int func_021C0CB4(u8 *p, const struct Q_021C0CB4 *q, u32 *out);
-int func_021C0CE8(u8 *p, const struct Q_021C0CE8 *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5);
-u32 func_021C0D70(const u8 *q);
-u32 func_021C0D90(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *out, u32 d);
-
-
-
-/* 021C0C34  ldrb r0,[r0,#2] */
-/*
- * Reads the u8 field at #2 of the argument and returns it.
- */
-u32 func_021C0C34(u8 *p) { return p[2]; }
-
-
-
-int func_021C0C38(u8 *p, const List *l, u32 *o0, u16 *o1, u32 *o2, u8 *o3)
-{
-    u32 i = 0;
-    int k = 0;
-    for (; i < l->n; i++) {
-        if (l->r[i].flag) {
-            o0[k] = (u32)func_021B9934(*(void **)(p + 8), (u8)l->r[i].idx);
-            o1[k] = l->r[i].v;
-            o2[k] = l->r[i].b;
-            o3[k] = l->r[i].c;
-            k++;
-        }
-    }
-    return k;
-}
-
-
-
-/*
- * Record shape follows the matched unpacker func_021C0CE8.
- * The byte count admits multiple four-byte trailing records (q+4+i*4);
- * a flexible array models that extent without imposing a one-record bound.
- * The original narrows the five-bit field to u8 before the call.
- */
-int func_021C0CB4(u8 *p, const struct Q_021C0CB4 *q, u32 *out)
-{
-    u32 i = 0;
-    for (; i < q->n; i++)
-        out[i] = (u32)func_021B9934(*(char * *)&((struct Obj21064 *)p)->f8, (u8)q->e[i].lo);
-    return q->n;
-}
-
-
-
-
-/*
- * Structure recovered (7 parameters; the three stack pointers are re-stored to
- * their own slots in the prologue, `ldr r0,[sp,#0x28]; str r0,[sp,#0x28]`,
- * which the compiled code reproduces). Entries at q+4, stride 4: {u16 v; u16
- * bitfield}, bitfield lo:5 b:4 c:4 d:1 e:1 f:1 (LSB first: lsls #0x1b, #0x17,
- * #0x13, #0x12, #0x10 pairs). Loop keeps entries with f == 0 and packs
- * o1[n]=func_021B9934(p[8], lo) (u8 argument: a `lsls/lsrs #0x18` follows the
- * 5-bit extract), o2[n]=v, o3[n]=b, o4[n]=d, o5[n]=c.
- *
- * Residue: register/spill allocation of the loop. Original: q in r6, i in r7,
- * n in r4, i*4 in r5, the hoisted q+6 spilled to [sp+0x10], flag test through
- * (q+r5)+6 and the lo/b/c/d fields through ONE shared halfword load from the
- * hoisted base (`ldrh r0,[r0,r5]` after `ldr r0,[sp,#0x10]`) with the flag and v read
- * separately through q+r5. Compiled: q in r7, i spilled to [sp+0x10], the hoisted
- * q+6 in r6, and each bitfield reloaded from memory (138 B against 136 B, no
- * cast; 142 B with the u8 parameter). Struct Bits copy (`t = e[i].bits`) gives
- * the single shared load but adds a stack temp and swaps i/n.
- *
- * checks: 1 func_021B9934 is (char *p, int i) in its matched file; the original casts the lo field to u8 before the bl, so the extern parameter is u8 (tried: +4 bytes of cast, spills unchanged); 2 no twin in ov093 with a 7-parameter bitfield unpack; 3 u32/int for i and n, u8-cast loop bound, n declared before i, struct Bits copy for b/c/d, manual (h>>5)&0xf form (gives asrs/ands, wrong), pointer form q+4 cast to struct Ent: none moved q into r6 and i into r7; 4 none fits (declaration-order idiom tried as n-before-i, no change); 5 no new idiom. Sweep I would run: the permuter over declaration order and over which of the flag/lo/b/c/d reads go through a shared u16 local.
- */
-int func_021C0CE8(u8 *p, const struct Q_021C0CE8 *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5)
-{
-    u32 i = 0;
-    u32 n = 0;
-    for (; i < q->n; i++) {
-        if (q->e[i].f == 0) {
-            o1[n] = (u32)func_021B9934(*(char * *)&((struct Obj21066 *)p)->f8, (u8)q->e[i].lo);
-            o2[n] = q->e[i].v;
-            o3[n] = q->e[i].b;
-            o4[n] = q->e[i].d;
-            o5[n] = q->e[i].c;
-            n++;
-        }
-    }
-    return n;
-}
-
-
-
-/*
- * Extent ends with two zero alignment bytes at 0x021C0D8E.
- * Declare i before sum, but initialize sum before i, to reproduce both
- * register allocation and the order of the initial movs instructions.
- * Each record supplies the halfword at offset 4, stride 4.
- */
-u32 func_021C0D70(const u8 *q)
+u32 func_021C0F24(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
 {
     u32 i;
+    u32 completed;
     u32 sum = 0;
-    i = 0;
-    for (; i < q[2]; i++)
-        sum += *(const u16 *)(q + 4 + i * 4);
-    return sum;
-}
-
-u32 func_021C0D90(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *out, u32 d)
-{
-    u32 k;
-    u32 result;
-    Flags f;
-    if (func_021C0EC4(b) == 1) k = 0x1000;
-    else k = 0xc00;
-    result = 0;
-    f.a = func_021C0ED4(b) > 1;
-    f.b = d;
-    func_021C0EE4(b, a, *(u8 * *)&((struct Obj01373 *)p)->f858);
-    func_021C0EF4(b, a, *(u8 * *)&((struct Obj01373 *)p)->f85C);
-    func_021C0A4C(p, a, *(u8 * *)&((struct Obj01373 *)p)->f858, q, c, k, *(u8 * *)&((struct Obj01373 *)p)->f86C);
-    func_021C0A4C(p, a, *(u8 * *)&((struct Obj01373 *)p)->f85C, q, c, k, *(u8 * *)&((struct Obj01373 *)p)->f870);
-    *out = func_021CD4FC(*(u8 * *)&((struct Obj01373 *)p)->fC, 0x30);
-    if (func_021C0F04(*(u8 * *)&((struct Obj01373 *)p)->f858) != 0) {
-        result += func_021C11A4(p, q, a, *(u8 * *)&((struct Obj01373 *)p)->f858, *(u8 * *)&((struct Obj01373 *)p)->f86C, *(u8 * *)&((struct Obj01373 *)p)->f4B4, k, f);
-        if (result != 0 && func_021BEC08(p, a) != 0)
-            func_021BA1B4((char **)(*(u8 * *)&((struct Obj01373 *)p)->f4), 0x4d);
+    int old;
+    u8 tag = 6;
+    u8 *b = (u8 *)func_021C1144(d, 0);
+    struct State *s;
+    struct Flags f;
+    p[0x789] = func_021D5440(b);
+    if (func_021B8590(((struct Obj02134 *)p)->f4)) {
+        tag = func_021C1154(p + 0x1ab8, func_021D5440(b));
+        if (tag != 6) {
+            func_021CD4B0(((struct Obj02134 *)p)->fC, 0x4e,
+                func_021C1164(p + 0x1ab8, func_021D5440(a)), tag, 0x27e);
+        }
     }
-    if (func_021C0F14(*(u8 * *)&((struct Obj01373 *)p)->f85C) != 0)
-        result += func_021C11A4(p, q, a, *(u8 * *)&((struct Obj01373 *)p)->f85C, *(u8 * *)&((struct Obj01373 *)p)->f870, *(u8 * *)&((struct Obj01373 *)p)->f4B4, k, f);
-    return result;
+    i = 0;
+    completed = 0;
+    f.word = 0;
+    for (; i < (*(u8 **)(p + 0x4b4))[0]; i++) {
+        old = func_021D62A8((struct Unk021D62A8 *)a);
+        s = *(struct State * *)&((struct Obj02134 *)p)->f4A8;
+        if (s->a == 0) {
+            s->a = 1;
+            s->b = 1;
+        }
+        func_021CD4B0(((struct Obj02134 *)p)->fC, 0x30,
+            (*(u8 **)(p + 0x4a8))[2], (*(u8 **)(p + 0x4a8))[3], ((struct Obj21074 *)q)->f0, 0);
+        func_021C0A4C(p, a, d, q, (const u32 *)c, 0x1000, *(struct List * *)&((struct Obj02134 *)p)->f870);
+        sum += func_021C11A4(p, (u16 *)q, a, d,
+            *(u8 * *)&((struct Obj02134 *)p)->f870, (u8 *)((struct Obj02134 *)p)->f4B4, 0x1000, f);
+        completed++;
+        if (func_021D5B68(b)) break;
+        if (func_021D5B68(a)) break;
+        func_021C195C(p, b, 1);
+        if (func_021D62A8((struct Unk021D62A8 *)a) == 2 && old != 2) break;
+        if ((*(u8 **)(p + 0x4b4))[2] != 0 &&
+            !func_021BFA60(p, a, b, (struct Q *)q)) break;
+    }
+    if (completed != 0) {
+        func_021C15AC(p, (*(u8 **)(p + 0x4b4))[5]);
+        func_021CD64C(((struct Obj02134 *)p)->fC, 0x5a, 0x20, completed, 0xffff0000);
+    }
+    if (func_021D5B68(b)) {
+        func_021CD64C(((struct Obj02134 *)p)->fC, 0x5b, 0, func_021D5440(b), 0xffff0000);
+    }
+    if (tag != 6) {
+        func_021CD4B0(((struct Obj02134 *)p)->fC, 0x4d,
+            func_021C1174(p + 0x1ab8, func_021D5440(a)), 0x291);
+    }
+    p[0x789] = 0x1f;
+    return sum;
 }

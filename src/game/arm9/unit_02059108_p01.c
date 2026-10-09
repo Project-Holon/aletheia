@@ -4,7 +4,7 @@
  * function: func_02059108, func_0205911C, func_0205912C, func_0205915C, func_02059194, DWCi_IsBuddyMsgAlreadySent
  * address:  0x02059108
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm

@@ -1,48 +1,42 @@
 /*
  * file:     button_man_p07.c
- * function: func_0205429C
- * address:  0x0205429C
- * packet:   pkt_0205429C
+ * function: func_02055FD4
+ * address:  0x02055FD4
+ * packet:   pkt_02052F58
  * region:   arm9
  * compiler: ../1.2/sp2
  * flags:    -O4,p -proc arm946e
  * lang:     c99
  * isa:      arm
- * status:   EXACT
- *
  * symbols:
- *   func_0205429C_Verts  0x020A1B38  data
- *   func_0205429C_Hooks  0x020A7FE4  data
- *   func_0205429C_Hooks2 0x020A7FDC  data
- *   func_0207B598        0x0207B598  arm
- *   func_0207B5F4        0x0207B5F4  thumb
- *   func_0207B9F0        0x0207B9F0  arm
- *   func_0207CA68        0x0207CA68  arm
- *   func_0207CAE8        0x0207CAE8  arm
- *   func_0207CCA4        0x0207CCA4  arm
- *   func_0207D8E0        0x0207D8E0  arm
+ *   func_0207BC08        0x0207BC08  arm
  *   func_0207D918        0x0207D918  arm
+ *   func_020565C8        0x020565C8  arm
+ *   func_02055FD4_Verts  0x020A1B38  data
+ * status:   EXACT
+ * note:     EXACT* because the follower at 0x02056420 is the unlabelled leaf
+ *           Rig_Hooks[0] (the +Y rotation basis builder, 64 bytes, no lr
+ *           save); every byte of this function and its 20-byte pool compares
+ *           identical.  Seed 0x02056420 into layout/function_starts.txt.
  *
- * Member of the 1.2-pinned 3D rig family (docs/FRONTEND-PINS.md): register
- * `blx rN` at 0x02054344 and 0x020546E4 beside ARMv4T-style returns at
- * 0x020542F4 and 0x020546EC.
- *
- * -proc is arm946e, from the bytes: layout/proc_hints.txt infers arm7tdmi
- * for pkt_0205429C from its pop-lr epilogues, but arm7tdmi cannot emit the
- * register `blx rN` these bytes contain.  EXACT at 1148/1148 under
- * `compiler: ../1.2/sp2`, `flags: -O4,p -proc arm946e`.
- *
- * The largest of the packet's four rows and the only one that builds an
- * orthonormal basis; same source shape as func_02053E1C
- * (docs/notes/pkt_02053218.c.txt) with the hook selector and the final hook
- * of func_02054A68.
- *
- * The same four source shapes that close func_02054718 close this row; see
- * its header for the measurements (the 0x040004A4 `|` chain order, the
- * `(s64)a * res->f30` operand order, `x` before `y` in case 0, and the three
- * 0x04000470 stores through locals loaded in reverse field order).
+ * Twin of func_02055B80 (same Z-rotation billboard), transcribed from it.
+ * Differences read off the listing:
+ *   - everything the tail needs is read into locals BEFORE the 0x040004A4
+ *     store: SubC->f30, the f48 scale selector (narrowed to a u8 -- the
+ *     `and #0xff`), SubB->f72, s->f34, s->f36 and obj->f44;
+ *   - the scale dispatch is an if / else-if / else chain on that u8, not a
+ *     switch: the third arm is the ELSE (it serves kind 2 and every other
+ *     value), as docs/notes/pkt_02055498.c.txt already read it;
+ *   - the quad emitter gets SubB f78/f7a and SubC f50/f52.
+ * `sc = p->f30;` must come BEFORE `sel = p->f48.sel;` -- found by
+ * tools/permuter.py --mode hill as temp(tmp=p->f30) from a 69-byte residue,
+ * applied here as the plain statement order.
  *
  * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02055FD4.c \
+ *       --func func_02055FD4 --addr 0x02055FD4 --arm --cc ../1.2/sp2
  */
 typedef signed int s32;
 typedef unsigned int u32;
@@ -76,7 +70,9 @@ struct BfZero {
 };
 
 struct Bf28 {
-    u32 lo : 28;
+    u32 lo : 8;
+    u32 k : 16;
+    u32 mid : 4;
     u32 sel : 3;
     u32 hi : 1;
 };
@@ -115,6 +111,8 @@ struct SubB {
     u8 pad74[0x04];
     s16 f78;
     s16 f7a;
+    s16 f7c;
+    s16 f7e;
 };
 
 struct Obj {
@@ -140,141 +138,126 @@ struct S {
 };
 
 struct Frame {
-    struct MtxFx43 m1;
-    struct MtxFx43 m2;
-    struct MtxFx43 m3;
-    struct VecFx32 v0;
-    struct VecFx32 v1;
-    struct VecFx32 v2;
-    struct VecFx32 v3;
-    struct MtxFx43 m4;
+    struct VecFx32 t;
+    struct MtxFx43 m;
 };
 
-extern const s16 func_0205429C_Verts[];
-extern u32 (*const func_0205429C_Hooks[])(s32, s32, void *);
-extern u32 (*const func_0205429C_Hooks2[])(s32, s32, s32, s32);
-
-extern void func_0207B598(void *);
-extern u32 func_0207B5F4(void *, s32, s32, s32);
-extern void func_0207B9F0(const void *, const void *, void *);
-extern s32 func_0207CA68(const void *, const void *);
-extern void func_0207CAE8(const void *, const void *, void *);
-extern void func_0207CCA4(const void *, void *);
-extern void func_0207D8E0(const void *);
+extern const s16 func_02055FD4_Verts[];
+extern void func_0207BC08(const void *v, const void *m, void *out);
 extern void func_0207D918(const void *);
+extern void func_020565C8(s32, s32, s32, s32);
 
-void func_0205429C(struct Obj *obj, struct S *s)
+static inline s32 FX_Mul(s32 a, s32 b)
+{
+    return (s32)(((s64)a * b + 0x800) >> 12);
+}
+
+void func_02055FD4(struct Obj *obj, struct S *s)
 {
     struct Frame f;
     struct SubC *p;
+    struct MtxFx43 *mtx;
     s32 n;
-    s32 i;
     s32 a;
     s32 x;
     s32 y;
     s64 a64;
     u32 v;
+    s32 i;
+    s32 sn;
+    s32 cs;
+    s32 sc;
+    s32 k34;
+    u8 sel;
     s32 c1;
     u32 q4, q8, qc;
     s32 c2;
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
+    p = obj->f40->f20->f00;
+    sc = p->f30;
+    sel = p->f48.sel;
+    c2 = obj->f40->f72;
+    k34 = s->f34;
+    c1 = s->f36;
+    mtx = obj->f44;
     v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
     v = *(volatile u32 *)0x040004A4;
     if ((n >> 5) == 0)
         return;
 
-    i = (s32)s->f20 >> 4;
-    func_0205429C_Hooks[obj->f40->f20->f00->f00.sel2]
-        (func_0205429C_Verts[2 * i], func_0205429C_Verts[2 * i + 1], &f.m2);
-
-    func_0207B598(&f.m4);
-    if (obj->f40->f20->f00->f48.hi == 0) {
-        func_0207CCA4(&s->p2, &f.v0);
-    } else {
-        func_0207CCA4(&s->p1, &f.v0);
-        f.v0.x = -f.v0.x;
-        f.v0.y = -f.v0.y;
-        f.v0.z = -f.v0.z;
-    }
-
-    f.v3.x = 0;
-    f.v3.y = 0x1000;
-    f.v3.z = 0;
-    i = func_0207CA68(&f.v0, &f.v3);
-    if (i > 0xCCD || i < -0xCCD) {
-        f.v3.x = 0x1000;
-        f.v3.y = 0;
-        f.v3.z = 0;
-    }
-
-    func_0207CAE8(&f.v0, &f.v3, &f.v1);
-    func_0207CAE8(&f.v0, &f.v1, &f.v2);
-
-    f.m4.m[0] = f.v1.x;
-    f.m4.m[1] = f.v1.y;
-    f.m4.m[2] = f.v1.z;
-    f.m4.m[3] = f.v0.x;
-    f.m4.m[4] = f.v0.y;
-    f.m4.m[5] = f.v0.z;
-    f.m4.m[6] = f.v2.x;
-    f.m4.m[7] = f.v2.y;
-    f.m4.m[8] = f.v2.z;
-
-    func_0207B9F0(&f.m2, &f.m4, &f.m2);
-
     a = s->f30;
-    n = (s32)(((s64)a * obj->f40->f20->f00->f30 + 0x800) >> 12);
+    a64 = (s64)(s32)a;
+    n = (s32)((a64 * sc + 0x800) >> 12);
     x = n;
     y = a;
-    a64 = (s64)(s32)a;
-    switch (obj->f40->f20->f00->f48.sel) {
-    case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
-        break;
-    case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        break;
-    case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
-        break;
-    default:
-        break;
+    if (sel == 0) {
+        x = (s32)(((s64)n * k34 + 0x800) >> 12);
+        y = (s32)(((a64 * k34) + 0x800) >> 12);
+    } else if (sel == 1) {
+        x = (s32)(((s64)n * k34 + 0x800) >> 12);
+    } else {
+        y = (s32)(((a64 * k34) + 0x800) >> 12);
     }
 
-    func_0207B5F4(&f.m3, x, y, y);
-    func_0207B9F0(&f.m3, &f.m2, &f.m1);
-
-    if (obj->f40->f20->f00->f00.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->f38;
-        f.m1.m[10] = s->p1.y + s->f3c;
-        f.m1.m[11] = s->p1.z + s->f40;
-        func_0207D8E0(obj->f44);
-        func_0207D918(&f.m1);
+    p = obj->f40->f20->f00;
+    if (p->f00.flag == 0) {
+        f.t.x = s->p1.x + s->f38;
+        f.t.y = s->p1.y + s->f3c;
+        f.t.z = s->p1.z + s->f40;
+        func_0207BC08(&f.t, mtx, &f.t);
+        i = (s32)s->f20 >> 4;
+        sn = func_02055FD4_Verts[2 * i];
+        cs = func_02055FD4_Verts[2 * i + 1];
+        f.m.m[0] = FX_Mul(cs, x);
+        f.m.m[1] = FX_Mul(sn, x);
+        f.m.m[2] = 0;
+        f.m.m[3] = FX_Mul(-sn, y);
+        f.m.m[4] = FX_Mul(cs, y);
+        f.m.m[5] = 0;
+        f.m.m[6] = 0;
+        f.m.m[7] = 0;
+        f.m.m[8] = 0x1000;
+        f.m.m[9] = f.t.x;
+        f.m.m[10] = f.t.y;
+        f.m.m[11] = f.t.z;
+        *(volatile u32 *)0x04000454 = 0;
+        func_0207D918(&f.m);
     } else {
-        f.m1.m[9] = s->p1.x + s->f38 - obj->f40->f20->f00->f04;
-        f.m1.m[10] = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.m1.m[11] = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        f.t.x = s->p1.x + s->f38 - p->f04;
+        f.t.y = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
+        f.t.z = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        func_0207BC08(&f.t, mtx, &f.t);
+        i = (s32)s->f20 >> 4;
+        sn = func_02055FD4_Verts[2 * i];
+        cs = func_02055FD4_Verts[2 * i + 1];
+        f.m.m[0] = FX_Mul(cs, x);
+        f.m.m[1] = FX_Mul(sn, x);
+        f.m.m[2] = 0;
+        f.m.m[3] = FX_Mul(-sn, y);
+        f.m.m[4] = FX_Mul(cs, y);
+        f.m.m[5] = 0;
+        f.m.m[6] = 0;
+        f.m.m[7] = 0;
+        f.m.m[8] = 0x1000;
+        f.m.m[9] = f.t.x;
+        f.m.m[10] = f.t.y;
+        f.m.m[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
         p = obj->f40->f20->f00;
         qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->f44);
-        func_0207D918(&f.m1);
+        func_0207D918(&f.m);
     }
 
-    c1 = s->f36;
-    c2 = obj->f40->f72;
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
     p = obj->f40->f20->f00;
-    func_0205429C_Hooks2[p->f00.sel1]
-        (obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
+    func_020565C8(obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
 }

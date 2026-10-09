@@ -4,7 +4,7 @@
  * function: func_021B97A8, func_021B984C, ConnectAP, DisconnectAP, func_021B9A2C
  * address:  0x021B97A8
  * region:   ov016
- * compiler: dsi/../2.0/sp1p2
+ * compiler: ../2.0/sp1p2
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
@@ -45,7 +45,29 @@ typedef unsigned char u8;
 
 typedef unsigned long u32;
 
-struct WMBssDesc { u8 data[0xc0]; };
+typedef struct {
+    unsigned short basic;
+    unsigned short support;
+} WMRateSet;
+
+typedef struct WMBssDesc {
+    unsigned short length;
+    unsigned short rssi;
+    unsigned char  bssid[6];
+    unsigned short ssidLength;
+    unsigned char  ssid[32];
+    unsigned short capaInfo;
+    WMRateSet      rateSet;
+    unsigned short beaconPeriod;
+    unsigned short dtimPeriod;
+    unsigned short channel;
+    unsigned short cfpPeriod;
+    unsigned short cfpMaxDuration;
+    unsigned short gameInfoLength;
+    unsigned short otherElementCount;
+    unsigned char  gameInfo[0x80];
+} WMBssDesc;
+
 
 typedef struct {
     unsigned char             btAutoResult;

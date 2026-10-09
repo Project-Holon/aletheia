@@ -1,141 +1,100 @@
 /*
- * function: func_021CACF4
- * address: 0x021CACF4
- * packet: pkt_ov093_021CACF4
+ * function: func_021CAFD8
+ * address: 0x021CAFD8
+ * packet: pkt_ov093_021CAFD8
  * region: ov093
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT*
- * extent: the function is 546 bytes; the listed 740 bytes include two alignment
- *   bytes and twelve 16-byte linker veneers CAF18..CAFC8 (separate, not C).
- * note: 2026-10-05 P19L4: the old 12-byte DIFF was the sp+0x14/sp+0x18 slot swap of
- *   n and j. n declared u32 (was unsigned long) gives the original slots. Callee
- *   func_021B8D8C is declared int as in its matched definition (same bytes).
+ * status: EXACT
+ * note: 2026-10-05 wave P6 lane U6. The older draft (docs/notes) differed by a
+ *   count/index register swap (14 B). Declaring count before i closes it (the
+ *   first declared long-lived local takes r4). The kind local (11, then
+ *   kind + 0xF5) is plain literals 0xB and 0x100; the Clear helper and the tmp
+ *   local are plain loop and direct argument. unsigned long n is u32.
  * symbols:
+ *   func_021D7F00 0x021D7F00 thumb ov093
+ *   func_021CB134 0x021CB134 thumb ov093
+ *   func_021CB144 0x021CB144 thumb ov093
+ *   func_021CB154 0x021CB154 thumb ov093
+ *   func_021CB164 0x021CB164 thumb ov093
+ *   func_021D5B68 0x021D5B68 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
+ *   func_021B9A24 0x021B9A24 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
- *   func_021B99E0 0x021B99E0 thumb ov093
- *   func_021CAA24 0x021CAA24 thumb ov093
+ *   func_0201BEB8 0x0201BEB8 thumb
+ *   func_021B8778 0x021B8778 thumb ov093
  *   func_021B98A4 0x021B98A4 thumb ov093
+ *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021D78AC 0x021D78AC thumb ov093
- *   func_021B8C38 0x021B8C38 thumb ov093
- *   func_021CB174 0x021CB174 thumb ov093
- *   func_021B9934 0x021B9934 thumb ov093
- *   func_021CB1D4 0x021CB1D4 thumb ov093
- *   func_021CAF18 0x021CAF18 thumb ov093
- *   func_021CAF28 0x021CAF28 thumb ov093
- *   func_021CAF38 0x021CAF38 thumb ov093
- *   func_021CAF48 0x021CAF48 thumb ov093
- *   func_021CAF58 0x021CAF58 thumb ov093
- *   func_021CAF68 0x021CAF68 thumb ov093
- *   func_021CAF78 0x021CAF78 thumb ov093
- *   func_021CAF88 0x021CAF88 thumb ov093
- *   func_021CAF98 0x021CAF98 thumb ov093
- *   func_021CAFA8 0x021CAFA8 thumb ov093
- *   func_021CAFB8 0x021CAFB8 thumb ov093
- *   func_021CAFC8 0x021CAFC8 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Record { u16 n0, n1; u8 ids[6]; };
-extern u8 func_021D5440(u8 *);
+extern u32 func_021D7F00(u32);
+extern u32 func_021CB134(void *);
+extern void *func_021CB144(void *, int);
+extern void func_021CB154(void *, void *);
+extern void func_021CB164(void *, void *);
+extern int func_021D5B68(void *);
+struct Unk021B8CB0;
+extern u8 func_021D5440(u8 *p);
+extern int func_021B9A24(u32, u32);
 extern int func_021B8D8C(void *, void *, u32);
-struct Unk021EFD70;
-extern struct Unk021EFD70 *func_021B99E0(int i);
-extern int func_021CAA24(u8 *, u8 *, int, int, int);
-extern u8 *func_021B98A4(void *, int);
+extern u32 func_0201BEB8(u16, u32);
+extern u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out);
+extern u8 *func_021B98A4(char * const *q, u8 b);
+extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021D78AC(u32);
-extern u8 func_021B8C38(u32, u32);
-extern void *func_021CB174(u8 *, u32, int);
-extern u8 *func_021B9934(char *, int);
-extern u8 func_021CB1D4(u8 *, u8 *, u8 *, u32);
-extern void func_021CAF18(void *, void *);
-extern void func_021CAF28(void *, void *);
-extern void func_021CAF38(void *, void *);
-extern void func_021CAF48(void *, void *);
-extern void func_021CAF58(void *, void *);
-extern void func_021CAF68(void *, void *);
-extern void func_021CAF78(void *, void *);
-extern void func_021CAF88(void *, void *);
-extern void func_021CAF98(void *, void *);
-extern void func_021CAFA8(void *, void *);
-extern void func_021CAFB8(void *, void *);
-extern void func_021CAFC8(void *, void *);
-int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, long id, void *out)
+int func_021CAFD8(u8 *p, u32 mode, void *m, const u16 *item, u8 self, void *out)
 {
-    u32 i, count;
-    u32 n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a));
-    u8 *b = (u8 *)func_021B99E0(n);
-    int key = func_021CAA24((u8 *)p, q, (int)a, n, move);
-    u8 selected;
-    switch (*(u32 *)(q + 12)) {
-    case 0:
-        b = func_021B98A4(*(void **)(p + 8), key);
-        break;
-    case 3:
-        b = func_021B98A4(*(void **)(p + 8), key);
-        break;
-    case 9:
-        selected = func_021D78AC(*(u16 *)b);
-        b = func_021B98A4(*(void **)(p + 8), ((struct Record *)b)->ids[selected]);
-        break;
-    case 5:
-        for (i = 0; i < *(u16 *)b; i++)
-            func_021CAF18(out, func_021B98A4(*(void **)(p + 8), b[4 + i]));
-        return (u8)*(u16 *)b;
-    case 4: {
-        long j;
-        i = 0;
-        count = 0;
-        for (; i < *(u16 *)b; i++) {
-            func_021CAF28(out, func_021B98A4(*(void **)(p + 8), b[4 + i]));
-            count++;
+    int count;
+    u8 j;
+    void *previous;
+    int position;
+    u16 target;
+    u8 indices[6];
+    int members[3];
+    int d1;
+    u8 i;
+    u8 choice;
+    int d0;
+    u32 n;
+    if (func_021D7F00(mode) <= 1 || func_021CB134(out) != 1) goto fail;
+    previous = func_021CB144(out, 0);
+    if (!func_021D5B68(previous)) goto fail;
+    if (func_021B9A24(func_021D5440(m), func_021D5440(previous))) goto fail;
+    position = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(m));
+    func_021CB154(out, previous);
+    if (func_0201BEB8(*item, 0xb)) target = 0x600 | position;
+    else target = 0x100 | position;
+    n = func_021B8778(*(void **)(p + 4), target, indices);
+    for (j = 0; j < 3; j++) members[j] = 0;
+    count = 0;
+    for (i = count; i < n; i++) {
+        members[count] = (int)func_021B98A4(*(void **)(p + 8), indices[i]);
+        if (!func_021D5B68((void *)members[count])) {
+            indices[count] = indices[i];
+            count = (u8)(count + 1);
         }
-        for (j = 0; (u32)j < *(u16 *)(b + 2); j++) {
-            if (n != b[7 + j]) {
-                func_021CAF38(out, func_021B98A4(*(void **)(p + 8), b[7 + j]));
-                count++;
-            }
-        }
-        return (u8)count;
     }
-    case 8:
-        func_021CAF48(out, a);
-        for (i = 0; i < 3; i++) {
-            selected = func_021B8C38(n, (u8)i);
-            if (selected != n) func_021CAF58(out, func_021B98A4(*(void **)(p + 8), selected));
+    if (!count) return 0;
+    if (count != 2) choice = 0;
+    else {
+        d0 = indices[0] - self;
+        if (d0 < 0) d0 *= -1;
+        d1 = indices[1] - self;
+        if (d1 < 0) d1 *= -1;
+        if (d0 == d1) {
+            d0 = func_021D59B4((void *)members[0], 13);
+            d1 = func_021D59B4((void *)members[1], 13);
         }
-        func_021CAF68(out, func_021CB174((u8 *)p, n, 0));
-        func_021CAF78(out, func_021CB174((u8 *)p, n, 1));
-        func_021CAF88(out, func_021CB174((u8 *)p, n, 2));
-        return 6;
-    case 7:
-        if (id == 31) func_021CAF98(out, a);
-        else func_021CAF98(out, (void *)func_021B9934(*(char **)(p + 8), id));
-        return 1;
-    case 1:
-        func_021CAFA8(out, func_021B98A4(*(void **)(p + 8), key));
-        return 1;
-    case 2:
-        func_021CAFB8(out, func_021B98A4(*(void **)(p + 8), key));
-        return 1;
-    case 13:
-        if (id != 31) {
-            b = (u8 *)func_021B9934(*(char **)(p + 8), id);
-            break;
-        }
-        return 0;
-    case 6: case 10: case 11: case 12: default:
-        return 0;
+        if (d0 < d1) choice = 0;
+        else if (d1 < d0) choice = 1;
+        else choice = func_021D78AC(2);
     }
-    if (b) {
-        selected = func_021CB1D4((u8 *)p, a, q, func_021D5440(b));
-        if (selected != 31) b = (u8 *)func_021B9934(*(char **)(p + 8), selected);
-        func_021CAFC8(out, b);
-        return 1;
-    }
+    if (members[choice]) { func_021CB164(out, (void *)members[choice]); return 1; }
+fail:
     return 0;
 }

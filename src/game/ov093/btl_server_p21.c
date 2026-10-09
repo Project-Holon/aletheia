@@ -1,7 +1,7 @@
 /*
- * function: func_021BF04C
- * address:  0x021BF04C
- * packet:   pkt_ov093_021BF04C
+ * function: func_021BF0E4
+ * address:  0x021BF0E4
+ * packet:   pkt_ov093_021BF0E4
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,33 +10,34 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF0A4  0x021BF0A4  thumb  ov093
- *   func_021BF0B4  0x021BF0B4  thumb  ov093
- *   func_021BF0C4  0x021BF0C4  thumb  ov093
- *   func_021BF0D4  0x021BF0D4  thumb  ov093
- *   func_021BFA00  0x021BFA00  thumb  ov093
- *   func_021C572C  0x021C572C  thumb  ov093
+ *   func_021BF138  0x021BF138  thumb  ov093
+ *   func_021BF148  0x021BF148  thumb  ov093
+ *   func_021BF158  0x021BF158  thumb  ov093
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D5BB0  0x021D5BB0  thumb  ov093
  */
+#include "../../matched/include/Obj21056.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021BF0A4(int c);
-extern int func_021BF0B4(int c);
-extern void func_021BF0C4(int c, int x);
-extern int func_021BF0D4(int c);
-extern int func_021BFA00(u8 *p, u8 *a, u8 *b, void *item);
-extern void func_021C572C(u8 *p, u8 *a, u32 v);
+extern int func_021BF138(int c);
+extern u8 *func_021BF148(int c, int k);
+extern void func_021BF158(int c, u8 *x);
+extern u8 func_021D5440(u8 *p);
+struct UtilWork;
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
 
-void func_021BF04C(u8 *p, u16 *b, int s, int c)
+void func_021BF0E4(int u, u8 *b, int c, u8 *d, int e)
 {
-    int x;
-    func_021BF0A4(c);
-    x = func_021BF0B4(c);
-    while (x != 0) {
-        if (func_021BFA00(p, (u8 *)s, (u8 *)x, (void *)(*b)) != 0) {
-            func_021BF0C4(c, x);
-            func_021C572C(p, (u8 *)x, *b);
-            p[0x78a] |= 0x10;
+    u8 *x;
+    if (func_021BF138(c) == 1) {
+        x = func_021BF148(c, 0);
+        if (x != 0) {
+            if (func_021D5440(x) == func_021D5440(b)) {
+                if (((struct Obj21056 *)d)->fC != 7) {
+                    if (func_021D5BB0((struct UtilWork *)b, 12) != 0 || e != 0)
+                        func_021BF158(c, x);
+                }
+            }
         }
-        x = func_021BF0D4(c);
     }
 }

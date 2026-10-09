@@ -15,3 +15,7 @@ Things fixed on the way (for the next person): one symbols: row had trailing com
 text (it silently ended the symbol block in the merge), the two different local
 `struct Obj` layouts are now `Obj_021B7B80` and `Obj_021B8990`, `struct Ent` uses
 `Item item`, func_0204B92C takes `struct Obj *` with casts at the calls.
+
+## Round 5 note (r5 g01)
+
+Not decoded this round (ran out of budget on ov039). Callees of 0x021B86B8: blx 0x203064C, 0x203159C, 0x2082BCC, 0x2036370, bl 0x200816C, 0x2008284, 0x2008270, 0x2007FA0, 0x2008288 (a loop, blo back to 0x21B8730), blx 0x2045B38, 0x20457B0 x3, bl 0x201EC64, 0x201C450, 0x2028590, 0x201D7EC. Two data loops with blt/blo exits. Still one uncovered function, still the boundary p01 | p02.

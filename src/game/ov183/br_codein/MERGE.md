@@ -1,15 +1,12 @@
-# br_codein (ov183): 7 parts left (was 11; round 2 lane r2_11)
+# br_codein (ov183): 6 parts left (was 7; round 5 lane s10)
 
-Merged this round: old p01..p05 into p01 (func_021DD0AC is declared `void func_021DD0AC();`
-before its callers because callers pass 2 args and the definition takes 1; func_021FD860
-unified to (void *, unsigned, const void *) with pointer casts at call sites; the redefined
-local tags Position, Record, Triple were renamed by the merge tool). The merged file p01 is
-EXACT. In the merged text the hoisted prototype of func_021DD0AC must be turned into `()`
-by hand each time two parts are merged.
-
+Round 5: merged old p02|p03 (func_021DF388..func_021E0618 region) into p02. Fixes: func_021DF3DC takes
+u16 a (the caller of func_021DF620 passes it without narrowing), prototype and definition both.
 Open boundaries (current numbering):
-- p01|p02 (old p05|p06 plus the merged head): DIFF, 17 bytes in a data row near
-  func_021DF3DC (pure data/section tail, not analysed).
-- p02|p03, p03|p04, p04|p05, p05|p06, p06|p07: compile errors from pointer/array views not
-  yet run through the cast pass: char * vs struct State_021DF620 *, int[2] vs struct *,
-  void * vs int, struct * vs int *.
+- p01|p02: func_021DD0AC call arity (hoisted prototype must be `()`), plus the 17-byte DIFF near func_021DF3DC
+  seen before is the u16 a issue above and should be gone once p01 and p02 are merged by hand.
+- p02|p03 (old p03|p04): m_br_codein pair merge needs: Triple_021E06D0 renamed to Triple_021DF388 (same
+  layout), (int) casts on ((struct Obj00143 *)p)->f344 args of func_021FC124. After that the only
+  difference is func_021E07A4: the original narrows heap before func_020457B0(n + 1, heap) with
+  lsls/lsrs placed differently (the u16 cast at the call gives 69 differing bytes, no cast gives 53).
+- p03|p04, p04|p05, p05|p06: pointer/array view mismatches (char * vs struct *, int[2] vs struct *).

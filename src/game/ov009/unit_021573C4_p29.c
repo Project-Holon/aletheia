@@ -1,8 +1,8 @@
 /*
  * file:     unit_021573C4_p29.c
  * unit:     yes
- * function: func_0215B15C, func_0215B198
- * address:  0x0215B15C
+ * function: func_0215B470, func_0215B504, func_0215B584, func_0215B5C4, func_0215B644
+ * address:  0x0215B470
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,113 +13,142 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   tcp_write_do                     0x0215b09c arm
- *   OS_GetTick                       0x020870d0 arm
- *   func_0215B15C                    0x0215b15c arm ov009
- *   func_02157390                    0x02157390 arm ov009
- *   g_021A826C                       0x021a826c data
+ *   func_0215B3A0  0x0215B3A0  arm  ov009
+ *   func_02083194  0x02083194  arm
+ *   g_02150FEC  0x02150FEC  data
+ *   func_02159404  0x02159404  arm  ov009
+ *   func_02162C28  0x02162C28  arm  ov009
+ *   func_02157E54  0x02157E54  arm  ov009
+ *   func_02085A38  0x02085A38  arm
+ *   func_020870D0  0x020870D0  arm
+ *   g_021A826C  0x021A826C  data
+ *   d_021A826C     0x021A826C  data
+ *   func_02157290  0x02157290  arm
  */
-#define TICK() ((u32)(OS_GetTick() >> 16))
-struct _CPSSoc;
+struct CPSSoc;
 typedef unsigned char u8;
 
-typedef unsigned short u16;
+extern unsigned long func_0215B3A0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2);
+extern void func_02083194(void *src, void *dst, unsigned long size);
+extern void func_02159404(void *soc, int flush);
+extern long func_02162C28(struct CPSSoc *soc);
+extern void func_02157E54(unsigned long ip);
+extern void func_02085A38(unsigned long msec);
+extern unsigned long long func_020870D0(void);
+extern void func_02157290(int);
+/* * sdk: CPS_SocWrite (libcps.TWL.HYB.a(network.o)) */ unsigned long func_0215B470(unsigned char *buf, unsigned long len);
+/* * sdk: CPS_SocGetLength (libcps.TWL.HYB.a(network.o)) */ long func_0215B504(void);
+/* * sdk: CPS_SocFlush (libcps.TWL.HYB.a(network.o)) */ void func_0215B584(void);
+/* * sdk: garprequest (libcps.TWL.HYB.a(network.o)) */ int func_0215B5C4(void);
+/* * Addresses are Black-image addresses. */ void func_0215B644(void);
+extern char g_02150FEC[];
+extern char g_021A826C[];
+extern u8 d_021A826C[];
 
-typedef unsigned long u32;
-
-struct _CPSSoc {
-    u8 pad0[8];
-    u8 state;
-    u8 pad1[0x34 - 9];
-    u32 sndnxt;
-    u16 remote_win;
-    u8 pad2[2];
-    u32 acked;
-    u32 field40;
-};
-
-struct CPSVars {
-    u8 pad0[0x18];
-    int (*link_is_on)(void);
-};
-
-extern unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct _CPSSoc *soc, int need_probe);
-extern unsigned long long OS_GetTick(void);
-extern void func_0215B15C(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc, int need_probe);
-extern void func_02157390(void);
-u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
-extern struct CPSVars g_021A826C;
-
-
-static void tcp_write_do2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct _CPSSoc *soc, int need_probe)
-{
-	if (tcp_write_do(buf, len, soc, need_probe) != 0 && len2 != 0)
-		tcp_write_do(buf2, len2, soc, 0);
-}
 
 
 /*
- * sdk:      CPSi_TcpWrite2Raw (libcps.TWL.HYB.a network.o)
+ * sdk:      CPS_SocWrite (libcps.TWL.HYB.a(network.o))
  */
-u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc)
+unsigned long func_0215B470(unsigned char *buf, unsigned long len)
 {
-    u32 total_written;
-    u32 seqno;
-    u32 start_time;
-    u32 acked_len;
-    int need_probe;
+    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+    unsigned long pend;
+    unsigned long n;
+    unsigned long left;
 
-    total_written = 0;
-    need_probe = 0;
-    soc->field40 = 0;
-    start_time = TICK();
-    while (g_021A826C.link_is_on() && len != 0 && soc->state == 4 && (int)(TICK() - start_time) < 0x9f) {
-        seqno = soc->sndnxt;
-        func_0215B15C(buf, len, buf2, len2, soc, need_probe);
-        {
-            u32 t = TICK();
-            do {
-                func_02157390();
-                if (!g_021A826C.link_is_on())
-                    break;
-                if (soc->state != 4)
-                    break;
-                if (soc->sndnxt == soc->acked)
-                    break;
-                if ((int)(TICK() - t) >= 0xf)
-                    break;
-            } while (need_probe == 0 || soc->remote_win == 0);
-        }
-        acked_len = soc->acked - seqno;
-        if (acked_len > soc->sndnxt - seqno)
-            acked_len = 0;
-        total_written += acked_len;
-        if (acked_len != 0)
-            start_time = TICK();
-        soc->sndnxt = soc->acked;
-        if (soc->state == 4 && soc->remote_win == 0 && acked_len == 0) {
-            if (need_probe == 0) {
-                u32 t = TICK();
-                while (g_021A826C.link_is_on() && (int)(TICK() - t) < 0xf) {
-                    func_02157390();
-                    if (soc->remote_win != 0)
-                        break;
-                }
-                if (soc->remote_win == 0)
-                    need_probe = 1;
+    if (soc != 0) {
+        pend = *(unsigned long *)(soc + 0x6c);
+        if (pend != 0) {
+            n = func_0215B3A0(*(unsigned char **)(soc + 0x68), pend, buf, len);
+            left = *(unsigned long *)(soc + 0x6c);
+            if (n >= left) {
+                *(unsigned long *)(soc + 0x6c) = 0;
+                return n - left;
             }
-        } else {
-            need_probe = 0;
+            func_02083194(*(unsigned char **)(soc + 0x68) + n, *(unsigned char **)(soc + 0x68), left - n);
+            *(unsigned long *)(soc + 0x6c) = *(unsigned long *)(soc + 0x6c) - n;
+            return 0;
         }
-        if (acked_len < len) {
-            buf += acked_len;
-            len -= acked_len;
-        } else {
-            buf = buf2 + (acked_len - len);
-            len = len2 - (acked_len - len);
-            buf2 = 0;
-            len2 = 0;
-        }
+        return func_0215B3A0(buf, len, 0, 0);
     }
-    return total_written;
+    return 0;
+}
+
+
+
+/*
+ * sdk:      CPS_SocGetLength (libcps.TWL.HYB.a(network.o))
+ */
+long func_0215B504(void)
+{
+    long count;
+    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+
+    if (soc != 0) {
+        if (*(unsigned char *)(soc + 8) == 4)
+            func_02159404(soc, 1);
+        if (*(unsigned char *)(soc + 9) != 0)
+            return func_02162C28((struct CPSSoc *)soc);
+        count = *(long *)(soc + 0x50);
+        if (count != 0)
+            return count;
+        if (*(unsigned char *)(soc + 8) == 4)
+            return count;
+        if (*(unsigned char *)(soc + 8) == 10 || *(unsigned char *)(soc + 8) == 11)
+            return count;
+        return -1;
+    }
+    return 0;
+}
+
+
+
+/*
+ * sdk:      CPS_SocFlush (libcps.TWL.HYB.a(network.o))
+ */
+void func_0215B584(void)
+{
+    char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
+
+    if (soc != 0 && *(unsigned long *)(soc + 0x6c) != 0) {
+        func_0215B3A0(*(unsigned char **)(soc + 0x68), *(unsigned long *)(soc + 0x6c), 0, 0);
+        *(unsigned long *)(soc + 0x6c) = 0;
+    }
+}
+
+
+
+/*
+ * sdk:      garprequest (libcps.TWL.HYB.a(network.o))
+ */
+int func_0215B5C4(void)
+{
+    unsigned long start;
+
+    func_02157E54(*(unsigned long *)(g_021A826C + 0x50));
+    func_02085A38(100);
+    func_02157E54(*(unsigned long *)(g_021A826C + 0x50));
+    start = (unsigned long)(func_020870D0() >> 16);
+    while ((*(int (**)(void))(g_021A826C + 0x18))() != 0 && (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x17) {
+        if (*(unsigned char *)(g_021A826C + 1) != 0)
+            return 0;
+        func_02085A38(100);
+    }
+    return 1;
+}
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ */
+void func_0215B644(void)
+{
+    ((void (*)(void))(*(unsigned int *)(d_021A826C + 0x28)))();
+    if (*(unsigned int *)(d_021A826C + 0x50) == 0)
+        return;
+    if (func_0215B5C4() != 0)
+        return;
+    func_02157290(4);
 }

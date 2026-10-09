@@ -7,9 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_027303C4 0x027303C4 arm twl
  */
+typedef unsigned int u32;
 
-asm void func_02730440(void)
+extern u32 func_027303C4(void);
+
+u32 func_02730440(u32 a)
 {
+    return func_027303C4() + (a << 15);
 }

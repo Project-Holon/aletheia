@@ -1,7 +1,8 @@
 /*
- * function: func_02039050
- * address:  0x02039050
- * packet:   pkt_02038D68
+ * unit:     no
+ * function: func_0203B0C4
+ * address:  0x0203B0C4
+ * packet:   pkt_0203B0C4
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -11,45 +12,45 @@
  *
  * symbols:
  *   g_021469DC     0x021469DC  data
- *   g_021469D0     0x021469D0  data
+ *   s_020A7BA8     0x020A7BA8  data
+ *   s_020A7BC8     0x020A7BC8  data
+ *   func_02034714  0x02034714  arm
+ *   func_02082D44  0x02082D44  arm
+ *   func_0203AD80  0x0203AD80  arm
+ *   func_0203B084  0x0203B084  arm
+ *   func_0203B038  0x0203B038  arm
  *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02039050.c \
- *       --func func_02039050 --addr 0x02039050 --cc 1.1p1 --arm
+ * The two guards and the load/store pair: 0x021469DC holds a pointer whose
+ * +0x40 address is both bit-tested (with the file/line/message triple at
+ * 0x020A7BA8) and handed to func_02082D44 together with a length of 6,
+ * then the two entry points func_0203B084 and func_0203B038 are registered
+ * at sizes 400 and 403.
  */
-#include "../../matched/include/Obj15938.h"
 
-typedef signed char   s8;
-typedef unsigned char u8;
+extern int  g_021469DC;
+extern char s_020A7BA8[];
+extern char s_020A7BC8[];
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_02082D44(int a0, int a1, int a2);
 typedef unsigned short u16;
-typedef unsigned int  u32;
+struct NetState;
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void func_0203B084(void);
+extern void func_0203B038(u8 *a0);
 
-extern u8 *g_021469D0;
-extern void func_0203666C(u32 a);
-struct Src;
-struct St;
-extern int func_020365E8(char *p);
-extern u32 func_02037258(void);
-extern void func_02038DF0(struct Src *src, u32 a1, u8 *buf, struct St *st, u32 n);
-
-void func_02039050(void)
+void func_0203B0C4(int a0, int a1)
 {
-    int i;
-    u8 *p;
-
-    if (g_021469D0 == 0)
-        return;
-
-    func_0203666C((u32)(g_021469D0 + 0x2C));
-
-    for (i = 0; i < 4; i++) {
-        if ((int)func_020365E8((char *)((u32)(g_021469D0 + 0x2C))) <= 0)
-            return;
-
-        p = g_021469D0;
-        func_02038DF0((struct Src *)((u32)(p + 0x2C)), 0xFF, (u8 *)(((struct Obj15938 *)p)->f18),
-                      (struct St *)((u32)(p + 0x19C)), func_02037258());
+    if ((g_021469DC + 0x40) & 1) {
+        func_02034714(s_020A7BA8, 395, s_020A7BC8);
+    }
+    if (a0 != 0) {
+        func_02082D44(a0, g_021469DC + 0x40, 6);
+    }
+    if (a1 != 0) {
+        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B084, 0, 400);
+    } else {
+        func_0203AD80((struct NetState *)g_021469DC, (void *)func_0203B038, 0, 403);
     }
 }

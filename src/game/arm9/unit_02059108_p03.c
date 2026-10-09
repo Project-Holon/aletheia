@@ -1,7 +1,8 @@
 /*
- * function: func_02059588
- * address:  0x02059588
- * packet:   pkt_02059588
+ * file:     unit_02059108_p03.c
+ * unit:     yes
+ * function: DWC_CreateUserData, func_02059718, func_02059760, func_020597C8, func_020597F0
+ * address:  0x020596FC
  * region:   arm9
  * compiler: 1.2
  * flags:    -O4,p
@@ -9,15 +10,20 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      DWCi_Acc_CreateTempLoginId (dwc_account.o)
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   OS_GetLowEntropyData             0x02088168 arm
+ *   MATHi_CRC32InitTableRev          0x02081ac0 arm
+ *   MATH_CalcCRC32                   0x02081bb8 arm
+ *   DWCi_Acc_GetFlag_DataType        0x0205911c arm
  *   DWC_Auth_GetId                   0x02058fb4 arm
- *   DWCi_Acc_SetUserId               0x020590c8 arm
- *   DWCi_Acc_SetPlayerId             0x020590f0 arm
- *   DWCi_Acc_SetFlag_DataType        0x020591f0 arm
+ *   DWCi_Acc_GetUserId               0x02059084 arm
+ *   DWCi_Acc_IsValidLoginId          0x020596b0 arm
  */
+struct DWCstAccUserData;
+struct MATHCRC32Table {
+    unsigned long table[256];
+};
 
 struct DWCstAccLoginId {
     unsigned long data[3];
@@ -40,54 +46,78 @@ typedef struct DWCAuthWiFiId {
     unsigned long flg;
 } DWCAuthWiFiId;
 
+extern void *func_0205A10C(void);
+extern void DWCi_Acc_CreateUserData(void *userdata, unsigned long gamecode);
+extern void MATHi_CRC32InitTableRev(struct MATHCRC32Table *table, unsigned long poly);
+extern unsigned long MATH_CalcCRC32(struct MATHCRC32Table *table, void *data, unsigned long dataLength);
 extern void DWC_Auth_GetId(DWCAuthWiFiId *id);
 extern unsigned long long DWCi_Acc_GetUserId(struct DWCstAccLoginId *userdata);
+extern unsigned long DWCi_Acc_GetFlag_DataType(void *userdata);
+extern int DWCi_Acc_IsValidLoginId(void *loginid);
+void DWC_CreateUserData(void *userdata);
 
-typedef struct MATHRandContext32 {
-    unsigned long long x;
-    unsigned long long mul;
-    unsigned long long add;
-} MATHRandContext32;
 
-static inline void MATH_InitRand32(MATHRandContext32 *context, unsigned long long seed)
+void DWC_CreateUserData(void *userdata)
 {
-    context->x = seed;
-    context->mul = 0x5d588b656c078965ULL;
-    context->add = 0x269ec3ULL;
+    DWCi_Acc_CreateUserData(userdata, (long unsigned int)func_0205A10C());
 }
 
-static inline unsigned long MATH_Rand32(MATHRandContext32 *context, unsigned long max)
+
+
+/*
+ * sdk:      DWC_CheckUserData (libdwcaccount.TWL.HYB.a(dwc_account.o))
+ */
+int func_02059718(struct DWCstAccUserData *userdata)
 {
-    context->x = context->mul * context->x + context->add;
-    if (max == 0) {
-        return (unsigned long)(context->x >> 32);
-    }
-    return (unsigned long)(((context->x >> 32) * max) >> 32);
+    struct MATHCRC32Table table;
+    unsigned long crc32;
+
+    MATHi_CRC32InitTableRev(&table, 0xedb88320);
+    crc32 = MATH_CalcCRC32(&table, userdata, 0x3c);
+    return crc32 == userdata->crc32;
 }
 
-extern void OS_GetLowEntropyData(unsigned long *buffer);
-extern void DWCi_Acc_SetUserId(struct DWCstAccLoginId *userdata, unsigned long long userid);
-extern void DWCi_Acc_SetPlayerId(struct DWCstAccLoginId *userdata, unsigned long playerid);
-extern void DWCi_Acc_SetFlag_DataType(void *userdata, int type);
 
-void func_02059588(struct DWCstAccLoginId *loginid)
+/*
+ * sdk:      DWC_CheckValidConsole (libdwcaccount.TWL.HYB.a(dwc_account.o))
+ */
+int func_02059760(struct DWCstAccUserData *userdata)
 {
     DWCAuthWiFiId authid;
-    unsigned long buffer[8];
-    MATHRandContext32 context;
-    unsigned long i;
 
-    OS_GetLowEntropyData(buffer);
-    for (i = 1; i < 8; i++) {
-        buffer[i] ^= buffer[i - 1];
+    if (DWCi_Acc_GetFlag_DataType(&userdata->authentic) == 0) {
+        return 1;
     }
-    MATH_InitRand32(&context, buffer[7]);
     DWC_Auth_GetId(&authid);
-    if (authid.flg) {
-        DWCi_Acc_SetUserId(loginid, authid.uId);
-    } else {
-        DWCi_Acc_SetUserId(loginid, authid.notAttestedId);
+    if (!authid.flg) {
+        return 0;
     }
-    DWCi_Acc_SetPlayerId(loginid, MATH_Rand32(&context, 0));
-    DWCi_Acc_SetFlag_DataType(loginid, 1);
+    if (DWCi_Acc_GetUserId(&userdata->authentic) == authid.uId) {
+        return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * sdk:      DWC_CheckHasProfile (libdwcaccount.TWL.HYB.a(dwc_account.o))
+ */
+int func_020597C8(struct DWCstAccUserData *userdata)
+{
+    return DWCi_Acc_IsValidLoginId((char *)userdata + 0x10) && ((int *)userdata)[7] > 0;
+}
+
+
+/*
+ * sdk:      DWCi_Acc_SetLoginIdToUserData (libdwcaccount.TWL.HYB.a(dwc_account.o))
+ */
+void func_020597F0(struct DWCstAccUserData *userdata, struct DWCstAccLoginId *loginid, int gs_profile_id)
+{
+    struct MATHCRC32Table table;
+
+    userdata->authentic = *loginid;
+    userdata->gs_profile_id = gs_profile_id;
+    MATHi_CRC32InitTableRev(&table, 0xedb88320);
+    userdata->crc32 = MATH_CalcCRC32(&table, userdata, 0x3c);
+    userdata->flag |= 1;
 }

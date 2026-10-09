@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p19.c
  * unit:     yes
- * function: sub_020393D0, func_02039414, func_02039468, func_020394C0
- * address:  0x020393D0
+ * function: func_0203B258, func_0203B2A8, func_0203B2D0
+ * address:  0x0203B258
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,125 +13,59 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   unk_021469D0   0x021469D0  data
- *   g_021469D0   0x021469D0  data
- *   func_0203D798 0x0203D798 arm
- *   func_02036B98 0x02036B98 arm
- *   func_020366A8  0x020366A8  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_02037894  0x02037894  arm
+ *   func_0203AD80  0x0203AD80  arm
+ *   unk_0203B228   0x0203B228  data
+ *   unk_0203B22C   0x0203B22C  arm
+ *   g_021469DC     0x021469DC  data
  */
-#include "../../matched/include/Obj15941.h"
+struct NetState;
+struct Sys;
+typedef unsigned int u32;
 
-struct Conn;
-typedef unsigned char u8;
+typedef unsigned short u16;
 
-struct LinkState {
-    u8 pad000[0x1e9];
-    u8 unk_1e9;
-};
-
-struct LinkDriver {
-    u8 pad00[0x88];
-    int (*busy)(void);
-};
-
-struct LinkRoot {
-    u8 pad000[0x340];
-    struct LinkDriver *driver;
-};
-
-typedef unsigned int  u32;
-
-extern void *func_0203D788(void);
 extern void *func_0203D798(void);
-extern int func_02036B98(char *p, int v);
-extern int func_020366A8(struct Conn *p);
-int sub_020393D0(void);
-u32 func_02039414(void);
-void func_02039468(u32 a, u32 b);
-int func_020394C0(void);
-extern struct LinkState *unk_021469D0;
-extern u8 *g_021469D0;
+extern u32   func_02037894(int a0, int a1, int a2, int a3);
+extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+void func_0203B258(void);
+void func_0203B2A8(int a0);
+void func_0203B2D0(u32 val);
+extern char  unk_0203B228[];
+extern char  unk_0203B22C[];
+extern struct Sys *g_021469DC;
 
 
 /*
- * Is the link busy?  The +0x1e9 flag on the link state forces a yes, and
- * otherwise the driver's own predicate at +0x88 decides.
+ * Starts a 0x200-entry transfer over channel 1 and reports through
+ * func_0203AD80 at line 517 when the start call answers zero.  The line comes
+ * out as `add r3, r4, #5` because r4 already holds the 0x200 argument, the
+ * same constant-rematerialisation the consecutive-`__LINE__` idiom records.
  *
- * The two halves of the flag test share one `ne` chain and a single `popne`,
- * so they are one `&&` rather than nested `if`s.  func_0203D788 is called
- * before the flag is even read because its result is needed on the fall
- * through path, and the compiler will not sink a call past a branch.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020393D0.c \n *       --func sub_020393D0 --addr 0x020393D0 --cc 1.1p1 --arm
- */
-int sub_020393D0(void)
-{
-    struct LinkRoot *root;
-
-    root = func_0203D788();
-
-    if (unk_021469D0 != 0 && unk_021469D0->unk_1e9 != 0) {
-        return 1;
-    }
-    return root->driver->busy() != 0;
-}
-
-
-
-/*
- * Asks the transport's +0x88 virtual whether the link is up, falling back to
- * the +0x1E9 flag of the object at 0x021469D0 when the virtual is missing or
- * answers zero.  Both re-tests are conditional-execution chains (`cmpne`), so
- * the source is the `!= 0 && ...` spelling in each place.  The result local
- * is declared after the context refresh and assigned at its first use: with
- * `u32 r = 0;` ahead of the refresh the value is live across func_0203D788
- * and the allocator spends a callee-saved register on it (`push {r4, lr}`
- * instead of the original's `push {r3, lr}`).
+ * Both callback addresses (0x0203B22C and 0x0203B228, the two `bx lr` filler
+ * words in the pool of func_0203B1D8) are declared as symbols: written as
+ * plain integer literals this compiler folds the pair into one pool word plus
+ * a `sub r1, r4, #4`, which is four bytes short of the original's two pool
+ * words.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039414.c  *       --func func_02039414 --addr 0x02039414 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203B258.c \
+ *       --func func_0203B258 --addr 0x0203B258 --cc 1.1p1 --arm
  */
-u32 func_02039414(void)
+void func_0203B258(void)
 {
-    u8 *p = func_0203D788();
-    u32 r = 0;
-
-    if (p != 0 && ((struct Obj15941 *)p)->f340 != 0)
-        r = ((u32 (*)(void))*(u32 *)(*(u32 *)(p + 0x340) + 0x88))();
-    if (r == 0) {
-        u8 *q = *(u8 **)(0x21469D0);
-
-        if (q != 0 && q[0x1E9] != 0)
-            r = 1;
-    }
-    return r;
+    func_0203D798();
+    if (func_02037894(1, 0x200, 1, (int)unk_0203B22C) != 0)
+        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)unk_0203B228, 0, 0x205);
 }
 
+void func_0203B2A8(int a0){ func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B228, (int)0, (int)0x214); }
 
 
-void func_02039468(u32 a, u32 b)
+void func_0203B2D0(u32 val)
 {
-    u8 *s = (u8 *)func_0203D798();
-
-    if (s[0x64] != 0 && b == 0xff) {
-        func_02036B98((char *)(g_021469D0 + 0xf4), a);
-    } else {
-        func_02036B98((char *)(g_021469D0 + 0xcc), a);
-    }
-}
-
-
-
-/*
- * Leaf that saves no lr: tail-calls func_020366A8 on the 0xCC queue of the
- * net_system record (docs/families/net_system.h, fCC).  Reached only through
- * the long-branch veneer at 0x0203D56C.
- */
-int func_020394C0(void)
-{
-    return func_020366A8((struct Conn *)(g_021469D0 + 0xCC));
+    func_0203AD80((struct NetState *)g_021469DC, func_0203B258, 0, 0x222);
 }

@@ -1,18 +1,12 @@
-# unit_021BA2F8 merge status
+# unit_021BA2F8 (ov016)
 
-The unit is 11 part files (unit_021BA2F8_p01.c to p11.c). Every part is EXACT.
-The parts cannot become one file: the unit changes compiler and flags along the way.
+Round 5 (lane s13): 3 files, all verified by tools/match.py.
 
-- p01 (0x021BA2F8..0x021BA804): ../2.0/sp1p2, -O4,p, Thumb. Was 2 parts, merged.
-- p02 (0x021BA804): ../2.0/sp1p2 with -ipa file.
-- p03 (0x021BABE8): ../2.0/sp1p2, -O4,p.
-- p04 (0x021BBB98): 1.1p1.
-- p05 (0x021BBBC0): ../2.0/sp1p2.
-- p06 (0x021BC500): 1.1p1.
-- p07 (0x021BC52C): ../2.0/sp1p2.
-- p08 (0x021BC5A0): 1.1p1. Was 2 parts, merged.
-- p09 (0x021BC5D4): ../2.0/sp1p2. Was 2 parts, merged.
-- p10 (0x021BC7F0): 1.1p1.
-- p11 (0x021BC804): ../2.0/sp1p2.
+- `unit_021BA2F8_p01.c`: func_021BA2F8 .. func_021BA67C (compiler ../2.0/sp1p2, flags -O4,p -ipa file, isa thumb)
+- `unit_021BA2F8_p02.c`: AutoConfigThreadEx (compiler ../2.0/sp1p2, flags -O4,p -ipa file, isa thumb)
+- `unit_021BA2F8_p03.c`: AutoConfigThread .. SendNotify (compiler ../2.0/sp1p2, flags -O4,p, isa thumb)
 
-Adjacent parts with the same compiler and flags are already merged.
+Boundaries:
+- `p01` | `p02`: blocker: p02 (AutoConfigThreadEx) uses the #include G_ATERMSET_*.h views and `struct ATERMSET_BSS g_021DCFD0` / `g_021DAB58` names; p01 uses atermset_bss. Needs one canonical ATERMSET_BSS/ATERMSET_DATA and one global name.
+- `p02` | `p03`: real: p02 needs -ipa file, p03 (AutoConfigThread and later) is DIFF with it.
+- Round 5: the 1.1p1 parts (old p04, p06, p08, p10) build EXACT under ../2.0/sp1p2 and merged with their neighbours into p03. The ATERMSET_BSS views of those parts were unified (apci_user_callback added).

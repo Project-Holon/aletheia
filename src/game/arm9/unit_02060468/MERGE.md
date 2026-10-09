@@ -1,4 +1,9 @@
 # unit_02060468 (arm9)
 
-Parts p01..p09 alternate compilers: p01, p03, p05, p07, p09 are dsi/1.1p1, p02, p04, p06, p08
-are dsi/../2.0/sp2. Every boundary is a compiler change: real.
+Round 5 (lane s13): 2 files, all verified by tools/match.py.
+
+- `unit_02060468_p01.c`: func_02060468 .. func_020607E8 (compiler ../2.0/sp2, flags -O4,p, isa arm)
+- `unit_02060468_p02.c`: func_02060814 .. func_02060F98 (compiler ../2.0/sp2, flags -O4,p, isa arm)
+
+Boundaries:
+- `p01` | `p02`: real: func_02060814 (p02, ExpHeap layout) is DIFF when merged after the heap-common functions (func_02060C5C and later change by 12 bytes). Probable original file boundary: heap common code versus the expanded heap. All nine members build under ../2.0/sp2; the 1.1p1 tags were not real (round 5).

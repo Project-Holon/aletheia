@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p44.c
  * unit:     yes
- * function: func_0203C304, func_0203C35C, func_0203C3B4, func_0203C3EC
- * address:  0x0203C304
+ * function: func_0203D6BC, func_0203D6CC, func_0203D700, func_0203D720, func_0203D754
+ * address:  0x0203D6BC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -14,148 +14,126 @@
  *
  * symbols:
  *   func_0203D788  0x0203D788  arm
- *   func_02037D78  0x02037D78  arm
- *   func_020398B4  0x020398B4  arm
- *   func_02039834  0x02039834  arm
- *   func_0203AD80  0x0203AD80  arm
- *   g_021469DC     0x021469DC  data
- *   str_0203C238   0x0203C238  data
- *   func_0203C0F4  0x0203C0F4  arm
- *   func_0203C0B4  0x0203C0B4  arm
- *   func_0203C068  0x0203C068  arm
- *   func_0203C060  0x0203C060  arm
- *   func_0203C064  0x0203C064  arm
+ *   func_02034714  0x02034714  arm
+ *   file_020A7CA0  0x020A7CA0  data
+ *   file_020A7D2C  0x020A7D2C  data
  */
-struct NetState;
+#include "../../matched/include/Obj15991.h"
+#include "../../matched/include/Obj11377.h"
+#include "../../matched/include/Obj11378.h"
+#include "../../matched/include/Obj11379.h"
+
+struct Entry;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
 typedef unsigned short u16;
 
-typedef signed char   s8;
-
-struct Sys {
-    u8 pad[0x48];
-    s8 flag;
-};
-
-typedef struct Hdr021469DC {
-    unsigned int pad0;
-    unsigned int pad4;
-    unsigned int v8;
-} Hdr021469DC;
-
-extern void *func_0203D788(void);
-extern void func_02037D78(void);
-extern void func_020398B4(u8 *h);
-extern void func_02039834(u8 *h);
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-extern void func_0203C0F4(void *p);
-extern void func_0203C0B4(void);
-extern void func_0203C068(void);
-extern void func_0203C060(void);
-extern void func_0203C064(void);
-u32 func_0203C304(void);
-u32 func_0203C35C(void);
-void func_0203C3B4(void);
-int func_0203C3EC(void);
-extern struct Sys *g_021469DC;
-extern const char str_0203C238[];
+extern u8 *func_0203D788(void);
+extern void func_02034714(const char *file, u32 line, const char *msg);
+extern struct Entry *func_020399A8(void);
+u32 func_0203D6BC(void);
+u32 func_0203D6CC(void);
+void func_0203D700(void);
+void func_0203D720(u32 a);
+void func_0203D754(u32 a);
+extern const char file_020A7CA0[];
+extern const char file_020A7D2C[];
 
 
 
 /*
- * Teardown of one half of the net context: flags the +0x48 sentinel as -2
- * (`mvn r1, #1`, which is only reachable when the field is a signed char -
- * an unsigned one would narrow to `mov r1, #0xfe`), tears the two handles
- * down and reports at line 0x5D9, returning success.  The twin at 0x0203C35C is
- * byte-identical apart from its own line literal.
+ * Returns the byte at +0x61 of the net context.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D6BC.c \
+ *       --func func_0203D6BC --addr 0x0203D6BC --arm --cc 1.1p1
+ */
+u32 func_0203D6BC(void)
+{
+    return func_0203D788()[0x61];
+}
+
+
+
+/*
+ * Halfword getter for the null-test sibling of func_0203D680: reports through
+ * func_02034714 at line 0x5B1 (1457) when func_0203D788 comes back null, then
+ * reads +0x6C from it regardless.  The null test is the `movs r4, r0` /
+ * `bne` pair, so the result is kept in a local that the tail still
+ * dereferences rather than being re-requested.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C304.c  *       --func func_0203C304 --addr 0x0203C304 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D6CC.c  *       --func func_0203D6CC --addr 0x0203D6CC --cc 1.1p1 --arm
  */
-u32 func_0203C304(void)
+u32 func_0203D6CC(void)
 {
-    u8 *h = func_0203D788();
+    u8 *p = func_0203D788();
 
-    *(signed char *)(*(u32 *)((char *)(0x21469DC)) + 0x48) = -2;
-    func_02037D78();
-    func_020398B4(h);
-    func_02039834(h);
-    func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203C0F4, 0, (int)0x5D9);
-    return 1;
+    if (p == 0)
+        func_02034714(file_020A7CA0, 0x5B1, file_020A7D2C);
+    return ((struct Obj15991 *)p)->f6C;
 }
 
 
 
 /*
- * Teardown of one half of the net context: flags the +0x48 sentinel as -2
- * (`mvn r1, #1`, which is only reachable when the field is a signed char -
- * an unsigned one would narrow to `mov r1, #0xfe`), tears the two handles
- * down and reports at line 0x5FD, returning success.  The twin at 0x0203C304 is
- * byte-identical apart from its own line literal.
- *
- * Addresses are Black-image addresses.
+ * Calls the net context's +0x30 callback with its +0x34c argument.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C35C.c  *       --func func_0203C35C --addr 0x0203C35C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D700.c \
+ *       --func func_0203D700 --addr 0x0203D700 --arm --cc 1.1p1
  */
-u32 func_0203C35C(void)
+void func_0203D700(void)
 {
-    u8 *h = func_0203D788();
+    u8 *p = func_0203D788();
 
-    *(signed char *)(*(u32 *)((char *)(0x21469DC)) + 0x48) = -2;
-    func_02037D78();
-    func_020398B4(h);
-    func_02039834(h);
-    func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203C0F4, 0, (int)0x5FD);
-    return 1;
+    if (((struct Obj11377 *)p)->f30 != 0) {
+        ((void (*)(u32)) * (u32 *)(p + 0x30))(((struct Obj11377 *)p)->f34C);
+    }
 }
 
-
-
-void func_0203C3B4(void)
-{
-    g_021469DC->flag = -1;
-    func_0203AD80((struct NetState *)g_021469DC, (void *)str_0203C238, 0, 0x60d);
-}
 
 
 /*
- * Unlabelled ARM leaf (saves no register, so disasm.py gives it no func_
- * label): a channel-id classifier that reads the pointer at g_021469DC, then
- * the u32 at +8 of the record, and maps five distinct table addresses to
- * 0/1/3/4/5 (anything else returns 2).
+ * Calls the net context's +0x28 callback with the func_020399A8 result,
+ * the argument and the context's +0x34c value.
  *
- * The five constants sit in their own pool words at 0x0203C450..0x0203C460
- * and are each loaded with `ldr` from pc, so they are link-time absolute
- * (R_ARM_ABS32) values that the compiler cannot fold against one another.
- * They are spelled as the addresses of the matched arm9 functions that live
- * at those addresses, taken as integers, so each becomes its own relocation
- * and no `sub`/constant-fold is possible.
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D720.c \
+ *       --func func_0203D720 --addr 0x0203D720 --arm --cc 1.1p1
  */
-int func_0203C3EC(void)
+void func_0203D720(u32 a)
 {
-    Hdr021469DC **pp = (Hdr021469DC **)(&g_021469DC);
-    unsigned int v = (*pp)->v8;
+    u8 *p = func_0203D788();
 
-    if (v == (unsigned int)(void *)func_0203C0F4) {
-        return 0;
+    if (((struct Obj11378 *)p)->f28 == 0) {
+        return;
     }
-    if (v == (unsigned int)(void *)func_0203C0B4) {
-        return 1;
+    ((void (*)(u32, u32, u32)) * (u32 *)(p + 0x28))(
+        (u32)func_020399A8(), a, ((struct Obj11378 *)p)->f34C);
+}
+
+
+
+/*
+ * Calls the net context's +0x24 callback with the func_020399A8 result,
+ * the argument and the context's +0x34c value.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D754.c \
+ *       --func func_0203D754 --addr 0x0203D754 --arm --cc 1.1p1
+ */
+void func_0203D754(u32 a)
+{
+    u8 *p = func_0203D788();
+
+    if (((struct Obj11379 *)p)->f24 == 0) {
+        return;
     }
-    if (v == (unsigned int)(void *)func_0203C068) {
-        return 3;
-    }
-    if (v == (unsigned int)(void *)func_0203C060) {
-        return 4;
-    }
-    if (v == (unsigned int)(void *)func_0203C064) {
-        return 5;
-    }
-    return 2;
+    ((void (*)(u32, u32, u32)) * (u32 *)(p + 0x24))(
+        (u32)func_020399A8(), a, ((struct Obj11379 *)p)->f34C);
 }

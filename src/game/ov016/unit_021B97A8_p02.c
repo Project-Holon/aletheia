@@ -1,76 +1,16 @@
 /*
  * file:     unit_021B97A8_p02.c
  * unit:     yes
- * function: ScanAP
+ * function: ScanAP, func_021B9E8C, func_021B9EA4
  * address:  0x021B9BF8
- * packet:   pkt_ov016_021B9BF8
  * region:   ov016
- * compiler: ../2.0/sp1p2
+ * compiler: dsi/../2.0/sp1p2
  * flags:    -O4,p -ipa file
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
  *
- * note 2026-10-01 (w3 lane07): locals now in DWARF declaration order
- *           (retv, retry, i, n, ApNo, ...); `volatile` on retry is not needed,
- *           same 652/660, 355 concrete.  Real residue is one cause: the vendor
- *           object keeps the dead induction variable n (n = 0, n++ stores at
- *           [sp,#0x14], VN loads for i = n and retv = n - 6) although nothing
- *           reads it after the first loop, and the gAPMac copy is a base held
- *           in a register: `{u8 *mac = pBssid->MacAddress; gAPMac[0] = mac[0];
- *           ... gAPMac[5] = mac[5];}`.  That copy alone makes this front end
- *           delete n (frame 0x6c); any zero-code use of n is folded away.  With
- *           `#pragma opt_dead_assignments off` that body is EXACT 660/660, but
- *           the same pragma breaks 4 of 52 matched atermset.o siblings
- *           (Encode 021BC4D4, 021BA3F4, 021BAC20, 021BADD8), so it is not the
- *           object's build setting; not applied.  Pragma-free alternative with a
- *           store use of n (`ApNo = n;` after the copy) is 664/660, 157 concrete.
- *
- * note 2026-10-01 (w4): vendor .debug_line + DWARF decl lines: `int i, n;` on
- *           one line (512), n = 0 at 618, n++ alone at 634 (last loop stmt),
- *           i init/guard/wmbssdesc++/i++/test all on the for line 627, found-
- *           block copy is one line (643).  `memcpy(gAPMac, pBssid->MacAddress,
- *           6)` through house string.h (intrinsic) gives the image's copy shape
- *           exactly; with the pragma that body is EXACT too.  sp1p2 stamps
- *           3.0.0.126 = vendor stamp, and base..sp2p4 all drop n, so it is
- *           source.  Measured inert (n still deleted, 652): (void)n, (void)&n,
- *           dead pointer to n, dead local t = n, empty inline taking n,
- *           if/switch/goto/while/do on n, if (0) call(n), empty counting loop
- *           bounded by n, i = n, MAC via pBssid = &Bssid[n] or pNew pointer,
- *           for-header forms, 60 unused locals, function 400 calls bigger,
- *           -g; 13 other opt_ pragmas (only opt_dead_assignments keeps n).
- *           Every use that keeps n costs code (>= 664).  Open.
- *
- * note 2026-10-01 (w4 restart): the Debug build of the same archive
- *           (sdk/TwlDWC/lib/ARM9-TS/Debug, atermset.o, same 3.0.0.126 stamp,
- *           same line numbers) shows every statement: no `if (ap_count > 0)`
- *           (the loop is `for (i = 0, wmbssdesc = ap_list; i < ap_count;
- *           i++, wmbssdesc++)` on line 627), MAC copies are memcpy(.., 6),
- *           and line 632 is OS_Printf(fmt, i + 1, Bssid[n].Ssid.Ssid,
- *           Bssid[n].Privacy) which FINALROM removes.  This body is that
- *           source.  It is EXACT 660/660 with `flags: -O4,p -ipa file` (both
- *           the doubled ble and the kept dead n come from file-level IPA);
- *           the fully literal Debug text (ret, buflen, event, retv = -8,
- *           OS_Printf as ((void)0)) is EXACT with it too.  Under the pinned
- *           -O4,p it is 648, n deleted (the old if-guard draft was 652).
- *           Sibling check with -ipa file: all 55 matched atermset.o rows stay
- *           EXACT/EXACT* (statics need a reference to survive -ipa file in a
- *           one-function TU) except AutoConfigThreadEx 021BA804, whose
- *           invented `if (bAtermApCanceled) break;` stand-in must become the
- *           Debug text `else { if (DAT.bDebug) OS_Printf(..); }` (then EXACT).
- *           Not applied: flags are pinned; needs an object-level decision.
- *
- * Build setting: atermset.o was built with `-O4,p -ipa file` (file-level IPA). Evidence
- *   (2026-10-01, user-approved): the Debug/Release libdwcutil archives give ScanAP's and
- *   AutoConfigThreadEx's literal statements (debug OS_Printf calls compile to nothing in Rom);
- *   with -ipa file both are EXACT, plain -O4,p is not; all 55 other matched atermset.o
- *   functions stay EXACT under -ipa file (statics tested with an address-taking reference).
- *   Only these two files carry the flag; the rest stay on -O4,p and match both ways.
- *
- * sdk:      ScanAP (libdwcutil.TWL.HYB.a(atermset.o))
- *
- * blocker:  pinned -O4,p deletes the dead counter n (648 of 660); the object
- *           was built with -ipa file (see the w4 restart note).
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
  *   atermset_bss                   0x021DCFD0  data
@@ -95,84 +35,107 @@
  *   lpElementData                  0x021DAB58  data
  *   gAPSSID                        0x021DD4E0  data
  *   gAPMac                         0x021DD480  data
+ *   SOC_SendTo  0x0215F5B4  arm
+ *   SOCL_GetHostID         0x0215EF48  arm
+ *   SOC_U32to4U8           0x0215FBAC  arm
  */
-
 #include "../../matched/arm9_sdk/libc/string.h"
+
+struct WCMConfig;
+struct _ATERMApConfigState;
 typedef unsigned char u8;
+
 typedef unsigned short u16;
+
 typedef unsigned long u32;
 
-typedef struct {
-    void (*handler)(void *);
-    void *arg;
-    u32 tag;
+typedef struct OSiAlarm OSAlarm;
+
+struct OSiAlarm {
+    void             (*handler)(void *);
+    void              *arg;
+    unsigned long      tag;
     unsigned long long fire;
-    void *prev;
-    void *next;
+    OSAlarm           *prev;
+    OSAlarm           *next;
     unsigned long long period;
     unsigned long long start;
-} OSAlarm;
+};
 
-typedef struct {
-    u32 SsidLength;
-    u8 Ssid[32];
-    u8 pad04[4];
-} _NDIS_802_11_SSID;
+typedef struct _NDIS_802_11_SSID {
+    unsigned long SsidLength;
+    unsigned char Ssid[32];
+    unsigned char pad[4];
+} NDIS_802_11_SSID;
 
-typedef struct {
-    _NDIS_802_11_SSID Ssid;
-    u8 MacAddress[6];
-    u16 Privacy;
+typedef struct _WLAN_BSSID {
+    NDIS_802_11_SSID Ssid;          /* +0x00 */
+    unsigned char MacAddress[6];    /* +0x28 */
+    unsigned short Privacy;         /* +0x2e */
 } WLAN_BSSID;
 
-typedef struct {
-    u32 NumberOfItems;
+typedef struct _BSSID_LIST {
+    unsigned long NumberOfItems;
     WLAN_BSSID Bssid[1];
 } BSSID_LIST;
 
 typedef struct {
-    u16 length;
-    u16 rssi;
-    u8 bssid[6];
-    u16 ssidLength;
-    u8 ssid[32];
-    u16 capainfo;
-    u8 rest[192 - 0x2e];
+    unsigned short basic;
+    unsigned short support;
+} WMRateSet;
+
+typedef struct WMBssDesc {
+    unsigned short length;
+    unsigned short rssi;
+    unsigned char  bssid[6];
+    unsigned short ssidLength;
+    unsigned char  ssid[32];
+    unsigned short capaInfo;
+    WMRateSet      rateSet;
+    unsigned short beaconPeriod;
+    unsigned short dtimPeriod;
+    unsigned short channel;
+    unsigned short cfpPeriod;
+    unsigned short cfpMaxDuration;
+    unsigned short gameInfoLength;
+    unsigned short otherElementCount;
+    unsigned char  gameInfo[0x80];
 } WMBssDesc;
 
 typedef struct {
-    u8 btAutoResult;
-    void *gAtermAlloc;
-    void *apci_IWConfig;
-    void *gAtermFree;
-    int bAtermApCanceled;
-    int cbFrameData;
-    int gAPId;
-    int AutoPhase;
-    int bApConnect;
-    int bSO_Startup;
-    u8 *apci_Wep;
-    int apci_state;
-    void *gThreadStack;
-    int cbElementData;
-    int gAtermApState;
-    u8 *apci_IWBuffer;
-    u8 *apc_work;
-    u8 *apci_bssid_ptr;
-    u8 *apci_essid_ptr;
-    WMBssDesc *apci_wmbssdesc;
-    int bDualCfg;
-    u8 *atermapc_work;
-    u32 apci_connect_option;
-    WMBssDesc *ap_list;
-    u32 apci_search_option;
-    int gAtermThreadId;
-    int event_set_ptr;
-    int event_get_ptr;
-    int gMaxApList;
-    int bInitAtermApNetwork;
-    int gAtermApResult;
-    void (*gAtermNotify)(void *);
+    unsigned char             btAutoResult;
+    void                   *(*gAtermAlloc)(unsigned long size);
+    struct WCMConfig         *apci_IWConfig;
+    void                    (*gAtermFree)(void *ptr);
+    int                       bAtermApCanceled;
+    int                       cbFrameData;
+    int                       gAPId;
+    int                       AutoPhase;
+    int                       bApConnect;
+    int                       bSO_Startup;
+    unsigned char            *apci_Wep;
+    int                       apci_state;
+    unsigned long long       *gThreadStack;
+    int                       cbElementData;
+    int                       gAtermApState;
+    unsigned char            *apci_IWBuffer;
+    unsigned char            *apc_work;
+    unsigned char            *apci_bssid_ptr;
+    unsigned char            *apci_essid_ptr;
+    struct WMBssDesc         *apci_wmbssdesc;
+    int                       bDualCfg;
+    unsigned char            *atermapc_work;
+    unsigned long             apci_connect_option;
+    struct WMBssDesc         *ap_list;
+    unsigned long             apci_search_option;
+    int                       gAtermThreadId;
+    int                       event_set_ptr;
+    int                       event_get_ptr;
+    int                       gMaxApList;
+    int                       bInitAtermApNetwork;
+    int                       gAtermApResult;
+    void                    (*gAtermNotify)(struct _ATERMApConfigState *state);
+    void                    (*apci_user_callback)(int event, void *arg);
 } ATERMSET_BSS;
 
 typedef struct {
@@ -183,8 +146,16 @@ typedef struct {
     int gMaxBssIdList;
 } ATERMSET_DATA;
 
-extern ATERMSET_BSS atermset_bss;
-extern ATERMSET_DATA atermset_data;
+typedef struct {
+    unsigned long addr;
+} SOCInAddr;
+
+typedef struct {
+    unsigned char  len;
+    unsigned char  family;
+    unsigned short port;
+    SOCInAddr      addr;
+} SOCSockAddrIn;
 
 extern void *Calloc(u32 nmemb, u32 size);
 extern u32 GetTickCount(void);
@@ -201,9 +172,17 @@ extern int PutMac(char *lpwrite, char *lps);
 extern void SendNotify(void);
 extern void Free(void *ptr);
 extern void alarmCallback(void *event);
-
+extern int SOC_SendTo(int s, void *buf, int len, int flags, void *sockTo);
+extern unsigned long SOCL_GetHostID(void);
+extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
+int ScanAP(void);
+int SendFrameViaInterface(int sock, SOCSockAddrIn *target, unsigned char *ipaddr, unsigned char *lpdata, int cbdata);
+int SendBroadcast(int sock, unsigned char *lpb, int size);
+extern ATERMSET_BSS atermset_bss;
+extern ATERMSET_DATA atermset_data;
 extern u8 gAPSSID[34];
 extern u8 gAPMac[6];
+
 
 int ScanAP(void)
 {
@@ -302,7 +281,7 @@ int ScanAP(void)
             memcpy(pBssList->Bssid[n].Ssid.Ssid, wmbssdesc->ssid, 32);
             pBssList->Bssid[n].Ssid.SsidLength = wmbssdesc->ssidLength;
             pBssList->Bssid[n].Ssid.Ssid[wmbssdesc->ssidLength] = 0;
-            pBssList->Bssid[n].Privacy = (wmbssdesc->capainfo & 0x10) ? 1 : 0;
+            pBssList->Bssid[n].Privacy = (wmbssdesc->capaInfo & 0x10) ? 1 : 0;
             memcpy(pBssList->Bssid[n].MacAddress, wmbssdesc->bssid, 6);
             n++;
         }
@@ -330,5 +309,34 @@ end:
         Free(pBssList);
     if (pOldList)
         Free(pOldList);
+    return retv;
+}
+
+
+
+int SendFrameViaInterface(int sock, SOCSockAddrIn *target, unsigned char *ipaddr, unsigned char *lpdata, int cbdata)
+{
+    int ret;
+
+    ret = SOC_SendTo(sock, lpdata, cbdata, 0, target);
+    if (ret < 0)
+        return -4;
+    return ret;
+}
+
+
+
+int SendBroadcast(int sock, unsigned char *lpb, int size)
+{
+    int retv;
+    SOCSockAddrIn target;
+    unsigned char ipaddr[4];
+
+    target.len = sizeof(target);
+    target.family = 2;
+    target.addr.addr = 0xFFFFFFFF;
+    target.port = 0x1E6;
+    SOC_U32to4U8(SOCL_GetHostID(), ipaddr);
+    retv = SendFrameViaInterface(sock, &target, ipaddr, lpb, size);
     return retv;
 }

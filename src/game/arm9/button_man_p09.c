@@ -1,8 +1,8 @@
 /*
  * file:     button_man_p09.c
  * unit:     yes
- * function: func_02054A68, func_02054DB8, func_02055498, func_02055B80
- * address:  0x02054A68
+ * function: func_02057EF8, func_02057F8C, func_020580A8, func_02058180, func_02058204, func_020582CC, func_02058300, func_02058380, func_020583CC
+ * address:  0x02057EF8
  * region:   arm9
  * compiler: dsi/../1.2/sp2
  * flags:    -O4,p
@@ -13,1400 +13,433 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02054A68_Verts  0x020A1B38  data
- *   func_02054A68_Hooks  0x020A7FE4  data
- *   func_02054A68_Hooks2 0x020A7FDC  data
- *   func_0207B5F4        0x0207B5F4  thumb
- *   func_0207B9F0        0x0207B9F0  arm
- *   func_0207D8E0        0x0207D8E0  arm
- *   func_0207D918        0x0207D918  arm
- *   MTX_MultVec33          0x0207B51C  arm
- *   MTX_MultVec43          0x0207BC08  arm
- *   VEC_CrossProduct       0x0207CAE8  arm
- *   VEC_Normalize          0x0207CCA4  arm
- *   VEC_DotProduct         0x0207CA68  arm
- *   G3_MultMtx43           0x0207D918  arm
- *   MI_Copy36B             0x02082B60  arm
- *   SPLUtil_DrawXYPlane    0x020565C8  arm
- *   SPLUtil_DrawXZPlane    0x0205650C  arm
- *   FX_SinCosTable_        0x020A1B38  data
- *   func_0207BC08        0x0207BC08  arm
- *   func_020565C8        0x020565C8  arm
- *   func_02055B80_Verts  0x020A1B38  data
+ *   g_020A1B38     0x020A1B38  data
+ *   func_0207AF00  0x0207AF00  thumb
+ *   func_0207AF1C  0x0207AF1C  thumb
+ *   func_0207AF38  0x0207AF38  thumb
+ *   func_0207B51C  0x0207B51C  arm
+ *   _s32_div_f     0x0209C0A4  arm
+ *   g_02146A8C     0x02146A8C  data
  */
-#define NULL ((void *)0)
-#define FX32_SHIFT 12
-#define FX32_ONE ((fx32)0x00001000L)
-#define FX32_HALF ((fx32)0x00000800L)
-#define FX32_DEC_MASK 0x00000fff
-#define FX16_ONE ((fx16)0x1000)
-#define FX32_CAST(x) ((fx32)(x))
-#define FX32_CONST(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
-#define FX_MUL(v1, v2) FX32_CAST(((fx64)(v1) * (v2) + 0x800LL) >> FX32_SHIFT)
-#define FX32_SQRT1_3 ((fx32)0x93d)
-#define reg_G3_MTX_IDENTITY    (*(volatile u32 *)0x04000454)
-#define reg_G3_MTX_TRANS       (*(volatile u32 *)0x04000470)
-#define reg_G3_COLOR           (*(volatile u32 *)0x04000480)
-#define reg_G3_POLYGON_ATTR    (*(volatile u32 *)0x040004A4)
-#define GX_RGB_R_SHIFT (0)
-#define GX_RGB_R_MASK (0x001f)
-#define GX_RGB_G_SHIFT (5)
-#define GX_RGB_G_MASK (0x03e0)
-#define GX_RGB_B_SHIFT (10)
-#define GX_RGB_B_MASK (0x7c00)
-#define GX_RGB(r, g, b) ((GXRgb)(((r) << GX_RGB_R_SHIFT) | ((g) << GX_RGB_G_SHIFT) | ((b) << GX_RGB_B_SHIFT)))
-#define GX_RGB_R_(rgb) (rgb & GX_RGB_R_MASK)
-#define GX_RGB_G_(rgb) (rgb & GX_RGB_G_MASK)
-#define GX_RGB_B_(rgb) (rgb & GX_RGB_B_MASK)
-#define GX_LIGHTMASK_NONE 0
-#define GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc) \
-    ((u32)(((light) << 0) | ((polyMode) << 4) | ((cullMode) << 6) | (misc) | ((polygonID) << 24) | ((alpha) << 16)))
-#define SPL_TEX_ANIM_MAX_FRAMES 8
-#define gSPLRandomState g_02146A8C
-struct SPLParticle;
-struct SPLEmitter;
-typedef signed int s32;
+struct Node;
+struct List {
+    volatile struct Node *head;
+    int count;
+    volatile struct Node *tail;
+};
 
-typedef unsigned int u32;
+struct Node {
+    volatile struct Node *next;
+    volatile struct Node *prev;
+};
+
+struct Node_02058380 {
+    struct Node_02058380 * volatile next;
+    struct Node_02058380 *prev;
+};
+
+struct List_02058380 {
+    struct Node_02058380 * volatile head;
+    volatile int count;
+    struct Node_02058380 * volatile tail;
+};
+
+struct Node_02057EF8 {
+    struct Node_02057EF8 *next;
+    struct Node_02057EF8 *prev;
+};
+
+struct List_02057EF8 {
+    struct Node_02057EF8 * volatile head;
+    int count;
+    struct Node_02057EF8 *tail;
+};
+
+typedef short s16;
+
+struct Obj {
+    s16 v0;
+    s16 v1;
+    s16 v2;
+};
 
 typedef unsigned short u16;
 
-typedef signed short s16;
+typedef unsigned int u32;
 
-typedef signed long long s64;
+struct Obj_02058204 {
+    s16 v0;
+    s16 v1;
+    s16 v2;
+    u16 f06;
+};
+
+struct Src {
+    char _00[0x26];
+    u16 f26;
+};
+
+struct A {
+    int x;
+    int y;
+    int z;
+    s16 scale;
+};
+
+struct B_02058180 {
+    int pad_00[2];
+    int f08;
+    int f0c;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+};
 
 typedef unsigned char u8;
 
-struct VecFx32 { s32 x, y, z; };
-
-struct MtxFx43 { s32 m[12]; };
-
-struct Bf16 {
-    u16 b0 : 5;
-    u16 b5 : 5;
-    u16 b10 : 6;
+struct Obj_02057EF8 {
+    u16 f00;
+    u16 f02;
 };
 
-struct BfSel {
-    u32 lo : 6;
-    u32 sel : 1;
-    u32 hi : 25;
+struct A_02057F8C {
+    int target;
+    s16 f04;
+    u16 mode : 2;
+    u16 rest : 14;
 };
 
-struct BfZero {
-    u32 f0 : 17;
-    u32 sel2 : 2;
-    u32 sel1 : 1;
-    u32 f20 : 3;
-    u32 flag : 1;
-    u32 f24 : 8;
-};
-
-struct Bf28_02055B80 {
-    u32 lo : 8;
-    u32 k : 16;
-    u32 mid : 4;
-    u32 sel : 3;
-    u32 hi : 1;
-};
-
-struct SubD {
-    struct Bf16 hw;
-    u8 pad02[0x0e];
-    struct BfSel f10;
-};
-
-struct SubC {
-    struct BfZero f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u8 pad10[0x20];
-    s16 f30;
-    u8 pad32[0x16];
-    struct Bf28_02055B80 f48;
-    u8 pad4c[0x04];
-    s16 f50;
-    s16 f52;
-};
-
-struct SubX {
-    struct SubC *f00;
-    u8 pad04[0x10];
-    struct SubD *f14;
-};
-
-struct SubB_02055B80 {
-    u8 pad00[0x20];
-    struct SubX *f20;
-    u8 pad24[0x4e];
-    u16 f72;
-    u8 pad74[0x04];
-    s16 f78;
-    s16 f7a;
-    s16 f7c;
-    s16 f7e;
-};
-
-struct Obj {
-    u8 pad00[0x3c];
-    u32 f3c;
-    struct SubB_02055B80 *f40;
-    struct MtxFx43 *f44;
+struct C {
+    char _00[0x74];
+    int f74;
 };
 
 struct S {
-    u8 pad00[0x08];
-    struct VecFx32 p1;
-    struct VecFx32 p2;
-    u16 f20;
-    u8 pad22[0x0c];
-    struct Bf16 w;
-    s32 f30;
-    s16 f34;
-    u16 f36;
-    u32 f38;
-    u32 f3c;
-    u32 f40;
+    char _00[0xc];
+    int c;
+    char _10[8];
+    int f18;
+    char _1c[8];
+    u16 f24;
+    u16 f26;
+    char _28[0x14];
+    int f3c;
 };
 
-struct Frame_02055B80 {
-    struct VecFx32 t;
-    struct MtxFx43 m;
+typedef int fx32;
+
+typedef long long fx64;
+
+struct A_02057EF8 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+    short w;
 };
 
-typedef unsigned long long u64;
-
-typedef signed char s8;
-
-typedef s32 fx32;
-
-typedef s16 fx16;
-
-typedef s64 fx64;
-
-typedef u16 GXRgb;
-
-typedef int BOOL;
-
-typedef struct { fx32 x, y, z; } VecFx32;
-
-typedef struct { fx16 x, y, z; } VecFx16;
-
-typedef struct { fx32 m[4][3]; } MtxFx43;
-
-typedef struct { fx32 m[3][3]; } MtxFx33;
-
-typedef u32 GXPolygonAttrMisc;
-
-typedef enum { GX_POLYGONMODE_MODULATE = 0 } GXPolygonMode;
-
-typedef enum { GX_CULL_ALL = 0, GX_CULL_FRONT = 1, GX_CULL_BACK = 2, GX_CULL_NONE = 3 } GXCull;
-
-typedef struct SPLBehavior {
-    void (*applyFunc)(const void *, struct SPLParticle *, VecFx32 *, struct SPLEmitter *);
-    const void *object;
-} SPLBehavior;
-
-enum SPLDrawType {
-    SPL_DRAW_TYPE_BILLBOARD = 0,
-    SPL_DRAW_TYPE_DIRECTIONAL_BILLBOARD,
-    SPL_DRAW_TYPE_POLYGON,
-    SPL_DRAW_TYPE_DIRECTIONAL_POLYGON,
-    SPL_DRAW_TYPE_DIRECTIONAL_POLYGON_CENTER,
+struct B_02057EF8 {
+    fx32 _00;
+    fx32 _04;
+    fx32 _08;
+    fx32 _0C;
+    fx32 _10;
 };
 
-enum SPLCircleAxis {
-    SPL_CIRCLE_AXIS_Z = 0,
-    SPL_CIRCLE_AXIS_Y,
-    SPL_CIRCLE_AXIS_X,
-    SPL_CIRCLE_AXIS_EMITTER,
-};
-
-enum SPLEmissionType {
-    SPL_EMISSION_TYPE_POINT = 0, // A single point
-    SPL_EMISSION_TYPE_SPHERE_SURFACE, // Any point on the surface of a sphere
-    SPL_EMISSION_TYPE_CIRCLE_BORDER, // Any point on a circle around an axis (specified by flags)
-    SPL_EMISSION_TYPE_CIRCLE_BORDER_UNIFORM, // Uniform distribution of points on a circle around an axis (specified by flags)
-    SPL_EMISSION_TYPE_SPHERE, // Any point inside a sphere
-    SPL_EMISSION_TYPE_CIRCLE, // Any point inside a circle around an axis (specified by flags)
-    SPL_EMISSION_TYPE_CYLINDER_SURFACE, // Any point on the surface of a cylinder
-    SPL_EMISSION_TYPE_CYLINDER, // Any point inside a cylinder
-    SPL_EMISSION_TYPE_HEMISPHERE_SURFACE, // Any point on the surface of a hemisphere (direction specified by flags)
-    SPL_EMISSION_TYPE_HEMISPHERE, // Any point inside a hemisphere (direction specified by flags)
-};
-
-enum SPLChildRotationType {
-    SPL_CHILD_ROT_NONE = 0,
-    SPL_CHILD_ROT_INHERIT_ANGLE,
-    SPL_CHILD_ROT_INHERIT_ANGLE_AND_VELOCITY,
-};
-
-enum SPLScaleAnimDir {
-    SPL_SCALE_ANIM_DIR_XY = 0,
-    SPL_SCALE_ANIM_DIR_X,
-    SPL_SCALE_ANIM_DIR_Y,
-};
-
-enum SPLPolygonRotAxis {
-    SPL_POLYGON_ROT_AXIS_Y = 0,
-    SPL_POLYGON_ROT_AXIS_XYZ,
-};
-
-typedef struct SPLFileHeader {
-    u32 magic;
-    u32 version;
-    u16 resCount;
-    u16 texCount;
-    u32 reserved0;
-    u32 resSize;
-    u32 texSize;
-    u32 texOffset;
-    u32 reserved1;
-} SPLFileHeader;
-
-typedef union SPLResourceFlags {
-    u32 all;
-    struct {
-        u32 emissionType : 4; // Maps to SPLEmissionType
-        u32 drawType : 2;
-        u32 circleAxis : 2; // Maps to SPLCircleAxis
-        u32 hasScaleAnim : 1;
-        u32 hasColorAnim : 1;
-        u32 hasAlphaAnim : 1;
-        u32 hasTexAnim : 1;
-        u32 hasRotation : 1;
-        u32 randomInitAngle : 1;
-        // Whether the emitter manages itself or not.
-        // If set, the emitter will automatically terminate when it reaches the end of its life
-        // and all of its particles have died
-        u32 selfMaintaining : 1;
-        u32 followEmitter : 1;
-        u32 hasChildResource : 1;
-        u32 polygonRotAxis : 2; // The axis to rotate the polygon around when using the 'polygon' draw types
-        u32 polygonReferencePlane : 1;
-        u32 randomizeLoopedAnim : 1;
-        u32 drawChildrenFirst : 1; // If set, child particles will be rendered before parent particles
-        u32 hideParent : 1; // If set, only child particles will be rendered
-        u32 useViewSpace : 1; // If set, the rendering calculations will be done in view space
-        u32 hasGravityBehavior : 1;
-        u32 hasRandomBehavior : 1;
-        u32 hasMagnetBehavior : 1;
-        u32 hasSpinBehavior : 1;
-        u32 hasCollisionPlaneBehavior : 1;
-        u32 hasConvergenceBehavior : 1;
-        u32 hasFixedPolygonID : 1;
-        u32 childHasFixedPolygonID : 1;
-    };
-} SPLResourceFlags;
-
-typedef union SPLChildResourceFlags {
-    u16 all;
-    struct {
-        u16 usesBehaviors : 1;
-        u16 hasScaleAnim : 1;
-        u16 hasAlphaAnim : 1;
-        u16 rotationType : 2;
-        u16 followEmitter : 1;
-        u16 useChildColor : 1;
-        u16 drawType : 2;
-        u16 polygonRotAxis : 2;
-        u16 polygonReferencePlane : 1;
-        u16 : 4;
-    };
-} SPLChildResourceFlags;
-
-typedef union SPLCurveInOut {
-    u16 all;
-    struct {
-        u16 in : 8;
-        u16 out : 8;
-    };
-} SPLCurveInOut;
-
-typedef union SPLCurveInPeakOut {
-    u32 all;
-    struct {
-        u32 in : 8;
-        u32 peak : 8;
-        u32 out : 8;
-        u32 : 8;
-    };
-} SPLCurveInPeakOut;
-
-typedef struct SPLResourceHeader {
-    SPLResourceFlags flags;
-    VecFx32 emitterBasePos;
-    fx32 emissionCount; // Number of particles to emit per emission interval
-    fx32 radius; // Used for circle, sphere, and cylinder emissions
-    fx32 length; // Used for cylinder emission
-    VecFx16 axis;
-    GXRgb color;
-    fx32 initVelPosAmplifier;
-    fx32 initVelAxisAmplifier;
-    fx32 baseScale;
-    fx16 aspectRatio;
-    u16 startDelay; // Delay, in frames, before the emitter starts emitting particles
-    s16 minRotation;
-    s16 maxRotation;
-    u16 initAngle;
-    u16 reserved;
-    u16 emitterLifeTime;
-    u16 particleLifeTime;
-
-    // All of these values are mapped to the range [0, 1]
-    // They are used to attenuate the particle's properties at initialization,
-    // acting as a sort of randomization factor which scales down the initial values
-    struct {
-        u32 baseScale : 8; // Damping factor for the base scale of the particles (0 = no damping)
-        u32 lifeTime : 8;
-        u32 initVel : 8; // Attenuation factor for the initial velocity of the particles (0 = no attenuation)
-        u32 : 8;
-    } randomAttenuation;
-
-    struct {
-        u32 emissionInterval : 8;
-        u32 baseAlpha : 8;
-        u32 airResistance : 8;
-        u32 textureIndex : 8;
-        u32 loopFrames : 8;
-        u32 dbbScale : 16;
-        u32 textureTileCountS : 2; // Number of times to tile the texture in the S direction
-        u32 textureTileCountT : 2; // Number of times to tile the texture in the T direction
-        u32 scaleAnimDir : 3; // Maps to SPLScaleAnimDir
-        u32 dpolFaceEmitter : 1; // If set, the polygon will face the emitter
-        u32 flipTextureS : 1;
-        u32 flipTextureT : 1;
-        u32 : 30;
-    } misc;
-    fx16 polygonX;
-    fx16 polygonY;
-    struct {
-        u32 flags : 8;
-        u32 : 24;
-    } userData;
-} SPLResourceHeader;
-
-typedef struct SPLScaleAnim {
-    fx16 start;
-    fx16 mid;
-    fx16 end;
-    SPLCurveInOut curve;
-    struct {
-        u16 loop : 1;
-        u16 : 15;
-    } flags;
-    u16 padding;
-} SPLScaleAnim;
-
-typedef struct SPLColorAnim {
-    GXRgb start;
-    GXRgb end;
-    SPLCurveInPeakOut curve;
-    struct {
-        u16 randomStartColor : 1;
-        u16 loop : 1;
-        u16 interpolate : 1;
-        u16 : 13;
-    } flags;
-    u16 padding;
-} SPLColorAnim;
-
-typedef struct SPLAlphaAnim {
-    union {
-        u16 all;
-        struct {
-            u16 start : 5;
-            u16 mid : 5;
-            u16 end : 5;
-            u16 : 1;
-        };
-    } alpha;
-    struct {
-        u16 randomRange : 8;
-        u16 loop : 1;
-        u16 : 7;
-    } flags;
-    SPLCurveInOut curve;
-    u16 padding;
-} SPLAlphaAnim;
-
-typedef struct SPLTexAnim {
-    u8 textures[SPL_TEX_ANIM_MAX_FRAMES];
-    struct {
-        u32 frameCount : 8;
-        u32 step : 8; // Number of frames between each texture frame
-        u32 randomizeInit : 1; // Randomize the initial texture frame
-        u32 loop : 1;
-        u32 : 14;
-    } param;
-} SPLTexAnim;
-
-typedef struct SPLChildResource {
-    SPLChildResourceFlags flags;
-    fx16 randomInitVelMag; // Randomization factor for the initial velocity magnitude (0 = no randomization)
-    fx16 endScale; // For scaling animations
-    u16 lifeTime;
-    u8 velocityRatio; // Ratio of the parent particle's velocity to inherit (255 = 100%)
-    u8 scaleRatio; // Ratio of the parent particle's scale to inherit (255 = 100%)
-    GXRgb color;
-    struct {
-        u32 emissionCount : 8; // Number of particles to emit per emission interval
-        u32 emissionDelay : 8; // Delay, as a fraction of the particle's lifetime, before the particle starts emitting
-        u32 emissionInterval : 8;
-        u32 texture : 8;
-        u32 textureTileCountS : 2;
-        u32 textureTileCountT : 2;
-        u32 flipTextureS : 1;
-        u32 flipTextureT : 1;
-        u32 dpolFaceEmitter : 1; // If set, the polygon will face the emitter
-        u32 : 25;
-    } misc;
-} SPLChildResource;
-
-typedef struct SPLResource {
-    SPLResourceHeader *header;
-    SPLScaleAnim *scaleAnim;
-    SPLColorAnim *colorAnim;
-    SPLAlphaAnim *alphaAnim;
-    SPLTexAnim *texAnim;
-    SPLChildResource *childResource;
-    SPLBehavior *behaviors;
-    u16 behaviorCount;
-    u16 reserved;
-} SPLResource;
-
-typedef struct SPLParticle {
-    struct SPLParticle *next;
-    struct SPLParticle *prev;
-    VecFx32 position; // position of the particle, relative to the emitter
-    VecFx32 velocity;
-    u16 rotation;
-    s16 angularVelocity;
-    u16 lifeTime;
-    u16 age;
-
-    // These two values are essentially 1.0f / lifeTime (or 1.0f / loopTime), represented as an integer
-    // They are used to map between age/lifeTime and a [0, 255] range
-    // Mainly just to lower the amount of divisions needed in the update functions
-    u16 loopTimeFactor;
-    u16 lifeTimeFactor;
-
-    u8 texture; // Index of the current texture in the resource
-
-    // A value between 0 and 255 that is added to the life rate of the particle.
-    // This is used only for looping particles, so particles spawned at the same time
-    // don't have aren't all in sync (animation-wise)
-    u8 lifeRateOffset;
-
-    struct {
-        u16 baseAlpha : 5;
-        u16 animAlpha : 5;
-        u16 currentPolygonID : 6;
-    } visibility;
-    fx32 baseScale;
-    fx16 animScale;
-    GXRgb color;
-    VecFx32 emitterPos;
-} SPLParticle;
-
-typedef struct SPLParticleList {
-    SPLParticle *first;
-    int count;
-    SPLParticle *last;
-} SPLParticleList;
-
-enum SPLUpdateCallbackType {
-    SPL_CALLBACK_PRE_UPDATE = 0,
-    SPL_CALLBACK_POST_UPDATE = 1,
-};
-
-typedef void (*SPLEmitterUpdateCallback)(struct SPLEmitter *emitter, enum SPLUpdateCallbackType type);
-
-typedef struct SPLEmitterState {
-    union {
-        u32 all;
-        struct
-        {
-            u32 terminate : 1;
-            u32 emissionPaused : 1;
-            u32 paused : 1;
-            u32 renderingDisabled : 1;
-            u32 started : 1;
-            u32 : 27;
-        };
-    };
-} SPLEmitterState;
-
-typedef struct SPLEmitter {
-    struct SPLEmitter *next;
-    struct SPLEmitter *prev;
-    SPLParticleList particles;
-    SPLParticleList childParticles;
-    SPLResource *resource;
-    SPLEmitterState state;
-    VecFx32 position;
-    VecFx32 velocity;
-    VecFx32 particleInitVelocity;
-    u16 age;
-    fx16 emissionCountFractional; // fractional part of the number of particles to emit (doesn't seem to be used)
-    VecFx16 axis;
-    u16 initAngle;
-    fx32 emissionCount;
-    fx32 radius;
-    fx32 length;
-    fx32 initVelPositionAmplifier; // amplifies the initial velocity of the particles based on their position
-    fx32 initVelAxisAmplifier; // amplifies the initial velocity of the particles based on the emitter's axis
-    fx32 baseScale; // base scale of the particles
-    u16 particleLifeTime;
-    GXRgb color;
-    fx32 collisionPlaneHeight;
-    fx16 textureS;
-    fx16 textureT;
-    fx16 childTextureS;
-    fx16 childTextureT;
-    struct {
-        u32 emissionInterval : 8; // number of frames between particle emissions
-        u32 baseAlpha : 8;
-        u32 updateCycle : 3; // 0 = every frame, 1 = cycle A, 2 = cycle B, cycles A and B alternate
-        u32 reserved : 13;
-    } misc;
-    VecFx16 crossAxis1;
-    VecFx16 crossAxis2;
-    SPLEmitterUpdateCallback updateCallback;
-
-    // Fields that the game can use for custom data
-    void *userDataPtr;
-    union {
-        u32 u32;
-        u16 u16[2];
-        u8 u8[4];
-    } userData;
-} SPLEmitter;
-
-typedef struct SPLEmitterList {
-    SPLEmitter *first;
-    int count;
-    SPLEmitter *last;
-} SPLEmitterList;
-
-typedef union SPLTextureParam {
-    u32 all;
-    struct {
-        u32 format : 4; // Maps to GXTexFmt
-        u32 s : 4; // Maps to GXTexSizeS
-        u32 t : 4; // Maps to GXTexSizeT
-        u32 repeat : 2; // Maps to GXTexRepeat
-        u32 flip : 2; // Maps to GXTexFlip
-        u32 palColor0 : 1; // Maps to GXTexPlttColor0
-        u32 useSharedTexture : 1;
-        u32 sharedTexID : 8;
-        u32 : 6;
-    };
-} SPLTextureParam;
-
-typedef struct SPLTextureResource {
-    u32 id;
-    SPLTextureParam param;
-    u32 textureSize; // size of the texture data
-    u32 paletteOffset; // offset to the palette data from the start of the header
-    u32 paletteSize; // size of the palette data
-    u32 unused0;
-    u32 unused1;
-    u32 resourceSize; // total size of the resource (header + data)
-} SPLTextureResource;
-
-typedef struct SPLTexture {
-    const void *resource;
-    u32 texAddr; // VRAM address of the texture
-    u32 palAddr; // VRAM address of the palette
-    SPLTextureParam param;
-    u16 width;
-    u16 height;
-} SPLTexture;
-
-typedef void *(*SPLAllocFunc)(u32);
-
-enum SPLDrawOrder {
-    SPL_DRAW_ORDER_REVERSE = 0,
-    SPL_DRAW_ORDER_NORMAL = 1,
-};
-
-typedef struct SPLManager {
-    SPLAllocFunc alloc;
-    SPLEmitterList activeEmitters;
-    SPLEmitterList inactiveEmitters;
-    SPLParticleList inactiveParticles;
-    SPLResource *resources;
-    SPLTexture *textures;
-    u16 resCount;
-    u16 texCount;
-    u16 maxEmitters;
-    u16 maxParticles;
-    struct {
-        u32 min : 6;
-        u32 max : 6;
-        u32 current : 6;
-        u32 fix : 6;
-        u32 drawOrder : 1;
-        u32 unused : 7;
-    } polygonID;
-    GXPolygonAttrMisc miscPolygonAttr;
-    struct {
-        SPLEmitter *emitter; // current emitter being processed
-        const MtxFx43 *viewMatrix; // current view matrix
-    } renderState;
-    u16 currentCycle;
-    u16 reserved;
-} SPLManager;
-
-struct Bf28_02054A68 {
-    u32 lo : 28;
-    u32 sel : 3;
-    u32 hi : 1;
-};
-
-struct SubB_02054A68 {
-    u8 pad00[0x20];
-    struct SubX *f20;
-    u8 pad24[0x4e];
-    u16 f72;
-    u8 pad74[0x04];
-    s16 f78;
-    s16 f7a;
-};
-
-struct Frame_02054A68 {
-    struct MtxFx43 m1;
-    struct MtxFx43 m2;
-    struct MtxFx43 m3;
-};
-
-extern void func_0207BC08(const void *v, const void *m, void *out);
-extern void func_0207D918(const void *);
-extern void func_020565C8(s32, s32, s32, s32);
-extern void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
-extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
-extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
-extern void G3_MultMtx43(const MtxFx43 *m);
-extern void MI_Copy36B(const void *pSrc, void *pDst);
-extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
-extern void MTX_MultVec33(const VecFx32 *vec, const MtxFx33 *m, VecFx32 *dst);
-extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
-extern void SPLUtil_DrawXYPlane(fx16 s, fx16 t, fx16 offsetX, fx16 offsetY);
-extern void SPLUtil_DrawXZPlane(fx16 s, fx16 t, fx16 offsetX, fx16 offsetZ);
-extern u32 func_0207B5F4(void *, s32, s32, s32);
-extern void func_0207B9F0(const void *, const void *, void *);
-extern void func_0207D8E0(const void *);
-void func_02055B80(struct Obj *obj, struct S *s);
-void func_02055498(SPLManager *mgr, SPLParticle *ptcl);
-void func_02054DB8(SPLManager *mgr, SPLParticle *ptcl);
-void func_02054A68(struct Obj *obj, struct S *s);
-extern const s16 func_02055B80_Verts[];
-extern const fx16 FX_SinCosTable_[];
-extern u32 g_02146A8C;
-extern const s16 func_02054A68_Verts[];
+extern void func_0207AF00(u8 *buf, int a, int b);
+extern void func_0207AF1C(u8 *buf, int a, int b);
+extern void func_0207AF38(u8 *buf, int a, int b);
+extern void func_0207B51C(u8 *a, u8 *b, u8 *c);
+void func_020583CC(volatile struct List *list, volatile struct Node *node);
+struct Node_02058380 *func_02058380(struct List_02058380 *list);
+struct Node_02057EF8 *func_02058300(struct List_02057EF8 *list, struct Node_02057EF8 *node);
+void func_020582CC(struct Obj *o, void *s, int *dst);
+void func_02058204(struct Obj_02058204 *o, struct Src *s, int *dst);
+void func_02058180(struct A *a, struct B_02058180 *b, volatile int *c);
+void func_020580A8(struct Obj_02057EF8 *o, u8 *dst);
+void func_02057F8C(struct A_02057F8C *a, struct S *s, int unused, struct C *c);
+void func_02057EF8(struct A_02057EF8 *a, struct B_02057EF8 *b);
+extern s16 g_020A1B38[];
 
 
-static inline s32 FX_Mul(s32 a, s32 b)
+void func_020583CC(volatile struct List *list, volatile struct Node *node)
 {
-    return (s32)(((s64)a * b + 0x800) >> 12);
+    volatile struct Node *head;
+
+    head = list->head;
+    if (head == 0) {
+        list->head = node;
+        list->tail = node;
+        node->next = 0;
+        node->prev = node->next;
+    } else {
+        node->next = head;
+        node->prev = 0;
+        list->head->prev = node;
+        list->head = node;
+    }
+    list->count++;
 }
 
 
-/*
- * Handler row of the rig dispatch (func_02053044 / func_0205312C pool rows;
- * docs/families/cluster_02052F58.h): a Z-rotation billboard.  Same top as
- * func_0205429C (POLYGON_ATTR, the three-way scale switch), then instead of
- * the basis hooks it transforms the particle position by the current matrix
- * (MTX_MultVec43, func_0207BC08), reads sin/cos from the Verts table at
- * s->f20 >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
- * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + func_0207D918), mixes
- * the colour and calls the quad emitter func_020565C8 DIRECTLY.
- *
- * LOAD-BEARING SHAPES (wave 8):
- *   1. SubC->f30 is read into a local BEFORE the 0x040004A4 store, and
- *      obj->f44 likewise (the image loads both there).
- *   2. `a64 = (s64)(s32)a;` comes BEFORE the scale product, and the product
- *      is written `(s32)((a64 * sc + 0x800) >> 12)` on it.  The FX_Mul(a, sc)
- *      inline is 9 bytes out (the lo/hi halves swap registers), and the
- *      permuter's hill pass (399 singles) could not move it.
- *   3. -proc arm946e, NOT the arm7tdmi recorded in docs/notes/
- *      pkt_02055498.c.txt (that note's 740-out body was measured there).
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02055B80.c \
- *       --func func_02055B80 --addr 0x02055B80 --arm --cc ../1.2/sp2
- */
-void func_02055B80(struct Obj *obj, struct S *s)
+
+struct Node_02058380 *func_02058380(struct List_02058380 *list)
 {
-    struct Frame_02055B80 f;
-    struct SubC *p;
-    struct MtxFx43 *mtx;
-    s32 n;
-    s32 a;
-    s32 x;
-    s32 y;
-    s64 a64;
-    u32 v;
-    s32 i;
-    s32 sn;
-    s32 cs;
-    s32 sc;
-    s32 c1;
-    u32 q4, q8, qc;
-    s32 c2;
+    struct Node_02058380 *ret;
+    struct Node_02058380 *head;
 
-    n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    sc = obj->f40->f20->f00->f30;
-    mtx = obj->f44;
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
-    if ((n >> 5) == 0)
+    ret = 0;
+    head = list->head;
+    if (head != 0) {
+        ret = head;
+        list->head = head->next;
+        if (list->head != 0) {
+            head->next->prev = 0;
+        } else {
+            list->head = 0;
+            list->tail = 0;
+        }
+        list->count--;
+    }
+    return ret;
+}
+
+
+
+
+struct Node_02057EF8 *func_02058300(struct List_02057EF8 *list, struct Node_02057EF8 *node)
+{
+    struct Node_02057EF8 *next;
+
+    next = node->next;
+    if (next == 0) {
+        if (list->head == node) {
+            list->head = 0;
+            list->tail = 0;
+        } else {
+            node->prev->next = 0;
+            list->tail = list->tail->prev;
+        }
+    } else {
+        if (list->head == node) {
+            list->head = next;
+            list->head->prev = 0;
+        } else {
+            next->prev = node->prev;
+            node->prev->next = node->next;
+        }
+    }
+    list->count--;
+    return node;
+}
+
+
+
+
+
+/*
+ * Handler row 0 of the 3D-rig table searched by func_020518AC: adds the three
+ * s16 components of o to dst[0..2].  Same compiler as its sibling
+ * func_02058204 (1.1p1 merges the first two loads into an ldm).  The middle
+ * argument is unused but kept for the handler signature func_02058204 has.
+ */
+void func_020582CC(struct Obj *o, void *s, int *dst)
+{
+    dst[0] = dst[0] + o->v0;
+    dst[1] = dst[1] + o->v1;
+    dst[2] = dst[2] + o->v2;
+}
+
+
+
+
+
+
+u32 g_02146A8C;
+
+
+
+
+
+
+/*
+ * note:     EXACT* because the follower at 0x020582C0 is an unlabelled leaf run
+ *           (its own literal pool); every byte of the 188-byte function plus the
+ *           pool at 0x020582C0 compares identical.
+ */
+void func_02058204(struct Obj_02058204 *o, struct Src *s, int *dst)
+{
+    int r;
+
+    if (s->f26 % o->f06 != 0) {
         return;
+    }
 
-    a = s->f30;
-    a64 = (s64)(s32)a;
-    n = (s32)((a64 * sc + 0x800) >> 12);
-    x = n;
-    y = a;
-    p = obj->f40->f20->f00;
-    switch (p->f48.sel) {
+    g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
+    r = g_02146A8C >> 23;
+    dst[0] = dst[0] + ((o->v0 * r - (o->v0 << 8)) >> 8);
+
+    g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
+    r = g_02146A8C >> 23;
+    dst[1] = dst[1] + ((o->v1 * r - (o->v1 << 8)) >> 8);
+
+    g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
+    r = g_02146A8C >> 23;
+    dst[2] = dst[2] + ((o->v2 * r - (o->v2 << 8)) >> 8);
+}
+
+
+
+
+
+
+
+void func_02058180(struct A *a, struct B_02058180 *b, volatile int *c)
+{
+    c[0] = c[0] + (a->scale * (a->x - b->f08 - b->f14) >> 12);
+    c[1] = c[1] + (a->scale * (a->y - b->f0c - b->f18) >> 12);
+    c[2] = c[2] + (a->scale * (a->z - b->f10 - b->f1c) >> 12);
+}
+
+
+
+
+
+
+
+
+/*
+ * wave r8 lane rigD: first compile, EXACT under ../1.2/sp2 -proc arm946e.
+ * The r6 note called this row "untouched" and predicted five label-class
+ * relocation sites; all five resolve (four branch, one literal), and the
+ * shared table is one symbol for all three cases.
+ *
+ * The two spellings that matter:
+ *  - the three cases are identical apart from the callee, so each arm
+ *    re-reads `idx = o->f00 >> 4;` (hoisting it above the switch costs the
+ *    asr slot).
+ *  - the subscripts are `idx * 2` and `idx * 2 + 1`, not `idx`/`idx + 1`:
+ *    both address the same halfwords, but the image forms the byte offsets
+ *    from `lsl r2, r1, #1` + `add r1, r2, #1` + two `lsl #1`s, which is the
+ *    `idx * 2` spelling (the `idx`/`idx + 1` spelling is 12 bytes short).
+ */
+void func_020580A8(struct Obj_02057EF8 *o, u8 *dst)
+{
+    u8 buf[0x28];
+    int idx;
+
+    switch (o->f02) {
     case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+        idx = o->f00 >> 4;
+        func_0207AF00(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
         break;
     case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
+        idx = o->f00 >> 4;
+        func_0207AF1C(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
         break;
     case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
-        break;
-    default:
-        break;
-    }
-
-    if (p->f00.flag == 0) {
-        f.t.x = s->p1.x + s->f38;
-        f.t.y = s->p1.y + s->f3c;
-        f.t.z = s->p1.z + s->f40;
-        func_0207BC08(&f.t, mtx, &f.t);
-        i = (s32)s->f20 >> 4;
-        sn = func_02055B80_Verts[2 * i];
-        cs = func_02055B80_Verts[2 * i + 1];
-        f.m.m[0] = FX_Mul(cs, x);
-        f.m.m[1] = FX_Mul(sn, x);
-        f.m.m[2] = 0;
-        f.m.m[3] = FX_Mul(-sn, y);
-        f.m.m[4] = FX_Mul(cs, y);
-        f.m.m[5] = 0;
-        f.m.m[6] = 0;
-        f.m.m[7] = 0;
-        f.m.m[8] = 0x1000;
-        f.m.m[9] = f.t.x;
-        f.m.m[10] = f.t.y;
-        f.m.m[11] = f.t.z;
-        *(volatile u32 *)0x04000454 = 0;
-        func_0207D918(&f.m);
-    } else {
-        f.t.x = s->p1.x + s->f38 - p->f04;
-        f.t.y = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.t.z = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
-        func_0207BC08(&f.t, mtx, &f.t);
-        i = (s32)s->f20 >> 4;
-        sn = func_02055B80_Verts[2 * i];
-        cs = func_02055B80_Verts[2 * i + 1];
-        f.m.m[0] = FX_Mul(cs, x);
-        f.m.m[1] = FX_Mul(sn, x);
-        f.m.m[2] = 0;
-        f.m.m[3] = FX_Mul(-sn, y);
-        f.m.m[4] = FX_Mul(cs, y);
-        f.m.m[5] = 0;
-        f.m.m[6] = 0;
-        f.m.m[7] = 0;
-        f.m.m[8] = 0x1000;
-        f.m.m[9] = f.t.x;
-        f.m.m[10] = f.t.y;
-        f.m.m[11] = f.t.z;
-        *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(&f.m);
-    }
-
-    c1 = s->f36;
-    c2 = obj->f40->f72;
-    v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
-      | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
-      | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
-
-    func_020565C8(obj->f40->f7c, obj->f40->f7e, 0, 0);
-}
-
-
-static inline fx16 FX_SinIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1)]; }
-
-
-static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1) + 1]; }
-
-
-static inline void G3_PolygonAttr(int light, GXPolygonMode polyMode, GXCull cullMode, int polygonID, int alpha, int misc)
-{
-    reg_G3_POLYGON_ATTR = GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc);
-}
-
-
-static inline void G3_Identity(void) { reg_G3_MTX_IDENTITY = 0; }
-
-
-static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
-{
-    reg_G3_MTX_TRANS = (u32)x;
-    reg_G3_MTX_TRANS = (u32)y;
-    reg_G3_MTX_TRANS = (u32)z;
-}
-
-
-static inline void G3_Color(GXRgb rgb) { reg_G3_COLOR = (u32)(rgb); }
-
-
-static inline void MTX_Copy43To33(const MtxFx43 *pSrc, MtxFx33 *pDst) { MI_Copy36B(pSrc, pDst); }
-
-
-
-
-
-/**
- * @brief Generates a random number
- */
-static inline u32 SPLRandom_Next()
-{
-    gSPLRandomState = gSPLRandomState * 0x5eedf715 + 0x1b0cb173;
-    return gSPLRandomState;
-}
-
-
-
-/**
- * @brief Generates a random number in the range [0, 2^bits)
- * @param bits The number of bits to generate
- */
-static inline u32 SPLRandom_U32(u32 bits)
-{
-    return SPLRandom_Next() >> (sizeof(u32) * 8 - bits);
-}
-
-
-
-static inline s32 SPLRandom_S32(u32 bits)
-{
-    return (s32)(SPLRandom_Next() >> (sizeof(u32) * 8 - bits));
-}
-
-
-
-static inline fx32 SPLRandom_FX32(u32 bits)
-{
-    return (fx32)SPLRandom_Next() >> (sizeof(u32) * 8 - bits);
-}
-
-
-
-/**
- * @brief Generates a random number in the range [num * (1 - range), num)
- * @param num The number to scale, can be both an integer or a fixed-point number
- * @param range The range to scale the number by, integer in the range [0, 255], which maps to [0, 1]
- */
-#define SPLRandom_ScaledRangeFX32(num, range) (((num) * (255 - (((range) * (fx32)SPLRandom_U32(8)) >> 8))) >> 8)
-
-
-
-/**
- * @brief Generates a random number in the range [num * (1 - range), num * 2 * (1 - range))
- * @param num The number to scale, can be both an integer or a fixed-point number
- * @param range The range to scale the number by, integer in the range [0, 255], which maps to [0, 1]
- */
-#define SPLRandom_DoubleScaledRangeFX32(num, range) ((num) * (255 + (range) - (((range) * (fx32)SPLRandom_U32(8)) >> 7)) >> 8)
-
-
-
-/**
- * @brief Generates a random number in the range [-num, num)
- * @param num The number to scale, can be both an integer or a fixed-point number
- */
-#define SPLRandom_RangeFX32(num) (((num) * (s32)SPLRandom_U32(9) - ((num) << 8)) >> 8)
-
-
-
-/**
- * @brief Generates a random fx32 number in the range [min, max)
- * @param min The minimum number to generate, integer
- * @param max The maximum number to generate, integer
- */
-#define SPLRandom_BetweenFX32(min, max) ((fx32)(((max) - (min)) * SPLRandom_U32(12) + ((min) * FX32_ONE)))
-
-
-
-static inline const void *SPLTextureResource_GetTexData(const SPLTextureResource *resource)
-{
-    return (const void *)(resource + 1);
-}
-
-
-static inline BOOL SPLDraw_Setup(const SPLParticle *ptcl, const SPLManager *mgr)
-{
-    fx32 alpha = (fx32)(ptcl->visibility.baseAlpha * (ptcl->visibility.animAlpha + 1)) >> 5;
-    G3_PolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, ptcl->visibility.currentPolygonID, alpha, mgr->miscPolygonAttr);
-    reg_G3_POLYGON_ATTR;
-    return alpha == 0;
-}
-
-
-/*
- * SPLDraw_DirectionalBillboard: the parent-particle twin of func_02054DB8,
- * ending in SPLUtil_DrawXYPlane with the emitter texture tiling and the
- * resource header polygonX/polygonY offsets.
- *
- * Wave 9, third lane: this body and every declaration it uses are the public
- * pret/pokeplatinum decompilation of the same NitroSystem particle library
- * (SPL; docs/families/cluster_02052F58.h), lib/spl/src/spl_draw.c SPLDraw_DirectionalBillboard, with the
- * lib/spl/include/spl_*.h structs, and the SDK G3/MTX/VEC inlines written out
- * from sdk/TwlSDK/include; only the callees are pinned to Black addresses.
- * It compiled EXACT at the cluster pin unchanged, closing docs/notes/pkt_02055498.c.txt (286 out after two lanes).
- */
-void func_02055498(SPLManager *mgr, SPLParticle *ptcl)
-{
-    VecFx32 vel_dir;
-    VecFx32 trs;
-    fx32 sclX, sclY;
-    VecFx32 dir, look;
-    MtxFx33 mat;
-    MtxFx43 load;
-
-    const MtxFx43 *cmr = mgr->renderState.viewMatrix;
-    fx32 aspect = mgr->renderState.emitter->resource->header->aspectRatio;
-
-    if (SPLDraw_Setup(ptcl, mgr)) {
-        return;
-    }
-
-    sclY = ptcl->baseScale;
-    sclX = FX_MUL(sclY, aspect);
-
-    switch (mgr->renderState.emitter->resource->header->misc.scaleAnimDir) {
-    case SPL_SCALE_ANIM_DIR_XY:
-        sclX = FX_MUL(sclX, ptcl->animScale);
-        sclY = FX_MUL(sclY, ptcl->animScale);
-        break;
-
-    case SPL_SCALE_ANIM_DIR_X:
-        sclX = FX_MUL(sclX, ptcl->animScale);
-        break;
-
-    case SPL_SCALE_ANIM_DIR_Y:
-        sclY = FX_MUL(sclY, ptcl->animScale);
+        idx = o->f00 >> 4;
+        func_0207AF38(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
         break;
     }
 
-    if (!mgr->renderState.emitter->resource->header->flags.useViewSpace) {
-        trs.x = ptcl->position.x + ptcl->emitterPos.x;
-        trs.y = ptcl->position.y + ptcl->emitterPos.y;
-        trs.z = ptcl->position.z + ptcl->emitterPos.z;
-
-        dir = ptcl->velocity;
-
-        look.x = cmr->m[0][2];
-        look.y = cmr->m[1][2];
-        look.z = cmr->m[2][2];
-
-        VEC_CrossProduct(&dir, &look, &dir);
-        if (dir.x == 0 && dir.y == 0 && dir.z == 0) {
-            return;
-        }
-
-        VEC_Normalize(&dir, &dir);
-        MTX_Copy43To33(cmr, &mat);
-        MTX_MultVec33(&dir, &mat, &dir);
-        MTX_MultVec43(&trs, cmr, &trs);
-
-        vel_dir = ptcl->velocity;
-        VEC_Normalize(&vel_dir, &vel_dir);
-
-        fx32 dot = FX_MUL(vel_dir.x, -cmr->m[0][2]) + FX_MUL(vel_dir.y, -cmr->m[1][2]) + FX_MUL(vel_dir.z, -cmr->m[2][2]);
-        if (dot < 0) {
-            dot = -dot;
-        }
-
-        dot = FX_MUL(sclY, FX_MUL(FX32_ONE - dot, (fx32)mgr->renderState.emitter->resource->header->misc.dbbScale) + FX32_ONE);
-        load.m[0][0] = FX_MUL(dir.x, sclX);
-        load.m[1][0] = FX_MUL(-dir.y, dot);
-        load.m[2][0] = 0;
-        load.m[3][0] = trs.x;
-        load.m[0][1] = FX_MUL(dir.y, sclX);
-        load.m[1][1] = FX_MUL(dir.x, dot);
-        load.m[2][1] = 0;
-        load.m[3][1] = trs.y;
-        load.m[0][2] = 0;
-        load.m[1][2] = 0;
-        load.m[2][2] = FX32_ONE;
-        load.m[3][2] = trs.z;
-
-        G3_Identity();
-        G3_MultMtx43(&load);
-    } else {
-        trs.x = ptcl->position.x + ptcl->emitterPos.x - mgr->renderState.emitter->resource->header->emitterBasePos.x;
-        trs.y = ptcl->position.y + ptcl->emitterPos.y - mgr->renderState.emitter->resource->header->emitterBasePos.y;
-        trs.z = ptcl->position.z + ptcl->emitterPos.z - mgr->renderState.emitter->resource->header->emitterBasePos.z;
-
-        dir = ptcl->velocity;
-
-        look.x = cmr->m[0][2];
-        look.y = cmr->m[1][2];
-        look.z = cmr->m[2][2];
-
-        VEC_CrossProduct(&dir, &look, &dir);
-        if (dir.x == 0 && dir.y == 0 && dir.z == 0) {
-            return;
-        }
-
-        VEC_Normalize(&dir, &dir);
-        MTX_Copy43To33(cmr, &mat);
-        MTX_MultVec33(&dir, &mat, &dir);
-        MTX_MultVec43(&trs, cmr, &trs);
-
-        vel_dir = ptcl->velocity;
-        VEC_Normalize(&vel_dir, &vel_dir);
-
-        fx32 dot = FX_MUL(vel_dir.x, -cmr->m[0][2]) + FX_MUL(vel_dir.y, -cmr->m[1][2]) + FX_MUL(vel_dir.z, -cmr->m[2][2]);
-        if (dot < 0) {
-            dot = -dot;
-        }
-
-        dot = FX_MUL(sclY, FX_MUL(FX32_ONE - dot, (fx32)mgr->renderState.emitter->resource->header->misc.dbbScale) + FX32_ONE);
-        load.m[0][0] = FX_MUL(dir.x, sclX);
-        load.m[1][0] = FX_MUL(-dir.y, dot);
-        load.m[2][0] = 0;
-        load.m[3][0] = trs.x;
-        load.m[0][1] = FX_MUL(dir.y, sclX);
-        load.m[1][1] = FX_MUL(dir.x, dot);
-        load.m[2][1] = 0;
-        load.m[3][1] = trs.y;
-        load.m[0][2] = 0;
-        load.m[1][2] = 0;
-        load.m[2][2] = FX32_ONE;
-        load.m[3][2] = trs.z;
-
-        G3_Identity();
-        G3_Translate(
-            mgr->renderState.emitter->resource->header->emitterBasePos.x,
-            mgr->renderState.emitter->resource->header->emitterBasePos.y,
-            mgr->renderState.emitter->resource->header->emitterBasePos.z);
-        G3_MultMtx43(&load);
-    }
-
-    G3_Color(GX_RGB(
-        GX_RGB_R_(ptcl->color) * GX_RGB_R_(mgr->renderState.emitter->color) >> 5,
-        GX_RGB_G_(ptcl->color) * GX_RGB_G_(mgr->renderState.emitter->color) >> 15,
-        GX_RGB_B_(ptcl->color) * GX_RGB_B_(mgr->renderState.emitter->color) >> 25));
-
-    SPLEmitter *emtr = mgr->renderState.emitter;
-    SPLUtil_DrawXYPlane(
-        emtr->textureS,
-        emtr->textureT,
-        emtr->resource->header->polygonX,
-        emtr->resource->header->polygonY);
+    func_0207B51C(dst + 8, buf, dst + 8);
 }
 
 
 
 
-#define SPLRandom_ScaledRangeFX32(num, range) (((num) * (255 - (((range) * (fx32)SPLRandom_U32(8)) >> 8))) >> 8)
 
-
-
-
-#define SPLRandom_DoubleScaledRangeFX32(num, range) ((num) * (255 + (range) - (((range) * (fx32)SPLRandom_U32(8)) >> 7)) >> 8)
-
-
-
-
-#define SPLRandom_RangeFX32(num) (((num) * (s32)SPLRandom_U32(9) - ((num) << 8)) >> 8)
-
-
-
-
-#define SPLRandom_BetweenFX32(min, max) ((fx32)(((max) - (min)) * SPLRandom_U32(12) + ((min) * FX32_ONE)))
-
-
-
-/*
- * SPLDraw_Child_DirectionalBillboard: draws one child particle as a
- * billboard stretched along its velocity (the "directional billboard" draw
- * type), through SPLDraw_Setup (POLYGON_ATTR), a hand-built 4x3 load matrix
- * and SPLUtil_DrawXYPlane (func_020565C8) with the child texture tiling.
- *
- * Wave 9, third lane: this body and every declaration it uses are the public
- * pret/pokeplatinum decompilation of the same NitroSystem particle library
- * (SPL; docs/families/cluster_02052F58.h), lib/spl/src/spl_draw.c SPLDraw_Child_DirectionalBillboard, with the
- * lib/spl/include/spl_*.h structs, and the SDK G3/MTX/VEC inlines written out
- * from sdk/TwlSDK/include; only the callees are pinned to Black addresses.
- * It compiled EXACT at the cluster pin unchanged, closing docs/notes/func_02054DB8.c.txt (286 out after two lanes).
- */
-void func_02054DB8(SPLManager *mgr, SPLParticle *ptcl)
-{
-    VecFx32 vel_dir;
-    VecFx32 trs;
-    fx32 sclX, sclY;
-    VecFx32 dir, look;
-    MtxFx33 mat;
-    MtxFx43 load;
-
-    const MtxFx43 *cmr = mgr->renderState.viewMatrix;
-    fx32 aspect = mgr->renderState.emitter->resource->header->aspectRatio;
-
-    if (SPLDraw_Setup(ptcl, mgr)) {
-        return;
-    }
-
-    sclY = ptcl->baseScale;
-    sclX = FX_MUL(sclY, aspect);
-
-    switch (mgr->renderState.emitter->resource->header->misc.scaleAnimDir) {
-    case SPL_SCALE_ANIM_DIR_XY:
-        sclX = FX_MUL(sclX, ptcl->animScale);
-        sclY = FX_MUL(sclY, ptcl->animScale);
-        break;
-
-    case SPL_SCALE_ANIM_DIR_X:
-        sclX = FX_MUL(sclX, ptcl->animScale);
-        break;
-
-    case SPL_SCALE_ANIM_DIR_Y:
-        sclY = FX_MUL(sclY, ptcl->animScale);
-        break;
-    }
-
-    if (!mgr->renderState.emitter->resource->header->flags.useViewSpace) {
-        trs.x = ptcl->position.x + ptcl->emitterPos.x;
-        trs.y = ptcl->position.y + ptcl->emitterPos.y;
-        trs.z = ptcl->position.z + ptcl->emitterPos.z;
-
-        dir = ptcl->velocity;
-
-        look.x = cmr->m[0][2];
-        look.y = cmr->m[1][2];
-        look.z = cmr->m[2][2];
-
-        VEC_CrossProduct(&dir, &look, &dir);
-        if (dir.x == 0 && dir.y == 0 && dir.z == 0) {
-            return;
-        }
-
-        VEC_Normalize(&dir, &dir);
-        MTX_Copy43To33(cmr, &mat);
-        MTX_MultVec33(&dir, &mat, &dir);
-        MTX_MultVec43(&trs, cmr, &trs);
-
-        vel_dir = ptcl->velocity;
-        VEC_Normalize(&vel_dir, &vel_dir);
-
-        fx32 dot = FX_MUL(vel_dir.x, -cmr->m[0][2]) + FX_MUL(vel_dir.y, -cmr->m[1][2]) + FX_MUL(vel_dir.z, -cmr->m[2][2]);
-        if (dot < 0) {
-            dot = -dot;
-        }
-
-        dot = FX_MUL(sclY, FX_MUL(FX32_ONE - dot, (fx32)mgr->renderState.emitter->resource->header->misc.dbbScale) + FX32_ONE);
-        load.m[0][0] = FX_MUL(dir.x, sclX);
-        load.m[1][0] = FX_MUL(-dir.y, dot);
-        load.m[2][0] = 0;
-        load.m[3][0] = trs.x;
-        load.m[0][1] = FX_MUL(dir.y, sclX);
-        load.m[1][1] = FX_MUL(dir.x, dot);
-        load.m[2][1] = 0;
-        load.m[3][1] = trs.y;
-        load.m[0][2] = 0;
-        load.m[1][2] = 0;
-        load.m[2][2] = FX32_ONE;
-        load.m[3][2] = trs.z;
-
-        G3_Identity();
-        G3_MultMtx43(&load);
-    } else {
-        trs.x = ptcl->position.x + ptcl->emitterPos.x - mgr->renderState.emitter->resource->header->emitterBasePos.x;
-        trs.y = ptcl->position.y + ptcl->emitterPos.y - mgr->renderState.emitter->resource->header->emitterBasePos.y;
-        trs.z = ptcl->position.z + ptcl->emitterPos.z - mgr->renderState.emitter->resource->header->emitterBasePos.z;
-
-        dir = ptcl->velocity;
-
-        look.x = cmr->m[0][2];
-        look.y = cmr->m[1][2];
-        look.z = cmr->m[2][2];
-
-        VEC_CrossProduct(&dir, &look, &dir);
-        if (dir.x == 0 && dir.y == 0 && dir.z == 0) {
-            return;
-        }
-
-        VEC_Normalize(&dir, &dir);
-        MTX_Copy43To33(cmr, &mat);
-        MTX_MultVec33(&dir, &mat, &dir);
-        MTX_MultVec43(&trs, cmr, &trs);
-
-        vel_dir = ptcl->velocity;
-        VEC_Normalize(&vel_dir, &vel_dir);
-
-        fx32 dot = FX_MUL(vel_dir.x, -cmr->m[0][2]) + FX_MUL(vel_dir.y, -cmr->m[1][2]) + FX_MUL(vel_dir.z, -cmr->m[2][2]);
-        if (dot < 0) {
-            dot = -dot;
-        }
-
-        dot = FX_MUL(sclY, FX_MUL(FX32_ONE - dot, (fx32)mgr->renderState.emitter->resource->header->misc.dbbScale) + FX32_ONE);
-        load.m[0][0] = FX_MUL(dir.x, sclX);
-        load.m[1][0] = FX_MUL(-dir.y, dot);
-        load.m[2][0] = 0;
-        load.m[3][0] = trs.x;
-        load.m[0][1] = FX_MUL(dir.y, sclX);
-        load.m[1][1] = FX_MUL(dir.x, dot);
-        load.m[2][1] = 0;
-        load.m[3][1] = trs.y;
-        load.m[0][2] = 0;
-        load.m[1][2] = 0;
-        load.m[2][2] = FX32_ONE;
-        load.m[3][2] = trs.z;
-
-        G3_Identity();
-        G3_Translate(
-            mgr->renderState.emitter->resource->header->emitterBasePos.x,
-            mgr->renderState.emitter->resource->header->emitterBasePos.y,
-            mgr->renderState.emitter->resource->header->emitterBasePos.z);
-        G3_MultMtx43(&load);
-    }
-
-    G3_Color(GX_RGB(
-        GX_RGB_R_(ptcl->color) * GX_RGB_R_(mgr->renderState.emitter->color) >> 5,
-        GX_RGB_G_(ptcl->color) * GX_RGB_G_(mgr->renderState.emitter->color) >> 15,
-        GX_RGB_B_(ptcl->color) * GX_RGB_B_(mgr->renderState.emitter->color) >> 25));
-
-    SPLUtil_DrawXYPlane(mgr->renderState.emitter->childTextureS, mgr->renderState.emitter->childTextureT, 0, 0);
-}
-
-
-
-extern u32 (*const func_02054A68_Hooks[])(s32, s32, void *);
-
-
-
-extern u32 (*const func_02054A68_Hooks2[])(s32, s32, s32, s32);
 
 
 
 
 /*
- * Member of the 1.2-pinned 3D rig family (docs/FRONTEND-PINS.md): a register
- * `blx rN` (0x02054B10, 0x02054D8C) beside an ARMv4T-style return
- * (0x02054AC0, 0x02054D94).
+ * wave r8 lane rigD: the wave r6 DIFF at this address is closed.  The two
+ * levers the r6 note asked for are both real and both necessary:
  *
- * -proc is arm946e, from the bytes: layout/proc_hints.txt infers arm7tdmi
- * for pkt_0205429C from its pop-lr epilogues, but arm7tdmi cannot emit the
- * register `blx rN` these bytes contain.  EXACT at 848/848 under
- * `compiler: ../1.2/sp2`, `flags: -O4,p -proc arm946e`.
+ *  - the mode dispatch is a `switch` on a 2-bit bitfield member, not an
+ *    if/else-if chain: `sw` puts BOTH case tests before the default `bx lr`
+ *    and the two bodies after it, which is the 284-byte layout (the
+ *    if/else-if spelling hoists case 0's body to the first test and comes
+ *    out 260 bytes).
+ *  - the mode-1 clamp is the 64-bit `(s64)x * y + 0x800 >> 12` form, not the
+ *    32-bit one: 32-bit gives `mul/add/asr` (4 instructions, 260 bytes),
+ *    the `long long` form gives the image's `smull/adc/lsr/orr` quartet with
+ *    the pooled `mov r0, #0x800` in the middle.
  *
- * Twin of func_02054718: the prologue, the frames and the arm bodies are
- * byte-identical; it differs in the hook selector (bits 17..18 of
- * SubC.f00 rather than the u16 at SubX+0x14), in the MTX_Concat43 argument
- * order, and in a four-argument final hook.
- *
- * The same four source shapes that close func_02054718 close this row; see
- * its header for the measurements (the 0x040004A4 `|` chain order, the
- * `(s64)a * res->f30` operand order, `x` before `y` in case 0, and the three
- * 0x04000470 stores through locals loaded in reverse field order).
- *
- * Addresses are Black-image addresses.
+ * The arm shape the r6 note arrived at is also exact as written: the inner
+ * `return` sits INSIDE the inner `if` (predicated `bxgt lr` in mode 0, a
+ * `ble <tail>` out-of-line clamp in mode 1), and the redundant
+ * `if (v < target) return;` after it is what makes the shared tail block
+ * exist at all.
  */
-void func_02054A68(struct Obj *obj, struct S *s)
+void func_02057F8C(struct A_02057F8C *a, struct S *s, int unused, struct C *c)
 {
-    struct Frame_02054A68 f;
-    struct SubC *p;
-    s32 n;
-    s32 i;
-    s32 a;
-    s32 x;
-    s32 y;
-    s64 a64;
-    u32 v;
-    s32 c1;
-    u32 q4, q8, qc;
-    s32 c2;
+    int target;
+    int v;
 
-    n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
-    v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
-    if ((n >> 5) == 0)
-        return;
+    target = a->target;
+    if (c->f74 != 0x80000000) target = c->f74;
 
-    i = (s32)s->f20 >> 4;
-    func_02054A68_Hooks[obj->f40->f20->f00->f00.sel2]
-        (func_02054A68_Verts[2 * i], func_02054A68_Verts[2 * i + 1], &f.m2);
-
-    a = s->f30;
-    n = (s32)(((s64)a * obj->f40->f20->f00->f30 + 0x800) >> 12);
-    x = n;
-    y = a;
-    a64 = (s64)(s32)a;
-    switch (obj->f40->f20->f00->f48.sel) {
+    switch (a->mode) {
     case 0:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
-        break;
+        v = s->f3c;
+        if (v < target) {
+            if (v + s->c > target) {
+                s->c = target - v;
+                s->f26 = s->f24;
+                return;
+            }
+        }
+        if (v < target) return;
+        if (v + s->c < target) {
+            s->c = target - v;
+            s->f26 = s->f24;
+        }
+        return;
     case 1:
-        x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
-        break;
-    case 2:
-        y = (s32)(((a64 * s->f34) + 0x800) >> 12);
-        break;
-    default:
-        break;
+        v = s->f3c;
+        if (v < target) {
+            if (v + s->c > target) {
+                s->c = target - v;
+                s->f18 = -(int)(((long long)s->f18 * a->f04 + 0x800) >> 12);
+                return;
+            }
+        }
+        if (v < target) return;
+        if (v + s->c < target) {
+            s->c = target - v;
+            s->f18 = -(int)(((long long)s->f18 * a->f04 + 0x800) >> 12);
+        }
+        return;
     }
+}
 
-    func_0207B5F4(&f.m3, x, y, y);
-    func_0207B9F0(&f.m3, &f.m2, &f.m1);
 
-    if (obj->f40->f20->f00->f00.flag == 0) {
-        f.m1.m[9] = s->p1.x + s->f38;
-        f.m1.m[10] = s->p1.y + s->f3c;
-        f.m1.m[11] = s->p1.z + s->f40;
-        func_0207D8E0(obj->f44);
-        func_0207D918(&f.m1);
-    } else {
-        f.m1.m[9] = s->p1.x + s->f38 - obj->f40->f20->f00->f04;
-        f.m1.m[10] = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
-        f.m1.m[11] = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
-        *(volatile u32 *)0x04000454 = 0;
-        p = obj->f40->f20->f00;
-        qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
-        func_0207D918(obj->f44);
-        func_0207D918(&f.m1);
-    }
 
-    c1 = s->f36;
-    c2 = obj->f40->f72;
-    v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
-      | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
-      | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
 
-    p = obj->f40->f20->f00;
-    func_02054A68_Hooks2[p->f00.sel1]
-        (obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
+
+
+
+
+
+static inline fx32 FX_Mul(fx32 v1, fx32 v2)
+{
+    return (fx32)(((fx64)v1 * v2 + 0x800) >> 12);
+}
+
+
+
+
+
+
+
+
+
+void func_02057EF8(struct A_02057EF8 *a, struct B_02057EF8 *b)
+{
+    b->_08 = b->_08 + FX_Mul(a->w, a->x - b->_08);
+    b->_0C = b->_0C + FX_Mul(a->w, a->y - b->_0C);
+    b->_10 = b->_10 + FX_Mul(a->w, a->z - b->_10);
 }

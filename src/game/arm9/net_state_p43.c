@@ -1,8 +1,8 @@
 /*
  * file:     net_state_p43.c
  * unit:     yes
- * function: func_0203C238, func_0203C2B0
- * address:  0x0203C238
+ * function: func_0203D650, func_0203D668, func_0203D680
+ * address:  0x0203D650
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,66 +13,78 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   func_0203D788  0x0203D788  arm
+ *   func_02034714  0x02034714  arm
+ *   file_020A7CA0  0x020A7CA0  data
+ *   file_020A7CF8  0x020A7CF8  data
  */
-struct NetState;
-typedef signed char   s8;
+#include "../../matched/include/Obj15989.h"
+#include "../../matched/include/Obj15990.h"
 
 typedef unsigned char u8;
-
-typedef unsigned short u16;
 
 typedef unsigned int  u32;
 
 extern void *func_0203D788(void);
-extern void *func_0203D798(void);
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-extern void func_02037D78(void);
-extern void func_020398B4(u32 a);
-extern void func_02039834(u32 a);
-extern u32 func_0203778C(u32 p);
-void func_0203C238(s8 *p);
-int func_0203C2B0(int a);
-extern u8 *g_021469DC;
+extern void func_02034714(const char *file, u32 line, const char *msg);
+u32 func_0203D650(void);
+void func_0203D668(u32 v);
+u32 func_0203D680(void);
+extern const char file_020A7CA0[];
+extern const char file_020A7CF8[];
+
 
 
 /*
- * Addresses are Black-image addresses.
+ * Returns the word at +0x34c of the net context, or 0 when there is none.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C238.c \
- *       --func func_0203C238 --addr 0x0203C238 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D650.c \
+ *       --func func_0203D650 --addr 0x0203D650 --arm --cc 1.1p1
  */
-void func_0203C238(s8 *p)
+u32 func_0203D650(void)
 {
-    u8 *s = func_0203D788();
-    u8 *q = func_0203D798();
+    u8 *p = func_0203D788();
 
-    if ((*(u32 (**)(int, u32, u32))(*(u32 *)(s + 0x340) + 0x50))(p[0x48], q[0x60], 0) != 0)
-        return;
+    return p != 0 ? ((struct Obj15989 *)p)->f34C : 0;
+}
 
-    func_02037D78();
-    func_020398B4((u32)s);
-    func_02039834((u32)s);
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C0F4, 0, 0x5AC);
+
+
+/*
+ * Stores the argument at +0x34c of the net context, when there is one.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D668.c \
+ *       --func func_0203D668 --addr 0x0203D668 --arm --cc 1.1p1
+ */
+void func_0203D668(u32 v)
+{
+    u8 *p = func_0203D788();
+
+    if (p != 0) {
+        ((struct Obj15990 *)p)->f34C = v;
+    }
 }
 
 
 /*
+ * Returns the net context's +0x60 byte, reporting through func_02034714 with
+ * the source file at 0x020A7CA0 ("net.c") and line 0x593 (1427) when the byte
+ * is past 8.  The guard is unsigned (`bls`), so the comparison is
+ * `> 8` against an unsigned char.
+ *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C2B0.c \
- *       --func func_0203C2B0 --addr 0x0203C2B0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0203D680.c \
+ *       --func func_0203D680 --addr 0x0203D680 --cc 1.1p1 --arm
  */
-int func_0203C2B0(int a)
+u32 func_0203D680(void)
 {
-    if (a != -1) {
-        if (func_0203778C((u32)a) == 0)
-            return 0;
-    }
+    u8 *p = func_0203D788();
 
-    g_021469DC[0x48] = (u8)a;
-    func_0203AD80((struct NetState *)g_021469DC, (void *)0x0203C238, 0, 0x5C4);
-    return 1;
+    if (p[0x60] > 8)
+        func_02034714(file_020A7CA0, 0x593, file_020A7CF8);
+    return p[0x60];
 }

@@ -163,11 +163,9 @@ void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long pa
 void func_02165A4C(unsigned char phase);
 void WCMi_ResetKeepAliveAlarm(void);
 
-asm void CRYPTOi__BN_lshift1(void)
+void CRYPTOi__BN_lshift1(void *buf, long len)
 {
-	ldr ip, =WCM_InitEx
-	mov r2, #1
-	bx ip
+    WCM_InitEx(buf, len, 1);
 }
 
 

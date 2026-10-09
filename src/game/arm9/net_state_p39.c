@@ -1,20 +1,51 @@
 /*
- * file:     net_state_p39.c
- * unit:     yes
- * function: func_0203B688, func_0203B6B4
- * address:  0x0203B688
+ * unit:     no
+ * function: func_0203D1E8
+ * address:  0x0203D1E8
+ * packet:   pkt_0203D1B4
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * symbols:
+ *   func_0203D788  0x0203D788  arm
+ *
+ * TU: net.c.
+ *
+ * Dispatch through the +0xb8 slot of the callback block hanging off +0x340
+ * of the network singleton.  The first parameter is dead: the original
+ * overwrites r0 with the singleton before the call and forwards r1, which
+ * is what spends r4 on a two-argument function that only uses the second.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203D1E8.c \
+ *       --func func_0203D1E8 --addr 0x0203D1E8 --cc 1.1p1 --arm
  */
-int func_0203B688(int a0, int a1, int a2, int a3);
-int func_0203B6B4(int a0, int a1, int a2, int a3);
 
-int func_0203B688(int a0, int a1, int a2, int a3){ int t0 = func_0203B344((int)a0); int t1 = func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203B5D4, (int)t0, (int)0x2e0); return t1; }
+typedef unsigned char u32_pad;
+typedef unsigned int  u32;
 
-int func_0203B6B4(int a0, int a1, int a2, int a3){ int t0 = func_0203B344((int)*(int *)((char *)(0x21469DC))); int t1 = func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203B5D4, (int)t0, (int)0x2E6); return 1; }
+struct NetVtbl {
+    u32_pad pad_00[0xb8];
+    void (*unk_b8)(void *arg);
+};
+
+struct NetSys {
+    u32_pad         pad_000[0x340];
+    struct NetVtbl *vtbl;
+};
+
+extern struct NetSys *func_0203D788(void);
+
+void func_0203D1E8(u32 unused, void *arg)
+{
+    void (*fn)(void *) = func_0203D788()->vtbl->unk_b8;
+
+    if (fn == 0) {
+        return;
+    }
+    fn(arg);
+}

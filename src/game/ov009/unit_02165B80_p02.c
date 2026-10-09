@@ -1,129 +1,79 @@
 /*
  * file:     unit_02165B80_p02.c
  * unit:     yes
- * function: WCM_PointApListEx, func_02165D04, func_02165DCC
+ * function: WCM_PointApListEx, func_02165D04, func_02165DCC, WcmGetOldestApList, WcmSearchApList, WcmSearchIndexedApList, func_02165F88, func_02166040, func_021661F0
  * address:  0x02165CAC
  * region:   ov009
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   MATCH
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   OS_DisableInterrupts      0x02087988  arm
- *   WCMi_GetSystemWork        0x021657C8  arm
- *   OS_RestoreInterrupts      0x0208799C  arm
- *   WcmSearchIndexedApList    0x02165F34  arm
+ *   OS_DisableInterrupts   0x02087988  arm
+ *   WCMi_GetSystemWork     0x021657C8  arm
+ *   OS_RestoreInterrupts   0x0208799C  arm
  *   func_021657C8  0x021657C8  arm  ov009
  *   func_02085D3C  0x02085D3C  arm
  *   func_021661F0  0x021661F0  arm  ov009
- *   func_02165EC8  0x02165EC8  arm  ov009
- *   func_02165E98  0x02165E98  arm  ov009
  *   func_02166040  0x02166040  arm  ov009
  *   func_02165F88  0x02165F88  arm  ov009
+ *   WCM_CompareBssID       0x021666B8  arm
+ *   func_02082AC0  0x02082AC0  arm
+ *   func_02082B0C  0x02082B0C  arm
+ *   func_02082E74  0x02082E74  arm
+ *   func_02082EA4  0x02082EA4  arm
+ *   @12407  0x021A19B4  data
+ *   @12409  0x021A19B8  data
+ *   OS_IsRunOnTwl  0x02085D3C  arm
+ *   func_02703250  0x02703250  arm  twl
+ *   @12437         0x021A19B0  data
  */
-struct WMGameInfo;
-struct WCMBssDesc_02165CAC {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char  bssid[6];
-};
 
-struct WCMApList_02165CAC {
-    unsigned long       field0;
-    unsigned long       index;
-    unsigned long       field8;
-    struct WCMApList_02165CAC   *next;
-    struct WCMBssDesc_02165CAC   bssDesc;
-};
+#include "wcm_types.h"
 
-struct WCMApListHeader_02165CAC {
-    unsigned long      count;
-    struct WCMApList_02165CAC  *head;
-    unsigned long      field8;
-};
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned long u32;
 
-struct WCMWork {
-    unsigned char pad0[0x12C4];
-    struct WCMApListHeader_02165CAC *pHeader;
-    unsigned long           apListSize;
-    unsigned char           pad1[0x10];
-    unsigned char           lockFlag;
-};
-
-struct WCMBssDesc_02165B80 {
-    unsigned short length;
-    unsigned short rssi;
-    unsigned char bssid[6];
-    unsigned char pad[0x32];
-    unsigned short gameInfoLength;
-};
-
-struct WCMApList_02165B80 {
-    unsigned char state;
-    unsigned char reserved;
-    unsigned short linkLevel;
-    unsigned long index;
-    struct WCMApList_02165B80 *previous;
-    struct WCMApList_02165B80 *next;
-    unsigned long data[48];
-};
-
-struct WCMWork_02165D04 {
-    char pad[0x12c0];
-    struct {
-        unsigned long dmano;
-        void *pbdbuffer;
-        unsigned long nbdbuffer;
-        unsigned long nbdmode;
-    } config;
-    char pad2[0xc];
-    unsigned char apListLock;
-    unsigned char resetting;
-    unsigned char phase;
-    unsigned char deviceId;
-};
-
-struct WCMApListHeader_02165B80 {
-    unsigned long count;
-    struct WCMApList_02165B80 *head;
-    struct WCMApList_02165B80 *tail;
-};
-
-struct WCMWork_02165DCC {
-    char pad[0x12c0];
-    struct {
-        unsigned long dmano;
-        void *pbdbuffer;
-        unsigned long nbdbuffer;
-        unsigned long nbdmode;
-    } config;
-};
+typedef struct NWMInfoElements {
+    unsigned char id;
+    unsigned char length;
+    unsigned short element[1];
+} NWMInfoElements;
 
 extern unsigned long OS_DisableInterrupts(void);
-extern struct WCMWork *WCMi_GetSystemWork(void);
+extern WCMWork *WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct WCMApList_02165CAC *WcmSearchIndexedApList(unsigned long index);
-extern int func_021657C8(void);
+extern WCMWork *func_021657C8(void);
 extern int func_02085D3C(void);
-extern struct WMGameInfo *func_021661F0(struct WCMBssDesc_02165B80 *bssDesc);
-extern struct WCMApList_02165B80 *func_02165EC8(unsigned char *bssid);
-extern struct WCMApList_02165B80 *func_02165E98(void);
-extern void func_02166040(struct WCMBssDesc_02165B80 *src, struct WCMBssDesc_02165B80 *dest);
-extern void func_02165F88(struct WCMApList_02165B80 *aplist);
-void func_02165D04(struct WCMBssDesc_02165B80 *bssDesc, unsigned short linkLevel);
-struct WCMApList_02165B80 *func_02165DCC(void);
-struct WCMBssDesc_02165CAC *WCM_PointApListEx(long index);
+extern WMGameInfo *func_021661F0(WMBssDesc *bssDesc);
+static WCMApList *WcmGetOldestApList(void);
+static WCMApList *WcmSearchApList(unsigned char *bssid);
+static WCMApList *WcmSearchIndexedApList(unsigned long index);
+extern int WCM_CompareBssID(unsigned char *a, unsigned char *b);
+extern void func_02082AC0(u32 data, void *destp, u32 size);
+extern void func_02082B0C(const void *srcp, void *destp, u32 size);
+extern int func_02082E74(const void *mem1, const void *mem2, u32 size);
+extern void func_02082EA4(const void *srcp, void *destp, u32 size);
+extern int OS_IsRunOnTwl(void);
+extern NWMInfoElements *func_02703250();
+WMBssDesc *WCM_PointApListEx(long index);
+void func_02165D04(WMBssDesc *bssDesc, unsigned short linkLevel);
+WCMApList *func_02165DCC(void);
+void func_02165F88(WCMApList *aplist);
+void func_02166040(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
+WMGameInfo *func_021661F0(WMBssDesc *bssDesc);
 
 
-struct WCMBssDesc_02165CAC *WCM_PointApListEx(long index)
+WMBssDesc *WCM_PointApListEx(long index)
 {
-    struct WCMWork *w;
+    WCMWork *w;
     unsigned long e;
-    struct WCMApList_02165CAC *p;
+    WCMApList *p;
 
     e = OS_DisableInterrupts();
     w = WCMi_GetSystemWork();
@@ -145,12 +95,12 @@ struct WCMBssDesc_02165CAC *WCM_PointApListEx(long index)
 /*
  * sdk:      WCMi_EntryApList (aplist.o)
  */
-void func_02165D04(struct WCMBssDesc_02165B80 *bssDesc, unsigned short linkLevel)
+void func_02165D04(WMBssDesc *bssDesc, unsigned short linkLevel)
 {
-    struct WCMApList_02165B80 *aplist;
-    struct WCMWork_02165D04 *w;
+    WCMApList *aplist;
+    WCMWork *w;
 
-    w = (struct WCMWork_02165D04 *)func_021657C8();
+    w = func_021657C8();
     if (w == 0)
         return;
     if (w->apListLock)
@@ -162,14 +112,14 @@ void func_02165D04(struct WCMBssDesc_02165B80 *bssDesc, unsigned short linkLevel
     if (w->deviceId == 1 && bssDesc->gameInfoLength != 0)
         return;
 
-    aplist = func_02165EC8(bssDesc->bssid);
+    aplist = WcmSearchApList(bssDesc->bssid);
     if (aplist == 0)
         aplist = func_02165DCC();
     if (aplist == 0 && w->config.nbdmode == 1)
-        aplist = func_02165E98();
+        aplist = WcmGetOldestApList();
     if (aplist == 0)
         return;
-    func_02166040(bssDesc, (struct WCMBssDesc_02165B80 *)aplist->data);
+    func_02166040(bssDesc, &aplist->bssDesc);
     aplist->linkLevel = linkLevel;
     func_02165F88(aplist);
 }
@@ -178,24 +128,24 @@ void func_02165D04(struct WCMBssDesc_02165B80 *bssDesc, unsigned short linkLevel
 /*
  * sdk:      WcmAllocApList (aplist.o)
  */
-struct WCMApList_02165B80 *func_02165DCC(void)
+WCMApList *func_02165DCC(void)
 {
     unsigned long maxBlock;
     long i;
-    struct WCMApList_02165B80 *pList;
-    struct WCMApList_02165B80 *p;
-    struct WCMApListHeader_02165B80 *pHeader;
-    struct WCMWork_02165DCC *w;
+    WCMApList *pList;
+    WCMApList *p;
+    WCMApListHeader *pHeader;
+    WCMWork *w;
 
-    w = (struct WCMWork_02165DCC *)func_021657C8();
-    pHeader = (struct WCMApListHeader_02165B80 *)w->config.pbdbuffer;
+    w = func_021657C8();
+    pHeader = w->config.pbdbuffer;
     p = 0;
 
     if (pHeader == 0)
         return 0;
-    if (w->config.nbdbuffer <= sizeof(struct WCMApListHeader_02165B80))
+    if (w->config.nbdbuffer <= sizeof(WCMApListHeader))
         return 0;
-    maxBlock = (w->config.nbdbuffer - sizeof(struct WCMApListHeader_02165B80)) / sizeof(struct WCMApList_02165B80);
+    maxBlock = (w->config.nbdbuffer - sizeof(WCMApListHeader)) / sizeof(WCMApList);
     if (maxBlock == 0)
         return 0;
     if (maxBlock <= pHeader->count)
@@ -203,7 +153,7 @@ struct WCMApList_02165B80 *func_02165DCC(void)
 
     i = 0;
     if (i < maxBlock) {
-        pList = (struct WCMApList_02165B80 *)(pHeader + 1);
+        pList = (WCMApList *)(pHeader + 1);
         do {
             p = pList + i;
             if (p->state == 0)
@@ -224,4 +174,205 @@ struct WCMApList_02165B80 *func_02165DCC(void)
         pHeader->count++;
     }
     return p;
+}
+
+
+static WCMApList *WcmGetOldestApList(void)
+{
+    WCMWork *w;
+    WCMApListHeader *pHeader;
+
+    w = WCMi_GetSystemWork();
+    pHeader = ((WCMApListHeader *)w->config.pbdbuffer);
+    if (pHeader != 0 && w->config.nbdbuffer > 12)
+        return pHeader->head;
+    return 0;
+}
+
+
+
+
+static WCMApList *WcmSearchApList(unsigned char *bssid)
+{
+    WCMWork *w;
+    WCMApListHeader *pHeader;
+    WCMApList *p;
+
+    w = WCMi_GetSystemWork();
+    p = 0;
+    pHeader = ((WCMApListHeader *)w->config.pbdbuffer);
+    if (bssid == 0)
+        return p;
+    if (pHeader != 0 && w->config.nbdbuffer > 12) {
+        p = pHeader->head;
+        while (p != 0) {
+            if (WCM_CompareBssID(p->bssDesc.bssid, bssid))
+                break;
+            p = p->next;
+        }
+    }
+    return p;
+}
+
+
+
+static WCMApList *WcmSearchIndexedApList(unsigned long index)
+{
+    WCMWork *w;
+    WCMApListHeader *pHeader;
+    WCMApList *p;
+
+    w = WCMi_GetSystemWork();
+    p = 0;
+    pHeader = ((WCMApListHeader *)w->config.pbdbuffer);
+    if (pHeader != 0 && w->config.nbdbuffer > 12) {
+        p = pHeader->head;
+        while (p != 0) {
+            if (p->index == index)
+                break;
+            p = p->next;
+        }
+    }
+    return p;
+}
+
+
+
+/*
+ * sdk:      WcmAppendApList (aplist.o)
+ */
+void func_02165F88(WCMApList *aplist)
+{
+    WCMWork *w = func_021657C8();
+    WCMApListHeader *pHeader = w->config.pbdbuffer;
+    WCMApList *p;
+
+    if (aplist == 0 || pHeader == 0)
+        return;
+    if (w->config.nbdbuffer <= sizeof(WCMApListHeader))
+        return;
+
+    for (p = pHeader->head; p != 0; p = p->next) {
+        if (p == aplist) {
+            if (p->previous)
+                p->previous->next = p->next;
+            else
+                pHeader->head = p->next;
+            if (p->next)
+                p->next->previous = p->previous;
+            else
+                pHeader->tail = p->previous;
+            break;
+        }
+    }
+    aplist->next = 0;
+    aplist->previous = pHeader->tail;
+    pHeader->tail = aplist;
+    if (aplist->previous)
+        aplist->previous->next = aplist;
+    else
+        pHeader->head = aplist;
+    if (p == 0) {
+        aplist->index = pHeader->count;
+        pHeader->count++;
+    }
+}
+
+
+/*
+ * sdk:      WCMi_BssDescCopy (libwcm.TWL.HYB.a(aplist.o))
+ *
+ * wpaTag and wmmTag are initialized from their templates after the length store,
+ * so they live in an inner block. The DWARF has both tags at function scope; this
+ * compiler rejects a declaration after a statement. The TWL branch's final add
+ * zero-extends ieLength through lsl/lsr, which (ieLength & 0xffff) reproduces.
+ */
+void func_02166040(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
+{
+    WCMWork *w;
+    u8 *pSrc;
+    u8 *pDest;
+    u8 ieLength;
+    u16 i;
+    u8 id;
+    u8 len;
+
+    w = func_021657C8();
+    func_02082AC0(0, destBssDesc, sizeof(WMBssDesc));
+    func_02082B0C(srcBssDesc, destBssDesc, 0x40);
+    destBssDesc->elementCount = 0;
+    if (w->deviceId == 1)
+        destBssDesc->length = 0x20;
+    else
+        destBssDesc->length = 0x40;
+    {
+        u8 wpaTag[4] = { 0x00, 0x50, 0xf2, 0x01 };
+        u8 wmmTag[5] = { 0x00, 0x50, 0xf2, 0x02, 0x00 };
+
+        ieLength = 0;
+        pSrc = (u8 *)srcBssDesc->elements;
+        pDest = (u8 *)destBssDesc->elements;
+        for (i = 0; i < srcBssDesc->elementCount; i++) {
+            id = pSrc[0];
+            len = pSrc[1];
+            if (id == 0x32 || id == 0x2a || id == 0x2f || id == 0x07 || id == 0x30) {
+                func_02082EA4(pSrc, pDest, (u8)(len + 2));
+                pDest += len + 2;
+                ieLength += (u8)(len + 2);
+                destBssDesc->elementCount++;
+            } else if (id == 0xdd) {
+                if (func_02082E74(pSrc + 2, wpaTag, 4) == 0 || func_02082E74(pSrc + 2, wmmTag, 5) == 0) {
+                    func_02082EA4(pSrc, pDest, (u8)(len + 2));
+                    pDest += len + 2;
+                    ieLength += (u8)(len + 2);
+                    destBssDesc->elementCount++;
+                }
+            }
+            pSrc += len + 2;
+        }
+    }
+    if (w->deviceId == 1)
+        destBssDesc->length += (u16)(ieLength & 0xffff);
+    else
+        destBssDesc->length += ieLength;
+}
+
+
+/*
+ * sdk:      WCMi_GetGameInfo (libwcm.TWL.HYB.a aplist.o)
+ *
+ * Returns the WMGameInfo of a BSS descriptor: NWM vendor element path on TWL, validated inline gameInfo on DS. The tag initializer copies from the vendor template @12437 at 0x021A19B0 (template class, ov009 scope).
+ */
+WMGameInfo *func_021661F0(WMBssDesc *bssDesc)
+{
+    WCMWork *w = func_021657C8();
+    NWMInfoElements *elem;
+    WMGameInfo *gameInfo;
+    unsigned char tag[4] = { 0x00, 0x09, 0xBF, 0x00 };
+
+    if (bssDesc == 0) return 0;
+    if (OS_IsRunOnTwl()) {
+        if (w->deviceId == 2) {
+            elem = 0;
+            if (bssDesc->elementCount != 0) {
+                elem = func_02703250(bssDesc, 0xDD, tag);
+            }
+            if (elem != 0) {
+                gameInfo = (WMGameInfo *)&elem->element[4];
+                if (gameInfo->magicNumber == 1) return gameInfo;
+            }
+        }
+    } else {
+        if (w->deviceId == 1) {
+            unsigned short len = bssDesc->gameInfoLength;
+            if (len != 0) {
+                int ok = 0;
+                if (len >= 0x10 && len <= 0x80) {
+                    if (len == ((WMGameInfo *)bssDesc->elements)->userGameInfoLength + 0x10 && ((WMGameInfo *)bssDesc->elements)->magicNumber == 1 && bssDesc->length == ((unsigned long)(len + 0x41) >> 1)) ok = 1;
+                }
+                if (ok == 1) return (WMGameInfo *)bssDesc->elements;
+            }
+        }
+    }
+    return 0;
 }

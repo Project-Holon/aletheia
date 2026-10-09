@@ -1,7 +1,7 @@
 /*
  * file:     bmp_menulist_p02.c
  * unit:     yes
- * function: func_020208B8, func_02020970
+ * function: func_020208B8, func_02020970, func_02020A34, func_02020A58, func_02020B5C
  * address:  0x020208B8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,11 +18,14 @@
  *   func_02020780  0x02020780  thumb
  *   func_0202071C  0x0202071C  thumb
  *   func_020206C0  0x020206C0  thumb
- *   func_02020A34  0x02020A34  thumb
  *   func_02045334  0x02045334  arm
+ *   func_020437D4  0x020437D4  arm
+ *   func_020437DC  0x020437DC  arm
+ *   func_020437E4  0x020437E4  arm
  */
 struct Descriptor;
 struct CharBuf;
+struct Bmp;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -56,13 +59,13 @@ struct Obj_020208B8 {
     u16 f42;
 };
 
-struct Elem {
+struct Elem_020208B8 {
     u32 unk00;
     u32 unk04;
 };
 
 struct Obj_02020970 {
-    struct Elem *arr;
+    struct Elem_020208B8 *arr;
     u32 unk04;
     u32 unk08;
     u32 unk0C;
@@ -71,6 +74,21 @@ struct Obj_02020970 {
     u16 f42;
 };
 
+struct Elem_02020A34 {
+    u32 unk00;
+    void *unk04;
+};
+
+struct Obj {
+    struct Elem_02020A34 *arr;
+    void (*callback)(struct Obj *, void *, void *);
+    u8 pad[0x40 - 0x08];
+    u16 f40;
+    u16 f42;
+};
+
+typedef signed int     s32;
+
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0202055C(struct Obj_020208B8 *o, u32 a, u32 b, u32 c, u32 d);
@@ -78,10 +96,16 @@ extern void func_02020CA0(void *win, u32 a, u32 b, u32 c, u16 tile);
 extern u8   func_02020780(struct Obj_02020970 *obj, u8 dir);
 extern void func_0202071C(struct Obj_02020970 *obj, u32 n);
 extern void func_020206C0(struct Obj_02020970 *obj);
-extern void func_02020A34(struct Obj_02020970 *obj, void *arg);
 extern void func_02045334(struct Descriptor *win);
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 void func_020208B8(struct Obj_020208B8 *obj, int n, u32 flag);
 u32 func_02020970(struct Obj_02020970 *obj, u8 notify, u8 count, u8 dir);
+void func_02020A34(struct Obj *obj, void *arg1);
+void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size);
+void func_02020B5C(void *bmp, u32 dir, u32 start, u32 color, u16 size);
+
 
 
 void func_020208B8(struct Obj_020208B8 *obj, int n, u32 flag)
@@ -105,6 +129,7 @@ void func_020208B8(struct Obj_020208B8 *obj, int n, u32 flag)
         func_0202055C((struct Obj_020208B8 *)obj, (u16)(obj->f40 + (obj->rows - n)), (u16)(obj->rows - n), n, 0);
     }
 }
+
 
 
 /*
@@ -162,7 +187,7 @@ u32 func_02020970(struct Obj_02020970 *obj, u8 notify, u8 count, u8 dir)
         case 1:
             func_0202071C((struct Obj_02020970 *)obj, saved);
             func_020206C0((struct Obj_02020970 *)obj);
-            func_02020A34((struct Obj_02020970 *)obj, 0);
+            func_02020A34((struct Obj *)((struct Obj_02020970 *)obj), 0);
             func_02045334((struct Descriptor *)obj->unk0C);
             break;
         case 2:
@@ -170,9 +195,160 @@ u32 func_02020970(struct Obj_02020970 *obj, u8 notify, u8 count, u8 dir)
             func_0202071C((struct Obj_02020970 *)obj, saved);
             func_020208B8((struct Obj_020208B8 *)obj, moved, dir);
             func_020206C0((struct Obj_02020970 *)obj);
-            func_02020A34((struct Obj_02020970 *)obj, 0);
+            func_02020A34((struct Obj *)((struct Obj_02020970 *)obj), 0);
             break;
         }
     }
     return 0;
+}
+
+
+
+void func_02020A34(struct Obj *obj, void *arg1)
+{
+    if (obj->callback != 0) {
+        obj->callback(obj, obj->arr[obj->f40 + obj->f42].unk04, arg1);
+    }
+}
+
+
+
+void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
+{
+    u32  wt;
+    u32  fill;
+    s32  len;
+    s32  y;
+    s32  src;
+    s32  dst;
+    u32  t;
+    s32  x;
+    u8  *buf;
+
+    buf = func_020437D4(bmp);
+    fill = (color << 24) | (color << 16) | (color << 8) | color;
+    wt = (u32)func_020437DC(bmp) >> 3;
+    len = size;
+    if (len == 0)
+        len = (wt * ((u32)func_020437E4(bmp) >> 3)) << 5;
+
+    switch (dir) {
+    case 0:
+        for (y = 0; y < len; y += 0x20) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                dst = y + x * 4;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 2);
+                *(u32 *)(buf + dst) =
+                    (src < len) ? *(u32 *)(buf + src) : fill;
+                t++;
+            }
+        }
+        break;
+    case 1:
+        buf = buf + (len - 4);
+        for (y = 0; y < len; y += 0x20) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                u32 *q;
+                u32  v;
+                dst = y + x * 4;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 2);
+                if (src < len) {
+                    v = *(u32 *)(buf - src);
+                    q = (u32 *)(buf - dst);
+                } else {
+                    q = (u32 *)(buf - dst);
+                    v = fill;
+                }
+                t++;
+                *q = v;
+            }
+        }
+        break;
+    case 2:
+    case 3:
+        break;
+    }
+}
+
+
+
+void func_02020B5C(void *bmp, u32 dir, u32 start, u32 color, u16 size)
+{
+    u32  wt;
+    u32  fill;
+    s32  len;
+    s32  y;
+    s32  src;
+    s32  dst;
+    u32  t;
+    s32  x;
+    u8  *buf;
+
+    buf = func_020437D4(bmp);
+    fill = (color << 24) | (color << 16) | (color << 8) | color;
+    wt = (u32)func_020437DC(bmp) >> 3;
+    len = size;
+    if (len == 0)
+        len = (wt * ((u32)func_020437E4(bmp) >> 3)) << 6;
+
+    switch (dir) {
+    case 0:
+        for (y = 0; y < len; y += 0x40) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                u32 v;
+                dst = y + x * 8;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 3);
+                if (src < len) {
+                    v = *(u32 *)(buf + src);
+                    *(u32 *)(buf + dst) = v;
+                } else {
+                    v = fill;
+                    *(u32 *)(buf + dst) = v;
+                }
+                if (src + 4 < len + 4) {
+                    v = *(u32 *)(buf + (src + 4));
+                    *(u32 *)(buf + (dst + 4)) = v;
+                } else {
+                    v = fill;
+                    *(u32 *)(buf + (dst + 4)) = v;
+                }
+                t++;
+            }
+        }
+        break;
+    case 1:
+        buf = buf + (len - 8);
+        for (y = 0; y < len; y += 0x40) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                u32  v;
+                dst = y + x * 8;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 3);
+                if (src < len) {
+                    v = *(u32 *)(buf - src);
+                    *(u32 *)(buf - dst) = v;
+                } else {
+                    v = fill;
+                    *(u32 *)(buf - dst) = v;
+                }
+                if (src - 4 < len - 4) {
+                    v = *(u32 *)(buf - (src - 4));
+                    dst = dst - 4;
+                    *(u32 *)(buf - dst) = v;
+                } else {
+                    dst = dst - 4;
+                    v = fill;
+                    *(u32 *)(buf - dst) = v;
+                }
+                t++;
+            }
+        }
+        break;
+    case 2:
+    case 3:
+        break;
+    }
 }

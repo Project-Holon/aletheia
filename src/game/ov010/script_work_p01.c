@@ -1,7 +1,7 @@
 /*
  * file:     script_work_p01.c
  * unit:     yes
- * function: func_02157954, func_02157960, func_02157968, func_0215796C, func_02157980, func_02157998, func_021579A4, func_021579AC, func_021579B0, func_02157A30, func_02157A58, func_02157A78, func_02157AC8, func_02157AF0, func_02157B88, func_02157C48, func_02157D0C, func_02157D68, func_02157D98, func_02157DB8, func_02157DD8, func_02157E08, func_02157E34, func_02157E6C, func_02157E78, func_02157E8C, func_02157E9C, func_02158318, func_02158344, func_02158378, func_0215839C, func_021583CC, func_021583EC, func_0215840C, func_0215841C, func_02158428, func_02158434, func_0215843C, func_02158468, func_021584A4, func_021584F4, func_0215850C, func_02158570, func_02158590, func_021585BC, func_021585E0, func_02158614, func_02158630, func_02158678, func_021586C8, func_0215870C, func_0215874C, func_02158768, func_02158780, func_021587B0, func_021587E0, func_02158804, func_02158824, func_0215882C, func_0215886C, func_02158894, func_0215889C, func_021588A4, func_021588B0, func_021588C0
+ * function: func_02157954, func_02157960, func_02157968, func_0215796C, func_02157980, func_02157998, func_021579A4, func_021579AC, func_021579B0, func_02157A30, func_02157A58, func_02157A78, func_02157AC8, func_02157AF0, func_02157B88, func_02157C48, func_02157D0C, func_02157D68, func_02157D98, func_02157DB8, func_02157DD8, func_02157E08, func_02157E34, func_02157E6C, func_02157E78, func_02157E8C, func_02157E9C, func_02158318, func_02158344, func_02158378, func_0215839C, func_021583CC, func_021583EC, func_0215840C, func_0215841C, func_02158428, func_02158434, func_0215843C, func_02158468, func_021584A4, func_021584F4, func_0215850C, func_02158570, func_02158590, func_021585BC, func_021585E0, func_02158614, func_02158630, func_02158678, func_021586C8, func_0215870C, func_0215874C, func_02158768, func_02158780, func_021587B0, func_021587E0, func_02158804, func_02158824, func_0215882C, func_0215886C, func_02158894, func_0215889C, func_021588A4, func_021588B0, func_021588C0, func_021588D0, func_021588DC, func_02158920, func_0215897C, func_0215898C, func_021589A0, func_021589D0, func_021589DC, func_021589F4, func_02158A10, func_02158A20, func_02158A34
  * address:  0x02157954
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -86,15 +86,23 @@
  *   func_02176230  0x02176230  thumb
  *   func_02008500  0x02008500  thumb
  *   func_0203CDBC  0x0203CDBC  arm
- *   func_02158920  0x02158920  thumb  ov010
  *   func_020124E4 0x020124E4 thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_02012374 0x02012374 thumb
  *   func_0201235C  0x0201235C  thumb
- *   func_021589DC 0x021589DC thumb ov010
  *   d_02172888 0x02172888 data a1
  *   func_02011298  0x02011298  thumb
  *   func_02158CB4  0x02158CB4  thumb  ov010
+ *   func_020120F8  0x020120F8  thumb
+ *   func_02012AC8  0x02012AC8  thumb
+ *   func_02158F18  0x02158F18  thumb  ov010
+ *   func_020122C0  0x020122C0  thumb
+ *   func_02158E7C  0x02158E7C  thumb
+ *   func_02158F94  0x02158F94  thumb
+ *   func_02158F50  0x02158F50  thumb  ov010
+ *   func_02158BFC 0x02158BFC thumb ov010
+ *   func_02014368  0x02014368  thumb
+ *   func_020143D8  0x020143D8  thumb
  */
 #include "../../matched/include/Obj18739.h"
 #include "../../matched/include/Obj01335.h"
@@ -113,6 +121,9 @@
 #include "../../matched/include/Obj17624.h"
 #include "../../matched/include/Obj12271.h"
 #include "../../matched/include/Obj17625.h"
+#include "../../matched/include/Obj12030.h"
+#include "../../matched/include/Obj17626.h"
+#include "../../matched/include/Obj01023.h"
 
 struct Entry;
 struct Link;
@@ -139,7 +150,7 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 
-typedef signed short s16;
+typedef signed short s16_02157954;
 
 typedef signed int s32_0215796C;
 
@@ -234,6 +245,10 @@ typedef struct { u8 a : 6; u8 f : 1; u8 b : 1; } FlagsF8;
 
 typedef struct { u8 low:2; u8 flag:2; u8 high:4; } Flag_0215874C;
 
+typedef signed char s8;
+
+typedef short s16_021588D0;
+
 extern int func_0203CD98(void);
 extern void func_02082D44(void *, void *, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
@@ -298,14 +313,22 @@ extern int func_02176258(int);
 extern int func_02176230(void *, void *);
 extern void func_02008500(void *a, void *b);
 int func_0203CDBC(void);
-extern struct Desc *func_02158920(int a, int b, int c, int d, int e);
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020124E8(struct Obj *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_0201235C();
-extern int func_021589DC(int a0);
 extern int func_02011298(struct ScriptVm *vm);
 extern int func_02158CB4(int a0);
+extern u8 *func_020120F8(const struct Ctx *p);
+extern u16 func_02012AC8(const struct Rec44 *p);
+extern int func_02158F18(int a0);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
+extern int *func_02158E7C(u16 a, int b, int c, int d, int e, int f);
+extern void func_02158F94(void *p, void *q);
+extern void *func_02158F50(void *vm);
+extern int *func_02158BFC(int a0, int a1, int a2, int a3, int a4);
+extern int func_02014368();
+extern int func_020143D8();
 void func_02157954(u8 *p, int v, int a2);
 void func_02157960(int a, int b, int c);
 void func_02157968(void);
@@ -363,14 +386,26 @@ int func_02158780(void *p, u16 b, int c, int d, u16 e);
 int func_021587B0(int a0, int a1, int a2, int a3);
 int func_021587E0(int a, int b);
 void *func_02158804(u32 heap);
-void func_02158824(void *a0, unsigned a1, unsigned a2, unsigned a3);
+void func_02158824(void *a0);
 int func_0215882C(int a0);
 int func_0215886C(int a0, int a1);
 int func_02158894(int a0, int a1);
 void func_0215889C(void *p, u32 *out);
 void func_021588A4(void *p, int a);
-int func_021588B0(int a0, int a1, int a2);
+int func_021588B0(struct Obj00105 *obj, int arg);
 int func_021588C0(int a0);
+int func_021588D0(int a0);
+int func_021588DC(int arg, int unused, struct Obj12030 *cell);
+struct Desc *func_02158920(int a, int b, int c, int d, int e);
+void func_0215897C(void *vm, void *task);
+void func_0215898C(int a, int b);
+int func_021589A0(int a, int b, int c);
+int func_021589D0(int a0);
+int func_021589DC(int a0);
+int func_021589F4(int a0);
+void func_02158A10(int a, int b);
+void func_02158A20(int a, int v);
+void func_02158A34(int a, int b, u16 c, int d);
 extern const char d_02172878[];
 extern u8 d_02172868[];
 extern u8 d_02172808[];
@@ -381,6 +416,7 @@ extern void *d_020A7370;
 extern const u16 d_021700AC[61];
 extern const u16 d_021700A8[2];
 extern const char d_02172888[];
+
 
 
 
@@ -395,22 +431,29 @@ void func_02157954(u8 *p, int v, int a2)
 
 
 
+
 void func_02157960(int a, int b, int c)
 {
     func_02157954((u8 *)a, b, c);
 }
 
 
+
 void func_02157968(void) {}
+
 
 void func_0215796C(int x, int y, S *s, D_0215796C *d) { d->b = s->b; d->a = s->a; }
 
+
 void func_02157980(int x, int y, const V *s, D_02157980 *d) { d->v = *s; }
+
 
 void func_02157998(int x, int y, u32 *s, D_02157998 *d) { d->w = *s; }
 
 
+
 u8 *func_021579A4(int a, u8 *p) { return p + 0x7c; }
+
 
 
 
@@ -425,6 +468,7 @@ u8 *func_021579A4(int a, u8 *p) { return p + 0x7c; }
 void func_021579AC(void)
 {
 }
+
 
 
 
@@ -462,6 +506,7 @@ void func_021579B0(u8 *p)
 
 
 
+
 void func_02157A30(int p) { if (func_02179D3C()) func_0203CEAC(0); func_02157960(p, (int)func_021579B0, 0x102); }
 
 
@@ -470,7 +515,9 @@ void func_02157A30(int p) { if (func_02179D3C()) func_0203CEAC(0); func_02157960
 
 
 
+
 void func_02157A58(int p) { func_0203CEAC(0); func_02157960(p, (int)func_021579B0, 0x10a); }
+
 
 
 
@@ -503,7 +550,9 @@ void func_02157A78(u32 *p)
 
 
 
+
 void func_02157AC8(int *p) { int k = 0x23; func_02039C68((struct Link *)func_020399A8(), k, (u8)p[0]); func_02157960((int)p, (int)func_02157A78, k + 0xfc); }
+
 
 
 
@@ -537,6 +586,7 @@ void func_02157AF0(int *p)
 
 
 
+
 void func_02157B88(int *p)
 {
     u8 *b = (u8 *)p;
@@ -559,6 +609,7 @@ void func_02157B88(int *p)
     ((struct Obj02664 *)b)->f670 = 0;
     func_02157960((int)p, (int)((void *)func_02157AF0), 0x162);
 }
+
 
 
 
@@ -611,6 +662,7 @@ void func_02157C48(Object *p)
 
 
 
+
 void func_02157D0C(int *p)
 {
     if (*((u8 *)p + 0x675) == 0) {
@@ -629,7 +681,9 @@ void func_02157D0C(int *p)
 
 
 
+
 void func_02157D68(int *p) { if (func_0203D1B4() > 1) { func_02039C68((struct Link *)func_020399A8(), 0x17, (u8)p[0]); func_02157960((int)p, (int)func_02157D0C, 0x1af); } }
+
 
 
 
@@ -647,11 +701,13 @@ void func_02157D98(int p)
 
 
 
+
 void func_02157DB8(int p)
 {
     if (func_0203CD98() == 1)
         func_02157960(p, (int)func_02157D98, 0x1BE);
 }
+
 
 
 
@@ -670,6 +726,7 @@ void *func_02157DD8(u8 *p)
 
 
 
+
 int func_02157E08(void *p)
 {
     if (func_0203CD98() != 0)
@@ -678,6 +735,7 @@ int func_02157E08(void *p)
     func_0203CBAC((struct Req *)d_02172808, 0, (u32)p);
     return 1;
 }
+
 
 
 
@@ -699,6 +757,7 @@ int func_02157E34(void *p)
 
 
 
+
 /*
  * extent: Accessor ends at 02157E78, followed by labelled callback function.
  */
@@ -706,6 +765,7 @@ unsigned char func_02157E6C(char *p)
 {
     return ((struct Obj18745 *)p)->f674;
 }
+
 
 
 
@@ -723,6 +783,7 @@ void func_02157E78(u8 *p)
 
 
 
+
 int func_02157E8C(void *a0)
 {
 
@@ -732,6 +793,7 @@ a0 = 0;
     a0 = (void *)func_0203CEAC((int)a0);
 loc_02157E98:
     return (int)a0;}
+
 
 
 
@@ -980,6 +1042,7 @@ out:
 
 
 
+
 int func_02158318(int a0)
 {
     int t4;
@@ -1007,6 +1070,7 @@ a0 = 0;
 loc_0215833E:
 a0 = 1;
     return a0;}
+
 
 
 
@@ -1049,6 +1113,7 @@ a0 = t4 + 0;
 
 
 
+
 int func_02158378(void *p)
 {
     u8 *q = (u8 *)func_02158344((int)p);
@@ -1057,6 +1122,7 @@ int func_02158378(void *p)
     }
     return q[0x911];
 }
+
 
 
 
@@ -1073,6 +1139,7 @@ int func_0215839C(u8 *p, int m, int a2)
     }
     return 0;
 }
+
 
 
 
@@ -1096,6 +1163,7 @@ int func_021583CC(void *a0, int a1)
 
 
 
+
 int func_021583EC(void *a0, int a1)
 {
     if (func_02012B58(a0) == a1)
@@ -1103,6 +1171,7 @@ int func_021583EC(void *a0, int a1)
 
     return (int)func_02012950(a0, a1);
 }
+
 
 
 
@@ -1122,6 +1191,7 @@ Rec28 *func_0215840C(RecHolder *h, int idx)
 
 
 
+
 /*
  * Byte out of the arm9 reader, zero-extended.
  */
@@ -1129,6 +1199,7 @@ u8 func_0215841C(void *p)
 {
     return (u8)(unsigned)func_02012B80(p);
 }
+
 
 
 
@@ -1149,6 +1220,7 @@ u8 func_02158428(u8 *p)
 
 
 
+
 /*
  * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
  * called from ov020 func_021870C4.
@@ -1157,6 +1229,7 @@ void *func_02158434(char *p)
 {
     return p + 0x35C;
 }
+
 
 
 
@@ -1175,6 +1248,7 @@ int func_0215843C(void *p)
     id = (int)func_02012B80(q);
     return func_0200855C((const struct Sub0200852CObj *)func_021583EC(q, id));
 }
+
 
 
 
@@ -1224,6 +1298,7 @@ loc_021584A2:
 
 
 
+
 int func_021584A4(int unused, int a, int mode)
 {
     u8 *q = (u8 *)func_02158344(unused);
@@ -1252,6 +1327,7 @@ int func_021584A4(int unused, int a, int mode)
 
 
 
+
 int func_021584F4(int a0, int a1)
 {
 
@@ -1269,6 +1345,7 @@ loc_02158508:
 a0 = 0x15;
 loc_0215850A:
     return a0;}
+
 
 
 
@@ -1337,6 +1414,7 @@ a0 = 3;
 
 
 
+
 /*
  * lever: The ternary loop condition preserves the branch to the bottom test.
  */
@@ -1353,6 +1431,7 @@ int func_02158570(u16 value)
 
 
 
+
 int func_02158590(void *p)
 {
     void *q = (void *)func_0201296C(p);
@@ -1363,6 +1442,7 @@ int func_02158590(void *p)
     }
     return 1;
 }
+
 
 
 
@@ -1394,6 +1474,7 @@ a0 = 0;
 
 
 
+
 /*
  * Callee 02158344 consumes incoming r0; the flag extract reads bit 2.
  */
@@ -1413,6 +1494,7 @@ int func_021585E0(int p)
 
 
 
+
 /*
  * The callee reads its incoming r0; legacy void prototypes omit it.
  */
@@ -1422,6 +1504,7 @@ void func_02158614(void *p)
     if (q != 0)
         q[0x93F] |= 4;
 }
+
 
 
 
@@ -1441,6 +1524,7 @@ int func_02158630(int a)
     }
     return 1;
 }
+
 
 
 
@@ -1468,6 +1552,7 @@ int func_02158678(void *p)
 
 
 
+
 int func_021586C8(int a, int b)
 {
     char *q = (char *)func_02158344(a);
@@ -1477,6 +1562,7 @@ int func_021586C8(int a, int b)
     func_02008500(func_02012950((struct Sub24 *)r, func_02176230(q, q + 0x1AC)), (void *)b);
     return 1;
 }
+
 
 
 
@@ -1505,12 +1591,14 @@ int func_0215870C(void *p, int b)
 
 
 
+
 void func_0215874C(void *p)
 {
     u8 *q = (u8 *)func_02158344((int)p);
     if (q != 0)
         ((Flag_0215874C *)(q + 0x904))->flag = 0;
 }
+
 
 
 
@@ -1537,6 +1625,7 @@ loc_0215877C:
 
 
 
+
 int func_02158780(void *p, u16 b, int c, int d, u16 e)
 {
     struct Desc *h = func_02158920((int)func_020124E4(p), e, b, c, d);
@@ -1544,6 +1633,7 @@ int func_02158780(void *p, u16 b, int c, int d, u16 e)
     func_02012374(p, (struct Evt **)((void **)h));
     return *q;
 }
+
 
 
 
@@ -1584,6 +1674,7 @@ a0 = ((struct Obj17623 *)q)->f0;
 
 
 
+
 /*
  * Extent ends in two alignment padding bytes.
  */
@@ -1597,6 +1688,7 @@ int func_021587E0(int a, int b) {
 
 
 
+
 /*
  * Allocates 0x18 bytes and initializes the leading heap halfword.
  */
@@ -1605,6 +1697,7 @@ void *func_02158804(u32 heap) {
     *p = heap;
     return p;
 }
+
 
 
 
@@ -1623,11 +1716,12 @@ void *func_02158804(u32 heap) {
  *   python tools/match.py one --src src/matched/func_02158824.c \
  *       --func func_02158824 --addr 0x02158824 --region ov010 --cc dsi/1.1p1 --thumb
  */
-void func_02158824(void *a0, unsigned a1, unsigned a2, unsigned a3)
+void func_02158824(void *a0)
 {
 
     func_020307B0(a0);
 }
+
 
 
 
@@ -1677,6 +1771,7 @@ a0 = 0;
 
 
 
+
 int func_0215886C(int a0, int a1)
 {
     int a2;
@@ -1708,6 +1803,7 @@ a0 = 3;
 
 
 
+
 int func_02158894(int a0, int a1)
 {
 
@@ -1718,6 +1814,7 @@ a0 = ((struct Obj17624 *)a0)->f4;
 
 
 
+
 /*
  * extent: 8-byte tail stub; existing labelled func_021588A4 follows.
  */
@@ -1725,6 +1822,7 @@ void func_0215889C(void *p, u32 *out)
 {
     func_0201235C(p, out);
 }
+
 
 
 
@@ -1744,16 +1842,12 @@ void func_021588A4(void *p, int a)
 
 
 
-int func_021588B0(int a0, int a1, int a2)
-{
 
-a2 = a0 + 0;
-a0 = a1 + 0;
-a1 = *(int *)&((struct Obj00105 *)a2)->f14;
-a2 = *(int *)&((struct Obj00105 *)a2)->f10;
-    a0 = ((int (*)())a2)(a0, a1, a2);
-loc_021588BC:
-    return a0;}
+int func_021588B0(struct Obj00105 *obj, int arg)
+{
+    return ((int (*)(int, int))obj->f10)(arg, (int)obj->f14);
+}
+
 
 
 
@@ -1771,3 +1865,177 @@ a0 = 1;
 loc_021588CA:
 a0 = 0;
     return a0;}
+
+
+
+
+
+int func_021588D0(int a0)
+{
+    u8 *p;
+
+    p = func_020120F8((const struct Ctx *)a0);
+loc_021588D6:
+    a0 = func_02012AC8((const struct Rec44 *)p);
+loc_021588DA:
+    return a0;}
+
+
+
+
+
+int func_021588DC(int arg, int unused, struct Obj12030 *cell)
+{
+    int v;
+    int h;
+
+    h = cell->f4;
+    v = cell->f0;
+    if (func_0215882C(h) == 1) {
+        return 0;
+    }
+    func_02158F18(v);
+    if (func_021588C0(h) == 1) {
+        func_021588B0((struct Obj00105 *)h, arg);
+        func_02158824((void *)h);
+        return 0;
+    }
+    func_02158824((void *)h);
+    return 1;
+}
+
+
+
+
+
+struct Desc *func_02158920(int a, int b, int c, int d, int e)
+{
+    struct Desc *h = func_020122C0((void *)a, 0, (void *)func_021588DC, 8);
+    void **w = func_020124E8((struct Obj *)h);
+    w[1] = func_02158804(4);
+    w[0] = func_02158E7C(4, a, (int)h, c, e, 0);
+    func_02158F94(w[0], (void *)d);
+    func_021589A0((int)w[0], func_021588D0(a), c);
+    return h;
+}
+
+
+
+
+
+/*
+ * Queue a task on the script's event list.
+ */
+void func_0215897C(void *vm, void *task)
+{
+    func_02012374(func_02158F50(vm), task);
+}
+
+
+
+
+void func_0215898C(int a, int b) {
+    void *p = (void *)func_021589DC(a);
+    if (p != 0) func_021588A4(p, b);
+}
+
+
+
+
+/*
+ * Extent ends in two alignment padding bytes.
+ */
+int func_021589A0(int a, int b, int c) {
+    u16 *p = (u16 *)func_021589DC(a);
+    if (p) return func_0215886C((int)p, (int)func_02158BFC(*p, a, b, c, 0));
+    return 3;
+}
+
+
+
+
+
+int func_021589D0(int a0)
+{
+    void *p;
+
+    p = func_020124E8((struct Obj *)a0);
+loc_021589D6:
+a0 = ((struct Obj17626 *)p)->f0;
+    return a0;}
+
+
+
+
+
+int func_021589DC(int a0)
+{
+    void *p;
+
+    p = func_02158F50((void *)a0);
+loc_021589E2:
+    if (p != 0) goto loc_021589EA;
+loc_021589E6:
+a0 = 0;
+    return a0;
+loc_021589EA:
+    p = func_020124E8((struct Obj *)p);
+loc_021589EE:
+a0 = *(int *)&((struct Obj01023 *)p)->f4;
+    return a0;}
+
+
+
+
+
+int func_021589F4(int a0)
+{
+    int a1;
+    int a2;
+    int t4;
+
+a1 = 0;
+a2 = 0x63;
+t4 = a0 + 0;
+    a0 = func_02014368(a0, a1, a2);
+loc_02158A00:
+a1 = 1;
+a1 = a1 << 0xe;
+a2 = a1 + 0;
+a0 = t4 + 0;
+a2 = a2 + 0x1f;
+    a0 = func_020143D8(a0, a1, a2);
+loc_02158A0E:
+    return a0;}
+
+
+
+
+void func_02158A10(int a, int b) { func_02158A34(a, 0, 9600, 2); }
+
+
+
+
+void func_02158A20(int a, int v) { func_02158A34(a, 0, 9601, 2); }
+
+
+
+/*
+ * Narrow parameter c matches func_02158E7C's stored halfword and restores
+ * spill/call scheduling. The remaining two bytes are zero alignment padding.
+ */
+void func_02158A34(int a, int b, u16 c, int d)
+{
+    int t = 0;
+    int r;
+    if (b == 0) {
+        t = (int)func_02158E7C(4, a, t, c, t, d);
+        b = t;
+    }
+    r = (int)func_02158BFC(4, b, func_021588D0(a), c, d);
+    while (func_02011298((struct ScriptVm *)r) == 1)
+        ;
+    func_02158CB4(r);
+    if (t != 0)
+        func_02158F18(t);
+}

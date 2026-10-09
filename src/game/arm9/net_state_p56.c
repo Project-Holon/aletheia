@@ -1,51 +1,28 @@
 /*
  * unit:     no
- * function: func_0203D1E8
- * address:  0x0203D1E8
- * packet:   pkt_0203D1B4
+ * function: func_0203E458
+ * address:  0x0203E458
+ * packet:   pkt_0203DA7C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *
- * TU: net.c.
- *
- * Dispatch through the +0xb8 slot of the callback block hanging off +0x340
- * of the network singleton.  The first parameter is dead: the original
- * overwrites r0 with the singleton before the call and forwards r1, which
- * is what spends r4 on a two-argument function that only uses the second.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D1E8.c \
- *       --func func_0203D1E8 --addr 0x0203D1E8 --cc 1.1p1 --arm
+ *   g_021469F0      0x021469F0  data
  */
 
-typedef unsigned char u32_pad;
-typedef unsigned int  u32;
-
-struct NetVtbl {
-    u32_pad pad_00[0xb8];
-    void (*unk_b8)(void *arg);
-};
-
-struct NetSys {
-    u32_pad         pad_000[0x340];
-    struct NetVtbl *vtbl;
-};
-
-extern struct NetSys *func_0203D788(void);
-
-void func_0203D1E8(u32 unused, void *arg)
+typedef struct G_021469F0 {
+    unsigned char pad[0x7c];
+    void *(*fn)(void *);
+} G_021469F0;
+extern G_021469F0 *g_021469F0;
+void *func_0203E458(void *arg)
 {
-    void (*fn)(void *) = func_0203D788()->vtbl->unk_b8;
-
-    if (fn == 0) {
-        return;
-    }
-    fn(arg);
+    void *r;
+    if (g_021469F0 == 0)
+        return 0;
+    r = g_021469F0->fn(arg);
+    return (char *)r + 0x24;
 }

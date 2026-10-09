@@ -1,82 +1,136 @@
 /*
  * file:     unit_021B23E0_p04.c
  * unit:     yes
- * function: func_021B279C, func_021B2848
- * address:  0x021B279C
+ * function: func_021B2BE0
+ * address:  0x021B2BE0
+ * packet:   pkt_ov013_021B2BE0
  * region:   ov013
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * note: types and the Pool/Node/Stats layouts come from matched ov013
+ * 021B22B4, 021B2AA0, 021B2894, 021B279C, 021B26DC. Audio session start/
+ * continue gate. d_021B4C0C is the same node as g_021B4BE0.active (separate
+ * pool word in the listing, so two externs).
+ *
+ * note pass 2 2026-10-06 P2L53: EXACT (c99 and c). The event fill
+ * (ev->type, ev->node, n->fc) is written out in each arm and only the tick
+ * stamp is shared. The two fill copies are cross-jumped after jump threading,
+ * which leaves the lone `b` hop at +0x88 (idiom
+ * a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy).
+ * The ev->type compare then sits after a join with two stored values, so it
+ * is reloaded (`ldr r0,[r7]`), and the zero/result colours (r6/r4) follow.
  *
  * symbols:
- *   d_021B3AF0  0x021B3AF0  data  ov013  a1
- *   d_021B3AF5  0x021B3AF5  data  ov013  a1
- *   d_021B60D8 0x021B60D8 data ov013 a4
+ *   g_021B4BE0     0x021B4BE0  data  a4
+ *   d_021B4C0C     0x021B4C0C  data  a4
+ *   g_021B4BD0     0x021B4BD0  data  a4
+ *   func_021B2894  0x021B2894  arm  ov013
+ *   func_021B279C  0x021B279C  arm  ov013
+ *   func_021B26DC  0x021B26DC  arm  ov013
+ *   func_020870D0  0x020870D0  arm
  */
-typedef unsigned char u8;
 
-typedef struct Q {
-    int f0;
-    u8 b4;
-    u8 b5;
-    u8 pad[2];
-    int f8;
-    int fC;
-} Q;
+#include "../../matched/include/G_Pool.h"
+#include "../../matched/include/G_Stats.h"
+#include "../../matched/include/G_N.h"
 
-typedef struct Msg {
-    unsigned int magic;
-    u8 b4, b5, b6, b7, b8, b9, b10, b11;
-    int fC;
-} Msg;
+struct Node {
+    unsigned int state;
+    unsigned char f4;
+    unsigned char f5;
+    unsigned short f6;
+    unsigned int f8;
+    unsigned int fc;
+    unsigned int f10;
+    struct Node *next;
+};
 
-int func_021B279C(u8 *o, Q *q);
-int func_021B2848(u8 *o, Msg *p, int n);
-extern u8 d_021B3AF0[];
-extern u8 d_021B3AF5[];
-extern u8 d_021B60D8;
+struct Pkt {
+    unsigned char pad0[4];
+    unsigned char f4;
+    unsigned char f5;
+    unsigned char f6;
+    unsigned char f7;
+    unsigned char f8;
+    unsigned char f9;
+    unsigned char fa;
+    unsigned char fb;
+    unsigned int fc;
+};
 
+struct Event {
+    int type;
+    struct Node *node;
+};
 
-int func_021B279C(u8 *o, Q *q)
+extern struct Pool g_021B4BE0;
+extern struct Stats g_021B4BD0;
+extern struct N d_021B4C0C;
+typedef unsigned char  u8;
+struct Ctx;
+struct Msg;
+struct Q;
+extern int func_021B2894(struct Ctx *c, struct Msg *m);
+extern int func_021B279C(u8 *o, struct Q *q);
+extern void func_021B26DC(int x);
+extern unsigned long long func_020870D0(void);
+
+int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
 {
-    q->b5 = o[0xb];
-    if (o[4] == 0xff) {
-        if (o[6] == 0) {
-            q->f8 = (q->b4 != 0) ? (1 << q->b4) : 1;
-        }
-        return d_021B3AF0[o[6]];
-    }
-    if (o[4] == 0) {
-        if (o[6] == 0) {
-            if (q->fC == 1) {
-                q->f8 = (q->b4 != 0) ? (1 << q->b4) : 1;
-                return 7;
+    struct Node *n;
+    int r;
+
+    if (g_021B4BE0.active_state == 2) {
+        if (g_021B4BE0.id == pkt->f8) {
+            n = ((struct Node *)&d_021B4C0C);
+            r = func_021B2894((struct Ctx *)n, (struct Msg *)pkt);
+            switch (r) {
+            case -2:
+                ev->type = 0xC;
+                ev->node = 0;
+                return 1;
+            case -3:
+            case -1:
+                return 0;
+            default:
+                break;
             }
-            if (q->fC == 5)
-                return 9;
-            return 12;
+            ev->type = func_021B279C((u8 *)pkt, (struct Q *)n);
+            ev->node = n;
+            n->fc = r;
+        } else {
+            func_021B26DC(1);
+            return 0;
         }
-        return d_021B3AF5[o[6]];
+    } else {
+        if (!(g_021B4BD0.f4 & ((pkt->f8 != 0) ? (1 << pkt->f8) : 1)))
+            return 0;
+        g_021B4BE0.id = pkt->f8;
+        g_021B4BE0.active_state = 2;
+        g_021B4BE0.active_fc = 0;
+        n = ((struct Node *)&d_021B4C0C);
+        r = func_021B2894((struct Ctx *)n, (struct Msg *)pkt);
+        switch (r) {
+        case -3:
+        case -2:
+        case -1:
+            g_021B4BE0.active_state = 0;
+            return 0;
+        }
+        ev->type = func_021B279C((u8 *)pkt, (struct Q *)n);
+        ev->node = n;
+        n->fc = r;
     }
-    return 12;
-}
-
-/*
- * lever: Returning zero keeps the clearing value in r0 and frees r2 for byte loads.
- */
-int func_021B2848(u8 *o, Msg *p, int n)
-{
-    p->magic = 0x5f564354;
-    p->b5 = 0x10;
-    p->b6 = n;
-    p->b8 = d_021B60D8;
-    p->b9 = o[4];
-    p->b10 = 0;
-    p->b11 = d_021B60D8;
-    p->fC = 0;
-    return 0;
+    if (ev->type == 10) {
+        func_021B26DC(1);
+        g_021B4BD0.f8 = func_020870D0();
+    } else {
+        func_021B26DC(0);
+        g_021B4BD0.f8 = 0;
+    }
+    return 1;
 }

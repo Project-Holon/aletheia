@@ -1,14 +1,24 @@
 /*
- * unit:     no
- * function: func_0203B22C
- * address:  0x0203B22C
- * packet:   pkt_0203AD8C
+ * file:     net_state_p35.c
+ * unit:     yes
+ * function: func_0203D0D0, func_0203D0DC
+ * address:  0x0203D0D0
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
  */
+#include "../../matched/include/Obj15979.h"
 
-int func_0203B22C(int a0, int a1, int a2, int a3){ int t0 = func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203B224, (int)0, (int)0x1f4); return 1; }
+extern void func_0203D9EC(void);
+void func_0203D0D0(void);
+int func_0203D0DC(int a0);
+
+void func_0203D0D0(void){ func_0203D9EC(); }
+
+
+int func_0203D0DC(int a0){ int t0 = func_0203D788(); int t1 = func_0203BA98((int)((struct Obj15979 *)((char *)(t0)))->f56, (int)a0, (int)1); return t1; }

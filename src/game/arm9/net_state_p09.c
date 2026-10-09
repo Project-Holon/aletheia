@@ -1,82 +1,43 @@
 /*
- * function: func_02037E60
- * address:  0x02037E60
- * packet:   pkt_02037E60
+ * function: func_0203A574
+ * address:  0x0203A574
+ * packet:   pkt_0203A574
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_02039338  0x02039338  arm
- *   func_02039160  0x02039160  arm
- *   func_02038A48  0x02038A48  arm
- *   func_020387A0  0x020387A0  arm
- *   g_020A7A20     0x020A7A20  data
- *   g_021469D0     0x021469D0  data
+ *   g_021469D8   0x021469D8  data
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
-struct Vtbl {
-    u8   pad00[0x64];
-    u32 (*f64)(u32, u32, u32, void *);   /* 0x64 */
-    u8   pad68[0x70 - 0x68];
-    u32 (*f70)(void);                    /* 0x70 */
-};
+typedef struct {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u32 fC;
+} Ent;
 
-struct Ctx {
-    u8           pad00[0x340];
-    struct Vtbl *f340;                   /* 0x340 */
-};
+extern Ent *g_021469D8;
 
-struct State {
-    u32 f0;                              /* 0x00 */
-    u8  pad04[0x1b0 - 0x04];
-    u32 f1b0;                            /* 0x1b0 */
-};
-
-extern void *func_0203D788(void);
-extern u32           func_0203D6BC(void);
-extern u16 func_02039338(void);
-extern u32           func_02039160(u32 a);
-extern int func_02038A48(int a);
-typedef signed int     s32;
-extern int func_020387A0(u32 i, u8 *p, s32 n);
-extern u8            g_020A7A20[];
-extern struct State *g_021469D0;
-
-void func_02037E60(void)
+void func_0203A574(u32 a, u32 b, u32 c, u32 d)
 {
-    struct Ctx *c = func_0203D788();
-    u32 v = func_0203D6BC();
-    u32 r;
+    Ent *p = g_021469D8;
+    int i;
 
-    r = c->f340->f70();
-    if (r == 0)
+    if (p == 0) {
         return;
-    r = func_02039338();
-    r = func_02039160(r);
-    if (r == 0)
-        return;
-    if (g_020A7A20[1] != 0)
-        return;
-    if (func_02039338() != 0) {
-        r = c->f340->f64(g_021469D0->f0, v, 0, func_02038A48);
-        if (r == 0)
+    }
+    for (i = 0; i < 4; i++) {
+        if (p[i].fC == 0 || p[i].fC == a) {
+            p[i].fC = a;
+            g_021469D8[i].f0 = b;
+            g_021469D8[i].f4 = c;
+            g_021469D8[i].f8 = d;
             return;
-        g_020A7A20[1] = 2;
-        g_021469D0->f1b0 = g_021469D0->f1b0 + 1;
-    } else {
-        g_020A7A20[1] = 2;
-        func_02038A48(1);
-        func_020387A0(0, (u8 *)g_021469D0->f0, (u16)v);
-        g_021469D0->f1b0 = g_021469D0->f1b0 + 1;
+        }
     }
 }
