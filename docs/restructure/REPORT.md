@@ -127,6 +127,63 @@ unit_02064D70 (15), clact (13). About 80 to 100 of the 164 are real boundaries
   `src/matched` + `layout/function_starts.txt` is a separate job (pattern:
   commit b913cdd40).
 
+## Hidden functions: how they were found, matched and stored
+
+**What they are.** Small functions the original listing never labelled: setters,
+tail-call stubs (`return g(a, k);`), empty `bx lr` leaves, a few larger leaves.
+Their bytes sit inside a neighbouring function's listing extent, so coverage
+already counted them, but no matched file compiled them.
+
+**How they were found.** A merge of two adjacent parts in `src/game` comes out DIFF
+(usually a shift of a few bytes) when uncovered code sits between them. Lanes read
+the bytes between the parts, decoded them, and found a function there. Earlier gap
+passes (`gapmatch`, `gapmatch2`, `gapmatch3` in the session scratchpad) drafted 474
+such functions; the dedupe found 190 of them inside a matched function's listed
+range. Since round 5, `tools/gamegaps.py` lists every code range no `src/game`
+function compiles (`gamegaps.tsv`, `gamegaps_summary.txt`).
+
+**Are they matched?** Yes, inside `src/game`. Each was written as C, verified on its
+own, then injected into its TU, and the merged TU verifies EXACT or MATCH with
+`tools/gameverify.py`. Not counted exactly; from the lane reports it is several
+hundred (about 280 setters in ov093, about 60 in ov021, plus ov099, ov095, ov009,
+ov011, ov012, ov013, ov014, ov015, ov023, ov052, ov056, ov096, ov098, ov119, ov132,
+ov135, ov172, ov173, ov210, ov212, arm9 and others). Names are `func_<ADDR>`.
+
+**Where they are.** Only in `src/game/<region>/<tu>.c`. They were NOT added to
+`layout/function_starts.txt` and NOT filed as per-function files in
+`src/matched/<region>/`. The only exception is twl: the stand-ins replaced in
+round 5 already had labels and `src/matched` files, and those files were updated in
+place (shard `twl_sys` re-verified).
+
+**To do.** File them properly: (1) a label per function in
+`layout/function_starts.txt` (this shrinks the neighbour's extent), (2) a
+per-function file in `src/matched/<region>/` taken from the `src/game` copy,
+(3) re-verify the affected shards twice. Commit `b913cdd40` (319 functions) is the
+pattern. Mostly scriptable: locate them with `gamegaps.py` against the layout,
+extract the definitions from `src/game`. Coverage figures should not move, since
+the bytes are already counted; only the attribution changes.
+
+## How many files did the original have?
+
+Not known. 1809 is an estimate: `tools/tuboundary.py` proposed the boundaries from
+evidence (the game's `__FILE__` strings, compiler or flag changes, linker veneers,
+shared strings and data), and lanes adjusted them (1812 became 1809).
+- 274 TUs carry a real name from a `__FILE__` string. Those boundaries are solid.
+  It is a floor, not an estimate: only files that use asserts or debug prints
+  leave their name.
+- 1535 are `unit_XXXXXXXX`, inferred from weaker evidence.
+- Errors go both ways. A byte-exact merge does not prove one file (ov214
+  `btl_rec_sel_graphic` has its own `__FILE__` inside what was one unit), and some
+  "real" boundaries were not (about 30 ARM9 compiler boundaries closed in rounds 4
+  and 5).
+- Best guess: the real number is much closer to 1809 than to 274, roughly 1500 to
+  2000. The SDK, NitroSystem, DWC and GameSpy libraries alone are many small
+  objects, and the Gen 4 Pokemon decomps have source trees of that size.
+- Evidence not used yet: alignment gaps between each file's data block, one static
+  initialiser entry per file with globals, overlay edges as outer bounds.
+
+So "90.9%" means 1645 of the 1809 estimated TUs are one file.
+
 ## Tools
 - `tools/restructure.py` builds/merges; `tools/gamepromote.py` moves one-piece TUs
   up; `tools/gameverify.py` TU verification; `tools/gamecheck.py` present-once
